@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<component name="HelloWorld" extends="Scene">
-	<children>
+<component name="ServerSelect" extends="Scene">
+    <children>
       <Label id="myLabel"
-      	text="Hello me!"
-      	width="1280"
-      	height="720"
-      	horizAlign="center"
-      	vertAlign="center"
-      	/>
+        text="This is a placeholder for the server picker"
+        width="1280"
+        height="720"
+        horizAlign="center"
+        vertAlign="center"
+      />
     </children>
 <!-- BrightScript Portion -->
 <script type="text/brightscript" >
@@ -21,10 +21,10 @@
     m.myLabel = m.top.findNode("myLabel")
 
     'Set the font size
-    m.myLabel.font.size=92
+    m.myLabel.font.size=24
 
     'Set the color to light blue
-    m.myLabel.color="0x72D7EEFF"
+    m.myLabel.color="0xf3f3f3FF"
 
     '**
     '** The full list of editable attributes can be located at:
