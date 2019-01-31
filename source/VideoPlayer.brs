@@ -4,7 +4,6 @@ function VideoPlayer(id)
 
     video = m.scene.findNode("VideoPlayer")
 
-    video.AddHeader("X-Emby-Authorization", build_auth())
     if content.protocol = "https" then
         video.setCertificatesFile("common:/certs/ca-bundle.crt")
     end if
@@ -28,7 +27,8 @@ function VideoContent(id) as object
 
     protocol = get_var("protocol")
     hostname = get_var("hostname")
-    content.url = Substitute("{0}://{1}/emby/Videos/{2}/stream.mp4", protocol, hostname, id)
+    params = "?Static=true&mediaSourceId=" + get_var("video_id") + "&Tag=e781255330167721024e07504244c553&api_key=" + get_var("user_token")
+    content.url = Substitute("{0}://{1}/emby/Videos/{2}/stream.mp4", protocol, hostname, id) + params
     content.protocol = "https"
 
     return content
