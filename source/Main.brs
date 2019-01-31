@@ -1,20 +1,18 @@
-'*************************************************************
-'** Hello World example
-'** Copyright (c) 2015 Roku, Inc.  All rights reserved.
-'** Use of the Roku Platform is subject to the Roku SDK Licence Agreement:
-'** https://docs.roku.com/doc/developersdk/en-us
-'*************************************************************
-
 sub Main()
-    print "in showChannelSGScreen"
     'Indicate this is a Roku SceneGraph application'
+    globals()
+
     screen = CreateObject("roSGScreen")
     m.port = CreateObject("roMessagePort")
     screen.setMessagePort(m.port)
 
+    'todo - pick the scene based on if we need a server already
+    first_scene = "ServerSelect"
     'Create a scene and load a component'
-    scene = screen.CreateScene("ServerSelect")
+    m.scene = screen.CreateScene("VideoScene")
     screen.show()
+
+    player = VideoPlayer(get_var("video_id"))
 
     while(true)
         msg = wait(0, m.port)
@@ -24,4 +22,9 @@ sub Main()
         end if
     end while
 end sub
+
+
+function get_var(key as String)
+    return GetGlobalAA().Lookup(key)
+end function
 

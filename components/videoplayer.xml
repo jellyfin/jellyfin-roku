@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="VideoScene" extends="Scene">
+    <children>
+        <Video id="VideoPlayer" />
+
+    </children>
+    <script type="text/brightscript">
+        <![CDATA[
+            function init()
+                m.top.setFocus(true)
+                m.scene = m.top.findNode("VideoScene")
+            end function
+        ]]>
+    </script>
+</component>

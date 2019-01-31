@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <component name="ServerSelect" extends="Scene">
-    <children>
-      <Label id="myLabel"
-        text="This is a placeholder for the server picker"
-        width="1280"
-        height="720"
-        horizAlign="center"
-        vertAlign="center"
-      />
-    </children>
+
 <!-- BrightScript Portion -->
 <script type="text/brightscript" >
 <![CDATA[
@@ -18,13 +10,6 @@
 
   function init()
     m.top.setFocus(true)
-    m.myLabel = m.top.findNode("myLabel")
-
-    'Set the font size
-    m.myLabel.font.size=24
-
-    'Set the color to light blue
-    m.myLabel.color="0xf3f3f3FF"
 
     '**
     '** The full list of editable attributes can be located at:
