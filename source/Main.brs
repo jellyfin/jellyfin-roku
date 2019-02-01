@@ -12,6 +12,7 @@ sub Main()
     m.scene = screen.CreateScene("VideoScene")
     screen.show()
 
+    get_token(get_var("username"), get_var("password"))
     player = VideoPlayer(get_var("video_id"))
 
     while(true)
