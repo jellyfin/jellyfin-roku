@@ -13,7 +13,15 @@ sub Main()
     screen.show()
 
     get_token(get_var("username"), get_var("password"))
-    player = VideoPlayer(get_var("video_id"))
+
+    ' For now, just play whatever is the first item in the list
+    ' of the first folder
+    libs = LibraryList().items
+    items = ItemList(libs[0].Id).items
+    n = Rnd(10)
+    movie_id = items[n-1].Id
+
+    player = VideoPlayer(movie_id)
 
     while(true)
         msg = wait(0, m.port)

@@ -17,7 +17,7 @@ end function
 function VideoContent(id) as object
     content = createObject("RoSGNode", "ContentNode")
 
-    meta = VideoMetaData(id)
+    meta = ItemMetaData(id)
     content.title = meta.Name
 
     server = get_var("server")
