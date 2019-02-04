@@ -1,3 +1,5 @@
+' Functions for making requests to the API
+
 function APIRequest(url as String, params={} as Object)
     req = createObject("roUrlTransfer")
 

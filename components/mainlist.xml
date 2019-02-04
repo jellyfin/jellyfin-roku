@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="LibraryRow" extends="RowList">
+    <interface>
+        <field id="RowSelectedItem" type="int" />
+        <field id="libname" type="string" />
+    </interface>
+    <script type="text/brightscript">
+    <![CDATA[
+    sub init()
+        m.top.itemComponentName = "LibItem"
+        m.top.numRows = 1
+        m.top.content = getData()
+        m.top.visible = true
+        m.top.itemSize = [200 * 3 + 20 * 2, 365]
+        m.top.rowHeights = [365]
+        m.top.rowItemSize = [ [200, 365], [200, 365], [200, 365] ]
+        m.top.itemSpacing = [ 0, 80 ]
+        m.top.rowItemSpacing = [ [20, 0] ]
+        m.top.rowLabelOffset = [ [0, 30] ]
+        m.top.rowFocusAnimationStyle = "floatingFocus"
+        m.top.showRowLabel = [true, true]
+        m.top.rowLabelColor="0xa0b033ff"
+        m.top.setfocus(true)
+    end sub
+
+    function getData()
+        data = CreateObject("roSGNode", "ContentNode")
+        row = data.CreateChild("ContentNode")
+        row.title = "Libraries"
+        for i=1 to 3
+            item = row.CreateChild("LibItemData")
+            item.posterUrl = "http://devtools.web.roku.com/samples/images/Landscape_1.jpg"
+            item.labelText = "Placeholder" + stri(i)
+        end for
+        return data
+    end function
+    ]]>
+    </script>
+</component>
