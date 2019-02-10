@@ -6,21 +6,29 @@ sub Main()
     m.port = CreateObject("roMessagePort")
     screen.setMessagePort(m.port)
 
-    'todo - pick the scene based on if we need a server already
+    if get_setting("server") = invalid then
+        set_setting("server", get_var("server"))
+        screen.CreateScene("ServerSelect")
+        screen.show()
+        ' TODO - Do server select logic here
+    end if
+
+    if get_setting("active_user") = invalid then
+        screen.CreateScene("UserSignIn")
+        screen.show()
+        ' TODO - sign in here
+        get_token(get_var("username"), get_var("password"))
+    end if
+
     first_scene = "Library"
     'Create a scene and load a component'
     m.scene = screen.CreateScene(first_scene)
     screen.show()
 
-    get_token(get_var("username"), get_var("password"))
-
     libs = LibraryList().items
     librow = m.scene.findNode("LibrarySelect")
 
     'librow.GetRowListContent()
-
-    ' For now, just play whatever is the first item in the list
-    ' of the first folder
 
     while(true)
         msg = wait(0, m.port)

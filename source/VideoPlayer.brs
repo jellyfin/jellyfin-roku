@@ -20,7 +20,7 @@ function VideoContent(id) as object
     meta = ItemMetaData(id)
     content.title = meta.Name
 
-    server = get_var("server")
+    server = get_setting("server")
     content.url = Substitute("{0}/emby/Videos/{1}/stream.mp4", server, id)
     content.url = content.url + "?Static=true"
 

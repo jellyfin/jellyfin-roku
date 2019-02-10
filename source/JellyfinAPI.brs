@@ -3,7 +3,7 @@
 function APIRequest(url as String, params={} as Object)
     req = createObject("roUrlTransfer")
 
-    server = get_var("server")
+    server = get_setting("server")
 
     if server_is_https() then
         req.setCertificatesFile("common:/certs/ca-bundle.crt")
@@ -40,7 +40,7 @@ function parseRequest(req)
 end function
 
 function server_is_https() as Boolean
-    server = get_var("server")
+    server = get_setting("server")
 
     i = server.Instr(":")
 
@@ -77,8 +77,10 @@ function get_token(user as String, password as String)
 
     json = ParseJson(resp.GetString())
 
-    GetGlobalAA().AddReplace("user_id", json.User.id)
-    GetGlobalAA().AddReplace("user_token", json.AccessToken)
+    set_setting("active_user", json.User.id)
+    set_user_setting("id", json.User.id)  ' redundant, but could come in handy
+    set_user_setting("token", json.AccessToken)
+    set_user_setting("response", json)
     return json
 end function
 
@@ -89,12 +91,12 @@ function authorize_request(request)
     auth = auth + ", DeviceId=" + Chr(34) + "12345" + Chr(34)
     auth = auth + ", Version=" + Chr(34) + "10.1.0" + Chr(34)
 
-    user = get_var("user_id")
+    user = get_setting("active_user")
     if user <> invalid and user <> "" then
         auth = auth + ", UserId=" + Chr(34) + user + Chr(34)
     end if
 
-    token = get_var("user_token")
+    token = get_user_setting("token")
     if token <> invalid and token <> "" then
         auth = auth + ", Token=" + Chr(34) + token + Chr(34)
     end if
@@ -110,7 +112,7 @@ end function
 ' Params: None
 ' Returns { Items, TotalRecordCount }
 function LibraryList()
-    url = Substitute("Users/{0}/Views/", get_var("user_id"))
+    url = Substitute("Users/{0}/Views/", get_setting("active_user"))
     resp = APIRequest(url)
     return parseRequest(resp)
 end function
@@ -127,13 +129,13 @@ end function
 ' Params: Library ID, Limit, Offset, SortBy, SortOrder, IncludeItemTypes, Fields, EnableImageTypes
 ' Returns { Items, TotalRecordCount }
 function ItemList(library_id=invalid as String)
-    url = Substitute("Users/{0}/Items/", get_var("user_id"))
+    url = Substitute("Users/{0}/Items/", get_setting("active_user"))
     resp = APIRequest(url, {"parentid": library_id, "limit": 30})
     return parseRequest(resp)
 end function
 
 function ItemMetaData(id as String)
-    url = Substitute("Users/{0}/Items/{1}", get_var("user_id"), id)
+    url = Substitute("Users/{0}/Items/{1}", get_setting("active_user"), id)
     resp = APIRequest(url)
     return parseRequest(resp)
 end function
@@ -143,7 +145,7 @@ end function
 function VideoStream(id as String)
     player = createObject("roVideoPlayer")
 
-    server = get_var("server")
+    server = get_setting("server")
     path = Substitute("Videos/{0}/stream.mp4", id)
     player.setUrl(server + "/" + path)
     player = authorize_request(player)
