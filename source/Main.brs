@@ -1,24 +1,25 @@
 sub Main()
-    'Indicate this is a Roku SceneGraph application'
-    globals()
-
-    screen = CreateObject("roSGScreen")
-    m.port = CreateObject("roMessagePort")
-    screen.setMessagePort(m.port)
 
     if get_setting("server") = invalid then
-        set_setting("server", get_var("server"))
-        screen.CreateScene("ServerSelect")
-        screen.show()
-        ' TODO - Do server select logic here
+        print("SERVER IS MISSING")
+        ShowServerSelect()
     end if
 
+    print("WE MOVED ON")
+    m.port = CreateObject("roMessagePort")
     if get_setting("active_user") = invalid then
+        screen = CreateObject("roSGScreen")
+        screen.setMessagePort(m.port)
+
         screen.CreateScene("UserSignIn")
         screen.show()
         ' TODO - sign in here
-        get_token(get_var("username"), get_var("password"))
+        await_response()
+        screen.close()
     end if
+
+    screen = CreateObject("roSGScreen")
+    screen.setMessagePort(m.port)
 
     first_scene = "Library"
     'Create a scene and load a component'
@@ -30,6 +31,8 @@ sub Main()
 
     'librow.GetRowListContent()
 
+    print 1 + "halt"
+
     while(true)
         msg = wait(0, m.port)
         msgType = type(msg)
@@ -39,8 +42,30 @@ sub Main()
     end while
 end sub
 
+sub ShowServerSelect()
+    screen = CreateObject("roSGScreen")
+    m.port = CreateObject("roMessagePort")
+    screen.setMessagePort(m.port)
+    scene = screen.CreateScene("ServerSelect")
+    screen.show()
 
-function get_var(key as String)
-    return GetGlobalAA().Lookup(key)
-end function
+    while(true)
+        msg = wait(0, m.port)
+        msgType = type(msg)
 
+        if msgType = "roSGScreenEvent"
+            if msg.isScreenClosed() then return
+        end if
+
+    end while
+end sub
+
+sub await_response()
+    while(true)
+        msg = wait(0, m.port)
+        msgType = type(msg)
+        if msgType = "roSGScreenEvent"
+            if msg.isScreenClosed() then return
+        end if
+    end while
+end sub
