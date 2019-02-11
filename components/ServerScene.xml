@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <component name="ServerSelection" extends="Scene">
   <children>
+    <Rectangle
+      id="theRect"
+      color="#000b35"
+      width="1920"
+      height="1080"
+      opacity=".6"
+      translation="[0,0]" />
+
     <label text="Connect to Server" translation="[150, 150]" />
-    <LayoutGroup layoutDirection="vert" itemSpacings="20" translation="[150, 200]">
-      <Label text="Host:" />
-      
-      <Label text="Port:" />
-    </LayoutGroup>
   </children>
 
   <interface>
@@ -14,5 +17,5 @@
     <field id="port" type="string" />
   </interface>
 
-  <script type="text/brightscript" uri="pkg:/components/ServerScene.brs"/>
+  <script type="text/brightscript" uri="pkg:/components/ServerSelect.brs"/>
 </component>
