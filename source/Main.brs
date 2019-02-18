@@ -31,7 +31,7 @@ sub Main()
 
     'librow.GetRowListContent()
 
-    print 1 + "halt"
+    print 1 + "halt" ' Mixed types stops the debugger
 
     while(true)
         msg = wait(0, m.port)

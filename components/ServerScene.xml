@@ -1,21 +1,43 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <component name="ServerSelection" extends="Scene">
   <children>
-    <Rectangle
-      id="theRect"
-      color="#000b35"
-      width="1920"
-      height="1080"
-      opacity=".6"
-      translation="[0,0]" />
-
     <label text="Connect to Server" translation="[150, 150]" />
+    <LayoutGroup layoutDirection="vert" itemSpacings="20" translation="[150, 200]">
+
+      <LayoutGroup layoutDirection="horiz" itemSpacings="20">
+        <Label text="Host:" />
+        <TextEditBox
+          id="host"
+          hintText="127.0.0.1 or https://example.com"
+          hintTextColor="#555555"
+          textColor="#777777"
+          width="500"
+          />
+      </LayoutGroup>
+
+      <LayoutGroup layoutDirection="horiz" itemSpacings="20">
+        <Label text="Port:" />
+        <TextEditBox
+          id="port"
+          hintText="8096 or blank"
+          hintTextColor="#555555"
+          textColor="#777777"
+          width="500"
+          />
+      </LayoutGroup>
+
+      <Button
+        id="submit_btn"
+        text="Submit"
+        />
+    </LayoutGroup>
+
   </children>
 
   <interface>
-    <field id="hostname" type="string" />
-    <field id="port" type="string" />
+    <field id="hostname" type="string" alias="host.text" />
+    <field id="port" type="string" alias="port.text" />
   </interface>
 
-  <script type="text/brightscript" uri="pkg:/components/ServerSelect.brs"/>
+  <script type="text/brightscript" uri="pkg:/components/ServerScene.brs"/>
 </component>
