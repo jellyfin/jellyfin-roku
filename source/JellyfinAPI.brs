@@ -3,13 +3,11 @@
 function APIRequest(url as String, params={} as Object)
     req = createObject("roUrlTransfer")
 
-    server = get_setting("server")
-
     if server_is_https() then
         req.setCertificatesFile("common:/certs/ca-bundle.crt")
     end if
 
-    full_url = server + "/emby/" + url
+    full_url = get_base_url() + "/emby/" + url
     if params.count() > 0
         full_url = full_url + "?"
 
@@ -37,6 +35,15 @@ end function
 function parseRequest(req)
     json = ParseJson(req.GetToString())
     return json
+end function
+
+function get_base_url()
+  base = get_setting("server")
+  port = get_setting("port")
+  if port <> "" and port <> invalid then
+    base = base + ":" + port
+  end if
+  return base
 end function
 
 function server_is_https() as Boolean

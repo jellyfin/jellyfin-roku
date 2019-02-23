@@ -14,13 +14,20 @@ sub init()
 end sub
 
 function onKeyEvent(key as String, press as Boolean) as Boolean
+  ' For some reason, with the KeyboardDialog up, if you try to up/down past
+  ' the edge of the keyboard, it sends the KeyEvent here instead.
+  ' So we first check to see if the KeyboardDialog exists.
+  if m.top.dialog <> invalid then  ' Double negative logic for dialog is open
+    return false
+  end if
+
   if press then
     if (key = "OK") then
       show_dialog(m.focused_item.id)
       return true
     else if (key = "up") then
-      ' Already at the top, ignore
       if m.focused_index = 0 then
+        ' Already at the top, ignore
         return true
       end if
 
@@ -30,8 +37,8 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
       focus_node(m.focused_item)
       return true
     else if (key = "down") then
-      ' Already at the bottom, ignore
       if m.focused_index = (m.focused_options.count() - 1) then
+        ' Already at the bottom, ignore
         return true
       end if
 
@@ -40,6 +47,8 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
       m.focused_item = m.focused_options[m.focused_index]
       focus_node(m.focused_item)
       return true
+    else if (key = "play") then
+      ' submit()
     end if
   end if
 
@@ -91,3 +100,9 @@ end sub
 sub dismiss_dialog()
   m.top.dialog.close = true
 end sub
+
+
+function submit()
+  set_setting("server", m.hostname)
+  set_setting("port", m.port)
+end function

@@ -7,16 +7,16 @@ sub Main()
     end if
 
     print("WE MOVED ON")
-    if get_setting("active_user") = invalid then
-        screen = CreateObject("roSGScreen")
-        screen.setMessagePort(m.port)
+'    if get_setting("active_user") = invalid then
+'        screen = CreateObject("roSGScreen")
+'        screen.setMessagePort(m.port)
 
-        screen.CreateScene("UserSignIn")
-        screen.show()
+'        screen.CreateScene("UserSignIn")
+'        screen.show()
         ' TODO - sign in here
-        await_response()
-        screen.close()
-    end if
+'        await_response()
+'        screen.close()
+'    end if
 
     screen = CreateObject("roSGScreen")
     screen.setMessagePort(m.port)
@@ -48,15 +48,7 @@ sub ShowServerSelect()
     scene = screen.CreateScene("ServerSelection")
     screen.show()
 
-    while(true)
-        msg = wait(0, m.port)
-        msgType = type(msg)
-
-        if msgType = "roSGScreenEvent"
-            if msg.isScreenClosed() then exit while
-        end if
-
-    end while
+    await_response()
 end sub
 
 sub await_response()
@@ -65,6 +57,8 @@ sub await_response()
         msgType = type(msg)
         if msgType = "roSGScreenEvent"
             if msg.isScreenClosed() then return
+        else
+          print(msgType)
         end if
     end while
 end sub
