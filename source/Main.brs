@@ -43,12 +43,27 @@ sub Main()
 end sub
 
 sub ShowServerSelect()
-    screen = CreateObject("roSGScreen")
-    screen.setMessagePort(m.port)
-    scene = screen.CreateScene("ServerSelection")
-    screen.show()
+  screen = CreateObject("roSGScreen")
+  screen.setMessagePort(m.port)
+  scene = screen.CreateScene("ServerSelection")
+  screen.show()
 
-    await_response()
+  debug(scene)
+
+  await_response()
+end sub
+
+sub debug(scene)
+  ' TODO - find out why itemName.text is "Host" but still displays as empty
+  x = scene.findNode("config_server")
+  print 
+  for each x in scene.getall()
+    if x.id <> "config_server" then goto continuex
+    print x.id
+    print x.itemContent.labelText
+    print x.findNode("itemName").text
+    continuex:
+  end for
 end sub
 
 sub await_response()

@@ -2,41 +2,18 @@
 <component name="ServerSelection" extends="Scene">
   <children>
     <label text="Connect to Server" translation="[150, 150]" />
-    <LayoutGroup layoutDirection="vert" itemSpacings="20" translation="[150, 200]">
+    <ConfigList
+      id="config_options"
+      translation="[150, 200]"
+      itemSize="[440, 48]"
+      numRows="12" >
 
-      <LayoutGroup layoutDirection="horiz" itemSpacings="20">
-        <Label text="Host:" />
-        <TextEditBox
-          id="host"
-          hintText="127.0.0.1 or https://example.com"
-          hintTextColor="#555555"
-          textColor="#777777"
-          width="500"
-          />
-      </LayoutGroup>
-
-      <LayoutGroup layoutDirection="horiz" itemSpacings="20">
-        <Label text="Port:" />
-        <TextEditBox
-          id="port"
-          hintText="8096 or blank"
-          hintTextColor="#555555"
-          textColor="#777777"
-          width="500"
-          />
-      </LayoutGroup>
-
-      <Button
-        id="submit_btn"
-        text="Submit"
-        />
-    </LayoutGroup>
+    </ConfigList>
 
   </children>
 
   <interface>
-    <field id="hostname" type="string" alias="host.text" />
-    <field id="port" type="string" alias="port.text" />
+    <field id="itemSelected" type="intarray" alias="config_options.itemSelected" />
   </interface>
 
   <script type="text/brightscript" uri="pkg:/components/ServerScene.brs"/>
