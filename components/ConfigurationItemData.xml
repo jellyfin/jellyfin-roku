@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="ConfigItemData" extends="ContentNode">
+  <interface>
+    <field id="labelText" type="string" />
+    <field id="valueText" type="string" />
+  </interface>
+</component>

@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <component name="ServerSelection" extends="Scene">
   <children>
-    <label text="Connect to Server" translation="[150, 150]" />
+    <label text="Connect to Server"
+      height="70"
+      font="font:MediumBoldSystemFont"
+      translation="[150, 150]" />
     <ConfigList
-      id="config_options"
-      translation="[150, 200]"
-      itemSize="[440, 48]"
+      id="configOptions"
+      translation="[150, 250]"
+      itemSize="[440, 40]"
+      itemSpacing="[0, 20]"
       numRows="12" >
 
     </ConfigList>
@@ -13,7 +17,8 @@
   </children>
 
   <interface>
-    <field id="itemSelected" type="intarray" alias="config_options.itemSelected" />
+    <field id="itemSelected" type="intarray"
+      alias="configOptions.itemSelected" />
   </interface>
 
   <script type="text/brightscript" uri="pkg:/components/ServerScene.brs"/>

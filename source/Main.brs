@@ -48,7 +48,7 @@ sub ShowServerSelect()
   scene = screen.CreateScene("ServerSelection")
   screen.show()
 
-  debug(scene)
+  'debug(scene)
 
   await_response()
 end sub
@@ -56,14 +56,21 @@ end sub
 sub debug(scene)
   ' TODO - find out why itemName.text is "Host" but still displays as empty
   x = scene.findNode("config_server")
+  print
+  print scene.getallmeta()
   print 
   for each x in scene.getall()
     if x.id <> "config_server" then goto continuex
     print x.id
     print x.itemContent.labelText
     print x.findNode("itemName").text
+    ' This says "A" for both. the node and label are set properly...
+    ' why is it empty on the screen
     continuex:
   end for
+
+  print
+  print scene.getallmeta()
 end sub
 
 sub await_response()

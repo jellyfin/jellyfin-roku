@@ -5,18 +5,6 @@ sub init()
     m.top.setFocus(true)
 end sub
 
-
-
-sub focus_node(node)
-  node.textColor = "#ffffff"
-  node.hintTextColor = "#999999"
-end sub
-
-sub unfocus_node(node)
-  node.textColor = "#777777"
-  node.hintTextColor = "#555555"
-end sub
-
 function onDialogButton()
   d = m.top.dialog
   button_text = d.buttons[d.buttonSelected]
