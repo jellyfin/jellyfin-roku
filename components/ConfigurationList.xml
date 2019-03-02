@@ -8,9 +8,6 @@
       />
 
   </children>
-  <interface>
-      <field id="SelectedItem" type="int" />
-  </interface>
   <script type="text/brightscript" uri="pkg:/source/config.brs" />
   <script type="text/brightscript">
   <![CDATA[
