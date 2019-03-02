@@ -3,20 +3,26 @@ sub Main()
     screen = CreateObject("roSGScreen")
     screen.setMessagePort(m.port)
     m.scene = screen.CreateScene("Library")
+    m.screen = screen
 
     screen.show()
 
     if get_setting("server") = invalid then
+        print "Get server details"
         ' TODO - make this into a dialog
         ' TODO - be able to submit server info
         ' ShowServerSelect()
     end if
 
     if get_setting("active_user") = invalid then
+        print "Get user login"
         ' TODO - make this into a dialog
         ' screen.CreateScene("UserSignIn")
         ' TODO - sign in here
     end if
+
+    ' TODO - something here to validate that the active_user is still
+    ' valid.
 
     library = m.scene.findNode("LibrarySelect")
     libs = LibraryList()
@@ -32,10 +38,9 @@ sub Main()
 end sub
 
 sub ShowServerSelect()
-  screen = CreateObject("roSGScreen")
-  screen.setMessagePort(m.port)
-  scene = screen.CreateScene("ServerSelection")
-  screen.show()
+  dialog = CreateObject("roSGNode", "ServerSelection")
+  dialog.title = "Select Server"
+  m.scene.dialog = dialog
 
   await_response()
 end sub

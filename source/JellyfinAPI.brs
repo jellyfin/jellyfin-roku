@@ -33,6 +33,8 @@ function APIRequest(url as String, params={} as Object)
 end function
 
 function parseRequest(req)
+    'req.retainBodyOnError(True)
+    'print req.GetToString()
     json = ParseJson(req.GetToString())
     return json
 end function
