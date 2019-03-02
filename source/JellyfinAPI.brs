@@ -71,6 +71,7 @@ function get_token(user as String, password as String)
     hashed_pass = digest.process(bytes)
 
     url = "Users/AuthenticateByName?format=json"
+
     req = APIRequest(url)
 
     ' BrightScript will only return a POST body if you call post asynch

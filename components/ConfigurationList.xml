@@ -1,91 +1,99 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <component name="ConfigList" extends="MarkupList">
-    <interface>
-        <field id="SelectedItem" type="int" />
-    </interface>
-    <script type="text/brightscript" uri="pkg:/source/config.brs" />
-    <script type="text/brightscript">
-    <![CDATA[
-    sub init()
-      m.top.itemComponentName = "ConfigItem"
-      m.top.content = getData()
+  <children>
+    <Button
+      id="submit"
+      text="Submit"
+      translation="[0, 500]"
+      />
 
-      m.top.drawFocusFeedback = false  ' We're going to draw our own focus
-      m.top.vertFocusAnimationStyle = "floatingFocus"
+  </children>
+  <interface>
+      <field id="SelectedItem" type="int" />
+  </interface>
+  <script type="text/brightscript" uri="pkg:/source/config.brs" />
+  <script type="text/brightscript">
+  <![CDATA[
+  sub init()
+    m.top.itemComponentName = "ConfigItem"
+    m.top.content = getData()
 
-      m.top.observeField("itemSelected", "onItemSelected")
+    m.top.drawFocusFeedback = false  ' We're going to draw our own focus
+    m.top.vertFocusAnimationStyle = "floatingFocus"
 
-      m.top.setfocus(true)
+    m.top.observeField("itemSelected", "onItemSelected")
 
-    end sub
+    m.top.setfocus(true)
 
-    function getData()
-      data = CreateObject("roSGNode", "ContentNode")
+  end sub
 
-      items = [
-        {"field": "server", "label": "Host"},
-        {"field": "port", "label": "Port"}
-      ]
+  function getData()
+    data = CreateObject("roSGNode", "ContentNode")
 
-      for each item in items
-        config = data.CreateChild("ConfigItemData")
-        config.labelText = item["label"]
-        config.valueText = get_setting(item["field"])
+    items = [
+      {"field": "server", "label": "Host"},
+      {"field": "port", "label": "Port"}
+    ]
 
-      end for
-      return data
-    end function
+    for each item in items
+      config = data.CreateChild("ConfigItemData")
+      config.labelText = item["label"]
+      config.valueText = get_setting(item["field"])
 
-    function onItemSelected()
-      i = m.top.itemSelected
-      itemField =  m.top.content.getchild(i)
+    end for
+    return data
+  end function
 
-      show_dialog(itemField)
+  function onItemSelected()
+    i = m.top.itemSelected
+    itemField =  m.top.content.getchild(i)
 
-    end function
+    show_dialog(itemField)
 
-    function onDialogButton()
-      d = m.dialog
-      button_text = d.buttons[d.buttonSelected]
+  end function
 
-      if button_text = "OK"
-        m.configField.valueText = d.text
-        dismiss_dialog()
-        return true
-      else if button_text = "Cancel"
-        dismiss_dialog()
-        return false
-      end if
-    end function
+  function onDialogButton()
+    d = m.dialog
+    button_text = d.buttons[d.buttonSelected]
+
+    if button_text = "OK"
+      m.configField.valueText = d.text
+      dismiss_dialog()
+      return true
+    else if button_text = "Cancel"
+      dismiss_dialog()
+      return false
+    end if
+  end function
 
 
-    sub show_dialog(configField)
-      dialog = createObject("roSGNode", "KeyboardDialog")
-      m.configField = configField
-      dialog.title = "Enter the " + configField.labelText
-      dialog.buttons = ["OK", "Cancel"]
+  sub show_dialog(configField)
+    dialog = createObject("roSGNode", "KeyboardDialog")
+    m.configField = configField
+    dialog.title = "Enter the " + configField.labelText
+    dialog.buttons = ["OK", "Cancel"]
 
-      if configField.valueText <> "" then
-        dialog.text = configField.valueText
-      end if
+    if configField.valueText <> "" then
+      dialog.text = configField.valueText
+    end if
 
-      m.top.getparent().dialog = dialog
-      m.dialog = dialog
+    m.top.getparent().dialog = dialog
+    m.dialog = dialog
 
-      dialog.observeField("buttonSelected", "onDialogButton")
-    end sub
+    dialog.observeField("buttonSelected", "onDialogButton")
+  end sub
 
-    sub dismiss_dialog()
-      m.dialog.close = true
-    end sub
+  sub dismiss_dialog()
+    m.dialog.close = true
+  end sub
 
-    function submit()
-      ' TODO - get proper field names, and set_setting
-      for each content in  m.top.content.getchildren(-1, 0)
-        print content.labelText + ": " + content.valueText
-        'set_setting(?field_name, content.valueText)
-      end for
-    end function
-    ]]>
-    </script>
+  function submit()
+    ' TODO - get proper field names, and set_setting
+    for each content in  m.top.content.getchildren(-1, 0)
+      print content.labelText + ": " + content.valueText
+      'set_setting(?field_name, content.valueText)
+    end for
+  end function
+  ]]>
+  </script>
 </component>

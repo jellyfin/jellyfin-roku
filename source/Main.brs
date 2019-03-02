@@ -2,11 +2,10 @@ sub Main()
     m.port = CreateObject("roMessagePort")
 
     if get_setting("server") = invalid then
-        print "Moving to server select"
         ShowServerSelect()
+        ' TODO - be able to submit server info
     end if
 
-    print("WE MOVED ON")
 '    if get_setting("active_user") = invalid then
 '        screen = CreateObject("roSGScreen")
 '        screen.setMessagePort(m.port)
@@ -26,12 +25,11 @@ sub Main()
     m.scene = screen.CreateScene(first_scene)
     screen.show()
 
-    libs = LibraryList().items
     librow = m.scene.findNode("LibrarySelect")
+    libs = LibraryList()
+    librow.libList = libs
 
     'librow.GetRowListContent()
-
-    print 1 + "halt" ' Mixed types stops the debugger
 
     while(true)
         msg = wait(0, m.port)

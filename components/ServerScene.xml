@@ -10,10 +10,7 @@
       translation="[150, 250]"
       itemSize="[440, 40]"
       itemSpacing="[0, 20]"
-      numRows="12" >
-
-    </ConfigList>
-
+      numRows="12" />
   </children>
 
   <interface>

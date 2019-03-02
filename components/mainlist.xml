@@ -1,39 +1,72 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <component name="LibraryRow" extends="RowList">
-    <interface>
-        <field id="RowSelectedItem" type="int" />
-        <field id="libname" type="string" />
-    </interface>
-    <script type="text/brightscript">
-    <![CDATA[
-    sub init()
-        m.top.itemComponentName = "LibItem"
-        m.top.numRows = 1
-        m.top.content = getData()
-        m.top.visible = true
-        m.top.itemSize = [200 * 3 + 20 * 2, 365]
-        m.top.rowHeights = [365]
-        m.top.rowItemSize = [ [200, 365], [200, 365], [200, 365] ]
-        m.top.itemSpacing = [ 0, 80 ]
-        m.top.rowItemSpacing = [ [20, 0] ]
-        m.top.rowLabelOffset = [ [0, 30] ]
-        m.top.rowFocusAnimationStyle = "floatingFocus"
-        m.top.showRowLabel = [true, true]
-        m.top.rowLabelColor="0xa0b033ff"
-        m.top.setfocus(true)
-    end sub
+  <interface>
+      <field id="RowSelectedItem" type="int" />
+      <field id="rowSize" type="int" />
+      <field id="libList" type="associativearray" onChange="setData" />
+  </interface>
+  <script type="text/brightscript" uri="pkg:/source/config.brs" />
+  <script type="text/brightscript" uri="pkg:/source/JellyfinAPI.brs" />
+  <script type="text/brightscript">
+  <![CDATA[
+  sub init()
+    m.top.itemComponentName = "LibItem"
+    m.top.numrows = 1
+    m.top.rowSize = 4
+    m.top.content = getData()
+    m.top.visible = true
+    m.top.itemSize = [200 * 5 + 20 * 4, 70]
+    m.top.rowHeights = [70]
+    m.top.rowItemSize = [ [200, 70], [200, 70], [200, 70] ]
+    m.top.itemSpacing = [ 0, 70 ]
+    m.top.rowItemSpacing = [ [20, 0] ]
+    m.top.rowLabelOffset = [ [0, 30] ]
+    m.top.rowFocusAnimationStyle = "floatingFocus"
+    m.top.vertFocusAnimationStyle = "floatingFocus"
+    m.top.showRowLabel = [true, true]
+    m.top.rowLabelColor="0xa0b033ff"
+    m.top.setfocus(true)
+  end sub
 
-    function getData()
-        data = CreateObject("roSGNode", "ContentNode")
-        row = data.CreateChild("ContentNode")
-        row.title = "Libraries"
-        for i=1 to 3
-            item = row.CreateChild("LibItemData")
-            item.posterUrl = "http://devtools.web.roku.com/samples/images/Landscape_1.jpg"
-            item.labelText = "Placeholder" + stri(i)
-        end for
-        return data
-    end function
-    ]]>
-    </script>
+  function setData()
+    libs = m.top.liblist
+    rowsize = m.top.rowSize
+    
+    n = libs.TotalRecordCount
+
+    ' Test for no remainder
+    if int(n/rowsize) = n/rowsize then
+      m.top.numRows = n/rowsize
+    else
+      m.top.numRows = n/rowsize + 1
+    end if
+
+    m.top.content = getData()
+  end function
+
+  function getData()
+    if m.top.libList = invalid then
+      data = CreateObject("roSGNode", "ContentNode")
+      return data
+    end if
+
+    libs = m.top.libList
+    rowsize = m.top.rowSize
+    data = CreateObject("roSGNode", "ContentNode")
+    for rownum=1 to m.top.numRows
+      row = data.CreateChild("ContentNode")
+      for i=1 to rowsize
+        index = (rownum - 1) * rowsize + i
+        if index > libs.TotalRecordCount then
+          exit for
+        end if
+        datum = libs.Items[index-1]
+        item = row.CreateChild("LibItemData")
+        item.labelText = datum.name
+      end for
+    end for
+    return data
+  end function
+  ]]>
+  </script>
 </component>
