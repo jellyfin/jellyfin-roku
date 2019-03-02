@@ -11,7 +11,8 @@ if [ -z "$ROKU_DEV_TARGET" ]; then
     exit 1
 fi
 
-zip jellyfin-roku.zip -r ./*
+[ -f jellyfin-roku.zip ] && rm jellyfin-roku.zip
+zip jellyfin-roku.zip manifest -r ./components -r ./source -r ./images
 
 curl -f -sS --user rokudev:$ROKU_DEV_PASSWORD --anyauth -F "mysubmit=Install" -F "archive=@jellyfin-roku.zip" -F "passwd=" http://$ROKU_DEV_TARGET/plugin_install  \
     | python -c 'import sys, re; print("\n".join(re.findall("<font color=\"red\">(.*?)</font>", sys.stdin.read(), re.DOTALL)))'

@@ -35,7 +35,6 @@
   end sub
 
   function setData()
-    print "HI"
     libs = m.top.liblist
     rowsize = m.top.rowSize
 
@@ -72,15 +71,13 @@
         item.labelText = datum.name
       end for
     end for
-    print "HI"
-    print m.top.itemSelected
     return data
   end function
 
   function onItemSelected()
-    print "DETECTED THAT SELECTION"
     x = m.top.rowItemSelected
-    print "row " + x[0] + " col " + x[1]
+    target = m.top.content.getChild(x[0]).getChild(x[1])
+    print "Selected: " + target.labelText
   end function
   ]]>
   </script>
