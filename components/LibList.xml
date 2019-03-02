@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <component name="LibraryRow" extends="RowList">
   <interface>
-      <field id="RowSelectedItem" type="int" />
+      <field id="itemSelected" type="intarray" />
       <field id="rowSize" type="int" />
       <field id="libList" type="associativearray" onChange="setData" />
   </interface>
@@ -11,24 +11,31 @@
   <![CDATA[
   sub init()
     m.top.itemComponentName = "LibItem"
+    m.top.content = getData()
+
     m.top.numrows = 1
     m.top.rowSize = 4
-    m.top.content = getData()
+
     m.top.visible = true
     m.top.itemSize = [200 * 5 + 20 * 4, 70]
     m.top.rowHeights = [70]
-    m.top.rowItemSize = [ [200, 70], [200, 70], [200, 70] ]
+    m.top.rowItemSize = [ [200, 70] ]
     m.top.itemSpacing = [ 0, 70 ]
     m.top.rowItemSpacing = [ [20, 0] ]
     m.top.rowLabelOffset = [ [0, 30] ]
+
     m.top.rowFocusAnimationStyle = "floatingFocus"
     m.top.vertFocusAnimationStyle = "floatingFocus"
-    m.top.showRowLabel = [true, true]
-    m.top.rowLabelColor="0xa0b033ff"
+
+    m.top.showRowLabel = [false]
+
+    m.top.observeField("itemSelected", "onItemSelected")
+
     m.top.setfocus(true)
   end sub
 
   function setData()
+    print "HI"
     libs = m.top.liblist
     rowsize = m.top.rowSize
 
@@ -65,7 +72,15 @@
         item.labelText = datum.name
       end for
     end for
+    print "HI"
+    print m.top.itemSelected
     return data
+  end function
+
+  function onItemSelected()
+    print "DETECTED THAT SELECTION"
+    x = m.top.rowItemSelected
+    print "row " + x[0] + " col " + x[1]
   end function
   ]]>
   </script>

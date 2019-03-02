@@ -9,8 +9,4 @@
         />
   </children>
 
-  <interface>
-    <field id="libRowItemSelected" type="intarray" alias="LibrarySelect.RowSelectedItem" />
-    <field id="library" type="string" />
-  </interface>
 </component>
