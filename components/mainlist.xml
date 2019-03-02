@@ -31,7 +31,7 @@
   function setData()
     libs = m.top.liblist
     rowsize = m.top.rowSize
-    
+
     n = libs.TotalRecordCount
 
     ' Test for no remainder
