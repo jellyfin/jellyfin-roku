@@ -15,6 +15,7 @@
       end sub
 
       function itemContentChanged() as void
+        m.itemText = m.top.findNode("itemText")
         itemData = m.top.itemContent
         m.itemText.text = itemData.labelText
       end function

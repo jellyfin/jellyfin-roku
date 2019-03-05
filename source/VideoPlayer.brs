@@ -1,18 +1,14 @@
 function VideoPlayer(scene, id)
+  video = scene.createChild("Video")
+  content = VideoContent(id)
 
-    content = VideoContent(id)
+  video.content = content
 
-    video = scene.findNode("VideoPlayer")
+  video.setFocus(true)
+  video.control = "play"
 
-    video.content = content
-
-    video.setFocus(true)
-    video.control = "play"
-
-    return video
-
+  return video
 end function
-
 
 function VideoContent(id) as object
     content = createObject("RoSGNode", "ContentNode")
