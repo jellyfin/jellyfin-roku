@@ -23,7 +23,7 @@
       vertAlignment="center"
       itemSpacings="20"
       translation="[8,40]" >
-      <!-- above translation is itemspacings + item height / 2 -->
+      <!-- above translation is itemspacings + item height / 2 + border-->
       <Label id="itemName" horizAlign="left" width="196" height="60" />
       <Label id="itemValue" horizAlign="left" width="196" height="60" />
     </LayoutGroup>
@@ -36,30 +36,30 @@
   </interface>
 
   <script type="text/brightscript">
-    <![CDATA[
-    sub Init()
-      m.itemName = m.top.findNode("itemName")
-      m.itemValue = m.top.findNode("itemValue")
-      m.selectedBox = m.top.findNode("selectionOutline")
-    end sub
+  <![CDATA[
+  sub Init()
+    m.itemName = m.top.findNode("itemName")
+    m.itemValue = m.top.findNode("itemValue")
+    m.selectedBox = m.top.findNode("selectionOutline")
+  end sub
 
-    sub itemContentChanged() as void
-      itemData = m.top.itemContent
+  sub itemContentChanged() as void
+    itemData = m.top.itemContent
 
-      m.itemName.text = itemData.labelText
-      if itemData.valueText <> ""
-        m.itemValue.color = "#ffffff"
-        m.itemValue.text = itemData.valueText
-      else
-        m.itemValue.color = "#444444"
-        m.itemValue.text = "Enter a value..."  ' TODO - get a placeholder
-      end if
-    end sub
+    m.itemName.text = itemData.labelText
+    if itemData.valueText <> ""
+      m.itemValue.color = "#ffffff"
+      m.itemValue.text = itemData.valueText
+    else
+      m.itemValue.color = "#444444"
+      m.itemValue.text = "Enter a value..."  ' TODO - get a placeholder
+    end if
+  end sub
 
-    sub focusChanged() as void
-      m.selectedBox.opacity = m.top.focusPercent
-    end sub
-    ]]>
+  sub focusChanged() as void
+    m.selectedBox.opacity = m.top.focusPercent
+  end sub
+  ]]>
   </script>
 
 </component>

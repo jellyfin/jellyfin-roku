@@ -8,18 +8,18 @@
   </interface>
 
   <script type="text/brightscript">
-    <![CDATA[
-      sub Init()
-        m.itemText = m.top.findNode("itemText")
-        m.itemText.text = "Loading..."
-      end sub
+  <![CDATA[
+  sub Init()
+    m.itemText = m.top.findNode("itemText")
+    m.itemText.text = "Loading..."
+  end sub
 
-      function itemContentChanged() as void
-        m.itemText = m.top.findNode("itemText")
-        itemData = m.top.itemContent
-        m.itemText.text = itemData.labelText
-      end function
-    ]]>
+  function itemContentChanged() as void
+    m.itemText = m.top.findNode("itemText")
+    itemData = m.top.itemContent
+    m.itemText.text = itemData.labelText
+  end function
+  ]]>
   </script>
 
 </component>

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <component name="MovieRow" extends="RowList">
   <interface>
-      <field id="rowSize" type="int" />
-      <field id="movieData" type="associativearray" onChange="setData" />
+    <field id="rowSize" type="int" />
+    <field id="movieData" type="associativearray" onChange="setData" />
   </interface>
   <script type="text/brightscript" uri="pkg:/source/config.brs" />
   <script type="text/brightscript" uri="pkg:/source/JellyfinAPI.brs" />
@@ -27,8 +27,6 @@
     m.top.vertFocusAnimationStyle = "floatingFocus"
 
     m.top.showRowLabel = [false]
-
-    'm.top.observeField("itemSelected", "onItemSelected")
 
     m.top.setfocus(true)
   end sub
@@ -73,11 +71,6 @@
       end for
     end for
     return data
-  end function
-
-  function onItemSelected()
-    x = m.top.rowItemSelected
-    target = m.top.content.getChild(x[0]).getChild(x[1])
   end function
   ]]>
   </script>

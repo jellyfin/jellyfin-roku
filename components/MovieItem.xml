@@ -13,21 +13,21 @@
   </interface>
 
   <script type="text/brightscript">
-    <![CDATA[
-      sub Init()
-        m.itemText = m.top.findNode("itemText")
-        m.itemText.text = "Loading..."
-      end sub
+  <![CDATA[
+  sub Init()
+    m.itemText = m.top.findNode("itemText")
+    m.itemText.text = "Loading..."
+  end sub
 
-      function itemContentChanged() as void
-        ' re-declare this because init doesnt re-run
-        ' when we come back from elsewhere
-        m.itemText = m.top.findNode("itemText")
+  function itemContentChanged() as void
+    ' re-declare this because init doesnt re-run
+    ' when we come back from elsewhere
+    m.itemText = m.top.findNode("itemText")
 
-        itemData = m.top.itemContent
-        m.itemText.text = itemData.labelText
-      end function
-    ]]>
+    itemData = m.top.itemContent
+    m.itemText.text = itemData.labelText
+  end function
+  ]]>
   </script>
 
 </component>

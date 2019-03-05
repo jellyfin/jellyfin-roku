@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <component name="Library" extends="Scene">
   <children>
-
     <LibraryRow
       id="LibrarySelect"
       visible="true"
       translation="[150,150]"
-        />
+      />
   </children>
-
 </component>

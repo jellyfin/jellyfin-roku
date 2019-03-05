@@ -11,21 +11,22 @@ function VideoPlayer(scene, id)
 end function
 
 function VideoContent(id) as object
-    content = createObject("RoSGNode", "ContentNode")
+  content = createObject("RoSGNode", "ContentNode")
 
-    meta = ItemMetaData(id)
-    content.title = meta.Name
+  meta = ItemMetaData(id)
+  content.title = meta.Name
 
-    server = get_setting("server")
-    content.url = Substitute("{0}/emby/Videos/{1}/stream.mp4", server, id)
-    content.url = content.url + "?Static=true"
+  ' I'm not super happy that I'm basically re-implementing APIRequest
+  ' but for a ContentNode instead of UrlTransfer
+  server = get_setting("server")
+  content.url = Substitute("{0}/emby/Videos/{1}/stream.mp4", server, id)
+  content.url = content.url + "?Static=true"
 
-    content = authorize_request(content)
+  content = authorize_request(content)
 
-    if server_is_https() then
-        content.setCertificatesFile("common:/certs/ca-bundle.crt")
-    end if
+  if server_is_https() then
+    content.setCertificatesFile("common:/certs/ca-bundle.crt")
+  end if
 
-    return content
-
+  return content
 end function

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <component name="LibraryRow" extends="RowList">
   <interface>
-      <field id="rowSize" type="int" />
-      <field id="libList" type="associativearray" onChange="setData" />
+    <field id="rowSize" type="int" />
+    <field id="libList" type="associativearray" onChange="setData" />
   </interface>
   <script type="text/brightscript" uri="pkg:/source/config.brs" />
   <script type="text/brightscript" uri="pkg:/source/JellyfinAPI.brs" />
@@ -27,8 +27,6 @@
     m.top.vertFocusAnimationStyle = "floatingFocus"
 
     m.top.showRowLabel = [false]
-
-    ' m.top.observeField("itemSelected", "onItemSelected")
 
     m.top.setfocus(true)
   end sub
@@ -73,17 +71,6 @@
       end for
     end for
     return data
-  end function
-
-  function onItemSelected()
-    x = m.top.rowItemSelected
-    target = m.top.content.getChild(x[0]).getChild(x[1])
-    print "Selected: " + target.libraryID + " " + target.libraryType
-
-    if target.libraryType = "movies" then
-      print
-      ' TODO - emit a single back up to the very top port
-    end if
   end function
   ]]>
   </script>

@@ -6,7 +6,6 @@
       text="Submit"
       translation="[0, 500]"
       />
-
   </children>
   <script type="text/brightscript" uri="pkg:/source/config.brs" />
   <script type="text/brightscript">
