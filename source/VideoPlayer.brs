@@ -1,8 +1,8 @@
-function VideoPlayer(id)
+function VideoPlayer(scene, id)
 
     content = VideoContent(id)
 
-    video = m.scene.findNode("VideoPlayer")
+    video = scene.findNode("VideoPlayer")
 
     video.content = content
 

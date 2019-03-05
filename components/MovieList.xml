@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<component name="LibraryRow" extends="RowList">
+<component name="MovieRow" extends="RowList">
   <interface>
       <field id="rowSize" type="int" />
-      <field id="libList" type="associativearray" onChange="setData" />
+      <field id="movieData" type="associativearray" onChange="setData" />
   </interface>
   <script type="text/brightscript" uri="pkg:/source/config.brs" />
   <script type="text/brightscript" uri="pkg:/source/JellyfinAPI.brs" />
   <script type="text/brightscript">
   <![CDATA[
   sub init()
-    m.top.itemComponentName = "LibItem"
+    m.top.itemComponentName = "MovieItem"
     m.top.content = getData()
 
     m.top.numrows = 1
@@ -28,16 +28,16 @@
 
     m.top.showRowLabel = [false]
 
-    ' m.top.observeField("itemSelected", "onItemSelected")
+    'm.top.observeField("itemSelected", "onItemSelected")
 
     m.top.setfocus(true)
   end sub
 
   function setData()
-    libs = m.top.liblist
+    mvies = m.top.movieData
     rowsize = m.top.rowSize
 
-    n = libs.TotalRecordCount
+    n = mvies.items.count()
 
     ' Test for no remainder
     if int(n/rowsize) = n/rowsize then
@@ -50,26 +50,26 @@
   end function
 
   function getData()
-    if m.top.libList = invalid then
+    if m.top.movieData = invalid then
       data = CreateObject("roSGNode", "ContentNode")
       return data
     end if
 
-    libs = m.top.libList
+    mvies = m.top.movieData
     rowsize = m.top.rowSize
     data = CreateObject("roSGNode", "ContentNode")
     for rownum=1 to m.top.numRows
       row = data.CreateChild("ContentNode")
       for i=1 to rowsize
         index = (rownum - 1) * rowsize + i
-        if index > libs.TotalRecordCount then
+        if index > mvies.items.count() then
           exit for
         end if
-        datum = libs.Items[index-1]
-        item = row.CreateChild("LibItemData")
+        datum = mvies.Items[index-1]
+        item = row.CreateChild("MovieItemData")
         item.labelText = datum.name
-        item.libraryID = datum.id
-        item.libraryType = datum.CollectionType
+        item.movieID = datum.id
+        item.posterUrl = ""
       end for
     end for
     return data
@@ -78,12 +78,6 @@
   function onItemSelected()
     x = m.top.rowItemSelected
     target = m.top.content.getChild(x[0]).getChild(x[1])
-    print "Selected: " + target.libraryID + " " + target.libraryType
-
-    if target.libraryType = "movies" then
-      print
-      ' TODO - emit a single back up to the very top port
-    end if
   end function
   ]]>
   </script>

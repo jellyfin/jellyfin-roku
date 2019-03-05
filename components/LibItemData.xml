@@ -2,6 +2,7 @@
 <component name="LibItemData" extends="ContentNode">
   <interface>
     <field id="labelText" type="string" />
-    <field id="posterUrl" type="string" />
+    <field id="libraryID" type="string" />
+    <field id="libraryType" type="string" />
   </interface>
 </component>

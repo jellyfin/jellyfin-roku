@@ -153,12 +153,14 @@ end function
 ' Video
 
 function VideoStream(id as String)
+
     player = createObject("roVideoPlayer")
 
-    server = get_setting("server")
-    path = Substitute("Videos/{0}/stream.mp4", id)
-    player.setUrl(server + "/" + path)
-    player = authorize_request(player)
+    content = VideoContent(id)
+
+    player.addContent(content)
+
+    player.play()
 
     return player
 end function

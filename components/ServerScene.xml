@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<component name="ServerSelection" extends="dialog">
+<component name="ServerSelection" extends="scene">
   <children>
     <label text="Connect to Server"
       height="70"

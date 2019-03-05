@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="Movies" extends="Scene">
+  <children>
+    <MovieRow
+      id="MovieSelect"
+      visible="true"
+      translation="[150,150]"
+        />
+  </children>
+
+</component>
