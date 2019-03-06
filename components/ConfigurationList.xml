@@ -1,20 +1,15 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <component name="ConfigList" extends="MarkupList">
-  <children>
-    <Button
-      id="submit"
-      text="Submit"
-      translation="[0, 500]"
-      />
-  </children>
+  <interface>
+    <function name="setData" />
+  </interface>
   <script type="text/brightscript" uri="pkg:/source/config.brs" />
   <script type="text/brightscript">
   <![CDATA[
   sub init()
     m.top.itemComponentName = "ConfigItem"
-    m.top.content = getData()
 
-    m.top.drawFocusFeedback = false  ' We're going to draw our own focus
+    m.top.drawFocusFeedback = True
     m.top.vertFocusAnimationStyle = "floatingFocus"
 
     m.top.observeField("itemSelected", "onItemSelected")
@@ -23,21 +18,17 @@
 
   end sub
 
-  function getData()
+  function setData(items)
     data = CreateObject("roSGNode", "ContentNode")
-
-    items = [
-      {"field": "server", "label": "Host"},
-      {"field": "port", "label": "Port"}
-    ]
 
     for each item in items
       config = data.CreateChild("ConfigItemData")
-      config.labelText = item["label"]
-      config.valueText = get_setting(item["field"])
-
+      config.label = item["label"]
+      config.value = get_setting(item["field"])
+      config.type = item["type"]
     end for
-    return data
+
+    m.top.content = data
   end function
 
   function onItemSelected()
@@ -53,7 +44,7 @@
     button_text = d.buttons[d.buttonSelected]
 
     if button_text = "OK"
-      m.configField.valueText = d.text
+      m.configField.value = d.text
       dismiss_dialog()
       return true
     else if button_text = "Cancel"
@@ -66,11 +57,11 @@
   sub show_dialog(configField)
     dialog = createObject("roSGNode", "KeyboardDialog")
     m.configField = configField
-    dialog.title = "Enter the " + configField.labelText
+    dialog.title = "Enter the " + configField.label
     dialog.buttons = ["OK", "Cancel"]
 
-    if configField.valueText <> "" then
-      dialog.text = configField.valueText
+    if configField.value <> "" then
+      dialog.text = configField.value
     end if
 
     m.top.getparent().dialog = dialog
@@ -82,14 +73,6 @@
   sub dismiss_dialog()
     m.dialog.close = true
   end sub
-
-  function submit()
-    ' TODO - get proper field names, and set_setting
-    for each content in  m.top.content.getchildren(-1, 0)
-      print content.labelText + ": " + content.valueText
-      'set_setting(?field_name, content.valueText)
-    end for
-  end function
   ]]>
   </script>
 </component>

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<component name="ServerSelection" extends="scene">
+<component name="ConfigScene" extends="Scene">
   <children>
-    <label text="Connect to Server"
+    <label text="Enter Configuration"
+      id="prompt"
       height="70"
       font="font:MediumBoldSystemFont"
       translation="[150, 150]" />
@@ -11,12 +12,12 @@
       itemSize="[440, 40]"
       itemSpacing="[0, 20]"
       numRows="12" />
+    <Button
+      id="submit"
+      text="Submit"
+      showFocusFootprint="false"
+      translation="[150, 350]"
+      />
   </children>
-
-  <interface>
-    <field id="itemSelected" type="intarray"
-      alias="configOptions.itemSelected" />
-  </interface>
-
-  <script type="text/brightscript" uri="pkg:/components/ServerScene.brs"/>
+  <script type="text/brightscript" uri="pkg:/components/ConfigurationScene.brs"/>
 </component>

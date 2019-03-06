@@ -90,7 +90,6 @@ function get_token(user as String, password as String)
   set_setting("active_user", json.User.id)
   set_user_setting("id", json.User.id)  ' redundant, but could come in handy
   set_user_setting("token", json.AccessToken)
-  set_user_setting("response", json)
   return json
 end function
 
