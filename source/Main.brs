@@ -44,7 +44,6 @@ sub ShowServerSelect()
   button = scene.findNode("submit")
   button.observeField("buttonSelected", port)
 
-
   server_hostname = config.content.getChild(0)
   server_port = config.content.getChild(1)
 
@@ -94,10 +93,9 @@ sub ShowSignInSelect()
     else if type(msg) = "roSGNodeEvent"
       node = msg.getNode()
       if node = "submit"
+        ' Validate credentials
         get_token(username.value, password.value)
-        if get_setting("active_user") <> invalid
-          return
-        end if
+        if get_setting("active_user") <> invalid then return
         print "Login attempt failed..."
       end if
     end if
