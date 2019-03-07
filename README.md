@@ -31,12 +31,14 @@ export ROKU_DEV_PASSWORD=<your roku password>
 
 ### ToDo - Scenes for Movie Viewing Only
 
-- [ ] Server Select
-- [ ] User Sign In
-- [ ] Main Landing "Library Select"
-- [ ] Library Items List
+- [x] Server Select
+- [x] User Sign In
+- [x] Main Landing "Library Select"
+- [x] Library Items List (ie, movie list)
+- [ ] Infinite scroll or paging
 - [ ] Preview "About this Item" movie page
-- [ ] Video Player
+- [x] Video Player
+- [ ] Sign Out
 
 
 ### ToDo - Additional Scenes for TV Shows
