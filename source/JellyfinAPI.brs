@@ -120,6 +120,12 @@ function AboutMe()
   return parseRequest(resp)
 end function
 
+function ImageURL(id)
+  url = Substitute("Items/{0}/Images/Primary", id)
+  ' ?maxHeight=384&maxWidth=256&tag=<tag>&quality=90"
+  resp = APIRequest(url, {"maxHeight": "384", "maxWidth": "196", "quality": "90"})
+  return resp.getUrl()
+end function
 
 ' ServerBrowsing
 

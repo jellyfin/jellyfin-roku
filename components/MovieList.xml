@@ -16,15 +16,15 @@
     m.top.rowSize = 4
 
     m.top.visible = true
-    m.top.itemSize = [200 * 4 + 20 * 3, 70]
-    m.top.rowHeights = [70]
-    m.top.rowItemSize = [ [200, 70] ]
-    m.top.itemSpacing = [ 0, 70 ]
+    m.top.itemSize = [200 * 4 + 20 * 3, 400]
+    m.top.rowHeights = [400]
+    m.top.rowItemSize = [ [200, 400] ]
+    m.top.itemSpacing = [ 0, 50 ]
     m.top.rowItemSpacing = [ [20, 0] ]
     m.top.rowLabelOffset = [ [0, 30] ]
 
     m.top.rowFocusAnimationStyle = "floatingFocus"
-    m.top.vertFocusAnimationStyle = "floatingFocus"
+    'm.top.vertFocusAnimationStyle = "floatingFocus"
 
     m.top.showRowLabel = [false]
 
@@ -65,9 +65,9 @@
         end if
         datum = mvies.Items[index-1]
         item = row.CreateChild("MovieItemData")
-        item.labelText = datum.name
+        item.title = datum.name
         item.movieID = datum.id
-        item.posterUrl = ""
+        item.posterUrl = ImageURL(datum.id)
       end for
     end for
     return data

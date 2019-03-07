@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <component name="MovieItem" extends="Group">
   <children>
-    <Label id="itemText"
+    <Poster id="moviePoster"
+      translation="[2, 0]"
+      width="196"
+      height="294"
+      />
+    <Label id="title"
       horizAlign="center"
-      translation="[0,25]"
+      translation="[0,319]"
       font="font:MediumSystemFont"
       width="196"
       height="65" />
@@ -15,17 +20,20 @@
   <script type="text/brightscript">
   <![CDATA[
   sub Init()
-    m.itemText = m.top.findNode("itemText")
-    m.itemText.text = "Loading..."
+    m.title = m.top.findNode("title")
+    m.poster = m.top.findNode("moviePoster")
+    m.title.text = "Loading..."
   end sub
 
   function itemContentChanged() as void
     ' re-declare this because init doesnt re-run
     ' when we come back from elsewhere
-    m.itemText = m.top.findNode("itemText")
+    m.title = m.top.findNode("title")
+    m.poster = m.top.findNode("moviePoster")
 
     itemData = m.top.itemContent
-    m.itemText.text = itemData.labelText
+    m.title.text = itemData.title
+    m.poster.uri = itemData.posterUrl
   end function
   ]]>
   </script>
