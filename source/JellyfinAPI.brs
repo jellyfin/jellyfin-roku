@@ -1,13 +1,8 @@
 ' Functions for making requests to the API
 
-function APIRequest(url as String, params={} as Object)
-  req = createObject("roUrlTransfer")
-
-  if server_is_https() then
-    req.setCertificatesFile("common:/certs/ca-bundle.crt")
-  end if
-
-  full_url = get_base_url() + "/emby/" + url
+function buildURL(path as String, params={} as Object) as string
+  req = createObject("roUrlTransfer")  ' Just so we can use it for escape
+  full_url = get_base_url() + "/emby/" + path
   if params.count() > 0
     full_url = full_url + "?"
 
@@ -24,6 +19,18 @@ function APIRequest(url as String, params={} as Object)
     end for
     full_url = full_url + param_array.join("&")
   end if
+
+  return full_url
+end function
+
+function APIRequest(url as String, params={} as Object)
+  req = createObject("roUrlTransfer")
+
+  if server_is_https() then
+    req.setCertificatesFile("common:/certs/ca-bundle.crt")
+  end if
+
+  full_url = buildURL(url, params)
 
   req.setUrl(full_url)
 
@@ -123,8 +130,7 @@ end function
 function ImageURL(id)
   url = Substitute("Items/{0}/Images/Primary", id)
   ' ?maxHeight=384&maxWidth=256&tag=<tag>&quality=90"
-  resp = APIRequest(url, {"maxHeight": "384", "maxWidth": "196", "quality": "90"})
-  return resp.getUrl()
+  return buildURL(url, {"maxHeight": "384", "maxWidth": "196", "quality": "90"})
 end function
 
 ' ServerBrowsing

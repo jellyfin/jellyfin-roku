@@ -4,5 +4,7 @@
     <field id="title" type="string" />
     <field id="posterUrl" type="string" />
     <field id="movieID" type="string" />
+    <field id="description" type="string" />
+    <field id="full_data" type="associativearray" />
   </interface>
 </component>

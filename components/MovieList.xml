@@ -32,10 +32,10 @@
   end sub
 
   function setData()
-    mvies = m.top.movieData
+    movieData = m.top.movieData
     rowsize = m.top.rowSize
 
-    n = mvies.items.count()
+    n = movieData.items.count()
 
     ' Test for no remainder
     if int(n/rowsize) = n/rowsize then
@@ -53,21 +53,23 @@
       return data
     end if
 
-    mvies = m.top.movieData
+    movieData = m.top.movieData
     rowsize = m.top.rowSize
     data = CreateObject("roSGNode", "ContentNode")
     for rownum=1 to m.top.numRows
       row = data.CreateChild("ContentNode")
       for i=1 to rowsize
         index = (rownum - 1) * rowsize + i
-        if index > mvies.items.count() then
+        if index > movieData.items.count() then
           exit for
         end if
-        datum = mvies.Items[index-1]
+        datum = movieData.Items[index-1]
         item = row.CreateChild("MovieItemData")
         item.title = datum.name
         item.movieID = datum.id
         item.posterUrl = ImageURL(datum.id)
+        item.description = datum.overview
+        item.full_data = datum
       end for
     end for
     return data
