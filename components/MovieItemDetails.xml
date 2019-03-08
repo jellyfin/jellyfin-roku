@@ -5,13 +5,13 @@
       <Poster id="moviePoster"
         translation="[150,150]"
         width="196" height="294" />
-      <LayoutGroup layoutDirection="vert" translation="[355, 150]">
+      <LayoutGroup layoutDirection="vert" translation="[355, 150]" itemSpacings="[0, 10]">
         <Label id="title" />
-        <LayoutGroup layoutDirection="horiz">
+        <LayoutGroup layoutDirection="horiz" itemSpacings="[10, 0]">
           <Label id="releaseYear" />
           <Label id="runtime" />
-          <Label id="rating" />
-          <Label id="stars" />
+          <Label id="officialRating" />
+          <Label id="communityRating" />
           <Label id="ends-at" />
         </LayoutGroup>
         <Label id="genres" />
@@ -19,6 +19,7 @@
         <Label id="video_codec" />
         <Label id="audio_codec" />
         <Label id="buttons" />
+        <Label id="tagline" />
         <Label id="overview" />
 
       </LayoutGroup>
@@ -36,21 +37,71 @@
 
   end sub
 
+  sub setFieldText(field as string, value)
+    node = m.top.findNode(field)
+    if node = invalid then return
+
+    node.text = value
+  end sub
+
+  function round(f as Float) as Integer
+    ' BrightScript only has a "floor" round
+    ' This compares floor to floor + 1 to find which is closer
+    m = int(f)
+    n = m + 1
+    x = abs(f - m)
+    y = abs(f - n)
+    if y > x
+      return m
+    else
+      return n
+    end if
+  end function
+
   sub itemContentChanged()
     itemData = m.top.itemJson
 
     m.top.findNode("moviePoster").uri = ImageURL(itemData.id)
-    m.top.findNode("title").text = itemData.name
-    m.top.findNode("releaseYear").text = itemData.productionYear
-    m.top.findNode("runtime").text = "100 mins"
-    m.top.findNode("rating").text = itemData.officialRating
-    m.top.findNode("stars").text = itemData.communityRating
-    m.top.findNode("ends-at").text = "Someday"
-    m.top.findNode("genres").text = "itemData.genres"
-    m.top.findNode("director").text = "itemData.people"
-    m.top.findNode("video_codec").text = "h264"
-    m.top.findNode("audio_codec").text = "Eng AAC"
-    m.top.findNode("overview").text = itemData.overview
+    setFieldText("title", itemData.name)
+    setFieldText("releaseYear", itemData.productionYear)
+
+    ' A tick is .1ms, so 1/10,000,000 for ticks to seconds,
+    ' then 1/60 for seconds to minutess... 1/600,000,000
+    duration = round(itemData.RunTimeTicks / 600000000.0)
+    setFieldText("runtime", stri(duration) + " mins")
+
+    setFieldText("officialRating", itemData.officialRating)
+    setFieldText("communityRating", str(itemData.communityRating))
+
+    date = CreateObject("roDateTime")
+    duration_s = int(itemData.RunTimeTicks / 10000000.0)
+    date.fromSeconds(date.asSeconds() + duration_s)
+    date.toLocalTime()
+    d = date.toISOString()
+    ' TODO - not full ISO format
+    setFieldText("ends-at", "Ends at " + d)
+
+    if itemData.genres.count() > 0
+      setFieldText("genres", itemData.genres.join(", "))
+    end if
+    director = invalid
+    for each person in itemData.people
+      if person.type = "Director"
+        director = person.name
+        exit for
+      end if
+    end for
+    if director <> invalid
+      setFieldText("director", "Director: " + director)
+    end if
+    setFieldText("video_codec", "Video: " + itemData.mediaStreams[0].displayTitle)
+    setFieldText("audio_codec", "Audio: " + itemData.mediaStreams[1].displayTitle)
+    ' TODO - cmon now. these are buttons, not words
+    setFieldText("buttons", "Play, Delete, Watched, Favorite, ...")
+    if itemData.taglines.count() > 0
+      setFieldText("tagline", itemData.taglines[0])
+    end if
+    setFieldText("overview", itemData.overview)
   end sub
   ]]>
   </script>
