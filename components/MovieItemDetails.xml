@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="MovieItemDetailScene" extends="Scene">
+  <children>
+    <LayoutGroup layoutDirection="horiz">
+      <Poster id="moviePoster"
+        translation="[150,150]"
+        width="196" height="294" />
+      <LayoutGroup layoutDirection="vert" translation="[355, 150]">
+        <Label id="title" />
+        <LayoutGroup layoutDirection="horiz">
+          <Label id="releaseYear" />
+          <Label id="runtime" />
+          <Label id="rating" />
+          <Label id="stars" />
+          <Label id="ends-at" />
+        </LayoutGroup>
+        <Label id="genres" />
+        <Label id="director" />
+        <Label id="video_codec" />
+        <Label id="audio_codec" />
+        <Label id="buttons" />
+        <Label id="overview" />
+
+      </LayoutGroup>
+    </LayoutGroup>
+  </children>
+  <interface>
+    <field id="itemJson" type="associativearray" onChange="itemContentChanged" />
+  </interface>
+  <script type="text/brightscript" uri="pkg:/source/config.brs" />
+  <script type="text/brightscript" uri="pkg:/source/JellyfinAPI.brs" />
+  <script type="text/brightscript">
+  <![CDATA[
+  sub init()
+
+
+  end sub
+
+  sub itemContentChanged()
+    itemData = m.top.itemJson
+
+    m.top.findNode("moviePoster").uri = ImageURL(itemData.id)
+    m.top.findNode("title").text = itemData.name
+    m.top.findNode("releaseYear").text = itemData.productionYear
+    m.top.findNode("runtime").text = "100 mins"
+    m.top.findNode("rating").text = itemData.officialRating
+    m.top.findNode("stars").text = itemData.communityRating
+    m.top.findNode("ends-at").text = "Someday"
+    m.top.findNode("genres").text = "itemData.genres"
+    m.top.findNode("director").text = "itemData.people"
+    m.top.findNode("video_codec").text = "h264"
+    m.top.findNode("audio_codec").text = "Eng AAC"
+    m.top.findNode("overview").text = itemData.overview
+  end sub
+  ]]>
+  </script>
+</component>

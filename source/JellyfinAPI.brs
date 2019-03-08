@@ -12,7 +12,8 @@ function buildURL(path as String, params={} as Object) as string
         item = field.key + "=" + req.escape(field.value.trim())
       else if type(field.value) = "roInteger" then
         item = field.key + "=" + req.escape(str(field.value).trim())
-      else
+      else if field <> invalid
+        req = createObject("roUrlTransfer")  ' Just so we can use it for escape
         item = field.key + "=" + req.escape(field.value)
       end if
       param_array.push(item)

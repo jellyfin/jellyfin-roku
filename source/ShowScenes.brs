@@ -124,7 +124,28 @@ sub ShowMovieOptions(library_id)
       return
     else if itemSelectedQ(msg)
       target = getMsgRowTarget(msg)
-      showVideoPlayer(target.movieID)
+      ShowMovieDetails(target.movieID)
+      'showVideoPlayer(target.movieID)
+    end if
+  end while
+end sub
+
+sub ShowMovieDetails(movie_id)
+  port = CreateObject("roMessagePort")
+  screen = CreateObject("roSGScreen")
+  screen.setMessagePort(port)
+  scene = screen.CreateScene("MovieItemDetailScene")
+
+  screen.show()
+
+  scene.itemJson = ItemMetaData(movie_id)
+
+  while true
+    msg = wait(0, port)
+    if type(msg) = "roSGScreenEvent" and msg.isScreenClosed() then
+      return
+    else if itemSelectedQ(msg)
+      ' showVideoPlayer(target.movieID)
     end if
   end while
 end sub
