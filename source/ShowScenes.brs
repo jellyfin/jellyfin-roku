@@ -131,7 +131,7 @@ sub ShowMovieOptions(library_id)
       ShowMovieDetails(target.movieID)
       'showVideoPlayer(target.movieID)
     else if itemFocusedQ(msg)
-      print "Selected " + msg.getNode()
+      'print "Selected " + msg.getNode()
     end if
   end while
 end sub
@@ -146,12 +146,18 @@ sub ShowMovieDetails(movie_id)
 
   scene.itemJson = ItemMetaData(movie_id)
 
+  buttons = scene.findNode("buttons")
+  buttons.observeField("buttonSelected", port)
+
   while true
     msg = wait(0, port)
     if type(msg) = "roSGScreenEvent" and msg.isScreenClosed() then
       return
-    else if itemSelectedQ(msg)
-      ' showVideoPlayer(target.movieID)
+    else if buttonSelectedQ(msg)
+      button = msg.getROSGNode()
+      if button.buttonSelected = 0
+        showVideoPlayer(movie_id)
+      end if
     else
       print msg
       print type(msg)

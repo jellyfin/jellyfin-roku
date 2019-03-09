@@ -18,7 +18,12 @@
         <Label id="director" />
         <Label id="video_codec" />
         <Label id="audio_codec" />
-        <Label id="buttons" />
+        <ButtonGroup id="buttons" layoutDirection="horiz" itemSpacings="[10, 0]">
+          <Button text="Play" />
+          <Button text="Delete" />
+          <Button text="Watched" />
+          <Button text="Favorite" />
+        </ButtonGroup>
         <Label id="tagline" />
         <Label id="overview" />
 
@@ -37,7 +42,7 @@
     main = m.top.findNode("main_group")
     dimensions = m.top.getScene().currentDesignResolution
 
-    m.top.setfocus(true)
+    m.top.findNode("buttons").setFocus(true)
   end sub
   ]]>
   </script>

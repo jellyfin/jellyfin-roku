@@ -10,6 +10,12 @@ sub itemFocusedQ(msg) as boolean
   return type(msg) = "roSGNodeEvent" and msg.getField() = "itemFocused"
 end sub
 
+sub buttonSelectedQ(msg) as boolean
+  ' "Q" stands for "Question mark" since buttonSelected? wasn't acceptable
+  ' Probably needs a better name, but unique for now
+  return type(msg) = "roSGNodeEvent" and msg.getField() = "buttonSelected"
+end sub
+
 sub getMsgRowTarget(msg) as object
   node = msg.getRoSGNode()
   coords = node.rowItemSelected

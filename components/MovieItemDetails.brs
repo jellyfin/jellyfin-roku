@@ -29,7 +29,6 @@ sub itemContentChanged()
   setFieldText("video_codec", "Video: " + itemData.mediaStreams[0].displayTitle)
   setFieldText("audio_codec", "Audio: " + itemData.mediaStreams[1].displayTitle)
   ' TODO - cmon now. these are buttons, not words
-  setFieldText("buttons", "Play, Delete, Watched, Favorite, ...")
   if itemData.taglines.count() > 0
     setFieldText("tagline", itemData.taglines[0])
   end if
