@@ -3,15 +3,11 @@
   <children>
     <Poster id="moviePoster"
       translation="[2, 0]"
-      width="196"
-      height="294"
       />
     <Label id="title"
       horizAlign="center"
-      translation="[0,319]"
-      font="font:MediumSystemFont"
-      width="196"
-      height="65" />
+      font="font:SmallSystemFont"
+      />
   </children>
   <interface>
     <field id="itemContent" type="node" onChange="itemContentChanged"/>
@@ -22,7 +18,15 @@
   sub Init()
     m.title = m.top.findNode("title")
     m.poster = m.top.findNode("moviePoster")
-    m.title.text = "Loading..."
+
+    maxSize = m.top.getParent().itemSize
+
+    m.poster.width = int(maxSize[0]) - 4
+    m.poster.height = m.poster.width * 1.5
+
+    m.title.width = m.poster.width
+    m.title.height = int(maxSize[1]) - m.poster.height
+    m.title.translation = [0, m.poster.height]
   end sub
 
   function itemContentChanged() as void
