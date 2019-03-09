@@ -113,9 +113,13 @@ sub ShowMovieOptions(library_id)
   screen.show()
 
   options = scene.findNode("MovieSelect")
-  options_list = ItemList(library_id)
+  options_list = ItemList(library_id, {"limit": 30,
+    "page": 1,
+    "SortBy": "DateCreated,SortName",
+    "SortOrder": "Descending" })
   options.movieData = options_list
 
+  options.observeField("itemFocused", port)
   options.observeField("itemSelected", port)
 
   while true
@@ -126,6 +130,8 @@ sub ShowMovieOptions(library_id)
       target = getMsgRowTarget(msg)
       ShowMovieDetails(target.movieID)
       'showVideoPlayer(target.movieID)
+    else if itemFocusedQ(msg)
+      print "Selected " + msg.getNode()
     end if
   end while
 end sub
@@ -146,6 +152,9 @@ sub ShowMovieDetails(movie_id)
       return
     else if itemSelectedQ(msg)
       ' showVideoPlayer(target.movieID)
+    else
+      print msg
+      print type(msg)
     end if
   end while
 end sub

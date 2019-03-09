@@ -70,7 +70,7 @@ function getEndTime() as string
     meridian = "PM"
   end if
 
-  return Substitute("{0}:{1} {2}", stri(hours), stri(date.getMinutes()), meridian)
+  return Substitute("{0}:{1} {2}", stri(hours).trim(), stri(date.getMinutes()).trim(), meridian)
 end function
 
 function round(f as Float) as Integer
@@ -86,3 +86,4 @@ function round(f as Float) as Integer
     return n
   end if
 end function
+

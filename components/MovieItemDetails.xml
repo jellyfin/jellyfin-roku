@@ -36,9 +36,9 @@
   sub init()
     main = m.top.findNode("main_group")
     dimensions = m.top.getScene().currentDesignResolution
+
+    m.top.setfocus(true)
   end sub
-
-
   ]]>
   </script>
 </component>

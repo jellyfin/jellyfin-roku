@@ -157,9 +157,16 @@ end function
 ' List items from within a Library
 ' Params: Library ID, Limit, Offset, SortBy, SortOrder, IncludeItemTypes, Fields, EnableImageTypes
 ' Returns { Items, TotalRecordCount }
-function ItemList(library_id=invalid as String)
+function ItemList(library_id=invalid as String, params={})
+  if params["limit"] = invalid
+    params["limit"] = 30
+  end if
+  if params["page"] = invalid
+    params["page"] = 1
+  end if
+  params["parentid"] = library_id
   url = Substitute("Users/{0}/Items/", get_setting("active_user"))
-  resp = APIRequest(url, {"parentid": library_id, "limit": 30})
+  resp = APIRequest(url, params)
   return parseRequest(resp)
 end function
 
