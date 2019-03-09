@@ -9,13 +9,16 @@ function buildURL(path as String, params={} as Object) as string
     param_array = []
     for each field in params.items()
       if type(field.value) = "String" then
-        item = field.key + "=" + req.escape(field.value.trim())
+        'item = field.key + "=" + req.escape(field.value.trim())
+        item = field.key + "=" + field.value.trim()
       else if type(field.value) = "roInteger" then
-        item = field.key + "=" + req.escape(str(field.value).trim())
+        'item = field.key + "=" + req.escape(str(field.value).trim())
+        item = field.key + "=" + str(field.value).trim()
       else if field <> invalid
         req = createObject("roUrlTransfer")  ' Just so we can use it for escape
         ' TODO - find out why sometimes req is empty, despite doing this right here
-        item = field.key + "=" + req.escape(field.value)
+        'item = field.key + "=" + req.escape(field.value)
+        item = field.key + "=" + field.value
       end if
       param_array.push(item)
     end for
