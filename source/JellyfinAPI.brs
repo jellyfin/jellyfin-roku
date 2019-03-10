@@ -5,7 +5,7 @@ function buildURL(path as String, params={} as Object) as string
   ' is trying to call it from a "regular" node
   ' So we'll just avoid using it for now
   ' Sucks that we can't use htmlescape any other way though
-  ' req = createObject("roUrlTransfer")  ' Just so we can use it for escape
+  req = createObject("roUrlTransfer")  ' Just so we can use it for escape
   full_url = get_base_url() + "/emby/" + path
   if params.count() > 0
     full_url = full_url + "?"
@@ -13,14 +13,14 @@ function buildURL(path as String, params={} as Object) as string
     param_array = []
     for each field in params.items()
       if type(field.value) = "String" then
-        'item = field.key + "=" + req.escape(field.value.trim())
-        item = field.key + "=" + field.value.trim()
+        item = field.key + "=" + req.escape(field.value.trim())
+        'item = field.key + "=" + field.value.trim()
       else if type(field.value) = "roInteger" then
-        'item = field.key + "=" + req.escape(str(field.value).trim())
-        item = field.key + "=" + str(field.value).trim()
+        item = field.key + "=" + req.escape(str(field.value).trim())
+        'item = field.key + "=" + str(field.value).trim()
       else if field <> invalid
-        'item = field.key + "=" + req.escape(field.value)
-        item = field.key + "=" + field.value
+        item = field.key + "=" + req.escape(field.value)
+        'item = field.key + "=" + field.value
       end if
       param_array.push(item)
     end for
