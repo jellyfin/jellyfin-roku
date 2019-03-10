@@ -13,11 +13,15 @@
     m.itemText = m.top.findNode("itemText")
     m.itemText.text = "Loading..."
 
+    updateSize()
+  end sub
+
+  sub updateSize()
+    m.itemText = m.top.findNode("itemText")
     maxSize = m.top.getParent().itemSize
     m.itemText.width = maxSize[0]
 
     m.itemText.translation = [0, (maxSize[1] / 2) - 15]
-
   end sub
 
   function itemContentChanged() as void

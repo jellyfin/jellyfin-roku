@@ -12,6 +12,17 @@
     m.top.itemComponentName = "LibItem"
     m.top.content = getData()
 
+    m.top.rowFocusAnimationStyle = "floatingFocus"
+    m.top.vertFocusAnimationStyle = "floatingFocus"
+
+    m.top.showRowLabel = [false]
+
+    updateSize()
+
+    m.top.setfocus(true)
+  end sub
+
+  sub updateSize()
     m.top.numrows = 1
     m.top.rowSize = 5
 
@@ -34,13 +45,6 @@
     m.top.rowItemSize = [ itemWidth, itemHeight ]
     ' spacing between items in a row
     m.top.rowItemSpacing = [ 0, 0 ]
-
-    m.top.rowFocusAnimationStyle = "floatingFocus"
-    m.top.vertFocusAnimationStyle = "floatingFocus"
-
-    m.top.showRowLabel = [false]
-
-    m.top.setfocus(true)
   end sub
 
   function setData()

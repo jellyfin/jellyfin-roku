@@ -4,7 +4,7 @@
     <LayoutGroup id="main_group" layoutDirection="horiz" translation="[50, 50]">
       <Poster id="moviePoster"
         translation="[150,150]"
-        width="196" height="294" />
+        width="400" height="600" />
       <LayoutGroup layoutDirection="vert" translation="[355, 150]" itemSpacings="[0, 10]">
         <Label id="title" />
         <LayoutGroup layoutDirection="horiz" itemSpacings="[10, 0]">

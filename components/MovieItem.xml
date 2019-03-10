@@ -15,10 +15,16 @@
 
   <script type="text/brightscript">
   <![CDATA[
-  sub Init()
+  sub init()
     m.title = m.top.findNode("title")
     m.poster = m.top.findNode("moviePoster")
 
+    updateSize()
+  end sub
+
+  sub updateSize()
+    m.title = m.top.findNode("title")
+    m.poster = m.top.findNode("moviePoster")
     maxSize = m.top.getParent().itemSize
 
     m.poster.width = int(maxSize[0]) - 4
@@ -30,6 +36,8 @@
   end sub
 
   function itemContentChanged() as void
+    updateSize()
+
     ' re-declare this because init doesnt re-run
     ' when we come back from elsewhere
     m.title = m.top.findNode("title")
