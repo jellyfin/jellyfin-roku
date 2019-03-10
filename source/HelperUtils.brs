@@ -1,24 +1,17 @@
-sub itemSelectedQ(msg) as boolean
-  ' "Q" stands for "Question mark" since itemSelected? wasn't acceptable
-  ' Probably needs a better name, but unique for now
-  return type(msg) = "roSGNodeEvent" and msg.getField() = "itemSelected"
-end sub
+' "Q" stands for "Question mark" since nodeEvent? wasn't acceptable
+' Probably needs a better name, but unique for now
+function nodeEventQ(msg, field) as boolean
+  return type(msg) = "roSGNodeEvent" and msg.getField() = field
+end function
 
-sub itemFocusedQ(msg) as boolean
-  ' "Q" stands for "Question mark" since itemSelected? wasn't acceptable
-  ' Probably needs a better name, but unique for now
-  return type(msg) = "roSGNodeEvent" and msg.getField() = "itemFocused"
-end sub
-
-sub buttonSelectedQ(msg) as boolean
-  ' "Q" stands for "Question mark" since buttonSelected? wasn't acceptable
-  ' Probably needs a better name, but unique for now
-  return type(msg) = "roSGNodeEvent" and msg.getField() = "buttonSelected"
-end sub
-
-sub getMsgRowTarget(msg) as object
+function getMsgRowTarget(msg) as object
   node = msg.getRoSGNode()
   coords = node.rowItemSelected
   target = node.content.getChild(coords[0]).getChild(coords[1])
   return target
+end function
+
+sub themeScene(scene)
+  scene.backgroundColor = "#101010"
+  scene.backgroundURI = ""
 end sub

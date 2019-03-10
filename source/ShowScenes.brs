@@ -5,6 +5,7 @@ sub ShowServerSelect()
   scene = screen.CreateScene("ConfigScene")
   screen.show()
 
+  themeScene(scene)
   scene.findNode("prompt").text = "Connect to Serviette"
 
   config = scene.findNode("configOptions")
@@ -42,6 +43,7 @@ sub ShowSignInSelect()
   scene = screen.CreateScene("ConfigScene")
   screen.show()
 
+  themeScene(scene)
   scene.findNode("prompt").text = "Sign In"
 
   config = scene.findNode("configOptions")
@@ -83,6 +85,8 @@ sub ShowLibrarySelect()
 
   screen.show()
 
+  themeScene(scene)
+
   library = scene.findNode("LibrarySelect")
   libs = LibraryList()
   library.libList = libs
@@ -93,7 +97,7 @@ sub ShowLibrarySelect()
     msg = wait(0, port)
     if type(msg) = "roSGScreenEvent" and msg.isScreenClosed() then
       exit while
-    else if itemSelectedQ(msg)
+    else if nodeEventQ(msg, "itemSelected")
       target = getMsgRowTarget(msg)
       if target.libraryType = "movies"
         ShowMovieOptions(target.libraryID)
@@ -112,6 +116,8 @@ sub ShowMovieOptions(library_id)
 
   screen.show()
 
+  themeScene(scene)
+
   options = scene.findNode("MovieSelect")
   options_list = ItemList(library_id, {"limit": 30,
     "page": 1,
@@ -126,11 +132,11 @@ sub ShowMovieOptions(library_id)
     msg = wait(0, port)
     if type(msg) = "roSGScreenEvent" and msg.isScreenClosed() then
       return
-    else if itemSelectedQ(msg)
+    else if nodeEventQ(msg, "itemSelected")
       target = getMsgRowTarget(msg)
       ShowMovieDetails(target.movieID)
       'showVideoPlayer(target.movieID)
-    else if itemFocusedQ(msg)
+    else if nodeEventQ(msg, "itemFocused")
       'print "Selected " + msg.getNode()
     end if
   end while
@@ -144,6 +150,8 @@ sub ShowMovieDetails(movie_id)
 
   screen.show()
 
+  themeScene(scene)
+
   scene.itemJson = ItemMetaData(movie_id)
 
   buttons = scene.findNode("buttons")
@@ -153,7 +161,7 @@ sub ShowMovieDetails(movie_id)
     msg = wait(0, port)
     if type(msg) = "roSGScreenEvent" and msg.isScreenClosed() then
       return
-    else if buttonSelectedQ(msg)
+    else if nodeEventQ(msg, "buttonSelected")
       button = msg.getROSGNode()
       if button.buttonSelected = 0
         showVideoPlayer(movie_id)
@@ -172,6 +180,8 @@ sub showVideoPlayer(id)
   scene = screen.CreateScene("Scene")
 
   screen.show()
+
+  themeScene(scene)
 
   VideoPlayer(scene, id)
 

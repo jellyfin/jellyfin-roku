@@ -13,15 +13,27 @@
     m.top.content = getData()
 
     m.top.numrows = 1
-    m.top.rowSize = 4
+    m.top.rowSize = 5
+
+    dimensions = m.top.getScene().currentDesignResolution
+
+    border = 200
+    m.top.translation = [border, border]
+
+    itemWidth = (dimensions["width"] - border*2) / m.top.rowSize
+    itemHeight = 75
 
     m.top.visible = true
-    m.top.itemSize = [200 * 4 + 20 * 3, 70]
-    m.top.rowHeights = [70]
-    m.top.rowItemSize = [ [200, 70] ]
-    m.top.itemSpacing = [ 0, 70 ]
-    m.top.rowItemSpacing = [ [20, 0] ]
-    m.top.rowLabelOffset = [ [0, 30] ]
+
+    ' size of the whole row
+    m.top.itemSize = [dimensions["width"] - border*2, itemHeight]
+    ' spacing between rows
+    m.top.itemSpacing = [ 0, 10 ]
+
+    ' size of the item in the row
+    m.top.rowItemSize = [ itemWidth, itemHeight ]
+    ' spacing between items in a row
+    m.top.rowItemSpacing = [ 0, 0 ]
 
     m.top.rowFocusAnimationStyle = "floatingFocus"
     m.top.vertFocusAnimationStyle = "floatingFocus"
