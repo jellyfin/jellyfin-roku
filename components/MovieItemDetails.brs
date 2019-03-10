@@ -1,7 +1,7 @@
 sub itemContentChanged()
-  itemData = m.top.itemJson
+  itemData = m.top.itemContent.full_data
 
-  m.top.findNode("moviePoster").uri = ImageURL(itemData.id)
+  m.top.findNode("moviePoster").uri = m.top.itemContent.posterURL
 
   ' Handle all "As Is" fields
   setFieldText("title", itemData.name)
@@ -42,7 +42,7 @@ sub setFieldText(field as string, value)
 end sub
 
 function getRuntime() as Integer
-  itemData = m.top.itemJson
+  itemData = m.top.itemContent.full_data
 
   ' A tick is .1ms, so 1/10,000,000 for ticks to seconds,
   ' then 1/60 for seconds to minutess... 1/600,000,000
@@ -50,7 +50,7 @@ function getRuntime() as Integer
 end function
 
 function getEndTime() as string
-  itemData = m.top.itemJson
+  itemData = m.top.itemContent.full_data
 
   date = CreateObject("roDateTime")
   duration_s = int(itemData.RunTimeTicks / 10000000.0)

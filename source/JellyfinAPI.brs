@@ -1,7 +1,11 @@
 ' Functions for making requests to the API
 
 function buildURL(path as String, params={} as Object) as string
-  req = createObject("roUrlTransfer")  ' Just so we can use it for escape
+  ' roURLTransfer can only be created on a Task Node, and somewhere something
+  ' is trying to call it from a "regular" node
+  ' So we'll just avoid using it for now
+  ' Sucks that we can't use htmlescape any other way though
+  ' req = createObject("roUrlTransfer")  ' Just so we can use it for escape
   full_url = get_base_url() + "/emby/" + path
   if params.count() > 0
     full_url = full_url + "?"
@@ -15,8 +19,6 @@ function buildURL(path as String, params={} as Object) as string
         'item = field.key + "=" + req.escape(str(field.value).trim())
         item = field.key + "=" + str(field.value).trim()
       else if field <> invalid
-        req = createObject("roUrlTransfer")  ' Just so we can use it for escape
-        ' TODO - find out why sometimes req is empty, despite doing this right here
         'item = field.key + "=" + req.escape(field.value)
         item = field.key + "=" + field.value
       end if

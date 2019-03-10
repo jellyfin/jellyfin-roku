@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <component name="MovieItemDetailScene" extends="Scene">
   <children>
-    <LayoutGroup id="main_group" layoutDirection="horiz" translation="[50, 50]">
+    <LayoutGroup id="main_group" layoutDirection="horiz" >
       <Poster id="moviePoster"
         translation="[150,150]"
         width="400" height="600" />
@@ -31,7 +31,7 @@
     </LayoutGroup>
   </children>
   <interface>
-    <field id="itemJson" type="associativearray" onChange="itemContentChanged" />
+    <field id="itemContent" type="node" onChange="itemContentChanged" />
   </interface>
   <script type="text/brightscript" uri="pkg:/source/config.brs" />
   <script type="text/brightscript" uri="pkg:/source/JellyfinAPI.brs" />
@@ -41,6 +41,8 @@
   sub init()
     main = m.top.findNode("main_group")
     dimensions = m.top.getScene().currentDesignResolution
+
+    main.translation=[50, 50]
 
     m.top.findNode("buttons").setFocus(true)
   end sub

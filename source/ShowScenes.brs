@@ -152,7 +152,9 @@ sub ShowMovieDetails(movie_id)
 
   themeScene(scene)
 
-  scene.itemJson = ItemMetaData(movie_id)
+  content = createObject("roSGNode", "MovieItemData")
+  content.full_data = ItemMetaData(movie_id)
+  scene.itemContent = content
 
   buttons = scene.findNode("buttons")
   buttons.observeField("buttonSelected", port)
