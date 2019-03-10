@@ -28,6 +28,7 @@
     m.itemText = m.top.findNode("itemText")
     itemData = m.top.itemContent
     m.itemText.text = itemData.labelText
+    updateSize()
   end function
   ]]>
   </script>
