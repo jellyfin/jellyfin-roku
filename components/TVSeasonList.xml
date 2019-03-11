@@ -8,7 +8,7 @@
   <![CDATA[
   ' TODO - make this not a "row" list
   sub init()
-    m.top.itemComponentName = "TVSeasonItem"
+    m.top.itemComponentName = "ListPoster"
     m.top.content = getData()
 
     'm.top.rowFocusAnimationStyle = "floatingFocus"

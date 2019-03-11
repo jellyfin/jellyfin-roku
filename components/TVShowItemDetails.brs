@@ -35,8 +35,6 @@ sub setSeasons()
   itemData = m.top.itemContent
   row = m.top.findNode("TVSeasonSelect")
 
-  print itemData.seasons
-
   row.TVSeasonData = itemData.seasons
 end sub
 
