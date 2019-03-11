@@ -101,8 +101,10 @@ sub ShowLibrarySelect()
       target = getMsgRowTarget(msg)
       if target.libraryType = "movies"
         ShowMovieOptions(target.libraryID)
+      else if target.libraryType = "tvshows"
+        ShowTVShowOptions(target.libraryID)
       else
-        print "Library type is not yet implemented"
+        print Substitute("Library type {0} is not yet implemented", target.libraryType)
       end if
     end if
   end while
@@ -171,6 +173,40 @@ sub ShowMovieDetails(movie_id)
     else
       print msg
       print type(msg)
+    end if
+  end while
+end sub
+
+sub ShowTVShowOptions(library_id)
+  port = CreateObject("roMessagePort")
+  screen = CreateObject("roSGScreen")
+  screen.setMessagePort(port)
+  scene = screen.CreateScene("TVShows")
+
+  screen.show()
+
+  themeScene(scene)
+
+  options = scene.findNode("TVShowSelect")
+  options_list = ItemList(library_id, {"limit": 30,
+    "page": 1,
+    "SortBy": "DateCreated,SortName",
+    "SortOrder": "Descending" })
+  options.movieData = options_list
+
+  options.observeField("itemFocused", port)
+  options.observeField("itemSelected", port)
+
+  while true
+    msg = wait(0, port)
+    if type(msg) = "roSGScreenEvent" and msg.isScreenClosed() then
+      return
+    else if nodeEventQ(msg, "itemSelected")
+      target = getMsgRowTarget(msg)
+      'ShowShowDetails(target.movieID)
+      'showVideoPlayer(target.movieID)
+    else if nodeEventQ(msg, "itemFocused")
+      'print "Selected " + msg.getNode()
     end if
   end while
 end sub
