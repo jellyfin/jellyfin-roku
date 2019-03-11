@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<component name="TVShowItemData" extends="ContentNode">
+<component name="TVSeasonItemData" extends="ContentNode">
   <interface>
     <field id="title" type="string" />
     <field id="posterUrl" type="string" />
     <field id="showID" type="string" />
     <field id="description" type="string" />
-    <field id="seasons" type="associativearray" />
-    <field id="nextup" type="associativearray" />
     <field id="full_data" type="associativearray" onChange="setFields" />
     <function name="getPoster" />
   </interface>
@@ -20,8 +18,6 @@
     m.top.showID = datum.id
     m.top.posterURL = ImageURL(datum.id)
     m.top.description = datum.overview
-    m.top.seasons = TVSeasons(datum.id)
-    m.top.nextup = TVNext(datum.id)
   end sub
   ]]>
   </script>

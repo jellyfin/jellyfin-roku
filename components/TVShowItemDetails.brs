@@ -27,6 +27,17 @@ sub itemContentChanged()
   if itemData.taglines.count() > 0
     setFieldText("tagline", itemData.taglines[0])
   end if
+
+  setSeasons()
+end sub
+
+sub setSeasons()
+  itemData = m.top.itemContent
+  row = m.top.findNode("TVSeasonSelect")
+
+  print itemData.seasons
+
+  row.TVSeasonData = itemData.seasons
 end sub
 
 sub setFieldText(field as string, value)

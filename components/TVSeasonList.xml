@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<component name="LibraryRow" extends="RowList">
+<component name="TVSeasonRow" extends="RowList">
   <interface>
     <field id="rowSize" type="int" />
-    <field id="libList" type="associativearray" onChange="setData" />
+    <field id="TVSeasonData" type="associativearray" onChange="setData" />
   </interface>
-  <script type="text/brightscript" uri="pkg:/source/config.brs" />
-  <script type="text/brightscript" uri="pkg:/source/JellyfinAPI.brs" />
   <script type="text/brightscript">
   <![CDATA[
+  ' TODO - make this not a "row" list
   sub init()
-    m.top.itemComponentName = "LibItem"
+    m.top.itemComponentName = "TVSeasonItem"
     m.top.content = getData()
 
-    m.top.rowFocusAnimationStyle = "floatingFocus"
-    m.top.vertFocusAnimationStyle = "floatingFocus"
+    'm.top.rowFocusAnimationStyle = "floatingFocus"
+    'm.top.vertFocusAnimationStyle = "floatingFocus"
 
     m.top.showRowLabel = [false]
 
@@ -28,18 +27,20 @@
 
     dimensions = m.top.getScene().currentDesignResolution
 
-    border = 200
+    border = 75
     m.top.translation = [border, border]
 
+    textHeight = 50
+    ' Do we decide width by rowSize, or rowSize by width...
     itemWidth = (dimensions["width"] - border*2) / m.top.rowSize
-    itemHeight = 75
+    itemHeight = itemWidth * 1.5 + textHeight
 
     m.top.visible = true
 
     ' size of the whole row
     m.top.itemSize = [dimensions["width"] - border*2, itemHeight]
     ' spacing between rows
-    m.top.itemSpacing = [ 0, 30 ]
+    m.top.itemSpacing = [ 0, 10 ]
 
     ' size of the item in the row
     m.top.rowItemSize = [ itemWidth, itemHeight ]
@@ -48,10 +49,10 @@
   end sub
 
   function setData()
-    libs = m.top.liblist
+    seasonData = m.top.TVSeasonData
     rowsize = m.top.rowSize
 
-    n = libs.TotalRecordCount
+    n = seasonData.items.count()
 
     ' Test for no remainder
     if int(n/rowsize) = n/rowsize then
@@ -64,26 +65,24 @@
   end function
 
   function getData()
-    if m.top.libList = invalid then
+    if m.top.TVSeasonData = invalid then
       data = CreateObject("roSGNode", "ContentNode")
       return data
     end if
 
-    libs = m.top.libList
+    seasonData = m.top.TVSeasonData
     rowsize = m.top.rowSize
     data = CreateObject("roSGNode", "ContentNode")
     for rownum=1 to m.top.numRows
       row = data.CreateChild("ContentNode")
       for i=1 to rowsize
         index = (rownum - 1) * rowsize + i
-        if index > libs.TotalRecordCount then
+        if index > seasonData.items.count() then
           exit for
         end if
-        datum = libs.Items[index-1]
-        item = row.CreateChild("LibItemData")
-        item.labelText = datum.name
-        item.libraryID = datum.id
-        item.libraryType = datum.CollectionType
+        datum = seasonData.Items[index-1]
+        item = row.CreateChild("TVSeasonItemData")
+        item.full_data = datum
       end for
     end for
     return data

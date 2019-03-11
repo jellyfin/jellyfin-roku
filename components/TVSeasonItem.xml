@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="TVSeasonItem" extends="Group">
+  <children>
+    <Poster id="poster"
+      translation="[2, 0]"
+      />
+    <Label id="title"
+      horizAlign="center"
+      font="font:SmallSystemFont"
+      />
+  </children>
+  <interface>
+    <field id="itemContent" type="node" onChange="itemContentChanged"/>
+  </interface>
+
+  <script type="text/brightscript">
+  <![CDATA[
+  sub init()
+    m.title = m.top.findNode("title")
+    m.poster = m.top.findNode("poster")
+
+    updateSize()
+  end sub
+
+  sub updateSize()
+    m.title = m.top.findNode("title")
+    m.poster = m.top.findNode("poster")
+    maxSize = m.top.getParent().itemSize
+
+    m.poster.width = int(maxSize[0]) - 4
+    m.poster.height = m.poster.width * 1.5
+
+    m.title.width = m.poster.width
+    m.title.height = int(maxSize[1]) - m.poster.height
+    m.title.translation = [0, m.poster.height]
+  end sub
+
+  function itemContentChanged() as void
+    updateSize()
+
+    ' re-declare this because init doesnt re-run
+    ' when we come back from elsewhere
+    m.title = m.top.findNode("title")
+    m.poster = m.top.findNode("poster")
+
+    itemData = m.top.itemContent
+    m.title.text = itemData.title
+    m.poster.uri = itemData.posterUrl
+  end function
+  ]]>
+  </script>
+
+</component>

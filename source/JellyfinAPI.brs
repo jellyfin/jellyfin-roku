@@ -180,3 +180,16 @@ function ItemMetaData(id as String)
   resp = APIRequest(url)
   return parseRequest(resp)
 end function
+
+function TVSeasons(id as String)
+  url = Substitute("Shows/{0}/Seasons", id)
+  resp = APIRequest(url, {"UserId": get_setting("active_user")})
+  return parseRequest(resp)
+end function
+
+
+function TVNext(id as String)
+  url = Substitute("Shows/NextUp", id)
+  resp = APIRequest(url, {"UserId": get_setting("active_user"), "SeriesId": id})
+  return parseRequest(resp)
+end function

@@ -25,6 +25,8 @@
 
       </LayoutGroup>
     </LayoutGroup>
+    <!-- Next Up -->
+    <TVSeasonRow id="TVSeasonSelect" visible="true" translation="[150, 800]" />
   </children>
   <interface>
     <field id="itemContent" type="node" onChange="itemContentChanged" />
