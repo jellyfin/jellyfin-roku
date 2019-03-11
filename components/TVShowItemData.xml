@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="TVShowItemData" extends="ContentNode">
+  <interface>
+    <field id="title" type="string" />
+    <field id="posterUrl" type="string" />
+    <field id="showID" type="string" />
+    <field id="description" type="string" />
+    <field id="full_data" type="associativearray" onChange="setFields" />
+    <function name="getPoster" />
+  </interface>
+  <script type="text/brightscript" uri="pkg:/source/config.brs" />
+  <script type="text/brightscript" uri="pkg:/source/JellyfinAPI.brs" />
+  <script type="text/brightscript">
+  <![CDATA[
+  sub setFields()
+    datum = m.top.full_data
+    m.top.title = datum.name
+    m.top.showID = datum.id
+    m.top.posterURL = ImageURL(datum.id)
+    m.top.description = datum.overview
+  end sub
+  ]]>
+  </script>
+</component>

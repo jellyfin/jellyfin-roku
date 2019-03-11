@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="TVShows" extends="Scene">
+  <children>
+    <MovieRow
+      id="TVShowSelect"
+      visible="true"
+      />
+  </children>
+</component>

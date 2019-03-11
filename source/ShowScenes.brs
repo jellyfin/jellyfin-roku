@@ -203,10 +203,40 @@ sub ShowTVShowOptions(library_id)
       return
     else if nodeEventQ(msg, "itemSelected")
       target = getMsgRowTarget(msg)
-      'ShowShowDetails(target.movieID)
+      ShowTVShowDetails(target.movieID)
       'showVideoPlayer(target.movieID)
     else if nodeEventQ(msg, "itemFocused")
       'print "Selected " + msg.getNode()
+    end if
+  end while
+end sub
+
+sub ShowTVShowDetails(show_id)
+  port = CreateObject("roMessagePort")
+  screen = CreateObject("roSGScreen")
+  screen.setMessagePort(port)
+  scene = screen.CreateScene("TVShowItemDetailScene")
+
+  screen.show()
+
+  themeScene(scene)
+
+  content = createObject("roSGNode", "TVShowItemData")
+  content.full_data = ItemMetaData(show_id)
+  scene.itemContent = content
+
+  'buttons = scene.findNode("buttons")
+  'buttons.observeField("buttonSelected", port)
+
+  while true
+    msg = wait(0, port)
+    if type(msg) = "roSGScreenEvent" and msg.isScreenClosed() then
+      return
+    else if nodeEventQ(msg, "buttonSelected")
+      ' What button could we even be watching yet
+    else
+      print msg
+      print type(msg)
     end if
   end while
 end sub
