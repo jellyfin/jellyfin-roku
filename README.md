@@ -36,14 +36,14 @@ export ROKU_DEV_PASSWORD=<your roku password>
 - [x] Main Landing "Library Select"
 - [x] Library Items List (ie, movie list)
 - [ ] Infinite scroll or paging
-- [ ] Preview "About this Item" movie page
+- [x] Preview "About this Item" movie page
 - [x] Video Player
-- [ ] Sign Out
+- [ ] Sign Out (?)
 
 
 ### ToDo - Additional Scenes for TV Shows
 
-- [ ] Preview "About this Item" season page
+- [x] Preview "About this Item" season page
 - [ ] Library Items List for a season
 - [ ] Preview "About this Item" episode page (?)
 
