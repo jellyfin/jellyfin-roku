@@ -22,7 +22,7 @@
     data = CreateObject("roSGNode", "ContentNode")
 
     for each item in items
-      config = data.CreateChild("ConfigItemData")
+      config = data.CreateChild("ConfigData")
       config.label = item["label"]
       config.value = get_setting(item["field"])
       config.type = item["type"]

@@ -81,7 +81,7 @@
           exit for
         end if
         datum = seasonData.Items[index-1]
-        item = row.CreateChild("TVSeasonItemData")
+        item = row.CreateChild("TVSeasonData")
         item.full_data = datum
       end for
     end for

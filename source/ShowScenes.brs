@@ -154,7 +154,7 @@ sub ShowMovieDetails(movie_id)
 
   themeScene(scene)
 
-  content = createObject("roSGNode", "MovieItemData")
+  content = createObject("roSGNode", "MovieData")
   content.full_data = ItemMetaData(movie_id)
   scene.itemContent = content
 
@@ -221,7 +221,7 @@ sub ShowTVShowDetails(show_id)
 
   themeScene(scene)
 
-  content = createObject("roSGNode", "TVShowItemData")
+  content = createObject("roSGNode", "TVShowData")
   content.full_data = ItemMetaData(show_id)
   scene.itemContent = content
 

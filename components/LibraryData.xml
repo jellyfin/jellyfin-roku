@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<component name="LibItemData" extends="ContentNode">
+<component name="LibraryData" extends="ContentNode">
   <interface>
     <field id="labelText" type="string" />
     <field id="libraryID" type="string" />
