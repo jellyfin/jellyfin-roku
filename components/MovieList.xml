@@ -87,6 +87,18 @@
     end for
     return data
   end function
+
+  function onKeyEvent(key as string, press as boolean) as boolean
+    if not press then return false
+
+    if key = "down" and (m.top.itemFocused + 1) = m.top.content.getChildCount()
+      m.top.getScene().findNode("pager").setFocus(true)
+      m.top.getScene().findNode("pager").getChild(0).setFocus(true)
+      return true
+    end if
+
+    return false
+  end function
   ]]>
   </script>
 </component>

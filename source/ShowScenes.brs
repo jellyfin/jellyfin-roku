@@ -121,25 +121,47 @@ sub ShowMovieOptions(library_id)
   themeScene(scene)
 
   options = scene.findNode("MovieSelect")
-  options_list = ItemList(library_id, {"limit": 30,
-    "page": 1,
+  page_size = 30
+  page_num = 1
+  options_list = ItemList(library_id, {"limit": page_size,
+    "StartIndex": page_size * (page_num - 1),
     "SortBy": "DateCreated,SortName",
     "SortOrder": "Descending" })
   options.movieData = options_list
 
-  options.observeField("itemFocused", port)
   options.observeField("itemSelected", port)
+
+  pager = scene.findNode("pager")
+  pager.currentPage = page_num
+  pager.maxPages = options_list.TotalRecordCount / page_num
+
+  pager.observeField("escape", port)
+  pager.observeField("pageSelected", port)
 
   while true
     msg = wait(0, port)
     if type(msg) = "roSGScreenEvent" and msg.isScreenClosed() then
       return
+    else if nodeEventQ(msg, "escape") and msg.getNode() = "pager"
+      print "STILL LISTENING"
+      options.setFocus(true)
+    else if nodeEventQ(msg, "pageSelected") and pager.pageSelected <> invalid
+      pager.pageSelected = invalid
+      page_num = int(val(msg.getData().id))
+      pager.currentPage = page_num
+      options_list = ItemList(library_id, {"limit": page_size,
+        "StartIndex": page_size * (page_num - 1),
+        "SortBy": "DateCreated,SortName",
+        "SortOrder": "Descending" })
+      options.movieData = options_list
+      options.setFocus(true)
     else if nodeEventQ(msg, "itemSelected")
       target = getMsgRowTarget(msg)
       ShowMovieDetails(target.movieID)
-      'showVideoPlayer(target.movieID)
-    else if nodeEventQ(msg, "itemFocused")
-      'print "Selected " + msg.getNode()
+    else
+      print msg
+      print msg.getField()
+      print msg.getData()
     end if
   end while
 end sub

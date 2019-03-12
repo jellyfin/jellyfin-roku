@@ -99,6 +99,10 @@ function get_token(user as String, password as String)
     return invalid
   end if
 
+  if resp.getString() = ""
+    return invalid
+  end if
+
   json = ParseJson(resp.GetString())
 
   set_setting("active_user", json.User.id)
