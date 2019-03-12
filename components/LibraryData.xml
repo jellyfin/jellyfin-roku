@@ -4,5 +4,6 @@
     <field id="labelText" type="string" />
     <field id="libraryID" type="string" />
     <field id="libraryType" type="string" />
+    <field id="data" type="associativearray" />
   </interface>
 </component>

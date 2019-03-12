@@ -2,5 +2,6 @@
 <component name="Library" extends="Scene">
   <children>
     <LibraryRow id="LibrarySelect" />
+    <Overhang id="overhang" title="Libraries" />
   </children>
 </component>

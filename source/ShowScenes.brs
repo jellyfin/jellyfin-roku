@@ -100,9 +100,9 @@ sub ShowLibrarySelect()
     else if nodeEventQ(msg, "itemSelected")
       target = getMsgRowTarget(msg)
       if target.libraryType = "movies"
-        ShowMovieOptions(target.libraryID)
+        ShowMovieOptions(target.data)
       else if target.libraryType = "tvshows"
-        ShowTVShowOptions(target.libraryID)
+        ShowTVShowOptions(target.data)
       else
         print Substitute("Library type {0} is not yet implemented", target.libraryType)
       end if
@@ -110,7 +110,8 @@ sub ShowLibrarySelect()
   end while
 end sub
 
-sub ShowMovieOptions(library_id)
+sub ShowMovieOptions(library)
+  library_id = library.id
   port = CreateObject("roMessagePort")
   screen = CreateObject("roSGScreen")
   screen.setMessagePort(port)
@@ -118,9 +119,13 @@ sub ShowMovieOptions(library_id)
 
   screen.show()
 
+  overhang = scene.findNode("overhang")
+  overhang.title = library.name
+
   themeScene(scene)
 
   options = scene.findNode("MovieSelect")
+  options.library = library
   page_size = 30
   page_num = 1
   options_list = ItemList(library_id, {"limit": page_size,
@@ -199,13 +204,17 @@ sub ShowMovieDetails(movie_id)
   end while
 end sub
 
-sub ShowTVShowOptions(library_id)
+sub ShowTVShowOptions(library)
+  library_id = library.ID
   port = CreateObject("roMessagePort")
   screen = CreateObject("roSGScreen")
   screen.setMessagePort(port)
   scene = screen.CreateScene("TVShows")
 
   screen.show()
+
+  overhang = scene.findNode("overhang")
+  overhang.title = library.name
 
   themeScene(scene)
 

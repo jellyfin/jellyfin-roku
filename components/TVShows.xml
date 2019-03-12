@@ -5,5 +5,9 @@
       id="TVShowSelect"
       visible="true"
       />
+    <Overhang
+      id="overhang"
+      title="TV Shows"
+      />
   </children>
 </component>

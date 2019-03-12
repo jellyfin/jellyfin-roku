@@ -27,7 +27,7 @@
     dimensions = m.top.getScene().currentDesignResolution
 
     border = 200
-    m.top.translation = [border, border]
+    m.top.translation = [border, border + 115]
 
     itemWidth = (dimensions["width"] - border*2) / m.top.rowSize
     itemHeight = 75
@@ -82,6 +82,7 @@
         item.labelText = datum.name
         item.libraryID = datum.id
         item.libraryType = datum.CollectionType
+        item.data = datum
       end for
     end for
     return data

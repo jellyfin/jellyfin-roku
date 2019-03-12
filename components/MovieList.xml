@@ -3,13 +3,13 @@
   <interface>
     <field id="rowSize" type="int" />
     <field id="movieData" type="associativearray" onChange="setData" />
+    <field id="library" type="associativearray" />
   </interface>
   <script type="text/brightscript">
   <![CDATA[
   sub init()
     m.top.itemComponentName = "ListPoster"
     m.top.content = getData()
-
 
     m.top.rowFocusAnimationStyle = "floatingFocus"
     'm.top.vertFocusAnimationStyle = "floatingFocus"
@@ -28,7 +28,7 @@
     dimensions = m.top.getScene().currentDesignResolution
 
     border = 75
-    m.top.translation = [border, border]
+    m.top.translation = [border, border + 115]
 
     textHeight = 50
     ' Do we decide width by rowSize, or rowSize by width...
