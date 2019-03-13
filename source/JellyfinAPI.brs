@@ -6,6 +6,12 @@ function buildURL(path as String, params={} as Object) as string
   ' So we'll just avoid using it for now
   ' Sucks that we can't use htmlescape any other way though
   req = createObject("roUrlTransfer")  ' Just so we can use it for escape
+
+  if req = invalid
+    print "How is this even!?"
+    return ""
+  end if
+
   full_url = get_base_url() + "/emby/" + path
   if params.count() > 0
     full_url = full_url + "?"

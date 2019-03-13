@@ -25,8 +25,10 @@ end function
 
 
 ' "Jellyfin" registry accessors for the default global settings
-function get_setting(key)
-  return registry_read(key, "Jellyfin")
+function get_setting(key, default=invalid)
+  value = registry_read(key, "Jellyfin")
+  if value = invalid return default
+  return value
 end function
 
 function set_setting(key, value)
@@ -39,9 +41,11 @@ end function
 
 
 ' User registry accessors for the currently active user
-function get_user_setting(key)
-  if get_setting("active_user") = invalid then return invalid
-  return registry_read(key, get_setting("active_user"))
+function get_user_setting(key, default=invalid)
+  if get_setting("active_user") = invalid then return default
+  value = registry_read(key, get_setting("active_user"))
+  if value = invalid return default
+  return value
 end function
 
 function set_user_setting(key, value)

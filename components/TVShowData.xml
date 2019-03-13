@@ -20,8 +20,8 @@
     m.top.showID = datum.id
     m.top.posterURL = ImageURL(datum.id)
     m.top.description = datum.overview
-    m.top.seasons = TVSeasons(datum.id)
-    m.top.nextup = TVNext(datum.id)
+    'm.top.seasons = TVSeasons(datum.id)
+    'm.top.nextup = TVNext(datum.id)
   end sub
   ]]>
   </script>

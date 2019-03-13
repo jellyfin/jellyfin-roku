@@ -126,19 +126,25 @@ sub ShowMovieOptions(library)
 
   options = scene.findNode("MovieSelect")
   options.library = library
-  page_size = 30
+
   page_num = 1
+  page_size = 30
+
+  sort_order = get_user_setting("movie_sort_order", "Descending")
+  sort_field = get_user_setting("movie_sort_field", "DateCreated,SortName")
+
   options_list = ItemList(library_id, {"limit": page_size,
     "StartIndex": page_size * (page_num - 1),
-    "SortBy": "DateCreated,SortName",
-    "SortOrder": "Descending" })
+    "SortBy": sort_field,
+    "SortOrder": sort_order })
   options.movieData = options_list
 
   options.observeField("itemSelected", port)
 
   pager = scene.findNode("pager")
   pager.currentPage = page_num
-  pager.maxPages = options_list.TotalRecordCount / page_num
+  pager.maxPages = options_list.TotalRecordCount / page_size
+  if pager.maxPages = 0 then pager.maxPages = 1
 
   pager.observeField("escape", port)
   pager.observeField("pageSelected", port)
@@ -148,7 +154,6 @@ sub ShowMovieOptions(library)
     if type(msg) = "roSGScreenEvent" and msg.isScreenClosed() then
       return
     else if nodeEventQ(msg, "escape") and msg.getNode() = "pager"
-      print "STILL LISTENING"
       options.setFocus(true)
     else if nodeEventQ(msg, "pageSelected") and pager.pageSelected <> invalid
       pager.pageSelected = invalid
@@ -156,8 +161,8 @@ sub ShowMovieOptions(library)
       pager.currentPage = page_num
       options_list = ItemList(library_id, {"limit": page_size,
         "StartIndex": page_size * (page_num - 1),
-        "SortBy": "DateCreated,SortName",
-        "SortOrder": "Descending" })
+        "SortBy": sort_order,
+        "SortOrder": sort_field })
       options.movieData = options_list
       options.setFocus(true)
     else if nodeEventQ(msg, "itemSelected")
@@ -219,25 +224,49 @@ sub ShowTVShowOptions(library)
   themeScene(scene)
 
   options = scene.findNode("TVShowSelect")
-  options_list = ItemList(library_id, {"limit": 30,
-    "page": 1,
-    "SortBy": "DateCreated,SortName",
-    "SortOrder": "Descending" })
-  options.movieData = options_list
+  options.library = library
 
-  options.observeField("itemFocused", port)
+  page_num = 1
+  page_size = 30
+
+  sort_order = get_user_setting("tvshow_sort_order", "Descending")
+  sort_field = get_user_setting("tvshow_sort_field", "DateCreated,SortName")
+
+  options_list = ItemList(library_id, {"limit": page_size,
+    "page": page_num,
+    "SortBy": sort_field,
+    "SortOrder": sort_order })
+  options.TVShowData = options_list
+
   options.observeField("itemSelected", port)
+
+  pager = scene.findNode("pager")
+  pager.currentPage = page_num
+  pager.maxPages = options_list.TotalRecordCount / page_size
+  if pager.maxPages = 0 then pager.maxPages = 1
+
+  pager.observeField("escape", port)
+  pager.observeField("pageSelected", port)
 
   while true
     msg = wait(0, port)
-    if type(msg) = "roSGScreenEvent" and msg.isScreenClosed() then
+    if nodeEventQ(msg, "escape") and msg.getNode() = "pager"
+      options.setFocus(true)
+    else if nodeEventQ(msg, "pageSelected") and pager.pageSelected <> invalid
+      pager.pageSelected = invalid
+      page_num = int(val(msg.getData().id))
+      pager.currentPage = page_num
+      options_list = ItemList(library_id, {"limit": page_size,
+        "StartIndex": page_size * (page_num - 1),
+        "SortBy": sort_field,
+        "SortOrder": sort_order })
+      options.TVShowData = options_list
+      options.setFocus(true)
+    else if type(msg) = "roSGScreenEvent" and msg.isScreenClosed() then
       return
     else if nodeEventQ(msg, "itemSelected")
       target = getMsgRowTarget(msg)
-      ShowTVShowDetails(target.movieID)
-      'showVideoPlayer(target.movieID)
-    else if nodeEventQ(msg, "itemFocused")
-      'print "Selected " + msg.getNode()
+      ShowTVShowDetails(target.showID)
     end if
   end while
 end sub
