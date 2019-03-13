@@ -203,7 +203,13 @@ sub ShowMovieDetails(movie_id)
       if button.buttonSelected = 0
         showVideoPlayer(movie_id)
       else if button.buttonSelected = 3
-        content.callfunc("favorite_toggle")
+        if content.favorite
+          UnmarkItemFavorite(movie_id)
+        else
+          MarkItemFavorite(movie_id)
+        end if
+        content.favorite = not content.favorite
+        'content.callfunc("favorite_toggle")
       end if
     else
       print msg

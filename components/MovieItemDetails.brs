@@ -32,6 +32,8 @@ sub itemContentChanged()
   if itemData.taglines.count() > 0
     setFieldText("tagline", itemData.taglines[0])
   end if
+  setFavoriteColor()
+  m.top.itemContent.observeField("favorite", "setFavoriteColor")
 end sub
 
 sub setFieldText(field as string, value)
@@ -71,6 +73,19 @@ function getEndTime() as string
 
   return Substitute("{0}:{1} {2}", stri(hours).trim(), stri(date.getMinutes()).trim(), meridian)
 end function
+
+sub setFavoriteColor()
+  fave = m.top.itemContent.favorite
+  fave_button = m.top.findNode("buttons").getChild(3)
+  if fave
+    fave_button.textColor = "#00ff00ff"
+    fave_button.focusedTextColor = "#269926ff"
+  else
+    fave_button.textColor = "0xddddddff"
+    fave_button.focusedTextColor = "#262626ff"
+  end if
+
+end sub
 
 function round(f as Float) as Integer
   ' BrightScript only has a "floor" round
