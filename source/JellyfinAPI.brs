@@ -198,24 +198,40 @@ function ItemList(library_id=invalid as String, params={})
   params["parentid"] = library_id
   url = Substitute("Users/{0}/Items/", get_setting("active_user"))
   resp = APIRequest(url, params)
-  return getJson(resp)
+  data = getJson(resp)
+  for each item in data.Items
+    item.posterURL = ImageURL(item.id)
+  end for
+  return data
 end function
 
 function ItemMetaData(id as String)
   url = Substitute("Users/{0}/Items/{1}", get_setting("active_user"), id)
   resp = APIRequest(url)
-  return getJson(resp)
+  data = getJson(resp)
+  data.posterURL = ImageURL(data.id)
+  return data
 end function
 
 function TVSeasons(id as String)
   url = Substitute("Shows/{0}/Seasons", id)
   resp = APIRequest(url, {"UserId": get_setting("active_user")})
-  return getJson(resp)
+
+  data = getJson(resp)
+  for each item in data.Items
+    item.posterURL = ImageURL(item.id)
+  end for
+  return data
 end function
 
 
 function TVNext(id as String)
   url = Substitute("Shows/NextUp", id)
   resp = APIRequest(url, {"UserId": get_setting("active_user"), "SeriesId": id})
-  return getJson(resp)
+
+  data = getJson(resp)
+  for each item in data.Items
+    item.posterURL = ImageURL(item.id)
+  end for
+  return data
 end function

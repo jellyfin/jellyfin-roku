@@ -8,15 +8,17 @@
     <field id="full_data" type="associativearray" onChange="setFields" />
     <function name="getPoster" />
   </interface>
-  <script type="text/brightscript" uri="pkg:/source/config.brs" />
-  <script type="text/brightscript" uri="pkg:/source/JellyfinAPI.brs" />
   <script type="text/brightscript">
   <![CDATA[
   sub setFields()
     datum = m.top.full_data
     m.top.title = datum.name
     m.top.showID = datum.id
-    m.top.posterURL = ImageURL(datum.id)
+    if datum.posterURL <> invalid
+      m.top.posterURL = datum.posterURL
+    else
+      ""
+    end if
     m.top.description = datum.overview
   end sub
   ]]>

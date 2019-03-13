@@ -293,6 +293,8 @@ sub ShowTVShowDetails(show_id)
   content = createObject("roSGNode", "TVShowData")
   content.full_data = ItemMetaData(show_id)
   scene.itemContent = content
+  x = TVSeasons(show_id)
+  scene.itemContent.seasons = TVSeasons(show_id)
 
   'buttons = scene.findNode("buttons")
   'buttons.observeField("buttonSelected", port)
