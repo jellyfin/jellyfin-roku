@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <component name="Movies" extends="Scene">
   <children>
-    <Pager id="pager" />
     <MovieRow
       id="MovieSelect"
       visible="true"
@@ -10,5 +9,7 @@
       id="overhang"
       title="Movies"
       />
+    <Rectangle id="footBackdrop" />
+    <Pager id="pager" />
   </children>
 </component>

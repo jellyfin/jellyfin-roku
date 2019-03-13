@@ -57,7 +57,8 @@
   sub updateLayout()
     dimensions = m.top.getScene().currentDesignResolution
     width = m.top.getChildCount() * 50
-    m.top.translation = [(dimensions.width - width) / 2, dimensions.height - 200]
+
+    m.top.translation = [(dimensions.width - width) / 2, dimensions.height - 83]
   end sub
 
   sub addPage(i)

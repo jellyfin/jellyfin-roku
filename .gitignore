@@ -1,3 +1,5 @@
 *.svg
+images/*.png
+images/*.jpg
 jellyfin-roku.zip
 source/globals.brs

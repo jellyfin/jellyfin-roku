@@ -12,6 +12,21 @@ function getMsgRowTarget(msg) as object
 end function
 
 sub themeScene(scene)
+  dimensions = scene.currentDesignResolution
   scene.backgroundColor = "#101010"
   scene.backgroundURI = ""
+
+  footer_background = scene.findNode("footerBackdrop")
+  if footer_background <> invalid
+    footer_background.color = scene.backgroundColor
+    footer_background.width = dimensions.width
+    footer_background.height = 115
+    footer_background.translation = [0, dimensions.height - 115]
+  end if
+
+  overhang = scene.findNode("overhang")
+  if overhang <> invalid
+    overhang.logoUri = "pkg:/images/logo.png"
+  end if
+
 end sub

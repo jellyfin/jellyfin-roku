@@ -18,6 +18,9 @@ convert -background "#000b25" -gravity center -scale 350x350 -extent 540x405 $IC
 convert -background "#000b25" -gravity center -scale 190x190 -extent 290x218 $ICON_SOURCE $OUTPUT_DIR/channel-poster_hd.png
 convert -background "#000b25" -gravity center -scale 140x140 -extent 214x144 $ICON_SOURCE $OUTPUT_DIR/channel-poster_sd.png
 
+# Overhang icon
+convert -background none -gravity center -scale 1000x48 -extent 180x48 $BANNER_SOURCE $OUTPUT_DIR/logo.png
+
 # Splash screens
 convert -background "#000b25" -gravity center -scale 540x540 -extent 1920x1080 $BANNER_SOURCE $OUTPUT_DIR/splash-screen_fhd.jpg
 convert -background "#000b25" -gravity center -scale 360x360 -extent 1280x720 $BANNER_SOURCE $OUTPUT_DIR/splash-screen_hd.jpg
