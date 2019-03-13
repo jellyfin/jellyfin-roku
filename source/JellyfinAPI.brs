@@ -52,10 +52,37 @@ function APIRequest(url as String, params={} as Object)
   return req
 end function
 
-function parseRequest(req)
+function getJson(req)
   'req.retainBodyOnError(True)
   'print req.GetToString()
   json = ParseJson(req.GetToString())
+  return json
+end function
+
+function postVoid(req, data="" as string)
+  status = req.PostFromString(data)
+  if status = 200
+    return true
+  else
+    return false
+  end if
+end function
+
+function postJson(req, data="" as string)
+  req.setMessagePort(CreateObject("roMessagePort"))
+  req.AsyncPostFromString(data)
+
+  resp = wait(5000, req.GetMessagePort())
+  if type(resp) <> "roUrlEvent"
+    return invalid
+  end if
+
+  if resp.getString() = ""
+    return invalid
+  end if
+
+  json = ParseJson(resp.GetString())
+
   return json
 end function
 
@@ -96,20 +123,9 @@ function get_token(user as String, password as String)
 
   req = APIRequest(url)
 
-  ' BrightScript will only return a POST body if you call post asynch
-  ' and then wait for the response
-  req.setMessagePort(CreateObject("roMessagePort"))
-  req.AsyncPostFromString("Username=" + user + "&Password=" + hashed_pass)
-  resp = wait(5000, req.GetMessagePort())
-  if type(resp) <> "roUrlEvent"
-    return invalid
-  end if
+  json = postJson(req, "Username=" + user + "&Password=" + hashed_pass)
 
-  if resp.getString() = ""
-    return invalid
-  end if
-
-  json = ParseJson(resp.GetString())
+  if json = invalid then return invalid
 
   set_setting("active_user", json.User.id)
   set_user_setting("id", json.User.id)  ' redundant, but could come in handy
@@ -141,7 +157,7 @@ end function
 function AboutMe()
   url = Substitute("Users/{0}", get_setting("active_user"))
   resp = APIRequest(url)
-  return parseRequest(resp)
+  return getJson(resp)
 end function
 
 function ImageURL(id)
@@ -158,7 +174,7 @@ end function
 function LibraryList()
   url = Substitute("Users/{0}/Views/", get_setting("active_user"))
   resp = APIRequest(url)
-  return parseRequest(resp)
+  return getJson(resp)
 end function
 
 ' Search for a string
@@ -166,7 +182,7 @@ end function
 ' Returns: { SearchHints, TotalRecordCount }
 function SearchMedia(query as String)
   resp = APIRequest("Search/Hints", {"searchTerm": query})
-  return parseRequest(resp)
+  return getJson(resp)
 end function
 
 ' List items from within a Library
@@ -182,24 +198,24 @@ function ItemList(library_id=invalid as String, params={})
   params["parentid"] = library_id
   url = Substitute("Users/{0}/Items/", get_setting("active_user"))
   resp = APIRequest(url, params)
-  return parseRequest(resp)
+  return getJson(resp)
 end function
 
 function ItemMetaData(id as String)
   url = Substitute("Users/{0}/Items/{1}", get_setting("active_user"), id)
   resp = APIRequest(url)
-  return parseRequest(resp)
+  return getJson(resp)
 end function
 
 function TVSeasons(id as String)
   url = Substitute("Shows/{0}/Seasons", id)
   resp = APIRequest(url, {"UserId": get_setting("active_user")})
-  return parseRequest(resp)
+  return getJson(resp)
 end function
 
 
 function TVNext(id as String)
   url = Substitute("Shows/NextUp", id)
   resp = APIRequest(url, {"UserId": get_setting("active_user"), "SeriesId": id})
-  return parseRequest(resp)
+  return getJson(resp)
 end function
