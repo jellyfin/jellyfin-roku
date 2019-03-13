@@ -5,11 +5,13 @@
     <field id="posterUrl" type="string" />
     <field id="movieID" type="string" />
     <field id="description" type="string" />
+    <field id="favorite" type="boolean" />
     <field id="full_data" type="associativearray" onChange="setFields" />
-    <function name="getPoster" />
+    <function name="favorite_toggle" />
   </interface>
   <script type="text/brightscript" uri="pkg:/source/config.brs" />
   <script type="text/brightscript" uri="pkg:/source/JellyfinAPI.brs" />
+  <script type="text/brightscript" uri="pkg:/source/api_userlibrary.brs" />
   <script type="text/brightscript">
   <![CDATA[
   sub setFields()
@@ -18,6 +20,17 @@
     m.top.movieID = datum.id
     m.top.posterURL = ImageURL(datum.id)
     m.top.description = datum.overview
+    m.top.favorite = datum.UserData.isFavorite
+  end sub
+
+  sub favorite_toggle()
+    if m.top.favorite
+      UnmarkItemFavorite(m.top.full_data.id)
+    else
+      MarkItemFavorite(m.top.full_data.id)
+    end if
+    m.top.favorite = not m.top.favorite
+
   end sub
   ]]>
   </script>
