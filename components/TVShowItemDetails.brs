@@ -33,6 +33,7 @@ end sub
 
 sub setSeasons()
   itemData = m.top.itemContent
+  itemData.callFunc("loadSeasons")
   row = m.top.findNode("TVSeasonSelect")
 
   row.TVSeasonData = itemData.seasons

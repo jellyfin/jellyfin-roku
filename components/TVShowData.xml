@@ -8,7 +8,7 @@
     <field id="seasons" type="associativearray" />
     <field id="nextup" type="associativearray" />
     <field id="full_data" type="associativearray" onChange="setFields" />
-    <function name="getPoster" />
+    <function name="loadSeasons" />
   </interface>
   <script type="text/brightscript" uri="pkg:/source/config.brs" />
   <script type="text/brightscript" uri="pkg:/source/JellyfinAPI.brs" />
@@ -23,6 +23,12 @@
     'm.top.seasons = TVSeasons(datum.id)
     'm.top.nextup = TVNext(datum.id)
   end sub
+
+  sub loadSeasons()
+    datum = m.top.full_data
+    m.top.seasons = TVSeasons(datum.id)
+  end sub
+
   ]]>
   </script>
 </component>

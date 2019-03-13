@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <component name="TVShows" extends="Scene">
   <children>
-    <Pager id="pager" />
     <TVShowRow
       id="TVShowSelect"
       visible="true"
@@ -10,5 +9,7 @@
       id="overhang"
       title="TV Shows"
       />
+    <Rectangle id="footerBackdrop" />
+    <Pager id="pager" />
   </children>
 </component>

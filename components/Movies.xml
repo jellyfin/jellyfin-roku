@@ -9,7 +9,7 @@
       id="overhang"
       title="Movies"
       />
-    <Rectangle id="footBackdrop" />
+    <Rectangle id="footerBackdrop" />
     <Pager id="pager" />
   </children>
 </component>
