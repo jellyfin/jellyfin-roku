@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="TVSeasonRow" extends="RowList">
+  <interface>
+    <field id="rowSize" type="int" />
+    <field id="TVSeasonData" type="associativearray" onChange="setData" />
+  </interface>
+  <script type="text/brightscript">
+  <![CDATA[
+  ' TODO - make this not a "row" list
+  sub init()
+    m.top.itemComponentName = "ListPoster"
+    m.top.content = getData()
+
+    'm.top.rowFocusAnimationStyle = "floatingFocus"
+    'm.top.vertFocusAnimationStyle = "floatingFocus"
+
+    m.top.showRowLabel = [false]
+
+    updateSize()
+
+    m.top.setfocus(true)
+  end sub
+
+  sub updateSize()
+    m.top.numrows = 1
+    m.top.rowSize = 5
+
+    dimensions = m.top.getScene().currentDesignResolution
+
+    border = 75
+    m.top.translation = [border, border]
+
+    textHeight = 50
+    ' Do we decide width by rowSize, or rowSize by width...
+    itemWidth = (dimensions["width"] - border*2) / m.top.rowSize
+    itemHeight = itemWidth * 1.5 + textHeight
+
+    m.top.visible = true
+
+    ' size of the whole row
+    m.top.itemSize = [dimensions["width"] - border*2, itemHeight]
+    ' spacing between rows
+    m.top.itemSpacing = [ 0, 10 ]
+
+    ' size of the item in the row
+    m.top.rowItemSize = [ itemWidth, itemHeight ]
+    ' spacing between items in a row
+    m.top.rowItemSpacing = [ 0, 0 ]
+  end sub
+
+  function setData()
+    seasonData = m.top.TVSeasonData
+    rowsize = m.top.rowSize
+
+    n = seasonData.items.count()
+
+    ' Test for no remainder
+    if int(n/rowsize) = n/rowsize then
+      m.top.numRows = n/rowsize
+    else
+      m.top.numRows = n/rowsize + 1
+    end if
+
+    m.top.content = getData()
+  end function
+
+  function getData()
+    if m.top.TVSeasonData = invalid then
+      data = CreateObject("roSGNode", "ContentNode")
+      return data
+    end if
+
+    seasonData = m.top.TVSeasonData
+    rowsize = m.top.rowSize
+    data = CreateObject("roSGNode", "ContentNode")
+    for rownum=1 to m.top.numRows
+      row = data.CreateChild("ContentNode")
+      for i=1 to rowsize
+        index = (rownum - 1) * rowsize + i
+        if index > seasonData.items.count() then
+          exit for
+        end if
+        datum = seasonData.Items[index-1]
+        item = row.CreateChild("TVSeasonData")
+        item.full_data = datum
+      end for
+    end for
+    return data
+  end function
+  ]]>
+  </script>
+</component>

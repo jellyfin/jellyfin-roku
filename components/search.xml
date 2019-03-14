@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="SearchBox" extends="LayoutGroup">
+  <children>
+    <Label text="Search" />
+    <TextEditBox id="search-input" />
+  </children>
+  <script type="text/brightscript">
+  <![CDATA[
+  sub init()
+    m.top.layoutDirection = "vert"
+    dimensions = m.top.getScene().currentDesignResolution
+    m.top.translation = [dimensions.width / 2, 880]
+    m.top.horizAlignment = "center"
+    m.top.vertAlignment = "top"
+  end sub
+
+  ]]>
+  </script>
+</component>

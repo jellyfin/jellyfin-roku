@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="MovieItemDetailScene" extends="Scene">
+  <children>
+    <LayoutGroup id="main_group" layoutDirection="horiz" >
+      <Poster id="moviePoster"
+        translation="[150,150]"
+        width="400" height="600" />
+      <LayoutGroup layoutDirection="vert" translation="[355, 150]" itemSpacings="[25]">
+        <Label id="title" font="font:LargeBoldSystemFont" />
+        <LayoutGroup layoutDirection="horiz" itemSpacings="[150]">
+          <Label id="releaseYear" />
+          <Label id="runtime" />
+          <Label id="officialRating" />
+          <Label id="communityRating" />
+          <Label id="ends-at" />
+        </LayoutGroup>
+        <Label id="genres" />
+        <Label id="director" />
+        <Label id="video_codec" />
+        <Label id="audio_codec" />
+        <ButtonGroupHoriz id="buttons" itemSpacings="[10]">
+          <Button text="Play" id="play-button" />
+          <Button text="Watched" id="watched-button" />
+          <Button text="Favorite" id="favorite-button" />
+        </ButtonGroupHoriz>
+        <Label id="tagline" />
+        <Label id="overview" />
+
+      </LayoutGroup>
+    </LayoutGroup>
+  </children>
+  <interface>
+    <field id="itemContent" type="node" onChange="itemContentChanged" />
+  </interface>
+  <script type="text/brightscript" uri="pkg:/components/movies/details.brs" />
+  <script type="text/brightscript">
+  <![CDATA[
+  sub init()
+    main = m.top.findNode("main_group")
+    dimensions = m.top.getScene().currentDesignResolution
+
+    main.translation=[50, 50]
+
+    m.top.findNode("buttons").setFocus(true)
+  end sub
+  ]]>
+  </script>
+</component>

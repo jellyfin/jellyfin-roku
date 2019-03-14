@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="Movies" extends="Scene">
+  <children>
+    <MovieRow
+      id="MovieSelect"
+      visible="true"
+      />
+    <Overhang
+      id="overhang"
+      title="Movies"
+      />
+    <Rectangle id="footerBackdrop" />
+    <Pager id="pager" />
+  </children>
+</component>

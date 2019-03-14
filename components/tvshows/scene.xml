@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="TVShows" extends="Scene">
+  <children>
+    <TVShowRow
+      id="TVShowSelect"
+      visible="true"
+      />
+    <Overhang
+      id="overhang"
+      title="TV Shows"
+      />
+    <Rectangle id="footerBackdrop" />
+    <Pager id="pager" />
+  </children>
+</component>

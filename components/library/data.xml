@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="LibraryData" extends="ContentNode">
+  <interface>
+    <field id="labelText" type="string" />
+    <field id="libraryID" type="string" />
+    <field id="libraryType" type="string" />
+    <field id="data" type="associativearray" />
+  </interface>
+</component>
