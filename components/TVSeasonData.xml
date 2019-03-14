@@ -17,7 +17,7 @@
     if datum.posterURL <> invalid
       m.top.posterURL = datum.posterURL
     else
-      ""
+      m.top.posterURL = ""
     end if
     m.top.description = datum.overview
   end sub

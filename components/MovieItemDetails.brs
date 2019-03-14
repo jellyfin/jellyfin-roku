@@ -33,7 +33,7 @@ sub itemContentChanged()
     setFieldText("tagline", itemData.taglines[0])
   end if
   setFavoriteColor()
-  m.top.itemContent.observeField("favorite", "setFavoriteColor")
+  setWatchedColor()
 end sub
 
 sub setFieldText(field as string, value)
@@ -84,7 +84,18 @@ sub setFavoriteColor()
     fave_button.textColor = "0xddddddff"
     fave_button.focusedTextColor = "#262626ff"
   end if
+end sub
 
+sub setWatchedColor()
+  watched = m.top.itemContent.watched
+  watched_button = m.top.findNode("buttons").getChild(2)
+  if watched
+    watched_button.textColor = "#ff0000ff"
+    watched_button.focusedTextColor = "#992626ff"
+  else
+    watched_button.textColor = "0xddddddff"
+    watched_button.focusedTextColor = "#262626ff"
+  end if
 end sub
 
 function round(f as Float) as Integer

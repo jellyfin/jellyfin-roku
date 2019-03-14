@@ -28,5 +28,11 @@ sub themeScene(scene)
   if overhang <> invalid
     overhang.logoUri = "pkg:/images/logo.png"
   end if
-
 end sub
+
+function leftPad(base as string, fill as string, length as integer) as string
+  while len(base) < length
+    base = fill + base
+  end while
+  return base
+end function

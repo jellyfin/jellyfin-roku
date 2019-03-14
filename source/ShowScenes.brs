@@ -200,16 +200,22 @@ sub ShowMovieDetails(movie_id)
     else if nodeEventQ(msg, "buttonSelected")
       button = msg.getROSGNode()
       ' TODO - a better way to verify buttonSelected is in fact "play", etc
-      if button.buttonSelected = 0
+      if button.buttonSelected = 0  ' Play
         showVideoPlayer(movie_id)
-      else if button.buttonSelected = 3
+      else if button.buttonSelected = 2  ' Watched
+        if content.watched
+          UnmarkItemWatched(movie_id)
+        else
+          MarkItemWatched(movie_id)
+        end if
+        content.watched = not content.watched
+      else if button.buttonSelected = 3  ' Favorite
         if content.favorite
           UnmarkItemFavorite(movie_id)
         else
           MarkItemFavorite(movie_id)
         end if
         content.favorite = not content.favorite
-        'content.callfunc("favorite_toggle")
       end if
     else
       print msg

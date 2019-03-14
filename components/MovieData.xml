@@ -6,6 +6,7 @@
     <field id="movieID" type="string" />
     <field id="description" type="string" />
     <field id="favorite" type="boolean" />
+    <field id="watched" type="boolean" />
     <field id="seasons" type="associativearray" />
     <field id="full_data" type="associativearray" onChange="setFields" />
     <function name="favorite_toggle" />
@@ -23,6 +24,7 @@
     end if
     m.top.description = datum.overview
     m.top.favorite = datum.UserData.isFavorite
+    m.top.watched = datum.UserData.played
   end sub
   ]]>
   </script>
