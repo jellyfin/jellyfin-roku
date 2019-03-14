@@ -2,8 +2,11 @@
 <component name="SearchBox" extends="LayoutGroup">
   <children>
     <Label text="Search" />
-    <TextEditBox id="search-input" />
+    <TextEditBox id="search-input" width="800" maxTextLength="75" />
   </children>
+  <interface>
+    <field id="escape" type="boolean" alwaysNotify="true" />
+  </interface>
   <script type="text/brightscript">
   <![CDATA[
   sub init()
@@ -14,6 +17,20 @@
     m.top.vertAlignment = "top"
   end sub
 
+  function onKeyEvent(key as string, press as boolean) as boolean
+    if not press then return false
+
+    if key = "OK"
+      ' Make a Keyboard Dialog here
+      print "KEYBOARD"
+    else if key = "up"
+      m.top.findNode("search-input").active = false
+      m.top.escape = true
+      return true
+    end if
+
+    return false
+  end function
   ]]>
   </script>
 </component>

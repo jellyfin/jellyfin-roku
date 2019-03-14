@@ -93,10 +93,15 @@ sub ShowLibrarySelect()
 
   library.observeField("itemSelected", port)
 
+  search = scene.findNode("search")
+  search.observeField("escape", port)
+
   while(true)
     msg = wait(0, port)
     if type(msg) = "roSGScreenEvent" and msg.isScreenClosed() then
       exit while
+    else if nodeEventQ(msg, "escape") and msg.getNode() = "search"
+      library.setFocus(true)
     else if nodeEventQ(msg, "itemSelected")
       target = getMsgRowTarget(msg)
       if target.libraryType = "movies"
