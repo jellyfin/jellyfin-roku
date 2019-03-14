@@ -18,11 +18,11 @@
         <Label id="director" />
         <Label id="video_codec" />
         <Label id="audio_codec" />
-        <ButtonGroup id="buttons" layoutDirection="horiz" itemSpacings="[10, 0]">
+        <ButtonGroupHoriz id="buttons" itemSpacings="[10, 0]">
           <Button text="Play" id="play-button" />
           <Button text="Watched" id="watched-button" />
           <Button text="Favorite" id="favorite-button" />
-        </ButtonGroup>
+        </ButtonGroupHoriz>
         <Label id="tagline" />
         <Label id="overview" />
 
