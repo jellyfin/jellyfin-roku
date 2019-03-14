@@ -191,25 +191,25 @@ sub ShowMovieDetails(movie_id)
   scene.itemContent = content
 
   buttons = scene.findNode("buttons")
-  buttons.observeField("buttonSelected", port)
+  for each b in buttons.getChildren(-1, 0)
+    b.observeField("buttonSelected", port)
+  end for
 
   while true
     msg = wait(0, port)
     if type(msg) = "roSGScreenEvent" and msg.isScreenClosed() then
       return
     else if nodeEventQ(msg, "buttonSelected")
-      button = msg.getROSGNode()
-      ' TODO - a better way to verify buttonSelected is in fact "play", etc
-      if button.buttonSelected = 0  ' Play
+      if msg.getNode() = "play-button"
         showVideoPlayer(movie_id)
-      else if button.buttonSelected = 2  ' Watched
+      else if msg.getNode() = "watched-button"
         if content.watched
           UnmarkItemWatched(movie_id)
         else
           MarkItemWatched(movie_id)
         end if
         content.watched = not content.watched
-      else if button.buttonSelected = 3  ' Favorite
+      else if msg.getNode() = "favorite-button"
         if content.favorite
           UnmarkItemFavorite(movie_id)
         else

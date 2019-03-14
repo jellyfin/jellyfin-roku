@@ -76,7 +76,7 @@ end function
 
 sub setFavoriteColor()
   fave = m.top.itemContent.favorite
-  fave_button = m.top.findNode("buttons").getChild(3)
+  fave_button = m.top.findNode("favorite-button")
   if fave
     fave_button.textColor = "#00ff00ff"
     fave_button.focusedTextColor = "#269926ff"
@@ -88,7 +88,7 @@ end sub
 
 sub setWatchedColor()
   watched = m.top.itemContent.watched
-  watched_button = m.top.findNode("buttons").getChild(2)
+  watched_button = m.top.findNode("watched-button")
   if watched
     watched_button.textColor = "#ff0000ff"
     watched_button.focusedTextColor = "#992626ff"

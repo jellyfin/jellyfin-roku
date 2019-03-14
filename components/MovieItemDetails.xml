@@ -19,10 +19,9 @@
         <Label id="video_codec" />
         <Label id="audio_codec" />
         <ButtonGroup id="buttons" layoutDirection="horiz" itemSpacings="[10, 0]">
-          <Button text="Play" />
-          <Button text="Delete" />
-          <Button text="Watched" />
-          <Button text="Favorite" />
+          <Button text="Play" id="play-button" />
+          <Button text="Watched" id="watched-button" />
+          <Button text="Favorite" id="favorite-button" />
         </ButtonGroup>
         <Label id="tagline" />
         <Label id="overview" />
