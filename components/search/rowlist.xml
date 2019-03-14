@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="SearchRow" extends="RowList">
+  <interface>
+    <field id="rowSize" type="int" />
+    <field id="itemData" type="associativeArray" onChange="setData" />
+    <field id="query" type="string" />
+    <field id="itemSelected" type="int" />
+  </interface>
+  <script type="text/brightscript">
+  <![CDATA[
+  sub init()
+    m.top.itemComponentName = "ListPoster"
+    m.top.content = getData()
+
+    m.top.rowFocusAnimationStyle = "floatingFocus"
+
+    updateSize()
+
+    m.top.setFocus(true)
+  end sub
+
+  sub updateSize()
+    m.top.numRows = 1
+    m.top.rowSize = 5
+
+    dimensions = m.top.getScene().currentDesignResolution
+
+    border = 75
+    m.top.translation = [border, border + 115]
+
+    textHeight = 50
+    itemWidth = (dimensions["width"] - border * 2) / m.top.rowSize
+    itemHeight = itemWidth * 1.5 + textHeight
+
+    m.top.itemSize = [dimensions["width"] - border*2, itemHeight]
+    m.top.itemSpacing = [0, 10]
+
+    m.top.rowItemSize = [ itemWidth, itemHeight ]
+    m.top.rowItemSpacing = [0, 0]
+  end sub
+
+  sub setData()
+    itemData = m.top.itemData
+    rowSize = m.top.rowSize
+
+    n = itemData.SearchHints.count()
+
+    if int(n/rowSize) = n/rowSize then
+      m.top.numRows = n/rowSize
+    else
+      m.top.numRows = n/rowSize + 1
+    end if
+
+    m.top.content = getData()
+  end sub
+
+  function getData()
+    if m.top.itemData = invalid then
+      data = CreateObject("roSGNode", "ContentNode")
+      return data
+    end if
+
+    itemData = m.top.itemData
+    rowSize = m.top.rowSize
+
+    ' todo - Or get the old data? I can't remember...
+    data = CreateObject("roSGNode", "ContentNode")
+    for rownum=1 to m.top.numRows
+      row = data.CreateChild("ContentNode")
+      for i=1 to rowSize
+        index = (rowNum - 1) * rowSize + i
+        if index > itemData.SearchHints.count() then exit for
+        datum = itemData.SearchHints[index-1]
+        item = row.CreateChild("SearchData")
+        item.full_Data = datum
+      end for
+    end for
+    return data
+  end function
+
+  function onKeyEvent(key as string, press as boolean) as boolean
+    if not press then return false
+
+    if key = "down" and (m.top.itemFocused + 1) = m.top.content.getChildCount()
+      m.top.getScene().findNode("pager").setFocus(true)
+      m.top.getScene().findNode("pager").getChild(0).setFocus(true)
+      return true
+    end if
+
+    return false
+  end function
+  ]]>
+  </script>
+</component>

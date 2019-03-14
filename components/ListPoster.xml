@@ -12,6 +12,7 @@
   <interface>
     <field id="itemContent" type="node" onChange="itemContentChanged"/>
     <field id="itemWidth" type="integer" />
+    <!-- mediatype -->
   </interface>
 
   <script type="text/brightscript">

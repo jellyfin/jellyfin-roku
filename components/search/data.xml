@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<component name="MovieData" extends="ContentNode">
+<component name="SearchData" extends="ContentNode">
   <interface>
     <field id="title" type="string" />
     <field id="posterUrl" type="string" />
-    <field id="movieID" type="string" />
-    <field id="description" type="string" />
-    <field id="favorite" type="boolean" />
-    <field id="watched" type="boolean" />
-    <field id="seasons" type="associativearray" />
+    <field id="mediaType" type="string" />
+    <field id="mediaID" type="string" />
     <field id="full_data" type="associativearray" onChange="setFields" />
   </interface>
   <script type="text/brightscript">
@@ -15,15 +12,13 @@
   sub setFields()
     datum = m.top.full_data
     m.top.title = datum.name
-    m.top.movieID = datum.id
+    m.top.mediaID = datum.id
+    m.top.mediaType = datum.MediaType
     if datum.posterURL <> invalid
       m.top.posterURL = datum.posterURL
     else
       m.top.posterURL = ""
     end if
-    m.top.description = datum.overview
-    m.top.favorite = datum.UserData.isFavorite
-    m.top.watched = datum.UserData.played
   end sub
   ]]>
   </script>

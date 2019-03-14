@@ -182,7 +182,15 @@ end function
 ' Returns: { SearchHints, TotalRecordCount }
 function SearchMedia(query as String)
   resp = APIRequest("Search/Hints", {"searchTerm": query})
-  return getJson(resp)
+  data = getJson(resp)
+  for each item in data.SearchHints
+    if item.type = "Movie"
+      item.posterURL = ImageURL(item.id)
+    else if item.type = "Person"
+      item.posterURL = ImageURL(item.id)
+    end if
+  end for
+  return data
 end function
 
 ' List items from within a Library
