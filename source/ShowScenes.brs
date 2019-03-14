@@ -95,6 +95,7 @@ sub ShowLibrarySelect()
 
   search = scene.findNode("search")
   search.observeField("escape", port)
+  search.observeField("search_value", port)
 
   while(true)
     msg = wait(0, port)
@@ -102,6 +103,8 @@ sub ShowLibrarySelect()
       exit while
     else if nodeEventQ(msg, "escape") and msg.getNode() = "search"
       library.setFocus(true)
+    else if nodeEventQ(msg, "search_value")
+      print "Searching for: " + msg.getRoSGNode().search_value
     else if nodeEventQ(msg, "itemSelected")
       target = getMsgRowTarget(msg)
       if target.libraryType = "movies"

@@ -29,6 +29,8 @@ sub themeScene(scene)
   overhang = scene.findNode("overhang")
   if overhang <> invalid
     overhang.logoUri = "pkg:/images/logo.png"
+    overhang.showOptions = true
+    overhang.optionsAvailable = true
   end if
 end sub
 

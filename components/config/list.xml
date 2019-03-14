@@ -49,7 +49,7 @@
       return true
     else if button_text = "Cancel"
       dismiss_dialog()
-      return false
+      return true
     end if
   end function
 
