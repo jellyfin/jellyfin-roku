@@ -5,9 +5,9 @@
       <Poster id="moviePoster"
         translation="[150,150]"
         width="400" height="600" />
-      <LayoutGroup layoutDirection="vert" translation="[355, 150]" itemSpacings="[0, 10]">
-        <Label id="title" />
-        <LayoutGroup layoutDirection="horiz" itemSpacings="[10, 0]">
+      <LayoutGroup layoutDirection="vert" translation="[355, 150]" itemSpacings="[25]">
+        <Label id="title" font="font:LargeBoldSystemFont" />
+        <LayoutGroup layoutDirection="horiz" itemSpacings="[150]">
           <Label id="releaseYear" />
           <Label id="runtime" />
           <Label id="officialRating" />
@@ -18,7 +18,7 @@
         <Label id="director" />
         <Label id="video_codec" />
         <Label id="audio_codec" />
-        <ButtonGroupHoriz id="buttons" itemSpacings="[10, 0]">
+        <ButtonGroupHoriz id="buttons" itemSpacings="[10]">
           <Button text="Play" id="play-button" />
           <Button text="Watched" id="watched-button" />
           <Button text="Favorite" id="favorite-button" />
