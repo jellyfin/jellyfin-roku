@@ -13,6 +13,8 @@
     m.top.currentPage = 0
     m.top.maxPages = 0
     m.top.layoutDirection = "horiz"
+    m.top.horizAlignment = "center"
+    m.top.vertAlignment = "center"
   end sub
 
   sub recountPages()
@@ -56,9 +58,8 @@
 
   sub updateLayout()
     dimensions = m.top.getScene().currentDesignResolution
-    width = m.top.getChildCount() * 50
-
-    m.top.translation = [(dimensions.width - width) / 2, dimensions.height - 83]
+    height = 115
+    m.top.translation = [dimensions.width / 2, dimensions.height - (height / 2)]
   end sub
 
   sub addPage(i)

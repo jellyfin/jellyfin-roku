@@ -20,8 +20,10 @@ sub themeScene(scene)
   if footer_background <> invalid
     footer_background.color = scene.backgroundColor
     footer_background.width = dimensions.width
-    footer_background.height = 115
-    footer_background.translation = [0, dimensions.height - 115]
+    height = footer_background.height
+    if height = invalid or height = 0 then height = 115
+    footer_background.height = height
+    footer_background.translation = [0, dimensions.height - height]
   end if
 
   overhang = scene.findNode("overhang")
