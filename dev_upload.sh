@@ -11,6 +11,9 @@ if [ -z "$ROKU_DEV_TARGET" ]; then
     exit 1
 fi
 
+# My roku crashes if I try to upload with screensaver on. Always wake first
+curl -d "" http://$ROKU_DEV_TARGET:8060/keypress/home
+
 [ -f jellyfin-roku.zip ] && rm jellyfin-roku.zip
 zip jellyfin-roku.zip manifest -r ./components -r ./source -r ./images
 
