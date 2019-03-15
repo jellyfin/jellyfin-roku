@@ -13,7 +13,7 @@
     datum = m.top.full_data
     m.top.title = datum.name
     m.top.mediaID = datum.id
-    m.top.mediaType = datum.MediaType
+    m.top.mediaType = datum.Type
     if datum.posterURL <> invalid
       m.top.posterURL = datum.posterURL
     else

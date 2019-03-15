@@ -49,6 +49,11 @@
 
     m.title.text = itemData.title
     m.poster.uri = itemData.posterUrl
+
+    if itemData.mediaType = "Episode"
+      m.poster.height = m.poster.width * .5
+      m.poster.translation = [2, m.poster.width / 2]
+    end if
   end function
   ]]>
   </script>
