@@ -9,7 +9,5 @@
       id="overhang"
       title="Search"
       />
-    <Rectangle id="footerBackdrop" />
-    <Pager id="pager" />
   </children>
 </component>

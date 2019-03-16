@@ -6,7 +6,7 @@
   </children>
   <interface>
     <field id="escape" type="boolean" alwaysNotify="true" />
-    <field id="search_value" type="string" />
+    <field id="search_value" type="string" alwaysNotify="true" />
   </interface>
   <script type="text/brightscript">
   <![CDATA[

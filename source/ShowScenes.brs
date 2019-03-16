@@ -105,7 +105,10 @@ sub ShowLibrarySelect()
       library.setFocus(true)
     else if nodeEventQ(msg, "search_value")
       query = msg.getRoSGNode().search_value
-      ShowSearchOptions(query)
+      if query <> invalid or query <> ""
+        ShowSearchOptions(query)
+      end if
+      search.search_value = ""
     else if nodeEventQ(msg, "itemSelected")
       target = getMsgRowTarget(msg)
       if target.libraryType = "movies"
@@ -351,27 +354,10 @@ sub ShowSearchOptions(query)
 
   options.observeField("itemSelected", port)
 
-  pager = scene.findNode("pager")
-  pager.currentPage = page_num
-  pager.maxPages = results.TotalRecordCount / page_size
-  if pager.maxPages = 0 then pager.maxPages = 1
-
-  pager.observeField("escape", port)
-  pager.observeField("pageSelected", port)
-
   while true
     msg = wait(0, port)
     if type(msg) = "roSGScreenEvent" and msg.isScreenClosed() then
       return
-    else if nodeEventQ(msg, "escape") and msg.getNode() = "pager"
-      options.setFocus(true)
-    else if nodeEventQ(msg, "pageSelected") and pager.pageSelected <> invalid
-      pager.pageSelected = invalid
-      page_num = int(val(msg.getData().id))
-      pager.currentPage = page_num
-      results = SearchMedia(query)
-      options.itemData = results
-      options.setFocus(true)
     else if nodeEventQ(msg, "itemSelected")
       target = getMsgRowTarget(msg)
       ' TODO - swap this based on target.mediatype
