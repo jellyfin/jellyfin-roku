@@ -56,13 +56,29 @@
 
     ' todo - Or get the old data? I can't remember...
     data = CreateObject("roSGNode", "ContentNode")
-    ' TODO - pre-scan the item list and only add things which have results
-    addRow(data, "Movies", "Movie")
-    addRow(data, "Episodes", "Episode")
-    addRow(data, "Artists", "AlbumArtist")
-    addRow(data, "Albums", "Album")
-    addRow(data, "Songs", "Audio")
-    addRow(data, "People", "Person")
+    ' Do this to keep the ordering, AssociateArrays have no order
+    type_array = ["Movie", "Episode", "AlbumArtist", "Album", "Audio", "Person"]
+    content_types = {
+      "Movie": {"label": "Movies", "count": 0},
+      "Episode": {"label": "Episodes", "count": 0},
+      "AlbumArtist": {"label": "Artists", "count": 0},
+      "Album": {"label": "Albums", "count": 0},
+      "Audio": {"label": "Songs", "count": 0},
+      "Person": {"label": "People", "count": 0}
+    }
+
+    for each item in itemData.searchHints
+      if content_types[item.Type] <> invalid
+        content_types[item.Type].count += 1
+      end if
+    end for
+
+    for each ctype in type_array
+      content_type = content_types[ctype]
+      if content_type.count > 0
+        addRow(data, content_type.label, ctype)
+      end if
+    end for
 
     return data
   end function
