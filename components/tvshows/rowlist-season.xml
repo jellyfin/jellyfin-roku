@@ -2,7 +2,7 @@
 <component name="TVSeasonRow" extends="RowList">
   <interface>
     <field id="rowSize" type="int" />
-    <field id="TVSeasonData" type="associativearray" onChange="setData" />
+    <field id="TVSeasonData" type="associativearray" onChange="getData" />
   </interface>
   <script type="text/brightscript">
   <![CDATA[
@@ -14,7 +14,8 @@
     'm.top.rowFocusAnimationStyle = "floatingFocus"
     'm.top.vertFocusAnimationStyle = "floatingFocus"
 
-    m.top.showRowLabel = [false]
+    m.top.showRowLabel = [true]
+    m.top.rowLabelOffset = [0, 20]
 
     updateSize()
 
@@ -22,12 +23,12 @@
   end sub
 
   sub updateSize()
-    m.top.numrows = 1
+    ' Infinite scroll, rowsize is just how many show on screen at once
     m.top.rowSize = 5
 
     dimensions = m.top.getScene().currentDesignResolution
 
-    border = 75
+    border = 50
     m.top.translation = [border, border]
 
     textHeight = 50
@@ -48,22 +49,6 @@
     m.top.rowItemSpacing = [ 0, 0 ]
   end sub
 
-  function setData()
-    seasonData = m.top.TVSeasonData
-    rowsize = m.top.rowSize
-
-    n = seasonData.items.count()
-
-    ' Test for no remainder
-    if int(n/rowsize) = n/rowsize then
-      m.top.numRows = n/rowsize
-    else
-      m.top.numRows = n/rowsize + 1
-    end if
-
-    m.top.content = getData()
-  end function
-
   function getData()
     if m.top.TVSeasonData = invalid then
       data = CreateObject("roSGNode", "ContentNode")
@@ -73,18 +58,13 @@
     seasonData = m.top.TVSeasonData
     rowsize = m.top.rowSize
     data = CreateObject("roSGNode", "ContentNode")
-    for rownum=1 to m.top.numRows
-      row = data.CreateChild("ContentNode")
-      for i=1 to rowsize
-        index = (rownum - 1) * rowsize + i
-        if index > seasonData.items.count() then
-          exit for
-        end if
-        datum = seasonData.Items[index-1]
-        item = row.CreateChild("TVSeasonData")
-        item.full_data = datum
-      end for
+    row = data.CreateChild("ContentNode")
+    row.title = "Seasons"
+    for each datum in seasonData.items
+      item = row.CreateChild("TVSeasonData")
+      item.full_data = datum
     end for
+    m.top.content = data
     return data
   end function
   ]]>

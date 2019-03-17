@@ -26,7 +26,7 @@
       </LayoutGroup>
     </LayoutGroup>
     <!-- Next Up -->
-    <TVSeasonRow id="TVSeasonSelect" visible="true" translation="[150, 800]" />
+    <TVSeasonRow id="TVSeasonSelect" visible="true" />
   </children>
   <interface>
     <field id="itemContent" type="node" onChange="itemContentChanged" />
@@ -36,9 +36,12 @@
   <![CDATA[
   sub init()
     main = m.top.findNode("main_group")
+    seasons = m.top.findNode("TVSeasonSelect")
     dimensions = m.top.getScene().currentDesignResolution
 
-    main.translation=[50, 50]
+    main.translation = [50, 50]
+    ' TODO - validate this height against the height of main
+    seasons.translation = [50, 800]
 
     m.top.findNode("buttons").setFocus(true)
   end sub
