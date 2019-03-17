@@ -168,11 +168,32 @@ sub ShowMovieOptions(library)
   pager.observeField("escape", port)
   pager.observeField("pageSelected", port)
 
+  sidepanel = scene.findNode("options")
+  movie_options = [
+    {"title": "Sort Field",
+     "key": "movie_sort_field",
+     "values": ["blah", "this", "that"]},
+    {"title": "Sort Order",
+     "key": "movie_sort_order",
+     "values": ["blah", "this", "that"]}
+  ]
+  new_options = []
+  for each opt in movie_options
+    o = CreateObject("roSGNode", "ContentNode")
+    o.title = opt.title
+    new_options.append([o])
+  end for
+  sidepanel.options = new_options
+
+  sidepanel.observeField("escape", port)
+
   while true
     msg = wait(0, port)
     if type(msg) = "roSGScreenEvent" and msg.isScreenClosed() then
       return
     else if nodeEventQ(msg, "escape") and msg.getNode() = "pager"
+      options.setFocus(true)
+    else if nodeEventQ(msg, "escape") and msg.getNode() = "options"
       options.setFocus(true)
     else if nodeEventQ(msg, "pageSelected") and pager.pageSelected <> invalid
       pager.pageSelected = invalid

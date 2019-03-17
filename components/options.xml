@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="OptionsSlider" extends="PanelSet">
+  <children>
+    <ListPanel id="panel">
+      <Rectangle id="backdrop" />
+      <LabelList id="panelList">
+        <ContentNode id="fieldList" role="content" />
+      </LabelList>
+    </ListPanel>
+  </children>
+  <interface>
+    <field id="options" type="nodearray" onChange="setFields" />
+    <field id="escape" type="boolean" alwaysNotify="true" />
+  </interface>
+  <script type="text/brightscript">
+  <![CDATA[
+  sub init()
+    m.top.visible = false
+
+    panel = m.top.findNode("panel")
+    panel.panelSize = "small"
+    panel.leftPosition = 0
+    panel.focusable = true
+    panel.hasNextPanel = false
+    panel.leftOnly = true
+
+    list = m.top.findNode("panelList")
+
+    panel.list = list
+
+    bd = m.top.findNode("backdrop")
+    bd.color = "#101010DD"
+    bd.translation = [0, 0]
+    dimensions = m.top.getScene().currentDesignResolution
+    bd.width = 575
+    bd.height = dimensions.height
+  end sub
+
+  sub setFields()
+    options = m.top.options
+    row = m.top.findNode("fieldList")
+
+    row.removeChildren(row.getChildren(-1, 0))
+
+    row.appendChildren(options)
+  end sub
+
+  function onKeyEvent(key as string, press as boolean) as boolean
+    if not press then return false
+
+    if key = "options"
+      m.top.visible = false
+      m.top.escape = true
+      return true
+    end if
+
+    return false
+  end function
+  ]]>
+  </script>
+</component>
