@@ -2,7 +2,7 @@
 <component name="SearchRow" extends="RowList">
   <interface>
     <field id="rowSize" type="int" />
-    <field id="itemData" type="associativeArray" onChange="setData" />
+    <field id="itemData" type="associativeArray" onChange="getData" />
     <field id="query" type="string" />
     <field id="itemSelected" type="int" />
   </interface>
@@ -18,11 +18,14 @@
     m.top.rowLabelOffset = [0, 20]
     m.top.showRowCounter = [ true ]
 
+    ' TODO - Define a failed to load image background
+    ' m.top.failedBitmapURI
+
     m.top.setFocus(true)
   end sub
 
   sub updateSize()
-    m.top.numRows = 1
+    ' In search results, rowSize only dictates how many are on screen at once
     m.top.rowSize = 5
 
     dimensions = m.top.getScene().currentDesignResolution
@@ -39,10 +42,6 @@
 
     m.top.rowItemSize = [ itemWidth, itemHeight ]
     m.top.rowItemSpacing = [0, 0]
-  end sub
-
-  sub setData()
-    m.top.content = getData()
   end sub
 
   function getData()
@@ -80,6 +79,7 @@
       end if
     end for
 
+    m.top.content = data
     return data
   end function
 

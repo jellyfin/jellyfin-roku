@@ -342,9 +342,6 @@ sub ShowSearchOptions(query)
 
   options = scene.findNode("SearchSelect")
 
-  page_num = 1
-  page_size = 30
-
   sort_order = get_user_setting("search_sort_order", "Descending")
   sort_field = get_user_setting("search_sort_field", "DateCreated,SortName")
 

@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <component name="ListPoster" extends="Group">
   <children>
+    <Rectangle id="backdrop"
+      translation="[2, 0]"
+      />
     <Poster id="poster"
       translation="[2, 0]"
       />
@@ -20,6 +23,9 @@
   sub init()
     m.title = m.top.findNode("title")
     m.poster = m.top.findNode("poster")
+    m.backdrop = m.top.findNode("backdrop")
+
+    m.backdrop.color = "#404040FF"
 
     updateSize()
   end sub
@@ -27,12 +33,16 @@
   sub updateSize()
     m.title = m.top.findNode("title")
     m.poster = m.top.findNode("poster")
+    m.backdrop = m.top.findNode("backdrop")
 
     ' TODO - abstract this in case the parent doesnt have itemSize
     maxSize = m.top.getParent().itemSize
 
     m.poster.width = int(maxSize[0]) - 4
     m.poster.height = m.poster.width * 1.5
+
+    m.backdrop.width = m.poster.width
+    m.backdrop.height = m.poster.height
 
     m.title.width = m.poster.width
     m.title.height = int(maxSize[1]) - m.poster.height
