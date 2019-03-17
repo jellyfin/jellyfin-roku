@@ -40,3 +40,12 @@ function leftPad(base as string, fill as string, length as integer) as string
   end while
   return base
 end function
+
+function make_dialog(message="" as string)
+  dialog = createObject("roSGNode", "Dialog")
+  dialog.id = "popup"
+  dialog.buttons = ["OK"]
+  dialog.message = message
+
+  return dialog
+end function

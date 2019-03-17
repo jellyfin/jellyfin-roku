@@ -6,7 +6,7 @@ sub ShowServerSelect()
   screen.show()
 
   themeScene(scene)
-  scene.findNode("prompt").text = "Connect to Serviette"
+  scene.findNode("prompt").text = "Connect to Server"
 
   config = scene.findNode("configOptions")
   items = [
@@ -116,8 +116,15 @@ sub ShowLibrarySelect()
       else if target.libraryType = "tvshows"
         ShowTVShowOptions(target.data)
       else
-        print Substitute("Library type {0} is not yet implemented", target.libraryType)
+        scene.dialog = make_dialog("This library type is not yet implemented")
+        scene.dialog.observeField("buttonSelected", port)
       end if
+    else if nodeEventQ(msg, "buttonSelected")
+      if msg.getNode() = "popup"
+        msg.getRoSGNode().close = true
+      end if
+    else
+      print msg
     end if
   end while
 end sub
