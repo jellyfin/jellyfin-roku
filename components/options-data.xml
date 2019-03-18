@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="OptionsData" extends="ContentNode">
+  <interface>
+    <field id="base_title" type="string" />
+    <field id="choices" type="stringarray" />
+    <field id="config_key" type="string" />
+    <field id="value_index" type="integer" />
+    <field id="value" type="string" onChange="update_title" />
+    <function name="cycle" />
+  </interface>
+  <script type="text/brightscript" uri="pkg:/source/config.brs" />
+  <script type="text/brightscript">
+  <![CDATA[
+  sub init()
+    m.top.value_index = 0
+  end sub
+
+  sub update_title()
+    for i=0 to m.top.choices.count() - 1
+      if m.top.choices[i] = m.top.value
+        m.top.value_index = i
+        exit for
+      end if
+    end for
+    m.top.title = m.top.base_title + ": " + m.top.value
+
+    print m.top.value_index
+  end sub
+
+  sub cycle()
+    max_opt = m.top.choices.count()
+    i = m.top.value_index + 1
+    while i >= max_opt
+      i = i - max_opt
+    end while
+
+    m.top.value_index = i
+    m.top.value = m.top.choices[m.top.value_index]
+
+    set_user_setting(m.top.config_key, m.top.value)
+  end sub
+  ]]>
+  </script>
+</component>

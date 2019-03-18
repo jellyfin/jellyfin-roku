@@ -171,16 +171,24 @@ sub ShowMovieOptions(library)
   sidepanel = scene.findNode("options")
   movie_options = [
     {"title": "Sort Field",
+     "base_title": "Sort Field",
      "key": "movie_sort_field",
-     "values": ["blah", "this", "that"]},
+     "default": "DateCreated",
+     "values": ["DateCreated", "PremiereDate", "SortName"]},
     {"title": "Sort Order",
+     "base_title": "Sort Order",
      "key": "movie_sort_order",
-     "values": ["blah", "this", "that"]}
+     "default": "Descending",
+     "values": ["Descending", "Ascending"]}
   ]
   new_options = []
   for each opt in movie_options
-    o = CreateObject("roSGNode", "ContentNode")
+    o = CreateObject("roSGNode", "OptionsData")
     o.title = opt.title
+    o.choices = opt.values
+    o.base_title = opt.base_title
+    o.config_key = opt.key
+    o.value = get_user_setting(opt.key, opt.default)
     new_options.append([o])
   end for
   sidepanel.options = new_options

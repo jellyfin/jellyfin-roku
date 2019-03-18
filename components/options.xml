@@ -40,8 +40,7 @@
     options = m.top.options
     row = m.top.findNode("fieldList")
 
-    row.removeChildren(row.getChildren(-1, 0))
-
+    row.clear()
     row.appendChildren(options)
   end sub
 
@@ -51,6 +50,11 @@
     if key = "options"
       m.top.visible = false
       m.top.escape = true
+      return true
+    else if key = "OK"
+      list = m.top.findNode("panelList")
+      data = list.content.getChild(list.itemFocused)
+      data.callFunc("cycle")
       return true
     end if
 
