@@ -23,8 +23,6 @@
       end if
     end for
     m.top.title = m.top.base_title + ": " + m.top.value
-
-    print m.top.value_index
   end sub
 
   sub cycle()

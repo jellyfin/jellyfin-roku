@@ -1,11 +1,17 @@
-function VideoPlayer(scene, id)
-  video = scene.createChild("Video")
+function VideoPlayer(id)
+  video = CreateObject("roSGNode", "Video")
   content = VideoContent(id)
 
   video.content = content
 
   video.setFocus(true)
   video.control = "play"
+
+  jellyfin_blue = "#00a4dcFF"
+
+  video.retrievingBar.filledBarBlendColor = jellyfin_blue
+  video.bufferingBar.filledBarBlendColor = jellyfin_blue
+  video.trickPlayBar.filledBarBlendColor = jellyfin_blue
 
   return video
 end function

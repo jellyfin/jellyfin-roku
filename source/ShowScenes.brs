@@ -100,7 +100,7 @@ sub ShowLibrarySelect()
   while(true)
     msg = wait(0, port)
     if type(msg) = "roSGScreenEvent" and msg.isScreenClosed() then
-      exit while
+      return
     else if nodeEventQ(msg, "escape") and msg.getNode() = "search"
       library.setFocus(true)
     else if nodeEventQ(msg, "search_value")
@@ -404,7 +404,7 @@ sub ShowSearchOptions(query)
   end while
 end sub
 
-sub showVideoPlayer(id)
+sub showVideoPlayer(video_id)
   port = CreateObject("roMessagePort")
   screen = CreateObject("roSGScreen")
   screen.setMessagePort(port)
@@ -414,12 +414,27 @@ sub showVideoPlayer(id)
 
   themeScene(scene)
 
-  VideoPlayer(scene, id)
+  video = VideoPlayer(video_id)
+  scene.appendChild(video)
+
+  video.setFocus(true)
+
+  video.observeField("state", port)
 
   while true
     msg = wait(0, port)
     if type(msg) = "roSGScreenEvent" and msg.isScreenClosed() then
+      progress = int( video.position / video.duration * 100)
+      if progress > 95  ' TODO - max resume percentage
+        MarkItemWatched(video_id)
+      end if
+      ' TODO - report progress here
       return
+    else if nodeEventQ(msg, "state")
+      state = msg.getData()
+      if state = "stopped" or state = "finished"
+        screen.close()
+      end if
     end if
   end while
 
