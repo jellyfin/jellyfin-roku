@@ -100,6 +100,7 @@ sub ShowLibrarySelect()
   sidepanel = scene.findNode("options")
   new_options = []
   options_buttons = [
+    {"title": "Change server", "id": "change_server"},
     {"title": "Sign out", "id": "sign_out"}
   ]
   for each opt in options_buttons
@@ -119,6 +120,11 @@ sub ShowLibrarySelect()
       return
     else if nodeEventQ(msg, "escape") and msg.getNode() = "search"
       library.setFocus(true)
+    else if nodeEventQ(msg, "escape") and msg.getNode() = "change_server"
+      unset_setting("server")
+      unset_setting("port")
+      SignOut()
+      return
     else if nodeEventQ(msg, "escape") and msg.getNode() = "sign_out"
       SignOut()
       return
@@ -216,16 +222,6 @@ sub ShowMovieOptions(library)
     o.value = get_user_setting(opt.key, opt.default)
     new_options.append([o])
   end for
-  options_buttons = [
-    {"title": "Sign out", "id": "sign_out"}
-  ]
-  for each opt in options_buttons
-    o = CreateObject("roSGNode", "OptionsButton")
-    o.title = opt.title
-    o.id = opt.id
-    new_options.append([o])
-    o.observeField("escape", port)
-  end for
 
   sidepanel.options = new_options
   sidepanel.observeField("escape", port)
@@ -238,9 +234,6 @@ sub ShowMovieOptions(library)
       options.setFocus(true)
     else if nodeEventQ(msg, "escape") and msg.getNode() = "options"
       options.setFocus(true)
-    else if nodeEventQ(msg, "escape") and msg.getNode() = "sign_out"
-      SignOut()
-      return
     else if nodeEventQ(msg, "pageSelected") and pager.pageSelected <> invalid
       pager.pageSelected = invalid
       page_num = int(val(msg.getData().id))
