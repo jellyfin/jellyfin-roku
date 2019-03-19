@@ -61,8 +61,7 @@
     dialog.buttons = ["OK", "Cancel"]
 
     if configField.type = "password"
-      ' TODO - verify the child chain will be the same always
-      dialog.keyboard.getChild(1).secureMode = true
+      dialog.keyboard.textEditBox.secureMode = true
     end if
 
     if configField.value <> ""
