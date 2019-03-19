@@ -17,6 +17,9 @@ sub themeScene(scene)
   scene.backgroundURI = ""
 
   footer_background = scene.findNode("footerBackdrop")
+  overhang = scene.findNode("overhang")
+  options = scene.findNode("options")
+
   if footer_background <> invalid
     footer_background.color = scene.backgroundColor
     footer_background.width = dimensions.width
@@ -26,11 +29,14 @@ sub themeScene(scene)
     footer_background.translation = [0, dimensions.height - height]
   end if
 
-  overhang = scene.findNode("overhang")
   if overhang <> invalid
     overhang.logoUri = "pkg:/images/logo.png"
     overhang.showOptions = true
-    overhang.optionsAvailable = true
+    if options <> invalid
+      overhang.optionsAvailable = true
+    else
+      overhang.optionsAvailalbe = false
+    end if
   end if
 end sub
 
