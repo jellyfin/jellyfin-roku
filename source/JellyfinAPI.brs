@@ -24,6 +24,8 @@ function buildURL(path as String, params={} as Object) as string
       else if type(field.value) = "roInteger" then
         item = field.key + "=" + req.escape(str(field.value).trim())
         'item = field.key + "=" + str(field.value).trim()
+      else if type(field.value) = "roFloat" then
+        item = field.key + "=" + req.escape(str(field.value).trim())
       else if field <> invalid
         item = field.key + "=" + req.escape(field.value)
         'item = field.key + "=" + field.value

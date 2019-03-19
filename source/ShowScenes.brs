@@ -424,16 +424,22 @@ sub showVideoPlayer(video_id)
   while true
     msg = wait(0, port)
     if type(msg) = "roSGScreenEvent" and msg.isScreenClosed() then
+      if video = invalid then return
+
       progress = int( video.position / video.duration * 100)
       if progress > 95  ' TODO - max resume percentage
         MarkItemWatched(video_id)
       end if
-      ' TODO - report progress here
+      ticks = video.position * 10000000
+      ItemSessionStop(video_id, {"PositionTicks": ticks})
       return
     else if nodeEventQ(msg, "state")
       state = msg.getData()
       if state = "stopped" or state = "finished"
         screen.close()
+      else if state = "playing"
+        ticks = video.position * 10000000
+        ItemSessionStart(video_id, {"PositionTicks": ticks})
       end if
     end if
   end while
