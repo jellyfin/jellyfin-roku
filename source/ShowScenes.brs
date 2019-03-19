@@ -120,6 +120,8 @@ sub ShowLibrarySelect()
       return
     else if nodeEventQ(msg, "escape") and msg.getNode() = "search"
       library.setFocus(true)
+    else if nodeEventQ(msg, "escape") and msg.getNode() = "options"
+      library.setFocus(true)
     else if nodeEventQ(msg, "escape") and msg.getNode() = "change_server"
       unset_setting("server")
       unset_setting("port")
