@@ -26,6 +26,8 @@ function buildURL(path as String, params={} as Object) as string
         'item = field.key + "=" + str(field.value).trim()
       else if type(field.value) = "roFloat" then
         item = field.key + "=" + req.escape(str(field.value).trim())
+      else if type(field.value) = "roArray" then
+        ' TODO handle array params
       else if field <> invalid
         item = field.key + "=" + req.escape(field.value)
         'item = field.key + "=" + field.value
@@ -114,27 +116,6 @@ function server_is_https() as Boolean
   return False
 end function
 
-function get_token(user as String, password as String)
-  bytes = createObject("roByteArray")
-  bytes.FromAsciiString(password)
-  digest = createObject("roEVPDigest")
-  digest.setup("sha1")
-  hashed_pass = digest.process(bytes)
-
-  url = "Users/AuthenticateByName?format=json"
-
-  req = APIRequest(url)
-
-  json = postJson(req, "Username=" + user + "&Password=" + hashed_pass)
-
-  if json = invalid then return invalid
-
-  set_setting("active_user", json.User.id)
-  set_user_setting("id", json.User.id)  ' redundant, but could come in handy
-  set_user_setting("token", json.AccessToken)
-  return json
-end function
-
 function authorize_request(request)
   auth = "MediaBrowser"
   auth = auth + " Client=" + Chr(34) + "Jellyfin Roku" + Chr(34)
@@ -154,99 +135,4 @@ function authorize_request(request)
 
   request.AddHeader("X-Emby-Authorization", auth)
   return request
-end function
-
-function AboutMe()
-  url = Substitute("Users/{0}", get_setting("active_user"))
-  resp = APIRequest(url)
-  return getJson(resp)
-end function
-
-function ImageURL(id, version="Primary", params={})
-  if params.count() = 0
-    params =  {"maxHeight": "384", "maxWidth": "196", "quality": "90"}
-  end if
-  url = Substitute("Items/{0}/Images/{1}", id, version)
-  ' ?maxHeight=384&maxWidth=256&tag=<tag>&quality=90"
-  return buildURL(url, params)
-end function
-
-' ServerBrowsing
-
-' List Available Libraries for the current logged in user
-' Params: None
-' Returns { Items, TotalRecordCount }
-function LibraryList()
-  url = Substitute("Users/{0}/Views/", get_setting("active_user"))
-  resp = APIRequest(url)
-  return getJson(resp)
-end function
-
-' Search for a string
-' Params: Search Query
-' Returns: { SearchHints, TotalRecordCount }
-function SearchMedia(query as String)
-  resp = APIRequest("Search/Hints", {"searchTerm": query})
-  data = getJson(resp)
-  for each item in data.SearchHints
-    if item.type = "Movie"
-      item.posterURL = ImageURL(item.id)
-    else if item.type = "Person"
-      item.posterURL = ImageURL(item.id)
-    else if item.type = "Episode"
-      item.posterURL = ImageURL(item.id)
-    end if
-  end for
-  return data
-end function
-
-' List items from within a Library
-' Params: Library ID, Limit, Offset, SortBy, SortOrder, IncludeItemTypes, Fields, EnableImageTypes
-' Returns { Items, TotalRecordCount }
-function ItemList(library_id=invalid as String, params={})
-  if params["limit"] = invalid
-    params["limit"] = 30
-  end if
-  if params["page"] = invalid
-    params["page"] = 1
-  end if
-  params["parentid"] = library_id
-  url = Substitute("Users/{0}/Items/", get_setting("active_user"))
-  resp = APIRequest(url, params)
-  data = getJson(resp)
-  for each item in data.Items
-    item.posterURL = ImageURL(item.id)
-  end for
-  return data
-end function
-
-function ItemMetaData(id as String)
-  url = Substitute("Users/{0}/Items/{1}", get_setting("active_user"), id)
-  resp = APIRequest(url)
-  data = getJson(resp)
-  data.posterURL = ImageURL(data.id)
-  return data
-end function
-
-function TVSeasons(id as String)
-  url = Substitute("Shows/{0}/Seasons", id)
-  resp = APIRequest(url, {"UserId": get_setting("active_user")})
-
-  data = getJson(resp)
-  for each item in data.Items
-    item.posterURL = ImageURL(item.id)
-  end for
-  return data
-end function
-
-
-function TVNext(id as String)
-  url = Substitute("Shows/NextUp", id)
-  resp = APIRequest(url, {"UserId": get_setting("active_user"), "SeriesId": id})
-
-  data = getJson(resp)
-  for each item in data.Items
-    item.posterURL = ImageURL(item.id)
-  end for
-  return data
 end function
