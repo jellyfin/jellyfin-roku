@@ -71,7 +71,7 @@ function getEndTime() as string
     meridian = "PM"
   end if
 
-  return Substitute("{0}:{1} {2}", stri(hours).trim(), stri(date.getMinutes()).trim(), meridian)
+  return Substitute("{0}:{1} {2}", stri(hours).trim(), leftPad(stri(date.getMinutes()).trim(), "0", 2), meridian)
 end function
 
 sub setFavoriteColor()
