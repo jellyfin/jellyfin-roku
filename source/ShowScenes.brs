@@ -97,12 +97,31 @@ sub ShowLibrarySelect()
   search.observeField("escape", port)
   search.observeField("search_value", port)
 
+  sidepanel = scene.findNode("options")
+  new_options = []
+  options_buttons = [
+    {"title": "Sign out", "id": "sign_out"}
+  ]
+  for each opt in options_buttons
+    o = CreateObject("roSGNode", "OptionsButton")
+    o.title = opt.title
+    o.id = opt.id
+    new_options.append([o])
+    o.observeField("escape", port)
+  end for
+
+  sidepanel.options = new_options
+  sidepanel.observeField("escape", port)
+
   while(true)
     msg = wait(0, port)
     if type(msg) = "roSGScreenEvent" and msg.isScreenClosed() then
       return
     else if nodeEventQ(msg, "escape") and msg.getNode() = "search"
       library.setFocus(true)
+    else if nodeEventQ(msg, "escape") and msg.getNode() = "sign_out"
+      SignOut()
+      return
     else if nodeEventQ(msg, "search_value")
       query = msg.getRoSGNode().search_value
       if query <> invalid or query <> ""
@@ -113,8 +132,14 @@ sub ShowLibrarySelect()
       target = getMsgRowTarget(msg)
       if target.libraryType = "movies"
         ShowMovieOptions(target.data)
+        if get_setting("active_user") = invalid
+          return
+        end if
       else if target.libraryType = "tvshows"
         ShowTVShowOptions(target.data)
+        if get_setting("active_user") = invalid
+          return
+        end if
       else
         scene.dialog = make_dialog("This library type is not yet implemented")
         scene.dialog.observeField("buttonSelected", port)
@@ -191,8 +216,18 @@ sub ShowMovieOptions(library)
     o.value = get_user_setting(opt.key, opt.default)
     new_options.append([o])
   end for
-  sidepanel.options = new_options
+  options_buttons = [
+    {"title": "Sign out", "id": "sign_out"}
+  ]
+  for each opt in options_buttons
+    o = CreateObject("roSGNode", "OptionsButton")
+    o.title = opt.title
+    o.id = opt.id
+    new_options.append([o])
+    o.observeField("escape", port)
+  end for
 
+  sidepanel.options = new_options
   sidepanel.observeField("escape", port)
 
   while true
@@ -203,6 +238,9 @@ sub ShowMovieOptions(library)
       options.setFocus(true)
     else if nodeEventQ(msg, "escape") and msg.getNode() = "options"
       options.setFocus(true)
+    else if nodeEventQ(msg, "escape") and msg.getNode() = "sign_out"
+      SignOut()
+      return
     else if nodeEventQ(msg, "pageSelected") and pager.pageSelected <> invalid
       pager.pageSelected = invalid
       page_num = int(val(msg.getData().id))
@@ -216,6 +254,9 @@ sub ShowMovieOptions(library)
     else if nodeEventQ(msg, "itemSelected")
       target = getMsgRowTarget(msg)
       ShowMovieDetails(target.movieID)
+      if get_setting("active_user") = invalid
+        return
+      end if
     else
       print msg
       print msg.getField()

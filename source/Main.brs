@@ -23,4 +23,8 @@ sub Main()
   end if
 
   ShowLibrarySelect()
+
+  if get_setting("active_user") = invalid
+    goto start_login
+  end if
 end sub

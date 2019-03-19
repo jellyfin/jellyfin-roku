@@ -24,3 +24,7 @@ function AboutMe()
   resp = APIRequest(url)
   return getJson(resp)
 end function
+
+function SignOut()
+  unset_setting("active_user")
+end function

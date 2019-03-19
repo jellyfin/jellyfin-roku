@@ -60,7 +60,12 @@
     dialog.title = "Enter the " + configField.label
     dialog.buttons = ["OK", "Cancel"]
 
-    if configField.value <> "" then
+    if configField.type = "password"
+      ' TODO - verify the child chain will be the same always
+      dialog.keyboard.getChild(1).secureMode = true
+    end if
+
+    if configField.value <> ""
       dialog.text = configField.value
     end if
 

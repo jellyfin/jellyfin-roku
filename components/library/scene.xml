@@ -5,5 +5,7 @@
     <Overhang id="overhang" title="My Media" />
     <Rectangle id="footerBackdrop" height="200" />
     <SearchBox id="search" />
+
+    <OptionsSlider id="options" />
   </children>
 </component>

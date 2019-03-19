@@ -9,6 +9,7 @@
     </ListPanel>
   </children>
   <interface>
+    <field id="buttons" type="nodearray" onChange="setFields" />
     <field id="options" type="nodearray" onChange="setFields" />
     <field id="escape" type="boolean" alwaysNotify="true" />
   </interface>
@@ -38,10 +39,12 @@
 
   sub setFields()
     options = m.top.options
+    buttons = m.top.buttons
     row = m.top.findNode("fieldList")
 
     row.clear()
     row.appendChildren(options)
+    row.appendChildren(buttons)
   end sub
 
   function onKeyEvent(key as string, press as boolean) as boolean
@@ -54,7 +57,7 @@
     else if key = "OK"
       list = m.top.findNode("panelList")
       data = list.content.getChild(list.itemFocused)
-      data.callFunc("cycle")
+      data.callFunc("press")
       return true
     end if
 
