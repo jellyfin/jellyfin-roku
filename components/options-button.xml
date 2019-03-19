@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="OptionsButton" extends="ContentNode">
+  <interface>
+    <field id="escape" type="boolean" alwaysNotify="true" />
+    <function name="press" />
+  </interface>
+  <script type="text/brightscript" uri="pkg:/source/config.brs" />
+  <script type="text/brightscript">
+  <![CDATA[
+  sub init()
+  end sub
+
+  sub press()
+    m.top.escape = true
+  end sub
+  ]]>
+  </script>
+</component>
