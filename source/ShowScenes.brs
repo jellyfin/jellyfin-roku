@@ -13,7 +13,7 @@ sub ShowServerSelect()
     {"field": "server", "label": "Host", "type": "string"},
     {"field": "port", "label": "Port", "type": "string"}
   ]
-  config.callfunc("setData", items)
+  config.configItems = items
 
   button = scene.findNode("submit")
   button.observeField("buttonSelected", port)
@@ -51,7 +51,7 @@ sub ShowSignInSelect()
     {"field": "username", "label": "Username", "type": "string"},
     {"field": "password", "label": "Password", "type": "password"}
   ]
-  config.callfunc("setData", items)
+  config.configItems = items
 
   button = scene.findNode("submit")
   button.observeField("buttonSelected", port)

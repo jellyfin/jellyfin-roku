@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <component name="ConfigList" extends="MarkupList">
   <interface>
-    <function name="setData" />
+    <field id="configItems" type="array" onChange="setData" />
   </interface>
   <script type="text/brightscript" uri="pkg:/source/config.brs" />
   <script type="text/brightscript">
@@ -14,11 +14,16 @@
 
     m.top.observeField("itemSelected", "onItemSelected")
 
+    m.top.itemSize = [1000, 80]
+    m.top.itemSpacing = [0, 20]
+    m.top.vertAlign = "middle"
+
     m.top.setfocus(true)
 
   end sub
 
-  function setData(items)
+  function setData()
+    items = m.top.configItems
     data = CreateObject("roSGNode", "ContentNode")
 
     for each item in items

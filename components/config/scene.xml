@@ -3,21 +3,16 @@
   <children>
     <label text="Enter Configuration"
       id="prompt"
-      height="70"
-      font="font:MediumBoldSystemFont"
+      font="font:LargeBoldSystemFont"
       translation="[150, 150]" />
     <ConfigList
       id="configOptions"
-      translation="[150, 250]"
-      itemSize="[440, 40]"
-      itemSpacing="[0, 20]"
-      numRows="12" />
+      translation="[150, 250]" />
     <Button
       id="submit"
       text="Submit"
       showFocusFootprint="false"
-      translation="[150, 350]"
-      />
+      translation="[150, 450]" />
   </children>
   <script type="text/brightscript" uri="pkg:/components/config/scene.brs"/>
 </component>
