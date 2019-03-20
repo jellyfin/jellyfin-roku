@@ -1,8 +1,15 @@
 # Jellyfin app for Roku
 
-Disclaimer: This is a proof of concept for my own ability to learn and write
-BrightScript, and not yet intended to be a fully functional Roku app.
+Disclaimer: This is not complete, but making good progress!
 
+Right now the only things stored on your device are server name, server port,
+user id, and some user preferences like movie sort order.
+
+At any point, the format that is used to save those settings could change, and
+your data could be effectively lost (and you'll have to re-enter it).
+
+In fact, it is likely this early on, as a few design decisions were made before
+I knew much about BrightScript format. Patience is appreciated.
 
 ### Images
 
@@ -35,10 +42,10 @@ export ROKU_DEV_PASSWORD=<your roku password>
 - [x] User Sign In
 - [x] Main Landing "Library Select"
 - [x] Library Items List (ie, movie list)
-- [ ] Infinite scroll or paging
+- [x] Infinite scroll or paging  (paging!)
 - [x] Preview "About this Item" movie page
 - [x] Video Player
-- [ ] Sign Out (?)
+- [x] Sign Out (?)
 
 
 ### ToDo - Additional Scenes for TV Shows
@@ -57,5 +64,8 @@ export ROKU_DEV_PASSWORD=<your roku password>
 
 
 ### ToDo - Other things
+
+- [x] Collections
+- [x] Sort order
 
 Live TV/PVR? Pictures?
