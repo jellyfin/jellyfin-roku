@@ -34,6 +34,7 @@ function ItemList(library_id=invalid as String, params={})
   resp = APIRequest(url, params)
   data = getJson(resp)
   for each item in data.Items
+    ' TODO - actually check item for available images
     item.posterURL = ImageURL(item.id)
   end for
   return data

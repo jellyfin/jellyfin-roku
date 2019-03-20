@@ -140,16 +140,12 @@ sub ShowLibrarySelect()
       target = getMsgRowTarget(msg)
       if target.libraryType = "movies"
         ShowMovieOptions(target.data)
-        if get_setting("active_user") = invalid
-          return
-        end if
       else if target.libraryType = "tvshows"
         ShowTVShowOptions(target.data)
-        if get_setting("active_user") = invalid
-          return
-        end if
+      else if target.libraryType = "boxsets"
+        ShowCollections(target.data)
       else
-        scene.dialog = make_dialog("This library type is not yet implemented")
+        scene.dialog = make_dialog("This library type is not yet implemented: " + target.libraryType)
         scene.dialog.observeField("buttonSelected", port)
       end if
     else if nodeEventQ(msg, "buttonSelected")
@@ -249,9 +245,6 @@ sub ShowMovieOptions(library)
     else if nodeEventQ(msg, "itemSelected")
       target = getMsgRowTarget(msg)
       ShowMovieDetails(target.movieID)
-      if get_setting("active_user") = invalid
-        return
-      end if
     else
       print msg
       print msg.getField()
@@ -398,6 +391,101 @@ sub ShowTVShowDetails(show_id)
     else
       print msg
       print type(msg)
+    end if
+  end while
+end sub
+
+sub ShowCollections(library)
+  library_id = library.id
+  port = CreateObject("roMessagePort")
+  screen = CreateObject("roSGScreen")
+  screen.setMessagePort(port)
+  scene = screen.CreateScene("Collections")
+
+  screen.show()
+
+  overhang = scene.findNode("overhang")
+  overhang.title = library.name
+
+  themeScene(scene)
+
+  options = scene.findNode("CollectionSelect")
+  options.library = library
+
+  page_num = 1
+  page_size = 30
+
+  sort_order = get_user_setting("collection_sort_order", "Ascending")
+  sort_field = get_user_setting("collection_sort_field", "SortName")
+
+  options_list = ItemList(library_id, {"limit": page_size,
+    "StartIndex": page_size * (page_num - 1),
+    "SortBy": sort_field,
+    "SortOrder": sort_order })
+  options.itemData = options_list
+
+  options.observeField("itemSelected", port)
+
+  pager = scene.findNode("pager")
+  pager.currentPage = page_num
+  pager.maxPages = options_list.TotalRecordCount / page_size
+  if pager.maxPages = 0 then pager.maxPages = 1
+
+  pager.observeField("escape", port)
+  pager.observeField("pageSelected", port)
+
+  sidepanel = scene.findNode("options")
+  panel_options = [
+    {"title": "Sort Field",
+     "base_title": "Sort Field",
+     "key": "movie_sort_field",
+     "default": "DateCreated",
+     "values": ["DateCreated", "PremiereDate", "SortName"]},
+    {"title": "Sort Order",
+     "base_title": "Sort Order",
+     "key": "movie_sort_order",
+     "default": "Descending",
+     "values": ["Descending", "Ascending"]}
+  ]
+  new_options = []
+  for each opt in panel_options
+    o = CreateObject("roSGNode", "OptionsData")
+    o.title = opt.title
+    o.choices = opt.values
+    o.base_title = opt.base_title
+    o.config_key = opt.key
+    o.value = get_user_setting(opt.key, opt.default)
+    new_options.append([o])
+  end for
+
+  sidepanel.options = new_options
+  sidepanel.observeField("escape", port)
+
+  while true
+    msg = wait(0, port)
+    if type(msg) = "roSGScreenEvent" and msg.isScreenClosed() then
+      return
+    else if nodeEventQ(msg, "escape") and msg.getNode() = "pager"
+      options.setFocus(true)
+    else if nodeEventQ(msg, "escape") and msg.getNode() = "options"
+      options.setFocus(true)
+    else if nodeEventQ(msg, "pageSelected") and pager.pageSelected <> invalid
+      pager.pageSelected = invalid
+      page_num = int(val(msg.getData().id))
+      pager.currentPage = page_num
+      options_list = ItemList(library_id, {"limit": page_size,
+        "StartIndex": page_size * (page_num - 1),
+        "SortBy": sort_order,
+        "SortOrder": sort_field })
+      options.itemData = options_list
+      options.setFocus(true)
+    else if nodeEventQ(msg, "itemSelected")
+      target = getMsgRowTarget(msg)
+      ShowMovieOptions(target)
+    else
+      print msg
+      print msg.getField()
+      print msg.getData()
     end if
   end while
 end sub
