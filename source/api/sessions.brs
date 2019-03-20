@@ -17,6 +17,7 @@ function ItemSessionStop(id as String, params={})
 end function
 
 function make_params(id as string, params={})
+  ' TODO - probably make these mean something, or find out if we can omit them
   new_params = {
     "VolumeLevel":100,
     "IsMuted":"false",
@@ -38,6 +39,5 @@ function make_params(id as string, params={})
   for each p in params.items()
     new_params[p.key] = p.value
   end for
-  print new_params
   return new_params
 end function

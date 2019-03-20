@@ -7,7 +7,6 @@
     <field id="description" type="string" />
     <field id="favorite" type="boolean" />
     <field id="watched" type="boolean" />
-    <field id="seasons" type="associativearray" />
     <field id="full_data" type="associativearray" onChange="setFields" />
   </interface>
   <script type="text/brightscript">

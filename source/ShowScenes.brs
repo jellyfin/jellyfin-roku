@@ -548,7 +548,8 @@ sub showVideoPlayer(video_id)
   while true
     msg = wait(0, port)
     if type(msg) = "roSGScreenEvent" and msg.isScreenClosed() then
-      ' Sometimes video is already gone by this point
+      return
+      ' Video is already gone by this point
       ' TODO - add an event listener higher up that watches for closing
       ' so we can handle end of video a bit better
       if video = invalid then return
