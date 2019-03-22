@@ -32,7 +32,7 @@
   <interface>
     <field id="itemContent" type="node" onChange="itemContentChanged" />
   </interface>
-  <script type="text/brightscript" uri="pkg:/source/HelperUtils.brs" />
+  <script type="text/brightscript" uri="pkg:/source/utils/misc.brs" />
   <script type="text/brightscript" uri="pkg:/components/movies/details.brs" />
   <script type="text/brightscript">
   <![CDATA[

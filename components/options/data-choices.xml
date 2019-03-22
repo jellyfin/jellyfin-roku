@@ -8,7 +8,7 @@
     <field id="value" type="string" onChange="update_title" />
     <function name="press" />
   </interface>
-  <script type="text/brightscript" uri="pkg:/source/config.brs" />
+  <script type="text/brightscript" uri="pkg:/source/utils/config.brs" />
   <script type="text/brightscript">
   <![CDATA[
   sub init()

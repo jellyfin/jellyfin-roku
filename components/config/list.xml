@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <component name="ConfigList" extends="MarkupList">
   <interface>
-    <field id="configItems" type="array" onChange="setData" />
+    <field id="configItems" type="nodearray" onChange="setData" />
   </interface>
-  <script type="text/brightscript" uri="pkg:/source/config.brs" />
+  <script type="text/brightscript" uri="pkg:/source/utils/config.brs" />
   <script type="text/brightscript">
   <![CDATA[
   sub init()
@@ -25,13 +25,7 @@
   function setData()
     items = m.top.configItems
     data = CreateObject("roSGNode", "ContentNode")
-
-    for each item in items
-      config = data.CreateChild("ConfigData")
-      config.label = item["label"]
-      config.value = get_setting(item["field"])
-      config.type = item["type"]
-    end for
+    data.appendChildren(items)
 
     m.top.content = data
   end function

@@ -9,10 +9,15 @@ sub ShowServerSelect()
   scene.findNode("prompt").text = "Connect to Server"
 
   config = scene.findNode("configOptions")
-  items = [
-    {"field": "server", "label": "Host", "type": "string"},
-    {"field": "port", "label": "Port", "type": "string"}
-  ]
+  server_field = CreateObject("roSGNode", "ConfigData")
+  server_field.label = "Server"
+  server_field.field = "server"
+  server_field.type = "string"
+  port_field = CreateObject("roSGNode", "ConfigData")
+  port_field.label = "Port"
+  port_field.field = "port"
+  port_field.type = "string"
+  items = [ server_field, port_field ]
   config.configItems = items
 
   button = scene.findNode("submit")
@@ -47,10 +52,15 @@ sub ShowSignInSelect()
   scene.findNode("prompt").text = "Sign In"
 
   config = scene.findNode("configOptions")
-  items = [
-    {"field": "username", "label": "Username", "type": "string"},
-    {"field": "password", "label": "Password", "type": "password"}
-  ]
+  username_field = CreateObject("roSGNode", "ConfigData")
+  username_field.label = "Username"
+  username_field.field = "username"
+  username_field.type = "string"
+  password_field = CreateObject("roSGNode", "ConfigData")
+  password_field.label = "Password"
+  password_field.field = "password"
+  password_field.type = "password"
+  items = [ username_field, password_field ]
   config.configItems = items
 
   button = scene.findNode("submit")
