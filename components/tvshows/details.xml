@@ -25,7 +25,7 @@
 
       </LayoutGroup>
     </LayoutGroup>
-    <!-- Next Up -->
+    <!-- We need some element to move focus (and shift elements up and down) -->
     <TVSeasonRow id="TVSeasonSelect" visible="true" />
   </children>
   <interface>
