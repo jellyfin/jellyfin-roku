@@ -385,12 +385,14 @@ sub ShowTVShowDetails(show_id)
 
   content = createObject("roSGNode", "TVShowData")
   content.full_data = ItemMetaData(show_id)
-  scene.itemContent = content
-  x = TVSeasons(show_id)
-  scene.itemContent.seasons = TVSeasons(show_id)
+  scene.itemData = content
+  scene.seasonData = TVSeasons(show_id)
+
+  scene.findNode("panel-desc").findNode("buttons").setFocus(true)
 
   'buttons = scene.findNode("buttons")
   'buttons.observeField("buttonSelected", port)
+
 
   while true
     msg = wait(0, port)

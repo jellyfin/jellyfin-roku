@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="TVShowDescription" extends="Group">
+  <children>
+    <LayoutGroup id="main_group" layoutDirection="horiz" itemSpacings="[15]" >
+      <Poster id="tvshowPoster" width="400" height="600" />
+      <LayoutGroup layoutDirection="vert" itemSpacings="[25]">
+        <Label id="title" font="font:LargeBoldSystemFont" />
+        <LayoutGroup layoutDirection="horiz" itemSpacings="[150]">
+          <Label id="releaseYear" />
+          <Label id="officialRating" />
+          <Label id="communityRating" />
+        </LayoutGroup>
+        <Label id="genres" />
+        <ButtonGroupHoriz id="buttons" itemSpacings="[10]">
+          <Button text="Play" id="play-button" />
+          <Button text="Shuffle" id="shuffle-button" />
+          <Button text="Favorite" id="favorite-button" />
+        </ButtonGroupHoriz>
+        <Label id="tagline" />
+        <Label id="overview" wrap="true" width="900" maxLines="4" />
+        <Label id="history" />
+      </LayoutGroup>
+    </LayoutGroup>
+  </children>
+  <interface>
+    <field id="itemContent" type="node" onChange="itemContentChanged" />
+    <field id="focused" type="boolean" onChange="focusChanged" />
+  </interface>
+  <script type="text/brightscript" uri="pkg:/components/tvshows/details.brs" />
+  <script type="text/brightscript">
+  <![CDATA[
+    sub init()
+      buttons = m.top.findNode("buttons")
+
+      buttons.iconUri = ""
+
+      for each button in buttons.getChildren(-1, 0)
+        button.maxWidth = 350
+        button.minWidth = 350
+      end for
+    end sub
+
+    sub focusChanged()
+      print "HI"
+
+      print m.top.focused
+
+    end sub
+  ]]>
+  </script>
+</component>
