@@ -13,7 +13,10 @@
   <interface>
     <field id="itemData" type="node" onChange="dataChanged" />
     <field id="seasonData" type="associativearray" onChange="seasonChanged" />
-    <field id="focus" type="node" onChange="focusChanged" alias="panelset.focusedChild" alwaysNotify="false" />
+    <field id="panelFocused"
+      alias="panelset.leftPanelIndex"
+      type="integer"
+      onChange="panelFocusChanged" />
   </interface>
   <script type="text/brightscript">
   <![CDATA[
@@ -41,10 +44,19 @@
       m.top.findNode("seasons").TVSeasonData = m.top.seasonData
     end sub
 
-    sub focusChanged()
-      if m.top.focus.id = "panel-desc"
-        m.top.focus.findNode("buttons").setFocus(true)
+    sub panelFocusChanged()
+      set = m.top.findNode("panelset")
+      index = m.top.panelFocused
+
+      if index = 0
+        ' Description page
+        ' TODO - get the buttons to actually take focus back
+        set.findNode("description").findNode("buttons").setFocus(true)
+      else if index = 1
+        ' Seasons page
+        set.findNode("seasons").setFocus(true)
       end if
+
     end sub
   ]]>
   </script>
