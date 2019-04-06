@@ -11,8 +11,8 @@
     </PanelSet>
   </children>
   <interface>
-    <field id="itemData" type="node" onChange="dataChanged" />
-    <field id="seasonData" type="associativearray" onChange="seasonChanged" />
+    <field id="itemData" type="node" alias="description.itemContent" />
+    <field id="seasonData" type="associativearray" alias="seasons.TVSeasonData" />
     <field id="panelFocused"
       alias="panelset.leftPanelIndex"
       type="integer"
@@ -34,14 +34,8 @@
       panel2.panelSize = "full"
       panel2.hasNextPanel = false
       panel2.isFullScreen = true
-    end sub
-
-    sub dataChanged()
-      m.top.findNode("description").itemContent = m.top.itemData
-    end sub
-
-    sub seasonChanged()
-      m.top.findNode("seasons").TVSeasonData = m.top.seasonData
+      panel2.leftPosition = 150
+      ' TODO - set the bounds so seasons dont go off the edge of the screen
     end sub
 
     sub panelFocusChanged()

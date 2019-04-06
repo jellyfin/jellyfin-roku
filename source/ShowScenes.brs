@@ -382,9 +382,10 @@ sub ShowTVShowDetails(show_id)
   themeScene(scene)
 
   scene.itemData = ItemMetaData(show_id)
+  scene.findNode("description").findNode("buttons").setFocus(true)
   scene.seasonData = TVSeasons(show_id)
 
-  scene.findNode("panel-desc").findNode("buttons").setFocus(true)
+  scene.findNode("description").findNode("buttons").setFocus(true)
 
   'buttons = scene.findNode("buttons")
   'buttons.observeField("buttonSelected", port)
