@@ -273,9 +273,7 @@ sub ShowMovieDetails(movie_id)
 
   themeScene(scene)
 
-  content = createObject("roSGNode", "MovieData")
-  content.full_data = ItemMetaData(movie_id)
-  scene.itemContent = content
+  scene.itemContent = ItemMetaData(movie_id)
 
   buttons = scene.findNode("buttons")
   for each b in buttons.getChildren(-1, 0)
@@ -383,9 +381,7 @@ sub ShowTVShowDetails(show_id)
 
   themeScene(scene)
 
-  content = createObject("roSGNode", "TVShowData")
-  content.full_data = ItemMetaData(show_id)
-  scene.itemData = content
+  scene.itemData = ItemMetaData(show_id)
   scene.seasonData = TVSeasons(show_id)
 
   scene.findNode("panel-desc").findNode("buttons").setFocus(true)

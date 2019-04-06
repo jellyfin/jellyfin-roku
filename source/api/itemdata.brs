@@ -33,15 +33,21 @@ function ItemList(library_id=invalid as String, params={})
   url = Substitute("Users/{0}/Items/", get_setting("active_user"))
   resp = APIRequest(url, params)
   data = getJson(resp)
-  ' TODO - actually check item for available images
   results = []
   for each item in data.Items
+    ' TODO - actually check item for available images
     item.posterURL = ImageURL(item.id)
+
     if item.type = "Movie"
       tmp = CreateObject("roSGNode", "MovieData")
       tmp.full_data = item
       results.push(tmp)
+    else if item.type = "Series"
+      tmp = CreateObject("roSGNode", "SeriesData")
+      tmp.full_data = item
+      results.push(tmp)
     else
+      print item.type
       ' Otherwise we just stick with the JSON
       results.push(item)
     end if
@@ -56,6 +62,19 @@ function ItemMetaData(id as String)
   resp = APIRequest(url)
   data = getJson(resp)
   data.posterURL = ImageURL(data.id)
+  if data.type = "Movie"
+    tmp = CreateObject("roSGNode", "MovieData")
+    tmp.full_data = data
+    return tmp
+  else if data.type = "Series"
+    tmp = CreateObject("roSGNode", "SeriesData")
+    tmp.full_data = data
+    return tmp
+  else
+    print data.type
+    ' Return json if we don't know what it is
+    return data
+  end if
   return data
 end function
 

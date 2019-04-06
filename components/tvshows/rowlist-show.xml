@@ -80,9 +80,7 @@
         if index > tvshowData.items.count() then
           exit for
         end if
-        datum = tvshowData.Items[index-1]
-        item = row.CreateChild("TVShowData")
-        item.full_data = datum
+        row.appendChild(tvShowData.items[index-1])
       end for
     end for
     return data
