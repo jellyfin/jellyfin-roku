@@ -80,9 +80,7 @@
         if index > movieData.items.count() then
           exit for
         end if
-        datum = movieData.Items[index-1]
-        item = row.CreateChild("MovieData")
-        item.full_data = datum
+        row.appendChild(movieData.items[index-1])
       end for
     end for
     return data

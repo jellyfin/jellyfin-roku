@@ -33,10 +33,20 @@ function ItemList(library_id=invalid as String, params={})
   url = Substitute("Users/{0}/Items/", get_setting("active_user"))
   resp = APIRequest(url, params)
   data = getJson(resp)
+  ' TODO - actually check item for available images
+  results = []
   for each item in data.Items
-    ' TODO - actually check item for available images
     item.posterURL = ImageURL(item.id)
+    if item.type = "Movie"
+      tmp = CreateObject("roSGNode", "MovieData")
+      tmp.full_data = item
+      results.push(tmp)
+    else
+      ' Otherwise we just stick with the JSON
+      results.push(item)
+    end if
   end for
+  data.items = results
   return data
 end function
 
