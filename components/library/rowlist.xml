@@ -77,12 +77,8 @@
         if index > libs.TotalRecordCount then
           exit for
         end if
-        datum = libs.Items[index-1]
-        item = row.CreateChild("LibraryData")
-        item.labelText = datum.name
-        item.libraryID = datum.id
-        item.libraryType = datum.CollectionType
-        item.data = datum
+        item = libs.Items[index-1]
+        row.appendChild(item)
       end for
     end for
     return data

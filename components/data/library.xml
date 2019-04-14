@@ -1,9 +1,23 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <component name="LibraryData" extends="ContentNode">
   <interface>
-    <field id="labelText" type="string" />
-    <field id="libraryID" type="string" />
-    <field id="libraryType" type="string" />
-    <field id="data" type="associativearray" />
+    <field id="id" type="string" />
+    <field id="name" type="string" />
+    <field id="type" type="string" />
+    <field id="json" type="associativearray" onChange="setData" />
   </interface>
+  <script type="text/brightscript">
+  <![CDATA[
+  sub setData()
+    ' We keep json around just as a reference,
+    ' but ideally everything should be going through one of the interfaces
+    datum = m.top.json
+
+    m.top.id = datum.id
+    m.top.name = datum.name
+    m.top.type = datum.CollectionType
+  end sub
+
+  ]]>
+  </script>
 </component>

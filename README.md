@@ -51,7 +51,7 @@ export ROKU_DEV_PASSWORD=<your roku password>
 ### ToDo - Additional Scenes for TV Shows
 
 - [x] Preview "About this Item" season page
-- [ ] Library Items List for a season
+- [x] Library Items List for a season
 - [ ] Preview "About this Item" episode page (?)
 
 

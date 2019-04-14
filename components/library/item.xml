@@ -9,25 +9,27 @@
 
   <script type="text/brightscript">
   <![CDATA[
-  sub Init()
-    m.itemText = m.top.findNode("itemText")
-    m.itemText.text = "Loading..."
+  sub init()
+    itemText = m.top.findNode("itemText")
+    itemText.text = "Loading..."
 
     updateSize()
   end sub
 
   sub updateSize()
-    m.itemText = m.top.findNode("itemText")
+    itemText = m.top.findNode("itemText")
     maxSize = m.top.getParent().itemSize
-    m.itemText.width = maxSize[0]
+    itemText.width = maxSize[0]
 
-    m.itemText.translation = [0, (maxSize[1] / 2) - 15]
+    itemText.translation = [0, (maxSize[1] / 2) - 15]
   end sub
 
   function itemContentChanged() as void
-    m.itemText = m.top.findNode("itemText")
     itemData = m.top.itemContent
-    m.itemText.text = itemData.labelText
+    if itemData = invalid then return
+
+    itemText = m.top.findNode("itemText")
+    itemText.text = itemData.name
     updateSize()
   end function
   ]]>

@@ -8,4 +8,8 @@
 
     <OptionsSlider id="options" />
   </children>
+  <interface>
+    <field id="libraries" alias="LibrarySelect.libList" />
+    <field id="librarySelected" alias="LibrarySelect.itemSelected" />
+  </interface>
 </component>

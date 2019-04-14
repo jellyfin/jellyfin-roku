@@ -2,7 +2,15 @@
 function LibraryList()
   url = Substitute("Users/{0}/Views/", get_setting("active_user"))
   resp = APIRequest(url)
-  return getJson(resp)
+  data = getJson(resp)
+  results = []
+  for each item in data.Items
+    tmp = CreateObject("roSGNode", "LibraryData")
+    tmp.json = item
+    results.push(tmp)
+  end for
+  data.Items = results
+  return data
 end function
 
 ' Search across all libraries

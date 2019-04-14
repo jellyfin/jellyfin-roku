@@ -4,8 +4,11 @@ function nodeEventQ(msg, field) as boolean
   return type(msg) = "roSGNodeEvent" and msg.getField() = field
 end function
 
-function getMsgRowTarget(msg) as object
+function getMsgRowTarget(msg, subnode=invalid) as object
   node = msg.getRoSGNode()
+  if subnode <> invalid
+    node = node.findNode(subnode)
+  end if
   coords = node.rowItemSelected
   target = node.content.getChild(coords[0]).getChild(coords[1])
   return target

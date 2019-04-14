@@ -97,11 +97,10 @@ sub ShowLibrarySelect()
 
   themeScene(scene)
 
-  library = scene.findNode("LibrarySelect")
   libs = LibraryList()
-  library.libList = libs
 
-  library.observeField("itemSelected", port)
+  scene.libraries = libs
+  scene.observeField("librarySelected", port)
 
   search = scene.findNode("search")
   search.observeField("escape", port)
@@ -146,16 +145,16 @@ sub ShowLibrarySelect()
         ShowSearchOptions(query)
       end if
       search.search_value = ""
-    else if nodeEventQ(msg, "itemSelected")
-      target = getMsgRowTarget(msg)
-      if target.libraryType = "movies"
-        ShowMovieOptions(target.data)
-      else if target.libraryType = "tvshows"
-        ShowTVShowOptions(target.data)
-      else if target.libraryType = "boxsets"
-        ShowCollections(target.data)
+    else if nodeEventQ(msg, "librarySelected")
+      target = getMsgRowTarget(msg, "LibrarySelect")
+      if target.type = "movies"
+        ShowMovieOptions(target)
+      else if target.type = "tvshows"
+        ShowTVShowOptions(target)
+      else if target.type = "boxsets"
+        ShowCollections(target)
       else
-        scene.dialog = make_dialog("This library type is not yet implemented: " + target.libraryType)
+        scene.dialog = make_dialog("This library type is not yet implemented: " + target.type)
         scene.dialog.observeField("buttonSelected", port)
       end if
     else if nodeEventQ(msg, "buttonSelected")
@@ -169,7 +168,6 @@ sub ShowLibrarySelect()
 end sub
 
 sub ShowMovieOptions(library)
-  library_id = library.id
   port = CreateObject("roMessagePort")
   screen = CreateObject("roSGScreen")
   screen.setMessagePort(port)
@@ -191,7 +189,7 @@ sub ShowMovieOptions(library)
   sort_order = get_user_setting("movie_sort_order", "Descending")
   sort_field = get_user_setting("movie_sort_field", "DateCreated,SortName")
 
-  options_list = ItemList(library_id, {"limit": page_size,
+  options_list = ItemList(library.id, {"limit": page_size,
     "StartIndex": page_size * (page_num - 1),
     "SortBy": sort_field,
     "SortOrder": sort_order })
@@ -246,7 +244,7 @@ sub ShowMovieOptions(library)
       pager.pageSelected = invalid
       page_num = int(val(msg.getData().id))
       pager.currentPage = page_num
-      options_list = ItemList(library_id, {"limit": page_size,
+      options_list = ItemList(library.id, {"limit": page_size,
         "StartIndex": page_size * (page_num - 1),
         "SortBy": sort_order,
         "SortOrder": sort_field })
@@ -310,7 +308,6 @@ sub ShowMovieDetails(movie_id)
 end sub
 
 sub ShowTVShowOptions(library)
-  library_id = library.ID
   port = CreateObject("roMessagePort")
   screen = CreateObject("roSGScreen")
   screen.setMessagePort(port)
@@ -332,7 +329,7 @@ sub ShowTVShowOptions(library)
   sort_order = get_user_setting("tvshow_sort_order", "Descending")
   sort_field = get_user_setting("tvshow_sort_field", "DateCreated,SortName")
 
-  options_list = ItemList(library_id, {"limit": page_size,
+  options_list = ItemList(library.id, {"limit": page_size,
     "page": page_num,
     "SortBy": sort_field,
     "SortOrder": sort_order })
@@ -356,7 +353,7 @@ sub ShowTVShowOptions(library)
       pager.pageSelected = invalid
       page_num = int(val(msg.getData().id))
       pager.currentPage = page_num
-      options_list = ItemList(library_id, {"limit": page_size,
+      options_list = ItemList(library.id, {"limit": page_size,
         "StartIndex": page_size * (page_num - 1),
         "SortBy": sort_field,
         "SortOrder": sort_order })
@@ -447,7 +444,6 @@ sub ShowTVSeasonEpisodes(show_id, season_id)
 end sub
 
 sub ShowCollections(library)
-  library_id = library.id
   port = CreateObject("roMessagePort")
   screen = CreateObject("roSGScreen")
   screen.setMessagePort(port)
@@ -469,7 +465,7 @@ sub ShowCollections(library)
   sort_order = get_user_setting("collection_sort_order", "Ascending")
   sort_field = get_user_setting("collection_sort_field", "SortName")
 
-  options_list = ItemList(library_id, {"limit": page_size,
+  options_list = ItemList(library.id, {"limit": page_size,
     "StartIndex": page_size * (page_num - 1),
     "SortBy": sort_field,
     "SortOrder": sort_order })
@@ -524,7 +520,7 @@ sub ShowCollections(library)
       pager.pageSelected = invalid
       page_num = int(val(msg.getData().id))
       pager.currentPage = page_num
-      options_list = ItemList(library_id, {"limit": page_size,
+      options_list = ItemList(library.id, {"limit": page_size,
         "StartIndex": page_size * (page_num - 1),
         "SortBy": sort_order,
         "SortOrder": sort_field })
