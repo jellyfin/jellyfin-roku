@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="TVEpisodes" extends="Scene">
+  <children>
+    <TVEpisodeRow
+      id="TVEpisodeSelect"
+      visible="true"
+      />
+    <Overhang
+      id="overhang"
+      title="TV Shows"
+      />
+    <Rectangle id="footerBackdrop" />
+    <Pager id="pager" />
+  </children>
+  <interface>
+    <field id="showData" type="node" />
+    <field id="seasonData" type="node" />
+    <field id="episodeData" type="node" alias="TVEpisodeSelect.TVEpisodeData" />
+  </interface>
+</component>

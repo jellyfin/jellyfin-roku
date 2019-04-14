@@ -44,6 +44,8 @@
     m.backdrop.width = m.poster.width
     m.backdrop.height = m.poster.height
 
+    m.title.wrap = true
+    m.title.maxLines = 2
     m.title.width = m.poster.width
     m.title.height = int(maxSize[1]) - m.poster.height
     m.title.translation = [0, m.poster.height]

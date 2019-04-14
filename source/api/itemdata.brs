@@ -90,6 +90,17 @@ function TVSeasons(id as String)
   return data
 end function
 
+function TVEpisodes(show_id as String, season_id as String)
+  url = Substitute("Shows/{0}/Episodes", show_id)
+  resp = APIRequest(url, {"seasonId": season_id, "UserId": get_setting("active_user")})
+
+  data = getJson(resp)
+  for each item in data.Items
+    item.posterURL = ImageURL(item.id)
+  end for
+  return data
+end function
+
 ' The next up episode for a TV show
 function TVNext(id as String)
   url = Substitute("Shows/NextUp", id)

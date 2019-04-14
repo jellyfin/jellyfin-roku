@@ -390,6 +390,7 @@ sub ShowTVShowDetails(show_id)
   'buttons = scene.findNode("buttons")
   'buttons.observeField("buttonSelected", port)
 
+  scene.findNode("seasons").observeField("rowItemSelected", port)
 
   while true
     msg = wait(0, port)
@@ -397,6 +398,47 @@ sub ShowTVShowDetails(show_id)
       return
     else if nodeEventQ(msg, "buttonSelected")
       ' What button could we even be watching yet
+      print "HELLO"
+    else if nodeEventQ(msg, "rowItemSelected")
+      ' Assume for now it's a season being selected
+      season_list = msg.getRoSGNode()
+      item = msg.getData()
+      season = season_list.content.getChild(item[0]).getChild(item[1])
+
+      ShowTVSeasonEpisodes(show_id, season.full_data.id)
+    else
+      print msg
+      print type(msg)
+    end if
+  end while
+end sub
+
+sub ShowTVSeasonEpisodes(show_id, season_id)
+  port = CreateObject("roMessagePort")
+  screen = CreateObject("roSGScreen")
+  screen.setMessagePort(port)
+  scene = screen.CreateScene("TVEpisodes")
+
+  screen.show()
+
+  themeScene(scene)
+
+  scene.showData = ItemMetaData(show_id)
+  scene.seasonData = TVSeasons(show_id)
+  scene.episodeData = TVEpisodes(show_id, season_id)
+
+  scene.findNode("TVEpisodeSelect").observeField("rowItemSelected", port)
+
+  while true
+    msg = wait(0, port)
+    if type(msg) = "roSGScreenEvent" and msg.isScreenClosed() then
+      return
+    else if nodeEventQ(msg, "rowItemSelected")
+      episode_list = msg.getRoSGNode()
+      item = msg.getData()
+      episode = episode_list.content.getChild(item[0]).getChild(item[1])
+
+      ShowVideoPlayer(episode.full_data.id)
     else
       print msg
       print type(msg)
