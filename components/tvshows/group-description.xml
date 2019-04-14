@@ -25,7 +25,7 @@
   <interface>
     <field id="itemContent" type="node" onChange="itemContentChanged" />
   </interface>
-  <script type="text/brightscript" uri="pkg:/components/tvshows/details.brs" />
+  <script type="text/brightscript" uri="pkg:/components/tvshows/group-description.brs" />
   <script type="text/brightscript">
   <![CDATA[
     sub init()
