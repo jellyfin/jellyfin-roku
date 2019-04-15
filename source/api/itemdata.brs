@@ -60,7 +60,7 @@ function ItemList(library_id=invalid as String, params={})
       tmp = CreateObject("roSGNode", "SeriesData")
       tmp.json = item
       results.push(tmp)
-    else if item.type = "Cllection"
+    else if item.type = "BoxSet"
       tmp = CreateObject("roSGNode", "CollectionData")
       tmp.json = item
       results.push(tmp)
@@ -88,7 +88,7 @@ function ItemMetaData(id as String)
     tmp = CreateObject("roSGNode", "SeriesData")
     tmp.json = data
     return tmp
-  else if item.type = "Cllection"
+  else if data.type = "BoxSet"
     tmp = CreateObject("roSGNode", "CollectionData")
     tmp.json = item
     results.push(tmp)
