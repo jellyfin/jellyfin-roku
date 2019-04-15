@@ -102,6 +102,8 @@ sub ShowLibrarySelect()
   scene.libraries = libs
   scene.observeField("librarySelected", port)
 
+  library = scene.findNode("LibrarySelect")
+
   search = scene.findNode("search")
   search.observeField("escape", port)
   search.observeField("search_value", port)
@@ -252,7 +254,7 @@ sub ShowMovieOptions(library)
       options.setFocus(true)
     else if nodeEventQ(msg, "itemSelected")
       target = getMsgRowTarget(msg)
-      ShowMovieDetails(target.movieID)
+      ShowMovieDetails(target)
     else
       print msg
       print msg.getField()
@@ -261,7 +263,7 @@ sub ShowMovieOptions(library)
   end while
 end sub
 
-sub ShowMovieDetails(movie_id)
+sub ShowMovieDetails(movie)
   port = CreateObject("roMessagePort")
   screen = CreateObject("roSGScreen")
   screen.setMessagePort(port)
@@ -271,7 +273,8 @@ sub ShowMovieDetails(movie_id)
 
   themeScene(scene)
 
-  scene.itemContent = ItemMetaData(movie_id)
+  movie = ItemMetaData(movie.id)
+  scene.itemContent = movie
 
   buttons = scene.findNode("buttons")
   for each b in buttons.getChildren(-1, 0)
@@ -284,21 +287,21 @@ sub ShowMovieDetails(movie_id)
       return
     else if nodeEventQ(msg, "buttonSelected")
       if msg.getNode() = "play-button"
-        showVideoPlayer(movie_id)
+        showVideoPlayer(movie.id)
       else if msg.getNode() = "watched-button"
-        if content.watched
-          UnmarkItemWatched(movie_id)
+        if movie.watched
+          UnmarkItemWatched(movie.id)
         else
-          MarkItemWatched(movie_id)
+          MarkItemWatched(movie.id)
         end if
-        content.watched = not content.watched
+        movie.watched = not movie.watched
       else if msg.getNode() = "favorite-button"
-        if content.favorite
-          UnmarkItemFavorite(movie_id)
+        if movie.favorite
+          UnmarkItemFavorite(movie.id)
         else
-          MarkItemFavorite(movie_id)
+          MarkItemFavorite(movie.id)
         end if
-        content.favorite = not content.favorite
+        movie.favorite = not movie.favorite
       end if
     else
       print msg
@@ -363,12 +366,12 @@ sub ShowTVShowOptions(library)
       return
     else if nodeEventQ(msg, "itemSelected")
       target = getMsgRowTarget(msg)
-      ShowTVShowDetails(target.showID)
+      ShowTVShowDetails(target)
     end if
   end while
 end sub
 
-sub ShowTVShowDetails(show_id)
+sub ShowTVShowDetails(series)
   port = CreateObject("roMessagePort")
   screen = CreateObject("roSGScreen")
   screen.setMessagePort(port)
@@ -378,9 +381,10 @@ sub ShowTVShowDetails(show_id)
 
   themeScene(scene)
 
-  scene.itemData = ItemMetaData(show_id)
+  series = ItemMetaData(series.id)
+  scene.itemData = series
   scene.findNode("description").findNode("buttons").setFocus(true)
-  scene.seasonData = TVSeasons(show_id)
+  scene.seasonData = TVSeasons(series.id)
 
   scene.findNode("description").findNode("buttons").setFocus(true)
 
@@ -395,14 +399,13 @@ sub ShowTVShowDetails(show_id)
       return
     else if nodeEventQ(msg, "buttonSelected")
       ' What button could we even be watching yet
-      print "HELLO"
     else if nodeEventQ(msg, "rowItemSelected")
       ' Assume for now it's a season being selected
       season_list = msg.getRoSGNode()
       item = msg.getData()
       season = season_list.content.getChild(item[0]).getChild(item[1])
 
-      ShowTVSeasonEpisodes(show_id, season.full_data.id)
+      ShowTVSeasonEpisodes(series, season)
     else
       print msg
       print type(msg)
@@ -410,7 +413,7 @@ sub ShowTVShowDetails(show_id)
   end while
 end sub
 
-sub ShowTVSeasonEpisodes(show_id, season_id)
+sub ShowTVSeasonEpisodes(series, season)
   port = CreateObject("roMessagePort")
   screen = CreateObject("roSGScreen")
   screen.setMessagePort(port)
@@ -420,9 +423,9 @@ sub ShowTVSeasonEpisodes(show_id, season_id)
 
   themeScene(scene)
 
-  scene.showData = ItemMetaData(show_id)
-  scene.seasonData = TVSeasons(show_id)
-  scene.episodeData = TVEpisodes(show_id, season_id)
+  scene.showData = ItemMetaData(series.id)
+  scene.seasonData = TVSeasons(series.id)
+  scene.episodeData = TVEpisodes(series.id, season.id)
 
   scene.findNode("TVEpisodeSelect").observeField("rowItemSelected", port)
 
@@ -435,7 +438,7 @@ sub ShowTVSeasonEpisodes(show_id, season_id)
       item = msg.getData()
       episode = episode_list.content.getChild(item[0]).getChild(item[1])
 
-      ShowVideoPlayer(episode.full_data.id)
+      ShowVideoPlayer(episode.id)
     else
       print msg
       print type(msg)
@@ -566,7 +569,7 @@ sub ShowSearchOptions(query)
       target = getMsgRowTarget(msg)
       ' TODO - swap this based on target.mediatype
       ' types: [ Episode, Movie, Audio, Person, Studio, MusicArtist ]
-      ShowMovieDetails(target.mediaID)
+      ShowMovieDetails(target)
     else
       print msg
       print msg.getField()

@@ -1,5 +1,7 @@
 sub itemContentChanged()
-  itemData = m.top.itemContent.full_data
+  ' TODO - make things use item rather than itemData
+  item = m.top.itemContent
+  itemData = item.json
 
   m.top.findNode("tvshowPoster").uri = m.top.itemContent.posterURL
 
@@ -38,7 +40,7 @@ sub setFieldText(field as string, value)
 end sub
 
 function getRuntime() as Integer
-  itemData = m.top.itemContent.full_data
+  itemData = m.top.itemContent.json
 
   ' A tick is .1ms, so 1/10,000,000 for ticks to seconds,
   ' then 1/60 for seconds to minutess... 1/600,000,000
@@ -46,7 +48,7 @@ function getRuntime() as Integer
 end function
 
 function getEndTime() as string
-  itemData = m.top.itemContent.full_data
+  itemData = m.top.itemContent.json
 
   date = CreateObject("roDateTime")
   duration_s = int(itemData.RunTimeTicks / 10000000.0)
@@ -69,7 +71,7 @@ function getEndTime() as string
 end function
 
 function getHistory() as string
-  itemData = m.top.itemContent.full_data
+  itemData = m.top.itemContent.json
   ' Aired Fridays at 9:30 PM on ABC (US)
 
   airwords = invalid

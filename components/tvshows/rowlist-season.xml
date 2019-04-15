@@ -60,9 +60,8 @@
     data = CreateObject("roSGNode", "ContentNode")
     row = data.CreateChild("ContentNode")
     row.title = "Seasons"
-    for each datum in seasonData.items
-      item = row.CreateChild("TVSeasonData")
-      item.full_data = datum
+    for each item in seasonData.items
+      row.appendChild(item)
     end for
     m.top.content = data
     return data

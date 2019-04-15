@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <component name="SearchData" extends="ContentNode">
   <interface>
+    <field id="id" type="string" />
+    <field id="type" type="string" />
     <field id="title" type="string" />
     <field id="posterUrl" type="string" />
-    <field id="mediaType" type="string" />
-    <field id="mediaID" type="string" />
-    <field id="full_data" type="associativearray" onChange="setFields" />
+    <field id="json" type="associativearray" onChange="setFields" />
   </interface>
   <script type="text/brightscript">
   <![CDATA[
   sub setFields()
-    datum = m.top.full_data
+    datum = m.top.json
+
+    m.top.id = datum.id
     m.top.title = datum.name
-    m.top.mediaID = datum.id
-    m.top.mediaType = datum.Type
+    m.top.type = datum.Type
+
     if datum.posterURL <> invalid
       m.top.posterURL = datum.posterURL
     else

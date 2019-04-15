@@ -1,12 +1,13 @@
 ' "Q" stands for "Question mark" since nodeEvent? wasn't acceptable
 ' Probably needs a better name, but unique for now
-function nodeEventQ(msg, field) as boolean
+function nodeEventQ(msg, field as string) as boolean
   return type(msg) = "roSGNodeEvent" and msg.getField() = field
 end function
 
-function getMsgRowTarget(msg, subnode=invalid) as object
+function getMsgRowTarget(msg, subnode="" as string) as object
   node = msg.getRoSGNode()
-  if subnode <> invalid
+  ' Subnode allows for handling alias messages
+  if subnode <> ""
     node = node.findNode(subnode)
   end if
   coords = node.rowItemSelected

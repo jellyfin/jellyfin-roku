@@ -80,9 +80,8 @@
         if index > itemData.items.count() then
           exit for
         end if
-        datum = itemData.Items[index-1]
-        item = row.CreateChild("CollectionData")
-        item.full_data = datum
+        item = itemData.Items[index-1]
+        row.appendChild(item)
       end for
     end for
     return data

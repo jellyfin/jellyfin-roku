@@ -67,8 +67,8 @@
     }
 
     for each item in itemData.searchHints
-      if content_types[item.Type] <> invalid
-        content_types[item.Type].count += 1
+      if content_types[item.type] <> invalid
+        content_types[item.type].count += 1
       end if
     end for
 
@@ -89,8 +89,7 @@
     row.title = title
     for each item in itemData.SearchHints
       if item.type = type_filter
-        child = row.createChild("SearchData")
-        child.full_data = item
+        row.appendChild(item)
       end if
     end for
   end function

@@ -17,6 +17,7 @@ end function
 function SearchMedia(query as String)
   resp = APIRequest("Search/Hints", {"searchTerm": query})
   data = getJson(resp)
+  results = []
   for each item in data.SearchHints
     if item.type = "Movie"
       item.posterURL = ImageURL(item.id)
@@ -25,7 +26,12 @@ function SearchMedia(query as String)
     else if item.type = "Episode"
       item.posterURL = ImageURL(item.id)
     end if
+
+    tmp = CreateObject("roSGNode", "SearchData")
+    tmp.json = item
+    results.push(tmp)
   end for
+  data.SearchHints = results
   return data
 end function
 
@@ -48,11 +54,15 @@ function ItemList(library_id=invalid as String, params={})
 
     if item.type = "Movie"
       tmp = CreateObject("roSGNode", "MovieData")
-      tmp.full_data = item
+      tmp.json = item
       results.push(tmp)
     else if item.type = "Series"
       tmp = CreateObject("roSGNode", "SeriesData")
-      tmp.full_data = item
+      tmp.json = item
+      results.push(tmp)
+    else if item.type = "Cllection"
+      tmp = CreateObject("roSGNode", "CollectionData")
+      tmp.json = item
       results.push(tmp)
     else
       print item.type
@@ -72,12 +82,16 @@ function ItemMetaData(id as String)
   data.posterURL = ImageURL(data.id)
   if data.type = "Movie"
     tmp = CreateObject("roSGNode", "MovieData")
-    tmp.full_data = data
+    tmp.json = data
     return tmp
   else if data.type = "Series"
     tmp = CreateObject("roSGNode", "SeriesData")
-    tmp.full_data = data
+    tmp.json = data
     return tmp
+  else if item.type = "Cllection"
+    tmp = CreateObject("roSGNode", "CollectionData")
+    tmp.json = item
+    results.push(tmp)
   else
     print data.type
     ' Return json if we don't know what it is
@@ -92,9 +106,14 @@ function TVSeasons(id as String)
   resp = APIRequest(url, {"UserId": get_setting("active_user")})
 
   data = getJson(resp)
+  results = []
   for each item in data.Items
     item.posterURL = ImageURL(item.id)
+    tmp = CreateObject("roSGNode", "TVEpisodeData")
+    tmp.json = item
+    results.push(tmp)
   end for
+  data.Items = results
   return data
 end function
 
@@ -103,9 +122,14 @@ function TVEpisodes(show_id as String, season_id as String)
   resp = APIRequest(url, {"seasonId": season_id, "UserId": get_setting("active_user")})
 
   data = getJson(resp)
+  results = []
   for each item in data.Items
     item.posterURL = ImageURL(item.id)
+    tmp = CreateObject("roSGNode", "TVEpisodeData")
+    tmp.json = item
+    results.push(tmp)
   end for
+  data.Items = results
   return data
 end function
 

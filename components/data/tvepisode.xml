@@ -1,25 +1,31 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <component name="TVEpisodeData" extends="ContentNode">
   <interface>
+    <field id="id" type="string" />
     <field id="title" type="string" />
-    <field id="posterUrl" type="string" />
+    <field id="posterURL" type="string" />
     <field id="showID" type="string" />
+    <field id="seasonID" type="string" />
     <field id="description" type="string" />
-    <field id="full_data" type="associativearray" onChange="setFields" />
+    <field id="json" type="associativearray" onChange="setFields" />
     <function name="loadSeasons" />
   </interface>
   <script type="text/brightscript">
   <![CDATA[
   sub setFields()
-    datum = m.top.full_data
+    datum = m.top.json
+
+    m.top.id = datum.id
     m.top.title = datum.name
     m.top.showID = datum.SeriesID
+    m.top.seasonID = datum.SeasonID
+    m.top.overview = datum.overview
+
     if datum.posterURL <> invalid
       m.top.posterURL = datum.posterURL
     else
       m.top.posterURL = ""
     end if
-    m.top.description = datum.overview
   end sub
   ]]>
   </script>
