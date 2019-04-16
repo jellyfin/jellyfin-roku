@@ -25,7 +25,7 @@ function VideoContent(id) as object
   ' I'm not super happy that I'm basically re-implementing APIRequest
   ' but for a ContentNode instead of UrlTransfer
   server = get_setting("server")
-  content.url = Substitute("{0}/emby/Videos/{1}/stream.mp4", server, id)
+  content.url = Substitute("{0}/emby/Videos/{1}/stream", server, id)
   content.url = content.url + "?Static=true"
 
   content = authorize_request(content)
