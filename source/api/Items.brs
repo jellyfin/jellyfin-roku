@@ -1,3 +1,30 @@
+function ItemsList(params={} as object)
+  ' Gets items based on a query.
+  resp = APIRequest("Items", params)
+  data = getJson(resp)
+  ' TODO - parse items
+  return data
+end function
+
+function UserItems(params={} as object)
+  ' Gets items based on a query
+  resp = APIRequest(Substitute("Items/{0}/Items", get_setting("active_user")), params)
+  data = getJson(resp)
+  ' TODO - parse items
+  return data
+end function
+
+function UserItemsResume(params={} as object)
+  ' Gets items based on a query
+  resp = APIRequest(Substitute("Items/{0}/Items/Resume", get_setting("active_user")), params)
+  data = getJson(resp)
+  ' TODO - parse items
+  return data
+end function
+
+
+
+
 ' List of available libraries
 function LibraryList()
   url = Substitute("Users/{0}/Views/", get_setting("active_user"))

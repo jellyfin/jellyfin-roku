@@ -12,7 +12,7 @@ function buildURL(path as String, params={} as Object) as string
     return ""
   end if
 
-  full_url = get_base_url() + "/emby/" + path
+  full_url = get_base_url() + "/" + path
   if params.count() > 0
     full_url = full_url + "?"
 

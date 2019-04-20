@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="ImageData" extends="ContentNode">
+  <interface>
+    <field id="json" type="associativearray" onChange="setFields" />
+    <field id="imagetype" type="string" />
+    <field id="size" type="string" />
+    <field id="height" type="integer" />
+    <field id="width" type="integer" />
+    <field id="url" type="string" />
+  </interface>
+  <script type="text/brightscript">
+  <![CDATA[
+  sub setFields()
+    json = m.top.json
+    m.top.imagetype = json.imagetype
+    m.top.size = json.size
+    m.top.height = json.height
+    m.top.width = json.width
+  end sub
+  ]]>
+  </script>
+</component>
