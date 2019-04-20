@@ -94,23 +94,29 @@ function get_base_url()
   base = get_setting("server")
   port = get_setting("port")
 
-  if base.instr(0, "http") <> 0
-    protocol = "http"
-    if port = "443" or port = "8920"
-      protocol = protocol + "s"
+  if base.right(1) = "/"
+    base = base.left(base.len() - 1)
+  end if
+
+  if base.left(4) <> "http"
+    if server_is_https()
+      protocol = "https://"
+    else
+      protocol = "http://"
     end if
-    protocol = protocol + "://"
     base = protocol + base
   end if
 
   if port <> "" and port <> invalid then
     base = base + ":" + port
   end if
+
   return base
 end function
 
 function server_is_https() as Boolean
   server = get_setting("server")
+  port = get_setting("port")
 
   i = server.Instr(":")
 
@@ -123,6 +129,11 @@ function server_is_https() as Boolean
   if protocol = "https" then
     return True
   end if
+
+  if port = "443" or port = "8920"
+    return True
+  end if
+
   return False
 end function
 
