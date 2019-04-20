@@ -93,6 +93,16 @@ end function
 function get_base_url()
   base = get_setting("server")
   port = get_setting("port")
+
+  if base.instr(0, "http") <> 0
+    protocol = "http"
+    if port = "443" or port = "8920"
+      protocol = protocol + "s"
+    end if
+    protocol = protocol + "://"
+    base = protocol + base
+  end if
+
   if port <> "" and port <> invalid then
     base = base + ":" + port
   end if
