@@ -10,6 +10,15 @@ sub Main()
     ShowServerSelect()
   end if
 
+  if ServerInfo() = invalid
+    ' Maybe don't unset setting, but offer as a prompt
+    ' Server not found, is it online? New values / Retry
+    print "Connection to server failed, restart flow"
+    unset_setting("server")
+    unset_setting("active_user")
+    goto start_login
+  end if
+
   if get_setting("active_user") = invalid then
     print "Get user login"
     ShowSigninSelect()

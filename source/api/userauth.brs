@@ -1,14 +1,8 @@
 function get_token(user as String, password as String)
-  bytes = createObject("roByteArray")
-  bytes.FromAsciiString(password)
-  digest = createObject("roEVPDigest")
-  digest.setup("sha1")
-  hashed_pass = digest.process(bytes)
-
   url = "Users/AuthenticateByName?format=json"
   req = APIRequest(url)
 
-  json = postJson(req, "Username=" + user + "&Password=" + hashed_pass)
+  json = postJson(req, "Username=" + user + "&Pw=" + password)
 
   if json = invalid then return invalid
 
@@ -30,4 +24,11 @@ end function
 function SignOut()
   unset_user_setting("token")
   unset_setting("active_user")
+end function
+
+
+function ServerInfo()
+  url = "System/Info/Public"
+  resp = APIRequest(url)
+  return getJson(resp)
 end function
