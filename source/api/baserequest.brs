@@ -59,6 +59,10 @@ end function
 function getJson(req)
   'req.retainBodyOnError(True)
   'print req.GetToString()
+  data = req.GetToString()
+  if data = invalid or data = ""
+    return invalid
+  end if
   json = ParseJson(req.GetToString())
   return json
 end function
@@ -150,7 +154,7 @@ function authorize_request(request)
   end if
 
   token = get_user_setting("token")
-  if token <> invalid and token <> "" then
+  if token <> invalid and token <> ""
     auth = auth + ", Token=" + Chr(34) + token + Chr(34)
   end if
 

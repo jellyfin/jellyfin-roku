@@ -17,8 +17,9 @@ sub Main()
 
   ' Confirm the configured server and user work
   m.user = AboutMe()
-  if m.user.id <> get_setting("active_user")
+  if m.user = invalid or m.user.id <> get_setting("active_user")
     print "Login failed, restart flow"
+    unset_setting("active_user")
     goto start_login
   end if
 

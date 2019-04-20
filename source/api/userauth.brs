@@ -6,25 +6,28 @@ function get_token(user as String, password as String)
   hashed_pass = digest.process(bytes)
 
   url = "Users/AuthenticateByName?format=json"
-
   req = APIRequest(url)
 
   json = postJson(req, "Username=" + user + "&Password=" + hashed_pass)
 
   if json = invalid then return invalid
 
-  set_setting("active_user", json.User.id)
-  set_user_setting("id", json.User.id)  ' redundant, but could come in handy
-  set_user_setting("token", json.AccessToken)
-  return json
+  userdata = CreateObject("roSGNode", "UserData")
+  userdata.json = json
+
+  userdata.callFunc("setActive")
+  userdata.callFunc("saveToRegistry")
+  return userdata
 end function
 
 function AboutMe()
-  url = Substitute("Users/{0}", get_setting("active_user"))
+  id = get_setting("active_user")
+  url = Substitute("Users/{0}", id)
   resp = APIRequest(url)
   return getJson(resp)
 end function
 
 function SignOut()
+  unset_user_setting("token")
   unset_setting("active_user")
 end function
