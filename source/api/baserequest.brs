@@ -146,11 +146,22 @@ end function
 
 function authorize_request(request)
   ' TODO - get proper version and device ID from manifest
+  devinfo = CreateObject("roDeviceInfo")
+
   auth = "MediaBrowser"
-  auth = auth + " Client=" + Chr(34) + "Jellyfin Roku" + Chr(34)
-  auth = auth + ", Device=" + Chr(34) + "Roku Model" + Chr(34)
-  auth = auth + ", DeviceId=" + Chr(34) + "12345" + Chr(34)
-  auth = auth + ", Version=" + Chr(34) + "10.3.0" + Chr(34)
+
+  client = "Jellyfin Roku"
+  auth = auth + " Client=" + Chr(34) + client + Chr(34)
+
+  device = devinfo.getModelDisplayName()
+  friendly = devinfo.getFriendlyName()
+  auth = auth + ", Device=" + Chr(34) + device + " (" + friendly + ")" + Chr(34)
+
+  device_id = devinfo.getChannelClientID()
+  auth = auth + ", DeviceId=" + Chr(34) + device_id + Chr(34)
+
+  version = "10.3.0"
+  auth = auth + ", Version=" + Chr(34) + version + Chr(34)
 
   user = get_setting("active_user")
   if user <> invalid and user <> "" then
