@@ -125,10 +125,14 @@ function ItemMetaData(id as String)
     tmp = CreateObject("roSGNode", "SeriesData")
     tmp.json = data
     return tmp
+  else if data.type = "Episode"
+    tmp = CreateObject("roSGNode", "TVEpisodeData")
+    tmp.json = data
+    return tmp
   else if data.type = "BoxSet"
     tmp = CreateObject("roSGNode", "CollectionData")
     tmp.json = item
-    results.push(tmp)
+    return tmp
   else
     print data.type
     ' Return json if we don't know what it is
