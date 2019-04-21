@@ -77,7 +77,17 @@ function ItemList(library_id=invalid as String, params={})
   results = []
   for each item in data.Items
     ' TODO - actually check item for available images
-    item.posterURL = ImageURL(item.id)
+
+    if item.imagetags.primary <> invalid
+      item.posterURL = ImageURL(item.id, "Primary")
+      ' item.posterAspect = item.PrimaryImageAspectRatio
+    else if item.imagetags.logo <> invalid
+      item.posterURL = ImageURL(item.id, "Logo")
+    else if item.imagetags.thumb <> invalid
+      item.posterURL = ImageURL(item.id, "Thumb")
+    else
+      ' Maybe find more fallback images!
+    end if
 
     if item.type = "Movie"
       tmp = CreateObject("roSGNode", "MovieData")
