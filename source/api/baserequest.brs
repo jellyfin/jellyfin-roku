@@ -1,40 +1,43 @@
 ' Functions for making requests to the API
-
-function buildURL(path as String, params={} as Object) as string
-  ' roURLTransfer can only be created on a Task Node, and somewhere something
-  ' is trying to call it from a "regular" node
-  ' So we'll just avoid using it for now
-  ' Sucks that we can't use htmlescape any other way though
+function buildParams(params={} as Object) as string
   req = createObject("roUrlTransfer")  ' Just so we can use it for escape
 
-  if req = invalid
-    print "How is this even!?"
-    return ""
-  end if
+  param_array = []
+  for each field in params.items()
+    if type(field.value) = "String" or type(field.value) = "roString"
+      item = field.key + "=" + req.escape(field.value.trim())
+      'item = field.key + "=" + field.value.trim()
+    else if type(field.value) = "roInteger"
+      item = field.key + "=" + stri(field.value).trim()
+      'item = field.key + "=" + str(field.value).trim()
+    else if type(field.value) = "roFloat"
+      item = field.key + "=" + stri(int(field.value)).trim()
+    else if type(field.value) = "roArray"
+      ' TODO handle array params
+    else if type(field.value) = "roBoolean"
+      if field.value
+        item = field.key + "=true"
+      else
+        item = field.key + "=false"
+      end if
+    else if field.value = invalid
+      item = field.key + "=null"
+    else if field <> invalid
+      print "Unhandled param type: " + type(field.value)
+      item = field.key + "=" + req.escape(field.value)
+      'item = field.key + "=" + field.value
+    end if
+    param_array.push(item)
+  end for
+
+  return param_array.join("&")
+end function
+
+function buildURL(path as String, params={} as Object) as string
 
   full_url = get_base_url() + "/" + path
   if params.count() > 0
-    full_url = full_url + "?"
-
-    param_array = []
-    for each field in params.items()
-      if type(field.value) = "String" then
-        item = field.key + "=" + req.escape(field.value.trim())
-        'item = field.key + "=" + field.value.trim()
-      else if type(field.value) = "roInteger" then
-        item = field.key + "=" + req.escape(str(field.value).trim())
-        'item = field.key + "=" + str(field.value).trim()
-      else if type(field.value) = "roFloat" then
-        item = field.key + "=" + req.escape(str(field.value).trim())
-      else if type(field.value) = "roArray" then
-        ' TODO handle array params
-      else if field <> invalid
-        item = field.key + "=" + req.escape(field.value)
-        'item = field.key + "=" + field.value
-      end if
-      param_array.push(item)
-    end for
-    full_url = full_url + param_array.join("&")
+    full_url = full_url + "?" + buildParams(params)
   end if
 
   return full_url
@@ -142,11 +145,12 @@ function server_is_https() as Boolean
 end function
 
 function authorize_request(request)
+  ' TODO - get proper version and device ID from manifest
   auth = "MediaBrowser"
   auth = auth + " Client=" + Chr(34) + "Jellyfin Roku" + Chr(34)
   auth = auth + ", Device=" + Chr(34) + "Roku Model" + Chr(34)
   auth = auth + ", DeviceId=" + Chr(34) + "12345" + Chr(34)
-  auth = auth + ", Version=" + Chr(34) + "10.1.0" + Chr(34)
+  auth = auth + ", Version=" + Chr(34) + "10.3.0" + Chr(34)
 
   user = get_setting("active_user")
   if user <> invalid and user <> "" then

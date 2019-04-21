@@ -16,6 +16,7 @@ function VideoPlayer(id)
 end function
 
 function VideoContent(id) as object
+
   content = createObject("RoSGNode", "ContentNode")
 
   meta = ItemMetaData(id)

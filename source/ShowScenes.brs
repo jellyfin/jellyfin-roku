@@ -598,7 +598,9 @@ sub showVideoPlayer(video_id)
   while true
     msg = wait(0, port)
     if type(msg) = "roSGScreenEvent" and msg.isScreenClosed() then
+      PlaystateStop(video_id)
       return
+
       ' Video is already gone by this point
       ' TODO - add an event listener higher up that watches for closing
       ' so we can handle end of video a bit better
@@ -609,15 +611,27 @@ sub showVideoPlayer(video_id)
         MarkItemWatched(video_id)
       end if
       ticks = video.position * 10000000
-      ItemSessionStop(video_id, {"PositionTicks": ticks})
+      PlaystateStop(video_id, {"PositionTicks": ticks})
       return
     else if nodeEventQ(msg, "state")
       state = msg.getData()
       if state = "stopped" or state = "finished"
+        print "Stopping Video!"
+        ticks = video.position * 10000000
+        PlaystateStop(video_id, {"PositionTicks": ticks})
         screen.close()
+      else if state = "paused"
+        ticks = video.position * 10000000
+        PlaystateUpdate(video_id, {
+          "PositionTicks": ticks,
+          "IsPaused": true
+        })
       else if state = "playing"
         ticks = video.position * 10000000
-        ItemSessionStart(video_id, {"PositionTicks": ticks})
+        PlaystateStart(video_id, {
+          "PositionTicks": ticks,
+          "IsPaused": false
+        })
       end if
     end if
   end while
