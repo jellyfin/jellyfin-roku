@@ -4,7 +4,10 @@
     <field id="id" type="string" />
     <field id="username" type="string" />
     <field id="token" type="string" />
+    <field id="server" type="string" />
+    <field id="port" type="string" />
     <field id="json" type="associativearray" onChange="setDataFromJSON" />
+    <function name="setServer" />
     <function name="getPreference" />
     <function name="setPreference" />
     <function name="loadFromRegistry" />
@@ -36,6 +39,22 @@
   function saveToRegistry()
     set_user_setting("username", m.top.username)
     set_user_setting("token", m.top.token)
+
+    users = get_setting("available_users", {})
+    this_user = invalid
+    for each user in users
+      if user.id = m.top.id then this_user = user
+    end for
+    if this_user = invalid
+      users[m.top.id] = {
+        id: m.top.id,
+        username: m.top.username,
+        server: get_setting("server"),
+        port: get_setting("port")
+      }
+      set_setting("available_users", users)
+    end if
+
   end function
 
   function getPreference(key as String, default as String)
@@ -48,6 +67,11 @@
 
   function setActive()
     set_setting("active_user", m.top.id)
+  end function
+
+  function setServer(hostname as string, port as string)
+    m.top.server = hostname
+    m.top.port = port
   end function
   ]]>
   </script>

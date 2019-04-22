@@ -2,7 +2,7 @@
 <component name="OptionsData" extends="ContentNode">
   <interface>
     <field id="base_title" type="string" />
-    <field id="choices" type="stringarray" />
+    <field id="choices" type="array" />
     <field id="config_key" type="string" />
     <field id="value_index" type="integer" />
     <field id="value" type="string" onChange="update_title" />
@@ -17,12 +17,12 @@
 
   sub update_title()
     for i=0 to m.top.choices.count() - 1
-      if m.top.choices[i] = m.top.value
+      if m.top.choices[i].value = m.top.value
         m.top.value_index = i
         exit for
       end if
     end for
-    m.top.title = m.top.base_title + ": " + m.top.value
+    m.top.title = m.top.base_title + ": " + m.top.choices[m.top.value_index].display
   end sub
 
   sub press()
@@ -33,7 +33,7 @@
     end while
 
     m.top.value_index = i
-    m.top.value = m.top.choices[m.top.value_index]
+    m.top.value = m.top.choices[m.top.value_index].value
 
     set_user_setting(m.top.config_key, m.top.value)
   end sub

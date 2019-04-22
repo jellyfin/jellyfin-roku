@@ -213,12 +213,19 @@ sub ShowMovieOptions(library)
      "base_title": "Sort Field",
      "key": "movie_sort_field",
      "default": "DateCreated",
-     "values": ["DateCreated", "PremiereDate", "SortName"]},
+     "values": [
+       {display: "Date Added", value: "DateCreated"},
+       {display: "Release Date", value: "PremiereDate"},
+       {display: "Name", value: "SortName"}
+     ]},
     {"title": "Sort Order",
      "base_title": "Sort Order",
      "key": "movie_sort_order",
      "default": "Descending",
-     "values": ["Descending", "Ascending"]}
+     "values": [
+       {display: "Descending", value: "Descending"},
+       {display: "Ascending", value: "Ascending"}
+     ]}
   ]
   new_options = []
   for each opt in movie_options
@@ -490,12 +497,19 @@ sub ShowCollections(library)
      "base_title": "Sort Field",
      "key": "movie_sort_field",
      "default": "DateCreated",
-     "values": ["DateCreated", "PremiereDate", "SortName"]},
+     "values": [
+       {display: "Date Added", value: "DateCreated"},
+       {display: "Release Date", value: "PremiereDate"},
+       {display: "Name", value: "SortName"}
+     ]},
     {"title": "Sort Order",
      "base_title": "Sort Order",
      "key": "movie_sort_order",
      "default": "Descending",
-     "values": ["Descending", "Ascending"]}
+     "values": [
+       {display: "Descending", value: "Descending"},
+       {display: "Ascending", value: "Ascending"}
+     ]}
   ]
   new_options = []
   for each opt in panel_options

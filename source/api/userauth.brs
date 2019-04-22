@@ -22,10 +22,21 @@ function AboutMe()
 end function
 
 function SignOut()
-  unset_user_setting("token")
+  if get_setting("active_user") <> invalid
+    unset_user_setting("token")
+  end if
   unset_setting("active_user")
 end function
 
+function AvailableUsers()
+  users = get_setting("available_users", {})
+  return users
+end function
+
+function PickUser(id as string)
+
+
+end function
 
 function ServerInfo()
   url = "System/Info/Public"

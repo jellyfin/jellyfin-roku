@@ -8,23 +8,47 @@
     <field id="favorite" type="boolean" />
     <field id="watched" type="boolean" />
     <field id="seasons" type="associativearray" />
+    <field id="container" type="string" />
     <field id="json" type="associativearray" onChange="setFields" />
   </interface>
   <script type="text/brightscript">
   <![CDATA[
   sub setFields()
-    datum = m.top.json
+    json = m.top.json
 
-    m.top.id = datum.id
-    m.top.title = datum.name
-    m.top.overview = datum.overview
-    m.top.favorite = datum.UserData.isFavorite
-    m.top.watched = datum.UserData.played
+    m.top.id = json.id
+    m.top.title = json.name
+    m.top.overview = json.overview
+    m.top.favorite = json.UserData.isFavorite
+    m.top.watched = json.UserData.played
 
-    if datum.posterURL <> invalid
-      m.top.posterURL = datum.posterURL
+    setPoster()
+    setContainer()
+  end sub
+
+  sub setPoster()
+    json = m.top.json
+
+    if json.posterURL <> invalid
+      m.top.posterURL = json.posterURL
     else
       m.top.posterURL = ""
+    end if
+
+  end sub
+
+  sub setContainer()
+    json = m.top.json
+
+    if json.mediaSources = invalid then return
+    if json.mediaSources.count() = 0 then return
+
+    m.top.container = json.mediaSources[0].container
+
+    if m.top.container = invalid then m.top.container = ""
+
+    if m.top.container = "m4v" or m.top.container = "mov"
+      m.top.container = "mp4"
     end if
   end sub
   ]]>
