@@ -29,12 +29,19 @@ function SignOut()
 end function
 
 function AvailableUsers()
-  users = get_setting("available_users", {})
+  users = parseJson(get_setting("available_users", "[]"))
   return users
 end function
 
 function PickUser(id as string)
-
+  this_user = invalid
+  for each user in AvailableUsers()
+    if user.id = id then this_user = user
+  end for
+  if this_user = invalid then return invalid
+  set_setting("active_user", this_user.id)
+  set_setting("server", this_user.server)
+  set_setting("port", this_user.port)
 
 end function
 

@@ -118,9 +118,23 @@ sub ShowLibrarySelect()
     o = CreateObject("roSGNode", "OptionsButton")
     o.title = opt.title
     o.id = opt.id
-    new_options.append([o])
+    new_options.push(o)
     o.observeField("escape", port)
   end for
+
+  ' And a profile button
+  user_node = CreateObject("roSGNode", "OptionsData")
+  user_node.id = "active_user"
+  user_node.title = "Profile"
+  user_node.base_title = "Profile"
+  user_options = []
+  for each user in AvailableUsers()
+    user_options.push({display: user.username + "@" + user.server, value: user.id})
+  end for
+  user_node.choices = user_options
+  user_node.value = get_setting("active_user")
+  new_options.push(user_node)
+
 
   sidepanel.options = new_options
   sidepanel.observeField("escape", port)
@@ -132,6 +146,11 @@ sub ShowLibrarySelect()
     else if nodeEventQ(msg, "escape") and msg.getNode() = "search"
       library.setFocus(true)
     else if nodeEventQ(msg, "escape") and msg.getNode() = "options"
+      if user_node.value <> get_setting("active_user")
+        PickUser(user_node.value)
+        setGlobal("user_change", true)
+        return
+      end if
       library.setFocus(true)
     else if nodeEventQ(msg, "escape") and msg.getNode() = "change_server"
       unset_setting("server")

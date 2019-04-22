@@ -13,6 +13,10 @@ sub Main()
   if get_setting("active_user") = invalid
     goto app_start
   end if
+  if getGlobal("user_change") = true
+    setGlobal("user_change", false)
+    goto app_start
+  end if
 end sub
 
 sub LoginFlow()

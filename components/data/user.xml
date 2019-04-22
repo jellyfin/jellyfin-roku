@@ -25,7 +25,7 @@
   function loadFromJSON(json)
     m.top.id = json.User.id
 
-    m.top.username = json.User.username
+    m.top.username = json.User.name
     m.top.token = json.AccessToken
   end function
 
@@ -40,19 +40,19 @@
     set_user_setting("username", m.top.username)
     set_user_setting("token", m.top.token)
 
-    users = get_setting("available_users", {})
+    users = parseJson(get_setting("available_users", "[]"))
     this_user = invalid
     for each user in users
       if user.id = m.top.id then this_user = user
     end for
     if this_user = invalid
-      users[m.top.id] = {
+      users.push({
         id: m.top.id,
         username: m.top.username,
         server: get_setting("server"),
         port: get_setting("port")
-      }
-      set_setting("available_users", users)
+      })
+      set_setting("available_users", formatJson(users))
     end if
 
   end function

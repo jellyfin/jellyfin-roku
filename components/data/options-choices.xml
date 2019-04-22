@@ -2,9 +2,10 @@
 <component name="OptionsData" extends="ContentNode">
   <interface>
     <field id="base_title" type="string" />
-    <field id="choices" type="array" />
+    <field id="choices" type="array" onChange="update_title" />
     <field id="config_key" type="string" />
     <field id="value_index" type="integer" />
+    <field id="global_setting" type="boolean" value="false" />
     <field id="value" type="string" onChange="update_title" />
     <function name="press" />
   </interface>
@@ -16,6 +17,11 @@
   end sub
 
   sub update_title()
+    if m.top.choices.count() = 0
+      m.top.title = m.top.base_title + ": <none>"
+      return
+    end if
+
     for i=0 to m.top.choices.count() - 1
       if m.top.choices[i].value = m.top.value
         m.top.value_index = i
@@ -35,7 +41,14 @@
     m.top.value_index = i
     m.top.value = m.top.choices[m.top.value_index].value
 
-    set_user_setting(m.top.config_key, m.top.value)
+    if m.top.config_key = "" or m.top.config_key = invalid
+      return
+    end if
+    if m.top.global_setting
+      set_setting(m.top.config_key, m.top.value)
+    else
+      set_user_setting(m.top.config_key, m.top.value)
+    end if
   end sub
   ]]>
   </script>
