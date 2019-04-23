@@ -207,8 +207,8 @@ sub ShowMovieOptions(library)
   page_num = 1
   page_size = 30
 
-  sort_order = get_user_setting("movie_sort_order", "Descending")
-  sort_field = get_user_setting("movie_sort_field", "DateCreated,SortName")
+  sort_order = get_user_setting("movie_sort_order", "Ascending")
+  sort_field = get_user_setting("movie_sort_field", "SortName")
 
   options_list = ItemList(library.id, {"limit": page_size,
     "StartIndex": page_size * (page_num - 1),
@@ -242,7 +242,7 @@ sub ShowMovieOptions(library)
     {"title": "Sort Order",
      "base_title": "Sort Order",
      "key": "movie_sort_order",
-     "default": "Descending",
+     "default": "Ascending",
      "values": [
        {display: "Descending", value: "Descending"},
        {display: "Ascending", value: "Ascending"}
@@ -357,8 +357,8 @@ sub ShowTVShowOptions(library)
   page_num = 1
   page_size = 30
 
-  sort_order = get_user_setting("tvshow_sort_order", "Descending")
-  sort_field = get_user_setting("tvshow_sort_field", "DateCreated,SortName")
+  sort_order = get_user_setting("series_sort_order", "Ascending")
+  sort_field = get_user_setting("series_sort_field", "SortName")
 
   options_list = ItemList(library.id, {"limit": page_size,
     "page": page_num,
@@ -376,9 +376,48 @@ sub ShowTVShowOptions(library)
   pager.observeField("escape", port)
   pager.observeField("pageSelected", port)
 
+  sidepanel = scene.findNode("options")
+  panel_options = [
+    {"title": "Sort Field",
+     "base_title": "Sort Field",
+     "key": "series_sort_field",
+     "default": "SortName",
+     "values": [
+       {display: "Date Added", value: "DateCreated"},
+       {display: "Release Date", value: "PremiereDate"},
+       {display: "Name", value: "SortName"}
+     ]},
+    {"title": "Sort Order",
+     "base_title": "Sort Order",
+     "key": "series_sort_order",
+     "default": "Ascending",
+     "values": [
+       {display: "Descending", value: "Descending"},
+       {display: "Ascending", value: "Ascending"}
+     ]}
+  ]
+  new_options = []
+  for each opt in panel_options
+    o = CreateObject("roSGNode", "OptionsData")
+    o.title = opt.title
+    o.choices = opt.values
+    o.base_title = opt.base_title
+    o.config_key = opt.key
+    o.value = get_user_setting(opt.key, opt.default)
+    new_options.append([o])
+  end for
+
+  sidepanel.options = new_options
+  sidepanel.observeField("escape", port)
+
   while true
     msg = wait(0, port)
     if nodeEventQ(msg, "escape") and msg.getNode() = "pager"
+      options.setFocus(true)
+    ' TODO - rename
+    ' Obnoxiously here, "options" getNode is the "options panel"
+    ' and options.setFocus is the "options of tv shows"
+    else if nodeEventQ(msg, "escape") and msg.getNode() = "options"
       options.setFocus(true)
     else if nodeEventQ(msg, "pageSelected") and pager.pageSelected <> invalid
       pager.pageSelected = invalid
@@ -517,7 +556,7 @@ sub ShowCollections(library)
     {"title": "Sort Field",
      "base_title": "Sort Field",
      "key": "movie_sort_field",
-     "default": "DateCreated",
+     "default": "SortName",
      "values": [
        {display: "Date Added", value: "DateCreated"},
        {display: "Release Date", value: "PremiereDate"},
@@ -526,7 +565,7 @@ sub ShowCollections(library)
     {"title": "Sort Order",
      "base_title": "Sort Order",
      "key": "movie_sort_order",
-     "default": "Descending",
+     "default": "Ascending",
      "values": [
        {display: "Descending", value: "Descending"},
        {display: "Ascending", value: "Ascending"}
@@ -587,8 +626,8 @@ sub ShowSearchOptions(query)
 
   options = scene.findNode("SearchSelect")
 
-  sort_order = get_user_setting("search_sort_order", "Descending")
-  sort_field = get_user_setting("search_sort_field", "DateCreated,SortName")
+  sort_order = get_user_setting("search_sort_order", "Ascending")
+  sort_field = get_user_setting("search_sort_field", "SortName")
 
   results = SearchMedia(query)
   options.itemData = results

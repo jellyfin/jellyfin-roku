@@ -42,7 +42,14 @@ function PickUser(id as string)
   set_setting("active_user", this_user.id)
   set_setting("server", this_user.server)
   set_setting("port", this_user.port)
+end function
 
+function RemoveUser(id as string)
+  user = CreateObject("roSGNode", "UserData")
+  user.id = id
+  user.callFunc("removeFromRegistry")
+
+  if get_setting("active_user") = id then SignOut()
 end function
 
 function ServerInfo()

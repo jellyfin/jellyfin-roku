@@ -54,7 +54,16 @@
       })
       set_setting("available_users", formatJson(users))
     end if
+  end function
 
+  function removeFromRegistry()
+    new_users = []
+    users = parseJson(get_setting("available_users", "[]"))
+    for each user in users
+      if m.top.id <> user.id then new_users.push(user)
+    end for
+
+    set_setting("available_users", formatJson(new_users))
   end function
 
   function getPreference(key as String, default as String)

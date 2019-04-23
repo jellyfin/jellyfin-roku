@@ -93,6 +93,14 @@
       m.top.getScene().findNode("pager").setFocus(true)
       m.top.getScene().findNode("pager").getChild(0).setFocus(true)
       return true
+    else if key = "options"
+      options = m.top.getScene().findNode("options")
+      list = options.findNode("panelList")
+
+      options.visible = true
+      list.setFocus(true)
+
+      return true
     end if
 
     return false

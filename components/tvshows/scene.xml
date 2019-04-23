@@ -11,5 +11,6 @@
       />
     <Rectangle id="footerBackdrop" />
     <Pager id="pager" />
+    <OptionsSlider id="options" />
   </children>
 </component>
