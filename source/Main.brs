@@ -14,6 +14,7 @@ sub Main()
     goto app_start
   end if
   if getGlobal("user_change") = true
+    ' Signal caught, reset
     setGlobal("user_change", false)
     goto app_start
   end if

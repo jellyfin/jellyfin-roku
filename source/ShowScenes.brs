@@ -112,7 +112,8 @@ sub ShowLibrarySelect()
   new_options = []
   options_buttons = [
     {"title": "Change server", "id": "change_server"},
-    {"title": "Sign out", "id": "sign_out"}
+    {"title": "Sign out", "id": "sign_out"},
+    {"title": "Add User", "id": "add_user"}
   ]
   for each opt in options_buttons
     o = CreateObject("roSGNode", "OptionsButton")
@@ -159,6 +160,12 @@ sub ShowLibrarySelect()
       return
     else if nodeEventQ(msg, "escape") and msg.getNode() = "sign_out"
       SignOut()
+      return
+    else if nodeEventQ(msg, "escape") and msg.getNode() = "add_user"
+      ' We don't want to SignOut the current user
+      unset_setting("active_user")
+      unset_setting("server")
+      unset_setting("port")
       return
     else if nodeEventQ(msg, "search_value")
       query = msg.getRoSGNode().search_value
