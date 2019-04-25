@@ -158,6 +158,9 @@ function authorize_request(request)
   auth = auth + ", Device=" + Chr(34) + device + " (" + friendly + ")" + Chr(34)
 
   device_id = devinfo.getChannelClientID()
+  if get_setting("active_user") = invalid or get_setting("active_user") = ""
+    device_id = devinfo.GetRandomUUID()
+  end if
   auth = auth + ", DeviceId=" + Chr(34) + device_id + Chr(34)
 
   version = "10.3.0"
