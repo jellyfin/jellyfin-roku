@@ -7,6 +7,8 @@ BANNER_SOURCE=banner-dark.svg
 
 OUTPUT_DIR=./images
 
+[ ! -d $OUTPUT_DIR ] && mkdir -p OUTPUT_DIR
+
 # Don't need to keep re-downloading things we already have
 if [ ! -e $ICON_SOURCE ]; then
     wget $BRANDING_ROOT/$ICON_SOURCE > /dev/null

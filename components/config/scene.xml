@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <component name="ConfigScene" extends="Scene">
   <children>
+    <Overhang
+      id="overhang"
+      title="Configure"
+      />
     <label text="Enter Configuration"
       id="prompt"
       font="font:LargeBoldSystemFont"
@@ -13,6 +17,10 @@
       text="Submit"
       showFocusFootprint="false"
       translation="[150, 450]" />
+    <label text=""
+      id="alert"
+      font="font:MediumSystemFont"
+      translation="[150, 550]" />
   </children>
   <script type="text/brightscript" uri="pkg:/components/config/scene.brs"/>
 </component>
