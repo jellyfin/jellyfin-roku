@@ -35,7 +35,15 @@ sub ShowServerSelect()
       if node = "submit"
         set_setting("server", server_hostname.value)
         set_setting("port", server_port.value)
-        return
+        if ServerInfo() = invalid then
+          ' Maybe don't unset setting, but offer as a prompt
+          ' Server not found, is it online? New values / Retry
+          print "Server not found, is it online? New values / Retry"
+          scene.findNode("alert").text = "Server not found, is it online?"
+          SignOut()
+        else 
+          return
+        endif
       end if
     end if
   end while
@@ -82,6 +90,7 @@ sub ShowSignInSelect()
         get_token(username.value, password.value)
         if get_setting("active_user") <> invalid then return
         print "Login attempt failed..."
+        scene.findNode("alert").text = "Login attempt failed."
       end if
     end if
   end while
