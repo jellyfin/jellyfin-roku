@@ -14,9 +14,8 @@ if [ ! -e $ICON_SOURCE ]; then
 fi
 
 # Channel Posters
-convert -background "#000b25" -gravity center -scale 350x350 -extent 540x405 $ICON_SOURCE $OUTPUT_DIR/channel-poster_fhd.png
-convert -background "#000b25" -gravity center -scale 190x190 -extent 290x218 $ICON_SOURCE $OUTPUT_DIR/channel-poster_hd.png
-convert -background "#000b25" -gravity center -scale 140x140 -extent 214x144 $ICON_SOURCE $OUTPUT_DIR/channel-poster_sd.png
+convert -background "#000b25" -gravity center -scale 310x310 -extent 336x210 $BANNER_SOURCE $OUTPUT_DIR/channel-poster_hd.png
+convert -background "#000b25" -gravity center -scale 226x226 -extent 246x140 $BANNER_SOURCE $OUTPUT_DIR/channel-poster_sd.png
 
 # Overhang icon
 convert -background none -gravity center -scale 1000x48 -extent 180x48 $BANNER_SOURCE $OUTPUT_DIR/logo.png
