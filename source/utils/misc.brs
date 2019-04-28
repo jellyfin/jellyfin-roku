@@ -35,6 +35,7 @@ sub themeScene(scene)
 
   if overhang <> invalid
     overhang.logoUri = "pkg:/images/logo.png"
+    overhang.logoBaselineOffset = 7.5
     overhang.showOptions = true
     if options <> invalid
       overhang.optionsAvailable = true
