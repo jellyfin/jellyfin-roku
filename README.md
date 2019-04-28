@@ -34,5 +34,3 @@ And then
 export ROKU_DEV_TARGET=<your roku IP>
 export ROKU_DEV_PASSWORD=<your roku password>
 ```
-
-
