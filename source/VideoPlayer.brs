@@ -1,4 +1,5 @@
 function VideoPlayer(id)
+  ' Get video controls and UI
   video = CreateObject("roSGNode", "Video")
   content = VideoContent(id)
 
@@ -16,7 +17,7 @@ function VideoPlayer(id)
 end function
 
 function VideoContent(id) as object
-
+  ' Get video stream
   content = createObject("RoSGNode", "ContentNode")
 
   meta = ItemMetaData(id)
@@ -45,6 +46,7 @@ function VideoContent(id) as object
 end function
 
 function getContainerType(meta as object) as string
+  ' Determine the file type of the video file source
   print type(meta)
   if meta.json.mediaSources = invalid then return ""
 
@@ -60,6 +62,7 @@ function getContainerType(meta as object) as string
 end function
 
 function getAudioFormat(meta as object) as string
+  ' Determine the codec of the audio file source
   if meta.json.mediaSources = invalid then return ""
 
   audioInfo = getAudioInfo(meta)
@@ -69,6 +72,7 @@ end function
 
 
 function getAudioInfo(meta as object) as object
+  ' Return audio metadata for a given stream
   results = []
   for each source in meta.json.mediaSources[0].mediaStreams
     if source["type"] = "Audio"

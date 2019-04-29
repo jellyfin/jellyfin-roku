@@ -16,6 +16,7 @@ function getMsgRowTarget(msg, subnode="" as string) as object
 end function
 
 sub themeScene(scene)
+  ' Takes a scene and applies a consisten UI Theme
   dimensions = scene.currentDesignResolution
   scene.backgroundColor = "#101010"
   scene.backgroundURI = ""
@@ -52,6 +53,7 @@ function leftPad(base as string, fill as string, length as integer) as string
 end function
 
 function make_dialog(message="" as string)
+  ' Takes a string and returns an object for dialog popup
   dialog = createObject("roSGNode", "Dialog")
   dialog.id = "popup"
   dialog.buttons = ["OK"]

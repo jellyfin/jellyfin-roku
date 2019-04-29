@@ -1,4 +1,5 @@
 sub Main()
+  ' The main function that runs when the application is launched.
   keepalive = CreateObject("roSGScreen")
   keepalive.show()
 
@@ -21,6 +22,7 @@ sub Main()
 end sub
 
 sub LoginFlow()
+  'Collect Jellyfin server and user information
   start_login:
   if get_setting("server") = invalid then
     print "Get server details"
