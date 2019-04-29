@@ -7,7 +7,7 @@ BANNER_SOURCE=banner-dark.svg
 
 OUTPUT_DIR=./images
 
-[ ! -d $OUTPUT_DIR ] && mkdir -p OUTPUT_DIR
+[ ! -d $OUTPUT_DIR ] && mkdir -p $OUTPUT_DIR
 
 # Don't need to keep re-downloading things we already have
 if [ ! -e $ICON_SOURCE ]; then
@@ -16,8 +16,9 @@ if [ ! -e $ICON_SOURCE ]; then
 fi
 
 # Channel Posters
-convert -background "#000b25" -gravity center -scale 310x310 -extent 336x210 $BANNER_SOURCE $OUTPUT_DIR/channel-poster_hd.png
-convert -background "#000b25" -gravity center -scale 226x226 -extent 246x140 $BANNER_SOURCE $OUTPUT_DIR/channel-poster_sd.png
+convert -background "#000b25" -gravity center -scale 380x380 -extent 540x405 $BANNER_SOURCE $OUTPUT_DIR/channel-poster_fhd.png
+convert -background "#000b25" -gravity center -scale 325x325 -extent 486x365 $BANNER_SOURCE $OUTPUT_DIR/channel-poster_hd.png
+convert -background "#000b25" -gravity center -scale 300x300 -extent 432x324 $BANNER_SOURCE $OUTPUT_DIR/channel-poster_sd.png
 
 # Overhang icon
 convert -background none -gravity center -scale 1000x48 -extent 180x48 $BANNER_SOURCE $OUTPUT_DIR/logo.png
