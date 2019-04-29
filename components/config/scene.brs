@@ -6,6 +6,7 @@ sub init()
 end sub
 
 function onKeyEvent(key as String, press as Boolean) as Boolean
+  ' Returns true if user navigates to a new focusable element
   if not press then return false
   list = m.top.findNode("configOptions")
   button = m.top.findNode("submit")

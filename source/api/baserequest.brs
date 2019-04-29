@@ -1,5 +1,6 @@
 ' Functions for making requests to the API
 function buildParams(params={} as Object) as string
+  ' Take an object of parameters and construct the URL query 
   req = createObject("roUrlTransfer")  ' Just so we can use it for escape
 
   param_array = []
@@ -34,7 +35,7 @@ function buildParams(params={} as Object) as string
 end function
 
 function buildURL(path as String, params={} as Object) as string
-
+  
   full_url = get_base_url() + "/" + path
   if params.count() > 0
     full_url = full_url + "?" + buildParams(params)
