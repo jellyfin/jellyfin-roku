@@ -18,7 +18,7 @@ With ImageMagick installed
 sh make_images.sh
 ```
 
-This will regenerate the poster and splash images from the jellyfin-ux repo.
+This will update the poster and splash images from the jellyfin-ux repo.
 
 ### Easy Dev Deployment
 
@@ -34,38 +34,3 @@ And then
 export ROKU_DEV_TARGET=<your roku IP>
 export ROKU_DEV_PASSWORD=<your roku password>
 ```
-
-
-### ToDo - Scenes for Movie Viewing Only
-
-- [x] Server Select
-- [x] User Sign In
-- [x] Main Landing "Library Select"
-- [x] Library Items List (ie, movie list)
-- [x] Infinite scroll or paging  (paging!)
-- [x] Preview "About this Item" movie page
-- [x] Video Player
-- [x] Sign Out (?)
-
-
-### ToDo - Additional Scenes for TV Shows
-
-- [x] Preview "About this Item" season page
-- [x] Library Items List for a season
-- [ ] Preview "About this Item" episode page (?)
-
-
-### ToDo - Additional Scenes for Music
-
-- [ ] Preview "About this Item" Artist page
-- [ ] Library Items List for an artist
-- [ ] Library Items List for an album
-- [ ] Preview "About this Item" Album page
-
-
-### ToDo - Other things
-
-- [x] Collections
-- [x] Sort order
-
-Live TV/PVR? Pictures?
