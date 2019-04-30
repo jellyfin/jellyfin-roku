@@ -1,4 +1,5 @@
 sub itemContentChanged()
+  ' Updates video metadata 
   ' TODO - make things use item rather than itemData
   item = m.top.itemContent
   itemData = item.json

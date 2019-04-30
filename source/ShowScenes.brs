@@ -1,4 +1,5 @@
 sub ShowServerSelect()
+  ' Get and Save Jellyfin Server Information
   port = CreateObject("roMessagePort")
   screen = CreateObject("roSGScreen")
   screen.setMessagePort(port)
@@ -50,6 +51,7 @@ sub ShowServerSelect()
 end sub
 
 sub ShowSignInSelect()
+  ' Get and Save Jellyfin user login credentials
   port = CreateObject("roMessagePort")
   screen = CreateObject("roSGScreen")
   screen.setMessagePort(port)
@@ -97,6 +99,7 @@ sub ShowSignInSelect()
 end sub
 
 sub ShowLibrarySelect()
+  ' Main screen after logging in. Shows the user's libraries
   port = CreateObject("roMessagePort")
   screen = CreateObject("roSGScreen")
   screen.setMessagePort(port)
@@ -205,6 +208,7 @@ sub ShowLibrarySelect()
 end sub
 
 sub ShowMovieOptions(library)
+  ' Movie list page
   port = CreateObject("roMessagePort")
   screen = CreateObject("roSGScreen")
   screen.setMessagePort(port)
@@ -308,6 +312,7 @@ sub ShowMovieOptions(library)
 end sub
 
 sub ShowMovieDetails(movie)
+  ' Movie detail page
   port = CreateObject("roMessagePort")
   screen = CreateObject("roSGScreen")
   screen.setMessagePort(port)
@@ -355,6 +360,7 @@ sub ShowMovieDetails(movie)
 end sub
 
 sub ShowTVShowOptions(library)
+  ' TV Show List Page
   port = CreateObject("roMessagePort")
   screen = CreateObject("roSGScreen")
   screen.setMessagePort(port)
@@ -455,6 +461,7 @@ sub ShowTVShowOptions(library)
 end sub
 
 sub ShowTVShowDetails(series)
+  ' TV Show Detail Page
   port = CreateObject("roMessagePort")
   screen = CreateObject("roSGScreen")
   screen.setMessagePort(port)
@@ -497,6 +504,7 @@ sub ShowTVShowDetails(series)
 end sub
 
 sub ShowTVSeasonEpisodes(series, season)
+  ' TV Show Season Episdoe List
   port = CreateObject("roMessagePort")
   screen = CreateObject("roSGScreen")
   screen.setMessagePort(port)
@@ -530,6 +538,7 @@ sub ShowTVSeasonEpisodes(series, season)
 end sub
 
 sub ShowCollections(library)
+  ' Load Movie Collection Items
   port = CreateObject("roMessagePort")
   screen = CreateObject("roSGScreen")
   screen.setMessagePort(port)
@@ -631,6 +640,7 @@ sub ShowCollections(library)
 end sub
 
 sub ShowSearchOptions(query)
+  ' Search Results Page
   port = CreateObject("roMessagePort")
   screen = CreateObject("roSGScreen")
   screen.setMessagePort(port)
@@ -669,6 +679,7 @@ sub ShowSearchOptions(query)
 end sub
 
 sub showVideoPlayer(video_id)
+  ' Video is Playing
   port = CreateObject("roMessagePort")
   screen = CreateObject("roSGScreen")
   screen.setMessagePort(port)
