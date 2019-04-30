@@ -538,7 +538,7 @@ sub ShowTVSeasonEpisodes(series, season)
 end sub
 
 sub ShowCollections(library)
-  ' TV Show Collections List
+  ' Load Movie Collection Items
   port = CreateObject("roMessagePort")
   screen = CreateObject("roSGScreen")
   screen.setMessagePort(port)
