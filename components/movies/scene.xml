@@ -15,4 +15,5 @@
     <OptionsSlider id="options" />
 
   </children>
+  <script type="text/brightscript" uri="scene.brs" />
 </component>

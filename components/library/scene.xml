@@ -12,4 +12,5 @@
     <field id="libraries" alias="LibrarySelect.libList" />
     <field id="librarySelected" alias="LibrarySelect.itemSelected" />
   </interface>
+  <script type="text/brightscript" uri="scene.brs" />
 </component>

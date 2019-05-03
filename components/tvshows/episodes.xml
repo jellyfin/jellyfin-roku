@@ -17,4 +17,5 @@
     <field id="seasonData" type="node" />
     <field id="episodeData" type="node" alias="TVEpisodeSelect.TVEpisodeData" />
   </interface>
+  <script type="text/brightscript" uri="episode.brs" />
 </component>

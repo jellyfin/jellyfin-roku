@@ -4,4 +4,5 @@
     <SearchRow id="SearchSelect" visible="true" />
     <Overhang id="overhang" title="Search" />
   </children>
+  <script type="text/brightscript" uri="scene.brs" />
 </component>
