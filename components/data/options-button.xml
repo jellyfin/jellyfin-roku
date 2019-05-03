@@ -5,14 +5,5 @@
     <function name="press" />
   </interface>
   <script type="text/brightscript" uri="pkg:/source/utils/config.brs" />
-  <script type="text/brightscript">
-  <![CDATA[
-  sub init()
-  end sub
-
-  sub press()
-    m.top.escape = true
-  end sub
-  ]]>
-  </script>
+  <script type="text/brightscript" uri="options-button.brs" />
 </component>

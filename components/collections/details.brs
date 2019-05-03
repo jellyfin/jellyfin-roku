@@ -1,5 +1,14 @@
+sub init()
+  main = m.top.findNode("main_group")
+  dimensions = m.top.getScene().currentDesignResolution
+
+  main.translation=[50, 50]
+
+  m.top.findNode("buttons").setFocus(true)
+end sub
+
 sub itemContentChanged()
-  ' Updates video metadata 
+  ' Updates video metadata
   item = m.top.itemContent
   itemData = item.json
 
@@ -45,7 +54,7 @@ sub setFieldText(field as string, value)
   node.text = value
 end sub
 
-function getRuntime() as Integer
+function getRuntime() as integer
   itemData = m.top.itemContent.json
 
   ' A tick is .1ms, so 1/10,000,000 for ticks to seconds,
@@ -100,7 +109,7 @@ sub setWatchedColor()
   end if
 end sub
 
-function round(f as Float) as Integer
+function round(f as float) as integer
   ' BrightScript only has a "floor" round
   ' This compares floor to floor + 1 to find which is closer
   m = int(f)
