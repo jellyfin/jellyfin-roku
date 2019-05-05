@@ -25,19 +25,5 @@
   <interface>
     <field id="itemContent" type="node" onChange="itemContentChanged" />
   </interface>
-  <script type="text/brightscript" uri="pkg:/components/tvshows/group-description.brs" />
-  <script type="text/brightscript">
-  <![CDATA[
-    sub init()
-      buttons = m.top.findNode("buttons")
-
-      buttons.iconUri = ""
-
-      for each button in buttons.getChildren(-1, 0)
-        button.maxWidth = 350
-        button.minWidth = 350
-      end for
-    end sub
-  ]]>
-  </script>
+  <script type="text/brightscript" uri="group-description.brs" />
 </component>

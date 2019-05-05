@@ -8,15 +8,5 @@
     <field id="width" type="integer" />
     <field id="url" type="string" />
   </interface>
-  <script type="text/brightscript">
-  <![CDATA[
-  sub setFields()
-    json = m.top.json
-    m.top.imagetype = json.imagetype
-    m.top.size = json.size
-    m.top.height = json.height
-    m.top.width = json.width
-  end sub
-  ]]>
-  </script>
+  <script type="text/brightscript" uri="image.brs" />
 </component>

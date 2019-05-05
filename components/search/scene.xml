@@ -1,13 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <component name="SearchResults" extends="Scene">
   <children>
-    <SearchRow
-      id="SearchSelect"
-      visible="true"
-      />
-    <Overhang
-      id="overhang"
-      title="Search"
-      />
+    <SearchRow id="SearchSelect" visible="true" />
+    <Overhang id="overhang" title="Search" />
   </children>
+  <script type="text/brightscript" uri="scene.brs" />
 </component>

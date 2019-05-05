@@ -33,20 +33,5 @@
     <field id="itemContent" type="node" onChange="itemContentChanged" />
   </interface>
   <script type="text/brightscript" uri="pkg:/source/utils/misc.brs" />
-  <script type="text/brightscript" uri="pkg:/components/movies/details.brs" />
-  <script type="text/brightscript">
-  <![CDATA[
-  sub init()
-    main = m.top.findNode("main_group")
-    dimensions = m.top.getScene().currentDesignResolution
-
-    main.translation=[50, 50]
-
-    overview = m.top.findNode("overview")
-    overview.width = dimensions.width - 100 - 400
-
-    m.top.findNode("buttons").setFocus(true)
-  end sub
-  ]]>
-  </script>
+  <script type="text/brightscript" uri="details.brs" />
 </component>

@@ -6,18 +6,5 @@
     <field id="type" type="string" />
     <field id="json" type="associativearray" onChange="setData" />
   </interface>
-  <script type="text/brightscript">
-  <![CDATA[
-  sub setData()
-    ' We keep json around just as a reference,
-    ' but ideally everything should be going through one of the interfaces
-    datum = m.top.json
-
-    m.top.id = datum.id
-    m.top.name = datum.name
-    m.top.type = datum.CollectionType
-  end sub
-
-  ]]>
-  </script>
+  <script type="text/brightscript" uri="library.brs" />
 </component>
