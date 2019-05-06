@@ -1,4 +1,8 @@
 sub Main()
+
+  ' If the Rooibos files are included in deployment, run tests
+  if (type(Rooibos__Init) = "Function") then Rooibos__Init()
+
   ' The main function that runs when the application is launched.
   keepalive = CreateObject("roSGScreen")
   keepalive.show()
