@@ -5,4 +5,5 @@
     <field id="value" type="string" />
     <field id="type" type="string" />
   </interface>
+  <script type="text/brightscript" uri="data.brs" />
 </component>

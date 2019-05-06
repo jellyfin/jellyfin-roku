@@ -2,3 +2,11 @@
 jellyfin-roku.zip
 source/globals.brs
 .env
+
+###BrightScript specific
+dist/apps
+out/
+
+#Rooibos generated
+rooibosFunctionMap.brs
+*/buildinfo.brs

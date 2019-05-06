@@ -1,0 +1,19 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+
+        {
+            "type": "brightscript",
+            "request": "launch",
+            "name": "BrightScript Debug: Launch",
+            "stopOnEntry": true,
+            "host": "${env:ROKU_DEV_TARGET}",
+            "password": "${env:ROKU_DEV_PASSWORD}",
+            "rootDir": "${workspaceFolder}",
+            "enableDebuggerAutoRecovery": false
+        },
+    ]
+}

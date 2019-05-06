@@ -1,5 +1,16 @@
+sub init()
+  buttons = m.top.findNode("buttons")
+
+  buttons.iconUri = ""
+
+  for each button in buttons.getChildren(-1, 0)
+    button.maxWidth = 350
+    button.minWidth = 350
+  end for
+end sub
+
 sub itemContentChanged()
-  ' Updates video metadata 
+  ' Updates video metadata
   ' TODO - make things use item rather than itemData
   item = m.top.itemContent
   itemData = item.json
@@ -40,7 +51,7 @@ sub setFieldText(field as string, value)
   node.text = value
 end sub
 
-function getRuntime() as Integer
+function getRuntime() as integer
   itemData = m.top.itemContent.json
 
   ' A tick is .1ms, so 1/10,000,000 for ticks to seconds,
@@ -87,7 +98,7 @@ function getHistory() as string
   airtime = itemData.airtime
   if airtime <> invalid and airdays.count() = 1
     airwords = airdays[0] + " at " + airtime
-  endif
+  end if
 
   if itemData.studios.count() > 0
     studio = itemData.studios[0].name
@@ -108,7 +119,7 @@ function getHistory() as string
   return words
 end function
 
-function round(f as Float) as Integer
+function round(f as float) as integer
   ' BrightScript only has a "floor" round
   ' This compares floor to floor + 1 to find which is closer
   m = int(f)
