@@ -42,12 +42,26 @@ end function
 
 ' Search across all libraries
 function SearchMedia(query as String)
-  resp = APIRequest("Search/Hints", {"searchTerm": query})
+  ' This appears to be done differently on the web now
+  ' For each potential type, a separate query is done:
+  ' varying item types, and artists, and people
+  resp = APIRequest(Substitute("Users/{0}/Items", get_setting("active_user")), {
+    "searchTerm": query,
+    "IncludePeople": true,
+    "IncludeMedia": true,
+    "IncludeGenres": false,
+    "IncludeStudios": false,
+    "IncludeArtists": false,
+    ' "IncludeItemTypes: "Movie",
+    "EnableTotalRecordCount":  false,
+    "ImageTypeLimit": 1,
+    "Recursive": true
+  })
   data = getJson(resp)
   results = []
-  for each item in data.SearchHints
+  for each item in data.Items
     tmp = CreateObject("roSGNode", "SearchData")
-    tmp.image = PosterImage(item.itemid)
+    tmp.image = PosterImage(item.id)
     tmp.json = item
     results.push(tmp)
   end for
