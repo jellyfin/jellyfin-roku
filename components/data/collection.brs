@@ -7,9 +7,11 @@ sub setFields()
 
   m.top.favorite = datum.UserData.isFavorite
   m.top.watched = datum.UserData.played
+end sub
 
-  if datum.posterURL <> invalid
-    m.top.posterURL = datum.posterURL
+sub setPoster()
+  if m.top.image <> invalid
+    m.top.posterURL = m.top.image.url
   else
     m.top.posterURL = ""
   end if

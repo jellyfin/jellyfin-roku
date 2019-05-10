@@ -4,7 +4,8 @@
     <field id="id" type="string" />
     <field id="type" type="string" />
     <field id="title" type="string" />
-    <field id="posterUrl" type="string" />
+    <field id="image" type="node" onChange="setPoster" />
+    <field id="posterURL" type="string" />
     <field id="json" type="associativearray" onChange="setFields" />
   </interface>
   <script type="text/brightscript" uri="search-result.brs" />

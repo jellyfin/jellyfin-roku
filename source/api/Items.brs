@@ -46,15 +46,8 @@ function SearchMedia(query as String)
   data = getJson(resp)
   results = []
   for each item in data.SearchHints
-    if item.type = "Movie"
-      item.posterURL = ImageURL(item.id)
-    else if item.type = "Person"
-      item.posterURL = ImageURL(item.id)
-    else if item.type = "Episode"
-      item.posterURL = ImageURL(item.id)
-    end if
-
     tmp = CreateObject("roSGNode", "SearchData")
+    tmp.image = PosterImage(item.itemid)
     tmp.json = item
     results.push(tmp)
   end for
@@ -76,29 +69,19 @@ function ItemList(library_id=invalid as String, params={})
   data = getJson(resp)
   results = []
   for each item in data.Items
-    ' TODO - actually check item for available images
-
-    if item.imagetags.primary <> invalid
-      item.posterURL = ImageURL(item.id, "Primary")
-      ' item.posterAspect = item.PrimaryImageAspectRatio
-    else if item.imagetags.logo <> invalid
-      item.posterURL = ImageURL(item.id, "Logo")
-    else if item.imagetags.thumb <> invalid
-      item.posterURL = ImageURL(item.id, "Thumb")
-    else
-      ' Maybe find more fallback images!
-    end if
-
     if item.type = "Movie"
       tmp = CreateObject("roSGNode", "MovieData")
+      tmp.image = PosterImage(item.id)
       tmp.json = item
       results.push(tmp)
     else if item.type = "Series"
       tmp = CreateObject("roSGNode", "SeriesData")
+      tmp.image = PosterImage(item.id)
       tmp.json = item
       results.push(tmp)
     else if item.type = "BoxSet"
       tmp = CreateObject("roSGNode", "CollectionData")
+      tmp.image = PosterImage(item.id)
       tmp.json = item
       results.push(tmp)
     else
@@ -116,21 +99,24 @@ function ItemMetaData(id as String)
   url = Substitute("Users/{0}/Items/{1}", get_setting("active_user"), id)
   resp = APIRequest(url)
   data = getJson(resp)
-  data.posterURL = ImageURL(data.id)
   if data.type = "Movie"
     tmp = CreateObject("roSGNode", "MovieData")
+    tmp.image = PosterImage(data.id)
     tmp.json = data
     return tmp
   else if data.type = "Series"
     tmp = CreateObject("roSGNode", "SeriesData")
+    tmp.image = PosterImage(data.id)
     tmp.json = data
     return tmp
   else if data.type = "Episode"
     tmp = CreateObject("roSGNode", "TVEpisodeData")
+    tmp.image = PosterImage(data.id)
     tmp.json = data
     return tmp
   else if data.type = "BoxSet"
     tmp = CreateObject("roSGNode", "CollectionData")
+    tmp.image = PosterImage(data.id)
     tmp.json = item
     return tmp
   else
@@ -149,8 +135,8 @@ function TVSeasons(id as String)
   data = getJson(resp)
   results = []
   for each item in data.Items
-    item.posterURL = ImageURL(item.id)
     tmp = CreateObject("roSGNode", "TVEpisodeData")
+    tmp.image = PosterImage(item.id)
     tmp.json = item
     results.push(tmp)
   end for
@@ -165,8 +151,8 @@ function TVEpisodes(show_id as String, season_id as String)
   data = getJson(resp)
   results = []
   for each item in data.Items
-    item.posterURL = ImageURL(item.id)
     tmp = CreateObject("roSGNode", "TVEpisodeData")
+    tmp.image = PosterImage(item.id)
     tmp.json = item
     results.push(tmp)
   end for
@@ -181,7 +167,7 @@ function TVNext(id as String)
 
   data = getJson(resp)
   for each item in data.Items
-    item.posterURL = ImageURL(item.id)
+    item.image = PosterImage(item.id)
   end for
   return data
 end function
