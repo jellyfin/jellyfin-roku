@@ -34,7 +34,7 @@ sub updateSize()
     ' Always reserve the bottom for the Poster Title
     m.title.wrap = true
     m.title.maxLines = 2
-    m.title.width = m.poster.width
+    m.title.width = maxSize[0]
     m.title.height = 80
     m.title.translation = [0, int(maxSize[1]) - m.title.height]
 
