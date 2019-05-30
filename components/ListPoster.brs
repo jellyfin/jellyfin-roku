@@ -39,7 +39,7 @@ sub updateSize()
     m.title.translation = [0, int(maxSize[1]) - m.title.height]
 
     ratio = 1.5
-    if image <> invalid
+    if image <> invalid and image.width <> 0 and image.height <> 0
       ratio = image.height / image.width
     end if
 
