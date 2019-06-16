@@ -12,10 +12,8 @@ sub setFields()
 end sub
 
 sub setPoster()
-  json = m.top.json
-
-  if json.posterURL <> invalid
-    m.top.posterURL = json.posterURL
+  if m.top.image <> invalid
+    m.top.posterURL = m.top.image.url
   else
     m.top.posterURL = ""
   end if

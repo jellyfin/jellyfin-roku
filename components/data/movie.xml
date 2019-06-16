@@ -2,6 +2,7 @@
 <component name="MovieData" extends="ContentNode">
   <interface>
     <field id="title" type="string" />
+    <field id="image" type="node" onChange="setPoster" />
     <field id="posterUrl" type="string" />
     <field id="movieID" type="string" />
     <field id="description" type="string" />

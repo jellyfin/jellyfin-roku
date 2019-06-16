@@ -6,9 +6,11 @@ sub setFields()
     m.top.showID = datum.SeriesID
     m.top.seasonID = datum.SeasonID
     m.top.overview = datum.overview
+end sub
 
-    if datum.posterURL <> invalid
-        m.top.posterURL = datum.posterURL
+sub setPoster()
+    if m.top.image <> invalid
+        m.top.posterURL = m.top.image.url
     else
         m.top.posterURL = ""
     end if

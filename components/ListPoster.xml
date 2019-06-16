@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <component name="ListPoster" extends="Group">
   <children>
-    <Rectangle id="backdrop"
-      translation="[2, 0]"
-      />
-    <Poster id="poster"
-      translation="[2, 0]"
-      />
+    <Rectangle id="backdrop" />
+    <Poster id="poster" />
     <Label id="title"
       horizAlign="center"
       font="font:SmallSystemFont"

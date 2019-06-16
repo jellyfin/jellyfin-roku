@@ -1,7 +1,10 @@
 function ItemImages(id="" as String)
   ' This seems to cause crazy core dumps
+  ' if there is a conflict between on disk images, and library.db
   resp = APIRequest(Substitute("Items/{0}/Images", id))
   data = getJson(resp)
+  if data = invalid then return invalid
+
   results = []
   for each item in data
     tmp = CreateObject("roSGNode", "ImageData")
@@ -10,6 +13,26 @@ function ItemImages(id="" as String)
     results.push(tmp)
   end for
   return results
+end function
+
+
+function PosterImage(id)
+    images = ItemImages(id)
+    if images = invalid then return invalid
+    primary_image = invalid
+
+    for each image in images
+      if image.imagetype = "Primary"
+        primary_image = image
+      else if image.imagetype = "Logo" and primary_image = invalid
+        primary_image = image
+      else if image.imagetype = "Thumb" and primary_image = invalid
+        primary_image = image
+        ' maybe find more fallback images
+      end if
+    end for
+
+    return primary_image
 end function
 
 

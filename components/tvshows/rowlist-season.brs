@@ -22,7 +22,7 @@ sub updateSize()
     border = 50
     m.top.translation = [border, border]
 
-    textHeight = 75
+    textHeight = 80
     ' Do we decide width by rowSize, or rowSize by width...
     itemWidth = (dimensions["width"] - border*2) / m.top.rowSize
     itemHeight = itemWidth * 1.5 + textHeight

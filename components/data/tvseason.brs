@@ -5,9 +5,14 @@ sub setFields()
     m.top.title = datum.name
     m.top.overview = datum.overview
 
-    if datum.posterURL <> invalid
-        m.top.posterURL = datum.posterURL
+    setPoster()
+end sub
+
+sub setPoster()
+    if m.top.image <> invalid
+        m.top.posterURL = m.top.image.url
     else
         m.top.posterURL = ""
     end if
+
 end sub
