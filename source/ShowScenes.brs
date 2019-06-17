@@ -296,8 +296,10 @@ sub ShowMovieOptions(library)
       pager.currentPage = page_num
       options_list = ItemList(library.id, {"limit": page_size,
         "StartIndex": page_size * (page_num - 1),
-        "SortBy": sort_order,
-        "SortOrder": sort_field })
+        "SortBy": sort_field,
+        "SortOrder": sort_order,
+        "IncludeItemTypes": "Movie"
+      })
       options.movieData = options_list
       options.setFocus(true)
     else if nodeEventQ(msg, "itemSelected")
@@ -624,8 +626,8 @@ sub ShowCollections(library)
       pager.currentPage = page_num
       options_list = ItemList(library.id, {"limit": page_size,
         "StartIndex": page_size * (page_num - 1),
-        "SortBy": sort_order,
-        "SortOrder": sort_field })
+        "SortBy": sort_field,
+        "SortOrder": sort_order })
       options.itemData = options_list
       options.setFocus(true)
     else if nodeEventQ(msg, "itemSelected")
