@@ -7,6 +7,9 @@ source/globals.brs
 dist/apps
 out/
 
+#NPM modules
+node_modules/
+
 #Rooibos generated
 rooibosFunctionMap.brs
 */buildinfo.brs

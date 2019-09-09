@@ -147,7 +147,7 @@ prep_tests:
 	mkdir -p $(STAGINGREL)/source/tests/; \
 	cp -r $(SOURCEREL)/tests/components/* $(STAGINGREL)/components/tests/;\
 	cp -r $(SOURCEREL)/tests/source/* $(STAGINGREL)/source/tests/;\
-	rooibosC -c tests/.rooibosrc.json
+	./node_modules/.bin/rooibos-cli i tests/.rooibosrc.json
 
 install: prep_staging package home
 	@echo "Installing $(APPNAME) to host $(ROKU_DEV_TARGET)"
