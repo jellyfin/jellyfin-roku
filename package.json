@@ -1,0 +1,30 @@
+{
+  "name": "jellyfin-roku",
+  "version": "1.0.0",
+  "description": "Roku app for Jellyfin media server",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "dependencies": {
+    "rooibos-cli": "^1.0.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jellyfin/jellyfin-roku.git"
+  },
+  "keywords": [
+    "jellyfin",
+    "roku"
+  ],
+  "author": "jellyfin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jellyfin/jellyfin-roku/issues"
+  },
+  "homepage": "https://github.com/jellyfin/jellyfin-roku#readme"
+}
