@@ -52,7 +52,7 @@ sub setFieldText(field, value)
   if node = invalid or value = invalid then return
 
   ' Handle non strings... Which _shouldn't_ happen, but hey
-  if type(value) = "roInteger" then
+  if type(value) = "roInt" or type(value) = "Integer" then
     value = str(value)
   else if type(value) <> "roString" and type(value) <> "String" then
     value = ""
