@@ -44,9 +44,16 @@ sub itemContentChanged()
   ' m.top.findNode("TVSeasonSelect").TVSeasonData = m.top.itemContent.seasons
 end sub
 
-sub setFieldText(field as string, value)
+sub setFieldText(field, value)
   node = m.top.findNode(field)
-  if node = invalid then return
+  if node = invalid or value = invalid then return
+
+  ' Handle non strings... Which _shouldn't_ happen, but hey
+  if type(value) = "roInteger" then
+    value = str(value)
+  else if type(value) <> "roString" and type(value) <> "String" then
+    value = ""
+  end if
 
   node.text = value
 end sub

@@ -9,6 +9,7 @@ sub updateSize()
     itemText = m.top.findNode("itemText")
     maxSize = m.top.getParent().itemSize
     itemText.width = maxSize[0]
+    itemText.height = maxSize[1]
 
     itemText.translation = [0, (maxSize[1] / 2) - 15]
 end sub
