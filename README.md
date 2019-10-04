@@ -1,90 +1,53 @@
 # Jellyfin app for Roku
 
-**This app is not complete!**
+Disclaimer: This is not complete, but making good progress!
 
-Currently, the data stored on your Roku device are server name, server port,
+Right now the only things stored on your device are server name, server port,
 user id, and some user preferences like movie sort order.
 
-The format that is used to save those settings could change at any time and
-your data could be lost and you'd have to re-enter it.
+At any point, the format that is used to save those settings could change, and
+your data could be effectively lost (and you'll have to re-enter it).
 
-## Getting Started
+In fact, it is likely this early on, as a few design decisions were made before
+I knew much about BrightScript format. Patience is appreciated.
 
-Follow the steps below or checkout the [Development Guide For New Devs](DEVGUIDE.md)
+### Images
 
-### Developer Mode
-
-Put your Roku device in [developer mode](https://blog.roku.com/developer/2016/02/04/developer-setup-guide)
-
-### Clone the GitHub Repo
-
-Open a terminal and navigate to where you would like to install the app then run the commands below:
-
-```bash
-https://github.com/jellyfin/jellyfin-roku.git
-cd jellyfin-roku
+With ImageMagick installed
+```
+sh make_images.sh
 ```
 
-This will copy all of the application files to a new folder and then change directories
+This will update the poster and splash images from the jellyfin-ux repo.
 
-### Login Details
-
-Run the commands below - Replacing the IP and password (using the info from the first step)
+## Testing and Local Deployment
+To test and deploy on your Roku device, it must be in [developer mode](https://blog.roku.com/developer/2016/02/04/developer-setup-guide) first.
+Once there, set two environment variables that make uses.
 
 ```bash
 export ROKU_DEV_TARGET=192.168.1.234
 export ROKU_DEV_PASSWORD=aaaa
 ```
 
-This will allow you to test your code without having to manually upload a .zip file every time
-
-### Download Images
-
-Install these packages:
-
-```bash
-sudo apt-get install imagemagick wget make nodejs npm
-```
-
-Then run this script to download the images from the jellyfin-ux repo:
-
-```bash
-sh make_images.sh
-```
-
-### Deploy
-
-Run this:
-
-```bash
-make install
-```
-
-This packages up the application, sends it to your Roku, and launches the channel.
+This is the IP address of your roku and the password you set for the
+rokudev account when you put your device in developer mode.
 
 ### Testing
-
 Testing is done with the [Rooibos](https://github.com/georgejecook/rooibos/) library.
-
 This works by including the tests in the deployment and then looking at telnet
-for the test results. To use the testing library you need to install [rooibos-cli](https://github.com/georgejecook/rooibos-cli):
-
-Run this in the root app directory:
-
-```bash
-npm install -g rooibos-cli
-```
-
-To deploy the application with tests:
+for the test results. This testing library requires the [Rooibos Preprocessor](https://github.com/georgejecook/rooibosPreprocessor)
+to create a few of the helper files used during the tests. This can be installed via:
 
 ```bash
-make test
+npm install -g rooibos-preprocessor
 ```
 
-To see test results and crash reports:
+`make test` will package up the application and tests and the deploy it to the Roku. Test results can be seen via `telnet ${ROKU_DEV_TARGET} 8085`
 
-```bash
-telnet ${ROKU_DEV_TARGET} 8085
-```
+### Deployment
+To deploy the application to your local roku run `make install`.
 
-To exit telnet: `CTRL + ]` and then type `quit + ENTER`
+This packages up the application, sends it to your Roku and launches it.  
+
+### [Development Guide](DEVGUIDE.md)  
+Additional notes and instructions to help new developers get started: [Development Guide For New Devs](DEVGUIDE.md)
