@@ -45,3 +45,24 @@ sub LoginFlow()
     goto start_login
   end if
 end sub
+
+sub RunScreenSaver()
+  print "Starting screensaver..."
+  screen = createObject("roSGScreen")
+  m.port = createObject("roMessagePort")
+  screen.setMessagePort(m.port)
+
+  scene = screen.createScene("Screensaver")
+  screen.Show()
+
+  while(true)
+    msg = wait(8000, m.port)
+    if (msg <> invalid)
+      msgType = type(msg)
+      if msgType = "roSGScreenEvent"
+        if msg.isScreenClosed() then return
+      end if
+    end if
+  end while
+
+end sub
