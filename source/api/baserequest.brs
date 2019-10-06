@@ -156,6 +156,9 @@ function authorize_request(request)
 
   device = devinfo.getModelDisplayName()
   friendly = devinfo.getFriendlyName()
+  ' remove special characters
+  regex = CreateObject("roRegex", "[^a-zA-Z0-9\ \-\_]", "")
+  friendly = regex.ReplaceAll(friendly, "")
   auth = auth + ", Device=" + Chr(34) + device + " (" + friendly + ")" + Chr(34)
 
   device_id = devinfo.getChannelClientID()
