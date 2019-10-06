@@ -146,8 +146,8 @@ function server_is_https() as Boolean
 end function
 
 function authorize_request(request)
-  ' TODO - get proper version and device ID from manifest
   devinfo = CreateObject("roDeviceInfo")
+  appinfo = CreateObject("roAppInfo")
 
   auth = "MediaBrowser"
 
@@ -156,6 +156,9 @@ function authorize_request(request)
 
   device = devinfo.getModelDisplayName()
   friendly = devinfo.getFriendlyName()
+  ' remove special characters
+  regex = CreateObject("roRegex", "[^a-zA-Z0-9\ \-\_]", "")
+  friendly = regex.ReplaceAll(friendly, "")
   auth = auth + ", Device=" + Chr(34) + device + " (" + friendly + ")" + Chr(34)
 
   device_id = devinfo.getChannelClientID()
@@ -164,7 +167,7 @@ function authorize_request(request)
   end if
   auth = auth + ", DeviceId=" + Chr(34) + device_id + Chr(34)
 
-  version = "10.3.0"
+  version = appinfo.GetVersion()
   auth = auth + ", Version=" + Chr(34) + version + Chr(34)
 
   user = get_setting("active_user")
