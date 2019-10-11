@@ -1,4 +1,4 @@
-function ItemsList(params={} as object)
+function ItemsList(params = {} as object)
   ' Gets items based on a query.
   resp = APIRequest("Items", params)
   data = getJson(resp)
@@ -6,7 +6,7 @@ function ItemsList(params={} as object)
   return data
 end function
 
-function UserItems(params={} as object)
+function UserItems(params = {} as object)
   ' Gets items based on a query
   resp = APIRequest(Substitute("Items/{0}/Items", get_setting("active_user")), params)
   data = getJson(resp)
@@ -14,7 +14,7 @@ function UserItems(params={} as object)
   return data
 end function
 
-function UserItemsResume(params={} as object)
+function UserItemsResume(params = {} as object)
   ' Gets items based on a query
   resp = APIRequest(Substitute("Items/{0}/Items/Resume", get_setting("active_user")), params)
   data = getJson(resp)
@@ -41,7 +41,7 @@ function LibraryList()
 end function
 
 ' Search across all libraries
-function SearchMedia(query as String)
+function SearchMedia(query as string)
   ' This appears to be done differently on the web now
   ' For each potential type, a separate query is done:
   ' varying item types, and artists, and people
@@ -53,7 +53,7 @@ function SearchMedia(query as String)
     "IncludeStudios": false,
     "IncludeArtists": false,
     ' "IncludeItemTypes: "Movie",
-    "EnableTotalRecordCount":  false,
+    "EnableTotalRecordCount": false,
     "ImageTypeLimit": 1,
     "Recursive": true
   })
@@ -70,7 +70,7 @@ function SearchMedia(query as String)
 end function
 
 ' List items from within a library
-function ItemList(library_id=invalid as String, params={})
+function ItemList(library_id = invalid as string, params = {})
   if params["limit"] = invalid
     params["limit"] = 30
   end if
@@ -85,17 +85,17 @@ function ItemList(library_id=invalid as String, params={})
   for each item in data.Items
     if item.type = "Movie"
       tmp = CreateObject("roSGNode", "MovieData")
-      tmp.image = PosterImage(item.id)
+      tmp.image = PosterImage(item.id, item.UserData.Played, item.UserData.PlayedPercentage)
       tmp.json = item
       results.push(tmp)
     else if item.type = "Series"
       tmp = CreateObject("roSGNode", "SeriesData")
-      tmp.image = PosterImage(item.id)
+      tmp.image = PosterImage(item.id, item.UserData.Played, item.UserData.PlayedPercentage)
       tmp.json = item
       results.push(tmp)
     else if item.type = "BoxSet"
       tmp = CreateObject("roSGNode", "CollectionData")
-      tmp.image = PosterImage(item.id)
+      tmp.image = PosterImage(item.id, item.UserData.Played, item.UserData.PlayedPercentage)
       tmp.json = item
       results.push(tmp)
     else
@@ -109,7 +109,7 @@ function ItemList(library_id=invalid as String, params={})
 end function
 
 ' MetaData about an item
-function ItemMetaData(id as String)
+function ItemMetaData(id as string)
   url = Substitute("Users/{0}/Items/{1}", get_setting("active_user"), id)
   resp = APIRequest(url)
   data = getJson(resp)
@@ -142,9 +142,9 @@ function ItemMetaData(id as String)
 end function
 
 ' Seasons for a TV Show
-function TVSeasons(id as String)
+function TVSeasons(id as string)
   url = Substitute("Shows/{0}/Seasons", id)
-  resp = APIRequest(url, {"UserId": get_setting("active_user")})
+  resp = APIRequest(url, { "UserId": get_setting("active_user") })
 
   data = getJson(resp)
   results = []
@@ -158,9 +158,9 @@ function TVSeasons(id as String)
   return data
 end function
 
-function TVEpisodes(show_id as String, season_id as String)
+function TVEpisodes(show_id as string, season_id as string)
   url = Substitute("Shows/{0}/Episodes", show_id)
-  resp = APIRequest(url, {"seasonId": season_id, "UserId": get_setting("active_user")})
+  resp = APIRequest(url, { "seasonId": season_id, "UserId": get_setting("active_user") })
 
   data = getJson(resp)
   results = []
@@ -176,9 +176,9 @@ function TVEpisodes(show_id as String, season_id as String)
 end function
 
 ' The next up episode for a TV show
-function TVNext(id as String)
+function TVNext(id as string)
   url = Substitute("Shows/NextUp", id)
-  resp = APIRequest(url, {"UserId": get_setting("active_user"), "SeriesId": id})
+  resp = APIRequest(url, { "UserId": get_setting("active_user"), "SeriesId": id })
 
   data = getJson(resp)
   for each item in data.Items
