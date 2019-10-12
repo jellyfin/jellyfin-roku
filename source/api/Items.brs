@@ -111,6 +111,10 @@ function ItemList(library_id = invalid as string, params = {})
       tmp.json = item
       results.push(tmp)
     else if item.type = "BoxSet"
+      if item.UserData.UnplayedItemCount > 0 then
+        param = { "UnplayedCount" : item.UserData.UnplayedItemCount }
+        imgParams.Append(param)
+      end if
       tmp = CreateObject("roSGNode", "CollectionData")
       tmp.image = PosterImage(item.id, imgParams)
       tmp.json = item
