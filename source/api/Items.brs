@@ -83,19 +83,36 @@ function ItemList(library_id = invalid as string, params = {})
   data = getJson(resp)
   results = []
   for each item in data.Items
+    imgParams = {}
+    if item.ImageTags.Primary <> invalid then
+      ' If Primary image exists use it
+      param = { "Tag" : item.ImageTags.Primary }
+      imgParams.Append(param)
+    end if
+    param = { "AddPlayedIndicator": item.UserData.Played }
+    imgParams.Append(param)
+    if item.UserData.PlayedPercentage <> invalid then
+      param = { "PercentPlayed": item.UserData.PlayedPercentage }
+      imgParams.Append(param)
+    end if
+    print version
     if item.type = "Movie"
       tmp = CreateObject("roSGNode", "MovieData")
-      tmp.image = PosterImage(item.id, item.UserData.Played, item.UserData.PlayedPercentage)
+      tmp.image = PosterImage(item.id, imgParams)
       tmp.json = item
       results.push(tmp)
     else if item.type = "Series"
+      if item.UserData.UnplayedItemCount > 0 then
+        param = { "UnplayedCount" : item.UserData.UnplayedItemCount }
+        imgParams.Append(param)
+      end if
       tmp = CreateObject("roSGNode", "SeriesData")
-      tmp.image = PosterImage(item.id, item.UserData.Played, item.UserData.PlayedPercentage)
+      tmp.image = PosterImage(item.id, imgParams)
       tmp.json = item
       results.push(tmp)
     else if item.type = "BoxSet"
       tmp = CreateObject("roSGNode", "CollectionData")
-      tmp.image = PosterImage(item.id, item.UserData.Played, item.UserData.PlayedPercentage)
+      tmp.image = PosterImage(item.id, imgParams)
       tmp.json = item
       results.push(tmp)
     else

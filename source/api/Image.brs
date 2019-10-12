@@ -1,4 +1,4 @@
-function ItemImages(id = "" as string, played = false, playedPercent = invalid)
+function ItemImages(id = "" as string, params = {} as object)
   ' This seems to cause crazy core dumps
   ' if there is a conflict between on disk images, and library.db
   resp = APIRequest(Substitute("Items/{0}/Images", id))
@@ -9,15 +9,6 @@ function ItemImages(id = "" as string, played = false, playedPercent = invalid)
   for each item in data
     tmp = CreateObject("roSGNode", "ImageData")
     tmp.json = item
-    params = { "maxHeight": "384", "maxWidth": "196", "quality": "90" }
-    if played = true then
-      param = { "AddPlayedIndicator": "true" }
-      params.Append(param)
-    end if
-    if playedPercent <> invalid then
-      param = { "PercentPlayed": playedPercent }
-      params.Append(param)
-    end if
     tmp.url = ImageURL(id, tmp.imagetype, params)
     results.push(tmp)
   end for
@@ -25,8 +16,8 @@ function ItemImages(id = "" as string, played = false, playedPercent = invalid)
 end function
 
 
-function PosterImage(id, played = false, playedPercent = invalid)
-  images = ItemImages(id, played, playedPercent)
+function PosterImage(id as string, params = {} as object)
+  images = ItemImages(id, params)
   if images = invalid then return invalid
   primary_image = invalid
 
@@ -44,10 +35,19 @@ function PosterImage(id, played = false, playedPercent = invalid)
   return primary_image
 end function
 
-
 function ImageURL(id, version = "Primary", params = {})
-  if params.count() = 0
-    params = { "maxHeight": "384", "maxWidth": "196", "quality": "90" }
+  ' set defaults
+  if params.maxHeight = invalid then
+    param = { "maxHeight" : "384" }
+    params.append(param)
+  end if
+  if params.maxWidth = invalid then
+    param = { "maxWidth" : "196" }
+    params.append(param)
+  end if
+  if params.quality = invalid then
+    param = { "quality" : "90" }
+    params.append(param)
   end if
   url = Substitute("Items/{0}/Images/{1}", id, version)
   ' ?maxHeight=384&maxWidth=256&tag=<tag>&quality=90"
