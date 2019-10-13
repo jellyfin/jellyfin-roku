@@ -15,6 +15,11 @@ function itemContentChanged() as void
         itemPoster.height = "96"
         itemPoster.translation = "[192, 88]"
         itemPoster.uri = "pkg:/images/baseline_live_tv_white_48dp.png"
+    else if itemData.type = "music" then
+        itemPoster.width = "96"
+        itemPoster.height = "96"
+        itemPoster.translation = "[192, 88]"
+        itemPoster.uri = "pkg:/images/baseline_library_music_white_48dp.png"
     else
         itemPoster.uri = itemData.imageURL
     end if
