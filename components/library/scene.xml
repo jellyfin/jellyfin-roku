@@ -2,7 +2,7 @@
 <component name="Library" extends="Scene">
   <children>
     <LibraryRow id="LibrarySelect" />
-    <Overhang id="overhang" title="My Media" />
+    <Overhang id="overhang" title="Home" />
     <Rectangle id="footerBackdrop" height="200" />
     <SearchBox id="search" />
 

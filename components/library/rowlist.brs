@@ -5,9 +5,9 @@ sub init()
     m.top.rowFocusAnimationStyle = "fixedFocusWrap"
     m.top.vertFocusAnimationStyle = "fixedFocusWrap"
 
-    m.top.showRowLabel = [ true ]
+    m.top.showRowLabel = [true]
     m.top.rowLabelOffset = [0, 20]
-    m.top.showRowCounter = [ true ]
+    m.top.showRowCounter = [true]
 
     updateSize()
 
@@ -15,28 +15,26 @@ sub init()
 end sub
 
 sub updateSize()
-    m.top.rowSize = 5
+    ' real border is border - rowlist title and rowlist padding
+    topborder = 50
+    sideborder = 150
+    ' 115 is the overhang height
+    m.top.translation = [sideborder, topborder + 115]
 
-    dimensions = m.top.getScene().currentDesignResolution
-
-    border = 200
-    ' 115 is the overhand height
-    m.top.translation = [border, border + 115]
-
-    itemWidth = 300
-    itemHeight = 100
+    itemWidth = 480
+    itemHeight = 330
 
     m.top.visible = true
 
     ' size of the whole row
-    m.top.itemSize = [1920 - border * 2, itemHeight]
+    m.top.itemSize = [1920 - sideborder * 2, itemHeight]
     ' spacing between rows
-    m.top.itemSpacing = [ 0, 30 ]
+    m.top.itemSpacing = [0, 30]
 
     ' size of the item in the row
-    m.top.rowItemSize = [ itemWidth, itemHeight ]
+    m.top.rowItemSize = [itemWidth, itemHeight]
     ' spacing between items in a row
-    m.top.rowItemSpacing = [ 0, 0 ]
+    m.top.rowItemSpacing = [20, 0]
 end sub
 
 function getData()
@@ -50,9 +48,9 @@ function getData()
     data = CreateObject("roSGNode", "ContentNode")
 
     row = data.CreateChild("ContentNode")
-    row.title = "Libraries"  ' TODO - make this tweakable?
-    for i=1 to libs.TotalRecordCount
-        item = libs.Items[i-1]
+    row.title = "My Media"
+    for i = 1 to libs.TotalRecordCount
+        item = libs.Items[i - 1]
         row.appendChild(item)
     end for
     m.top.content = data
