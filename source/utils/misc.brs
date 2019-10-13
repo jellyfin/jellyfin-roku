@@ -4,7 +4,7 @@ function nodeEventQ(msg, field as string) as boolean
   return type(msg) = "roSGNodeEvent" and msg.getField() = field
 end function
 
-function getMsgRowTarget(msg, subnode="" as string) as object
+function getMsgRowTarget(msg, subnode = "" as string) as object
   node = msg.getRoSGNode()
   ' Subnode allows for handling alias messages
   if subnode <> ""
@@ -36,12 +36,13 @@ sub themeScene(scene)
 
   if overhang <> invalid
     overhang.logoUri = "pkg:/images/logo.png"
-    overhang.logoBaselineOffset = 7.5
+    overhang.logoBaselineOffset = 20
     overhang.showOptions = true
+    overhang.height = 115
     if options <> invalid
       overhang.optionsAvailable = true
     else
-      overhang.optionsAvailalbe = false
+      overhang.optionsAvailable = false
     end if
   end if
 end sub
@@ -53,7 +54,7 @@ function leftPad(base as string, fill as string, length as integer) as string
   return base
 end function
 
-function make_dialog(message="" as string)
+function make_dialog(message = "" as string)
   ' Takes a string and returns an object for dialog popup
   dialog = createObject("roSGNode", "Dialog")
   dialog.id = "popup"
