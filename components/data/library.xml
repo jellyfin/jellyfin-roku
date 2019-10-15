@@ -3,6 +3,7 @@
   <interface>
     <field id="id" type="string" />
     <field id="name" type="string" />
+    <field id="imageURL" type="string" />
     <field id="type" type="string" />
     <field id="json" type="associativearray" onChange="setData" />
   </interface>

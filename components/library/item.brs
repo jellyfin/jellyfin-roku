@@ -1,17 +1,6 @@
 sub init()
     itemText = m.top.findNode("itemText")
     itemText.text = "Loading..."
-
-    updateSize()
-end sub
-
-sub updateSize()
-    itemText = m.top.findNode("itemText")
-    maxSize = m.top.getParent().itemSize
-    itemText.width = maxSize[0]
-    itemText.height = maxSize[1]
-
-    itemText.translation = [0, (maxSize[1] / 2) - 15]
 end sub
 
 function itemContentChanged() as void
@@ -20,5 +9,18 @@ function itemContentChanged() as void
 
     itemText = m.top.findNode("itemText")
     itemText.text = itemData.name
-    updateSize()
+    itemPoster = m.top.findNode("itemPoster")
+    if itemData.type = "livetv" then
+        itemPoster.width = "96"
+        itemPoster.height = "96"
+        itemPoster.translation = "[192, 88]"
+        itemPoster.uri = "pkg:/images/baseline_live_tv_white_48dp.png"
+    else if itemData.type = "music" then
+        itemPoster.width = "96"
+        itemPoster.height = "96"
+        itemPoster.translation = "[192, 88]"
+        itemPoster.uri = "pkg:/images/baseline_library_music_white_48dp.png"
+    else
+        itemPoster.uri = itemData.imageURL
+    end if
 end function

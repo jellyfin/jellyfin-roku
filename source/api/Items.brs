@@ -34,6 +34,8 @@ function LibraryList()
   for each item in data.Items
     tmp = CreateObject("roSGNode", "LibraryData")
     tmp.json = item
+    params = { "Tag" : tmp.json.ImageTags.Primary, "maxHeight" : 261, "maxWidth" : 464 }
+    tmp.imageURL = ImageURL(tmp.json.id, "Primary", params)
     results.push(tmp)
   end for
   data.Items = results
