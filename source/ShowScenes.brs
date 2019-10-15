@@ -317,7 +317,7 @@ sub ShowTVShowOptions(library)
     else if type(msg) = "roSGScreenEvent" and msg.isScreenClosed() then
       return
     else if nodeEventQ(msg, "itemSelected")
-      target = getMsgRowTarget(msg)
+      target = getMsgPicker(msg)
       ShowTVShowDetails(target)
     end if
   end while
@@ -492,7 +492,7 @@ sub ShowCollections(library)
       item_grid.itemData = item_list
       item_grid.setFocus(true)
     else if nodeEventQ(msg, "itemSelected")
-      target = getMsgRowTarget(msg)
+      target = getMsgPicker(msg)
       ShowMovieOptions(target)
     else
       print msg
