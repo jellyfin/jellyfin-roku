@@ -3,7 +3,7 @@ function isNodeEvent(msg, field as string) as boolean
 end function
 
 
-function getMsgRowTarget(msg, subnode = "" as string) as object
+function getMsgPicker(msg, subnode = "" as string) as object
   node = msg.getRoSGNode()
   ' Subnode allows for handling alias messages
   if subnode <> ""
@@ -14,7 +14,7 @@ function getMsgRowTarget(msg, subnode = "" as string) as object
   return target
 end function
 
-function getButton(msg, subnode="buttons" as string) as object
+function getButton(msg, subnode = "buttons" as string) as object
   buttons = msg.getRoSGNode().findNode(subnode)
   active_button = buttons.focusedChild
 
@@ -37,7 +37,7 @@ function leftPad(base as string, fill as string, length as integer) as string
 end function
 
 
-function make_dialog(message = "" as string)
+function message_dialog(message = "" as string)
   ' Takes a string and returns an object for dialog popup
   dialog = createObject("roSGNode", "JFMessageDialog")
   dialog.id = "popup"
