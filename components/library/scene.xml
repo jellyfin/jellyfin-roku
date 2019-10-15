@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<component name="Library" extends="Scene">
+<component name="Library" extends="JFGroup">
   <children>
     <LibraryRow id="LibrarySelect" />
-    <Overhang id="overhang" title="Home" />
+
     <Rectangle id="footerBackdrop" height="200" />
-    <SearchBox id="search" />
 
     <OptionsSlider id="options" />
   </children>

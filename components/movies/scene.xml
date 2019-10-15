@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<component name="Movies" extends="Scene">
+<component name="Movies" extends="JFGroup">
   <children>
     <ItemGrid id="picker" visible="true" itemsPerRow="10" />
-    <Overhang
-      id="overhang"
-      title="Movies"
-      />
-    <Rectangle id="footerBackdrop" />
-    <Pager id="pager" />
-
     <OptionsSlider id="options" />
-
+    <Rectangle translation="[0,980]" width="1920" height="100" color="#101010" />
   </children>
+  <interface>
+    <field id="movieSelected" alias="picker.itemSelected" />
+    <field id="objects" alias="picker.objects" />
+    <field id="pageNumber" type="integer" />
+  </interface>
   <script type="text/brightscript" uri="scene.brs" />
 </component>

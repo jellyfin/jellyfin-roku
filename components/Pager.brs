@@ -68,7 +68,16 @@ function onKeyEvent(key as string, press as boolean) as boolean
     if not press then return false
 
     if key = "OK"
-        m.top.pageSelected = m.top.focusedChild
+        p = m.top.focusedChild.id
+        if p = ">"
+          m.top.pageSelected = m.top.currentPage + 1
+        else if p = "<"
+          m.top.pageSelected = m.top.currentPage - 1
+        else
+          m.top.pageSelected = m.top.focusedChild.id
+        end if
+        m.top.currentPage = m.top.pageSelected
+        recountPages()
         return true
     else if key = "left"
         focusPrev()
@@ -77,7 +86,13 @@ function onKeyEvent(key as string, press as boolean) as boolean
         focusNext()
         return true
     else if key = "up"
-        m.top.escape = true
+        if m.top.getParent().findNode("picker") <> invalid
+          m.top.getParent().findNode("picker").setFocus(true)
+        else if m.top.getParent().lastFocus <> invalid
+          m.top.getParent().lastFocus.setFocus(true)
+        else
+          m.top.getParent().setFocus(true)
+        end if
         return true
     end if
 
