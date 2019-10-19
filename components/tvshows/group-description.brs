@@ -24,7 +24,10 @@ sub itemContentChanged()
   setFieldText("communityRating", str(itemData.communityRating))
   setFieldText("overview", itemData.overview)
 
-  setFieldText("runtime", stri(getRuntime()) + " mins")
+
+  if type(itemData.RunTimeTicks) = "LongInteger"
+    setFieldText("runtime", stri(getRuntime()) + " mins")
+  end if
 
   setFieldText("history", getHistory())
 

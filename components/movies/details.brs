@@ -26,8 +26,10 @@ sub itemContentChanged()
   setFieldText("communityRating", str(itemData.communityRating))
   setFieldText("overview", itemData.overview)
 
-  setFieldText("runtime", stri(getRuntime()) + " mins")
-  setFieldText("ends-at", "Ends at " + getEndTime())
+  if type(itemData.RunTimeTicks) = "LongInteger"
+    setFieldText("runtime", stri(getRuntime()) + " mins")
+    setFieldText("ends-at", "Ends at " + getEndTime())
+  end if
 
   if itemData.genres.count() > 0
     setFieldText("genres", itemData.genres.join(", "))
