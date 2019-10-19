@@ -97,7 +97,6 @@ function ItemList(library_id = invalid as string, params = {})
       param = { "PercentPlayed": item.UserData.PlayedPercentage }
       imgParams.Append(param)
     end if
-    print version
     if item.type = "Movie"
       tmp = CreateObject("roSGNode", "MovieData")
       tmp.image = PosterImage(item.id, imgParams)
