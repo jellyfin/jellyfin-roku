@@ -20,19 +20,19 @@ function VideoContent(id) as object
   container = getContainerType(meta)
   
   if directPlaySupported(meta) then
-  	content.url = buildURL(Substitute("Videos/{0}/stream", id), {
+    content.url = buildURL(Substitute("Videos/{0}/stream", id), {
       Static: "true",
-			Container: container
-		})
-		content.streamformat = container
-		content.switchingStrategy = ""
+      Container: container
+    })
+    content.streamformat = container
+    content.switchingStrategy = ""
   else
-  	content.url = buildURL(Substitute("Videos/{0}/master.m3u8", id), {
-	   PlaySessionId: ItemGetSession(id)
-       VideoCodec: "h264",
-       AudioCodec: "aac", 
-       MediaSourceId: id,
-		})
+    content.url = buildURL(Substitute("Videos/{0}/master.m3u8", id), {
+      PlaySessionId: ItemGetSession(id)
+      VideoCodec: "h264",
+      AudioCodec: "aac", 
+      MediaSourceId: id,
+    })
   end if
   content = authorize_request(content)
 
