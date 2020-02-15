@@ -231,6 +231,7 @@ function CreateSeriesListGroup(library)
   group.appendChild(p)
 
   group.pageNumber = 1
+  p.currentPage = group.pageNumber
   SeriesLister(group, m.page_size)
 
   return group

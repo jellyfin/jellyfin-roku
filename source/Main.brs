@@ -175,6 +175,8 @@ sub Main()
         MovieLister(group, m.page_size)
       else if group.library.type = "boxsets"
         CollectionLister(group, m.page_size)
+      else if group.library.type = "tvshows"
+        SeriesLister(group, m.page_size)
       end if
       ' TODO - abstract away the "picker" node
       group.findNode("picker").setFocus(true)
