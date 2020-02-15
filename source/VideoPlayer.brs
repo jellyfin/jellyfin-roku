@@ -47,7 +47,7 @@ end function
 
 function directPlaySupported(meta as object) as boolean
     devinfo = CreateObject("roDeviceInfo")
-	return devinfo.CanDecodeVideo({ Codec: meta.json.MediaStreams[0].codec }).result    
+    return devinfo.CanDecodeVideo({ Codec: meta.json.MediaStreams[0].codec }).result
 end function
 
 function getContainerType(meta as object) as string
