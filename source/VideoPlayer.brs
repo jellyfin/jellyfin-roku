@@ -2,6 +2,7 @@ function VideoPlayer(id)
   ' Get video controls and UI
   video = CreateObject("roSGNode", "JFVideo")
   video.content = VideoContent(id)
+  
   jellyfin_blue = "#00a4dcFF"
 
   video.retrievingBar.filledBarBlendColor = jellyfin_blue
@@ -20,20 +21,19 @@ function VideoContent(id) as object
   
   if directPlaySupported(meta) then
   	content.url = buildURL(Substitute("Videos/{0}/stream", id), {
-		Static: "true",
-		Container: container
-	})
-	content.streamformat = container
-	content.switchingStrategy = ""
+      Static: "true",
+			Container: container
+		})
+		content.streamformat = container
+		content.switchingStrategy = ""
   else
   	content.url = buildURL(Substitute("Videos/{0}/master.m3u8", id), {
 	   PlaySessionId: ItemGetSession(id)
        VideoCodec: "h264",
        AudioCodec: "aac", 
        MediaSourceId: id,
-	})
+		})
   end if
-  
   content = authorize_request(content)
 
   ' todo - audioFormat is read only
