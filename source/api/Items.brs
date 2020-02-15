@@ -22,7 +22,18 @@ function UserItemsResume(params = {} as object)
   return data
 end function
 
-
+function ItemGetSession(id as string)
+  params = {
+    UserId: get_setting("active_user"),
+    StartTimeTicks: "0",
+    IsPlayback: "true",
+    AutoOpenLiveStream: "true",
+    MaxStreamingBitrate: "140000000"    
+  }
+  resp = APIRequest(Substitute("Items/{0}/PlaybackInfo", id), params)
+  data = getJson(resp)
+  return data.PlaySessionId
+end function
 
 
 ' List of available libraries
