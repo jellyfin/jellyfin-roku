@@ -17,18 +17,24 @@ function VideoContent(id) as object
 
   meta = ItemMetaData(id)
   content.title = meta.Name
-
   container = getContainerType(meta)
 
-  content.url = buildURL(Substitute("Videos/{0}/stream", id), {
-    Static: "true",
-    Container: container
-  })
-
+  if directPlaySupported(meta) then
+    content.url = buildURL(Substitute("Videos/{0}/stream", id), {
+      Static: "true",
+      Container: container
+    })
+    content.streamformat = container
+    content.switchingStrategy = ""
+  else
+    content.url = buildURL(Substitute("Videos/{0}/master.m3u8", id), {
+      PlaySessionId: ItemGetSession(id)
+      VideoCodec: "h264",
+      AudioCodec: "aac",
+      MediaSourceId: id,
+    })
+  end if
   content = authorize_request(content)
-
-  content.streamformat = container
-  content.switchingStrategy = ""
 
   ' todo - audioFormat is read only
   content.audioFormat = getAudioFormat(meta)
@@ -36,15 +42,18 @@ function VideoContent(id) as object
   if server_is_https() then
     content.setCertificatesFile("common:/certs/ca-bundle.crt")
   end if
-
   return content
+end function
+
+function directPlaySupported(meta as object) as boolean
+    devinfo = CreateObject("roDeviceInfo")
+    return devinfo.CanDecodeVideo({ Codec: meta.json.MediaStreams[0].codec }).result
 end function
 
 function getContainerType(meta as object) as string
   ' Determine the file type of the video file source
   print type(meta)
   if meta.json.mediaSources = invalid then return ""
-
 
   container = meta.json.mediaSources[0].container
   if container = invalid
@@ -64,7 +73,6 @@ function getAudioFormat(meta as object) as string
   if audioInfo.count() = 0 then return ""
   return audioInfo[0].codec
 end function
-
 
 function getAudioInfo(meta as object) as object
   ' Return audio metadata for a given stream
