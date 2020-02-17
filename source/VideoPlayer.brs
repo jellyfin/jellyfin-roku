@@ -1,7 +1,8 @@
 function VideoPlayer(id)
   ' Get video controls and UI
   video = CreateObject("roSGNode", "JFVideo")
-  video.content = VideoContent(id)
+  video.id = id
+  video = VideoContent(video)
 
   jellyfin_blue = "#00a4dcFF"
 
@@ -11,38 +12,45 @@ function VideoPlayer(id)
   return video
 end function
 
-function VideoContent(id) as object
+function VideoContent(video) as object
   ' Get video stream
-  content = createObject("RoSGNode", "ContentNode")
+  video.content = createObject("RoSGNode", "ContentNode")
 
-  meta = ItemMetaData(id)
-  content.title = meta.Name
+  meta = ItemMetaData(video.id)
+  video.content.title = meta.Name
   container = getContainerType(meta)
+  video.PlaySessionId = ItemGetSession(video.id)
 
   if directPlaySupported(meta) then
-    content.url = buildURL(Substitute("Videos/{0}/stream", id), {
+    video.content.url = buildURL(Substitute("Videos/{0}/stream", video.id), {
+      "PlaySessionId": video.PlaySessionId
       Static: "true",
       Container: container
     })
-    content.streamformat = container
-    content.switchingStrategy = ""
+    video.content.streamformat = container
+    video.content.switchingStrategy = ""
   else
-    content.url = buildURL(Substitute("Videos/{0}/master.m3u8", id), {
-      PlaySessionId: ItemGetSession(id)
-      VideoCodec: "h264",
-      AudioCodec: "aac",
-      MediaSourceId: id,
+    video.content.url = buildURL(Substitute("Videos/{0}/master.m3u8", video.id), {
+      "PlaySessionId": video.PlaySessionId
+      "VideoCodec": "h264",
+      "AudioCodec": "aac",
+      "MediaSourceId": video.id,
+      "SegmentContainer": "ts",
+      "MinSegments": 1,
+      "BreakOnNonKeyFrames": "True",
+      "h264-profile": "high,main,baseline,constrainedbaseline",
+      "RequireAvc": "false",
     })
   end if
-  content = authorize_request(content)
+  video.content = authorize_request(video.content)
 
   ' todo - audioFormat is read only
-  content.audioFormat = getAudioFormat(meta)
+  video.content.audioFormat = getAudioFormat(meta)
 
   if server_is_https() then
-    content.setCertificatesFile("common:/certs/ca-bundle.crt")
+    video.content.setCertificatesFile("common:/certs/ca-bundle.crt")
   end if
-  return content
+  return video
 end function
 
 function directPlaySupported(meta as object) as boolean
@@ -83,4 +91,22 @@ function getAudioInfo(meta as object) as object
     end if
   end for
   return results
+end function
+
+function ReportPlayback(video, state = "update" as string)
+  params = {
+    "PlaySessionId": video.PlaySessionId,
+    "PositionTicks": str(int(video.position))+"0000000",
+    "IsPaused": (video.state = "paused"),
+  }
+  PlaystateUpdate(video.id, state, params)
+end function
+
+function StopPlayback()
+  video = m.scene.focusedchild
+  video.findNode("playbackTimer").control = "stop"
+  video.control = "stop"
+  video.visible = "false"
+  if video.status = "finished" then MarkItemWatched(video.id)
+  ReportPlayback(video,"stop")
 end function

@@ -39,6 +39,9 @@ sub Main()
       print "CLOSING SCREEN"
       return
     else if isNodeEvent(msg, "backPressed")
+      if msg.getRoSGNode().focusedChild <> invalid and msg.getRoSGNode().focusedChild.isSubtype("JFVideo") 
+        stopPlayback()
+      end if
       ' Pop a group off the stack and expose what's below
       n = m.scene.getChildCount() - 1
       if n = 1
@@ -156,6 +159,7 @@ sub Main()
       m.scene.appendChild(group)
       group.setFocus(true)
       group.control = "play"
+      ReportPlayback(group, "start")
       m.overhang.visible = false
     else if isNodeEvent(msg, "search_value")
       query = msg.getRoSGNode().search_value
@@ -261,6 +265,15 @@ sub Main()
         unset_setting("port")
         wipe_groups()
         goto app_start
+      end if
+    else if isNodeEvent(msg, "fire")
+      ReportPlayback(group, "update")
+    else if isNodeEvent(msg, "state")
+      node = msg.getRoSGNode()
+      if node.state = "finished" then
+        node.backPressed = "true"
+      else if node.state = "playing" or node.state = "paused" then
+        ReportPlayback(group, "update")
       end if
     else
       print type(msg)

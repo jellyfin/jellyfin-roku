@@ -2,6 +2,10 @@
 <component name="JFVideo" extends="Video">
   <interface>
     <field id="backPressed" type="boolean" alwaysNotify="true" />
+    <field id="PlaySessionId" type="string" />
   </interface>
   <script type="text/brightscript" uri="JFVideo.brs" />
+  <children>
+    <timer id="playbackTimer" repeat="true" duration="30" />
+  </children>
 </component>
