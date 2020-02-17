@@ -39,7 +39,7 @@ sub Main()
       print "CLOSING SCREEN"
       return
     else if isNodeEvent(msg, "backPressed")
-      if msg.getRoSGNode().focusedChild <> invalid and msg.getRoSGNode().focusedChild.isSubtype("JFVideo") 
+      if msg.getRoSGNode().focusedChild <> invalid and msg.getRoSGNode().focusedChild.isSubtype("JFVideo")
         stopPlayback()
       end if
       ' Pop a group off the stack and expose what's below
