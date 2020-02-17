@@ -344,9 +344,12 @@ end function
 function CreateVideoPlayerGroup(video_id)
   ' Video is Playing
   video = VideoPlayer(video_id)
+  timer = video.findNode("playbackTimer")
 
   video.observeField("backPressed", m.port)
   video.observeField("state", m.port)
+  timer.control = "start"
+  timer.observeField("fire", m.port)
 
   return video
 end function
