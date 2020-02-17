@@ -212,6 +212,7 @@ sub Main()
         m.scene.appendChild(group)
         group.setFocus(true)
         group.control = "play"
+        ReportPlayback(group, "start")
         m.overhang.visible = false
       else if btn.id = "watched-button"
         movie = group.itemContent
