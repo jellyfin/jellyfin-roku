@@ -101,10 +101,11 @@ end function
 function get_base_url()
   base = get_setting("server")
   port = get_setting("port")
-
-  if base.right(1) = "/"
-    base = base.left(base.len() - 1)
+  
+  if base.right(1) <> "/"
+    base = base + "/"
   end if
+
 
   if base.left(4) <> "http"
     if server_is_https()
