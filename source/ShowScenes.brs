@@ -14,6 +14,8 @@ sub CreateServerGroup()
   if get_setting("server") <> invalid
     server_field.value = get_setting("server")
   end if
+  group.findNode("example").text = "192.168.1.100:8096 or https://example.com"
+
 
   items = [ server_field]
   config.configItems = items
