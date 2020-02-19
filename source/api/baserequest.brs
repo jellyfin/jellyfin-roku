@@ -36,7 +36,7 @@ end function
 
 function buildURL(path as String, params={} as Object) as string
   
-  full_url = get_url() + path
+  full_url = get_url() + "/" + path
   if params.count() > 0
     full_url = full_url + "?" + buildParams(params)
   end if
@@ -46,15 +46,10 @@ end function
 
 function APIRequest(url as String, params={} as Object)
   req = createObject("roUrlTransfer")
-
-  if server_is_https() then
-    req.setCertificatesFile("common:/certs/ca-bundle.crt")
-  end if
+  req.setCertificatesFile("common:/certs/ca-bundle.crt")
 
   full_url = buildURL(url, params)
-
   req.setUrl(full_url)
-
   req = authorize_request(req)
 
   return req
@@ -100,16 +95,15 @@ end function
 
 function get_url()
   base = get_setting("server")
-  
-  if base.right(1) <> "/"
-    base = base + "/"
+  if base.right(1) = "/"
+    base = base.left(base.len() - 1)
   end if
 
+  ' append http:// to the start if not specified
+  if base.left(5) <> "https" or <> "http:"
+    base = "http://" + base
   return base
-end function
 
-function server_is_https() as Boolean
-    return True
 end function
 
 function authorize_request(request)
