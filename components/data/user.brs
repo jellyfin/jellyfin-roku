@@ -31,7 +31,6 @@ function saveToRegistry()
             id: m.top.id,
             username: m.top.username,
             server: get_setting("server"),
-            port: get_setting("port")
         })
         set_setting("available_users", formatJson(users))
     end if
@@ -59,7 +58,6 @@ function setActive()
     set_setting("active_user", m.top.id)
 end function
 
-function setServer(hostname as string, port as string)
+function setServer(hostname as string)
     m.top.server = hostname
-    m.top.port = port
 end function
