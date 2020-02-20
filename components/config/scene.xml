@@ -8,7 +8,7 @@
     <ConfigList
       id="configOptions"
       translation="[150, 240]" />
-      <label text=""
+    <label text=""
       id="example"
       font="font:smallSystemFont"
       translation="[150, 350]" />
