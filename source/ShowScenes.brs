@@ -17,7 +17,7 @@ sub CreateServerGroup()
   group.findNode("example").text = "192.168.1.100:8096 or https://example.com"
 
 
-  items = [ server_field]
+  items = [ server_field ]
   config.configItems = items
 
   button = group.findNode("submit")
@@ -396,5 +396,4 @@ function CollectionLister(group, page_size)
   p = group.findNode("paginator")
   p.maxPages = div_ceiling(group.objects.TotalRecordCount, page_size)
 end function
-
 

@@ -100,7 +100,7 @@ function get_url()
   end if
 
   ' append http:// to the start if not specified
-  if base.left(5) <> "https" or base.left(5) <> "http:"
+  if base.left(7) <> "http://" and base.left(8) <> "https://"
     base = "http://" + base
   end if
 
