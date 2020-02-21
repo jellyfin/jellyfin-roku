@@ -46,10 +46,8 @@ function VideoContent(video) as object
 
   ' todo - audioFormat is read only
   video.content.audioFormat = getAudioFormat(meta)
+  video.content.setCertificatesFile("common:/certs/ca-bundle.crt")
 
-  if server_is_https() then
-    video.content.setCertificatesFile("common:/certs/ca-bundle.crt")
-  end if
   return video
 end function
 

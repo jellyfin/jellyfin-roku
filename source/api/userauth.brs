@@ -42,7 +42,6 @@ function PickUser(id as string)
   if this_user = invalid then return invalid
   set_setting("active_user", this_user.id)
   set_setting("server", this_user.server)
-  set_setting("port", this_user.port)
 end function
 
 function RemoveUser(id as string)

@@ -36,7 +36,7 @@ end function
 
 function buildURL(path as String, params={} as Object) as string
   
-  full_url = get_base_url() + "/" + path
+  full_url = get_url() + "/" + path
   if params.count() > 0
     full_url = full_url + "?" + buildParams(params)
   end if
@@ -46,15 +46,10 @@ end function
 
 function APIRequest(url as String, params={} as Object)
   req = createObject("roUrlTransfer")
-
-  if server_is_https() then
-    req.setCertificatesFile("common:/certs/ca-bundle.crt")
-  end if
+  req.setCertificatesFile("common:/certs/ca-bundle.crt")
 
   full_url = buildURL(url, params)
-
   req.setUrl(full_url)
-
   req = authorize_request(req)
 
   return req
@@ -98,51 +93,19 @@ function postJson(req, data="" as string)
   return json
 end function
 
-function get_base_url()
+function get_url()
   base = get_setting("server")
-  port = get_setting("port")
-
   if base.right(1) = "/"
     base = base.left(base.len() - 1)
   end if
 
-  if base.left(4) <> "http"
-    if server_is_https()
-      protocol = "https://"
-    else
-      protocol = "http://"
-    end if
-    base = protocol + base
-  end if
-
-  if port <> "" and port <> invalid then
-    base = base + ":" + port
+  ' append http:// to the start if not specified
+  if base.left(7) <> "http://" and base.left(8) <> "https://"
+    base = "http://" + base
   end if
 
   return base
-end function
 
-function server_is_https() as Boolean
-  server = get_setting("server")
-  port = get_setting("port")
-
-  i = server.Instr(":")
-
-  ' No protocol found
-  if i = 0 then
-    return False
-  end if
-
-  protocol = Left(server, i)
-  if protocol = "https" then
-    return True
-  end if
-
-  if port = "443" or port = "8920"
-    return True
-  end if
-
-  return False
 end function
 
 function authorize_request(request)

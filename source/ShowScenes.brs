@@ -14,21 +14,14 @@ sub CreateServerGroup()
   if get_setting("server") <> invalid
     server_field.value = get_setting("server")
   end if
-  port_field = CreateObject("roSGNode", "ConfigData")
-  port_field.label = "Port"
-  port_field.field = "port"
-  port_field.type = "string"
-  if get_setting("port") <> invalid
-    port_field.value = get_setting("port")
-  end if
-  items = [ server_field, port_field ]
+  group.findNode("example").text = "192.168.1.100:8096 or https://example.com/jellyfin"
+  items = [ server_field ]
   config.configItems = items
 
   button = group.findNode("submit")
   button.observeField("buttonSelected", m.port)
 
   server_hostname = config.content.getChild(0)
-  server_port = config.content.getChild(1)
 
   while(true)
     msg = wait(0, m.port)
@@ -38,7 +31,6 @@ sub CreateServerGroup()
       node = msg.getNode()
       if node = "submit"
         set_setting("server", server_hostname.value)
-        set_setting("port", server_port.value)
         if ServerInfo() = invalid then
           ' Maybe don't unset setting, but offer as a prompt
           ' Server not found, is it online? New values / Retry
@@ -402,5 +394,4 @@ function CollectionLister(group, page_size)
   p = group.findNode("paginator")
   p.maxPages = div_ceiling(group.objects.TotalRecordCount, page_size)
 end function
-
 
