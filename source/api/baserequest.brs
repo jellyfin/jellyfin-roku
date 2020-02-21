@@ -8,7 +8,7 @@ function buildParams(params={} as Object) as string
     if type(field.value) = "String" or type(field.value) = "roString"
       item = field.key + "=" + req.escape(field.value.trim())
       'item = field.key + "=" + field.value.trim()
-    else if type(field.value) = "roInteger"
+    else if type(field.value) = "roInteger" or type(field.value) = "roInt"
       item = field.key + "=" + stri(field.value).trim()
       'item = field.key + "=" + str(field.value).trim()
     else if type(field.value) = "roFloat"
