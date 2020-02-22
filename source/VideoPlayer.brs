@@ -38,18 +38,19 @@ function VideoContent(video) as object
     video.content.streamformat = container
     video.content.switchingStrategy = ""
   else
-    ' downgrade AAC 5.1 to AAC stereo
-    ' todo - provide a user setting to keep 5.1 by switching codecs (instead of downgrading to stereo)
-    if meta.json.MediaStreams[1].channels > 2 and meta.json.MediaStreams[1].codec = "aac" then
-      audioChannels = 2
-    else
+  
+    if decodeAudioSupported(meta) then
+      audioCodec = meta.json.MediaStreams[1].codec
       audioChannels = meta.json.MediaStreams[1].channels
+    else
+      audioCodec = "aac"
+      audioChannels = 2
     end if
 
     video.content.url = buildURL(Substitute("Videos/{0}/master.m3u8", video.id), {
       "PlaySessionId": video.PlaySessionId
       "VideoCodec": "h264",
-      "AudioCodec": "aac",
+      "AudioCodec": audioCodec,
       "MaxAudioChannels": audioChannels,
       "MediaSourceId": video.id,
       "SegmentContainer": "ts",
