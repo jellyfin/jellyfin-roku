@@ -44,7 +44,7 @@ function ticksToHuman(ticks as longinteger) as string
   if val(hours) > 0 and val(minutes) < 10 then minutes = "0" + minutes
   if val(seconds) < 10 then seconds = "0" + seconds
   r=""
-  if val(hours) > 0 then r = stri(hours).trim() + ":"
+  if val(hours) > 0 then r = hours + ":"
   r = r + minutes + ":" + seconds
   return r
 end function
