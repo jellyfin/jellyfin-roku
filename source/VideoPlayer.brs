@@ -21,7 +21,7 @@ function VideoContent(video) as object
   container = getContainerType(meta)
   video.PlaySessionId = ItemGetSession(video.id)
 
-  if directPlaySupported(meta) then
+  if directPlaySupported(meta) and decodeAudioSupported(meta) then
     video.content.url = buildURL(Substitute("Videos/{0}/stream", video.id), {
       "PlaySessionId": video.PlaySessionId
       Static: "true",
@@ -30,10 +30,19 @@ function VideoContent(video) as object
     video.content.streamformat = container
     video.content.switchingStrategy = ""
   else
+    ' downgrade AAC 5.1 to AAC stereo
+    ' todo - provide a user setting to keep 5.1 by switching codecs (instead of downgrading to stereo)
+    if meta.json.MediaStreams[1].channels > 2 and meta.json.MediaStreams[1].codec = "aac" then
+      audioChannels = 2
+    else
+      audioChannels = meta.json.MediaStreams[1].channels
+    end if
+
     video.content.url = buildURL(Substitute("Videos/{0}/master.m3u8", video.id), {
       "PlaySessionId": video.PlaySessionId
       "VideoCodec": "h264",
       "AudioCodec": "aac",
+      "MaxAudioChannels": audioChannels,
       "MediaSourceId": video.id,
       "SegmentContainer": "ts",
       "MinSegments": 1,
@@ -52,8 +61,13 @@ function VideoContent(video) as object
 end function
 
 function directPlaySupported(meta as object) as boolean
-    devinfo = CreateObject("roDeviceInfo")
-    return devinfo.CanDecodeVideo({ Codec: meta.json.MediaStreams[0].codec }).result
+  devinfo = CreateObject("roDeviceInfo")
+  return devinfo.CanDecodeVideo({ Codec: meta.json.MediaStreams[0].codec }).result
+end function
+
+function decodeAudioSupported(meta as object) as boolean
+  devinfo = CreateObject("roDeviceInfo")
+  return devinfo.CanDecodeAudio({ Codec: meta.json.MediaStreams[1].codec, ChCnt: meta.json.MediaStreams[1].channels }).result
 end function
 
 function getContainerType(meta as object) as string
@@ -94,7 +108,7 @@ end function
 function ReportPlayback(video, state = "update" as string)
   params = {
     "PlaySessionId": video.PlaySessionId,
-    "PositionTicks": str(int(video.position))+"0000000",
+    "PositionTicks": str(int(video.position)) + "0000000",
     "IsPaused": (video.state = "paused"),
   }
   PlaystateUpdate(video.id, state, params)
@@ -106,5 +120,5 @@ function StopPlayback()
   video.control = "stop"
   video.visible = "false"
   if video.status = "finished" then MarkItemWatched(video.id)
-  ReportPlayback(video,"stop")
+  ReportPlayback(video, "stop")
 end function
