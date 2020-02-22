@@ -13,6 +13,8 @@ function buildParams(params={} as Object) as string
       'item = field.key + "=" + str(field.value).trim()
     else if type(field.value) = "roFloat"
       item = field.key + "=" + stri(int(field.value)).trim()
+    else if type(field.value) = "LongInteger"
+      item = field.key + "=" + field.value.toStr().trim()
     else if type(field.value) = "roArray"
       ' TODO handle array params
     else if type(field.value) = "roBoolean"

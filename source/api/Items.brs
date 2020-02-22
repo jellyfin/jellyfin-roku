@@ -22,10 +22,10 @@ function UserItemsResume(params = {} as object)
   return data
 end function
 
-function ItemGetSession(id as string)
+function ItemGetSession(id as string, StartTimeTicks = 0 as longinteger)
   params = {
     UserId: get_setting("active_user"),
-    StartTimeTicks: "0",
+    StartTimeTicks: StartTimeTicks,
     IsPlayback: "true",
     AutoOpenLiveStream: "true",
     MaxStreamingBitrate: "140000000"
@@ -34,7 +34,6 @@ function ItemGetSession(id as string)
   data = getJson(resp)
   return data.PlaySessionId
 end function
-
 
 ' List of available libraries
 function LibraryList()

@@ -4,7 +4,7 @@ end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean
   if key = "OK"
-    m.top.buttonSelected = 0
+    m.top.buttonSelected = m.top.buttonFocused
     handle_button()
     return true
   end if
