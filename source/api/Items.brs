@@ -181,8 +181,13 @@ function TVSeasons(id as string)
   data = getJson(resp)
   results = []
   for each item in data.Items
+    imgParams = { "AddPlayedIndicator": item.UserData.Played }
+    if item.UserData.UnplayedItemCount > 0 then
+      param = { "UnplayedCount" : item.UserData.UnplayedItemCount }
+      imgParams.Append(param)
+    end if
     tmp = CreateObject("roSGNode", "TVEpisodeData")
-    tmp.image = PosterImage(item.id)
+    tmp.image = PosterImage(item.id, imgParams)
     tmp.json = item
     results.push(tmp)
   end for
@@ -197,8 +202,9 @@ function TVEpisodes(show_id as string, season_id as string)
   data = getJson(resp)
   results = []
   for each item in data.Items
+    imgParams = { "AddPlayedIndicator": item.UserData.Played }
     tmp = CreateObject("roSGNode", "TVEpisodeData")
-    tmp.image = PosterImage(item.id)
+    tmp.image = PosterImage(item.id, imgParams)
     if tmp.image <> invalid
       tmp.image.posterDisplayMode = "scaleToFit"
     end if
