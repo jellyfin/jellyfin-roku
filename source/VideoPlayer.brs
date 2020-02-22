@@ -19,7 +19,15 @@ function VideoContent(video) as object
   meta = ItemMetaData(video.id)
   video.content.title = meta.Name
   container = getContainerType(meta)
-  video.PlaySessionId = ItemGetSession(video.id)
+  
+  ' If there is a last playback positon, ask user if they want to resume
+  position = meta.json.UserData.PlaybackPositionTicks
+  if position > 0 and startPlaybackOver(position) then
+    position = 0
+  end if
+  video.content.BookmarkPosition = int(position/10000000)
+
+  video.PlaySessionId = ItemGetSession(video.id, position)
 
   if directPlaySupported(meta) and decodeAudioSupported(meta) then
     video.content.url = buildURL(Substitute("Videos/{0}/stream", video.id), {
@@ -58,6 +66,11 @@ function VideoContent(video) as object
   video.content.setCertificatesFile("common:/certs/ca-bundle.crt")
 
   return video
+end function
+
+'Opens dialog asking user if they want to resume video or start playback over
+function startPlayBackOver(time as LongInteger) as boolean
+  return option_dialog([ "Resume playing at " + ticksToHuman(time) + ".", "Start over from the begining." ])
 end function
 
 function directPlaySupported(meta as object) as boolean
