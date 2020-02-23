@@ -51,9 +51,9 @@ function getEndTime() as string
     meridian = "PM"
   end if
   minutes = stri(date.getMinutes()).trim()
-  if val(minutes) > 10
+  if val(minutes) < 10
     minutes= "0" + minutes
   end if
 
-  return Substitute("{0}:{1} {2}", stri(hours).trim(), stri(date.getMinutes()).trim(), meridian)
+  return Substitute("{0}:{1} {2}", stri(hours).trim(), minutes, meridian)
 end function
