@@ -198,7 +198,6 @@ end function
 function CreateMovieDetailsGroup(movie)
   group = CreateObject("roSGNode", "MovieDetails")
 
-
   movie = ItemMetaData(movie.id)
   group.itemContent = movie
 
@@ -243,7 +242,7 @@ end function
 function CreateSeasonDetailsGroup(series, season)
   group = CreateObject("roSGNode", "TVEpisodes")
 
-  group.seasonData = TVSeasons(series.id)
+  group.seasonData = ItemMetaData(season.id)
   group.objects = TVEpisodes(series.id, season.id)
 
   group.observeField("episodeSelected", m.port)
