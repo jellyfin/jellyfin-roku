@@ -11,10 +11,7 @@ sub init()
   m.top.setFocus(true)
 end sub
 
-sub updateSize()
-  m.top.numRows = 1
-  m.top.itemsPerRow = 1
-
+sub updateSize()  
   dimensions = m.top.getScene().currentDesignResolution
 
   border = 75
