@@ -64,7 +64,7 @@ function getJson(req)
   if data = invalid or data = ""
     return invalid
   end if
-  json = ParseJson(req.GetToString())
+  json = ParseJson(data)
   return json
 end function
 
