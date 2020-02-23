@@ -6,7 +6,7 @@ end sub
 function itemContentChanged() as void
   item = m.top.itemContent
   itemData = item.json
-  m.top.findNode("title").text = item.title
+  m.top.findNode("title").text = itemData.indexNumber.toStr() + ". " + item.title
   m.top.findNode("poster").uri = item.posterURL
   m.top.findNode("overview").text = item.overview
 
