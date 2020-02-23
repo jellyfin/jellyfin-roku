@@ -11,7 +11,7 @@ function itemContentChanged() as void
   else 
     indexNumber = ""
   end if
-    m.top.findNode("title").text = indexNumber + item.title
+  m.top.findNode("title").text = indexNumber + item.title
   m.top.findNode("poster").uri = item.posterURL
   m.top.findNode("overview").text = item.overview
 
