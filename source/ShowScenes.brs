@@ -242,7 +242,7 @@ end function
 function CreateSeasonDetailsGroup(series, season)
   group = CreateObject("roSGNode", "TVEpisodes")
 
-  group.seasonData = ItemMetaData(season.id)
+  group.seasonData = ItemMetaData(season.id).json
   group.objects = TVEpisodes(series.id, season.id)
 
   group.observeField("episodeSelected", m.port)
