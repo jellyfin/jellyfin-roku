@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <component name="TVEpisodeRow" extends="RowList">
   <interface>
-    <field id="rowSize" type="int" />
-    <field id="TVEpisodeData" type="associativearray" onChange="getData" />
+    <field id="objects" type="associativearray" onChange="setupRows" />
+    <field id="escapeButton" type="string" alwaysNotify="true" />
   </interface>
   <script type="text/brightscript" uri="rowlist-episode.brs" />
 </component>

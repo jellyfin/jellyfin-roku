@@ -131,7 +131,7 @@ function ItemList(library_id = invalid as string, params = {})
       tmp.json = item
       results.push(tmp)
     else
-      print item.type
+      print "Items.brs::ItemList received unhandled type: " item.type
       ' Otherwise we just stick with the JSON
       results.push(item)
     end if
@@ -165,8 +165,13 @@ function ItemMetaData(id as string)
     tmp.image = PosterImage(data.id)
     tmp.json = item
     return tmp
+  else if data.type = "Season"
+    tmp = CreateObject("roSGNode", "TVSeasonData")
+    tmp.image = PosterImage(data.id)
+    tmp.json = data
+    return tmp
   else
-    print data.type
+    print "Items.brs::ItemMetaData processed unhandled type: " data.type
     ' Return json if we don't know what it is
     return data
   end if
@@ -202,13 +207,14 @@ function TVEpisodes(show_id as string, season_id as string)
   data = getJson(resp)
   results = []
   for each item in data.Items
-    imgParams = { "AddPlayedIndicator": item.UserData.Played }
+    imgParams = { "AddPlayedIndicator": item.UserData.Played, "maxWidth": 712, "maxheight": 400 }
     tmp = CreateObject("roSGNode", "TVEpisodeData")
     tmp.image = PosterImage(item.id, imgParams)
     if tmp.image <> invalid
       tmp.image.posterDisplayMode = "scaleToFit"
     end if
     tmp.json = item
+    tmp.overview = ItemMetaData(item.id).overview
     results.push(tmp)
   end for
   data.Items = results
