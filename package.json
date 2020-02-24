@@ -22,7 +22,7 @@
     "roku"
   ],
   "author": "jellyfin",
-  "license": "ISC",
+  "license": "GPL-2.0",
   "bugs": {
     "url": "https://github.com/jellyfin/jellyfin-roku/issues"
   },
