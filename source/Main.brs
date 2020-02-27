@@ -24,6 +24,7 @@ sub Main()
   ' Confirm the configured server and user work
   group = CreateLibraryGroup()
   m.overhang.title = group.overhangTitle
+  m.overhang.currentUser = m.user.Name
   m.scene.appendChild(group)
 
   m.scene.observeField("backPressed", m.port)

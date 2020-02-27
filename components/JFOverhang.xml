@@ -1,4 +1,52 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<component name="JFOverhang" extends="Overhang">
+<component name="JFOverhang" extends="Group">
+  <children>
+    <LayoutGroup id="overlayBackgroundGroup" layoutDirection="horiz" translation="[0, 0]" >
+      <Rectangle
+        id="overlayBackground"
+        color="#000000"
+        width="1920"
+        height="96"
+        translation="[0,0]" />
+    </LayoutGroup>
+    <Poster id="overlayLogo"
+      uri="pkg:/images/logo.png"
+      translation="[0, 12]"
+      width="270" height="72" />
+    <LayoutGroup id="overlayLeftGroup" layoutDirection="horiz" translation="[275, 18]" itemSpacings="30" >
+      <Rectangle
+        id="overlayLeftSeperator"
+        color="#666666"
+        width="2"
+        height="64"/>
+      <Label id="overlayTitle" font="font:LargeSystemFont" vertAlign="center" height="64" width="1150" />
+    </LayoutGroup>
+    <LayoutGroup id="overlayRightGroup" layoutDirection="horiz" translation="[1770, 18]" horizAlignment="right" itemSpacings="30" >
+      <Label id="overlayCurrentUser" font="font:MediumSystemFont" width="300" horizAlign="right" vertAlign="center" height="64" />
+      <Rectangle
+        id="overlayRightSeperator"
+        color="#666666"
+        width="2"
+        height="64"/>
+    </LayoutGroup>
+    <LayoutGroup id="overlayTimeGroup" layoutDirection="horiz" translation="[1900, 18]" horizAlignment="right" itemSpacings="0" >
+      <Label id="overlayHours" font="font:MediumSystemFont" vertAlign="center" height="64" />
+      <Label font="font:MediumSystemFont" text=":" vertAlign="center" height="64" />
+      <Label id="overlayMinutes" font="font:MediumSystemFont" vertAlign="center" height="64" />
+      <Label id="overlayMeridian" font="font:SmallSystemFont" vertAlign="bottom" height="48" />
+    </LayoutGroup>
+    <Label id="overlayOptionsStar" font="font:LargeSystemFont" text="*" translation="[1791, 96]" />
+    <Label id="overlayOptionsText" font="font:SmallSystemFont" text="Options" translation="[1821, 103]" />
+    <Timer
+      id="currentTimeTimer"
+      repeat="true"
+      duration="60" />
+  </children>
+  <interface>
+    <field id="id" type="string" />
+    <field id="currentUser" type="string" onChange="updateUser" />
+    <field id="title" value="Jellyfin" type="string" onChange="updateTitle" />
+    <field id="showOptions" value="true" type="boolean" onChange="updateOptions" />
+  </interface>
   <script type="text/brightscript" uri="JFOverhang.brs" />
 </component>
