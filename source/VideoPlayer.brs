@@ -15,6 +15,7 @@ end function
 function VideoContent(video) as object
   ' Get video stream
   video.content = createObject("RoSGNode", "ContentNode")
+  params = {}
 
   meta = ItemMetaData(video.id)
   video.content.title = meta.Name
@@ -28,17 +29,26 @@ function VideoContent(video) as object
   video.content.BookmarkPosition = int(position/10000000)
 
   video.PlaySessionId = ItemGetSession(video.id, position)
+  params.append({"PlaySessionId": video.PlaySessionId})
 
-  if directPlaySupported(meta) and decodeAudioSupported(meta) then
-    video.content.url = buildURL(Substitute("Videos/{0}/stream", video.id), {
-      "PlaySessionId": video.PlaySessionId
-      Static: "true",
-      Container: container
+  video.Subtitles = getSubtitles(meta.id,meta.json.MediaStreams)
+  if video.Subtitles.count() > 0 then
+    if video.Subtitles[0].IsTextSubtitleStream then
+      video.content.SubtitleTracks = video.Subtitles[0].track
+    else
+      params.append({"SubtitleStreamIndex" : video.Subtitles[0].index })
+    end if
+  end if
+
+  if directPlaySupported(meta) and decodeAudioSupported(meta) and params.SubtitleStreamIndex = invalid then
+    params.append({
+      "Static": "true",
+      "Container": container
     })
+    video.content.url = buildURL(Substitute("Videos/{0}/stream", video.id), params)
     video.content.streamformat = container
     video.content.switchingStrategy = ""
   else
-  
     if decodeAudioSupported(meta) then
       audioCodec = meta.json.MediaStreams[1].codec
       audioChannels = meta.json.MediaStreams[1].channels
@@ -46,9 +56,7 @@ function VideoContent(video) as object
       audioCodec = "aac"
       audioChannels = 2
     end if
-
-    video.content.url = buildURL(Substitute("Videos/{0}/master.m3u8", video.id), {
-      "PlaySessionId": video.PlaySessionId
+    params.append({
       "VideoCodec": "h264",
       "AudioCodec": audioCodec,
       "MaxAudioChannels": audioChannels,
@@ -59,14 +67,38 @@ function VideoContent(video) as object
       "h264-profile": "high,main,baseline,constrainedbaseline",
       "RequireAvc": "false",
     })
+    video.content.url = buildURL(Substitute("Videos/{0}/master.m3u8", video.id), params)
   end if
   video.content = authorize_request(video.content)
 
   ' todo - audioFormat is read only
   video.content.audioFormat = getAudioFormat(meta)
   video.content.setCertificatesFile("common:/certs/ca-bundle.crt")
-
   return video
+end function
+
+'Checks available subtitle tracks and puts subtitles in preferred language at the top
+function getSubtitles(id as string, MediaStreams)
+  tracks = []
+  devinfo = CreateObject("roDeviceInfo")
+  'Too many args for using substitute
+  dashedid = id.left(8) + "-" + id.mid(8,4) + "-" + id.mid(12,4) + "-" + id.mid(16,4) + "-" + id.right(12)
+  prefered_lang = devinfo.GetPreferredCaptionLanguage()
+  for each stream in MediaStreams
+    if stream.type = "Subtitle" then
+      'Documentation lists that srt, ttml, and dfxp can be sideloaded but only srt was working in my testing,
+      'forcing srt for all text subtitles
+      url = Substitute("{0}/Videos/{1}/{2}/Subtitles/{3}/0/", get_url(), dashedid, id, stream.index.tostr())
+      url = url + Substitute("Stream.js?api_key={0}&format=srt", get_setting("active_user"))
+      stream = { "Track": { "Language" : stream.language, "Description": stream.displaytitle , "TrackName": url }, "IsTextSubtitleStream": stream.IsTextSubtitleStream, "Index": stream.index }
+      if prefered_lang = stream.language then
+          tracks.unshift( stream )
+      else
+        tracks.push( stream )
+      end if
+    end if
+  end for
+  return tracks
 end function
 
 'Opens dialog asking user if they want to resume video or start playback over
