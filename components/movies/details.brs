@@ -1,9 +1,8 @@
 sub init()
-  m.top.overhangTitle = "Movie"
   main = m.top.findNode("main_group")
   dimensions = m.top.getScene().currentDesignResolution
 
-  main.translation=[50, 175]
+  main.translation = [50, 175]
 
   overview = m.top.findNode("overview")
   overview.width = dimensions.width - 100 - 400
@@ -104,7 +103,7 @@ end function
 sub setFavoriteColor()
   fave = m.top.itemContent.favorite
   fave_button = m.top.findNode("favorite-button")
-  if fave <> invalid And fave
+  if fave <> invalid and fave
     fave_button.textColor = "#00ff00ff"
     fave_button.focusedTextColor = "#269926ff"
   else
