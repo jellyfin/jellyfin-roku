@@ -35,7 +35,8 @@ function VideoContent(video) as object
   if video.Subtitles.count() > 0 then
     if video.Subtitles[0].IsTextSubtitleStream then
       video.content.SubtitleTracks = video.Subtitles[0].track
-    else
+    else if getCaptionMode() = "On"
+      'Only transcode if subtitles are turned on
       params.append({"SubtitleStreamIndex" : video.Subtitles[0].index })
     end if
   end if
@@ -99,6 +100,11 @@ function getSubtitles(id as string, MediaStreams)
     end if
   end for
   return tracks
+end function
+
+function getCaptionMode() as string
+  devinfo = CreateObject("roDeviceInfo")
+  return devinfo.GetCaptionsMode()
 end function
 
 'Opens dialog asking user if they want to resume video or start playback over
