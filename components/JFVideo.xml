@@ -3,6 +3,7 @@
   <interface>
     <field id="backPressed" type="boolean" alwaysNotify="true" />
     <field id="PlaySessionId" type="string" />
+    <field id="Subtitles" type="array" />
   </interface>
   <script type="text/brightscript" uri="JFVideo.brs" />
   <children>
