@@ -78,24 +78,27 @@ sub Main()
         group.setFocus(false)
         group.visible = false
 
+        m.overhang.title = node.name
         group = CreateMovieListGroup(node)
-        m.overhang.title = group.overhangTitle
+        group.overhangTitle = node.name
         m.scene.appendChild(group)
       else if node.type = "tvshows"
         group.lastFocus = group.focusedChild
         group.setFocus(false)
         group.visible = false
 
+        m.overhang.title = node.name
         group = CreateSeriesListGroup(node)
-        m.overhang.title = group.overhangTitle
+        group.overhangTitle = node.name
         m.scene.appendChild(group)
       else if node.type = "boxsets"
         group.lastFocus = group.focusedChild
         group.setFocus(false)
         group.visible = false
 
+        m.overhang.title = node.name
         group = CreateCollectionsList(node)
-        m.overhang.title = group.overhangTitle
+        group.overhangTitle = node.name
         m.scene.appendChild(group)
       else
         ' TODO - switch on more node types
@@ -108,8 +111,9 @@ sub Main()
       group.setFocus(false)
       group.visible = false
 
-      group = CreateMovieListGroup(node)
       m.overhang.title = node.title
+      group = CreateMovieListGroup(node)
+      group.overhangTitle = node.title
       m.scene.appendChild(group)
     else if isNodeEvent(msg, "movieSelected")
       ' If you select a movie from ANYWHERE, follow this flow
@@ -119,9 +123,10 @@ sub Main()
       group.setFocus(false)
       group.visible = false
 
+      m.overhang.title = node.title
       group = CreateMovieDetailsGroup(node)
+      group.overhangTitle = node.title
       m.scene.appendChild(group)
-      m.overhang.title = group.overhangTitle
     else if isNodeEvent(msg, "seriesSelected")
       ' If you select a TV Series from ANYWHERE, follow this flow
       node = getMsgPicker(msg, "picker")
@@ -130,9 +135,10 @@ sub Main()
       group.setFocus(false)
       group.visible = false
 
+      m.overhang.title = node.title
       group = CreateSeriesDetailsGroup(node)
+      group.overhangTitle = node.title
       m.scene.appendChild(group)
-      m.overhang.title = group.overhangTitle
     else if isNodeEvent(msg, "seasonSelected")
       ' If you select a TV Season from ANYWHERE, follow this flow
       ptr = msg.getData()
@@ -144,9 +150,9 @@ sub Main()
       group.setFocus(false)
       group.visible = false
 
+      m.overhang.title = series.overhangTitle + " - " + node.title
       group = CreateSeasonDetailsGroup(series.itemContent, node)
       m.scene.appendChild(group)
-      m.overhang.title = group.overhangTitle
     else if isNodeEvent(msg, "episodeSelected")
       ' If you select a TV Episode from ANYWHERE, follow this flow
       node = getMsgPicker(msg, "picker")

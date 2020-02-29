@@ -1,5 +1,4 @@
 sub init()
-  m.top.overhangTitle = "TV Show"
   main = m.top.findNode("toplevel")
   main.translation = [50, 175]
 end sub
