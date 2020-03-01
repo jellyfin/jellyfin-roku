@@ -19,22 +19,23 @@
         color="#666666"
         width="2"
         height="64"/>
-      <Label id="overlayTitle" font="font:LargeSystemFont" vertAlign="center" height="64" width="1150" />
+      <Label id="overlayTitle" font="font:LargeSystemFont" vertAlign="center" height="64" width="1100" />
     </LayoutGroup>
-    <LayoutGroup id="overlayRightGroup" layoutDirection="horiz" translation="[1770, 18]" horizAlignment="right" itemSpacings="30" >
+    <LayoutGroup id="overlayRightGroup" layoutDirection="horiz" itemSpacings="30" translation="[1900, 18]" horizAlignment="right" >
       <Label id="overlayCurrentUser" font="font:MediumSystemFont" width="300" horizAlign="right" vertAlign="center" height="64" />
       <Rectangle
         id="overlayRightSeperator"
         color="#666666"
         width="2"
         height="64"/>
+      <LayoutGroup id="overlayTimeGroup" layoutDirection="horiz" horizAlignment="right" itemSpacings="0" >
+        <Label id="overlayHours" font="font:MediumSystemFont" vertAlign="center" height="64" />
+        <Label font="font:MediumSystemFont" text=":" vertAlign="center" height="64" />
+        <Label id="overlayMinutes" font="font:MediumSystemFont" vertAlign="center" height="64" />
+        <Label id="overlayMeridian" font="font:SmallSystemFont" vertAlign="bottom" height="48" />
+      </LayoutGroup>
     </LayoutGroup>
-    <LayoutGroup id="overlayTimeGroup" layoutDirection="horiz" translation="[1900, 18]" horizAlignment="right" itemSpacings="0" >
-      <Label id="overlayHours" font="font:MediumSystemFont" vertAlign="center" height="64" />
-      <Label font="font:MediumSystemFont" text=":" vertAlign="center" height="64" />
-      <Label id="overlayMinutes" font="font:MediumSystemFont" vertAlign="center" height="64" />
-      <Label id="overlayMeridian" font="font:SmallSystemFont" vertAlign="bottom" height="48" />
-    </LayoutGroup>
+    
     <Label id="overlayOptionsStar" font="font:LargeSystemFont" text="*" translation="[1791, 96]" />
     <Label id="overlayOptionsText" font="font:SmallSystemFont" text="Options" translation="[1821, 103]" />
     <Timer
