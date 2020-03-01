@@ -1,11 +1,11 @@
 sub init()
-  main = m.top.findNode("main_group")
-  dimensions = m.top.getScene().currentDesignResolution
+  m.top.optionsAvailable = false
 
+  main = m.top.findNode("main_group")
   main.translation = [50, 175]
 
   overview = m.top.findNode("overview")
-  overview.width = dimensions.width - 100 - 400
+  overview.width = 1920 - 100 - 400
 
   m.top.findNode("buttons").setFocus(true)
 end sub

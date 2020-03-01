@@ -4,6 +4,7 @@
     <field id="backPressed" type="boolean" alwaysNotify="true" />
     <field id="lastFocus" type="node" />
     <field id="overhangTitle" type="string" />
+    <field id="optionsAvailable" value="true" type="boolean" />
   </interface>
   <script type="text/brightscript" uri="JFGroup.brs" />
 </component>
