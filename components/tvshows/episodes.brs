@@ -1,5 +1,5 @@
 sub init()
-  m.top.overhangTitle = "Season"
+  m.top.optionsAvailable = false
 end sub
 
 sub setSeason()

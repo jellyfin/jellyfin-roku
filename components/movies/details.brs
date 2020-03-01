@@ -1,4 +1,6 @@
 sub init()
+  m.top.optionsAvailable = false
+
   main = m.top.findNode("main_group")
   main.translation = [50, 175]
 
