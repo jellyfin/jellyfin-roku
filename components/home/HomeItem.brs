@@ -1,6 +1,5 @@
 sub init()
-    itemText = m.top.findNode("itemText")
-    itemText.text = "Loading..."
+
 end sub
 
 function itemContentChanged() as void
@@ -9,6 +8,7 @@ function itemContentChanged() as void
 
     itemText = m.top.findNode("itemText")
     itemText.text = itemData.name
+
     itemPoster = m.top.findNode("itemPoster")
     if itemData.type = "livetv" then
         itemPoster.width = "96"

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="Home" extends="JFGroup">
+  <children>
+    <HomeRows id="homeRows" />
+    <OptionsSlider id="options" />
+  </children>
+  <interface>
+    <field id="libraries" alias="homeRows.libList" />
+    <field id="continueWatching" alias="homeRows.continueList" />
+    <field id="homeSelection" alias="homeRows.itemSelected" />
+  </interface>
+  <script type="text/brightscript" uri="Home.brs" />
+</component>

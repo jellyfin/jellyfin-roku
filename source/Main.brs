@@ -20,11 +20,10 @@ sub Main()
   ' First thing to do is validate the ability to use the API
   LoginFlow()
 
-
-  ' Confirm the configured server and user work
-  group = CreateLibraryGroup()
-  m.overhang.title = group.overhangTitle
+  ' load home page
+  m.overhang.title = "Home"
   m.overhang.currentUser = m.user.Name
+  group = CreateHomeGroup()
   m.scene.appendChild(group)
 
   m.scene.observeField("backPressed", m.port)
@@ -71,9 +70,9 @@ sub Main()
       else
         group.setFocus(true)
       end if
-    else if isNodeEvent(msg, "librarySelected")
+    else if isNodeEvent(msg, "homeSelection")
       ' If you select a library from ANYWHERE, follow this flow
-      node = getMsgPicker(msg, "LibrarySelect")
+      node = getMsgPicker(msg, "homeRows")
       if node.type = "movies"
         group.lastFocus = group.focusedChild
         group.setFocus(false)
@@ -98,6 +97,31 @@ sub Main()
 
         m.overhang.title = node.name
         group = CreateCollectionsList(node)
+        group.overhangTitle = node.name
+        m.scene.appendChild(group)
+      else if node.type = "Episode" then
+        ' play episode
+        ' todo: create an episode page to link here
+        group.lastFocus = group.focusedChild
+        group.setFocus(false)
+        group.visible = false
+        video_id = node.id
+
+        group = CreateVideoPlayerGroup(video_id)
+        m.scene.appendChild(group)
+        group.setFocus(true)
+        group.control = "play"
+        ReportPlayback(group, "start")
+        m.overhang.visible = false
+      else if node.type = "Movie" then
+        ' open movie detail page
+        group.lastFocus = group.focusedChild
+        group.setFocus(false)
+        group.visible = false
+
+        m.overhang.title = node.name
+        m.overhang.showOptions = false
+        group = CreateMovieDetailsGroup(node)
         group.overhangTitle = node.name
         m.scene.appendChild(group)
       else

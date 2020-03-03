@@ -42,7 +42,7 @@ function LibraryList()
   data = getJson(resp)
   results = []
   for each item in data.Items
-    tmp = CreateObject("roSGNode", "LibraryData")
+    tmp = CreateObject("roSGNode", "HomeData")
     tmp.json = item
     params = { "Tag" : tmp.json.ImageTags.Primary, "maxHeight" : 261, "maxWidth" : 464 }
     tmp.imageURL = ImageURL(tmp.json.id, "Primary", params)
@@ -135,6 +135,64 @@ function ItemList(library_id = invalid as string, params = {})
       ' Otherwise we just stick with the JSON
       results.push(item)
     end if
+  end for
+  data.items = results
+  return data
+end function
+
+' Return items for use on home screen (homeRows)
+function HomeItemList(row = "" as string, params = {})
+  if params["limit"] = invalid
+    params["limit"] = 20
+  end if
+  if row = "continue" then
+    params["recursive"] = true
+    params["SortBy"] = "DatePlayed"
+    params["SortOrder"] = "Descending"
+    params["Filters"] = "IsResumable"
+  end if
+
+  url = Substitute("Users/{0}/Items/", get_setting("active_user"))
+  resp = APIRequest(url, params)
+  data = getJson(resp)
+  results = []
+  for each item in data.Items
+    tmp = CreateObject("roSGNode", "HomeData")
+    imgParams = {}
+
+    param = { "AddPlayedIndicator": item.UserData.Played }
+    imgParams.Append(param)
+
+    if item.UserData.PlayedPercentage <> invalid then
+      param = { "PercentPlayed": item.UserData.PlayedPercentage }
+      imgParams.Append(param)
+    end if
+
+    param = { "maxHeight": 261 }
+    imgParams.Append(param)
+    param = { "maxWidth": 464 }
+    imgParams.Append(param)
+
+    if item.type = "Movie"
+      if item.ImageTags.Thumb <> invalid then
+        param = { "Tag" : item.ImageTags.Thumb }
+        imgParams.Append(param)
+        tmp.imageURL = ImageURL(item.id, "Thumb", imgParams)
+      else 
+        param = { "Tag" : item.ImageTags.Primary }
+        imgParams.Append(param)
+        tmp.imageURL = ImageURL(item.id, "Primary", imgParams)
+      end if
+    else if item.type = "Episode"
+      if item.ImageTags.Primary <> invalid then
+        param = { "Tag" : item.ImageTags.Primary }
+        imgParams.Append(param)
+      end if
+      tmp.imageURL = ImageURL(item.id, "Primary", imgParams)
+    end if
+
+    tmp.json = item
+    results.push(tmp)
   end for
   data.items = results
   return data

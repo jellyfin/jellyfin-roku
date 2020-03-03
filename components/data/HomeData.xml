@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<component name="LibraryData" extends="ContentNode">
+<component name="HomeData" extends="ContentNode">
   <interface>
     <field id="id" type="string" />
     <field id="name" type="string" />
@@ -7,5 +7,5 @@
     <field id="type" type="string" />
     <field id="json" type="associativearray" onChange="setData" />
   </interface>
-  <script type="text/brightscript" uri="library.brs" />
+  <script type="text/brightscript" uri="HomeData.brs" />
 </component>
