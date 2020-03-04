@@ -1,4 +1,24 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<component name="JFMessageDialog" extends="Dialog">
+<component name="JFMessageDialog" extends="JFGroup">
+  <children>
+    <Poster
+        id="dialogBackground"
+        uri="pkg:/images/dialog.9.png"
+        blendColor="#000000"
+        translation="[0, 0]" 
+      />
+    <Label id="messageText" horizAlign="center" wrap="true" />
+    <LabelList id="optionList" vertFocusAnimationStyle="floatingFocus" textHorizAlign="center">
+    <ContentNode id = "content" role = "content"></ContentNode>
+    </LabelList>
+    
+  </children>
+  <interface>
+    <field id="id" type="string" />
+    <field id="message" type="string" onChange="updateMessage" />
+    <field id="options" type="array" onChange="updateOptions" />
+    <field id="fontHeight" type="integer" />
+    <field id="fontWidth" type="integer" />
+  </interface>
   <script type="text/brightscript" uri="JFMessageDialog.brs" />
 </component>

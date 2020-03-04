@@ -78,7 +78,6 @@ sub Main()
         group.lastFocus = group.focusedChild
         group.setFocus(false)
         group.visible = false
-
         m.overhang.title = node.name
         group = CreateMovieListGroup(node)
         group.overhangTitle = node.name
@@ -103,7 +102,7 @@ sub Main()
         m.scene.appendChild(group)
       else
         ' TODO - switch on more node types
-        message_dialog("This library type is not yet implemented: " + node.type)
+        message_dialog("This library type is not yet implemented: " + node.type + ".")
       end if
     else if isNodeEvent(msg, "collectionSelected")
       node = getMsgPicker(msg, "picker")
@@ -160,18 +159,19 @@ sub Main()
     else if isNodeEvent(msg, "episodeSelected")
       ' If you select a TV Episode from ANYWHERE, follow this flow
       node = getMsgPicker(msg, "picker")
-
-      group.lastFocus = group.focusedChild
-      group.setFocus(false)
-      group.visible = false
       video_id = node.id
-
-      group = CreateVideoPlayerGroup(video_id)
-      m.scene.appendChild(group)
-      group.setFocus(true)
-      group.control = "play"
-      ReportPlayback(group, "start")
-      m.overhang.visible = false
+      video = CreateVideoPlayerGroup(video_id)
+      if video <> invalid then
+        group.lastFocus = group.focusedChild
+        group.setFocus(false)
+        group.visible = false
+        group = video
+        m.scene.appendChild(group)
+        group.setFocus(true)
+        group.control = "play"
+        ReportPlayback(group, "start")
+        m.overhang.visible = false
+      end if
     else if isNodeEvent(msg, "search_value")
       query = msg.getRoSGNode().search_value
       group.findNode("SearchBox").visible = false
@@ -214,17 +214,19 @@ sub Main()
       if btn.id = "play-button"
         ' TODO - Do a better job of picking the last focus
         ' This is currently page layout Group, button Group, then button
-        group.lastFocus = group.focusedChild.focusedChild.focusedChild
-        group.setFocus(false)
-        group.visible = false
         video_id = group.id
-
-        group = CreateVideoPlayerGroup(video_id)
-        m.scene.appendChild(group)
-        group.setFocus(true)
-        group.control = "play"
-        ReportPlayback(group, "start")
-        m.overhang.visible = false
+        video = CreateVideoPlayerGroup(video_id)
+        if video <> invalid then
+          group.lastFocus = group.focusedChild.focusedChild.focusedChild
+          group.setFocus(false)
+          group.visible = false
+          group = video
+          m.scene.appendChild(group)
+          group.setFocus(true)
+          group.control = "play"
+          ReportPlayback(group, "start")
+          m.overhang.visible = false
+        end if
       else if btn.id = "watched-button"
         movie = group.itemContent
         if movie.watched

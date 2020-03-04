@@ -335,6 +335,7 @@ end function
 function CreateVideoPlayerGroup(video_id)
   ' Video is Playing
   video = VideoPlayer(video_id)
+  if video = invalid return invalid
   timer = video.findNode("playbackTimer")
 
   video.observeField("backPressed", m.port)
@@ -357,7 +358,6 @@ function MovieLister(group, page_size)
     "IncludeItemTypes": "Movie"
   })
   group.objects = item_list
-
 
   p = group.findNode("paginator")
   p.maxPages = div_ceiling(group.objects.TotalRecordCount, page_size)
