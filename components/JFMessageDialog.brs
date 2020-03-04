@@ -1,5 +1,9 @@
 sub init()
-  m.top.findNode("optionList").setFocus(true)
+  options = m.top.findNode("optionList")
+  options.focusBitmapBlendColor="0x0cb0e8"
+  options.color="0xffffff"
+  options.focusedColor="0xffffff" 
+  options.setFocus(true)
 end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean
@@ -43,7 +47,7 @@ sub redraw()
     text.width = textWidth
     text.numLines = int(fontWidth / textWidth) + 1
     text.translation = [ border , border ]
-    textHeight = (fontHeight * text.numLines) + itemSpacing
+    textHeight = (fontHeight * text.numLines)
   else 
     textHeight = 0
     itemSpacing = border
@@ -51,6 +55,7 @@ sub redraw()
 
   options.translation = [ border * 2, textHeight + itemSpacing]
   options.itemSize = [ boxWidth - ( border * 4 ), optionHeight ]
+  options.itemSpacing = "[0,20]"
 
   boxHeight = options.translation[1] + (options.itemSize[1]  * options.numRows ) + (options.itemSpacing[1] * (options.NumRows - 1)) + border
 
