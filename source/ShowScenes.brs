@@ -31,7 +31,7 @@ sub CreateServerGroup()
       node = msg.getNode()
       if node = "submit"
         set_setting("server", server_hostname.value)
-         if ServerInfo() = invalid then
+        if ServerInfo() = invalid then
           ' Maybe don't unset setting, but offer as a prompt
           ' Server not found, is it online? New values / Retry
           print "Server not found, is it online? New values / Retry"
