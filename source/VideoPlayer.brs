@@ -36,6 +36,7 @@ function VideoContent(video) as object
       position = 0
     end if
   end if
+  print "dialogResult: " dialogResult
   video.content.BookmarkPosition = int(position/10000000)
 
   video.PlaySessionId = ItemGetSession(video.id, position)
@@ -118,7 +119,7 @@ function getCaptionMode() as string
 end function
 
 'Opens dialog asking user if they want to resume video or start playback over
-function startPlayBackOver(time as LongInteger) as boolean
+function startPlayBackOver(time as LongInteger) as integer
   return option_dialog([ "Resume playing at " + ticksToHuman(time) + ".", "Start over from the begining." ])
 end function
 
