@@ -3,7 +3,9 @@ function VideoPlayer(id)
   video = CreateObject("roSGNode", "JFVideo")
   video.id = id
   video = VideoContent(video)
-
+  if video = invalid 
+    return invalid
+  end if
   jellyfin_blue = "#00a4dcFF"
 
   video.retrievingBar.filledBarBlendColor = jellyfin_blue
@@ -23,8 +25,16 @@ function VideoContent(video) as object
   
   ' If there is a last playback positon, ask user if they want to resume
   position = meta.json.UserData.PlaybackPositionTicks
-  if position > 0 and startPlaybackOver(position) then
-    position = 0
+  if position > 0 then
+    dialogResult = startPlaybackOver(position)
+    'Dialog returns -1 when back pressed, 0 for resume, and 1 for start over
+    if dialogResult = -1 then
+      'User pressed back, return invalid and don't load video
+      return invalid
+    else if dialogResult = 1 then
+      'Start Over selected, change position to 0
+      position = 0
+    end if
   end if
   video.content.BookmarkPosition = int(position/10000000)
 

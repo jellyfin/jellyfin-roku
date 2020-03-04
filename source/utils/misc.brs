@@ -57,26 +57,65 @@ function div_ceiling(a as integer, b as integer) as integer
   return a/b + 1
 end function
 
-function message_dialog(message = "" as string)
-  ' Takes a string and returns an object for dialog popup
-  dialog = createObject("roSGNode", "JFMessageDialog")
-  dialog.id = "popup"
-  dialog.buttons = ["OK"]
-  dialog.message = message
-
-  m.scene.dialog = dialog
-  m.scene.dialog.setFocus(true)
+'Returns the item selected or -1 on backpress or other unhandled closure of dialog.
+function get_dialog_result(dialog, port)
+  while dialog <> invalid
+    msg = wait(0, port)
+    if isNodeEvent(msg, "backPressed") then
+      return -1
+    elseif isNodeEvent(msg, "itemSelected")
+      return dialog.findNode("optionList").itemSelected 
+    end if
+  end while
+  'Dialog has closed outside of this loop, return -1 for failure
+  return -1
 end function
 
-function option_dialog(options) as integer
-  dialog = CreateObject("roSGNode", "JFMessageDialog")
-  dialog.backExitsDialog = false
-  dialog.buttons = options
-  m.scene.dialog = dialog
-  m.scene.dialog.setFocus(true)
-  
-  while m.scene.dialog <> invalid
-  end while
-  
-  return dialog.buttonSelected
+function lastFocusedChild(obj as object) as object
+  child = obj
+  for i = 0  to obj.getChildCount() 
+    child = child.focusedChild
+  end for 
+  return child
+end function
+
+function show_dialog(message as string, options = []) as integer
+  group = m.scene.focusedChild
+  lastFocus = lastFocusedChild(m.scene)
+  'We want to handle backPressed instead of the main loop
+  m.scene.unobserveField("backPressed")
+
+  dialog = createObject("roSGNode", "JFMessageDialog")
+  if options.count() then dialog.options = options
+  if message.len() > 0 then
+    reg = CreateObject("roFontRegistry")
+    font = reg.GetDefaultFont()
+    dialog.fontHeight = font.GetOneLineHeight()
+    dialog.fontWidth = font.GetOneLineWidth(message, 999999999)
+    dialog.message = message
+  end if
+
+  dialog.visible = true
+  dialog.setFocus(true)
+  m.scene.appendChild(dialog)
+
+  port = CreateObject("roMessagePort")
+  dialog.observeField("backPressed", port)
+  dialog.findNode("optionList").observeField("itemSelected", port)
+
+  result = get_dialog_result(dialog, port)
+
+  m.scene.removeChildIndex(m.scene.getChildCount() - 1)
+  lastFocus.setFocus(true)
+  m.scene.observeField("backPressed", m.port)
+
+  return result
+end function
+
+function message_dialog(message = "" as string)
+  return show_dialog(message,["OK"])
+end function
+
+function option_dialog(options, message = "") as integer
+  return show_dialog(message, options)
 end function
