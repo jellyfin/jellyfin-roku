@@ -20,7 +20,10 @@ function itemContentChanged() as void
     m.top.findNode("endtime").text = "Ends at " + getEndTime()
   end if
   if itemData.communityRating <> invalid then
+    m.top.findNode("star").visible = true
     m.top.findNode("communityRating").text = str(int(itemData.communityRating*10)/10)
+  else
+    m.top.findNode("star").visible = false
   end if
 end function
 
