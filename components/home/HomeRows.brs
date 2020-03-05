@@ -45,7 +45,7 @@ sub showLibraryRow()
         item = libs.Items[i - 1]
         libraryRow.appendChild(item)
     end for
-    
+
     m.top.content.appendChild(libraryRow)
 end sub
 
@@ -63,7 +63,7 @@ sub showContinueRow()
 
         m.top.numRows++
         m.top.content.appendChild(continueRow)
-    end if  
+    end if
 end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean

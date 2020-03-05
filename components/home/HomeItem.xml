@@ -2,7 +2,8 @@
 <component name="HomeItem" extends="Group">
   <children>
     <Poster id="itemPoster" width="464" height="261" translation="[8,5]" />
-    <Label id="itemText" horizAlign="center" vertAlign="center" font="font:MediumSystemFont" height="64" width="480" translation="[0,266]" />
+    <Label id="itemText" horizAlign="center" vertAlign="center" font="font:SmallBoldSystemFont" height="64" width="456" translation="[8,267]" />
+    <Label id="itemTextExtra" horizAlign="left" vertAlign="center" font="font:SmallBoldSystemFont" height="32" width="456" translation="[8,300]" visible="false" />
   </children>
   <interface>
     <field id="itemContent" type="node" onChange="itemContentChanged"/>
