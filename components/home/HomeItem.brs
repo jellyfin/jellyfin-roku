@@ -27,7 +27,7 @@ function itemContentChanged() as void
       if (itemData.json.ParentIndexNumber <> Invalid) then
         extraPrefix = "S" + StrI(itemData.json.ParentIndexNumber).trim()
       end if
-      if (itemData.json.IndexNumber) <> invalid) then
+      if (itemData.json.IndexNumber <> invalid) then
         extraPrefix = extraPrefix + "E" + StrI(itemData.json.IndexNumber).trim()
       end if
       if ( extraPrefix.len() > 0 ) then 
