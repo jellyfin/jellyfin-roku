@@ -23,7 +23,17 @@ function itemContentChanged() as void
 
     if itemData.type = "Episode" then
       itemText.text = itemData.json.SeriesName
-      itemTextExtra.text = "S" + StrI(itemData.json.ParentIndexNumber).trim() + "E" + StrI(itemData.json.IndexNumber).trim() + " - " + itemData.name
+      extraPrefix = ""
+      if (itemData.json.IndexNumber <> Invalid) then
+        extraPrefix = "S" + StrI(itemData.json.ParentIndexNumber).trim()
+      end if
+      if (itemData.json.IndexNumber) <> invalid) then
+        extraPrefix = extraPrefix + "E" + StrI(itemData.json.IndexNumber).trim()
+      end if
+      if ( extraPrefix.len() > 0 ) then 
+        extraPrefix = extraPrefix + " - "
+      end if     
+      itemTextExtra.text = extraPrefix + itemData.name
     else if itemData.type = "Movie" then
       itemText.text = itemData.name
       itemTextExtra.text = StrI(itemData.json.ProductionYear).trim() + " - " + itemData.json.OfficialRating
