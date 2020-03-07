@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<component name="LibraryRow" extends="RowList">
-  <interface>
-    <field id="libList" type="associativearray" onChange="getData" />
-  </interface>
-  <script type="text/brightscript" uri="rowlist.brs"/>
-</component>

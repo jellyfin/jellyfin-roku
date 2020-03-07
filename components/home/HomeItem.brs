@@ -1,0 +1,50 @@
+sub init()
+
+end sub
+
+function itemContentChanged() as void
+  itemData = m.top.itemContent
+  if itemData = invalid then return
+
+  itemText = m.top.findNode("itemText")
+  itemPoster = m.top.findNode("itemPoster")
+
+  if itemData.json.CollectionType = invalid then
+    itemPoster.uri = itemData.imageURL
+
+    itemText.height = 34
+    itemText.font.size = 25
+    itemText.horizAlign = "left"
+    itemText.vertAlign = "bottom"
+
+    itemTextExtra = m.top.findNode("itemTextExtra")
+    itemTextExtra.font.size = 24
+    itemTextExtra.visible = true
+
+    if itemData.type = "Episode" then
+      itemText.text = itemData.json.SeriesName
+      itemTextExtra.text = "S" + StrI(itemData.json.ParentIndexNumber).trim() + "E" + StrI(itemData.json.IndexNumber).trim() + " - " + itemData.name
+    else if itemData.type = "Movie" then
+      itemText.text = itemData.name
+      itemTextExtra.text = StrI(itemData.json.ProductionYear).trim() + " - " + itemData.json.OfficialRating
+    end if
+  else
+    ' handle libraries with no picture
+    if itemData.type = "livetv" then
+      itemPoster.width = "96"
+      itemPoster.height = "96"
+      itemPoster.translation = "[192, 88]"
+      itemPoster.uri = "pkg:/images/baseline_live_tv_white_48dp.png"
+      itemText.text = itemData.name
+    else if itemData.type = "music" then
+      itemPoster.width = "96"
+      itemPoster.height = "96"
+      itemPoster.translation = "[192, 88]"
+      itemPoster.uri = "pkg:/images/baseline_library_music_white_48dp.png"
+      itemText.text = itemData.name
+    else
+      itemPoster.uri = itemData.imageURL
+      itemText.text = itemData.name
+    end if
+  end if
+end function

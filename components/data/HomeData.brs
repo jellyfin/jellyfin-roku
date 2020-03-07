@@ -5,5 +5,9 @@ sub setData()
 
     m.top.id = datum.id
     m.top.name = datum.name
-    m.top.type = datum.CollectionType
+    if datum.CollectionType = invalid then
+        m.top.type = datum.type
+    else 
+        m.top.type = datum.CollectionType
+    end if
 end sub

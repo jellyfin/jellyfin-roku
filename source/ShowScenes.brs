@@ -97,16 +97,16 @@ sub CreateSigninGroup()
   group.visible = false
 end sub
 
-function CreateLibraryGroup()
+function CreateHomeGroup()
   ' Main screen after logging in. Shows the user's libraries
-  group = CreateObject("roSGNode", "Library")
+  group = CreateObject("roSGNode", "Home")
 
   libs = LibraryList()
-
   group.libraries = libs
-  group.observeField("librarySelected", m.port)
+  con = HomeItemList("continue")
+  group.continueWatching = con
 
-  library = group.findNode("LibrarySelect")
+  group.observeField("homeSelection", m.port)
 
   sidepanel = group.findNode("options")
   sidepanel.observeField("closeSidePanel", m.port)
