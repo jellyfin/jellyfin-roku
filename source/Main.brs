@@ -102,17 +102,19 @@ sub Main()
       else if node.type = "Episode" then
         ' play episode
         ' todo: create an episode page to link here
-        group.lastFocus = group.focusedChild
-        group.setFocus(false)
-        group.visible = false
         video_id = node.id
-
-        group = CreateVideoPlayerGroup(video_id)
-        m.scene.appendChild(group)
-        group.setFocus(true)
-        group.control = "play"
-        ReportPlayback(group, "start")
-        m.overhang.visible = false
+        video = CreateVideoPlayerGroup(video_id)
+        if video <> invalid then
+          group.lastFocus = group.focusedChild
+          group.setFocus(false)
+          group.visible = false
+          group = video
+          m.scene.appendChild(group)
+          group.setFocus(true)
+          group.control = "play"
+          ReportPlayback(group, "start")
+          m.overhang.visible = false
+        end if
       else if node.type = "Movie" then
         ' open movie detail page
         group.lastFocus = group.focusedChild
