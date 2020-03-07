@@ -10,7 +10,10 @@
           <ScrollingLabel id="title" font="font:LargeBoldSystemFont" maxWidth="1200" />
           <LayoutGroup layoutDirection="horiz" itemSpacings="[20]">
             <Label id="runtime" font="font:SmallestSystemFont" />
-            <Label id="communityRating" font="font:SmallestSystemFont" />
+            <LayoutGroup layoutDirection="horiz" itemSpacings="[-5]">
+              <Poster id="star" uri="pkg:/images/sharp_star_white_18dp.png" height="26" width="26" blendColor="#cb272a" />
+              <Label id="communityRating" font="font:SmallestSystemFont" />
+            </LayoutGroup>
             <Label id="endtime" font="font:SmallestSystemFont" />
           </LayoutGroup>
           <Label id="overview" wrap="true" height="170" width="1200" maxLines="4" ellipsizeOnBoundary="true"/>
