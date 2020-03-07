@@ -24,7 +24,7 @@ function itemContentChanged() as void
     if itemData.type = "Episode" then
       itemText.text = itemData.json.SeriesName
       extraPrefix = ""
-      if (itemData.json.IndexNumber <> Invalid) then
+      if (itemData.json.ParentIndexNumber <> Invalid) then
         extraPrefix = "S" + StrI(itemData.json.ParentIndexNumber).trim()
       end if
       if (itemData.json.IndexNumber) <> invalid) then
