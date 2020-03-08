@@ -27,6 +27,7 @@ function SignOut()
     unset_user_setting("token")
   end if
   unset_setting("active_user")
+  m.overhang.currentUser = ""
 end function
 
 function AvailableUsers()
