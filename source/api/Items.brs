@@ -203,9 +203,14 @@ function ItemMetaData(id as string)
   url = Substitute("Users/{0}/Items/{1}", get_setting("active_user"), id)
   resp = APIRequest(url)
   data = getJson(resp)
+  imgParams = {}
+  if data.UserData.PlayedPercentage <> invalid then
+    param = { "PercentPlayed": data.UserData.PlayedPercentage }
+    imgParams.Append(param)
+  end if
   if data.type = "Movie"
     tmp = CreateObject("roSGNode", "MovieData")
-    tmp.image = PosterImage(data.id)
+    tmp.image = PosterImage(data.id, imgParams)
     tmp.json = data
     return tmp
   else if data.type = "Series"
@@ -214,13 +219,15 @@ function ItemMetaData(id as string)
     tmp.json = data
     return tmp
   else if data.type = "Episode"
+    ' param = { "AddPlayedIndicator": data.UserData.Played }
+    ' imgParams.Append(param)
     tmp = CreateObject("roSGNode", "TVEpisodeData")
-    tmp.image = PosterImage(data.id)
+    tmp.image = PosterImage(data.id, imgParams)
     tmp.json = data
     return tmp
   else if data.type = "BoxSet"
     tmp = CreateObject("roSGNode", "CollectionData")
-    tmp.image = PosterImage(data.id)
+    tmp.image = PosterImage(data.id, imgParams)
     tmp.json = item
     return tmp
   else if data.type = "Season"
@@ -266,6 +273,10 @@ function TVEpisodes(show_id as string, season_id as string)
   results = []
   for each item in data.Items
     imgParams = { "AddPlayedIndicator": item.UserData.Played, "maxWidth": 712, "maxheight": 400 }
+    if item.UserData.PlayedPercentage <> invalid then
+      param = { "PercentPlayed": item.UserData.PlayedPercentage }
+      imgParams.Append(param)
+    end if
     tmp = CreateObject("roSGNode", "TVEpisodeData")
     tmp.image = PosterImage(item.id, imgParams)
     if tmp.image <> invalid
