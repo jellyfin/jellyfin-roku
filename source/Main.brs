@@ -49,9 +49,17 @@ sub Main()
         return
       end if
       m.scene.removeChildIndex(n)
+      prevOptionsAvailable = group.optionsAvailable
       group = m.scene.getChild(n - 1)
       m.overhang.title = group.overhangTitle
       m.overhang.showOptions = group.optionsAvailable
+      if group.optionsAvailable <> prevOptionsAvailable then
+        if group.optionsAvailable = false then
+          m.scene.unobserveField("optionsPressed")
+        else
+          m.scene.observeField("optionsPressed", m.port)
+        end if
+      end if
       m.overhang.visible = true
       if group.lastFocus <> invalid
         group.lastFocus.setFocus(true)
@@ -123,6 +131,7 @@ sub Main()
 
         m.overhang.title = node.name
         m.overhang.showOptions = false
+        m.scene.unobserveField("optionsPressed")
         group = CreateMovieDetailsGroup(node)
         group.overhangTitle = node.name
         m.scene.appendChild(group)
@@ -151,6 +160,7 @@ sub Main()
 
       m.overhang.title = node.title
       m.overhang.showOptions = false
+      m.scene.unobserveField("optionsPressed")
       group = CreateMovieDetailsGroup(node)
       group.overhangTitle = node.title
       m.scene.appendChild(group)
@@ -164,6 +174,7 @@ sub Main()
 
       m.overhang.title = node.title
       m.overhang.showOptions = false
+      m.scene.unobserveField("optionsPressed")
       group = CreateSeriesDetailsGroup(node)
       group.overhangTitle = node.title
       m.scene.appendChild(group)
@@ -180,6 +191,7 @@ sub Main()
 
       m.overhang.title = series.overhangTitle + " - " + node.title
       m.overhang.showOptions = false
+      m.scene.unobserveField("optionsPressed")
       group = CreateSeasonDetailsGroup(series.itemContent, node)
       m.scene.appendChild(group)
     else if isNodeEvent(msg, "episodeSelected")
