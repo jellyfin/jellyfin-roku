@@ -73,8 +73,10 @@ end function
 
 function lastFocusedChild(obj as object) as object
   child = obj
-  for i = 0  to obj.getChildCount() 
-    child = child.focusedChild
+  for i = 0 to obj.getChildCount()
+    if obj.focusedChild <> invalid then
+      child = child.focusedChild
+    end if 
   end for 
   return child
 end function
