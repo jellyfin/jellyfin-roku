@@ -1,4 +1,6 @@
 sub init()
+  m.top.backgroundColor = "#101010"
+  m.top.backgroundURI = ""
 end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean

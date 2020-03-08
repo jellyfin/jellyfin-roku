@@ -21,14 +21,6 @@ function getButton(msg, subnode = "buttons" as string) as object
   return active_button
 end function
 
-sub themeScene()
-  ' Takes a scene and applies a consisten UI Theme
-  m.scene.backgroundColor = "#101010"
-  m.scene.backgroundURI = ""
-
-  m.scene.insertChild(m.overhang, 0)
-end sub
-
 function leftPad(base as string, fill as string, length as integer) as string
   while len(base) < length
     base = fill + base

@@ -8,15 +8,15 @@ sub Main()
   m.port = CreateObject("roMessagePort")
   m.screen.setMessagePort(m.port)
   m.scene = m.screen.CreateScene("JFScene")
-
   m.screen.show()
-  m.overhang = CreateObject("roSGNode", "JFOverhang")
 
+  m.overhang = CreateObject("roSGNode", "JFOverhang")
+  m.scene.insertChild(m.overhang, 0)
+  
   m.page_size = 50
 
-  themeScene()
-
   app_start:
+  m.overhang.title = ""
   ' First thing to do is validate the ability to use the API
   LoginFlow()
 
