@@ -24,19 +24,30 @@ function itemContentChanged() as void
     if itemData.type = "Episode" then
       itemText.text = itemData.json.SeriesName
       extraPrefix = ""
-      if (itemData.json.ParentIndexNumber <> Invalid) then
+      if itemData.json.ParentIndexNumber <> invalid then
         extraPrefix = "S" + StrI(itemData.json.ParentIndexNumber).trim()
       end if
-      if (itemData.json.IndexNumber <> invalid) then
+      if itemData.json.IndexNumber <> invalid then
         extraPrefix = extraPrefix + "E" + StrI(itemData.json.IndexNumber).trim()
       end if
-      if ( extraPrefix.len() > 0 ) then 
+      if extraPrefix.len() > 0 then
         extraPrefix = extraPrefix + " - "
-      end if     
+      end if
       itemTextExtra.text = extraPrefix + itemData.name
     else if itemData.type = "Movie" then
       itemText.text = itemData.name
-      itemTextExtra.text = StrI(itemData.json.ProductionYear).trim() + " - " + itemData.json.OfficialRating
+      textExtra = ""
+      if itemData.json.ProductionYear <> invalid then
+        textExtra = StrI(itemData.json.ProductionYear).trim()
+      end if
+      if itemData.json.OfficialRating <> invalid then
+        if textExtra <> "" then
+          textExtra = textExtra + " - " + itemData.json.OfficialRating
+        else
+          textExtra = itemData.json.OfficialRating
+        end if
+      end if
+      itemTextExtra.text = textExtra
     end if
   else
     ' handle libraries with no picture
