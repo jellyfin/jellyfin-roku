@@ -82,7 +82,6 @@ sub rebuildURL(captions as boolean)
   end if
 
   video.content.url = buildURL(base, params)
-  print "video url: " video.content.url
   video.content.BookmarkPosition = int(video.position + playBackBuffer)
   video.control = "play"
 end sub

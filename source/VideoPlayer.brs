@@ -81,7 +81,6 @@ function VideoContent(video) as object
   ' todo - audioFormat is read only
   video.content.audioFormat = getAudioFormat(meta)
   video.content.setCertificatesFile("common:/certs/ca-bundle.crt")
-  print "video url: " video.content.url
   return video
 end function
 
