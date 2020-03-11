@@ -62,7 +62,7 @@ function VideoContent(video) as object
   video.decodeAudioSupported = decodeAudioSupported(meta)
   video.transcodeParams = transcodeParams
 
-  if directPlaySupported(meta) and decodeAudioSupported(meta) and transcodeParams.SubtitleStreamIndex = invalid then
+  if video.directPlaySupported and video.decodeAudioSupported and transcodeParams.SubtitleStreamIndex = invalid then
     params.append({
       "Static": "true",
       "Container": container
