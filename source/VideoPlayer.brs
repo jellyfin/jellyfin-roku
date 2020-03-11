@@ -22,6 +22,7 @@ function VideoContent(video) as object
   meta = ItemMetaData(video.id)
   video.content.title = meta.Name
   container = getContainerType(meta)
+  video.container = container
   
   ' If there is a last playback positon, ask user if they want to resume
   position = meta.json.UserData.PlaybackPositionTicks
@@ -36,57 +37,73 @@ function VideoContent(video) as object
       position = 0
     end if
   end if
-  print "dialogResult: " dialogResult
   video.content.BookmarkPosition = int(position/10000000)
 
   video.PlaySessionId = ItemGetSession(video.id, position)
-  params.append({"PlaySessionId": video.PlaySessionId})
+  transcodeParams = getTranscodeParameters(meta)
+  transcodeParams.append({"PlaySessionId": video.PlaySessionId})
 
   video.Subtitles = getSubtitles(meta.id,meta.json.MediaStreams)
   if video.Subtitles.count() > 0 then
     if video.Subtitles[0].IsTextSubtitleStream then
       video.content.SubtitleTracks = video.Subtitles[0].track
-    else if getCaptionMode() = "On"
-      'Only transcode if subtitles are turned on
-      params.append({"SubtitleStreamIndex" : video.Subtitles[0].index })
+    else
+      'Watch to see if system overlay opened/closed to change transcoding if caption mode changed
+      m.device.EnableAppFocusEvent(True)
+      video.captionMode = video.globalCaptionMode
+      if video.globalCaptionMode = "On" or (video.globalCaptionMode = "When mute" and m.mute = true) then
+        'Only transcode if subtitles are turned on
+        transcodeParams.append({"SubtitleStreamIndex" : video.Subtitles[0].index })
+      end if
     end if
   end if
 
-  if directPlaySupported(meta) and decodeAudioSupported(meta) and params.SubtitleStreamIndex = invalid then
+  video.directPlaySupported = directPlaySupported(meta)
+  video.decodeAudioSupported = decodeAudioSupported(meta)
+  video.transcodeParams = transcodeParams
+
+  if directPlaySupported(meta) and decodeAudioSupported(meta) and transcodeParams.SubtitleStreamIndex = invalid then
     params.append({
       "Static": "true",
       "Container": container
+      "PlaySessionId": video.PlaySessionId
     })
     video.content.url = buildURL(Substitute("Videos/{0}/stream", video.id), params)
     video.content.streamformat = container
     video.content.switchingStrategy = ""
+    video.isTranscode = False
   else
-    if decodeAudioSupported(meta) then
-      audioCodec = meta.json.MediaStreams[1].codec
-      audioChannels = meta.json.MediaStreams[1].channels
-    else
-      audioCodec = "aac"
-      audioChannels = 2
-    end if
-    params.append({
-      "VideoCodec": "h264",
-      "AudioCodec": audioCodec,
-      "MaxAudioChannels": audioChannels,
-      "MediaSourceId": video.id,
-      "SegmentContainer": "ts",
-      "MinSegments": 1,
-      "BreakOnNonKeyFrames": "True",
-      "h264-profile": "high,main,baseline,constrainedbaseline",
-      "RequireAvc": "false",
-    })
-    video.content.url = buildURL(Substitute("Videos/{0}/master.m3u8", video.id), params)
+    video.content.url = buildURL(Substitute("Videos/{0}/master.m3u8", video.id), transcodeParams)
+    video.isTranscoded = true
   end if
   video.content = authorize_request(video.content)
 
   ' todo - audioFormat is read only
   video.content.audioFormat = getAudioFormat(meta)
   video.content.setCertificatesFile("common:/certs/ca-bundle.crt")
+  print "video url: " video.content.url
   return video
+end function
+
+function getTranscodeParameters(meta as object)
+  if decodeAudioSupported(meta) then
+    audioCodec = meta.json.MediaStreams[1].codec
+    audioChannels = meta.json.MediaStreams[1].channels
+  else
+    audioCodec = "aac"
+    audioChannels = 2
+  end if
+  return {
+    "VideoCodec": "h264",
+    "AudioCodec": audioCodec,
+    "MaxAudioChannels": audioChannels,
+    "MediaSourceId": meta.id,
+    "SegmentContainer": "ts",
+    "MinSegments": 1,
+    "BreakOnNonKeyFrames": "True",
+    "h264-profile": "high,main,baseline,constrainedbaseline",
+    "RequireAvc": "false",
+  }
 end function
 
 'Checks available subtitle tracks and puts subtitles in preferred language at the top
@@ -111,11 +128,6 @@ function getSubtitles(id as string, MediaStreams)
     end if
   end for
   return tracks
-end function
-
-function getCaptionMode() as string
-  devinfo = CreateObject("roDeviceInfo")
-  return devinfo.GetCaptionsMode()
 end function
 
 'Opens dialog asking user if they want to resume video or start playback over
@@ -179,6 +191,7 @@ end function
 
 function StopPlayback()
   video = m.scene.focusedchild
+  m.device.EnableAppFocusEvent(False)
   video.findNode("playbackTimer").control = "stop"
   video.control = "stop"
   video.visible = "false"

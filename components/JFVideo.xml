@@ -4,6 +4,14 @@
     <field id="backPressed" type="boolean" alwaysNotify="true" />
     <field id="PlaySessionId" type="string" />
     <field id="Subtitles" type="array" />
+    <field id="SelectedSubtitle" type="integer" />
+    <field id="captionMode" type="string" />
+    <field id="transcodeParams" type="associativearray" />
+    <field id="container" type="string" />
+    <field id="directPlaySupported" type="boolean" />
+    <field id="decodeAudioSupported" type="boolean" />
+    <field id="isTranscoded" type="boolean" />
+    <field id="systemOverlay" type="boolean" value="false" />
   </interface>
   <script type="text/brightscript" uri="JFVideo.brs" />
   <children>
