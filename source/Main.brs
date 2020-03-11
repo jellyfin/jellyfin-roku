@@ -339,7 +339,6 @@ sub Main()
       end if
     else if type(msg) = "roDeviceInfoEvent" then
       event = msg.GetInfo()
-      print "roDeviceInfoEvent: " event
       if event.appFocused <> invalid then
         child = m.scene.focusedChild
         if child <> invalid and child.isSubType("JFVideo") then
