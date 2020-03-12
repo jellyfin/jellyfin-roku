@@ -127,6 +127,17 @@ sub Main()
           ReportPlayback(group, "start")
           m.overhang.visible = false
         end if
+      else if node.type = "Series" then
+        group.lastFocus = group.focusedChild
+        group.setFocus(false)
+        group.visible = false
+
+        m.overhang.title = node.title
+        m.overhang.showOptions = false
+        m.scene.unobserveField("optionsPressed")
+        group = CreateSeriesDetailsGroup(node.json)
+        group.overhangTitle = node.title
+        m.scene.appendChild(group)
       else if node.type = "Movie" then
         ' open movie detail page
         group.lastFocus = group.focusedChild
