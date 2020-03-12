@@ -28,6 +28,10 @@ sub Main()
 
   m.scene.observeField("backPressed", m.port)
   m.scene.observeField("optionsPressed", m.port)
+  m.scene.observeField("mutePressed", m.port)
+
+  m.device = CreateObject("roDeviceInfo")
+  m.device.SetMessagePort(m.port)
 
   ' This is the core logic loop. Mostly for transitioning between scenes
   ' This now only references m. fields so could be placed anywhere, in theory
@@ -332,6 +336,27 @@ sub Main()
         node.backPressed = "true"
       else if node.state = "playing" or node.state = "paused" then
         ReportPlayback(group, "update")
+      end if
+    else if type(msg) = "roDeviceInfoEvent" then
+      event = msg.GetInfo()
+      if event.appFocused <> invalid then
+        child = m.scene.focusedChild
+        if child <> invalid and child.isSubType("JFVideo") then
+          child.systemOverlay = not event.appFocused
+          if event.AppFocused = true then
+            systemOverlayClosed()
+          end if
+        end if
+      else if event.Mute <> invalid then
+        m.mute = event.Mute
+        child = m.scene.focusedChild
+        if child <> invalid and child.isSubType("JFVideo") and child.systemOverlay = false then
+        'Event will be called on caption change which includes the current mute status, but we do not want to call until the overlay is closed
+          reviewSubtitleDisplay()
+        end if
+      else
+        print "Unhandled roDeviceInfoEvent:"
+        print msg.GetInfo()
       end if
     else
       print type(msg)
