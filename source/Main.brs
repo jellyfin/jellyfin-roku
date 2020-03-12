@@ -82,33 +82,33 @@ sub Main()
       else
         group.setFocus(true)
       end if
-    else if isNodeEvent(msg, "homeSelection")
+    else if isNodeEvent(msg, "selectedItem")
       ' If you select a library from ANYWHERE, follow this flow
-      node = getMsgPicker(msg, "homeRows")
-      if node.type = "movies"
+      node = msg.getData()
+      if node.type = "CollectionFolder" AND  node.collectionType = "movies"
         group.lastFocus = group.focusedChild
         group.setFocus(false)
         group.visible = false
         m.overhang.title = node.name
-        group = CreateMovieListGroup(node)
+        group = CreateMovieListGroup(node.json)
         group.overhangTitle = node.name
         m.scene.appendChild(group)
-      else if node.type = "tvshows"
+      else if node.type = "CollectionFolder" AND  node.collectionType =  "tvshows"
         group.lastFocus = group.focusedChild
         group.setFocus(false)
         group.visible = false
 
         m.overhang.title = node.name
-        group = CreateSeriesListGroup(node)
+        group = CreateSeriesListGroup(node.json)
         group.overhangTitle = node.name
         m.scene.appendChild(group)
-      else if node.type = "boxsets"
+      else if node.type = "CollectionFolder" AND node.collectionType = "boxsets"
         group.lastFocus = group.focusedChild
         group.setFocus(false)
         group.visible = false
 
         m.overhang.title = node.name
-        group = CreateCollectionsList(node)
+        group = CreateCollectionsList(node.json)
         group.overhangTitle = node.name
         m.scene.appendChild(group)
       else if node.type = "Episode" then

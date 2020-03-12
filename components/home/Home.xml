@@ -5,9 +5,7 @@
     <OptionsSlider id="options" />
   </children>
   <interface>
-    <field id="libraries" alias="homeRows.libList" />
-    <field id="continueWatching" alias="homeRows.continueList" />
-    <field id="homeSelection" alias="homeRows.itemSelected" />
+    <field id="selectedItem" alias="homeRows.selectedItem" />
   </interface>
   <script type="text/brightscript" uri="Home.brs" />
 </component>

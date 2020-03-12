@@ -3,10 +3,10 @@
   <children>
     <Poster id="itemPoster" width="464" height="261" translation="[8,5]" />
     <Label id="itemText" horizAlign="center" vertAlign="center" font="font:SmallBoldSystemFont" height="64" width="456" translation="[8,267]" />
-    <Label id="itemTextExtra" horizAlign="left" vertAlign="center" font="font:SmallBoldSystemFont" height="32" width="456" translation="[8,300]" visible="false" />
+    <Label id="itemTextExtra" horizAlign="left" vertAlign="center" font="font:SmallBoldSystemFont" height="32" width="456" translation="[8,300]" visible="false" color="#777777FF" />
   </children>
   <interface>
-    <field id="itemContent" type="node" onChange="itemContentChanged"/>
+    <field id="itemContent" type="node" onChange="itemContentChanged" />
   </interface>
   <script type="text/brightscript" uri="HomeItem.brs" />
 </component>

@@ -101,12 +101,7 @@ function CreateHomeGroup()
   ' Main screen after logging in. Shows the user's libraries
   group = CreateObject("roSGNode", "Home")
 
-  libs = LibraryList()
-  group.libraries = libs
-  con = HomeItemList("continue")
-  group.continueWatching = con
-
-  group.observeField("homeSelection", m.port)
+  group.observeField("selectedItem", m.port)
 
   sidepanel = group.findNode("options")
   sidepanel.observeField("closeSidePanel", m.port)

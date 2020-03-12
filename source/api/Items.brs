@@ -140,7 +140,7 @@ function ItemList(library_id = invalid as string, params = {})
   return data
 end function
 
-' Return items for use on home screen (homeRows)
+' Return items for use on home screen (HomeRows)
 function HomeItemList(row = "" as string, params = {})
   if params["limit"] = invalid
     params["limit"] = 20

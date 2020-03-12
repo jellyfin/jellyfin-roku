@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <component name="HomeRows" extends="RowList">
   <interface>
-    <field id="libList" type="associativearray" onChange="showLibraryRow" />
-    <field id="continueList" type="associativearray" onChange="showContinueRow" />
+    <field id="selectedItem" type="node" />
   </interface>
   <script type="text/brightscript" uri="HomeRows.brs"/>
 </component>
