@@ -239,11 +239,11 @@ sub Main()
       group.pageNumber = msg.getRoSGNode().pageSelected
       if group.library = invalid
         ' Cover this case first to avoid "invalid.type" calls
-      else if group.library.type = "movies"
+      else if group.library.CollectionType = "movies"
         MovieLister(group, m.page_size)
-      else if group.library.type = "boxsets"
+      else if group.library.CollectionType = "boxsets"
         CollectionLister(group, m.page_size)
-      else if group.library.type = "tvshows"
+      else if group.library.CollectionType = "tvshows"
         SeriesLister(group, m.page_size)
       end if
       ' TODO - abstract away the "picker" node

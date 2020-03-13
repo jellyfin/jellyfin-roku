@@ -9,7 +9,7 @@
     <field id="seriesSelected" alias="picker.itemSelected" />
     <field id="objects" alias="picker.objects" />
     <field id="pageNumber" type="integer" />
-    <field id="library" type="node" />
+    <field id="library" type="associativeArray" />
   </interface>
   <script type="text/brightscript" uri="scene.brs" />
 </component>
