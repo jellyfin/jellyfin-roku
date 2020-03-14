@@ -138,11 +138,10 @@ function CreateHomeGroup()
   return group
 end function
 
-function CreateMovieListGroup(library)
+function CreateMovieListGroup(libraryId)
   group = CreateObject("roSGNode", "Movies")
-  group.id = library.id
-  group.library = library
-
+  group.id = libraryId
+ 
   group.observeField("movieSelected", m.port)
 
   sidepanel = group.findNode("options")
@@ -204,10 +203,9 @@ function CreateMovieDetailsGroup(movie)
   return group
 end function
 
-function CreateSeriesListGroup(library)
+function CreateSeriesListGroup(libraryId)
   group = CreateObject("roSGNode", "TVShows")
-  group.id = library.id
-  group.library = library
+  group.id = libraryId
 
   group.observeField("seriesSelected", m.port)
 
@@ -245,11 +243,10 @@ function CreateSeasonDetailsGroup(series, season)
   return group
 end function
 
-function CreateCollectionsList(library)
+function CreateCollectionsList(libraryId)
   ' Load Movie Collection Items
   group = CreateObject("roSGNode", "Collections")
-  group.id = library.id
-  group.library = library
+  group.id = libraryId
 
   group.observeField("collectionSelected", m.port)
 

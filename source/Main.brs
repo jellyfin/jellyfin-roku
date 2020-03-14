@@ -84,37 +84,37 @@ sub Main()
       end if
     else if isNodeEvent(msg, "selectedItem")
       ' If you select a library from ANYWHERE, follow this flow
-      node = msg.getData()
-      if node.type = "CollectionFolder" AND  node.collectionType = "movies"
+      selectedItem = msg.getData()
+      if selectedItem.type = "CollectionFolder" AND  selectedItem.collectionType = "movies"
         group.lastFocus = group.focusedChild
         group.setFocus(false)
         group.visible = false
-        m.overhang.title = node.name
-        group = CreateMovieListGroup(node.json)
-        group.overhangTitle = node.name
+        m.overhang.title = selectedItem.name
+        group = CreateMovieListGroup(selectedItem.Id)
+        group.overhangTitle = selectedItem.name
         m.scene.appendChild(group)
-      else if node.type = "CollectionFolder" AND  node.collectionType =  "tvshows"
-        group.lastFocus = group.focusedChild
-        group.setFocus(false)
-        group.visible = false
-
-        m.overhang.title = node.name
-        group = CreateSeriesListGroup(node.json)
-        group.overhangTitle = node.name
-        m.scene.appendChild(group)
-      else if node.type = "CollectionFolder" AND node.collectionType = "boxsets"
+      else if selectedItem.type = "CollectionFolder" AND  selectedItem.collectionType =  "tvshows"
         group.lastFocus = group.focusedChild
         group.setFocus(false)
         group.visible = false
 
-        m.overhang.title = node.name
-        group = CreateCollectionsList(node.json)
-        group.overhangTitle = node.name
+        m.overhang.title = selectedItem.name
+        group = CreateSeriesListGroup(selectedItem.Id)
+        group.overhangTitle = selectedItem.name
         m.scene.appendChild(group)
-      else if node.type = "Episode" then
+      else if selectedItem.type = "CollectionFolder" AND selectedItem.collectionType = "boxsets"
+        group.lastFocus = group.focusedChild
+        group.setFocus(false)
+        group.visible = false
+
+        m.overhang.title = selectedItem.name
+        group = CreateCollectionsList(selectedItem.Id)
+        group.overhangTitle = selectedItem.name
+        m.scene.appendChild(group)
+      else if selectedItem.type = "Episode" then
         ' play episode
         ' todo: create an episode page to link here
-        video_id = node.id
+        video_id = selectedItem.id
         video = CreateVideoPlayerGroup(video_id)
         if video <> invalid then
           group.lastFocus = group.focusedChild
@@ -127,32 +127,32 @@ sub Main()
           ReportPlayback(group, "start")
           m.overhang.visible = false
         end if
-      else if node.type = "Series" then
+      else if selectedItem.type = "Series" then
         group.lastFocus = group.focusedChild
         group.setFocus(false)
         group.visible = false
 
-        m.overhang.title = node.title
+        m.overhang.title = selectedItem.title
         m.overhang.showOptions = false
         m.scene.unobserveField("optionsPressed")
-        group = CreateSeriesDetailsGroup(node.json)
-        group.overhangTitle = node.title
+        group = CreateSeriesDetailsGroup(selectedItem.json)
+        group.overhangTitle = selectedItem.title
         m.scene.appendChild(group)
-      else if node.type = "Movie" then
+      else if selectedItem.type = "Movie" then
         ' open movie detail page
         group.lastFocus = group.focusedChild
         group.setFocus(false)
         group.visible = false
 
-        m.overhang.title = node.name
+        m.overhang.title = selectedItem.name
         m.overhang.showOptions = false
         m.scene.unobserveField("optionsPressed")
-        group = CreateMovieDetailsGroup(node)
-        group.overhangTitle = node.name
+        group = CreateMovieDetailsGroup(selectedItem)
+        group.overhangTitle = selectedItem.name
         m.scene.appendChild(group)
       else
         ' TODO - switch on more node types
-        message_dialog("This library type is not yet implemented: " + node.type + ".")
+        message_dialog("This library type is not yet implemented: " + selectedItem.type + ".")
       end if
     else if isNodeEvent(msg, "collectionSelected")
       node = getMsgPicker(msg, "picker")
@@ -237,13 +237,12 @@ sub Main()
       options.query = query
     else if isNodeEvent(msg, "pageSelected")
       group.pageNumber = msg.getRoSGNode().pageSelected
-      if group.library = invalid
-        ' Cover this case first to avoid "invalid.type" calls
-      else if group.library.CollectionType = "movies"
+      collectionType = group.subType()
+      if collectionType = "Movies"
         MovieLister(group, m.page_size)
-      else if group.library.CollectionType = "boxsets"
+      else if collectionType = "Collections"
         CollectionLister(group, m.page_size)
-      else if group.library.CollectionType = "tvshows"
+      else if collectionType = "TVShows"
         SeriesLister(group, m.page_size)
       end if
       ' TODO - abstract away the "picker" node
