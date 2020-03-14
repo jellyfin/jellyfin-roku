@@ -49,14 +49,18 @@ sub onLibrariesLoaded()
 
 	m.LoadItemsTask.unobserveField("content")
 
-	'Add the Libraries Row
-	m.data = CreateObject("roSGNode", "ContentNode")
-	row = m.data.CreateChild("HomeRow")
-	row.title = "My Media"
+	if(m.libraryData <> invalid AND m.libraryData.count() > 0) then
 
-	for each item in m.libraryData
-		row.appendChild(item)
-	end for
+		'Add the Libraries Row
+		m.data = CreateObject("roSGNode", "ContentNode")
+		row = m.data.CreateChild("HomeRow")
+		row.title = "My Media"
+
+		for each item in m.libraryData
+			row.appendChild(item)
+		end for
+
+	end if
 
 	' Load the Continue Watching Data
 	m.top.content = m.data
@@ -73,16 +77,20 @@ sub onContinueItemsLoaded()
 	m.LoadContinueTask.unobserveField("content")
 	itemData = m.LoadContinueTask.content
 
-	'Add the Row
-	row = m.top.content.CreateChild("HomeRow")
-	row.title = "Continue Watching"
+	if(itemData <> invalid AND itemData.count() > 0) then
 
-	m.sizeArray.Push([464, 261])
-	m.top.rowItemSize = m.sizeArray
+		'Add the Row
+		row = m.top.content.CreateChild("HomeRow")
+		row.title = "Continue Watching"
 
-	for each item in itemData
-		row.appendChild(item)
-	end for
+		m.sizeArray.Push([464, 261])
+		m.top.rowItemSize = m.sizeArray
+
+		for each item in itemData
+			row.appendChild(item)
+		end for
+
+	end if
 
 	' Load Next Up
 	m.LoadNextUpTask = createObject("roSGNode", "LoadItemsTask")
@@ -98,18 +106,21 @@ sub onNextUpItemsLoaded()
 	m.LoadNextUpTask.unobserveField("content")
 	itemData = m.LoadNextUpTask.content
 
-	'Add the Libraries Row
-	row = m.top.content.CreateChild("HomeRow")
-	row.title = "Next Up >"
-	row.usePoster = true
+	if(itemData <> invalid AND itemData.count() > 0) then
 
-	m.sizeArray.Push([464, 261])
-	m.top.rowItemSize = m.sizeArray
+		'Add the Next Up  Row
+		row = m.top.content.CreateChild("HomeRow")
+		row.title = "Next Up >"
+		row.usePoster = true
 
-	for each item in itemData
-		row.appendChild(item)
-	end for
+		m.sizeArray.Push([464, 261])
+		m.top.rowItemSize = m.sizeArray
 
+		for each item in itemData
+			row.appendChild(item)
+		end for
+
+	end if
 
 	' Now load latest in all libraries
 	for each lib in m.libraryData
@@ -138,28 +149,32 @@ function onLatestLoaded(msg)
 
 	node.unobserveField("content")
 
-	'Add the Libraries Row
-	row = m.top.content.CreateChild("HomeRow")
-	row.title = "Latest in " + node.metadata.title + " >"
-	row.usePoster = true
+	if(itemData <> invalid AND itemData.count() > 0) then
 
-	' Handle specific types with different item widths
-	if node.metadata.contentType = "movies" then
-		row.imageWidth = 180
-		m.sizeArray.Push([188, 261])	
-	else if node.metadata.contentType = "music" then
-		row.imageWidth = 261
-		m.sizeArray.Push([261, 261])	
-	else
-		row.imageWidth = 464
-		m.sizeArray.Push([464, 261])	
+		'Add the Latest  Row
+		row = m.top.content.CreateChild("HomeRow")
+		row.title = "Latest in " + node.metadata.title + " >"
+		row.usePoster = true
+
+		' Handle specific types with different item widths
+		if node.metadata.contentType = "movies" then
+			row.imageWidth = 180
+			m.sizeArray.Push([188, 261])	
+		else if node.metadata.contentType = "music" then
+			row.imageWidth = 261
+			m.sizeArray.Push([261, 261])	
+		else
+			row.imageWidth = 464
+			m.sizeArray.Push([464, 261])	
+		end if
+
+		m.top.rowItemSize = m.sizeArray
+
+		for each item in itemData
+			row.appendChild(item)
+		end for
+
 	end if
-
-	m.top.rowItemSize = m.sizeArray
-
-	for each item in itemData
-		row.appendChild(item)
-	end for
 
 end function
 
