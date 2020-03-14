@@ -4,7 +4,7 @@ sub init()
 	m.top.numRows = 2
 
 	m.top.rowFocusAnimationStyle = "fixedFocusWrap"
-	m.top.vertFocusAnimationStyle = "floatingFocus"
+	m.top.vertFocusAnimationStyle = "fixedFocus"
 
 	m.top.showRowLabel = [true]
 	m.top.rowLabelOffset = [0, 20]
