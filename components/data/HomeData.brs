@@ -89,11 +89,14 @@ sub setData()
         ' For wide image, use backdrop
         imgParams["maxWidth"] = 464
 
-        if datum.BackdropImageTags[0] <> invalid then
+        if datum.ImageTags <> invalid and datum.imageTags.Thumb <> invalid then
+            imgParams["Tag"] = datum.imageTags.Thumb
+            m.top.thumbnailUrl = ImageURL(datum.Id, "Thumb", imgParams)
+        else if datum.BackdropImageTags[0] <> invalid then
             imgParams["Tag"] = datum.BackdropImageTags[0]
+            m.top.thumbnailUrl = ImageURL(datum.id, "Backdrop", imgParams)
         end if
 
-        m.top.thumbnailUrl = ImageURL(datum.id, "Backdrop", imgParams)
 
     else if datum.type = "MusicAlbum" then
         params = { "Tag" : datum.ImageTags.Primary, "maxHeight" : 261, "maxWidth" : 261 }
