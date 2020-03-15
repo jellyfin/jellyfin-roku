@@ -13,15 +13,9 @@ sub loadItems()
         resp = APIRequest(url)
         data = getJson(resp)
         for each item in data.Items
-
-            if item.Type = "CollectionFolder" then
-                tmp = CreateObject("roSGNode", "HomeData")
-                tmp.json = item
-                results.push(tmp)
-            else
-                print "Warning: Un-expected Item Type " + item.Type
-            end if
-
+            tmp = CreateObject("roSGNode", "HomeData")
+            tmp.json = item
+            results.push(tmp)
         end for
 
     ' Load Latest Additions to Libraries
