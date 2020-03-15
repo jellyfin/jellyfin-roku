@@ -152,7 +152,7 @@ sub Main()
         m.scene.appendChild(group)
       else
         ' TODO - switch on more node types
-        if selectedItem.type = "CollectionFolder" then
+        if selectedItem.type = "CollectionFolder" OR selectedItem.type = "UserView" then
           message_dialog("This library type is not yet implemented: " + selectedItem.collectionType + ".")
         else
           message_dialog("This library type is not yet implemented: " + selectedItem.type + ".")

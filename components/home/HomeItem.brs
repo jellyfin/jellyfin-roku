@@ -28,6 +28,16 @@ sub itemContentChanged()
     return
   end if
 
+  if itemData.type = "UserView" then
+    itemPoster.width = "96"
+    itemPoster.height = "96"
+    itemPoster.translation = "[192, 88]"
+    itemText.text = itemData.name
+    itemPoster.uri = itemData.widePosterURL
+    return
+  end if
+
+
   itemText.height = 34
   itemText.font.size = 25
   itemText.horizAlign = "left"

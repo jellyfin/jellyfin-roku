@@ -97,12 +97,15 @@ sub setData()
             m.top.thumbnailUrl = ImageURL(datum.id, "Backdrop", imgParams)
         end if
 
-
     else if datum.type = "MusicAlbum" then
         params = { "Tag" : datum.ImageTags.Primary, "maxHeight" : 261, "maxWidth" : 261 }
         m.top.thumbnailURL = ImageURL(datum.id, "Primary", params)
         m.top.widePosterUrl = m.top.thumbnailURL
         m.top.posterUrl = m.top.thumbnailURL
+
+    else if datum.type = "TvChannel" OR datum.type = "UserView" then
+      m.top.widePosterUrl = "pkg:/images/baseline_live_tv_white_48dp.png"
+
     end if
 
 end sub

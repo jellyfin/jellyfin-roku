@@ -125,16 +125,18 @@ sub onNextUpItemsLoaded()
 	' Now load latest in all libraries
 	for each lib in m.libraryData
 
-		loadLatest = createObject("roSGNode", "LoadItemsTask")
-		loadLatest.itemsToLoad = "latest"
-		loadLatest.itemId = lib.id
-	
-		metadata = { "title" : lib.name}
-		metadata.Append({"contentType" : lib.json.CollectionType})
-		loadLatest.metadata = metadata
+		if lib.collectionType <> "livetv" then	
+			loadLatest = createObject("roSGNode", "LoadItemsTask")
+			loadLatest.itemsToLoad = "latest"
+			loadLatest.itemId = lib.id
+		
+			metadata = { "title" : lib.name}
+			metadata.Append({"contentType" : lib.json.CollectionType})
+			loadLatest.metadata = metadata
 
-		loadLatest.observeField("content", "onLatestLoaded")
-		loadLatest.control = "RUN"
+			loadLatest.observeField("content", "onLatestLoaded")
+			loadLatest.control = "RUN"
+		end if
 	end for
 
 end sub
