@@ -152,7 +152,12 @@ sub Main()
         m.scene.appendChild(group)
       else
         ' TODO - switch on more node types
-        message_dialog("This library type is not yet implemented: " + selectedItem.type + ".")
+        if selectedItem.type = "CollectionFolder" then
+          message_dialog("This library type is not yet implemented: " + selectedItem.collectionType + ".")
+        else
+          message_dialog("This library type is not yet implemented: " + selectedItem.type + ".")
+        end if
+        selectedItem = invalid
       end if
     else if isNodeEvent(msg, "collectionSelected")
       node = getMsgPicker(msg, "picker")
