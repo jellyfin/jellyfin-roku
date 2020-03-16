@@ -47,7 +47,7 @@ sub itemContentChanged()
 
 
   if itemData.type = "Episode" then
-    itemText.text = itemData.name
+    itemText.text = itemData.json.SeriesName
 
     if usePoster = true then
       itemPoster.uri = itemData.widePosterURL
