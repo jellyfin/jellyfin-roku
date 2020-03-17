@@ -44,7 +44,7 @@ sub onLibrariesLoaded()
 
 	m.libraryData = m.LoadItemsTask.content
 
-	m.sizeArray = [[464, 261]]
+	m.sizeArray = [[464, 311]]
 	m.top.rowItemSize = m.sizeArray
 
 	m.LoadItemsTask.unobserveField("content")
@@ -83,7 +83,7 @@ sub onContinueItemsLoaded()
 		row = m.top.content.CreateChild("HomeRow")
 		row.title = "Continue Watching"
 
-		m.sizeArray.Push([464, 261])
+		m.sizeArray.Push([464, 331])
 		m.top.rowItemSize = m.sizeArray
 
 		for each item in itemData
@@ -113,7 +113,7 @@ sub onNextUpItemsLoaded()
 		row.title = "Next Up >"
 		row.usePoster = true
 
-		m.sizeArray.Push([464, 261])
+		m.sizeArray.Push([464, 331])
 		m.top.rowItemSize = m.sizeArray
 
 		for each item in itemData
@@ -161,13 +161,13 @@ function onLatestLoaded(msg)
 		' Handle specific types with different item widths
 		if node.metadata.contentType = "movies" then
 			row.imageWidth = 180
-			m.sizeArray.Push([188, 261])	
+			m.sizeArray.Push([188, 331])	
 		else if node.metadata.contentType = "music" then
 			row.imageWidth = 261
-			m.sizeArray.Push([261, 261])	
+			m.sizeArray.Push([261, 331])	
 		else
 			row.imageWidth = 464
-			m.sizeArray.Push([464, 261])	
+			m.sizeArray.Push([464, 331])	
 		end if
 
 		m.top.rowItemSize = m.sizeArray
