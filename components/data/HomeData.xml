@@ -3,9 +3,15 @@
   <interface>
     <field id="id" type="string" />
     <field id="name" type="string" />
-    <field id="imageURL" type="string" />
+    <field id="thumbnailURL" type="string" />
+    <field id="posterURL" type="string" />
+    <field id="widePosterURL" type="string" />
     <field id="type" type="string" />
     <field id="json" type="associativearray" onChange="setData" />
+    <field id="collectionType" type="string" />
   </interface>
-  <script type="text/brightscript" uri="HomeData.brs" />
+  <script type="text/brightscript" uri="pkg:/source/api/baserequest.brs" />
+  <script type="text/brightscript" uri="pkg:/source/utils/config.brs" />
+  <script type="text/brightscript" uri="pkg:/source/api/Image.brs" />
+    <script type="text/brightscript" uri="HomeData.brs" />
 </component>
