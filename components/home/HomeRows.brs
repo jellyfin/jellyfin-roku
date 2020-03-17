@@ -111,7 +111,6 @@ sub onNextUpItemsLoaded()
 		'Add the Next Up  Row
 		row = m.top.content.CreateChild("HomeRow")
 		row.title = "Next Up >"
-		row.usePoster = true
 
 		m.sizeArray.Push([464, 331])
 		m.top.rowItemSize = m.sizeArray
