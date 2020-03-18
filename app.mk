@@ -59,9 +59,9 @@ endif
 HTTPSTATUS = $(shell curl --silent --write-out "\n%{http_code}\n" $(ROKU_DEV_TARGET))
 
 ifeq "$(HTTPSTATUS)" " 401"
-	CURLCMD = curl -S --connect-timeout 2 --max-time 30 --retry 5
+	CURLCMD = curl -S --tcp-fastopen --connect-timeout 2 --max-time 30 --retry 5
 else
-	CURLCMD = curl -S --connect-timeout 2 --max-time 30 --retry 5 --user $(USERPASS) --digest
+	CURLCMD = curl -S --tcp-fastopen --connect-timeout 2 --max-time 30 --retry 5 --user $(USERPASS) --digest
 endif
 
 home:
