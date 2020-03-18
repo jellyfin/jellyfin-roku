@@ -6,5 +6,5 @@
     <field id="query" type="string" />
     <field id="itemSelected" type="int" />
   </interface>
-  <script type="text/brightscript" uri="rowlist.brs" />
+  <script type="text/brightscript" uri="SearchRow.brs" />
 </component>

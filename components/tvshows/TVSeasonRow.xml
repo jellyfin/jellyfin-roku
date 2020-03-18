@@ -3,5 +3,5 @@
   <interface>
     <field id="TVSeasonData" type="associativearray" onChange="getData" />
   </interface>
-  <script type="text/brightscript" uri="rowlist-season.brs" />
+  <script type="text/brightscript" uri="TVSeasonRow.brs" />
 </component>

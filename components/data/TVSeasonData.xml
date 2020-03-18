@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<component name="TVEpisodeData" extends="ContentNode">
+<component name="TVSeasonData" extends="ContentNode">
   <interface>
     <field id="id" type="string" />
     <field id="title" type="string" />
     <field id="image" type="node" onChange="setPoster" />
     <field id="posterURL" type="string" />
-    <field id="showID" type="string" />
-    <field id="seasonID" type="string" />
     <field id="overview" type="string" />
     <field id="json" type="associativearray" onChange="setFields" />
-    <function name="loadSeasons" />
+    <function name="getPoster" />
   </interface>
-  <script type="text/brightscript" uri="tvepisode.brs" />
+  <script type="text/brightscript" uri="TVSeasonData.brs" />
 </component>

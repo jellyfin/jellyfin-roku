@@ -9,5 +9,5 @@
   <interface>
     <field id="query" type="string" alwaysNotify="true" />
   </interface>
-  <script type="text/brightscript" uri="scene.brs" />
+  <script type="text/brightscript" uri="SearchResults.brs" />
 </component>

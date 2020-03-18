@@ -4,5 +4,5 @@
     <field id="objects" type="associativearray" onChange="setupRows" />
     <field id="escapeButton" type="string" alwaysNotify="true" />
   </interface>
-  <script type="text/brightscript" uri="rowlist-episode.brs" />
+  <script type="text/brightscript" uri="TVEpisodeRow.brs" />
 </component>

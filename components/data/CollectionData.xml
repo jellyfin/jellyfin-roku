@@ -11,5 +11,5 @@
     <field id="type" type="string" value="boxsets" />
     <field id="json" type="associativearray" onChange="setFields" />
   </interface>
-  <script type="text/brightscript" uri="collection.brs" />
+  <script type="text/brightscript" uri="CollectionData.brs" />
 </component>

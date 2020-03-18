@@ -11,5 +11,5 @@
   <interface>
     <field id="itemContent" type="node" onChange="itemContentChanged"/>
   </interface>
-  <script type="text/brightscript" uri="minimal-details.brs"/>
+  <script type="text/brightscript" uri="MovieItemMinimal.brs"/>
 </component>

@@ -4,5 +4,5 @@
     <field id="configItems" type="nodearray" onChange="setData" />
   </interface>
   <script type="text/brightscript" uri="pkg:/source/utils/config.brs" />
-  <script type="text/brightscript" uri="list.brs" />
+  <script type="text/brightscript" uri="ConfigList.brs" />
 </component>

@@ -14,5 +14,5 @@
     <function name="setActive" />
   </interface>
   <script type="text/brightscript" uri="pkg:/source/utils/config.brs" />
-  <script type="text/brightscript" uri="user.brs" />
+  <script type="text/brightscript" uri="UserData.brs" />
 </component>

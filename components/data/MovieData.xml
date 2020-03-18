@@ -12,5 +12,5 @@
     <field id="container" type="string" />
     <field id="json" type="associativearray" onChange="setFields" />
   </interface>
-  <script type="text/brightscript" uri="movie.brs" />
+  <script type="text/brightscript" uri="MovieData.brs" />
 </component>

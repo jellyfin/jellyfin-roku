@@ -25,5 +25,5 @@
   <interface>
     <field id="itemContent" type="node" onChange="itemContentChanged" />
   </interface>
-  <script type="text/brightscript" uri="group-description.brs" />
+  <script type="text/brightscript" uri="TVShowDescription.brs" />
 </component>

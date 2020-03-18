@@ -8,5 +8,5 @@
     <field id="seasonData" type="associativearray" onChange="setSeason" />
     <field id="objects" alias="picker.objects" />
   </interface>
-  <script type="text/brightscript" uri="episodes.brs" />
+  <script type="text/brightscript" uri="TVEpisodes.brs" />
 </component>
