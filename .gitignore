@@ -13,3 +13,5 @@ node_modules/
 #Rooibos generated
 rooibosFunctionMap.brs
 */buildinfo.brs
+.vscode
+logs
