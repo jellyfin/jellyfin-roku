@@ -112,11 +112,11 @@ sub Main()
         group.setFocus(false)
         group.visible = false
 
-        m.overhang.title = selectedItem.title
+        m.overhang.title = selectedItem.name
         m.overhang.showOptions = false
         m.scene.unobserveField("optionsPressed")
         group = CreateSeriesDetailsGroup(selectedItem.json)
-        group.overhangTitle = selectedItem.title
+        group.overhangTitle = selectedItem.name
         m.scene.appendChild(group)
       else if selectedItem.type = "Movie" then
         ' open movie detail page
