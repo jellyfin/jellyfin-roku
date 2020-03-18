@@ -8,7 +8,10 @@
           <LayoutGroup layoutDirection="horiz" itemSpacings="[150]">
             <Label id="releaseYear" />
             <Label id="officialRating" />
-            <Label id="communityRating" />
+            <LayoutGroup layoutDirection="horiz" itemSpacings="[3]">
+              <Poster id="star" uri="pkg:/images/sharp_star_white_18dp.png" height="32" width="32" blendColor="#cb272a" />
+              <Label id="communityRating" />
+            </LayoutGroup>
           </LayoutGroup>
           <Label id="genres" />
           <Label id="tagline" />
