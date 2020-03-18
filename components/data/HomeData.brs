@@ -53,9 +53,12 @@ sub setData()
         imgParams = { "maxHeight": 261 }
         imgParams.Append({ "maxWidth": 464 })
 
+        if datum.UserData.UnplayedItemCount > 0 then
+          imgParams["UnplayedCount"] = datum.UserData.UnplayedItemCount
+        end if
+
         if datum.ImageTags.Primary <> invalid then
-            param = { "Tag" : datum.ImageTags.Primary }
-            imgParams.Append(param)
+          imgParams["Tag"] = datum.ImageTags.Primary
         end if
 
         m.top.posterURL = ImageURL(datum.id, "Primary", imgParams)
