@@ -45,7 +45,6 @@ sub Main()
     else if isNodeEvent(msg, "backPressed")
       n = m.scene.getChildCount() - 1
       if msg.getRoSGNode().focusedChild <> invalid and msg.getRoSGNode().focusedChild.isSubtype("JFVideo")
-        print "backPressed on video"
         stopPlayback()
       else
         if n = 1 then return
