@@ -16,7 +16,7 @@ function itemContentChanged() as void
   m.top.findNode("overview").text = item.overview
 
   if type(itemData.RunTimeTicks) = "LongInteger"
-    m.top.findNode("runtime").text = stri(getRuntime()) + " mins"
+    m.top.findNode("runtime").text = stri(getRuntime()).trim() + " mins"
     m.top.findNode("endtime").text = "Ends at " + getEndTime()
   end if
   if itemData.communityRating <> invalid then
