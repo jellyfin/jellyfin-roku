@@ -10,5 +10,5 @@
     <function name="press" />
   </interface>
   <script type="text/brightscript" uri="pkg:/source/utils/config.brs" />
-  <script type="text/brightscript" uri="options-choices.brs" />
+  <script type="text/brightscript" uri="OptionsData.brs" />
 </component>

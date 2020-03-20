@@ -1,19 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<component name="MovieDetails" extends="JFGroup">
+<component name="CollectionDetail" extends="JFGroup">
   <children>
-    <LayoutGroup id="main_group" layoutDirection="horiz" itemSpacings="[30]">
-      <Poster id="moviePoster"
+    <LayoutGroup id="main_group" layoutDirection="horiz" >
+      <Poster id="poster"
         translation="[250,150]"
         width="400" height="600" />
-      <LayoutGroup layoutDirection="vert" translation="[455, 150]" itemSpacings="[25]">
+      <LayoutGroup layoutDirection="vert" translation="[355, 150]" itemSpacings="[25]">
         <LayoutGroup layoutDirection="horiz" itemSpacings="[150]">
           <Label id="releaseYear" />
           <Label id="runtime" />
           <Label id="officialRating" />
-          <LayoutGroup layoutDirection="horiz" itemSpacings="[-5]">
-            <Poster id="star" uri="pkg:/images/sharp_star_white_18dp.png" height="32" width="32" blendColor="#cb272a" />
-            <Label id="communityRating" />
-          </LayoutGroup>
+          <Label id="communityRating" />
           <Label id="ends-at" />
         </LayoutGroup>
         <Label id="genres" />
@@ -26,7 +23,7 @@
           <Button text="Favorite" id="favorite-button" />
         </ButtonGroupHoriz>
         <Label id="tagline" />
-        <Label id="overview" wrap="true" maxLines="8" />
+        <Label id="overview" />
 
       </LayoutGroup>
     </LayoutGroup>
@@ -35,5 +32,5 @@
     <field id="itemContent" type="node" onChange="itemContentChanged" />
   </interface>
   <script type="text/brightscript" uri="pkg:/source/utils/misc.brs" />
-  <script type="text/brightscript" uri="details.brs" />
+  <script type="text/brightscript" uri="CollectionDetail.brs" />
 </component>

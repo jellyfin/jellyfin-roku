@@ -22,5 +22,5 @@
       font="font:MediumSystemFont"
       translation="[150, 555]" />
   </children>
-  <script type="text/brightscript" uri="scene.brs"/>
+  <script type="text/brightscript" uri="ConfigScene.brs"/>
 </component>

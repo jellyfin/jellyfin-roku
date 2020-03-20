@@ -12,5 +12,5 @@
     <field id="itemHasFocus" type="boolean" onChange="setColors" />
   </interface>
 
-  <script type="text/brightscript" uri="item.brs" />
+  <script type="text/brightscript" uri="ConfigItem.brs" />
 </component>
