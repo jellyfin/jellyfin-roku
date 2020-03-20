@@ -43,34 +43,14 @@ sub Main()
       print "CLOSING SCREEN"
       return
     else if isNodeEvent(msg, "backPressed")
+      n = m.scene.getChildCount() - 1
       if msg.getRoSGNode().focusedChild <> invalid and msg.getRoSGNode().focusedChild.isSubtype("JFVideo")
         stopPlayback()
-      end if
-      ' Pop a group off the stack and expose what's below
-      n = m.scene.getChildCount() - 1
-      if n = 1
-        ' Overhang + last scene... this is the end
-        return
-      end if
-      m.scene.removeChildIndex(n)
-      prevOptionsAvailable = group.optionsAvailable
-      group = m.scene.getChild(n - 1)
-      m.overhang.title = group.overhangTitle
-      m.overhang.showOptions = group.optionsAvailable
-      if group.optionsAvailable <> prevOptionsAvailable then
-        if group.optionsAvailable = false then
-          m.scene.unobserveField("optionsPressed")
-        else
-          m.scene.observeField("optionsPressed", m.port)
-        end if
-      end if
-      m.overhang.visible = true
-      if group.lastFocus <> invalid
-        group.lastFocus.setFocus(true)
       else
-        group.setFocus(true)
+        if n = 1 then return
+        RemoveCurrentGroup()
       end if
-      group.visible = true
+      group = m.scene.getChild(n-1)
     else if isNodeEvent(msg, "optionsPressed")
       group.lastFocus = group.focusedChild
       panel = group.findNode("options")
@@ -340,15 +320,14 @@ sub Main()
     else if isNodeEvent(msg, "position")
       video = msg.getRoSGNode()
       if video.position >= video.duration then
-        video.control = "stop"
-        video.state = "finished"
+        stopPlayback()
       end if
     else if isNodeEvent(msg, "fire")
       ReportPlayback(group, "update")
     else if isNodeEvent(msg, "state")
       node = msg.getRoSGNode()
       if node.state = "finished" then
-        node.backPressed = "true"
+        stopPlayback()
       else if node.state = "playing" or node.state = "paused" then
         ReportPlayback(group, "update")
       end if
@@ -365,7 +344,7 @@ sub Main()
       else if event.Mute <> invalid then
         m.mute = event.Mute
         child = m.scene.focusedChild
-        if child <> invalid and child.isSubType("JFVideo") and child.systemOverlay = false then
+        if child <> invalid and child.isSubType("JFVideo") and areSubtitlesDisplayed() and child.systemOverlay = false then
         'Event will be called on caption change which includes the current mute status, but we do not want to call until the overlay is closed
           reviewSubtitleDisplay()
         end if
@@ -430,4 +409,30 @@ sub wipe_groups()
   while(m.scene.getChildCount() > 1)
     m.scene.removeChildIndex(1)
   end while
+end sub
+
+sub RemoveCurrentGroup()
+  ' Pop a group off the stack and expose what's below
+  n = m.scene.getChildCount() - 1
+  group = m.scene.focusedChild
+  m.scene.removeChildIndex(n)
+  prevOptionsAvailable = group.optionsAvailable
+  group = m.scene.getChild(n - 1)
+  m.overhang.title = group.overhangTitle
+  m.overhang.showOptions = group.optionsAvailable
+  if group.optionsAvailable <> prevOptionsAvailable then
+    if group.optionsAvailable = false then
+      m.scene.unobserveField("optionsPressed")
+    else
+      m.scene.observeField("optionsPressed", m.port)
+    end if
+  end if
+  m.overhang.visible = true
+  if group.lastFocus <> invalid
+    print "lastfocus" group.lastfocus
+    group.lastFocus.setFocus(true)
+  else
+    group.setFocus(true)
+  end if
+  group.visible = true
 end sub
