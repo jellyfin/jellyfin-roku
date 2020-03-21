@@ -49,10 +49,10 @@ function SetData()
 end function
 
 function onKeyEvent(key as string, press as boolean) as boolean
-	if not press then return false
+  if not press then return false
 
-	if key = "OK" then
-      m.top.UserSelected = m.top.ItemContent[m.top.rowItemFocused[1]].Name
-    end if
-	return false
+  if key = "OK" then
+    m.top.UserSelected = m.top.ItemContent[m.top.rowItemFocused[1]].Name
+  end if
+  return false
 end function
