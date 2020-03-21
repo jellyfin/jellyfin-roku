@@ -3,7 +3,7 @@
   <children>
     <LayoutGroup layoutDirection="vert">
       <Poster id="ProfileImage" width="300" height="300" />
-      <Label id="ProfileName" horizAlign="center" vertAlign="center" font="font:SmallBoldSystemFont" color="#FFFFFF" height="64" width="300" />
+      <Label id="ProfileName" horizAlign="center" vertAlign="center" font="font:SmallBoldSystemFont" color="#EBEBEB" height="64" width="300" />
     </LayoutGroup>
   </children>
   <interface>
