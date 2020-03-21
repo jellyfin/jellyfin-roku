@@ -53,3 +53,19 @@ function ImageURL(id, version = "Primary", params = {})
   ' ?maxHeight=384&maxWidth=256&tag=<tag>&quality=90"
   return buildURL(url, params)
 end function
+
+function UserImageURL(id, params = {})
+  ' set defaults
+  if params.maxHeight = invalid then
+    params.append({ "maxHeight" : "300" })
+  end if
+  if params.maxWidth = invalid then
+    params.append({ "maxWidth" : "300" })
+  end if
+  if params.quality = invalid then
+    params.append({ "quality" : "90" })
+  end if
+
+  url = Substitute("Users/{0}/Images/Primary", id)
+  return buildURL(url, params)
+end function

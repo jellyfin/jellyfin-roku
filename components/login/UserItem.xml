@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="UserItem" extends="Group">
+  <children>
+    <LayoutGroup layoutDirection="vert">
+      <Poster id="ProfileImage" width="300" height="300" />
+      <Label id="ProfileName" horizAlign="center" vertAlign="center" font="font:SmallBoldSystemFont" color="#FFFFFF" height="64" width="300" />
+    </LayoutGroup>
+  </children>
+  <interface>
+    <field id="ItemContent" type="node" onChange="ItemContentChanged" />
+  </interface>
+  <script type="text/brightscript" uri="UserItem.brs" />
+</component>

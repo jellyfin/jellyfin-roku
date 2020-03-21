@@ -18,7 +18,9 @@ sub Main()
   app_start:
   m.overhang.title = ""
   ' First thing to do is validate the ability to use the API
-  LoginFlow()
+
+  if not LoginFlow() then return
+  wipe_groups()
 
   ' load home page
   m.overhang.title = "Home"
@@ -360,17 +362,51 @@ sub Main()
 
 end sub
 
-sub LoginFlow()
+function LoginFlow()
   'Collect Jellyfin server and user information
   start_login:
   if get_setting("server") = invalid or ServerInfo() = invalid then
     print "Get server details"
-    CreateServerGroup()
+    ServerSelection = CreateServerGroup()
+    if ServerSelection = "backPressed" then
+      print "backPressed"
+      wipe_groups()
+      return false
+    end if
   end if
 
   if get_setting("active_user") = invalid then
-    print "Get user login"
-    CreateSigninGroup()
+    PublicUsers = GetPublicUsers()
+    if PublicUsers.count() then
+      PublicUsersNodes = []
+      for each item in PublicUsers
+        user = CreateObject("roSGNode", "PublicUserData")
+        user.id = item.Id
+        user.Name = item.Name
+        if item.PrimaryImageTag <> invalid  then
+          user.ImageURL = UserImageURL(user.id, { "tag": item.PrimaryImageTag })
+        end if
+        PublicUsersNodes.push(user)
+      end for
+      user = CreateUserSelectGroup(PublicUsersNodes)
+      m.scene.focusedChild.visible = false
+      if user = "backPressed" then
+        unset_setting("server")
+        return LoginFlow()
+      else
+        'Try to login without password. If the token is valid, we're done
+        get_token(user, "")
+        if get_setting("active_user") <> invalid then
+          m.user = AboutMe()
+          return true
+        end if
+      end if
+    end if
+    PasswordEntry = CreateSigninGroup(user)
+    if PasswordEntry = "backPressed" then
+      m.scene.focusedChild.visible = false
+      return LoginFlow()
+    end if
   end if
 
   m.user = AboutMe()
@@ -381,7 +417,8 @@ sub LoginFlow()
   end if
 
   wipe_groups()
-end sub
+  return true
+end function
 
 sub RunScreenSaver()
   print "Starting screensaver..."
