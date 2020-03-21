@@ -32,13 +32,20 @@ function CreateServerGroup()
     else if type(msg) = "roSGNodeEvent"
       node = msg.getNode()
       if node = "submit"
-        if server_hostname.value.len() > 5 and mid(server_hostname.value, server_hostname.value.len()-4,1) <> ":" and mid(server_hostname.value, server_hostname.value.len()-5,1) <> ":" then
-          if left(server_hostname.value ,5) = "https" then
-            server_hostname.value = server_hostname.value + ":8920"
-          else
-            server_hostname.value = server_hostname.value + ":8096"
+        'Append default ports
+        MaxSlashes = 0
+        if left(server_hostname.value,8) = "https://" or left(server_hostname.value,7) = "http://" then MaxSlashes = 2
+        'Check to make sure entry has no extra slashes before adding default ports. 
+        if Instr(0, server_hostname.value, "/") = MaxSlashes then 
+          if server_hostname.value.len() > 5 and mid(server_hostname.value, server_hostname.value.len()-4,1) <> ":" and mid(server_hostname.value, server_hostname.value.len()-5,1) <> ":" then
+            if left(server_hostname.value ,5) = "https" then
+              server_hostname.value = server_hostname.value + ":8920"
+            else
+              server_hostname.value = server_hostname.value + ":8096"
+            end if
           end if
         end if
+        'Append http:// to server
         if left(server_hostname.value,4) <> "http" then server_hostname.value = "http://" + server_hostname.value
         set_setting("server", server_hostname.value)
         if ServerInfo() = invalid then
