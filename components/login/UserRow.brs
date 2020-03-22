@@ -1,7 +1,7 @@
 sub init()
   m.top.itemComponentName = "UserItem"
   m.top.content = SetData()
-  'm.top.rowFocusAnimationStyle = "floatingFocus"
+  m.top.observeField("itemSelected", "SetUser") 
   m.top.showRowLabel = [false]
   UpdateSize()
   m.top.setFocus(true)
@@ -48,11 +48,12 @@ function SetData()
   return data
 end function
 
+sub SetUser()
+  m.top.UserSelected = m.top.ItemContent[m.top.rowItemFocused[1]].Name
+end sub
+
 function onKeyEvent(key as string, press as boolean) as boolean
   if not press then return false
 
-  if key = "OK" then
-    m.top.UserSelected = m.top.ItemContent[m.top.rowItemFocused[1]].Name
-  end if
   return false
 end function
