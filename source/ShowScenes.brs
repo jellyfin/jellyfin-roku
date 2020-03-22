@@ -1,8 +1,8 @@
-sub CreateServerGroup()
+function CreateServerGroup()
   ' Get and Save Jellyfin Server Information
   group = CreateObject("roSGNode", "ConfigScene")
   m.scene.appendChild(group)
-
+  port =  CreateObject("roMessagePort")
   group.findNode("prompt").text = "Connect to Server"
 
 
@@ -19,17 +19,34 @@ sub CreateServerGroup()
   config.configItems = items
 
   button = group.findNode("submit")
-  button.observeField("buttonSelected", m.port)
-
+  button.observeField("buttonSelected", port)
   server_hostname = config.content.getChild(0)
+  group.observeField("backPressed", port)
 
   while(true)
-    msg = wait(0, m.port)
+    msg = wait(0, port)
     if type(msg) = "roSGScreenEvent" and msg.isScreenClosed()
-      return
+      return "false"
+    else if isNodeEvent(msg, "backPressed")
+      return "backPressed"
     else if type(msg) = "roSGNodeEvent"
       node = msg.getNode()
       if node = "submit"
+        'Append default ports
+        maxSlashes = 0
+        if left(server_hostname.value,8) = "https://" or left(server_hostname.value,7) = "http://" then maxSlashes = 2
+        'Check to make sure entry has no extra slashes before adding default ports.
+        if Instr(0, server_hostname.value, "/") = maxSlashes then 
+          if server_hostname.value.len() > 5 and mid(server_hostname.value, server_hostname.value.len()-4,1) <> ":" and mid(server_hostname.value, server_hostname.value.len()-5,1) <> ":" then
+            if left(server_hostname.value ,5) = "https" then
+              server_hostname.value = server_hostname.value + ":8920"
+            else
+              server_hostname.value = server_hostname.value + ":8096"
+            end if
+          end if
+        end if
+        'Append http:// to server
+        if left(server_hostname.value,4) <> "http" then server_hostname.value = "http://" + server_hostname.value
         set_setting("server", server_hostname.value)
         if ServerInfo() = invalid then
           ' Maybe don't unset setting, but offer as a prompt
@@ -39,7 +56,7 @@ sub CreateServerGroup()
           SignOut()
         else
           group.visible = false
-          return
+          return "true"
         endif
       end if
     end if
@@ -47,12 +64,45 @@ sub CreateServerGroup()
 
   ' Just hide it when done, in case we need to come back
   group.visible = false
-end sub
+end function
 
-sub CreateSigninGroup()
+function CreateUserSelectGroup(users = [])
+  if users.count() = 0 then
+    return ""
+  end if
+  group = CreateObject("roSGNode", "UserSelect")
+  m.scene.appendChild(group)
+  port =  CreateObject("roMessagePort")
+
+  group.itemContent = users
+  group.findNode("userRow").observeField("userSelected", port)
+  group.findNode("alternateOptions").observeField("itemSelected", port)
+  group.observeField("backPressed", port)
+  while(true)
+    msg = wait(0, port)
+    if type(msg) = "roSGScreenEvent" and msg.isScreenClosed()
+      group.visible = false
+      return -1
+    else if isNodeEvent(msg, "backPressed")
+      return "backPressed"
+    else if type(msg) = "roSGNodeEvent" and msg.getField() = "userSelected"
+      return msg.GetData()
+    else if type(msg) = "roSGNodeEvent" and msg.getField() = "itemSelected"
+      if msg.getData() = 0 then
+        return ""
+      end if
+    end if
+  end while
+
+  ' Just hide it when done, in case we need to come back
+  group.visible = false
+end function
+
+function CreateSigninGroup(user = "")
   ' Get and Save Jellyfin user login credentials
   group = CreateObject("roSGNode", "ConfigScene")
   m.scene.appendChild(group)
+  port =  CreateObject("roMessagePort")
 
   group.findNode("prompt").text = "Sign In"
 
@@ -61,6 +111,7 @@ sub CreateSigninGroup()
   username_field.label = "Username"
   username_field.field = "username"
   username_field.type = "string"
+  username_field.value = user
   password_field = CreateObject("roSGNode", "ConfigData")
   password_field.label = "Password"
   password_field.field = "password"
@@ -69,24 +120,30 @@ sub CreateSigninGroup()
   config.configItems = items
 
   button = group.findNode("submit")
-  button.observeField("buttonSelected", m.port)
+  button.observeField("buttonSelected", port)
 
   config = group.findNode("configOptions")
 
   username = config.content.getChild(0)
   password = config.content.getChild(1)
 
+  group.observeField("backPressed", port)
+
   while(true)
-    msg = wait(0, m.port)
+    msg = wait(0, port)
     if type(msg) = "roSGScreenEvent" and msg.isScreenClosed()
       group.visible = false
-      return
+      return "false"
+    else if isNodeEvent(msg, "backPressed")
+      group.unobserveField("backPressed")
+      group.backPressed = false
+      return "backPressed"
     else if type(msg) = "roSGNodeEvent"
       node = msg.getNode()
       if node = "submit"
         ' Validate credentials
         get_token(username.value, password.value)
-        if get_setting("active_user") <> invalid then return
+        if get_setting("active_user") <> invalid then return "true"
         print "Login attempt failed..."
         group.findNode("alert").text = "Login attempt failed."
       end if
@@ -95,7 +152,7 @@ sub CreateSigninGroup()
 
   ' Just hide it when done, in case we need to come back
   group.visible = false
-end sub
+end function
 
 function CreateHomeGroup()
   ' Main screen after logging in. Shows the user's libraries
@@ -385,4 +442,3 @@ function CollectionLister(group, page_size)
   p = group.findNode("paginator")
   p.maxPages = div_ceiling(group.objects.TotalRecordCount, page_size)
 end function
-

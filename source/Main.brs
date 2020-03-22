@@ -18,7 +18,9 @@ sub Main()
   app_start:
   m.overhang.title = ""
   ' First thing to do is validate the ability to use the API
-  LoginFlow()
+
+  if not LoginFlow() then return
+  wipe_groups()
 
   ' load home page
   m.overhang.title = "Home"
@@ -360,17 +362,53 @@ sub Main()
 
 end sub
 
-sub LoginFlow()
+function LoginFlow(startOver = false as boolean)
+  if m.scene <> invalid then
+    m.scene.unobserveField("backPressed")
+  end if
   'Collect Jellyfin server and user information
   start_login:
-  if get_setting("server") = invalid or ServerInfo() = invalid then
+  if get_setting("server") = invalid or ServerInfo() = invalid or startOver = true then
     print "Get server details"
-    CreateServerGroup()
+    serverSelection = CreateServerGroup()
+    if serverSelection = "backPressed" then
+      print "backPressed"
+      wipe_groups()
+      return false
+    end if
   end if
 
   if get_setting("active_user") = invalid then
-    print "Get user login"
-    CreateSigninGroup()
+    publicUsers = GetPublicUsers()
+    if publicUsers.count() then
+      publicUsersNodes = []
+      for each item in publicUsers
+        user = CreateObject("roSGNode", "PublicUserData")
+        user.id = item.Id
+        user.name = item.Name
+        if item.PrimaryImageTag <> invalid  then
+          user.ImageURL = UserImageURL(user.id, { "tag": item.PrimaryImageTag })
+        end if
+        publicUsersNodes.push(user)
+      end for
+      user = CreateUserSelectGroup(publicUsersNodes)
+      m.scene.focusedChild.visible = false
+      if user = "backPressed" then
+        return LoginFlow(true)
+      else
+        'Try to login without password. If the token is valid, we're done
+        get_token(user, "")
+        if get_setting("active_user") <> invalid then
+          m.user = AboutMe()
+          return true
+        end if
+      end if
+    end if
+    passwordEntry = CreateSigninGroup(user)
+    if passwordEntry = "backPressed" then
+      m.scene.focusedChild.visible = false
+      return LoginFlow(true)
+    end if
   end if
 
   m.user = AboutMe()
@@ -381,7 +419,8 @@ sub LoginFlow()
   end if
 
   wipe_groups()
-end sub
+  return true
+end function
 
 sub RunScreenSaver()
   print "Starting screensaver..."

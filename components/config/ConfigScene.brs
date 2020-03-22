@@ -9,7 +9,9 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
 
   list = m.top.findNode("configOptions")
   button = m.top.findNode("submit")
-  if key = "down" and button.focusedChild = invalid
+  if key = "back" then
+    m.top.backPressed = true
+  else if key = "down" and button.focusedChild = invalid
     limit = list.content.getChildren(-1, 0).count() - 1
 
     if limit = list.itemFocused

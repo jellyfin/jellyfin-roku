@@ -58,3 +58,9 @@ function ServerInfo()
   resp = APIRequest(url)
   return getJson(resp)
 end function
+
+function GetPublicUsers()
+  url = "Users/Public"
+  resp = APIRequest(url)
+  return getJson(resp)
+end function
