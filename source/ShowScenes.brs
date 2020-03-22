@@ -33,10 +33,10 @@ function CreateServerGroup()
       node = msg.getNode()
       if node = "submit"
         'Append default ports
-        MaxSlashes = 0
-        if left(server_hostname.value,8) = "https://" or left(server_hostname.value,7) = "http://" then MaxSlashes = 2
-        'Check to make sure entry has no extra slashes before adding default ports. 
-        if Instr(0, server_hostname.value, "/") = MaxSlashes then 
+        maxSlashes = 0
+        if left(server_hostname.value,8) = "https://" or left(server_hostname.value,7) = "http://" then maxSlashes = 2
+        'Check to make sure entry has no extra slashes before adding default ports.
+        if Instr(0, server_hostname.value, "/") = maxSlashes then 
           if server_hostname.value.len() > 5 and mid(server_hostname.value, server_hostname.value.len()-4,1) <> ":" and mid(server_hostname.value, server_hostname.value.len()-5,1) <> ":" then
             if left(server_hostname.value ,5) = "https" then
               server_hostname.value = server_hostname.value + ":8920"
@@ -74,9 +74,9 @@ function CreateUserSelectGroup(users = [])
   m.scene.appendChild(group)
   port =  CreateObject("roMessagePort")
 
-  group.ItemContent = users
-  group.findNode("UserRow").observeField("UserSelected", port)
-  group.findNode("AlternateOptions").observeField("itemSelected", port)
+  group.itemContent = users
+  group.findNode("userRow").observeField("userSelected", port)
+  group.findNode("alternateOptions").observeField("itemSelected", port)
   group.observeField("backPressed", port)
   while(true)
     msg = wait(0, port)
@@ -85,7 +85,7 @@ function CreateUserSelectGroup(users = [])
       return -1
     else if isNodeEvent(msg, "backPressed")
       return "backPressed"
-    else if type(msg) = "roSGNodeEvent" and msg.getField() = "UserSelected"
+    else if type(msg) = "roSGNodeEvent" and msg.getField() = "userSelected"
       return msg.GetData()
     else if type(msg) = "roSGNodeEvent" and msg.getField() = "itemSelected"
       if msg.getData() = 0 then

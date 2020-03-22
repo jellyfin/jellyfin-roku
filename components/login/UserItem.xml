@@ -2,12 +2,12 @@
 <component name="UserItem" extends="Group">
   <children>
     <LayoutGroup layoutDirection="vert">
-      <Poster id="ProfileImage" width="300" height="300" />
-      <Label id="ProfileName" horizAlign="center" vertAlign="center" font="font:SmallBoldSystemFont" color="#EBEBEB" height="64" width="300" />
+      <Poster id="profileImage" width="300" height="300" />
+      <Label id="profileName" horizAlign="center" vertAlign="center" font="font:SmallBoldSystemFont" color="#EBEBEB" height="64" width="300" />
     </LayoutGroup>
   </children>
   <interface>
-    <field id="ItemContent" type="node" onChange="ItemContentChanged" />
+    <field id="itemContent" type="node" onChange="itemContentChanged" />
   </interface>
   <script type="text/brightscript" uri="UserItem.brs" />
 </component>

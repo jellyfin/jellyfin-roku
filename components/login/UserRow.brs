@@ -3,11 +3,11 @@ sub init()
   m.top.content = SetData()
   m.top.observeField("itemSelected", "SetUser") 
   m.top.showRowLabel = [false]
-  UpdateSize()
+  updateSize()
   m.top.setFocus(true)
 end sub
 
-sub UpdateSize()
+sub updateSize()
   dimensions = m.top.getScene().currentDesignResolution
 
   border = 200
@@ -31,25 +31,25 @@ sub UpdateSize()
 end sub
 
 
-function SetData()
-  if m.top.ItemContent = invalid then
+function setData()
+  if m.top.itemContent = invalid then
     data = CreateObject("roSGNode", "ContentNode")
     return data
   end if
 
-  UserData = m.top.ItemContent
+  userData = m.top.itemContent
   data = CreateObject("roSGNode", "ContentNode")
   row = data.CreateChild("ContentNode")
-  for each item in UserData
+  for each item in userData
     row.appendChild(item)
   end for
   m.top.content = data
-  UpdateSize()
+  updateSize()
   return data
 end function
 
-sub SetUser()
-  m.top.UserSelected = m.top.ItemContent[m.top.rowItemFocused[1]].Name
+sub setUser()
+  m.top.userSelected = m.top.itemContent[m.top.rowItemFocused[1]].Name
 end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean

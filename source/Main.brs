@@ -362,16 +362,16 @@ sub Main()
 
 end sub
 
-function LoginFlow(StartOver = false as boolean)
+function LoginFlow(startOver = false as boolean)
   if m.scene <> invalid then
     m.scene.unobserveField("backPressed")
   end if
   'Collect Jellyfin server and user information
   start_login:
-  if get_setting("server") = invalid or ServerInfo() = invalid or StartOver = true then
+  if get_setting("server") = invalid or ServerInfo() = invalid or startOver = true then
     print "Get server details"
-    ServerSelection = CreateServerGroup()
-    if ServerSelection = "backPressed" then
+    serverSelection = CreateServerGroup()
+    if serverSelection = "backPressed" then
       print "backPressed"
       wipe_groups()
       return false
@@ -379,19 +379,19 @@ function LoginFlow(StartOver = false as boolean)
   end if
 
   if get_setting("active_user") = invalid then
-    PublicUsers = GetPublicUsers()
-    if PublicUsers.count() then
-      PublicUsersNodes = []
-      for each item in PublicUsers
+    publicUsers = GetPublicUsers()
+    if publicUsers.count() then
+      publicUsersNodes = []
+      for each item in publicUsers
         user = CreateObject("roSGNode", "PublicUserData")
         user.id = item.Id
-        user.Name = item.Name
+        user.name = item.Name
         if item.PrimaryImageTag <> invalid  then
           user.ImageURL = UserImageURL(user.id, { "tag": item.PrimaryImageTag })
         end if
-        PublicUsersNodes.push(user)
+        publicUsersNodes.push(user)
       end for
-      user = CreateUserSelectGroup(PublicUsersNodes)
+      user = CreateUserSelectGroup(publicUsersNodes)
       m.scene.focusedChild.visible = false
       if user = "backPressed" then
         return LoginFlow(true)
@@ -404,8 +404,8 @@ function LoginFlow(StartOver = false as boolean)
         end if
       end if
     end if
-    PasswordEntry = CreateSigninGroup(user)
-    if PasswordEntry = "backPressed" then
+    passwordEntry = CreateSigninGroup(user)
+    if passwordEntry = "backPressed" then
       m.scene.focusedChild.visible = false
       return LoginFlow(true)
     end if

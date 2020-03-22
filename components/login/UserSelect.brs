@@ -1,23 +1,23 @@
 sub init()
 end sub
 
-sub ItemContentChanged()
-  m.top.findNode("UserRow").ItemContent = m.top.ItemContent
-  Redraw()
+sub iItemContentChanged()
+  m.top.findNode("UserRow").ItemContent = m.top.itemContent
+  redraw()
 end sub
 
-sub Redraw()
-  UserCount = m.top.ItemContent.Count()
-  TopBorder = 360
-  LeftBorder= 130
-  ItemWidth = 300
-  ItemSpacing = 40
+sub redraw()
+  userCount = m.top.itemContent.Count()
+  topBorder = 360
+  leftBorder= 130
+  itemWidth = 300
+  itemSpacing = 40
 
-  if UserCount < 5 then
-    LeftBorder = (1920 - ((UserCount * ItemWidth) + ((UserCount - 1) * ItemSpacing))) / 2
+  if userCount < 5 then
+    leftBorder = (1920 - ((userCount * itemWidth) + ((userCount - 1) * itemSpacing))) / 2
   end if
 '   break()
-  m.top.findNode("UserRow").translation = [LeftBorder, TopBorder]
+  m.top.findNode("UserRow").translation = [leftBorder, topBorder]
 end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean
@@ -32,7 +32,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
     end if
   else if key = "down" then
     if m.top.focusedChild.isSubType("UserRow") then
-      m.top.findNode("AlternateOptions").setFocus(true)
+      m.top.findNode("alternateOptions").setFocus(true)
       return true
     end if
   end if
