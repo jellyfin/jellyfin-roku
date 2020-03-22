@@ -362,10 +362,13 @@ sub Main()
 
 end sub
 
-function LoginFlow()
+function LoginFlow(StartOver = false as boolean)
+  if m.scene <> invalid then
+    m.scene.unobserveField("backPressed")
+  end if
   'Collect Jellyfin server and user information
   start_login:
-  if get_setting("server") = invalid or ServerInfo() = invalid then
+  if get_setting("server") = invalid or ServerInfo() = invalid or StartOver = true then
     print "Get server details"
     ServerSelection = CreateServerGroup()
     if ServerSelection = "backPressed" then
@@ -391,8 +394,7 @@ function LoginFlow()
       user = CreateUserSelectGroup(PublicUsersNodes)
       m.scene.focusedChild.visible = false
       if user = "backPressed" then
-        unset_setting("server")
-        return LoginFlow()
+        return LoginFlow(true)
       else
         'Try to login without password. If the token is valid, we're done
         get_token(user, "")
@@ -405,7 +407,7 @@ function LoginFlow()
     PasswordEntry = CreateSigninGroup(user)
     if PasswordEntry = "backPressed" then
       m.scene.focusedChild.visible = false
-      return LoginFlow()
+      return LoginFlow(true)
     end if
   end if
 
