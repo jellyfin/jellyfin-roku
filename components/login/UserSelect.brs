@@ -1,7 +1,7 @@
 sub init()
 end sub
 
-sub iItemContentChanged()
+sub itemContentChanged()
   m.top.findNode("UserRow").ItemContent = m.top.itemContent
   redraw()
 end sub
