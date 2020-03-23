@@ -73,6 +73,8 @@ function ItemList(library_id = invalid as string, params = {})
     params["page"] = 1
   end if
   params["parentid"] = library_id
+  params["recursive"] = true
+
   url = Substitute("Users/{0}/Items/", get_setting("active_user"))
   resp = APIRequest(url, params)
   data = getJson(resp)

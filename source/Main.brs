@@ -67,7 +67,7 @@ sub Main()
     else if isNodeEvent(msg, "selectedItem")
       ' If you select a library from ANYWHERE, follow this flow
       selectedItem = msg.getData()
-      if selectedItem.type = "CollectionFolder" AND  selectedItem.collectionType = "movies"
+      if (selectedItem.type = "CollectionFolder" OR selectedItem.type = "UserView") AND  selectedItem.collectionType = "movies"
         group.lastFocus = group.focusedChild
         group.setFocus(false)
         group.visible = false
@@ -75,7 +75,7 @@ sub Main()
         group = CreateMovieListGroup(selectedItem.Id)
         group.overhangTitle = selectedItem.name
         m.scene.appendChild(group)
-      else if selectedItem.type = "CollectionFolder" AND  selectedItem.collectionType =  "tvshows"
+      else if (selectedItem.type = "CollectionFolder" OR selectedItem.type = "UserView") AND  selectedItem.collectionType =  "tvshows"
         group.lastFocus = group.focusedChild
         group.setFocus(false)
         group.visible = false
@@ -84,7 +84,7 @@ sub Main()
         group = CreateSeriesListGroup(selectedItem.Id)
         group.overhangTitle = selectedItem.name
         m.scene.appendChild(group)
-      else if selectedItem.type = "CollectionFolder" AND selectedItem.collectionType = "boxsets"
+      else if (selectedItem.type = "CollectionFolder" OR selectedItem.type = "UserView") AND selectedItem.collectionType = "boxsets"
         group.lastFocus = group.focusedChild
         group.setFocus(false)
         group.visible = false

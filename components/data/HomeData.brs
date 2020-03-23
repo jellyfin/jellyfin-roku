@@ -15,7 +15,7 @@ sub setData()
 
     ' Set appropriate Images for Wide and Tall based on type
 
-    if datum.type = "CollectionFolder" then
+    if datum.type = "CollectionFolder" OR datum.type = "UserView" then
         params = { "Tag" : datum.ImageTags.Primary, "maxHeight" : 261, "maxWidth" : 464 }
         m.top.thumbnailURL = ImageURL(datum.id, "Primary", params)
         m.top.widePosterUrl = m.top.thumbnailURL
