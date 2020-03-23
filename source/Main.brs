@@ -391,7 +391,7 @@ function LoginFlow(startOver = false as boolean)
         end if
         publicUsersNodes.push(user)
       end for
-      user = CreateUserSelectGroup(publicUsersNodes)
+      userSelected = CreateUserSelectGroup(publicUsersNodes)
       m.scene.focusedChild.visible = false
       if user = "backPressed" then
         return LoginFlow(true)
@@ -403,8 +403,10 @@ function LoginFlow(startOver = false as boolean)
           return true
         end if
       end if
+    else 
+      userSelected = ""
     end if
-    passwordEntry = CreateSigninGroup(user)
+    passwordEntry = CreateSigninGroup(userSelected)
     if passwordEntry = "backPressed" then
       m.scene.focusedChild.visible = false
       return LoginFlow(true)
