@@ -393,11 +393,11 @@ function LoginFlow(startOver = false as boolean)
       end for
       userSelected = CreateUserSelectGroup(publicUsersNodes)
       m.scene.focusedChild.visible = false
-      if user = "backPressed" then
+      if userSelected = "backPressed" then
         return LoginFlow(true)
       else
         'Try to login without password. If the token is valid, we're done
-        get_token(user, "")
+        get_token(userSelected, "")
         if get_setting("active_user") <> invalid then
           m.user = AboutMe()
           return true
