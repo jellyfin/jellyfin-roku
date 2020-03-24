@@ -188,20 +188,23 @@ function updateContinueItems()
 	end for
 	
 	if itemData.count() < 1 then
-		' remove the row
-		homeRows.removeChildIndex(i)
+		if continueRowIndex <> invalid then
+			' remove the row
+			deleteFromSizeArray(continueRowIndex)
+			homeRows.removeChildIndex(continueRowIndex)
+		end if
 	else
 		' remake row using the new data
 		row = CreateObject("roSGNode", "HomeRow")
 		row.title = "Continue Watching"
-		m.sizeArray.Push([464, 331])
-		m.top.rowItemSize = m.sizeArray
+		itemSize = [464, 331]
 		for each item in itemData
 			row.appendChild(item)
 		end for
 
 		if continueRowIndex = invalid then
 			' insert new row under "My Media"
+			updateSizeArray(itemSize, 1)
 			homeRows.insertChild(row, 1)
 		else
 			' replace the old row
@@ -231,14 +234,16 @@ function updateNextUpItems()
 	end for
 	
 	if itemData.count() < 1 then
-		' remove the row
-		homeRows.removeChildIndex(nextUpRowIndex)
+		if nextUpRowIndex <> invalid then
+			' remove the row
+			deleteFromSizeArray(nextUpRowIndex)
+			homeRows.removeChildIndex(nextUpRowIndex)
+		end if
 	else
 		' remake row using the new data
 		row = m.top.content.CreateChild("HomeRow")
 		row.title = "Next Up >"
-		m.sizeArray.Push([464, 331])
-		m.top.rowItemSize = m.sizeArray
+		itemSize = [464, 331]
 		for each item in itemData
 			row.appendChild(item)
 		end for
@@ -247,8 +252,10 @@ function updateNextUpItems()
 			' insert new row under "Continue Watching if it exists"
 			tmpRow = homeRows.getChild(1)
 			if tmpRow.title = "Continue Watching" then
+				updateSizeArray(itemSize, 2)
 				homeRows.insertChild(row, 2)
 			else
+				updateSizeArray(itemSize, 1)
 				homeRows.insertChild(row, 1)
 			end if
 		else
@@ -297,6 +304,7 @@ function updateLatestItems(msg)
 	if itemData.count() < 1 then
 		' remove row
 		if rowIndex <> invalid then
+			deleteFromSizeArray(rowIndex)
 			homeRows.removeChildIndex(rowIndex)
 		end if
 	else
@@ -307,16 +315,14 @@ function updateLatestItems(msg)
 		' Handle specific types with different item widths
 		if node.metadata.contentType = "movies" then
 			row.imageWidth = 180
-			m.sizeArray.Push([188, 331])	
+			itemSize = [188, 331]	
 		else if node.metadata.contentType = "music" then
 			row.imageWidth = 261
-			m.sizeArray.Push([261, 331])	
+			itemSize = [261, 331]
 		else
 			row.imageWidth = 464
-			m.sizeArray.Push([464, 331])	
+			itemSize = [464, 331]
 		end if
-
-		m.top.rowItemSize = m.sizeArray
 
 		for each item in itemData
 			row.appendChild(item)
@@ -325,6 +331,7 @@ function updateLatestItems(msg)
 		if rowIndex = invalid then
 			' append new row
 			' todo: insert row based on user settings
+			updateSizeArray(itemSize)
 			homeRows.appendChild(row)
 		else
 			' replace the old row
@@ -332,6 +339,36 @@ function updateLatestItems(msg)
 		end if
 	end if
 end function
+
+sub updateSizeArray(rowItemSize, rowIndex = invalid, action = "add")
+	sizeArray = m.top.rowItemSize
+	' append by default
+	if rowIndex = invalid then
+		rowIndex = sizeArray.count()
+	end if
+
+	newSizeArray = []
+	for i = 0 to sizeArray.count()
+		if rowIndex = i then
+			if action = "add" then
+				' insert new row size
+				newSizeArray.Push(rowItemSize)
+				if sizeArray[i] <> invalid then
+					' copy row size
+					newSizeArray.Push(sizeArray[i])
+				end if
+			end if
+		else if sizeArray[i] <> invalid then
+			' copy row size
+			newSizeArray.Push(sizeArray[i])
+		end if
+	end for
+	m.top.rowItemSize = newSizeArray
+end sub
+
+sub deleteFromSizeArray(rowIndex)
+	updateSizeArray([0,0], rowIndex, "delete")
+end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean
 	if not press then return false
