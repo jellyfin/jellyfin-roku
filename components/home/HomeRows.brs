@@ -1,6 +1,6 @@
 sub init()
 	m.top.itemComponentName = "HomeItem"
-	' My media row should always exist
+	' how many rows are visible on the screen
 	m.top.numRows = 2
 
 	m.top.rowFocusAnimationStyle = "fixedFocusWrap"
@@ -15,12 +15,10 @@ sub init()
 	m.top.setfocus(true)
 
 	' Load the Libraries from API via task
-	m.LoadItemsTask = createObject("roSGNode", "LoadItemsTask")
-	m.LoadItemsTask.observeField("content", "onLibrariesLoaded")
-	m.LoadItemsTask.control = "RUN"
-
+	m.LoadLibrariesTask = createObject("roSGNode", "LoadItemsTask")
+	m.LoadLibrariesTask.observeField("content", "onLibrariesLoaded")
+	m.LoadLibrariesTask.control = "RUN"
 end sub
-
 
 sub updateSize()
 	sideborder = 100
@@ -39,15 +37,13 @@ sub updateSize()
 	m.top.visible = true
 end sub
 
-
 sub onLibrariesLoaded() 
-
-	m.libraryData = m.LoadItemsTask.content
+	m.libraryData = m.LoadLibrariesTask.content
 
 	m.sizeArray = [[464, 311]]
 	m.top.rowItemSize = m.sizeArray
 
-	m.LoadItemsTask.unobserveField("content")
+	m.LoadLibrariesTask.unobserveField("content")
 
 	if(m.libraryData <> invalid AND m.libraryData.count() > 0) then
 
@@ -68,12 +64,9 @@ sub onLibrariesLoaded()
 	m.LoadContinueTask.itemsToLoad = "continue"
 	m.LoadContinueTask.observeField("content", "onContinueItemsLoaded")
 	m.LoadContinueTask.control = "RUN"
-
 end sub
 
-
 sub onContinueItemsLoaded()
-
 	m.LoadContinueTask.unobserveField("content")
 	itemData = m.LoadContinueTask.content
 
@@ -97,12 +90,9 @@ sub onContinueItemsLoaded()
 	m.LoadNextUpTask.itemsToLoad = "nextUp"
 	m.LoadNextUpTask.observeField("content", "onNextUpItemsLoaded")
 	m.LoadNextUpTask.control = "RUN"
-
 end sub
 
-
 sub onNextUpItemsLoaded() 
-
 	m.LoadNextUpTask.unobserveField("content")
 	itemData = m.LoadNextUpTask.content
 
@@ -137,12 +127,9 @@ sub onNextUpItemsLoaded()
 			loadLatest.control = "RUN"
 		end if
 	end for
-
 end sub
 
-
 function onLatestLoaded(msg)
-
 	itemData = msg.GetData()
 
  	data = msg.getField()
@@ -176,9 +163,175 @@ function onLatestLoaded(msg)
 		end for
 
 	end if
-
 end function
 
+function updateHomeRows()
+	m.LoadContinueTask.observeField("content", "updateContinueItems")
+	m.LoadContinueTask.control = "RUN"
+end function
+
+function updateContinueItems()
+	m.LoadContinueTask.unobserveField("content")
+	itemData = m.LoadContinueTask.content
+
+	if itemData = invalid then return false
+
+	homeRows = m.top.content
+	continueRowIndex = invalid
+	for i = 1 to homeRows.getChildCount() - 1
+		' skip row 0 since it's always "My Media"
+		tmpRow = homeRows.getChild(i)
+		if tmpRow.title = "Continue Watching" then
+			continueRowIndex = i
+			exit for
+		end if
+	end for
+	
+	if itemData.count() < 1 then
+		' remove the row
+		homeRows.removeChildIndex(i)
+	else
+		' remake row using the new data
+		row = CreateObject("roSGNode", "HomeRow")
+		row.title = "Continue Watching"
+		m.sizeArray.Push([464, 331])
+		m.top.rowItemSize = m.sizeArray
+		for each item in itemData
+			row.appendChild(item)
+		end for
+
+		if continueRowIndex = invalid then
+			' insert new row under "My Media"
+			homeRows.insertChild(row, 1)
+		else
+			' replace the old row
+			homeRows.replaceChild(row, continueRowIndex)
+		end if
+	end if
+
+	m.LoadNextUpTask.observeField("content", "updateNextUpItems")
+	m.LoadNextUpTask.control = "RUN"
+end function
+
+function updateNextUpItems()
+	m.LoadNextUpTask.unobserveField("content")
+	itemData = m.LoadNextUpTask.content
+
+	if itemData = invalid then return false
+
+	homeRows = m.top.content
+	nextUpRowIndex = invalid
+	for i = 1 to homeRows.getChildCount() - 1
+		' skip row 0 since it's always "My Media"
+		tmpRow = homeRows.getChild(i)
+		if tmpRow.title = "Next Up >" then
+			nextUpRowIndex = i
+			exit for
+		end if
+	end for
+	
+	if itemData.count() < 1 then
+		' remove the row
+		homeRows.removeChildIndex(nextUpRowIndex)
+	else
+		' remake row using the new data
+		row = m.top.content.CreateChild("HomeRow")
+		row.title = "Next Up >"
+		m.sizeArray.Push([464, 331])
+		m.top.rowItemSize = m.sizeArray
+		for each item in itemData
+			row.appendChild(item)
+		end for
+
+		if nextUpRowIndex = invalid then
+			' insert new row under "Continue Watching if it exists"
+			tmpRow = homeRows.getChild(1)
+			if tmpRow.title = "Continue Watching" then
+				homeRows.insertChild(row, 2)
+			else
+				homeRows.insertChild(row, 1)
+			end if
+		else
+			' replace the old row
+			homeRows.replaceChild(row, nextUpRowIndex)
+		end if
+	end if
+
+	' Update "Latest in" for all libraries
+	for each lib in m.libraryData
+		if lib.collectionType <> "livetv" then	
+			loadLatest = createObject("roSGNode", "LoadItemsTask")
+			loadLatest.itemsToLoad = "latest"
+			loadLatest.itemId = lib.id
+		
+			metadata = { "title" : lib.name}
+			metadata.Append({"contentType" : lib.json.CollectionType})
+			loadLatest.metadata = metadata
+
+			loadLatest.observeField("content", "updateLatestItems")
+			loadLatest.control = "RUN"
+		end if
+	end for
+end function
+
+function updateLatestItems(msg)
+	itemData = msg.GetData()
+
+ 	data = msg.getField()
+	node = msg.getRoSGNode()
+	node.unobserveField("content")
+
+	if itemData = invalid then return false
+
+	homeRows = m.top.content
+	rowIndex = invalid
+	for i = 1 to homeRows.getChildCount() - 1
+		' skip row 0 since it's always "My Media"
+		tmpRow = homeRows.getChild(i)
+		if tmpRow.title = "Latest in " + node.metadata.title + " >" then
+			rowIndex = i
+			exit for
+		end if
+	end for
+
+	if itemData.count() < 1 then
+		' remove row
+		if rowIndex <> invalid then
+			homeRows.removeChildIndex(rowIndex)
+		end if
+	else
+		' remake row using new data
+		row = m.top.content.CreateChild("HomeRow")
+		row.title = "Latest in " + node.metadata.title + " >"
+		row.usePoster = true
+		' Handle specific types with different item widths
+		if node.metadata.contentType = "movies" then
+			row.imageWidth = 180
+			m.sizeArray.Push([188, 331])	
+		else if node.metadata.contentType = "music" then
+			row.imageWidth = 261
+			m.sizeArray.Push([261, 331])	
+		else
+			row.imageWidth = 464
+			m.sizeArray.Push([464, 331])	
+		end if
+
+		m.top.rowItemSize = m.sizeArray
+
+		for each item in itemData
+			row.appendChild(item)
+		end for
+
+		if rowIndex = invalid then
+			' append new row
+			' todo: insert row based on user settings
+			homeRows.appendChild(row)
+		else
+			' replace the old row
+			homeRows.replaceChild(row, rowIndex)
+		end if
+	end if
+end function
 
 function onKeyEvent(key as string, press as boolean) as boolean
 	if not press then return false

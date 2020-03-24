@@ -2,6 +2,7 @@
 <component name="HomeRows" extends="RowList">
   <interface>
     <field id="selectedItem" type="node" alwaysNotify="true" />
+    <function name="updateHomeRows" />
   </interface>
   <script type="text/brightscript" uri="HomeRows.brs"/>
 </component>

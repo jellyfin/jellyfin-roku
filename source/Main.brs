@@ -434,5 +434,9 @@ sub RemoveCurrentGroup()
   else
     group.setFocus(true)
   end if
+  if n = 2
+    ' refresh home page
+    group.callFunc("refresh")
+  end if
   group.visible = true
 end sub
