@@ -434,7 +434,7 @@ sub RemoveCurrentGroup()
   else
     group.setFocus(true)
   end if
-  if n = 2
+  if group.subtype() = "Home" then
     ' refresh home page
     group.callFunc("refresh")
   end if
