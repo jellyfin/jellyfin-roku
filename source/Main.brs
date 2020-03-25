@@ -435,8 +435,11 @@ sub RemoveCurrentGroup()
     group.setFocus(true)
   end if
   if group.subtype() = "Home" then
-    ' refresh home page
-    group.callFunc("refresh")
+    currentTime = CreateObject("roDateTime").AsSeconds()
+    if group.timeLastRefresh = invalid  or (currentTime - group.timeLastRefresh) > 20 then
+      group.timeLastRefresh = currentTime
+      group.callFunc("refresh")
+    end if
   end if
   group.visible = true
 end sub
