@@ -241,7 +241,7 @@ function updateNextUpItems()
     end if
   else
     ' remake row using the new data
-    row = m.top.content.CreateChild("HomeRow")
+    row = CreateObject("roSGNode", "HomeRow")
     row.title = "Next Up >"
     itemSize = [464, 331]
     for each item in itemData
@@ -309,7 +309,7 @@ function updateLatestItems(msg)
     end if
   else
     ' remake row using new data
-    row = m.top.content.CreateChild("HomeRow")
+    row = CreateObject("roSGNode", "HomeRow")
     row.title = "Latest in " + node.metadata.title + " >"
     row.usePoster = true
     ' Handle specific types with different item widths
