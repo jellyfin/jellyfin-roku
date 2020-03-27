@@ -6,6 +6,8 @@
   </children>
   <interface>
     <field id="selectedItem" alias="homeRows.selectedItem" />
+    <field id="timeLastRefresh" type="integer" />
+    <function name="refresh" />
   </interface>
   <script type="text/brightscript" uri="Home.brs" />
 </component>
