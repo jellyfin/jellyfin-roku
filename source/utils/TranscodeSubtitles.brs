@@ -1,3 +1,72 @@
+function selectSubtitleTrack(tracks, current = -1)
+  video = m.scene.focusedChild
+  trackSelected = selectSubtitleTrackDialog(video.Subtitles, video.SelectedSubtitle)
+  if trackSelected = -1  then
+    return -1
+  else
+    return trackSelected - 1
+  end if
+end function
+
+function selectSubtitleTrackDialog(tracks, currentTrack = -1)
+  iso6392 = getSubtitleLanguages()
+  options = ["None"]
+  for each item in tracks
+    language = iso6392.lookup(item.Track.Language)
+    if language = invalid then language = item.Track.Language
+    options.push(language)
+  end for
+  return option_dialog(options, "Select a subtitle track", currentTrack + 1)
+end function
+
+sub changeSubtitleDuringPlayback(newid)
+  if newid = invalid then return
+  if newid = -1 then
+    turnoffSubtitles()
+    return
+  end if
+
+  video = m.scene.focusedChild
+  oldTrack = video.Subtitles[video.SelectedSubtitle]
+  newTrack = video.Subtitles[newid]
+
+  video.captionMode = video.globalCaptionMode
+  m.device.EnableAppFocusEvent(not newTrack.IsTextSubtitleStream)
+  video.SelectedSubtitle = newid
+
+  if newTrack.IsTextSubtitleStream then
+    if video.content.BookmarkPosition > video.position
+      'User has rewinded to before playback was initiated. The Roku never loaded this portion of the text subtitle
+      'Changing the track will cause plaback to jump to initial bookmark position.
+      video.suppressCaptions = true
+      rebuildURL(false)
+    end if
+    video.subtitleTrack = video.availableSubtitleTracks[newTrack.TextIndex].TrackName
+    video.suppressCaptions = false
+  else
+    video.suppressCaptions = true
+  end if
+
+  'Rebuild URL if subtitle track is video or if changed from video subtitle to text subtitle.
+  if not newTrack.IsTextSubtitleStream then
+    rebuildURL(true)
+  else if oldTrack <> invalid and not oldTrack.IsTextSubtitleStream then
+    rebuildURL(false)
+    if newTrack.TextIndex > 0 then video.subtitleTrack = video.availableSubtitleTracks[newTrack.TextIndex].TrackName
+  end if
+end sub
+
+function turnoffSubtitles()
+  video = m.scene.focusedChild
+  current = video.SelectedSubtitle
+  video.SelectedSubtitle = -1
+  video.suppressCaptions = true
+  m.device.EnableAppFocusEvent(false)
+  if current > -1 and not video.Subtitles[current].IsTextSubtitleStream then
+    rebuildURL(false)
+  end if
+end function
+
 function systemOverlayClosed()
   video = m.scene.focusedChild
   if video.globalCaptionMode <> video.captionMode then
@@ -50,7 +119,6 @@ sub rebuildURL(captions as boolean)
   tmpParams = video.transcodeParams
   if captions = false then
     tmpParams.delete("SubtitleStreamIndex")
-     tmpParams.delete("SubtitleStreamIndex")
   else
     if video.Subtitles[video.SelectedSubtitle] <> invalid then
       tmpParams.addreplace("SubtitleStreamIndex", int(video.Subtitles[video.SelectedSubtitle].Index))
@@ -60,7 +128,8 @@ sub rebuildURL(captions as boolean)
   if video.isTranscoded then
     deleteTranscode(video.PlaySessionId)
   end if
-  tmpParams.PlaySessionId  = video.PlaySessionId = ItemGetSession(video.id, int(video.position) + playBackBuffer)
+  video.PlaySessionId = ItemGetSession(video.id, int(video.position) + playBackBuffer)
+  tmpParams.PlaySessionId  = video.PlaySessionId
   video.transcodeParams = tmpParams
 
   if video.directPlaySupported and video.decodeAudioSupported and not captions then
