@@ -12,8 +12,12 @@ function selectSubtitleTrackDialog(tracks, currentTrack = -1)
   iso6392 = getSubtitleLanguages()
   options = ["None"]
   for each item in tracks
-    language = iso6392.lookup(item.Track.Language)
-    if language = invalid then language = item.Track.Language
+    if item.Track.Language <> invalid then
+      language = iso6392.lookup(item.Track.Language)
+      if language = invalid then language = item.Track.Language
+    else 
+      language = "Undefined"
+    end if
     options.push(language)
   end for
   return option_dialog(options, "Select a subtitle track", currentTrack + 1)
