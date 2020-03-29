@@ -2,7 +2,7 @@ function selectSubtitleTrack(tracks, current = -1)
   video = m.scene.focusedChild
   trackSelected = selectSubtitleTrackDialog(video.Subtitles, video.SelectedSubtitle)
   if trackSelected = -1  then
-    return -1
+    return invalid
   else
     return trackSelected - 1
   end if
