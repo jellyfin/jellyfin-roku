@@ -89,7 +89,7 @@ function show_dialog(message as string, options = [], defaultSelection = 0) as i
     dialog.message = message
   end if
 
-    if defaultSelection > 0 then
+  if defaultSelection > 0 then
     dialog.findNode("optionList").jumpToItem = defaultSelection
   end if
 
