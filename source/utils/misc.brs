@@ -73,7 +73,7 @@ function lastFocusedChild(obj as object) as object
   return child
 end function
 
-function show_dialog(message as string, options = []) as integer
+function show_dialog(message as string, options = [], defaultSelection = 0) as integer
   group = m.scene.focusedChild
   lastFocus = lastFocusedChild(m.scene)
   'We want to handle backPressed instead of the main loop
@@ -89,9 +89,17 @@ function show_dialog(message as string, options = []) as integer
     dialog.message = message
   end if
 
+  if defaultSelection > 0 then
+    dialog.findNode("optionList").jumpToItem = defaultSelection
+  end if
+
   dialog.visible = true
   dialog.setFocus(true)
   m.scene.appendChild(dialog)
+
+  if defaultSelection > 0 then
+    dialog.findNode("optionList").jumpToItem = defaultSelection
+  end if
 
   port = CreateObject("roMessagePort")
   dialog.observeField("backPressed", port)
@@ -110,6 +118,6 @@ function message_dialog(message = "" as string)
   return show_dialog(message,["OK"])
 end function
 
-function option_dialog(options, message = "") as integer
-  return show_dialog(message, options)
+function option_dialog(options, message = "", defaultSelection = 0) as integer
+  return show_dialog(message, options, defaultSelection)
 end function

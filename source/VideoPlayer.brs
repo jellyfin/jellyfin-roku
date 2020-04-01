@@ -43,11 +43,16 @@ function VideoContent(video) as object
   transcodeParams = getTranscodeParameters(meta)
   transcodeParams.append({"PlaySessionId": video.PlaySessionId})
 
-  video.Subtitles = getSubtitles(meta.id,meta.json.MediaStreams)
+  subtitles =  getSubtitles(meta.id,meta.json.MediaStreams)
+  video.Subtitles = subtitles["all"]
+  video.content.SubtitleTracks = subtitles["text"]
+
   if video.Subtitles.count() > 0 then
     if video.Subtitles[0].IsTextSubtitleStream then
-      video.content.SubtitleTracks = video.Subtitles[0].track
+      video.subtitleTrack = video.availableSubtitleTracks[video.Subtitles[0].TextIndex].TrackName
+      video.suppressCaptions = false
     else
+      video.suppressCaptions = true
       'Watch to see if system overlay opened/closed to change transcoding if caption mode changed
       m.device.EnableAppFocusEvent(True)
       video.captionMode = video.globalCaptionMode
@@ -107,7 +112,8 @@ end function
 
 'Checks available subtitle tracks and puts subtitles in preferred language at the top
 function getSubtitles(id as string, MediaStreams)
-  tracks = []
+  allTracks = []
+  textTracks = []
   devinfo = CreateObject("roDeviceInfo")
   'Too many args for using substitute
   dashedid = id.left(8) + "-" + id.mid(8,4) + "-" + id.mid(12,4) + "-" + id.mid(16,4) + "-" + id.right(12)
@@ -118,15 +124,25 @@ function getSubtitles(id as string, MediaStreams)
       'forcing srt for all text subtitles
       url = Substitute("{0}/Videos/{1}/{2}/Subtitles/{3}/0/", get_url(), dashedid, id, stream.index.tostr())
       url = url + Substitute("Stream.js?api_key={0}&format=srt", get_setting("active_user"))
-      stream = { "Track": { "Language" : stream.language, "Description": stream.displaytitle , "TrackName": url }, "IsTextSubtitleStream": stream.IsTextSubtitleStream, "Index": stream.index }
+      stream = {
+        "Track": { "Language" : stream.language, "Description": stream.displaytitle , "TrackName": url },
+        "IsTextSubtitleStream": stream.IsTextSubtitleStream,
+        "Index": stream.index,
+        "TextIndex": -1
+      }
+      if stream.IsTextSubtitleStream then
+        stream.TextIndex = textTracks.count()
+      end if
       if prefered_lang = stream.language then
-          tracks.unshift( stream )
+          allTracks.unshift( stream )
+          if stream.IsTextSubtitleStream then textTracks.unshift(stream.Track)
       else
-        tracks.push( stream )
+        allTracks.push( stream )
+        if stream.IsTextSubtitleStream then textTracks.push(stream.Track)
       end if
     end if
   end for
-  return tracks
+  return { "all" : allTracks, "text": textTracks }
 end function
 
 'Opens dialog asking user if they want to resume video or start playback over

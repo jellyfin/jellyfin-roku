@@ -388,6 +388,7 @@ function CreateVideoPlayerGroup(video_id)
   timer = video.findNode("playbackTimer")
 
   video.observeField("backPressed", m.port)
+  video.observeField("selectSubtitlePressed", m.port)
   video.observeField("state", m.port)
   video.observeField("position", m.port)
   timer.control = "start"

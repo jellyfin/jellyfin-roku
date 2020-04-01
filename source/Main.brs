@@ -319,6 +319,14 @@ sub Main()
         wipe_groups()
         goto app_start
       end if
+    else if isNodeEvent(msg, "selectSubtitlePressed")
+      node = m.scene.focusedChild
+      if node.isSubType("JFVideo") then
+        trackSelected = selectSubtitleTrack(node.Subtitles, node.SelectedSubtitle)
+        if trackSelected <> invalid and trackSelected <> node.SelectedSubtitle then
+          changeSubtitleDuringPlayback(trackSelected)
+        end if
+      end if
     else if isNodeEvent(msg, "position")
       video = msg.getRoSGNode()
       if video.position >= video.duration then
@@ -470,7 +478,6 @@ sub RemoveCurrentGroup()
   end if
   m.overhang.visible = true
   if group.lastFocus <> invalid
-    print "lastfocus" group.lastfocus
     group.lastFocus.setFocus(true)
   else
     group.setFocus(true)
