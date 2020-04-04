@@ -6,7 +6,7 @@
         translation="[250,150]"
         width="400" height="600" />
       <LayoutGroup layoutDirection="vert" translation="[455, 150]" itemSpacings="[25]">
-        <LayoutGroup layoutDirection="horiz" itemSpacings="[150]">
+        <LayoutGroup layoutDirection="horiz" itemSpacings="[100]" id="infoGroup">
           <Label id="releaseYear" />
           <Label id="runtime" />
           <Label id="officialRating" />
@@ -14,6 +14,10 @@
             <Poster id="star" uri="pkg:/images/sharp_star_white_18dp.png" height="32" width="32" blendColor="#cb272a" />
             <Label id="communityRating" />
           </LayoutGroup>
+          <LayoutGroup layoutDirection="horiz" itemSpacings="[-5]" id="criticRatingGroup">
+             <Poster id="criticRatingIcon" height="32" width="32" />
+             <Label id="criticRatingLabel" />
+           </LayoutGroup>
           <Label id="ends-at" />
         </LayoutGroup>
         <Label id="genres" />
