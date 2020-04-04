@@ -43,11 +43,18 @@ function VideoContent(video) as object
   transcodeParams = getTranscodeParameters(meta)
   transcodeParams.append({"PlaySessionId": video.PlaySessionId})
 
-  subtitles =  getSubtitles(meta.id,meta.json.MediaStreams)
+  subtitles =  sortSubtitles(meta.id,meta.json.MediaStreams)
   video.Subtitles = subtitles["all"]
   video.content.SubtitleTracks = subtitles["text"]
 
-  if video.Subtitles.count() > 0 then
+  'TODO: allow user selection of subtitle track before playback initiated, for now set to first track
+  if video.Subtitles.count() then
+    video.SelectedSubtitle = 0
+  else
+    video.SelectedSubtitle = -1
+  end if
+
+  if video.SelectedSubtitle <> -1 and displaySubtitlesByUserConfig(video.Subtitles[video.SelectedSubtitle], meta.json.MediaStreams[1]) then
     if video.Subtitles[0].IsTextSubtitleStream then
       video.subtitleTrack = video.availableSubtitleTracks[video.Subtitles[0].TextIndex].TrackName
       video.suppressCaptions = false
@@ -61,6 +68,9 @@ function VideoContent(video) as object
         transcodeParams.append({"SubtitleStreamIndex" : video.Subtitles[0].index })
       end if
     end if
+  else
+    video.suppressCaptions = true
+    video.SelectedSubtitle = -1
   end if
 
   video.directPlaySupported = directPlaySupported(meta)
@@ -110,14 +120,12 @@ function getTranscodeParameters(meta as object)
   }
 end function
 
-'Checks available subtitle tracks and puts subtitles in preferred language at the top
-function getSubtitles(id as string, MediaStreams)
-  allTracks = []
-  textTracks = []
-  devinfo = CreateObject("roDeviceInfo")
+'Checks available subtitle tracks and puts subtitles in forced, default, and non-default/forced but preferred language at the top
+function sortSubtitles(id as string, MediaStreams)
+  tracks = { "forced": [], "default": [], "normal": [] }
   'Too many args for using substitute
   dashedid = id.left(8) + "-" + id.mid(8,4) + "-" + id.mid(12,4) + "-" + id.mid(16,4) + "-" + id.right(12)
-  prefered_lang = devinfo.GetPreferredCaptionLanguage()
+  prefered_lang = m.user.Configuration.SubtitleLanguagePreference
   for each stream in MediaStreams
     if stream.type = "Subtitle" then
       'Documentation lists that srt, ttml, and dfxp can be sideloaded but only srt was working in my testing,
@@ -128,21 +136,32 @@ function getSubtitles(id as string, MediaStreams)
         "Track": { "Language" : stream.language, "Description": stream.displaytitle , "TrackName": url },
         "IsTextSubtitleStream": stream.IsTextSubtitleStream,
         "Index": stream.index,
-        "TextIndex": -1
+        "TextIndex": -1,
+        "IsDefault": stream.IsDefault,
+        "IsForced": stream.IsForced
       }
-      if stream.IsTextSubtitleStream then
-        stream.TextIndex = textTracks.count()
-      end if
-      if prefered_lang = stream.language then
-          allTracks.unshift( stream )
-          if stream.IsTextSubtitleStream then textTracks.unshift(stream.Track)
+      if stream.isForced then
+        trackType = "forced"
+      else if stream.IsDefault then
+        trackType = "default"
       else
-        allTracks.push( stream )
-        if stream.IsTextSubtitleStream then textTracks.push(stream.Track)
+        trackType = "normal"
+      end if
+      if prefered_lang <> "" and prefered_lang = stream.Track.Language then
+        tracks[trackType].unshift(stream)
+      else
+        tracks[trackType].push(stream)
       end if
     end if
   end for
-  return { "all" : allTracks, "text": textTracks }
+  tracks["default"].append(tracks["normal"])
+  tracks["forced"].append(tracks["default"])
+  textTracks = []
+  for i = 0 to tracks["forced"].count() - 1
+    if tracks["forced"][i].IsTextSubtitleStream then tracks["forced"][i].TextIndex = textTracks.count()
+    textTracks.push(tracks["forced"][i].Track)
+  end for
+  return { "all" : tracks["forced"], "text": textTracks }
 end function
 
 'Opens dialog asking user if they want to resume video or start playback over
@@ -213,4 +232,23 @@ function StopPlayback()
   if video.status = "finished" then MarkItemWatched(video.id)
   ReportPlayback(video, "stop")
   RemoveCurrentGroup()
+end function
+
+function displaySubtitlesByUserConfig(subtitleTrack, audioTrack)
+  subtitleMode = m.user.Configuration.SubtitleMode
+  audioLanguagePreference = m.user.Configuration.AudioLanguagePreference
+  subtitleLanguagePreference = m.user.Configuration.SubtitleLanguagePreference
+  if subtitleMode = "Default"
+    return (subtitleTrack.isForced or subtitleTrack.isDefault)
+  else if subtitleMode = "Smart"
+    return (audioLanguagePreference <> "" and audioTrack.Language <> invalid and subtitleLanguagePreference <> "" and subtitleTrack.Track.Language <> invalid and subtitleLanguagePreference = subtitleTrack.Track.Language and audioLanguagePreference <> audioTrack.Language)
+  else if subtitleMode = "OnlyForced"
+    return subtitleTrack.IsForced
+  else if subtitleMode = "Always"
+    return true
+  else if subtitleMode = "None"
+    return false
+  else
+    return false
+  end if
 end function

@@ -20,7 +20,6 @@ sub updateOptions()
     row.title = item
     m.top.findNode("content").appendChild(row)
   end for
-  m.top.findNode("optionList").numRows = m.top.options.count()
   redraw()
 end sub
 
@@ -35,6 +34,7 @@ sub redraw()
   border = 40
   itemSpacing = 40
   optionHeight = 60
+  maxRows = 9
 
   bg = m.top.findNode("dialogBackground")
   text = m.top.findNode("messageText")
@@ -56,6 +56,13 @@ sub redraw()
   options.translation = [ border * 2, textHeight + itemSpacing]
   options.itemSize = [ boxWidth - ( border * 4 ), optionHeight ]
   options.itemSpacing = "[0,20]"
+
+  options.numRows = m.top.options.count()
+  if options.numRows > maxRows then
+    options.numRows = maxRows
+    options.wrapDividerHeight = 0
+    options.vertFocusAnimationStyle= "fixedFocusWrap"
+  end if
 
   boxHeight = options.translation[1] + (options.itemSize[1]  * options.numRows ) + (options.itemSpacing[1] * (options.NumRows - 1)) + border
 
