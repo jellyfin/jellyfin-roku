@@ -25,13 +25,25 @@ sub itemContentChanged()
   setFieldText("communityRating", itemData.communityRating)
   setFieldText("overview", itemData.overview)
 
+  if itemData.CriticRating <> invalid then
+    setFieldText("criticRatingLabel" , itemData.criticRating)
+    if itemData.CriticRating > 60 then
+      tomato = "pkg:/images/fresh.png"
+    else
+      tomato = "pkg:/images/rotten.png"
+    end if
+    m.top.findNode("criticRatingIcon").uri = tomato
+  else
+    m.top.findNode("infoGroup").removeChild(m.top.findNode("criticRatingGroup"))
+  end if
+
   if type(itemData.RunTimeTicks) = "LongInteger"
     setFieldText("runtime", stri(getRuntime()) + " mins")
     setFieldText("ends-at", "Ends at " + getEndTime())
   end if
 
   if itemData.genres.count() > 0
-    setFieldText("genres", itemData.genres.join(", "))
+    setFieldText("genres", "Genres: " + itemData.genres.join(", "))
   end if
   director = invalid
   for each person in itemData.people
