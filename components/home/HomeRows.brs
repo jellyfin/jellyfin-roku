@@ -14,6 +14,8 @@ sub init()
 
   m.top.setfocus(true)
 
+  m.top.observeField("rowItemSelected", "itemSelected")
+
   ' Load the Libraries from API via task
   m.LoadLibrariesTask = createObject("roSGNode", "LoadItemsTask")
   m.LoadLibrariesTask.observeField("content", "onLibrariesLoaded")
@@ -264,12 +266,10 @@ sub deleteFromSizeArray(rowIndex)
   updateSizeArray([0, 0], rowIndex, "delete")
 end sub
 
+function itemSelected()
+  m.top.selectedItem = m.top.content.getChild(m.top.rowItemSelected[0]).getChild(m.top.rowItemSelected[1])
+end function
+
 function onKeyEvent(key as string, press as boolean) as boolean
-  if not press then return false
-
-  if key <> "OK" then return false
-
-  ' Set the selected item
-  m.top.selectedItem = m.top.content.getChild(m.top.rowItemFocused[0]).getChild(m.top.rowItemFocused[1])
-  return true
+  return false
 end function
