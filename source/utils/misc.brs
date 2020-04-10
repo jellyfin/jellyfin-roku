@@ -41,6 +41,33 @@ function ticksToHuman(ticks as longinteger) as string
   return r
 end function
 
+' Format time as 12 or 24 hour format based on system clock setting
+function formatTime(time) as string
+  hours = time.getHours()
+  minHourDigits = 1
+  di = CreateObject("roDeviceInfo")
+  if di.GetClockFormat() = "12h" then
+    meridian = "AM"
+    if hours = 0
+      hours = 12
+      meridian = "AM"
+    else if hours = 12
+      hours = 12
+      meridian = "PM"
+    else if hours > 12
+      hours = hours - 12
+      meridian = "PM"
+    end if
+  else
+    ' For 24hr Clock, no meridian and pad hours to 2 digits
+    minHourDigits = 2
+    meridian = ""
+  end if
+
+  return Substitute("{0}:{1} {2}", leftPad(stri(hours).trim(), "0", minHourDigits), leftPad(stri(time.getMinutes()).trim(), "0", 2), meridian)
+
+end function
+
 function div_ceiling(a as integer, b as integer) as integer
   if a < b then return 1
   if int(a/b) = a/b then

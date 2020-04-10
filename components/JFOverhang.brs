@@ -15,6 +15,9 @@ sub init()
   optionStar.font.size = 58
   overlayMeridian = m.top.findNode("overlayMeridian")
   overlayMeridian.font.size = 20
+  ' get system preference clock format (12/24hr)
+  di = CreateObject("roDeviceInfo")
+  m.clockFormat = di.GetClockFormat() 
   ' grab current time
   currentTime = CreateObject("roDateTime")
   currentTime.ToLocalTime()
@@ -81,19 +84,29 @@ function updateTimeDisplay()
   overlayHours = m.top.findNode("overlayHours")
   overlayMinutes = m.top.findNode("overlayMinutes")
   overlayMeridian = m.top.findNode("overlayMeridian")
-  if m.currentHours < 12 then
-    overlayMeridian.text = "AM"
-    if m.currentHours = 0 then
-      overlayHours.text = "12"
+  
+  if m.clockFormat = "24h" then
+    overlayMeridian.text = ""
+    if m.currentHours < 10 then
+      overlayHours.text = "0" + StrI(m.currentHours).trim()
     else
       overlayHours.text = m.currentHours
     end if
   else
-    overlayMeridian.text = "PM"
-    if m.currentHours = 12 then
-      overlayHours.text = "12"
+    if m.currentHours < 12 then
+      overlayMeridian.text = "AM"
+      if m.currentHours = 0 then
+        overlayHours.text = "12"
+      else
+        overlayHours.text = m.currentHours
+      end if
     else
-      overlayHours.text = m.currentHours - 12
+      overlayMeridian.text = "PM"
+      if m.currentHours = 12 then
+        overlayHours.text = "12"
+      else
+        overlayHours.text = m.currentHours - 12
+      end if
     end if
   end if
 

@@ -76,20 +76,8 @@ function getEndTime() as string
   duration_s = int(itemData.RunTimeTicks / 10000000.0)
   date.fromSeconds(date.asSeconds() + duration_s)
   date.toLocalTime()
-  hours = date.getHours()
-  meridian = "AM"
-  if hours = 0
-    hours = 12
-    meridian = "AM"
-  else if hours = 12
-    hours = 12
-    meridian = "PM"
-  else if hours > 12
-    hours = hours - 12
-    meridian = "PM"
-  end if
 
-  return Substitute("{0}:{1} {2}", stri(hours).trim(), leftPad(stri(date.getMinutes()).trim(), "0", 2), meridian)
+  return formatTime(date)
 end function
 
 sub setFavoriteColor()
