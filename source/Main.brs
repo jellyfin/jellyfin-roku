@@ -10,6 +10,10 @@ sub Main()
   m.scene = m.screen.CreateScene("JFScene")
   m.screen.show()
 
+  ' Set any initial Global Variables
+  m.global = m.screen.getGlobalNode()  
+  m.global.addFields( {app_loaded: false} ) 
+
   m.overhang = CreateObject("roSGNode", "JFOverhang")
   m.scene.insertChild(m.overhang, 0)
   
@@ -32,8 +36,9 @@ sub Main()
   m.scene.observeField("optionsPressed", m.port)
   m.scene.observeField("mutePressed", m.port)
 
-  m.device = CreateObject("roDeviceInfo")
-  m.device.SetMessagePort(m.port)
+  ' Handle input messages
+  input = CreateObject("roInput")
+  input.SetMessagePort(m.port)
 
   ' This is the core logic loop. Mostly for transitioning between scenes
   ' This now only references m. fields so could be placed anywhere, in theory
@@ -378,7 +383,9 @@ function LoginFlow(startOver = false as boolean)
   start_login:
   if get_setting("server") = invalid or ServerInfo() = invalid or startOver = true then
     print "Get server details"
+    SendPerformanceBeacon("AppDialogInitiate")  ' Roku Performance monitoring - Dialog Starting
     serverSelection = CreateServerGroup()
+    SendPerformanceBeacon("AppDialogComplete") ' Roku Performance monitoring - Dialog Closed
     if serverSelection = "backPressed" then
       print "backPressed"
       wipe_groups()
@@ -387,6 +394,7 @@ function LoginFlow(startOver = false as boolean)
   end if
 
   if get_setting("active_user") = invalid then
+    SendPerformanceBeacon("AppDialogInitiate")  ' Roku Performance monitoring - Dialog Starting
     publicUsers = GetPublicUsers()
     if publicUsers.count() then
       publicUsersNodes = []
@@ -402,12 +410,14 @@ function LoginFlow(startOver = false as boolean)
       userSelected = CreateUserSelectGroup(publicUsersNodes)
       m.scene.focusedChild.visible = false
       if userSelected = "backPressed" then
+        SendPerformanceBeacon("AppDialogComplete") ' Roku Performance monitoring - Dialog Closed
         return LoginFlow(true)
       else
         'Try to login without password. If the token is valid, we're done
         get_token(userSelected, "")
         if get_setting("active_user") <> invalid then
           m.user = AboutMe()
+          SendPerformanceBeacon("AppDialogComplete") ' Roku Performance monitoring - Dialog Closed
           return true
         end if
       end if
@@ -415,6 +425,7 @@ function LoginFlow(startOver = false as boolean)
       userSelected = ""
     end if
     passwordEntry = CreateSigninGroup(userSelected)
+    SendPerformanceBeacon("AppDialogComplete") ' Roku Performance monitoring - Dialog Closed
     if passwordEntry = "backPressed" then
       m.scene.focusedChild.visible = false
       return LoginFlow(true)
@@ -490,4 +501,11 @@ sub RemoveCurrentGroup()
     end if
   end if
   group.visible = true
+end sub
+
+' Roku Performance monitoring 
+sub SendPerformanceBeacon(signalName as string)
+  if m.global.app_loaded = false then 
+    m.scene.signalBeacon(signalName)  
+  end if
 end sub
