@@ -65,7 +65,7 @@ function itemContentChanged() as void
     m.poster = m.top.findNode("poster")
     itemData = m.top.itemContent
     m.title.text = itemData.title
-    if itemData.json.lookup("Type") = "Episode"
+    if itemData.json.lookup("Type") = "Episode" and itemData.json.IndexNumber <> invalid
         m.title.text = StrI(itemData.json.IndexNumber) + ". " + m.title.text
     end if
     m.poster.uri = itemData.posterUrl
