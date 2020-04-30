@@ -10,7 +10,10 @@ your data could be lost and you'd have to re-enter it.
 
 ## Getting Started
 
-Follow the steps below to install the app on your personal Roku device
+You can install the Jellyfin BETA Roku App by clicking [here](https://my.roku.com/add/jellyfinbeta)
+
+## Developing The Jellyfin Roku App
+Follow the steps below to install the app on your personal Roku device for development. 
 
 ### Developer Mode
 
