@@ -109,7 +109,7 @@ function getTranscodeParameters(meta as object)
 
     ' If 5.1 Audio Output is connected then allow transcoding to 5.1
     di = CreateObject("roDeviceInfo")
-    if di.GetAudioOutputChannel() = "5.1 surround" then
+    if di.GetAudioOutputChannel() = "5.1 surround" and di.CanDecodeAudio({ Codec: "aac", ChCnt: 6 }).result then
       audioChannels = 6
     end if
   end if
