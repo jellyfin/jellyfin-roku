@@ -301,7 +301,8 @@ sub Main()
         group.lastFocus = group.focusedChild
         group.setFocus(false)
         group.visible = false
-
+        m.overhang.showOptions = false
+        m.scene.unobserveField("optionsPressed")
         group = CreateSearchPage()
         m.scene.appendChild(group)
         m.overhang.title = group.overhangTitle
