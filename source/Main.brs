@@ -40,6 +40,10 @@ sub Main()
   input = CreateObject("roInput")
   input.SetMessagePort(m.port)
 
+  di = CreateObject("roDeviceInfo")
+  di.setMessagePort(m.port)
+  di.EnableScreensaverExitedEvent(true)
+
   ' This is the core logic loop. Mostly for transitioning between scenes
   ' This now only references m. fields so could be placed anywhere, in theory
   ' "group" is always "whats on the screen"
@@ -364,6 +368,14 @@ sub Main()
         'Event will be called on caption change which includes the current mute status, but we do not want to call until the overlay is closed
           reviewSubtitleDisplay()
         end if
+      else if event.exitedScreensaver = true then
+        m.overhang.callFunc("resetTime")
+        if group.subtype() = "Home" then
+          currentTime = CreateObject("roDateTime").AsSeconds()
+          group.timeLastRefresh = currentTime
+          group.callFunc("refresh")
+        end if
+        ' todo: add other screens to be refreshed - movie detail, tv series, episode list etc.
       else
         print "Unhandled roDeviceInfoEvent:"
         print msg.GetInfo()

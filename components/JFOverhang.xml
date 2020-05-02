@@ -48,6 +48,7 @@
     <field id="currentUser" type="string" onChange="updateUser" />
     <field id="title" type="string" onChange="updateTitle" />
     <field id="showOptions" value="true" type="boolean" onChange="updateOptions" />
+    <function name="resetTime" />
   </interface>
   <script type="text/brightscript" uri="JFOverhang.brs" />
 </component>
