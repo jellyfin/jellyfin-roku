@@ -29,6 +29,7 @@ sub Main()
   ' load home page
   m.overhang.title = "Home"
   m.overhang.currentUser = m.user.Name
+  m.overhang.showOptions = true
   group = CreateHomeGroup()
   m.scene.appendChild(group)
 
