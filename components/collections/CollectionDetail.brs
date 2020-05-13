@@ -1,120 +1,116 @@
 sub init()
-  main = m.top.findNode("main_group")
-  dimensions = m.top.getScene().currentDesignResolution
 
-  main.translation=[50, 50]
+  m.rowList = m.top.findNode("RowList") '  createObject("roSGNode", "RowList")
+  '  m.top.appendChild(m.rowList)
 
-  m.top.findNode("buttons").setFocus(true)
+  m.rowList.itemComponentName = "HomeItem"
+
+  formatRowList()
+
+  m.rowList.setfocus(true)
+
+  m.rowList.observeField("rowItemSelected", "itemSelected")
+
 end sub
 
-sub itemContentChanged()
-  ' Updates video metadata
-  item = m.top.itemContent
-  itemData = item.json
+sub formatRowList()
 
-  m.top.findNode("poster").uri = m.top.itemContent.posterURL
+  ' how many rows are visible on the screen
+  m.rowList.numRows = 2
 
-  ' Handle all "As Is" fields
-  m.top.overhangTitle = itemData.name
-  setFieldText("releaseYear", itemData.productionYear)
-  setFieldText("officialRating", itemData.officialRating)
-  setFieldText("communityRating", str(itemData.communityRating))
-  setFieldText("overview", itemData.overview)
+  m.rowList.rowFocusAnimationStyle = "fixedFocusWrap"
+  m.rowList.vertFocusAnimationStyle = "fixedFocus"
 
-  setFieldText("runtime", stri(getRuntime()) + " mins")
-  setFieldText("ends-at", tr("Ends at %1").Replace("%1", getEndTime()))
+  m.rowList.showRowLabel = [true]
+  m.rowList.rowLabelOffset = [0, 20]
+  m.rowList.showRowCounter = [true]
 
-  if itemData.genres.count() > 0
-    setFieldText("genres", itemData.genres.join(", "))
-  end if
-  director = invalid
-  for each person in itemData.people
-    if person.type = "Director"
-      director = person.name
-      exit for
+  sideborder = 100
+  m.rowList.translation = [111, 155]
+
+  m.rowItemSizes = []
+
+  itemWidth = 480
+  itemHeight = 330
+
+  m.rowList.itemSize = [1920 - 111 - 27, itemHeight]
+  ' spacing between rows
+  m.rowList.itemSpacing = [0, 105]
+
+  ' spacing between items in a row
+  m.rowList.rowItemSpacing = [20, 0]
+
+  m.rowList.visible = true
+end sub
+
+
+sub setupRows()
+
+  for each item in m.top.objects.Items
+
+    homeItem = CreateObject("roSGNode", "HomeData")
+    homeItem.json = item.json
+
+    if homeItem.Type = "Video" or homeItem.Type = "Movie" or homeItem.Type = "Episode" then
+
+      if m.videoRow = invalid then
+        m.videoRow = CreateObject("roSGNode", "HomeRow")
+        m.videoRow.title = tr("Videos")
+        m.videoRow.usePoster = true
+        m.videoRow.imageWidth = 180
+      end if
+
+      m.videoRow.appendChild(homeItem)
+
+    else if homeItem.Type = "MusicAlbum"
+
+      if m.albumRow = invalid then
+        m.albumRow = CreateObject("roSGNode", "HomeRow")
+        m.albumRow.imageWidth = 261
+        m.albumRow.title = tr("Albums")
+        m.albumRow.usePoster = true
+      end if
+
+      m.albumRow.appendChild(homeItem)
+
+    else if homeItem.Type = "Series"
+
+      if m.seriesRow = invalid then
+        m.seriesRow = CreateObject("roSGNode", "HomeRow")
+        m.seriesRow.title = tr("Series")
+        m.seriesRow.usePoster = true
+        m.seriesRow.imageWidth = 180
+      end if
+
+      m.seriesRow.appendChild(homeItem)
+
+    else
+      print "Collection - Unknown Type ", homeItem.Type
     end if
   end for
-  if director <> invalid
-    setFieldText("director", "Director: " + director)
+
+  data = CreateObject("roSGNode", "ContentNode")
+
+  if m.videoRow <> invalid then
+    data.appendChild(m.videoRow)
+    m.rowItemSizes.push([188, 331])
   end if
-  setFieldText("video_codec", "Video: " + itemData.mediaStreams[0].displayTitle)
-  setFieldText("audio_codec", "Audio: " + itemData.mediaStreams[1].displayTitle)
-  ' TODO - cmon now. these are buttons, not words
-  if itemData.taglines.count() > 0
-    setFieldText("tagline", itemData.taglines[0])
+
+  if m.seriesRow <> invalid then
+    data.appendChild(m.seriesRow)
+    m.rowItemSizes.push([188, 331])
   end if
-  setFavoriteColor()
-  setWatchedColor()
+
+  if m.albumRow <> invalid then
+    data.appendChild(m.albumRow)
+    m.rowItemSizes.push([261, 331])
+  end if
+
+  m.rowList.rowItemSize = m.rowItemSizes
+  m.rowList.content = data
+
 end sub
 
-sub setFieldText(field, value)
-  node = m.top.findNode(field)
-  if node = invalid or value = invalid then return
-
-  ' Handle non strings... Which _shouldn't_ happen, but hey
-  if type(value) = "roInt" or type(value) = "Integer" then
-    value = str(value)
-  else if type(value) <> "roString" and type(value) <> "String" then
-    value = ""
-  end if
-
-  node.text = value
-end sub
-
-function getRuntime() as integer
-  itemData = m.top.itemContent.json
-
-  ' A tick is .1ms, so 1/10,000,000 for ticks to seconds,
-  ' then 1/60 for seconds to minutess... 1/600,000,000
-  return round(itemData.RunTimeTicks / 600000000.0)
+function itemSelected()
+  m.top.selectedItem = m.rowList.content.getChild(m.rowList.rowItemSelected[0]).getChild(m.rowList.rowItemSelected[1])
 end function
-
-function getEndTime() as string
-  itemData = m.top.itemContent.json
-
-  date = CreateObject("roDateTime")
-  duration_s = int(itemData.RunTimeTicks / 10000000.0)
-  date.fromSeconds(date.asSeconds() + duration_s)
-  date.toLocalTime()
-
-  return formatTime(date)
-end function
-
-sub setFavoriteColor()
-  fave = m.top.itemContent.favorite
-  fave_button = m.top.findNode("favorite-button")
-  if fave
-    fave_button.textColor = "#00ff00ff"
-    fave_button.focusedTextColor = "#269926ff"
-  else
-    fave_button.textColor = "0xddddddff"
-    fave_button.focusedTextColor = "#262626ff"
-  end if
-end sub
-
-sub setWatchedColor()
-  watched = m.top.itemContent.watched
-  watched_button = m.top.findNode("watched-button")
-  if watched
-    watched_button.textColor = "#ff0000ff"
-    watched_button.focusedTextColor = "#992626ff"
-  else
-    watched_button.textColor = "0xddddddff"
-    watched_button.focusedTextColor = "#262626ff"
-  end if
-end sub
-
-function round(f as float) as integer
-  ' BrightScript only has a "floor" round
-  ' This compares floor to floor + 1 to find which is closer
-  m = int(f)
-  n = m + 1
-  x = abs(f - m)
-  y = abs(f - n)
-  if y > x
-    return m
-  else
-    return n
-  end if
-end function
-

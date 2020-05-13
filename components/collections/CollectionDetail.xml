@@ -1,36 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <component name="CollectionDetail" extends="JFGroup">
   <children>
-    <LayoutGroup id="main_group" layoutDirection="horiz" >
-      <Poster id="poster"
-        translation="[250,150]"
-        width="400" height="600" />
-      <LayoutGroup layoutDirection="vert" translation="[355, 150]" itemSpacings="[25]">
-        <LayoutGroup layoutDirection="horiz" itemSpacings="[150]">
-          <Label id="releaseYear" />
-          <Label id="runtime" />
-          <Label id="officialRating" />
-          <Label id="communityRating" />
-          <Label id="ends-at" />
-        </LayoutGroup>
-        <Label id="genres" />
-        <Label id="director" />
-        <Label id="video_codec" />
-        <Label id="audio_codec" />
-        <ButtonGroupHoriz id="buttons" itemSpacings="[10]">
-          <Button text="Play" id="play-button" />
-          <Button text="Watched" id="watched-button" />
-          <Button text="Favorite" id="favorite-button" />
-        </ButtonGroupHoriz>
-        <Label id="tagline" />
-        <Label id="overview" />
-
-      </LayoutGroup>
-    </LayoutGroup>
+    <RowList id="rowList" />
   </children>
   <interface>
-    <field id="itemContent" type="node" onChange="itemContentChanged" />
+    <field id="collectionId" type="string" onChange="collectionIdChanged" />
+    <field id="selectedItem" type="node" alwaysNotify="true" />
+    <field id="objects" type="associativearray" onChange="setupRows" />
   </interface>
-  <script type="text/brightscript" uri="pkg:/source/utils/misc.brs" />
   <script type="text/brightscript" uri="CollectionDetail.brs" />
 </component>

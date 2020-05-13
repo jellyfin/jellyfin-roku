@@ -103,12 +103,26 @@ sub itemContentChanged()
     return
   end if
 
+  if itemData.type = "Video" then
+    m.itemText.text = itemData.name
+
+    if imageWidth = 180
+      itemPoster.uri = itemData.posterURL
+    else
+      itemPoster.uri = itemData.thumbnailURL
+    end if
+    return
+  end if
   if itemData.type = "Series" then
 
     m.itemText.text = itemData.name
 
     if usePoster = true then
-      itemPoster.uri = itemData.widePosterURL
+      if imageWidth = 180 then
+        itemPoster.uri = itemData.posterURL
+      else
+        itemPoster.uri = itemData.widePosterURL
+      end if
     else
       itemPoster.uri = itemData.thumbnailURL
     end if

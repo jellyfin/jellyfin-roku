@@ -293,7 +293,7 @@ function CreateSeasonDetailsGroup(series, season)
 end function
 
 function CreateCollectionsList(libraryId)
-  ' Load Movie Collection Items
+  ' Load Collection Items
   group = CreateObject("roSGNode", "Collections")
   group.id = libraryId
 
@@ -343,6 +343,27 @@ function CreateCollectionsList(libraryId)
 
   return group
 end function
+
+function CreateCollectionDetailList(collectionId)
+
+  sort_order = get_user_setting("movie_sort_order", "Ascending")
+  sort_field = get_user_setting("movie_sort_field", "SortName")
+
+  item_list = ItemList(collectionId, {
+    "SortBy": sort_field,
+    "SortOrder": sort_order
+  })
+
+  group = CreateObject("roSGNode", "CollectionDetail")
+  group.collectionId = collectionId
+  group.objects = item_list
+
+  group.observeField("selectedItem", m.port)
+
+  return group
+end function
+
+
 
 
 function CreateChannelList(libraryId)
