@@ -215,6 +215,17 @@
         </message>
 
         <message>
+            <source>Error Retrieving Content</source>
+            <translation>Error Retrieving Content</translation>
+            <extracomment>Dialog title when unable to load Content from Server</extracomment>
+        </message>
+
+        <message>
+            <source>There was an error retrieving the data for this item from the server.</source>
+            <translation>There was an error retrieving the data for this item from the server.</translation>
+            <extracomment>Dialog detail when unable to load Content from Server</extracomment>
+        </message>
+        <message>
             <source>Loading Channel Data</source>
             <translation>Loading Channel Data</translation>
         </message>
