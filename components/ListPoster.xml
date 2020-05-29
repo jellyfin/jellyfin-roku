@@ -2,15 +2,23 @@
 <component name="ListPoster" extends="Group">
   <children>
     <Rectangle id="backdrop" />
-    <Poster id="poster" />
-    <Label id="title"
+    <Poster id="poster" translation="[2, 0]" />
+    <ScrollingLabel id="title"
       horizAlign="center"
       font="font:SmallSystemFont"
+      repeatCount="0"
+      visible="false"
+      />
+    <Label id="staticTitle"
+      horizAlign="center"
+      font="font:SmallSystemFont"
+      wrap="false"
       />
   </children>
   <interface>
     <field id="itemContent" type="node" onChange="itemContentChanged"/>
     <field id="itemWidth" type="integer" />
+    <field id="itemHasFocus" type="boolean" onChange="focusChanged" />
     <!-- mediatype -->
   </interface>
 
