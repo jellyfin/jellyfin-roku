@@ -9,12 +9,25 @@ end sub
 sub onState(msg) 
 
     ' When buffering, start timer to monitor buffering process
-    if m.top.state = "buffering" then
-    
+    if m.top.state = "buffering" and m.bufferCheckTimer <> invalid then
+
         ' start timer
         m.bufferCheckTimer = m.top.findNode("bufferCheckTimer")
         m.bufferCheckTimer.control = "start"
         m.bufferCheckTimer.ObserveField("fire", "bufferCheck")
+    else if m.top.state = "error" then
+
+        ' If an error was encountered, Display dialog
+        dialog = createObject("roSGNode", "Dialog")
+        dialog.title = tr("Error During Playback")
+        dialog.buttons = [tr("OK")]
+        dialog.message = tr("An error was encountered while playing this item.")
+        dialog.observeField("buttonSelected", "dialogClosed")
+        m.top.getScene().dialog = dialog
+
+        ' Stop playback and exit player
+        m.top.control = "stop"
+        m.top.backPressed = true
     end if
 
 end sub
