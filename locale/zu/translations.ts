@@ -6,11 +6,11 @@
     <name>default</name>
     <message>
         <source>192.168.1.100:8096 or https://example.com/jellyfin</source>
-        <translation type="unfinished"></translation>
+        <translation>192.168.1.100:8096 noma https://example.com/jellyfin</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Esula</translation>
     </message>
     <message>
         <source>Connect to Server</source>
