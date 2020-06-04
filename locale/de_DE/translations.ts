@@ -106,7 +106,7 @@
     </message>
     <message>
         <source>Latest in</source>
-        <translation>Latest in</translation>
+        <translation>Zuletzt in</translation>
     </message>
     <message>
         <source>Home</source>
