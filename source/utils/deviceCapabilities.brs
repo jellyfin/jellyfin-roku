@@ -26,15 +26,28 @@ function getDeviceProfile() as object
       maxAudioChannels = 6
     end if
 
+    'If Video Mode is 4k, add h265 Codec
+    deviceSpecificCodecs = ""
+    if Left(di.GetVideoMode(), 4) = "2160" then
+        deviceSpecificCodecs = ",h265"
+    end if
+
+
     return {
         "MaxStreamingBitrate": 120000000,
         "MaxStaticBitrate": 100000000,
         "MusicStreamingTranscodingBitrate": 192000,
         "DirectPlayProfiles": [
             {
-                "Container": "mp4,m4v",
+                "Container": "mp4,m4v,mov",
                 "Type": "Video",
-                "VideoCodec": "h264,vp8,vp9",
+                "VideoCodec": "h264" + deviceSpecificCodecs,
+                "AudioCodec": "aac,opus,flac,vorbis"
+            },
+            {
+                "Container": "mkv,webm",
+                "Type": "Video",
+                "VideoCodec": "h264,vp8,vp9" + deviceSpecificCodecs,
                 "AudioCodec": "aac,opus,flac,vorbis"
             },
             {
