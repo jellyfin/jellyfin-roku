@@ -210,12 +210,23 @@ function directPlaySupported(meta as object) as boolean
   if meta.json.MediaSources[0] <> invalid and meta.json.MediaSources[0].SupportsDirectPlay = false then
     return false
   end if
-  return devinfo.CanDecodeVideo({ Codec: meta.json.MediaStreams[0].codec }).result
+  streamInfo =  { Codec: meta.json.MediaStreams[0].codec }
+  if meta.json.MediaStreams[0].Profile <> invalid and meta.json.MediaStreams[0].Profile.len() > 0 then
+    streamInfo.Profile = meta.json.MediaStreams[0].Profile
+  end if
+  if meta.json.MediaSources[0].container <> invalid and meta.json.MediaSources[0].container.len() > 0  then
+    streamInfo.Container = meta.json.MediaSources[0].container
+  end if
+  return devinfo.CanDecodeVideo(streamInfo).result
 end function
 
 function decodeAudioSupported(meta as object) as boolean
   devinfo = CreateObject("roDeviceInfo")
-  return devinfo.CanDecodeAudio({ Codec: meta.json.MediaStreams[1].codec, ChCnt: meta.json.MediaStreams[1].channels }).result
+  streamInfo = { Codec: meta.json.MediaStreams[1].codec, ChCnt: meta.json.MediaStreams[1].channels }
+  if meta.json.MediaStreams[1].Bitrate <> invalid then
+    streamInfo.BitRate = meta.json.MediaStreams[1].Bitrate
+  end if
+  return devinfo.CanDecodeAudio(streamInfo).result
 end function
 
 function getContainerType(meta as object) as string
