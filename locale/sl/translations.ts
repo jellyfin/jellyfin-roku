@@ -6,59 +6,59 @@
     <name>default</name>
     <message>
         <source>192.168.1.100:8096 or https://example.com/jellyfin</source>
-        <translation type="unfinished"></translation>
+        <translation>192.168.1.100:8096 ali https://example.com/jellyfin</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Prekliči</translation>
     </message>
     <message>
         <source>Connect to Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Poveži s strežnikom</translation>
     </message>
     <message>
         <source>Ends at %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Konec ob %1</translation>
     </message>
     <message>
         <source>Enter Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>Vnesite nastavitve</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished"></translation>
+        <translation>Priljubljen</translation>
     </message>
     <message>
         <source>Loading...</source>
-        <translation type="unfinished"></translation>
+        <translation>Nalaganje...</translation>
     </message>
     <message>
         <source>Login attempt failed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Poskus prijave spodletel.</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished"></translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>Options</source>
-        <translation type="unfinished"></translation>
+        <translation>Možnosti</translation>
     </message>
     <message>
         <source>Play</source>
-        <translation type="unfinished"></translation>
+        <translation>Predvajaj</translation>
     </message>
     <message>
         <source>Please sign in</source>
-        <translation type="unfinished"></translation>
+        <translation>Prosimo prijavite se</translation>
     </message>
     <message>
         <source>Search</source>
-        <translation type="unfinished"></translation>
+        <translation>Išči</translation>
     </message>
     <message>
         <source>Server not found, is it online?</source>
-        <translation type="unfinished"></translation>
+        <translation>Strežnika ni mogoče najti, ali je prižgan?</translation>
     </message>
     <message>
         <source>Shuffle</source>
