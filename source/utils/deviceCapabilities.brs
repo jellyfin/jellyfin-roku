@@ -26,11 +26,16 @@ function getDeviceProfile() as object
       maxAudioChannels = 6
     end if
 
-    'If Video Mode is 4k, add h265 Codec
+    'Check for Supported Codecs
     deviceSpecificCodecs = ""
-    if Left(di.GetVideoMode(), 4) = "2160" then
+    if di.CanDecodeVideo({Codec: "hevc"}).Result = true
         deviceSpecificCodecs = ",h265"
     end if
+
+    if di.CanDecodeVideo({Codec: "vp9"}).Result = true
+        deviceSpecificCodecs = deviceSpecificCodecs + ",vp9"
+    end if
+
 
 
     return {
@@ -47,7 +52,7 @@ function getDeviceProfile() as object
             {
                 "Container": "mkv,webm",
                 "Type": "Video",
-                "VideoCodec": "h264,vp8,vp9" + deviceSpecificCodecs,
+                "VideoCodec": "h264,vp8" + deviceSpecificCodecs,
                 "AudioCodec": "aac,opus,flac,vorbis"
             },
             {
