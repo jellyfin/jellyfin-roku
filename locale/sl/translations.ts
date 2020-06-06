@@ -70,7 +70,7 @@
     </message>
     <message>
         <source>Submit</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Oddaj</translation>
     </message>
     <message>
         <source>Watched</source>
