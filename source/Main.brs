@@ -235,9 +235,7 @@ sub Main()
     else if isNodeEvent(msg, "pageSelected")
       group.pageNumber = msg.getRoSGNode().pageSelected
       collectionType = group.subType()
-      if collectionType = "Movies"
-        MovieLister(group, m.page_size)
-      else if collectionType = "Collections"
+      if collectionType = "Collections"
         CollectionLister(group, m.page_size)
       else if collectionType = "TVShows"
         SeriesLister(group, m.page_size)

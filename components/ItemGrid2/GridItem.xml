@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="GridItem" extends="Group">
+  <children>
+    <Poster id="itemPoster" width="250" height="375" translation="[21,35]" loadDisplayMode="scaleToZoom" loadingBitmapUri="pkg:/images/PosterLoading.png" failedBitmapUri="pkg:/images/PosterFailed.png" />
+    <ScrollingLabel id="itemText" horizAlign="center" font="font:SmallSystemFont" maxWidth="295" translation="[0,442]" repeatCount="-1" visible="false"  />
+  </children>
+  <interface>
+    <field id="itemContent" type="node" onChange="itemContentChanged" />
+    <field id="itemHasFocus" type="boolean" onChange="focusChanged" />
+  </interface>
+  <script type="text/brightscript" uri="GridItem.brs" />
+</component>
