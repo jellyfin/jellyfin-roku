@@ -22,18 +22,19 @@ sub itemContentChanged()
 end sub
 
 '
-'Resize Poster and Title Vivbility on focus change
+'Use FocusPercent to animate scaling of Poser Image
+sub focusChanging()
+  scaleFactor = 1 + (m.top.focusPercent * 0.17333)
+  m.itemPoster.scale = [scaleFactor, scaleFactor]
+end sub
+
+'
+'Display or hide title Visibility on focus change
 sub focusChanged()
 
   if m.top.itemHasFocus = true then
-    m.itemPoster.width = 295
-    m.itemPoster.height = 440
-    m.itemPoster.translation = [0,0]
     m.itemText.visible = true
   else
-    m.itemPoster.width = 250
-    m.itemPoster.height = 375
-    m.itemPoster.translation = [21,35]
     m.itemText.visible = false
   end if
 
