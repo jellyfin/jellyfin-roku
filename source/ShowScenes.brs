@@ -195,9 +195,9 @@ function CreateHomeGroup()
   return group
 end function
 
-function CreateMovieListGroup(libraryId)
+function CreateMovieListGroup(libraryItem)
   group = CreateObject("roSGNode", "ItemGrid2")
-  group.itemId = libraryId
+  group.parentItem = libraryItem
 
   group.observeField("selectedItem", m.port)
 
@@ -252,20 +252,14 @@ function CreateMovieDetailsGroup(movie)
   return group
 end function
 
-function CreateSeriesListGroup(libraryId)
-  group = CreateObject("roSGNode", "TVShows")
-  group.id = libraryId
+function CreateSeriesListGroup(libraryItem)
 
-  group.observeField("seriesSelected", m.port)
+  group = CreateObject("roSGNode", "ItemGrid2")
+  group.parentItem = libraryItem
+
+  group.observeField("selectedItem", m.port)
 
   sidepanel = group.findNode("options")
-
-  p = CreatePaginator()
-  group.appendChild(p)
-
-  group.pageNumber = 1
-  p.currentPage = group.pageNumber
-  SeriesLister(group, m.page_size)
 
   return group
 end function

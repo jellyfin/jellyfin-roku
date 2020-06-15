@@ -29,9 +29,16 @@ end sub
 '
 'Load initial set of Data
 sub loadInitialItems() 
-  m.loadItemsTask.itemId = m.top.itemId
+
+  m.loadItemsTask.itemId = m.top.parentItem.Id
   m.loadItemsTask.observeField("content", "ItemDataLoaded")
-  m.loadItemsTask.itemType = "Movie"
+
+  if m.top.parentItem.collectionType = "movies" then
+    m.loadItemsTask.itemType = "Movie"
+  else if m.top.parentItem.collectionType = "tvshows" then
+    m.loadItemsTask.itemType = "Series"
+  end if
+
   m.loadItemsTask.control = "RUN"
 end sub
 

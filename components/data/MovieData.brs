@@ -1,6 +1,4 @@
 sub setFields()
-
-'  print "Setting Fields in MovieData - " m.top.json.name
   json = m.top.json
 
   m.top.id = json.id

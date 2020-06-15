@@ -36,6 +36,8 @@ sub loadItems()
     tmp = invalid
     if item.Type = "Movie" then
       tmp = CreateObject("roSGNode", "MovieData")
+    else if item.Type = "Series" then
+      tmp = CreateObject("roSGNode", "SeriesData")
     else
       print "Unknown Type: " item.Type
 
