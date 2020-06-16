@@ -196,10 +196,10 @@ function CreateHomeGroup()
 end function
 
 function CreateMovieListGroup(libraryId)
-  group = CreateObject("roSGNode", "Movies")
-  group.id = libraryId
+  group = CreateObject("roSGNode", "ItemGrid2")
+  group.itemId = libraryId
 
-  group.observeField("movieSelected", m.port)
+  group.observeField("selectedItem", m.port)
 
   sidepanel = group.findNode("options")
   movie_options = [
@@ -235,15 +235,7 @@ function CreateMovieListGroup(libraryId)
   sidepanel.options = new_options
   sidepanel.observeField("closeSidePanel", m.port)
 
-  p = CreatePaginator()
-  group.appendChild(p)
-
-  group.pageNumber = 1
-  p.currentPage = group.pageNumber
-
-  MovieLister(group, m.page_size)
-
-  return group
+    return group
 end function
 
 function CreateMovieDetailsGroup(movie)
@@ -395,22 +387,6 @@ function CreateVideoPlayerGroup(video_id)
   timer.observeField("fire", m.port)
 
   return video
-end function
-
-function MovieLister(group, page_size)
-  sort_order = get_user_setting("movie_sort_order", "Ascending")
-  sort_field = get_user_setting("movie_sort_field", "SortName")
-
-  item_list = ItemList(group.id, {"limit": page_size,
-    "StartIndex": page_size * (group.pageNumber - 1),
-    "SortBy": sort_field,
-    "SortOrder": sort_order,
-    "IncludeItemTypes": "Movie"
-  })
-  group.objects = item_list
-
-  p = group.findNode("paginator")
-  p.maxPages = div_ceiling(group.objects.TotalRecordCount, page_size)
 end function
 
 function SeriesLister(group, page_size)

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="ItemGrid2" extends="JFGroup">
+  <children>
+    <poster id="backdrop" 
+      loadDisplayMode="scaleToFill"
+      width="1920"
+      height="1080" 
+      opacity="0.25"
+      />
+    <poster id="backdropTransition" 
+      loadDisplayMode="scaleToFill"
+      width="1920"
+      height="1080" 
+      opacity="0.25"
+      />
+    <MarkupGrid 
+      id = "itemGrid" 
+      translation = "[ 96, 160 ]" 
+      itemComponentName = "GridItem" 
+      numColumns = "6" 
+      numRows = "5" 
+      vertFocusAnimationStyle = "fixed"
+      itemSize = "[ 290, 425 ]" 
+      itemSpacing = "[ 0, 45 ]" 
+      drawFocusFeedback = "false" />  
+    <OptionsSlider id="options" />
+    <Animation  id="backroundSwapAnimation"  duration="1"  repeat="false"  easeFunction="linear" >
+        <FloatFieldInterpolator id = "fadeinLoading" key="[0.0, 1.0]" keyValue="[ 0.00, 0.25 ]" fieldToInterp="backdropTransition.opacity" />
+        <FloatFieldInterpolator id = "fadeoutLoaded" key="[0.0, 1.0]" keyValue="[ 0.25, 0.00 ]" fieldToInterp="backdrop.opacity" />
+    </Animation>
+  </children>
+  <interface>
+    <field id="itemId" type="string" onChange="loadInitialItems" />
+    <field id="selectedItem" type="node" alwaysNotify="true" />
+  </interface>
+  <script type="text/brightscript" uri="ItemGrid2.brs" />
+</component>

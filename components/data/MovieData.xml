@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<component name="MovieData" extends="ContentNode">
+<component name="MovieData" extends="JFContentItem">
   <interface>
-    <field id="title" type="string" />
     <field id="image" type="node" onChange="setPoster" />
-    <field id="posterUrl" type="string" />
     <field id="movieID" type="string" />
-    <field id="overview" type="string" />
-    <field id="favorite" type="boolean" />
-    <field id="watched" type="boolean" />
     <field id="seasons" type="associativearray" />
     <field id="container" type="string" />
-    <field id="json" type="associativearray" onChange="setFields" />
   </interface>
   <script type="text/brightscript" uri="MovieData.brs" />
+  <script type="text/brightscript" uri="pkg:/source/api/Image.brs" />
+  <script type="text/brightscript" uri="pkg:/source/api/baserequest.brs" />
+  <script type="text/brightscript" uri="pkg:/source/utils/config.brs" />
 </component>

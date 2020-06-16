@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<component name="LoadItemsTask2" extends="Task">
+  <interface>
+    <field id="itemId" type="string" />
+    <field id="startIndex" type="integer" value="0" />
+    <field id="itemType" type="string" value="" />
+    <field id="limit" type="integer" value="36" />
+    <field id="metadata" type="associativearray" />
+    
+    <!-- Total records available from server-->
+    <field id="totalRecordCount" type="int" value="-1" />
+    <field id="content" type="array" />
+  </interface>
+  <script type="text/brightscript" uri="LoadItemsTask2.brs" />
+  <script type="text/brightscript" uri="pkg:/source/api/Items.brs" />
+  <script type="text/brightscript" uri="pkg:/source/api/baserequest.brs" />
+  <script type="text/brightscript" uri="pkg:/source/utils/config.brs" />
+  <script type="text/brightscript" uri="pkg:/source/api/Image.brs" />
+</component>

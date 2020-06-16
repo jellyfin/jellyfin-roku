@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="JFContentItem" extends="ContentNode">
+    <interface>
+        <field id="favorite" type="boolean" />
+        <field id="watched" type="boolean" />
+        <field id="posterUrl" type="string" />
+        <field id="backdropUrl" type="string" />
+        <field id="SubTitle" type="string" value="" />
+        <field id="Type" type="string" value="" />
+        <field id="json" type="associativearray" onChange="setFields" />
+    </interface>
+</component>
