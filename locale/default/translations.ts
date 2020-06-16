@@ -213,5 +213,21 @@
             <source>Server</source>
             <translation>Server</translation>
         </message>
+
+        <message>
+            <source>Loading Channel Data</source>
+            <translation>Loading Channel Data</translation>
+        </message>
+
+        <message>
+            <source>Error loading Channel Data</source>
+            <translation>Error loading Channel Data</translation>
+        </message>
+
+        <message>
+            <source>Unable to load Channel Data from the server</source>
+            <translation>Unable to load Channel Data from the server</translation>
+        </message>
+
     </context>
 </TS>

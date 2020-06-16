@@ -103,6 +103,15 @@ sub Main()
         group = CreateCollectionsList(selectedItem.Id)
         group.overhangTitle = selectedItem.name
         m.scene.appendChild(group)
+      else if (selectedItem.type = "CollectionFolder" OR selectedItem.type = "UserView") AND selectedItem.collectionType = "livetv"
+        group.lastFocus = group.focusedChild
+        group.setFocus(false)
+        group.visible = false
+
+        m.overhang.title = selectedItem.name
+        group = CreateChannelList(selectedItem.Id)
+        group.overhangTitle = selectedItem.name
+        m.scene.appendChild(group)
       else if selectedItem.type = "Episode" then
         ' play episode
         ' todo: create an episode page to link here
@@ -222,6 +231,37 @@ sub Main()
         ReportPlayback(group, "start")
         m.overhang.visible = false
       end if
+    else if isNodeEvent(msg, "channelSelected")
+      ' If you select a Channel from ANYWHERE, follow this flow
+      node = getMsgPicker(msg, "picker")
+      video_id = node.id
+      
+      ' Show Channel Loading spinner
+      dialog = createObject("roSGNode", "ProgressDialog")
+      dialog.title = tr("Loading Channel Data")
+      m.scene.dialog = dialog
+
+      video = CreateVideoPlayerGroup(video_id)
+      dialog.close = true
+
+      if video <> invalid then
+        group.lastFocus = group.focusedChild
+        group.setFocus(false)
+        group.visible = false
+        group = video
+        m.scene.appendChild(group)
+        group.setFocus(true)
+        group.control = "play"
+        ReportPlayback(group, "start")
+        m.overhang.visible = false
+      else 
+        dialog = createObject("roSGNode", "Dialog")
+        dialog.title = tr("Error loading Channel Data")
+        dialog.message = tr("Unable to load Channel Data from the server")
+        dialog.buttons = [tr("OK")]
+        m.scene.dialog = dialog
+      end if
+    
     else if isNodeEvent(msg, "search_value")
       query = msg.getRoSGNode().search_value
       group.findNode("SearchBox").visible = false
@@ -239,6 +279,8 @@ sub Main()
         CollectionLister(group, m.page_size)
       else if collectionType = "TVShows"
         SeriesLister(group, m.page_size)
+      else if collectionType = "Channels"
+        ChannelLister(group, m.page_size)
       end if
       ' TODO - abstract away the "picker" node
       group.findNode("picker").setFocus(true)
@@ -338,7 +380,7 @@ sub Main()
       end if
     else if isNodeEvent(msg, "position")
       video = msg.getRoSGNode()
-      if video.position >= video.duration then
+      if video.position >= video.duration and not video.content.live then
         stopPlayback()
       end if
     else if isNodeEvent(msg, "fire")
@@ -452,6 +494,12 @@ function LoginFlow(startOver = false as boolean)
   end if
 
   wipe_groups()
+
+  'Send Device Profile information to server
+  body = getDeviceCapabilities()
+  req = APIRequest("/Sessions/Capabilities/Full")
+  req.SetRequest("POST")
+  postJson(req, FormatJson(body))
   return true
 end function
 
