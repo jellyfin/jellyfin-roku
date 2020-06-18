@@ -82,7 +82,7 @@ sub Main()
         group.setFocus(false)
         group.visible = false
         m.overhang.title = selectedItem.name
-        group = CreateMovieListGroup(selectedItem.Id)
+        group = CreateMovieListGroup(selectedItem)
         group.overhangTitle = selectedItem.name
         m.scene.appendChild(group)
       else if (selectedItem.type = "CollectionFolder" OR selectedItem.type = "UserView") AND  selectedItem.collectionType =  "tvshows"
@@ -91,7 +91,7 @@ sub Main()
         group.visible = false
 
         m.overhang.title = selectedItem.name
-        group = CreateSeriesListGroup(selectedItem.Id)
+        group = CreateSeriesListGroup(selectedItem)
         group.overhangTitle = selectedItem.name
         m.scene.appendChild(group)
       else if (selectedItem.type = "CollectionFolder" OR selectedItem.type = "UserView") AND selectedItem.collectionType = "boxsets"

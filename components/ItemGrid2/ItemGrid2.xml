@@ -30,7 +30,7 @@
     </Animation>
   </children>
   <interface>
-    <field id="itemId" type="string" onChange="loadInitialItems" />
+    <field id="parentItem" type="node" onChange="loadInitialItems" />
     <field id="selectedItem" type="node" alwaysNotify="true" />
   </interface>
   <script type="text/brightscript" uri="ItemGrid2.brs" />

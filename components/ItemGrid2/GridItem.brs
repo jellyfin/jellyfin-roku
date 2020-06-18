@@ -15,6 +15,10 @@ sub itemContentChanged()
     itemPoster.uri = itemData.PosterUrl
     m.itemText.text = itemData.Title
     return
+  else if itemData.type = "Series" then
+    itemPoster.uri = itemData.PosterUrl
+    m.itemText.text = itemData.Title
+    return
   end if
 
   print "Unhandled Item Type: " + itemData.type
