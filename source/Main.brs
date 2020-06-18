@@ -151,6 +151,21 @@ sub Main()
         group = CreateMovieDetailsGroup(selectedItem)
         group.overhangTitle = selectedItem.name
         m.scene.appendChild(group)
+      else if selectedItem.type = "Video" then
+        ' play episode
+        video_id = selectedItem.id
+        video = CreateVideoPlayerGroup(video_id)
+        if video <> invalid then
+          group.lastFocus = group.focusedChild
+          group.setFocus(false)
+          group.visible = false
+          group = video
+          m.scene.appendChild(group)
+          group.setFocus(true)
+          group.control = "play"
+          ReportPlayback(group, "start")
+          m.overhang.visible = false
+        end if
       else
         ' TODO - switch on more node types
         if selectedItem.type = "CollectionFolder" OR selectedItem.type = "UserView" then
@@ -168,7 +183,7 @@ sub Main()
       group.visible = false
 
       m.overhang.title = node.title
-      group = CreateMovieListGroup(node)
+      group = CreateCollectionDetailList(node.Id)
       group.overhangTitle = node.title
       m.scene.appendChild(group)
     else if isNodeEvent(msg, "movieSelected")

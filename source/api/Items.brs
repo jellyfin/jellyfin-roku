@@ -130,6 +130,22 @@ function ItemList(library_id = invalid as string, params = {})
       tmp.image = PosterImage(item.id, imgParams)
       tmp.json = item
       results.push(tmp)
+    else if item.type = "Episode"
+      imgParams.Append({ "AddPlayedIndicator": item.UserData.Played })
+      tmp = CreateObject("roSGNode", "TVEpisodeData")
+      tmp.image = PosterImage(item.id, imgParams)
+      tmp.json = item
+      results.push(tmp)
+    else if item.type = "MusicAlbum"
+      tmp = CreateObject("roSGNode", "AlbumData")
+     tmp.image = PosterImage(item.id, imgParams)
+      tmp.json = item
+      results.push(tmp)
+    else if item.type = "Video"
+      tmp = CreateObject("roSGNode", "VideoData")
+      tmp.image = PosterImage(item.id, imgParams)
+      tmp.json = item
+      results.push(tmp)
     else
       print "Items.brs::ItemList received unhandled type: " item.type
       ' Otherwise we just stick with the JSON
@@ -174,6 +190,11 @@ function ItemMetaData(id as string)
     return tmp
   else if data.type = "Season"
     tmp = CreateObject("roSGNode", "TVSeasonData")
+    tmp.image = PosterImage(data.id)
+    tmp.json = data
+    return tmp
+  else if data.type = "Video"
+    tmp = CreateObject("roSGNode", "VideoData")
     tmp.image = PosterImage(data.id)
     tmp.json = data
     return tmp
