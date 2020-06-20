@@ -106,7 +106,7 @@
     </message>
     <message>
         <source>Latest in</source>
-        <translation>Latest in</translation>
+        <translation>Mais recente</translation>
     </message>
     <message>
         <source>Home</source>
@@ -175,6 +175,26 @@
 </context>
 <context>
     <name></name>
+    <message>
+        <source>Sign Out</source>
+        <translation>Sair</translation>
+    </message>
+    <message>
+        <source>Change Server</source>
+        <translation>Mudar servidor</translation>
+    </message>
+    <message>
+        <source>Unable to load Channel Data from the server</source>
+        <translation>Não foi possível carregar dados do canal do servidor</translation>
+    </message>
+    <message>
+        <source>Error loading Channel Data</source>
+        <translation>Erro ao carregar dados do canal</translation>
+    </message>
+    <message>
+        <source>Loading Channel Data</source>
+        <translation>Carregando dados do canal</translation>
+    </message>
     <message>
         <source>Sign Out</source>
         <translation>Sair</translation>
