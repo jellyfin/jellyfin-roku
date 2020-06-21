@@ -173,4 +173,19 @@
         <translation>Server</translation>
     </message>
 </context>
+<context>
+    <name></name>
+    <message>
+        <source>Unable to load Channel Data from the server</source>
+        <translation>Imposibil de încărcat datele canalului de pe server</translation>
+    </message>
+    <message>
+        <source>Error loading Channel Data</source>
+        <translation>Eroare la încărcarea datelor canalului</translation>
+    </message>
+    <message>
+        <source>Loading Channel Data</source>
+        <translation>Se încarcă datele canalului</translation>
+    </message>
+</context>
 </TS>
