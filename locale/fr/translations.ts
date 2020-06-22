@@ -173,4 +173,19 @@
         <translation>Serveur</translation>
     </message>
 </context>
+<context>
+    <name></name>
+    <message>
+        <source>Unable to load Channel Data from the server</source>
+        <translation>Impossible de charger les données de la chaîne depuis le serveur</translation>
+    </message>
+    <message>
+        <source>Error loading Channel Data</source>
+        <translation>Erreur lors du chargement des données de la chaîne</translation>
+    </message>
+    <message>
+        <source>Loading Channel Data</source>
+        <translation>Chargement des données de la chaîne</translation>
+    </message>
+</context>
 </TS>
