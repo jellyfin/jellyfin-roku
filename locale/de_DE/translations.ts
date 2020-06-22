@@ -183,5 +183,25 @@
         <source>Change Server</source>
         <translation>Server wechseln</translation>
     </message>
+    <message>
+        <source>Unable to load Channel Data from the server</source>
+        <translation>Nicht in der Lage Kanaldaten vom Server zu laden</translation>
+    </message>
+    <message>
+        <source>Error loading Channel Data</source>
+        <translation>Error beim laden der Kanaldaten</translation>
+    </message>
+    <message>
+        <source>Loading Channel Data</source>
+        <translation>Lade Kanal Daten</translation>
+    </message>
+    <message>
+        <source>Sign Out</source>
+        <translation>Abmelden</translation>
+    </message>
+    <message>
+        <source>Change Server</source>
+        <translation>Wechsel Server</translation>
+    </message>
 </context>
 </TS>
