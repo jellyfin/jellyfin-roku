@@ -100,7 +100,7 @@ sub Main()
         group.visible = false
 
         m.overhang.title = selectedItem.name
-        group = CreateCollectionsList(selectedItem.Id)
+        group = CreateCollectionsList(selectedItem)
         group.overhangTitle = selectedItem.name
         m.scene.appendChild(group)
       else if (selectedItem.type = "CollectionFolder" OR selectedItem.type = "UserView") AND selectedItem.collectionType = "livetv"
@@ -111,6 +111,16 @@ sub Main()
         m.overhang.title = selectedItem.name
         group = CreateChannelList(selectedItem.Id)
         group.overhangTitle = selectedItem.name
+        m.scene.appendChild(group)
+      else if selectedItem.type = "Boxset" then
+
+        group.lastFocus = group.focusedChild
+        group.setFocus(false)
+        group.visible = false
+
+        m.overhang.title = selectedItem.title
+        group = CreateCollectionDetailList(selectedItem.Id)
+        group.overhangTitle = selectedItem.title
         m.scene.appendChild(group)
       else if selectedItem.type = "Episode" then
         ' play episode
@@ -175,17 +185,6 @@ sub Main()
         end if
         selectedItem = invalid
       end if
-    else if isNodeEvent(msg, "collectionSelected")
-      node = getMsgPicker(msg, "picker")
-
-      group.lastFocus = group.focusedChild
-      group.setFocus(false)
-      group.visible = false
-
-      m.overhang.title = node.title
-      group = CreateCollectionDetailList(node.Id)
-      group.overhangTitle = node.title
-      m.scene.appendChild(group)
     else if isNodeEvent(msg, "movieSelected")
       ' If you select a movie from ANYWHERE, follow this flow
       node = getMsgPicker(msg, "picker")

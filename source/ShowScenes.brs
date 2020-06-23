@@ -286,54 +286,14 @@ function CreateSeasonDetailsGroup(series, season)
   return group
 end function
 
-function CreateCollectionsList(libraryId)
-  ' Load Collection Items
-  group = CreateObject("roSGNode", "Collections")
-  group.id = libraryId
+function CreateCollectionsList(libraryItem)
 
-  group.observeField("collectionSelected", m.port)
+  group = CreateObject("roSGNode", "ItemGrid2")
+  group.parentItem = libraryItem
+
+  group.observeField("selectedItem", m.port)
 
   sidepanel = group.findNode("options")
-  panel_options = [
-    {"title": tr("Sort Field"),
-     "base_title": tr("Sort Field"),
-     "key": "movie_sort_field",
-     "default": "SortName",
-     "values": [
-       {display: tr("Date Added"), value: "DateCreated"},
-       {display: tr("Release Date"), value: "PremiereDate"},
-       {display: tr("Name"), value: "SortName"}
-     ]},
-    {"title": tr("Sort Order"),
-     "base_title": tr("Sort Order"),
-     "key": "movie_sort_order",
-     "default": "Ascending",
-     "values": [
-       {display: tr("Descending"), value: "Descending"},
-       {display: tr("Ascending"), value: "Ascending"}
-     ]}
-  ]
-  new_options = []
-  for each opt in panel_options
-    o = CreateObject("roSGNode", "OptionsData")
-    o.title = opt.title
-    o.choices = opt.values
-    o.base_title = opt.base_title
-    o.config_key = opt.key
-    o.value = get_user_setting(opt.key, opt.default)
-    new_options.append([o])
-  end for
-
-  sidepanel.options = new_options
-  sidepanel.observeField("closeSidePanel", m.port)
-
-  p = CreatePaginator()
-  group.appendChild(p)
-
-  group.pageNumber = 1
-  p.currentPage = group.pageNumber
-
-  CollectionLister(group, m.page_size)
 
   return group
 end function
