@@ -183,5 +183,13 @@
         <source>Change Server</source>
         <translation>Cambia Server</translation>
     </message>
+    <message>
+        <source>Sign Out</source>
+        <translation>Disconnetti</translation>
+    </message>
+    <message>
+        <source>Change Server</source>
+        <translation>Cambia Server</translation>
+    </message>
 </context>
 </TS>
