@@ -17,15 +17,16 @@ sub updateSize()
 
   dimensions = m.top.getScene().currentDesignResolution
 
-  border = 75
-  topSpace = border + 105
-  m.top.translation = [border, topSpace]
+  topBorder = 75
+  border = 96
+  topSpace = topBorder + 105
+  m.top.translation = [96, topSpace]
 
   textHeight = 100
   itemWidth = (dimensions["width"] - border*2) / m.top.itemsPerRow -20
   itemHeight = itemWidth * 1.5 + textHeight
 
-  if itemHeight*m.top.rowsPerPage > (dimensions["height"] - border - 115) then
+  if itemHeight*m.top.rowsPerPage > (dimensions["height"] - topBorder - 115) then
     ratio = (itemHeight*m.top.rowsPerPage) / (981 - topSpace - 15)
     itemHeight = itemHeight / ratio
     itemWidth = itemWidth / ratio
