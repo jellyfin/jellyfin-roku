@@ -1,164 +1,164 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="it_IT" sourcelanguage="en_US">
+<TS version="2.0" language="lv" sourcelanguage="en_US">
 <defaultcodec>UTF-8</defaultcodec>
 <context>
     <name>default</name>
     <message>
         <source>192.168.1.100:8096 or https://example.com/jellyfin</source>
-        <translation>192.168.1.100:8096 o https://example.com/jellyfin</translation>
+        <translation>192.168.1.100:8096 vai https://example.com/jellyfin</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Annulla</translation>
+        <translation>Atcelt</translation>
     </message>
     <message>
         <source>Connect to Server</source>
-        <translation>Connettersi al Server</translation>
+        <translation>Savienoties ar Serveri</translation>
     </message>
     <message>
         <source>Ends at %1</source>
-        <translation>Finirà alle %1</translation>
+        <translation>Beidzas %1</translation>
     </message>
     <message>
         <source>Enter Configuration</source>
-        <translation>Inserire la configurazione</translation>
+        <translation>Ievadīt Konfigurāciju</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Preferito</translation>
+        <translation>Favorīts</translation>
     </message>
     <message>
         <source>Loading...</source>
-        <translation>Caricamento...</translation>
+        <translation>Lādējas...</translation>
     </message>
     <message>
         <source>Login attempt failed.</source>
-        <translation>Tentativo di accesso fallito.</translation>
+        <translation>Piekļuves mēģinājums neizdevās.</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation>Labi</translation>
     </message>
     <message>
         <source>Options</source>
-        <translation>Opzioni</translation>
+        <translation>Opcijas</translation>
     </message>
     <message>
         <source>Play</source>
-        <translation>Riproduci</translation>
+        <translation>Atskaņot</translation>
     </message>
     <message>
         <source>Please sign in</source>
-        <translation>Per favore accedi</translation>
+        <translation>Lūdzu ielogojies</translation>
     </message>
     <message>
         <source>Search</source>
-        <translation>Cerca</translation>
+        <translation>Meklēt</translation>
     </message>
     <message>
         <source>Server not found, is it online?</source>
-        <translation>Il server non è stato trovato, è online?</translation>
+        <translation>Serveris nav atrasts, vai tas ir tiešsaistē?</translation>
     </message>
     <message>
         <source>Shuffle</source>
-        <translation>Casuale</translation>
+        <translation>Sajaukt</translation>
     </message>
     <message>
         <source>Sign In</source>
-        <translation>Accedi</translation>
+        <translation>Ieiet</translation>
     </message>
     <message>
         <source>Submit</source>
-        <translation>Invia</translation>
+        <translation>Iesniegt</translation>
     </message>
     <message>
         <source>Watched</source>
-        <translation>Visto</translation>
+        <translation>Skatīts</translation>
     </message>
     <message>
-        <source>Change server</source>
-        <translation>Cambia server</translation>
+        <source>Change Server</source>
+        <translation>Mainīt Serveri</translation>
     </message>
     <message>
-        <source>Sign out</source>
-        <translation>Esci</translation>
+        <source>Sign Out</source>
+        <translation>Iziet</translation>
     </message>
     <message>
         <source>Add User</source>
-        <translation>Aggiungi Utente</translation>
+        <translation>Pievienot Lietotāju</translation>
     </message>
     <message>
         <source>Profile</source>
-        <translation>Profilo</translation>
+        <translation>Profils</translation>
     </message>
     <message>
         <source>My Media</source>
-        <translation>I miei media</translation>
+        <translation>Mana Mēdija</translation>
     </message>
     <message>
         <source>Continue Watching</source>
-        <translation>Continua a guardare</translation>
+        <translation>Turpini Skatīties</translation>
     </message>
     <message>
         <source>Next Up</source>
-        <translation>Prossimo</translation>
+        <translation>Nākamais</translation>
     </message>
     <message>
         <source>Latest in</source>
-        <translation>Latest in</translation>
+        <translation>Jaunākais no</translation>
     </message>
     <message>
         <source>Home</source>
-        <translation>Home</translation>
+        <translation>Mājas</translation>
     </message>
     <message>
         <source>Enter a value...</source>
-        <translation>Inserire un valore...</translation>
+        <translation>Ievadi vērtību...</translation>
     </message>
     <message>
         <source>Sort Field</source>
-        <translation>Ordina per</translation>
+        <translation>Kārtot Pēc</translation>
     </message>
     <message>
         <source>Date Added</source>
-        <translation>Aggiunto il</translation>
+        <translation>Pievienošanas Datuma</translation>
     </message>
     <message>
         <source>Release Date</source>
-        <translation>Data di Uscita</translation>
+        <translation>Izlaišanas Datuma</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation>Nome</translation>
+        <translation>Nosaukuma</translation>
     </message>
     <message>
         <source>Sort Order</source>
-        <translation>Ordinamento</translation>
+        <translation>Kārtošanas Secība</translation>
     </message>
     <message>
         <source>Descending</source>
-        <translation>Decrescente</translation>
+        <translation>Dilstoša</translation>
     </message>
     <message>
         <source>Ascending</source>
-        <translation>Crescente</translation>
+        <translation>Augoša</translation>
     </message>
     <message>
         <source>Password</source>
-        <translation>Password</translation>
+        <translation>Parole</translation>
     </message>
     <message>
         <source>Username</source>
-        <translation>Nome utente</translation>
+        <translation>Lietotājvārds</translation>
     </message>
     <message>
         <source>Genres</source>
-        <translation>Generi</translation>
+        <translation>Žanri</translation>
     </message>
     <message>
         <source>Director</source>
-        <translation>Regista</translation>
+        <translation>Direktors</translation>
     </message>
     <message>
         <source>Video</source>
@@ -170,26 +170,19 @@
     </message>
     <message>
         <source>Server</source>
-        <translation>Server</translation>
-    </message>
-</context>
-<context>
-    <name></name>
-    <message>
-        <source>Sign Out</source>
-        <translation>Disconnetti</translation>
+        <translation>Serveris</translation>
     </message>
     <message>
-        <source>Change Server</source>
-        <translation>Cambia Server</translation>
+        <source>Loading Channel Data</source>
+        <translation>Ielādē Kanāla Datus</translation>
     </message>
     <message>
-        <source>Sign Out</source>
-        <translation>Disconnetti</translation>
+        <source>Error loading Channel Data</source>
+        <translation>Kļūda ielādējot Kanālu Datus</translation>
     </message>
     <message>
-        <source>Change Server</source>
-        <translation>Cambia Server</translation>
+        <source>Unable to load Channel Data from the server</source>
+        <translation>Nespēja ielādēt Kanālu Datus no servera</translation>
     </message>
 </context>
 </TS>
