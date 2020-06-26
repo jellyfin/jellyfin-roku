@@ -3,7 +3,8 @@ function get_token(user as String, password as String)
   req = APIRequest(url)
 
   encPass = CreateObject("roUrlTransfer")
-  json = postJson(req, "Username=" + user + "&Pw=" + encPass.Escape(password) )
+  json = postJson(req, FormatJson({ "Username": user, "Pw": password }))
+
 
   if json = invalid then return invalid
 

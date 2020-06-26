@@ -37,7 +37,7 @@ function PlaystateDefaults(id="" as string, params={} as object)
   for each p in params.items()
     new_params[p.key] = p.value
   end for
-  return buildParams(new_params)
+  return FormatJson(new_params)
 end function
 
 function deleteTranscode(id)
