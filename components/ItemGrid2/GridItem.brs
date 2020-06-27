@@ -1,6 +1,9 @@
 sub init()
+  m.posterMask = m.top.findNode("posterMask")
   m.itemPoster = m.top.findNode("itemPoster")
   m.itemText = m.top.findNode("itemText")
+
+  m.itemText.translation = [0, m.itemPoster.height + 7]
 end sub
 
 sub itemContentChanged()
@@ -9,14 +12,12 @@ sub itemContentChanged()
 
   if itemData = invalid then return
 
-  itemPoster = m.top.findNode("itemPoster")
-
   if itemData.type = "Movie" then
-    itemPoster.uri = itemData.PosterUrl
+    m.itemPoster.uri = itemData.PosterUrl
     m.itemText.text = itemData.Title
     return
   else if itemData.type = "Series" then
-    itemPoster.uri = itemData.PosterUrl
+    m.itemPoster.uri = itemData.PosterUrl
     m.itemText.text = itemData.Title
     return
   end if
@@ -28,8 +29,8 @@ end sub
 '
 'Use FocusPercent to animate scaling of Poser Image
 sub focusChanging()
-  scaleFactor = 1 + (m.top.focusPercent * 0.17333)
-  m.itemPoster.scale = [scaleFactor, scaleFactor]
+  scaleFactor = 0.85 + (m.top.focusPercent * 0.15)
+  m.posterMask.scale = [scaleFactor, scaleFactor]
 end sub
 
 '
