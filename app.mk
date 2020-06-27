@@ -47,6 +47,9 @@ ICON_SOURCE = icon-transparent.svg
 BANNER_SOURCE = banner-dark.svg
 OUTPUT_DIR = ./images
 
+# Locales supported by Roku
+SUPPORTED_LOCALES = en_US en_GB fr_CA es_ES de_DE it_IT pt_BR
+
 ifdef ROKU_DEV_PASSWORD
     USERPASS = rokudev:$(ROKU_DEV_PASSWORD)
 else
@@ -102,7 +105,11 @@ prep_staging:
 	cp -r $(SOURCEREL)/source $(STAGINGREL)
 	cp -r $(SOURCEREL)/components $(STAGINGREL)
 	cp -r $(SOURCEREL)/images $(STAGINGREL)
-	cp -r $(SOURCEREL)/locale $(STAGINGREL)
+	
+	# Copy only supported languages over to staging
+	mkdir $(STAGINGREL)/locale
+	cp -r $(foreach f,$(SUPPORTED_LOCALES),$(SOURCEREL)/locale/$f) $(STAGINGREL)/locale
+	
 	cp $(SOURCEREL)/manifest $(STAGINGREL)/manifest
 
 package: prep_staging
