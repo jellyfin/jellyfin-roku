@@ -27,6 +27,8 @@
 #    associated with the rokudev account.
 ##########################################################################
 
+BUILD = dev
+
 DISTREL = $(shell pwd)/out
 COMMONREL ?= $(shell pwd)/common
 SOURCEREL = $(shell pwd)
@@ -102,6 +104,7 @@ prep_staging:
 	chmod -R 755 $(STAGINGREL); \
 
 	echo "  >> moving application to $(STAGINGREL)"
+	cp $(SOURCEREL)/manifest $(STAGINGREL)/manifest
 	cp -r $(SOURCEREL)/source $(STAGINGREL)
 	cp -r $(SOURCEREL)/components $(STAGINGREL)
 	cp -r $(SOURCEREL)/images $(STAGINGREL)
@@ -110,9 +113,12 @@ prep_staging:
 	mkdir $(STAGINGREL)/locale
 	cp -r $(foreach f,$(SUPPORTED_LOCALES),$(SOURCEREL)/locale/$f) $(STAGINGREL)/locale
 	
-	cp $(SOURCEREL)/manifest $(STAGINGREL)/manifest
+ifneq ($(BUILD), dev)
+	echo "COPYING $(BUILD)"
+	cp $(SOURCEREL)/resources/branding/$(BUILD)/* $(STAGINGREL)/images
+endif
 
-package: prep_staging
+package: prep_staging 
 	@echo "*** Creating $(APPNAME).zip ***"
 	@echo "  >> copying imports"
 	@if [ "$(IMPORTFILES)" ]; \
@@ -137,12 +143,12 @@ package: prep_staging
 
 	# zip .png files without compression
 	# do not zip up any files ending with '~'
-	@echo "  >> creating application zip $(STAGINGREL)/../apps/$(APPNAME).zip"
+	@echo "  >> creating application zip $(STAGINGREL)/../apps/$(APPNAME)-$(BUILD).zip"
 	@if [ -d $(STAGINGREL) ]; \
 	then \
 		cd $(STAGINGREL); \
-		(zip -0 -r "../apps/$(APPNAME).zip" . -i \*.png $(ZIP_EXCLUDE)); \
-		(zip -9 -r "../apps/$(APPNAME).zip" . -x \*~ -x \*.png $(ZIP_EXCLUDE)); \
+		(zip -0 -r "../apps/$(APPNAME)-$(BUILD).zip" . -i \*.png $(ZIP_EXCLUDE)); \
+		(zip -9 -r "../apps/$(APPNAME)-$(BUILD).zip" . -x \*~ -x \*.png $(ZIP_EXCLUDE)); \
 		cd $(SOURCEREL);\
 	else \
 		echo "Source for $(APPNAME) not found at $(STAGINGREL)"; \
@@ -154,7 +160,7 @@ package: prep_staging
 		rm -r -f $(APPSOURCEDIR)/common; \
 	fi \
 
-	@echo "*** packaging $(APPNAME) complete ***"
+	@echo "*** packaging $(APPNAME)-$(BUILD) complete ***"
 
 prep_tests:
 	@mkdir -p $(STAGINGREL)/components/tests/; \
@@ -164,8 +170,8 @@ prep_tests:
 	./node_modules/.bin/rooibos-cli i tests/.rooibosrc.json
 
 install: prep_staging package home
-	@echo "Installing $(APPNAME) to host $(ROKU_DEV_TARGET)"
-	@$(CURLCMD) --user $(USERPASS) --digest -F "mysubmit=Install" -F "archive=@$(ZIPREL)/$(APPNAME).zip" -F "passwd=" http://$(ROKU_DEV_TARGET)/plugin_install | grep "<font color" | sed "s/<font color=\"red\">//" | sed "s[</font>[["
+	@echo "Installing $(APPNAME)-$(BUILD) to host $(ROKU_DEV_TARGET)"
+	@$(CURLCMD) --user $(USERPASS) --digest -F "mysubmit=Install" -F "archive=@$(ZIPREL)/$(APPNAME)-$(BUILD).zip" -F "passwd=" http://$(ROKU_DEV_TARGET)/plugin_install | grep "<font color" | sed "s/<font color=\"red\">//" | sed "s[</font>[["
 
 remove:
 	@echo "Removing $(APPNAME) from host $(ROKU_DEV_TARGET)"
