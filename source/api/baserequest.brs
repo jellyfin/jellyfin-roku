@@ -79,8 +79,8 @@ end function
 
 function postJson(req, data="" as string)
   req.setMessagePort(CreateObject("roMessagePort"))
+  req.AddHeader("Content-Type", "application/json")
   req.AsyncPostFromString(data)
-
   resp = wait(30000, req.GetMessagePort())
   if type(resp) <> "roUrlEvent"
     return invalid
