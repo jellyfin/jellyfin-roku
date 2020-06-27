@@ -1,7 +1,7 @@
 sub init()
   m.top.optionsAvailable = false
   main = m.top.findNode("toplevel")
-  main.translation = [50, 175]
+  main.translation = [96, 175]
 end sub
 
 sub itemContentChanged()

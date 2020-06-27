@@ -14,8 +14,8 @@ end sub
 sub updateSize()  
   dimensions = m.top.getScene().currentDesignResolution
 
-  border = 75
-  m.top.translation = [border, border + 115]
+  border = 96
+  m.top.translation = [border, 75 + 115]
 
   textHeight = 80
   itemWidth = (dimensions["width"] - border*2) 

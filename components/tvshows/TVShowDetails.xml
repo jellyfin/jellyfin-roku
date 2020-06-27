@@ -15,7 +15,7 @@
           </LayoutGroup>
           <Label id="genres" />
           <Label id="tagline" />
-          <Label id="overview" wrap="true" width="1420" maxLines="4" />
+          <Label id="overview" wrap="true" width="1400" maxLines="4" />
           <Label id="history" />
         </LayoutGroup>
       </LayoutGroup>

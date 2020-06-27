@@ -2,10 +2,10 @@ sub init()
   m.top.optionsAvailable = false
 
   main = m.top.findNode("main_group")
-  main.translation = [50, 175]
+  main.translation = [96, 175]
 
   overview = m.top.findNode("overview")
-  overview.width = 1920 - 100 - 400
+  overview.width = 1920 - 96 - 300 - 96 - 30
 
   m.top.findNode("buttons").setFocus(true)
 end sub
