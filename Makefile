@@ -20,6 +20,15 @@ ZIP_EXCLUDE= -x rooibos/**\* -x xml/* -x artwork/* -x \*.pkg -x storeassets\* -x
 
 include app.mk
 
+dev: 
+	$(MAKE) BUILD='dev' package
+
+beta: 
+	$(MAKE) BUILD='beta' package
+
+release: 
+	$(MAKE) BUILD='release' package
+
 test: prep_staging prep_tests remove install
 	echo "Running tests"
 
