@@ -2,7 +2,9 @@
 <component name="GridItem" extends="Group">
   <children>
     <maskGroup id="posterMask" maskUri="pkg:/images/postermask.png" scaleRotateCenter="[145, 212.5]" scale="[0.85,0.85]"  >
-      <Poster id="itemPoster" width="290" height="425" loadDisplayMode="scaleToZoom" loadingBitmapUri="pkg:/images/PosterLoading.png" failedBitmapUri="pkg:/images/PosterFailed.png" />
+      <Rectangle id="backdrop" width="290" height="425" />
+      <Poster id="itemPoster" width="290" height="425" loadDisplayMode="scaleToZoom" />
+      <Label id="posterText" width="280" height="415" translation="[5,5]" horizAlign="center" vertAlign="center" ellipsizeOnBoundary="true" wrap="true" />
     </maskGroup>
     <ScrollingLabel id="itemText" horizAlign="center" font="font:SmallSystemFont" maxWidth="290" repeatCount="-1" visible="false"  />
   </children>
