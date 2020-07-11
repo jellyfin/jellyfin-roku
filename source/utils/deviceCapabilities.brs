@@ -1,6 +1,5 @@
 'Device Capabilities for Roku.
-'This may need tweaking or be dynamically created if devices vary
-'significantly
+'This will likely need further tweaking
 
 function getDeviceCapabilities() as object
 
@@ -26,54 +25,11 @@ function getDeviceProfile() as object
       maxAudioChannels = 6
     end if
 
-    'Check for Supported Codecs
-    deviceSpecificCodecs = ""
-    if di.CanDecodeVideo({Codec: "hevc"}).Result = true
-        deviceSpecificCodecs = ",h265"
-    end if
-
-    if di.CanDecodeVideo({Codec: "vp9"}).Result = true
-        deviceSpecificCodecs = deviceSpecificCodecs + ",vp9"
-    end if
-
-
-
     return {
         "MaxStreamingBitrate": 120000000,
         "MaxStaticBitrate": 100000000,
         "MusicStreamingTranscodingBitrate": 192000,
-        "DirectPlayProfiles": [
-            {
-                "Container": "mp4,m4v,mov",
-                "Type": "Video",
-                "VideoCodec": "h264" + deviceSpecificCodecs,
-                "AudioCodec": "aac,opus,flac,vorbis"
-            },
-            {
-                "Container": "mkv,webm",
-                "Type": "Video",
-                "VideoCodec": "h264,vp8" + deviceSpecificCodecs,
-                "AudioCodec": "aac,opus,flac,vorbis"
-            },
-            {
-                "Container": "mp3",
-                "Type": "Audio",
-                "AudioCodec": "mp3"
-            },
-            {
-                "Container": "aac",
-                "Type": "Audio"
-            },
-            {
-                "Container": "m4a",
-                "AudioCodec": "aac",
-                "Type": "Audio"
-            },
-            {
-                "Container": "flac",
-                "Type": "Audio"
-            }
-        ],
+        "DirectPlayProfiles": GetDirectPlayProfiles(),
         "TranscodingProfiles": [
             {
                 "Container": "aac",
@@ -166,20 +122,106 @@ function getDeviceProfile() as object
                 "Method": "External"
             },
             {
-                "Format": "ass",
+                "Format": "srt",
                 "Method": "External"
             },
             {
-                "Format": "ssa",
+                "Format": "ttml",
                 "Method": "External"
-            }
-        ],
-        "ResponseProfiles": [
-            {
-                "Type": "Video",
-                "Container": "m4v",
-                "MimeType": "video/mp4"
             }
         ]
     }
+end function
+
+
+function GetDirectPlayProfiles() as object
+
+    mp4Video = "h264"
+    mp4Audio = "mp3,pcm,lpcm,wav"
+    mkvVideo = "h264,vp8"
+    mkvAudio = "mp3,pcm,lpcm,wav"
+    audio = "mp3,pcm,lpcm,wav"
+
+    di = CreateObject("roDeviceInfo")
+
+    'Check for Supported Video Codecs
+    if di.CanDecodeVideo({Codec: "hevc"}).Result = true
+        mp4Video = mp4Video + ",h265"
+        mkvVideo =mkvVideo + ",h265"
+    end if
+
+    if di.CanDecodeVideo({Codec: "vp9"}).Result = true
+        mkvVideo =mkvVideo + ",vp9"
+    end if
+
+    ' Check for supported Audio
+    audioDecoders = di.GetAudioDecodeInfo()
+
+    if audioDecoders.doesexist("AC3") then
+        mkvAudio = mkvAudio + ",ac3"
+        mp4Audio = mp4Audio + ",ac3"
+        audio = audio + ",ac3"
+    end if
+
+    if audioDecoders.doesexist("WMA") then
+        audio = audio + ",wma"
+    end if
+
+    if audioDecoders.doesexist("FLAC") then
+        mkvAudio = mkvAudio + ",flac"
+        audio = audio + ",flac"
+    end if
+
+    if audioDecoders.doesexist("ALAC") then
+        mkvAudio = mkvAudio + ",alac"
+        mp4Audio = mp4Audio + ",alac"
+        audio = audio + ",alac"
+    end if
+
+    if audioDecoders.doesexist("AAC") then
+        mkvAudio = mkvAudio + ",aac"
+        mp4Audio = mp4Audio + ",aac"
+        audio = audio + ",aac"
+    end if
+
+    if audioDecoders.doesexist("OPUS") then
+        mkvAudio = mkvAudio + ",opus"
+    end if
+
+    if audioDecoders.doesexist("DTS") then
+        mkvAudio = mkvAudio + ",dts,dca"
+        audio = audio + ",dts,dca"
+    end if
+
+    if audioDecoders.doesexist("WMAPRO") then
+        audio = audio + ",wmapro"
+    end if
+
+    if audioDecoders.doesexist("VORBIS") then
+        mkvAudio = mkvAudio + ",vorbis"
+    end if
+
+    if audioDecoders.doesexist("DD+") then
+        mkvAudio = mkvAudio + ",eac3"
+    end if
+
+    return [
+            {
+                "Container": "mp4,m4v,mov",
+                "Type": "Video",
+                "VideoCodec": mp4Video,
+                "AudioCodec": mp4Audio
+            },
+            {
+                "Container": "mkv,webm",
+                "Type": "Video",
+                "VideoCodec": mkvVideo,
+                "AudioCodec": mkvAudio
+            },
+            {
+                "Container": audio,
+                "Type": "Audio",
+            }
+    ]
+
 end function
