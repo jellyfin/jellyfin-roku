@@ -14,7 +14,7 @@
     </message>
     <message>
         <source>Connect to Server</source>
-        <translation>Conectar al Servidor</translation>
+        <translation>Conectar con el Servidor</translation>
     </message>
     <message>
         <source>Ends at %1</source>
@@ -102,11 +102,11 @@
     </message>
     <message>
         <source>Next Up</source>
-        <translation>Seguidamente</translation>
+        <translation type="unfinished">Siguiente</translation>
     </message>
     <message>
         <source>Latest in</source>
-        <translation>Lo más reciente</translation>
+        <translation>Reciente en</translation>
     </message>
     <message>
         <source>Home</source>
@@ -238,6 +238,26 @@
     <message>
         <source>Change Server</source>
         <translation>Modificar Servidor</translation>
+    </message>
+    <message>
+        <source>Unable to load Channel Data from the server</source>
+        <translation>No fue posible cargar datos del canal desde el servidor</translation>
+    </message>
+    <message>
+        <source>Error loading Channel Data</source>
+        <translation>Error al cargar datos del canal</translation>
+    </message>
+    <message>
+        <source>Loading Channel Data</source>
+        <translation>Cargando datos del canal</translation>
+    </message>
+    <message>
+        <source>Sign Out</source>
+        <translation>Cerrar sesión</translation>
+    </message>
+    <message>
+        <source>Change Server</source>
+        <translation>Cambiar servidor</translation>
     </message>
 </context>
 </TS>
