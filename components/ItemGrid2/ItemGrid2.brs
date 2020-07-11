@@ -3,6 +3,7 @@ sub init()
   m.itemGrid = m.top.findNode("itemGrid")
   m.backdrop = m.top.findNode("backdrop")
   m.newBackdrop = m.top.findNode("backdropTransition")
+  m.emptyText = m.top.findNode("emptyText")
 
   m.swapAnimation = m.top.findNode("backroundSwapAnimation")
   m.swapAnimation.observeField("state", "swapDone")
@@ -29,6 +30,10 @@ end sub
 '
 'Load initial set of Data
 sub loadInitialItems() 
+
+  if m.top.parentItem.backdropUrl <> invalid then
+    SetBackground(m.top.parentItem.backdropUrl)
+  end if
 
   m.loadItemsTask.itemId = m.top.parentItem.Id
   m.loadItemsTask.observeField("content", "ItemDataLoaded")
@@ -62,6 +67,15 @@ sub ItemDataLoaded(msg)
   m.loadedItems = m.itemGrid.content.getChildCount() 
   m.loadedRows = m.loadedItems / m.itemGrid.numColumns
   m.Loading = false
+
+  'If there are no items to display, show message
+  if m.loadedItems = 0 then
+    m.emptyText.text = tr("NO_ITEMS").Replace("%1", m.top.parentItem.Type)
+    m.emptyText.visible = true
+  end if
+
+  m.itemGrid.setFocus(true)
+
 end sub
 
 '
@@ -83,9 +97,14 @@ sub onItemFocused()
 
   focusedRow = CInt(m.itemGrid.itemFocused / m.itemGrid.numColumns) + 1
 
-  ' Set Background
   itemInt = m.itemGrid.itemFocused
 
+  ' If no selected item, set background to parent backdrop
+  if itemInt = -1 then
+    return
+  end if
+
+  ' Set Background to item backdrop
   SetBackground(m.itemGrid.content.getChild(m.itemGrid.itemFocused).backdropUrl)
 
   ' Load more data if focus is within last 3 rows, and there are more items to load

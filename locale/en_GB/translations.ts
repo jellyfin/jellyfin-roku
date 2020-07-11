@@ -252,5 +252,13 @@
             <source>Unable to load Channel Data from the server</source>
             <translation>Unable to load Channel Data from the server</translation>
         </message>
+
+        <message>
+            <comment>Message displayed in Item Grid when no item to display. %1 is container type (e.g. Boxset, Collection, Folder, etc)</comment>
+            <source>NO_ITEMS</source>
+            <translation>This %1 contains no items</translation>
+        </message>
+
     </context>
+
 </TS>
