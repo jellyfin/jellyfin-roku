@@ -130,7 +130,7 @@ function VideoContent(video) as object
 end function
 
 function getTranscodeParameters(meta as object)
-  if decodeAudioSupported(meta) then
+  if decodeAudioSupported(meta) and meta.json.MediaStreams[1] <> invalid and meta.json.MediaStreams[1].Type = "Audio" then
     audioCodec = meta.json.MediaStreams[1].codec
     audioChannels = meta.json.MediaStreams[1].channels
   else
@@ -221,6 +221,10 @@ function directPlaySupported(meta as object) as boolean
 end function
 
 function decodeAudioSupported(meta as object) as boolean
+
+  'Check for missing audio and allow playing
+  if meta.json.MediaStreams[1] = invalid or meta.json.MediaStreams[1].Type <> "Audio" then return true
+
   devinfo = CreateObject("roDeviceInfo")
   streamInfo = { Codec: meta.json.MediaStreams[1].codec, ChCnt: meta.json.MediaStreams[1].channels }
   if meta.json.MediaStreams[1].Bitrate <> invalid then
