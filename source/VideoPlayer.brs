@@ -212,7 +212,7 @@ function directPlaySupported(meta as object) as boolean
   end if
   streamInfo =  { Codec: meta.json.MediaStreams[0].codec }
   if meta.json.MediaStreams[0].Profile <> invalid and meta.json.MediaStreams[0].Profile.len() > 0 then
-    streamInfo.Profile = meta.json.MediaStreams[0].Profile
+    streamInfo.Profile = LCase(meta.json.MediaStreams[0].Profile)
   end if
   if meta.json.MediaSources[0].container <> invalid and meta.json.MediaSources[0].container.len() > 0  then
     streamInfo.Container = meta.json.MediaSources[0].container
@@ -222,11 +222,30 @@ end function
 
 function decodeAudioSupported(meta as object) as boolean
   devinfo = CreateObject("roDeviceInfo")
-  streamInfo = { Codec: meta.json.MediaStreams[1].codec, ChCnt: meta.json.MediaStreams[1].channels }
-  if meta.json.MediaStreams[1].Bitrate <> invalid then
-    streamInfo.BitRate = meta.json.MediaStreams[1].Bitrate
+  codec = meta.json.MediaStreams[1].codec
+  streamInfo = { Codec: codec, ChCnt: meta.json.MediaStreams[1].channels }
+
+  'Check for Passthrough
+  audioDecoders = devinfo.GetAudioDecodeInfo()
+
+  'DTS
+  if (codec = "dts" or codec = "dca") and audioDecoders.doesexist("dts") then
+    return true
   end if
-  return devinfo.CanDecodeAudio(streamInfo).result
+
+  'DD
+  if codec = "ac3" and audioDecoders.doesexist("ac3") then
+    return true
+  end if
+
+  'DD+
+  if codec = "eac3" and audioDecoders.doesexist("DD+") then
+    return true
+  end if
+
+  'Otherwise check Roku can decode stream and channels
+  canDecode = devinfo.CanDecodeVideo(streamInfo)
+  return canDecode.result
 end function
 
 function getContainerType(meta as object) as string
