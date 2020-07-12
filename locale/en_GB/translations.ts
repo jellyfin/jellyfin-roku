@@ -215,6 +215,30 @@
         </message>
 
         <message>
+            <source>Error Retrieving Content</source>
+            <translation>Error Retrieving Content</translation>
+            <extracomment>Dialog title when unable to load Content from Server</extracomment>
+        </message>
+
+        <message>
+            <source>Error During Playback</source>
+            <translation>Error During Playback</translation>
+            <extracomment>Dialog title when error occurs during playback</extracomment>
+        </message>
+    
+        <message>
+            <source>There was an error retrieving the data for this item from the server.</source>
+            <translation>There was an error retrieving the data for this item from the server.</translation>
+            <extracomment>Dialog detail when unable to load Content from Server</extracomment>
+        </message>
+
+        <message>
+            <source>An error was encountered while playing this item.</source>
+            <translation>An error was encountered while playing this item.</translation>
+            <extracomment>Dialog detail when error occurs during playback</extracomment>
+        </message>
+
+        <message>
             <source>Loading Channel Data</source>
             <translation>Loading Channel Data</translation>
         </message>
@@ -228,6 +252,5 @@
             <source>Unable to load Channel Data from the server</source>
             <translation>Unable to load Channel Data from the server</translation>
         </message>
-
     </context>
 </TS>
