@@ -5,6 +5,11 @@ sub Main()
 
   ' The main function that runs when the application is launched.
   m.screen = CreateObject("roSGScreen")
+
+  ' Set Global Constants
+  m.global = m.screen.getGlobalNode()  
+  m.global.addFields({ poster_bg_pallet : [ "#00455c", "#44bae1", "#00a4db", "#1c4c5c", "#007ea8" ] })
+
   m.port = CreateObject("roMessagePort")
   m.screen.setMessagePort(m.port)
   m.scene = m.screen.CreateScene("JFScene")
