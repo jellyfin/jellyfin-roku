@@ -9,8 +9,14 @@ The format that is used to save those settings could change at any time and
 your data could be lost and you'd have to re-enter it.
 
 ## Getting Started
+ **Stable Release (Recommended!)**
 
-You can install the Jellyfin BETA Roku App by clicking [here](https://my.roku.com/add/jellyfinbeta)
+The full released version of the channel is available on the [Roku Channel Store](https://my.roku.com/add/jellyfin).
+
+---
+**Beta Release**
+
+If you want, you can install the Beta version by clicking [here](https://my.roku.com/add/jellyfinbeta).
 
 ## Developing The Jellyfin Roku App
 Follow the steps below to install the app on your personal Roku device for development. 
