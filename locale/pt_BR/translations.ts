@@ -203,5 +203,45 @@
         <source>Change Server</source>
         <translation>Mudar servidor</translation>
     </message>
+    <message>
+        <source>Unable to load Channel Data from the server</source>
+        <translation>Não foi possível carregar Dados do Canal do servidor</translation>
+    </message>
+    <message>
+        <source>Error loading Channel Data</source>
+        <translation>Erro ao carregar dados do canal</translation>
+    </message>
+    <message>
+        <source>Loading Channel Data</source>
+        <translation>Carregando dados do canal</translation>
+    </message>
+    <message>
+        <source>An error was encountered while playing this item.</source>
+        <translation>Um erro foi encontrado durante a reprodução deste item.</translation>
+        <extracomment>Dialog detail when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>There was an error retrieving the data for this item from the server.</source>
+        <translation>Ocorreu um erro ao recuperar os dados deste item do servidor.</translation>
+        <extracomment>Dialog detail when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <source>Error During Playback</source>
+        <translation>Erro durante reprodução</translation>
+        <extracomment>Dialog title when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>Error Retrieving Content</source>
+        <translation>Erro ao recuperar conteúdo</translation>
+        <extracomment>Dialog title when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <source>Sign Out</source>
+        <translation>Sair</translation>
+    </message>
+    <message>
+        <source>Change Server</source>
+        <translation>Mudar servidor</translation>
+    </message>
 </context>
 </TS>
