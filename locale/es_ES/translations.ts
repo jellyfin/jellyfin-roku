@@ -6,7 +6,7 @@
     <name>default</name>
     <message>
         <source>192.168.1.100:8096 or https://example.com/jellyfin</source>
-        <translation>192.168.1.100:8096 ó https://example.com/jellyfin</translation>
+        <translation>192.168.1.100:8096 ó https://ejemplo.com/jellyfin</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -34,7 +34,7 @@
     </message>
     <message>
         <source>Login attempt failed.</source>
-        <translation>El intento de inicio de sesión falló.</translation>
+        <translation>Inicio de sesión falló.</translation>
     </message>
     <message>
         <source>OK</source>
@@ -94,7 +94,7 @@
     </message>
     <message>
         <source>My Media</source>
-        <translation>Mis contenidos</translation>
+        <translation>Mi contenido</translation>
     </message>
     <message>
         <source>Continue Watching</source>
@@ -102,7 +102,7 @@
     </message>
     <message>
         <source>Next Up</source>
-        <translation type="unfinished">Siguiente</translation>
+        <translation>Siguiente</translation>
     </message>
     <message>
         <source>Latest in</source>

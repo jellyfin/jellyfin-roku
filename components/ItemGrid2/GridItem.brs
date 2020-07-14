@@ -1,12 +1,20 @@
 sub init()
   m.posterMask = m.top.findNode("posterMask")
   m.itemPoster = m.top.findNode("itemPoster")
+  m.posterText = m.top.findNode("posterText")
   m.itemText = m.top.findNode("itemText")
+  m.backdrop = m.top.findNode("backdrop")
+
+  m.itemPoster.observeField("loadStatus", "onPosterLoadStatusChanged")
 
   m.itemText.translation = [0, m.itemPoster.height + 7]
 end sub
 
 sub itemContentChanged()
+
+  ' Set Randmom background colors from pallet
+  posterBackgrounds = m.global.poster_bg_pallet
+  m.backdrop.color = posterBackgrounds[rnd(posterBackgrounds.count()) - 1]
 
   itemData = m.top.itemContent
 
@@ -15,18 +23,17 @@ sub itemContentChanged()
   if itemData.type = "Movie" then
     m.itemPoster.uri = itemData.PosterUrl
     m.itemText.text = itemData.Title
-    return
   else if itemData.type = "Series" then
     m.itemPoster.uri = itemData.PosterUrl
     m.itemText.text = itemData.Title
-    return
   else if itemData.type = "Boxset" then
-    itemPoster.uri = itemData.PosterUrl
+    m.itemPoster.uri = itemData.PosterUrl
     m.itemText.text = itemData.Title
-    return
+  else
+    print "Unhandled Item Type: " + itemData.type
   end if
 
-  print "Unhandled Item Type: " + itemData.type
+  m.posterText.text = m.itemText.text
 
 end sub
 
@@ -43,8 +50,18 @@ sub focusChanged()
 
   if m.top.itemHasFocus = true then
     m.itemText.visible = true
+    m.itemText.repeatCount = -1
   else
     m.itemText.visible = false
+    m.itemText.repeatCount = 0
   end if
 
+end sub
+
+'Hide backdrop and text when poster loaded
+sub onPosterLoadStatusChanged()
+  if m.itemPoster.loadStatus = "ready" then
+    m.backdrop.visible = false
+    m.posterText.visible = false
+  end if
 end sub
