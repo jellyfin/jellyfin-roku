@@ -1,7 +1,8 @@
 sub itemContentChanged()
   itemData = m.top.itemContent
   if itemData = invalid then return
-
+  itemData.Title = itemData.name ' Temporarily required while we move from "HomeItem" to "JFContentItem"
+  
   m.itemText = m.top.findNode("itemText")
   itemPoster = m.top.findNode("itemPoster")
   itemTextExtra = m.top.findNode("itemTextExtra")

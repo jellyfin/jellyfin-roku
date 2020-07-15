@@ -86,36 +86,36 @@ sub Main()
         group.lastFocus = group.focusedChild
         group.setFocus(false)
         group.visible = false
-        m.overhang.title = selectedItem.name
+        m.overhang.title = selectedItem.title
         group = CreateMovieListGroup(selectedItem)
-        group.overhangTitle = selectedItem.name
+        group.overhangTitle = selectedItem.title
         m.scene.appendChild(group)
-      else if (selectedItem.type = "CollectionFolder" OR selectedItem.type = "UserView") AND  selectedItem.collectionType =  "tvshows"
+      else if (selectedItem.type = "CollectionFolder" OR selectedItem.type = "UserView") AND  selectedItem.collectionType =  "tvshows" 
         group.lastFocus = group.focusedChild
         group.setFocus(false)
         group.visible = false
 
-        m.overhang.title = selectedItem.name
+        m.overhang.title = selectedItem.title
         group = CreateSeriesListGroup(selectedItem)
-        group.overhangTitle = selectedItem.name
+        group.overhangTitle = selectedItem.title
         m.scene.appendChild(group)
-      else if (selectedItem.type = "CollectionFolder" OR selectedItem.type = "UserView") AND selectedItem.collectionType = "boxsets"
+      else if (selectedItem.type = "CollectionFolder" OR selectedItem.type = "UserView") AND selectedItem.collectionType = "boxsets" OR selectedItem.type = "Boxset"
         group.lastFocus = group.focusedChild
         group.setFocus(false)
         group.visible = false
 
-        m.overhang.title = selectedItem.name
+        m.overhang.title = selectedItem.title
         group = CreateCollectionsList(selectedItem)
-        group.overhangTitle = selectedItem.name
+        group.overhangTitle = selectedItem.title
         m.scene.appendChild(group)
       else if (selectedItem.type = "CollectionFolder" OR selectedItem.type = "UserView") AND selectedItem.collectionType = "livetv"
         group.lastFocus = group.focusedChild
         group.setFocus(false)
         group.visible = false
 
-        m.overhang.title = selectedItem.name
+        m.overhang.title = selectedItem.title
         group = CreateChannelList(selectedItem.Id)
-        group.overhangTitle = selectedItem.name
+        group.overhangTitle = selectedItem.title
         m.scene.appendChild(group)
       else if selectedItem.type = "Boxset" then
 
@@ -148,11 +148,11 @@ sub Main()
         group.setFocus(false)
         group.visible = false
 
-        m.overhang.title = selectedItem.name
+        m.overhang.title = selectedItem.title
         m.overhang.showOptions = false
         m.scene.unobserveField("optionsPressed")
         group = CreateSeriesDetailsGroup(selectedItem.json)
-        group.overhangTitle = selectedItem.name
+        group.overhangTitle = selectedItem.title
         m.scene.appendChild(group)
       else if selectedItem.type = "Movie" then
         ' open movie detail page
@@ -160,11 +160,11 @@ sub Main()
         group.setFocus(false)
         group.visible = false
 
-        m.overhang.title = selectedItem.name
+        m.overhang.title = selectedItem.title
         m.overhang.showOptions = false
         m.scene.unobserveField("optionsPressed")
         group = CreateMovieDetailsGroup(selectedItem)
-        group.overhangTitle = selectedItem.name
+        group.overhangTitle = selectedItem.title
         m.scene.appendChild(group)
       else if selectedItem.type = "Video" then
         ' play episode
