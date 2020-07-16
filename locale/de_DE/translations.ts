@@ -243,5 +243,13 @@
         <source>Change Server</source>
         <translation>Server wechseln</translation>
     </message>
+    <message>
+        <source>Sign Out</source>
+        <translation>abmelden</translation>
+    </message>
+    <message>
+        <source>Change Server</source>
+        <translation>Server ändern</translation>
+    </message>
 </context>
 </TS>
