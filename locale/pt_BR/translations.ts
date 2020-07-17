@@ -58,7 +58,7 @@
     </message>
     <message>
         <source>Server not found, is it online?</source>
-        <translation>SServidor não encontrado, ele está online?</translation>
+        <translation>Servidor não encontrado, ele está online?</translation>
     </message>
     <message>
         <source>Shuffle</source>
@@ -106,7 +106,7 @@
     </message>
     <message>
         <source>Latest in</source>
-        <translation>Mais recente</translation>
+        <translation>Mais recente em</translation>
     </message>
     <message>
         <source>Home</source>
@@ -242,6 +242,51 @@
     <message>
         <source>Change Server</source>
         <translation>Mudar servidor</translation>
+    </message>
+    <message>
+        <source>Unable to load Channel Data from the server</source>
+        <translation>Não conseguiu carregar as informações no servidor</translation>
+    </message>
+    <message>
+        <source>Error During Playback</source>
+        <translation>Erro durante a reprodução</translation>
+        <extracomment>Dialog title when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>Error Retrieving Content</source>
+        <translation>Erro ao carregar conteúdo</translation>
+        <extracomment>Dialog title when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <comment>Message displayed in Item Grid when no item to display. %1 is container type (e.g. Boxset, Collection, Folder, etc)</comment>
+        <source>NO_ITEMS</source>
+        <translation>%1 não contém itens</translation>
+    </message>
+    <message>
+        <source>Error loading Channel Data</source>
+        <translation>Erro ao carregar informações do canal</translation>
+    </message>
+    <message>
+        <source>Loading Channel Data</source>
+        <translation>Carregando informações do canal</translation>
+    </message>
+    <message>
+        <source>There was an error retrieving the data for this item from the server.</source>
+        <translation>Ocorreu um erro ao buscar informações deste item no servidor.</translation>
+        <extracomment>Dialog detail when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <source>An error was encountered while playing this item.</source>
+        <translation>Ocorreu um erro durante a reprodução.</translation>
+        <extracomment>Dialog detail when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>Change Server</source>
+        <translation>Mudar de Servidor</translation>
+    </message>
+    <message>
+        <source>Sign Out</source>
+        <translation>Sair</translation>
     </message>
 </context>
 </TS>
