@@ -251,5 +251,32 @@
         <source>Change Server</source>
         <translation>Server ändern</translation>
     </message>
+    <message>
+        <source>Unable to load Channel Data from the server</source>
+        <translation>Kanaldaten können nicht vom Server geladen werden</translation>
+    </message>
+    <message>
+        <source>Error loading Channel Data</source>
+        <translation>Fehler beim Laden von Kanaldaten</translation>
+    </message>
+    <message>
+        <source>Loading Channel Data</source>
+        <translation>Laden von Kanaldaten</translation>
+    </message>
+    <message>
+        <source>An error was encountered while playing this item.</source>
+        <translation>Bei der Wiedergabe dieses Elements ist ein Fehler aufgetreten.</translation>
+        <extracomment>Dialog detail when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>There was an error retrieving the data for this item from the server.</source>
+        <translation>Es ist ein Fehler beim Abfragen dieses Elements vom Server aufgetreten.</translation>
+        <extracomment>Dialog detail when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <source>Error During Playback</source>
+        <translation>Fehler bei der Wiedergabe</translation>
+        <extracomment>Dialog title when error occurs during playback</extracomment>
+    </message>
 </context>
 </TS>
