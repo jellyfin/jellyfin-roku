@@ -278,5 +278,15 @@
         <translation>Fehler bei der Wiedergabe</translation>
         <extracomment>Dialog title when error occurs during playback</extracomment>
     </message>
+    <message>
+        <source>Error Retrieving Content</source>
+        <translation>Fehler beim Anrufen des Inhaltes</translation>
+        <extracomment>Dialog title when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <comment>Message displayed in Item Grid when no item to display. %1 is container type (e.g. Boxset, Collection, Folder, etc)</comment>
+        <source>NO_ITEMS</source>
+        <translation>Diese %1 enthält keine Elemente</translation>
+    </message>
 </context>
 </TS>
