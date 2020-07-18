@@ -106,7 +106,7 @@
     </message>
     <message>
         <source>Latest in</source>
-        <translation>Latest in</translation>
+        <translation>Più recente</translation>
     </message>
     <message>
         <source>Home</source>
@@ -186,6 +186,51 @@
     <message>
         <source>Sign Out</source>
         <translation>Disconnetti</translation>
+    </message>
+    <message>
+        <source>Change Server</source>
+        <translation>Cambia Server</translation>
+    </message>
+    <message>
+        <comment>Message displayed in Item Grid when no item to display. %1 is container type (e.g. Boxset, Collection, Folder, etc)</comment>
+        <source>NO_ITEMS</source>
+        <translation>Questo %1 non contiene elementi</translation>
+    </message>
+    <message>
+        <source>Unable to load Channel Data from the server</source>
+        <translation>Impossibile caricare i dati del canale dal server</translation>
+    </message>
+    <message>
+        <source>Error loading Channel Data</source>
+        <translation>Errore durante il caricamento dei dati del canale</translation>
+    </message>
+    <message>
+        <source>Loading Channel Data</source>
+        <translation>Caricamento Dei Dati Del Canale</translation>
+    </message>
+    <message>
+        <source>An error was encountered while playing this item.</source>
+        <translation>Si è verificato un errore durante la riproduzione dell&apos;elemento.</translation>
+        <extracomment>Dialog detail when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>There was an error retrieving the data for this item from the server.</source>
+        <translation>Si è verificato un errore durante il recupero dei dati per questo elemento dal server.</translation>
+        <extracomment>Dialog detail when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <source>Error During Playback</source>
+        <translation>Errore Durante la Riproduzione</translation>
+        <extracomment>Dialog title when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>Error Retrieving Content</source>
+        <translation>Errore Durante il Recupero</translation>
+        <extracomment>Dialog title when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <source>Sign Out</source>
+        <translation>Esci</translation>
     </message>
     <message>
         <source>Change Server</source>
