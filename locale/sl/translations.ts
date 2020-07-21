@@ -173,4 +173,44 @@
         <translation>Strežnik</translation>
     </message>
 </context>
+<context>
+    <name></name>
+    <message>
+        <comment>Message displayed in Item Grid when no item to display. %1 is container type (e.g. Boxset, Collection, Folder, etc)</comment>
+        <source>NO_ITEMS</source>
+        <translation>Ta %1 ne vsebuje vsebin</translation>
+    </message>
+    <message>
+        <source>Unable to load Channel Data from the server</source>
+        <translation>S strežnika ni bilo mogoče prenesti podatkov o programu</translation>
+    </message>
+    <message>
+        <source>Error loading Channel Data</source>
+        <translation>Napaka pri nalaganju podatkov o programu</translation>
+    </message>
+    <message>
+        <source>Loading Channel Data</source>
+        <translation>Nalaganje podatkov o programu</translation>
+    </message>
+    <message>
+        <source>An error was encountered while playing this item.</source>
+        <translation>Pri predvajanju te vsebine je prišlo do napake.</translation>
+        <extracomment>Dialog detail when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>There was an error retrieving the data for this item from the server.</source>
+        <translation>Pri pridobivanju podatkov za to vsebino s strežnika je prišlo do napake.</translation>
+        <extracomment>Dialog detail when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <source>Error During Playback</source>
+        <translation>Napaka pri predvajanju</translation>
+        <extracomment>Dialog title when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>Error Retrieving Content</source>
+        <translation>Napaka pri pridobivanju vsebin</translation>
+        <extracomment>Dialog title when unable to load Content from Server</extracomment>
+    </message>
+</context>
 </TS>
