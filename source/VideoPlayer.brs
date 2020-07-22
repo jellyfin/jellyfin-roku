@@ -230,7 +230,7 @@ function decodeAudioSupported(meta as object) as boolean
   streamInfo = { Codec: codec, ChCnt: meta.json.MediaStreams[1].channels }
 
   'Otherwise check Roku can decode stream and channels
-  canDecode = devinfo.CanDecodeVideo(streamInfo)
+  canDecode = devinfo.CanDecodeAudio(streamInfo)
   return canDecode.result
 end function
 
