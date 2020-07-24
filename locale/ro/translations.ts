@@ -187,5 +187,42 @@
         <source>Loading Channel Data</source>
         <translation>Se încarcă datele canalului</translation>
     </message>
+    <message>
+        <comment>Message displayed in Item Grid when no item to display. %1 is container type (e.g. Boxset, Collection, Folder, etc)</comment>
+        <source>NO_ITEMS</source>
+        <translation>Acest %1 nu conține articole</translation>
+    </message>
+    <message>
+        <source>Unable to load Channel Data from the server</source>
+        <translation>Nu se pot încărca datele canalului de pe server</translation>
+    </message>
+    <message>
+        <source>Error loading Channel Data</source>
+        <translation>Eroare la încărcarea datelor canalului</translation>
+    </message>
+    <message>
+        <source>Loading Channel Data</source>
+        <translation>Se încarcă datele canalului</translation>
+    </message>
+    <message>
+        <source>An error was encountered while playing this item.</source>
+        <translation>A apărut o eroare la redarea acestui element.</translation>
+        <extracomment>Dialog detail when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>There was an error retrieving the data for this item from the server.</source>
+        <translation>A apărut o eroare la preluarea datelor de pe server pentru acest element.</translation>
+        <extracomment>Dialog detail when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <source>Error During Playback</source>
+        <translation>Eroare în timpul redării</translation>
+        <extracomment>Dialog title when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>Error Retrieving Content</source>
+        <translation>Eroare la preluarea conținutului</translation>
+        <extracomment>Dialog title when unable to load Content from Server</extracomment>
+    </message>
 </context>
 </TS>
