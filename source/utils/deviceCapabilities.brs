@@ -155,53 +155,51 @@ function GetDirectPlayProfiles() as object
     end if
 
     ' Check for supported Audio
-    audioDecoders = di.GetAudioDecodeInfo()
-
-    if audioDecoders.doesexist("AC3") then
+    if di.CanDecodeAudio({ Codec: "ac3"}).result then
         mkvAudio = mkvAudio + ",ac3"
         mp4Audio = mp4Audio + ",ac3"
         audio = audio + ",ac3"
     end if
 
-    if audioDecoders.doesexist("WMA") then
+    if di.CanDecodeAudio({ Codec: "wma"}).result then
         audio = audio + ",wma"
     end if
 
-    if audioDecoders.doesexist("FLAC") then
+    if di.CanDecodeAudio({ Codec: "flac"}).result then
         mkvAudio = mkvAudio + ",flac"
         audio = audio + ",flac"
     end if
 
-    if audioDecoders.doesexist("ALAC") then
+    if di.CanDecodeAudio({ Codec: "alac"}).result then
         mkvAudio = mkvAudio + ",alac"
         mp4Audio = mp4Audio + ",alac"
         audio = audio + ",alac"
     end if
 
-    if audioDecoders.doesexist("AAC") then
+    if di.CanDecodeAudio({ Codec: "aac"}).result then
         mkvAudio = mkvAudio + ",aac"
         mp4Audio = mp4Audio + ",aac"
         audio = audio + ",aac"
     end if
 
-    if audioDecoders.doesexist("OPUS") then
+    if di.CanDecodeAudio({ Codec: "opus"}).result then
         mkvAudio = mkvAudio + ",opus"
     end if
 
-    if audioDecoders.doesexist("DTS") then
-        mkvAudio = mkvAudio + ",dts,dca"
-        audio = audio + ",dts,dca"
+    if di.CanDecodeAudio({ Codec: "dts"}).result then
+        mkvAudio = mkvAudio + ",dts"
+        audio = audio + ",dts"
     end if
 
-    if audioDecoders.doesexist("WMAPRO") then
+    if di.CanDecodeAudio({ Codec: "wmapro"}).result then
         audio = audio + ",wmapro"
     end if
 
-    if audioDecoders.doesexist("VORBIS") then
+    if di.CanDecodeAudio({ Codec: "vorbis"}).result then
         mkvAudio = mkvAudio + ",vorbis"
     end if
 
-    if audioDecoders.doesexist("DD+") then
+    if di.CanDecodeAudio({ Codec: "eac3"}).result then
         mkvAudio = mkvAudio + ",eac3"
     end if
 

@@ -229,26 +229,8 @@ function decodeAudioSupported(meta as object) as boolean
   codec = meta.json.MediaStreams[1].codec
   streamInfo = { Codec: codec, ChCnt: meta.json.MediaStreams[1].channels }
 
-  'Check for Passthrough
-  audioDecoders = devinfo.GetAudioDecodeInfo()
-
-  'DTS
-  if (codec = "dts" or codec = "dca") and audioDecoders.doesexist("dts") then
-    return true
-  end if
-
-  'DD
-  if codec = "ac3" and audioDecoders.doesexist("ac3") then
-    return true
-  end if
-
-  'DD+
-  if codec = "eac3" and audioDecoders.doesexist("DD+") then
-    return true
-  end if
-
   'Otherwise check Roku can decode stream and channels
-  canDecode = devinfo.CanDecodeVideo(streamInfo)
+  canDecode = devinfo.CanDecodeAudio(streamInfo)
   return canDecode.result
 end function
 
