@@ -16,7 +16,8 @@ sub loadItems()
     parentid: m.top.itemId,
     SortBy: sort_field,
     SortOrder: sort_order,
-    recursive: true
+    recursive: true,
+    Fields: "Overview"
   }
 
   if m.top.ItemType <> "" then

@@ -18,7 +18,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
         return true
     else if key = "up" or key = "down"
         m.top.escape = true
-        return true
+        return false
     end if
 
     return false

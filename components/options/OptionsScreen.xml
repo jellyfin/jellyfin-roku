@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="OptionsScreen" extends="Group">
+  <children>
+    <Rectangle width="1920" height="1080" color="#000000" opacity="0.75" />
+    <!-- <MaskGroup maskUri="pkg:/images/dialog.9.png" maskSize="[1000,700]" maskBitmapWidth="26" maskBitmapHeight="26" translation="[460,190]"> -->
+    <Group translation="[100,100]">
+      <Poster width="1720" height="880" uri="pkg:/images/dialog.9.png" />
+
+      <LayoutGroup horizAlignment="center" translation="[860,50]" itemSpacings="[50]">
+
+        <JFButtons id="buttons" />
+
+        <!-- <LabelList id = "moviemenu"  translation = "[100,180]" itemspacing="[0,10]"   vertFocusAnimationStyle="floatingFocus" focusedCheckedIconUri="pkg:/images/icons/up_black.png" checkedIconUri="pkg:/images/icons/up_white.png" focusFootprintBitmapUri="pkg:/images/dialog.9.png" checkedItem="1"> -->
+
+        <Group>
+          <LabelList id = "viewMenu"  itemspacing="[0,10]" vertFocusAnimationStyle="floatingFocus" visible="false">
+            <ContentNode id = "viewMenuContent" role = "content">
+              <ContentNode title = "Movies" />
+              <ContentNode title = "Collections" />
+            </ContentNode>
+          </LabelList>
+
+          <RadiobuttonList id = "sortMenu"  itemspacing="[0,10]" vertFocusAnimationStyle="floatingFocus" visible="true" numRows="8">
+            <ContentNode id = "sortMenuContent" role = "content">
+              <ContentNode title = "Name" />
+              <ContentNode title = "IMDb Rating" />
+              <ContentNode title = "Critic Rating" />
+              <ContentNode title = "Date Added" />
+              <ContentNode title = "Date Played" />
+              <ContentNode title = "Parental Rating" />
+              <ContentNode title = "Play Count" />
+              <ContentNode title = "Release Date" />
+              <ContentNode title = "Runtime" />
+            </ContentNode>
+          </RadiobuttonList>
+
+          <LabelList id = "filterMenu" itemspacing="[0,10]" vertFocusAnimationStyle="floatingFocus" visible="false">
+            <ContentNode id = "filterMenuContent" role = "content">
+              <ContentNode title = "Filter..." />
+              <ContentNode title = "Suggestions" />
+              <ContentNode title = "Latest" />
+              <ContentNode title = "Upcoming" />
+              <ContentNode title = "Genres" />
+              <ContentNode title = "Networks" />
+              <ContentNode title = "Episodes" />
+            </ContentNode>
+          </LabelList>
+        </Group>
+
+        <!-- <RadiobuttonList id = "moviemenu" itemspacing="[0,10]"  itemSize = "[300,55]" vertFocusAnimationStyle="floatingFocus">
+          <ContentNode id = "moviemenucontent" role = "content">
+            <ContentNode title = "Ascending" />
+            <ContentNode title = "Decending" />
+          </ContentNode>
+        </RadiobuttonList> -->
+
+
+
+      </LayoutGroup>
+    </Group>
+    <!-- </MaskGroup> -->
+    <!-- <Poster width="1000" height="700" translation="[460,190]" uri="pkg:/images" -->
+  </children>
+  <interface>
+    <field id="buttons" type="nodearray" />
+    <field id="options" type="nodearray" />
+  </interface>
+  <script type="text/brightscript" uri="OptionsScreen.brs" />
+</component>

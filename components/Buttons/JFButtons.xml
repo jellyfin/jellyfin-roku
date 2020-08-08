@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="JFButtons" extends="Group">
+  <children>
+    <Group>
+
+    <!-- Background Bar -->
+    <Poster id="menubg" uri="pkg:/images/option-menu-bg.9.png" width="800" height="100" />
+
+    <rectangle id="focus" color="#006fab" />
+
+    <LayoutGroup id="buttonGroup" layoutDirection="horiz" itemSpacings = "[75]" translation="[50,20]">
+    </LayoutGroup>
+
+    <Animation  id="moveFocusAnimation"  duration="0.25"  repeat="false"  easeFunction="outQuad" >
+        <!-- <FloatFieldInterpolator id = "focusOpacity" key="[0.0, 0.5, 1.0]" keyValue="[ 1, 0.6, 1 ]" fieldToInterp="focus.opacity" /> -->
+        <FloatFieldInterpolator id = "focusWidth" key="[0.0, 1.0]" keyValue="[ 0.00, 0.25 ]" fieldToInterp="focus.width" />
+        <FloatFieldInterpolator id = "focusHeight" key="[0.0, 1.0]" keyValue="[ 0.25, 0.00 ]" fieldToInterp="focus.height" />
+        <Vector2DFieldInterpolator id = "focusLocation" key="[0.0, 1.0]" keyValue="[]" fieldToInterp="focus.translation"   />
+    </Animation>
+
+<!-- <customEPGGrid /> -->
+    </Group>
+
+  </children>
+  <interface>
+    <field id="buttons" type="array" onChange="updateButtons" />
+    <field id="focusedChild" type="node" onChange="focusChanged" />
+    <field id="focusedIndex" type="integer" alwaysNotify="true" />
+    <field id="selectedIndex" type="integer" />
+  </interface>
+  <script type="text/brightscript" uri="JFButtons.brs" />
+</component>

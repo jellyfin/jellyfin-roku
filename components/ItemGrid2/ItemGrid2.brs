@@ -1,5 +1,8 @@
 sub init()
 
+  m.options = m.top.findNode("options")
+
+
   m.itemGrid = m.top.findNode("itemGrid")
   m.backdrop = m.top.findNode("backdrop")
   m.newBackdrop = m.top.findNode("backdropTransition")
@@ -157,3 +160,24 @@ end sub
 sub onItemSelected()
   m.top.selectedItem = m.itemGrid.content.getChild(m.itemGrid.itemSelected)
 end sub
+
+
+function onKeyEvent(key as string, press as boolean) as boolean
+    
+'	print "IG KeyPress " key
+	
+	if not press then return false
+
+	if key = "options"
+    print "OPTIONS!!!!!!!!!"
+        if m.options.visible = true then
+          m.options.visible = false
+          m.itemGrid.setFocus(true)
+        else
+          m.options.visible = true
+          m.options.setFocus(true)
+        end if
+        return true
+	end if
+  return false
+end function
