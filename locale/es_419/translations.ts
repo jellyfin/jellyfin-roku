@@ -187,5 +187,20 @@
         <source>Loading Channel Data</source>
         <translation>Cargando datos del Canal</translation>
     </message>
+    <message>
+        <source>There was an error retrieving the data for this item from the server.</source>
+        <translation>Error al cargar los datos desde el servidor.</translation>
+        <extracomment>Dialog detail when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <source>Error During Playback</source>
+        <translation>Error en la reproducción</translation>
+        <extracomment>Dialog title when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>Error Retrieving Content</source>
+        <translation>Error al cargar contenido</translation>
+        <extracomment>Dialog title when unable to load Content from Server</extracomment>
+    </message>
 </context>
 </TS>
