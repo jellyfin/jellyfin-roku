@@ -202,5 +202,27 @@
         <translation>Error al cargar contenido</translation>
         <extracomment>Dialog title when unable to load Content from Server</extracomment>
     </message>
+    <message>
+        <comment>Message displayed in Item Grid when no item to display. %1 is container type (e.g. Boxset, Collection, Folder, etc)</comment>
+        <source>NO_ITEMS</source>
+        <translation>1% no contiene ningún elemento</translation>
+    </message>
+    <message>
+        <source>Unable to load Channel Data from the server</source>
+        <translation>No se pudieron cargar los datos del canal desde el servidor</translation>
+    </message>
+    <message>
+        <source>Error loading Channel Data</source>
+        <translation>Error al cargar datos del canal</translation>
+    </message>
+    <message>
+        <source>Loading Channel Data</source>
+        <translation>Cargando datos del canal</translation>
+    </message>
+    <message>
+        <source>An error was encountered while playing this item.</source>
+        <translation>Ocurrió un error al reproducir este elemento.</translation>
+        <extracomment>Dialog detail when error occurs during playback</extracomment>
+    </message>
 </context>
 </TS>
