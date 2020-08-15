@@ -13,12 +13,12 @@
         <!-- <LabelList id = "moviemenu"  translation = "[100,180]" itemspacing="[0,10]"   vertFocusAnimationStyle="floatingFocus" focusedCheckedIconUri="pkg:/images/icons/up_black.png" checkedIconUri="pkg:/images/icons/up_white.png" focusFootprintBitmapUri="pkg:/images/dialog.9.png" checkedItem="1"> -->
 
         <Group>
-          <LabelList id = "viewMenu"  itemspacing="[0,10]" vertFocusAnimationStyle="floatingFocus" visible="false">
+          <RadiobuttonList id = "viewMenu"  itemspacing="[0,10]" vertFocusAnimationStyle="floatingFocus" visible="false">
             <ContentNode id = "viewMenuContent" role = "content">
               <ContentNode title = "Movies" />
               <ContentNode title = "Collections" />
             </ContentNode>
-          </LabelList>
+          </RadiobuttonList>
 
           <RadiobuttonList id = "sortMenu"  itemspacing="[0,10]" vertFocusAnimationStyle="floatingFocus" visible="true" numRows="8">
             <ContentNode id = "sortMenuContent" role = "content">
