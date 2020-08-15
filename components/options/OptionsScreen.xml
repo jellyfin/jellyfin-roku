@@ -20,7 +20,7 @@
             </ContentNode>
           </RadiobuttonList>
 
-          <RadiobuttonList id = "sortMenu"  itemspacing="[0,10]" vertFocusAnimationStyle="floatingFocus" visible="true" numRows="8">
+          <RadiobuttonList id = "sortMenu"  itemspacing="[0,10]" vertFocusAnimationStyle="floatingFocus" visible="true" numRows="8" focusedCheckedIconUri="pkg:/images/icons/up_black.png" checkedIconUri="pkg:/images/icons/up_white.png">
             <ContentNode id = "sortMenuContent" role = "content">
               <ContentNode title = "Name" />
               <ContentNode title = "IMDb Rating" />
