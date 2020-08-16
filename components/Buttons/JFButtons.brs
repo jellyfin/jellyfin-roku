@@ -13,6 +13,9 @@ sub init()
     m.focusAnimWidth = m.top.findNode("focusWidth")
     m.focusAnimHeight = m.top.findNode("focusHeight")
 
+    ' Set button color to global
+    m.focusRing.color = m.global.constants.colors.button
+
     m.buttonCount = 0
     m.selectedFocusedIndex = 1
 

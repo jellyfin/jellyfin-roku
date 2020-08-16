@@ -6,9 +6,13 @@ sub loadItems()
 
   results = []
 
-  sort_order = get_user_setting("movie_sort_order", "Ascending")
-  sort_field = get_user_setting("movie_sort_field", "SortName")
-
+  sort_field = m.top.sortField
+  
+  if m.top.sortAscending = true then
+    sort_order = "Ascending"
+  else
+    sort_order = "Descending"
+  end if
 
   params = {
     limit: m.top.limit,
