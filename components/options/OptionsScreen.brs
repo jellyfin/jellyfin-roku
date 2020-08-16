@@ -15,6 +15,11 @@ sub init()
   m.viewNames = []
   m.sortNames = []
 
+  ' Animation
+  m.fadeAnim = m.top.findNode("fadeAnim")
+  m.fadeOutAnimOpacity = m.top.findNode("outOpacity")
+  m.fadeInAnimOpacity = m.top.findNode("inOpacity")
+
   m.buttons.observeField("focusedIndex", "buttonFocusChanged")
 
 end sub
@@ -75,21 +80,30 @@ sub optionsSet()
 
 end sub
 
-
+' Switch menu shown when button focus changes
 sub buttonFocusChanged()
   if m.buttons.focusedIndex = m.selectedItem then return
-  m.menus[m.selectedItem].visible = false
-  m.menus[m.buttons.focusedIndex].visible = true
+  m.fadeOutAnimOpacity.fieldToInterp = m.menus[m.selectedItem].id + ".opacity"
+  m.fadeInAnimOpacity.fieldToInterp =  m.menus[m.buttons.focusedIndex].id + ".opacity"
+  m.fadeAnim.control = "start"
   m.selectedItem = m.buttons.focusedIndex
 end sub
 
 
 function onKeyEvent(key as string, press as boolean) as boolean
 
-  if key = "down" OR (key = "OK" AND m.top.findNode("buttons").hasFocus()) then
+  if key = "down" or (key = "OK" and m.top.findNode("buttons").hasFocus()) then
     m.top.findNode("buttons").setFocus(false)
     m.menus[m.selectedItem].setFocus(true)
     m.menus[m.selectedItem].drawFocusFeedback = true
+
+    'If user presses down from button menu, focus first item.  If OK, focus checked item
+    if key = "down" then
+      m.menus[m.selectedItem].jumpToItem = 0
+    else
+      m.menus[m.selectedItem].jumpToItem = m.menus[m.selectedItem].itemSelected
+    end if
+
     return true
   else if key = "OK"
     ' Handle Sort screen

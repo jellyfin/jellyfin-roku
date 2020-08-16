@@ -59,10 +59,12 @@ sub loadInitialItems()
 
 end sub
 
+' Data to display when options button selected
 sub SetUpOptions()
 
   options = {}
 
+  'Movies
   if m.top.parentItem.collectionType = "movies" then
     options.views = [{ "Title": tr("Movies"), "Name": "movies" }]
     options.sort = [
@@ -76,6 +78,7 @@ sub SetUpOptions()
       { "Title": tr("Release Date"), "Name": "PremiereDate" },
       { "Title": tr("Run Time"), "Name": "Runtime" }
     ]
+  'TV Shows
   else if m.top.parentItem.collectionType = "tvshows" then
     options.views = [{ "Title": tr("Shows"), "Name": "shows" }]
     options.sort = [

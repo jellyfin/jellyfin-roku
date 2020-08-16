@@ -110,6 +110,9 @@ function onKeyEvent(key as string, press as boolean) as boolean
         highlightSelected(m.selectedFocusedIndex)
         m.top.focusedIndex = m.selectedFocusedIndex
         return true
+    else if key = "OK"
+        m.top.selectedIndex = m.selectedFocusedIndex
+        return true
 	end if
     return false
 end function

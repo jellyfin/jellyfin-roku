@@ -7,11 +7,11 @@
       <LayoutGroup horizAlignment="center" translation="[860,50]" itemSpacings="[50]">
         <JFButtons id="buttons" />
         <Group>
-          <RadiobuttonList id = "viewMenu" itemspacing="[0,10]" vertFocusAnimationStyle="floatingFocus" visible="false" drawFocusFeedback="false">
+          <RadiobuttonList id="viewMenu" itemspacing="[0,10]" vertFocusAnimationStyle="floatingFocus" opacity="0" drawFocusFeedback="false">
           </RadiobuttonList>
-          <RadiobuttonList id = "sortMenu" itemspacing="[0,10]" vertFocusAnimationStyle="floatingFocus" visible="true" numRows="8" drawFocusFeedback="false">
+          <RadiobuttonList id="sortMenu" itemspacing="[0,10]" vertFocusAnimationStyle="floatingFocus" opacity="1" numRows="8" drawFocusFeedback="false">
           </RadiobuttonList>
-          <LabelList id = "filterMenu" itemspacing="[0,10]" vertFocusAnimationStyle="floatingFocus" visible="false" drawFocusFeedback="false">
+          <LabelList id = "filterMenu" itemspacing="[0,10]" vertFocusAnimationStyle="floatingFocus" opacity="0" drawFocusFeedback="false">
             <ContentNode id = "filterMenuContent" role = "content">
               <ContentNode title = "Coming Soon..." />
             </ContentNode>
@@ -19,6 +19,12 @@
         </Group>
       </LayoutGroup>
     </Group>
+
+    <Animation id="fadeAnim" duration="0.5" repeat="false">
+      <FloatFieldInterpolator id="outOpacity" key="[0.0, 0.5, 1.0]" keyValue="[ 1, 0, 0 ]" fieldToInterp="focus.opacity" />
+      <FloatFieldInterpolator id="inOpacity" key="[0.0, 0.5, 1.0]" keyValue="[ 0, 0, 1 ]" fieldToInterp="focus.opacity" />
+    </Animation>
+
   </children>
   <interface>
     <field id="buttons" type="nodearray" />
