@@ -1,7 +1,7 @@
 sub init()
 
   m.buttons = m.top.findNode("buttons")
-  m.buttons.buttons = [tr("View"), tr("Sort"), tr("Filter")]
+  m.buttons.buttons = [tr("TAB_VIEW"), tr("TAB_SORT"), tr("TAB_FILTER")]
   m.buttons.setFocus(true)
 
   m.selectedSortIndex = 0

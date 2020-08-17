@@ -2,8 +2,6 @@ sub init()
 
     m.top.focusable = true
 
-
- 
     m.menubg = m.top.findNode("menubg")
 
     m.focusRing = m.top.findNode("focus")

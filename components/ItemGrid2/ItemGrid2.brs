@@ -68,26 +68,26 @@ sub SetUpOptions()
   if m.top.parentItem.collectionType = "movies" then
     options.views = [{ "Title": tr("Movies"), "Name": "movies" }]
     options.sort = [
-      { "Title": tr("Name"), "Name": "SortName" },
-      { "Title": tr("IMDb Rating"), "Name": "CommunityRating" },
-      { "Title": tr("Critic Rating"), "Name": "CriticRating" },
-      { "Title": tr("Date Added"), "Name": "DateCreated" },
-      { "Title": tr("Date Played"), "Name": "DatePlayed" },
-      { "Title": tr("Parental Rating"), "Name": "OfficialRating" },
-      { "Title": tr("Play Count"), "Name": "PlayCount" },
-      { "Title": tr("Release Date"), "Name": "PremiereDate" },
-      { "Title": tr("Run Time"), "Name": "Runtime" }
+      { "Title": tr("TITLE"), "Name": "SortName" },
+      { "Title": tr("IMDB_RATING"), "Name": "CommunityRating" },
+      { "Title": tr("CRITIC_RATING"), "Name": "CriticRating" },
+      { "Title": tr("DATE_ADDED"), "Name": "DateCreated" },
+      { "Title": tr("DATE_PLAYED"), "Name": "DatePlayed" },
+      { "Title": tr("OFFICIAL_RATING"), "Name": "OfficialRating" },
+      { "Title": tr("PLAY_COUNT"), "Name": "PlayCount" },
+      { "Title": tr("RELEASE_DATE"), "Name": "PremiereDate" },
+      { "Title": tr("RUNTIME"), "Name": "Runtime" }
     ]
   'TV Shows
   else if m.top.parentItem.collectionType = "tvshows" then
     options.views = [{ "Title": tr("Shows"), "Name": "shows" }]
     options.sort = [
-      { "Title": tr("Name"), "Name": "SortName" },
-      { "Title": tr("IMDb Rating"), "Name": "CommunityRating" },
-      { "Title": tr("Date Added"), "Name": "DateCreated" },
-      { "Title": tr("Date Played"), "Name": "DatePlayed" },
-      { "Title": tr("Parental Rating"), "Name": "OfficialRating" },
-      { "Title": tr("Release Date"), "Name": "PremiereDate" },
+      { "Title": tr("TITLE"), "Name": "SortName" },
+      { "Title": tr("IMDB_RATING"), "Name": "CommunityRating" },
+      { "Title": tr("DATE_ADDED"), "Name": "DateCreated" },
+      { "Title": tr("DATE_PLAYED"), "Name": "DatePlayed" },
+      { "Title": tr("OFFICIAL_RATING"), "Name": "OfficialRating" },
+      { "Title": tr("RELEASE_DATE"), "Name": "PremiereDate" },
     ]
 
   end if

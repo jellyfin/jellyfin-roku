@@ -225,7 +225,7 @@
             <translation>Error During Playback</translation>
             <extracomment>Dialog title when error occurs during playback</extracomment>
         </message>
-    
+
         <message>
             <source>There was an error retrieving the data for this item from the server.</source>
             <translation>There was an error retrieving the data for this item from the server.</translation>
@@ -259,6 +259,61 @@
             <translation>This %1 contains no items</translation>
         </message>
 
-    </context>
+        <message>
+            <comment>Name or Title field of media item</comment>
+            <source>TITLE</source>
+            <translation>Name</translation>
+        </message>
+        <message>
+            <source>IMDB_RATING</source>
+            <translation>IMDb Rating</translation>
+        </message>
+        <message>
+            <source>CRITIC_RATING</source>
+            <translation>Critic Rating</translation>
+        </message>
+        <message>
+            <source>DATE_ADDED</source>
+            <translation>Date Added</translation>
+        </message>
+        <message>
+            <source>DATE_PLAYED</source>
+            <translation>Date Played</translation>
+        </message>
+        <message>
+            <source>OFFICIAL_RATING</source>
+            <translation>Parental Rating</translation>
+        </message>
+        <message>
+            <source>PLAY_COUNT</source>
+            <translation>Play Count</translation>
+        </message>
+        <message>
+            <source>RELEASE_DATE</source>
+            <translation>Release Date</translation>
+        </message>
+        <message>
+            <source>RUNTIME</source>
+            <translation>Run Time</translation>
+        </message>
 
+        <message>
+            <comment>Title of Tab for switching "views" when looking at a library</comment>
+            <source>TAB_VIEW</source>
+            <translation>View</translation>
+        </message>
+
+        <message>
+            <comment>Title of Tab for options to sort library content</comment>
+            <source>TAB_SORT</source>
+            <translation>Sort</translation>
+        </message>
+
+        <message>
+            <comment>Title of Tab for options to filter library content</comment>
+            <source>TAB_FILTER</source>
+            <translation>Filter</translation>
+        </message>
+
+    </context>
 </TS>
