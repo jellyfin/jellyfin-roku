@@ -1,5 +1,7 @@
 sub init()
 
+  m.options = m.top.findNode("options")
+
   m.itemGrid = m.top.findNode("itemGrid")
   m.backdrop = m.top.findNode("backdrop")
   m.newBackdrop = m.top.findNode("backdropTransition")
@@ -7,7 +9,7 @@ sub init()
 
   m.swapAnimation = m.top.findNode("backroundSwapAnimation")
   m.swapAnimation.observeField("state", "swapDone")
-  
+
   m.loadedRows = 0
   m.loadedItems = 0
 
@@ -23,20 +25,27 @@ sub init()
   'Background Image Queued for loading
   m.queuedBGUri = ""
 
+  'Item sort - maybe load defaults from user prefs?
+  m.sortField = "SortName"
+  m.sortAscending = true
+
   m.loadItemsTask = createObject("roSGNode", "LoadItemsTask2")
-  
+  m.loadItemsTask.observeField("content", "ItemDataLoaded")
+
 end sub
 
 '
 'Load initial set of Data
-sub loadInitialItems() 
+sub loadInitialItems()
 
   if m.top.parentItem.backdropUrl <> invalid then
     SetBackground(m.top.parentItem.backdropUrl)
   end if
 
   m.loadItemsTask.itemId = m.top.parentItem.Id
-  m.loadItemsTask.observeField("content", "ItemDataLoaded")
+  m.loadItemsTask.sortField = m.sortField
+  m.loadItemsTask.sortAscending = m.sortAscending
+  m.loadItemsTask.startIndex = 0
 
   if m.top.parentItem.collectionType = "movies" then
     m.loadItemsTask.itemType = "Movie"
@@ -45,18 +54,66 @@ sub loadInitialItems()
   end if
 
   m.loadItemsTask.control = "RUN"
+
+  SetUpOptions()
+
 end sub
+
+' Data to display when options button selected
+sub SetUpOptions()
+
+  options = {}
+
+  'Movies
+  if m.top.parentItem.collectionType = "movies" then
+    options.views = [{ "Title": tr("Movies"), "Name": "movies" }]
+    options.sort = [
+      { "Title": tr("TITLE"), "Name": "SortName" },
+      { "Title": tr("IMDB_RATING"), "Name": "CommunityRating" },
+      { "Title": tr("CRITIC_RATING"), "Name": "CriticRating" },
+      { "Title": tr("DATE_ADDED"), "Name": "DateCreated" },
+      { "Title": tr("DATE_PLAYED"), "Name": "DatePlayed" },
+      { "Title": tr("OFFICIAL_RATING"), "Name": "OfficialRating" },
+      { "Title": tr("PLAY_COUNT"), "Name": "PlayCount" },
+      { "Title": tr("RELEASE_DATE"), "Name": "PremiereDate" },
+      { "Title": tr("RUNTIME"), "Name": "Runtime" }
+    ]
+  'TV Shows
+  else if m.top.parentItem.collectionType = "tvshows" then
+    options.views = [{ "Title": tr("Shows"), "Name": "shows" }]
+    options.sort = [
+      { "Title": tr("TITLE"), "Name": "SortName" },
+      { "Title": tr("IMDB_RATING"), "Name": "CommunityRating" },
+      { "Title": tr("DATE_ADDED"), "Name": "DateCreated" },
+      { "Title": tr("DATE_PLAYED"), "Name": "DatePlayed" },
+      { "Title": tr("OFFICIAL_RATING"), "Name": "OfficialRating" },
+      { "Title": tr("RELEASE_DATE"), "Name": "PremiereDate" },
+    ]
+
+  end if
+
+  for each o in options.sort
+    if o.Name = m.sortField then
+      o.Selected = true
+      o.Ascending = m.sortAscending
+    end if
+  end for
+
+  m.options.options = options
+
+end sub
+
 
 '
 'Handle loaded data, and add to Grid
 sub ItemDataLoaded(msg)
- 
+
   itemData = msg.GetData()
   data = msg.getField()
 
-  if itemData = invalid then 
+  if itemData = invalid then
     m.Loading = false
-    return 
+    return
   end if
 
   for each item in itemData
@@ -64,7 +121,7 @@ sub ItemDataLoaded(msg)
   end for
 
   'Update the stored counts
-  m.loadedItems = m.itemGrid.content.getChildCount() 
+  m.loadedItems = m.itemGrid.content.getChildCount()
   m.loadedRows = m.loadedItems / m.itemGrid.numColumns
   m.Loading = false
 
@@ -111,7 +168,7 @@ sub onItemFocused()
   if focusedRow >= m.loadedRows - 3 and m.loadeditems < m.loadItemsTask.totalRecordCount then
     loadMoreData()
   end if
-end sub 
+end sub
 
 '
 'When Image Loading Status changes
@@ -127,16 +184,16 @@ end sub
 sub swapDone()
 
   if m.swapAnimation.state = "stopped" then
-  
+
     'Set main BG node image and hide transitioning node
     m.backdrop.uri = m.newBackdrop.uri
     m.backdrop.opacity = 0.25
     m.newBackdrop.opacity = 0
-  
+
     'If there is another one to load
-    if m.newBackdrop.uri <> m.queuedBGUri and m.queuedBGUri <> ""  then
-        SetBackground(m.queuedBGUri)
-        m.queuedBGUri = ""
+    if m.newBackdrop.uri <> m.queuedBGUri and m.queuedBGUri <> "" then
+      SetBackground(m.queuedBGUri)
+      m.queuedBGUri = ""
     end if
   end if
 end sub
@@ -157,3 +214,43 @@ end sub
 sub onItemSelected()
   m.top.selectedItem = m.itemGrid.content.getChild(m.itemGrid.itemSelected)
 end sub
+
+
+'
+'Check if options updated and any reloading required
+sub optionsClosed()
+  if m.options.sortField <> m.sortField or m.options.sortAscending <> m.sortAscending then
+    m.sortField = m.options.sortField
+    m.sortAscending = m.options.sortAscending
+    m.loadedRows = 0
+    m.loadedItems = 0
+    m.data = CreateObject("roSGNode", "ContentNode")
+    m.itemGrid.content = m.data
+    loadInitialItems()
+  end if
+  m.itemGrid.setFocus(true)
+end sub
+
+
+function onKeyEvent(key as string, press as boolean) as boolean
+
+  if not press then return false
+
+  if key = "options"
+    if m.options.visible = true then
+      m.options.visible = false
+      optionsClosed()
+    else
+      m.options.visible = true
+      m.options.setFocus(true)
+    end if
+    return true
+  else if key = "back" then
+    if m.options.visible = true then
+      m.options.visible = false
+      optionsClosed()
+      return true
+    end if
+  end if
+  return false
+end function

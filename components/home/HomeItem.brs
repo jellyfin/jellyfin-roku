@@ -19,7 +19,7 @@ sub itemContentChanged()
 
   ' Randmomise the background colors
   m.backdrop = m.top.findNode("backdrop")
-  posterBackgrounds = m.global.poster_bg_pallet
+  posterBackgrounds = m.global.constants.poster_bg_pallet
   m.backdrop.color = posterBackgrounds[rnd(posterBackgrounds.count()) - 1]
   m.backdrop.width = imageWidth
 

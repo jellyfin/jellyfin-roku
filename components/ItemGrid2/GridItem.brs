@@ -13,7 +13,7 @@ end sub
 sub itemContentChanged()
 
   ' Set Randmom background colors from pallet
-  posterBackgrounds = m.global.poster_bg_pallet
+  posterBackgrounds = m.global.constants.poster_bg_pallet
   m.backdrop.color = posterBackgrounds[rnd(posterBackgrounds.count()) - 1]
 
   itemData = m.top.itemContent

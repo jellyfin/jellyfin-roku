@@ -7,6 +7,8 @@
     <field id="itemType" type="string" value="" />
     <field id="limit" type="integer" value="36" />
     <field id="metadata" type="associativearray" />
+    <field id="sortField" type="string" value="SortName" />
+    <field id="sortAscending" type="boolean" value="true" />
     
     <!-- Total records available from server-->
     <field id="totalRecordCount" type="int" value="-1" />
