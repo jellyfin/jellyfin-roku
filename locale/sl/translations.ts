@@ -126,7 +126,7 @@
     </message>
     <message>
         <source>Release Date</source>
-        <translation type="unfinished">Datum izida</translation>
+        <translation>Datum izida</translation>
     </message>
     <message>
         <source>Name</source>
