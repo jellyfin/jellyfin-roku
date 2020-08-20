@@ -1,12 +1,32 @@
-# Jellyfin app for Roku
+<p>
+    <h1 style="text-align: center;">Jellyfin app for Roku</h1>
+    <h3 style="text-align: center;">Part of the <a href="https://jellyfin.media/">Jellyfin</a> Project</h3>
+</p>
 
-**This app is not complete!**
+<p align="center">
+<img alt="Logo banner" src="https://raw.githubusercontent.com/jellyfin/jellyfin-ux/master/branding/SVG/banner-logo-solid.svg?sanitize=true"/>
+<br/><br/>
+<a href="https://github.com/jellyfin/jellyfin-roku">
+<img alt="GPL 2.0 License" src="https://img.shields.io/github/license/jellyfin/jellyfin-roku.svg"/>
+</a>
+<a href="https://github.com/jellyfin/jellyfin-androidtv/releases">
+<img alt="Current Release" src="https://img.shields.io/github/release/jellyfin/jellyfin-roku.svg"/>
+</a>
+<a href="https://translate.jellyfin.org/projects/jellyfin/jellyfin-roku/?utm_source=widget">
+<img src="https://translate.jellyfin.org/widgets/jellyfin/-/jellyfin-roku/svg-badge.svg" alt="Translation status" />
+</a>
+<br/>
+<a href="https://matrix.to/#/+jellyfin:matrix.org">
+<img alt="Chat on Matrix" src="https://img.shields.io/matrix/jellyfin:matrix.org.svg?logo=matrix"/>
+</a>
+<a href="https://www.reddit.com/r/jellyfin">
+<img alt="Join our Subreddit" src="https://img.shields.io/badge/reddit-r%2Fjellyfin-%23FF5700.svg"/>
+</a>
+</p>
 
-Currently, the data stored on your Roku device are server name, server port,
-user id, and some user preferences like movie sort order.
+The Jellyfin Roku App is a Jellyfin client for Roku Devices.  This is still very much a work in progress, so we would encourage you to [get involved](#get_involved) if you can.
 
-The format that is used to save those settings could change at any time and
-your data could be lost and you'd have to re-enter it.
+
 
 ## Getting Started
  **Stable Release (Recommended!)**
@@ -18,131 +38,13 @@ The full released version of the channel is available on the [Roku Channel Store
 
 If you want, you can install the Beta version by clicking [here](https://my.roku.com/add/jellyfinbeta).
 
-## Developing The Jellyfin Roku App
-Follow the steps below to install the app on your personal Roku device for development. 
 
-### Developer Mode
+## Getting Involved<a name="get_involved"></a>
 
-Put your Roku device in [developer mode](https://blog.roku.com/developer/2016/02/04/developer-setup-guide). Write down your Roku device IP and the password you created, you will need these later.
+No matter what your interests or skill are, you can help to make this client better for everyone by simply using the client and letting us know if you find a problem with it.   Either give us a shout on [matrix](https://matrix.to/#/+jellyfin:matrix.org) or create a github issue.
 
-### Clone the GitHub Repo
+Feature requests are always welcome too, but please have a read though the existing issues to see if someone has already raised one for something similar.
 
-Navigate to where you'd like to install the app then copy the application files:
+If you can live with a slightly less stable version of the client, then install the beta version of the client from the *beta release* link above and give us some feedback.
 
-```bash
-git clone https://github.com/jellyfin/jellyfin-roku.git
-```
-
-Open up the new folder:
-
-```bash
-cd jellyfin-roku
-```
-
-### Install Necessary Packages
-
-```bash
-sudo apt-get install wget make
-```
-
-### Login Details
-
-Run this command - replacing the IP and password with your Roku device IP and dev password from the first step:
-
-```bash
-export ROKU_DEV_TARGET=192.168.1.234
-export ROKU_DEV_PASSWORD=password
-```
-
-Normally you would have to open up your browser and upload a .zip file containing the app code. These commands enable the app to be zipped up and installed on the Roku automatically which is essential for developers and makes it easy to upgrade in the future for users.
-
-### Deploy
-
-Package up the application, send it to your Roku, and launch the channel:
-
-```bash
-make install
-```
-
-Note: You only have to run this command once if you are not a developer. The Jellyfin channel will still be installed after rebooting your Roku device.
-
-### Bug/Crash Reports
-
-Did the app crash? Find a nasty bug? Use the this command to view the error log and [report it to the developers](https://github.com/jellyfin/jellyfin-roku/issues):
-
-```bash
-telnet ${ROKU_DEV_TARGET} 8085
-```
-
-To exit telnet: `CTRL + ]` and then type `quit + ENTER`
-
-### Upgrade
-
-Navigate to the folder where you installed the app then upgrade the code to the latest version:
-
-```bash
-git pull
-```
-
-Deploy the app:
-
-```bash
-make install
-```
-
-## Developer Setup
-
-Read below and also checkout the [Development Guide For New Devs](DEVGUIDE.md)
-
-### Workflow
-
-Modify code -> `make install` -> Use Roku remote to test changes -> `telnet ${ROKU_DEV_TARGET} 8085` -> `CTRL + ]` -> `quit + ENTER`
-
-Unfortunately there is no debuger. You will need to use telnet to see log statements, warnings, and error reports. You won't always need to telnet into your device but the workflow above is typical when you are new to Brightscript or are working on tricky code.
-
-### Testing
-
-Testing is done with the [Rooibos](https://github.com/georgejecook/rooibos/) library. This works by including tests in the deployment and then looking at telnet
-for the test results.
-
-Install necessary packages:
-
-```bash
-sudo apt-get install nodejs npm
-```
-
-Install [rooibos-cli](https://github.com/georgejecook/rooibos-cli):
-
-```bash
-npm install -g rooibos-cli
-```
-
-Deploy the application with tests:
-
-```bash
-make test
-```
-
-View test results:
-
-```bash
-telnet ${ROKU_DEV_TARGET} 8085
-```
-
-To exit telnet: `CTRL + ]` and then type `quit + ENTER`
-
-### (Optional) Update Images
-
-This repo already contains all necessary images for the app. This script only needs to be run when the [official Jellyfin images](https://github.com/jellyfin/jellyfin-ux) are changed to allow us to update the repo images.
-
-Install necessary packages:
-
-```bash
-sudo apt-get install imagemagick
-```
-
-Download and convert images:
-
-```bash
-make get_images
-```
+If you fancy some development, then read the [DEVGUIDE](DEVGUID.md) to find out the best ways to help.
