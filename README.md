@@ -47,4 +47,4 @@ Feature requests are always welcome too, but please have a read though the exist
 
 If you can live with a slightly less stable version of the client, then install the beta version of the client from the *beta release* link above and give us some feedback.
 
-If you fancy some development, then read the [DEVGUIDE](DEVGUID.md) to find out the best ways to help.
+If you fancy some development, then read the [DEVGUIDE](DEVGUIDE.md) to find out the best ways to help.
