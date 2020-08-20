@@ -1,63 +1,128 @@
-# JellyFin Roku Development
-###### The Ramblings of a Learning Man
+## Developing The Jellyfin Roku App
+Follow the steps below to install the app on your personal Roku device for development. 
 
-#### The GIT Portion
-1.  Install git
-2.  Fork [jellyfin-roku](https://github.com/jellyfin/jellyfin-roku) repo to your own.  
-3.  Clone your repo to local  
-  3a.  ````git clone ssh://github.com/username/jellyfin-roku.git````
-4.  Create a branch for your fix  
-  4a.  ````git checkout -B issue007````
-5.  Set remote repo so you can stay current with other dev changes  
-  5a.  ````git remote add upstream https://github.com/jellyfin/jellyfin-roku.git````
-6.  Fetch remote changes from other devs often  
-  6a.  ````git fetch upstream````
-7.  After making changes, push local branch to github repo  
-  7a.  ````git add --all````  
-  7b.  ````git commit -m "description of changes for commit"````  
-  7c.  ````git push -u origin issue007````  
+### Developer Mode
 
-Congrats, you are now forked and ready to perform pull requests.  You can do so via [github webui](https://help.github.com/en/articles/creating-a-pull-request-from-a-fork)
+Put your Roku device in [developer mode](https://blog.roku.com/developer/2016/02/04/developer-setup-guide). Write down your Roku device IP and the password you created, you will need these later.
 
-#### Jellyfin Portion - via Docker  
+### Clone the GitHub Repo
 
-For this portion, I will not go into any depth on [docker](https://www.docker.com/) nor [portainer](https://www.portainer.io/), but they are what I chose to use to have a dev install of jellyfin for working on.  
+Navigate to where you'd like to install the app then copy the application files:
 
-Via the portainer condole I created an app template using the jellyfin/jellyfin:latest [docker image](https://hub.docker.com/r/jellyfin/jellyfin/) as per the instructions from the [Jellyfin Install Docs](https://jellyfin.readthedocs.io/en/latest/administrator-docs/installing/).  I applied the following:  
-*  Port mapping - host port 8098; container port 8096.  
-I did this so it will not conflict with my 'prod' installation and both can be accessed in parallel.  
-*  Volume mapping - /media, /config, /cache directories mapped according to my needs.  
+```bash
+git clone https://github.com/jellyfin/jellyfin-roku.git
+```
 
-At this point, I can create a new image as needed for updating to the latest version all simply by deleting the existing image and recreating which will pull the latest from docker registry and persist the configs.
+Open up the new folder:
 
-#### The Roku Portion  
-*  Put your Roku in [Dev Mode](https://blog.roku.com/developer/developer-setup-guide)
-*  I use [Atom](https://atom.io).
-*  I installed [roku-develop](https://atom.io/packages/roku-develop) for Atom.
-*  Read the [Roku Developer Docs](https://developer.roku.com/docs/developer-program/getting-started)
+```bash
+cd jellyfin-roku
+```
 
-###### Instructions:  
-*  Install [ImageMagick](https://www.imagemagick.org/script/download.php).  
-*  Install [wget](https://www.gnu.org/software/wget/).  
-*  Install [make](https://www.gnu.org/software/make/).  
-*  Install [nodejs and npm](https://www.npmjs.com/get-npm).  
-*  Ensure npm requirements are installed:
-````
-cd /path/to/git/repo/  
-npm install  
-````  
-*  Update branding images from jellyfin repo:  
- ````sh make_images.sh````  
-  You should see something similar to the following:  
-````
- --2019-09-08 12:45:02-- https://raw.githubusercontent.com/jellyfin/jellyfin-ux/master/branding/SVG/icon-transparent.svg  
-Resolving raw.githubusercontent.com (raw.githubusercontent.com)... 151.101.128.133, 151.101.192.133, 151.101.0.133, ...
-Connecting to raw.githubusercontent.com (raw.githubusercontent.com)|151.101.128.133|:443... connected.
-HTTP request sent, awaiting response... 200 OK  
-````  
+### Install Necessary Packages
 
-#### Actual Build and Deploy to Roku:  
-````  
-cd /path/to/local/git/repo
-make install  
-````
+```bash
+sudo apt-get install wget make
+```
+
+### Login Details
+
+Run this command - replacing the IP and password with your Roku device IP and dev password from the first step:
+
+```bash
+export ROKU_DEV_TARGET=192.168.1.234
+export ROKU_DEV_PASSWORD=password
+```
+
+Normally you would have to open up your browser and upload a .zip file containing the app code. These commands enable the app to be zipped up and installed on the Roku automatically which is essential for developers and makes it easy to upgrade in the future for users.
+
+### Deploy
+
+Package up the application, send it to your Roku, and launch the channel:
+
+```bash
+make install
+```
+
+Note: You only have to run this command once if you are not a developer. The Jellyfin channel will still be installed after rebooting your Roku device.
+
+### Bug/Crash Reports
+
+Did the app crash? Find a nasty bug? Use the this command to view the error log and [report it to the developers](https://github.com/jellyfin/jellyfin-roku/issues):
+
+```bash
+telnet ${ROKU_DEV_TARGET} 8085
+```
+
+To exit telnet: `CTRL + ]` and then type `quit + ENTER`
+
+### Upgrade
+
+Navigate to the folder where you installed the app then upgrade the code to the latest version:
+
+```bash
+git pull
+```
+
+Deploy the app:
+
+```bash
+make install
+```
+
+## Developer Setup
+
+Read below and also checkout the [Development Guide For New Devs](DEVGUIDE.md)
+
+### Workflow
+
+Modify code -> `make install` -> Use Roku remote to test changes -> `telnet ${ROKU_DEV_TARGET} 8085` -> `CTRL + ]` -> `quit + ENTER`
+
+Unfortunately there is no debuger. You will need to use telnet to see log statements, warnings, and error reports. You won't always need to telnet into your device but the workflow above is typical when you are new to Brightscript or are working on tricky code.
+
+### Testing
+
+Testing is done with the [Rooibos](https://github.com/georgejecook/rooibos/) library. This works by including tests in the deployment and then looking at telnet
+for the test results.
+
+Install necessary packages:
+
+```bash
+sudo apt-get install nodejs npm
+```
+
+Install [rooibos-cli](https://github.com/georgejecook/rooibos-cli):
+
+```bash
+npm install -g rooibos-cli
+```
+
+Deploy the application with tests:
+
+```bash
+make test
+```
+
+View test results:
+
+```bash
+telnet ${ROKU_DEV_TARGET} 8085
+```
+
+To exit telnet: `CTRL + ]` and then type `quit + ENTER`
+
+### (Optional) Update Images
+
+This repo already contains all necessary images for the app. This script only needs to be run when the [official Jellyfin images](https://github.com/jellyfin/jellyfin-ux) are changed to allow us to update the repo images.
+
+Install necessary packages:
+
+```bash
+sudo apt-get install imagemagick
+```
+
+Download and convert images:
+
+```bash
+make get_images
+```
