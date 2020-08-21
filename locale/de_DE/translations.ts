@@ -293,5 +293,102 @@
         <source>NO_ITEMS</source>
         <translation>%1 enthält keine Elemente</translation>
     </message>
+    <message>
+        <comment>Title of Tab for options to filter library content</comment>
+        <source>TAB_FILTER</source>
+        <translation>Filter</translation>
+    </message>
+    <message>
+        <comment>Title of Tab for options to sort library content</comment>
+        <source>TAB_SORT</source>
+        <translation>Sortierung</translation>
+    </message>
+    <message>
+        <comment>Title of Tab for switching &quot;views&quot; when looking at a library</comment>
+        <source>TAB_VIEW</source>
+        <translation>Ansicht</translation>
+    </message>
+    <message>
+        <source>RUNTIME</source>
+        <translation>Laufzeit</translation>
+    </message>
+    <message>
+        <source>RELEASE_DATE</source>
+        <translation>Erscheinungsdatum</translation>
+    </message>
+    <message>
+        <source>PLAY_COUNT</source>
+        <translation>Anzahl der Wiedergaben</translation>
+    </message>
+    <message>
+        <source>OFFICIAL_RATING</source>
+        <translation>Alterseinstufung</translation>
+    </message>
+    <message>
+        <source>DATE_PLAYED</source>
+        <translation>Abgespielt am</translation>
+    </message>
+    <message>
+        <source>DATE_ADDED</source>
+        <translation>Hinzugefügt am</translation>
+    </message>
+    <message>
+        <source>CRITIC_RATING</source>
+        <translation>Kritiker-Bewertung</translation>
+    </message>
+    <message>
+        <source>IMDB_RATING</source>
+        <translation>IMDb-Bewertung</translation>
+    </message>
+    <message>
+        <comment>Name or Title field of media item</comment>
+        <source>TITLE</source>
+        <translation>Name</translation>
+    </message>
+    <message>
+        <comment>Message displayed in Item Grid when no item to display. %1 is container type (e.g. Boxset, Collection, Folder, etc)</comment>
+        <source>NO_ITEMS</source>
+        <translation>Diese %1 enthält keine Elemente</translation>
+    </message>
+    <message>
+        <source>Unable to load Channel Data from the server</source>
+        <translation>Kanal-Daten können nicht vom Server geladen werden</translation>
+    </message>
+    <message>
+        <source>Error loading Channel Data</source>
+        <translation>Fehler beim Laden von Kanal-Daten</translation>
+    </message>
+    <message>
+        <source>Loading Channel Data</source>
+        <translation>Kanal-Daten laden</translation>
+    </message>
+    <message>
+        <source>An error was encountered while playing this item.</source>
+        <translation>Bei der Wiedergabe dieses Elements ist ein Fehler aufgetreten.</translation>
+        <extracomment>Dialog detail when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>There was an error retrieving the data for this item from the server.</source>
+        <translation>Es gab einen Fehler beim Abrufen der Daten für dieses Element vom Server.</translation>
+        <extracomment>Dialog detail when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <source>Error During Playback</source>
+        <translation>Fehler bei der Wiedergabe</translation>
+        <extracomment>Dialog title when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>Error Retrieving Content</source>
+        <translation>Fehler beim Abrufen des Inhalts</translation>
+        <extracomment>Dialog title when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <source>Sign Out</source>
+        <translation>Ausloggen</translation>
+    </message>
+    <message>
+        <source>Change Server</source>
+        <translation>Server ändern</translation>
+    </message>
 </context>
 </TS>
