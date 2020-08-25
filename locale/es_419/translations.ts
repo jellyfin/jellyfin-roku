@@ -224,5 +224,94 @@
         <translation>Ocurrió un error al reproducir este elemento.</translation>
         <extracomment>Dialog detail when error occurs during playback</extracomment>
     </message>
+    <message>
+        <comment>Title of Tab for options to filter library content</comment>
+        <source>TAB_FILTER</source>
+        <translation>Filtro</translation>
+    </message>
+    <message>
+        <comment>Title of Tab for options to sort library content</comment>
+        <source>TAB_SORT</source>
+        <translation>Orden</translation>
+    </message>
+    <message>
+        <comment>Title of Tab for switching &quot;views&quot; when looking at a library</comment>
+        <source>TAB_VIEW</source>
+        <translation>Vista</translation>
+    </message>
+    <message>
+        <source>RUNTIME</source>
+        <translation>Duración</translation>
+    </message>
+    <message>
+        <source>RELEASE_DATE</source>
+        <translation>Fecha de estreno</translation>
+    </message>
+    <message>
+        <source>PLAY_COUNT</source>
+        <translation>Contador de reproducciones</translation>
+    </message>
+    <message>
+        <source>OFFICIAL_RATING</source>
+        <translation>Clasificación parental</translation>
+    </message>
+    <message>
+        <source>DATE_PLAYED</source>
+        <translation>Fecha de reproducción</translation>
+    </message>
+    <message>
+        <source>DATE_ADDED</source>
+        <translation>Fecha de adición</translation>
+    </message>
+    <message>
+        <source>CRITIC_RATING</source>
+        <translation>Calificación de los críticos</translation>
+    </message>
+    <message>
+        <source>IMDB_RATING</source>
+        <translation>Calificación de IMDb</translation>
+    </message>
+    <message>
+        <comment>Name or Title field of media item</comment>
+        <source>TITLE</source>
+        <translation>Nombre</translation>
+    </message>
+    <message>
+        <comment>Message displayed in Item Grid when no item to display. %1 is container type (e.g. Boxset, Collection, Folder, etc)</comment>
+        <source>NO_ITEMS</source>
+        <translation>Esta %1 no contiene elementos</translation>
+    </message>
+    <message>
+        <source>Unable to load Channel Data from the server</source>
+        <translation>No se pudieron cargar los datos del canal desde el servidor</translation>
+    </message>
+    <message>
+        <source>Error loading Channel Data</source>
+        <translation>Error al cargar datos del canal</translation>
+    </message>
+    <message>
+        <source>Loading Channel Data</source>
+        <translation>Cargando datos del canal</translation>
+    </message>
+    <message>
+        <source>An error was encountered while playing this item.</source>
+        <translation>Se ha encontrado un error al reproducir este elemento.</translation>
+        <extracomment>Dialog detail when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>There was an error retrieving the data for this item from the server.</source>
+        <translation>Hubo un error al obtener los datos de este elemento desde el servidor.</translation>
+        <extracomment>Dialog detail when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <source>Error During Playback</source>
+        <translation>Error durante la reproducción</translation>
+        <extracomment>Dialog title when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>Error Retrieving Content</source>
+        <translation>Error al obtener el contenido</translation>
+        <extracomment>Dialog title when unable to load Content from Server</extracomment>
+    </message>
 </context>
 </TS>
