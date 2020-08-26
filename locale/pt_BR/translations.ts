@@ -6,7 +6,7 @@
     <name>default</name>
     <message>
         <source>192.168.1.100:8096 or https://example.com/jellyfin</source>
-        <translation>192.168.1.100:8096 ou https://example.com/jellyfin</translation>
+        <translation>192.168.1.100:8096 ou https://exemplo.com/jellyfin</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -22,7 +22,7 @@
     </message>
     <message>
         <source>Enter Configuration</source>
-        <translation>Digite Configuração</translation>
+        <translation>Digite a Configuração</translation>
     </message>
     <message>
         <source>Favorite</source>
@@ -287,6 +287,103 @@
     <message>
         <source>Sign Out</source>
         <translation>Sair</translation>
+    </message>
+    <message>
+        <comment>Title of Tab for switching &quot;views&quot; when looking at a library</comment>
+        <source>TAB_VIEW</source>
+        <translation>Visualização</translation>
+    </message>
+    <message>
+        <source>PLAY_COUNT</source>
+        <translation>Número de Reproduções</translation>
+    </message>
+    <message>
+        <source>OFFICIAL_RATING</source>
+        <translation>Avaliação dos pais</translation>
+    </message>
+    <message>
+        <source>DATE_PLAYED</source>
+        <translation>Data da Ultima Reprodução</translation>
+    </message>
+    <message>
+        <source>DATE_ADDED</source>
+        <translation>Data de Adição</translation>
+    </message>
+    <message>
+        <source>CRITIC_RATING</source>
+        <translation>Avaliação da crítica</translation>
+    </message>
+    <message>
+        <source>IMDB_RATING</source>
+        <translation>Avaliação do IMDb</translation>
+    </message>
+    <message>
+        <source>Unable to load Channel Data from the server</source>
+        <translation>Não foi possível carregar Dados do Canal deste servidor</translation>
+    </message>
+    <message>
+        <source>Error loading Channel Data</source>
+        <translation>Erro ao Carregar Dados do Canal</translation>
+    </message>
+    <message>
+        <source>Loading Channel Data</source>
+        <translation>Carregando dados do Canal</translation>
+    </message>
+    <message>
+        <source>An error was encountered while playing this item.</source>
+        <translation>Foi encontrado um erro ao reproduzir este item.</translation>
+        <extracomment>Dialog detail when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>There was an error retrieving the data for this item from the server.</source>
+        <translation>Ocorreu um erro ao carregar os dados deste item do servidor.</translation>
+        <extracomment>Dialog detail when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <source>Sign Out</source>
+        <translation>Encerrar Sessão</translation>
+    </message>
+    <message>
+        <comment>Title of Tab for options to filter library content</comment>
+        <source>TAB_FILTER</source>
+        <translation>Filtro</translation>
+    </message>
+    <message>
+        <comment>Title of Tab for options to sort library content</comment>
+        <source>TAB_SORT</source>
+        <translation>Ordenação</translation>
+    </message>
+    <message>
+        <source>RUNTIME</source>
+        <translation>Tempo de Execução</translation>
+    </message>
+    <message>
+        <source>RELEASE_DATE</source>
+        <translation>Data de Lançamento</translation>
+    </message>
+    <message>
+        <comment>Name or Title field of media item</comment>
+        <source>TITLE</source>
+        <translation>Nome</translation>
+    </message>
+    <message>
+        <comment>Message displayed in Item Grid when no item to display. %1 is container type (e.g. Boxset, Collection, Folder, etc)</comment>
+        <source>NO_ITEMS</source>
+        <translation>Esse(a) %1 não contém itens</translation>
+    </message>
+    <message>
+        <source>Error During Playback</source>
+        <translation>Erro Durante Reprodução</translation>
+        <extracomment>Dialog title when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>Error Retrieving Content</source>
+        <translation>Erro ao Carregar Conteúdo</translation>
+        <extracomment>Dialog title when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <source>Change Server</source>
+        <translation>Mudar Servidor</translation>
     </message>
 </context>
 </TS>
