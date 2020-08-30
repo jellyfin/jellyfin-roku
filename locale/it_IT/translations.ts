@@ -244,5 +244,15 @@
         <source>Change Server</source>
         <translation>Cambia Server</translation>
     </message>
+    <message>
+        <source>Error During Playback</source>
+        <translation>Errore durante la riproduzione</translation>
+        <extracomment>Dialog title when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>Error Retrieving Content</source>
+        <translation>Impossibile recuperare il contenuto</translation>
+        <extracomment>Dialog title when unable to load Content from Server</extracomment>
+    </message>
 </context>
 </TS>
