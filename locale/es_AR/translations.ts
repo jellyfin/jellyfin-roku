@@ -304,5 +304,14 @@
         <translation>Error recuperando el contenido</translation>
         <extracomment>Dialog title when unable to load Content from Server</extracomment>
     </message>
+    <message>
+        <comment>Title of Tab for switching &quot;views&quot; when looking at a library</comment>
+        <source>TAB_VIEW</source>
+        <translation>Ver</translation>
+    </message>
+    <message>
+        <source>RUNTIME</source>
+        <translation>Tiempo de ejecución</translation>
+    </message>
 </context>
 </TS>
