@@ -313,5 +313,13 @@
         <source>RUNTIME</source>
         <translation>Tiempo de ejecución</translation>
     </message>
+    <message>
+        <source>PLAY_COUNT</source>
+        <translation>Cantidad de reproducciones</translation>
+    </message>
+    <message>
+        <source>DATE_PLAYED</source>
+        <translation>Fecha de reproducción</translation>
+    </message>
 </context>
 </TS>
