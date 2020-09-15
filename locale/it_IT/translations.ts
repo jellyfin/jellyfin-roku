@@ -254,5 +254,10 @@
         <translation>Impossibile recuperare il contenuto</translation>
         <extracomment>Dialog title when unable to load Content from Server</extracomment>
     </message>
+    <message>
+        <source>There was an error retrieving the data for this item from the server.</source>
+        <translation type="unfinished">C&apos;è stato un errore nella ricezione di questa informazione dal server.</translation>
+        <extracomment>Dialog detail when unable to load Content from Server</extracomment>
+    </message>
 </context>
 </TS>
