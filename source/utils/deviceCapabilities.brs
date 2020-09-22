@@ -37,7 +37,7 @@ function getDeviceProfile() as object
                 "AudioCodec": "aac",
                 "Context": "Streaming",
                 "Protocol": "http",
-                "MaxAudioChannels": maxAudioChannels
+                "MaxAudioChannels": StrI(maxAudioChannels)    ' Currently Jellyfin server expects this as a string
             },
             {
                 "Container": "mp3",
@@ -45,7 +45,7 @@ function getDeviceProfile() as object
                 "AudioCodec": "mp3",
                 "Context": "Streaming",
                 "Protocol": "http",
-                "MaxAudioChannels": 2
+                "MaxAudioChannels": "2"
             },
             {
                 "Container": "mp3",
@@ -53,7 +53,7 @@ function getDeviceProfile() as object
                 "AudioCodec": "mp3",
                 "Context": "Static",
                 "Protocol": "http",
-                "MaxAudioChannels": 2
+                "MaxAudioChannels": "2"
             },
             {
                 "Container": "aac",
@@ -61,7 +61,7 @@ function getDeviceProfile() as object
                 "AudioCodec": "aac",
                 "Context": "Static",
                 "Protocol": "http",
-                "MaxAudioChannels": maxAudioChannels
+                "MaxAudioChannels": StrI(maxAudioChannels)    ' Currently Jellyfin server expects this as a string
             },
             {
                 "Container": "ts",
@@ -70,7 +70,7 @@ function getDeviceProfile() as object
                 "VideoCodec": "h264",
                 "Context": "Streaming",
                 "Protocol": "hls",
-                "MaxAudioChannels": maxAudioChannels,
+                "MaxAudioChannels": StrI(maxAudioChannels)    ' Currently Jellyfin server expects this as a string
                 "MinSegments": "1",
                 "BreakOnNonKeyFrames": true
             },

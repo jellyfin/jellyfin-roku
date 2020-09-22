@@ -146,7 +146,7 @@ function getTranscodeParameters(meta as object)
   return {
     "VideoCodec": "h264",
     "AudioCodec": audioCodec,
-    "MaxAudioChannels": audioChannels,
+    "MaxAudioChannels": StrI(audioChannels),    ' Currently Jellyfin server expects this as a string
     "MediaSourceId": meta.id,
     "SegmentContainer": "ts",
     "MinSegments": 1,
