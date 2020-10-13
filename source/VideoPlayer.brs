@@ -129,31 +129,46 @@ function VideoContent(video) as object
   return video
 end function
 
+
 function getTranscodeParameters(meta as object)
+
+  params = {}
+
   if decodeAudioSupported(meta) and meta.json.MediaStreams[1] <> invalid and meta.json.MediaStreams[1].Type = "Audio" then
     audioCodec = meta.json.MediaStreams[1].codec
     audioChannels = meta.json.MediaStreams[1].channels
   else
-    audioCodec = "aac"
-    audioChannels = 2
+    params.Append({"AudioCodec": "aac"})
 
     ' If 5.1 Audio Output is connected then allow transcoding to 5.1
     di = CreateObject("roDeviceInfo")
     if di.GetAudioOutputChannel() = "5.1 surround" and di.CanDecodeAudio({ Codec: "aac", ChCnt: 6 }).result then
-      audioChannels = 6
+      params.Append({"MaxAudioChannels": "6"})
+    else
+      params.Append({"MaxAudioChannels": "2"})
     end if
   end if
-  return {
-    "VideoCodec": "h264",
-    "AudioCodec": audioCodec,
-    "MaxAudioChannels": StrI(audioChannels),    ' Currently Jellyfin server expects this as a string
-    "MediaSourceId": meta.id,
-    "SegmentContainer": "ts",
-    "MinSegments": 1,
-    "BreakOnNonKeyFrames": "True",
-    "h264-profile": "high,main,baseline,constrainedbaseline",
-    "RequireAvc": "false",
-  }
+
+  streamInfo =  { Codec: meta.json.MediaStreams[0].codec }
+  if meta.json.MediaStreams[0].Profile <> invalid and meta.json.MediaStreams[0].Profile.len() > 0 then
+    streamInfo.Profile = LCase(meta.json.MediaStreams[0].Profile)
+  end if
+  if meta.json.MediaSources[0].container <> invalid and meta.json.MediaSources[0].container.len() > 0  then
+    streamInfo.Container = meta.json.MediaSources[0].container
+  end if
+
+  devinfo = CreateObject("roDeviceInfo")
+  res = devinfo.CanDecodeVideo(streamInfo)
+
+  if res.result = false then
+    params.Append({"VideoCodec": "h264"})
+    streamInfo.Profile = "h264"
+    streamInfo.Container = "ts"
+  end if
+
+  params.Append({"MediaSourceId": meta.id})
+
+  return params
 end function
 
 'Checks available subtitle tracks and puts subtitles in forced, default, and non-default/forced but preferred language at the top
