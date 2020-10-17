@@ -3,6 +3,7 @@ sub setFields()
 
     m.top.id = json.id
     m.top.Title = json.name
+    m.top.live = true
     m.top.Type = "TvChannel"
 end sub
 
