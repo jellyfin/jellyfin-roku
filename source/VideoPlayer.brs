@@ -21,7 +21,7 @@ function VideoContent(video) as object
 
   meta = ItemMetaData(video.id)
   video.content.title = meta.Name
-
+  
   ' If there is a last playback positon, ask user if they want to resume
   position = meta.json.UserData.PlaybackPositionTicks
   if position > 0 then
@@ -149,7 +149,6 @@ function getTranscodeParameters(meta as object)
     end if
   end if
 
-  print meta.json.MediaStreams
   streamInfo =  { Codec: meta.json.MediaStreams[0].codec }
   if meta.json.MediaStreams[0].Profile <> invalid and meta.json.MediaStreams[0].Profile.len() > 0 then
     streamInfo.Profile = LCase(meta.json.MediaStreams[0].Profile)
