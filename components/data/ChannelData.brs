@@ -2,8 +2,8 @@ sub setFields()
     json = m.top.json
 
     m.top.id = json.id
-    m.top.title = json.name
-    m.top.live = true
+    m.top.Title = json.name
+    m.top.Type = "TvChannel"
 end sub
 
 sub setPoster()

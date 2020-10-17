@@ -7,8 +7,8 @@ sub setFields()
   m.top.Description = json.overview
   m.top.favorite = json.UserData.isFavorite
   m.top.watched = json.UserData.played
-  m.top.Type = "Boxset"  
-  
+  m.top.Type = "Boxset"
+
   setPoster()
 end sub
 
@@ -18,7 +18,6 @@ sub setPoster()
   else
 
     if m.top.json.ImageTags.Primary <> invalid then
-        
       imgParams = { "maxHeight": 440, "maxWidth": 295, "Tag" : m.top.json.ImageTags.Primary }
       m.top.posterURL = ImageURL(m.top.json.id, "Primary", imgParams)
     else if m.top.json.BackdropImageTags <> invalid then

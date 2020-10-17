@@ -40,7 +40,7 @@ sub recountPages()
 
     m.top.pageFocused = m.top.findNode(stri(currentPage).trim())
 
-    m.top.pageFocused.color = "#00ff00ff"
+    m.top.pageFocused.color = "#00A4DCff"
 
     updateLayout()
 end sub
@@ -105,7 +105,7 @@ sub focusNext()
 
     m.top.pageFocused.color = "#a1a1a1FF"
     m.top.pageFocused = m.top.getChild(i + 1)
-    m.top.pageFocused.color = "#00ff00ff"
+    m.top.pageFocused.color = "#00A4DCff"
     m.top.pageFocused.setFocus(true)
 end sub
 
@@ -115,7 +115,7 @@ sub focusPrev()
 
     m.top.pageFocused.color = "#a1a1a1FF"
     m.top.pageFocused = m.top.getChild(i - 1)
-    m.top.pageFocused.color = "#00ff00ff"
+    m.top.pageFocused.color = "#00A4DCff"
     m.top.pageFocused.setFocus(true)
 end sub
 
