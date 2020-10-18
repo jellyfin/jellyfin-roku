@@ -182,7 +182,6 @@ sub Main()
         end if
       else if selectedItem.type = "TvChannel" then
         ' play channel feed
-        print selectedItem
         video_id = selectedItem.id
         video = CreateVideoPlayerGroup(video_id)
         if video <> invalid then

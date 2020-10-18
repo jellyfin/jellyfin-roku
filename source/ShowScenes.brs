@@ -319,13 +319,9 @@ end function
 
 function CreateChannelList(libraryItem)
   group = CreateObject("roSGNode", "ItemGrid2")
-  print libraryItem
   group.parentItem = libraryItem
-  ' group = CreateObject("roSGNode", "Channels")
-  ' group.id = libraryId
 
   group.observeField("selectedItem", m.port)
-
 
   sidepanel = group.findNode("options")
 
