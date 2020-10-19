@@ -51,6 +51,10 @@ sub loadInitialItems()
     m.loadItemsTask.itemType = "Movie"
   else if m.top.parentItem.collectionType = "tvshows" then
     m.loadItemsTask.itemType = "Series"
+  else if m.top.parentItem.collectionType = "livetv" then
+    m.loadItemsTask.itemType = "LiveTV"
+  else
+    print "Unknown Type: " m.top.parentItem
   end if
 
   m.loadItemsTask.control = "RUN"
@@ -88,6 +92,12 @@ sub SetUpOptions()
       { "Title": tr("DATE_PLAYED"), "Name": "DatePlayed" },
       { "Title": tr("OFFICIAL_RATING"), "Name": "OfficialRating" },
       { "Title": tr("RELEASE_DATE"), "Name": "PremiereDate" },
+    ]
+  'Live TV
+  else if m.top.parentItem.collectionType = "livetv" then
+    options.views = [{"Title": tr("Live TV"), "Name": "livetv" }]
+    options.sort = [
+      { "Title": tr("TITLE"), "Name": "SortName" }
     ]
 
   end if

@@ -7,7 +7,7 @@ sub loadItems()
   results = []
 
   sort_field = m.top.sortField
-  
+
   if m.top.sortAscending = true then
     sort_order = "Ascending"
   else
@@ -28,14 +28,18 @@ sub loadItems()
     params.append({ IncludeItemTypes: m.top.ItemType})
   end if
 
-  url = Substitute("Users/{0}/Items/", get_setting("active_user"))
+  if m.top.ItemType = "LiveTV" then
+    url = "LiveTv/Channels"
+  else
+    url = Substitute("Users/{0}/Items/", get_setting("active_user"))
+  end if
   resp = APIRequest(url, params)
   data = getJson(resp)
 
   if data.TotalRecordCount <> invalid then
     m.top.totalRecordCount = data.TotalRecordCount
   end if
-  
+
   for each item in data.Items
 
     tmp = invalid
@@ -45,11 +49,13 @@ sub loadItems()
       tmp = CreateObject("roSGNode", "SeriesData")
     else if item.Type = "BoxSet" then
       tmp = CreateObject("roSGNode", "CollectionData")
+    else if item.Type = "TvChannel" then
+      tmp = CreateObject("roSGNode", "ChannelData")
     else
       print "Unknown Type: " item.Type
 
     end if
-  
+
     if tmp <> invalid then
 
       tmp.json = item

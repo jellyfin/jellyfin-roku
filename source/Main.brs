@@ -113,7 +113,7 @@ sub Main()
         group.visible = false
 
         m.overhang.title = selectedItem.title
-        group = CreateChannelList(selectedItem.Id)
+        group = CreateChannelList(selectedItem)
         group.overhangTitle = selectedItem.title
         m.scene.appendChild(group)
       else if selectedItem.type = "Boxset" then
@@ -167,6 +167,21 @@ sub Main()
         m.scene.appendChild(group)
       else if selectedItem.type = "Video" then
         ' play episode
+        video_id = selectedItem.id
+        video = CreateVideoPlayerGroup(video_id)
+        if video <> invalid then
+          group.lastFocus = group.focusedChild
+          group.setFocus(false)
+          group.visible = false
+          group = video
+          m.scene.appendChild(group)
+          group.setFocus(true)
+          group.control = "play"
+          ReportPlayback(group, "start")
+          m.overhang.visible = false
+        end if
+      else if selectedItem.type = "TvChannel" then
+        ' play channel feed
         video_id = selectedItem.id
         video = CreateVideoPlayerGroup(video_id)
         if video <> invalid then
@@ -253,7 +268,7 @@ sub Main()
       ' If you select a Channel from ANYWHERE, follow this flow
       node = getMsgPicker(msg, "picker")
       video_id = node.id
-      
+
       ' Show Channel Loading spinner
       dialog = createObject("roSGNode", "ProgressDialog")
       dialog.title = tr("Loading Channel Data")
@@ -279,7 +294,7 @@ sub Main()
         dialog.buttons = [tr("OK")]
         m.scene.dialog = dialog
       end if
-    
+
     else if isNodeEvent(msg, "search_value")
       query = msg.getRoSGNode().search_value
       group.findNode("SearchBox").visible = false
