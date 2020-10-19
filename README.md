@@ -9,7 +9,7 @@
 <a href="https://github.com/jellyfin/jellyfin-roku">
 <img alt="GPL 2.0 License" src="https://img.shields.io/github/license/jellyfin/jellyfin-roku.svg"/>
 </a>
-<a href="https://github.com/jellyfin/jellyfin-androidtv/releases">
+<a href="https://github.com/jellyfin/jellyfin-roku/releases">
 <img alt="Current Release" src="https://img.shields.io/github/release/jellyfin/jellyfin-roku.svg"/>
 </a>
 <a href="https://translate.jellyfin.org/projects/jellyfin/jellyfin-roku/?utm_source=widget">
