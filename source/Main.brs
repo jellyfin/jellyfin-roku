@@ -334,10 +334,16 @@ sub Main()
       ' If a button is selected, we have some determining to do
       btn = getButton(msg)
       if btn.id = "play-button"
+        ' Check is a specific Audio Stream was selected
+        audio_stream_idx = 1
+        if group.selectedAudioStreamIndex <> invalid
+          audio_stream_idx = group.selectedAudioStreamIndex
+        end if
+
         ' TODO - Do a better job of picking the last focus
         ' This is currently page layout Group, button Group, then button
         video_id = group.id
-        video = CreateVideoPlayerGroup(video_id)
+        video = CreateVideoPlayerGroup(video_id, audio_stream_idx)
         if video <> invalid then
           group.lastFocus = group.focusedChild.focusedChild.focusedChild
           group.setFocus(false)

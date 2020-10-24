@@ -9,8 +9,6 @@ sub init()
   overview.width = 1920 - 96 - 300 - 96 - 30
 
   m.top.findNode("buttons").setFocus(true)
-
-  m.selectedAudioStreamIndex = 0
 end sub
 
 sub itemContentChanged()
@@ -24,7 +22,7 @@ sub itemContentChanged()
   ' Find first Audio Stream and set that as default
   For i=0 To itemData.mediaStreams.Count() - 1
     if itemData.mediaStreams[i].Type = "Audio" then
-      m.selectedAudioStreamIndex = i
+      m.top.selectedAudioStreamIndex = i
       exit for
     end if
   End For
@@ -67,7 +65,7 @@ sub itemContentChanged()
     setFieldText("director", tr("Director") + ": " + director)
   end if
   setFieldText("video_codec", tr("Video") + ": " + itemData.mediaStreams[0].displayTitle)
-  setFieldText("audio_codec", tr("Audio") + ": " + itemData.mediaStreams[m.selectedAudioStreamIndex].displayTitle)
+  setFieldText("audio_codec", tr("Audio") + ": " + itemData.mediaStreams[m.top.selectedAudioStreamIndex].displayTitle)
   ' TODO - cmon now. these are buttons, not words
   if itemData.taglines.count() > 0
     setFieldText("tagline", itemData.taglines[0])
@@ -84,7 +82,7 @@ sub SetUpOptions(streams)
 
   for i=0 To streams.Count() - 1
     if streams[i].Type = "Audio" then
-      tracks.push({"Title": streams[i].displayTitle, "Description" : streams[i].Title, "Selected" : m.selectedAudioStreamIndex = i, "StreamIndex" : i})
+      tracks.push({"Title": streams[i].displayTitle, "Description" : streams[i].Title, "Selected" : m.top.selectedAudioStreamIndex = i, "StreamIndex" : i})
     end if
   end for
 
@@ -171,9 +169,9 @@ end function
 '
 'Check if options updated and any reloading required
 sub optionsClosed()
-  if m.options.audioSteamIndex <> m.selectedAudioStreamIndex then
-    m.selectedAudioStreamIndex = m.options.audioSteamIndex
-    setFieldText("audio_codec", tr("Audio") + ": " + m.top.itemContent.json.mediaStreams[m.selectedAudioStreamIndex].displayTitle)
+  if m.options.audioSteamIndex <> m.top.selectedAudioStreamIndex then
+    m.top.selectedAudioStreamIndex = m.options.audioSteamIndex
+    setFieldText("audio_codec", tr("Audio") + ": " + m.top.itemContent.json.mediaStreams[m.top.selectedAudioStreamIndex].displayTitle)
   end if
   m.top.findNode("buttons").setFocus(true)
 end sub
