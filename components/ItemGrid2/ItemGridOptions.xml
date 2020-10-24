@@ -11,11 +11,8 @@
           </RadiobuttonList>
           <RadiobuttonList id="sortMenu" itemspacing="[0,10]" vertFocusAnimationStyle="floatingFocus" opacity="1" numRows="8" drawFocusFeedback="false">
           </RadiobuttonList>
-          <LabelList id = "filterMenu" itemspacing="[0,10]" vertFocusAnimationStyle="floatingFocus" opacity="0" drawFocusFeedback="false">
-            <ContentNode id = "filterMenuContent" role = "content">
-              <ContentNode title = "Coming Soon..." />
-            </ContentNode>
-          </LabelList>
+          <RadiobuttonList id="filterMenu" itemspacing="[0,10]" vertFocusAnimationStyle="floatingFocus" opacity="0" drawFocusFeedback="false">
+          </RadiobuttonList>
         </Group>
       </LayoutGroup>
     </Group>
@@ -33,6 +30,7 @@
     <field id="view" type="string" />
     <field id="sortField" type="string" value="SortName" />
     <field id="sortAscending" type="boolean" value="false" />
+    <field id="filter" type="string" value="All" />
 
   </interface>
   <script type="text/brightscript" uri="ItemGridOptions.brs" />

@@ -9,7 +9,8 @@
     <field id="metadata" type="associativearray" />
     <field id="sortField" type="string" value="SortName" />
     <field id="sortAscending" type="boolean" value="true" />
-    
+    <field id="filter" type="string" value="All" />
+
     <!-- Total records available from server-->
     <field id="totalRecordCount" type="int" value="-1" />
     <field id="content" type="array" />

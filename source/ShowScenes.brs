@@ -235,7 +235,7 @@ function CreateMovieListGroup(libraryItem)
   sidepanel.options = new_options
   sidepanel.observeField("closeSidePanel", m.port)
 
-    return group
+  return group
 end function
 
 function CreateMovieDetailsGroup(movie)
