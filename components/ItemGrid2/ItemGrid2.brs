@@ -88,7 +88,7 @@ sub SetUpOptions()
       { "Title": tr("RUNTIME"), "Name": "Runtime" }
     ]
     options.filter = [
-      { "Title": tr("All"), "Name": "All", "selected": true },
+      { "Title": tr("All"), "Name": "All" },
       { "Title": tr("Favorites"), "Name": "Favorites" }
     ]
   'TV Shows
@@ -115,6 +115,12 @@ sub SetUpOptions()
     if o.Name = m.sortField then
       o.Selected = true
       o.Ascending = m.sortAscending
+    end if
+  end for
+
+  for each o in options.filter
+    if o.Name = m.filter then
+      o.Selected = true
     end if
   end for
 
