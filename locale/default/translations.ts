@@ -85,10 +85,6 @@
         <translation>Sign Out</translation>
     </message>
     <message>
-        <source>Add User</source>
-        <translation>Add User</translation>
-    </message>
-    <message>
         <source>Profile</source>
         <translation>Profile</translation>
     </message>

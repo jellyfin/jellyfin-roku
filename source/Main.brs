@@ -396,12 +396,6 @@ sub Main()
         SignOut()
         wipe_groups()
         goto app_start
-      else if button.id = "add_user"
-        unset_setting("active_user")
-        unset_setting("server")
-        unset_setting("port")
-        wipe_groups()
-        goto app_start
       end if
     else if isNodeEvent(msg, "selectSubtitlePressed")
       node = m.scene.focusedChild
