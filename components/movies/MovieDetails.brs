@@ -1,5 +1,6 @@
 sub init()
   m.top.optionsAvailable = false
+  m.options = m.top.findNode("options")
 
   main = m.top.findNode("main_group")
   main.translation = [96, 175]
@@ -8,6 +9,8 @@ sub init()
   overview.width = 1920 - 96 - 300 - 96 - 30
 
   m.top.findNode("buttons").setFocus(true)
+
+  m.selectedAudioStreamIndex = 0
 end sub
 
 sub itemContentChanged()
@@ -17,6 +20,14 @@ sub itemContentChanged()
   m.top.id = itemData.id
 
   m.top.findNode("moviePoster").uri = m.top.itemContent.posterURL
+
+  ' Find first Audio Stream and set that as default
+  For i=0 To itemData.mediaStreams.Count() - 1
+    if itemData.mediaStreams[i].Type = "Audio" then
+      m.selectedAudioStreamIndex = i
+      exit for
+    end if
+  End For
 
   ' Handle all "As Is" fields
   m.top.overhangTitle = itemData.name
@@ -56,14 +67,33 @@ sub itemContentChanged()
     setFieldText("director", tr("Director") + ": " + director)
   end if
   setFieldText("video_codec", tr("Video") + ": " + itemData.mediaStreams[0].displayTitle)
-  setFieldText("audio_codec", tr("Audio") + ": " + itemData.mediaStreams[1].displayTitle)
+  setFieldText("audio_codec", tr("Audio") + ": " + itemData.mediaStreams[m.selectedAudioStreamIndex].displayTitle)
   ' TODO - cmon now. these are buttons, not words
   if itemData.taglines.count() > 0
     setFieldText("tagline", itemData.taglines[0])
   end if
   setFavoriteColor()
   setWatchedColor()
+  SetUpOptions(itemData.mediaStreams)
 end sub
+
+
+sub SetUpOptions(streams)
+
+  tracks = []
+
+  for i=0 To streams.Count() - 1
+    if streams[i].Type = "Audio" then
+      tracks.push({"Title": streams[i].displayTitle, "Description" : streams[i].Title, "Selected" : m.selectedAudioStreamIndex = i, "StreamIndex" : i})
+    end if
+  end for
+
+  options = {}
+  options.views = tracks
+  m.options.options = options
+
+end sub
+
 
 sub setFieldText(field, value)
   node = m.top.findNode(field)
@@ -136,4 +166,45 @@ function round(f as float) as integer
   else
     return n
   end if
+end function
+
+'
+'Check if options updated and any reloading required
+sub optionsClosed()
+  if m.options.audioSteamIndex <> m.selectedAudioStreamIndex then
+    m.selectedAudioStreamIndex = m.options.audioSteamIndex
+    setFieldText("audio_codec", tr("Audio") + ": " + m.top.itemContent.json.mediaStreams[m.selectedAudioStreamIndex].displayTitle)
+  end if
+  m.top.findNode("buttons").setFocus(true)
+end sub
+
+
+function onKeyEvent(key as string, press as boolean) as boolean
+
+  ' Due to the way the button pressed event works, need to catch the release for the button as the press is being sent
+  ' directly to the main loop.  Will get this sorted in the layout update for Movie Details
+  if (key = "OK" and m.top.findNode("audio-button").isInFocusChain())
+    m.options.visible = true
+    m.options.setFocus(true)
+  end if
+
+  if not press then return false
+
+  if key = "options"
+    if m.options.visible = true then
+      m.options.visible = false
+      optionsClosed()
+    else
+      m.options.visible = true
+      m.options.setFocus(true)
+    end if
+    return true
+  else if key = "back" then
+    if m.options.visible = true then
+      m.options.visible = false
+      optionsClosed()
+      return true
+    end if
+  end if
+  return false
 end function

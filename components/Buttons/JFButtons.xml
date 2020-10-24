@@ -23,7 +23,7 @@
     <field id="buttons" type="array" onChange="updateButtons" />
     <field id="focusedChild" type="node" onChange="focusChanged" />
     <field id="focusedIndex" type="integer" alwaysNotify="true" />
-    <field id="selectedIndex" type="integer" />
+    <field id="selectedIndex" type="integer" onChange="selectedIndexChanged" />
   </interface>
   <script type="text/brightscript" uri="JFButtons.brs" />
 </component>
