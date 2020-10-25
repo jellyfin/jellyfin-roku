@@ -269,7 +269,7 @@ function getAudioFormat(meta as object) as string
   if meta.json.mediaSources = invalid then return ""
 
   audioInfo = getAudioInfo(meta)
-  if audioInfo.count() = 0 then return ""
+  if audioInfo.count() = 0 or audioInfo[0].codec = invalid then return ""
   return audioInfo[0].codec
 end function
 
