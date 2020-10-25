@@ -183,7 +183,15 @@ sub Main()
       else if selectedItem.type = "TvChannel" then
         ' play channel feed
         video_id = selectedItem.id
+
+        ' Show Channel Loading spinner
+        dialog = createObject("roSGNode", "ProgressDialog")
+        dialog.title = tr("Loading Channel Data")
+        m.scene.dialog = dialog
+
         video = CreateVideoPlayerGroup(video_id)
+        dialog.close = true
+
         if video <> invalid then
           group.lastFocus = group.focusedChild
           group.setFocus(false)
@@ -194,6 +202,12 @@ sub Main()
           group.control = "play"
           ReportPlayback(group, "start")
           m.overhang.visible = false
+        else 
+          dialog = createObject("roSGNode", "Dialog")
+          dialog.title = tr("Error loading Channel Data")
+          dialog.message = tr("Unable to load Channel Data from the server")
+          dialog.buttons = [tr("OK")]
+          m.scene.dialog = dialog
         end if
       else
         ' TODO - switch on more node types
