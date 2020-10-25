@@ -5,6 +5,7 @@ sub itemContentChanged()
   
   m.itemText = m.top.findNode("itemText")
   itemPoster = m.top.findNode("itemPoster")
+  itemIcon = m.top.findNode("itemIcon")
   itemTextExtra = m.top.findNode("itemTextExtra")
 
   ' Desired Image Width
@@ -26,6 +27,9 @@ sub itemContentChanged()
   ' Whether to use WidePoster or Thumbnail in this row
   usePoster = m.top.GetParent().content.usePoster
 
+  if itemData.iconUrl <> invalid
+    itemIcon.uri = itemData.iconUrl
+  end if
 
   ' Format the Data based on the type of Home Data
 
