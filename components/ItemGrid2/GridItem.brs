@@ -8,6 +8,14 @@ sub init()
   m.itemPoster.observeField("loadStatus", "onPosterLoadStatusChanged")
 
   m.itemText.translation = [0, m.itemPoster.height + 7]
+
+  'Parent is MarkupGrid and it's parent is the ItemGrid
+  topParent = m.top.GetParent().GetParent()
+  'Get the imageDisplayMode for these grid items
+  if topParent.imageDisplayMode <> invalid
+    m.itemPoster.loadDisplayMode = topParent.imageDisplayMode
+  end if
+
 end sub
 
 sub itemContentChanged()
