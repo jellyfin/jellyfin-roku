@@ -244,16 +244,17 @@ end sub
 '
 'Check if options updated and any reloading required
 sub optionsClosed()
+  reload = false
   if m.options.sortField <> m.sortField or m.options.sortAscending <> m.sortAscending then
     m.sortField = m.options.sortField
     m.sortAscending = m.options.sortAscending
-    m.loadedRows = 0
-    m.loadedItems = 0
-    m.data = CreateObject("roSGNode", "ContentNode")
-    m.itemGrid.content = m.data
-    loadInitialItems()
-  else if m.options.filter <> m.filter then
+    reload = true
+  end if
+  if m.options.filter <> m.filter then
     m.filter = m.options.filter
+    reload = true
+  end if
+  if reload
     m.loadedRows = 0
     m.loadedItems = 0
     m.data = CreateObject("roSGNode", "ContentNode")
