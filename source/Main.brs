@@ -107,7 +107,7 @@ sub Main()
         group = CreateCollectionsList(selectedItem)
         group.overhangTitle = selectedItem.title
         m.scene.appendChild(group)
-      else if (selectedItem.type = "CollectionFolder" OR selectedItem.type = "UserView") AND selectedItem.collectionType = "livetv"
+      else if ((selectedItem.type = "CollectionFolder" OR selectedItem.type = "UserView") AND selectedItem.collectionType = "livetv") OR selectedItem.type = "Channel"
         group.lastFocus = group.focusedChild
         group.setFocus(false)
         group.visible = false
@@ -165,22 +165,8 @@ sub Main()
         group = CreateMovieDetailsGroup(selectedItem)
         group.overhangTitle = selectedItem.title
         m.scene.appendChild(group)
-      else if selectedItem.type = "Video" then
-        ' play episode
-        video_id = selectedItem.id
-        video = CreateVideoPlayerGroup(video_id)
-        if video <> invalid then
-          group.lastFocus = group.focusedChild
-          group.setFocus(false)
-          group.visible = false
-          group = video
-          m.scene.appendChild(group)
-          group.setFocus(true)
-          group.control = "play"
-          ReportPlayback(group, "start")
-          m.overhang.visible = false
-        end if
-      else if selectedItem.type = "TvChannel" then
+
+      else if selectedItem.type = "TvChannel" or selectedItem.type = "Video" then
         ' play channel feed
         video_id = selectedItem.id
 

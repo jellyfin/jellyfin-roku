@@ -56,6 +56,8 @@ sub loadInitialItems()
 
     'For LiveTV, we want to "Fit" the item images, not zoom
     m.top.imageDisplayMode = "scaleToFit"
+  else if m.top.parentItem.collectionType = "Channel" then
+    m.top.imageDisplayMode = "scaleToFit"
   else
     print "Unknown Type: " m.top.parentItem
   end if
@@ -102,7 +104,11 @@ sub SetUpOptions()
     options.sort = [
       { "Title": tr("TITLE"), "Name": "SortName" }
     ]
-
+  else
+    options.views = [{"Title": tr("Default"), "Name": "default" }]
+    options.sort = [
+      { "Title": tr("TITLE"), "Name": "SortName" }
+    ]
   end if
 
   for each o in options.sort

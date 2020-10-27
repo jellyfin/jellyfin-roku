@@ -33,7 +33,7 @@ sub itemContentChanged()
 
   ' Format the Data based on the type of Home Data
 
-  if itemData.type = "CollectionFolder" OR itemData.type = "UserView" then
+  if itemData.type = "CollectionFolder" OR itemData.type = "UserView"  OR itemData.type = "Channel" then
     m.itemText.text = itemData.name
     itemPoster.uri = itemData.widePosterURL
     return
