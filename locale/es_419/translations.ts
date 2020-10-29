@@ -6,11 +6,11 @@
     <name>default</name>
     <message>
         <source>192.168.1.100:8096 or https://example.com/jellyfin</source>
-        <translation>192.168.1.100:8096 o https://ejemplo.com/jellyfin</translation>
+        <translation>192.168.1.68:8096</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Cancelar</translation>
+        <translation type="unfinished">—Cancel</translation>
     </message>
     <message>
         <source>Connect to Server</source>
@@ -66,7 +66,7 @@
     </message>
     <message>
         <source>Sign In</source>
-        <translation>Iniciar sesión</translation>
+        <translation>192.168.1.68:8096</translation>
     </message>
     <message>
         <source>Submit</source>
