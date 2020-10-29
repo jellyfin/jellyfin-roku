@@ -1,8 +1,8 @@
-function VideoPlayer(id)
+function VideoPlayer(id, audio_stream_idx = 1) 
   ' Get video controls and UI
   video = CreateObject("roSGNode", "JFVideo")
   video.id = id
-  video = VideoContent(video)
+  video = VideoContent(video, audio_stream_idx)
   if video = invalid 
     return invalid
   end if
@@ -14,7 +14,7 @@ function VideoPlayer(id)
   return video
 end function
 
-function VideoContent(video) as object
+function VideoContent(video, audio_stream_idx = 1) as object
   ' Get video stream
   video.content = createObject("RoSGNode", "ContentNode")
   params = {}
@@ -60,7 +60,7 @@ function VideoContent(video) as object
   container = getContainerType(meta)
   video.container = container
 
-  transcodeParams = getTranscodeParameters(meta)
+  transcodeParams = getTranscodeParameters(meta, audio_stream_idx)
   transcodeParams.append({"PlaySessionId": video.PlaySessionId})
 
   if meta.live then
@@ -84,7 +84,7 @@ function VideoContent(video) as object
     video.SelectedSubtitle = -1
   end if
 
-  if video.SelectedSubtitle <> -1 and displaySubtitlesByUserConfig(video.Subtitles[video.SelectedSubtitle], meta.json.MediaStreams[1]) then
+  if video.SelectedSubtitle <> -1 and displaySubtitlesByUserConfig(video.Subtitles[video.SelectedSubtitle], meta.json.MediaStreams[audio_stream_idx]) then
     if video.Subtitles[0].IsTextSubtitleStream then
       video.subtitleTrack = video.availableSubtitleTracks[video.Subtitles[0].TextIndex].TrackName
       video.suppressCaptions = false
@@ -104,14 +104,15 @@ function VideoContent(video) as object
   end if
 
   video.directPlaySupported = directPlaySupported(meta)
-  video.decodeAudioSupported = decodeAudioSupported(meta)
+  video.decodeAudioSupported = decodeAudioSupported(meta, audio_stream_idx)
   video.transcodeParams = transcodeParams
 
   if video.directPlaySupported and video.decodeAudioSupported and transcodeParams.SubtitleStreamIndex = invalid then
     params.append({
       "Static": "true",
-      "Container": container
-      "PlaySessionId": video.PlaySessionId
+      "Container": container,
+      "PlaySessionId": video.PlaySessionId,
+      "AudioStreamIndex": audio_stream_idx
     })
     video.content.url = buildURL(Substitute("Videos/{0}/stream", video.id), params)
     video.content.streamformat = container
@@ -130,13 +131,12 @@ function VideoContent(video) as object
 end function
 
 
-function getTranscodeParameters(meta as object)
+function getTranscodeParameters(meta as object, audio_stream_idx = 1)
 
-  params = {}
-
-  if decodeAudioSupported(meta) and meta.json.MediaStreams[1] <> invalid and meta.json.MediaStreams[1].Type = "Audio" then
-    audioCodec = meta.json.MediaStreams[1].codec
-    audioChannels = meta.json.MediaStreams[1].channels
+  params = {"AudioStreamIndex": audio_stream_idx}
+  if decodeAudioSupported(meta, audio_stream_idx) and meta.json.MediaStreams[audio_stream_idx] <> invalid and meta.json.MediaStreams[audio_stream_idx].Type = "Audio" then
+    audioCodec = meta.json.MediaStreams[audio_stream_idx].codec
+    audioChannels = meta.json.MediaStreams[audio_stream_idx].channels
   else
     params.Append({"AudioCodec": "aac"})
 
@@ -235,14 +235,14 @@ function directPlaySupported(meta as object) as boolean
   return devinfo.CanDecodeVideo(streamInfo).result
 end function
 
-function decodeAudioSupported(meta as object) as boolean
+function decodeAudioSupported(meta as object, audio_stream_idx = 1) as boolean
 
   'Check for missing audio and allow playing
-  if meta.json.MediaStreams[1] = invalid or meta.json.MediaStreams[1].Type <> "Audio" then return true
+  if meta.json.MediaStreams[audio_stream_idx] = invalid or meta.json.MediaStreams[audio_stream_idx].Type <> "Audio" then return true
 
   devinfo = CreateObject("roDeviceInfo")
-  codec = meta.json.MediaStreams[1].codec
-  streamInfo = { Codec: codec, ChCnt: meta.json.MediaStreams[1].channels }
+  codec = meta.json.MediaStreams[audio_stream_idx].codec
+  streamInfo = { Codec: codec, ChCnt: meta.json.MediaStreams[audio_stream_idx].channels }
 
   'Otherwise check Roku can decode stream and channels
   canDecode = devinfo.CanDecodeAudio(streamInfo)

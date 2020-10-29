@@ -15,7 +15,7 @@ sub init()
     m.focusRing.color = m.global.constants.colors.button
 
     m.buttonCount = 0
-    m.selectedFocusedIndex = 1
+    m.selectedFocusedIndex = 0
 
     m.textSizeTask = createObject("roSGNode", "TextSizeTask")
 
@@ -24,6 +24,12 @@ sub init()
     m.top.observeField("renderTracking", "renderChanged")
 
 end sub 
+
+'
+' When Selected Index set, ensure it is the one Focused
+sub selectedIndexChanged()
+    m.selectedFocusedIndex = m.top.selectedIndex
+end sub
 
 '
 ' When options are fully displayed, set focus and selected option

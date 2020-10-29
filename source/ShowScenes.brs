@@ -356,9 +356,9 @@ function CreatePaginator()
   return group
 end function
 
-function CreateVideoPlayerGroup(video_id)
+function CreateVideoPlayerGroup(video_id, audio_stream_idx = 1)
   ' Video is Playing
-  video = VideoPlayer(video_id)
+  video = VideoPlayer(video_id, audio_stream_idx)
   if video = invalid return invalid
   timer = video.findNode("playbackTimer")
 
