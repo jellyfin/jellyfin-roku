@@ -33,6 +33,7 @@
   <interface>
     <field id="parentItem" type="node" onChange="loadInitialItems" />
     <field id="selectedItem" type="node" alwaysNotify="true" />
+    <field id="imageDisplayMode" type="string" value="scaleToZoom" />
   </interface>
   <script type="text/brightscript" uri="ItemGrid2.brs" />
 </component>

@@ -56,6 +56,9 @@ sub loadInitialItems()
     m.loadItemsTask.itemType = "Series"
   else if m.top.parentItem.collectionType = "livetv" then
     m.loadItemsTask.itemType = "LiveTV"
+
+    'For LiveTV, we want to "Fit" the item images, not zoom
+    m.top.imageDisplayMode = "scaleToFit"
   else
     print "Unknown Type: " m.top.parentItem
   end if

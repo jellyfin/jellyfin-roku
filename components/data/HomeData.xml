@@ -4,6 +4,7 @@
     <field id="id" type="string" />
     <field id="name" type="string" />
     <field id="thumbnailURL" type="string" />
+    <field id="iconURL" type="string" />
     <field id="posterURL" type="string" />
     <field id="widePosterURL" type="string" />
     <field id="type" type="string" />

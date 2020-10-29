@@ -20,6 +20,11 @@ sub setData()
         m.top.thumbnailURL = ImageURL(datum.id, "Primary", params)
         m.top.widePosterUrl = m.top.thumbnailURL
 
+        ' Add Icon URLs for display if there is no Poster
+        if datum.CollectionType = "livetv" then
+            m.top.iconUrl = "pkg:/images/baseline_live_tv_white_48dp.png"
+        end if
+
     else if datum.type = "Episode" then
         imgParams = { "AddPlayedIndicator": datum.UserData.Played }
 
