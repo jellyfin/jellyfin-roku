@@ -14,6 +14,7 @@ sub loadItems()
     sort_order = "Descending"
   end if
 
+
   params = {
     limit: m.top.limit,
     StartIndex: m.top.startIndex,
@@ -23,6 +24,13 @@ sub loadItems()
     recursive: true,
     Fields: "Overview"
   }
+
+  filter = m.top.filter
+  if filter = "All" or filter = "all" then
+    ' do nothing
+  else if filter = "Favorites" then
+    params.append({ Filters: "IsFavorite"})
+  end if
 
   if m.top.ItemType <> "" then
     params.append({ IncludeItemTypes: m.top.ItemType})
@@ -53,7 +61,6 @@ sub loadItems()
       tmp = CreateObject("roSGNode", "ChannelData")
     else
       print "Unknown Type: " item.Type
-
     end if
 
     if tmp <> invalid then

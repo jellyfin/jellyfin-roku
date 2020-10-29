@@ -14,6 +14,7 @@ sub init()
 
   m.viewNames = []
   m.sortNames = []
+  m.filterNames = []
 
   ' Animation
   m.fadeAnim = m.top.findNode("fadeAnim")
@@ -78,6 +79,33 @@ sub optionsSet()
     end if
   end if
 
+  ' Filter Tab
+  if m.top.options.filter <> invalid then
+    filterContent = CreateObject("roSGNode", "ContentNode")
+    index = 0
+    m.selectedFilterIndex = 0
+
+    for each filterItem in m.top.options.filter
+      entry = filterContent.CreateChild("ContentNode")
+      entry.title = filterItem.Title
+      m.filterNames.push(filterItem.Name)
+      if filterItem.selected <> invalid and filterItem.selected = true then
+        m.selectedFilterIndex = index
+      end if
+      index = index + 1
+    end for
+    m.menus[2].content = filterContent
+    m.menus[2].checkedItem = m.selectedFilterIndex
+  else
+    filterContent = CreateObject("roSGNode", "ContentNode")
+    entry = filterContent.CreateChild("ContentNode")
+    entry.title = "All"
+    m.filterNames.push("All")
+    m.menus[2].content = filterContent
+    m.menus[2].checkedItem = 0
+  end if
+
+
 end sub
 
 ' Switch menu shown when button focus changes
@@ -106,8 +134,8 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
     return true
   else if key = "OK"
-    ' Handle Sort screen
     if(m.menus[m.selectedItem].isInFocusChain()) then
+      ' Handle Sort screen
       if(m.selectedItem = 1) then
         if m.menus[1].itemSelected <> m.selectedSortIndex then
           m.menus[1].focusedCheckedIconUri = m.global.constants.icons.ascending_black
@@ -128,6 +156,11 @@ function onKeyEvent(key as string, press as boolean) as boolean
             m.menus[1].checkedIconUri = m.global.constants.icons.ascending_white
           end if
         end if
+      end if
+      ' Handle Filter screen
+      if(m.selectedItem = 2) then
+        m.selectedFilterIndex = m.menus[2].itemSelected
+        m.top.filter = m.filterNames[m.selectedFilterIndex]
       end if
     end if
     return true

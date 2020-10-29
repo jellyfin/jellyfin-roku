@@ -29,6 +29,8 @@ sub init()
   m.sortField = "SortName"
   m.sortAscending = true
 
+  m.filter = "All"
+
   m.loadItemsTask = createObject("roSGNode", "LoadItemsTask2")
   m.loadItemsTask.observeField("content", "ItemDataLoaded")
 
@@ -45,6 +47,7 @@ sub loadInitialItems()
   m.loadItemsTask.itemId = m.top.parentItem.Id
   m.loadItemsTask.sortField = m.sortField
   m.loadItemsTask.sortAscending = m.sortAscending
+  m.loadItemsTask.filter = m.filter
   m.loadItemsTask.startIndex = 0
 
   if m.top.parentItem.collectionType = "movies" then
@@ -70,7 +73,9 @@ sub SetUpOptions()
 
   'Movies
   if m.top.parentItem.collectionType = "movies" then
-    options.views = [{ "Title": tr("Movies"), "Name": "movies" }]
+    options.views = [
+      { "Title": tr("Movies"), "Name": "movies" },
+    ]
     options.sort = [
       { "Title": tr("TITLE"), "Name": "SortName" },
       { "Title": tr("IMDB_RATING"), "Name": "CommunityRating" },
@@ -81,6 +86,10 @@ sub SetUpOptions()
       { "Title": tr("PLAY_COUNT"), "Name": "PlayCount" },
       { "Title": tr("RELEASE_DATE"), "Name": "PremiereDate" },
       { "Title": tr("RUNTIME"), "Name": "Runtime" }
+    ]
+    options.filter = [
+      { "Title": tr("All"), "Name": "All" },
+      { "Title": tr("Favorites"), "Name": "Favorites" }
     ]
   'TV Shows
   else if m.top.parentItem.collectionType = "tvshows" then
@@ -106,6 +115,12 @@ sub SetUpOptions()
     if o.Name = m.sortField then
       o.Selected = true
       o.Ascending = m.sortAscending
+    end if
+  end for
+
+  for each o in options.filter
+    if o.Name = m.filter then
+      o.Selected = true
     end if
   end for
 
@@ -229,9 +244,17 @@ end sub
 '
 'Check if options updated and any reloading required
 sub optionsClosed()
+  reload = false
   if m.options.sortField <> m.sortField or m.options.sortAscending <> m.sortAscending then
     m.sortField = m.options.sortField
     m.sortAscending = m.options.sortAscending
+    reload = true
+  end if
+  if m.options.filter <> m.filter then
+    m.filter = m.options.filter
+    reload = true
+  end if
+  if reload
     m.loadedRows = 0
     m.loadedItems = 0
     m.data = CreateObject("roSGNode", "ContentNode")
