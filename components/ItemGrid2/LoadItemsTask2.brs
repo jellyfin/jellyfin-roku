@@ -59,6 +59,8 @@ sub loadItems()
       tmp = CreateObject("roSGNode", "CollectionData")
     else if item.Type = "TvChannel" then
       tmp = CreateObject("roSGNode", "ChannelData")
+    else if item.Type = "Video" then
+      tmp = CreateObject("roSGNode", "VideoData")
     else
       print "Unknown Type: " item.Type
     end if

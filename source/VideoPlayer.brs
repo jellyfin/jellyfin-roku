@@ -149,11 +149,16 @@ function getTranscodeParameters(meta as object, audio_stream_idx = 1)
     end if
   end if
 
-  streamInfo =  { Codec: meta.json.MediaStreams[0].codec }
-  if meta.json.MediaStreams[0].Profile <> invalid and meta.json.MediaStreams[0].Profile.len() > 0 then
+  streamInfo = {}
+  
+  if meta.json.MediaStreams[0] <> invalid and meta.json.MediaStreams[0].codec <> invalid then
+    streamInfo.Codec = meta.json.MediaStreams[0].codec
+  end if
+	
+  if meta.json.MediaStreams[0] <> invalid and meta.json.MediaStreams[0].Profile <> invalid and meta.json.MediaStreams[0].Profile.len() > 0 then
     streamInfo.Profile = LCase(meta.json.MediaStreams[0].Profile)
   end if
-  if meta.json.MediaSources[0].container <> invalid and meta.json.MediaSources[0].container.len() > 0  then
+  if meta.json.MediaSources[0] <> invalid and meta.json.MediaSources[0].container <> invalid and meta.json.MediaSources[0].container.len() > 0  then
     streamInfo.Container = meta.json.MediaSources[0].container
   end if
 
@@ -225,6 +230,11 @@ function directPlaySupported(meta as object) as boolean
   if meta.json.MediaSources[0] <> invalid and meta.json.MediaSources[0].SupportsDirectPlay = false then
     return false
   end if
+
+  if meta.json.MediaStreams[0] = invalid then
+    return false
+  end if
+
   streamInfo =  { Codec: meta.json.MediaStreams[0].codec }
   if meta.json.MediaStreams[0].Profile <> invalid and meta.json.MediaStreams[0].Profile.len() > 0 then
     streamInfo.Profile = LCase(meta.json.MediaStreams[0].Profile)
