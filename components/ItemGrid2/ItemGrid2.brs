@@ -59,6 +59,9 @@ sub loadInitialItems()
 
     'For LiveTV, we want to "Fit" the item images, not zoom
     m.top.imageDisplayMode = "scaleToFit"
+  else if m.top.parentItem.collectionType = "CollectionFolder" then
+    ' Non-recursive, to not show subfolder contents
+    m.loadItemsTask.recursive = false
   else if m.top.parentItem.collectionType = "Channel" then
     m.top.imageDisplayMode = "scaleToFit"
   else
@@ -107,17 +110,20 @@ sub SetUpOptions()
       { "Title": tr("OFFICIAL_RATING"), "Name": "OfficialRating" },
       { "Title": tr("RELEASE_DATE"), "Name": "PremiereDate" },
     ]
+    options.filter = []
   'Live TV
   else if m.top.parentItem.collectionType = "livetv" then
     options.views = [{"Title": tr("Live TV"), "Name": "livetv" }]
     options.sort = [
       { "Title": tr("TITLE"), "Name": "SortName" }
     ]
+    options.filter = []
   else
-    options.views = [{"Title": tr("Default"), "Name": "default" }]
+    options.views = [{ "Title": tr("Default"), "Name": "default" }]
     options.sort = [
       { "Title": tr("TITLE"), "Name": "SortName" }
     ]
+    options.filter = []
   end if
 
   for each o in options.sort

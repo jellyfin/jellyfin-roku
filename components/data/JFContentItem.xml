@@ -6,6 +6,7 @@
         <field id="posterUrl" type="string" />
         <field id="backdropUrl" type="string" />
         <field id="SubTitle" type="string" value="" />
+        <field id="iconUrl" type="string" value="" />
         <field id="Type" type="string" value="" />
         <field id="json" type="associativearray" onChange="setFields" />
     </interface>
