@@ -146,6 +146,10 @@ function ItemList(library_id = invalid as string, params = {})
       tmp.image = PosterImage(item.id, imgParams)
       tmp.json = item
       results.push(tmp)
+    else if item.type = "Folder"
+      tmp = CreateObject("roSGNode", "FolderData")
+      tmp.json = item
+      results.push(tmp)
     else
       print "Items.brs::ItemList received unhandled type: " item.type
       ' Otherwise we just stick with the JSON

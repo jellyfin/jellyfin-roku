@@ -21,7 +21,7 @@ sub loadItems()
     parentid: m.top.itemId,
     SortBy: sort_field,
     SortOrder: sort_order,
-    recursive: true,
+    recursive: m.top.recursive,
     Fields: "Overview"
   }
 
@@ -59,6 +59,8 @@ sub loadItems()
       tmp = CreateObject("roSGNode", "CollectionData")
     else if item.Type = "TvChannel" then
       tmp = CreateObject("roSGNode", "ChannelData")
+    else if item.Type = "Folder" then
+      tmp = CreateObject("roSGNode", "FolderData")
     else if item.Type = "Video" then
       tmp = CreateObject("roSGNode", "VideoData")
     else

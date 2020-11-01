@@ -1,6 +1,7 @@
 sub init()
   m.posterMask = m.top.findNode("posterMask")
   m.itemPoster = m.top.findNode("itemPoster")
+  m.itemIcon = m.top.findNode("itemIcon")
   m.posterText = m.top.findNode("posterText")
   m.itemText = m.top.findNode("itemText")
   m.backdrop = m.top.findNode("backdrop")
@@ -20,7 +21,7 @@ end sub
 
 sub itemContentChanged()
 
-  ' Set Randmom background colors from pallet
+  ' Set Random background colors from pallet
   posterBackgrounds = m.global.constants.poster_bg_pallet
   m.backdrop.color = posterBackgrounds[rnd(posterBackgrounds.count()) - 1]
 
@@ -39,6 +40,9 @@ sub itemContentChanged()
     m.itemText.text = itemData.Title
   else if itemData.type = "TvChannel" then
     m.itemPoster.uri = itemData.PosterUrl
+    m.itemText.text = itemData.Title
+  else if itemData.type = "Folder" then
+    m.itemIcon.uri = itemData.iconUrl
     m.itemText.text = itemData.Title
   else if itemData.type = "Video" then
     m.itemPoster.uri = itemData.PosterUrl
