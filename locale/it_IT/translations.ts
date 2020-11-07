@@ -264,5 +264,10 @@
         <translation>C&apos;è stato un errore nella ricezione di questa informazione per questo elemento dal server.</translation>
         <extracomment>Dialog detail when unable to load Content from Server</extracomment>
     </message>
+    <message>
+        <source>An error was encountered while playing this item.</source>
+        <translation>Si è verificato un errore durante la riproduzione di questo elemento.</translation>
+        <extracomment>Dialog detail when error occurs during playback</extracomment>
+    </message>
 </context>
 </TS>
