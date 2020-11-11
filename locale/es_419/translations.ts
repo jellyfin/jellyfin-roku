@@ -10,7 +10,7 @@
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">—Cancel</translation>
+        <translation>Cancelar</translation>
     </message>
     <message>
         <source>Connect to Server</source>
