@@ -59,6 +59,7 @@ function SearchMedia(query as string)
     "searchTerm": query,
     "IncludePeople": true,
     "IncludeMedia": true,
+    "IncludeShows": true,
     "IncludeGenres": false,
     "IncludeStudios": false,
     "IncludeArtists": false,
