@@ -18,7 +18,7 @@ sub itemContentChanged()
   m.itemText.maxWidth = imageWidth
   itemTextExtra.width = imageWidth
 
-  ' Randmomise the background colors
+  ' Randomize the background colors
   m.backdrop = m.top.findNode("backdrop")
   posterBackgrounds = m.global.constants.poster_bg_pallet
   m.backdrop.color = posterBackgrounds[rnd(posterBackgrounds.count()) - 1]
