@@ -49,7 +49,7 @@ function getData()
     type_array = ["Movie", "Series", "Episode", "AlbumArtist", "Album", "Audio", "Person"]
     content_types = {
         "Movie": {"label": "Movies", "count": 0},
-        "Series": {"label": "Series", "count": 0},
+        "Series": {"label": "Shows", "count": 0},
         "Episode": {"label": "Episodes", "count": 0},
         "AlbumArtist": {"label": "Artists", "count": 0},
         "Album": {"label": "Albums", "count": 0},
