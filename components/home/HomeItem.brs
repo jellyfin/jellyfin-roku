@@ -85,7 +85,8 @@ sub itemContentChanged()
   if itemData.type = "Movie" then
     m.itemText.text = itemData.name
 
-    if imageWidth = 180
+    ' Use best image, but fallback to secondary if it's empty
+    if (imageWidth = 180 and itemData.posterURL <> "") or itemData.thumbnailURL = ""
       itemPoster.uri = itemData.posterURL
     else
       itemPoster.uri = itemData.thumbnailURL
