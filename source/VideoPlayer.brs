@@ -49,7 +49,7 @@ function VideoContent(video, audio_stream_idx = 1) as object
     video.content.live = true
     video.content.StreamFormat = "hls"
 
-    'Original MediaSource seems to be a placeholder and real stream data is avaiable
+    'Original MediaSource seems to be a placeholder and real stream data is available
     'after POSTing to PlaybackInfo
     json = meta.json
     json.AddReplace("MediaSources", playbackInfo.MediaSources)
