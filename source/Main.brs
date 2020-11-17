@@ -303,8 +303,12 @@ sub Main()
       group.visible = false
 
       ' TODO - swap this based on target.mediatype
-      ' types: [ Episode, Movie, Audio, Person, Studio, MusicArtist ]
-      group = CreateMovieDetailsGroup(node)
+      ' types: [ Series (Show), Episode, Movie, Audio, Person, Studio, MusicArtist ]
+      if node.type = "Series" then
+        group = CreateSeriesDetailsGroup(node)
+      else
+        group = CreateMovieDetailsGroup(node)
+      end if
       m.scene.appendChild(group)
       m.overhang.title = group.overhangTitle
 
