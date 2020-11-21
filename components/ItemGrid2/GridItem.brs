@@ -23,7 +23,7 @@ sub itemContentChanged()
 
   ' Set Random background colors from pallet
   posterBackgrounds = m.global.constants.poster_bg_pallet
-  m.backdrop.color = posterBackgrounds[rnd(posterBackgrounds.count()) - 1]
+  m.backdrop.blendColor = posterBackgrounds[rnd(posterBackgrounds.count()) - 1]
 
   itemData = m.top.itemContent
 
@@ -49,6 +49,12 @@ sub itemContentChanged()
     m.itemText.text = itemData.Title
   else
     print "Unhandled Item Type: " + itemData.type
+  end if
+
+  'If Poster not loaded, ensure "blue box" is shown until loaded
+  if m.itemPoster.loadStatus <> "ready" then
+    m.backdrop.visible = true
+    m.posterText.visible = true
   end if
 
   m.posterText.text = m.itemText.text
