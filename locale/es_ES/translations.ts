@@ -214,7 +214,7 @@
     </message>
     <message>
         <source>Director</source>
-        <translation>Dirección de</translation>
+        <translation>Director</translation>
     </message>
     <message>
         <source>Video</source>
