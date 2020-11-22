@@ -86,7 +86,7 @@
     </message>
     <message>
         <source>Add User</source>
-        <translation>User hinzufügen</translation>
+        <translation>Benutzer hinzufügen</translation>
     </message>
     <message>
         <source>Profile</source>
