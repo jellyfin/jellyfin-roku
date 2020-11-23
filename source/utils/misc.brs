@@ -94,7 +94,7 @@ function lastFocusedChild(obj as object) as object
   child = obj
   for i = 0 to obj.getChildCount()
     if obj.focusedChild <> invalid then
-      child = child.focusedChild
+      child = obj.focusedChild
     end if 
   end for 
   return child
@@ -102,7 +102,7 @@ end function
 
 function show_dialog(message as string, options = [], defaultSelection = 0) as integer
   group = m.scene.focusedChild
-  lastFocus = lastFocusedChild(m.scene)
+  if group.lastFocus = invalid then lastFocus = lastFocusedChild(m.scene)
   'We want to handle backPressed instead of the main loop
   m.scene.unobserveField("backPressed")
 

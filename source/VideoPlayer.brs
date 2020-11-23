@@ -261,7 +261,6 @@ end function
 
 function getContainerType(meta as object) as string
   ' Determine the file type of the video file source
-  print type(meta)
   if meta.json.mediaSources = invalid then return ""
 
   container = meta.json.mediaSources[0].container

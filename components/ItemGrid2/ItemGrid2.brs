@@ -1,6 +1,7 @@
 sub init()
 
   m.options = m.top.findNode("options")
+  m.tvGuide = invalid
 
   m.itemGrid = m.top.findNode("itemGrid")
   m.backdrop = m.top.findNode("backdrop")
@@ -78,6 +79,7 @@ end sub
 sub SetUpOptions()
 
   options = {}
+  options.filter = []
 
   'Movies
   if m.top.parentItem.collectionType = "movies" then
@@ -113,13 +115,18 @@ sub SetUpOptions()
     options.filter = []
   'Live TV
   else if m.top.parentItem.collectionType = "livetv" then
-    options.views = [{"Title": tr("Live TV"), "Name": "livetv" }]
+    options.views = [
+      {"Title": tr("Channels"), "Name": "livetv" },
+      {"Title": tr("TV Guide"), "Name": "tvGuide" }
+    ]
     options.sort = [
       { "Title": tr("TITLE"), "Name": "SortName" }
     ]
     options.filter = []
   else
-    options.views = [{ "Title": tr("Default"), "Name": "default" }]
+    options.views = [
+      {"Title": tr("Default"), "Name": "default" }
+    ]
     options.sort = [
       { "Title": tr("TITLE"), "Name": "SortName" }
     ]
@@ -259,6 +266,20 @@ end sub
 '
 'Check if options updated and any reloading required
 sub optionsClosed()
+
+  if (m.options.view = "tvGuide") then
+    if m.tvGuide = invalid then 
+       m.tvGuide = createObject("roSGNode", "Schedule")
+    endif
+    m.tvGuide.observeField("watchChannel", "onChannelSelected")
+    m.top.appendChild(m.tvGuide)
+    m.tvGuide.lastFocus.setFocus(true)
+    return
+  else if m.tvGuide <> invalid then
+    ' Try to hide the TV Guide
+    m.top.removeChild(m.tvGuide)
+  end if
+
   reload = false
   if m.options.sortField <> m.sortField or m.options.sortAscending <> m.sortAscending then
     m.sortField = m.options.sortField
@@ -280,6 +301,15 @@ sub optionsClosed()
 end sub
 
 
+sub onChannelSelected(msg) 
+  node = msg.getRoSGNode()
+  m.top.lastFocus = lastFocusedChild(node)
+  if node.watchChannel <> invalid then 
+    ' Clone the node when it's reused/update in the TimeGrid it doesn't automatically start playing
+    m.top.selectedItem = node.watchChannel.clone(false)
+  end if
+end sub
+
 function onKeyEvent(key as string, press as boolean) as boolean
 
   if not press then return false
@@ -287,9 +317,11 @@ function onKeyEvent(key as string, press as boolean) as boolean
   if key = "options"
     if m.options.visible = true then
       m.options.visible = false
+      m.top.removeChild(m.options)
       optionsClosed()
     else
       m.options.visible = true
+      m.top.appendChild(m.options)
       m.options.setFocus(true)
     end if
     return true
