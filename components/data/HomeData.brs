@@ -22,7 +22,7 @@ sub setData()
 
         ' Add Icon URLs for display if there is no Poster
         if datum.CollectionType = "livetv" then
-            m.top.iconUrl = "pkg:/images/baseline_live_tv_white_48dp.png"
+            m.top.iconUrl = "pkg:/images/media_type_icons/live_tv_white.png"
         end if
 
     else if datum.type = "Episode" then
@@ -142,7 +142,7 @@ sub setData()
         params = { "Tag" : datum.ImageTags.Primary, "maxHeight" : 261, "maxWidth" : 464 }
         m.top.thumbnailURL = ImageURL(datum.id, "Primary", params)
         m.top.widePosterUrl = m.top.thumbnailURL
-        m.top.iconUrl = "pkg:/images/baseline_live_tv_white_48dp.png"
+        m.top.iconUrl = "pkg:/images/media_type_icons/live_tv_white.png"
     end if
 
 end sub
