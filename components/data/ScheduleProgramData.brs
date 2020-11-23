@@ -28,27 +28,6 @@ sub setFields()
         end if
     end if
 
-
-    ' m.top.id = json.id
-    ' m.top.Title = json.name
-    ' m.top.Description = json.overview
-    ' m.top.favorite = json.UserData.isFavorite
-    ' m.top.watched = json.UserData.played
-    ' m.top.Type = "Movie"  
-    
-    ' if json.ProductionYear <> invalid then
-    '   m.top.SubTitle = json.ProductionYear
-    ' end if
-  
-    ' if json.OfficialRating <> invalid and json.OfficialRating <> "" then
-    '   m.top.Rating = json.OfficialRating
-    '   if m.top.SubTitle <> "" then
-    '     m.top.SubTitle = m.top.SubTitle + " - " + m.top.Rating
-    '   else
-    '     m.top.SubTitle = m.top.Rating
-    '   end if
-    ' end if
-  
     setPoster()
   end sub
   
@@ -59,8 +38,6 @@ sub setFields()
       if m.top.json.ImageTags <> invalid and m.top.json.ImageTags.Thumb <> invalid then
         imgParams = { "maxHeight": 500, "maxWidth": 500, "Tag" : m.top.json.ImageTags.Thumb }
         m.top.posterURL = ImageURL(m.top.json.id, "Thumb", imgParams)
-        ' imgParams = { "maxHeight": 440, "maxWidth": 295, "Tag" : m.top.json.ImageTags.Primary }
-        ' m.top.posterURL = ImageURL(m.top.json.id, "Primary", imgParams)
       end if
     end if
   end sub
