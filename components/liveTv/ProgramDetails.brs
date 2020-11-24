@@ -159,7 +159,7 @@ function getRelativeDayName(date) as string
 end function
 
 '
-' Get program duratio string (e.g. 1h 20m)
+' Get program duration string (e.g. 1h 20m)
 function getDurationStringFromSeconds(seconds) as string
 
     hours = 0
@@ -213,5 +213,4 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
     return false
 end function
-
 

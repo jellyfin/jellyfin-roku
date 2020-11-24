@@ -402,7 +402,7 @@
         <message>
             <source>Repeat</source>
             <translation>Repeat</translation>
-            <extracomment>If TV Shows has previoulsy been broadcast</extracomment>
+            <extracomment>If TV Shows has previously been broadcasted</extracomment>
         </message>
         <message>
             <source>Channels</source>
