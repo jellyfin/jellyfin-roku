@@ -216,11 +216,6 @@
         <extracomment>Next day</extracomment>
     </message>
     <message>
-        <source>tomorrow</source>
-        <translation>tomorrow</translation>
-        <extracomment>Next day</extracomment>
-    </message>
-    <message>
         <source>Sunday</source>
         <translation>Sunday</translation>
         <extracomment>Day of Week</extracomment>
