@@ -97,6 +97,7 @@ sub onProgramFocused()
     end if
 
     m.detailsPane.programDetails = prog
+    m.detailsPane.programDetails.channelName = channel.Title
 
 end sub
 
