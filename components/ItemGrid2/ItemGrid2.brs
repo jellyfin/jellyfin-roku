@@ -268,6 +268,7 @@ end sub
 sub optionsClosed()
 
   if (m.options.view = "tvGuide") then
+    m.top.signalBeacon("EPGLaunchInitiate") ' Required Roku Performance monitoring
     if m.tvGuide = invalid then 
        m.tvGuide = createObject("roSGNode", "Schedule")
     endif

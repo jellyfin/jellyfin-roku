@@ -56,6 +56,7 @@ sub onChannelsLoaded()
     m.LoadProgramDetailsTask.observeField("programDetails", "onProgramDetailsLoaded")
 
     m.scheduleGrid.setFocus(true)
+    m.top.signalBeacon("EPGLaunchComplete") ' Required Roku Performance monitoring
 end sub
 
 ' When LoadScheduleTask completes (initial or more data) and we have a schedule to display
