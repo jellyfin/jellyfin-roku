@@ -19,8 +19,8 @@ sub init()
   
     url = "LiveTv/Programs"
 
-    resp = APIRequest(url, params)
-    data = getJson(resp)
+    resp = APIRequest(url)
+    data  = postJson(resp, FormatJson(params))
   
     if data = invalid then
         m.top.schedule = results
