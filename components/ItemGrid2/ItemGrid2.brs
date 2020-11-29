@@ -60,6 +60,11 @@ sub loadInitialItems()
 
     'For LiveTV, we want to "Fit" the item images, not zoom
     m.top.imageDisplayMode = "scaleToFit"
+    
+    if get_user_setting("display.livetv.landing") = "guide" then 
+       showTvGuid()
+    end if
+
   else if m.top.parentItem.collectionType = "CollectionFolder" then
     ' Non-recursive, to not show subfolder contents
     m.loadItemsTask.recursive = false
@@ -117,7 +122,7 @@ sub SetUpOptions()
   else if m.top.parentItem.collectionType = "livetv" then
     options.views = [
       {"Title": tr("Channels"), "Name": "livetv" },
-      {"Title": tr("TV Guide"), "Name": "tvGuide" }
+      {"Title": tr("TV Guide"), "Name": "tvGuide", "Selected": get_user_setting("display.livetv.landing") = "guide" }
     ]
     options.sort = [
       { "Title": tr("TITLE"), "Name": "SortName" }
@@ -268,13 +273,7 @@ end sub
 sub optionsClosed()
 
   if (m.options.view = "tvGuide") then
-    m.top.signalBeacon("EPGLaunchInitiate") ' Required Roku Performance monitoring
-    if m.tvGuide = invalid then 
-       m.tvGuide = createObject("roSGNode", "Schedule")
-    endif
-    m.tvGuide.observeField("watchChannel", "onChannelSelected")
-    m.top.appendChild(m.tvGuide)
-    m.tvGuide.lastFocus.setFocus(true)
+    showTVGuid()
     return
   else if m.tvGuide <> invalid then
     ' Try to hide the TV Guide
@@ -301,6 +300,15 @@ sub optionsClosed()
   m.itemGrid.setFocus(true)
 end sub
 
+sub showTVGuid()
+  m.top.signalBeacon("EPGLaunchInitiate") ' Required Roku Performance monitoring
+  if m.tvGuide = invalid then 
+     m.tvGuide = createObject("roSGNode", "Schedule")
+  endif
+  m.tvGuide.observeField("watchChannel", "onChannelSelected")
+  m.top.appendChild(m.tvGuide)
+  m.tvGuide.lastFocus.setFocus(true)
+end sub
 
 sub onChannelSelected(msg) 
   node = msg.getRoSGNode()

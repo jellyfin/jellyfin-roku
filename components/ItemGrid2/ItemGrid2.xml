@@ -36,5 +36,6 @@
     <field id="imageDisplayMode" type="string" value="scaleToZoom" />
   </interface>
   <script type="text/brightscript" uri="pkg:/source/utils/misc.brs" />
+  <script type="text/brightscript" uri="pkg:/source/utils/config.brs" />
   <script type="text/brightscript" uri="ItemGrid2.brs" />
 </component>
