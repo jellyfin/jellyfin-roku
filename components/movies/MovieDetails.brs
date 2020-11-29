@@ -31,8 +31,14 @@ sub itemContentChanged()
   m.top.overhangTitle = itemData.name
   setFieldText("releaseYear", itemData.productionYear)
   setFieldText("officialRating", itemData.officialRating)
-  setFieldText("communityRating", itemData.communityRating)
   setFieldText("overview", itemData.overview)
+
+  if itemData.communityRating <> invalid then
+    setFieldText("communityRating", itemData.communityRating)
+  else
+    ' hide the star icon
+    m.top.findNode("communityRatingGroup").visible = false
+  end if
 
   if itemData.CriticRating <> invalid then
     setFieldText("criticRatingLabel" , itemData.criticRating)
