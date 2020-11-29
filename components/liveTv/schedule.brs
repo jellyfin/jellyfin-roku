@@ -75,6 +75,8 @@ sub onScheduleLoaded()
 
         channel.appendChild(item)
     end for
+
+    m.scheduleGrid.showLoadingDataFeedback = false
 end sub
 
 sub onProgramFocused()
