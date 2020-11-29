@@ -2,7 +2,7 @@ sub init()
   m.top.itemComponentName = "TVListDetails"
   m.top.content = setData()
 
-  m.top.rowFocusAnimationStyle = "floatingFocus"
+  m.top.vertFocusAnimationStyle = "fixedFocusWrap"
 
   m.top.showRowLabel = [false]
   
