@@ -2,8 +2,7 @@ sub init()
     m.top.itemComponentName = "ListPoster"
     m.top.content = getData()
 
-    m.top.rowFocusAnimationStyle = "floatingFocus"
-    'm.top.vertFocusAnimationStyle = "floatingFocus"
+    m.top.rowFocusAnimationStyle = "fixedFocusWrap"
 
     m.top.showRowLabel = [false]
     m.top.showRowCounter = [true]
