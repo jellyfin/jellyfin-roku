@@ -51,7 +51,6 @@ sub onChannelsLoaded()
     m.LoadScheduleTask.channelIds = channelIdList
     m.LoadScheduleTask.control = "RUN"
 
-
     m.LoadProgramDetailsTask = createObject("roSGNode", "LoadProgramDetailsTask")
     m.LoadProgramDetailsTask.observeField("programDetails", "onProgramDetailsLoaded")
 
@@ -83,7 +82,8 @@ sub onProgramFocused()
 
     m.top.watchChannel = invalid
     channel = m.scheduleGrid.content.GetChild(m.scheduleGrid.programFocusedDetails.focusChannelIndex)
-    
+    m.detailsPane.channel = channel
+
     ' Exit if Channels not yet loaded
     if channel.getChildCount() = 0 then
         m.detailsPane.programDetails = invalid
@@ -92,7 +92,7 @@ sub onProgramFocused()
 
     prog = channel.GetChild(m.scheduleGrid.programFocusedDetails.focusIndex)
 
-    if prog.fullyLoaded = false then
+    if prog <> invalid and prog.fullyLoaded = false then
         m.LoadProgramDetailsTask.programId = prog.Id
         m.LoadProgramDetailsTask.channelIndex = m.scheduleGrid.programFocusedDetails.focusChannelIndex
         m.LoadProgramDetailsTask.programIndex = m.scheduleGrid.programFocusedDetails.focusIndex
@@ -100,14 +100,18 @@ sub onProgramFocused()
     end if
 
     m.detailsPane.programDetails = prog
-    m.detailsPane.programDetails.channelName = channel.Title
-
 end sub
 
 ' Update the Program Details with full information
 sub onProgramDetailsLoaded()
     if m.LoadProgramDetailsTask.programDetails = invalid then return 
     channel = m.scheduleGrid.content.GetChild(m.LoadProgramDetailsTask.programDetails.channelIndex)
+
+    ' If TV Show does not have its own image, use the channel logo
+    if m.LoadProgramDetailsTask.programDetails.PosterUrl = invalid or m.LoadProgramDetailsTask.programDetails.PosterUrl = "" then
+        m.LoadProgramDetailsTask.programDetails.PosterUrl = channel.PosterUrl
+    end if
+
     channel.ReplaceChild(m.LoadProgramDetailsTask.programDetails, m.LoadProgramDetailsTask.programDetails.programIndex)
 end sub
 

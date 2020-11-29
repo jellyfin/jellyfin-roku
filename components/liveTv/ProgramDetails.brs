@@ -5,6 +5,7 @@ sub init()
     m.maxDetailLines = 14
 
     m.detailsView = m.top.findNode("detailsView")
+    m.noInfoView = m.top.findNode("noInformation")
 
     m.programName = m.top.findNode("programName")
     m.episodeTitle = m.top.findNode("episodeTitle")
@@ -52,6 +53,19 @@ sub setupLabels()
     buttonBackground.height = boundingRect.height + 20
 end sub
 
+sub channelUpdated()
+    if m.top.channel = invalid 
+        m.top.findNode("noInfoChannelName").text = ""
+        m.channelName.text = ""
+     else
+        m.top.findNode("noInfoChannelName").text = m.top.channel.Title
+        m.channelName.text= m.top.channel.Title
+        if m.top.programDetails = invalid then 
+            m.image.uri = m.top.channel.posterURL
+        end if
+    end if
+end sub
+
 sub programUpdated()
 
     m.top.watchSelectedChannel = false
@@ -60,7 +74,9 @@ sub programUpdated()
 
     ' If no program selected, hide details view
     if prog = invalid then
+        channelUpdated()
         m.detailsView.visible = "false"
+        m.noInfoView.visible = "true"
         return
     end if
 
@@ -121,12 +137,10 @@ sub programUpdated()
 
     m.image.uri = prog.PosterURL
 
-    if prog.channelName <> invalid and prog.channelName <> "" then
-        m.channelName.text = prog.channelName
-    end if
 
     m.detailsView.visible = "true"
-    
+    m.noInfoView.visible = "false"
+
     m.top.height = m.detailsView.boundingRect().height
     m.overview.maxLines = m.maxPreviewLines
 end sub
