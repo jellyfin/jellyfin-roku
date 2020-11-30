@@ -22,8 +22,18 @@ cd jellyfin-roku
 ### Install Necessary Packages
 
 ```bash
-sudo apt-get install wget make
+sudo apt-get install wget make zip
 ```
+
+## Method 1: Sideload to Roku Device Manually
+
+```bash
+make dev
+```
+
+This will create a zip in `out/apps/Jellyfin_Roku-dev.zip`. Login to your roku's device in your browser and upload the zip file then run install.
+
+## Method 2: Direct load to Roku Device
 
 ### Login Details
 
@@ -46,7 +56,7 @@ make install
 
 Note: You only have to run this command once if you are not a developer. The Jellyfin channel will still be installed after rebooting your Roku device.
 
-### Bug/Crash Reports
+## Bug/Crash Reports
 
 Did the app crash? Find a nasty bug? Use the this command to view the error log and [report it to the developers](https://github.com/jellyfin/jellyfin-roku/issues):
 
@@ -56,7 +66,7 @@ telnet ${ROKU_DEV_TARGET} 8085
 
 To exit telnet: `CTRL + ]` and then type `quit + ENTER`
 
-### Upgrade
+## Upgrade
 
 Navigate to the folder where you installed the app then upgrade the code to the latest version:
 
