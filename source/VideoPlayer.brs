@@ -20,7 +20,7 @@ function VideoContent(video, audio_stream_idx = 1) as object
   params = {}
 
   meta = ItemMetaData(video.id)
-  video.content.title = meta.Name
+  video.content.title = meta.title
   video.showID = meta.showID
   
   ' If there is a last playback positon, ask user if they want to resume
