@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<component name="LoadScheduleTask" extends="Task">
+  <interface>
+    <field id="startTime" type="string" />
+    <field id="endTime" type="string" />
+    <field id="channelIds" type="string" />
+    <field id="schedule" type="array" />
+  </interface>
+  <script type="text/brightscript" uri="LoadSheduleTask.brs" />
+  <script type="text/brightscript" uri="pkg:/source/api/baserequest.brs" />
+  <script type="text/brightscript" uri="pkg:/source/utils/config.brs" />
+</component>

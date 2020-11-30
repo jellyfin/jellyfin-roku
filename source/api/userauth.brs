@@ -67,3 +67,19 @@ function GetPublicUsers()
   resp = APIRequest(url)
   return getJson(resp)
 end function
+
+' Load and parse Display Settings from server
+sub LoadUserPreferences()
+  id = get_setting("active_user")
+  ' Currently using client "emby", which is what website uses so we get same Display prefs as web.
+  ' May want to change to specific Roku display settings
+  url = Substitute("DisplayPreferences/usersettings?userId={0}&client=emby", id)
+  resp = APIRequest(url)
+  jsonResponse =  getJson(resp)
+  
+  if jsonResponse <> invalid and jsonResponse.CustomPrefs <> invalid and jsonResponse.CustomPrefs["landing-livetv"] <> invalid then
+    set_user_setting("display.livetv.landing", jsonResponse.CustomPrefs["landing-livetv"])
+  else
+    unset_user_setting("display.livetv.landing")
+  end if
+end sub

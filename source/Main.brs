@@ -82,7 +82,7 @@ sub Main()
       ' If you select a library from ANYWHERE, follow this flow
       selectedItem = msg.getData()
       if (selectedItem.type = "CollectionFolder" OR selectedItem.type = "UserView" OR selectedItem.type = "Folder") AND ( selectedItem.collectionType = "movies" or selectedItem.collectionType = "CollectionFolder")
-        group.lastFocus = group.focusedChild
+        if group.lastFocus = invalid then group.lastFocus = group.focusedChild
         group.setFocus(false)
         group.visible = false
         m.overhang.title = selectedItem.title
@@ -90,7 +90,7 @@ sub Main()
         group.overhangTitle = selectedItem.title
         m.scene.appendChild(group)
       else if (selectedItem.type = "CollectionFolder" OR selectedItem.type = "UserView") AND  selectedItem.collectionType =  "tvshows" 
-        group.lastFocus = group.focusedChild
+        if group.lastFocus = invalid then group.lastFocus = group.focusedChild
         group.setFocus(false)
         group.visible = false
 
@@ -99,7 +99,7 @@ sub Main()
         group.overhangTitle = selectedItem.title
         m.scene.appendChild(group)
       else if (selectedItem.type = "CollectionFolder" OR selectedItem.type = "UserView") AND selectedItem.collectionType = "boxsets" OR selectedItem.type = "Boxset"
-        group.lastFocus = group.focusedChild
+        if group.lastFocus = invalid then group.lastFocus = group.focusedChild
         group.setFocus(false)
         group.visible = false
 
@@ -108,7 +108,7 @@ sub Main()
         group.overhangTitle = selectedItem.title
         m.scene.appendChild(group)
       else if ((selectedItem.type = "CollectionFolder" OR selectedItem.type = "UserView") AND selectedItem.collectionType = "livetv") OR selectedItem.type = "Channel"
-        group.lastFocus = group.focusedChild
+        if group.lastFocus = invalid then group.lastFocus = group.focusedChild
         group.setFocus(false)
         group.visible = false
 
@@ -116,9 +116,9 @@ sub Main()
         group = CreateChannelList(selectedItem)
         group.overhangTitle = selectedItem.title
         m.scene.appendChild(group)
-      else if selectedItem.type = "Boxset" then
+      else if selectedItem.type = "Boxset" or selectedItem.collectionType = "folders" then
 
-        group.lastFocus = group.focusedChild
+        if group.lastFocus = invalid then group.lastFocus = group.focusedChild
         group.setFocus(false)
         group.visible = false
 
@@ -141,7 +141,7 @@ sub Main()
         video_id = selectedItem.id
         video = CreateVideoPlayerGroup(video_id)
         if video <> invalid then
-          group.lastFocus = group.focusedChild
+          if group.lastFocus = invalid then group.lastFocus = group.focusedChild
           group.setFocus(false)
           group.visible = false
           group = video
@@ -152,7 +152,7 @@ sub Main()
           m.overhang.visible = false
         end if
       else if selectedItem.type = "Series" then
-        group.lastFocus = group.focusedChild
+        if group.lastFocus = invalid then group.lastFocus = group.focusedChild
         group.setFocus(false)
         group.visible = false
 
@@ -164,7 +164,7 @@ sub Main()
         m.scene.appendChild(group)
       else if selectedItem.type = "Movie" then
         ' open movie detail page
-        group.lastFocus = group.focusedChild
+        if group.lastFocus = invalid then group.lastFocus = group.focusedChild
         group.setFocus(false)
         group.visible = false
 
@@ -188,7 +188,7 @@ sub Main()
         dialog.close = true
 
         if video <> invalid then
-          group.lastFocus = group.focusedChild
+          if group.lastFocus = invalid then group.lastFocus = group.focusedChild
           group.setFocus(false)
           group.visible = false
           group = video
@@ -217,7 +217,7 @@ sub Main()
       ' If you select a movie from ANYWHERE, follow this flow
       node = getMsgPicker(msg, "picker")
 
-      group.lastFocus = group.focusedChild
+      if group.lastFocus = invalid then group.lastFocus = group.focusedChild
       group.setFocus(false)
       group.visible = false
 
@@ -231,7 +231,7 @@ sub Main()
       ' If you select a TV Series from ANYWHERE, follow this flow
       node = getMsgPicker(msg, "picker")
 
-      group.lastFocus = group.focusedChild
+      if group.lastFocus = invalid then group.lastFocus = group.focusedChild
       group.setFocus(false)
       group.visible = false
 
@@ -248,7 +248,7 @@ sub Main()
       series = msg.getRoSGNode()
       node = series.seasonData.items[ptr[1]]
 
-      group.lastFocus = group.focusedChild.focusedChild
+      if group.lastFocus = invalid then group.lastFocus = group.focusedChild.focusedChild
       group.setFocus(false)
       group.visible = false
 
@@ -263,7 +263,7 @@ sub Main()
       video_id = node.id
       video = CreateVideoPlayerGroup(video_id)
       if video <> invalid then
-        group.lastFocus = group.focusedChild
+        if group.lastFocus = invalid then group.lastFocus = group.focusedChild
         group.setFocus(false)
         group.visible = false
         group = video
@@ -298,7 +298,7 @@ sub Main()
     else if isNodeEvent(msg, "itemSelected")
       ' Search item selected
       node = getMsgPicker(msg)
-      group.lastFocus = group.focusedChild
+      if group.lastFocus = invalid then group.lastFocus = group.focusedChild
       group.setFocus(false)
       group.visible = false
 
@@ -327,7 +327,7 @@ sub Main()
         video_id = group.id
         video = CreateVideoPlayerGroup(video_id, audio_stream_idx)
         if video <> invalid then
-          group.lastFocus = group.focusedChild.focusedChild.focusedChild
+          if group.lastFocus = invalid then group.lastFocus = group.focusedChild.focusedChild.focusedChild
           group.setFocus(false)
           group.visible = false
           group = video
@@ -364,7 +364,7 @@ sub Main()
         else
           group.setFocus(true)
         end if
-        group.lastFocus = group.focusedChild
+        if group.lastFocus = invalid then group.lastFocus = group.focusedChild
         group.setFocus(false)
         group.visible = false
         m.overhang.showOptions = false
@@ -437,7 +437,7 @@ sub Main()
         print msg.GetInfo()
       end if
     else
-      print type(msg)
+      print "Unhandled " type(msg)
       print msg
     end if
   end while
@@ -486,6 +486,7 @@ function LoginFlow(startOver = false as boolean)
         get_token(userSelected, "")
         if get_setting("active_user") <> invalid then
           m.user = AboutMe()
+          LoadUserPreferences()
           SendPerformanceBeacon("AppDialogComplete") ' Roku Performance monitoring - Dialog Closed
           return true
         end if
@@ -508,6 +509,7 @@ function LoginFlow(startOver = false as boolean)
     goto start_login
   end if
 
+  LoadUserPreferences()
   wipe_groups()
 
   'Send Device Profile information to server

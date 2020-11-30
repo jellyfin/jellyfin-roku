@@ -39,7 +39,7 @@ sub optionsSet()
       entry = viewContent.CreateChild("ContentNode")
       entry.title = view.Title
       m.viewNames.push(view.Name)
-      if view.selected <> invalid and view.selected = true then
+      if (view.selected <> invalid and view.selected = true) or viewContent.Name = m.top.view then
         selectedViewIndex = index
       end if
       index = index + 1
@@ -136,6 +136,12 @@ function onKeyEvent(key as string, press as boolean) as boolean
     return true
   else if key = "OK"
     if(m.menus[m.selectedItem].isInFocusChain()) then
+      ' Handle View Screen
+      if(m.selectedItem = 0) then
+        m.selectedViewIndex = m.menus[0].itemSelected
+        m.top.view = m.viewNames[m.selectedViewIndex]
+      end if
+
       ' Handle Sort screen
       if(m.selectedItem = 1) then
         if m.menus[1].itemSelected <> m.selectedSortIndex then

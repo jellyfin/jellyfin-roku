@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="ProgramDetails" extends="JFGroup">
+    <children>
+
+        <!-- Selected Item Details -->
+        <maskGroup id="backgroundMask" maskUri="pkg:/images/backgroundmask.png" translation="[1208, 127]" maskSize="[712,400]">
+            <Poster id="image" height="400" width="712" loadDisplayMode="scaleToFit" />
+        </maskGroup>
+
+        <Group id="detailsView" visible="false">
+
+            <Group translation = "[ 96, 160 ]">
+                <LayoutGroup itemSpacings="[4,20, 20, 20, 40]">
+                    <Label id="programName" font="font:LargeBoldSystemFont" />
+
+                    <LayoutGroup id="episodeDetailsGroup" layoutDirection="horiz" itemSpacings="[10]">
+                        <Group id="isLive">
+                            <Poster id="isLiveBackground" uri="pkg:/images/white.9.png" blendColor="#FF0000" />
+                            <Label id="isLiveText" text="Live" font="font:SmallestBoldSystemFont" translation="[8,4]" />
+                        </Group>
+                        <Group id="isRepeat">
+                            <Poster id="isRepeatBackground" uri="pkg:/images/white.9.png" blendColor="#009688" />
+                            <Label id="isRepeatText" text="Repeat" font="font:SmallestBoldSystemFont" translation="[8,4]" />
+                        </Group>
+                        <Label id="episodeNumber" font="font:SmallSystemFont" />
+                        <Label id="episodeTitle" font="font:SmallSystemFont" />
+                    </LayoutGroup>
+
+                    <LayoutGroup layoutDirection="horiz" itemSpacings="[30]">
+                        <Label id="duration" />
+                        <Label id="broadcastDetails" />
+                        <Label id="channelName" />
+                    </LayoutGroup>
+
+                    <label id="overview" wrap="true" width="1250" font="font:SmallestSystemFont" />
+    
+                    <!-- View Channel button -->
+                    <Group id="viewChannelButton" opacity="0">
+                        <Poster id="viewChannelButtonBackground" uri="pkg:/images/white.9.png" blendColor="#006fab" />
+                        <Label text="View Channel" translation="[20,20]" />
+                    </Group>
+    
+                </LayoutGroup>
+
+            </Group>
+        </Group>
+        <!-- When no schedule information to display  -->
+        <LayoutGroup id="noInformation" translation="[96, 300]">
+            <Label id="noInfoChannelName" font="font:LargeBoldSystemFont"  />
+            <Label font="font:SmallSystemFont" text="No schedule information" />
+        </LayoutGroup>
+        <Animation id="focusAnimation" duration="0.66" repeat="false" easeFunction="linear" >
+            <FloatFieldInterpolator id="focusAnimationOpacity" key="[0.0, 1]" fieldToInterp="viewChannelButton.opacity" />
+        </Animation>
+    </children>
+    <interface>
+        <field id="WatchSelectedChannel" type="boolean" value="false" />
+        <field id="channel" type="node" onchange="channelUpdated" />
+        <field id="programDetails" type="node" onchange="programUpdated" />
+        <field id="height" type="integer" />
+        <field id="hasFocus" type="boolean" onChange="focusChanged" />
+    </interface>
+    <script type="text/brightscript" uri="ProgramDetails.brs" />
+    <script type="text/brightscript" uri="pkg:/source/utils/misc.brs" />
+</component>

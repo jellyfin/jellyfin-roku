@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<component name="LoadChannelsTask" extends="Task">
+  <interface>
+    <field id="limit" type="integer" value="500" />
+    <field id="startIndex" type="integer" value="0" />
+    
+    <!-- Total records available from server-->
+    <field id="channels" type="array" />
+  </interface>
+  <script type="text/brightscript" uri="LoadChannelsTask.brs" />
+  <script type="text/brightscript" uri="pkg:/source/api/baserequest.brs" />
+  <script type="text/brightscript" uri="pkg:/source/utils/config.brs" />
+  <!-- <script type="text/brightscript" uri="pkg:/source/api/Image.brs" /> -->
+</component>

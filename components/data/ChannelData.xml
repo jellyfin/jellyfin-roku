@@ -2,7 +2,6 @@
 <component name="ChannelData" extends="JFContentItem">
   <interface>
     <field id="channelID" type="string" />
-    <field id="Title" type="string" />
   </interface>
   <script type="text/brightscript" uri="ChannelData.brs" />
   <script type="text/brightscript" uri="pkg:/source/api/Image.brs" />
