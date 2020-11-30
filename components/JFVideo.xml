@@ -13,6 +13,7 @@
     <field id="decodeAudioSupported" type="boolean" />
     <field id="isTranscoded" type="boolean" />
     <field id="systemOverlay" type="boolean" value="false" />
+    <field id="showID" type="string" />
   </interface>
   <script type="text/brightscript" uri="JFVideo.brs" />
   <children>

@@ -62,6 +62,7 @@ sub Main()
       n = m.scene.getChildCount() - 1
       if msg.getRoSGNode().focusedChild <> invalid and msg.getRoSGNode().focusedChild.isSubtype("JFVideo")
         stopPlayback()
+        RemoveCurrentGroup()
       else
         if n = 1 then return
         RemoveCurrentGroup()
@@ -397,6 +398,12 @@ sub Main()
       video = msg.getRoSGNode()
       if video.position >= video.duration and not video.content.live then
         stopPlayback()
+        if video.showID = invalid then
+          RemoveCurrentGroup()
+        else
+          MarkItemWatched(video.id)
+          playNextEpisode(video.id, video.showID)
+        end if
       end if
     else if isNodeEvent(msg, "fire")
       ReportPlayback(group, "update")
@@ -404,6 +411,11 @@ sub Main()
       node = msg.getRoSGNode()
       if node.state = "finished" then
         stopPlayback()
+        if node.showID = invalid then
+          RemoveCurrentGroup()
+        else
+          playNextEpisode(node.id, node.showID)
+        end if
       else if node.state = "playing" or node.state = "paused" then
         ReportPlayback(group, "update")
       end if
