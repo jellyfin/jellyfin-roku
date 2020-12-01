@@ -296,7 +296,7 @@ end function
 function ReportPlayback(video, state = "update" as string)
   params = {
     "PlaySessionId": video.PlaySessionId,
-    "PositionTicks": str(int(video.position)) + "0000000",
+    "PositionTicks": int(video.position) * 10000000&,   'Ensure a LongInteger is used
     "IsPaused": (video.state = "paused"),
   }
   if video.content.live then
