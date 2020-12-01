@@ -102,6 +102,8 @@ function updateContinueItems()
     row.title = tr("Continue Watching")
     itemSize = [464, 331]
     for each item in itemData
+      item.usePoster = row.usePoster
+      item.imageWidth = row.imageWidth
       row.appendChild(item)
     end for
 
@@ -140,6 +142,8 @@ function updateNextUpItems()
     row.title = tr("Next Up") + " >"
     itemSize = [464, 331]
     for each item in itemData
+      item.usePoster = row.usePoster
+      item.imageWidth = row.imageWidth
       row.appendChild(item)
     end for
 
@@ -213,6 +217,8 @@ function updateLatestItems(msg)
     end if
 
     for each item in itemData
+      item.usePoster = row.usePoster
+      item.imageWidth = row.imageWidth
       row.appendChild(item)
     end for
 
