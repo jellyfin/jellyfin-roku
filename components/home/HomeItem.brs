@@ -8,24 +8,15 @@ sub itemContentChanged()
   itemIcon = m.top.findNode("itemIcon")
   itemTextExtra = m.top.findNode("itemTextExtra")
 
-  ' Desired Image Width
-  imageWidth = 464
-  if m.top.GetParent().content.imageWidth <> invalid
-    imageWidth = m.top.GetParent().content.imageWidth
-  end if
-
-  itemPoster.width = imageWidth
-  m.itemText.maxWidth = imageWidth
-  itemTextExtra.width = imageWidth
+  itemPoster.width = itemData.imageWidth
+  m.itemText.maxWidth = itemData.imageWidth
+  itemTextExtra.width = itemData.imageWidth
 
   ' Randomize the background colors
   m.backdrop = m.top.findNode("backdrop")
   posterBackgrounds = m.global.constants.poster_bg_pallet
   m.backdrop.color = posterBackgrounds[rnd(posterBackgrounds.count()) - 1]
-  m.backdrop.width = imageWidth
-
-  ' Whether to use WidePoster or Thumbnail in this row
-  usePoster = m.top.GetParent().content.usePoster
+  m.backdrop.width = itemData.imageWidth
 
   if itemData.iconUrl <> invalid
     itemIcon.uri = itemData.iconUrl
@@ -60,7 +51,7 @@ sub itemContentChanged()
   if itemData.type = "Episode" then
     m.itemText.text = itemData.json.SeriesName
 
-    if usePoster = true then
+    if itemData.usePoster = true then
       itemPoster.uri = itemData.widePosterURL
     else
       itemPoster.uri = itemData.thumbnailURL
@@ -86,7 +77,7 @@ sub itemContentChanged()
     m.itemText.text = itemData.name
 
     ' Use best image, but fallback to secondary if it's empty
-    if (imageWidth = 180 and itemData.posterURL <> "") or itemData.thumbnailURL = ""
+    if (itemData.imageWidth = 180 and itemData.posterURL <> "") or itemData.thumbnailURL = ""
       itemPoster.uri = itemData.posterURL
     else
       itemPoster.uri = itemData.thumbnailURL
@@ -112,7 +103,7 @@ sub itemContentChanged()
   if itemData.type = "Video" then
     m.itemText.text = itemData.name
 
-    if imageWidth = 180
+    if itemData.imageWidth = 180
       itemPoster.uri = itemData.posterURL
     else
       itemPoster.uri = itemData.thumbnailURL
@@ -123,8 +114,8 @@ sub itemContentChanged()
 
     m.itemText.text = itemData.name
 
-    if usePoster = true then
-      if imageWidth = 180 then
+    if itemData.usePoster = true then
+      if itemData.imageWidth = 180 then
         itemPoster.uri = itemData.posterURL
       else
         itemPoster.uri = itemData.widePosterURL
