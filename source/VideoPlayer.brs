@@ -20,7 +20,8 @@ function VideoContent(video, audio_stream_idx = 1) as object
   params = {}
 
   meta = ItemMetaData(video.id)
-  video.content.title = meta.Name
+  video.content.title = meta.title
+  video.showID = meta.showID
   
   ' If there is a last playback positon, ask user if they want to resume
   position = meta.json.UserData.PlaybackPositionTicks
@@ -310,13 +311,11 @@ end function
 
 function StopPlayback()
   video = m.scene.focusedchild
+  if video.state = "finished" then MarkItemWatched(video.id)
   video.control = "stop"
   m.device.EnableAppFocusEvent(False)
   video.findNode("playbackTimer").control = "stop"
-  video.visible = "false"
-  if video.status = "finished" then MarkItemWatched(video.id)
   ReportPlayback(video, "stop")
-  RemoveCurrentGroup()
 end function
 
 function displaySubtitlesByUserConfig(subtitleTrack, audioTrack)
@@ -335,5 +334,30 @@ function displaySubtitlesByUserConfig(subtitleTrack, audioTrack)
     return false
   else
     return false
+  end if
+end function
+
+function playNextEpisode(videoID as string, showID as string)
+  ' query API for next episode ID
+  url = Substitute("Shows/{0}/Episodes", showID)
+  urlParams = { "UserId": get_setting("active_user")}
+  urlParams.Append({ "StartItemId": videoID })
+  urlParams.Append({ "Limit": 2 })
+  resp = APIRequest(url, urlParams)
+  data = getJson(resp)
+  
+  if data <> invalid and data.Items.Count() = 2 then
+    ' remove finished video node
+    n = m.scene.getChildCount() - 1
+    m.scene.removeChildIndex(n)
+    ' setup new video node
+    nextVideo = CreateVideoPlayerGroup(data.Items[1].Id)
+    m.scene.appendChild(nextVideo)
+    nextVideo.setFocus(true)
+    nextVideo.control = "play"
+    ReportPlayback(nextVideo, "start")
+  else
+    ' can't play next episode
+    RemoveCurrentGroup()
   end if
 end function
