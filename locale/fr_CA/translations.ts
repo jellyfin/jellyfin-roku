@@ -6,7 +6,7 @@
     <name>default</name>
     <message>
         <source>192.168.1.100:8096 or https://example.com/jellyfin</source>
-        <translation>192.168.1.100:8096 ou https://example.com/jellyfin</translation>
+        <translation>192.168.1.100:8096 ou https://exemple.com/jellyfin</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -46,7 +46,7 @@
     </message>
     <message>
         <source>Play</source>
-        <translation>Reproduzir</translation>
+        <translation>Démarrer</translation>
     </message>
     <message>
         <source>Please sign in</source>
@@ -102,11 +102,11 @@
     </message>
     <message>
         <source>Next Up</source>
-        <translation>A Suivre</translation>
+        <translation>À Suivre</translation>
     </message>
     <message>
         <source>Latest in</source>
-        <translation>Derniers élément dans</translation>
+        <translation>Derniers éléments dans</translation>
     </message>
     <message>
         <source>Home</source>
@@ -300,6 +300,35 @@
         <comment>Title of Tab for options to filter library content</comment>
         <source>TAB_FILTER</source>
         <translation>Filtre</translation>
+    </message>
+    <message>
+        <source>OFFICIAL_RATING</source>
+        <translation>Classement</translation>
+    </message>
+    <message>
+        <source>CRITIC_RATING</source>
+        <translation>Note des critiques</translation>
+    </message>
+    <message>
+        <source>RUNTIME</source>
+        <translation>Durée</translation>
+    </message>
+    <message>
+        <source>PLAY_COUNT</source>
+        <translation>Nombre de lectures</translation>
+    </message>
+    <message>
+        <comment>Message displayed in Item Grid when no item to display. %1 is container type (e.g. Boxset, Collection, Folder, etc)</comment>
+        <source>NO_ITEMS</source>
+        <translation>%1 ne contient pas d&apos;item</translation>
+    </message>
+    <message>
+        <source>Sign Out</source>
+        <translation>Se déconnecter</translation>
+    </message>
+    <message>
+        <source>Change Server</source>
+        <translation>Changer de serveur</translation>
     </message>
 </context>
 </TS>
