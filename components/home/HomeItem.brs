@@ -173,7 +173,6 @@ end sub
 'Hide backdrop and icon when poster loaded
 sub onPosterLoadStatusChanged()
   if m.itemPoster.loadStatus = "ready" and m.itemPoster.uri <> ""  then
-    print m.itemText.text + " image ready - hiding blue"
     m.backdrop.visible = false
     m.itemIcon.visible = false
   else
