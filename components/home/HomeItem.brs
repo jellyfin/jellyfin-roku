@@ -1,23 +1,29 @@
-sub itemContentChanged()
-  itemData = m.top.itemContent
-  if itemData = invalid then return
-  itemData.Title = itemData.name ' Temporarily required while we move from "HomeItem" to "JFContentItem"
-  
+sub init()
+
   m.itemText = m.top.findNode("itemText")
   m.itemPoster = m.top.findNode("itemPoster")
   m.itemIcon = m.top.findNode("itemIcon")
-  itemTextExtra = m.top.findNode("itemTextExtra")
-
   m.itemPoster.observeField("loadStatus", "onPosterLoadStatusChanged")
-
-  m.itemPoster.width = itemData.imageWidth
-  m.itemText.maxWidth = itemData.imageWidth
-  itemTextExtra.width = itemData.imageWidth
 
   ' Randomize the background colors
   m.backdrop = m.top.findNode("backdrop")
   posterBackgrounds = m.global.constants.poster_bg_pallet
   m.backdrop.color = posterBackgrounds[rnd(posterBackgrounds.count()) - 1]
+
+end sub
+
+
+sub itemContentChanged()
+  itemData = m.top.itemContent
+  if itemData = invalid then return
+  itemData.Title = itemData.name ' Temporarily required while we move from "HomeItem" to "JFContentItem"
+  
+  itemTextExtra = m.top.findNode("itemTextExtra")
+
+  m.itemPoster.width = itemData.imageWidth
+  m.itemText.maxWidth = itemData.imageWidth
+  itemTextExtra.width = itemData.imageWidth
+
   m.backdrop.width = itemData.imageWidth
 
   if itemData.iconUrl <> invalid
