@@ -30,12 +30,6 @@ sub itemContentChanged()
     m.itemIcon.uri = itemData.iconUrl
   end if
 
-  'If Poster not loaded, ensure "blue box" is shown until loaded
-  if m.itemPoster.loadStatus <> "ready" then
-    m.backdrop.visible = true
-    m.itemIcon.visible = true
-  end if
-
   ' Format the Data based on the type of Home Data
   if itemData.type = "CollectionFolder" OR itemData.type = "UserView"  OR itemData.type = "Channel" then
     m.itemText.text = itemData.name
@@ -178,8 +172,12 @@ end sub
 
 'Hide backdrop and icon when poster loaded
 sub onPosterLoadStatusChanged()
-  if m.itemPoster.loadStatus = "ready" then
+  if m.itemPoster.loadStatus = "ready" and m.itemPoster.uri <> ""  then
+    print m.itemText.text + " image ready - hiding blue"
     m.backdrop.visible = false
     m.itemIcon.visible = false
+  else
+    m.backdrop.visible = true
+    m.itemIcon.visible = true
   end if
 end sub
