@@ -3,6 +3,7 @@ sub init()
   m.itemText = m.top.findNode("itemText")
   m.itemPoster = m.top.findNode("itemPoster")
   m.itemIcon = m.top.findNode("itemIcon")
+  m.itemTextExtra = m.top.findNode("itemTextExtra")
   m.itemPoster.observeField("loadStatus", "onPosterLoadStatusChanged")
 
   ' Randomize the background colors
@@ -18,11 +19,12 @@ sub itemContentChanged()
   if itemData = invalid then return
   itemData.Title = itemData.name ' Temporarily required while we move from "HomeItem" to "JFContentItem"
   
-  itemTextExtra = m.top.findNode("itemTextExtra")
 
   m.itemPoster.width = itemData.imageWidth
   m.itemText.maxWidth = itemData.imageWidth
-  itemTextExtra.width = itemData.imageWidth
+  m.itemTextExtra.width = itemData.imageWidth
+  m.itemTextExtra.visible = true
+
 
   m.backdrop.width = itemData.imageWidth
 
@@ -51,8 +53,8 @@ sub itemContentChanged()
   m.itemText.font.size = 25
   m.itemText.horizAlign = "left"
   m.itemText.vertAlign = "bottom"
-  itemTextExtra.visible = true
-  itemTextExtra.font.size = 22
+  m.itemTextExtra.visible = true
+  m.itemTextExtra.font.size = 22
 
 
   if itemData.type = "Episode" then
@@ -76,7 +78,7 @@ sub itemContentChanged()
       extraPrefix = extraPrefix + " - "
     end if
 
-    itemTextExtra.text = extraPrefix + itemData.name
+    m.itemTextExtra.text = extraPrefix + itemData.name
     return
   end if
 
@@ -102,7 +104,7 @@ sub itemContentChanged()
         textExtra = itemData.json.OfficialRating
       end if
     end if
-    itemTextExtra.text = textExtra
+    m.itemTextExtra.text = textExtra
 
     return
   end if
@@ -142,14 +144,14 @@ sub itemContentChanged()
     else if itemData.json.Status = "Ended" and itemData.json.EndDate <> invalid
       textExtra = textExtra + " - " + LEFT(itemData.json.EndDate, 4)
     end if
-    itemTextExtra.text = textExtra
+    m.itemTextExtra.text = textExtra
 
     return
   end if
 
   if itemData.type = "MusicAlbum" then
     m.itemText.text = itemData.name
-    itemTextExtra.text = itemData.json.AlbumArtist
+    m.itemTextExtra.text = itemData.json.AlbumArtist
     m.itemPoster.uri = itemData.posterURL
     return
   end if
