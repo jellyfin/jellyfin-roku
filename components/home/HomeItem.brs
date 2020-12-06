@@ -1,41 +1,50 @@
-sub itemContentChanged()
-  itemData = m.top.itemContent
-  if itemData = invalid then return
-  itemData.Title = itemData.name ' Temporarily required while we move from "HomeItem" to "JFContentItem"
-  
-  m.itemText = m.top.findNode("itemText")
-  itemPoster = m.top.findNode("itemPoster")
-  itemIcon = m.top.findNode("itemIcon")
-  itemTextExtra = m.top.findNode("itemTextExtra")
+sub init()
 
-  itemPoster.width = itemData.imageWidth
-  m.itemText.maxWidth = itemData.imageWidth
-  itemTextExtra.width = itemData.imageWidth
+  m.itemText = m.top.findNode("itemText")
+  m.itemPoster = m.top.findNode("itemPoster")
+  m.itemIcon = m.top.findNode("itemIcon")
+  m.itemTextExtra = m.top.findNode("itemTextExtra")
+  m.itemPoster.observeField("loadStatus", "onPosterLoadStatusChanged")
 
   ' Randomize the background colors
   m.backdrop = m.top.findNode("backdrop")
   posterBackgrounds = m.global.constants.poster_bg_pallet
   m.backdrop.color = posterBackgrounds[rnd(posterBackgrounds.count()) - 1]
+
+end sub
+
+
+sub itemContentChanged()
+  itemData = m.top.itemContent
+  if itemData = invalid then return
+  itemData.Title = itemData.name ' Temporarily required while we move from "HomeItem" to "JFContentItem"
+  
+
+  m.itemPoster.width = itemData.imageWidth
+  m.itemText.maxWidth = itemData.imageWidth
+  m.itemTextExtra.width = itemData.imageWidth
+  m.itemTextExtra.visible = true
+
+
   m.backdrop.width = itemData.imageWidth
 
   if itemData.iconUrl <> invalid
-    itemIcon.uri = itemData.iconUrl
+    m.itemIcon.uri = itemData.iconUrl
   end if
 
   ' Format the Data based on the type of Home Data
-
   if itemData.type = "CollectionFolder" OR itemData.type = "UserView"  OR itemData.type = "Channel" then
     m.itemText.text = itemData.name
-    itemPoster.uri = itemData.widePosterURL
+    m.itemPoster.uri = itemData.widePosterURL
     return
   end if
 
   if itemData.type = "UserView" then
-    itemPoster.width = "96"
-    itemPoster.height = "96"
-    itemPoster.translation = "[192, 88]"
+    m.itemPoster.width = "96"
+    m.itemPoster.height = "96"
+    m.itemPoster.translation = "[192, 88]"
     m.itemText.text = itemData.name
-    itemPoster.uri = itemData.widePosterURL
+    m.itemPoster.uri = itemData.widePosterURL
     return
   end if
 
@@ -44,17 +53,17 @@ sub itemContentChanged()
   m.itemText.font.size = 25
   m.itemText.horizAlign = "left"
   m.itemText.vertAlign = "bottom"
-  itemTextExtra.visible = true
-  itemTextExtra.font.size = 22
+  m.itemTextExtra.visible = true
+  m.itemTextExtra.font.size = 22
 
 
   if itemData.type = "Episode" then
     m.itemText.text = itemData.json.SeriesName
 
     if itemData.usePoster = true then
-      itemPoster.uri = itemData.widePosterURL
+      m.itemPoster.uri = itemData.widePosterURL
     else
-      itemPoster.uri = itemData.thumbnailURL
+      m.itemPoster.uri = itemData.thumbnailURL
     end if
 
     ' Set Series and Episode Number for Extra Text
@@ -69,7 +78,7 @@ sub itemContentChanged()
       extraPrefix = extraPrefix + " - "
     end if
 
-    itemTextExtra.text = extraPrefix + itemData.name
+    m.itemTextExtra.text = extraPrefix + itemData.name
     return
   end if
 
@@ -78,9 +87,9 @@ sub itemContentChanged()
 
     ' Use best image, but fallback to secondary if it's empty
     if (itemData.imageWidth = 180 and itemData.posterURL <> "") or itemData.thumbnailURL = ""
-      itemPoster.uri = itemData.posterURL
+      m.itemPoster.uri = itemData.posterURL
     else
-      itemPoster.uri = itemData.thumbnailURL
+      m.itemPoster.uri = itemData.thumbnailURL
     end if
 
     ' Set Release Year and Age Rating for Extra Text
@@ -95,7 +104,7 @@ sub itemContentChanged()
         textExtra = itemData.json.OfficialRating
       end if
     end if
-    itemTextExtra.text = textExtra
+    m.itemTextExtra.text = textExtra
 
     return
   end if
@@ -104,9 +113,9 @@ sub itemContentChanged()
     m.itemText.text = itemData.name
 
     if itemData.imageWidth = 180
-      itemPoster.uri = itemData.posterURL
+      m.itemPoster.uri = itemData.posterURL
     else
-      itemPoster.uri = itemData.thumbnailURL
+      m.itemPoster.uri = itemData.thumbnailURL
     end if
     return
   end if
@@ -116,12 +125,12 @@ sub itemContentChanged()
 
     if itemData.usePoster = true then
       if itemData.imageWidth = 180 then
-        itemPoster.uri = itemData.posterURL
+        m.itemPoster.uri = itemData.posterURL
       else
-        itemPoster.uri = itemData.widePosterURL
+        m.itemPoster.uri = itemData.widePosterURL
       end if
     else
-      itemPoster.uri = itemData.thumbnailURL
+      m.itemPoster.uri = itemData.thumbnailURL
     end if
 
     textExtra = ""
@@ -135,15 +144,15 @@ sub itemContentChanged()
     else if itemData.json.Status = "Ended" and itemData.json.EndDate <> invalid
       textExtra = textExtra + " - " + LEFT(itemData.json.EndDate, 4)
     end if
-    itemTextExtra.text = textExtra
+    m.itemTextExtra.text = textExtra
 
     return
   end if
 
   if itemData.type = "MusicAlbum" then
     m.itemText.text = itemData.name
-    itemTextExtra.text = itemData.json.AlbumArtist
-    itemPoster.uri = itemData.posterURL
+    m.itemTextExtra.text = itemData.json.AlbumArtist
+    m.itemPoster.uri = itemData.posterURL
     return
   end if
 
@@ -161,4 +170,15 @@ sub focusChanged()
     m.itemText.repeatCount = 0
   end if
 
+end sub
+
+'Hide backdrop and icon when poster loaded
+sub onPosterLoadStatusChanged()
+  if m.itemPoster.loadStatus = "ready" and m.itemPoster.uri <> ""  then
+    m.backdrop.visible = false
+    m.itemIcon.visible = false
+  else
+    m.backdrop.visible = true
+    m.itemIcon.visible = true
+  end if
 end sub
