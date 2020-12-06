@@ -49,29 +49,45 @@ sub updateSize()
 end sub
 
 sub onLibrariesLoaded()
+  ' save data for other functions
   m.libraryData = m.LoadLibrariesTask.content
-
-  m.sizeArray = [[464, 311]]
-  m.top.rowItemSize = m.sizeArray
-
   m.LoadLibrariesTask.unobserveField("content")
-
+  ' create My Media, Continue Watching, and Next Up rows
+  content = CreateObject("roSGNode", "ContentNode")
+  mediaRow = content.CreateChild("HomeRow")
+  mediaRow.title = tr("My Media")
+  continueRow = content.CreateChild("HomeRow")
+  continueRow.title = tr("Continue Watching")
+  nextUpRow = content.CreateChild("HomeRow")
+  nextUpRow.title = tr("Next Up >")
+  sizeArray = [
+    [464, 311], ' My Media
+    [464, 311], ' Continue Watching
+    [464, 311]  ' Next Up
+  ]
+  ' validate library data
   if (m.libraryData <> invalid and m.libraryData.count() > 0) then
-
-    'Add the Libraries Row
-    m.data = CreateObject("roSGNode", "ContentNode")
-    row = m.data.CreateChild("HomeRow")
-    row.title = tr("My Media")
-
-    for each item in m.libraryData
-      row.appendChild(item)
+    userConfig = m.top.userConfig
+    ' populate My Media row
+    filteredMedia = filterNodeArray(m.libraryData, "id", userConfig.MyMediaExcludes)
+    for each item in filteredMedia
+      mediaRow.appendChild(item)
     end for
-
+    ' create a "Latest In" row for each library
+    filteredLatest = filterNodeArray(m.libraryData, "id", userConfig.LatestItemsExcludes)
+    for each lib in filteredLatest
+      if lib.collectionType <> "boxsets" and lib.collectionType <> "livetv" then
+        latestInRow = content.CreateChild("HomeRow")
+        latestInRow.title = tr("Latest in") + " " + lib.name + " >"
+        sizeArray.Push([464, 331])
+      end if
+    end for
   end if
 
+  m.top.rowItemSize = sizeArray
+  m.top.content = content
+  
   ' Load the Continue Watching Data
-  m.top.content = m.data
-
   m.LoadContinueTask.observeField("content", "updateContinueItems")
   m.LoadContinueTask.control = "RUN"
 end sub
@@ -148,12 +164,13 @@ function updateNextUpItems()
     end for
 
     if nextUpRowIndex = invalid then
-      ' insert new row under "Continue Watching if it exists"
-      tmpRow = homeRows.getChild(1)
-      if tmpRow <> invalid and tmpRow.title = tr("Continue Watching") then
-        updateSizeArray(itemSize, 2)
-        homeRows.insertChild(row, 2)
+      ' insert new row under "Continue Watching"
+      continueRowIndex = getRowIndex("Continue Watching")
+      if continueRowIndex <> invalid then
+        updateSizeArray(itemSize, continueRowIndex + 1)
+        homeRows.insertChild(row, continueRowIndex + 1)
       else
+        ' insert it under My Media
         updateSizeArray(itemSize, 1)
         homeRows.insertChild(row, 1)
       end if
@@ -163,9 +180,11 @@ function updateNextUpItems()
     end if
   end if
 
-  ' Update "Latest in" for all libraries
-  for each lib in m.libraryData
-    if lib.collectionType <> "livetv" then
+  ' create task nodes for "Latest In" rows
+  userConfig = m.top.userConfig
+  filteredLatest = filterNodeArray(m.libraryData, "id", userConfig.LatestItemsExcludes)
+  for each lib in filteredLatest
+    if lib.collectionType <> "livetv" and lib.collectionType <> "boxsets" then
       loadLatest = createObject("roSGNode", "LoadItemsTask")
       loadLatest.itemsToLoad = "latest"
       loadLatest.itemId = lib.id
@@ -224,11 +243,11 @@ function updateLatestItems(msg)
 
     if rowIndex = invalid then
       ' append new row
-      ' todo: insert row based on user settings
       updateSizeArray(itemSize)
       homeRows.appendChild(row)
     else
       ' replace the old row
+      updateSizeArray(itemSize, rowIndex, "replace")
       homeRows.replaceChild(row, rowIndex)
     end if
   end if
@@ -253,7 +272,7 @@ function getRowIndex(rowTitle as string)
   return rowIndex
 end function
 
-sub updateSizeArray(rowItemSize, rowIndex = invalid, action = "add")
+sub updateSizeArray(rowItemSize, rowIndex = invalid, action = "insert")
   sizeArray = m.top.rowItemSize
   ' append by default
   if rowIndex = invalid then
@@ -263,16 +282,15 @@ sub updateSizeArray(rowItemSize, rowIndex = invalid, action = "add")
   newSizeArray = []
   for i = 0 to sizeArray.count()
     if rowIndex = i then
-      if action = "add" then
-        ' insert new row size
+      if action = "replace" then
+        newSizeArray.Push(rowItemSize)
+      else if action = "insert" then
         newSizeArray.Push(rowItemSize)
         if sizeArray[i] <> invalid then
-          ' copy row size
           newSizeArray.Push(sizeArray[i])
         end if
       end if
     else if sizeArray[i] <> invalid then
-      ' copy row size
       newSizeArray.Push(sizeArray[i])
     end if
   end for
@@ -289,4 +307,22 @@ end function
 
 function onKeyEvent(key as string, press as boolean) as boolean
   return false
+end function
+
+function filterNodeArray(nodeArray as object, nodeKey as string, excludeArray as object) as object
+  if excludeArray.IsEmpty() then return nodeArray
+
+  newNodeArray = []
+  for each node in nodeArray
+    excludeThisNode = false
+    for each exclude in excludeArray
+      if node[nodeKey] = exclude then
+        excludeThisNode = true
+      end if
+    end for
+    if excludeThisNode = false then
+      newNodeArray.Push(node)
+    end if
+  end for
+  return newNodeArray
 end function

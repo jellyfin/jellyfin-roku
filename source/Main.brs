@@ -35,6 +35,7 @@ sub Main()
   m.overhang.currentUser = m.user.Name
   m.overhang.showOptions = true
   group = CreateHomeGroup()
+  group.userConfig = m.user.configuration
   m.scene.appendChild(group)
 
   m.scene.observeField("backPressed", m.port)
