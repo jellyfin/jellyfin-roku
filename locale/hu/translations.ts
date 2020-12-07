@@ -264,5 +264,63 @@
         <translation>Nem sikerült a tartalom lekérése</translation>
         <extracomment>Dialog title when unable to load Content from Server</extracomment>
     </message>
+    <message>
+        <source>DATE_PLAYED</source>
+        <translation>Lejátszás dátuma</translation>
+    </message>
+    <message>
+        <source>DATE_ADDED</source>
+        <translation>Hozzáadás dátuma</translation>
+    </message>
+    <message>
+        <source>CRITIC_RATING</source>
+        <translation>Kritikus(ok) értékelése</translation>
+    </message>
+    <message>
+        <source>IMDB_RATING</source>
+        <translation>IMDb értékelés</translation>
+    </message>
+    <message>
+        <comment>Name or Title field of media item</comment>
+        <source>TITLE</source>
+        <translation>Név</translation>
+    </message>
+    <message>
+        <comment>Message displayed in Item Grid when no item to display. %1 is container type (e.g. Boxset, Collection, Folder, etc)</comment>
+        <source>NO_ITEMS</source>
+        <translation>Ez az %1 nem tartalmaz elemeket</translation>
+    </message>
+    <message>
+        <source>Unable to load Channel Data from the server</source>
+        <translation>Nem sikerült betölteni a csatornaadatokat a szerverről</translation>
+    </message>
+    <message>
+        <source>Error loading Channel Data</source>
+        <translation>Hiba történt a csatornaadatok betöltésekor</translation>
+    </message>
+    <message>
+        <source>Loading Channel Data</source>
+        <translation>Csatornaadatok betöltése</translation>
+    </message>
+    <message>
+        <source>An error was encountered while playing this item.</source>
+        <translation>Hiba történt az elem lejátszása közben.</translation>
+        <extracomment>Dialog detail when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>There was an error retrieving the data for this item from the server.</source>
+        <translation>Hiba történt az elem(ek) adatainak lekérése során a szerverről.</translation>
+        <extracomment>Dialog detail when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <source>Error During Playback</source>
+        <translation>Hiba lejátszás közben</translation>
+        <extracomment>Dialog title when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>Error Retrieving Content</source>
+        <translation>Hiba a tartalom beolvasása közben</translation>
+        <extracomment>Dialog title when unable to load Content from Server</extracomment>
+    </message>
 </context>
 </TS>
