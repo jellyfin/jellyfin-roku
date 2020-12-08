@@ -80,6 +80,24 @@ sub Main()
       else
         group.setFocus(true)
       end if
+    else if isNodeEvent(msg, "quickPlayNode")
+      reportingNode = msg.getRoSGNode()
+      itemNode = reportingNode.quickPlayNode
+      if itemNode = invalid or itemNode.id = "" then return
+      if itemNode.type = "Episode" or itemNode.type = "Movie" or itemNode.type = "Video" then
+        video = CreateVideoPlayerGroup(itemNode.id)
+        if video <> invalid then
+          group.lastFocus = group.focusedChild
+          group.setFocus(false)
+          group.visible = false
+          group = video
+          m.scene.appendChild(group)
+          group.setFocus(true)
+          group.control = "play"
+          ReportPlayback(group, "start")
+          m.overhang.visible = false
+        end if
+      end if
     else if isNodeEvent(msg, "selectedItem")
       ' If you select a library from ANYWHERE, follow this flow
       selectedItem = msg.getData()

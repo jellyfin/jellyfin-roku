@@ -159,6 +159,7 @@ function CreateHomeGroup()
   group = CreateObject("roSGNode", "Home")
 
   group.observeField("selectedItem", m.port)
+  group.observeField("quickPlayNode", m.port)
 
   sidepanel = group.findNode("options")
   sidepanel.observeField("closeSidePanel", m.port)

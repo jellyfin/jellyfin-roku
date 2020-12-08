@@ -306,7 +306,17 @@ function itemSelected()
 end function
 
 function onKeyEvent(key as string, press as boolean) as boolean
-  return false
+  handled = false
+  if press then
+    if key = "play" then
+      itemToPlay = m.top.content.getChild(m.top.rowItemFocused[0]).getChild(m.top.rowItemFocused[1])
+      if itemToPlay <> invalid and (itemToPlay.type = "Movie" or itemToPlay.type = "Episode") then
+        m.top.quickPlayNode = itemToPlay
+      end if
+      handled = true
+    end if
+  end if
+  return handled
 end function
 
 function filterNodeArray(nodeArray as object, nodeKey as string, excludeArray as object) as object
