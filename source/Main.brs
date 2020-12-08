@@ -36,6 +36,7 @@ sub Main()
   m.overhang.showOptions = true
   group = CreateHomeGroup()
   group.userConfig = m.user.configuration
+  group.callFunc("loadLibraries")
   m.scene.appendChild(group)
 
   m.scene.observeField("backPressed", m.port)
