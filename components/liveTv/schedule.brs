@@ -157,8 +157,7 @@ sub onWatchChannelSelected()
     ' Set focus back to grid before showing channel, to ensure grid has focus when we return
     focusProgramDetails(false) 
 
-    m.top.watchChannel = m.scheduleGrid.content.GetChild(m.LoadProgramDetailsTask.programDetails.channelIndex)
-
+    m.top.watchChannel = m.detailsPane.channel
 end sub
 
 ' As user scrolls grid, check if more data requries to be loaded
