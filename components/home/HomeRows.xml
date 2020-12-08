@@ -4,6 +4,7 @@
     <field id="selectedItem" type="node" alwaysNotify="true" />
     <field id="userConfig" type="assocarray" />
     <function name="updateHomeRows" />
+    <function name="loadLibraries" />
   </interface>
   <script type="text/brightscript" uri="HomeRows.brs"/>
 </component>

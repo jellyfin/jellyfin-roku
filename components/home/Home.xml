@@ -9,6 +9,7 @@
     <field id="userConfig" alias="homeRows.userConfig" />
     <field id="timeLastRefresh" type="integer" />
     <function name="refresh" />
+    <function name="loadLibraries" />
   </interface>
   <script type="text/brightscript" uri="Home.brs" />
 </component>

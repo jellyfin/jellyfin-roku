@@ -21,13 +21,16 @@ sub init()
   ' Load the Libraries from API via task
   m.LoadLibrariesTask = createObject("roSGNode", "LoadItemsTask")
   m.LoadLibrariesTask.observeField("content", "onLibrariesLoaded")
-  m.LoadLibrariesTask.control = "RUN"
   ' set up tesk nodes for other rows
   m.LoadContinueTask = createObject("roSGNode", "LoadItemsTask")
   m.LoadContinueTask.itemsToLoad = "continue"
   m.LoadNextUpTask = createObject("roSGNode", "LoadItemsTask")
   m.LoadNextUpTask.itemsToLoad = "nextUp"
 end sub
+
+function loadLibraries()
+  m.LoadLibrariesTask.control = "RUN"
+end function
 
 sub updateSize()
   sideborder = 100
