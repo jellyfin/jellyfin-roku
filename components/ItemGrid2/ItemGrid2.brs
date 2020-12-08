@@ -340,6 +340,13 @@ function onKeyEvent(key as string, press as boolean) as boolean
       optionsClosed()
       return true
     end if
+  else if key = "play" then
+    markupGrid = m.top.getChild(2)
+    itemToPlay = markupGrid.content.getChild(markupGrid.itemFocused)
+    if itemToPlay <> invalid and (itemToPlay.type = "Movie" or itemToPlay.type = "Episode") then
+      m.top.quickPlayNode = itemToPlay
+    end if
+    return true
   end if
   return false
 end function

@@ -200,6 +200,7 @@ function CreateMovieListGroup(libraryItem)
   group.parentItem = libraryItem
 
   group.observeField("selectedItem", m.port)
+  group.observeField("quickPlayNode", m.port)
 
   sidepanel = group.findNode("options")
   movie_options = [
@@ -292,6 +293,7 @@ function CreateCollectionsList(libraryItem)
   group.parentItem = libraryItem
 
   group.observeField("selectedItem", m.port)
+  group.observeField("quickPlayNode", m.port)
 
   sidepanel = group.findNode("options")
 
