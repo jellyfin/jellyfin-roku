@@ -55,6 +55,7 @@ sub onLibrariesLoaded()
   ' save data for other functions
   m.libraryData = m.LoadLibrariesTask.content
   m.LoadLibrariesTask.unobserveField("content")
+  m.LoadLibrariesTask.content = []
   ' create My Media, Continue Watching, and Next Up rows
   content = CreateObject("roSGNode", "ContentNode")
   mediaRow = content.CreateChild("HomeRow")
@@ -101,8 +102,9 @@ function updateHomeRows()
 end function
 
 function updateContinueItems()
-  m.LoadContinueTask.unobserveField("content")
   itemData = m.LoadContinueTask.content
+  m.LoadContinueTask.unobserveField("content")
+  m.LoadContinueTask.content = []
 
   if itemData = invalid then return false
 
@@ -141,8 +143,9 @@ function updateContinueItems()
 end function
 
 function updateNextUpItems()
-  m.LoadNextUpTask.unobserveField("content")
   itemData = m.LoadNextUpTask.content
+  m.LoadNextUpTask.unobserveField("content")
+  m.LoadNextUpTask.content = []
 
   if itemData = invalid then return false
 
@@ -209,6 +212,7 @@ function updateLatestItems(msg)
   data = msg.getField()
   node = msg.getRoSGNode()
   node.unobserveField("content")
+  node.content = []
 
   if itemData = invalid then return false
 
