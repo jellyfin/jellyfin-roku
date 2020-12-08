@@ -26,7 +26,7 @@ function VideoContent(video, audio_stream_idx = 1) as object
   ' If there is a last playback positon, ask user if they want to resume
   position = meta.json.UserData.PlaybackPositionTicks
   if position > 0 then
-    dialogResult = startPlaybackOver(position)
+    dialogResult = startPlayBackOver(position)
     'Dialog returns -1 when back pressed, 0 for resume, and 1 for start over
     if dialogResult = -1 then
       'User pressed back, return invalid and don't load video
@@ -34,6 +34,10 @@ function VideoContent(video, audio_stream_idx = 1) as object
     else if dialogResult = 1 then
       'Start Over selected, change position to 0
       position = 0
+    else if dialogResult = 2 then
+      'Mark this item as watched and return invalid so we don't load the video
+      MarkItemWatched(video.id)
+      return invalid
     end if
   end if
   video.content.PlayStart = int(position/10000000)
@@ -223,7 +227,7 @@ end function
 
 'Opens dialog asking user if they want to resume video or start playback over
 function startPlayBackOver(time as LongInteger) as integer
-  return option_dialog([ "Resume playing at " + ticksToHuman(time) + ".", "Start over from the beginning." ])
+  return option_dialog([ "Resume playing at " + ticksToHuman(time) + ".", "Start over from the beginning.", "Watched"])
 end function
 
 function directPlaySupported(meta as object) as boolean
