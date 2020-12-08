@@ -283,6 +283,7 @@ function CreateSeasonDetailsGroup(series, season)
   group.objects = TVEpisodes(series.id, season.id)
 
   group.observeField("episodeSelected", m.port)
+  group.observeField("quickPlayNode", m.port)
 
   return group
 end function
