@@ -519,5 +519,20 @@
         <translation>Erreur de récupération du contenu</translation>
         <extracomment>Dialog title when unable to load Content from Server</extracomment>
     </message>
+    <message>
+        <source>TV Guide</source>
+        <translation>Guide des chaines</translation>
+        <extracomment>Menu option for showing Live TV Guide / Schedule</extracomment>
+    </message>
+    <message>
+        <source>Channels</source>
+        <translation>Chaines</translation>
+        <extracomment>Menu option for showing Live TV Channel List</extracomment>
+    </message>
+    <message>
+        <source>Repeat</source>
+        <translation>Relancer</translation>
+        <extracomment>If TV Shows has previously been broadcasted</extracomment>
+    </message>
 </context>
 </TS>
