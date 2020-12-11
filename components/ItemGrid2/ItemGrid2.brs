@@ -162,6 +162,8 @@ sub ItemDataLoaded(msg)
 
   itemData = msg.GetData()
   data = msg.getField()
+  m.loadItemsTask.unobserveField("content")
+  m.loadItemsTask.content = []
 
   if itemData = invalid then
     m.Loading = false
@@ -258,6 +260,7 @@ sub loadMoreData()
 
   m.Loading = true
   m.loadItemsTask.startIndex = m.loadedItems
+  m.loadItemsTask.observeField("content", "ItemDataLoaded")
   m.loadItemsTask.control = "RUN"
 end sub
 
