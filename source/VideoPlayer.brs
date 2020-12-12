@@ -35,8 +35,12 @@ function VideoContent(video, audio_stream_idx = 1) as object
       'Start Over selected, change position to 0
       position = 0
     else if dialogResult = 2 then
-      'Mark this item as watched and return invalid so we don't load the video
+      'Mark this item as watched, refresh the page, and return invalid so we don't load the video
       MarkItemWatched(video.id)
+      video.content.watched = not video.content.watched
+      group = m.scene.focusedChild
+      group.timeLastRefresh = CreateObject("roDateTime").AsSeconds()
+      group.callFunc("refresh")
       return invalid
     end if
   end if

@@ -11,6 +11,10 @@ sub init()
   m.top.findNode("buttons").setFocus(true)
 end sub
 
+function refresh()
+  itemContentChanged()
+end function
+
 sub itemContentChanged()
   ' Updates video metadata
   item = m.top.itemContent
