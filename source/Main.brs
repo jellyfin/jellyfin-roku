@@ -404,7 +404,7 @@ sub Main()
           RemoveCurrentGroup()
         else
           MarkItemWatched(video.id)
-          playNextEpisode(video.id, video.showID)
+          autoPlayNextEpisode(video.id, video.showID)
         end if
       end if
     else if isNodeEvent(msg, "fire")
@@ -416,7 +416,7 @@ sub Main()
         if node.showID = invalid then
           RemoveCurrentGroup()
         else
-          playNextEpisode(node.id, node.showID)
+          autoPlayNextEpisode(node.id, node.showID)
         end if
       else if node.state = "playing" or node.state = "paused" then
         ReportPlayback(group, "update")

@@ -337,27 +337,32 @@ function displaySubtitlesByUserConfig(subtitleTrack, audioTrack)
   end if
 end function
 
-function playNextEpisode(videoID as string, showID as string)
-  ' query API for next episode ID
-  url = Substitute("Shows/{0}/Episodes", showID)
-  urlParams = { "UserId": get_setting("active_user")}
-  urlParams.Append({ "StartItemId": videoID })
-  urlParams.Append({ "Limit": 2 })
-  resp = APIRequest(url, urlParams)
-  data = getJson(resp)
-  
-  if data <> invalid and data.Items.Count() = 2 then
-    ' remove finished video node
-    n = m.scene.getChildCount() - 1
-    m.scene.removeChildIndex(n)
-    ' setup new video node
-    nextVideo = CreateVideoPlayerGroup(data.Items[1].Id)
-    m.scene.appendChild(nextVideo)
-    nextVideo.setFocus(true)
-    nextVideo.control = "play"
-    ReportPlayback(nextVideo, "start")
+function autoPlayNextEpisode(videoID as string, showID as string)
+  ' use web client setting
+  if m.user.Configuration.EnableNextEpisodeAutoPlay then
+    ' query API for next episode ID
+    url = Substitute("Shows/{0}/Episodes", showID)
+    urlParams = { "UserId": get_setting("active_user")}
+    urlParams.Append({ "StartItemId": videoID })
+    urlParams.Append({ "Limit": 2 })
+    resp = APIRequest(url, urlParams)
+    data = getJson(resp)
+    
+    if data <> invalid and data.Items.Count() = 2 then
+      ' remove finished video node
+      n = m.scene.getChildCount() - 1
+      m.scene.removeChildIndex(n)
+      ' setup new video node
+      nextVideo = CreateVideoPlayerGroup(data.Items[1].Id)
+      m.scene.appendChild(nextVideo)
+      nextVideo.setFocus(true)
+      nextVideo.control = "play"
+      ReportPlayback(nextVideo, "start")
+    else
+      ' can't play next episode
+      RemoveCurrentGroup()
+    end if
   else
-    ' can't play next episode
     RemoveCurrentGroup()
   end if
 end function
