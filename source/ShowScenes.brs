@@ -159,6 +159,7 @@ function CreateHomeGroup()
   group = CreateObject("roSGNode", "Home")
 
   group.observeField("selectedItem", m.port)
+  group.observeField("quickPlayNode", m.port)
 
   sidepanel = group.findNode("options")
   sidepanel.observeField("closeSidePanel", m.port)
@@ -199,6 +200,7 @@ function CreateMovieListGroup(libraryItem)
   group.parentItem = libraryItem
 
   group.observeField("selectedItem", m.port)
+  group.observeField("quickPlayNode", m.port)
 
   sidepanel = group.findNode("options")
   movie_options = [
@@ -281,6 +283,7 @@ function CreateSeasonDetailsGroup(series, season)
   group.objects = TVEpisodes(series.id, season.id)
 
   group.observeField("episodeSelected", m.port)
+  group.observeField("quickPlayNode", m.port)
 
   return group
 end function
@@ -291,6 +294,7 @@ function CreateCollectionsList(libraryItem)
   group.parentItem = libraryItem
 
   group.observeField("selectedItem", m.port)
+  group.observeField("quickPlayNode", m.port)
 
   sidepanel = group.findNode("options")
 
