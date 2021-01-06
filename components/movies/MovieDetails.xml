@@ -40,7 +40,6 @@
   <interface>
     <field id="itemContent" type="node" onChange="itemContentChanged" />
     <field id="selectedAudioStreamIndex" type="integer" />
-    <function name="refresh" />
   </interface>
   <script type="text/brightscript" uri="pkg:/source/utils/misc.brs" />
   <script type="text/brightscript" uri="MovieDetails.brs" />
