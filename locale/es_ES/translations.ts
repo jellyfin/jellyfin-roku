@@ -437,5 +437,9 @@
         <translation>Hubo un error extrallendo esta informacion del el servidor.</translation>
         <extracomment>Dialog detail when unable to load Content from Server</extracomment>
     </message>
+    <message>
+        <source>Unable to load Channel Data from the server</source>
+        <translation>No es posible cargar los datos del canal desde el servidor</translation>
+    </message>
 </context>
 </TS>
