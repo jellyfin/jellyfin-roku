@@ -241,7 +241,12 @@ function directPlaySupported(meta as object) as boolean
     streamInfo.Profile = LCase(meta.json.MediaStreams[0].Profile)
   end if
   if meta.json.MediaSources[0].container <> invalid and meta.json.MediaSources[0].container.len() > 0  then
-    streamInfo.Container = meta.json.MediaSources[0].container
+    'CanDecodeVideo() requires the .container to be format: “mp4”, “hls”, “mkv”, “ism”, “dash”, “ts” if its to direct stream
+    if meta.json.MediaSources[0].container = "mov" then 
+        streamInfo.Container = "mp4"
+    else
+    	streamInfo.Container = meta.json.MediaSources[0].container
+    end if
   end if
   return devinfo.CanDecodeVideo(streamInfo).result
 end function
