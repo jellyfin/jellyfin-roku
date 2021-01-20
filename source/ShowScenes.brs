@@ -47,6 +47,11 @@ function CreateServerGroup()
         end if
         'Append http:// to server
         if left(server_hostname.value,4) <> "http" then server_hostname.value = "http://" + server_hostname.value
+        'If this is a different server from what we know, reset username/password setting
+        if get_setting("server") <> server_hostname.value then
+          set_setting("username", "")
+          set_setting("password", "")
+        endif
         set_setting("server", server_hostname.value)
         if ServerInfo() = invalid then
           ' Maybe don't unset setting, but offer as a prompt
