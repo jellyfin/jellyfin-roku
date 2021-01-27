@@ -340,5 +340,10 @@
         <translation>Error cargando contenido</translation>
         <extracomment>Dialog title when unable to load Content from Server</extracomment>
     </message>
+    <message>
+        <source>An error was encountered while playing this item.</source>
+        <translation>Ha ocurrido un error mientras se reproducia este elemento.</translation>
+        <extracomment>Dialog detail when error occurs during playback</extracomment>
+    </message>
 </context>
 </TS>
