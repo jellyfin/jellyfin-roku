@@ -5,7 +5,6 @@
     <field id="seasons" type="associativearray" />
     <field id="nextup" type="associativearray" />
     <field id="image" type="node" onChange="setPoster" />
-    <function name="loadSeasons" />
   </interface>
   <script type="text/brightscript" uri="SeriesData.brs" />
   <script type="text/brightscript" uri="pkg:/source/api/Image.brs" />
