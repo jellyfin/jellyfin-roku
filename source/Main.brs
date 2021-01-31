@@ -1,6 +1,7 @@
 sub Main()
 
   ' If the Rooibos files are included in deployment, run tests
+  'bs:disable-next-line
   if (type(Rooibos__Init) = "Function") then Rooibos__Init()
 
   ' The main function that runs when the application is launched.
@@ -20,7 +21,7 @@ sub Main()
 
   m.overhang = CreateObject("roSGNode", "JFOverhang")
   m.scene.insertChild(m.overhang, 0)
-  
+
   m.page_size = 48
 
   app_start:
@@ -110,7 +111,7 @@ sub Main()
         group = CreateMovieListGroup(selectedItem)
         group.overhangTitle = selectedItem.title
         m.scene.appendChild(group)
-      else if (selectedItem.type = "CollectionFolder" OR selectedItem.type = "UserView") AND  selectedItem.collectionType =  "tvshows" 
+      else if (selectedItem.type = "CollectionFolder" OR selectedItem.type = "UserView") AND  selectedItem.collectionType =  "tvshows"
         group.lastFocus = group.focusedChild
         group.setFocus(false)
         group.visible = false
@@ -147,7 +148,7 @@ sub Main()
         group = CreateCollectionDetailList(selectedItem.Id)
         group.overhangTitle = selectedItem.title
         m.scene.appendChild(group)
-      else if selectedItem.type = "Folder" 
+      else if selectedItem.type = "Folder"
         group.lastFocus = group.focusedChild
         group.setFocus(false)
         group.visible = false
@@ -218,7 +219,7 @@ sub Main()
           group.control = "play"
           ReportPlayback(group, "start")
           m.overhang.visible = false
-        else 
+        else
           dialog = createObject("roSGNode", "Dialog")
           dialog.title = tr("Error loading Channel Data")
           dialog.message = tr("Unable to load Channel Data from the server")
