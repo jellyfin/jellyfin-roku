@@ -851,7 +851,7 @@ function RBS_BTS_AssertNodeNotContainsFields(node , subset , msg = "" ) as dynam
         key = item
         value = item[key]
       end if
-      if RBS_CMN_NodeContains(node, value)
+      if RBS_CMN_NodeContains(node, value, key)
         msg = "Node has the '" + RBS_CMN_AsString(value) + "' value."
         m.currentResult.AddResult(msg)
         return m.GetLegacyCompatibleReturnValue(false)
@@ -1225,7 +1225,7 @@ function RBS_BTS_CleanMocks() as void
           else if (aa <> invalid and GetInterface(aa, "ifSGNodeChildren") <> invalid)
             value = aa.getChild(key)
           else if (aa <> invalid and GetInterface(aa, "ifAssociativeArray") <> invalid)
-            key = key.ToStr()
+            key = tostr(key)
             if not aa.doesExist(key)
               exit while
             end if
@@ -1260,7 +1260,6 @@ end function
 function RBS_CMN_GetFunction(filename, functionName) as object
   if (not RBS_CMN_IsNotEmptyString(functionName)) then return invalid
   if (not RBS_CMN_IsNotEmptyString(filename)) then return invalid
-  'bs:disable-next-line
   mapFunction = RBSFM_getFunctionsForFile(filename)
   if mapFunction <> invalid
     map = mapFunction()
@@ -1275,11 +1274,9 @@ function RBS_CMN_GetFunction(filename, functionName) as object
 end function
 function RBS_CMN_GetFunctionBruteForce(functionName) as object
   if (not RBS_CMN_IsNotEmptyString(functionName)) then return invalid
-  'bs:disable-next-line
   filenames = RBSFM_getFilenames()
   for i = 0 to filenames.count() - 1
     filename = filenames[i]
-  'bs:disable-next-line
     mapFunction = RBSFM_getFunctionsForFile(filename)
     if mapFunction <> invalid
       map = mapFunction()
@@ -1604,7 +1601,6 @@ function UnitTestRuntimeConfig()
   return this
 end function
 function RBS_CreateSuites()
-  'bs:disable-next-line
   suites = RBSFM_getTestSuitesForProject()
   includedSuites = []
   for i = 0 to suites.count() -1
