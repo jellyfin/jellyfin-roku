@@ -11,7 +11,7 @@
     "rooibos-cli": "^1.0.1"
   },
   "scripts": {
-    "validate": "npx bsc --copy-to-staging=false --create-package=false --project bsconfig.test.json",
+    "validate": "npx bsc --copy-to-staging=false --create-package=false",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
