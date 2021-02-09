@@ -77,6 +77,7 @@ sub onScheduleLoaded()
     end for
 
     m.scheduleGrid.showLoadingDataFeedback = false
+    m.scheduleGrid.setFocus(true)
     m.LoadScheduleTask.schedule = []
 end sub
 
