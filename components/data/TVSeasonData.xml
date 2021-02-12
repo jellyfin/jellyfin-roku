@@ -7,7 +7,6 @@
     <field id="posterURL" type="string" />
     <field id="overview" type="string" />
     <field id="json" type="assocarray" onChange="setFields" />
-    <function name="getPoster" />
   </interface>
   <script type="text/brightscript" uri="TVSeasonData.brs" />
 </component>
