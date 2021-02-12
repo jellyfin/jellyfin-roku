@@ -191,11 +191,7 @@ sub Main()
         end if
       else
         ' TODO - switch on more node types
-        if selectedItem.type = "CollectionFolder" OR selectedItem.type = "UserView" then
-          message_dialog("This library type is not yet implemented: " + selectedItem.collectionType + ".")
-        else
-          message_dialog("This library type is not yet implemented: " + selectedItem.type + ".")
-        end if
+        message_dialog("This type is not yet supported: " + selectedItem.type + ".")
         selectedItem = invalid
       end if
     else if isNodeEvent(msg, "movieSelected")

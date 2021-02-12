@@ -249,7 +249,7 @@ function CreateSeasonDetailsGroup(series, season)
 end function
 
 function CreateItemGrid(libraryItem)
-  group = CreateObject("roSGNode", "ItemGrid2")
+  group = CreateObject("roSGNode", "ItemGrid")
   group.parentItem = libraryItem
   group.observeField("selectedItem", m.port)
   return group
