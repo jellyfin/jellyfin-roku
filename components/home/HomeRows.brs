@@ -10,8 +10,6 @@ sub init()
   m.top.rowLabelOffset = [0, 20]
   m.top.showRowCounter = [true]
 
-  m.libariesToLoad = 0
-
   updateSize()
 
   m.top.setfocus(true)
@@ -186,6 +184,13 @@ function updateNextUpItems()
     end if
   end if
 
+  ' consider home screen loaded when above rows are loaded
+  if m.global.app_loaded = false then
+    m.top.signalBeacon("AppLaunchComplete") ' Roku Performance monitoring
+    m.global.app_loaded = true
+  end if
+
+
   ' create task nodes for "Latest In" rows
   userConfig = m.top.userConfig
   filteredLatest = filterNodeArray(m.libraryData, "id", userConfig.LatestItemsExcludes)
@@ -201,7 +206,6 @@ function updateNextUpItems()
 
       loadLatest.observeField("content", "updateLatestItems")
       loadLatest.control = "RUN"
-      m.libariesToLoad += 1
     end if
   end for
 end function
@@ -257,12 +261,6 @@ function updateLatestItems(msg)
       updateSizeArray(itemSize, rowIndex, "replace")
       homeRows.replaceChild(row, rowIndex)
     end if
-  end if
-
-  m.libariesToLoad -= 1
-  if m.libariesToLoad = 0 and m.global.app_loaded = false then
-    m.top.signalBeacon("AppLaunchComplete") ' Roku Performance monitoring
-    m.global.app_loaded = true
   end if
 end function
 
