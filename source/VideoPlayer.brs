@@ -127,6 +127,7 @@ function VideoContent(video, audio_stream_idx = 1) as object
     video.content.streamformat = container
     video.content.switchingStrategy = ""
     video.isTranscode = False
+    video.audioTrack = audio_stream_idx + 1 ' Tell Roku what Audio Track to play (convert from 0 based index for roku)
   else
     video.content.url = buildURL(Substitute("Videos/{0}/master.m3u8", video.id), transcodeParams)
     video.isTranscoded = true
