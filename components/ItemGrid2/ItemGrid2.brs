@@ -65,7 +65,7 @@ sub loadInitialItems()
        showTvGuid()
     end if
 
-  else if m.top.parentItem.collectionType = "CollectionFolder" then
+  else if m.top.parentItem.collectionType = "CollectionFolder" OR m.top.parentItem.collectionType = "boxsets"  then
     ' Non-recursive, to not show subfolder contents
     m.loadItemsTask.recursive = false
   else if m.top.parentItem.collectionType = "Channel" then
