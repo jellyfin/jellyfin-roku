@@ -182,6 +182,7 @@ function getTranscodeParameters(meta as object, audio_stream_idx = 1)
   end if
 
   params.Append({"MediaSourceId": meta.id})
+  params.Append({"DeviceId": devinfo.getChannelClientID()})
 
   return params
 end function
