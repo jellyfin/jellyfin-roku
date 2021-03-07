@@ -424,7 +424,8 @@ sub Main()
         if node.showID = invalid then
           RemoveCurrentGroup()
         else
-          autoPlayNextEpisode(node.id, node.showID)
+          nextEpisode =autoPlayNextEpisode(node.id, node.showID)
+          if nextEpisode <> invalid then group = nextEpisode
         end if
       else if node.state = "playing" or node.state = "paused" then
         ReportPlayback(group, "update")

@@ -377,6 +377,7 @@ function autoPlayNextEpisode(videoID as string, showID as string)
       nextVideo.setFocus(true)
       nextVideo.control = "play"
       ReportPlayback(nextVideo, "start")
+      return nextVideo
     else
       ' can't play next episode
       RemoveCurrentGroup()
@@ -384,4 +385,5 @@ function autoPlayNextEpisode(videoID as string, showID as string)
   else
     RemoveCurrentGroup()
   end if
+  return invalid
 end function
