@@ -415,17 +415,6 @@ sub Main()
           changeSubtitleDuringPlayback(trackSelected)
         end if
       end if
-    else if isNodeEvent(msg, "position")
-      video = msg.getRoSGNode()
-      if video.position >= video.duration and not video.content.live then
-        stopPlayback()
-        if video.showID = invalid then
-          RemoveCurrentGroup()
-        else
-          MarkItemWatched(video.id)
-          autoPlayNextEpisode(video.id, video.showID)
-        end if
-      end if
     else if isNodeEvent(msg, "fire")
       ReportPlayback(group, "update")
     else if isNodeEvent(msg, "state")
