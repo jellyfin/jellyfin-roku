@@ -61,6 +61,11 @@ sub Main()
     if type(msg) = "roSGScreenEvent" and msg.isScreenClosed() then
       print "CLOSING SCREEN"
       return
+    else if isNodeEvent(msg, "buttonSelected")
+      ' Dialog Button Selected - If not handled more locally, just close the dialog
+      dialog = msg.getRoSGNode()
+      dialog.unobserveField("buttonSelected")
+      dialog.close = true
     else if isNodeEvent(msg, "backPressed")
       n = m.scene.getChildCount() - 1
       if msg.getRoSGNode().focusedChild <> invalid and msg.getRoSGNode().focusedChild.isSubtype("JFVideo")
@@ -225,6 +230,7 @@ sub Main()
           dialog.message = tr("Unable to load Channel Data from the server")
           dialog.buttons = [tr("OK")]
           m.scene.dialog = dialog
+          m.scene.dialog.observeField("buttonSelected", m.port)
         end if
       else
         ' TODO - switch on more node types
