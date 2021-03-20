@@ -198,7 +198,7 @@ function sortSubtitles(id as string, MediaStreams)
       'Documentation lists that srt, ttml, and dfxp can be sideloaded but only srt was working in my testing,
       'forcing srt for all text subtitles
       url = Substitute("{0}/Videos/{1}/{2}/Subtitles/{3}/0/", get_url(), dashedid, id, stream.index.tostr())
-      url = url + Substitute("Stream.js?api_key={0}&format=srt", get_setting("active_user"))
+      url = url + Substitute("Stream.srt?api_key={0}", get_setting("active_user"))
       stream = {
         "Track": { "Language" : stream.language, "Description": stream.displaytitle , "TrackName": url },
         "IsTextSubtitleStream": stream.IsTextSubtitleStream,

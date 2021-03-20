@@ -301,4 +301,16 @@
         <extracomment>Menu option for showing Live TV Guide / Schedule</extracomment>
     </message>
 </context>
+<context>
+    <name></name>
+    <message>
+        <comment>Message displayed in Item Grid when no item to display. %1 is container type (e.g. Boxset, Collection, Folder, etc)</comment>
+        <source>NO_ITEMS</source>
+        <translation>This %1 contains no items</translation>
+    </message>
+    <message>
+        <source>Add User</source>
+        <translation>Add User</translation>
+    </message>
+</context>
 </TS>
