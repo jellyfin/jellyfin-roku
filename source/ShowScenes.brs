@@ -211,50 +211,6 @@ function CreateHomeGroup()
   return group
 end function
 
-function CreateMovieListGroup(libraryItem)
-  group = CreateObject("roSGNode", "ItemGrid2")
-  group.parentItem = libraryItem
-
-  group.observeField("selectedItem", m.port)
-  group.observeField("quickPlayNode", m.port)
-
-  sidepanel = group.findNode("options")
-  movie_options = [
-    {"title": "Sort Field",
-     "base_title": "Sort Field",
-     "key": "movie_sort_field",
-     "default": "DateCreated",
-     "values": [
-       {display: tr("Date Added"), value: "DateCreated"},
-       {display: tr("Release Date"), value: "PremiereDate"},
-       {display: tr("Name"), value: "SortName"}
-     ]},
-    {"title": "Sort Order",
-     "base_title": "Sort Order",
-     "key": "movie_sort_order",
-     "default": "Ascending",
-     "values": [
-       {display: tr("Descending"), value: "Descending"},
-       {display: tr("Ascending"), value: "Ascending"}
-     ]}
-  ]
-  new_options = []
-  for each opt in movie_options
-    o = CreateObject("roSGNode", "OptionsData")
-    o.title = tr(opt.title)
-    o.choices = opt.values
-    o.base_title = tr(opt.base_title)
-    o.config_key = opt.key
-    o.value = get_user_setting(opt.key, opt.default)
-    new_options.append([o])
-  end for
-
-  sidepanel.options = new_options
-  sidepanel.observeField("closeSidePanel", m.port)
-
-  return group
-end function
-
 function CreateMovieDetailsGroup(movie)
   group = CreateObject("roSGNode", "MovieDetails")
 
@@ -265,18 +221,6 @@ function CreateMovieDetailsGroup(movie)
   for each b in buttons.getChildren(-1, 0)
     b.observeField("buttonSelected", m.port)
   end for
-
-  return group
-end function
-
-function CreateSeriesListGroup(libraryItem)
-
-  group = CreateObject("roSGNode", "ItemGrid2")
-  group.parentItem = libraryItem
-
-  group.observeField("selectedItem", m.port)
-
-  sidepanel = group.findNode("options")
 
   return group
 end function
@@ -304,46 +248,10 @@ function CreateSeasonDetailsGroup(series, season)
   return group
 end function
 
-function CreateCollectionsList(libraryItem)
-
-  group = CreateObject("roSGNode", "ItemGrid2")
+function CreateItemGrid(libraryItem)
+  group = CreateObject("roSGNode", "ItemGrid")
   group.parentItem = libraryItem
-
   group.observeField("selectedItem", m.port)
-  group.observeField("quickPlayNode", m.port)
-
-  sidepanel = group.findNode("options")
-
-  return group
-end function
-
-function CreateCollectionDetailList(collectionId)
-
-  sort_order = get_user_setting("movie_sort_order", "Ascending")
-  sort_field = get_user_setting("movie_sort_field", "SortName")
-
-  item_list = ItemList(collectionId, {
-    "SortBy": sort_field,
-    "SortOrder": sort_order
-  })
-
-  group = CreateObject("roSGNode", "CollectionDetail")
-  group.collectionId = collectionId
-  group.objects = item_list
-
-  group.observeField("selectedItem", m.port)
-
-  return group
-end function
-
-function CreateChannelList(libraryItem)
-  group = CreateObject("roSGNode", "ItemGrid2")
-  group.parentItem = libraryItem
-
-  group.observeField("selectedItem", m.port)
-
-  sidepanel = group.findNode("options")
-
   return group
 end function
 
