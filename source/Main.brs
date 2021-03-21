@@ -1,6 +1,7 @@
 sub Main()
 
   ' If the Rooibos files are included in deployment, run tests
+  'bs:disable-next-line
   if (type(Rooibos__Init) = "Function") then Rooibos__Init()
 
   ' The main function that runs when the application is launched.
@@ -60,6 +61,11 @@ sub Main()
     if type(msg) = "roSGScreenEvent" and msg.isScreenClosed() then
       print "CLOSING SCREEN"
       return
+    else if isNodeEvent(msg, "buttonSelected")
+      ' Dialog Button Selected - If not handled more locally, just close the dialog
+      dialog = msg.getRoSGNode()
+      dialog.unobserveField("buttonSelected")
+      dialog.close = true
     else if isNodeEvent(msg, "backPressed")
       n = m.scene.getChildCount() - 1
       if msg.getRoSGNode().focusedChild <> invalid and msg.getRoSGNode().focusedChild.isSubtype("JFVideo")
@@ -102,49 +108,12 @@ sub Main()
     else if isNodeEvent(msg, "selectedItem")
       ' If you select a library from ANYWHERE, follow this flow
       selectedItem = msg.getData()
-      if (selectedItem.type = "CollectionFolder" OR selectedItem.type = "UserView" OR selectedItem.type = "Folder") AND ( selectedItem.collectionType = "movies" or selectedItem.collectionType = "CollectionFolder")
+      if selectedItem.type = "CollectionFolder" OR selectedItem.type = "UserView" OR selectedItem.type = "Folder"
         group.lastFocus = group.focusedChild
         group.setFocus(false)
         group.visible = false
         m.overhang.title = selectedItem.title
-        group = CreateMovieListGroup(selectedItem)
-        group.overhangTitle = selectedItem.title
-        m.scene.appendChild(group)
-      else if (selectedItem.type = "CollectionFolder" OR selectedItem.type = "UserView") AND  selectedItem.collectionType =  "tvshows" 
-        group.lastFocus = group.focusedChild
-        group.setFocus(false)
-        group.visible = false
-
-        m.overhang.title = selectedItem.title
-        group = CreateSeriesListGroup(selectedItem)
-        group.overhangTitle = selectedItem.title
-        m.scene.appendChild(group)
-      else if (selectedItem.type = "CollectionFolder" OR selectedItem.type = "UserView") AND selectedItem.collectionType = "boxsets" OR selectedItem.type = "Boxset"
-        group.lastFocus = group.focusedChild
-        group.setFocus(false)
-        group.visible = false
-
-        m.overhang.title = selectedItem.title
-        group = CreateCollectionsList(selectedItem)
-        group.overhangTitle = selectedItem.title
-        m.scene.appendChild(group)
-      else if ((selectedItem.type = "CollectionFolder" OR selectedItem.type = "UserView") AND selectedItem.collectionType = "livetv") OR selectedItem.type = "Channel"
-        group.lastFocus = group.focusedChild
-        group.setFocus(false)
-        group.visible = false
-
-        m.overhang.title = selectedItem.title
-        group = CreateChannelList(selectedItem)
-        group.overhangTitle = selectedItem.title
-        m.scene.appendChild(group)
-      else if selectedItem.type = "Boxset" or selectedItem.collectionType = "folders" then
-
-        group.lastFocus = group.focusedChild
-        group.setFocus(false)
-        group.visible = false
-
-        m.overhang.title = selectedItem.title
-        group = CreateCollectionDetailList(selectedItem.Id)
+        group = CreateItemGrid(selectedItem)
         group.overhangTitle = selectedItem.title
         m.scene.appendChild(group)
       else if selectedItem.type = "Folder" 
@@ -153,7 +122,7 @@ sub Main()
         group.visible = false
 
         m.overhang.title = selectedItem.title
-        group = CreateCollectionsList(selectedItem)
+        group = CreateItemGrid(selectedItem)
         group.overhangTitle = selectedItem.title
         m.scene.appendChild(group)
       else if selectedItem.type = "Episode" then
@@ -224,14 +193,11 @@ sub Main()
           dialog.message = tr("Unable to load Channel Data from the server")
           dialog.buttons = [tr("OK")]
           m.scene.dialog = dialog
+          m.scene.dialog.observeField("buttonSelected", m.port)
         end if
       else
         ' TODO - switch on more node types
-        if selectedItem.type = "CollectionFolder" OR selectedItem.type = "UserView" then
-          message_dialog("This library type is not yet implemented: " + selectedItem.collectionType + ".")
-        else
-          message_dialog("This library type is not yet implemented: " + selectedItem.type + ".")
-        end if
+        message_dialog("This type is not yet supported: " + selectedItem.type + ".")
         selectedItem = invalid
       end if
     else if isNodeEvent(msg, "movieSelected")
@@ -414,17 +380,6 @@ sub Main()
           changeSubtitleDuringPlayback(trackSelected)
         end if
       end if
-    else if isNodeEvent(msg, "position")
-      video = msg.getRoSGNode()
-      if video.position >= video.duration and not video.content.live then
-        stopPlayback()
-        if video.showID = invalid then
-          RemoveCurrentGroup()
-        else
-          MarkItemWatched(video.id)
-          autoPlayNextEpisode(video.id, video.showID)
-        end if
-      end if
     else if isNodeEvent(msg, "fire")
       ReportPlayback(group, "update")
     else if isNodeEvent(msg, "state")
@@ -434,7 +389,8 @@ sub Main()
         if node.showID = invalid then
           RemoveCurrentGroup()
         else
-          autoPlayNextEpisode(node.id, node.showID)
+          nextEpisode =autoPlayNextEpisode(node.id, node.showID)
+          if nextEpisode <> invalid then group = nextEpisode
         end if
       else if node.state = "playing" or node.state = "paused" then
         ReportPlayback(group, "update")

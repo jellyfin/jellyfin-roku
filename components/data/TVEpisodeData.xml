@@ -10,7 +10,6 @@
     <field id="overview" type="string" />
     <field id="type" type="string" value="Episode" />
     <field id="json" type="assocarray" onChange="setFields" />
-    <function name="loadSeasons" />
   </interface>
   <script type="text/brightscript" uri="TVEpisodeData.brs" />
 </component>

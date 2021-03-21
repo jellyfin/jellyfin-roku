@@ -127,6 +127,7 @@ function VideoContent(video, audio_stream_idx = 1) as object
     video.content.streamformat = container
     video.content.switchingStrategy = ""
     video.isTranscode = False
+    video.audioTrack = audio_stream_idx + 1 ' Tell Roku what Audio Track to play (convert from 0 based index for roku)
   else
     video.content.url = buildURL(Substitute("Videos/{0}/master.m3u8", video.id), transcodeParams)
     video.isTranscoded = true
@@ -181,6 +182,7 @@ function getTranscodeParameters(meta as object, audio_stream_idx = 1)
   end if
 
   params.Append({"MediaSourceId": meta.id})
+  params.Append({"DeviceId": devinfo.getChannelClientID()})
 
   return params
 end function
@@ -196,7 +198,7 @@ function sortSubtitles(id as string, MediaStreams)
       'Documentation lists that srt, ttml, and dfxp can be sideloaded but only srt was working in my testing,
       'forcing srt for all text subtitles
       url = Substitute("{0}/Videos/{1}/{2}/Subtitles/{3}/0/", get_url(), dashedid, id, stream.index.tostr())
-      url = url + Substitute("Stream.js?api_key={0}&format=srt", get_setting("active_user"))
+      url = url + Substitute("Stream.srt?api_key={0}", get_setting("active_user"))
       stream = {
         "Track": { "Language" : stream.language, "Description": stream.displaytitle , "TrackName": url },
         "IsTextSubtitleStream": stream.IsTextSubtitleStream,
@@ -375,6 +377,7 @@ function autoPlayNextEpisode(videoID as string, showID as string)
       nextVideo.setFocus(true)
       nextVideo.control = "play"
       ReportPlayback(nextVideo, "start")
+      return nextVideo
     else
       ' can't play next episode
       RemoveCurrentGroup()
@@ -382,4 +385,5 @@ function autoPlayNextEpisode(videoID as string, showID as string)
   else
     RemoveCurrentGroup()
   end if
+  return invalid
 end function
