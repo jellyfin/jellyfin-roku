@@ -33,7 +33,6 @@ sub init()
   m.filter = "All"
 
   m.loadItemsTask = createObject("roSGNode", "LoadItemsTask2")
-  m.loadItemsTask.observeField("content", "ItemDataLoaded")
 
 end sub
 
@@ -74,6 +73,7 @@ sub loadInitialItems()
     print "Unknown Type: " m.top.parentItem
   end if
 
+  m.loadItemsTask.observeField("content", "ItemDataLoaded")
   m.loadItemsTask.control = "RUN"
 
   SetUpOptions()
