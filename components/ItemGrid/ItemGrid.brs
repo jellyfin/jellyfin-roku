@@ -106,6 +106,19 @@ sub SetUpOptions()
       { "Title": tr("All"), "Name": "All" },
       { "Title": tr("Favorites"), "Name": "Favorites" }
     ]
+  'Boxsets
+  else if m.top.parentItem.collectionType = "boxsets" then
+    options.views = [{ "Title": tr("Shows"), "Name": "shows" }]
+    options.sort = [
+      { "Title": tr("TITLE"), "Name": "SortName" },
+      { "Title": tr("DATE_ADDED"), "Name": "DateCreated" },
+      { "Title": tr("DATE_PLAYED"), "Name": "DatePlayed" },
+      { "Title": tr("RELEASE_DATE"), "Name": "PremiereDate" },
+    ]
+    options.filter = [
+      { "Title": tr("All"), "Name": "All" },
+      { "Title": tr("Favorites"), "Name": "Favorites" }
+    ]
   'TV Shows
   else if m.top.parentItem.collectionType = "tvshows" then
     options.views = [{ "Title": tr("Shows"), "Name": "shows" }]
