@@ -455,7 +455,7 @@ function LoginFlow(startOver = false as boolean)
         dialog.close = true
   end if
 
-  if serverInfoResult.Error or startOver  then
+  if startOver or serverInfoResult.Error  then
     print "Get server details"
     SendPerformanceBeacon("AppDialogInitiate")  ' Roku Performance monitoring - Dialog Starting
     serverSelection = CreateServerGroup()
