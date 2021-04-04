@@ -19,8 +19,10 @@
       translation="[150, 450]" />
     <label text=""
       id="alert"
+      wrap="true"
+      width="1620"
       font="font:MediumSystemFont"
-      translation="[150, 555]" />
+      translation="[150, 580]" />
   </children>
   <script type="text/brightscript" uri="ConfigScene.brs"/>
 </component>

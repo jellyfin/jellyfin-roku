@@ -441,7 +441,21 @@ function LoginFlow(startOver = false as boolean)
   end if
   'Collect Jellyfin server and user information
   start_login:
-  if get_setting("server") = invalid or ServerInfo() = invalid or startOver = true then
+
+  if get_setting("server") = invalid then startOver = true
+
+  if not startOver then
+        ' Show Connecting to Server spinner
+        dialog = createObject("roSGNode", "ProgressDialog")
+        dialog.title = tr("Connecting to Server")
+        m.scene.dialog = dialog
+
+        serverInfoResult = ServerInfo()
+
+        dialog.close = true
+  end if
+
+  if startOver or serverInfoResult.Error  then
     print "Get server details"
     SendPerformanceBeacon("AppDialogInitiate")  ' Roku Performance monitoring - Dialog Starting
     serverSelection = CreateServerGroup()

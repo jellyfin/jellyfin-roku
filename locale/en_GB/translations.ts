@@ -414,6 +414,10 @@
             <translation>TV Guide</translation>
             <extracomment>Menu option for showing Live TV Guide / Schedule</extracomment>
         </message>
-
+        <message>
+            <source>Connecting to Server</source>
+            <translation>Connecting to Server</translation>
+            <extracomment>Message to display to user while client is attempting to connect to the server</extracomment>
+        </message>
     </context>
 </TS>

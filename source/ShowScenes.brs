@@ -34,11 +34,11 @@ function CreateServerGroup()
       if node = "submit"
         'Append default ports
         maxSlashes = 0
-        if left(server_hostname.value,8) = "https://" or left(server_hostname.value,7) = "http://" then maxSlashes = 2
+        if left(lcase(server_hostname.value),8) = "https://" or left(lcase(server_hostname.value),7) = "http://" then maxSlashes = 2
         'Check to make sure entry has no extra slashes before adding default ports.
         if Instr(0, server_hostname.value, "/") = maxSlashes then
           if server_hostname.value.len() > 5 and mid(server_hostname.value, server_hostname.value.len()-4,1) <> ":" and mid(server_hostname.value, server_hostname.value.len()-5,1) <> ":" then
-            if left(server_hostname.value ,5) = "https" then
+            if left(lcase(server_hostname.value) ,5) = "https" then
               server_hostname.value = server_hostname.value + ":8920"
             else
               server_hostname.value = server_hostname.value + ":8096"
@@ -46,18 +46,40 @@ function CreateServerGroup()
           end if
         end if
         'Append http:// to server
-        if left(server_hostname.value,4) <> "http" then server_hostname.value = "http://" + server_hostname.value
+        if left(lcase(server_hostname.value),4) <> "http" then server_hostname.value = "http://" + server_hostname.value
         'If this is a different server from what we know, reset username/password setting
         if get_setting("server") <> server_hostname.value then
           set_setting("username", "")
           set_setting("password", "")
-        endif
+        end if
         set_setting("server", server_hostname.value)
-        if ServerInfo() = invalid then
+        
+        ' Show Connecting to Server spinner
+        dialog = createObject("roSGNode", "ProgressDialog")
+        dialog.title = tr("Connecting to Server")
+        m.scene.dialog = dialog
+
+        serverInfoResult = ServerInfo()
+
+        dialog.close = true
+
+        if serverInfoResult = invalid then
           ' Maybe don't unset setting, but offer as a prompt
           ' Server not found, is it online? New values / Retry
           print "Server not found, is it online? New values / Retry"
           group.findNode("alert").text = tr("Server not found, is it online?")
+          SignOut()
+        else if serverInfoResult.Error <> invalid and serverInfoResult.Error
+          ' If server redirected received, update the URL
+          if serverInfoResult.UpdatedUrl <> invalid then
+            server_hostname.value = serverInfoResult.UpdatedUrl
+          end if
+          ' Display Error Message to user
+          message = tr("Error: ")
+          if serverInfoResult.ErrorCode <> invalid then
+            message = message + "[" + serverInfoResult.ErrorCode.toStr() + "] "
+          end if
+          group.findNode("alert").text = message + tr(serverInfoResult.ErrorMessage)
           SignOut()
         else
           group.visible = false
