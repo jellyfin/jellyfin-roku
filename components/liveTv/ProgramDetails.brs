@@ -115,23 +115,28 @@ sub programUpdated()
 
     day = getRelativeDayName(startDate)
 
+    ' Get Start Date in local timezone for display to user
+    localStartDate = createObject("roDateTime")
+    localStartDate.FromISO8601String(prog.StartDate)
+    localStartDate.ToLocalTime()
+
     if startDate.AsSeconds() < now.AsSeconds() and endDate.AsSeconds() > now.AsSeconds() then
         if day = "today" then
-            m.broadcastDetails.text = tr("Started at") + " " + formatTime(startDate)
+            m.broadcastDetails.text = tr("Started at") + " " + formatTime(localStartDate)
         else
-            m.broadcastDetails.text = tr("Started") + " " + tr(day) + ", " + formatTime(startDate)
+            m.broadcastDetails.text = tr("Started") + " " + tr(day) + ", " + formatTime(localStartDate)
         end if
     else if startDate.AsSeconds() > now.AsSeconds()
         if day = "today" then
-            m.broadcastDetails.text = tr("Starts at") + " " + formatTime(startDate)
+            m.broadcastDetails.text = tr("Starts at") + " " + formatTime(localStartDate)
         else
-            m.broadcastDetails.text = tr("Starts") + " " + tr(day) + ", " + formatTime(startDate)
+            m.broadcastDetails.text = tr("Starts") + " " + tr(day) + ", " + formatTime(localStartDate)
         end if
     else
         if day = "today" then
-            m.broadcastDetails.text = tr("Ended at") + " " + formatTime(endDate)
+            m.broadcastDetails.text = tr("Ended at") + " " + formatTime(localStartDate)
         else
-            m.broadcastDetails.text = tr("Ended") + " " + tr(day) + ", " + formatTime(endDate)
+            m.broadcastDetails.text = tr("Ended") + " " + tr(day) + ", " + formatTime(localStartDate)
         end if
     end if
 
