@@ -53,11 +53,33 @@ function CreateServerGroup()
           set_setting("password", "")
         end if
         set_setting("server", server_hostname.value)
-        if ServerInfo() = invalid then
+        
+        ' Show Connecting to Server spinner
+        dialog = createObject("roSGNode", "ProgressDialog")
+        dialog.title = tr("Connecting to Server")
+        m.scene.dialog = dialog
+
+        serverInfoResult = ServerInfo()
+
+        dialog.close = true
+
+        if serverInfoResult = invalid then
           ' Maybe don't unset setting, but offer as a prompt
           ' Server not found, is it online? New values / Retry
           print "Server not found, is it online? New values / Retry"
           group.findNode("alert").text = tr("Server not found, is it online?")
+          SignOut()
+        else if serverInfoResult.Error <> invalid and serverInfoResult.Error
+          ' If server redirected received, update the URL
+          if serverInfoResult.UpdatedUrl <> invalid then
+            server_hostname.value = serverInfoResult.UpdatedUrl
+          end if
+          ' Display Error Message to user
+          message = tr("Error: ")
+          if serverInfoResult.ErrorCode <> invalid then
+            message = message + "[" + serverInfoResult.ErrorCode.toStr() + "] "
+          end if
+          group.findNode("alert").text = message + tr(serverInfoResult.ErrorMessage)
           SignOut()
         else
           group.visible = false

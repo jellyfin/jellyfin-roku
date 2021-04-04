@@ -58,8 +58,54 @@ end function
 
 function ServerInfo()
   url = "System/Info/Public"
-  resp = APIRequest(url)
-  return getJson(resp)
+  req = APIRequest(url)
+
+  req.setMessagePort(CreateObject("roMessagePort"))
+  req.AsyncGetToString()
+
+  ' wait 15 seconds for a server response
+  resp = wait(35000, req.GetMessagePort())
+
+  ' handle unknown errors
+  if type(resp) <> "roUrlEvent"
+    return { "Error": true, "ErrorMessage": "Unknown" }
+  end if
+
+  ' check for a location redirect header in the response
+  headers = resp.GetResponseHeaders()
+  if headers <> invalid and headers.location <> invalid then
+
+    ' only follow redirect if it the API Endpoint path is the same (/System/Info/Public)
+    ' set the server to new location and try again
+    if right(headers.location, 19) = "/System/Info/Public" then
+      set_setting("server", left(headers.location, len(headers.location) - 19))
+      info = ServerInfo()
+      if info.Error then
+        info.UpdatedUrl = left(headers.location, len(headers.location) - 19)
+        info.ErrorMessage = info.ErrorMessage + " (Note: Server redirected us to " + info.UpdatedUrl + ")"
+      end if
+      return info
+    end if
+  end if
+
+  ' handle any non 200 responses, returning the error code and message
+  if resp.GetResponseCode() <> 200 then
+    return { "Error": true, "ErrorCode": resp.GetResponseCode(), "ErrorMessage": resp.GetFailureReason() }
+  end if
+
+  ' return the parsed response string
+  responseString = resp.GetString()
+  if responseString <> invalid and responseString <> "" then
+    result = ParseJson(responseString)
+    if result <> invalid then
+      result.Error = false
+      return result
+    end if
+  end if
+
+  ' otherwise return error message
+  return { "Error": true, "ErrorMessage": "Does not appear to be a Jellyfin Server" }
+
 end function
 
 function GetPublicUsers()
