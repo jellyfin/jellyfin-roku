@@ -1,8 +1,5 @@
 sub init()
   m.top.id = "overhang"
-  ' set opacity
-  bgg = m.top.findNode("overlayBackgroundGroup")
-  bgg.opacity = 0.333
   ' hide seperators till they're needed
   leftSeperator = m.top.findNode("overlayLeftSeperator")
   leftSeperator.visible = "false"
