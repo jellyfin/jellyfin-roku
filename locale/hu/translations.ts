@@ -118,7 +118,7 @@
     </message>
     <message>
         <source>Sort Field</source>
-        <translation type="unfinished">Rendezés a következő szerint:</translation>
+        <translation>Rendezés a következő szerint</translation>
     </message>
     <message>
         <source>Date Added</source>
