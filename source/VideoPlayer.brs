@@ -314,6 +314,9 @@ function getAudioInfo(meta as object) as object
 end function
 
 function ReportPlayback(video, state = "update" as string)
+
+  if video = invalid or video.position = invalid then return void
+
   params = {
     "PlaySessionId": video.PlaySessionId,
     "PositionTicks": int(video.position) * 10000000&,   'Ensure a LongInteger is used
