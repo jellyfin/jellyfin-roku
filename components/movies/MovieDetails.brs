@@ -60,6 +60,12 @@ sub itemContentChanged()
   if itemData.genres.count() > 0
     setFieldText("genres", tr("Genres") + ": " + itemData.genres.join(", "))
   end if
+
+  ' show tags if there are no genres to display
+  if itemData.genres.count() = 0 and itemData.tags.count() > 0
+    setFieldText("genres", tr("Tags") + ": " + itemData.tags.join(", "))
+  end if
+
   director = invalid
   for each person in itemData.people
     if person.type = "Director"
@@ -70,8 +76,13 @@ sub itemContentChanged()
   if director <> invalid
     setFieldText("director", tr("Director") + ": " + director)
   end if
-  setFieldText("video_codec", tr("Video") + ": " + itemData.mediaStreams[0].displayTitle)
-  setFieldText("audio_codec", tr("Audio") + ": " + itemData.mediaStreams[m.top.selectedAudioStreamIndex].displayTitle)
+
+  if itemData.mediaStreams[0] <> invalid
+    setFieldText("video_codec", tr("Video") + ": " + itemData.mediaStreams[0].displayTitle)
+  end if
+  if itemData.mediaStreams[m.top.selectedAudioStreamIndex] <> invalid
+    setFieldText("audio_codec", tr("Audio") + ": " + itemData.mediaStreams[m.top.selectedAudioStreamIndex].displayTitle)
+  end if
   ' TODO - cmon now. these are buttons, not words
   if itemData.taglines.count() > 0
     setFieldText("tagline", itemData.taglines[0])
