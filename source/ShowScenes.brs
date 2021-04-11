@@ -297,15 +297,6 @@ function CreateSidePanel(buttons, options)
 
 end function
 
-function CreatePaginator()
-  group = CreateObject("roSGNode", "Pager")
-  group.id = "paginator"
-
-  group.observeField("pageSelected", m.port)
-
-  return group
-end function
-
 function CreateVideoPlayerGroup(video_id, audio_stream_idx = 1)
   ' Video is Playing
   video = VideoPlayer(video_id, audio_stream_idx)
@@ -319,47 +310,4 @@ function CreateVideoPlayerGroup(video_id, audio_stream_idx = 1)
   timer.observeField("fire", m.port)
 
   return video
-end function
-
-function SeriesLister(group, page_size)
-  sort_order = get_user_setting("series_sort_order", "Ascending")
-  sort_field = get_user_setting("series_sort_field", "SortName")
-
-  item_list = ItemList(group.id, {"limit": page_size,
-    "StartIndex": page_size * (group.pageNumber - 1),
-    "SortBy": sort_field,
-    "SortOrder": sort_order,
-    "IncludeItemTypes": "Series"
-  })
-  group.objects = item_list
-
-  p = group.findNode("paginator")
-  p.maxPages = div_ceiling(group.objects.TotalRecordCount, page_size)
-end function
-
-function CollectionLister(group, page_size)
-  sort_order = get_user_setting("boxsets_sort_order", "Ascending")
-  sort_field = get_user_setting("boxsets_sort_field", "SortName")
-
-  item_list = ItemList(group.id, {"limit": page_size,
-    "StartIndex": page_size * (group.pageNumber - 1),
-    "SortBy": sort_field,
-    "SortOrder": sort_order,
-  })
-  group.objects = item_list
-
-  p = group.findNode("paginator")
-  p.maxPages = div_ceiling(group.objects.TotalRecordCount, page_size)
-end function
-
-function ChannelLister(group, page_size)
-  sort_order = get_user_setting("channel_sort_order", "Ascending")
-  sort_field = get_user_setting("channel_sort_field", "SortName")
-  group.objects = Channels({"limit": page_size,
-    "StartIndex": page_size * (group.pageNumber - 1),
-    "SortBy": sort_field,
-    "SortOrder": sort_order,
-  })
-  p = group.findNode("paginator")
-  p.maxPages = div_ceiling(group.objects.TotalRecordCount, page_size)
 end function

@@ -22,8 +22,6 @@ sub Main()
   m.overhang = CreateObject("roSGNode", "JFOverhang")
   m.scene.insertChild(m.overhang, 0)
   
-  m.page_size = 48
-
   app_start:
   m.overhang.title = ""
   ' First thing to do is validate the ability to use the API
@@ -103,7 +101,7 @@ sub Main()
     else if isNodeEvent(msg, "selectedItem")
       ' If you select a library from ANYWHERE, follow this flow
       selectedItem = msg.getData()
-      if selectedItem.type = "CollectionFolder" OR selectedItem.type = "UserView" OR selectedItem.type = "Folder"
+      if selectedItem.type = "CollectionFolder" OR selectedItem.type = "UserView" OR selectedItem.type = "Folder" OR selectedItem.type = "Channel"
         group.lastFocus = group.focusedChild
         group.setFocus(false)
         group.visible = false
@@ -266,18 +264,6 @@ sub Main()
       results = SearchMedia(query)
       options.itemData = results
       options.query = query
-    else if isNodeEvent(msg, "pageSelected")
-      group.pageNumber = msg.getRoSGNode().pageSelected
-      collectionType = group.subType()
-      if collectionType = "Collections"
-        CollectionLister(group, m.page_size)
-      else if collectionType = "TVShows"
-        SeriesLister(group, m.page_size)
-      else if collectionType = "Channels"
-        ChannelLister(group, m.page_size)
-      end if
-      ' TODO - abstract away the "picker" node
-      group.findNode("picker").setFocus(true)
     else if isNodeEvent(msg, "itemSelected")
       ' Search item selected
       node = getMsgPicker(msg)

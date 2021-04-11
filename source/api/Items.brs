@@ -1,27 +1,3 @@
-function ItemsList(params = {} as object)
-  ' Gets items based on a query.
-  resp = APIRequest("Items", params)
-  data = getJson(resp)
-  ' TODO - parse items
-  return data
-end function
-
-function UserItems(params = {} as object)
-  ' Gets items based on a query
-  resp = APIRequest(Substitute("Items/{0}/Items", get_setting("active_user")), params)
-  data = getJson(resp)
-  ' TODO - parse items
-  return data
-end function
-
-function UserItemsResume(params = {} as object)
-  ' Gets items based on a query
-  resp = APIRequest(Substitute("Items/{0}/Items/Resume", get_setting("active_user")), params)
-  data = getJson(resp)
-  ' TODO - parse items
-  return data
-end function
-
 function ItemGetPlaybackInfo(id as string, StartTimeTicks = 0 as longinteger)
   params = {
     "UserId": get_setting("active_user"),
@@ -77,87 +53,6 @@ function SearchMedia(query as string)
     results.push(tmp)
   end for
   data.SearchHints = results
-  return data
-end function
-
-' List items from within a library
-function ItemList(library_id = invalid as string, params = {})
-  if params["limit"] = invalid
-    params["limit"] = 30
-  end if
-  if params["page"] = invalid
-    params["page"] = 1
-  end if
-  params["parentid"] = library_id
-  params["recursive"] = true
-
-  url = Substitute("Users/{0}/Items/", get_setting("active_user"))
-  resp = APIRequest(url, params)
-  data = getJson(resp)
-  results = []
-  for each item in data.Items
-    imgParams = {}
-    if item.ImageTags.Primary <> invalid then
-      ' If Primary image exists use it
-      param = { "Tag" : item.ImageTags.Primary }
-      imgParams.Append(param)
-    end if
-    param = { "AddPlayedIndicator": item.UserData.Played }
-    imgParams.Append(param)
-    if item.UserData.PlayedPercentage <> invalid then
-      param = { "PercentPlayed": item.UserData.PlayedPercentage }
-      imgParams.Append(param)
-    end if
-    if item.type = "Movie"
-      tmp = CreateObject("roSGNode", "MovieData")
-      tmp.image = PosterImage(item.id, imgParams)
-      tmp.json = item
-      results.push(tmp)
-    else if item.type = "Series"
-      if item.UserData.UnplayedItemCount > 0 then
-        param = { "UnplayedCount" : item.UserData.UnplayedItemCount }
-        imgParams.Append(param)
-      end if
-      tmp = CreateObject("roSGNode", "SeriesData")
-      tmp.image = PosterImage(item.id, imgParams)
-      tmp.json = item
-      results.push(tmp)
-    else if item.type = "BoxSet"
-      if item.UserData.UnplayedItemCount > 0 then
-        param = { "UnplayedCount" : item.UserData.UnplayedItemCount }
-        imgParams.Append(param)
-      end if
-      tmp = CreateObject("roSGNode", "CollectionData")
-      tmp.image = PosterImage(item.id, imgParams)
-      tmp.json = item
-      results.push(tmp)
-    else if item.type = "Episode"
-      imgParams.Append({ "AddPlayedIndicator": item.UserData.Played })
-      tmp = CreateObject("roSGNode", "TVEpisodeData")
-      tmp.image = PosterImage(item.id, imgParams)
-      tmp.json = item
-      results.push(tmp)
-    else if item.type = "MusicAlbum"
-      tmp = CreateObject("roSGNode", "AlbumData")
-     tmp.image = PosterImage(item.id, imgParams)
-      tmp.json = item
-      results.push(tmp)
-    else if item.type = "Video"
-      tmp = CreateObject("roSGNode", "VideoData")
-      tmp.image = PosterImage(item.id, imgParams)
-      tmp.json = item
-      results.push(tmp)
-    else if item.type = "Folder"
-      tmp = CreateObject("roSGNode", "FolderData")
-      tmp.json = item
-      results.push(tmp)
-    else
-      print "Items.brs::ItemList received unhandled type: " item.type
-      ' Otherwise we just stick with the JSON
-      results.push(item)
-    end if
-  end for
-  data.items = results
   return data
 end function
 
@@ -257,45 +152,6 @@ function TVEpisodes(show_id as string, season_id as string)
     end if
     tmp.json = item
     tmp.overview = ItemMetaData(item.id).overview
-    results.push(tmp)
-  end for
-  data.Items = results
-  return data
-end function
-
-' The next up episode for a TV show
-function TVNext(id as string)
-  url = Substitute("Shows/NextUp", id)
-  resp = APIRequest(url, { "UserId": get_setting("active_user"), "SeriesId": id })
-
-  data = getJson(resp)
-  for each item in data.Items
-    item.image = PosterImage(item.id)
-  end for
-  return data
-end function
-
-function Channels(params = {})
-  if params["limit"] = invalid
-    params["limit"] = 30
-  end if
-  if params["page"] = invalid
-    params["page"] = 1
-  end if
-  params["recursive"] = true
-
-  resp = APIRequest("LiveTv/Channels", params)
-
-  data = getJson(resp)
-  results = []
-  for each item in data.Items
-    imgParams = { "maxWidth": 712, "maxheight": 400 }
-    tmp = CreateObject("roSGNode", "ChannelData")
-    tmp.image = PosterImage(item.id, imgParams)
-    if tmp.image <> invalid
-      tmp.image.posterDisplayMode = "scaleToFit"
-    end if
-    tmp.json = item
     results.push(tmp)
   end for
   data.Items = results
