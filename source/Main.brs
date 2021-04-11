@@ -103,7 +103,7 @@ sub Main()
     else if isNodeEvent(msg, "selectedItem")
       ' If you select a library from ANYWHERE, follow this flow
       selectedItem = msg.getData()
-      if selectedItem.type = "CollectionFolder" OR selectedItem.type = "UserView" OR selectedItem.type = "Folder"
+      if selectedItem.type = "CollectionFolder" OR selectedItem.type = "UserView" OR selectedItem.type = "Folder" OR selectedItem.type = "Channel"
         group.lastFocus = group.focusedChild
         group.setFocus(false)
         group.visible = false
