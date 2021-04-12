@@ -23,6 +23,8 @@ sub setData()
         ' Add Icon URLs for display if there is no Poster
         if datum.CollectionType = "livetv" then
             m.top.iconUrl = "pkg:/images/media_type_icons/live_tv_white.png"
+        else if datum.CollectionType = "folders" then
+            m.top.iconUrl = "pkg:/images/media_type_icons/folder_white.png"
         end if
 
     else if datum.type = "Episode" then
