@@ -647,5 +647,10 @@
         <source>Error loading Channel Data</source>
         <translation>Hiba történt a csatorna adatainak betöltésekor</translation>
     </message>
+    <message>
+        <source>An error was encountered while playing this item.</source>
+        <translation>Hiba történt az elem lejátszása közben.</translation>
+        <extracomment>Dialog detail when error occurs during playback</extracomment>
+    </message>
 </context>
 </TS>
