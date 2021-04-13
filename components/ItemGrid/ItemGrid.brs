@@ -70,7 +70,7 @@ sub loadInitialItems()
   else if m.top.parentItem.collectionType = "Channel" then
     m.top.imageDisplayMode = "scaleToFit"
   else
-    print "Unknown Type: " m.top.parentItem
+    print "[ItemGrid] Unknown Type: " m.top.parentItem
   end if
 
   m.loadItemsTask.observeField("content", "ItemDataLoaded")
