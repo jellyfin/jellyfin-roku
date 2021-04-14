@@ -1,5 +1,5 @@
-sub Main()
-
+function Main (args as Dynamic) as Void
+  
   ' If the Rooibos files are included in deployment, run tests
   'bs:disable-next-line
   if (type(Rooibos__Init) = "Function") then Rooibos__Init()
@@ -50,6 +50,31 @@ sub Main()
   m.device.setMessagePort(m.port)
   m.device.EnableScreensaverExitedEvent(true)
 
+  ' Check if we were sent content to play with the startup command (Deep Link)
+  if (args.mediaType <> invalid) and (args.contentId <> invalid)
+    video = CreateVideoPlayerGroup(args.contentId)
+
+    if video <> invalid then
+      if group.lastFocus = invalid then group.lastFocus = group.focusedChild
+      group.setFocus(false)
+      group.visible = false
+      group = video
+      m.scene.appendChild(group)
+      group.setFocus(true)
+      group.control = "play"
+      ReportPlayback(group, "start")
+      m.overhang.visible = false
+    else 
+      dialog = createObject("roSGNode", "Dialog")
+      dialog.id = "OKDialog"
+      dialog.title = tr("Not found")
+      dialog.message = tr("The requested content does not exist on the server")
+      dialog.buttons = [tr("OK")]
+      m.scene.dialog = dialog
+      m.scene.dialog.observeField("buttonSelected", m.port)
+    end if
+  end if
+
   ' This is the core logic loop. Mostly for transitioning between scenes
   ' This now only references m. fields so could be placed anywhere, in theory
   ' "group" is always "whats on the screen"
@@ -59,6 +84,7 @@ sub Main()
     if type(msg) = "roSGScreenEvent" and msg.isScreenClosed() then
       print "CLOSING SCREEN"
       return
+
     else if isNodeEvent(msg, "backPressed")
       n = m.scene.getChildCount() - 1
       if msg.getRoSGNode().focusedChild <> invalid and msg.getRoSGNode().focusedChild.isSubtype("JFVideo")
@@ -284,7 +310,7 @@ sub Main()
     else if isNodeEvent(msg, "buttonSelected")
       ' If a button is selected, we have some determining to do
       btn = getButton(msg)
-      if btn.id = "play-button"
+      if btn <> invalid and btn.id = "play-button"
         ' Check is a specific Audio Stream was selected
         audio_stream_idx = 1
         if group.selectedAudioStreamIndex <> invalid
@@ -306,7 +332,7 @@ sub Main()
           ReportPlayback(group, "start")
           m.overhang.visible = false
         end if
-      else if btn.id = "watched-button"
+      else if btn <> invalid and btn.id = "watched-button"
         movie = group.itemContent
         if movie.watched
           UnmarkItemWatched(movie.id)
@@ -314,7 +340,7 @@ sub Main()
           MarkItemWatched(movie.id)
         end if
         movie.watched = not movie.watched
-      else if btn.id = "favorite-button"
+      else if btn <> invalid and btn.id = "favorite-button"
         movie = group.itemContent
         if movie.favorite
           UnmarkItemFavorite(movie.id)
@@ -413,13 +439,39 @@ sub Main()
         print "Unhandled roDeviceInfoEvent:"
         print msg.GetInfo()
       end if
+    else if type(msg) = "roInputEvent"
+      if msg.IsInput()
+          info = msg.GetInfo()
+          if info.DoesExist("mediatype") and info.DoesExist("contentid")
+            video = CreateVideoPlayerGroup(info.contentId)
+            if video <> invalid then
+              if group.lastFocus = invalid then group.lastFocus = group.focusedChild
+              group.setFocus(false)
+              group.visible = false
+              group = video
+              m.scene.appendChild(group)
+              group.setFocus(true)
+              group.control = "play"
+              ReportPlayback(group, "start")
+              m.overhang.visible = false
+            else 
+              dialog = createObject("roSGNode", "Dialog")
+              dialog.id = "OKDialog"
+              dialog.title = tr("Not found")
+              dialog.message = tr("The requested content does not exist on the server")
+              dialog.buttons = [tr("OK")]
+              m.scene.dialog = dialog
+              m.scene.dialog.observeField("buttonSelected", m.port)
+            end if
+          end if
+      end if
     else
       print "Unhandled " type(msg)
       print msg
     end if
   end while
 
-end sub
+end function
 
 function LoginFlow(startOver = false as boolean)
   if m.scene <> invalid then
@@ -577,3 +629,4 @@ sub SendPerformanceBeacon(signalName as string)
     m.scene.signalBeacon(signalName)
   end if
 end sub
+

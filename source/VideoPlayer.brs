@@ -20,6 +20,7 @@ function VideoContent(video, audio_stream_idx = 1) as object
   params = {}
 
   meta = ItemMetaData(video.id)
+  if meta = invalid return invalid
   video.content.title = meta.title
   video.showID = meta.showID
   
