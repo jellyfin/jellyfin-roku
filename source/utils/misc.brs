@@ -16,8 +16,8 @@ end function
 
 function getButton(msg, subnode = "buttons" as string) as object
   buttons = msg.getRoSGNode().findNode(subnode)
+  if buttons = invalid return invalid
   active_button = buttons.focusedChild
-
   return active_button
 end function
 

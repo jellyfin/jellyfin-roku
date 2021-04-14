@@ -61,6 +61,7 @@ function ItemMetaData(id as string)
   url = Substitute("Users/{0}/Items/{1}", get_setting("active_user"), id)
   resp = APIRequest(url)
   data = getJson(resp)
+  if data = invalid then return invalid
   imgParams = {}
   if data.UserData.PlayedPercentage <> invalid then
     param = { "PercentPlayed": data.UserData.PlayedPercentage }
