@@ -6,7 +6,12 @@ sub setFields()
     m.top.Type = "Folder"
 
     m.top.iconUrl = "pkg:/images/media_type_icons/folder_white.png"
-    setPoster()
+    ' This is a temporary measure to avoid displaying landscape photos
+	' in GridItem components that only support portrait. It will be fixed
+    ' after the ItemGrid is reworked.	
+	if m.top.json.Type <> "CollectionFolder"
+	  setPoster()
+	end if
 end sub
 
 sub setPoster()
