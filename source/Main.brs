@@ -127,19 +127,10 @@ function Main (args as Dynamic) as Void
     else if isNodeEvent(msg, "selectedItem")
       ' If you select a library from ANYWHERE, follow this flow
       selectedItem = msg.getData()
-      if selectedItem.type = "CollectionFolder" OR selectedItem.type = "UserView" OR selectedItem.type = "Folder" OR selectedItem.type = "Channel"
+      if selectedItem.type = "CollectionFolder" OR selectedItem.type = "UserView" OR selectedItem.type = "Folder" OR selectedItem.type = "Channel" OR selectedItem.type = "Boxset"
         group.lastFocus = group.focusedChild
         group.setFocus(false)
         group.visible = false
-        m.overhang.title = selectedItem.title
-        group = CreateItemGrid(selectedItem)
-        group.overhangTitle = selectedItem.title
-        m.scene.appendChild(group)
-      else if selectedItem.type = "Folder" 
-        group.lastFocus = group.focusedChild
-        group.setFocus(false)
-        group.visible = false
-
         m.overhang.title = selectedItem.title
         group = CreateItemGrid(selectedItem)
         group.overhangTitle = selectedItem.title
