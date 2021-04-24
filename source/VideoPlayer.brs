@@ -176,7 +176,7 @@ function getTranscodeParameters(meta as object, audio_stream_idx = 1)
   devinfo = CreateObject("roDeviceInfo")
   res = devinfo.CanDecodeVideo(streamInfo)
 
-  if res.result = false then
+  if res = invalid or res.result = invalid or res.result = false then
     params.Append({"VideoCodec": "h264"})
     streamInfo.Profile = "h264"
     streamInfo.Container = "ts"
