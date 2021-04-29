@@ -334,7 +334,6 @@ end function
 
 function StopPlayback()
   video = m.scene.focusedchild
-  if video.state = "finished" then MarkItemWatched(video.id)
   video.control = "stop"
   m.device.EnableAppFocusEvent(False)
   video.findNode("playbackTimer").control = "stop"
