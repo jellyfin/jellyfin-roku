@@ -263,7 +263,10 @@ function directPlaySupported(meta as object) as boolean
     	streamInfo.Container = meta.json.MediaSources[0].container
     end if
   end if
-  return devinfo.CanDecodeVideo(streamInfo).result
+
+  decodeResult = devinfo.CanDecodeVideo(streamInfo)
+  return decodeResult <> invalid and decodeResult.result
+
 end function
 
 function decodeAudioSupported(meta as object, audio_stream_idx = 1) as boolean
