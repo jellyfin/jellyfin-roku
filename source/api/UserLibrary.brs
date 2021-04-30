@@ -13,7 +13,6 @@ end function
 
 function MarkItemWatched(id as String)
   date = CreateObject("roDateTime")
-  date.toLocalTime()
   dateStr = stri(date.getYear()).trim()
   dateStr += leftPad(stri(date.getMonth()).trim(), "0", 2)
   dateStr += leftPad(stri(date.getDayOfMonth()).trim(), "0", 2)
