@@ -82,7 +82,7 @@ function get_dialog_result(dialog, port)
     msg = wait(0, port)
     if isNodeEvent(msg, "backPressed") then
       return -1
-    elseif isNodeEvent(msg, "itemSelected")
+    else if isNodeEvent(msg, "itemSelected")
       return dialog.findNode("optionList").itemSelected 
     end if
   end while

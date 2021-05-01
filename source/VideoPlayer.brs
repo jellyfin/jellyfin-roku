@@ -319,7 +319,7 @@ end function
 
 function ReportPlayback(video, state = "update" as string)
 
-  if video = invalid or video.position = invalid then return void
+  if video = invalid or video.position = invalid then return
 
   params = {
     "PlaySessionId": video.PlaySessionId,
