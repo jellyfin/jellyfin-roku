@@ -317,7 +317,7 @@ function getAudioInfo(meta as object) as object
   return results
 end function
 
-function ReportPlayback(video, state = "update" as string)
+sub ReportPlayback(video, state = "update" as string)
 
   if video = invalid or video.position = invalid then return
 
@@ -333,7 +333,7 @@ function ReportPlayback(video, state = "update" as string)
     })
   end if
   PlaystateUpdate(video.id, state, params)
-end function
+end sub
 
 function StopPlayback()
   video = m.scene.focusedchild
