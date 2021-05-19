@@ -788,5 +788,10 @@
         <translation>Une erreur s&apos;est produite durant la lecture de cet élément</translation>
         <extracomment>Dialog detail when error occurs during playback</extracomment>
     </message>
+    <message>
+        <source>An error was encountered while playing this item.</source>
+        <translation>Une erreur s&apos;est produite durant la lecture de cet élément.</translation>
+        <extracomment>Dialog detail when error occurs during playback</extracomment>
+    </message>
 </context>
 </TS>
