@@ -278,7 +278,11 @@ function Main (args as Dynamic) as Void
       options.visible = true
       options.setFocus(true)
 
+      dialog = createObject("roSGNode", "ProgressDialog")
+      dialog.title = tr("Loading Search Data")
+      m.scene.dialog = dialog
       results = SearchMedia(query)
+      dialog.close = true
       options.itemData = results
       options.query = query
     else if isNodeEvent(msg, "itemSelected")
