@@ -223,20 +223,6 @@ function directPlaySupported(meta as object) as boolean
 
 end function
 
-function decodeAudioSupported(meta as object, audio_stream_idx = 1) as boolean
-
-  'Check for missing audio and allow playing
-  if meta.json.MediaStreams[audio_stream_idx] = invalid or meta.json.MediaStreams[audio_stream_idx].Type <> "Audio" then return true
-
-  devinfo = CreateObject("roDeviceInfo")
-  codec = meta.json.MediaStreams[audio_stream_idx].codec
-  streamInfo = { Codec: codec, ChCnt: meta.json.MediaStreams[audio_stream_idx].channels }
-
-  'Otherwise check Roku can decode stream and channels
-  canDecode = devinfo.CanDecodeAudio(streamInfo)
-  return canDecode.result
-end function
-
 function getContainerType(meta as object) as string
   ' Determine the file type of the video file source
   if meta.json.mediaSources = invalid then return ""
@@ -295,25 +281,6 @@ function StopPlayback()
   m.device.EnableAppFocusEvent(False)
   video.findNode("playbackTimer").control = "stop"
   ReportPlayback(video, "stop")
-end function
-
-function displaySubtitlesByUserConfig(subtitleTrack, audioTrack)
-  subtitleMode = m.user.Configuration.SubtitleMode
-  audioLanguagePreference = m.user.Configuration.AudioLanguagePreference
-  subtitleLanguagePreference = m.user.Configuration.SubtitleLanguagePreference
-  if subtitleMode = "Default"
-    return (subtitleTrack.isForced or subtitleTrack.isDefault)
-  else if subtitleMode = "Smart"
-    return (audioLanguagePreference <> "" and audioTrack.Language <> invalid and subtitleLanguagePreference <> "" and subtitleTrack.Track.Language <> invalid and subtitleLanguagePreference = subtitleTrack.Track.Language and audioLanguagePreference <> audioTrack.Language)
-  else if subtitleMode = "OnlyForced"
-    return subtitleTrack.IsForced
-  else if subtitleMode = "Always"
-    return true
-  else if subtitleMode = "None"
-    return false
-  else
-    return false
-  end if
 end function
 
 function autoPlayNextEpisode(videoID as string, showID as string)
