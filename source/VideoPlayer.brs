@@ -135,56 +135,7 @@ function getTranscodeReasons(url as string) as object
   return []
 end function
 
-'Checks available subtitle tracks and puts subtitles in forced, default, and non-default/forced but preferred language at the top
-function sortSubtitles(id as string, MediaStreams)
-  tracks = { "forced": [], "default": [], "normal": [] }
-  'Too many args for using substitute
-  dashedid = id.left(8) + "-" + id.mid(8,4) + "-" + id.mid(12,4) + "-" + id.mid(16,4) + "-" + id.right(12)
-  prefered_lang = m.user.Configuration.SubtitleLanguagePreference
-  for each stream in MediaStreams
-    if stream.type = "Subtitle" then
 
-      url = ""
-      if(stream.DeliveryUrl <> invalid) then
-        url = buildURL(stream.DeliveryUrl)
-      end if
-
-      stream = {
-        "Track": { "Language" : stream.language, "Description": stream.displaytitle , "TrackName": url },
-        "IsTextSubtitleStream": stream.IsTextSubtitleStream,
-        "Index": stream.index,
-        "IsDefault": stream.IsDefault,
-        "IsForced": stream.IsForced,
-        "IsExternal": stream.IsExternal
-        "IsEncoded": stream.DeliveryMethod = "Encode"
-      }
-      if stream.isForced then
-        trackType = "forced"
-      else if stream.IsDefault then
-        trackType = "default"
-      else
-        trackType = "normal"
-      end if
-      if prefered_lang <> "" and prefered_lang = stream.Track.Language then
-        tracks[trackType].unshift(stream)
-      else
-        tracks[trackType].push(stream)
-      end if
-    end if
-  end for
-
-  tracks["default"].append(tracks["normal"])
-  tracks["forced"].append(tracks["default"])
-
-  textTracks = []
-  for i = 0 to tracks["forced"].count() - 1
-    if tracks["forced"][i].IsTextSubtitleStream then
-      tracks["forced"][i].TextIndex = textTracks.count()
-      textTracks.push(tracks["forced"][i].Track)
-    end if
-  end for
-  return { "all" : tracks["forced"], "text": textTracks }
-end function
 
 'Opens dialog asking user if they want to resume video or start playback over
 function startPlayBackOver(time as LongInteger) as integer
