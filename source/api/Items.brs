@@ -10,7 +10,7 @@ function ItemGetPlaybackInfo(id as string, StartTimeTicks = 0 as longinteger)
   return getJson(resp)
 end function
 
-function ItemPostPlaybackInfo(id as string, StartTimeTicks = 0 as longinteger)
+function ItemPostPlaybackInfo(id as string, mediaSourceId = "" as string , audioTrackIndex = -1 as integer, subtitleTrackIndex = -1 as integer, startTimeTicks = 0 as longinteger)
   body = {
     "DeviceProfile": getDeviceProfile()
   }
@@ -19,8 +19,14 @@ function ItemPostPlaybackInfo(id as string, StartTimeTicks = 0 as longinteger)
     "StartTimeTicks": StartTimeTicks,
     "IsPlayback": true,
     "AutoOpenLiveStream": true,
-    "MaxStreamingBitrate": "140000000"
+    "MaxStreamingBitrate": "140000000",
+    "SubtitleStreamIndex": subtitleTrackIndex
   }
+
+  if mediaSourceId <> "" then params.MediaSourceId = mediaSourceId
+
+  if audioTrackIndex > -1 then params.AudioStreamIndex = audioTrackIndex
+
   req = APIRequest(Substitute("Items/{0}/PlaybackInfo", id), params)
   req.SetRequest("POST")
   return postJson(req, FormatJson(body))

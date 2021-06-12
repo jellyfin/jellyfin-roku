@@ -1,13 +1,15 @@
-function selectSubtitleTrack(tracks, current = -1)
+
+function selectSubtitleTrack(tracks, current = -1) as integer
   video = m.scene.focusedChild
   trackSelected = selectSubtitleTrackDialog(video.Subtitles, video.SelectedSubtitle)
-  if trackSelected = -1  then
+  if trackSelected = invalid or trackSelected = -1  then
     return invalid
   else
     return trackSelected - 1
   end if
 end function
 
+' Present Dialog to user to select subtitle track
 function selectSubtitleTrackDialog(tracks, currentTrack = -1)
   iso6392 = getSubtitleLanguages()
   options = ["None"]
@@ -28,50 +30,60 @@ function selectSubtitleTrackDialog(tracks, currentTrack = -1)
 end function
 
 sub changeSubtitleDuringPlayback(newid)
-  if newid = invalid then return
-  if newid = -1 then
+
+  ' If no subtitles set
+  if newid = invalid or newid = -1 then 
     turnoffSubtitles()
     return
   end if
 
   video = m.scene.focusedChild
-  oldTrack = video.Subtitles[video.SelectedSubtitle]
-  newTrack = video.Subtitles[newid]
 
-  video.captionMode = video.globalCaptionMode
-  m.device.EnableAppFocusEvent(not newTrack.IsTextSubtitleStream)
-  video.SelectedSubtitle = newid
+  ' If no change of subtitle track, return
+  if newId = video.SelectedSubtitle then return
 
-  if newTrack.IsTextSubtitleStream then
-    if video.content.PlayStart > video.position
-      'User has rewinded to before playback was initiated. The Roku never loaded this portion of the text subtitle
-      'Changing the track will cause plaback to jump to initial bookmark position.
-      video.suppressCaptions = true
-      rebuildURL(false)
-    end if
-    video.subtitleTrack = video.availableSubtitleTracks[newTrack.TextIndex].TrackName
-    video.suppressCaptions = false
+  currentSubtitles = video.Subtitles[video.SelectedSubtitle]
+  newSubtitles = video.Subtitles[newid]
+
+  if newSubtitles.IsEncoded then
+
+    ' Switching to Encoded Subtitle stream
+    video.control = "stop"
+    AddVideoContent(video, video.audioIndex, newSubtitles.Index, video.position * 10000000)
+    video.control = "play"
+    video.globalCaptionMode = "Off"	' Using encoded subtitles - so turn off text subtitles
+
+  else if (currentSubtitles <> invalid AND currentSubtitles.IsEncoded) then
+
+    ' Switching from an Encoded stream to a text stream
+    video.control = "stop"
+    AddVideoContent(video, video.audioIndex, -1, video.position * 10000000)
+    video.control = "play"
+    video.globalCaptionMode = "On"
+    video.subtitleTrack = video.availableSubtitleTracks[newSubtitles.TextIndex].TrackName
+    
   else
-    video.suppressCaptions = true
+
+    ' Switch to Text Subtitle Track
+    video.globalCaptionMode = "On"
+    video.subtitleTrack = video.availableSubtitleTracks[newSubtitles.TextIndex].TrackName
   end if
 
-  'Rebuild URL if subtitle track is video or if changed from video subtitle to text subtitle.
-  if not newTrack.IsTextSubtitleStream then
-    rebuildURL(true)
-  else if oldTrack <> invalid and not oldTrack.IsTextSubtitleStream then
-    rebuildURL(false)
-    if newTrack.TextIndex > 0 then video.subtitleTrack = video.availableSubtitleTracks[newTrack.TextIndex].TrackName
-  end if
+  video.SelectedSubtitle = newId
+
 end sub
 
 function turnoffSubtitles()
   video = m.scene.focusedChild
   current = video.SelectedSubtitle
   video.SelectedSubtitle = -1
-  video.suppressCaptions = true
+  video.globalCaptionMode = "Off"
   m.device.EnableAppFocusEvent(false)
-  if current > -1 and not video.Subtitles[current].IsTextSubtitleStream then
-    rebuildURL(false)
+  ' Check if Enoded subtitles are being displayed, and turn off
+  if current > -1 and video.Subtitles[current].IsEncoded then
+    video.control = "stop"
+    AddVideoContent(video, video.audioIndex, -1, video.position * 10000000)
+    video.control = "play"
   end if
 end function
 

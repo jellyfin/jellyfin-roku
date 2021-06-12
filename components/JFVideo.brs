@@ -1,6 +1,8 @@
 sub init()
     m.top.observeField("state", "onState")
     m.bufferPercentage = 0  ' Track whether content is being loaded
+    m.top.transcodeReasons = []
+    
 end sub
 
 
