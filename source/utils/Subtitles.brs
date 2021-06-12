@@ -2,8 +2,8 @@
 function selectSubtitleTrack(tracks, current = -1) as integer
   video = m.scene.focusedChild
   trackSelected = selectSubtitleTrackDialog(video.Subtitles, video.SelectedSubtitle)
-  if trackSelected = invalid or trackSelected = -1  then
-    return invalid
+  if trackSelected = invalid or tackSelected = -1 then 	' back pressed in Dialog - no selection made
+    return -2
   else
     return trackSelected - 1
   end if

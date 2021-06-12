@@ -382,7 +382,7 @@ function Main (args as Dynamic) as Void
       node = m.scene.focusedChild
       if node.isSubType("JFVideo") then
         trackSelected = selectSubtitleTrack(node.Subtitles, node.SelectedSubtitle)
-        if trackSelected <> invalid then
+        if trackSelected <> invalid and trackSelected <> -2 then
           changeSubtitleDuringPlayback(trackSelected)
         end if
       end if
