@@ -8,8 +8,8 @@ sub init()
   
       params = {
       UserId: get_setting("active_user")
-      limit: m.top.limit,
-      StartIndex: m.top.startIndex
+     'limit: m.top.limit,
+     'StartIndex: m.top.startIndex
     }
   
     url = "LiveTv/Channels"
