@@ -45,11 +45,12 @@ function SearchMedia(query as string)
     "IncludeGenres": false,
     "IncludeStudios": false,
     "IncludeArtists": false,
-    ' "IncludeItemTypes: "Movie",
+    "IncludeItemTypes": "TvChannel,Movie,BoxSet,Series,Episode,Video"
     "EnableTotalRecordCount": false,
     "ImageTypeLimit": 1,
     "Recursive": true
   })
+
   data = getJson(resp)
   results = []
   for each item in data.Items

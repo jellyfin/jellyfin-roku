@@ -2,7 +2,7 @@
 
 <component name="LoadChannelsTask" extends="Task">
   <interface>
-    <field id="limit" type="integer" value="500" />
+    <field id="limit" type="integer" value="" />
     <field id="startIndex" type="integer" value="0" />
     
     <!-- Total records available from server-->
