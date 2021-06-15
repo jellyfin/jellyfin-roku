@@ -145,21 +145,6 @@
         </message>
 
         <message>
-            <source>Sort Field</source>
-            <translation>Sort By</translation>
-        </message>
-
-        <message>
-            <source>Date Added</source>
-            <translation>Date Added</translation>
-        </message>
-
-        <message>
-            <source>Release Date</source>
-            <translation>Release Date</translation>
-        </message>
-
-        <message>
             <source>Name</source>
             <translation>Name</translation>
         </message>
