@@ -20,6 +20,7 @@ function ItemPostPlaybackInfo(id as string, mediaSourceId = "" as string , audio
     "IsPlayback": true,
     "AutoOpenLiveStream": true,
     "MaxStreamingBitrate": "140000000",
+    "MaxStaticBitrate": "140000000",
     "SubtitleStreamIndex": subtitleTrackIndex
   }
 
