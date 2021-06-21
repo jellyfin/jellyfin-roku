@@ -37,8 +37,14 @@ function buildParams(params={} as Object) as string
 end function
 
 function buildURL(path as String, params={} as Object) as string
-  
-  full_url = get_url() + "/" + path
+
+  ' Add intial '/' if path does not start with one
+  if path.Left(1) = "/"
+    full_url = get_url() + path
+  else
+    full_url = get_url() + "/" + path
+  end if
+
   if params.count() > 0
     full_url = full_url + "?" + buildParams(params)
   end if

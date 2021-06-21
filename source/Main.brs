@@ -386,7 +386,7 @@ function Main (args as Dynamic) as Void
       node = m.scene.focusedChild
       if node.isSubType("JFVideo") then
         trackSelected = selectSubtitleTrack(node.Subtitles, node.SelectedSubtitle)
-        if trackSelected <> invalid and trackSelected <> node.SelectedSubtitle then
+        if trackSelected <> invalid and trackSelected <> -2 then
           changeSubtitleDuringPlayback(trackSelected)
         end if
       end if
@@ -407,22 +407,7 @@ function Main (args as Dynamic) as Void
       end if
     else if type(msg) = "roDeviceInfoEvent" then
       event = msg.GetInfo()
-      if event.appFocused <> invalid then
-        child = m.scene.focusedChild
-        if child <> invalid and child.isSubType("JFVideo") then
-          child.systemOverlay = not event.appFocused
-          if event.AppFocused = true then
-            systemOverlayClosed()
-          end if
-        end if
-      else if event.Mute <> invalid then
-        m.mute = event.Mute
-        child = m.scene.focusedChild
-        if child <> invalid and child.isSubType("JFVideo") and areSubtitlesDisplayed() and child.systemOverlay = false then
-        'Event will be called on caption change which includes the current mute status, but we do not want to call until the overlay is closed
-          reviewSubtitleDisplay()
-        end if
-      else if event.exitedScreensaver = true then
+      if event.exitedScreensaver = true then
         m.overhang.callFunc("resetTime")
         if group.subtype() = "Home" then
           currentTime = CreateObject("roDateTime").AsSeconds()
