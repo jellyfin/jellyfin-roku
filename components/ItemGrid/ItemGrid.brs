@@ -287,7 +287,7 @@ end sub
 'Check if options updated and any reloading required
 sub optionsClosed()
 
-  if (m.options.view = "tvGuide") then
+  if m.options.view = "tvGuide" then
     showTVGuid()
     return
   else if m.tvGuide <> invalid then

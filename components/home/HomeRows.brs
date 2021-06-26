@@ -65,7 +65,7 @@ sub onLibrariesLoaded()
     [464, 331]  ' Next Up
   ]
   ' validate library data
-  if (m.libraryData <> invalid and m.libraryData.count() > 0) then
+  if m.libraryData <> invalid and m.libraryData.count() > 0 then
     userConfig = m.top.userConfig
     ' populate My Media row
     filteredMedia = filterNodeArray(m.libraryData, "id", userConfig.MyMediaExcludes)

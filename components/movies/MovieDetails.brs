@@ -198,7 +198,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
   ' Due to the way the button pressed event works, need to catch the release for the button as the press is being sent
   ' directly to the main loop.  Will get this sorted in the layout update for Movie Details
-  if (key = "OK" and m.top.findNode("audio-button").isInFocusChain())
+  if key = "OK" and m.top.findNode("audio-button").isInFocusChain()
     m.options.visible = true
     m.options.setFocus(true)
   end if

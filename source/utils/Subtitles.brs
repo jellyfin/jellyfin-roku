@@ -53,7 +53,7 @@ sub changeSubtitleDuringPlayback(newid)
     video.control = "play"
     video.globalCaptionMode = "Off"	' Using encoded subtitles - so turn off text subtitles
 
-  else if (currentSubtitles <> invalid AND currentSubtitles.IsEncoded) then
+  else if currentSubtitles <> invalid AND currentSubtitles.IsEncoded then
 
     ' Switching from an Encoded stream to a text stream
     video.control = "stop"
@@ -96,7 +96,7 @@ function sortSubtitles(id as string, MediaStreams)
     if stream.type = "Subtitle" then
 
       url = ""
-      if(stream.DeliveryUrl <> invalid) then
+      if stream.DeliveryUrl <> invalid then
         url = buildURL(stream.DeliveryUrl)
       end if
 

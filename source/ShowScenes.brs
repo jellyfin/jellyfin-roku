@@ -23,7 +23,7 @@ function CreateServerGroup()
   server_hostname = config.content.getChild(0)
   group.observeField("backPressed", port)
 
-  while(true)
+  while true
     msg = wait(0, port)
     if type(msg) = "roSGScreenEvent" and msg.isScreenClosed()
       return "false"
@@ -105,7 +105,7 @@ function CreateUserSelectGroup(users = [])
   group.findNode("userRow").observeField("userSelected", port)
   group.findNode("alternateOptions").observeField("itemSelected", port)
   group.observeField("backPressed", port)
-  while(true)
+  while true
     msg = wait(0, port)
     if type(msg) = "roSGScreenEvent" and msg.isScreenClosed()
       group.visible = false
@@ -163,7 +163,7 @@ function CreateSigninGroup(user = "")
 
   group.observeField("backPressed", port)
 
-  while(true)
+  while true
     msg = wait(0, port)
     if type(msg) = "roSGScreenEvent" and msg.isScreenClosed()
       group.visible = false

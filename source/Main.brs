@@ -79,7 +79,7 @@ sub Main (args as Dynamic) as Void
   ' This now only references m. fields so could be placed anywhere, in theory
   ' "group" is always "whats on the screen"
   ' m.scene's children is the "previous view" stack
-  while(true)
+  while true
     msg = wait(0, m.port)
     if type(msg) = "roSGScreenEvent" and msg.isScreenClosed() then
       print "CLOSING SCREEN"
@@ -551,9 +551,9 @@ sub RunScreenSaver()
   screen.createScene("Screensaver")
   screen.Show()
 
-  while(true)
+  while true
     msg = wait(8000, m.port)
-    if (msg <> invalid)
+    if msg <> invalid
       msgType = type(msg)
       if msgType = "roSGScreenEvent"
         if msg.isScreenClosed() then return
@@ -565,7 +565,7 @@ end sub
 
 sub wipe_groups()
   ' The 1 remaining child should be the overhang
-  while(m.scene.getChildCount() > 1)
+  while m.scene.getChildCount() > 1
     m.scene.removeChildIndex(1)
   end while
 end sub

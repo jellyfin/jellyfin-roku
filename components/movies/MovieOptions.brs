@@ -79,7 +79,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
     return true
   else if key = "OK"
-    if(m.menus[m.selectedItem].isInFocusChain()) then
+    if m.menus[m.selectedItem].isInFocusChain() then
 
       selMenu = m.menus[m.selectedItem]
       selIndex = selMenu.itemSelected

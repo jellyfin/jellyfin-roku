@@ -135,15 +135,15 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
     return true
   else if key = "OK"
-    if(m.menus[m.selectedItem].isInFocusChain()) then
+    if m.menus[m.selectedItem].isInFocusChain() then
       ' Handle View Screen
-      if(m.selectedItem = 0) then
+      if m.selectedItem = 0 then
         m.selectedViewIndex = m.menus[0].itemSelected
         m.top.view = m.viewNames[m.selectedViewIndex]
       end if
 
       ' Handle Sort screen
-      if(m.selectedItem = 1) then
+      if m.selectedItem = 1 then
         if m.menus[1].itemSelected <> m.selectedSortIndex then
           m.menus[1].focusedCheckedIconUri = m.global.constants.icons.ascending_black
           m.menus[1].checkedIconUri = m.global.constants.icons.ascending_white
@@ -165,7 +165,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
         end if
       end if
       ' Handle Filter screen
-      if(m.selectedItem = 2) then
+      if m.selectedItem = 2 then
         m.selectedFilterIndex = m.menus[2].itemSelected
         m.top.filter = m.filterNames[m.selectedFilterIndex]
       end if

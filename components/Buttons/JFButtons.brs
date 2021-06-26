@@ -105,12 +105,12 @@ function onKeyEvent(key as string, press as boolean) as boolean
 	if not press then return false
 
 	if key = "left"
-        if(m.selectedFocusedIndex > 0) m.selectedFocusedIndex = m.selectedFocusedIndex - 1
+        if m.selectedFocusedIndex > 0 then m.selectedFocusedIndex = m.selectedFocusedIndex - 1
         highlightSelected(m.selectedFocusedIndex)
         m.top.focusedIndex = m.selectedFocusedIndex
         return true
     else if key = "right"
-        if(m.selectedFocusedIndex < m.buttonCount - 1) m.selectedFocusedIndex = m.selectedFocusedIndex + 1
+        if m.selectedFocusedIndex < m.buttonCount - 1 then m.selectedFocusedIndex = m.selectedFocusedIndex + 1
         highlightSelected(m.selectedFocusedIndex)
         m.top.focusedIndex = m.selectedFocusedIndex
         return true
