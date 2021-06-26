@@ -6,7 +6,7 @@ end sub
 sub itemContentChanged()
   item = m.top.itemContent
   itemData = item.json
-  if itemData.indexNumber <> invalid then
+  if itemData.indexNumber <> invalid
     indexNumber = itemData.indexNumber.toStr() + ". "
   else
     indexNumber = ""
@@ -19,7 +19,7 @@ sub itemContentChanged()
     m.top.findNode("runtime").text = stri(getRuntime()).trim() + " mins"
     m.top.findNode("endtime").text = tr("Ends at %1").Replace("%1", getEndTime())
   end if
-  if itemData.communityRating <> invalid then
+  if itemData.communityRating <> invalid
     m.top.findNode("star").visible = true
     m.top.findNode("communityRating").text = str(int(itemData.communityRating*10)/10)
   else

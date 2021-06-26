@@ -31,7 +31,7 @@ end sub
 
 sub updateTitle()
   leftSeperator = m.top.findNode("overlayLeftSeperator")
-  if m.top.title <> "" then
+  if m.top.title <> ""
     leftSeperator.visible = "true"
   else
     leftSeperator.visible = "false"
@@ -43,7 +43,7 @@ end sub
 
 sub updateUser()
   rightSeperator = m.top.findNode("overlayRightSeperator")
-  if m.top.currentUser <> "" then
+  if m.top.currentUser <> ""
     rightSeperator.visible = "true"
   else
     rightSeperator.visible = "false"
@@ -53,7 +53,7 @@ sub updateUser()
 end sub
 
 sub updateTime()
-  if (m.currentMinutes + 1) > 59 then
+  if (m.currentMinutes + 1) > 59
     m.currentHours = m.currentHours + 1
     m.currentMinutes = 0
   else
@@ -82,24 +82,24 @@ sub updateTimeDisplay()
   overlayMinutes = m.top.findNode("overlayMinutes")
   overlayMeridian = m.top.findNode("overlayMeridian")
   
-  if m.clockFormat = "24h" then
+  if m.clockFormat = "24h"
     overlayMeridian.text = ""
-    if m.currentHours < 10 then
+    if m.currentHours < 10
       overlayHours.text = "0" + StrI(m.currentHours).trim()
     else
       overlayHours.text = m.currentHours
     end if
   else
-    if m.currentHours < 12 then
+    if m.currentHours < 12
       overlayMeridian.text = "AM"
-      if m.currentHours = 0 then
+      if m.currentHours = 0
         overlayHours.text = "12"
       else
         overlayHours.text = m.currentHours
       end if
     else
       overlayMeridian.text = "PM"
-      if m.currentHours = 12 then
+      if m.currentHours = 12
         overlayHours.text = "12"
       else
         overlayHours.text = m.currentHours - 12
@@ -107,7 +107,7 @@ sub updateTimeDisplay()
     end if
   end if
 
-  if m.currentMinutes < 10 then
+  if m.currentMinutes < 10
     overlayMinutes.text = "0" + StrI(m.currentMinutes).trim()
   else
     overlayMinutes.text = m.currentMinutes
@@ -117,7 +117,7 @@ end sub
 sub updateOptions()
   optionText = m.top.findNode("overlayOptionsText")
   optionStar = m.top.findNode("overlayOptionsStar")
-  if m.top.showOptions = true then
+  if m.top.showOptions = true
     optionText.visible = true
     optionStar.visible = true
   else

@@ -16,7 +16,7 @@ sub itemContentChanged()
   m.top.overhangTitle = itemData.name
   setFieldText("releaseYear", itemData.productionYear)
   setFieldText("officialRating", itemData.officialRating)
-  if itemData.communityRating <> invalid then
+  if itemData.communityRating <> invalid
     m.top.findNode("star").visible = true
     setFieldText("communityRating", itemData.communityRating)
     ' m.top.findNode("communityRating").text = str(int(itemData.communityRating*10)/10)
@@ -50,11 +50,11 @@ sub setFieldText(field, value)
   if node = invalid or value = invalid then return
 
   ' Handle non strings... Which _shouldn't_ happen, but hey
-  if type(value) = "roInt" or type(value) = "Integer" then
+  if type(value) = "roInt" or type(value) = "Integer"
     value = str(value).trim()
-  else if type(value) = "roFloat" or type(value) = "Float" then
+  else if type(value) = "roFloat" or type(value) = "Float"
     value = str(value).trim()
-  else if type(value) <> "roString" and type(value) <> "String" then
+  else if type(value) <> "roString" and type(value) <> "String"
     value = ""
   end if
 

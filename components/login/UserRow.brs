@@ -26,7 +26,7 @@ end sub
 
 
 function setData()
-  if m.top.itemContent = invalid then
+  if m.top.itemContent = invalid
     data = CreateObject("roSGNode", "ContentNode")
     return data
   end if

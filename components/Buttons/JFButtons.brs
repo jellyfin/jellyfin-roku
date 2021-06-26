@@ -34,7 +34,7 @@ end sub
 '
 ' When options are fully displayed, set focus and selected option
 sub renderChanged()
-    if m.top.renderTracking = "full" then
+    if m.top.renderTracking = "full"
         highlightSelected(m.selectedFocusedIndex, false)
         m.top.setfocus(true)
     end if
@@ -77,7 +77,7 @@ sub highlightSelected(index as integer, animate = true)
     val = m.buttonGroup.getChild(index)
     rect = val.ancestorBoundingRect(m.top)
 
-    if animate = true then 
+    if animate = true
         m.focusAnimTranslation.keyValue = [m.focusRing.translation, [rect.x - 25, rect.y - 30]]
         m.focusAnimWidth.keyValue = [m.focusRing.width, val.width + 50]
         m.focusAnimHeight.keyValue = [m.focusRing.height, val.height + 60]
@@ -92,7 +92,7 @@ end sub
 
 ' Change opacity of the highlighted menu item based on focus
 sub focusChanged()
-     if m.top.isInFocusChain() then
+     if m.top.isInFocusChain()
         m.focusRing.opacity = 1
     else
         m.focusRing.opacity = 0.6

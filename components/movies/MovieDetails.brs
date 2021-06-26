@@ -21,7 +21,7 @@ sub itemContentChanged()
 
   ' Find first Audio Stream and set that as default
   For i=0 To itemData.mediaStreams.Count() - 1
-    if itemData.mediaStreams[i].Type = "Audio" then
+    if itemData.mediaStreams[i].Type = "Audio"
       m.top.selectedAudioStreamIndex = i
       exit for
     end if
@@ -33,16 +33,16 @@ sub itemContentChanged()
   setFieldText("officialRating", itemData.officialRating)
   setFieldText("overview", itemData.overview)
 
-  if itemData.communityRating <> invalid then
+  if itemData.communityRating <> invalid
     setFieldText("communityRating", itemData.communityRating)
   else
     ' hide the star icon
     m.top.findNode("communityRatingGroup").visible = false
   end if
 
-  if itemData.CriticRating <> invalid then
+  if itemData.CriticRating <> invalid
     setFieldText("criticRatingLabel" , itemData.criticRating)
-    if itemData.CriticRating > 60 then
+    if itemData.CriticRating > 60
       tomato = "pkg:/images/fresh.png"
     else
       tomato = "pkg:/images/rotten.png"
@@ -98,7 +98,7 @@ sub SetUpOptions(streams)
   tracks = []
 
   for i=0 To streams.Count() - 1
-    if streams[i].Type = "Audio" then
+    if streams[i].Type = "Audio"
       tracks.push({"Title": streams[i].displayTitle, "Description" : streams[i].Title, "Selected" : m.top.selectedAudioStreamIndex = i, "StreamIndex" : i})
     end if
   end for
@@ -115,11 +115,11 @@ sub setFieldText(field, value)
   if node = invalid or value = invalid then return
 
   ' Handle non strings... Which _shouldn't_ happen, but hey
-  if type(value) = "roInt" or type(value) = "Integer" then
+  if type(value) = "roInt" or type(value) = "Integer"
     value = str(value)
-  else if type(value) = "roFloat" or type(value) = "Float" then
+  else if type(value) = "roFloat" or type(value) = "Float"
     value = str(value)
-  else if type(value) <> "roString" and type(value) <> "String" then
+  else if type(value) <> "roString" and type(value) <> "String"
     value = ""
   end if
 
@@ -186,7 +186,7 @@ end function
 '
 'Check if options updated and any reloading required
 sub optionsClosed()
-  if m.options.audioSteamIndex <> m.top.selectedAudioStreamIndex then
+  if m.options.audioSteamIndex <> m.top.selectedAudioStreamIndex
     m.top.selectedAudioStreamIndex = m.options.audioSteamIndex
     setFieldText("audio_codec", tr("Audio") + ": " + m.top.itemContent.json.mediaStreams[m.top.selectedAudioStreamIndex].displayTitle)
   end if
@@ -206,7 +206,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
   if not press then return false
 
   if key = "options"
-    if m.options.visible = true then
+    if m.options.visible = true
       m.options.visible = false
       optionsClosed()
     else
@@ -214,8 +214,8 @@ function onKeyEvent(key as string, press as boolean) as boolean
       m.options.setFocus(true)
     end if
     return true
-  else if key = "back" then
-    if m.options.visible = true then
+  else if key = "back"
+    if m.options.visible = true
       m.options.visible = false
       optionsClosed()
       return true

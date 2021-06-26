@@ -65,7 +65,7 @@ sub onLibrariesLoaded()
     [464, 331]  ' Next Up
   ]
   ' validate library data
-  if m.libraryData <> invalid and m.libraryData.count() > 0 then
+  if m.libraryData <> invalid and m.libraryData.count() > 0
     userConfig = m.top.userConfig
     ' populate My Media row
     filteredMedia = filterNodeArray(m.libraryData, "id", userConfig.MyMediaExcludes)
@@ -75,7 +75,7 @@ sub onLibrariesLoaded()
     ' create a "Latest In" row for each library
     filteredLatest = filterNodeArray(m.libraryData, "id", userConfig.LatestItemsExcludes)
     for each lib in filteredLatest
-      if lib.collectionType <> "boxsets" and lib.collectionType <> "livetv" then
+      if lib.collectionType <> "boxsets" and lib.collectionType <> "livetv"
         latestInRow = content.CreateChild("HomeRow")
         latestInRow.title = tr("Latest in") + " " + lib.name + " >"
         sizeArray.Push([464, 331])
@@ -106,8 +106,8 @@ sub updateContinueItems()
   homeRows = m.top.content
   continueRowIndex = getRowIndex("Continue Watching")
 
-  if itemData.count() < 1 then
-    if continueRowIndex <> invalid then
+  if itemData.count() < 1
+    if continueRowIndex <> invalid
       ' remove the row
       deleteFromSizeArray(continueRowIndex)
       homeRows.removeChildIndex(continueRowIndex)
@@ -123,7 +123,7 @@ sub updateContinueItems()
       row.appendChild(item)
     end for
 
-    if continueRowIndex = invalid then
+    if continueRowIndex = invalid
       ' insert new row under "My Media"
       updateSizeArray(itemSize, 1)
       homeRows.insertChild(row, 1)
@@ -147,8 +147,8 @@ sub updateNextUpItems()
   homeRows = m.top.content
   nextUpRowIndex = getRowIndex("Next Up >")
 
-  if itemData.count() < 1 then
-    if nextUpRowIndex <> invalid then
+  if itemData.count() < 1
+    if nextUpRowIndex <> invalid
       ' remove the row
       deleteFromSizeArray(nextUpRowIndex)
       homeRows.removeChildIndex(nextUpRowIndex)
@@ -164,10 +164,10 @@ sub updateNextUpItems()
       row.appendChild(item)
     end for
 
-    if nextUpRowIndex = invalid then
+    if nextUpRowIndex = invalid
       ' insert new row under "Continue Watching"
       continueRowIndex = getRowIndex("Continue Watching")
-      if continueRowIndex <> invalid then
+      if continueRowIndex <> invalid
         updateSizeArray(itemSize, continueRowIndex + 1)
         homeRows.insertChild(row, continueRowIndex + 1)
       else
@@ -182,7 +182,7 @@ sub updateNextUpItems()
   end if
 
   ' consider home screen loaded when above rows are loaded
-  if m.global.app_loaded = false then
+  if m.global.app_loaded = false
     m.top.signalBeacon("AppLaunchComplete") ' Roku Performance monitoring
     m.global.app_loaded = true
   end if
@@ -192,7 +192,7 @@ sub updateNextUpItems()
   userConfig = m.top.userConfig
   filteredLatest = filterNodeArray(m.libraryData, "id", userConfig.LatestItemsExcludes)
   for each lib in filteredLatest
-    if lib.collectionType <> "livetv" and lib.collectionType <> "boxsets" then
+    if lib.collectionType <> "livetv" and lib.collectionType <> "boxsets"
       loadLatest = createObject("roSGNode", "LoadItemsTask")
       loadLatest.itemsToLoad = "latest"
       loadLatest.itemId = lib.id
@@ -219,9 +219,9 @@ sub updateLatestItems(msg)
   homeRows = m.top.content
   rowIndex = getRowIndex(tr("Latest in") + " " + node.metadata.title + " >")
 
-  if itemData.count() < 1 then
+  if itemData.count() < 1
     ' remove row
-    if rowIndex <> invalid then
+    if rowIndex <> invalid
       deleteFromSizeArray(rowIndex)
       homeRows.removeChildIndex(rowIndex)
     end if
@@ -231,10 +231,10 @@ sub updateLatestItems(msg)
     row.title = tr("Latest in") + " " + node.metadata.title + " >"
     row.usePoster = true
     ' Handle specific types with different item widths
-    if node.metadata.contentType = "movies" then
+    if node.metadata.contentType = "movies"
       row.imageWidth = 180
       itemSize = [188, 331]
-    else if node.metadata.contentType = "music" then
+    else if node.metadata.contentType = "music"
       row.imageWidth = 261
       itemSize = [261, 331]
     else
@@ -248,7 +248,7 @@ sub updateLatestItems(msg)
       row.appendChild(item)
     end for
 
-    if rowIndex = invalid then
+    if rowIndex = invalid
       ' append new row
       updateSizeArray(itemSize)
       homeRows.appendChild(row)
@@ -265,7 +265,7 @@ function getRowIndex(rowTitle as string)
   for i = 1 to m.top.content.getChildCount() - 1
     ' skip row 0 since it's always "My Media"
     tmpRow = m.top.content.getChild(i)
-    if tmpRow.title = rowTitle then
+    if tmpRow.title = rowTitle
       rowIndex = i
       exit for
     end if
@@ -276,22 +276,22 @@ end function
 sub updateSizeArray(rowItemSize, rowIndex = invalid, action = "insert")
   sizeArray = m.top.rowItemSize
   ' append by default
-  if rowIndex = invalid then
+  if rowIndex = invalid
     rowIndex = sizeArray.count()
   end if
 
   newSizeArray = []
   for i = 0 to sizeArray.count()
-    if rowIndex = i then
-      if action = "replace" then
+    if rowIndex = i
+      if action = "replace"
         newSizeArray.Push(rowItemSize)
-      else if action = "insert" then
+      else if action = "insert"
         newSizeArray.Push(rowItemSize)
-        if sizeArray[i] <> invalid then
+        if sizeArray[i] <> invalid
           newSizeArray.Push(sizeArray[i])
         end if
       end if
-    else if sizeArray[i] <> invalid then
+    else if sizeArray[i] <> invalid
       newSizeArray.Push(sizeArray[i])
     end if
   end for
@@ -308,10 +308,10 @@ end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean
   handled = false
-  if press then
-    if key = "play" then
+  if press
+    if key = "play"
       itemToPlay = m.top.content.getChild(m.top.rowItemFocused[0]).getChild(m.top.rowItemFocused[1])
-      if itemToPlay <> invalid and (itemToPlay.type = "Movie" or itemToPlay.type = "Episode") then
+      if itemToPlay <> invalid and (itemToPlay.type = "Movie" or itemToPlay.type = "Episode")
         m.top.quickPlayNode = itemToPlay
       end if
       handled = true
@@ -327,11 +327,11 @@ function filterNodeArray(nodeArray as object, nodeKey as string, excludeArray as
   for each node in nodeArray
     excludeThisNode = false
     for each exclude in excludeArray
-      if node[nodeKey] = exclude then
+      if node[nodeKey] = exclude
         excludeThisNode = true
       end if
     end for
-    if excludeThisNode = false then
+    if excludeThisNode = false
       newNodeArray.Push(node)
     end if
   end for

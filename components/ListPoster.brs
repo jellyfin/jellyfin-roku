@@ -77,7 +77,7 @@ end sub
 ' Enable title scrolling based on item Focus
 sub focusChanged()
 
-  if m.top.itemHasFocus = true then
+  if m.top.itemHasFocus = true
     m.title.repeatCount = -1
     m.staticTitle.visible = false
     m.title.visible = true

@@ -21,7 +21,7 @@ sub AddVideoContent(video, audio_stream_idx = 1, subtitle_idx = -1, playbackPosi
   video.content = createObject("RoSGNode", "ContentNode")
 
   meta = ItemMetaData(video.id)
-  if meta = invalid then
+  if meta = invalid
     video.content = invalid
     return
   end if
@@ -29,19 +29,19 @@ sub AddVideoContent(video, audio_stream_idx = 1, subtitle_idx = -1, playbackPosi
   video.content.title = meta.title
   video.showID = meta.showID
 
-  if playbackPosition = -1 then
+  if playbackPosition = -1
     playbackPosition = meta.json.UserData.PlaybackPositionTicks
-    if playbackPosition > 0 then
+    if playbackPosition > 0
       dialogResult = startPlayBackOver(playbackPosition)
       'Dialog returns -1 when back pressed, 0 for resume, and 1 for start over
-      if dialogResult = -1 then
+      if dialogResult = -1
         'User pressed back, return invalid and don't load video
         video.content = invalid
         return
-      else if dialogResult = 1 then
+      else if dialogResult = 1
         'Start Over selected, change position to 0
         playbackPosition = 0
-      else if dialogResult = 2 then
+      else if dialogResult = 2
         'Mark this item as watched, refresh the page, and return invalid so we don't load the video
         MarkItemWatched(video.id)
         video.content.watched = not video.content.watched
@@ -64,7 +64,7 @@ sub AddVideoContent(video, audio_stream_idx = 1, subtitle_idx = -1, playbackPosi
   video.mediaSourceId = video.id
   video.audioIndex = audio_stream_idx
 
-  if playbackInfo = invalid then
+  if playbackInfo = invalid
     video.content = invalid
     return
   end if
@@ -72,7 +72,7 @@ sub AddVideoContent(video, audio_stream_idx = 1, subtitle_idx = -1, playbackPosi
   params = {}
   video.PlaySessionId = playbackInfo.PlaySessionId
 
-  if meta.live then
+  if meta.live
     video.content.live = true
     video.content.StreamFormat = "hls"
   end if
@@ -82,7 +82,7 @@ sub AddVideoContent(video, audio_stream_idx = 1, subtitle_idx = -1, playbackPosi
   subtitles = sortSubtitles(meta.id, playbackInfo.MediaSources[0].MediaStreams)
   video.Subtitles = subtitles["all"]
 
-  if meta.live then
+  if meta.live
     video.transcodeParams = {
       "MediaSourceId": playbackInfo.MediaSources[0].Id,
       "LiveStreamId": playbackInfo.MediaSources[0].LiveStreamId,
@@ -97,7 +97,7 @@ sub AddVideoContent(video, audio_stream_idx = 1, subtitle_idx = -1, playbackPosi
 
   video.directPlaySupported = playbackInfo.MediaSources[0].SupportsDirectPlay
 
-  if video.directPlaySupported then
+  if video.directPlaySupported
     params.append({
       "Static": "true",
       "Container": video.container,
@@ -139,7 +139,7 @@ end function
 
 'Opens dialog asking user if they want to resume video or start playback over
 function startPlayBackOver(time as LongInteger) as integer
-  if m.scene.focusedChild.overhangTitle = "Home" then
+  if m.scene.focusedChild.overhangTitle = "Home"
     return option_dialog([ "Resume playing at " + ticksToHuman(time) + ".", "Start over from the beginning.", "Watched"])
   else
     return option_dialog([ "Resume playing at " + ticksToHuman(time) + ".", "Start over from the beginning."])
@@ -148,21 +148,21 @@ end function
 
 function directPlaySupported(meta as object) as boolean
   devinfo = CreateObject("roDeviceInfo")
-  if meta.json.MediaSources[0] <> invalid and meta.json.MediaSources[0].SupportsDirectPlay = false then
+  if meta.json.MediaSources[0] <> invalid and meta.json.MediaSources[0].SupportsDirectPlay = false
     return false
   end if
 
-  if meta.json.MediaStreams[0] = invalid then
+  if meta.json.MediaStreams[0] = invalid
     return false
   end if
 
   streamInfo =  { Codec: meta.json.MediaStreams[0].codec }
-  if meta.json.MediaStreams[0].Profile <> invalid and meta.json.MediaStreams[0].Profile.len() > 0 then
+  if meta.json.MediaStreams[0].Profile <> invalid and meta.json.MediaStreams[0].Profile.len() > 0
     streamInfo.Profile = LCase(meta.json.MediaStreams[0].Profile)
   end if
-  if meta.json.MediaSources[0].container <> invalid and meta.json.MediaSources[0].container.len() > 0  then
+  if meta.json.MediaSources[0].container <> invalid and meta.json.MediaSources[0].container.len() > 0
     'CanDecodeVideo() requires the .container to be format: “mp4”, “hls”, “mkv”, “ism”, “dash”, “ts” if its to direct stream
-    if meta.json.MediaSources[0].container = "mov" then 
+    if meta.json.MediaSources[0].container = "mov" 
         streamInfo.Container = "mp4"
     else
     	streamInfo.Container = meta.json.MediaSources[0].container
@@ -217,7 +217,7 @@ sub ReportPlayback(video, state = "update" as string)
     "PositionTicks": int(video.position) * 10000000&,   'Ensure a LongInteger is used
     "IsPaused": (video.state = "paused"),
   }
-  if video.content.live then
+  if video.content.live
     params.append({
       "MediaSourceId": video.transcodeParams.MediaSourceId,
       "LiveStreamId": video.transcodeParams.LiveStreamId
@@ -236,7 +236,7 @@ end sub
 
 function autoPlayNextEpisode(videoID as string, showID as string)
   ' use web client setting
-  if m.user.Configuration.EnableNextEpisodeAutoPlay then
+  if m.user.Configuration.EnableNextEpisodeAutoPlay
     ' query API for next episode ID
     url = Substitute("Shows/{0}/Episodes", showID)
     urlParams = { "UserId": get_setting("active_user")}
@@ -245,7 +245,7 @@ function autoPlayNextEpisode(videoID as string, showID as string)
     resp = APIRequest(url, urlParams)
     data = getJson(resp)
     
-    if data <> invalid and data.Items.Count() = 2 then
+    if data <> invalid and data.Items.Count() = 2
       ' remove finished video node
       n = m.scene.getChildCount() - 1
       m.scene.removeChildIndex(n)

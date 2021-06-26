@@ -1,7 +1,7 @@
 function PlaystateUpdate(id, state as string, params = {})
-  if state = "start" then
+  if state = "start"
     url = "Sessions/Playing"
-  else if state = "stop" then
+  else if state = "stop"
     url = "Sessions/Playing/Stopped"
   else if state = "update"
     url = "Sessions/Playing/Progress"

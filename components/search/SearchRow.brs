@@ -35,7 +35,7 @@ sub updateSize()
 end sub
 
 function getData()
-    if m.top.itemData = invalid then
+    if m.top.itemData = invalid
         data = CreateObject("roSGNode", "ContentNode")
         return data
     end if

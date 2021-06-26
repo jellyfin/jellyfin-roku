@@ -31,7 +31,7 @@ sub updateSize()
 end sub
 
 function getData()
-    if m.top.TVSeasonData = invalid then
+    if m.top.TVSeasonData = invalid
         data = CreateObject("roSGNode", "ContentNode")
         return data
     end if

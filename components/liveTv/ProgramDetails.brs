@@ -60,7 +60,7 @@ sub channelUpdated()
      else
         m.top.findNode("noInfoChannelName").text = m.top.channel.Title
         m.channelName.text= m.top.channel.Title
-        if m.top.programDetails = invalid then 
+        if m.top.programDetails = invalid 
             m.image.uri = m.top.channel.posterURL
         end if
     end if
@@ -73,7 +73,7 @@ sub programUpdated()
     prog = m.top.programDetails
 
     ' If no program selected, hide details view
-    if prog = invalid then
+    if prog = invalid
         channelUpdated()
         m.detailsView.visible = "false"
         m.noInfoView.visible = "true"
@@ -85,20 +85,20 @@ sub programUpdated()
 
     m.episodeDetailsGroup.removeChildrenIndex(m.episodeDetailsGroup.getChildCount(), 0)
 
-    if prog.isLive then
+    if prog.isLive
         m.episodeDetailsGroup.appendChild(m.isLiveGroup)
-    else if prog.isRepeat then
+    else if prog.isRepeat
         m.episodeDetailsGroup.appendChild(m.isRepeatGroup)
     end if
 
     ' Episode Number
-    if prog.seasonNumber > 0 and prog.episodeNumber > 0 then
+    if prog.seasonNumber > 0 and prog.episodeNumber > 0
         m.episodeNumber.text = "S" + StrI(prog.seasonNumber).trim() + ":E" + StrI(prog.episodeNumber).trim()
         if prog.episodeTitle <> "" then m.episodeNumber.text = m.episodeNumber.text + " -" ' Add a Dash if showing Episode Number and Title
         m.episodeDetailsGroup.appendChild(m.episodeNumber)
     end if
 
-    if prog.episodeTitle <> invalid and prog.episodeTitle <> "" then
+    if prog.episodeTitle <> invalid and prog.episodeTitle <> ""
         m.episodeTitle.text = prog.episodeTitle
         m.episodeTitle.visible = true
         m.episodeDetailsGroup.appendChild(m.episodeTitle)
@@ -120,20 +120,20 @@ sub programUpdated()
     localStartDate.FromISO8601String(prog.StartDate)
     localStartDate.ToLocalTime()
 
-    if startDate.AsSeconds() < now.AsSeconds() and endDate.AsSeconds() > now.AsSeconds() then
-        if day = "today" then
+    if startDate.AsSeconds() < now.AsSeconds() and endDate.AsSeconds() > now.AsSeconds()
+        if day = "today"
             m.broadcastDetails.text = tr("Started at") + " " + formatTime(localStartDate)
         else
             m.broadcastDetails.text = tr("Started") + " " + tr(day) + ", " + formatTime(localStartDate)
         end if
     else if startDate.AsSeconds() > now.AsSeconds()
-        if day = "today" then
+        if day = "today"
             m.broadcastDetails.text = tr("Starts at") + " " + formatTime(localStartDate)
         else
             m.broadcastDetails.text = tr("Starts") + " " + tr(day) + ", " + formatTime(localStartDate)
         end if
     else
-        if day = "today" then
+        if day = "today"
             m.broadcastDetails.text = tr("Ended at") + " " + formatTime(localStartDate)
         else
             m.broadcastDetails.text = tr("Ended") + " " + tr(day) + ", " + formatTime(localStartDate)
@@ -157,7 +157,7 @@ function getRelativeDayName(date) as string
     now = createObject("roDateTime")
 
     ' Check for Today
-    if now.AsDateString("short-date-dashes") = date.AsDateString("short-date-dashes") then
+    if now.AsDateString("short-date-dashes") = date.AsDateString("short-date-dashes")
         return "today"
     end if
 
@@ -165,11 +165,11 @@ function getRelativeDayName(date) as string
     todayMidnight = now.AsSeconds() - (now.AsSeconds() MOD 86400)
     dateMidnight = date.AsSeconds() - (date.AsSeconds() MOD 86400)
 
-    if todayMidnight - dateMidnight = 86400 then
+    if todayMidnight - dateMidnight = 86400
         return "yesterday"
     end if
 
-    if dateMidnight - todayMidnight = 86400 then
+    if dateMidnight - todayMidnight = 86400
         return "tomorrow"
     end if
 
@@ -184,12 +184,12 @@ function getDurationStringFromSeconds(seconds) as string
     hours = 0
     minutes = seconds / 60.0
 
-    if minutes > 60 then
+    if minutes > 60
         hours = (minutes - (minutes MOD 60)) / 60
         minutes = minutes MOD 60
     end if
 
-    if hours > 0 then
+    if hours > 0
         return "%1h %2m".Replace("%1", StrI(hours).trim()).Replace("%2", StrI(minutes).trim())
     else
         return "%1m".Replace("%1", StrI(minutes).trim())
@@ -200,7 +200,7 @@ end function
 '
 ' Show view channel button when item has Focus
 sub focusChanged()
-    if m.top.hasFocus = true then 
+    if m.top.hasFocus = true 
         m.overview.maxLines = m.maxDetailLines
         m.focusAnimationOpacity.keyValue = [0, 1]
     else
@@ -213,7 +213,7 @@ sub focusChanged()
 end sub
 
 sub onAnimationComplete() 
-    if m.focusAnimation.state = "stopped" and m.top.hasFocus = false then
+    if m.focusAnimation.state = "stopped" and m.top.hasFocus = false
         m.overview.maxLines = m.maxPreviewLines
     end if
 end sub
@@ -221,12 +221,12 @@ end sub
 function onKeyEvent(key as string, press as boolean) as boolean
     if not press then return false
 
-    if key = "OK" then
+    if key = "OK"
         m.top.watchSelectedChannel = true
         return true
     end if
 
-    if key = "left" or key = "right" or key = "up" or key = "down" then
+    if key = "left" or key = "right" or key = "up" or key = "down"
         return true
     end if
 

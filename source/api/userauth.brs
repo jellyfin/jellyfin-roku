@@ -73,14 +73,14 @@ function ServerInfo()
 
   ' check for a location redirect header in the response
   headers = resp.GetResponseHeaders()
-  if headers <> invalid and headers.location <> invalid then
+  if headers <> invalid and headers.location <> invalid
 
     ' only follow redirect if it the API Endpoint path is the same (/System/Info/Public)
     ' set the server to new location and try again
-    if right(headers.location, 19) = "/System/Info/Public" then
+    if right(headers.location, 19) = "/System/Info/Public"
       set_setting("server", left(headers.location, len(headers.location) - 19))
       info = ServerInfo()
-      if info.Error then
+      if info.Error
         info.UpdatedUrl = left(headers.location, len(headers.location) - 19)
         info.ErrorMessage = info.ErrorMessage + " (Note: Server redirected us to " + info.UpdatedUrl + ")"
       end if
@@ -89,15 +89,15 @@ function ServerInfo()
   end if
 
   ' handle any non 200 responses, returning the error code and message
-  if resp.GetResponseCode() <> 200 then
+  if resp.GetResponseCode() <> 200
     return { "Error": true, "ErrorCode": resp.GetResponseCode(), "ErrorMessage": resp.GetFailureReason() }
   end if
 
   ' return the parsed response string
   responseString = resp.GetString()
-  if responseString <> invalid and responseString <> "" then
+  if responseString <> invalid and responseString <> ""
     result = ParseJson(responseString)
-    if result <> invalid then
+    if result <> invalid
       result.Error = false
       return result
     end if
@@ -123,7 +123,7 @@ sub LoadUserPreferences()
   resp = APIRequest(url)
   jsonResponse =  getJson(resp)
   
-  if jsonResponse <> invalid and jsonResponse.CustomPrefs <> invalid and jsonResponse.CustomPrefs["landing-livetv"] <> invalid then
+  if jsonResponse <> invalid and jsonResponse.CustomPrefs <> invalid and jsonResponse.CustomPrefs["landing-livetv"] <> invalid
     set_user_setting("display.livetv.landing", jsonResponse.CustomPrefs["landing-livetv"])
   else
     unset_user_setting("display.livetv.landing")

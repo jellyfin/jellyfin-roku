@@ -71,7 +71,7 @@ function ItemMetaData(id as string)
   data = getJson(resp)
   if data = invalid then return invalid
   imgParams = {}
-  if data.UserData.PlayedPercentage <> invalid then
+  if data.UserData.PlayedPercentage <> invalid
     param = { "PercentPlayed": data.UserData.PlayedPercentage }
     imgParams.Append(param)
   end if
@@ -128,7 +128,7 @@ function TVSeasons(id as string)
   results = []
   for each item in data.Items
     imgParams = { "AddPlayedIndicator": item.UserData.Played }
-    if item.UserData.UnplayedItemCount > 0 then
+    if item.UserData.UnplayedItemCount > 0
       param = { "UnplayedCount" : item.UserData.UnplayedItemCount }
       imgParams.Append(param)
     end if
@@ -149,7 +149,7 @@ function TVEpisodes(show_id as string, season_id as string)
   results = []
   for each item in data.Items
     imgParams = { "AddPlayedIndicator": item.UserData.Played, "maxWidth": 712, "maxheight": 400 }
-    if item.UserData.PlayedPercentage <> invalid then
+    if item.UserData.PlayedPercentage <> invalid
       param = { "PercentPlayed": item.UserData.PlayedPercentage }
       imgParams.Append(param)
     end if

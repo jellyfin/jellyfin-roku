@@ -17,7 +17,7 @@ sub loadProgramDetails()
     resp = APIRequest(url, params)
     data = getJson(resp)
 
-    if data = invalid then
+    if data = invalid
         m.top.programDetails = {}
         return
     end if

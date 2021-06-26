@@ -144,7 +144,7 @@ function authorize_request(request)
   auth = auth + ", Version=" + Chr(34) + version + Chr(34)
 
   user = get_setting("active_user")
-  if user <> invalid and user <> "" then
+  if user <> invalid and user <> ""
     auth = auth + ", UserId=" + Chr(34) + user + Chr(34)
   end if
 

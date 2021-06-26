@@ -42,7 +42,7 @@ end sub
 
 function setData()
   data = CreateObject("roSGNode", "ContentNode")
-  if m.top.objects = invalid then
+  if m.top.objects = invalid
     ' Return an empty node just to return something; we'll update once we have data
     return data
   end if
