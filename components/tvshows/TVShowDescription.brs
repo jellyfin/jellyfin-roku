@@ -74,7 +74,7 @@ function getEndTime() as string
   date.fromSeconds(date.asSeconds() + duration_s)
   date.toLocalTime()
 
-  formatTime(date)
+  return formatTime(date)
 end function
 
 function getHistory() as string

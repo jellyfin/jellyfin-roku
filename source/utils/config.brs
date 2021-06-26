@@ -9,19 +9,19 @@ function registry_read(key, section=invalid)
   return invalid
 end function
 
-function registry_write(key, value, section=invalid)
-  if section = invalid then return invalid
+sub registry_write(key, value, section=invalid)
+  if section = invalid then return
   reg = CreateObject("roRegistrySection", section)
   reg.write(key, value)
   reg.flush()
-end function
+end sub
 
-function registry_delete(key, section=invalid)
-  if section = invalid then return invalid
+sub registry_delete(key, section=invalid)
+  if section = invalid then return
   reg = CreateObject("roRegistrySection", section)
   reg.delete(key)
   reg.flush()
-end function
+end sub
 
 
 ' "Jellyfin" registry accessors for the default global settings
@@ -48,12 +48,12 @@ function get_user_setting(key, default=invalid)
   return value
 end function
 
-function set_user_setting(key, value)
-  if get_setting("active_user") = invalid then return invalid
+sub set_user_setting(key, value)
+  if get_setting("active_user") = invalid then return
   registry_write(key, value, get_setting("active_user"))
-end function
+end sub
 
-function unset_user_setting(key)
-  if get_setting("active_user") = invalid then return invalid
+sub unset_user_setting(key)
+  if get_setting("active_user") = invalid then return
   registry_delete(key, get_setting("active_user"))
-end function
+end sub

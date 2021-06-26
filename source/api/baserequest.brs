@@ -5,6 +5,7 @@ function buildParams(params={} as Object) as string
 
   param_array = []
   for each field in params.items()
+    item = ""
     if type(field.value) = "String" or type(field.value) = "roString"
       item = field.key + "=" + req.escape(field.value.trim())
       'item = field.key + "=" + field.value.trim()
@@ -30,7 +31,8 @@ function buildParams(params={} as Object) as string
       item = field.key + "=" + req.escape(field.value)
       'item = field.key + "=" + field.value
     end if
-    param_array.push(item)
+
+    if item <> "" then param_array.push(item)
   end for
 
   return param_array.join("&")

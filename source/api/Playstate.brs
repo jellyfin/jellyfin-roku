@@ -5,6 +5,9 @@ function PlaystateUpdate(id, state as string, params = {})
     url = "Sessions/Playing/Stopped"
   else if state = "update"
     url = "Sessions/Playing/Progress"
+  else
+    ' Unknow State
+    return {}
   end if
   params = PlaystateDefaults(id, params)
   resp = APIRequest(url)

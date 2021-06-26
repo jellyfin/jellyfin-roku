@@ -95,7 +95,7 @@ function ItemMetaData(id as string)
   else if data.type = "BoxSet"
     tmp = CreateObject("roSGNode", "CollectionData")
     tmp.image = PosterImage(data.id, imgParams)
-    tmp.json = item
+    tmp.json = data
     return tmp
   else if data.type = "Season"
     tmp = CreateObject("roSGNode", "TVSeasonData")

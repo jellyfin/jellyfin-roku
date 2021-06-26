@@ -38,15 +38,15 @@ function AvailableUsers()
   return users
 end function
 
-function PickUser(id as string)
+sub PickUser(id as string)
   this_user = invalid
   for each user in AvailableUsers()
     if user.id = id then this_user = user
   end for
-  if this_user = invalid then return invalid
+  if this_user = invalid then return
   set_setting("active_user", this_user.id)
   set_setting("server", this_user.server)
-end function
+end sub
 
 sub RemoveUser(id as string)
   user = CreateObject("roSGNode", "UserData")

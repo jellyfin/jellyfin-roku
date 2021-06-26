@@ -461,18 +461,19 @@ function LoginFlow(startOver = false as boolean)
 
   if get_setting("server") = invalid then startOver = true
 
+  invalidServer = true
   if not startOver then
         ' Show Connecting to Server spinner
         dialog = createObject("roSGNode", "ProgressDialog")
         dialog.title = tr("Connecting to Server")
         m.scene.dialog = dialog
 
-        serverInfoResult = ServerInfo()
+        invalidServer = ServerInfo().Error
 
         dialog.close = true
   end if
 
-  if startOver or serverInfoResult.Error  then
+  if startOver or invalidServer  then
     print "Get server details"
     SendPerformanceBeacon("AppDialogInitiate")  ' Roku Performance monitoring - Dialog Starting
     serverSelection = CreateServerGroup()

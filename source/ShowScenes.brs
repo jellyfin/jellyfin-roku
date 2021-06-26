@@ -91,6 +91,7 @@ function CreateServerGroup()
 
   ' Just hide it when done, in case we need to come back
   group.visible = false
+  return ""
 end function
 
 function CreateUserSelectGroup(users = [])
@@ -123,6 +124,7 @@ function CreateUserSelectGroup(users = [])
 
   ' Just hide it when done, in case we need to come back
   group.visible = false
+  return ""
 end function
 
 function CreateSigninGroup(user = "")
@@ -190,6 +192,7 @@ function CreateSigninGroup(user = "")
 
   ' Just hide it when done, in case we need to come back
   group.visible = false
+  return ""
 end function
 
 function CreateHomeGroup()
