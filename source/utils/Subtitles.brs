@@ -73,7 +73,7 @@ sub changeSubtitleDuringPlayback(newid)
 
 end sub
 
-function turnoffSubtitles()
+sub turnoffSubtitles()
   video = m.scene.focusedChild
   current = video.SelectedSubtitle
   video.SelectedSubtitle = -1
@@ -85,7 +85,7 @@ function turnoffSubtitles()
     AddVideoContent(video, video.audioIndex, -1, video.position * 10000000)
     video.control = "play"
   end if
-end function
+end sub
 
 'Checks available subtitle tracks and puts subtitles in forced, default, and non-default/forced but preferred language at the top
 function sortSubtitles(id as string, MediaStreams)

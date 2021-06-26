@@ -33,12 +33,12 @@ sub updateSize()
   m.top.rowItemSpacing = [ 20, 0 ]
 end sub
 
-function setupRows()
+sub setupRows()
   updateSize()
   objects = m.top.objects
   m.top.numRows = objects.items.count()
   m.top.content = setData()
-end function
+end sub
 
 function setData()
   data = CreateObject("roSGNode", "ContentNode")

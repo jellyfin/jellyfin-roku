@@ -290,12 +290,11 @@ function CreateSearchPage()
   return group
 end function
 
-function CreateSidePanel(buttons, options)
+sub CreateSidePanel(buttons, options)
   group = CreateObject("roSGNode", "OptionsSlider")
   group.buttons = buttons
   group.options = options
-
-end function
+end sub
 
 function CreateVideoPlayerGroup(video_id, audio_stream_idx = 1)
   ' Video is Playing

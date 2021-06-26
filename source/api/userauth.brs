@@ -21,7 +21,7 @@ function AboutMe()
   return getJson(resp)
 end function
 
-function SignOut()
+sub SignOut()
   if get_setting("active_user") <> invalid
     unset_user_setting("token")
     unset_setting("username")
@@ -31,7 +31,7 @@ function SignOut()
   m.overhang.currentUser = ""
   m.overhang.showOptions = false
   m.scene.unobserveField("optionsPressed")
-end function
+end sub
 
 function AvailableUsers()
   users = parseJson(get_setting("available_users", "[]"))
@@ -48,13 +48,13 @@ function PickUser(id as string)
   set_setting("server", this_user.server)
 end function
 
-function RemoveUser(id as string)
+sub RemoveUser(id as string)
   user = CreateObject("roSGNode", "UserData")
   user.id = id
   user.callFunc("removeFromRegistry")
 
   if get_setting("active_user") = id then SignOut()
-end function
+end sub
 
 function ServerInfo()
   url = "System/Info/Public"

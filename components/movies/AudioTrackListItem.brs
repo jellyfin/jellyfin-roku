@@ -1,10 +1,10 @@
-function init()
+sub init()
     m.title = m.top.findNode("title")
     m.description = m.top.findNode("description")
     m.selectedIcon = m.top.findNode("selectedIcon")
-end function
+end sub
 
-function itemContentChanged()
+sub itemContentChanged()
     m.title.text = m.top.itemContent.title
     m.description.text = m.top.itemContent.description
 
@@ -18,7 +18,7 @@ function itemContentChanged()
         m.selectedIcon.uri = ""
     end if
 
-end function
+end sub
 
 '
 'Scroll description if focused

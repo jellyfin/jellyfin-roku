@@ -26,9 +26,9 @@ sub init()
   m.LoadNextUpTask.itemsToLoad = "nextUp"
 end sub
 
-function loadLibraries()
+sub loadLibraries()
   m.LoadLibrariesTask.control = "RUN"
-end function
+end sub
 
 sub updateSize()
   m.top.translation = [111, 180]
@@ -91,17 +91,17 @@ sub onLibrariesLoaded()
   m.LoadContinueTask.control = "RUN"
 end sub
 
-function updateHomeRows()
+sub updateHomeRows()
   m.LoadContinueTask.observeField("content", "updateContinueItems")
   m.LoadContinueTask.control = "RUN"
-end function
+end sub
 
-function updateContinueItems()
+sub updateContinueItems()
   itemData = m.LoadContinueTask.content
   m.LoadContinueTask.unobserveField("content")
   m.LoadContinueTask.content = []
 
-  if itemData = invalid then return false
+  if itemData = invalid then return
 
   homeRows = m.top.content
   continueRowIndex = getRowIndex("Continue Watching")
@@ -135,14 +135,14 @@ function updateContinueItems()
 
   m.LoadNextUpTask.observeField("content", "updateNextUpItems")
   m.LoadNextUpTask.control = "RUN"
-end function
+end sub
 
-function updateNextUpItems()
+sub updateNextUpItems()
   itemData = m.LoadNextUpTask.content
   m.LoadNextUpTask.unobserveField("content")
   m.LoadNextUpTask.content = []
 
-  if itemData = invalid then return false
+  if itemData = invalid then return
 
   homeRows = m.top.content
   nextUpRowIndex = getRowIndex("Next Up >")
@@ -205,16 +205,16 @@ function updateNextUpItems()
       loadLatest.control = "RUN"
     end if
   end for
-end function
+end sub
 
-function updateLatestItems(msg)
+sub updateLatestItems(msg)
   itemData = msg.GetData()
 
   node = msg.getRoSGNode()
   node.unobserveField("content")
   node.content = []
 
-  if itemData = invalid then return false
+  if itemData = invalid then return
 
   homeRows = m.top.content
   rowIndex = getRowIndex(tr("Latest in") + " " + node.metadata.title + " >")
@@ -258,7 +258,7 @@ function updateLatestItems(msg)
       homeRows.replaceChild(row, rowIndex)
     end if
   end if
-end function
+end sub
 
 function getRowIndex(rowTitle as string)
   rowIndex = invalid
@@ -302,9 +302,9 @@ sub deleteFromSizeArray(rowIndex)
   updateSizeArray([0, 0], rowIndex, "delete")
 end sub
 
-function itemSelected()
+sub itemSelected()
   m.top.selectedItem = m.top.content.getChild(m.top.rowItemSelected[0]).getChild(m.top.rowItemSelected[1])
-end function
+end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean
   handled = false

@@ -31,13 +31,13 @@ function get_setting(key, default=invalid)
   return value
 end function
 
-function set_setting(key, value)
+sub set_setting(key, value)
   registry_write(key, value, "Jellyfin")
-end function
+end sub
 
-function unset_setting(key)
+sub unset_setting(key)
   registry_delete(key, "Jellyfin")
-end function
+end sub
 
 
 ' User registry accessors for the currently active user

@@ -3,7 +3,7 @@ sub init()
     m.title.text = tr("Loading...")
 end sub
 
-function itemContentChanged() as void
+sub itemContentChanged()
   item = m.top.itemContent
   itemData = item.json
   if itemData.indexNumber <> invalid then
@@ -25,7 +25,7 @@ function itemContentChanged() as void
   else
     m.top.findNode("star").visible = false
   end if
-end function
+end sub
 
 function getRuntime() as integer
   itemData = m.top.itemContent.json

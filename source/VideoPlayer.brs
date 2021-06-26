@@ -226,13 +226,13 @@ sub ReportPlayback(video, state = "update" as string)
   PlaystateUpdate(video.id, state, params)
 end sub
 
-function StopPlayback()
+sub StopPlayback()
   video = m.scene.focusedchild
   video.control = "stop"
   m.device.EnableAppFocusEvent(False)
   video.findNode("playbackTimer").control = "stop"
   ReportPlayback(video, "stop")
-end function
+end sub
 
 function autoPlayNextEpisode(videoID as string, showID as string)
   ' use web client setting

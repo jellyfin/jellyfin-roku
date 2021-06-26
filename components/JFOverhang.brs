@@ -29,7 +29,7 @@ sub init()
 end sub
 
 
-function updateTitle()
+sub updateTitle()
   leftSeperator = m.top.findNode("overlayLeftSeperator")
   if m.top.title <> "" then
     leftSeperator.visible = "true"
@@ -39,9 +39,9 @@ function updateTitle()
   title = m.top.findNode("overlayTitle")
   title.text = m.top.title
   resetTime()
-end function
+end sub
 
-function updateUser()
+sub updateUser()
   rightSeperator = m.top.findNode("overlayRightSeperator")
   if m.top.currentUser <> "" then
     rightSeperator.visible = "true"
@@ -50,9 +50,9 @@ function updateUser()
   end if
   user = m.top.findNode("overlayCurrentUser")
   user.text = m.top.currentUser
-end function
+end sub
 
-function updateTime()
+sub updateTime()
   if (m.currentMinutes + 1) > 59 then
     m.currentHours = m.currentHours + 1
     m.currentMinutes = 0
@@ -61,9 +61,9 @@ function updateTime()
   end if
 
   updateTimeDisplay()
-end function
+end sub
 
-function resetTime()
+sub resetTime()
   m.currentTimeTimer.control = "stop"
 
   currentTime = CreateObject("roDateTime")
@@ -75,9 +75,9 @@ function resetTime()
   m.currentMinutes = currentTime.GetMinutes()
 
   updateTimeDisplay()
-end function
+end sub
 
-function updateTimeDisplay()
+sub updateTimeDisplay()
   overlayHours = m.top.findNode("overlayHours")
   overlayMinutes = m.top.findNode("overlayMinutes")
   overlayMeridian = m.top.findNode("overlayMeridian")
@@ -112,9 +112,9 @@ function updateTimeDisplay()
   else
     overlayMinutes.text = m.currentMinutes
   end if
-end function
+end sub
 
-function updateOptions()
+sub updateOptions()
   optionText = m.top.findNode("overlayOptionsText")
   optionStar = m.top.findNode("overlayOptionsStar")
   if m.top.showOptions = true then
@@ -124,4 +124,4 @@ function updateOptions()
     optionText.visible = false
     optionStar.visible = false
   end if
-end function
+end sub

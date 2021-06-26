@@ -40,9 +40,9 @@ function PlaystateDefaults(id="" as string, params={} as object)
   return FormatJson(new_params)
 end function
 
-function deleteTranscode(id)
+sub deleteTranscode(id)
   devinfo = CreateObject("roDeviceInfo")
   req = APIRequest("/Videos/ActiveEncodings", { "deviceID" : devinfo.getChannelClientID(),  "PlaySessionId": id })
   req.setRequest("DELETE")
   postVoid(req)
-end function
+end sub

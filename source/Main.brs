@@ -1,4 +1,4 @@
-function Main (args as Dynamic) as Void
+sub Main (args as Dynamic) as Void
   
   ' If the Rooibos files are included in deployment, run tests
   'bs:disable-next-line
@@ -450,7 +450,7 @@ function Main (args as Dynamic) as Void
     end if
   end while
 
-end function
+end sub
 
 function LoginFlow(startOver = false as boolean)
   if m.scene <> invalid then
