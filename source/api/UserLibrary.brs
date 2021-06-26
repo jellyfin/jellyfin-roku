@@ -21,8 +21,7 @@ function MarkItemWatched(id as String)
   dateStr += leftPad(stri(date.getSeconds()).trim(), "0", 2)
 
   url = Substitute("Users/{0}/PlayedItems/{1}", get_setting("active_user"), id)
-  resp = APIRequest(url, {"DatePlayed": dateStr})
-  data = postJson(resp)
+  APIRequest(url, {"DatePlayed": dateStr})
 end function
 
 function UnmarkItemWatched(id as String)

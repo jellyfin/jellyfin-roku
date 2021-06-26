@@ -8,12 +8,6 @@ sub init()
 end sub
 
 sub updateSize()
-  dimensions = m.top.getScene().currentDesignResolution
-
-  border = 200
-  'm.top.translation = [border, border + 115]
-
-  textHeight = 80
   itemWidth = 300
   itemHeight = 364
 

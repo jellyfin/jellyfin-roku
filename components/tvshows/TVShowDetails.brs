@@ -35,17 +35,14 @@ sub itemContentChanged()
   if itemData.genres.count() > 0
     setFieldText("genres", itemData.genres.join(", "))
   end if
-  director = invalid
   for each person in itemData.people
     if person.type = "Director"
-      director = person.name
       exit for
     end if
   end for
   if itemData.taglines.count() > 0
     setFieldText("tagline", itemData.taglines[0])
   end if
-  ' m.top.findNode("TVSeasonSelect").TVSeasonData = m.top.itemContent.seasons
 end sub
 
 sub setFieldText(field, value)

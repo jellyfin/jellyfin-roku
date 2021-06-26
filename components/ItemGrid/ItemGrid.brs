@@ -174,7 +174,6 @@ end sub
 sub ItemDataLoaded(msg)
 
   itemData = msg.GetData()
-  data = msg.getField()
   m.loadItemsTask.unobserveField("content")
   m.loadItemsTask.content = []
 

@@ -83,7 +83,6 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
       selMenu = m.menus[m.selectedItem]
       selIndex = selMenu.itemSelected
-      child = selMenu.content.GetChild(selIndex)
 
       if m.selectedAudioIndex = selIndex then
       else

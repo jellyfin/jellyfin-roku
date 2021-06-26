@@ -101,7 +101,6 @@ function lastFocusedChild(obj as object) as object
 end function
 
 function show_dialog(message as string, options = [], defaultSelection = 0) as integer
-  group = m.scene.focusedChild
   lastFocus = lastFocusedChild(m.scene)
   'We want to handle backPressed instead of the main loop
   m.scene.unobserveField("backPressed")

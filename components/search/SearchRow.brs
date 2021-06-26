@@ -41,7 +41,6 @@ function getData()
     end if
 
     itemData = m.top.itemData
-    rowSize = m.top.rowSize
 
     ' todo - Or get the old data? I can't remember...
     data = CreateObject("roSGNode", "ContentNode")

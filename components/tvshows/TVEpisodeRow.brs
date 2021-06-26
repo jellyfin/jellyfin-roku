@@ -17,7 +17,6 @@ sub updateSize()
   border = 96
   m.top.translation = [border, 75 + 115]
 
-  textHeight = 80
   itemWidth = (dimensions["width"] - border*2) 
   itemHeight = 300
 

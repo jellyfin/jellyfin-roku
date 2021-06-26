@@ -209,7 +209,6 @@ function Main (args as Dynamic) as Void
       else
         ' TODO - switch on more node types
         message_dialog("This type is not yet supported: " + selectedItem.type + ".")
-        selectedItem = invalid
       end if
     else if isNodeEvent(msg, "movieSelected")
       ' If you select a movie from ANYWHERE, follow this flow
@@ -549,7 +548,7 @@ sub RunScreenSaver()
   m.port = createObject("roMessagePort")
   screen.setMessagePort(m.port)
 
-  scene = screen.createScene("Screensaver")
+  screen.createScene("Screensaver")
   screen.Show()
 
   while(true)

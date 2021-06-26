@@ -24,8 +24,8 @@ sub loadProgramDetails()
 
     program = createObject("roSGNode", "ScheduleProgramData")
     program.json = data
-    program.channelIndex = ChannelIndex
-    program.programIndex = ProgramIndex
+    program.channelIndex = channelIndex
+    program.programIndex = programIndex
     program.fullyLoaded = true
     m.top.programDetails = program
 

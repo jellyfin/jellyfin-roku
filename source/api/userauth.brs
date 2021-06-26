@@ -2,9 +2,7 @@ function get_token(user as String, password as String)
   url = "Users/AuthenticateByName?format=json"
   req = APIRequest(url)
 
-  encPass = CreateObject("roUrlTransfer")
   json = postJson(req, FormatJson({ "Username": user, "Pw": password }))
-
 
   if json = invalid then return invalid
 

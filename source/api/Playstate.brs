@@ -42,7 +42,6 @@ end function
 
 function deleteTranscode(id)
   devinfo = CreateObject("roDeviceInfo")
-  device_id = devinfo.getChannelClientID()
   req = APIRequest("/Videos/ActiveEncodings", { "deviceID" : devinfo.getChannelClientID(),  "PlaySessionId": id })
   req.setRequest("DELETE")
   postVoid(req)

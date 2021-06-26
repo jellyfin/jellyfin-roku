@@ -40,7 +40,7 @@ sub changeSubtitleDuringPlayback(newid)
   video = m.scene.focusedChild
 
   ' If no change of subtitle track, return
-  if newId = video.SelectedSubtitle then return
+  if newid = video.SelectedSubtitle then return
 
   currentSubtitles = video.Subtitles[video.SelectedSubtitle]
   newSubtitles = video.Subtitles[newid]
@@ -69,7 +69,7 @@ sub changeSubtitleDuringPlayback(newid)
     video.subtitleTrack = video.availableSubtitleTracks[newSubtitles.TextIndex].TrackName
   end if
 
-  video.SelectedSubtitle = newId
+  video.SelectedSubtitle = newid
 
 end sub
 
@@ -91,7 +91,6 @@ end function
 function sortSubtitles(id as string, MediaStreams)
   tracks = { "forced": [], "default": [], "normal": [] }
   'Too many args for using substitute
-  dashedid = id.left(8) + "-" + id.mid(8,4) + "-" + id.mid(12,4) + "-" + id.mid(16,4) + "-" + id.right(12)
   prefered_lang = m.user.Configuration.SubtitleLanguagePreference
   for each stream in MediaStreams
     if stream.type = "Subtitle" then

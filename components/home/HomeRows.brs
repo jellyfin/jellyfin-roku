@@ -31,10 +31,7 @@ function loadLibraries()
 end function
 
 sub updateSize()
-  sideborder = 100
   m.top.translation = [111, 180]
-
-  itemWidth = 480
   itemHeight = 330
 
   'Set width of Rows to cut off at edge of Safe Zone
@@ -213,7 +210,6 @@ end function
 function updateLatestItems(msg)
   itemData = msg.GetData()
 
-  data = msg.getField()
   node = msg.getRoSGNode()
   node.unobserveField("content")
   node.content = []

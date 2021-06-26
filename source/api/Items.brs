@@ -1,7 +1,7 @@
-function ItemGetPlaybackInfo(id as string, StartTimeTicks = 0 as longinteger)
+function ItemGetPlaybackInfo(id as string, startTimeTicks = 0 as longinteger)
   params = {
     "UserId": get_setting("active_user"),
-    "StartTimeTicks": StartTimeTicks,
+    "StartTimeTicks": startTimeTicks,
     "IsPlayback": true,
     "AutoOpenLiveStream": true,
     "MaxStreamingBitrate": "140000000"
@@ -16,7 +16,7 @@ function ItemPostPlaybackInfo(id as string, mediaSourceId = "" as string , audio
   }
   params = {
     "UserId": get_setting("active_user"),
-    "StartTimeTicks": StartTimeTicks,
+    "StartTimeTicks": startTimeTicks,
     "IsPlayback": true,
     "AutoOpenLiveStream": true,
     "MaxStreamingBitrate": "140000000",
@@ -117,7 +117,6 @@ function ItemMetaData(id as string)
     ' Return json if we don't know what it is
     return data
   end if
-  return data
 end function
 
 ' Seasons for a TV Show
