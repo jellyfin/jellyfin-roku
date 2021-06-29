@@ -8,13 +8,13 @@ sub setFields()
   m.top.watched = json.UserData.played
   m.top.Type = "Movie"  
   
-  if json.ProductionYear <> invalid then
+  if json.ProductionYear <> invalid
     m.top.SubTitle = json.ProductionYear
   end if
 
-  if json.OfficialRating <> invalid and json.OfficialRating <> "" then
+  if json.OfficialRating <> invalid and json.OfficialRating <> ""
     m.top.Rating = json.OfficialRating
-    if m.top.SubTitle <> "" then
+    if m.top.SubTitle <> ""
       m.top.SubTitle = m.top.SubTitle + " - " + m.top.Rating
     else
       m.top.SubTitle = m.top.Rating
@@ -30,19 +30,19 @@ sub setPoster()
     m.top.posterURL = m.top.image.url
   else
 
-    if m.top.json.ImageTags.Primary <> invalid then
+    if m.top.json.ImageTags.Primary <> invalid
       imgParams = { "maxHeight": 440, "maxWidth": 295, "Tag" : m.top.json.ImageTags.Primary }
       m.top.posterURL = ImageURL(m.top.json.id, "Primary", imgParams)
-    else if m.top.json.BackdropImageTags[0] <> invalid then
+    else if m.top.json.BackdropImageTags[0] <> invalid
     imgParams = { "maxHeight": 440, "Tag" : m.top.json.BackdropImageTags[0] }
       m.top.posterURL = ImageURL(m.top.json.id, "Backdrop", imgParams)
-    else if m.top.json.ParentThumbImageTag <> invalid and m.top.json.ParentThumbItemId <> invalid then
+    else if m.top.json.ParentThumbImageTag <> invalid and m.top.json.ParentThumbItemId <> invalid
       imgParams = { "maxHeight": 440, "maxWidth": 295, "Tag" : m.top.json.ParentThumbImageTag }
       m.top.posterURL = ImageURL(m.top.json.ParentThumbItemId, "Thumb", imgParams)
     end if
 
     ' Add Backdrop Image
-    if m.top.json.BackdropImageTags[0] <> invalid then
+    if m.top.json.BackdropImageTags[0] <> invalid
       imgParams = { "maxHeight": 720, "maxWidth": 1280, "Tag" : m.top.json.BackdropImageTags[0] }
       m.top.backdropURL = ImageURL(m.top.json.id, "Backdrop", imgParams)
     end if

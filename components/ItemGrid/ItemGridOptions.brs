@@ -30,7 +30,7 @@ end sub
 sub optionsSet()
 
   '  Views Tab
-  if m.top.options.views <> invalid then
+  if m.top.options.views <> invalid
     viewContent = CreateObject("roSGNode", "ContentNode")
     index = 0
     selectedViewIndex = 0
@@ -39,7 +39,7 @@ sub optionsSet()
       entry = viewContent.CreateChild("ContentNode")
       entry.title = view.Title
       m.viewNames.push(view.Name)
-      if (view.selected <> invalid and view.selected = true) or viewContent.Name = m.top.view then
+      if (view.selected <> invalid and view.selected = true) or viewContent.Name = m.top.view
         selectedViewIndex = index
       end if
       index = index + 1
@@ -49,7 +49,7 @@ sub optionsSet()
   end if
 
   ' Sort Tab
-  if m.top.options.sort <> invalid then
+  if m.top.options.sort <> invalid
     sortContent = CreateObject("roSGNode", "ContentNode")
     index = 0
     m.selectedSortIndex = 0
@@ -58,9 +58,9 @@ sub optionsSet()
       entry = sortContent.CreateChild("ContentNode")
       entry.title = sortItem.Title
       m.sortNames.push(sortItem.Name)
-      if sortItem.Selected <> invalid and sortItem.Selected = true then
+      if sortItem.Selected <> invalid and sortItem.Selected = true
         m.selectedSortIndex = index
-        if sortItem.Ascending <> invalid and sortItem.Ascending = false then
+        if sortItem.Ascending <> invalid and sortItem.Ascending = false
           m.top.sortAscending = 0
         else
           m.top.sortAscending = 1
@@ -71,7 +71,7 @@ sub optionsSet()
     m.menus[1].content = sortContent
     m.menus[1].checkedItem = m.selectedSortIndex
 
-    if m.top.sortAscending = 1 then
+    if m.top.sortAscending = 1
       m.menus[1].focusedCheckedIconUri = m.global.constants.icons.ascending_black
       m.menus[1].checkedIconUri = m.global.constants.icons.ascending_white
     else
@@ -81,7 +81,7 @@ sub optionsSet()
   end if
 
   ' Filter Tab
-  if m.top.options.filter <> invalid then
+  if m.top.options.filter <> invalid
     filterContent = CreateObject("roSGNode", "ContentNode")
     index = 0
     m.selectedFilterIndex = 0
@@ -90,7 +90,7 @@ sub optionsSet()
       entry = filterContent.CreateChild("ContentNode")
       entry.title = filterItem.Title
       m.filterNames.push(filterItem.Name)
-      if filterItem.selected <> invalid and filterItem.selected = true then
+      if filterItem.selected <> invalid and filterItem.selected = true
         m.selectedFilterIndex = index
       end if
       index = index + 1
@@ -121,13 +121,13 @@ end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean
 
-  if key = "down" or (key = "OK" and m.top.findNode("buttons").hasFocus()) then
+  if key = "down" or (key = "OK" and m.top.findNode("buttons").hasFocus())
     m.top.findNode("buttons").setFocus(false)
     m.menus[m.selectedItem].setFocus(true)
     m.menus[m.selectedItem].drawFocusFeedback = true
 
     'If user presses down from button menu, focus first item.  If OK, focus checked item
-    if key = "down" then
+    if key = "down"
       m.menus[m.selectedItem].jumpToItem = 0
     else
       m.menus[m.selectedItem].jumpToItem = m.menus[m.selectedItem].itemSelected
@@ -135,16 +135,16 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
     return true
   else if key = "OK"
-    if(m.menus[m.selectedItem].isInFocusChain()) then
+    if m.menus[m.selectedItem].isInFocusChain()
       ' Handle View Screen
-      if(m.selectedItem = 0) then
+      if m.selectedItem = 0
         m.selectedViewIndex = m.menus[0].itemSelected
         m.top.view = m.viewNames[m.selectedViewIndex]
       end if
 
       ' Handle Sort screen
-      if(m.selectedItem = 1) then
-        if m.menus[1].itemSelected <> m.selectedSortIndex then
+      if m.selectedItem = 1
+        if m.menus[1].itemSelected <> m.selectedSortIndex
           m.menus[1].focusedCheckedIconUri = m.global.constants.icons.ascending_black
           m.menus[1].checkedIconUri = m.global.constants.icons.ascending_white
 
@@ -153,7 +153,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
           m.top.sortField = m.sortNames[m.selectedSortIndex]
         else
 
-          if m.top.sortAscending = true then
+          if m.top.sortAscending = true
             m.top.sortAscending = false
             m.menus[1].focusedCheckedIconUri = m.global.constants.icons.descending_black
             m.menus[1].checkedIconUri = m.global.constants.icons.descending_white
@@ -165,14 +165,14 @@ function onKeyEvent(key as string, press as boolean) as boolean
         end if
       end if
       ' Handle Filter screen
-      if(m.selectedItem = 2) then
+      if m.selectedItem = 2
         m.selectedFilterIndex = m.menus[2].itemSelected
         m.top.filter = m.filterNames[m.selectedFilterIndex]
       end if
     end if
     return true
   else if key = "back" or key = "up"
-    if m.menus[m.selectedItem].isInFocusChain() then
+    if m.menus[m.selectedItem].isInFocusChain()
       m.buttons.setFocus(true)
       m.menus[m.selectedItem].drawFocusFeedback = false
       return true

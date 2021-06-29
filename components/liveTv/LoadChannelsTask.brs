@@ -17,7 +17,7 @@ sub init()
     resp = APIRequest(url, params)
     data = getJson(resp)
   
-    if data.TotalRecordCount = invalid then
+    if data.TotalRecordCount = invalid
         m.top.channels = results
         return
     end if

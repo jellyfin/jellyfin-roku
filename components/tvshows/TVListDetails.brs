@@ -3,10 +3,10 @@ sub init()
     m.title.text = tr("Loading...")
 end sub
 
-function itemContentChanged() as void
+sub itemContentChanged()
   item = m.top.itemContent
   itemData = item.json
-  if itemData.indexNumber <> invalid then
+  if itemData.indexNumber <> invalid
     indexNumber = itemData.indexNumber.toStr() + ". "
   else
     indexNumber = ""
@@ -19,13 +19,13 @@ function itemContentChanged() as void
     m.top.findNode("runtime").text = stri(getRuntime()).trim() + " mins"
     m.top.findNode("endtime").text = tr("Ends at %1").Replace("%1", getEndTime())
   end if
-  if itemData.communityRating <> invalid then
+  if itemData.communityRating <> invalid
     m.top.findNode("star").visible = true
     m.top.findNode("communityRating").text = str(int(itemData.communityRating*10)/10)
   else
     m.top.findNode("star").visible = false
   end if
-end function
+end sub
 
 function getRuntime() as integer
   itemData = m.top.itemContent.json

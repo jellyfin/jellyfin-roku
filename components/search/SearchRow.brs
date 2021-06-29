@@ -35,13 +35,12 @@ sub updateSize()
 end sub
 
 function getData()
-    if m.top.itemData = invalid then
+    if m.top.itemData = invalid
         data = CreateObject("roSGNode", "ContentNode")
         return data
     end if
 
     itemData = m.top.itemData
-    rowSize = m.top.rowSize
 
     ' todo - Or get the old data? I can't remember...
     data = CreateObject("roSGNode", "ContentNode")
@@ -75,7 +74,7 @@ function getData()
     return data
 end function
 
-function addRow(data, title, type_filter)
+sub addRow(data, title, type_filter)
     itemData = m.top.itemData
     row = data.CreateChild("ContentNode")
     row.title = title
@@ -84,4 +83,4 @@ function addRow(data, title, type_filter)
             row.appendChild(item)
         end if
     end for
-end function
+end sub

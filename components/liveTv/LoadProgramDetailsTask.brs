@@ -17,15 +17,15 @@ sub loadProgramDetails()
     resp = APIRequest(url, params)
     data = getJson(resp)
 
-    if data = invalid then
+    if data = invalid
         m.top.programDetails = {}
         return
     end if
 
     program = createObject("roSGNode", "ScheduleProgramData")
     program.json = data
-    program.channelIndex = ChannelIndex
-    program.programIndex = ProgramIndex
+    program.channelIndex = channelIndex
+    program.programIndex = programIndex
     program.fullyLoaded = true
     m.top.programDetails = program
 

@@ -3,10 +3,10 @@ sub init()
 	m.top.optionsAvailable = true
 end sub
 
-function refresh()
+sub refresh()
 	m.top.findNode("homeRows").callFunc("updateHomeRows")
-end function
+end sub
 
-function loadLibraries()
+sub loadLibraries()
 	m.top.findNode("homeRows").callFunc("loadLibraries")
-end function
+end sub

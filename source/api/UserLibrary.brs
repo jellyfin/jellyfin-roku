@@ -11,7 +11,7 @@ function UnmarkItemFavorite(id as String)
   return getJson(resp)
 end function
 
-function MarkItemWatched(id as String)
+sub MarkItemWatched(id as String)
   date = CreateObject("roDateTime")
   dateStr = stri(date.getYear()).trim()
   dateStr += leftPad(stri(date.getMonth()).trim(), "0", 2)
@@ -21,9 +21,8 @@ function MarkItemWatched(id as String)
   dateStr += leftPad(stri(date.getSeconds()).trim(), "0", 2)
 
   url = Substitute("Users/{0}/PlayedItems/{1}", get_setting("active_user"), id)
-  resp = APIRequest(url, {"DatePlayed": dateStr})
-  data = postJson(resp)
-end function
+  APIRequest(url, {"DatePlayed": dateStr})
+end sub
 
 function UnmarkItemWatched(id as String)
   url = Substitute("Users/{0}/PlayedItems/{1}", get_setting("active_user"), id)

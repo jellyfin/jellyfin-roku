@@ -13,22 +13,20 @@ sub init()
 
 end sub
 
-function setData()
+sub setData()
   items = m.top.configItems
   data = CreateObject("roSGNode", "ContentNode")
   data.appendChildren(items)
 
   m.top.content = data
-end function
+end sub
 
-function onItemSelected()
-  print "HI"
+sub onItemSelected()
   i = m.top.itemSelected
   itemField =  m.top.content.getchild(i)
 
   show_dialog(itemField)
-
-end function
+end sub
 
 function onDialogButton()
   d = m.dialog
@@ -42,6 +40,7 @@ function onDialogButton()
     dismiss_dialog()
     return true
   end if
+  return false
 end function
 
 

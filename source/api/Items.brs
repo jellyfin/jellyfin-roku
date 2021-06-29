@@ -1,7 +1,7 @@
-function ItemGetPlaybackInfo(id as string, StartTimeTicks = 0 as longinteger)
+function ItemGetPlaybackInfo(id as string, startTimeTicks = 0 as longinteger)
   params = {
     "UserId": get_setting("active_user"),
-    "StartTimeTicks": StartTimeTicks,
+    "StartTimeTicks": startTimeTicks,
     "IsPlayback": true,
     "AutoOpenLiveStream": true,
     "MaxStreamingBitrate": "140000000"
@@ -16,7 +16,7 @@ function ItemPostPlaybackInfo(id as string, mediaSourceId = "" as string , audio
   }
   params = {
     "UserId": get_setting("active_user"),
-    "StartTimeTicks": StartTimeTicks,
+    "StartTimeTicks": startTimeTicks,
     "IsPlayback": true,
     "AutoOpenLiveStream": true,
     "MaxStreamingBitrate": "140000000",
@@ -71,7 +71,7 @@ function ItemMetaData(id as string)
   data = getJson(resp)
   if data = invalid then return invalid
   imgParams = {}
-  if data.UserData.PlayedPercentage <> invalid then
+  if data.UserData.PlayedPercentage <> invalid
     param = { "PercentPlayed": data.UserData.PlayedPercentage }
     imgParams.Append(param)
   end if
@@ -95,7 +95,7 @@ function ItemMetaData(id as string)
   else if data.type = "BoxSet"
     tmp = CreateObject("roSGNode", "CollectionData")
     tmp.image = PosterImage(data.id, imgParams)
-    tmp.json = item
+    tmp.json = data
     return tmp
   else if data.type = "Season"
     tmp = CreateObject("roSGNode", "TVSeasonData")
@@ -117,7 +117,6 @@ function ItemMetaData(id as string)
     ' Return json if we don't know what it is
     return data
   end if
-  return data
 end function
 
 ' Seasons for a TV Show
@@ -129,7 +128,7 @@ function TVSeasons(id as string)
   results = []
   for each item in data.Items
     imgParams = { "AddPlayedIndicator": item.UserData.Played }
-    if item.UserData.UnplayedItemCount > 0 then
+    if item.UserData.UnplayedItemCount > 0
       param = { "UnplayedCount" : item.UserData.UnplayedItemCount }
       imgParams.Append(param)
     end if
@@ -150,7 +149,7 @@ function TVEpisodes(show_id as string, season_id as string)
   results = []
   for each item in data.Items
     imgParams = { "AddPlayedIndicator": item.UserData.Played, "maxWidth": 712, "maxheight": 400 }
-    if item.UserData.PlayedPercentage <> invalid then
+    if item.UserData.PlayedPercentage <> invalid
       param = { "PercentPlayed": item.UserData.PlayedPercentage }
       imgParams.Append(param)
     end if

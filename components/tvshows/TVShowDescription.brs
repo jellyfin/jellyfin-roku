@@ -34,17 +34,14 @@ sub itemContentChanged()
   if itemData.genres.count() > 0
     setFieldText("genres", itemData.genres.join(", "))
   end if
-  director = invalid
   for each person in itemData.people
     if person.type = "Director"
-      director = person.name
       exit for
     end if
   end for
   if itemData.taglines.count() > 0
     setFieldText("tagline", itemData.taglines[0])
   end if
-  ' m.top.findNode("TVSeasonSelect").TVSeasonData = m.top.itemContent.seasons
 end sub
 
 sub setFieldText(field, value)
@@ -52,9 +49,9 @@ sub setFieldText(field, value)
   if node = invalid or value = invalid then return
 
   ' Handle non strings... Which _shouldn't_ happen, but hey
-  if type(value) = "roInt" or type(value) = "Integer" then
+  if type(value) = "roInt" or type(value) = "Integer"
     value = str(value)
-  else if type(value) <> "roString" and type(value) <> "String" then
+  else if type(value) <> "roString" and type(value) <> "String"
     value = ""
   end if
 
@@ -77,7 +74,7 @@ function getEndTime() as string
   date.fromSeconds(date.asSeconds() + duration_s)
   date.toLocalTime()
 
-  formatTime(date)
+  return formatTime(date)
 end function
 
 function getHistory() as string

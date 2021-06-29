@@ -14,7 +14,6 @@ sub init()
 end sub
 
 sub updateSize()
-    textHeight = 80
     itemWidth = 200
     itemHeight = 380  ' width * 1.5 + text
 
@@ -32,13 +31,12 @@ sub updateSize()
 end sub
 
 function getData()
-    if m.top.TVSeasonData = invalid then
+    if m.top.TVSeasonData = invalid
         data = CreateObject("roSGNode", "ContentNode")
         return data
     end if
 
     seasonData = m.top.TVSeasonData
-    rowsize = m.top.rowSize
     data = CreateObject("roSGNode", "ContentNode")
     row = data.CreateChild("ContentNode")
     row.title = "Seasons"

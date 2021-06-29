@@ -1,10 +1,13 @@
 function PlaystateUpdate(id, state as string, params = {})
-  if state = "start" then
+  if state = "start"
     url = "Sessions/Playing"
-  else if state = "stop" then
+  else if state = "stop"
     url = "Sessions/Playing/Stopped"
   else if state = "update"
     url = "Sessions/Playing/Progress"
+  else
+    ' Unknow State
+    return {}
   end if
   params = PlaystateDefaults(id, params)
   resp = APIRequest(url)
@@ -40,10 +43,9 @@ function PlaystateDefaults(id="" as string, params={} as object)
   return FormatJson(new_params)
 end function
 
-function deleteTranscode(id)
+sub deleteTranscode(id)
   devinfo = CreateObject("roDeviceInfo")
-  device_id = devinfo.getChannelClientID()
   req = APIRequest("/Videos/ActiveEncodings", { "deviceID" : devinfo.getChannelClientID(),  "PlaySessionId": id })
   req.setRequest("DELETE")
   postVoid(req)
-end function
+end sub

@@ -40,7 +40,7 @@ end sub
 'Load initial set of Data
 sub loadInitialItems()
 
-  if m.top.parentItem.backdropUrl <> invalid then
+  if m.top.parentItem.backdropUrl <> invalid
     SetBackground(m.top.parentItem.backdropUrl)
   end if
 
@@ -50,24 +50,24 @@ sub loadInitialItems()
   m.loadItemsTask.filter = m.filter
   m.loadItemsTask.startIndex = 0
 
-  if m.top.parentItem.collectionType = "movies" then
+  if m.top.parentItem.collectionType = "movies"
     m.loadItemsTask.itemType = "Movie"
-  else if m.top.parentItem.collectionType = "tvshows" then
+  else if m.top.parentItem.collectionType = "tvshows"
     m.loadItemsTask.itemType = "Series"
-  else if m.top.parentItem.collectionType = "livetv" then
+  else if m.top.parentItem.collectionType = "livetv"
     m.loadItemsTask.itemType = "LiveTV"
 
     'For LiveTV, we want to "Fit" the item images, not zoom
     m.top.imageDisplayMode = "scaleToFit"
     
-    if get_user_setting("display.livetv.landing") = "guide" then 
+    if get_user_setting("display.livetv.landing") = "guide" 
        showTvGuid()
     end if
 
-  else if m.top.parentItem.collectionType = "CollectionFolder" OR m.top.parentItem.collectionType = "boxsets" or m.top.parentItem.Type = "Folder" or m.top.parentItem.Type = "Channel"  then
+  else if m.top.parentItem.collectionType = "CollectionFolder" OR m.top.parentItem.collectionType = "boxsets" or m.top.parentItem.Type = "Folder" or m.top.parentItem.Type = "Channel"
     ' Non-recursive, to not show subfolder contents
     m.loadItemsTask.recursive = false
-  else if m.top.parentItem.collectionType = "Channel" then
+  else if m.top.parentItem.collectionType = "Channel"
     m.top.imageDisplayMode = "scaleToFit"
   else
     print "[ItemGrid] Unknown Type: " m.top.parentItem
@@ -87,7 +87,7 @@ sub SetUpOptions()
   options.filter = []
 
   'Movies
-  if m.top.parentItem.collectionType = "movies" then
+  if m.top.parentItem.collectionType = "movies"
     options.views = [
       { "Title": tr("Movies"), "Name": "movies" },
     ]
@@ -107,7 +107,7 @@ sub SetUpOptions()
       { "Title": tr("Favorites"), "Name": "Favorites" }
     ]
   'Boxsets
-  else if m.top.parentItem.collectionType = "boxsets" then
+  else if m.top.parentItem.collectionType = "boxsets"
     options.views = [{ "Title": tr("Shows"), "Name": "shows" }]
     options.sort = [
       { "Title": tr("TITLE"), "Name": "SortName" },
@@ -120,7 +120,7 @@ sub SetUpOptions()
       { "Title": tr("Favorites"), "Name": "Favorites" }
     ]
   'TV Shows
-  else if m.top.parentItem.collectionType = "tvshows" then
+  else if m.top.parentItem.collectionType = "tvshows"
     options.views = [{ "Title": tr("Shows"), "Name": "shows" }]
     options.sort = [
       { "Title": tr("TITLE"), "Name": "SortName" },
@@ -132,7 +132,7 @@ sub SetUpOptions()
     ]
     options.filter = []
   'Live TV
-  else if m.top.parentItem.collectionType = "livetv" then
+  else if m.top.parentItem.collectionType = "livetv"
     options.views = [
       {"Title": tr("Channels"), "Name": "livetv" },
       {"Title": tr("TV Guide"), "Name": "tvGuide", "Selected": get_user_setting("display.livetv.landing") = "guide" }
@@ -152,14 +152,14 @@ sub SetUpOptions()
   end if
 
   for each o in options.sort
-    if o.Name = m.sortField then
+    if o.Name = m.sortField
       o.Selected = true
       o.Ascending = m.sortAscending
     end if
   end for
 
   for each o in options.filter
-    if o.Name = m.filter then
+    if o.Name = m.filter
       o.Selected = true
     end if
   end for
@@ -174,11 +174,10 @@ end sub
 sub ItemDataLoaded(msg)
 
   itemData = msg.GetData()
-  data = msg.getField()
   m.loadItemsTask.unobserveField("content")
   m.loadItemsTask.content = []
 
-  if itemData = invalid then
+  if itemData = invalid
     m.Loading = false
     return
   end if
@@ -193,7 +192,7 @@ sub ItemDataLoaded(msg)
   m.Loading = false
 
   'If there are no items to display, show message
-  if m.loadedItems = 0 then
+  if m.loadedItems = 0
     m.emptyText.text = tr("NO_ITEMS").Replace("%1", m.top.parentItem.Type)
     m.emptyText.visible = true
   end if
@@ -207,7 +206,7 @@ end sub
 sub SetBackground(backgroundUri as string)
 
   'If a new image is being loaded, or transitioned to, store URL to load next
-  if m.swapAnimation.state <> "stopped" or m.newBackdrop.loadStatus = "loading" then
+  if m.swapAnimation.state <> "stopped" or m.newBackdrop.loadStatus = "loading"
     m.queuedBGUri = backgroundUri
     return
   end if
@@ -224,7 +223,7 @@ sub onItemFocused()
   itemInt = m.itemGrid.itemFocused
 
   ' If no selected item, set background to parent backdrop
-  if itemInt = -1 then
+  if itemInt = -1
     return
   end if
 
@@ -232,7 +231,7 @@ sub onItemFocused()
   SetBackground(m.itemGrid.content.getChild(m.itemGrid.itemFocused).backdropUrl)
 
   ' Load more data if focus is within last 3 rows, and there are more items to load
-  if focusedRow >= m.loadedRows - 3 and m.loadeditems < m.loadItemsTask.totalRecordCount then
+  if focusedRow >= m.loadedRows - 3 and m.loadeditems < m.loadItemsTask.totalRecordCount
     loadMoreData()
   end if
 end sub
@@ -250,7 +249,7 @@ end sub
 'Swap Complete
 sub swapDone()
 
-  if m.swapAnimation.state = "stopped" then
+  if m.swapAnimation.state = "stopped"
 
     'Set main BG node image and hide transitioning node
     m.backdrop.uri = m.newBackdrop.uri
@@ -258,7 +257,7 @@ sub swapDone()
     m.newBackdrop.opacity = 0
 
     'If there is another one to load
-    if m.newBackdrop.uri <> m.queuedBGUri and m.queuedBGUri <> "" then
+    if m.newBackdrop.uri <> m.queuedBGUri and m.queuedBGUri <> ""
       SetBackground(m.queuedBGUri)
       m.queuedBGUri = ""
     end if
@@ -288,21 +287,21 @@ end sub
 'Check if options updated and any reloading required
 sub optionsClosed()
 
-  if (m.options.view = "tvGuide") then
+  if m.options.view = "tvGuide"
     showTVGuid()
     return
-  else if m.tvGuide <> invalid then
+  else if m.tvGuide <> invalid
     ' Try to hide the TV Guide
     m.top.removeChild(m.tvGuide)
   end if
 
   reload = false
-  if m.options.sortField <> m.sortField or m.options.sortAscending <> m.sortAscending then
+  if m.options.sortField <> m.sortField or m.options.sortAscending <> m.sortAscending
     m.sortField = m.options.sortField
     m.sortAscending = m.options.sortAscending
     reload = true
   end if
-  if m.options.filter <> m.filter then
+  if m.options.filter <> m.filter
     m.filter = m.options.filter
     reload = true
   end if
@@ -318,7 +317,7 @@ end sub
 
 sub showTVGuid()
   m.top.signalBeacon("EPGLaunchInitiate") ' Required Roku Performance monitoring
-  if m.tvGuide = invalid then 
+  if m.tvGuide = invalid 
      m.tvGuide = createObject("roSGNode", "Schedule")
   endif
   m.tvGuide.observeField("watchChannel", "onChannelSelected")
@@ -329,7 +328,7 @@ end sub
 sub onChannelSelected(msg) 
   node = msg.getRoSGNode()
   m.top.lastFocus = lastFocusedChild(node)
-  if node.watchChannel <> invalid then 
+  if node.watchChannel <> invalid 
     ' Clone the node when it's reused/update in the TimeGrid it doesn't automatically start playing
     m.top.selectedItem = node.watchChannel.clone(false)
   end if
@@ -340,7 +339,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
   if not press then return false
 
   if key = "options"
-    if m.options.visible = true then
+    if m.options.visible = true
       m.options.visible = false
       m.top.removeChild(m.options)
       optionsClosed()
@@ -350,16 +349,16 @@ function onKeyEvent(key as string, press as boolean) as boolean
       m.options.setFocus(true)
     end if
     return true
-  else if key = "back" then
-    if m.options.visible = true then
+  else if key = "back"
+    if m.options.visible = true
       m.options.visible = false
       optionsClosed()
       return true
     end if
-  else if key = "play" then
+  else if key = "play"
     markupGrid = m.top.getChild(2)
     itemToPlay = markupGrid.content.getChild(markupGrid.itemFocused)
-    if itemToPlay <> invalid and (itemToPlay.type = "Movie" or itemToPlay.type = "Episode") then
+    if itemToPlay <> invalid and (itemToPlay.type = "Movie" or itemToPlay.type = "Episode")
       m.top.quickPlayNode = itemToPlay
     end if
     return true

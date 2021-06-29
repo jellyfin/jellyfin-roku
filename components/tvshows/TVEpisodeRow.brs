@@ -17,7 +17,6 @@ sub updateSize()
   border = 96
   m.top.translation = [border, 75 + 115]
 
-  textHeight = 80
   itemWidth = (dimensions["width"] - border*2) 
   itemHeight = 300
 
@@ -34,16 +33,16 @@ sub updateSize()
   m.top.rowItemSpacing = [ 20, 0 ]
 end sub
 
-function setupRows()
+sub setupRows()
   updateSize()
   objects = m.top.objects
   m.top.numRows = objects.items.count()
   m.top.content = setData()
-end function
+end sub
 
 function setData()
   data = CreateObject("roSGNode", "ContentNode")
-  if m.top.objects = invalid then
+  if m.top.objects = invalid
     ' Return an empty node just to return something; we'll update once we have data
     return data
   end if

@@ -37,15 +37,15 @@ end function
 
 function ImageURL(id, version = "Primary", params = {})
   ' set defaults
-  if params.maxHeight = invalid then
+  if params.maxHeight = invalid
     param = { "maxHeight" : "384" }
     params.append(param)
   end if
-  if params.maxWidth = invalid then
+  if params.maxWidth = invalid
     param = { "maxWidth" : "196" }
     params.append(param)
   end if
-  if params.quality = invalid then
+  if params.quality = invalid
     param = { "quality" : "90" }
     params.append(param)
   end if
@@ -56,13 +56,13 @@ end function
 
 function UserImageURL(id, params = {})
   ' set defaults
-  if params.maxHeight = invalid then
+  if params.maxHeight = invalid
     params.append({ "maxHeight" : "300" })
   end if
-  if params.maxWidth = invalid then
+  if params.maxWidth = invalid
     params.append({ "maxWidth" : "300" })
   end if
-  if params.quality = invalid then
+  if params.quality = invalid
     params.append({ "quality" : "90" })
   end if
 

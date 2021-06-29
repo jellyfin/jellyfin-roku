@@ -23,7 +23,7 @@ function CreateServerGroup()
   server_hostname = config.content.getChild(0)
   group.observeField("backPressed", port)
 
-  while(true)
+  while true
     msg = wait(0, port)
     if type(msg) = "roSGScreenEvent" and msg.isScreenClosed()
       return "false"
@@ -36,9 +36,9 @@ function CreateServerGroup()
         maxSlashes = 0
         if left(lcase(server_hostname.value),8) = "https://" or left(lcase(server_hostname.value),7) = "http://" then maxSlashes = 2
         'Check to make sure entry has no extra slashes before adding default ports.
-        if Instr(0, server_hostname.value, "/") = maxSlashes then
-          if server_hostname.value.len() > 5 and mid(server_hostname.value, server_hostname.value.len()-4,1) <> ":" and mid(server_hostname.value, server_hostname.value.len()-5,1) <> ":" then
-            if left(lcase(server_hostname.value) ,5) = "https" then
+        if Instr(0, server_hostname.value, "/") = maxSlashes
+          if server_hostname.value.len() > 5 and mid(server_hostname.value, server_hostname.value.len()-4,1) <> ":" and mid(server_hostname.value, server_hostname.value.len()-5,1) <> ":"
+            if left(lcase(server_hostname.value) ,5) = "https"
               server_hostname.value = server_hostname.value + ":8920"
             else
               server_hostname.value = server_hostname.value + ":8096"
@@ -48,7 +48,7 @@ function CreateServerGroup()
         'Append http:// to server
         if left(lcase(server_hostname.value),4) <> "http" then server_hostname.value = "http://" + server_hostname.value
         'If this is a different server from what we know, reset username/password setting
-        if get_setting("server") <> server_hostname.value then
+        if get_setting("server") <> server_hostname.value
           set_setting("username", "")
           set_setting("password", "")
         end if
@@ -63,7 +63,7 @@ function CreateServerGroup()
 
         dialog.close = true
 
-        if serverInfoResult = invalid then
+        if serverInfoResult = invalid
           ' Maybe don't unset setting, but offer as a prompt
           ' Server not found, is it online? New values / Retry
           print "Server not found, is it online? New values / Retry"
@@ -71,12 +71,12 @@ function CreateServerGroup()
           SignOut()
         else if serverInfoResult.Error <> invalid and serverInfoResult.Error
           ' If server redirected received, update the URL
-          if serverInfoResult.UpdatedUrl <> invalid then
+          if serverInfoResult.UpdatedUrl <> invalid
             server_hostname.value = serverInfoResult.UpdatedUrl
           end if
           ' Display Error Message to user
           message = tr("Error: ")
-          if serverInfoResult.ErrorCode <> invalid then
+          if serverInfoResult.ErrorCode <> invalid
             message = message + "[" + serverInfoResult.ErrorCode.toStr() + "] "
           end if
           group.findNode("alert").text = message + tr(serverInfoResult.ErrorMessage)
@@ -91,10 +91,11 @@ function CreateServerGroup()
 
   ' Just hide it when done, in case we need to come back
   group.visible = false
+  return ""
 end function
 
 function CreateUserSelectGroup(users = [])
-  if users.count() = 0 then
+  if users.count() = 0
     return ""
   end if
   group = CreateObject("roSGNode", "UserSelect")
@@ -105,7 +106,7 @@ function CreateUserSelectGroup(users = [])
   group.findNode("userRow").observeField("userSelected", port)
   group.findNode("alternateOptions").observeField("itemSelected", port)
   group.observeField("backPressed", port)
-  while(true)
+  while true
     msg = wait(0, port)
     if type(msg) = "roSGScreenEvent" and msg.isScreenClosed()
       group.visible = false
@@ -115,7 +116,7 @@ function CreateUserSelectGroup(users = [])
     else if type(msg) = "roSGNodeEvent" and msg.getField() = "userSelected"
       return msg.GetData()
     else if type(msg) = "roSGNodeEvent" and msg.getField() = "itemSelected"
-      if msg.getData() = 0 then
+      if msg.getData() = 0
         return ""
       end if
     end if
@@ -123,6 +124,7 @@ function CreateUserSelectGroup(users = [])
 
   ' Just hide it when done, in case we need to come back
   group.visible = false
+  return ""
 end function
 
 function CreateSigninGroup(user = "")
@@ -163,7 +165,7 @@ function CreateSigninGroup(user = "")
 
   group.observeField("backPressed", port)
 
-  while(true)
+  while true
     msg = wait(0, port)
     if type(msg) = "roSGScreenEvent" and msg.isScreenClosed()
       group.visible = false
@@ -190,6 +192,7 @@ function CreateSigninGroup(user = "")
 
   ' Just hide it when done, in case we need to come back
   group.visible = false
+  return ""
 end function
 
 function CreateHomeGroup()
@@ -290,17 +293,16 @@ function CreateSearchPage()
   return group
 end function
 
-function CreateSidePanel(buttons, options)
+sub CreateSidePanel(buttons, options)
   group = CreateObject("roSGNode", "OptionsSlider")
   group.buttons = buttons
   group.options = options
-
-end function
+end sub
 
 function CreateVideoPlayerGroup(video_id, audio_stream_idx = 1)
   ' Video is Playing
   video = VideoPlayer(video_id, audio_stream_idx)
-  if video = invalid return invalid
+  if video = invalid then return invalid
   timer = video.findNode("playbackTimer")
 
   video.observeField("backPressed", m.port)

@@ -2,7 +2,7 @@
 function selectSubtitleTrack(tracks, current = -1) as integer
   video = m.scene.focusedChild
   trackSelected = selectSubtitleTrackDialog(video.Subtitles, video.SelectedSubtitle)
-  if trackSelected = invalid or trackSelected = -1 then 	' back pressed in Dialog - no selection made
+  if trackSelected = invalid or trackSelected = -1 	' back pressed in Dialog - no selection made
     return -2
   else
     return trackSelected - 1
@@ -18,7 +18,7 @@ function selectSubtitleTrackDialog(tracks, currentTrack = -1)
     default = ""
     if item.IsForced then forced = " [Forced]"
     if item.IsDefault then default = " - Default"
-    if item.Track.Language <> invalid then
+    if item.Track.Language <> invalid
       language = iso6392.lookup(item.Track.Language)
       if language = invalid then language = item.Track.Language
     else 
@@ -32,7 +32,7 @@ end function
 sub changeSubtitleDuringPlayback(newid)
 
   ' If no subtitles set
-  if newid = invalid or newid = -1 then 
+  if newid = invalid or newid = -1 
     turnoffSubtitles()
     return
   end if
@@ -40,12 +40,12 @@ sub changeSubtitleDuringPlayback(newid)
   video = m.scene.focusedChild
 
   ' If no change of subtitle track, return
-  if newId = video.SelectedSubtitle then return
+  if newid = video.SelectedSubtitle then return
 
   currentSubtitles = video.Subtitles[video.SelectedSubtitle]
   newSubtitles = video.Subtitles[newid]
 
-  if newSubtitles.IsEncoded then
+  if newSubtitles.IsEncoded
 
     ' Switching to Encoded Subtitle stream
     video.control = "stop"
@@ -53,7 +53,7 @@ sub changeSubtitleDuringPlayback(newid)
     video.control = "play"
     video.globalCaptionMode = "Off"	' Using encoded subtitles - so turn off text subtitles
 
-  else if (currentSubtitles <> invalid AND currentSubtitles.IsEncoded) then
+  else if currentSubtitles <> invalid AND currentSubtitles.IsEncoded
 
     ' Switching from an Encoded stream to a text stream
     video.control = "stop"
@@ -69,35 +69,34 @@ sub changeSubtitleDuringPlayback(newid)
     video.subtitleTrack = video.availableSubtitleTracks[newSubtitles.TextIndex].TrackName
   end if
 
-  video.SelectedSubtitle = newId
+  video.SelectedSubtitle = newid
 
 end sub
 
-function turnoffSubtitles()
+sub turnoffSubtitles()
   video = m.scene.focusedChild
   current = video.SelectedSubtitle
   video.SelectedSubtitle = -1
   video.globalCaptionMode = "Off"
   m.device.EnableAppFocusEvent(false)
   ' Check if Enoded subtitles are being displayed, and turn off
-  if current > -1 and video.Subtitles[current].IsEncoded then
+  if current > -1 and video.Subtitles[current].IsEncoded
     video.control = "stop"
     AddVideoContent(video, video.audioIndex, -1, video.position * 10000000)
     video.control = "play"
   end if
-end function
+end sub
 
 'Checks available subtitle tracks and puts subtitles in forced, default, and non-default/forced but preferred language at the top
 function sortSubtitles(id as string, MediaStreams)
   tracks = { "forced": [], "default": [], "normal": [] }
   'Too many args for using substitute
-  dashedid = id.left(8) + "-" + id.mid(8,4) + "-" + id.mid(12,4) + "-" + id.mid(16,4) + "-" + id.right(12)
   prefered_lang = m.user.Configuration.SubtitleLanguagePreference
   for each stream in MediaStreams
-    if stream.type = "Subtitle" then
+    if stream.type = "Subtitle"
 
       url = ""
-      if(stream.DeliveryUrl <> invalid) then
+      if stream.DeliveryUrl <> invalid
         url = buildURL(stream.DeliveryUrl)
       end if
 
@@ -110,14 +109,14 @@ function sortSubtitles(id as string, MediaStreams)
         "IsExternal": stream.IsExternal
         "IsEncoded": stream.DeliveryMethod = "Encode"
       }
-      if stream.isForced then
+      if stream.isForced
         trackType = "forced"
-      else if stream.IsDefault then
+      else if stream.IsDefault
         trackType = "default"
       else
         trackType = "normal"
       end if
-      if prefered_lang <> "" and prefered_lang = stream.Track.Language then
+      if prefered_lang <> "" and prefered_lang = stream.Track.Language
         tracks[trackType].unshift(stream)
       else
         tracks[trackType].push(stream)
@@ -130,7 +129,7 @@ function sortSubtitles(id as string, MediaStreams)
 
   textTracks = []
   for i = 0 to tracks["forced"].count() - 1
-    if tracks["forced"][i].IsTextSubtitleStream then
+    if tracks["forced"][i].IsTextSubtitleStream
       tracks["forced"][i].TextIndex = textTracks.count()
       textTracks.push(tracks["forced"][i].Track)
     end if

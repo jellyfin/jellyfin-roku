@@ -42,7 +42,7 @@ sub redraw()
   fontHeight = m.top.fontHeight
   fontWidth = m.top.fontWidth
 
-  if text.text.len() > 0 then
+  if text.text.len() > 0
     textWidth = boxWidth - ( border * 2 )
     text.width = textWidth
     text.numLines = int(fontWidth / textWidth) + 1
@@ -58,7 +58,7 @@ sub redraw()
   options.itemSpacing = "[0,20]"
 
   options.numRows = m.top.options.count()
-  if options.numRows > maxRows then
+  if options.numRows > maxRows
     options.numRows = maxRows
     options.wrapDividerHeight = 0
     options.vertFocusAnimationStyle= "fixedFocusWrap"
