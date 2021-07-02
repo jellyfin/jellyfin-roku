@@ -16,7 +16,6 @@ sub itemContentChanged()
   item = m.top.itemContent
   itemData = item.json
   m.top.id = itemData.id
-
   m.top.findNode("moviePoster").uri = m.top.itemContent.posterURL
 
   ' Find first Audio Stream and set that as default
@@ -66,15 +65,14 @@ sub itemContentChanged()
     setFieldText("genres", tr("Tags") + ": " + itemData.tags.join(", "))
   end if
 
-  director = invalid
+  directors = []
   for each person in itemData.people
     if person.type = "Director"
-      director = person.name
-      exit for
+      directors.push(person.name)
     end if
   end for
-  if director <> invalid
-    setFieldText("director", tr("Director") + ": " + director)
+  if directors.count() > 0
+    setFieldText("director", tr("Director") + ": " + directors.join(", "))
   end if
 
   if itemData.mediaStreams[0] <> invalid
