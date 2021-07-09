@@ -1,27 +1,17 @@
 function CreateServerGroup()
-  ' Get and Save Jellyfin Server Information
-  group = CreateObject("roSGNode", "ConfigScene")
-  m.scene.appendChild(group)
-  port =  CreateObject("roMessagePort")
-  group.findNode("prompt").text = tr("Connect to Server")
+  screen = CreateObject("roSGNode", "SetServerScreen")
+  m.scene.appendChild(screen)
+  port = CreateObject("roMessagePort")
+  m.colors = {}
 
-
-  config = group.findNode("configOptions")
-  server_field = CreateObject("roSGNode", "ConfigData")
-  server_field.label = tr("Server")
-  server_field.field = "server"
-  server_field.type = "string"
   if get_setting("server") <> invalid
-    server_field.value = get_setting("server")
+    screen.serverUrl = get_setting("server")
   end if
-  group.findNode("example").text = tr("192.168.1.100:8096 or https://example.com/jellyfin")
-  items = [ server_field ]
-  config.configItems = items
-
-  button = group.findNode("submit")
+  m.viewModel = {}
+  button = screen.findNode("submit")
   button.observeField("buttonSelected", port)
-  server_hostname = config.content.getChild(0)
-  group.observeField("backPressed", port)
+  server_hostname = screen.serverUrl
+  screen.observeField("backPressed", port)
 
   while(true)
     msg = wait(0, port)
@@ -34,11 +24,11 @@ function CreateServerGroup()
       if node = "submit"
         'Append default ports
         maxSlashes = 0
-        if left(server_hostname.value,8) = "https://" or left(server_hostname.value,7) = "http://" then maxSlashes = 2
+        if left(server_hostname.value, 8) = "https://" or left(server_hostname.value, 7) = "http://" then maxSlashes = 2
         'Check to make sure entry has no extra slashes before adding default ports.
         if Instr(0, server_hostname.value, "/") = maxSlashes then
-          if server_hostname.value.len() > 5 and mid(server_hostname.value, server_hostname.value.len()-4,1) <> ":" and mid(server_hostname.value, server_hostname.value.len()-5,1) <> ":" then
-            if left(server_hostname.value ,5) = "https" then
+          if server_hostname.value.len() > 5 and mid(server_hostname.value, server_hostname.value.len() - 4, 1) <> ":" and mid(server_hostname.value, server_hostname.value.len() - 5, 1) <> ":" then
+            if left(server_hostname.value, 5) = "https" then
               server_hostname.value = server_hostname.value + ":8920"
             else
               server_hostname.value = server_hostname.value + ":8096"
@@ -46,29 +36,29 @@ function CreateServerGroup()
           end if
         end if
         'Append http:// to server
-        if left(server_hostname.value,4) <> "http" then server_hostname.value = "http://" + server_hostname.value
+        if left(server_hostname.value, 4) <> "http" then server_hostname.value = "http://" + server_hostname.value
         'If this is a different server from what we know, reset username/password setting
         if get_setting("server") <> server_hostname.value then
           set_setting("username", "")
           set_setting("password", "")
-        endif
+        end if
         set_setting("server", server_hostname.value)
         if ServerInfo() = invalid then
           ' Maybe don't unset setting, but offer as a prompt
           ' Server not found, is it online? New values / Retry
           print "Server not found, is it online? New values / Retry"
-          group.findNode("alert").text = tr("Server not found, is it online?")
+          screen.findNode("alert").text = tr("Server not found, is it online?")
           SignOut()
         else
-          group.visible = false
+          screen.visible = false
           return "true"
-        endif
+        end if
       end if
     end if
   end while
 
   ' Just hide it when done, in case we need to come back
-  group.visible = false
+  screen.visible = false
 end function
 
 function CreateUserSelectGroup(users = [])
@@ -77,7 +67,7 @@ function CreateUserSelectGroup(users = [])
   end if
   group = CreateObject("roSGNode", "UserSelect")
   m.scene.appendChild(group)
-  port =  CreateObject("roMessagePort")
+  port = CreateObject("roMessagePort")
 
   group.itemContent = users
   group.findNode("userRow").observeField("userSelected", port)
@@ -107,7 +97,7 @@ function CreateSigninGroup(user = "")
   ' Get and Save Jellyfin user login credentials
   group = CreateObject("roSGNode", "ConfigScene")
   m.scene.appendChild(group)
-  port =  CreateObject("roMessagePort")
+  port = CreateObject("roMessagePort")
 
   group.findNode("prompt").text = tr("Sign In")
 
@@ -128,7 +118,7 @@ function CreateSigninGroup(user = "")
   if get_setting("password") <> invalid
     password_field.value = get_setting("password")
   end if
-  items = [ username_field, password_field ]
+  items = [username_field, password_field]
   config.configItems = items
 
   button = group.findNode("submit")
@@ -181,9 +171,9 @@ function CreateHomeGroup()
   sidepanel.observeField("closeSidePanel", m.port)
   new_options = []
   options_buttons = [
-    {"title": "Search", "id": "goto_search"},
-    {"title": "Change server", "id": "change_server"},
-    {"title": "Sign out", "id": "sign_out"}
+    { "title": "Search", "id": "goto_search" },
+    { "title": "Change server", "id": "change_server" },
+    { "title": "Sign out", "id": "sign_out" }
   ]
   for each opt in options_buttons
     o = CreateObject("roSGNode", "OptionsButton")
@@ -200,7 +190,7 @@ function CreateHomeGroup()
   user_node.base_title = tr("Profile")
   user_options = []
   for each user in AvailableUsers()
-    user_options.push({display: user.username + "@" + user.server, value: user.id})
+    user_options.push({ display: user.username + "@" + user.server, value: user.id })
   end for
   user_node.choices = user_options
   user_node.value = get_setting("active_user")
@@ -303,7 +293,7 @@ function SeriesLister(group, page_size)
   sort_order = get_user_setting("series_sort_order", "Ascending")
   sort_field = get_user_setting("series_sort_field", "SortName")
 
-  item_list = ItemList(group.id, {"limit": page_size,
+  item_list = ItemList(group.id, { "limit": page_size,
     "StartIndex": page_size * (group.pageNumber - 1),
     "SortBy": sort_field,
     "SortOrder": sort_order,
@@ -319,7 +309,7 @@ function CollectionLister(group, page_size)
   sort_order = get_user_setting("boxsets_sort_order", "Ascending")
   sort_field = get_user_setting("boxsets_sort_field", "SortName")
 
-  item_list = ItemList(group.id, {"limit": page_size,
+  item_list = ItemList(group.id, { "limit": page_size,
     "StartIndex": page_size * (group.pageNumber - 1),
     "SortBy": sort_field,
     "SortOrder": sort_order,
@@ -333,7 +323,7 @@ end function
 function ChannelLister(group, page_size)
   sort_order = get_user_setting("channel_sort_order", "Ascending")
   sort_field = get_user_setting("channel_sort_field", "SortName")
-  group.objects = Channels({"limit": page_size,
+  group.objects = Channels({ "limit": page_size,
     "StartIndex": page_size * (group.pageNumber - 1),
     "SortBy": sort_field,
     "SortOrder": sort_order,
