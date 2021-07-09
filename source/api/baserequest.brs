@@ -5,6 +5,7 @@ function buildParams(params={} as Object) as string
 
   param_array = []
   for each field in params.items()
+    item = ""
     if type(field.value) = "String" or type(field.value) = "roString"
       item = field.key + "=" + req.escape(field.value.trim())
       'item = field.key + "=" + field.value.trim()
@@ -30,15 +31,22 @@ function buildParams(params={} as Object) as string
       item = field.key + "=" + req.escape(field.value)
       'item = field.key + "=" + field.value
     end if
-    param_array.push(item)
+
+    if item <> "" then param_array.push(item)
   end for
 
   return param_array.join("&")
 end function
 
 function buildURL(path as String, params={} as Object) as string
-  
-  full_url = get_url() + "/" + path
+
+  ' Add intial '/' if path does not start with one
+  if path.Left(1) = "/"
+    full_url = get_url() + path
+  else
+    full_url = get_url() + "/" + path
+  end if
+
   if params.count() > 0
     full_url = full_url + "?" + buildParams(params)
   end if
@@ -136,7 +144,7 @@ function authorize_request(request)
   auth = auth + ", Version=" + Chr(34) + version + Chr(34)
 
   user = get_setting("active_user")
-  if user <> invalid and user <> "" then
+  if user <> invalid and user <> ""
     auth = auth + ", UserId=" + Chr(34) + user + Chr(34)
   end if
 

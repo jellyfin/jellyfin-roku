@@ -8,7 +8,7 @@ sub loadItems()
 
   sort_field = m.top.sortField
 
-  if m.top.sortAscending = true then
+  if m.top.sortAscending = true
     sort_order = "Ascending"
   else
     sort_order = "Descending"
@@ -26,17 +26,17 @@ sub loadItems()
   }
 
   filter = m.top.filter
-  if filter = "All" or filter = "all" then
+  if filter = "All" or filter = "all"
     ' do nothing
-  else if filter = "Favorites" then
+  else if filter = "Favorites"
     params.append({ Filters: "IsFavorite"})
   end if
 
-  if m.top.ItemType <> "" then
+  if m.top.ItemType <> ""
     params.append({ IncludeItemTypes: m.top.ItemType})
   end if
 
-  if m.top.ItemType = "LiveTV" then
+  if m.top.ItemType = "LiveTV"
     url = "LiveTv/Channels"
   else
     url = Substitute("Users/{0}/Items/", get_setting("active_user"))
@@ -44,30 +44,30 @@ sub loadItems()
   resp = APIRequest(url, params)
   data = getJson(resp)
 
-  if data.TotalRecordCount <> invalid then
+  if data.TotalRecordCount <> invalid
     m.top.totalRecordCount = data.TotalRecordCount
   end if
 
   for each item in data.Items
 
     tmp = invalid
-    if item.Type = "Movie" then
+    if item.Type = "Movie"
       tmp = CreateObject("roSGNode", "MovieData")
-    else if item.Type = "Series" then
+    else if item.Type = "Series"
       tmp = CreateObject("roSGNode", "SeriesData")
-    else if item.Type = "BoxSet" then
+    else if item.Type = "BoxSet"
       tmp = CreateObject("roSGNode", "CollectionData")
-    else if item.Type = "TvChannel" then
+    else if item.Type = "TvChannel"
       tmp = CreateObject("roSGNode", "ChannelData")
-    else if item.Type = "Folder" then
+    else if item.Type = "Folder" or item.Type = "ChannelFolderItem" or item.Type = "CollectionFolder"
       tmp = CreateObject("roSGNode", "FolderData")
-    else if item.Type = "Video" then
+    else if item.Type = "Video"
       tmp = CreateObject("roSGNode", "VideoData")
     else
-      print "Unknown Type: " item.Type
+      print "[LoadItems] Unknown Type: " item.Type
     end if
 
-    if tmp <> invalid then
+    if tmp <> invalid
 
       tmp.json = item
       results.push(tmp)

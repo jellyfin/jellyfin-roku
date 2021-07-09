@@ -8,8 +8,8 @@ sub init()
   
       params = {
       UserId: get_setting("active_user")
-      limit: m.top.limit,
-      StartIndex: m.top.startIndex
+     'limit: m.top.limit,
+     'StartIndex: m.top.startIndex
     }
   
     url = "LiveTv/Channels"
@@ -17,7 +17,7 @@ sub init()
     resp = APIRequest(url, params)
     data = getJson(resp)
   
-    if data.TotalRecordCount = invalid then
+    if data.TotalRecordCount = invalid
         m.top.channels = results
         return
     end if

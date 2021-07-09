@@ -1,6 +1,8 @@
 sub init()
     m.top.observeField("state", "onState")
     m.bufferPercentage = 0  ' Track whether content is being loaded
+    m.top.transcodeReasons = []
+    
 end sub
 
 
@@ -9,13 +11,13 @@ end sub
 sub onState(msg) 
 
     ' When buffering, start timer to monitor buffering process
-    if m.top.state = "buffering" and m.bufferCheckTimer <> invalid then
+    if m.top.state = "buffering" and m.bufferCheckTimer <> invalid
 
         ' start timer
         m.bufferCheckTimer = m.top.findNode("bufferCheckTimer")
         m.bufferCheckTimer.control = "start"
         m.bufferCheckTimer.ObserveField("fire", "bufferCheck")
-    else if m.top.state = "error" then
+    else if m.top.state = "error"
 
         ' If an error was encountered, Display dialog
         dialog = createObject("roSGNode", "Dialog")
@@ -43,10 +45,10 @@ sub bufferCheck(msg)
         return
     end if
 
-    if m.top.bufferingStatus <> invalid then
+    if m.top.bufferingStatus <> invalid
 
         ' Check that the buffering percentage is increasing
-        if m.top.bufferingStatus["percentage"] > m.bufferPercentage then
+        if m.top.bufferingStatus["percentage"] > m.bufferPercentage
             m.bufferPercentage = m.top.bufferingStatus["percentage"]
         else
             ' If buffering has stopped Display dialog
@@ -78,7 +80,7 @@ end sub
 function onKeyEvent(key as string, press as boolean) as boolean
   if not press then return false
 
-  if m.top.Subtitles.count() and key = "down" then
+  if m.top.Subtitles.count() and key = "down"
     m.top.selectSubtitlePressed = true
     return true
   end if

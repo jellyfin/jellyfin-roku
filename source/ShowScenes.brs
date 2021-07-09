@@ -12,7 +12,7 @@ function CreateServerGroup()
   button.observeField("buttonSelected", port)
   screen.observeField("backPressed", port)
 
-  while(true)
+  while true
     msg = wait(0, port)
     print type(msg), msg
     if type(msg) = "roSGScreenEvent" and msg.isScreenClosed()
@@ -29,11 +29,32 @@ function CreateServerGroup()
           set_setting("password", "")
         end if
         set_setting("server", serverUrl)
-        if ServerInfo() = invalid then
+        ' Show Connecting to Server spinner
+        dialog = createObject("roSGNode", "ProgressDialog")
+        dialog.title = tr("Connecting to Server")
+        m.scene.dialog = dialog
+
+        serverInfoResult = ServerInfo()
+
+        dialog.close = true
+
+        if serverInfoResult = invalid
           ' Maybe don't unset setting, but offer as a prompt
           ' Server not found, is it online? New values / Retry
           print "Server not found, is it online? New values / Retry"
           screen.findNode("alert").text = tr("Server not found, is it online?")
+          SignOut()
+        else if serverInfoResult.Error <> invalid and serverInfoResult.Error
+          ' If server redirected received, update the URL
+          if serverInfoResult.UpdatedUrl <> invalid
+            server_hostname.value = serverInfoResult.UpdatedUrl
+          end if
+          ' Display Error Message to user
+          message = tr("Error: ")
+          if serverInfoResult.ErrorCode <> invalid
+            message = message + "[" + serverInfoResult.ErrorCode.toStr() + "] "
+          end if
+          screen.findNode("alert").text = message + tr(serverInfoResult.ErrorMessage)
           SignOut()
         else
           screen.visible = false
@@ -48,7 +69,7 @@ function CreateServerGroup()
 end function
 
 function CreateUserSelectGroup(users = [])
-  if users.count() = 0 then
+  if users.count() = 0
     return ""
   end if
   group = CreateObject("roSGNode", "UserSelect")
@@ -59,7 +80,7 @@ function CreateUserSelectGroup(users = [])
   group.findNode("userRow").observeField("userSelected", port)
   group.findNode("alternateOptions").observeField("itemSelected", port)
   group.observeField("backPressed", port)
-  while(true)
+  while true
     msg = wait(0, port)
     if type(msg) = "roSGScreenEvent" and msg.isScreenClosed()
       group.visible = false
@@ -69,7 +90,7 @@ function CreateUserSelectGroup(users = [])
     else if type(msg) = "roSGNodeEvent" and msg.getField() = "userSelected"
       return msg.GetData()
     else if type(msg) = "roSGNodeEvent" and msg.getField() = "itemSelected"
-      if msg.getData() = 0 then
+      if msg.getData() = 0
         return ""
       end if
     end if
@@ -77,6 +98,7 @@ function CreateUserSelectGroup(users = [])
 
   ' Just hide it when done, in case we need to come back
   group.visible = false
+  return ""
 end function
 
 function CreateSigninGroup(user = "")
@@ -117,7 +139,7 @@ function CreateSigninGroup(user = "")
 
   group.observeField("backPressed", port)
 
-  while(true)
+  while true
     msg = wait(0, port)
     if type(msg) = "roSGScreenEvent" and msg.isScreenClosed()
       group.visible = false
@@ -144,6 +166,7 @@ function CreateSigninGroup(user = "")
 
   ' Just hide it when done, in case we need to come back
   group.visible = false
+  return ""
 end function
 
 function CreateHomeGroup()
@@ -244,26 +267,16 @@ function CreateSearchPage()
   return group
 end function
 
-function CreateSidePanel(buttons, options)
+sub CreateSidePanel(buttons, options)
   group = CreateObject("roSGNode", "OptionsSlider")
   group.buttons = buttons
   group.options = options
-
-end function
-
-function CreatePaginator()
-  group = CreateObject("roSGNode", "Pager")
-  group.id = "paginator"
-
-  group.observeField("pageSelected", m.port)
-
-  return group
-end function
+end sub
 
 function CreateVideoPlayerGroup(video_id, audio_stream_idx = 1)
   ' Video is Playing
   video = VideoPlayer(video_id, audio_stream_idx)
-  if video = invalid return invalid
+  if video = invalid then return invalid
   timer = video.findNode("playbackTimer")
 
   video.observeField("backPressed", m.port)
@@ -273,47 +286,4 @@ function CreateVideoPlayerGroup(video_id, audio_stream_idx = 1)
   timer.observeField("fire", m.port)
 
   return video
-end function
-
-function SeriesLister(group, page_size)
-  sort_order = get_user_setting("series_sort_order", "Ascending")
-  sort_field = get_user_setting("series_sort_field", "SortName")
-
-  item_list = ItemList(group.id, { "limit": page_size,
-    "StartIndex": page_size * (group.pageNumber - 1),
-    "SortBy": sort_field,
-    "SortOrder": sort_order,
-    "IncludeItemTypes": "Series"
-  })
-  group.objects = item_list
-
-  p = group.findNode("paginator")
-  p.maxPages = div_ceiling(group.objects.TotalRecordCount, page_size)
-end function
-
-function CollectionLister(group, page_size)
-  sort_order = get_user_setting("boxsets_sort_order", "Ascending")
-  sort_field = get_user_setting("boxsets_sort_field", "SortName")
-
-  item_list = ItemList(group.id, { "limit": page_size,
-    "StartIndex": page_size * (group.pageNumber - 1),
-    "SortBy": sort_field,
-    "SortOrder": sort_order,
-  })
-  group.objects = item_list
-
-  p = group.findNode("paginator")
-  p.maxPages = div_ceiling(group.objects.TotalRecordCount, page_size)
-end function
-
-function ChannelLister(group, page_size)
-  sort_order = get_user_setting("channel_sort_order", "Ascending")
-  sort_field = get_user_setting("channel_sort_field", "SortName")
-  group.objects = Channels({ "limit": page_size,
-    "StartIndex": page_size * (group.pageNumber - 1),
-    "SortBy": sort_field,
-    "SortOrder": sort_order,
-  })
-  p = group.findNode("paginator")
-  p.maxPages = div_ceiling(group.objects.TotalRecordCount, page_size)
 end function

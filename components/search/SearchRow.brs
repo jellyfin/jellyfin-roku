@@ -35,19 +35,19 @@ sub updateSize()
 end sub
 
 function getData()
-    if m.top.itemData = invalid then
+    if m.top.itemData = invalid
         data = CreateObject("roSGNode", "ContentNode")
         return data
     end if
 
     itemData = m.top.itemData
-    rowSize = m.top.rowSize
 
     ' todo - Or get the old data? I can't remember...
     data = CreateObject("roSGNode", "ContentNode")
     ' Do this to keep the ordering, AssociateArrays have no order
-    type_array = ["Movie", "Series", "Episode", "AlbumArtist", "Album", "Audio", "Person"]
+    type_array = ["Movie", "Series", "TvChannel", "Episode", "AlbumArtist", "Album", "Audio", "Person"]
     content_types = {
+        "TvChannel": {"label": "Channels", "count": 0},
         "Movie": {"label": "Movies", "count": 0},
         "Series": {"label": "Shows", "count": 0},
         "Episode": {"label": "Episodes", "count": 0},
@@ -74,7 +74,7 @@ function getData()
     return data
 end function
 
-function addRow(data, title, type_filter)
+sub addRow(data, title, type_filter)
     itemData = m.top.itemData
     row = data.CreateChild("ContentNode")
     row.title = title
@@ -83,4 +83,4 @@ function addRow(data, title, type_filter)
             row.appendChild(item)
         end if
     end for
-end function
+end sub

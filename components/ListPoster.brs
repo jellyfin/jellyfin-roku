@@ -59,25 +59,25 @@ sub updateSize()
 
 end sub
 
-function itemContentChanged() as void
-    m.poster = m.top.findNode("poster")
-    itemData = m.top.itemContent
-    m.title.text = itemData.title
-    if itemData.json.lookup("Type") = "Episode" and itemData.json.IndexNumber <> invalid
-        m.title.text = StrI(itemData.json.IndexNumber) + ". " + m.title.text
-    end if
-    m.staticTitle.text = m.title.text
+sub itemContentChanged() as void
+  m.poster = m.top.findNode("poster")
+  itemData = m.top.itemContent
+  m.title.text = itemData.title
+  if itemData.json.lookup("Type") = "Episode" and itemData.json.IndexNumber <> invalid
+      m.title.text = StrI(itemData.json.IndexNumber) + ". " + m.title.text
+  end if
+  m.staticTitle.text = m.title.text
 
-    m.poster.uri = itemData.posterUrl
+  m.poster.uri = itemData.posterUrl
 
-    updateSize()
-end function
+  updateSize()
+end sub
 
 '
 ' Enable title scrolling based on item Focus
 sub focusChanged()
 
-  if m.top.itemHasFocus = true then
+  if m.top.itemHasFocus = true
     m.title.repeatCount = -1
     m.staticTitle.visible = false
     m.title.visible = true

@@ -14,7 +14,7 @@ sub redraw()
   itemWidth = 300
   itemSpacing = 40
 
-  if userCount < 5 then
+  if userCount < 5
     leftBorder = (1920 - ((userCount * itemWidth) + ((userCount - 1) * itemSpacing))) / 2
   end if
 '   break()
@@ -24,15 +24,15 @@ end sub
 function onKeyEvent(key as string, press as boolean) as boolean
   if not press then return false
 
-  if key = "back" then
+  if key = "back"
     m.top.backPressed = true
-  else if key = "up" then
-    if m.top.focusedChild.isSubType("LabelList") then
+  else if key = "up"
+    if m.top.focusedChild.isSubType("LabelList")
       m.top.findNode("UserRow").setFocus(true)
       return true
     end if
-  else if key = "down" then
-    if m.top.focusedChild.isSubType("UserRow") then
+  else if key = "down"
+    if m.top.focusedChild.isSubType("UserRow")
       m.top.findNode("alternateOptions").setFocus(true)
       return true
     end if

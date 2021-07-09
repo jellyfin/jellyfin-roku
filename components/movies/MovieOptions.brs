@@ -27,7 +27,7 @@ end sub
 sub optionsSet()
 
   '  Views Tab
-  if m.top.options.views <> invalid then
+  if m.top.options.views <> invalid
     viewContent = CreateObject("roSGNode", "ContentNode")
     index = 0
     selectedViewIndex = 0
@@ -38,7 +38,7 @@ sub optionsSet()
       entry.description = view.Description
       entry.streamIndex = view.StreamIndex
       m.viewNames.push(view.Name)
-      if view.Selected <> invalid and view.Selected = true then
+      if view.Selected <> invalid and view.Selected = true
         selectedViewIndex = index
         entry.selected = true
         m.top.audioSteamIndex = view.streamIndex
@@ -65,13 +65,13 @@ end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean
 
-  if key = "down" or (key = "OK" and m.top.findNode("buttons").hasFocus()) then
+  if key = "down" or (key = "OK" and m.top.findNode("buttons").hasFocus())
     m.top.findNode("buttons").setFocus(false)
     m.menus[m.selectedItem].setFocus(true)
     m.menus[m.selectedItem].drawFocusFeedback = true
 
     'If user presses down from button menu, focus first item.  If OK, focus checked item
-    if key = "down" then
+    if key = "down"
       m.menus[m.selectedItem].jumpToItem = 0
     else
       m.menus[m.selectedItem].jumpToItem = m.menus[m.selectedItem].itemSelected
@@ -79,13 +79,12 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
     return true
   else if key = "OK"
-    if(m.menus[m.selectedItem].isInFocusChain()) then
+    if m.menus[m.selectedItem].isInFocusChain()
 
       selMenu = m.menus[m.selectedItem]
       selIndex = selMenu.itemSelected
-      child = selMenu.content.GetChild(selIndex)
 
-      if m.selectedAudioIndex = selIndex then
+      if m.selectedAudioIndex = selIndex
       else
         selMenu.content.GetChild(m.selectedAudioIndex).selected = false
         newSelection = selMenu.content.GetChild(selIndex)
@@ -96,7 +95,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
     end if
     return true
   else if key = "back" or key = "up"
-    if m.menus[m.selectedItem].isInFocusChain() then
+    if m.menus[m.selectedItem].isInFocusChain()
       m.buttons.setFocus(true)
       m.menus[m.selectedItem].drawFocusFeedback = false
       return true

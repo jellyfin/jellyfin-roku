@@ -8,12 +8,6 @@ sub init()
 end sub
 
 sub updateSize()
-  dimensions = m.top.getScene().currentDesignResolution
-
-  border = 200
-  'm.top.translation = [border, border + 115]
-
-  textHeight = 80
   itemWidth = 300
   itemHeight = 364
 
@@ -32,7 +26,7 @@ end sub
 
 
 function setData()
-  if m.top.itemContent = invalid then
+  if m.top.itemContent = invalid
     data = CreateObject("roSGNode", "ContentNode")
     return data
   end if

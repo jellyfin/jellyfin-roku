@@ -22,7 +22,7 @@ sub init()
     resp = APIRequest(url)
     data  = postJson(resp, FormatJson(params))
   
-    if data = invalid then
+    if data = invalid
         m.top.schedule = results
         return
     end if

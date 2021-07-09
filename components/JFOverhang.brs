@@ -1,8 +1,5 @@
 sub init()
   m.top.id = "overhang"
-  ' set opacity
-  bgg = m.top.findNode("overlayBackgroundGroup")
-  bgg.opacity = 0.333
   ' hide seperators till they're needed
   leftSeperator = m.top.findNode("overlayLeftSeperator")
   leftSeperator.visible = "false"
@@ -32,9 +29,9 @@ sub init()
 end sub
 
 
-function updateTitle()
+sub updateTitle()
   leftSeperator = m.top.findNode("overlayLeftSeperator")
-  if m.top.title <> "" then
+  if m.top.title <> ""
     leftSeperator.visible = "true"
   else
     leftSeperator.visible = "false"
@@ -42,21 +39,21 @@ function updateTitle()
   title = m.top.findNode("overlayTitle")
   title.text = m.top.title
   resetTime()
-end function
+end sub
 
-function updateUser()
+sub updateUser()
   rightSeperator = m.top.findNode("overlayRightSeperator")
-  if m.top.currentUser <> "" then
+  if m.top.currentUser <> ""
     rightSeperator.visible = "true"
   else
     rightSeperator.visible = "false"
   end if
   user = m.top.findNode("overlayCurrentUser")
   user.text = m.top.currentUser
-end function
+end sub
 
-function updateTime()
-  if (m.currentMinutes + 1) > 59 then
+sub updateTime()
+  if (m.currentMinutes + 1) > 59
     m.currentHours = m.currentHours + 1
     m.currentMinutes = 0
   else
@@ -64,9 +61,9 @@ function updateTime()
   end if
 
   updateTimeDisplay()
-end function
+end sub
 
-function resetTime()
+sub resetTime()
   m.currentTimeTimer.control = "stop"
 
   currentTime = CreateObject("roDateTime")
@@ -78,31 +75,31 @@ function resetTime()
   m.currentMinutes = currentTime.GetMinutes()
 
   updateTimeDisplay()
-end function
+end sub
 
-function updateTimeDisplay()
+sub updateTimeDisplay()
   overlayHours = m.top.findNode("overlayHours")
   overlayMinutes = m.top.findNode("overlayMinutes")
   overlayMeridian = m.top.findNode("overlayMeridian")
   
-  if m.clockFormat = "24h" then
+  if m.clockFormat = "24h"
     overlayMeridian.text = ""
-    if m.currentHours < 10 then
+    if m.currentHours < 10
       overlayHours.text = "0" + StrI(m.currentHours).trim()
     else
       overlayHours.text = m.currentHours
     end if
   else
-    if m.currentHours < 12 then
+    if m.currentHours < 12
       overlayMeridian.text = "AM"
-      if m.currentHours = 0 then
+      if m.currentHours = 0
         overlayHours.text = "12"
       else
         overlayHours.text = m.currentHours
       end if
     else
       overlayMeridian.text = "PM"
-      if m.currentHours = 12 then
+      if m.currentHours = 12
         overlayHours.text = "12"
       else
         overlayHours.text = m.currentHours - 12
@@ -110,21 +107,21 @@ function updateTimeDisplay()
     end if
   end if
 
-  if m.currentMinutes < 10 then
+  if m.currentMinutes < 10
     overlayMinutes.text = "0" + StrI(m.currentMinutes).trim()
   else
     overlayMinutes.text = m.currentMinutes
   end if
-end function
+end sub
 
-function updateOptions()
+sub updateOptions()
   optionText = m.top.findNode("overlayOptionsText")
   optionStar = m.top.findNode("overlayOptionsStar")
-  if m.top.showOptions = true then
+  if m.top.showOptions = true
     optionText.visible = true
     optionStar.visible = true
   else
     optionText.visible = false
     optionStar.visible = false
   end if
-end function
+end sub

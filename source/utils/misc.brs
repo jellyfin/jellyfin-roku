@@ -16,8 +16,8 @@ end function
 
 function getButton(msg, subnode = "buttons" as string) as object
   buttons = msg.getRoSGNode().findNode(subnode)
+  if buttons = invalid then return invalid
   active_button = buttons.focusedChild
-
   return active_button
 end function
 
@@ -46,7 +46,7 @@ function formatTime(time) as string
   hours = time.getHours()
   minHourDigits = 1
   di = CreateObject("roDeviceInfo")
-  if di.GetClockFormat() = "12h" then
+  if di.GetClockFormat() = "12h"
     meridian = "AM"
     if hours = 0
       hours = 12
@@ -70,7 +70,7 @@ end function
 
 function div_ceiling(a as integer, b as integer) as integer
   if a < b then return 1
-  if int(a/b) = a/b then
+  if int(a/b) = a/b
     return a/b
   end if
   return a/b + 1
@@ -80,9 +80,9 @@ end function
 function get_dialog_result(dialog, port)
   while dialog <> invalid
     msg = wait(0, port)
-    if isNodeEvent(msg, "backPressed") then
+    if isNodeEvent(msg, "backPressed")
       return -1
-    elseif isNodeEvent(msg, "itemSelected")
+    else if isNodeEvent(msg, "itemSelected")
       return dialog.findNode("optionList").itemSelected
     end if
   end while
@@ -93,7 +93,7 @@ end function
 function lastFocusedChild(obj as object) as object
   child = obj
   for i = 0 to obj.getChildCount()
-    if obj.focusedChild <> invalid then
+    if obj.focusedChild <> invalid
       child = child.focusedChild
     end if
   end for
@@ -101,14 +101,13 @@ function lastFocusedChild(obj as object) as object
 end function
 
 function show_dialog(message as string, options = [], defaultSelection = 0) as integer
-  group = m.scene.focusedChild
   lastFocus = lastFocusedChild(m.scene)
   'We want to handle backPressed instead of the main loop
   m.scene.unobserveField("backPressed")
 
   dialog = createObject("roSGNode", "JFMessageDialog")
   if options.count() then dialog.options = options
-  if message.len() > 0 then
+  if message.len() > 0
     reg = CreateObject("roFontRegistry")
     font = reg.GetDefaultFont()
     dialog.fontHeight = font.GetOneLineHeight()
@@ -116,7 +115,7 @@ function show_dialog(message as string, options = [], defaultSelection = 0) as i
     dialog.message = message
   end if
 
-  if defaultSelection > 0 then
+  if defaultSelection > 0
     dialog.findNode("optionList").jumpToItem = defaultSelection
   end if
 

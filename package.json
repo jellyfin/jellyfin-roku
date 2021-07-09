@@ -1,18 +1,20 @@
 {
   "name": "jellyfin-roku",
-  "version": "1.4.0",
+  "version": "1.4.9",
   "description": "Roku app for Jellyfin media server",
   "main": "index.js",
   "directories": {
     "test": "tests"
   },
   "devDependencies": {
+    "@rokucommunity/bslint": "^0.4.0",
     "brighterscript": "^0.39.4",
     "rooibos-cli": "^1.0.1"
   },
   "scripts": {
     "validate": "npx bsc --copy-to-staging=false --create-package=false",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "bslint"
   },
   "repository": {
     "type": "git",

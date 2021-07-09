@@ -18,7 +18,7 @@ sub setFields()
     m.top.endDate = json.endDate
     m.top.channelId = json.channelId
 
-    if json.IsSeries <> invalid and json.IsSeries = true then
+    if json.IsSeries <> invalid and json.IsSeries = true
         if json.IndexNumber <> invalid
             m.top.episodeNumber = json.IndexNumber
         end if
@@ -35,7 +35,7 @@ sub setFields()
     if m.top.image <> invalid
       m.top.posterURL = m.top.image.url
     else
-      if m.top.json.ImageTags <> invalid and m.top.json.ImageTags.Thumb <> invalid then
+      if m.top.json.ImageTags <> invalid and m.top.json.ImageTags.Thumb <> invalid
         imgParams = { "maxHeight": 500, "maxWidth": 500, "Tag" : m.top.json.ImageTags.Thumb }
         m.top.posterURL = ImageURL(m.top.json.id, "Thumb", imgParams)
       end if

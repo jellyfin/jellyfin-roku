@@ -1,8 +1,8 @@
-sub Main()
+sub Main (args as Dynamic) as Void
 
   ' If the Rooibos files are included in deployment, run tests
   'bs:disable-next-line
-  if (type(Rooibos__Init) = "Function") then Rooibos__Init()
+  if type(Rooibos__Init) = "Function" then Rooibos__Init()
 
   ' The main function that runs when the application is launched.
   m.screen = CreateObject("roSGScreen")
@@ -21,8 +21,6 @@ sub Main()
 
   m.overhang = CreateObject("roSGNode", "JFOverhang")
   m.scene.insertChild(m.overhang, 0)
-
-  m.page_size = 48
 
   app_start:
   m.overhang.title = ""
@@ -52,20 +50,41 @@ sub Main()
   m.device.setMessagePort(m.port)
   m.device.EnableScreensaverExitedEvent(true)
 
+  ' Check if we were sent content to play with the startup command (Deep Link)
+  if (args.mediaType <> invalid) and (args.contentId <> invalid)
+    video = CreateVideoPlayerGroup(args.contentId)
+
+    if video <> invalid
+      if group.lastFocus = invalid then group.lastFocus = group.focusedChild
+      group.setFocus(false)
+      group.visible = false
+      group = video
+      m.scene.appendChild(group)
+      group.setFocus(true)
+      group.control = "play"
+      ReportPlayback(group, "start")
+      m.overhang.visible = false
+    else
+      dialog = createObject("roSGNode", "Dialog")
+      dialog.id = "OKDialog"
+      dialog.title = tr("Not found")
+      dialog.message = tr("The requested content does not exist on the server")
+      dialog.buttons = [tr("OK")]
+      m.scene.dialog = dialog
+      m.scene.dialog.observeField("buttonSelected", m.port)
+    end if
+  end if
+
   ' This is the core logic loop. Mostly for transitioning between scenes
   ' This now only references m. fields so could be placed anywhere, in theory
   ' "group" is always "whats on the screen"
   ' m.scene's children is the "previous view" stack
-  while(true)
+  while true
     msg = wait(0, m.port)
-    if type(msg) = "roSGScreenEvent" and msg.isScreenClosed() then
+    if type(msg) = "roSGScreenEvent" and msg.isScreenClosed()
       print "CLOSING SCREEN"
       return
-    else if isNodeEvent(msg, "buttonSelected")
-      ' Dialog Button Selected - If not handled more locally, just close the dialog
-      dialog = msg.getRoSGNode()
-      dialog.unobserveField("buttonSelected")
-      dialog.close = true
+
     else if isNodeEvent(msg, "backPressed")
       n = m.scene.getChildCount() - 1
       if msg.getRoSGNode().focusedChild <> invalid and msg.getRoSGNode().focusedChild.isSubtype("JFVideo")
@@ -91,9 +110,9 @@ sub Main()
       reportingNode = msg.getRoSGNode()
       itemNode = reportingNode.quickPlayNode
       if itemNode = invalid or itemNode.id = "" then return
-      if itemNode.type = "Episode" or itemNode.type = "Movie" or itemNode.type = "Video" then
+      if itemNode.type = "Episode" or itemNode.type = "Movie" or itemNode.type = "Video"
         video = CreateVideoPlayerGroup(itemNode.id)
-        if video <> invalid then
+        if video <> invalid
           group.lastFocus = group.focusedChild
           group.setFocus(false)
           group.visible = false
@@ -108,7 +127,7 @@ sub Main()
     else if isNodeEvent(msg, "selectedItem")
       ' If you select a library from ANYWHERE, follow this flow
       selectedItem = msg.getData()
-      if selectedItem.type = "CollectionFolder" OR selectedItem.type = "UserView" OR selectedItem.type = "Folder"
+      if selectedItem.type = "CollectionFolder" OR selectedItem.type = "UserView" OR selectedItem.type = "Folder" OR selectedItem.type = "Channel" OR selectedItem.type = "Boxset"
         group.lastFocus = group.focusedChild
         group.setFocus(false)
         group.visible = false
@@ -116,21 +135,12 @@ sub Main()
         group = CreateItemGrid(selectedItem)
         group.overhangTitle = selectedItem.title
         m.scene.appendChild(group)
-      else if selectedItem.type = "Folder"
-        group.lastFocus = group.focusedChild
-        group.setFocus(false)
-        group.visible = false
-
-        m.overhang.title = selectedItem.title
-        group = CreateItemGrid(selectedItem)
-        group.overhangTitle = selectedItem.title
-        m.scene.appendChild(group)
-      else if selectedItem.type = "Episode" then
+      else if selectedItem.type = "Episode"
         ' play episode
         ' todo: create an episode page to link here
         video_id = selectedItem.id
         video = CreateVideoPlayerGroup(video_id)
-        if video <> invalid then
+        if video <> invalid
           group.lastFocus = group.focusedChild
           group.setFocus(false)
           group.visible = false
@@ -141,7 +151,7 @@ sub Main()
           ReportPlayback(group, "start")
           m.overhang.visible = false
         end if
-      else if selectedItem.type = "Series" then
+      else if selectedItem.type = "Series"
         group.lastFocus = group.focusedChild
         group.setFocus(false)
         group.visible = false
@@ -152,7 +162,7 @@ sub Main()
         group = CreateSeriesDetailsGroup(selectedItem.json)
         group.overhangTitle = selectedItem.title
         m.scene.appendChild(group)
-      else if selectedItem.type = "Movie" then
+      else if selectedItem.type = "Movie"
         ' open movie detail page
         group.lastFocus = group.focusedChild
         group.setFocus(false)
@@ -165,7 +175,7 @@ sub Main()
         group.overhangTitle = selectedItem.title
         m.scene.appendChild(group)
 
-      else if selectedItem.type = "TvChannel" or selectedItem.type = "Video" then
+      else if selectedItem.type = "TvChannel" or selectedItem.type = "Video"
         ' play channel feed
         video_id = selectedItem.id
 
@@ -177,7 +187,7 @@ sub Main()
         video = CreateVideoPlayerGroup(video_id)
         dialog.close = true
 
-        if video <> invalid then
+        if video <> invalid
           if group.lastFocus = invalid then group.lastFocus = group.focusedChild
           group.setFocus(false)
           group.visible = false
@@ -189,6 +199,7 @@ sub Main()
           m.overhang.visible = false
         else
           dialog = createObject("roSGNode", "Dialog")
+          dialog.id = "OKDialog"
           dialog.title = tr("Error loading Channel Data")
           dialog.message = tr("Unable to load Channel Data from the server")
           dialog.buttons = [tr("OK")]
@@ -198,7 +209,6 @@ sub Main()
       else
         ' TODO - switch on more node types
         message_dialog("This type is not yet supported: " + selectedItem.type + ".")
-        selectedItem = invalid
       end if
     else if isNodeEvent(msg, "movieSelected")
       ' If you select a movie from ANYWHERE, follow this flow
@@ -249,7 +259,7 @@ sub Main()
       node = getMsgPicker(msg, "picker")
       video_id = node.id
       video = CreateVideoPlayerGroup(video_id)
-      if video <> invalid then
+      if video <> invalid
         group.lastFocus = group.focusedChild
         group.setFocus(false)
         group.visible = false
@@ -267,21 +277,13 @@ sub Main()
       options.visible = true
       options.setFocus(true)
 
+      dialog = createObject("roSGNode", "ProgressDialog")
+      dialog.title = tr("Loading Search Data")
+      m.scene.dialog = dialog
       results = SearchMedia(query)
+      dialog.close = true
       options.itemData = results
       options.query = query
-    else if isNodeEvent(msg, "pageSelected")
-      group.pageNumber = msg.getRoSGNode().pageSelected
-      collectionType = group.subType()
-      if collectionType = "Collections"
-        CollectionLister(group, m.page_size)
-      else if collectionType = "TVShows"
-        SeriesLister(group, m.page_size)
-      else if collectionType = "Channels"
-        ChannelLister(group, m.page_size)
-      end if
-      ' TODO - abstract away the "picker" node
-      group.findNode("picker").setFocus(true)
     else if isNodeEvent(msg, "itemSelected")
       ' Search item selected
       node = getMsgPicker(msg)
@@ -291,7 +293,7 @@ sub Main()
 
       ' TODO - swap this based on target.mediatype
       ' types: [ Series (Show), Episode, Movie, Audio, Person, Studio, MusicArtist ]
-      if node.type = "Series" then
+      if node.type = "Series"
         group = CreateSeriesDetailsGroup(node)
       else
         group = CreateMovieDetailsGroup(node)
@@ -302,7 +304,7 @@ sub Main()
     else if isNodeEvent(msg, "buttonSelected")
       ' If a button is selected, we have some determining to do
       btn = getButton(msg)
-      if btn.id = "play-button"
+      if btn <> invalid and btn.id = "play-button"
         ' Check is a specific Audio Stream was selected
         audio_stream_idx = 1
         if group.selectedAudioStreamIndex <> invalid
@@ -313,7 +315,7 @@ sub Main()
         ' This is currently page layout Group, button Group, then button
         video_id = group.id
         video = CreateVideoPlayerGroup(video_id, audio_stream_idx)
-        if video <> invalid then
+        if video <> invalid
           group.lastFocus = group.focusedChild.focusedChild.focusedChild
           group.setFocus(false)
           group.visible = false
@@ -324,7 +326,7 @@ sub Main()
           ReportPlayback(group, "start")
           m.overhang.visible = false
         end if
-      else if btn.id = "watched-button"
+      else if btn <> invalid and btn.id = "watched-button"
         movie = group.itemContent
         if movie.watched
           UnmarkItemWatched(movie.id)
@@ -332,7 +334,7 @@ sub Main()
           MarkItemWatched(movie.id)
         end if
         movie.watched = not movie.watched
-      else if btn.id = "favorite-button"
+      else if btn <> invalid and btn.id = "favorite-button"
         movie = group.itemContent
         if movie.favorite
           UnmarkItemFavorite(movie.id)
@@ -340,6 +342,13 @@ sub Main()
           MarkItemFavorite(movie.id)
         end if
         movie.favorite = not movie.favorite
+      else
+        ' If there are no other button matches, check if this is a simple "OK" Dialog & Close if so
+        dialog = msg.getRoSGNode()
+        if dialog.id = "OKDialog"
+          dialog.unobserveField("buttonSelected")
+          dialog.close = true
+        end if
       end if
     else if isNodeEvent(msg, "optionSelected")
       button = msg.getRoSGNode()
@@ -374,9 +383,9 @@ sub Main()
       end if
     else if isNodeEvent(msg, "selectSubtitlePressed")
       node = m.scene.focusedChild
-      if node.isSubType("JFVideo") then
+      if node.isSubType("JFVideo")
         trackSelected = selectSubtitleTrack(node.Subtitles, node.SelectedSubtitle)
-        if trackSelected <> invalid and trackSelected <> node.SelectedSubtitle then
+        if trackSelected <> invalid and trackSelected <> -2
           changeSubtitleDuringPlayback(trackSelected)
         end if
       end if
@@ -384,37 +393,22 @@ sub Main()
       ReportPlayback(group, "update")
     else if isNodeEvent(msg, "state")
       node = msg.getRoSGNode()
-      if node.state = "finished" then
+      if node.state = "finished"
         stopPlayback()
-        if node.showID = invalid then
+        if node.showID = invalid
           RemoveCurrentGroup()
         else
           nextEpisode =autoPlayNextEpisode(node.id, node.showID)
           if nextEpisode <> invalid then group = nextEpisode
         end if
-      else if node.state = "playing" or node.state = "paused" then
+      else if node.state = "playing" or node.state = "paused"
         ReportPlayback(group, "update")
       end if
-    else if type(msg) = "roDeviceInfoEvent" then
+    else if type(msg) = "roDeviceInfoEvent"
       event = msg.GetInfo()
-      if event.appFocused <> invalid then
-        child = m.scene.focusedChild
-        if child <> invalid and child.isSubType("JFVideo") then
-          child.systemOverlay = not event.appFocused
-          if event.AppFocused = true then
-            systemOverlayClosed()
-          end if
-        end if
-      else if event.Mute <> invalid then
-        m.mute = event.Mute
-        child = m.scene.focusedChild
-        if child <> invalid and child.isSubType("JFVideo") and areSubtitlesDisplayed() and child.systemOverlay = false then
-        'Event will be called on caption change which includes the current mute status, but we do not want to call until the overlay is closed
-          reviewSubtitleDisplay()
-        end if
-      else if event.exitedScreensaver = true then
+      if event.exitedScreensaver = true
         m.overhang.callFunc("resetTime")
-        if group.subtype() = "Home" then
+        if group.subtype() = "Home"
           currentTime = CreateObject("roDateTime").AsSeconds()
           group.timeLastRefresh = currentTime
           group.callFunc("refresh")
@@ -423,6 +417,32 @@ sub Main()
       else
         print "Unhandled roDeviceInfoEvent:"
         print msg.GetInfo()
+      end if
+    else if type(msg) = "roInputEvent"
+      if msg.IsInput()
+          info = msg.GetInfo()
+          if info.DoesExist("mediatype") and info.DoesExist("contentid")
+            video = CreateVideoPlayerGroup(info.contentId)
+            if video <> invalid
+              if group.lastFocus = invalid then group.lastFocus = group.focusedChild
+              group.setFocus(false)
+              group.visible = false
+              group = video
+              m.scene.appendChild(group)
+              group.setFocus(true)
+              group.control = "play"
+              ReportPlayback(group, "start")
+              m.overhang.visible = false
+            else
+              dialog = createObject("roSGNode", "Dialog")
+              dialog.id = "OKDialog"
+              dialog.title = tr("Not found")
+              dialog.message = tr("The requested content does not exist on the server")
+              dialog.buttons = [tr("OK")]
+              m.scene.dialog = dialog
+              m.scene.dialog.observeField("buttonSelected", m.port)
+            end if
+          end if
       end if
     else
       print "Unhandled " type(msg)
@@ -433,46 +453,59 @@ sub Main()
 end sub
 
 function LoginFlow(startOver = false as boolean)
-  if m.scene <> invalid then
+  if m.scene <> invalid
     m.scene.unobserveField("backPressed")
   end if
   'Collect Jellyfin server and user information
   start_login:
-  if get_setting("server") = invalid or ServerInfo() = invalid or startOver = true then
+
+  if get_setting("server") = invalid then startOver = true
+
+  invalidServer = true
+  if not startOver
+        ' Show Connecting to Server spinner
+        dialog = createObject("roSGNode", "ProgressDialog")
+        dialog.title = tr("Connecting to Server")
+        m.scene.dialog = dialog
+        invalidServer = ServerInfo().Error
+        dialog.close = true
+  end if
+
+  if startOver or invalidServer
     print "Get server details"
     SendPerformanceBeacon("AppDialogInitiate")  ' Roku Performance monitoring - Dialog Starting
     serverSelection = CreateServerGroup()
     SendPerformanceBeacon("AppDialogComplete") ' Roku Performance monitoring - Dialog Closed
-    if serverSelection = "backPressed" then
+    if serverSelection = "backPressed"
       print "backPressed"
       wipe_groups()
       return false
     end if
   end if
 
-  if get_setting("active_user") = invalid then
+  if get_setting("active_user") = invalid
     SendPerformanceBeacon("AppDialogInitiate")  ' Roku Performance monitoring - Dialog Starting
     publicUsers = GetPublicUsers()
-    if publicUsers.count() then
+    if publicUsers.count()
       publicUsersNodes = []
       for each item in publicUsers
         user = CreateObject("roSGNode", "PublicUserData")
         user.id = item.Id
         user.name = item.Name
-        if item.PrimaryImageTag <> invalid  then
+        if item.PrimaryImageTag <> invalid
           user.ImageURL = UserImageURL(user.id, { "tag": item.PrimaryImageTag })
         end if
         publicUsersNodes.push(user)
       end for
       userSelected = CreateUserSelectGroup(publicUsersNodes)
       m.scene.focusedChild.visible = false
-      if userSelected = "backPressed" then
+      if userSelected = "backPressed"
         SendPerformanceBeacon("AppDialogComplete") ' Roku Performance monitoring - Dialog Closed
         return LoginFlow(true)
       else
         'Try to login without password. If the token is valid, we're done
         get_token(userSelected, "")
-        if get_setting("active_user") <> invalid then
+        if get_setting("active_user") <> invalid
           m.user = AboutMe()
           LoadUserPreferences()
           SendPerformanceBeacon("AppDialogComplete") ' Roku Performance monitoring - Dialog Closed
@@ -484,7 +517,7 @@ function LoginFlow(startOver = false as boolean)
     end if
     passwordEntry = CreateSigninGroup(userSelected)
     SendPerformanceBeacon("AppDialogComplete") ' Roku Performance monitoring - Dialog Closed
-    if passwordEntry = "backPressed" then
+    if passwordEntry = "backPressed"
       m.scene.focusedChild.visible = false
       return LoginFlow(true)
     end if
@@ -514,12 +547,12 @@ sub RunScreenSaver()
   m.port = createObject("roMessagePort")
   screen.setMessagePort(m.port)
 
-  scene = screen.createScene("Screensaver")
+  screen.createScene("Screensaver")
   screen.Show()
 
-  while(true)
+  while true
     msg = wait(8000, m.port)
-    if (msg <> invalid)
+    if msg <> invalid
       msgType = type(msg)
       if msgType = "roSGScreenEvent"
         if msg.isScreenClosed() then return
@@ -531,7 +564,7 @@ end sub
 
 sub wipe_groups()
   ' The 1 remaining child should be the overhang
-  while(m.scene.getChildCount() > 1)
+  while m.scene.getChildCount() > 1
     m.scene.removeChildIndex(1)
   end while
 end sub
@@ -545,8 +578,8 @@ sub RemoveCurrentGroup()
   group = m.scene.getChild(n - 1)
   m.overhang.title = group.overhangTitle
   m.overhang.showOptions = group.optionsAvailable
-  if group.optionsAvailable <> prevOptionsAvailable then
-    if group.optionsAvailable = false then
+  if group.optionsAvailable <> prevOptionsAvailable
+    if group.optionsAvailable = false
       m.scene.unobserveField("optionsPressed")
     else
       m.scene.observeField("optionsPressed", m.port)
@@ -558,9 +591,9 @@ sub RemoveCurrentGroup()
   else
     group.setFocus(true)
   end if
-  if group.subtype() = "Home" then
+  if group.subtype() = "Home"
     currentTime = CreateObject("roDateTime").AsSeconds()
-    if group.timeLastRefresh = invalid  or (currentTime - group.timeLastRefresh) > 20 then
+    if group.timeLastRefresh = invalid  or (currentTime - group.timeLastRefresh) > 20
       group.timeLastRefresh = currentTime
       group.callFunc("refresh")
     end if
@@ -570,7 +603,7 @@ end sub
 
 ' Roku Performance monitoring
 sub SendPerformanceBeacon(signalName as string)
-  if m.global.app_loaded = false then
+  if m.global.app_loaded = false
     m.scene.signalBeacon(signalName)
   end if
 end sub

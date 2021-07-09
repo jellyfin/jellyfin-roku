@@ -29,22 +29,23 @@ sub itemContentChanged()
 
   if itemData = invalid then return
 
-  if itemData.type = "Movie" then
+  if itemData.type = "Movie"
     m.itemPoster.uri = itemData.PosterUrl
     m.itemText.text = itemData.Title
-  else if itemData.type = "Series" then
+  else if itemData.type = "Series"
     m.itemPoster.uri = itemData.PosterUrl
     m.itemText.text = itemData.Title
-  else if itemData.type = "Boxset" then
+  else if itemData.type = "Boxset"
     m.itemPoster.uri = itemData.PosterUrl
     m.itemText.text = itemData.Title
-  else if itemData.type = "TvChannel" then
+  else if itemData.type = "TvChannel"
     m.itemPoster.uri = itemData.PosterUrl
     m.itemText.text = itemData.Title
-  else if itemData.type = "Folder" then
+  else if itemData.type = "Folder"
+    m.itemPoster.uri = itemData.PosterUrl
     m.itemIcon.uri = itemData.iconUrl
     m.itemText.text = itemData.Title
-  else if itemData.type = "Video" then
+  else if itemData.type = "Video"
     m.itemPoster.uri = itemData.PosterUrl
     m.itemText.text = itemData.Title
   else
@@ -52,7 +53,7 @@ sub itemContentChanged()
   end if
 
   'If Poster not loaded, ensure "blue box" is shown until loaded
-  if m.itemPoster.loadStatus <> "ready" then
+  if m.itemPoster.loadStatus <> "ready"
     m.backdrop.visible = true
     m.posterText.visible = true
   end if
@@ -72,7 +73,7 @@ end sub
 'Display or hide title Visibility on focus change
 sub focusChanged()
 
-  if m.top.itemHasFocus = true then
+  if m.top.itemHasFocus = true
     m.itemText.visible = true
     m.itemText.repeatCount = -1
   else
@@ -84,7 +85,7 @@ end sub
 
 'Hide backdrop and text when poster loaded
 sub onPosterLoadStatusChanged()
-  if m.itemPoster.loadStatus = "ready" then
+  if m.itemPoster.loadStatus = "ready"
     m.backdrop.visible = false
     m.posterText.visible = false
   end if

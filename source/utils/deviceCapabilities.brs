@@ -21,7 +21,7 @@ function getDeviceProfile() as object
     'Check if 5.1 Audio Output connected
     maxAudioChannels = 2
     di = CreateObject("roDeviceInfo")
-    if di.GetAudioOutputChannel() = "5.1 surround" then
+    if di.GetAudioOutputChannel() = "5.1 surround"
       maxAudioChannels = 6
     end if
 
@@ -155,51 +155,51 @@ function GetDirectPlayProfiles() as object
     end if
 
     ' Check for supported Audio
-    if di.CanDecodeAudio({ Codec: "ac3"}).result then
+    if di.CanDecodeAudio({ Codec: "ac3"}).result
         mkvAudio = mkvAudio + ",ac3"
         mp4Audio = mp4Audio + ",ac3"
         audio = audio + ",ac3"
     end if
 
-    if di.CanDecodeAudio({ Codec: "wma"}).result then
+    if di.CanDecodeAudio({ Codec: "wma"}).result
         audio = audio + ",wma"
     end if
 
-    if di.CanDecodeAudio({ Codec: "flac"}).result then
+    if di.CanDecodeAudio({ Codec: "flac"}).result
         mkvAudio = mkvAudio + ",flac"
         audio = audio + ",flac"
     end if
 
-    if di.CanDecodeAudio({ Codec: "alac"}).result then
+    if di.CanDecodeAudio({ Codec: "alac"}).result
         mkvAudio = mkvAudio + ",alac"
         mp4Audio = mp4Audio + ",alac"
         audio = audio + ",alac"
     end if
 
-    if di.CanDecodeAudio({ Codec: "aac"}).result then
+    if di.CanDecodeAudio({ Codec: "aac"}).result
         mkvAudio = mkvAudio + ",aac"
         mp4Audio = mp4Audio + ",aac"
         audio = audio + ",aac"
     end if
 
-    if di.CanDecodeAudio({ Codec: "opus"}).result then
+    if di.CanDecodeAudio({ Codec: "opus"}).result
         mkvAudio = mkvAudio + ",opus"
     end if
 
-    if di.CanDecodeAudio({ Codec: "dts"}).result then
+    if di.CanDecodeAudio({ Codec: "dts"}).result
         mkvAudio = mkvAudio + ",dts"
         audio = audio + ",dts"
     end if
 
-    if di.CanDecodeAudio({ Codec: "wmapro"}).result then
+    if di.CanDecodeAudio({ Codec: "wmapro"}).result
         audio = audio + ",wmapro"
     end if
 
-    if di.CanDecodeAudio({ Codec: "vorbis"}).result then
+    if di.CanDecodeAudio({ Codec: "vorbis"}).result
         mkvAudio = mkvAudio + ",vorbis"
     end if
 
-    if di.CanDecodeAudio({ Codec: "eac3"}).result then
+    if di.CanDecodeAudio({ Codec: "eac3"}).result
         mkvAudio = mkvAudio + ",eac3"
     end if
 
