@@ -29,7 +29,7 @@
       <LayoutGroup horizAlignment="center">
         <JFButton id="submit" minChars="30" text="Submit"></JFButton>
         <!--add a known width invisibile element to allow the button to be centered-->
-        <Rectangle id="submitSizer" width="1920" height="0" color="#00000000" />
+        <Rectangle id="submitSizer" width="1620" height="0" color="#00000000" />
       </LayoutGroup>
     </LayoutGroup>
 
