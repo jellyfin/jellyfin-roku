@@ -24,7 +24,7 @@ function CreateServerGroup()
       if node = "submit"
         serverUrl = standardize_jellyfin_url(screen.serverUrl)
         'If this is a different server from what we know, reset username/password setting
-        if get_setting("server") <> serverUrl then
+        if get_setting("server") <> serverUrl
           set_setting("username", "")
           set_setting("password", "")
         end if
@@ -47,7 +47,8 @@ function CreateServerGroup()
         else if serverInfoResult.Error <> invalid and serverInfoResult.Error
           ' If server redirected received, update the URL
           if serverInfoResult.UpdatedUrl <> invalid
-            server_hostname.value = serverInfoResult.UpdatedUrl
+            serverUrl = serverInfoResult.UpdatedUrl
+            set_setting("server", serverUrl)
           end if
           ' Display Error Message to user
           message = tr("Error: ")
@@ -66,6 +67,7 @@ function CreateServerGroup()
 
   ' Just hide it when done, in case we need to come back
   screen.visible = false
+  return ""
 end function
 
 function CreateUserSelectGroup(users = [])

@@ -14,7 +14,7 @@ sub onTextChanged()
   minChars = m.top.minChars
   if minChars = invalid then minChars = 50
   while m.top.text.Len() < minChars
-    if addSpaceAfter then
+    if addSpaceAfter
       m.top.text = m.top.text + Chr(160)
     else
       m.top.text = Chr(160) + m.top.text

@@ -20,7 +20,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
   if not press then return true
   handled = true
 
-  if key = "OK" and m.serverPicker.hasFocus() then
+  if key = "OK" and m.serverPicker.hasFocus()
     m.top.serverUrl = m.serverPicker.content.getChild(m.serverPicker.itemFocused).baseUrl
     m.submit.setFocus(true)
     'if the user pressed the down key and we are already at the last child of server picker, then change focus to the url textbox
@@ -47,12 +47,12 @@ function onKeyEvent(key as string, press as boolean) as boolean
   return handled
 end function
 
-function ScanForServers()
+sub ScanForServers()
   m.ssdpScanner = CreateObject("roSGNode", "SSDPTask")
   'run the task
   m.ssdpScanner.observeField("content", "ScanForServersComplete")
   m.ssdpScanner.control = "RUN"
-end function
+end sub
 
 sub ScanForServersComplete(event)
   servers = event.getData()
@@ -66,7 +66,7 @@ sub ScanForServersComplete(event)
   m.spinner.visible = false
 end sub
 
-function ShowKeyboard()
+sub ShowKeyboard()
   dialog = createObject("roSGNode", "KeyboardDialog")
   dialog.title = "Enter the server name or ip address"
   dialog.buttons = [tr("OK"), tr("Cancel")]
@@ -76,7 +76,7 @@ function ShowKeyboard()
   m.dialog = dialog
 
   dialog.observeField("buttonSelected", "onDialogButton")
-end function
+end sub
 
 function onDialogButton()
   d = m.dialog
@@ -89,5 +89,7 @@ function onDialogButton()
   else if button_text = tr("Cancel")
     m.dialog.close = true
     return true
+  else
+    return false
   end if
 end function

@@ -31,11 +31,11 @@ end function
 function ticksToHuman(ticks as longinteger) as string
   totalSeconds = int(ticks / 10000000)
   hours = stri(int(totalSeconds / 3600)).trim()
-  minutes = stri(int((totalSeconds - (val(hours)*3600))/60)).trim()
-  seconds = stri(totalSeconds - (val(hours)*3600) - (val(minutes)*60)).trim()
+  minutes = stri(int((totalSeconds - (val(hours) * 3600)) / 60)).trim()
+  seconds = stri(totalSeconds - (val(hours) * 3600) - (val(minutes) * 60)).trim()
   if val(hours) > 0 and val(minutes) < 10 then minutes = "0" + minutes
   if val(seconds) < 10 then seconds = "0" + seconds
-  r=""
+  r = ""
   if val(hours) > 0 then r = hours + ":"
   r = r + minutes + ":" + seconds
   return r
@@ -70,10 +70,10 @@ end function
 
 function div_ceiling(a as integer, b as integer) as integer
   if a < b then return 1
-  if int(a/b) = a/b
-    return a/b
+  if int(a / b) = a / b
+    return a / b
   end if
-  return a/b + 1
+  return a / b + 1
 end function
 
 'Returns the item selected or -1 on backpress or other unhandled closure of dialog.
@@ -137,7 +137,7 @@ function show_dialog(message as string, options = [], defaultSelection = 0) as i
 end function
 
 function message_dialog(message = "" as string)
-  return show_dialog(message,["OK"])
+  return show_dialog(message, ["OK"])
 end function
 
 function option_dialog(options, message = "", defaultSelection = 0) as integer
@@ -151,13 +151,13 @@ end function
 function standardize_jellyfin_url(url as string)
   'Append default ports
   maxSlashes = 0
-  if left(url, 8) = "https://" or left(url, 7) = "http://" then
+  if left(url, 8) = "https://" or left(url, 7) = "http://"
     maxSlashes = 2
   end if
   'Check to make sure entry has no extra slashes before adding default ports.
-  if Instr(0, url, "/") = maxSlashes then
-    if url.len() > 5 and mid(url, url.len() - 4, 1) <> ":" and mid(url, url.len() - 5, 1) <> ":" then
-      if left(url, 5) = "https" then
+  if Instr(0, url, "/") = maxSlashes
+    if url.len() > 5 and mid(url, url.len() - 4, 1) <> ":" and mid(url, url.len() - 5, 1) <> ":"
+      if left(url, 5) = "https"
         url = url + ":8920"
       else
         url = url + ":8096"
@@ -165,7 +165,7 @@ function standardize_jellyfin_url(url as string)
     end if
   end if
   'Append http:// to server
-  if left(url, 4) <> "http" then
+  if left(url, 4) <> "http"
     url = "http://" + url
   end if
   return url

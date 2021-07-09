@@ -51,7 +51,7 @@ function GetServersViaSSDP()
 
         msg = Wait(maxTimeMs - elapsed, port)
 
-        if Type (msg) = "roSocketEvent" and msg.GetSocketId() = ssdp.GetId() and ssdp.IsReadable() then
+        if Type (msg) = "roSocketEvent" and msg.GetSocketId() = ssdp.GetId() and ssdp.IsReadable()
 
             recvStr = ssdp.ReceiveStr(4096)
             match = CreateObject("roRegex", "\r\nLocation:\s*(.*?)\s*\r\n", "i").Match(recvStr)
@@ -73,11 +73,11 @@ function GetServersViaSSDP()
         responseText = http.GetToString()
         xml = CreateObject("roXMLElement")
         'if we successfully parsed the response, process it
-        if xml.Parse(responseText) then
+        if xml.Parse(responseText)
             deviceNode = xml.GetNamedElementsCi("device")[0]
             manufacturer = deviceNode.GetNamedElementsCi("manufacturer").GetText()
             'only process jellyfin servers
-            if lcase(manufacturer) = "jellyfin" then
+            if lcase(manufacturer) = "jellyfin"
                 'find the largest icon
                 width = 0
                 result = invalid
@@ -96,7 +96,7 @@ function GetServersViaSSDP()
                         iconWidth: iconNode.GetNamedElementsCi("width")[0].GetText().ToInt(),
                         iconHeight: iconNode.GetNamedElementsCi("height")[0].GetText().ToInt()
                     }
-                    if baseUrl <> invalid and loopResult.iconWidth > width then
+                    if baseUrl <> invalid and loopResult.iconWidth > width
                         result = loopResult
                     end if
                 end for
