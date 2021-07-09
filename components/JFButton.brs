@@ -6,6 +6,9 @@ sub init()
   m.top.minWidth = 0
 end sub
 
+'
+' Whenever the text changes, pad both sides with whitespace so we can center the button text
+'
 sub onTextChanged()
   addSpaceAfter = true
   minChars = m.top.minChars
