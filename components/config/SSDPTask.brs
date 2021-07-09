@@ -85,7 +85,7 @@ function GetServersViaSSDP()
                 for each iconNode in icons
                     iconUrl = iconNode.GetNamedElementsCi("url").GetText()
                     baseUrl = invalid
-                    match = CreateObject("roRegex", "LOCATION:\s*(.*)\/dlna\/", "i").Match(recvStr)
+                    match = CreateObject("roRegex", "(.*?)\/dlna\/", "i").Match(iconUrl)
                     if match.Count() = 2
                         baseUrl = match[1]
                     end if
