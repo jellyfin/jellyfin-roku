@@ -26,7 +26,10 @@ function onKeyEvent(key as string, press as boolean) as boolean
     'if the user pressed the down key and we are already at the last child of server picker, then change focus to the url textbox
   else if key = "down" and m.serverPicker.hasFocus() and m.serverPicker.itemFocused = m.serverPicker.content.getChildCount() - 1
     m.serverUrlContainer.setFocus(true)
+
+    'user navigating up to the server picker from the input box
   else if key = "up" and m.serverUrlContainer.hasFocus()
+    m.serverPicker.animateToItem = m.serverPicker.content.getChildCount() - 1
     m.serverPicker.setFocus(true)
   else if key = "OK" and m.serverUrlContainer.hasFocus()
     ShowKeyboard()
