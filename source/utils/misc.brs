@@ -83,7 +83,7 @@ function get_dialog_result(dialog, port)
     if isNodeEvent(msg, "backPressed") then
       return -1
     elseif isNodeEvent(msg, "itemSelected")
-      return dialog.findNode("optionList").itemSelected 
+      return dialog.findNode("optionList").itemSelected
     end if
   end while
   'Dialog has closed outside of this loop, return -1 for failure
@@ -95,8 +95,8 @@ function lastFocusedChild(obj as object) as object
   for i = 0 to obj.getChildCount()
     if obj.focusedChild <> invalid then
       child = child.focusedChild
-    end if 
-  end for 
+    end if
+  end for
   return child
 end function
 
@@ -143,4 +143,31 @@ end function
 
 function option_dialog(options, message = "", defaultSelection = 0) as integer
   return show_dialog(message, options, defaultSelection)
+end function
+
+'
+' Take a jellyfin hostname and ensure it's a full url.
+' prepend http or https and append default ports, and remove excess slashes
+'
+function standardize_jellyfin_url(url as string)
+  'Append default ports
+  maxSlashes = 0
+  if left(url, 8) = "https://" or left(url, 7) = "http://" then
+    maxSlashes = 2
+  end if
+  'Check to make sure entry has no extra slashes before adding default ports.
+  if Instr(0, url, "/") = maxSlashes then
+    if url.len() > 5 and mid(url, url.len() - 4, 1) <> ":" and mid(url, url.len() - 5, 1) <> ":" then
+      if left(url, 5) = "https" then
+        url = url + ":8920"
+      else
+        url = url + ":8096"
+      end if
+    end if
+  end if
+  'Append http:// to server
+  if left(url, 4) <> "http" then
+    url = "http://" + url
+  end if
+  return url
 end function

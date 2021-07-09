@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component name="SetServerScreen" extends="JFGroup">
   <interface>
-    <field id="serverUrl" type="string" />
-    <field id="serverWidth" alias="serverUrlOutline.width,serverUrl.width,serverUrlContainer.width" value="1570" />
-    <field id="serverHeight" alias="serverUrlOutline.height,serverUrl.height,serverUrlContainer.height" value="60" />
+    <field id="serverUrl" type="string" alias="serverUrlTextbox.text" />
+    <field id="serverWidth" alias="serverUrlOutline.width,serverUrlTextbox.width,serverUrlContainer.width" value="1570" />
+    <field id="serverHeight" alias="serverUrlOutline.height,serverUrlTextbox.height,serverUrlContainer.height" value="60" />
   </interface>
 
   <children>
@@ -17,23 +17,24 @@
         <MarkupList id="serverPicker" translation="[50, 20]" itemComponentName="JFServer" itemSpacing="[0, 10]" itemSize="[1590, 100]" numRows="3" vertFocusAnimationStyle="fixedFocus" />
       </Rectangle>
 
-      <label text="...or enter server information manually" translation="[0, 670]" />
+      <label text="...or enter server URL manually" translation="[0, 690]" />
 
-      <Rectangle color="0x00000020" width="1690" height="400" translation="[0, 730]">
-
-        <LayoutGroup layoutDirection="horiz" vertAlignment="center" translation="[10, 50]">
+      <Group width="1690" height="140" translation="[0, 730]">
+        <LayoutGroup layoutDirection="horiz" vertAlignment="center" translation="[10, 70]">
           <Label text="URL: " font="font:MediumSystemFont" translation="[0, 25]" />
           <Rectangle id="serverUrlContainer" color="0x00000000">
-            <TextEditBox id="serverUrl" hintText="e.g. 192.168.1.100:8096 or https://example.com/jellyfin"></TextEditBox>
+            <TextEditBox id="serverUrlTextbox" hintText="e.g. 192.168.1.100:8096 or https://example.com/jellyfin"></TextEditBox>
             <Poster id="serverUrlOutline" visible="false" uri="pkg:/images/hd_focus.9.png" />
           </Rectangle>
         </LayoutGroup>
-
-        <Button id="submit" text="Submit" translation="[10, 100]" focusable="true" showFocusFootprint="false" iconUri="" focusedIconUri=""></Button>
-      </Rectangle>
-
+      </Group>
       <label text="" id="alert" font="font:MediumSystemFont" translation="[0, 555]" />
     </Group>
+    <LayoutGroup layoutDirection="vert" horizAlignment="center" vertAlignment="top" translation="[960, 930]">
+      <JFButton id="submit" minChars="30" text="Submit" translation="[120, 930]"></JFButton>
+      <!--add a known width invisibile element to allow the button to be centered-->
+      <Rectangle width="1920" height="12" color="#00000000" />
+    </LayoutGroup>
   </children>
 
   <script type="text/brightscript" uri="SetServerScreen.brs" />

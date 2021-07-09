@@ -4,15 +4,13 @@ sub init()
 
   m.spinner = m.top.findNode("spinner")
   m.serverPicker = m.top.findNode("serverPicker")
-  m.serverUrl = m.top.findNode("serverUrl")
+  m.serverUrlTextbox = m.top.findNode("serverUrlTextbox")
   m.serverUrlContainer = m.top.findNode("serverUrlContainer")
   m.serverUrlOutline = m.top.findNode("serverUrlOutline")
   m.submit = m.top.findNode("submit")
 
-  m.serverUrl.focusable = true
   m.serverPicker.setFocus(true)
   ScanForServers()
-  m.serverPicker.ObserveField("itemSelected", "onclick")
 
 end sub
 
@@ -22,8 +20,11 @@ function onKeyEvent(key as string, press as boolean) as boolean
   if not press then return true
   handled = true
 
-  'if the user pressed the down key and we are already at the last child of server picker, then change focus to the url textbox
-  if key = "down" and m.serverPicker.hasFocus() and m.serverPicker.itemFocused = m.serverPicker.content.getChildCount() - 1
+  if key = "OK" and m.serverPicker.hasFocus() then
+    m.top.serverUrl = m.serverPicker.content.getChild(m.serverPicker.itemFocused).baseUrl
+    m.submit.setFocus(true)
+    'if the user pressed the down key and we are already at the last child of server picker, then change focus to the url textbox
+  else if key = "down" and m.serverPicker.hasFocus() and m.serverPicker.itemFocused = m.serverPicker.content.getChildCount() - 1
     m.serverUrlContainer.setFocus(true)
   else if key = "up" and m.serverUrlContainer.hasFocus()
     m.serverPicker.setFocus(true)
@@ -51,15 +52,11 @@ function ScanForServers()
 end function
 
 sub ScanForServersComplete(event)
-  ' m.scanOrManual.visible = false
-
-  ' m.serverPicker.visible = true
-  ' m.serverPicker.SetFocus(true)
   servers = event.getData()
-  servers = [servers[0], servers[0]]
   items = CreateObject("roSGNode", "ContentNode")
   for each server in servers
     server.subtype = "ContentNode"
+    'add new fields for every server property onto the ContentNode (rather than making a dedicated component just to hold data...)
     items.update([server], true)
   end for
   m.serverPicker.content = items
@@ -70,7 +67,7 @@ function ShowKeyboard()
   dialog = createObject("roSGNode", "KeyboardDialog")
   dialog.title = "Enter the server name or ip address"
   dialog.buttons = [tr("OK"), tr("Cancel")]
-  dialog.text = m.serverUrl.text
+  dialog.text = m.serverUrlTextbox.text
 
   m.top.getscene().dialog = dialog
   m.dialog = dialog
@@ -83,7 +80,7 @@ function onDialogButton()
   button_text = d.buttons[d.buttonSelected]
 
   if button_text = tr("OK")
-    m.serverUrl.text = d.text
+    m.serverUrlTextbox.text = d.text
     m.dialog.close = true
     return true
   else if button_text = tr("Cancel")

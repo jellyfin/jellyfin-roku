@@ -10,11 +10,11 @@ function CreateServerGroup()
   m.viewModel = {}
   button = screen.findNode("submit")
   button.observeField("buttonSelected", port)
-  server_hostname = screen.serverUrl
   screen.observeField("backPressed", port)
 
   while(true)
     msg = wait(0, port)
+    print type(msg), msg
     if type(msg) = "roSGScreenEvent" and msg.isScreenClosed()
       return "false"
     else if isNodeEvent(msg, "backPressed")
@@ -22,27 +22,13 @@ function CreateServerGroup()
     else if type(msg) = "roSGNodeEvent"
       node = msg.getNode()
       if node = "submit"
-        'Append default ports
-        maxSlashes = 0
-        if left(server_hostname.value, 8) = "https://" or left(server_hostname.value, 7) = "http://" then maxSlashes = 2
-        'Check to make sure entry has no extra slashes before adding default ports.
-        if Instr(0, server_hostname.value, "/") = maxSlashes then
-          if server_hostname.value.len() > 5 and mid(server_hostname.value, server_hostname.value.len() - 4, 1) <> ":" and mid(server_hostname.value, server_hostname.value.len() - 5, 1) <> ":" then
-            if left(server_hostname.value, 5) = "https" then
-              server_hostname.value = server_hostname.value + ":8920"
-            else
-              server_hostname.value = server_hostname.value + ":8096"
-            end if
-          end if
-        end if
-        'Append http:// to server
-        if left(server_hostname.value, 4) <> "http" then server_hostname.value = "http://" + server_hostname.value
+        serverUrl = standardize_jellyfin_url(screen.serverUrl)
         'If this is a different server from what we know, reset username/password setting
-        if get_setting("server") <> server_hostname.value then
+        if get_setting("server") <> serverUrl then
           set_setting("username", "")
           set_setting("password", "")
         end if
-        set_setting("server", server_hostname.value)
+        set_setting("server", serverUrl)
         if ServerInfo() = invalid then
           ' Maybe don't unset setting, but offer as a prompt
           ' Server not found, is it online? New values / Retry

@@ -21,7 +21,7 @@ sub Main()
 
   m.overhang = CreateObject("roSGNode", "JFOverhang")
   m.scene.insertChild(m.overhang, 0)
-  
+
   m.page_size = 48
 
   app_start:
@@ -116,7 +116,7 @@ sub Main()
         group = CreateItemGrid(selectedItem)
         group.overhangTitle = selectedItem.title
         m.scene.appendChild(group)
-      else if selectedItem.type = "Folder" 
+      else if selectedItem.type = "Folder"
         group.lastFocus = group.focusedChild
         group.setFocus(false)
         group.visible = false
@@ -187,7 +187,7 @@ sub Main()
           group.control = "play"
           ReportPlayback(group, "start")
           m.overhang.visible = false
-        else 
+        else
           dialog = createObject("roSGNode", "Dialog")
           dialog.title = tr("Error loading Channel Data")
           dialog.message = tr("Unable to load Channel Data from the server")
@@ -438,7 +438,7 @@ function LoginFlow(startOver = false as boolean)
   end if
   'Collect Jellyfin server and user information
   start_login:
-  if get_setting("server") = invalid or ServerInfo() = invalid or startOver = true then
+  if invalid = invalid or get_setting("server") = invalid or ServerInfo() = invalid or startOver = true then
     print "Get server details"
     SendPerformanceBeacon("AppDialogInitiate")  ' Roku Performance monitoring - Dialog Starting
     serverSelection = CreateServerGroup()
