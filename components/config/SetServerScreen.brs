@@ -9,9 +9,7 @@ sub init()
   m.serverUrlOutline = m.top.findNode("serverUrlOutline")
   m.submit = m.top.findNode("submit")
 
-  m.serverPicker.setFocus(true)
   ScanForServers()
-
 end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean
@@ -24,11 +22,11 @@ function onKeyEvent(key as string, press as boolean) as boolean
     m.top.serverUrl = m.serverPicker.content.getChild(m.serverPicker.itemFocused).baseUrl
     m.submit.setFocus(true)
     'if the user pressed the down key and we are already at the last child of server picker, then change focus to the url textbox
-  else if key = "down" and m.serverPicker.hasFocus() and m.serverPicker.itemFocused = m.serverPicker.content.getChildCount() - 1
+  else if key = "down" and m.serverPicker.hasFocus() and m.serverPicker.content.getChildCount() > 0 and m.serverPicker.itemFocused = m.serverPicker.content.getChildCount() - 1
     m.serverUrlContainer.setFocus(true)
 
-    'user navigating up to the server picker from the input box
-  else if key = "up" and m.serverUrlContainer.hasFocus()
+    'user navigating up to the server picker from the input box (it's only focusable if it has items)
+  else if key = "up" and m.serverUrlContainer.hasFocus() and m.servers.Count() > 0
     m.serverPicker.animateToItem = m.serverPicker.content.getChildCount() - 1
     m.serverPicker.setFocus(true)
   else if key = "OK" and m.serverUrlContainer.hasFocus()
@@ -44,6 +42,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
   end if
   'show/hide input box outline
   m.serverUrlOutline.visible = m.serverUrlContainer.isInFocusChain()
+
   return handled
 end function
 
@@ -55,15 +54,27 @@ sub ScanForServers()
 end sub
 
 sub ScanForServersComplete(event)
-  servers = event.getData()
+  m.servers = event.getData()
+
   items = CreateObject("roSGNode", "ContentNode")
-  for each server in servers
+  for each server in m.servers
     server.subtype = "ContentNode"
     'add new fields for every server property onto the ContentNode (rather than making a dedicated component just to hold data...)
     items.update([server], true)
   end for
   m.serverPicker.content = items
   m.spinner.visible = false
+
+  'if we have at least one server, focus on the server picker
+  if m.servers.Count() > 0
+    m.serverPicker.setFocus(true)
+    'no servers found...focus on the input textbox
+  else
+    m.serverUrlContainer.setFocus(true)
+    'show/hide input box outline
+    m.serverUrlOutline.visible = true
+  end if
+
 end sub
 
 sub ShowKeyboard()
