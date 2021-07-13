@@ -47,7 +47,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
 end function
 
 sub ScanForServers()
-  m.ssdpScanner = CreateObject("roSGNode", "SSDPTask")
+  m.ssdpScanner = CreateObject("roSGNode", "ServerDiscoveryTask")
   'run the task
   m.ssdpScanner.observeField("content", "ScanForServersComplete")
   m.ssdpScanner.control = "RUN"
