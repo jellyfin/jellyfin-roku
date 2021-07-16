@@ -42,7 +42,7 @@ function CreateServerGroup()
           ' Maybe don't unset setting, but offer as a prompt
           ' Server not found, is it online? New values / Retry
           print "Server not found, is it online? New values / Retry"
-          screen.findNode("alert").text = tr("Server not found, is it online?")
+          screen.errorMessage = tr("Server not found, is it online?")
           SignOut()
         else if serverInfoResult.Error <> invalid and serverInfoResult.Error
           ' If server redirected received, update the URL
@@ -55,7 +55,7 @@ function CreateServerGroup()
           if serverInfoResult.ErrorCode <> invalid
             message = message + "[" + serverInfoResult.ErrorCode.toStr() + "] "
           end if
-          screen.findNode("alert").text = message + tr(serverInfoResult.ErrorMessage)
+          screen.errorMessage = message + tr(serverInfoResult.ErrorMessage)
           SignOut()
         else
           screen.visible = false

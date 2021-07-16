@@ -9,6 +9,8 @@ sub init()
   m.serverUrlOutline = m.top.findNode("serverUrlOutline")
   m.submit = m.top.findNode("submit")
 
+  m.top.observeField("serverUrl", "clearErrorMessage")
+
   ScanForServers()
 end sub
 
@@ -103,3 +105,7 @@ function onDialogButton()
     return false
   end if
 end function
+
+sub clearErrorMessage()
+  m.top.errorMessage = ""
+end sub
