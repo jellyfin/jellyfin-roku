@@ -183,7 +183,7 @@ end sub
 function onKeyEvent(key as string, press as boolean) as boolean
     if not press then return false
 
-    if key = "back" and m.detailsPane.isInFocusChain()
+    if key = "back" or key = "down" and m.detailsPane.isInFocusChain()
         focusProgramDetails(false)
         return true
     end if
