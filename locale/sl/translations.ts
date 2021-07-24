@@ -98,11 +98,11 @@
     </message>
     <message>
         <source>Continue Watching</source>
-        <translation>Nadaljuj z ogledom</translation>
+        <translation>Nadaljuj ogled</translation>
     </message>
     <message>
         <source>Next Up</source>
-        <translation>Naslednje</translation>
+        <translation>Sledi</translation>
     </message>
     <message>
         <source>Latest in</source>
