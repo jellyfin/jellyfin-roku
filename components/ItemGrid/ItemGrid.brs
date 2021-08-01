@@ -61,7 +61,6 @@ sub loadInitialItems()
         m.top.imageDisplayMode = "scaleToFit"
 
         if get_user_setting("display.livetv.landing") = "guide" and m.options.view <> "livetv"
-            print "Showing Guid from Init"
             showTvGuide()
         end if
 
