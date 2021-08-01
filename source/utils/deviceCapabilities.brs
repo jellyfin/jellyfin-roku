@@ -146,8 +146,8 @@ function GetDirectPlayProfiles() as object
 
     'Check for Supported Video Codecs
     if di.CanDecodeVideo({ Codec: "hevc" }).Result = true
-        mp4Video = mp4Video + ",h265"
-        mkvVideo = mkvVideo + ",h265"
+        mp4Video = mp4Video + ",h265,hevc"
+        mkvVideo = mkvVideo + ",h265,hevc"
     end if
 
     if di.CanDecodeVideo({ Codec: "vp9" }).Result = true
