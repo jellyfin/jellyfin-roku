@@ -1,5 +1,6 @@
 sub init()
 
+    m.EPGLaunchCompleteSignaled = false
     m.scheduleGrid = m.top.findNode("scheduleGrid")
     m.detailsPane = m.top.findNode("detailsPane")
 
@@ -55,7 +56,10 @@ sub onChannelsLoaded()
     m.LoadProgramDetailsTask.observeField("programDetails", "onProgramDetailsLoaded")
 
     m.scheduleGrid.setFocus(true)
-    m.top.signalBeacon("EPGLaunchComplete") ' Required Roku Performance monitoring
+    if m.EPGLaunchCompleteSignaled = false
+        m.top.signalBeacon("EPGLaunchComplete") ' Required Roku Performance monitoring
+        m.EPGLaunchCompleteSignaled = true
+    end if
     m.LoadChannelsTask.channels = []
 end sub
 
