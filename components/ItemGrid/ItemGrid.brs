@@ -131,7 +131,10 @@ sub SetUpOptions()
             { "Title": tr("OFFICIAL_RATING"), "Name": "OfficialRating" },
             { "Title": tr("RELEASE_DATE"), "Name": "PremiereDate" },
         ]
-        options.filter = []
+        options.filter = [
+            { "Title": tr("All"), "Name": "All" },
+            { "Title": tr("Favorites"), "Name": "Favorites" }
+        ]
         'Live TV
     else if m.top.parentItem.collectionType = "livetv"
         options.views = [
@@ -141,7 +144,10 @@ sub SetUpOptions()
         options.sort = [
             { "Title": tr("TITLE"), "Name": "SortName" }
         ]
-        options.filter = []
+        options.filter = [
+            { "Title": tr("All"), "Name": "All" },
+            { "Title": tr("Favorites"), "Name": "Favorites" }
+        ]
     else
         options.views = [
             { "Title": tr("Default"), "Name": "default" }
