@@ -201,6 +201,8 @@ function GetDirectPlayProfiles() as object
 
     if di.CanDecodeAudio({ Codec: "eac3" }).result
         mkvAudio = mkvAudio + ",eac3"
+        mp4Audio = mp4Audio + ",eac3"
+        audio = audio + ",eac3"
     end if
 
     return [
