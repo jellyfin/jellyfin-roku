@@ -60,8 +60,9 @@ sub loadInitialItems()
         'For LiveTV, we want to "Fit" the item images, not zoom
         m.top.imageDisplayMode = "scaleToFit"
 
-        if get_user_setting("display.livetv.landing") = "guide"
-            showTvGuid()
+        if get_user_setting("display.livetv.landing") = "guide" and m.options.view <> "livetv"
+            print "Showing Guid from Init"
+            showTvGuide()
         end if
 
     else if m.top.parentItem.collectionType = "CollectionFolder" or m.top.parentItem.collectionType = "boxsets" or m.top.parentItem.Type = "Folder" or m.top.parentItem.Type = "Channel"
@@ -288,7 +289,7 @@ end sub
 sub optionsClosed()
 
     if m.options.view = "tvGuide"
-        showTVGuid()
+        showTVGuide()
         return
     else if m.tvGuide <> invalid
         ' Try to hide the TV Guide
@@ -315,7 +316,7 @@ sub optionsClosed()
     m.itemGrid.setFocus(true)
 end sub
 
-sub showTVGuid()
+sub showTVGuide()
     m.top.signalBeacon("EPGLaunchInitiate") ' Required Roku Performance monitoring
     if m.tvGuide = invalid
         m.tvGuide = createObject("roSGNode", "Schedule")
