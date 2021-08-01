@@ -30,7 +30,7 @@ sub loadItems()
         ' do nothing
     else if filter = "Favorites"
         params.append({ Filters: "IsFavorite" })
-        params.append({ isFavorite: true})
+        params.append({ isFavorite: true })
     end if
 
     if m.top.ItemType <> ""

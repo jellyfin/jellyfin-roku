@@ -328,6 +328,7 @@ sub showTVGuide()
         m.top.signalBeacon("EPGLaunchInitiate") ' Required Roku Performance monitoring
     end if
     m.tvGuide.observeField("watchChannel", "onChannelSelected")
+    m.tvGuide.filter = m.options.filter
     m.top.appendChild(m.tvGuide)
     m.tvGuide.lastFocus.setFocus(true)
 end sub

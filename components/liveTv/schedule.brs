@@ -28,6 +28,17 @@ sub init()
     m.channelIndex = {}
 end sub
 
+sub channelFilterSet()
+    print "Channel Filter set"
+    if m.top.filter <> invalid and m.LoadChannelsTask.filter <> m.top.filter
+        if m.LoadChannelsTask.state = "run" then m.LoadChannelsTask.control = "stop"
+
+        m.LoadChannelsTask.filter = m.top.filter
+        m.LoadChannelsTask.control = "RUN"
+    end if
+
+end sub
+
 ' Initial list of channels loaded
 sub onChannelsLoaded()
     gridData = createObject("roSGNode", "ContentNode")
