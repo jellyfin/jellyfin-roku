@@ -1,5 +1,6 @@
 sub init()
 
+    m.EPGLaunchCompleteSignaled = false
     m.scheduleGrid = m.top.findNode("scheduleGrid")
     m.detailsPane = m.top.findNode("detailsPane")
 
@@ -25,6 +26,17 @@ sub init()
     m.top.lastFocus = m.scheduleGrid
 
     m.channelIndex = {}
+end sub
+
+sub channelFilterSet()
+    print "Channel Filter set"
+    if m.top.filter <> invalid and m.LoadChannelsTask.filter <> m.top.filter
+        if m.LoadChannelsTask.state = "run" then m.LoadChannelsTask.control = "stop"
+
+        m.LoadChannelsTask.filter = m.top.filter
+        m.LoadChannelsTask.control = "RUN"
+    end if
+
 end sub
 
 ' Initial list of channels loaded
@@ -55,7 +67,10 @@ sub onChannelsLoaded()
     m.LoadProgramDetailsTask.observeField("programDetails", "onProgramDetailsLoaded")
 
     m.scheduleGrid.setFocus(true)
-    m.top.signalBeacon("EPGLaunchComplete") ' Required Roku Performance monitoring
+    if m.EPGLaunchCompleteSignaled = false
+        m.top.signalBeacon("EPGLaunchComplete") ' Required Roku Performance monitoring
+        m.EPGLaunchCompleteSignaled = true
+    end if
     m.LoadChannelsTask.channels = []
 end sub
 

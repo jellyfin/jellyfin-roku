@@ -30,6 +30,7 @@ sub loadItems()
         ' do nothing
     else if filter = "Favorites"
         params.append({ Filters: "IsFavorite" })
+        params.append({ isFavorite: true })
     end if
 
     if m.top.ItemType <> ""
@@ -38,6 +39,7 @@ sub loadItems()
 
     if m.top.ItemType = "LiveTV"
         url = "LiveTv/Channels"
+        params.append({ userId: get_setting("active_user") })
     else
         url = Substitute("Users/{0}/Items/", get_setting("active_user"))
     end if

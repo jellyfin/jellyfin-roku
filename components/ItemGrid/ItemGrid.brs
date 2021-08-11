@@ -60,8 +60,8 @@ sub loadInitialItems()
         'For LiveTV, we want to "Fit" the item images, not zoom
         m.top.imageDisplayMode = "scaleToFit"
 
-        if get_user_setting("display.livetv.landing") = "guide"
-            showTvGuid()
+        if get_user_setting("display.livetv.landing") = "guide" and m.options.view <> "livetv"
+            showTvGuide()
         end if
 
     else if m.top.parentItem.collectionType = "CollectionFolder" or m.top.parentItem.collectionType = "boxsets" or m.top.parentItem.Type = "Folder" or m.top.parentItem.Type = "Channel"
@@ -130,7 +130,10 @@ sub SetUpOptions()
             { "Title": tr("OFFICIAL_RATING"), "Name": "OfficialRating" },
             { "Title": tr("RELEASE_DATE"), "Name": "PremiereDate" },
         ]
-        options.filter = []
+        options.filter = [
+            { "Title": tr("All"), "Name": "All" },
+            { "Title": tr("Favorites"), "Name": "Favorites" }
+        ]
         'Live TV
     else if m.top.parentItem.collectionType = "livetv"
         options.views = [
@@ -140,7 +143,10 @@ sub SetUpOptions()
         options.sort = [
             { "Title": tr("TITLE"), "Name": "SortName" }
         ]
-        options.filter = []
+        options.filter = [
+            { "Title": tr("All"), "Name": "All" },
+            { "Title": tr("Favorites"), "Name": "Favorites" }
+        ]
     else
         options.views = [
             { "Title": tr("Default"), "Name": "default" }
@@ -288,7 +294,7 @@ end sub
 sub optionsClosed()
 
     if m.options.view = "tvGuide"
-        showTVGuid()
+        showTVGuide()
         return
     else if m.tvGuide <> invalid
         ' Try to hide the TV Guide
@@ -315,12 +321,13 @@ sub optionsClosed()
     m.itemGrid.setFocus(true)
 end sub
 
-sub showTVGuid()
-    m.top.signalBeacon("EPGLaunchInitiate") ' Required Roku Performance monitoring
+sub showTVGuide()
     if m.tvGuide = invalid
         m.tvGuide = createObject("roSGNode", "Schedule")
+        m.top.signalBeacon("EPGLaunchInitiate") ' Required Roku Performance monitoring
     end if
     m.tvGuide.observeField("watchChannel", "onChannelSelected")
+    m.tvGuide.filter = m.options.filter
     m.top.appendChild(m.tvGuide)
     m.tvGuide.lastFocus.setFocus(true)
 end sub

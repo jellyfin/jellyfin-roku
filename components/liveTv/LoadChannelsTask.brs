@@ -7,10 +7,12 @@ sub loadChannels()
     results = []
 
     params = {
-        UserId: get_setting("active_user")
-        'limit: m.top.limit,
-        'StartIndex: m.top.startIndex
+        UserId: get_setting("active_user"),
     }
+
+    if m.top.filter = "Favorites"
+        params.append({ isFavorite: true })
+    end if
 
     url = "LiveTv/Channels"
 
