@@ -17,6 +17,7 @@ end function
 
 
 function getDeviceProfile() as object
+    playMpeg2 = get_setting("playback.mpeg2") = "true"
 
     'Check if 5.1 Audio Output connected
     maxAudioChannels = 2
@@ -24,6 +25,19 @@ function getDeviceProfile() as object
     if di.GetAudioOutputChannel() = "5.1 surround"
         maxAudioChannels = 6
     end if
+
+    if playMpeg2 and di.CanDecodeVideo({ Codec: "mpeg2" }).Result = true
+        tsVideoCodecs = "h264,mpeg2video"
+    else
+        tsVideoCodecs = "h264"
+    end if
+
+    if di.CanDecodeAudio({ Codec: "ac3" }).result
+        tsAudioCodecs = "aac,ac3"
+    else
+        tsAudioCodecs = "aac"
+    end if
+
 
     return {
         "MaxStreamingBitrate": 120000000,
@@ -66,8 +80,8 @@ function getDeviceProfile() as object
             {
                 "Container": "ts",
                 "Type": "Video",
-                "AudioCodec": "aac",
-                "VideoCodec": "h264",
+                "AudioCodec": tsAudioCodecs,
+                "VideoCodec": tsVideoCodecs,
                 "Context": "Streaming",
                 "Protocol": "hls",
                 "MaxAudioChannels": StrI(maxAudioChannels) ' Currently Jellyfin server expects this as a string
@@ -142,6 +156,8 @@ function GetDirectPlayProfiles() as object
     mkvAudio = "mp3,pcm,lpcm,wav"
     audio = "mp3,pcm,lpcm,wav"
 
+    playMpeg2 = get_setting("playback.mpeg2") = "true"
+
     di = CreateObject("roDeviceInfo")
 
     'Check for Supported Video Codecs
@@ -152,6 +168,11 @@ function GetDirectPlayProfiles() as object
 
     if di.CanDecodeVideo({ Codec: "vp9" }).Result = true
         mkvVideo = mkvVideo + ",vp9"
+    end if
+
+    if playMpeg2 and di.CanDecodeVideo({ Codec: "mpeg2" }).Result = true
+        mp4Video = mp4Video + ",mpeg2video"
+        mkvVideo = mkvVideo + ",mpeg2video"
     end if
 
     ' Check for supported Audio
