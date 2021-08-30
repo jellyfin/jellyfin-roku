@@ -139,6 +139,7 @@ sub Main (args as dynamic) as void
                 ' play episode
                 ' todo: create an episode page to link here
                 video_id = selectedItem.id
+                m.scene.unobserveField("optionsPressed")
                 video = CreateVideoPlayerGroup(video_id)
                 if video <> invalid
                     group.lastFocus = group.focusedChild
@@ -184,6 +185,7 @@ sub Main (args as dynamic) as void
                 dialog.title = tr("Loading Channel Data")
                 m.scene.dialog = dialog
 
+                m.scene.unobserveField("optionsPressed")
                 video = CreateVideoPlayerGroup(video_id)
                 dialog.close = true
 
@@ -258,6 +260,7 @@ sub Main (args as dynamic) as void
             ' If you select a TV Episode from ANYWHERE, follow this flow
             node = getMsgPicker(msg, "picker")
             video_id = node.id
+            m.scene.unobserveField("optionsPressed")
             video = CreateVideoPlayerGroup(video_id)
             if video <> invalid
                 group.lastFocus = group.focusedChild
