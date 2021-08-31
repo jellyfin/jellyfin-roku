@@ -1142,5 +1142,87 @@ não contém itens</translation>
         <translation>...ou entre na URL do servidor manualmente:</translation>
         <extracomment>Instructions on initial app launch when the user is asked to manually enter a server URL</extracomment>
     </message>
+    <message>
+        <source>RUNTIME</source>
+        <translation>Tempo de Execução</translation>
+    </message>
+    <message>
+        <source>RELEASE_DATE</source>
+        <translation>Data de Lançamento</translation>
+    </message>
+    <message>
+        <source>PLAY_COUNT</source>
+        <translation>Número de Execução</translation>
+    </message>
+    <message>
+        <source>OFFICIAL_RATING</source>
+        <translation>Avaliação Parental</translation>
+    </message>
+    <message>
+        <source>DATE_PLAYED</source>
+        <translation>Data da Execução</translation>
+    </message>
+    <message>
+        <source>DATE_ADDED</source>
+        <translation>Data de Adição</translation>
+    </message>
+    <message>
+        <source>CRITIC_RATING</source>
+        <translation>Avaliação da Crítica</translation>
+    </message>
+    <message>
+        <source>IMDB_RATING</source>
+        <translation>Classificação IMDb</translation>
+    </message>
+    <message>
+        <comment>Name or Title field of media item</comment>
+        <source>TITLE</source>
+        <translation>Nome</translation>
+    </message>
+    <message>
+        <comment>Message displayed in Item Grid when no item to display. %1 is container type (e.g. Boxset, Collection, Folder, etc)</comment>
+        <source>NO_ITEMS</source>
+        <translation>Este %1 não contém itens</translation>
+    </message>
+    <message>
+        <source>Unable to load Channel Data from the server</source>
+        <translation>Incapaz de carregar os Dados do Canal do servidor</translation>
+    </message>
+    <message>
+        <source>Error loading Channel Data</source>
+        <translation>Erro ao carregar Dados do Canal</translation>
+    </message>
+    <message>
+        <source>Loading Channel Data</source>
+        <translation>Carregando Dados do Canal</translation>
+    </message>
+    <message>
+        <source>An error was encountered while playing this item.</source>
+        <translation>Foi encontrado um erro ao reproduzir este item.</translation>
+        <extracomment>Dialog detail when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>There was an error retrieving the data for this item from the server.</source>
+        <translation>Ocorreu um erro ao recuperar os dados para este item do servidor.</translation>
+        <extracomment>Dialog detail when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <source>Error During Playback</source>
+        <translation>Erro Durante a Reprodução</translation>
+        <extracomment>Dialog title when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>Error Retrieving Content</source>
+        <translation>Erro ao Recuperar Conteúdo</translation>
+        <extracomment>Dialog title when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <source>Sign Out</source>
+        <translation>Sair</translation>
+    </message>
+    <message>
+        <source>Change Server</source>
+        <translation>Trocar servidor</translation>
+    </message>
 </context>
 </TS>
