@@ -194,6 +194,22 @@ function CreateHomeGroup()
         new_options.push(o)
     end for
 
+    ' Add option for mpeg-2 playback
+    playMpeg2 = get_setting("playback.mpeg2")
+    if playMpeg2 = invalid
+        playMpeg2 = "true"
+        set_setting("playback.mpeg2", playMpeg2)
+    end if
+    o = CreateObject("roSGNode", "OptionsButton")
+    if playMpeg2 = "true"
+        o.title = tr("MPEG2 Support: On")
+    else
+        o.title = tr("MPEG2 Support: Off")
+    end if
+    o.id = "play_mpeg2"
+    o.observeField("optionSelected", m.port)
+    new_options.push(o)
+
     ' And a profile button
     user_node = CreateObject("roSGNode", "OptionsData")
     user_node.id = "active_user"

@@ -380,6 +380,16 @@ sub Main (args as dynamic) as void
                 SignOut()
                 wipe_groups()
                 goto app_start
+            else if button.id = "play_mpeg2"
+                playMpeg2 = get_setting("playback.mpeg2")
+                if playMpeg2 = "true"
+                    playMpeg2 = "false"
+                    button.title = tr("MPEG2 Support: Off")
+                else
+                    playMpeg2 = "true"
+                    button.title = tr("MPEG2 Support: On")
+                end if
+                set_setting("playback.mpeg2", playMpeg2)
             end if
         else if isNodeEvent(msg, "selectSubtitlePressed")
             node = m.scene.focusedChild
