@@ -17,7 +17,11 @@ sub Main (args as dynamic) as void
 
     ' Set any initial Global Variables
     m.global = m.screen.getGlobalNode()
-    m.global.addFields({ app_loaded: false })
+
+    playstateTask = CreateObject("roSGNode", "PlaystateTask")
+    playstateTask.id = "playstateTask"
+
+    m.global.addFields({ app_loaded: false, playstateTask: playstateTask })
 
     m.overhang = CreateObject("roSGNode", "JFOverhang")
     m.scene.insertChild(m.overhang, 0)

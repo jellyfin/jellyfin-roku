@@ -213,6 +213,7 @@ sub ReportPlayback(video, state = "update" as string)
     if video = invalid or video.position = invalid then return
 
     params = {
+        "ItemId": video.id
         "PlaySessionId": video.PlaySessionId,
         "PositionTicks": int(video.position) * 10000000&, 'Ensure a LongInteger is used
         "IsPaused": (video.state = "paused"),
@@ -223,7 +224,9 @@ sub ReportPlayback(video, state = "update" as string)
             "LiveStreamId": video.transcodeParams.LiveStreamId
         })
     end if
-    PlaystateUpdate(video.id, state, params)
+    playstateTask = m.global.playstateTask
+    playstateTask.setFields({ status: state, params: params })
+    playstateTask.control = "RUN"
 end sub
 
 sub StopPlayback()
