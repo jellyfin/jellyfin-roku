@@ -66,7 +66,6 @@ sub Main (args as dynamic) as void
             m.scene.appendChild(group)
             group.setFocus(true)
             group.control = "play"
-            ReportPlayback(group, "start")
             m.overhang.visible = false
         else
             dialog = createObject("roSGNode", "Dialog")
@@ -124,7 +123,6 @@ sub Main (args as dynamic) as void
                     m.scene.appendChild(group)
                     group.setFocus(true)
                     group.control = "play"
-                    ReportPlayback(group, "start")
                     m.overhang.visible = false
                 end if
             end if
@@ -153,7 +151,6 @@ sub Main (args as dynamic) as void
                     m.scene.appendChild(group)
                     group.setFocus(true)
                     group.control = "play"
-                    ReportPlayback(group, "start")
                     m.overhang.visible = false
                 end if
             else if selectedItem.type = "Series"
@@ -201,7 +198,6 @@ sub Main (args as dynamic) as void
                     m.scene.appendChild(group)
                     group.setFocus(true)
                     group.control = "play"
-                    ReportPlayback(group, "start")
                     m.overhang.visible = false
                 else
                     dialog = createObject("roSGNode", "Dialog")
@@ -274,7 +270,6 @@ sub Main (args as dynamic) as void
                 m.scene.appendChild(group)
                 group.setFocus(true)
                 group.control = "play"
-                ReportPlayback(group, "start")
                 m.overhang.visible = false
             end if
         else if isNodeEvent(msg, "search_value")
@@ -330,7 +325,6 @@ sub Main (args as dynamic) as void
                     m.scene.appendChild(group)
                     group.setFocus(true)
                     group.control = "play"
-                    ReportPlayback(group, "start")
                     m.overhang.visible = false
                 end if
             else if btn <> invalid and btn.id = "watched-button"
@@ -406,8 +400,6 @@ sub Main (args as dynamic) as void
                     changeSubtitleDuringPlayback(trackSelected)
                 end if
             end if
-        else if isNodeEvent(msg, "fire")
-            ReportPlayback(group, "update")
         else if isNodeEvent(msg, "state")
             node = msg.getRoSGNode()
             if node.state = "finished"
@@ -418,8 +410,6 @@ sub Main (args as dynamic) as void
                     nextEpisode = autoPlayNextEpisode(node.id, node.showID)
                     if nextEpisode <> invalid then group = nextEpisode
                 end if
-            else if node.state = "playing" or node.state = "paused"
-                ReportPlayback(group, "update")
             end if
         else if type(msg) = "roDeviceInfoEvent"
             event = msg.GetInfo()
@@ -448,7 +438,6 @@ sub Main (args as dynamic) as void
                         m.scene.appendChild(group)
                         group.setFocus(true)
                         group.control = "play"
-                        ReportPlayback(group, "start")
                         m.overhang.visible = false
                     else
                         dialog = createObject("roSGNode", "Dialog")
