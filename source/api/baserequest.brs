@@ -153,6 +153,6 @@ function authorize_request(request)
         auth = auth + ", Token=" + Chr(34) + token + Chr(34)
     end if
 
-    request.AddHeader("X-Emby-Authorization", auth)
+    request.AddHeader("Authorization", auth)
     return request
 end function
