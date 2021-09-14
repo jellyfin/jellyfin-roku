@@ -174,6 +174,8 @@ end function
 function CreateHomeGroup()
     ' Main screen after logging in. Shows the user's libraries
     group = CreateObject("roSGNode", "Home")
+    group.overhangTitle = tr("Home")
+    group.optionsAvailable = true
 
     group.observeField("selectedItem", m.port)
     group.observeField("quickPlayNode", m.port)
@@ -230,6 +232,8 @@ end function
 
 function CreateMovieDetailsGroup(movie)
     group = CreateObject("roSGNode", "MovieDetails")
+    group.overhangTitle = movie.title
+    group.optionsAvailable = false
 
     movie = ItemMetaData(movie.id)
     group.itemContent = movie
@@ -244,6 +248,8 @@ end function
 
 function CreateSeriesDetailsGroup(series)
     group = CreateObject("roSGNode", "TVShowDetails")
+    group.overhangTitle = series.title
+    group.optionsAvailable = false
 
     group.itemContent = ItemMetaData(series.id)
     group.seasonData = TVSeasons(series.id)
@@ -255,6 +261,8 @@ end function
 
 function CreateSeasonDetailsGroup(series, season)
     group = CreateObject("roSGNode", "TVEpisodes")
+    group.overhangTitle = series.title + " " + season.title
+    group.optionsAvailable = false
 
     group.seasonData = ItemMetaData(season.id).json
     group.objects = TVEpisodes(series.id, season.id)
@@ -268,6 +276,8 @@ end function
 function CreateItemGrid(libraryItem)
     group = CreateObject("roSGNode", "ItemGrid")
     group.parentItem = libraryItem
+    group.overhangTitle = libraryItem.title
+    group.optionsAvailable = true
     group.observeField("selectedItem", m.port)
     return group
 end function

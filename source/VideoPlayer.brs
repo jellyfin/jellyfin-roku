@@ -208,13 +208,7 @@ function getAudioInfo(meta as object) as object
     return results
 end function
 
-sub StopPlayback()
-    video = m.scene.focusedchild
-    video.control = "stop"
-    m.device.EnableAppFocusEvent(False)
-end sub
-
-function autoPlayNextEpisode(videoID as string, showID as string)
+sub autoPlayNextEpisode(videoID as string, showID as string)
     ' use web client setting
     if m.user.Configuration.EnableNextEpisodeAutoPlay
         ' query API for next episode ID
@@ -227,20 +221,19 @@ function autoPlayNextEpisode(videoID as string, showID as string)
 
         if data <> invalid and data.Items.Count() = 2
             ' remove finished video node
-            n = m.scene.getChildCount() - 1
-            m.scene.removeChildIndex(n)
+            m.global.groupStack.callFunc("pop")
             ' setup new video node
             nextVideo = CreateVideoPlayerGroup(data.Items[1].Id)
-            m.scene.appendChild(nextVideo)
-            nextVideo.setFocus(true)
-            nextVideo.control = "play"
-            return nextVideo
+            if nextVideo <> invalid
+                m.global.groupStack.callFunc("push", nextVideo)
+            else
+                m.global.groupStack.callFunc("pop")
+            end if
         else
             ' can't play next episode
-            RemoveCurrentGroup()
+            m.global.groupStack.callFunc("pop")
         end if
     else
-        RemoveCurrentGroup()
+        m.global.groupStack.callFunc("pop")
     end if
-    return invalid
-end function
+end sub
