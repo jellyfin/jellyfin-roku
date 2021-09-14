@@ -276,7 +276,6 @@ end function
 function CreateItemGrid(libraryItem)
     group = CreateObject("roSGNode", "ItemGrid")
     group.parentItem = libraryItem
-    group.overhangTitle = libraryItem.title
     group.optionsAvailable = true
     group.observeField("selectedItem", m.port)
     return group

@@ -72,6 +72,8 @@ sub loadInitialItems()
         m.sortAscending = false
     end if
 
+    updateTitle()
+
     m.loadItemsTask.itemId = m.top.parentItem.Id
     m.loadItemsTask.sortField = m.sortField
     m.loadItemsTask.sortAscending = m.sortAscending
@@ -372,6 +374,7 @@ sub optionsClosed()
     end if
     if m.options.filter <> m.filter
         m.filter = m.options.filter
+        updateTitle()
         reload = true
 
         'Store filter setting
@@ -445,3 +448,13 @@ function onKeyEvent(key as string, press as boolean) as boolean
     end if
     return false
 end function
+
+sub updateTitle()
+    if m.filter = "All"
+        m.top.overhangTitle = m.top.parentItem.title
+    else if m.filter = "Favorites"
+        m.top.overhangTitle = m.top.parentItem.title + " (Favorites)"
+    else
+        m.top.overhangTitle = m.top.parentItem.title + " (Filtered)"
+    end if
+end sub
