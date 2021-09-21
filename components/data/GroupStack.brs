@@ -31,6 +31,13 @@ sub push(newGroup)
 
     m.groups.push(newGroup)
 
+    ' TODO: figure out a better way to do this without relying on indexing
+    if currentGroup <> invalid
+        m.scene.replaceChild(newGroup, 1)
+    else
+        m.scene.appendChild(newGroup)
+    end if
+
     'observe info about new group, set overhang title, etc.
     if newGroup.isSubType("JFGroup")
         registerOverhangData(newGroup)
@@ -44,13 +51,6 @@ sub push(newGroup)
         newGroup.setFocus(true)
         newGroup.control = "play"
         m.overhang.visible = false
-    end if
-
-    ' TODO: figure out a better way to do this without relying on indexing
-    if currentGroup <> invalid
-        m.scene.replaceChild(newGroup, 1)
-    else
-        m.scene.appendChild(newGroup)
     end if
 end sub
 
