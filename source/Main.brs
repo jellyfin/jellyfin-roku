@@ -200,6 +200,7 @@ sub Main (args as dynamic) as void
         else if isNodeEvent(msg, "buttonSelected")
             ' If a button is selected, we have some determining to do
             btn = getButton(msg)
+            group = groupStack.callFunc("peek")
             if btn <> invalid and btn.id = "play-button"
                 ' Check is a specific Audio Stream was selected
                 audio_stream_idx = 1
@@ -207,8 +208,6 @@ sub Main (args as dynamic) as void
                     audio_stream_idx = group.selectedAudioStreamIndex
                 end if
 
-                ' TODO - Do a better job of picking the last focus
-                ' This is currently page layout Group, button Group, then button
                 video_id = group.id
                 video = CreateVideoPlayerGroup(video_id, audio_stream_idx)
                 if video <> invalid
@@ -240,6 +239,7 @@ sub Main (args as dynamic) as void
             end if
         else if isNodeEvent(msg, "optionSelected")
             button = msg.getRoSGNode()
+            group = groupStack.callFunc("peek")
             if button.id = "goto_search"
                 ' Exit out of the side panel
                 panel.visible = false
@@ -293,6 +293,7 @@ sub Main (args as dynamic) as void
             end if
         else if type(msg) = "roDeviceInfoEvent"
             event = msg.GetInfo()
+            group = groupStack.callFunc("peek")
             if event.exitedScreensaver = true
                 m.overhang.callFunc("resetTime")
                 if group.subtype() = "Home"
