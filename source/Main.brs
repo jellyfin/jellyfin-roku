@@ -14,7 +14,6 @@ sub Main (args as dynamic) as void
     m.screen.setMessagePort(m.port)
     m.scene = m.screen.CreateScene("JFScene")
     m.screen.show()
-    m.overhang = m.scene.findNode("overhang")
 
     ' Set any initial Global Variables
     m.global = m.screen.getGlobalNode()
@@ -36,7 +35,7 @@ sub Main (args as dynamic) as void
     wipe_groups()
 
     ' load home page
-    m.overhang.currentUser = m.user.Name
+    groupStack.currentUser = m.user.Name
     group = CreateHomeGroup()
     group.userConfig = m.user.configuration
     group.callFunc("loadLibraries")
@@ -242,6 +241,7 @@ sub Main (args as dynamic) as void
             group = groupStack.callFunc("peek")
             if button.id = "goto_search"
                 ' Exit out of the side panel
+                panel = group.findNode("options")
                 panel.visible = false
                 if group.lastFocus <> invalid
                     group.lastFocus.setFocus(true)
@@ -295,7 +295,7 @@ sub Main (args as dynamic) as void
             event = msg.GetInfo()
             group = groupStack.callFunc("peek")
             if event.exitedScreensaver = true
-                m.overhang.callFunc("resetTime")
+                groupStack.callFunc("resetTime")
                 if group.subtype() = "Home"
                     currentTime = CreateObject("roDateTime").AsSeconds()
                     group.timeLastRefresh = currentTime
@@ -333,9 +333,6 @@ sub Main (args as dynamic) as void
 end sub
 
 function LoginFlow(startOver = false as boolean)
-    if m.scene <> invalid
-        m.scene.unobserveField("backPressed")
-    end if
     'Collect Jellyfin server and user information
     start_login:
 

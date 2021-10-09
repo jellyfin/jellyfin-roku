@@ -304,7 +304,6 @@ function CreateVideoPlayerGroup(video_id, audio_stream_idx = 1)
     ' Video is Playing
     video = VideoPlayer(video_id, audio_stream_idx)
     if video = invalid then return invalid
-    video.observeField("backPressed", m.port)
     video.observeField("selectSubtitlePressed", m.port)
     video.observeField("state", m.port)
 

@@ -119,6 +119,7 @@ sub registerOverhangData(group)
         else
             m.overhang.showOptions = false
         end if
+        group.observeField("optionsAvailable", "updateOptions")
 
         group.observeField("overhangTitle", "updateOverhangTitle")
         m.overhang.visible = true
@@ -141,4 +142,27 @@ end sub
 ' Update overhang title
 sub updateOverhangTitle(msg)
     m.overhang.title = msg.getData()
+end sub
+
+
+'
+' Update options availability
+sub updateOptions(msg)
+    m.overhang.showOptions = msg.getData()
+end sub
+
+
+'
+' Update username in overhang
+sub updateUser()
+    ' Passthrough to overhang
+    m.overhang.currentUser = m.top.currentUser
+end sub
+
+
+'
+' Reset time
+sub resetTime()
+    ' Passthrough to overhang
+    m.overhang.callFunc("resetTime")
 end sub

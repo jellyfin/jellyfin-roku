@@ -4,6 +4,8 @@
     <function name="push" />
     <function name="pop" />
     <function name="peek" />
+    <function name="resetTime" />
+    <field id="currentUser" type="string" onChange="updateUser" />
   </interface>
   <script type="text/brightscript" uri="GroupStack.brs" />
 </component>
