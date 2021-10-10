@@ -27,12 +27,8 @@ sub Main (args as dynamic) as void
 
     app_start:
     ' First thing to do is validate the ability to use the API
-
-    ' TODO: Should eventually switch the loginflow over to using the pushGroup() code. It's
-    '       safe to leave for now because wipe_groups() ensures the equivalent to an empty group
-    '       stack.
     if not LoginFlow() then return
-    wipe_groups()
+    sceneManager.callFunc("clearScenes")
 
     ' load home page
     sceneManager.currentUser = m.user.Name
@@ -256,11 +252,11 @@ sub Main (args as dynamic) as void
                 unset_setting("server")
                 unset_setting("port")
                 SignOut()
-                wipe_groups()
+                sceneManager.callFunc("clearScenes")
                 goto app_start
             else if button.id = "sign_out"
                 SignOut()
-                wipe_groups()
+                sceneManager.callFunc("clearScenes")
                 goto app_start
             else if button.id = "play_mpeg2"
                 playMpeg2 = get_setting("playback.mpeg2")
@@ -355,7 +351,7 @@ function LoginFlow(startOver = false as boolean)
         SendPerformanceBeacon("AppDialogComplete") ' Roku Performance monitoring - Dialog Closed
         if serverSelection = "backPressed"
             print "backPressed"
-            wipe_groups()
+            m.global.sceneManager.callFunc("clearScenes")
             return false
         end if
     end if
@@ -408,7 +404,7 @@ function LoginFlow(startOver = false as boolean)
     end if
 
     LoadUserPreferences()
-    wipe_groups()
+    m.global.sceneManager.callFunc("clearScenes")
 
     'Send Device Profile information to server
     body = getDeviceCapabilities()
@@ -437,13 +433,6 @@ sub RunScreenSaver()
         end if
     end while
 
-end sub
-
-sub wipe_groups()
-    ' The 1 remaining child should be the overhang
-    while m.scene.getChildCount() > 2
-        m.scene.removeChildIndex(2)
-    end while
 end sub
 
 ' Roku Performance monitoring

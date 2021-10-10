@@ -1,6 +1,6 @@
 function CreateServerGroup()
     screen = CreateObject("roSGNode", "SetServerScreen")
-    m.scene.appendChild(screen)
+    m.global.sceneManager.callFunc("pushScene", screen)
     port = CreateObject("roMessagePort")
     m.colors = {}
 
@@ -75,7 +75,7 @@ function CreateUserSelectGroup(users = [])
         return ""
     end if
     group = CreateObject("roSGNode", "UserSelect")
-    m.scene.appendChild(group)
+    m.global.sceneManager.callFunc("pushScene", group)
     port = CreateObject("roMessagePort")
 
     group.itemContent = users
@@ -106,7 +106,7 @@ end function
 function CreateSigninGroup(user = "")
     ' Get and Save Jellyfin user login credentials
     group = CreateObject("roSGNode", "ConfigScene")
-    m.scene.appendChild(group)
+    m.global.sceneManager.callFunc("pushScene", group)
     port = CreateObject("roMessagePort")
 
     group.findNode("prompt").text = tr("Sign In")
