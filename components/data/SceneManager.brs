@@ -1,12 +1,13 @@
 sub init()
     m.groups = []
     m.scene = m.top.getScene()
+    m.content = m.scene.findNode("content")
     m.overhang = m.scene.findNode("overhang")
 end sub
 
 '
 ' Push a new group onto the stack, replacing the existing group on the screen
-sub push(newGroup)
+sub pushScene(newGroup)
     currentGroup = m.groups.peek()
     if currentGroup <> invalid
         'Search through group and store off last focused item
@@ -31,11 +32,10 @@ sub push(newGroup)
 
     m.groups.push(newGroup)
 
-    ' TODO: figure out a better way to do this without relying on indexing
     if currentGroup <> invalid
-        m.scene.replaceChild(newGroup, 1)
+        m.content.replaceChild(newGroup, 0)
     else
-        m.scene.appendChild(newGroup)
+        m.content.appendChild(newGroup)
     end if
 
     'observe info about new group, set overhang title, etc.
@@ -56,7 +56,7 @@ end sub
 
 '
 ' Remove the current group and load the last group from the stack
-sub pop()
+sub popScene()
     group = m.groups.pop()
     if group <> invalid
         if group.isSubType("JFGroup")
@@ -73,7 +73,6 @@ sub pop()
     group = m.groups.peek()
     if group <> invalid
         registerOverhangData(group)
-        'm.scene.callFunc("registerOverhangData")
 
         if group.subtype() = "Home"
             currentTime = CreateObject("roDateTime").AsSeconds()
@@ -85,7 +84,7 @@ sub pop()
 
         group.visible = true
 
-        m.scene.replaceChild(group, 1)
+        m.content.replaceChild(group, 0)
 
         ' Restore focus
         if group.lastFocus <> invalid
@@ -103,9 +102,17 @@ end sub
 
 '
 ' Return group at top of stack without removing
-function peek() as object
+function getActiveScene() as object
     return m.groups.peek()
 end function
+
+
+'
+' Clear all content from group stack
+sub clearScenes()
+    m.content.removeChildrenIndex(m.content.getChildCount(), 0)
+    m.groups = []
+end sub
 
 
 '

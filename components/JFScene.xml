@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <component name="JFScene" extends="Scene">
   <children>
+    <Group id="content" />
     <JFOverhang id="overhang" />
   </children>
   <interface>

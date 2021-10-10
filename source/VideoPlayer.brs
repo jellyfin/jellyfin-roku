@@ -221,19 +221,19 @@ sub autoPlayNextEpisode(videoID as string, showID as string)
 
         if data <> invalid and data.Items.Count() = 2
             ' remove finished video node
-            m.global.groupStack.callFunc("pop")
+            m.global.sceneManager.callFunc("popScene")
             ' setup new video node
             nextVideo = CreateVideoPlayerGroup(data.Items[1].Id)
             if nextVideo <> invalid
-                m.global.groupStack.callFunc("push", nextVideo)
+                m.global.sceneManager.callFunc("pushScene", nextVideo)
             else
-                m.global.groupStack.callFunc("pop")
+                m.global.sceneManager.callFunc("popScene")
             end if
         else
             ' can't play next episode
-            m.global.groupStack.callFunc("pop")
+            m.global.sceneManager.callFunc("popScene")
         end if
     else
-        m.global.groupStack.callFunc("pop")
+        m.global.sceneManager.callFunc("popScene")
     end if
 end sub

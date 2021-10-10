@@ -7,10 +7,10 @@ function onKeyEvent(key as string, press as boolean) as boolean
     if not press then return false
 
     if key = "back"
-        m.global.groupStack.callFunc("pop")
+        m.global.sceneManager.callFunc("popScene")
         return true
     else if key = "options"
-        group = m.global.groupStack.callFunc("peek")
+        group = m.global.sceneManager.callFunc("getActiveScene")
         if group.optionsAvailable
             group.lastFocus = group.focusedChild
             panel = group.findNode("options")

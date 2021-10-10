@@ -21,9 +21,9 @@ sub Main (args as dynamic) as void
     playstateTask = CreateObject("roSGNode", "PlaystateTask")
     playstateTask.id = "playstateTask"
 
-    groupStack = CreateObject("roSGNode", "GroupStack")
+    sceneManager = CreateObject("roSGNode", "SceneManager")
 
-    m.global.addFields({ app_loaded: false, playstateTask: playstateTask, groupStack: groupStack })
+    m.global.addFields({ app_loaded: false, playstateTask: playstateTask, sceneManager: sceneManager })
 
     app_start:
     ' First thing to do is validate the ability to use the API
@@ -35,11 +35,11 @@ sub Main (args as dynamic) as void
     wipe_groups()
 
     ' load home page
-    groupStack.currentUser = m.user.Name
+    sceneManager.currentUser = m.user.Name
     group = CreateHomeGroup()
     group.userConfig = m.user.configuration
     group.callFunc("loadLibraries")
-    groupStack.callFunc("push", group)
+    sceneManager.callFunc("pushScene", group)
 
     m.scene.observeField("exit", m.port)
 
@@ -57,7 +57,7 @@ sub Main (args as dynamic) as void
         video = CreateVideoPlayerGroup(args.contentId)
 
         if video <> invalid
-            groupStack.callFunc("push", video)
+            sceneManager.callFunc("pushScene", video)
         else
             dialog = createObject("roSGNode", "Dialog")
             dialog.id = "OKDialog"
@@ -81,7 +81,7 @@ sub Main (args as dynamic) as void
         else if isNodeEvent(msg, "exit")
             return
         else if isNodeEvent(msg, "closeSidePanel")
-            group = groupStack.callFunc("peek")
+            group = sceneManager.callFunc("getActiveScene")
             if group.lastFocus <> invalid
                 group.lastFocus.setFocus(true)
             else
@@ -94,7 +94,7 @@ sub Main (args as dynamic) as void
             if itemNode.type = "Episode" or itemNode.type = "Movie" or itemNode.type = "Video"
                 video = CreateVideoPlayerGroup(itemNode.id)
                 if video <> invalid
-                    groupStack.callFunc("push", video)
+                    sceneManager.callFunc("pushScene", video)
                 end if
             end if
         else if isNodeEvent(msg, "selectedItem")
@@ -102,22 +102,22 @@ sub Main (args as dynamic) as void
             selectedItem = msg.getData()
             if selectedItem.type = "CollectionFolder" or selectedItem.type = "UserView" or selectedItem.type = "Folder" or selectedItem.type = "Channel" or selectedItem.type = "Boxset"
                 group = CreateItemGrid(selectedItem)
-                groupStack.callFunc("push", group)
+                sceneManager.callFunc("pushScene", group)
             else if selectedItem.type = "Episode"
                 ' play episode
                 ' todo: create an episode page to link here
                 video_id = selectedItem.id
                 video = CreateVideoPlayerGroup(video_id)
                 if video <> invalid
-                    groupStack.callFunc("push", video)
+                    sceneManager.callFunc("pushScene", video)
                 end if
             else if selectedItem.type = "Series"
                 group = CreateSeriesDetailsGroup(selectedItem.json)
-                groupStack.callFunc("push", group)
+                sceneManager.callFunc("pushScene", group)
             else if selectedItem.type = "Movie"
                 ' open movie detail page
                 group = CreateMovieDetailsGroup(selectedItem)
-                groupStack.callFunc("push", group)
+                sceneManager.callFunc("pushScene", group)
             else if selectedItem.type = "TvChannel" or selectedItem.type = "Video"
                 ' play channel feed
                 video_id = selectedItem.id
@@ -131,7 +131,7 @@ sub Main (args as dynamic) as void
                 dialog.close = true
 
                 if video <> invalid
-                    groupStack.callFunc("push", video)
+                    sceneManager.callFunc("pushScene", video)
                 else
                     dialog = createObject("roSGNode", "Dialog")
                     dialog.id = "OKDialog"
@@ -149,12 +149,12 @@ sub Main (args as dynamic) as void
             ' If you select a movie from ANYWHERE, follow this flow
             node = getMsgPicker(msg, "picker")
             group = CreateMovieDetailsGroup(node)
-            groupStack.callFunc("push", group)
+            sceneManager.callFunc("pushScene", group)
         else if isNodeEvent(msg, "seriesSelected")
             ' If you select a TV Series from ANYWHERE, follow this flow
             node = getMsgPicker(msg, "picker")
             group = CreateSeriesDetailsGroup(node)
-            groupStack.callFunc("push", group)
+            sceneManager.callFunc("pushScene", group)
         else if isNodeEvent(msg, "seasonSelected")
             ' If you select a TV Season from ANYWHERE, follow this flow
             ptr = msg.getData()
@@ -162,14 +162,14 @@ sub Main (args as dynamic) as void
             series = msg.getRoSGNode()
             node = series.seasonData.items[ptr[1]]
             group = CreateSeasonDetailsGroup(series.itemContent, node)
-            groupStack.callFunc("push", group)
+            sceneManager.callFunc("pushScene", group)
         else if isNodeEvent(msg, "episodeSelected")
             ' If you select a TV Episode from ANYWHERE, follow this flow
             node = getMsgPicker(msg, "picker")
             video_id = node.id
             video = CreateVideoPlayerGroup(video_id)
             if video <> invalid
-                groupStack.callFunc("push", video)
+                sceneManager.callFunc("pushScene", video)
             end if
         else if isNodeEvent(msg, "search_value")
             query = msg.getRoSGNode().search_value
@@ -195,11 +195,11 @@ sub Main (args as dynamic) as void
             else
                 group = CreateMovieDetailsGroup(node)
             end if
-            groupStack.callFunc("push", group)
+            sceneManager.callFunc("pushScene", group)
         else if isNodeEvent(msg, "buttonSelected")
             ' If a button is selected, we have some determining to do
             btn = getButton(msg)
-            group = groupStack.callFunc("peek")
+            group = sceneManager.callFunc("getActiveScene")
             if btn <> invalid and btn.id = "play-button"
                 ' Check is a specific Audio Stream was selected
                 audio_stream_idx = 1
@@ -210,7 +210,7 @@ sub Main (args as dynamic) as void
                 video_id = group.id
                 video = CreateVideoPlayerGroup(video_id, audio_stream_idx)
                 if video <> invalid
-                    groupStack.callFunc("push", video)
+                    sceneManager.callFunc("pushScene", video)
                 end if
             else if btn <> invalid and btn.id = "watched-button"
                 movie = group.itemContent
@@ -238,7 +238,7 @@ sub Main (args as dynamic) as void
             end if
         else if isNodeEvent(msg, "optionSelected")
             button = msg.getRoSGNode()
-            group = groupStack.callFunc("peek")
+            group = sceneManager.callFunc("getActiveScene")
             if button.id = "goto_search"
                 ' Exit out of the side panel
                 panel = group.findNode("options")
@@ -249,7 +249,7 @@ sub Main (args as dynamic) as void
                     group.setFocus(true)
                 end if
                 group = CreateSearchPage()
-                groupStack.callFunc("push", group)
+                sceneManager.callFunc("pushScene", group)
                 group.findNode("SearchBox").findNode("search-input").setFocus(true)
                 group.findNode("SearchBox").findNode("search-input").active = true
             else if button.id = "change_server"
@@ -286,16 +286,16 @@ sub Main (args as dynamic) as void
             if node.state = "finished"
                 node.control = "stop"
                 if node.showID = invalid
-                    groupStack.callFunc("pop")
+                    sceneManager.callFunc("popScene")
                 else
                     autoPlayNextEpisode(node.id, node.showID)
                 end if
             end if
         else if type(msg) = "roDeviceInfoEvent"
             event = msg.GetInfo()
-            group = groupStack.callFunc("peek")
+            group = sceneManager.callFunc("getActiveScene")
             if event.exitedScreensaver = true
-                groupStack.callFunc("resetTime")
+                sceneManager.callFunc("resetTime")
                 if group.subtype() = "Home"
                     currentTime = CreateObject("roDateTime").AsSeconds()
                     group.timeLastRefresh = currentTime
@@ -312,7 +312,7 @@ sub Main (args as dynamic) as void
                 if info.DoesExist("mediatype") and info.DoesExist("contentid")
                     video = CreateVideoPlayerGroup(info.contentId)
                     if video <> invalid
-                        groupStack.callFunc("push", video)
+                        sceneManager.callFunc("pushScene", video)
                     else
                         dialog = createObject("roSGNode", "Dialog")
                         dialog.id = "OKDialog"
@@ -441,8 +441,8 @@ end sub
 
 sub wipe_groups()
     ' The 1 remaining child should be the overhang
-    while m.scene.getChildCount() > 1
-        m.scene.removeChildIndex(1)
+    while m.scene.getChildCount() > 2
+        m.scene.removeChildIndex(2)
     end while
 end sub
 
