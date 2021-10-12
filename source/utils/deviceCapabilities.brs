@@ -114,7 +114,7 @@ function getDeviceProfile() as object
             },
             {
                 "Type": "VideoAudio",
-                "Codec": DirectPlayProfile[1].AudioCodec,  ' Use supported MKV Audio list
+                "Codec": DirectPlayProfile[1].AudioCodec, ' Use supported MKV Audio list
                 "Conditions": [
                     {
                         "Condition": "LessThanEqual",
