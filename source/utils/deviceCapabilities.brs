@@ -38,12 +38,13 @@ function getDeviceProfile() as object
         tsAudioCodecs = "aac"
     end if
 
+    DirectPlayProfile = GetDirectPlayProfiles()
 
     return {
         "MaxStreamingBitrate": 120000000,
         "MaxStaticBitrate": 100000000,
         "MusicStreamingTranscodingBitrate": 192000,
-        "DirectPlayProfiles": GetDirectPlayProfiles(),
+        "DirectPlayProfiles": DirectPlayProfile,
         "TranscodingProfiles": [
             {
                 "Container": "aac",
@@ -107,6 +108,18 @@ function getDeviceProfile() as object
                         "Condition": "Equals",
                         "Property": "IsSecondaryAudio",
                         "Value": "false",
+                        "IsRequired": false
+                    }
+                ]
+            },
+            {
+                "Type": "VideoAudio",
+                "Codec": DirectPlayProfile[1].AudioCodec, ' Use supported MKV Audio list
+                "Conditions": [
+                    {
+                        "Condition": "LessThanEqual",
+                        "Property": "AudioChannels",
+                        "Value": StrI(maxAudioChannels) ' Currently Jellyfin server expects this as a string
                         "IsRequired": false
                     }
                 ]
