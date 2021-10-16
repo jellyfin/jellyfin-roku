@@ -234,6 +234,7 @@ function CreateMovieDetailsGroup(movie)
     group = CreateObject("roSGNode", "MovieDetails")
     group.overhangTitle = movie.title
     group.optionsAvailable = false
+    m.global.sceneManager.callFunc("pushScene", group)
 
     movie = ItemMetaData(movie.id)
     group.itemContent = movie
@@ -250,6 +251,7 @@ function CreateSeriesDetailsGroup(series)
     group = CreateObject("roSGNode", "TVShowDetails")
     group.overhangTitle = series.title
     group.optionsAvailable = false
+    m.global.sceneManager.callFunc("pushScene", group)
 
     group.itemContent = ItemMetaData(series.id)
     group.seasonData = TVSeasons(series.id)
@@ -263,6 +265,7 @@ function CreateSeasonDetailsGroup(series, season)
     group = CreateObject("roSGNode", "TVEpisodes")
     group.overhangTitle = series.title + " " + season.title
     group.optionsAvailable = false
+    m.global.sceneManager.callFunc("pushScene", group)
 
     group.seasonData = ItemMetaData(season.id).json
     group.objects = TVEpisodes(series.id, season.id)

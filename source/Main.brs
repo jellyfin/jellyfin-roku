@@ -109,11 +109,9 @@ sub Main (args as dynamic) as void
                 end if
             else if selectedItem.type = "Series"
                 group = CreateSeriesDetailsGroup(selectedItem.json)
-                sceneManager.callFunc("pushScene", group)
             else if selectedItem.type = "Movie"
                 ' open movie detail page
                 group = CreateMovieDetailsGroup(selectedItem)
-                sceneManager.callFunc("pushScene", group)
             else if selectedItem.type = "TvChannel" or selectedItem.type = "Video"
                 ' play channel feed
                 video_id = selectedItem.id
@@ -145,12 +143,10 @@ sub Main (args as dynamic) as void
             ' If you select a movie from ANYWHERE, follow this flow
             node = getMsgPicker(msg, "picker")
             group = CreateMovieDetailsGroup(node)
-            sceneManager.callFunc("pushScene", group)
         else if isNodeEvent(msg, "seriesSelected")
             ' If you select a TV Series from ANYWHERE, follow this flow
             node = getMsgPicker(msg, "picker")
             group = CreateSeriesDetailsGroup(node)
-            sceneManager.callFunc("pushScene", group)
         else if isNodeEvent(msg, "seasonSelected")
             ' If you select a TV Season from ANYWHERE, follow this flow
             ptr = msg.getData()
@@ -158,7 +154,6 @@ sub Main (args as dynamic) as void
             series = msg.getRoSGNode()
             node = series.seasonData.items[ptr[1]]
             group = CreateSeasonDetailsGroup(series.itemContent, node)
-            sceneManager.callFunc("pushScene", group)
         else if isNodeEvent(msg, "episodeSelected")
             ' If you select a TV Episode from ANYWHERE, follow this flow
             node = getMsgPicker(msg, "picker")
@@ -191,7 +186,6 @@ sub Main (args as dynamic) as void
             else
                 group = CreateMovieDetailsGroup(node)
             end if
-            sceneManager.callFunc("pushScene", group)
         else if isNodeEvent(msg, "buttonSelected")
             ' If a button is selected, we have some determining to do
             btn = getButton(msg)
