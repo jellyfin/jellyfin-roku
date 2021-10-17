@@ -28,9 +28,9 @@ sub SignOut()
         unset_setting("password")
     end if
     unset_setting("active_user")
-    m.overhang.currentUser = ""
-    m.overhang.showOptions = false
-    m.scene.unobserveField("optionsPressed")
+    m.global.sceneManager.currentUser = ""
+    group = m.global.sceneManager.callFunc("getActiveScene")
+    group.optionsAvailable = false
 end sub
 
 function AvailableUsers()

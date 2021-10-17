@@ -102,8 +102,6 @@ end function
 
 function show_dialog(message as string, options = [], defaultSelection = 0) as integer
     lastFocus = lastFocusedChild(m.scene)
-    'We want to handle backPressed instead of the main loop
-    m.scene.unobserveField("backPressed")
 
     dialog = createObject("roSGNode", "JFMessageDialog")
     if options.count() then dialog.options = options
@@ -131,7 +129,6 @@ function show_dialog(message as string, options = [], defaultSelection = 0) as i
 
     m.scene.removeChildIndex(m.scene.getChildCount() - 1)
     lastFocus.setFocus(true)
-    m.scene.observeField("backPressed", m.port)
 
     return result
 end function

@@ -21,30 +21,23 @@ sub Main (args as dynamic) as void
     playstateTask = CreateObject("roSGNode", "PlaystateTask")
     playstateTask.id = "playstateTask"
 
-    m.global.addFields({ app_loaded: false, playstateTask: playstateTask })
+    sceneManager = CreateObject("roSGNode", "SceneManager")
 
-    m.overhang = CreateObject("roSGNode", "JFOverhang")
-    m.scene.insertChild(m.overhang, 0)
+    m.global.addFields({ app_loaded: false, playstateTask: playstateTask, sceneManager: sceneManager })
 
     app_start:
-    m.overhang.title = ""
     ' First thing to do is validate the ability to use the API
-
     if not LoginFlow() then return
-    wipe_groups()
+    sceneManager.callFunc("clearScenes")
 
     ' load home page
-    m.overhang.title = tr("Home")
-    m.overhang.currentUser = m.user.Name
-    m.overhang.showOptions = true
+    sceneManager.currentUser = m.user.Name
     group = CreateHomeGroup()
     group.userConfig = m.user.configuration
     group.callFunc("loadLibraries")
-    m.scene.appendChild(group)
+    sceneManager.callFunc("pushScene", group)
 
-    m.scene.observeField("backPressed", m.port)
-    m.scene.observeField("optionsPressed", m.port)
-    m.scene.observeField("mutePressed", m.port)
+    m.scene.observeField("exit", m.port)
 
     ' Handle input messages
     input = CreateObject("roInput")
@@ -53,20 +46,14 @@ sub Main (args as dynamic) as void
     m.device = CreateObject("roDeviceInfo")
     m.device.setMessagePort(m.port)
     m.device.EnableScreensaverExitedEvent(true)
+    m.device.EnableAppFocusEvent(false)
 
     ' Check if we were sent content to play with the startup command (Deep Link)
     if (args.mediaType <> invalid) and (args.contentId <> invalid)
         video = CreateVideoPlayerGroup(args.contentId)
 
         if video <> invalid
-            if group.lastFocus = invalid then group.lastFocus = group.focusedChild
-            group.setFocus(false)
-            group.visible = false
-            group = video
-            m.scene.appendChild(group)
-            group.setFocus(true)
-            group.control = "play"
-            m.overhang.visible = false
+            sceneManager.callFunc("pushScene", video)
         else
             dialog = createObject("roSGNode", "Dialog")
             dialog.id = "OKDialog"
@@ -87,23 +74,10 @@ sub Main (args as dynamic) as void
         if type(msg) = "roSGScreenEvent" and msg.isScreenClosed()
             print "CLOSING SCREEN"
             return
-
-        else if isNodeEvent(msg, "backPressed")
-            n = m.scene.getChildCount() - 1
-            if msg.getRoSGNode().focusedChild <> invalid and msg.getRoSGNode().focusedChild.isSubtype("JFVideo")
-                stopPlayback()
-                RemoveCurrentGroup()
-            else
-                if n = 1 then return
-                RemoveCurrentGroup()
-            end if
-            group = m.scene.getChild(n - 1)
-        else if isNodeEvent(msg, "optionsPressed")
-            group.lastFocus = group.focusedChild
-            panel = group.findNode("options")
-            panel.visible = true
-            panel.findNode("panelList").setFocus(true)
+        else if isNodeEvent(msg, "exit")
+            return
         else if isNodeEvent(msg, "closeSidePanel")
+            group = sceneManager.callFunc("getActiveScene")
             if group.lastFocus <> invalid
                 group.lastFocus.setFocus(true)
             else
@@ -116,67 +90,28 @@ sub Main (args as dynamic) as void
             if itemNode.type = "Episode" or itemNode.type = "Movie" or itemNode.type = "Video"
                 video = CreateVideoPlayerGroup(itemNode.id)
                 if video <> invalid
-                    group.lastFocus = group.focusedChild
-                    group.setFocus(false)
-                    group.visible = false
-                    group = video
-                    m.scene.appendChild(group)
-                    group.setFocus(true)
-                    group.control = "play"
-                    m.overhang.visible = false
+                    sceneManager.callFunc("pushScene", video)
                 end if
             end if
         else if isNodeEvent(msg, "selectedItem")
             ' If you select a library from ANYWHERE, follow this flow
             selectedItem = msg.getData()
             if selectedItem.type = "CollectionFolder" or selectedItem.type = "UserView" or selectedItem.type = "Folder" or selectedItem.type = "Channel" or selectedItem.type = "Boxset"
-                group.lastFocus = group.focusedChild
-                group.setFocus(false)
-                group.visible = false
-                m.overhang.title = selectedItem.title
                 group = CreateItemGrid(selectedItem)
-                group.overhangTitle = selectedItem.title
-                m.scene.appendChild(group)
+                sceneManager.callFunc("pushScene", group)
             else if selectedItem.type = "Episode"
                 ' play episode
                 ' todo: create an episode page to link here
                 video_id = selectedItem.id
-                m.scene.unobserveField("optionsPressed")
                 video = CreateVideoPlayerGroup(video_id)
                 if video <> invalid
-                    group.lastFocus = group.focusedChild
-                    group.setFocus(false)
-                    group.visible = false
-                    group = video
-                    m.scene.appendChild(group)
-                    group.setFocus(true)
-                    group.control = "play"
-                    m.overhang.visible = false
+                    sceneManager.callFunc("pushScene", video)
                 end if
             else if selectedItem.type = "Series"
-                group.lastFocus = group.focusedChild
-                group.setFocus(false)
-                group.visible = false
-
-                m.overhang.title = selectedItem.title
-                m.overhang.showOptions = false
-                m.scene.unobserveField("optionsPressed")
                 group = CreateSeriesDetailsGroup(selectedItem.json)
-                group.overhangTitle = selectedItem.title
-                m.scene.appendChild(group)
             else if selectedItem.type = "Movie"
                 ' open movie detail page
-                group.lastFocus = group.focusedChild
-                group.setFocus(false)
-                group.visible = false
-
-                m.overhang.title = selectedItem.title
-                m.overhang.showOptions = false
-                m.scene.unobserveField("optionsPressed")
                 group = CreateMovieDetailsGroup(selectedItem)
-                group.overhangTitle = selectedItem.title
-                m.scene.appendChild(group)
-
             else if selectedItem.type = "TvChannel" or selectedItem.type = "Video"
                 ' play channel feed
                 video_id = selectedItem.id
@@ -186,19 +121,11 @@ sub Main (args as dynamic) as void
                 dialog.title = tr("Loading Channel Data")
                 m.scene.dialog = dialog
 
-                m.scene.unobserveField("optionsPressed")
                 video = CreateVideoPlayerGroup(video_id)
                 dialog.close = true
 
                 if video <> invalid
-                    if group.lastFocus = invalid then group.lastFocus = group.focusedChild
-                    group.setFocus(false)
-                    group.visible = false
-                    group = video
-                    m.scene.appendChild(group)
-                    group.setFocus(true)
-                    group.control = "play"
-                    m.overhang.visible = false
+                    sceneManager.callFunc("pushScene", video)
                 else
                     dialog = createObject("roSGNode", "Dialog")
                     dialog.id = "OKDialog"
@@ -215,62 +142,25 @@ sub Main (args as dynamic) as void
         else if isNodeEvent(msg, "movieSelected")
             ' If you select a movie from ANYWHERE, follow this flow
             node = getMsgPicker(msg, "picker")
-
-            group.lastFocus = group.focusedChild
-            group.setFocus(false)
-            group.visible = false
-
-            m.overhang.title = node.title
-            m.overhang.showOptions = false
-            m.scene.unobserveField("optionsPressed")
             group = CreateMovieDetailsGroup(node)
-            group.overhangTitle = node.title
-            m.scene.appendChild(group)
         else if isNodeEvent(msg, "seriesSelected")
             ' If you select a TV Series from ANYWHERE, follow this flow
             node = getMsgPicker(msg, "picker")
-
-            group.lastFocus = group.focusedChild
-            group.setFocus(false)
-            group.visible = false
-
-            m.overhang.title = node.title
-            m.overhang.showOptions = false
-            m.scene.unobserveField("optionsPressed")
             group = CreateSeriesDetailsGroup(node)
-            group.overhangTitle = node.title
-            m.scene.appendChild(group)
         else if isNodeEvent(msg, "seasonSelected")
             ' If you select a TV Season from ANYWHERE, follow this flow
             ptr = msg.getData()
             ' ptr is for [row, col] of selected item... but we only have 1 row
             series = msg.getRoSGNode()
             node = series.seasonData.items[ptr[1]]
-
-            group.lastFocus = group.focusedChild.focusedChild
-            group.setFocus(false)
-            group.visible = false
-
-            m.overhang.title = series.overhangTitle + " - " + node.title
-            m.overhang.showOptions = false
-            m.scene.unobserveField("optionsPressed")
             group = CreateSeasonDetailsGroup(series.itemContent, node)
-            m.scene.appendChild(group)
         else if isNodeEvent(msg, "episodeSelected")
             ' If you select a TV Episode from ANYWHERE, follow this flow
             node = getMsgPicker(msg, "picker")
             video_id = node.id
-            m.scene.unobserveField("optionsPressed")
             video = CreateVideoPlayerGroup(video_id)
             if video <> invalid
-                group.lastFocus = group.focusedChild
-                group.setFocus(false)
-                group.visible = false
-                group = video
-                m.scene.appendChild(group)
-                group.setFocus(true)
-                group.control = "play"
-                m.overhang.visible = false
+                sceneManager.callFunc("pushScene", video)
             end if
         else if isNodeEvent(msg, "search_value")
             query = msg.getRoSGNode().search_value
@@ -289,10 +179,6 @@ sub Main (args as dynamic) as void
         else if isNodeEvent(msg, "itemSelected")
             ' Search item selected
             node = getMsgPicker(msg)
-            group.lastFocus = group.focusedChild
-            group.setFocus(false)
-            group.visible = false
-
             ' TODO - swap this based on target.mediatype
             ' types: [ Series (Show), Episode, Movie, Audio, Person, Studio, MusicArtist ]
             if node.type = "Series"
@@ -300,12 +186,10 @@ sub Main (args as dynamic) as void
             else
                 group = CreateMovieDetailsGroup(node)
             end if
-            m.scene.appendChild(group)
-            m.overhang.title = group.overhangTitle
-
         else if isNodeEvent(msg, "buttonSelected")
             ' If a button is selected, we have some determining to do
             btn = getButton(msg)
+            group = sceneManager.callFunc("getActiveScene")
             if btn <> invalid and btn.id = "play-button"
                 ' Check is a specific Audio Stream was selected
                 audio_stream_idx = 1
@@ -313,19 +197,10 @@ sub Main (args as dynamic) as void
                     audio_stream_idx = group.selectedAudioStreamIndex
                 end if
 
-                ' TODO - Do a better job of picking the last focus
-                ' This is currently page layout Group, button Group, then button
                 video_id = group.id
                 video = CreateVideoPlayerGroup(video_id, audio_stream_idx)
                 if video <> invalid
-                    group.lastFocus = group.focusedChild.focusedChild.focusedChild
-                    group.setFocus(false)
-                    group.visible = false
-                    group = video
-                    m.scene.appendChild(group)
-                    group.setFocus(true)
-                    group.control = "play"
-                    m.overhang.visible = false
+                    sceneManager.callFunc("pushScene", video)
                 end if
             else if btn <> invalid and btn.id = "watched-button"
                 movie = group.itemContent
@@ -353,33 +228,29 @@ sub Main (args as dynamic) as void
             end if
         else if isNodeEvent(msg, "optionSelected")
             button = msg.getRoSGNode()
+            group = sceneManager.callFunc("getActiveScene")
             if button.id = "goto_search"
                 ' Exit out of the side panel
+                panel = group.findNode("options")
                 panel.visible = false
                 if group.lastFocus <> invalid
                     group.lastFocus.setFocus(true)
                 else
                     group.setFocus(true)
                 end if
-                group.lastFocus = group.focusedChild
-                group.setFocus(false)
-                group.visible = false
-                m.overhang.showOptions = false
-                m.scene.unobserveField("optionsPressed")
                 group = CreateSearchPage()
-                m.scene.appendChild(group)
-                m.overhang.title = group.overhangTitle
+                sceneManager.callFunc("pushScene", group)
                 group.findNode("SearchBox").findNode("search-input").setFocus(true)
                 group.findNode("SearchBox").findNode("search-input").active = true
             else if button.id = "change_server"
                 unset_setting("server")
                 unset_setting("port")
                 SignOut()
-                wipe_groups()
+                sceneManager.callFunc("clearScenes")
                 goto app_start
             else if button.id = "sign_out"
                 SignOut()
-                wipe_groups()
+                sceneManager.callFunc("clearScenes")
                 goto app_start
             else if button.id = "play_mpeg2"
                 playMpeg2 = get_setting("playback.mpeg2")
@@ -403,18 +274,18 @@ sub Main (args as dynamic) as void
         else if isNodeEvent(msg, "state")
             node = msg.getRoSGNode()
             if node.state = "finished"
-                stopPlayback()
+                node.control = "stop"
                 if node.showID = invalid
-                    RemoveCurrentGroup()
+                    sceneManager.callFunc("popScene")
                 else
-                    nextEpisode = autoPlayNextEpisode(node.id, node.showID)
-                    if nextEpisode <> invalid then group = nextEpisode
+                    autoPlayNextEpisode(node.id, node.showID)
                 end if
             end if
         else if type(msg) = "roDeviceInfoEvent"
             event = msg.GetInfo()
+            group = sceneManager.callFunc("getActiveScene")
             if event.exitedScreensaver = true
-                m.overhang.callFunc("resetTime")
+                sceneManager.callFunc("resetTime")
                 if group.subtype() = "Home"
                     currentTime = CreateObject("roDateTime").AsSeconds()
                     group.timeLastRefresh = currentTime
@@ -431,14 +302,7 @@ sub Main (args as dynamic) as void
                 if info.DoesExist("mediatype") and info.DoesExist("contentid")
                     video = CreateVideoPlayerGroup(info.contentId)
                     if video <> invalid
-                        if group.lastFocus = invalid then group.lastFocus = group.focusedChild
-                        group.setFocus(false)
-                        group.visible = false
-                        group = video
-                        m.scene.appendChild(group)
-                        group.setFocus(true)
-                        group.control = "play"
-                        m.overhang.visible = false
+                        sceneManager.callFunc("pushScene", video)
                     else
                         dialog = createObject("roSGNode", "Dialog")
                         dialog.id = "OKDialog"
@@ -459,9 +323,6 @@ sub Main (args as dynamic) as void
 end sub
 
 function LoginFlow(startOver = false as boolean)
-    if m.scene <> invalid
-        m.scene.unobserveField("backPressed")
-    end if
     'Collect Jellyfin server and user information
     start_login:
 
@@ -484,7 +345,7 @@ function LoginFlow(startOver = false as boolean)
         SendPerformanceBeacon("AppDialogComplete") ' Roku Performance monitoring - Dialog Closed
         if serverSelection = "backPressed"
             print "backPressed"
-            wipe_groups()
+            m.global.sceneManager.callFunc("clearScenes")
             return false
         end if
     end if
@@ -537,7 +398,7 @@ function LoginFlow(startOver = false as boolean)
     end if
 
     LoadUserPreferences()
-    wipe_groups()
+    m.global.sceneManager.callFunc("clearScenes")
 
     'Send Device Profile information to server
     body = getDeviceCapabilities()
@@ -566,45 +427,6 @@ sub RunScreenSaver()
         end if
     end while
 
-end sub
-
-sub wipe_groups()
-    ' The 1 remaining child should be the overhang
-    while m.scene.getChildCount() > 1
-        m.scene.removeChildIndex(1)
-    end while
-end sub
-
-sub RemoveCurrentGroup()
-    ' Pop a group off the stack and expose what's below
-    n = m.scene.getChildCount() - 1
-    group = m.scene.focusedChild
-    m.scene.removeChildIndex(n)
-    prevOptionsAvailable = group.optionsAvailable
-    group = m.scene.getChild(n - 1)
-    m.overhang.title = group.overhangTitle
-    m.overhang.showOptions = group.optionsAvailable
-    if group.optionsAvailable <> prevOptionsAvailable
-        if group.optionsAvailable = false
-            m.scene.unobserveField("optionsPressed")
-        else
-            m.scene.observeField("optionsPressed", m.port)
-        end if
-    end if
-    m.overhang.visible = true
-    if group.lastFocus <> invalid
-        group.lastFocus.setFocus(true)
-    else
-        group.setFocus(true)
-    end if
-    if group.subtype() = "Home"
-        currentTime = CreateObject("roDateTime").AsSeconds()
-        if group.timeLastRefresh = invalid or (currentTime - group.timeLastRefresh) > 20
-            group.timeLastRefresh = currentTime
-            group.callFunc("refresh")
-        end if
-    end if
-    group.visible = true
 end sub
 
 ' Roku Performance monitoring

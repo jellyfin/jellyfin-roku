@@ -1,6 +1,6 @@
 function CreateServerGroup()
     screen = CreateObject("roSGNode", "SetServerScreen")
-    m.scene.appendChild(screen)
+    m.global.sceneManager.callFunc("pushScene", screen)
     port = CreateObject("roMessagePort")
     m.colors = {}
 
@@ -75,7 +75,7 @@ function CreateUserSelectGroup(users = [])
         return ""
     end if
     group = CreateObject("roSGNode", "UserSelect")
-    m.scene.appendChild(group)
+    m.global.sceneManager.callFunc("pushScene", group)
     port = CreateObject("roMessagePort")
 
     group.itemContent = users
@@ -106,7 +106,7 @@ end function
 function CreateSigninGroup(user = "")
     ' Get and Save Jellyfin user login credentials
     group = CreateObject("roSGNode", "ConfigScene")
-    m.scene.appendChild(group)
+    m.global.sceneManager.callFunc("pushScene", group)
     port = CreateObject("roMessagePort")
 
     group.findNode("prompt").text = tr("Sign In")
@@ -174,6 +174,8 @@ end function
 function CreateHomeGroup()
     ' Main screen after logging in. Shows the user's libraries
     group = CreateObject("roSGNode", "Home")
+    group.overhangTitle = tr("Home")
+    group.optionsAvailable = true
 
     group.observeField("selectedItem", m.port)
     group.observeField("quickPlayNode", m.port)
@@ -230,6 +232,9 @@ end function
 
 function CreateMovieDetailsGroup(movie)
     group = CreateObject("roSGNode", "MovieDetails")
+    group.overhangTitle = movie.title
+    group.optionsAvailable = false
+    m.global.sceneManager.callFunc("pushScene", group)
 
     movie = ItemMetaData(movie.id)
     group.itemContent = movie
@@ -244,6 +249,9 @@ end function
 
 function CreateSeriesDetailsGroup(series)
     group = CreateObject("roSGNode", "TVShowDetails")
+    group.overhangTitle = series.title
+    group.optionsAvailable = false
+    m.global.sceneManager.callFunc("pushScene", group)
 
     group.itemContent = ItemMetaData(series.id)
     group.seasonData = TVSeasons(series.id)
@@ -255,6 +263,9 @@ end function
 
 function CreateSeasonDetailsGroup(series, season)
     group = CreateObject("roSGNode", "TVEpisodes")
+    group.overhangTitle = series.title + " " + season.title
+    group.optionsAvailable = false
+    m.global.sceneManager.callFunc("pushScene", group)
 
     group.seasonData = ItemMetaData(season.id).json
     group.objects = TVEpisodes(series.id, season.id)
@@ -268,6 +279,7 @@ end function
 function CreateItemGrid(libraryItem)
     group = CreateObject("roSGNode", "ItemGrid")
     group.parentItem = libraryItem
+    group.optionsAvailable = true
     group.observeField("selectedItem", m.port)
     return group
 end function
@@ -295,7 +307,6 @@ function CreateVideoPlayerGroup(video_id, audio_stream_idx = 1)
     ' Video is Playing
     video = VideoPlayer(video_id, audio_stream_idx)
     if video = invalid then return invalid
-    video.observeField("backPressed", m.port)
     video.observeField("selectSubtitlePressed", m.port)
     video.observeField("state", m.port)
 
