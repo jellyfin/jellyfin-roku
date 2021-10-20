@@ -30,7 +30,7 @@
     </message>
     <message>
         <source>Loading...</source>
-        <translation>Lädt...</translation>
+        <translation type="unfinished">Lädt…</translation>
     </message>
     <message>
         <source>Login attempt failed.</source>
@@ -114,7 +114,7 @@
     </message>
     <message>
         <source>Enter a value...</source>
-        <translation>Wert eingeben...</translation>
+        <translation>Wert eingeben…</translation>
     </message>
     <message>
         <source>Sort Field</source>
@@ -1462,6 +1462,11 @@
     <message>
         <source>Change Server</source>
         <translation>Server wechseln</translation>
+    </message>
+    <message>
+        <source>There was an error retrieving the data for this item from the server.</source>
+        <translation>Beim Laden der Daten dieses Elements ist ein Fehler aufgetreten.</translation>
+        <extracomment>Dialog detail when unable to load Content from Server</extracomment>
     </message>
 </context>
 </TS>
