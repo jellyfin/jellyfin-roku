@@ -30,7 +30,7 @@
     </message>
     <message>
         <source>Loading...</source>
-        <translation type="unfinished">Lädt…</translation>
+        <translation>Lädt…</translation>
     </message>
     <message>
         <source>Login attempt failed.</source>
@@ -1467,6 +1467,63 @@
         <source>There was an error retrieving the data for this item from the server.</source>
         <translation>Beim Laden der Daten dieses Elements ist ein Fehler aufgetreten.</translation>
         <extracomment>Dialog detail when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <comment>Title of Tab for options to filter library content</comment>
+        <source>TAB_FILTER</source>
+        <translation type="unfinished">Filter</translation>
+    </message>
+    <message>
+        <comment>Title of Tab for options to sort library content</comment>
+        <source>TAB_SORT</source>
+        <translation type="unfinished">Sortierung</translation>
+    </message>
+    <message>
+        <comment>Title of Tab for switching &quot;views&quot; when looking at a library</comment>
+        <source>TAB_VIEW</source>
+        <translation type="unfinished">Ansicht</translation>
+    </message>
+    <message>
+        <source>RUNTIME</source>
+        <translation type="unfinished">Laufzeit</translation>
+    </message>
+    <message>
+        <source>RELEASE_DATE</source>
+        <translation>Veröffentlichungs-Datum</translation>
+    </message>
+    <message>
+        <source>OFFICIAL_RATING</source>
+        <translation type="unfinished">Altersfreigabe</translation>
+    </message>
+    <message>
+        <source>CRITIC_RATING</source>
+        <translation type="unfinished">Kritikerwertung</translation>
+    </message>
+    <message>
+        <source>IMDB_RATING</source>
+        <translation type="unfinished">IMDb-Bewertung</translation>
+    </message>
+    <message>
+        <comment>Name or Title field of media item</comment>
+        <source>TITLE</source>
+        <translation>Name</translation>
+    </message>
+    <message>
+        <source>Unable to load Channel Data from the server</source>
+        <translation type="unfinished">Laden der Kanal-Daten vom Server war nicht möglich</translation>
+    </message>
+    <message>
+        <source>Error loading Channel Data</source>
+        <translation type="unfinished">Fehler beim Laden von Kanal-Daten</translation>
+    </message>
+    <message>
+        <source>Loading Channel Data</source>
+        <translation type="unfinished">Kanal-Daten werden geladen</translation>
+    </message>
+    <message>
+        <source>An error was encountered while playing this item.</source>
+        <translation type="unfinished">Während des Abspielens dieses Eintrags trat ein Fehler auf.</translation>
+        <extracomment>Dialog detail when error occurs during playback</extracomment>
     </message>
 </context>
 </TS>
