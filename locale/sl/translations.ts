@@ -30,7 +30,7 @@
     </message>
     <message>
         <source>Loading...</source>
-        <translation>Nalaganje...</translation>
+        <translation>Nalaganje…</translation>
     </message>
     <message>
         <source>Login attempt failed.</source>
@@ -114,7 +114,7 @@
     </message>
     <message>
         <source>Enter a value...</source>
-        <translation>Vnesite vrednost...</translation>
+        <translation>Vnesite vrednost…</translation>
     </message>
     <message>
         <source>Sort Field</source>
