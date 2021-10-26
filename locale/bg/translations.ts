@@ -30,7 +30,7 @@
     </message>
     <message>
         <source>Loading...</source>
-        <translation>Зареждане...</translation>
+        <translation>Зареждане…</translation>
     </message>
     <message>
         <source>Login attempt failed.</source>
@@ -114,7 +114,7 @@
     </message>
     <message>
         <source>Enter a value...</source>
-        <translation>Въведете стойност...</translation>
+        <translation>Въведете стойност…</translation>
     </message>
     <message>
         <source>Sort Field</source>
