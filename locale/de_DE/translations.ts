@@ -1715,5 +1715,10 @@
         <translation>Während des Abspielens dieses Eintrags trat ein Fehler auf.</translation>
         <extracomment>Dialog detail when error occurs during playback</extracomment>
     </message>
+    <message>
+        <source>Live</source>
+        <translation type="unfinished">Live</translation>
+        <extracomment>If TV Show is being broadcast live (not pre-recorded)</extracomment>
+    </message>
 </context>
 </TS>
