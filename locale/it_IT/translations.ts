@@ -915,5 +915,10 @@
         <source>Change Server</source>
         <translation>Cambia Server</translation>
     </message>
+    <message>
+        <source>...or enter server URL manually:</source>
+        <translation>...o inserisci l&apos;URL del server:</translation>
+        <extracomment>Instructions on initial app launch when the user is asked to manually enter a server URL</extracomment>
+    </message>
 </context>
 </TS>
