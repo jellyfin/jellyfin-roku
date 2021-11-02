@@ -1495,5 +1495,10 @@ elemeket</translation>
         <translation>Hiba a tartalom lekérésekor</translation>
         <extracomment>Dialog title when unable to load Content from Server</extracomment>
     </message>
+    <message>
+        <source>...or enter server URL manually:</source>
+        <translation>…vagy adja meg kézzel a szerver URL-jét:</translation>
+        <extracomment>Instructions on initial app launch when the user is asked to manually enter a server URL</extracomment>
+    </message>
 </context>
 </TS>
