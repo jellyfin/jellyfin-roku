@@ -1725,5 +1725,10 @@
         <translation>...oder geben Sie die Server-URL manuell ein:</translation>
         <extracomment>Instructions on initial app launch when the user is asked to manually enter a server URL</extracomment>
     </message>
+    <message>
+        <source>Live</source>
+        <translation>Live</translation>
+        <extracomment>If TV Show is being broadcast live (not pre-recorded)</extracomment>
+    </message>
 </context>
 </TS>
