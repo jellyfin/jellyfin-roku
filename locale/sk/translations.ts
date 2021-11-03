@@ -212,5 +212,10 @@
         <source>NO_ITEMS</source>
         <translation>%1 neobsahuje žiadne položky</translation>
     </message>
+    <message>
+        <comment>Message displayed in Item Grid when no item to display. %1 is container type (e.g. Boxset, Collection, Folder, etc)</comment>
+        <source>NO_ITEMS</source>
+        <translation>%1 neobsahuje žiadne položky</translation>
+    </message>
 </context>
 </TS>
