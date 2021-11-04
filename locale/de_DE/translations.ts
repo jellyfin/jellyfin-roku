@@ -1720,5 +1720,10 @@
         <translation type="unfinished">Live</translation>
         <extracomment>If TV Show is being broadcast live (not pre-recorded)</extracomment>
     </message>
+    <message>
+        <source>...or enter server URL manually:</source>
+        <translation>...oder geben Sie die Server-URL manuell ein:</translation>
+        <extracomment>Instructions on initial app launch when the user is asked to manually enter a server URL</extracomment>
+    </message>
 </context>
 </TS>
