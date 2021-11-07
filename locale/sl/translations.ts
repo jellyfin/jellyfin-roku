@@ -620,5 +620,10 @@
         <translation>Napaka pri pridobivanju vsebine</translation>
         <extracomment>Dialog title when unable to load Content from Server</extracomment>
     </message>
+    <message>
+        <source>There was an error retrieving the data for this item from the server.</source>
+        <translation>Pri pridobivanju vsebine s strežnika je prišlo do napake.</translation>
+        <extracomment>Dialog detail when unable to load Content from Server</extracomment>
+    </message>
 </context>
 </TS>
