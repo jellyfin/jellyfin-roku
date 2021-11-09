@@ -30,7 +30,7 @@
     </message>
     <message>
         <source>Loading...</source>
-        <translation>Cargando...</translation>
+        <translation>Cargando…</translation>
     </message>
     <message>
         <source>Login attempt failed.</source>
@@ -114,7 +114,7 @@
     </message>
     <message>
         <source>Enter a value...</source>
-        <translation>Ingrese un valor...</translation>
+        <translation>Ingrese un valor…</translation>
     </message>
     <message>
         <source>Sort Field</source>

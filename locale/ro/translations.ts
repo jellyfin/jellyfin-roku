@@ -30,7 +30,7 @@
     </message>
     <message>
         <source>Loading...</source>
-        <translation>Se încarcă...</translation>
+        <translation>Se încarcă…</translation>
     </message>
     <message>
         <source>Login attempt failed.</source>
@@ -114,7 +114,7 @@
     </message>
     <message>
         <source>Enter a value...</source>
-        <translation>Introduceți o valoare...</translation>
+        <translation>Introduceți o valoare…</translation>
     </message>
     <message>
         <source>Sort Field</source>

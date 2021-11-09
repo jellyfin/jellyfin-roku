@@ -1430,5 +1430,10 @@
         <translation>Erreur lors de la récupération du contenu</translation>
         <extracomment>Dialog title when unable to load Content from Server</extracomment>
     </message>
+    <message>
+        <source>...or enter server URL manually:</source>
+        <translation>...ou entrez l&apos;URL du serveur manuellement :</translation>
+        <extracomment>Instructions on initial app launch when the user is asked to manually enter a server URL</extracomment>
+    </message>
 </context>
 </TS>

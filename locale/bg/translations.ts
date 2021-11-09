@@ -30,7 +30,7 @@
     </message>
     <message>
         <source>Loading...</source>
-        <translation>Зареждане...</translation>
+        <translation>Зареждане…</translation>
     </message>
     <message>
         <source>Login attempt failed.</source>
@@ -114,7 +114,7 @@
     </message>
     <message>
         <source>Enter a value...</source>
-        <translation>Въведете стойност...</translation>
+        <translation>Въведете стойност…</translation>
     </message>
     <message>
         <source>Sort Field</source>
@@ -249,6 +249,63 @@
     <message>
         <source>CRITIC_RATING</source>
         <translation>Рейтинг на критиката</translation>
+    </message>
+    <message>
+        <source>IMDB_RATING</source>
+        <translation>Рейтинг в ИМДБ</translation>
+    </message>
+    <message>
+        <comment>Name or Title field of media item</comment>
+        <source>TITLE</source>
+        <translation>Име</translation>
+    </message>
+    <message>
+        <comment>Message displayed in Item Grid when no item to display. %1 is container type (e.g. Boxset, Collection, Folder, etc)</comment>
+        <source>NO_ITEMS</source>
+        <translation>Този %1 не съдържа елементи</translation>
+    </message>
+    <message>
+        <comment>Title of Tab for options to filter library content</comment>
+        <source>TAB_FILTER</source>
+        <translation>Филтър</translation>
+    </message>
+    <message>
+        <comment>Title of Tab for options to sort library content</comment>
+        <source>TAB_SORT</source>
+        <translation>Подреждане</translation>
+    </message>
+    <message>
+        <comment>Title of Tab for switching &quot;views&quot; when looking at a library</comment>
+        <source>TAB_VIEW</source>
+        <translation>Изглед</translation>
+    </message>
+    <message>
+        <source>RUNTIME</source>
+        <translation>Продължителност</translation>
+    </message>
+    <message>
+        <source>RELEASE_DATE</source>
+        <translation>Дата на издаване</translation>
+    </message>
+    <message>
+        <source>PLAY_COUNT</source>
+        <translation>Брой възпроизвеждания</translation>
+    </message>
+    <message>
+        <source>OFFICIAL_RATING</source>
+        <translation>Родителска оценка</translation>
+    </message>
+    <message>
+        <source>DATE_PLAYED</source>
+        <translation>Дата на възпроизвеждане</translation>
+    </message>
+    <message>
+        <source>DATE_ADDED</source>
+        <translation>Дата на добавяне</translation>
+    </message>
+    <message>
+        <source>CRITIC_RATING</source>
+        <translation>Оценка на критиците</translation>
     </message>
     <message>
         <source>IMDB_RATING</source>

@@ -967,5 +967,10 @@
         <source>NO_ITEMS</source>
         <translation>Tato %1 neobsahuje žádné položky</translation>
     </message>
+    <message>
+        <source>...or enter server URL manually:</source>
+        <translation>…nebo zadejte URL serveru ručně:</translation>
+        <extracomment>Instructions on initial app launch when the user is asked to manually enter a server URL</extracomment>
+    </message>
 </context>
 </TS>

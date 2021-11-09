@@ -30,7 +30,7 @@
     </message>
     <message>
         <source>Loading...</source>
-        <translation>Načítavam...</translation>
+        <translation>Načítavam…</translation>
     </message>
     <message>
         <source>Login attempt failed.</source>
@@ -114,7 +114,7 @@
     </message>
     <message>
         <source>Enter a value...</source>
-        <translation>Zadajte hodnotu...</translation>
+        <translation>Zadajte hodnotu…</translation>
     </message>
     <message>
         <source>Sort Field</source>
@@ -207,6 +207,11 @@
 </context>
 <context>
     <name></name>
+    <message>
+        <comment>Message displayed in Item Grid when no item to display. %1 is container type (e.g. Boxset, Collection, Folder, etc)</comment>
+        <source>NO_ITEMS</source>
+        <translation>%1 neobsahuje žiadne položky</translation>
+    </message>
     <message>
         <comment>Message displayed in Item Grid when no item to display. %1 is container type (e.g. Boxset, Collection, Folder, etc)</comment>
         <source>NO_ITEMS</source>
