@@ -76,13 +76,20 @@ function getJson(req)
     return json
 end function
 
-function postVoid(req, data = "" as string)
-    status = req.PostFromString(data)
-    if status = 200
-        return true
-    else
+function postVoid(req, data = "" as string) as boolean
+    req.setMessagePort(CreateObject("roMessagePort"))
+    req.AddHeader("Content-Type", "application/json")
+    req.AsyncPostFromString(data)
+    resp = wait(30000, req.GetMessagePort())
+    if type(resp) <> "roUrlEvent"
         return false
     end if
+
+    if resp.GetResponseCode() = 200
+        return true
+    end if
+
+    return false
 end function
 
 function postJson(req, data = "" as string)
