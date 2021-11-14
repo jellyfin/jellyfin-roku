@@ -382,5 +382,10 @@
         <translation>Enter the server name or ip address</translation>
         <extracomment>Title of KeyboardDialog when manually entering a server URL</extracomment>
     </message>
+    <message>
+        <source>...or enter server URL manually:</source>
+        <translation>…or enter server URL manually:</translation>
+        <extracomment>Instructions on initial app launch when the user is asked to manually enter a server URL</extracomment>
+    </message>
 </context>
 </TS>
