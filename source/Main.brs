@@ -365,7 +365,6 @@ function LoginFlow(startOver = false as boolean)
                 publicUsersNodes.push(user)
             end for
             userSelected = CreateUserSelectGroup(publicUsersNodes)
-            m.scene.focusedChild.visible = false
             if userSelected = "backPressed"
                 SendPerformanceBeacon("AppDialogComplete") ' Roku Performance monitoring - Dialog Closed
                 return LoginFlow(true)
@@ -385,7 +384,6 @@ function LoginFlow(startOver = false as boolean)
         passwordEntry = CreateSigninGroup(userSelected)
         SendPerformanceBeacon("AppDialogComplete") ' Roku Performance monitoring - Dialog Closed
         if passwordEntry = "backPressed"
-            m.scene.focusedChild.visible = false
             return LoginFlow(true)
         end if
     end if
