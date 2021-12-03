@@ -173,3 +173,21 @@ sub resetTime()
     ' Passthrough to overhang
     m.overhang.callFunc("resetTime")
 end sub
+
+'
+' Display dialog to user with an OK button
+sub userMessage(title as string, message as string)
+    dialog = createObject("roSGNode", "Dialog")
+    dialog.title = title
+    dialog.message = message
+    dialog.buttons = [tr("OK")]
+    dialog.observeField("buttonSelected", "dismiss_dialog")
+    m.scene.dialog = dialog
+end sub
+
+'
+' Close currently displayed dialog
+sub dismiss_dialog()
+    print "Button Pressed"
+    m.scene.dialog.close = true
+end sub
