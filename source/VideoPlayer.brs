@@ -107,6 +107,12 @@ sub AddVideoContent(video, audio_stream_idx = 1, subtitle_idx = -1, playbackPosi
         video.content.url = buildURL(Substitute("Videos/{0}/stream", video.id), params)
         video.isTranscoded = false
     else
+        ' If server does not provide a transcode URL, display a message to the user
+        if playbackInfo.MediaSources[0].TranscodingUrl = invalid
+            m.global.sceneManager.callFunc("userMessage", tr("Error Getting Playback Information"), tr("An error was encountered while playing this item.  Server did not provide required transcoding data."))
+            video.content = invalid
+            return
+        end if
 
         ' Get transcoding reason
         video.transcodeReasons = getTranscodeReasons(playbackInfo.MediaSources[0].TranscodingUrl)
