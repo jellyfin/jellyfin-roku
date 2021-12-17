@@ -24,6 +24,8 @@ sub init()
     m.LoadContinueTask.itemsToLoad = "continue"
     m.LoadNextUpTask = createObject("roSGNode", "LoadItemsTask")
     m.LoadNextUpTask.itemsToLoad = "nextUp"
+    m.LoadOnNowTask = createObject("roSGNode", "LoadItemsTask")
+    m.LoadOnNowTask.itemsToLoad = "onNow"
 end sub
 
 sub loadLibraries()
@@ -78,6 +80,11 @@ sub onLibrariesLoaded()
             if lib.collectionType <> "boxsets" and lib.collectionType <> "livetv"
                 latestInRow = content.CreateChild("HomeRow")
                 latestInRow.title = tr("Latest in") + " " + lib.name + " >"
+                sizeArray.Push([464, 331])
+            else if lib.collectionType = "livetv"
+                ' If we have Live TV, add "On Now"
+                onNowRow = content.CreateChild("HomeRow")
+                onNowRow.title = tr("On Now")
                 sizeArray.Push([464, 331])
             end if
         end for
@@ -192,7 +199,7 @@ sub updateNextUpItems()
     userConfig = m.top.userConfig
     filteredLatest = filterNodeArray(m.libraryData, "id", userConfig.LatestItemsExcludes)
     for each lib in filteredLatest
-        if lib.collectionType <> "livetv" and lib.collectionType <> "boxsets"
+        if lib.collectionType <> "livetv" and lib.collectionType <> "boxsets" and lib.json.CollectionType <> "Program"
             loadLatest = createObject("roSGNode", "LoadItemsTask")
             loadLatest.itemsToLoad = "latest"
             loadLatest.itemId = lib.id
@@ -205,6 +212,9 @@ sub updateNextUpItems()
             loadLatest.control = "RUN"
         end if
     end for
+
+    m.LoadOnNowTask.observeField("content", "updateOnNowItems")
+    m.LoadOnNowTask.control = "RUN"    
 end sub
 
 sub updateLatestItems(msg)
@@ -256,6 +266,44 @@ sub updateLatestItems(msg)
             ' replace the old row
             updateSizeArray(itemSize, rowIndex, "replace")
             homeRows.replaceChild(row, rowIndex)
+        end if
+    end if
+end sub
+
+sub updateOnNowItems()
+    itemData = m.LoadOnNowTask.content
+    m.LoadOnNowTask.unobserveField("content")
+    m.LoadOnNowTask.content = []
+
+    if itemData = invalid then return
+
+    homeRows = m.top.content
+    onNowRowIndex = getRowIndex("On Now")
+
+    if itemData.count() < 1
+        if onNowRowIndex <> invalid
+            ' remove the row
+            deleteFromSizeArray(onNowRowIndex)
+            homeRows.removeChildIndex(onNowRowIndex)
+        end if
+    else
+        ' remake row using the new data
+        row = CreateObject("roSGNode", "HomeRow")
+        row.title = tr("On Now")
+        itemSize = [464, 331]
+        for each item in itemData
+            item.usePoster = row.usePoster
+            item.imageWidth = row.imageWidth
+            row.appendChild(item)
+        end for
+
+        if onNowRowIndex = invalid
+            ' insert new row under "My Media"
+            updateSizeArray(itemSize, 1)
+            homeRows.insertChild(row, 1)
+        else
+            ' replace the old row
+            homeRows.replaceChild(row, onNowRowIndex)
         end if
     end if
 end sub

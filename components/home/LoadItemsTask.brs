@@ -74,7 +74,28 @@ sub loadItems()
             tmp.json = item
             results.push(tmp)
         end for
+
+    else if m.top.itemsToLoad = "onNow" 
+        url =  "LiveTv/Programs/Recommended"
+        params = {}
+        params["userId"] = get_setting("active_user")
+        params["isAiring"] = true
+        params["limit"] = 16
+        params["imageTypeLimit"] = 1
+        params["enableImageTypes"] = "Primary,Thumb,Backdrop"
+        params["enableTotalRecordCount"] = false
+        params["fields"] = "ChannelInfo,PrimaryImageAspectRatio"
+
+        resp = APIRequest(url, params)
+        data = getJson(resp)
+        for each item in data.Items
+            tmp = CreateObject("roSGNode", "HomeData")
+            item.ImageURL = ImageURL(item.Id)
+            tmp.json = item
+            results.push(tmp)
+        end for
     end if
+
     m.top.content = results
 
 end sub
