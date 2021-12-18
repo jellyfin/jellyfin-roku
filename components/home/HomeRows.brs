@@ -99,7 +99,7 @@ sub onLibrariesLoaded()
     m.LoadContinueTask.observeField("content", "updateContinueItems")
     m.LoadContinueTask.control = "RUN"
 
-    ' If we have Live TV access, load On Now data
+    ' If we have Live TV access, load "On Now" data
     if haveLiveTV then
         m.LoadOnNowTask.observeField("content", "updateOnNowItems")
         m.LoadOnNowTask.control = "RUN"
