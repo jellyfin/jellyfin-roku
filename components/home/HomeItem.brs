@@ -56,6 +56,7 @@ sub itemContentChanged()
     m.itemTextExtra.visible = true
     m.itemTextExtra.font.size = 22
 
+    ' "Program" is from clicking on an "On Now" item on the Home Screen
     if itemData.type = "Program"
         m.itemText.Text = itemData.json.name
         if (itemData.json.ImageURL <> invalid)
