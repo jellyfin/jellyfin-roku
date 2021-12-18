@@ -24,8 +24,6 @@ sub init()
     m.LoadContinueTask.itemsToLoad = "continue"
     m.LoadNextUpTask = createObject("roSGNode", "LoadItemsTask")
     m.LoadNextUpTask.itemsToLoad = "nextUp"
-    m.LoadOnNowTask = createObject("roSGNode", "LoadItemsTask")
-    m.LoadOnNowTask.itemsToLoad = "onNow"
 end sub
 
 sub loadLibraries()
@@ -83,9 +81,13 @@ sub onLibrariesLoaded()
                 sizeArray.Push([464, 331])
             else if lib.collectionType = "livetv"
                 ' If we have Live TV, add "On Now"
+                m.LoadOnNowTask = createObject("roSGNode", "LoadItemsTask")
+                m.LoadOnNowTask.itemsToLoad = "onNow" 
                 onNowRow = content.CreateChild("HomeRow")
                 onNowRow.title = tr("On Now")
                 sizeArray.Push([464, 331])
+                m.LoadOnNowTask.observeField("content", "updateOnNowItems")
+                m.LoadOnNowTask.control = "RUN"                    
             end if
         end for
     end if
@@ -212,9 +214,6 @@ sub updateNextUpItems()
             loadLatest.control = "RUN"
         end if
     end for
-
-    m.LoadOnNowTask.observeField("content", "updateOnNowItems")
-    m.LoadOnNowTask.control = "RUN"    
 end sub
 
 sub updateLatestItems(msg)
