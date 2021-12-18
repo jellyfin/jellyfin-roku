@@ -24,6 +24,8 @@ sub init()
     m.LoadContinueTask.itemsToLoad = "continue"
     m.LoadNextUpTask = createObject("roSGNode", "LoadItemsTask")
     m.LoadNextUpTask.itemsToLoad = "nextUp"
+    m.LoadOnNowTask = createObject("roSGNode", "LoadItemsTask")
+    m.LoadOnNowTask.itemsToLoad = "onNow" 
 end sub
 
 sub loadLibraries()
@@ -64,6 +66,7 @@ sub onLibrariesLoaded()
         [464, 331], ' Continue Watching
         [464, 331] ' Next Up
     ]
+    haveLiveTV = false
     ' validate library data
     if m.libraryData <> invalid and m.libraryData.count() > 0
         userConfig = m.top.userConfig
@@ -81,13 +84,10 @@ sub onLibrariesLoaded()
                 sizeArray.Push([464, 331])
             else if lib.collectionType = "livetv"
                 ' If we have Live TV, add "On Now"
-                m.LoadOnNowTask = createObject("roSGNode", "LoadItemsTask")
-                m.LoadOnNowTask.itemsToLoad = "onNow" 
                 onNowRow = content.CreateChild("HomeRow")
                 onNowRow.title = tr("On Now")
                 sizeArray.Push([464, 331])
-                m.LoadOnNowTask.observeField("content", "updateOnNowItems")
-                m.LoadOnNowTask.control = "RUN"                    
+                haveLiveTV = true
             end if
         end for
     end if
@@ -98,6 +98,12 @@ sub onLibrariesLoaded()
     ' Load the Continue Watching Data
     m.LoadContinueTask.observeField("content", "updateContinueItems")
     m.LoadContinueTask.control = "RUN"
+
+    ' If we have Live TV access, load On Now data
+    if haveLiveTV then
+        m.LoadOnNowTask.observeField("content", "updateOnNowItems")
+        m.LoadOnNowTask.control = "RUN"
+    end if
 end sub
 
 sub updateHomeRows()
