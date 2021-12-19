@@ -59,7 +59,7 @@ sub itemContentChanged()
     ' "Program" is from clicking on an "On Now" item on the Home Screen
     if itemData.type = "Program"
         m.itemText.Text = itemData.json.name
-        if (itemData.json.ImageURL <> invalid)
+        if itemData.json.ImageURL <> invalid
             m.itemPoster.uri = itemData.json.ImageURL
         end if
 
