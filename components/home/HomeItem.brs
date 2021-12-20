@@ -63,7 +63,7 @@ sub itemContentChanged()
             m.itemPoster.uri = itemData.json.ImageURL
         end if
 
-        ' Set Episode title if available 
+        ' Set Episode title if available
         if itemData.json.EpisodeTitle <> invalid
             m.itemTextExtra.text = itemData.json.EpisodeTitle
         end if

@@ -75,12 +75,12 @@ sub loadItems()
             results.push(tmp)
         end for
 
-    else if m.top.itemsToLoad = "onNow" 
-        url =  "LiveTv/Programs/Recommended"
+    else if m.top.itemsToLoad = "onNow"
+        url = "LiveTv/Programs/Recommended"
         params = {}
         params["userId"] = get_setting("active_user")
         params["isAiring"] = true
-        params["limit"] = 16    ' 16 to be consistent with "Latest In"
+        params["limit"] = 16 ' 16 to be consistent with "Latest In"
         params["imageTypeLimit"] = 1
         params["enableImageTypes"] = "Primary,Thumb,Backdrop"
         params["enableTotalRecordCount"] = false

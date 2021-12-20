@@ -25,7 +25,7 @@ sub init()
     m.LoadNextUpTask = createObject("roSGNode", "LoadItemsTask")
     m.LoadNextUpTask.itemsToLoad = "nextUp"
     m.LoadOnNowTask = createObject("roSGNode", "LoadItemsTask")
-    m.LoadOnNowTask.itemsToLoad = "onNow" 
+    m.LoadOnNowTask.itemsToLoad = "onNow"
 end sub
 
 sub loadLibraries()
@@ -100,7 +100,7 @@ sub onLibrariesLoaded()
     m.LoadContinueTask.control = "RUN"
 
     ' If we have Live TV access, load "On Now" data
-    if haveLiveTV 
+    if haveLiveTV
         m.LoadOnNowTask.observeField("content", "updateOnNowItems")
         m.LoadOnNowTask.control = "RUN"
     end if
