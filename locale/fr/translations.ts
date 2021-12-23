@@ -1435,5 +1435,9 @@
         <translation>...ou entrez l&apos;URL du serveur manuellement :</translation>
         <extracomment>Instructions on initial app launch when the user is asked to manually enter a server URL</extracomment>
     </message>
+    <message>
+        <source>CRITIC_RATING</source>
+        <translation>Note des critiques</translation>
+    </message>
 </context>
 </TS>
