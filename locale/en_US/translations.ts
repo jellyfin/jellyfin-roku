@@ -208,7 +208,7 @@
     </message>
     <message>
         <source>CRITIC_RATING</source>
-        <translation>Critic Rating</translation>
+        <translation>Critics Rating</translation>
     </message>
     <message>
         <source>DATE_ADDED</source>
