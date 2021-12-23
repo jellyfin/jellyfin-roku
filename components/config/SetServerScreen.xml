@@ -33,8 +33,10 @@
       </LayoutGroup>
     </LayoutGroup>
 
+    <OptionsSlider id="options" />
   </children>
 
   <script type="text/brightscript" uri="SetServerScreen.brs" />
+  <script type="text/brightscript" uri="pkg:/source/utils/config.brs" />
 
 </component>

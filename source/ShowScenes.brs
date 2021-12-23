@@ -1,5 +1,6 @@
 function CreateServerGroup()
     screen = CreateObject("roSGNode", "SetServerScreen")
+    screen.optionsAvailable = true
     m.global.sceneManager.callFunc("pushScene", screen)
     port = CreateObject("roMessagePort")
     m.colors = {}
@@ -10,6 +11,17 @@ function CreateServerGroup()
     m.viewModel = {}
     button = screen.findNode("submit")
     button.observeField("buttonSelected", port)
+    'create delete saved server option
+    new_options = []
+    sidepanel = screen.findNode("options")
+    opt = CreateObject("roSGNode", "OptionsButton")
+    opt.title = tr("Delete Saved")
+    opt.id = "delete_saved" 
+    opt.observeField("optionSelected", port)
+    new_options.push(opt)
+    sidepanel.options = new_options
+    sidepanel.observeField("closeSidePanel", port)
+    
     screen.observeField("backPressed", port)
 
     while true
@@ -19,6 +31,10 @@ function CreateServerGroup()
             return "false"
         else if isNodeEvent(msg, "backPressed")
             return "backPressed"
+        else if isNodeEvent(msg, "closeSidePanel")
+            screen.setFocus(true)
+            serverPicker = screen.findNode("serverPicker")
+            serverPicker.setFocus(true)
         else if type(msg) = "roSGNodeEvent"
             node = msg.getNode()
             if node = "submit"
@@ -61,6 +77,16 @@ function CreateServerGroup()
                     screen.visible = false
                     return "true"
                 end if
+            else if node = "delete_saved"
+                serverPicker = screen.findNode("serverPicker")
+                itemToDelete = serverPicker.content.getChild(serverPicker.itemFocused)
+                urlToDelete = itemToDelete.baseUrl
+                if urlToDelete <> invalid
+                    DeleteFromServerList(urlToDelete)
+                    serverPicker.content.removeChild(itemToDelete)
+                    sidepanel.visible = false
+                    serverPicker.setFocus(true)
+                end if           
             end if
         end if
     end while

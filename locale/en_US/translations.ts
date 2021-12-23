@@ -93,6 +93,10 @@
         <translation>Profile</translation>
     </message>
     <message>
+        <source>Delete Saved</source>
+        <translation>Delete Saved</translation>
+    </message>
+    <message>
         <source>My Media</source>
         <translation>My Media</translation>
     </message>

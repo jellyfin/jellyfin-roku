@@ -373,6 +373,7 @@ function LoginFlow(startOver = false as boolean)
                 get_token(userSelected, "")
                 if get_setting("active_user") <> invalid
                     m.user = AboutMe()
+                    SaveServerList()
                     LoadUserPreferences()
                     SendPerformanceBeacon("AppDialogComplete") ' Roku Performance monitoring - Dialog Closed
                     return true
@@ -395,6 +396,7 @@ function LoginFlow(startOver = false as boolean)
         goto start_login
     end if
 
+    SaveServerList()
     LoadUserPreferences()
     m.global.sceneManager.callFunc("clearScenes")
 
@@ -405,6 +407,42 @@ function LoginFlow(startOver = false as boolean)
     postJson(req, FormatJson(body))
     return true
 end function
+
+sub SaveServerList()
+    'Save off this server to our list of saved servers for easier navigation between servers
+    server = get_setting("server")
+    alreadySaved = false
+    saved = get_setting("saved_servers")
+    if saved <> invalid
+        savedServers = ParseJson(saved)
+        for each item in savedServers.serverList
+            if item.baseUrl = server
+                alreadySaved = true
+                exit for
+            end if
+        end for
+        if alreadySaved = false
+            savedServers.serverList.Push({ name: "Saved", baseUrl: server, username: m.user})
+            set_setting("saved_servers", FormatJson(savedServers))
+        end if
+    else
+        set_setting("saved_servers", FormatJson({ serverList: [{name: "Saved", baseUrl: server, username: m.user}]}))
+    end if
+end sub
+
+sub DeleteFromServerList(urlToDelete)
+    saved = get_setting("saved_servers")
+    if saved <> invalid
+        savedServers = ParseJson(saved)
+        newServers = {serverList: []}
+        for each item in savedServers.serverList
+            if item.baseUrl <> urlToDelete
+                newServers.serverList.Push(item)
+            end if
+        end for
+        set_setting("saved_servers", FormatJson(newServers))
+    end if
+end sub
 
 sub RunScreenSaver()
     print "Starting screensaver..."

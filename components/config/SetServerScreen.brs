@@ -1,6 +1,5 @@
 sub init()
     m.top.setFocus(true)
-    m.top.optionsAvailable = false
 
     m.spinner = m.top.findNode("spinner")
     m.serverPicker = m.top.findNode("serverPicker")
@@ -15,7 +14,7 @@ sub init()
 end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean
-    print "onKeyEvent", key, press
+    print "SetServerScren onKeyEvent", key, press
 
     if not press then return true
     handled = true
@@ -38,6 +37,12 @@ function onKeyEvent(key as string, press as boolean) as boolean
         'focus the submit button from serverUrl
     else if key = "down" and m.serverUrlContainer.hasFocus()
         m.submit.setFocus(true)
+    else if key = "options" 
+        if m.serverPicker.content.getChild(m.serverPicker.itemFocused).name = "Saved"
+            'Can only delete previously saved servers, not locally discovered ones
+            'So if we are on a "Saved" item, let the options dialog be shown (handled elsewhere)
+            handled = false
+        end if            
     else
         handled = false
     end if
@@ -63,6 +68,25 @@ sub ScanForServersComplete(event)
         'add new fields for every server property onto the ContentNode (rather than making a dedicated component just to hold data...)
         items.update([server], true)
     end for
+
+    'load any previously logged in to servers as well (if they aren't already discovered on the local network)
+    saved = get_setting("saved_servers")
+    if saved <> invalid
+        savedServers = ParseJson(saved)
+        for each server in savedServers.serverList
+            alreadyListed = false
+            for each listed in m.servers
+                if listed.baseUrl = server.baseUrl
+                    alreadyListed = true
+                    exit for
+                end if
+            end for
+            if alreadyListed = false
+                items.update([server], true)
+            end if 
+        end for
+    end if
+
     m.serverPicker.content = items
     m.spinner.visible = false
 
