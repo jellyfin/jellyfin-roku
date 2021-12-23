@@ -321,5 +321,9 @@
         <source>NO_ITEMS</source>
         <translation>Този %1 не съдържа елементи</translation>
     </message>
+    <message>
+        <source>CRITIC_RATING</source>
+        <translation>Оценка на критиците</translation>
+    </message>
 </context>
 </TS>
