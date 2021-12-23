@@ -265,7 +265,7 @@ sub Main (args as dynamic) as void
             end if
         else if isNodeEvent(msg, "selectSubtitlePressed")
             node = m.scene.focusedChild
-            if node.focusedChild <> invalid AND node.focusedChild.isSubType("JFVideo")
+            if node.focusedChild <> invalid and node.focusedChild.isSubType("JFVideo")
                 trackSelected = selectSubtitleTrack(node.Subtitles, node.SelectedSubtitle)
                 if trackSelected <> invalid and trackSelected <> -2
                     changeSubtitleDuringPlayback(trackSelected)
