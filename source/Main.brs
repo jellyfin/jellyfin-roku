@@ -13,7 +13,7 @@ sub Main (args as dynamic) as void
     m.port = CreateObject("roMessagePort")
     m.screen.setMessagePort(m.port)
     m.scene = m.screen.CreateScene("JFScene")
-    m.screen.show()
+    m.screen.show() ' vscode_rale_tracker_entry
 
     ' Set any initial Global Variables
     m.global = m.screen.getGlobalNode()
@@ -265,7 +265,7 @@ sub Main (args as dynamic) as void
             end if
         else if isNodeEvent(msg, "selectSubtitlePressed")
             node = m.scene.focusedChild
-            if node.isSubType("JFVideo")
+            if node.focusedChild <> invalid AND node.focusedChild.isSubType("JFVideo")
                 trackSelected = selectSubtitleTrack(node.Subtitles, node.SelectedSubtitle)
                 if trackSelected <> invalid and trackSelected <> -2
                     changeSubtitleDuringPlayback(trackSelected)
