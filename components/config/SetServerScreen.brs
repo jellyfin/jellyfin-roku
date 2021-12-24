@@ -14,7 +14,7 @@ sub init()
 end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean
-    print "SetServerScren onKeyEvent", key, press
+    print "SetServerScreen onKeyEvent", key, press
 
     if not press then return true
     handled = true
