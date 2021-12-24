@@ -1,6 +1,6 @@
 
 function selectSubtitleTrack(tracks, current = -1) as integer
-    video = m.scene.focusedChild
+    video = m.scene.focusedChild.focusedChild
     trackSelected = selectSubtitleTrackDialog(video.Subtitles, video.SelectedSubtitle)
     if trackSelected = invalid or trackSelected = -1 ' back pressed in Dialog - no selection made
         return -2
@@ -37,7 +37,7 @@ sub changeSubtitleDuringPlayback(newid)
         return
     end if
 
-    video = m.scene.focusedChild
+    video = m.scene.focusedChild.focusedChild
 
     ' If no change of subtitle track, return
     if newid = video.SelectedSubtitle then return
@@ -74,7 +74,7 @@ sub changeSubtitleDuringPlayback(newid)
 end sub
 
 sub turnoffSubtitles()
-    video = m.scene.focusedChild
+    video = m.scene.focusedChild.focusedChild
     current = video.SelectedSubtitle
     video.SelectedSubtitle = -1
     video.globalCaptionMode = "Off"
