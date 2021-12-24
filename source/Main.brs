@@ -422,11 +422,11 @@ sub SaveServerList()
             end if
         end for
         if alreadySaved = false
-            savedServers.serverList.Push({ name: "Saved", baseUrl: server, username: m.user.name, iconUrl: "pkg:/images/logo-icon120.jpg", iconWidth: 120, iconHeight: 120})
+            savedServers.serverList.Push({ name: "Saved", baseUrl: server, username: m.user.name, iconUrl: "pkg:/images/logo-icon120.jpg", iconWidth: 120, iconHeight: 120 })
             set_setting("saved_servers", FormatJson(savedServers))
         end if
     else
-        set_setting("saved_servers", FormatJson({ serverList: [{name: "Saved", baseUrl: server, username: m.user.name, iconUrl: "pkg:/images/logo-icon120.jpg", iconWidth: 120, iconHeight: 120}]}))
+        set_setting("saved_servers", FormatJson({ serverList: [{ name: "Saved", baseUrl: server, username: m.user.name, iconUrl: "pkg:/images/logo-icon120.jpg", iconWidth: 120, iconHeight: 120 }] }))
     end if
 end sub
 
@@ -434,7 +434,7 @@ sub DeleteFromServerList(urlToDelete)
     saved = get_setting("saved_servers")
     if saved <> invalid
         savedServers = ParseJson(saved)
-        newServers = {serverList: []}
+        newServers = { serverList: [] }
         for each item in savedServers.serverList
             if item.baseUrl <> urlToDelete
                 newServers.serverList.Push(item)

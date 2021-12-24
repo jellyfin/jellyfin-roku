@@ -37,12 +37,12 @@ function onKeyEvent(key as string, press as boolean) as boolean
         'focus the submit button from serverUrl
     else if key = "down" and m.serverUrlContainer.hasFocus()
         m.submit.setFocus(true)
-    else if key = "options" 
+    else if key = "options"
         if m.serverPicker.content.getChild(m.serverPicker.itemFocused).name = "Saved"
             'Can only delete previously saved servers, not locally discovered ones
             'So if we are on a "Saved" item, let the options dialog be shown (handled elsewhere)
             handled = false
-        end if            
+        end if
     else
         handled = false
     end if
@@ -83,7 +83,7 @@ sub ScanForServersComplete(event)
             end for
             if alreadyListed = false
                 items.update([server], true)
-            end if 
+            end if
         end for
     end if
 

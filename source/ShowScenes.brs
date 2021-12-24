@@ -16,12 +16,12 @@ function CreateServerGroup()
     sidepanel = screen.findNode("options")
     opt = CreateObject("roSGNode", "OptionsButton")
     opt.title = tr("Delete Saved")
-    opt.id = "delete_saved" 
+    opt.id = "delete_saved"
     opt.observeField("optionSelected", port)
     new_options.push(opt)
     sidepanel.options = new_options
     sidepanel.observeField("closeSidePanel", port)
-    
+
     screen.observeField("backPressed", port)
 
     while true
@@ -86,7 +86,7 @@ function CreateServerGroup()
                     serverPicker.content.removeChild(itemToDelete)
                     sidepanel.visible = false
                     serverPicker.setFocus(true)
-                end if           
+                end if
             end if
         end if
     end while
@@ -140,7 +140,7 @@ function CreateSigninGroup(user = "")
     'Load in any saved server data and see if we can just log them in...
     server = get_setting("server")
     saved = get_setting("saved_servers")
-    if saved <> invalid 
+    if saved <> invalid
         savedServers = ParseJson(saved)
         for each item in savedServers.serverList
             if item.baseUrl = server and item.username <> invalid and item.password <> invalid
@@ -361,14 +361,14 @@ sub UpdateSavedServerList()
     username = get_setting("username")
     password = get_setting("password")
 
-    if server = invalid or username = invalid or password = invalid 
+    if server = invalid or username = invalid or password = invalid
         return
     end if
 
     saved = get_setting("saved_servers")
     if saved <> invalid
         savedServers = ParseJson(saved)
-        newServers = {serverList: []}
+        newServers = { serverList: [] }
         for each item in savedServers.serverList
             if item.baseUrl = server and item.username = username
                 item.password = password
@@ -377,6 +377,6 @@ sub UpdateSavedServerList()
         end for
         set_setting("saved_servers", FormatJson(newServers))
     else
-        set_setting("saved_servers", FormatJson({ serverList: [{name: "Saved", baseUrl: server, username: username, password: password, iconUrl: "pkg:/images/logo-icon120.jpg", iconWidth: 120, iconHeight: 120}]}))
+        set_setting("saved_servers", FormatJson({ serverList: [{ name: "Saved", baseUrl: server, username: username, password: password, iconUrl: "pkg:/images/logo-icon120.jpg", iconWidth: 120, iconHeight: 120 }] }))
     end if
 end sub
