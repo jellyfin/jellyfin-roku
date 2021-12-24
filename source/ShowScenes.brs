@@ -137,6 +137,21 @@ function CreateSigninGroup(user = "")
 
     group.findNode("prompt").text = tr("Sign In")
 
+    'Load in any saved server data and see if we can just log them in...
+    server = get_setting("server")
+    saved = get_setting("saved_servers")
+    if saved <> invalid 
+        savedServers = ParseJson(saved)
+        for each item in savedServers.serverList
+            if item.baseUrl = server and item.username <> invalid and item.password <> invalid
+                get_token(item.username, item.password)
+                if get_setting("active_user") <> invalid
+                    return "true"
+                end if
+            end if
+        end for
+    end if
+
     config = group.findNode("configOptions")
     username_field = CreateObject("roSGNode", "ConfigData")
     username_field.label = tr("Username")
@@ -184,6 +199,8 @@ function CreateSigninGroup(user = "")
                 if get_setting("active_user") <> invalid
                     set_setting("username", username.value)
                     set_setting("password", password.value)
+                    'Update our saved server list, so next time the user can just click and go
+                    UpdateSavedServerList()
                     return "true"
                 end if
                 print "Login attempt failed..."
@@ -338,3 +355,28 @@ function CreateVideoPlayerGroup(video_id, audio_stream_idx = 1)
 
     return video
 end function
+
+sub UpdateSavedServerList()
+    server = get_setting("server")
+    username = get_setting("username")
+    password = get_setting("password")
+
+    if server = invalid or username = invalid or password = invalid 
+        return
+    end if
+
+    saved = get_setting("saved_servers")
+    if saved <> invalid
+        savedServers = ParseJson(saved)
+        newServers = {serverList: []}
+        for each item in savedServers.serverList
+            if item.baseUrl = server and item.username = username
+                item.password = password
+            end if
+            newServers.serverList.Push(item)
+        end for
+        set_setting("saved_servers", FormatJson(newServers))
+    else
+        set_setting("saved_servers", FormatJson({ serverList: [{name: "Saved", baseUrl: server, username: username, password: password, iconUrl: "pkg:/images/logo-icon120.jpg", iconWidth: 120, iconHeight: 120}]}))
+    end if
+end sub
