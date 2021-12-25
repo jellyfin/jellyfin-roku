@@ -691,5 +691,9 @@
         <translation>Eroare la recuperarea conținutului</translation>
         <extracomment>Dialog title when unable to load Content from Server</extracomment>
     </message>
+    <message>
+        <source>CRITIC_RATING</source>
+        <translation></translation>
+    </message>
 </context>
 </TS>
