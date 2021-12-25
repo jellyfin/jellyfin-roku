@@ -1439,5 +1439,10 @@
         <source>CRITIC_RATING</source>
         <translation>Note des critiques</translation>
     </message>
+    <message>
+        <source>Error Retrieving Content</source>
+        <translation>Erreur lors de la récupération du contenu</translation>
+        <extracomment>Dialog title when unable to load Content from Server</extracomment>
+    </message>
 </context>
 </TS>
