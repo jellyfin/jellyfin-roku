@@ -1668,5 +1668,9 @@ não contém itens</translation>
         <source>Sign Out</source>
         <translation>Sair</translation>
     </message>
+    <message>
+        <source>CRITIC_RATING</source>
+        <translation>Avaliação da crítica</translation>
+    </message>
 </context>
 </TS>
