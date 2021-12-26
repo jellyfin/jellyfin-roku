@@ -415,9 +415,9 @@ sub SaveServerList()
     entryCount = 0
     addNewEntry = true
     savedServers = { serverList: [] }
-    if saved <> invalid 
+    if saved <> invalid
         savedServers = ParseJson(saved)
-        entryCount = savedServers.serverList.Count() 
+        entryCount = savedServers.serverList.Count()
         if savedServers.serverList <> invalid and entryCount > 0
             for each item in savedServers.serverList
                 if item.baseUrl = LCase(server) 'Saved server data is always lowercase
@@ -427,9 +427,9 @@ sub SaveServerList()
             end for
         end if
     end if
-   
+
     if addNewEntry
-        if entryCount = 0 
+        if entryCount = 0
             set_setting("saved_servers", FormatJson({ serverList: [{ name: m.serverSelection, baseUrl: LCase(server), iconUrl: "pkg:/images/logo-icon120.jpg", iconWidth: 120, iconHeight: 120 }] }))
         else
             savedServers.serverList.Push({ name: m.serverSelection, baseUrl: LCase(server), iconUrl: "pkg:/images/logo-icon120.jpg", iconWidth: 120, iconHeight: 120 })

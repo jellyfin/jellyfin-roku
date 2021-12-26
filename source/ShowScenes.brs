@@ -370,7 +370,7 @@ sub UpdateSavedServerList()
     end if
 
     saved = get_setting("saved_servers")
-    if saved <> invalid 
+    if saved <> invalid
         savedServers = ParseJson(saved)
         if savedServers.serverList <> invalid and savedServers.serverList.Count() > 0
             newServers = { serverList: [] }
