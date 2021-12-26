@@ -75,7 +75,11 @@ function CreateServerGroup()
                     SignOut()
                 else
                     screen.visible = false
-                    return "true"
+                    if serverInfoResult.serverName <> invalid
+                        return serverInfoResult.ServerName + " (Saved)"
+                    else
+                        return "Saved"
+                    end if
                 end if
             else if node = "delete_saved"
                 serverPicker = screen.findNode("serverPicker")
@@ -143,7 +147,7 @@ function CreateSigninGroup(user = "")
     if saved <> invalid
         savedServers = ParseJson(saved)
         for each item in savedServers.serverList
-            if item.baseUrl = server and item.username <> invalid and item.password <> invalid
+            if item.baseUrl = LCase(server) and item.username <> invalid and item.password <> invalid
                 get_token(item.username, item.password)
                 if get_setting("active_user") <> invalid
                     return "true"
@@ -370,13 +374,13 @@ sub UpdateSavedServerList()
         savedServers = ParseJson(saved)
         newServers = { serverList: [] }
         for each item in savedServers.serverList
-            if item.baseUrl = server and item.username = username
+            if item.baseUrl = LCase(server) and item.username = username ' Saved server data is always lowercase
                 item.password = password
             end if
             newServers.serverList.Push(item)
         end for
         set_setting("saved_servers", FormatJson(newServers))
     else
-        set_setting("saved_servers", FormatJson({ serverList: [{ name: "Saved", baseUrl: server, username: username, password: password, iconUrl: "pkg:/images/logo-icon120.jpg", iconWidth: 120, iconHeight: 120 }] }))
+        set_setting("saved_servers", FormatJson({ serverList: [{ name: "Saved", baseUrl: LCase(server), username: username, password: password, iconUrl: "pkg:/images/logo-icon120.jpg", iconWidth: 120, iconHeight: 120 }] }))
     end if
 end sub

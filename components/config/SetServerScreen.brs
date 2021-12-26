@@ -38,7 +38,8 @@ function onKeyEvent(key as string, press as boolean) as boolean
     else if key = "down" and m.serverUrlContainer.hasFocus()
         m.submit.setFocus(true)
     else if key = "options"
-        if m.serverPicker.content.getChild(m.serverPicker.itemFocused).name = "Saved"
+        serverName = m.serverPicker.content.getChild(m.serverPicker.itemFocused).name
+        if m.servers.Count() > 0 and Instr(1, serverName, "Saved") > 0
             'Can only delete previously saved servers, not locally discovered ones
             'So if we are on a "Saved" item, let the options dialog be shown (handled elsewhere)
             handled = false
@@ -76,13 +77,14 @@ sub ScanForServersComplete(event)
         for each server in savedServers.serverList
             alreadyListed = false
             for each listed in m.servers
-                if listed.baseUrl = server.baseUrl
+                if LCase(listed.baseUrl) = server.baseUrl 'saved server data is always lowercase
                     alreadyListed = true
                     exit for
                 end if
             end for
             if alreadyListed = false
                 items.update([server], true)
+                m.servers.push(server)
             end if
         end for
     end if

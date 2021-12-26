@@ -338,12 +338,13 @@ function LoginFlow(startOver = false as boolean)
         dialog.close = true
     end if
 
+    m.serverSelection = "Saved"
     if startOver or invalidServer
         print "Get server details"
         SendPerformanceBeacon("AppDialogInitiate") ' Roku Performance monitoring - Dialog Starting
-        serverSelection = CreateServerGroup()
+        m.serverSelection = CreateServerGroup()
         SendPerformanceBeacon("AppDialogComplete") ' Roku Performance monitoring - Dialog Closed
-        if serverSelection = "backPressed"
+        if m.serverSelection = "backPressed"
             print "backPressed"
             m.global.sceneManager.callFunc("clearScenes")
             return false
@@ -416,17 +417,17 @@ sub SaveServerList()
     if saved <> invalid
         savedServers = ParseJson(saved)
         for each item in savedServers.serverList
-            if item.baseUrl = server
+            if item.baseUrl = LCase(server) 'Saved server data is always lowercase
                 alreadySaved = true
                 exit for
             end if
         end for
         if alreadySaved = false
-            savedServers.serverList.Push({ name: "Saved", baseUrl: server, username: m.user.name, iconUrl: "pkg:/images/logo-icon120.jpg", iconWidth: 120, iconHeight: 120 })
+            savedServers.serverList.Push({ name: m.serverSelection, baseUrl: LCase(server), username: m.user.name, iconUrl: "pkg:/images/logo-icon120.jpg", iconWidth: 120, iconHeight: 120 })
             set_setting("saved_servers", FormatJson(savedServers))
         end if
     else
-        set_setting("saved_servers", FormatJson({ serverList: [{ name: "Saved", baseUrl: server, username: m.user.name, iconUrl: "pkg:/images/logo-icon120.jpg", iconWidth: 120, iconHeight: 120 }] }))
+        set_setting("saved_servers", FormatJson({ serverList: [{ name: m.serverSelection, baseUrl: LCase(server), username: m.user.name, iconUrl: "pkg:/images/logo-icon120.jpg", iconWidth: 120, iconHeight: 120 }] }))
     end if
 end sub
 
@@ -436,7 +437,7 @@ sub DeleteFromServerList(urlToDelete)
         savedServers = ParseJson(saved)
         newServers = { serverList: [] }
         for each item in savedServers.serverList
-            if item.baseUrl <> urlToDelete
+            if item.baseUrl <> LCase(urlToDelete) 'saved server data is always lowercase
                 newServers.serverList.Push(item)
             end if
         end for
