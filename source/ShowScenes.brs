@@ -370,17 +370,18 @@ sub UpdateSavedServerList()
     end if
 
     saved = get_setting("saved_servers")
-    if saved <> invalid
+    if saved <> invalid 
         savedServers = ParseJson(saved)
-        newServers = { serverList: [] }
-        for each item in savedServers.serverList
-            if item.baseUrl = LCase(server) and item.username = username ' Saved server data is always lowercase
-                item.password = password
-            end if
-            newServers.serverList.Push(item)
-        end for
-        set_setting("saved_servers", FormatJson(newServers))
-    else
-        set_setting("saved_servers", FormatJson({ serverList: [{ name: "Saved", baseUrl: LCase(server), username: username, password: password, iconUrl: "pkg:/images/logo-icon120.jpg", iconWidth: 120, iconHeight: 120 }] }))
+        if savedServers.serverList <> invalid and savedServers.serverList.Count() > 0
+            newServers = { serverList: [] }
+            for each item in savedServers.serverList
+                if item.baseUrl = LCase(server) ' Saved server data is always lowercase
+                    item.username = username
+                    item.password = password
+                end if
+                newServers.serverList.Push(item)
+            end for
+            set_setting("saved_servers", FormatJson(newServers))
+        end if
     end if
 end sub

@@ -349,6 +349,7 @@ function LoginFlow(startOver = false as boolean)
             m.global.sceneManager.callFunc("clearScenes")
             return false
         end if
+        SaveServerList()
     end if
 
     if get_setting("active_user") = invalid
@@ -374,7 +375,6 @@ function LoginFlow(startOver = false as boolean)
                 get_token(userSelected, "")
                 if get_setting("active_user") <> invalid
                     m.user = AboutMe()
-                    SaveServerList()
                     LoadUserPreferences()
                     SendPerformanceBeacon("AppDialogComplete") ' Roku Performance monitoring - Dialog Closed
                     return true
@@ -397,7 +397,6 @@ function LoginFlow(startOver = false as boolean)
         goto start_login
     end if
 
-    SaveServerList()
     LoadUserPreferences()
     m.global.sceneManager.callFunc("clearScenes")
 
@@ -412,22 +411,30 @@ end function
 sub SaveServerList()
     'Save off this server to our list of saved servers for easier navigation between servers
     server = get_setting("server")
-    alreadySaved = false
     saved = get_setting("saved_servers")
-    if saved <> invalid
+    entryCount = 0
+    addNewEntry = true
+    savedServers = { serverList: [] }
+    if saved <> invalid 
         savedServers = ParseJson(saved)
-        for each item in savedServers.serverList
-            if item.baseUrl = LCase(server) 'Saved server data is always lowercase
-                alreadySaved = true
-                exit for
-            end if
-        end for
-        if alreadySaved = false
-            savedServers.serverList.Push({ name: m.serverSelection, baseUrl: LCase(server), username: m.user.name, iconUrl: "pkg:/images/logo-icon120.jpg", iconWidth: 120, iconHeight: 120 })
+        entryCount = savedServers.serverList.Count() 
+        if savedServers.serverList <> invalid and entryCount > 0
+            for each item in savedServers.serverList
+                if item.baseUrl = LCase(server) 'Saved server data is always lowercase
+                    addNewEntry = false
+                    exit for
+                end if
+            end for
+        end if
+    end if
+   
+    if addNewEntry
+        if entryCount = 0 
+            set_setting("saved_servers", FormatJson({ serverList: [{ name: m.serverSelection, baseUrl: LCase(server), iconUrl: "pkg:/images/logo-icon120.jpg", iconWidth: 120, iconHeight: 120 }] }))
+        else
+            savedServers.serverList.Push({ name: m.serverSelection, baseUrl: LCase(server), iconUrl: "pkg:/images/logo-icon120.jpg", iconWidth: 120, iconHeight: 120 })
             set_setting("saved_servers", FormatJson(savedServers))
         end if
-    else
-        set_setting("saved_servers", FormatJson({ serverList: [{ name: m.serverSelection, baseUrl: LCase(server), username: m.user.name, iconUrl: "pkg:/images/logo-icon120.jpg", iconWidth: 120, iconHeight: 120 }] }))
     end if
 end sub
 
