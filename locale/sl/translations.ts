@@ -625,5 +625,9 @@
         <translation>Pri pridobivanju vsebine s strežnika je prišlo do napake.</translation>
         <extracomment>Dialog detail when unable to load Content from Server</extracomment>
     </message>
+    <message>
+        <source>CRITIC_RATING</source>
+        <translation>Ocena kritikov</translation>
+    </message>
 </context>
 </TS>

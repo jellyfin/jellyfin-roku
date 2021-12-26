@@ -1435,5 +1435,14 @@
         <translation>...ou entrez l&apos;URL du serveur manuellement :</translation>
         <extracomment>Instructions on initial app launch when the user is asked to manually enter a server URL</extracomment>
     </message>
+    <message>
+        <source>CRITIC_RATING</source>
+        <translation>Note des critiques</translation>
+    </message>
+    <message>
+        <source>Error Retrieving Content</source>
+        <translation>Erreur lors de la récupération du contenu</translation>
+        <extracomment>Dialog title when unable to load Content from Server</extracomment>
+    </message>
 </context>
 </TS>

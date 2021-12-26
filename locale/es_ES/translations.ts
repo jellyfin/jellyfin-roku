@@ -1026,5 +1026,9 @@
         <source>Change Server</source>
         <translation>Cambiar servidor</translation>
     </message>
+    <message>
+        <source>CRITIC_RATING</source>
+        <translation>Calificación de la crítica</translation>
+    </message>
 </context>
 </TS>

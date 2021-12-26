@@ -972,5 +972,9 @@
         <translation>…nebo zadejte URL serveru ručně:</translation>
         <extracomment>Instructions on initial app launch when the user is asked to manually enter a server URL</extracomment>
     </message>
+    <message>
+        <source>CRITIC_RATING</source>
+        <translation>Hodnocení kritiků</translation>
+    </message>
 </context>
 </TS>

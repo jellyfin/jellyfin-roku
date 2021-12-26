@@ -1500,5 +1500,9 @@ elemeket</translation>
         <translation>…vagy adja meg kézzel a szerver URL-jét:</translation>
         <extracomment>Instructions on initial app launch when the user is asked to manually enter a server URL</extracomment>
     </message>
+    <message>
+        <source>CRITIC_RATING</source>
+        <translation>Kritikusok értékelése</translation>
+    </message>
 </context>
 </TS>
