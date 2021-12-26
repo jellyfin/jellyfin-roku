@@ -412,6 +412,9 @@ sub SaveServerList()
     'Save off this server to our list of saved servers for easier navigation between servers
     server = get_setting("server")
     saved = get_setting("saved_servers")
+    if server <> invalid
+        server = LCase(server)'Saved server data is always lowercase
+    end if
     entryCount = 0
     addNewEntry = true
     savedServers = { serverList: [] }
@@ -420,7 +423,7 @@ sub SaveServerList()
         entryCount = savedServers.serverList.Count()
         if savedServers.serverList <> invalid and entryCount > 0
             for each item in savedServers.serverList
-                if item.baseUrl = LCase(server) 'Saved server data is always lowercase
+                if item.baseUrl = server
                     addNewEntry = false
                     exit for
                 end if
@@ -440,11 +443,14 @@ end sub
 
 sub DeleteFromServerList(urlToDelete)
     saved = get_setting("saved_servers")
+    if urlToDelete <> invalid
+        urlToDelete = LCase(urlToDelete)
+    end if
     if saved <> invalid
         savedServers = ParseJson(saved)
         newServers = { serverList: [] }
         for each item in savedServers.serverList
-            if item.baseUrl <> LCase(urlToDelete) 'saved server data is always lowercase
+            if item.baseUrl <> urlToDelete
                 newServers.serverList.Push(item)
             end if
         end for

@@ -143,11 +143,14 @@ function CreateSigninGroup(user = "")
 
     'Load in any saved server data and see if we can just log them in...
     server = get_setting("server")
+    if server <> invalid
+        server = LCase(server)'Saved server data is always lowercase
+    end if
     saved = get_setting("saved_servers")
     if saved <> invalid
         savedServers = ParseJson(saved)
         for each item in savedServers.serverList
-            if item.baseUrl = LCase(server) and item.username <> invalid and item.password <> invalid
+            if item.baseUrl = server and item.username <> invalid and item.password <> invalid
                 get_token(item.username, item.password)
                 if get_setting("active_user") <> invalid
                     return "true"
@@ -369,13 +372,15 @@ sub UpdateSavedServerList()
         return
     end if
 
+    server = LCase(server)'Saved server data is always lowercase
+
     saved = get_setting("saved_servers")
     if saved <> invalid
         savedServers = ParseJson(saved)
         if savedServers.serverList <> invalid and savedServers.serverList.Count() > 0
             newServers = { serverList: [] }
             for each item in savedServers.serverList
-                if item.baseUrl = LCase(server) ' Saved server data is always lowercase
+                if item.baseUrl = server
                     item.username = username
                     item.password = password
                 end if
