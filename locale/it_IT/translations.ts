@@ -920,5 +920,9 @@
         <translation>...o inserisci l&apos;URL del server:</translation>
         <extracomment>Instructions on initial app launch when the user is asked to manually enter a server URL</extracomment>
     </message>
+    <message>
+        <source>CRITIC_RATING</source>
+        <translation>Valutazione della critica</translation>
+    </message>
 </context>
 </TS>
