@@ -433,7 +433,7 @@ sub SaveServerList()
 
     if addNewEntry
         if entryCount = 0
-            set_setting("saved_servers", FormatJson({ serverList: [{ name: m.serverSelection, baseUrl: LCase(server), iconUrl: "pkg:/images/logo-icon120.jpg", iconWidth: 120, iconHeight: 120 }] }))
+            set_setting("saved_servers", FormatJson({ serverList: [{ name: m.serverSelection, baseUrl: server, iconUrl: "pkg:/images/logo-icon120.jpg", iconWidth: 120, iconHeight: 120 }] }))
         else
             savedServers.serverList.Push({ name: m.serverSelection, baseUrl: LCase(server), iconUrl: "pkg:/images/logo-icon120.jpg", iconWidth: 120, iconHeight: 120 })
             set_setting("saved_servers", FormatJson(savedServers))
