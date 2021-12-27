@@ -976,5 +976,15 @@
         <source>CRITIC_RATING</source>
         <translation>Hodnocení kritiků</translation>
     </message>
+    <message>
+        <source>An error was encountered while playing this item.  Server did not provide required transcoding data.</source>
+        <translation>Při přehrávání této položky došlo k chybě. Server neposkytl požadovaná data o překódování.</translation>
+        <extracomment>Content of message box when trying to play an item which requires transcoding, and the server did not provide transcode url</extracomment>
+    </message>
+    <message>
+        <source>Error Getting Playback Information</source>
+        <translation>Nepodařilo se získat informace o přehrávání</translation>
+        <extracomment>Dialog Title: Received error from server when trying to get information about the selected item for playback</extracomment>
+    </message>
 </context>
 </TS>
