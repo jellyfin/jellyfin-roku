@@ -386,6 +386,7 @@ function LoginFlow(startOver = false as boolean)
         passwordEntry = CreateSigninGroup(userSelected)
         SendPerformanceBeacon("AppDialogComplete") ' Roku Performance monitoring - Dialog Closed
         if passwordEntry = "backPressed"
+            m.global.sceneManager.callFunc("clearScenes")
             return LoginFlow(true)
         end if
     end if

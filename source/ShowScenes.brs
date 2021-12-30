@@ -176,6 +176,16 @@ function CreateSigninGroup(user = "")
     if get_setting("password") <> invalid
         password_field.value = get_setting("password")
     end if
+    ' Add checkbox for saving credentials
+    checkbox = group.findNode("onOff") 
+    items = CreateObject("roSGNode", "ContentNode")
+    items.role = "content"
+    saveCheckBox = CreateObject("roSGNode", "ContentNode")
+    saveCheckBox.title = tr("Save Credentials?")
+    items.appendChild(saveCheckBox)
+    checkbox.content = items
+    checkbox.checkedState = [true]
+
     items = [username_field, password_field]
     config.configItems = items
 
@@ -206,8 +216,10 @@ function CreateSigninGroup(user = "")
                 if get_setting("active_user") <> invalid
                     set_setting("username", username.value)
                     set_setting("password", password.value)
-                    'Update our saved server list, so next time the user can just click and go
-                    UpdateSavedServerList()
+                    if checkbox.checkedState[0] = true
+                        'Update our saved server list, so next time the user can just click and go
+                        UpdateSavedServerList()
+                    end if
                     return "true"
                 end if
                 print "Login attempt failed..."

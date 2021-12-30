@@ -93,6 +93,10 @@
         <translation>Profile</translation>
     </message>
     <message>
+        <source>Save Credentials?</source>
+        <translation>Save Credentials?</translation>
+    </message>    
+    <message>
         <source>Delete Saved</source>
         <translation>Delete Saved</translation>
     </message>
