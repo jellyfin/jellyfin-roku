@@ -177,7 +177,7 @@ function CreateSigninGroup(user = "")
         password_field.value = get_setting("password")
     end if
     ' Add checkbox for saving credentials
-    checkbox = group.findNode("onOff") 
+    checkbox = group.findNode("onOff")
     items = CreateObject("roSGNode", "ContentNode")
     items.role = "content"
     saveCheckBox = CreateObject("roSGNode", "ContentNode")
