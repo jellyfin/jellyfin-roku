@@ -1961,5 +1961,15 @@
         <translation>Fehler beim Aufrufen von Inhalten</translation>
         <extracomment>Dialog title when unable to load Content from Server</extracomment>
     </message>
+    <message>
+        <source>An error was encountered while playing this item.  Server did not provide required transcoding data.</source>
+        <translation>Beim Abspielen dieses Titels ist ein Fehler aufgetreten. Server lieferte keine erforderlichen Transcodierungsdaten.</translation>
+        <extracomment>Content of message box when trying to play an item which requires transcoding, and the server did not provide transcode url</extracomment>
+    </message>
+    <message>
+        <source>Error Getting Playback Information</source>
+        <translation>Fehler beim Erhalten von Wiedergabe-Informationen</translation>
+        <extracomment>Dialog Title: Received error from server when trying to get information about the selected item for playback</extracomment>
+    </message>
 </context>
 </TS>
