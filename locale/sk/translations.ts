@@ -222,5 +222,122 @@
         <source>NO_ITEMS</source>
         <translation>%1 neobsahuje žiadne položky</translation>
     </message>
+    <message>
+        <source>Channels</source>
+        <translation>Kanály</translation>
+        <extracomment>Menu option for showing Live TV Channel List</extracomment>
+    </message>
+    <message>
+        <source>Repeat</source>
+        <translation>Opakovať</translation>
+        <extracomment>If TV Shows has previously been broadcasted</extracomment>
+    </message>
+    <message>
+        <source>Live</source>
+        <translation>Naživo</translation>
+        <extracomment>If TV Show is being broadcast live (not pre-recorded)</extracomment>
+    </message>
+    <message>
+        <source>Saturday</source>
+        <translation>Sobota</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Friday</source>
+        <translation>Piatok</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Thursday</source>
+        <translation>Štvrtok</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Wednesday</source>
+        <translation>Streda</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Tuesday</source>
+        <translation>Utorok</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Monday</source>
+        <translation>Pondelok</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Sunday</source>
+        <translation>Nedeľa</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>tomorrow</source>
+        <translation>zajtra</translation>
+        <extracomment>Next day</extracomment>
+    </message>
+    <message>
+        <source>yesterday</source>
+        <translation>včera</translation>
+        <extracomment>Previous day</extracomment>
+    </message>
+    <message>
+        <source>today</source>
+        <translation>dnes</translation>
+        <extracomment>Current day</extracomment>
+    </message>
+    <message>
+        <comment>Title of Tab for options to filter library content</comment>
+        <source>TAB_FILTER</source>
+        <translation>Filter</translation>
+    </message>
+    <message>
+        <comment>Title of Tab for options to sort library content</comment>
+        <source>TAB_SORT</source>
+        <translation>Zoradiť</translation>
+    </message>
+    <message>
+        <comment>Title of Tab for switching &quot;views&quot; when looking at a library</comment>
+        <source>TAB_VIEW</source>
+        <translation>Zobrazenie</translation>
+    </message>
+    <message>
+        <source>RUNTIME</source>
+        <translation>Dĺžka</translation>
+    </message>
+    <message>
+        <source>RELEASE_DATE</source>
+        <translation>Dátum vydania</translation>
+    </message>
+    <message>
+        <source>PLAY_COUNT</source>
+        <translation>Počet prehraní</translation>
+    </message>
+    <message>
+        <source>OFFICIAL_RATING</source>
+        <translation>Rodičovské hodnotenie</translation>
+    </message>
+    <message>
+        <source>DATE_PLAYED</source>
+        <translation>Dátum prehrania</translation>
+    </message>
+    <message>
+        <source>DATE_ADDED</source>
+        <translation>Dátum pridania</translation>
+    </message>
+    <message>
+        <source>CRITIC_RATING</source>
+        <translation>Hodnotenie kritikov</translation>
+    </message>
+    <message>
+        <source>IMDB_RATING</source>
+        <translation>Hodnotenie IMDb</translation>
+    </message>
+    <message>
+        <comment>Name or Title field of media item</comment>
+        <source>TITLE</source>
+        <translation>Meno</translation>
+    </message>
 </context>
 </TS>

@@ -262,5 +262,113 @@
         <translation>Kļūda Saņemot Saturu</translation>
         <extracomment>Dialog title when unable to load Content from Server</extracomment>
     </message>
+    <message>
+        <source>Saturday</source>
+        <translation>Sestdiena</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Sunday</source>
+        <translation>Svētdiena</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Channels</source>
+        <translation>Kanāli</translation>
+        <extracomment>Menu option for showing Live TV Channel List</extracomment>
+    </message>
+    <message>
+        <source>Repeat</source>
+        <translation>Atkārtot</translation>
+        <extracomment>If TV Shows has previously been broadcasted</extracomment>
+    </message>
+    <message>
+        <source>Live</source>
+        <translation>Tiešraide</translation>
+        <extracomment>If TV Show is being broadcast live (not pre-recorded)</extracomment>
+    </message>
+    <message>
+        <source>Friday</source>
+        <translation>Piektdiena</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Thursday</source>
+        <translation>Ceturtdiena</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Wednesday</source>
+        <translation>Trešdiena</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Tuesday</source>
+        <translation>Otrdiena</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Monday</source>
+        <translation>Pirmdiena</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>tomorrow</source>
+        <translation>rīt</translation>
+        <extracomment>Next day</extracomment>
+    </message>
+    <message>
+        <source>yesterday</source>
+        <translation>vakar</translation>
+        <extracomment>Previous day</extracomment>
+    </message>
+    <message>
+        <source>today</source>
+        <translation>šodien</translation>
+        <extracomment>Current day</extracomment>
+    </message>
+    <message>
+        <comment>Title of Tab for options to filter library content</comment>
+        <source>TAB_FILTER</source>
+        <translation>Filtrs</translation>
+    </message>
+    <message>
+        <comment>Title of Tab for switching &quot;views&quot; when looking at a library</comment>
+        <source>TAB_VIEW</source>
+        <translation>Skatījumi</translation>
+    </message>
+    <message>
+        <source>RELEASE_DATE</source>
+        <translation>Izlaiduma Datums</translation>
+    </message>
+    <message>
+        <source>PLAY_COUNT</source>
+        <translation>Atskaņošanas Skaits</translation>
+    </message>
+    <message>
+        <source>OFFICIAL_RATING</source>
+        <translation>Vecāku Reitings</translation>
+    </message>
+    <message>
+        <source>DATE_PLAYED</source>
+        <translation>Atskaņošanas Datums</translation>
+    </message>
+    <message>
+        <source>DATE_ADDED</source>
+        <translation>Pievienošanas Datums</translation>
+    </message>
+    <message>
+        <source>CRITIC_RATING</source>
+        <translation>Kritiķu reitings</translation>
+    </message>
+    <message>
+        <source>IMDB_RATING</source>
+        <translation>IMDb Vērtējums</translation>
+    </message>
+    <message>
+        <comment>Name or Title field of media item</comment>
+        <source>TITLE</source>
+        <translation>Nosaukums</translation>
+    </message>
 </context>
 </TS>
