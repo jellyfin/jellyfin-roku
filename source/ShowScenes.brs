@@ -59,7 +59,7 @@ function CreateServerGroup()
                     ' Server not found, is it online? New values / Retry
                     print "Server not found, is it online? New values / Retry"
                     screen.errorMessage = tr("Server not found, is it online?")
-                    SignOut()
+                    SignOut(false)
                 else if serverInfoResult.Error <> invalid and serverInfoResult.Error
                     ' If server redirected received, update the URL
                     if serverInfoResult.UpdatedUrl <> invalid
@@ -72,7 +72,7 @@ function CreateServerGroup()
                         message = message + "[" + serverInfoResult.ErrorCode.toStr() + "] "
                     end if
                     screen.errorMessage = message + tr(serverInfoResult.ErrorMessage)
-                    SignOut()
+                    SignOut(false)
                 else
                     screen.visible = false
                     if serverInfoResult.serverName <> invalid
