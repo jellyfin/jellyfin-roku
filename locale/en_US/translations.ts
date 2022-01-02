@@ -109,6 +109,10 @@
         <translation>Latest in</translation>
     </message>
     <message>
+        <source>On Now</source>
+        <translation>On Now</translation>
+    </message>    
+    <message>
         <source>Home</source>
         <translation>Home</translation>
     </message>

@@ -26,6 +26,14 @@ sub AddVideoContent(video, audio_stream_idx = 1, subtitle_idx = -1, playbackPosi
         return
     end if
 
+    ' Special handling for "Programs" launched from "On Now"
+    if meta.json.type = "Program"
+        meta.title = meta.json.EpisodeTitle
+        meta.showID = meta.json.id
+        meta.live = true
+        video.id = meta.json.ChannelId
+    end if
+
     video.content.title = meta.title
     video.showID = meta.showID
 

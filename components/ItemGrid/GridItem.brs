@@ -49,7 +49,7 @@ sub itemContentChanged()
         m.itemPoster.uri = itemData.PosterUrl
         m.itemText.text = itemData.Title
     else
-        print "Unhandled Item Type: " + itemData.type
+        print "Unhandled Grid Item Type: " + itemData.type
     end if
 
     'If Poster not loaded, ensure "blue box" is shown until loaded

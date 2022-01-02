@@ -56,6 +56,20 @@ sub itemContentChanged()
     m.itemTextExtra.visible = true
     m.itemTextExtra.font.size = 22
 
+    ' "Program" is from clicking on an "On Now" item on the Home Screen
+    if itemData.type = "Program"
+        m.itemText.Text = itemData.json.name
+        if itemData.json.ImageURL <> invalid
+            m.itemPoster.uri = itemData.json.ImageURL
+        end if
+
+        ' Set Episode title if available
+        if itemData.json.EpisodeTitle <> invalid
+            m.itemTextExtra.text = itemData.json.EpisodeTitle
+        end if
+
+        return
+    end if
 
     if itemData.type = "Episode"
         m.itemText.text = itemData.json.SeriesName
@@ -156,7 +170,7 @@ sub itemContentChanged()
         return
     end if
 
-    print "Unhandled Item Type: " + itemData.type
+    print "Unhandled Home Item Type: " + itemData.type
 
 end sub
 
