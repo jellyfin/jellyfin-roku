@@ -245,7 +245,7 @@ sub Main (args as dynamic) as void
             else if button.id = "change_server"
                 unset_setting("server")
                 unset_setting("port")
-                SignOut()
+                SignOut(false)
                 sceneManager.callFunc("clearScenes")
                 goto app_start
             else if button.id = "sign_out"
@@ -338,16 +338,18 @@ function LoginFlow(startOver = false as boolean)
         dialog.close = true
     end if
 
+    m.serverSelection = "Saved"
     if startOver or invalidServer
         print "Get server details"
         SendPerformanceBeacon("AppDialogInitiate") ' Roku Performance monitoring - Dialog Starting
-        serverSelection = CreateServerGroup()
+        m.serverSelection = CreateServerGroup()
         SendPerformanceBeacon("AppDialogComplete") ' Roku Performance monitoring - Dialog Closed
-        if serverSelection = "backPressed"
+        if m.serverSelection = "backPressed"
             print "backPressed"
             m.global.sceneManager.callFunc("clearScenes")
             return false
         end if
+        SaveServerList()
     end if
 
     if get_setting("active_user") = invalid
@@ -384,6 +386,7 @@ function LoginFlow(startOver = false as boolean)
         passwordEntry = CreateSigninGroup(userSelected)
         SendPerformanceBeacon("AppDialogComplete") ' Roku Performance monitoring - Dialog Closed
         if passwordEntry = "backPressed"
+            m.global.sceneManager.callFunc("clearScenes")
             return LoginFlow(true)
         end if
     end if
@@ -405,6 +408,56 @@ function LoginFlow(startOver = false as boolean)
     postJson(req, FormatJson(body))
     return true
 end function
+
+sub SaveServerList()
+    'Save off this server to our list of saved servers for easier navigation between servers
+    server = get_setting("server")
+    saved = get_setting("saved_servers")
+    if server <> invalid
+        server = LCase(server)'Saved server data is always lowercase
+    end if
+    entryCount = 0
+    addNewEntry = true
+    savedServers = { serverList: [] }
+    if saved <> invalid
+        savedServers = ParseJson(saved)
+        entryCount = savedServers.serverList.Count()
+        if savedServers.serverList <> invalid and entryCount > 0
+            for each item in savedServers.serverList
+                if item.baseUrl = server
+                    addNewEntry = false
+                    exit for
+                end if
+            end for
+        end if
+    end if
+
+    if addNewEntry
+        if entryCount = 0
+            set_setting("saved_servers", FormatJson({ serverList: [{ name: m.serverSelection, baseUrl: server, iconUrl: "pkg:/images/logo-icon120.jpg", iconWidth: 120, iconHeight: 120 }] }))
+        else
+            savedServers.serverList.Push({ name: m.serverSelection, baseUrl: server, iconUrl: "pkg:/images/logo-icon120.jpg", iconWidth: 120, iconHeight: 120 })
+            set_setting("saved_servers", FormatJson(savedServers))
+        end if
+    end if
+end sub
+
+sub DeleteFromServerList(urlToDelete)
+    saved = get_setting("saved_servers")
+    if urlToDelete <> invalid
+        urlToDelete = LCase(urlToDelete)
+    end if
+    if saved <> invalid
+        savedServers = ParseJson(saved)
+        newServers = { serverList: [] }
+        for each item in savedServers.serverList
+            if item.baseUrl <> urlToDelete
+                newServers.serverList.Push(item)
+            end if
+        end for
+        set_setting("saved_servers", FormatJson(newServers))
+    end if
+end sub
 
 sub RunScreenSaver()
     print "Starting screensaver..."

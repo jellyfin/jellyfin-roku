@@ -21,11 +21,29 @@ function AboutMe()
     return getJson(resp)
 end function
 
-sub SignOut()
+sub SignOut(deleteSavedEntry = true as boolean)
     if get_setting("active_user") <> invalid
         unset_user_setting("token")
         unset_setting("username")
         unset_setting("password")
+        if deleteSavedEntry = true
+            'Also delete any credentials in the "saved servers" list
+            saved = get_setting("saved_servers")
+            server = get_setting("server")
+            if server <> invalid
+                server = LCase(server)
+                savedServers = ParseJson(saved)
+                newServers = { serverList: [] }
+                for each item in savedServers.serverList
+                    if item.baseUrl = server
+                        item.username = ""
+                        item.password = ""
+                    end if
+                    newServers.serverList.Push(item)
+                end for
+                set_setting("saved_servers", FormatJson(newServers))
+            end if
+        end if
     end if
     unset_setting("active_user")
     m.global.sceneManager.currentUser = ""
@@ -53,7 +71,7 @@ sub RemoveUser(id as string)
     user.id = id
     user.callFunc("removeFromRegistry")
 
-    if get_setting("active_user") = id then SignOut()
+    if get_setting("active_user") = id then SignOut(false)
 end sub
 
 function ServerInfo()

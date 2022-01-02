@@ -1,5 +1,6 @@
 function CreateServerGroup()
     screen = CreateObject("roSGNode", "SetServerScreen")
+    screen.optionsAvailable = true
     m.global.sceneManager.callFunc("pushScene", screen)
     port = CreateObject("roMessagePort")
     m.colors = {}
@@ -10,6 +11,17 @@ function CreateServerGroup()
     m.viewModel = {}
     button = screen.findNode("submit")
     button.observeField("buttonSelected", port)
+    'create delete saved server option
+    new_options = []
+    sidepanel = screen.findNode("options")
+    opt = CreateObject("roSGNode", "OptionsButton")
+    opt.title = tr("Delete Saved")
+    opt.id = "delete_saved"
+    opt.observeField("optionSelected", port)
+    new_options.push(opt)
+    sidepanel.options = new_options
+    sidepanel.observeField("closeSidePanel", port)
+
     screen.observeField("backPressed", port)
 
     while true
@@ -19,6 +31,10 @@ function CreateServerGroup()
             return "false"
         else if isNodeEvent(msg, "backPressed")
             return "backPressed"
+        else if isNodeEvent(msg, "closeSidePanel")
+            screen.setFocus(true)
+            serverPicker = screen.findNode("serverPicker")
+            serverPicker.setFocus(true)
         else if type(msg) = "roSGNodeEvent"
             node = msg.getNode()
             if node = "submit"
@@ -43,7 +59,7 @@ function CreateServerGroup()
                     ' Server not found, is it online? New values / Retry
                     print "Server not found, is it online? New values / Retry"
                     screen.errorMessage = tr("Server not found, is it online?")
-                    SignOut()
+                    SignOut(false)
                 else if serverInfoResult.Error <> invalid and serverInfoResult.Error
                     ' If server redirected received, update the URL
                     if serverInfoResult.UpdatedUrl <> invalid
@@ -56,10 +72,24 @@ function CreateServerGroup()
                         message = message + "[" + serverInfoResult.ErrorCode.toStr() + "] "
                     end if
                     screen.errorMessage = message + tr(serverInfoResult.ErrorMessage)
-                    SignOut()
+                    SignOut(false)
                 else
                     screen.visible = false
-                    return "true"
+                    if serverInfoResult.serverName <> invalid
+                        return serverInfoResult.ServerName + " (Saved)"
+                    else
+                        return "Saved"
+                    end if
+                end if
+            else if node = "delete_saved"
+                serverPicker = screen.findNode("serverPicker")
+                itemToDelete = serverPicker.content.getChild(serverPicker.itemFocused)
+                urlToDelete = itemToDelete.baseUrl
+                if urlToDelete <> invalid
+                    DeleteFromServerList(urlToDelete)
+                    serverPicker.content.removeChild(itemToDelete)
+                    sidepanel.visible = false
+                    serverPicker.setFocus(true)
                 end if
             end if
         end if
@@ -111,6 +141,24 @@ function CreateSigninGroup(user = "")
 
     group.findNode("prompt").text = tr("Sign In")
 
+    'Load in any saved server data and see if we can just log them in...
+    server = get_setting("server")
+    if server <> invalid
+        server = LCase(server)'Saved server data is always lowercase
+    end if
+    saved = get_setting("saved_servers")
+    if saved <> invalid
+        savedServers = ParseJson(saved)
+        for each item in savedServers.serverList
+            if item.baseUrl = server and item.username <> invalid and item.password <> invalid
+                get_token(item.username, item.password)
+                if get_setting("active_user") <> invalid
+                    return "true"
+                end if
+            end if
+        end for
+    end if
+
     config = group.findNode("configOptions")
     username_field = CreateObject("roSGNode", "ConfigData")
     username_field.label = tr("Username")
@@ -128,6 +176,16 @@ function CreateSigninGroup(user = "")
     if get_setting("password") <> invalid
         password_field.value = get_setting("password")
     end if
+    ' Add checkbox for saving credentials
+    checkbox = group.findNode("onOff")
+    items = CreateObject("roSGNode", "ContentNode")
+    items.role = "content"
+    saveCheckBox = CreateObject("roSGNode", "ContentNode")
+    saveCheckBox.title = tr("Save Credentials?")
+    items.appendChild(saveCheckBox)
+    checkbox.content = items
+    checkbox.checkedState = [true]
+
     items = [username_field, password_field]
     config.configItems = items
 
@@ -158,6 +216,10 @@ function CreateSigninGroup(user = "")
                 if get_setting("active_user") <> invalid
                     set_setting("username", username.value)
                     set_setting("password", password.value)
+                    if checkbox.checkedState[0] = true
+                        'Update our saved server list, so next time the user can just click and go
+                        UpdateSavedServerList()
+                    end if
                     return "true"
                 end if
                 print "Login attempt failed..."
@@ -312,3 +374,31 @@ function CreateVideoPlayerGroup(video_id, audio_stream_idx = 1)
 
     return video
 end function
+
+sub UpdateSavedServerList()
+    server = get_setting("server")
+    username = get_setting("username")
+    password = get_setting("password")
+
+    if server = invalid or username = invalid or password = invalid
+        return
+    end if
+
+    server = LCase(server)'Saved server data is always lowercase
+
+    saved = get_setting("saved_servers")
+    if saved <> invalid
+        savedServers = ParseJson(saved)
+        if savedServers.serverList <> invalid and savedServers.serverList.Count() > 0
+            newServers = { serverList: [] }
+            for each item in savedServers.serverList
+                if item.baseUrl = server
+                    item.username = username
+                    item.password = password
+                end if
+                newServers.serverList.Push(item)
+            end for
+            set_setting("saved_servers", FormatJson(newServers))
+        end if
+    end if
+end sub
