@@ -112,7 +112,7 @@ sub Main (args as dynamic) as void
             else if selectedItem.type = "Movie"
                 ' open movie detail page
                 group = CreateMovieDetailsGroup(selectedItem)
-            else if selectedItem.type = "TvChannel" or selectedItem.type = "Video"
+            else if selectedItem.type = "TvChannel" or selectedItem.type = "Video" or selectedItem.type = "Program"
                 ' play channel feed
                 video_id = selectedItem.id
 
