@@ -2208,5 +2208,49 @@
         <source>Change Server</source>
         <translation>Server wechseln</translation>
     </message>
+    <message>
+        <source>Unable to load Channel Data from the server</source>
+        <translation>Laden der Kanal-Daten vom Server war nicht möglich</translation>
+    </message>
+    <message>
+        <source>Error loading Channel Data</source>
+        <translation>Fehler beim Laden der Kanal-Daten</translation>
+    </message>
+    <message>
+        <source>Loading Channel Data</source>
+        <translation>Kanal-Daten werden geladen</translation>
+    </message>
+    <message>
+        <source>An error was encountered while playing this item.</source>
+        <translation>Beim Abspielen dieses Elements trat ein Fehler auf.</translation>
+        <extracomment>Dialog detail when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>There was an error retrieving the data for this item from the server.</source>
+        <translation>Beim Laden der Daten dieses Elements ist ein Fehler aufgetreten.</translation>
+        <extracomment>Dialog detail when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <source>Error During Playback</source>
+        <translation>Wiedergabefehler</translation>
+        <extracomment>Dialog title when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>Error Retrieving Content</source>
+        <translation>Fehler beim Abrufen von Inhalten</translation>
+        <extracomment>Dialog title when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <source>Delete Saved</source>
+        <translation type="unfinished">Löschen</translation>
+    </message>
+    <message>
+        <source>Sign Out</source>
+        <translation>Abmelden</translation>
+    </message>
+    <message>
+        <source>Change Server</source>
+        <translation>Server ändern</translation>
+    </message>
 </context>
 </TS>
