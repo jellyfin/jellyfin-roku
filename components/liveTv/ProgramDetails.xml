@@ -33,12 +33,22 @@
                     </LayoutGroup>
 
                     <label id="overview" wrap="true" width="1210" font="font:SmallestSystemFont" />
-    
-                    <!-- View Channel button -->
-                    <Group id="viewChannelButton" opacity="0">
-                        <Poster id="viewChannelButtonBackground" uri="pkg:/images/white.9.png" blendColor="#006fab" />
-                        <Label text="View Channel" translation="[20,20]" />
-                    </Group>
+
+                    <LayoutGroup layoutDirection="horiz" itemSpacings="[30]"> 
+                        <!-- View Channel button -->
+                        <Group id="viewChannelButton" opacity="0">
+                            <Poster id="viewChannelButtonBackground" uri="pkg:/images/white.9.png" blendColor="#006fab" />
+                            <Poster id="viewChannelOutline" visible="false" uri="pkg:/images/hd_focus.9.png" />
+                            <Label text="View Channel" translation="[20,20]" />
+                        </Group>
+
+                        <!-- Record button -->
+                        <Group id="recordButton" opacity="0">
+                            <Poster id="recordButtonBackground" uri="pkg:/images/white.9.png" blendColor="#006fab" />
+                            <Poster id="recordOutline" visible="false" uri="pkg:/images/hd_focus.9.png" />
+                            <Label text="Record" translation="[20,20]" />
+                        </Group>
+                    </LayoutGroup>
     
                 </LayoutGroup>
 
@@ -50,7 +60,8 @@
             <Label font="font:SmallSystemFont" text="No schedule information" />
         </LayoutGroup>
         <Animation id="focusAnimation" duration="0.66" repeat="false" easeFunction="linear" >
-            <FloatFieldInterpolator id="focusAnimationOpacity" key="[0.0, 1]" fieldToInterp="viewChannelButton.opacity" />
+            <FloatFieldInterpolator id="viewChannelFocusAnimationOpacity" key="[0.0, 1]" fieldToInterp="viewChannelButton.opacity" />
+            <FloatFieldInterpolator id="recordFocusAnimationOpacity" key="[0.0, 1]" fieldToInterp="recordButton.opacity" />
         </Animation>
     </children>
     <interface>

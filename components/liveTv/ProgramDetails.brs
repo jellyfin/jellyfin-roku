@@ -21,13 +21,18 @@ sub init()
     m.channelName = m.top.findNode("channelName")
     m.image = m.top.findNode("image")
 
-    m.focusAnimationOpacity = m.top.findNode("focusAnimationOpacity")
+    m.viewChannelFocusAnimationOpacity = m.top.findNode("viewChannelFocusAnimationOpacity")
+    m.recordFocusAnimationOpacity = m.top.findNode("recordFocusAnimationOpacity")
     m.focusAnimation = m.top.findNode("focusAnimation")
 
     m.viewChannelButton = m.top.findNode("viewChannelButton")
+    m.recordButton = m.top.findNode("recordButton")
+
+    m.viewChannelOutline = m.top.findNode("viewChannelOutline")
+    m.recordOutline = m.top.findNode("recordOutline")
 
     m.focusAnimation.observeField("state", "onAnimationComplete")
-
+    
     setupLabels()
 end sub
 
@@ -48,9 +53,18 @@ sub setupLabels()
     m.episodeDetailsGroup.removeChildIndex(0)
 
     boundingRect = m.viewChannelButton.boundingRect()
-    buttonBackground = m.top.findNode("viewChannelButtonBackground")
-    buttonBackground.width = boundingRect.width + 20
-    buttonBackground.height = boundingRect.height + 20
+    viewButtonBackground = m.top.findNode("viewChannelButtonBackground")
+    viewButtonBackground.width = boundingRect.width + 20
+    viewButtonBackground.height = boundingRect.height + 20
+    m.viewChannelOutline.width = viewButtonBackground.width
+    m.viewChannelOutline.height = viewButtonBackground.height
+
+    boundingRect = m.recordButton.boundingRect()
+    recordButtonBackground = m.top.findNode("recordButtonBackground") 
+    recordButtonBackground.width = boundingRect.width + 20
+    recordButtonBackground.height = boundingRect.height + 20 
+    m.recordOutline.width = recordButtonBackground.width  
+    m.recordOutline.height = recordButtonBackground.height  
 end sub
 
 sub channelUpdated()
@@ -202,10 +216,14 @@ end function
 sub focusChanged()
     if m.top.hasFocus = true
         m.overview.maxLines = m.maxDetailLines
-        m.focusAnimationOpacity.keyValue = [0, 1]
+        m.viewChannelFocusAnimationOpacity.keyValue = [0, 1]
+        m.recordFocusAnimationOpacity.keyValue = [0, 1]
+        m.viewChannelButton.setFocus(true)
+        m.viewChannelOutline.visible = true
     else
         m.top.watchSelectedChannel = false
-        m.focusAnimationOpacity.keyValue = [1, 0]
+        m.viewChannelFocusAnimationOpacity.keyValue = [1, 0]
+        m.recordFocusAnimationOpacity.keyValue = [1, 0]
     end if
 
     m.focusAnimation.control = "start"
@@ -221,12 +239,24 @@ end sub
 function onKeyEvent(key as string, press as boolean) as boolean
     if not press then return false
 
-    if key = "OK"
+    if key = "OK" and m.viewChannelButton.hasFocus()
         m.top.watchSelectedChannel = true
         return true
     end if
 
-    if key = "left" or key = "right" or key = "up" or key = "down"
+    if key = "right" and m.viewChannelButton.hasFocus()
+        m.recordButton.setFocus(true)
+        m.viewChannelOutline.visible = false
+        m.recordOutline.visible = true
+        return true
+    else if key = "left" and m.recordButton.hasFocus()
+        m.viewChannelButton.setFocus(true)
+        m.viewChannelOutline.visible = true
+        m.recordOutline.visible = false
+        return true
+    end if
+
+    if key = "up" or key = "down"
         return true
     end if
 
