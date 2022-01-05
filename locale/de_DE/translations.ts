@@ -2252,5 +2252,214 @@
         <source>Change Server</source>
         <translation>Server ändern</translation>
     </message>
+    <message>
+        <source>An error was encountered while playing this item.  Server did not provide required transcoding data.</source>
+        <translation>Beim Abspielen dieses Titels ist ein Fehler aufgetreten. Der Server hat keine URL für das Transkodieren zur Verfügung gestellt.</translation>
+        <extracomment>Content of message box when trying to play an item which requires transcoding, and the server did not provide transcode url</extracomment>
+    </message>
+    <message>
+        <source>Error Getting Playback Information</source>
+        <translation>Fehler beim Abrufen von Wiedergabe-Informationen</translation>
+        <extracomment>Dialog Title: Received error from server when trying to get information about the selected item for playback</extracomment>
+    </message>
+    <message>
+        <source>...or enter server URL manually:</source>
+        <translation>...oder gebe die Server-URL manuell ein:</translation>
+        <extracomment>Instructions on initial app launch when the user is asked to manually enter a server URL</extracomment>
+    </message>
+    <message>
+        <source>Pick a Jellyfin server from the local network</source>
+        <translation>Wähle einen Jellyfin-Server aus dem lokalen Netzwerk aus</translation>
+        <extracomment>Instructions on initial app launch when the user is asked to pick a server from a list</extracomment>
+    </message>
+    <message>
+        <source>Enter the server name or ip address</source>
+        <translation>Gib den Servernamen oder die IP-Adresse ein</translation>
+        <extracomment>Title of KeyboardDialog when manually entering a server URL</extracomment>
+    </message>
+    <message>
+        <source>The requested content does not exist on the server</source>
+        <translation>Der angeforderte Inhalt existiert nicht auf dem Server</translation>
+        <extracomment>Content of message box when the requested content is not found on the server</extracomment>
+    </message>
+    <message>
+        <source>Not found</source>
+        <translation>Nicht gefunden</translation>
+        <extracomment>Title of message box when the requested content is not found on the server</extracomment>
+    </message>
+    <message>
+        <source>Connecting to Server</source>
+        <translation>Verbinde mit Server</translation>
+        <extracomment>Message to display to user while client is attempting to connect to the server</extracomment>
+    </message>
+    <message>
+        <source>TV Guide</source>
+        <translation>TV-Programm</translation>
+        <extracomment>Menu option for showing Live TV Guide / Schedule</extracomment>
+    </message>
+    <message>
+        <source>Channels</source>
+        <translation>Kanäle</translation>
+        <extracomment>Menu option for showing Live TV Channel List</extracomment>
+    </message>
+    <message>
+        <source>Repeat</source>
+        <translation>Wiederholen</translation>
+        <extracomment>If TV Shows has previously been broadcasted</extracomment>
+    </message>
+    <message>
+        <source>Live</source>
+        <translation>Live</translation>
+        <extracomment>If TV Show is being broadcast live (not pre-recorded)</extracomment>
+    </message>
+    <message>
+        <source>Ends at</source>
+        <translation>Endete um</translation>
+        <extracomment>(Past Tense) For defining a day and time when a program ended  (e.g.  Ended Wednesday, 08:00) </extracomment>
+    </message>
+    <message>
+        <source>Ended at</source>
+        <translation>Endete um</translation>
+        <extracomment>(Past Tense) For defining time when a program will ended (e.g.  Ended at 08:00) </extracomment>
+    </message>
+    <message>
+        <source>Starts</source>
+        <translation>Beginnt</translation>
+        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g.  Starts Wednesday, 08:00) </extracomment>
+    </message>
+    <message>
+        <source>Starts at</source>
+        <translation>Beginnt um</translation>
+        <extracomment>(Future Tense) For defining time when a program will start today (e.g.  Starts at 08:00) </extracomment>
+    </message>
+    <message>
+        <source>Started</source>
+        <translation>Läuft seit</translation>
+        <extracomment>(Past Tense) For defining a day and time when a program started (e.g.  Started Wednesday, 08:00) </extracomment>
+    </message>
+    <message>
+        <source>Started at</source>
+        <translation>Läuft seit</translation>
+        <extracomment>(Past Tense) For defining time when a program started today (e.g.  Started at 08:00) </extracomment>
+    </message>
+    <message>
+        <source>Saturday</source>
+        <translation>Samstag</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Friday</source>
+        <translation>Freitag</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Thursday</source>
+        <translation>Donnerstag</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Wednesday</source>
+        <translation>Mittwoch</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Tuesday</source>
+        <translation>Dienstag</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Monday</source>
+        <translation>Montag</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Sunday</source>
+        <translation>Sonntag</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>tomorrow</source>
+        <translation>morgen</translation>
+        <extracomment>Next day</extracomment>
+    </message>
+    <message>
+        <source>yesterday</source>
+        <translation>gestern</translation>
+        <extracomment>Previous day</extracomment>
+    </message>
+    <message>
+        <source>today</source>
+        <translation>heute</translation>
+        <extracomment>Current day</extracomment>
+    </message>
+    <message>
+        <comment>Title of Tab for options to filter library content</comment>
+        <source>TAB_FILTER</source>
+        <translation>Filter</translation>
+    </message>
+    <message>
+        <comment>Title of Tab for options to sort library content</comment>
+        <source>TAB_SORT</source>
+        <translation>Sortieren</translation>
+    </message>
+    <message>
+        <comment>Title of Tab for switching &quot;views&quot; when looking at a library</comment>
+        <source>TAB_VIEW</source>
+        <translation>Ansicht</translation>
+    </message>
+    <message>
+        <source>RUNTIME</source>
+        <translation>Laufzeit</translation>
+    </message>
+    <message>
+        <source>RELEASE_DATE</source>
+        <translation>Veröffentlichungsdatum</translation>
+    </message>
+    <message>
+        <source>PLAY_COUNT</source>
+        <translation>Wiedergabezähler</translation>
+    </message>
+    <message>
+        <source>OFFICIAL_RATING</source>
+        <translation>Altersfreigabe</translation>
+    </message>
+    <message>
+        <source>DATE_PLAYED</source>
+        <translation>Abgespielt am</translation>
+    </message>
+    <message>
+        <source>DATE_ADDED</source>
+        <translation>Hinzugefügt am</translation>
+    </message>
+    <message>
+        <source>CRITIC_RATING</source>
+        <translation>Kritikerwertung</translation>
+    </message>
+    <message>
+        <source>IMDB_RATING</source>
+        <translation>Bewertung auf IMDb</translation>
+    </message>
+    <message>
+        <comment>Name or Title field of media item</comment>
+        <source>TITLE</source>
+        <translation>Name</translation>
+    </message>
+    <message>
+        <comment>Message displayed in Item Grid when no item to display. %1 is container type (e.g. Boxset, Collection, Folder, etc)</comment>
+        <source>NO_ITEMS</source>
+        <translation>Diese %1 enthält keine Elemente</translation>
+    </message>
+    <message>
+        <source>On Now</source>
+        <translation>Gerade Läuft</translation>
+    </message>
+    <message>
+        <source>Delete Saved</source>
+        <translation>Gespeicherte Löschen</translation>
+    </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>Anmeldedaten speichern?</translation>
+    </message>
 </context>
 </TS>
