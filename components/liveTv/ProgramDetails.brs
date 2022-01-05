@@ -83,6 +83,8 @@ end sub
 sub programUpdated()
 
     m.top.watchSelectedChannel = false
+    m.top.recordSelectedChannel = false
+    m.top.recordSeriesSelectedChannel = false
     m.overview.maxLines = m.maxDetailLines
     prog = m.top.programDetails
 
@@ -222,6 +224,8 @@ sub focusChanged()
         m.viewChannelOutline.visible = true
     else
         m.top.watchSelectedChannel = false
+        m.top.recordSelectedChannel = false
+        m.top.recordSeriesSelectedChannel = false
         m.viewChannelFocusAnimationOpacity.keyValue = [1, 0]
         m.recordFocusAnimationOpacity.keyValue = [1, 0]
     end if
@@ -242,6 +246,13 @@ function onKeyEvent(key as string, press as boolean) as boolean
     if key = "OK" and m.viewChannelButton.hasFocus()
         m.top.watchSelectedChannel = true
         return true
+    else if key = "OK" and m.recordButton.hasFocus()
+        m.top.recordSelectedChannel = true
+        return true
+    ' TODO/FIXME: Add Record Series button and logic
+    ' else if key = "OK" and m.recordSeriesButton.hasFocus()
+    '     m.top.recordSeriesSelectedChannel = true
+    '     return true
     end if
 
     if key = "right" and m.viewChannelButton.hasFocus()

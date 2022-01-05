@@ -66,6 +66,8 @@
     </children>
     <interface>
         <field id="WatchSelectedChannel" type="boolean" value="false" />
+        <field id="recordSelectedChannel" type="boolean" value="false" />
+        <field id="recordSeriesSelectedChannel" type="boolean" value="false" />
         <field id="channel" type="node" onchange="channelUpdated" />
         <field id="programDetails" type="node" onchange="programUpdated" />
         <field id="height" type="integer" />

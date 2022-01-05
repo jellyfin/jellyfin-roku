@@ -5,6 +5,7 @@ sub init()
     m.detailsPane = m.top.findNode("detailsPane")
 
     m.detailsPane.observeField("watchSelectedChannel", "onWatchChannelSelected")
+    m.detailsPane.observeField("recordSelectedChannel", "onRecordChannelSelected")
 
     m.gridStartDate = CreateObject("roDateTime")
     m.scheduleGrid.contentStartTime = m.gridStartDate.AsSeconds() - 1800
@@ -178,6 +179,20 @@ sub onWatchChannelSelected()
     focusProgramDetails(false)
 
     m.top.watchChannel = m.detailsPane.channel
+end sub
+
+' Handle user selecting "Record Channel" from Program Details
+sub onRecordChannelSelected()
+    if m.detailsPane.recordSelectedChannel = false then return
+
+    ' Set focus back to grid before showing channel, to ensure grid has focus when we return
+    focusProgramDetails(false)
+
+    'TODO/FIXME:
+    ' * Present "Please Wait"
+    ' * Send data to Server
+    ' * Indicate success / failure
+    print "***Recording not implemented yet***"
 end sub
 
 ' As user scrolls grid, check if more data requries to be loaded
