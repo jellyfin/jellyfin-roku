@@ -3,7 +3,6 @@ sub init()
 end sub
 
 sub RecordOrCancelProgram()
-    ' Get Live TV default params from server...
     if m.top.programDetails <> invalid
         ' Are we setting up a recording or canceling one?
         TimerId = invalid
@@ -15,6 +14,7 @@ sub RecordOrCancelProgram()
             ' Setting up a recording...
             programId = m.top.programDetails.Id
 
+            ' Get Live TV default params from server...
             url = "LiveTv/Timers/Defaults"
             params = {
                 programId: programId
