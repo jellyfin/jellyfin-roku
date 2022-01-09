@@ -32,6 +32,7 @@ sub RecordOrCancelProgram()
                 end if
                 resp = APIRequest(url)
                 postJson(resp, FormatJson(data))
+                m.top.programDetails.hdSmallIconUrl = "pkg:/images/red.png"
             else
                 ' Error msg to user?
                 print "Error getting Live TV Defaults from Server"
@@ -46,6 +47,7 @@ sub RecordOrCancelProgram()
             end if
             resp = APIRequest(url)
             deleteVoid(resp)
+            m.top.programDetails.hdSmallIconUrl = invalid
         end if
     end if
 

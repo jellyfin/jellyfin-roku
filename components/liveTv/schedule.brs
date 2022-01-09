@@ -196,8 +196,6 @@ sub onRecordChannelSelected()
     m.RecordProgramTask.recordSeries = false
     m.RecordProgramTask.observeField("recordOperationDone", "onRecordOperationDone")
     m.RecordProgramTask.control = "RUN"
-
-    m.scheduleGrid.showLoadingDataFeedback = false
 end sub
 
 ' Handle user selecting "Record Series" from Program Details
@@ -217,7 +215,9 @@ sub onRecordSeriesChannelSelected()
 end sub
 
 sub onRecordOperationDone()
-    m.scheduleGrid.showLoadingDataFeedback = false
+    if m.LoadScheduleTask.state <> "run"
+        m.LoadScheduleTask.control = "RUN"
+    end if
 end sub
 
 ' As user scrolls grid, check if more data requries to be loaded
