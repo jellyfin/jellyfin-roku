@@ -83,4 +83,5 @@
     </interface>
     <script type="text/brightscript" uri="ProgramDetails.brs" />
     <script type="text/brightscript" uri="pkg:/source/utils/misc.brs" />
+    <script type="text/brightscript" uri="pkg:/source/utils/config.brs" />
 </component>

@@ -82,6 +82,12 @@ sub setupLabels()
     recordSeriesButtonBackground.height = boundingRect.height + 20
     m.recordSeriesOutline.width = recordSeriesButtonBackground.width
     m.recordSeriesOutline.height = recordSeriesButtonBackground.height
+
+    m.userCanRecord = get_user_setting("livetv.canrecord")
+    if m.userCanRecord = "false"
+        m.recordButton.visible = false
+        m.recordSeriesButton.visible = false
+    end if
 end sub
 
 sub updateLabels(recordText = "Record", recordSeriesText = "Record Series")
@@ -304,24 +310,26 @@ function onKeyEvent(key as string, press as boolean) as boolean
         return true
     end if
 
-    if key = "right" and m.viewChannelButton.hasFocus()
-        m.recordButton.setFocus(true)
-        m.viewChannelOutline.visible = false
-        m.recordOutline.visible = true
-        return true
-    else if key = "right" and m.recordButton.hasFocus()
-        m.recordSeriesButton.setFocus(true)
-        m.recordOutline.visible = false
-        m.recordSeriesOutline.visible = true
-    else if key = "left" and m.recordSeriesButton.hasFocus()
-        m.recordButton.setFocus(true)
-        m.recordOutline.visible = true
-        m.recordSeriesOutline.visible = false
-    else if key = "left" and m.recordButton.hasFocus()
-        m.viewChannelButton.setFocus(true)
-        m.viewChannelOutline.visible = true
-        m.recordOutline.visible = false
-        return true
+    if m.userCanRecord = "true"
+        if key = "right" and m.viewChannelButton.hasFocus()
+            m.recordButton.setFocus(true)
+            m.viewChannelOutline.visible = false
+            m.recordOutline.visible = true
+            return true
+        else if key = "right" and m.recordButton.hasFocus()
+            m.recordSeriesButton.setFocus(true)
+            m.recordOutline.visible = false
+            m.recordSeriesOutline.visible = true
+        else if key = "left" and m.recordSeriesButton.hasFocus()
+            m.recordButton.setFocus(true)
+            m.recordOutline.visible = true
+            m.recordSeriesOutline.visible = false
+        else if key = "left" and m.recordButton.hasFocus()
+            m.viewChannelButton.setFocus(true)
+            m.viewChannelOutline.visible = true
+            m.recordOutline.visible = false
+            return true
+        end if
     end if
 
     if key = "up" or key = "down"

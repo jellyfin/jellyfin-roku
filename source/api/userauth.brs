@@ -147,3 +147,12 @@ sub LoadUserPreferences()
         unset_user_setting("display.livetv.landing")
     end if
 end sub
+
+sub LoadUserAbilities(user)
+    ' Only have one thing we're checking now, but in the future it could be more...
+    if user.Policy.EnableLiveTvManagement = true
+        set_user_setting("livetv.canrecord", "true")
+    else 
+        set_user_setting("livetv.canrecord", "false")
+    end if
+end sub
