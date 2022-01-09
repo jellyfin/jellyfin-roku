@@ -194,7 +194,7 @@ sub onRecordChannelSelected()
     m.RecordProgramTask = createObject("roSGNode", "RecordProgramTask")
     m.RecordProgramTask.programDetails = m.detailsPane.programDetails
     m.RecordProgramTask.recordSeries = false
-    m.RecordProgramTask.observeField("timerCreated", "onTimerCreated")
+    m.RecordProgramTask.observeField("recordOperationDone", "onRecordOperationDone")
     m.RecordProgramTask.control = "RUN"
 
     m.scheduleGrid.showLoadingDataFeedback = false
@@ -212,11 +212,11 @@ sub onRecordSeriesChannelSelected()
     m.RecordProgramTask = createObject("roSGNode", "RecordProgramTask")
     m.RecordProgramTask.programDetails = m.detailsPane.programDetails
     m.RecordProgramTask.recordSeries = true
-    m.RecordProgramTask.observeField("timerCreated", "onTimerCreated")
+    m.RecordProgramTask.observeField("recordOperationDone", "onRecordOperationDone")
     m.RecordProgramTask.control = "RUN"
 end sub
 
-sub onTimerCreated()
+sub onRecordOperationDone()
     m.scheduleGrid.showLoadingDataFeedback = false
 end sub
 

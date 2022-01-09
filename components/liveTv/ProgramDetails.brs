@@ -84,6 +84,25 @@ sub setupLabels()
     m.recordSeriesOutline.height = recordSeriesButtonBackground.height      
 end sub
 
+sub updateLabels(recordText = "Record", recordSeriesText = "Record Series")
+    m.recordLabel.text = tr(recordText)
+    m.recordSeriesLabel.text = tr(recordSeriesText)
+
+    boundingRect = m.recordButton.boundingRect()
+    recordButtonBackground = m.top.findNode("recordButtonBackground") 
+    recordButtonBackground.width = boundingRect.width 
+    recordButtonBackground.height = boundingRect.height  
+    m.recordOutline.width = recordButtonBackground.width  
+    m.recordOutline.height = recordButtonBackground.height     
+
+    boundingRect = m.recordSeriesButton.boundingRect()
+    recordSeriesButtonBackground = m.top.findNode("recordSeriesButtonBackground") 
+    recordSeriesButtonBackground.width = boundingRect.width 
+    recordSeriesButtonBackground.height = boundingRect.height  
+    m.recordSeriesOutline.width = recordSeriesButtonBackground.width  
+    m.recordSeriesOutline.height = recordSeriesButtonBackground.height         
+end sub
+
 sub channelUpdated()
     if m.top.channel = invalid
         m.top.findNode("noInfoChannelName").text = ""
@@ -175,6 +194,16 @@ sub programUpdated()
 
     m.image.uri = prog.PosterURL
 
+    ' If currently being recorded, change button to "Stop Recording"
+    if prog.json.TimerId <> invalid
+        if prog.json.isSeries = true
+            updateLabels("Record", "Cancel Series Recording")
+        else
+            updateLabels("Cancel Recording", "Record Series")
+        end if
+    else
+        updateLabels()
+    end if
 
     m.detailsView.visible = "true"
     m.noInfoView.visible = "false"
@@ -240,6 +269,8 @@ sub focusChanged()
         m.recordSeriesFocusAnimationOpacity.keyValue = [0, 1]
         m.viewChannelButton.setFocus(true)
         m.viewChannelOutline.visible = true
+        m.recordOutline.visible = false
+        m.recordSeriesOutline.visible = false
     else
         m.top.watchSelectedChannel = false
         m.top.recordSelectedChannel = false

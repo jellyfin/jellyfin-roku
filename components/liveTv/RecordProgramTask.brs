@@ -1,35 +1,53 @@
 sub init()
-    m.top.functionName = "RecordProgram"
+    m.top.functionName = "RecordOrCancelProgram"
 end sub
 
-sub RecordProgram()
+sub RecordOrCancelProgram()
     ' Get Live TV default params from server...
     if m.top.programDetails <> invalid
-        programId = m.top.programDetails.Id
+        ' Are we setting up a recording or canceling one?
+        TimerId = invalid
+        if m.top.programDetails.json.TimerId <> invalid and m.top.programDetails.json.TimerId <> ""
+            TimerId = m.top.programDetails.json.TimerId
+        end if
 
-        url = "LiveTv/Timers/Defaults"
-        params = {
-            programId: programId
-        }
-        
-        resp = APIRequest(url, params)
-        data = getJson(resp)
+        if TimerId = invalid
+            ' Setting up a recording...
+            programId = m.top.programDetails.Id
 
-        if data <> invalid
-            ' Create recording timer...
-            if m.top.recordSeries = true
-                url = "LiveTv/SeriesTimers"
+            url = "LiveTv/Timers/Defaults"
+            params = {
+                programId: programId
+            }
+
+            resp = APIRequest(url, params)
+            data = getJson(resp)
+
+            if data <> invalid
+                ' Create recording timer...
+                if m.top.recordSeries = true
+                    url = "LiveTv/SeriesTimers"
+                else
+                    url = "LiveTv/Timers"
+                end if
+                resp = APIRequest(url)
+                postJson(resp, FormatJson(data))
             else
-                url = "LiveTv/Timers"
+                ' Error msg to user?
+                print "Error getting Live TV Defaults from Server"
+            end if
+        else
+            ' Cancelling a recording...
+            if m.top.recordSeries = true
+                TimerId = m.top.programDetails.json.SeriesTimerId
+                url = Substitute("LiveTv/SeriesTimers/{0}", TimerId)
+            else
+                url = Substitute("LiveTv/Timers/{0}", TimerId)
             end if
             resp = APIRequest(url)
-            postJson(resp, FormatJson(data))
-            m.top.timerCreated = true
-        else
-            ' Error msg to user?
-            print "Error getting Live TV Defaults from Server"
-            m.top.timerCreated = false
+            deleteVoid(resp)
         end if
     end if
 
+    m.top.recordOperationDone = true
 end sub

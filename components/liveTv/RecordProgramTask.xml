@@ -4,7 +4,7 @@
   <interface>
     <field id="programDetails" type="node" value="" />
     <field id="recordSeries" type="boolean" value="false" />
-    <field id="timerCreated" type="boolean" value="" />
+    <field id="recordOperationDone" type="boolean" value="" />
   </interface>
   <script type="text/brightscript" uri="RecordProgramTask.brs" />
   <script type="text/brightscript" uri="pkg:/source/api/baserequest.brs" />
