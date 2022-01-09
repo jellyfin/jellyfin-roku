@@ -196,8 +196,8 @@ sub programUpdated()
 
     ' If currently being recorded, change button to "Stop Recording"
     if prog.json.TimerId <> invalid
-        if prog.json.isSeries = true
-            updateLabels("Record", "Cancel Series Recording")
+        if prog.json.SeriesTimerId <> invalid
+            updateLabels("Cancel Recording", "Cancel Series Recording")
         else
             updateLabels("Cancel Recording", "Record Series")
         end if
