@@ -17,11 +17,13 @@ sub RecordProgram()
 
         if data <> invalid
             ' Create recording timer...
-            url = "LiveTv/Timers"
+            if m.top.recordSeries = true
+                url = "LiveTv/SeriesTimers"
+            else
+                url = "LiveTv/Timers"
+            end if
             resp = APIRequest(url)
-            success = postJson(resp, FormatJson(data))
-            print "success value " success
-            ' Indicate success back to our caller
+            postJson(resp, FormatJson(data))
             m.top.timerCreated = true
         else
             ' Error msg to user?

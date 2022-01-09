@@ -6,6 +6,7 @@ sub init()
 
     m.detailsPane.observeField("watchSelectedChannel", "onWatchChannelSelected")
     m.detailsPane.observeField("recordSelectedChannel", "onRecordChannelSelected")
+    m.detailsPane.observeField("recordSeriesSelectedChannel", "onRecordSeriesChannelSelected")
 
     m.gridStartDate = CreateObject("roDateTime")
     m.scheduleGrid.contentStartTime = m.gridStartDate.AsSeconds() - 1800
@@ -188,24 +189,35 @@ sub onRecordChannelSelected()
     ' Set focus back to grid before showing channel, to ensure grid has focus when we return
     focusProgramDetails(false)
 
-    'TODO/FIXME:
-    ' * Present "Please Wait"
+    m.scheduleGrid.showLoadingDataFeedback = true
     
-    ' * Send data to Server
     m.RecordProgramTask = createObject("roSGNode", "RecordProgramTask")
     m.RecordProgramTask.programDetails = m.detailsPane.programDetails
+    m.RecordProgramTask.recordSeries = false
     m.RecordProgramTask.observeField("timerCreated", "onTimerCreated")
     m.RecordProgramTask.control = "RUN"
 
-    ' * Indicate success / failure
+    m.scheduleGrid.showLoadingDataFeedback = false
+end sub
+
+' Handle user selecting "Record Series" from Program Details
+sub onRecordSeriesChannelSelected()
+    if m.detailsPane.recordSeriesSelectedChannel = false then return
+
+    ' Set focus back to grid before showing channel, to ensure grid has focus when we return
+    focusProgramDetails(false)
+
+    m.scheduleGrid.showLoadingDataFeedback = true
+    
+    m.RecordProgramTask = createObject("roSGNode", "RecordProgramTask")
+    m.RecordProgramTask.programDetails = m.detailsPane.programDetails
+    m.RecordProgramTask.recordSeries = true
+    m.RecordProgramTask.observeField("timerCreated", "onTimerCreated")
+    m.RecordProgramTask.control = "RUN"
 end sub
 
 sub onTimerCreated()
-    if m.RecordProgramTask.timerCreated = true
-        print "Timer Created Successfully!!"
-    else
-        print "Timer creation failed :-("
-    end if
+    m.scheduleGrid.showLoadingDataFeedback = false
 end sub
 
 ' As user scrolls grid, check if more data requries to be loaded

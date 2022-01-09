@@ -32,6 +32,10 @@ sub loadSchedule()
     for each item in data.Items
         program = createObject("roSGNode", "ScheduleProgramData")
         program.json = item
+        ' Are we currently recording this program?
+        if program.json.TimerId <> invalid
+            program.hdSmallIconUrl = "pkg:/images/red.png"
+        end if
         results.push(program)
     end for
 
