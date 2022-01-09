@@ -31,7 +31,7 @@ sub loadProgramDetails()
     if program.json.TimerId <> invalid
         ' This is needed here because the callee (onProgramDetailsLoaded) replaces the grid item with
         ' this newly created item from the server, without this, the red icon
-        ' disappears when the user focuses on the program in question        
+        ' disappears when the user focuses on the program in question
         program.hdSmallIconUrl = "pkg:/images/red.png"
     end if
     m.top.programDetails = program

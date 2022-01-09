@@ -190,7 +190,7 @@ sub onRecordChannelSelected()
     focusProgramDetails(false)
 
     m.scheduleGrid.showLoadingDataFeedback = true
-    
+
     m.RecordProgramTask = createObject("roSGNode", "RecordProgramTask")
     m.RecordProgramTask.programDetails = m.detailsPane.programDetails
     m.RecordProgramTask.recordSeries = false
@@ -208,7 +208,7 @@ sub onRecordSeriesChannelSelected()
     focusProgramDetails(false)
 
     m.scheduleGrid.showLoadingDataFeedback = true
-    
+
     m.RecordProgramTask = createObject("roSGNode", "RecordProgramTask")
     m.RecordProgramTask.programDetails = m.detailsPane.programDetails
     m.RecordProgramTask.recordSeries = true

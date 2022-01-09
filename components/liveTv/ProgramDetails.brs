@@ -39,7 +39,7 @@ sub init()
     m.recordSeriesLabel = m.top.findNode("recordSeriesButtonLabel")
 
     m.focusAnimation.observeField("state", "onAnimationComplete")
-    
+
     setupLabels()
 end sub
 
@@ -69,19 +69,19 @@ sub setupLabels()
 
     m.recordLabel.text = tr("Record")
     boundingRect = m.recordButton.boundingRect()
-    recordButtonBackground = m.top.findNode("recordButtonBackground") 
+    recordButtonBackground = m.top.findNode("recordButtonBackground")
     recordButtonBackground.width = boundingRect.width + 20
-    recordButtonBackground.height = boundingRect.height + 20 
-    m.recordOutline.width = recordButtonBackground.width  
-    m.recordOutline.height = recordButtonBackground.height 
-    
+    recordButtonBackground.height = boundingRect.height + 20
+    m.recordOutline.width = recordButtonBackground.width
+    m.recordOutline.height = recordButtonBackground.height
+
     m.recordSeriesLabel.text = tr("Record Series")
     boundingRect = m.recordSeriesButton.boundingRect()
-    recordSeriesButtonBackground = m.top.findNode("recordSeriesButtonBackground") 
+    recordSeriesButtonBackground = m.top.findNode("recordSeriesButtonBackground")
     recordSeriesButtonBackground.width = boundingRect.width + 20
-    recordSeriesButtonBackground.height = boundingRect.height + 20 
-    m.recordSeriesOutline.width = recordSeriesButtonBackground.width  
-    m.recordSeriesOutline.height = recordSeriesButtonBackground.height      
+    recordSeriesButtonBackground.height = boundingRect.height + 20
+    m.recordSeriesOutline.width = recordSeriesButtonBackground.width
+    m.recordSeriesOutline.height = recordSeriesButtonBackground.height
 end sub
 
 sub updateLabels(recordText = "Record", recordSeriesText = "Record Series")
@@ -89,18 +89,18 @@ sub updateLabels(recordText = "Record", recordSeriesText = "Record Series")
     m.recordSeriesLabel.text = tr(recordSeriesText)
 
     boundingRect = m.recordButton.boundingRect()
-    recordButtonBackground = m.top.findNode("recordButtonBackground") 
-    recordButtonBackground.width = boundingRect.width 
-    recordButtonBackground.height = boundingRect.height  
-    m.recordOutline.width = recordButtonBackground.width  
-    m.recordOutline.height = recordButtonBackground.height     
+    recordButtonBackground = m.top.findNode("recordButtonBackground")
+    recordButtonBackground.width = boundingRect.width
+    recordButtonBackground.height = boundingRect.height
+    m.recordOutline.width = recordButtonBackground.width
+    m.recordOutline.height = recordButtonBackground.height
 
     boundingRect = m.recordSeriesButton.boundingRect()
-    recordSeriesButtonBackground = m.top.findNode("recordSeriesButtonBackground") 
-    recordSeriesButtonBackground.width = boundingRect.width 
-    recordSeriesButtonBackground.height = boundingRect.height  
-    m.recordSeriesOutline.width = recordSeriesButtonBackground.width  
-    m.recordSeriesOutline.height = recordSeriesButtonBackground.height         
+    recordSeriesButtonBackground = m.top.findNode("recordSeriesButtonBackground")
+    recordSeriesButtonBackground.width = boundingRect.width
+    recordSeriesButtonBackground.height = boundingRect.height
+    m.recordSeriesOutline.width = recordSeriesButtonBackground.width
+    m.recordSeriesOutline.height = recordSeriesButtonBackground.height
 end sub
 
 sub channelUpdated()
@@ -300,8 +300,8 @@ function onKeyEvent(key as string, press as boolean) as boolean
         m.top.recordSelectedChannel = true
         return true
     else if key = "OK" and m.recordSeriesButton.hasFocus()
-         m.top.recordSeriesSelectedChannel = true
-         return true
+        m.top.recordSeriesSelectedChannel = true
+        return true
     end if
 
     if key = "right" and m.viewChannelButton.hasFocus()
