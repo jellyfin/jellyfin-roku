@@ -190,9 +190,22 @@ sub onRecordChannelSelected()
 
     'TODO/FIXME:
     ' * Present "Please Wait"
+    
     ' * Send data to Server
+    m.RecordProgramTask = createObject("roSGNode", "RecordProgramTask")
+    m.RecordProgramTask.programDetails = m.detailsPane.programDetails
+    m.RecordProgramTask.observeField("timerCreated", "onTimerCreated")
+    m.RecordProgramTask.control = "RUN"
+
     ' * Indicate success / failure
-    print "***Recording not implemented yet***"
+end sub
+
+sub onTimerCreated()
+    if m.RecordProgramTask.timerCreated = true
+        print "Timer Created Successfully!!"
+    else
+        print "Timer creation failed :-("
+    end if
 end sub
 
 ' As user scrolls grid, check if more data requries to be loaded
