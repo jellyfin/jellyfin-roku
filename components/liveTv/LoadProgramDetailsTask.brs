@@ -28,7 +28,7 @@ sub loadProgramDetails()
     program.programIndex = programIndex
     program.fullyLoaded = true
     ' Are we currently recording this program?
-    if program.json.TimerId <> invalid and program.json.TimerId <> "" 
+    if program.json.TimerId <> invalid and program.json.TimerId <> ""
         ' This is needed here because the callee (onProgramDetailsLoaded) replaces the grid item with
         ' this newly created item from the server, without this, the red icon
         ' disappears when the user focuses on the program in question

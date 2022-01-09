@@ -152,7 +152,7 @@ sub LoadUserAbilities(user)
     ' Only have one thing we're checking now, but in the future it could be more...
     if user.Policy.EnableLiveTvManagement = true
         set_user_setting("livetv.canrecord", "true")
-    else 
+    else
         set_user_setting("livetv.canrecord", "false")
     end if
 end sub
