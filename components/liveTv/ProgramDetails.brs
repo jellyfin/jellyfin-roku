@@ -212,7 +212,7 @@ sub programUpdated()
     end if
 
     ' If not a series, hide Record Series button
-    if prog.json.isSeries <> true   ' could be invalid or false
+    if prog.json.isSeries <> true ' could be invalid or false
         m.recordSeriesButton.visible = false
     else
         m.recordSeriesButton.visible = true
