@@ -211,6 +211,13 @@ sub programUpdated()
         updateLabels()
     end if
 
+    ' If not a series, hide Record Series button
+    if prog.json.isSeries <> true   ' could be invalid or false
+        m.recordSeriesButton.visible = false
+    else
+        m.recordSeriesButton.visible = true
+    end if
+
     m.detailsView.visible = "true"
     m.noInfoView.visible = "false"
 
@@ -320,10 +327,12 @@ function onKeyEvent(key as string, press as boolean) as boolean
             m.recordSeriesButton.setFocus(true)
             m.recordOutline.visible = false
             m.recordSeriesOutline.visible = true
+            return true
         else if key = "left" and m.recordSeriesButton.hasFocus()
             m.recordButton.setFocus(true)
             m.recordOutline.visible = true
             m.recordSeriesOutline.visible = false
+            return true
         else if key = "left" and m.recordButton.hasFocus()
             m.viewChannelButton.setFocus(true)
             m.viewChannelOutline.visible = true
