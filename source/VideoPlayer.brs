@@ -64,11 +64,12 @@ sub AddVideoContent(video, audio_stream_idx = 1, subtitle_idx = -1, playbackPosi
     video.content.PlayStart = int(playbackPosition / 10000000)
 
     ' Call PlayInfo from server
-    mediaSourceId = video.mediaSourceId
+    mediaSourceId = video.id
     if meta.live then mediaSourceId = "" ' Don't send mediaSourceId for Live media
     playbackInfo = ItemPostPlaybackInfo(video.id, mediaSourceId, audio_stream_idx, subtitle_idx, playbackPosition)
 
     video.videoId = video.id
+    video.mediaSourceId = video.id
     video.audioIndex = audio_stream_idx
 
     if playbackInfo = invalid

@@ -6,7 +6,7 @@
     <name>default</name>
     <message>
         <source>192.168.1.100:8096 or https://example.com/jellyfin</source>
-        <translation>192.168.1.100:8096 vagy https://example.com/jellyfin</translation>
+        <translation>alapértelmezetten 192.168.1.100:8096 vagy https://example.com/jellyfin</translation>
     </message>
     <message>
         <source>Cancel</source>
