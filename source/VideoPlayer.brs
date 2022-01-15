@@ -114,6 +114,7 @@ sub AddVideoContent(video, audio_stream_idx = 1, subtitle_idx = -1, playbackPosi
         })
         video.content.url = buildURL(Substitute("Videos/{0}/stream", video.id), params)
         video.isTranscoded = false
+        video.audioTrack = (audio_stream_idx + 1).ToStr() ' Roku's track indexes count from 1. Our index is zero based
     else
         ' If server does not provide a transcode URL, display a message to the user
         if playbackInfo.MediaSources[0].TranscodingUrl = invalid
