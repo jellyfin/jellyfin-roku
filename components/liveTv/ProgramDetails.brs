@@ -38,6 +38,10 @@ sub init()
     m.recordLabel = m.top.findNode("recordButtonLabel")
     m.recordSeriesLabel = m.top.findNode("recordSeriesButtonLabel")
 
+    m.viewChannelButtonBackground = m.top.findNode("viewChannelButtonBackground")
+    m.recordButtonBackground = m.top.findNode("recordButtonBackground")
+    m.recordSeriesButtonBackground = m.top.findNode("recordSeriesButtonBackground")
+
     m.focusAnimation.observeField("state", "onAnimationComplete")
 
     setupLabels()
@@ -284,6 +288,9 @@ sub focusChanged()
         m.viewChannelOutline.visible = true
         m.recordOutline.visible = false
         m.recordSeriesOutline.visible = false
+        m.viewChannelButtonBackground.blendColor="#006fab"
+        m.recordButtonBackground.blendColor="#000000"
+        m.recordSeriesButtonBackground.blendColor="#000000"        
     else
         m.top.watchSelectedChannel = false
         m.top.recordSelectedChannel = false
@@ -322,21 +329,33 @@ function onKeyEvent(key as string, press as boolean) as boolean
             m.recordButton.setFocus(true)
             m.viewChannelOutline.visible = false
             m.recordOutline.visible = true
+            m.viewChannelButtonBackground.blendColor="#000000"
+            m.recordButtonBackground.blendColor="#006fab" 
+            m.recordSeriesButtonBackground.blendColor="#000000"
             return true
         else if key = "right" and m.recordButton.hasFocus()
             m.recordSeriesButton.setFocus(true)
             m.recordOutline.visible = false
             m.recordSeriesOutline.visible = true
+            m.viewChannelButtonBackground.blendColor="#000000"
+            m.recordButtonBackground.blendColor="#000000" 
+            m.recordSeriesButtonBackground.blendColor="#006fab"
             return true
         else if key = "left" and m.recordSeriesButton.hasFocus()
             m.recordButton.setFocus(true)
             m.recordOutline.visible = true
             m.recordSeriesOutline.visible = false
+            m.viewChannelButtonBackground.blendColor="#000000"
+            m.recordButtonBackground.blendColor="#006fab" 
+            m.recordSeriesButtonBackground.blendColor="#000000"
             return true
         else if key = "left" and m.recordButton.hasFocus()
             m.viewChannelButton.setFocus(true)
             m.viewChannelOutline.visible = true
             m.recordOutline.visible = false
+            m.viewChannelButtonBackground.blendColor="#006fab"
+            m.recordButtonBackground.blendColor="#000000"
+            m.recordSeriesButtonBackground.blendColor="#000000"
             return true
         end if
     end if
