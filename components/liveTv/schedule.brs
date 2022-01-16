@@ -135,6 +135,7 @@ sub onProgramDetailsLoaded()
 
     channel.ReplaceChild(m.LoadProgramDetailsTask.programDetails, m.LoadProgramDetailsTask.programDetails.programIndex)
     m.LoadProgramDetailsTask.programDetails = invalid
+    m.scheduleGrid.showLoadingDataFeedback = false
 end sub
 
 
@@ -215,8 +216,17 @@ sub onRecordSeriesChannelSelected()
 end sub
 
 sub onRecordOperationDone()
-    if m.LoadScheduleTask.state <> "run"
+    if m.RecordProgramTask.recordSeries = true and m.LoadScheduleTask.state <> "run"
         m.LoadScheduleTask.control = "RUN"
+    else
+        ' This reloads just the details for the currently selected program, so that we don't have to
+        ' reload the entire grid...
+        channel = m.scheduleGrid.content.GetChild(m.scheduleGrid.programFocusedDetails.focusChannelIndex)
+        prog = channel.GetChild(m.scheduleGrid.programFocusedDetails.focusIndex)
+        m.LoadProgramDetailsTask.programId = prog.Id
+        m.LoadProgramDetailsTask.channelIndex = m.scheduleGrid.programFocusedDetails.focusChannelIndex
+        m.LoadProgramDetailsTask.programIndex = m.scheduleGrid.programFocusedDetails.focusIndex
+        m.LoadProgramDetailsTask.control = "RUN"
     end if
 end sub
 
