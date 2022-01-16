@@ -6,7 +6,7 @@
     <name>default</name>
     <message>
         <source>192.168.1.100:8096 or https://example.com/jellyfin</source>
-        <translation>192.168.1.100:8096 oder https://example.com/jellyfin</translation>
+        <translation>Standard: 192.168.1.100:8096 oder https://example.com/jellyfin</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -2460,6 +2460,71 @@
     <message>
         <source>Save Credentials?</source>
         <translation>Anmeldedaten speichern?</translation>
+    </message>
+    <message>
+        <source>CRITIC_RATING</source>
+        <translation>Kritiker Bewertung</translation>
+    </message>
+    <message>
+        <source>IMDB_RATING</source>
+        <translation>IMDb Rating</translation>
+    </message>
+    <message>
+        <comment>Name or Title field of media item</comment>
+        <source>TITLE</source>
+        <translation>Name</translation>
+    </message>
+    <message>
+        <source>Unable to load Channel Data from the server</source>
+        <translation>Laden der Kanaldaten vom Server nicht möglich</translation>
+    </message>
+    <message>
+        <source>Error loading Channel Data</source>
+        <translation>Fehler beim Laden der Kanaldaten</translation>
+    </message>
+    <message>
+        <source>Loading Channel Data</source>
+        <translation>Lade Kanaldaten</translation>
+    </message>
+    <message>
+        <source>An error was encountered while playing this item.</source>
+        <translation>Es ist ein Fehler beim Abspielen aufgetreten.</translation>
+        <extracomment>Dialog detail when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>There was an error retrieving the data for this item from the server.</source>
+        <translation>Es ist ein Fehler beim Abrufen der Daten vom Server für diesen Eintrag aufgetreten.</translation>
+        <extracomment>Dialog detail when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <source>Error During Playback</source>
+        <translation>Fehler beim Abspielen</translation>
+        <extracomment>Dialog title when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>Error Retrieving Content</source>
+        <translation>Fehler beim Abrufen des Inhalts</translation>
+        <extracomment>Dialog title when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <source>On Now</source>
+        <translation>Läuft gerade</translation>
+    </message>
+    <message>
+        <source>Delete Saved</source>
+        <translation>Löschen gespeichert</translation>
+    </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>Zugangsdaten speichern?</translation>
+    </message>
+    <message>
+        <source>Sign Out</source>
+        <translation>Ausloggen</translation>
+    </message>
+    <message>
+        <source>Change Server</source>
+        <translation>Server wechseln</translation>
     </message>
 </context>
 </TS>
