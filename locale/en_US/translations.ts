@@ -362,6 +362,26 @@
         <extracomment>Menu option for showing Live TV Guide / Schedule</extracomment>
     </message>
     <message>
+        <source>View Channel</source>
+        <translation>View Channel</translation>
+    </message>
+    <message>
+        <source>Record</source>
+        <translation>Record</translation>
+    </message>
+    <message>
+        <source>Record Series</source>
+        <translation>Record Series</translation>
+    </message>
+    <message>
+        <source>Cancel Recording</source>
+        <translation>Cancel Recording</translation>
+    </message>
+    <message>
+        <source>Cancel Series Recording</source>
+        <translation>Cancel Series Recording</translation>
+    </message>
+    <message>
         <source>Connecting to Server</source>
         <translation>Connecting to Server</translation>
         <extracomment>Message to display to user while client is attempting to connect to the server</extracomment>

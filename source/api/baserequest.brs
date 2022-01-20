@@ -110,6 +110,15 @@ function postJson(req, data = "" as string)
     return json
 end function
 
+function deleteVoid(req)
+    req.setMessagePort(CreateObject("roMessagePort"))
+    req.AddHeader("Content-Type", "application/json")
+    req.SetRequest("DELETE")
+    req.GetToString()
+
+    return true
+end function
+
 function get_url()
     base = get_setting("server")
     if base.right(1) = "/"

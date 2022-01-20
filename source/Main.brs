@@ -376,6 +376,7 @@ function LoginFlow(startOver = false as boolean)
                 if get_setting("active_user") <> invalid
                     m.user = AboutMe()
                     LoadUserPreferences()
+                    LoadUserAbilities(m.user)
                     SendPerformanceBeacon("AppDialogComplete") ' Roku Performance monitoring - Dialog Closed
                     return true
                 end if
@@ -399,6 +400,7 @@ function LoginFlow(startOver = false as boolean)
     end if
 
     LoadUserPreferences()
+    LoadUserAbilities(m.user)
     m.global.sceneManager.callFunc("clearScenes")
 
     'Send Device Profile information to server
