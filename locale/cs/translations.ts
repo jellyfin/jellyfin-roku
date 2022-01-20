@@ -102,7 +102,7 @@
     </message>
     <message>
         <source>Next Up</source>
-        <translation>Další na řadě</translation>
+        <translation>Další díly</translation>
     </message>
     <message>
         <source>Latest in</source>

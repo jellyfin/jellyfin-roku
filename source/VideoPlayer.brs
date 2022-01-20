@@ -64,11 +64,12 @@ sub AddVideoContent(video, audio_stream_idx = 1, subtitle_idx = -1, playbackPosi
     video.content.PlayStart = int(playbackPosition / 10000000)
 
     ' Call PlayInfo from server
-    mediaSourceId = video.mediaSourceId
+    mediaSourceId = video.id
     if meta.live then mediaSourceId = "" ' Don't send mediaSourceId for Live media
     playbackInfo = ItemPostPlaybackInfo(video.id, mediaSourceId, audio_stream_idx, subtitle_idx, playbackPosition)
 
     video.videoId = video.id
+    video.mediaSourceId = video.id
     video.audioIndex = audio_stream_idx
 
     if playbackInfo = invalid
@@ -113,6 +114,7 @@ sub AddVideoContent(video, audio_stream_idx = 1, subtitle_idx = -1, playbackPosi
         })
         video.content.url = buildURL(Substitute("Videos/{0}/stream", video.id), params)
         video.isTranscoded = false
+        video.audioTrack = (audio_stream_idx + 1).ToStr() ' Roku's track indexes count from 1. Our index is zero based
     else
         ' If server does not provide a transcode URL, display a message to the user
         if playbackInfo.MediaSources[0].TranscodingUrl = invalid
