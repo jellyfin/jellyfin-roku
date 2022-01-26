@@ -1672,5 +1672,38 @@ não contém itens</translation>
         <source>CRITIC_RATING</source>
         <translation>Avaliação da crítica</translation>
     </message>
+    <message>
+        <source>DATE_ADDED</source>
+        <translation>Data de Adição</translation>
+    </message>
+    <message>
+        <source>CRITIC_RATING</source>
+        <translation>Avaliação da crítica</translation>
+    </message>
+    <message>
+        <source>IMDB_RATING</source>
+        <translation>Classificação IMDb</translation>
+    </message>
+    <message>
+        <source>Unable to load Channel Data from the server</source>
+        <translation>Incapaz de carregar os Dados do Canal do servidor</translation>
+    </message>
+    <message>
+        <source>Error loading Channel Data</source>
+        <translation>Erro ao carregar Dados do Canal</translation>
+    </message>
+    <message>
+        <source>Loading Channel Data</source>
+        <translation>Carregando Dados do Canal</translation>
+    </message>
+    <message>
+        <source>An error was encountered while playing this item.</source>
+        <translation>Foi encontrado um erro ao reproduzir este item.</translation>
+        <extracomment>Dialog detail when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>Change Server</source>
+        <translation>Mudar servidor</translation>
+    </message>
 </context>
 </TS>
