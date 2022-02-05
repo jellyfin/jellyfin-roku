@@ -31,9 +31,9 @@ sub itemContentChanged()
         videoIdx = invalid
         audioIdx = invalid
         for i = 0 to itemData.MediaStreams.Count() - 1
-            if itemData.MediaStreams[i].Type = "Video"
+            if itemData.MediaStreams[i].Type = "Video" and videoIdx = invalid
                 videoIdx = i
-            else if itemData.MediaStreams[i].Type = "Audio"
+            else if itemData.MediaStreams[i].Type = "Audio" and audioIdx = invalid
                 audioIdx = i
             end if
             if videoIdx <> invalid and audioIdx <> invalid then exit for
