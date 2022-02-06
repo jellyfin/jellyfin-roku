@@ -375,6 +375,16 @@ function CreateVideoPlayerGroup(video_id, audio_stream_idx = 1)
     return video
 end function
 
+function CreatePhotoPage(photo)
+    group = CreateObject("roSGNode", "PhotoDetails")
+    group.optionsAvailable = false
+    m.global.sceneManager.callFunc("pushScene", group)
+
+    group.itemContent = photo
+
+    return group
+end function
+
 sub UpdateSavedServerList()
     server = get_setting("server")
     username = get_setting("username")
