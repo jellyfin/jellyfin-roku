@@ -2983,5 +2983,10 @@
         <source>Change Server</source>
         <translation>Server wechseln</translation>
     </message>
+    <message>
+        <source>Ends at</source>
+        <translation>Endet um</translation>
+        <extracomment>(Past Tense) For defining a day and time when a program ended  (e.g.  Ended Wednesday, 08:00) </extracomment>
+    </message>
 </context>
 </TS>
