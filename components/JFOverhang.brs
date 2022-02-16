@@ -28,7 +28,6 @@ sub init()
     updateTimeDisplay()
 end sub
 
-
 sub updateTitle()
     leftSeperator = m.top.findNode("overlayLeftSeperator")
     if m.top.title <> ""

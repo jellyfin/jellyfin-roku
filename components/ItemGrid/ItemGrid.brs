@@ -94,7 +94,7 @@ sub loadInitialItems()
             showTvGuide()
         end if
 
-    else if m.top.parentItem.collectionType = "CollectionFolder" or m.top.parentItem.collectionType = "boxsets" or m.top.parentItem.Type = "Folder" or m.top.parentItem.Type = "Channel"
+    else if m.top.parentItem.collectionType = "CollectionFolder" or m.top.parentItem.type = "CollectionFolder" or m.top.parentItem.collectionType = "boxsets" or m.top.parentItem.Type = "Folder" or m.top.parentItem.Type = "Channel"
         ' Non-recursive, to not show subfolder contents
         m.loadItemsTask.recursive = false
     else if m.top.parentItem.collectionType = "Channel"
@@ -177,6 +177,17 @@ sub SetUpOptions()
             { "Title": tr("All"), "Name": "All" },
             { "Title": tr("Favorites"), "Name": "Favorites" }
         ]
+    else if m.top.parentItem.collectionType = "photoalbum" or m.top.parentItem.collectionType = "photo" or m.top.parentItem.collectionType = "homevideos"
+        ' For some reason, my photo library shows up as "homevideos", maybe because it has some mp4 mixed in with the jpgs?
+
+        ' TODO/FIXME: Show shuffle options once implemented
+        ' options.views = [
+        '     { "Title": tr("Don't Shuffle"), "Name": "singlephoto"}
+        '     { "Title": tr("Shuffle"), "Name": "shufflephoto"}
+        ' ]
+        options.views = []
+        options.sort = []
+        options.filter = []
     else
         options.views = [
             { "Title": tr("Default"), "Name": "default" }
@@ -351,6 +362,17 @@ sub optionsClosed()
 
     end if
 
+    if m.top.parentItem.Type = "CollectionFolder" or m.top.parentItem.CollectionType = "CollectionFolder"
+        ' Did the user just request "Shuffle" on a PhotoAlbum?
+        if m.options.view = "singlephoto"
+            ' TODO/FIXME: Stop shuffling here
+            print "TODO/FIXME: Stop any shuffling here"
+        else if m.options.view = "shufflephoto"
+            ' TODO/FIXME: Start shuffling here
+            print "TODO/FIXME: Start shuffle here"
+        end if
+    end if
+
     reload = false
     if m.options.sortField <> m.sortField or m.options.sortAscending <> m.sortAscending
         m.sortField = m.options.sortField
@@ -438,13 +460,19 @@ function onKeyEvent(key as string, press as boolean) as boolean
             optionsClosed()
             return true
         end if
-    else if key = "play"
+    else if key = "play" or key = "OK"
         markupGrid = m.top.getChild(2)
         itemToPlay = markupGrid.content.getChild(markupGrid.itemFocused)
         if itemToPlay <> invalid and (itemToPlay.type = "Movie" or itemToPlay.type = "Episode")
             m.top.quickPlayNode = itemToPlay
+            return true
+        else if itemToPlay <> invalid and itemToPlay.type = "Photo"
+            ' Spawn photo player task
+            photoPlayer = CreateObject("roSgNode", "PhotoPlayerTask")
+            photoPlayer.itemContent = itemToPlay
+            photoPlayer.control = "RUN"
+            return true
         end if
-        return true
     end if
     return false
 end function
