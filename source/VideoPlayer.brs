@@ -72,7 +72,7 @@ sub AddVideoContent(video, mediaSourceId, audio_stream_idx = 1, subtitle_idx = -
     playbackInfo = ItemPostPlaybackInfo(video.id, mediaSourceId, audio_stream_idx, subtitle_idx, playbackPosition)
 
     video.videoId = video.id
-    video.mediaSourceId = mediaSourceId 
+    video.mediaSourceId = mediaSourceId
     video.audioIndex = audio_stream_idx
 
     if playbackInfo = invalid
