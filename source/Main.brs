@@ -193,13 +193,19 @@ sub Main (args as dynamic) as void
             btn = getButton(msg)
             group = sceneManager.callFunc("getActiveScene")
             if btn <> invalid and btn.id = "play-button"
-                ' Check is a specific Audio Stream was selected
+                ' Check if a specific Audio Stream was selected
                 audio_stream_idx = 1
                 if group.selectedAudioStreamIndex <> invalid
                     audio_stream_idx = group.selectedAudioStreamIndex
                 end if
 
-                video_id = group.id
+                ' Check to see if a specific video "version" was selected
+                if group.selectedVideoStreamId <> invalid
+                    video_id = group.selectedVideoStreamId
+                else
+                    video_id = group.id
+                end if
+
                 video = CreateVideoPlayerGroup(video_id, audio_stream_idx)
                 if video <> invalid
                     sceneManager.callFunc("pushScene", video)
