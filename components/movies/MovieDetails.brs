@@ -236,7 +236,7 @@ sub videoOptionsClosed()
                 SetUpAudioOptions(itemData.mediaStreams)
                 exit for
             end if
-        end for  
+        end for
         m.top.itemContent.json = itemData
         m.top.observeField("itemContent", "itemContentChanged")
     end if
