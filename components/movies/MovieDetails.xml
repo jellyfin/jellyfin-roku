@@ -15,9 +15,9 @@
             <Label id="communityRating" />
           </LayoutGroup>
           <LayoutGroup layoutDirection="horiz" itemSpacings="[-5]" id="criticRatingGroup">
-             <Poster id="criticRatingIcon" height="32" width="32" />
-             <Label id="criticRatingLabel" />
-           </LayoutGroup>
+            <Poster id="criticRatingIcon" height="32" width="32" />
+            <Label id="criticRatingLabel" />
+          </LayoutGroup>
           <Label id="ends-at" />
         </LayoutGroup>
         <Label id="genres" />
@@ -33,11 +33,12 @@
         </ButtonGroupHoriz>
         <Label id="tagline" />
         <Label id="overview" wrap="true" maxLines="8" />
-
       </LayoutGroup>
     </LayoutGroup>
     <MovieVideoOptions id="videoOptions" visible="false" />
     <MovieAudioOptions id="audioOptions" visible="false" />
+    <!-- "Cast and Crew" row -->
+    <extrasSlider id="movieExtras" />
   </children>
   <interface>
     <field id="itemContent" type="node" />

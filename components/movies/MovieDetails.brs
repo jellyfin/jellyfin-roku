@@ -1,15 +1,20 @@
 sub init()
+    m.extrasGrp = m.top.findnode("extrasGrp")
+    m.extrasGrid = m.top.findNode("extrasGrid")
     m.top.optionsAvailable = false
+
     m.audioOptions = m.top.findNode("audioOptions")
     m.videoOptions = m.top.findNode("videoOptions")
 
+    m.main_group = m.top.findNode("main_group")
+
     main = m.top.findNode("main_group")
     main.translation = [96, 175]
-
     overview = m.top.findNode("overview")
     overview.width = 1920 - 96 - 300 - 96 - 30
 
-    m.top.findNode("buttons").setFocus(true)
+    m.buttonGrp = m.top.findNode("buttons")
+    m.buttonGrp.setFocus(true)
 
     m.top.observeField("itemContent", "itemContentChanged")
 end sub
@@ -83,6 +88,7 @@ sub itemContentChanged()
     if itemData.taglines.count() > 0
         setFieldText("tagline", itemData.taglines[0])
     end if
+
     setFavoriteColor()
     setWatchedColor()
     SetUpVideoOptions(itemData.mediaSources)
@@ -151,6 +157,7 @@ sub setFieldText(field, value)
 end sub
 
 function getRuntime() as integer
+
     itemData = m.top.itemContent.json
 
     ' A tick is .1ms, so 1/10,000,000 for ticks to seconds,
@@ -253,6 +260,24 @@ function onKeyEvent(key as string, press as boolean) as boolean
     else if key = "OK" and m.top.findNode("audio-button").isInFocusChain()
         m.audioOptions.visible = true
         m.audioOptions.setFocus(true)
+    end if
+
+    if key = "down" and m.buttonGrp.isInFocusChain()
+        m.extrasGrid.setFocus(true)
+        m.top.findNode("VertSlider").reverse = false
+        m.top.findNode("extrasFader").reverse = false
+        m.top.findNode("pplAnime").control = "start"
+        return true
+    end if
+
+    if key = "up" and m.top.findNode("extrasGrid").isInFocusChain()
+        if m.extrasGrid.itemFocused = 0
+            m.top.findNode("VertSlider").reverse = true
+            m.top.findNode("extrasFader").reverse = true
+            m.top.findNode("pplAnime").control = "start"
+            m.buttonGrp.setFocus(true)
+            return true
+        end if
     end if
 
     if not press then return false
