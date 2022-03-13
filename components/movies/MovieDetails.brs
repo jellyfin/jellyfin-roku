@@ -10,6 +10,8 @@ sub init()
     overview.width = 1920 - 96 - 300 - 96 - 30
 
     m.top.findNode("buttons").setFocus(true)
+
+    m.top.observeField("itemContent", "itemContentChanged")
 end sub
 
 sub itemContentChanged()
@@ -23,12 +25,7 @@ sub itemContentChanged()
     m.top.selectedVideoStreamId = itemData.MediaSources[0].id
 
     ' Find first Audio Stream and set that as default
-    for i = 0 to itemData.mediaStreams.Count() - 1
-        if itemData.mediaStreams[i].Type = "Audio"
-            m.top.selectedAudioStreamIndex = i
-            exit for
-        end if
-    end for
+    SetDefaultAudioTrack(itemData)
 
     ' Handle all "As Is" fields
     m.top.overhangTitle = itemData.name
@@ -82,9 +79,6 @@ sub itemContentChanged()
     if itemData.mediaStreams[0] <> invalid
         setFieldText("video_codec", tr("Video") + ": " + itemData.mediaStreams[0].displayTitle)
     end if
-    if itemData.mediaStreams[m.top.selectedAudioStreamIndex] <> invalid
-        setFieldText("audio_codec", tr("Audio") + ": " + itemData.mediaStreams[m.top.selectedAudioStreamIndex].displayTitle)
-    end if
     ' TODO - cmon now. these are buttons, not words
     if itemData.taglines.count() > 0
         setFieldText("tagline", itemData.taglines[0])
@@ -129,6 +123,16 @@ sub SetUpAudioOptions(streams)
 
 end sub
 
+
+sub SetDefaultAudioTrack(itemData)
+    for i = 0 to itemData.mediaStreams.Count() - 1
+        if itemData.mediaStreams[i].Type = "Audio"
+            m.top.selectedAudioStreamIndex = i
+            setFieldText("audio_codec", tr("Audio") + ": " + itemData.mediaStreams[i].displayTitle)
+            exit for
+        end if
+    end for
+end sub
 
 sub setFieldText(field, value)
     node = m.top.findNode(field)
@@ -213,10 +217,28 @@ sub audioOptionsClosed()
     m.top.findNode("buttons").setFocus(true)
 end sub
 
+'
+' Check if options were updated and if any reloding is needed...
 sub videoOptionsClosed()
     if m.videoOptions.videoStreamId <> m.top.selectedVideoStreamId
         m.top.selectedVideoStreamId = m.videoOptions.videoStreamId
         setFieldText("video_codec", tr("Video") + ": " + m.videoOptions.video_codec)
+        ' Because the video stream has changed (i.e. the actual video)... we need to reload the audio stream choices for that video
+        m.top.unobservefield("itemContent")
+        itemData = m.top.itemContent.json
+        for each mediaSource in itemData.mediaSources
+            if mediaSource.id = m.top.selectedVideoStreamId
+                itemData.mediaStreams = []
+                for i = 0 to mediaSource.mediaStreams.Count() - 1
+                    itemData.mediaStreams.push(mediaSource.mediaStreams[i])
+                end for
+                SetDefaultAudioTrack(itemData)
+                SetUpAudioOptions(itemData.mediaStreams)
+                exit for
+            end if
+        end for  
+        m.top.itemContent.json = itemData
+        m.top.observeField("itemContent", "itemContentChanged")
     end if
     m.top.findNode("buttons").setFocus(true)
 end sub
