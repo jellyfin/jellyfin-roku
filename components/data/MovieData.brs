@@ -8,6 +8,13 @@ sub setFields()
     m.top.watched = json.UserData.played
     m.top.Type = "Movie"
 
+    if json.MediaSourceCount <> invalid and json.MediaSourceCount > 1
+        m.top.mediaSources = []
+        for each source in json.MediaSources
+            m.top.mediaSources.push(source)
+        end for
+    end if
+
     if json.ProductionYear <> invalid
         m.top.SubTitle = json.ProductionYear
     end if
