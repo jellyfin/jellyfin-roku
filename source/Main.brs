@@ -202,13 +202,13 @@ sub Main (args as dynamic) as void
                 end if
 
                 ' Check to see if a specific video "version" was selected
+                mediaSourceId = invalid
                 if group.selectedVideoStreamId <> invalid
-                    video_id = group.selectedVideoStreamId
-                else
-                    video_id = group.id
+                    mediaSourceId = group.selectedVideoStreamId
                 end if
+                video_id = group.id
 
-                video = CreateVideoPlayerGroup(video_id, audio_stream_idx)
+                video = CreateVideoPlayerGroup(video_id, mediaSourceId, audio_stream_idx)
                 if video <> invalid
                     sceneManager.callFunc("pushScene", video)
                 end if
