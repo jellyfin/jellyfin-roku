@@ -3005,5 +3005,21 @@
         <source>CRITIC_RATING</source>
         <translation>Kritikerwertung</translation>
     </message>
+    <message>
+        <source>On Now</source>
+        <translation type="unfinished">Läuft zurzeit</translation>
+    </message>
+    <message>
+        <source>Delete Saved</source>
+        <translation>Gespeichertes Löschen</translation>
+    </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>Zugangsdaten speichern?</translation>
+    </message>
+    <message>
+        <source>Sign Out</source>
+        <translation>Abmelden</translation>
+    </message>
 </context>
 </TS>
