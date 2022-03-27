@@ -3330,5 +3330,10 @@
         <source>On Now</source>
         <translation>Läuft gerade</translation>
     </message>
+    <message>
+        <source>An error was encountered while playing this item.</source>
+        <translation>Beim Abspielen dieses Elements trat ein Fehler auf.</translation>
+        <extracomment>Dialog detail when error occurs during playback</extracomment>
+    </message>
 </context>
 </TS>
