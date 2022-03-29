@@ -27,9 +27,13 @@ function getDeviceProfile() as object
     end if
 
     if playMpeg2 and di.CanDecodeVideo({ Codec: "mpeg2" }).Result = true
-        tsVideoCodecs = "h264,h265,hevc,mpeg2video"
+        tsVideoCodecs = "h264,mpeg2video"
     else
-        tsVideoCodecs = "h264,h265,hevc"
+        tsVideoCodecs = "h264"
+    end if
+
+    if di.CanDecodeVideo({ Codec: "hevc" }).Result = true
+        tsVideoCodecs = tsVideoCodecs + ",h265,hevc"
     end if
 
     if di.CanDecodeAudio({ Codec: "ac3" }).result
@@ -100,18 +104,6 @@ function getDeviceProfile() as object
         ],
         "ContainerProfiles": [],
         "CodecProfiles": [
-            {
-                "Type": "VideoAudio",
-                "Codec": "aac",
-                "Conditions": [
-                    {
-                        "Condition": "Equals",
-                        "Property": "IsSecondaryAudio",
-                        "Value": "false",
-                        "IsRequired": false
-                    }
-                ]
-            },
             {
                 "Type": "VideoAudio",
                 "Codec": DirectPlayProfile[1].AudioCodec, ' Use supported MKV Audio list
