@@ -147,6 +147,10 @@ function getDeviceProfile() as object
             {
                 "Format": "ttml",
                 "Method": "External"
+            },
+            {
+                "Format": "sub",
+                "Method": "External"
             }
         ]
     }
