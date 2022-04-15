@@ -2,7 +2,7 @@
 <component name="ListPoster" extends="Group">
   <children>
     <Rectangle id="backdrop" />
-    <Poster id="poster" translation="[2, 0]" />
+    <Poster id="poster" translation="[2, 25]" />
     <ScrollingLabel id="title"
       horizAlign="center"
       font="font:SmallSystemFont"

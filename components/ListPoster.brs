@@ -30,14 +30,15 @@ sub updateSize()
 
     ' Always reserve the bottom for the Poster Title
     m.title.maxWidth = maxSize[0]
-    m.title.height = 80
-    m.title.translation = [0, int(maxSize[1]) - m.title.height]
+    m.title.height = 70
+    m.title.translation = [0, int(maxSize[1]) - (m.title.height-10)]
+    print "[0," int(maxSize[1]) - m.title.height"]"
 
     m.staticTitle.width = maxSize[0]
-    m.staticTitle.height = 80
-    m.staticTitle.translation = [0, int(maxSize[1]) - m.title.height]
+    m.staticTitle.height = 70
+    m.staticTitle.translation = [0, int(maxSize[1]) - (m.title.height-10)]
 
-    ratio = 1.5
+    ratio = 2.5
     if image <> invalid and image.width <> 0 and image.height <> 0
         ratio = image.height / image.width
     end if
