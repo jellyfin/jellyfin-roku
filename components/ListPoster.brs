@@ -30,31 +30,19 @@ sub updateSize()
 
     ' Always reserve the bottom for the Poster Title
     m.title.maxWidth = maxSize[0]
-    m.title.height = 70
-    m.title.translation = [0, int(maxSize[1]) - (m.title.height-30)]
+    m.title.height = 40
+    m.title.translation = [0, int(maxSize[1]) - m.title.height + 5]
     print "[0," int(maxSize[1]) - m.title.height"]"
 
     m.staticTitle.width = maxSize[0]
-    m.staticTitle.height = 70
-    m.staticTitle.translation = [0, int(maxSize[1]) - (m.title.height-30)]
-
-    ratio = 1.5
-    if image <> invalid and image.width <> 0 and image.height <> 0
-        ratio = image.height / image.width
-    end if
+    m.staticTitle.height = m.title.height
+    m.staticTitle.translation = m.title.translation
 
     m.poster.width = int(maxSize[0]) - 4
-    m.poster.height = m.poster.width * ratio
+    m.poster.height = int(maxSize[1]) - m.title.height  'Set poster height to available space
 
-    posterVertSpace = int(maxSize[1]) - m.title.height - 20
-
-    if m.poster.height > posterVertSpace
-        ' Do a thing to shrink the image if it is too tall
-    end if
-
-    m.poster.translation = [2, (posterVertSpace - m.poster.height) / 3]
-
-    m.backdrop.translation = [2, (posterVertSpace - m.poster.height) / 2]
+    
+    
     m.backdrop.width = m.poster.width
     m.backdrop.height = m.poster.height
 
