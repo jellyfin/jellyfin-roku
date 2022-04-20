@@ -32,17 +32,14 @@ sub updateSize()
     m.title.maxWidth = maxSize[0]
     m.title.height = 40
     m.title.translation = [0, int(maxSize[1]) - m.title.height + 5]
-    print "[0," int(maxSize[1]) - m.title.height"]"
 
     m.staticTitle.width = maxSize[0]
     m.staticTitle.height = m.title.height
     m.staticTitle.translation = m.title.translation
 
     m.poster.width = int(maxSize[0]) - 4
-    m.poster.height = int(maxSize[1]) - m.title.height  'Set poster height to available space
+    m.poster.height = int(maxSize[1]) - m.title.height 'Set poster height to available space
 
-    
-    
     m.backdrop.width = m.poster.width
     m.backdrop.height = m.poster.height
 
