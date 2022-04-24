@@ -1,6 +1,7 @@
 sub init()
     m.title = m.top.findNode("title")
     m.title.text = tr("Loading...")
+    m.options = m.top.findNode("tvListOptions")
 end sub
 
 sub itemContentChanged()
@@ -34,7 +35,11 @@ sub itemContentChanged()
             if itemData.MediaStreams[i].Type = "Video" and videoIdx = invalid
                 videoIdx = i
             else if itemData.MediaStreams[i].Type = "Audio" and audioIdx = invalid
-                audioIdx = i
+                if item.selectedAudioStreamIndex > 1
+                    audioIdx = item.selectedAudioStreamIndex
+                else
+                    audioIdx = i
+                end if
             end if
             if videoIdx <> invalid and audioIdx <> invalid then exit for
         end for
@@ -46,6 +51,23 @@ sub itemContentChanged()
         m.top.findNode("video_codec").visible = false
         m.top.findNode("audio_codec").visible = false
     end if
+
+    DisplayAudioAvailable(itemData.mediaStreams)
+end sub
+
+sub DisplayAudioAvailable(streams)
+
+    count = 0
+    for i = 0 to streams.Count() - 1
+        if streams[i].Type = "Audio"
+            count++
+        end if
+    end for
+
+    if count > 1
+        m.top.findnode("audio_codec_count").text = "+" + stri(count - 1).trim()
+    end if
+
 end sub
 
 function getRuntime() as integer
