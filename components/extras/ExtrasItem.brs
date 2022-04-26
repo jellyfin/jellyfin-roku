@@ -16,7 +16,7 @@ sub showContent()
         m.posterImg.width = cont.imageWidth
         m.role.Text = cont.subTitle
     else
-        m.role.text = "Who??"
+        m.role.text = tr("Unknown")
         m.posterImg.uri = "pkg:/images/baseline_person_white_48dp.png"
     end if
 end sub
