@@ -43,7 +43,7 @@ sub itemContentChanged()
     end if
     m.top.findNode("video_codec").visible = videoIdx <> invalid
     m.top.findNode("audio_codec").visible = audioIdx <> invalid
-    
+
 end sub
 
 function getRuntime() as integer
