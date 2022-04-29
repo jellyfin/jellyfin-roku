@@ -25,6 +25,15 @@ sub loadItems()
         Fields: "Overview"
     }
 
+    ' Handle special case when getting names starting with numeral
+    if m.top.NameStartsWith <> ""
+        if m.top.NameStartsWith = "#"
+            params.NameLessThan = "A"
+        else
+            params.NameStartsWith = m.top.nameStartsWith
+        end if
+    end if
+
     filter = m.top.filter
     if filter = "All" or filter = "all"
         ' do nothing
