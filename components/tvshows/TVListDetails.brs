@@ -30,25 +30,23 @@ sub itemContentChanged()
         m.top.findNode("star").visible = false
     end if
 
+    videoIdx = invalid
+    audioIdx = invalid
     if itemData.MediaStreams <> invalid
-        videoIdx = invalid
-        audioIdx = invalid
         for i = 0 to itemData.MediaStreams.Count() - 1
             if itemData.MediaStreams[i].Type = "Video" and videoIdx = invalid
                 videoIdx = i
+                m.top.findNode("video_codec").text = tr("Video") + ": " + itemData.mediaStreams[i].DisplayTitle
             else if itemData.MediaStreams[i].Type = "Audio" and audioIdx = invalid
                 audioIdx = i
+                m.top.findNode("audio_codec").text = tr("Audio") + ": " + itemData.mediaStreams[i].DisplayTitle
             end if
             if videoIdx <> invalid and audioIdx <> invalid then exit for
         end for
-        m.top.findNode("video_codec").text = tr("Video") + ": " + itemData.mediaStreams[videoIdx].DisplayTitle
-        m.top.findNode("audio_codec").text = tr("Audio") + ": " + itemData.mediaStreams[audioIdx].DisplayTitle
-        m.top.findNode("video_codec").visible = true
-        m.top.findNode("audio_codec").visible = true
-    else
-        m.top.findNode("video_codec").visible = false
-        m.top.findNode("audio_codec").visible = false
     end if
+    m.top.findNode("video_codec").visible = videoIdx <> invalid
+    m.top.findNode("audio_codec").visible = audioIdx <> invalid
+
 end sub
 
 function getRuntime() as integer
