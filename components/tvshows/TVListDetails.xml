@@ -29,6 +29,7 @@
   <interface>
     <field id="itemContent" type="node" onChange="itemContentChanged"/>
     <field id="selectedAudioStreamIndex" type="integer" />
+    <field id="itemHasFocus" type="boolean" onChange="focusChanged" />
   </interface>
   <script type="text/brightscript" uri="TVListDetails.brs" />
   <script type="text/brightscript" uri="pkg:/source/utils/misc.brs" />
