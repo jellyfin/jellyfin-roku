@@ -52,10 +52,10 @@ sub itemContentChanged()
 
     m.top.findNode("video_codec").visible = videoIdx <> invalid
     if audioIdx <> invalid
-        m.top.findNode("audio_codec").visible = true 
+        m.top.findNode("audio_codec").visible = true
         DisplayAudioAvailable(itemData.mediaStreams)
     else
-        m.top.findNode("audio_codec").visible = false 
+        m.top.findNode("audio_codec").visible = false
     end if
 end sub
 
