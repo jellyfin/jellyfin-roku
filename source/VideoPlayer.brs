@@ -19,8 +19,8 @@ end function
 sub AddVideoContent(video, mediaSourceId, audio_stream_idx = 1, subtitle_idx = -1, playbackPosition = -1)
 
     video.content = createObject("RoSGNode", "ContentNode")
-
     meta = ItemMetaData(video.id)
+    m.videotype = meta.type
     if meta = invalid
         video.content = invalid
         return
@@ -58,9 +58,89 @@ sub AddVideoContent(video, mediaSourceId, audio_stream_idx = 1, subtitle_idx = -
                 group.callFunc("refresh")
                 video.content = invalid
                 return
+            else if dialogResult = 3
+                'get series ID based off episiode ID
+                params = {
+                    ids: video.Id
+                }
+                url = Substitute("Users/{0}/Items/", get_setting("active_user"))
+                resp = APIRequest(url, params)
+                data = getJson(resp)
+                for each item in data.Items
+                    m.series_id = item.SeriesId
+                end for
+                'Get series json data
+                params = {
+                    ids: m.series_id
+                }
+                url = Substitute("Users/{0}/Items/", get_setting("active_user"))
+                resp = APIRequest(url, params)
+                data = getJson(resp)
+                for each item in data.Items
+                    m.tmp = item
+                end for
+                'Create Series Scene
+                group = CreateSeriesDetailsGroup(m.tmp)
+                video.content = invalid
+                return
+
+            else if dialogResult = 4
+                'get Season/Series ID based off episiode ID
+                params = {
+                    ids: video.Id
+                }
+                url = Substitute("Users/{0}/Items/", get_setting("active_user"))
+                resp = APIRequest(url, params)
+                data = getJson(resp)
+                for each item in data.Items
+                    m.season_id = item.SeasonId
+                    m.series_id = item.SeriesId
+                end for
+                'Get Series json data
+                params = {
+                    ids: m.season_id
+                }
+                url = Substitute("Users/{0}/Items/", get_setting("active_user"))
+                resp = APIRequest(url, params)
+                data = getJson(resp)
+                for each item in data.Items
+                    m.Season_tmp = item
+                end for
+                'Get Season json data
+                params = {
+                    ids: m.series_id
+                }
+                url = Substitute("Users/{0}/Items/", get_setting("active_user"))
+                resp = APIRequest(url, params)
+                data = getJson(resp)
+                for each item in data.Items
+                    m.Series_tmp = item
+                end for
+                'Create Season Scene
+                group = CreateSeasonDetailsGroup(m.Series_tmp, m.Season_tmp)
+                video.content = invalid
+                return
+
+            else if dialogResult = 5
+                'get  episiode ID
+                params = {
+                    ids: video.Id
+                }
+                url = Substitute("Users/{0}/Items/", get_setting("active_user"))
+                resp = APIRequest(url, params)
+                data = getJson(resp)
+                for each item in data.Items
+                    m.episode_id = item
+                end for
+                'Create Episode Scene
+                group = CreateMovieDetailsGroup(m.episode_id)
+                video.content = invalid
+                return
             end if
         end if
     end if
+
+
     video.content.PlayStart = int(playbackPosition / 10000000)
 
     ' Call PlayInfo from server
@@ -107,37 +187,57 @@ sub AddVideoContent(video, mediaSourceId, audio_stream_idx = 1, subtitle_idx = -
     video.SelectedSubtitle = -1
 
     video.directPlaySupported = playbackInfo.MediaSources[0].SupportsDirectPlay
-
+    fully_external = false
     if video.directPlaySupported
-        params.append({
-            "Static": "true",
-            "Container": video.container,
-            "PlaySessionId": video.PlaySessionId,
-            "AudioStreamIndex": audio_stream_idx
-        })
-        if mediaSourceId <> ""
-            params.MediaSourceId = mediaSourceId
+        protocol = LCase(playbackInfo.MediaSources[0].Protocol)
+        if protocol <> "file"
+            uriRegex = CreateObject("roRegex", "^(.*:)//([A-Za-z0-9\-\.]+)(:[0-9]+)?(.*)$", "")
+            uri = uriRegex.Match(playbackInfo.MediaSources[0].Path)
+            ' proto $1, host $2, port $3, the-rest $4
+            localhost = CreateObject("roRegex", "^localhost$|^127(?:\.[0-9]+){0,2}\.[0-9]+$|^(?:0*\:)*?:?0*1$", "i")
+            ' https://stackoverflow.com/questions/8426171/what-regex-will-match-all-loopback-addresses
+            if localhost.isMatch(uri[2])
+                ' if the domain of the URI is local to the server,
+                ' create a new URI by appending the received path to the server URL
+                ' later we will substitute the users provided URL for this case
+                video.content.url = buildURL(uri[4])
+            else
+                fully_external = true
+                video.content.url = playbackInfo.MediaSources[0].Path
+            end if
+        else:
+            params.append({
+                "Static": "true",
+                "Container": video.container,
+                "PlaySessionId": video.PlaySessionId,
+                "AudioStreamIndex": audio_stream_idx
+            })
+            if mediaSourceId <> ""
+                params.MediaSourceId = mediaSourceId
+            end if
+            video.content.url = buildURL(Substitute("Videos/{0}/stream", video.id), params)
+
         end if
-        video.content.url = buildURL(Substitute("Videos/{0}/stream", video.id), params)
         video.isTranscoded = false
-        video.audioTrack = (audio_stream_idx + 1).ToStr() ' Roku's track indexes count from 1. Our index is zero based
     else
-        ' If server does not provide a transcode URL, display a message to the user
         if playbackInfo.MediaSources[0].TranscodingUrl = invalid
+            ' If server does not provide a transcode URL, display a message to the user
             m.global.sceneManager.callFunc("userMessage", tr("Error Getting Playback Information"), tr("An error was encountered while playing this item.  Server did not provide required transcoding data."))
             video.content = invalid
             return
         end if
-
         ' Get transcoding reason
         video.transcodeReasons = getTranscodeReasons(playbackInfo.MediaSources[0].TranscodingUrl)
-
         video.content.url = buildURL(playbackInfo.MediaSources[0].TranscodingUrl)
         video.isTranscoded = true
     end if
 
-    video.content = authorize_request(video.content)
     video.content.setCertificatesFile("common:/certs/ca-bundle.crt")
+    video.audioTrack = (audio_stream_idx + 1).ToStr() ' Roku's track indexes count from 1. Our index is zero based
+
+    if not fully_external
+        video.content = authorize_request(video.content)
+    end if
 
 end sub
 
@@ -156,12 +256,10 @@ function getTranscodeReasons(url as string) as object
     return []
 end function
 
-
-
 'Opens dialog asking user if they want to resume video or start playback over
 function startPlayBackOver(time as longinteger) as integer
-    if m.scene.focusedChild.overhangTitle = "Home"
-        return option_dialog(["Resume playing at " + ticksToHuman(time) + ".", "Start over from the beginning.", "Watched"])
+    if m.videotype = "Episode" or m.videotype = "Series"
+        return option_dialog([tr("Resume playing at ") + ticksToHuman(time) + ".", tr("Start over from the beginning."), tr("Watched"), tr("Go to series"), tr("Go to season"), tr("Go to episode")])
     else
         return option_dialog(["Resume playing at " + ticksToHuman(time) + ".", "Start over from the beginning."])
     end if
