@@ -209,6 +209,7 @@ function getMinutes(ticks) as integer
     ' A tick is .1ms, so 1/10,000,000 for ticks to seconds,
     ' then 1/60 for seconds to minutes... 1/600,000,000
     return roundNumber(ticks / 600000000.0)
+end function
 
 '
 ' Returns whether or not a version number (e.g. 10.7.7) is greater or equal
