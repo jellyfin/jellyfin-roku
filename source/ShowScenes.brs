@@ -368,6 +368,48 @@ function CreateSeriesDetailsGroup(series)
     return group
 end function
 
+' Shows details on selected artist. Bio, image, and list of available albums
+function CreateMusicArtistDetailsGroup(musicartist)
+    musicData = MusicAlbumList(musicartist.id)
+
+    ' User only has songs under artists
+    if musicData = invalid or musicData.Items.Count() = 0
+        ' Just songs under artists...
+        group = CreateObject("roSGNode", "MusicAlbumDetails")
+        group.pageContent = ItemMetaData(musicartist.id)
+        group.albumData = MusicSongList(musicartist.id)
+        group.observeField("playSong", m.port)
+        group.observeField("playAllSelected", m.port)
+    else
+        ' User has albums under artists
+        group = CreateObject("roSGNode", "MusicArtistDetails")
+        group.pageContent = ItemMetaData(musicartist.id)
+        group.musicArtistAlbumData = musicData
+        group.observeField("musicAlbumSelected", m.port)
+    end if
+
+    m.global.sceneManager.callFunc("pushScene", group)
+
+    return group
+end function
+
+' Shows details on selected album. Description text, image, and list of available songs
+function CreateMusicAlbumDetailsGroup(album)
+    group = CreateObject("roSGNode", "MusicAlbumDetails")
+    m.global.sceneManager.callFunc("pushScene", group)
+
+    group.pageContent = ItemMetaData(album.id)
+    group.albumData = MusicSongList(album.id)
+
+    ' Watch for user clicking on a song
+    group.observeField("playSong", m.port)
+
+    ' Watch for user click on Play button on album
+    group.observeField("playAllSelected", m.port)
+
+    return group
+end function
+
 function CreateSeasonDetailsGroup(series, season)
     group = CreateObject("roSGNode", "TVEpisodes")
     group.optionsAvailable = false
@@ -417,6 +459,26 @@ function CreateVideoPlayerGroup(video_id, mediaSourceId = invalid, audio_stream_
     video.observeField("state", m.port)
 
     return video
+end function
+
+' Play Audio
+function CreateAudioPlayerGroup(audiodata)
+
+    group = CreateObject("roSGNode", "NowPlaying")
+    group.observeField("state", m.port)
+    songIDArray = CreateObject("roArray", 0, true)
+
+    ' All we need is an array of Song IDs the user selected to play.
+    for each song in audiodata
+        songIDArray.push(song.id)
+    end for
+
+    group.pageContent = songIDArray
+    group.musicArtistAlbumData = audiodata
+
+    m.global.sceneManager.callFunc("pushScene", group)
+
+    return group
 end function
 
 function CreatePersonView(personData as object) as object
