@@ -272,7 +272,7 @@ end sub
 '
 'Handle loaded data, and add to Grid
 sub ItemDataLoaded(msg)
-
+    m.top.alphaActive = false
     itemData = msg.GetData()
     m.loadItemsTask.unobserveField("content")
     m.loadItemsTask.content = []
@@ -543,12 +543,14 @@ function onKeyEvent(key as string, press as boolean) as boolean
             photoPlayer.control = "RUN"
             return true
         end if
-    else if key = "right" and topGrp.isinFocusChain()
+    else if key = "left" and topGrp.isinFocusChain()
+        m.top.alphaActive = true
         topGrp.setFocus(false)
         alpha = m.Alpha.getChild(0).findNode("Alphamenu")
         alpha.setFocus(true)
         return true
-    else if key = "left" and m.Alpha.isinFocusChain()
+    else if key = "right" and m.Alpha.isinFocusChain()
+        m.top.alphaActive = false
         m.Alpha.setFocus(false)
         m.Alpha.visible = true
         topGrp.setFocus(true)
