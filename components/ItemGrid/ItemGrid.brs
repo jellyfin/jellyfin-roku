@@ -69,6 +69,11 @@ sub loadInitialItems()
         m.sortField = get_user_setting("display.livetv.sortField")
         sortAscendingStr = get_user_setting("display.livetv.sortAscending")
         m.filter = get_user_setting("display.livetv.filter")
+    else if m.top.parentItem.collectionType = "music"
+        m.view = get_user_setting("display.music.view")
+        m.sortField = get_user_setting("display." + m.top.parentItem.Id + ".sortField")
+        sortAscendingStr = get_user_setting("display." + m.top.parentItem.Id + ".sortAscending")
+        m.filter = get_user_setting("display." + m.top.parentItem.Id + ".filter")
     else
         m.view = invalid
         m.sortField = get_user_setting("display." + m.top.parentItem.Id + ".sortField")
@@ -101,9 +106,20 @@ sub loadInitialItems()
     else if m.top.parentItem.collectionType = "tvshows"
         m.loadItemsTask.itemType = "Series"
     else if m.top.parentItem.collectionType = "music"
-        m.loadItemsTask.itemType = "MusicArtist,MusicAlbum"
-        m.loadItemsTask.fallbackType = "MusicAlbum"
+        ' Default Settings
         m.loadItemsTask.recursive = false
+        m.loadItemsTask.itemType = "MusicArtist,MusicAlbum"
+
+        m.view = get_user_setting("display.music.view")
+
+        if m.view = "music-artist"
+            m.loadItemsTask.recursive = true
+            m.loadItemsTask.itemType = "MusicArtist"
+        else if m.view = "music-album"
+            m.loadItemsTask.itemType = "MusicAlbum"
+            m.loadItemsTask.recursive = true
+        end if
+
     else if m.top.parentItem.collectionType = "livetv"
         m.loadItemsTask.itemType = "LiveTV"
 
@@ -214,7 +230,11 @@ sub SetUpOptions()
         options.filter = []
         'Music
     else if m.top.parentItem.collectionType = "music"
-        options.views = [{ "Title": tr("Music"), "Name": "music" }]
+        options.views = [
+            { "Title": tr("Default"), "Name": "music-default" },
+            { "Title": tr("Artists"), "Name": "music-artist" },
+            { "Title": tr("Albums"), "Name": "music-album" },
+        ]
         options.sort = [
             { "Title": tr("TITLE"), "Name": "SortName" },
             { "Title": tr("DATE_ADDED"), "Name": "DateCreated" },
@@ -414,7 +434,6 @@ sub optionsClosed()
                 m.top.removeChild(m.tvGuide)
             end if
         end if
-
     end if
 
     if m.top.parentItem.Type = "CollectionFolder" or m.top.parentItem.CollectionType = "CollectionFolder"
@@ -429,6 +448,23 @@ sub optionsClosed()
     end if
 
     reload = false
+
+    if m.top.parentItem.collectionType = "music"
+        if m.options.view <> m.view
+            if m.options.view = "music-artist"
+                m.view = "music-artist"
+                set_user_setting("display.music.view", m.view)
+            else if m.options.view = "music-album"
+                m.view = "music-album"
+                set_user_setting("display.music.view", m.view)
+            else
+                m.view = "music-default"
+            end if
+            set_user_setting("display.music.view", m.view)
+            reload = true
+        end if
+    end if
+
     if m.options.sortField <> m.sortField or m.options.sortAscending <> m.sortAscending
         m.sortField = m.options.sortField
         m.sortAscending = m.options.sortAscending
