@@ -453,10 +453,8 @@ sub optionsClosed()
         if m.options.view <> m.view
             if m.options.view = "music-artist"
                 m.view = "music-artist"
-                set_user_setting("display.music.view", m.view)
             else if m.options.view = "music-album"
                 m.view = "music-album"
-                set_user_setting("display.music.view", m.view)
             else
                 m.view = "music-default"
             end if
