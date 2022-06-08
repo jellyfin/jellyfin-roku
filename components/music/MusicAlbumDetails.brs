@@ -100,11 +100,6 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
     if m.spinner.visible then return false
 
-    ' Play Album is hidden, so there are no navigation needs here
-    if m.top.pageContent.json.ChildCount = 1
-        return false
-    end if
-
     if key = "options"
         if m.dscr.isTextEllipsized
             createFullDscrDlg()
@@ -119,7 +114,13 @@ function onKeyEvent(key as string, press as boolean) as boolean
             return true
         end if
     else if key = "left" and m.songList.hasFocus()
-        m.playAlbum.setFocus(true)
+        if m.playAlbum.visible
+            m.playAlbum.setFocus(true)
+        else if m.instantMix.visible
+            m.instantMix.setFocus(true)
+        else
+            return false
+        end if
         return true
     else if key = "down" and m.playAlbum.hasFocus()
         m.instantMix.setFocus(true)
