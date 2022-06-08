@@ -3,6 +3,7 @@ sub init()
     setupMainNode()
 
     m.playAlbum = m.top.findNode("playAlbum")
+    m.instantMix = m.top.findNode("instantMix")
     m.albumCover = m.top.findNode("albumCover")
     m.songList = m.top.findNode("songList")
     m.infoGroup = m.top.FindNode("infoGroup")
@@ -112,10 +113,18 @@ function onKeyEvent(key as string, press as boolean) as boolean
         return false
     end if
 
-    if key = "right" and m.playAlbum.hasFocus()
-        m.songList.setFocus(true)
-        return true
+    if key = "right"
+        if m.playAlbum.hasFocus() or m.instantMix.hasFocus()
+            m.songList.setFocus(true)
+            return true
+        end if
     else if key = "left" and m.songList.hasFocus()
+        m.playAlbum.setFocus(true)
+        return true
+    else if key = "down" and m.playAlbum.hasFocus()
+        m.instantMix.setFocus(true)
+        return true
+    else if key = "up" and m.instantMix.hasFocus()
         m.playAlbum.setFocus(true)
         return true
     end if
