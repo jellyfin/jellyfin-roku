@@ -104,8 +104,8 @@ sub loadInitialItems()
         m.loadItemsTask.itemType = "MusicArtist,MusicAlbum"
         m.loadItemsTask.fallbackType = "MusicAlbum"
         m.loadItemsTask.recursive = false
-        m.itemGrid.itemSize = "[300, 300]"
-        m.itemGrid.itemSpacing = "[ 0, 20 ]"
+        m.itemGrid.itemSize = "[290, 290]"
+        m.itemGrid.itemSpacing = "[ 0, 20]"
     else if m.top.parentItem.collectionType = "livetv"
         m.loadItemsTask.itemType = "LiveTV"
 

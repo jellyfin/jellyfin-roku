@@ -61,16 +61,16 @@ sub itemContentChanged()
         m.itemPoster.uri = itemData.PosterUrl
         m.itemText.text = itemData.Title
 
-        m.itemPoster.height = 300
-        m.itemPoster.width = 300
+        m.itemPoster.height = 290
+        m.itemPoster.width = 290
 
         m.itemText.translation = [0, m.itemPoster.height + 7]
 
-        m.backdrop.height = 300
-        m.backdrop.width = 300
+        m.backdrop.height = 290
+        m.backdrop.width = 290
 
         m.posterText.height = 200
-        m.posterText.width = 290
+        m.posterText.width = 280
     else
         print "Unhandled Grid Item Type: " + itemData.type
     end if
