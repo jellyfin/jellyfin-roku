@@ -50,8 +50,6 @@ sub init()
 
     'Get reset folder setting
     m.resetGrid = get_user_setting("itemgrid.reset") = "true"
-    print "reset grid setting: " m.resetGrid
-
 end sub
 
 '
@@ -562,12 +560,12 @@ function onKeyEvent(key as string, press as boolean) as boolean
         return true
     else if key = "replay" and topGrp.isinFocusChain()
         if m.resetGrid = true
-            m.itemGrid.animateToItem = 0
+        m.itemGrid.animateToItem = 0
         else
-            m.itemGrid.jumpToItem = 0
+        m.itemGrid.jumpToItem = 0 
         end if
     end if
-
+    
     return false
 end function
 
