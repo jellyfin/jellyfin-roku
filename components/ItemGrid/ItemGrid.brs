@@ -560,12 +560,12 @@ function onKeyEvent(key as string, press as boolean) as boolean
         return true
     else if key = "replay" and topGrp.isinFocusChain()
         if m.resetGrid = true
-        m.itemGrid.animateToItem = 0
+            m.itemGrid.animateToItem = 0
         else
-        m.itemGrid.jumpToItem = 0 
+            m.itemGrid.jumpToItem = 0
         end if
     end if
-    
+
     return false
 end function
 
