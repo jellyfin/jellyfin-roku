@@ -17,6 +17,7 @@ end sub
 sub updateSeason()
     imgParams = { "maxHeight": 450, "maxWidth": 300 }
     m.poster.uri = ImageURL(m.top.seasonData.Id, "Primary", imgParams)
+    m.Random.visible = true
     m.top.overhangTitle = m.top.seasonData.SeriesName + " - " + m.top.seasonData.name
 end sub
 
