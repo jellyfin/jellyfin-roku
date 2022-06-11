@@ -47,6 +47,9 @@ sub init()
 
     m.Alpha = m.top.findNode("AlphaMenu")
     m.AlphaSelected = m.top.findNode("AlphaSelected")
+
+    'Get reset folder setting
+    m.resetGrid = get_user_setting("itemgrid.reset") = "true"
 end sub
 
 '
@@ -589,7 +592,14 @@ function onKeyEvent(key as string, press as boolean) as boolean
         m.Alpha.visible = true
         topGrp.setFocus(true)
         return true
+    else if key = "replay" and topGrp.isinFocusChain()
+        if m.resetGrid = true
+            m.itemGrid.animateToItem = 0
+        else
+            m.itemGrid.jumpToItem = 0
+        end if
     end if
+
     return false
 end function
 
