@@ -2,7 +2,7 @@
 <component name="TVEpisodes" extends="JFGroup">
   <children>
     <Poster id="seasonPoster" width="300" height="450" translation="[95,175]" />
-    <JFButton id="Random" text="Play Random" translation="[90, 640]"></JFButton>
+    <JFButton id="Random" text="Play Random" translation="[90, 640]" visible="false"></JFButton>
     <TVEpisodeRowWithOptions id="picker" visible="true" />
   </children>
   <interface>
