@@ -13,7 +13,6 @@ sub init()
     m.spinner.visible = true
 
     m.dscr = m.top.findNode("overview")
-    m.dscr.observeField("isTextEllipsized", "onEllipsisChanged")
     createDialogPallete()
 end sub
 
@@ -132,19 +131,6 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
     return false
 end function
-
-sub onEllipsisChanged()
-    if m.dscr.isTextEllipsized
-        dscrShowFocus()
-    end if
-end sub
-
-sub dscrShowFocus()
-    if m.dscr.isTextEllipsized
-        m.dscr.setFocus(true)
-        m.dscr.opacity = 1.0
-    end if
-end sub
 
 sub createFullDscrDlg()
     dlg = CreateObject("roSGNode", "OverviewDialog")
