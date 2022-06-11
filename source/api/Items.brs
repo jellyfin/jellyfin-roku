@@ -209,6 +209,17 @@ function AudioItem(id as string)
     return getJson(resp)
 end function
 
+' Get Instant Mix based on item
+function CreateInstantMix(id as string)
+    url = Substitute("/Items/{0}/InstantMix", id)
+    resp = APIRequest(url, {
+        "UserId": get_setting("active_user"),
+        "Limit": 201
+    })
+
+    return getJson(resp)
+end function
+
 function AudioStream(id as string)
     songData = AudioItem(id)
 
