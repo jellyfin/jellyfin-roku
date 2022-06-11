@@ -15,7 +15,7 @@ sub updateSize()
     m.top.translation = [450, 180]
 
     itemWidth = 1360
-    itemHeight = 250
+    itemHeight = 300
 
     m.top.visible = true
 
