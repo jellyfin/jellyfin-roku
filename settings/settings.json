@@ -14,7 +14,7 @@
     },
     {
         "title": "User Interface",
-        "description": "Settings relating to how the how the applications looks",
+        "description": "Settings relating to how the how the application looks",
         "children": [
             {
                 "title": "Design Elements",
@@ -22,7 +22,7 @@
                 "children": [
                     {
                         "title": "Use Splashscreen as Home Background",
-                        "description": "Use generated splashscreen image as Jellyfin home background. Jellyfin will need to be closed and reopened for change to take affect.",
+                        "description": "Use generated splashscreen image as Jellyfin home background. Jellyfin will need to be closed and reopened for change to take effect.",
                         "settingName": "ui.home.splashBackground",
                         "type": "bool",
                         "default": "false"
