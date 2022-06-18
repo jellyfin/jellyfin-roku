@@ -574,14 +574,33 @@
         <translation>There was an error authenticating via Quick Connect.</translation>
     </message>
     <message>
-    <source>Return to Top</source>
-    <translation>Return to Top</translation>
-    <extracomment>UI -> Media Grid -> Item Title in user setting screen.</extracomment>
-</message>
-<message>
-    <source>Use the replay button to slowly animate to the first item in the folder. (If disabled, The folder will reset to the first item immediately)</source>
-    <translation>Use the replay button to slowly animate to the first item in the folder. (If disabled, The folder will reset to the first item immediately)</translation>
-    <extracomment>Description for option in Setting Screen</extracomment>
-</message>
+        <source>Return to Top</source>
+        <translation>Return to Top</translation>
+        <extracomment>UI -> Media Grid -> Item Title in user setting screen.</extracomment>
+    </message>
+    <message>
+        <source>Use the replay button to slowly animate to the first item in the folder. (If disabled, The folder will reset to the first item immediately)</source>
+        <translation>Use the replay button to slowly animate to the first item in the folder. (If disabled, The folder will reset to the first item immediately)</translation>
+        <extracomment>Description for option in Setting Screen</extracomment>
+    </message>
+    <message>
+        <source>Detail Page</source>
+        <translation>Detail Page</translation>
+    </message>
+    <message>
+        <source>Options for details pages.</source>
+        <translation>Options for details pages.</translation>
+        <extracomment>Description for Detail Page user settings.</extracomment>
+    </message>
+    <message>
+        <source>Hide Taglines</source>
+        <translation>Hide Taglines</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
+    <message>
+        <source>Hides tagline text on details pages.</source>
+        <translation>Hides tagline text on details pages.</translation>
+        <extracomment>Description for option in Setting Screen</extracomment>
+    </message>
 </context>
 </TS>
