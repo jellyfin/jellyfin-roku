@@ -259,11 +259,11 @@ end sub
 
 ' Return parent collection type
 function getCollectionType() as string
-        if  m.top.parentItem.Type = "Boxset"
-            return m.top.parentItem.Type
-        else
-            return m.top.parentItem.CollectionType
-        end if
+    if m.top.parentItem.Type = "Boxset"
+        return m.top.parentItem.Type
+    else
+        return m.top.parentItem.CollectionType
+    end if
 end function
 
 ' Search string array for search value. Return if it's found
