@@ -259,7 +259,11 @@ end sub
 
 ' Return parent collection type
 function getCollectionType() as string
-    return m.top.parentItem.Type
+        if  m.top.parentItem.Type = "Boxset"
+            return m.top.parentItem.Type
+        else
+            return m.top.parentItem.CollectionType
+        end if
 end function
 
 ' Search string array for search value. Return if it's found
@@ -278,7 +282,7 @@ sub SetUpOptions()
     options.favorite = []
     if getCollectionType() = "movies"
         setMoviesOptions(options)
-    else if getCollectionType() = "Boxset"
+    else if getCollectionType() = "boxsets" or getCollectionType() = "Boxset"
         setBoxsetsOptions(options)
     else if getCollectionType() = "tvshows"
         setTvShowsOptions(options)
