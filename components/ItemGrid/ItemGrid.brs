@@ -259,7 +259,7 @@ end sub
 
 ' Return parent collection type
 function getCollectionType() as string
-    if m.top.parentItem.Type = "Boxset"
+    if m.top.parentItem.collectionType = invalid or m.top.parentItem.Type = "Boxset"
         return m.top.parentItem.Type
     else
         return m.top.parentItem.CollectionType
