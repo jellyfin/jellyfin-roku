@@ -17,6 +17,19 @@
         "description": "Settings relating to how the how the applications looks",
         "children": [
             {
+                "title": "TV Shows",
+                "description": "Options for TV Shows.",
+                "children": [
+                    {
+                        "title": "Blur Unwatched Episodes",
+                        "description": "If enabled, images for unwatched episodes will be blurred.",
+                        "settingName": "ui.tvshows.blurunwatched",
+                        "type": "bool",
+                        "default": "false"
+                    }
+                ]
+            },
+            {
                 "title": "Media Grid",
                 "description": "Media Grid Options",
                 "children": [
