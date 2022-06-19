@@ -133,7 +133,7 @@ sub loadInitialItems()
             showTvGuide()
         end if
 
-    else if m.top.parentItem.collectionType = "CollectionFolder" or m.top.parentItem.type = "CollectionFolder" or m.top.parentItem.collectionType = "boxsets" or m.top.parentItem.Type = "Folder" or m.top.parentItem.Type = "Channel"
+    else if m.top.parentItem.collectionType = "CollectionFolder" or m.top.parentItem.type = "CollectionFolder" or m.top.parentItem.collectionType = "boxsets" or m.top.parentItem.Type = "Boxset" or m.top.parentItem.Type = "Folder" or m.top.parentItem.Type = "Channel"
         ' Non-recursive, to not show subfolder contents
         m.loadItemsTask.recursive = false
     else if m.top.parentItem.collectionType = "Channel"
@@ -259,7 +259,7 @@ end sub
 
 ' Return parent collection type
 function getCollectionType() as string
-    if m.top.parentItem.collectionType = invalid or m.top.parentItem.Type = "Boxset"
+    if m.top.parentItem.collectionType = invalid
         return m.top.parentItem.Type
     else
         return m.top.parentItem.CollectionType
@@ -282,7 +282,7 @@ sub SetUpOptions()
     options.favorite = []
     if getCollectionType() = "movies"
         setMoviesOptions(options)
-    else if getCollectionType() = "boxsets" or getCollectionType() = "Boxset"
+    else if inStringArray(["boxsets", "Boxset"], getCollectionType())
         setBoxsetsOptions(options)
     else if getCollectionType() = "tvshows"
         setTvShowsOptions(options)
