@@ -600,6 +600,24 @@
     <message>
         <source>Use generated splashscreen image as Jellyfin's screensaver background.</source>
         <translation>Use generated splashscreen image as Jellyfin's screensaver background.</translation>
+    </message>
+    <message>
+        <source>Design Elements</source>
+        <translation>Design Elements</translation>
+    </message>
+    <message>
+        <source>Options that alter the design of Jellyfin.</source>
+        <translation>Options that alter the design of Jellyfin.</translation>
+        <extracomment>Description for Design Elements user settings.</extracomment>
+    </message>
+    <message>
+        <source>Use Splashscreen as Home Background</source>
+        <translation>Use Splashscreen as Home Background</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
+    <message>
+        <source>Use generated splashscreen image as Jellyfin home background. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Use generated splashscreen image as Jellyfin home background. Jellyfin will need to be closed and reopened for change to take effect.</translation>
         <extracomment>Description for option in Setting Screen</extracomment>
     </message>
 </context>
