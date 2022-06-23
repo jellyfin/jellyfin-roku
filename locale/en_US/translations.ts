@@ -583,7 +583,6 @@
         <translation>Use the replay button to slowly animate to the first item in the folder. (If disabled, The folder will reset to the first item immediately)</translation>
         <extracomment>Description for option in Setting Screen</extracomment>
     </message>
-
     <message>
         <source>TV Shows</source>
         <translation>TV Shows</translation>
@@ -601,6 +600,42 @@
     <message>
         <source>If enabled, images for unwatched episodes will be blurred.</source>
         <translation>If enabled, images for unwatched episodes will be blurred.</translation>
+    </message>
+    <message>
+        <source>Screensaver</source>
+        <translation>Screensaver</translation>
+    </message>
+    <message>
+        <source>Options for Jellyfin's screensaver.</source>
+        <translation>Options for Jellyfin's screensaver.</translation>
+        <extracomment>Description for Screensaver user settings.</extracomment>
+    </message>
+    <message>
+        <source>Use Splashscreen as Screensaver Background</source>
+        <translation>Use Splashscreen as Screensaver Background</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
+    <message>
+        <source>Use generated splashscreen image as Jellyfin's screensaver background.</source>
+        <translation>Use generated splashscreen image as Jellyfin's screensaver background.</translation>
+    </message>
+    <message>
+        <source>Design Elements</source>
+        <translation>Design Elements</translation>
+    </message>
+    <message>
+        <source>Options that alter the design of Jellyfin.</source>
+        <translation>Options that alter the design of Jellyfin.</translation>
+        <extracomment>Description for Design Elements user settings.</extracomment>
+    </message>
+    <message>
+        <source>Use Splashscreen as Home Background</source>
+        <translation>Use Splashscreen as Home Background</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
+    <message>
+        <source>Use generated splashscreen image as Jellyfin home background. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Use generated splashscreen image as Jellyfin home background. Jellyfin will need to be closed and reopened for change to take effect.</translation>
         <extracomment>Description for option in Setting Screen</extracomment>
     </message>
 </context>
