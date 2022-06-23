@@ -574,14 +574,33 @@
         <translation>There was an error authenticating via Quick Connect.</translation>
     </message>
     <message>
-    <source>Return to Top</source>
-    <translation>Return to Top</translation>
-    <extracomment>UI -> Media Grid -> Item Title in user setting screen.</extracomment>
-</message>
-<message>
-    <source>Use the replay button to slowly animate to the first item in the folder. (If disabled, The folder will reset to the first item immediately)</source>
-    <translation>Use the replay button to slowly animate to the first item in the folder. (If disabled, The folder will reset to the first item immediately)</translation>
-    <extracomment>Description for option in Setting Screen</extracomment>
-</message>
+        <source>Return to Top</source>
+        <translation>Return to Top</translation>
+        <extracomment>UI -> Media Grid -> Item Title in user setting screen.</extracomment>
+    </message>
+    <message>
+        <source>Use the replay button to slowly animate to the first item in the folder. (If disabled, The folder will reset to the first item immediately)</source>
+        <translation>Use the replay button to slowly animate to the first item in the folder. (If disabled, The folder will reset to the first item immediately)</translation>
+        <extracomment>Description for option in Setting Screen</extracomment>
+    </message>
+    <message>
+        <source>Design Elements</source>
+        <translation>Design Elements</translation>
+    </message>
+    <message>
+        <source>Options that alter the design of Jellyfin.</source>
+        <translation>Options that alter the design of Jellyfin.</translation>
+        <extracomment>Description for Design Elements user settings.</extracomment>
+    </message>
+    <message>
+        <source>Use Splashscreen as Home Background</source>
+        <translation>Use Splashscreen as Home Background</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
+    <message>
+        <source>Use generated splashscreen image as Jellyfin home background. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Use generated splashscreen image as Jellyfin home background. Jellyfin will need to be closed and reopened for change to take effect.</translation>
+        <extracomment>Description for option in Setting Screen</extracomment>
+    </message>
 </context>
 </TS>
