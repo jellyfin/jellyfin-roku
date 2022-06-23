@@ -17,6 +17,19 @@
         "description": "Settings relating to how the how the application looks",
         "children": [
             {
+                "title": "Screensaver",
+                "description": "Options for Jellyfin's screensaver.",
+                "children": [
+                    {
+                        "title": "Use Splashscreen as Screensaver Background",
+                        "description": "Use generated splashscreen image as Jellyfin's screensaver background.",
+                        "settingName": "ui.screensaver.splashBackground",
+                        "type": "bool",
+                        "default": "false"
+                    }
+                ]
+            },     
+            {
                 "title": "Design Elements",
                 "description": "Options that alter the design of Jellyfin.",
                 "children": [
