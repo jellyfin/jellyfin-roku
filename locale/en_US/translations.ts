@@ -584,6 +584,24 @@
         <extracomment>Description for option in Setting Screen</extracomment>
     </message>
     <message>
+        <source>TV Shows</source>
+        <translation>TV Shows</translation>
+    </message>
+    <message>
+        <source>Options for TV Shows.</source>
+        <translation>Options for TV Shows.</translation>
+        <extracomment>Description for TV Shows user settings.</extracomment>
+    </message>
+    <message>
+        <source>Blur Unwatched Episodes</source>
+        <translation>Blur Unwatched Episodes</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
+    <message>
+        <source>If enabled, images for unwatched episodes will be blurred.</source>
+        <translation>If enabled, images for unwatched episodes will be blurred.</translation>
+    </message>
+    <message>
         <source>Screensaver</source>
         <translation>Screensaver</translation>
     </message>
