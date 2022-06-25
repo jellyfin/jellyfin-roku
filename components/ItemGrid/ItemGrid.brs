@@ -223,7 +223,11 @@ end sub
 
 ' Set Music view, sort, and filter options
 sub setMusicOptions(options)
-    options.views = [{ "Title": tr("Music"), "Name": "music" }]
+    options.views = [
+        { "Title": tr("Default"), "Name": "music-default" },
+        { "Title": tr("Artists"), "Name": "music-artist" },
+        { "Title": tr("Albums"), "Name": "music-album" },
+    ]
     options.sort = [
         { "Title": tr("TITLE"), "Name": "SortName" },
         { "Title": tr("DATE_ADDED"), "Name": "DateCreated" },
