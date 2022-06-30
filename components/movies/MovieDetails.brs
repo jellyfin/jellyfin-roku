@@ -91,7 +91,7 @@ sub itemContentChanged()
     end if
 
     if itemData.mediaStreams[0] <> invalid
-        setFieldText("video_codec", tr("Video") + ": " + itemData.mediaStreams[0].displayTitle)
+        setFieldText("video_codec", tr("Video") + ": " + itemData.mediaStreams[0].codec)
     end if
 
     if get_user_setting("ui.details.hidetagline") = "false"
@@ -116,7 +116,7 @@ sub SetUpVideoOptions(streams)
     for i = 0 to streams.Count() - 1
         if streams[i].VideoType = "VideoFile"
             codec = ""
-            if streams[i].mediaStreams <> invalid and streams[i].mediaStreams.Count() > 0 then codec = streams[i].mediaStreams[0].displayTitle
+            if streams[i].mediaStreams <> invalid and streams[i].mediaStreams.Count() > 0 then codec = streams[i].mediaStreams[0].codec
             videos.push({
                 "Title": streams[i].Name,
                 "Description": tr("Video"),
@@ -165,7 +165,7 @@ sub SetDefaultAudioTrack(itemData)
     for i = 0 to itemData.mediaStreams.Count() - 1
         if itemData.mediaStreams[i].Type = "Audio"
             m.top.selectedAudioStreamIndex = i
-            setFieldText("audio_codec", tr("Audio") + ": " + itemData.mediaStreams[i].displayTitle)
+            setFieldText("audio_codec", tr("Audio") + ": " + itemData.mediaStreams[i].codec)
             exit for
         end if
     end for
@@ -254,7 +254,7 @@ end function
 sub audioOptionsClosed()
     if m.options.audioStreamIndex <> m.top.selectedAudioStreamIndex
         m.top.selectedAudioStreamIndex = m.options.audioStreamIndex
-        setFieldText("audio_codec", tr("Audio") + ": " + m.top.itemContent.json.mediaStreams[m.top.selectedAudioStreamIndex].displayTitle)
+        setFieldText("audio_codec", tr("Audio") + ": " + m.top.itemContent.json.mediaStreams[m.top.selectedAudioStreamIndex].codec)
     end if
     m.top.findNode("buttons").setFocus(true)
 end sub
