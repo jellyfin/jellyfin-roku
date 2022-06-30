@@ -4267,5 +4267,13 @@ elemeket</translation>
         <source>Save Credentials?</source>
         <translation>Hitelesítő adatok mentése?</translation>
     </message>
+    <message>
+        <source>Delete Saved</source>
+        <translation>Mentettek Törlése</translation>
+    </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>Hitelesítő adatok mentése?</translation>
+    </message>
 </context>
 </TS>
