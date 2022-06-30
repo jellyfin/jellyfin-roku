@@ -27,9 +27,9 @@ function getDeviceProfile() as object
     end if
 
     if playMpeg2 and di.CanDecodeVideo({ Codec: "mpeg2" }).Result = true
-        tsVideoCodecs = "mp4v,mpeg4,h264,mpeg2video"
+        tsVideoCodecs = "mpeg4,h264,mpeg2video"
     else
-        tsVideoCodecs = "mp4v,mpeg4,h264"
+        tsVideoCodecs = "mpeg4,h264"
     end if
 
     if di.CanDecodeVideo({ Codec: "hevc" }).Result = true
