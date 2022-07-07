@@ -60,8 +60,6 @@ function getDeviceProfile() as object
         addVp9Profile = true
     end if
 
-    tsVideoCodecs = tsVideoCodecs + ",h265,hevc"
-
     hevcVideoRangeTypes = "SDR"
     vp9VideoRangeTypes = "SDR"
     av1VideoRangeTypes = "SDR"
