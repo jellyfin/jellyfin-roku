@@ -174,6 +174,30 @@ function getDeviceProfile() as object
                         "IsRequired": false
                     }
                 ]
+            },
+            {
+                "Type": "Video",
+                "Codec": "hevc",
+                "Conditions": [
+                    {
+                        "Condition": "EqualsAny",
+                        "Property": "VideoProfile",
+                        "Value": "main"+MAIN10,
+                        "IsRequired": false
+                    },
+                    {
+                        "Condition": "EqualsAny",
+                        "Property": "VideoRangeType",
+                        "Value": hevcVideoRangeTypes,
+                        "IsRequired": false
+                    },
+                    {
+                        "Condition": "LessThanEqual",
+                        "Property": "VideoLevel",
+                        "Value": "153",
+                        "IsRequired": false
+                    }
+                ]
             }
         ],
         "SubtitleProfiles": [
