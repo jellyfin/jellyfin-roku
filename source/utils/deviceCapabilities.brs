@@ -34,6 +34,11 @@ function getDeviceProfile() as object
 
     if di.CanDecodeVideo({ Codec: "hevc" }).Result = true
         tsVideoCodecs = tsVideoCodecs + ",h265,hevc"
+        if di.CanDecodeVideo({ Codec: "hevc", Profile: "main 10" }).Result
+            MAIN10 = ",main 10"
+        else
+            MAIN10 = ""
+        end if
     end if
 
     if di.CanDecodeAudio({ Codec: "ac3" }).result
@@ -41,10 +46,46 @@ function getDeviceProfile() as object
     else
         tsAudioCodecs = "aac"
     end if
+    
+    addAv1Profile = false
+    if di.CanDecodeVideo({ Codec: "av1" }).result
+        tsVideoCodecs = tsVideoCodecs + ",av1"
+        addAv1Profile = true
+    end if
 
+    addVp9Profile = false
+    if di.CanDecodeVideo({ Codec: "vp9" }).result
+        tsVideoCodecs = tsVideoCodecs + ",vp9"
+        addVp9Profile = true
+    end if
+
+    tsVideoCodecs = tsVideoCodecs + ",h265,hevc"
+
+    hevcVideoRangeTypes = "SDR"
+    vp9VideoRangeTypes = "SDR"
+    av1VideoRangeTypes = "SDR"
+
+    dp = di.GetDisplayProperties()
+    if dp.Hdr10 ' or dp.Hdr10Plus?
+        hevcVideoRangeTypes = hevcVideoRangeTypes + ",HDR10"
+        vp9VideoRangeTypes = vp9VideoRangeTypes + ",HDR10"
+        av1VideoRangeTypes = av1VideoRangeTypes + ",HDR10"
+    end if
+    if dp.HLG
+        hevcVideoRangeTypes = hevcVideoRangeTypes + ",HLG"
+        vp9VideoRangeTypes = vp9VideoRangeTypes + ",HLG"
+        av1VideoRangeTypes = av1VideoRangeTypes + ",HLG"
+    end if
+    if dp.DolbyVision
+        hevcVideoRangeTypes = hevcVideoRangeTypes + ",DOVI"
+        'vp9VideoRangeTypes = vp9VideoRangeTypes + ",DOVI" no evidence that vp9 can hold DOVI
+        av1VideoRangeTypes = av1VideoRangeTypes + ",DOVI"
+    end if
+    
+    
     DirectPlayProfile = GetDirectPlayProfiles()
 
-    return {
+    deviceProfile =  {
         "MaxStreamingBitrate": 120000000,
         "MaxStaticBitrate": 100000000,
         "MusicStreamingTranscodingBitrate": 192000,
@@ -154,6 +195,36 @@ function getDeviceProfile() as object
             }
         ]
     }
+    if addAv1Profile
+        deviceProfile.CodecProfiles.push({
+                "Type": "Video",
+                "Codec": "av1",
+                "Conditions": [
+                    {
+                        "Condition": "EqualsAny",
+                        "Property": "VideoRangeType",
+                        "Value": av1VideoRangeTypes,
+                        "IsRequired": false
+                    }
+                ]
+            })
+    end if  
+    if addVp9Profile
+        deviceProfile.CodecProfiles.push({
+                "Type": "Video",
+                "Codec": "vp9",
+                "Conditions": [
+                    {
+                        "Condition": "EqualsAny",
+                        "Property": "VideoRangeType",
+                        "Value": vp9VideoRangeTypes,
+                        "IsRequired": false
+                    }
+                ]
+            })
+    end if
+    
+    return deviceProfile
 end function
 
 
