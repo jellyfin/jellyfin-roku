@@ -32,12 +32,13 @@ function getDeviceProfile() as object
         tsVideoCodecs = "h264"
     end if
 
+    addHevcProfile = false
+    MAIN10 = ""
     if di.CanDecodeVideo({ Codec: "hevc" }).Result = true
         tsVideoCodecs = tsVideoCodecs + ",h265,hevc"
+        addHevcProfile = true
         if di.CanDecodeVideo({ Codec: "hevc", Profile: "main 10" }).Result
             MAIN10 = ",main 10"
-        else
-            MAIN10 = ""
         end if
     end if
 
@@ -174,30 +175,6 @@ function getDeviceProfile() as object
                         "IsRequired": false
                     }
                 ]
-            },
-            {
-                "Type": "Video",
-                "Codec": "hevc",
-                "Conditions": [
-                    {
-                        "Condition": "EqualsAny",
-                        "Property": "VideoProfile",
-                        "Value": "main"+MAIN10,
-                        "IsRequired": false
-                    },
-                    {
-                        "Condition": "EqualsAny",
-                        "Property": "VideoRangeType",
-                        "Value": hevcVideoRangeTypes,
-                        "IsRequired": false
-                    },
-                    {
-                        "Condition": "LessThanEqual",
-                        "Property": "VideoLevel",
-                        "Value": "153",
-                        "IsRequired": false
-                    }
-                ]
             }
         ],
         "SubtitleProfiles": [
@@ -232,7 +209,33 @@ function getDeviceProfile() as object
                     }
                 ]
             })
-    end if  
+    end if
+    if addHevcProfile
+        deviceProfile.CodecProfiles.push({
+                "Type": "Video",
+                "Codec": "hevc",
+                "Conditions": [
+                    {
+                        "Condition": "EqualsAny",
+                        "Property": "VideoProfile",
+                        "Value": "main"+MAIN10,
+                        "IsRequired": false
+                    },
+                    {
+                        "Condition": "EqualsAny",
+                        "Property": "VideoRangeType",
+                        "Value": hevcVideoRangeTypes,
+                        "IsRequired": false
+                    },
+                    {
+                        "Condition": "LessThanEqual",
+                        "Property": "VideoLevel",
+                        "Value": "153",
+                        "IsRequired": false
+                    }
+                ]
+            })
+    end if
     if addVp9Profile
         deviceProfile.CodecProfiles.push({
                 "Type": "Video",
