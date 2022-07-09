@@ -574,6 +574,17 @@
         <translation>There was an error authenticating via Quick Connect.</translation>
     </message>
     <message>
+        <source>Networks</source>
+        <translation>Networks</translation>
+    </message>
+    <message>
+        <source>Studios</source>
+        <translation>Studios</translation>
+    </message>
+    <message>
+        <source>Shows</source>
+        <translation>Shows</translation>
+    </message>
         <source>Return to Top</source>
         <translation>Return to Top</translation>
         <extracomment>UI -> Media Grid -> Item Title in user setting screen.</extracomment>
