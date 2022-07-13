@@ -288,7 +288,7 @@ function PlayIntroVideo(video_id, audio_stream_idx) as boolean
             ' Bypass joke pre-roll
             if lcase(introVideos.items[0].name) = "rick roll'd" then return true
 
-            introVideo = VideoPlayer(introVideos.items[0].id, introVideos.items[0].id, audio_stream_idx, defaultSubtitleTrackFromVid(video_id), false)
+            introVideo = VideoPlayer(introVideos.items[0].id, introVideos.items[0].id, audio_stream_idx, defaultSubtitleTrackFromVid(video_id), false, false)
 
             port = CreateObject("roMessagePort")
             introVideo.observeField("state", port)
@@ -413,7 +413,7 @@ sub autoPlayNextEpisode(videoID as string, showID as string)
             ' remove finished video node
             m.global.sceneManager.callFunc("popScene")
             ' setup new video node
-            nextVideo = CreateVideoPlayerGroup(data.Items[1].Id, invalid, 1, false)
+            nextVideo = CreateVideoPlayerGroup(data.Items[1].Id, invalid, 1, false, false)
             if nextVideo <> invalid
                 m.global.sceneManager.callFunc("pushScene", nextVideo)
             else

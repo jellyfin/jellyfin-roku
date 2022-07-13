@@ -347,6 +347,7 @@ sub Main (args as dynamic) as void
                 ' If node allows retrying using Transcode Url, give that shot
                 if node.retryWithTranscoding
                     retryVideo = CreateVideoPlayerGroup(node.Id, invalid, node.audioIndex, true)
+                    retryVideo = CreateVideoPlayerGroup(node.Id, invalid, node.audioIndex, true, false)
                     m.global.sceneManager.callFunc("popScene")
                     if retryVideo <> invalid
                         m.global.sceneManager.callFunc("pushScene", retryVideo)
