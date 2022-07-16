@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<component name="MusicAlbumSongList" extends="LabelList">
+<component name="MusicAlbumSongList" extends="MarkupList">
+  <children>
+    <Spinner id="spinner" translation="[485, 150]" />
+  </children>
   <interface>
     <field id="MusicArtistAlbumData" type="assocarray" onChange="getData" />
   </interface>
