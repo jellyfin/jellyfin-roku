@@ -1,6 +1,4 @@
 sub init()
-    m.spinner = m.top.findNode("spinner")
-
     m.top.content = getData()
     m.top.setfocus(true)
 end sub
@@ -21,11 +19,7 @@ function getData()
 
     m.top.content = data
 
-    hideSpinner()
+    m.top.doneLoading = true
 
     return data
 end function
-
-sub hideSpinner()
-    m.spinner.visible = false
-end sub
