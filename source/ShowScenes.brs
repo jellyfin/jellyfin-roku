@@ -387,6 +387,8 @@ function CreateArtistView(musicartist)
         group.pageContent = ItemMetaData(musicartist.id)
         group.musicArtistAlbumData = musicData
         group.observeField("musicAlbumSelected", m.port)
+        group.observeField("playArtistSelected", m.port)
+        group.observeField("instantMixSelected", m.port)
     end if
 
     m.global.sceneManager.callFunc("pushScene", group)
@@ -492,6 +494,30 @@ end function
 function CreateInstantMixGroup(audiodata)
 
     songList = CreateInstantMix(audiodata[0].id)
+
+    group = CreateObject("roSGNode", "NowPlaying")
+    group.observeField("state", m.port)
+    songIDArray = CreateObject("roArray", 0, true)
+
+    ' All we need is an array of Song IDs the user selected to play.
+    for each song in songList.items
+        songIDArray.push(song.id)
+    end for
+
+    songIDArray.shift()
+
+    group.pageContent = songIDArray
+    group.musicArtistAlbumData = songList.items
+
+    m.global.sceneManager.callFunc("pushScene", group)
+
+    return group
+end function
+
+' Play Artist
+function CreateArtistMixGroup(artistID)
+
+    songList = CreateArtistMix(artistID)
 
     group = CreateObject("roSGNode", "NowPlaying")
     group.observeField("state", m.port)
