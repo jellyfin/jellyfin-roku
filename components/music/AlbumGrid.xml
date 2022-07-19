@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
+<<<<<<< unstable:components/music/AlbumRow.xml
 <<<<<<< unstable:components/music/MusicAlbumSongList.xml
 <component name="MusicAlbumSongList" extends="MarkupList">
 =======
@@ -7,6 +8,12 @@
   <interface>
     <field id="MusicArtistAlbumData" type="assocarray" onChange="getData" />
     <field id="doneLoading" type="boolean" value="false"/>
+=======
+<component name="AlbumGrid" extends="PosterGrid">
+  <interface>
+    <field id="MusicArtistAlbumData" type="assocarray" onChange="getData" />
+    <field id="infocus" type="boolean" />
+>>>>>>> Update Artist view:components/music/AlbumGrid.xml
   </interface>
-  <script type="text/brightscript" uri="AlbumRow.brs" />
+  <script type="text/brightscript" uri="AlbumGrid.brs" />
 </component>
