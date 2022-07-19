@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
+<<<<<<< unstable:components/music/MusicAlbumSongList.xml
 <component name="MusicAlbumSongList" extends="MarkupList">
+=======
+<component name="AlbumRow" extends="RowList">
+>>>>>>> Improve Object Names:components/music/AlbumRow.xml
   <interface>
     <field id="MusicArtistAlbumData" type="assocarray" onChange="getData" />
     <field id="doneLoading" type="boolean" value="false"/>
   </interface>
-  <script type="text/brightscript" uri="MusicAlbumSongList.brs" />
+  <script type="text/brightscript" uri="AlbumRow.brs" />
 </component>
