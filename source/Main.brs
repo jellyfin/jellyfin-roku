@@ -159,9 +159,9 @@ sub Main (args as dynamic) as void
             else if selectedItem.type = "Photo"
                 ' Nothing to do here, handled in ItemGrid
             else if selectedItem.type = "MusicArtist"
-                group = CreateMusicArtistDetailsGroup(selectedItem.json)
+                group = CreateArtistView(selectedItem.json)
             else if selectedItem.type = "MusicAlbum"
-                group = CreateMusicAlbumDetailsGroup(selectedItem.json)
+                group = CreateAlbumView(selectedItem.json)
             else if selectedItem.type = "Audio"
                 group = CreateAudioPlayerGroup([selectedItem.json])
             else
@@ -189,7 +189,7 @@ sub Main (args as dynamic) as void
             ' ptr is for [row, col] of selected item... but we only have 1 row
             albums = msg.getRoSGNode()
             node = albums.musicArtistAlbumData.items[ptr[1]]
-            group = CreateMusicAlbumDetailsGroup(node)
+            group = CreateAlbumView(node)
         else if isNodeEvent(msg, "playSong")
             ' User has selected audio they want us to play
             selectedIndex = msg.getData()

@@ -369,13 +369,13 @@ function CreateSeriesDetailsGroup(series)
 end function
 
 ' Shows details on selected artist. Bio, image, and list of available albums
-function CreateMusicArtistDetailsGroup(musicartist)
+function CreateArtistView(musicartist)
     musicData = MusicAlbumList(musicartist.id)
 
     ' User only has songs under artists
     if musicData = invalid or musicData.Items.Count() = 0
         ' Just songs under artists...
-        group = CreateObject("roSGNode", "MusicAlbumDetails")
+        group = CreateObject("roSGNode", "AlbumView")
         group.pageContent = ItemMetaData(musicartist.id)
         group.albumData = MusicSongList(musicartist.id)
         group.observeField("playSong", m.port)
@@ -383,7 +383,7 @@ function CreateMusicArtistDetailsGroup(musicartist)
         group.observeField("instantMixSelected", m.port)
     else
         ' User has albums under artists
-        group = CreateObject("roSGNode", "MusicArtistDetails")
+        group = CreateObject("roSGNode", "ArtistView")
         group.pageContent = ItemMetaData(musicartist.id)
         group.musicArtistAlbumData = musicData
         group.observeField("musicAlbumSelected", m.port)
@@ -395,8 +395,8 @@ function CreateMusicArtistDetailsGroup(musicartist)
 end function
 
 ' Shows details on selected album. Description text, image, and list of available songs
-function CreateMusicAlbumDetailsGroup(album)
-    group = CreateObject("roSGNode", "MusicAlbumDetails")
+function CreateAlbumView(album)
+    group = CreateObject("roSGNode", "AlbumView")
     m.global.sceneManager.callFunc("pushScene", group)
 
     group.pageContent = ItemMetaData(album.id)
