@@ -99,7 +99,7 @@ sub loadInitialItems()
         m.loadItemsTask.studioIds = m.top.parentItem.id
         m.loadItemsTask.itemId = m.top.parentItem.parentFolder
         m.loadItemsTask.genreIds = ""
-    ' Set Genre Id
+        ' Set Genre Id
     else if m.top.parentItem.json.type = "Genre"
         m.loadItemsTask.genreIds = m.top.parentItem.id
         m.loadItemsTask.itemId = m.top.parentItem.parentFolder
@@ -166,7 +166,7 @@ sub loadInitialItems()
     else
         print "[ItemGrid] Unknown Type: " m.top.parentItem
     end if
-    
+
     if m.top.parentItem.type <> "Folder" and (m.options.view = "Networks" or m.view = "Networks" or m.options.view = "Studios" or m.view = "Studios")
         m.loadItemsTask.view = "Networks"
         m.top.imageDisplayMode = "scaleToFit"
