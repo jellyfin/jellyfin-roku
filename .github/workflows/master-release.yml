@@ -21,7 +21,7 @@ jobs:
         run: awk 'BEGIN { FS="=" } /^minor_version/ { print "MINOR="$2; }' manifest >> $GITHUB_ENV
       - name: "Find and save build_version from manifest"
         run: awk 'BEGIN { FS="=" } /^build_version/ { print "BUILD="$2; }' manifest >> $GITHUB_ENV
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # tag=v3
       - uses: vimtor/action-zip@v1
         with:
           recursive: false
