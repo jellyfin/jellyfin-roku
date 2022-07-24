@@ -35,7 +35,7 @@ jobs:
           prerelease: false
           title: v${{ env.MAJOR }}.${{ env.MINOR }}.${{ env.BUILD }}
           files: ${{ github.workspace }}/jellyfin_v${{ env.MAJOR }}.${{ env.MINOR }}.${{ env.BUILD }}.zip
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@3cea5372237819ed00197afe530f5a7ea3e805c8 # tag=v3
         with:
           name: jellyfin_v${{ env.MAJOR }}.${{ env.MINOR }}.${{ env.BUILD }}.zip
           path: ${{ github.workspace }}/jellyfin_v${{ env.MAJOR }}.${{ env.MINOR }}.${{ env.BUILD }}.zip
