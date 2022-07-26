@@ -177,7 +177,7 @@ end function
 
 function GetDirectPlayProfiles() as object
 
-    mp4Video = "h264"
+    mp4Video = "h264,mpeg4"
     mp4Audio = "mp3,pcm,lpcm,wav"
     mkvVideo = "h264,vp8"
     mkvAudio = "mp3,pcm,lpcm,wav"
@@ -191,6 +191,10 @@ function GetDirectPlayProfiles() as object
     if di.CanDecodeVideo({ Codec: "hevc" }).Result = true
         mp4Video = mp4Video + ",h265,hevc"
         mkvVideo = mkvVideo + ",h265,hevc"
+    end if
+
+    if di.CanDecodeVideo({ Codec: "mpeg4" }).Result = true
+        mp4Video = mp4Video + ",mpeg4"
     end if
 
     if di.CanDecodeVideo({ Codec: "vp9" }).Result = true
