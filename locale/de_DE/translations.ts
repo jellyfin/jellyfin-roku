@@ -4946,5 +4946,74 @@
         <source>Change Server</source>
         <translation>Server wechseln</translation>
     </message>
+    <message>
+        <source>OFFICIAL_RATING</source>
+        <translation>Altersfreigabe</translation>
+    </message>
+    <message>
+        <source>DATE_PLAYED</source>
+        <translation>Abgespielt am</translation>
+    </message>
+    <message>
+        <source>DATE_ADDED</source>
+        <translation>Hinzugefügt am</translation>
+    </message>
+    <message>
+        <source>CRITIC_RATING</source>
+        <translation>Kritikerbewertung</translation>
+    </message>
+    <message>
+        <source>IMDB_RATING</source>
+        <translation>IMDb Bewertung</translation>
+    </message>
+    <message>
+        <comment>Name or Title field of media item</comment>
+        <source>TITLE</source>
+        <translation>Name</translation>
+    </message>
+    <message>
+        <source>Unable to load Channel Data from the server</source>
+        <translation>Kann keine Kanaldaten laden</translation>
+    </message>
+    <message>
+        <source>Error loading Channel Data</source>
+        <translation>Fehler beim Laden von Kanaldaten</translation>
+    </message>
+    <message>
+        <source>Loading Channel Data</source>
+        <translation>Lade Kanaldaten</translation>
+    </message>
+    <message>
+        <source>An error was encountered while playing this item.</source>
+        <translation>Ein Fehler wurde während der Wiedergabe festgestellt</translation>
+        <extracomment>Dialog detail when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>There was an error retrieving the data for this item from the server.</source>
+        <translation>Es gab einen Fehler für dieses Objekt, Daten vom Server zu holen</translation>
+        <extracomment>Dialog detail when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <source>Error During Playback</source>
+        <translation>Fehler bei der Wiedergabe</translation>
+        <extracomment>Dialog title when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>Error Retrieving Content</source>
+        <translation>Fehler beim Laden von Inhalten</translation>
+        <extracomment>Dialog title when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <source>Delete Saved</source>
+        <translation>Gespeicherte löschen</translation>
+    </message>
+    <message>
+        <source>Sign Out</source>
+        <translation>Ausloggen</translation>
+    </message>
+    <message>
+        <source>Change Server</source>
+        <translation>Server wechseln</translation>
+    </message>
 </context>
 </TS>
