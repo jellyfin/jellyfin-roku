@@ -2336,5 +2336,14 @@
         <source>Delete Saved</source>
         <translation>Supprimer les informations enregistrées</translation>
     </message>
+    <message>
+        <source>Playback</source>
+        <translation>Relecture</translation>
+        <extracomment>Title for Playback section in user setting screen.</extracomment>
+    </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>Enregistrer les informations d&apos;identification ?</translation>
+    </message>
 </context>
 </TS>
