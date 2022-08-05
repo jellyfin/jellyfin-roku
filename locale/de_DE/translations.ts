@@ -5357,5 +5357,9 @@
         <source>RUNTIME</source>
         <translation>Laufzeit</translation>
     </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>Anmeldedaten speichern?</translation>
+    </message>
 </context>
 </TS>
