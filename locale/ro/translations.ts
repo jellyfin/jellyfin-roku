@@ -1846,5 +1846,10 @@
         <source>Delete Saved</source>
         <translation>Șterge Salvate</translation>
     </message>
+    <message>
+        <source>Support direct play of MPEG 2 content (e.g. Live TV). This will prevent transcoding of MPEG 2 content, but uses significantly more bandwidth</source>
+        <translation>Suport pentru redarea directă a conținutului MPEG 2 (ex. Televiziune în direct). Conținutul MPEG 2 nu va fi transcodat, dar se va folosi significativ mai multă lățime de bandă</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
 </context>
 </TS>
