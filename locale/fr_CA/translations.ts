@@ -1061,5 +1061,20 @@
         <source>Change Server</source>
         <translation>Changer de serveur</translation>
     </message>
+    <message>
+        <source>An error was encountered while playing this item.</source>
+        <translation>Un erreur est survenu pendant la lecture de cet item.</translation>
+        <extracomment>Dialog detail when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>There was an error retrieving the data for this item from the server.</source>
+        <translation>Il y a eu une erreur pendant la recherche de donnnées pour cet item provenant du serveur.</translation>
+        <extracomment>Dialog detail when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <source>...or enter server URL manually:</source>
+        <translation>...ou entrer l&apos;adresse URL du serveur manuellement:</translation>
+        <extracomment>Instructions on initial app launch when the user is asked to manually enter a server URL</extracomment>
+    </message>
 </context>
 </TS>
