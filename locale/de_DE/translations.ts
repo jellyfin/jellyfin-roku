@@ -5015,5 +5015,15 @@
         <source>Change Server</source>
         <translation>Server wechseln</translation>
     </message>
+    <message>
+        <source>An error was encountered while playing this item.</source>
+        <translation>Ein Fehler wurde während der Wiedergabe festgestellt.</translation>
+        <extracomment>Dialog detail when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>There was an error retrieving the data for this item from the server.</source>
+        <translation>Es gab einen Fehler für dieses Objekt, Daten vom Server zu holen.</translation>
+        <extracomment>Dialog detail when unable to load Content from Server</extracomment>
+    </message>
 </context>
 </TS>
