@@ -2510,5 +2510,10 @@ não contém itens</translation>
         <source>Change Server</source>
         <translation>Trocar Servidor</translation>
     </message>
+    <message>
+        <source>There was an error retrieving the data for this item from the server.</source>
+        <translation>Houve um erro ao coletar dados do servidor para este item.</translation>
+        <extracomment>Dialog detail when unable to load Content from Server</extracomment>
+    </message>
 </context>
 </TS>
