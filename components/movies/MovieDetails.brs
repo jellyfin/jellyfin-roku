@@ -91,7 +91,7 @@ sub itemContentChanged()
     end if
 
     if itemData.mediaStreams[0] <> invalid
-        setFieldText("video_codec", tr("Video") + ": " + itemData.mediaStreams[0].codec)
+        setFieldText("video_codec", tr("Video") + ": " + itemData.mediaStreams[0].displayTitle)
     end if
 
     if get_user_setting("ui.details.hidetagline") = "false"

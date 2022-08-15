@@ -27,7 +27,7 @@ function getDeviceProfile() as object
     end if
 
     if playMpeg2 and di.CanDecodeVideo({ Codec: "mpeg2" }).Result = true
-        tsVideoCodecs = "mpeg4,h264,mpeg2video"
+        tsVideoCodecs = "h264,mpeg2video"
     else
         tsVideoCodecs = "mpeg4,h264"
     end if
@@ -191,10 +191,6 @@ function GetDirectPlayProfiles() as object
     if di.CanDecodeVideo({ Codec: "hevc" }).Result = true
         mp4Video = mp4Video + ",h265,hevc"
         mkvVideo = mkvVideo + ",h265,hevc"
-    end if
-
-    if di.CanDecodeVideo({ Codec: "mpeg4" }).Result = true
-        mp4Video = mp4Video + ",mpeg4"
     end if
 
     if di.CanDecodeVideo({ Codec: "vp9" }).Result = true
