@@ -5149,7 +5149,7 @@ elemeket</translation>
         <translation>Sajátosságok</translation>
         <message>
             <source>Press &apos;OK&apos; to Close</source>
-            <translation>Press &apos;OK&apos; to Close</translation>
+            <translation>Nyomd meg az &quot;OK&quot; gombot a bezáráshoz</translation>
         </message>
     </message>
     <message>
