@@ -1753,5 +1753,21 @@
         <source>Change Server</source>
         <translation>Cambiar Servidor</translation>
     </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>Guardar credenciales?</translation>
+    </message>
+    <message>
+        <source>Delete Saved</source>
+        <translation>Eliminar Guardado</translation>
+    </message>
+    <message>
+        <source>Sign Out</source>
+        <translation>Desconectar</translation>
+    </message>
+    <message>
+        <source>Change Server</source>
+        <translation>Cambiar Servidor</translation>
+    </message>
 </context>
 </TS>
