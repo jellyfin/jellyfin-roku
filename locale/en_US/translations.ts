@@ -614,10 +614,6 @@
         <translation>Hides tagline text on details pages.</translation>
     </message>
     <message>
-        <source>TV Shows</source>
-        <translation>TV Shows</translation>
-    </message>
-    <message>
         <source>Options for TV Shows.</source>
         <translation>Options for TV Shows.</translation>
         <extracomment>Description for TV Shows user settings.</extracomment>
