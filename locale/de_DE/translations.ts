@@ -5883,5 +5883,10 @@
         <source>Change Server</source>
         <translation>Server wechseln</translation>
     </message>
+    <message>
+        <source>Options for details pages.</source>
+        <translation>Optionen für Detailseiten.</translation>
+        <extracomment>Description for Detail Page user settings.</extracomment>
+    </message>
 </context>
 </TS>
