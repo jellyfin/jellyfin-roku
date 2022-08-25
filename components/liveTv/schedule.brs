@@ -106,11 +106,14 @@ end sub
 
 sub onProgramFocused()
     m.top.watchChannel = invalid
+
+    ' Make sure we have channels (i.e. filter set to favorite yet there are none)
     if m.scheduleGrid.content.getChildCount() <= 0
         channel = invalid
     else
         channel = m.scheduleGrid.content.GetChild(m.scheduleGrid.programFocusedDetails.focusChannelIndex)
     end if
+
     m.detailsPane.channel = channel
     m.top.focusedChannel = channel
 
