@@ -2515,5 +2515,35 @@ não contém itens</translation>
         <translation>Houve um erro ao coletar dados do servidor para este item.</translation>
         <extracomment>Dialog detail when unable to load Content from Server</extracomment>
     </message>
+    <message>
+        <source>Error During Playback</source>
+        <translation>Erro durante a reprodução</translation>
+        <extracomment>Dialog title when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>Error Retrieving Content</source>
+        <translation>Erro ao recuperar conteúdo</translation>
+        <extracomment>Dialog title when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <source>On Now</source>
+        <translation>Ligado agora</translation>
+    </message>
+    <message>
+        <source>Delete Saved</source>
+        <translation>Excluir salvo</translation>
+    </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>Salvar credenciais?</translation>
+    </message>
+    <message>
+        <source>Sign Out</source>
+        <translation>Sair</translation>
+    </message>
+    <message>
+        <source>Change Server</source>
+        <translation>Alterar servidor</translation>
+    </message>
 </context>
 </TS>
