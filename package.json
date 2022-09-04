@@ -13,6 +13,7 @@
     "ropm": "0.10.9"
   },
   "scripts": {
+    "postinstall": "npx ropm copy",
     "validate": "npx bsc --copy-to-staging=false --create-package=false",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "bslint",
