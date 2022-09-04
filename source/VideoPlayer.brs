@@ -223,13 +223,15 @@ sub AddVideoContent(video, mediaSourceId, audio_stream_idx = 1, subtitle_idx = -
     ' artifacts. If the user preference is set, and the only reason the server says we need to
     ' transcode is that the Encoding Level is not supported, then try to direct play but silently
     ' fall back to the transcode if that fails.
-    tryDirectPlay = get_user_setting("playback.tryDirect.h264ProfileLevel") = "true" and playbackInfo.MediaSources[0].MediaStreams[0].codec = "h264"
-    tryDirectPlay = tryDirectPlay or (get_user_setting("playback.tryDirect.hevcProfileLevel") = "true" and playbackInfo.MediaSources[0].MediaStreams[0].codec = "hevc")
-    if meta.live = false and tryDirectPlay and playbackInfo.MediaSources[0].TranscodingUrl <> invalid and forceTranscoding = false
-        transcodingReasons = getTranscodeReasons(playbackInfo.MediaSources[0].TranscodingUrl)
-        if transcodingReasons.Count() = 1 and transcodingReasons[0] = "VideoLevelNotSupported"
-            video.directPlaySupported = true
-            video.transcodeAvailable = true
+    if playbackInfo.MediaSources[0].MediaStreams.Count() > 0
+        tryDirectPlay = get_user_setting("playback.tryDirect.h264ProfileLevel") = "true" and playbackInfo.MediaSources[0].MediaStreams[0].codec = "h264"
+        tryDirectPlay = tryDirectPlay or (get_user_setting("playback.tryDirect.hevcProfileLevel") = "true" and playbackInfo.MediaSources[0].MediaStreams[0].codec = "hevc")
+        if tryDirectPlay and playbackInfo.MediaSources[0].TranscodingUrl <> invalid and forceTranscoding = false
+            transcodingReasons = getTranscodeReasons(playbackInfo.MediaSources[0].TranscodingUrl)
+            if transcodingReasons.Count() = 1 and transcodingReasons[0] = "VideoLevelNotSupported"
+                video.directPlaySupported = true
+                video.transcodeAvailable = true
+            end if
         end if
     end if
 
