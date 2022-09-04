@@ -11,9 +11,16 @@
                 "default": "false"
             },
             {
-                "title": "Attempt Direct Play (Profile Lvl)",
+                "title": "Attempt H.264 Direct Play (Profile Lvl)",
                 "description": "Attempt Direct Play for H.264 media with unsupported profile levels (> 4.2) before falling back to transcoding if it fails.",
                 "settingName": "playback.tryDirect.h264ProfileLevel",
+                "type": "bool",
+                "default": "true"
+            },
+            {
+                "title": "Attempt hevc Direct Play (Profile Lvl)",
+                "description": "Attempt Direct Play for hevc media with unsupported profile levels (> 5.1) before falling back to trancoding if it fails.",
+                "settingName": "playback.tryDirect.hevcProfileLevel",
                 "type": "bool",
                 "default": "true"
             },

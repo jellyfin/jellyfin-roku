@@ -692,5 +692,25 @@
             <source>Play Trailer</source>
             <translation>Play Trailer</translation>
         </message>
+        <message>
+            <source>Attempt H.264 Direct Play (Profile Lvl)</source>
+            <translation>Attempt H.264 Direct Play (Profile Lvl)</translation>
+            <extracomment>Settings Menu - Title for option</extracomment>
+        </message>
+        <message>
+            <source>Attempt Direct Play for H.264 media with unsupported profile levels (> 4.2) before falling back to transcoding if it fails.</source>
+            <translation>Attempt Direct Play for H.264 media with unsupported profile levels (> 4.2) before falling back to transcoding if it fails.</translation>
+            <extracomment>Settings Menu - Description for option</extracomment>
+        </message>
+        <message>
+            <source>Attempt HECV Direct Play (Profile Lvl)</source>
+            <translation>Attempt HECV Direct Play (Profile Lvl)</translation>
+            <extracomment>Settings Menu - Title for option</extracomment>
+        </message>
+        <message>
+            <source>Attempt Direct Play for HEVC media with unsupported profile levels (> 5.1) before falling back to trancoding if it fails.</source>
+            <translation>Attempt Direct Play for HEVC media with unsupported profile levels (> 5.1) before falling back to trancoding if it fails.</translation>
+            <extracomment>Settings Menu - Description for option</extracomment>
+        </message>
     </context>
 </TS>

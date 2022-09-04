@@ -218,12 +218,14 @@ sub AddVideoContent(video, mediaSourceId, audio_stream_idx = 1, subtitle_idx = -
     fully_external = false
 
 
-    ' For h264 video, Roku spec states that it supports and Encoding level 4.1 and 4.2.
+    ' For h264/hevc video, Roku spec states that it supports specfic encoding levels
     ' The device can decode content with a Higher Encoding level but may play it back with certain
     ' artifacts. If the user preference is set, and the only reason the server says we need to
-    ' transcode is that the Envoding Level is not supported, then try to direct play but silently
+    ' transcode is that the Encoding Level is not supported, then try to direct play but silently
     ' fall back to the transcode if that fails.
-    if meta.live = false and get_user_setting("playback.tryDirect.h264ProfileLevel") = "true" and playbackInfo.MediaSources[0].TranscodingUrl <> invalid and forceTranscoding = false and playbackInfo.MediaSources[0].MediaStreams[0].codec = "h264"
+    tryDirectPlay = get_user_setting("playback.tryDirect.h264ProfileLevel") = "true" and playbackInfo.MediaSources[0].MediaStreams[0].codec = "h264"
+    tryDirectPlay = tryDirectPlay or (get_user_setting("playback.tryDirect.hevcProfileLevel") = "true" and playbackInfo.MediaSources[0].MediaStreams[0].codec = "hevc")
+    if meta.live = false and tryDirectPlay and playbackInfo.MediaSources[0].TranscodingUrl <> invalid and forceTranscoding = false
         transcodingReasons = getTranscodeReasons(playbackInfo.MediaSources[0].TranscodingUrl)
         if transcodingReasons.Count() = 1 and transcodingReasons[0] = "VideoLevelNotSupported"
             video.directPlaySupported = true
