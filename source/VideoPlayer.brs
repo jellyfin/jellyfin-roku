@@ -525,8 +525,8 @@ end function
 
 function getDisplayBitrate(bitrate)
     if bitrate > 1000000
-        return Str(bitrate / 1000000) + " Mbps"
+        return Str(round(bitrate / 1000000),2) + " Mbps"
     else
-        return Str(bitrate / 1000) + " kbps"
+        return Str(round(bitrate / 1000)) + " Kbps"
     end if
 end function
