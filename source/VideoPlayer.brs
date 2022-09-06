@@ -468,7 +468,7 @@ function GetTranscodingStats(session)
         audioChannels = session.TranscodingInfo.AudioChannels
 
         if transcodingReasons <> invalid and transcodingReasons.Count() > 0
-            sessionStats.push("** " + tr("Transcoding information") + " **")
+            sessionStats.push("** " + tr("Transcoding Information") + " **")
             for each item in transcodingReasons
                 sessionStats.push(tr("Reason") + ": " + item)
             end for
