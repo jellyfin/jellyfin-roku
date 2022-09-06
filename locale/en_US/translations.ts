@@ -739,8 +739,8 @@
             <translation>Playback Information</translation>
         </message>
         <message>
-            <source>Transcoding information</source>
-            <translation>Transcoding information</translation>
+            <source>Transcoding Information</source>
+            <translation>Transcoding Information</translation>
         </message>
         <message>
             <source>Reason</source>
