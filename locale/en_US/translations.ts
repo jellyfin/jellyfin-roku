@@ -476,13 +476,13 @@
             <extracomment>Title for Playback section in user setting screen.</extracomment>
         </message>
         <message>
-            <source>MPEG 2 Support</source>
-            <translation>MPEG 2 Support</translation>
+            <source>MPEG-2 Support</source>
+            <translation>MPEG-2 Support</translation>
             <extracomment>Settings Menu - Title for option</extracomment>
         </message>
         <message>
-            <source>Support direct play of MPEG 2 content (e.g. Live TV). This will prevent transcoding of MPEG 2 content, but uses significantly more bandwidth</source>
-            <translation>Support direct play of MPEG 2 content (e.g. Live TV). This will prevent transcoding of MPEG 2 content, but uses significantly more bandwidth</translation>
+            <source>Support Direct Play of MPEG-2 content (e.g., Live TV). This will prevent transcoding of MPEG-2 content, but uses significantly more bandwidth.</source>
+            <translation>Support Direct Play of MPEG-2 content (e.g., Live TV). This will prevent transcoding of MPEG-2 content, but uses significantly more bandwidth.</translation>
             <extracomment>Settings Menu - Description for option</extracomment>
         </message>
         <message>
@@ -504,8 +504,8 @@
             <extracomment>UI -&gt; Media Grid section in user setting screen.</extracomment>
         </message>
         <message>
-            <source>Media Grid Options</source>
-            <translation>Media Grid Options</translation>
+            <source>Media Grid options.</source>
+            <translation>Media Grid options.</translation>
         </message>
         <message>
             <source>Item Titles</source>
@@ -513,8 +513,8 @@
             <extracomment>UI -&gt; Media Grid -&gt; Item Title in user setting screen.</extracomment>
         </message>
         <message>
-            <source>Always show the titles below the poster images. (If disabled, title will be shown under hilighted item only)</source>
-            <translation>Always show the titles below the poster images. (If disabled, title will be shown under hilighted item only)</translation>
+            <source>Always show the titles below the poster images. (If disabled, the title will be shown under the highlighted item only).</source>
+            <translation>Always show the titles below the poster images. (If disabled, the title will be shown under the highlighted item only).</translation>
             <extracomment>Description for option in Setting Screen</extracomment>
         </message>
         <message>
@@ -523,8 +523,8 @@
             <extracomment>UI -&gt; Media Grid -&gt; Item Count in user setting screen.</extracomment>
         </message>
         <message>
-            <source>Show item count in the library, and index of selected item.</source>
-            <translation>Show item count in the library, and index of selected item.</translation>
+            <source>Show item count in the library and index of selected item.</source>
+            <translation>Show item count in the library and index of selected item.</translation>
             <extracomment>Description for option in Setting Screen</extracomment>
         </message>
         <message>
@@ -551,6 +551,21 @@
             <source>Go to episode</source>
             <translation>Go to episode</translation>
             <extracomment>Continue Watching Popup Menu - Navigate to the Episode Detail Page</extracomment>
+        </message>
+        <message>
+            <source>Use voice remote to search</source>
+            <translation>Use voice remote to search</translation>
+            <extracomment>Help text in search voice text box</extracomment>
+        </message>
+        <message>
+            <source>Search now</source>
+            <translation>Search now</translation>
+            <extracomment>Help text in search Box</extracomment>
+        </message>
+        <message>
+            <source>You can search for Titles, People, Live TV Channels and more</source>
+            <translation>You can search for Titles, People, Live TV Channels and more</translation>
+            <extracomment>Help text in search results</extracomment>
         </message>
         <message>
             <source>%1 of %2</source>
@@ -591,18 +606,18 @@
             <extracomment>UI -&gt; Media Grid -&gt; Item Title in user setting screen.</extracomment>
         </message>
         <message>
-            <source>Use the replay button to slowly animate to the first item in the folder. (If disabled, The folder will reset to the first item immediately)</source>
-            <translation>Use the replay button to slowly animate to the first item in the folder. (If disabled, The folder will reset to the first item immediately)</translation>
+            <source>Use the replay button to slowly animate to the first item in the folder. (If disabled, the folder will reset to the first item immediately).</source>
+            <translation>Use the replay button to slowly animate to the first item in the folder. (If disabled, the folder will reset to the first item immediately).</translation>
             <extracomment>Description for option in Setting Screen</extracomment>
         </message>
         <message>
-            <source>Detail Page</source>
-            <translation>Detail Page</translation>
+            <source>Details Page</source>
+            <translation>Details Page</translation>
         </message>
         <message>
-            <source>Options for details pages.</source>
-            <translation>Options for details pages.</translation>
-            <extracomment>Description for Detail Page user settings.</extracomment>
+            <source>Options for Details pages.</source>
+            <translation>Options for Details pages.</translation>
+            <extracomment>Description for Details page user settings.</extracomment>
         </message>
         <message>
             <source>Hide Taglines</source>
@@ -624,8 +639,8 @@
             <extracomment>Option Title in user setting screen</extracomment>
         </message>
         <message>
-            <source>If enabled, images for unwatched episodes will be blurred.</source>
-            <translation>If enabled, images for unwatched episodes will be blurred.</translation>
+            <source>If enabled, images of unwatched episodes will be blurred.</source>
+            <translation>If enabled, images of unwatched episodes will be blurred.</translation>
         </message>
         <message>
             <source>Screensaver</source>
@@ -642,8 +657,8 @@
             <extracomment>Option Title in user setting screen</extracomment>
         </message>
         <message>
-            <source>Use generated splashscreen image as Jellyfin&apos;s screensaver background.</source>
-            <translation>Use generated splashscreen image as Jellyfin&apos;s screensaver background.</translation>
+            <source>Use generated splashscreen image as Jellyfin&apos;s screensaver background. Jellyfin will need to be closed and reopened for change to take effect.</source>
+            <translation>Use generated splashscreen image as Jellyfin&apos;s screensaver background. Jellyfin will need to be closed and reopened for change to take effect.</translation>
         </message>
         <message>
             <source>Design Elements</source>
@@ -660,18 +675,18 @@
             <extracomment>Option Title in user setting screen</extracomment>
         </message>
         <message>
-            <source>Use generated splashscreen image as Jellyfin home background. Jellyfin will need to be closed and reopened for change to take effect.</source>
-            <translation>Use generated splashscreen image as Jellyfin home background. Jellyfin will need to be closed and reopened for change to take effect.</translation>
+            <source>Use generated splashscreen image as Jellyfin&apos;s home background. Jellyfin will need to be closed and reopened for change to take effect.</source>
+            <translation>Use generated splashscreen image as Jellyfin&apos;s home background. Jellyfin will need to be closed and reopened for change to take effect.</translation>
             <extracomment>Description for option in Setting Screen</extracomment>
         </message>
         <message>
-            <source>Cinema mode</source>
-            <translation>Cinema mode</translation>
+            <source>Cinema Mode</source>
+            <translation>Cinema Mode</translation>
             <extracomment>Settings Menu - Title for option</extracomment>
         </message>
         <message>
-            <source>Cinema mode brings the theater experience straight to your living room with the ability to play custom intros before the main feature.</source>
-            <translation>Cinema mode brings the theater experience straight to your living room with the ability to play custom intros before the main feature.</translation>
+            <source>Cinema Mode brings the theater experience straight to your living room with the ability to play custom intros before the main feature.</source>
+            <translation>Cinema Mode brings the theater experience straight to your living room with the ability to play custom intros before the main feature.</translation>
             <extracomment>Settings Menu - Description for option</extracomment>
         </message>
         <message>
@@ -691,6 +706,33 @@
         <message>
             <source>Play Trailer</source>
             <translation>Play Trailer</translation>
+        </message>
+        <message>
+            <source>Settings relating to playback and supported codec and media types.</source>
+            <translation>Settings relating to playback and supported codec and media types.</translation>
+        </message>
+        <message>
+            <source>Settings relating to how the application looks.</source>
+            <translation>Settings relating to how the application looks.</translation>
+        </message>
+        <message>
+            <source>Home Page</source>
+            <translation>Home Page</translation>
+        </message>
+        <message>
+            <source>Options for Home Page.</source>
+            <translation>Options for Home Page.</translation>
+            <extracomment>Description for Home Page user settings.</extracomment>
+        </message>
+        <message>
+            <source>Max Days Next Up</source>
+            <translation>Max Days Next Up</translation>
+            <extracomment>Option Title in user setting screen</extracomment>
+        </message>
+        <message>
+            <source>Set the maximum amount of days a show should stay in the 'Next Up' list without watching it.</source>
+            <translation>Set the maximum amount of days a show should stay in the 'Next Up' list without watching it.</translation>
+            <extracomment>Settings Menu - Description for option</extracomment>
         </message>
         <message>
             <source>Playback Information</source>

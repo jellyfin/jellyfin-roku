@@ -13,6 +13,7 @@
     "ropm": "0.10.9"
   },
   "scripts": {
+    "postinstall": "npx ropm copy",
     "validate": "npx bsc --copy-to-staging=false --create-package=false",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "bslint",
@@ -37,6 +38,7 @@
     "api": "npm:jellyfin-api-bs-client@^1.0.5",
     "bgv": "npm:button-group-vert@^1.0.1",
     "brighterscript-formatter": "^1.6.8",
-    "sob": "npm:slide-out-button@^1.0.1"
+    "sob": "npm:slide-out-button@^1.0.1",
+    "intKeyboard": "npm:integer-keyboard@^1.0.12"
   }
 }
