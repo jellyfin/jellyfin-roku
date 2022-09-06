@@ -764,7 +764,7 @@
         </message>
         <message>
             <source>Audio Channels</source>
-            <translation></translation>
+            <translation>Audio Channels</translation>
         </message>                               
         <message>
             <source>Stream Information</source>
