@@ -781,6 +781,7 @@
         <message>
             <source>Level</source>
             <translation>Level</translation>
+            <extracomment>Video profile level</extracomment>            
         </message>                                
     </context>
 </TS>
