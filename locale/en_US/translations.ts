@@ -692,5 +692,53 @@
             <source>Play Trailer</source>
             <translation>Play Trailer</translation>
         </message>
+        <message>
+            <source>Playback Information</source>
+            <translation>Playback Information</translation>
+        </message>
+        <message>
+            <source>Transcoding information</source>
+            <translation>Transcoding information</translation>
+        </message>
+        <message>
+            <source>Reason</source>
+            <translation>Reason</translation>
+        </message>
+        <message>
+            <source>Video Codec</source>
+            <translation>Video Codec</translation>
+        </message>
+        <message>
+            <source>Audio Codec</source>
+            <translation>Audio Codec</translation>
+        </message>
+        <message>
+            <source>direct</source>
+            <translation>direct</translation>
+        </message>                                 
+        <message>
+            <source>Total Bitrate</source>
+            <translation>Total Bitrate</translation>
+        </message>
+        <message>
+            <source>Audio Channels</source>
+            <translation></translation>
+        </message>                               
+        <message>
+            <source>Stream Information</source>
+            <translation>Stream Information</translation>
+        </message>
+        <message>
+            <source>Codec</source>
+            <translation>Codec</translation>
+        </message>
+        <message>
+            <source>Codec Tag</source>
+            <translation>Codec Tag</translation>
+        </message>
+        <message>
+            <source>Level</source>
+            <translation>Level</translation>
+        </message>                                
     </context>
 </TS>

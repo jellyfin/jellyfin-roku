@@ -175,18 +175,18 @@ sub AddVideoContent(video, mediaSourceId, audio_stream_idx = 1, subtitle_idx = -
     end if
     if meta.live then mediaSourceId = "" ' Don't send mediaSourceId for Live media
 
-    playbackInfo = ItemPostPlaybackInfo(video.id, mediaSourceId, audio_stream_idx, subtitle_idx, playbackPosition)
+    m.playbackInfo = ItemPostPlaybackInfo(video.id, mediaSourceId, audio_stream_idx, subtitle_idx, playbackPosition)
     video.videoId = video.id
     video.mediaSourceId = mediaSourceId
     video.audioIndex = audio_stream_idx
 
-    if playbackInfo = invalid
+    if m.playbackInfo = invalid
         video.content = invalid
         return
     end if
 
     params = {}
-    video.PlaySessionId = playbackInfo.PlaySessionId
+    video.PlaySessionId = m.playbackInfo.PlaySessionId
 
     if meta.live
         video.content.live = true
@@ -195,17 +195,17 @@ sub AddVideoContent(video, mediaSourceId, audio_stream_idx = 1, subtitle_idx = -
 
     video.container = getContainerType(meta)
 
-    if playbackInfo.MediaSources[0] = invalid
-        playbackInfo = meta.json
+    if m.playbackInfo.MediaSources[0] = invalid
+        m.playbackInfo = meta.json
     end if
 
-    subtitles = sortSubtitles(meta.id, playbackInfo.MediaSources[0].MediaStreams)
+    subtitles = sortSubtitles(meta.id, m.playbackInfo.MediaSources[0].MediaStreams)
     video.Subtitles = subtitles["all"]
 
     if meta.live
         video.transcodeParams = {
-            "MediaSourceId": playbackInfo.MediaSources[0].Id,
-            "LiveStreamId": playbackInfo.MediaSources[0].LiveStreamId,
+            "MediaSourceId": m.playbackInfo.MediaSources[0].Id,
+            "LiveStreamId": m.playbackInfo.MediaSources[0].LiveStreamId,
             "PlaySessionId": video.PlaySessionId
         }
     end if
@@ -214,7 +214,7 @@ sub AddVideoContent(video, mediaSourceId, audio_stream_idx = 1, subtitle_idx = -
 
     ' 'TODO: allow user selection of subtitle track before playback initiated, for now set to no subtitles
 
-    video.directPlaySupported = playbackInfo.MediaSources[0].SupportsDirectPlay
+    video.directPlaySupported = m.playbackInfo.MediaSources[0].SupportsDirectPlay
     fully_external = false
 
 
@@ -223,8 +223,8 @@ sub AddVideoContent(video, mediaSourceId, audio_stream_idx = 1, subtitle_idx = -
     ' artifacts. If the user preference is set, and the only reason the server says we need to
     ' transcode is that the Envoding Level is not supported, then try to direct play but silently
     ' fall back to the transcode if that fails.
-    if meta.live = false and get_user_setting("playback.tryDirect.h264ProfileLevel") = "true" and playbackInfo.MediaSources[0].TranscodingUrl <> invalid and forceTranscoding = false and playbackInfo.MediaSources[0].MediaStreams[0].codec = "h264"
-        transcodingReasons = getTranscodeReasons(playbackInfo.MediaSources[0].TranscodingUrl)
+    if meta.live = false and get_user_setting("playback.tryDirect.h264ProfileLevel") = "true" and m.playbackInfo.MediaSources[0].TranscodingUrl <> invalid and forceTranscoding = false and m.playbackInfo.MediaSources[0].MediaStreams[0].codec = "h264"
+        transcodingReasons = getTranscodeReasons(m.playbackInfo.MediaSources[0].TranscodingUrl)
         if transcodingReasons.Count() = 1 and transcodingReasons[0] = "VideoLevelNotSupported"
             video.directPlaySupported = true
             video.transcodeAvailable = true
@@ -232,10 +232,10 @@ sub AddVideoContent(video, mediaSourceId, audio_stream_idx = 1, subtitle_idx = -
     end if
 
     if video.directPlaySupported
-        protocol = LCase(playbackInfo.MediaSources[0].Protocol)
+        protocol = LCase(m.playbackInfo.MediaSources[0].Protocol)
         if protocol <> "file"
             uriRegex = CreateObject("roRegex", "^(.*:)//([A-Za-z0-9\-\.]+)(:[0-9]+)?(.*)$", "")
-            uri = uriRegex.Match(playbackInfo.MediaSources[0].Path)
+            uri = uriRegex.Match(m.playbackInfo.MediaSources[0].Path)
             ' proto $1, host $2, port $3, the-rest $4
             localhost = CreateObject("roRegex", "^localhost$|^127(?:\.[0-9]+){0,2}\.[0-9]+$|^(?:0*\:)*?:?0*1$", "i")
             ' https://stackoverflow.com/questions/8426171/what-regex-will-match-all-loopback-addresses
@@ -246,7 +246,7 @@ sub AddVideoContent(video, mediaSourceId, audio_stream_idx = 1, subtitle_idx = -
                 video.content.url = buildURL(uri[4])
             else
                 fully_external = true
-                video.content.url = playbackInfo.MediaSources[0].Path
+                video.content.url = m.playbackInfo.MediaSources[0].Path
             end if
         else:
             params.append({
@@ -263,15 +263,15 @@ sub AddVideoContent(video, mediaSourceId, audio_stream_idx = 1, subtitle_idx = -
         end if
         video.isTranscoded = false
     else
-        if playbackInfo.MediaSources[0].TranscodingUrl = invalid
+        if m.playbackInfo.MediaSources[0].TranscodingUrl = invalid
             ' If server does not provide a transcode URL, display a message to the user
             m.global.sceneManager.callFunc("userMessage", tr("Error Getting Playback Information"), tr("An error was encountered while playing this item.  Server did not provide required transcoding data."))
             video.content = invalid
             return
         end if
         ' Get transcoding reason
-        video.transcodeReasons = getTranscodeReasons(playbackInfo.MediaSources[0].TranscodingUrl)
-        video.content.url = buildURL(playbackInfo.MediaSources[0].TranscodingUrl)
+        video.transcodeReasons = getTranscodeReasons(m.playbackInfo.MediaSources[0].TranscodingUrl)
+        video.content.url = buildURL(m.playbackInfo.MediaSources[0].TranscodingUrl)
         video.isTranscoded = true
     end if
 
@@ -444,3 +444,89 @@ sub autoPlayNextEpisode(videoID as string, showID as string)
         m.global.sceneManager.callFunc("popScene")
     end if
 end sub
+
+' Returns an array of playback info to be displayed during playback.
+' In the future, with a custom playback info view, we can return an associated array.
+function GetPlaybackInfo()
+    sessions = api_API().sessions.get()
+    if sessions <> invalid and sessions.Count() > 0
+        return GetTranscodingStats(sessions[0])
+    end if
+
+    errMsg = tr("Unable to get playback information")
+    return [errMsg]
+end function
+
+function GetTranscodingStats(session)
+    sessionStats = []
+
+    if session.TranscodingInfo <> invalid and session.TranscodingInfo.Count() > 0
+        transcodingReasons = session.TranscodingInfo.TranscodeReasons
+        videoCodec = session.TranscodingInfo.VideoCodec
+        audioCodec = session.TranscodingInfo.AudioCodec
+        totalBitrate = session.TranscodingInfo.Bitrate
+        audioChannels = session.TranscodingInfo.AudioChannels
+
+        if transcodingReasons <> invalid and transcodingReasons.Count() > 0
+            sessionStats.push("** " + tr("Transcoding information") + " **")
+            for each item in transcodingReasons
+                sessionStats.push(tr("Reason") + ": " + item)
+            end for
+        end if
+
+        if videoCodec <> invalid
+            data = tr("Video Codec") + ": " + videoCodec
+            if session.TranscodingInfo.IsVideoDirect
+                data = data + " (" + tr("direct") + ")"
+            end if
+            sessionStats.push(data)
+        end if
+
+        if audioCodec <> invalid
+            data = tr("Audio Codec") + ": " + audioCodec
+            if session.TranscodingInfo.IsAudioDirect
+                data = data + " (" + tr("direct") + ")"
+            end if
+            sessionStats.push(data)
+        end if
+
+        if totalBitrate <> invalid
+            data = tr("Total Bitrate") + ": " + getDisplayBitrate(totalBitrate)
+            sessionStats.push(data)
+        end if
+
+        if audioChannels <> invalid
+            data = tr("Audio Channels") + ": " + Str(audioChannels)
+            sessionStats.push(data)
+        end if
+    end if
+
+    if m.playbackInfo <> invalid and m.playbackInfo.mediaSources <> invalid and m.playbackInfo.mediaSources.Count() > 0
+        if m.playbackInfo.mediaSources[0].MediaStreams <> invalid and m.playbackInfo.mediaSources[0].MediaStreams.Count() > 0
+            stream = m.playbackInfo.mediaSources[0].MediaStreams[0]
+            sessionStats.push("** " + tr("Stream Information") + " **")
+            if stream.Codec <> invalid
+                data = tr("Codec") + ": " + stream.Codec
+                sessionStats.push(data)
+            end if
+            if stream.CodecTag <> invalid
+                data = tr("Codec Tag") + ": " + stream.CodecTag
+                sessionStats.push(data)
+            end if
+            if stream.Level <> invalid
+                data = tr("Level") + ": " + Str(stream.Level)
+                sessionStats.push(data)
+            end if
+        end if
+    end if
+
+    return sessionStats
+end function
+
+function getDisplayBitrate(bitrate)
+    if bitrate > 1000000
+        return Str(bitrate / 1000000) + " Mbps"
+    else
+        return Str(bitrate / 1000) + " kbps"
+    end if
+end function
