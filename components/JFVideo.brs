@@ -23,12 +23,25 @@ sub init()
     m.hideskipIntroButtonAnimation = m.top.findNode("hideskipIntroButton")
     m.moveUpskipIntroButtonAnimation = m.top.findNode("moveUpskipIntroButton")
     m.moveDownskipIntroButtonAnimation = m.top.findNode("moveDownskipIntroButton")
+
+    'Play Next Episode button
+    m.nextEpisodeButton = m.top.findNode("nextEpisode")
+    m.nextEpisodeButton.text = tr("Next Episode")
+    m.nextEpisodeButton.setFocus(false)
+    m.shownextEpisodeButtonAnimation = m.top.findNode("shownextEpisodeButton")
+    m.hidenextEpisodeButtonAnimation = m.top.findNode("hidenextEpisodeButton")
+    m.moveUpnextEpisodeButtonAnimation = m.top.findNode("moveUpnextEpisodeButton")
+    m.moveDownnextEpisodeButtonAnimation = m.top.findNode("moveDownnextEpisodeButton")
 end sub
 
 '
 ' Checks if we have valid skip intro param data
 function haveSkipIntroParams() as boolean
-
+    'check current position
+    if int(m.top.position) >= (m.top.runTime - 30)
+        shownextEpisode()
+        updateCount()
+    end if
     ' Intro data is invalid, skip
     if not isValid(m.top.skipIntroParams?.Valid)
         return false
@@ -121,6 +134,31 @@ sub hideSkipIntro()
     m.skipIntroButton.setFocus(false)
     m.top.setFocus(true)
 end sub
+
+'
+' Runs Next Episode button animation and sets focus to button
+sub shownextEpisode()
+    if m.nextEpisodeButton.hasFocus() = false
+        m.shownextEpisodeButtonAnimation.control = "start"
+        m.nextEpisodeButton.setFocus(true)
+    end if
+end sub
+
+'
+'Update count down text
+sub updateCount()
+    m.nextEpisodeButton.text = tr("Next Episode") + " " + Int(m.top.runTime - m.top.position).toStr()
+end sub
+
+'
+' Runs hide Next Episode button animation and sets focus back to video
+sub hidenextEpisode()
+    m.top.trickPlayBar.unobserveField("visible")
+    m.hidenextEpisodeButtonAnimation.control = "start"
+    m.nextEpisodeButton.setFocus(false)
+    m.top.setFocus(true)
+end sub
+
 
 '
 ' When Video Player state changes
@@ -244,13 +282,17 @@ function onKeyEvent(key as string, press as boolean) as boolean
                 m.top.seek = m.top.skipIntroParams.IntroEnd
                 hideSkipIntro()
                 return true
+            else if m.nextEpisodeButton.hasFocus()
+                m.top.state = "finished"
+                hidenextEpisode()
+                return true
             end if
         end if
     end if
 
     if not press then return false
 
-    if m.top.Subtitles.count() and key = "down"
+    if key = "down"
         m.top.selectSubtitlePressed = true
         return true
     end if
