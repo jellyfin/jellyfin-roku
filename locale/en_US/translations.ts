@@ -700,6 +700,10 @@
             <extracomment>Settings Menu - Description for option</extracomment>
         </message>
         <message>
+            <source>Next episode</source>
+            <translation>Next episode</translation>
+        </message>
+        <message>
             <source>Skip Intro</source>
             <translation>Skip Intro</translation>
         </message>
