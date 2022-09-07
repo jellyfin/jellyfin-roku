@@ -47,6 +47,8 @@ sub AddVideoContent(video, mediaSourceId, audio_stream_idx = 1, subtitle_idx = -
 
     if m.videotype = "Episode" or m.videotype = "Series"
         video.skipIntroParams = api_API().introskipper.get(video.id)
+        'print (meta.json.RunTimeTicks / 10000000) / 60
+        video.runTime = (meta.json.RunTimeTicks / 10000000.0)
         video.content.contenttype = "episode"
     end if
 
@@ -427,10 +429,10 @@ sub autoPlayNextEpisode(videoID as string, showID as string)
         data = getJson(resp)
 
         if data <> invalid and data.Items.Count() = 2
-            ' remove finished video node
-            m.global.sceneManager.callFunc("popScene")
             ' setup new video node
             nextVideo = CreateVideoPlayerGroup(data.Items[1].Id, invalid, 1, false, false)
+            ' remove last videoplayer scene
+            m.global.sceneManager.callFunc("clearPreviousScene")
             if nextVideo <> invalid
                 m.global.sceneManager.callFunc("pushScene", nextVideo)
             else
