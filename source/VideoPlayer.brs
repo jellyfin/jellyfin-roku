@@ -45,11 +45,6 @@ sub AddVideoContent(video, mediaSourceId, audio_stream_idx = 1, subtitle_idx = -
         end if
     end if
 
-    if m.videotype = "Episode" or m.videotype = "Series"
-        video.skipIntroParams = api_API().introskipper.get(video.id)
-        video.content.contenttype = "episode"
-    end if
-
     video.content.title = meta.title
     video.showID = meta.showID
 
