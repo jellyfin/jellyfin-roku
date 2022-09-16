@@ -141,7 +141,7 @@ end sub
 '
 ' Clear previous scene from group stack
 sub clearPreviousScene()
-    m.groups.pop()
+    m.groups.Delete(2)
 end sub
 
 '
