@@ -19,6 +19,8 @@ sub init()
     m.sectionNavigation.observeField("selected", "onSectionNavigationSelected")
 
     m.sectionScroller = m.top.findNode("sectionScroller")
+    m.sectionScroller.observeField("displayedIndex", "onSectionScrollerChange")
+    m.overhang = m.top.getScene().findNode("overhang")
 
     ' Load background image
     m.LoadBackdropImageTask = CreateObject("roSGNode", "LoadItemsTask")
@@ -29,6 +31,18 @@ sub init()
     m.dscr = m.top.findNode("overview")
     m.dscr.observeField("isTextEllipsized", "onEllipsisChanged")
     createDialogPallete()
+end sub
+
+sub onSectionScrollerChange()
+    m.overhang.isVisible = (m.sectionScroller.displayedIndex = 0)
+end sub
+
+sub OnScreenHidden()
+    if not m.overhang.isVisible
+        m.overhang.disableMoveAnimation = true
+        m.overhang.isVisible = true
+        m.overhang.disableMoveAnimation = false
+    end if
 end sub
 
 sub onAlbumsEscape()
