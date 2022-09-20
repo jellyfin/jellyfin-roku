@@ -505,6 +505,10 @@ function GetTranscodingStats(session)
         if m.playbackInfo.mediaSources[0].MediaStreams <> invalid and m.playbackInfo.mediaSources[0].MediaStreams.Count() > 0
             stream = m.playbackInfo.mediaSources[0].MediaStreams[0]
             sessionStats.push("** " + tr("Stream Information") + " **")
+            if stream.BitRate <> invalid
+                data = tr("Bit Rate") + ": " + stream.BitRate
+                sessionStats.push(data)
+            end if
             if stream.Codec <> invalid
                 data = tr("Codec") + ": " + stream.Codec
                 sessionStats.push(data)

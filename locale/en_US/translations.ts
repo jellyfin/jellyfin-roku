@@ -783,5 +783,10 @@
             <translation>Level</translation>
             <extracomment>Video profile level</extracomment>            
         </message>                                
+        <message>
+            <source>Bit Rate</source>
+            <translation>Bit Rate</translation>
+            <extracomment>Video streaming bit rate</extracomment>            
+        </message>                                
     </context>
 </TS>
