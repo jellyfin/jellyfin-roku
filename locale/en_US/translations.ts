@@ -788,5 +788,29 @@
             <translation>Bit Rate</translation>
             <extracomment>Video streaming bit rate</extracomment>            
         </message>                                
+        <message>
+            <source>Container</source>
+            <translation>Container</translation>
+            <extracomment>Video streaming container</extracomment>            
+        </message>  
+        <message>
+            <source>Size</source>
+            <translation>Size</translation>
+            <extracomment>Video size</extracomment>            
+        </message>  
+        <message>
+            <source>Video range type</source>
+            <translation>Video range type</translation>
+        </message>  
+        <message>
+            <source>Pixel format</source>
+            <translation>Pixel format</translation>
+            <extracomment>Video pixel format</extracomment>            
+        </message>  
+        <message>
+            <source>WxH</source>
+            <translation>WxH</translation>
+            <extracomment>Video width x height</extracomment>            
+        </message>                                          
     </context>
 </TS>
