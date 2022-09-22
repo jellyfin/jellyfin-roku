@@ -505,39 +505,39 @@ function GetTranscodingStats(session)
         if m.playbackInfo.mediaSources[0].MediaStreams <> invalid and m.playbackInfo.mediaSources[0].MediaStreams.Count() > 0
             stream = m.playbackInfo.mediaSources[0].MediaStreams[0]
             sessionStats.push("** " + tr("Stream Information") + " **")
-            if stream.Container <> invalid
+            if isValid(stream.Container)
                 data = tr("Container") + ": " + stream.Container
                 sessionStats.push(data)
             end if
-            if stream.Size <> invalid
+            if isValid(stream.Size)
                 data = tr("Size") + ": " + stream.Size
                 sessionStats.push(data)
             end if
-            if stream.BitRate <> invalid
+            if isValid(stream.BitRate)
                 data = tr("Bit Rate") + ": " + getDisplayBitrate(stream.BitRate)
                 sessionStats.push(data)
             end if
-            if stream.Codec <> invalid
+            if isValid(stream.Codec)
                 data = tr("Codec") + ": " + stream.Codec
                 sessionStats.push(data)
             end if
-            if stream.CodecTag <> invalid
+            if isValid(stream.CodecTag)
                 data = tr("Codec Tag") + ": " + stream.CodecTag
                 sessionStats.push(data)
             end if
-            if stream.VideoRangeType <> invalid
+            if isValid(stream.VideoRangeType)
                 data = tr("Video range type") + ": " + stream.VideoRangeType
                 sessionStats.push(data)
             end if
-            if stream.PixelFormat <> invalid
+            if isValid(stream.PixelFormat)
                 data = tr("Pixel format") + ": " + stream.PixelFormat
                 sessionStats.push(data)
             end if
-            if stream.Width <> invalid and stream.Height <> invalid
+            if isValid(stream.Width) and isValid(stream.Height)
                 data = tr("WxH") + ": " + Str(stream.Width) + " x " + Str(stream.Height)
                 sessionStats.push(data)
             end if
-            if stream.Level <> invalid
+            if isValid(stream.Level)
                 data = tr("Level") + ": " + Str(stream.Level)
                 sessionStats.push(data)
             end if
