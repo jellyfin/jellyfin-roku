@@ -501,50 +501,72 @@ function GetTranscodingStats(session)
         end if
     end if
 
-    if m.playbackInfo <> invalid and m.playbackInfo.mediaSources <> invalid and m.playbackInfo.mediaSources.Count() > 0
-        if m.playbackInfo.mediaSources[0].MediaStreams <> invalid and m.playbackInfo.mediaSources[0].MediaStreams.Count() > 0
-            stream = m.playbackInfo.mediaSources[0].MediaStreams[0]
-            sessionStats.push("** " + tr("Stream Information") + " **")
-            if stream.Container <> invalid
-                data = tr("Container") + ": " + stream.Container
-                sessionStats.push(data)
-            end if
-            if stream.Size <> invalid
-                data = tr("Size") + ": " + stream.Size
-                sessionStats.push(data)
-            end if
-            if stream.BitRate <> invalid
-                data = tr("Bit Rate") + ": " + getDisplayBitrate(stream.BitRate)
-                sessionStats.push(data)
-            end if
-            if stream.Codec <> invalid
-                data = tr("Codec") + ": " + stream.Codec
-                sessionStats.push(data)
-            end if
-            if stream.CodecTag <> invalid
-                data = tr("Codec Tag") + ": " + stream.CodecTag
-                sessionStats.push(data)
-            end if
-            if stream.VideoRangeType <> invalid
-                data = tr("Video range type") + ": " + stream.VideoRangeType
-                sessionStats.push(data)
-            end if
-            if stream.PixelFormat <> invalid
-                data = tr("Pixel format") + ": " + stream.PixelFormat
-                sessionStats.push(data)
-            end if
-            if stream.Width <> invalid and stream.Height <> invalid
-                data = tr("WxH") + ": " + Str(stream.Width) + " x " + Str(stream.Height)
-                sessionStats.push(data)
-            end if
-            if stream.Level <> invalid
-                data = tr("Level") + ": " + Str(stream.Level)
-                sessionStats.push(data)
-            end if
+    if havePlaybackInfo()
+        stream = m.playbackInfo.mediaSources[0].MediaStreams[0]
+        sessionStats.push("** " + tr("Stream Information") + " **")
+        if stream.Container <> invalid
+            data = tr("Container") + ": " + stream.Container
+            sessionStats.push(data)
+        end if
+        if stream.Size <> invalid
+            data = tr("Size") + ": " + stream.Size
+            sessionStats.push(data)
+        end if
+        if stream.BitRate <> invalid
+            data = tr("Bit Rate") + ": " + getDisplayBitrate(stream.BitRate)
+            sessionStats.push(data)
+        end if
+        if stream.Codec <> invalid
+            data = tr("Codec") + ": " + stream.Codec
+            sessionStats.push(data)
+        end if
+        if stream.CodecTag <> invalid
+            data = tr("Codec Tag") + ": " + stream.CodecTag
+            sessionStats.push(data)
+        end if
+        if stream.VideoRangeType <> invalid
+            data = tr("Video range type") + ": " + stream.VideoRangeType
+            sessionStats.push(data)
+        end if
+        if stream.PixelFormat <> invalid
+            data = tr("Pixel format") + ": " + stream.PixelFormat
+            sessionStats.push(data)
+        end if
+        if stream.Width <> invalid and stream.Height <> invalid
+            data = tr("WxH") + ": " + Str(stream.Width) + " x " + Str(stream.Height)
+            sessionStats.push(data)
+        end if
+        if stream.Level <> invalid
+            data = tr("Level") + ": " + Str(stream.Level)
+            sessionStats.push(data)
         end if
     end if
 
     return sessionStats
+end function
+
+function havePlaybackInfo()
+    if not isValid(m.playbackInfo)
+        return false
+    end if
+
+    if not isValid(m.playbackInfo.mediaSources)
+        return false
+    end if
+
+    if m.playbackInfo.mediaSources.Count() <= 0
+        return false
+    end if
+
+    if not isValid(m.playbackInfo.mediaSources[0].MediaStreams)
+        return false
+    end if
+
+    if m.playbackInfo.mediaSources[0].MediaStreams.Count() <= 0
+        return false
+    end if
+
+    return true
 end function
 
 function getDisplayBitrate(bitrate)
