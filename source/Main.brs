@@ -110,8 +110,20 @@ sub Main (args as dynamic) as void
         else if isNodeEvent(msg, "selectedItem")
             ' If you select a library from ANYWHERE, follow this flow
             selectedItem = msg.getData()
+
             m.selectedItemType = selectedItem.type
-            if selectedItem.type = "CollectionFolder" or selectedItem.type = "UserView" or selectedItem.type = "Folder" or selectedItem.type = "Channel" or selectedItem.type = "Boxset"
+            '
+            if selectedItem.type = "CollectionFolder"
+                if selectedItem.collectionType = "movies"
+                    group = CreateMovieLibraryView(selectedItem)
+                else
+                    group = CreateItemGrid(selectedItem)
+                end if
+                sceneManager.callFunc("pushScene", group)
+            else if selectedItem.type = "Folder" and selectedItem.json.type = "Genre"
+                group = CreateMovieLibraryView(selectedItem)
+                sceneManager.callFunc("pushScene", group)
+            else if selectedItem.type = "UserView" or selectedItem.type = "Folder" or selectedItem.type = "Channel" or selectedItem.type = "Boxset"
                 group = CreateItemGrid(selectedItem)
                 sceneManager.callFunc("pushScene", group)
             else if selectedItem.type = "Episode"
