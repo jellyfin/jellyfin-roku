@@ -113,6 +113,14 @@
         <translation>Kezdőlap</translation>
     </message>
     <message>
+        <source>Enter a username</source>
+        <translation>Adjon meg egy felhasználónevet</translation>
+    </message>
+    <message>
+        <source>Enter a password</source>
+        <translation>Írja be a jelszót</translation>
+    </message>
+    <message>
         <source>Enter a value...</source>
         <translation>Adj meg egy értéket…</translation>
     </message>
@@ -6316,6 +6324,14 @@ elemeket</translation>
     <message>
         <source>On Now</source>
         <translation>Most</translation>
+    </message>
+    <message>
+        <source>Delete Saved</source>
+        <translation>Mentettek Törlése</translation>
+    </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>Mented a hitelesítő adatokat?</translation>
     </message>
     <message>
         <source>Delete Saved</source>

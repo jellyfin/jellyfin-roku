@@ -446,12 +446,8 @@ end function
 
 function CreateSearchPage()
     ' Search + Results Page
-    group = CreateObject("roSGNode", "SearchResults")
-
-    search = group.findNode("SearchBox")
-    search.observeField("search_value", m.port)
-
-    options = group.findNode("SearchSelect")
+    group = CreateObject("roSGNode", "searchResults")
+    options = group.findNode("searchSelect")
     options.observeField("itemSelected", m.port)
 
     return group
@@ -471,6 +467,7 @@ function CreateVideoPlayerGroup(video_id, mediaSourceId = invalid, audio_stream_
     if video = invalid then return invalid
     if video.errorMsg = "introaborted" then return video
     video.observeField("selectSubtitlePressed", m.port)
+    video.observeField("selectPlaybackInfoPressed", m.port)
     video.observeField("state", m.port)
 
     return video
