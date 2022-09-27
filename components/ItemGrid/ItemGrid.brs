@@ -163,25 +163,16 @@ sub loadInitialItems()
         m.loadItemsTask.itemId = m.top.parentItem.Id
     else if getCollectionType() = "music"
         ' Default Settings
+        m.loadItemsTask.recursive = true
+        m.itemGrid.itemSize = "[290, 290]"
 
-        if m.voiceBox.text <> ""
-            m.loadItemsTask.recursive = true
-        else
-            m.loadItemsTask.recursive = false
-            m.itemGrid.itemSize = "[290, 290]"
-        end if
-
-        m.loadItemsTask.itemType = "MusicArtist,MusicAlbum"
+        m.loadItemsTask.itemType = "MusicArtist"
         m.loadItemsTask.itemId = m.top.parentItem.Id
 
         m.view = get_user_setting("display.music.view")
 
-        if m.view = "music-artist"
-            m.loadItemsTask.recursive = true
-            m.loadItemsTask.itemType = "MusicArtist"
-        else if m.view = "music-album"
+        if m.view = "music-album"
             m.loadItemsTask.itemType = "MusicAlbum"
-            m.loadItemsTask.recursive = true
         end if
     else if m.top.parentItem.collectionType = "livetv"
         m.loadItemsTask.itemType = "TvChannel"

@@ -19,20 +19,27 @@
         </LayoutGroup>
       </Section>
 
-      <Section id="slide-2" translation="[0, 1050]" defaultFocusID="albums">
+      <Section id="albumsSlide" translation="[0, 950]" defaultFocusID="albums">
         <Rectangle id='albumRect' translation="[0, 0]" width="1920" height="1080" color="#000000" opacity=".75" />
         <Label id="albumHeader" translation="[120, 50]" font="font:LargeSystemFont" />
         <AlbumGrid id="albums" translation="[120, 150]" vertFocusAnimationStyle="fixedFocus" basePosterSize="[300, 300]" numColumns="5" numRows="99" caption1NumLines="1" itemSpacing="[50, 50]" />
       </Section>
+
+      <Section id="appearsOnSlide" translation="[0, 1100]" defaultFocusID="appearsOn">
+        <Rectangle id='appearsOnRect' translation="[0, 0]" width="1920" height="1080" color="#000000" opacity=".75" />
+        <Label id="appearsOnHeader" translation="[120, 50]" font="font:LargeSystemFont" />
+        <AlbumGrid id="appearsOn" translation="[120, 150]" vertFocusAnimationStyle="fixedFocus" basePosterSize="[300, 300]" numColumns="5" numRows="99" caption1NumLines="1" itemSpacing="[50, 50]" />
+      </Section>
+
     </SectionScroller>
 
     <bgv_ButtonGroupVert id="sectionNavigation" translation="[-100, 175]" itemSpacings="[10]">
       <sob_SlideOutButton background="#070707" focusBackground="#00a4dc" highlightBackground="#555555" padding="20" icon="pkg:/images/icons/details.png" text="Details" height="50" width="60" />
-      <sob_SlideOutButton background="#070707" focusBackground="#00a4dc" highlightBackground="#555555" padding="20" icon="pkg:/images/icons/cd.png" text="Albums" height="50" width="60" />
+      <sob_SlideOutButton id="albumsLink" background="#070707" focusBackground="#00a4dc" highlightBackground="#555555" padding="20" icon="pkg:/images/icons/cd.png" text="Albums" height="50" width="60" />
+      <sob_SlideOutButton id="appearsOnLink" background="#070707" focusBackground="#00a4dc" highlightBackground="#555555" padding="20" icon="pkg:/images/icons/cassette.png" text="Appears On" height="50" width="60" />
     </bgv_ButtonGroupVert>
 
-    <Animation id="pageLoad" duration=".5" repeat="false">
-      <Vector2DFieldInterpolator key="[0.0, .5]" keyValue="[[0, 1050], [0, 750]]" fieldToInterp="slide-2.translation" />
+    <Animation id="pageLoad" duration="1" repeat="false">
       <Vector2DFieldInterpolator key="[0.5, 1.0]" keyValue="[[-100, 175], [40, 175]]" fieldToInterp="sectionNavigation.translation" />
     </Animation>
 
@@ -40,7 +47,10 @@
   <interface>
     <field id="pageContent" type="node" onChange="pageContentChanged" />
     <field id="musicArtistAlbumData" type="assocarray" alias="albums.MusicArtistAlbumData" />
+    <field id="musicArtistAppearsOnData" type="assocarray" alias="appearsOn.MusicArtistAlbumData" />
+    <field id="artistOverview" type="string" onChange="artistOverviewChanged" />
     <field id="musicAlbumSelected" alias="albums.itemSelected" />
+    <field id="appearsOnSelected" alias="appearsOn.itemSelected" />
     <field id="playArtistSelected" alias="play.selected" />
     <field id="instantMixSelected" alias="instantMix.selected" />
     <field id="selectedButtonIndex" type="integer" value="-1" />

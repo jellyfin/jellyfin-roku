@@ -24,13 +24,34 @@ sub displayedIndexChanged()
     displayedSection = m.top.getChild(m.top.displayedIndex)
     displayedSection.setFocus(true)
 
+    onDeckSection = invalid
+    previouslyOnDeckSection = invalid
+
+    if m.top.displayedIndex + 1 <= (m.top.getChildCount() - 1)
+        onDeckSection = m.top.getChild(m.top.displayedIndex + 1)
+    end if
+
+    if m.top.displayedIndex + 2 <= (m.top.getChildCount() - 1)
+        previouslyOnDeckSection = m.top.getChild(m.top.displayedIndex + 2)
+    end if
+
     ' Move sections either up or down depending on what index we're moving to
     if m.top.displayedIndex > m.previouslyDisplayedSection
-        m.top.getChild(m.previouslyDisplayedSection).callFunc("scrollOffTop")
+        for i = m.previouslyDisplayedSection to m.top.displayedIndex - 1
+            m.top.getChild(i).callFunc("scrollOffTop")
+        end for
+
         displayedSection.callFunc("showFromBottom")
+        if isValid(onDeckSection)
+            onDeckSection.callFunc("scrollUpToOnDeck")
+        end if
     else if m.top.displayedIndex < m.previouslyDisplayedSection
-        m.top.getChild(m.previouslyDisplayedSection).callFunc("scrollOffBottom")
+        m.top.getChild(m.top.displayedIndex + 1).callFunc("scrollDownToOnDeck")
         displayedSection.callFunc("showFromTop")
+
+        if isValid(previouslyOnDeckSection)
+            previouslyOnDeckSection.callFunc("scrollOffOnDeck")
+        end if
     end if
 
     m.previouslyDisplayedSection = m.top.displayedIndex

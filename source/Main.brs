@@ -188,6 +188,12 @@ sub Main (args as dynamic) as void
             albums = msg.getRoSGNode()
             node = albums.musicArtistAlbumData.items[ptr]
             group = CreateAlbumView(node)
+        else if isNodeEvent(msg, "appearsOnSelected")
+            ' If you select a Music Album from ANYWHERE, follow this flow
+            ptr = msg.getData()
+            albums = msg.getRoSGNode()
+            node = albums.musicArtistAppearsOnData.items[ptr]
+            group = CreateAlbumView(node)
         else if isNodeEvent(msg, "playSong")
             ' User has selected audio they want us to play
             selectedIndex = msg.getData()
