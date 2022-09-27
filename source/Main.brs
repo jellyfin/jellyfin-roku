@@ -110,7 +110,7 @@ sub Main (args as dynamic) as void
         else if isNodeEvent(msg, "selectedItem")
             ' If you select a library from ANYWHERE, follow this flow
             selectedItem = msg.getData()
-            m.type = selectedItem.type
+            m.selectedItemType = selectedItem.type
             if selectedItem.type = "CollectionFolder" or selectedItem.type = "UserView" or selectedItem.type = "Folder" or selectedItem.type = "Channel" or selectedItem.type = "Boxset"
                 group = CreateItemGrid(selectedItem)
                 sceneManager.callFunc("pushScene", group)
@@ -219,7 +219,7 @@ sub Main (args as dynamic) as void
             end if
         else if isNodeEvent(msg, "episodeSelected")
             ' If you select a TV Episode from ANYWHERE, follow this flow
-            m.type = "Episode"
+            m.selectedItemType = "Episode"
             node = getMsgPicker(msg, "picker")
             video_id = node.id
             if node.selectedAudioStreamIndex <> invalid and node.selectedAudioStreamIndex > 1
@@ -249,7 +249,7 @@ sub Main (args as dynamic) as void
             node = getMsgPicker(msg)
             ' TODO - swap this based on target.mediatype
             ' types: [ Series (Show), Episode, Movie, Audio, Person, Studio, MusicArtist ]
-            m.type = node.type
+            m.selectedItemType = node.type
             if node.type = "Series"
                 group = CreateSeriesDetailsGroup(node)
             else if node.type = "Movie"
@@ -390,7 +390,7 @@ sub Main (args as dynamic) as void
             end if
         else if isNodeEvent(msg, "state")
             node = msg.getRoSGNode()
-            if m.type = "TvChannel" and node.state = "finished"
+            if m.selectedItemType = "TvChannel" and node.state = "finished"
                 video = CreateVideoPlayerGroup(node.id)
                 m.global.sceneManager.callFunc("pushScene", video)
                 m.global.sceneManager.callFunc("clearPreviousScene")
