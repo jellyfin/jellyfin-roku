@@ -159,6 +159,9 @@ sub Main (args as dynamic) as void
                 ' Nothing to do here, handled in ItemGrid
             else if selectedItem.type = "MusicArtist"
                 group = CreateArtistView(selectedItem.json)
+                if not isValid(group)
+                    message_dialog(tr("Unable to find any albums or songs belonging to this artist"))
+                end if
             else if selectedItem.type = "MusicAlbum"
                 group = CreateAlbumView(selectedItem.json)
             else if selectedItem.type = "Audio"

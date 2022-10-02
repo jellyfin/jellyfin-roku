@@ -383,7 +383,20 @@ function CreateArtistView(musicartist)
         ' Just songs under artists...
         group = CreateObject("roSGNode", "AlbumView")
         group.pageContent = ItemMetaData(musicartist.id)
-        group.albumData = MusicSongList(musicartist.id)
+
+        ' Lookup songs based on artist id
+        songList = GetSongsByArtist(musicartist.id)
+
+        if not isValid(songList)
+            ' Lookup songs based on folder parent / child relationship
+            songList = MusicSongList(musicartist.id)
+        end if
+
+        if not isValid(songList)
+            return invalid
+        end if
+
+        group.albumData = songList
         group.observeField("playSong", m.port)
         group.observeField("playAllSelected", m.port)
         group.observeField("instantMixSelected", m.port)

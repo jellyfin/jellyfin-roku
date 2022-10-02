@@ -83,6 +83,10 @@ sub loadItems()
             UserId: get_setting("active_user")
         })
         params.IncludeItemTypes = ""
+    else if m.top.ItemType = "MusicAlbum"
+        url = Substitute("Users/{0}/Items/", get_setting("active_user"))
+        params.append({ ImageTypeLimit: 1 })
+        params.append({ EnableImageTypes: "Primary,Backdrop,Banner,Thumb" })
     else
         url = Substitute("Users/{0}/Items/", get_setting("active_user"))
     end if
@@ -118,6 +122,12 @@ sub loadItems()
                 tmp = CreateObject("roSGNode", "FolderData")
             else if item.Type = "MusicAlbum"
                 tmp = CreateObject("roSGNode", "MusicAlbumData")
+                tmp.type = "MusicAlbum"
+                if api_API().items.headimageurlbyname(item.id, "primary")
+                    tmp.posterURL = ImageURL(item.id, "Primary")
+                else
+                    tmp.posterURL = ImageURL(item.id, "backdrop")
+                end if
             else if item.Type = "MusicArtist"
                 tmp = CreateObject("roSGNode", "MusicArtistData")
             else if item.Type = "Audio"

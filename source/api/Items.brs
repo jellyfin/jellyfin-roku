@@ -219,6 +219,33 @@ function AppearsOnList(id as string)
     return data
 end function
 
+' Get list of songs belonging to an artist
+function GetSongsByArtist(id as string)
+    url = Substitute("Users/{0}/Items", get_setting("active_user"))
+    resp = APIRequest(url, {
+        "AlbumArtistIds": id,
+        "includeitemtypes": "Audio",
+        "sortBy": "SortName",
+        "Recursive": true
+    })
+
+    data = getJson(resp)
+    results = []
+
+    if data = invalid then return invalid
+    if data.Items = invalid then return invalid
+    if data.Items.Count() = 0 then return invalid
+
+    for each item in data.Items
+        tmp = CreateObject("roSGNode", "MusicAlbumData")
+        tmp.image = PosterImage(item.id)
+        tmp.json = item
+        results.push(tmp)
+    end for
+    data.Items = results
+    return data
+end function
+
 ' Get Songs that are on an Album
 function MusicSongList(id as string)
     url = Substitute("Users/{0}/Items", get_setting("active_user"), id)
@@ -229,8 +256,13 @@ function MusicSongList(id as string)
         "sortBy": "SortName"
     })
 
-    data = getJson(resp)
     results = []
+    data = getJson(resp)
+
+    if data = invalid then return invalid
+    if data.Items = invalid then return invalid
+    if data.Items.Count() = 0 then return invalid
+
     for each item in data.Items
         tmp = CreateObject("roSGNode", "MusicSongData")
         tmp.image = PosterImage(item.id)
