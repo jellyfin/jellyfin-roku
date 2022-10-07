@@ -757,7 +757,7 @@
         <message>
             <source>direct</source>
             <translation>direct</translation>
-        </message>                                 
+        </message>
         <message>
             <source>Total Bitrate</source>
             <translation>Total Bitrate</translation>
@@ -765,7 +765,7 @@
         <message>
             <source>Audio Channels</source>
             <translation>Audio Channels</translation>
-        </message>                               
+        </message>
         <message>
             <source>Stream Information</source>
             <translation>Stream Information</translation>
@@ -781,36 +781,41 @@
         <message>
             <source>Level</source>
             <translation>Level</translation>
-            <extracomment>Video profile level</extracomment>            
-        </message>                                
+            <extracomment>Video profile level</extracomment>
+        </message>
         <message>
             <source>Bit Rate</source>
             <translation>Bit Rate</translation>
-            <extracomment>Video streaming bit rate</extracomment>            
-        </message>                                
+            <extracomment>Video streaming bit rate</extracomment>
+        </message>
         <message>
             <source>Container</source>
             <translation>Container</translation>
-            <extracomment>Video streaming container</extracomment>            
-        </message>  
+            <extracomment>Video streaming container</extracomment>
+        </message>
         <message>
             <source>Size</source>
             <translation>Size</translation>
-            <extracomment>Video size</extracomment>            
-        </message>  
+            <extracomment>Video size</extracomment>
+        </message>
         <message>
             <source>Video range type</source>
             <translation>Video range type</translation>
-        </message>  
+        </message>
         <message>
             <source>Pixel format</source>
             <translation>Pixel format</translation>
-            <extracomment>Video pixel format</extracomment>            
-        </message>  
+            <extracomment>Video pixel format</extracomment>
+        </message>
         <message>
             <source>WxH</source>
             <translation>WxH</translation>
-            <extracomment>Video width x height</extracomment>            
-        </message>                                          
+            <extracomment>Video width x height</extracomment>
+        </message>
+        <message>
+            <source>Unable to find any albums or songs belonging to this artist</source>
+            <translation>Unable to find any albums or songs belonging to this artist</translation>
+            <extracomment>Popup message when we find no audio data for an artist</extracomment>
+        </message>
     </context>
 </TS>

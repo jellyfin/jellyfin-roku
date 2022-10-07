@@ -8,8 +8,16 @@ sub init()
     m.albumHeader = m.top.findNode("albumHeader")
     m.albumHeader.text = tr("Albums")
 
+    m.appearsOnHeader = m.top.findNode("appearsOnHeader")
+    m.appearsOnHeader.text = tr("AppearsOn")
+
+    m.appearsOn = m.top.findNode("appearsOn")
+    m.appearsOn.observeField("escape", "onAppearsOnEscape")
+    m.appearsOn.observeField("MusicArtistAlbumData", "onAppearsOnData")
+
     m.albums = m.top.findNode("albums")
     m.albums.observeField("escape", "onAlbumsEscape")
+    m.albums.observeField("MusicArtistAlbumData", "onAlbumsData")
 
     m.pageLoadAnimation = m.top.findNode("pageLoad")
     m.pageLoadAnimation.control = "start"
@@ -33,8 +41,39 @@ sub init()
     createDialogPallete()
 end sub
 
+sub onAlbumsData()
+    ' We have no album data
+    if m.albums.MusicArtistAlbumData.TotalRecordCount = 0
+        m.sectionScroller.removeChild(m.top.findNode("albumsSlide"))
+        m.sectionNavigation.removeChild(m.top.findNode("albumsLink"))
+        m.top.findNode("appearsOnSlide").callFunc("scrollUpToOnDeck")
+    end if
+end sub
+
+sub onAppearsOnData()
+    ' We have no appears on data
+    if m.appearsOn.MusicArtistAlbumData.TotalRecordCount = 0
+        m.sectionScroller.removeChild(m.top.findNode("appearsOnSlide"))
+        m.sectionNavigation.removeChild(m.top.findNode("appearsOnLink"))
+    end if
+end sub
+
 sub onSectionScrollerChange()
     m.overhang.isVisible = (m.sectionScroller.displayedIndex = 0)
+end sub
+
+sub OnScreenShown()
+    m.sectionScroller.focus = true
+
+    if m.sectionScroller.displayedIndex = 0
+        m.previouslySelectedButtonIndex = m.top.selectedButtonIndex
+        m.top.selectedButtonIndex = 0
+        m.buttonGrp.setFocus(true)
+    else
+        m.overhang.opacity = "0"
+        m.overhang.isVisible = false
+        m.overhang.opacity = "1"
+    end if
 end sub
 
 sub OnScreenHidden()
@@ -42,6 +81,7 @@ sub OnScreenHidden()
         m.overhang.disableMoveAnimation = true
         m.overhang.isVisible = true
         m.overhang.disableMoveAnimation = false
+        m.overhang.opacity = "1"
     end if
 end sub
 
@@ -49,6 +89,18 @@ sub onAlbumsEscape()
     if m.albums.escape = "up"
         m.sectionNavigation.selected = m.sectionScroller.displayedIndex - 1
     else if m.albums.escape = "left"
+        m.sectionNavigation.setFocus(true)
+    else if m.albums.escape = "down"
+        if m.sectionScroller.displayedIndex + 1 < m.sectionNavigation.getChildCount()
+            m.sectionNavigation.selected = m.sectionScroller.displayedIndex + 1
+        end if
+    end if
+end sub
+
+sub onAppearsOnEscape()
+    if m.appearsOn.escape = "up"
+        m.sectionNavigation.selected = m.sectionScroller.displayedIndex - 1
+    else if m.appearsOn.escape = "left"
         m.sectionNavigation.setFocus(true)
     end if
 end sub
@@ -95,7 +147,6 @@ sub pageContentChanged()
     ' Populate scene data
     setScreenTitle(item.json)
     setPosterImage(item.posterURL)
-    setOnScreenTextValues(item.json)
 end sub
 
 sub setScreenTitle(json)
@@ -129,10 +180,12 @@ sub setBackdropImage(data)
     end if
 end sub
 
-' Populate on screen text variables
-sub setOnScreenTextValues(json)
-    if isValid(json)
-        setFieldTextValue("overview", json.overview)
+' Event fired when page data is loaded
+sub artistOverviewChanged()
+    overviewContent = m.top.artistOverview
+
+    if isValid(overviewContent)
+        setFieldTextValue("overview", overviewContent)
     end if
 end sub
 
@@ -194,19 +247,17 @@ sub createDialogPallete()
     }
 end sub
 
-sub OnScreenShown()
-    m.sectionScroller.focus = true
-
-    if m.sectionScroller.displayedIndex = 0
-        m.previouslySelectedButtonIndex = m.top.selectedButtonIndex
-        m.top.selectedButtonIndex = 0
-        m.buttonGrp.setFocus(true)
-    end if
-end sub
-
 function onKeyEvent(key as string, press as boolean) as boolean
 
     if m.buttonGrp.isInFocusChain()
+        if key = "OK"
+            if press
+                selectedButton = m.buttonGrp.getChild(m.top.selectedButtonIndex)
+                selectedButton.selected = not selectedButton.selected
+                return true
+            end if
+        end if
+
         if key = "left"
             if m.top.selectedButtonIndex > 0
                 m.previouslySelectedButtonIndex = m.top.selectedButtonIndex
@@ -241,11 +292,13 @@ function onKeyEvent(key as string, press as boolean) as boolean
         end if
 
         if key = "down"
-            selectedButton = m.buttonGrp.getChild(m.top.selectedButtonIndex)
-            selectedButton.focus = false
+            if m.sectionNavigation.getChildCount() > 1
+                selectedButton = m.buttonGrp.getChild(m.top.selectedButtonIndex)
+                selectedButton.focus = false
 
-            m.top.selectedButtonIndex = 0
-            m.sectionNavigation.selected = m.sectionScroller.displayedIndex + 1
+                m.top.selectedButtonIndex = 0
+                m.sectionNavigation.selected = m.sectionScroller.displayedIndex + 1
+            end if
         end if
     end if
 

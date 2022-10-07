@@ -69,17 +69,11 @@ end sub
 function onKeyEvent(key as string, press as boolean) as boolean
     if not press then return false
 
-    if key = "OK" and m.top.hasFocus()
-        ' Simply toggle the selected field to trigger the next event
-        m.top.selected = not m.top.selected
-        return true
-    end if
-
-    if key = "right" and m.top.hasFocus()
+    if key = "right" and m.top.focus
         m.top.escape = "right"
     end if
 
-    if key = "left" and m.top.hasFocus()
+    if key = "left" and m.top.focus
         m.top.escape = "left"
     end if
 

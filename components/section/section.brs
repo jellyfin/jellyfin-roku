@@ -15,6 +15,16 @@ sub init()
     m.scrollOffBottomPosition = m.top.findNode("scrollOffBottomPosition")
     m.scrollOffBottomOpacity = m.top.findNode("scrollOffBottomOpacity")
 
+    m.scrollUpToOnDeckAnimation = m.top.findNode("scrollUpToOnDeckAnimation")
+    m.scrollUpToOnDeckPosition = m.top.findNode("scrollUpToOnDeckPosition")
+
+    m.scrollDownToOnDeckAnimation = m.top.findNode("scrollDownToOnDeckAnimation")
+    m.scrollDownToOnDeckPosition = m.top.findNode("scrollDownToOnDeckPosition")
+
+    m.scrollOffOnDeckAnimation = m.top.findNode("scrollOffOnDeckAnimation")
+    m.scrollOffOnDeckPosition = m.top.findNode("scrollOffOnDeckPosition")
+
+    m.top.observeField("translation", "onTranslationChange")
     m.top.observeField("id", "onIDChange")
     m.top.observeField("focusedChild", "onFocusChange")
 end sub
@@ -31,6 +41,18 @@ sub onIDChange()
 
     m.scrollOffBottomPosition.fieldToInterp = m.top.id + ".translation"
     m.scrollOffBottomOpacity.fieldToInterp = m.top.id + ".opacity"
+
+    m.scrollUpToOnDeckPosition.fieldToInterp = m.top.id + ".translation"
+
+    m.scrollDownToOnDeckPosition.fieldToInterp = m.top.id + ".translation"
+
+    m.scrollOffOnDeckPosition.fieldToInterp = m.top.id + ".translation"
+end sub
+
+sub onTranslationChange()
+    m.startingPosition = m.top.translation
+    m.scrollOffBottomPosition.keyValue = "[[0, 0], [" + str(m.startingPosition[0]) + ", " + str(m.startingPosition[1]) + "]]"
+    m.top.unobserveField("translation")
 end sub
 
 sub showFromTop()
@@ -47,6 +69,18 @@ end sub
 
 sub scrollOffTop()
     m.scrollOffTopAnimation.control = "start"
+end sub
+
+sub scrollUpToOnDeck()
+    m.scrollUpToOnDeckAnimation.control = "start"
+end sub
+
+sub scrollDownToOnDeck()
+    m.scrollDownToOnDeckAnimation.control = "start"
+end sub
+
+sub scrollOffOnDeck()
+    m.scrollOffOnDeckAnimation.control = "start"
 end sub
 
 sub onFocusChange()
