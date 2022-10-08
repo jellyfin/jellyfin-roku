@@ -354,32 +354,32 @@
         <message>
             <source>Started at</source>
             <translation>Started at</translation>
-            <extracomment>(Past Tense) For defining time when a program started today (e.g.  Started at 08:00) </extracomment>
+            <extracomment>(Past Tense) For defining time when a program started today (e.g. Started at 08:00) </extracomment>
         </message>
         <message>
             <source>Started</source>
             <translation>Started</translation>
-            <extracomment>(Past Tense) For defining a day and time when a program started (e.g.  Started Wednesday, 08:00) </extracomment>
+            <extracomment>(Past Tense) For defining a day and time when a program started (e.g. Started Wednesday, 08:00) </extracomment>
         </message>
         <message>
             <source>Starts at</source>
             <translation>Starts at</translation>
-            <extracomment>(Future Tense) For defining time when a program will start today (e.g.  Starts at 08:00) </extracomment>
+            <extracomment>(Future Tense) For defining time when a program will start today (e.g. Starts at 08:00) </extracomment>
         </message>
         <message>
             <source>Starts</source>
             <translation>Starts</translation>
-            <extracomment>(Future Tense) For defining a day and time when a program will start (e.g.  Starts Wednesday, 08:00) </extracomment>
+            <extracomment>(Future Tense) For defining a day and time when a program will start (e.g. Starts Wednesday, 08:00) </extracomment>
         </message>
         <message>
             <source>Ended at</source>
             <translation>Ended at</translation>
-            <extracomment>(Past Tense) For defining time when a program will ended (e.g.  Ended at 08:00) </extracomment>
+            <extracomment>(Past Tense) For defining time when a program will ended (e.g. Ended at 08:00) </extracomment>
         </message>
         <message>
             <source>Ends at</source>
             <translation>Ends at</translation>
-            <extracomment>(Past Tense) For defining a day and time when a program ended  (e.g.  Ended Wednesday, 08:00) </extracomment>
+            <extracomment>(Past Tense) For defining a day and time when a program ended (e.g. Ended Wednesday, 08:00) </extracomment>
         </message>
         <message>
             <source>Live</source>
@@ -446,8 +446,8 @@
             <extracomment>Content of message box when the requested content is not found on the server</extracomment>
         </message>
         <message>
-            <source>Enter the server name or ip address</source>
-            <translation>Enter the server name or ip address</translation>
+            <source>Enter the server name or IP address</source>
+            <translation>Enter the server name or IP address</translation>
             <extracomment>Title of KeyboardDialog when manually entering a server URL</extracomment>
         </message>
         <message>
@@ -466,8 +466,8 @@
             <extracomment>Dialog Title: Received error from server when trying to get information about the selected item for playback</extracomment>
         </message>
         <message>
-            <source>An error was encountered while playing this item.  Server did not provide required transcoding data.</source>
-            <translation>An error was encountered while playing this item.  Server did not provide required transcoding data.</translation>
+            <source>An error was encountered while playing this item. Server did not provide required transcoding data.</source>
+            <translation>An error was encountered while playing this item. Server did not provide required transcoding data.</translation>
             <extracomment>Content of message box when trying to play an item which requires transcoding, and the server did not provide transcode url</extracomment>
         </message>
         <message>
@@ -574,7 +574,7 @@
         <message>
             <source>%1 of %2</source>
             <translation>%1 of %2</translation>
-            <extracomment>Item position and count.  %1 = current item.  %2 = total number of items</extracomment>
+            <extracomment>Item position and count. %1 = current item. %2 = total number of items</extracomment>
         </message>
         <message>
             <source>Quick Connect</source>
