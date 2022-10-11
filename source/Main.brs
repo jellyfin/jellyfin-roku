@@ -9,7 +9,6 @@ sub Main (args as dynamic) as void
 
     ' Set global constants
     setConstants()
-
     ' Write screen tracker for screensaver
     WriteAsciiFile("tmp:/scene.temp", "")
     MoveFile("tmp:/scene.temp", "tmp:/scene")
@@ -160,6 +159,9 @@ sub Main (args as dynamic) as void
                 ' Nothing to do here, handled in ItemGrid
             else if selectedItem.type = "MusicArtist"
                 group = CreateArtistView(selectedItem.json)
+                if not isValid(group)
+                    message_dialog(tr("Unable to find any albums or songs belonging to this artist"))
+                end if
             else if selectedItem.type = "MusicAlbum"
                 group = CreateAlbumView(selectedItem.json)
             else if selectedItem.type = "Audio"
@@ -189,6 +191,12 @@ sub Main (args as dynamic) as void
             albums = msg.getRoSGNode()
             node = albums.musicArtistAlbumData.items[ptr]
             group = CreateAlbumView(node)
+        else if isNodeEvent(msg, "appearsOnSelected")
+            ' If you select a Music Album from ANYWHERE, follow this flow
+            ptr = msg.getData()
+            albums = msg.getRoSGNode()
+            node = albums.musicArtistAppearsOnData.items[ptr]
+            group = CreateAlbumView(node)
         else if isNodeEvent(msg, "playSong")
             ' User has selected audio they want us to play
             selectedIndex = msg.getData()
@@ -212,11 +220,23 @@ sub Main (args as dynamic) as void
             if isValid(m.spinner)
                 m.spinner.visible = true
             end if
+
+            group = invalid
+
+            ' Create instant mix based on selected album
             if isValid(screenContent.albumData)
-                group = CreateInstantMixGroup(screenContent.albumData.items)
-            else if isValid(screenContent.pageContent)
-                group = CreateInstantMixGroup([{ id: screenContent.musicArtistAlbumData.items[0].json.id }])
+                if isValid(screenContent.albumData.items)
+                    if screenContent.albumData.items.count() > 0
+                        group = CreateInstantMixGroup(screenContent.albumData.items)
+                    end if
+                end if
             end if
+
+            ' Create instant mix based on selected artist
+            if not isValid(group)
+                group = CreateInstantMixGroup([{ id: screenContent.pageContent.id }])
+            end if
+
         else if isNodeEvent(msg, "episodeSelected")
             ' If you select a TV Episode from ANYWHERE, follow this flow
             node = getMsgPicker(msg, "picker")
@@ -386,9 +406,19 @@ sub Main (args as dynamic) as void
                     changeSubtitleDuringPlayback(trackSelected)
                 end if
             end if
+        else if isNodeEvent(msg, "selectPlaybackInfoPressed")
+            node = m.scene.focusedChild
+            if node.focusedChild <> invalid and node.focusedChild.isSubType("JFVideo")
+                info = GetPlaybackInfo()
+                show_dialog(tr("Playback Information"), info)
+            end if
         else if isNodeEvent(msg, "state")
             node = msg.getRoSGNode()
-            if node.state = "finished"
+            if selectedItem.Type = "TvChannel" and node.state = "finished"
+                video = CreateVideoPlayerGroup(node.id)
+                m.global.sceneManager.callFunc("pushScene", video)
+                m.global.sceneManager.callFunc("clearPreviousScene")
+            else if node.state = "finished"
                 node.control = "stop"
 
                 ' If node allows retrying using Transcode Url, give that shot
