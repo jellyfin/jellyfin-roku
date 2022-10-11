@@ -220,11 +220,23 @@ sub Main (args as dynamic) as void
             if isValid(m.spinner)
                 m.spinner.visible = true
             end if
+
+            group = invalid
+
+            ' Create instant mix based on selected album
             if isValid(screenContent.albumData)
-                group = CreateInstantMixGroup(screenContent.albumData.items)
-            else if isValid(screenContent.pageContent)
-                group = CreateInstantMixGroup([{ id: screenContent.musicArtistAlbumData.items[0].json.id }])
+                if isValid(screenContent.albumData.items)
+                    if screenContent.albumData.items.count() > 0
+                        group = CreateInstantMixGroup(screenContent.albumData.items)
+                    end if
+                end if
             end if
+
+            ' Create instant mix based on selected artist
+            if not isValid(group)
+                group = CreateInstantMixGroup([{ id: screenContent.pageContent.id }])
+            end if
+
         else if isNodeEvent(msg, "episodeSelected")
             ' If you select a TV Episode from ANYWHERE, follow this flow
             node = getMsgPicker(msg, "picker")
