@@ -98,7 +98,7 @@
     </message>
     <message>
         <source>Continue Watching</source>
-        <translation>Reprendre le visionnage</translation>
+        <translation>Reprendre le visionnement</translation>
     </message>
     <message>
         <source>Next Up</source>
@@ -3372,6 +3372,14 @@
         <comment>Message displayed in Item Grid when no item to display. %1 is container type (e.g. Boxset, Collection, Folder, etc)</comment>
         <source>NO_ITEMS</source>
         <translation>Ce %1 ne contient pas d&apos;éléments</translation>
+    </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>Enregistrer les identifiants ?</translation>
+    </message>
+    <message>
+        <source>Delete Saved</source>
+        <translation>Supprimer les informations enregistrées</translation>
     </message>
 </context>
 </TS>
