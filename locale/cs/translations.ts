@@ -3643,5 +3643,10 @@
         <translation>Přejít k epizodě</translation>
         <extracomment>Continue Watching Popup Menu - Navigate to the Episode Detail Page</extracomment>
     </message>
+    <message>
+        <source>Level</source>
+        <translation>Úroveň</translation>
+        <extracomment>Video profile level</extracomment>
+    </message>
 </context>
 </TS>
