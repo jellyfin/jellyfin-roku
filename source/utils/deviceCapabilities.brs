@@ -38,7 +38,7 @@ function getDeviceProfile() as object
         tsVideoCodecs = tsVideoCodecs + ",h265,hevc"
         addHevcProfile = true
         if di.CanDecodeVideo({ Codec: "hevc", Profile: "main 10" }).Result
-            MAIN10 = ",main 10"
+            MAIN10 = "|main 10"
         end if
     end if
 
@@ -47,7 +47,7 @@ function getDeviceProfile() as object
     else
         tsAudioCodecs = "aac"
     end if
-    
+
     addAv1Profile = false
     if di.CanDecodeVideo({ Codec: "av1" }).result
         tsVideoCodecs = tsVideoCodecs + ",av1"
@@ -66,25 +66,24 @@ function getDeviceProfile() as object
 
     dp = di.GetDisplayProperties()
     if dp.Hdr10 ' or dp.Hdr10Plus?
-        hevcVideoRangeTypes = hevcVideoRangeTypes + ",HDR10"
-        vp9VideoRangeTypes = vp9VideoRangeTypes + ",HDR10"
-        av1VideoRangeTypes = av1VideoRangeTypes + ",HDR10"
+        hevcVideoRangeTypes = hevcVideoRangeTypes + "|HDR10"
+        vp9VideoRangeTypes = vp9VideoRangeTypes + "|HDR10"
+        av1VideoRangeTypes = av1VideoRangeTypes + "|HDR10"
     end if
     if dp.HLG
-        hevcVideoRangeTypes = hevcVideoRangeTypes + ",HLG"
-        vp9VideoRangeTypes = vp9VideoRangeTypes + ",HLG"
-        av1VideoRangeTypes = av1VideoRangeTypes + ",HLG"
+        hevcVideoRangeTypes = hevcVideoRangeTypes + "|HLG"
+        vp9VideoRangeTypes = vp9VideoRangeTypes + "|HLG"
+        av1VideoRangeTypes = av1VideoRangeTypes + "|HLG"
     end if
     if dp.DolbyVision
-        hevcVideoRangeTypes = hevcVideoRangeTypes + ",DOVI"
+        hevcVideoRangeTypes = hevcVideoRangeTypes + "|DOVI"
         'vp9VideoRangeTypes = vp9VideoRangeTypes + ",DOVI" no evidence that vp9 can hold DOVI
-        av1VideoRangeTypes = av1VideoRangeTypes + ",DOVI"
+        av1VideoRangeTypes = av1VideoRangeTypes + "|DOVI"
     end if
-    
-    
+
     DirectPlayProfile = GetDirectPlayProfiles()
 
-    deviceProfile =  {
+    deviceProfile = {
         "MaxStreamingBitrate": 120000000,
         "MaxStaticBitrate": 100000000,
         "MusicStreamingTranscodingBitrate": 192000,
@@ -169,7 +168,7 @@ function getDeviceProfile() as object
                     {
                         "Condition": "LessThanEqual",
                         "Property": "VideoLevel",
-                        "Value": "51",
+                        "Value": "41",
                         "IsRequired": false
                     }
                 ]
@@ -196,59 +195,59 @@ function getDeviceProfile() as object
     }
     if addAv1Profile
         deviceProfile.CodecProfiles.push({
-                "Type": "Video",
-                "Codec": "av1",
-                "Conditions": [
-                    {
-                        "Condition": "EqualsAny",
-                        "Property": "VideoRangeType",
-                        "Value": av1VideoRangeTypes,
-                        "IsRequired": false
-                    }
-                ]
-            })
+            "Type": "Video",
+            "Codec": "av1",
+            "Conditions": [
+                {
+                    "Condition": "EqualsAny",
+                    "Property": "VideoRangeType",
+                    "Value": av1VideoRangeTypes,
+                    "IsRequired": false
+                }
+            ]
+        })
     end if
     if addHevcProfile
         deviceProfile.CodecProfiles.push({
-                "Type": "Video",
-                "Codec": "hevc",
-                "Conditions": [
-                    {
-                        "Condition": "EqualsAny",
-                        "Property": "VideoProfile",
-                        "Value": "main"+MAIN10,
-                        "IsRequired": false
-                    },
-                    {
-                        "Condition": "EqualsAny",
-                        "Property": "VideoRangeType",
-                        "Value": hevcVideoRangeTypes,
-                        "IsRequired": false
-                    },
-                    {
-                        "Condition": "LessThanEqual",
-                        "Property": "VideoLevel",
-                        "Value": "153",
-                        "IsRequired": false
-                    }
-                ]
-            })
+            "Type": "Video",
+            "Codec": "hevc",
+            "Conditions": [
+                {
+                    "Condition": "EqualsAny",
+                    "Property": "VideoProfile",
+                    "Value": "main" + MAIN10,
+                    "IsRequired": false
+                },
+                {
+                    "Condition": "EqualsAny",
+                    "Property": "VideoRangeType",
+                    "Value": hevcVideoRangeTypes,
+                    "IsRequired": false
+                },
+                {
+                    "Condition": "LessThanEqual",
+                    "Property": "VideoLevel",
+                    "Value": (120 * 5.1).ToStr(),
+                    "IsRequired": false
+                }
+            ]
+        })
     end if
     if addVp9Profile
         deviceProfile.CodecProfiles.push({
-                "Type": "Video",
-                "Codec": "vp9",
-                "Conditions": [
-                    {
-                        "Condition": "EqualsAny",
-                        "Property": "VideoRangeType",
-                        "Value": vp9VideoRangeTypes,
-                        "IsRequired": false
-                    }
-                ]
-            })
+            "Type": "Video",
+            "Codec": "vp9",
+            "Conditions": [
+                {
+                    "Condition": "EqualsAny",
+                    "Property": "VideoRangeType",
+                    "Value": vp9VideoRangeTypes,
+                    "IsRequired": false
+                }
+            ]
+        })
     end if
-    
+
     return deviceProfile
 end function
 
