@@ -12,13 +12,17 @@
     <field id="nameStartsWith" type="string" value="" />
     <field id="recursive" type="boolean" value="true" />
     <field id="filter" type="string" value="All" />
-
+    <field id="searchTerm" type="string" value="" />
+    <field id="studioIds" type="string" value="" />
+    <field id="genreIds" type="string" value="" />
+    <field id="view" type="string" value="" />
     <!-- Total records available from server-->
     <field id="totalRecordCount" type="int" value="-1" />
     <field id="content" type="array" />
   </interface>
   <script type="text/brightscript" uri="LoadItemsTask2.brs" />
   <script type="text/brightscript" uri="pkg:/source/api/Items.brs" />
+  <script type="text/brightscript" uri="pkg:/source/roku_modules/api/api.brs" />
   <script type="text/brightscript" uri="pkg:/source/api/baserequest.brs" />
   <script type="text/brightscript" uri="pkg:/source/utils/config.brs" />
   <script type="text/brightscript" uri="pkg:/source/api/Image.brs" />

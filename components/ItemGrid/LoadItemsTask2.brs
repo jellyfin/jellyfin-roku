@@ -1,9 +1,15 @@
 sub init()
     m.top.functionName = "loadItems"
+
+    m.top.limit = 60
+    usersettingLimit = get_user_setting("itemgrid.Limit")
+
+    if usersettingLimit <> invalid
+        m.top.limit = usersettingLimit
+    end if
 end sub
 
 sub loadItems()
-
     results = []
 
     sort_field = m.top.sortField
@@ -22,16 +28,32 @@ sub loadItems()
         SortBy: sort_field,
         SortOrder: sort_order,
         recursive: m.top.recursive,
-        Fields: "Overview"
+        Fields: "Overview",
+        StudioIds: m.top.studioIds,
+        genreIds: m.top.genreIds
     }
 
     ' Handle special case when getting names starting with numeral
     if m.top.NameStartsWith <> ""
         if m.top.NameStartsWith = "#"
-            params.NameLessThan = "A"
+            if m.top.ItemType = "LiveTV" or m.top.ItemType = "TvChannel"
+                params.searchterm = "A"
+                params.append({ parentid: " " })
+            else
+                params.NameLessThan = "A"
+            end if
         else
-            params.NameStartsWith = m.top.nameStartsWith
+            if m.top.ItemType = "LiveTV" or m.top.ItemType = "TvChannel"
+                params.searchterm = m.top.nameStartsWith
+                params.append({ parentid: " " })
+            else
+                params.NameStartsWith = m.top.nameStartsWith
+            end if
         end if
+    end if
+
+    if m.top.searchTerm <> ""
+        params.searchTerm = m.top.searchTerm
     end if
 
     filter = m.top.filter
@@ -49,23 +71,38 @@ sub loadItems()
     if m.top.ItemType = "LiveTV"
         url = "LiveTv/Channels"
         params.append({ UserId: get_setting("active_user") })
+    else if m.top.view = "Networks"
+        url = "Studios"
+        params.append({ UserId: get_setting("active_user") })
+    else if m.top.view = "Genres"
+        url = "Genres"
+        params.append({ UserId: get_setting("active_user") })
+    else if m.top.ItemType = "MusicArtist"
+        url = "Artists"
+        params.append({
+            UserId: get_setting("active_user")
+        })
+        params.IncludeItemTypes = ""
+    else if m.top.ItemType = "MusicAlbum"
+        url = Substitute("Users/{0}/Items/", get_setting("active_user"))
+        params.append({ ImageTypeLimit: 1 })
+        params.append({ EnableImageTypes: "Primary,Backdrop,Banner,Thumb" })
     else
         url = Substitute("Users/{0}/Items/", get_setting("active_user"))
     end if
     resp = APIRequest(url, params)
     data = getJson(resp)
-
     if data <> invalid
 
         if data.TotalRecordCount <> invalid then m.top.totalRecordCount = data.TotalRecordCount
 
         for each item in data.Items
             tmp = invalid
-            if item.Type = "Movie"
+            if item.Type = "Movie" or item.Type = "MusicVideo"
                 tmp = CreateObject("roSGNode", "MovieData")
             else if item.Type = "Series"
                 tmp = CreateObject("roSGNode", "SeriesData")
-            else if item.Type = "BoxSet"
+            else if item.Type = "BoxSet" or item.Type = "ManualPlaylistsFolder"
                 tmp = CreateObject("roSGNode", "CollectionData")
             else if item.Type = "TvChannel"
                 tmp = CreateObject("roSGNode", "ChannelData")
@@ -77,15 +114,29 @@ sub loadItems()
                 tmp = CreateObject("roSGNode", "PhotoData")
             else if item.type = "PhotoAlbum"
                 tmp = CreateObject("roSGNode", "FolderData")
-            else if item.Type = "MusicArtist" or item.Type = "MusicAlbum"
+            else if item.type = "Episode"
+                tmp = CreateObject("roSGNode", "TVEpisode")
+            else if item.Type = "Genre"
+                tmp = CreateObject("roSGNode", "FolderData")
+            else if item.Type = "Studio"
+                tmp = CreateObject("roSGNode", "FolderData")
+            else if item.Type = "MusicAlbum"
+                tmp = CreateObject("roSGNode", "MusicAlbumData")
+                tmp.type = "MusicAlbum"
+                if api_API().items.headimageurlbyname(item.id, "primary")
+                    tmp.posterURL = ImageURL(item.id, "Primary")
+                else
+                    tmp.posterURL = ImageURL(item.id, "backdrop")
+                end if
+            else if item.Type = "MusicArtist"
                 tmp = CreateObject("roSGNode", "MusicArtistData")
             else if item.Type = "Audio"
                 tmp = CreateObject("roSGNode", "MusicSongData")
             else
                 print "[LoadItems] Unknown Type: " item.Type
             end if
-
             if tmp <> invalid
+                tmp.parentFolder = m.top.itemId
                 tmp.json = item
                 if item.UserData <> invalid and item.UserData.isFavorite <> invalid
                     tmp.favorite = item.UserData.isFavorite
@@ -94,7 +145,5 @@ sub loadItems()
             end if
         end for
     end if
-
     m.top.content = results
-
 end sub
