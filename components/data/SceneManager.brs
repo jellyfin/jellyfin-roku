@@ -150,9 +150,9 @@ sub clearPreviousScene()
 end sub
 
 '
-' Delete X number of scenes from group stack
-sub deletePreviousScene(sceneLength = 1)
-    m.groups.Delete(sceneLength)
+' Delete scene from group stack at passed index
+sub deleteSceneAtIndex(index = 1)
+    m.groups.Delete(index)
 end sub
 
 '
