@@ -420,7 +420,7 @@ sub Main (args as dynamic) as void
             if m.selectedItemType = "TvChannel" and node.state = "finished"
                 video = CreateVideoPlayerGroup(node.id)
                 m.global.sceneManager.callFunc("pushScene", video)
-                m.global.sceneManager.callFunc("clearPreviousScene")
+                m.global.sceneManager.callFunc("deleteSceneAtIndex", 2)
             else if node.state = "finished"
                 node.control = "stop"
 
