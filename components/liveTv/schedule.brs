@@ -44,7 +44,14 @@ end sub
 'Voice Search set
 sub channelsearchTermSet()
     m.scheduleGrid.jumpToChannel = 0
-    if m.top.searchTerm <> invalid and m.LoadChannelsTask.searchTerm <> m.top.searchTerm
+    'Reset filter if user says all
+    if m.top.searchTerm = "all" or m.LoadChannelsTask.searchTerm = "all"
+        m.top.searchTerm = " "
+        m.LoadChannelsTask.searchTerm = " "
+        m.spinner.visible = true
+        m.LoadChannelsTask.control = "RUN"
+        'filter if the searterm is not invalid
+    else if m.top.searchTerm <> invalid and m.LoadChannelsTask.searchTerm <> m.top.searchTerm
         if m.LoadChannelsTask.state = "run" then m.LoadChannelsTask.control = "stop"
 
         m.LoadChannelsTask.searchTerm = m.top.searchTerm
@@ -279,6 +286,17 @@ end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean
     if not press then return false
+    print "Key Pressed = "key
+
+    if key = "replay"
+        m.spinner.visible = true
+        m.top.searchTerm = " "
+        m.LoadChannelsTask.searchTerm = " "
+        channelsearchTermSet()
+        print "Press Return"
+        return true
+    end if
+
     detailsGrp = m.top.findNode("detailsPane")
     gridGrp = m.top.findNode("scheduleGrid")
 
