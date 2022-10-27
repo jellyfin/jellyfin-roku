@@ -19,10 +19,13 @@ sub init()
     m.buttonGrp.setFocus(true)
     m.top.lastFocus = m.buttonGrp
 
+    m.spinner = m.top.findNode("spinner")
+
     m.trailerButton = m.top.findNode("trailer-button")
     m.trailerButton.text = tr("Play Trailer")
 
     m.top.observeField("itemContent", "itemContentChanged")
+    m.top.findNode("communityRatingGroup").visible = false
 end sub
 
 sub OnScreenShown()
@@ -60,9 +63,7 @@ sub itemContentChanged()
 
     if itemData.communityRating <> invalid
         setFieldText("communityRating", int(itemData.communityRating * 10) / 10)
-    else
-        ' hide the star icon
-        m.top.findNode("communityRatingGroup").visible = false
+        m.top.findNode("communityRatingGroup").visible = true
     end if
 
     if itemData.CriticRating <> invalid
@@ -119,6 +120,8 @@ sub itemContentChanged()
     setWatchedColor()
     SetUpVideoOptions(itemData.mediaSources)
     SetUpAudioOptions(itemData.mediaStreams)
+    m.buttonGrp.visible = true
+    m.spinner.visible = false
 end sub
 
 
