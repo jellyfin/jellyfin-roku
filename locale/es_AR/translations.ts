@@ -113,8 +113,16 @@
         <translation>Inicio</translation>
     </message>
     <message>
+        <source>Enter a username</source>
+        <translation>Ingres nombre de usuario</translation>
+    </message>
+    <message>
+        <source>Enter a password</source>
+        <translation>Ingres la contraseña</translation>
+    </message>
+    <message>
         <source>Enter a value...</source>
-        <translation>Ingrese un valor…</translation>
+        <translation>Ingres un valor...</translation>
     </message>
     <message>
         <source>Sort Field</source>
@@ -1319,6 +1327,23 @@
     <message>
         <source>Save Credentials?</source>
         <translation>Guardar credenciales?</translation>
+    </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>¿Guardar credenciales?</translation>
+    </message>
+    <message>
+        <source>Delete Saved</source>
+        <translation>Eliminar guardado</translation>
+    </message>
+    <message>
+        <source>On Now</source>
+        <translation>Ahora</translation>
+    </message>
+    <message>
+        <source>Error Retrieving Content</source>
+        <translation>Error al recuperar contenido</translation>
+        <extracomment>Dialog title when unable to load Content from Server</extracomment>
     </message>
 </context>
 </TS>
