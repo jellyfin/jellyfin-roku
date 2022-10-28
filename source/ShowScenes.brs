@@ -338,6 +338,12 @@ function CreateMovieDetailsGroup(movie)
 
     movie = ItemMetaData(movie.id)
     group.itemContent = movie
+    group.trailerAvailable = false
+
+    trailerData = api_API().users.getlocaltrailers(get_setting("active_user"), movie.id)
+    if isValid(trailerData)
+        group.trailerAvailable = trailerData.Count() > 0
+    end if
 
     buttons = group.findNode("buttons")
     for each b in buttons.getChildren(-1, 0)
@@ -369,24 +375,43 @@ function CreateSeriesDetailsGroup(series)
 end function
 
 ' Shows details on selected artist. Bio, image, and list of available albums
-function CreateMusicArtistDetailsGroup(musicartist)
+function CreateArtistView(musicartist)
     musicData = MusicAlbumList(musicartist.id)
+    appearsOnData = AppearsOnList(musicartist.id)
 
-    ' User only has songs under artists
-    if musicData = invalid or musicData.Items.Count() = 0
+    if (musicData = invalid or musicData.Items.Count() = 0) and (appearsOnData = invalid or appearsOnData.Items.Count() = 0)
         ' Just songs under artists...
-        group = CreateObject("roSGNode", "MusicAlbumDetails")
+        group = CreateObject("roSGNode", "AlbumView")
         group.pageContent = ItemMetaData(musicartist.id)
-        group.albumData = MusicSongList(musicartist.id)
+
+        ' Lookup songs based on artist id
+        songList = GetSongsByArtist(musicartist.id)
+
+        if not isValid(songList)
+            ' Lookup songs based on folder parent / child relationship
+            songList = MusicSongList(musicartist.id)
+        end if
+
+        if not isValid(songList)
+            return invalid
+        end if
+
+        group.albumData = songList
         group.observeField("playSong", m.port)
         group.observeField("playAllSelected", m.port)
         group.observeField("instantMixSelected", m.port)
     else
         ' User has albums under artists
-        group = CreateObject("roSGNode", "MusicArtistDetails")
+        group = CreateObject("roSGNode", "ArtistView")
         group.pageContent = ItemMetaData(musicartist.id)
         group.musicArtistAlbumData = musicData
+        group.musicArtistAppearsOnData = appearsOnData
+        group.artistOverview = ArtistOverview(musicartist.name)
+
         group.observeField("musicAlbumSelected", m.port)
+        group.observeField("playArtistSelected", m.port)
+        group.observeField("instantMixSelected", m.port)
+        group.observeField("appearsOnSelected", m.port)
     end if
 
     m.global.sceneManager.callFunc("pushScene", group)
@@ -395,8 +420,8 @@ function CreateMusicArtistDetailsGroup(musicartist)
 end function
 
 ' Shows details on selected album. Description text, image, and list of available songs
-function CreateMusicAlbumDetailsGroup(album)
-    group = CreateObject("roSGNode", "MusicAlbumDetails")
+function CreateAlbumView(album)
+    group = CreateObject("roSGNode", "AlbumView")
     m.global.sceneManager.callFunc("pushScene", group)
 
     group.pageContent = ItemMetaData(album.id)
@@ -438,12 +463,8 @@ end function
 
 function CreateSearchPage()
     ' Search + Results Page
-    group = CreateObject("roSGNode", "SearchResults")
-
-    search = group.findNode("SearchBox")
-    search.observeField("search_value", m.port)
-
-    options = group.findNode("SearchSelect")
+    group = CreateObject("roSGNode", "searchResults")
+    options = group.findNode("searchSelect")
     options.observeField("itemSelected", m.port)
 
     return group
@@ -463,6 +484,7 @@ function CreateVideoPlayerGroup(video_id, mediaSourceId = invalid, audio_stream_
     if video = invalid then return invalid
     if video.errorMsg = "introaborted" then return video
     video.observeField("selectSubtitlePressed", m.port)
+    video.observeField("selectPlaybackInfoPressed", m.port)
     video.observeField("state", m.port)
 
     return video
@@ -503,6 +525,28 @@ function CreateInstantMixGroup(audiodata)
     end for
 
     songIDArray.shift()
+
+    group.pageContent = songIDArray
+    group.musicArtistAlbumData = songList.items
+
+    m.global.sceneManager.callFunc("pushScene", group)
+
+    return group
+end function
+
+' Play Artist
+function CreateArtistMixGroup(artistID)
+
+    songList = CreateArtistMix(artistID)
+
+    group = CreateObject("roSGNode", "NowPlaying")
+    group.observeField("state", m.port)
+    songIDArray = CreateObject("roArray", 0, true)
+
+    ' All we need is an array of Song IDs the user selected to play.
+    for each song in songList.items
+        songIDArray.push(song.id)
+    end for
 
     group.pageContent = songIDArray
     group.musicArtistAlbumData = songList.items

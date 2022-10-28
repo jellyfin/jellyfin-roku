@@ -59,6 +59,7 @@ sub onPeopleLoaded()
         end for
     end if
     m.top.content = data
+    m.top.translation = "[75,10]"
     m.top.rowItemSize = [[234, 396]]
     m.LikeThisTask.itemId = m.top.parentId
     m.LikeThisTask.control = "RUN"
@@ -75,7 +76,7 @@ sub onLikeThisLoaded()
             item.labelText = item.json.Name
             if item.json.ProductionYear <> invalid
                 item.subTitle = stri(item.json.ProductionYear)
-            else
+            else if item.json.PremiereDate <> invalid
                 premierYear = CreateObject("roDateTime")
                 premierYear.FromISO8601String(item.json.PremiereDate)
                 item.subTitle = stri(premierYear.GetYear())

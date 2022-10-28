@@ -9,7 +9,6 @@ sub Main (args as dynamic) as void
 
     ' Set global constants
     setConstants()
-
     ' Write screen tracker for screensaver
     WriteAsciiFile("tmp:/scene.temp", "")
     MoveFile("tmp:/scene.temp", "tmp:/scene")
@@ -111,6 +110,7 @@ sub Main (args as dynamic) as void
         else if isNodeEvent(msg, "selectedItem")
             ' If you select a library from ANYWHERE, follow this flow
             selectedItem = msg.getData()
+            m.selectedItemType = selectedItem.type
             if selectedItem.type = "CollectionFolder" or selectedItem.type = "UserView" or selectedItem.type = "Folder" or selectedItem.type = "Channel" or selectedItem.type = "Boxset"
                 group = CreateItemGrid(selectedItem)
                 sceneManager.callFunc("pushScene", group)
@@ -159,9 +159,12 @@ sub Main (args as dynamic) as void
             else if selectedItem.type = "Photo"
                 ' Nothing to do here, handled in ItemGrid
             else if selectedItem.type = "MusicArtist"
-                group = CreateMusicArtistDetailsGroup(selectedItem.json)
+                group = CreateArtistView(selectedItem.json)
+                if not isValid(group)
+                    message_dialog(tr("Unable to find any albums or songs belonging to this artist"))
+                end if
             else if selectedItem.type = "MusicAlbum"
-                group = CreateMusicAlbumDetailsGroup(selectedItem.json)
+                group = CreateAlbumView(selectedItem.json)
             else if selectedItem.type = "Audio"
                 group = CreateAudioPlayerGroup([selectedItem.json])
             else
@@ -186,10 +189,15 @@ sub Main (args as dynamic) as void
         else if isNodeEvent(msg, "musicAlbumSelected")
             ' If you select a Music Album from ANYWHERE, follow this flow
             ptr = msg.getData()
-            ' ptr is for [row, col] of selected item... but we only have 1 row
             albums = msg.getRoSGNode()
-            node = albums.musicArtistAlbumData.items[ptr[1]]
-            group = CreateMusicAlbumDetailsGroup(node)
+            node = albums.musicArtistAlbumData.items[ptr]
+            group = CreateAlbumView(node)
+        else if isNodeEvent(msg, "appearsOnSelected")
+            ' If you select a Music Album from ANYWHERE, follow this flow
+            ptr = msg.getData()
+            albums = msg.getRoSGNode()
+            node = albums.musicArtistAppearsOnData.items[ptr]
+            group = CreateAlbumView(node)
         else if isNodeEvent(msg, "playSong")
             ' User has selected audio they want us to play
             selectedIndex = msg.getData()
@@ -201,15 +209,38 @@ sub Main (args as dynamic) as void
             m.spinner = screenContent.findNode("spinner")
             m.spinner.visible = true
             group = CreateAudioPlayerGroup(screenContent.albumData.items)
+        else if isNodeEvent(msg, "playArtistSelected")
+            ' User has selected playlist of of audio they want us to play
+            screenContent = msg.getRoSGNode()
+            group = CreateArtistMixGroup(screenContent.pageContent.id)
         else if isNodeEvent(msg, "instantMixSelected")
             ' User has selected instant mix
             ' User has selected playlist of of audio they want us to play
             screenContent = msg.getRoSGNode()
             m.spinner = screenContent.findNode("spinner")
-            m.spinner.visible = true
-            group = CreateInstantMixGroup(screenContent.albumData.items)
+            if isValid(m.spinner)
+                m.spinner.visible = true
+            end if
+
+            group = invalid
+
+            ' Create instant mix based on selected album
+            if isValid(screenContent.albumData)
+                if isValid(screenContent.albumData.items)
+                    if screenContent.albumData.items.count() > 0
+                        group = CreateInstantMixGroup(screenContent.albumData.items)
+                    end if
+                end if
+            end if
+
+            ' Create instant mix based on selected artist
+            if not isValid(group)
+                group = CreateInstantMixGroup([{ id: screenContent.pageContent.id }])
+            end if
+
         else if isNodeEvent(msg, "episodeSelected")
             ' If you select a TV Episode from ANYWHERE, follow this flow
+            m.selectedItemType = "Episode"
             node = getMsgPicker(msg, "picker")
             video_id = node.id
             if node.selectedAudioStreamIndex <> invalid and node.selectedAudioStreamIndex > 1
@@ -239,10 +270,32 @@ sub Main (args as dynamic) as void
             node = getMsgPicker(msg)
             ' TODO - swap this based on target.mediatype
             ' types: [ Series (Show), Episode, Movie, Audio, Person, Studio, MusicArtist ]
+            m.selectedItemType = node.type
             if node.type = "Series"
                 group = CreateSeriesDetailsGroup(node)
-            else
+            else if node.type = "Movie"
                 group = CreateMovieDetailsGroup(node)
+            else if node.type = "MusicArtist"
+                group = CreateArtistView(node.json)
+            else if node.type = "MusicAlbum"
+                group = CreateAlbumView(node.json)
+            else if node.type = "Audio"
+                group = CreateAudioPlayerGroup([node.json])
+            else if node.type = "Person"
+                group = CreatePersonView(node)
+            else if node.type = "TvChannel"
+                group = CreateVideoPlayerGroup(node.id)
+                sceneManager.callFunc("pushScene", group)
+            else if node.type = "Episode"
+                group = CreateVideoPlayerGroup(node.id)
+                sceneManager.callFunc("pushScene", group)
+            else if node.type = "Audio"
+                selectedIndex = msg.getData()
+                screenContent = msg.getRoSGNode()
+                group = CreateAudioPlayerGroup([screenContent.albumData.items[node.id]])
+            else
+                ' TODO - switch on more node types
+                message_dialog("This type is not yet supported: " + node.type + ".")
             end if
         else if isNodeEvent(msg, "buttonSelected")
             ' If a button is selected, we have some determining to do
@@ -261,6 +314,23 @@ sub Main (args as dynamic) as void
                     mediaSourceId = group.selectedVideoStreamId
                 end if
                 video_id = group.id
+
+                video = CreateVideoPlayerGroup(video_id, mediaSourceId, audio_stream_idx)
+                if video <> invalid and video.errorMsg <> "introaborted"
+                    sceneManager.callFunc("pushScene", video)
+                end if
+
+                if group.lastFocus <> invalid
+                    group.lastFocus.setFocus(true)
+                end if
+            else if btn <> invalid and btn.id = "trailer-button"
+                audio_stream_idx = 1
+                mediaSourceId = invalid
+                video_id = group.id
+
+                trailerData = api_API().users.getlocaltrailers(get_setting("active_user"), group.id)
+
+                video_id = trailerData[0].id
 
                 video = CreateVideoPlayerGroup(video_id, mediaSourceId, audio_stream_idx)
                 if video <> invalid and video.errorMsg <> "introaborted"
@@ -308,8 +378,8 @@ sub Main (args as dynamic) as void
                 end if
                 group = CreateSearchPage()
                 sceneManager.callFunc("pushScene", group)
-                group.findNode("SearchBox").findNode("search-input").setFocus(true)
-                group.findNode("SearchBox").findNode("search-input").active = true
+                group.findNode("SearchBox").findNode("search_Key").setFocus(true)
+                group.findNode("SearchBox").findNode("search_Key").active = true
             else if button.id = "change_server"
                 unset_setting("server")
                 unset_setting("port")
@@ -339,13 +409,23 @@ sub Main (args as dynamic) as void
                     changeSubtitleDuringPlayback(trackSelected)
                 end if
             end if
+        else if isNodeEvent(msg, "selectPlaybackInfoPressed")
+            node = m.scene.focusedChild
+            if node.focusedChild <> invalid and node.focusedChild.isSubType("JFVideo")
+                info = GetPlaybackInfo()
+                show_dialog(tr("Playback Information"), info)
+            end if
         else if isNodeEvent(msg, "state")
             node = msg.getRoSGNode()
-            if node.state = "finished"
+            if m.selectedItemType = "TvChannel" and node.state = "finished"
+                video = CreateVideoPlayerGroup(node.id)
+                m.global.sceneManager.callFunc("pushScene", video)
+                m.global.sceneManager.callFunc("deleteSceneAtIndex", 2)
+            else if node.state = "finished"
                 node.control = "stop"
 
                 ' If node allows retrying using Transcode Url, give that shot
-                if node.retryWithTranscoding
+                if isValid(node.retryWithTranscoding) and node.retryWithTranscoding
                     retryVideo = CreateVideoPlayerGroup(node.Id, invalid, node.audioIndex, true, false)
                     m.global.sceneManager.callFunc("popScene")
                     if retryVideo <> invalid
