@@ -2180,5 +2180,24 @@
         <translation>Elige un servidor Jellyfin disponible de la red local:</translation>
         <extracomment>Instructions on initial app launch when the user is asked to pick a server from a list</extracomment>
     </message>
+    <message>
+        <source>...or enter server URL manually:</source>
+        <translation>si no hay servidores disponibles, puedes agregar manualmente la URL:</translation>
+        <extracomment>Instructions on initial app launch when the user is asked to manually enter a server URL</extracomment>
+    </message>
+    <message>
+        <source>There was an error retrieving the data for this item from the server.</source>
+        <translation>Ha ocurrido un error tratando de recuperar la información desde el servidor.</translation>
+        <extracomment>Dialog detail when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <source>Loading Channel Data</source>
+        <translation>Reproduciendo Contenido de Canal</translation>
+    </message>
+    <message>
+        <comment>Message displayed in Item Grid when no item to display. %1 is container type (e.g. Boxset, Collection, Folder, etc)</comment>
+        <source>NO_ITEMS</source>
+        <translation>Este %1 no contiene elementos</translation>
+    </message>
 </context>
 </TS>
