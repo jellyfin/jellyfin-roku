@@ -2175,5 +2175,10 @@
         <translation>Agregar el nombre del servidor o direccion de IP</translation>
         <extracomment>Title of KeyboardDialog when manually entering a server URL</extracomment>
     </message>
+    <message>
+        <source>Pick a Jellyfin server from the local network</source>
+        <translation>Elige un servidor Jellyfin disponible de la red local:</translation>
+        <extracomment>Instructions on initial app launch when the user is asked to pick a server from a list</extracomment>
+    </message>
 </context>
 </TS>
