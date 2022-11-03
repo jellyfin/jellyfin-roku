@@ -12,8 +12,8 @@ sub init()
         clockNode = findNodeBySubtype(m.top, "clock")
         if clockNode[0] <> invalid then clockNode[0].parent.removeChild(clockNode[0].node)
     end if
-     
-     'Play Next Episode button
+
+    'Play Next Episode button
     m.nextEpisodeButton = m.top.findNode("nextEpisode")
     m.nextEpisodeButton.text = tr("Next Episode")
     m.nextEpisodeButton.setFocus(false)
@@ -165,12 +165,11 @@ end sub
 function onKeyEvent(key as string, press as boolean) as boolean
 
     if key = "OK" and m.nextEpisodeButton.hasFocus()
-                m.top.state = "finished"
-                hidenextEpisode()
-                return true
-            end if
-        end if
+        m.top.state = "finished"
+        hidenextEpisode()
+        return true
     end if
+
 
     if not press then return false
 
