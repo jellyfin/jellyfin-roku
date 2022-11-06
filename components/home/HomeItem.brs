@@ -193,7 +193,6 @@ sub itemContentChanged()
     end if
 
     if itemData.type = "Season"
-        print itemData
         m.itemText.text = itemData.json.SeriesName
         m.itemTextExtra.text = itemData.name
         m.itemPoster.uri = ImageURL(itemData.id)
