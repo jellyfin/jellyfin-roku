@@ -2,6 +2,7 @@ sub init()
     m.playbackTimer = m.top.findNode("playbackTimer")
     m.bufferCheckTimer = m.top.findNode("bufferCheckTimer")
     m.top.observeField("state", "onState")
+    m.top.observeField("position", "onPositionChanged")
     m.playbackTimer.observeField("fire", "ReportPlayback")
     m.bufferPercentage = 0 ' Track whether content is being loaded
     m.playReported = false
@@ -47,6 +48,20 @@ sub hidenextEpisode()
     m.top.setFocus(true)
 end sub
 
+sub handleNextEpisode()
+    if int(m.top.position) >= (m.top.runTime - 30)
+        shownextEpisode()
+        updateCount()
+    end if
+end sub
+
+' When Video Player state changes
+sub onPositionChanged()
+    ' Check if content is episode
+    if m.top.content.contenttype = 4
+        handleNextEpisode()
+    end if
+end sub
 
 '
 ' When Video Player state changes
