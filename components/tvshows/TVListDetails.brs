@@ -18,6 +18,11 @@ sub itemContentChanged()
     m.title.text = indexNumber + item.title
     m.overview.text = item.overview
 
+    airDate = CreateObject("roDateTime")
+    airDate.FromISO8601String(itemData.PremiereDate)
+    m.top.findNode("aired").text = tr("Aired") + ": " + airDate.AsDateString("short-month-no-weekday")
+    print item.json
+
     imageUrl = item.posterURL
 
     if get_user_setting("ui.tvshows.blurunwatched") = "true"

@@ -15,6 +15,7 @@
               <Label id="communityRating" font="font:SmallestSystemFont" />
             </LayoutGroup>
             <Label id="endtime" font="font:SmallestSystemFont" />
+            <Label id="aired" font="font:SmallestSystemFont" />
           </LayoutGroup>
           <Label id="overview" font="font:SmallestSystemFont" wrap="true" height="130" width="950" maxLines="3" ellipsizeOnBoundary="true"/>
           <LayoutGroup layoutDirection="horiz" itemSpacings="[15]">

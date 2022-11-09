@@ -817,5 +817,10 @@
             <translation>Unable to find any albums or songs belonging to this artist</translation>
             <extracomment>Popup message when we find no audio data for an artist</extracomment>
         </message>
+        <message>
+            <source>Aired</source>
+            <translation>Aired</translation>
+            <extracomment>show aired date on TVListDetails</extracomment>
+        </message>
     </context>
 </TS>
