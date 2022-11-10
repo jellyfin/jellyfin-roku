@@ -344,7 +344,6 @@ function AudioStream(id as string)
             "Container": "flac",
             "MusicStreamingTranscodingBitrate": 192000
         }
-        content.streamformat = "flac"
     end if
 
     params.MediaSourceId = songData.mediaSources[0].id
