@@ -330,18 +330,27 @@ function AudioStream(id as string)
 
     content = createObject("RoSGNode", "ContentNode")
 
-    params = {}
-
-    params.append({
+    params = {
         "Static": "true",
         "Container": songData.mediaSources[0].container
-    })
+    }
+    content.streamformat = songData.mediaSources[0].container
+
+    ' Test if the device supports directly play of audio file, or if we need to transcode it
+    di = CreateObject("roDeviceInfo")
+    if not di.CanDecodeAudio({ Codec: songData.mediaSources[0].container }).result
+        params = {
+            "Static": "false",
+            "Container": "flac",
+            "MusicStreamingTranscodingBitrate": 192000
+        }
+        content.streamformat = "flac"
+    end if
 
     params.MediaSourceId = songData.mediaSources[0].id
 
     content.url = buildURL(Substitute("Audio/{0}/stream", songData.id), params)
     content.title = songData.title
-    content.streamformat = songData.mediaSources[0].container
 
     playbackInfo = ItemPostPlaybackInfo(songData.id, params.MediaSourceId)
     content.id = playbackInfo.PlaySessionId
