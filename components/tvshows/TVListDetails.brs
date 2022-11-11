@@ -47,7 +47,9 @@ sub itemContentChanged()
         m.top.findNode("star").visible = true
         m.top.findNode("communityRating").text = str(int(itemData.communityRating * 10) / 10)
     else
-        m.top.findNode("star").visible = false
+        m.rating = m.top.findnode("rating")
+        m.rating.removeChild(m.top.findNode("star"))
+        m.rating.removeChild(m.top.findNode("communityRating"))
     end if
 
     videoIdx = invalid
