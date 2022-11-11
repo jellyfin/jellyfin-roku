@@ -30,6 +30,7 @@ sub shownextEpisode()
     if m.nextEpisodeButton.hasFocus() = false
         m.shownextEpisodeButtonAnimation.control = "start"
         m.nextEpisodeButton.setFocus(true)
+        m.nextEpisodeButton.visible = true
     end if
 end sub
 
@@ -42,7 +43,7 @@ end sub
 '
 ' Runs hide Next Episode button animation and sets focus back to video
 sub hidenextEpisode()
-    m.top.trickPlayBar.unobserveField("visible")
+    'm.top.trickPlayBar.unobserveField("visible")
     m.hidenextEpisodeButtonAnimation.control = "start"
     m.nextEpisodeButton.setFocus(false)
     m.top.setFocus(true)
@@ -52,6 +53,10 @@ sub handleNextEpisode()
     if int(m.top.position) >= (m.top.runTime - 30)
         shownextEpisode()
         updateCount()
+    else
+        m.nextEpisodeButton.visible = false
+        m.nextEpisodeButton.setFocus(false)
+        m.top.setFocus(true)
     end if
 end sub
 
