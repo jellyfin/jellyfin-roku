@@ -3811,5 +3811,235 @@
         <translation>Lecture</translation>
         <extracomment>Title for Playback section in user setting screen.</extracomment>
     </message>
+    <message>
+        <source>An error was encountered while playing this item. Server did not provide required transcoding data.</source>
+        <translation>Une erreur a été rencontrée lors de la lecture de ce fichier. Le serveur n&apos;a pas communiqué les données nécessaires pour le transcodage.</translation>
+        <extracomment>Content of message box when trying to play an item which requires transcoding, and the server did not provide transcode url</extracomment>
+    </message>
+    <message>
+        <source>Always show the titles below the poster images. (If disabled, the title will be shown under the highlighted item only).</source>
+        <translation>Toujours afficher les titres sous les images des affiches. (Si désactivé, les titres s&apos;afficherons uniquement sous les éléments en surbrillance).</translation>
+        <extracomment>Description for option in Setting Screen</extracomment>
+    </message>
+    <message>
+        <source>Show item count in the library and index of selected item.</source>
+        <translation>Afficher le nombre d&apos;éléments dans la bibliotèque et l&apos;index de l&apos;élément sélectionné.</translation>
+        <extracomment>Description for option in Setting Screen</extracomment>
+    </message>
+    <message>
+        <source>Use voice remote to search</source>
+        <translation>Utiliser la télécomande vocale pour rechercher</translation>
+        <extracomment>Help text in search voice text box</extracomment>
+    </message>
+    <message>
+        <source>(Dialog will close automatically)</source>
+        <translation>(La boîte de dialogue se fermera automatiquement)</translation>
+    </message>
+    <message>
+        <source>Use the replay button to slowly animate to the first item in the folder. (If disabled, the folder will reset to the first item immediately).</source>
+        <translation>Utiliser la touche Replay pour lentement animer la sélection du première élément du dossier. (Si désactivé, le premier élément du dossier sera immédiatement sélectionné).</translation>
+        <extracomment>Description for option in Setting Screen</extracomment>
+    </message>
+    <message>
+        <source>Options for Details pages.</source>
+        <translation>Options des Pages de Détails.</translation>
+        <extracomment>Description for Details page user settings.</extracomment>
+    </message>
+    <message>
+        <source>Options for TV Shows.</source>
+        <translation>Options pour les Séries Télévisée.</translation>
+        <extracomment>Description for TV Shows user settings.</extracomment>
+    </message>
+    <message>
+        <source>View Channel</source>
+        <translation>Voir la Chaîne</translation>
+    </message>
+    <message>
+        <source>Use Splashscreen as Screensaver Background</source>
+        <translation>Utiliser le Splash Screen comme fond d&apos;écran de veille</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
+    <message>
+        <source>WxH</source>
+        <translation>LxH</translation>
+        <extracomment>Video width x height</extracomment>
+    </message>
+    <message>
+        <source>Use generated splashscreen image as Jellyfin&apos;s screensaver background. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Utiliser le Splash Screen généré comme fond d&apos;écran de veille de Jellyfin. Jellyfin devra être fermé et rouvert pour que le changement prenne effet.</translation>
+    </message>
+    <message>
+        <source>Use generated splashscreen image as Jellyfin&apos;s home background. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Utiliser le Splash Screen généré comme arrière plan principal de Jellyfin. Jellyfin devra être fermé et rouvert pour que le changement prenne effet.</translation>
+        <extracomment>Description for option in Setting Screen</extracomment>
+    </message>
+    <message>
+        <source>Hide Clock</source>
+        <translation>Masquer l&apos;Horloge</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
+    <message>
+        <source>Hides all clocks in Jellyfin. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Masquer toutes les horloges dans Jellyfin. Jellyfin devra être fermé et rouvert pour que le changement prenne effet.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Settings relating to how the application looks.</source>
+        <translation>Réglages relatifs à l&apos;apparence de l&apos;application.</translation>
+    </message>
+    <message>
+        <source>Pixel format</source>
+        <translation>Format des pixels</translation>
+        <extracomment>Video pixel format</extracomment>
+    </message>
+    <message>
+        <source>Unable to find any albums or songs belonging to this artist</source>
+        <translation>Aucuns n&apos;albums ni chansons ont été trouvés pour cet artiste</translation>
+        <extracomment>Popup message when we find no audio data for an artist</extracomment>
+    </message>
+    <message>
+        <source>Starts</source>
+        <translation>Débute</translation>
+        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g. Starts Wednesday, 08:00) </extracomment>
+    </message>
+    <message>
+        <source>Record Series</source>
+        <translation>Enregistrer la Série</translation>
+    </message>
+    <message>
+        <source>Hide Taglines</source>
+        <translation>Masquer les étiquettes</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
+    <message>
+        <source>Media Grid options.</source>
+        <translation>Options de la Grille Média.</translation>
+    </message>
+    <message>
+        <source>Set Favorite</source>
+        <translation>Mettre en Favori</translation>
+        <extracomment>Button Text - When pressed, sets item as Favorite</extracomment>
+    </message>
+    <message>
+        <source>Details Page</source>
+        <translation>Page de Détails</translation>
+    </message>
+    <message>
+        <source>Options for Home Page.</source>
+        <translation>Options pour la Page d&apos;Accueil.</translation>
+        <extracomment>Description for Home Page user settings.</extracomment>
+    </message>
+    <message>
+        <source>Max Days Next Up</source>
+        <translation>Nombre Max de jours dans Suivant</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
+    <message>
+        <source>Set the maximum amount of days a show should stay in the &apos;Next Up&apos; list without watching it.</source>
+        <translation>Définir le nombre maximum de jours une émission doit rester dans la liste &quot;Suivant&quot; sans la regarder.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Playback Information</source>
+        <translation>Informations de Lecture</translation>
+    </message>
+    <message>
+        <source>Design Elements</source>
+        <translation>Élements de Désign</translation>
+    </message>
+    <message>
+        <source>Home Page</source>
+        <translation>Page d&apos;Accueil</translation>
+    </message>
+    <message>
+        <source>Transcoding Information</source>
+        <translation>Informations de Transcodage</translation>
+    </message>
+    <message>
+        <source>Options that alter the design of Jellyfin.</source>
+        <translation>Options qui modifient le design de Jellyfin.</translation>
+        <extracomment>Description for Design Elements user settings.</extracomment>
+    </message>
+    <message>
+        <source>Use Splashscreen as Home Background</source>
+        <translation>Utiliser le Splash Screen comme arrière-plan principal</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
+    <message>
+        <source>Media Grid</source>
+        <translation>Grille Média</translation>
+        <extracomment>UI -&gt; Media Grid section in user setting screen.</extracomment>
+    </message>
+    <message>
+        <source>MPEG-2 Support</source>
+        <translation>Support MPEG-2</translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
+    <message>
+        <source>Cancel Series Recording</source>
+        <translation>Annuler l&apos;enregistrement de la Série</translation>
+    </message>
+    <message>
+        <source>...or enter server URL manually:</source>
+        <translation>Si aucun serveur n&apos;est affiché ci-dessus vous pouvez également saisir l&apos;adresse IP du serveur manuellement  :</translation>
+        <extracomment>Instructions on initial app launch when the user is asked to manually enter a server URL</extracomment>
+    </message>
+    <message>
+        <source>Support Direct Play of MPEG-2 content (e.g., Live TV). This will prevent transcoding of MPEG-2 content, but uses significantly more bandwidth.</source>
+        <translation>Prise en charge de la lecture directe du codec MPEG-2 (ex., Live TV). Cela empêchera le transcodage du contenu MPEG-2 mais utilisera sensiblement plus de bande passante.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Item Titles</source>
+        <translation>Titres des éléments</translation>
+        <extracomment>UI -&gt; Media Grid -&gt; Item Title in user setting screen.</extracomment>
+    </message>
+    <message>
+        <source>Set Watched</source>
+        <translation>Mettre en Visionné</translation>
+        <extracomment>Button Text - When pressed, marks item as Warched</extracomment>
+    </message>
+    <message>
+        <source>There was an error authenticating via Quick Connect.</source>
+        <translation>Une erreur s&apos;est produite lors de l&apos;autentification via Quick Connect.</translation>
+    </message>
+    <message>
+        <source>Hides tagline text on details pages.</source>
+        <translation>Masquer les étiquettes sur la page des détails.</translation>
+    </message>
+    <message>
+        <source>Settings relating to playback and supported codec and media types.</source>
+        <translation>Réglages relatifs à la lecture, aux codecs pris en charges et aux types de médias.</translation>
+    </message>
+    <message>
+        <source>Reason</source>
+        <translation>Raison</translation>
+    </message>
+    <message>
+        <source>direct</source>
+        <translation>direct</translation>
+    </message>
+    <message>
+        <source>Total Bitrate</source>
+        <translation>Débit Total</translation>
+    </message>
+    <message>
+        <source>Stream Information</source>
+        <translation>Informations du Flux</translation>
+    </message>
+    <message>
+        <source>Level</source>
+        <translation>Niveau</translation>
+        <extracomment>Video profile level</extracomment>
+    </message>
+    <message>
+        <source>Bit Rate</source>
+        <translation>Débit</translation>
+        <extracomment>Video streaming bit rate</extracomment>
+    </message>
+    <message>
+        <source>Video range type</source>
+        <translation>Différents types de vidéo</translation>
+    </message>
 </context>
 </TS>
