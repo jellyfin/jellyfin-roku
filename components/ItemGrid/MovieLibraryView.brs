@@ -186,6 +186,7 @@ sub loadInitialItems()
         m.loadItemsTask.StudioIds = m.top.parentItem.Id
         m.loadItemsTask.view = "Genres"
         m.movieLogo.visible = false
+        m.selectedMovieName.visible = false
         m.selectedMovieOverview.visible = false
         m.infoGroup.visible = false
     end if
