@@ -17,6 +17,7 @@
             <Label id="criticRatingLabel" />
           </LayoutGroup>
           <Label id="ends-at" />
+          <Label id="aired" />
         </LayoutGroup>
         <Label id="genres" />
         <Label id="director" />
