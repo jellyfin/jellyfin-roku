@@ -286,14 +286,12 @@ end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean
     if not press then return false
-    print "Key Pressed = "key
 
     if key = "replay"
         m.spinner.visible = true
         m.top.searchTerm = " "
         m.LoadChannelsTask.searchTerm = " "
         channelsearchTermSet()
-        print "Press Return"
         return true
     end if
 
