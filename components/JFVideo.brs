@@ -184,10 +184,15 @@ end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean
 
-    if key = "OK" and m.nextEpisodeButton.hasFocus()
+    if key = "OK" and m.nextEpisodeButton.isinfocuschain() and m.top.trickPlayMode = "play"
         m.top.state = "finished"
         hidenextEpisode()
         return true
+    else
+        'Hide Next Episode Button
+        m.nextEpisodeButton.visible = false
+        m.nextEpisodeButton.setFocus(false)
+        m.top.setFocus(true)
     end if
 
 
