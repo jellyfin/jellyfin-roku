@@ -50,20 +50,23 @@ sub hidenextEpisode()
 end sub
 
 sub handleNextEpisode()
+    ' Dialog box is open
     if int(m.top.position) >= (m.top.runTime - 30)
         shownextEpisode()
         updateCount()
     else
         m.nextEpisodeButton.visible = false
         m.nextEpisodeButton.setFocus(false)
-        m.top.setFocus(true)
     end if
 end sub
 
 ' When Video Player state changes
 sub onPositionChanged()
     ' Check if content is episode
-    if m.top.content.contenttype = 4
+    m.dialog = m.top.getScene().findNode("dialogBackground")
+    if m.top.content.contenttype = 4 and isValid(m.dialog)
+        'do nothing until dialog is closed
+    else
         handleNextEpisode()
     end if
 end sub
@@ -184,7 +187,7 @@ end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean
 
-    if key = "OK" and m.nextEpisodeButton.isinfocuschain() and m.top.trickPlayMode = "play"
+    if key = "OK" and m.nextEpisodeButton.hasfocus() and m.top.trickPlayMode = "play"
         m.top.state = "finished"
         hidenextEpisode()
         return true
