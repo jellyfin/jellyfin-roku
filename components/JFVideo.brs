@@ -66,7 +66,7 @@ sub onPositionChanged()
     m.dialog = m.top.getScene().findNode("dialogBackground")
     if m.top.content.contenttype = 4 and isValid(m.dialog)
         'do nothing until dialog is closed
-    else
+    else if m.top.content.contenttype = 4
         handleNextEpisode()
     end if
 end sub
