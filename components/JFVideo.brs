@@ -2,7 +2,8 @@ sub init()
     m.playbackTimer = m.top.findNode("playbackTimer")
     m.bufferCheckTimer = m.top.findNode("bufferCheckTimer")
     m.top.observeField("state", "onState")
-    m.top.observeField("position", "onPositionChanged")
+    m.top.observeField("content", "onContentChange")
+
     m.playbackTimer.observeField("fire", "ReportPlayback")
     m.bufferPercentage = 0 ' Track whether content is being loaded
     m.playReported = false
@@ -22,6 +23,14 @@ sub init()
     m.hidenextEpisodeButtonAnimation = m.top.findNode("hidenextEpisodeButton")
     m.moveUpnextEpisodeButtonAnimation = m.top.findNode("moveUpnextEpisodeButton")
     m.moveDownnextEpisodeButtonAnimation = m.top.findNode("moveDownnextEpisodeButton")
+end sub
+
+sub onContentChange()
+    m.top.observeField("position", "onPositionChanged")
+
+    if m.top.content.contenttype <> 4
+        m.top.unobserveField("position")
+    end if
 end sub
 
 '
@@ -62,11 +71,9 @@ end sub
 
 ' When Video Player state changes
 sub onPositionChanged()
-    ' Check if content is episode
+    ' Check if dialog is open
     m.dialog = m.top.getScene().findNode("dialogBackground")
-    if m.top.content.contenttype = 4 and isValid(m.dialog)
-        'do nothing until dialog is closed
-    else if m.top.content.contenttype = 4
+    if not isValid(m.dialog)
         handleNextEpisode()
     end if
 end sub
