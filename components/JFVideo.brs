@@ -25,9 +25,11 @@ sub init()
     m.moveDownnextEpisodeButtonAnimation = m.top.findNode("moveDownnextEpisodeButton")
 end sub
 
+' Event handler for when video content field changes
 sub onContentChange()
     m.top.observeField("position", "onPositionChanged")
 
+    ' If video content type is not episode, remove position observer
     if m.top.content.contenttype <> 4
         m.top.unobserveField("position")
     end if
