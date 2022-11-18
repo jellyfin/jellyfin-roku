@@ -21,8 +21,6 @@ sub init()
     m.nextEpisodeButton.setFocus(false)
     m.shownextEpisodeButtonAnimation = m.top.findNode("shownextEpisodeButton")
     m.hidenextEpisodeButtonAnimation = m.top.findNode("hidenextEpisodeButton")
-    m.moveUpnextEpisodeButtonAnimation = m.top.findNode("moveUpnextEpisodeButton")
-    m.moveDownnextEpisodeButtonAnimation = m.top.findNode("moveDownnextEpisodeButton")
 end sub
 
 ' Event handler for when video content field changes
@@ -38,7 +36,7 @@ end sub
 '
 ' Runs Next Episode button animation and sets focus to button
 sub shownextEpisode()
-    if m.nextEpisodeButton.hasFocus() = false
+    if not m.nextEpisodeButton.visible
         m.shownextEpisodeButtonAnimation.control = "start"
         m.nextEpisodeButton.setFocus(true)
         m.nextEpisodeButton.visible = true
