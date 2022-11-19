@@ -9,6 +9,10 @@ sub init()
     m.statusTimer.observeField("fire", "statusUpdate")
     m.slideshow = get_user_setting("photos.slideshow")
     m.shuffle = get_user_setting("photos.shuffle")
+
+    m.showStatusAnimation = m.top.findNode("showStatusAnimation")
+    m.hideStatusAnimation = m.top.findNode("hideStatusAnimation")
+
     itemContentChanged()
 end sub
 
@@ -56,9 +60,7 @@ end sub
 
 sub statusUpdate()
     m.statusTimer.control = "stop"
-    m.textBackground.visible = false
-    m.status.visible = false
-    m.status.text = ""
+    m.hideStatusAnimation.control = "start"
 end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean
@@ -85,14 +87,16 @@ function onKeyEvent(key as string, press as boolean) as boolean
             ' stop the slideshow if the user hits "pause"
             m.slideshowTimer.control = "stop"
             m.status.text = tr("Slideshow Paused")
-            m.status.visible = true
-            m.textBackground.visible = true
+            if m.textBackground.opacity = 0
+                m.showStatusAnimation.control = "start"
+            end if
             m.statusTimer.control = "start"
         else
             ' start the slideshow if the user hits "play"
             m.status.text = tr("Slideshow Resumed")
-            m.status.visible = true
-            m.textBackground.visible = true
+            if m.textBackground.opacity = 0
+                m.showStatusAnimation.control = "start"
+            end if
             m.slideshow = "true"
             m.statusTimer.control = "start"
             m.slideshowTimer.control = "start"
