@@ -832,6 +832,14 @@
         <message>
             <source>Slideshow Resumed</source>
             <translation>Slideshow Resumed</translation>
-        </message>         
+        </message>     
+        <message>
+            <source>Shuffle Off</source>
+            <translation>Shuffle Off</translation>
+        </message>
+        <message>
+            <source>Shuffle On</source>
+            <translation>Shuffle On</translation>
+        </message>            
     </context>
 </TS>

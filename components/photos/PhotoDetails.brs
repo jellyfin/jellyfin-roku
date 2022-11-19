@@ -7,6 +7,8 @@ sub init()
     m.textBackground = m.top.findNode("background")
     m.statusTimer = m.top.findNode("statusTimer")
     m.statusTimer.observeField("fire", "statusUpdate")
+    m.slideshow = get_user_setting("photos.slideshow")
+    m.shuffle = get_user_setting("photos.shuffle")
     itemContentChanged()
 end sub
 
@@ -25,8 +27,8 @@ sub onPhotoLoaded()
         photo = m.top.findNode("photo")
         photo.uri = m.LoadLibrariesTask.results
 
-        ' if the user has requested a slideshow, start the timer
-        if get_user_setting("photos.slideshow") = "true"
+        if m.slideshow = "true" or m.shuffle = "true"
+            ' user has requested either a slideshow or a shuffle...
             m.slideshowTimer.control = "start"
         end if
     else
@@ -37,9 +39,18 @@ end sub
 
 sub nextSlide()
     m.slideshowTimer.control = "stop"
-    if isValidToContinue(m.top.itemIndex + 1)
-        m.top.itemIndex++
-        m.slideshowTimer.control = "start"
+
+    if m.slideshow = "true"
+        if isValidToContinue(m.top.itemIndex + 1)
+            m.top.itemIndex++
+            m.slideshowTimer.control = "start"
+        end if
+    else if m.shuffle = "true"
+        index = rnd(m.top.items.content.getChildCount() - 1)
+        if isValidToContinue(index)
+            m.top.itemIndex = index
+            m.slideshowTimer.control = "start"
+        end if
     end if
 end sub
 
@@ -82,6 +93,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
             m.status.text = tr("Slideshow Resumed")
             m.status.visible = true
             m.textBackground.visible = true
+            m.slideshow = "true"
             m.statusTimer.control = "start"
             m.slideshowTimer.control = "start"
         end if
