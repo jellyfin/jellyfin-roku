@@ -671,5 +671,9 @@
         <source>Save Credentials?</source>
         <translation>Uložiť poverenia?</translation>
     </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>Uložiť prihlasovacie údaje?</translation>
+    </message>
 </context>
 </TS>

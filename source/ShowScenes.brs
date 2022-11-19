@@ -475,6 +475,14 @@ function CreateItemGrid(libraryItem)
     return group
 end function
 
+function CreateMovieLibraryView(libraryItem)
+    group = CreateObject("roSGNode", "MovieLibraryView")
+    group.parentItem = libraryItem
+    group.optionsAvailable = true
+    group.observeField("selectedItem", m.port)
+    return group
+end function
+
 function CreateSearchPage()
     ' Search + Results Page
     group = CreateObject("roSGNode", "searchResults")
