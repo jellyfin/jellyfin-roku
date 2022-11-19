@@ -139,16 +139,17 @@ sub SetUpVideoOptions(streams)
                     end for
                 end if
 
-                ' create options for selecting different video tracks
                 codec = streams[i].mediaStreams[0].displayTitle
-                videos.push({
-                    "Title": streams[i].Name,
-                    "Description": tr("Video"),
-                    "Selected": m.top.selectedVideoStreamId = streams[i].id,
-                    "StreamID": streams[i].id,
-                    "video_codec": codec
-                })
             end if
+
+            ' Create options for user to switch between video tracks
+            videos.push({
+                "Title": streams[i].Name,
+                "Description": tr("Video"),
+                "Selected": m.top.selectedVideoStreamId = streams[i].id,
+                "StreamID": streams[i].id,
+                "video_codec": codec
+            })
         end if
     end for
 
