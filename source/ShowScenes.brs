@@ -584,17 +584,6 @@ function CreatePersonView(personData as object) as object
     return person
 end function
 
-function CreatePhotoPage(photo)
-    group = CreateObject("roSGNode", "PhotoDetails")
-    group.optionsAvailable = true
-    m.global.sceneManager.callFunc("pushScene", group)
-
-    group.itemContent = photo
-
-    return group
-
-end function
-
 sub UpdateSavedServerList()
     server = get_setting("server")
     username = get_setting("username")

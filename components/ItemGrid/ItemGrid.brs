@@ -320,13 +320,12 @@ end sub
 
 ' Set Photo Album view, sort, and filter options
 sub setPhotoAlbumOptions(options)
-    ' TODO/FIXME: Show shuffle options once implemented
-    ' options.views = [
-    '     { "Title": tr("Don't Shuffle"), "Name": "singlephoto"}
-    '     { "Title": tr("Shuffle"), "Name": "shufflephoto"}
-    ' ]
-    options.views = []
+    options.views = [
+        { "Title": tr("Slideshow Off"), "Name": "singlephoto" }
+        { "Title": tr("Slideshow On"), "Name": "slideshowphoto" }
+    ]
     options.sort = []
+    options.filter = []
 end sub
 
 ' Set Default view, sort, and filter options
@@ -574,14 +573,12 @@ sub optionsClosed()
         end if
     end if
 
-    if m.top.parentItem.Type = "CollectionFolder" or m.top.parentItem.CollectionType = "CollectionFolder"
+    if m.top.parentItem.Type = "CollectionFolder" or m.top.parentItem.Type = "Folder" or m.top.parentItem.CollectionType = "CollectionFolder"
         ' Did the user just request "Shuffle" on a PhotoAlbum?
         if m.options.view = "singlephoto"
-            ' TODO/FIXME: Stop shuffling here
-            print "TODO/FIXME: Stop any shuffling here"
-        else if m.options.view = "shufflephoto"
-            ' TODO/FIXME: Start shuffling here
-            print "TODO/FIXME: Start shuffle here"
+            set_user_setting("photos.slideshow", "false")
+        else if m.options.view = "slideshowphoto"
+            set_user_setting("photos.slideshow", "true")
         end if
     end if
 

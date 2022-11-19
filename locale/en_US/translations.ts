@@ -817,5 +817,21 @@
             <translation>Unable to find any albums or songs belonging to this artist</translation>
             <extracomment>Popup message when we find no audio data for an artist</extracomment>
         </message>
+        <message>
+            <source>Slideshow Off</source>
+            <translation>Slideshow Off</translation>
+        </message>
+        <message>
+            <source>Slideshow On</source>
+            <translation>Slideshow On</translation>
+        </message>
+        <message>
+            <source>Slideshow Paused</source>
+            <translation>Slideshow Paused</translation>
+        </message>                
+        <message>
+            <source>Slideshow Resumed</source>
+            <translation>Slideshow Resumed</translation>
+        </message>         
     </context>
 </TS>

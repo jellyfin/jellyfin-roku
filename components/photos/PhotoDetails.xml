@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <component name="PhotoDetails" extends="JFGroup">
   <children>
-    <LayoutGroup id="toplevel">
-        <Poster id="photo" width="1920" height="1080" loadDisplayMode="scaleToFit"/>
-    </LayoutGroup>
+    <Poster id="photo" width="1920" height="1080" loadDisplayMode="scaleToFit"/>
+    <Rectangle id="background" color="0x880088FF" height="64" width="500" Translation="[150,150]" opacity="1" visible="false">
+      <Label id="status" font="font:MediumSystemFont" height="64" visible="false"/>
+    </Rectangle>
+    <Timer id="slideshowTimer" duration="5" repeat="false" />
+    <Timer id="statusTimer" duration="2" repeat="false" />
   </children>
   <interface>
     <field id="items" type="node" />
@@ -11,4 +14,5 @@
   </interface>
   <script type="text/brightscript" uri="PhotoDetails.brs" />
   <script type="text/brightscript" uri="pkg:/source/utils/misc.brs" />
+  <script type="text/brightscript" uri="pkg:/source/utils/config.brs" />
 </component>

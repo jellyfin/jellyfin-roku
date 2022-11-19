@@ -1,6 +1,12 @@
 sub init()
-    m.top.optionsAvailable = false ' Change once Shuffle option is added
+    m.top.optionsAvailable = true
     m.top.overhangVisible = false
+    m.slideshowTimer = m.top.findNode("slideshowTimer")
+    m.slideshowTimer.observeField("fire", "nextSlide")
+    m.status = m.top.findNode("status")
+    m.textBackground = m.top.findNode("background")
+    m.statusTimer = m.top.findNode("statusTimer")
+    m.statusTimer.observeField("fire", "statusUpdate")
     itemContentChanged()
 end sub
 
@@ -18,10 +24,30 @@ sub onPhotoLoaded()
     if m.LoadLibrariesTask.results <> invalid
         photo = m.top.findNode("photo")
         photo.uri = m.LoadLibrariesTask.results
+
+        ' if the user has requested a slideshow, start the timer
+        if get_user_setting("photos.slideshow") = "true"
+            m.slideshowTimer.control = "start"
+        end if
     else
         'Show user error here (for example if it's not a supported image type)
         message_dialog("This image type is not supported.")
     end if
+end sub
+
+sub nextSlide()
+    m.slideshowTimer.control = "stop"
+    if isValidToContinue(m.top.itemIndex + 1)
+        m.top.itemIndex++
+        m.slideshowTimer.control = "start"
+    end if
+end sub
+
+sub statusUpdate()
+    m.statusTimer.control = "stop"
+    m.textBackground.visible = false
+    m.status.visible = false
+    m.status.text = ""
 end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean
@@ -29,6 +55,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
     if key = "right"
         if isValidToContinue(m.top.itemIndex + 1)
+            m.slideshowTimer.control = "stop"
             m.top.itemIndex++
         end if
         return true
@@ -36,8 +63,33 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
     if key = "left"
         if isValidToContinue(m.top.itemIndex - 1)
+            m.slideshowTimer.control = "stop"
             m.top.itemIndex--
         end if
+        return true
+    end if
+
+    if key = "play"
+        if m.slideshowTimer.control = "start"
+            ' stop the slideshow if the user hits "pause"
+            m.slideshowTimer.control = "stop"
+            m.status.text = tr("Slideshow Paused")
+            m.status.visible = true
+            m.textBackground.visible = true
+            m.statusTimer.control = "start"
+        else
+            ' start the slideshow if the user hits "play"
+            m.status.text = tr("Slideshow Resumed")
+            m.status.visible = true
+            m.textBackground.visible = true
+            m.statusTimer.control = "start"
+            m.slideshowTimer.control = "start"
+        end if
+        return true
+    end if
+
+    if key = "options"
+        ' Options (shuffle etc) is done on itemGrid
         return true
     end if
 
