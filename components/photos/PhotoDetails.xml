@@ -6,7 +6,8 @@
     </LayoutGroup>
   </children>
   <interface>
-    <field id="itemContent" type="node" onChange="itemContentChanged" />
+    <field id="items" type="node" />
+    <field id="itemIndex" type="integer" value="-1" onChange="itemContentChanged" />
   </interface>
   <script type="text/brightscript" uri="PhotoDetails.brs" />
   <script type="text/brightscript" uri="pkg:/source/utils/misc.brs" />

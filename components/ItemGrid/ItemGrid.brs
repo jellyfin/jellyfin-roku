@@ -724,9 +724,10 @@ function onKeyEvent(key as string, press as boolean) as boolean
             return true
         else if itemToPlay <> invalid and itemToPlay.type = "Photo"
             ' Spawn photo player task
-            photoPlayer = CreateObject("roSgNode", "PhotoPlayerTask")
-            photoPlayer.itemContent = itemToPlay
-            photoPlayer.control = "RUN"
+            photoPlayer = CreateObject("roSgNode", "PhotoDetails")
+            photoPlayer.items = markupGrid
+            photoPlayer.itemIndex = markupGrid.itemFocused
+            m.global.sceneManager.callfunc("pushScene", photoPlayer)
             return true
         end if
     else if key = "left" and topGrp.isinFocusChain()
