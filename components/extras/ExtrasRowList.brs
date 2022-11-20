@@ -14,6 +14,9 @@ sub init()
     m.SpecialFeaturesTask = CreateObject("roSGNode", "LoadItemsTask")
     m.SpecialFeaturesTask.itemsToLoad = "specialfeatures"
     m.SpecialFeaturesTask.observeField("content", "onSpecialFeaturesLoaded")
+    m.LoadAdditionalPartsTask = CreateObject("roSGNode", "LoadItemsTask")
+    m.LoadAdditionalPartsTask.itemsToLoad = "additionalparts"
+    m.LoadAdditionalPartsTask.observeField("content", "onAdditionalPartsLoaded")
     m.LoadMoviesTask = CreateObject("roSGNode", "LoadItemsTask")
     m.LoadMoviesTask.itemsToLoad = "personMovies"
     m.LoadShowsTask = CreateObject("roSGNode", "LoadItemsTask")
@@ -86,8 +89,12 @@ sub onLikeThisLoaded()
         end for
         addRowSize([234, 396])
     end if
+    ' Special Features next...
     m.SpecialFeaturesTask.itemId = m.top.parentId
     m.SpecialFeaturesTask.control = "RUN"
+    ' Along with any addtional parts...
+    m.LoadAdditionalPartsTask.itemId = m.top.parentId
+    m.LoadAdditionalPartsTask.control = "RUN"
 end sub
 
 function onSpecialFeaturesLoaded()
@@ -110,6 +117,17 @@ function onSpecialFeaturesLoaded()
 
     return m.top.content
 end function
+
+sub onAdditionalPartsLoaded()
+    data = m.LoadAdditionalPartsTask.content
+    m.LoadAdditionalPartsTask.unobserveField("content")
+
+    if data <> invalid and data.count() > 0
+        row = buildRow("Additional Features", data)
+        addRowSize([234, 396])
+        m.top.content.appendChild(row)
+    end if
+end sub
 
 sub onMoviesLoaded()
     data = m.LoadMoviesTask.content

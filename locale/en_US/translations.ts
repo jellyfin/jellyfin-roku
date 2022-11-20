@@ -286,13 +286,18 @@
             <translation>More Like This</translation>
         </message>
         <message>
+            <source>Press &apos;OK&apos; to Close</source>
+            <translation>Press &apos;OK&apos; to Close</translation>
+        </message>
+        <message>
             <source>Special Features</source>
             <translation>Special Features</translation>
-            <message>
-                <source>Press &apos;OK&apos; to Close</source>
-                <translation>Press &apos;OK&apos; to Close</translation>
-            </message>
-        </message>
+       </message>
+        <message>
+            <source>Additional Parts</source>
+            <translation>Additional Parts</translation>
+            <extracomment>Additional parts of a video</extracomment>
+        </message>        
         <message>
             <source>Movies</source>
             <translation>Movies</translation>
