@@ -22,11 +22,13 @@ sub init()
 
     m.showNextEpisodeButtonAnimation = m.top.findNode("showNextEpisodeButton")
     m.hideNextEpisodeButtonAnimation = m.top.findNode("hideNextEpisodeButton")
+
 end sub
 
 ' Event handler for when video content field changes
 sub onContentChange()
     m.top.observeField("position", "onPositionChanged")
+    'check if episode has a next episode
 
     ' If video content type is not episode, remove position observer
     if m.top.content.contenttype <> 4
@@ -107,6 +109,14 @@ sub onState(msg)
         m.top.control = "stop"
         m.top.backPressed = true
     else if m.top.state = "playing"
+        params = { "UserId": get_setting("active_user"), "adjacentTo": m.top.id }
+        series = m.top.showID
+        nextEpisode = api_API().shows.getepisodes(series, params)
+        print nextEpisode
+        if isValid(nextEpisode)
+            print nextEpisode
+        end if
+
         if m.playReported = false
             ReportPlayback("start")
             m.playReported = true
