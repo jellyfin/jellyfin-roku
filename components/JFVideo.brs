@@ -37,23 +37,17 @@ sub onContentChange()
         return
     end if
 
-    ' Check if next episde is available
-    if isValid(m.top.showID)
-        if m.top.showID <> ""
-            m.getNextEpisodeTask = createObject("roSGNode", "GetNextEpisodeTask")
-            m.getNextEpisodeTask.showID = m.top.showID
-            m.getNextEpisodeTask.videoID = m.top.id
-            m.getNextEpisodeTask.observeField("nextEpisodeData", "onNextEpisodeDataLoaded")
-            m.getNextEpisodeTask.control = "RUN"
-        end if
-    end if
 end sub
 
 sub onNextEpisodeDataLoaded()
-    if m.getNextEpisodeTask.nextEpisodeData.items.count() = 1
-        print "No Next Episode Available"
-    else
-        print "Next Episode Found"
+    if m.getNextEpisodeTask.nextEpisodeData.Items.count() = 2
+        m.top.observeField("position", "onPositionChanged")
+        m.top.nextEpisodeCheck = true
+        print m.getNextEpisodeTask.nextEpisodeData.Items.count()
+    else ' No Next episode found, remove position observer
+        m.top.unobserveField("position")
+        m.top.nextEpisodeCheck = true
+        print m.getNextEpisodeTask.nextEpisodeData.Items.count()
     end if
 end sub
 
@@ -130,6 +124,18 @@ sub onState(msg)
         m.top.control = "stop"
         m.top.backPressed = true
     else if m.top.state = "playing"
+
+        ' Check if next episde is available
+        if isValid(m.top.showID)
+            if m.top.showID <> "" and m.top.nextEpisodeCheck = false and m.top.content.contenttype = 4
+                m.getNextEpisodeTask = createObject("roSGNode", "GetNextEpisodeTask")
+                m.getNextEpisodeTask.showID = m.top.showID
+                m.getNextEpisodeTask.videoID = m.top.id
+                m.getNextEpisodeTask.observeField("nextEpisodeData", "onNextEpisodeDataLoaded")
+                m.getNextEpisodeTask.control = "RUN"
+            end if
+        end if
+
         if m.playReported = false
             ReportPlayback("start")
             m.playReported = true
