@@ -23,6 +23,10 @@ sub init()
     m.showNextEpisodeButtonAnimation = m.top.findNode("showNextEpisodeButton")
     m.hideNextEpisodeButtonAnimation = m.top.findNode("hideNextEpisodeButton")
 
+    m.checkedForNextEpisode = false
+    m.getNextEpisodeTask = createObject("roSGNode", "GetNextEpisodeTask")
+    m.getNextEpisodeTask.observeField("nextEpisodeData", "onNextEpisodeDataLoaded")
+
 end sub
 
 ' Event handler for when video content field changes
@@ -34,20 +38,16 @@ sub onContentChange()
     ' If video content type is not episode, remove position observer
     if m.top.content.contenttype <> 4
         m.top.unobserveField("position")
-        return
     end if
-
 end sub
 
 sub onNextEpisodeDataLoaded()
-    if m.getNextEpisodeTask.nextEpisodeData.Items.count() = 2
-        m.top.observeField("position", "onPositionChanged")
-        m.top.nextEpisodeCheck = true
-        print m.getNextEpisodeTask.nextEpisodeData.Items.count()
-    else ' No Next episode found, remove position observer
+    m.checkedForNextEpisode = true
+
+    m.top.observeField("position", "onPositionChanged")
+
+    if m.getNextEpisodeTask.nextEpisodeData.Items.count() <> 2
         m.top.unobserveField("position")
-        m.top.nextEpisodeCheck = true
-        print m.getNextEpisodeTask.nextEpisodeData.Items.count()
     end if
 end sub
 
@@ -127,11 +127,9 @@ sub onState(msg)
 
         ' Check if next episde is available
         if isValid(m.top.showID)
-            if m.top.showID <> "" and m.top.nextEpisodeCheck = false and m.top.content.contenttype = 4
-                m.getNextEpisodeTask = createObject("roSGNode", "GetNextEpisodeTask")
+            if m.top.showID <> "" and not m.checkedForNextEpisode and m.top.content.contenttype = 4
                 m.getNextEpisodeTask.showID = m.top.showID
                 m.getNextEpisodeTask.videoID = m.top.id
-                m.getNextEpisodeTask.observeField("nextEpisodeData", "onNextEpisodeDataLoaded")
                 m.getNextEpisodeTask.control = "RUN"
             end if
         end if
