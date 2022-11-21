@@ -19,8 +19,9 @@ sub init()
     m.nextEpisodeButton = m.top.findNode("nextEpisode")
     m.nextEpisodeButton.text = tr("Next Episode")
     m.nextEpisodeButton.setFocus(false)
-    m.shownextEpisodeButtonAnimation = m.top.findNode("shownextEpisodeButton")
-    m.hidenextEpisodeButtonAnimation = m.top.findNode("hidenextEpisodeButton")
+
+    m.showNextEpisodeButtonAnimation = m.top.findNode("showNextEpisodeButton")
+    m.hideNextEpisodeButtonAnimation = m.top.findNode("hideNextEpisodeButton")
 end sub
 
 ' Event handler for when video content field changes
@@ -35,9 +36,9 @@ end sub
 
 '
 ' Runs Next Episode button animation and sets focus to button
-sub shownextEpisode()
+sub showNextEpisodeButton()
     if not m.nextEpisodeButton.visible
-        m.shownextEpisodeButtonAnimation.control = "start"
+        m.showNextEpisodeButtonAnimation.control = "start"
         m.nextEpisodeButton.setFocus(true)
         m.nextEpisodeButton.visible = true
     end if
@@ -51,19 +52,21 @@ end sub
 
 '
 ' Runs hide Next Episode button animation and sets focus back to video
-sub hidenextEpisode()
-    'm.top.trickPlayBar.unobserveField("visible")
-    m.hidenextEpisodeButtonAnimation.control = "start"
+sub hideNextEpisodeButton()
+    m.hideNextEpisodeButtonAnimation.control = "start"
     m.nextEpisodeButton.setFocus(false)
     m.top.setFocus(true)
 end sub
 
-sub handleNextEpisode()
-    ' Dialog box is open
+' Checks if we need to display the Next Episode button
+sub checkTimeToDisplayNextEpisode()
     if int(m.top.position) >= (m.top.runTime - 30)
-        shownextEpisode()
+        showNextEpisodeButton()
         updateCount()
-    else
+        return
+    end if
+
+    if m.nextEpisodeButton.visible or m.nextEpisodeButton.hasFocus()
         m.nextEpisodeButton.visible = false
         m.nextEpisodeButton.setFocus(false)
     end if
@@ -74,7 +77,7 @@ sub onPositionChanged()
     ' Check if dialog is open
     m.dialog = m.top.getScene().findNode("dialogBackground")
     if not isValid(m.dialog)
-        handleNextEpisode()
+        checkTimeToDisplayNextEpisode()
     end if
 end sub
 
@@ -190,21 +193,20 @@ sub dialogClosed(msg)
     sourceNode.close = true
 end sub
 
-
-
 function onKeyEvent(key as string, press as boolean) as boolean
 
     if key = "OK" and m.nextEpisodeButton.hasfocus() and m.top.trickPlayMode = "play"
         m.top.state = "finished"
-        hidenextEpisode()
+        hideNextEpisodeButton()
         return true
     else
         'Hide Next Episode Button
-        m.nextEpisodeButton.visible = false
-        m.nextEpisodeButton.setFocus(false)
-        m.top.setFocus(true)
+        if m.nextEpisodeButton.visible or m.nextEpisodeButton.hasFocus()
+            m.nextEpisodeButton.visible = false
+            m.nextEpisodeButton.setFocus(false)
+            m.top.setFocus(true)
+        end if
     end if
-
 
     if not press then return false
 
