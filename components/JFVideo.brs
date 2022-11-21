@@ -27,12 +27,33 @@ end sub
 
 ' Event handler for when video content field changes
 sub onContentChange()
+    if not isValid(m.top.content) then return
+
     m.top.observeField("position", "onPositionChanged")
-    'check if episode has a next episode
 
     ' If video content type is not episode, remove position observer
     if m.top.content.contenttype <> 4
         m.top.unobserveField("position")
+        return
+    end if
+
+    ' Check if next episde is available
+    if isValid(m.top.showID)
+        if m.top.showID <> ""
+            m.getNextEpisodeTask = createObject("roSGNode", "GetNextEpisodeTask")
+            m.getNextEpisodeTask.showID = m.top.showID
+            m.getNextEpisodeTask.videoID = m.top.id
+            m.getNextEpisodeTask.observeField("nextEpisodeData", "onNextEpisodeDataLoaded")
+            m.getNextEpisodeTask.control = "RUN"
+        end if
+    end if
+end sub
+
+sub onNextEpisodeDataLoaded()
+    if m.getNextEpisodeTask.nextEpisodeData.items.count() = 1
+        print "No Next Episode Available"
+    else
+        print "Next Episode Found"
     end if
 end sub
 
@@ -109,14 +130,6 @@ sub onState(msg)
         m.top.control = "stop"
         m.top.backPressed = true
     else if m.top.state = "playing"
-        params = { "UserId": get_setting("active_user"), "adjacentTo": m.top.id }
-        series = m.top.showID
-        nextEpisode = api_API().shows.getepisodes(series, params)
-        print nextEpisode
-        if isValid(nextEpisode)
-            print nextEpisode
-        end if
-
         if m.playReported = false
             ReportPlayback("start")
             m.playReported = true
