@@ -704,6 +704,9 @@
             <extracomment>Settings Menu - Description for option</extracomment>
         </message>
         <message>
+            <source>Next episode</source>
+            <translation>Next episode</translation>
+        </message>
             <source>Play Trailer</source>
             <translation>Play Trailer</translation>
         </message>
