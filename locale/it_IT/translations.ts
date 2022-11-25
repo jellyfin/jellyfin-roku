@@ -1903,5 +1903,10 @@
         <source>OFFICIAL_RATING</source>
         <translation>Controllo Parentale</translation>
     </message>
+    <message>
+        <source>Pick a Jellyfin server from the local network</source>
+        <translation>Scegli un server Jellyfin dalla rete locale:</translation>
+        <extracomment>Instructions on initial app launch when the user is asked to pick a server from a list</extracomment>
+    </message>
 </context>
 </TS>
