@@ -707,6 +707,7 @@
             <source>Next episode</source>
             <translation>Next episode</translation>
         </message>
+        <message>
             <source>Play Trailer</source>
             <translation>Play Trailer</translation>
         </message>
@@ -819,6 +820,16 @@
             <source>Unable to find any albums or songs belonging to this artist</source>
             <translation>Unable to find any albums or songs belonging to this artist</translation>
             <extracomment>Popup message when we find no audio data for an artist</extracomment>
+        </message>
+        <message>
+            <source>MPEG-4 Support</source>
+            <translation>MPEG-4 Support</translation>
+            <extracomment>Settings Menu - Title for option</extracomment>
+        </message>
+        <message>
+            <source>Support Direct Play of MPEG-4 content. This may need to be disabled for playback of DIVX encoded video files.</source>
+            <translation>Support Direct Play of MPEG-4 content. This may need to be disabled for playback of DIVX encoded video files.</translation>
+            <extracomment>Settings Menu - Description for option</extracomment>
         </message>
     </context>
 </TS>

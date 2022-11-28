@@ -11,6 +11,13 @@
                 "default": "false"
             },
             {
+                "title": "MPEG-4 Support",
+                "description": "Support Direct Play of MPEG-4 content. This may need to be disabled for playback of DIVX encoded video files.",
+                "settingName": "playback.mpeg4",
+                "type": "bool",
+                "default": "true"
+            },
+            {
                 "title": "Attempt Direct Play (Profile Lvl)",
                 "description": "Attempt Direct Play for H.264 media with unsupported profile levels (> 4.2) before falling back to transcoding if it fails.",
                 "settingName": "playback.tryDirect.h264ProfileLevel",
