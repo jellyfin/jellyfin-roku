@@ -62,7 +62,7 @@ sub setupAnimationTasks()
     m.screenSaverStartAnimation = m.top.FindNode("screenSaverStartAnimation")
 end sub
 
-' Creates tasks to gather data needed to renger NowPlaying Scene and play song
+' Creates tasks to gather data needed to render Scene and play song
 sub setupDataTasks()
     ' Load meta data
     m.LoadMetaDataTask = CreateObject("roSGNode", "LoadItemsTask")
