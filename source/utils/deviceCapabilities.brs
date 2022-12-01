@@ -18,6 +18,7 @@ end function
 
 function getDeviceProfile() as object
     playMpeg2 = get_user_setting("playback.mpeg2") = "true"
+    playAv1 = get_user_setting("playback.av1") = "true"
 
     'Check if 5.1 Audio Output connected
     maxAudioChannels = 2
@@ -48,7 +49,7 @@ function getDeviceProfile() as object
     end if
 
     addAv1Profile = false
-    if di.CanDecodeVideo({ Codec: "av1" }).result
+    if playAv1 and di.CanDecodeVideo({ Codec: "av1" }).result
         tsVideoCodecs = tsVideoCodecs + ",av1"
         addAv1Profile = true
     end if
