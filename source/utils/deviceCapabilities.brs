@@ -26,20 +26,19 @@ function getDeviceProfile() as object
         maxAudioChannels = 6
     end if
 
-    if playMpeg2 and di.CanDecodeVideo({ Codec: "mpeg2" }).Result = true
-        tsVideoCodecs = "h264,mpeg2video"
-    else
-        tsVideoCodecs = "h264"
-    end if
-
     addHevcProfile = false
     MAIN10 = ""
+    tsVideoCodecs = "h264"
     if di.CanDecodeVideo({ Codec: "hevc" }).Result = true
-        tsVideoCodecs = tsVideoCodecs + ",h265,hevc"
+        tsVideoCodecs = "h265,hevc," + tsVideoCodecs
         addHevcProfile = true
         if di.CanDecodeVideo({ Codec: "hevc", Profile: "main 10" }).Result
             MAIN10 = "|main 10"
         end if
+    end if
+
+    if playMpeg2 and di.CanDecodeVideo({ Codec: "mpeg2" }).Result = true
+        tsVideoCodecs = tsVideoCodecs + ",mpeg2video"
     end if
 
     if di.CanDecodeAudio({ Codec: "ac3" }).result
