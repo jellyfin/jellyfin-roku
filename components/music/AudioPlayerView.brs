@@ -9,7 +9,6 @@ sub init()
     setupScreenSaver()
 
     m.currentSongIndex = 0
-    m.buttonsNeedToBeLoaded = true
     m.shuffleEnabled = false
     m.loopMode = ""
     m.shuffleEvent = ""
@@ -26,6 +25,9 @@ sub init()
     ' Write screen tracker for screensaver
     WriteAsciiFile("tmp:/scene.temp", "nowplaying")
     MoveFile("tmp:/scene.temp", "tmp:/scene")
+
+    m.top.pageContent = m.global.queueManager.callFunc("getQueue")
+    loadButtons()
 end sub
 
 sub onScreensaverTimeoutLoaded()
@@ -302,7 +304,7 @@ end sub
 
 function findCurrentSongIndex(songList) as integer
     for i = 0 to songList.count() - 1
-        if songList[i] = m.top.pageContent[m.currentSongIndex]
+        if songList[i].id = m.top.pageContent[m.currentSongIndex].id
             return i
         end if
     end for
@@ -375,13 +377,51 @@ sub pageContentChanged()
     ' Reset buffer bar without animation
     m.bufferPosition.width = 0
 
-    m.LoadMetaDataTask.itemId = m.top.pageContent[m.currentSongIndex]
-    m.LoadMetaDataTask.observeField("content", "onMetaDataLoaded")
-    m.LoadMetaDataTask.control = "RUN"
+    useMetaTask = false
 
-    m.LoadAudioStreamTask.itemId = m.top.pageContent[m.currentSongIndex]
+    if not isValid(m.top.pageContent[m.currentSongIndex].RunTimeTicks)
+        useMetaTask = true
+    end if
+
+    if not isValid(m.top.pageContent[m.currentSongIndex].AlbumArtist)
+        useMetaTask = true
+    end if
+
+    if not isValid(m.top.pageContent[m.currentSongIndex].name)
+        useMetaTask = true
+    end if
+
+    if not isValid(m.top.pageContent[m.currentSongIndex].Artists)
+        useMetaTask = true
+    end if
+
+    if useMetaTask
+        m.LoadMetaDataTask.itemId = m.top.pageContent[m.currentSongIndex].id
+        m.LoadMetaDataTask.observeField("content", "onMetaDataLoaded")
+        m.LoadMetaDataTask.control = "RUN"
+    else
+        if isValid(m.top.pageContent[m.currentSongIndex].ParentBackdropItemId)
+            setBackdropImage(ImageURL(m.top.pageContent[m.currentSongIndex].ParentBackdropItemId, "Backdrop", { "maxHeight": "720", "maxWidth": "1280" }))
+        end if
+
+        setPosterImage(ImageURL(m.top.pageContent[m.currentSongIndex].id, "Primary", { "maxHeight": 500, "maxWidth": 500 }))
+        setScreenTitle(m.top.pageContent[m.currentSongIndex])
+        setOnScreenTextValues(m.top.pageContent[m.currentSongIndex])
+        m.songDuration = m.top.pageContent[m.currentSongIndex].RunTimeTicks / 10000000.0
+    end if
+
+    m.LoadAudioStreamTask.itemId = m.top.pageContent[m.currentSongIndex].id
     m.LoadAudioStreamTask.observeField("content", "onAudioStreamLoaded")
     m.LoadAudioStreamTask.control = "RUN"
+end sub
+
+' If we have more and 1 song to play, fade in the next and previous controls
+sub loadButtons()
+    if m.top.pageContent.count() > 1
+        m.shuffleIndicator.opacity = ".4"
+        m.loopIndicator.opacity = ".4"
+        m.displayButtonsAnimation.control = "start"
+    end if
 end sub
 
 sub onAudioStreamLoaded()
@@ -425,16 +465,6 @@ sub onMetaDataLoaded()
         setOnScreenTextValues(data.json)
 
         m.songDuration = data.json.RunTimeTicks / 10000000.0
-
-        ' If we have more and 1 song to play, fade in the next and previous controls
-        if m.buttonsNeedToBeLoaded
-            if m.top.pageContent.count() > 1
-                m.shuffleIndicator.opacity = ".4"
-                m.loopIndicator.opacity = ".4"
-                m.displayButtonsAnimation.control = "start"
-            end if
-            m.buttonsNeedToBeLoaded = false
-        end if
     end if
 end sub
 
@@ -554,7 +584,7 @@ sub ReportPlayback(state = "update" as string)
     if m.top.audio.position = invalid then return
 
     params = {
-        "ItemId": m.top.pageContent[m.currentSongIndex],
+        "ItemId": m.top.pageContent[m.currentSongIndex].id,
         "PlaySessionId": m.top.audio.content.id,
         "PositionTicks": int(m.top.audio.position) * 10000000&, 'Ensure a LongInteger is used
         "IsPaused": (m.top.audio.state = "paused")
