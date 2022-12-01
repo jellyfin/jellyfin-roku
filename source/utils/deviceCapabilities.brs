@@ -202,6 +202,10 @@ function GetDirectPlayProfiles() as object
         mkvVideo = mkvVideo + ",mpeg2video"
     end if
 
+    if get_user_setting("playback.mpeg4") = "true"
+        mp4Video = mp4Video + ",mpeg4"
+    end if
+
     ' Check for supported Audio
     if di.CanDecodeAudio({ Codec: "ac3" }).result
         mkvAudio = mkvAudio + ",ac3"

@@ -354,32 +354,32 @@
         <message>
             <source>Started at</source>
             <translation>Started at</translation>
-            <extracomment>(Past Tense) For defining time when a program started today (e.g.  Started at 08:00) </extracomment>
+            <extracomment>(Past Tense) For defining time when a program started today (e.g. Started at 08:00) </extracomment>
         </message>
         <message>
             <source>Started</source>
             <translation>Started</translation>
-            <extracomment>(Past Tense) For defining a day and time when a program started (e.g.  Started Wednesday, 08:00) </extracomment>
+            <extracomment>(Past Tense) For defining a day and time when a program started (e.g. Started Wednesday, 08:00) </extracomment>
         </message>
         <message>
             <source>Starts at</source>
             <translation>Starts at</translation>
-            <extracomment>(Future Tense) For defining time when a program will start today (e.g.  Starts at 08:00) </extracomment>
+            <extracomment>(Future Tense) For defining time when a program will start today (e.g. Starts at 08:00) </extracomment>
         </message>
         <message>
             <source>Starts</source>
             <translation>Starts</translation>
-            <extracomment>(Future Tense) For defining a day and time when a program will start (e.g.  Starts Wednesday, 08:00) </extracomment>
+            <extracomment>(Future Tense) For defining a day and time when a program will start (e.g. Starts Wednesday, 08:00) </extracomment>
         </message>
         <message>
             <source>Ended at</source>
             <translation>Ended at</translation>
-            <extracomment>(Past Tense) For defining time when a program will ended (e.g.  Ended at 08:00) </extracomment>
+            <extracomment>(Past Tense) For defining time when a program will ended (e.g. Ended at 08:00) </extracomment>
         </message>
         <message>
             <source>Ends at</source>
             <translation>Ends at</translation>
-            <extracomment>(Past Tense) For defining a day and time when a program ended  (e.g.  Ended Wednesday, 08:00) </extracomment>
+            <extracomment>(Past Tense) For defining a day and time when a program ended (e.g. Ended Wednesday, 08:00) </extracomment>
         </message>
         <message>
             <source>Live</source>
@@ -446,8 +446,8 @@
             <extracomment>Content of message box when the requested content is not found on the server</extracomment>
         </message>
         <message>
-            <source>Enter the server name or ip address</source>
-            <translation>Enter the server name or ip address</translation>
+            <source>Enter the server name or IP address</source>
+            <translation>Enter the server name or IP address</translation>
             <extracomment>Title of KeyboardDialog when manually entering a server URL</extracomment>
         </message>
         <message>
@@ -466,8 +466,8 @@
             <extracomment>Dialog Title: Received error from server when trying to get information about the selected item for playback</extracomment>
         </message>
         <message>
-            <source>An error was encountered while playing this item.  Server did not provide required transcoding data.</source>
-            <translation>An error was encountered while playing this item.  Server did not provide required transcoding data.</translation>
+            <source>An error was encountered while playing this item. Server did not provide required transcoding data.</source>
+            <translation>An error was encountered while playing this item. Server did not provide required transcoding data.</translation>
             <extracomment>Content of message box when trying to play an item which requires transcoding, and the server did not provide transcode url</extracomment>
         </message>
         <message>
@@ -574,7 +574,7 @@
         <message>
             <source>%1 of %2</source>
             <translation>%1 of %2</translation>
-            <extracomment>Item position and count.  %1 = current item.  %2 = total number of items</extracomment>
+            <extracomment>Item position and count. %1 = current item. %2 = total number of items</extracomment>
         </message>
         <message>
             <source>Quick Connect</source>
@@ -704,6 +704,10 @@
             <extracomment>Settings Menu - Description for option</extracomment>
         </message>
         <message>
+            <source>Next episode</source>
+            <translation>Next episode</translation>
+        </message>
+        <message>
             <source>Play Trailer</source>
             <translation>Play Trailer</translation>
         </message>
@@ -776,7 +780,7 @@
         <message>
             <source>direct</source>
             <translation>direct</translation>
-        </message>                                 
+        </message>
         <message>
             <source>Total Bitrate</source>
             <translation>Total Bitrate</translation>
@@ -784,7 +788,7 @@
         <message>
             <source>Audio Channels</source>
             <translation>Audio Channels</translation>
-        </message>                               
+        </message>
         <message>
             <source>Stream Information</source>
             <translation>Stream Information</translation>
@@ -800,36 +804,51 @@
         <message>
             <source>Level</source>
             <translation>Level</translation>
-            <extracomment>Video profile level</extracomment>            
-        </message>                                
+            <extracomment>Video profile level</extracomment>
+        </message>
         <message>
             <source>Bit Rate</source>
             <translation>Bit Rate</translation>
-            <extracomment>Video streaming bit rate</extracomment>            
-        </message>                                
+            <extracomment>Video streaming bit rate</extracomment>
+        </message>
         <message>
             <source>Container</source>
             <translation>Container</translation>
-            <extracomment>Video streaming container</extracomment>            
-        </message>  
+            <extracomment>Video streaming container</extracomment>
+        </message>
         <message>
             <source>Size</source>
             <translation>Size</translation>
-            <extracomment>Video size</extracomment>            
-        </message>  
+            <extracomment>Video size</extracomment>
+        </message>
         <message>
             <source>Video range type</source>
             <translation>Video range type</translation>
-        </message>  
+        </message>
         <message>
             <source>Pixel format</source>
             <translation>Pixel format</translation>
-            <extracomment>Video pixel format</extracomment>            
-        </message>  
+            <extracomment>Video pixel format</extracomment>
+        </message>
         <message>
             <source>WxH</source>
             <translation>WxH</translation>
-            <extracomment>Video width x height</extracomment>            
-        </message>                                          
+            <extracomment>Video width x height</extracomment>
+        </message>
+        <message>
+            <source>Unable to find any albums or songs belonging to this artist</source>
+            <translation>Unable to find any albums or songs belonging to this artist</translation>
+            <extracomment>Popup message when we find no audio data for an artist</extracomment>
+        </message>
+        <message>
+            <source>MPEG-4 Support</source>
+            <translation>MPEG-4 Support</translation>
+            <extracomment>Settings Menu - Title for option</extracomment>
+        </message>
+        <message>
+            <source>Support Direct Play of MPEG-4 content. This may need to be disabled for playback of DIVX encoded video files.</source>
+            <translation>Support Direct Play of MPEG-4 content. This may need to be disabled for playback of DIVX encoded video files.</translation>
+            <extracomment>Settings Menu - Description for option</extracomment>
+        </message>
     </context>
 </TS>
