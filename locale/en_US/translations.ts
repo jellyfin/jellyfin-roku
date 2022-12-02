@@ -838,12 +838,12 @@
             <translation>Slideshow Resumed</translation>
         </message>     
         <message>
-            <source>Shuffle Off</source>
-            <translation>Shuffle Off</translation>
+            <source>Random Off</source>
+            <translation>Random Off</translation>
         </message>
         <message>
-            <source>Shuffle On</source>
-            <translation>Shuffle On</translation>
+            <source>Random On</source>
+            <translation>Random On</translation>
         </message>
         <message>        
             <source>MPEG-4 Support</source>

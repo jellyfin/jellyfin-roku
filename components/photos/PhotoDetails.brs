@@ -8,7 +8,7 @@ sub init()
     m.statusTimer = m.top.findNode("statusTimer")
     m.statusTimer.observeField("fire", "statusUpdate")
     m.slideshow = get_user_setting("photos.slideshow")
-    m.shuffle = get_user_setting("photos.shuffle")
+    m.random = get_user_setting("photos.random")
 
     m.showStatusAnimation = m.top.findNode("showStatusAnimation")
     m.hideStatusAnimation = m.top.findNode("hideStatusAnimation")
@@ -31,8 +31,8 @@ sub onPhotoLoaded()
         photo = m.top.findNode("photo")
         photo.uri = m.LoadLibrariesTask.results
 
-        if m.slideshow = "true" or m.shuffle = "true"
-            ' user has requested either a slideshow or a shuffle...
+        if m.slideshow = "true" or m.random = "true"
+            ' user has requested either a slideshow or random...
             m.slideshowTimer.control = "start"
         end if
     else
@@ -49,7 +49,7 @@ sub nextSlide()
             m.top.itemIndex++
             m.slideshowTimer.control = "start"
         end if
-    else if m.shuffle = "true"
+    else if m.random = "true"
         index = rnd(m.top.items.content.getChildCount() - 1)
         if isValidToContinue(index)
             m.top.itemIndex = index
@@ -105,7 +105,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
     end if
 
     if key = "options"
-        ' Options (shuffle etc) is done on itemGrid
+        ' Options (random etc) is done on itemGrid
         return true
     end if
 

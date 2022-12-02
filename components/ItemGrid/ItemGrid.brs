@@ -323,8 +323,8 @@ sub setPhotoAlbumOptions(options)
     options.views = [
         { "Title": tr("Slideshow Off"), "Name": "singlephoto" }
         { "Title": tr("Slideshow On"), "Name": "slideshowphoto" }
-        { "Title": tr("Shuffle Off"), "Name": "singlephoto" }
-        { "Title": tr("Shuffle On"), "Name": "shufflephoto" }
+        { "Title": tr("Random Off"), "Name": "singlephoto" }
+        { "Title": tr("Random On"), "Name": "randomphoto" }
     ]
     options.sort = []
     options.filter = []
@@ -576,15 +576,15 @@ sub optionsClosed()
     end if
 
     if m.top.parentItem.Type = "CollectionFolder" or m.top.parentItem.Type = "Folder" or m.top.parentItem.CollectionType = "CollectionFolder"
-        ' Did the user just request "Shuffle" on a PhotoAlbum?
+        ' Did the user just request "Random" on a PhotoAlbum?
         if m.options.view = "singlephoto"
             set_user_setting("photos.slideshow", "false")
-            set_user_setting("photos.shuffle", "false")
+            set_user_setting("photos.random", "false")
         else if m.options.view = "slideshowphoto"
             set_user_setting("photos.slideshow", "true")
-            set_user_setting("photos.shuffle", "false")
-        else if m.options.view = "shufflephoto"
-            set_user_setting("photos.shuffle", "true")
+            set_user_setting("photos.random", "false")
+        else if m.options.view = "randomphoto"
+            set_user_setting("photos.random", "true")
             set_user_setting("photos.slideshow", "false")
         end if
     end if
