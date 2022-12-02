@@ -8,10 +8,8 @@ sub init()
     setupDataTasks()
     setupScreenSaver()
 
-    m.currentSongIndex = 0
     m.shuffleEnabled = false
     m.loopMode = ""
-    m.shuffleEvent = ""
     m.buttonCount = m.buttons.getChildCount()
     m.playReported = false
 
@@ -26,8 +24,8 @@ sub init()
     WriteAsciiFile("tmp:/scene.temp", "nowplaying")
     MoveFile("tmp:/scene.temp", "tmp:/scene")
 
-    m.top.pageContent = m.global.queueManager.callFunc("getQueue")
     loadButtons()
+    pageContentChanged()
 end sub
 
 sub onScreensaverTimeoutLoaded()
@@ -225,12 +223,12 @@ sub audioStateChanged()
             playAction()
             return
         else if m.loopMode = "all"
-            m.currentSongIndex = -1
+            m.global.queueManager.callFunc("setPosition", -1)
             LoadNextSong()
             return
         end if
 
-        if m.currentSongIndex < m.top.pageContent.count() - 1
+        if m.global.queueManager.callFunc("getPosition") < m.global.queueManager.callFunc("getCount") - 1
             LoadNextSong()
         else
             ' Return to previous screen
@@ -265,8 +263,8 @@ function previousClicked() as boolean
         m.top.audio.control = "stop"
     end if
 
-    if m.currentSongIndex > 0
-        m.currentSongIndex--
+    if m.global.queueManager.callFunc("getPosition") > 0
+        m.global.queueManager.callFunc("moveBack")
         pageContentChanged()
     end if
 
@@ -291,7 +289,8 @@ function loopClicked() as boolean
 end function
 
 function nextClicked() as boolean
-    if m.currentSongIndex < m.top.pageContent.count() - 1
+    print "nextClicked"
+    if m.global.queueManager.callFunc("getPosition") < m.global.queueManager.callFunc("getCount") - 1
         LoadNextSong()
     end if
 
@@ -304,7 +303,7 @@ end sub
 
 function findCurrentSongIndex(songList) as integer
     for i = 0 to songList.count() - 1
-        if songList[i].id = m.top.pageContent[m.currentSongIndex].id
+        if songList[i].id = m.global.queueManager.callFunc("getCurrentItem").id
             return i
         end if
     end for
@@ -320,10 +319,10 @@ function shuffleClicked() as boolean
         m.shuffleIndicator.opacity = ".4"
         m.shuffleIndicator.uri = m.shuffleIndicator.uri.Replace("-on", "-off")
 
-        m.shuffleEvent = "enabled"
-        m.currentSongIndex = findCurrentSongIndex(m.originalSongList)
-        m.top.pageContent = m.originalSongList
-        setFieldTextValue("numberofsongs", "Track " + stri(m.currentSongIndex + 1) + "/" + stri(m.top.pageContent.count()))
+        currentSongIndex = findCurrentSongIndex(m.originalSongList)
+        m.global.queueManager.callFunc("set", m.originalSongList)
+        m.global.queueManager.callFunc("setPosition", currentSongIndex)
+        setFieldTextValue("numberofsongs", "Track " + stri(m.global.queueManager.callFunc("getPosition") + 1) + "/" + stri(m.global.queueManager.callFunc("getCount")))
 
         return true
     end if
@@ -331,14 +330,14 @@ function shuffleClicked() as boolean
     m.shuffleIndicator.opacity = "1"
     m.shuffleIndicator.uri = m.shuffleIndicator.uri.Replace("-off", "-on")
 
-    m.originalSongList = m.top.pageContent
+    m.originalSongList = m.global.queueManager.callFunc("getQueue")
 
-    songIDArray = m.top.pageContent
+    songIDArray = m.global.queueManager.callFunc("getQueue")
 
     ' Move the currently playing song to the front of the queue
-    temp = m.top.pageContent[0]
-    songIDArray[0] = m.top.pageContent[m.currentSongIndex]
-    songIDArray[m.currentSongIndex] = temp
+    temp = m.global.queueManager.callFunc("top")
+    songIDArray[0] = m.global.queueManager.callFunc("getCurrentItem")
+    songIDArray[m.global.queueManager.callFunc("getPosition")] = temp
 
     for i = 1 to songIDArray.count() - 1
         j = Rnd(songIDArray.count() - 1)
@@ -347,10 +346,7 @@ function shuffleClicked() as boolean
         songIDArray[j] = temp
     end for
 
-    m.currentSongIndex = 0
-    m.shuffleEvent = "enabled"
-
-    m.top.pageContent = songIDArray
+    m.global.queueManager.callFunc("set", songIDArray)
 
     return true
 end function
@@ -362,62 +358,58 @@ sub LoadNextSong()
 
     ' Reset playPosition bar without animation
     m.playPosition.width = 0
-    m.currentSongIndex++
+    m.global.queueManager.callFunc("moveForward")
     pageContentChanged()
 end sub
 
 ' Update values on screen when page content changes
 sub pageContentChanged()
-    ' pageContent Changed due to shuffle event, don't update screen values
-    if m.shuffleEvent = "enabled"
-        m.shuffleEvent = ""
-        return
-    end if
 
     ' Reset buffer bar without animation
     m.bufferPosition.width = 0
 
     useMetaTask = false
+    currentItem = m.global.queueManager.callFunc("getCurrentItem")
 
-    if not isValid(m.top.pageContent[m.currentSongIndex].RunTimeTicks)
+    if not isValid(currentItem.RunTimeTicks)
         useMetaTask = true
     end if
 
-    if not isValid(m.top.pageContent[m.currentSongIndex].AlbumArtist)
+    if not isValid(currentItem.AlbumArtist)
         useMetaTask = true
     end if
 
-    if not isValid(m.top.pageContent[m.currentSongIndex].name)
+    if not isValid(currentItem.name)
         useMetaTask = true
     end if
 
-    if not isValid(m.top.pageContent[m.currentSongIndex].Artists)
+    if not isValid(currentItem.Artists)
         useMetaTask = true
     end if
 
     if useMetaTask
-        m.LoadMetaDataTask.itemId = m.top.pageContent[m.currentSongIndex].id
+        m.LoadMetaDataTask.itemId = currentItem.id
         m.LoadMetaDataTask.observeField("content", "onMetaDataLoaded")
         m.LoadMetaDataTask.control = "RUN"
     else
-        if isValid(m.top.pageContent[m.currentSongIndex].ParentBackdropItemId)
-            setBackdropImage(ImageURL(m.top.pageContent[m.currentSongIndex].ParentBackdropItemId, "Backdrop", { "maxHeight": "720", "maxWidth": "1280" }))
+        if isValid(currentItem.ParentBackdropItemId)
+            setBackdropImage(ImageURL(currentItem.ParentBackdropItemId, "Backdrop", { "maxHeight": "720", "maxWidth": "1280" }))
         end if
 
-        setPosterImage(ImageURL(m.top.pageContent[m.currentSongIndex].id, "Primary", { "maxHeight": 500, "maxWidth": 500 }))
-        setScreenTitle(m.top.pageContent[m.currentSongIndex])
-        setOnScreenTextValues(m.top.pageContent[m.currentSongIndex])
-        m.songDuration = m.top.pageContent[m.currentSongIndex].RunTimeTicks / 10000000.0
+        setPosterImage(ImageURL(currentItem.id, "Primary", { "maxHeight": 500, "maxWidth": 500 }))
+        setScreenTitle(currentItem)
+        setOnScreenTextValues(currentItem)
+        m.songDuration = currentItem.RunTimeTicks / 10000000.0
     end if
 
-    m.LoadAudioStreamTask.itemId = m.top.pageContent[m.currentSongIndex].id
+    m.LoadAudioStreamTask.itemId = currentItem.id
     m.LoadAudioStreamTask.observeField("content", "onAudioStreamLoaded")
     m.LoadAudioStreamTask.control = "RUN"
 end sub
 
 ' If we have more and 1 song to play, fade in the next and previous controls
 sub loadButtons()
-    if m.top.pageContent.count() > 1
+    if m.global.queueManager.callFunc("getCount") > 1
         m.shuffleIndicator.opacity = ".4"
         m.loopIndicator.opacity = ".4"
         m.displayButtonsAnimation.control = "start"
@@ -501,12 +493,12 @@ end sub
 ' Populate on screen text variables
 sub setOnScreenTextValues(json)
     if isValid(json)
-        currentSongIndex = m.currentSongIndex
+        currentSongIndex = m.global.queueManager.callFunc("getPosition")
 
         if m.shuffleEnabled
             currentSongIndex = findCurrentSongIndex(m.originalSongList)
         end if
-        setFieldTextValue("numberofsongs", "Track " + stri(currentSongIndex + 1) + "/" + stri(m.top.pageContent.count()))
+        setFieldTextValue("numberofsongs", "Track " + stri(currentSongIndex + 1) + "/" + stri(m.global.queueManager.callFunc("getCount")))
         setFieldTextValue("artist", json.Artists[0])
         setFieldTextValue("song", json.name)
     end if
@@ -541,7 +533,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
         else if key = "fastforward"
             return nextClicked()
         else if key = "left"
-            if m.top.pageContent.count() = 1 then return false
+            if m.global.queueManager.callFunc("getCount") = 1 then return false
 
             if m.top.selectedButtonIndex > 0
                 m.previouslySelectedButtonIndex = m.top.selectedButtonIndex
@@ -549,7 +541,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
             end if
             return true
         else if key = "right"
-            if m.top.pageContent.count() = 1 then return false
+            if m.global.queueManager.callFunc("getCount") = 1 then return false
 
             m.previouslySelectedButtonIndex = m.top.selectedButtonIndex
             if m.top.selectedButtonIndex < m.buttonCount - 1 then m.top.selectedButtonIndex = m.top.selectedButtonIndex + 1
@@ -584,7 +576,7 @@ sub ReportPlayback(state = "update" as string)
     if m.top.audio.position = invalid then return
 
     params = {
-        "ItemId": m.top.pageContent[m.currentSongIndex].id,
+        "ItemId": m.global.queueManager.callFunc("getCurrentItem").id,
         "PlaySessionId": m.top.audio.content.id,
         "PositionTicks": int(m.top.audio.position) * 10000000&, 'Ensure a LongInteger is used
         "IsPaused": (m.top.audio.state = "paused")

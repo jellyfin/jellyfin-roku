@@ -3,13 +3,19 @@
   <interface>
     <function name="clear" />
     <function name="deleteAtIndex" />
+    <function name="getCount" />
+    <function name="getCurrentItem" />
     <function name="getItemByIndex" />
+    <function name="getPosition" />
     <function name="getQueue" />
+    <function name="moveBack" />
+    <function name="moveForward" />
     <function name="peek" />
-    <function name="pop" />
     <function name="playQueue" />
+    <function name="pop" />
     <function name="push" />
     <function name="set" />
+    <function name="setPosition" />
     <function name="top" />
   </interface>
   <script type="text/brightscript" uri="QueueManager.brs" />
