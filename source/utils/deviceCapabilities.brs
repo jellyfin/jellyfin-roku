@@ -177,7 +177,7 @@ end function
 
 function GetDirectPlayProfiles() as object
 
-    mp4Video = "h264,mpeg4"
+    mp4Video = "h264"
     mp4Audio = "mp3,pcm,lpcm,wav"
     mkvVideo = "h264,vp8"
     mkvAudio = "mp3,pcm,lpcm,wav"
@@ -200,6 +200,10 @@ function GetDirectPlayProfiles() as object
     if playMpeg2 and di.CanDecodeVideo({ Codec: "mpeg2" }).Result = true
         mp4Video = mp4Video + ",mpeg2video"
         mkvVideo = mkvVideo + ",mpeg2video"
+    end if
+
+    if get_user_setting("playback.mpeg4") = "true"
+        mp4Video = mp4Video + ",mpeg4"
     end if
 
     ' Check for supported Audio

@@ -339,7 +339,7 @@ sub Main (args as dynamic) as void
 
                 video_id = trailerData[0].id
 
-                video = CreateVideoPlayerGroup(video_id, mediaSourceId, audio_stream_idx)
+                video = CreateVideoPlayerGroup(video_id, mediaSourceId, audio_stream_idx, false, false)
                 if video <> invalid and video.errorMsg <> "introaborted"
                     sceneManager.callFunc("pushScene", video)
                 end if
@@ -444,12 +444,6 @@ sub Main (args as dynamic) as void
                     autoPlayNextEpisode(node.id, node.showID)
                 end if
             end if
-            'else if isNodeEvent(msg, "selectedExtra")
-            'rl = msg.getData()
-            'sel = rl.rowItemSelected
-            '? "msg.getfield():" + msg.getField()
-            'stop
-            'CreatePersonView(msg.getData())
         else if type(msg) = "roDeviceInfoEvent"
             event = msg.GetInfo()
             group = sceneManager.callFunc("getActiveScene")
