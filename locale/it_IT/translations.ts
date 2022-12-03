@@ -1908,5 +1908,18 @@
         <translation>Scegli un server Jellyfin dalla rete locale:</translation>
         <extracomment>Instructions on initial app launch when the user is asked to pick a server from a list</extracomment>
     </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>Salvare le credenziali?</translation>
+    </message>
+    <message>
+        <source>Change Server</source>
+        <translation>Cambia server</translation>
+    </message>
+    <message>
+        <source>Error During Playback</source>
+        <translation>Errore durante la riproduzione</translation>
+        <extracomment>Dialog title when error occurs during playback</extracomment>
+    </message>
 </context>
 </TS>
