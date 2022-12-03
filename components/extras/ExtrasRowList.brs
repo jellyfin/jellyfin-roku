@@ -31,10 +31,11 @@ sub updateSize()
     m.top.rowItemSpacing = [36, 36]
 end sub
 
-sub loadPeople(data as object)
+sub loadParts(data as object)
     m.top.parentId = data.id
-    m.LoadPeopleTask.peopleList = data.People
-    m.LoadPeopleTask.control = "RUN"
+    m.people = data.People
+    m.LoadAdditionalPartsTask.itemId = m.top.parentId
+    m.LoadAdditionalPartsTask.control = "RUN"
 end sub
 
 sub loadPersonVideos(personId)
@@ -44,12 +45,30 @@ sub loadPersonVideos(personId)
     m.LoadMoviesTask.control = "RUN"
 end sub
 
+sub onAdditionalPartsLoaded()
+    parts = m.LoadAdditionalPartsTask.content
+    m.LoadAdditionalPartsTask.unobserveField("content")
+
+    data = CreateObject("roSGNode", "ContentNode") ' The row Node
+    m.top.content = data
+    if parts <> invalid and parts.count() > 0
+        row = buildRow("Additional Parts", parts)
+        addRowSize([234, 396])
+        m.top.content.appendChild(row)
+    end if
+    m.top.translation = "[75,10]"
+    m.top.rowItemSize = [[234, 396]]
+
+    ' Load Cast and Crew and everything else...
+    m.LoadPeopleTask.peopleList = m.people
+    m.LoadPeopleTask.control = "RUN"
+end sub
+
 sub onPeopleLoaded()
     people = m.LoadPeopleTask.content
     m.loadPeopleTask.unobserveField("content")
-    data = CreateObject("roSGNode", "ContentNode") ' The row Node
     if people <> invalid and people.count() > 0
-        row = data.createChild("ContentNode")
+        row = m.top.content.createChild("ContentNode")
         row.Title = tr("Cast & Crew")
         for each person in people
             if person.json.type = "Actor" and person.json.Role <> invalid
@@ -61,9 +80,6 @@ sub onPeopleLoaded()
             row.appendChild(person)
         end for
     end if
-    m.top.content = data
-    m.top.translation = "[75,10]"
-    m.top.rowItemSize = [[234, 396]]
     m.LikeThisTask.itemId = m.top.parentId
     m.LikeThisTask.control = "RUN"
 end sub
@@ -92,9 +108,6 @@ sub onLikeThisLoaded()
     ' Special Features next...
     m.SpecialFeaturesTask.itemId = m.top.parentId
     m.SpecialFeaturesTask.control = "RUN"
-    ' Along with any addtional parts...
-    m.LoadAdditionalPartsTask.itemId = m.top.parentId
-    m.LoadAdditionalPartsTask.control = "RUN"
 end sub
 
 function onSpecialFeaturesLoaded()
@@ -117,17 +130,6 @@ function onSpecialFeaturesLoaded()
 
     return m.top.content
 end function
-
-sub onAdditionalPartsLoaded()
-    data = m.LoadAdditionalPartsTask.content
-    m.LoadAdditionalPartsTask.unobserveField("content")
-
-    if data <> invalid and data.count() > 0
-        row = buildRow("Additional Features", data)
-        addRowSize([234, 396])
-        m.top.content.appendChild(row)
-    end if
-end sub
 
 sub onMoviesLoaded()
     data = m.LoadMoviesTask.content
