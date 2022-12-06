@@ -496,7 +496,7 @@
         </message>
         <message>
             <source>** EXPERIMENTAL** Support Direct Play of AV1 content if this Roku device supports it.</source>
-            <translation>** EXPERIMENTAL** Support Direct Play of AV1 content when this Roku device supports it.</translation>
+            <translation>** EXPERIMENTAL** Support Direct Play of AV1 content if this Roku device supports it.</translation>
             <extracomment>Settings Menu - Description for option</extracomment>
         </message>
         <message>
