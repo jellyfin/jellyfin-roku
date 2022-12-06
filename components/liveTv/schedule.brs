@@ -45,13 +45,13 @@ end sub
 sub channelsearchTermSet()
     m.scheduleGrid.jumpToChannel = 0
     'Reset filter if user says all
-    if m.top.searchTerm = tr("all") or m.LoadChannelsTask.searchTerm = tr("all")
+    if LCase(m.top.searchTerm) = LCase(tr("all")) or m.LoadChannelsTask.searchTerm = LCase(tr("all"))
         m.top.searchTerm = " "
         m.LoadChannelsTask.searchTerm = " "
         m.spinner.visible = true
         m.LoadChannelsTask.control = "RUN"
         'filter if the searterm is not invalid
-    else if m.top.searchTerm <> invalid and m.LoadChannelsTask.searchTerm <> m.top.searchTerm
+    else if m.top.searchTerm <> invalid and LCase(m.LoadChannelsTask.searchTerm) <> LCase(m.top.searchTerm)
         if m.LoadChannelsTask.state = "run" then m.LoadChannelsTask.control = "stop"
 
         m.LoadChannelsTask.searchTerm = m.top.searchTerm

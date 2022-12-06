@@ -53,14 +53,14 @@ sub loadItems()
     end if
 
     'reset data
-    if m.top.searchTerm = tr("all")
+    if LCase(m.top.searchTerm) = LCase(tr("all"))
         params.searchTerm = " "
     else if m.top.searchTerm <> ""
         params.searchTerm = m.top.searchTerm
     end if
 
     filter = m.top.filter
-    if filter = "All" or filter = "all"
+    if filter = Lcase("All")
         ' do nothing
     else if filter = "Favorites"
         params.append({ Filters: "IsFavorite" })
