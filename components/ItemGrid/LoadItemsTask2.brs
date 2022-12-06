@@ -20,6 +20,16 @@ sub loadItems()
         sort_order = "Descending"
     end if
 
+    if m.top.ItemType = "LogoImage"
+        logoImageExists = api_API().items.headimageurlbyname(m.top.itemId, "logo")
+        if logoImageExists
+            m.top.content = [api_API().items.getimageurl(m.top.itemId, "logo", 0, { "maxHeight": 500, "maxWidth": 500, "quality": "90" })]
+        else
+            m.top.content = []
+        end if
+
+        return
+    end if
 
     params = {
         limit: m.top.limit,
@@ -120,7 +130,49 @@ sub loadItems()
             else if item.type = "Episode"
                 tmp = CreateObject("roSGNode", "TVEpisode")
             else if item.Type = "Genre"
-                tmp = CreateObject("roSGNode", "FolderData")
+                tmp = CreateObject("roSGNode", "ContentNode")
+                tmp.title = item.name
+
+                genreData = api_API().users.getitemsbyquery(get_setting("active_user"), {
+                    SortBy: "Random",
+                    SortOrder: "Ascending",
+                    IncludeItemTypes: "Movie",
+                    Recursive: true,
+                    Fields: "PrimaryImageAspectRatio,MediaSourceCount,BasicSyncInfo",
+                    ImageTypeLimit: 1,
+                    EnableImageTypes: "Primary",
+                    Limit: 6,
+                    GenreIds: item.id,
+                    EnableTotalRecordCount: false,
+                    ParentId: m.top.itemId
+                })
+
+                if genreData.Items.Count() > 5
+                    ' Add View All item to the start of the row
+                    row = tmp.createChild("FolderData")
+                    row.parentFolder = m.top.itemId
+                    genreMovieImage = api_API().items.getimageurl(item.id)
+                    row.title = item.name
+                    row.json = item
+                    row.FHDPOSTERURL = genreMovieImage
+                    row.HDPOSTERURL = genreMovieImage
+                    row.SDPOSTERURL = genreMovieImage
+                    row.type = "Folder"
+                end if
+
+                for each genreMovie in genreData.Items
+                    row = tmp.createChild("MovieData")
+
+                    genreMovieImage = api_API().items.getimageurl(genreMovie.id)
+                    row.title = genreMovie.name
+                    row.FHDPOSTERURL = genreMovieImage
+                    row.HDPOSTERURL = genreMovieImage
+                    row.SDPOSTERURL = genreMovieImage
+                    row.json = genreMovie
+                    row.id = genreMovie.id
+                    row.type = genreMovie.type
+                end for
+
             else if item.Type = "Studio"
                 tmp = CreateObject("roSGNode", "FolderData")
             else if item.Type = "MusicAlbum"
@@ -138,12 +190,16 @@ sub loadItems()
             else
                 print "[LoadItems] Unknown Type: " item.Type
             end if
+
             if tmp <> invalid
-                tmp.parentFolder = m.top.itemId
-                tmp.json = item
-                if item.UserData <> invalid and item.UserData.isFavorite <> invalid
-                    tmp.favorite = item.UserData.isFavorite
+                if item.Type <> "Genre"
+                    tmp.parentFolder = m.top.itemId
+                    tmp.json = item
+                    if item.UserData <> invalid and item.UserData.isFavorite <> invalid
+                        tmp.favorite = item.UserData.isFavorite
+                    end if
                 end if
+
                 results.push(tmp)
             end if
         end for
