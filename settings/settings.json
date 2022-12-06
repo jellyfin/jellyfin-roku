@@ -5,7 +5,7 @@
         "children": [
             {
                 "title": "AV1 Support",
-                "description": "** EXPERIMENTAL** Support Direct Play of AV1 content when this Roku device supports it.",
+                "description": "** EXPERIMENTAL** Support Direct Play of AV1 content if this Roku device supports it.",
                 "settingName": "playback.av1",
                 "type": "bool",
                 "default": "false"
