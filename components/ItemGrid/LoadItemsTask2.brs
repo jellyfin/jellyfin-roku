@@ -52,7 +52,10 @@ sub loadItems()
         end if
     end if
 
-    if m.top.searchTerm <> ""
+    'reset data
+    if m.top.searchTerm = tr("all")
+        params.searchTerm = " "
+    else if m.top.searchTerm <> ""
         params.searchTerm = m.top.searchTerm
     end if
 

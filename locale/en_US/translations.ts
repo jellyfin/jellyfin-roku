@@ -817,5 +817,10 @@
             <translation>Unable to find any albums or songs belonging to this artist</translation>
             <extracomment>Popup message when we find no audio data for an artist</extracomment>
         </message>
+        <message>
+            <source>all</source>
+            <translation>all</translation>
+            <extracomment>all will reset the searchTerm so all data will be availible</extracomment>
+        </message>
     </context>
 </TS>

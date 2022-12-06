@@ -45,7 +45,7 @@ end sub
 sub channelsearchTermSet()
     m.scheduleGrid.jumpToChannel = 0
     'Reset filter if user says all
-    if m.top.searchTerm = "all" or m.LoadChannelsTask.searchTerm = "all"
+    if m.top.searchTerm = tr("all") or m.LoadChannelsTask.searchTerm = tr("all")
         m.top.searchTerm = " "
         m.LoadChannelsTask.searchTerm = " "
         m.spinner.visible = true
@@ -292,6 +292,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
         m.top.searchTerm = " "
         m.LoadChannelsTask.searchTerm = " "
         channelsearchTermSet()
+        print "replay pressed, m.top.filter: " m.top.filter
         return true
     end if
 
