@@ -820,7 +820,7 @@
         <message>
             <source>Aired</source>
             <translation>Aired</translation>
-            <extracomment>show aired date on TVListDetails</extracomment>
+            <extracomment>Aired date label</extracomment>
         </message>
     </context>
 </TS>
