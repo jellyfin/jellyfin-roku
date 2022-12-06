@@ -111,13 +111,6 @@ sub itemContentChanged()
         m.details.removeChild(m.tagline)
     end if
 
-    'set aired date
-    if itemData.PremiereDate <> invalid
-        airDate = CreateObject("roDateTime")
-        airDate.FromISO8601String(itemData.PremiereDate)
-        m.top.findNode("aired").text = tr("Aired") + ": " + airDate.AsDateString("short-month-no-weekday")
-    end if
-
     setFavoriteColor()
     setWatchedColor()
     SetUpVideoOptions(itemData.mediaSources)
