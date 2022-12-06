@@ -59,10 +59,10 @@ sub loadItems()
         params.searchTerm = m.top.searchTerm
     end if
 
-    filter = m.top.filter
-    if filter = Lcase("All")
+    filter = LCase(m.top.filter)
+    if filter = "all"
         ' do nothing
-    else if filter = "Favorites"
+    else if filter = "favorites"
         params.append({ Filters: "IsFavorite" })
         params.append({ isFavorite: true })
     end if
