@@ -292,7 +292,6 @@ function onKeyEvent(key as string, press as boolean) as boolean
         m.top.searchTerm = " "
         m.LoadChannelsTask.searchTerm = " "
         channelsearchTermSet()
-        print "replay pressed, m.top.filter: " m.top.filter
         return true
     end if
 
