@@ -13,13 +13,6 @@ sub Main (args as dynamic) as void
     WriteAsciiFile("tmp:/scene.temp", "")
     MoveFile("tmp:/scene.temp", "tmp:/scene")
 
-    ' Temporary code to migrate MPEG2 setting from device setting to user setting
-    ' Added for 1.4.13 release and should probably be removed for 1.4.15
-    if get_setting("playback.mpeg2") <> invalid and registry_read("playback.mpeg2", get_setting("active_user")) = invalid
-        set_user_setting("playback.mpeg2", get_setting("playback.mpeg2"))
-    end if
-    ' End Temporary code
-
     m.port = CreateObject("roMessagePort")
     m.screen.setMessagePort(m.port)
     m.scene = m.screen.CreateScene("JFScene")
@@ -110,8 +103,20 @@ sub Main (args as dynamic) as void
         else if isNodeEvent(msg, "selectedItem")
             ' If you select a library from ANYWHERE, follow this flow
             selectedItem = msg.getData()
+
             m.selectedItemType = selectedItem.type
-            if selectedItem.type = "CollectionFolder" or selectedItem.type = "UserView" or selectedItem.type = "Folder" or selectedItem.type = "Channel" or selectedItem.type = "Boxset"
+            '
+            if selectedItem.type = "CollectionFolder"
+                if selectedItem.collectionType = "movies"
+                    group = CreateMovieLibraryView(selectedItem)
+                else
+                    group = CreateItemGrid(selectedItem)
+                end if
+                sceneManager.callFunc("pushScene", group)
+            else if selectedItem.type = "Folder" and selectedItem.json.type = "Genre"
+                group = CreateMovieLibraryView(selectedItem)
+                sceneManager.callFunc("pushScene", group)
+            else if selectedItem.type = "UserView" or selectedItem.type = "Folder" or selectedItem.type = "Channel" or selectedItem.type = "Boxset"
                 group = CreateItemGrid(selectedItem)
                 sceneManager.callFunc("pushScene", group)
             else if selectedItem.type = "Episode"
@@ -128,6 +133,8 @@ sub Main (args as dynamic) as void
                 end if
             else if selectedItem.type = "Series"
                 group = CreateSeriesDetailsGroup(selectedItem.json)
+            else if selectedItem.type = "Season"
+                group = CreateSeasonDetailsGroupByID(selectedItem.json.SeriesId, selectedItem.id)
             else if selectedItem.type = "Movie"
                 ' open movie detail page
                 group = CreateMovieDetailsGroup(selectedItem)
@@ -332,7 +339,7 @@ sub Main (args as dynamic) as void
 
                 video_id = trailerData[0].id
 
-                video = CreateVideoPlayerGroup(video_id, mediaSourceId, audio_stream_idx)
+                video = CreateVideoPlayerGroup(video_id, mediaSourceId, audio_stream_idx, false, false)
                 if video <> invalid and video.errorMsg <> "introaborted"
                     sceneManager.callFunc("pushScene", video)
                 end if
@@ -420,7 +427,7 @@ sub Main (args as dynamic) as void
             if m.selectedItemType = "TvChannel" and node.state = "finished"
                 video = CreateVideoPlayerGroup(node.id)
                 m.global.sceneManager.callFunc("pushScene", video)
-                m.global.sceneManager.callFunc("clearPreviousScene")
+                m.global.sceneManager.callFunc("deleteSceneAtIndex", 2)
             else if node.state = "finished"
                 node.control = "stop"
 
@@ -437,12 +444,6 @@ sub Main (args as dynamic) as void
                     autoPlayNextEpisode(node.id, node.showID)
                 end if
             end if
-            'else if isNodeEvent(msg, "selectedExtra")
-            'rl = msg.getData()
-            'sel = rl.rowItemSelected
-            '? "msg.getfield():" + msg.getField()
-            'stop
-            'CreatePersonView(msg.getData())
         else if type(msg) = "roDeviceInfoEvent"
             event = msg.GetInfo()
             group = sceneManager.callFunc("getActiveScene")

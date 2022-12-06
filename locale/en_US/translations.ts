@@ -490,6 +490,16 @@
             <extracomment>Settings Menu - Description for option</extracomment>
         </message>
         <message>
+            <source>AV1 Support</source>
+            <translation>AV1 Support</translation>
+            <extracomment>Settings Menu - Title for option</extracomment>
+        </message>
+        <message>
+            <source>** EXPERIMENTAL** Support Direct Play of AV1 content if this Roku device supports it.</source>
+            <translation>** EXPERIMENTAL** Support Direct Play of AV1 content if this Roku device supports it.</translation>
+            <extracomment>Settings Menu - Description for option</extracomment>
+        </message>
+        <message>
             <source>Enabled</source>
             <translation>Enabled</translation>
         </message>
@@ -704,10 +714,33 @@
             <extracomment>Settings Menu - Description for option</extracomment>
         </message>
         <message>
+            <source>Next episode</source>
+            <translation>Next episode</translation>
+        </message>
+        <message>
             <source>Play Trailer</source>
             <translation>Play Trailer</translation>
         </message>
         <message>
+            <source>Direct Play H.264 Unsupported Profile Levels</source>
+            <translation>Direct Play H.264 Unsupported Profile Levels</translation>
+            <extracomment>Settings Menu - Title for option</extracomment>
+        </message>
+        <message>
+            <source>Attempt Direct Play for H.264 media with unsupported profile levels before falling back to transcoding if it fails.</source>
+            <translation>Attempt Direct Play for H.264 media with unsupported profile levels before falling back to transcoding if it fails.</translation>
+            <extracomment>Settings Menu - Description for option</extracomment>
+        </message>
+        <message>
+            <source>Direct Play HEVC Unsupported Profile Levels</source>
+            <translation>Direct Play HEVC Unsupported Profile Levels</translation>
+            <extracomment>Settings Menu - Title for option</extracomment>
+        </message>
+        <message>
+            <source>Attempt Direct Play for HEVC media with unsupported profile levels before falling back to trancoding if it fails.</source>
+            <translation>Attempt Direct Play for HEVC media with unsupported profile levels before falling back to trancoding if it fails.</translation>
+            <extracomment>Settings Menu - Description for option</extracomment>
+        </message>
             <source>Settings relating to playback and supported codec and media types.</source>
             <translation>Settings relating to playback and supported codec and media types.</translation>
         </message>
@@ -821,6 +854,40 @@
             <source>Aired</source>
             <translation>Aired</translation>
             <extracomment>Aired date label</extracomment>
+        </message>
+        <message>
+            <source>Slideshow Off</source>
+            <translation>Slideshow Off</translation>
+        </message>
+        <message>
+            <source>Slideshow On</source>
+            <translation>Slideshow On</translation>
+        </message>
+        <message>
+            <source>Slideshow Paused</source>
+            <translation>Slideshow Paused</translation>
+        </message>                
+        <message>
+            <source>Slideshow Resumed</source>
+            <translation>Slideshow Resumed</translation>
+        </message>     
+        <message>
+            <source>Random Off</source>
+            <translation>Random Off</translation>
+        </message>
+        <message>
+            <source>Random On</source>
+            <translation>Random On</translation>
+        </message>
+        <message>        
+            <source>MPEG-4 Support</source>
+            <translation>MPEG-4 Support</translation>
+            <extracomment>Settings Menu - Title for option</extracomment>
+        </message>
+        <message>
+            <source>Support Direct Play of MPEG-4 content. This may need to be disabled for playback of DIVX encoded video files.</source>
+            <translation>Support Direct Play of MPEG-4 content. This may need to be disabled for playback of DIVX encoded video files.</translation>
+            <extracomment>Settings Menu - Description for option</extracomment>
         </message>
     </context>
 </TS>
