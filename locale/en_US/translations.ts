@@ -851,6 +851,30 @@
             <extracomment>Popup message when we find no audio data for an artist</extracomment>
         </message>
         <message>
+            <source>Slideshow Off</source>
+            <translation>Slideshow Off</translation>
+        </message>
+        <message>
+            <source>Slideshow On</source>
+            <translation>Slideshow On</translation>
+        </message>
+        <message>
+            <source>Slideshow Paused</source>
+            <translation>Slideshow Paused</translation>
+        </message>                
+        <message>
+            <source>Slideshow Resumed</source>
+            <translation>Slideshow Resumed</translation>
+        </message>     
+        <message>
+            <source>Random Off</source>
+            <translation>Random Off</translation>
+        </message>
+        <message>
+            <source>Random On</source>
+            <translation>Random On</translation>
+        </message>
+        <message>        
             <source>MPEG-4 Support</source>
             <translation>MPEG-4 Support</translation>
             <extracomment>Settings Menu - Title for option</extracomment>
