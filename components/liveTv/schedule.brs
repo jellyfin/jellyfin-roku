@@ -287,14 +287,6 @@ end sub
 function onKeyEvent(key as string, press as boolean) as boolean
     if not press then return false
 
-    if key = "replay"
-        m.spinner.visible = true
-        m.top.searchTerm = " "
-        m.LoadChannelsTask.searchTerm = " "
-        channelsearchTermSet()
-        return true
-    end if
-
     detailsGrp = m.top.findNode("detailsPane")
     gridGrp = m.top.findNode("scheduleGrid")
 
