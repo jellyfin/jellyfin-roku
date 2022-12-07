@@ -851,6 +851,11 @@
             <extracomment>Popup message when we find no audio data for an artist</extracomment>
         </message>
         <message>
+            <source>Aired</source>
+            <translation>Aired</translation>
+            <extracomment>Aired date label</extracomment>
+        </message>
+        <message>
             <source>Slideshow Off</source>
             <translation>Slideshow Off</translation>
         </message>
