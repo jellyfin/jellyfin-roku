@@ -55,14 +55,14 @@ sub itemContentChanged()
     ' Handle all "As Is" fields
     m.top.overhangTitle = itemData.name
     setFieldText("releaseYear", itemData.productionYear)
-    setFieldText("officialRating", itemData.officialRating)
     setFieldText("overview", itemData.overview)
 
     if itemData.communityRating <> invalid
         setFieldText("communityRating", int(itemData.communityRating * 10) / 10)
+        m.top.findNode("star").visible = "true"
     else
         ' hide the star icon
-        m.top.findNode("communityRatingGroup").visible = false
+        m.top.findNode("infoGroup").removeChild(m.top.findNode("communityRatingGroup"))
     end if
 
     if itemData.CriticRating <> invalid
@@ -86,6 +86,8 @@ sub itemContentChanged()
 
     if itemData.genres.count() > 0
         setFieldText("genres", tr("Genres") + ": " + itemData.genres.join(", "))
+    else
+        m.top.findNode("details").removeChild(m.top.findNode("genres"))
     end if
 
     ' show tags if there are no genres to display
@@ -101,6 +103,8 @@ sub itemContentChanged()
     end for
     if directors.count() > 0
         setFieldText("director", tr("Director") + ": " + directors.join(", "))
+    else
+        m.top.findNode("details").removeChild(m.top.findNode("director"))
     end if
 
     if get_user_setting("ui.details.hidetagline") = "false"
@@ -109,6 +113,15 @@ sub itemContentChanged()
         end if
     else
         m.details.removeChild(m.tagline)
+    end if
+
+    'set aired date if type is Episode
+    if itemData.PremiereDate <> invalid and itemData.Type = "Episode"
+        airDate = CreateObject("roDateTime")
+        airDate.FromISO8601String(itemData.PremiereDate)
+        m.top.findNode("aired").text = tr("Aired") + ": " + airDate.AsDateString("short-month-no-weekday")
+        'remove movie release year label
+        m.top.findNode("infoGroup").removeChild(m.top.findNode("releaseYear"))
     end if
 
     setFavoriteColor()
