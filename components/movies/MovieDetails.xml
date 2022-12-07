@@ -7,7 +7,7 @@
         <LayoutGroup layoutDirection="horiz" itemSpacings="[100]" id="infoGroup">
           <Label id="releaseYear" />
           <Label id="runtime" />
-          <MultiStyleLabel id="officialRating" />
+          <Label id="officialRating" />
           <LayoutGroup id="communityRatingGroup" layoutDirection="horiz" itemSpacings="[-5]">
             <Poster id="star" uri="pkg:/images/sharp_star_white_18dp.png" height="32" width="32" blendColor="#cb272a" visible="false"/>
             <Label id="communityRating" />
