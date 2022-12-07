@@ -57,6 +57,12 @@ sub itemContentChanged()
     setFieldText("releaseYear", itemData.productionYear)
     setFieldText("overview", itemData.overview)
 
+    if itemData.officialRating <> invalid
+        setFieldText("officialRating", itemData.officialRating)
+    else
+        m.top.findNode("infoGroup").removeChild(m.top.findNode("officialRating"))
+    end if
+
     if itemData.communityRating <> invalid
         setFieldText("communityRating", int(itemData.communityRating * 10) / 10)
         m.top.findNode("star").visible = "true"
