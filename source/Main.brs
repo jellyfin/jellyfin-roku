@@ -1,9 +1,5 @@
 sub Main (args as dynamic) as void
 
-    ' If the Rooibos files are included in deployment, run tests
-    'bs:disable-next-line
-    if type(Rooibos__Init) = "Function" then Rooibos__Init()
-
     ' The main function that runs when the application is launched.
     m.screen = CreateObject("roSGScreen")
 
