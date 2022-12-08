@@ -352,7 +352,7 @@ function CreateMovieDetailsGroup(movie)
 
     extras = group.findNode("extrasGrid")
     extras.observeField("selectedItem", m.port)
-    extras.callFunc("loadPeople", movie.json)
+    extras.callFunc("loadParts", movie.json)
 
     return group
 end function
@@ -369,7 +369,7 @@ function CreateSeriesDetailsGroup(series)
 
     extras = group.findNode("extrasGrid")
     extras.observeField("selectedItem", m.port)
-    extras.callFunc("loadPeople", group.itemcontent.json)
+    extras.callFunc("loadParts", group.itemcontent.json)
 
     return group
 end function
