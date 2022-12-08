@@ -854,8 +854,13 @@
             <source>all</source>
             <translation>all</translation>
             <extracomment>all will reset the searchTerm so all data will be availible</extracomment>
-          </message>
-          <message>
+        </message>
+        <message>
+            <source>Aired</source>
+            <translation>Aired</translation>
+            <extracomment>Aired date label</extracomment>
+        </message>
+        <message>
             <source>Slideshow Off</source>
             <translation>Slideshow Off</translation>
         </message>
