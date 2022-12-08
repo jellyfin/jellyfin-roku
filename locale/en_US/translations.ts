@@ -856,6 +856,11 @@
             <extracomment>Popup message when we find no audio data for an artist</extracomment>
         </message>
         <message>
+            <source>all</source>
+            <translation>all</translation>
+            <extracomment>all will reset the searchTerm so all data will be availible</extracomment>
+        </message>
+        <message>
             <source>Aired</source>
             <translation>Aired</translation>
             <extracomment>Aired date label</extracomment>
