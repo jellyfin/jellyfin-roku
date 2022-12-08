@@ -52,12 +52,14 @@ sub onAdditionalPartsLoaded()
     data = CreateObject("roSGNode", "ContentNode") ' The row Node
     m.top.content = data
     if parts <> invalid and parts.count() > 0
-        row = buildRow("Additional Parts", parts)
-        addRowSize([234, 396])
+        row = buildRow("Additional Parts", parts, 464)
+        addRowSize([464, 291])
         m.top.content.appendChild(row)
+        m.top.rowItemSize = [[464, 291]]
+    else
+        m.top.rowItemSize = [[234, 396]]
     end if
     m.top.translation = "[75,10]"
-    m.top.rowItemSize = [[234, 396]]
 
     ' Load Cast and Crew and everything else...
     m.LoadPeopleTask.peopleList = m.people
