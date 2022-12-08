@@ -498,10 +498,10 @@ sub CreateSidePanel(buttons, options)
     group.options = options
 end sub
 
-function CreateVideoPlayerGroup(video_id, mediaSourceId = invalid, audio_stream_idx = 1, forceTranscoding = false, showIntro = true)
+function CreateVideoPlayerGroup(video_id, mediaSourceId = invalid, audio_stream_idx = 1, forceTranscoding = false, showIntro = true, allowResumeDialog = true)
 
     ' Video is Playing
-    video = VideoPlayer(video_id, mediaSourceId, audio_stream_idx, defaultSubtitleTrackFromVid(video_id), forceTranscoding, showIntro)
+    video = VideoPlayer(video_id, mediaSourceId, audio_stream_idx, defaultSubtitleTrackFromVid(video_id), forceTranscoding, showIntro, allowResumeDialog)
 
     if video = invalid then return invalid
     if video.errorMsg = "introaborted" then return video

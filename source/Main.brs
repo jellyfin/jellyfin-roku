@@ -145,7 +145,12 @@ sub Main (args as dynamic) as void
                 dialog.title = tr("Loading Channel Data")
                 m.scene.dialog = dialog
 
-                video = CreateVideoPlayerGroup(video_id)
+                if LCase(selectedItem.subtype()) = "extrasdata"
+                    video = CreateVideoPlayerGroup(video_id, invalid, 1, false, true, false)
+                else
+                    video = CreateVideoPlayerGroup(video_id)
+                end if
+
                 dialog.close = true
 
                 if video <> invalid and video.errorMsg <> "introaborted"
