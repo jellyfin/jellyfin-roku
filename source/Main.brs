@@ -328,9 +328,17 @@ sub Main (args as dynamic) as void
                     sceneManager.callFunc("pushScene", video)
                 end if
 
+                if group.lastfocus.id = "main_group"
+                    buttons = group.findNode("buttons")
+                    if isValid(buttons)
+                        group.lastfocus = group.findNode("buttons")
+                    end if
+                end if
+
                 if group.lastFocus <> invalid
                     group.lastFocus.setFocus(true)
                 end if
+
             else if btn <> invalid and btn.id = "trailer-button"
                 audio_stream_idx = 1
                 mediaSourceId = invalid
