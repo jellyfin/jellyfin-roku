@@ -83,6 +83,7 @@ sub Main (args as dynamic) as void
                 group.setFocus(true)
             end if
         else if isNodeEvent(msg, "quickPlayNode")
+            group = sceneManager.callFunc("getActiveScene")
             reportingNode = msg.getRoSGNode()
             itemNode = reportingNode.quickPlayNode
             if itemNode = invalid or itemNode.id = "" then return
@@ -96,7 +97,6 @@ sub Main (args as dynamic) as void
                     sceneManager.callFunc("pushScene", video)
                 end if
 
-                group = sceneManager.callFunc("getActiveScene")
                 if LCase(group.subtype()) = "tvepisodes"
                     if isValid(group.lastFocus)
                         group.lastFocus.setFocus(true)
