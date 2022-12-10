@@ -292,12 +292,12 @@
         <message>
             <source>Special Features</source>
             <translation>Special Features</translation>
-       </message>
+        </message>
         <message>
             <source>Additional Parts</source>
             <translation>Additional Parts</translation>
             <extracomment>Additional parts of a video</extracomment>
-        </message>        
+        </message>
         <message>
             <source>Movies</source>
             <translation>Movies</translation>
@@ -746,6 +746,7 @@
             <translation>Attempt Direct Play for HEVC media with unsupported profile levels before falling back to trancoding if it fails.</translation>
             <extracomment>Settings Menu - Description for option</extracomment>
         </message>
+        <message>
             <source>Settings relating to playback and supported codec and media types.</source>
             <translation>Settings relating to playback and supported codec and media types.</translation>
         </message>
@@ -876,11 +877,11 @@
         <message>
             <source>Slideshow Paused</source>
             <translation>Slideshow Paused</translation>
-        </message>                
+        </message>
         <message>
             <source>Slideshow Resumed</source>
             <translation>Slideshow Resumed</translation>
-        </message>     
+        </message>
         <message>
             <source>Random Off</source>
             <translation>Random Off</translation>
@@ -889,7 +890,7 @@
             <source>Random On</source>
             <translation>Random On</translation>
         </message>
-        <message>        
+        <message>
             <source>MPEG-4 Support</source>
             <translation>MPEG-4 Support</translation>
             <extracomment>Settings Menu - Title for option</extracomment>
