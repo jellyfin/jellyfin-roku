@@ -3,6 +3,7 @@ sub init()
     main = m.top.findNode("toplevel")
     main.translation = [96, 175]
     m.extrasSlider = m.top.findNode("tvSeasonExtras")
+    m.unplayedCount = m.top.findNode("unplayedCount")
     m.unplayedEpisodeCount = m.top.findNode("unplayedEpisodeCount")
     'm.extrasSlider.translation = [30,1014]
     m.extrasSlider.visible = true
@@ -14,7 +15,11 @@ sub itemContentChanged()
     item = m.top.itemContent
     itemData = item.json
 
-    m.unplayedEpisodeCount.text = itemData.UserData.UnplayedItemCount
+    if itemData.UserData.UnplayedItemCount > 0
+        m.unplayedCount.visible = true
+        m.unplayedEpisodeCount.text = itemData.UserData.UnplayedItemCount
+    end if
+
     m.top.findNode("tvshowPoster").uri = m.top.itemContent.posterURL
 
     ' Handle all "As Is" fields
