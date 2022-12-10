@@ -17,9 +17,11 @@ sub setSeasonLoading()
 end sub
 
 sub updateSeason()
-    if m.top.seasonData.UserData.UnplayedItemCount > 0
-        m.unplayedCount.visible = true
-        m.unplayedEpisodeCount.text = m.top.seasonData.UserData.UnplayedItemCount
+    if m.top.seasonData?.UserData?.UnplayedItemCount <> invalid
+        if m.top.seasonData.UserData.UnplayedItemCount > 0
+            m.unplayedCount.visible = true
+            m.unplayedEpisodeCount.text = m.top.seasonData.UserData.UnplayedItemCount
+        end if
     end if
 
     imgParams = { "maxHeight": 450, "maxWidth": 300 }
