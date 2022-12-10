@@ -95,6 +95,13 @@ sub Main (args as dynamic) as void
                 if video <> invalid and video.errorMsg <> "introaborted"
                     sceneManager.callFunc("pushScene", video)
                 end if
+
+                group = sceneManager.callFunc("getActiveScene")
+                if LCase(group.subtype()) = "tvepisodes"
+                    if isValid(group.lastFocus)
+                        group.lastFocus.setFocus(true)
+                    end if
+                end if
             end if
         else if isNodeEvent(msg, "selectedItem")
             ' If you select a library from ANYWHERE, follow this flow

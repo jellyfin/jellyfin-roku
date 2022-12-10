@@ -54,6 +54,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
     end if
 
     if press and key = "play" or proceed = true
+        m.top.lastFocus = focusedChild
         itemToPlay = focusedChild.content.getChild(focusedChild.rowItemFocused[0]).getChild(0)
         if itemToPlay <> invalid and itemToPlay.id <> ""
             m.top.quickPlayNode = itemToPlay

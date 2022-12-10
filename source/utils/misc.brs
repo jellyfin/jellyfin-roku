@@ -91,6 +91,12 @@ function get_dialog_result(dialog, port)
 end function
 
 function lastFocusedChild(obj as object) as object
+    if LCase(obj.focusedChild.focusedChild.subType()) = "tvepisodes"
+        if isValid(obj?.focusedChild?.focusedChild?.lastFocus)
+            return obj.focusedChild.focusedChild.lastFocus
+        end if
+    end if
+
     child = obj
     for i = 0 to obj.getChildCount()
         if obj.focusedChild <> invalid
