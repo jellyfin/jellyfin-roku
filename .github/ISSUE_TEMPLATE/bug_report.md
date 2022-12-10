@@ -33,7 +33,7 @@ Roku Client Version:
 **Connection Information**
 Is server local or remote? 
 
-Is connection of http or https? 
+Is server connection http or https? 
 
 **Additional context**
 <!-- Add any other context about the problem here. -->
