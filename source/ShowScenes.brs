@@ -352,7 +352,7 @@ function CreateMovieDetailsGroup(movie)
 
     extras = group.findNode("extrasGrid")
     extras.observeField("selectedItem", m.port)
-    extras.callFunc("loadPeople", movie.json)
+    extras.callFunc("loadParts", movie.json)
 
     return group
 end function
@@ -369,7 +369,7 @@ function CreateSeriesDetailsGroup(series)
 
     extras = group.findNode("extrasGrid")
     extras.observeField("selectedItem", m.port)
-    extras.callFunc("loadPeople", group.itemcontent.json)
+    extras.callFunc("loadParts", group.itemcontent.json)
 
     return group
 end function
@@ -453,8 +453,30 @@ function CreateSeasonDetailsGroup(series, season)
     return group
 end function
 
+function CreateSeasonDetailsGroupByID(seriesID, seasonID)
+    group = CreateObject("roSGNode", "TVEpisodes")
+    group.optionsAvailable = false
+    m.global.sceneManager.callFunc("pushScene", group)
+
+    group.seasonData = ItemMetaData(seasonID).json
+    group.objects = TVEpisodes(seriesID, seasonID)
+
+    group.observeField("episodeSelected", m.port)
+    group.observeField("quickPlayNode", m.port)
+
+    return group
+end function
+
 function CreateItemGrid(libraryItem)
     group = CreateObject("roSGNode", "ItemGrid")
+    group.parentItem = libraryItem
+    group.optionsAvailable = true
+    group.observeField("selectedItem", m.port)
+    return group
+end function
+
+function CreateMovieLibraryView(libraryItem)
+    group = CreateObject("roSGNode", "MovieLibraryView")
     group.parentItem = libraryItem
     group.optionsAvailable = true
     group.observeField("selectedItem", m.port)
@@ -476,10 +498,10 @@ sub CreateSidePanel(buttons, options)
     group.options = options
 end sub
 
-function CreateVideoPlayerGroup(video_id, mediaSourceId = invalid, audio_stream_idx = 1, forceTranscoding = false, showIntro = true)
+function CreateVideoPlayerGroup(video_id, mediaSourceId = invalid, audio_stream_idx = 1, forceTranscoding = false, showIntro = true, allowResumeDialog = true)
 
     ' Video is Playing
-    video = VideoPlayer(video_id, mediaSourceId, audio_stream_idx, defaultSubtitleTrackFromVid(video_id), forceTranscoding, showIntro)
+    video = VideoPlayer(video_id, mediaSourceId, audio_stream_idx, defaultSubtitleTrackFromVid(video_id), forceTranscoding, showIntro, allowResumeDialog)
 
     if video = invalid then return invalid
     if video.errorMsg = "introaborted" then return video
@@ -568,17 +590,6 @@ function CreatePersonView(personData as object) as object
     person.findNode("favorite-button").observeField("buttonSelected", m.port)
 
     return person
-end function
-
-function CreatePhotoPage(photo)
-    group = CreateObject("roSGNode", "PhotoDetails")
-    group.optionsAvailable = true
-    m.global.sceneManager.callFunc("pushScene", group)
-
-    group.itemContent = photo
-
-    return group
-
 end function
 
 sub UpdateSavedServerList()
