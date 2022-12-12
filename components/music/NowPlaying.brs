@@ -408,7 +408,7 @@ sub onMetaDataLoaded()
     if data <> invalid and data.count() > 0
 
         ' Use metadata to load backdrop image
-        if isvalid(data.json)
+        if isValid(data.json)
             if isValid(data.json.ArtistItems)
                 if data.json.ArtistItems.count() > 0
                     if isValid(data.json.ArtistItems[0].id)
