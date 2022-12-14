@@ -241,7 +241,9 @@ sub setMoviesOptions(options)
     ]
     options.filter = [
         { "Title": tr("All"), "Name": "All" },
-        { "Title": tr("Favorites"), "Name": "Favorites" }
+        { "Title": tr("Favorites"), "Name": "Favorites" },
+        { "Title": tr("Played"), "Name": "Played" },
+        { "Title": tr("Unplayed"), "Name": "Unplayed" }
     ]
 end sub
 
@@ -256,7 +258,9 @@ sub setBoxsetsOptions(options)
     ]
     options.filter = [
         { "Title": tr("All"), "Name": "All" },
-        { "Title": tr("Favorites"), "Name": "Favorites" }
+        { "Title": tr("Favorites"), "Name": "Favorites" },
+        { "Title": tr("Played"), "Name": "Played" },
+        { "Title": tr("Unplayed"), "Name": "Unplayed" }
     ]
 end sub
 
@@ -278,7 +282,9 @@ sub setTvShowsOptions(options)
     ]
     options.filter = [
         { "Title": tr("All"), "Name": "All" },
-        { "Title": tr("Favorites"), "Name": "Favorites" }
+        { "Title": tr("Favorites"), "Name": "Favorites" },
+        { "Title": tr("Played"), "Name": "Played" },
+        { "Title": tr("Unplayed"), "Name": "Unplayed" }
     ]
 end sub
 
