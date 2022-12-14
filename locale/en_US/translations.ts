@@ -820,5 +820,15 @@
             <translation>Unable to find any albums or songs belonging to this artist</translation>
             <extracomment>Popup message when we find no audio data for an artist</extracomment>
         </message>
+        <message>
+            <source>Hide Unsupported Subs</source>
+            <translation>Hide Unsupported Subs</translation>
+            <extracomment>Name of a setting - should we hide subtitles that might transcode</extracomment>
+        </message>
+        <message>
+            <source>Only display text subtitles to minimize transcoding.</source>
+            <translation>Only display text subtitles to minimize transcoding.</translation>
+            <extracomment>Description of a setting - should we hide subtitles that might transcode</extracomment>
+        </message>
     </context>
 </TS>
