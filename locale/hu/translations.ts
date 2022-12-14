@@ -7654,5 +7654,9 @@ elemeket</translation>
         <source>On Now</source>
         <translation>Most</translation>
     </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>Mented a hitelesítő adatokat?</translation>
+    </message>
 </context>
 </TS>
