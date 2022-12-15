@@ -228,7 +228,8 @@ sub setMoviesOptions(options)
         { "Title": tr("All"), "Name": "All" },
         { "Title": tr("Favorites"), "Name": "Favorites" },
         { "Title": tr("Played"), "Name": "Played" },
-        { "Title": tr("Unplayed"), "Name": "Unplayed" }
+        { "Title": tr("Unplayed"), "Name": "Unplayed" },
+        { "Title": tr("Resumable"), "Name": "Resumable" }
     ]
 
     if m.options.view = "Genres" or m.view = "Genres"
@@ -240,6 +241,10 @@ sub setMoviesOptions(options)
         options.sort = [
             { "Title": tr("TITLE"), "Name": "SortName" },
             { "Title": tr("DATE_ADDED"), "Name": "DateCreated" },
+        ]
+        options.filter = [
+            { "Title": tr("All"), "Name": "All" },
+            { "Title": tr("Favorites"), "Name": "Favorites" }
         ]
     end if
 end sub

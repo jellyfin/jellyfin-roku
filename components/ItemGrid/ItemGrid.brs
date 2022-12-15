@@ -243,7 +243,8 @@ sub setMoviesOptions(options)
         { "Title": tr("All"), "Name": "All" },
         { "Title": tr("Favorites"), "Name": "Favorites" },
         { "Title": tr("Played"), "Name": "Played" },
-        { "Title": tr("Unplayed"), "Name": "Unplayed" }
+        { "Title": tr("Unplayed"), "Name": "Unplayed" },
+        { "Title": tr("Resumable"), "Name": "Resumable" }
     ]
 end sub
 

@@ -928,5 +928,9 @@
             <source>Played</source>
             <translation>Played</translation>
         </message>
+        <message>
+            <source>Resumable</source>
+            <translation>Resumable</translation>
+        </message>
     </context>
 </TS>
