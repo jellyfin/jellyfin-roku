@@ -23,6 +23,14 @@ sub itemContentChanged()
 
     if not isValid(itemData) then return
 
+    if LCase(itemData.type) = "musicalbum"
+        m.backdrop.uri = "pkg:/images/icons/album.png"
+    else if LCase(itemData.type) = "musicartist"
+        m.backdrop.uri = "pkg:/images/missingArtist.png"
+    else if LCase(itemData.json.type) = "musicgenre"
+        m.backdrop.uri = "pkg:/images/icons/musicFolder.png"
+    end if
+
     m.itemPoster.uri = itemData.PosterUrl
     m.posterText.text = itemData.title
 

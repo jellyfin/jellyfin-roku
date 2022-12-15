@@ -217,7 +217,9 @@ sub setMusicOptions(options)
     ]
 
     if LCase(m.options.view) = "genres" or LCase(m.view) = "genres"
-        options.sort = []
+        options.sort = [
+            { "Title": tr("TITLE"), "Name": "SortName" },
+        ]
         options.filter = []
     end if
 
