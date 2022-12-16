@@ -5,7 +5,7 @@
   "main": "index.js",
   "devDependencies": {
     "@rokucommunity/bslint": "0.8.0",
-    "brighterscript": "0.61.1",
+    "brighterscript": "0.61.2",
     "ropm": "0.10.10"
   },
   "scripts": {
