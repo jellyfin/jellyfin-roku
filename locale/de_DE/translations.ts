@@ -8424,5 +8424,17 @@
         <source>DATE_ADDED</source>
         <translation>Hinzugefügt am</translation>
     </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>Zugangsdaten speichern?</translation>
+    </message>
+    <message>
+        <source>Sign Out</source>
+        <translation>Abmelden</translation>
+    </message>
+    <message>
+        <source>Delete Saved</source>
+        <translation>Gespeicherte löschen</translation>
+    </message>
 </context>
 </TS>
