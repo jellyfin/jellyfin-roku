@@ -857,8 +857,8 @@
             <extracomment>Popup message when we find no audio data for an artist</extracomment>
         </message>
         <message>
-            <source>Hide Unsupported Subs</source>
-            <translation>Hide Unsupported Subs</translation>
+            <source>Text Subtitles Only</source>
+            <translation>Text Subtitles Only</translation>
             <extracomment>Name of a setting - should we hide subtitles that might transcode</extracomment>
         </message>
         <message>
