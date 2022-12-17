@@ -124,9 +124,18 @@ sub loadInitialItems()
     end if
 
     m.sortField = get_user_setting("display." + m.top.parentItem.Id + ".sortField")
-    sortAscendingStr = get_user_setting("display." + m.top.parentItem.Id + ".sortAscending")
     m.filter = get_user_setting("display." + m.top.parentItem.Id + ".filter")
     m.view = get_user_setting("display." + m.top.parentItem.Id + ".landing")
+    sortAscendingStr = get_user_setting("display." + m.top.parentItem.Id + ".sortAscending")
+
+    ' If user has not set a preferred view for this folder
+    if not isValid(m.view)
+        ' Check if user has set a preferred view for the parent folder
+        if isValid(m.top.parentItem.parentfolder)
+            print "Not View Set, Use Default"
+            m.view = get_user_setting("display." + m.top.parentItem.parentfolder + ".view")
+        end if
+    end if
 
     if not isValid(m.sortField) then m.sortField = "SortName"
     if not isValid(m.filter) then m.filter = "All"
@@ -171,15 +180,26 @@ sub loadInitialItems()
     m.loadItemsTask.studioIds = ""
     m.loadItemsTask.view = "Movies"
     m.itemGrid.translation = "[96, 650]"
+    m.itemGrid.itemSize = "[230, 310]"
+    m.itemGrid.rowHeights = "[310]"
     m.itemGrid.numRows = "2"
     m.selectedMovieOverview.visible = true
     m.infoGroup.visible = true
+    m.top.showItemTitles = false
 
     if m.options.view = "Studios" or m.view = "Studios"
         m.itemGrid.translation = "[96, 60]"
         m.itemGrid.numRows = "3"
         m.loadItemsTask.view = "Networks"
         m.top.imageDisplayMode = "scaleToFit"
+        m.selectedMovieOverview.visible = false
+        m.infoGroup.visible = false
+    else if LCase(m.options.view) = "moviesgrid" or LCase(m.view) = "moviesgrid"
+        m.itemGrid.translation = "[96, 60]"
+        m.itemGrid.itemSize = "[230, 350]"
+        m.itemGrid.rowHeights = "[350]"
+        m.top.showItemTitles = true
+        m.itemGrid.numRows = "3"
         m.selectedMovieOverview.visible = false
         m.infoGroup.visible = false
     else if m.options.view = "Genres" or m.view = "Genres"
@@ -201,14 +221,16 @@ end sub
 sub setMoviesOptions(options)
 
     options.views = [
-        { "Title": tr("Movies"), "Name": "Movies" },
+        { "Title": tr("Movies (Presentation)"), "Name": "Movies" },
+        { "Title": tr("Movies (Grid)"), "Name": "MoviesGrid" },
         { "Title": tr("Studios"), "Name": "Studios" },
         { "Title": tr("Genres"), "Name": "Genres" }
     ]
 
     if m.top.parentItem.json.type = "Genre"
         options.views = [
-            { "Title": tr("Movies"), "Name": "Movies" }
+            { "Title": tr("Movies (Presentation)"), "Name": "Movies" },
+            { "Title": tr("Movies (Grid)"), "Name": "MoviesGrid" },
         ]
     end if
 
@@ -430,7 +452,13 @@ sub onItemFocused()
     m.communityRatingGroup.visible = false
     m.criticRatingGroup.visible = false
 
-    if m.options.view = "Studios" or m.view = "Studios"
+    if not isValid(m.selectedFavoriteItem)
+        return
+    end if
+
+    if LCase(m.options.view) = "studios" or LCase(m.view) = "studios"
+        return
+    else if LCase(m.options.view) = "moviesgrid" or LCase(m.view) = "moviesgrid"
         return
     end if
 
