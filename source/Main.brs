@@ -102,6 +102,8 @@ sub Main (args as dynamic) as void
                         group.lastFocus.setFocus(true)
                     end if
                 end if
+
+                reportingNode.quickPlayNode.type = ""
             end if
         else if isNodeEvent(msg, "selectedItem")
             ' If you select a library from ANYWHERE, follow this flow
