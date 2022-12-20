@@ -128,13 +128,9 @@ sub loadInitialItems()
     m.view = get_user_setting("display." + m.top.parentItem.Id + ".landing")
     sortAscendingStr = get_user_setting("display." + m.top.parentItem.Id + ".sortAscending")
 
-    ' If user has not set a preferred view for this folder
+    ' If user has not set a preferred view for this folder, check if they've set a default view
     if not isValid(m.view)
-        ' Check if user has set a preferred view for the parent folder
-        if isValid(m.top.parentItem.parentfolder)
-            print "Not View Set, Use Default"
-            m.view = get_user_setting("display." + m.top.parentItem.parentfolder + ".view")
-        end if
+        m.view = get_user_setting("itemgrid.movieDefaultView")
     end if
 
     if not isValid(m.sortField) then m.sortField = "SortName"
@@ -196,12 +192,12 @@ sub loadInitialItems()
         m.infoGroup.visible = false
     else if LCase(m.options.view) = "moviesgrid" or LCase(m.view) = "moviesgrid"
         m.itemGrid.translation = "[96, 60]"
-        m.itemGrid.itemSize = "[230, 350]"
-        m.itemGrid.rowHeights = "[350]"
-        m.top.showItemTitles = true
         m.itemGrid.numRows = "3"
         m.selectedMovieOverview.visible = false
         m.infoGroup.visible = false
+        m.itemGrid.itemSize = "[230, 350]"
+        m.itemGrid.rowHeights = "[350]"
+        m.top.showItemTitles = true
     else if m.options.view = "Genres" or m.view = "Genres"
         m.loadItemsTask.StudioIds = m.top.parentItem.Id
         m.loadItemsTask.view = "Genres"
