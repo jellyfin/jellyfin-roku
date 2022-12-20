@@ -786,7 +786,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
         else
             m.itemGrid.jumpToItem = 0
         end if
-
+        return true
     else if key = "replay" and m.genreList.isinFocusChain()
         if m.resetGrid = true
             m.genreList.animateToItem = 0
