@@ -1,5 +1,23 @@
 sub Main (args as dynamic) as void
 
+    appInfo = CreateObject("roAppInfo")
+
+    ' http://{Roku IP}:8060/launch/dev?RunTests=true
+    if appInfo.IsDev() and args.RunTests = "true" and TF_Utils__IsFunction(TestRunner)
+        Runner = TestRunner()
+
+        Runner.SetFunctions([
+            TestSuite__Main
+        ])
+
+        Runner.Logger.SetVerbosity(1)
+        Runner.Logger.SetEcho(false)
+        Runner.Logger.SetJUnit(false)
+        Runner.SetFailFast(true)
+
+        Runner.Run()
+    end if
+
     ' The main function that runs when the application is launched.
     m.screen = CreateObject("roSGScreen")
 
