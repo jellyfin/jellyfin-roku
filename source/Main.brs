@@ -2,12 +2,12 @@ sub Main (args as dynamic) as void
 
     appInfo = CreateObject("roAppInfo")
 
-    ' http://{Roku IP}:8060/launch/dev?RunTests=true
     if appInfo.IsDev() and args.RunTests = "true" and TF_Utils__IsFunction(TestRunner)
+        ' POST to {ROKU ADDRESS}:8060/launch/dev?RunTests=true
         Runner = TestRunner()
 
         Runner.SetFunctions([
-            TestSuite__Main
+            TestSuite__Misc
         ])
 
         Runner.Logger.SetVerbosity(1)
