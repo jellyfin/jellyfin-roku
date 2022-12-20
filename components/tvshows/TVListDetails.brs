@@ -5,6 +5,9 @@ sub init()
     m.overview = m.top.findNode("overview")
     m.poster = m.top.findNode("poster")
     m.deviceInfo = CreateObject("roDeviceInfo")
+
+    m.rating = m.top.findnode("rating")
+    m.infoBar = m.top.findnode("infoBar")
 end sub
 
 sub itemContentChanged()
@@ -53,8 +56,9 @@ sub itemContentChanged()
         m.top.findNode("star").visible = true
         m.top.findNode("communityRating").text = str(int(itemData.communityRating * 10) / 10)
     else
-
-        m.top.findnode("infoBar").removeChild(m.top.findnode("rating"))
+        if isValid(m.rating)
+            m.infoBar.removeChild(m.rating)
+        end if
     end if
 
     videoIdx = invalid
