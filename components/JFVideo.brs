@@ -222,7 +222,12 @@ end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean
 
-    if key = "OK" and m.nextEpisodeButton.hasfocus() and not m.top.trickPlayBar.visible
+    ' don't do anything if trick play bar is visible
+    if m.top.trickPlayBar.visible
+        return false
+    end if
+
+    if key = "OK" and m.nextEpisodeButton.hasfocus()
         m.top.state = "finished"
         hideNextEpisodeButton()
         return true
@@ -243,6 +248,16 @@ function onKeyEvent(key as string, press as boolean) as boolean
     else if key = "up"
         m.top.selectPlaybackInfoPressed = true
         return true
+    else if key = "OK"
+        print("OK pressed")
+        ' OK will play/pause depending on current state
+        if m.top.state = "paused"
+            m.top.control = "resume"
+            return true
+        else if m.top.state = "playing"
+            m.top.control = "pause"
+            return true
+        end if
     end if
 
     return false
