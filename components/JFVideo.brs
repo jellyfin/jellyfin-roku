@@ -243,14 +243,15 @@ function onKeyEvent(key as string, press as boolean) as boolean
     else if key = "up"
         m.top.selectPlaybackInfoPressed = true
         return true
+    else if key = "OK"
         ' OK will play/pause depending on current state
-    else if key = "OK" and not m.top.trickPlayBar.visible
+        ' return false to allow selection during seeking
         if m.top.state = "paused"
             m.top.control = "resume"
-            return true
+            return false
         else if m.top.state = "playing"
             m.top.control = "pause"
-            return true
+            return false
         end if
     end if
 
