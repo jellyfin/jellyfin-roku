@@ -55,6 +55,13 @@
         ]
     },
     {
+        "title": "Show What's New Popup",
+        "description": "Show What's New popup when Jellyfin is updated to a new version.",
+        "settingName": "load.allowwhatsnew",
+        "type": "bool",
+        "default": "true"
+    },
+    {
         "title": "User Interface",
         "description": "Settings relating to how the application looks.",
         "children": [

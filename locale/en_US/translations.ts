@@ -865,7 +865,7 @@
             <source>Only display text subtitles to minimize transcoding.</source>
             <translation>Only display text subtitles to minimize transcoding.</translation>
             <extracomment>Description of a setting - should we hide subtitles that might transcode</extracomment>
-        </message>            
+        </message>
         <message>
             <source>all</source>
             <translation>all</translation>
@@ -908,6 +908,16 @@
         <message>
             <source>Support Direct Play of MPEG-4 content. This may need to be disabled for playback of DIVX encoded video files.</source>
             <translation>Support Direct Play of MPEG-4 content. This may need to be disabled for playback of DIVX encoded video files.</translation>
+            <extracomment>Settings Menu - Description for option</extracomment>
+        </message>
+        <message>
+            <source>Show What's New Popup</source>
+            <translation>Show What's New Popup</translation>
+            <extracomment>Settings Menu - Title for option</extracomment>
+        </message>
+        <message>
+            <source>Show What's New popup when Jellyfin is updated to a new version.</source>
+            <translation>Show What's New popup when Jellyfin is updated to a new version.</translation>
             <extracomment>Settings Menu - Description for option</extracomment>
         </message>
     </context>
