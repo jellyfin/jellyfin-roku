@@ -94,7 +94,7 @@
     </message>
     <message>
         <source>My Media</source>
-        <translation>Fișierele mele Media</translation>
+        <translation>Librăria Mea</translation>
     </message>
     <message>
         <source>Continue Watching</source>
@@ -1858,6 +1858,18 @@
         <source>Support direct play of MPEG 2 content (e.g. Live TV). This will prevent transcoding of MPEG 2 content, but uses significantly more bandwidth</source>
         <translation>Suport pentru redarea directă a conținutului MPEG 2 (ex. Televiziune în direct). Conținutul MPEG 2 nu va fi transcodat, dar se va folosi significativ mai multă lățime de bandă</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Delete Saved</source>
+        <translation>Şterge Salvarea</translation>
+    </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>Salvezi Credenţialele ?</translation>
+    </message>
+    <message>
+        <source>On Now</source>
+        <translation>Chiar Acum</translation>
     </message>
 </context>
 </TS>
