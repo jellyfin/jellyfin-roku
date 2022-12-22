@@ -362,7 +362,6 @@ function CreateSeriesDetailsGroup(series)
     seasonData = TVSeasons(series.id)
     ' Divert to season details if user setting goStraightToEpisodeListing is enabled and only one season exists.
     if get_user_setting("ui.tvshows.goStraightToEpisodeListing") = "true" and seasonData.Items.Count() = 1
-        print "Returning single season"
         return CreateSeasonDetailsGroupByID(series.id, seasonData.Items[0].id)
     end if
     group = CreateObject("roSGNode", "TVShowDetails")
