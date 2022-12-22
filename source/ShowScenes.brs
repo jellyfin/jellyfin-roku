@@ -358,12 +358,19 @@ function CreateMovieDetailsGroup(movie)
 end function
 
 function CreateSeriesDetailsGroup(series)
+    ' Get season data early in the function so we can check number of seasons.
+    seasonData = TVSeasons(series.id)
+    ' Divert to season details if user setting goStraightToEpisodeListing is enabled and only one season exists.
+    if get_user_setting("ui.tvshows.goStraightToEpisodeListing") = "true" and seasonData.Items.Count() = 1
+        print "Returning single season"
+        return CreateSeasonDetailsGroupByID(series.id, seasonData.Items[0].id)
+    end if
     group = CreateObject("roSGNode", "TVShowDetails")
     group.optionsAvailable = false
     m.global.sceneManager.callFunc("pushScene", group)
 
     group.itemContent = ItemMetaData(series.id)
-    group.seasonData = TVSeasons(series.id)
+    group.seasonData = seasonData ' Re-use variable from beginning of function
 
     group.observeField("seasonSelected", m.port)
 

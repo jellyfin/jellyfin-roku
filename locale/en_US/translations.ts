@@ -658,6 +658,16 @@
             <extracomment>Option Title in user setting screen</extracomment>
         </message>
         <message>
+            <source>Go straight to episode listing (if series has only one season)</source>
+            <translation>Go straight to episode listing (if series has only one season)</translation>
+            <extracomment>Settings Menu - Title for option</extracomment>
+        </message>
+        <message>
+            <source>If enabled, selecting a TV series with only one season will go directly to the episode listing for that episode, rather than the season listing.</source>
+            <translation>If enabled, selecting a TV series with only one season will go directly to the episode listing for that episode, rather than the season listing.</translation>
+            <extracomment>Settings Menu - Description for option</extracomment>
+        </message>
+        <message>
             <source>If enabled, images of unwatched episodes will be blurred.</source>
             <translation>If enabled, images of unwatched episodes will be blurred.</translation>
         </message>
