@@ -89,8 +89,8 @@
                         "default": "false"
                     },
                     {
-                        "title": "Go straight to episode listing (if series has only one season)",
-                        "description": "If enabled, selecting a TV series with only one season will go directly to the episode listing for that episode, rather than the season listing.",
+                        "title": "Go straight to episode listing (if only 1 season)",
+                        "description": "If enabled, selecting a TV series with only one season will go straight to the episode listing for that season, rather than the season listing.",
                         "settingName": "ui.tvshows.goStraightToEpisodeListing",
                         "type": "bool",
                         "default": "true"
