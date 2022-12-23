@@ -202,7 +202,17 @@ sub AddVideoContent(video, mediaSourceId, audio_stream_idx = 1, subtitle_idx = -
     end if
 
     subtitles = sortSubtitles(meta.id, m.playbackInfo.MediaSources[0].MediaStreams)
-    video.Subtitles = subtitles["all"]
+    if get_user_setting("playback.subs.onlytext") = "true"
+        safesubs = []
+        for each subtitle in subtitles["all"]
+            if subtitle["IsTextSubtitleStream"]
+                safesubs.push(subtitle)
+            end if
+        end for
+        video.Subtitles = safesubs
+    else
+        video.Subtitles = subtitles["all"]
+    end if
 
     if meta.live
         video.transcodeParams = {

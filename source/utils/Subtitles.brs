@@ -27,10 +27,13 @@ function defaultSubtitleTrackFromVid(video_id) as integer
         if default_text_subs <> -1
             return default_text_subs
         else
-            return defaultSubtitleTrack(subtitles["all"]) ' if no appropriate text subs exist, allow non-text
+            if get_user_setting("playback.subs.onlytext") = "false"
+                return defaultSubtitleTrack(subtitles["all"]) ' if no appropriate text subs exist, allow non-text
+            else
+                return -1
+            end if
         end if
     end if
-
     ' No valid mediaSources (i.e. LiveTV)
     return -1
 end function

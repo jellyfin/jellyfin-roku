@@ -44,6 +44,13 @@
                 "settingName": "playback.cinemamode",
                 "type": "bool",
                 "default": "false"
+            },
+            {
+                "title": "Text Subtitles Only",
+                "description": "Only display text subtitles to minimize transcoding.",
+                "settingName": "playback.subs.onlytext",
+                "type": "bool",
+                "default": "false"
             }
         ]
     },
