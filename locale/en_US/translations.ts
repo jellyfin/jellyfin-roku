@@ -658,13 +658,13 @@
             <extracomment>Option Title in user setting screen</extracomment>
         </message>
         <message>
-            <source>Go straight to episode listing (if only 1 season)</source>
-            <translation>Go straight to episode listing (if only 1 season)</translation>
+            <source>Skip Details for Single Seasons</source>
+            <translation>Skip Details for Single Seasons</translation>
             <extracomment>Settings Menu - Title for option</extracomment>
         </message>
         <message>
-            <source>If enabled, selecting a TV series with only one season will go straight to the episode listing for that season, rather than the season listing.</source>
-            <translation>If enabled, selecting a TV series with only one season will go straight to the episode listing for that season, rather than the season listing.</translation>
+            <source>If enabled, selecting a TV series with only one season will go straight to the episode list rather than the show details and season list..</source>
+            <translation>If enabled, selecting a TV series with only one season will go straight to the episode list rather than the show details and season list..</translation>
             <extracomment>Settings Menu - Description for option</extracomment>
         </message>
         <message>
