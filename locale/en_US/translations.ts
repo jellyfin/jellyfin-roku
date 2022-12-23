@@ -663,8 +663,8 @@
             <extracomment>Settings Menu - Title for option</extracomment>
         </message>
         <message>
-            <source>If enabled, selecting a TV series with only one season will go straight to the episode list rather than the show details and season list..</source>
-            <translation>If enabled, selecting a TV series with only one season will go straight to the episode list rather than the show details and season list..</translation>
+            <source>If enabled, selecting a TV series with only one season will go straight to the episode list rather than the show details and season list.</source>
+            <translation>If enabled, selecting a TV series with only one season will go straight to the episode list rather than the show details and season list.</translation>
             <extracomment>Settings Menu - Description for option</extracomment>
         </message>
         <message>
