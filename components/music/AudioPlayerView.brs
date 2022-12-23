@@ -219,18 +219,25 @@ sub audioStateChanged()
 
     ' Song Finished, attempt to move to next song
     if m.top.audio.state = "finished"
+        ' User has enabled single song loop, play current song again
         if m.loopMode = "one"
             playAction()
-            return
-        else if m.loopMode = "all"
-            m.global.queueManager.callFunc("setPosition", -1)
-            LoadNextSong()
             return
         end if
 
         if m.global.queueManager.callFunc("getPosition") < m.global.queueManager.callFunc("getCount") - 1
+            ' We are not at the end of the song queue, advance to next song
             LoadNextSong()
         else
+            ' We are at the end of the song queue
+
+            ' User has enabled loop for entire song queue, move back to first song
+            if m.loopMode = "all"
+                m.global.queueManager.callFunc("setPosition", -1)
+                LoadNextSong()
+                return
+            end if
+
             ' Return to previous screen
             m.top.state = "finished"
         end if
@@ -289,7 +296,6 @@ function loopClicked() as boolean
 end function
 
 function nextClicked() as boolean
-    print "nextClicked"
     if m.global.queueManager.callFunc("getPosition") < m.global.queueManager.callFunc("getCount") - 1
         LoadNextSong()
     end if
