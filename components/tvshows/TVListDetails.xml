@@ -3,7 +3,7 @@
   <children>
     <LayoutGroup id="toplevel" layoutDirection="vert" itemSpacings="[40]">
       <LayoutGroup id="main_group" layoutDirection="horiz" itemSpacings="[30]">
-        <Poster id="poster" width="350" height="300" />
+        <Poster id="poster" width="350" height="300" loadDisplayMode="scaleToZoom"/>
         <LayoutGroup id="text" layoutDirection="vert" itemSpacings="[15]">
           <!-- Using poster of 1 length to get spacing. Not successful with adding translation to title -->
           <Poster id="null" height="1" />
