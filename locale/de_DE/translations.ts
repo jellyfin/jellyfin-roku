@@ -8641,5 +8641,104 @@
         <translation>Mittwoch</translation>
         <extracomment>Day of Week</extracomment>
     </message>
+    <message>
+        <source>Live</source>
+        <translation>Live</translation>
+        <extracomment>If TV Show is being broadcast live (not pre-recorded)</extracomment>
+    </message>
+    <message>
+        <source>Repeat</source>
+        <translation>Wiederholung</translation>
+        <extracomment>If TV Shows has previously been broadcasted</extracomment>
+    </message>
+    <message>
+        <source>Channels</source>
+        <translation>Sender</translation>
+        <extracomment>Menu option for showing Live TV Channel List</extracomment>
+    </message>
+    <message>
+        <source>View Channel</source>
+        <translation>Kanal anschauen</translation>
+    </message>
+    <message>
+        <source>Record</source>
+        <translation>Aufnehmen</translation>
+    </message>
+    <message>
+        <source>Record Series</source>
+        <translation>Serie aufnehmen</translation>
+    </message>
+    <message>
+        <source>Cancel Recording</source>
+        <translation>Aufnahme abbrechen</translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation>Schließen</translation>
+    </message>
+    <message>
+        <source>Not found</source>
+        <translation>Nicht gefunden</translation>
+        <extracomment>Title of message box when the requested content is not found on the server</extracomment>
+    </message>
+    <message>
+        <source>The requested content does not exist on the server</source>
+        <translation>Der gewünschte Inhalt exisitiert nicht auf dem Server</translation>
+        <extracomment>Content of message box when the requested content is not found on the server</extracomment>
+    </message>
+    <message>
+        <source>Cancel Series Recording</source>
+        <translation>Serien-Aufnahme abbrechen</translation>
+    </message>
+    <message>
+        <source>Started</source>
+        <translation>Gestartet</translation>
+        <extracomment>(Past Tense) For defining a day and time when a program started (e.g. Started Wednesday, 08:00) </extracomment>
+    </message>
+    <message>
+        <source>Starts at</source>
+        <translation>Startet um</translation>
+        <extracomment>(Future Tense) For defining time when a program will start today (e.g. Starts at 08:00) </extracomment>
+    </message>
+    <message>
+        <source>Starts</source>
+        <translation>Startet</translation>
+        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g. Starts Wednesday, 08:00) </extracomment>
+    </message>
+    <message>
+        <source>Ends at</source>
+        <translation>Endete</translation>
+        <extracomment>(Past Tense) For defining a day and time when a program ended (e.g. Ended Wednesday, 08:00) </extracomment>
+    </message>
+    <message>
+        <source>TV Guide</source>
+        <translation>TV Programm</translation>
+        <extracomment>Menu option for showing Live TV Guide / Schedule</extracomment>
+    </message>
+    <message>
+        <source>Connecting to Server</source>
+        <translation>Verbinde zum Server</translation>
+        <extracomment>Message to display to user while client is attempting to connect to the server</extracomment>
+    </message>
+    <message>
+        <source>Unknown</source>
+        <translation>Unbekannt</translation>
+        <extracomment>Title for a cast member for which we have no information for</extracomment>
+    </message>
+    <message>
+        <source>Enter the server name or IP address</source>
+        <translation>Geben Sie den Servernamen oder die IP Adresse ein</translation>
+        <extracomment>Title of KeyboardDialog when manually entering a server URL</extracomment>
+    </message>
+    <message>
+        <source>Pick a Jellyfin server from the local network</source>
+        <translation>Wählen Sie einen verfügbaren Jellyfin Server aus ihrem Lokalen Netzwerk aus:</translation>
+        <extracomment>Instructions on initial app launch when the user is asked to pick a server from a list</extracomment>
+    </message>
+    <message>
+        <source>Ended at</source>
+        <translation>Endet um</translation>
+        <extracomment>(Past Tense) For defining time when a program will ended (e.g. Ended at 08:00) </extracomment>
+    </message>
 </context>
 </TS>
