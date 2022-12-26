@@ -5,7 +5,7 @@
         "children": [
             {
                 "title": "Codec Support",
-                "description": "Enable or disable Direct Play for optional codecs",
+                "description": "Enable or disable Direct Play support for certain codecs",
                 "children": [
                     {
                         "title": "AV1",
