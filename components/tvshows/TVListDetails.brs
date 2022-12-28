@@ -64,7 +64,6 @@ sub itemContentChanged()
 
     ' Add checkmark in corner (if applicable)
     if isValid(itemData?.UserData?.Played) and itemData.UserData.Played = true
-        m.playedIndicator.uri = m.global.constants.icons.check_white
         m.playedIndicator.visible = true
     end if
 
