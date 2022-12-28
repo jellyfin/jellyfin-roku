@@ -22,8 +22,8 @@ end function
 sub AddVideoContent(video, mediaSourceId, audio_stream_idx = 1, subtitle_idx = -1, playbackPosition = -1, forceTranscoding = false, showIntro = true, allowResumeDialog = true)
     video.content = createObject("RoSGNode", "ContentNode")
     meta = ItemMetaData(video.id)
-    m.videotype = meta.type
     if meta = invalid
+        m.videotype = meta.type
         video.content = invalid
         return
     end if
