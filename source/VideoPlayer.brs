@@ -23,10 +23,10 @@ sub AddVideoContent(video, mediaSourceId, audio_stream_idx = 1, subtitle_idx = -
     video.content = createObject("RoSGNode", "ContentNode")
     meta = ItemMetaData(video.id)
     if meta = invalid
-        m.videotype = meta.type
         video.content = invalid
         return
     end if
+    m.videotype = meta.type
 
     ' Special handling for "Programs" or "Vidoes" launched from "On Now" or elsewhere on the home screen...
     ' basically anything that is a Live Channel.
