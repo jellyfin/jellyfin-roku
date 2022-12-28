@@ -72,7 +72,7 @@ sub itemContentChanged()
     if isValid(itemData?.UserData?.PlayedPercentage) and itemData?.UserData?.PlayedPercentage > 0
         m.progressBackground.width = m.poster.width
         m.progressBackground.visible = true
-        progressWidthInPixels = int(m.progressBackground.width / itemData.UserData.PlayedPercentage)
+        progressWidthInPixels = int(m.progressBackground.width * itemData.UserData.PlayedPercentage / 100)
         m.progressBar.width = progressWidthInPixels
         m.progressBar.visible = true
     end if
