@@ -94,6 +94,13 @@
                         "settingName": "ui.tvshows.blurunwatched",
                         "type": "bool",
                         "default": "false"
+                    },
+                    {
+                        "title": "Skip Details for Single Seasons",
+                        "description": "If enabled, selecting a TV series with only one season will go straight to the episode list rather than the show details and season list.",
+                        "settingName": "ui.tvshows.goStraightToEpisodeListing",
+                        "type": "bool",
+                        "default": "false"
                     }
                 ]
             },

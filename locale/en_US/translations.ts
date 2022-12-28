@@ -658,6 +658,16 @@
             <extracomment>Option Title in user setting screen</extracomment>
         </message>
         <message>
+            <source>Skip Details for Single Seasons</source>
+            <translation>Skip Details for Single Seasons</translation>
+            <extracomment>Settings Menu - Title for option</extracomment>
+        </message>
+        <message>
+            <source>If enabled, selecting a TV series with only one season will go straight to the episode list rather than the show details and season list.</source>
+            <translation>If enabled, selecting a TV series with only one season will go straight to the episode list rather than the show details and season list.</translation>
+            <extracomment>Settings Menu - Description for option</extracomment>
+        </message>
+        <message>
             <source>If enabled, images of unwatched episodes will be blurred.</source>
             <translation>If enabled, images of unwatched episodes will be blurred.</translation>
         </message>
