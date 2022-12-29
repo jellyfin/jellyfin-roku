@@ -106,12 +106,16 @@ sub Main (args as dynamic) as void
             if selectedItem.type = "CollectionFolder"
                 if selectedItem.collectionType = "movies"
                     group = CreateMovieLibraryView(selectedItem)
+                else if selectedItem.collectionType = "music"
+                    group = CreateMusicLibraryView(selectedItem)
                 else
                     group = CreateItemGrid(selectedItem)
                 end if
                 sceneManager.callFunc("pushScene", group)
             else if selectedItem.type = "Folder" and selectedItem.json.type = "Genre"
                 group = CreateMovieLibraryView(selectedItem)
+            else if selectedItem.type = "Folder" and selectedItem.json.type = "MusicGenre"
+                group = CreateMusicLibraryView(selectedItem)
                 sceneManager.callFunc("pushScene", group)
             else if selectedItem.type = "UserView" or selectedItem.type = "Folder" or selectedItem.type = "Channel" or selectedItem.type = "Boxset"
                 group = CreateItemGrid(selectedItem)

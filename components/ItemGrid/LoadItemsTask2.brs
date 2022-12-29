@@ -187,12 +187,20 @@ sub loadItems()
                 tmp = CreateObject("roSGNode", "MusicArtistData")
             else if item.Type = "Audio"
                 tmp = CreateObject("roSGNode", "MusicSongData")
+            else if item.Type = "MusicGenre"
+                tmp = CreateObject("roSGNode", "FolderData")
+                tmp.title = item.name
+                tmp.parentFolder = m.top.itemId
+                tmp.json = item
+                tmp.type = "Folder"
+                tmp.posterUrl = api_API().items.getimageurl(item.id, "primary", 0, { "maxHeight": 280, "maxWidth": 280, "quality": "90" })
+
             else
                 print "[LoadItems] Unknown Type: " item.Type
             end if
 
             if tmp <> invalid
-                if item.Type <> "Genre"
+                if item.Type <> "Genre" and item.Type <> "MusicGenre"
                     tmp.parentFolder = m.top.itemId
                     tmp.json = item
                     if item.UserData <> invalid and item.UserData.isFavorite <> invalid
