@@ -389,8 +389,9 @@ function TVEpisodes(show_id as string, season_id as string)
     data = getJson(resp)
     results = []
     for each item in data.Items
+        imgParams = { "maxWidth": 400, "maxheight": 250 }
         tmp = CreateObject("roSGNode", "TVEpisodeData")
-        tmp.image = PosterImage(item.id)
+        tmp.image = PosterImage(item.id, imgParams)
         if tmp.image <> invalid
             tmp.image.posterDisplayMode = "scaleToZoom"
         end if
