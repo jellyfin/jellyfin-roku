@@ -23,6 +23,7 @@ sub Main (args as dynamic) as void
     sceneManager = CreateObject("roSGNode", "SceneManager")
 
     m.global.addFields({ app_loaded: false, playstateTask: playstateTask, sceneManager: sceneManager })
+    m.global.addFields({ queueManager: CreateObject("roSGNode", "QueueManager") })
 
     app_start:
     ' First thing to do is validate the ability to use the API
@@ -174,7 +175,9 @@ sub Main (args as dynamic) as void
             else if selectedItem.type = "MusicAlbum"
                 group = CreateAlbumView(selectedItem.json)
             else if selectedItem.type = "Audio"
-                group = CreateAudioPlayerGroup([selectedItem.json])
+                m.global.queueManager.callFunc("clear")
+                m.global.queueManager.callFunc("push", selectedItem.json)
+                m.global.queueManager.callFunc("playQueue")
             else
                 ' TODO - switch on more node types
                 message_dialog("This type is not yet supported: " + selectedItem.type + ".")
@@ -210,17 +213,27 @@ sub Main (args as dynamic) as void
             ' User has selected audio they want us to play
             selectedIndex = msg.getData()
             screenContent = msg.getRoSGNode()
-            group = CreateAudioPlayerGroup([screenContent.albumData.items[selectedIndex]])
+
+            m.global.queueManager.callFunc("clear")
+            m.global.queueManager.callFunc("push", screenContent.albumData.items[selectedIndex])
+            m.global.queueManager.callFunc("playQueue")
         else if isNodeEvent(msg, "playAllSelected")
             ' User has selected playlist of of audio they want us to play
             screenContent = msg.getRoSGNode()
             m.spinner = screenContent.findNode("spinner")
             m.spinner.visible = true
-            group = CreateAudioPlayerGroup(screenContent.albumData.items)
+
+            m.global.queueManager.callFunc("clear")
+            m.global.queueManager.callFunc("set", screenContent.albumData.items)
+            m.global.queueManager.callFunc("playQueue")
         else if isNodeEvent(msg, "playArtistSelected")
             ' User has selected playlist of of audio they want us to play
             screenContent = msg.getRoSGNode()
-            group = CreateArtistMixGroup(screenContent.pageContent.id)
+
+            m.global.queueManager.callFunc("clear")
+            m.global.queueManager.callFunc("set", CreateArtistMix(screenContent.pageContent.id).Items)
+            m.global.queueManager.callFunc("playQueue")
+
         else if isNodeEvent(msg, "instantMixSelected")
             ' User has selected instant mix
             ' User has selected playlist of of audio they want us to play
@@ -230,20 +243,26 @@ sub Main (args as dynamic) as void
                 m.spinner.visible = true
             end if
 
-            group = invalid
+            viewHandled = false
 
             ' Create instant mix based on selected album
             if isValid(screenContent.albumData)
                 if isValid(screenContent.albumData.items)
                     if screenContent.albumData.items.count() > 0
-                        group = CreateInstantMixGroup(screenContent.albumData.items)
+                        m.global.queueManager.callFunc("clear")
+                        m.global.queueManager.callFunc("set", CreateInstantMix(screenContent.albumData.items[0].id).Items)
+                        m.global.queueManager.callFunc("playQueue")
+
+                        viewHandled = true
                     end if
                 end if
             end if
 
-            ' Create instant mix based on selected artist
-            if not isValid(group)
-                group = CreateInstantMixGroup([{ id: screenContent.pageContent.id }])
+            if not viewHandled
+                ' Create instant mix based on selected artist
+                m.global.queueManager.callFunc("clear")
+                m.global.queueManager.callFunc("set", CreateInstantMix(screenContent.pageContent.id).Items)
+                m.global.queueManager.callFunc("playQueue")
             end if
 
         else if isNodeEvent(msg, "episodeSelected")
@@ -288,7 +307,9 @@ sub Main (args as dynamic) as void
             else if node.type = "MusicAlbum"
                 group = CreateAlbumView(node.json)
             else if node.type = "Audio"
-                group = CreateAudioPlayerGroup([node.json])
+                m.global.queueManager.callFunc("clear")
+                m.global.queueManager.callFunc("push", node.json)
+                m.global.queueManager.callFunc("playQueue")
             else if node.type = "Person"
                 group = CreatePersonView(node)
             else if node.type = "TvChannel"
@@ -300,7 +321,9 @@ sub Main (args as dynamic) as void
             else if node.type = "Audio"
                 selectedIndex = msg.getData()
                 screenContent = msg.getRoSGNode()
-                group = CreateAudioPlayerGroup([screenContent.albumData.items[node.id]])
+                m.global.queueManager.callFunc("clear")
+                m.global.queueManager.callFunc("push", screenContent.albumData.items[node.id])
+                m.global.queueManager.callFunc("playQueue")
             else
                 ' TODO - switch on more node types
                 message_dialog("This type is not yet supported: " + node.type + ".")
