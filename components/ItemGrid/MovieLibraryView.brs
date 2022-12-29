@@ -226,7 +226,9 @@ sub setMoviesOptions(options)
 
     options.filter = [
         { "Title": tr("All"), "Name": "All" },
-        { "Title": tr("Favorites"), "Name": "Favorites" }
+        { "Title": tr("Favorites"), "Name": "Favorites" },
+        { "Title": tr("Played"), "Name": "Played" },
+        { "Title": tr("Unplayed"), "Name": "Unplayed" }
     ]
 
     if m.options.view = "Genres" or m.view = "Genres"

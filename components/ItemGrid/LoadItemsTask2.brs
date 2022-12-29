@@ -75,6 +75,10 @@ sub loadItems()
     else if filter = "favorites"
         params.append({ Filters: "IsFavorite" })
         params.append({ isFavorite: true })
+    else if filter = "unplayed"
+        params.append({ Filters: "IsUnplayed" })
+    else if filter = "played"
+        params.append({ Filters: "IsPlayed" })
     end if
 
     if m.top.ItemType <> ""
@@ -103,6 +107,7 @@ sub loadItems()
     else
         url = Substitute("Users/{0}/Items/", get_setting("active_user"))
     end if
+
     resp = APIRequest(url, params)
     data = getJson(resp)
     if data <> invalid

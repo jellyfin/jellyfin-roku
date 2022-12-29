@@ -920,5 +920,13 @@
             <translation>Support Direct Play of MPEG-4 content. This may need to be disabled for playback of DIVX encoded video files.</translation>
             <extracomment>Settings Menu - Description for option</extracomment>
         </message>
+        <message>
+            <source>Unplayed</source>
+            <translation>Unplayed</translation>
+        </message>
+        <message>
+            <source>Played</source>
+            <translation>Played</translation>
+        </message>
     </context>
 </TS>
