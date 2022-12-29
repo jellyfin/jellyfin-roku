@@ -1,5 +1,7 @@
 sub Main (args as dynamic) as void
 
+    appInfo = CreateObject("roAppInfo")
+
     ' The main function that runs when the application is launched.
     m.screen = CreateObject("roSGScreen")
 
@@ -38,6 +40,17 @@ sub Main (args as dynamic) as void
     sceneManager.callFunc("pushScene", group)
 
     m.scene.observeField("exit", m.port)
+
+    ' Only show the Whats New popup the first time a user runs a new client version.
+    if appInfo.GetVersion() <> get_setting("LastRunVersion")
+        ' Ensure the user hasn't disabled Whats New popups
+        if get_user_setting("load.allowwhatsnew") = "true"
+            set_setting("LastRunVersion", appInfo.GetVersion())
+            dialog = createObject("roSGNode", "WhatsNewDialog")
+            m.scene.dialog = dialog
+            m.scene.dialog.observeField("buttonSelected", m.port)
+        end if
+    end if
 
     ' Handle input messages
     input = CreateObject("roInput")
