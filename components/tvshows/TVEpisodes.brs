@@ -6,6 +6,8 @@ sub init()
     m.Random = m.top.findNode("Random")
     m.tvEpisodeRow = m.top.findNode("tvEpisodeRow")
 
+    m.unplayedCount = m.top.findNode("unplayedCount")
+    m.unplayedEpisodeCount = m.top.findNode("unplayedEpisodeCount")
 
     m.rows.observeField("doneLoading", "updateSeason")
 end sub
@@ -15,6 +17,13 @@ sub setSeasonLoading()
 end sub
 
 sub updateSeason()
+    if m.top.seasonData?.UserData?.UnplayedItemCount <> invalid
+        if m.top.seasonData.UserData.UnplayedItemCount > 0
+            m.unplayedCount.visible = true
+            m.unplayedEpisodeCount.text = m.top.seasonData.UserData.UnplayedItemCount
+        end if
+    end if
+
     imgParams = { "maxHeight": 450, "maxWidth": 300 }
     m.poster.uri = ImageURL(m.top.seasonData.Id, "Primary", imgParams)
     m.Random.visible = true

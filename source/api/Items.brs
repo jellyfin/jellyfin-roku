@@ -369,10 +369,6 @@ function TVSeasons(id as string)
     results = []
     for each item in data.Items
         imgParams = { "AddPlayedIndicator": item.UserData.Played }
-        if item.UserData.UnplayedItemCount > 0
-            param = { "UnplayedCount": item.UserData.UnplayedItemCount }
-            imgParams.Append(param)
-        end if
         tmp = CreateObject("roSGNode", "TVEpisodeData")
         tmp.image = PosterImage(item.id, imgParams)
         tmp.json = item
