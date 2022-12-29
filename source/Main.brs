@@ -48,7 +48,7 @@ sub Main (args as dynamic) as void
     m.device.EnableAppFocusEvent(false)
 
     ' Check if we were sent content to play with the startup command (Deep Link)
-    if isValid(args.mediaType) and isValid(args.contentId) and not args.contentId = ""
+    if isValidAndNotEmpty(args.mediaType) and isValidAndNotEmpty(args.contentId)
         video = CreateVideoPlayerGroup(args.contentId)
 
         if isValid(video) and video.errorMsg <> "introaborted"
