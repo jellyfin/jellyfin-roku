@@ -79,6 +79,8 @@ sub loadItems()
         params.append({ Filters: "IsUnplayed" })
     else if filter = "played"
         params.append({ Filters: "IsPlayed" })
+    else if filter = "resumable"
+        params.append({ Filters: "IsResumable" })
     end if
 
     if m.top.ItemType <> ""

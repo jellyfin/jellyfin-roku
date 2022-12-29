@@ -22,6 +22,7 @@ sub setupNodes()
     m.overhang = m.top.getScene().findNode("overhang")
     m.genreList = m.top.findNode("genrelist")
     m.infoGroup = m.top.findNode("infoGroup")
+    m.star = m.top.findNode("star")
 end sub
 
 sub init()
@@ -228,7 +229,8 @@ sub setMoviesOptions(options)
         { "Title": tr("All"), "Name": "All" },
         { "Title": tr("Favorites"), "Name": "Favorites" },
         { "Title": tr("Played"), "Name": "Played" },
-        { "Title": tr("Unplayed"), "Name": "Unplayed" }
+        { "Title": tr("Unplayed"), "Name": "Unplayed" },
+        { "Title": tr("Resumable"), "Name": "Resumable" }
     ]
 
     if m.options.view = "Genres" or m.view = "Genres"
@@ -240,6 +242,10 @@ sub setMoviesOptions(options)
         options.sort = [
             { "Title": tr("TITLE"), "Name": "SortName" },
             { "Title": tr("DATE_ADDED"), "Name": "DateCreated" },
+        ]
+        options.filter = [
+            { "Title": tr("All"), "Name": "All" },
+            { "Title": tr("Favorites"), "Name": "Favorites" }
         ]
     end if
 end sub
@@ -361,6 +367,24 @@ sub ItemDataLoaded(msg)
     m.Loading = false
     'If there are no items to display, show message
     if m.loadedItems = 0
+        m.selectedMovieOverview.visible = false
+        m.infoGroup.visible = false
+
+        m.movieLogo.visible = false
+        m.movieLogo.uri = ""
+
+        m.selectedMovieName.visible = false
+
+        SetName("")
+        SetOverview("")
+        SetOfficialRating("")
+        SetProductionYear("")
+        setFieldText("runtime", "")
+        setFieldText("communityRating", "")
+        setFieldText("criticRatingLabel", "")
+        m.criticRatingIcon.uri = ""
+        m.star.uri = ""
+
         m.emptyText.text = tr("NO_ITEMS").Replace("%1", m.top.parentItem.Type)
         m.emptyText.visible = true
     end if
@@ -437,6 +461,8 @@ sub onItemFocused()
     end if
 
     itemData = m.selectedFavoriteItem.json
+
+    m.star.uri = "pkg:/images/sharp_star_white_18dp.png"
 
     if isValid(itemData.communityRating)
         setFieldText("communityRating", int(itemData.communityRating * 10) / 10)
