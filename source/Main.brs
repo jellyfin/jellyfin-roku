@@ -84,6 +84,7 @@ sub Main (args as dynamic) as void
                 group.setFocus(true)
             end if
         else if isNodeEvent(msg, "quickPlayNode")
+            group = sceneManager.callFunc("getActiveScene")
             reportingNode = msg.getRoSGNode()
             itemNode = reportingNode.quickPlayNode
             if itemNode = invalid or itemNode.id = "" then return
@@ -96,6 +97,14 @@ sub Main (args as dynamic) as void
                 if video <> invalid and video.errorMsg <> "introaborted"
                     sceneManager.callFunc("pushScene", video)
                 end if
+
+                if LCase(group.subtype()) = "tvepisodes"
+                    if isValid(group.lastFocus)
+                        group.lastFocus.setFocus(true)
+                    end if
+                end if
+
+                reportingNode.quickPlayNode.type = ""
             end if
         else if isNodeEvent(msg, "selectedItem")
             ' If you select a library from ANYWHERE, follow this flow
