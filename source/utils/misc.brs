@@ -189,6 +189,24 @@ function isValid(input) as boolean
     return input <> invalid
 end function
 
+' Returns whether or not passed value is valid and not empty
+' Accepts a string, or any countable type (arrays and lists)
+function isValidAndNotEmpty(input) as boolean
+    if not isValid(input) then return false
+    ' Use roAssociativeArray instead of list so we get access to the doesExist() method
+    countableTypes = { "Array": 1, "List": 1, "roArray": 1, "roAssociativeArray": 1, "roList": 1 }
+    inputType = type(input)
+    if type(input) = "String" or type(input) = "roString"
+        trimmedInput = input.trim()
+        return trimmedInput <> ""
+    else if countableTypes.doesExist(inputType)
+        return input.count() > 0
+    else
+        print "Called isValidAndNotEmpty() with invalid type: ", inputType
+        return false
+    end if
+end function
+
 ' Rounds number to nearest integer
 function roundNumber(f as float) as integer
     ' BrightScript only has a "floor" round
