@@ -2212,5 +2212,13 @@
         <source>Born</source>
         <translation>Born</translation>
     </message>
+    <message>
+        <source>Cast &amp; Crew</source>
+        <translation>Cast &amp; Crew</translation>
+    </message>
+    <message>
+        <source>More Like This</source>
+        <translation>More Like This</translation>
+    </message>
 </context>
 </TS>
