@@ -11,6 +11,8 @@ sub init()
     m.progressBackground = m.top.findNode("progressBackground")
     m.progressBar = m.top.findnode("progressBar")
     m.playedIndicator = m.top.findNode("playedIndicator")
+    m.checkmark = m.top.findNode("checkmark")
+    m.checkmark.font.size = 35
 end sub
 
 sub itemContentChanged()
