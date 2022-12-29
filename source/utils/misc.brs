@@ -194,9 +194,9 @@ end function
 function isValidAndNotEmpty(input) as boolean
     if not isValid(input) then return false
     ' Use roAssociativeArray instead of list so we get access to the doesExist() method
-    countableTypes = { "Array": 1, "List": 1, "roArray": 1, "roAssociativeArray": 1, "roList": 1 }
-    inputType = type(input)
-    if type(input) = "String" or type(input) = "roString"
+    countableTypes = { "array": 1, "list": 1, "roarray": 1, "roassociativearray": 1, "rolist": 1 }
+    inputType = LCase(type(input))
+    if inputType = "string" or inputType = "rostring"
         trimmedInput = input.trim()
         return trimmedInput <> ""
     else if countableTypes.doesExist(inputType)
