@@ -56,6 +56,13 @@
                 "settingName": "playback.cinemamode",
                 "type": "bool",
                 "default": "false"
+            },
+            {
+                "title": "Text Subtitles Only",
+                "description": "Only display text subtitles to minimize transcoding.",
+                "settingName": "playback.subs.onlytext",
+                "type": "bool",
+                "default": "false"
             }
         ]
     },
@@ -104,6 +111,13 @@
                         "title": "Blur Unwatched Episodes",
                         "description": "If enabled, images of unwatched episodes will be blurred.",
                         "settingName": "ui.tvshows.blurunwatched",
+                        "type": "bool",
+                        "default": "false"
+                    },
+                    {
+                        "title": "Skip Details for Single Seasons",
+                        "description": "If enabled, selecting a TV series with only one season will go straight to the episode list rather than the show details and season list.",
+                        "settingName": "ui.tvshows.goStraightToEpisodeListing",
                         "type": "bool",
                         "default": "false"
                     }

@@ -679,6 +679,16 @@
             <extracomment>Option Title in user setting screen</extracomment>
         </message>
         <message>
+            <source>Skip Details for Single Seasons</source>
+            <translation>Skip Details for Single Seasons</translation>
+            <extracomment>Settings Menu - Title for option</extracomment>
+        </message>
+        <message>
+            <source>If enabled, selecting a TV series with only one season will go straight to the episode list rather than the show details and season list.</source>
+            <translation>If enabled, selecting a TV series with only one season will go straight to the episode list rather than the show details and season list.</translation>
+            <extracomment>Settings Menu - Description for option</extracomment>
+        </message>
+        <message>
             <source>If enabled, images of unwatched episodes will be blurred.</source>
             <translation>If enabled, images of unwatched episodes will be blurred.</translation>
         </message>
@@ -878,6 +888,16 @@
             <extracomment>Popup message when we find no audio data for an artist</extracomment>
         </message>
         <message>
+            <source>Text Subtitles Only</source>
+            <translation>Text Subtitles Only</translation>
+            <extracomment>Name of a setting - should we hide subtitles that might transcode</extracomment>
+        </message>
+        <message>
+            <source>Only display text subtitles to minimize transcoding.</source>
+            <translation>Only display text subtitles to minimize transcoding.</translation>
+            <extracomment>Description of a setting - should we hide subtitles that might transcode</extracomment>
+        </message>            
+        <message>
             <source>all</source>
             <translation>all</translation>
             <extracomment>all will reset the searchTerm so all data will be availible</extracomment>
@@ -910,6 +930,24 @@
         <message>
             <source>Random On</source>
             <translation>Random On</translation>
+        </message>
+        <message>
+            <source>MPEG-4 Support</source>
+            <translation>MPEG-4 Support</translation>
+            <extracomment>Settings Menu - Title for option</extracomment>
+        </message>
+        <message>
+            <source>Support Direct Play of MPEG-4 content. This may need to be disabled for playback of DIVX encoded video files.</source>
+            <translation>Support Direct Play of MPEG-4 content. This may need to be disabled for playback of DIVX encoded video files.</translation>
+            <extracomment>Settings Menu - Description for option</extracomment>
+        </message>
+        <message>
+            <source>Unplayed</source>
+            <translation>Unplayed</translation>
+        </message>
+        <message>
+            <source>Played</source>
+            <translation>Played</translation>
         </message>
     </context>
 </TS>
