@@ -12,6 +12,11 @@ sub init()
     m.newBackdrop = m.top.findNode("backdropTransition")
     m.emptyText = m.top.findNode("emptyText")
 
+    m.genreList = m.top.findNode("genrelist")
+    m.genreList.observeField("itemSelected", "onGenreItemSelected")
+    m.genreData = CreateObject("roSGNode", "ContentNode")
+    m.genreList.content = m.genreData
+
     m.swapAnimation = m.top.findNode("backroundSwapAnimation")
     m.swapAnimation.observeField("state", "swapDone")
 
@@ -72,6 +77,12 @@ sub init()
         m.micButton.visible = false
         m.micButtonText.visible = false
     end if
+end sub
+
+'
+'Genre Item Selected
+sub onGenreItemSelected()
+    m.top.selectedItem = m.genreList.content.getChild(m.genreList.rowItemSelected[0]).getChild(m.genreList.rowItemSelected[1])
 end sub
 
 '
@@ -287,6 +298,12 @@ sub setTvShowsOptions(options)
         { "Title": tr("Played"), "Name": "Played" },
         { "Title": tr("Unplayed"), "Name": "Unplayed" }
     ]
+
+    if LCase(m.options.view) = "genres" or LCase(m.view) = "genres"
+        options.sort = [{ "Title": tr("TITLE"), "Name": "SortName" }]
+        options.filter = []
+    end if
+
 end sub
 
 ' Set Live TV view, sort, and filter options
@@ -430,9 +447,31 @@ sub ItemDataLoaded(msg)
         return
     end if
 
+    if m.loadItemsTask.view = "Genres"
+        ' Reset genre list data
+        m.genreData.removeChildren(m.genreData.getChildren(-1, 0))
+
+        for each item in itemData
+            m.genreData.appendChild(item)
+        end for
+
+        m.itemGrid.opacity = "0"
+        m.genreList.opacity = "1"
+
+        m.itemGrid.setFocus(false)
+        m.genreList.setFocus(true)
+
+        m.loading = false
+        m.spinner.visible = false
+        return
+    end if
+
     for each item in itemData
         m.data.appendChild(item)
     end for
+
+    m.itemGrid.opacity = "1"
+    m.genreList.opacity = "0"
 
     'Update the stored counts
     m.loadedItems = m.itemGrid.content.getChildCount()
@@ -445,6 +484,7 @@ sub ItemDataLoaded(msg)
     end if
 
     m.itemGrid.setFocus(true)
+    m.genreList.setFocus(false)
     m.spinner.visible = false
 end sub
 
@@ -652,7 +692,10 @@ sub optionsClosed()
         m.itemGrid.content = m.data
         loadInitialItems()
     end if
-    m.itemGrid.setFocus(true)
+
+    m.itemGrid.setFocus(m.itemGrid.opacity = 1)
+    m.genreList.setFocus(m.genreList.opacity = 1)
+
     if m.tvGuide <> invalid
         m.tvGuide.lastFocus.setFocus(true)
     end if
@@ -688,13 +731,19 @@ end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean
     if not press then return false
-    topGrp = m.top.findNode("itemGrid")
+
+    if m.itemGrid.opacity = 1
+        topGrp = m.itemGrid
+    else
+        topGrp = m.genreList
+    end if
     searchGrp = m.top.findNode("voiceBox")
 
     if key = "left" and searchGrp.isinFocusChain()
         topGrp.setFocus(true)
         searchGrp.setFocus(false)
     end if
+
     if key = "options"
         if m.options.visible = true
             m.options.visible = false

@@ -95,7 +95,7 @@ sub loadItems()
         params.append({ UserId: get_setting("active_user") })
     else if m.top.view = "Genres"
         url = "Genres"
-        params.append({ UserId: get_setting("active_user") })
+        params.append({ UserId: get_setting("active_user"), includeItemTypes: m.top.itemType })
     else if m.top.ItemType = "MusicArtist"
         url = "Artists"
         params.append({
@@ -143,7 +143,7 @@ sub loadItems()
                 genreData = api_API().users.getitemsbyquery(get_setting("active_user"), {
                     SortBy: "Random",
                     SortOrder: "Ascending",
-                    IncludeItemTypes: "Movie",
+                    IncludeItemTypes: m.top.itemType,
                     Recursive: true,
                     Fields: "PrimaryImageAspectRatio,MediaSourceCount,BasicSyncInfo",
                     ImageTypeLimit: 1,
@@ -158,26 +158,38 @@ sub loadItems()
                     ' Add View All item to the start of the row
                     row = tmp.createChild("FolderData")
                     row.parentFolder = m.top.itemId
-                    genreMovieImage = api_API().items.getimageurl(item.id)
-                    row.title = item.name
+                    row.title = tr("View All") + " " + item.name
+                    item.name = tr("View All") + " " + item.name
                     row.json = item
-                    row.FHDPOSTERURL = genreMovieImage
-                    row.HDPOSTERURL = genreMovieImage
-                    row.SDPOSTERURL = genreMovieImage
                     row.type = "Folder"
+
+                    if LCase(m.top.itemType) = "movie"
+                        genreItemImage = api_API().items.getimageurl(item.id)
+                    else
+                        genreItemImage = invalid
+                        row.posterURL = invalid
+                    end if
+
+                    row.FHDPOSTERURL = genreItemImage
+                    row.HDPOSTERURL = genreItemImage
+                    row.SDPOSTERURL = genreItemImage
                 end if
 
-                for each genreMovie in genreData.Items
-                    row = tmp.createChild("MovieData")
+                for each genreItem in genreData.Items
+                    if LCase(m.top.itemType) = "movie"
+                        row = tmp.createChild("MovieData")
+                    else
+                        row = tmp.createChild("SeriesData")
+                    end if
 
-                    genreMovieImage = api_API().items.getimageurl(genreMovie.id)
-                    row.title = genreMovie.name
-                    row.FHDPOSTERURL = genreMovieImage
-                    row.HDPOSTERURL = genreMovieImage
-                    row.SDPOSTERURL = genreMovieImage
-                    row.json = genreMovie
-                    row.id = genreMovie.id
-                    row.type = genreMovie.type
+                    genreItemImage = api_API().items.getimageurl(genreItem.id)
+                    row.title = genreItem.name
+                    row.FHDPOSTERURL = genreItemImage
+                    row.HDPOSTERURL = genreItemImage
+                    row.SDPOSTERURL = genreItemImage
+                    row.json = genreItem
+                    row.id = genreItem.id
+                    row.type = genreItem.type
                 end for
 
             else if item.Type = "Studio"
