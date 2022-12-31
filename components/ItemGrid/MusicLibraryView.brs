@@ -6,6 +6,9 @@ sub setupNodes()
     m.newBackdrop = m.top.findNode("backdropTransition")
     m.emptyText = m.top.findNode("emptyText")
     m.selectedArtistName = m.top.findNode("selectedArtistName")
+    m.selectedArtistSongCount = m.top.findNode("selectedArtistSongCount")
+    m.selectedArtistAlbumCount = m.top.findNode("selectedArtistAlbumCount")
+    m.selectedArtistGenres = m.top.findNode("selectedArtistGenres")
     m.artistLogo = m.top.findNode("artistLogo")
     m.swapAnimation = m.top.findNode("backroundSwapAnimation")
     m.spinner = m.top.findNode("spinner")
@@ -124,7 +127,7 @@ sub loadInitialItems()
 
     if not isValid(m.sortField) then m.sortField = "SortName"
     if not isValid(m.filter) then m.filter = "All"
-    if not isValid(m.view) then m.view = "Artists"
+    if not isValid(m.view) then m.view = "ArtistsPresentation"
 
     if sortAscendingStr = invalid or LCase(sortAscendingStr) = "true"
         m.sortAscending = true
@@ -138,7 +141,9 @@ sub loadInitialItems()
         m.loadItemsTask.recursive = true
         m.loadItemsTask.genreIds = m.top.parentItem.id
         m.loadItemsTask.itemId = m.top.parentItem.parentFolder
-    else if LCase(m.view) = "artists" or LCase(m.options.view) = "artists"
+    else if LCase(m.view) = "artistspresentation" or LCase(m.options.view) = "artistspresentation"
+        m.loadItemsTask.genreIds = ""
+    else if LCase(m.view) = "artistsgrid" or LCase(m.options.view) = "artistsgrid"
         m.loadItemsTask.genreIds = ""
     else
         m.loadItemsTask.itemId = m.top.parentItem.Id
@@ -168,6 +173,9 @@ sub loadInitialItems()
         m.itemGrid.numRows = "4"
         m.loadItemsTask.itemType = "MusicAlbum"
         m.top.imageDisplayMode = "scaleToFit"
+    else if LCase(m.options.view) = "artistsgrid" or LCase(m.view) = "artistsgrid"
+        m.itemGrid.translation = "[96, 60]"
+        m.itemGrid.numRows = "4"
     else if LCase(m.options.view) = "genres" or LCase(m.view) = "genres"
         m.loadItemsTask.itemType = ""
         m.loadItemsTask.recursive = true
@@ -193,7 +201,8 @@ end sub
 sub setMusicOptions(options)
 
     options.views = [
-        { "Title": tr("Artists"), "Name": "Artists" },
+        { "Title": tr("Artists (Presentation)"), "Name": "ArtistsPresentation" },
+        { "Title": tr("Artists (Grid)"), "Name": "ArtistsGrid" },
         { "Title": tr("Albums"), "Name": "Albums" },
         { "Title": tr("Genres"), "Name": "Genres" }
     ]
@@ -362,6 +371,33 @@ sub SetName(artistName as string)
 end sub
 
 '
+'Set Selected Artist Song Count
+sub SetSongCount(totalCount)
+    appendText = " Songs"
+    if totalCount = 1
+        appendText = " Song"
+    end if
+
+    m.selectedArtistSongCount.text = totalCount.tostr() + appendText
+end sub
+'
+'Set Selected Artist Album Count
+sub SetAlbumCount(totalCount)
+    appendText = " Albums"
+    if totalCount = 1
+        appendText = " Album"
+    end if
+
+    m.selectedArtistAlbumCount.text = totalCount.tostr() + appendText
+end sub
+
+'
+'Set Selected Artist Genres
+sub SetGenres(artistGenres)
+    m.selectedArtistGenres.text = artistGenres.join(", ")
+end sub
+
+'
 'Set Background Image
 sub SetBackground(backgroundUri as string)
     if backgroundUri = ""
@@ -391,6 +427,9 @@ sub onItemFocused()
 
     m.artistLogo.visible = false
     m.selectedArtistName.visible = false
+    m.selectedArtistGenres.visible = false
+    m.selectedArtistSongCount.visible = false
+    m.selectedArtistAlbumCount.visible = false
 
     ' Load more data if focus is within last 5 rows, and there are more items to load
     if focusedRow >= m.loadedRows - 5 and m.loadeditems < m.loadItemsTask.totalRecordCount
@@ -403,7 +442,41 @@ sub onItemFocused()
         return
     end if
 
+    if LCase(m.options.view) = "artistsgrid" or LCase(m.view) = "artistsgrid"
+        return
+    end if
+
+    if not m.selectedArtistGenres.visible
+        m.selectedArtistGenres.visible = true
+    end if
+
+    if not m.selectedArtistSongCount.visible
+        m.selectedArtistSongCount.visible = true
+    end if
+
+    if not m.selectedArtistAlbumCount.visible
+        m.selectedArtistAlbumCount.visible = true
+    end if
+
     itemData = m.selectedFavoriteItem.json
+
+    if isValid(itemData.SongCount)
+        SetSongCount(itemData.SongCount)
+    else
+        SetSongCount("")
+    end if
+
+    if isValid(itemData.AlbumCount)
+        SetAlbumCount(itemData.AlbumCount)
+    else
+        SetAlbumCount("")
+    end if
+
+    if isValid(itemData.Genres)
+        SetGenres(itemData.Genres)
+    else
+        SetGenres([])
+    end if
 
     if isValid(itemData.Name)
         SetName(itemData.Name)
