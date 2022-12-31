@@ -373,9 +373,9 @@ end sub
 '
 'Set Selected Artist Song Count
 sub SetSongCount(totalCount)
-    appendText = " Songs"
+    appendText = " " + tr("Songs")
     if totalCount = 1
-        appendText = " Song"
+        appendText = " " + tr("Song")
     end if
 
     m.selectedArtistSongCount.text = totalCount.tostr() + appendText
@@ -383,9 +383,9 @@ end sub
 '
 'Set Selected Artist Album Count
 sub SetAlbumCount(totalCount)
-    appendText = " Albums"
+    appendText = " " + tr("Albums")
     if totalCount = 1
-        appendText = " Album"
+        appendText = " " + tr("Album")
     end if
 
     m.selectedArtistAlbumCount.text = totalCount.tostr() + appendText

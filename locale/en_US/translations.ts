@@ -494,7 +494,7 @@
             <translation>Playback</translation>
             <extracomment>Title for Playback section in user setting screen.</extracomment>
         </message>
-        
+
         <message>
             <source>Codec Support</source>
             <translation>Codec Support</translation>
@@ -515,7 +515,7 @@
             <translation>Support Direct Play of MPEG-2 content (e.g., Live TV). This will prevent transcoding of MPEG-2 content, but uses significantly more bandwidth.</translation>
             <extracomment>Settings Menu - Description for option</extracomment>
         </message>
-         <message>
+        <message>
             <source>MPEG-4</source>
             <translation>MPEG-4</translation>
             <extracomment>Name of codec used in settings menu</extracomment>
@@ -972,6 +972,30 @@
         <message>
             <source>Resumable</source>
             <translation>Resumable</translation>
+        </message>
+        <message>
+            <source>Artists (Presentation)</source>
+            <translation>Artists (Presentation)</translation>
+        </message>
+        <message>
+            <source>Artists (Grid)</source>
+            <translation>Artists (Grid)</translation>
+        </message>
+        <message>
+            <source>Song</source>
+            <translation>Song</translation>
+        </message>
+        <message>
+            <source>Songs</source>
+            <translation>Songs</translation>
+        </message>
+        <message>
+            <source>Album</source>
+            <translation>Album</translation>
+        </message>
+        <message>
+            <source>Albums</source>
+            <translation>Albums</translation>
         </message>
     </context>
 </TS>
