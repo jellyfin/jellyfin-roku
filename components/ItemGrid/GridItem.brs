@@ -43,11 +43,12 @@ sub itemContentChanged()
         m.itemIcon.uri = itemData.iconUrl
         m.itemText.text = itemData.Title
     else if itemData.type = "Series"
-        if itemData?.json?.UserData?.UnplayedItemCount <> invalid
-            if itemData.json.UserData.UnplayedItemCount > 0
-                m.unplayedCount.visible = true
-                m.unplayedEpisodeCount.text = itemData.json.UserData.UnplayedItemCount
-            end if
+        if itemData?.json?.UserData?.UnplayedItemCount <> invalid and itemData.json.UserData.UnplayedItemCount > 0
+            m.unplayedCount.visible = true
+            m.unplayedEpisodeCount.text = itemData.json.UserData.UnplayedItemCount
+        else
+            m.unplayedCount.visible = false
+            m.unplayedEpisodeCount.text = ""
         end if
 
         m.itemPoster.uri = itemData.PosterUrl
