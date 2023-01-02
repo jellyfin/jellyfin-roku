@@ -998,6 +998,10 @@
             <translation>Albums</translation>
         </message>
         <message>
+            <source>View All</source>
+            <translation>View All</translation>
+        </message>
+        <message>
             <source>Disable Community Rating for Episodes</source>
             <translation>Disable Community Rating for Episodes</translation>
         </message>
