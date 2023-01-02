@@ -299,9 +299,11 @@ sub setTvShowsOptions(options)
         { "Title": tr("Unplayed"), "Name": "Unplayed" }
     ]
 
-    if LCase(m.options.view) = "genres" or LCase(m.view) = "genres"
-        options.sort = [{ "Title": tr("TITLE"), "Name": "SortName" }]
-        options.filter = []
+    if isValid(m.view)
+        if LCase(m.options.view) = "genres" or LCase(m.view) = "genres"
+            options.sort = [{ "Title": tr("TITLE"), "Name": "SortName" }]
+            options.filter = []
+        end if
     end if
 
 end sub
