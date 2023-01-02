@@ -62,10 +62,10 @@ sub Main (args as dynamic) as void
     m.device.EnableAppFocusEvent(false)
 
     ' Check if we were sent content to play with the startup command (Deep Link)
-    if (args.mediaType <> invalid) and (args.contentId <> invalid)
+    if isValidAndNotEmpty(args.mediaType) and isValidAndNotEmpty(args.contentId)
         video = CreateVideoPlayerGroup(args.contentId)
 
-        if video <> invalid and video.errorMsg <> "introaborted"
+        if isValid(video) and video.errorMsg <> "introaborted"
             sceneManager.callFunc("pushScene", video)
         else
             dialog = createObject("roSGNode", "Dialog")

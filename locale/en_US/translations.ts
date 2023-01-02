@@ -997,5 +997,13 @@
             <source>Albums</source>
             <translation>Albums</translation>
         </message>
+        <message>
+            <source>Disable Community Rating for Episodes</source>
+            <translation>Disable Community Rating for Episodes</translation>
+        </message>
+        <message>
+            <source>If enabled, the star and community rating for episodes of a TV show will be removed. This is to prevent spoilers of an upcoming good/bad episode.</source>
+            <translation>If enabled, the star and community rating for episodes of a TV show will be removed. This is to prevent spoilers of an upcoming good/bad episode.</translation>
+        </message>
     </context>
 </TS>
