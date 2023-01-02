@@ -829,14 +829,16 @@ function onKeyEvent(key as string, press as boolean) as boolean
 end function
 
 sub updateTitle()
-    if m.filter = "All"
-        m.top.overhangTitle = m.top.parentItem.title
-    else if m.filter = "Favorites"
+    m.top.overhangTitle = m.top.parentItem.title
+
+    if m.filter = "Favorites"
         m.top.overhangTitle = m.top.parentItem.title + " " + tr("(Favorites)")
     end if
+
     if m.voiceBox.text <> ""
         m.top.overhangTitle = m.top.parentItem.title + tr(" (Filtered by ") + m.loadItemsTask.searchTerm + ")"
     end if
+
     if m.top.alphaSelected <> ""
         m.top.overhangTitle = m.top.parentItem.title + tr(" (Filtered by ") + m.loadItemsTask.nameStartsWith + ")"
     end if
@@ -850,14 +852,18 @@ sub updateTitle()
     if m.options.view = "Networks" or m.view = "Networks"
         m.top.overhangTitle = "%s (%s)".Format(m.top.parentItem.title, tr("Networks"))
     end if
+
     if m.options.view = "Studios" or m.view = "Studios"
         m.top.overhangTitle = "%s (%s)".Format(m.top.parentItem.title, tr("Studios"))
     end if
+
     if m.options.view = "Genres" or m.view = "Genres"
         m.top.overhangTitle = "%s (%s)".Format(m.top.parentItem.title, tr("Genres"))
     end if
+
     actInt = m.itemGrid.itemFocused + 1
-    if m.showItemCount and m.loadItemsTask.totalRecordCount > 0
+
+    if m.showItemCount and m.loadItemsTask.totalRecordCount > 0 and m.options.view <> "Genres" and m.view <> "Genres"
         m.top.overhangTitle += " (" + tr("%1 of %2").Replace("%1", actInt.toStr()).Replace("%2", m.loadItemsTask.totalRecordCount.toStr()) + ")"
     end if
 
