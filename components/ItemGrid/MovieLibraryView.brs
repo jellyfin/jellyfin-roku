@@ -252,7 +252,7 @@ sub setMoviesOptions(options)
     ]
 
     if m.options.view = "Genres" or m.view = "Genres"
-        options.sort = []
+        options.sort = [{ "Title": tr("TITLE"), "Name": "SortName" }]
         options.filter = []
     end if
 
