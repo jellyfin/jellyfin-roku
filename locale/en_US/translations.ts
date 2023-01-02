@@ -974,6 +974,30 @@
             <translation>Resumable</translation>
         </message>
         <message>
+            <source>Artists (Presentation)</source>
+            <translation>Artists (Presentation)</translation>
+        </message>
+        <message>
+            <source>Artists (Grid)</source>
+            <translation>Artists (Grid)</translation>
+        </message>
+        <message>
+            <source>Song</source>
+            <translation>Song</translation>
+        </message>
+        <message>
+            <source>Songs</source>
+            <translation>Songs</translation>
+        </message>
+        <message>
+            <source>Album</source>
+            <translation>Album</translation>
+        </message>
+        <message>
+            <source>Albums</source>
+            <translation>Albums</translation>
+        </message>
+        <message>
             <source>View All</source>
             <translation>View All</translation>
         </message>

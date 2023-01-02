@@ -99,9 +99,10 @@ sub loadItems()
     else if m.top.ItemType = "MusicArtist"
         url = "Artists"
         params.append({
-            UserId: get_setting("active_user")
+            UserId: get_setting("active_user"),
+            Fields: "Genres"
         })
-        params.IncludeItemTypes = ""
+        params.IncludeItemTypes = "MusicAlbum,Audio"
     else if m.top.ItemType = "MusicAlbum"
         url = Substitute("Users/{0}/Items/", get_setting("active_user"))
         params.append({ ImageTypeLimit: 1 })
