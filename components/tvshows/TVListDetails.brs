@@ -60,8 +60,8 @@ sub itemContentChanged()
             m.top.findNode("star").visible = false
         end if
     else
-       m.rating.visible = false
-       m.infoBar.itemSpacings = [20, -25, 20, 20] 
+        m.rating.visible = false
+        m.infoBar.itemSpacings = [20, -25, 20, 20]
     end if
 
     videoIdx = invalid
