@@ -6,7 +6,7 @@
     <name>default</name>
     <message>
         <source>192.168.1.100:8096 or https://example.com/jellyfin</source>
-        <translation>alapértelmezetten 192.168.1.100:8096 vagy https://example.com/jellyfin</translation>
+        <translation>Alapértelmezetten: 192.168.1.100:8096 vagy https://example.com/jellyfin</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -8478,6 +8478,11 @@ elemeket</translation>
     <message>
         <source>Disabled</source>
         <translation>Kikapcsolva</translation>
+    </message>
+    <message>
+        <source>Skip Details for Single Seasons</source>
+        <translation>Részletek kihagyása a külön évadokhoz</translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
     </message>
 </context>
 </TS>
