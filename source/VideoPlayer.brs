@@ -178,7 +178,7 @@ sub AddVideoContent(video, mediaSourceId, audio_stream_idx = 1, subtitle_idx = -
 
     ' Don't send mediaSourceId for Live Media
     ' Note: Recordings in progress will have meta.live = invalid, but we still don't want to send mediaSourceId
-    if meta.live = invalid
+    if not isValid(meta.live)
         meta.live = false
         mediaSourceId = ""
     else
