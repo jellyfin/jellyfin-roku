@@ -30,7 +30,7 @@ sub AddVideoContent(video, mediaSourceId, audio_stream_idx = 1, subtitle_idx = -
 
     ' Special handling for "Programs" or "Vidoes" launched from "On Now" or elsewhere on the home screen...
     ' basically anything that is a Live Channel.
-    if isValid(meta.json) and isValid(meta.json.ChannelId)
+    if isValid(meta?.json?.ChannelId)
         if meta.json.EpisodeTitle <> invalid
             meta.title = meta.json.EpisodeTitle
         else if meta.json.Name <> invalid
