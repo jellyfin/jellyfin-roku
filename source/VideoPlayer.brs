@@ -407,194 +407,195 @@ function getContainerType(meta as object) as string
     ' Determine the file type of the video file source
     if not isValid(meta?.json?.mediaSources) then return ""
 
-    container = meta.json.mediaSources[0].container
-    if container = invalid
-        container = ""
-    else if container = "m4v" or container = "mov"
-        container = "mp4"
-    end if
-
-    return container
-end function
-
-function getAudioFormat(meta as object) as string
-    ' Determine the codec of the audio file source
-    if meta.json.mediaSources = invalid then return ""
-
-    audioInfo = getAudioInfo(meta)
-    if audioInfo.count() = 0 or audioInfo[0].codec = invalid then return ""
-    return audioInfo[0].codec
-end function
-
-function getAudioInfo(meta as object) as object
-    ' Return audio metadata for a given stream
-    results = []
-    for each source in meta.json.mediaSources[0].mediaStreams
-        if source["type"] = "Audio"
-            results.push(source)
+        container = meta.json.mediaSources[0].container
+        if container = invalid
+            container = ""
+        else if container = "m4v" or container = "mov"
+            container = "mp4"
         end if
-    end for
-    return results
-end function
 
-sub autoPlayNextEpisode(videoID as string, showID as string)
-    ' use web client setting
-    if m.user.Configuration.EnableNextEpisodeAutoPlay
-        ' query API for next episode ID
-        url = Substitute("Shows/{0}/Episodes", showID)
-        urlParams = { "UserId": get_setting("active_user") }
-        urlParams.Append({ "StartItemId": videoID })
-        urlParams.Append({ "Limit": 2 })
-        resp = APIRequest(url, urlParams)
-        data = getJson(resp)
+        return container
+    end function
 
-        if data <> invalid and data.Items.Count() = 2
-            ' setup new video node
-            nextVideo = CreateVideoPlayerGroup(data.Items[1].Id, invalid, 1, false, false)
-            ' remove last videoplayer scene
-            m.global.sceneManager.callFunc("clearPreviousScene")
-            if nextVideo <> invalid
-                m.global.sceneManager.callFunc("pushScene", nextVideo)
+    function getAudioFormat(meta as object) as string
+        ' Determine the codec of the audio file source
+        if meta.json.mediaSources = invalid then return ""
+
+        audioInfo = getAudioInfo(meta)
+        if audioInfo.count() = 0 or audioInfo[0].codec = invalid then return ""
+        return audioInfo[0].codec
+    end function
+
+    function getAudioInfo(meta as object) as object
+        ' Return audio metadata for a given stream
+        results = []
+        for each source in meta.json.mediaSources[0].mediaStreams
+            if source["type"] = "Audio"
+                results.push(source)
+            end if
+        end for
+        return results
+    end function
+
+    sub autoPlayNextEpisode(videoID as string, showID as string)
+        ' use web client setting
+        if m.user.Configuration.EnableNextEpisodeAutoPlay
+            ' query API for next episode ID
+            url = Substitute("Shows/{0}/Episodes", showID)
+            urlParams = { "UserId": get_setting("active_user") }
+            urlParams.Append({ "StartItemId": videoID })
+            urlParams.Append({ "Limit": 2 })
+            resp = APIRequest(url, urlParams)
+            data = getJson(resp)
+
+            if data <> invalid and data.Items.Count() = 2
+                ' setup new video node
+                nextVideo = CreateVideoPlayerGroup(data.Items[1].Id, invalid, 1, false, false)
+                ' remove last videoplayer scene
+                m.global.sceneManager.callFunc("clearPreviousScene")
+                if nextVideo <> invalid
+                    m.global.sceneManager.callFunc("pushScene", nextVideo)
+                else
+                    m.global.sceneManager.callFunc("popScene")
+                end if
             else
+                ' can't play next episode
                 m.global.sceneManager.callFunc("popScene")
             end if
         else
-            ' can't play next episode
             m.global.sceneManager.callFunc("popScene")
         end if
-    else
-        m.global.sceneManager.callFunc("popScene")
-    end if
-end sub
+    end sub
 
-' Returns an array of playback info to be displayed during playback.
-' In the future, with a custom playback info view, we can return an associated array.
-function GetPlaybackInfo()
-    sessions = api_API().sessions.get()
-    if sessions <> invalid and sessions.Count() > 0
-        return GetTranscodingStats(sessions[0])
-    end if
-
-    errMsg = tr("Unable to get playback information")
-    return [errMsg]
-end function
-
-function GetTranscodingStats(session)
-    sessionStats = []
-
-    if isValid(session.TranscodingInfo) and session.TranscodingInfo.Count() > 0
-        transcodingReasons = session.TranscodingInfo.TranscodeReasons
-        videoCodec = session.TranscodingInfo.VideoCodec
-        audioCodec = session.TranscodingInfo.AudioCodec
-        totalBitrate = session.TranscodingInfo.Bitrate
-        audioChannels = session.TranscodingInfo.AudioChannels
-
-        if isValid(transcodingReasons) and transcodingReasons.Count() > 0
-            sessionStats.push("** " + tr("Transcoding Information") + " **")
-            for each item in transcodingReasons
-                sessionStats.push(tr("Reason") + ": " + item)
-            end for
+    ' Returns an array of playback info to be displayed during playback.
+    ' In the future, with a custom playback info view, we can return an associated array.
+    function GetPlaybackInfo()
+        sessions = api_API().sessions.get()
+        if sessions <> invalid and sessions.Count() > 0
+            return GetTranscodingStats(sessions[0])
         end if
 
-        if isValid(videoCodec)
-            data = tr("Video Codec") + ": " + videoCodec
-            if session.TranscodingInfo.IsVideoDirect
-                data = data + " (" + tr("direct") + ")"
+        errMsg = tr("Unable to get playback information")
+        return [errMsg]
+    end function
+
+    function GetTranscodingStats(session)
+        sessionStats = []
+
+        if isValid(session.TranscodingInfo) and session.TranscodingInfo.Count() > 0
+            transcodingReasons = session.TranscodingInfo.TranscodeReasons
+            videoCodec = session.TranscodingInfo.VideoCodec
+            audioCodec = session.TranscodingInfo.AudioCodec
+            totalBitrate = session.TranscodingInfo.Bitrate
+            audioChannels = session.TranscodingInfo.AudioChannels
+
+            if isValid(transcodingReasons) and transcodingReasons.Count() > 0
+                sessionStats.push("** " + tr("Transcoding Information") + " **")
+                for each item in transcodingReasons
+                    sessionStats.push(tr("Reason") + ": " + item)
+                end for
             end if
-            sessionStats.push(data)
-        end if
 
-        if isValid(audioCodec)
-            data = tr("Audio Codec") + ": " + audioCodec
-            if session.TranscodingInfo.IsAudioDirect
-                data = data + " (" + tr("direct") + ")"
+            if isValid(videoCodec)
+                data = tr("Video Codec") + ": " + videoCodec
+                if session.TranscodingInfo.IsVideoDirect
+                    data = data + " (" + tr("direct") + ")"
+                end if
+                sessionStats.push(data)
             end if
-            sessionStats.push(data)
+
+            if isValid(audioCodec)
+                data = tr("Audio Codec") + ": " + audioCodec
+                if session.TranscodingInfo.IsAudioDirect
+                    data = data + " (" + tr("direct") + ")"
+                end if
+                sessionStats.push(data)
+            end if
+
+            if isValid(totalBitrate)
+                data = tr("Total Bitrate") + ": " + getDisplayBitrate(totalBitrate)
+                sessionStats.push(data)
+            end if
+
+            if isValid(audioChannels)
+                data = tr("Audio Channels") + ": " + Str(audioChannels)
+                sessionStats.push(data)
+            end if
         end if
 
-        if isValid(totalBitrate)
-            data = tr("Total Bitrate") + ": " + getDisplayBitrate(totalBitrate)
-            sessionStats.push(data)
+        if havePlaybackInfo()
+            stream = m.playbackInfo.mediaSources[0].MediaStreams[0]
+            sessionStats.push("** " + tr("Stream Information") + " **")
+            if isValid(stream.Container)
+                data = tr("Container") + ": " + stream.Container
+                sessionStats.push(data)
+            end if
+            if isValid(stream.Size)
+                data = tr("Size") + ": " + stream.Size
+                sessionStats.push(data)
+            end if
+            if isValid(stream.BitRate)
+                data = tr("Bit Rate") + ": " + getDisplayBitrate(stream.BitRate)
+                sessionStats.push(data)
+            end if
+            if isValid(stream.Codec)
+                data = tr("Codec") + ": " + stream.Codec
+                sessionStats.push(data)
+            end if
+            if isValid(stream.CodecTag)
+                data = tr("Codec Tag") + ": " + stream.CodecTag
+                sessionStats.push(data)
+            end if
+            if isValid(stream.VideoRangeType)
+                data = tr("Video range type") + ": " + stream.VideoRangeType
+                sessionStats.push(data)
+            end if
+            if isValid(stream.PixelFormat)
+                data = tr("Pixel format") + ": " + stream.PixelFormat
+                sessionStats.push(data)
+            end if
+            if isValid(stream.Width) and isValid(stream.Height)
+                data = tr("WxH") + ": " + Str(stream.Width) + " x " + Str(stream.Height)
+                sessionStats.push(data)
+            end if
+            if isValid(stream.Level)
+                data = tr("Level") + ": " + Str(stream.Level)
+                sessionStats.push(data)
+            end if
         end if
 
-        if isValid(audioChannels)
-            data = tr("Audio Channels") + ": " + Str(audioChannels)
-            sessionStats.push(data)
-        end if
-    end if
+        return sessionStats
+    end function
 
-    if havePlaybackInfo()
-        stream = m.playbackInfo.mediaSources[0].MediaStreams[0]
-        sessionStats.push("** " + tr("Stream Information") + " **")
-        if isValid(stream.Container)
-            data = tr("Container") + ": " + stream.Container
-            sessionStats.push(data)
+    function havePlaybackInfo()
+        if not isValid(m.playbackInfo)
+            return false
         end if
-        if isValid(stream.Size)
-            data = tr("Size") + ": " + stream.Size
-            sessionStats.push(data)
-        end if
-        if isValid(stream.BitRate)
-            data = tr("Bit Rate") + ": " + getDisplayBitrate(stream.BitRate)
-            sessionStats.push(data)
-        end if
-        if isValid(stream.Codec)
-            data = tr("Codec") + ": " + stream.Codec
-            sessionStats.push(data)
-        end if
-        if isValid(stream.CodecTag)
-            data = tr("Codec Tag") + ": " + stream.CodecTag
-            sessionStats.push(data)
-        end if
-        if isValid(stream.VideoRangeType)
-            data = tr("Video range type") + ": " + stream.VideoRangeType
-            sessionStats.push(data)
-        end if
-        if isValid(stream.PixelFormat)
-            data = tr("Pixel format") + ": " + stream.PixelFormat
-            sessionStats.push(data)
-        end if
-        if isValid(stream.Width) and isValid(stream.Height)
-            data = tr("WxH") + ": " + Str(stream.Width) + " x " + Str(stream.Height)
-            sessionStats.push(data)
-        end if
-        if isValid(stream.Level)
-            data = tr("Level") + ": " + Str(stream.Level)
-            sessionStats.push(data)
-        end if
-    end if
 
-    return sessionStats
-end function
+        if not isValid(m.playbackInfo.mediaSources)
+            return false
+        end if
 
-function havePlaybackInfo()
-    if not isValid(m.playbackInfo)
-        return false
-    end if
+        if m.playbackInfo.mediaSources.Count() <= 0
+            return false
+        end if
 
-    if not isValid(m.playbackInfo.mediaSources)
-        return false
-    end if
+        if not isValid(m.playbackInfo.mediaSources[0].MediaStreams)
+            return false
+        end if
 
-    if m.playbackInfo.mediaSources.Count() <= 0
-        return false
-    end if
+        if m.playbackInfo.mediaSources[0].MediaStreams.Count() <= 0
+            return false
+        end if
 
-    if not isValid(m.playbackInfo.mediaSources[0].MediaStreams)
-        return false
-    end if
+        return true
+    end function
 
-    if m.playbackInfo.mediaSources[0].MediaStreams.Count() <= 0
-        return false
-    end if
-
-    return true
-end function
-
-function getDisplayBitrate(bitrate)
-    if bitrate > 1000000
-        return Str(Fix(bitrate / 1000000)) + " Mbps"
-    else
-        return Str(Fix(bitrate / 1000)) + " Kbps"
-    end if
-end function
+    function getDisplayBitrate(bitrate)
+        if bitrate > 1000000
+            return Str(Fix(bitrate / 1000000)) + " Mbps"
+        else
+            return Str(Fix(bitrate / 1000)) + " Kbps"
+        end if
+    end function
+    
