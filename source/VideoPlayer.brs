@@ -207,7 +207,7 @@ sub AddVideoContent(video, mediaSourceId, audio_stream_idx = 1, subtitle_idx = -
 
     video.container = getContainerType(meta)
 
-    if m.playbackInfo.MediaSources[0] = invalid and isValid(meta.json)
+    if not isValid(m.playbackInfo.MediaSources[0]) and isValid(meta.json)
         m.playbackInfo = meta.json
     end if
 
