@@ -8785,5 +8785,92 @@ elemeket</translation>
         <translation>A kért tartalom nem található a szerveren</translation>
         <extracomment>Content of message box when the requested content is not found on the server</extracomment>
     </message>
+    <message>
+        <source>...or enter server URL manually:</source>
+        <translation>…vagy add meg kézzel a szerver URL-jét:</translation>
+        <extracomment>Instructions on initial app launch when the user is asked to manually enter a server URL</extracomment>
+    </message>
+    <message>
+        <source>An error was encountered while playing this item. Server did not provide required transcoding data.</source>
+        <translation>Hiba történt az elem lejátszása közben. A szerver nem biztosította a szükséges transzkódolási adatokat.</translation>
+        <extracomment>Content of message box when trying to play an item which requires transcoding, and the server did not provide transcode url</extracomment>
+    </message>
+    <message>
+        <source>Playback</source>
+        <translation>Lejátszás</translation>
+        <extracomment>Title for Playback section in user setting screen.</extracomment>
+    </message>
+    <message>
+        <source>Support Direct Play of MPEG-2 content (e.g., Live TV). This will prevent transcoding of MPEG-2 content, but uses significantly more bandwidth.</source>
+        <translation>Támogatja az MPEG-2 tartalom közvetlen lejátszását (például élő tévéadás). Ez megakadályozza az MPEG-2 tartalom átkódolását, de lényegesen nagyobb sávszélességet használ.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Pick a Jellyfin server from the local network</source>
+        <translation>Válassz ki egy Jellyfin szervert a helyi hálózatról:</translation>
+        <extracomment>Instructions on initial app launch when the user is asked to pick a server from a list</extracomment>
+    </message>
+    <message>
+        <source>Enable or disable Direct Play for optional codecs</source>
+        <translation>A Direct Play engedélyezése vagy letiltása az opcionális kodekekhez</translation>
+        <extracomment>Settings Menu - Title for settings group related to codec support</extracomment>
+    </message>
+    <message>
+        <source>Support Direct Play of MPEG-4 content. This may need to be disabled for playback of DIVX encoded video files.</source>
+        <translation>Támogatja az MPEG-4 tartalom közvetlen lejátszását. Lehet, hogy ezt ki kell kapcsolni a DIVX kódolású videofájlok lejátszásához.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>** EXPERIMENTAL** Support Direct Play of AV1 content if this Roku device supports it.</source>
+        <translation>**KÍSÉRLETI** Az AV1 tartalom közvetlen lejátszásának támogatása, ha ez a Roku eszköz támogatja.</translation>
+        <extracomment>Description of a setting - should we try to direct play experimental av1 codec</extracomment>
+    </message>
+    <message>
+        <source>Error Getting Playback Information</source>
+        <translation>Hiba a lejátszási információk lekérésekor</translation>
+        <extracomment>Dialog Title: Received error from server when trying to get information about the selected item for playback</extracomment>
+    </message>
+    <message>
+        <source>Version</source>
+        <translation>Verzió</translation>
+    </message>
+    <message>
+        <source>Codec Support</source>
+        <translation>Kodek támogatás</translation>
+        <extracomment>Settings Menu - Title for settings group related to codec support</extracomment>
+    </message>
+    <message>
+        <source>Media Grid</source>
+        <translation>Média Rács</translation>
+        <extracomment>UI -&gt; Media Grid section in user setting screen.</extracomment>
+    </message>
+    <message>
+        <source>MPEG-2</source>
+        <translation>MPEG-2</translation>
+        <extracomment>Name of codec used in settings menu</extracomment>
+    </message>
+    <message>
+        <source>MPEG-4</source>
+        <translation>MPEG-4</translation>
+        <extracomment>Name of codec used in settings menu</extracomment>
+    </message>
+    <message>
+        <source>AV1</source>
+        <translation>AV1</translation>
+        <extracomment>Name of a setting - should we try to direct play experimental av1 codec</extracomment>
+    </message>
+    <message>
+        <source>User Interface</source>
+        <translation>Felhasználói felület</translation>
+        <extracomment>Title for User Interface section in user setting screen.</extracomment>
+    </message>
+    <message>
+        <source>Enabled</source>
+        <translation>Engedélyezve</translation>
+    </message>
+    <message>
+        <source>Disabled</source>
+        <translation>Kikapcsolva</translation>
+    </message>
 </context>
 </TS>
