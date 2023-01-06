@@ -15,7 +15,7 @@ jobs:
       - run: npm ci
       - run: npx ropm install
       - run: make dev
-      - uses: actions/upload-artifact@83fd05a356d7e2593de66fc9913b3002723633cb # tag=v3
+      - uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # v3
         with:
           name: Jellyfin-Roku-dev-${{ github.sha }}
           path: ${{ github.workspace }}/out/staging
