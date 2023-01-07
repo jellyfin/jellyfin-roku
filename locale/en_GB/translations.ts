@@ -2265,5 +2265,95 @@
         <source>Special Features</source>
         <translation>Special Features</translation>
     </message>
+    <message>
+        <source>Delete Saved</source>
+        <translation>Delete Saved</translation>
+    </message>
+    <message>
+        <source>Special Features</source>
+        <translation>Special Features</translation>
+    </message>
+    <message>
+        <source>More Like This</source>
+        <translation>More Like This</translation>
+    </message>
+    <message>
+        <source>Age</source>
+        <translation>Age</translation>
+    </message>
+    <message>
+        <source>Additional Parts</source>
+        <translation>Additional Parts</translation>
+        <extracomment>Additional parts of a video</extracomment>
+    </message>
+    <message>
+        <source>Died</source>
+        <translation>Died</translation>
+    </message>
+    <message>
+        <source>Born</source>
+        <translation>Born</translation>
+    </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>Save Credentials?</translation>
+    </message>
+    <message>
+        <source>Press &apos;OK&apos; to Close</source>
+        <translation>Press &apos;OK&apos; to Close</translation>
+    </message>
+    <message>
+        <source>On Now</source>
+        <translation>On Now</translation>
+    </message>
+    <message>
+        <source>Cast &amp; Crew</source>
+        <translation>Cast &amp; Crew</translation>
+    </message>
+    <message>
+        <source>Delete Saved</source>
+        <translation>Delete Saved</translation>
+    </message>
+    <message>
+        <source>On Now</source>
+        <translation>On Now</translation>
+    </message>
+    <message>
+        <source>More Like This</source>
+        <translation>More Like This</translation>
+    </message>
+    <message>
+        <source>Age</source>
+        <translation>Age</translation>
+    </message>
+    <message>
+        <source>Additional Parts</source>
+        <translation>Additional Parts</translation>
+        <extracomment>Additional parts of a video</extracomment>
+    </message>
+    <message>
+        <source>Died</source>
+        <translation>Died</translation>
+    </message>
+    <message>
+        <source>Born</source>
+        <translation>Born</translation>
+    </message>
+    <message>
+        <source>Special Features</source>
+        <translation>Special Features</translation>
+    </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>Save Credentials?</translation>
+    </message>
+    <message>
+        <source>Press &apos;OK&apos; to Close</source>
+        <translation>Press &apos;OK&apos; to Close</translation>
+    </message>
+    <message>
+        <source>Cast &amp; Crew</source>
+        <translation>Cast &amp; Crew</translation>
+    </message>
 </context>
 </TS>

@@ -62,10 +62,10 @@ sub Main (args as dynamic) as void
     m.device.EnableAppFocusEvent(false)
 
     ' Check if we were sent content to play with the startup command (Deep Link)
-    if (args.mediaType <> invalid) and (args.contentId <> invalid)
+    if isValidAndNotEmpty(args.mediaType) and isValidAndNotEmpty(args.contentId)
         video = CreateVideoPlayerGroup(args.contentId)
 
-        if video <> invalid and video.errorMsg <> "introaborted"
+        if isValid(video) and video.errorMsg <> "introaborted"
             sceneManager.callFunc("pushScene", video)
         else
             dialog = createObject("roSGNode", "Dialog")
@@ -124,7 +124,7 @@ sub Main (args as dynamic) as void
             selectedItem = msg.getData()
 
             m.selectedItemType = selectedItem.type
-            '
+
             if selectedItem.type = "CollectionFolder"
                 if selectedItem.collectionType = "movies"
                     group = CreateMovieLibraryView(selectedItem)
@@ -135,7 +135,13 @@ sub Main (args as dynamic) as void
                 end if
                 sceneManager.callFunc("pushScene", group)
             else if selectedItem.type = "Folder" and selectedItem.json.type = "Genre"
-                group = CreateMovieLibraryView(selectedItem)
+                ' User clicked on a genre folder
+                if selectedItem.collectionType = "movies"
+                    group = CreateMovieLibraryView(selectedItem)
+                else
+                    group = CreateItemGrid(selectedItem)
+                end if
+                sceneManager.callFunc("pushScene", group)
             else if selectedItem.type = "Folder" and selectedItem.json.type = "MusicGenre"
                 group = CreateMusicLibraryView(selectedItem)
                 sceneManager.callFunc("pushScene", group)

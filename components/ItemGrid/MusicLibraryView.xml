@@ -13,6 +13,9 @@
 
     <Label id="selectedArtistName" visible="false" translation="[120, 40]" wrap="true" font="font:LargeBoldSystemFont" width="850" height="196" horizAlign="left" vertAlign="center" />
     <Poster id="artistLogo" visible="false" translation="[120, 40]" loadDisplayMode="scaleToFit" width="384" height="196" />
+    <Label id="selectedArtistSongCount" translation="[120, 270]" wrap="true" font="font:SmallestSystemFont" width="850" height="30" horizAlign="left" />
+    <Label id="selectedArtistAlbumCount" translation="[120, 310]" wrap="true" font="font:SmallestSystemFont" width="850" height="30" horizAlign="left" />
+    <Label id="selectedArtistGenres" translation="[120, 350]" wrap="true" font="font:SmallestSystemFont" width="850" height="30" horizAlign="left" />
 
     <MarkupGrid id="itemGrid" itemComponentName="MusicArtistGridItem" numColumns="6" numRows="2" vertFocusAnimationStyle="fixed" itemSize="[280, 280]" itemSpacing="[20, 20]" />
     <MarkupGrid id="genrelist" itemComponentName="MusicArtistGridItem" numColumns="6" numRows="4" vertFocusAnimationStyle="fixed" translation="[96, 60]" itemSize="[280, 280]" itemSpacing="[20, 20]" opacity="0" />

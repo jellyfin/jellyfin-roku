@@ -1013,5 +1013,41 @@
             <source>Always Hide</source>
             <translation>Always Hide</translation>
         </message>
+        <message>
+            <source>Artists (Presentation)</source>
+            <translation>Artists (Presentation)</translation>
+        </message>
+        <message>
+            <source>Artists (Grid)</source>
+            <translation>Artists (Grid)</translation>
+        </message>
+        <message>
+            <source>Song</source>
+            <translation>Song</translation>
+        </message>
+        <message>
+            <source>Songs</source>
+            <translation>Songs</translation>
+        </message>
+        <message>
+            <source>Album</source>
+            <translation>Album</translation>
+        </message>
+        <message>
+            <source>Albums</source>
+            <translation>Albums</translation>
+        </message>
+        <message>
+            <source>View All</source>
+            <translation>View All</translation>
+        </message>
+        <message>
+            <source>Disable Community Rating for Episodes</source>
+            <translation>Disable Community Rating for Episodes</translation>
+        </message>
+        <message>
+            <source>If enabled, the star and community rating for episodes of a TV show will be removed. This is to prevent spoilers of an upcoming good/bad episode.</source>
+            <translation>If enabled, the star and community rating for episodes of a TV show will be removed. This is to prevent spoilers of an upcoming good/bad episode.</translation>
+        </message>
     </context>
 </TS>
