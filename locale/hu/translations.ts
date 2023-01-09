@@ -9282,5 +9282,41 @@ elemeket</translation>
         <source>Unplayed</source>
         <translation>Nem játszott</translation>
     </message>
+    <message>
+        <source>If enabled, the star and community rating for episodes of a TV show will be removed. This is to prevent spoilers of an upcoming good/bad episode.</source>
+        <translation>Ha engedélyezve van, a tévéműsorok epizódjainak csillaga és közösségi besorolása el lesz távolítva. Ez azért van így, hogy elkerüljük egy közelgő jó/rossz epizód spoilereit.</translation>
+    </message>
+    <message>
+        <source>Song</source>
+        <translation>Dal</translation>
+    </message>
+    <message>
+        <source>Songs</source>
+        <translation>Dalok</translation>
+    </message>
+    <message>
+        <source>Album</source>
+        <translation>Album</translation>
+    </message>
+    <message>
+        <source>Albums</source>
+        <translation>Albumok</translation>
+    </message>
+    <message>
+        <source>View All</source>
+        <translation>Összes megtekintése</translation>
+    </message>
+    <message>
+        <source>Artists (Presentation)</source>
+        <translation>Előadó (Bemutató)</translation>
+    </message>
+    <message>
+        <source>Artists (Grid)</source>
+        <translation>Előadó (Rács)</translation>
+    </message>
+    <message>
+        <source>Disable Community Rating for Episodes</source>
+        <translation>Az epizódok közösségi értékelésének letiltása</translation>
+    </message>
 </context>
 </TS>
