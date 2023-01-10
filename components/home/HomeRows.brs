@@ -61,10 +61,13 @@ sub onLibrariesLoaded()
     m.LoadLibrariesTask.content = []
     ' create My Media, Continue Watching, and Next Up rows
     content = CreateObject("roSGNode", "ContentNode")
+
     mediaRow = content.CreateChild("HomeRow")
     mediaRow.title = tr("My Media")
+
     continueRow = content.CreateChild("HomeRow")
     continueRow.title = tr("Continue Watching")
+
     nextUpRow = content.CreateChild("HomeRow")
     nextUpRow.title = tr("Next Up >")
 
@@ -113,9 +116,13 @@ sub onLibrariesLoaded()
     m.LoadContinueTask.observeField("content", "updateContinueItems")
     m.LoadContinueTask.control = "RUN"
 
+    m.LoadNextUpTask.observeField("content", "updateNextUpItems")
+    m.LoadNextUpTask.control = "RUN"
+
     ' Load the Favorites Data
     m.LoadFavoritesTask.observeField("content", "updateFavoritesItems")
     m.LoadFavoritesTask.control = "RUN"
+
 
     ' If we have Live TV access, load "On Now" data
     if haveLiveTV
@@ -219,9 +226,6 @@ sub updateContinueItems()
             homeRows.replaceChild(row, continueRowIndex)
         end if
     end if
-
-    m.LoadNextUpTask.observeField("content", "updateNextUpItems")
-    m.LoadNextUpTask.control = "RUN"
 end sub
 
 sub updateNextUpItems()
@@ -273,7 +277,6 @@ sub updateNextUpItems()
         m.top.signalBeacon("AppLaunchComplete") ' Roku Performance monitoring
         m.global.app_loaded = true
     end if
-
 
     ' create task nodes for "Latest In" rows
     userConfig = m.top.userConfig
