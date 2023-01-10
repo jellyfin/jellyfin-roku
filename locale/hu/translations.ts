@@ -9738,5 +9738,236 @@ elemeket</translation>
         <source>Disabled</source>
         <translation>Kikapcsolva</translation>
     </message>
+    <message>
+        <source>Go to series</source>
+        <translation>Ugrás a sorozatra</translation>
+        <extracomment>Continue Watching Popup Menu - Navigate to the Series Detail Page</extracomment>
+    </message>
+    <message>
+        <source>Use the replay button to slowly animate to the first item in the folder. (If disabled, the folder will reset to the first item immediately).</source>
+        <translation>A visszajátszás gombbal lassan animálhat a mappa első elemére. (Ha le van tiltva, a mappa azonnal visszaáll az első elemre).</translation>
+        <extracomment>Description for option in Setting Screen</extracomment>
+    </message>
+    <message>
+        <source>If enabled, selecting a TV series with only one season will go straight to the episode list rather than the show details and season list.</source>
+        <translation>Ha engedélyezve van, a csak egy évadot tartalmazó tévésorozat kiválasztása közvetlenül az epizódlistába kerül, nem pedig a műsor részleteinek és évadlistájának.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Use Splashscreen as Screensaver Background</source>
+        <translation>Használja a Splashscreent képernyővédő háttereként</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
+    <message>
+        <source>Use generated splashscreen image as Jellyfin&apos;s screensaver background. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Használja a generált splashscreen képet Jellyfin képernyővédő háttereként. A Jellyfint újra meg kell nyitni, hogy a változás életbe lépjen.</translation>
+    </message>
+    <message>
+        <source>Hides all clocks in Jellyfin. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Elrejti az összes órát a Jellyfinben. A Jellyfint újra kell nyitni, hogy a változás életbe lépjen.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Settings relating to how the application looks.</source>
+        <translation>Az alkalmazás megjelenésével kapcsolatos beállítások.</translation>
+    </message>
+    <message>
+        <source>Hide Clock</source>
+        <translation>Óra elrejtése</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
+    <message>
+        <source>Here is your Quick Connect code:</source>
+        <translation>Íme a Gyorscsatlakozási kódod:</translation>
+    </message>
+    <message>
+        <source>Hides tagline text on details pages.</source>
+        <translation>Elrejti a címszó szövegét a részletező oldalakon.</translation>
+    </message>
+    <message>
+        <source>Options for Home Page.</source>
+        <translation>A kezdőlap beállításai.</translation>
+        <extracomment>Description for Home Page user settings.</extracomment>
+    </message>
+    <message>
+        <source>Max Days Next Up</source>
+        <translation>Maximális napok száma a Következőhöz</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
+    <message>
+        <source>Studios</source>
+        <translation>Stúdiók</translation>
+    </message>
+    <message>
+        <source>Play Trailer</source>
+        <translation>Előzetes lejátszása</translation>
+    </message>
+    <message>
+        <source>Attempt Direct Play for H.264 media with unsupported profile levels before falling back to transcoding if it fails.</source>
+        <translation>Próbálja meg a nem támogatott profilszintű H.264-es adathordozók közvetlen lejátszását, mielőtt visszaállna az átkódolásra, ha az sikertelen.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Use voice remote to search</source>
+        <translation>Használja a távirányító hangbevitelét a kereséshez</translation>
+        <extracomment>Help text in search voice text box</extracomment>
+    </message>
+    <message>
+        <source>(Dialog will close automatically)</source>
+        <translation>(A párbeszédablak automatikusan bezárul)</translation>
+    </message>
+    <message>
+        <source>Go to episode</source>
+        <translation>Ugrás az epizódra</translation>
+        <extracomment>Continue Watching Popup Menu - Navigate to the Episode Detail Page</extracomment>
+    </message>
+    <message>
+        <source>You can search for Titles, People, Live TV Channels and more</source>
+        <translation>Kereshet Címekre, Személyekre, Élő TV-csatornákra és egyebekre</translation>
+        <extracomment>Help text in search results</extracomment>
+    </message>
+    <message>
+        <source>%1 of %2</source>
+        <translation>%1 a %2 -ból</translation>
+        <extracomment>Item position and count. %1 = current item. %2 = total number of items</extracomment>
+    </message>
+    <message>
+        <source>Shows</source>
+        <translation>Műsorok</translation>
+    </message>
+    <message>
+        <source>Use Splashscreen as Home Background</source>
+        <translation>Használja a Splashscreent a kezdőképernyő háttereként</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
+    <message>
+        <source>Cinema Mode brings the theater experience straight to your living room with the ability to play custom intros before the main feature.</source>
+        <translation>A Mozi Mód a moziélményt egyenesen a nappaliba viszi azzal a lehetőséggel, hogy egyéni bevezetőket játszhat le a fő funkció előtt.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Settings relating to playback and supported codec and media types.</source>
+        <translation>A lejátszással, valamint a támogatott kodekekkel és médiatípusokkal kapcsolatos beállítások.</translation>
+    </message>
+    <message>
+        <source>Hide Taglines</source>
+        <translation>Címsorok elrejtése</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
+    <message>
+        <source>Options for Jellyfin&apos;s screensaver.</source>
+        <translation>Jellyfin képernyőkímélőjének beállításai.</translation>
+        <extracomment>Description for Screensaver user settings.</extracomment>
+    </message>
+    <message>
+        <source>Design Elements</source>
+        <translation>Dizájn elemek</translation>
+    </message>
+    <message>
+        <source>Next episode</source>
+        <translation>Következő rész</translation>
+    </message>
+    <message>
+        <source>Attempt Direct Play for HEVC media with unsupported profile levels before falling back to trancoding if it fails.</source>
+        <translation>Próbálja meg a közvetlen lejátszást nem támogatott profilszintű HEVC-média esetén, mielőtt visszaállna az átkódolásra, ha az sikertelen.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Details Page</source>
+        <translation>Részletező oldal</translation>
+    </message>
+    <message>
+        <source>Blur Unwatched Episodes</source>
+        <translation>A megtekintetlen epizódok elhomályosítása</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
+    <message>
+        <source>If enabled, images of unwatched episodes will be blurred.</source>
+        <translation>Ha engedélyezve van, a megtekintetlen epizódok képei elmosódnak.</translation>
+    </message>
+    <message>
+        <source>Go to season</source>
+        <translation>Ugrás az évadra</translation>
+        <extracomment>Continue Watching Popup Menu - Navigate to the Season Page</extracomment>
+    </message>
+    <message>
+        <source>Search now</source>
+        <translation>Keresés most</translation>
+        <extracomment>Help text in search Box</extracomment>
+    </message>
+    <message>
+        <source>Quick Connect</source>
+        <translation>Gyorscsatlakozás</translation>
+    </message>
+    <message>
+        <source>There was an error authenticating via Quick Connect.</source>
+        <translation>Hiba történt a Gyorscsatlakozás segítségével történő hitelesítés során.</translation>
+    </message>
+    <message>
+        <source>Networks</source>
+        <translation>Hálózatok</translation>
+    </message>
+    <message>
+        <source>Return to Top</source>
+        <translation>Vissza a tetejére</translation>
+        <extracomment>UI -&gt; Media Grid -&gt; Item Title in user setting screen.</extracomment>
+    </message>
+    <message>
+        <source>Cinema Mode</source>
+        <translation>Mozi Mód</translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
+    <message>
+        <source>Options for Details pages.</source>
+        <translation>Részletek oldal beállításai.</translation>
+        <extracomment>Description for Details page user settings.</extracomment>
+    </message>
+    <message>
+        <source>Options for TV Shows.</source>
+        <translation>TV-műsorok beállításai.</translation>
+        <extracomment>Description for TV Shows user settings.</extracomment>
+    </message>
+    <message>
+        <source>Skip Details for Single Seasons</source>
+        <translation>Részletek kihagyása a külön évadokhoz</translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
+    <message>
+        <source>Screensaver</source>
+        <translation>Képernyőkímélő</translation>
+    </message>
+    <message>
+        <source>Options that alter the design of Jellyfin.</source>
+        <translation>Opciók, amelyek megváltoztatják a Jellyfin dizájnját.</translation>
+        <extracomment>Description for Design Elements user settings.</extracomment>
+    </message>
+    <message>
+        <source>Use generated splashscreen image as Jellyfin&apos;s home background. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Használja a generált indítóképernyős képet Jellyfin otthoni háttereként. A Jellyfint újra kell nyitni, hogy a változás életbe lépjen.</translation>
+        <extracomment>Description for option in Setting Screen</extracomment>
+    </message>
+    <message>
+        <source>H.264</source>
+        <translation>H.264</translation>
+        <extracomment>Name of codec used in settings menu</extracomment>
+    </message>
+    <message>
+        <source>HEVC</source>
+        <translation>HEVC</translation>
+        <extracomment>Name of codec used in settings menu</extracomment>
+    </message>
+    <message>
+        <source>Home Page</source>
+        <translation>Kezdőlap</translation>
+    </message>
+    <message>
+        <source>Set the maximum amount of days a show should stay in the &apos;Next Up&apos; list without watching it.</source>
+        <translation>Állítsa be, hogy egy műsor mennyi ideig maradjon a „Következő” listában anélkül, hogy megnézné.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Playback Information</source>
+        <translation>Lejátszási információk</translation>
+    </message>
 </context>
 </TS>
