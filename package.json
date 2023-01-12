@@ -4,7 +4,7 @@
   "description": "Roku app for Jellyfin media server",
   "main": "index.js",
   "devDependencies": {
-    "@rokucommunity/bslint": "0.8.0",
+    "@rokucommunity/bslint": "0.8.1",
     "brighterscript": "0.61.2",
     "ropm": "0.10.10"
   },
