@@ -10058,5 +10058,49 @@ elemeket</translation>
         <translation>Nem találhatók ehhez az előadóhoz tartozó albumok vagy dalok</translation>
         <extracomment>Popup message when we find no audio data for an artist</extracomment>
     </message>
+    <message>
+        <source>Slideshow Paused</source>
+        <translation>Diavetítés szüneteltetve</translation>
+    </message>
+    <message>
+        <source>Show What&apos;s New Popup</source>
+        <translation>Az újdonságok előugró ablaka</translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
+    <message>
+        <source>all</source>
+        <translation>összes</translation>
+        <extracomment>all will reset the searchTerm so all data will be availible</extracomment>
+    </message>
+    <message>
+        <source>Slideshow On</source>
+        <translation>Diavetítés bekapcsolva</translation>
+    </message>
+    <message>
+        <source>Slideshow Resumed</source>
+        <translation>Diavetítés folytatódik</translation>
+    </message>
+    <message>
+        <source>Random Off</source>
+        <translation>Véletlenszerű kikapcsolva</translation>
+    </message>
+    <message>
+        <source>Aired</source>
+        <translation>Sugározva</translation>
+        <extracomment>Aired date label</extracomment>
+    </message>
+    <message>
+        <source>Slideshow Off</source>
+        <translation>Diavetítés kikapcsolva</translation>
+    </message>
+    <message>
+        <source>Random On</source>
+        <translation>Véletlenszerű bekapcsolva</translation>
+    </message>
+    <message>
+        <source>MPEG-4 Support</source>
+        <translation>MPEG-4 Támogatás</translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
 </context>
 </TS>
