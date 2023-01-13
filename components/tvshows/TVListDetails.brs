@@ -5,6 +5,9 @@ sub init()
     m.overview = m.top.findNode("overview")
     m.poster = m.top.findNode("poster")
     m.deviceInfo = CreateObject("roDeviceInfo")
+
+    m.rating = m.top.findnode("rating")
+    m.infoBar = m.top.findnode("infoBar")
 end sub
 
 sub itemContentChanged()
@@ -49,12 +52,16 @@ sub itemContentChanged()
         end if
     end if
 
-    if itemData.communityRating <> invalid
-        m.top.findNode("star").visible = true
-        m.top.findNode("communityRating").text = str(int(itemData.communityRating * 10) / 10)
+    if get_user_setting("ui.tvshows.disableCommunityRating") = "false"
+        if isValid(itemData.communityRating)
+            m.top.findNode("star").visible = true
+            m.top.findNode("communityRating").text = str(int(itemData.communityRating * 10) / 10)
+        else
+            m.top.findNode("star").visible = false
+        end if
     else
-
-        m.top.findnode("infoBar").removeChild(m.top.findnode("rating"))
+        m.rating.visible = false
+        m.infoBar.itemSpacings = [20, -25, 20, 20]
     end if
 
     videoIdx = invalid

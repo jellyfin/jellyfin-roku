@@ -1,11 +1,11 @@
 {
   "name": "jellyfin-roku",
-  "version": "1.6.2",
+  "version": "1.6.3",
   "description": "Roku app for Jellyfin media server",
   "main": "index.js",
   "devDependencies": {
-    "@rokucommunity/bslint": "0.7.5",
-    "brighterscript": "0.61.1",
+    "@rokucommunity/bslint": "0.8.0",
+    "brighterscript": "0.61.2",
     "ropm": "0.10.10"
   },
   "scripts": {
