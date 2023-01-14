@@ -2383,5 +2383,22 @@
         <source>Cast &amp; Crew</source>
         <translation>Cast &amp; Crew</translation>
     </message>
+    <message>
+        <source>Additional Parts</source>
+        <translation>Additional Parts</translation>
+        <extracomment>Additional parts of a video</extracomment>
+    </message>
+    <message>
+        <source>More Like This</source>
+        <translation>More Like This</translation>
+    </message>
+    <message>
+        <source>Special Features</source>
+        <translation>Special Features</translation>
+    </message>
+    <message>
+        <source>Press &apos;OK&apos; to Close</source>
+        <translation>Press &apos;OK&apos; to Close</translation>
+    </message>
 </context>
 </TS>
