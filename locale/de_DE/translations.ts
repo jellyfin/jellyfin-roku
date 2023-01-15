@@ -9335,5 +9335,30 @@
         <translation>Mittwoch</translation>
         <extracomment>Day of Week</extracomment>
     </message>
+    <message>
+        <source>Enable or disable Direct Play for optional codecs</source>
+        <translation>Aktiviere oder deaktiviere Direkte Wiedergabe für optionale Codecs</translation>
+        <extracomment>Settings Menu - Title for settings group related to codec support</extracomment>
+    </message>
+    <message>
+        <source>MPEG-2</source>
+        <translation>MPEG-2</translation>
+        <extracomment>Name of codec used in settings menu</extracomment>
+    </message>
+    <message>
+        <source>MPEG-4</source>
+        <translation>MPEG-4</translation>
+        <extracomment>Name of codec used in settings menu</extracomment>
+    </message>
+    <message>
+        <source>Support Direct Play of MPEG-2 content (e.g., Live TV). This will prevent transcoding of MPEG-2 content, but uses significantly more bandwidth.</source>
+        <translation>Unterstütze Direkte Wiedergabe von MPEG-2-Inhalten (z. B. Live-TV). Dies verhindert die Transkodierung von MPEG-2-Inhalten, verbraucht aber deutlich mehr Bandbreite.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Codec Support</source>
+        <translation>Codec Unterstützung</translation>
+        <extracomment>Settings Menu - Title for settings group related to codec support</extracomment>
+    </message>
 </context>
 </TS>
