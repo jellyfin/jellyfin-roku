@@ -2857,5 +2857,29 @@
         <source>Enabled</source>
         <translation>Enabled</translation>
     </message>
+    <message>
+        <source>Text Subtitles Only</source>
+        <translation>Text Subtitles Only</translation>
+        <extracomment>Name of a setting - should we hide subtitles that might transcode</extracomment>
+    </message>
+    <message>
+        <source>Attempt Direct Play for H.264 media with unsupported profile levels before falling back to transcoding if it fails.</source>
+        <translation type="unfinished">Attempt Direct Play for H.264 media with unsupported profile levels before falling back to transcoding if it fails.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Next episode</source>
+        <translation>Next episode</translation>
+    </message>
+    <message>
+        <source>HEVC</source>
+        <translation>HEVC</translation>
+        <extracomment>Name of codec used in settings menu</extracomment>
+    </message>
+    <message>
+        <source>H.264</source>
+        <translation type="unfinished">H.264</translation>
+        <extracomment>Name of codec used in settings menu</extracomment>
+    </message>
 </context>
 </TS>
