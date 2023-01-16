@@ -193,7 +193,7 @@
                         "description": "Settings relating to the appearance of pages in Movie Libraries.",
                         "children": [
                             {
-                                "title": "Movie Library Default View",
+                                "title": "Default View",
                                 "description": "Default view for Movie Libraries.",
                                 "settingName": "itemgrid.movieDefaultView",
                                 "type": "radio",
