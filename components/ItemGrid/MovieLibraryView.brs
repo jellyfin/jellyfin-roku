@@ -196,7 +196,7 @@ sub loadInitialItems()
         m.itemGrid.numRows = "3"
         m.selectedMovieOverview.visible = false
         m.infoGroup.visible = false
-        m.top.showItemTitles = get_user_setting("itemgrid.movieGridTitles")
+        m.top.showItemTitles = get_user_setting("itemgrid.alwaysShowTitles")
         if LCase(m.top.showItemTitles) = "hidealways"
             m.itemGrid.itemSize = "[230, 315]"
             m.itemGrid.rowHeights = "[315]"
