@@ -2400,5 +2400,25 @@
         <source>Press &apos;OK&apos; to Close</source>
         <translation>Press &apos;OK&apos; to Close</translation>
     </message>
+    <message>
+        <source>TV Shows</source>
+        <translation>TV Shows</translation>
+    </message>
+    <message>
+        <source>View Channel</source>
+        <translation>View Channel</translation>
+    </message>
+    <message>
+        <source>Record</source>
+        <translation>Record</translation>
+    </message>
+    <message>
+        <source>Cancel Recording</source>
+        <translation>Cancel Recording</translation>
+    </message>
+    <message>
+        <source>Record Series</source>
+        <translation>Record Series</translation>
+    </message>
 </context>
 </TS>
