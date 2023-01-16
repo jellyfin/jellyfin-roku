@@ -132,10 +132,24 @@
                                     },
                                     {
                                         "title": "Item Titles",
-                                        "description": "Always show the titles below the poster images. (If disabled, the title will be shown under the highlighted item only).",
-                                        "settingName": "itemgrid.alwaysShowTitles",
-                                        "type": "bool",
-                                        "default": "false"
+                                        "description": "Select when to show titles.",
+                                        "settingName": "itemgrid.gridTitles",
+                                        "type": "radio",
+                                        "default": "showonhover",
+                                        "options": [
+                                            {
+                                                "title": "Show On Hover",
+                                                "id": "showonhover"
+                                            },
+                                            {
+                                                "title": "Always Show",
+                                                "id": "showalways"
+                                            },
+                                            {
+                                                "title": "Always Hide",
+                                                "id": "hidealways"
+                                            }
+                                        ]
                                     }
                                 ]
                             },
