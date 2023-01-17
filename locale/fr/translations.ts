@@ -5288,5 +5288,72 @@
         <source>Delete Saved</source>
         <translation>Supprimer les valeurs enregistrées</translation>
     </message>
+    <message>
+        <source>Support Direct Play of MPEG-2 content (e.g., Live TV). This will prevent transcoding of MPEG-2 content, but uses significantly more bandwidth.</source>
+        <translation>Permet la lecture directe du codec MPEG-2 (ex. Live TV). Cela empêchera le transcodage du contenu MPEG-2 mais utilisera sensiblement plus de bande passante.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Use the replay button to slowly animate to the first item in the folder. (If disabled, the folder will reset to the first item immediately).</source>
+        <translation>La touche &apos;Replay&apos; utilise une animation douce afin de sélectionner le premier élément du dossier. (Si cette option est désactivée, le premier élément du dossier sera immédiatement sélectionné).</translation>
+        <extracomment>Description for option in Setting Screen</extracomment>
+    </message>
+    <message>
+        <source>Details Page</source>
+        <translation>Page de détails</translation>
+    </message>
+    <message>
+        <source>Codec Support</source>
+        <translation>Support de codec</translation>
+        <extracomment>Settings Menu - Title for settings group related to codec support</extracomment>
+    </message>
+    <message>
+        <source>Return to Top</source>
+        <translation>Retourner en haut</translation>
+        <extracomment>UI -&gt; Media Grid -&gt; Item Title in user setting screen.</extracomment>
+    </message>
+    <message>
+        <source>Cast &amp; Crew</source>
+        <translation>Distribution et équipe</translation>
+    </message>
+    <message>
+        <source>Started</source>
+        <translation>Commencé</translation>
+        <extracomment>(Past Tense) For defining a day and time when a program started (e.g. Started Wednesday, 08:00) </extracomment>
+    </message>
+    <message>
+        <source>Enable or disable Direct Play for optional codecs</source>
+        <translation>Activer ou désactiver la lecture directe pour les codecs optionnels</translation>
+        <extracomment>Settings Menu - Title for settings group related to codec support</extracomment>
+    </message>
+    <message>
+        <source>Support Direct Play of MPEG-4 content. This may need to be disabled for playback of DIVX encoded video files.</source>
+        <translation>Permet la lecture directe du codec MPEG-4. Il sera peut-être nécessaire de désactiver cette option pour lire les fichiers vidéo DIVX.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>** EXPERIMENTAL** Support Direct Play of AV1 content if this Roku device supports it.</source>
+        <translation>**EXPÉRIMENTAL** Permet la lecture directe du codec AV1 si l&apos;appareil Roku le prend en charge.</translation>
+        <extracomment>Description of a setting - should we try to direct play experimental av1 codec</extracomment>
+    </message>
+    <message>
+        <source>Hides tagline text on details pages.</source>
+        <translation>Cela cache les étiquettes sur les pages de détails.</translation>
+    </message>
+    <message>
+        <source>Hide Taglines</source>
+        <translation>Cacher les étiquettes</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
+    <message>
+        <source>Options for Details pages.</source>
+        <translation>Options pour les pages de détails.</translation>
+        <extracomment>Description for Details page user settings.</extracomment>
+    </message>
+    <message>
+        <comment>Title of Tab for switching &quot;views&quot; when looking at a library</comment>
+        <source>TAB_VIEW</source>
+        <translation>Vue</translation>
+    </message>
 </context>
 </TS>
