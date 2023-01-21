@@ -2970,5 +2970,9 @@
         <source>Disable Community Rating for Episodes</source>
         <translation>Disable Community Rating for Episodes</translation>
     </message>
+    <message>
+        <source>View All</source>
+        <translation>View All</translation>
+    </message>
 </context>
 </TS>
