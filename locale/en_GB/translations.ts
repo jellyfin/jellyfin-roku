@@ -2966,5 +2966,9 @@
         <translation>H.264</translation>
         <extracomment>Name of codec used in settings menu</extracomment>
     </message>
+    <message>
+        <source>Disable Community Rating for Episodes</source>
+        <translation>Disable Community Rating for Episodes</translation>
+    </message>
 </context>
 </TS>
