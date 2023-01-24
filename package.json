@@ -6,7 +6,7 @@
   "devDependencies": {
     "@rokucommunity/bslint": "0.8.1",
     "brighterscript": "0.61.3",
-    "ropm": "0.10.10"
+    "ropm": "0.10.11"
   },
   "scripts": {
     "postinstall": "npx ropm copy",
