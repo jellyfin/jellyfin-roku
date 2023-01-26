@@ -65,7 +65,7 @@
                 "default": "false"
             },
             {
-                "title": "Turn off bitrate limiting",
+                "title": "Bitrate Limiting",
                 "description": "This will ignore Roku's official max bitrate specifications and attempt to stream without enforcing a max bitrate.",
                 "settingName": "playback.bitrate.unlimited",
                 "type": "bool",
