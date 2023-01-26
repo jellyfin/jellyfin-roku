@@ -61,10 +61,13 @@ sub onLibrariesLoaded()
     m.LoadLibrariesTask.content = []
     ' create My Media, Continue Watching, and Next Up rows
     content = CreateObject("roSGNode", "ContentNode")
+
     mediaRow = content.CreateChild("HomeRow")
     mediaRow.title = tr("My Media")
+
     continueRow = content.CreateChild("HomeRow")
     continueRow.title = tr("Continue Watching")
+
     nextUpRow = content.CreateChild("HomeRow")
     nextUpRow.title = tr("Next Up >")
 
@@ -234,9 +237,6 @@ sub updateContinueItems()
             homeRows.replaceChild(row, continueRowIndex)
         end if
     end if
-
-    m.LoadNextUpTask.observeField("content", "updateNextUpItems")
-    m.LoadNextUpTask.control = "RUN"
 end sub
 
 sub updateNextUpItems()
@@ -288,6 +288,7 @@ sub updateNextUpItems()
         m.top.signalBeacon("AppLaunchComplete") ' Roku Performance monitoring
         m.global.app_loaded = true
     end if
+    
 end sub
 
 sub updateLatestItems(msg)
