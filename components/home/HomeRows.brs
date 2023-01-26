@@ -288,7 +288,7 @@ sub updateNextUpItems()
         m.top.signalBeacon("AppLaunchComplete") ' Roku Performance monitoring
         m.global.app_loaded = true
     end if
-    
+
 end sub
 
 sub updateLatestItems(msg)
