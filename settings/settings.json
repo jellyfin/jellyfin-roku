@@ -67,7 +67,7 @@
             {
                 "title": "Bitrate Limiting",
                 "description": "Enable or disable limiting video bitrates based on Roku's specifications.",
-                "settingName": "playback.bitrate.unlimited",
+                "settingName": "playback.bitrate.maxlimited",
                 "type": "bool",
                 "default": "true"
             }
