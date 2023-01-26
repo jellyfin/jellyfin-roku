@@ -361,45 +361,42 @@ end function
 
 function GetBitRateLimit(codec as string)
 
-    ' If the user has requested to not cap their bitrate (regardless of if that works or not)...
-    if get_user_setting("playback.bitrate.unlimited") = "true"
-        return {}
-    end if
-
-    ' Some repeated values (e.g. same "40mbps" for several codecs)
-    ' but this makes it easy to update in the future if the bitrates start to deviate.
-    if codec = "H264"
-        ' Roku only supports h264 up to 10Mpbs
-        return {
-            "Condition": "LessThanEqual",
-            "Property": "VideoBitrate",
-            "Value": "10000000",
-            IsRequired: true
-        }
-    else if codec = "AV1"
-        ' Roku only supports AV1 up to 40Mpbs
-        return {
-            "Condition": "LessThanEqual",
-            "Property": "VideoBitrate",
-            "Value": "40000000",
-            IsRequired: true
-        }
-    else if codec = "H265"
-        ' Roku only supports h265 up to 40Mpbs
-        return {
-            "Condition": "LessThanEqual",
-            "Property": "VideoBitrate",
-            "Value": "40000000",
-            IsRequired: true
-        }
-    else if codec = "VP9"
-        ' Roku only supports VP9 up to 40Mpbs
-        return {
-            "Condition": "LessThanEqual",
-            "Property": "VideoBitrate",
-            "Value": "40000000",
-            IsRequired: true
-        }
+    if get_user_setting("playback.bitrate.maxlimited") = "true"
+        ' Some repeated values (e.g. same "40mbps" for several codecs)
+        ' but this makes it easy to update in the future if the bitrates start to deviate.
+        if codec = "H264"
+            ' Roku only supports h264 up to 10Mpbs
+            return {
+                "Condition": "LessThanEqual",
+                "Property": "VideoBitrate",
+                "Value": "10000000",
+                IsRequired: true
+            }
+        else if codec = "AV1"
+            ' Roku only supports AV1 up to 40Mpbs
+            return {
+                "Condition": "LessThanEqual",
+                "Property": "VideoBitrate",
+                "Value": "40000000",
+                IsRequired: true
+            }
+        else if codec = "H265"
+            ' Roku only supports h265 up to 40Mpbs
+            return {
+                "Condition": "LessThanEqual",
+                "Property": "VideoBitrate",
+                "Value": "40000000",
+                IsRequired: true
+            }
+        else if codec = "VP9"
+            ' Roku only supports VP9 up to 40Mpbs
+            return {
+                "Condition": "LessThanEqual",
+                "Property": "VideoBitrate",
+                "Value": "40000000",
+                IsRequired: true
+            }
+        end if
     end if
 
     return {}
