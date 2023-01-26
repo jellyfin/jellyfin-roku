@@ -1050,12 +1050,12 @@
             <translation>If enabled, the star and community rating for episodes of a TV show will be removed. This is to prevent spoilers of an upcoming good/bad episode.</translation>
         </message>
         <message>
-            <source>Turn off bitrate limiting</source>
-            <translation>Turn off bitrate limiting</translation>
+            <source>Bitrate Limiting</source>
+            <translation>Bitrate Limiting</translation>
         </message>
         <message>
-            <source>This will ignore Roku's official max bitrate specifications and attempt to stream without enforcing a max bitrate.</source>
-            <translation>This will ignore Roku's official max bitrate specifications and attempt to stream without enforcing a max bitrate.</translation>
+            <source>Enable or disable limiting video bitrates based on Roku's specifications.</source>
+            <translation>Enable or disable limiting video bitrates based on Roku's specifications.</translation>
         </message>        
     </context>
 </TS>
