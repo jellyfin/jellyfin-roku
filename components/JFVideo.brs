@@ -27,6 +27,36 @@ sub init()
     m.getNextEpisodeTask = createObject("roSGNode", "GetNextEpisodeTask")
     m.getNextEpisodeTask.observeField("nextEpisodeData", "onNextEpisodeDataLoaded")
 
+    m.top.observeField("state", "onState")
+    m.top.observeField("content", "onContentChange")
+
+    'Captions
+    m.captionBG = m.top.findNode("captionBG")
+    m.captionGroup = m.top.findNode("captionGroup")
+
+    m.captionTask = createObject("roSGNode", "captionTask")
+    m.captionTask.observeField("currentCaption", "updateCaption")
+    m.top.observeField("captionVisible", "toggleCaption")
+    m.top.observeField("currentSubtitleTrack", "loadCaption")
+end sub
+
+sub loadCaption()
+    ' if type (m.top.currentSubtitleTrack) <> invalid then
+    m.captionTask.url = m.top.currentSubtitleTrack
+    ' end if
+end sub
+
+sub toggleCaption()
+    m.captionGroup.visible = m.top.captionVisible
+    m.captionBG.visible = m.top.captionVisible
+end sub
+
+sub updateCaption ()
+    while m.captionGroup.removeChildIndex(0)
+    end while
+    m.captionGroup.appendChildren(m.captionTask.currentCaption)
+    m.captionBG.height = m.captionGroup.BoundingRect().height
+    m.captionBG.width = m.captionGroup.BoundingRect().width
 end sub
 
 ' Event handler for when video content field changes
@@ -91,7 +121,7 @@ end sub
 
 ' When Video Player state changes
 sub onPositionChanged()
-    ' Check if dialog is open
+    m.captionTask.currentPos = Cint(m.top.position * 1000)
     m.dialog = m.top.getScene().findNode("dialogBackground")
     if not isValid(m.dialog)
         checkTimeToDisplayNextEpisode()
