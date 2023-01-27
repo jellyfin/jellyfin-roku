@@ -75,9 +75,9 @@
                 "description": "Settings relating to the appearance of the Home screen and the program in general.",
                 "children": [
                     {
-                        "title": "Use Splashscreen as Home Background",
-                        "description": "Use generated splashscreen image as Jellyfin's screensaver background. Jellyfin will need to be closed and reopened for change to take effect.",
-                        "settingName": "ui.screensaver.splashBackground",
+                        "title": "Hide Clock",
+                        "description": "Hides all clocks in Jellyfin. Jellyfin will need to be closed and reopened for change to take effect.",
+                        "settingName": "ui.design.hideclock",
                         "type": "bool",
                         "default": "false"
                     },
@@ -89,13 +89,6 @@
                         "default": "365"
                     },
                     {
-                        "title": "Use Splashscreen as Home Background",
-                        "description": "Use generated splashscreen image as Jellyfin's home background. Jellyfin will need to be closed and reopened for change to take effect.",
-                        "settingName": "ui.home.splashBackground",
-                        "type": "bool",
-                        "default": "false"
-                    },
-                    {
                         "title": "Show What's New Popup",
                         "description": "Show What's New popup when Jellyfin is updated to a new version.",
                         "settingName": "load.allowwhatsnew",
@@ -103,9 +96,16 @@
                         "default": "true"
                     },
                     {
-                        "title": "Hide Clock",
-                        "description": "Hides all clocks in Jellyfin. Jellyfin will need to be closed and reopened for change to take effect.",
-                        "settingName": "ui.design.hideclock",
+                        "title": "Use Splashscreen as Home Background",
+                        "description": "Use generated splashscreen image as Jellyfin's home background. Jellyfin will need to be closed and reopened for change to take effect.",
+                        "settingName": "ui.home.splashBackground",
+                        "type": "bool",
+                        "default": "false"
+                    },
+                    {
+                        "title": "Use Splashscreen as Screensaver",
+                        "description": "Use generated splashscreen image as Jellyfin's screensaver background. Jellyfin will need to be closed and reopened for change to take effect.",
+                        "settingName": "ui.screensaver.splashBackground",
                         "type": "bool",
                         "default": "false"
                     }
@@ -154,24 +154,41 @@
                                 ]
                             },
                             {
-                                "title": "Presentation View Settings",
-                                "description": "Settings that apply when Presentation views are enabled.",
-                                "children": [
-                                    {
-                                        "title": "Return to Top",
-                                        "description": "Use the replay button to slowly animate to the first item in the folder. (If disabled, the folder will reset to the first item immediately).",
-                                        "settingName": "itemgrid.reset",
-                                        "type": "bool",
-                                        "default": "true"
-                                    }
-                                ]
-                            },
-                            {
                                 "title": "Hide Taglines",
                                 "description": "Hides tagline text on details pages.",
                                 "settingName": "ui.details.hidetagline",
                                 "type": "bool",
                                 "default": "false"
+                            },
+                            {
+                                "title": "Return to Top",
+                                "description": "Use the replay button to slowly animate to the first item in the folder. (If disabled, the folder will reset to the first item immediately).",
+                                "settingName": "itemgrid.reset",
+                                "type": "bool",
+                                "default": "true"
+                            }
+                        ]
+                    },
+                    {
+                        "title": "Movies",
+                        "description": "Settings relating to the appearance of pages in Movie Libraries.",
+                        "children": [
+                            {
+                                "title": "Default View",
+                                "description": "Default view for Movie Libraries.",
+                                "settingName": "itemgrid.movieDefaultView",
+                                "type": "radio",
+                                "default": "movies",
+                                "options": [
+                                    {
+                                        "title": "Movies (Presentation)",
+                                        "id": "Movies"
+                                    },
+                                    {
+                                        "title": "Movies (Grid)",
+                                        "id": "MoviesGrid"
+                                    }
+                                ]
                             }
                         ]
                     },
@@ -199,29 +216,6 @@
                                 "settingName": "ui.tvshows.disableCommunityRating",
                                 "type": "bool",
                                 "default": "false"
-                            }
-                        ]
-                    },
-                    {
-                        "title": "Movies",
-                        "description": "Settings relating to the appearance of pages in Movie Libraries.",
-                        "children": [
-                            {
-                                "title": "Default View",
-                                "description": "Default view for Movie Libraries.",
-                                "settingName": "itemgrid.movieDefaultView",
-                                "type": "radio",
-                                "default": "movies",
-                                "options": [
-                                    {
-                                        "title": "Movies (Presentation)",
-                                        "id": "Movies"
-                                    },
-                                    {
-                                        "title": "Movies (Grid)",
-                                        "id": "MoviesGrid"
-                                    }
-                                ]
                             }
                         ]
                     }
