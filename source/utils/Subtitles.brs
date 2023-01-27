@@ -92,7 +92,6 @@ function setupSubtitle(video, subtitles, subtitle_idx = -1) as integer
     else
         ' If this is a text-based subtitle, set relevant settings for roku captions
         video.captionVisible = True
-
         video.subtitleTrack = video.availableSubtitleTracks[availSubtitleTrackIdx(video, subtitleSelIdx)].TrackName
     end if
 

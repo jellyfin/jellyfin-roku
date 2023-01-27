@@ -10,8 +10,9 @@ sub init()
     m.reader = createObject("roUrlTransfer")
 
     m.font = CreateObject("roSGNode", "Font")
-    m.font.uri = "pkg:/fonts/noto.otf"
+    m.font.uri = "pkg:/components/fonts/noto.otf"
     m.font.size = 50
+    ' m.font = "font:LargeSystemFont"
 end sub
 
 sub fetchCaption()
