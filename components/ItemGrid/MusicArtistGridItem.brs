@@ -57,6 +57,12 @@ end sub
 
 'Display or hide title Visibility on focus change
 sub focusChanged()
+    if m.top.itemHasFocus = true
+        m.posterText.repeatCount = -1
+    else
+        m.posterText.repeatCount = 0
+    end if
+
     if isValid(m.topParent.showItemTitles)
         if LCase(m.topParent.showItemTitles) = "showonhover"
             m.posterText.visible = m.top.itemHasFocus
