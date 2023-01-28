@@ -16,13 +16,23 @@ sub init()
     end if
 
     m.gridTitles = get_user_setting("itemgrid.gridTitles")
-    m.posterText.visible = m.gridTitles = "showalways"
-    m.postTextBackground.visible = m.posterText.visible
+    m.posterText.visible = false
+    m.postTextBackground.visible = false
 
 end sub
 
 sub itemContentChanged()
     m.backdrop.blendColor = "#101010"
+
+    m.posterText.visible = false
+    m.postTextBackground.visible = false
+
+    if isValid(m.topParent.showItemTitles)
+        if LCase(m.topParent.showItemTitles) = "showalways"
+            m.posterText.visible = true
+            m.postTextBackground.visible = true
+        end if
+    end if
 
     itemData = m.top.itemContent
 
@@ -47,9 +57,11 @@ end sub
 
 'Display or hide title Visibility on focus change
 sub focusChanged()
-    if m.gridTitles = "showonhover"
-        m.posterText.visible = m.top.itemHasFocus
-        m.postTextBackground.visible = m.posterText.visible
+    if isValid(m.topParent.showItemTitles)
+        if LCase(m.topParent.showItemTitles) = "showonhover"
+            m.posterText.visible = m.top.itemHasFocus
+            m.postTextBackground.visible = m.posterText.visible
+        end if
     end if
 end sub
 
