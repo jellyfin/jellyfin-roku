@@ -113,7 +113,7 @@
             },
             {
                 "title": "Libraries",
-                "description": "Setting related to the appearance of Library pages.",
+                "description": "Settings relating to the appearance of Library pages.",
                 "children": [
                     {
                         "title": "General",
