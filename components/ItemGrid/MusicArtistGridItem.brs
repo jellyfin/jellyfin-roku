@@ -1,5 +1,6 @@
 sub init()
     m.itemPoster = m.top.findNode("itemPoster")
+    m.postTextBackground = m.top.findNode("postTextBackground")
     m.posterText = m.top.findNode("posterText")
     m.posterText.font.size = 30
     m.backdrop = m.top.findNode("backdrop")
@@ -13,6 +14,10 @@ sub init()
     if m.topParent.imageDisplayMode <> invalid
         m.itemPoster.loadDisplayMode = m.topParent.imageDisplayMode
     end if
+
+    m.gridTitles = get_user_setting("itemgrid.gridTitles")
+    m.posterText.visible = m.gridTitles = "showalways"
+    m.postTextBackground.visible = m.posterText.visible
 
 end sub
 
@@ -37,6 +42,14 @@ sub itemContentChanged()
     'If Poster not loaded, ensure "blue box" is shown until loaded
     if m.itemPoster.loadStatus <> "ready"
         m.backdrop.visible = true
+    end if
+end sub
+
+'Display or hide title Visibility on focus change
+sub focusChanged()
+    if m.gridTitles = "showonhover"
+        m.posterText.visible = m.top.itemHasFocus
+        m.postTextBackground.visible = m.posterText.visible
     end if
 end sub
 
