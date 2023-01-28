@@ -2974,5 +2974,46 @@
         <source>View All</source>
         <translation>View All</translation>
     </message>
+    <message>
+        <source>Select when to show titles.</source>
+        <translation>Select when to show titles.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Show On Hover</source>
+        <translation>Show On Hover</translation>
+    </message>
+    <message>
+        <source>Always Show</source>
+        <translation>Always Show</translation>
+    </message>
+    <message>
+        <source>Always Hide</source>
+        <translation>Always Hide</translation>
+    </message>
+    <message>
+        <source>Album</source>
+        <translation>Album</translation>
+    </message>
+    <message>
+        <source>Artists (Grid)</source>
+        <translation>Artists (Grid)</translation>
+    </message>
+    <message>
+        <source>Song</source>
+        <translation>Song</translation>
+    </message>
+    <message>
+        <source>Artists (Presentation)</source>
+        <translation>Artists (Presentation)</translation>
+    </message>
+    <message>
+        <source>Songs</source>
+        <translation>Songs</translation>
+    </message>
+    <message>
+        <source>Albums</source>
+        <translation>Albums</translation>
+    </message>
 </context>
 </TS>
