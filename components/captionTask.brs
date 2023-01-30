@@ -18,7 +18,7 @@ end sub
 sub fetchCaption()
     re = CreateObject("roRegex", "(http.*?\.vtt)", "s")
     url = re.match(m.top.url)[0]
-    if url <> invalid then
+    if url <> invalid
         m.reader.setUrl(url)
         text = m.reader.GetToString()
         m.captionList = parseVTT(text)
@@ -30,11 +30,11 @@ end sub
 
 sub updateCaption ()
     ' Stop updating captions if the video isn't playing
-    if m.top.playerState = "playing" then
+    if m.top.playerState = "playing"
         m.top.currentPos = m.top.currentPos + 100
         tmp = []
         for each entry in m.captionList
-            if entry["start"] <= m.top.currentPos and m.top.currentPos <= entry["end"] then
+            if entry["start"] <= m.top.currentPos and m.top.currentPos <= entry["end"]
                 label = CreateObject("roSGNode", "Label")
                 label.text = entry["text"]
                 label.font = m.font
