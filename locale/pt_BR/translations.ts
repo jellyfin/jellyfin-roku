@@ -2643,5 +2643,31 @@ não contém itens</translation>
         <source>OFFICIAL_RATING</source>
         <translation>Classificação Etária</translation>
     </message>
+    <message>
+        <source>Sign Out</source>
+        <translation>Sair</translation>
+    </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>Salvar Credenciais?</translation>
+    </message>
+    <message>
+        <source>Delete Saved</source>
+        <translation>Deletar Salvos</translation>
+    </message>
+    <message>
+        <source>Error During Playback</source>
+        <translation>Erro Durante a Reprodução</translation>
+        <extracomment>Dialog title when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>Change Server</source>
+        <translation>Mudar Servidor</translation>
+    </message>
+    <message>
+        <source>Error Retrieving Content</source>
+        <translation>Erro ao Carregar Conteúdo</translation>
+        <extracomment>Dialog title when unable to load Content from Server</extracomment>
+    </message>
 </context>
 </TS>
