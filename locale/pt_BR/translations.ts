@@ -2669,5 +2669,27 @@ não contém itens</translation>
         <translation>Erro ao Carregar Conteúdo</translation>
         <extracomment>Dialog title when unable to load Content from Server</extracomment>
     </message>
+    <message>
+        <source>Loading Channel Data</source>
+        <translation>Carregando Dados do Canal</translation>
+    </message>
+    <message>
+        <source>An error was encountered while playing this item.</source>
+        <translation>Foi encontrado um erro na reprodução deste item.</translation>
+        <extracomment>Dialog detail when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>On Now</source>
+        <translation>Em Exibição</translation>
+    </message>
+    <message>
+        <source>There was an error retrieving the data for this item from the server.</source>
+        <translation>Houve um erro ao recuperar os dados deste item do servidor.</translation>
+        <extracomment>Dialog detail when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <source>Error loading Channel Data</source>
+        <translation>Erro ao carregar os Dados do Canal</translation>
+    </message>
 </context>
 </TS>
