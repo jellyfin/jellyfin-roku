@@ -1,4 +1,5 @@
 sub init()
+    print "MAKING THE USER SETTINGS I THINK"
 
     m.top.overhangTitle = tr("Settings")
     m.top.optionsAvailable = false
@@ -185,6 +186,10 @@ function onKeyEvent(key as string, press as boolean) as boolean
     else if (key = "back" or key = "left") and m.radioSetting.hasFocus()
         m.settingsMenu.setFocus(true)
         return true
+    end if
+
+    if key = "options"
+        m.global.sceneManager.callFunc("popScene")
     end if
 
     if key = "right"
