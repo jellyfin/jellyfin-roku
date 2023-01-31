@@ -22,6 +22,12 @@ sub showContent()
 end sub
 
 sub focusChanged()
+    if m.top.itemHasFocus = true
+        m.name.repeatCount = -1
+    else
+        m.name.repeatCount = 0
+    end if
+
     if m.deviceInfo.IsAudioGuideEnabled() = true
         txt2Speech = CreateObject("roTextToSpeech")
         txt2Speech.Flush()
