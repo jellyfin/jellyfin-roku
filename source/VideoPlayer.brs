@@ -442,7 +442,6 @@ function getAudioInfo(meta as object) as object
 end function
 
 sub autoPlayNextEpisode(videoID as string, showID as string)
-    print "THIS CODE IS RUNNING NOW"
     ' use web client setting
     if m.user.Configuration.EnableNextEpisodeAutoPlay
         ' query API for next episode ID
