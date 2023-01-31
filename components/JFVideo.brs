@@ -114,9 +114,7 @@ sub onState(msg)
             ' If an error was encountered, Display dialog
             dialog = createObject("roSGNode", "Dialog")
             dialog.title = tr("Error During Playback")
-            dialog.buttons = [tr("OK")]
             dialog.message = tr("An error was encountered while playing this item.")
-            dialog.observeField("buttonSelected", "dialogClosed")
             m.top.getScene().dialog = dialog
         end if
 
@@ -199,9 +197,7 @@ sub bufferCheck(msg)
             ' If buffering has stopped Display dialog
             dialog = createObject("roSGNode", "Dialog")
             dialog.title = tr("Error Retrieving Content")
-            dialog.buttons = [tr("OK")]
             dialog.message = tr("There was an error retrieving the data for this item from the server.")
-            dialog.observeField("buttonSelected", "dialogClosed")
             m.top.getScene().dialog = dialog
 
             ' Stop playback and exit player
@@ -210,14 +206,6 @@ sub bufferCheck(msg)
         end if
     end if
 
-end sub
-
-'
-' Clean up on Dialog Closed
-sub dialogClosed(msg)
-    sourceNode = msg.getRoSGNode()
-    sourceNode.unobserveField("buttonSelected")
-    sourceNode.close = true
 end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean
