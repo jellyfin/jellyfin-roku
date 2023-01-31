@@ -31,9 +31,10 @@ sub init()
     m.top.observeField("content", "onContentChange")
 
     'Captions
-    m.captionBG = m.top.findNode("captionBG")
     m.captionGroup = m.top.findNode("captionGroup")
-
+    for i = 1 to 9
+        m.captionGroup.appendChild(createObject("roSGNode", "LayoutGroup"))
+    end for
     m.captionTask = createObject("roSGNode", "captionTask")
     m.captionTask.observeField("currentCaption", "updateCaption")
     m.top.observeField("captionVisible", "toggleCaption")
@@ -41,22 +42,15 @@ sub init()
 end sub
 
 sub loadCaption()
-    ' if type (m.top.currentSubtitleTrack) <> invalid then
     m.captionTask.url = m.top.currentSubtitleTrack
-    ' end if
 end sub
 
 sub toggleCaption()
     m.captionGroup.visible = m.top.captionVisible
-    m.captionBG.visible = m.top.captionVisible
 end sub
 
 sub updateCaption ()
-    while m.captionGroup.removeChildIndex(0)
-    end while
-    m.captionGroup.appendChildren(m.captionTask.currentCaption)
-    m.captionBG.height = m.captionGroup.BoundingRect().height
-    m.captionBG.width = m.captionGroup.BoundingRect().width
+    m.captionGroup.replaceChildren(m.captionTask.currentCaption, 0)
 end sub
 
 ' Event handler for when video content field changes

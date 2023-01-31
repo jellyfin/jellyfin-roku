@@ -32,11 +32,7 @@
   <script type="text/brightscript" uri="pkg:/source/roku_modules/api/api.brs" />
 
   <children>
-
-    <LayoutGroup horizAlignment="center" vertAlignment="center" translation="[960,980]">
-      <Rectangle id="captionBG" color="#323232BF" height="0" width="0" />
-    </LayoutGroup>
-    <LayoutGroup id="captionGroup" horizAlignment="center" vertAlignment="center" translation="[960,980]"></LayoutGroup>
+    <Group id="captionGroup" translation="[960,1020]"></Group>
 
     <timer id="playbackTimer" repeat="true" duration="30" />
     <timer id="bufferCheckTimer" repeat="true" />
