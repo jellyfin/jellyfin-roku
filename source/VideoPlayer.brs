@@ -46,7 +46,11 @@ sub AddVideoContent(video, mediaSourceId, audio_stream_idx = 1, subtitle_idx = -
     end if
 
     if m.videotype = "Episode" or m.videotype = "Series"
-        video.runTime = (meta.json.RunTimeTicks / 10000000.0)
+        if isValid(meta.json.RunTimeTicks)
+            video.runTime = (meta.json.RunTimeTicks / 10000000.0)
+        else
+            video.runTime = invalid
+        end if
         video.content.contenttype = "episode"
     end if
 
@@ -438,6 +442,7 @@ function getAudioInfo(meta as object) as object
 end function
 
 sub autoPlayNextEpisode(videoID as string, showID as string)
+    print "THIS CODE IS RUNNING NOW"
     ' use web client setting
     if m.user.Configuration.EnableNextEpisodeAutoPlay
         ' query API for next episode ID
