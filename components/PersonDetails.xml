@@ -6,24 +6,33 @@
     <field id="selectedItem" type="node" alias="extrasGrid.selectedItem" alwaysNotify="true" />
   </interface>
   <children>
-    <LayoutGroup id="main_group" layoutdirection="vert" translation="[60, 180]" itemSpacings="[36]">
-      <LayoutGroup id="BannerGroup" layoutDirection="horiz" itemSpacings="[36]">
-        <LayoutGroup id="TitleGroup" layoutDirection="vert">
-          <Label id="name" font="font:LargeBoldSystemFont" height="60" width="1300" />
-          <label id="premierDate" font="font:SmallestBoldSystemFont" height="48" vertAlign="top" />
+    <LayoutGroup id="main_group"
+        layoutdirection="vert" translation="[60, 180]" itemSpacings="[36]">
+        <LayoutGroup id="header_group" layoutdirection="horiz">
+          <LayoutGroup id="title_group" layoutdirection="vert" itemSpacings="[11]">
+            <Label id="name" font="font:LargeBoldSystemFont" height="45" width="1386" />
+            <label id="premierDate" font="font:SmallestBoldSystemFont" height="48" vertAlign="top" />
+          </LayoutGroup>
+          <ButtonGroupHoriz id="buttons" >
+            <Button id="favorite-button" text="Favorite"
+                iconUri="" focusedIconUri="" />
+          </ButtonGroupHoriz>
         </LayoutGroup>
-        <ButtonGroupHoriz id="buttons" >
-          <Button id="favorite-button" text="Favorite" iconUri="" focusedIconUri="" />
-        </ButtonGroupHoriz>
-      </LayoutGroup>
-      <LayoutGroup id="personInfoGroup" layoutDirection="horiz" itemSpacings="[36]">
-        <Poster id="personImage" width="400" height="600" />
+      <LayoutGroup id="personInfoGroup"
+          layoutDirection="horiz" itemSpacings="[36]">
+        <Poster id="personImage"
+            width="400" height="600" />
         <LayoutGroup id="vertSpacer" layoutDirection="vert" itemSpacings="[24]">
-          <LayoutGroup id="dataGroup>" layoutDirection="vert" translation="[450,180]">
-            <Rectangle id="dscrBorder" height="600" width="1322" color="0x202020ff">
-              <Rectangle id='dscrRect' translation="[3, 3]" height="594" width="1316" color="0x202020ff">
+          <LayoutGroup id="dataGroup>" layoutDirection="vert"
+                translation="[450,180]">
+            <Rectangle id="dscrBorder"
+                height="600" width="1322"
+                color="0x202020ff">
+              <Rectangle id='dscrRect' translation="[3, 3]"
+                  height="594" width="1316"
+                  color="0x202020ff">
               <Label id="description"
-                  height="600" width="1280" wrap="true" translation="[18, 15]" opacity="0.6"
+                  height="582" width="1280" wrap="true" translation="[18, 15]"
                   font="font:SmallestSystemFont" color="#e4e4e4ff" ellipsisText=" ...  (-OK- for More)" />
               </Rectangle>
             </Rectangle>
