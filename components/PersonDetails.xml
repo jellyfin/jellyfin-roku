@@ -12,7 +12,9 @@
           <Label id="name" font="font:LargeBoldSystemFont" height="60" width="1300" />
           <label id="premierDate" font="font:SmallestBoldSystemFont" height="48" vertAlign="top" />
         </LayoutGroup>
-        <Button id="favorite-button" text="Favorite" iconUri="" focusedIconUri="" />
+        <ButtonGroupHoriz id="buttons" >
+          <Button id="favorite-button" text="Favorite" iconUri="" focusedIconUri="" />
+        </ButtonGroupHoriz>
       </LayoutGroup>
       <LayoutGroup id="personInfoGroup" layoutDirection="horiz" itemSpacings="[36]">
         <Poster id="personImage" width="400" height="600" />
