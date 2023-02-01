@@ -53,6 +53,7 @@ sub itemContentChanged()
     if m.itemPoster.loadStatus <> "ready"
         m.backdrop.visible = true
     end if
+    if m.top.itemHasFocus then focusChanged()
 end sub
 
 'Display or hide title Visibility on focus change
