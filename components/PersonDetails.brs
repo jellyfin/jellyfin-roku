@@ -136,7 +136,7 @@ end sub
 sub createFullDscrDlg()
     dlg = CreateObject("roSGNode", "OverviewDialog")
     dlg.Title = m.top.itemContent.json.Name
-    dlg.width = 1400
+    dlg.width = 1290
     dlg.palette = m.dlgPalette
     dlg.overview = [m.dscr.text]
     m.fullDscrDlg = dlg
