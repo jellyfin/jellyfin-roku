@@ -1,5 +1,4 @@
 sub init()
-    print "MAKING THE USER SETTINGS I THINK"
 
     m.top.overhangTitle = tr("Settings")
     m.top.optionsAvailable = false
