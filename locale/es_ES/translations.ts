@@ -2652,5 +2652,43 @@
         <source>Disabled</source>
         <translation>Desactivado</translation>
     </message>
+    <message>
+        <source>Shows</source>
+        <translation>espectáculos</translation>
+    </message>
+    <message>
+        <source>Quick Connect</source>
+        <translation>Conexión rápida</translation>
+    </message>
+    <message>
+        <source>(Dialog will close automatically)</source>
+        <translation>(El diálogo se cerrará automáticamente)</translation>
+    </message>
+    <message>
+        <source>Return to Top</source>
+        <translation>Vuelva a la parte superior</translation>
+        <extracomment>UI -&gt; Media Grid -&gt; Item Title in user setting screen.</extracomment>
+    </message>
+    <message>
+        <source>You can search for Titles, People, Live TV Channels and more</source>
+        <translation>Puede buscar títulos, personas, canales de TV en vivo y más</translation>
+        <extracomment>Help text in search results</extracomment>
+    </message>
+    <message>
+        <source>Here is your Quick Connect code:</source>
+        <translation>Aquí está su código de conexión rápida:</translation>
+    </message>
+    <message>
+        <source>There was an error authenticating via Quick Connect.</source>
+        <translation>Hubo un error al autenticarse a través de Quick Connect.</translation>
+    </message>
+    <message>
+        <source>Networks</source>
+        <translation>Redes</translation>
+    </message>
+    <message>
+        <source>Studios</source>
+        <translation>Estudios</translation>
+    </message>
 </context>
 </TS>
