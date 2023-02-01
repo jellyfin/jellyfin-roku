@@ -2,10 +2,6 @@
 <!-- A Failure Dialog is a regular dialog, except it takes key releases -->
 <!-- instead of presses so we don't unintentionally trigger playback -->
 <component name="FailureDialog" extends="Dialog">
-  <interface>
-      <field id="Title" type="string" onchange="setTitle" />
-      <field id="Overview" type="string" onChange="setOverview" />
-  </interface>
   <script type="text/brightscript">
   <![CDATA[
   function onKeyEvent(key as string, press as boolean) as boolean
