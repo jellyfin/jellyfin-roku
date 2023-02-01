@@ -138,9 +138,16 @@ sub createFullDscrDlg()
     dlg.Title = m.top.itemContent.json.Name
     dlg.width = 1290
     dlg.palette = m.dlgPalette
-    dlg.overview = [m.dscr.text]
+    dlg.overview = m.dscr.text
     m.fullDscrDlg = dlg
     m.top.getScene().dialog = dlg
+    border = createObject("roSGNode", "Poster")
+    border.uri = "pkg:/images/hd_focul_9.png"
+    border.blendColor = "#c9c9c9ff"
+    border.width = dlg.width + 6
+    border.height = dlg.height + 6
+    border.translation = [dlg.translation[0] - 3, dlg.translation[1] - 3]
+    border.visible = true
 
 end sub
 
