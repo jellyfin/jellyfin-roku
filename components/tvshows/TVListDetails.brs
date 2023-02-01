@@ -8,6 +8,11 @@ sub init()
 
     m.rating = m.top.findnode("rating")
     m.infoBar = m.top.findnode("infoBar")
+    m.progressBackground = m.top.findNode("progressBackground")
+    m.progressBar = m.top.findnode("progressBar")
+    m.playedIndicator = m.top.findNode("playedIndicator")
+    m.checkmark = m.top.findNode("checkmark")
+    m.checkmark.font.size = 35
 end sub
 
 sub itemContentChanged()
@@ -52,11 +57,30 @@ sub itemContentChanged()
         end if
     end if
 
-    if isValid(itemData.communityRating)
-        m.top.findNode("star").visible = true
-        m.top.findNode("communityRating").text = str(int(itemData.communityRating * 10) / 10)
+    if get_user_setting("ui.tvshows.disableCommunityRating") = "false"
+        if isValid(itemData.communityRating)
+            m.top.findNode("star").visible = true
+            m.top.findNode("communityRating").text = str(int(itemData.communityRating * 10) / 10)
+        else
+            m.top.findNode("star").visible = false
+        end if
     else
-        m.top.findNode("star").visible = false
+        m.rating.visible = false
+        m.infoBar.itemSpacings = [20, -25, 20, 20]
+    end if
+
+    ' Add checkmark in corner (if applicable)
+    if isValid(itemData?.UserData?.Played) and itemData.UserData.Played = true
+        m.playedIndicator.visible = true
+    end if
+
+    ' Add progress bar on bottom (if applicable)
+    if isValid(itemData?.UserData?.PlayedPercentage) and itemData?.UserData?.PlayedPercentage > 0
+        m.progressBackground.width = m.poster.width
+        m.progressBackground.visible = true
+        progressWidthInPixels = int(m.progressBackground.width * itemData.UserData.PlayedPercentage / 100)
+        m.progressBar.width = progressWidthInPixels
+        m.progressBar.visible = true
     end if
 
     videoIdx = invalid
