@@ -2,7 +2,6 @@ sub init()
     m.dscr = m.top.findNode("description")
     m.vidsList = m.top.findNode("extrasGrid")
     m.btnGrp = m.top.findNode("buttons")
-    m.btnGrp.observeField("escape", "onButtonGroupEscaped")
     m.favBtn = m.top.findNode("favorite-button")
     m.extrasGrp = m.top.findNode("extrasGrp")
     m.top.findNode("VertSlider").keyValue = "[[30, 998], [30, 789], [30, 580], [30,371 ], [30, 162]]"
@@ -67,17 +66,6 @@ sub dscrShowFocus()
     end if
 end sub
 
-sub onButtonGroupEscaped()
-    key = m.btnGrp.escape
-    if key = "down"
-        m.vidsList.setFocus(true)
-        m.top.findNode("VertSlider").reverse = false
-        m.top.findNode("pplAnime").control = "start"
-    else if key = "up" and m.dscr.isTextEllipsized
-        dscrShowFocus()
-    end if
-end sub
-
 function onKeyEvent(key as string, press as boolean) as boolean
     if not press then return false
 
@@ -95,17 +83,31 @@ function onKeyEvent(key as string, press as boolean) as boolean
     end if
 
     if key = "down"
+        if m.favBtn.hasFocus()
+            m.dscr.setFocus(true)
+            m.dscr.opacity = 1.0
+            m.top.findNode("dscrBorder").color = "#d0d0d0ff"
+            return true
+        else if m.dscr.hasFocus()
+            m.dscr.opacity = 0.6
+            m.top.findNode("dscrBorder").color = "#data202020ff"
+            m.vidsList.setFocus(true)
+            m.top.findNode("VertSlider").reverse = false
+            m.top.findNode("pplAnime").control = "start"
+            return true
+        end if
+    else if key = "up"
         if m.dscr.hasFocus()
             m.favBtn.setFocus(true)
             m.dscr.opacity = 0.6
             m.top.findNode("dscrBorder").color = "#data202020ff"
             return true
-        end if
-    else if key = "up"
-        if m.vidsList.isInFocusChain() and m.vidsList.itemFocused = 0
+        else if m.vidsList.isInFocusChain() and m.vidsList.itemFocused = 0
             m.top.findNode("VertSlider").reverse = true
             m.top.findNode("pplAnime").control = "start"
-            m.favBtn.setFocus(true)
+            m.dscr.setFocus(true)
+            m.dscr.opacity = 1.0
+            m.top.findNode("dscrBorder").color = "#d0d0d0ff"
             return true
         end if
     end if
