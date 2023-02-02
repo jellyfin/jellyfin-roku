@@ -189,6 +189,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
     if key = "options"
         m.global.sceneManager.callFunc("popScene")
+        return true
     end if
 
     if key = "right"
