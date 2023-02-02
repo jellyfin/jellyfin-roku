@@ -32,25 +32,33 @@ sub init()
 
     'Captions
     m.captionGroup = m.top.findNode("captionGroup")
-    for i = 1 to 9
-        m.captionGroup.appendChild(createObject("roSGNode", "LayoutGroup"))
-    end for
+    m.captionGroup.createchildren(9, "LayoutGroup")
     m.captionTask = createObject("roSGNode", "captionTask")
     m.captionTask.observeField("currentCaption", "updateCaption")
-    m.top.observeField("captionVisible", "toggleCaption")
     m.top.observeField("currentSubtitleTrack", "loadCaption")
+    m.top.observeField("globalCaptionMode", "toggleCaption")
+    m.top.suppressCaptions = True
+    toggleCaption()
 end sub
+
 
 sub loadCaption()
     m.captionTask.url = m.top.currentSubtitleTrack
 end sub
 
 sub toggleCaption()
-    m.captionGroup.visible = m.top.captionVisible
+    m.captionTask.playerState = m.top.state + m.top.globalCaptionMode
+    if m.top.globalCaptionMode = "On"
+        m.captionTask.playerState = m.captionTask.playerState + "Wait"
+        m.captionGroup.visible = true
+    else
+        m.captionGroup.visible = false
+    end if
 end sub
 
 sub updateCaption ()
-    m.captionGroup.replaceChildren(m.captionTask.currentCaption, 0)
+    m.captionGroup.removeChildrenindex(9, 0)
+    m.captionGroup.appendChildren(m.captionTask.currentCaption)
 end sub
 
 ' Event handler for when video content field changes
@@ -125,7 +133,7 @@ end sub
 '
 ' When Video Player state changes
 sub onState(msg)
-    m.captionTask.playerState = m.top.state
+    m.captionTask.playerState = m.top.state + m.top.globalCaptionMode
     ' When buffering, start timer to monitor buffering process
     if m.top.state = "buffering" and m.bufferCheckTimer <> invalid
 
@@ -149,7 +157,6 @@ sub onState(msg)
         m.top.control = "stop"
         m.top.backPressed = true
     else if m.top.state = "playing"
-
         ' Check if next episde is available
         if isValid(m.top.showID)
             if m.top.showID <> "" and not m.checkedForNextEpisode and m.top.content.contenttype = 4

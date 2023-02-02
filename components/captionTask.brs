@@ -1,6 +1,6 @@
 sub init()
     m.top.observeField("url", "fetchCaption")
-    m.top.currentCaption = CreateObject("roArray", 9, true)
+    m.top.currentCaption = []
     m.top.currentPos = 0
 
     m.captionTimer = m.top.findNode("captionTimer")
@@ -29,16 +29,13 @@ sub fetchFont()
             m.font = "font:LargeBoldSystemFont"
         end if
     else
-        ?"font exists"
         m.font.uri = fontlist[0]
-        ?m.font.uri
         m.font.size = 60
     end if
 end sub
 
-
-
 sub fetchCaption()
+    m.captionTimer.control = "stop"
     re = CreateObject("roRegex", "(http.*?\.vtt)", "s")
     url = re.match(m.top.url)[0]
     if url <> invalid
@@ -77,8 +74,8 @@ end function
 
 
 sub updateCaption ()
-    ' Stop updating captions if the video isn't playing
-    if m.top.playerState = "playing"
+    m.top.currentCaption = []
+    if m.top.playerState = "playingOn"
         m.top.currentPos = m.top.currentPos + 100
         texts = []
         for each entry in m.captionList
@@ -102,6 +99,10 @@ sub updateCaption ()
             lglist[8].getchild(q).color = &HFFFFFFFF
         end for
         m.top.currentCaption = lglist
+    else if m.top.playerState = "playingOnWait"
+        m.top.playerState = "playingOn"
+    else
+        m.top.currentCaption = []
     end if
 end sub
 
