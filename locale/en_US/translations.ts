@@ -558,16 +558,6 @@
             <translation>Media Grid options.</translation>
         </message>
         <message>
-            <source>Item Titles</source>
-            <translation>Item Titles</translation>
-            <extracomment>UI -&gt; Media Grid -&gt; Item Title in user setting screen.</extracomment>
-        </message>
-        <message>
-            <source>Always show the titles below the poster images. (If disabled, the title will be shown under the highlighted item only).</source>
-            <translation>Always show the titles below the poster images. (If disabled, the title will be shown under the highlighted item only).</translation>
-            <extracomment>Description for option in Setting Screen</extracomment>
-        </message>
-        <message>
             <source>Item Count</source>
             <translation>Item Count</translation>
             <extracomment>UI -&gt; Media Grid -&gt; Item Count in user setting screen.</extracomment>
@@ -661,15 +651,6 @@
             <extracomment>Description for option in Setting Screen</extracomment>
         </message>
         <message>
-            <source>Details Page</source>
-            <translation>Details Page</translation>
-        </message>
-        <message>
-            <source>Options for Details pages.</source>
-            <translation>Options for Details pages.</translation>
-            <extracomment>Description for Details page user settings.</extracomment>
-        </message>
-        <message>
             <source>Hide Taglines</source>
             <translation>Hide Taglines</translation>
             <extracomment>Option Title in user setting screen</extracomment>
@@ -712,8 +693,8 @@
             <extracomment>Description for Screensaver user settings.</extracomment>
         </message>
         <message>
-            <source>Use Splashscreen as Screensaver Background</source>
-            <translation>Use Splashscreen as Screensaver Background</translation>
+            <source>Use Splashscreen as Screensaver</source>
+            <translation>Use Splashscreen as Screensaver</translation>
             <extracomment>Option Title in user setting screen</extracomment>
         </message>
         <message>
@@ -794,15 +775,6 @@
         <message>
             <source>Settings relating to how the application looks.</source>
             <translation>Settings relating to how the application looks.</translation>
-        </message>
-        <message>
-            <source>Home Page</source>
-            <translation>Home Page</translation>
-        </message>
-        <message>
-            <source>Options for Home Page.</source>
-            <translation>Options for Home Page.</translation>
-            <extracomment>Description for Home Page user settings.</extracomment>
         </message>
         <message>
             <source>Max Days Next Up</source>
@@ -992,9 +964,9 @@
             <translation>Movies (Grid)</translation>
         </message>
         <message>
-            <source>Movie Library Grid Titles</source>
-            <translation>Movie Library Grid Titles</translation>
-            <extracomment>Settings Menu - Title for option</extracomment>
+            <source>Item Titles</source>
+            <translation>Item Titles</translation>
+            <extracomment>Title of a setting - when should we show the title text of a grid item</extracomment>
         </message>
         <message>
             <source>Select when to show titles.</source>
@@ -1060,6 +1032,46 @@
         <message>
             <source>Loading Movie Options</source>
             <translation>Loading Movie Options</translation>
+            <source>Libraries</source>
+            <translation>Libraries</translation>
+        </message>
+        <message>
+            <source>Settings relating to the appearance of Library pages</source>
+            <translation>Settings relating to the appearance of Library pages</translation>
+        </message>
+        <message>
+            <source>General</source>
+            <translation>General</translation>
+        </message>
+        <message>
+            <source>Settings relating to the appearance of the Home screen and the program in general.</source>
+            <translation>Settings relating to the appearance of the Home screen and the program in general.</translation>
+        </message>
+        <message>
+            <source>Grid View Settings</source>
+            <translation>Grid View Settings</translation>
+        </message>
+        <message>
+            <source>Settings that apply when Grid views are enabled.</source>
+            <translation>Settings that apply when Grid views are enabled.</translation>
+        </message>
+        <message>
+            <source>Settings relating to the appearance of pages in TV Libraries.</source>
+            <translation>Settings relating to the appearance of pages in TV Libraries.</translation>
+        </message>
+        <message>
+            <source>Settings relating to the appearance of pages in Movie Libraries.</source>
+            <translation>Settings relating to the appearance of pages in Movie Libraries.</translation>
+        </message>
+        <message>
+            <source>Presentation</source>
+            <translation>Presentation</translation>
+            <extracomment>Title of an option - name of presentation view</extracomment>
+        </message>
+        <message>
+            <source>Grid</source>
+            <translation>Grid</translation>
+            <extracomment>Title of an option - name of grid view</extracomment>
         </message>
     </context>
 </TS>
