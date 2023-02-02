@@ -30,6 +30,7 @@ sub loadItems()
         params["ParentId"] = m.top.itemId
         params["EnableImageTypes"] = "Primary,Backdrop,Thumb"
         params["ImageTypeLimit"] = 1
+        params["EnableTotalRecordCount"] = false
 
         resp = APIRequest(url, params)
         data = getJson(resp)
@@ -53,6 +54,10 @@ sub loadItems()
         params["SortOrder"] = "Descending"
         params["ImageTypeLimit"] = 1
         params["UserId"] = get_setting("active_user")
+        params["EnableRewatching"] = false
+        params["DisableFirstEpisode"] = false
+        params["limit"] = 24
+        params["EnableTotalRecordCount"] = false
 
         maxDaysInNextUp = get_user_setting("ui.details.maxdaysnextup", "365")
         if isValid(maxDaysInNextUp)
@@ -64,9 +69,6 @@ sub loadItems()
                 dateCutoff.FromSeconds(dateToday.AsSeconds() - (maxDaysInNextUp * 86400))
 
                 params["NextUpDateCutoff"] = dateCutoff.ToISOString()
-                params["EnableRewatching"] = false
-                params["DisableFirstEpisode"] = false
-                params["limit"] = 24
             end if
         end if
 
@@ -88,6 +90,29 @@ sub loadItems()
         params["SortBy"] = "DatePlayed"
         params["SortOrder"] = "Descending"
         params["Filters"] = "IsResumable"
+        params["EnableTotalRecordCount"] = false
+
+        resp = APIRequest(url, params)
+        data = getJson(resp)
+        for each item in data.Items
+            ' Skip Books for now as we don't support it (issue #558)
+            if item.Type <> "Book"
+                tmp = CreateObject("roSGNode", "HomeData")
+                tmp.json = item
+                results.push(tmp)
+            end if
+        end for
+
+    else if m.top.itemsToLoad = "favorites"
+
+        url = Substitute("Users/{0}/Items", get_setting("active_user"))
+
+        params = {}
+        params["Filters"] = "IsFavorite"
+        params["Limit"] = 20
+        params["recursive"] = true
+        params["sortby"] = "random"
+        params["EnableTotalRecordCount"] = false
 
         resp = APIRequest(url, params)
         data = getJson(resp)
@@ -149,6 +174,20 @@ sub loadItems()
                 params["MaxHeight"] = 402
                 tmp.posterURL = ImageUrl(specfeat.Id, "Primary", params)
                 tmp.json = specfeat
+            end for
+        end if
+    else if m.top.itemsToLoad = "additionalparts"
+        additionalParts = api_API().videos.getAdditionalParts(m.top.itemId)
+        if isValid(additionalParts)
+            for each part in additionalParts.items
+                tmp = CreateObject("roSGNode", "ExtrasData")
+                params = {}
+                params["Tags"] = part.ImageTags.Primary
+                params["MaxWidth"] = 450
+                params["MaxHeight"] = 402
+                tmp.posterURL = ImageUrl(part.Id, "Primary", params)
+                tmp.json = part
+                results.push(tmp)
             end for
         end if
     else if m.top.itemsToLoad = "likethis"

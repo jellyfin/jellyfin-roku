@@ -8,11 +8,13 @@ sub setFields()
     m.top.watched = json.UserData.played
     m.top.Type = "Movie"
 
-    if json.MediaSourceCount <> invalid and json.MediaSourceCount > 1
-        m.top.mediaSources = []
-        for each source in json.MediaSources
-            m.top.mediaSources.push(source)
-        end for
+    if isValid(json.MediaSourceCount) and json.MediaSourceCount > 1
+        if isValid(json.MediaSources)
+            m.top.mediaSources = []
+            for each source in json.MediaSources
+                m.top.mediaSources.push(source)
+            end for
+        end if
     end if
 
     if json.ProductionYear <> invalid
@@ -38,20 +40,22 @@ sub setPoster()
     else
 
         if m.top.json.ImageTags.Primary <> invalid
-            imgParams = { "maxHeight": 440, "maxWidth": 295 }
+            imgParams = { "maxHeight": 440, "maxWidth": 295, "Tag": m.top.json.ImageTags.Primary }
             m.top.posterURL = ImageURL(m.top.json.id, "Primary", imgParams)
         else if m.top.json.BackdropImageTags[0] <> invalid
-            imgParams = { "maxHeight": 440 }
+            imgParams = { "maxHeight": 440, "Tag": m.top.json.BackdropImageTags[0] }
             m.top.posterURL = ImageURL(m.top.json.id, "Backdrop", imgParams)
         else if m.top.json.ParentThumbImageTag <> invalid and m.top.json.ParentThumbItemId <> invalid
-            imgParams = { "maxHeight": 440, "maxWidth": 295 }
+            imgParams = { "maxHeight": 440, "maxWidth": 295, "Tag": m.top.json.ParentThumbImageTag }
             m.top.posterURL = ImageURL(m.top.json.ParentThumbItemId, "Thumb", imgParams)
         end if
 
         ' Add Backdrop Image
-        if m.top.json.BackdropImageTags[0] <> invalid
-            imgParams = { "maxHeight": 720, "maxWidth": 1280 }
-            m.top.backdropURL = ImageURL(m.top.json.id, "Backdrop", imgParams)
+        if m.top.json.BackdropImageTags <> invalid
+            if m.top.json.BackdropImageTags[0] <> invalid
+                imgParams = { "maxHeight": 720, "maxWidth": 1280, "Tag": m.top.json.BackdropImageTags[0] }
+                m.top.backdropURL = ImageURL(m.top.json.id, "Backdrop", imgParams)
+            end if
         end if
 
     end if
