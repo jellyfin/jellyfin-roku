@@ -246,6 +246,14 @@ sub userMessage(title as string, message as string)
 end sub
 
 '
+' Display Dialog to show user app is fetching server data
+sub progressDialog(title as string)
+    dialog = createObject("roSGNode", "ProgressDialog")
+    dialog.title = title
+    m.scene.dialog = dialog
+end sub
+
+'
 ' Close currently displayed dialog
 sub dismiss_dialog()
     print "Button Pressed"

@@ -103,8 +103,10 @@ sub Main (args as dynamic) as void
             if itemNode = invalid or itemNode.id = "" then return
             if itemNode.type = "Episode" or itemNode.type = "Movie" or itemNode.type = "Video"
                 if itemNode.type = "Episode" and itemNode.selectedAudioStreamIndex <> invalid and itemNode.selectedAudioStreamIndex > 1
+                    m.global.sceneManager.callFunc("progressDialog", tr("Loading Episode Options"))
                     video = CreateVideoPlayerGroup(itemNode.id, invalid, itemNode.selectedAudioStreamIndex)
                 else
+                    m.global.sceneManager.callFunc("progressDialog", tr("Loading Video Options"))
                     video = CreateVideoPlayerGroup(itemNode.id)
                 end if
                 if video <> invalid and video.errorMsg <> "introaborted"
@@ -149,6 +151,7 @@ sub Main (args as dynamic) as void
                 group = CreateItemGrid(selectedItem)
                 sceneManager.callFunc("pushScene", group)
             else if selectedItem.type = "Episode"
+                m.global.sceneManager.callFunc("progressDialog", tr("Loading Episode Options"))
                 ' play episode
                 ' todo: create an episode page to link here
                 video_id = selectedItem.id
@@ -219,6 +222,7 @@ sub Main (args as dynamic) as void
             node = getMsgPicker(msg, "picker")
             group = CreateMovieDetailsGroup(node)
         else if isNodeEvent(msg, "seriesSelected")
+            m.global.sceneManager.callFunc("progressDialog", tr("Loading Seriers Options"))
             ' If you select a TV Series from ANYWHERE, follow this flow
             node = getMsgPicker(msg, "picker")
             group = CreateSeriesDetailsGroup(node)
@@ -300,6 +304,7 @@ sub Main (args as dynamic) as void
         else if isNodeEvent(msg, "episodeSelected")
             ' If you select a TV Episode from ANYWHERE, follow this flow
             m.selectedItemType = "Episode"
+            m.global.sceneManager.callFunc("progressDialog", tr("Loading Episode Options"))
             node = getMsgPicker(msg, "picker")
             video_id = node.id
             if node.selectedAudioStreamIndex <> invalid and node.selectedAudioStreamIndex > 1
@@ -348,6 +353,7 @@ sub Main (args as dynamic) as void
                 group = CreateVideoPlayerGroup(node.id)
                 sceneManager.callFunc("pushScene", group)
             else if node.type = "Episode"
+                m.global.sceneManager.callFunc("progressDialog", tr("Loading Episode Options"))
                 group = CreateVideoPlayerGroup(node.id)
                 sceneManager.callFunc("pushScene", group)
             else if node.type = "Audio"
@@ -365,9 +371,7 @@ sub Main (args as dynamic) as void
             btn = getButton(msg)
             group = sceneManager.callFunc("getActiveScene")
             if btn <> invalid and btn.id = "play-button"
-                dialog = createObject("roSGNode", "ProgressDialog")
-                dialog.title = tr("Loading Movie")
-                m.scene.dialog = dialog
+                m.global.sceneManager.callFunc("progressDialog", tr("Loading Movie Options"))
 
                 ' Check if a specific Audio Stream was selected
                 audio_stream_idx = 1
@@ -384,7 +388,6 @@ sub Main (args as dynamic) as void
                 video = CreateVideoPlayerGroup(video_id, mediaSourceId, audio_stream_idx)
                 if video <> invalid and video.errorMsg <> "introaborted"
                     sceneManager.callFunc("pushScene", video)
-                    dialog.close = true
                 end if
 
                 if group.lastfocus.id = "main_group"
