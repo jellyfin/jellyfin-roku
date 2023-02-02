@@ -32,16 +32,22 @@ sub init()
 
     'Captions
     m.captionGroup = m.top.findNode("captionGroup")
-    for i = 1 to 9
-        m.captionGroup.appendChild(createObject("roSGNode", "LayoutGroup"))
-    end for
+    clearCaption()
     m.captionTask = createObject("roSGNode", "captionTask")
     m.captionTask.observeField("currentCaption", "updateCaption")
     m.top.observeField("captionVisible", "toggleCaption")
     m.top.observeField("currentSubtitleTrack", "loadCaption")
 end sub
 
+sub clearCaption()
+    for i = 1 to 9
+        m.captionGroup.appendChild(createObject("roSGNode", "LayoutGroup"))
+    end for
+end sub
+
 sub loadCaption()
+    m.top.globalCaptionMode = "Off"
+    clearCaption()
     m.captionTask.url = m.top.currentSubtitleTrack
 end sub
 
