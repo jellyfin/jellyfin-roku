@@ -1049,17 +1049,5 @@
             <source>If enabled, the star and community rating for episodes of a TV show will be removed. This is to prevent spoilers of an upcoming good/bad episode.</source>
             <translation>If enabled, the star and community rating for episodes of a TV show will be removed. This is to prevent spoilers of an upcoming good/bad episode.</translation>
         </message>
-        <message>
-            <source>Loading Episode Options</source>
-            <translation>Loading Episode Options</translation>
-        </message>
-        <message>
-            <source>Loading Video Options</source>
-            <translation>Loading Video Options</translation>
-        </message>
-        <message>
-            <source>Loading Movie Options</source>
-            <translation>Loading Movie Options</translation>
-        </message>
     </context>
 </TS>
