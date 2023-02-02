@@ -2690,5 +2690,10 @@
         <source>Studios</source>
         <translation>Estudios</translation>
     </message>
+    <message>
+        <source>Use the replay button to slowly animate to the first item in the folder. (If disabled, the folder will reset to the first item immediately).</source>
+        <translation>Use el botón de reproducción para animar lentamente al primer elemento de la carpeta. (Si está deshabilitado, la carpeta se restablecerá al primer elemento inmediatamente).</translation>
+        <extracomment>Description for option in Setting Screen</extracomment>
+    </message>
 </context>
 </TS>
