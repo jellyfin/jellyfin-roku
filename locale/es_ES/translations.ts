@@ -2695,5 +2695,51 @@
         <translation>Use el botón de reproducción para animar lentamente al primer elemento de la carpeta. (Si está deshabilitado, la carpeta se restablecerá al primer elemento inmediatamente).</translation>
         <extracomment>Description for option in Setting Screen</extracomment>
     </message>
+    <message>
+        <source>Pick a Jellyfin server from the local network</source>
+        <translation>Eliga un servidor Jellyfin disponible en la red local:</translation>
+        <extracomment>Instructions on initial app launch when the user is asked to pick a server from a list</extracomment>
+    </message>
+    <message>
+        <source>%1 of %2</source>
+        <translation>%1 de %2</translation>
+        <extracomment>Item position and count. %1 = current item. %2 = total number of items</extracomment>
+    </message>
+    <message>
+        <source>Options for Jellyfin&apos;s screensaver.</source>
+        <translation>Opciones para el protector de pantalla de Jellyfin.</translation>
+        <extracomment>Description for Screensaver user settings.</extracomment>
+    </message>
+    <message>
+        <source>Next episode</source>
+        <translation>Siguiente episodio</translation>
+    </message>
+    <message>
+        <source>Size</source>
+        <translation>Tamaño</translation>
+        <extracomment>Video size</extracomment>
+    </message>
+    <message>
+        <source>Song</source>
+        <translation>Canción</translation>
+    </message>
+    <message>
+        <source>Play Trailer</source>
+        <translation>Reproducir Trailer</translation>
+    </message>
+    <message>
+        <source>Screensaver</source>
+        <translation>Protector de pantalla</translation>
+    </message>
+    <message>
+        <source>Options that alter the design of Jellyfin.</source>
+        <translation>Opciones que alteran el diseño de Jellyfin.</translation>
+        <extracomment>Description for Design Elements user settings.</extracomment>
+    </message>
+    <message>
+        <source>Cinema Mode</source>
+        <translation>Modo Cine</translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
 </context>
 </TS>
