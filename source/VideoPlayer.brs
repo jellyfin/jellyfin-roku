@@ -311,7 +311,7 @@ sub AddVideoContent(video, mediaSourceId, audio_stream_idx = 1, subtitle_idx = -
     if not fully_external
         video.content = authorize_request(video.content)
     end if
-
+    m.global.sceneManager.callFunc("dismiss_dialog")
 end sub
 
 function PlayIntroVideo(video_id, audio_stream_idx) as boolean
