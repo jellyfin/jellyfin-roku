@@ -29,7 +29,7 @@ sub fetchFont()
             m.font = "font:LargeBoldSystemFont"
         end if
     else
-        m.font.uri = fontlist[0]
+        m.font.uri = "tmp:/" + fontlist[0]
         m.font.size = 60
     end if
 end sub
