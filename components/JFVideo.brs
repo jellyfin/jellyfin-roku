@@ -19,6 +19,7 @@ sub init()
     m.nextEpisodeButton = m.top.findNode("nextEpisode")
     m.nextEpisodeButton.text = tr("Next Episode")
     m.nextEpisodeButton.setFocus(false)
+    m.nextupbuttonseconds = get_user_setting("playback.nextupbuttonseconds", "30")
 
     m.showNextEpisodeButtonAnimation = m.top.findNode("showNextEpisodeButton")
     m.hideNextEpisodeButtonAnimation = m.top.findNode("hideNextEpisodeButton")
@@ -77,7 +78,7 @@ end sub
 
 ' Checks if we need to display the Next Episode button
 sub checkTimeToDisplayNextEpisode()
-    if int(m.top.position) >= (m.top.runTime - 30)
+    if int(m.top.position) >= (m.top.runTime - Val(m.nextupbuttonseconds))
         showNextEpisodeButton()
         updateCount()
         return

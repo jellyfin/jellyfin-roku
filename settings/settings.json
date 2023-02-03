@@ -63,6 +63,13 @@
                 "settingName": "playback.subs.onlytext",
                 "type": "bool",
                 "default": "false"
+            },
+            {
+                "title": "Change next up button show duration",
+                "description": "Default is 30 seconds, you can set to 0 to diable the button or set new time in seconds to display the button",
+                "settingName": "playback.nextupbuttonseconds",
+                "type": "integer",
+                "default": "30"
             }
         ]
     },
@@ -86,7 +93,7 @@
                         "description": "Set the maximum amount of days a show should stay in the 'Next Up' list without watching it.",
                         "settingName": "ui.details.maxdaysnextup",
                         "type": "integer",
-                        "default": "365"
+                        "default": "30"
                     },
                     {
                         "title": "Show What's New Popup",
