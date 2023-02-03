@@ -1345,5 +1345,14 @@
         <translation>Error al recuperar contenido</translation>
         <extracomment>Dialog title when unable to load Content from Server</extracomment>
     </message>
+    <message>
+        <source>Song</source>
+        <translation>Canción</translation>
+    </message>
+    <message>
+        <source>Size</source>
+        <translation>Tamaño</translation>
+        <extracomment>Video size</extracomment>
+    </message>
 </context>
 </TS>
