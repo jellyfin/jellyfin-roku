@@ -68,28 +68,26 @@ sub onContentChange()
     m.top.observeField("position", "onPositionChanged")
 
     ' If video content type is not episode, remove position observer
-    if m.top.content.contenttype <> 4
-        m.top.unobserveField("position")
-    end if
+    ' if m.top.content.contenttype <> 4
+    '     m.top.unobserveField("position")
+    ' end if
 end sub
 
 sub onNextEpisodeDataLoaded()
     m.checkedForNextEpisode = true
 
     m.top.observeField("position", "onPositionChanged")
-
-    if m.getNextEpisodeTask.nextEpisodeData.Items.count() <> 2
-        m.top.unobserveField("position")
-    end if
 end sub
 
 '
 ' Runs Next Episode button animation and sets focus to button
 sub showNextEpisodeButton()
-    if not m.nextEpisodeButton.visible
-        m.showNextEpisodeButtonAnimation.control = "start"
-        m.nextEpisodeButton.setFocus(true)
-        m.nextEpisodeButton.visible = true
+    if m.top.content.contenttype = 4
+        if not m.nextEpisodeButton.visible
+            m.showNextEpisodeButtonAnimation.control = "start"
+            m.nextEpisodeButton.setFocus(true)
+            m.nextEpisodeButton.visible = true
+        end if
     end if
 end sub
 
@@ -109,15 +107,18 @@ end sub
 
 ' Checks if we need to display the Next Episode button
 sub checkTimeToDisplayNextEpisode()
-    if int(m.top.position) >= (m.top.runTime - 30)
-        showNextEpisodeButton()
-        updateCount()
-        return
-    end if
+    if m.top.content.contenttype = 4
 
-    if m.nextEpisodeButton.visible or m.nextEpisodeButton.hasFocus()
-        m.nextEpisodeButton.visible = false
-        m.nextEpisodeButton.setFocus(false)
+        if int(m.top.position) >= (m.top.runTime - 30)
+            showNextEpisodeButton()
+            updateCount()
+            return
+        end if
+
+        if m.nextEpisodeButton.visible or m.nextEpisodeButton.hasFocus()
+            m.nextEpisodeButton.visible = false
+            m.nextEpisodeButton.setFocus(false)
+        end if
     end if
 end sub
 
