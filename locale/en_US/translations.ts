@@ -1027,7 +1027,7 @@
         </message>
         <message>
             <source>If enabled, playback bitrates will be limited based on the 'Playback Bitrate Limit' setting.</source>
-            <translation>Enable or disable limiting video bitrates (based on the 'Playback Bitrate Limit' setting *or* Roku's specifications).</translation>
+            <translation>If enabled, playback bitrates will be limited based on the 'Playback Bitrate Limit' setting.</translation>
         </message>
         <message>
             <source>Playback Bitrate Limit</source>
