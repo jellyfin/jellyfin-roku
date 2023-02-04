@@ -736,8 +736,8 @@
             <extracomment>Option Title in user setting screen</extracomment>
         </message>
         <message>
-            <source>Hides all clocks in Jellyfin. Jellyfin will need to be closed and reopened for change to take effect.</source>
-            <translation>Hides all clocks in Jellyfin. Jellyfin will need to be closed and reopened for change to take effect.</translation>
+            <source>Hide all clocks in Jellyfin. Jellyfin will need to be closed and reopened for change to take effect.</source>
+            <translation>Hide all clocks in Jellyfin. Jellyfin will need to be closed and reopened for change to take effect.</translation>
             <extracomment>Settings Menu - Description for option</extracomment>
         </message>
         <message>
