@@ -9,7 +9,7 @@
                 "children": [
                     {
                         "title": "Enable Limit",
-                        "description": "Enable or disable the bitrate limit.",
+                        "description": "Enable or disable  the 'Maximum Bitrate' setting.",
                         "settingName": "playback.bitrate.maxlimited",
                         "type": "bool",
                         "default": "true"
