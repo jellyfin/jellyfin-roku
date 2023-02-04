@@ -6,7 +6,6 @@ sub init()
     m.favBtn = m.top.findNode("favorite-button")
     m.extrasGrp = m.top.findNode("extrasGrp")
     m.extrasGrp.opacity = 1.0
-    m.dscr.observeField("isTextEllipsized", "onEllipsisChanged")
     createDialogPallete()
     m.top.optionsAvailable = false
 end sub
@@ -48,26 +47,19 @@ sub loadPerson()
     m.vidsList.callFunc("loadPersonVideos", m.top.Id)
 
     setFavoriteColor()
-    m.favBtn.setFocus(true)
-end sub
-
-sub onEllipsisChanged()
-    if m.dscr.isTextEllipsized
-        dscrShowFocus()
-    end if
+    if not m.favBtn.hasFocus() then dscrShowFocus()
 end sub
 
 sub dscrShowFocus()
-    if m.dscr.isTextEllipsized
-        m.dscr.setFocus(true)
-        m.dscr.opacity = 1.0
-        m.top.findNode("dscrBorder").color = "#d0d0d0ff"
-    end if
+    m.dscr.setFocus(true)
+    m.dscr.opacity = 1.0
+    m.top.findNode("dscrBorder").color = "#d0d0d0ff"
 end sub
 
 sub onButtonGroupEscaped()
     key = m.btnGrp.escape
     if key = "down"
+        print "key down"
         m.dscr.setFocus(true)
         m.dscr.opacity = 1.0
         m.top.findNode("dscrBorder").color = "#d0d0d0ff"
@@ -108,9 +100,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
         else if m.vidsList.isInFocusChain() and m.vidsList.itemFocused = 0
             m.top.findNode("VertSlider").reverse = true
             m.top.findNode("pplAnime").control = "start"
-            m.dscr.setFocus(true)
-            m.dscr.opacity = 1.0
-            m.top.findNode("dscrBorder").color = "#d0d0d0ff"
+            dscrShowFocus()
             return true
         end if
     end if
@@ -139,13 +129,6 @@ sub createFullDscrDlg()
     dlg.overview = m.dscr.text
     m.fullDscrDlg = dlg
     m.top.getScene().dialog = dlg
-    border = createObject("roSGNode", "Poster")
-    border.uri = "pkg:/images/hd_focul_9.png"
-    border.blendColor = "#c9c9c9ff"
-    border.width = dlg.width + 6
-    border.height = dlg.height + 6
-    border.translation = [dlg.translation[0] - 3, dlg.translation[1] - 3]
-    border.visible = true
 
 end sub
 
