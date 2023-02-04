@@ -65,18 +65,24 @@
                 "default": "false"
             },
             {
-                "title": "Limit Bitrate",
-                "description": "If enabled, playback bitrates will be limited based on the 'Playback Bitrate Limit' setting.",
-                "settingName": "playback.bitrate.maxlimited",
-                "type": "bool",
-                "default": "true"
-            },
-            {
-                "title": "Playback Bitrate Limit",
-                "description": "Max bitrate (MBPS) to use if 'Limit Bitrate' is enabled. Set to 0 to use Roku's specifications.",
-                "settingName": "playback.bitrate.limit",
-                "type": "integer",
-                "default": "0"
+                "title": "Playback Bitrate Limits",
+                "description": "Set limits for how high playback bitrates are allowed to be.",
+                "children": [
+                    {
+                        "title": "Limits Enabled",
+                        "description": "If enabled, playback bitrates will be limited based on the 'Playback Bitrate Limit' setting.",
+                        "settingName": "playback.bitrate.maxlimited",
+                        "type": "bool",
+                        "default": "true"
+                    },
+                    {
+                        "title": "Playback Bitrate Limit",
+                        "description": "Max bitrate (Mbps) allowed if limits are enabled. Set to 0 to use Roku's specifications.",
+                        "settingName": "playback.bitrate.limit",
+                        "type": "integer",
+                        "default": "0"
+                    }
+                ]
             }
         ]
     },
