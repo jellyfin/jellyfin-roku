@@ -455,6 +455,7 @@ function CreateSeasonDetailsGroup(series, season)
 
     group.observeField("episodeSelected", m.port)
     group.observeField("quickPlayNode", m.port)
+    stopLoadingSpinner()
 
     return group
 end function
