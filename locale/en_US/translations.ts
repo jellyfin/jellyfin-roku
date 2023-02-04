@@ -1022,13 +1022,13 @@
             <translation>If enabled, the star and community rating for episodes of a TV show will be removed. This is to prevent spoilers of an upcoming good/bad episode.</translation>
         </message>
         <message>
-            <source>Bitrate Limiting</source>
-            <translation>Bitrate Limiting</translation>
+            <source>Limit Bitrate</source>
+            <translation>Limit Bitrate</translation>
         </message>
         <message>
             <source>Enable or disable limiting video bitrates based on Roku's specifications.</source>
             <translation>Enable or disable limiting video bitrates based on Roku's specifications.</translation>
-        </message>        
+        </message>
         <message>
             <source>Libraries</source>
             <translation>Libraries</translation>
