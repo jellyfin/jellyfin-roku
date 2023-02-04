@@ -19,13 +19,10 @@ sub init()
     m.buttonGrp.setFocus(true)
     m.top.lastFocus = m.buttonGrp
 
-    m.spinner = m.top.findNode("spinner")
-
     m.trailerButton = m.top.findNode("trailer-button")
     m.trailerButton.text = tr("Play Trailer")
 
     m.top.observeField("itemContent", "itemContentChanged")
-    m.top.findNode("communityRatingGroup").visible = false
 end sub
 
 sub OnScreenShown()

@@ -281,3 +281,22 @@ function findNodeBySubtype(node, subtype)
 
     return foundNodes
 end function
+
+sub startMediaLoadingSpinner()
+    m.spinner = createObject("roSGNode", "Spinner")
+    m.spinner.translation = "[900, 450]"
+    m.scene.appendChild(m.spinner)
+    dialog = createObject("roSGNode", "ProgressDialog")
+    dialog.id = "invisibiledialog"
+    dialog.visible = false
+    m.scene.dialog = dialog
+end sub
+
+sub stopMediaLoadingSpinner()
+    if isValid(m.spinner)
+        m.spinner.visible = false
+    end if
+    if isValid(m.scene.dialog)
+        m.scene.dialog.close = true
+    end if
+end sub
