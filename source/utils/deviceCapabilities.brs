@@ -252,6 +252,13 @@ function getDeviceProfile() as object
         })
     end if
 
+    print "DEBUG: "
+    for each item in deviceProfile.CodecProfiles
+        print item
+        for each condition in item.Conditions
+            print condition
+        end for
+    end for
     return deviceProfile
 end function
 
@@ -360,44 +367,54 @@ function GetDirectPlayProfiles() as object
 end function
 
 function GetBitRateLimit(codec as string)
-
     if get_user_setting("playback.bitrate.maxlimited") = "true"
-        ' Some repeated values (e.g. same "40mbps" for several codecs)
-        ' but this makes it easy to update in the future if the bitrates start to deviate.
-        if codec = "H264"
-            ' Roku only supports h264 up to 10Mpbs
+        userSetLimit = get_user_setting("playback.bitrate.limit").ToInt()
+        userSetLimit *= 1000000
+
+        if userSetLimit > 0
             return {
                 "Condition": "LessThanEqual",
                 "Property": "VideoBitrate",
-                "Value": "10000000",
+                "Value": userSetLimit.ToStr(),
                 IsRequired: true
             }
-        else if codec = "AV1"
-            ' Roku only supports AV1 up to 40Mpbs
-            return {
-                "Condition": "LessThanEqual",
-                "Property": "VideoBitrate",
-                "Value": "40000000",
-                IsRequired: true
-            }
-        else if codec = "H265"
-            ' Roku only supports h265 up to 40Mpbs
-            return {
-                "Condition": "LessThanEqual",
-                "Property": "VideoBitrate",
-                "Value": "40000000",
-                IsRequired: true
-            }
-        else if codec = "VP9"
-            ' Roku only supports VP9 up to 40Mpbs
-            return {
-                "Condition": "LessThanEqual",
-                "Property": "VideoBitrate",
-                "Value": "40000000",
-                IsRequired: true
-            }
+        else
+            ' Some repeated values (e.g. same "40mbps" for several codecs)
+            ' but this makes it easy to update in the future if the bitrates start to deviate.
+            if codec = "H264"
+                ' Roku only supports h264 up to 10Mpbs
+                return {
+                    "Condition": "LessThanEqual",
+                    "Property": "VideoBitrate",
+                    "Value": "10000000",
+                    IsRequired: true
+                }
+            else if codec = "AV1"
+                ' Roku only supports AV1 up to 40Mpbs
+                return {
+                    "Condition": "LessThanEqual",
+                    "Property": "VideoBitrate",
+                    "Value": "40000000",
+                    IsRequired: true
+                }
+            else if codec = "H265"
+                ' Roku only supports h265 up to 40Mpbs
+                return {
+                    "Condition": "LessThanEqual",
+                    "Property": "VideoBitrate",
+                    "Value": "40000000",
+                    IsRequired: true
+                }
+            else if codec = "VP9"
+                ' Roku only supports VP9 up to 40Mpbs
+                return {
+                    "Condition": "LessThanEqual",
+                    "Property": "VideoBitrate",
+                    "Value": "40000000",
+                    IsRequired: true
+                }
+            end if
         end if
     end if
-
     return {}
 end function
