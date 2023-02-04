@@ -252,13 +252,6 @@ function getDeviceProfile() as object
         })
     end if
 
-    print "DEBUG: "
-    for each item in deviceProfile.CodecProfiles
-        print item
-        for each condition in item.Conditions
-            print condition
-        end for
-    end for
     return deviceProfile
 end function
 
