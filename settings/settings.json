@@ -16,7 +16,7 @@
                     },
                     {
                         "title": "Maximum Bitrate",
-                        "description": "Must be enabled to take effect. Set to 0 to use Roku's specifications.",
+                        "description": "Set the maximum bitrate in Mbps. Set to 0 to use Roku's specifications. This setting must be enabled to take effect.",
                         "settingName": "playback.bitrate.limit",
                         "type": "integer",
                         "default": "0"

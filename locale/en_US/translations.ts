@@ -1042,8 +1042,8 @@
             <translation>Maximum Bitrate</translation>
         </message>
         <message>
-            <source>Must be enabled to take effect. Set to 0 to use Roku's specifications.</source>
-            <translation>Must be enabled to take effect. Set to 0 to use Roku's specifications.</translation>
+            <source>Set the maximum bitrate in Mbps. Set to 0 to use Roku's specifications. This setting must be enabled to take effect.</source>
+            <translation>Set the maximum bitrate in Mbps. Set to 0 to use Roku's specifications. This setting must be enabled to take effect.</translation>
         </message>
         <message>
             <source>Libraries</source>
