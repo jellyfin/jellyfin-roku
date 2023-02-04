@@ -6,12 +6,12 @@ function VideoPlayer(id, mediaSourceId = invalid, audio_stream_idx = 1, subtitle
     AddVideoContent(video, mediaSourceId, audio_stream_idx, subtitle_idx, -1, forceTranscoding, showIntro, allowResumeDialog)
 
     if video.errorMsg = "introaborted"
-        stopMediaLoadingSpinner()
+        stopLoadingSpinner()
         return video
     end if
 
     if video.content = invalid
-        stopMediaLoadingSpinner()
+        stopLoadingSpinner()
         return invalid
     end if
     jellyfin_blue = "#00a4dcFF"
@@ -19,7 +19,7 @@ function VideoPlayer(id, mediaSourceId = invalid, audio_stream_idx = 1, subtitle
     video.retrievingBar.filledBarBlendColor = jellyfin_blue
     video.bufferingBar.filledBarBlendColor = jellyfin_blue
     video.trickPlayBar.filledBarBlendColor = jellyfin_blue
-    stopMediaLoadingSpinner()
+    stopLoadingSpinner()
     return video
 end function
 
@@ -61,7 +61,7 @@ sub AddVideoContent(video, mediaSourceId, audio_stream_idx = 1, subtitle_idx = -
         playbackPosition = meta.json.UserData.PlaybackPositionTicks
         if allowResumeDialog
             if playbackPosition > 0
-                stopMediaLoadingSpinner()
+                stopLoadingSpinner()
                 dialogResult = startPlayBackOver(playbackPosition)
                 startMediaLoadingSpinner()
                 'Dialog returns -1 when back pressed, 0 for resume, and 1 for start over
