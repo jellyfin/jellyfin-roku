@@ -4,15 +4,28 @@
         "description": "Settings relating to playback and supported codec and media types.",
         "children": [
             {
-                "title": "Cinema Mode",
-                "description": "Cinema Mode brings the theater experience straight to your living room with the ability to play custom intros before the main feature.",
-                "settingName": "playback.cinemamode",
-                "type": "bool",
-                "default": "false"
+                "title": "Bitrate Limit",
+                "description": "Configure the maximum playback bitrate.",
+                "children": [
+                    {
+                        "title": "Enable Limit",
+                        "description": "Enable or disable the bitrate limit.",
+                        "settingName": "playback.bitrate.maxlimited",
+                        "type": "bool",
+                        "default": "true"
+                    },
+                    {
+                        "title": "Maximum Bitrate",
+                        "description": "Must be enabled to take effect. Set to 0 to use Roku's specifications.",
+                        "settingName": "playback.bitrate.limit",
+                        "type": "integer",
+                        "default": "0"
+                    }
+                ]
             },
             {
                 "title": "Codec Support",
-                "description": "Enable or disable Direct Play support for certain codecs",
+                "description": "Enable or disable Direct Play support for certain codecs.",
                 "children": [
                     {
                         "title": "AV1",
@@ -38,26 +51,6 @@
                 ]
             },
             {
-                "title": "Playback Bitrate Limits",
-                "description": "Set limits for how high playback bitrates are allowed to be.",
-                "children": [
-                    {
-                        "title": "Limits Enabled",
-                        "description": "If enabled, playback bitrates will be limited based on the 'Playback Bitrate Limit' setting.",
-                        "settingName": "playback.bitrate.maxlimited",
-                        "type": "bool",
-                        "default": "true"
-                    },
-                    {
-                        "title": "Playback Bitrate Limit",
-                        "description": "Max bitrate (Mbps) allowed if limits are enabled. Set to 0 to use Roku's specifications.",
-                        "settingName": "playback.bitrate.limit",
-                        "type": "integer",
-                        "default": "0"
-                    }
-                ]
-            },
-            {
                 "title": "Profile Level Support",
                 "description": "Attempt Direct Play of potentially unsupported profile levels",
                 "children": [
@@ -76,6 +69,13 @@
                         "default": "true"
                     }
                 ]
+            },
+            {
+                "title": "Cinema Mode",
+                "description": "Cinema Mode brings the theater experience straight to your living room with the ability to play custom intros before the main feature.",
+                "settingName": "playback.cinemamode",
+                "type": "bool",
+                "default": "false"
             },
             {
                 "title": "Text Subtitles Only",

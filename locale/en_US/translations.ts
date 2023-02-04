@@ -1022,28 +1022,28 @@
             <translation>If enabled, the star and community rating for episodes of a TV show will be removed. This is to prevent spoilers of an upcoming good/bad episode.</translation>
         </message>
         <message>
-            <source>Playback Bitrate Limits</source>
-            <translation>Playback Bitrate Limits</translation>
+            <source>Configure the maximum playback bitrate.</source>
+            <translation>Configure the maximum playback bitrate.</translation>
         </message>
         <message>
-            <source>Set limits for how high playback bitrates are allowed to be.</source>
-            <translation>Set limits for how high playback bitrates are allowed to be.</translation>
+            <source>Enable Limit</source>
+            <translation>Enable Limit</translation>
         </message>
         <message>
-            <source>Limits Enabled</source>
-            <translation>Limits Enabled</translation>
+            <source>Enable or disable the bitrate limit.</source>
+            <translation>Enable or disable the bitrate limit.</translation>
         </message>
         <message>
-            <source>If enabled, playback bitrates will be limited based on the 'Playback Bitrate Limit' setting.</source>
-            <translation>If enabled, playback bitrates will be limited based on the 'Playback Bitrate Limit' setting.</translation>
+            <source>Bitrate Limit</source>
+            <translation>Bitrate Limit</translation>
         </message>
         <message>
-            <source>Playback Bitrate Limit</source>
-            <translation>Playback Bitrate Limit</translation>
+            <source>Maximum Bitrate</source>
+            <translation>Maximum Bitrate</translation>
         </message>
         <message>
-            <source>Max bitrate (Mbps) allowed if limits are enabled. Set to 0 to use Roku's specifications.</source>
-            <translation>Max bitrate (Mbps) allowed if limits are enabled. Set to 0 to use Roku's specifications.</translation>
+            <source>Must be enabled to take effect. Set to 0 to use Roku's specifications.</source>
+            <translation>Must be enabled to take effect. Set to 0 to use Roku's specifications.</translation>
         </message>
         <message>
             <source>Libraries</source>
