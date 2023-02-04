@@ -2974,5 +2974,86 @@
         <source>View All</source>
         <translation>View All</translation>
     </message>
+    <message>
+        <source>Select when to show titles.</source>
+        <translation>Select when to show titles.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Show On Hover</source>
+        <translation>Show On Hover</translation>
+    </message>
+    <message>
+        <source>Always Show</source>
+        <translation>Always Show</translation>
+    </message>
+    <message>
+        <source>Always Hide</source>
+        <translation>Always Hide</translation>
+    </message>
+    <message>
+        <source>Album</source>
+        <translation>Album</translation>
+    </message>
+    <message>
+        <source>Artists (Grid)</source>
+        <translation>Artists (Grid)</translation>
+    </message>
+    <message>
+        <source>Song</source>
+        <translation>Song</translation>
+    </message>
+    <message>
+        <source>Artists (Presentation)</source>
+        <translation>Artists (Presentation)</translation>
+    </message>
+    <message>
+        <source>Songs</source>
+        <translation>Songs</translation>
+    </message>
+    <message>
+        <source>Albums</source>
+        <translation>Albums</translation>
+    </message>
+    <message>
+        <source>Delete Saved</source>
+        <translation>Delete Saved</translation>
+    </message>
+    <message>
+        <source>On Now</source>
+        <translation>On Now</translation>
+    </message>
+    <message>
+        <source>Age</source>
+        <translation>Age</translation>
+    </message>
+    <message>
+        <source>Died</source>
+        <translation>Died</translation>
+    </message>
+    <message>
+        <source>More Like This</source>
+        <translation>More Like This</translation>
+    </message>
+    <message>
+        <source>Born</source>
+        <translation>Born</translation>
+    </message>
+    <message>
+        <source>Special Features</source>
+        <translation>Special Features</translation>
+    </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>Save Credentials?</translation>
+    </message>
+    <message>
+        <source>Press &apos;OK&apos; to Close</source>
+        <translation>Press &apos;OK&apos; to Close</translation>
+    </message>
+    <message>
+        <source>Cast &amp; Crew</source>
+        <translation>Cast &amp; Crew</translation>
+    </message>
 </context>
 </TS>

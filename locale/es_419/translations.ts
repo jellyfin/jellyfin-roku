@@ -1713,5 +1713,41 @@
         <translation>Domingo</translation>
         <extracomment>Day of Week</extracomment>
     </message>
+    <message>
+        <source>%1 of %2</source>
+        <translation>%1 de %2</translation>
+        <extracomment>Item position and count. %1 = current item. %2 = total number of items</extracomment>
+    </message>
+    <message>
+        <source>Details Page</source>
+        <translation>Detalles</translation>
+    </message>
+    <message>
+        <source>Options that alter the design of Jellyfin.</source>
+        <translation>Opciones que alteran el diseño de Jellyfin.</translation>
+        <extracomment>Description for Design Elements user settings.</extracomment>
+    </message>
+    <message>
+        <source>Size</source>
+        <translation>Tamaño</translation>
+        <extracomment>Video size</extracomment>
+    </message>
+    <message>
+        <source>Aired</source>
+        <translation>Transmitido</translation>
+        <extracomment>Aired date label</extracomment>
+    </message>
+    <message>
+        <source>Album</source>
+        <translation>Álbum</translation>
+    </message>
+    <message>
+        <source>Albums</source>
+        <translation>Álbumes</translation>
+    </message>
+    <message>
+        <source>Song</source>
+        <translation>Canción</translation>
+    </message>
 </context>
 </TS>

@@ -10102,5 +10102,82 @@ elemeket</translation>
         <translation>MPEG-4 Támogatás</translation>
         <extracomment>Settings Menu - Title for option</extracomment>
     </message>
+    <message>
+        <source>Album</source>
+        <translation>Album</translation>
+    </message>
+    <message>
+        <source>View All</source>
+        <translation>Mutassa Mind</translation>
+    </message>
+    <message>
+        <source>Default view for Movie Libraries.</source>
+        <translation>Alapértelmezett nézet Filmkönyvtáraknak.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Movie Library Grid Titles</source>
+        <translation>Filmkönyvtár Rácscímek</translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
+    <message>
+        <source>Show On Hover</source>
+        <translation>Mutassa Rámutatáskor</translation>
+    </message>
+    <message>
+        <source>Always Show</source>
+        <translation>Mindig Mutassa</translation>
+    </message>
+    <message>
+        <source>Always Hide</source>
+        <translation>Sose Mutassa</translation>
+    </message>
+    <message>
+        <source>Albums</source>
+        <translation>Albumok</translation>
+    </message>
+    <message>
+        <source>Show What&apos;s New popup when Jellyfin is updated to a new version.</source>
+        <translation>Újdonságok felugró ablak mutatása miután a Jellyfin a legújabb verzióra frissült.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Movie Library Default View</source>
+        <translation>Filmkönyvtár Alapértelmezett Nézet</translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
+    <message>
+        <source>Select when to show titles.</source>
+        <translation>Válaszd ki mikor mutassa a címeket.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>If enabled, the star and community rating for episodes of a TV show will be removed. This is to prevent spoilers of an upcoming good/bad episode.</source>
+        <translation>Ha bekapcsolja, akkor a csillagok és a közösség általi értékelések el lesznek rejtve a sorozatok epizódjainál, hogy elkerülhetőek legyenek a spoilerek a közelgő jó/rossz epizódoknál.</translation>
+    </message>
+    <message>
+        <source>Song</source>
+        <translation>Zene</translation>
+    </message>
+    <message>
+        <source>Songs</source>
+        <translation>Zenék</translation>
+    </message>
+    <message>
+        <source>Disable Community Rating for Episodes</source>
+        <translation>Közösségi Minősítés Kikapcsolása az Epizódoknál</translation>
+    </message>
+    <message>
+        <source>Played</source>
+        <translation>Lejátszott</translation>
+    </message>
+    <message>
+        <source>Resumable</source>
+        <translation>Folytatható</translation>
+    </message>
+    <message>
+        <source>Unplayed</source>
+        <translation>Nem játszott</translation>
+    </message>
 </context>
 </TS>

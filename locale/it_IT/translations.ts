@@ -1952,5 +1952,13 @@
         <source>Change Server</source>
         <translation>Cambia server</translation>
     </message>
+    <message>
+        <source>Sign Out</source>
+        <translation>Esci</translation>
+    </message>
+    <message>
+        <source>Change Server</source>
+        <translation>Cambia Server</translation>
+    </message>
 </context>
 </TS>
