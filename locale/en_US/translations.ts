@@ -1035,7 +1035,7 @@
         </message>
         <message>
             <source>Max bitrate (MBPS) to use if 'Limit Bitrate' is enabled. Set to 0 to use Roku's specifications.</source>
-            <translation>Max bitrate (MBPS) to use if 'Limit Bitrate' is enabled. If set to 0 limits will be per Roku's specifications.</translation>
+            <translation>Max bitrate (MBPS) to use if 'Limit Bitrate' is enabled. Set to 0 to use Roku's specifications.</translation>
         </message>
         <message>
             <source>Libraries</source>
