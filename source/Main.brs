@@ -167,7 +167,6 @@ sub Main (args as dynamic) as void
             else if selectedItem.type = "Episode"
                 ' play episode
                 ' todo: create an episode page to link here
-                startLoadingSpinner()
                 video_id = selectedItem.id
                 if selectedItem.selectedAudioStreamIndex <> invalid and selectedItem.selectedAudioStreamIndex > 1
                     video = CreateVideoPlayerGroup(video_id, invalid, selectedItem.selectedAudioStreamIndex)
@@ -237,12 +236,10 @@ sub Main (args as dynamic) as void
             group = CreateMovieDetailsGroup(node)
         else if isNodeEvent(msg, "seriesSelected")
             ' If you select a TV Series from ANYWHERE, follow this flow
-            startLoadingSpinner()
             node = getMsgPicker(msg, "picker")
             group = CreateSeriesDetailsGroup(node)
         else if isNodeEvent(msg, "seasonSelected")
             ' If you select a TV Season from ANYWHERE, follow this flow
-            startLoadingSpinner()
             ptr = msg.getData()
             ' ptr is for [row, col] of selected item... but we only have 1 row
             series = msg.getRoSGNode()

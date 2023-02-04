@@ -2,11 +2,9 @@ function VideoPlayer(id, mediaSourceId = invalid, audio_stream_idx = 1, subtitle
     ' Get video controls and UI
     video = CreateObject("roSGNode", "JFVideo")
     video.id = id
-    startMediaLoadingSpinner()
     AddVideoContent(video, mediaSourceId, audio_stream_idx, subtitle_idx, -1, forceTranscoding, showIntro, allowResumeDialog)
 
     if video.errorMsg = "introaborted"
-        stopLoadingSpinner()
         return video
     end if
 
@@ -19,7 +17,6 @@ function VideoPlayer(id, mediaSourceId = invalid, audio_stream_idx = 1, subtitle
     video.retrievingBar.filledBarBlendColor = jellyfin_blue
     video.bufferingBar.filledBarBlendColor = jellyfin_blue
     video.trickPlayBar.filledBarBlendColor = jellyfin_blue
-    stopLoadingSpinner()
     return video
 end function
 
