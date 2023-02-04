@@ -9,29 +9,20 @@ sub init()
     m.captionList = []
     m.reader = createObject("roUrlTransfer")
     m.font = CreateObject("roSGNode", "Font")
-    fetchFont()
+    m.tags = CreateObject("roRegex", "{\\an\d*}|&lt;.*?&gt;|<.*?>", "s")
+    setFont()
 end sub
 
 
-sub fetchFont()
+sub setFont()
     fs = CreateObject("roFileSystem")
-    fontlist = fs.Find("tmp:/", ".*\.(otf|ttf)")
-    if fontlist.count() = 0
-        re = CreateObject("roRegex", "Name.:.(.*?).,.Size", "s")
-        m.filename = APIRequest("FallbackFont/Fonts").GetToString()
-        m.filename = re.match(m.filename)
-        if m.filename.count() <> 0
-            m.filename = m.filename[1]
-            APIRequest("FallbackFont/Fonts/" + m.filename).gettofile("tmp:/" + m.filename)
-            m.font.uri = "tmp:/" + m.filename
-            m.font.size = 60
-        else
-            m.font = "font:LargeBoldSystemFont"
-        end if
-    else
+    fontlist = fs.Find("tmp:/", "font\.(otf|ttf)")
+    if fontlist.count() > 0
         m.font.uri = "tmp:/" + fontlist[0]
-        m.font.size = 60
+    else
+        m.font = "font:LargeBoldSystemFont"
     end if
+    m.font.size = 60
 end sub
 
 sub fetchCaption()
@@ -79,8 +70,9 @@ sub updateCaption ()
         m.top.currentPos = m.top.currentPos + 100
         texts = []
         for each entry in m.captionList
-            if entry["start"] <= m.top.currentPos and m.top.currentPos <= entry["end"]
-                texts.push(entry["text"])
+            if entry["start"] <= m.top.currentPos and m.top.currentPos < entry["end"]
+                t = m.tags.replaceAll(entry["text"], "")
+                texts.push(t)
             end if
         end for
         labels = []
@@ -99,7 +91,7 @@ sub updateCaption ()
             lglist[8].getchild(q).color = &HFFFFFFFF
         end for
         m.top.currentCaption = lglist
-    else if m.top.playerState = "playingOnWait"
+    else if right(m.top.playerState, 4) = "Wait"
         m.top.playerState = "playingOn"
     else
         m.top.currentCaption = []
@@ -107,37 +99,37 @@ sub updateCaption ()
 end sub
 
 function ms(t) as integer
-    r = CreateObject("roRegex", ":|\.", "")
-    l = r.split(t)
-    return 3600000 * val(l[0]) + 60000 * val(l[1]) + 1000 * val(l[2]) + val(l[3])
+    tt = t.tokenize(":")
+    return 3600000 * val(tt[0]) + 60000 * val(tt[1]) + 1000 * val(tt[2]) + val(t.right(3))
 end function
 
-function splitLines(text)
-    r = CreateObject("roRegex", chr(10), "")
-    return r.split(text)
+
+
+function getstart(text)
+    return ms(text.left(12))
 end function
 
-function strip(text) as string
-    leading = CreateObject("roRegex", "^\s+", "")
-    trailing = CreateObject("roRegex", "\s+$", "")
-    text = leading.replaceall(text, "")
-    text = trailing.replaceall(text, "")
-    return text
+function getend(text)
+    return ms(text)
+end function
+
+function isTime(text)
+    return text.mid(13, 3) = "-->"
 end function
 
 function parseVTT(text)
-    timestamp = "(\d\d:\d\d:\d\d\.\d\d\d) --> (\d\d:\d\d:\d\d\.\d\d\d)"
-    re = CreateObject("roRegex", timestamp + " region.*", "")
-    timeList = re.matchall (text)
-    textList = re.split(text)
-    textList.shift()
     captionList = []
-    for i = 0 to textList.count() - 1
-        textLines = splitLines(strip (textList[i]))
-        for each line in textLines
-            entry = { "start": ms(timeList[i][1]), "end": ms(timeList[i][2]), "text": strip(line), "color": "" }
+    lines = text.tokenize(Chr(0))[0]
+    lines = lines.tokenize(Chr(10))
+    size = lines.count()
+    for i = 2 to size - 1
+        if isTime(lines[i])
+            curStart = ms (lines[i].left(12))
+            curEnd = ms(lines[i].mid(17, 12))
+        else
+            entry = { "start": curStart, "end": curEnd, "text": lines[i].trim() }
             captionList.push(entry)
-        end for
+        end if
     end for
     return captionList
 end function

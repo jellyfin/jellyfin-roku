@@ -134,6 +134,7 @@ end sub
 '
 ' When Video Player state changes
 sub onState(msg)
+
     m.captionTask.playerState = m.top.state + m.top.globalCaptionMode
     ' When buffering, start timer to monitor buffering process
     if m.top.state = "buffering" and m.bufferCheckTimer <> invalid
