@@ -675,13 +675,13 @@
             <extracomment>Settings Menu - Title for option</extracomment>
         </message>
         <message>
-            <source>If enabled, selecting a TV series with only one season will go straight to the episode list rather than the show details and season list.</source>
-            <translation>If enabled, selecting a TV series with only one season will go straight to the episode list rather than the show details and season list.</translation>
+            <source>Go directly to the episode list if a TV series has only one season.</source>
+            <translation>Go directly to the episode list if a TV series has only one season.</translation>
             <extracomment>Settings Menu - Description for option</extracomment>
         </message>
         <message>
-            <source>If enabled, images of unwatched episodes will be blurred.</source>
-            <translation>If enabled, images of unwatched episodes will be blurred.</translation>
+            <source>Blur images of unwatched episodes.</source>
+            <translation>Blur images of unwatched episodes.</translation>
         </message>
         <message>
             <source>Screensaver</source>
@@ -726,8 +726,8 @@
             <extracomment>Settings Menu - Title for option</extracomment>
         </message>
         <message>
-            <source>Cinema Mode brings the theater experience straight to your living room with the ability to play custom intros before the main feature.</source>
-            <translation>Cinema Mode brings the theater experience straight to your living room with the ability to play custom intros before the main feature.</translation>
+            <source>Bring the theater experience straight to your living room with the ability to play custom intros before the main feature.</source>
+            <translation>Bring the theater experience straight to your living room with the ability to play custom intros before the main feature.</translation>
             <extracomment>Settings Menu - Description for option</extracomment>
         </message>
         <message>
@@ -1018,8 +1018,8 @@
             <translation>Disable Community Rating for Episodes</translation>
         </message>
         <message>
-            <source>If enabled, the star and community rating for episodes of a TV show will be removed. This is to prevent spoilers of an upcoming good/bad episode.</source>
-            <translation>If enabled, the star and community rating for episodes of a TV show will be removed. This is to prevent spoilers of an upcoming good/bad episode.</translation>
+            <source>Hide the star and community rating for episodes of a TV show. This is to prevent spoilers of an upcoming good/bad episode.</source>
+            <translation>Hide the star and community rating for episodes of a TV show. This is to prevent spoilers of an upcoming good/bad episode.</translation>
         </message>
         <message>
             <source>Configure the maximum playback bitrate.</source>
