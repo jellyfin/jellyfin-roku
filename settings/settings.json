@@ -31,36 +31,9 @@
                 ]
             },
             {
-                "title": "Profile Level Support",
-                "description": "Attempt Direct Play of potentially unsupported profile levels",
-                "children": [
-                    {
-                        "title": "H.264",
-                        "description": "Attempt Direct Play for H.264 media with unsupported profile levels before falling back to transcoding if it fails.",
-                        "settingName": "playback.tryDirect.h264ProfileLevel",
-                        "type": "bool",
-                        "default": "true"
-                    },
-                    {
-                        "title": "HEVC",
-                        "description": "Attempt Direct Play for HEVC media with unsupported profile levels before falling back to trancoding if it fails.",
-                        "settingName": "playback.tryDirect.hevcProfileLevel",
-                        "type": "bool",
-                        "default": "true"
-                    }
-                ]
-            },
-            {
                 "title": "Cinema Mode",
                 "description": "Cinema Mode brings the theater experience straight to your living room with the ability to play custom intros before the main feature.",
                 "settingName": "playback.cinemamode",
-                "type": "bool",
-                "default": "false"
-            },
-            {
-                "title": "Text Subtitles Only",
-                "description": "Only display text subtitles to minimize transcoding.",
-                "settingName": "playback.subs.onlytext",
                 "type": "bool",
                 "default": "false"
             },
@@ -83,6 +56,33 @@
                         "default": "0"
                     }
                 ]
+            },
+            {
+                "title": "Profile Level Support",
+                "description": "Attempt Direct Play of potentially unsupported profile levels",
+                "children": [
+                    {
+                        "title": "H.264",
+                        "description": "Attempt Direct Play for H.264 media with unsupported profile levels before falling back to transcoding if it fails.",
+                        "settingName": "playback.tryDirect.h264ProfileLevel",
+                        "type": "bool",
+                        "default": "true"
+                    },
+                    {
+                        "title": "HEVC",
+                        "description": "Attempt Direct Play for HEVC media with unsupported profile levels before falling back to trancoding if it fails.",
+                        "settingName": "playback.tryDirect.hevcProfileLevel",
+                        "type": "bool",
+                        "default": "true"
+                    }
+                ]
+            },
+            {
+                "title": "Text Subtitles Only",
+                "description": "Only display text subtitles to minimize transcoding.",
+                "settingName": "playback.subs.onlytext",
+                "type": "bool",
+                "default": "false"
             }
         ]
     },
