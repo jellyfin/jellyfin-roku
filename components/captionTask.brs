@@ -122,7 +122,9 @@ function parseVTT(text)
     lines = text.tokenize(Chr(0))[0]
     lines = lines.tokenize(Chr(10))
     size = lines.count()
-    for i = 2 to size - 1
+    curStart = 0
+    curEnd = 0
+    for i = 0 to size - 1
         if isTime(lines[i])
             curStart = ms (lines[i].left(12))
             curEnd = ms(lines[i].mid(17, 12))

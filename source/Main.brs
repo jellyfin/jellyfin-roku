@@ -48,7 +48,7 @@ sub Main (args as dynamic) as void
     if filename.count() > 0
         filename = filename[1]
         ext = right(filename, 4)
-        APIRequest("FallbackFont/Fonts/" + filename).gettofile("tmp:/font" + ext)
+        APIRequest("FallbackFont/Fonts/" + filename).asyncgettofile("tmp:/font" + ext)
     end if
 
     ' Only show the Whats New popup the first time a user runs a new client version.
