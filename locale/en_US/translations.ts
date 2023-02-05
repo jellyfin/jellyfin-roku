@@ -1098,5 +1098,15 @@
             <translation>If enabled, the number of unwatched episodes in a series/season will be removed.</translation>
             <extracomment>Settings Menu - Description for option</extracomment>
         </message>
+        <message>
+            <source>Next Episode Button Time</source>
+            <translation>Next Episode Button Time</translation>
+            <extracomment>Settings Menu - Title for option</extracomment>
+        </message>
+        <message>
+            <source>Set how many seconds before the end of an episode the Next Episode button should appear. Set to 0 to disable.</source>
+            <translation>Set how many seconds before the end of an episode the Next Episode button should appear. Set to 0 to disable.</translation>
+            <extracomment>Settings Menu - Description for option</extracomment>
+        </message>
     </context>
 </TS>
