@@ -78,6 +78,14 @@
                 "default": "false"
             },
             {
+                "title": "Next Episode Button Time",
+                "description": "Set how many seconds before the end of an episode the Next Episode button should appear. Set to 0 to disable.",
+                "settingName": "playback.nextupbuttonseconds",
+                "type": "integer",
+                "default": "30"
+            },
+            {
+
                 "title": "Text Subtitles Only",
                 "description": "Only display text subtitles to minimize transcoding.",
                 "settingName": "playback.subs.onlytext",
@@ -231,8 +239,15 @@
                                 "default": "false"
                             },
                             {
+                                "title": "Disable Unwatched Episode Count",
+                                "description": "If enabled, the number of unwatched episodes in a series/season will be removed.",
+                                "settingName": "ui.tvshows.disableUnwatchedEpisodeCount",
+                                "type": "bool",
+                                "default": "false"
+                            },
+                            {
                                 "title": "Skip Details for Single Seasons",
-                                "description": "Go directly to the episode list if a TV series has only one season.",
+                                "description": "If enabled, selecting a TV series with only one season will go straight to the episode list rather than the show details and season list.",
                                 "settingName": "ui.tvshows.goStraightToEpisodeListing",
                                 "type": "bool",
                                 "default": "false"

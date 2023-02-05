@@ -3055,5 +3055,61 @@
         <source>Cast &amp; Crew</source>
         <translation>Cast &amp; Crew</translation>
     </message>
+    <message>
+        <source>Pick a Jellyfin server from the local network</source>
+        <translation>Select an available Jellyfin server from your local network:</translation>
+        <extracomment>Instructions on initial app launch when the user is asked to pick a server from a list</extracomment>
+    </message>
+    <message>
+        <source>Enter the server name or IP address</source>
+        <translation>Enter the server name or IP address</translation>
+        <extracomment>Title of KeyboardDialog when manually entering a server URL</extracomment>
+    </message>
+    <message>
+        <source>TV Shows</source>
+        <translation>TV Shows</translation>
+    </message>
+    <message>
+        <source>Cancel Recording</source>
+        <translation>Cancel Recording</translation>
+    </message>
+    <message>
+        <source>Additional Parts</source>
+        <translation>Additional Parts</translation>
+        <extracomment>Additional parts of a video</extracomment>
+    </message>
+    <message>
+        <source>View Channel</source>
+        <translation>View Channel</translation>
+    </message>
+    <message>
+        <source>Record</source>
+        <translation>Record</translation>
+    </message>
+    <message>
+        <source>Cancel Series Recording</source>
+        <translation>Cancel Series Recording</translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation>Close</translation>
+    </message>
+    <message>
+        <source>Unknown</source>
+        <translation>Unknown</translation>
+        <extracomment>Title for a cast member for which we have no information for</extracomment>
+    </message>
+    <message>
+        <source>Record Series</source>
+        <translation>Record Series</translation>
+    </message>
+    <message>
+        <source>Delete Saved</source>
+        <translation>Delete Saved</translation>
+    </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>Save Credentials?</translation>
+    </message>
 </context>
 </TS>
