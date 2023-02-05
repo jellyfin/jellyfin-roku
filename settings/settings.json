@@ -38,6 +38,13 @@
                 ]
             },
             {
+                "title": "Next Up button duration",
+                "description": "Set Next up button duration. Defualt is 30 seconds from the end of the episode. Set to 0 to disable.",
+                "settingName": "playback.nextupbuttonseconds",
+                "type": "integer",
+                "default": "30"
+            }
+            {
                 "title": "Playback Bitrate Limits",
                 "description": "Set limits for how high playback bitrates are allowed to be.",
                 "children": [
@@ -83,13 +90,6 @@
                 "settingName": "playback.subs.onlytext",
                 "type": "bool",
                 "default": "false"
-            },
-            {
-                "title": "Change next up button show duration",
-                "description": "Default is 30 seconds, you can set to 0 to diable the button or set new time in seconds to display the button",
-                "settingName": "playback.nextupbuttonseconds",
-                "type": "integer",
-                "default": "30"
             }
         ]
     },

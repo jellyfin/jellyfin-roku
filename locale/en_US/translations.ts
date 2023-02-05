@@ -1098,5 +1098,15 @@
             <translation>If enabled, the number of unwatched episodes in a series/season will be removed.</translation>
             <extracomment>Settings Menu - Description for option</extracomment>
         </message>
+         <message>
+            <source>Next Up button duration</source>
+            <translation>Next Up button duration</translation>
+            <extracomment>Settings Menu - Title for option</extracomment>
+        </message>
+        <message>
+            <source>Set Next up button duration. Defualt is 30 seconds from the end of the episode. Set to 0 to disable.</source>
+            <translation>Set Next up button duration. Defualt is 30 seconds from the end of the episode. Set to 0 to disable.</translation>
+            <extracomment>Settings Menu - Description for option</extracomment>
+        </message>
     </context>
 </TS>
