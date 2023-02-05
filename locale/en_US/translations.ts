@@ -1087,5 +1087,16 @@
             <translation>Grid</translation>
             <extracomment>Title of an option - name of grid view</extracomment>
         </message>
+
+        <message>
+            <source>Disable Unwatched Episode Count</source>
+            <translation>Disable Unwatched Episode Count</translation>
+            <extracomment>Settings Menu - Title for option</extracomment>
+        </message>
+        <message>
+            <source>If enabled, the number of unwatched episodes in a series/season will be removed.</source>
+            <translation>If enabled, the number of unwatched episodes in a series/season will be removed.</translation>
+            <extracomment>Settings Menu - Description for option</extracomment>
+        </message>
     </context>
 </TS>
