@@ -3103,5 +3103,13 @@
         <source>Record Series</source>
         <translation>Record Series</translation>
     </message>
+    <message>
+        <source>Delete Saved</source>
+        <translation>Delete Saved</translation>
+    </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>Save Credentials?</translation>
+    </message>
 </context>
 </TS>
