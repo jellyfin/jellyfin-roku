@@ -4,13 +4,6 @@
         "description": "Settings relating to playback and supported codec and media types.",
         "children": [
             {
-                "title": "Cinema Mode",
-                "description": "Cinema Mode brings the theater experience straight to your living room with the ability to play custom intros before the main feature.",
-                "settingName": "playback.cinemamode",
-                "type": "bool",
-                "default": "false"
-            },
-            {
                 "title": "Codec Support",
                 "description": "Enable or disable Direct Play support for certain codecs",
                 "children": [
@@ -36,13 +29,6 @@
                         "default": "true"
                     }
                 ]
-            },
-            {
-                "title": "Next Episode Button Time",
-                "description": "Set how many seconds before the end of an episode the Next Episode button should appear. Set to 0 to disable.",
-                "settingName": "playback.nextupbuttonseconds",
-                "type": "integer",
-                "default": "30"
             },
             {
                 "title": "Playback Bitrate Limits",
@@ -83,6 +69,20 @@
                         "default": "true"
                     }
                 ]
+            },
+            {
+                "title": "Cinema Mode",
+                "description": "Cinema Mode brings the theater experience straight to your living room with the ability to play custom intros before the main feature.",
+                "settingName": "playback.cinemamode",
+                "type": "bool",
+                "default": "false"
+            },
+            {
+                "title": "Next Episode Button Time",
+                "description": "Set how many seconds before the end of an episode the Next Episode button should appear. Set to 0 to disable.",
+                "settingName": "playback.nextupbuttonseconds",
+                "type": "integer",
+                "default": "30"
             },
             {
                 "title": "Text Subtitles Only",
