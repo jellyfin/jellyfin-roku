@@ -43,7 +43,7 @@
                 "settingName": "playback.nextupbuttonseconds",
                 "type": "integer",
                 "default": "30"
-            }
+            },
             {
                 "title": "Playback Bitrate Limits",
                 "description": "Set limits for how high playback bitrates are allowed to be.",
