@@ -10,32 +10,34 @@ sub init()
     m.reader = createObject("roUrlTransfer")
     m.font = CreateObject("roSGNode", "Font")
     m.tags = CreateObject("roRegex", "{\\an\d*}|&lt;.*?&gt;|<.*?>", "s")
+
     setFont()
 end sub
 
-
 sub setFont()
     fs = CreateObject("roFileSystem")
-    fontlist = fs.Find("tmp:/", "font\.(otf|ttf)")
+    fontlist = fs.Find("tmp:/", "font")
     if fontlist.count() > 0
         m.font.uri = "tmp:/" + fontlist[0]
-    else
-        m.font = "font:LargeBoldSystemFont"
+        m.font.size = 60
+        m.top.useThis = True
     end if
-    m.font.size = 60
 end sub
 
 sub fetchCaption()
-    m.captionTimer.control = "stop"
-    re = CreateObject("roRegex", "(http.*?\.vtt)", "s")
-    url = re.match(m.top.url)[0]
-    if url <> invalid
-        m.reader.setUrl(url)
-        text = m.reader.GetToString()
-        m.captionList = parseVTT(text)
-        m.captionTimer.control = "start"
-    else
+    if m.top.useThis
         m.captionTimer.control = "stop"
+        re = CreateObject("roRegex", "(http.*?\.vtt)", "s")
+        url = re.match(m.top.url)[0]
+        ?url
+        if url <> invalid
+            m.reader.setUrl(url)
+            text = m.reader.GetToString()
+            m.captionList = parseVTT(text)
+            m.captionTimer.control = "start"
+        else
+            m.captionTimer.control = "stop"
+        end if
     end if
 end sub
 
@@ -71,6 +73,8 @@ sub updateCaption ()
         texts = []
         for each entry in m.captionList
             if entry["start"] <= m.top.currentPos and m.top.currentPos < entry["end"]
+                ' ?m.top.currentPos
+                ' ?entry
                 t = m.tags.replaceAll(entry["text"], "")
                 texts.push(t)
             end if
@@ -98,40 +102,36 @@ sub updateCaption ()
     end if
 end sub
 
-function ms(t) as integer
-    tt = t.tokenize(":")
-    return 3600000 * val(tt[0]) + 60000 * val(tt[1]) + 1000 * val(tt[2]) + val(t.right(3))
-end function
-
-
-
-function getstart(text)
-    return ms(text.left(12))
-end function
-
-function getend(text)
-    return ms(text)
-end function
-
 function isTime(text)
-    return text.mid(13, 3) = "-->"
+    return text.right(1) = chr(31)
 end function
 
-function parseVTT(text)
-    captionList = []
-    lines = text.tokenize(Chr(0))[0]
-    lines = lines.tokenize(Chr(10))
-    size = lines.count()
-    curStart = 0
-    curEnd = 0
-    for i = 0 to size - 1
+function toMs(t)
+    t = t.replace(".", ":")
+    t = t.left(12)
+    timestamp = t.tokenize(":")
+    return 3600000 * timestamp[0].toint() + 60000 * timestamp[1].toint() + 1000 * timestamp[2].toint() + timestamp[3].toint()
+end function
+
+function parseVTT(lines)
+    lines = lines.replace(" --> ", chr(31) + chr(10))
+    lines = lines.split(chr(10))
+    curStart = -1
+    curEnd = -1
+    entries = []
+
+    for i = 0 to lines.count() - 1
         if isTime(lines[i])
-            curStart = ms (lines[i].left(12))
-            curEnd = ms(lines[i].mid(17, 12))
-        else
-            entry = { "start": curStart, "end": curEnd, "text": lines[i].trim() }
-            captionList.push(entry)
+            curStart = toMs (lines[i])
+            curEnd = toMs (lines[i + 1])
+            i += 1
+        else if curStart <> -1
+            trimmed = lines[i].trim()
+            if trimmed <> chr(0)
+                entry = { "start": curStart, "end": curEnd, "text": trimmed }
+                entries.push(entry)
+            end if
         end if
     end for
-    return captionList
+    return entries
 end function

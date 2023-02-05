@@ -5,6 +5,7 @@
               <field id="currentCaption" type="roArray" />
               <field id="playerState" type="string" value="stopped" />
               <field id="currentPos" type="int" />
+              <field id="useThis" type="boolean" />
        </interface>
        <script type="text/brightscript" uri="captionTask.brs" />
        <script type="text/brightscript" uri="pkg:/source/utils/config.brs" />

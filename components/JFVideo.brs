@@ -35,14 +35,16 @@ sub init()
     m.captionGroup.createchildren(9, "LayoutGroup")
     m.captionTask = createObject("roSGNode", "captionTask")
     m.captionTask.observeField("currentCaption", "updateCaption")
+    m.captionTask.observeField("useThis", "checkCaptionMode")
     m.top.observeField("currentSubtitleTrack", "loadCaption")
     m.top.observeField("globalCaptionMode", "toggleCaption")
     m.top.suppressCaptions = True
     toggleCaption()
+
 end sub
 
-
 sub loadCaption()
+    m.top.suppressCaptions = m.captionTask.useThis
     m.captionTask.url = m.top.currentSubtitleTrack
 end sub
 
@@ -124,7 +126,7 @@ end sub
 
 ' When Video Player state changes
 sub onPositionChanged()
-    m.captionTask.currentPos = Cint(m.top.position * 1000)
+    m.captionTask.currentPos = Int(m.top.position * 1000)
     m.dialog = m.top.getScene().findNode("dialogBackground")
     if not isValid(m.dialog)
         checkTimeToDisplayNextEpisode()
@@ -134,7 +136,6 @@ end sub
 '
 ' When Video Player state changes
 sub onState(msg)
-
     m.captionTask.playerState = m.top.state + m.top.globalCaptionMode
     ' When buffering, start timer to monitor buffering process
     if m.top.state = "buffering" and m.bufferCheckTimer <> invalid
