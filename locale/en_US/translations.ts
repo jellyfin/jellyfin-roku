@@ -1099,13 +1099,13 @@
             <extracomment>Settings Menu - Description for option</extracomment>
         </message>
          <message>
-            <source>Next Up button duration</source>
+            <source>Next Episode Button Time</source>
             <translation>Next Up button duration</translation>
             <extracomment>Settings Menu - Title for option</extracomment>
         </message>
         <message>
-            <source>Set Next up button duration. Defualt is 30 seconds from the end of the episode. Set to 0 to disable.</source>
-            <translation>Set Next up button duration. Defualt is 30 seconds from the end of the episode. Set to 0 to disable.</translation>
+            <source>Set how many seconds before the end of an episode the Next Episode button should appear. Set to 0 to disable.</source>
+            <translation>Set how many seconds before the end of an episode the Next Episode button should appear. Set to 0 to disable.</translation>
             <extracomment>Settings Menu - Description for option</extracomment>
         </message>
     </context>

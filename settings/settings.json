@@ -38,8 +38,8 @@
                 ]
             },
             {
-                "title": "Next Up button duration",
-                "description": "Set Next up button duration. Defualt is 30 seconds from the end of the episode. Set to 0 to disable.",
+                "title": "Next Episode Button Time",
+                "description": "Set how many seconds before the end of an episode the Next Episode button should appear. Set to 0 to disable.",
                 "settingName": "playback.nextupbuttonseconds",
                 "type": "integer",
                 "default": "30"
@@ -113,7 +113,7 @@
                         "description": "Set the maximum amount of days a show should stay in the 'Next Up' list without watching it.",
                         "settingName": "ui.details.maxdaysnextup",
                         "type": "integer",
-                        "default": "30"
+                        "default": "365"
                     },
                     {
                         "title": "Show What's New Popup",
