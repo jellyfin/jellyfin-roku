@@ -9,6 +9,7 @@ function VideoPlayer(id, mediaSourceId = invalid, audio_stream_idx = 1, subtitle
     end if
 
     if video.content = invalid
+        stopLoadingSpinner()
         return invalid
     end if
     jellyfin_blue = "#00a4dcFF"
@@ -57,7 +58,9 @@ sub AddVideoContent(video, mediaSourceId, audio_stream_idx = 1, subtitle_idx = -
         playbackPosition = meta.json.UserData.PlaybackPositionTicks
         if allowResumeDialog
             if playbackPosition > 0
+                stopLoadingSpinner()
                 dialogResult = startPlayBackOver(playbackPosition)
+                startMediaLoadingSpinner()
                 'Dialog returns -1 when back pressed, 0 for resume, and 1 for start over
                 if dialogResult = -1
                     'User pressed back, return invalid and don't load video
@@ -311,7 +314,6 @@ sub AddVideoContent(video, mediaSourceId, audio_stream_idx = 1, subtitle_idx = -
     if not fully_external
         video.content = authorize_request(video.content)
     end if
-    m.global.sceneManager.callFunc("dismiss_dialog")
 end sub
 
 function PlayIntroVideo(video_id, audio_stream_idx) as boolean
@@ -368,8 +370,6 @@ end function
 
 'Opens dialog asking user if they want to resume video or start playback over only on the home screen
 function startPlayBackOver(time as longinteger) as integer
-    'Closes Loading  Dialog
-    m.global.sceneManager.callFunc("dismiss_dialog")
     if m.scene.focusedChild.focusedChild.overhangTitle = tr("Home") and (m.videotype = "Episode" or m.videotype = "Series")
         return option_dialog([tr("Resume playing at ") + ticksToHuman(time) + ".", tr("Start over from the beginning."), tr("Watched"), tr("Go to series"), tr("Go to season"), tr("Go to episode")])
     else

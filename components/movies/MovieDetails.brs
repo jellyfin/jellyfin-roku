@@ -25,7 +25,6 @@ sub init()
     m.trailerButton.text = tr("Play Trailer")
 
     m.top.observeField("itemContent", "itemContentChanged")
-    m.top.findNode("communityRatingGroup").visible = false
 end sub
 
 sub OnScreenShown()
