@@ -11,6 +11,18 @@ sub init()
     m.font = CreateObject("roSGNode", "Font")
     m.tags = CreateObject("roRegex", "{\\an\d*}|&lt;.*?&gt;|<.*?>", "s")
 
+    ' Caption Style
+    m.fontSizeDict = { "Default": 60, "Large": 60, "Extra Large": 70, "Medium": 50, "Small": 40 }
+    m.percentageDict = { "Default": 1.0, "100%": 1.0, "75%": 0.75, "25%": 0.25, "Off": 0 }
+    m.textColorDict = { "Default": &HFFFFFFFF, "White": &HFFFFFFFF, "Black": &H000000FF, "Red": &HFF0000FF, "Green": &H008000FF, "Blue": &H0000FFFF, "Yellow": &HFFFF00FF, "Magenta": &HFF00FFFF, "Cyan": &H00FFFFFF }
+    m.outlColorDict = { "Default": &H000000FF, "White": &HFFFFFFFF, "Black": &H000000FF, "Red": &HFF0000FF, "Green": &H008000FF, "Blue": &H0000FFFF, "Yellow": &HFFFF00FF, "Magenta": &HFF00FFFF, "Cyan": &H00FFFFFF }
+
+    m.settings = CreateObject("roDeviceInfo")
+    m.fontSize = m.fontSizeDict[m.settings.GetCaptionsOption("Text/Size")]
+    m.textColor = m.textColorDict[m.settings.GetCaptionsOption("Text/Color")]
+    m.textOpac = m.percentageDict[m.settings.GetCaptionsOption("Text/Opacity")]
+    m.outlColor = m.outlColorDict[m.settings.GetCaptionsOption("Background/Color")]
+    m.outlOpac = m.percentageDict[m.settings.GetCaptionsOption("Background/Opacity")]
     setFont()
 end sub
 
@@ -19,7 +31,7 @@ sub setFont()
     fontlist = fs.Find("tmp:/", "font")
     if fontlist.count() > 0
         m.font.uri = "tmp:/" + fontlist[0]
-        m.font.size = 60
+        m.font.size = m.fontSize
         m.top.useThis = True
     end if
 end sub
@@ -45,7 +57,8 @@ function newlabel(txt):
     label = CreateObject("roSGNode", "Label")
     label.text = txt
     label.font = m.font
-    label.color = &H000000FF
+    label.color = m.outlColor
+    label.opacity = m.outlOpac
     label.height = 108
     return label
 end function
@@ -73,8 +86,6 @@ sub updateCaption ()
         texts = []
         for each entry in m.captionList
             if entry["start"] <= m.top.currentPos and m.top.currentPos < entry["end"]
-                ' ?m.top.currentPos
-                ' ?entry
                 t = m.tags.replaceAll(entry["text"], "")
                 texts.push(t)
             end if
@@ -92,7 +103,8 @@ sub updateCaption ()
             lglist.push(lgg)
         end for
         for q = 0 to 7
-            lglist[8].getchild(q).color = &HFFFFFFFF
+            lglist[8].getchild(q).color = m.textColor
+            lglist[8].getchild(q).opacity = m.textOpac
         end for
         m.top.currentCaption = lglist
     else if right(m.top.playerState, 4) = "Wait"

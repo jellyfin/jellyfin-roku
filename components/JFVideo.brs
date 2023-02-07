@@ -38,6 +38,7 @@ sub init()
     m.captionTask.observeField("useThis", "checkCaptionMode")
     m.top.observeField("currentSubtitleTrack", "loadCaption")
     m.top.observeField("globalCaptionMode", "toggleCaption")
+
     m.top.suppressCaptions = True
     toggleCaption()
 
