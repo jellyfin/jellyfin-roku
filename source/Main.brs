@@ -2,6 +2,22 @@ sub Main (args as dynamic) as void
 
     appInfo = CreateObject("roAppInfo")
 
+    if appInfo.IsDev() and args.RunTests = "true" and TF_Utils__IsFunction(TestRunner)
+        ' POST to {ROKU ADDRESS}:8060/launch/dev?RunTests=true
+        Runner = TestRunner()
+
+        Runner.SetFunctions([
+            TestSuite__Misc
+        ])
+
+        Runner.Logger.SetVerbosity(1)
+        Runner.Logger.SetEcho(false)
+        Runner.Logger.SetJUnit(false)
+        Runner.SetFailFast(true)
+
+        Runner.Run()
+    end if
+
     ' The main function that runs when the application is launched.
     m.screen = CreateObject("roSGScreen")
 
@@ -136,7 +152,7 @@ sub Main (args as dynamic) as void
                 sceneManager.callFunc("pushScene", group)
             else if selectedItem.type = "Folder" and selectedItem.json.type = "Genre"
                 ' User clicked on a genre folder
-                if selectedItem.collectionType = "movies"
+                if selectedItem.json.MovieCount > 0
                     group = CreateMovieLibraryView(selectedItem)
                 else
                     group = CreateItemGrid(selectedItem)
