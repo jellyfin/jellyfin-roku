@@ -15,7 +15,16 @@ sub loadPerson()
     itemData = item.json
     m.top.Id = itemData.id
     m.top.findNode("Name").Text = itemData.Name
+    m.top.findNode("Name").font.size = 70
     if itemData.PremiereDate <> invalid and itemData.PremiereDate <> ""
+        lifeStringLabel = createObject("rosgnode", "Label")
+        lifeStringLabel.id = "premierDate"
+        lifeStringLabel.font = "font:SmallestBoldSystemFont"
+        lifeStringLabel.height = "100"
+        lifeStringLabel.vertAlign = "bottom"
+        m.top.findNode("Name").vertAlign = "top"
+        m.top.findNode("Name").font.size = 60
+        m.top.findNode("title_rectangle").appendChild(lifeStringLabel)
         birthDate = CreateObject("roDateTime")
         birthDate.FromISO8601String(itemData.PremiereDate)
         deathDate = CreateObject("roDatetime")
@@ -38,7 +47,11 @@ sub loadPerson()
         lifeString = lifeString + " * " + tr("Age") + ": " + stri(age)
         m.top.findNode("premierDate").Text = lifeString
     end if
-    m.dscr.text = itemData.Overview
+    if itemData.Overview <> invalid and itemData.Overview <> ""
+        m.dscr.text = itemData.Overview
+    else
+        m.dscr.text = tr("Biographical information for this person is not currently available.")
+    end if
     if item.posterURL <> invalid and item.posterURL <> ""
         m.top.findnode("personImage").uri = item.posterURL
     else
