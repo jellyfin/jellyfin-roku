@@ -19,15 +19,15 @@
           </ButtonGroupHoriz>
         </LayoutGroup>
       <LayoutGroup id="personInfoGroup"
-          layoutDirection="horiz" itemSpacings="[36]">
+          layoutDirection="horiz" itemSpacings="[46]">
         <Poster id="personImage"
-            width="400" height="600" />
+            width="430" height="645" />
         <LayoutGroup id="vertSpacer" layoutDirection="vert" itemSpacings="[24]">
           <LayoutGroup id="dataGroup>" layoutDirection="vert" translation="[450,180]">
-            <Rectangle id="dscrBorder" height="600" width="1362" color="0x202020ff" visible="true">
-              <Rectangle id='dscrRect' translation="[3, 3]" height="594" width="1356" color="0x202020ff">
+            <Rectangle id="dscrBorder" height="645" width="1322" color="0x202020ff" visible="true">
+              <Rectangle id='dscrRect' translation="[3, 3]" height="639" width="1316" color="0x202020ff">
               <Label id="description"
-                  height="582" width="1320" wrap="true" translation="[18, 15]"
+                  height="627" width="1280" wrap="true" translation="[18, 15]"
                   font="font:SmallestSystemFont" color="#e4e4e4ff" ellipsisText=" ...  (-OK- for More)" />
               </Rectangle>
             </Rectangle>

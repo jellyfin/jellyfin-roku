@@ -51,6 +51,8 @@ sub loadPerson()
         m.dscr.text = itemData.Overview
     else
         m.dscr.text = tr("Biographical information for this person is not currently available.")
+        m.dscr.horizAlign = "center"
+        m.dscr.vertAlign = "center"
     end if
     if item.posterURL <> invalid and item.posterURL <> ""
         m.top.findnode("personImage").uri = item.posterURL
