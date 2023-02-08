@@ -14,7 +14,7 @@
               <Label id="name" font="font:LargeBoldSystemFont" height="100" width="1426" vertAlign="bottom" />
             </Rectangle>
           </LayoutGroup>
-          <ButtonGroupHoriz id="buttons" vertAlign="center">
+          <ButtonGroupHoriz id="buttons" >
             <Button id="favorite-button" text="Favorite" iconUri="" focusedIconUri="" />
           </ButtonGroupHoriz>
         </LayoutGroup>
