@@ -1112,5 +1112,9 @@
             <translation>Set how many seconds before the end of an episode the Next Episode button should appear. Set to 0 to disable.</translation>
             <extracomment>Settings Menu - Description for option</extracomment>
         </message>
+        <message>
+            <source>Biographical information for this person is not currently available.</source>
+            <translation>Biographical information for this person is not currently available.</translation>
+        </message>
     </context>
 </TS>
