@@ -24,8 +24,10 @@ end sub
 sub focusChanged()
     if m.top.itemHasFocus = true
         m.name.repeatCount = -1
+        m.role.repeatCount = -1
     else
         m.name.repeatCount = 0
+        m.role.repeatCount = 0
     end if
 
     if m.deviceInfo.IsAudioGuideEnabled() = true
