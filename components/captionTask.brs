@@ -13,16 +13,16 @@ sub init()
 
     ' Caption Style
     m.fontSizeDict = { "Default": 60, "Large": 60, "Extra Large": 70, "Medium": 50, "Small": 40 }
-    m.percentageDict = { "Default": 1.0, "100%": 1.0, "75%": 0.75, "25%": 0.25, "Off": 0 }
+    m.percentageDict = { "Default": 1.0, "100%": 1.0, "75%": 0.75, "50%": 0.5, "25%": 0.25, "Off": 0 }
     m.textColorDict = { "Default": &HFFFFFFFF, "White": &HFFFFFFFF, "Black": &H000000FF, "Red": &HFF0000FF, "Green": &H008000FF, "Blue": &H0000FFFF, "Yellow": &HFFFF00FF, "Magenta": &HFF00FFFF, "Cyan": &H00FFFFFF }
-    m.outlColorDict = { "Default": &H000000FF, "White": &HFFFFFFFF, "Black": &H000000FF, "Red": &HFF0000FF, "Green": &H008000FF, "Blue": &H0000FFFF, "Yellow": &HFFFF00FF, "Magenta": &HFF00FFFF, "Cyan": &H00FFFFFF }
+    m.bgColorDict = { "Default": &H000000FF, "White": &HFFFFFFFF, "Black": &H000000FF, "Red": &HFF0000FF, "Green": &H008000FF, "Blue": &H0000FFFF, "Yellow": &HFFFF00FF, "Magenta": &HFF00FFFF, "Cyan": &H00FFFFFF }
 
     m.settings = CreateObject("roDeviceInfo")
     m.fontSize = m.fontSizeDict[m.settings.GetCaptionsOption("Text/Size")]
     m.textColor = m.textColorDict[m.settings.GetCaptionsOption("Text/Color")]
     m.textOpac = m.percentageDict[m.settings.GetCaptionsOption("Text/Opacity")]
-    m.outlColor = m.outlColorDict[m.settings.GetCaptionsOption("Background/Color")]
-    m.outlOpac = m.percentageDict[m.settings.GetCaptionsOption("Background/Opacity")]
+    m.bgColor = m.bgColorDict[m.settings.GetCaptionsOption("Background/Color")]
+    m.bgOpac = m.percentageDict[m.settings.GetCaptionsOption("Background/Opacity")]
     setFont()
 end sub
 
@@ -57,25 +57,35 @@ function newlabel(txt):
     label = CreateObject("roSGNode", "Label")
     label.text = txt
     label.font = m.font
-    label.color = m.outlColor
-    label.opacity = m.outlOpac
-    label.height = 108
+    label.color = m.textColor
+    label.opacity = m.textOpac
     return label
 end function
 
-function newlayout(labels)
-    invis = CreateObject("roSGNode", "Label")
-    invis.visible = False
-    l = labels.count()
+function newLayoutGroup(labels)
     newlg = CreateObject("roSGNode", "LayoutGroup")
-    for i = 0 to 7 - l
-        newlg.appendchild(invis.clone(True))
-    end for
     newlg.appendchildren(labels)
     newlg.horizalignment = "center"
     newlg.vertalignment = "bottom"
-
     return newlg
+end function
+
+function newRect(lg)
+    rectLG = CreateObject("roSGNode", "LayoutGroup")
+    rectxy = lg.BoundingRect()
+    rect = CreateObject("roSGNode", "Rectangle")
+    rect.color = m.bgColor
+    rect.opacity = m.bgOpac
+    rect.width = rectxy.width + 50
+    rect.height = rectxy.height
+    if lg.getchildCount() = 0
+        rect.width = 0
+        rect.height = 0
+    end if
+    rectLG.horizalignment = "center"
+    rectLG.vertalignment = "bottom"
+    rectLG.appendchild(rect)
+    return rectLG
 end function
 
 
@@ -94,19 +104,9 @@ sub updateCaption ()
         for each text in texts
             labels.push(newlabel (text))
         end for
-        lg = newlayout(labels)
-        lglist = []
-        coords = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1], [0, 0]]
-        for p = 0 to 8
-            lgg = lg.clone(True)
-            lgg.translation = [coords[p][0] * 5, coords[p][1] * 5]
-            lglist.push(lgg)
-        end for
-        for q = 0 to 7
-            lglist[8].getchild(q).color = m.textColor
-            lglist[8].getchild(q).opacity = m.textOpac
-        end for
-        m.top.currentCaption = lglist
+        lines = newLayoutGroup(labels)
+        rect = newRect(lines)
+        m.top.currentCaption = [rect, lines]
     else if right(m.top.playerState, 4) = "Wait"
         m.top.playerState = "playingOn"
     else

@@ -60,7 +60,8 @@ sub toggleCaption()
 end sub
 
 sub updateCaption ()
-    m.captionGroup.removeChildrenindex(9, 0)
+    while m.captionGroup.removeChildIndex(0)
+    end while
     m.captionGroup.appendChildren(m.captionTask.currentCaption)
 end sub
 
