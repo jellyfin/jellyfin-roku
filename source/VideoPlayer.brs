@@ -99,6 +99,7 @@ sub AddVideoContent(video, mediaSourceId, audio_stream_idx = 1, subtitle_idx = -
                     for each item in data.Items
                         m.tmp = item
                     end for
+                    stopLoadingSpinner()
                     'Create Series Scene
                     CreateSeriesDetailsGroup(m.tmp)
                     video.content = invalid
@@ -136,6 +137,7 @@ sub AddVideoContent(video, mediaSourceId, audio_stream_idx = 1, subtitle_idx = -
                     for each item in data.Items
                         m.Series_tmp = item
                     end for
+                    stopLoadingSpinner()
                     'Create Season Scene
                     CreateSeasonDetailsGroup(m.Series_tmp, m.Season_tmp)
                     video.content = invalid
@@ -152,6 +154,7 @@ sub AddVideoContent(video, mediaSourceId, audio_stream_idx = 1, subtitle_idx = -
                     for each item in data.Items
                         m.episode_id = item
                     end for
+                    stopLoadingSpinner()
                     'Create Episode Scene
                     CreateMovieDetailsGroup(m.episode_id)
                     video.content = invalid

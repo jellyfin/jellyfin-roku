@@ -302,7 +302,7 @@ sub stopLoadingSpinner()
     if isValid(m.spinner)
         m.spinner.visible = false
     end if
-    if isValid(m.scene.dialog)
+    if isValid(m.scene?.dialog)
         m.scene.dialog.close = true
     end if
 end sub
