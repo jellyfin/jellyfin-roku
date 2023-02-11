@@ -11,7 +11,7 @@ sub showContent()
         cont = m.top.itemContent
         m.name.text = cont.labelText
         m.name.maxWidth = cont.imageWidth
-        m.role.Width = cont.imageWidth
+        m.role.maxWidth = cont.imageWidth
         m.posterImg.uri = cont.posterUrl
         m.posterImg.width = cont.imageWidth
         m.role.Text = cont.subTitle
