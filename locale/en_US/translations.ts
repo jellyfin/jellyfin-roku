@@ -1098,5 +1098,11 @@
             <translation>If enabled, the number of unwatched episodes in a series/season will be removed.</translation>
             <extracomment>Settings Menu - Description for option</extracomment>
         </message>
+        <message>
+            <source>Loading trailer</source>
+            <translation>Loading trailer</translation>
+            <extracomment>Dialog title in Main.brs</extracomment>
+        </message>
     </context>
 </TS>
+
