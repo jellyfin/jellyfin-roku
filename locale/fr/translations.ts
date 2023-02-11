@@ -5713,5 +5713,32 @@
         <source>Transcoding Information</source>
         <translation>Informations de transcodage</translation>
     </message>
+    <message>
+        <source>On Now</source>
+        <translation>En ce moment</translation>
+    </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>Sauvegarder les informations d&apos;identification ?</translation>
+    </message>
+    <message>
+        <source>Error Retrieving Content</source>
+        <translation>Erreur lors de la récupération du contenu</translation>
+        <extracomment>Dialog title when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <source>There was an error retrieving the data for this item from the server.</source>
+        <translation>Une erreur s&apos;est produite lors de la récupération des données de cet élément à partir du serveur.</translation>
+        <extracomment>Dialog detail when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <source>Error During Playback</source>
+        <translation>Erreur lors de la lecture</translation>
+        <extracomment>Dialog title when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>Delete Saved</source>
+        <translation>Supprimer les valeurs enregistrées</translation>
+    </message>
 </context>
 </TS>

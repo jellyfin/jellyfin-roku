@@ -525,7 +525,11 @@ sub Main (args as dynamic) as void
                 else if node.showID = invalid
                     sceneManager.callFunc("popScene")
                 else
-                    autoPlayNextEpisode(node.id, node.showID)
+                    if video.errorMsg = ""
+                        autoPlayNextEpisode(node.id, node.showID)
+                    else
+                        sceneManager.callFunc("popScene")
+                    end if
                 end if
             end if
         else if type(msg) = "roDeviceInfoEvent"

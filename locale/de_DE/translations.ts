@@ -9866,5 +9866,88 @@
         <translation>Einstellungen für die Startseite.</translation>
         <extracomment>Description for Home Page user settings.</extracomment>
     </message>
+    <message>
+        <source>Sign Out</source>
+        <translation>Abmelden</translation>
+    </message>
+    <message>
+        <source>Delete Saved</source>
+        <translation>Löschen</translation>
+    </message>
+    <message>
+        <source>Error During Playback</source>
+        <translation>Fehler bei der wiedergabe</translation>
+        <extracomment>Dialog title when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>There was an error retrieving the data for this item from the server.</source>
+        <translation>Fehler beim laden der Daten vom Server</translation>
+        <extracomment>Dialog detail when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <comment>Message displayed in Item Grid when no item to display. %1 is container type (e.g. Boxset, Collection, Folder, etc)</comment>
+        <source>NO_ITEMS</source>
+        <translation>Dieses %1 hat keine Inhalte</translation>
+    </message>
+    <message>
+        <source>RUNTIME</source>
+        <translation>Laufzeit</translation>
+    </message>
+    <message>
+        <source>An error was encountered while playing this item.</source>
+        <translation>Beim Abspielen ist ein Fehler aufgetreten.</translation>
+        <extracomment>Dialog detail when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>Schlüssel speichern?</translation>
+    </message>
+    <message>
+        <source>Error Retrieving Content</source>
+        <translation>Fehler beim laden des Inhalts</translation>
+        <extracomment>Dialog title when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <comment>Title of Tab for switching &quot;views&quot; when looking at a library</comment>
+        <source>TAB_VIEW</source>
+        <translation>Ansicht</translation>
+    </message>
+    <message>
+        <source>RELEASE_DATE</source>
+        <translation>Veröffentlichungsdatum</translation>
+    </message>
+    <message>
+        <source>Change Server</source>
+        <translation>Server wechseln</translation>
+    </message>
+    <message>
+        <comment>Name or Title field of media item</comment>
+        <source>TITLE</source>
+        <translation>Name</translation>
+    </message>
+    <message>
+        <source>CRITIC_RATING</source>
+        <translation>Kritiker Bewertung</translation>
+    </message>
+    <message>
+        <source>OFFICIAL_RATING</source>
+        <translation>Altersfreigabe</translation>
+    </message>
+    <message>
+        <source>IMDB_RATING</source>
+        <translation>IMDb Bewertung</translation>
+    </message>
+    <message>
+        <source>PLAY_COUNT</source>
+        <translation>Wiedergabeanzahl</translation>
+    </message>
+    <message>
+        <source>DATE_PLAYED</source>
+        <translation>Zuletzt abgespielt</translation>
+    </message>
+    <message>
+        <source>DATE_ADDED</source>
+        <translation>Datum</translation>
+    </message>
 </context>
 </TS>
