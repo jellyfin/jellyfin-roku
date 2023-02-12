@@ -381,6 +381,7 @@ sub Main (args as dynamic) as void
             btn = getButton(msg)
             group = sceneManager.callFunc("getActiveScene")
             if btn <> invalid and btn.id = "play-button"
+
                 ' Check if a specific Audio Stream was selected
                 audio_stream_idx = 1
                 if group.selectedAudioStreamIndex <> invalid
@@ -393,7 +394,6 @@ sub Main (args as dynamic) as void
                     mediaSourceId = group.selectedVideoStreamId
                 end if
                 video_id = group.id
-
                 video = CreateVideoPlayerGroup(video_id, mediaSourceId, audio_stream_idx)
                 if video <> invalid and video.errorMsg <> "introaborted"
                     sceneManager.callFunc("pushScene", video)
@@ -411,6 +411,9 @@ sub Main (args as dynamic) as void
                 end if
 
             else if btn <> invalid and btn.id = "trailer-button"
+                dialog = createObject("roSGNode", "ProgressDialog")
+                dialog.title = tr("Loading trailer")
+                m.scene.dialog = dialog
                 audio_stream_idx = 1
                 mediaSourceId = invalid
                 video_id = group.id
@@ -422,6 +425,7 @@ sub Main (args as dynamic) as void
                 video = CreateVideoPlayerGroup(video_id, mediaSourceId, audio_stream_idx, false, false)
                 if video <> invalid and video.errorMsg <> "introaborted"
                     sceneManager.callFunc("pushScene", video)
+                    dialog.close = true
                 end if
 
                 if group.lastFocus <> invalid

@@ -1099,6 +1099,11 @@
             <extracomment>Settings Menu - Description for option</extracomment>
         </message>
         <message>
+            <source>Loading trailer</source>
+            <translation>Loading trailer</translation>
+            <extracomment>Dialog title in Main.brs</extracomment>
+        </message>
+        <message>
             <source>Next Episode Button Time</source>
             <translation>Next Episode Button Time</translation>
             <extracomment>Settings Menu - Title for option</extracomment>
@@ -1110,3 +1115,4 @@
         </message>
     </context>
 </TS>
+
