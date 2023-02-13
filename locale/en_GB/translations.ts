@@ -3209,5 +3209,10 @@
         <source>Record Series</source>
         <translation>Record Series</translation>
     </message>
+    <message>
+        <source>Set how many seconds before the end of an episode the Next Episode button should appear. Set to 0 to disable.</source>
+        <translation>Set how many seconds before the end of an episode the Next Episode button should appear. Set to 0 to disable.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
 </context>
 </TS>
