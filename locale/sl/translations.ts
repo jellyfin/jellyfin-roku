@@ -1637,5 +1637,66 @@
         <translation>Neznan</translation>
         <extracomment>Title for a cast member for which we have no information for</extracomment>
     </message>
+    <message>
+        <source>Go to series</source>
+        <translation>Pojdi na serije</translation>
+        <extracomment>Continue Watching Popup Menu - Navigate to the Series Detail Page</extracomment>
+    </message>
+    <message>
+        <source>Go to season</source>
+        <translation>Pojdi na sezono</translation>
+        <extracomment>Continue Watching Popup Menu - Navigate to the Season Page</extracomment>
+    </message>
+    <message>
+        <source>Hide Taglines</source>
+        <translation>Skrij slogane</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
+    <message>
+        <source>Support Direct Play of MPEG-4 content. This may need to be disabled for playback of DIVX encoded video files.</source>
+        <translation>Podpora neposrednega predvajanja vsebine MPEG-4. To bo mogoče potrebno onemogočiti za predvajanje video datotek, ki so kodirane v DIVX.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>If enabled, selecting a TV series with only one season will go straight to the episode list rather than the show details and season list.</source>
+        <translation>Če je omogočeno, se bo izbira TV-serije s samo eno sezono preusmerila neposredno na seznam epizod in ne na podrobnosti o oddaji in seznamu sezon.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Use Splashscreen as Screensaver</source>
+        <translation>Uporabi Splashscreen kot Screensaver</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
+    <message>
+        <source>Quick Connect</source>
+        <translation>Hitra povezava</translation>
+    </message>
+    <message>
+        <source>** EXPERIMENTAL** Support Direct Play of AV1 content if this Roku device supports it.</source>
+        <translation>** EKSPERIMENTALNO** Podpora za neposredno predvajanje vsebine AV1, če naprava Roku to podpira.</translation>
+        <extracomment>Description of a setting - should we try to direct play experimental av1 codec</extracomment>
+    </message>
+    <message>
+        <source>On Now</source>
+        <translation>Trenutno</translation>
+    </message>
+    <message>
+        <source>Go to episode</source>
+        <translation>Pojdi na epizodo</translation>
+        <extracomment>Continue Watching Popup Menu - Navigate to the Episode Detail Page</extracomment>
+    </message>
+    <message>
+        <source>Shows</source>
+        <translation>Serije</translation>
+    </message>
+    <message>
+        <source>Hides tagline text on details pages.</source>
+        <translation>Skrije besedilo slogana na straneh s podrobnostmi.</translation>
+    </message>
+    <message>
+        <source>Skip Details for Single Seasons</source>
+        <translation>Preskoči podrobnosti za posamezne sezone</translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
 </context>
 </TS>
