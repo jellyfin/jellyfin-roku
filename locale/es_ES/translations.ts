@@ -3098,5 +3098,140 @@
         <source>Delete Saved</source>
         <translation>Eliminar guardados</translation>
     </message>
+    <message>
+        <source>An error was encountered while playing this item.</source>
+        <translation>Se ha encontrado un error durante la reproduccion.</translation>
+        <extracomment>Dialog detail when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>DATE_PLAYED</source>
+        <translation>Fecha de reproducción</translation>
+    </message>
+    <message>
+        <source>OFFICIAL_RATING</source>
+        <translation>Valoración parental</translation>
+    </message>
+    <message>
+        <comment>Title of Tab for options to filter library content</comment>
+        <source>TAB_FILTER</source>
+        <translation>Filtrar</translation>
+    </message>
+    <message>
+        <source>Born</source>
+        <translation>Nacido</translation>
+    </message>
+    <message>
+        <source>Press &apos;OK&apos; to Close</source>
+        <translation>Pulsa &apos;OK&apos; para cerrar</translation>
+    </message>
+    <message>
+        <source>TV Shows</source>
+        <translation>Programas de TV</translation>
+    </message>
+    <message>
+        <source>yesterday</source>
+        <translation>ayer</translation>
+        <extracomment>Previous day</extracomment>
+    </message>
+    <message>
+        <source>Sunday</source>
+        <translation>Domingo</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Wednesday</source>
+        <translation>Miércoles</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Saturday</source>
+        <translation>Sábado</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Died</source>
+        <translation type="unfinished">Fallecio</translation>
+    </message>
+    <message>
+        <source>tomorrow</source>
+        <translation>mañana</translation>
+        <extracomment>Next day</extracomment>
+    </message>
+    <message>
+        <source>Monday</source>
+        <translation>Lunes</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Tuesday</source>
+        <translation>Martes</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Thursday</source>
+        <translation>Jueves</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Friday</source>
+        <translation>Viernes</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>IMDB_RATING</source>
+        <translation>Valoración de IMDb</translation>
+    </message>
+    <message>
+        <source>Age</source>
+        <translation>Edad</translation>
+    </message>
+    <message>
+        <source>today</source>
+        <translation>hoy</translation>
+        <extracomment>Current day</extracomment>
+    </message>
+    <message>
+        <source>Unable to load Channel Data from the server</source>
+        <translation>No se ha podido cargar la informacion de los canales desde el servidor</translation>
+    </message>
+    <message>
+        <comment>Message displayed in Item Grid when no item to display. %1 is container type (e.g. Boxset, Collection, Folder, etc)</comment>
+        <source>NO_ITEMS</source>
+        <translation>Este %1 no contiene medios</translation>
+    </message>
+    <message>
+        <comment>Name or Title field of media item</comment>
+        <source>TITLE</source>
+        <translation>Nombre</translation>
+    </message>
+    <message>
+        <source>CRITIC_RATING</source>
+        <translation>Valoración de los críticos</translation>
+    </message>
+    <message>
+        <source>Loading Channel Data</source>
+        <translation>Cargando información del canal</translation>
+    </message>
+    <message>
+        <source>Error loading Channel Data</source>
+        <translation>Error cargando la information del canal</translation>
+    </message>
+    <message>
+        <source>PLAY_COUNT</source>
+        <translation>Contador de reproducciones</translation>
+    </message>
+    <message>
+        <source>RELEASE_DATE</source>
+        <translation>Fecha de lanzamiento</translation>
+    </message>
+    <message>
+        <comment>Title of Tab for options to sort library content</comment>
+        <source>TAB_SORT</source>
+        <translation>Ordenar</translation>
+    </message>
+    <message>
+        <source>Movies</source>
+        <translation>Películas</translation>
+    </message>
 </context>
 </TS>
