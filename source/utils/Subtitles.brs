@@ -86,8 +86,6 @@ function setupSubtitle(video, subtitles, subtitle_idx = -1) as integer
 
     if selectedSubtitle.IsEncoded
         ' With encoded subtitles, turn off captions
-        ?"Check2"
-
         video.globalCaptionMode = "Off"
     else
         ' If this is a text-based subtitle, set relevant settings for roku captions
@@ -178,7 +176,6 @@ sub turnoffSubtitles()
     video = m.scene.focusedChild.focusedChild
     current = video.SelectedSubtitle
     video.SelectedSubtitle = -1
-    ?"Check3"
     video.globalCaptionMode = "Off"
     m.device.EnableAppFocusEvent(false)
     ' Check if Enoded subtitles are being displayed, and turn off

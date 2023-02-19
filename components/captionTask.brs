@@ -32,28 +32,27 @@ sub setFont()
     if fontlist.count() > 0
         m.font.uri = "tmp:/" + fontlist[0]
         m.font.size = m.fontSize
-        m.top.useThis = True
+    else
+        reg = CreateObject("roFontRegistry")
+        m.font = reg.GetDefaultFont(m.fontSize, false, false)
     end if
 end sub
 
 sub fetchCaption()
-    if m.top.useThis
+    m.captionTimer.control = "stop"
+    re = CreateObject("roRegex", "(http.*?\.vtt)", "s")
+    url = re.match(m.top.url)[0]
+    if url <> invalid
+        m.reader.setUrl(url)
+        text = m.reader.GetToString()
+        m.captionList = parseVTT(text)
+        m.captionTimer.control = "start"
+    else
         m.captionTimer.control = "stop"
-        re = CreateObject("roRegex", "(http.*?\.vtt)", "s")
-        url = re.match(m.top.url)[0]
-        ?url
-        if url <> invalid
-            m.reader.setUrl(url)
-            text = m.reader.GetToString()
-            m.captionList = parseVTT(text)
-            m.captionTimer.control = "start"
-        else
-            m.captionTimer.control = "stop"
-        end if
     end if
 end sub
 
-function newlabel(txt):
+function newlabel(txt)
     label = CreateObject("roSGNode", "Label")
     label.text = txt
     label.font = m.font
@@ -82,8 +81,9 @@ function newRect(lg)
         rect.width = 0
         rect.height = 0
     end if
+    rectLG.translation = [0, -rect.height / 2]
     rectLG.horizalignment = "center"
-    rectLG.vertalignment = "bottom"
+    rectLG.vertalignment = "center"
     rectLG.appendchild(rect)
     return rectLG
 end function
@@ -91,7 +91,7 @@ end function
 
 sub updateCaption ()
     m.top.currentCaption = []
-    if m.top.playerState = "playingOn"
+    if LCase(m.top.playerState) = "playingon"
         m.top.currentPos = m.top.currentPos + 100
         texts = []
         for each entry in m.captionList
@@ -107,10 +107,8 @@ sub updateCaption ()
         lines = newLayoutGroup(labels)
         rect = newRect(lines)
         m.top.currentCaption = [rect, lines]
-    else if right(m.top.playerState, 4) = "Wait"
-        m.top.playerState = "playingOn"
-    else
-        m.top.currentCaption = []
+    else if LCase(m.top.playerState.right(1)) = "w"
+        m.top.playerState = m.top.playerState.left(len (m.top.playerState) - 1)
     end if
 end sub
 

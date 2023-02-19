@@ -42,12 +42,14 @@ sub Main (args as dynamic) as void
     m.scene.observeField("exit", m.port)
 
     ' Downloads and stores a fallback font to tmp:/
-    re = CreateObject("roRegex", "Name.:.(.*?).,.Size", "s")
-    filename = APIRequest("FallbackFont/Fonts").GetToString()
-    filename = re.match(filename)
-    if filename.count() > 0
-        filename = filename[1]
-        APIRequest("FallbackFont/Fonts/" + filename).gettofile("tmp:/font")
+    if parseJSON(APIRequest("/System/Configuration/encoding").GetToString())["EnableFallbackFont"] = true
+        re = CreateObject("roRegex", "Name.:.(.*?).,.Size", "s")
+        filename = APIRequest("FallbackFont/Fonts").GetToString()
+        filename = re.match(filename)
+        if filename.count() > 0
+            filename = filename[1]
+            APIRequest("FallbackFont/Fonts/" + filename).gettofile("tmp:/font")
+        end if
     end if
 
     ' Only show the Whats New popup the first time a user runs a new client version.
