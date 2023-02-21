@@ -9522,5 +9522,444 @@
         <source>Disabled</source>
         <translation>Deaktiviert</translation>
     </message>
+    <message>
+        <source>Default view for Movie Libraries.</source>
+        <translation>Standard Ansicht für Film Sammlungen.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Movie Library Grid Titles</source>
+        <translation>Film Sammlung Grid Titel</translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
+    <message>
+        <source>Select when to show titles.</source>
+        <translation>Wähle aus wann Serientitel gezeigt werden sollen.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Show On Hover</source>
+        <translation>Beim Hovern anzeigen</translation>
+    </message>
+    <message>
+        <source>Always Show</source>
+        <translation>Immer zeigen</translation>
+    </message>
+    <message>
+        <source>Always Hide</source>
+        <translation>Niemals anzeigen</translation>
+    </message>
+    <message>
+        <source>Media Grid</source>
+        <translation>Medien Anordnung</translation>
+        <extracomment>UI -&gt; Media Grid section in user setting screen.</extracomment>
+    </message>
+    <message>
+        <source>Use the replay button to slowly animate to the first item in the folder. (If disabled, the folder will reset to the first item immediately).</source>
+        <translation>Verwenden Sie &quot;Wiederholen&quot;, um langsam zum ersten Element im Ordner zu überblenden. (Wenn diese Funktion deaktiviert ist, wird der Ordner sofort zum ersten Element zurückgesetzt).</translation>
+        <extracomment>Description for option in Setting Screen</extracomment>
+    </message>
+    <message>
+        <source>If enabled, selecting a TV series with only one season will go straight to the episode list rather than the show details and season list.</source>
+        <translation>Wenn diese Option aktiviert ist, führt die Auswahl einer TV-Serie mit nur einer Staffel direkt zur Episodenliste und nicht zu den Showdetails und der Staffelliste.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Use generated splashscreen image as Jellyfin&apos;s screensaver background. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Generierten Splashscreen als Jellyfin&apos;s Bildschirmschoner verwenden. Jellyfin muss neu geöffnet werden, damit die Änderung wirksam wird.</translation>
+    </message>
+    <message>
+        <source>Use Splashscreen as Home Background</source>
+        <translation>Startbildschirm als Hintergrund verwenden</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
+    <message>
+        <source>Use generated splashscreen image as Jellyfin&apos;s home background. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Generierten Startbildschirm als Jellyfins Hintergrund verwenden. Jellyfin muss neu geöffnet werden, damit die Änderung wirksam wird.</translation>
+        <extracomment>Description for option in Setting Screen</extracomment>
+    </message>
+    <message>
+        <source>Next episode</source>
+        <translation>Nächste Folge</translation>
+    </message>
+    <message>
+        <source>Set the maximum amount of days a show should stay in the &apos;Next Up&apos; list without watching it.</source>
+        <translation>Legen Sie die maximale Anzahl von Tagen fest, die eine Serie in der Liste &quot;Als Nächstes&quot; verbleiben soll, ohne dass sie angesehen wird.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Text Subtitles Only</source>
+        <translation>Nur Text Untertitel</translation>
+        <extracomment>Name of a setting - should we hide subtitles that might transcode</extracomment>
+    </message>
+    <message>
+        <source>Show What&apos;s New popup when Jellyfin is updated to a new version.</source>
+        <translation>Zeige Was ist neu Popup nach einem Jellyfin update.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Resumable</source>
+        <translation>fortsetzen</translation>
+    </message>
+    <message>
+        <source>Movie Library Default View</source>
+        <translation>Film Sammlung standard Ansicht</translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
+    <message>
+        <source>If enabled, the star and community rating for episodes of a TV show will be removed. This is to prevent spoilers of an upcoming good/bad episode.</source>
+        <translation>Wenn ausgewählt, wird das Sterne und Benutzerbewertungssystem entfernt. Dies ist um spoilern vorzubeugen.</translation>
+    </message>
+    <message>
+        <source>Options that alter the design of Jellyfin.</source>
+        <translation>Einstellungen für das Aussehen Jellyfins.</translation>
+        <extracomment>Description for Design Elements user settings.</extracomment>
+    </message>
+    <message>
+        <source>Cinema Mode</source>
+        <translation>Kinomodus</translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
+    <message>
+        <source>Cinema Mode brings the theater experience straight to your living room with the ability to play custom intros before the main feature.</source>
+        <translation>Der Kinomodus bringt das Kinoerlebnis direkt in Ihr Wohnzimmer und bietet die Möglichkeit, benutzerdefinierte Intros vor dem Hauptfilm abzuspielen.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Hide Clock</source>
+        <translation>Uhr ausblenden</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
+    <message>
+        <source>Hides all clocks in Jellyfin. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Blendet alle Uhren in Jellyfin aus. Jellyfin muss neu gestartet werden, damit die Änderung wirksam wird.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Play Trailer</source>
+        <translation>Trailer abspielen</translation>
+    </message>
+    <message>
+        <source>H.264</source>
+        <translation>H.264</translation>
+        <extracomment>Name of codec used in settings menu</extracomment>
+    </message>
+    <message>
+        <source>HEVC</source>
+        <translation>HEVC</translation>
+        <extracomment>Name of codec used in settings menu</extracomment>
+    </message>
+    <message>
+        <source>Transcoding Information</source>
+        <translation>Transkodierung-Information</translation>
+    </message>
+    <message>
+        <source>Video Codec</source>
+        <translation>Video-Codec</translation>
+    </message>
+    <message>
+        <source>Audio Codec</source>
+        <translation>Audio-Codec</translation>
+    </message>
+    <message>
+        <source>direct</source>
+        <translation>direkt</translation>
+    </message>
+    <message>
+        <source>Audio Channels</source>
+        <translation>Audiokanäle</translation>
+    </message>
+    <message>
+        <source>Codec Tag</source>
+        <translation>Codec-Tag</translation>
+    </message>
+    <message>
+        <source>Bit Rate</source>
+        <translation>Bitrate</translation>
+        <extracomment>Video streaming bit rate</extracomment>
+    </message>
+    <message>
+        <source>Container</source>
+        <translation>Container</translation>
+        <extracomment>Video streaming container</extracomment>
+    </message>
+    <message>
+        <source>Video range type</source>
+        <translation>Video-Spektrum</translation>
+    </message>
+    <message>
+        <source>Pixel format</source>
+        <translation>Pixelformat</translation>
+        <extracomment>Video pixel format</extracomment>
+    </message>
+    <message>
+        <source>Unable to find any albums or songs belonging to this artist</source>
+        <translation>Es konnten keine Alben oder Lieder dieses Künstlers gefunden werden</translation>
+        <extracomment>Popup message when we find no audio data for an artist</extracomment>
+    </message>
+    <message>
+        <source>Only display text subtitles to minimize transcoding.</source>
+        <translation>Zeige nur Text Untertitel um Transkodierungen zu minimieren.</translation>
+        <extracomment>Description of a setting - should we hide subtitles that might transcode</extracomment>
+    </message>
+    <message>
+        <source>Slideshow Off</source>
+        <translation>Diashow aus</translation>
+    </message>
+    <message>
+        <source>Slideshow On</source>
+        <translation>Diashow an</translation>
+    </message>
+    <message>
+        <source>Slideshow Paused</source>
+        <translation>Diashow pausiert</translation>
+    </message>
+    <message>
+        <source>Slideshow Resumed</source>
+        <translation>Diashow fortgesetzt</translation>
+    </message>
+    <message>
+        <source>MPEG-4 Support</source>
+        <translation>MPEG-4 Unterstützung</translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
+    <message>
+        <source>Show What&apos;s New Popup</source>
+        <translation>Serie Was ist neu Popup</translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
+    <message>
+        <source>Options for TV Shows.</source>
+        <translation>Serien-Einstellungen.</translation>
+        <extracomment>Description for TV Shows user settings.</extracomment>
+    </message>
+    <message>
+        <source>Home Page</source>
+        <translation>Startseite</translation>
+    </message>
+    <message>
+        <source>Max Days Next Up</source>
+        <translation>Max. Tage im &quot;Als Nächstes&quot; Bereich</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
+    <message>
+        <source>Playback Information</source>
+        <translation>Wiedergabeinformation</translation>
+    </message>
+    <message>
+        <source>Stream Information</source>
+        <translation>Stream Informationen</translation>
+    </message>
+    <message>
+        <source>WxH</source>
+        <translation>Breite x Höhe</translation>
+        <extracomment>Video width x height</extracomment>
+    </message>
+    <message>
+        <source>all</source>
+        <translation>Alle</translation>
+        <extracomment>all will reset the searchTerm so all data will be availible</extracomment>
+    </message>
+    <message>
+        <source>Aired</source>
+        <translation>Ausgestrahlt</translation>
+        <extracomment>Aired date label</extracomment>
+    </message>
+    <message>
+        <source>Artists (Presentation)</source>
+        <translation>Künstlerinnenvorstellung</translation>
+    </message>
+    <message>
+        <source>Song</source>
+        <translation>Musiktitel</translation>
+    </message>
+    <message>
+        <source>Songs</source>
+        <translation>Lieder</translation>
+    </message>
+    <message>
+        <source>Album</source>
+        <translation>Album</translation>
+    </message>
+    <message>
+        <source>Albums</source>
+        <translation>Alben</translation>
+    </message>
+    <message>
+        <source>View All</source>
+        <translation>Alle anzeigen</translation>
+    </message>
+    <message>
+        <source>Disable Community Rating for Episodes</source>
+        <translation>Deaktiviere Community Bewertungen für Episoden</translation>
+    </message>
+    <message>
+        <source>Artists (Grid)</source>
+        <translation>Künstler (Gitter)</translation>
+    </message>
+    <message>
+        <source>Item Count</source>
+        <translation>Dateien-Anzahl</translation>
+        <extracomment>UI -&gt; Media Grid -&gt; Item Count in user setting screen.</extracomment>
+    </message>
+    <message>
+        <source>Media Grid options.</source>
+        <translation>Medien Anordnung Optionen.</translation>
+    </message>
+    <message>
+        <source>Design Elements</source>
+        <translation>Designelemente</translation>
+    </message>
+    <message>
+        <source>Settings relating to how the application looks.</source>
+        <translation>Einstellungen zum Aussehen des Programms.</translation>
+    </message>
+    <message>
+        <source>Settings relating to playback and supported codec and media types.</source>
+        <translation>Einstellungen für die Wiedergabe und unterstützte Codec- und Medientypen.</translation>
+    </message>
+    <message>
+        <source>Reason</source>
+        <translation>Grund</translation>
+    </message>
+    <message>
+        <source>Total Bitrate</source>
+        <translation>Gesamte Bitrate</translation>
+    </message>
+    <message>
+        <source>Codec</source>
+        <translation>Codec</translation>
+    </message>
+    <message>
+        <source>Size</source>
+        <translation>Größe</translation>
+        <extracomment>Video size</extracomment>
+    </message>
+    <message>
+        <source>Random On</source>
+        <translation>Zufällig an</translation>
+    </message>
+    <message>
+        <source>Random Off</source>
+        <translation>Zufällig aus</translation>
+    </message>
+    <message>
+        <source>Played</source>
+        <translation>gespielt</translation>
+    </message>
+    <message>
+        <source>Unplayed</source>
+        <translation>nicht gespielt</translation>
+    </message>
+    <message>
+        <source>Item Titles</source>
+        <translation>Dateien-Titel</translation>
+        <extracomment>UI -&gt; Media Grid -&gt; Item Title in user setting screen.</extracomment>
+    </message>
+    <message>
+        <source>Level</source>
+        <translation>Level</translation>
+        <extracomment>Video profile level</extracomment>
+    </message>
+    <message>
+        <source>Options for Home Page.</source>
+        <translation>Einstellungen für die Startseite.</translation>
+        <extracomment>Description for Home Page user settings.</extracomment>
+    </message>
+    <message>
+        <source>Sign Out</source>
+        <translation>Abmelden</translation>
+    </message>
+    <message>
+        <source>Delete Saved</source>
+        <translation>Löschen</translation>
+    </message>
+    <message>
+        <source>Error During Playback</source>
+        <translation>Fehler bei der wiedergabe</translation>
+        <extracomment>Dialog title when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>There was an error retrieving the data for this item from the server.</source>
+        <translation>Fehler beim laden der Daten vom Server</translation>
+        <extracomment>Dialog detail when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <comment>Message displayed in Item Grid when no item to display. %1 is container type (e.g. Boxset, Collection, Folder, etc)</comment>
+        <source>NO_ITEMS</source>
+        <translation>Dieses %1 hat keine Inhalte</translation>
+    </message>
+    <message>
+        <source>RUNTIME</source>
+        <translation>Laufzeit</translation>
+    </message>
+    <message>
+        <source>An error was encountered while playing this item.</source>
+        <translation>Beim Abspielen ist ein Fehler aufgetreten.</translation>
+        <extracomment>Dialog detail when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>Schlüssel speichern?</translation>
+    </message>
+    <message>
+        <source>Error Retrieving Content</source>
+        <translation>Fehler beim laden des Inhalts</translation>
+        <extracomment>Dialog title when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <comment>Title of Tab for switching &quot;views&quot; when looking at a library</comment>
+        <source>TAB_VIEW</source>
+        <translation>Ansicht</translation>
+    </message>
+    <message>
+        <source>RELEASE_DATE</source>
+        <translation>Veröffentlichungsdatum</translation>
+    </message>
+    <message>
+        <source>Change Server</source>
+        <translation>Server wechseln</translation>
+    </message>
+    <message>
+        <comment>Name or Title field of media item</comment>
+        <source>TITLE</source>
+        <translation>Name</translation>
+    </message>
+    <message>
+        <source>CRITIC_RATING</source>
+        <translation>Kritiker Bewertung</translation>
+    </message>
+    <message>
+        <source>OFFICIAL_RATING</source>
+        <translation>Altersfreigabe</translation>
+    </message>
+    <message>
+        <source>IMDB_RATING</source>
+        <translation>IMDb Bewertung</translation>
+    </message>
+    <message>
+        <source>PLAY_COUNT</source>
+        <translation>Wiedergabeanzahl</translation>
+    </message>
+    <message>
+        <source>DATE_PLAYED</source>
+        <translation>Zuletzt abgespielt</translation>
+    </message>
+    <message>
+        <source>DATE_ADDED</source>
+        <translation>Datum</translation>
+    </message>
+    <message>
+        <source>Sign Out</source>
+        <translation>Abmelden</translation>
+    </message>
+    <message>
+        <source>Change Server</source>
+        <translation>Server wechseln</translation>
+    </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>Zugangsdaten speichern?</translation>
+    </message>
 </context>
 </TS>
