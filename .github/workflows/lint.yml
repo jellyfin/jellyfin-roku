@@ -27,3 +27,34 @@ jobs:
         run: xmllint --noout ./locale/*/*.ts
       - name: Check XML for duplicate entries
         run: xmlstarlet sel -t -m '/TS/context/message/source' -o 'Duplicate entry found in:' -f -o ' ' -c '.' -nl ./locale/*/*.ts | sort | uniq -d
+  json:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone github repo
+        uses: actions/checkout@master
+      - uses: actions/setup-node@master
+        with:
+          node-version: "lts/*"
+          cache: "npm"
+      - name: Install npm dependencies
+        run: npm ci
+      - name: Install roku package dependencies
+        run: npx ropm install
+      - name: Validate JSON syntax
+        run: npm run lint-json
+  markdown:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone github repo
+        uses: actions/checkout@master
+      - uses: actions/setup-node@master
+        with:
+          node-version: "lts/*"
+          cache: "npm"
+      - name: Install npm dependencies
+        run: npm ci
+      - name: Install roku package dependencies
+        run: npx ropm install
+      - uses: xt0rted/markdownlint-problem-matcher@v2
+      - name: Lint markdown files
+        run: npm run lint-markdown
