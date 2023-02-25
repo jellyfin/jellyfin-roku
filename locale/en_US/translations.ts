@@ -934,6 +934,16 @@
             <extracomment>Settings Menu - Description for option</extracomment>
         </message>
         <message>
+            <source>Parental Ratings</source>
+            <translation>Parental Ratings</translation>
+            <extracomment>Used in Filter menu</extracomment>
+        </message>
+        <message>
+            <source>Years</source>
+            <translation>Years</translation>
+            <extracomment>Used in Filter menu</extracomment>
+        </message>
+        <message>
             <source>Show What's New Popup</source>
             <translation>Show What's New Popup</translation>
             <extracomment>Settings Menu - Title for option</extracomment>
