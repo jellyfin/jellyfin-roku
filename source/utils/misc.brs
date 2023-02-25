@@ -282,13 +282,20 @@ function findNodeBySubtype(node, subtype)
     return foundNodes
 end function
 
+' Search string array for search value. Return if it's found
+function inArray(array, searchValue) as boolean
+    for each item in array
+        if lcase(item) = lcase(searchValue) then return true
+    end for
+    return false
+end function
+
 sub startLoadingSpinner()
     m.spinner = createObject("roSGNode", "Spinner")
     m.spinner.translation = "[900, 450]"
     m.spinner.visible = true
     m.scene.appendChild(m.spinner)
 end sub
-
 
 sub startMediaLoadingSpinner()
     dialog = createObject("roSGNode", "ProgressDialog")
