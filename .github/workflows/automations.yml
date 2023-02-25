@@ -9,8 +9,6 @@ on:
     branches:
       - unstable
   pull_request_target:
-    types:
-      - synchronize
 
 jobs:
   project:
