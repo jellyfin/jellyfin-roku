@@ -8,7 +8,7 @@
     "brighterscript": "0.61.3",
     "ropm": "0.10.11",
     "jshint": "^2.13.6",
-    "markdownlint-cli": "0.33.0",
+    "markdownlint-cli2": "0.6.0",
     "spellchecker-cli": "6.1.1"
   },
   "scripts": {
@@ -17,7 +17,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "bslint",
     "lint-json": "jshint --extra-ext .json --verbose --exclude node_modules ./",
-    "lint-markdown": "markdownlint **/*.md --ignore node_modules && spellchecker -d dictionary.txt --files **/*.md !**/node_modules/**/*.md",
+    "lint-markdown": "markdownlint-cli2 \"**/*.md\" \"#node_modules\" && spellchecker -d dictionary.txt --files **/*.md !**/node_modules/**/*.md",
     "check-formatting": "npx bsfmt --check",
     "format": "npx bsfmt --write"
   },
