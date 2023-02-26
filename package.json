@@ -18,7 +18,7 @@
     "lint": "bslint",
     "lint-json": "jshint --extra-ext .json --verbose --exclude node_modules ./",
     "lint-markdown": "markdownlint-cli2 \"**/*.md\" \"#node_modules\"",
-    "lint-spelling": "spellchecker --no-gitignore -d dictionary.txt --files **/*.md **/.*/**/*.md !**/node_modules/**/*.md",
+    "lint-spelling": "spellchecker -d dictionary.txt --files \"**/*.md\" \"**/.*/**/*.md\" \"!node_modules/**/*.md\"",
     "check-formatting": "npx bsfmt --check",
     "format": "npx bsfmt --write"
   },
