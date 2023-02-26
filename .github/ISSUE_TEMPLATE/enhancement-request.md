@@ -1,6 +1,6 @@
 ---
 name: Enhancement request
-about: Suggest an modification to an existing feature
+about: Suggest a modification to an existing feature
 title: ''
 labels: enhancement
 assignees: ''

@@ -34,7 +34,7 @@ assignees: ''
 ## Connection Information
 
 - Is server local or remote?
-- Is server connection http or https?
+- Is server connection HTTP or HTTPS?
 
 ## Additional context
 <!-- Add any other context about the problem here. -->

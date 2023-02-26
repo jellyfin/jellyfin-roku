@@ -2,9 +2,9 @@ jellyfin
 Jellyfin
 github
 VSCode
+vscode
 BrightScript
 brightscript
-vscode
 sideload
 Sideload
 DEVGUIDE
@@ -17,3 +17,5 @@ repo
 Repo
 dev
 Dev
+assignees
+HTTPS
