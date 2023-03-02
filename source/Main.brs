@@ -402,33 +402,33 @@ sub Main (args as dynamic) as void
             ' If a button is selected, we have some determining to do
             btn = getButton(msg)
             group = sceneManager.callFunc("getActiveScene")
-            if btn <> invalid and btn.id = "play-button"
+            if isValid(btn) and btn.id = "play-button"
 
                 ' Check if a specific Audio Stream was selected
                 audio_stream_idx = 1
-                if group.selectedAudioStreamIndex <> invalid
+                if isValid(group?.selectedAudioStreamIndex)
                     audio_stream_idx = group.selectedAudioStreamIndex
                 end if
 
                 ' Check to see if a specific video "version" was selected
                 mediaSourceId = invalid
-                if group.selectedVideoStreamId <> invalid
+                if isValid(group?.selectedVideoStreamId)
                     mediaSourceId = group.selectedVideoStreamId
                 end if
                 video_id = group.id
                 video = CreateVideoPlayerGroup(video_id, mediaSourceId, audio_stream_idx)
-                if video <> invalid and video.errorMsg <> "introaborted"
+                if isValid(video) and video.errorMsg <> "introaborted"
                     sceneManager.callFunc("pushScene", video)
                 end if
 
-                if group.lastfocus.id = "main_group"
+                if isValid(group?.lastfocus?.id) = "main_group"
                     buttons = group.findNode("buttons")
                     if isValid(buttons)
                         group.lastfocus = group.findNode("buttons")
                     end if
                 end if
 
-                if group.lastFocus <> invalid
+                if isValid(group?.lastfocus)
                     group.lastFocus.setFocus(true)
                 end if
 
