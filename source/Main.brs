@@ -567,15 +567,18 @@ sub Main (args as dynamic) as void
             end if
         else if type(msg) = "roDeviceInfoEvent"
             event = msg.GetInfo()
-            group = sceneManager.callFunc("getActiveScene")
+
             if event.exitedScreensaver = true
                 sceneManager.callFunc("resetTime")
-                if group.subtype() = "Home"
-                    currentTime = CreateObject("roDateTime").AsSeconds()
-                    group.timeLastRefresh = currentTime
-                    group.callFunc("refresh")
+                group = sceneManager.callFunc("getActiveScene")
+                if isValid(group?.subtype())
+                    if group.subtype() = "Home"
+                        currentTime = CreateObject("roDateTime").AsSeconds()
+                        group.timeLastRefresh = currentTime
+                        group.callFunc("refresh")
+                    end if
+                    ' todo: add other screens to be refreshed - movie detail, tv series, episode list etc.
                 end if
-                ' todo: add other screens to be refreshed - movie detail, tv series, episode list etc.
             else
                 print "Unhandled roDeviceInfoEvent:"
                 print msg.GetInfo()
