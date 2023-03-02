@@ -257,8 +257,12 @@ sub Main (args as dynamic) as void
             ptr = msg.getData()
             ' ptr is for [row, col] of selected item... but we only have 1 row
             series = msg.getRoSGNode()
-            node = series.seasonData.items[ptr[1]]
-            group = CreateSeasonDetailsGroup(series.itemContent, node)
+            if isValid(ptr) and isValid(series?.seasonData?.items)
+                node = series.seasonData.items[ptr[1]]
+                group = CreateSeasonDetailsGroup(series.itemContent, node)
+            else
+                print "Something went wrong", ptr, series
+            end if
         else if isNodeEvent(msg, "musicAlbumSelected")
             ' If you select a Music Album from ANYWHERE, follow this flow
             ptr = msg.getData()
