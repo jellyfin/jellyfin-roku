@@ -462,12 +462,14 @@ sub Main (args as dynamic) as void
                 end if
             else if btn <> invalid and btn.id = "watched-button"
                 movie = group.itemContent
-                if movie.watched
-                    UnmarkItemWatched(movie.id)
-                else
-                    MarkItemWatched(movie.id)
+                if isValid(movie?.watched) and isValid(movie?.id)
+                    if movie.watched
+                        UnmarkItemWatched(movie.id)
+                    else
+                        MarkItemWatched(movie.id)
+                    end if
+                    movie.watched = not movie.watched
                 end if
-                movie.watched = not movie.watched
             else if btn <> invalid and btn.id = "favorite-button"
                 movie = group.itemContent
                 if movie.favorite
