@@ -425,14 +425,14 @@ sub Main (args as dynamic) as void
                     sceneManager.callFunc("pushScene", video)
                 end if
 
-                if isValid(group?.lastfocus?.id) = "main_group"
+                if isValid(group?.lastFocus?.id) = "main_group"
                     buttons = group.findNode("buttons")
                     if isValid(buttons)
-                        group.lastfocus = group.findNode("buttons")
+                        group.lastFocus = group.findNode("buttons")
                     end if
                 end if
 
-                if isValid(group?.lastfocus)
+                if isValid(group?.lastFocus)
                     group.lastFocus.setFocus(true)
                 end if
 
@@ -457,7 +457,7 @@ sub Main (args as dynamic) as void
                     dialog.close = true
                 end if
 
-                if isValid(group?.lastfocus)
+                if isValid(group?.lastFocus)
                     group.lastFocus.setFocus(true)
                 end if
             else if btn <> invalid and btn.id = "watched-button"
@@ -493,7 +493,7 @@ sub Main (args as dynamic) as void
                 ' Exit out of the side panel
                 panel = group.findNode("options")
                 panel.visible = false
-                if group.lastFocus <> invalid
+                if isValid(group?.lastFocus)
                     group.lastFocus.setFocus(true)
                 else
                     group.setFocus(true)
@@ -516,7 +516,7 @@ sub Main (args as dynamic) as void
                 ' Exit out of the side panel
                 panel = group.findNode("options")
                 panel.visible = false
-                if group.lastFocus <> invalid
+                if isValid(group?.lastFocus)
                     group.lastFocus.setFocus(true)
                 else
                     group.setFocus(true)
