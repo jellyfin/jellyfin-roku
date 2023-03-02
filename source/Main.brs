@@ -445,16 +445,19 @@ sub Main (args as dynamic) as void
                 video_id = group.id
 
                 trailerData = api_API().users.getlocaltrailers(get_setting("active_user"), group.id)
+                video = invalid
 
-                video_id = trailerData[0].id
+                if isValid(trailerData[0]?.id)
+                    video_id = trailerData[0].id
+                    video = CreateVideoPlayerGroup(video_id, mediaSourceId, audio_stream_idx, false, false)
+                end if
 
-                video = CreateVideoPlayerGroup(video_id, mediaSourceId, audio_stream_idx, false, false)
-                if video <> invalid and video.errorMsg <> "introaborted"
+                if isValid(video) and video.errorMsg <> "introaborted"
                     sceneManager.callFunc("pushScene", video)
                     dialog.close = true
                 end if
 
-                if group.lastFocus <> invalid
+                if isValid(group?.lastfocus)
                     group.lastFocus.setFocus(true)
                 end if
             else if btn <> invalid and btn.id = "watched-button"
