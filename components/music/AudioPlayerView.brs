@@ -432,17 +432,14 @@ end sub
 sub onMetaDataLoaded()
     data = m.LoadMetaDataTask.content[0]
     m.LoadMetaDataTask.unobserveField("content")
-    if data <> invalid and data.count() > 0
-
+    if isValid(data) and data.count() > 0
         ' Use metadata to load backdrop image
-        if isValid(data.json)
-            if isValid(data.json.ArtistItems)
-                if data.json.ArtistItems.count() > 0
-                    if isValid(data.json.ArtistItems[0].id)
-                        m.LoadBackdropImageTask.itemId = data.json.ArtistItems[0].id
-                        m.LoadBackdropImageTask.observeField("content", "onBackdropImageLoaded")
-                        m.LoadBackdropImageTask.control = "RUN"
-                    end if
+        if isValid(data?.json?.ArtistItems)
+            if data.json.ArtistItems.count() > 0
+                if isValid(data.json.ArtistItems[0].id)
+                    m.LoadBackdropImageTask.itemId = data.json.ArtistItems[0].id
+                    m.LoadBackdropImageTask.observeField("content", "onBackdropImageLoaded")
+                    m.LoadBackdropImageTask.control = "RUN"
                 end if
             end if
         end if
@@ -451,7 +448,9 @@ sub onMetaDataLoaded()
         setScreenTitle(data.json)
         setOnScreenTextValues(data.json)
 
-        m.songDuration = data.json.RunTimeTicks / 10000000.0
+        if isValid(data?.json?.RunTimeTicks)
+            m.songDuration = data.json.RunTimeTicks / 10000000.0
+        end if
     end if
 end sub
 
