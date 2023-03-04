@@ -53,7 +53,9 @@ end function
 
 function APIRequest(url as string, params = {} as object)
     req = createObject("roUrlTransfer")
-    req.setCertificatesFile("common:/certs/ca-bundle.crt")
+    if get_setting("server").left(8) = "https://"
+        req.setCertificatesFile("common:/certs/ca-bundle.crt")
+    end if
 
     full_url = buildURL(url, params)
     req.setUrl(full_url)
@@ -118,15 +120,16 @@ end function
 
 function get_url()
     base = get_setting("server")
-    if base.right(1) = "/"
-        base = base.left(base.len() - 1)
-    end if
+    if base <> invalid
+        if base.right(1) = "/"
+            base = base.left(base.len() - 1)
+        end if
 
-    ' append http:// to the start if not specified
-    if base.left(7) <> "http://" and base.left(8) <> "https://"
-        base = "http://" + base
+        ' append http:// to the start if not specified
+        if base.left(7) <> "http://" and base.left(8) <> "https://"
+            base = "http://" + base
+        end if
     end if
-
     return base
 
 end function
