@@ -1,10 +1,6 @@
-jellyfin
 Jellyfin
-github
 VSCode
-vscode
 BrightScript
-brightscript
 sideload
 Sideload
 DEVGUIDE
