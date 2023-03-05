@@ -53,7 +53,8 @@ end function
 
 function APIRequest(url as string, params = {} as object)
     req = createObject("roUrlTransfer")
-    if get_setting("server").left(8) = "https://"
+    serverURL = get_setting("server")
+    if serverURL <> invalid and serverURL.left(8) = "https://"
         req.setCertificatesFile("common:/certs/ca-bundle.crt")
     end if
 
@@ -131,7 +132,6 @@ function get_url()
         end if
     end if
     return base
-
 end function
 
 function authorize_request(request)
