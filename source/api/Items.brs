@@ -79,7 +79,7 @@ function ItemMetaData(id as string)
 
     imgParams = {}
     if data.type <> "Audio"
-        if data?.UserData?.PlayedPercentage <> invalid
+        if data.UserData <> invalid and data.UserData.PlayedPercentage <> invalid
             param = { "PercentPlayed": data.UserData.PlayedPercentage }
             imgParams.Append(param)
         end if
