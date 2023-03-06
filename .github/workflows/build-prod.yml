@@ -32,10 +32,10 @@ jobs:
         run: awk 'BEGIN { FS="=" } /^minor_version/ { print "oldMinor="$2; }' manifest >> $GITHUB_ENV
       - name: "Find and save build_version from manifest"
         run: awk 'BEGIN { FS="=" } /^build_version/ { print "oldBuild="$2; }' manifest >> $GITHUB_ENV
-      - name: "Save new version"
-        run: echo "latestRelease=v${{ env.oldMajor }}.${{ env.oldMinor }}.${{ env.oldBuild }}" >> $GITHUB_ENV
+      - name: "Save old version"
+        run: echo "oldVersion=v${{ env.oldMajor }}.${{ env.oldMinor }}.${{ env.oldBuild }}" >> $GITHUB_ENV
       - name: App version must be different
-        if: env.latestRelease == env.newVersion
+        if: env.oldVersion == env.newVersion
         run: exit 1
   prod:
     runs-on: ubuntu-latest
