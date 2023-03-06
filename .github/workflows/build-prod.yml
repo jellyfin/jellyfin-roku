@@ -1,11 +1,42 @@
 name: build
 
 on:
+  pull_request:
+    branches:
+      - master
   push:
     branches:
       - master
 
 jobs:
+  version-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout PR
+        uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3
+      - name: "Find and save major_version from manifest"
+        run: awk 'BEGIN { FS="=" } /^major_version/ { print "newMajor="$2; }' manifest >> $GITHUB_ENV
+      - name: "Find and save minor_version from manifest"
+        run: awk 'BEGIN { FS="=" } /^minor_version/ { print "newMinor="$2; }' manifest >> $GITHUB_ENV
+      - name: "Find and save build_version from manifest"
+        run: awk 'BEGIN { FS="=" } /^build_version/ { print "newBuild="$2; }' manifest >> $GITHUB_ENV
+      - name: "Save new version"
+        run: echo "newVersion=v${{ env.newMajor }}.${{ env.newMinor }}.${{ env.newBuild }}" >> $GITHUB_ENV
+      - name: Checkout master
+        uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3
+        with:
+          ref: master
+      - name: "Find and save major_version from manifest"
+        run: awk 'BEGIN { FS="=" } /^major_version/ { print "oldMajor="$2; }' manifest >> $GITHUB_ENV
+      - name: "Find and save minor_version from manifest"
+        run: awk 'BEGIN { FS="=" } /^minor_version/ { print "oldMinor="$2; }' manifest >> $GITHUB_ENV
+      - name: "Find and save build_version from manifest"
+        run: awk 'BEGIN { FS="=" } /^build_version/ { print "oldBuild="$2; }' manifest >> $GITHUB_ENV
+      - name: "Save new version"
+        run: echo "latestRelease=v${{ env.oldMajor }}.${{ env.oldMinor }}.${{ env.oldBuild }}" >> $GITHUB_ENV
+      - name: App version must be different
+        if: env.latestRelease == env.newVersion
+        run: exit 1
   prod:
     runs-on: ubuntu-latest
     steps:
