@@ -9012,6 +9012,11 @@ elemeket</translation>
         <translation>Következő rész</translation>
     </message>
     <message>
+        <source>Attempt Direct Play for HEVC media with unsupported profile levels before falling back to transcoding if it fails.</source>
+        <translation>Próbálja meg a közvetlen lejátszást nem támogatott profilszintű HEVC-média esetén, mielőtt visszaállna az átkódolásra, ha az sikertelen.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
         <source>Set Watched</source>
         <translation>Megnézve</translation>
         <extracomment>Button Text - When pressed, marks item as Warched</extracomment>
@@ -9861,6 +9866,11 @@ elemeket</translation>
     <message>
         <source>Next episode</source>
         <translation>Következő rész</translation>
+    </message>
+    <message>
+        <source>Attempt Direct Play for HEVC media with unsupported profile levels before falling back to transcoding if it fails.</source>
+        <translation>Próbálja meg a közvetlen lejátszást nem támogatott profilszintű HEVC-média esetén, mielőtt visszaállna az átkódolásra, ha az sikertelen.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Details Page</source>
