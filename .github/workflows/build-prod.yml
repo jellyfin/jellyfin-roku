@@ -12,30 +12,51 @@ jobs:
   version-check:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout PR
-        uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3
-      - name: "Find and save major_version from manifest"
-        run: awk 'BEGIN { FS="=" } /^major_version/ { print "newMajor="$2; }' manifest >> $GITHUB_ENV
-      - name: "Find and save minor_version from manifest"
-        run: awk 'BEGIN { FS="=" } /^minor_version/ { print "newMinor="$2; }' manifest >> $GITHUB_ENV
-      - name: "Find and save build_version from manifest"
-        run: awk 'BEGIN { FS="=" } /^build_version/ { print "newBuild="$2; }' manifest >> $GITHUB_ENV
-      - name: "Save new version"
-        run: echo "newVersion=v${{ env.newMajor }}.${{ env.newMinor }}.${{ env.newBuild }}" >> $GITHUB_ENV
-      - name: Checkout master
+      - name: Checkout master (the latest release)
         uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3
         with:
           ref: master
-      - name: "Find and save major_version from manifest"
+      - name: Install jq to parse json for us
+        uses: awalsh128/cache-apt-pkgs-action@latest
+        with:
+          packages: jq
+      - name: Save old package.json version
+        run: echo "oldPackVersion=$(jq ".version" package.json)" >> $GITHUB_ENV
+      - name: Find and save old major_version from manifest
         run: awk 'BEGIN { FS="=" } /^major_version/ { print "oldMajor="$2; }' manifest >> $GITHUB_ENV
-      - name: "Find and save minor_version from manifest"
+      - name: Find and save old minor_version from manifest
         run: awk 'BEGIN { FS="=" } /^minor_version/ { print "oldMinor="$2; }' manifest >> $GITHUB_ENV
-      - name: "Find and save build_version from manifest"
+      - name: Find and save old build_version from manifest
         run: awk 'BEGIN { FS="=" } /^build_version/ { print "oldBuild="$2; }' manifest >> $GITHUB_ENV
-      - name: "Save old version"
-        run: echo "oldVersion=v${{ env.oldMajor }}.${{ env.oldMinor }}.${{ env.oldBuild }}" >> $GITHUB_ENV
-      - name: App version must be different
-        if: env.oldVersion == env.newVersion
+      - name: Save old manifest version
+        run: echo "oldManVersion=${{ env.oldMajor }}.${{ env.oldMinor }}.${{ env.oldBuild }}" >> $GITHUB_ENV
+      - name: Save old Makefile version
+        run: awk 'BEGIN { FS=" = " } /^VERSION/ { print "oldMakeVersion="$2; }' Makefile >> $GITHUB_ENV
+      - name: Checkout PR branch
+        uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3
+      - name: Save new package.json version
+        run: echo "newPackVersion=$(jq ".version" package.json)" >> $GITHUB_ENV
+      - name: package.json version must be different
+        if: env.oldPackVersion == env.newPackVersion
+        run: exit 1
+      - name: Find and save new major_version from manifest
+        run: awk 'BEGIN { FS="=" } /^major_version/ { print "newMajor="$2; }' manifest >> $GITHUB_ENV
+      - name: Find and save new minor_version from manifest
+        run: awk 'BEGIN { FS="=" } /^minor_version/ { print "newMinor="$2; }' manifest >> $GITHUB_ENV
+      - name: Find and save new build_version from manifest
+        run: awk 'BEGIN { FS="=" } /^build_version/ { print "newBuild="$2; }' manifest >> $GITHUB_ENV
+      - name: Save new manifest version
+        run: echo "newManVersion=${{ env.newMajor }}.${{ env.newMinor }}.${{ env.newBuild }}" >> $GITHUB_ENV
+      - name: Manifest version must be different
+        if: env.oldManVersion == env.newManVersion
+        run: exit 1
+      - name: Save new Makefile version
+        run: awk 'BEGIN { FS=" = " } /^VERSION/ { print "newMakeVersion="$2; }' Makefile >> $GITHUB_ENV
+      - name: Makefile version must be different
+        if: env.oldMakeVersion == env.newMakeVersion
+        run: exit 1
+      - name: All new versions must match
+        if: (env.newManVersion != env.newPackVersion) or (env.newManVersion != env.newMakeVersion)
         run: exit 1
   prod:
     runs-on: ubuntu-latest
