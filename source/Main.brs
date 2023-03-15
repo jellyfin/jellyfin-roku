@@ -570,6 +570,7 @@ sub Main (args as dynamic) as void
                 sceneManager.callFunc("resetTime")
                 group = sceneManager.callFunc("getActiveScene")
                 if isValid(group) and isValid(group.subtype())
+                    ' refresh the current view
                     if group.subtype() = "Home"
                         currentTime = CreateObject("roDateTime").AsSeconds()
                         group.timeLastRefresh = currentTime
