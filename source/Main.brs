@@ -559,6 +559,7 @@ sub Main (args as dynamic) as void
             group = sceneManager.callFunc("getActiveScene")
             if event.exitedScreensaver = true
                 sceneManager.callFunc("resetTime")
+                ' refresh the current view
                 if group.subtype() = "Home"
                     currentTime = CreateObject("roDateTime").AsSeconds()
                     group.timeLastRefresh = currentTime
