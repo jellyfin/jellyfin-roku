@@ -128,10 +128,6 @@
         "author": "cewert"
     },
     {
-        "description": "Core: Update automation workflow",
-        "author": "cewert"
-    },
-    {
         "description": "Core: Add json and markdown to lint workflow + add automation workflow",
         "author": "cewert"
     },
