@@ -124,10 +124,6 @@
         "author": "cewert"
     },
     {
-        "description": "Core: Fix npm security vulnerabilities",
-        "author": "cewert"
-    },
-    {
         "description": "Core: Add a production build workflow",
         "author": "cewert"
     },
