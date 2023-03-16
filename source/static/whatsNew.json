@@ -128,14 +128,6 @@
         "author": "cewert"
     },
     {
-        "description": "Core: Remove old workflows",
-        "author": "cewert"
-    },
-    {
-        "description": "Core: Use JF_BOT_TOKEN for project board automation",
-        "author": "cewert"
-    },
-    {
         "description": "Core: Update automation workflow",
         "author": "cewert"
     },
