@@ -2,7 +2,6 @@ function VideoPlayer(id, mediaSourceId = invalid, audio_stream_idx = 1, subtitle
     ' Get video controls and UI
     video = CreateObject("roSGNode", "JFVideo")
     video.id = id
-    video.userConfig = m.user.configuration
     AddVideoContent(video, mediaSourceId, audio_stream_idx, subtitle_idx, -1, forceTranscoding, showIntro, allowResumeDialog)
 
     if video.errorMsg = "introaborted"
