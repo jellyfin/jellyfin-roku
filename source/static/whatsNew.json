@@ -32,6 +32,10 @@
         "author": "candry7731"
     },
     {
+        "description": "Bug Fix: Only show next episode button if \"Play next episode automatically\" setting is enabled in web client",
+        "author": "cewert"
+    },
+    {
         "description": "New Setting: Disable unwatched episode count",
         "author": "1hitsong"
     },
