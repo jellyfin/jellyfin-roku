@@ -337,6 +337,7 @@ function PlayIntroVideo(video_id, audio_stream_idx) as boolean
             introVideo.observeField("state", port)
             m.global.sceneManager.callFunc("pushScene", introVideo)
             introPlaying = true
+            stopLoadingSpinner()
 
             while introPlaying
                 msg = wait(0, port)
