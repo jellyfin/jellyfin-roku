@@ -47,12 +47,13 @@ sub Main (args as dynamic) as void
     app_start:
     ' First thing to do is validate the ability to use the API
     if not LoginFlow() then return
+    ' remove previous scenes from the stack
     sceneManager.callFunc("clearScenes")
-
+    ' save user config
+    m.global.addFields({ userConfig: m.user.configuration })
     ' load home page
     sceneManager.currentUser = m.user.Name
     group = CreateHomeGroup()
-    group.userConfig = m.user.configuration
     group.callFunc("loadLibraries")
     sceneManager.callFunc("pushScene", group)
 
