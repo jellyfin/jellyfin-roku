@@ -38,7 +38,6 @@ function searchMedia(query as string)
     ' This appears to be done differently on the web now
     ' For each potential type, a separate query is done:
     ' varying item types, and artists, and people
-
     if query <> ""
         resp = APIRequest(Substitute("Search/Hints", get_setting("active_user")), {
             "searchTerm": query,
@@ -54,7 +53,6 @@ function searchMedia(query as string)
             "Recursive": true,
             "limit": 100
         })
-
 
         data = getJson(resp)
         results = []
@@ -76,9 +74,10 @@ function ItemMetaData(id as string)
     resp = APIRequest(url)
     data = getJson(resp)
     if data = invalid then return invalid
+
     imgParams = {}
     if data.type <> "Audio"
-        if data?.UserData?.PlayedPercentage <> invalid
+        if data.UserData <> invalid and data.UserData.PlayedPercentage <> invalid
             param = { "PercentPlayed": data.UserData.PlayedPercentage }
             imgParams.Append(param)
         end if
@@ -147,11 +146,11 @@ function ItemMetaData(id as string)
         tmp = CreateObject("roSGNode", "MusicSongData")
 
         ' Try using song's parent for poster image
-        tmp.image = PosterImage(data.ParentId)
+        tmp.image = PosterImage(data.ParentId, { "MaxWidth": 500, "MaxHeight": 500 })
 
         ' Song's parent poster image is no good, try using the song's poster image
         if tmp.image = invalid
-            tmp.image = PosterImage(data.id)
+            tmp.image = PosterImage(data.id, { "MaxWidth": 500, "MaxHeight": 500 })
         end if
 
         tmp.json = data
@@ -250,6 +249,30 @@ function GetSongsByArtist(id as string)
     return data
 end function
 
+' Get Items that are under the provided item
+function PlaylistItemList(id as string)
+    url = Substitute("Playlists/{0}/Items", id)
+    resp = APIRequest(url, {
+        "UserId": get_setting("active_user")
+    })
+
+    results = []
+    data = getJson(resp)
+
+    if data = invalid then return invalid
+    if data.Items = invalid then return invalid
+    if data.Items.Count() = 0 then return invalid
+
+    for each item in data.Items
+        tmp = CreateObject("roSGNode", "PlaylistData")
+        tmp.image = PosterImage(item.id)
+        tmp.json = item
+        results.push(tmp)
+    end for
+    data.Items = results
+    return data
+end function
+
 ' Get Songs that are on an Album
 function MusicSongList(id as string)
     url = Substitute("Users/{0}/Items", get_setting("active_user"), id)
@@ -331,28 +354,37 @@ end function
 
 function AudioStream(id as string)
     songData = AudioItem(id)
+    if songData <> invalid
+        content = createObject("RoSGNode", "ContentNode")
+        if songData.title <> invalid
+            content.title = songData.title
+        end if
 
-    content = createObject("RoSGNode", "ContentNode")
-    content.title = songData.title
+        playbackInfo = ItemPostPlaybackInfo(songData.id, songData.mediaSources[0].id)
+        if playbackInfo <> invalid
+            content.id = playbackInfo.PlaySessionId
 
-    playbackInfo = ItemPostPlaybackInfo(songData.id, songData.mediaSources[0].id)
-    content.id = playbackInfo.PlaySessionId
+            if useTranscodeAudioStream(playbackInfo)
+                ' Transcode the audio
+                content.url = buildURL(playbackInfo.mediaSources[0].TranscodingURL)
+            else
+                ' Direct Stream the audio
+                params = {
+                    "Static": "true",
+                    "Container": songData.mediaSources[0].container,
+                    "MediaSourceId": songData.mediaSources[0].id
+                }
+                content.streamformat = songData.mediaSources[0].container
+                content.url = buildURL(Substitute("Audio/{0}/stream", songData.id), params)
+            end if
+        else
+            return invalid
+        end if
 
-    if useTranscodeAudioStream(playbackInfo)
-        ' Transcode the audio
-        content.url = buildURL(playbackInfo.mediaSources[0].TranscodingURL)
+        return content
     else
-        ' Direct Stream the audio
-        params = {
-            "Static": "true",
-            "Container": songData.mediaSources[0].container,
-            "MediaSourceId": songData.mediaSources[0].id
-        }
-        content.streamformat = songData.mediaSources[0].container
-        content.url = buildURL(Substitute("Audio/{0}/stream", songData.id), params)
+        return invalid
     end if
-
-    return content
 end function
 
 function useTranscodeAudioStream(playbackInfo)
@@ -389,11 +421,7 @@ function TVEpisodes(show_id as string, season_id as string)
     data = getJson(resp)
     results = []
     for each item in data.Items
-        imgParams = { "AddPlayedIndicator": item.UserData.Played, "maxWidth": 400, "maxheight": 250 }
-        if item.UserData.PlayedPercentage <> invalid
-            param = { "PercentPlayed": item.UserData.PlayedPercentage }
-            imgParams.Append(param)
-        end if
+        imgParams = { "maxWidth": 400, "maxheight": 250 }
         tmp = CreateObject("roSGNode", "TVEpisodeData")
         tmp.image = PosterImage(item.id, imgParams)
         if tmp.image <> invalid
@@ -404,5 +432,25 @@ function TVEpisodes(show_id as string, season_id as string)
         results.push(tmp)
     end for
     data.Items = results
+    return data
+end function
+
+function TVEpisodeShuffleList(show_id as string)
+    url = Substitute("Shows/{0}/Episodes", show_id)
+    resp = APIRequest(url, {
+        "UserId": get_setting("active_user"),
+        "Limit": 200,
+        "sortBy": "Random"
+    })
+
+    data = getJson(resp)
+    results = []
+    for each item in data.Items
+        tmp = CreateObject("roSGNode", "TVEpisodeData")
+        tmp.json = item
+        results.push(tmp)
+    end for
+    data.Items = results
+
     return data
 end function
