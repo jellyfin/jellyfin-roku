@@ -19,6 +19,8 @@ sub init()
     m.buttonGrp.setFocus(true)
     m.top.lastFocus = m.buttonGrp
 
+    m.spinner = m.top.findNode("spinner")
+
     m.trailerButton = m.top.findNode("trailer-button")
     m.trailerButton.text = tr("Play Trailer")
 
@@ -97,7 +99,7 @@ sub itemContentChanged()
     end if
 
     ' show tags if there are no genres to display
-    if itemData.genres.count() = 0 and itemData.tags.count() > 0
+    if itemData.genres.count() = 0 and isValid(itemData.tags) and itemData.tags.count() > 0
         setFieldText("genres", tr("Tags") + ": " + itemData.tags.join(", "))
     end if
 
@@ -134,6 +136,8 @@ sub itemContentChanged()
     setWatchedColor()
     SetUpVideoOptions(itemData.mediaSources)
     SetUpAudioOptions(itemData.mediaStreams)
+    m.buttonGrp.visible = true
+    m.spinner.visible = false
 end sub
 
 
