@@ -28,9 +28,9 @@ end sub
 
 sub setFont()
     fs = CreateObject("roFileSystem")
-    fontlist = fs.Find("tmp:/", "font")
-    if fontlist.count() > 0
-        m.font.uri = "tmp:/" + fontlist[0]
+
+    if fs.Exists("tmp:/font")
+        m.font.uri = "tmp:/font"
         m.font.size = m.fontSize
     else
         reg = CreateObject("roFontRegistry")
@@ -89,7 +89,7 @@ function newRect(lg)
 end function
 
 
-sub updateCaption ()
+sub updateCaption()
     m.top.currentCaption = []
     if LCase(m.top.playerState) = "playingon"
         m.top.currentPos = m.top.currentPos + 100
