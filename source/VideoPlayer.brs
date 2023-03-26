@@ -332,6 +332,7 @@ function PlayIntroVideo(video_id, audio_stream_idx) as boolean
             if lcase(introVideos.items[0].name) = "rick roll'd" then return true
 
             introVideo = VideoPlayer(introVideos.items[0].id, introVideos.items[0].id, audio_stream_idx, defaultSubtitleTrackFromVid(video_id), false, false)
+            introVideo.allowCaptions = false
 
             port = CreateObject("roMessagePort")
             introVideo.observeField("state", port)

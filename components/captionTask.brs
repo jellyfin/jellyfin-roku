@@ -33,8 +33,7 @@ sub setFont()
         m.font.uri = "tmp:/font"
         m.font.size = m.fontSize
     else
-        reg = CreateObject("roFontRegistry")
-        m.font = reg.GetDefaultFont(m.fontSize, false, false)
+        m.font = "font:LargeSystemFont"
     end if
 end sub
 
@@ -56,6 +55,7 @@ function newlabel(txt)
     label = CreateObject("roSGNode", "Label")
     label.text = txt
     label.font = m.font
+    label.font.size = m.fontSize
     label.color = m.textColor
     label.opacity = m.textOpac
     return label
