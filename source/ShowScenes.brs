@@ -540,9 +540,11 @@ function CreateVideoPlayerGroup(video_id, mediaSourceId = invalid, audio_stream_
     startMediaLoadingSpinner()
     ' Video is Playing
     video = VideoPlayer(video_id, mediaSourceId, audio_stream_idx, defaultSubtitleTrackFromVid(video_id), forceTranscoding, showIntro, allowResumeDialog)
-    video.allowCaptions = true
 
     if video = invalid then return invalid
+
+    video.allowCaptions = true
+
     if video.errorMsg = "introaborted" then return video
     video.observeField("selectSubtitlePressed", m.port)
     video.observeField("selectPlaybackInfoPressed", m.port)
