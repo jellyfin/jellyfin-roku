@@ -44,6 +44,15 @@ sub Main (args as dynamic) as void
     m.global.addFields({ queueManager: CreateObject("roSGNode", "QueueManager") })
     m.global.addFields({ audioPlayer: CreateObject("roSGNode", "AudioPlayer") })
 
+    appInfo = CreateObject("roAppInfo")
+    m.global.addFields({ app: {
+            id: appInfo.GetID(),
+            isDev: appInfo.IsDev(),
+            version: appInfo.GetVersion()
+    } })
+    ' delete object
+    appInfo = invalid 'bs:disable-line
+
     app_start:
     ' First thing to do is validate the ability to use the API
     if not LoginFlow() then return
@@ -71,10 +80,10 @@ sub Main (args as dynamic) as void
     end if
 
     ' Only show the Whats New popup the first time a user runs a new client version.
-    if appInfo.GetVersion() <> get_setting("LastRunVersion")
+    if m.global.app.version <> get_setting("LastRunVersion")
         ' Ensure the user hasn't disabled Whats New popups
         if get_user_setting("load.allowwhatsnew") = "true"
-            set_setting("LastRunVersion", appInfo.GetVersion())
+            set_setting("LastRunVersion", m.global.app.version)
             dialog = createObject("roSGNode", "WhatsNewDialog")
             m.scene.dialog = dialog
             m.scene.dialog.observeField("buttonSelected", m.port)
