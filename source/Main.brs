@@ -45,11 +45,13 @@ sub Main (args as dynamic) as void
     m.global.addFields({ audioPlayer: CreateObject("roSGNode", "AudioPlayer") })
 
     appInfo = CreateObject("roAppInfo")
-    m.global.addFields({ app: {
+    m.global.addFields({
+        app: {
             id: appInfo.GetID(),
             isDev: appInfo.IsDev(),
             version: appInfo.GetVersion()
-    } })
+        }
+    })
     ' delete object
     appInfo = invalid 'bs:disable-line
 
@@ -57,7 +59,8 @@ sub Main (args as dynamic) as void
     ' remove special characters
     regex = CreateObject("roRegex", "[^a-zA-Z0-9\ \-\_]", "")
     filteredFriendly = regex.ReplaceAll(deviceInfo.getFriendlyName(), "")
-    m.global.addFields({ device: {
+    m.global.addFields({
+        device: {
             id: deviceInfo.getChannelClientID(),
             uuid: deviceInfo.GetRandomUUID(),
             name: deviceInfo.getModelDisplayName(),
@@ -72,7 +75,8 @@ sub Main (args as dynamic) as void
 
             displayType: deviceInfo.GetDisplayType(),
             displayMode: deviceInfo.GetDisplayMode()
-    } })
+        }
+    })
     ' delete object
     deviceInfo = invalid 'bs:disable-line
 
