@@ -1,5 +1,5 @@
-<h1 style="text-align: center;">Jellyfin Roku</h1>
-<h2 style="text-align: center;">Part of the <a href="https://jellyfin.media">Jellyfin</a> Project</h2>
+<h1 align="center">Jellyfin Roku</h1>
+<h2 align="center">Part of the <a href="https://jellyfin.media">Jellyfin Project</a></h2>
 
 [![Logo Banner](https://raw.githubusercontent.com/jellyfin/jellyfin-ux/master/branding/SVG/banner-logo-solid.svg?sanitize=true "Jellyfin")](https://jellyfin.media)
 
