@@ -31,4 +31,4 @@ jobs:
         with:
           dirtyLabel: "merge conflict"
           commentOnDirty: "This pull request has merge conflicts. Please resolve the conflicts so the PR can be reviewed. Thanks!"
-          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          repoToken: ${{ secrets.JF_BOT_TOKEN }}
