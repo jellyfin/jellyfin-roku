@@ -1,4 +1,3 @@
-
 <h1 style="text-align: center;">Jellyfin Roku</h1>
 <h2 style="text-align: center;">Part of the <a href="https://jellyfin.media">Jellyfin</a> Project</h2>
 
@@ -39,4 +38,4 @@ To test the latest features before they get released:
 
 ## Advanced
 
-For more advanced deployment methods, access to crashlogs, or to learn how to setup a developer environment to write some code yourself please see the [DEVGUIDE](DEVGUIDE.md)
+For more advanced deployment methods, access to crash logs, or to learn how to setup a developer environment to write some code yourself please see the [DEVGUIDE](DEVGUIDE.md)
