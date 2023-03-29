@@ -4,10 +4,10 @@
 [![Logo Banner](https://raw.githubusercontent.com/jellyfin/jellyfin-ux/master/branding/SVG/banner-logo-solid.svg?sanitize=true "Jellyfin")](https://jellyfin.media)
 
 [![Build Status](https://img.shields.io/github/actions/workflow/status/jellyfin/jellyfin-roku/build-dev.yml?logo=github&branch=unstable "Build Status")](https://github.com/jellyfin/jellyfin-roku/actions/workflows/build-dev.yml?query=branch%3Aunstable)
-[![Current Release](https://img.shields.io/github/release/jellyfin/jellyfin-roku.svg "Current Release")](https://github.com/jellyfin/jellyfin-roku/releases)
+[![Current Release](https://img.shields.io/github/release/jellyfin/jellyfin-roku.svg?logo=github "Current Release")](https://github.com/jellyfin/jellyfin-roku/releases)
 [![Translation Status](https://translate.jellyfin.org/widgets/jellyfin/-/jellyfin-roku/svg-badge.svg "Translation Status")](https://translate.jellyfin.org/projects/jellyfin/jellyfin-roku/?utm_source=widget)
 [![Matrix](https://img.shields.io/matrix/jellyfin:matrix.org.svg?logo=matrix "Chat on Matrix")](https://matrix.to/#/#jellyfin-dev-roku:matrix.org)
-[![Reddit](https://img.shields.io/badge/reddit-r%2Fjellyfin-%23FF5700.svg "Join our Subreddit")](https://www.reddit.com/r/jellyfin)
+[![Reddit](https://img.shields.io/badge/reddit-r%2Fjellyfin-%23FF5700.svg?logo=reddit "Join our Subreddit")](https://www.reddit.com/r/jellyfin)
 [![License](https://img.shields.io/github/license/jellyfin/jellyfin-roku.svg "GPL 2.0 License")](LICENSE)
 
 The Jellyfin Roku App is a Jellyfin client for Roku Devices and is still very much a work in progress. Please get involved if you can!
