@@ -736,8 +736,8 @@
             <extracomment>Option Title in user setting screen</extracomment>
         </message>
         <message>
-            <source>Hide all clocks in Jellyfin. Jellyfin will need to be closed and reopened for change to take effect.</source>
-            <translation>Hide all clocks in Jellyfin. Jellyfin will need to be closed and reopened for change to take effect.</translation>
+            <source>Hide all clocks in Jellyfin. Jellyfin will need to be closed and reopened for changes to take effect.</source>
+            <translation>Hide all clocks in Jellyfin. Jellyfin will need to be closed and reopened for changes to take effect.</translation>
             <extracomment>Settings Menu - Description for option</extracomment>
         </message>
         <message>
@@ -1035,10 +1035,6 @@
         <message>
             <source>Biographical information for this person is not currently available.</source>
             <translation>Biographical information for this person is not currently available.</translation>
-        </message>
-        <message>
-            <source>Playback Bitrate Limits</source>
-            <translation>Playback Bitrate Limits</translation>
         </message>
         <message>
             <source>Enable Limit</source>

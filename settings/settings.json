@@ -92,7 +92,6 @@
                 "default": "30"
             },
             {
-
                 "title": "Text Subtitles Only",
                 "description": "Only display text subtitles to minimize transcoding.",
                 "settingName": "playback.subs.onlytext",
@@ -111,7 +110,7 @@
                 "children": [
                     {
                         "title": "Hide Clock",
-                        "description": "Hide all clocks in Jellyfin. Jellyfin will need to be closed and reopened for change to take effect.",
+                        "description": "Hide all clocks in Jellyfin. Jellyfin will need to be closed and reopened for changes to take effect.",
                         "settingName": "ui.design.hideclock",
                         "type": "bool",
                         "default": "false"
