@@ -25,7 +25,7 @@ No matter what your interests or skills are you can help make this client better
 To test the latest features before they get released:
 
 1. Put your Roku device in [developer mode](https://blog.roku.com/developer/2016/02/04/developer-setup-guide). Write down your Roku device IP and the password you created - you will need these!
-2. Download the [latest build](https://github.com/jellyfin/jellyfin-roku/actions/workflows/build-dev.yml?query=branch%3Aunstable) from the unstable branch.
+2. Download the [latest build](https://github.com/jellyfin/jellyfin-roku/actions/workflows/build-dev.yml?query=branch%3Aunstable). Select the first item listed then click the link at the bottom of the page i.e. `Jellyfin-Roku-dev-d3352495c579f6adeca085cdbc137ac36e70d558`. This will download a zip file to your computer.
 3. Put your Roku's IP from step 1 into a browser i.e. `http://192.168.1.2` and press enter.
 4. Log in with credentials from step 1.
 5. Upload and install the zip file downloaded in step 2.
@@ -34,7 +34,7 @@ To test the latest features before they get released:
 
 ## Advanced
 
-For more advanced deployment methods, access to crash logs, or to learn how to setup a developer environment to write some code yourself please see the [DEVGUIDE](DEVGUIDE.md).
+For more advanced deployment methods, access to crash logs, or to learn how to setup a developer environment so you can write some code yourself please read the [DEVGUIDE](DEVGUIDE.md).
 
 ## Feature Requests
 
