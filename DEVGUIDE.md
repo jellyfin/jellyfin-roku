@@ -71,7 +71,7 @@ That's it! VSCode will auto-package the project, sideload it to the specified de
 
 Out of the box, the BrightScript extension will prompt you to pick a Roku device (from devices found on your local network) and enter a password on every launch. If you'd prefer to hardcode this information rather than entering it every time, you can set these values in your VSCode user settings:
 
-```js
+```json
 {
     "brightscript.debug.host": "YOUR_ROKU_HOST_HERE",
     "brightscript.debug.password": "YOUR_ROKU_DEV_PASSWORD_HERE",
