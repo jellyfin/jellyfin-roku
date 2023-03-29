@@ -27,7 +27,7 @@ Follow the steps below to install the app on your personal Roku device. This wil
 
 ## Developer Mode
 
-Put your Roku device in [developer mode](https://blog.roku.com/developer/2016/02/04/developer-setup-guide). Write down your Roku device IP and the password you created, you will need these later.
+Put your Roku device in [developer mode](https://blog.roku.com/developer/2016/02/04/developer-setup-guide). Write down your Roku device IP and the password you created - you will need these!
 
 ## Clone the GitHub Repo
 
