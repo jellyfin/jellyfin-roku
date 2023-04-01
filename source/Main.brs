@@ -30,7 +30,7 @@ sub Main (args as dynamic) as void
     m.port = CreateObject("roMessagePort")
     m.screen.setMessagePort(m.port)
     m.scene = m.screen.CreateScene("JFScene")
-    m.screen.show()
+    m.screen.show() ' vscode_rale_tracker_entry
 
     ' Set any initial Global Variables
     m.global = m.screen.getGlobalNode()
