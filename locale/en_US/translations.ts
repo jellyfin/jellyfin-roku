@@ -684,24 +684,6 @@
             <translation>If enabled, images of unwatched episodes will be blurred.</translation>
         </message>
         <message>
-            <source>Screensaver</source>
-            <translation>Screensaver</translation>
-        </message>
-        <message>
-            <source>Options for Jellyfin&apos;s screensaver.</source>
-            <translation>Options for Jellyfin&apos;s screensaver.</translation>
-            <extracomment>Description for Screensaver user settings.</extracomment>
-        </message>
-        <message>
-            <source>Use Splashscreen as Screensaver</source>
-            <translation>Use Splashscreen as Screensaver</translation>
-            <extracomment>Option Title in user setting screen</extracomment>
-        </message>
-        <message>
-            <source>Use generated splashscreen image as Jellyfin&apos;s screensaver background. Jellyfin will need to be closed and reopened for change to take effect.</source>
-            <translation>Use generated splashscreen image as Jellyfin&apos;s screensaver background. Jellyfin will need to be closed and reopened for change to take effect.</translation>
-        </message>
-        <message>
             <source>Design Elements</source>
             <translation>Design Elements</translation>
         </message>
