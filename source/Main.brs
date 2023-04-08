@@ -239,6 +239,7 @@ sub Main (args as dynamic) as void
                 group = CreatePlaylistView(selectedItem.json)
             else if selectedItem.type = "Audio"
                 m.global.queueManager.callFunc("clear")
+                m.global.queueManager.callFunc("resetShuffle")
                 m.global.queueManager.callFunc("push", selectedItem.json)
                 m.global.queueManager.callFunc("playQueue")
             else
@@ -280,6 +281,7 @@ sub Main (args as dynamic) as void
             screenContent = msg.getRoSGNode()
 
             m.global.queueManager.callFunc("clear")
+            m.global.queueManager.callFunc("resetShuffle")
             m.global.queueManager.callFunc("push", screenContent.albumData.items[selectedIndex])
             m.global.queueManager.callFunc("playQueue")
         else if isNodeEvent(msg, "playItem")
@@ -288,6 +290,7 @@ sub Main (args as dynamic) as void
             screenContent = msg.getRoSGNode()
 
             m.global.queueManager.callFunc("clear")
+            m.global.queueManager.callFunc("resetShuffle")
             m.global.queueManager.callFunc("push", screenContent.albumData.items[selectedIndex])
             m.global.queueManager.callFunc("playQueue")
         else if isNodeEvent(msg, "playAllSelected")
@@ -297,6 +300,7 @@ sub Main (args as dynamic) as void
             m.spinner.visible = true
 
             m.global.queueManager.callFunc("clear")
+            m.global.queueManager.callFunc("resetShuffle")
             m.global.queueManager.callFunc("set", screenContent.albumData.items)
             m.global.queueManager.callFunc("playQueue")
         else if isNodeEvent(msg, "playArtistSelected")
@@ -304,6 +308,7 @@ sub Main (args as dynamic) as void
             screenContent = msg.getRoSGNode()
 
             m.global.queueManager.callFunc("clear")
+            m.global.queueManager.callFunc("resetShuffle")
             m.global.queueManager.callFunc("set", CreateArtistMix(screenContent.pageContent.id).Items)
             m.global.queueManager.callFunc("playQueue")
 
@@ -323,6 +328,7 @@ sub Main (args as dynamic) as void
                 if isValid(screenContent.albumData.items)
                     if screenContent.albumData.items.count() > 0
                         m.global.queueManager.callFunc("clear")
+                        m.global.queueManager.callFunc("resetShuffle")
                         m.global.queueManager.callFunc("set", CreateInstantMix(screenContent.albumData.items[0].id).Items)
                         m.global.queueManager.callFunc("playQueue")
 
@@ -334,6 +340,7 @@ sub Main (args as dynamic) as void
             if not viewHandled
                 ' Create instant mix based on selected artist
                 m.global.queueManager.callFunc("clear")
+                m.global.queueManager.callFunc("resetShuffle")
                 m.global.queueManager.callFunc("set", CreateInstantMix(screenContent.pageContent.id).Items)
                 m.global.queueManager.callFunc("playQueue")
             end if
@@ -381,6 +388,7 @@ sub Main (args as dynamic) as void
                 group = CreateAlbumView(node.json)
             else if node.type = "Audio"
                 m.global.queueManager.callFunc("clear")
+                m.global.queueManager.callFunc("resetShuffle")
                 m.global.queueManager.callFunc("push", node.json)
                 m.global.queueManager.callFunc("playQueue")
             else if node.type = "Person"
@@ -395,6 +403,7 @@ sub Main (args as dynamic) as void
                 selectedIndex = msg.getData()
                 screenContent = msg.getRoSGNode()
                 m.global.queueManager.callFunc("clear")
+                m.global.queueManager.callFunc("resetShuffle")
                 m.global.queueManager.callFunc("push", screenContent.albumData.items[node.id])
                 m.global.queueManager.callFunc("playQueue")
             else

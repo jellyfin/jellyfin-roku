@@ -10,7 +10,6 @@ sub init()
 
     m.playlistTypeCount = m.global.queueManager.callFunc("getQueueUniqueTypes").count()
 
-    m.shuffleEnabled = false
     m.buttonCount = m.buttons.getChildCount()
 
     m.screenSaverTimeout = 300
@@ -26,6 +25,8 @@ sub init()
 
     loadButtons()
     pageContentChanged()
+    setShuffleIconState()
+    setLoopButtonImage()
 end sub
 
 sub onScreensaverTimeoutLoaded()
@@ -313,10 +314,12 @@ function nextClicked() as boolean
 end function
 
 sub toggleShuffleEnabled()
-    m.shuffleEnabled = not m.shuffleEnabled
+    m.global.queueManager.callFunc("toggleShuffle")
 end sub
 
 function findCurrentSongIndex(songList) as integer
+    if not isValidAndNotEmpty(songList) then return 0
+
     for i = 0 to songList.count() - 1
         if songList[i].id = m.global.queueManager.callFunc("getCurrentItem").id
             return i
@@ -328,14 +331,13 @@ end function
 
 function shuffleClicked() as boolean
 
+    currentSongIndex = findCurrentSongIndex(m.global.queueManager.callFunc("getUnshuffledQueue"))
+
     toggleShuffleEnabled()
 
-    if not m.shuffleEnabled
+    if not m.global.queueManager.callFunc("getIsShuffled")
         m.shuffleIndicator.opacity = ".4"
         m.shuffleIndicator.uri = m.shuffleIndicator.uri.Replace("-on", "-off")
-
-        currentSongIndex = findCurrentSongIndex(m.originalSongList)
-        m.global.queueManager.callFunc("set", m.originalSongList)
         m.global.queueManager.callFunc("setPosition", currentSongIndex)
         setFieldTextValue("numberofsongs", "Track " + stri(m.global.queueManager.callFunc("getPosition") + 1) + "/" + stri(m.global.queueManager.callFunc("getCount")))
 
@@ -345,26 +347,15 @@ function shuffleClicked() as boolean
     m.shuffleIndicator.opacity = "1"
     m.shuffleIndicator.uri = m.shuffleIndicator.uri.Replace("-off", "-on")
 
-    m.originalSongList = m.global.queueManager.callFunc("getQueue")
-
-    songIDArray = m.global.queueManager.callFunc("getQueue")
-
-    ' Move the currently playing song to the front of the queue
-    temp = m.global.queueManager.callFunc("top")
-    songIDArray[0] = m.global.queueManager.callFunc("getCurrentItem")
-    songIDArray[m.global.queueManager.callFunc("getPosition")] = temp
-
-    for i = 1 to songIDArray.count() - 1
-        j = Rnd(songIDArray.count() - 1)
-        temp = songIDArray[i]
-        songIDArray[i] = songIDArray[j]
-        songIDArray[j] = temp
-    end for
-
-    m.global.queueManager.callFunc("set", songIDArray)
-
     return true
 end function
+
+sub setShuffleIconState()
+    if m.global.queueManager.callFunc("getIsShuffled")
+        m.shuffleIndicator.opacity = "1"
+        m.shuffleIndicator.uri = m.shuffleIndicator.uri.Replace("-off", "-on")
+    end if
+end sub
 
 sub LoadNextSong()
     if m.global.audioPlayer.state = "playing"
@@ -509,8 +500,8 @@ sub setOnScreenTextValues(json)
     if isValid(json)
         currentSongIndex = m.global.queueManager.callFunc("getPosition")
 
-        if m.shuffleEnabled
-            currentSongIndex = findCurrentSongIndex(m.originalSongList)
+        if m.global.queueManager.callFunc("getIsShuffled")
+            currentSongIndex = findCurrentSongIndex(m.global.queueManager.callFunc("getUnshuffledQueue"))
         end if
 
         if m.playlistTypeCount = 1
