@@ -38,4 +38,4 @@ For more advanced deployment methods, access to crash logs, or to learn how to s
 
 ## Feature Requests
 
-New feature requests are always welcome but before creating an issue please read though the [existing issues](https://github.com/jellyfin/jellyfin-roku/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc) to see if someone has already raised one for what you're looking for.
+New feature requests are always welcome but before creating an issue please read through the [existing issues](https://github.com/jellyfin/jellyfin-roku/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc) to see if someone has already raised one for what you're looking for.
