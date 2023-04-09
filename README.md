@@ -1,7 +1,7 @@
 <h1 align="center">Jellyfin Roku</h1>
-<h2 align="center">Part of the <a href="https://jellyfin.media">Jellyfin Project</a></h2>
+<h2 align="center">Part of the <a href="https://jellyfin.org">Jellyfin Project</a></h2>
 
-[![Logo Banner](https://raw.githubusercontent.com/jellyfin/jellyfin-ux/master/branding/SVG/banner-logo-solid.svg?sanitize=true "Jellyfin")](https://jellyfin.media)
+[![Logo Banner](https://raw.githubusercontent.com/jellyfin/jellyfin-ux/master/branding/SVG/banner-logo-solid.svg?sanitize=true "Jellyfin")](https://jellyfin.org)
 
 [![Build Status](https://img.shields.io/github/actions/workflow/status/jellyfin/jellyfin-roku/build-dev.yml?logo=github&branch=unstable "Build Status")](https://github.com/jellyfin/jellyfin-roku/actions/workflows/build-dev.yml?query=branch%3Aunstable)
 [![Current Release](https://img.shields.io/github/release/jellyfin/jellyfin-roku.svg?logo=github "Current Release")](https://github.com/jellyfin/jellyfin-roku/releases)
@@ -18,7 +18,7 @@ Download the latest release on the [Roku Channel Store](https://channelstore.rok
 
 ## Get Involved
 
-No matter what your interests or skills are you can help make this client better for everyone by simply using the client and giving feedback to the developers when things break. [Create an issue](https://github.com/jellyfin/jellyfin-roku/issues/new/choose) here on GitHub or give us a shout on [matrix](https://matrix.to/#/#jellyfin-dev-roku:matrix.org).
+No matter what your interests or skills are you can help make this client better for everyone by simply using the client and giving feedback to the developers when things break. [Create an issue](https://github.com/jellyfin/jellyfin-roku/issues/new/choose) here on GitHub or give us a shout on [Matrix](https://matrix.to/#/#jellyfin-dev-roku:matrix.org).
 
 ## Beta Test
 
