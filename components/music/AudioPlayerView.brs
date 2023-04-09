@@ -114,6 +114,8 @@ sub setupInfoNodes()
     m.numberofsongsField = m.top.findNode("numberofsongs")
     m.shuffleIndicator = m.top.findNode("shuffleIndicator")
     m.loopIndicator = m.top.findNode("loopIndicator")
+    m.positionTimestamp = m.top.findNode("positionTimestamp")
+    m.totalLengthTimestamp = m.top.findNode("totalLengthTimestamp")
 end sub
 
 sub bufferPositionChanged()
@@ -155,6 +157,13 @@ sub audioPositionChanged()
     ' Use animation to make the display smooth
     m.playPositionAnimationWidth.keyValue = [m.playPosition.width, playPositionBarWidth]
     m.playPositionAnimation.control = "start"
+
+    ' Update displayed position timestamp
+    if isValid(m.global.audioPlayer.position)
+        m.positionTimestamp.text = secondsToHuman(m.global.audioPlayer.position)
+    else
+        m.positionTimestamp.text = "0:00"
+    end if
 
     ' Only fall into screensaver logic if the user has screensaver enabled in Roku settings
     if m.screenSaverTimeout > 0
@@ -415,6 +424,9 @@ sub pageContentChanged()
         setScreenTitle(currentItem)
         setOnScreenTextValues(currentItem)
         m.songDuration = currentItem.RunTimeTicks / 10000000.0
+
+        ' Update displayed total audio length
+        m.totalLengthTimestamp.text = ticksToHuman(currentItem.RunTimeTicks)
     end if
 
     m.LoadAudioStreamTask.itemId = currentItem.id
@@ -470,6 +482,9 @@ sub onMetaDataLoaded()
 
         if isValid(data.json.RunTimeTicks)
             m.songDuration = data.json.RunTimeTicks / 10000000.0
+
+            ' Update displayed total audio length
+            m.totalLengthTimestamp.text = ticksToHuman(data.json.RunTimeTicks)
         end if
     end if
 end sub
