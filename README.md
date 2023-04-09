@@ -10,7 +10,7 @@
 [![Reddit](https://img.shields.io/badge/reddit-r%2Fjellyfin-%23FF5700.svg?logo=reddit "Join our Subreddit")](https://www.reddit.com/r/jellyfin)
 [![License](https://img.shields.io/github/license/jellyfin/jellyfin-roku.svg "GPL 2.0 License")](LICENSE)
 
-Jellyfin Roku is the official Jellyfin client for Roku. Please get involved if you can!
+Jellyfin Roku is the official Jellyfin client for Roku devices. We welcome all contributions and pull requests! If you have a larger feature in mind please open an issue so we can discuss the implementation before you start.
 
 ## Install
 
