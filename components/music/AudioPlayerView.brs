@@ -112,7 +112,6 @@ sub setupInfoNodes()
     m.playPosition = m.top.findNode("playPosition")
     m.bufferPosition = m.top.findNode("bufferPosition")
     m.seekBar = m.top.findNode("seekBar")
-    m.numberofsongsField = m.top.findNode("numberofsongs")
     m.shuffleIndicator = m.top.findNode("shuffleIndicator")
     m.loopIndicator = m.top.findNode("loopIndicator")
 end sub
@@ -339,13 +338,13 @@ function shuffleClicked() as boolean
         m.shuffleIndicator.opacity = ".4"
         m.shuffleIndicator.uri = m.shuffleIndicator.uri.Replace("-on", "-off")
         m.global.queueManager.callFunc("setPosition", currentSongIndex)
-        setFieldTextValue("numberofsongs", "Track " + stri(m.global.queueManager.callFunc("getPosition") + 1) + "/" + stri(m.global.queueManager.callFunc("getCount")))
-
+        setTrackNumberDisplay()
         return true
     end if
 
     m.shuffleIndicator.opacity = "1"
     m.shuffleIndicator.uri = m.shuffleIndicator.uri.Replace("-off", "-on")
+    setTrackNumberDisplay()
 
     return true
 end function
@@ -355,6 +354,10 @@ sub setShuffleIconState()
         m.shuffleIndicator.opacity = "1"
         m.shuffleIndicator.uri = m.shuffleIndicator.uri.Replace("-off", "-on")
     end if
+end sub
+
+sub setTrackNumberDisplay()
+    setFieldTextValue("numberofsongs", "Track " + stri(m.global.queueManager.callFunc("getPosition") + 1) + "/" + stri(m.global.queueManager.callFunc("getCount")))
 end sub
 
 sub LoadNextSong()
@@ -498,14 +501,8 @@ end sub
 ' Populate on screen text variables
 sub setOnScreenTextValues(json)
     if isValid(json)
-        currentSongIndex = m.global.queueManager.callFunc("getPosition")
-
-        if m.global.queueManager.callFunc("getIsShuffled")
-            currentSongIndex = findCurrentSongIndex(m.global.queueManager.callFunc("getUnshuffledQueue"))
-        end if
-
         if m.playlistTypeCount = 1
-            setFieldTextValue("numberofsongs", "Track " + stri(currentSongIndex + 1) + "/" + stri(m.global.queueManager.callFunc("getCount")))
+            setTrackNumberDisplay()
         end if
 
         setFieldTextValue("artist", json.Artists[0])
