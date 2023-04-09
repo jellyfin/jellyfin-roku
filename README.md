@@ -10,7 +10,7 @@
 [![Reddit](https://img.shields.io/badge/reddit-r%2Fjellyfin-%23FF5700.svg?logo=reddit "Join our Subreddit")](https://www.reddit.com/r/jellyfin)
 [![License](https://img.shields.io/github/license/jellyfin/jellyfin-roku.svg "GPL 2.0 License")](LICENSE)
 
-The Jellyfin Roku App is a Jellyfin client for Roku Devices and is still very much a work in progress. Please get involved if you can!
+Jellyfin Roku is the official Jellyfin client for Roku. Please get involved if you can!
 
 ## Install
 
