@@ -28,8 +28,6 @@ sub init()
     m.getNextEpisodeTask = createObject("roSGNode", "GetNextEpisodeTask")
     m.getNextEpisodeTask.observeField("nextEpisodeData", "onNextEpisodeDataLoaded")
 
-    m.top.observeField("state", "onState")
-    m.top.observeField("content", "onContentChange")
     m.top.observeField("allowCaptions", "onAllowCaptionsChange")
 end sub
 
