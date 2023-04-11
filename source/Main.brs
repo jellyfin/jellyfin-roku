@@ -68,7 +68,7 @@ sub Main (args as dynamic) as void
             filename = APIRequest("FallbackFont/Fonts").GetToString()
             if isValid(filename)
                 filename = re.match(filename)
-                if filename.count() > 0
+                if isValid(filename) and filename.count() > 0
                     filename = filename[1]
                     APIRequest("FallbackFont/Fonts/" + filename).gettofile("tmp:/font")
                 end if
