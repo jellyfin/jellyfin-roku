@@ -60,13 +60,19 @@ sub Main (args as dynamic) as void
     m.scene.observeField("exit", m.port)
 
     ' Downloads and stores a fallback font to tmp:/
-    if parseJSON(APIRequest("/System/Configuration/encoding").GetToString())["EnableFallbackFont"] = true
-        re = CreateObject("roRegex", "Name.:.(.*?).,.Size", "s")
-        filename = APIRequest("FallbackFont/Fonts").GetToString()
-        filename = re.match(filename)
-        if filename.count() > 0
-            filename = filename[1]
-            APIRequest("FallbackFont/Fonts/" + filename).gettofile("tmp:/font")
+    configEncoding = api_API().system.getconfigurationbyname("encoding")
+
+    if isValid(configEncoding) and isValid(configEncoding.EnableFallbackFont)
+        if configEncoding.EnableFallbackFont
+            re = CreateObject("roRegex", "Name.:.(.*?).,.Size", "s")
+            filename = APIRequest("FallbackFont/Fonts").GetToString()
+            if isValid(filename)
+                filename = re.match(filename)
+                if filename.count() > 0
+                    filename = filename[1]
+                    APIRequest("FallbackFont/Fonts/" + filename).gettofile("tmp:/font")
+                end if
+            end if
         end if
     end if
 
