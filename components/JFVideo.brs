@@ -100,7 +100,7 @@ end sub
 '
 'Update count down text
 sub updateCount()
-    nextEpisodeCountdown = Int(m.top.runTime - m.top.position)
+    nextEpisodeCountdown = Int(m.top.duration - m.top.position)
     if nextEpisodeCountdown < 0
         nextEpisodeCountdown = 0
     end if
@@ -119,7 +119,7 @@ end sub
 sub checkTimeToDisplayNextEpisode()
     if m.top.content.contenttype <> 4 then return
 
-    if int(m.top.position) >= (m.top.runTime - 30)
+    if int(m.top.position) >= (m.top.duration - 30)
         showNextEpisodeButton()
         updateCount()
         return
