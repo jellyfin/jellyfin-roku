@@ -148,8 +148,9 @@ sub updateHomeRows()
     else
         m.global.playstateTask.unobserveField("state")
     end if
-    m.LoadContinueTask.observeField("content", "updateContinueItems")
-    m.LoadContinueTask.control = "RUN"
+
+    m.LoadLibrariesTask.observeField("content", "onLibrariesLoaded")
+    m.LoadLibrariesTask.control = "RUN"
 end sub
 
 sub updateFavoritesItems()
