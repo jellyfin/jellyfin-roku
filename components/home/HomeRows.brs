@@ -234,10 +234,6 @@ sub updateNextUpItems()
     m.LoadNextUpTask.unobserveField("content")
     m.LoadNextUpTask.content = []
 
-    print "updateNextUpItems()"
-
-    print itemData
-
     if itemData = invalid then return
 
     homeRows = m.top.content
