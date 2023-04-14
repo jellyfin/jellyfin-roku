@@ -238,11 +238,6 @@ end sub
 '
 ' Draws and animates item progress bar
 sub drawProgressBar(itemData)
-
-    ' Don't redraw progress bar if it's already been drawn
-    ' Allow a slight tolerance for rounding issues.
-    if abs(m.itemProgress.width - (m.itemPoster.width * (itemData.PlayedPercentage / 100))) < 5 then return
-
     m.itemProgressBackground.width = itemData.imageWidth
     m.itemProgressBackground.visible = true
     m.showProgressBarField.keyValue = [0, m.itemPoster.width * (itemData.PlayedPercentage / 100)]
