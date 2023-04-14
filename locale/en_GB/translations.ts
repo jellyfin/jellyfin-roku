@@ -3589,5 +3589,10 @@
         <source>Press &apos;OK&apos; to Close</source>
         <translation>Press &apos;OK&apos; to Close</translation>
     </message>
+    <message>
+        <source>Set how many seconds before the end of an episode the Next Episode button should appear. Set to 0 to disable.</source>
+        <translation>Set how many seconds before the end of an episode the Next Episode button should appear. Set to 0 to disable.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
 </context>
 </TS>
