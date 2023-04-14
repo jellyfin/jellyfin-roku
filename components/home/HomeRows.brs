@@ -131,9 +131,10 @@ end sub
 sub updateHomeRows()
     if m.global.playstateTask.state = "run"
         m.global.playstateTask.observeField("state", "updateHomeRows")
-    else
-        m.global.playstateTask.unobserveField("state")
+        return
     end if
+
+    m.global.playstateTask.unobserveField("state")
 
     m.LoadContinueTask.observeField("content", "updateContinueItems")
     m.LoadContinueTask.control = "RUN"
