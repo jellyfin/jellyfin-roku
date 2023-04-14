@@ -1,5 +1,17 @@
 [
     {
+        "description": "Bug Fix: Rows on home view not refreshing when data has changed",
+        "author": "1hitsong"
+    },
+    {
+        "description": "Bug Fix: Next up section does not populate correctly after watching a TV episode",
+        "author": "1hitsong"
+    },
+    {
+        "description": "Bug Fix: Next episode button does not display consistently",
+        "author": "1hitsong"
+    },
+    {
         "description": "Bug Fix: Crash when fallback font API call fails",
         "author": "1hitsong"
     },
