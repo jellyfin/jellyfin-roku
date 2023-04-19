@@ -177,7 +177,7 @@ sub set(items)
     end for
 end sub
 
-function getItemType(item) as string
+function getItemType(item) as dynamic
     if isValid(item) and isValid(item.json) and isValid(item.json.mediatype) and item.json.mediatype <> ""
         return LCase(item.json.mediatype)
     else if isValid(item) and isValid(item.type) and item.type <> ""
