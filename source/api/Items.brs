@@ -397,11 +397,13 @@ function BackdropImage(id as string)
 end function
 
 ' Seasons for a TV Show
-function TVSeasons(id as string)
+function TVSeasons(id as string) as dynamic
     url = Substitute("Shows/{0}/Seasons", id)
     resp = APIRequest(url, { "UserId": get_setting("active_user") })
-
     data = getJson(resp)
+    ' validate data
+    if data = invalid or data = "" then return invalid
+
     results = []
     for each item in data.Items
         imgParams = { "AddPlayedIndicator": item.UserData.Played }
