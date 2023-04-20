@@ -53,6 +53,11 @@ sub hideChecklist()
 end sub
 
 sub onFilterFocusChange()
+    if isFilterMenuDataValid() = false
+        hideChecklist()
+        return
+    end if
+
     if m.filterMenu.content.getChild(m.filterMenu.itemFocused).getChildCount() > 0
         showChecklist()
     else
@@ -67,6 +72,18 @@ sub onFilterFocusChange()
     end if
 end sub
 
+' Ensure all data for Filter Menu is valid
+function isFilterMenuDataValid() as boolean
+    if not isValid(m.filterMenu) or not isValid(m.filterMenu.content) or not isValid(m.filterMenu.itemFocused)
+        return false
+    end if
+
+    if not isValid(m.filterMenu.content.getChild(m.filterMenu.itemFocused))
+        return false
+    end if
+
+    return true
+end function
 
 sub optionsSet()
     '  Views Tab
