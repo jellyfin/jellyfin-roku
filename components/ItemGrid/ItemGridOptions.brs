@@ -72,7 +72,7 @@ sub onFilterFocusChange()
     end if
 end sub
 
-' Ensure all data for Filter Menu is valid
+' Check if data for Filter Menu is valid
 function isFilterMenuDataValid() as boolean
     if not isValid(m.filterMenu) or not isValid(m.filterMenu.content) or not isValid(m.filterMenu.itemFocused)
         return false
