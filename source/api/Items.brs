@@ -402,7 +402,7 @@ function TVSeasons(id as string) as dynamic
     resp = APIRequest(url, { "UserId": get_setting("active_user") })
     data = getJson(resp)
     ' validate data
-    if data = invalid or data = "" then return invalid
+    if data = invalid or data.Items = invalid or data = "" then return invalid
 
     results = []
     for each item in data.Items
@@ -422,7 +422,7 @@ function TVEpisodes(show_id as string, season_id as string) as dynamic
 
     data = getJson(resp)
     ' validate data
-    if data = invalid or data = "" then return invalid
+    if data = invalid or data.Items = invalid or data = "" then return invalid
 
     results = []
     for each item in data.Items
