@@ -87,7 +87,7 @@ sub playQueue()
     nextItem = getCurrentItem()
     nextItemMediaType = getItemType(nextItem)
 
-    if not isValid(nextItemMediaType) then return
+    if nextItemMediaType = "" then return
 
     if nextItemMediaType = "audio"
         CreateAudioPlayerView()
@@ -177,12 +177,12 @@ sub set(items)
     end for
 end sub
 
-function getItemType(item) as dynamic
+function getItemType(item) as string
     if isValid(item) and isValid(item.json) and isValid(item.json.mediatype) and item.json.mediatype <> ""
         return LCase(item.json.mediatype)
     else if isValid(item) and isValid(item.type) and item.type <> ""
         return LCase(item.type)
     end if
 
-    return invalid
+    return ""
 end function
