@@ -125,6 +125,7 @@ sub Main (args as dynamic) as void
     device.setMessagePort(m.port)
     device.EnableScreensaverExitedEvent(true)
     device.EnableAppFocusEvent(false)
+    device.EnableAudioGuideChangedEvent(true)
 
     ' Check if we were sent content to play with the startup command (Deep Link)
     if isValidAndNotEmpty(args.mediaType) and isValidAndNotEmpty(args.contentId)
@@ -615,6 +616,12 @@ sub Main (args as dynamic) as void
                     end if
                     ' todo: add other screens to be refreshed - movie detail, tv series, episode list etc.
                 end if
+            else if event.audioGuideEnabled <> invalid
+                tmpGlobalDevice = m.global.device
+                tmpGlobalDevice.AddReplace("isAudioGuideEnabled", event.audioGuideEnabled)
+
+                ' update global device array
+                m.global.setFields({ device: tmpGlobalDevice })
             else
                 print "Unhandled roDeviceInfoEvent:"
                 print msg.GetInfo()
