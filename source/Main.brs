@@ -618,7 +618,7 @@ sub Main (args as dynamic) as void
                 end if
             else if event.audioGuideEnabled <> invalid
                 tmpGlobalDevice = m.global.device
-                tmpGlobalDevice.AddReplace("isAudioGuideEnabled", event.audioGuideEnabled)
+                tmpGlobalDevice.AddReplace("isaudioguideenabled", event.audioGuideEnabled)
 
                 ' update global device array
                 m.global.setFields({ device: tmpGlobalDevice })
