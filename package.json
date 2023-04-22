@@ -5,7 +5,7 @@
   "dependencies": {
     "api": "npm:jellyfin-api-bs-client@1.0.5",
     "bgv": "npm:button-group-vert@1.0.2",
-    "brighterscript-formatter": "1.6.24",
+    "brighterscript-formatter": "1.6.26",
     "intKeyboard": "npm:integer-keyboard@1.0.12",
     "sob": "npm:slide-out-button@1.0.1"
   },
