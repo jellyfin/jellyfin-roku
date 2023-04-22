@@ -4,7 +4,7 @@
         {
             "type": "brightscript",
             "request": "launch",
-            "name": "Jellyfin Debug: Launch",
+            "name": "Jellyfin Debug",
             "stopOnEntry": false,
             // To enable RALE:
             // set "brightscript.debug.raleTrackerTaskFileLocation": "/absolute/path/to/rale/TrackerTask.xml" in your vscode user settings
@@ -22,6 +22,66 @@
                 "source/**/*",
                 "manifest"
             ]
+        },
+        {
+            "name": "Run tests",
+            "type": "brightscript",
+            "request": "launch",
+            "consoleOutput": "full",
+            "internalConsoleOptions": "neverOpen",
+            "preLaunchTask": "build-tests",
+            "retainStagingFolder": true,
+            "stopOnEntry": false,
+            "files": [
+                "!**/images/*.*",
+                "!**/fonts/*.*",
+                "!*.jpg",
+                "!*.png",
+                "*",
+                "*.*",
+                "**/*.*",
+                "!*.zip",
+                "!**/*.zip"
+            ],
+            "rootDir": "${workspaceFolder}/build",
+            "sourceDirs": [
+                "${workspaceFolder}/test-app"
+            ],
+            "enableDebuggerAutoRecovery": true,
+            "stopDebuggerOnAppExit": true,
+            "enableVariablesPanel": false,
+            "injectRaleTrackerTask": false,
+            "enableDebugProtocol": false
+        },
+        {
+            "name": "Run test-tdd",
+            "type": "brightscript",
+            "request": "launch",
+            "consoleOutput": "full",
+            "internalConsoleOptions": "neverOpen",
+            "preLaunchTask": "build-tdd",
+            "retainStagingFolder": true,
+            "stopOnEntry": false,
+            "files": [
+                "!**/images/*.*",
+                "!**/fonts/*.*",
+                "!*.jpg",
+                "!*.png",
+                "*",
+                "*.*",
+                "**/*.*",
+                "!*.zip",
+                "!**/*.zip"
+            ],
+            "rootDir": "${workspaceFolder}/build",
+            "sourceDirs": [
+                "${workspaceFolder}/test-app"
+            ],
+            "enableDebuggerAutoRecovery": true,
+            "stopDebuggerOnAppExit": true,
+            "enableVariablesPanel": false,
+            "injectRaleTrackerTask": false,
+            "enableDebugProtocol": false
         }
     ]
 }

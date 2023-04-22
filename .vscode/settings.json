@@ -9,5 +9,6 @@
         "editor.defaultFormatter": "DavidAnson.vscode-markdownlint"
     },
     "xml.format.maxLineWidth": 0,
-    "editor.formatOnSave": true
+    "editor.formatOnSave": true,
+    "brightscript.bsdk": "node_modules/brighterscript"
 }
