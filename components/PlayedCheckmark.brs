@@ -1,4 +1,4 @@
 sub init()
-    m.checkmark = m.top.findNode("checkmark")
-    m.checkmark.font.size = 35
+    checkmark = m.top.findNode("checkmark")
+    checkmark.font.size = 48
 end sub

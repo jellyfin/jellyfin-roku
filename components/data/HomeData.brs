@@ -28,7 +28,7 @@ sub setData()
         end if
 
     else if datum.type = "Episode"
-        m.top.watched = datum.UserData.Played
+        m.top.isWatched = datum.UserData.Played
 
         imgParams = {}
         imgParams.Append({ "maxHeight": 261 })
@@ -69,7 +69,7 @@ sub setData()
         end if
 
     else if datum.type = "Movie"
-        m.top.watched = datum.UserData.Played
+        m.top.isWatched = datum.UserData.Played
 
         imgParams = {}
         imgParams.Append({ "maxHeight": 261 })
@@ -94,7 +94,7 @@ sub setData()
         end if
 
     else if datum.type = "Video"
-        m.top.watched = datum.UserData.Played
+        m.top.isWatched = datum.UserData.Played
 
         imgParams = {}
         imgParams.Append({ "maxHeight": 261 })

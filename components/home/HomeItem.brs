@@ -38,7 +38,7 @@ sub itemContentChanged()
         m.itemIcon.uri = itemData.iconUrl
     end if
 
-    if itemData.watched
+    if itemData.isWatched
         m.playedIndicator.visible = true
         m.unplayedCount.visible = false
     else
@@ -72,6 +72,8 @@ sub itemContentChanged()
         return
     end if
 
+    playedIndicatorLeftPosition = m.itemPoster.width - 60
+    m.playedIndicator.translation = [playedIndicatorLeftPosition, 0]
 
     m.itemText.height = 34
     m.itemText.font.size = 25
