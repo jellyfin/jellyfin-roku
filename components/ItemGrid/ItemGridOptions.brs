@@ -244,7 +244,6 @@ sub saveFavoriteItemSelected(msg)
 end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean
-
     if key = "down" or (key = "OK" and m.buttons.hasFocus())
         m.buttons.setFocus(false)
         m.menus[m.selectedItem].setFocus(true)
@@ -259,6 +258,8 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
         return true
     else if key = "right"
+        if isFilterMenuDataValid() = false then return false
+
         if m.menus[m.selectedItem].isInFocusChain()
             ' Handle Filter screen
             if m.selectedItem = 2
@@ -284,6 +285,8 @@ function onKeyEvent(key as string, press as boolean) as boolean
             return true
         end if
     else if key = "OK"
+        if isFilterMenuDataValid() = false then return false
+
         if m.menus[m.selectedItem].isInFocusChain()
             ' Handle View Screen
             if m.selectedItem = 0
@@ -379,5 +382,4 @@ function onKeyEvent(key as string, press as boolean) as boolean
     end if
 
     return false
-
 end function
