@@ -5,8 +5,6 @@ major_version=1
 minor_version=6
 build_version=5
 
-run_as_process=1
-
 ### Main Menu Icons / Channel Poster Artwork
 
 mm_icon_focus_fhd=pkg:/images/channel-poster_fhd.png
