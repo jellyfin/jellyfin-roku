@@ -67,7 +67,7 @@ sub itemContentChanged()
 
     if itemData.communityRating <> invalid
         setFieldText("communityRating", int(itemData.communityRating * 10) / 10)
-        m.top.findNode("star").visible = "true"
+        m.top.findNode("communityRatingGroup").visible = "true"
     else
         ' hide the star icon
         m.top.findNode("infoGroup").removeChild(m.top.findNode("communityRatingGroup"))
