@@ -2174,7 +2174,7 @@ namespace api
     namespace jellyScrub
         ' Get jelly scrub plugin data
         function Get(id as string)
-            return buildURL(Substitute("/Trickplay/{0}/320/GetBIF?apikey={1}", id, config().APIKEY))
+            return buildURL(Substitute("/Trickplay/{0}/320/GetBIF?apikey={1}", id, get_user_setting("token")))
         end function
     end namespace
 
