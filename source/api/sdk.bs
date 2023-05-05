@@ -2118,7 +2118,8 @@ namespace api
 
         ' Gets subtitles in a specified format.
         function GetSubtitles(routeitemid as string, routemediasourceid as string, routeindex as integer, routestartpositionticks as integer, routeformat as string, params = {} as object)
-            return buildURL(Substitute("/videos/{0}/{1}/subtitles/{2}/{3}/stream.{4}" + routeformat, routeitemid, routemediasourceid, routeindex, routestartpositionticks, routeformat), params)
+            ' We maxed out params for substitute() so we must manually add the routeformat value
+            return buildURL(Substitute("/videos/{0}/{1}/subtitles/{2}/{3}/stream." + routeformat, routeitemid, routemediasourceid, routeindex, routestartpositionticks), params)
         end function
     end namespace
 
