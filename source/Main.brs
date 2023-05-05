@@ -42,7 +42,7 @@ sub Main (args as dynamic) as void
     m.scene.observeField("exit", m.port)
 
     ' Downloads and stores a fallback font to tmp:/
-    configEncoding = api_API().system.getconfigurationbyname("encoding")
+    configEncoding = api.system.GetConfigurationByName("encoding")
 
     if isValid(configEncoding) and isValid(configEncoding.EnableFallbackFont)
         if configEncoding.EnableFallbackFont
@@ -439,7 +439,7 @@ sub Main (args as dynamic) as void
                 mediaSourceId = invalid
                 video_id = group.id
 
-                trailerData = api_API().users.getlocaltrailers(get_setting("active_user"), group.id)
+                trailerData = api.users.GetLocalTrailers(get_setting("active_user"), group.id)
                 video = invalid
 
                 if isValid(trailerData) and isValid(trailerData[0]) and isValid(trailerData[0].id)

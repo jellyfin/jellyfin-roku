@@ -497,7 +497,7 @@ function CreateMovieDetailsGroup(movie as object) as dynamic
     m.global.sceneManager.callFunc("pushScene", group)
     group.itemContent = movieMetaData
     ' local trailers
-    trailerData = api_API().users.getlocaltrailers(get_setting("active_user"), movie.id)
+    trailerData = api.users.GetLocalTrailers(get_setting("active_user"), movie.id)
     if isValid(trailerData)
         group.trailerAvailable = trailerData.Count() > 0
     end if

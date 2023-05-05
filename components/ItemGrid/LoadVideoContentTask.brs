@@ -1,12 +1,12 @@
 import "pkg:/source/utils/misc.brs"
 import "pkg:/source/api/Items.brs"
 import "pkg:/source/api/UserLibrary.brs"
-import "pkg:/source/roku_modules/api/api.brs"
 import "pkg:/source/api/baserequest.brs"
 import "pkg:/source/utils/config.brs"
 import "pkg:/source/api/Image.brs"
 import "pkg:/source/api/userauth.brs"
 import "pkg:/source/utils/deviceCapabilities.brs"
+import "pkg:/source/api/sdk.bs"
 
 sub init()
     m.top.functionName = "loadItems"
@@ -367,7 +367,7 @@ end sub
 ' Returns an array of playback info to be displayed during playback.
 ' In the future, with a custom playback info view, we can return an associated array.
 function GetPlaybackInfo()
-    sessions = api_API().sessions.get()
+    sessions = api.sessions.Get()
     if isValid(sessions) and sessions.Count() > 0
         return GetTranscodingStats(sessions[0])
     end if
@@ -1218,7 +1218,7 @@ function CreateMovieDetailsGroup(movie)
     activeUser = get_setting("active_user")
     trailerData = invalid
     if isValid(activeUser) and isValid(movie.id)
-        trailerData = api_API().users.getlocaltrailers(activeUser, movie.id)
+        trailerData = api.users.GetLocalTrailers(activeUser, movie.id)
     end if
     if isValid(trailerData)
         group.trailerAvailable = trailerData.Count() > 0
