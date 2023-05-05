@@ -2151,23 +2151,4 @@ namespace api
             return getJson(req)
         end function
     end namespace
-
-    '
-    ' 3rd Party Plugin Support
-    '
-    namespace introSkipper
-        ' Get intro skipper plugin data
-        function Get(id as string)
-            req = APIRequest(Substitute("/episode/{0}/introtimestamps/v1", id))
-            return getJson(req)
-        end function
-    end namespace
-
-    namespace jellyScrub
-        ' Get jelly scrub plugin data
-        function Get(id as string)
-            return buildURL(Substitute("/Trickplay/{0}/320/GetBIF?apikey={1}", id, get_user_setting("token")))
-        end function
-    end namespace
-
 end namespace
