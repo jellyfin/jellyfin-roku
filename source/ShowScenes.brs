@@ -814,3 +814,36 @@ sub UpdateSavedServerList()
         end if
     end if
 end sub
+
+function FindPreferredAudioStream(streams as dynamic, id = "" as string) as integer
+    preferredLanguage = get_user_setting("display.playback.AudioLanguagePreference")
+    playDefault = get_user_setting("display.playback.PlayDefaultAudioTrack")
+
+    ' Do we already have the MediaStreams or not?
+    if streams = invalid
+        userId = get_setting("active_user")
+        url = Substitute("Users/{0}/Items/{1}", userId, id)
+        resp = APIRequest(url)
+        jsonResponse = getJson(resp)
+        if jsonResponse <> invalid and jsonResponse.MediaStreams <> invalid
+            streams = jsonResponse.MediaStreams
+        else
+            ' we can't find the streams? return the default track
+            return 1
+        end if
+    end if
+
+    if playDefault <> invalid and playDefault = "true"
+        return 1
+    end if
+
+    if preferredLanguage <> invalid
+        for i = 0 to streams.Count() - 1
+            if streams[i].Type = "Audio" and streams[i].Language = preferredLanguage
+                return i
+            end if
+        end for
+    end if
+
+    return 1
+end function
