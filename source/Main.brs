@@ -122,6 +122,10 @@ sub Main (args as dynamic) as void
             if itemNode.type = "Episode" or itemNode.type = "Movie" or itemNode.type = "Video"
                 if itemNode.type = "Episode" and itemNode.selectedAudioStreamIndex <> invalid and itemNode.selectedAudioStreamIndex > 1
                     video = CreateVideoPlayerGroup(itemNode.id, invalid, itemNode.selectedAudioStreamIndex)
+                else if get_user_setting("display.playback.AudioLanguagePreference") <> invalid
+                    langPreference = get_user_setting("display.playback.AudioLanguagePreference")
+                    preferredLang = FindPreferredAudioStream(itemNode.json.MediaStreams, langPreference)
+                    video = CreateVideoPlayerGroup(itemNode.id, invalid, preferredLang)
                 else
                     video = CreateVideoPlayerGroup(itemNode.id)
                 end if
@@ -610,3 +614,15 @@ sub Main (args as dynamic) as void
     end while
 
 end sub
+
+function FindPreferredAudioStream(streams, preferredLanguage)
+
+    for i = 0 to streams.Count() - 1
+        if streams[i].Type = "Audio" and streams[i].Language = preferredLanguage
+            return i
+        end if
+    end for
+
+    return 0
+
+end function

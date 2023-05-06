@@ -146,6 +146,15 @@ sub LoadUserPreferences()
     else
         unset_user_setting("display.livetv.landing")
     end if
+
+    ' Get users custom configuration
+    resp = APIRequest("Users/Me")
+    jsonResponse = getJson(resp)
+    if jsonResponse <> invalid and jsonResponse.Configuration <> invalid and jsonResponse.Configuration["AudioLanguagePreference"] <> invalid
+        set_user_setting("display.playback.AudioLanguagePreference", jsonResponse.Configuration["AudioLanguagePreference"])
+    else
+        unset_user_setting("display.playback.AudioLanguagePreference")
+    end if
 end sub
 
 sub LoadUserAbilities(user)
