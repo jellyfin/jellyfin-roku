@@ -613,7 +613,7 @@ sub Main (args as dynamic) as void
 
 end sub
 
-function FindPreferredAudioStream(streams, id = "")
+function FindPreferredAudioStream(streams as dynamic, id = "" as string) as integer
     preferredLanguage = get_user_setting("display.playback.AudioLanguagePreference")
     playDefault = get_user_setting("display.playback.PlayDefaultAudioTrack")
 
