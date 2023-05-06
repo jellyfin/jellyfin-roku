@@ -122,12 +122,9 @@ sub Main (args as dynamic) as void
             if itemNode.type = "Episode" or itemNode.type = "Movie" or itemNode.type = "Video"
                 if itemNode.type = "Episode" and itemNode.selectedAudioStreamIndex <> invalid and itemNode.selectedAudioStreamIndex > 1
                     video = CreateVideoPlayerGroup(itemNode.id, invalid, itemNode.selectedAudioStreamIndex)
-                else if get_user_setting("display.playback.AudioLanguagePreference") <> invalid
-                    langPreference = get_user_setting("display.playback.AudioLanguagePreference")
-                    preferredLang = FindPreferredAudioStream(itemNode.json.MediaStreams, langPreference)
-                    video = CreateVideoPlayerGroup(itemNode.id, invalid, preferredLang)
                 else
-                    video = CreateVideoPlayerGroup(itemNode.id)
+                    preferredLang = FindPreferredAudioStream(itemNode.json.MediaStreams)
+                    video = CreateVideoPlayerGroup(itemNode.id, invalid, preferredLang)
                 end if
                 if video <> invalid and video.errorMsg <> "introaborted"
                     sceneManager.callFunc("pushScene", video)
@@ -615,14 +612,21 @@ sub Main (args as dynamic) as void
 
 end sub
 
-function FindPreferredAudioStream(streams, preferredLanguage)
+function FindPreferredAudioStream(streams)
+    preferredLanguage = get_user_setting("display.playback.AudioLanguagePreference")
+    playDefault = get_user_setting("display.playback.PlayDefaultAudioTrack")
 
-    for i = 0 to streams.Count() - 1
-        if streams[i].Type = "Audio" and streams[i].Language = preferredLanguage
-            return i
-        end if
-    end for
+    if playDefault <> invalid and playDefault = "true"
+        return 1
+    end if
 
-    return 0
+    if preferredLanguage <> invalid
+        for i = 0 to streams.Count() - 1
+            if streams[i].Type = "Audio" and streams[i].Language = preferredLanguage
+                return i
+            end if
+        end for
+    end if
 
+    return 1
 end function
