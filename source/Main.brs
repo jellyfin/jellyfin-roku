@@ -120,7 +120,7 @@ sub Main (args as dynamic) as void
             itemNode = reportingNode.quickPlayNode
             if itemNode = invalid or itemNode.id = "" then return
             if itemNode.type = "Episode" or itemNode.type = "Movie" or itemNode.type = "Video"
-                if itemNode.type = "Episode" and itemNode.selectedAudioStreamIndex <> invalid and itemNode.selectedAudioStreamIndex > 1
+                if itemNode.type = "Episode" and itemNode.selectedAudioStreamIndex <> invalid and itemNode.selectedAudioStreamIndex > 0
                     video = CreateVideoPlayerGroup(itemNode.id, invalid, itemNode.selectedAudioStreamIndex)
                 else
                     preferredLang = FindPreferredAudioStream(itemNode.json.MediaStreams)

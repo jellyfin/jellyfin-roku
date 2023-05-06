@@ -35,8 +35,12 @@ end sub
 '
 'Check if options updated and any reloading required
 sub audioOptionsClosed()
-    if m.currentSelected <> invalid and m.tvListOptions.audioStreamIndex <> m.top.selectedAudioStreamIndex
-        m.top.objects.items[m.currentSelected].selectedAudioStreamIndex = m.tvListOptions.audioStreamIndex
+    if m.currentSelected <> invalid
+        ' If the user opened the audio options, we report back even if they left the selection alone.
+        ' Otherwise, the users' lang peference from the server will take over.
+        '
+        ' Note: If track 1 is selected, Roku reports "0", if another track is selected and user selects track 1, it reports "1"
+        m.top.objects.items[m.currentSelected].selectedAudioStreamIndex = m.tvListOptions.audioStreamIndex = 0 ? 1 : m.tvListOptions.audioStreamIndex
     end if
 end sub
 
