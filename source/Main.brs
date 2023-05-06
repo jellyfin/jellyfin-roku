@@ -172,7 +172,8 @@ sub Main (args as dynamic) as void
                 if selectedItem.selectedAudioStreamIndex <> invalid and selectedItem.selectedAudioStreamIndex > 1
                     video = CreateVideoPlayerGroup(video_id, invalid, selectedItem.selectedAudioStreamIndex)
                 else
-                    video = CreateVideoPlayerGroup(video_id)
+                    preferredLang = FindPreferredAudioStream(invalid, video_id)
+                    video = CreateVideoPlayerGroup(video_id, invalid, preferredLang)
                 end if
                 if video <> invalid and video.errorMsg <> "introaborted"
                     sceneManager.callFunc("pushScene", video)
@@ -612,9 +613,23 @@ sub Main (args as dynamic) as void
 
 end sub
 
-function FindPreferredAudioStream(streams)
+function FindPreferredAudioStream(streams, id = "")
     preferredLanguage = get_user_setting("display.playback.AudioLanguagePreference")
     playDefault = get_user_setting("display.playback.PlayDefaultAudioTrack")
+
+    ' Do we already have the MediaStreams or not?
+    if streams = invalid
+        userId = get_setting("active_user")
+        url = Substitute("Users/{0}/Items/{1}", userId, id)
+        resp = APIRequest(url)
+        jsonResponse = getJson(resp)
+        if jsonResponse <> invalid and jsonResponse.MediaStreams <> invalid
+            streams = jsonResponse.MediaStreams
+        else
+            ' we can't find the streams? return the default track
+            return 1
+        end if
+    end if
 
     if playDefault <> invalid and playDefault = "true"
         return 1
