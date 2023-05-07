@@ -647,13 +647,13 @@ sub Main (args as dynamic) as void
                         m.global.queueManager.callFunc("push", selectedItem[0])
                         m.global.queueManager.callFunc("playQueue")
                     else if msg.getRoSGNode().returnData.indexselected = 2
-                        ' User chose Go to Series
+                        ' User chose Go to series
                         CreateSeriesDetailsGroup(selectedItem[0].json.SeriesId)
                     else if msg.getRoSGNode().returnData.indexselected = 3
                         ' User chose Go to season
                         CreateSeasonDetailsGroupByID(selectedItem[0].json.SeriesId, selectedItem[0].json.seasonID)
                     else if msg.getRoSGNode().returnData.indexselected = 4
-                        ' User chose Go to season
+                        ' User chose Go to episode
                         CreateMovieDetailsGroup(selectedItem[0])
                     end if
                 end if
