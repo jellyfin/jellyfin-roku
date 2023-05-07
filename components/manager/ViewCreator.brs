@@ -15,8 +15,14 @@ sub CreateVideoPlayerView()
     m.view.observeField("selectPlaybackInfoPressed", "onSelectPlaybackInfoPressed")
     m.view.observeField("selectSubtitlePressed", "onSelectSubtitlePressed")
 
+    mediaSourceId = m.global.queueManager.callFunc("getCurrentItem").mediaSourceId
+
+    if not isValid(mediaSourceId) or mediaSourceId = ""
+        mediaSourceId = m.global.queueManager.callFunc("getCurrentItem").id
+    end if
+
     m.getPlaybackInfoTask = createObject("roSGNode", "GetPlaybackInfoTask")
-    m.getPlaybackInfoTask.videoID = m.global.queueManager.callFunc("getCurrentItem").id
+    m.getPlaybackInfoTask.videoID = mediaSourceId
     m.getPlaybackInfoTask.observeField("data", "onPlaybackInfoLoaded")
 
     m.global.sceneManager.callFunc("pushScene", m.view)
@@ -30,14 +36,29 @@ end sub
 sub onSelectSubtitlePressed()
     ' None is always first in the subtitle list
     subtitleData = {
-        data: [{ "description": "None", "type": "subtitleselection" }]
+        data: [{
+            "Index": -1,
+            "IsExternal": false,
+            "Track": {
+                "description": "None"
+            },
+            "Type": "subtitleselection"
+        }]
     }
 
-    for each item in m.view.content.subtitletracks
+    for each item in m.view.fullSubtitleData
         item.type = "subtitleselection"
 
-        if item.description = m.selectedSubtitle.description
-            item.selected = true
+        if m.view.selectedSubtitle <> -1
+            ' Subtitle is a track within the file
+            if item.index = m.view.selectedSubtitle
+                item.selected = true
+            end if
+        else
+            ' Subtitle is from an external source
+            if item.track.description = m.view.subtitleTrack
+                item.selected = true
+            end if
         end if
 
         subtitleData.data.push(item)
@@ -62,14 +83,36 @@ end sub
 sub processSubtitleSelection()
     m.selectedSubtitle = m.global.sceneManager.returnData
 
-    if LCase(m.selectedSubtitle.description) = "none"
+    ' The selected encoded subtitle did not change.
+    if m.view.selectedSubtitle <> -1 or m.selectedSubtitle.index <> -1
+        if m.view.selectedSubtitle = m.selectedSubtitle.index then return
+    end if
+
+    ' The playbackData is now outdated and must be refreshed
+    m.playbackData = invalid
+
+    if LCase(m.selectedSubtitle.track.description) = "none"
         m.view.globalCaptionMode = "Off"
         m.view.subtitleTrack = ""
+
+        if m.view.selectedSubtitle <> -1
+            m.view.selectedSubtitle = -1
+        end if
+
         return
     end if
 
-    m.view.globalCaptionMode = "On"
-    m.view.subtitleTrack = m.selectedSubtitle.TrackName
+    if m.selectedSubtitle.IsEncoded
+        m.view.globalCaptionMode = "Off"
+    else
+        m.view.globalCaptionMode = "On"
+    end if
+
+    if m.selectedSubtitle.IsExternal
+        m.view.subtitleTrack = m.selectedSubtitle.track.description
+    else
+        m.view.selectedSubtitle = m.selectedSubtitle.Index
+    end if
 end sub
 
 ' User requested playback info

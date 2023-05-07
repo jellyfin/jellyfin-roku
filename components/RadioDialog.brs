@@ -29,7 +29,7 @@ sub onContentDataChanged()
         end if
 
         textLine = cardItem.CreateChild("SimpleLabel")
-        textLine.text = item.description
+        textLine.text = item.track.description
         i++
     end for
 end sub
