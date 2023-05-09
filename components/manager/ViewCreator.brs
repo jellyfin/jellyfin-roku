@@ -56,8 +56,16 @@ sub onSelectSubtitlePressed()
             end if
         else
             ' Subtitle is from an external source
-            if item.track.description = m.view.subtitleTrack
-                item.selected = true
+            availableSubtitleTrackIndex = availSubtitleTrackIdx(item.track.TrackName)
+            if availableSubtitleTrackIndex <> -1
+
+                ' Convert Jellyfin subtitle track name to Roku track name
+                subtitleFullTrackName = m.view.availableSubtitleTracks[availableSubtitleTrackIndex].TrackName
+
+                if subtitleFullTrackName = m.view.subtitleTrack
+                    item.selected = true
+                end if
+
             end if
         end if
 
@@ -109,7 +117,10 @@ sub processSubtitleSelection()
     end if
 
     if m.selectedSubtitle.IsExternal
-        m.view.subtitleTrack = m.selectedSubtitle.track.description
+        availableSubtitleTrackIndex = availSubtitleTrackIdx(m.selectedSubtitle.Track.TrackName)
+        if availableSubtitleTrackIndex = -1 then return
+
+        m.view.subtitleTrack = m.view.availableSubtitleTracks[availableSubtitleTrackIndex].TrackName
     else
         m.view.selectedSubtitle = m.selectedSubtitle.Index
     end if
@@ -152,3 +163,21 @@ sub onStateChange()
         m.global.audioPlayer.loopMode = ""
     end if
 end sub
+
+' Roku translates the info provided in subtitleTracks into availableSubtitleTracks
+' Including ignoring tracks, if they are not understood, thus making indexing unpredictable.
+' This function translates between our internel selected subtitle index
+' and the corresponding index in availableSubtitleTracks.
+function availSubtitleTrackIdx(tracknameToFind as string) as integer
+    idx = 0
+    for each availTrack in m.view.availableSubtitleTracks
+        ' The TrackName must contain the URL we supplied originally, though
+        ' Roku mangles the name a bit, so we check if the URL is a substring, rather
+        ' than strict equality
+        if Instr(1, availTrack.TrackName, tracknameToFind)
+            return idx
+        end if
+        idx = idx + 1
+    end for
+    return -1
+end function
