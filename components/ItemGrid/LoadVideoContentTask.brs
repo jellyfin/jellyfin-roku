@@ -22,7 +22,8 @@ sub loadItems()
         if m.global.queueManager.callFunc("getCurrentItem").startingPoint = 0
             preRoll = GetIntroVideos(m.top.itemId)
             if isValid(preRoll) and preRoll.TotalRecordCount > 0 and isValid(preRoll.items[0])
-                ' Bypass joke pre-roll
+                ' If an error is thrown in the Intros plugin, instead of passing the error they pass the entire rick roll music video.
+                ' Bypass the music video and treat it as an error message
                 if lcase(preRoll.items[0].name) <> "rick roll'd"
                     m.global.queueManager.callFunc("push", m.global.queueManager.callFunc("getCurrentItem"))
                     m.top.itemId = preRoll.items[0].id

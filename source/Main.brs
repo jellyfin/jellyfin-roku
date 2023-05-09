@@ -621,12 +621,13 @@ sub Main (args as dynamic) as void
                 end if
             end if
         else if isNodeEvent(msg, "dataReturned")
-            if isValid(msg.getRoSGNode()) and isValid(msg.getRoSGNode().returnData)
+            popupNode = msg.getRoSGNode()
+            if isValid(popupNode) and isValid(popupNode.returnData)
                 selectedItem = m.global.queueManager.callFunc("getHold")
                 m.global.queueManager.callFunc("clearHold")
 
                 if isValid(selectedItem) and selectedItem.count() > 0 and isValid(selectedItem[0])
-                    if msg.getRoSGNode().returnData.indexselected = 0
+                    if popupNode.returnData.indexselected = 0
                         'Resume video from resume point
                         startingPoint = 0
 
@@ -640,19 +641,19 @@ sub Main (args as dynamic) as void
                         m.global.queueManager.callFunc("clear")
                         m.global.queueManager.callFunc("push", selectedItem[0])
                         m.global.queueManager.callFunc("playQueue")
-                    else if msg.getRoSGNode().returnData.indexselected = 1
+                    else if popupNode.returnData.indexselected = 1
                         'Start Over from beginning selected, set position to 0
                         selectedItem[0].startingPoint = 0
                         m.global.queueManager.callFunc("clear")
                         m.global.queueManager.callFunc("push", selectedItem[0])
                         m.global.queueManager.callFunc("playQueue")
-                    else if msg.getRoSGNode().returnData.indexselected = 2
+                    else if popupNode.returnData.indexselected = 2
                         ' User chose Go to series
                         CreateSeriesDetailsGroup(selectedItem[0].json.SeriesId)
-                    else if msg.getRoSGNode().returnData.indexselected = 3
+                    else if popupNode.returnData.indexselected = 3
                         ' User chose Go to season
                         CreateSeasonDetailsGroupByID(selectedItem[0].json.SeriesId, selectedItem[0].json.seasonID)
-                    else if msg.getRoSGNode().returnData.indexselected = 4
+                    else if popupNode.returnData.indexselected = 4
                         ' User chose Go to episode
                         CreateMovieDetailsGroup(selectedItem[0])
                     end if
