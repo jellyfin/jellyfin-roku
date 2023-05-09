@@ -12,7 +12,7 @@ sub init()
     m.originalQueue = []
     m.queueTypes = []
     ' Preroll videos only play if user has cinema mode setting enabled
-    m.prerollActive = (get_user_setting("playback.cinemamode") = "true")
+    m.isPrerollActive = (get_user_setting("playback.cinemamode") = "true")
     m.position = 0
     m.shuffleEnabled = false
 end sub
@@ -21,7 +21,7 @@ end sub
 sub clear()
     m.queue = []
     m.queueTypes = []
-    m.prerollActive = (get_user_setting("playback.cinemamode") = "true")
+    m.isPrerollActive = (get_user_setting("playback.cinemamode") = "true")
     setPosition(0)
 end sub
 
@@ -144,14 +144,14 @@ sub pop()
     m.queueTypes.pop()
 end sub
 
-' Return prerollActive status
-function prerollActive()
-    return m.prerollActive
+' Return isPrerollActive status
+function isPrerollActive() as boolean
+    return m.isPrerollActive
 end function
 
 ' Set prerollActive status
 sub setPrerollStatus(newStatus)
-    m.prerollActive = newStatus
+    m.isPrerollActive = newStatus
 end sub
 
 ' Push new items to the play queue

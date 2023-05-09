@@ -15,12 +15,12 @@
     <function name="getQueueUniqueTypes" />
     <function name="getUnshuffledQueue" />
     <function name="hold" />
+    <function name="isPrerollActive" />
     <function name="moveBack" />
     <function name="moveForward" />
     <function name="peek" />
     <function name="playQueue" />
     <function name="pop" />
-    <function name="prerollActive" />
     <function name="push" />
     <function name="resetShuffle" />
     <function name="set" />

@@ -17,7 +17,7 @@ sub loadItems()
     m.top.isIntro = false
 
     ' Only show preroll once per queue
-    if m.global.queueManager.callFunc("prerollActive")
+    if m.global.queueManager.callFunc("isPrerollActive")
         ' Prerolls not allowed if we're resuming video
         if m.global.queueManager.callFunc("getCurrentItem").startingPoint = 0
             preRoll = GetIntroVideos(m.top.itemId)
