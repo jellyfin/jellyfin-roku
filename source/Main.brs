@@ -121,9 +121,10 @@ sub Main (args as dynamic) as void
             itemNode = reportingNode.quickPlayNode
             if isValid(itemNode) and isValid(itemNode.id) and itemNode.id <> ""
                 if itemNode.type = "Episode" or itemNode.type = "Movie" or itemNode.type = "Video"
-                    audio_stream_idx = 0
-                    if isValid(itemNode.selectedAudioStreamIndex)
+                    if isValid(itemNode.selectedAudioStreamIndex) and itemNode.selectedAudioStreamIndex > 0
                         audio_stream_idx = itemNode.selectedAudioStreamIndex
+                    else
+                        audio_stream_idx = FindPreferredAudioStream(itemNode.json.MediaStreams)
                     end if
 
                     itemNode.selectedAudioStreamIndex = audio_stream_idx
@@ -186,9 +187,10 @@ sub Main (args as dynamic) as void
                     sceneManager.callFunc("pushScene", group)
                 else if selectedItemType = "Episode"
                     ' User has selected a TV episode they want us to play
-                    audio_stream_idx = 0
-                    if isValid(selectedItem.selectedAudioStreamIndex)
+                    if isValid(selectedItem.selectedAudioStreamIndex) and selectedItem.selectedAudioStreamIndex > 0
                         audio_stream_idx = selectedItem.selectedAudioStreamIndex
+                    else
+                        audio_stream_idx = FindPreferredAudioStream(invalid, selectedItem.json.id)
                     end if
 
                     selectedItem.selectedAudioStreamIndex = audio_stream_idx
@@ -404,6 +406,7 @@ sub Main (args as dynamic) as void
                 group = CreateVideoPlayerGroup(node.id)
                 sceneManager.callFunc("pushScene", group)
             else if node.type = "Episode"
+                audioPreference = FindPreferredAudioStream(invalid, node.id)
                 group = CreateVideoPlayerGroup(node.id)
                 sceneManager.callFunc("pushScene", group)
             else if node.type = "Audio"
