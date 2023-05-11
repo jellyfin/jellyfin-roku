@@ -1,3 +1,5 @@
+import "pkg:/source/utils/misc.brs"
+
 sub init()
     m.top.itemComponentName = "HomeItem"
     ' how many rows are visible on the screen
@@ -435,6 +437,9 @@ end sub
 
 sub itemSelected()
     m.top.selectedItem = m.top.content.getChild(m.top.rowItemSelected[0]).getChild(m.top.rowItemSelected[1])
+
+    'Prevent the selected item event from double firing
+    m.top.selectedItem = invalid
 end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean
