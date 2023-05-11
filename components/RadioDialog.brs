@@ -50,10 +50,14 @@ sub moveScrollBar()
             return
         end if
 
-        scrollBarThumb = findNodeBySubtype(m.scrollBarColumn[0].node, "Poster")
-        if scrollBarThumb.count() = 0 or not isValid(scrollBarThumb[0]) or not isValid(scrollBarThumb[0].node)
+        m.scrollBarThumb = findNodeBySubtype(m.scrollBarColumn[0].node, "Poster")
+        if m.scrollBarThumb.count() = 0 or not isValid(m.scrollBarThumb[0]) or not isValid(m.scrollBarThumb[0].node)
             return
         end if
+
+        m.scrollBarThumb[0].node.blendColor = "#444444"
+        ' If the user presses left then right, it's possible for us to lose focus. Ensure focus stays on the option list.
+        scrollBar[0].node.observeField("focusedChild", "onScrollBarFocus")
 
         ' Hide the default scrollbar background
         m.scrollBarColumn[0].node.uri = ""
@@ -68,13 +72,21 @@ sub moveScrollBar()
         scrollBar[0].node.insertChild(scrollbarBackground, 0)
 
         ' Determine the proper scroll amount for the scrollbar
-        m.scrollAmount = (m.contentArea.clippingRect.height - int(scrollBarThumb[0].node.height)) / m.radioOptions.getChildCount()
+        m.scrollAmount = (m.contentArea.clippingRect.height - int(m.scrollBarThumb[0].node.height)) / m.radioOptions.getChildCount()
         m.scrollAmount += m.scrollAmount / m.radioOptions.getChildCount()
     end if
 
     if not isvalid(m.radioOptions.focusedChild.id) then return
 
     m.scrollBarColumn[0].node.translation = [0, val(m.radioOptions.focusedChild.id) * m.scrollAmount]
+end sub
+
+' If somehow the scrollbar gains focus, set focus back to the option list
+sub onScrollBarFocus()
+    m.radioOptions.setFocus(true)
+
+    ' Ensure scrollbar styles remain in an unfocused state
+    m.scrollBarThumb[0].node.blendColor = "#353535"
 end sub
 
 ' Once user selected an item, move cursor down to OK button
@@ -105,6 +117,12 @@ sub onContentDataChanged()
 end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean
+    if key = "right"
+        ' By default RIGHT from the option list selects the OK button
+        ' Instead, keep the user o the option list
+        return true
+    end if
+
     if not press then return false
 
     if key = "up"
