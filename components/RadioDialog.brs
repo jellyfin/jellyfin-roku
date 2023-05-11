@@ -119,7 +119,7 @@ end sub
 function onKeyEvent(key as string, press as boolean) as boolean
     if key = "right"
         ' By default RIGHT from the option list selects the OK button
-        ' Instead, keep the user o the option list
+        ' Instead, keep the user on the option list
         return true
     end if
 
