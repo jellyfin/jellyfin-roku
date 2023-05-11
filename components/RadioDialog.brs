@@ -3,7 +3,7 @@ import "pkg:/source/utils/misc.brs"
 sub init()
     m.contentArea = m.top.findNode("contentArea")
     m.radioOptions = m.top.findNode("radioOptions")
-    m.scrollBar = []
+    m.scrollBarColumn = []
 
     m.top.observeField("contentData", "onContentDataChanged")
     m.top.observeFieldScoped("buttonSelected", "onButtonSelected")
@@ -26,31 +26,55 @@ sub onItemFocused()
     focusedChild = m.radioOptions.focusedChild
     if not isValid(focusedChild) then return
 
-    ' We hide the scrollbar here because we must ensure not only that content has been loaded, but that Roku has drawn the popup
-    hideScrollBar()
+    moveScrollBar()
 
-    ' If a scrollbar is found, move the option list to the user's section
-    if m.scrollBar.count() <> 0
+    ' If the option list is scrollable, move the option list to the user's section
+    if m.scrollBarColumn.count() <> 0
         hightedButtonTranslation = m.radioOptions.focusedChild.translation
         m.radioOptions.translation = [m.radioOptions.translation[0], -1 * hightedButtonTranslation[1]]
     end if
 
 end sub
 
-' Hide the popup's scroll bar
-sub hideScrollBar()
-    ' If we haven't found the scrollbar node yet, try to find it now
-    if m.scrollBar.count() = 0
-        m.scrollBar = findNodeBySubtype(m.contentArea, "StdDlgScrollbar")
-        if m.scrollBar.count() = 0 or not isValid(m.scrollBar[0]) or not isValid(m.scrollBar[0].node)
+' Move the popup's scroll bar
+sub moveScrollBar()
+    ' If we haven't found the scrollbar column node yet, try to find it now
+    if m.scrollBarColumn.count() = 0
+        scrollBar = findNodeBySubtype(m.contentArea, "StdDlgScrollbar")
+        if scrollBar.count() = 0 or not isValid(scrollBar[0]) or not isValid(scrollBar[0].node)
             return
         end if
+
+        m.scrollBarColumn = findNodeBySubtype(scrollBar[0].node, "Poster")
+        if m.scrollBarColumn.count() = 0 or not isValid(m.scrollBarColumn[0]) or not isValid(m.scrollBarColumn[0].node)
+            return
+        end if
+
+        scrollBarThumb = findNodeBySubtype(m.scrollBarColumn[0].node, "Poster")
+        if scrollBarThumb.count() = 0 or not isValid(scrollBarThumb[0]) or not isValid(scrollBarThumb[0].node)
+            return
+        end if
+
+        ' Hide the default scrollbar background
+        m.scrollBarColumn[0].node.uri = ""
+
+        ' Create a new scrollbar background so we can move the original nodes freely
+        scrollbarBackground = createObject("roSGNode", "Rectangle")
+        scrollbarBackground.color = "#101010"
+        scrollbarBackground.opacity = "0.3"
+        scrollbarBackground.width = "30"
+        scrollbarBackground.height = m.contentArea.clippingRect.height
+        scrollbarBackground.translation = [0, 0]
+        scrollBar[0].node.insertChild(scrollbarBackground, 0)
+
+        ' Determine the proper scroll amount for the scrollbar
+        m.scrollAmount = (m.contentArea.clippingRect.height - int(scrollBarThumb[0].node.height)) / m.radioOptions.getChildCount()
+        m.scrollAmount += m.scrollAmount / m.radioOptions.getChildCount()
     end if
 
-    ' Don't waste time trying to hide it if it's already hidden
-    if not m.scrollBar[0].node.visible then return
+    if not isvalid(m.radioOptions.focusedChild.id) then return
 
-    m.scrollBar[0].node.visible = false
+    m.scrollBarColumn[0].node.translation = [0, val(m.radioOptions.focusedChild.id) * m.scrollAmount]
 end sub
 
 ' Once user selected an item, move cursor down to OK button

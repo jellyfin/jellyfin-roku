@@ -150,7 +150,7 @@ function isPrerollActive() as boolean
 end function
 
 ' Set prerollActive status
-sub setPrerollStatus(newStatus)
+sub setPrerollStatus(newStatus as boolean)
     m.isPrerollActive = newStatus
 end sub
 

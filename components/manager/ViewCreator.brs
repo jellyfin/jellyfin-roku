@@ -150,6 +150,11 @@ end sub
 ' Playback state change event handlers
 sub onStateChange()
     if LCase(m.view.state) = "finished"
+        ' Close any open dialogs
+        if m.global.sceneManager.callFunc("isDialogOpen")
+            m.global.sceneManager.callFunc("dismissDialog")
+        end if
+
         ' If there is something next in the queue, play it
         if m.global.queueManager.callFunc("getPosition") < m.global.queueManager.callFunc("getCount") - 1
             m.global.sceneManager.callFunc("clearPreviousScene")
