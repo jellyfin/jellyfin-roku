@@ -837,13 +837,12 @@ sub playbackOptionDialog(time as longinteger, meta as object)
 end sub
 
 function FindPreferredAudioStream(streams as dynamic, id = "" as string) as integer
-    preferredLanguage = get_user_setting("display.playback.AudioLanguagePreference")
-    playDefault = get_user_setting("display.playback.PlayDefaultAudioTrack")
+    preferredLanguage = m.user.Configuration.AudioLanguagePreference
+    playDefault = m.user.Configuration.PlayDefaultAudioTrack
 
     ' Do we already have the MediaStreams or not?
     if streams = invalid
-        userId = get_setting("active_user")
-        url = Substitute("Users/{0}/Items/{1}", userId, id)
+        url = Substitute("Users/{0}/Items/{1}", m.user.id, id)
         resp = APIRequest(url)
         jsonResponse = getJson(resp)
         if jsonResponse <> invalid and jsonResponse.MediaStreams <> invalid
@@ -854,7 +853,7 @@ function FindPreferredAudioStream(streams as dynamic, id = "" as string) as inte
         end if
     end if
 
-    if playDefault <> invalid and playDefault = "true"
+    if playDefault <> invalid and playDefault = true
         return 1
     end if
 
