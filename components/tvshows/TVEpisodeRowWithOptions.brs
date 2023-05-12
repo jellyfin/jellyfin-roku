@@ -38,9 +38,7 @@ sub audioOptionsClosed()
     if m.currentSelected <> invalid
         ' If the user opened the audio options, we report back even if they left the selection alone.
         ' Otherwise, the users' lang peference from the server will take over.
-        '
-        ' Note: If track 1 is selected, Roku reports "0", if another track is selected and user selects track 1, it reports "1"
-        ' In other words, we force 0 to be "1" to let other parts of the code know that the user opened the Audio Options dialog. We can't report back "0" in this case.
+        ' To do this, we interpret anything other than "0" as the user opened the audio options.
         m.top.objects.items[m.currentSelected].selectedAudioStreamIndex = m.tvListOptions.audioStreamIndex = 0 ? 1 : m.tvListOptions.audioStreamIndex
     end if
 end sub
