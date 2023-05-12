@@ -845,12 +845,10 @@ function FindPreferredAudioStream(streams as dynamic, id = "" as string) as inte
         url = Substitute("Users/{0}/Items/{1}", m.user.id, id)
         resp = APIRequest(url)
         jsonResponse = getJson(resp)
-        if jsonResponse <> invalid and jsonResponse.MediaStreams <> invalid
-            streams = jsonResponse.MediaStreams
-        else
-            ' we can't find the streams? return the default track
-            return 1
-        end if
+
+        if jsonResponse = invalid or jsonResponse.MediaStreams = invalid then return 1
+
+        streams = jsonResponse.MediaStreams
     end if
 
     if playDefault <> invalid and playDefault = true
@@ -859,7 +857,7 @@ function FindPreferredAudioStream(streams as dynamic, id = "" as string) as inte
 
     if preferredLanguage <> invalid
         for i = 0 to streams.Count() - 1
-            if streams[i].Type = "Audio" and streams[i].Language = preferredLanguage
+            if LCase(streams[i].Type) = "audio" and LCase(streams[i].Language) = LCase(preferredLanguage)
                 return i
             end if
         end for
