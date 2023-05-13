@@ -391,8 +391,8 @@ function sortSubtitles(id as string, MediaStreams)
 end function
 
 function FindPreferredAudioStream(streams as dynamic) as integer
-    preferredLanguage = m.global.userConfig.AudioLanguagePreference
-    playDefault = m.global.userConfig.PlayDefaultAudioTrack
+    preferredLanguage = m.user.Configuration.AudioLanguagePreference
+    playDefault = m.user.Configuration.PlayDefaultAudioTrack
 
     if playDefault <> invalid and playDefault = true
         return 1
