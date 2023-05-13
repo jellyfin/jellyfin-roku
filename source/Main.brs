@@ -124,8 +124,6 @@ sub Main (args as dynamic) as void
                     audio_stream_idx = 0
                     if isValid(itemNode.selectedAudioStreamIndex) and itemNode.selectedAudioStreamIndex > 0
                         audio_stream_idx = itemNode.selectedAudioStreamIndex
-                    else if isValid(itemNode.json) and isValid(itemNode.json.MediaStreams)
-                        audio_stream_idx = FindPreferredAudioStream(itemNode.json.MediaStreams)
                     end if
 
                     itemNode.selectedAudioStreamIndex = audio_stream_idx
@@ -191,8 +189,6 @@ sub Main (args as dynamic) as void
                     audio_stream_idx = 0
                     if isValid(selectedItem.selectedAudioStreamIndex) and selectedItem.selectedAudioStreamIndex > 0
                         audio_stream_idx = selectedItem.selectedAudioStreamIndex
-                    else if isValid(selectedItem.json) and isValid(selectedItem.json.id)
-                        audio_stream_idx = FindPreferredAudioStream(invalid, selectedItem.json.id)
                     end if
 
                     selectedItem.selectedAudioStreamIndex = audio_stream_idx
@@ -408,7 +404,6 @@ sub Main (args as dynamic) as void
                 group = CreateVideoPlayerGroup(node.id)
                 sceneManager.callFunc("pushScene", group)
             else if node.type = "Episode"
-                audioPreference = FindPreferredAudioStream(invalid, node.id)
                 group = CreateVideoPlayerGroup(node.id)
                 sceneManager.callFunc("pushScene", group)
             else if node.type = "Audio"

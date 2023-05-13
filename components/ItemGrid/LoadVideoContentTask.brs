@@ -34,6 +34,13 @@ sub loadItems()
         end if
     end if
 
+    if m.top.selectedAudioStreamIndex = 0
+        currentItem = m.global.queueManager.callFunc("getCurrentItem")
+        if isValid(currentItem) and isValid(currentItem.json) and isValid(currentItem.json.MediaStreams)
+            m.top.selectedAudioStreamIndex = FindPreferredAudioStream(currentItem.json.MediaStreams)
+        end if
+    end if
+
     id = m.top.itemId
     mediaSourceId = invalid
     audio_stream_idx = m.top.selectedAudioStreamIndex
@@ -381,6 +388,25 @@ function sortSubtitles(id as string, MediaStreams)
     tracks["forced"].append(tracks["text"])
 
     return { "all": tracks["forced"], "text": tracks["text"] }
+end function
+
+function FindPreferredAudioStream(streams as dynamic) as integer
+    preferredLanguage = m.global.userConfig.AudioLanguagePreference
+    playDefault = m.global.userConfig.PlayDefaultAudioTrack
+
+    if playDefault <> invalid and playDefault = true
+        return 1
+    end if
+
+    if preferredLanguage <> invalid
+        for i = 0 to streams.Count() - 1
+            if LCase(streams[i].Type) = "audio" and LCase(streams[i].Language) = LCase(preferredLanguage)
+                return i
+            end if
+        end for
+    end if
+
+    return 1
 end function
 
 function getSubtitleLanguages()

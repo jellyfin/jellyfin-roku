@@ -835,33 +835,3 @@ sub playbackOptionDialog(time as longinteger, meta as object)
 
     m.global.sceneManager.callFunc("optionDialog", tr("Playback Options"), [], resumeData)
 end sub
-
-function FindPreferredAudioStream(streams as dynamic, id = "" as string) as integer
-    preferredLanguage = m.user.Configuration.AudioLanguagePreference
-    playDefault = m.user.Configuration.PlayDefaultAudioTrack
-
-    ' Do we already have the MediaStreams or not?
-    if streams = invalid
-        url = Substitute("Users/{0}/Items/{1}", m.user.id, id)
-        resp = APIRequest(url)
-        jsonResponse = getJson(resp)
-
-        if jsonResponse = invalid or jsonResponse.MediaStreams = invalid then return 1
-
-        streams = jsonResponse.MediaStreams
-    end if
-
-    if playDefault <> invalid and playDefault = true
-        return 1
-    end if
-
-    if preferredLanguage <> invalid
-        for i = 0 to streams.Count() - 1
-            if LCase(streams[i].Type) = "audio" and LCase(streams[i].Language) = LCase(preferredLanguage)
-                return i
-            end if
-        end for
-    end if
-
-    return 1
-end function
