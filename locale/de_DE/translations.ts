@@ -10257,5 +10257,13 @@
         <translation>Mittwoch</translation>
         <extracomment>Day of Week</extracomment>
     </message>
+    <message>
+        <source>View Channel</source>
+        <translation>Sender ansehen</translation>
+    </message>
+    <message>
+        <source>Record</source>
+        <translation>Aufnehmen</translation>
+    </message>
 </context>
 </TS>
