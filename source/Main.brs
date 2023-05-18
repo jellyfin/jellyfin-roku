@@ -82,19 +82,14 @@ sub Main (args as dynamic) as void
 
     ' Check if we were sent content to play with the startup command (Deep Link)
     if isValidAndNotEmpty(args.mediaType) and isValidAndNotEmpty(args.contentId)
-        video = CreateVideoPlayerGroup(args.contentId)
 
-        if isValid(video)
-            sceneManager.callFunc("pushScene", video)
-        else
-            dialog = createObject("roSGNode", "Dialog")
-            dialog.id = "OKDialog"
-            dialog.title = tr("Not found")
-            dialog.message = tr("The requested content does not exist on the server")
-            dialog.buttons = [tr("OK")]
-            m.scene.dialog = dialog
-            m.scene.dialog.observeField("buttonSelected", m.port)
-        end if
+        deepLinkVideo = {
+            id: args.contentId,
+            type: "video"
+        }
+
+        m.global.queueManager.callFunc("push", deepLinkVideo)
+        m.global.queueManager.callFunc("playQueue")
     end if
 
     ' This is the core logic loop. Mostly for transitioning between scenes

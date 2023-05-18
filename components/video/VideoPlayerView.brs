@@ -64,23 +64,48 @@ sub onSubtitleChange()
     m.LoadMetaDataTask.control = "RUN"
 end sub
 
+sub onPlaybackErrorDialogClosed(msg)
+    sourceNode = msg.getRoSGNode()
+    sourceNode.unobserveField("buttonSelected")
+    sourceNode.unobserveField("wasClosed")
+
+    m.global.sceneManager.callFunc("popScene")
+end sub
+
+sub onPlaybackErrorButtonSelected(msg)
+    sourceNode = msg.getRoSGNode()
+    sourceNode.close = true
+end sub
+
+sub showPlaybackErrorDialog()
+    dialog = createObject("roSGNode", "Dialog")
+    dialog.title = tr("Error During Playback")
+    dialog.buttons = [tr("OK")]
+    dialog.message = tr("An error was encountered while playing this item.")
+    dialog.observeField("buttonSelected", "onPlaybackErrorButtonSelected")
+    dialog.observeField("wasClosed", "onPlaybackErrorDialogClosed")
+    m.top.getScene().dialog = dialog
+end sub
+
 sub onVideoContentLoaded()
     m.LoadMetaDataTask.unobserveField("content")
     m.LoadMetaDataTask.control = "STOP"
 
+    m.LoadMetaDataTask.content = []
+
     ' If we have nothing to play, return to previous screen
     if not isValid(m.LoadMetaDataTask.content)
-        m.global.sceneManager.callFunc("popScene")
+        showPlaybackErrorDialog()
         return
     end if
 
     if not isValid(m.LoadMetaDataTask.content[0])
-        m.global.sceneManager.callFunc("popScene")
+        showPlaybackErrorDialog()
         return
     end if
 
     if m.LoadMetaDataTask.content.count() = 0
-        m.global.sceneManager.callFunc("popScene")
+        showPlaybackErrorDialog()
         return
     end if
 
@@ -190,12 +215,7 @@ sub onState(msg)
             m.top.retryWithTranscoding = true ' If playback was not reported, retry with transcoding
         else
             ' If an error was encountered, Display dialog
-            dialog = createObject("roSGNode", "Dialog")
-            dialog.title = tr("Error During Playback")
-            dialog.buttons = [tr("OK")]
-            dialog.message = tr("An error was encountered while playing this item.")
-            dialog.observeField("buttonSelected", "dialogClosed")
-            m.top.getScene().dialog = dialog
+            showPlaybackErrorDialog()
         end if
 
         ' Stop playback and exit player
@@ -275,12 +295,7 @@ sub bufferCheck(msg)
             m.top.callFunc("refresh")
         else
             ' If buffering has stopped Display dialog
-            dialog = createObject("roSGNode", "Dialog")
-            dialog.title = tr("Error Retrieving Content")
-            dialog.buttons = [tr("OK")]
-            dialog.message = tr("There was an error retrieving the data for this item from the server.")
-            dialog.observeField("buttonSelected", "dialogClosed")
-            m.top.getScene().dialog = dialog
+            showPlaybackErrorDialog()
 
             ' Stop playback and exit player
             m.top.control = "stop"
@@ -288,14 +303,6 @@ sub bufferCheck(msg)
         end if
     end if
 
-end sub
-
-'
-' Clean up on Dialog Closed
-sub dialogClosed(msg)
-    sourceNode = msg.getRoSGNode()
-    sourceNode.unobserveField("buttonSelected")
-    sourceNode.close = true
 end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean
