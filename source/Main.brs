@@ -569,11 +569,7 @@ sub Main (args as dynamic) as void
                     else if not isValid(node.showID)
                         sceneManager.callFunc("popScene")
                     else
-                        if video.errorMsg = ""
-                            autoPlayNextEpisode(node.id, node.showID)
-                        else
-                            sceneManager.callFunc("popScene")
-                        end if
+                        autoPlayNextEpisode(node.id, node.showID)
                     end if
                 end if
             end if
