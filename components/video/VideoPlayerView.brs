@@ -91,32 +91,33 @@ sub onVideoContentLoaded()
     m.LoadMetaDataTask.unobserveField("content")
     m.LoadMetaDataTask.control = "STOP"
 
+    videoContent = m.LoadMetaDataTask.content
     m.LoadMetaDataTask.content = []
 
     ' If we have nothing to play, return to previous screen
-    if not isValid(m.LoadMetaDataTask.content)
+    if not isValid(videoContent)
         showPlaybackErrorDialog()
         return
     end if
 
-    if not isValid(m.LoadMetaDataTask.content[0])
+    if not isValid(videoContent[0])
         showPlaybackErrorDialog()
         return
     end if
 
-    if m.LoadMetaDataTask.content.count() = 0
+    if videoContent.count() = 0
         showPlaybackErrorDialog()
         return
     end if
 
-    m.top.content = m.LoadMetaDataTask.content[0].content
-    m.top.PlaySessionId = m.LoadMetaDataTask.content[0].PlaySessionId
-    m.top.videoId = m.LoadMetaDataTask.content[0].id
-    m.top.container = m.LoadMetaDataTask.content[0].container
-    m.top.mediaSourceId = m.LoadMetaDataTask.content[0].mediaSourceId
-    m.top.fullSubtitleData = m.LoadMetaDataTask.content[0].fullSubtitleData
-    m.top.audioIndex = m.LoadMetaDataTask.content[0].audioIndex
-    m.top.transcodeParams = m.LoadMetaDataTask.content[0].transcodeparams
+    m.top.content = videoContent[0].content
+    m.top.PlaySessionId = videoContent[0].PlaySessionId
+    m.top.videoId = videoContent[0].id
+    m.top.container = videoContent[0].container
+    m.top.mediaSourceId = videoContent[0].mediaSourceId
+    m.top.fullSubtitleData = videoContent[0].fullSubtitleData
+    m.top.audioIndex = videoContent[0].audioIndex
+    m.top.transcodeParams = videoContent[0].transcodeparams
 
     if m.LoadMetaDataTask.isIntro
         m.top.enableTrickPlay = false
