@@ -4,7 +4,6 @@ import "pkg:/source/utils/config.brs"
 sub init()
     m.title = m.top.findNode("title")
     m.title.text = tr("Loading...")
-    m.options = m.top.findNode("tvListOptions")
     m.overview = m.top.findNode("overview")
     m.poster = m.top.findNode("poster")
 
@@ -20,6 +19,12 @@ end sub
 sub itemContentChanged()
     item = m.top.itemContent
     itemData = item.json
+
+    ' Set default video source if user hasn't selected one yet
+    if item.selectedVideoStreamId = "" and isValid(itemData.MediaSources)
+        item.selectedVideoStreamId = itemData.MediaSources[0].id
+    end if
+
     if isValid(itemData.indexNumber)
         indexNumber = itemData.indexNumber.toStr() + ". "
     else
@@ -85,15 +90,23 @@ sub itemContentChanged()
         m.progressBar.visible = true
     end if
 
-    videoIdx = invalid
     audioIdx = invalid
+
+    m.top.findNode("video_codec").visible = false
+    if isValid(itemData.MediaSources)
+        for i = 0 to itemData.MediaSources.Count() - 1
+            if item.selectedVideoStreamId = itemData.MediaSources[i].id
+                m.top.findNode("video_codec").text = tr("Video") + ": " + itemData.MediaSources[i].MediaStreams[0].DisplayTitle
+                exit for
+            end if
+        end for
+        m.top.findNode("video_codec").visible = true
+        DisplayVideoAvailable(itemData.mediaSources)
+    end if
 
     if isValid(itemData.MediaStreams)
         for i = 0 to itemData.MediaStreams.Count() - 1
-            if itemData.MediaStreams[i].Type = "Video" and videoIdx = invalid
-                videoIdx = i
-                m.top.findNode("video_codec").text = tr("Video") + ": " + itemData.mediaStreams[videoIdx].DisplayTitle
-            else if itemData.MediaStreams[i].Type = "Audio" and audioIdx = invalid
+            if itemData.MediaStreams[i].Type = "Audio" and audioIdx = invalid
                 if item.selectedAudioStreamIndex > 1
                     audioIdx = item.selectedAudioStreamIndex
                 else
@@ -101,16 +114,28 @@ sub itemContentChanged()
                 end if
                 m.top.findNode("audio_codec").text = tr("Audio") + ": " + itemData.mediaStreams[audioIdx].DisplayTitle
             end if
-            if isValid(videoIdx) and isValid(audioIdx) then exit for
+            if isValid(audioIdx) then exit for
         end for
     end if
 
-    m.top.findNode("video_codec").visible = isValid(videoIdx)
     if isValid(audioIdx)
         m.top.findNode("audio_codec").visible = true
         DisplayAudioAvailable(itemData.mediaStreams)
     else
         m.top.findNode("audio_codec").visible = false
+    end if
+end sub
+
+sub DisplayVideoAvailable(streams)
+    count = 0
+    for i = 0 to streams.Count() - 1
+        if streams[i].VideoType = "VideoFile"
+            count++
+        end if
+    end for
+
+    if count > 1
+        m.top.findnode("video_codec_count").text = "+" + stri(count - 1).trim()
     end if
 end sub
 
