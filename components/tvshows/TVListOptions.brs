@@ -57,7 +57,7 @@ sub optionsSet()
     end if
 
     '  audio Tab
-    if m.top.Options.audios <> invalid
+    if m.top.options.audios <> invalid
         audioContent = CreateObject("roSGNode", "ContentNode")
         index = 0
         selectedAudioIndex = 0

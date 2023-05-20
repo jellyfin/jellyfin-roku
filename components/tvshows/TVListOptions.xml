@@ -8,7 +8,7 @@
         <JFButtons id="buttons" />
         <Group>
           <RadiobuttonList id="videoMenu" itemspacing="[0,10]" opacity="1" vertFocusAnimationStyle="floatingFocus" drawFocusFeedback="false" />
-          <RadiobuttonList id="audioMenu" itemspacing="[0,10]" opacity="1" vertFocusAnimationStyle="floatingFocus" drawFocusFeedback="false" />
+          <RadiobuttonList id="audioMenu" itemspacing="[0,10]" opacity="0" vertFocusAnimationStyle="floatingFocus" drawFocusFeedback="false" />
         </Group>
       </LayoutGroup>
     </Group>
