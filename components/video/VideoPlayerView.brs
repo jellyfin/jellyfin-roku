@@ -105,11 +105,6 @@ sub onVideoContentLoaded()
         return
     end if
 
-    if videoContent.count() = 0
-        showPlaybackErrorDialog()
-        return
-    end if
-
     m.top.content = videoContent[0].content
     m.top.PlaySessionId = videoContent[0].PlaySessionId
     m.top.videoId = videoContent[0].id
