@@ -53,7 +53,7 @@ sub hideChecklist()
 end sub
 
 sub onFilterFocusChange()
-    if isFilterMenuDataValid() = false
+    if not isFilterMenuDataValid()
         hideChecklist()
         return
     end if
@@ -258,7 +258,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
         return true
     else if key = "right"
-        if isFilterMenuDataValid() = false then return false
+        if not isFilterMenuDataValid() then return false
 
         if m.menus[m.selectedItem].isInFocusChain()
             ' Handle Filter screen
@@ -285,7 +285,6 @@ function onKeyEvent(key as string, press as boolean) as boolean
             return true
         end if
     else if key = "OK"
-        if isFilterMenuDataValid() = false then return false
 
         if m.menus[m.selectedItem].isInFocusChain()
             ' Handle View Screen
@@ -319,6 +318,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
             ' Handle Filter screen
             if m.selectedItem = 2
+                if not isFilterMenuDataValid() then return false
                 ' If filter has no options, select it
                 if m.filterMenu.content.getChild(m.filterMenu.itemFocused).getChildCount() = 0
                     m.menus[2].checkedItem = m.menus[2].itemSelected
