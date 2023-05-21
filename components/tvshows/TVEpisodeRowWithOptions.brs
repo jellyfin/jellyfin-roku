@@ -1,5 +1,3 @@
-import "pkg:/source/utils/config.brs"
-
 sub init()
     m.rows = m.top.findNode("tvEpisodeRow")
     m.tvListOptions = m.top.findNode("tvListOptions")
