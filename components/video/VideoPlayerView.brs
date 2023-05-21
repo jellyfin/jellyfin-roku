@@ -77,11 +77,11 @@ sub onPlaybackErrorButtonSelected(msg)
     sourceNode.close = true
 end sub
 
-sub showPlaybackErrorDialog()
+sub showPlaybackErrorDialog(errorMessage as string)
     dialog = createObject("roSGNode", "Dialog")
     dialog.title = tr("Error During Playback")
     dialog.buttons = [tr("OK")]
-    dialog.message = tr("An error was encountered while playing this item.")
+    dialog.message = errorMessage
     dialog.observeField("buttonSelected", "onPlaybackErrorButtonSelected")
     dialog.observeField("wasClosed", "onPlaybackErrorDialogClosed")
     m.top.getScene().dialog = dialog
@@ -96,12 +96,12 @@ sub onVideoContentLoaded()
 
     ' If we have nothing to play, return to previous screen
     if not isValid(videoContent)
-        showPlaybackErrorDialog()
+        showPlaybackErrorDialog(tr("There was an error retrieving the data for this item from the server."))
         return
     end if
 
     if not isValid(videoContent[0])
-        showPlaybackErrorDialog()
+        showPlaybackErrorDialog(tr("There was an error retrieving the data for this item from the server."))
         return
     end if
 
@@ -211,7 +211,7 @@ sub onState(msg)
             m.top.retryWithTranscoding = true ' If playback was not reported, retry with transcoding
         else
             ' If an error was encountered, Display dialog
-            showPlaybackErrorDialog()
+            showPlaybackErrorDialog(tr("Error During Playback"))
         end if
 
         ' Stop playback and exit player
@@ -291,7 +291,7 @@ sub bufferCheck(msg)
             m.top.callFunc("refresh")
         else
             ' If buffering has stopped Display dialog
-            showPlaybackErrorDialog()
+            showPlaybackErrorDialog(tr("There was an error retrieving the data for this item from the server."))
 
             ' Stop playback and exit player
             m.top.control = "stop"
