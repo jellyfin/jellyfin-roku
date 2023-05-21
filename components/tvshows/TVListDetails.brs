@@ -90,29 +90,31 @@ sub itemContentChanged()
         m.progressBar.visible = true
     end if
 
-    audioIdx = invalid
-
     m.top.findNode("video_codec").visible = false
     if isValid(itemData.MediaSources)
         for i = 0 to itemData.MediaSources.Count() - 1
             if item.selectedVideoStreamId = itemData.MediaSources[i].id
                 m.top.findNode("video_codec").text = tr("Video") + ": " + itemData.MediaSources[i].MediaStreams[0].DisplayTitle
+                SetupAudioDisplay(itemData.MediaSources[i].MediaStreams, item.selectedAudioStreamIndex)
                 exit for
             end if
         end for
         m.top.findNode("video_codec").visible = true
-        DisplayVideoAvailable(itemData.mediaSources)
+        DisplayVideoAvailable(itemData.MediaSources)
     end if
+end sub
 
-    if isValid(itemData.MediaStreams)
-        for i = 0 to itemData.MediaStreams.Count() - 1
-            if itemData.MediaStreams[i].Type = "Audio" and audioIdx = invalid
-                if item.selectedAudioStreamIndex > 1
-                    audioIdx = item.selectedAudioStreamIndex
+sub SetupAudioDisplay(mediaStreams as dynamic, selectedAudioStreamIndex as integer)
+    audioIdx = invalid
+    if isValid(mediaStreams)
+        for i = 0 to mediaStreams.Count() - 1
+            if mediaStreams[i].Type = "Audio" and audioIdx = invalid
+                if selectedAudioStreamIndex > 0 and selectedAudioStreamIndex < mediaStreams.Count()
+                    audioIdx = selectedAudioStreamIndex
                 else
                     audioIdx = i
                 end if
-                m.top.findNode("audio_codec").text = tr("Audio") + ": " + itemData.mediaStreams[audioIdx].DisplayTitle
+                m.top.findNode("audio_codec").text = tr("Audio") + ": " + mediaStreams[audioIdx].DisplayTitle
             end if
             if isValid(audioIdx) then exit for
         end for
@@ -120,7 +122,7 @@ sub itemContentChanged()
 
     if isValid(audioIdx)
         m.top.findNode("audio_codec").visible = true
-        DisplayAudioAvailable(itemData.mediaStreams)
+        DisplayAudioAvailable(mediaStreams)
     else
         m.top.findNode("audio_codec").visible = false
     end if

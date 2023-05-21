@@ -84,6 +84,14 @@ function onKeyEvent(key as string, press as boolean) as boolean
         m.currentSelected = m.rows.focusedChild.rowItemFocused[0]
         mediaStreams = m.rows.objects.items[m.currentSelected].json.MediaStreams
         mediaSources = m.rows.objects.items[m.currentSelected].json.MediaSources
+        if m.rows.objects.items[m.currentSelected].selectedVideoStreamId <> ""
+            for each source in mediaSources
+                if source.id = m.rows.objects.items[m.currentSelected].selectedVideoStreamId
+                    mediaStreams = source.MediaStreams
+                    exit for
+                end if
+            end for
+        end if
         if mediaSources <> invalid
             SetUpVideoOptions(mediaSources)
         end if
