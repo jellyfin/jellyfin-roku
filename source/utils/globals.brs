@@ -20,6 +20,11 @@ sub setConstants()
                 descending_white: "pkg:/images/icons/down_white.png",
                 check_black: "pkg:/images/icons/check_black.png",
                 check_white: "pkg:/images/icons/check_white.png"
+            },
+
+            regex: {
+                url: CreateObject("roRegex", "^(.*:)//([A-Za-z0-9\-\.]+)(:[0-9]+)?(.*)$", ""),
+                localhost: CreateObject("roRegex", "^localhost$|^127(?:\.[0-9]+){0,2}\.[0-9]+$|^(?:0*\:)*?:?0*1$", "i")
             }
         }
     })
