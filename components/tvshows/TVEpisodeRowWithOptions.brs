@@ -14,7 +14,8 @@ sub rowsDoneLoading()
     m.top.doneLoading = true
 end sub
 
-sub SetUpVideoOptions(streams)
+' List of video versions to choose from
+sub SetUpVideoOptions(streams as object)
     videos = []
 
     for i = 0 to streams.Count() - 1
@@ -37,12 +38,17 @@ sub SetUpVideoOptions(streams)
     end if
 end sub
 
-sub SetUpAudioOptions(streams)
+' List of audio tracks to choose from
+sub SetUpAudioOptions(streams as object)
     tracks = []
 
     for i = 0 to streams.Count() - 1
         if streams[i].Type = "Audio"
-            tracks.push({ "Title": streams[i].displayTitle, "Description": streams[i].Title, "Selected": m.top.objects.items[m.currentSelected].selectedAudioStreamIndex = i, "StreamIndex": i })
+            tracks.push({
+                "Title": streams[i].displayTitle,
+                "Description": streams[i].Title,
+                "Selected": m.top.objects.items[m.currentSelected].selectedAudioStreamIndex = i,
+            "StreamIndex": i })
         end if
     end for
 
@@ -56,8 +62,6 @@ sub SetUpAudioOptions(streams)
     end if
 end sub
 
-'
-'Check if options updated and any reloading required
 sub audioOptionsClosed()
     if m.currentSelected <> invalid
         ' If the user opened the audio options, we report back even if they left the selection alone.
@@ -67,8 +71,6 @@ sub audioOptionsClosed()
     end if
 end sub
 
-'
-' Check if options were updated
 sub videoOptionsClosed()
     if m.tvListOptions.videoStreamId <> m.top.objects.items[m.currentSelected].selectedVideoStreamId
         m.rows.objects.items[m.currentSelected].selectedVideoStreamId = m.tvListOptions.videoStreamId

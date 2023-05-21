@@ -90,6 +90,7 @@ sub itemContentChanged()
         m.progressBar.visible = true
     end if
 
+    ' Display current video_codec and check if there is more than one video to choose from...
     m.top.findNode("video_codec").visible = false
     if isValid(itemData.MediaSources)
         for i = 0 to itemData.MediaSources.Count() - 1
@@ -104,7 +105,8 @@ sub itemContentChanged()
     end if
 end sub
 
-sub SetupAudioDisplay(mediaStreams as dynamic, selectedAudioStreamIndex as integer)
+' Display current audio_codec and check if there is more than one audio track to choose from...
+sub SetupAudioDisplay(mediaStreams as object, selectedAudioStreamIndex as integer)
     audioIdx = invalid
     if isValid(mediaStreams)
         for i = 0 to mediaStreams.Count() - 1
@@ -128,7 +130,8 @@ sub SetupAudioDisplay(mediaStreams as dynamic, selectedAudioStreamIndex as integ
     end if
 end sub
 
-sub DisplayVideoAvailable(streams)
+' Adds "+N" (e.g. +1) if there is more than one video version to choose from
+sub DisplayVideoAvailable(streams as object)
     count = 0
     for i = 0 to streams.Count() - 1
         if streams[i].VideoType = "VideoFile"
@@ -141,7 +144,8 @@ sub DisplayVideoAvailable(streams)
     end if
 end sub
 
-sub DisplayAudioAvailable(streams)
+' Adds "+N" (e.g. +1) if there is more than one audio track to choose from
+sub DisplayAudioAvailable(streams as object)
     count = 0
     for i = 0 to streams.Count() - 1
         if streams[i].Type = "Audio"
