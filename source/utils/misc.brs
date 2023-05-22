@@ -228,6 +228,18 @@ function isValidAndNotEmpty(input as dynamic) as boolean
     end if
 end function
 
+function parseUrl(url as string) as object
+    ' proto $1, host $2, port $3, the-rest $4
+    rgx = CreateObject("roRegex", "^(.*:)//([A-Za-z0-9\-\.]+)(:[0-9]+)?(.*)$", "")
+    return rgx.Match(url)
+end function
+
+function isLocalhost(url as string) as boolean
+    ' https://stackoverflow.com/questions/8426171/what-regex-will-match-all-loopback-addresses
+    rgx = CreateObject("roRegex", "^localhost$|^127(?:\.[0-9]+){0,2}\.[0-9]+$|^(?:0*\:)*?:?0*1$", "i")
+    return rgx.isMatch(url)
+end function
+
 ' Rounds number to nearest integer
 function roundNumber(f as float) as integer
     ' BrightScript only has a "floor" round

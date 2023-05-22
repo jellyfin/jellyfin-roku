@@ -194,10 +194,8 @@ end sub
 sub addVideoContentURL(video, mediaSourceId, audio_stream_idx, fully_external)
     protocol = LCase(m.playbackInfo.MediaSources[0].Protocol)
     if protocol <> "file"
-        uri = m.global.constants.regex.url.Match(m.playbackInfo.MediaSources[0].Path)
-        ' proto $1, host $2, port $3, the-rest $4
-
-        if m.global.constants.regex.localhost.isMatch(uri[2])
+        uri = parseUrl(m.playbackInfo.MediaSources[0].Path)
+        if isLocalhost(uri[2])
             ' if the domain of the URI is local to the server,
             ' create a new URI by appending the received path to the server URL
             ' later we will substitute the users provided URL for this case
