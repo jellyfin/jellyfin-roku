@@ -10970,5 +10970,44 @@
         <source>Disabled</source>
         <translation>Deaktiviert</translation>
     </message>
+    <message>
+        <source>Select when to show titles.</source>
+        <translation>Auswählen, wann Titel angezeigt werden sollen.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Use Splashscreen as Home Background</source>
+        <translation>Startbildschirm als Hintergrund verwenden</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
+    <message>
+        <source>There was an error retrieving the data for this item from the server.</source>
+        <translation>Fehler beim Laden der Daten vom Server.</translation>
+        <extracomment>Dialog detail when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <source>An error was encountered while playing this item.</source>
+        <translation>Bei der Wiedergabe trat ein Fehler auf.</translation>
+        <extracomment>Dialog detail when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>Studios</source>
+        <translation>Studios</translation>
+    </message>
+    <message>
+        <source>Container</source>
+        <translation>Container</translation>
+        <extracomment>Video streaming container</extracomment>
+    </message>
+    <message>
+        <source>Live</source>
+        <translation>Live</translation>
+        <extracomment>If TV Show is being broadcast live (not pre-recorded)</extracomment>
+    </message>
+    <message>
+        <source>Options for TV Shows.</source>
+        <translation>Einstellungen für Serien.</translation>
+        <extracomment>Description for TV Shows user settings.</extracomment>
+    </message>
 </context>
 </TS>
