@@ -597,18 +597,14 @@ sub Main (args as dynamic) as void
             if msg.IsInput()
                 info = msg.GetInfo()
                 if info.DoesExist("mediatype") and info.DoesExist("contentid")
-                    video = CreateVideoPlayerGroup(info.contentId)
-                    if video <> invalid
-                        sceneManager.callFunc("pushScene", video)
-                    else
-                        dialog = createObject("roSGNode", "Dialog")
-                        dialog.id = "OKDialog"
-                        dialog.title = tr("Not found")
-                        dialog.message = tr("The requested content does not exist on the server")
-                        dialog.buttons = [tr("OK")]
-                        m.scene.dialog = dialog
-                        m.scene.dialog.observeField("buttonSelected", m.port)
-                    end if
+                    inputEventVideo = {
+                        id: info.contentId,
+                        type: "video"
+                    }
+
+                    m.global.queueManager.callFunc("clear")
+                    m.global.queueManager.callFunc("push", inputEventVideo)
+                    m.global.queueManager.callFunc("playQueue")
                 end if
             end if
         else if isNodeEvent(msg, "dataReturned")
