@@ -19,7 +19,7 @@ sub SetUpVideoOptions(streams as object)
     videos = []
 
     for i = 0 to streams.Count() - 1
-        if streams[i].VideoType = "VideoFile"
+        if LCase(streams[i].VideoType) = "videofile"
             ' Create options for user to switch between video tracks
             videos.push({
                 "Title": streams[i].Name,
