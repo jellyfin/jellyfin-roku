@@ -14,6 +14,8 @@ sub init()
     m.playedIndicator = m.top.findNode("playedIndicator")
     m.checkmark = m.top.findNode("checkmark")
     m.checkmark.font.size = 35
+
+    m.videoCodec = m.top.findNode("video_codec")
 end sub
 
 sub itemContentChanged()
@@ -91,16 +93,16 @@ sub itemContentChanged()
     end if
 
     ' Display current video_codec and check if there is more than one video to choose from...
-    m.top.findNode("video_codec").visible = false
+    m.videoCodec.visible = false
     if isValid(itemData.MediaSources)
         for i = 0 to itemData.MediaSources.Count() - 1
             if item.selectedVideoStreamId = itemData.MediaSources[i].id
-                m.top.findNode("video_codec").text = tr("Video") + ": " + itemData.MediaSources[i].MediaStreams[0].DisplayTitle
+                m.videoCodec.text = tr("Video") + ": " + itemData.MediaSources[i].MediaStreams[0].DisplayTitle
                 SetupAudioDisplay(itemData.MediaSources[i].MediaStreams, item.selectedAudioStreamIndex)
                 exit for
             end if
         end for
-        m.top.findNode("video_codec").visible = true
+        m.videoCodec.visible = true
         DisplayVideoAvailable(itemData.MediaSources)
     end if
 end sub
@@ -110,7 +112,7 @@ sub SetupAudioDisplay(mediaStreams as object, selectedAudioStreamIndex as intege
     audioIdx = invalid
     if isValid(mediaStreams)
         for i = 0 to mediaStreams.Count() - 1
-            if mediaStreams[i].Type = "Audio" and audioIdx = invalid
+            if LCase(mediaStreams[i].Type) = "audio" and audioIdx = invalid
                 if selectedAudioStreamIndex > 0 and selectedAudioStreamIndex < mediaStreams.Count()
                     audioIdx = selectedAudioStreamIndex
                 else
@@ -134,7 +136,7 @@ end sub
 sub DisplayVideoAvailable(streams as object)
     count = 0
     for i = 0 to streams.Count() - 1
-        if streams[i].VideoType = "VideoFile"
+        if LCase(streams[i].VideoType) = "videofile"
             count++
         end if
     end for

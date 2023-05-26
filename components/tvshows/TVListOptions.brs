@@ -1,3 +1,5 @@
+import "pkg:/source/utils/misc.brs"
+
 sub init()
 
     m.buttons = m.top.findNode("buttons")
@@ -30,7 +32,7 @@ end sub
 
 sub optionsSet()
     '  Videos Tab
-    if m.top.options.videos <> invalid
+    if isValid(m.top.options.videos)
         viewContent = CreateObject("roSGNode", "ContentNode")
         index = 0
         selectedViewIndex = 0
@@ -42,7 +44,7 @@ sub optionsSet()
             entry.streamId = view.streamId
             entry.video_codec = view.video_codec
             m.videoNames.push(view.Name)
-            if view.Selected <> invalid and view.Selected = true
+            if isValid(view.Selected) and view.Selected = true
                 selectedViewIndex = index
                 entry.selected = true
                 m.top.videoStreamId = view.streamId
@@ -57,7 +59,7 @@ sub optionsSet()
     end if
 
     '  audio Tab
-    if m.top.options.audios <> invalid
+    if isValid(m.top.options.audios)
         audioContent = CreateObject("roSGNode", "ContentNode")
         index = 0
         selectedAudioIndex = 0
@@ -68,7 +70,7 @@ sub optionsSet()
             entry.description = audio.Description
             entry.streamIndex = audio.StreamIndex
             m.audioNames.push(audio.Name)
-            if audio.Selected <> invalid and audio.Selected = true
+            if isValid(audio.Selected) and audio.Selected = true
                 selectedAudioIndex = index
                 entry.selected = true
                 m.top.audioStreamIndex = audio.streamIndex
@@ -116,8 +118,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
             'Handle Videos menu
             if m.selectedItem = 0
-                if m.selectedVideoIndex = selIndex
-                else
+                if m.selectedVideoIndex <> selIndex
                     selMenu.content.GetChild(m.selectedVideoIndex).selected = false
                     newSelection = selMenu.content.GetChild(selIndex)
                     newSelection.selected = true
@@ -126,8 +127,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
                 end if
                 ' Then it is Audio options
             else if m.selectedItem = 1
-                if m.selectedAudioIndex = selIndex
-                else
+                if m.selectedAudioIndex <> selIndex
                     selMenu.content.GetChild(m.selectedAudioIndex).selected = false
                     newSelection = selMenu.content.GetChild(selIndex)
                     newSelection.selected = true
