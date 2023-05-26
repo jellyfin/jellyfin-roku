@@ -10,7 +10,7 @@
     "sob": "npm:slide-out-button@1.0.1"
   },
   "devDependencies": {
-    "@rokucommunity/bslint": "0.8.5",
+    "@rokucommunity/bslint": "0.8.6",
     "brighterscript": "0.64.4",
     "bslib": "npm:@rokucommunity/bslib@0.1.1",
     "jshint": "2.13.6",
