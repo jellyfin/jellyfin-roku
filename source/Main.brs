@@ -30,6 +30,8 @@ sub Main (args as dynamic) as void
     app_start:
     ' First thing to do is validate the ability to use the API
     if not LoginFlow() then return
+    ' tell jellyfin server about device capabilities
+    PostDeviceProfile()
     ' remove previous scenes from the stack
     sceneManager.callFunc("clearScenes")
     ' save user config
@@ -77,7 +79,10 @@ sub Main (args as dynamic) as void
     device = CreateObject("roDeviceInfo")
     device.setMessagePort(m.port)
     device.EnableScreensaverExitedEvent(true)
-    device.EnableAppFocusEvent(false)
+    device.EnableAppFocusEvent(true)
+    device.EnableLowGeneralMemoryEvent(true)
+    device.EnableLinkStatusEvent(true)
+    device.EnableCodecCapChangedEvent(true)
     device.EnableAudioGuideChangedEvent(true)
 
     ' Check if we were sent content to play with the startup command (Deep Link)
@@ -583,12 +588,44 @@ sub Main (args as dynamic) as void
                     end if
                     ' todo: add other screens to be refreshed - movie detail, tv series, episode list etc.
                 end if
-            else if event.audioGuideEnabled <> invalid
+            else if isValid(event.audioGuideEnabled)
                 tmpGlobalDevice = m.global.device
                 tmpGlobalDevice.AddReplace("isaudioguideenabled", event.audioGuideEnabled)
 
                 ' update global device array
                 m.global.setFields({ device: tmpGlobalDevice })
+            else if isValid(event.Mode)
+                ' Indicates the current global setting for the Caption Mode property, which may be one of the following values:
+                ' "On"
+                ' "Off"
+                ' "Instant replay"
+                ' "When mute" (Only returned for a TV; this option is not available on STBs).
+                print "event.Mode = ", event.Mode
+                if isValid(event.Mute)
+                    print "event.Mute = ", event.Mute
+                end if
+            else if isValid(event.linkStatus)
+                ' True if the device currently seems to have an active network connection.
+                print "event.linkStatus = ", event.linkStatus
+            else if isValid(event.generalMemoryLevel)
+                ' This event will be sent first when the OS transitions from "normal" to "low" state and will continue to be sent while in "low" or "critical" states.
+                '   - "normal" means that the general memory is within acceptable levels
+                '   - "low" means that the general memory is below acceptable levels but not critical
+                '   - "critical" means that general memory are at dangerously low level and that the OS may force terminate the application
+                print "event.generalMemoryLevel = ", event.generalMemoryLevel
+            else if isValid(event.audioCodecCapabilityChanged)
+                ' The audio codec capability has changed if true.
+                print "event.audioCodecCapabilityChanged = ", event.audioCodecCapabilityChanged
+
+                PostDeviceProfile()
+            else if isValid(event.videoCodecCapabilityChanged)
+                ' The video codec capability has changed if true.
+                print "event.videoCodecCapabilityChanged = ", event.videoCodecCapabilityChanged
+
+                PostDeviceProfile()
+            else if isValid(event.appFocus)
+                ' It is set to False when the System Overlay (such as the confirm partner button HUD or the caption control overlay) takes focus and True when the channel regains focus
+                print "event.appFocus = ", event.appFocus
             else
                 print "Unhandled roDeviceInfoEvent:"
                 print msg.GetInfo()
