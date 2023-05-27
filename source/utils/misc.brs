@@ -228,12 +228,14 @@ function isValidAndNotEmpty(input as dynamic) as boolean
     end if
 end function
 
+' Returns an array from a url of [proto, host, port, subdir/params]
+' Proto must be declared or array members will be invalid
 function parseUrl(url as string) as object
-    ' proto $1, host $2, port $3, the-rest $4
     rgx = CreateObject("roRegex", "^(.*:)//([A-Za-z0-9\-\.]+)(:[0-9]+)?(.*)$", "")
     return rgx.Match(url)
 end function
 
+' Returns true if the string is a loopback, such as 'localhost' or '127.0.0.1'
 function isLocalhost(url as string) as boolean
     ' https://stackoverflow.com/questions/8426171/what-regex-will-match-all-loopback-addresses
     rgx = CreateObject("roRegex", "^localhost$|^127(?:\.[0-9]+){0,2}\.[0-9]+$|^(?:0*\:)*?:?0*1$", "i")
