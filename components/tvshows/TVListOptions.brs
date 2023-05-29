@@ -44,7 +44,7 @@ sub optionsSet()
             entry.streamId = view.streamId
             entry.video_codec = view.video_codec
             m.videoNames.push(view.Name)
-            if isValid(view.Selected) and view.Selected = true
+            if isValid(view.Selected) and view.Selected
                 selectedViewIndex = index
                 entry.selected = true
                 m.top.videoStreamId = view.streamId
