@@ -70,7 +70,7 @@ sub optionsSet()
             entry.description = audio.Description
             entry.streamIndex = audio.StreamIndex
             m.audioNames.push(audio.Name)
-            if isValid(audio.Selected) and audio.Selected = true
+            if isValid(audio.Selected) and audio.Selected
                 selectedAudioIndex = index
                 entry.selected = true
                 m.top.audioStreamIndex = audio.streamIndex
