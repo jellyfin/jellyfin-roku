@@ -34,7 +34,8 @@
     "lint-json": "jshint --extra-ext .json --verbose --exclude node_modules ./",
     "lint-markdown": "markdownlint-cli2 \"**/*.md\" \"#node_modules\"",
     "lint-spelling": "spellchecker -d dictionary.txt --files \"**/*.md\" \"**/.*/**/*.md\" \"!node_modules/**/*.md\"",
-    "postinstall": "npx ropm copy",
+    "postinstall": "npm run ropm",
+    "ropm": "ropm copy && node scripts/ropm-hook.js",
     "validate": "npx bsc --copy-to-staging=false --create-package=false"
   },
   "repository": {
