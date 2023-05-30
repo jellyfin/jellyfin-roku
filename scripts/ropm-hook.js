@@ -27,11 +27,11 @@
 const fs = require('fs-extra');
 const path = require('path');
 
-let componentsDir = path.join(__dirname, '..', 'src', 'components', 'roku_modules');
+let componentsDir = path.join(__dirname, '..', 'components', 'roku_modules');
 
 parseFolder(componentsDir);
 
-let sourceDir = path.join(__dirname, '..', 'src', 'source', 'roku_modules');
+let sourceDir = path.join(__dirname, '..', 'source', 'roku_modules');
 parseFolder(sourceDir);
 
 function parseFolder(sourceDir) {
