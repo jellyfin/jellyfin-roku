@@ -31,7 +31,7 @@
     "check-formatting": "npx bsfmt --check",
     "format": "npx bsfmt --write",
     "lint": "bslint",
-    "lint-json": "jshint --extra-ext .json --verbose --exclude node_modules ./",
+    "lint-json": "jshint --extra-ext .json --verbose --exclude node_modules,scripts ./",
     "lint-markdown": "markdownlint-cli2 \"**/*.md\" \"#node_modules\"",
     "lint-spelling": "spellchecker -d dictionary.txt --files \"**/*.md\" \"**/.*/**/*.md\" \"!node_modules/**/*.md\"",
     "postinstall": "npm run ropm",
