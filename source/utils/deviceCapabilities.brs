@@ -362,106 +362,89 @@ end function
 
 
 function GetDirectPlayProfiles() as object
-
-    mp4Video = "h264"
-    mp4Audio = "mp3,pcm,lpcm,wav"
-    mkvVideo = "h264,vp8"
-    mkvAudio = "mp3,pcm,lpcm,wav"
-    audio = "mp3,pcm,lpcm,wav"
-
-    playMpeg2 = get_user_setting("playback.mpeg2") = "true"
-
     di = CreateObject("roDeviceInfo")
-
-    'Check for Supported Video Codecs
-    if di.CanDecodeVideo({ Codec: "hevc" }).Result = true
-        mp4Video = mp4Video + ",h265,hevc"
-        mkvVideo = mkvVideo + ",h265,hevc"
-    end if
-
-    if di.CanDecodeVideo({ Codec: "vp9" }).Result = true
-        mkvVideo = mkvVideo + ",vp9"
-    end if
-
-    if playMpeg2 and di.CanDecodeVideo({ Codec: "mpeg2" }).Result = true
-        mp4Video = mp4Video + ",mpeg2video"
-        mkvVideo = mkvVideo + ",mpeg2video"
-    end if
-
-    if get_user_setting("playback.mpeg4") = "true"
-        mp4Video = mp4Video + ",mpeg4"
-    end if
-
-    ' Check for supported Audio
-    if di.CanDecodeAudio({ Codec: "ac3" }).result
-        mkvAudio = mkvAudio + ",ac3"
-        mp4Audio = mp4Audio + ",ac3"
-        audio = audio + ",ac3"
-    end if
-
-    if di.CanDecodeAudio({ Codec: "wma" }).result
-        audio = audio + ",wma"
-    end if
-
-    if di.CanDecodeAudio({ Codec: "flac" }).result
-        mkvAudio = mkvAudio + ",flac"
-        audio = audio + ",flac"
-    end if
-
-    if di.CanDecodeAudio({ Codec: "alac" }).result
-        mkvAudio = mkvAudio + ",alac"
-        mp4Audio = mp4Audio + ",alac"
-        audio = audio + ",alac"
-    end if
-
-    if di.CanDecodeAudio({ Codec: "aac" }).result
-        mkvAudio = mkvAudio + ",aac"
-        mp4Audio = mp4Audio + ",aac"
-        audio = audio + ",aac"
-    end if
-
-    if di.CanDecodeAudio({ Codec: "opus" }).result
-        mkvAudio = mkvAudio + ",opus"
-    end if
-
-    if di.CanDecodeAudio({ Codec: "dts" }).result
-        mkvAudio = mkvAudio + ",dts"
-        audio = audio + ",dts"
-    end if
-
-    if di.CanDecodeAudio({ Codec: "wmapro" }).result
-        audio = audio + ",wmapro"
-    end if
-
-    if di.CanDecodeAudio({ Codec: "vorbis" }).result
-        mkvAudio = mkvAudio + ",vorbis"
-    end if
-
-    if di.CanDecodeAudio({ Codec: "eac3" }).result
-        mkvAudio = mkvAudio + ",eac3"
-        mp4Audio = mp4Audio + ",eac3"
-        audio = audio + ",eac3"
-    end if
-
-    return [
-        {
-            "Container": "mp4,m4v,mov",
-            "Type": "Video",
-            "VideoCodec": mp4Video,
-            "AudioCodec": mp4Audio
+    ' all possible containers
+    supportedCodecs = {
+        mp4: {
+            audio: [],
+            video: []
         },
-        {
-            "Container": "mkv,webm",
-            "Type": "Video",
-            "VideoCodec": mkvVideo,
-            "AudioCodec": mkvAudio
+        m4v: {
+            audio: [],
+            video: []
         },
-        {
-            "Container": audio,
-            "Type": "Audio"
+        mov: {
+            audio: [],
+            video: []
+        },
+        mkv: {
+            audio: [],
+            video: []
+        },
+        webm: {
+            audio: [],
+            video: []
         }
-    ]
+    }
+    ' all possible codecs
+    videoCodecs = ["h264", "vp8", "hevc", "vp9"]
+    audioCodecs = ["mp3", "pcm", "lpcm", "wav", "ac3", "wma", "flac", "alac", "aac", "opus", "dts", "wmapro", "vorbis", "eac3"]
+    ' respect user settings
+    if get_user_setting("playback.mpeg4") = "true"
+        videoCodecs.push("mpeg4")
+    end if
+    if get_user_setting("playback.mpeg2") = "true"
+        videoCodecs.push("mpeg2")
+    end if
+    ' check video codecs for each container
+    for each container in supportedCodecs
+        for each videoCodec in videoCodecs
+            if di.CanDecodeVideo({ Codec: videoCodec, Container: container }).Result
+                if videoCodec = "hevc"
+                    supportedCodecs[container]["video"].push("hevc")
+                    supportedCodecs[container]["video"].push("h265")
+                else if videoCodec = "mpeg2"
+                    supportedCodecs[container]["video"].push("mpeg2video")
+                else
+                    ' device profile string matches codec string
+                    supportedCodecs[container]["video"].push(videoCodec)
+                end if
+            end if
+        end for
+    end for
+    ' check audio codecs for each container
+    for each container in supportedCodecs
+        for each audioCodec in audioCodecs
+            if di.CanDecodeAudio({ Codec: audioCodec, Container: container }).Result
+                supportedCodecs[container]["audio"].push(audioCodec)
+            end if
+        end for
+    end for
+    ' check audio codecs with no container
+    supportedAudio = []
+    for each audioCodec in audioCodecs
+        if di.CanDecodeAudio({ Codec: audioCodec }).Result
+            supportedAudio.push(audioCodec)
+        end if
+    end for
 
+    returnArray = []
+    for each container in supportedCodecs
+        if supportedCodecs[container]["video"].Join(",") <> ""
+            returnArray.push({
+                "Container": container,
+                "Type": "Video",
+                "VideoCodec": supportedCodecs[container]["video"].Join(","),
+                "AudioCodec": supportedCodecs[container]["audio"].Join(",")
+            })
+        end if
+    end for
+
+    returnArray.push({
+        "Container": supportedAudio.Join(","),
+        "Type": "Audio"
+    })
+    return returnArray
 end function
 
 function GetBitRateLimit(codec as string)
