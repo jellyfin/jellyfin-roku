@@ -57,12 +57,14 @@ function APIRequest(url as string, params = {} as object) as dynamic
     full_url = buildURL(url, params)
     if full_url = invalid then return invalid
 
+    serverURL = m.global.session.server.url
+    if serverURL = invalid then return invalid
+
     req = createObject("roUrlTransfer")
     req.setUrl(full_url)
     req = authorize_request(req)
     ' SSL cert
-    serverURL = get_setting("server")
-    if serverURL <> invalid and serverURL.left(8) = "https://"
+    if serverURL.left(8) = "https://"
         req.setCertificatesFile("common:/certs/ca-bundle.crt")
     end if
 
@@ -156,16 +158,16 @@ function deleteVoid(req)
 end function
 
 function get_url()
-    serverURL = get_setting("server")
-    if serverURL = invalid then return invalid
+    serverURL = m.global.session.server.url
+    if serverURL <> invalid
+        if serverURL.right(1) = "/"
+            serverURL = serverURL.left(serverURL.len() - 1)
+        end if
 
-    if serverURL.right(1) = "/"
-        serverURL = serverURL.left(serverURL.len() - 1)
-    end if
-
-    ' append http:// to the start if not specified
-    if serverURL.left(7) <> "http://" and serverURL.left(8) <> "https://"
-        serverURL = "http://" + serverURL
+        ' append http:// to the start if not specified
+        if serverURL.left(7) <> "http://" and serverURL.left(8) <> "https://"
+            serverURL = "http://" + serverURL
+        end if
     end if
     return serverURL
 end function
@@ -188,23 +190,18 @@ function postString(req, data = "" as string)
 end function
 
 function authorize_request(request)
-    user = get_setting("active_user")
-
     auth = "MediaBrowser" + " Client=" + Chr(34) + "Jellyfin Roku" + Chr(34)
     auth = auth + ", Device=" + Chr(34) + m.global.device.name + " (" + m.global.device.friendlyName + ")" + Chr(34)
-
-    if user <> invalid and user <> ""
-        auth = auth + ", DeviceId=" + Chr(34) + m.global.device.id + Chr(34)
-        auth = auth + ", UserId=" + Chr(34) + user + Chr(34)
-    else
-        auth = auth + ", DeviceId=" + Chr(34) + m.global.device.uuid + Chr(34)
-    end if
-
     auth = auth + ", Version=" + Chr(34) + m.global.app.version + Chr(34)
 
-    token = get_user_setting("token")
-    if token <> invalid and token <> ""
-        auth = auth + ", Token=" + Chr(34) + token + Chr(34)
+    if m.global.session.user.id <> invalid
+        auth = auth + ", DeviceId=" + Chr(34) + m.global.device.id + Chr(34)
+        auth = auth + ", UserId=" + Chr(34) + m.global.session.user.id + Chr(34)
+        if m.global.session.user.authToken <> invalid
+            auth = auth + ", Token=" + Chr(34) + m.global.session.user.authToken + Chr(34)
+        end if
+    else
+        auth = auth + ", DeviceId=" + Chr(34) + m.global.device.uuid + Chr(34)
     end if
 
     request.AddHeader("Authorization", auth)
