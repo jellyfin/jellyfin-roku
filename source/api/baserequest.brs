@@ -65,7 +65,7 @@ function APIRequest(url as string, params = {} as object) as dynamic
     req = authorize_request(req)
     ' SSL cert
     if serverURL.left(8) = "https://"
-        req.setCertificatesFile("common:/certs/ca-bundle.crt")
+        setCertificateAuthority(req)
     end if
 
     return req
@@ -188,6 +188,11 @@ function postString(req, data = "" as string)
 
     return resp.getString()
 end function
+
+' sets the certificate authority by file path on the passed node
+sub setCertificateAuthority(request as object) as void
+    request.setCertificatesFile("common:/certs/ca-bundle.crt")
+end sub
 
 function authorize_request(request)
     auth = "MediaBrowser" + " Client=" + Chr(34) + "Jellyfin Roku" + Chr(34)
