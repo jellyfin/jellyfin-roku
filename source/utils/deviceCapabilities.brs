@@ -430,11 +430,12 @@ function GetDirectPlayProfiles() as object
 
     returnArray = []
     for each container in supportedCodecs
-        if supportedCodecs[container]["video"].Join(",") <> ""
+        videoCodecString = supportedCodecs[container]["video"].Join(",")
+        if videoCodecString <> ""
             returnArray.push({
                 "Container": container,
                 "Type": "Video",
-                "VideoCodec": supportedCodecs[container]["video"].Join(","),
+                "VideoCodec": videoCodecString,
                 "AudioCodec": supportedCodecs[container]["audio"].Join(",")
             })
         end if
