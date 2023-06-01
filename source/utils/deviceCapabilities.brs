@@ -5,10 +5,11 @@ function getDeviceCapabilities() as object
     return {
         "PlayableMediaTypes": [
             "Audio",
-            "Video"
+            "Video",
+            "Photo"
         ],
         "SupportedCommands": [],
-        "SupportsPersistentIdentifier": false,
+        "SupportsPersistentIdentifier": true,
         "SupportsMediaControl": false,
         "DeviceProfile": getDeviceProfile()
     }
@@ -16,52 +17,136 @@ end function
 
 ' Send Device Profile information to server
 sub PostDeviceProfile()
-    body = getDeviceCapabilities()
+    profile = getDeviceCapabilities()
     req = APIRequest("/Sessions/Capabilities/Full")
     req.SetRequest("POST")
-    postJson(req, FormatJson(body))
+    print "profile =", profile
+    print "profile.DeviceProfile =", profile.DeviceProfile
+    print "profile.DeviceProfile.CodecProfiles ="
+    for each prof in profile.DeviceProfile.CodecProfiles
+        print prof
+        for each cond in prof.Conditions
+            print cond
+        end for
+    end for
+    print "profile.DeviceProfile.ContainerProfiles =", profile.DeviceProfile.ContainerProfiles
+    print "profile.DeviceProfile.DirectPlayProfiles ="
+    for each prof in profile.DeviceProfile.DirectPlayProfiles
+        print prof
+    end for
+    print "profile.DeviceProfile.SubtitleProfiles ="
+    for each prof in profile.DeviceProfile.SubtitleProfiles
+        print prof
+    end for
+    print "profile.DeviceProfile.TranscodingProfiles ="
+    for each prof in profile.DeviceProfile.TranscodingProfiles
+        print prof
+    end for
+    print "profile.PlayableMediaTypes =", profile.PlayableMediaTypes
+    print "profile.SupportedCommands =", profile.SupportedCommands
+    postJson(req, FormatJson(profile))
 end sub
 
 function getDeviceProfile() as object
     playMpeg2 = get_user_setting("playback.mpeg2") = "true"
     playAv1 = get_user_setting("playback.av1") = "true"
+    di = CreateObject("roDeviceInfo")
+
+    maxAudioChannels = "2" ' Currently Jellyfin server expects this as a string
+    tsVideoCodecs = "h264"
+    tsAudioCodecs = "aac"
 
     'Check if 5.1 Audio Output connected
-    maxAudioChannels = 2
-    di = CreateObject("roDeviceInfo")
     if di.GetAudioOutputChannel() = "5.1 surround"
-        maxAudioChannels = 6
+        maxAudioChannels = "6"
     end if
 
+    ' HEVC
     addHevcProfile = false
-    MAIN10 = ""
-    tsVideoCodecs = "h264"
-    if di.CanDecodeVideo({ Codec: "hevc" }).Result = true
+    hevcProfileString = ""
+    hevcHighestLevel = 4.1
+
+    if di.CanDecodeVideo({ Codec: "hevc", Container: "ts" }).Result = true
         tsVideoCodecs = "h265,hevc," + tsVideoCodecs
         addHevcProfile = true
-        if di.CanDecodeVideo({ Codec: "hevc", Profile: "main 10" }).Result
-            MAIN10 = "|main 10"
-        end if
+
+        hevcProfiles = ["main", "main 10"]
+        hevcLevels = ["4.1", "5.0", "5.1"]
+        supportArray = {}
+
+        for each profile in hevcProfiles
+            for each level in hevcLevels
+                if di.CanDecodeVideo({ Codec: "hevc", Container: "ts", Profile: profile, Level: level }).Result
+                    if supportArray[profile] = invalid
+                        supportArray[profile] = []
+                        if hevcProfileString = ""
+                            hevcProfileString = profile
+                        else
+                            hevcProfileString = hevcProfileString + "|" + profile
+                        end if
+                    end if
+
+                    supportArray[profile].Push(level)
+                end if
+            end for
+        end for
+
+        for each prof in supportArray
+            highestLevelString = supportArray[prof].Pop()
+            if highestLevelString = "5"
+                hevcHighestLevel = 5
+            end if
+            if highestLevelString = "5.1"
+                hevcHighestLevel = 5.1
+            end if
+        end for
     end if
 
-    if playMpeg2 and di.CanDecodeVideo({ Codec: "mpeg2" }).Result = true
+    ' MPEG2
+    addMpeg2Profile = false
+    mpeg2LevelString = ""
+    if playMpeg2 and di.CanDecodeVideo({ Codec: "mpeg2", Container: "ts" }).Result = true
         tsVideoCodecs = tsVideoCodecs + ",mpeg2video"
+        addMpeg2Profile = true
+
+        mpeg2Levels = ["main", "high"]
+
+        for each level in mpeg2Levels
+            if di.CanDecodeVideo({ Codec: "mpeg2", Container: "ts", Level: level }).Result
+                if mpeg2LevelString = ""
+                    mpeg2LevelString = level
+                else
+                    mpeg2LevelString = mpeg2LevelString + "|" + level
+                end if
+            end if
+        end for
     end if
 
-    if di.CanDecodeAudio({ Codec: "ac3" }).result
-        tsAudioCodecs = "aac,ac3"
-    else
-        tsAudioCodecs = "aac"
+    if di.CanDecodeAudio({ Codec: "mp3", Container: "ts" }).result
+        tsAudioCodecs = tsAudioCodecs + ",mp3"
+    end if
+
+    if di.CanDecodeAudio({ Codec: "dts", Container: "ts" }).result
+        tsAudioCodecs = "dts," + tsAudioCodecs
+    end if
+
+    if di.CanDecodeAudio({ Codec: "ac3", Container: "ts" }).result
+        tsAudioCodecs = "ac3," + tsAudioCodecs
+    end if
+
+    ' prefer eac3 over all other audio codecs
+    if di.CanDecodeAudio({ Codec: "eac3", Container: "ts" }).result
+        tsAudioCodecs = "eac3," + tsAudioCodecs
     end if
 
     addAv1Profile = false
-    if playAv1 and di.CanDecodeVideo({ Codec: "av1" }).result
+    if playAv1 and di.CanDecodeVideo({ Codec: "av1", Container: "ts" }).result
         tsVideoCodecs = tsVideoCodecs + ",av1"
         addAv1Profile = true
     end if
 
     addVp9Profile = false
-    if di.CanDecodeVideo({ Codec: "vp9" }).result
+    if di.CanDecodeVideo({ Codec: "vp9", Container: "ts" }).result
         tsVideoCodecs = tsVideoCodecs + ",vp9"
         addVp9Profile = true
     end if
@@ -101,7 +186,7 @@ function getDeviceProfile() as object
                 "AudioCodec": "aac",
                 "Context": "Streaming",
                 "Protocol": "http",
-                "MaxAudioChannels": StrI(maxAudioChannels) ' Currently Jellyfin server expects this as a string
+                "MaxAudioChannels": maxAudioChannels
             },
             {
                 "Container": "mp3",
@@ -125,7 +210,7 @@ function getDeviceProfile() as object
                 "AudioCodec": "aac",
                 "Context": "Static",
                 "Protocol": "http",
-                "MaxAudioChannels": StrI(maxAudioChannels) ' Currently Jellyfin server expects this as a string
+                "MaxAudioChannels": maxAudioChannels
             },
             {
                 "Container": "ts",
@@ -134,7 +219,7 @@ function getDeviceProfile() as object
                 "VideoCodec": tsVideoCodecs,
                 "Context": "Streaming",
                 "Protocol": "hls",
-                "MaxAudioChannels": StrI(maxAudioChannels), ' Currently Jellyfin server expects this as a string
+                "MaxAudioChannels": maxAudioChannels,
                 "MinSegments": "1",
                 "BreakOnNonKeyFrames": true
             },
@@ -156,7 +241,7 @@ function getDeviceProfile() as object
                     {
                         "Condition": "LessThanEqual",
                         "Property": "AudioChannels",
-                        "Value": StrI(maxAudioChannels), ' Currently Jellyfin server expects this as a string
+                        "Value": maxAudioChannels,
                         "IsRequired": false
                     }
                 ]
@@ -200,6 +285,20 @@ function getDeviceProfile() as object
             }
         ]
     }
+    if addMpeg2Profile
+        deviceProfile.CodecProfiles.push({
+            "Type": "Video",
+            "Codec": "mpeg2",
+            "Conditions": [
+                {
+                    "Condition": "EqualsAny",
+                    "Property": "VideoLevel",
+                    "Value": mpeg2LevelString,
+                    "IsRequired": false
+                }
+            ]
+        })
+    end if
     if addAv1Profile
         deviceProfile.CodecProfiles.push({
             "Type": "Video",
@@ -223,7 +322,7 @@ function getDeviceProfile() as object
                 {
                     "Condition": "EqualsAny",
                     "Property": "VideoProfile",
-                    "Value": "main" + MAIN10,
+                    "Value": hevcProfileString,
                     "IsRequired": false
                 },
                 {
@@ -235,7 +334,7 @@ function getDeviceProfile() as object
                 {
                     "Condition": "LessThanEqual",
                     "Property": "VideoLevel",
-                    "Value": (120 * 5.1).ToStr(),
+                    "Value": (120 * hevcHighestLevel).ToStr(),
                     "IsRequired": false
                 },
                 GetBitRateLimit("H265")
@@ -375,7 +474,7 @@ function GetBitRateLimit(codec as string)
                 "Condition": "LessThanEqual",
                 "Property": "VideoBitrate",
                 "Value": userSetLimit.ToStr(),
-                IsRequired: true
+                "IsRequired": true
             }
         else
             ' Some repeated values (e.g. same "40mbps" for several codecs)
@@ -386,7 +485,7 @@ function GetBitRateLimit(codec as string)
                     "Condition": "LessThanEqual",
                     "Property": "VideoBitrate",
                     "Value": "10000000",
-                    IsRequired: true
+                    "IsRequired": true
                 }
             else if codec = "AV1"
                 ' Roku only supports AV1 up to 40Mpbs
@@ -394,7 +493,7 @@ function GetBitRateLimit(codec as string)
                     "Condition": "LessThanEqual",
                     "Property": "VideoBitrate",
                     "Value": "40000000",
-                    IsRequired: true
+                    "IsRequired": true
                 }
             else if codec = "H265"
                 ' Roku only supports h265 up to 40Mpbs
@@ -402,7 +501,7 @@ function GetBitRateLimit(codec as string)
                     "Condition": "LessThanEqual",
                     "Property": "VideoBitrate",
                     "Value": "40000000",
-                    IsRequired: true
+                    "IsRequired": true
                 }
             else if codec = "VP9"
                 ' Roku only supports VP9 up to 40Mpbs
@@ -410,7 +509,7 @@ function GetBitRateLimit(codec as string)
                     "Condition": "LessThanEqual",
                     "Property": "VideoBitrate",
                     "Value": "40000000",
-                    IsRequired: true
+                    "IsRequired": true
                 }
             end if
         end if
