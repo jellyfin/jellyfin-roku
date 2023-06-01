@@ -48,8 +48,8 @@ sub PostDeviceProfile()
 end sub
 
 function getDeviceProfile() as object
-    playMpeg2 = get_user_setting("playback.mpeg2") = "true"
-    playAv1 = get_user_setting("playback.av1") = "true"
+    playMpeg2 = m.global.session.user.settings["playback.mpeg2"]
+    playAv1 = m.global.session.user.settings["playback.av1"]
     di = CreateObject("roDeviceInfo")
 
     maxAudioChannels = "2" ' Currently Jellyfin server expects this as a string
@@ -390,10 +390,10 @@ function GetDirectPlayProfiles() as object
     videoCodecs = ["h264", "vp8", "hevc", "vp9"]
     audioCodecs = ["mp3", "pcm", "lpcm", "wav", "ac3", "wma", "flac", "alac", "aac", "opus", "dts", "wmapro", "vorbis", "eac3"]
     ' respect user settings
-    if get_user_setting("playback.mpeg4") = "true"
+    if m.global.session.user.settings["playback.mpeg4"]
         videoCodecs.push("mpeg4")
     end if
-    if get_user_setting("playback.mpeg2") = "true"
+    if m.global.session.user.settings["playback.mpeg2"]
         videoCodecs.push("mpeg2")
     end if
     ' check video codecs for each container
@@ -449,8 +449,8 @@ function GetDirectPlayProfiles() as object
 end function
 
 function GetBitRateLimit(codec as string)
-    if get_user_setting("playback.bitrate.maxlimited") = "true"
-        userSetLimit = get_user_setting("playback.bitrate.limit").ToInt()
+    if m.global.session.user.settings["playback.bitrate.maxlimited"] = true
+        userSetLimit = m.global.session.user.settings["playback.bitrate.limit"]
         userSetLimit *= 1000000
 
         if userSetLimit > 0
