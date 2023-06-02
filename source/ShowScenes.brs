@@ -5,7 +5,11 @@ function LoginFlow(startOver = false as boolean)
     serverUrl = get_setting("server")
     if isValid(serverUrl)
         print "Previous server connection saved to registry"
-        session.server.UpdateURL(serverUrl)
+        startOver = not session.server.UpdateURL(serverUrl)
+        if startOver
+            print "Could not connect to previously saved server."
+            session.server.Delete()
+        end if
     else
         startOver = true
         print "No previous server connection saved to registry"
