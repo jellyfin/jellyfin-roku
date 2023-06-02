@@ -8,7 +8,6 @@ function LoginFlow(startOver = false as boolean)
         startOver = not session.server.UpdateURL(serverUrl)
         if startOver
             print "Could not connect to previously saved server."
-            session.server.Delete()
         end if
     else
         startOver = true

@@ -64,7 +64,13 @@ namespace session
             ' validate parameters
             if value = "" then return false
             session.server.Update("url", value)
-            return session.server.Populate()
+
+            success = session.server.Populate()
+            if not success
+                session.server.Delete()
+            end if
+
+            return success
         end function
 
         ' Use the saved server url to populate the global server session array (m.global.session.server)
