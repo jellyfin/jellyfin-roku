@@ -485,7 +485,7 @@ function getDeviceProfile() as object
                     for each level in supportedVideoCodecs[container]["mpeg2"]
                         mpeg2Levels.push(level)
                     end for
-                    if mpeg2Levels.count > 0 then exit for
+                    if mpeg2Levels.count() > 0 then exit for
                 end if
             end if
         end for
