@@ -3707,5 +3707,36 @@
         <source>Cast &amp; Crew</source>
         <translation>Cast &amp; Crew</translation>
     </message>
+    <message>
+        <source>Movies (Grid)</source>
+        <translation>Movies (Grid)</translation>
+        <extracomment>Movie library view option</extracomment>
+    </message>
+    <message>
+        <source>TV Shows</source>
+        <translation>TV Shows</translation>
+    </message>
+    <message>
+        <source>View Channel</source>
+        <translation>View Channel</translation>
+    </message>
+    <message>
+        <source>Additional Parts</source>
+        <translation>Additional Parts</translation>
+        <extracomment>Additional parts of a video</extracomment>
+    </message>
+    <message>
+        <source>Movies (Presentation)</source>
+        <translation>Movies (Presentation)</translation>
+        <extracomment>Movie library view option</extracomment>
+    </message>
+    <message>
+        <source>Special Features</source>
+        <translation>Special Features</translation>
+    </message>
+    <message>
+        <source>Press &apos;OK&apos; to Close</source>
+        <translation>Press &apos;OK&apos; to Close</translation>
+    </message>
 </context>
 </TS>
