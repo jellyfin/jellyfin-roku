@@ -52,11 +52,6 @@ function getDeviceProfile() as object
     playAv1 = m.global.session.user.settings["playback.av1"]
     di = CreateObject("roDeviceInfo")
 
-    audioChannelIntegers = [
-        2, ' stereo
-        6, ' 5.1 channel
-        8 ' 7.1 channel
-    ]
     transContainers = ["mp4", "hls", "mkv", "ism", "dash", "ts"]
     supportedVideoCodecs = {}
     supportedAudioCodecs = {}
@@ -65,6 +60,19 @@ function getDeviceProfile() as object
     addMpeg2Profile = false
     addAv1Profile = false
     addVp9Profile = false
+
+    maxAudioChannels = "2"
+    di = CreateObject("roDeviceInfo")
+    if di.GetAudioOutputChannel() = "5.1 surround"
+        maxAudioChannels = "6"
+        eightChannelCodecs = ["ac3", "eac3", "dts"]
+        for each eightChannelCodec in eightChannelCodecs
+            if di.CanDecodeAudio({ Codec: eightChannelCodec, ChCnt: 8 }).Result
+                maxAudioChannels = "8"
+                exit for
+            end if
+        end for
+    end if
 
     ' AVC / h264
     h264Profiles = ["main", "high"]
@@ -136,10 +144,10 @@ function getDeviceProfile() as object
                     if supportedVideoCodecs[container] = invalid
                         supportedVideoCodecs[container] = {}
                     end if
-                    if supportedVideoCodecs[container]["mpeg2"] = invalid
-                        supportedVideoCodecs[container]["mpeg2"] = []
+                    if supportedVideoCodecs[container]["mpeg2video"] = invalid
+                        supportedVideoCodecs[container]["mpeg2video"] = []
                     end if
-                    supportedVideoCodecs[container]["mpeg2"].push(level)
+                    supportedVideoCodecs[container]["mpeg2video"].push(level)
                 end if
             end for
         end for
@@ -192,123 +200,91 @@ function getDeviceProfile() as object
 
     ' eac3
     for each container in transContainers
-        for each audioChannel in audioChannelIntegers
-            if di.CanDecodeAudio({ Codec: "eac3", Container: container, ChCnt: audioChannel }).result
-                if supportedAudioCodecs[container] = invalid
-                    supportedAudioCodecs[container] = {}
-                end if
-
-                if supportedAudioCodecs[container]["eac3"] = invalid or audioChannel > supportedAudioCodecs[container]["eac3"]
-                    supportedAudioCodecs[container]["eac3"] = audioChannel
-                end if
+        if di.CanDecodeAudio({ Codec: "eac3", Container: container }).result
+            if supportedAudioCodecs[container] = invalid
+                supportedAudioCodecs[container] = []
             end if
-        end for
+
+            supportedAudioCodecs[container].push("eac3")
+        end if
     end for
 
 
     ' ac3
     for each container in transContainers
-        for each audioChannel in audioChannelIntegers
-            if di.CanDecodeAudio({ Codec: "ac3", Container: container, ChCnt: audioChannel }).result
-                if supportedAudioCodecs[container] = invalid
-                    supportedAudioCodecs[container] = {}
-                end if
-
-                if supportedAudioCodecs[container]["ac3"] = invalid or audioChannel > supportedAudioCodecs[container]["ac3"]
-                    supportedAudioCodecs[container]["ac3"] = audioChannel
-                end if
+        if di.CanDecodeAudio({ Codec: "ac3", Container: container }).result
+            if supportedAudioCodecs[container] = invalid
+                supportedAudioCodecs[container] = []
             end if
-        end for
+
+            supportedAudioCodecs[container].push("ac3")
+        end if
     end for
 
     ' dts
     for each container in transContainers
-        for each audioChannel in audioChannelIntegers
-            if di.CanDecodeAudio({ Codec: "dts", Container: container, ChCnt: audioChannel }).result
-                if supportedAudioCodecs[container] = invalid
-                    supportedAudioCodecs[container] = {}
-                end if
-
-                if supportedAudioCodecs[container]["dts"] = invalid or audioChannel > supportedAudioCodecs[container]["dts"]
-                    supportedAudioCodecs[container]["dts"] = audioChannel
-                end if
+        if di.CanDecodeAudio({ Codec: "dts", Container: container }).result
+            if supportedAudioCodecs[container] = invalid
+                supportedAudioCodecs[container] = []
             end if
-        end for
+
+            supportedAudioCodecs[container].push("dts")
+        end if
     end for
 
     ' opus
     for each container in transContainers
-        for each audioChannel in audioChannelIntegers
-            if di.CanDecodeAudio({ Codec: "opus", Container: container, ChCnt: audioChannel }).result
-                if supportedAudioCodecs[container] = invalid
-                    supportedAudioCodecs[container] = {}
-                end if
-
-                if supportedAudioCodecs[container]["opus"] = invalid or audioChannel > supportedAudioCodecs[container]["opus"]
-                    supportedAudioCodecs[container]["opus"] = audioChannel
-                end if
+        if di.CanDecodeAudio({ Codec: "opus", Container: container }).result
+            if supportedAudioCodecs[container] = invalid
+                supportedAudioCodecs[container] = []
             end if
-        end for
+
+            supportedAudioCodecs[container].push("opus")
+        end if
     end for
 
     ' flac
     for each container in transContainers
-        for each audioChannel in audioChannelIntegers
-            if di.CanDecodeAudio({ Codec: "flac", Container: container, ChCnt: audioChannel }).result
-                if supportedAudioCodecs[container] = invalid
-                    supportedAudioCodecs[container] = {}
-                end if
-
-                if supportedAudioCodecs[container]["flac"] = invalid or audioChannel > supportedAudioCodecs[container]["flac"]
-                    supportedAudioCodecs[container]["flac"] = audioChannel
-                end if
+        if di.CanDecodeAudio({ Codec: "flac", Container: container }).result
+            if supportedAudioCodecs[container] = invalid
+                supportedAudioCodecs[container] = []
             end if
-        end for
+
+            supportedAudioCodecs[container].push("flac")
+        end if
     end for
 
     ' vorbis
     for each container in transContainers
-        for each audioChannel in audioChannelIntegers
-            if di.CanDecodeAudio({ Codec: "vorbis", Container: container, ChCnt: audioChannel }).result
-                if supportedAudioCodecs[container] = invalid
-                    supportedAudioCodecs[container] = {}
-                end if
-
-                if supportedAudioCodecs[container]["vorbis"] = invalid or audioChannel > supportedAudioCodecs[container]["vorbis"]
-                    supportedAudioCodecs[container]["vorbis"] = audioChannel
-                end if
+        if di.CanDecodeAudio({ Codec: "vorbis", Container: container }).result
+            if supportedAudioCodecs[container] = invalid
+                supportedAudioCodecs[container] = []
             end if
-        end for
+
+            supportedAudioCodecs[container].push("vorbis")
+        end if
     end for
 
     ' aac
     for each container in transContainers
-        for each audioChannel in audioChannelIntegers
-            if di.CanDecodeAudio({ Codec: "aac", Container: container, ChCnt: audioChannel }).result
-                if supportedAudioCodecs[container] = invalid
-                    supportedAudioCodecs[container] = {}
-                end if
-
-                if supportedAudioCodecs[container]["aac"] = invalid or audioChannel > supportedAudioCodecs[container]["aac"]
-                    supportedAudioCodecs[container]["aac"] = audioChannel
-                end if
+        if di.CanDecodeAudio({ Codec: "aac", Container: container }).result
+            if supportedAudioCodecs[container] = invalid
+                supportedAudioCodecs[container] = []
             end if
-        end for
+
+            supportedAudioCodecs[container].push("aac")
+        end if
     end for
 
     ' mp3
     for each container in transContainers
-        for each audioChannel in audioChannelIntegers
-            if di.CanDecodeAudio({ Codec: "mp3", Container: container, ChCnt: audioChannel }).result
-                if supportedAudioCodecs[container] = invalid
-                    supportedAudioCodecs[container] = {}
-                end if
-
-                if supportedAudioCodecs[container]["mp3"] = invalid or audioChannel > supportedAudioCodecs[container]["mp3"]
-                    supportedAudioCodecs[container]["mp3"] = audioChannel
-                end if
+        if di.CanDecodeAudio({ Codec: "mp3", Container: container }).result
+            if supportedAudioCodecs[container] = invalid
+                supportedAudioCodecs[container] = []
             end if
-        end for
+
+            supportedAudioCodecs[container].push("mp3")
+        end if
     end for
 
     hevcVideoRangeTypes = "SDR"
@@ -349,7 +325,7 @@ function getDeviceProfile() as object
                     {
                         "Condition": "LessThanEqual",
                         "Property": "AudioChannels",
-                        "Value": supportedAudioCodecs["mkv"]["flac"].ToStr(),
+                        "Value": maxAudioChannels,
                         "IsRequired": false
                     }
                 ]
@@ -385,7 +361,7 @@ function getDeviceProfile() as object
             "AudioCodec": supportedMp4AudioCodec,
             "Context": "Streaming",
             "Protocol": "http",
-            "MaxAudioChannels": supportedAudioCodecs["mp4"][supportedMp4AudioCodec].ToStr()
+            "MaxAudioChannels": maxAudioChannels
         })
         ' static
         deviceProfile.TranscodingProfiles.push({
@@ -394,7 +370,7 @@ function getDeviceProfile() as object
             "AudioCodec": supportedMp4AudioCodec,
             "Context": "Static",
             "Protocol": "http",
-            "MaxAudioChannels": supportedAudioCodecs["mp4"][supportedMp4AudioCodec].ToStr()
+            "MaxAudioChannels": maxAudioChannels
         })
     end for
     ' create a video profile for each container in transContainers
@@ -412,15 +388,9 @@ function getDeviceProfile() as object
             "Context": "Static",
             "Type": "Video",
             "AudioCodec": audioCodecs.join(","),
-            "VideoCodec": videoCodecs.join(",")
+            "VideoCodec": videoCodecs.join(","),
+            "MaxAudioChannels": maxAudioChannels
         }
-        ' grab max audio channels based on container
-        ' order of priority: ac3, aac
-        if supportedAudioCodecs[container]["ac3"] <> invalid
-            containerArray["MaxAudioChannels"] = supportedAudioCodecs[container]["ac3"].ToStr()
-        else
-            containerArray["MaxAudioChannels"] = supportedAudioCodecs[container]["aac"].ToStr()
-        end if
 
         if container = "ts"
             containerArray["Context"] = "Streaming"
@@ -437,15 +407,27 @@ function getDeviceProfile() as object
     ' build CodecProfiles
     if addH264Profile
         ' determine highest level supported
-        h264HighestLevel = 0
-        for each profile in h264Profiles
-            for each level in supportedVideoCodecs["ts"]["h264"][profile]
-                levelFloat = level.ToFloat()
-                if levelFloat > h264HighestLevel
-                    h264HighestLevel = levelFloat
-                end if
+        h264HighestLevel = 4.2
+        h264HighestLevelSupported = 0.0
+        for each container in transContainers
+            for each profile in hevcProfiles
+                for each level in supportedVideoCodecs[container]["h264"][profile]
+                    levelFloat = level.ToFloat()
+                    if levelFloat > h264HighestLevelSupported
+                        h264HighestLevelSupported = levelFloat
+                    end if
+                    if h264HighestLevelSupported = h264HighestLevel then exit for
+                end for
+                if h264HighestLevelSupported = h264HighestLevel then exit for
             end for
+            if h264HighestLevelSupported = h264HighestLevel then exit for
         end for
+
+        h264LevelString = "41"
+        if h264HighestLevelSupported = 4.2
+            h264LevelString = "42"
+        end if
+
 
         videoProfiles = []
         for each container in transContainers
@@ -457,10 +439,16 @@ function getDeviceProfile() as object
             end if
         end for
 
-        deviceProfile.CodecProfiles.push({
+        codecProfileArray = {
             "Type": "Video",
             "Codec": "h264",
             "Conditions": [
+                {
+                    "Condition": "NotEquals",
+                    "Property": "IsAnamorphic",
+                    "Value": "true",
+                    "IsRequired": false
+                },
                 {
                     "Condition": "EqualsAny",
                     "Property": "VideoProfile",
@@ -468,15 +456,26 @@ function getDeviceProfile() as object
                     "IsRequired": false
                 },
                 {
-                    "Condition": "LessThanEqual",
-                    "Property": "VideoLevel",
-                    "Value": (120 * h264HighestLevel).ToStr(),
+                    "Condition": "EqualsAny",
+                    "Property": "VideoRangeType",
+                    "Value": "SDR",
                     "IsRequired": false
                 },
-                GetBitRateLimit("h264")
+                {
+                    "Condition": "LessThanEqual",
+                    "Property": "VideoLevel",
+                    "Value": h264LevelString,
+                    "IsRequired": false
+                }
             ]
-        })
+        }
+        bitRateArray = GetBitRateLimit("h264")
+        if bitRateArray.count() > 0
+            codecProfileArray.Conditions.push(bitRateArray)
+        end if
+        deviceProfile.CodecProfiles.push(codecProfileArray)
     end if
+
     if addMpeg2Profile
         mpeg2Levels = []
         for each container in transContainers
@@ -489,7 +488,8 @@ function getDeviceProfile() as object
                 end if
             end if
         end for
-        deviceProfile.CodecProfiles.push({
+
+        codecProfileArray = {
             "Type": "Video",
             "Codec": "mpeg2",
             "Conditions": [
@@ -498,21 +498,32 @@ function getDeviceProfile() as object
                     "Property": "VideoLevel",
                     "Value": mpeg2Levels.join("|"),
                     "IsRequired": false
-                },
-                GetBitRateLimit("mpeg2")
+                }
             ]
-        })
+        }
+        bitRateArray = GetBitRateLimit("mpeg2")
+        if bitRateArray.count() > 0
+            codecProfileArray.Conditions.push(bitRateArray)
+        end if
+        deviceProfile.CodecProfiles.push(codecProfileArray)
     end if
 
     if addAv1Profile
         ' determine highest level supported
-        av1HighestLevel = 0.0
-        for each profile in av1Profiles
-            for each level in supportedVideoCodecs["ts"]["av1"][profile]
-                if level.ToFloat() > av1HighestLevel.ToFloat()
-                    h264HighestLevel = level
-                end if
+        av1HighestLevel = 5.1
+        av1HighestLevelSupported = 0.0
+        for each container in transContainers
+            for each profile in hevcProfiles
+                for each level in supportedVideoCodecs[container]["av1"][profile]
+                    levelFloat = level.ToFloat()
+                    if levelFloat > av1HighestLevelSupported
+                        av1HighestLevelSupported = levelFloat
+                    end if
+                    if av1HighestLevelSupported = av1HighestLevel then exit for
+                end for
+                if av1HighestLevelSupported = av1HighestLevel then exit for
             end for
+            if av1HighestLevelSupported = av1HighestLevel then exit for
         end for
 
         videoProfiles = []
@@ -525,7 +536,7 @@ function getDeviceProfile() as object
             end if
         end for
 
-        deviceProfile.CodecProfiles.push({
+        codecProfileArray = {
             "Type": "Video",
             "Codec": "av1",
             "Conditions": [
@@ -544,25 +555,40 @@ function getDeviceProfile() as object
                 {
                     "Condition": "LessThanEqual",
                     "Property": "VideoLevel",
-                    "Value": (120 * av1HighestLevel).ToStr(),
+                    "Value": (120 * av1HighestLevelSupported).ToStr(),
                     "IsRequired": false
-                },
-                GetBitRateLimit("AV1")
+                }
             ]
-        })
+        }
+        bitRateArray = GetBitRateLimit("av1")
+        if bitRateArray.count() > 0
+            codecProfileArray.Conditions.push(bitRateArray)
+        end if
+        deviceProfile.CodecProfiles.push(codecProfileArray)
     end if
 
     if addHevcProfile
         ' determine highest level supported
-        hevcHighestLevel = 0.0
-        for each profile in hevcProfiles
-            for each level in supportedVideoCodecs["ts"]["hevc"][profile]
-                levelFloat = level.ToFloat()
-                if levelFloat > hevcHighestLevel
-                    hevcHighestLevel = levelFloat
-                end if
+        hevcHighestLevel = 5.1
+        hevcHighestLevelSupported = 0.0
+        for each container in transContainers
+            for each profile in hevcProfiles
+                for each level in supportedVideoCodecs[container]["hevc"][profile]
+                    levelFloat = level.ToFloat()
+                    if levelFloat > hevcHighestLevelSupported
+                        hevcHighestLevelSupported = levelFloat
+                    end if
+                    if hevcHighestLevelSupported = hevcHighestLevel then exit for
+                end for
+                if hevcHighestLevelSupported = hevcHighestLevel then exit for
             end for
+            if hevcHighestLevelSupported = hevcHighestLevel then exit for
         end for
+
+        hevcLevelString = "120"
+        if hevcHighestLevelSupported = 5.1
+            hevcLevelString = "153"
+        end if
 
         videoProfiles = []
         for each container in transContainers
@@ -574,11 +600,16 @@ function getDeviceProfile() as object
             end if
         end for
 
-        ' use ts container codecs
-        deviceProfile.CodecProfiles.push({
+        codecProfileArray = {
             "Type": "Video",
             "Codec": "hevc",
             "Conditions": [
+                {
+                    "Condition": "NotEquals",
+                    "Property": "IsAnamorphic",
+                    "Value": "true",
+                    "IsRequired": false
+                },
                 {
                     "Condition": "EqualsAny",
                     "Property": "VideoProfile",
@@ -594,12 +625,16 @@ function getDeviceProfile() as object
                 {
                     "Condition": "LessThanEqual",
                     "Property": "VideoLevel",
-                    "Value": (120 * hevcHighestLevel).ToStr(),
+                    "Value": hevcLevelString,
                     "IsRequired": false
-                },
-                GetBitRateLimit("H265")
+                }
             ]
-        })
+        }
+        bitRateArray = GetBitRateLimit("h265")
+        if bitRateArray.count() > 0
+            codecProfileArray.Conditions.push(bitRateArray)
+        end if
+        deviceProfile.CodecProfiles.push(codecProfileArray)
     end if
 
     if addVp9Profile
@@ -613,8 +648,7 @@ function getDeviceProfile() as object
             end if
         end for
 
-        ' use ts container codecs
-        deviceProfile.CodecProfiles.push({
+        codecProfileArray = {
             "Type": "Video",
             "Codec": "vp9",
             "Conditions": [
@@ -629,10 +663,14 @@ function getDeviceProfile() as object
                     "Property": "VideoRangeType",
                     "Value": vp9VideoRangeTypes,
                     "IsRequired": false
-                },
-                GetBitRateLimit("vp9")
+                }
             ]
-        })
+        }
+        bitRateArray = GetBitRateLimit("vp9")
+        if bitRateArray.count() > 0
+            codecProfileArray.Conditions.push(bitRateArray)
+        end if
+        deviceProfile.CodecProfiles.push(codecProfileArray)
     end if
 
     return deviceProfile
@@ -671,6 +709,7 @@ function GetDirectPlayProfiles() as object
     ' all possible codecs
     videoCodecs = ["h264", "vp8", "hevc", "vp9"]
     audioCodecs = ["mp3", "pcm", "lpcm", "wav", "ac3", "wma", "flac", "alac", "aac", "opus", "dts", "wmapro", "vorbis", "eac3"]
+
     ' respect user settings
     if m.global.session.user.settings["playback.mpeg4"]
         videoCodecs.push("mpeg4")
@@ -678,6 +717,7 @@ function GetDirectPlayProfiles() as object
     if m.global.session.user.settings["playback.mpeg2"]
         videoCodecs.push("mpeg2")
     end if
+
     ' check video codecs for each container
     for each container in supportedCodecs
         for each videoCodec in videoCodecs
@@ -694,6 +734,7 @@ function GetDirectPlayProfiles() as object
             end if
         end for
     end for
+
     ' check audio codecs for each container
     for each container in supportedCodecs
         for each audioCodec in audioCodecs
@@ -702,6 +743,7 @@ function GetDirectPlayProfiles() as object
             end if
         end for
     end for
+
     ' check audio codecs with no container
     supportedAudio = []
     for each audioCodec in audioCodecs
@@ -709,20 +751,20 @@ function GetDirectPlayProfiles() as object
             supportedAudio.push(audioCodec)
         end if
     end for
+
     ' build return array
     returnArray = []
-
     for each container in supportedCodecs
         videoCodecString = supportedCodecs[container]["video"].Join(",")
         if videoCodecString <> ""
-            containerString = ""
+            containerString = container
+
             if container = "mp4"
                 containerString = "mp4,mov,m4v"
             else if container = "mkv"
                 containerString = "mkv,webm"
-            else
-                containerString = container
             end if
+
             returnArray.push({
                 "Container": containerString,
                 "Type": "Video",
