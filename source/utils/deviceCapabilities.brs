@@ -64,7 +64,6 @@ function getDeviceProfile() as object
         ts: {}
     }
 
-
     ' does the users setup support surround sound?
     maxAudioChannels = "2" ' jellyfin expects this as a string
     ' in order of preference from left to right
@@ -229,15 +228,9 @@ function getDeviceProfile() as object
         for each codec in audioCodecs
             if di.CanDecodeAudio({ Codec: codec, Container: container }).result
                 if container = "mp4"
-                    ' check for codec string before adding it
-                    if mp4VideoCodecs.Instr(0, "," + codec) = -1
-                        mp4AudioCodecs = mp4AudioCodecs + "," + codec
-                    end if
+                    mp4AudioCodecs = mp4AudioCodecs + "," + codec
                 else if container = "ts"
-                    ' check for codec string before adding it
-                    if tsAudioCodecs.Instr(0, "," + codec) = -1
-                        tsAudioCodecs = tsAudioCodecs + "," + codec
-                    end if
+                    tsAudioCodecs = tsAudioCodecs + "," + codec
                 end if
             end if
         end for
@@ -381,21 +374,35 @@ function getDeviceProfile() as object
         ' search codec strings for our preferred codec
         tsCodecStringPosition = tsArray.AudioCodec.Instr(0, "," + surroundSoundCodec)
         mp4CodecStringPosition = mp4Array.AudioCodec.Instr(0, "," + surroundSoundCodec)
-
+        ' ts
         if tsCodecStringPosition <> -1
-            ' ts supports our prefered codec
             ' remove codec from string
             tsArray.AudioCodec.Replace("," + surroundSoundCodec, "")
-            ' put codec in front of string
-            tsArray.AudioCodec = surroundSoundCodec + "," + tsArray.AudioCodec
         end if
+        ' check beginning of array before adding to it
+        if tsArray.AudioCodec.Instr(0, surroundSoundCodec) = -1
+            ' put codec in front of string
+            if tsArray.AudioCodec <> ""
+                tsArray.AudioCodec = surroundSoundCodec + "," + tsArray.AudioCodec
+            else
+                tsArray.AudioCodec = surroundSoundCodec
+            end if
+        end if
+        ' mp4
         if mp4CodecStringPosition <> -1
-            ' mp4 supports our prefered codec
             ' remove codec from string
             mp4Array.AudioCodec.Replace("," + surroundSoundCodec, "")
-            ' put codec in front of string
-            mp4Array.AudioCodec = surroundSoundCodec + "," + mp4Array.AudioCodec
         end if
+        ' check beginning of array before adding to it
+        if mp4Array.AudioCodec.Instr(0, surroundSoundCodec) = -1
+            ' put codec in front of string
+            if mp4Array.AudioCodec <> ""
+                mp4Array.AudioCodec = surroundSoundCodec + "," + mp4Array.AudioCodec
+            else
+                mp4Array.AudioCodec = surroundSoundCodec
+            end if
+        end if
+
     end if
 
     deviceProfile.TranscodingProfiles.push(tsArray)
