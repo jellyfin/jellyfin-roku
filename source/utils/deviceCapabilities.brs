@@ -706,9 +706,8 @@ function GetDirectPlayProfiles() as object
         }
     }
     ' all possible codecs
-    videoCodecs = ["h264", "vp8", "hevc", "vp9"]
-    audioCodecs = ["mp3", "pcm", "lpcm", "wav", "ac3", "wma", "flac", "alac", "aac", "opus", "dts", "wmapro", "vorbis", "eac3"]
-
+    videoCodecs = ["h264", "mpeg4 avc", "vp8", "hevc", "vp9", "av1"]
+    audioCodecs = ["mp3", "mp2", "pcm", "lpcm", "wav", "ac3", "ac4", "aiff", "wma", "flac", "alac", "aac", "opus", "dts", "wmapro", "vorbis", "eac3"]
     ' respect user settings
     if m.global.session.user.settings["playback.mpeg4"]
         videoCodecs.push("mpeg4")
