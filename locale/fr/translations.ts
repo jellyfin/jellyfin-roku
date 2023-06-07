@@ -6378,5 +6378,164 @@
         <source>Play Trailer</source>
         <translation>Lire la bande annonce</translation>
     </message>
+    <message>
+        <source>Use the replay button to slowly animate to the first item in the folder. (If disabled, the folder will reset to the first item immediately).</source>
+        <translation>La touche &apos;Replay&apos; utilise une animation douce afin de sélectionner le premier élément du dossier. (Si cette option est désactivée, le premier élément du dossier sera immédiatement sélectionné).</translation>
+        <extracomment>Description for option in Setting Screen</extracomment>
+    </message>
+    <message>
+        <source>Hides tagline text on details pages.</source>
+        <translation>Cela cache les étiquettes sur les pages de détails.</translation>
+    </message>
+    <message>
+        <source>Go directly to the episode list if a TV series has only one season.</source>
+        <translation type="unfinished">Aller directement à la liste des épisodes si une série TV ne possède qu&apos;une seule saison.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Options that alter the design of Jellyfin.</source>
+        <translation>Options qui modifient l&apos;apparence de Jellyfin.</translation>
+        <extracomment>Description for Design Elements user settings.</extracomment>
+    </message>
+    <message>
+        <source>Use generated splashscreen image as Jellyfin&apos;s home background. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Utilise une image de présentation générée en tant que fond d&apos;écran d’accueil de Jellyfin. L&apos;activation de cette option nécessite le redémarrage de Jellyfin.</translation>
+        <extracomment>Description for option in Setting Screen</extracomment>
+    </message>
+    <message>
+        <source>H.264</source>
+        <translation>H.264</translation>
+        <extracomment>Name of codec used in settings menu</extracomment>
+    </message>
+    <message>
+        <source>Attempt Direct Play for H.264 media with unsupported profile levels before falling back to transcoding if it fails.</source>
+        <translation>Tente la lecture directe du codec H.264 comportant des niveaux de profils incompatibles avant de transcoder si cela échoue.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Settings relating to how the application looks.</source>
+        <translation>Réglages relatifs à l&apos;apparence de l&apos;application.</translation>
+    </message>
+    <message>
+        <source>Set the maximum amount of days a show should stay in the &apos;Next Up&apos; list without watching it.</source>
+        <translation>Définit le nombre maximal de jours qu&apos;une série TV peut rester dans la section &apos;À suivre&apos; si elle n&apos;est plus regardée.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Here is your Quick Connect code:</source>
+        <translation>Voici votre code de connexion rapide :</translation>
+    </message>
+    <message>
+        <source>Next episode</source>
+        <translation>Épisode suivant</translation>
+    </message>
+    <message>
+        <source>Reason</source>
+        <translation>Motif</translation>
+    </message>
+    <message>
+        <source>Skip Details for Single Seasons</source>
+        <translation>Sauter les détails pour les saisons uniques</translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
+    <message>
+        <source>Blur images of unwatched episodes.</source>
+        <translation type="unfinished">Flouter les miniatures d&apos;épisodes non visionnés.</translation>
+    </message>
+    <message>
+        <source>Design Elements</source>
+        <translation>Apparence</translation>
+    </message>
+    <message>
+        <source>Bring the theater experience straight to your living room with the ability to play custom intros before the main feature.</source>
+        <translation type="unfinished">Reproduis l&apos;expérience cinéma directement dans ton salon en jouant des introductions spécialisées avant le film.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Hide all clocks in Jellyfin. Jellyfin will need to be closed and reopened for changes to take effect.</source>
+        <translation type="unfinished">Masquer toutes les horloges dans Jellyfin. Cela nécessite un redémarrage de Jellyfin.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Attempt Direct Play for HEVC media with unsupported profile levels before falling back to transcoding if it fails.</source>
+        <translation type="unfinished">Tente la lecture directe du codec HEVC comportant des niveaux de profils incompatibles avant de transcoder si cela échoue.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>You can search for Titles, People, Live TV Channels and more</source>
+        <translation>Vous pouvez rechercher des titres, des personnes, des chaînes de TV en direct, et plus</translation>
+        <extracomment>Help text in search results</extracomment>
+    </message>
+    <message>
+        <source>There was an error authenticating via Quick Connect.</source>
+        <translation>Une erreur s&apos;est produite lors de l&apos;authentification via Connexion rapide.</translation>
+    </message>
+    <message>
+        <source>Blur Unwatched Episodes</source>
+        <translation>Flouter les épisodes non visionnés</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
+    <message>
+        <source>Hide Clock</source>
+        <translation>Masquer l&apos;horloge</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
+    <message>
+        <source>HEVC</source>
+        <translation>HEVC</translation>
+        <extracomment>Name of codec used in settings menu</extracomment>
+    </message>
+    <message>
+        <source>Settings relating to playback and supported codec and media types.</source>
+        <translation>Réglages relatifs à la lecture et à la prise en charge des différents codecs et types de médias.</translation>
+    </message>
+    <message>
+        <source>Video Codec</source>
+        <translation>Codec vidéo</translation>
+    </message>
+    <message>
+        <source>Stream Information</source>
+        <translation>Informations de flux</translation>
+    </message>
+    <message>
+        <source>Audio Channels</source>
+        <translation>Canaux audio</translation>
+    </message>
+    <message>
+        <source>Total Bitrate</source>
+        <translation>Débit total</translation>
+    </message>
+    <message>
+        <source>Hide Taglines</source>
+        <translation>Cacher les étiquettes</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
+    <message>
+        <source>Max Days Next Up</source>
+        <translation>Nombre maximal de jours dans la section &apos;À suivre&apos;</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
+    <message>
+        <source>Use Splashscreen as Home Background</source>
+        <translation>Utiliser une image de présentation comme fond d&apos;écran d’accueil</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
+    <message>
+        <source>Audio Codec</source>
+        <translation>Codec audio</translation>
+    </message>
+    <message>
+        <source>direct</source>
+        <translation>direct</translation>
+    </message>
+    <message>
+        <source>Transcoding Information</source>
+        <translation>Informations de transcodage</translation>
+    </message>
+    <message>
+        <source>Options for TV Shows.</source>
+        <translation type="unfinished">Options pour les programmes TV.</translation>
+        <extracomment>Description for TV Shows user settings.</extracomment>
+    </message>
 </context>
 </TS>
