@@ -344,7 +344,6 @@ function getDeviceProfile() as object
         end if
     end for
 
-
     tsArray = {
         "Container": "ts",
         "Context": "Streaming",
@@ -382,10 +381,10 @@ function getDeviceProfile() as object
         ' check beginning of array before adding to it
         if tsArray.AudioCodec.Instr(0, surroundSoundCodec) = -1
             ' put codec in front of string
-            if tsArray.AudioCodec <> ""
-                tsArray.AudioCodec = surroundSoundCodec + "," + tsArray.AudioCodec
-            else
+            if tsArray.AudioCodec = ""
                 tsArray.AudioCodec = surroundSoundCodec
+            else
+                tsArray.AudioCodec = surroundSoundCodec + "," + tsArray.AudioCodec
             end if
         end if
         ' mp4
@@ -396,10 +395,10 @@ function getDeviceProfile() as object
         ' check beginning of array before adding to it
         if mp4Array.AudioCodec.Instr(0, surroundSoundCodec) = -1
             ' put codec in front of string
-            if mp4Array.AudioCodec <> ""
-                mp4Array.AudioCodec = surroundSoundCodec + "," + mp4Array.AudioCodec
-            else
+            if mp4Array.AudioCodec = ""
                 mp4Array.AudioCodec = surroundSoundCodec
+            else
+                mp4Array.AudioCodec = surroundSoundCodec + "," + mp4Array.AudioCodec
             end if
         end if
 
@@ -441,7 +440,6 @@ function getDeviceProfile() as object
     h264LevelString = h264LevelString.ToStr()
     ' remove decimals
     h264LevelString = removeDecimals(h264LevelString)
-
 
     codecProfileArray = {
         "Type": "Video",
@@ -536,8 +534,6 @@ function getDeviceProfile() as object
         if av1TsLevelSupported > av1Mp4LevelSupported
             av1HighestLevel = av1TsLevelSupported
         end if
-
-
 
         codecProfileArray = {
             "Type": "Video",
@@ -679,7 +675,6 @@ function getDeviceProfile() as object
 
     return deviceProfile
 end function
-
 
 function GetDirectPlayProfiles() as object
     di = CreateObject("roDeviceInfo")
