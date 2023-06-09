@@ -75,6 +75,38 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
         return
     end if
 
+    print "meta =", meta
+    print "meta.json =", meta.json
+    print "meta.json.MediaSources[0] =", meta.json.MediaSources[0]
+    print "meta.json.MediaSources[0].MediaStreams[0] =", meta.json.MediaSources[0].MediaStreams[0]
+    print "meta.json.MediaStreams[0] =", meta.json.MediaStreams[0]
+    devinfo = CreateObject("roDeviceInfo")
+    myCodec = meta.json.MediaSources[0].MediaStreams[0].Codec
+    print "myCodec =", myCodec
+    myContainer = meta.json.MediaSources[0].Container
+    print "myContainer =", myContainer
+    myProfile = Lcase(meta.json.MediaSources[0].MediaStreams[0].Profile)
+    print "myProfile =", myProfile
+    myLevel = meta.json.MediaSources[0].MediaStreams[0].Level
+    if myLevel.ToStr().Len() = 2
+        myLevel = myLevel / 10
+    end if
+    myLevel = myLevel.ToStr()
+    print "myLevel =", myLevel
+    print "type(myLevel) =", type(myLevel)
+
+    if isValid(myProfile) and isValid(myLevel)
+        canDecode = devinfo.CanDecodeVideo({ Codec: myCodec, Container: myContainer, Profile: myProfile, Level: myLevel })
+    else if isValid(myProfile)
+        canDecode = devinfo.CanDecodeVideo({ Codec: myCodec, Container: myContainer, Profile: myProfile })
+    else
+        canDecode = devinfo.CanDecodeVideo({ Codec: myCodec, Container: myContainer })
+    end if
+    print "canDecode =", canDecode
+    print "canDecode.Result =", canDecode.Result
+    print "canDecode.Updated =", canDecode.Updated
+    print "canDecode.[canDecode.Updated] =", canDecode.[canDecode.Updated]
+
     videotype = LCase(meta.type)
 
     if videotype = "episode" or videotype = "series"
@@ -189,6 +221,7 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
         video.content = authorize_request(video.content)
     end if
 
+    print "video.directPlaySupported =", video.directPlaySupported
 end sub
 
 sub addVideoContentURL(video, mediaSourceId, audio_stream_idx, fully_external)
