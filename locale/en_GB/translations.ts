@@ -3738,5 +3738,9 @@
         <source>Press &apos;OK&apos; to Close</source>
         <translation>Press &apos;OK&apos; to Close</translation>
     </message>
+    <message>
+        <source>Record</source>
+        <translation>Record</translation>
+    </message>
 </context>
 </TS>
