@@ -3742,5 +3742,19 @@
         <source>Record</source>
         <translation>Record</translation>
     </message>
+    <message>
+        <source>An error was encountered while playing this item. Server did not provide required transcoding data.</source>
+        <translation>An error was encountered while playing this item. Server did not provide required transcoding data.</translation>
+        <extracomment>Content of message box when trying to play an item which requires transcoding, and the server did not provide transcode url</extracomment>
+    </message>
+    <message>
+        <source>Version</source>
+        <translation>Version</translation>
+    </message>
+    <message>
+        <source>Playback</source>
+        <translation>Playback</translation>
+        <extracomment>Title for Playback section in user setting screen.</extracomment>
+    </message>
 </context>
 </TS>
