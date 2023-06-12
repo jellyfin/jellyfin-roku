@@ -14,7 +14,7 @@
     "@rokucommunity/bslint": "0.8.6",
     "brighterscript": "0.65.1",
     "jshint": "2.13.6",
-    "markdownlint-cli2": "0.8.0",
+    "markdownlint-cli2": "0.8.1",
     "rimraf": "5.0.1",
     "roku-deploy": "3.10.2",
     "roku-log-bsc-plugin": "0.8.1",
