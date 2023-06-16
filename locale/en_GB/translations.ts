@@ -3777,5 +3777,30 @@
         <source>Record Series</source>
         <translation>Record Series</translation>
     </message>
+    <message>
+        <source>Enter the server name or IP address</source>
+        <translation>Enter the server name or IP address</translation>
+        <extracomment>Title of KeyboardDialog when manually entering a server URL</extracomment>
+    </message>
+    <message>
+        <source>Pick a Jellyfin server from the local network</source>
+        <translation>Select an available Jellyfin server from your local network:</translation>
+        <extracomment>Instructions on initial app launch when the user is asked to pick a server from a list</extracomment>
+    </message>
+    <message>
+        <source>...or enter server URL manually:</source>
+        <translation>If no server is listed above, you may also enter the server URL manually:</translation>
+        <extracomment>Instructions on initial app launch when the user is asked to manually enter a server URL</extracomment>
+    </message>
+    <message>
+        <source>Error Getting Playback Information</source>
+        <translation>Error Getting Playback Information</translation>
+        <extracomment>Dialog Title: Received error from server when trying to get information about the selected item for playback</extracomment>
+    </message>
+    <message>
+        <source>Codec Support</source>
+        <translation>Codec Support</translation>
+        <extracomment>Settings Menu - Title for settings group related to codec support</extracomment>
+    </message>
 </context>
 </TS>
