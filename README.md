@@ -6,7 +6,7 @@
 [![Build Status](https://img.shields.io/github/actions/workflow/status/jellyfin/jellyfin-roku/build-dev.yml?logo=github&branch=unstable "Build Status")](https://github.com/jellyfin/jellyfin-roku/actions/workflows/build-dev.yml?query=branch%3Aunstable)
 [![Current Release](https://img.shields.io/github/release/jellyfin/jellyfin-roku.svg?logo=github "Current Release")](https://github.com/jellyfin/jellyfin-roku/releases)
 [![Translation Status](https://translate.jellyfin.org/widgets/jellyfin/-/jellyfin-roku/svg-badge.svg "Translation Status")](https://translate.jellyfin.org/projects/jellyfin/jellyfin-roku/?utm_source=widget)
-[![Forum](https://img.shields.io/badge/forum-MyBB-00A4DC "Check out our forum!")](https://forum.jellyfin.org/)
+[![Forum](https://img.shields.io/badge/forum-MyBB-00A4DC "Check out our forum!")](https://forum.jellyfin.org/f-roku-development)
 [![Matrix](https://img.shields.io/matrix/jellyfin:matrix.org.svg?logo=matrix "Chat on Matrix")](https://matrix.to/#/#jellyfin-dev-roku:matrix.org)
 [![License](https://img.shields.io/github/license/jellyfin/jellyfin-roku.svg "GPL 2.0 License")](LICENSE)
 
