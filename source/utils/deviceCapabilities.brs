@@ -67,9 +67,8 @@ function getDeviceProfile() as object
     ' does the users setup support surround sound?
     maxAudioChannels = "2" ' jellyfin expects this as a string
     ' in order of preference from left to right
-    ' aac will be highest priority unless surroundSoundCodec <> "aac"
     audioCodecs = ["mp3", "vorbis", "opus", "flac", "alac", "ac4", "pcm", "wma", "wmapro"]
-    surroundSoundCodecs = ["aac", "eac3", "ac3", "vorbis", "dts"]
+    surroundSoundCodecs = ["eac3", "ac3", "vorbis", "dts"]
     surroundSoundCodec = invalid
     if di.GetAudioOutputChannel() = "5.1 surround"
         maxAudioChannels = "6"
