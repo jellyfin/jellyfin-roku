@@ -57,10 +57,11 @@ sub itemContentChanged()
     m.top.id = itemData.id
     m.top.findNode("moviePoster").uri = m.top.itemContent.posterURL
 
-    ' Set default video source
-    if itemData.MediaSources <> invalid
+    ' Set default video source if user hasn't selected one yet
+    if m.top.selectedVideoStreamId = "" and isValid(itemData.MediaSources)
         m.top.selectedVideoStreamId = itemData.MediaSources[0].id
     end if
+
     ' Find first Audio Stream and set that as default
     SetDefaultAudioTrack(itemData)
 
@@ -97,7 +98,7 @@ sub itemContentChanged()
 
     if type(itemData.RunTimeTicks) = "LongInteger"
         setFieldText("runtime", stri(getRuntime()) + " mins")
-        if get_user_setting("ui.design.hideclock") <> "true"
+        if m.global.session.user.settings["ui.design.hideclock"] <> true
             setFieldText("ends-at", tr("Ends at %1").Replace("%1", getEndTime()))
         end if
     end if
@@ -125,7 +126,7 @@ sub itemContentChanged()
         m.top.findNode("details").removeChild(m.top.findNode("director"))
     end if
 
-    if get_user_setting("ui.details.hidetagline") = "false"
+    if m.global.session.user.settings["ui.details.hidetagline"] = false
         if itemData.taglines.count() > 0
             setFieldText("tagline", itemData.taglines[0])
         end if

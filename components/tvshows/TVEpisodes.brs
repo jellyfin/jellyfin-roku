@@ -23,7 +23,7 @@ sub setSeasonLoading()
 end sub
 
 sub updateSeason()
-    if get_user_setting("ui.tvshows.disableUnwatchedEpisodeCount", "false") = "false"
+    if m.global.session.user.settings["ui.tvshows.disableUnwatchedEpisodeCount"] = false
         if isValid(m.top.seasonData) and isValid(m.top.seasonData.UserData) and isValid(m.top.seasonData.UserData.UnplayedItemCount)
             if m.top.seasonData.UserData.UnplayedItemCount > 0
                 m.unplayedCount.visible = true
@@ -42,7 +42,7 @@ end sub
 function onKeyEvent(key as string, press as boolean) as boolean
     handled = false
 
-    if key = "left" and not m.Shuffle.hasFocus()
+    if key = "left" and m.tvEpisodeRow.hasFocus()
         m.Shuffle.setFocus(true)
         return true
     end if
@@ -57,7 +57,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
         return true
     end if
 
-    if key = "right" and not m.tvEpisodeRow.hasFocus()
+    if key = "right" and (m.Random.hasFocus() or m.Shuffle.hasFocus())
         m.tvEpisodeRow.setFocus(true)
         return true
     end if

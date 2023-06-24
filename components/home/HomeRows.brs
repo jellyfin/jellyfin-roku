@@ -87,16 +87,14 @@ sub onLibrariesLoaded()
 
     ' validate library data
     if isValid(m.libraryData) and m.libraryData.count() > 0
-        userConfig = m.global.userConfig
-
         ' populate My Media row
-        filteredMedia = filterNodeArray(m.libraryData, "id", userConfig.MyMediaExcludes)
+        filteredMedia = filterNodeArray(m.libraryData, "id", m.global.session.user.configuration.MyMediaExcludes)
         for each item in filteredMedia
             mediaRow.appendChild(item)
         end for
 
         ' create a "Latest In" row for each library
-        filteredLatest = filterNodeArray(m.libraryData, "id", userConfig.LatestItemsExcludes)
+        filteredLatest = filterNodeArray(m.libraryData, "id", m.global.session.user.configuration.LatestItemsExcludes)
         for each lib in filteredLatest
             if lib.collectionType <> "boxsets" and lib.collectionType <> "livetv" and lib.json.CollectionType <> "Program"
                 latestInRow = content.CreateChild("HomeRow")
@@ -283,8 +281,7 @@ sub updateNextUpItems()
     end if
 
     ' create task nodes for "Latest In" rows
-    userConfig = m.global.userConfig
-    filteredLatest = filterNodeArray(m.libraryData, "id", userConfig.LatestItemsExcludes)
+    filteredLatest = filterNodeArray(m.libraryData, "id", m.global.session.user.configuration.LatestItemsExcludes)
     for each lib in filteredLatest
         if lib.collectionType <> "livetv" and lib.collectionType <> "boxsets" and lib.json.CollectionType <> "Program"
             loadLatest = createObject("roSGNode", "LoadItemsTask")
@@ -437,6 +434,9 @@ end sub
 
 sub itemSelected()
     m.top.selectedItem = m.top.content.getChild(m.top.rowItemSelected[0]).getChild(m.top.rowItemSelected[1])
+
+    'Prevent the selected item event from double firing
+    m.top.selectedItem = invalid
 end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean

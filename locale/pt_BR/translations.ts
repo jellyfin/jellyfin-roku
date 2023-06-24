@@ -2716,5 +2716,79 @@
         <translation type="unfinished">Erro ao recuperar conteúdo</translation>
         <extracomment>Dialog title when unable to load Content from Server</extracomment>
     </message>
+    <message>
+        <source>Change Server</source>
+        <translation>Alterar Servidor</translation>
+    </message>
+    <message>
+        <source>DATE_ADDED</source>
+        <translation>Data de Adição</translation>
+    </message>
+    <message>
+        <source>There was an error retrieving the data for this item from the server.</source>
+        <translation>Houve um erro ao recuperar os dados deste item do servidor.</translation>
+        <extracomment>Dialog detail when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <source>Loading Channel Data</source>
+        <translation>Carregando Dados do Canal</translation>
+    </message>
+    <message>
+        <source>Unable to load Channel Data from the server</source>
+        <translation>Não foi possível carregar do servidor os dados do canal</translation>
+    </message>
+    <message>
+        <comment>Message displayed in Item Grid when no item to display. %1 is container type (e.g. Boxset, Collection, Folder, etc)</comment>
+        <source>NO_ITEMS</source>
+        <translation>ste %1 não possui itens</translation>
+    </message>
+    <message>
+        <comment>Name or Title field of media item</comment>
+        <source>TITLE</source>
+        <translation>Nome</translation>
+    </message>
+    <message>
+        <source>IMDB_RATING</source>
+        <translation>Avaliação IMDb</translation>
+    </message>
+    <message>
+        <source>CRITIC_RATING</source>
+        <translation>Avaliação de críticos</translation>
+    </message>
+    <message>
+        <source>Error During Playback</source>
+        <translation>Erro Durante a Reprodução</translation>
+        <extracomment>Dialog title when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>An error was encountered while playing this item.</source>
+        <translation>Foi encontrado um erro na reprodução deste item.</translation>
+        <extracomment>Dialog detail when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>Error loading Channel Data</source>
+        <translation>Erro ao carregar os Dados do Canal</translation>
+    </message>
+    <message>
+        <source>Sign Out</source>
+        <translation>Sair</translation>
+    </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>Salvar crededenciais?</translation>
+    </message>
+    <message>
+        <source>Delete Saved</source>
+        <translation>Excluir Salvo</translation>
+    </message>
+    <message>
+        <source>On Now</source>
+        <translation>Ativo agora</translation>
+    </message>
+    <message>
+        <source>Error Retrieving Content</source>
+        <translation>Erro ao recuperar conteúdo</translation>
+        <extracomment>Dialog title when unable to load Content from Server</extracomment>
+    </message>
 </context>
 </TS>
