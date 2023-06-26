@@ -6836,5 +6836,72 @@
         <translation type="unfinished">Définis combien de secondes avant la fin d&apos;un épisode le bouton &quot;Prochain épisode&quot; doit apparaître. La valeur 0 permet de le désactiver.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
+    <message>
+        <source>An error was encountered while playing this item.</source>
+        <translation>Une erreur s&apos;est produite lors de la lecture de cet élément.</translation>
+        <extracomment>Dialog detail when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>Bring the theater experience straight to your living room with the ability to play custom intros before the main feature.</source>
+        <translation type="unfinished">Reproduire une expérience cinéma en jouant des introductions personnalisées avant le film.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Replace Roku&apos;s default subtitle functions with custom functions that support CJK fonts. Fallback fonts must be configured and enabled on the server for CJK rendering to work.</source>
+        <translation>Remplacer les fonctions de sous-titres par défaut de Roku par des fonctions personnalisées qui prennent en charge les polices CJK. Des polices de secours doivent être configurées et activées sur le serveur pour que le rendu CJK fonctionne.</translation>
+        <extracomment>Description of a setting - custom subtitles that support CJK fonts</extracomment>
+    </message>
+    <message>
+        <source>Slideshow Resumed</source>
+        <translation>Diaporama relancé</translation>
+    </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>Sauvegarder vos identifiants ?</translation>
+    </message>
+    <message>
+        <source>There was an error retrieving the data for this item from the server.</source>
+        <translation>Une erreur s&apos;est produite lors de la récupération des données de cet élément à partir du serveur.</translation>
+        <extracomment>Dialog detail when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <source>...or enter server URL manually:</source>
+        <translation>Si aucun serveur n&apos;est affiché ci-dessus, vous pouvez également saisir l&apos;adresse IP du serveur manuellement :</translation>
+        <extracomment>Instructions on initial app launch when the user is asked to manually enter a server URL</extracomment>
+    </message>
+    <message>
+        <source>Blur images of unwatched episodes.</source>
+        <translation>Flouter les miniatures des épisodes non visionnés.</translation>
+    </message>
+    <message>
+        <source>Hide all clocks in Jellyfin. Jellyfin will need to be closed and reopened for changes to take effect.</source>
+        <translation>Masquer toutes les horloges dans Jellyfin. Cela nécessite un redémarrage de Jellyfin.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Attempt Direct Play for HEVC media with unsupported profile levels before falling back to transcoding if it fails.</source>
+        <translation type="unfinished">Tenter la lecture directe du codec HEVC comportant des niveaux de profils incompatibles avant de basculer sur transcodage si cela échoue.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Show item count in the library and index of selected item.</source>
+        <translation>Afficher le nombre d&apos;éléments dans la bibliothèque et l&apos;index de l&apos;élément sélectionné.</translation>
+        <extracomment>Description for option in Setting Screen</extracomment>
+    </message>
+    <message>
+        <source>Parental Ratings</source>
+        <translation>Classifications Parentale</translation>
+        <extracomment>Used in Filter menu</extracomment>
+    </message>
+    <message>
+        <source>Options for TV Shows.</source>
+        <translation>Options pour les programmes TV.</translation>
+        <extracomment>Description for TV Shows user settings.</extracomment>
+    </message>
+    <message>
+        <source>Pick a Jellyfin server from the local network</source>
+        <translation>Sélectionnez un serveur disponible sur votre réseau local :</translation>
+        <extracomment>Instructions on initial app launch when the user is asked to pick a server from a list</extracomment>
+    </message>
 </context>
 </TS>
