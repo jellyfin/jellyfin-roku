@@ -34,6 +34,7 @@ namespace tests
         @params("false", false)
         @params("invalid", false)
         @params("localhost", true)
+        @params("google.com", false)
         @params("127.0.0.1", true)
         @params("127.1.1.1", true)
         @params("127.0.0.127", true)
@@ -41,6 +42,10 @@ namespace tests
         @params("126.0.0.1", false)
         @params("0:0:0:0:0:0:0:1", true)
         @params("::1", true)
+        @params("::2", false)
+        @params("2001:4860:4860::8888", false)
+        @params("2001:4860:4860:0:0:0:0:8888", false)
+        @params("2001:4860:4860:0000:0000:0000:0000:8888", false)
         function _(value, expectedassertResult)
             m.assertEqual(isLocalhost(value), expectedassertResult)
         end function
