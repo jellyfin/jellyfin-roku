@@ -228,7 +228,8 @@ function isValidAndNotEmpty(input as dynamic) as boolean
     end if
 end function
 
-' Returns an array from a url of [proto, host, port, subdir/params]
+' Returns an array from a url - [ url, proto, host, port, subdir/params ]
+' If port or subdir are not found, an empty string will be added to the array
 ' Proto must be declared or array will be empty
 function parseUrl(url as string) as object
     rgx = CreateObject("roRegex", "^(.*:)//([A-Za-z0-9\-\.]+)(:[0-9]+)?(.*)$", "")
