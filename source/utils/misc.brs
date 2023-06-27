@@ -229,7 +229,7 @@ function isValidAndNotEmpty(input as dynamic) as boolean
 end function
 
 ' Returns an array from a url of [proto, host, port, subdir/params]
-' Proto must be declared or array members will be invalid
+' Proto must be declared or array will be empty
 function parseUrl(url as string) as object
     rgx = CreateObject("roRegex", "^(.*:)//([A-Za-z0-9\-\.]+)(:[0-9]+)?(.*)$", "")
     return rgx.Match(url)
