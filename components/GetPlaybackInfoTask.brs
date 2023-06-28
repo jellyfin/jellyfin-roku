@@ -35,7 +35,8 @@ end function
 ' Returns an array of playback info to be displayed during playback.
 ' In the future, with a custom playback info view, we can return an associated array.
 sub getPlaybackInfoTask()
-    sessions = api.sessions.Get()
+    params = { "deviceId": m.global.device.id }
+    sessions = api.sessions.Get(params)
 
     m.playbackInfo = ItemPostPlaybackInfo(m.top.videoID)
 
@@ -88,6 +89,11 @@ function GetTranscodingStats(deviceSession)
             data = "<b>• " + tr("Audio Channels") + ":</b> " + Str(audioChannels)
             sessionStats.data.push(data)
         end if
+    else
+        sessionStats.data.push("<header>" + tr("Direct playing") + "</header>")
+        bitrate = "<b>• " + tr("Total Bitrate") + ":</b> " + getDisplayBitrate(totalBitrate)
+        sessionStats.data.push(bitrate)
+        sessionStats.data.push("<b>" + tr("The source file is entirely compatible with this client, and the session is receiving the file without modifications.") + "</b>")
     end if
 
     if havePlaybackInfo()
