@@ -6903,5 +6903,63 @@
         <translation>Sélectionnez un serveur disponible sur votre réseau local :</translation>
         <extracomment>Instructions on initial app launch when the user is asked to pick a server from a list</extracomment>
     </message>
+    <message>
+        <source>Presentation</source>
+        <translation>Présentation</translation>
+        <extracomment>Title of an option - name of presentation view</extracomment>
+    </message>
+    <message>
+        <source>Go directly to the episode list if a TV series has only one season.</source>
+        <translation>Aller directement à la liste des épisodes si une série TV ne possède qu&apos;une seule saison.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Bring the theater experience straight to your living room with the ability to play custom intros before the main feature.</source>
+        <translation>Reproduire une expérience cinéma directement dans votre salon en lisant des bandes annonces personnalisées avant le film.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Resumable</source>
+        <translation>Reprenable</translation>
+    </message>
+    <message>
+        <source>Hide the star and community rating for episodes of a TV show. This is to prevent spoilers of an upcoming good/bad episode.</source>
+        <translation>Cacher l&apos;étoile et la notation de la communauté pour les épisodes d&apos;une série TV. Cela permet d&apos;éviter les spoilers sur un bon/mauvais épisode à venir.</translation>
+    </message>
+    <message>
+        <source>Biographical information for this person is not currently available.</source>
+        <translation>Les informations biographiques pour cette personne ne sont pas disponibles pour le moment.</translation>
+    </message>
+    <message>
+        <source>Enable or disable  the &apos;Maximum Bitrate&apos; setting.</source>
+        <translation>Activer ou désactiver le paramètre &apos;Débit Maximal&apos;.</translation>
+    </message>
+    <message>
+        <source>Bitrate Limit</source>
+        <translation>Limite de Débit</translation>
+    </message>
+    <message>
+        <source>Settings relating to the appearance of the Home screen and the program in general.</source>
+        <translation>Paramètres relatifs à l&apos;apparence de l&apos;écran d&apos;accueil et du programme en général.</translation>
+    </message>
+    <message>
+        <source>Settings that apply when Grid views are enabled.</source>
+        <translation>Paramètres appliqués lorsque les vues en grille sont activées.</translation>
+    </message>
+    <message>
+        <source>If enabled, the number of unwatched episodes in a series/season will be removed.</source>
+        <translation>Si cette option est activée, le nombre d&apos;épisodes non regardés dans une série/saison sera supprimé.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Attempt Direct Play for HEVC media with unsupported profile levels before falling back to transcoding if it fails.</source>
+        <translation>Tenter la lecture directe du média HEVC comportant des niveaux de profils incompatibles avant de revenir sur le transcodage si cela échoue.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Loading trailer</source>
+        <translation>Chargement de la bande-annonce</translation>
+        <extracomment>Dialog title in Main.brs</extracomment>
+    </message>
 </context>
 </TS>
