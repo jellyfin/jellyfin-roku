@@ -91,8 +91,6 @@ function GetTranscodingStats(deviceSession)
         end if
     else
         sessionStats.data.push("<header>" + tr("Direct playing") + "</header>")
-        bitrate = "<b>• " + tr("Total Bitrate") + ":</b> " + getDisplayBitrate(totalBitrate)
-        sessionStats.data.push(bitrate)
         sessionStats.data.push("<b>" + tr("The source file is entirely compatible with this client, and the session is receiving the file without modifications.") + "</b>")
     end if
 
