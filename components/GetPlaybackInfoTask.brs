@@ -35,8 +35,7 @@ end function
 ' Returns an array of playback info to be displayed during playback.
 ' In the future, with a custom playback info view, we can return an associated array.
 sub getPlaybackInfoTask()
-    params = { "deviceId": m.global.device.id }
-    sessions = api.sessions.Get(params)
+    sessions = api.sessions.Get()
 
     m.playbackInfo = ItemPostPlaybackInfo(m.top.videoID)
 
