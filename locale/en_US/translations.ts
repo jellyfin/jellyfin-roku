@@ -1114,6 +1114,10 @@
             <translation>Set how many seconds before the end of an episode the Next Episode button should appear. Set to 0 to disable.</translation>
             <extracomment>Settings Menu - Description for option</extracomment>
         </message>
+		<message>
+			<source>Direct playing</source>
+			<translation>Direct playing</translation>
+		</message>
         <message>
             <source>The source file is entirely compatible with this client, and the session is receiving the file without modifications.</source>
             <translation>The source file is entirely compatible with this client, and the session is receiving the file without modifications.</translation>
