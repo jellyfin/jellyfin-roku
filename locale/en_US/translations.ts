@@ -1119,8 +1119,8 @@
 			<translation>Direct playing</translation>
 		</message>
         <message>
-            <source>The source file is entirely compatible with this client, and the session is receiving the file without modifications.</source>
-            <translation>The source file is entirely compatible with this client, and the session is receiving the file without modifications.</translation>
+            <source>The source file is entirely compatible with this client and the session is receiving the file without modifications.</source>
+            <translation>The source file is entirely compatible with this client and the session is receiving the file without modifications.</translation>
             <extracomment>Direct play info box text in GetPlaybackInfoTask.brs</extracomment>
         </message>
     </context>
