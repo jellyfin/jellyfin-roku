@@ -90,7 +90,7 @@ function GetTranscodingStats(deviceSession)
         end if
     else
         sessionStats.data.push("<header>" + tr("Direct playing") + "</header>")
-        sessionStats.data.push("<b>" + tr("The source file is entirely compatible with this client, and the session is receiving the file without modifications.") + "</b>")
+        sessionStats.data.push("<b>" + tr("The source file is entirely compatible with this client and the session is receiving the file without modifications.") + "</b>")
     end if
 
     if havePlaybackInfo()
