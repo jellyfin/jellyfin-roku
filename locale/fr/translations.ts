@@ -6961,5 +6961,37 @@
         <translation>Chargement de la bande-annonce</translation>
         <extracomment>Dialog title in Main.brs</extracomment>
     </message>
+    <message>
+        <source>Next Episode Button Time</source>
+        <translation>Temps pour le bouton « Prochain épisode »</translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
+    <message>
+        <source>Enable Limit</source>
+        <translation>Activer la limitation</translation>
+    </message>
+    <message>
+        <source>Album Artists (Presentation)</source>
+        <translation>Artistes de l&apos;album (diaporama)</translation>
+    </message>
+    <message>
+        <source>Disable Unwatched Episode Count</source>
+        <translation>Désactiver le décompte des épisodes non regardés</translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
+    <message>
+        <source>Select when to show titles.</source>
+        <translation>Sélectionnez quand les titres doivent s&apos;afficher.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Artists (Grid)</source>
+        <translation>Artistes (grille)</translation>
+    </message>
+    <message>
+        <source>Set how many seconds before the end of an episode the Next Episode button should appear. Set to 0 to disable.</source>
+        <translation>Définis combien de secondes avant la fin d&apos;un épisode le bouton « Prochain épisode » doit apparaître. La valeur 0 permet de le désactiver.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
 </context>
 </TS>
