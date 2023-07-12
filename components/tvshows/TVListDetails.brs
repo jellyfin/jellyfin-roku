@@ -97,9 +97,11 @@ sub itemContentChanged()
     if isValid(itemData.MediaSources)
         for i = 0 to itemData.MediaSources.Count() - 1
             if item.selectedVideoStreamId = itemData.MediaSources[i].id
-                m.videoCodec.text = tr("Video") + ": " + itemData.MediaSources[i].MediaStreams[0].DisplayTitle
-                SetupAudioDisplay(itemData.MediaSources[i].MediaStreams, item.selectedAudioStreamIndex)
-                exit for
+                if isValid(itemData.MediaSources[i].MediaStreams[0]) and isValid(m.videoCodec)
+                    m.videoCodec.text = tr("Video") + ": " + itemData.MediaSources[i].MediaStreams[0].DisplayTitle
+                    SetupAudioDisplay(itemData.MediaSources[i].MediaStreams, item.selectedAudioStreamIndex)
+                    exit for
+                end if
             end if
         end for
         m.videoCodec.visible = true
