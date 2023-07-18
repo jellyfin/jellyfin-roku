@@ -11137,5 +11137,13 @@
         <translation>Fehler beim Empfangen des Inhalts</translation>
         <extracomment>Dialog title when unable to load Content from Server</extracomment>
     </message>
+    <message>
+        <source>On Now</source>
+        <translation>Jetzt läuft</translation>
+    </message>
+    <message>
+        <source>PLAY_COUNT</source>
+        <translation>Wiedergabezähler</translation>
+    </message>
 </context>
 </TS>
