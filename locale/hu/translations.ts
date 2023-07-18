@@ -138,7 +138,7 @@
     </message>
     <message>
         <source>Name</source>
-        <translation>név</translation>
+        <translation>Név</translation>
     </message>
     <message>
         <source>Sort Order</source>
@@ -10310,6 +10310,60 @@
     <message>
         <source>View Channel</source>
         <translation>Csatorna Megtekintése</translation>
+    </message>
+    <message>
+        <source>Error During Playback</source>
+        <translation>Hiba a visszajátszás során</translation>
+        <extracomment>Dialog title when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>Error loading Channel Data</source>
+        <translation>Hiba történt a csatornaadatok betöltésekor</translation>
+    </message>
+    <message>
+        <source>CRITIC_RATING</source>
+        <translation>Kritikusok Értékelése</translation>
+    </message>
+    <message>
+        <source>Error Retrieving Content</source>
+        <translation>Hiba a tartalom lekérdezése során</translation>
+        <extracomment>Dialog title when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <source>An error was encountered while playing this item.</source>
+        <translation>Hiba történt az elem lejátszása közben.</translation>
+        <extracomment>Dialog detail when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>Loading Channel Data</source>
+        <translation>Csatorna adatok betöltése</translation>
+    </message>
+    <message>
+        <source>Unable to load Channel Data from the server</source>
+        <translation>Nem lehet betölteni a csatornaadatokat a szerverről</translation>
+    </message>
+    <message>
+        <comment>Name or Title field of media item</comment>
+        <source>TITLE</source>
+        <translation>Név</translation>
+    </message>
+    <message>
+        <source>IMDB_RATING</source>
+        <translation>IMDb Értékelés</translation>
+    </message>
+    <message>
+        <source>There was an error retrieving the data for this item from the server.</source>
+        <translation>Hiba történt jelen elem szerverről való betöltése során.</translation>
+        <extracomment>Dialog detail when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <comment>Message displayed in Item Grid when no item to display. %1 is container type (e.g. Boxset, Collection, Folder, etc)</comment>
+        <source>NO_ITEMS</source>
+        <translation>Ez a(z) %1 nem tartalmaz elemeket</translation>
+    </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>Mented a hitelesítő adatokat?</translation>
     </message>
 </context>
 </TS>
