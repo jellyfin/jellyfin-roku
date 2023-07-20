@@ -3956,5 +3956,23 @@
         <translation>The source file is entirely compatible with this client and the session is receiving the file without modifications.</translation>
         <extracomment>Direct play info box text in GetPlaybackInfoTask.brs</extracomment>
     </message>
+    <message>
+        <source>Movies (Grid)</source>
+        <translation>Movies (Grid)</translation>
+        <extracomment>Movie library view option</extracomment>
+    </message>
+    <message>
+        <source>TV Shows</source>
+        <translation>TV Shows</translation>
+    </message>
+    <message>
+        <source>Movies (Presentation)</source>
+        <translation>Movies (Presentation)</translation>
+        <extracomment>Movie library view option</extracomment>
+    </message>
+    <message>
+        <source>Movies</source>
+        <translation>Movies</translation>
+    </message>
 </context>
 </TS>
