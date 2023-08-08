@@ -7411,5 +7411,20 @@
         <translation>Permet la lecture directe du codec MPEG-4. Il est peut-être nécessaire de désactiver cette option pour lire les fichiers vidéo DIVX.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
+    <message>
+        <source>Repeat</source>
+        <translation>Rediffusion</translation>
+        <extracomment>If TV Shows has previously been broadcasted</extracomment>
+    </message>
+    <message>
+        <source>Set Watched</source>
+        <translation>Marquer comme vu</translation>
+        <extracomment>Button Text - When pressed, marks item as Warched</extracomment>
+    </message>
+    <message>
+        <source>Item Count</source>
+        <translation>Nombre d&apos;éléments</translation>
+        <extracomment>UI -&gt; Media Grid -&gt; Item Count in user setting screen.</extracomment>
+    </message>
 </context>
 </TS>
