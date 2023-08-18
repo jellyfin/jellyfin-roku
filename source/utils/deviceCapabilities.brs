@@ -170,14 +170,16 @@ function getDeviceProfile() as object
     end for
 
     ' MPEG2
-    mpeg2Profiles = ["main", "high"]
+    ' mpeg2 uses levels with no profiles. see https://developer.roku.com/en-ca/docs/references/brightscript/interfaces/ifdeviceinfo.md#candecodevideovideo_format-as-object-as-object
+    ' NOTE: the mpeg2 levels are being saved in the profileSupport array as if they were profiles
+    mpeg2Levels = ["main", "high"]
     addMpeg2 = false
     if playMpeg2
         for each container in profileSupport
-            for each profile in mpeg2Profiles
-                if di.CanDecodeVideo({ Codec: "mpeg2", Container: container, Profile: profile }).Result
+            for each level in mpeg2Levels
+                if di.CanDecodeVideo({ Codec: "mpeg2", Container: container, Level: level }).Result
                     addMpeg2 = true
-                    profileSupport[container] = updateProfileArray(profileSupport[container], "mpeg2", profile)
+                    profileSupport[container] = updateProfileArray(profileSupport[container], "mpeg2", level)
                     if container = "mp4"
                         ' check for codec string before adding it
                         if mp4VideoCodecs.Instr(0, ",mpeg2video") = -1
@@ -477,6 +479,7 @@ function getDeviceProfile() as object
     deviceProfile.CodecProfiles.push(codecProfileArray)
 
     ' MPEG2
+    ' NOTE: the mpeg2 levels are being saved in the profileSupport array as if they were profiles
     if addMpeg2
         mpeg2Levels = []
         for each container in profileSupport
