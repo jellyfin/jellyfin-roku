@@ -2,6 +2,7 @@ name: roku-analysis
 
 on:
   pull_request:
+  push:
 
 env:
   BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
