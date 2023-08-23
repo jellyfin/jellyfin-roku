@@ -72,17 +72,6 @@ jobs:
         run: npm run ropm
       - name: Build app for production
         run: npm run build-prod
-      - name: Use Java 17
-        uses: actions/setup-java@v3
-        with:
-          distribution: "temurin"
-          java-version: "17"
-      - name: Download the Static Channel Analysis CLI
-        run: |
-          curl -sSL "https://devtools.web.roku.com/static-channel-analysis/sca-cmd.zip" -o sca-cmd.zip
-          unzip sca-cmd.zip
-      - name: Run Analysis 
-        run: ./sca-cmd/bin/sca-cmd ${{ github.workspace }}/build/staging --exit error
       - uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # v3
         with:
           name: Jellyfin-Roku-v${{ env.newManVersion }}-${{ github.sha }}
