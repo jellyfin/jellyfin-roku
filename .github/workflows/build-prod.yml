@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout master (the latest release)
-        uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
+        uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3
         with:
           ref: master
       - name: Install jq to parse json
@@ -33,7 +33,7 @@ jobs:
       - name: Save old Makefile version
         run: awk 'BEGIN { FS=" = " } /^VERSION/ { print "oldMakeVersion="$2; }' Makefile >> $GITHUB_ENV
       - name: Checkout PR branch
-        uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
+        uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3
       - name: Save new package.json version
         run: echo "newPackVersion=$(jq -r ".version" package.json)" >> $GITHUB_ENV
       - name: package.json version must be updated
@@ -61,7 +61,7 @@ jobs:
   prod:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
+      - uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3
       - uses: actions/setup-node@5e21ff4d9bc1a8cf6de233a3057d20ec6b3fb69d # v3
         with:
           node-version: "lts/*"
