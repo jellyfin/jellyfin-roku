@@ -474,6 +474,18 @@ function getDeviceProfile() as object
             },
             {
                 "Condition": "LessThanEqual",
+                "Property": "Width",
+                "Value": m.global.device.videoWidth,
+                "IsRequired": true
+            },
+            {
+                "Condition": "LessThanEqual",
+                "Property": "Height",
+                "Value": m.global.device.videoHeight,
+                "IsRequired": true
+            },
+            {
+                "Condition": "LessThanEqual",
                 "Property": "VideoLevel",
                 "Value": h264LevelString,
                 "IsRequired": false
@@ -507,7 +519,19 @@ function getDeviceProfile() as object
                     "Property": "VideoLevel",
                     "Value": mpeg2Levels.join("|"),
                     "IsRequired": false
-                }
+                },
+                {
+                    "Condition": "LessThanEqual",
+                    "Property": "Width",
+                    "Value": m.global.device.videoWidth,
+                    "IsRequired": true
+                },
+                {
+                    "Condition": "LessThanEqual",
+                    "Property": "Height",
+                    "Value": m.global.device.videoHeight,
+                    "IsRequired": true
+                },
             ]
         }
         bitRateArray = GetBitRateLimit("mpeg2")
@@ -566,7 +590,19 @@ function getDeviceProfile() as object
                     "Property": "VideoLevel",
                     "Value": (120 * av1HighestLevel).ToStr(),
                     "IsRequired": false
-                }
+                },
+                {
+                    "Condition": "LessThanEqual",
+                    "Property": "Width",
+                    "Value": m.global.device.videoWidth,
+                    "IsRequired": true
+                },
+                {
+                    "Condition": "LessThanEqual",
+                    "Property": "Height",
+                    "Value": m.global.device.videoHeight,
+                    "IsRequired": true
+                },
             ]
         }
         bitRateArray = GetBitRateLimit("av1")
@@ -636,7 +672,19 @@ function getDeviceProfile() as object
                     "Property": "VideoLevel",
                     "Value": hevcLevelString,
                     "IsRequired": false
-                }
+                },
+                {
+                    "Condition": "LessThanEqual",
+                    "Property": "Width",
+                    "Value": m.global.device.videoWidth,
+                    "IsRequired": true
+                },
+                {
+                    "Condition": "LessThanEqual",
+                    "Property": "Height",
+                    "Value": m.global.device.videoHeight,
+                    "IsRequired": true
+                },
             ]
         }
 
@@ -672,7 +720,19 @@ function getDeviceProfile() as object
                     "Property": "VideoRangeType",
                     "Value": vp9VideoRangeTypes,
                     "IsRequired": false
-                }
+                },
+                {
+                    "Condition": "LessThanEqual",
+                    "Property": "Width",
+                    "Value": m.global.device.videoWidth,
+                    "IsRequired": true
+                },
+                {
+                    "Condition": "LessThanEqual",
+                    "Property": "Height",
+                    "Value": m.global.device.videoHeight,
+                    "IsRequired": true
+                },
             ]
         }
 
