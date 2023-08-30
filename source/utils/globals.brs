@@ -43,6 +43,57 @@ sub SaveDeviceToGlobal()
     ' remove special characters
     regex = CreateObject("roRegex", "[^a-zA-Z0-9\ \-\_]", "")
     filteredFriendly = regex.ReplaceAll(deviceInfo.getFriendlyName(), "")
+    ' determine max playback resolution
+    ' https://developer.roku.com/en-ca/docs/references/brightscript/interfaces/ifdeviceinfo.md#getvideomode-as-string
+    videoMode = deviceInfo.GetVideoMode()
+    iPos = Instr(1, videoMode, "i")
+    pPos = Instr(1, videoMode, "p")
+    videoHeight = invalid
+    videoWidth = invalid
+    refreshRate = invalid
+    bitDepth = 8
+    extraData = invalid
+    heightToWidth = {
+        "480": "720",
+        "576": "720",
+        "720": "1280",
+        "1080": "1920",
+        "2160": "3840",
+        "4320": "7680"
+
+    }
+    if iPos > 0 and pPos = 0
+        ' videMode = 000i
+        videoHeight = mid(videoMode, 1, iPos - 1)
+        ' save refresh rate
+        if Len(videoMode) > iPos
+            refreshRate = mid(videoMode, iPos + 1, 2)
+        end if
+        ' save whats left of string
+        if Len(videoMode) > iPos + 2
+            extraData = mid(videoMode, iPos + 3)
+        end if
+    else if iPos = 0 and pPos > 0
+        ' videMode = 000p
+        videoHeight = mid(videoMode, 1, pPos - 1)
+        ' save refresh rate
+        if Len(videoMode) > pPos
+            refreshRate = mid(videoMode, pPos + 1, 2)
+        end if
+        ' save whats left of string
+        if Len(videoMode) > pPos + 2
+            extraData = mid(videoMode, pPos + 3)
+        end if
+    else
+        'i and p not present in videoMode
+        print "ERROR parsing deviceInfo.GetVideoMode()"
+    end if
+    videoWidth = heightToWidth[videoHeight]
+    if videoHeight = "2160" and extraData = "b10"
+        bitDepth = 10
+    else if videoHeight = "4320"
+        bitDepth = 12
+    end if
     m.global.addFields({
         device: {
             id: deviceInfo.getChannelClientID(),
@@ -58,7 +109,12 @@ sub SaveDeviceToGlobal()
             hasVoiceRemote: deviceInfo.HasFeature("voice_remote"),
 
             displayType: deviceInfo.GetDisplayType(),
-            displayMode: deviceInfo.GetDisplayMode()
+            displayMode: deviceInfo.GetDisplayMode(),
+            videoMode: videoMode,
+            videoHeight: videoHeight,
+            videoWidth: videoWidth,
+            videoRefresh: Val(refreshRate),
+            videoBitDepth: Val(bitDepth)
         }
     })
 end sub
