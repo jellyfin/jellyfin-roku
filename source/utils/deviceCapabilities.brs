@@ -776,16 +776,8 @@ function GetDirectPlayProfiles() as object
         }
     }
     ' all possible codecs
-    videoCodecs = ["h264", "mpeg4 avc", "vp8", "hevc", "vp9", "av1"]
+    videoCodecs = ["h264", "mpeg4 avc", "vp8", "hevc", "vp9", "av1", "mpeg4", "mpeg2"]
     audioCodecs = ["mp3", "mp2", "pcm", "lpcm", "wav", "ac3", "ac4", "aiff", "wma", "flac", "alac", "aac", "opus", "dts", "wmapro", "vorbis", "eac3"]
-    ' respect user settings
-    if m.global.session.user.settings["playback.mpeg4"]
-        videoCodecs.push("mpeg4")
-    end if
-    if m.global.session.user.settings["playback.mpeg2"]
-        videoCodecs.push("mpeg2")
-    end if
-
     ' check video codecs for each container
     for each container in supportedCodecs
         for each videoCodec in videoCodecs
@@ -802,6 +794,21 @@ function GetDirectPlayProfiles() as object
             end if
         end for
     end for
+    ' user settings override what the device thinks
+    if m.global.session.user.settings["playback.mpeg4"]
+        for each container in supportedCodecs
+            if supportedCodecs[container]["video"]["mpeg4"] = invalid
+                supportedCodecs[container]["video"].push("mpeg4")
+            end if
+        end for
+    end if
+    if m.global.session.user.settings["playback.mpeg2"]
+        for each container in supportedCodecs
+            if supportedCodecs[container]["video"]["mpeg2video"] = invalid
+                supportedCodecs[container]["video"].push("mpeg2video")
+            end if
+        end for
+    end if
 
     ' check audio codecs for each container
     for each container in supportedCodecs
