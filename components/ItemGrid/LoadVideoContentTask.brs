@@ -113,23 +113,30 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
 
     myAudioCodec = meta.json.MediaSources[0].MediaStreams[1].Codec
     print "myAudioCodec =", myAudioCodec
-    myAudioProfile = Lcase(meta.json.MediaSources[0].MediaStreams[1].Profile)
-    if myAudioProfile <> invalid and myAudioProfile <> ""
-        if myAudioCodec = "aac"
-            if myAudioProfile = "lc"
-                myAudioProfile = "mp2 lc"
-            else if myAudioProfile = "he"
-                myAudioProfile = "mp4 he"
+
+    myAudioProfile = invalid
+    if isValid(meta.json.MediaSources[0].MediaStreams[1].Profile)
+        myAudioProfile = Lcase(meta.json.MediaSources[0].MediaStreams[1].Profile)
+        if myAudioProfile <> invalid and myAudioProfile <> ""
+            if myAudioCodec = "aac"
+                if myAudioProfile = "lc"
+                    myAudioProfile = "mp2 lc"
+                else if myAudioProfile = "he"
+                    myAudioProfile = "mp4 he"
+                end if
             end if
         end if
+        print "myAudioProfile =", myAudioProfile
     end if
-    print "myAudioProfile =", myAudioProfile
-    myAudioLevel = meta.json.MediaSources[0].MediaStreams[1].Level
-    if myAudioLevel.ToStr().Len() = 2
-        myAudioLevel = myAudioLevel / 10
+    myAudioLevel = invalid
+    if isValid(meta.json.MediaSources[0].MediaStreams[1].Level)
+        myAudioLevel = meta.json.MediaSources[0].MediaStreams[1].Level
+        if myAudioLevel.ToStr().Len() = 2
+            myAudioLevel = myAudioLevel / 10
+        end if
+        myAudioLevel = myAudioLevel.ToStr()
+        print "myAudioLevel =", myAudioLevel
     end if
-    myAudioLevel = myAudioLevel.ToStr()
-    print "myAudioLevel =", myAudioLevel
     myAudioChannels = meta.json.MediaSources[0].MediaStreams[1].Channels
     print "myAudioChannels =", myAudioChannels
     myAudioBitrate = meta.json.MediaSources[0].MediaStreams[1].BitRate
