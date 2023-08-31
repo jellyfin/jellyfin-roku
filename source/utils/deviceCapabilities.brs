@@ -1,3 +1,5 @@
+import "pkg:/source/utils/misc.brs"
+
 'Device Capabilities for Roku.
 'This will likely need further tweaking
 function getDeviceCapabilities() as object
@@ -794,17 +796,18 @@ function GetDirectPlayProfiles() as object
             end if
         end for
     end for
+
     ' user settings override what the device thinks
     if m.global.session.user.settings["playback.mpeg4"]
         for each container in supportedCodecs
-            if supportedCodecs[container]["video"]["mpeg4"] = invalid
+            if not arrayHasValue(supportedCodecs[container]["video"], "mpeg4")
                 supportedCodecs[container]["video"].push("mpeg4")
             end if
         end for
     end if
     if m.global.session.user.settings["playback.mpeg2"]
         for each container in supportedCodecs
-            if supportedCodecs[container]["video"]["mpeg2video"] = invalid
+            if not arrayHasValue(supportedCodecs[container]["video"], "mpeg2video")
                 supportedCodecs[container]["video"].push("mpeg2video")
             end if
         end for

@@ -367,3 +367,13 @@ sub stopLoadingSpinner()
         m.scene.dialog.close = true
     end if
 end sub
+
+' Check if a specific value is inside of an array
+function arrayHasValue(arr as object, value as dynamic) as boolean
+    for each entry in arr
+        if entry = value
+            return true
+        end if
+    end for
+    return false
+end function
