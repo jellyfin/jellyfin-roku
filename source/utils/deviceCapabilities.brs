@@ -258,7 +258,7 @@ function getDeviceProfile() as object
         av1VideoRangeTypes = av1VideoRangeTypes + "|HLG"
     end if
     if dp.DolbyVision
-        h264VideoRangeTypes = hevcVideoRangeTypes + "|DOVI"
+        h264VideoRangeTypes = h264VideoRangeTypes + "|DOVI"
         hevcVideoRangeTypes = hevcVideoRangeTypes + "|DOVI"
         'vp9VideoRangeTypes = vp9VideoRangeTypes + ",DOVI" no evidence that vp9 can hold DOVI
         av1VideoRangeTypes = av1VideoRangeTypes + "|DOVI"
