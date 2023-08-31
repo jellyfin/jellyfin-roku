@@ -50,7 +50,7 @@ sub SaveDeviceToGlobal()
     pPos = Instr(1, videoMode, "p")
     videoHeight = invalid
     videoWidth = invalid
-    refreshRate = invalid
+    refreshRate = "0"
     bitDepth = 8
     extraData = invalid
     heightToWidth = {
@@ -113,8 +113,8 @@ sub SaveDeviceToGlobal()
             videoMode: videoMode,
             videoHeight: videoHeight,
             videoWidth: videoWidth,
-            videoRefresh: Val(refreshRate),
-            videoBitDepth: Val(bitDepth)
+            videoRefresh: StrToI(refreshRate),
+            videoBitDepth: bitDepth
         }
     })
 end sub
