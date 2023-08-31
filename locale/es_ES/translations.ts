@@ -4390,5 +4390,33 @@
         <source>Sign Out</source>
         <translation>Cerrar Sesión</translation>
     </message>
+    <message>
+        <source>An error was encountered while playing this item.</source>
+        <translation>Ha ocurrido un error reproduciendo este elemento</translation>
+        <extracomment>Dialog detail when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>Error Retrieving Content</source>
+        <translation>Error recuperando contenido</translation>
+        <extracomment>Dialog title when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <source>Error During Playback</source>
+        <translation>Error al reproducir</translation>
+        <extracomment>Dialog title when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>There was an error retrieving the data for this item from the server.</source>
+        <translation>Ha ocurrido un error al obtener este elemento desde el servidor.</translation>
+        <extracomment>Dialog detail when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <source>Delete Saved</source>
+        <translation>Borrar guardados</translation>
+    </message>
+    <message>
+        <source>Loading Channel Data</source>
+        <translation>Cargando datos de canales</translation>
+    </message>
 </context>
 </TS>
