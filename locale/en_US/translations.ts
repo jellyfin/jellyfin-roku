@@ -1128,10 +1128,11 @@
             <source>Audio Codec Support</source>
             <translation>Audio Codec Support</translation>
             <extracomment>Settings Menu - Title of option</extracomment>
-		    <message>
-			    <source>Direct playing</source>
-			    <translation>Direct playing</translation>
-		    </message>
+        </message>
+	    <message>
+		    <source>Direct playing</source>
+		    <translation>Direct playing</translation>
+	    </message>
         <message>
             <source>The source file is entirely compatible with this client and the session is receiving the file without modifications.</source>
             <translation>The source file is entirely compatible with this client and the session is receiving the file without modifications.</translation>
