@@ -490,10 +490,12 @@ function getDeviceProfile() as object
         })
     end if
 
+    ' set bitrate restrictions based on user settings
     bitRateArray = GetBitRateLimit("h264")
     if bitRateArray.count() > 0
         codecProfileArray.Conditions.push(bitRateArray)
     end if
+
     deviceProfile.CodecProfiles.push(codecProfileArray)
 
     ' MPEG2
@@ -532,10 +534,13 @@ function getDeviceProfile() as object
                 },
             ]
         }
+
+        ' set bitrate restrictions based on user settings
         bitRateArray = GetBitRateLimit("mpeg2")
         if bitRateArray.count() > 0
             codecProfileArray.Conditions.push(bitRateArray)
         end if
+
         deviceProfile.CodecProfiles.push(codecProfileArray)
     end if
 
@@ -603,10 +608,13 @@ function getDeviceProfile() as object
                 },
             ]
         }
+
+        ' set bitrate restrictions based on user settings
         bitRateArray = GetBitRateLimit("av1")
         if bitRateArray.count() > 0
             codecProfileArray.Conditions.push(bitRateArray)
         end if
+
         deviceProfile.CodecProfiles.push(codecProfileArray)
     end if
 
@@ -690,10 +698,12 @@ function getDeviceProfile() as object
             })
         end if
 
+        ' set bitrate restrictions based on user settings
         bitRateArray = GetBitRateLimit("h265")
         if bitRateArray.count() > 0
             codecProfileArray.Conditions.push(bitRateArray)
         end if
+
         deviceProfile.CodecProfiles.push(codecProfileArray)
     end if
 
@@ -738,10 +748,12 @@ function getDeviceProfile() as object
             ]
         }
 
+        ' set bitrate restrictions based on user settings
         bitRateArray = GetBitRateLimit("vp9")
         if bitRateArray.count() > 0
             codecProfileArray.Conditions.push(bitRateArray)
         end if
+
         deviceProfile.CodecProfiles.push(codecProfileArray)
     end if
 
