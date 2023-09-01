@@ -87,15 +87,23 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
     print "myVideoCodec =", myVideoCodec
     myContainer = meta.json.MediaSources[0].Container
     print "myContainer =", myContainer
-    myVidProfile = Lcase(meta.json.MediaSources[0].MediaStreams[0].Profile)
-    print "myVidProfile =", myVidProfile
-    myVidLevel = meta.json.MediaSources[0].MediaStreams[0].Level
-    if myVidLevel.ToStr().Len() = 2
-        myVidLevel = myVidLevel / 10
+
+    myVidProfile = invalid
+    if isValid(meta.json.MediaSources[0].MediaStreams[0].Profile)
+        myVidProfile = Lcase(meta.json.MediaSources[0].MediaStreams[0].Profile)
+        print "myVidProfile =", myVidProfile
     end if
-    myVidLevel = myVidLevel.ToStr()
-    print "myVidLevel =", myVidLevel
-    print "type(myVidLevel) =", type(myVidLevel)
+
+    myVidLevel = invalid
+    if isValid(meta.json.MediaSources[0].MediaStreams[0].Level)
+        myVidLevel = meta.json.MediaSources[0].MediaStreams[0].Level
+        if myVidLevel.ToStr().Len() = 2
+            myVidLevel = myVidLevel / 10
+        end if
+        myVidLevel = myVidLevel.ToStr()
+        print "myVidLevel =", myVidLevel
+        print "type(myVidLevel) =", type(myVidLevel)
+    end if
 
     if isValid(myVidProfile) and isValid(myVidLevel)
         canDecodeVid = devinfo.CanDecodeVideo({ Codec: myVideoCodec, Container: myContainer, Profile: myVidProfile, Level: myVidLevel })
