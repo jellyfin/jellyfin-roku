@@ -1129,14 +1129,34 @@
             <translation>Audio Codec Support</translation>
             <extracomment>Settings Menu - Title of option</extracomment>
         </message>
-	    <message>
-		    <source>Direct playing</source>
-		    <translation>Direct playing</translation>
-	    </message>
+        <message>
+            <source>Direct playing</source>
+            <translation>Direct playing</translation>
+        </message>
         <message>
             <source>The source file is entirely compatible with this client and the session is receiving the file without modifications.</source>
             <translation>The source file is entirely compatible with this client and the session is receiving the file without modifications.</translation>
             <extracomment>Direct play info box text in GetPlaybackInfoTask.brs</extracomment>
+        </message>
+        <message>
+            <source>Maximum Resolution</source>
+            <translation>Maximum Resolution</translation>
+            <extracomment>User Setting - Title</extracomment>
+        </message>
+        <message>
+            <source>Set the maximum resolution when playing video files on this device.</source>
+            <translation>Set the maximum resolution when playing video files on this device.</translation>
+            <extracomment>User Setting - Description</extracomment>
+        </message>
+        <message>
+            <source>Off - Attempt to play all resolutions</source>
+            <translation>Off - Attempt to play all resolutions</translation>
+            <extracomment>User Setting - Option title</extracomment>
+        </message>
+        <message>
+            <source>Auto - Use TV resolution</source>
+            <translation>Auto - Use TV resolution</translation>
+            <extracomment>User Setting - Option title</extracomment>
         </message>
     </context>
 </TS>

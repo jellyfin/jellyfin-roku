@@ -37,6 +37,47 @@
                 ]
             },
             {
+                "title": "Maximum Resolution",
+                "description": "Set the maximum resolution when playing video files on this device.",
+                "settingName": "playback.resolution",
+                "type": "radio",
+                "default": "auto",
+                "options": [
+                    {
+                        "title": "Off - Attempt to play all resolutions",
+                        "id": "off"
+                    },
+                    {
+                        "title": "Auto - Use TV resolution",
+                        "id": "auto"
+                    },
+                    {
+                        "title": "360p",
+                        "id": "360"
+                    },
+                    {
+                        "title": "480p",
+                        "id": "480"
+                    },
+                    {
+                        "title": "720p",
+                        "id": "720"
+                    },
+                    {
+                        "title": "10800p",
+                        "id": "1080"
+                    },
+                    {
+                        "title": "4k",
+                        "id": "2160"
+                    },
+                    {
+                        "title": "8k",
+                        "id": "4320"
+                    }
+                ]
+            },
+            {
                 "title": "Video Codec Support",
                 "description": "Enable or disable Direct Play support for certain codecs.",
                 "children": [

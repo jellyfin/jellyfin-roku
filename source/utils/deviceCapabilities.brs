@@ -411,7 +411,42 @@ function getDeviceProfile() as object
     deviceProfile.TranscodingProfiles.push(mp4Array)
 
     ' Build CodecProfiles
-    '
+    ' max resolution
+    maxResSetting = m.global.session.user.settings["playback.resolution"]
+    maxVideoHeight = invalid
+    maxVideoWidth = invalid
+
+    maxVideoHeight = maxResSetting
+
+    if maxResSetting = "auto"
+        maxVideoHeight = m.global.device.videoHeight
+        maxVideoWidth = m.global.device.videoWidth
+    else if maxResSetting = "360"
+        maxVideoWidth = "480"
+    else if maxResSetting = "480"
+        maxVideoWidth = "640"
+    else if maxResSetting = "720"
+        maxVideoWidth = "1280"
+    else if maxResSetting = "1080"
+        maxVideoWidth = "1920"
+    else if maxResSetting = "2160"
+        maxVideoWidth = "3840"
+    else if maxResSetting = "4320"
+        maxVideoWidth = "7680"
+    end if
+
+    maxVideoHeightArray = {
+        "Condition": "LessThanEqual",
+        "Property": "Width",
+        "Value": maxVideoWidth,
+        "IsRequired": true
+    }
+    maxVideoWidthArray = {
+        "Condition": "LessThanEqual",
+        "Property": "Height",
+        "Value": maxVideoHeight,
+        "IsRequired": true
+    }
     ' H264
     h264Mp4LevelSupported = 0.0
     h264TsLevelSupported = 0.0
@@ -465,21 +500,15 @@ function getDeviceProfile() as object
                 "Property": "VideoRangeType",
                 "Value": h264VideoRangeTypes,
                 "IsRequired": false
-            },
-            {
-                "Condition": "LessThanEqual",
-                "Property": "Width",
-                "Value": m.global.device.videoWidth,
-                "IsRequired": true
-            },
-            {
-                "Condition": "LessThanEqual",
-                "Property": "Height",
-                "Value": m.global.device.videoHeight,
-                "IsRequired": true
             }
+
         ]
     }
+    ' set max resolution
+    if maxResSetting <> "off"
+        codecProfileArray.Conditions.push(maxVideoHeightArray)
+        codecProfileArray.Conditions.push(maxVideoWidthArray)
+    end if
     ' check user setting before adding video level restrictions
     if not m.global.session.user.settings["playback.tryDirect.h264ProfileLevel"]
         codecProfileArray.Conditions.push({
@@ -519,21 +548,15 @@ function getDeviceProfile() as object
                     "Property": "VideoLevel",
                     "Value": mpeg2Levels.join("|"),
                     "IsRequired": false
-                },
-                {
-                    "Condition": "LessThanEqual",
-                    "Property": "Width",
-                    "Value": m.global.device.videoWidth,
-                    "IsRequired": true
-                },
-                {
-                    "Condition": "LessThanEqual",
-                    "Property": "Height",
-                    "Value": m.global.device.videoHeight,
-                    "IsRequired": true
-                },
+                }
             ]
         }
+
+        ' set max resolution
+        if maxResSetting <> "off"
+            codecProfileArray.Conditions.push(maxVideoHeightArray)
+            codecProfileArray.Conditions.push(maxVideoWidthArray)
+        end if
 
         ' set bitrate restrictions based on user settings
         bitRateArray = GetBitRateLimit("mpeg2")
@@ -593,21 +616,15 @@ function getDeviceProfile() as object
                     "Property": "VideoLevel",
                     "Value": (120 * av1HighestLevel).ToStr(),
                     "IsRequired": false
-                },
-                {
-                    "Condition": "LessThanEqual",
-                    "Property": "Width",
-                    "Value": m.global.device.videoWidth,
-                    "IsRequired": true
-                },
-                {
-                    "Condition": "LessThanEqual",
-                    "Property": "Height",
-                    "Value": m.global.device.videoHeight,
-                    "IsRequired": true
-                },
+                }
             ]
         }
+
+        ' set max resolution
+        if maxResSetting <> "off"
+            codecProfileArray.Conditions.push(maxVideoHeightArray)
+            codecProfileArray.Conditions.push(maxVideoWidthArray)
+        end if
 
         ' set bitrate restrictions based on user settings
         bitRateArray = GetBitRateLimit("av1")
@@ -672,21 +689,15 @@ function getDeviceProfile() as object
                     "Property": "VideoRangeType",
                     "Value": hevcVideoRangeTypes,
                     "IsRequired": false
-                },
-                {
-                    "Condition": "LessThanEqual",
-                    "Property": "Width",
-                    "Value": m.global.device.videoWidth,
-                    "IsRequired": true
-                },
-                {
-                    "Condition": "LessThanEqual",
-                    "Property": "Height",
-                    "Value": m.global.device.videoHeight,
-                    "IsRequired": true
-                },
+                }
             ]
         }
+
+        ' set max resolution
+        if maxResSetting <> "off"
+            codecProfileArray.Conditions.push(maxVideoHeightArray)
+            codecProfileArray.Conditions.push(maxVideoWidthArray)
+        end if
 
         ' check user setting before adding VideoLevel restrictions
         if not m.global.session.user.settings["playback.tryDirect.hevcProfileLevel"]
@@ -732,21 +743,15 @@ function getDeviceProfile() as object
                     "Property": "VideoRangeType",
                     "Value": vp9VideoRangeTypes,
                     "IsRequired": false
-                },
-                {
-                    "Condition": "LessThanEqual",
-                    "Property": "Width",
-                    "Value": m.global.device.videoWidth,
-                    "IsRequired": true
-                },
-                {
-                    "Condition": "LessThanEqual",
-                    "Property": "Height",
-                    "Value": m.global.device.videoHeight,
-                    "IsRequired": true
-                },
+                }
             ]
         }
+
+        ' set max resolution
+        if maxResSetting <> "off"
+            codecProfileArray.Conditions.push(maxVideoHeightArray)
+            codecProfileArray.Conditions.push(maxVideoWidthArray)
+        end if
 
         ' set bitrate restrictions based on user settings
         bitRateArray = GetBitRateLimit("vp9")
