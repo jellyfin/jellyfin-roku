@@ -4,6 +4,19 @@
         "description": "Settings relating to playback and supported codec and media types.",
         "children": [
             {
+                "title": "Audio Codec Support",
+                "description": "Choose your preferred audio codec when transcoding multichannel audio.",
+                "children": [
+                    {
+                        "title": "DTS",
+                        "description": "Force all transcodes to use DTS instead of the default EAC3. The device must support DTS for this setting to have an effect.",
+                        "settingName": "playback.forceDTS",
+                        "type": "bool",
+                        "default": "false"
+                    }
+                ]
+            },
+            {
                 "title": "Bitrate Limit",
                 "description": "Configure the maximum playback bitrate.",
                 "children": [
@@ -20,19 +33,6 @@
                         "settingName": "playback.bitrate.limit",
                         "type": "integer",
                         "default": "0"
-                    }
-                ]
-            },
-            {
-                "title": "Audio Codec Support",
-                "description": "Choose your preferred audio codec when transcoding multichannel audio.",
-                "children": [
-                    {
-                        "title": "DTS",
-                        "description": "Force all transcodes to use DTS instead of the default EAC3. The device must support DTS for this setting to have an effect.",
-                        "settingName": "playback.forceDTS",
-                        "type": "bool",
-                        "default": "false"
                     }
                 ]
             },
