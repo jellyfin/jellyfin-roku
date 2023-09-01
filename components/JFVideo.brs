@@ -22,7 +22,7 @@ sub init()
     m.nextEpisodeButton = m.top.findNode("nextEpisode")
     m.nextEpisodeButton.text = tr("Next Episode")
     m.nextEpisodeButton.setFocus(false)
-    m.nextupbuttonseconds = m.global.session.user.settings["playback.nextupbuttonseconds"]
+    m.nextupbuttonseconds = m.global.session.user.settings["playback.nextupbuttonseconds"].ToInt()
 
     m.showNextEpisodeButtonAnimation = m.top.findNode("showNextEpisodeButton")
     m.hideNextEpisodeButtonAnimation = m.top.findNode("hideNextEpisodeButton")

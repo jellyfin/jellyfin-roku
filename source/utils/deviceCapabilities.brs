@@ -421,18 +421,20 @@ function getDeviceProfile() as object
     if maxResSetting = "auto"
         maxVideoHeight = m.global.device.videoHeight
         maxVideoWidth = m.global.device.videoWidth
-    else if maxResSetting = "360"
-        maxVideoWidth = "480"
-    else if maxResSetting = "480"
-        maxVideoWidth = "640"
-    else if maxResSetting = "720"
-        maxVideoWidth = "1280"
-    else if maxResSetting = "1080"
-        maxVideoWidth = "1920"
-    else if maxResSetting = "2160"
-        maxVideoWidth = "3840"
-    else if maxResSetting = "4320"
-        maxVideoWidth = "7680"
+    else if maxResSetting <> "off"
+        if maxResSetting = "360"
+            maxVideoWidth = "480"
+        else if maxResSetting = "480"
+            maxVideoWidth = "640"
+        else if maxResSetting = "720"
+            maxVideoWidth = "1280"
+        else if maxResSetting = "1080"
+            maxVideoWidth = "1920"
+        else if maxResSetting = "2160"
+            maxVideoWidth = "3840"
+        else if maxResSetting = "4320"
+            maxVideoWidth = "7680"
+        end if
     end if
 
     maxVideoHeightArray = {
@@ -878,7 +880,7 @@ end function
 
 function GetBitRateLimit(codec as string) as object
     if m.global.session.user.settings["playback.bitrate.maxlimited"] = true
-        userSetLimit = m.global.session.user.settings["playback.bitrate.limit"]
+        userSetLimit = m.global.session.user.settings["playback.bitrate.limit"].ToInt()
         if isValid(userSetLimit) and type(userSetLimit) = "Integer" and userSetLimit > 0
             userSetLimit *= 1000000
             return {
