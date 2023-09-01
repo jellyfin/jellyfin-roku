@@ -4309,5 +4309,114 @@
         <source>Movies</source>
         <translation>Películas</translation>
     </message>
+    <message>
+        <source>Codec</source>
+        <translation>Códec</translation>
+    </message>
+    <message>
+        <source>Settings relating to playback and supported codec and media types.</source>
+        <translation>Configuración relacionada a la reproducción y tipos de media.</translation>
+    </message>
+    <message>
+        <source>Settings relating to the appearance of the Home screen and the program in general.</source>
+        <translation>Configuración relacionada a la apariencia de la pantalla principal y el programa en general.</translation>
+    </message>
+    <message>
+        <source>General</source>
+        <translation>General</translation>
+    </message>
+    <message>
+        <source>Settings relating to the appearance of pages in TV Libraries.</source>
+        <translation>Configuración relacionada a la apariencia de las Librerías de TV.</translation>
+    </message>
+    <message>
+        <source>Settings that apply when Grid views are enabled.</source>
+        <translation>Configuración que aplica cuando el modo de Grilla es habilitado.</translation>
+    </message>
+    <message>
+        <source>Settings relating to the appearance of pages in Movie Libraries.</source>
+        <translation>Configuración relacionada a la apariencia de las Librerías de Películas.</translation>
+    </message>
+    <message>
+        <source>Settings relating to the appearance of Library pages</source>
+        <translation>Configuración relacionada a la apariencia de las Librerías</translation>
+    </message>
+    <message>
+        <source>Blur Unwatched Episodes</source>
+        <translation>Ofuscar episodios sin ver</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
+    <message>
+        <source>Skip Details for Single Seasons</source>
+        <translation>Saltar Detalles para Temporadas Únicas</translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
+    <message>
+        <source>Go directly to the episode list if a TV series has only one season.</source>
+        <translation>Ir directo a la lista de episodios si la serie solo tiene una temporada.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Songs</source>
+        <translation>Canciones</translation>
+    </message>
+    <message>
+        <source>Aired</source>
+        <translation>Publicado</translation>
+        <extracomment>Aired date label</extracomment>
+    </message>
+    <message>
+        <source>Settings relating to how the application looks.</source>
+        <translation>Configuración relacionada a como se ve la aplicación.</translation>
+    </message>
+    <message>
+        <source>Audio Channels</source>
+        <translation>Canales de Audio</translation>
+    </message>
+    <message>
+        <source>Container</source>
+        <translation>Contenedor</translation>
+        <extracomment>Video streaming container</extracomment>
+    </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>¿Guardar Credenciales?</translation>
+    </message>
+    <message>
+        <source>Change Server</source>
+        <translation>Cambiar de Servidor</translation>
+    </message>
+    <message>
+        <source>Sign Out</source>
+        <translation>Cerrar Sesión</translation>
+    </message>
+    <message>
+        <source>An error was encountered while playing this item.</source>
+        <translation>Ha ocurrido un error reproduciendo este elemento</translation>
+        <extracomment>Dialog detail when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>Error Retrieving Content</source>
+        <translation>Error recuperando contenido</translation>
+        <extracomment>Dialog title when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <source>Error During Playback</source>
+        <translation>Error al reproducir</translation>
+        <extracomment>Dialog title when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>There was an error retrieving the data for this item from the server.</source>
+        <translation>Ha ocurrido un error al obtener este elemento desde el servidor.</translation>
+        <extracomment>Dialog detail when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <source>Delete Saved</source>
+        <translation>Borrar guardados</translation>
+    </message>
+    <message>
+        <source>Loading Channel Data</source>
+        <translation>Cargando datos de canales</translation>
+    </message>
 </context>
 </TS>
