@@ -1031,8 +1031,8 @@
             <translation>Enable Limit</translation>
         </message>
         <message>
-            <source>Enable or disable  the 'Maximum Bitrate' setting.</source>
-            <translation>Enable or disable  the 'Maximum Bitrate' setting.</translation>
+            <source>Enable or disable the 'Maximum Bitrate' setting.</source>
+            <translation>Enable or disable the 'Maximum Bitrate' setting.</translation>
         </message>
         <message>
             <source>Bitrate Limit</source>
@@ -1113,6 +1113,21 @@
             <source>Set how many seconds before the end of an episode the Next Episode button should appear. Set to 0 to disable.</source>
             <translation>Set how many seconds before the end of an episode the Next Episode button should appear. Set to 0 to disable.</translation>
             <extracomment>Settings Menu - Description for option</extracomment>
+        </message>
+        <message>
+            <source>Choose your preferred audio codec when transcoding multichannel audio.</source>
+            <translation>Choose your preferred audio codec when transcoding multichannel audio.</translation>
+            <extracomment>Settings Menu - Description for option</extracomment>
+        </message>
+        <message>
+            <source>Force all transcodes to use DTS instead of the default EAC3. The device must support DTS for this setting to have an effect.</source>
+            <translation>Force all transcodes to use DTS instead of the default EAC3. The device must support DTS for this setting to have an effect.</translation>
+            <extracomment>Settings Menu - Description for option</extracomment>
+        </message>
+        <message>
+            <source>Audio Codec Support</source>
+            <translation>Audio Codec Support</translation>
+            <extracomment>Settings Menu - Title of option</extracomment>
         </message>
     </context>
 </TS>

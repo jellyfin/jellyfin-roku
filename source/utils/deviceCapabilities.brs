@@ -71,6 +71,10 @@ function getDeviceProfile() as object
     ' in order of preference from left to right
     audioCodecs = ["mp3", "vorbis", "opus", "flac", "alac", "ac4", "pcm", "wma", "wmapro"]
     surroundSoundCodecs = ["eac3", "ac3", "dts"]
+    if m.global.session.user.settings["playback.forceDTS"] = true
+        surroundSoundCodecs = ["dts", "eac3", "ac3"]
+    end if
+
     surroundSoundCodec = invalid
     if di.GetAudioOutputChannel() = "5.1 surround"
         maxAudioChannels = "6"
@@ -473,15 +477,19 @@ function getDeviceProfile() as object
                 "Property": "Height",
                 "Value": m.global.device.videoHeight,
                 "IsRequired": true
-            },
-            {
-                "Condition": "LessThanEqual",
-                "Property": "VideoLevel",
-                "Value": h264LevelString,
-                "IsRequired": false
             }
         ]
     }
+    ' check user setting before adding video level restrictions
+    if not m.global.session.user.settings["playback.tryDirect.h264ProfileLevel"]
+        codecProfileArray.Conditions.push({
+            "Condition": "LessThanEqual",
+            "Property": "VideoLevel",
+            "Value": h264LevelString,
+            "IsRequired": false
+        })
+    end if
+
     bitRateArray = GetBitRateLimit("h264")
     if bitRateArray.count() > 0
         codecProfileArray.Conditions.push(bitRateArray)
@@ -659,12 +667,6 @@ function getDeviceProfile() as object
                 },
                 {
                     "Condition": "LessThanEqual",
-                    "Property": "VideoLevel",
-                    "Value": hevcLevelString,
-                    "IsRequired": false
-                },
-                {
-                    "Condition": "LessThanEqual",
                     "Property": "Width",
                     "Value": m.global.device.videoWidth,
                     "IsRequired": true
@@ -677,6 +679,16 @@ function getDeviceProfile() as object
                 },
             ]
         }
+
+        ' check user setting before adding VideoLevel restrictions
+        if not m.global.session.user.settings["playback.tryDirect.hevcProfileLevel"]
+            codecProfileArray.Conditions.push({
+                "Condition": "LessThanEqual",
+                "Property": "VideoLevel",
+                "Value": hevcLevelString,
+                "IsRequired": false
+            })
+        end if
 
         bitRateArray = GetBitRateLimit("h265")
         if bitRateArray.count() > 0

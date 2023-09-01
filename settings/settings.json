@@ -24,7 +24,20 @@
                 ]
             },
             {
-                "title": "Codec Support",
+                "title": "Audio Codec Support",
+                "description": "Choose your preferred audio codec when transcoding multichannel audio.",
+                "children": [
+                    {
+                        "title": "DTS",
+                        "description": "Force all transcodes to use DTS instead of the default EAC3. The device must support DTS for this setting to have an effect.",
+                        "settingName": "playback.forceDTS",
+                        "type": "bool",
+                        "default": "false"
+                    }
+                ]
+            },
+            {
+                "title": "Video Codec Support",
                 "description": "Enable or disable Direct Play support for certain codecs.",
                 "children": [
                     {
@@ -51,7 +64,7 @@
                 ]
             },
             {
-                "title": "Profile Level Support",
+                "title": "Video Profile Level Support",
                 "description": "Attempt Direct Play of potentially unsupported profile levels",
                 "children": [
                     {
