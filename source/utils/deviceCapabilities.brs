@@ -70,7 +70,7 @@ function getDeviceProfile() as object
     maxAudioChannels = "2" ' jellyfin expects this as a string
     ' in order of preference from left to right
     audioCodecs = ["mp3", "vorbis", "opus", "flac", "alac", "ac4", "pcm", "wma", "wmapro"]
-    surroundSoundCodecs = ["eac3", "ac3", "dts", "vorbis"]
+    surroundSoundCodecs = ["eac3", "ac3", "dts"]
     surroundSoundCodec = invalid
     if di.GetAudioOutputChannel() = "5.1 surround"
         maxAudioChannels = "6"
@@ -311,14 +311,14 @@ function getDeviceProfile() as object
 
     ' build TranscodingProfiles
     '
-    ' always add mp3 to TranscodingProfile for music
+    ' add mp3 to TranscodingProfile for music
     deviceProfile.TranscodingProfiles.push({
         "Container": "mp3",
         "Type": "Audio",
         "AudioCodec": "mp3",
         "Context": "Streaming",
         "Protocol": "http",
-        "MaxAudioChannels": maxAudioChannels
+        "MaxAudioChannels": "2"
     })
     deviceProfile.TranscodingProfiles.push({
         "Container": "mp3",
@@ -326,33 +326,24 @@ function getDeviceProfile() as object
         "AudioCodec": "mp3",
         "Context": "Static",
         "Protocol": "http",
-        "MaxAudioChannels": maxAudioChannels
+        "MaxAudioChannels": "2"
     })
-
-    audioCodec = invalid
-    if surroundSoundCodec = invalid
-        ' use aac for all 2 channel transcoding
-        audioCodec = "aac"
-    else
-        ' use best available codec for all multichannel transcoding
-        audioCodec = surroundSoundCodec
-    end if
-
+    ' add aac to TranscodingProfile for stereo audio
     deviceProfile.TranscodingProfiles.push({
-        "Container": audioCodec,
+        "Container": "ts",
         "Type": "Audio",
-        "AudioCodec": audioCodec,
+        "AudioCodec": "aac",
         "Context": "Streaming",
         "Protocol": "http",
-        "MaxAudioChannels": maxAudioChannels
+        "MaxAudioChannels": "2"
     })
     deviceProfile.TranscodingProfiles.push({
-        "Container": audioCodec,
+        "Container": "ts",
         "Type": "Audio",
-        "AudioCodec": audioCodec,
+        "AudioCodec": "aac",
         "Context": "Static",
         "Protocol": "http",
-        "MaxAudioChannels": maxAudioChannels
+        "MaxAudioChannels": "2"
     })
 
     tsArray = {
@@ -379,40 +370,37 @@ function getDeviceProfile() as object
     }
 
     ' surround sound
-    ' move preferred surround sound codec to front of string
     if surroundSoundCodec <> invalid
-        ' search codec strings for our preferred codec
-        tsCodecStringPosition = tsArray.AudioCodec.Instr(0, "," + surroundSoundCodec)
-        mp4CodecStringPosition = mp4Array.AudioCodec.Instr(0, "," + surroundSoundCodec)
-        ' ts
-        if tsCodecStringPosition <> -1
-            ' remove codec from string
-            tsArray.AudioCodec.Replace("," + surroundSoundCodec, "")
-        end if
-        ' check beginning of array before adding to it
-        if tsArray.AudioCodec.Instr(0, surroundSoundCodec) = -1
-            ' put codec in front of string
-            if tsArray.AudioCodec = ""
-                tsArray.AudioCodec = surroundSoundCodec
-            else
-                tsArray.AudioCodec = surroundSoundCodec + "," + tsArray.AudioCodec
-            end if
-        end if
-        ' mp4
-        if mp4CodecStringPosition <> -1
-            ' remove codec from string
-            mp4Array.AudioCodec.Replace("," + surroundSoundCodec, "")
-        end if
-        ' check beginning of array before adding to it
-        if mp4Array.AudioCodec.Instr(0, surroundSoundCodec) = -1
-            ' put codec in front of string
-            if mp4Array.AudioCodec = ""
-                mp4Array.AudioCodec = surroundSoundCodec
-            else
-                mp4Array.AudioCodec = surroundSoundCodec + "," + mp4Array.AudioCodec
-            end if
+        ' add preferred surround sound codec to TranscodingProfile
+        deviceProfile.TranscodingProfiles.push({
+            "Container": surroundSoundCodec,
+            "Type": "Audio",
+            "AudioCodec": surroundSoundCodec,
+            "Context": "Streaming",
+            "Protocol": "http",
+            "MaxAudioChannels": maxAudioChannels
+        })
+        deviceProfile.TranscodingProfiles.push({
+            "Container": surroundSoundCodec,
+            "Type": "Audio",
+            "AudioCodec": surroundSoundCodec,
+            "Context": "Static",
+            "Protocol": "http",
+            "MaxAudioChannels": maxAudioChannels
+        })
+
+        ' put codec in front of AudioCodec string
+        if tsArray.AudioCodec = ""
+            tsArray.AudioCodec = surroundSoundCodec
+        else
+            tsArray.AudioCodec = surroundSoundCodec + "," + tsArray.AudioCodec
         end if
 
+        if mp4Array.AudioCodec = ""
+            mp4Array.AudioCodec = surroundSoundCodec
+        else
+            mp4Array.AudioCodec = surroundSoundCodec + "," + mp4Array.AudioCodec
+        end if
     end if
 
     deviceProfile.TranscodingProfiles.push(tsArray)
