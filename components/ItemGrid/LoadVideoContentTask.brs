@@ -75,102 +75,6 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
         return
     end if
 
-    print "meta =", meta
-    print "meta.json =", meta.json
-    print "meta.json.MediaSources[0] =", meta.json.MediaSources[0]
-    print "meta.json.MediaSources[0].MediaStreams[0] =", meta.json.MediaSources[0].MediaStreams[0]
-    print "meta.json.MediaSources[0].MediaStreams[1] =", meta.json.MediaSources[0].MediaStreams[1]
-    print "meta.json.MediaStreams[0] =", meta.json.MediaStreams[0]
-    devinfo = CreateObject("roDeviceInfo")
-
-    myVideoCodec = meta.json.MediaSources[0].MediaStreams[0].Codec
-    print "myVideoCodec =", myVideoCodec
-    myContainer = meta.json.MediaSources[0].Container
-    print "myContainer =", myContainer
-
-    myVidProfile = invalid
-    if isValid(meta.json.MediaSources[0].MediaStreams[0].Profile)
-        myVidProfile = Lcase(meta.json.MediaSources[0].MediaStreams[0].Profile)
-        print "myVidProfile =", myVidProfile
-    end if
-
-    myVidLevel = invalid
-    if isValid(meta.json.MediaSources[0].MediaStreams[0].Level)
-        myVidLevel = meta.json.MediaSources[0].MediaStreams[0].Level
-        if myVidLevel.ToStr().Len() = 2
-            myVidLevel = myVidLevel / 10
-        end if
-        myVidLevel = myVidLevel.ToStr()
-        print "myVidLevel =", myVidLevel
-        print "type(myVidLevel) =", type(myVidLevel)
-    end if
-
-    if isValid(myVidProfile) and isValid(myVidLevel)
-        canDecodeVid = devinfo.CanDecodeVideo({ Codec: myVideoCodec, Container: myContainer, Profile: myVidProfile, Level: myVidLevel })
-    else if isValid(myVidProfile)
-        canDecodeVid = devinfo.CanDecodeVideo({ Codec: myVideoCodec, Container: myContainer, Profile: myVidProfile })
-    else
-        canDecodeVid = devinfo.CanDecodeVideo({ Codec: myVideoCodec, Container: myContainer })
-    end if
-    print "canDecodeVid =", canDecodeVid
-    print "canDecodeVid.Result =", canDecodeVid.Result
-    if canDecodeVid.Updated <> invalid
-        print "canDecodeVid.Updated =", canDecodeVid.Updated
-        print "canDecodeVid.[canDecodeVid.Updated] =", canDecodeVid.[canDecodeVid.Updated]
-    end if
-
-    myAudioCodec = meta.json.MediaSources[0].MediaStreams[1].Codec
-    print "myAudioCodec =", myAudioCodec
-
-    myAudioProfile = invalid
-    if isValid(meta.json.MediaSources[0].MediaStreams[1].Profile)
-        myAudioProfile = Lcase(meta.json.MediaSources[0].MediaStreams[1].Profile)
-        if myAudioProfile <> invalid and myAudioProfile <> ""
-            if myAudioCodec = "aac"
-                if myAudioProfile = "lc"
-                    myAudioProfile = "mp2 lc"
-                else if myAudioProfile = "he"
-                    myAudioProfile = "mp4 he"
-                end if
-            end if
-        end if
-        print "myAudioProfile =", myAudioProfile
-    end if
-    myAudioLevel = invalid
-    if isValid(meta.json.MediaSources[0].MediaStreams[1].Level)
-        myAudioLevel = meta.json.MediaSources[0].MediaStreams[1].Level
-        if myAudioLevel.ToStr().Len() = 2
-            myAudioLevel = myAudioLevel / 10
-        end if
-        myAudioLevel = myAudioLevel.ToStr()
-        print "myAudioLevel =", myAudioLevel
-    end if
-    myAudioChannels = meta.json.MediaSources[0].MediaStreams[1].Channels
-    print "myAudioChannels =", myAudioChannels
-    myAudioBitrate = meta.json.MediaSources[0].MediaStreams[1].BitRate
-    myAudioBitrate = myAudioBitrate / 1000 ' convert from bits per second to Kbit/sec
-    myAudioBitrate = StrToI(myAudioBitrate.ToStr())
-    print "myAudioBitrate =", myAudioBitrate
-    print "type(myAudioBitrate) =", type(myAudioBitrate)
-
-    if isValid(myAudioProfile) and myAudioLevel <> "0"
-        print "audio profile and level provided"
-        canDecodeAud = devinfo.CanDecodeAudio({ Codec: myAudioCodec, Container: myContainer, ChCnt: myAudioChannels, Profile: myAudioProfile, Level: myAudioLevel })
-    else if isValid(myAudioProfile)
-        print "audio profile provided"
-        canDecodeAud = devinfo.CanDecodeAudio({ Codec: myAudioCodec, Container: myContainer, ChCnt: myAudioChannels, Profile: myAudioProfile })
-    else
-        print "neither audio profile nor level provided"
-        canDecodeAud = devinfo.CanDecodeAudio({ Codec: myAudioCodec, Container: myContainer, ChCnt: myAudioChannels })
-    end if
-
-    print "canDecodeAud =", canDecodeAud
-    print "canDecodeAud.Result =", canDecodeAud.Result
-    if canDecodeAud.Updated <> invalid
-        print "canDecodeAud.Updated =", canDecodeAud.Updated
-        print "canDecodeAud.[canDecodeAud.Updated] =", canDecodeAud.[canDecodeAud.Updated]
-    end if
-
     videotype = LCase(meta.type)
 
     if videotype = "episode" or videotype = "series"
@@ -284,8 +188,6 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
     if not fully_external
         video.content = authRequest(video.content)
     end if
-
-    print "video.directPlaySupported =", video.directPlaySupported
 end sub
 
 sub addVideoContentURL(video, mediaSourceId, audio_stream_idx, fully_external)
