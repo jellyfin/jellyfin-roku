@@ -535,7 +535,7 @@ function getDeviceProfile() as object
         mpeg2Levels = []
         for each container in profileSupport
             for each level in profileSupport[container]["mpeg2"]
-                if mpeg2Levels[level] = invalid
+                if not arrayHasValue(mpeg2Levels, level)
                     mpeg2Levels.push(level)
                 end if
             end for
@@ -799,13 +799,6 @@ function GetDirectPlayProfiles() as object
     ' all possible codecs
     videoCodecs = ["h264", "mpeg4 avc", "vp8", "hevc", "vp9", "av1", "h263", "mpeg1"]
     audioCodecs = ["mp3", "mp2", "pcm", "lpcm", "wav", "ac3", "ac4", "aiff", "wma", "flac", "alac", "aac", "opus", "dts", "wmapro", "vorbis", "eac3", "mpg123"]
-    ' respect user settings
-    if m.global.session.user.settings["playback.mpeg4"]
-        videoCodecs.push("mpeg4")
-    end if
-    if m.global.session.user.settings["playback.mpeg2"]
-        videoCodecs.push("mpeg2")
-    end if
     ' check video codecs for each container
     for each container in supportedCodecs
         for each videoCodec in videoCodecs
@@ -813,8 +806,6 @@ function GetDirectPlayProfiles() as object
                 if videoCodec = "hevc"
                     supportedCodecs[container]["video"].push("hevc")
                     supportedCodecs[container]["video"].push("h265")
-                else if videoCodec = "mpeg2"
-                    supportedCodecs[container]["video"].push("mpeg2video")
                 else
                     ' device profile string matches codec string
                     supportedCodecs[container]["video"].push(videoCodec)
@@ -826,9 +817,12 @@ function GetDirectPlayProfiles() as object
     ' user setting overrides
     if m.global.session.user.settings["playback.mpeg4"]
         for each container in supportedCodecs
-            if not arrayHasValue(supportedCodecs[container]["video"], "mpeg4")
-                supportedCodecs[container]["video"].push("mpeg4")
-            end if
+            supportedCodecs[container]["video"].push("mpeg4")
+        end for
+    end if
+    if m.global.session.user.settings["playback.mpeg2"]
+        for each container in supportedCodecs
+            supportedCodecs[container]["video"].push("mpeg2video")
         end for
     end if
 
