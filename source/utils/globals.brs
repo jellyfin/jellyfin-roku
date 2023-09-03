@@ -40,9 +40,13 @@ end sub
 ' Save information from roDeviceInfo to m.global.device
 sub SaveDeviceToGlobal()
     deviceInfo = CreateObject("roDeviceInfo")
+
     ' remove special characters
     regex = CreateObject("roRegex", "[^a-zA-Z0-9\ \-\_]", "")
     filteredFriendly = regex.ReplaceAll(deviceInfo.getFriendlyName(), "")
+    ' parse out serial
+    displayName = deviceInfo.getModelDisplayName()
+    deviceSerial = Mid(filteredFriendly, len(displayName) + 4)
     ' determine max playback resolution
     ' https://developer.roku.com/en-ca/docs/references/brightscript/interfaces/ifdeviceinfo.md#getvideomode-as-string
     videoMode = deviceInfo.GetVideoMode()
@@ -94,14 +98,17 @@ sub SaveDeviceToGlobal()
     else if videoHeight = "4320"
         bitDepth = 12
     end if
+
     m.global.addFields({
         device: {
             id: deviceInfo.getChannelClientID(),
             uuid: deviceInfo.GetRandomUUID(),
-            name: deviceInfo.getModelDisplayName(),
+            name: displayName,
             friendlyName: filteredFriendly,
             model: deviceInfo.GetModel(),
             modelType: deviceInfo.GetModelType(),
+            modelDetails: deviceInfo.GetModelDetails(),
+            serial: deviceSerial,
             osVersion: deviceInfo.GetOSVersion(),
             locale: deviceInfo.GetCurrentLocale(),
             clockFormat: deviceInfo.GetClockFormat(),
