@@ -37,45 +37,69 @@
                 ]
             },
             {
-                "title": "Maximum Resolution",
-                "description": "Set the maximum resolution when playing video files on this device.",
-                "settingName": "playback.resolution",
-                "type": "radio",
-                "default": "auto",
-                "options": [
+                "title": "Resolution",
+                "description": "Modify the mode and maximum resolution when playing video files on this device.",
+                "children": [
                     {
-                        "title": "Off - Attempt to play all resolutions",
-                        "id": "off"
+                        "title": "Set Mode",
+                        "description": "Restrict resolution on just transcoded files or all files.",
+                        "settingName": "playback.resolution.mode",
+                        "type": "radio",
+                        "default": "transcoding",
+                        "options": [
+                            {
+                                "title": "All files",
+                                "id": "everything"
+                            },
+                            {
+                                "title": "Transcoded files only",
+                                "id": "transcoding"
+                            }
+                        ]
                     },
                     {
-                        "title": "Auto - Use TV resolution",
-                        "id": "auto"
-                    },
-                    {
-                        "title": "360p",
-                        "id": "360"
-                    },
-                    {
-                        "title": "480p",
-                        "id": "480"
-                    },
-                    {
-                        "title": "720p",
-                        "id": "720"
-                    },
-                    {
-                        "title": "1080p",
-                        "id": "1080"
-                    },
-                    {
-                        "title": "4k",
-                        "id": "2160"
-                    },
-                    {
-                        "title": "8k",
-                        "id": "4320"
+                        "title": "Maximum Resolution",
+                        "description": "Set the maximum resolution when playing video files on this device.",
+                        "settingName": "playback.resolution.max",
+                        "type": "radio",
+                        "default": "auto",
+                        "options": [
+                            {
+                                "title": "Off - Attempt to play all resolutions",
+                                "id": "off"
+                            },
+                            {
+                                "title": "Auto - Use TV resolution",
+                                "id": "auto"
+                            },
+                            {
+                                "title": "360p",
+                                "id": "360"
+                            },
+                            {
+                                "title": "480p",
+                                "id": "480"
+                            },
+                            {
+                                "title": "720p",
+                                "id": "720"
+                            },
+                            {
+                                "title": "1080p",
+                                "id": "1080"
+                            },
+                            {
+                                "title": "4k",
+                                "id": "2160"
+                            },
+                            {
+                                "title": "8k",
+                                "id": "4320"
+                            }
+                        ]
                     }
                 ]
+                
             },
             {
                 "title": "Video Codec Support",

@@ -43,6 +43,11 @@ sub PostDeviceProfile()
     print "profile.DeviceProfile.TranscodingProfiles ="
     for each prof in profile.DeviceProfile.TranscodingProfiles
         print prof
+        if isValid(prof.Conditions)
+            for each condition in prof.Conditions
+                print condition
+            end for
+        end if
     end for
     print "profile.PlayableMediaTypes =", profile.PlayableMediaTypes
     print "profile.SupportedCommands =", profile.SupportedCommands
@@ -314,6 +319,43 @@ function getDeviceProfile() as object
     }
 
     ' build TranscodingProfiles
+    ' max resolution
+    maxResSetting = m.global.session.user.settings["playback.resolution.max"]
+    maxResMode = m.global.session.user.settings["playback.resolution.mode"]
+    maxVideoHeight = maxResSetting
+    maxVideoWidth = invalid
+
+    if maxResSetting = "auto"
+        maxVideoHeight = m.global.device.videoHeight
+        maxVideoWidth = m.global.device.videoWidth
+    else if maxResSetting <> "off"
+        if maxResSetting = "360"
+            maxVideoWidth = "480"
+        else if maxResSetting = "480"
+            maxVideoWidth = "640"
+        else if maxResSetting = "720"
+            maxVideoWidth = "1280"
+        else if maxResSetting = "1080"
+            maxVideoWidth = "1920"
+        else if maxResSetting = "2160"
+            maxVideoWidth = "3840"
+        else if maxResSetting = "4320"
+            maxVideoWidth = "7680"
+        end if
+    end if
+
+    maxVideoHeightArray = {
+        "Condition": "LessThanEqual",
+        "Property": "Width",
+        "Value": maxVideoWidth,
+        "IsRequired": true
+    }
+    maxVideoWidthArray = {
+        "Condition": "LessThanEqual",
+        "Property": "Height",
+        "Value": maxVideoHeight,
+        "IsRequired": true
+    }
     '
     ' add mp3 to TranscodingProfile for music
     deviceProfile.TranscodingProfiles.push({
@@ -373,6 +415,12 @@ function getDeviceProfile() as object
         "BreakOnNonKeyFrames": false
     }
 
+    ' always apply max res to transcoding profile
+    if maxResSetting <> "off"
+        tsArray.Conditions = [maxVideoHeightArray, maxVideoWidthArray]
+        mp4Array.Conditions = [maxVideoHeightArray, maxVideoWidthArray]
+    end if
+
     ' surround sound
     if surroundSoundCodec <> invalid
         ' add preferred surround sound codec to TranscodingProfile
@@ -411,44 +459,7 @@ function getDeviceProfile() as object
     deviceProfile.TranscodingProfiles.push(mp4Array)
 
     ' Build CodecProfiles
-    ' max resolution
-    maxResSetting = m.global.session.user.settings["playback.resolution"]
-    maxVideoHeight = invalid
-    maxVideoWidth = invalid
 
-    maxVideoHeight = maxResSetting
-
-    if maxResSetting = "auto"
-        maxVideoHeight = m.global.device.videoHeight
-        maxVideoWidth = m.global.device.videoWidth
-    else if maxResSetting <> "off"
-        if maxResSetting = "360"
-            maxVideoWidth = "480"
-        else if maxResSetting = "480"
-            maxVideoWidth = "640"
-        else if maxResSetting = "720"
-            maxVideoWidth = "1280"
-        else if maxResSetting = "1080"
-            maxVideoWidth = "1920"
-        else if maxResSetting = "2160"
-            maxVideoWidth = "3840"
-        else if maxResSetting = "4320"
-            maxVideoWidth = "7680"
-        end if
-    end if
-
-    maxVideoHeightArray = {
-        "Condition": "LessThanEqual",
-        "Property": "Width",
-        "Value": maxVideoWidth,
-        "IsRequired": true
-    }
-    maxVideoWidthArray = {
-        "Condition": "LessThanEqual",
-        "Property": "Height",
-        "Value": maxVideoHeight,
-        "IsRequired": true
-    }
     ' H264
     h264Mp4LevelSupported = 0.0
     h264TsLevelSupported = 0.0
@@ -507,7 +518,7 @@ function getDeviceProfile() as object
         ]
     }
     ' set max resolution
-    if maxResSetting <> "off"
+    if maxResMode = "everything" and maxResSetting <> "off"
         codecProfileArray.Conditions.push(maxVideoHeightArray)
         codecProfileArray.Conditions.push(maxVideoWidthArray)
     end if
@@ -555,7 +566,7 @@ function getDeviceProfile() as object
         }
 
         ' set max resolution
-        if maxResSetting <> "off"
+        if maxResMode = "everything" and maxResSetting <> "off"
             codecProfileArray.Conditions.push(maxVideoHeightArray)
             codecProfileArray.Conditions.push(maxVideoWidthArray)
         end if
@@ -623,7 +634,7 @@ function getDeviceProfile() as object
         }
 
         ' set max resolution
-        if maxResSetting <> "off"
+        if maxResMode = "everything" and maxResSetting <> "off"
             codecProfileArray.Conditions.push(maxVideoHeightArray)
             codecProfileArray.Conditions.push(maxVideoWidthArray)
         end if
@@ -696,7 +707,7 @@ function getDeviceProfile() as object
         }
 
         ' set max resolution
-        if maxResSetting <> "off"
+        if maxResMode = "everything" and maxResSetting <> "off"
             codecProfileArray.Conditions.push(maxVideoHeightArray)
             codecProfileArray.Conditions.push(maxVideoWidthArray)
         end if
@@ -750,7 +761,7 @@ function getDeviceProfile() as object
         }
 
         ' set max resolution
-        if maxResSetting <> "off"
+        if maxResMode = "everything" and maxResSetting <> "off"
             codecProfileArray.Conditions.push(maxVideoHeightArray)
             codecProfileArray.Conditions.push(maxVideoWidthArray)
         end if
