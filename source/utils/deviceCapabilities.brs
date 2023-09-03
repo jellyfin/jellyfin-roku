@@ -13,7 +13,10 @@ function getDeviceCapabilities() as object
         "SupportedCommands": [],
         "SupportsPersistentIdentifier": false,
         "SupportsMediaControl": false,
-        "DeviceProfile": getDeviceProfile()
+        "SupportsContentUploading": false,
+        "SupportsSync": false,
+        "DeviceProfile": getDeviceProfile(),
+        "AppStoreUrl": "https://channelstore.roku.com/details/cc5e559d08d9ec87c5f30dcebdeebc12/jellyfin"
     }
 end function
 
@@ -278,6 +281,22 @@ function getDeviceProfile() as object
     DirectPlayProfile = GetDirectPlayProfiles()
 
     deviceProfile = {
+        "Name": "Official Roku Client",
+        "Id": m.global.device.id,
+        "Identification": {
+            "FriendlyName": m.global.device.friendlyName,
+            "ModelNumber": m.global.device.model,
+            "SerialNumber": "string",
+            "ModelName": m.global.device.name,
+            "ModelDescription": "Type: " + m.global.device.modelType,
+            "Manufacturer": m.global.device.modelDetails.VendorName
+        },
+        "FriendlyName": m.global.device.friendlyName,
+        "Manufacturer": m.global.device.modelDetails.VendorName,
+        "ModelName": m.global.device.name,
+        "ModelDescription": "Type: " + m.global.device.modelType,
+        "ModelNumber": m.global.device.model,
+        "SerialNumber": m.global.device.serial,
         "MaxStreamingBitrate": 120000000,
         "MaxStaticBitrate": 100000000,
         "MusicStreamingTranscodingBitrate": 192000,
@@ -285,18 +304,17 @@ function getDeviceProfile() as object
         "TranscodingProfiles": [],
         "ContainerProfiles": [],
         "CodecProfiles": [
-            ' {
-            '     "Type": "VideoAudio",
-            '     "Codec": DirectPlayProfile[1].AudioCodec, ' Use supported MKV Audio list
-            '     "Conditions": [
-            '         {
-            '             "Condition": "LessThanEqual",
-            '             "Property": "AudioChannels",
-            '             "Value": maxAudioChannels,
-            '             "IsRequired": false
-            '         }
-            '     ]
-            ' }
+            {
+                "Type": "VideoAudio",
+                "Conditions": [
+                    {
+                        "Condition": "LessThanEqual",
+                        "Property": "AudioChannels",
+                        "Value": maxAudioChannels,
+                        "IsRequired": false
+                    }
+                ]
+            }
         ],
         "SubtitleProfiles": [
             {
@@ -364,7 +382,7 @@ function getDeviceProfile() as object
         "AudioCodec": "mp3",
         "Context": "Streaming",
         "Protocol": "http",
-        "MaxAudioChannels": "2"
+        "MaxAudioChannels": maxAudioChannels
     })
     deviceProfile.TranscodingProfiles.push({
         "Container": "mp3",
@@ -372,9 +390,10 @@ function getDeviceProfile() as object
         "AudioCodec": "mp3",
         "Context": "Static",
         "Protocol": "http",
-        "MaxAudioChannels": "2"
+        "MaxAudioChannels": maxAudioChannels
     })
     ' add aac to TranscodingProfile for stereo audio
+    ' NOTE: multichannel aac is not supported. only decode to stereo on some devices
     deviceProfile.TranscodingProfiles.push({
         "Container": "ts",
         "Type": "Audio",
