@@ -17,8 +17,7 @@ function getDeviceCapabilities() as object
         "SupportsContentUploading": false,
         "SupportsSync": false,
         "DeviceProfile": getDeviceProfile(),
-        "AppStoreUrl": "https://channelstore.roku.com/details/cc5e559d08d9ec87c5f30dcebdeebc12/jellyfin",
-        "IconUrl": "https://github.com/jellyfin/jellyfin-web/blob/master/src/assets/img/devices/roku.svg"
+        "AppStoreUrl": "https://channelstore.roku.com/details/cc5e559d08d9ec87c5f30dcebdeebc12/jellyfin"
     }
 end function
 
@@ -830,10 +829,16 @@ function GetDirectPlayProfiles() as object
             video: []
         }
     }
-    ' all possible codecs
-    videoCodecs = ["h264", "mpeg4 avc", "vp8", "vp9", "av1", "h263", "mpeg1"]
+    ' all possible codecs (besides those restricted by user settings)
+    videoCodecs = ["h264", "mpeg4 avc", "vp8", "vp9", "h263", "mpeg1"]
     audioCodecs = ["mp3", "mp2", "pcm", "lpcm", "wav", "ac3", "ac4", "aiff", "wma", "flac", "alac", "aac", "opus", "dts", "wmapro", "vorbis", "eac3", "mpg123"]
 
+    ' only try to direct play av1 if asked
+    if m.global.session.user.settings["playback.av1"]
+        videoCodecs.push("av1")
+    end if
+
+    ' check if hevc is disabled
     if m.global.session.user.settings["playback.compatibility.disablehevc"] = false
         videoCodecs.push("hevc")
     end if
