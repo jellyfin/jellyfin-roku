@@ -1,4 +1,5 @@
 import "pkg:/source/utils/misc.brs"
+import "pkg:/source/api/baserequest.brs"
 
 'Device Capabilities for Roku.
 'This will likely need further tweaking
@@ -16,7 +17,8 @@ function getDeviceCapabilities() as object
         "SupportsContentUploading": false,
         "SupportsSync": false,
         "DeviceProfile": getDeviceProfile(),
-        "AppStoreUrl": "https://channelstore.roku.com/details/cc5e559d08d9ec87c5f30dcebdeebc12/jellyfin"
+        "AppStoreUrl": "https://channelstore.roku.com/details/cc5e559d08d9ec87c5f30dcebdeebc12/jellyfin",
+        "IconUrl": "https://github.com/jellyfin/jellyfin-web/blob/master/src/assets/img/devices/roku.svg"
     }
 end function
 
@@ -126,38 +128,40 @@ function getDeviceProfile() as object
         end for
     end for
 
-    ' HEVC / h265
-    hevcProfiles = ["main", "main 10"]
-    hevcLevels = ["4.1", "5.0", "5.1"]
     addHevc = false
-    for each container in profileSupport
-        for each profile in hevcProfiles
-            for each level in hevcLevels
-                if di.CanDecodeVideo({ Codec: "hevc", Container: container, Profile: profile, Level: level }).Result
-                    addHevc = true
-                    profileSupport[container] = updateProfileArray(profileSupport[container], "hevc", profile, level)
-                    profileSupport[container] = updateProfileArray(profileSupport[container], "h265", profile, level)
-                    if container = "mp4"
-                        ' check for codec string before adding it
-                        if mp4VideoCodecs.Instr(0, "h265,") = -1
-                            mp4VideoCodecs = "h265," + mp4VideoCodecs
-                        end if
-                        if mp4VideoCodecs.Instr(0, "hevc,") = -1
-                            mp4VideoCodecs = "hevc," + mp4VideoCodecs
-                        end if
-                    else if container = "ts"
-                        ' check for codec string before adding it
-                        if tsVideoCodecs.Instr(0, "h265,") = -1
-                            tsVideoCodecs = "h265," + tsVideoCodecs
-                        end if
-                        if tsVideoCodecs.Instr(0, "hevc,") = -1
-                            tsVideoCodecs = "hevc," + tsVideoCodecs
+    if m.global.session.user.settings["playback.compatibility.disablehevc"] = false
+        ' HEVC / h265
+        hevcProfiles = ["main", "main 10"]
+        hevcLevels = ["4.1", "5.0", "5.1"]
+        for each container in profileSupport
+            for each profile in hevcProfiles
+                for each level in hevcLevels
+                    if di.CanDecodeVideo({ Codec: "hevc", Container: container, Profile: profile, Level: level }).Result
+                        addHevc = true
+                        profileSupport[container] = updateProfileArray(profileSupport[container], "hevc", profile, level)
+                        profileSupport[container] = updateProfileArray(profileSupport[container], "h265", profile, level)
+                        if container = "mp4"
+                            ' check for codec string before adding it
+                            if mp4VideoCodecs.Instr(0, "h265,") = -1
+                                mp4VideoCodecs = "h265," + mp4VideoCodecs
+                            end if
+                            if mp4VideoCodecs.Instr(0, "hevc,") = -1
+                                mp4VideoCodecs = "hevc," + mp4VideoCodecs
+                            end if
+                        else if container = "ts"
+                            ' check for codec string before adding it
+                            if tsVideoCodecs.Instr(0, "h265,") = -1
+                                tsVideoCodecs = "h265," + tsVideoCodecs
+                            end if
+                            if tsVideoCodecs.Instr(0, "hevc,") = -1
+                                tsVideoCodecs = "hevc," + tsVideoCodecs
+                            end if
                         end if
                     end if
-                end if
+                end for
             end for
         end for
-    end for
+    end if
 
     ' VP9
     vp9Profiles = ["profile 0", "profile 2"]
@@ -434,7 +438,7 @@ function getDeviceProfile() as object
         "BreakOnNonKeyFrames": false
     }
 
-    ' always apply max res to transcoding profile
+    ' apply max res to transcoding profile
     if maxResSetting <> "off"
         tsArray.Conditions = [maxVideoHeightArray, maxVideoWidthArray]
         mp4Array.Conditions = [maxVideoHeightArray, maxVideoWidthArray]
@@ -827,8 +831,13 @@ function GetDirectPlayProfiles() as object
         }
     }
     ' all possible codecs
-    videoCodecs = ["h264", "mpeg4 avc", "vp8", "hevc", "vp9", "av1", "h263", "mpeg1"]
+    videoCodecs = ["h264", "mpeg4 avc", "vp8", "vp9", "av1", "h263", "mpeg1"]
     audioCodecs = ["mp3", "mp2", "pcm", "lpcm", "wav", "ac3", "ac4", "aiff", "wma", "flac", "alac", "aac", "opus", "dts", "wmapro", "vorbis", "eac3", "mpg123"]
+
+    if m.global.session.user.settings["playback.compatibility.disablehevc"] = false
+        videoCodecs.push("hevc")
+    end if
+
     ' check video codecs for each container
     for each container in supportedCodecs
         for each videoCodec in videoCodecs

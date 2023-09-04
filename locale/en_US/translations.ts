@@ -1181,13 +1181,32 @@
         <message>
             <source>All files</source>
             <translation>All files</translation>
-            <extracomment>User Setting - Setting titlw</extracomment>
+            <extracomment>User Setting - Setting title</extracomment>
         </message>
         <message>
             <source>Only transcoded files</source>
             <translation>Only transcoded files</translation>
-            <extracomment>User Setting - Setting titlw</extracomment>
+            <extracomment>User Setting - Setting title</extracomment>
         </message>
-
+        <message>
+            <source>Compatibility</source>
+            <translation>Compatibility</translation>
+            <extracomment>User Setting - Setting title</extracomment>
+        </message>
+        <message>
+            <source>Attempt to prevent playback failures.</source>
+            <translation>Attempt to prevent playback failures.</translation>
+            <extracomment>User Setting - Setting description</extracomment>
+        </message>
+        <message>
+            <source>Disable HEVC</source>
+            <translation>Disable HEVC</translation>
+            <extracomment>User Setting - Setting title</extracomment>
+        </message>
+        <message>
+            <source>Disable the HEVC codec on this device. This may improve playback for some devices (ultra).</source>
+            <translation>Disable the HEVC codec on this device. This may improve playback for some devices (ultra).</translation>
+            <extracomment>User Setting - Setting description</extracomment>
+        </message>
     </context>
 </TS>

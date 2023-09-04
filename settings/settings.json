@@ -37,6 +37,19 @@
                 ]
             },
             {
+                "title": "Compatibility",
+                "description": "Attempt to prevent playback failures.",
+                "children": [
+                    {
+                        "title": "Disable HEVC",
+                        "description": "Disable the HEVC codec on this device. This may improve playback for some devices (ultra).",
+                        "settingName": "playback.compatibility.disablehevc",
+                        "type": "bool",
+                        "default": "false"
+                    }
+                ]
+            },
+            {
                 "title": "Maximum Resolution",
                 "description": "Configure the maximum resolution when playing video files on this device.",
                 "children": [
