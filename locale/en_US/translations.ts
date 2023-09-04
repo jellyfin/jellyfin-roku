@@ -1158,5 +1158,36 @@
             <translation>Auto - Use TV resolution</translation>
             <extracomment>User Setting - Option title</extracomment>
         </message>
+        <message>
+            <source>Mode</source>
+            <translation>Mode</translation>
+            <extracomment>User Setting - Setting title</extracomment>
+        </message>
+        <message>
+            <source>Value</source>
+            <translation>Value</translation>
+            <extracomment>User Setting - Setting title</extracomment>
+        </message>
+        <message>
+            <source>Configure the maximum resolution when playing video files on this device.</source>
+            <translation>Configure the maximum resolution when playing video files on this device.</translation>
+            <extracomment>User Setting - Description</extracomment>
+        </message>
+        <message>
+            <source>Apply max resolution to all files or only transcoded files.</source>
+            <translation>Apply max resolution to all files or only transcoded files.</translation>
+            <extracomment>User Setting - Description</extracomment>
+        </message>
+        <message>
+            <source>All files</source>
+            <translation>All files</translation>
+            <extracomment>User Setting - Setting titlw</extracomment>
+        </message>
+        <message>
+            <source>Only transcoded files</source>
+            <translation>Only transcoded files</translation>
+            <extracomment>User Setting - Setting titlw</extracomment>
+        </message>
+
     </context>
 </TS>

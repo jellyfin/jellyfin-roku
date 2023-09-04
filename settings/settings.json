@@ -37,12 +37,12 @@
                 ]
             },
             {
-                "title": "Resolution",
-                "description": "Modify the mode and maximum resolution when playing video files on this device.",
+                "title": "Maximum Resolution",
+                "description": "Configure the maximum resolution when playing video files on this device.",
                 "children": [
                     {
-                        "title": "Set Mode",
-                        "description": "Restrict resolution on just transcoded files or all files.",
+                        "title": "Mode",
+                        "description": "Apply max resolution to all files or only transcoded files.",
                         "settingName": "playback.resolution.mode",
                         "type": "radio",
                         "default": "transcoding",
@@ -52,13 +52,13 @@
                                 "id": "everything"
                             },
                             {
-                                "title": "Transcoded files only",
+                                "title": "Only transcoded files",
                                 "id": "transcoding"
                             }
                         ]
                     },
                     {
-                        "title": "Maximum Resolution",
+                        "title": "Value",
                         "description": "Set the maximum resolution when playing video files on this device.",
                         "settingName": "playback.resolution.max",
                         "type": "radio",
