@@ -253,7 +253,7 @@ function CreateServerGroup()
                 dialog.title = tr("Connecting to Server")
                 m.scene.dialog = dialog
 
-                serverUrl = standardize_jellyfin_url(screen.serverUrl)
+                serverUrl = inferServerUrl(screen.serverUrl)
                 'If this is a different server from what we know, reset username/password setting
                 if m.global.session.server.url <> serverUrl
                     set_setting("username", "")
