@@ -252,8 +252,8 @@ function CreateServerGroup()
                 dialog = createObject("roSGNode", "ProgressDialog")
                 dialog.title = tr("Connecting to Server")
                 m.scene.dialog = dialog
-
                 serverUrl = inferServerUrl(screen.serverUrl)
+                if serverUrl = invalid then serverUrl = ""
                 'If this is a different server from what we know, reset username/password setting
                 if m.global.session.server.url <> serverUrl
                     set_setting("username", "")
