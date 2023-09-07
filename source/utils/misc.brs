@@ -162,12 +162,14 @@ function option_dialog(options, message = "", defaultSelection = 0) as integer
     return show_dialog(message, options, defaultSelection)
 end function
 
-function inferServerUrl(url as string)
+' take an incomplete url string and use it to make educated guesses about
+' the complete url. then tests these guesses to see if it can find a jf server
+' returns the url of the server it found, or an empty string
+function inferServerUrl(url as string) as string
     port = CreateObject("roMessagePort")
     hosts = CreateObject("roAssociativeArray")
     reqs = []
     candidates = urlCandidates(url)
-    print "PROCESSING CANDIDATES"
     for each endpoint in candidates
         req = CreateObject("roUrlTransfer")
         reqs.push(req) ' keep in scope outside of loop, else -10001
@@ -181,7 +183,6 @@ function inferServerUrl(url as string)
     end for
     handled = 0
     timeout = CreateObject("roTimespan")
-    print "TIMESPAN CREATED"
     while timeout.totalseconds() < 15
         resp = wait(0, port)
         if type(resp) = "roUrlEvent"
@@ -189,20 +190,18 @@ function inferServerUrl(url as string)
             ' if response code is a 300 redirect then we should return the redirect url
             ' Make sure this happens or make it happen
             if resp.GetResponseCode() = 200
-                print "THE SELECTED URL"
-                print hosts.lookup(resp.GetSourceIdentity().ToStr())
-                print ""
-                return hosts.lookup(resp.GetSourceIdentity().ToStr())
+                selectedUrl = hosts.lookup(resp.GetSourceIdentity().ToStr())
+                print "Successfully inferred server URL: " selectedUrl
+                return selectedUrl
             end if
         end if
         handled += 1
         if handled = reqs.count()
-            print("ALL HANDLED")
+            print "inferServerUrl in utils/misc.brs failed to find a server from the string " url " but did not timeout."
             return ""
         end if
     end while
-    print "TIMED OUT"
-    ' we never actually get here but the linter can't tell
+    print "inferServerUrl in utils/misc.brs failed to find a server from the string " url " because it timed out."
     return ""
 end function
 
@@ -216,15 +215,6 @@ function urlCandidates(input as string)
     host = url[2]
     port = url[3]
     path = url[4]
-    print ""
-    print "THE PROTO"
-    print proto
-    print "THE HOST"
-    print host
-    print "THE PORT"
-    print port
-    print "THE PATH"
-    print path
     protoCandidates = []
     supportedProtos = ["http:", "https:"] ' appending colons because the regex does
     if proto = "none:" ' the user did not declare a protocol
@@ -235,8 +225,6 @@ function urlCandidates(input as string)
     else
         protoCandidates.push(proto + "//" + host) ' but still allow arbitrary protocols if they are declared
     end if
-    print "THE PROTO CANDIDATES"
-    print protoCandidates
     final_candidates = []
     if isValid(port) and port <> "" ' if the port is defined just use that
         for each candidate in protoCandidates
@@ -254,8 +242,6 @@ function urlCandidates(input as string)
         end for
     end if
     final_candidates.push(input)
-    print "FINAL CANDIDATES"
-    print final_candidates
     return final_candidates
 end function
 
@@ -298,12 +284,15 @@ function isValidAndNotEmpty(input as dynamic) as boolean
     end if
 end function
 
+' Returns an array from a url = [ url, proto, host, port, subdir+params ]
+' If port or subdir are not found, an empty string will be added to the array
+' Proto must be declared or array will be empty
 function parseUrl(url as string) as object
-    ' proto $1, host $2, port $3, the-rest $4
     rgx = CreateObject("roRegex", "^(.*:)//([A-Za-z0-9\-\.]+)(:[0-9]+)?(.*)$", "")
     return rgx.Match(url)
 end function
 
+' Returns true if the string is a loopback, such as 'localhost' or '127.0.0.1'
 function isLocalhost(url as string) as boolean
     ' https://stackoverflow.com/questions/8426171/what-regex-will-match-all-loopback-addresses
     rgx = CreateObject("roRegex", "^localhost$|^127(?:\.[0-9]+){0,2}\.[0-9]+$|^(?:0*\:)*?:?0*1$", "i")
