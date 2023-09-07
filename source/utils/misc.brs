@@ -198,12 +198,12 @@ function inferServerUrl(url as string)
         handled += 1
         if handled = reqs.count()
             print("ALL HANDLED")
-            return invalid
+            return ""
         end if
     end while
     print "TIMED OUT"
     ' we never actually get here but the linter can't tell
-    return invalid
+    return ""
 end function
 
 function urlCandidates(input as string)
