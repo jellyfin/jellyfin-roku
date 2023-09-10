@@ -189,8 +189,11 @@ function inferServerUrl(url as string) as string
             ' TODO
             ' if response code is a 300 redirect then we should return the redirect url
             ' Make sure this happens or make it happen
-            if resp.GetResponseCode() = 200 and isJellyfinServer(resp.GetString())
+            if resp.GetResponseCode() = 200
                 selectedUrl = hosts.lookup(resp.GetSourceIdentity().ToStr())
+                print("CANDIDATE:")
+                print(selectedUrl)
+                isJellyfinServer(resp.GetString())
                 print "Successfully inferred server URL: " selectedUrl
                 return selectedUrl
             end if
@@ -215,7 +218,10 @@ function urlCandidates(input as string)
     host = url[2]
     port = url[3]
     path = url[4]
-    if path.endswith("/", 1) then path = path.Left(len(path) - 1)
+    print "THE PATH IS: " path
+    print "The type of path is: " Type(path)
+    if path.endswith("/") then path = path.Left(len(path) - 1)
+    print "THE PATH AFTER I MODIFY IT: " path
     protoCandidates = []
     supportedProtos = ["http:", "https:"] ' appending colons because the regex does
     if proto = "none:" ' the user did not declare a protocol
@@ -439,9 +445,10 @@ sub stopLoadingSpinner()
     end if
 end sub
 
-' accepts the raw json string of /system/info/public and returns
-' a boolean indicating if ProductName is "Jellyfin Server"
-function isJellyfinServer(si as string) as boolean
+function isJellyfinServer(si as object) as boolean
+    'v = ParseJson(si).ProductName = "Jellyfin Server"
+    print "THE SI SENT TO THE ISJELLYFIN CHECK"
+    print si
     d = ParseJson(si)
     if isValid(d) and isValid(d.ProductName)
         return d.ProductName = "Jellyfin Server"
