@@ -447,6 +447,8 @@ sub stopLoadingSpinner()
     end if
 end sub
 
+' accepts the raw json string of /system/info/public and returns
+' a boolean indicating if ProductName is "Jellyfin Server"
 function isJellyfinServer(si as object) as boolean
     'v = ParseJson(si).ProductName = "Jellyfin Server"
     print "THE SI SENT TO THE ISJELLYFIN CHECK"
