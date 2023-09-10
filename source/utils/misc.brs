@@ -189,7 +189,7 @@ function inferServerUrl(url as string) as string
             ' TODO
             ' if response code is a 300 redirect then we should return the redirect url
             ' Make sure this happens or make it happen
-            if resp.GetResponseCode() = 200
+            if resp.GetResponseCode() = 200 and isJellyfinServer(resp.GetString())
                 selectedUrl = hosts.lookup(resp.GetSourceIdentity().ToStr())
                 print "Successfully inferred server URL: " selectedUrl
                 return selectedUrl
@@ -438,3 +438,11 @@ sub stopLoadingSpinner()
         m.scene.dialog.close = true
     end if
 end sub
+
+function isJellyfinServer(si as object) as boolean
+    d = ParseJson(si)
+    if isValid(d) and isValid(d.ProductName)
+        return d.ProductName = "Jellyfin Server"
+    end if
+    return False
+end function
