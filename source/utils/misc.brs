@@ -242,7 +242,6 @@ function urlCandidates(input as string)
             end if
         end for
     end if
-    final_candidates.push(input)
     return final_candidates
 end function
 
