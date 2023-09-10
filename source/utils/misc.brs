@@ -209,6 +209,7 @@ function inferServerUrl(url as string) as string
 end function
 
 function urlCandidates(input as string)
+    if input.endswith("/") then input = input.Left(len(input) - 1)
     url = parseUrl(input)
     if url[1] = invalid
         ' a proto wasn't declared
@@ -218,9 +219,10 @@ function urlCandidates(input as string)
     host = url[2]
     port = url[3]
     path = url[4]
+    print "THE PARTS"
+    print proto " " host " " port " " path
     print "THE PATH IS: " path
     print "The type of path is: " Type(path)
-    if path.endswith("/") then path = path.Left(len(path) - 1)
     print "THE PATH AFTER I MODIFY IT: " path
     protoCandidates = []
     supportedProtos = ["http:", "https:"] ' appending colons because the regex does
