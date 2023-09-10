@@ -215,6 +215,7 @@ function urlCandidates(input as string)
     host = url[2]
     port = url[3]
     path = url[4]
+    if path.endswith("/", 1) then path = path.Left(len(path) - 1)
     protoCandidates = []
     supportedProtos = ["http:", "https:"] ' appending colons because the regex does
     if proto = "none:" ' the user did not declare a protocol
