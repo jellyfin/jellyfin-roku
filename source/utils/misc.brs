@@ -175,8 +175,6 @@ function inferServerUrl(url as string) as string
         savedServers = ParseJson(saved)
         if isValid(savedServers.lookup(url)) then return url
     end if
-    ' remove the above code at or after server version 10.9 or after 2025
-    ' as its mostly compat for legacy registry entries that predate this code
 
     port = CreateObject("roMessagePort")
     hosts = CreateObject("roAssociativeArray")
