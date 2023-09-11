@@ -201,8 +201,6 @@ function inferServerUrl(url as string) as string
             ' Make sure this happens or make it happen
             if resp.GetResponseCode() = 200
                 selectedUrl = hosts.lookup(resp.GetSourceIdentity().ToStr())
-                print("CANDIDATE:")
-                print(selectedUrl)
                 isJellyfinServer(resp.GetString())
                 print "Successfully inferred server URL: " selectedUrl
                 return selectedUrl
@@ -229,11 +227,6 @@ function urlCandidates(input as string)
     host = url[2]
     port = url[3]
     path = url[4]
-    print "THE PARTS"
-    print proto " " host " " port " " path
-    print "THE PATH IS: " path
-    print "The type of path is: " Type(path)
-    print "THE PATH AFTER I MODIFY IT: " path
     protoCandidates = []
     supportedProtos = ["http:", "https:"] ' appending colons because the regex does
     if proto = "none:" ' the user did not declare a protocol
@@ -461,9 +454,6 @@ end sub
 ' accepts the raw json string of /system/info/public and returns
 ' a boolean indicating if ProductName is "Jellyfin Server"
 function isJellyfinServer(si as object) as boolean
-    'v = ParseJson(si).ProductName = "Jellyfin Server"
-    print "THE SI SENT TO THE ISJELLYFIN CHECK"
-    print si
     d = ParseJson(si)
     if isValid(d) and isValid(d.ProductName)
         return d.ProductName = "Jellyfin Server"
