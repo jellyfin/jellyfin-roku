@@ -253,19 +253,17 @@ function CreateServerGroup()
                 dialog.title = tr("Connecting to Server")
                 m.scene.dialog = dialog
                 serverUrl = inferServerUrl(screen.serverUrl)
-                if serverUrl <> ""
+
+                isConnected = session.server.UpdateURL(serverUrl)
+                serverInfoResult = invalid
+                if isConnected
+                    serverInfoResult = ServerInfo()
                     'If this is a different server from what we know, reset username/password setting
                     if m.global.session.server.url <> serverUrl
                         set_setting("username", "")
                         set_setting("password", "")
                     end if
                     set_setting("server", serverUrl)
-                end if
-
-                isConnected = session.server.UpdateURL(serverUrl)
-                serverInfoResult = invalid
-                if isConnected
-                    serverInfoResult = ServerInfo()
                 end if
                 dialog.close = true
 
@@ -276,6 +274,7 @@ function CreateServerGroup()
                     screen.errorMessage = tr("Server not found, is it online?")
                     SignOut(false)
                 else
+
                     if isValid(serverInfoResult.Error) and serverInfoResult.Error
                         ' If server redirected received, update the URL
                         if isValid(serverInfoResult.UpdatedUrl)
