@@ -1,17 +1,22 @@
+import "pkg:/source/roku_modules/log/LogMixin.brs"
+
 function LoginFlow(startOver = false as boolean)
+    m.log = new log.Logger("LoginFlow")
+    m.log.info("start LoginFlow()")
     'Collect Jellyfin server and user information
     start_login:
+    m.log.info("start start_login:")
 
     serverUrl = get_setting("server")
     if isValid(serverUrl)
-        print "Previous server connection saved to registry"
+        m.log.info("Previous server connection saved to registry")
         startOver = not session.server.UpdateURL(serverUrl)
         if startOver
             print "Could not connect to previously saved server."
         end if
     else
+        m.log.info("No previous server connection saved to registry")
         startOver = true
-        print "No previous server connection saved to registry"
     end if
 
     invalidServer = true
@@ -26,12 +31,12 @@ function LoginFlow(startOver = false as boolean)
 
     m.serverSelection = "Saved"
     if startOver or invalidServer
-        print "Get server details"
+        m.log.info("Get server details")
         SendPerformanceBeacon("AppDialogInitiate") ' Roku Performance monitoring - Dialog Starting
         m.serverSelection = CreateServerGroup()
         SendPerformanceBeacon("AppDialogComplete") ' Roku Performance monitoring - Dialog Closed
         if m.serverSelection = "backPressed"
-            print "backPressed"
+            m.log.verbose("backPressed during server selection")
             m.global.sceneManager.callFunc("clearScenes")
             return false
         end if
@@ -40,7 +45,7 @@ function LoginFlow(startOver = false as boolean)
 
     activeUser = get_setting("active_user")
     if activeUser = invalid
-        print "No active user found in registry"
+        m.log.info("No active user found in registry")
         SendPerformanceBeacon("AppDialogInitiate") ' Roku Performance monitoring - Dialog Starting
         publicUsers = GetPublicUsers()
         if publicUsers.count()
@@ -60,8 +65,10 @@ function LoginFlow(startOver = false as boolean)
                 return LoginFlow(true)
             else
                 'Try to login without password. If the token is valid, we're done
+                m.log.info("Attempting to login with a blank password")
                 userData = get_token(userSelected, "")
                 if isValid(userData)
+                    m.log.info("Login successful")
                     session.user.Login(userData)
                     LoadUserPreferences()
                     LoadUserAbilities()
@@ -79,66 +86,66 @@ function LoginFlow(startOver = false as boolean)
             return LoginFlow(true)
         end if
     else
-        print "Active user found in registry"
+        m.log.info("Active user found in registry")
         session.user.Update("id", activeUser)
 
         myAuthToken = get_user_setting("token")
         if isValid(myAuthToken)
-            print "Auth token found in registry"
+            m.log.info("Auth token found in registry")
             session.user.Update("authToken", myAuthToken)
-            print "Attempting to use API with auth token"
+            m.log.info("Attempting to use API with auth token")
             currentUser = AboutMe()
             if currentUser = invalid
-                print "Auth token is no longer valid - restart login flow"
+                m.log.info("Auth token is no longer valid - restart login flow")
                 unset_user_setting("token")
                 unset_setting("active_user")
                 session.user.Logout()
                 goto start_login
             else
-                print "Success! Auth token is still valid"
+                m.log.info("Success! Auth token is still valid")
                 session.user.Login(currentUser)
             end if
         else
-            print "No auth token found in registry"
+            m.log.info("No auth token found in registry")
             myUsername = get_setting("username")
             myPassword = get_setting("password")
             userData = invalid
 
             if isValid(myUsername) and isValid(myPassword)
                 if myUsername <> ""
-                    print "Username and password found in registry. Attempting to login"
+                    m.log.info("Username and password found in registry. Attempting to login")
                     userData = get_token(myUsername, myPassword)
                 else
-                    print "Username in registry is an empty string"
+                    m.log.info("Username in registry is an empty string")
                     unset_setting("username")
                     unset_setting("password")
                 end if
             else if isValid(myUsername) and not isValid(myPassword)
-                print "Username found in registry but no password"
+                m.log.info("Username found in registry but no password")
                 if myUsername <> ""
-                    print "Attempting to login with no password"
+                    m.log.info("Attempting to login with no password")
                     userData = get_token(myUsername, "")
                 else
-                    print "Username in registry is an empty string"
+                    m.log.info("Username in registry is an empty string")
                     unset_setting("username")
                 end if
 
             else if not isValid(myUsername) and not isValid(myPassword)
-                print "Neither username nor password found in registry - restart login flow"
+                m.log.info("Neither username nor password found in registry - restart login flow")
                 unset_setting("active_user")
                 session.user.Logout()
                 goto start_login
             end if
 
             if isValid(userData)
-                print "login success!"
+                m.log.info("login success!")
                 session.user.Login(userData)
             end if
         end if
     end if
 
     if m.global.session.user.id = invalid or m.global.session.user.authToken = invalid
-        print "Login failed, restart flow"
+        m.log.info("Login failed, restart flow")
         unset_setting("active_user")
         session.user.Logout()
         goto start_login
@@ -148,6 +155,7 @@ function LoginFlow(startOver = false as boolean)
     LoadUserAbilities()
     m.global.sceneManager.callFunc("clearScenes")
 
+    m.log.verbose("end start_login:")
     return true
 end function
 
