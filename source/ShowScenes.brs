@@ -253,12 +253,14 @@ function CreateServerGroup()
                 dialog.title = tr("Connecting to Server")
                 m.scene.dialog = dialog
                 serverUrl = inferServerUrl(screen.serverUrl)
-                'If this is a different server from what we know, reset username/password setting
-                if m.global.session.server.url <> serverUrl
-                    set_setting("username", "")
-                    set_setting("password", "")
+                if serverUrl <> ""
+                    'If this is a different server from what we know, reset username/password setting
+                    if m.global.session.server.url <> serverUrl
+                        set_setting("username", "")
+                        set_setting("password", "")
+                    end if
+                    set_setting("server", serverUrl)
                 end if
-                set_setting("server", serverUrl)
 
                 isConnected = session.server.UpdateURL(serverUrl)
                 serverInfoResult = invalid
