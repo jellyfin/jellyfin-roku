@@ -1,3 +1,5 @@
+import "pkg:/source/utils/config.brs"
+
 function isNodeEvent(msg, field as string) as boolean
     return type(msg) = "roSGNodeEvent" and msg.getField() = field
 end function
@@ -166,6 +168,16 @@ end function
 ' the complete url. then tests these guesses to see if it can find a jf server
 ' returns the url of the server it found, or an empty string
 function inferServerUrl(url as string) as string
+    ' if this server is already stored, just use the value directly
+    ' the server had to get resolved in the first place to get into the registry
+    saved = get_setting("saved_servers")
+    if isValid(saved)
+        savedServers = ParseJson(saved)
+        if isValid(savedServers.lookup(url)) then return url
+    end if
+    ' remove the above code at or after server version 10.9 or after 2025
+    ' as its mostly compat for legacy registry entries that predate this code
+
     port = CreateObject("roMessagePort")
     hosts = CreateObject("roAssociativeArray")
     reqs = []
@@ -241,11 +253,12 @@ function urlCandidates(input as string)
         end for
     else ' the port wasnt declared so use default jellyfin and proto ports
         for each candidate in protoCandidates:
+            ' proto default
+            final_candidates.push(candidate + path)
+            ' jellyfin defaults
             if candidate.startswith("https")
-                final_candidates.push(candidate + ":443" + path)
                 final_candidates.push(candidate + ":8920" + path)
             else if candidate.startswith("http")
-                final_candidates.push(candidate + ":80" + path)
                 final_candidates.push(candidate + ":8096" + path)
             end if
         end for
