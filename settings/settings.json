@@ -4,6 +4,19 @@
         "description": "Settings relating to playback and supported codec and media types.",
         "children": [
             {
+                "title": "Audio Codec Support",
+                "description": "Choose your preferred audio codec when transcoding multichannel audio.",
+                "children": [
+                    {
+                        "title": "DTS",
+                        "description": "Force all transcodes to use DTS instead of the default EAC3. The device must support DTS for this setting to have an effect.",
+                        "settingName": "playback.forceDTS",
+                        "type": "bool",
+                        "default": "false"
+                    }
+                ]
+            },
+            {
                 "title": "Bitrate Limit",
                 "description": "Configure the maximum playback bitrate.",
                 "children": [
@@ -24,7 +37,85 @@
                 ]
             },
             {
-                "title": "Codec Support",
+                "title": "Compatibility",
+                "description": "Attempt to prevent playback failures.",
+                "children": [
+                    {
+                        "title": "Disable HEVC",
+                        "description": "Disable the HEVC codec on this device. This may improve playback for some devices (ultra).",
+                        "settingName": "playback.compatibility.disablehevc",
+                        "type": "bool",
+                        "default": "false"
+                    }
+                ]
+            },
+            {
+                "title": "Maximum Resolution",
+                "description": "Configure the maximum resolution when playing video files on this device.",
+                "children": [
+                    {
+                        "title": "Mode",
+                        "description": "Apply max resolution to all files or only transcoded files.",
+                        "settingName": "playback.resolution.mode",
+                        "type": "radio",
+                        "default": "transcoding",
+                        "options": [
+                            {
+                                "title": "All files",
+                                "id": "everything"
+                            },
+                            {
+                                "title": "Only transcoded files",
+                                "id": "transcoding"
+                            }
+                        ]
+                    },
+                    {
+                        "title": "Value",
+                        "description": "Set the maximum resolution when playing video files on this device.",
+                        "settingName": "playback.resolution.max",
+                        "type": "radio",
+                        "default": "auto",
+                        "options": [
+                            {
+                                "title": "Off - Attempt to play all resolutions",
+                                "id": "off"
+                            },
+                            {
+                                "title": "Auto - Use TV resolution",
+                                "id": "auto"
+                            },
+                            {
+                                "title": "360p",
+                                "id": "360"
+                            },
+                            {
+                                "title": "480p",
+                                "id": "480"
+                            },
+                            {
+                                "title": "720p",
+                                "id": "720"
+                            },
+                            {
+                                "title": "1080p",
+                                "id": "1080"
+                            },
+                            {
+                                "title": "4k",
+                                "id": "2160"
+                            },
+                            {
+                                "title": "8k",
+                                "id": "4320"
+                            }
+                        ]
+                    }
+                ]
+                
+            },
+            {
+                "title": "Video Codec Support",
                 "description": "Enable or disable Direct Play support for certain codecs.",
                 "children": [
                     {
@@ -51,7 +142,7 @@
                 ]
             },
             {
-                "title": "Profile Level Support",
+                "title": "Video Profile Level Support",
                 "description": "Attempt Direct Play of potentially unsupported profile levels",
                 "children": [
                     {
@@ -59,14 +150,14 @@
                         "description": "Attempt Direct Play for H.264 media with unsupported profile levels before falling back to transcoding if it fails.",
                         "settingName": "playback.tryDirect.h264ProfileLevel",
                         "type": "bool",
-                        "default": "true"
+                        "default": "false"
                     },
                     {
                         "title": "HEVC",
                         "description": "Attempt Direct Play for HEVC media with unsupported profile levels before falling back to transcoding if it fails.",
                         "settingName": "playback.tryDirect.hevcProfileLevel",
                         "type": "bool",
-                        "default": "true"
+                        "default": "false"
                     }
                 ]
             },

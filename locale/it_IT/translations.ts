@@ -2190,5 +2190,13 @@
         <translation>In onda</translation>
         <extracomment>Aired date label</extracomment>
     </message>
+    <message>
+        <source>Change Server</source>
+        <translation>Cambia Server</translation>
+    </message>
+    <message>
+        <source>Sign Out</source>
+        <translation>Scollegamento</translation>
+    </message>
 </context>
 </TS>
