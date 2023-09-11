@@ -1114,14 +1114,99 @@
             <translation>Set how many seconds before the end of an episode the Next Episode button should appear. Set to 0 to disable.</translation>
             <extracomment>Settings Menu - Description for option</extracomment>
         </message>
-		<message>
-			<source>Direct playing</source>
-			<translation>Direct playing</translation>
-		</message>
+        <message>
+            <source>Choose your preferred audio codec when transcoding multichannel audio.</source>
+            <translation>Choose your preferred audio codec when transcoding multichannel audio.</translation>
+            <extracomment>Settings Menu - Description for option</extracomment>
+        </message>
+        <message>
+            <source>Force all transcodes to use DTS instead of the default EAC3. The device must support DTS for this setting to have an effect.</source>
+            <translation>Force all transcodes to use DTS instead of the default EAC3. The device must support DTS for this setting to have an effect.</translation>
+            <extracomment>Settings Menu - Description for option</extracomment>
+        </message>
+        <message>
+            <source>Audio Codec Support</source>
+            <translation>Audio Codec Support</translation>
+            <extracomment>Settings Menu - Title of option</extracomment>
+        </message>
+        <message>
+            <source>Direct playing</source>
+            <translation>Direct playing</translation>
+        </message>
         <message>
             <source>The source file is entirely compatible with this client and the session is receiving the file without modifications.</source>
             <translation>The source file is entirely compatible with this client and the session is receiving the file without modifications.</translation>
             <extracomment>Direct play info box text in GetPlaybackInfoTask.brs</extracomment>
+        </message>
+        <message>
+            <source>Maximum Resolution</source>
+            <translation>Maximum Resolution</translation>
+            <extracomment>User Setting - Title</extracomment>
+        </message>
+        <message>
+            <source>Set the maximum resolution when playing video files on this device.</source>
+            <translation>Set the maximum resolution when playing video files on this device.</translation>
+            <extracomment>User Setting - Description</extracomment>
+        </message>
+        <message>
+            <source>Off - Attempt to play all resolutions</source>
+            <translation>Off - Attempt to play all resolutions</translation>
+            <extracomment>User Setting - Option title</extracomment>
+        </message>
+        <message>
+            <source>Auto - Use TV resolution</source>
+            <translation>Auto - Use TV resolution</translation>
+            <extracomment>User Setting - Option title</extracomment>
+        </message>
+        <message>
+            <source>Mode</source>
+            <translation>Mode</translation>
+            <extracomment>User Setting - Setting title</extracomment>
+        </message>
+        <message>
+            <source>Value</source>
+            <translation>Value</translation>
+            <extracomment>User Setting - Setting title</extracomment>
+        </message>
+        <message>
+            <source>Configure the maximum resolution when playing video files on this device.</source>
+            <translation>Configure the maximum resolution when playing video files on this device.</translation>
+            <extracomment>User Setting - Description</extracomment>
+        </message>
+        <message>
+            <source>Apply max resolution to all files or only transcoded files.</source>
+            <translation>Apply max resolution to all files or only transcoded files.</translation>
+            <extracomment>User Setting - Description</extracomment>
+        </message>
+        <message>
+            <source>All files</source>
+            <translation>All files</translation>
+            <extracomment>User Setting - Setting title</extracomment>
+        </message>
+        <message>
+            <source>Only transcoded files</source>
+            <translation>Only transcoded files</translation>
+            <extracomment>User Setting - Setting title</extracomment>
+        </message>
+        <message>
+            <source>Compatibility</source>
+            <translation>Compatibility</translation>
+            <extracomment>User Setting - Setting title</extracomment>
+        </message>
+        <message>
+            <source>Attempt to prevent playback failures.</source>
+            <translation>Attempt to prevent playback failures.</translation>
+            <extracomment>User Setting - Setting description</extracomment>
+        </message>
+        <message>
+            <source>Disable HEVC</source>
+            <translation>Disable HEVC</translation>
+            <extracomment>User Setting - Setting title</extracomment>
+        </message>
+        <message>
+            <source>Disable the HEVC codec on this device. This may improve playback for some devices (ultra).</source>
+            <translation>Disable the HEVC codec on this device. This may improve playback for some devices (ultra).</translation>
+            <extracomment>User Setting - Setting description</extracomment>
         </message>
     </context>
 </TS>

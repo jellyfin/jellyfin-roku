@@ -234,25 +234,17 @@ namespace session
             end sub
 
             ' Saves the user setting to the global session.
-            ' This also converts strings to boolean and integer as necessary before saving to global session
+            ' This also converts strings to boolean as necessary before saving to global session
             sub Save(name as string, value as string)
                 if name = invalid or value = invalid then return
                 tmpSettingArray = m.global.session.user.settings
                 convertedValue = value
 
-                ' convert to int
-                valueInteger = value.ToInt()
-                if value = "0" or valueInteger <> 0
-                    convertedValue = valueInteger
-                end if
-
                 ' convert to boolean
-                if type(value) = "String"
-                    if value = "true"
-                        convertedValue = true
-                    else if value = "false"
-                        convertedValue = false
-                    end if
+                if value = "true"
+                    convertedValue = true
+                else if value = "false"
+                    convertedValue = false
                 end if
 
                 tmpSettingArray[name] = convertedValue
