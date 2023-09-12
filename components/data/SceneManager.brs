@@ -366,7 +366,38 @@ end function
 
 ' Send Device Profile information to server
 function postProfile() as boolean
-    m.postTask.arrayData = getDeviceCapabilities()
+    profile = getDeviceCapabilities()
+    print "profile =", profile
+    print "profile.DeviceProfile =", profile.DeviceProfile
+    print "profile.DeviceProfile.CodecProfiles ="
+    for each prof in profile.DeviceProfile.CodecProfiles
+        print prof
+        for each cond in prof.Conditions
+            print cond
+        end for
+    end for
+    print "profile.DeviceProfile.ContainerProfiles =", profile.DeviceProfile.ContainerProfiles
+    print "profile.DeviceProfile.DirectPlayProfiles ="
+    for each prof in profile.DeviceProfile.DirectPlayProfiles
+        print prof
+    end for
+    print "profile.DeviceProfile.SubtitleProfiles ="
+    for each prof in profile.DeviceProfile.SubtitleProfiles
+        print prof
+    end for
+    print "profile.DeviceProfile.TranscodingProfiles ="
+    for each prof in profile.DeviceProfile.TranscodingProfiles
+        print prof
+        if isValid(prof.Conditions)
+            for each condition in prof.Conditions
+                print condition
+            end for
+        end if
+    end for
+    print "profile.PlayableMediaTypes =", profile.PlayableMediaTypes
+    print "profile.SupportedCommands =", profile.SupportedCommands
+
+    m.postTask.arrayData = profile
     m.postTask.apiUrl = "/Sessions/Capabilities/Full"
     m.postTask.control = "RUN"
     return true
