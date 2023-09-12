@@ -4,7 +4,6 @@ import "pkg:/source/roku_modules/log/LogMixin.brs"
 
 sub init()
     m.log = log.Logger("Settings")
-    m.top.overhangTitle = tr("Settings")
     m.top.optionsAvailable = false
 
     m.userLocation = []
@@ -12,7 +11,6 @@ sub init()
     m.settingsMenu = m.top.findNode("settingsMenu")
     m.settingDetail = m.top.findNode("settingDetail")
     m.settingDesc = m.top.findNode("settingDesc")
-    m.settingTitle = m.top.findNode("settingTitle")
     m.path = m.top.findNode("path")
 
     m.boolSetting = m.top.findNode("boolSetting")
@@ -72,7 +70,7 @@ sub LoadMenu(configSection)
     end if
 
     ' Set Path display
-    m.path.text = ""
+    m.path.text = tr("Settings")
     for each level in m.userLocation
         if level.title <> invalid then m.path.text += " / " + tr(level.title)
     end for
@@ -82,7 +80,7 @@ sub settingFocused()
 
     selectedSetting = m.userLocation.peek().children[m.settingsMenu.itemFocused]
     m.settingDesc.text = tr(selectedSetting.Description)
-    m.settingTitle.text = tr(selectedSetting.Title)
+    m.top.overhangTitle = tr(selectedSetting.Title)
 
     ' Hide Settings
     m.boolSetting.visible = false
