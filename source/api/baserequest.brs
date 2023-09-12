@@ -198,7 +198,7 @@ end sub
 function authRequest(request as object) as object
     QUOTE = Chr(34)
     auth = "MediaBrowser" + " Client=" + QUOTE + "Jellyfin Roku" + QUOTE
-    auth = auth + ", Device=" + QUOTE + m.global.device.name + " (" + m.global.device.friendlyName + ")" + QUOTE
+    auth = auth + ", Device=" + QUOTE + m.global.device.name + " (" + m.global.device.model + ")" + QUOTE
     auth = auth + ", Version=" + QUOTE + m.global.app.version + QUOTE
 
     if m.global.session.user.id <> invalid
