@@ -375,7 +375,6 @@ end function
 ' Return the Post Task to it's default state
 sub postFinished()
     m.postTask.unobserveField("responseCode")
-    ' Empty the Post Task data to its default state
     m.postTask.apiUrl = ""
     m.postTask.arrayData = {}
     m.postTask.stringData = ""
