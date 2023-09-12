@@ -1,4 +1,5 @@
 import "pkg:/source/roku_modules/log/LogMixin.brs"
+import "pkg:/source/utils/deviceCapabilities.brs"
 
 sub init()
     m.log = log.Logger("SceneManager")
@@ -6,6 +7,8 @@ sub init()
     m.scene = m.top.getScene()
     m.content = m.scene.findNode("content")
     m.overhang = m.scene.findNode("overhang")
+    m.postTask = CreateObject("roSGNode", "PostTask")
+    m.postTask.observeField("responseCode", "postFinished")
 end sub
 
 '
@@ -77,16 +80,21 @@ end sub
 sub popScene()
     group = m.groups.pop()
     if group <> invalid
-        if group.isSubType("JFGroup")
+        groupType = group.subtype()
+
+        if groupType = "JFGroup"
             unregisterOverhangData(group)
-        else if group.isSubType("JFVideo")
+        else if groupType = "JFVideo"
             ' Stop video to make sure app communicates stop playstate to server
             group.control = "stop"
+        else if groupType = "Settings"
+            ' update device profile after exiting the settings page - some settings affect the device profile
+            postProfile()
         end if
 
         group.visible = false
 
-        if group.isSubType("JFScreen")
+        if groupType = "JFScreen"
             group.callFunc("OnScreenHidden")
         end if
     else
@@ -355,3 +363,22 @@ end sub
 function isDialogOpen() as boolean
     return m.scene.dialog <> invalid
 end function
+
+' Send Device Profile information to server
+function postProfile() as boolean
+    m.postTask.arrayData = getDeviceCapabilities()
+    m.postTask.apiUrl = "/Sessions/Capabilities/Full"
+    m.postTask.control = "RUN"
+    return true
+end function
+
+' Return the Post Task to it's default state
+sub postFinished()
+    m.postTask.unobserveField("responseCode")
+    ' Empty the Post Task data to its default state
+    m.postTask.apiUrl = ""
+    m.postTask.arrayData = {}
+    m.postTask.stringData = ""
+    m.postTask.responseCode = 0
+    m.postTask.observeField("responseCode", "postFinished")
+end sub
