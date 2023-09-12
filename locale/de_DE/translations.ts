@@ -11337,5 +11337,107 @@
         <translation>Auswählen, wann Titel angezeigt werden sollen</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
+    <message>
+        <source>Movies (Presentation)</source>
+        <translation>Filme (Präsentation)</translation>
+        <extracomment>Movie library view option</extracomment>
+    </message>
+    <message>
+        <source>Started at</source>
+        <translation>Gestartet um</translation>
+        <extracomment>(Past Tense) For defining time when a program started today (e.g. Started at 08:00) </extracomment>
+    </message>
+    <message>
+        <source>Movies (Grid)</source>
+        <translation>Filme (Raster)</translation>
+        <extracomment>Movie library view option</extracomment>
+    </message>
+    <message>
+        <source>An error was encountered while playing this item. Server did not provide required transcoding data.</source>
+        <translation>Bei der Wiedergabe dieses Elements ist ein Fehler aufgetreten. Der Server hat die erforderlichen Transcodierungsdaten nicht bereitgestellt.</translation>
+        <extracomment>Content of message box when trying to play an item which requires transcoding, and the server did not provide transcode url</extracomment>
+    </message>
+    <message>
+        <source>Support Direct Play of MPEG-2 content (e.g., Live TV). This will prevent transcoding of MPEG-2 content, but uses significantly more bandwidth.</source>
+        <translation>Unterstützung der direkten Wiedergabe von MPEG-2-Inhalten (z. B. Live-TV). Dies verhindert die Transkodierung von MPEG-2-Inhalten, verbraucht aber deutlich mehr Bandbreite</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Version</source>
+        <translation>Version</translation>
+    </message>
+    <message>
+        <source>MPEG-2</source>
+        <translation>MPEG-2</translation>
+        <extracomment>Name of codec used in settings menu</extracomment>
+    </message>
+    <message>
+        <source>MPEG-4</source>
+        <translation>MPEG-4</translation>
+        <extracomment>Name of codec used in settings menu</extracomment>
+    </message>
+    <message>
+        <source>Playback</source>
+        <translation>Wiedergabe</translation>
+        <extracomment>Title for Playback section in user setting screen.</extracomment>
+    </message>
+    <message>
+        <source>Special Features</source>
+        <translation>Extras</translation>
+    </message>
+    <message>
+        <source>Error Getting Playback Information</source>
+        <translation>Fehler beim Abrufen der Wiedergabeinformationen</translation>
+        <extracomment>Dialog Title: Received error from server when trying to get information about the selected item for playback</extracomment>
+    </message>
+    <message>
+        <source>Additional Parts</source>
+        <translation>Zusätzliche Inhalte</translation>
+        <extracomment>Additional parts of a video</extracomment>
+    </message>
+    <message>
+        <source>Started</source>
+        <translation>Gestartet</translation>
+        <extracomment>(Past Tense) For defining a day and time when a program started (e.g. Started Wednesday, 08:00) </extracomment>
+    </message>
+    <message>
+        <source>Channels</source>
+        <translation>Sender</translation>
+        <extracomment>Menu option for showing Live TV Channel List</extracomment>
+    </message>
+    <message>
+        <source>View Channel</source>
+        <translation>Sender ansehen</translation>
+    </message>
+    <message>
+        <source>Codec Support</source>
+        <translation>Codec Unterstützung</translation>
+        <extracomment>Settings Menu - Title for settings group related to codec support</extracomment>
+    </message>
+    <message>
+        <source>Enter the server name or IP address</source>
+        <translation>Geben Sie den Servernamen oder die IP-Adresse ein</translation>
+        <extracomment>Title of KeyboardDialog when manually entering a server URL</extracomment>
+    </message>
+    <message>
+        <source>The requested content does not exist on the server</source>
+        <translation>Der angeforderte Inhalt existiert nicht auf dem Server</translation>
+        <extracomment>Content of message box when the requested content is not found on the server</extracomment>
+    </message>
+    <message>
+        <source>Pick a Jellyfin server from the local network</source>
+        <translation>Wählen Sie einen verfügbaren Jellyfin-Server in Ihrem lokalen Netzwerk aus:</translation>
+        <extracomment>Instructions on initial app launch when the user is asked to pick a server from a list</extracomment>
+    </message>
+    <message>
+        <source>...or enter server URL manually:</source>
+        <translation>Fügen Sie bitte die Server-URL manuell ein, falls kein Server vorhanden ist:</translation>
+        <extracomment>Instructions on initial app launch when the user is asked to manually enter a server URL</extracomment>
+    </message>
+    <message>
+        <source>Enable or disable Direct Play for optional codecs</source>
+        <translation>Aktivieren oder Deaktivieren von Direct Play für optionale Codecs</translation>
+        <extracomment>Settings Menu - Title for settings group related to codec support</extracomment>
+    </message>
 </context>
 </TS>

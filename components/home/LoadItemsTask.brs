@@ -73,7 +73,7 @@ sub loadItems()
         params["limit"] = 24
         params["EnableTotalRecordCount"] = false
 
-        maxDaysInNextUp = m.global.session.user.settings["ui.details.maxdaysnextup"]
+        maxDaysInNextUp = m.global.session.user.settings["ui.details.maxdaysnextup"].ToInt()
         if isValid(maxDaysInNextUp)
             if maxDaysInNextUp > 0
                 dateToday = CreateObject("roDateTime")

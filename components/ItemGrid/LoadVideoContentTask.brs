@@ -188,7 +188,6 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
     if not fully_external
         video.content = authRequest(video.content)
     end if
-
 end sub
 
 sub addVideoContentURL(video, mediaSourceId, audio_stream_idx, fully_external)
@@ -406,8 +405,10 @@ function FindPreferredAudioStream(streams as dynamic) as integer
 
     if preferredLanguage <> invalid
         for i = 0 to streams.Count() - 1
-            if LCase(streams[i].Type) = "audio" and LCase(streams[i].Language) = LCase(preferredLanguage)
-                return i
+            if LCase(streams[i].Type) = "audio"
+                if streams[i].Language <> invalid and LCase(streams[i].Language) = LCase(preferredLanguage)
+                    return i
+                end if
             end if
         end for
     end if
