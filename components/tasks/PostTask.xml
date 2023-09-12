@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<component name="PostTask" extends="Task">
+    <interface>
+        <field id="arrayData" type="assocarray" value="{}" />
+        <field id="stringData" type="string" value="" />
+        <field id="apiUrl" type="string" />
+
+        <field id="responseCode" type="integer" value="0" />
+    </interface>
+</component>

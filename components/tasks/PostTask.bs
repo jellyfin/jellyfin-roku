@@ -1,0 +1,39 @@
+import "pkg:/source/api/baserequest.brs"
+
+sub init()
+    m.top.functionName = "postItems"
+end sub
+
+sub postItems()
+    if m.top.apiUrl <> ""
+        if m.top.arrayData.count() > 0 and m.top.stringData = ""
+            print "PostTask Started - " + m.top.apiUrl, m.top.arrayData
+            req = APIRequest(m.top.apiUrl)
+            req.SetRequest("POST")
+            httpResponse = jsonPostTask(req, FormatJson(m.top.arrayData))
+            m.top.responseCode = httpResponse
+            print "PostTask Finished. " + m.top.apiUrl + " Response = " + httpResponse.toStr()
+        else if m.top.arrayData.count() = 0 and m.top.stringData <> ""
+            print "PostTask Started - " + m.top.apiUrl + " Data= " + m.top.stringData
+            req = APIRequest(m.top.apiUrl)
+            req.SetRequest("POST")
+            httpResponse = jsonPostTask(req, m.top.stringData)
+            m.top.responseCode = httpResponse
+            print "PostTask Finished. " + m.top.apiUrl + " Response = " + httpResponse.toStr()
+        else
+            print "ERROR processing data for PostTask"
+        end if
+    else
+        print "ERROR in PostTask. Invalid API URL provided"
+    end if
+end sub
+
+' Post data and wait for response code
+function jsonPostTask(req, data = "" as string) as integer
+    req.setMessagePort(CreateObject("roMessagePort"))
+    req.AddHeader("Content-Type", "application/json")
+    resp = req.PostFromString(data)
+
+    return resp
+end function
+
