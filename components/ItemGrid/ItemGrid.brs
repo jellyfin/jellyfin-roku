@@ -1,8 +1,14 @@
-sub init()
+import "pkg:/source/utils/misc.brs"
+import "pkg:/source/utils/config.brs"
+import "pkg:/source/api/baserequest.brs"
+import "pkg:/source/utils/deviceCapabilities.brs"
+import "pkg:/source/roku_modules/log/LogMixin.brs"
 
+sub init()
+    m.log = log.Logger("ItemGrid")
     m.options = m.top.findNode("options")
 
-    m.showItemCount = get_user_setting("itemgrid.showItemCount") = "true"
+    m.showItemCount = m.global.session.user.settings["itemgrid.showItemCount"]
 
     m.tvGuide = invalid
     m.channelFocused = invalid
@@ -11,6 +17,11 @@ sub init()
     m.backdrop = m.top.findNode("backdrop")
     m.newBackdrop = m.top.findNode("backdropTransition")
     m.emptyText = m.top.findNode("emptyText")
+
+    m.genreList = m.top.findNode("genrelist")
+    m.genreList.observeField("itemSelected", "onGenreItemSelected")
+    m.genreData = CreateObject("roSGNode", "ContentNode")
+    m.genreList.content = m.genreData
 
     m.swapAnimation = m.top.findNode("backroundSwapAnimation")
     m.swapAnimation.observeField("state", "swapDone")
@@ -60,18 +71,21 @@ sub init()
     m.AlphaSelected = m.top.findNode("AlphaSelected")
 
     'Get reset folder setting
-    m.resetGrid = get_user_setting("itemgrid.reset") = "true"
+    m.resetGrid = m.global.session.user.settings["itemgrid.reset"]
 
-    'Check if device has voice remote
-    devinfo = CreateObject("roDeviceInfo")
-    m.deviFeature = devinfo.HasFeature("voice_remote")
     m.micButton = m.top.findNode("micButton")
     m.micButtonText = m.top.findNode("micButtonText")
     'Hide voice search if device does not have voice remote
-    if m.deviFeature = false
+    if m.global.device.hasVoiceRemote = false
         m.micButton.visible = false
         m.micButtonText.visible = false
     end if
+end sub
+
+'
+'Genre Item Selected
+sub onGenreItemSelected()
+    m.top.selectedItem = m.genreList.content.getChild(m.genreList.rowItemSelected[0]).getChild(m.genreList.rowItemSelected[1])
 end sub
 
 '
@@ -91,9 +105,9 @@ sub loadInitialItems()
     ' Read view/sort/filter settings
     if m.top.parentItem.collectionType = "livetv"
         ' Translate between app and server nomenclature
-        viewSetting = get_user_setting("display.livetv.landing")
+        viewSetting = m.global.session.user.settings["display.livetv.landing"]
         'Move mic to be visiable on TV Guide screen
-        if m.deviFeature = true
+        if m.global.device.hasVoiceRemote = true
             m.micButton.translation = "[1540, 92]"
             m.micButtonText.visible = true
             m.micButtonText.translation = "[1600,130]"
@@ -105,25 +119,25 @@ sub loadInitialItems()
         else
             m.view = "livetv"
         end if
-        m.sortField = get_user_setting("display.livetv.sortField")
-        sortAscendingStr = get_user_setting("display.livetv.sortAscending")
-        m.filter = get_user_setting("display.livetv.filter")
+        m.sortField = m.global.session.user.settings["display.livetv.sortField"]
+        sortAscendingStr = m.global.session.user.settings["display.livetv.sortAscending"]
+        m.filter = m.global.session.user.settings["display.livetv.filter"]
     else if m.top.parentItem.collectionType = "music"
-        m.view = get_user_setting("display.music.view")
-        m.sortField = get_user_setting("display." + m.top.parentItem.Id + ".sortField")
-        sortAscendingStr = get_user_setting("display." + m.top.parentItem.Id + ".sortAscending")
-        m.filter = get_user_setting("display." + m.top.parentItem.Id + ".filter")
+        m.view = m.global.session.user.settings["display.music.view"]
+        m.sortField = m.global.session.user.settings["display." + m.top.parentItem.Id + ".sortField"]
+        sortAscendingStr = m.global.session.user.settings["display." + m.top.parentItem.Id + ".sortAscending"]
+        m.filter = m.global.session.user.settings["display." + m.top.parentItem.Id + ".filter"]
     else
-        m.sortField = get_user_setting("display." + m.top.parentItem.Id + ".sortField")
-        sortAscendingStr = get_user_setting("display." + m.top.parentItem.Id + ".sortAscending")
-        m.filter = get_user_setting("display." + m.top.parentItem.Id + ".filter")
-        m.view = get_user_setting("display." + m.top.parentItem.Id + ".landing")
+        m.sortField = m.global.session.user.settings["display." + m.top.parentItem.Id + ".sortField"]
+        sortAscendingStr = m.global.session.user.settings["display." + m.top.parentItem.Id + ".sortAscending"]
+        m.filter = m.global.session.user.settings["display." + m.top.parentItem.Id + ".filter"]
+        m.view = m.global.session.user.settings["display." + m.top.parentItem.Id + ".landing"]
     end if
 
     if m.sortField = invalid then m.sortField = "SortName"
     if m.filter = invalid then m.filter = "All"
 
-    if sortAscendingStr = invalid or sortAscendingStr = "true"
+    if sortAscendingStr = invalid or sortAscendingStr = true
         m.sortAscending = true
     else
         m.sortAscending = false
@@ -169,7 +183,7 @@ sub loadInitialItems()
         m.loadItemsTask.itemType = "MusicArtist"
         m.loadItemsTask.itemId = m.top.parentItem.Id
 
-        m.view = get_user_setting("display.music.view")
+        m.view = m.global.session.user.settings["display.music.view"]
 
         if m.view = "music-album"
             m.loadItemsTask.itemType = "MusicAlbum"
@@ -180,7 +194,7 @@ sub loadInitialItems()
         ' For LiveTV, we want to "Fit" the item images, not zoom
         m.top.imageDisplayMode = "scaleToFit"
 
-        if get_user_setting("display.livetv.landing") = "guide" and m.options.view <> "livetv"
+        if m.global.session.user.settings["display.livetv.landing"] = "guide" and m.options.view <> "livetv"
             showTvGuide()
         end if
     else if m.top.parentItem.collectionType = "CollectionFolder" or m.top.parentItem.type = "CollectionFolder" or m.top.parentItem.collectionType = "boxsets" or m.top.parentItem.Type = "Boxset" or m.top.parentItem.Type = "Boxsets" or m.top.parentItem.Type = "Folder" or m.top.parentItem.Type = "Channel"
@@ -198,7 +212,7 @@ sub loadInitialItems()
         m.loadItemsTask.itemType = "Series,Movie"
         m.loadItemsTask.itemId = m.top.parentItem.parentFolder
     else
-        print "[ItemGrid] Unknown Type: " m.top.parentItem
+        m.log.warn("Unknown Item Type", m.top.parentItem)
     end if
 
     if m.top.parentItem.type <> "Folder" and (m.options.view = "Networks" or m.view = "Networks" or m.options.view = "Studios" or m.view = "Studios")
@@ -287,6 +301,14 @@ sub setTvShowsOptions(options)
         { "Title": tr("Played"), "Name": "Played" },
         { "Title": tr("Unplayed"), "Name": "Unplayed" }
     ]
+
+    if isValid(m.view)
+        if LCase(m.options.view) = "genres" or LCase(m.view) = "genres"
+            options.sort = [{ "Title": tr("TITLE"), "Name": "SortName" }]
+            options.filter = []
+        end if
+    end if
+
 end sub
 
 ' Set Live TV view, sort, and filter options
@@ -430,9 +452,31 @@ sub ItemDataLoaded(msg)
         return
     end if
 
+    if m.loadItemsTask.view = "Genres"
+        ' Reset genre list data
+        m.genreData.removeChildren(m.genreData.getChildren(-1, 0))
+
+        for each item in itemData
+            m.genreData.appendChild(item)
+        end for
+
+        m.itemGrid.opacity = "0"
+        m.genreList.opacity = "1"
+
+        m.itemGrid.setFocus(false)
+        m.genreList.setFocus(true)
+
+        m.loading = false
+        m.spinner.visible = false
+        return
+    end if
+
     for each item in itemData
         m.data.appendChild(item)
     end for
+
+    m.itemGrid.opacity = "1"
+    m.genreList.opacity = "0"
 
     'Update the stored counts
     m.loadedItems = m.itemGrid.content.getChildCount()
@@ -445,6 +489,7 @@ sub ItemDataLoaded(msg)
     end if
 
     m.itemGrid.setFocus(true)
+    m.genreList.setFocus(false)
     m.spinner.visible = false
 end sub
 
@@ -605,7 +650,7 @@ sub optionsClosed()
             reload = true
         end if
     else
-        m.view = get_user_setting("display." + m.top.parentItem.Id + ".landing")
+        m.view = m.global.session.user.settings["display." + m.top.parentItem.Id + ".landing"]
         if m.options.view <> m.view
             'reload and store new view setting
             m.view = m.options.view
@@ -652,7 +697,10 @@ sub optionsClosed()
         m.itemGrid.content = m.data
         loadInitialItems()
     end if
-    m.itemGrid.setFocus(true)
+
+    m.itemGrid.setFocus(m.itemGrid.opacity = 1)
+    m.genreList.setFocus(m.genreList.opacity = 1)
+
     if m.tvGuide <> invalid
         m.tvGuide.lastFocus.setFocus(true)
     end if
@@ -688,13 +736,19 @@ end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean
     if not press then return false
-    topGrp = m.top.findNode("itemGrid")
+
+    if m.itemGrid.opacity = 1
+        topGrp = m.itemGrid
+    else
+        topGrp = m.genreList
+    end if
     searchGrp = m.top.findNode("voiceBox")
 
     if key = "left" and searchGrp.isinFocusChain()
         topGrp.setFocus(true)
         searchGrp.setFocus(false)
     end if
+
     if key = "options"
         if m.options.visible = true
             m.options.visible = false
@@ -780,14 +834,16 @@ function onKeyEvent(key as string, press as boolean) as boolean
 end function
 
 sub updateTitle()
-    if m.filter = "All"
-        m.top.overhangTitle = m.top.parentItem.title
-    else if m.filter = "Favorites"
+    m.top.overhangTitle = m.top.parentItem.title
+
+    if m.filter = "Favorites"
         m.top.overhangTitle = m.top.parentItem.title + " " + tr("(Favorites)")
     end if
+
     if m.voiceBox.text <> ""
         m.top.overhangTitle = m.top.parentItem.title + tr(" (Filtered by ") + m.loadItemsTask.searchTerm + ")"
     end if
+
     if m.top.alphaSelected <> ""
         m.top.overhangTitle = m.top.parentItem.title + tr(" (Filtered by ") + m.loadItemsTask.nameStartsWith + ")"
     end if
@@ -801,14 +857,18 @@ sub updateTitle()
     if m.options.view = "Networks" or m.view = "Networks"
         m.top.overhangTitle = "%s (%s)".Format(m.top.parentItem.title, tr("Networks"))
     end if
+
     if m.options.view = "Studios" or m.view = "Studios"
         m.top.overhangTitle = "%s (%s)".Format(m.top.parentItem.title, tr("Studios"))
     end if
+
     if m.options.view = "Genres" or m.view = "Genres"
         m.top.overhangTitle = "%s (%s)".Format(m.top.parentItem.title, tr("Genres"))
     end if
+
     actInt = m.itemGrid.itemFocused + 1
-    if m.showItemCount and m.loadItemsTask.totalRecordCount > 0
+
+    if m.showItemCount and m.loadItemsTask.totalRecordCount > 0 and m.options.view <> "Genres" and m.view <> "Genres"
         m.top.overhangTitle += " (" + tr("%1 of %2").Replace("%1", actInt.toStr()).Replace("%2", m.loadItemsTask.totalRecordCount.toStr()) + ")"
     end if
 

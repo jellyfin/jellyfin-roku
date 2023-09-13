@@ -1,3 +1,7 @@
+import "pkg:/source/api/baserequest.brs"
+import "pkg:/source/utils/config.brs"
+import "pkg:/source/api/Image.brs"
+
 sub setData()
     ' We keep json around just as a reference,
     ' but ideally everything should be going through one of the interfaces
@@ -16,7 +20,7 @@ sub setData()
     ' Set appropriate Images for Wide and Tall based on type
 
     if datum.type = "CollectionFolder" or datum.type = "UserView"
-        params = { "maxHeight": 261, "maxWidth": 464 }
+        params = { "Tag": datum.ImageTags.Primary, "maxHeight": 261, "maxWidth": 464 }
         m.top.thumbnailURL = ImageURL(datum.id, "Primary", params)
         m.top.widePosterUrl = m.top.thumbnailURL
 
@@ -28,19 +32,28 @@ sub setData()
         end if
 
     else if datum.type = "Episode"
-        imgParams = { "AddPlayedIndicator": datum.UserData.Played }
+        m.top.isWatched = datum.UserData.Played
 
+        imgParams = {}
         imgParams.Append({ "maxHeight": 261 })
         imgParams.Append({ "maxWidth": 464 })
+
+        if datum.ImageTags.Primary <> invalid
+            param = { "Tag": datum.ImageTags.Primary }
+            imgParams.Append(param)
+        end if
 
         m.top.thumbnailURL = ImageURL(datum.id, "Primary", imgParams)
 
         ' Add Wide Poster  (Series Backdrop)
         if datum.ParentThumbImageTag <> invalid
+            imgParams["Tag"] = datum.ParentThumbImageTag
             m.top.widePosterUrl = ImageURL(datum.ParentThumbItemId, "Thumb", imgParams)
         else if datum.ParentBackdropImageTags <> invalid
+            imgParams["Tag"] = datum.ParentBackdropImageTags[0]
             m.top.widePosterUrl = ImageURL(datum.ParentBackdropItemId, "Backdrop", imgParams)
         else if datum.ImageTags.Primary <> invalid
+            imgParams["Tag"] = datum.SeriesPrimaryImageTag
             m.top.widePosterUrl = ImageURL(datum.id, "Primary", imgParams)
         end if
 
@@ -52,16 +65,24 @@ sub setData()
 
         ' Add Wide Poster  (Series Backdrop)
         if datum.ImageTags <> invalid and datum.imageTags.Thumb <> invalid
+            imgParams["Tag"] = datum.imageTags.Thumb
             m.top.widePosterUrl = ImageURL(datum.Id, "Thumb", imgParams)
         else if datum.BackdropImageTags <> invalid
+            imgParams["Tag"] = datum.BackdropImageTags[0]
             m.top.widePosterUrl = ImageURL(datum.Id, "Backdrop", imgParams)
         end if
 
     else if datum.type = "Movie"
-        imgParams = { AddPlayedIndicator: datum.UserData.Played }
+        m.top.isWatched = datum.UserData.Played
 
+        imgParams = {}
         imgParams.Append({ "maxHeight": 261 })
         imgParams.Append({ "maxWidth": 175 })
+
+        if datum.ImageTags.Primary <> invalid
+            param = { "Tag": datum.ImageTags.Primary }
+            imgParams.Append(param)
+        end if
 
         m.top.posterURL = ImageURL(datum.id, "Primary", imgParams)
 
@@ -69,16 +90,24 @@ sub setData()
         imgParams["maxWidth"] = 464
 
         if datum.ImageTags <> invalid and datum.imageTags.Thumb <> invalid
+            imgParams["Tag"] = datum.imageTags.Thumb
             m.top.thumbnailUrl = ImageURL(datum.Id, "Thumb", imgParams)
         else if datum.BackdropImageTags[0] <> invalid
+            imgParams["Tag"] = datum.BackdropImageTags[0]
             m.top.thumbnailUrl = ImageURL(datum.id, "Backdrop", imgParams)
         end if
 
     else if datum.type = "Video"
-        imgParams = { AddPlayedIndicator: datum.UserData.Played }
+        m.top.isWatched = datum.UserData.Played
 
+        imgParams = {}
         imgParams.Append({ "maxHeight": 261 })
         imgParams.Append({ "maxWidth": 175 })
+
+        if datum.ImageTags.Primary <> invalid
+            param = { "Tag": datum.ImageTags.Primary }
+            imgParams.Append(param)
+        end if
 
         m.top.posterURL = ImageURL(datum.id, "Primary", imgParams)
 
@@ -86,18 +115,20 @@ sub setData()
         imgParams["maxWidth"] = 464
 
         if datum.ImageTags <> invalid and datum.imageTags.Thumb <> invalid
+            imgParams["Tag"] = datum.imageTags.Thumb
             m.top.thumbnailUrl = ImageURL(datum.Id, "Thumb", imgParams)
         else if datum.BackdropImageTags[0] <> invalid
+            imgParams["Tag"] = datum.BackdropImageTags[0]
             m.top.thumbnailUrl = ImageURL(datum.id, "Backdrop", imgParams)
         end if
     else if datum.type = "MusicAlbum"
-        params = { "maxHeight": 261, "maxWidth": 261 }
+        params = { "Tag": datum.ImageTags.Primary, "maxHeight": 261, "maxWidth": 261 }
         m.top.thumbnailURL = ImageURL(datum.id, "Primary", params)
         m.top.widePosterUrl = m.top.thumbnailURL
         m.top.posterUrl = m.top.thumbnailURL
 
     else if datum.type = "TvChannel" or datum.type = "Channel"
-        params = { "maxHeight": 261, "maxWidth": 464 }
+        params = { "Tag": datum.ImageTags.Primary, "maxHeight": 261, "maxWidth": 464 }
         m.top.thumbnailURL = ImageURL(datum.id, "Primary", params)
         m.top.widePosterUrl = m.top.thumbnailURL
         m.top.iconUrl = "pkg:/images/media_type_icons/live_tv_white.png"

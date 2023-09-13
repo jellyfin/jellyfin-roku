@@ -382,5 +382,106 @@
         <source>Save Credentials?</source>
         <translation>Saglabāt akreditācijas datus?</translation>
     </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>Saglabāt akreditācijas datus?</translation>
+    </message>
+    <message>
+        <source>Delete Saved</source>
+        <translation>Izdzēst Saglabātos</translation>
+    </message>
+    <message>
+        <source>On Now</source>
+        <translation>Tagad</translation>
+    </message>
+    <message>
+        <source>Error Retrieving Content</source>
+        <translation>Kļūda Saņemot Saturu</translation>
+        <extracomment>Dialog title when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <source>Error During Playback</source>
+        <translation>Kļūda Atskaņošanas Laikā</translation>
+        <extracomment>Dialog title when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>An error was encountered while playing this item.</source>
+        <translation>Notika kļūda, atskaņojot šo vienumu.</translation>
+        <extracomment>Dialog detail when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <comment>Message displayed in Item Grid when no item to display. %1 is container type (e.g. Boxset, Collection, Folder, etc)</comment>
+        <source>NO_ITEMS</source>
+        <translation>%1 nesatur vienumus</translation>
+    </message>
+    <message>
+        <comment>Name or Title field of media item</comment>
+        <source>TITLE</source>
+        <translation>Nosaukums</translation>
+    </message>
+    <message>
+        <source>DATE_ADDED</source>
+        <translation>Pievienošanas Datums</translation>
+    </message>
+    <message>
+        <comment>Title of Tab for options to filter library content</comment>
+        <source>TAB_FILTER</source>
+        <translation>Filtrēt</translation>
+    </message>
+    <message>
+        <comment>Title of Tab for options to sort library content</comment>
+        <source>TAB_SORT</source>
+        <translation>Kārtot</translation>
+    </message>
+    <message>
+        <comment>Title of Tab for switching &quot;views&quot; when looking at a library</comment>
+        <source>TAB_VIEW</source>
+        <translation>Izkārtojums</translation>
+    </message>
+    <message>
+        <source>RUNTIME</source>
+        <translation>Ilgums</translation>
+    </message>
+    <message>
+        <source>DATE_PLAYED</source>
+        <translation>Atskaņošanas Datums</translation>
+    </message>
+    <message>
+        <source>There was an error retrieving the data for this item from the server.</source>
+        <translation>Notika kļūda, no servera saņemot datus par šo vienumu.</translation>
+        <extracomment>Dialog detail when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <source>RELEASE_DATE</source>
+        <translation>Izlaiduma Datums</translation>
+    </message>
+    <message>
+        <source>IMDB_RATING</source>
+        <translation>IMDb Vērtējums</translation>
+    </message>
+    <message>
+        <source>Born</source>
+        <translation>Dzimšanas datums</translation>
+    </message>
+    <message>
+        <source>Died</source>
+        <translation>Nāves datums</translation>
+    </message>
+    <message>
+        <source>Age</source>
+        <translation>Vecums</translation>
+    </message>
+    <message>
+        <source>CRITIC_RATING</source>
+        <translation>Kritiķu Vērtējums</translation>
+    </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>Saglabāt Piekļuves Datus?</translation>
+    </message>
+    <message>
+        <source>Delete Saved</source>
+        <translation>Izdzēst Saglabātos</translation>
+    </message>
 </context>
 </TS>

@@ -1,4 +1,9 @@
+import "pkg:/source/utils/config.brs"
+import "pkg:/source/utils/misc.brs"
+import "pkg:/source/roku_modules/log/LogMixin.brs"
+
 sub init()
+    m.log = log.Logger("GridItem")
     m.posterMask = m.top.findNode("posterMask")
     m.itemPoster = m.top.findNode("itemPoster")
     m.itemIcon = m.top.findNode("itemIcon")
@@ -13,16 +18,16 @@ sub init()
 
     m.itemText.translation = [0, m.itemPoster.height + 7]
 
-    m.alwaysShowTitles = get_user_setting("itemgrid.alwaysShowTitles") = "true"
-    m.itemText.visible = m.alwaysShowTitles
+    m.gridTitles = m.global.session.user.settings["itemgrid.gridTitles"]
+    m.itemText.visible = m.gridTitles = "showalways"
 
     ' Add some padding space when Item Titles are always showing
-    if m.alwaysShowTitles then m.itemText.maxWidth = 250
+    if m.itemText.visible then m.itemText.maxWidth = 250
 
     'Parent is MarkupGrid and it's parent is the ItemGrid
     m.topParent = m.top.GetParent().GetParent()
     'Get the imageDisplayMode for these grid items
-    if m.topParent.imageDisplayMode <> invalid
+    if isValid(m.topParent.imageDisplayMode)
         m.itemPoster.loadDisplayMode = m.topParent.imageDisplayMode
     end if
 
@@ -43,12 +48,16 @@ sub itemContentChanged()
         m.itemIcon.uri = itemData.iconUrl
         m.itemText.text = itemData.Title
     else if itemData.type = "Series"
-        if itemData?.json?.UserData?.UnplayedItemCount <> invalid and itemData.json.UserData.UnplayedItemCount > 0
-            m.unplayedCount.visible = true
-            m.unplayedEpisodeCount.text = itemData.json.UserData.UnplayedItemCount
-        else
-            m.unplayedCount.visible = false
-            m.unplayedEpisodeCount.text = ""
+        if m.global.session.user.settings["ui.tvshows.disableUnwatchedEpisodeCount"] = false
+            if isValid(itemData.json) and isValid(itemData.json.UserData) and isValid(itemData.json.UserData.UnplayedItemCount)
+                if itemData.json.UserData.UnplayedItemCount > 0
+                    m.unplayedCount.visible = true
+                    m.unplayedEpisodeCount.text = itemData.json.UserData.UnplayedItemCount
+                else
+                    m.unplayedCount.visible = false
+                    m.unplayedEpisodeCount.text = ""
+                end if
+            end if
         end if
 
         m.itemPoster.uri = itemData.PosterUrl
@@ -71,6 +80,10 @@ sub itemContentChanged()
         m.itemPoster.uri = itemData.PosterUrl
         m.itemIcon.uri = itemData.iconUrl
         m.itemText.text = itemData.Title
+    else if itemData.type = "Playlist"
+        m.itemPoster.uri = itemData.PosterUrl
+        m.itemIcon.uri = itemData.iconUrl
+        m.itemText.text = itemData.Title
     else if itemData.type = "Photo"
         m.itemPoster.uri = itemData.PosterUrl
         m.itemIcon.uri = itemData.iconUrl
@@ -78,7 +91,11 @@ sub itemContentChanged()
     else if itemData.type = "Episode"
         m.itemPoster.uri = itemData.PosterUrl
         m.itemIcon.uri = itemData.iconUrl
-        m.itemText.text = itemData.json.SeriesName + " - " + itemData.Title
+        if isValid(itemData.json) and isValid(itemData.json.SeriesName)
+            m.itemText.text = itemData.json.SeriesName + " - " + itemData.Title
+        else
+            m.itemText.text = itemData.Title
+        end if
     else if itemData.type = "MusicArtist"
         m.itemPoster.uri = itemData.PosterUrl
         m.itemText.text = itemData.Title
@@ -93,7 +110,7 @@ sub itemContentChanged()
 
         m.posterText.height = 200
         m.posterText.width = 280
-    else if itemData.json.type = "MusicAlbum"
+    else if isValid(itemData.json.type) and itemData.json.type = "MusicAlbum"
         m.itemPoster.uri = itemData.PosterUrl
         m.itemText.text = itemData.Title
 
@@ -108,7 +125,7 @@ sub itemContentChanged()
         m.posterText.height = 200
         m.posterText.width = 280
     else
-        print "Unhandled Grid Item Type: " + itemData.type
+        m.log.warn("Unhandled Grid Item Type", itemData.type)
     end if
 
     'If Poster not loaded, ensure "blue box" is shown until loaded
@@ -132,15 +149,16 @@ end sub
 'Display or hide title Visibility on focus change
 sub focusChanged()
     if m.top.itemHasFocus = true
-        m.itemText.visible = true
         m.itemText.repeatCount = -1
         m.posterMask.scale = [1, 1]
     else
-        m.itemText.visible = m.alwaysShowTitles
         m.itemText.repeatCount = 0
         if m.topParent.alphaActive = true
             m.posterMask.scale = [0.85, 0.85]
         end if
+    end if
+    if m.gridTitles = "showonhover"
+        m.itemText.visible = m.top.itemHasFocus
     end if
 end sub
 

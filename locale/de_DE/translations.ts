@@ -6,7 +6,7 @@
     <name>default</name>
     <message>
         <source>192.168.1.100:8096 or https://example.com/jellyfin</source>
-        <translation>Standard: 192.168.1.100:8096 oder https://example.com/jellyfin</translation>
+        <translation>192.168.1.100:8096 oder https://example.com/jellyfin</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -401,7 +401,7 @@
     <message>
         <source>Started</source>
         <translation>Seit</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program started (e.g.  Started Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program started (e.g. Started Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>CRITIC_RATING</source>
@@ -430,27 +430,27 @@
     <message>
         <source>Ends at</source>
         <translation>Endete</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program ended  (e.g.  Ended Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program ended (e.g. Ended Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Ended at</source>
         <translation>Endete um</translation>
-        <extracomment>(Past Tense) For defining time when a program will ended (e.g.  Ended at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program will ended (e.g. Ended at 08:00) </extracomment>
     </message>
     <message>
         <source>Starts</source>
         <translation>Beginnt</translation>
-        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g.  Starts Wednesday, 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g. Starts Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Starts at</source>
         <translation>Beginnt um</translation>
-        <extracomment>(Future Tense) For defining time when a program will start today (e.g.  Starts at 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining time when a program will start today (e.g. Starts at 08:00) </extracomment>
     </message>
     <message>
         <source>Started at</source>
         <translation>Läuft seit</translation>
-        <extracomment>(Past Tense) For defining time when a program started today (e.g.  Started at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program started today (e.g. Started at 08:00) </extracomment>
     </message>
     <message>
         <source>Saturday</source>
@@ -623,32 +623,32 @@
     <message>
         <source>Ends at</source>
         <translation>Endete</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program ended  (e.g.  Ended Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program ended (e.g. Ended Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Ended at</source>
         <translation>Endete um</translation>
-        <extracomment>(Past Tense) For defining time when a program will ended (e.g.  Ended at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program will ended (e.g. Ended at 08:00) </extracomment>
     </message>
     <message>
         <source>Starts</source>
         <translation>Beginnt</translation>
-        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g.  Starts Wednesday, 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g. Starts Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Starts at</source>
         <translation>Beginnt um</translation>
-        <extracomment>(Future Tense) For defining time when a program will start today (e.g.  Starts at 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining time when a program will start today (e.g. Starts at 08:00) </extracomment>
     </message>
     <message>
         <source>Started</source>
         <translation>Seit</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program started (e.g.  Started Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program started (e.g. Started Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Started at</source>
         <translation>Läuft seit</translation>
-        <extracomment>(Past Tense) For defining time when a program started today (e.g.  Started at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program started today (e.g. Started at 08:00) </extracomment>
     </message>
     <message>
         <source>Saturday</source>
@@ -835,32 +835,32 @@
     <message>
         <source>Ends at</source>
         <translation>Endete</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program ended  (e.g.  Ended Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program ended (e.g. Ended Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Ended at</source>
         <translation>Endete um</translation>
-        <extracomment>(Past Tense) For defining time when a program will ended (e.g.  Ended at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program will ended (e.g. Ended at 08:00) </extracomment>
     </message>
     <message>
         <source>Starts</source>
         <translation>Beginnt</translation>
-        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g.  Starts Wednesday, 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g. Starts Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Starts at</source>
         <translation>Beginnt um</translation>
-        <extracomment>(Future Tense) For defining time when a program will start today (e.g.  Starts at 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining time when a program will start today (e.g. Starts at 08:00) </extracomment>
     </message>
     <message>
         <source>Started</source>
         <translation>Seit</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program started (e.g.  Started Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program started (e.g. Started Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Started at</source>
         <translation>Läuft seit</translation>
-        <extracomment>(Past Tense) For defining time when a program started today (e.g.  Started at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program started today (e.g. Started at 08:00) </extracomment>
     </message>
     <message>
         <source>Saturday</source>
@@ -1012,7 +1012,7 @@
     <message>
         <source>Ends at</source>
         <translation>Endet um</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program ended  (e.g.  Ended Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program ended (e.g. Ended Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>The requested content does not exist on the server</source>
@@ -1052,32 +1052,32 @@
     <message>
         <source>Ends at</source>
         <translation>Endete</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program ended  (e.g.  Ended Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program ended (e.g. Ended Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Ended at</source>
         <translation>Endete um</translation>
-        <extracomment>(Past Tense) For defining time when a program will ended (e.g.  Ended at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program will ended (e.g. Ended at 08:00) </extracomment>
     </message>
     <message>
         <source>Starts</source>
         <translation>Beginnt</translation>
-        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g.  Starts Wednesday, 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g. Starts Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Starts at</source>
         <translation>Beginnt um</translation>
-        <extracomment>(Future Tense) For defining time when a program will start today (e.g.  Starts at 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining time when a program will start today (e.g. Starts at 08:00) </extracomment>
     </message>
     <message>
         <source>Started</source>
         <translation>Seit</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program started (e.g.  Started Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program started (e.g. Started Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Started at</source>
         <translation>Läuft seit</translation>
-        <extracomment>(Past Tense) For defining time when a program started today (e.g.  Started at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program started today (e.g. Started at 08:00) </extracomment>
     </message>
     <message>
         <source>Saturday</source>
@@ -1279,32 +1279,32 @@
     <message>
         <source>Ends at</source>
         <translation>Endete</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program ended  (e.g.  Ended Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program ended (e.g. Ended Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Ended at</source>
         <translation>Endete um</translation>
-        <extracomment>(Past Tense) For defining time when a program will ended (e.g.  Ended at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program will ended (e.g. Ended at 08:00) </extracomment>
     </message>
     <message>
         <source>Starts</source>
         <translation>Beginnt</translation>
-        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g.  Starts Wednesday, 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g. Starts Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Starts at</source>
         <translation>Beginnt um</translation>
-        <extracomment>(Future Tense) For defining time when a program will start today (e.g.  Starts at 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining time when a program will start today (e.g. Starts at 08:00) </extracomment>
     </message>
     <message>
         <source>Started</source>
         <translation>Seit</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program started (e.g.  Started Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program started (e.g. Started Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Started at</source>
         <translation>Läuft seit</translation>
-        <extracomment>(Past Tense) For defining time when a program started today (e.g.  Started at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program started today (e.g. Started at 08:00) </extracomment>
     </message>
     <message>
         <source>Saturday</source>
@@ -1581,32 +1581,32 @@
     <message>
         <source>Ends at</source>
         <translation>Endete</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program ended  (e.g.  Ended Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program ended (e.g. Ended Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Ended at</source>
         <translation>Endete um</translation>
-        <extracomment>(Past Tense) For defining time when a program will ended (e.g.  Ended at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program will ended (e.g. Ended at 08:00) </extracomment>
     </message>
     <message>
         <source>Starts</source>
         <translation>Beginnt</translation>
-        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g.  Starts Wednesday, 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g. Starts Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Starts at</source>
         <translation>Beginnt um</translation>
-        <extracomment>(Future Tense) For defining time when a program will start today (e.g.  Starts at 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining time when a program will start today (e.g. Starts at 08:00) </extracomment>
     </message>
     <message>
         <source>Started</source>
         <translation>Seit</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program started (e.g.  Started Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program started (e.g. Started Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Started at</source>
         <translation>Läuft seit</translation>
-        <extracomment>(Past Tense) For defining time when a program started today (e.g.  Started at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program started today (e.g. Started at 08:00) </extracomment>
     </message>
     <message>
         <source>Saturday</source>
@@ -1803,32 +1803,32 @@
     <message>
         <source>Ends at</source>
         <translation>Endete</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program ended  (e.g.  Ended Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program ended (e.g. Ended Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Ended at</source>
         <translation>Endete um</translation>
-        <extracomment>(Past Tense) For defining time when a program will ended (e.g.  Ended at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program will ended (e.g. Ended at 08:00) </extracomment>
     </message>
     <message>
         <source>Starts</source>
         <translation>Beginnt</translation>
-        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g.  Starts Wednesday, 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g. Starts Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Starts at</source>
         <translation>Beginnt um</translation>
-        <extracomment>(Future Tense) For defining time when a program will start today (e.g.  Starts at 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining time when a program will start today (e.g. Starts at 08:00) </extracomment>
     </message>
     <message>
         <source>Started</source>
         <translation>Seit</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program started (e.g.  Started Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program started (e.g. Started Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Started at</source>
         <translation>Läuft seit</translation>
-        <extracomment>(Past Tense) For defining time when a program started today (e.g.  Started at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program started today (e.g. Started at 08:00) </extracomment>
     </message>
     <message>
         <source>Saturday</source>
@@ -1970,7 +1970,7 @@
         <extracomment>Dialog title when unable to load Content from Server</extracomment>
     </message>
     <message>
-        <source>An error was encountered while playing this item.  Server did not provide required transcoding data.</source>
+        <source>An error was encountered while playing this item. Server did not provide required transcoding data.</source>
         <translation>Beim Abspielen dieses Titels ist ein Fehler aufgetreten. Server lieferte keine erforderlichen Transcodierungsdaten.</translation>
         <extracomment>Content of message box when trying to play an item which requires transcoding, and the server did not provide transcode url</extracomment>
     </message>
@@ -1980,7 +1980,7 @@
         <extracomment>Dialog Title: Received error from server when trying to get information about the selected item for playback</extracomment>
     </message>
     <message>
-        <source>An error was encountered while playing this item.  Server did not provide required transcoding data.</source>
+        <source>An error was encountered while playing this item. Server did not provide required transcoding data.</source>
         <translation>Beim Abspielen dieses Titels ist ein Fehler aufgetreten. Der Server lieferte nicht die erforderlichen Transcodierungsdaten.</translation>
         <extracomment>Content of message box when trying to play an item which requires transcoding, and the server did not provide transcode url</extracomment>
     </message>
@@ -2042,32 +2042,32 @@
     <message>
         <source>Ends at</source>
         <translation>Endete</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program ended  (e.g.  Ended Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program ended (e.g. Ended Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Ended at</source>
         <translation>Endete um</translation>
-        <extracomment>(Past Tense) For defining time when a program will ended (e.g.  Ended at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program will ended (e.g. Ended at 08:00) </extracomment>
     </message>
     <message>
         <source>Starts</source>
         <translation>Beginnt</translation>
-        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g.  Starts Wednesday, 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g. Starts Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Starts at</source>
         <translation>Beginnt um</translation>
-        <extracomment>(Future Tense) For defining time when a program will start today (e.g.  Starts at 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining time when a program will start today (e.g. Starts at 08:00) </extracomment>
     </message>
     <message>
         <source>Started</source>
         <translation>Seit</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program started (e.g.  Started Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program started (e.g. Started Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Started at</source>
         <translation>Läuft seit</translation>
-        <extracomment>(Past Tense) For defining time when a program started today (e.g.  Started at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program started today (e.g. Started at 08:00) </extracomment>
     </message>
     <message>
         <source>Saturday</source>
@@ -2261,7 +2261,7 @@
         <translation>Server ändern</translation>
     </message>
     <message>
-        <source>An error was encountered while playing this item.  Server did not provide required transcoding data.</source>
+        <source>An error was encountered while playing this item. Server did not provide required transcoding data.</source>
         <translation>Beim Abspielen dieses Titels ist ein Fehler aufgetreten. Der Server hat keine URL für das Transkodieren zur Verfügung gestellt.</translation>
         <extracomment>Content of message box when trying to play an item which requires transcoding, and the server did not provide transcode url</extracomment>
     </message>
@@ -2323,32 +2323,32 @@
     <message>
         <source>Ends at</source>
         <translation>Endete um</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program ended  (e.g.  Ended Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program ended (e.g. Ended Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Ended at</source>
         <translation>Endete um</translation>
-        <extracomment>(Past Tense) For defining time when a program will ended (e.g.  Ended at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program will ended (e.g. Ended at 08:00) </extracomment>
     </message>
     <message>
         <source>Starts</source>
         <translation>Beginnt</translation>
-        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g.  Starts Wednesday, 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g. Starts Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Starts at</source>
         <translation>Beginnt um</translation>
-        <extracomment>(Future Tense) For defining time when a program will start today (e.g.  Starts at 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining time when a program will start today (e.g. Starts at 08:00) </extracomment>
     </message>
     <message>
         <source>Started</source>
         <translation>Läuft seit</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program started (e.g.  Started Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program started (e.g. Started Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Started at</source>
         <translation>Läuft seit</translation>
-        <extracomment>(Past Tense) For defining time when a program started today (e.g.  Started at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program started today (e.g. Started at 08:00) </extracomment>
     </message>
     <message>
         <source>Saturday</source>
@@ -2537,7 +2537,7 @@
     <message>
         <source>Started at</source>
         <translation>Läuft seit</translation>
-        <extracomment>(Past Tense) For defining time when a program started today (e.g.  Started at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program started today (e.g. Started at 08:00) </extracomment>
     </message>
     <message>
         <source>...or enter server URL manually:</source>
@@ -2557,34 +2557,34 @@
     <message>
         <source>Ends at</source>
         <translation>Endete</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program ended  (e.g.  Ended Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program ended (e.g. Ended Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Ended at</source>
         <translation>Endete um</translation>
-        <extracomment>(Past Tense) For defining time when a program will ended (e.g.  Ended at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program will ended (e.g. Ended at 08:00) </extracomment>
     </message>
     <message>
         <source>Starts</source>
         <translation>Beginnt</translation>
-        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g.  Starts Wednesday, 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g. Starts Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Starts at</source>
         <translation>Beginnt um</translation>
-        <extracomment>(Future Tense) For defining time when a program will start today (e.g.  Starts at 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining time when a program will start today (e.g. Starts at 08:00) </extracomment>
     </message>
     <message>
         <source>Started</source>
         <translation>Läuft seit</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program started (e.g.  Started Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program started (e.g. Started Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>IMDB_RATING</source>
         <translation>IMDb Wertung</translation>
     </message>
     <message>
-        <source>An error was encountered while playing this item.  Server did not provide required transcoding data.</source>
+        <source>An error was encountered while playing this item. Server did not provide required transcoding data.</source>
         <translation>Beim Abspielen dieses Titels ist ein Fehler aufgetreten. Der Server hat keine URL für das Transkodieren zur Verfügung gestellt.</translation>
         <extracomment>Content of message box when trying to play an item which requires transcoding, and the server did not provide transcode url</extracomment>
     </message>
@@ -2770,7 +2770,7 @@
         <translation>Eintrag</translation>
     </message>
     <message>
-        <source>An error was encountered while playing this item.  Server did not provide required transcoding data.</source>
+        <source>An error was encountered while playing this item. Server did not provide required transcoding data.</source>
         <translation>Ein Fehler ist beim Abspielen der Inhalte aufgetreten. Der server hat keine transcodierten Daten bereitgestellt.</translation>
         <extracomment>Content of message box when trying to play an item which requires transcoding, and the server did not provide transcode url</extracomment>
     </message>
@@ -2839,32 +2839,32 @@
     <message>
         <source>Ends at</source>
         <translation type="unfinished">Beendet</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program ended  (e.g.  Ended Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program ended (e.g. Ended Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Ended at</source>
         <translation type="unfinished">Beendet gegen</translation>
-        <extracomment>(Past Tense) For defining time when a program will ended (e.g.  Ended at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program will ended (e.g. Ended at 08:00) </extracomment>
     </message>
     <message>
         <source>Starts</source>
         <translation>Beginnt</translation>
-        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g.  Starts Wednesday, 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g. Starts Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Starts at</source>
         <translation>Beginnt um</translation>
-        <extracomment>(Future Tense) For defining time when a program will start today (e.g.  Starts at 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining time when a program will start today (e.g. Starts at 08:00) </extracomment>
     </message>
     <message>
         <source>Started</source>
         <translation>Begonnen</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program started (e.g.  Started Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program started (e.g. Started Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Started at</source>
         <translation>Begonnen um</translation>
-        <extracomment>(Past Tense) For defining time when a program started today (e.g.  Started at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program started today (e.g. Started at 08:00) </extracomment>
     </message>
     <message>
         <source>Saturday</source>
@@ -2994,12 +2994,12 @@
     <message>
         <source>Ends at</source>
         <translation>Endet um</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program ended  (e.g.  Ended Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program ended (e.g. Ended Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Ended at</source>
         <translation>Endete um</translation>
-        <extracomment>(Past Tense) For defining time when a program will ended (e.g.  Ended at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program will ended (e.g. Ended at 08:00) </extracomment>
     </message>
     <message>
         <source>DATE_PLAYED</source>
@@ -3057,8 +3057,8 @@
         <translation>Version</translation>
     </message>
     <message>
-        <source>An error was encountered while playing this item.  Server did not provide required transcoding data.</source>
-        <translation>Beim Abspielen des Titels ist ein Fehler aufgetreten.  Der Server hat zur Transkodierung erforderliche Daten nicht zur Verfügung gestellt.</translation>
+        <source>An error was encountered while playing this item. Server did not provide required transcoding data.</source>
+        <translation>Beim Abspielen des Titels ist ein Fehler aufgetreten. Der Server hat zur Transkodierung erforderliche Daten nicht zur Verfügung gestellt.</translation>
         <extracomment>Content of message box when trying to play an item which requires transcoding, and the server did not provide transcode url</extracomment>
     </message>
     <message>
@@ -3143,32 +3143,32 @@
     <message>
         <source>Ends at</source>
         <translation>Endet um</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program ended  (e.g.  Ended Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program ended (e.g. Ended Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Ended at</source>
         <translation>Endete um</translation>
-        <extracomment>(Past Tense) For defining time when a program will ended (e.g.  Ended at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program will ended (e.g. Ended at 08:00) </extracomment>
     </message>
     <message>
         <source>Starts</source>
         <translation>Startet</translation>
-        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g.  Starts Wednesday, 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g. Starts Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Starts at</source>
         <translation>Startet um</translation>
-        <extracomment>(Future Tense) For defining time when a program will start today (e.g.  Starts at 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining time when a program will start today (e.g. Starts at 08:00) </extracomment>
     </message>
     <message>
         <source>Started</source>
         <translation>Gestartet</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program started (e.g.  Started Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program started (e.g. Started Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Started at</source>
         <translation>Gestartet um</translation>
-        <extracomment>(Past Tense) For defining time when a program started today (e.g.  Started at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program started today (e.g. Started at 08:00) </extracomment>
     </message>
     <message>
         <source>Saturday</source>
@@ -3371,8 +3371,8 @@
         <translation>Version</translation>
     </message>
     <message>
-        <source>An error was encountered while playing this item.  Server did not provide required transcoding data.</source>
-        <translation>Beim Abspielen des Titels ist ein Fehler aufgetreten.  Der Server hat zur Transkodierung erforderliche Daten nicht zur Verfügung gestellt.</translation>
+        <source>An error was encountered while playing this item. Server did not provide required transcoding data.</source>
+        <translation>Beim Abspielen des Titels ist ein Fehler aufgetreten. Der Server hat zur Transkodierung erforderliche Daten nicht zur Verfügung gestellt.</translation>
         <extracomment>Content of message box when trying to play an item which requires transcoding, and the server did not provide transcode url</extracomment>
     </message>
     <message>
@@ -3462,32 +3462,32 @@
     <message>
         <source>Ends at</source>
         <translation>Endet um</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program ended  (e.g.  Ended Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program ended (e.g. Ended Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Ended at</source>
         <translation>Endete um</translation>
-        <extracomment>(Past Tense) For defining time when a program will ended (e.g.  Ended at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program will ended (e.g. Ended at 08:00) </extracomment>
     </message>
     <message>
         <source>Starts</source>
         <translation>Startet</translation>
-        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g.  Starts Wednesday, 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g. Starts Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Starts at</source>
         <translation>Startet um</translation>
-        <extracomment>(Future Tense) For defining time when a program will start today (e.g.  Starts at 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining time when a program will start today (e.g. Starts at 08:00) </extracomment>
     </message>
     <message>
         <source>Started</source>
         <translation>Gestartet</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program started (e.g.  Started Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program started (e.g. Started Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Started at</source>
         <translation>Gestartet um</translation>
-        <extracomment>(Past Tense) For defining time when a program started today (e.g.  Started at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program started today (e.g. Started at 08:00) </extracomment>
     </message>
     <message>
         <source>Saturday</source>
@@ -3737,8 +3737,8 @@
         <translation>Version</translation>
     </message>
     <message>
-        <source>An error was encountered while playing this item.  Server did not provide required transcoding data.</source>
-        <translation>Beim Abspielen des Titels ist ein Fehler aufgetreten.  Der Server hat zur Transkodierung erforderliche Daten nicht zur Verfügung gestellt.</translation>
+        <source>An error was encountered while playing this item. Server did not provide required transcoding data.</source>
+        <translation>Beim Abspielen des Titels ist ein Fehler aufgetreten. Der Server hat zur Transkodierung erforderliche Daten nicht zur Verfügung gestellt.</translation>
         <extracomment>Content of message box when trying to play an item which requires transcoding, and the server did not provide transcode url</extracomment>
     </message>
     <message>
@@ -3828,32 +3828,32 @@
     <message>
         <source>Ends at</source>
         <translation>Endet um</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program ended  (e.g.  Ended Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program ended (e.g. Ended Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Ended at</source>
         <translation>Endete um</translation>
-        <extracomment>(Past Tense) For defining time when a program will ended (e.g.  Ended at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program will ended (e.g. Ended at 08:00) </extracomment>
     </message>
     <message>
         <source>Starts</source>
         <translation>Startet</translation>
-        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g.  Starts Wednesday, 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g. Starts Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Starts at</source>
         <translation>Startet um</translation>
-        <extracomment>(Future Tense) For defining time when a program will start today (e.g.  Starts at 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining time when a program will start today (e.g. Starts at 08:00) </extracomment>
     </message>
     <message>
         <source>Started</source>
         <translation>Gestartet</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program started (e.g.  Started Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program started (e.g. Started Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Started at</source>
         <translation>Gestartet um</translation>
-        <extracomment>(Past Tense) For defining time when a program started today (e.g.  Started at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program started today (e.g. Started at 08:00) </extracomment>
     </message>
     <message>
         <source>Saturday</source>
@@ -4182,8 +4182,8 @@
         <translation>Version</translation>
     </message>
     <message>
-        <source>An error was encountered while playing this item.  Server did not provide required transcoding data.</source>
-        <translation>Beim Abspielen des Titels ist ein Fehler aufgetreten.  Der Server hat zur Transkodierung erforderliche Daten nicht zur Verfügung gestellt.</translation>
+        <source>An error was encountered while playing this item. Server did not provide required transcoding data.</source>
+        <translation>Beim Abspielen des Titels ist ein Fehler aufgetreten. Der Server hat zur Transkodierung erforderliche Daten nicht zur Verfügung gestellt.</translation>
         <extracomment>Content of message box when trying to play an item which requires transcoding, and the server did not provide transcode url</extracomment>
     </message>
     <message>
@@ -4273,32 +4273,32 @@
     <message>
         <source>Ends at</source>
         <translation>Endet um</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program ended  (e.g.  Ended Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program ended (e.g. Ended Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Ended at</source>
         <translation>Endete um</translation>
-        <extracomment>(Past Tense) For defining time when a program will ended (e.g.  Ended at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program will ended (e.g. Ended at 08:00) </extracomment>
     </message>
     <message>
         <source>Starts</source>
         <translation>Startet</translation>
-        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g.  Starts Wednesday, 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g. Starts Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Starts at</source>
         <translation>Startet um</translation>
-        <extracomment>(Future Tense) For defining time when a program will start today (e.g.  Starts at 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining time when a program will start today (e.g. Starts at 08:00) </extracomment>
     </message>
     <message>
         <source>Started</source>
         <translation>Gestartet</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program started (e.g.  Started Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program started (e.g. Started Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Started at</source>
         <translation>Gestartet um</translation>
-        <extracomment>(Past Tense) For defining time when a program started today (e.g.  Started at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program started today (e.g. Started at 08:00) </extracomment>
     </message>
     <message>
         <source>Saturday</source>
@@ -4579,7 +4579,7 @@
     <message>
         <source>%1 of %2</source>
         <translation>%1 von %2</translation>
-        <extracomment>Item position and count.  %1 = current item.  %2 = total number of items</extracomment>
+        <extracomment>Item position and count. %1 = current item. %2 = total number of items</extracomment>
     </message>
     <message>
         <source>Go to episode</source>
@@ -4649,8 +4649,8 @@
         <translation>Version</translation>
     </message>
     <message>
-        <source>An error was encountered while playing this item.  Server did not provide required transcoding data.</source>
-        <translation>Beim Abspielen des Titels ist ein Fehler aufgetreten.  Der Server hat zur Transkodierung erforderliche Daten nicht zur Verfügung gestellt.</translation>
+        <source>An error was encountered while playing this item. Server did not provide required transcoding data.</source>
+        <translation>Beim Abspielen des Titels ist ein Fehler aufgetreten. Der Server hat zur Transkodierung erforderliche Daten nicht zur Verfügung gestellt.</translation>
         <extracomment>Content of message box when trying to play an item which requires transcoding, and the server did not provide transcode url</extracomment>
     </message>
     <message>
@@ -4740,32 +4740,32 @@
     <message>
         <source>Ends at</source>
         <translation>Endet um</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program ended  (e.g.  Ended Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program ended (e.g. Ended Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Ended at</source>
         <translation>Endete um</translation>
-        <extracomment>(Past Tense) For defining time when a program will ended (e.g.  Ended at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program will ended (e.g. Ended at 08:00) </extracomment>
     </message>
     <message>
         <source>Starts</source>
         <translation>Startet</translation>
-        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g.  Starts Wednesday, 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g. Starts Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Starts at</source>
         <translation>Startet um</translation>
-        <extracomment>(Future Tense) For defining time when a program will start today (e.g.  Starts at 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining time when a program will start today (e.g. Starts at 08:00) </extracomment>
     </message>
     <message>
         <source>Started</source>
         <translation>Gestartet</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program started (e.g.  Started Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program started (e.g. Started Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Started at</source>
         <translation>Gestartet um</translation>
-        <extracomment>(Past Tense) For defining time when a program started today (e.g.  Started at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program started today (e.g. Started at 08:00) </extracomment>
     </message>
     <message>
         <source>Saturday</source>
@@ -5065,7 +5065,7 @@
     <message>
         <source>%1 of %2</source>
         <translation>%1 von %2</translation>
-        <extracomment>Item position and count.  %1 = current item.  %2 = total number of items</extracomment>
+        <extracomment>Item position and count. %1 = current item. %2 = total number of items</extracomment>
     </message>
     <message>
         <source>Go to episode</source>
@@ -5154,7 +5154,7 @@
         <translation>Version</translation>
     </message>
     <message>
-        <source>An error was encountered while playing this item.  Server did not provide required transcoding data.</source>
+        <source>An error was encountered while playing this item. Server did not provide required transcoding data.</source>
         <translation>Beim Abspielen des Titels ist ein Fehler aufgetreten. Der Server hat zur Transkodierung erforderliche Daten nicht zur Verfügung gestellt.</translation>
         <extracomment>Content of message box when trying to play an item which requires transcoding, and the server did not provide transcode url</extracomment>
     </message>
@@ -5245,32 +5245,32 @@
     <message>
         <source>Ends at</source>
         <translation>Endet um</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program ended  (e.g.  Ended Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program ended (e.g. Ended Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Ended at</source>
         <translation>Endete um</translation>
-        <extracomment>(Past Tense) For defining time when a program will ended (e.g.  Ended at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program will ended (e.g. Ended at 08:00) </extracomment>
     </message>
     <message>
         <source>Starts</source>
         <translation>Startet</translation>
-        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g.  Starts Wednesday, 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g. Starts Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Starts at</source>
         <translation>Startet um</translation>
-        <extracomment>(Future Tense) For defining time when a program will start today (e.g.  Starts at 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining time when a program will start today (e.g. Starts at 08:00) </extracomment>
     </message>
     <message>
         <source>Started</source>
         <translation>Gestartet</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program started (e.g.  Started Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program started (e.g. Started Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Started at</source>
         <translation>Gestartet um</translation>
-        <extracomment>(Past Tense) For defining time when a program started today (e.g.  Started at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program started today (e.g. Started at 08:00) </extracomment>
     </message>
     <message>
         <source>Saturday</source>
@@ -5494,7 +5494,7 @@
     <message>
         <source>%1 of %2</source>
         <translation>%1 von %2</translation>
-        <extracomment>Item position and count.  %1 = current item.  %2 = total number of items</extracomment>
+        <extracomment>Item position and count. %1 = current item. %2 = total number of items</extracomment>
     </message>
     <message>
         <source>Go to episode</source>
@@ -5578,7 +5578,7 @@
         <translation>Version</translation>
     </message>
     <message>
-        <source>An error was encountered while playing this item.  Server did not provide required transcoding data.</source>
+        <source>An error was encountered while playing this item. Server did not provide required transcoding data.</source>
         <translation>Beim Abspielen des Titels ist ein Fehler aufgetreten. Der Server hat zur Transkodierung erforderliche Daten nicht zur Verfügung gestellt.</translation>
         <extracomment>Content of message box when trying to play an item which requires transcoding, and the server did not provide transcode url</extracomment>
     </message>
@@ -5669,32 +5669,32 @@
     <message>
         <source>Ends at</source>
         <translation>Endet um</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program ended  (e.g.  Ended Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program ended (e.g. Ended Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Ended at</source>
         <translation>Endet um</translation>
-        <extracomment>(Past Tense) For defining time when a program will ended (e.g.  Ended at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program will ended (e.g. Ended at 08:00) </extracomment>
     </message>
     <message>
         <source>Starts</source>
         <translation>Startet</translation>
-        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g.  Starts Wednesday, 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g. Starts Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Starts at</source>
         <translation>Startet um</translation>
-        <extracomment>(Future Tense) For defining time when a program will start today (e.g.  Starts at 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining time when a program will start today (e.g. Starts at 08:00) </extracomment>
     </message>
     <message>
         <source>Started</source>
         <translation>Gestartet</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program started (e.g.  Started Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program started (e.g. Started Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Started at</source>
         <translation>Gestartet am</translation>
-        <extracomment>(Past Tense) For defining time when a program started today (e.g.  Started at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program started today (e.g. Started at 08:00) </extracomment>
     </message>
     <message>
         <source>Saturday</source>
@@ -5916,7 +5916,7 @@
     <message>
         <source>Ends at</source>
         <translation>Endet um</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program ended  (e.g.  Ended Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program ended (e.g. Ended Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Special Features</source>
@@ -5998,27 +5998,27 @@
     <message>
         <source>Ended at</source>
         <translation>Endet um</translation>
-        <extracomment>(Past Tense) For defining time when a program will ended (e.g.  Ended at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program will ended (e.g. Ended at 08:00) </extracomment>
     </message>
     <message>
         <source>Starts</source>
         <translation>Beginnt am</translation>
-        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g.  Starts Wednesday, 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g. Starts Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Starts at</source>
         <translation>Beginnt um</translation>
-        <extracomment>(Future Tense) For defining time when a program will start today (e.g.  Starts at 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining time when a program will start today (e.g. Starts at 08:00) </extracomment>
     </message>
     <message>
         <source>Started</source>
         <translation>Begann am</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program started (e.g.  Started Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program started (e.g. Started Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Started at</source>
         <translation>Begann um</translation>
-        <extracomment>(Past Tense) For defining time when a program started today (e.g.  Started at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program started today (e.g. Started at 08:00) </extracomment>
     </message>
     <message>
         <source>Saturday</source>
@@ -6179,32 +6179,32 @@
     <message>
         <source>Ends at</source>
         <translation>Endet am</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program ended  (e.g.  Ended Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program ended (e.g. Ended Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Ended at</source>
         <translation>Endet um</translation>
-        <extracomment>(Past Tense) For defining time when a program will ended (e.g.  Ended at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program will ended (e.g. Ended at 08:00) </extracomment>
     </message>
     <message>
         <source>Starts</source>
         <translation>Beginnt am</translation>
-        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g.  Starts Wednesday, 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g. Starts Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Starts at</source>
         <translation>Beginnt um</translation>
-        <extracomment>(Future Tense) For defining time when a program will start today (e.g.  Starts at 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining time when a program will start today (e.g. Starts at 08:00) </extracomment>
     </message>
     <message>
         <source>Started</source>
         <translation>Begann am</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program started (e.g.  Started Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program started (e.g. Started Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Started at</source>
         <translation>Begonnen um</translation>
-        <extracomment>(Past Tense) For defining time when a program started today (e.g.  Started at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program started today (e.g. Started at 08:00) </extracomment>
     </message>
     <message>
         <source>Saturday</source>
@@ -6599,7 +6599,7 @@
     <message>
         <source>%1 of %2</source>
         <translation>%1 von %2</translation>
-        <extracomment>Item position and count.  %1 = current item.  %2 = total number of items</extracomment>
+        <extracomment>Item position and count. %1 = current item. %2 = total number of items</extracomment>
     </message>
     <message>
         <source>You can search for Titles, People, Live TV Channels and more</source>
@@ -6698,7 +6698,7 @@
         <translation>Version</translation>
     </message>
     <message>
-        <source>An error was encountered while playing this item.  Server did not provide required transcoding data.</source>
+        <source>An error was encountered while playing this item. Server did not provide required transcoding data.</source>
         <translation>Beim Abspielen des Titels ist ein Fehler aufgetreten. Der Server hat zur Transkodierung erforderliche Daten nicht zur Verfügung gestellt.</translation>
         <extracomment>Content of message box when trying to play an item which requires transcoding, and the server did not provide transcode url</extracomment>
     </message>
@@ -6779,32 +6779,32 @@
     <message>
         <source>Ends at</source>
         <translation>Endet am</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program ended  (e.g.  Ended Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program ended (e.g. Ended Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Ended at</source>
         <translation>Endet um</translation>
-        <extracomment>(Past Tense) For defining time when a program will ended (e.g.  Ended at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program will ended (e.g. Ended at 08:00) </extracomment>
     </message>
     <message>
         <source>Starts</source>
         <translation>Beginnt am</translation>
-        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g.  Starts Wednesday, 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g. Starts Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Starts at</source>
         <translation>Beginnt um</translation>
-        <extracomment>(Future Tense) For defining time when a program will start today (e.g.  Starts at 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining time when a program will start today (e.g. Starts at 08:00) </extracomment>
     </message>
     <message>
         <source>Started</source>
         <translation>Gestartet</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program started (e.g.  Started Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program started (e.g. Started Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Started at</source>
         <translation>Begonnen um</translation>
-        <extracomment>(Past Tense) For defining time when a program started today (e.g.  Started at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program started today (e.g. Started at 08:00) </extracomment>
     </message>
     <message>
         <source>Saturday</source>
@@ -7222,7 +7222,7 @@
     <message>
         <source>%1 of %2</source>
         <translation>%1 von %2</translation>
-        <extracomment>Item position and count.  %1 = current item.  %2 = total number of items</extracomment>
+        <extracomment>Item position and count. %1 = current item. %2 = total number of items</extracomment>
     </message>
     <message>
         <source>You can search for Titles, People, Live TV Channels and more</source>
@@ -7321,7 +7321,7 @@
         <translation>Version</translation>
     </message>
     <message>
-        <source>An error was encountered while playing this item.  Server did not provide required transcoding data.</source>
+        <source>An error was encountered while playing this item. Server did not provide required transcoding data.</source>
         <translation>Beim Abspielen des Titels ist ein Fehler aufgetreten. Der Server hat zur Transkodierung erforderliche Daten nicht zur Verfügung gestellt.</translation>
         <extracomment>Content of message box when trying to play an item which requires transcoding, and the server did not provide transcode url</extracomment>
     </message>
@@ -7412,32 +7412,32 @@
     <message>
         <source>Ends at</source>
         <translation>Endet am</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program ended  (e.g.  Ended Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program ended (e.g. Ended Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Ended at</source>
         <translation>Endet um</translation>
-        <extracomment>(Past Tense) For defining time when a program will ended (e.g.  Ended at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program will ended (e.g. Ended at 08:00) </extracomment>
     </message>
     <message>
         <source>Starts</source>
         <translation>Beginnt am</translation>
-        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g.  Starts Wednesday, 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g. Starts Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Starts at</source>
         <translation>Beginnt um</translation>
-        <extracomment>(Future Tense) For defining time when a program will start today (e.g.  Starts at 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining time when a program will start today (e.g. Starts at 08:00) </extracomment>
     </message>
     <message>
         <source>Started</source>
         <translation>Gestartet</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program started (e.g.  Started Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program started (e.g. Started Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Started at</source>
         <translation>Begonnen um</translation>
-        <extracomment>(Past Tense) For defining time when a program started today (e.g.  Started at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program started today (e.g. Started at 08:00) </extracomment>
     </message>
     <message>
         <source>Saturday</source>
@@ -8813,6 +8813,2631 @@
     <message>
         <source>DATE_ADDED</source>
         <translation>Datum hinzugefügt</translation>
+    </message>
+    <message>
+        <source>today</source>
+        <translation>heute</translation>
+        <extracomment>Current day</extracomment>
+    </message>
+    <message>
+        <source>Movies (Presentation)</source>
+        <translation>Filme (Präsentation)</translation>
+        <extracomment>Movie library view option</extracomment>
+    </message>
+    <message>
+        <source>RUNTIME</source>
+        <translation>Laufzeit</translation>
+    </message>
+    <message>
+        <source>Error loading Channel Data</source>
+        <translation>Fehler beim Laden der Kanaldaten</translation>
+    </message>
+    <message>
+        <source>Sign Out</source>
+        <translation>Abmelden</translation>
+    </message>
+    <message>
+        <source>Delete Saved</source>
+        <translation>Gespeicherte löschen</translation>
+    </message>
+    <message>
+        <source>On Now</source>
+        <translation>Jetzt live</translation>
+    </message>
+    <message>
+        <source>More Like This</source>
+        <translation>Ähnliches</translation>
+    </message>
+    <message>
+        <source>An error was encountered while playing this item.</source>
+        <translation>Ein Fehler ist beim Abspielen des Gegenstands aufgetreten.</translation>
+        <extracomment>Dialog detail when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>Loading Channel Data</source>
+        <translation>Lade Kanaldaten</translation>
+    </message>
+    <message>
+        <source>Unable to load Channel Data from the server</source>
+        <translation>Kanaldaten können nicht vom Server geladen werden</translation>
+    </message>
+    <message>
+        <comment>Message displayed in Item Grid when no item to display. %1 is container type (e.g. Boxset, Collection, Folder, etc)</comment>
+        <source>NO_ITEMS</source>
+        <translation>Diese(s) %1 enthält keine Gegenstände</translation>
+    </message>
+    <message>
+        <source>Movies (Grid)</source>
+        <translation>Filme (Raster)</translation>
+        <extracomment>Movie library view option</extracomment>
+    </message>
+    <message>
+        <source>RELEASE_DATE</source>
+        <translation>Veröffentlichungsdatum</translation>
+    </message>
+    <message>
+        <source>Special Features</source>
+        <translation>Extras</translation>
+    </message>
+    <message>
+        <source>yesterday</source>
+        <translation>gestern</translation>
+        <extracomment>Previous day</extracomment>
+    </message>
+    <message>
+        <source>tomorrow</source>
+        <translation>morgen</translation>
+        <extracomment>Next day</extracomment>
+    </message>
+    <message>
+        <source>Change Server</source>
+        <translation>Server wechseln</translation>
+    </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>Logindaten speichern?</translation>
+    </message>
+    <message>
+        <source>Error Retrieving Content</source>
+        <translation>Fehler beim Abrufen des Inhalts</translation>
+        <extracomment>Dialog title when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <source>Error During Playback</source>
+        <translation>Fehler während des Abspielens</translation>
+        <extracomment>Dialog title when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>There was an error retrieving the data for this item from the server.</source>
+        <translation>Ein Fehler ist beim Aufrufen der Daten für diesen Gegenstand vom Server aufgetreten.</translation>
+        <extracomment>Dialog detail when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <comment>Name or Title field of media item</comment>
+        <source>TITLE</source>
+        <translation>Name</translation>
+    </message>
+    <message>
+        <source>CRITIC_RATING</source>
+        <translation>Kritikerbewertung</translation>
+    </message>
+    <message>
+        <comment>Title of Tab for switching &quot;views&quot; when looking at a library</comment>
+        <source>TAB_VIEW</source>
+        <translation>Ansicht</translation>
+    </message>
+    <message>
+        <comment>Title of Tab for options to sort library content</comment>
+        <source>TAB_SORT</source>
+        <translation>Sortierung</translation>
+    </message>
+    <message>
+        <comment>Title of Tab for options to filter library content</comment>
+        <source>TAB_FILTER</source>
+        <translation>Filter</translation>
+    </message>
+    <message>
+        <source>Born</source>
+        <translation>Geboren am</translation>
+    </message>
+    <message>
+        <source>Died</source>
+        <translation>Gestorben am</translation>
+    </message>
+    <message>
+        <source>Age</source>
+        <translation>Alter</translation>
+    </message>
+    <message>
+        <source>Cast &amp; Crew</source>
+        <translation>Besetzung &amp; Mitwirkende</translation>
+    </message>
+    <message>
+        <source>Press &apos;OK&apos; to Close</source>
+        <translation>&apos;OK&apos; zum Schließen klicken</translation>
+    </message>
+    <message>
+        <source>Additional Parts</source>
+        <translation>Zusätzliche Inhalte</translation>
+        <extracomment>Additional parts of a video</extracomment>
+    </message>
+    <message>
+        <source>Sunday</source>
+        <translation>Sonntag</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Monday</source>
+        <translation>Montag</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Movies</source>
+        <translation>Filme</translation>
+    </message>
+    <message>
+        <source>OFFICIAL_RATING</source>
+        <translation>Altersfreigabe</translation>
+    </message>
+    <message>
+        <source>IMDB_RATING</source>
+        <translation>IMDb-Bewertung</translation>
+    </message>
+    <message>
+        <source>PLAY_COUNT</source>
+        <translation>Wiedergabeanzahl</translation>
+    </message>
+    <message>
+        <source>TV Shows</source>
+        <translation>Serien</translation>
+    </message>
+    <message>
+        <source>DATE_PLAYED</source>
+        <translation>Abgespielt am</translation>
+    </message>
+    <message>
+        <source>DATE_ADDED</source>
+        <translation>Datum hinzugefügt</translation>
+    </message>
+    <message>
+        <source>Delete Saved</source>
+        <translation>Gespeicherte löschen</translation>
+    </message>
+    <message>
+        <source>There was an error retrieving the data for this item from the server.</source>
+        <translation>Ein Fehler ist beim Aufrufen der Daten für diesen Gegenstand vom Server aufgetreten.</translation>
+        <extracomment>Dialog detail when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <source>today</source>
+        <translation>heute</translation>
+        <extracomment>Current day</extracomment>
+    </message>
+    <message>
+        <source>Sunday</source>
+        <translation>Sonntag</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Saturday</source>
+        <translation>Samstag</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation>Schließen</translation>
+    </message>
+    <message>
+        <source>Not found</source>
+        <translation>Nicht gefunden</translation>
+        <extracomment>Title of message box when the requested content is not found on the server</extracomment>
+    </message>
+    <message>
+        <source>Pick a Jellyfin server from the local network</source>
+        <translation>Wählen Sie einen verfügbaren Jellyfin Server aus ihrem Lokalen Netzwerk aus:</translation>
+        <extracomment>Instructions on initial app launch when the user is asked to pick a server from a list</extracomment>
+    </message>
+    <message>
+        <source>An error was encountered while playing this item. Server did not provide required transcoding data.</source>
+        <translation>Bei der Wiedergabe dieses Elements ist ein Fehler aufgetreten. Der Server hat die erforderlichen Transkodierungsdaten nicht bereitgestellt.</translation>
+        <extracomment>Content of message box when trying to play an item which requires transcoding, and the server did not provide transcode url</extracomment>
+    </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>Logindaten speichern?</translation>
+    </message>
+    <message>
+        <source>Error Retrieving Content</source>
+        <translation>Fehler beim Abrufen des Inhalts</translation>
+        <extracomment>Dialog title when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <source>Error During Playback</source>
+        <translation>Fehler während des Abspielens</translation>
+        <extracomment>Dialog title when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>Error loading Channel Data</source>
+        <translation>Fehler beim Laden der Kanaldaten</translation>
+    </message>
+    <message>
+        <comment>Title of Tab for switching &quot;views&quot; when looking at a library</comment>
+        <source>TAB_VIEW</source>
+        <translation>Ansicht</translation>
+    </message>
+    <message>
+        <comment>Title of Tab for options to sort library content</comment>
+        <source>TAB_SORT</source>
+        <translation>Sortierung</translation>
+    </message>
+    <message>
+        <comment>Title of Tab for options to filter library content</comment>
+        <source>TAB_FILTER</source>
+        <translation>Filter</translation>
+    </message>
+    <message>
+        <source>RUNTIME</source>
+        <translation>Laufzeit</translation>
+    </message>
+    <message>
+        <source>Born</source>
+        <translation>Geboren am</translation>
+    </message>
+    <message>
+        <source>Movies (Presentation)</source>
+        <translation>Filme (Präsentation)</translation>
+    </message>
+    <message>
+        <source>Sign Out</source>
+        <translation>Abmelden</translation>
+    </message>
+    <message>
+        <source>On Now</source>
+        <translation>Jetzt live</translation>
+    </message>
+    <message>
+        <source>More Like This</source>
+        <translation>Ähnliches</translation>
+    </message>
+    <message>
+        <source>...or enter server URL manually:</source>
+        <translation>Sollte der Server nicht aufgelistet sein, fügen Sie bitte die URL manuell ein:</translation>
+        <extracomment>Instructions on initial app launch when the user is asked to manually enter a server URL</extracomment>
+    </message>
+    <message>
+        <source>Playback</source>
+        <translation>Wiedergabe</translation>
+        <extracomment>Title for Playback section in user setting screen.</extracomment>
+    </message>
+    <message>
+        <source>An error was encountered while playing this item.</source>
+        <translation>Ein Fehler ist beim Abspielen des Gegenstands aufgetreten.</translation>
+        <extracomment>Dialog detail when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>Loading Channel Data</source>
+        <translation>Lade Kanaldaten</translation>
+    </message>
+    <message>
+        <source>Unable to load Channel Data from the server</source>
+        <translation>Kanaldaten können nicht vom Server geladen werden</translation>
+    </message>
+    <message>
+        <comment>Message displayed in Item Grid when no item to display. %1 is container type (e.g. Boxset, Collection, Folder, etc)</comment>
+        <source>NO_ITEMS</source>
+        <translation>Diese(s) %1 enthält keine Gegenstände</translation>
+    </message>
+    <message>
+        <source>Movies (Grid)</source>
+        <translation>Filme (Raster)</translation>
+    </message>
+    <message>
+        <source>Tuesday</source>
+        <translation>Dienstag</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Started at</source>
+        <translation>Gestartet um</translation>
+        <extracomment>(Past Tense) For defining time when a program started today (e.g. Started at 08:00) </extracomment>
+    </message>
+    <message>
+        <source>Version</source>
+        <translation>Version</translation>
+    </message>
+    <message>
+        <source>RELEASE_DATE</source>
+        <translation>Veröffentlichungsdatum</translation>
+    </message>
+    <message>
+        <source>Special Features</source>
+        <translation>Extras</translation>
+    </message>
+    <message>
+        <source>yesterday</source>
+        <translation>gestern</translation>
+        <extracomment>Previous day</extracomment>
+    </message>
+    <message>
+        <source>tomorrow</source>
+        <translation>morgen</translation>
+        <extracomment>Next day</extracomment>
+    </message>
+    <message>
+        <source>Live</source>
+        <translation>Live</translation>
+        <extracomment>If TV Show is being broadcast live (not pre-recorded)</extracomment>
+    </message>
+    <message>
+        <source>Error Getting Playback Information</source>
+        <translation>Fehler beim Einsehen der Abspielinformation</translation>
+        <extracomment>Dialog Title: Received error from server when trying to get information about the selected item for playback</extracomment>
+    </message>
+    <message>
+        <source>Change Server</source>
+        <translation>Server wechseln</translation>
+    </message>
+    <message>
+        <comment>Name or Title field of media item</comment>
+        <source>TITLE</source>
+        <translation>Name</translation>
+    </message>
+    <message>
+        <source>CRITIC_RATING</source>
+        <translation>Kritikerbewertung</translation>
+    </message>
+    <message>
+        <source>Died</source>
+        <translation>Gestorben am</translation>
+    </message>
+    <message>
+        <source>Age</source>
+        <translation>Alter</translation>
+    </message>
+    <message>
+        <source>Cast &amp; Crew</source>
+        <translation>Besetzung &amp; Mitwirkende</translation>
+    </message>
+    <message>
+        <source>Press &apos;OK&apos; to Close</source>
+        <translation>&apos;OK&apos; zum Schließen klicken</translation>
+    </message>
+    <message>
+        <source>Additional Parts</source>
+        <translation>Zusätzliche Inhalte</translation>
+        <extracomment>Additional parts of a video</extracomment>
+    </message>
+    <message>
+        <source>Monday</source>
+        <translation>Montag</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Thursday</source>
+        <translation>Donnerstag</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Started</source>
+        <translation>Gestartet</translation>
+        <extracomment>(Past Tense) For defining a day and time when a program started (e.g. Started Wednesday, 08:00) </extracomment>
+    </message>
+    <message>
+        <source>Ends at</source>
+        <translation>Endete</translation>
+        <extracomment>(Past Tense) For defining a day and time when a program ended (e.g. Ended Wednesday, 08:00) </extracomment>
+    </message>
+    <message>
+        <source>Channels</source>
+        <translation>Sender</translation>
+        <extracomment>Menu option for showing Live TV Channel List</extracomment>
+    </message>
+    <message>
+        <source>View Channel</source>
+        <translation>Kanal anschauen</translation>
+    </message>
+    <message>
+        <source>Repeat</source>
+        <translation>Wiederholung</translation>
+        <extracomment>If TV Shows has previously been broadcasted</extracomment>
+    </message>
+    <message>
+        <source>Record Series</source>
+        <translation>Serie aufnehmen</translation>
+    </message>
+    <message>
+        <source>Cancel Recording</source>
+        <translation>Aufnahme abbrechen</translation>
+    </message>
+    <message>
+        <source>The requested content does not exist on the server</source>
+        <translation>Der gewünschte Inhalt exisitiert nicht auf dem Server</translation>
+        <extracomment>Content of message box when the requested content is not found on the server</extracomment>
+    </message>
+    <message>
+        <source>Cancel Series Recording</source>
+        <translation>Serien-Aufnahme abbrechen</translation>
+    </message>
+    <message>
+        <source>Friday</source>
+        <translation>Freitag</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Movies</source>
+        <translation>Filme</translation>
+    </message>
+    <message>
+        <source>OFFICIAL_RATING</source>
+        <translation>Altersfreigabe</translation>
+    </message>
+    <message>
+        <source>IMDB_RATING</source>
+        <translation>IMDb-Bewertung</translation>
+    </message>
+    <message>
+        <source>PLAY_COUNT</source>
+        <translation>Wiedergabeanzahl</translation>
+    </message>
+    <message>
+        <source>TV Shows</source>
+        <translation>Serien</translation>
+    </message>
+    <message>
+        <source>Starts at</source>
+        <translation>Startet um</translation>
+        <extracomment>(Future Tense) For defining time when a program will start today (e.g. Starts at 08:00) </extracomment>
+    </message>
+    <message>
+        <source>TV Guide</source>
+        <translation>TV Programm</translation>
+        <extracomment>Menu option for showing Live TV Guide / Schedule</extracomment>
+    </message>
+    <message>
+        <source>Connecting to Server</source>
+        <translation>Verbinde zum Server</translation>
+        <extracomment>Message to display to user while client is attempting to connect to the server</extracomment>
+    </message>
+    <message>
+        <source>Unknown</source>
+        <translation>Unbekannt</translation>
+        <extracomment>Title for a cast member for which we have no information for</extracomment>
+    </message>
+    <message>
+        <source>Enter the server name or IP address</source>
+        <translation>Geben Sie den Servernamen oder die IP Adresse ein</translation>
+        <extracomment>Title of KeyboardDialog when manually entering a server URL</extracomment>
+    </message>
+    <message>
+        <source>Record</source>
+        <translation>Aufnehmen</translation>
+    </message>
+    <message>
+        <source>Starts</source>
+        <translation>Startet</translation>
+        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g. Starts Wednesday, 08:00) </extracomment>
+    </message>
+    <message>
+        <source>DATE_PLAYED</source>
+        <translation>Abgespielt am</translation>
+    </message>
+    <message>
+        <source>Ended at</source>
+        <translation>Endet um</translation>
+        <extracomment>(Past Tense) For defining time when a program will ended (e.g. Ended at 08:00) </extracomment>
+    </message>
+    <message>
+        <source>DATE_ADDED</source>
+        <translation>Hinzugefügt am</translation>
+    </message>
+    <message>
+        <source>Wednesday</source>
+        <translation>Mittwoch</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Enable or disable Direct Play for optional codecs</source>
+        <translation>Aktiviere oder deaktiviere Direkte Wiedergabe für optionale Codecs</translation>
+        <extracomment>Settings Menu - Title for settings group related to codec support</extracomment>
+    </message>
+    <message>
+        <source>MPEG-2</source>
+        <translation>MPEG-2</translation>
+        <extracomment>Name of codec used in settings menu</extracomment>
+    </message>
+    <message>
+        <source>MPEG-4</source>
+        <translation>MPEG-4</translation>
+        <extracomment>Name of codec used in settings menu</extracomment>
+    </message>
+    <message>
+        <source>Support Direct Play of MPEG-2 content (e.g., Live TV). This will prevent transcoding of MPEG-2 content, but uses significantly more bandwidth.</source>
+        <translation>Unterstütze Direkte Wiedergabe von MPEG-2-Inhalten (z. B. Live-TV). Dies verhindert die Transkodierung von MPEG-2-Inhalten, verbraucht aber deutlich mehr Bandbreite.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Codec Support</source>
+        <translation>Codec Unterstützung</translation>
+        <extracomment>Settings Menu - Title for settings group related to codec support</extracomment>
+    </message>
+    <message>
+        <source>Support Direct Play of MPEG-4 content. This may need to be disabled for playback of DIVX encoded video files.</source>
+        <translation>Unterstützt direktes Abspielen von MPEG-4 Inhalten. Das muss ggf. deaktiviert werden um DIVX-Dateien abzuspielen.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>AV1</source>
+        <translation>AV1</translation>
+        <extracomment>Name of a setting - should we try to direct play experimental av1 codec</extracomment>
+    </message>
+    <message>
+        <source>Always show the titles below the poster images. (If disabled, the title will be shown under the highlighted item only).</source>
+        <translation>Titel werden immer unter den Posterbildern angezeigt. (Wenn deaktiviert, wird der Titel nur unter dem hervorgehobenen Element angezeigt).</translation>
+        <extracomment>Description for option in Setting Screen</extracomment>
+    </message>
+    <message>
+        <source>Show item count in the library and index of selected item.</source>
+        <translation>Anzahl der Elemente in der Bibliothek und im Index des gewählten Elements anzeigen.</translation>
+        <extracomment>Description for option in Setting Screen</extracomment>
+    </message>
+    <message>
+        <source>Go to series</source>
+        <translation>Springe zur Serie</translation>
+        <extracomment>Continue Watching Popup Menu - Navigate to the Series Detail Page</extracomment>
+    </message>
+    <message>
+        <source>You can search for Titles, People, Live TV Channels and more</source>
+        <translation>Sie können nach Titeln, Personen, Live-TV-Kanälen und noch mehr suchen</translation>
+        <extracomment>Help text in search results</extracomment>
+    </message>
+    <message>
+        <source>Return to Top</source>
+        <translation>Zurück nach oben</translation>
+        <extracomment>UI -&gt; Media Grid -&gt; Item Title in user setting screen.</extracomment>
+    </message>
+    <message>
+        <source>Options for Details pages.</source>
+        <translation>Detail-Seiten Einstellungen.</translation>
+        <extracomment>Description for Details page user settings.</extracomment>
+    </message>
+    <message>
+        <source>Use Splashscreen as Screensaver Background</source>
+        <translation>Splashscreen als Bildschirmschoner verwenden</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
+    <message>
+        <source>Quick Connect</source>
+        <translation>Schnellverbindung</translation>
+    </message>
+    <message>
+        <source>Enabled</source>
+        <translation>Aktiviert</translation>
+    </message>
+    <message>
+        <source>Set Favorite</source>
+        <translation>Als Favorit festlegen</translation>
+        <extracomment>Button Text - When pressed, sets item as Favorite</extracomment>
+    </message>
+    <message>
+        <source>Go to season</source>
+        <translation>Springe zur Staffel</translation>
+        <extracomment>Continue Watching Popup Menu - Navigate to the Season Page</extracomment>
+    </message>
+    <message>
+        <source>Use voice remote to search</source>
+        <translation>Benutze Sprachfernbedienung zum Suchen</translation>
+        <extracomment>Help text in search voice text box</extracomment>
+    </message>
+    <message>
+        <source>Search now</source>
+        <translation>Jetzt suchen</translation>
+        <extracomment>Help text in search Box</extracomment>
+    </message>
+    <message>
+        <source>%1 of %2</source>
+        <translation>%1 von %2</translation>
+        <extracomment>Item position and count. %1 = current item. %2 = total number of items</extracomment>
+    </message>
+    <message>
+        <source>Networks</source>
+        <translation>Netzwerke</translation>
+    </message>
+    <message>
+        <source>Studios</source>
+        <translation>Studios</translation>
+    </message>
+    <message>
+        <source>There was an error authenticating via Quick Connect.</source>
+        <translation>Bei der Authentifizierung über Quick Connect ist ein Fehler aufgetreten.</translation>
+    </message>
+    <message>
+        <source>Shows</source>
+        <translation>Serien</translation>
+    </message>
+    <message>
+        <source>Details Page</source>
+        <translation>Detailseite</translation>
+    </message>
+    <message>
+        <source>Hide Taglines</source>
+        <translation>Markierungen verstecken</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
+    <message>
+        <source>Hides tagline text on details pages.</source>
+        <translation>Markierungs-Text auf der Detailseite verstecken.</translation>
+    </message>
+    <message>
+        <source>Blur Unwatched Episodes</source>
+        <translation>Ungesehene Folgen verpixeln</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
+    <message>
+        <source>Skip Details for Single Seasons</source>
+        <translation>Details für einzelne Staffeln überspringen</translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
+    <message>
+        <source>If enabled, images of unwatched episodes will be blurred.</source>
+        <translation>Wenn diese Option aktiviert ist, werden Bilder von nicht angesehenen Folgen unscharf dargestellt.</translation>
+    </message>
+    <message>
+        <source>Screensaver</source>
+        <translation>Bildschirmschoner</translation>
+    </message>
+    <message>
+        <source>Options for Jellyfin&apos;s screensaver.</source>
+        <translation>Einstellungen für Jellyfins Bildschirmschoner.</translation>
+        <extracomment>Description for Screensaver user settings.</extracomment>
+    </message>
+    <message>
+        <source>** EXPERIMENTAL** Support Direct Play of AV1 content if this Roku device supports it.</source>
+        <translation>**EXPERIMENTELL** Unterstützt direktes Abspielen von AV1 Inhalten falls das Roku-Gerät das unterstützt.</translation>
+        <extracomment>Description of a setting - should we try to direct play experimental av1 codec</extracomment>
+    </message>
+    <message>
+        <source>User Interface</source>
+        <translation>Benutzerschnittstelle</translation>
+        <extracomment>Title for User Interface section in user setting screen.</extracomment>
+    </message>
+    <message>
+        <source>Set Watched</source>
+        <translation>Als gesehen markieren</translation>
+        <extracomment>Button Text - When pressed, marks item as Warched</extracomment>
+    </message>
+    <message>
+        <source>Go to episode</source>
+        <translation>Springe zur Folge</translation>
+        <extracomment>Continue Watching Popup Menu - Navigate to the Episode Detail Page</extracomment>
+    </message>
+    <message>
+        <source>Here is your Quick Connect code:</source>
+        <translation>Ihr Schnellverbindungscode lautet:</translation>
+    </message>
+    <message>
+        <source>(Dialog will close automatically)</source>
+        <translation>(Dialog schließt sich automatisch)</translation>
+    </message>
+    <message>
+        <source>Disabled</source>
+        <translation>Deaktiviert</translation>
+    </message>
+    <message>
+        <source>Default view for Movie Libraries.</source>
+        <translation>Standard Ansicht für Film Sammlungen.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Movie Library Grid Titles</source>
+        <translation>Film Sammlung Grid Titel</translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
+    <message>
+        <source>Select when to show titles.</source>
+        <translation>Wähle aus wann Serientitel gezeigt werden sollen.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Show On Hover</source>
+        <translation>Beim Hovern anzeigen</translation>
+    </message>
+    <message>
+        <source>Always Show</source>
+        <translation>Immer zeigen</translation>
+    </message>
+    <message>
+        <source>Always Hide</source>
+        <translation>Niemals anzeigen</translation>
+    </message>
+    <message>
+        <source>Media Grid</source>
+        <translation>Medien Anordnung</translation>
+        <extracomment>UI -&gt; Media Grid section in user setting screen.</extracomment>
+    </message>
+    <message>
+        <source>Use the replay button to slowly animate to the first item in the folder. (If disabled, the folder will reset to the first item immediately).</source>
+        <translation>Verwenden Sie &quot;Wiederholen&quot;, um langsam zum ersten Element im Ordner zu überblenden. (Wenn diese Funktion deaktiviert ist, wird der Ordner sofort zum ersten Element zurückgesetzt).</translation>
+        <extracomment>Description for option in Setting Screen</extracomment>
+    </message>
+    <message>
+        <source>If enabled, selecting a TV series with only one season will go straight to the episode list rather than the show details and season list.</source>
+        <translation>Wenn diese Option aktiviert ist, führt die Auswahl einer TV-Serie mit nur einer Staffel direkt zur Episodenliste und nicht zu den Showdetails und der Staffelliste.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Use generated splashscreen image as Jellyfin&apos;s screensaver background. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Generierten Splashscreen als Jellyfin&apos;s Bildschirmschoner verwenden. Jellyfin muss neu geöffnet werden, damit die Änderung wirksam wird.</translation>
+    </message>
+    <message>
+        <source>Use Splashscreen as Home Background</source>
+        <translation>Startbildschirm als Hintergrund verwenden</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
+    <message>
+        <source>Use generated splashscreen image as Jellyfin&apos;s home background. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Generierten Startbildschirm als Jellyfins Hintergrund verwenden. Jellyfin muss neu geöffnet werden, damit die Änderung wirksam wird.</translation>
+        <extracomment>Description for option in Setting Screen</extracomment>
+    </message>
+    <message>
+        <source>Next episode</source>
+        <translation>Nächste Folge</translation>
+    </message>
+    <message>
+        <source>Set the maximum amount of days a show should stay in the &apos;Next Up&apos; list without watching it.</source>
+        <translation>Legen Sie die maximale Anzahl von Tagen fest, die eine Serie in der Liste &quot;Als Nächstes&quot; verbleiben soll, ohne dass sie angesehen wird.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Text Subtitles Only</source>
+        <translation>Nur Text Untertitel</translation>
+        <extracomment>Name of a setting - should we hide subtitles that might transcode</extracomment>
+    </message>
+    <message>
+        <source>Show What&apos;s New popup when Jellyfin is updated to a new version.</source>
+        <translation>Zeige Was ist neu Popup nach einem Jellyfin update.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Resumable</source>
+        <translation>fortsetzen</translation>
+    </message>
+    <message>
+        <source>Movie Library Default View</source>
+        <translation>Film Sammlung standard Ansicht</translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
+    <message>
+        <source>If enabled, the star and community rating for episodes of a TV show will be removed. This is to prevent spoilers of an upcoming good/bad episode.</source>
+        <translation>Wenn ausgewählt, wird das Sterne und Benutzerbewertungssystem entfernt. Dies ist um spoilern vorzubeugen.</translation>
+    </message>
+    <message>
+        <source>Options that alter the design of Jellyfin.</source>
+        <translation>Einstellungen für das Aussehen Jellyfins.</translation>
+        <extracomment>Description for Design Elements user settings.</extracomment>
+    </message>
+    <message>
+        <source>Cinema Mode</source>
+        <translation>Kinomodus</translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
+    <message>
+        <source>Cinema Mode brings the theater experience straight to your living room with the ability to play custom intros before the main feature.</source>
+        <translation>Der Kinomodus bringt das Kinoerlebnis direkt in Ihr Wohnzimmer und bietet die Möglichkeit, benutzerdefinierte Intros vor dem Hauptfilm abzuspielen.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Hide Clock</source>
+        <translation>Uhr ausblenden</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
+    <message>
+        <source>Hides all clocks in Jellyfin. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Blendet alle Uhren in Jellyfin aus. Jellyfin muss neu gestartet werden, damit die Änderung wirksam wird.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Play Trailer</source>
+        <translation>Trailer abspielen</translation>
+    </message>
+    <message>
+        <source>H.264</source>
+        <translation>H.264</translation>
+        <extracomment>Name of codec used in settings menu</extracomment>
+    </message>
+    <message>
+        <source>HEVC</source>
+        <translation>HEVC</translation>
+        <extracomment>Name of codec used in settings menu</extracomment>
+    </message>
+    <message>
+        <source>Transcoding Information</source>
+        <translation>Transkodierung-Information</translation>
+    </message>
+    <message>
+        <source>Video Codec</source>
+        <translation>Video-Codec</translation>
+    </message>
+    <message>
+        <source>Audio Codec</source>
+        <translation>Audio-Codec</translation>
+    </message>
+    <message>
+        <source>direct</source>
+        <translation>direkt</translation>
+    </message>
+    <message>
+        <source>Audio Channels</source>
+        <translation>Audiokanäle</translation>
+    </message>
+    <message>
+        <source>Codec Tag</source>
+        <translation>Codec-Tag</translation>
+    </message>
+    <message>
+        <source>Bit Rate</source>
+        <translation>Bitrate</translation>
+        <extracomment>Video streaming bit rate</extracomment>
+    </message>
+    <message>
+        <source>Container</source>
+        <translation>Container</translation>
+        <extracomment>Video streaming container</extracomment>
+    </message>
+    <message>
+        <source>Video range type</source>
+        <translation>Video-Spektrum</translation>
+    </message>
+    <message>
+        <source>Pixel format</source>
+        <translation>Pixelformat</translation>
+        <extracomment>Video pixel format</extracomment>
+    </message>
+    <message>
+        <source>Unable to find any albums or songs belonging to this artist</source>
+        <translation>Es konnten keine Alben oder Lieder dieses Künstlers gefunden werden</translation>
+        <extracomment>Popup message when we find no audio data for an artist</extracomment>
+    </message>
+    <message>
+        <source>Only display text subtitles to minimize transcoding.</source>
+        <translation>Zeige nur Text Untertitel um Transkodierungen zu minimieren.</translation>
+        <extracomment>Description of a setting - should we hide subtitles that might transcode</extracomment>
+    </message>
+    <message>
+        <source>Slideshow Off</source>
+        <translation>Diashow aus</translation>
+    </message>
+    <message>
+        <source>Slideshow On</source>
+        <translation>Diashow an</translation>
+    </message>
+    <message>
+        <source>Slideshow Paused</source>
+        <translation>Diashow pausiert</translation>
+    </message>
+    <message>
+        <source>Slideshow Resumed</source>
+        <translation>Diashow fortgesetzt</translation>
+    </message>
+    <message>
+        <source>MPEG-4 Support</source>
+        <translation>MPEG-4 Unterstützung</translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
+    <message>
+        <source>Show What&apos;s New Popup</source>
+        <translation>Serie Was ist neu Popup</translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
+    <message>
+        <source>Options for TV Shows.</source>
+        <translation>Serien-Einstellungen.</translation>
+        <extracomment>Description for TV Shows user settings.</extracomment>
+    </message>
+    <message>
+        <source>Home Page</source>
+        <translation>Startseite</translation>
+    </message>
+    <message>
+        <source>Max Days Next Up</source>
+        <translation>Max. Tage im &quot;Als Nächstes&quot; Bereich</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
+    <message>
+        <source>Playback Information</source>
+        <translation>Wiedergabeinformation</translation>
+    </message>
+    <message>
+        <source>Stream Information</source>
+        <translation>Stream Informationen</translation>
+    </message>
+    <message>
+        <source>WxH</source>
+        <translation>Breite x Höhe</translation>
+        <extracomment>Video width x height</extracomment>
+    </message>
+    <message>
+        <source>all</source>
+        <translation>Alle</translation>
+        <extracomment>all will reset the searchTerm so all data will be availible</extracomment>
+    </message>
+    <message>
+        <source>Aired</source>
+        <translation>Ausgestrahlt</translation>
+        <extracomment>Aired date label</extracomment>
+    </message>
+    <message>
+        <source>Artists (Presentation)</source>
+        <translation>Künstlerinnenvorstellung</translation>
+    </message>
+    <message>
+        <source>Song</source>
+        <translation>Musiktitel</translation>
+    </message>
+    <message>
+        <source>Songs</source>
+        <translation>Lieder</translation>
+    </message>
+    <message>
+        <source>Album</source>
+        <translation>Album</translation>
+    </message>
+    <message>
+        <source>Albums</source>
+        <translation>Alben</translation>
+    </message>
+    <message>
+        <source>View All</source>
+        <translation>Alle anzeigen</translation>
+    </message>
+    <message>
+        <source>Disable Community Rating for Episodes</source>
+        <translation>Deaktiviere Community Bewertungen für Episoden</translation>
+    </message>
+    <message>
+        <source>Artists (Grid)</source>
+        <translation>Künstler (Gitter)</translation>
+    </message>
+    <message>
+        <source>Item Count</source>
+        <translation>Dateien-Anzahl</translation>
+        <extracomment>UI -&gt; Media Grid -&gt; Item Count in user setting screen.</extracomment>
+    </message>
+    <message>
+        <source>Media Grid options.</source>
+        <translation>Medien Anordnung Optionen.</translation>
+    </message>
+    <message>
+        <source>Design Elements</source>
+        <translation>Designelemente</translation>
+    </message>
+    <message>
+        <source>Settings relating to how the application looks.</source>
+        <translation>Einstellungen zum Aussehen des Programms.</translation>
+    </message>
+    <message>
+        <source>Settings relating to playback and supported codec and media types.</source>
+        <translation>Einstellungen für die Wiedergabe und unterstützte Codec- und Medientypen.</translation>
+    </message>
+    <message>
+        <source>Reason</source>
+        <translation>Grund</translation>
+    </message>
+    <message>
+        <source>Total Bitrate</source>
+        <translation>Gesamte Bitrate</translation>
+    </message>
+    <message>
+        <source>Codec</source>
+        <translation>Codec</translation>
+    </message>
+    <message>
+        <source>Size</source>
+        <translation>Größe</translation>
+        <extracomment>Video size</extracomment>
+    </message>
+    <message>
+        <source>Random On</source>
+        <translation>Zufällig an</translation>
+    </message>
+    <message>
+        <source>Random Off</source>
+        <translation>Zufällig aus</translation>
+    </message>
+    <message>
+        <source>Played</source>
+        <translation>gespielt</translation>
+    </message>
+    <message>
+        <source>Unplayed</source>
+        <translation>nicht gespielt</translation>
+    </message>
+    <message>
+        <source>Item Titles</source>
+        <translation>Dateien-Titel</translation>
+        <extracomment>UI -&gt; Media Grid -&gt; Item Title in user setting screen.</extracomment>
+    </message>
+    <message>
+        <source>Level</source>
+        <translation>Level</translation>
+        <extracomment>Video profile level</extracomment>
+    </message>
+    <message>
+        <source>Options for Home Page.</source>
+        <translation>Einstellungen für die Startseite.</translation>
+        <extracomment>Description for Home Page user settings.</extracomment>
+    </message>
+    <message>
+        <source>Sign Out</source>
+        <translation>Abmelden</translation>
+    </message>
+    <message>
+        <source>Delete Saved</source>
+        <translation>Löschen</translation>
+    </message>
+    <message>
+        <source>Error During Playback</source>
+        <translation>Fehler bei der wiedergabe</translation>
+        <extracomment>Dialog title when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>There was an error retrieving the data for this item from the server.</source>
+        <translation>Fehler beim laden der Daten vom Server</translation>
+        <extracomment>Dialog detail when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <comment>Message displayed in Item Grid when no item to display. %1 is container type (e.g. Boxset, Collection, Folder, etc)</comment>
+        <source>NO_ITEMS</source>
+        <translation>Dieses %1 hat keine Inhalte</translation>
+    </message>
+    <message>
+        <source>RUNTIME</source>
+        <translation>Laufzeit</translation>
+    </message>
+    <message>
+        <source>An error was encountered while playing this item.</source>
+        <translation>Beim Abspielen ist ein Fehler aufgetreten.</translation>
+        <extracomment>Dialog detail when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>Schlüssel speichern?</translation>
+    </message>
+    <message>
+        <source>Error Retrieving Content</source>
+        <translation>Fehler beim laden des Inhalts</translation>
+        <extracomment>Dialog title when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <comment>Title of Tab for switching &quot;views&quot; when looking at a library</comment>
+        <source>TAB_VIEW</source>
+        <translation>Ansicht</translation>
+    </message>
+    <message>
+        <source>RELEASE_DATE</source>
+        <translation>Veröffentlichungsdatum</translation>
+    </message>
+    <message>
+        <source>Change Server</source>
+        <translation>Server wechseln</translation>
+    </message>
+    <message>
+        <comment>Name or Title field of media item</comment>
+        <source>TITLE</source>
+        <translation>Name</translation>
+    </message>
+    <message>
+        <source>CRITIC_RATING</source>
+        <translation>Kritiker Bewertung</translation>
+    </message>
+    <message>
+        <source>OFFICIAL_RATING</source>
+        <translation>Altersfreigabe</translation>
+    </message>
+    <message>
+        <source>IMDB_RATING</source>
+        <translation>IMDb Bewertung</translation>
+    </message>
+    <message>
+        <source>PLAY_COUNT</source>
+        <translation>Wiedergabeanzahl</translation>
+    </message>
+    <message>
+        <source>DATE_PLAYED</source>
+        <translation>Zuletzt abgespielt</translation>
+    </message>
+    <message>
+        <source>DATE_ADDED</source>
+        <translation>Datum</translation>
+    </message>
+    <message>
+        <source>Sign Out</source>
+        <translation>Abmelden</translation>
+    </message>
+    <message>
+        <source>Change Server</source>
+        <translation>Server wechseln</translation>
+    </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>Zugangsdaten speichern?</translation>
+    </message>
+    <message>
+        <comment>Name or Title field of media item</comment>
+        <source>TITLE</source>
+        <translation>Name</translation>
+    </message>
+    <message>
+        <source>Sign Out</source>
+        <translation>Abmelden</translation>
+    </message>
+    <message>
+        <source>Delete Saved</source>
+        <translation>Löschen gespeichert</translation>
+    </message>
+    <message>
+        <source>Error During Playback</source>
+        <translation>Fehler bei der Wiedergabe</translation>
+        <extracomment>Dialog title when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>There was an error retrieving the data for this item from the server.</source>
+        <translation>Fehler beim Laden der Daten vom Server</translation>
+        <extracomment>Dialog detail when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <source>An error was encountered while playing this item.</source>
+        <translation>Bei der Wiedergabe trat ein Fehler auf</translation>
+        <extracomment>Dialog detail when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>Zugangsdaten speichern?</translation>
+    </message>
+    <message>
+        <source>Error Retrieving Content</source>
+        <translation>Fehler beim Laden des Inhalts</translation>
+        <extracomment>Dialog title when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <source>Loading Channel Data</source>
+        <translation>Lade Kanaldaten</translation>
+    </message>
+    <message>
+        <source>Error loading Channel Data</source>
+        <translation>Fehler beim Laden der Kanaldaten</translation>
+    </message>
+    <message>
+        <source>Unable to load Channel Data from the server</source>
+        <translation>Kanaldaten können nicht vom Server geladen werden</translation>
+    </message>
+    <message>
+        <source>Change Server</source>
+        <translation>Server ändern</translation>
+    </message>
+    <message>
+        <source>Unable to load Channel Data from the server</source>
+        <translation>Kanaldaten konnten nicht vom Server geladen werden</translation>
+    </message>
+    <message>
+        <source>There was an error retrieving the data for this item from the server.</source>
+        <translation>Fehler beim Laden der Daten vom Server</translation>
+        <extracomment>Dialog detail when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <source>RUNTIME</source>
+        <translation>Laufzeit</translation>
+    </message>
+    <message>
+        <comment>Title of Tab for switching &quot;views&quot; when looking at a library</comment>
+        <source>TAB_VIEW</source>
+        <translation>Ansicht</translation>
+    </message>
+    <message>
+        <source>Born</source>
+        <translation>Geboren am</translation>
+    </message>
+    <message>
+        <source>Sunday</source>
+        <translation>Sonntag</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Saturday</source>
+        <translation>Samstag</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Started at</source>
+        <translation>Gestartet um</translation>
+        <extracomment>(Past Tense) For defining time when a program started today (e.g. Started at 08:00) </extracomment>
+    </message>
+    <message>
+        <source>Sign Out</source>
+        <translation>Ausloggen</translation>
+    </message>
+    <message>
+        <source>Error During Playback</source>
+        <translation>Fehler beim Abspielen</translation>
+        <extracomment>Dialog title when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>An error was encountered while playing this item.</source>
+        <translation>Bei der Wiedergabe trat ein Fehler auf</translation>
+        <extracomment>Dialog detail when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>Loading Channel Data</source>
+        <translation>Lade Kanaldaten</translation>
+    </message>
+    <message>
+        <source>Error loading Channel Data</source>
+        <translation>Fehler beim Laden der Kanaldaten</translation>
+    </message>
+    <message>
+        <comment>Name or Title field of media item</comment>
+        <source>TITLE</source>
+        <translation>Name</translation>
+    </message>
+    <message>
+        <comment>Message displayed in Item Grid when no item to display. %1 is container type (e.g. Boxset, Collection, Folder, etc)</comment>
+        <source>NO_ITEMS</source>
+        <translation>Dieses %1 hat keine Inhalte</translation>
+    </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>Anmeldedaten merken?</translation>
+    </message>
+    <message>
+        <source>Error Retrieving Content</source>
+        <translation>Fehler beim Laden des Inhalts</translation>
+        <extracomment>Dialog title when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <comment>Title of Tab for options to sort library content</comment>
+        <source>TAB_SORT</source>
+        <translation>Sortierung</translation>
+    </message>
+    <message>
+        <comment>Title of Tab for options to filter library content</comment>
+        <source>TAB_FILTER</source>
+        <translation>Filter</translation>
+    </message>
+    <message>
+        <source>More Like This</source>
+        <translation>Ähnliches</translation>
+    </message>
+    <message>
+        <source>Movies (Grid)</source>
+        <translation>Filme (Raster)</translation>
+        <extracomment>Movie library view option</extracomment>
+    </message>
+    <message>
+        <source>today</source>
+        <translation>heute</translation>
+        <extracomment>Current day</extracomment>
+    </message>
+    <message>
+        <source>Tuesday</source>
+        <translation>Dienstag</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Repeat</source>
+        <translation>Wiederholung</translation>
+        <extracomment>If TV Shows has previously been broadcasted</extracomment>
+    </message>
+    <message>
+        <source>RELEASE_DATE</source>
+        <translation>Veröffentlichungsdatum</translation>
+    </message>
+    <message>
+        <source>yesterday</source>
+        <translation>gestern</translation>
+        <extracomment>Previous day</extracomment>
+    </message>
+    <message>
+        <source>tomorrow</source>
+        <translation>morgen</translation>
+        <extracomment>Next day</extracomment>
+    </message>
+    <message>
+        <source>Live</source>
+        <translation>Live</translation>
+        <extracomment>If TV Show is being broadcast live (not pre-recorded)</extracomment>
+    </message>
+    <message>
+        <source>Change Server</source>
+        <translation>Server wechseln</translation>
+    </message>
+    <message>
+        <source>CRITIC_RATING</source>
+        <translation>Kritiker Bewertung</translation>
+    </message>
+    <message>
+        <source>Died</source>
+        <translation>Gestorben am</translation>
+    </message>
+    <message>
+        <source>Age</source>
+        <translation>Alter</translation>
+    </message>
+    <message>
+        <source>Cast &amp; Crew</source>
+        <translation>Besetzung &amp; Mitwirkende</translation>
+    </message>
+    <message>
+        <source>Press &apos;OK&apos; to Close</source>
+        <translation>klicke &apos;OK&apos; zum Schließen</translation>
+    </message>
+    <message>
+        <source>Additional Parts</source>
+        <translation>Zusätzliche Inhalte</translation>
+        <extracomment>Additional parts of a video</extracomment>
+    </message>
+    <message>
+        <source>Monday</source>
+        <translation>Montag</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Thursday</source>
+        <translation>Donnerstag</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Started</source>
+        <translation>Gestartet</translation>
+        <extracomment>(Past Tense) For defining a day and time when a program started (e.g. Started Wednesday, 08:00) </extracomment>
+    </message>
+    <message>
+        <source>Ends at</source>
+        <translation>Endete um</translation>
+        <extracomment>(Past Tense) For defining a day and time when a program ended (e.g. Ended Wednesday, 08:00) </extracomment>
+    </message>
+    <message>
+        <source>Channels</source>
+        <translation>Sender</translation>
+        <extracomment>Menu option for showing Live TV Channel List</extracomment>
+    </message>
+    <message>
+        <source>Friday</source>
+        <translation>Freitag</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Movies</source>
+        <translation>Filme</translation>
+    </message>
+    <message>
+        <source>OFFICIAL_RATING</source>
+        <translation>Altersfreigabe</translation>
+    </message>
+    <message>
+        <source>IMDB_RATING</source>
+        <translation>IMDb Bewertung</translation>
+    </message>
+    <message>
+        <source>PLAY_COUNT</source>
+        <translation>Wiedergabeanzahl</translation>
+    </message>
+    <message>
+        <source>TV Shows</source>
+        <translation>Serien</translation>
+    </message>
+    <message>
+        <source>Starts at</source>
+        <translation>Startet um</translation>
+        <extracomment>(Future Tense) For defining time when a program will start today (e.g. Starts at 08:00) </extracomment>
+    </message>
+    <message>
+        <source>TV Guide</source>
+        <translation>TV Programm</translation>
+        <extracomment>Menu option for showing Live TV Guide / Schedule</extracomment>
+    </message>
+    <message>
+        <source>Starts</source>
+        <translation>Startet</translation>
+        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g. Starts Wednesday, 08:00) </extracomment>
+    </message>
+    <message>
+        <source>DATE_PLAYED</source>
+        <translation>Abspieldatum</translation>
+    </message>
+    <message>
+        <source>Ended at</source>
+        <translation>Endet um</translation>
+        <extracomment>(Past Tense) For defining time when a program will ended (e.g. Ended at 08:00) </extracomment>
+    </message>
+    <message>
+        <source>DATE_ADDED</source>
+        <translation>Hinzufügedatum</translation>
+    </message>
+    <message>
+        <source>Wednesday</source>
+        <translation>Mittwoch</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>View Channel</source>
+        <translation>Sender ansehen</translation>
+    </message>
+    <message>
+        <source>Record</source>
+        <translation>Aufnehmen</translation>
+    </message>
+    <message>
+        <source>Support Direct Play of MPEG-4 content. This may need to be disabled for playback of DIVX encoded video files.</source>
+        <translation>Unterstützung der direkten Wiedergabe von MPEG-4-Inhalten. Für die Wiedergabe von DIVX-codierten Videodateien muss diese Funktion möglicherweise deaktiviert werden.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Go to season</source>
+        <translation>Gehe zur Staffel</translation>
+        <extracomment>Continue Watching Popup Menu - Navigate to the Season Page</extracomment>
+    </message>
+    <message>
+        <source>Use the replay button to slowly animate to the first item in the folder. (If disabled, the folder will reset to the first item immediately).</source>
+        <translation>Verwenden Sie die Schaltfläche &quot;Wiederholen&quot;, um langsam zum ersten Element im Ordner zu animieren. (Wenn diese Funktion deaktiviert ist, wird der Ordner sofort auf das erste Element zurückgesetzt).</translation>
+        <extracomment>Description for option in Setting Screen</extracomment>
+    </message>
+    <message>
+        <source>Use Splashscreen as Home Background</source>
+        <translation>Startbildschirm als Hintergrund verwenden.</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
+    <message>
+        <source>Use generated splashscreen image as Jellyfin&apos;s home background. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Benutzen Sie den generierten Startbildschirm als Jellyfin&apos;s Start-Hintergrund. Jellyfin muss geschlossen und erneut geöffnet werden, damit die Änderung wirksam wird.</translation>
+        <extracomment>Description for option in Setting Screen</extracomment>
+    </message>
+    <message>
+        <source>Replace Roku&apos;s default subtitle functions with custom functions that support CJK fonts. Fallback fonts must be configured and enabled on the server for CJK rendering to work.</source>
+        <translation>Ersetzen Sie die Standard-Untertitelfunktionen von Roku durch benutzerdefinierte Funktionen, die CJK-Schriftarten unterstützen. Fallback-Schriften müssen auf dem Server konfiguriert und aktiviert werden, damit die CJK-Wiedergabe funktioniert.</translation>
+        <extracomment>Description of a setting - custom subtitles that support CJK fonts</extracomment>
+    </message>
+    <message>
+        <source>Set the maximum bitrate in Mbps. Set to 0 to use Roku&apos;s specifications. This setting must be enabled to take effect.</source>
+        <translation>Legen Sie die maximale Bitrate in Mbps fest. Setzen Sie sie auf 0, um die Spezifikationen von Roku zu verwenden. Diese Einstellung muss aktiviert werden, um wirksam zu werden.</translation>
+    </message>
+    <message>
+        <source>Settings that apply when Grid views are enabled.</source>
+        <translation>Einstellungen, die gelten, wenn Rasteransichten aktiviert sind.</translation>
+    </message>
+    <message>
+        <source>If enabled, the number of unwatched episodes in a series/season will be removed.</source>
+        <translation>Wenn aktiv, wird die Anzahl der ungesehenen Episoden in Serie/Staffel entfernt.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Set how many seconds before the end of an episode the Next Episode button should appear. Set to 0 to disable.</source>
+        <translation>Legen Sie fest, wie viele Sekunden vor dem Ende einer Episode die Schaltfläche &quot;Nächste Episode&quot; erscheinen soll. Zum Deaktivieren auf 0 setzen.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation>Schließen</translation>
+    </message>
+    <message>
+        <source>The requested content does not exist on the server</source>
+        <translation>Der gewünschte Inhalt existiert nicht auf dem Server</translation>
+        <extracomment>Content of message box when the requested content is not found on the server</extracomment>
+    </message>
+    <message>
+        <source>Grid</source>
+        <translation>Raster</translation>
+        <extracomment>Title of an option - name of grid view</extracomment>
+    </message>
+    <message>
+        <source>There was an error authenticating via Quick Connect.</source>
+        <translation>Bei der Authentifizierung über Quick Connect ist ein Fehler aufgetreten.</translation>
+    </message>
+    <message>
+        <source>Hides tagline text on details pages.</source>
+        <translation>Blendet Schlagworte auf Detailseiten aus.</translation>
+    </message>
+    <message>
+        <source>Custom Subtitles</source>
+        <translation>Benutzerdefinierte Untertitel</translation>
+        <extracomment>Name of a setting - custom subtitles that support CJK fonts</extracomment>
+    </message>
+    <message>
+        <source>Slideshow Paused</source>
+        <translation>Diashow pausiert</translation>
+    </message>
+    <message>
+        <source>Slideshow Resumed</source>
+        <translation>Diashow fortgesetzt</translation>
+    </message>
+    <message>
+        <source>Played</source>
+        <translation>Abgespielt</translation>
+    </message>
+    <message>
+        <source>Movies (Presentation)</source>
+        <translation>Filme (Präsentation)</translation>
+        <extracomment>Movie library view option</extracomment>
+    </message>
+    <message>
+        <source>Always Show</source>
+        <translation>Immer anzeigen</translation>
+    </message>
+    <message>
+        <source>Albums</source>
+        <translation>Alben</translation>
+    </message>
+    <message>
+        <source>Album Artists (Presentation)</source>
+        <translation>Album Künstler (Vorstellung)</translation>
+    </message>
+    <message>
+        <source>Album Artists (Grid)</source>
+        <translation>Album Künstler (Raster)</translation>
+    </message>
+    <message>
+        <source>Album</source>
+        <translation>Album</translation>
+    </message>
+    <message>
+        <source>Disable Community Rating for Episodes</source>
+        <translation>Community-Bewertung für Episoden deaktivieren</translation>
+    </message>
+    <message>
+        <source>Configure the maximum playback bitrate.</source>
+        <translation>Festlegung der maximalen Wiedergabe-Bitrate.</translation>
+    </message>
+    <message>
+        <source>Biographical information for this person is not currently available.</source>
+        <translation>Biographische Informationen zu dieser Person sind derzeit nicht verfügbar.</translation>
+    </message>
+    <message>
+        <source>Enable or disable  the &apos;Maximum Bitrate&apos; setting.</source>
+        <translation>Aktivieren oder deaktivieren der &quot;Maximale Bitrate&quot; Einstellung.</translation>
+    </message>
+    <message>
+        <source>Bitrate Limit</source>
+        <translation>Bitraten Limit</translation>
+    </message>
+    <message>
+        <source>Libraries</source>
+        <translation>Bibliotheken</translation>
+    </message>
+    <message>
+        <source>Settings relating to the appearance of Library pages</source>
+        <translation>Einstellungen für das Erscheinungsbild der Bibliotheksseiten</translation>
+    </message>
+    <message>
+        <source>Settings relating to the appearance of the Home screen and the program in general.</source>
+        <translation>Einstellungen, die sich auf das Aussehen des Startbildschirms und des Programms im Allgemeinen beziehen.</translation>
+    </message>
+    <message>
+        <source>Settings relating to the appearance of pages in Movie Libraries.</source>
+        <translation>Einstellungen, die sich auf die Darstellung von Seiten in Filmbibliotheken beziehen.</translation>
+    </message>
+    <message>
+        <source>Presentation</source>
+        <translation>Vorstellung</translation>
+        <extracomment>Title of an option - name of presentation view</extracomment>
+    </message>
+    <message>
+        <source>Loading trailer</source>
+        <translation>Lade Trailer</translation>
+        <extracomment>Dialog title in Main.brs</extracomment>
+    </message>
+    <message>
+        <source>Next Episode Button Time</source>
+        <translation>Anzeigedauer &quot;Nächste Episode&quot;</translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
+    <message>
+        <source>On Now</source>
+        <translation>Jetzt live</translation>
+    </message>
+    <message>
+        <source>Next episode</source>
+        <translation>Nächste Folge</translation>
+    </message>
+    <message>
+        <source>Delete Saved</source>
+        <translation>Gespeicherte löschen</translation>
+    </message>
+    <message>
+        <source>Version</source>
+        <translation>Version</translation>
+    </message>
+    <message>
+        <source>MPEG-2</source>
+        <translation>MPEG-2</translation>
+        <extracomment>Name of codec used in settings menu</extracomment>
+    </message>
+    <message>
+        <source>MPEG-4</source>
+        <translation>MPEG-4</translation>
+        <extracomment>Name of codec used in settings menu</extracomment>
+    </message>
+    <message>
+        <source>Media Grid</source>
+        <translation>Medienraster</translation>
+        <extracomment>UI -&gt; Media Grid section in user setting screen.</extracomment>
+    </message>
+    <message>
+        <source>Hide Taglines</source>
+        <translation>Schlagworte ausblenden</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
+    <message>
+        <source>General</source>
+        <translation>Allgemein</translation>
+    </message>
+    <message>
+        <source>Cinema Mode</source>
+        <translation>Kinomodus</translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
+    <message>
+        <source>Video Codec</source>
+        <translation>Video Codec</translation>
+    </message>
+    <message>
+        <source>Audio Codec</source>
+        <translation>Audio Codec</translation>
+    </message>
+    <message>
+        <source>direct</source>
+        <translation>direkt</translation>
+    </message>
+    <message>
+        <source>Audio Channels</source>
+        <translation>Audiokanäle</translation>
+    </message>
+    <message>
+        <source>Play Trailer</source>
+        <translation>Trailer abspielen</translation>
+    </message>
+    <message>
+        <source>Codec Tag</source>
+        <translation>Codec Tag</translation>
+    </message>
+    <message>
+        <source>Artists (Grid)</source>
+        <translation>Künstler (Raster)</translation>
+    </message>
+    <message>
+        <source>Slideshow Off</source>
+        <translation>Diashow aus</translation>
+    </message>
+    <message>
+        <source>Cancel Recording</source>
+        <translation>Aufnahme abbrechen</translation>
+    </message>
+    <message>
+        <source>Not found</source>
+        <translation>Nicht gefunden</translation>
+        <extracomment>Title of message box when the requested content is not found on the server</extracomment>
+    </message>
+    <message>
+        <source>Pick a Jellyfin server from the local network</source>
+        <translation>Wählen Sie einen verfügbaren Jellyfin-Server in Ihrem lokalen Netzwerk aus:</translation>
+        <extracomment>Instructions on initial app launch when the user is asked to pick a server from a list</extracomment>
+    </message>
+    <message>
+        <source>...or enter server URL manually:</source>
+        <translation>Sollte der Server nicht aufgelistet sein, fügen Sie bitte die URL manuell ein:</translation>
+        <extracomment>Instructions on initial app launch when the user is asked to manually enter a server URL</extracomment>
+    </message>
+    <message>
+        <source>An error was encountered while playing this item. Server did not provide required transcoding data.</source>
+        <translation>Bei der Wiedergabe dieses Elements ist ein Fehler aufgetreten. Der Server hat die erforderlichen Transcodierungsdaten nicht bereitgestellt.</translation>
+        <extracomment>Content of message box when trying to play an item which requires transcoding, and the server did not provide transcode url</extracomment>
+    </message>
+    <message>
+        <source>Playback</source>
+        <translation>Wiedergabe</translation>
+        <extracomment>Title for Playback section in user setting screen.</extracomment>
+    </message>
+    <message>
+        <source>Enable or disable Direct Play for optional codecs</source>
+        <translation>Aktivieren oder Deaktivieren von Direct Play für optionale Codecs</translation>
+        <extracomment>Settings Menu - Title for settings group related to codec support</extracomment>
+    </message>
+    <message>
+        <source>Support Direct Play of MPEG-2 content (e.g., Live TV). This will prevent transcoding of MPEG-2 content, but uses significantly more bandwidth.</source>
+        <translation>Unterstützung der direkten Wiedergabe von MPEG-2-Inhalten (z. B. Live-TV). Dies verhindert die Transkodierung von MPEG-2-Inhalten, verbraucht aber deutlich mehr Bandbreite.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>AV1</source>
+        <translation>AV1</translation>
+        <extracomment>Name of a setting - should we try to direct play experimental av1 codec</extracomment>
+    </message>
+    <message>
+        <source>Enabled</source>
+        <translation>Aktiviert</translation>
+    </message>
+    <message>
+        <source>Show item count in the library and index of selected item.</source>
+        <translation>Zeigt die Anzahl der Objekte in der Bibliothek und den Index des ausgewählten Objekts an.</translation>
+        <extracomment>Description for option in Setting Screen</extracomment>
+    </message>
+    <message>
+        <source>Set Favorite</source>
+        <translation>Als Favorit festlegen</translation>
+        <extracomment>Button Text - When pressed, sets item as Favorite</extracomment>
+    </message>
+    <message>
+        <source>Go to series</source>
+        <translation>Gehe zur Serie</translation>
+        <extracomment>Continue Watching Popup Menu - Navigate to the Series Detail Page</extracomment>
+    </message>
+    <message>
+        <source>Use voice remote to search</source>
+        <translation>Verwenden Sie die Sprachfernbedienung für die Suche</translation>
+        <extracomment>Help text in search voice text box</extracomment>
+    </message>
+    <message>
+        <source>Search now</source>
+        <translation>Jetzt suchen</translation>
+        <extracomment>Help text in search Box</extracomment>
+    </message>
+    <message>
+        <source>You can search for Titles, People, Live TV Channels and more</source>
+        <translation>Sie können nach Titeln, Personen, Live-TV-Kanälen und mehr suchen</translation>
+        <extracomment>Help text in search results</extracomment>
+    </message>
+    <message>
+        <source>%1 of %2</source>
+        <translation>%1 von %2</translation>
+        <extracomment>Item position and count. %1 = current item. %2 = total number of items</extracomment>
+    </message>
+    <message>
+        <source>Quick Connect</source>
+        <translation>Schnellverbindung</translation>
+    </message>
+    <message>
+        <source>Networks</source>
+        <translation>Netzwerke</translation>
+    </message>
+    <message>
+        <source>Studios</source>
+        <translation>Studios</translation>
+    </message>
+    <message>
+        <source>Shows</source>
+        <translation>Serien</translation>
+    </message>
+    <message>
+        <source>Return to Top</source>
+        <translation>Zurück nach oben</translation>
+        <extracomment>UI -&gt; Media Grid -&gt; Item Title in user setting screen.</extracomment>
+    </message>
+    <message>
+        <source>Blur Unwatched Episodes</source>
+        <translation>Ungesehene Folgen verpixeln</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
+    <message>
+        <source>Skip Details for Single Seasons</source>
+        <translation>Details für einzelne Staffeln überspringen</translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
+    <message>
+        <source>Options that alter the design of Jellyfin.</source>
+        <translation>Einstellungen die das Aussehen von Jellyfin verändern.</translation>
+        <extracomment>Description for Design Elements user settings.</extracomment>
+    </message>
+    <message>
+        <source>Hide Clock</source>
+        <translation>Uhr ausblenden</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
+    <message>
+        <source>H.264</source>
+        <translation>H.264</translation>
+        <extracomment>Name of codec used in settings menu</extracomment>
+    </message>
+    <message>
+        <source>Transcoding Information</source>
+        <translation>Transkodierungsinformationen</translation>
+    </message>
+    <message>
+        <source>Container</source>
+        <translation>Container</translation>
+        <extracomment>Video streaming container</extracomment>
+    </message>
+    <message>
+        <source>Text Subtitles Only</source>
+        <translation>Nur Text Untertitel</translation>
+        <extracomment>Name of a setting - should we hide subtitles that might transcode</extracomment>
+    </message>
+    <message>
+        <source>Settings relating to the appearance of pages in TV Libraries.</source>
+        <translation>Einstellungen für das Erscheinungsbild der Seiten in den TV-Bibliotheken.</translation>
+    </message>
+    <message>
+        <source>Special Features</source>
+        <translation>Extras</translation>
+    </message>
+    <message>
+        <source>Error Getting Playback Information</source>
+        <translation>Fehler beim Abrufen von Wiedergabeinformationen</translation>
+        <extracomment>Dialog Title: Received error from server when trying to get information about the selected item for playback</extracomment>
+    </message>
+    <message>
+        <source>** EXPERIMENTAL** Support Direct Play of AV1 content if this Roku device supports it.</source>
+        <translation>** EXPERIMENTELL** Unterstützt die direkte Wiedergabe von AV1-Inhalten, wenn dieses Roku-Gerät dies unterstützt.</translation>
+        <extracomment>Description of a setting - should we try to direct play experimental av1 codec</extracomment>
+    </message>
+    <message>
+        <source>User Interface</source>
+        <translation>Benutzeroberfläche</translation>
+        <extracomment>Title for User Interface section in user setting screen.</extracomment>
+    </message>
+    <message>
+        <source>Set Watched</source>
+        <translation>Als gesehen markieren</translation>
+        <extracomment>Button Text - When pressed, marks item as Warched</extracomment>
+    </message>
+    <message>
+        <source>Go to episode</source>
+        <translation>Gehe zur Folge</translation>
+        <extracomment>Continue Watching Popup Menu - Navigate to the Episode Detail Page</extracomment>
+    </message>
+    <message>
+        <source>Here is your Quick Connect code:</source>
+        <translation>Ihr Schnellverbindungscode lautet:</translation>
+    </message>
+    <message>
+        <source>(Dialog will close automatically)</source>
+        <translation>(Dialog schließt sich automatisch)</translation>
+    </message>
+    <message>
+        <source>Options for TV Shows.</source>
+        <translation>Einstellungen für Serien</translation>
+        <extracomment>Description for TV Shows user settings.</extracomment>
+    </message>
+    <message>
+        <source>Go directly to the episode list if a TV series has only one season.</source>
+        <translation>Gehen Sie direkt zur Episodenliste, wenn eine Fernsehserie nur eine Staffel hat.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Blur images of unwatched episodes.</source>
+        <translation>Verpixeln von Bildern von nicht gesehenen Episoden.</translation>
+    </message>
+    <message>
+        <source>Bring the theater experience straight to your living room with the ability to play custom intros before the main feature.</source>
+        <translation>Bringen Sie das Kinoerlebnis direkt in Ihr Wohnzimmer mit der Möglichkeit, vor dem Hauptprogramm benutzerdefinierte Intros abzuspielen.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Hide all clocks in Jellyfin. Jellyfin will need to be closed and reopened for changes to take effect.</source>
+        <translation>Alle Uhren in Jellyfin ausblenden. Jellyfin muss geschlossen und wieder geöffnet werden, damit die Änderungen wirksam werden.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Attempt Direct Play for H.264 media with unsupported profile levels before falling back to transcoding if it fails.</source>
+        <translation>Versuche Direct Play für H.264-Medien mit nicht unterstützten Profilebenen zu nutzen, bevor Sie auf die Transkodierung zurückgreifen, wenn dies fehlschlägt.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>HEVC</source>
+        <translation>HEVC</translation>
+        <extracomment>Name of codec used in settings menu</extracomment>
+    </message>
+    <message>
+        <source>Attempt Direct Play for HEVC media with unsupported profile levels before falling back to transcoding if it fails.</source>
+        <translation>Versuche Direct Play für HEVC Medien mit nicht unterstützten Profilebenen zu nutzen, bevor Sie auf die Transkodierung zurückgreifen, wenn dies fehlschlägt.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Max Days Next Up</source>
+        <translation>Max. Tage im &quot;Als Nächstes&quot; Bereich</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
+    <message>
+        <source>Set the maximum amount of days a show should stay in the &apos;Next Up&apos; list without watching it.</source>
+        <translation>Legen Sie die maximale Anzahl von Tagen fest, die eine Serie in der Liste &quot;Als Nächstes&quot; verbleiben soll, ohne dass sie angesehen wird.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Bit Rate</source>
+        <translation>Bitrate</translation>
+        <extracomment>Video streaming bit rate</extracomment>
+    </message>
+    <message>
+        <source>Playback Information</source>
+        <translation>Wiedergabeinformationen</translation>
+    </message>
+    <message>
+        <source>Stream Information</source>
+        <translation>Stream Informationen</translation>
+    </message>
+    <message>
+        <source>Video range type</source>
+        <translation>Videobereichstyp</translation>
+    </message>
+    <message>
+        <source>Pixel format</source>
+        <translation>Pixelformat</translation>
+        <extracomment>Video pixel format</extracomment>
+    </message>
+    <message>
+        <source>Unable to find any albums or songs belonging to this artist</source>
+        <translation>Es konnten keine Alben oder Songs dieses Künstlers gefunden werden</translation>
+        <extracomment>Popup message when we find no audio data for an artist</extracomment>
+    </message>
+    <message>
+        <source>Only display text subtitles to minimize transcoding.</source>
+        <translation>Nur Textuntertitel anzeigen, um die Transkodierung zu minimieren.</translation>
+        <extracomment>Description of a setting - should we hide subtitles that might transcode</extracomment>
+    </message>
+    <message>
+        <source>WxH</source>
+        <translation>Breite x Höhe</translation>
+        <extracomment>Video width x height</extracomment>
+    </message>
+    <message>
+        <source>all</source>
+        <translation>Alle</translation>
+        <extracomment>all will reset the searchTerm so all data will be availible</extracomment>
+    </message>
+    <message>
+        <source>Aired</source>
+        <translation>Ausgestrahlt</translation>
+        <extracomment>Aired date label</extracomment>
+    </message>
+    <message>
+        <source>Slideshow On</source>
+        <translation>Diashow an</translation>
+    </message>
+    <message>
+        <source>MPEG-4 Support</source>
+        <translation>MPEG-4 Unterstützung</translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
+    <message>
+        <source>Parental Ratings</source>
+        <translation>Elterliche Bewertung</translation>
+        <extracomment>Used in Filter menu</extracomment>
+    </message>
+    <message>
+        <source>Years</source>
+        <translation>Jahre</translation>
+        <extracomment>Used in Filter menu</extracomment>
+    </message>
+    <message>
+        <source>Show What&apos;s New Popup</source>
+        <translation>Popup-Fenster mit Neuigkeiten anzeigen</translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
+    <message>
+        <source>Show What&apos;s New popup when Jellyfin is updated to a new version.</source>
+        <translation>Popup-Fenster mit Neuigkeiten anzeigen wenn Jellyfin auf eine neue Version aktualisiert wurde.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Resumable</source>
+        <translation>Fortsetzbar</translation>
+    </message>
+    <message>
+        <source>Movie Library Default View</source>
+        <translation>Standardansicht der Filmbibliothek</translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
+    <message>
+        <source>Default view for Movie Libraries.</source>
+        <translation>Standardansicht für Filmbibliotheken.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Select when to show titles.</source>
+        <translation>Auswählen wann Titel angezeigt werden sollen</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Show On Hover</source>
+        <translation>Anzeigen beim Hovern</translation>
+    </message>
+    <message>
+        <source>Always Hide</source>
+        <translation>Niemals anzeigen</translation>
+    </message>
+    <message>
+        <source>View All</source>
+        <translation>Alle anzeigen</translation>
+    </message>
+    <message>
+        <source>Hide the star and community rating for episodes of a TV show. This is to prevent spoilers of an upcoming good/bad episode.</source>
+        <translation>Blenden Sie die Sterne- und Community-Bewertung für Episoden einer Fernsehsendung aus. Dies dient dazu, Spoiler über eine bevorstehende gute/schlechte Episode zu verhindern.</translation>
+    </message>
+    <message>
+        <source>Enable Limit</source>
+        <translation>Limit aktivieren</translation>
+    </message>
+    <message>
+        <source>Maximum Bitrate</source>
+        <translation>Maximale Bitrate</translation>
+    </message>
+    <message>
+        <source>Grid View Settings</source>
+        <translation>Einstellungen der Rasteransicht</translation>
+    </message>
+    <message>
+        <source>Disable Unwatched Episode Count</source>
+        <translation>Deaktivierung der Anzahl ungesehener Episoden</translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
+    <message>
+        <source>Artists (Presentation)</source>
+        <translation>Künstler (Vorstellung)</translation>
+    </message>
+    <message>
+        <source>Song</source>
+        <translation>Lied</translation>
+    </message>
+    <message>
+        <source>Songs</source>
+        <translation>Lieder</translation>
+    </message>
+    <message>
+        <source>Record Series</source>
+        <translation>Serie aufnehmen</translation>
+    </message>
+    <message>
+        <source>Codec Support</source>
+        <translation>Codec Unterstützung</translation>
+        <extracomment>Settings Menu - Title for settings group related to codec support</extracomment>
+    </message>
+    <message>
+        <source>Media Grid options.</source>
+        <translation>Medienraster-Optionen.</translation>
+    </message>
+    <message>
+        <source>Item Count</source>
+        <translation>Anzahl der Objekte</translation>
+        <extracomment>UI -&gt; Media Grid -&gt; Item Count in user setting screen.</extracomment>
+    </message>
+    <message>
+        <source>Design Elements</source>
+        <translation>Designelemente</translation>
+    </message>
+    <message>
+        <source>Settings relating to how the application looks.</source>
+        <translation>Einstellungen, die das Aussehen der Anwendung betreffen.</translation>
+    </message>
+    <message>
+        <source>Settings relating to playback and supported codec and media types.</source>
+        <translation>Einstellungen für die Wiedergabe und unterstützte Codec- und Medientypen.</translation>
+    </message>
+    <message>
+        <source>Reason</source>
+        <translation>Grund</translation>
+    </message>
+    <message>
+        <source>Total Bitrate</source>
+        <translation>Gesamte Bitrate</translation>
+    </message>
+    <message>
+        <source>Codec</source>
+        <translation>Codec</translation>
+    </message>
+    <message>
+        <source>Size</source>
+        <translation>Größe</translation>
+        <extracomment>Video size</extracomment>
+    </message>
+    <message>
+        <source>Random Off</source>
+        <translation>Zufällig aus</translation>
+    </message>
+    <message>
+        <source>Random On</source>
+        <translation>Zufällig an</translation>
+    </message>
+    <message>
+        <source>Unplayed</source>
+        <translation>Nicht abgespielt</translation>
+    </message>
+    <message>
+        <source>Cancel Series Recording</source>
+        <translation>Serienaufnahme abbrechen</translation>
+    </message>
+    <message>
+        <source>Item Titles</source>
+        <translation>Dateinamen</translation>
+        <extracomment>Title of a setting - when should we show the title text of a grid item</extracomment>
+    </message>
+    <message>
+        <source>Connecting to Server</source>
+        <translation>Verbinde zu Server</translation>
+        <extracomment>Message to display to user while client is attempting to connect to the server</extracomment>
+    </message>
+    <message>
+        <source>Unknown</source>
+        <translation>Unbekannt</translation>
+        <extracomment>Title for a cast member for which we have no information for</extracomment>
+    </message>
+    <message>
+        <source>Enter the server name or IP address</source>
+        <translation>Geben Sie den Servernamen oder die IP-Adresse ein</translation>
+        <extracomment>Title of KeyboardDialog when manually entering a server URL</extracomment>
+    </message>
+    <message>
+        <source>Level</source>
+        <translation>Level</translation>
+        <extracomment>Video profile level</extracomment>
+    </message>
+    <message>
+        <source>Disabled</source>
+        <translation>Deaktiviert</translation>
+    </message>
+    <message>
+        <source>Select when to show titles.</source>
+        <translation>Auswählen, wann Titel angezeigt werden sollen.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Use Splashscreen as Home Background</source>
+        <translation>Startbildschirm als Hintergrund verwenden</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
+    <message>
+        <source>There was an error retrieving the data for this item from the server.</source>
+        <translation>Fehler beim Laden der Daten vom Server.</translation>
+        <extracomment>Dialog detail when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <source>An error was encountered while playing this item.</source>
+        <translation>Bei der Wiedergabe trat ein Fehler auf.</translation>
+        <extracomment>Dialog detail when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>Studios</source>
+        <translation>Studios</translation>
+    </message>
+    <message>
+        <source>Container</source>
+        <translation>Container</translation>
+        <extracomment>Video streaming container</extracomment>
+    </message>
+    <message>
+        <source>Live</source>
+        <translation>Live</translation>
+        <extracomment>If TV Show is being broadcast live (not pre-recorded)</extracomment>
+    </message>
+    <message>
+        <source>Options for TV Shows.</source>
+        <translation>Einstellungen für Serien.</translation>
+        <extracomment>Description for TV Shows user settings.</extracomment>
+    </message>
+    <message>
+        <source>An error was encountered while playing this item.</source>
+        <translation>Bei der Wiedergabe trat ein Fehler auf.</translation>
+        <extracomment>Dialog detail when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>Sign Out</source>
+        <translation>Ausloggen</translation>
+    </message>
+    <message>
+        <source>Error During Playback</source>
+        <translation>Fehler während des abspielens</translation>
+        <extracomment>Dialog title when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>There was an error retrieving the data for this item from the server.</source>
+        <translation>Fehler beim Laden dieses Eintrags vom Server.</translation>
+        <extracomment>Dialog detail when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <source>Delete Saved</source>
+        <translation>Gespeicherte löschen</translation>
+    </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>Anmeldedaten speichern?</translation>
+    </message>
+    <message>
+        <source>Change Server</source>
+        <translation>Server wechseln</translation>
+    </message>
+    <message>
+        <source>Error Retrieving Content</source>
+        <translation>Fehler beim empfangen des Inhalts</translation>
+        <extracomment>Dialog title when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <source>RUNTIME</source>
+        <translation>Laufzeit</translation>
+    </message>
+    <message>
+        <source>Error During Playback</source>
+        <translation>Fehler während der Wiedergabe</translation>
+        <extracomment>Dialog title when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <comment>Title of Tab for switching &quot;views&quot; when looking at a library</comment>
+        <source>TAB_VIEW</source>
+        <translation>Ansicht</translation>
+    </message>
+    <message>
+        <source>Born</source>
+        <translation>Geboren am</translation>
+    </message>
+    <message>
+        <source>Loading Channel Data</source>
+        <translation>Lade Kanaldaten</translation>
+    </message>
+    <message>
+        <comment>Name or Title field of media item</comment>
+        <source>TITLE</source>
+        <translation>Name</translation>
+    </message>
+    <message>
+        <source>Error loading Channel Data</source>
+        <translation>Fehler beim Laden der Kanaldaten</translation>
+    </message>
+    <message>
+        <source>An error was encountered while playing this item.</source>
+        <translation>Bei der Wiedergabe dieses Eintrags ist ein Fehler aufgetreten.</translation>
+        <extracomment>Dialog detail when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>Unable to load Channel Data from the server</source>
+        <translation>Kanaldaten konnten nicht vom Server geladen werden</translation>
+    </message>
+    <message>
+        <comment>Message displayed in Item Grid when no item to display. %1 is container type (e.g. Boxset, Collection, Folder, etc)</comment>
+        <source>NO_ITEMS</source>
+        <translation>%1 enthält keine Einträge</translation>
+    </message>
+    <message>
+        <comment>Title of Tab for options to sort library content</comment>
+        <source>TAB_SORT</source>
+        <translation>Sortierung</translation>
+    </message>
+    <message>
+        <comment>Title of Tab for options to filter library content</comment>
+        <source>TAB_FILTER</source>
+        <translation>Filter</translation>
+    </message>
+    <message>
+        <source>RELEASE_DATE</source>
+        <translation>Veröffentlichungsdatum</translation>
+    </message>
+    <message>
+        <source>CRITIC_RATING</source>
+        <translation>Kritikerbewertung</translation>
+    </message>
+    <message>
+        <source>Died</source>
+        <translation>Gestorben am</translation>
+    </message>
+    <message>
+        <source>Age</source>
+        <translation>Alter</translation>
+    </message>
+    <message>
+        <source>OFFICIAL_RATING</source>
+        <translation>Altersfreigabe</translation>
+    </message>
+    <message>
+        <source>IMDB_RATING</source>
+        <translation>IMDb-Bewertung</translation>
+    </message>
+    <message>
+        <source>DATE_PLAYED</source>
+        <translation>Abspieldatum</translation>
+    </message>
+    <message>
+        <source>DATE_ADDED</source>
+        <translation>Hinzugefügt am</translation>
+    </message>
+    <message>
+        <source>Error Retrieving Content</source>
+        <translation>Fehler beim Empfangen des Inhalts</translation>
+        <extracomment>Dialog title when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <source>On Now</source>
+        <translation>Jetzt läuft</translation>
+    </message>
+    <message>
+        <source>PLAY_COUNT</source>
+        <translation>Wiedergabezähler</translation>
+    </message>
+    <message>
+        <source>Sunday</source>
+        <translation>Sonntag</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Saturday</source>
+        <translation>Samstag</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>today</source>
+        <translation>heute</translation>
+        <extracomment>Current day</extracomment>
+    </message>
+    <message>
+        <source>Tuesday</source>
+        <translation>Dienstag</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>More Like This</source>
+        <translation>Ähnliches</translation>
+    </message>
+    <message>
+        <source>Cancel Recording</source>
+        <translation>Aufnahme abbrechen</translation>
+    </message>
+    <message>
+        <source>Not found</source>
+        <translation>Nicht gefunden</translation>
+        <extracomment>Title of message box when the requested content is not found on the server</extracomment>
+    </message>
+    <message>
+        <source>yesterday</source>
+        <translation>gestern</translation>
+        <extracomment>Previous day</extracomment>
+    </message>
+    <message>
+        <source>tomorrow</source>
+        <translation>morgen</translation>
+        <extracomment>Next day</extracomment>
+    </message>
+    <message>
+        <source>Cast &amp; Crew</source>
+        <translation>Besetzung &amp; Mitwirkende</translation>
+    </message>
+    <message>
+        <source>Press &apos;OK&apos; to Close</source>
+        <translation>Klicke &apos;OK&apos; zum Schließen</translation>
+    </message>
+    <message>
+        <source>Monday</source>
+        <translation>Montag</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Thursday</source>
+        <translation>Donnerstag</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Record Series</source>
+        <translation>Serie aufnehmen</translation>
+    </message>
+    <message>
+        <source>Cancel Series Recording</source>
+        <translation>Serienaufnahme abbrechen</translation>
+    </message>
+    <message>
+        <source>Friday</source>
+        <translation>Freitag</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Movies</source>
+        <translation>Filme</translation>
+    </message>
+    <message>
+        <source>TV Shows</source>
+        <translation>Serien</translation>
+    </message>
+    <message>
+        <source>Connecting to Server</source>
+        <translation>Verbinde zum Server</translation>
+        <extracomment>Message to display to user while client is attempting to connect to the server</extracomment>
+    </message>
+    <message>
+        <source>Record</source>
+        <translation>Aufnehmen</translation>
+    </message>
+    <message>
+        <source>Wednesday</source>
+        <translation>Mittwoch</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation>Schließen</translation>
+    </message>
+    <message>
+        <source>Always Hide</source>
+        <translation>Immer verstecken</translation>
+    </message>
+    <message>
+        <source>Starts</source>
+        <translation>Beginnt</translation>
+        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g. Starts Wednesday, 08:00) </extracomment>
+    </message>
+    <message>
+        <source>Repeat</source>
+        <translation>Wiederholung</translation>
+        <extracomment>If TV Shows has previously been broadcasted</extracomment>
+    </message>
+    <message>
+        <source>TV Guide</source>
+        <translation>TV-Programm</translation>
+        <extracomment>Menu option for showing Live TV Guide / Schedule</extracomment>
+    </message>
+    <message>
+        <source>Unknown</source>
+        <translation>Unbekannt</translation>
+        <extracomment>Title for a cast member for which we have no information for</extracomment>
+    </message>
+    <message>
+        <source>Played</source>
+        <translation>Abgespielt</translation>
+    </message>
+    <message>
+        <source>Live</source>
+        <translation>Live</translation>
+        <extracomment>If TV Show is being broadcast live (not pre-recorded)</extracomment>
+    </message>
+    <message>
+        <source>Unable to find any albums or songs belonging to this artist</source>
+        <translation>Es konnten keine Alben oder Songs von diesem Künstler gefunden werden.</translation>
+        <extracomment>Popup message when we find no audio data for an artist</extracomment>
+    </message>
+    <message>
+        <source>WxH</source>
+        <translation>BxH</translation>
+        <extracomment>Video width x height</extracomment>
+    </message>
+    <message>
+        <source>all</source>
+        <translation>Alle</translation>
+        <extracomment>all will reset the searchTerm so all data will be availible</extracomment>
+    </message>
+    <message>
+        <source>Aired</source>
+        <translation>Gesendet</translation>
+        <extracomment>Aired date label</extracomment>
+    </message>
+    <message>
+        <source>Artists (Presentation)</source>
+        <translation>Künstler (Präsentation)</translation>
+    </message>
+    <message>
+        <source>Ends at</source>
+        <translation>Endet um</translation>
+        <extracomment>(Past Tense) For defining a day and time when a program ended (e.g. Ended Wednesday, 08:00) </extracomment>
+    </message>
+    <message>
+        <source>Size</source>
+        <translation>Größe</translation>
+        <extracomment>Video size</extracomment>
+    </message>
+    <message>
+        <source>Starts at</source>
+        <translation>Beginnt um</translation>
+        <extracomment>(Future Tense) For defining time when a program will start today (e.g. Starts at 08:00) </extracomment>
+    </message>
+    <message>
+        <source>Ended at</source>
+        <translation>Endete um</translation>
+        <extracomment>(Past Tense) For defining time when a program will ended (e.g. Ended at 08:00) </extracomment>
+    </message>
+    <message>
+        <source>Pixel format</source>
+        <translation>Pixelformat</translation>
+        <extracomment>Video pixel format</extracomment>
+    </message>
+    <message>
+        <source>Years</source>
+        <translation>Jahre</translation>
+        <extracomment>Used in Filter menu</extracomment>
+    </message>
+    <message>
+        <source>Select when to show titles.</source>
+        <translation>Auswählen, wann Titel angezeigt werden sollen</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Movies (Presentation)</source>
+        <translation>Filme (Präsentation)</translation>
+        <extracomment>Movie library view option</extracomment>
+    </message>
+    <message>
+        <source>Started at</source>
+        <translation>Gestartet um</translation>
+        <extracomment>(Past Tense) For defining time when a program started today (e.g. Started at 08:00) </extracomment>
+    </message>
+    <message>
+        <source>Movies (Grid)</source>
+        <translation>Filme (Raster)</translation>
+        <extracomment>Movie library view option</extracomment>
+    </message>
+    <message>
+        <source>An error was encountered while playing this item. Server did not provide required transcoding data.</source>
+        <translation>Bei der Wiedergabe dieses Elements ist ein Fehler aufgetreten. Der Server hat die erforderlichen Transcodierungsdaten nicht bereitgestellt.</translation>
+        <extracomment>Content of message box when trying to play an item which requires transcoding, and the server did not provide transcode url</extracomment>
+    </message>
+    <message>
+        <source>Support Direct Play of MPEG-2 content (e.g., Live TV). This will prevent transcoding of MPEG-2 content, but uses significantly more bandwidth.</source>
+        <translation>Unterstützung der direkten Wiedergabe von MPEG-2-Inhalten (z. B. Live-TV). Dies verhindert die Transkodierung von MPEG-2-Inhalten, verbraucht aber deutlich mehr Bandbreite</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Version</source>
+        <translation>Version</translation>
+    </message>
+    <message>
+        <source>MPEG-2</source>
+        <translation>MPEG-2</translation>
+        <extracomment>Name of codec used in settings menu</extracomment>
+    </message>
+    <message>
+        <source>MPEG-4</source>
+        <translation>MPEG-4</translation>
+        <extracomment>Name of codec used in settings menu</extracomment>
+    </message>
+    <message>
+        <source>Playback</source>
+        <translation>Wiedergabe</translation>
+        <extracomment>Title for Playback section in user setting screen.</extracomment>
+    </message>
+    <message>
+        <source>Special Features</source>
+        <translation>Extras</translation>
+    </message>
+    <message>
+        <source>Error Getting Playback Information</source>
+        <translation>Fehler beim Abrufen der Wiedergabeinformationen</translation>
+        <extracomment>Dialog Title: Received error from server when trying to get information about the selected item for playback</extracomment>
+    </message>
+    <message>
+        <source>Additional Parts</source>
+        <translation>Zusätzliche Inhalte</translation>
+        <extracomment>Additional parts of a video</extracomment>
+    </message>
+    <message>
+        <source>Started</source>
+        <translation>Gestartet</translation>
+        <extracomment>(Past Tense) For defining a day and time when a program started (e.g. Started Wednesday, 08:00) </extracomment>
+    </message>
+    <message>
+        <source>Channels</source>
+        <translation>Sender</translation>
+        <extracomment>Menu option for showing Live TV Channel List</extracomment>
+    </message>
+    <message>
+        <source>View Channel</source>
+        <translation>Sender ansehen</translation>
+    </message>
+    <message>
+        <source>Codec Support</source>
+        <translation>Codec Unterstützung</translation>
+        <extracomment>Settings Menu - Title for settings group related to codec support</extracomment>
+    </message>
+    <message>
+        <source>Enter the server name or IP address</source>
+        <translation>Geben Sie den Servernamen oder die IP-Adresse ein</translation>
+        <extracomment>Title of KeyboardDialog when manually entering a server URL</extracomment>
+    </message>
+    <message>
+        <source>The requested content does not exist on the server</source>
+        <translation>Der angeforderte Inhalt existiert nicht auf dem Server</translation>
+        <extracomment>Content of message box when the requested content is not found on the server</extracomment>
+    </message>
+    <message>
+        <source>Pick a Jellyfin server from the local network</source>
+        <translation>Wählen Sie einen verfügbaren Jellyfin-Server in Ihrem lokalen Netzwerk aus:</translation>
+        <extracomment>Instructions on initial app launch when the user is asked to pick a server from a list</extracomment>
+    </message>
+    <message>
+        <source>...or enter server URL manually:</source>
+        <translation>Fügen Sie bitte die Server-URL manuell ein, falls kein Server vorhanden ist:</translation>
+        <extracomment>Instructions on initial app launch when the user is asked to manually enter a server URL</extracomment>
+    </message>
+    <message>
+        <source>Enable or disable Direct Play for optional codecs</source>
+        <translation>Aktivieren oder Deaktivieren von Direct Play für optionale Codecs</translation>
+        <extracomment>Settings Menu - Title for settings group related to codec support</extracomment>
     </message>
 </context>
 </TS>

@@ -1,8 +1,18 @@
+import "pkg:/source/api/Items.brs"
+import "pkg:/source/api/baserequest.brs"
+import "pkg:/source/utils/config.brs"
+import "pkg:/source/utils/misc.brs"
+import "pkg:/source/api/Image.brs"
+import "pkg:/source/utils/deviceCapabilities.brs"
+import "pkg:/source/roku_modules/log/LogMixin.brs"
+import "pkg:/source/api/sdk.bs"
+
 sub init()
+    m.log = log.Logger("LoadItemsTask2")
     m.top.functionName = "loadItems"
 
     m.top.limit = 60
-    usersettingLimit = get_user_setting("itemgrid.Limit")
+    usersettingLimit = m.global.session.user.settings["itemgrid.Limit"]
 
     if usersettingLimit <> invalid
         m.top.limit = usersettingLimit
@@ -21,9 +31,9 @@ sub loadItems()
     end if
 
     if m.top.ItemType = "LogoImage"
-        logoImageExists = api_API().items.headimageurlbyname(m.top.itemId, "logo")
+        logoImageExists = api.items.HeadImageURLByName(m.top.itemId, "logo")
         if logoImageExists
-            m.top.content = [api_API().items.getimageurl(m.top.itemId, "logo", 0, { "maxHeight": 500, "maxWidth": 500, "quality": "90" })]
+            m.top.content = [api.items.GetImageURL(m.top.itemId, "logo", 0, { "maxHeight": 500, "maxWidth": 500, "quality": "90" })]
         else
             m.top.content = []
         end if
@@ -83,31 +93,45 @@ sub loadItems()
         params.append({ Filters: "IsResumable" })
     end if
 
+    if isValid(m.top.filterOptions)
+        if m.top.filterOptions.count() > 0
+            params.append(m.top.filterOptions)
+        end if
+    end if
+
     if m.top.ItemType <> ""
         params.append({ IncludeItemTypes: m.top.ItemType })
     end if
 
     if m.top.ItemType = "LiveTV"
         url = "LiveTv/Channels"
-        params.append({ UserId: get_setting("active_user") })
+        params.append({ UserId: m.global.session.user.id })
     else if m.top.view = "Networks"
         url = "Studios"
-        params.append({ UserId: get_setting("active_user") })
+        params.append({ UserId: m.global.session.user.id })
     else if m.top.view = "Genres"
         url = "Genres"
-        params.append({ UserId: get_setting("active_user") })
+        params.append({ UserId: m.global.session.user.id, includeItemTypes: m.top.itemType })
     else if m.top.ItemType = "MusicArtist"
         url = "Artists"
         params.append({
-            UserId: get_setting("active_user")
+            UserId: m.global.session.user.id,
+            Fields: "Genres"
         })
-        params.IncludeItemTypes = ""
+        params.IncludeItemTypes = "MusicAlbum,Audio"
+    else if m.top.ItemType = "AlbumArtists"
+        url = "Artists/AlbumArtists"
+        params.append({
+            UserId: m.global.session.user.id,
+            Fields: "Genres"
+        })
+        params.IncludeItemTypes = "MusicAlbum,Audio"
     else if m.top.ItemType = "MusicAlbum"
-        url = Substitute("Users/{0}/Items/", get_setting("active_user"))
+        url = Substitute("Users/{0}/Items/", m.global.session.user.id)
         params.append({ ImageTypeLimit: 1 })
         params.append({ EnableImageTypes: "Primary,Backdrop,Banner,Thumb" })
     else
-        url = Substitute("Users/{0}/Items/", get_setting("active_user"))
+        url = Substitute("Users/{0}/Items/", m.global.session.user.id)
     end if
 
     resp = APIRequest(url, params)
@@ -128,22 +152,26 @@ sub loadItems()
                 tmp = CreateObject("roSGNode", "ChannelData")
             else if item.Type = "Folder" or item.Type = "ChannelFolderItem" or item.Type = "CollectionFolder"
                 tmp = CreateObject("roSGNode", "FolderData")
-            else if item.Type = "Video"
+            else if item.Type = "Video" or item.Type = "Recording"
                 tmp = CreateObject("roSGNode", "VideoData")
             else if item.Type = "Photo"
                 tmp = CreateObject("roSGNode", "PhotoData")
             else if item.type = "PhotoAlbum"
                 tmp = CreateObject("roSGNode", "FolderData")
+            else if item.type = "Playlist"
+                tmp = CreateObject("roSGNode", "PlaylistData")
+                tmp.type = "Playlist"
+                tmp.image = PosterImage(item.id, { "maxHeight": 425, "maxWidth": 290, "quality": "90" })
             else if item.type = "Episode"
                 tmp = CreateObject("roSGNode", "TVEpisode")
             else if item.Type = "Genre"
                 tmp = CreateObject("roSGNode", "ContentNode")
                 tmp.title = item.name
 
-                genreData = api_API().users.getitemsbyquery(get_setting("active_user"), {
+                genreData = api.users.GetItemsByQuery(m.global.session.user.id, {
                     SortBy: "Random",
                     SortOrder: "Ascending",
-                    IncludeItemTypes: "Movie",
+                    IncludeItemTypes: m.top.itemType,
                     Recursive: true,
                     Fields: "PrimaryImageAspectRatio,MediaSourceCount,BasicSyncInfo",
                     ImageTypeLimit: 1,
@@ -158,26 +186,38 @@ sub loadItems()
                     ' Add View All item to the start of the row
                     row = tmp.createChild("FolderData")
                     row.parentFolder = m.top.itemId
-                    genreMovieImage = api_API().items.getimageurl(item.id)
-                    row.title = item.name
+                    row.title = tr("View All") + " " + item.name
+                    item.name = tr("View All") + " " + item.name
                     row.json = item
-                    row.FHDPOSTERURL = genreMovieImage
-                    row.HDPOSTERURL = genreMovieImage
-                    row.SDPOSTERURL = genreMovieImage
                     row.type = "Folder"
+
+                    if LCase(m.top.itemType) = "movie"
+                        genreItemImage = api.items.GetImageURL(item.id)
+                    else
+                        genreItemImage = invalid
+                        row.posterURL = invalid
+                    end if
+
+                    row.FHDPOSTERURL = genreItemImage
+                    row.HDPOSTERURL = genreItemImage
+                    row.SDPOSTERURL = genreItemImage
                 end if
 
-                for each genreMovie in genreData.Items
-                    row = tmp.createChild("MovieData")
+                for each genreItem in genreData.Items
+                    if LCase(m.top.itemType) = "movie"
+                        row = tmp.createChild("MovieData")
+                    else
+                        row = tmp.createChild("SeriesData")
+                    end if
 
-                    genreMovieImage = api_API().items.getimageurl(genreMovie.id)
-                    row.title = genreMovie.name
-                    row.FHDPOSTERURL = genreMovieImage
-                    row.HDPOSTERURL = genreMovieImage
-                    row.SDPOSTERURL = genreMovieImage
-                    row.json = genreMovie
-                    row.id = genreMovie.id
-                    row.type = genreMovie.type
+                    genreItemImage = api.items.GetImageURL(genreItem.id)
+                    row.title = genreItem.name
+                    row.FHDPOSTERURL = genreItemImage
+                    row.HDPOSTERURL = genreItemImage
+                    row.SDPOSTERURL = genreItemImage
+                    row.json = genreItem
+                    row.id = genreItem.id
+                    row.type = genreItem.type
                 end for
 
             else if item.Type = "Studio"
@@ -185,7 +225,7 @@ sub loadItems()
             else if item.Type = "MusicAlbum"
                 tmp = CreateObject("roSGNode", "MusicAlbumData")
                 tmp.type = "MusicAlbum"
-                if api_API().items.headimageurlbyname(item.id, "primary")
+                if api.items.HeadImageURLByName(item.id, "primary")
                     tmp.posterURL = ImageURL(item.id, "Primary")
                 else
                     tmp.posterURL = ImageURL(item.id, "backdrop")
@@ -194,16 +234,18 @@ sub loadItems()
                 tmp = CreateObject("roSGNode", "MusicArtistData")
             else if item.Type = "Audio"
                 tmp = CreateObject("roSGNode", "MusicSongData")
+                tmp.type = "Audio"
+                tmp.image = api.items.GetImageURL(item.id, "primary", 0, { "maxHeight": 280, "maxWidth": 280, "quality": "90" })
             else if item.Type = "MusicGenre"
                 tmp = CreateObject("roSGNode", "FolderData")
                 tmp.title = item.name
                 tmp.parentFolder = m.top.itemId
                 tmp.json = item
                 tmp.type = "Folder"
-                tmp.posterUrl = api_API().items.getimageurl(item.id, "primary", 0, { "maxHeight": 280, "maxWidth": 280, "quality": "90" })
+                tmp.posterUrl = api.items.GetImageURL(item.id, "primary", 0, { "maxHeight": 280, "maxWidth": 280, "quality": "90" })
 
             else
-                print "[LoadItems] Unknown Type: " item.Type
+                m.log.warn("Unknown Type", item.Type)
             end if
 
             if tmp <> invalid

@@ -4,8 +4,119 @@
         "description": "Settings relating to playback and supported codec and media types.",
         "children": [
             {
-                "title": "Codec Support",
-                "description": "Enable or disable Direct Play support for certain codecs",
+                "title": "Audio Codec Support",
+                "description": "Choose your preferred audio codec when transcoding multichannel audio.",
+                "children": [
+                    {
+                        "title": "DTS",
+                        "description": "Force all transcodes to use DTS instead of the default EAC3. The device must support DTS for this setting to have an effect.",
+                        "settingName": "playback.forceDTS",
+                        "type": "bool",
+                        "default": "false"
+                    }
+                ]
+            },
+            {
+                "title": "Bitrate Limit",
+                "description": "Configure the maximum playback bitrate.",
+                "children": [
+                    {
+                        "title": "Enable Limit",
+                        "description": "Enable or disable the 'Maximum Bitrate' setting.",
+                        "settingName": "playback.bitrate.maxlimited",
+                        "type": "bool",
+                        "default": "true"
+                    },
+                    {
+                        "title": "Maximum Bitrate",
+                        "description": "Set the maximum bitrate in Mbps. Set to 0 to use Roku's specifications. This setting must be enabled to take effect.",
+                        "settingName": "playback.bitrate.limit",
+                        "type": "integer",
+                        "default": "0"
+                    }
+                ]
+            },
+            {
+                "title": "Compatibility",
+                "description": "Attempt to prevent playback failures.",
+                "children": [
+                    {
+                        "title": "Disable HEVC",
+                        "description": "Disable the HEVC codec on this device. This may improve playback for some devices (ultra).",
+                        "settingName": "playback.compatibility.disablehevc",
+                        "type": "bool",
+                        "default": "false"
+                    }
+                ]
+            },
+            {
+                "title": "Maximum Resolution",
+                "description": "Configure the maximum resolution when playing video files on this device.",
+                "children": [
+                    {
+                        "title": "Mode",
+                        "description": "Apply max resolution to all files or only transcoded files.",
+                        "settingName": "playback.resolution.mode",
+                        "type": "radio",
+                        "default": "transcoding",
+                        "options": [
+                            {
+                                "title": "All files",
+                                "id": "everything"
+                            },
+                            {
+                                "title": "Only transcoded files",
+                                "id": "transcoding"
+                            }
+                        ]
+                    },
+                    {
+                        "title": "Value",
+                        "description": "Set the maximum resolution when playing video files on this device.",
+                        "settingName": "playback.resolution.max",
+                        "type": "radio",
+                        "default": "auto",
+                        "options": [
+                            {
+                                "title": "Off - Attempt to play all resolutions",
+                                "id": "off"
+                            },
+                            {
+                                "title": "Auto - Use TV resolution",
+                                "id": "auto"
+                            },
+                            {
+                                "title": "360p",
+                                "id": "360"
+                            },
+                            {
+                                "title": "480p",
+                                "id": "480"
+                            },
+                            {
+                                "title": "720p",
+                                "id": "720"
+                            },
+                            {
+                                "title": "1080p",
+                                "id": "1080"
+                            },
+                            {
+                                "title": "4k",
+                                "id": "2160"
+                            },
+                            {
+                                "title": "8k",
+                                "id": "4320"
+                            }
+                        ]
+                    }
+                ]
+                
+            },
+            {
+                "title": "Video Codec Support",
+                "description": "Enable or disable Direct Play support for certain codecs.",
                 "children": [
                     {
                         "title": "AV1",
@@ -31,7 +142,7 @@
                 ]
             },
             {
-                "title": "Profile Level Support",
+                "title": "Video Profile Level Support",
                 "description": "Attempt Direct Play of potentially unsupported profile levels",
                 "children": [
                     {
@@ -39,23 +150,37 @@
                         "description": "Attempt Direct Play for H.264 media with unsupported profile levels before falling back to transcoding if it fails.",
                         "settingName": "playback.tryDirect.h264ProfileLevel",
                         "type": "bool",
-                        "default": "true"
+                        "default": "false"
                     },
                     {
                         "title": "HEVC",
-                        "description": "Attempt Direct Play for HEVC media with unsupported profile levels before falling back to trancoding if it fails.",
+                        "description": "Attempt Direct Play for HEVC media with unsupported profile levels before falling back to transcoding if it fails.",
                         "settingName": "playback.tryDirect.hevcProfileLevel",
                         "type": "bool",
-                        "default": "true"
+                        "default": "false"
                     }
                 ]
             },
             {
                 "title": "Cinema Mode",
-                "description": "Cinema Mode brings the theater experience straight to your living room with the ability to play custom intros before the main feature.",
+                "description": "Bring the theater experience straight to your living room with the ability to play custom intros before the main feature.",
                 "settingName": "playback.cinemamode",
                 "type": "bool",
                 "default": "false"
+            },
+            {
+                "title": "Custom Subtitles",
+                "description": "Replace Roku's default subtitle functions with custom functions that support CJK fonts. Fallback fonts must be configured and enabled on the server for CJK rendering to work.",
+                "settingName": "playback.subs.custom",
+                "type": "bool",
+                "default": "false"
+            },
+            {
+                "title": "Next Episode Button Time",
+                "description": "Set how many seconds before the end of an episode the Next Episode button should appear. Set to 0 to disable.",
+                "settingName": "playback.nextupbuttonseconds",
+                "type": "integer",
+                "default": "30"
             },
             {
                 "title": "Text Subtitles Only",
@@ -67,26 +192,33 @@
         ]
     },
     {
-        "title": "Show What's New Popup",
-        "description": "Show What's New popup when Jellyfin is updated to a new version.",
-        "settingName": "load.allowwhatsnew",
-        "type": "bool",
-        "default": "true"
-    },
-    {
         "title": "User Interface",
         "description": "Settings relating to how the application looks.",
         "children": [
             {
-                "title": "Home Page",
-                "description": "Options for Home page.",
+                "title": "General",
+                "description": "Settings relating to the appearance of the Home screen and the program in general.",
                 "children": [
+                    {
+                        "title": "Hide Clock",
+                        "description": "Hide all clocks in Jellyfin. Jellyfin will need to be closed and reopened for changes to take effect.",
+                        "settingName": "ui.design.hideclock",
+                        "type": "bool",
+                        "default": "false"
+                    },
                     {
                         "title": "Max Days Next Up",
                         "description": "Set the maximum amount of days a show should stay in the 'Next Up' list without watching it.",
                         "settingName": "ui.details.maxdaysnextup",
                         "type": "integer",
                         "default": "365"
+                    },
+                    {
+                        "title": "Show What's New Popup",
+                        "description": "Show What's New popup when Jellyfin is updated to a new version.",
+                        "settingName": "load.allowwhatsnew",
+                        "type": "bool",
+                        "default": "true"
                     },
                     {
                         "title": "Use Splashscreen as Home Background",
@@ -98,103 +230,117 @@
                 ]
             },
             {
-                "title": "Details Page",
-                "description": "Options for Details pages.",
+                "title": "Libraries",
+                "description": "Settings relating to the appearance of Library pages.",
                 "children": [
                     {
-                        "title": "Hide Taglines",
-                        "description": "Hides tagline text on details pages.",
-                        "settingName": "ui.details.hidetagline",
-                        "type": "bool",
-                        "default": "false"
-                    }
-                ]
-            },
-            {
-                "title": "TV Shows",
-                "description": "Options for TV Shows.",
-                "children": [
-                    {
-                        "title": "Blur Unwatched Episodes",
-                        "description": "If enabled, images of unwatched episodes will be blurred.",
-                        "settingName": "ui.tvshows.blurunwatched",
-                        "type": "bool",
-                        "default": "false"
-                    },
-                    {
-                        "title": "Skip Details for Single Seasons",
-                        "description": "If enabled, selecting a TV series with only one season will go straight to the episode list rather than the show details and season list.",
-                        "settingName": "ui.tvshows.goStraightToEpisodeListing",
-                        "type": "bool",
-                        "default": "false"
-                    }
-                ]
-            },
-            {
-                "title": "Screensaver",
-                "description": "Options for Jellyfin's screensaver.",
-                "children": [
-                    {
-                        "title": "Use Splashscreen as Screensaver Background",
-                        "description": "Use generated splashscreen image as Jellyfin's screensaver background. Jellyfin will need to be closed and reopened for change to take effect.",
-                        "settingName": "ui.screensaver.splashBackground",
-                        "type": "bool",
-                        "default": "false"
-                    }
-                ]
-            },
-            {
-                "title": "Design Elements",
-                "description": "Options that alter the design of Jellyfin.",
-                "children": [
-                    {
-                        "title": "Hide Clock",
-                        "description": "Hides all clocks in Jellyfin. Jellyfin will need to be closed and reopened for change to take effect.",
-                        "settingName": "ui.design.hideclock",
-                        "type": "bool",
-                        "default": "false"
-                    }
-                ]
-            },
-            {
-                "title": "Media Grid",
-                "description": "Media Grid options.",
-                "children": [
-                    {
-                        "title": "Item Count",
-                        "description": "Show item count in the library and index of selected item.",
-                        "settingName": "itemgrid.showItemCount",
-                        "type": "bool",
-                        "default": "false"
-                    },
-                    {
-                        "title": "Item Titles",
-                        "description": "Always show the titles below the poster images. (If disabled, the title will be shown under the highlighted item only).",
-                        "settingName": "itemgrid.alwaysShowTitles",
-                        "type": "bool",
-                        "default": "false"
-                    },
-                    {
-                        "title": "Return to Top",
-                        "description": "Use the replay button to slowly animate to the first item in the folder. (If disabled, the folder will reset to the first item immediately).",
-                        "settingName": "itemgrid.reset",
-                        "type": "bool",
-                        "default": "true"
-                    },
-                    {
-                        "title": "Movie Library Default View",
-                        "description": "Default view for Movie Libraries.",
-                        "settingName": "itemgrid.movieDefaultView",
-                        "type": "radio",
-                        "default": "movies",
-                        "options": [
+                        "title": "General",
+                        "description": "Settings relating to the appearance of pages in all Libraries.",
+                        "children": [
                             {
-                                "title": "Movies (Presentation)",
-                                "id": "Movies"
+                                "title": "Grid View Settings",
+                                "description": "Settings that apply when Grid views are enabled.",
+                                "children": [
+                                    {
+                                        "title": "Item Count",
+                                        "description": "Show item count in the library and index of selected item.",
+                                        "settingName": "itemgrid.showItemCount",
+                                        "type": "bool",
+                                        "default": "false"
+                                    },
+                                    {
+                                        "title": "Item Titles",
+                                        "description": "Select when to show titles.",
+                                        "settingName": "itemgrid.gridTitles",
+                                        "type": "radio",
+                                        "default": "showonhover",
+                                        "options": [
+                                            {
+                                                "title": "Show On Hover",
+                                                "id": "showonhover"
+                                            },
+                                            {
+                                                "title": "Always Show",
+                                                "id": "showalways"
+                                            },
+                                            {
+                                                "title": "Always Hide",
+                                                "id": "hidealways"
+                                            }
+                                        ]
+                                    }
+                                ]
                             },
                             {
-                                "title": "Movies (Grid)",
-                                "id": "MoviesGrid"
+                                "title": "Hide Taglines",
+                                "description": "Hides tagline text on details pages.",
+                                "settingName": "ui.details.hidetagline",
+                                "type": "bool",
+                                "default": "false"
+                            },
+                            {
+                                "title": "Return to Top",
+                                "description": "Use the replay button to slowly animate to the first item in the folder. (If disabled, the folder will reset to the first item immediately).",
+                                "settingName": "itemgrid.reset",
+                                "type": "bool",
+                                "default": "true"
+                            }
+                        ]
+                    },
+                    {
+                        "title": "Movies",
+                        "description": "Settings relating to the appearance of pages in Movie Libraries.",
+                        "children": [
+                            {
+                                "title": "Default View",
+                                "description": "Default view for Movie Libraries.",
+                                "settingName": "itemgrid.movieDefaultView",
+                                "type": "radio",
+                                "default": "movies",
+                                "options": [
+                                    {
+                                        "title": "Movies (Presentation)",
+                                        "id": "Movies"
+                                    },
+                                    {
+                                        "title": "Movies (Grid)",
+                                        "id": "MoviesGrid"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "title": "TV Shows",
+                        "description": "Settings relating to the appearance of pages in TV Libraries.",
+                        "children": [
+                            {
+                                "title": "Blur Unwatched Episodes",
+                                "description": "Blur images of unwatched episodes.",
+                                "settingName": "ui.tvshows.blurunwatched",
+                                "type": "bool",
+                                "default": "false"
+                            },
+                            {
+                                "title": "Disable Community Rating for Episodes",
+                                "description": "Hide the star and community rating for episodes of a TV show. This is to prevent spoilers of an upcoming good/bad episode.",
+                                "settingName": "ui.tvshows.disableCommunityRating",
+                                "type": "bool",
+                                "default": "false"
+                            },
+                            {
+                                "title": "Disable Unwatched Episode Count",
+                                "description": "If enabled, the number of unwatched episodes in a series/season will be removed.",
+                                "settingName": "ui.tvshows.disableUnwatchedEpisodeCount",
+                                "type": "bool",
+                                "default": "false"
+                            },
+                            {
+                                "title": "Skip Details for Single Seasons",
+                                "description": "If enabled, selecting a TV series with only one season will go straight to the episode list rather than the show details and season list.",
+                                "settingName": "ui.tvshows.goStraightToEpisodeListing",
+                                "type": "bool",
+                                "default": "false"
                             }
                         ]
                     }

@@ -1,3 +1,7 @@
+import "pkg:/source/api/Image.brs"
+import "pkg:/source/api/baserequest.brs"
+import "pkg:/source/utils/config.brs"
+
 sub setFields()
     json = m.top.json
 
@@ -36,7 +40,7 @@ sub setPoster()
         m.top.posterURL = m.top.image.url
     else
         if m.top.json.ImageTags <> invalid and m.top.json.ImageTags.Thumb <> invalid
-            imgParams = { "maxHeight": 500, "maxWidth": 500 }
+            imgParams = { "maxHeight": 500, "maxWidth": 500, "Tag": m.top.json.ImageTags.Thumb }
             m.top.posterURL = ImageURL(m.top.json.id, "Thumb", imgParams)
         end if
     end if

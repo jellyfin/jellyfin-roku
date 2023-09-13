@@ -1,11 +1,13 @@
+import "pkg:/source/utils/misc.brs"
+import "pkg:/source/utils/config.brs"
+
 sub init()
     m.extrasGrp = m.top.findnode("extrasGrp")
     m.extrasGrid = m.top.findNode("extrasGrid")
     m.top.optionsAvailable = false
 
     m.options = m.top.findNode("movieOptions")
-
-    m.main_group = m.top.findNode("main_group")
+    m.infoGroup = m.top.findNode("infoGroup")
 
     main = m.top.findNode("main_group")
     main.translation = [96, 175]
@@ -19,8 +21,7 @@ sub init()
     m.buttonGrp.setFocus(true)
     m.top.lastFocus = m.buttonGrp
 
-    m.trailerButton = m.top.findNode("trailer-button")
-    m.trailerButton.text = tr("Play Trailer")
+    m.spinner = m.top.findNode("spinner")
 
     m.top.observeField("itemContent", "itemContentChanged")
 end sub
@@ -35,7 +36,18 @@ sub OnScreenShown()
 end sub
 
 sub trailerAvailableChanged()
-    m.trailerButton.visible = m.top.trailerAvailable
+    if m.top.trailerAvailable
+        ' add trailor button to button group
+        trailerButton = CreateObject("roSGNode", "JFButton")
+        trailerButton.id = "trailer-button"
+        trailerButton.text = tr("Play Trailer")
+        trailerButton.maxWidth = "300"
+        trailerButton.minWidth = "300"
+        m.buttonGrp.appendChild(trailerButton)
+    else
+        ' remove trailor button from button group
+        m.buttonGrp.removeChild(m.top.findNode("trailer-button"))
+    end if
 end sub
 
 sub itemContentChanged()
@@ -45,10 +57,11 @@ sub itemContentChanged()
     m.top.id = itemData.id
     m.top.findNode("moviePoster").uri = m.top.itemContent.posterURL
 
-    ' Set default video source
-    if itemData.MediaSources <> invalid
+    ' Set default video source if user hasn't selected one yet
+    if m.top.selectedVideoStreamId = "" and isValid(itemData.MediaSources)
         m.top.selectedVideoStreamId = itemData.MediaSources[0].id
     end if
+
     ' Find first Audio Stream and set that as default
     SetDefaultAudioTrack(itemData)
 
@@ -60,15 +73,15 @@ sub itemContentChanged()
     if itemData.officialRating <> invalid
         setFieldText("officialRating", itemData.officialRating)
     else
-        m.top.findNode("infoGroup").removeChild(m.top.findNode("officialRating"))
+        m.infoGroup.removeChild(m.top.findNode("officialRating"))
     end if
 
     if itemData.communityRating <> invalid
         setFieldText("communityRating", int(itemData.communityRating * 10) / 10)
-        m.top.findNode("star").visible = "true"
+        m.top.findNode("communityRatingGroup").visible = "true"
     else
         ' hide the star icon
-        m.top.findNode("infoGroup").removeChild(m.top.findNode("communityRatingGroup"))
+        m.infoGroup.removeChild(m.top.findNode("communityRatingGroup"))
     end if
 
     if itemData.CriticRating <> invalid
@@ -80,12 +93,12 @@ sub itemContentChanged()
         end if
         m.top.findNode("criticRatingIcon").uri = tomato
     else
-        m.top.findNode("infoGroup").removeChild(m.top.findNode("criticRatingGroup"))
+        m.infoGroup.removeChild(m.top.findNode("criticRatingGroup"))
     end if
 
     if type(itemData.RunTimeTicks) = "LongInteger"
         setFieldText("runtime", stri(getRuntime()) + " mins")
-        if get_user_setting("ui.design.hideclock") <> "true"
+        if m.global.session.user.settings["ui.design.hideclock"] <> true
             setFieldText("ends-at", tr("Ends at %1").Replace("%1", getEndTime()))
         end if
     end if
@@ -97,7 +110,7 @@ sub itemContentChanged()
     end if
 
     ' show tags if there are no genres to display
-    if itemData.genres.count() = 0 and itemData.tags.count() > 0
+    if itemData.genres.count() = 0 and isValid(itemData.tags) and itemData.tags.count() > 0
         setFieldText("genres", tr("Tags") + ": " + itemData.tags.join(", "))
     end if
 
@@ -113,7 +126,7 @@ sub itemContentChanged()
         m.top.findNode("details").removeChild(m.top.findNode("director"))
     end if
 
-    if get_user_setting("ui.details.hidetagline") = "false"
+    if m.global.session.user.settings["ui.details.hidetagline"] = false
         if itemData.taglines.count() > 0
             setFieldText("tagline", itemData.taglines[0])
         end if
@@ -127,13 +140,15 @@ sub itemContentChanged()
         airDate.FromISO8601String(itemData.PremiereDate)
         m.top.findNode("aired").text = tr("Aired") + ": " + airDate.AsDateString("short-month-no-weekday")
         'remove movie release year label
-        m.top.findNode("infoGroup").removeChild(m.top.findNode("releaseYear"))
+        m.infoGroup.removeChild(m.top.findNode("releaseYear"))
     end if
 
     setFavoriteColor()
     setWatchedColor()
     SetUpVideoOptions(itemData.mediaSources)
     SetUpAudioOptions(itemData.mediaStreams)
+    m.buttonGrp.visible = true
+    m.spinner.visible = false
 end sub
 
 

@@ -1,19 +1,33 @@
+import "pkg:/source/utils/misc.brs"
+import "pkg:/source/utils/config.brs"
+
 sub init()
     m.title = m.top.findNode("title")
     m.title.text = tr("Loading...")
-    m.options = m.top.findNode("tvListOptions")
     m.overview = m.top.findNode("overview")
     m.poster = m.top.findNode("poster")
-    m.deviceInfo = CreateObject("roDeviceInfo")
 
     m.rating = m.top.findnode("rating")
     m.infoBar = m.top.findnode("infoBar")
+    m.progressBackground = m.top.findNode("progressBackground")
+    m.progressBar = m.top.findnode("progressBar")
+    m.playedIndicator = m.top.findNode("playedIndicator")
+    m.checkmark = m.top.findNode("checkmark")
+    m.checkmark.font.size = 35
+
+    m.videoCodec = m.top.findNode("video_codec")
 end sub
 
 sub itemContentChanged()
     item = m.top.itemContent
     itemData = item.json
-    if itemData.indexNumber <> invalid
+
+    ' Set default video source if user hasn't selected one yet
+    if item.selectedVideoStreamId = "" and isValid(itemData.MediaSources)
+        item.selectedVideoStreamId = itemData.MediaSources[0].id
+    end if
+
+    if isValid(itemData.indexNumber)
         indexNumber = itemData.indexNumber.toStr() + ". "
     else
         indexNumber = ""
@@ -21,7 +35,7 @@ sub itemContentChanged()
     m.title.text = indexNumber + item.title
     m.overview.text = item.overview
 
-    if itemData.PremiereDate <> invalid
+    if isValid(itemData.PremiereDate)
         airDate = CreateObject("roDateTime")
         airDate.FromISO8601String(itemData.PremiereDate)
         m.top.findNode("aired").text = tr("Aired") + ": " + airDate.AsDateString("short-month-no-weekday")
@@ -29,7 +43,7 @@ sub itemContentChanged()
 
     imageUrl = item.posterURL
 
-    if get_user_setting("ui.tvshows.blurunwatched") = "true"
+    if m.global.session.user.settings["ui.tvshows.blurunwatched"] = true
         if itemData.lookup("Type") = "Episode"
             if not itemData.userdata.played
                 imageUrl = imageUrl + "&blur=15"
@@ -47,49 +61,93 @@ sub itemContentChanged()
             m.top.findNode("runtime").text = stri(runTime).trim() + " mins"
         end if
 
-        if get_user_setting("ui.design.hideclock") <> "true"
+        if m.global.session.user.settings["ui.design.hideclock"] <> true
             m.top.findNode("endtime").text = tr("Ends at %1").Replace("%1", getEndTime())
         end if
     end if
 
-    if isValid(itemData.communityRating)
-        m.top.findNode("star").visible = true
-        m.top.findNode("communityRating").text = str(int(itemData.communityRating * 10) / 10)
+    if m.global.session.user.settings["ui.tvshows.disableCommunityRating"] = false
+        if isValid(itemData.communityRating)
+            m.top.findNode("star").visible = true
+            m.top.findNode("communityRating").text = str(int(itemData.communityRating * 10) / 10)
+        else
+            m.top.findNode("star").visible = false
+        end if
     else
-        m.top.findNode("star").visible = false
+        m.rating.visible = false
+        m.infoBar.itemSpacings = [20, -25, 20, 20]
     end if
 
-    videoIdx = invalid
-    audioIdx = invalid
+    ' Add checkmark in corner (if applicable)
+    if isValid(itemData.UserData) and isValid(itemData.UserData.Played) and itemData.UserData.Played = true
+        m.playedIndicator.visible = true
+    end if
 
-    if itemData.MediaStreams <> invalid
-        for i = 0 to itemData.MediaStreams.Count() - 1
-            if itemData.MediaStreams[i].Type = "Video" and videoIdx = invalid
-                videoIdx = i
-                m.top.findNode("video_codec").text = tr("Video") + ": " + itemData.mediaStreams[videoIdx].DisplayTitle
-            else if itemData.MediaStreams[i].Type = "Audio" and audioIdx = invalid
-                if item.selectedAudioStreamIndex > 1
-                    audioIdx = item.selectedAudioStreamIndex
+    ' Add progress bar on bottom (if applicable)
+    if isValid(itemData.UserData) and isValid(itemData.UserData.PlayedPercentage) and itemData.UserData.PlayedPercentage > 0
+        m.progressBackground.width = m.poster.width
+        m.progressBackground.visible = true
+        progressWidthInPixels = int(m.progressBackground.width * itemData.UserData.PlayedPercentage / 100)
+        m.progressBar.width = progressWidthInPixels
+        m.progressBar.visible = true
+    end if
+
+    ' Display current video_codec and check if there is more than one video to choose from...
+    m.videoCodec.visible = false
+    if isValid(itemData.MediaSources)
+        for i = 0 to itemData.MediaSources.Count() - 1
+            if item.selectedVideoStreamId = itemData.MediaSources[i].id and isValid(itemData.MediaSources[i].MediaStreams[0])
+                m.videoCodec.text = tr("Video") + ": " + itemData.MediaSources[i].MediaStreams[0].DisplayTitle
+                SetupAudioDisplay(itemData.MediaSources[i].MediaStreams, item.selectedAudioStreamIndex)
+                exit for
+            end if
+        end for
+        m.videoCodec.visible = true
+        DisplayVideoAvailable(itemData.MediaSources)
+    end if
+end sub
+
+' Display current audio_codec and check if there is more than one audio track to choose from...
+sub SetupAudioDisplay(mediaStreams as object, selectedAudioStreamIndex as integer)
+    audioIdx = invalid
+    if isValid(mediaStreams)
+        for i = 0 to mediaStreams.Count() - 1
+            if LCase(mediaStreams[i].Type) = "audio" and audioIdx = invalid
+                if selectedAudioStreamIndex > 0 and selectedAudioStreamIndex < mediaStreams.Count()
+                    audioIdx = selectedAudioStreamIndex
                 else
                     audioIdx = i
                 end if
-                m.top.findNode("audio_codec").text = tr("Audio") + ": " + itemData.mediaStreams[audioIdx].DisplayTitle
+                m.top.findNode("audio_codec").text = tr("Audio") + ": " + mediaStreams[audioIdx].DisplayTitle
             end if
-            if videoIdx <> invalid and audioIdx <> invalid then exit for
+            if isValid(audioIdx) then exit for
         end for
     end if
 
-    m.top.findNode("video_codec").visible = videoIdx <> invalid
-    if audioIdx <> invalid
+    if isValid(audioIdx)
         m.top.findNode("audio_codec").visible = true
-        DisplayAudioAvailable(itemData.mediaStreams)
+        DisplayAudioAvailable(mediaStreams)
     else
         m.top.findNode("audio_codec").visible = false
     end if
 end sub
 
-sub DisplayAudioAvailable(streams)
+' Adds "+N" (e.g. +1) if there is more than one video version to choose from
+sub DisplayVideoAvailable(streams as object)
+    count = 0
+    for i = 0 to streams.Count() - 1
+        if LCase(streams[i].VideoType) = "videofile"
+            count++
+        end if
+    end for
 
+    if count > 1
+        m.top.findnode("video_codec_count").text = "+" + stri(count - 1).trim()
+    end if
+end sub
+
+' Adds "+N" (e.g. +1) if there is more than one audio track to choose from
+sub DisplayAudioAvailable(streams as object)
     count = 0
     for i = 0 to streams.Count() - 1
         if streams[i].Type = "Audio"
@@ -100,7 +158,6 @@ sub DisplayAudioAvailable(streams)
     if count > 1
         m.top.findnode("audio_codec_count").text = "+" + stri(count - 1).trim()
     end if
-
 end sub
 
 function getRuntime() as integer
@@ -124,7 +181,7 @@ end function
 sub focusChanged()
     if m.top.itemHasFocus = true
         ' text to speech for accessibility
-        if m.deviceInfo.IsAudioGuideEnabled() = true
+        if m.global.device.isAudioGuideEnabled = true
             txt2Speech = CreateObject("roTextToSpeech")
             txt2Speech.Flush()
             txt2Speech.Say(m.title.text)

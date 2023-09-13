@@ -348,8 +348,8 @@
         <translation>Meno</translation>
     </message>
     <message>
-        <source>An error was encountered while playing this item.  Server did not provide required transcoding data.</source>
-        <translation>Nastala chyba pri prehrávaná tejto položky.  Server neposkytol požadované dáta prekódovania.</translation>
+        <source>An error was encountered while playing this item. Server did not provide required transcoding data.</source>
+        <translation>Nastala chyba pri prehrávaná tejto položky. Server neposkytol požadované dáta prekódovania.</translation>
         <extracomment>Content of message box when trying to play an item which requires transcoding, and the server did not provide transcode url</extracomment>
     </message>
     <message>
@@ -430,32 +430,32 @@
     <message>
         <source>Ends at</source>
         <translation>Končí o</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program ended  (e.g.  Ended Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program ended (e.g. Ended Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Ended at</source>
         <translation>Skončilo o</translation>
-        <extracomment>(Past Tense) For defining time when a program will ended (e.g.  Ended at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program will ended (e.g. Ended at 08:00) </extracomment>
     </message>
     <message>
         <source>Starts</source>
         <translation>Začína</translation>
-        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g.  Starts Wednesday, 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g. Starts Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Starts at</source>
         <translation>Začína o</translation>
-        <extracomment>(Future Tense) For defining time when a program will start today (e.g.  Starts at 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining time when a program will start today (e.g. Starts at 08:00) </extracomment>
     </message>
     <message>
         <source>Started</source>
         <translation>Začalo</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program started (e.g.  Started Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program started (e.g. Started Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Started at</source>
         <translation>Začalo o</translation>
-        <extracomment>(Past Tense) For defining time when a program started today (e.g.  Started at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program started today (e.g. Started at 08:00) </extracomment>
     </message>
     <message>
         <source>Saturday</source>
@@ -626,32 +626,32 @@
     <message>
         <source>Ends at</source>
         <translation>Končí o</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program ended  (e.g.  Ended Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program ended (e.g. Ended Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Ended at</source>
         <translation>Skončilo o</translation>
-        <extracomment>(Past Tense) For defining time when a program will ended (e.g.  Ended at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program will ended (e.g. Ended at 08:00) </extracomment>
     </message>
     <message>
         <source>Starts</source>
         <translation>Začína</translation>
-        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g.  Starts Wednesday, 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g. Starts Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Starts at</source>
         <translation>Začína o</translation>
-        <extracomment>(Future Tense) For defining time when a program will start today (e.g.  Starts at 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining time when a program will start today (e.g. Starts at 08:00) </extracomment>
     </message>
     <message>
         <source>Started</source>
         <translation>Začalo</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program started (e.g.  Started Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program started (e.g. Started Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Started at</source>
         <translation>Začalo o</translation>
-        <extracomment>(Past Tense) For defining time when a program started today (e.g.  Started at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program started today (e.g. Started at 08:00) </extracomment>
     </message>
     <message>
         <source>Saturday</source>
@@ -957,6 +957,251 @@
         <source>Playback</source>
         <translation>Prehrávanie</translation>
         <extracomment>Title for Playback section in user setting screen.</extracomment>
+    </message>
+    <message>
+        <comment>Message displayed in Item Grid when no item to display. %1 is container type (e.g. Boxset, Collection, Folder, etc)</comment>
+        <source>NO_ITEMS</source>
+        <translation>Tento %1 neobsahuje žiadne položky</translation>
+    </message>
+    <message>
+        <source>Tuesday</source>
+        <translation>utorok</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Friday</source>
+        <translation>piatok</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>IMDB_RATING</source>
+        <translation>Hodnotenie IMDb</translation>
+    </message>
+    <message>
+        <source>RELEASE_DATE</source>
+        <translation>Dátum vydania</translation>
+    </message>
+    <message>
+        <comment>Title of Tab for switching &quot;views&quot; when looking at a library</comment>
+        <source>TAB_VIEW</source>
+        <translation>Zobrazenie</translation>
+    </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>Uložiť prihlasovacie údaje?</translation>
+    </message>
+    <message>
+        <source>DATE_PLAYED</source>
+        <translation>Dátum prehrania</translation>
+    </message>
+    <message>
+        <source>Cast &amp; Crew</source>
+        <translation>Obsadenie a štáb</translation>
+    </message>
+    <message>
+        <source>Movies</source>
+        <translation>Filmy</translation>
+    </message>
+    <message>
+        <comment>Name or Title field of media item</comment>
+        <source>TITLE</source>
+        <translation>Meno</translation>
+    </message>
+    <message>
+        <source>Delete Saved</source>
+        <translation>Odstrániť uložené</translation>
+    </message>
+    <message>
+        <source>DATE_ADDED</source>
+        <translation>Dátum pridania</translation>
+    </message>
+    <message>
+        <source>OFFICIAL_RATING</source>
+        <translation>Rodičovské hodnotenie</translation>
+    </message>
+    <message>
+        <source>PLAY_COUNT</source>
+        <translation>Počet prehraní</translation>
+    </message>
+    <message>
+        <source>RUNTIME</source>
+        <translation>Dĺžka</translation>
+    </message>
+    <message>
+        <comment>Title of Tab for options to sort library content</comment>
+        <source>TAB_SORT</source>
+        <translation>Zoradenie</translation>
+    </message>
+    <message>
+        <comment>Title of Tab for options to filter library content</comment>
+        <source>TAB_FILTER</source>
+        <translation>Filter</translation>
+    </message>
+    <message>
+        <source>Born</source>
+        <translation>Dátum narodenia</translation>
+    </message>
+    <message>
+        <source>Died</source>
+        <translation>Dátum úmrtia</translation>
+    </message>
+    <message>
+        <source>Age</source>
+        <translation>Vek</translation>
+    </message>
+    <message>
+        <source>More Like This</source>
+        <translation>Viac podobných</translation>
+    </message>
+    <message>
+        <source>CRITIC_RATING</source>
+        <translation>Hodnotenie kritikov</translation>
+    </message>
+    <message>
+        <source>Press &apos;OK&apos; to Close</source>
+        <translation>Zatvorte stlačením tlačidla &apos;OK&apos;</translation>
+    </message>
+    <message>
+        <source>Special Features</source>
+        <translation>Špeciálne Funkcie</translation>
+    </message>
+    <message>
+        <source>Additional Parts</source>
+        <translation>Dodatočné Časti</translation>
+        <extracomment>Additional parts of a video</extracomment>
+    </message>
+    <message>
+        <source>yesterday</source>
+        <translation>včera</translation>
+        <extracomment>Previous day</extracomment>
+    </message>
+    <message>
+        <source>Sunday</source>
+        <translation>nedeľa</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Monday</source>
+        <translation>pondelok</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Wednesday</source>
+        <translation>streda</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Thursday</source>
+        <translation>štvrtok</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Saturday</source>
+        <translation>sobota</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Movies (Presentation)</source>
+        <translation>Filmy (prezentácia)</translation>
+    </message>
+    <message>
+        <source>Movies (Grid)</source>
+        <translation>Filmy (mriežka)</translation>
+    </message>
+    <message>
+        <source>TV Shows</source>
+        <translation>TV Seriály</translation>
+    </message>
+    <message>
+        <source>today</source>
+        <translation>dnes</translation>
+        <extracomment>Current day</extracomment>
+    </message>
+    <message>
+        <source>tomorrow</source>
+        <translation>zajtra</translation>
+        <extracomment>Next day</extracomment>
+    </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>Uložiť prihlasovacie údaje?</translation>
+    </message>
+    <message>
+        <comment>Message displayed in Item Grid when no item to display. %1 is container type (e.g. Boxset, Collection, Folder, etc)</comment>
+        <source>NO_ITEMS</source>
+        <translation>Tento %1 neobsahuje žiadne položky</translation>
+    </message>
+    <message>
+        <source>IMDB_RATING</source>
+        <translation>Hodnotenie IMDb</translation>
+    </message>
+    <message>
+        <source>RELEASE_DATE</source>
+        <translation>Dátum vydania</translation>
+    </message>
+    <message>
+        <comment>Title of Tab for switching &quot;views&quot; when looking at a library</comment>
+        <source>TAB_VIEW</source>
+        <translation>Zobrazenie</translation>
+    </message>
+    <message>
+        <source>On Now</source>
+        <translation>Teraz</translation>
+    </message>
+    <message>
+        <source>DATE_PLAYED</source>
+        <translation>Dátum prehrania</translation>
+    </message>
+    <message>
+        <source>Delete Saved</source>
+        <translation>Odstrániť uložené</translation>
+    </message>
+    <message>
+        <source>Age</source>
+        <translation>Vek</translation>
+    </message>
+    <message>
+        <comment>Name or Title field of media item</comment>
+        <source>TITLE</source>
+        <translation>Meno</translation>
+    </message>
+    <message>
+        <source>DATE_ADDED</source>
+        <translation>Dátum pridania</translation>
+    </message>
+    <message>
+        <source>OFFICIAL_RATING</source>
+        <translation>Rodičovské hodnotenie</translation>
+    </message>
+    <message>
+        <source>PLAY_COUNT</source>
+        <translation>Počet prehraní</translation>
+    </message>
+    <message>
+        <source>RUNTIME</source>
+        <translation>Dĺžka</translation>
+    </message>
+    <message>
+        <comment>Title of Tab for options to sort library content</comment>
+        <source>TAB_SORT</source>
+        <translation>Zoradenie</translation>
+    </message>
+    <message>
+        <comment>Title of Tab for options to filter library content</comment>
+        <source>TAB_FILTER</source>
+        <translation>Filter</translation>
+    </message>
+    <message>
+        <source>Born</source>
+        <translation>Dátum narodenia</translation>
+    </message>
+    <message>
+        <source>Died</source>
+        <translation>Dátum úmrtia</translation>
+    </message>
+    <message>
+        <source>CRITIC_RATING</source>
+        <translation>Hodnotenie kritikov</translation>
     </message>
 </context>
 </TS>

@@ -35,13 +35,15 @@ function buildParams(params = {} as object) as string
     return param_array.join("&")
 end function
 
-function buildURL(path as string, params = {} as object) as string
+function buildURL(path as string, params = {} as object) as dynamic
+    serverURL = get_url()
+    if serverURL = invalid then return invalid
 
     ' Add intial '/' if path does not start with one
     if path.Left(1) = "/"
-        full_url = get_url() + path
+        full_url = serverURL + path
     else
-        full_url = get_url() + "/" + path
+        full_url = serverURL + "/" + path
     end if
 
     if params.count() > 0
@@ -51,20 +53,26 @@ function buildURL(path as string, params = {} as object) as string
     return full_url
 end function
 
-function APIRequest(url as string, params = {} as object)
-    req = createObject("roUrlTransfer")
-    req.setCertificatesFile("common:/certs/ca-bundle.crt")
-
+function APIRequest(url as string, params = {} as object) as dynamic
     full_url = buildURL(url, params)
+    if full_url = invalid then return invalid
+
+    serverURL = m.global.session.server.url
+    if serverURL = invalid then return invalid
+
+    req = createObject("roUrlTransfer")
     req.setUrl(full_url)
-    req = authorize_request(req)
+    req = authRequest(req)
+    ' SSL cert
+    if serverURL.left(8) = "https://"
+        setCertificateAuthority(req)
+    end if
 
     return req
 end function
 
 function getJson(req)
     'req.retainBodyOnError(True)
-    'print req.GetToString()
     data = req.GetToString()
     if data = invalid or data = ""
         return invalid
@@ -78,6 +86,39 @@ function postVoid(req, data = "" as string) as boolean
     req.AddHeader("Content-Type", "application/json")
     req.AsyncPostFromString(data)
     resp = wait(30000, req.GetMessagePort())
+    if type(resp) <> "roUrlEvent"
+        return false
+    end if
+
+    if resp.GetResponseCode() = 200
+        return true
+    end if
+
+    return false
+end function
+
+function headVoid(req) as boolean
+    req.setMessagePort(CreateObject("roMessagePort"))
+    req.AddHeader("Content-Type", "application/json")
+    req.AsyncHead()
+    resp = wait(30000, req.GetMessagePort())
+    if type(resp) <> "roUrlEvent"
+        return false
+    end if
+
+    if resp.GetResponseCode() = 200
+        return true
+    end if
+
+    return false
+end function
+
+function getVoid(req) as boolean
+    req.setMessagePort(CreateObject("roMessagePort"))
+    req.AddHeader("Content-Type", "application/json")
+    req.AsyncGetToString()
+    resp = wait(30000, req.GetMessagePort())
+
     if type(resp) <> "roUrlEvent"
         return false
     end if
@@ -117,53 +158,57 @@ function deleteVoid(req)
 end function
 
 function get_url()
-    base = get_setting("server")
-    if base.right(1) = "/"
-        base = base.left(base.len() - 1)
+    serverURL = m.global.session.server.url
+    if serverURL <> invalid
+        if serverURL.right(1) = "/"
+            serverURL = serverURL.left(serverURL.len() - 1)
+        end if
+
+        ' append http:// to the start if not specified
+        if serverURL.left(7) <> "http://" and serverURL.left(8) <> "https://"
+            serverURL = "http://" + serverURL
+        end if
     end if
-
-    ' append http:// to the start if not specified
-    if base.left(7) <> "http://" and base.left(8) <> "https://"
-        base = "http://" + base
-    end if
-
-    return base
-
+    return serverURL
 end function
 
-function authorize_request(request)
-    devinfo = CreateObject("roDeviceInfo")
-    appinfo = CreateObject("roAppInfo")
+function getString(req)
+    data = req.GetToString()
+    return data
+end function
 
-    auth = "MediaBrowser"
-
-    client = "Jellyfin Roku"
-    auth = auth + " Client=" + Chr(34) + client + Chr(34)
-
-    device = devinfo.getModelDisplayName()
-    friendly = devinfo.getFriendlyName()
-    ' remove special characters
-    regex = CreateObject("roRegex", "[^a-zA-Z0-9\ \-\_]", "")
-    friendly = regex.ReplaceAll(friendly, "")
-    auth = auth + ", Device=" + Chr(34) + device + " (" + friendly + ")" + Chr(34)
-
-    device_id = devinfo.getChannelClientID()
-    if get_setting("active_user") = invalid or get_setting("active_user") = ""
-        device_id = devinfo.GetRandomUUID()
-    end if
-    auth = auth + ", DeviceId=" + Chr(34) + device_id + Chr(34)
-
-    version = appinfo.GetVersion()
-    auth = auth + ", Version=" + Chr(34) + version + Chr(34)
-
-    user = get_setting("active_user")
-    if user <> invalid and user <> ""
-        auth = auth + ", UserId=" + Chr(34) + user + Chr(34)
+function postString(req, data = "" as string)
+    req.setMessagePort(CreateObject("roMessagePort"))
+    req.AddHeader("Content-Type", "application/json")
+    req.AsyncPostFromString(data)
+    resp = wait(30000, req.GetMessagePort())
+    if type(resp) <> "roUrlEvent"
+        return invalid
     end if
 
-    token = get_user_setting("token")
-    if token <> invalid and token <> ""
-        auth = auth + ", Token=" + Chr(34) + token + Chr(34)
+    return resp.getString()
+end function
+
+' sets the certificate authority by file path on the passed node
+sub setCertificateAuthority(request as object) as void
+    request.setCertificatesFile("common:/certs/ca-bundle.crt")
+end sub
+
+' Takes and returns a roUrlTransfer object after adding a Jellyfin "Authorization" header
+function authRequest(request as object) as object
+    QUOTE = Chr(34)
+    auth = "MediaBrowser" + " Client=" + QUOTE + "Jellyfin Roku" + QUOTE
+    auth = auth + ", Device=" + QUOTE + m.global.device.name + " (" + m.global.device.model + ")" + QUOTE
+    auth = auth + ", Version=" + QUOTE + m.global.app.version + QUOTE
+
+    if m.global.session.user.id <> invalid
+        auth = auth + ", UserId=" + QUOTE + m.global.session.user.id + QUOTE
+        auth = auth + ", DeviceId=" + QUOTE + m.global.device.id + QUOTE
+        if m.global.session.user.authToken <> invalid
+            auth = auth + ", Token=" + QUOTE + m.global.session.user.authToken + QUOTE
+        end if
+    else
+        auth = auth + ", DeviceId=" + QUOTE + m.global.device.uuid + QUOTE
     end if
 
     request.AddHeader("Authorization", auth)

@@ -465,7 +465,7 @@
         <translation>Версия</translation>
     </message>
     <message>
-        <source>An error was encountered while playing this item.  Server did not provide required transcoding data.</source>
+        <source>An error was encountered while playing this item. Server did not provide required transcoding data.</source>
         <translation>Възникна грешка при възпроизвеждането на този файл.Сървърът не предоставя данни за транскодирането.</translation>
         <extracomment>Content of message box when trying to play an item which requires transcoding, and the server did not provide transcode url</extracomment>
     </message>
@@ -551,32 +551,32 @@
     <message>
         <source>Ends at</source>
         <translation>Приключва в</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program ended  (e.g.  Ended Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program ended (e.g. Ended Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Ended at</source>
         <translation>Приключва на</translation>
-        <extracomment>(Past Tense) For defining time when a program will ended (e.g.  Ended at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program will ended (e.g. Ended at 08:00) </extracomment>
     </message>
     <message>
         <source>Starts</source>
         <translation>Стартира</translation>
-        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g.  Starts Wednesday, 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g. Starts Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Starts at</source>
         <translation>Стартира в</translation>
-        <extracomment>(Future Tense) For defining time when a program will start today (e.g.  Starts at 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining time when a program will start today (e.g. Starts at 08:00) </extracomment>
     </message>
     <message>
         <source>Started</source>
         <translation>Стартира</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program started (e.g.  Started Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program started (e.g. Started Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Started at</source>
         <translation>Стартира на</translation>
-        <extracomment>(Past Tense) For defining time when a program started today (e.g.  Started at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program started today (e.g. Started at 08:00) </extracomment>
     </message>
     <message>
         <source>Saturday</source>
@@ -740,6 +740,94 @@
     <message>
         <source>Save Credentials?</source>
         <translation>запишете идентификационни данни?</translation>
+    </message>
+    <message>
+        <source>Movies (Grid)</source>
+        <translation>Филми (Решетка)</translation>
+        <extracomment>Movie library view option</extracomment>
+    </message>
+    <message>
+        <source>Ended at</source>
+        <translation>Приключи на</translation>
+        <extracomment>(Past Tense) For defining time when a program will ended (e.g. Ended at 08:00) </extracomment>
+    </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>Запазване на идентификационни данни</translation>
+    </message>
+    <message>
+        <source>IMDB_RATING</source>
+        <translation>IMDb Рейтинг</translation>
+    </message>
+    <message>
+        <source>Additional Parts</source>
+        <translation>Допълнителни части</translation>
+        <extracomment>Additional parts of a video</extracomment>
+    </message>
+    <message>
+        <source>Movies (Presentation)</source>
+        <translation>Филми (Презентация)</translation>
+        <extracomment>Movie library view option</extracomment>
+    </message>
+    <message>
+        <source>Starts</source>
+        <translation>Започва</translation>
+        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g. Starts Wednesday, 08:00) </extracomment>
+    </message>
+    <message>
+        <source>Unknown</source>
+        <translation>Непознато</translation>
+        <extracomment>Title for a cast member for which we have no information for</extracomment>
+    </message>
+    <message>
+        <source>Enter the server name or IP address</source>
+        <translation>Въведете името на сървъра или IP адрес</translation>
+        <extracomment>Title of KeyboardDialog when manually entering a server URL</extracomment>
+    </message>
+    <message>
+        <source>Support Direct Play of MPEG-4 content. This may need to be disabled for playback of DIVX encoded video files.</source>
+        <translation>Поддръжка на директно възпроизвеждане на MPEG-4 съдържание. Може да трябва да се изключи за възпроизвеждане на файлове с DIVX кодиране.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>User Interface</source>
+        <translation>Потребителски Интерфейс</translation>
+        <extracomment>Title for User Interface section in user setting screen.</extracomment>
+    </message>
+    <message>
+        <source>Media Grid options.</source>
+        <translation>Опции на Медийна решетка.</translation>
+    </message>
+    <message>
+        <source>Press &apos;OK&apos; to Close</source>
+        <translation>Натиснете &apos;ОК&apos; за да затворите</translation>
+    </message>
+    <message>
+        <source>Special Features</source>
+        <translation>Специални функции</translation>
+    </message>
+    <message>
+        <source>Codec Support</source>
+        <translation>Поддръжка на кодеци</translation>
+        <extracomment>Settings Menu - Title for settings group related to codec support</extracomment>
+    </message>
+    <message>
+        <source>** EXPERIMENTAL** Support Direct Play of AV1 content if this Roku device supports it.</source>
+        <translation>**ЕКСПЕРИМЕНТАЛНО** Поддръжка на директно възпроизвеждане на AV1 съдържание ако това Roku устройство го поддържа.</translation>
+        <extracomment>Description of a setting - should we try to direct play experimental av1 codec</extracomment>
+    </message>
+    <message>
+        <source>Media Grid</source>
+        <translation>Медийна решетка</translation>
+        <extracomment>UI -&gt; Media Grid section in user setting screen.</extracomment>
+    </message>
+    <message>
+        <source>Disabled</source>
+        <translation>Изключено</translation>
+    </message>
+    <message>
+        <source>Enabled</source>
+        <translation>Активиран</translation>
     </message>
 </context>
 </TS>

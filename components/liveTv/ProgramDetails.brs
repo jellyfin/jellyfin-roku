@@ -1,3 +1,6 @@
+import "pkg:/source/utils/misc.brs"
+import "pkg:/source/utils/config.brs"
+
 sub init()
 
     ' Max "Overview" lines to show in Preview and Detail
@@ -88,8 +91,8 @@ sub setupLabels()
     m.recordSeriesOutline.width = recordSeriesButtonBackground.width
     m.recordSeriesOutline.height = recordSeriesButtonBackground.height
 
-    m.userCanRecord = get_user_setting("livetv.canrecord")
-    if m.userCanRecord = "false"
+    m.userCanRecord = m.global.session.user.settings["livetv.canrecord"]
+    if m.userCanRecord = false
         m.recordButton.visible = false
         m.recordSeriesButton.visible = false
     end if
@@ -243,8 +246,8 @@ function getRelativeDayName(date) as string
     end if
 
     ' Check for Yesterday
-    todayMidnight = now.AsSeconds() - (now.AsSeconds() MOD 86400)
-    dateMidnight = date.AsSeconds() - (date.AsSeconds() MOD 86400)
+    todayMidnight = now.AsSeconds() - (now.AsSeconds() mod 86400)
+    dateMidnight = date.AsSeconds() - (date.AsSeconds() mod 86400)
 
     if todayMidnight - dateMidnight = 86400
         return "yesterday"
@@ -266,8 +269,8 @@ function getDurationStringFromSeconds(seconds) as string
     minutes = seconds / 60.0
 
     if minutes > 60
-        hours = (minutes - (minutes MOD 60)) / 60
-        minutes = minutes MOD 60
+        hours = (minutes - (minutes mod 60)) / 60
+        minutes = minutes mod 60
     end if
 
     if hours > 0

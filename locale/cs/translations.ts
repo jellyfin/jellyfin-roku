@@ -98,7 +98,7 @@
     </message>
     <message>
         <source>Continue Watching</source>
-        <translation>Pokračovat ve sledování</translation>
+        <translation type="unfinished">Pokračovat ve sledování</translation>
     </message>
     <message>
         <source>Next Up</source>
@@ -150,7 +150,7 @@
     </message>
     <message>
         <source>Ascending</source>
-        <translation>Vzsetupně</translation>
+        <translation>Vzestupně</translation>
     </message>
     <message>
         <source>Password</source>
@@ -300,32 +300,32 @@
     <message>
         <source>Ends at</source>
         <translation>Končí v</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program ended  (e.g.  Ended Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program ended (e.g. Ended Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Ended at</source>
         <translation>Skončilo v</translation>
-        <extracomment>(Past Tense) For defining time when a program will ended (e.g.  Ended at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program will ended (e.g. Ended at 08:00) </extracomment>
     </message>
     <message>
         <source>Starts</source>
         <translation>Začíná</translation>
-        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g.  Starts Wednesday, 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g. Starts Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Starts at</source>
         <translation>Začíná v</translation>
-        <extracomment>(Future Tense) For defining time when a program will start today (e.g.  Starts at 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining time when a program will start today (e.g. Starts at 08:00) </extracomment>
     </message>
     <message>
         <source>Started</source>
         <translation>Začalo</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program started (e.g.  Started Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program started (e.g. Started Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Started at</source>
         <translation>Začátek v</translation>
-        <extracomment>(Past Tense) For defining time when a program started today (e.g.  Started at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program started today (e.g. Started at 08:00) </extracomment>
     </message>
     <message>
         <source>Saturday</source>
@@ -472,32 +472,32 @@
     <message>
         <source>Ends at</source>
         <translation>Končí v</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program ended  (e.g.  Ended Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program ended (e.g. Ended Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Ended at</source>
         <translation>Skončilo v</translation>
-        <extracomment>(Past Tense) For defining time when a program will ended (e.g.  Ended at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program will ended (e.g. Ended at 08:00) </extracomment>
     </message>
     <message>
         <source>Starts</source>
         <translation>Začíná</translation>
-        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g.  Starts Wednesday, 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g. Starts Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Starts at</source>
         <translation>Začíná v</translation>
-        <extracomment>(Future Tense) For defining time when a program will start today (e.g.  Starts at 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining time when a program will start today (e.g. Starts at 08:00) </extracomment>
     </message>
     <message>
         <source>Started</source>
         <translation>Začalo</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program started (e.g.  Started Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program started (e.g. Started Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Started at</source>
         <translation>Začátek v</translation>
-        <extracomment>(Past Tense) For defining time when a program started today (e.g.  Started at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program started today (e.g. Started at 08:00) </extracomment>
     </message>
     <message>
         <source>Saturday</source>
@@ -659,32 +659,32 @@
     <message>
         <source>Ends at</source>
         <translation>Končí v</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program ended  (e.g.  Ended Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program ended (e.g. Ended Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Ended at</source>
         <translation>Skončilo v</translation>
-        <extracomment>(Past Tense) For defining time when a program will ended (e.g.  Ended at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program will ended (e.g. Ended at 08:00) </extracomment>
     </message>
     <message>
         <source>Starts</source>
         <translation>Začíná</translation>
-        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g.  Starts Wednesday, 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g. Starts Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Starts at</source>
         <translation>Začíná v</translation>
-        <extracomment>(Future Tense) For defining time when a program will start today (e.g.  Starts at 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining time when a program will start today (e.g. Starts at 08:00) </extracomment>
     </message>
     <message>
         <source>Started</source>
         <translation>Začalo</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program started (e.g.  Started Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program started (e.g. Started Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Started at</source>
         <translation>Začátek v</translation>
-        <extracomment>(Past Tense) For defining time when a program started today (e.g.  Started at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program started today (e.g. Started at 08:00) </extracomment>
     </message>
     <message>
         <source>Saturday</source>
@@ -841,32 +841,32 @@
     <message>
         <source>Ends at</source>
         <translation>Končí v</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program ended  (e.g.  Ended Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program ended (e.g. Ended Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Ended at</source>
         <translation>Skončilo v</translation>
-        <extracomment>(Past Tense) For defining time when a program will ended (e.g.  Ended at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program will ended (e.g. Ended at 08:00) </extracomment>
     </message>
     <message>
         <source>Starts</source>
         <translation>Začíná</translation>
-        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g.  Starts Wednesday, 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g. Starts Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Starts at</source>
         <translation>Začíná v</translation>
-        <extracomment>(Future Tense) For defining time when a program will start today (e.g.  Starts at 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining time when a program will start today (e.g. Starts at 08:00) </extracomment>
     </message>
     <message>
         <source>Started</source>
         <translation>Začalo</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program started (e.g.  Started Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program started (e.g. Started Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Started at</source>
         <translation>Začátek v</translation>
-        <extracomment>(Past Tense) For defining time when a program started today (e.g.  Started at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program started today (e.g. Started at 08:00) </extracomment>
     </message>
     <message>
         <source>Saturday</source>
@@ -985,7 +985,7 @@
         <translation>Hodnocení kritiků</translation>
     </message>
     <message>
-        <source>An error was encountered while playing this item.  Server did not provide required transcoding data.</source>
+        <source>An error was encountered while playing this item. Server did not provide required transcoding data.</source>
         <translation>Při přehrávání této položky došlo k chybě. Server neposkytl požadovaná data o překódování.</translation>
         <extracomment>Content of message box when trying to play an item which requires transcoding, and the server did not provide transcode url</extracomment>
     </message>
@@ -1047,32 +1047,32 @@
     <message>
         <source>Ends at</source>
         <translation>Končí v</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program ended  (e.g.  Ended Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program ended (e.g. Ended Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Ended at</source>
         <translation>Skončilo v</translation>
-        <extracomment>(Past Tense) For defining time when a program will ended (e.g.  Ended at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program will ended (e.g. Ended at 08:00) </extracomment>
     </message>
     <message>
         <source>Starts</source>
         <translation>Začíná</translation>
-        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g.  Starts Wednesday, 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g. Starts Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Starts at</source>
         <translation>Začíná v</translation>
-        <extracomment>(Future Tense) For defining time when a program will start today (e.g.  Starts at 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining time when a program will start today (e.g. Starts at 08:00) </extracomment>
     </message>
     <message>
         <source>Started</source>
         <translation>Začalo</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program started (e.g.  Started Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program started (e.g. Started Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Started at</source>
         <translation>Začátek v</translation>
-        <extracomment>(Past Tense) For defining time when a program started today (e.g.  Started at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program started today (e.g. Started at 08:00) </extracomment>
     </message>
     <message>
         <comment>Name or Title field of media item</comment>
@@ -1182,7 +1182,7 @@
         <translation>Hodnocení IMDb</translation>
     </message>
     <message>
-        <source>An error was encountered while playing this item.  Server did not provide required transcoding data.</source>
+        <source>An error was encountered while playing this item. Server did not provide required transcoding data.</source>
         <translation>Při přehrávání této položky došlo k chybě. Server neposkytl požadovaná data o překódování.</translation>
         <extracomment>Content of message box when trying to play an item which requires transcoding, and the server did not provide transcode url</extracomment>
     </message>
@@ -1264,32 +1264,32 @@
     <message>
         <source>Ends at</source>
         <translation>Končí v</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program ended  (e.g.  Ended Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program ended (e.g. Ended Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Ended at</source>
         <translation>Skončilo v</translation>
-        <extracomment>(Past Tense) For defining time when a program will ended (e.g.  Ended at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program will ended (e.g. Ended at 08:00) </extracomment>
     </message>
     <message>
         <source>Starts</source>
         <translation>Začíná</translation>
-        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g.  Starts Wednesday, 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g. Starts Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Starts at</source>
         <translation>Začíná v</translation>
-        <extracomment>(Future Tense) For defining time when a program will start today (e.g.  Starts at 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining time when a program will start today (e.g. Starts at 08:00) </extracomment>
     </message>
     <message>
         <source>Started</source>
         <translation>Začalo</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program started (e.g.  Started Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program started (e.g. Started Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Started at</source>
         <translation>Začátek v</translation>
-        <extracomment>(Past Tense) For defining time when a program started today (e.g.  Started at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program started today (e.g. Started at 08:00) </extracomment>
     </message>
     <message>
         <source>Saturday</source>
@@ -1415,7 +1415,7 @@
         <translation>Verze</translation>
     </message>
     <message>
-        <source>An error was encountered while playing this item.  Server did not provide required transcoding data.</source>
+        <source>An error was encountered while playing this item. Server did not provide required transcoding data.</source>
         <translation>Při přehrávání této položky došlo k chybě. Server neposkytl požadovaná data o překódování.</translation>
         <extracomment>Content of message box when trying to play an item which requires transcoding, and the server did not provide transcode url</extracomment>
     </message>
@@ -1501,32 +1501,32 @@
     <message>
         <source>Ends at</source>
         <translation>Končí v</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program ended  (e.g.  Ended Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program ended (e.g. Ended Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Ended at</source>
         <translation>Skončilo v</translation>
-        <extracomment>(Past Tense) For defining time when a program will ended (e.g.  Ended at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program will ended (e.g. Ended at 08:00) </extracomment>
     </message>
     <message>
         <source>Starts</source>
         <translation>Začíná</translation>
-        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g.  Starts Wednesday, 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g. Starts Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Starts at</source>
         <translation>Začíná v</translation>
-        <extracomment>(Future Tense) For defining time when a program will start today (e.g.  Starts at 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining time when a program will start today (e.g. Starts at 08:00) </extracomment>
     </message>
     <message>
         <source>Started</source>
         <translation>Začalo</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program started (e.g.  Started Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program started (e.g. Started Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Started at</source>
         <translation>Začátek v</translation>
-        <extracomment>(Past Tense) For defining time when a program started today (e.g.  Started at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program started today (e.g. Started at 08:00) </extracomment>
     </message>
     <message>
         <source>Saturday</source>
@@ -1764,7 +1764,7 @@
         <translation>Verze</translation>
     </message>
     <message>
-        <source>An error was encountered while playing this item.  Server did not provide required transcoding data.</source>
+        <source>An error was encountered while playing this item. Server did not provide required transcoding data.</source>
         <translation>Při přehrávání této položky došlo k chybě. Server neposkytl požadovaná data o překódování.</translation>
         <extracomment>Content of message box when trying to play an item which requires transcoding, and the server did not provide transcode url</extracomment>
     </message>
@@ -1855,32 +1855,32 @@
     <message>
         <source>Ends at</source>
         <translation>Skončilo v</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program ended  (e.g.  Ended Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program ended (e.g. Ended Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Ended at</source>
         <translation>Skončilo v</translation>
-        <extracomment>(Past Tense) For defining time when a program will ended (e.g.  Ended at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program will ended (e.g. Ended at 08:00) </extracomment>
     </message>
     <message>
         <source>Starts</source>
         <translation>Začíná</translation>
-        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g.  Starts Wednesday, 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g. Starts Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Starts at</source>
         <translation>Začíná v</translation>
-        <extracomment>(Future Tense) For defining time when a program will start today (e.g.  Starts at 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining time when a program will start today (e.g. Starts at 08:00) </extracomment>
     </message>
     <message>
         <source>Started</source>
         <translation>Začalo</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program started (e.g.  Started Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program started (e.g. Started Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Started at</source>
         <translation>Začátek v</translation>
-        <extracomment>(Past Tense) For defining time when a program started today (e.g.  Started at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program started today (e.g. Started at 08:00) </extracomment>
     </message>
     <message>
         <source>Saturday</source>
@@ -2066,7 +2066,7 @@
     <message>
         <source>%1 of %2</source>
         <translation>%1 z %2</translation>
-        <extracomment>Item position and count.  %1 = current item.  %2 = total number of items</extracomment>
+        <extracomment>Item position and count. %1 = current item. %2 = total number of items</extracomment>
     </message>
     <message>
         <source>Go to episode</source>
@@ -2155,7 +2155,7 @@
         <translation>Verze</translation>
     </message>
     <message>
-        <source>An error was encountered while playing this item.  Server did not provide required transcoding data.</source>
+        <source>An error was encountered while playing this item. Server did not provide required transcoding data.</source>
         <translation>Při přehrávání této položky došlo k chybě. Server neposkytl požadovaná data o překódování.</translation>
         <extracomment>Content of message box when trying to play an item which requires transcoding, and the server did not provide transcode url</extracomment>
     </message>
@@ -2246,32 +2246,32 @@
     <message>
         <source>Ends at</source>
         <translation>Skončilo v</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program ended  (e.g.  Ended Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program ended (e.g. Ended Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Ended at</source>
         <translation>Skončilo v</translation>
-        <extracomment>(Past Tense) For defining time when a program will ended (e.g.  Ended at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program will ended (e.g. Ended at 08:00) </extracomment>
     </message>
     <message>
         <source>Starts</source>
         <translation>Začíná</translation>
-        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g.  Starts Wednesday, 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g. Starts Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Starts at</source>
         <translation>Začíná v</translation>
-        <extracomment>(Future Tense) For defining time when a program will start today (e.g.  Starts at 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining time when a program will start today (e.g. Starts at 08:00) </extracomment>
     </message>
     <message>
         <source>Started</source>
         <translation>Začalo</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program started (e.g.  Started Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program started (e.g. Started Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Started at</source>
         <translation>Začátek v</translation>
-        <extracomment>(Past Tense) For defining time when a program started today (e.g.  Started at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program started today (e.g. Started at 08:00) </extracomment>
     </message>
     <message>
         <source>Saturday</source>
@@ -2594,32 +2594,32 @@
     <message>
         <source>Started at</source>
         <translation>Začátek v</translation>
-        <extracomment>(Past Tense) For defining time when a program started today (e.g.  Started at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program started today (e.g. Started at 08:00) </extracomment>
     </message>
     <message>
         <source>Started</source>
         <translation>Začalo</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program started (e.g.  Started Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program started (e.g. Started Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Starts at</source>
         <translation>Začíná v</translation>
-        <extracomment>(Future Tense) For defining time when a program will start today (e.g.  Starts at 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining time when a program will start today (e.g. Starts at 08:00) </extracomment>
     </message>
     <message>
         <source>Starts</source>
         <translation>Začíná</translation>
-        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g.  Starts Wednesday, 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g. Starts Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Ended at</source>
         <translation>Skončilo v</translation>
-        <extracomment>(Past Tense) For defining time when a program will ended (e.g.  Ended at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program will ended (e.g. Ended at 08:00) </extracomment>
     </message>
     <message>
         <source>Ends at</source>
         <translation>Skončilo v</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program ended  (e.g.  Ended Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program ended (e.g. Ended Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Live</source>
@@ -2706,7 +2706,7 @@
         <extracomment>Dialog Title: Received error from server when trying to get information about the selected item for playback</extracomment>
     </message>
     <message>
-        <source>An error was encountered while playing this item.  Server did not provide required transcoding data.</source>
+        <source>An error was encountered while playing this item. Server did not provide required transcoding data.</source>
         <translation>Při přehrávání této položky došlo k chybě. Server neposkytl požadovaná data o překódování.</translation>
         <extracomment>Content of message box when trying to play an item which requires transcoding, and the server did not provide transcode url</extracomment>
     </message>
@@ -2799,7 +2799,7 @@
     <message>
         <source>%1 of %2</source>
         <translation>%1 z %2</translation>
-        <extracomment>Item position and count.  %1 = current item.  %2 = total number of items</extracomment>
+        <extracomment>Item position and count. %1 = current item. %2 = total number of items</extracomment>
     </message>
     <message>
         <source>Quick Connect</source>
@@ -3040,7 +3040,7 @@
     <message>
         <source>%1 of %2</source>
         <translation>%1 z %2</translation>
-        <extracomment>Item position and count.  %1 = current item.  %2 = total number of items</extracomment>
+        <extracomment>Item position and count. %1 = current item. %2 = total number of items</extracomment>
     </message>
     <message>
         <source>Go to episode</source>
@@ -3129,7 +3129,7 @@
         <translation>Verze</translation>
     </message>
     <message>
-        <source>An error was encountered while playing this item.  Server did not provide required transcoding data.</source>
+        <source>An error was encountered while playing this item. Server did not provide required transcoding data.</source>
         <translation>Při přehrávání této položky došlo k chybě. Server neposkytl požadovaná data o překódování.</translation>
         <extracomment>Content of message box when trying to play an item which requires transcoding, and the server did not provide transcode url</extracomment>
     </message>
@@ -3220,32 +3220,32 @@
     <message>
         <source>Ends at</source>
         <translation>Skončilo v</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program ended  (e.g.  Ended Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program ended (e.g. Ended Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Ended at</source>
         <translation>Skončilo v</translation>
-        <extracomment>(Past Tense) For defining time when a program will ended (e.g.  Ended at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program will ended (e.g. Ended at 08:00) </extracomment>
     </message>
     <message>
         <source>Starts</source>
         <translation>Začíná</translation>
-        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g.  Starts Wednesday, 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g. Starts Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Starts at</source>
         <translation>Začíná v</translation>
-        <extracomment>(Future Tense) For defining time when a program will start today (e.g.  Starts at 08:00) </extracomment>
+        <extracomment>(Future Tense) For defining time when a program will start today (e.g. Starts at 08:00) </extracomment>
     </message>
     <message>
         <source>Started</source>
         <translation>Začalo</translation>
-        <extracomment>(Past Tense) For defining a day and time when a program started (e.g.  Started Wednesday, 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining a day and time when a program started (e.g. Started Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Started at</source>
         <translation>Začátek v</translation>
-        <extracomment>(Past Tense) For defining time when a program started today (e.g.  Started at 08:00) </extracomment>
+        <extracomment>(Past Tense) For defining time when a program started today (e.g. Started at 08:00) </extracomment>
     </message>
     <message>
         <source>Saturday</source>
@@ -3621,7 +3621,7 @@
     <message>
         <source>%1 of %2</source>
         <translation>%1 z %2</translation>
-        <extracomment>Item position and count.  %1 = current item.  %2 = total number of items</extracomment>
+        <extracomment>Item position and count. %1 = current item. %2 = total number of items</extracomment>
     </message>
     <message>
         <source>You can search for Titles, People, Live TV Channels and more</source>
@@ -4369,6 +4369,139 @@
         <source>tomorrow</source>
         <translation>zítra</translation>
         <extracomment>Next day</extracomment>
+    </message>
+    <message>
+        <source>Support Direct Play of MPEG-4 content. This may need to be disabled for playback of DIVX encoded video files.</source>
+        <translation>Podpora přímého přehrávání obsahu MPEG-4. Toto může být nutné deaktivovat pro přehrávání videí kódovaných v DIVX.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>AV1</source>
+        <translation>AV1</translation>
+        <extracomment>Name of a setting - should we try to direct play experimental av1 codec</extracomment>
+    </message>
+    <message>
+        <source>Delete Saved</source>
+        <translation>Smazat uložené</translation>
+    </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>Uložit přihlašovací údaje?</translation>
+    </message>
+    <message>
+        <source>Limits Enabled</source>
+        <translation>Limity povoleny</translation>
+    </message>
+    <message>
+        <source>Libraries</source>
+        <translation>Knihovny</translation>
+    </message>
+    <message>
+        <source>Settings relating to the appearance of Library pages</source>
+        <translation>Nastavení související se vzhledem stránek knihovny</translation>
+    </message>
+    <message>
+        <source>Set how many seconds before the end of an episode the Next Episode button should appear. Set to 0 to disable.</source>
+        <translation>Nastavte kolik vteřin před koncem epizody se objeví tlačítko pro přechod na další epizodu. Pro deaktivaci nastavte 0.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Slideshow Off</source>
+        <translation>Slideshow vypnuto</translation>
+    </message>
+    <message>
+        <source>Disable Community Rating for Episodes</source>
+        <translation>Zakázat hodnocení komunity pro epizody</translation>
+    </message>
+    <message>
+        <source>If enabled, the star and community rating for episodes of a TV show will be removed. This is to prevent spoilers of an upcoming good/bad episode.</source>
+        <translation>Pokud je povoleno, hvězda a hodnocení komunity pro epizody seriálů bude odebráno. Toto slouží k zabránění vzniku spoilerů pro nadcházející dobrou/špatnou epizodu.</translation>
+    </message>
+    <message>
+        <source>Playback Bitrate Limits</source>
+        <translation>Omezení přenosové rychlosti pro přehrávání</translation>
+    </message>
+    <message>
+        <source>Set limits for how high playback bitrates are allowed to be.</source>
+        <translation>Nastavení povolených výšek limitů datových toků pro přehrávání.</translation>
+    </message>
+    <message>
+        <source>If enabled, playback bitrates will be limited based on the &apos;Playback Bitrate Limit&apos; setting.</source>
+        <translation>Pokud je povoleno, datové toky pro přehrávání budou omezeny na základě nastavení &apos;Omezení přenosové rychlosti pro přehrávání&apos;.</translation>
+    </message>
+    <message>
+        <source>Playback Bitrate Limit</source>
+        <translation>Omezení přenosové rychlosti pro přehrávání</translation>
+    </message>
+    <message>
+        <source>Max bitrate (Mbps) allowed if limits are enabled. Set to 0 to use Roku&apos;s specifications.</source>
+        <translation>Maximální dovolený datový tok (Mbps) v případě, že jsou limity povolené. Pro použití dle specifikace Roku nastavte 0.</translation>
+    </message>
+    <message>
+        <source>Settings relating to the appearance of the Home screen and the program in general.</source>
+        <translation>Nastavení související obecně se vzhledem a se vzhledem domovské stránky.</translation>
+    </message>
+    <message>
+        <source>Settings that apply when Grid views are enabled.</source>
+        <translation>Nastavení, která se použijí v případě, že jsou povolena zobrazení mřížky.</translation>
+    </message>
+    <message>
+        <source>Songs</source>
+        <translation>Skladby</translation>
+    </message>
+    <message>
+        <source>Album</source>
+        <translation>Album</translation>
+    </message>
+    <message>
+        <source>Albums</source>
+        <translation>Alba</translation>
+    </message>
+    <message>
+        <source>View All</source>
+        <translation>Zobrazit vše</translation>
+    </message>
+    <message>
+        <source>Grid View Settings</source>
+        <translation>Nastavení zobrazení mřížky</translation>
+    </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>Uložit přihlašovací údaje?</translation>
+    </message>
+    <message>
+        <source>Artists (Grid)</source>
+        <translation>Umělci (mřížka)</translation>
+    </message>
+    <message>
+        <source>Song</source>
+        <translation>Skladba</translation>
+    </message>
+    <message>
+        <source>Parental Ratings</source>
+        <translation>Rodičovské hodnocení</translation>
+        <extracomment>Used in Filter menu</extracomment>
+    </message>
+    <message>
+        <source>Libraries</source>
+        <translation>Knihovny</translation>
+    </message>
+    <message>
+        <source>Bitrate Limit</source>
+        <translation>Omezení datového toku</translation>
+    </message>
+    <message>
+        <source>Maximum Bitrate</source>
+        <translation>Maximální datový tok</translation>
+    </message>
+    <message>
+        <source>MPEG-4 Support</source>
+        <translation>Podpora MPEG-4</translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
+    <message>
+        <source>Played</source>
+        <translation>Přehráno</translation>
     </message>
 </context>
 </TS>

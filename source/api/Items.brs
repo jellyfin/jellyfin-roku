@@ -1,6 +1,6 @@
 function ItemGetPlaybackInfo(id as string, startTimeTicks = 0 as longinteger)
     params = {
-        "UserId": get_setting("active_user"),
+        "UserId": m.global.session.user.id,
         "StartTimeTicks": startTimeTicks,
         "IsPlayback": true,
         "AutoOpenLiveStream": true,
@@ -15,7 +15,7 @@ function ItemPostPlaybackInfo(id as string, mediaSourceId = "" as string, audioT
         "DeviceProfile": getDeviceProfile()
     }
     params = {
-        "UserId": get_setting("active_user"),
+        "UserId": m.global.session.user.id,
         "StartTimeTicks": startTimeTicks,
         "IsPlayback": true,
         "AutoOpenLiveStream": true,
@@ -38,9 +38,8 @@ function searchMedia(query as string)
     ' This appears to be done differently on the web now
     ' For each potential type, a separate query is done:
     ' varying item types, and artists, and people
-
     if query <> ""
-        resp = APIRequest(Substitute("Search/Hints", get_setting("active_user")), {
+        resp = APIRequest(Substitute("Search/Hints", m.global.session.user.id), {
             "searchTerm": query,
             "IncludePeople": true,
             "IncludeMedia": true,
@@ -54,7 +53,6 @@ function searchMedia(query as string)
             "Recursive": true,
             "limit": 100
         })
-
 
         data = getJson(resp)
         results = []
@@ -72,13 +70,14 @@ end function
 
 ' MetaData about an item
 function ItemMetaData(id as string)
-    url = Substitute("Users/{0}/Items/{1}", get_setting("active_user"), id)
+    url = Substitute("Users/{0}/Items/{1}", m.global.session.user.id, id)
     resp = APIRequest(url)
     data = getJson(resp)
     if data = invalid then return invalid
+
     imgParams = {}
     if data.type <> "Audio"
-        if data?.UserData?.PlayedPercentage <> invalid
+        if data.UserData <> invalid and data.UserData.PlayedPercentage <> invalid
             param = { "PercentPlayed": data.UserData.PlayedPercentage }
             imgParams.Append(param)
         end if
@@ -147,15 +146,19 @@ function ItemMetaData(id as string)
         tmp = CreateObject("roSGNode", "MusicSongData")
 
         ' Try using song's parent for poster image
-        tmp.image = PosterImage(data.ParentId)
+        tmp.image = PosterImage(data.ParentId, { "MaxWidth": 500, "MaxHeight": 500 })
 
         ' Song's parent poster image is no good, try using the song's poster image
         if tmp.image = invalid
-            tmp.image = PosterImage(data.id)
+            tmp.image = PosterImage(data.id, { "MaxWidth": 500, "MaxHeight": 500 })
         end if
 
         tmp.json = data
         return tmp
+    else if data.type = "Recording"
+        ' We know it's "Recording", but we don't do any special preprocessing
+        ' for this data type at the moment, so just return the json.
+        return data
     else
         print "Items.brs::ItemMetaData processed unhandled type: " data.type
         ' Return json if we don't know what it is
@@ -175,7 +178,7 @@ end function
 
 ' Get list of albums belonging to an artist
 function MusicAlbumList(id as string)
-    url = Substitute("Users/{0}/Items", get_setting("active_user"))
+    url = Substitute("Users/{0}/Items", m.global.session.user.id)
     resp = APIRequest(url, {
         "AlbumArtistIds": id,
         "includeitemtypes": "MusicAlbum",
@@ -197,7 +200,7 @@ end function
 
 ' Get list of albums an artist appears on
 function AppearsOnList(id as string)
-    url = Substitute("Users/{0}/Items", get_setting("active_user"))
+    url = Substitute("Users/{0}/Items", m.global.session.user.id)
     resp = APIRequest(url, {
         "ContributingArtistIds": id,
         "ExcludeItemIds": id,
@@ -221,7 +224,7 @@ end function
 
 ' Get list of songs belonging to an artist
 function GetSongsByArtist(id as string)
-    url = Substitute("Users/{0}/Items", get_setting("active_user"))
+    url = Substitute("Users/{0}/Items", m.global.session.user.id)
     resp = APIRequest(url, {
         "AlbumArtistIds": id,
         "includeitemtypes": "Audio",
@@ -246,11 +249,35 @@ function GetSongsByArtist(id as string)
     return data
 end function
 
+' Get Items that are under the provided item
+function PlaylistItemList(id as string)
+    url = Substitute("Playlists/{0}/Items", id)
+    resp = APIRequest(url, {
+        "UserId": m.global.session.user.id
+    })
+
+    results = []
+    data = getJson(resp)
+
+    if data = invalid then return invalid
+    if data.Items = invalid then return invalid
+    if data.Items.Count() = 0 then return invalid
+
+    for each item in data.Items
+        tmp = CreateObject("roSGNode", "PlaylistData")
+        tmp.image = PosterImage(item.id)
+        tmp.json = item
+        results.push(tmp)
+    end for
+    data.Items = results
+    return data
+end function
+
 ' Get Songs that are on an Album
 function MusicSongList(id as string)
-    url = Substitute("Users/{0}/Items", get_setting("active_user"), id)
+    url = Substitute("Users/{0}/Items", m.global.session.user.id, id)
     resp = APIRequest(url, {
-        "UserId": get_setting("active_user"),
+        "UserId": m.global.session.user.id,
         "parentId": id,
         "includeitemtypes": "Audio",
         "sortBy": "SortName"
@@ -275,9 +302,9 @@ end function
 
 ' Get Songs that are on an Album
 function AudioItem(id as string)
-    url = Substitute("Users/{0}/Items/{1}", get_setting("active_user"), id)
+    url = Substitute("Users/{0}/Items/{1}", m.global.session.user.id, id)
     resp = APIRequest(url, {
-        "UserId": get_setting("active_user"),
+        "UserId": m.global.session.user.id,
         "includeitemtypes": "Audio",
         "sortBy": "SortName"
     })
@@ -289,7 +316,7 @@ end function
 function CreateInstantMix(id as string)
     url = Substitute("/Items/{0}/InstantMix", id)
     resp = APIRequest(url, {
-        "UserId": get_setting("active_user"),
+        "UserId": m.global.session.user.id,
         "Limit": 201
     })
 
@@ -298,7 +325,7 @@ end function
 
 ' Get Instant Mix based on item
 function CreateArtistMix(id as string)
-    url = Substitute("Users/{0}/Items", get_setting("active_user"))
+    url = Substitute("Users/{0}/Items", m.global.session.user.id)
     resp = APIRequest(url, {
         "ArtistIds": id,
         "Recursive": "true",
@@ -317,9 +344,9 @@ end function
 
 ' Get Intro Videos for an item
 function GetIntroVideos(id as string)
-    url = Substitute("Users/{0}/Items/{1}/Intros", get_setting("active_user"), id)
+    url = Substitute("Users/{0}/Items/{1}/Intros", m.global.session.user.id, id)
     resp = APIRequest(url, {
-        "UserId": get_setting("active_user")
+        "UserId": m.global.session.user.id
     })
 
     return getJson(resp)
@@ -327,28 +354,37 @@ end function
 
 function AudioStream(id as string)
     songData = AudioItem(id)
+    if songData <> invalid
+        content = createObject("RoSGNode", "ContentNode")
+        if songData.title <> invalid
+            content.title = songData.title
+        end if
 
-    content = createObject("RoSGNode", "ContentNode")
-    content.title = songData.title
+        playbackInfo = ItemPostPlaybackInfo(songData.id, songData.mediaSources[0].id)
+        if playbackInfo <> invalid
+            content.id = playbackInfo.PlaySessionId
 
-    playbackInfo = ItemPostPlaybackInfo(songData.id, songData.mediaSources[0].id)
-    content.id = playbackInfo.PlaySessionId
+            if useTranscodeAudioStream(playbackInfo)
+                ' Transcode the audio
+                content.url = buildURL(playbackInfo.mediaSources[0].TranscodingURL)
+            else
+                ' Direct Stream the audio
+                params = {
+                    "Static": "true",
+                    "Container": songData.mediaSources[0].container,
+                    "MediaSourceId": songData.mediaSources[0].id
+                }
+                content.streamformat = songData.mediaSources[0].container
+                content.url = buildURL(Substitute("Audio/{0}/stream", songData.id), params)
+            end if
+        else
+            return invalid
+        end if
 
-    if useTranscodeAudioStream(playbackInfo)
-        ' Transcode the audio
-        content.url = buildURL(playbackInfo.mediaSources[0].TranscodingURL)
+        return content
     else
-        ' Direct Stream the audio
-        params = {
-            "Static": "true",
-            "Container": songData.mediaSources[0].container,
-            "MediaSourceId": songData.mediaSources[0].id
-        }
-        content.streamformat = songData.mediaSources[0].container
-        content.url = buildURL(Substitute("Audio/{0}/stream", songData.id), params)
+        return invalid
     end if
-
-    return content
 end function
 
 function useTranscodeAudioStream(playbackInfo)
@@ -361,11 +397,14 @@ function BackdropImage(id as string)
 end function
 
 ' Seasons for a TV Show
-function TVSeasons(id as string)
+function TVSeasons(id as string) as dynamic
     url = Substitute("Shows/{0}/Seasons", id)
-    resp = APIRequest(url, { "UserId": get_setting("active_user") })
+    resp = APIRequest(url, { "UserId": m.global.session.user.id })
 
     data = getJson(resp)
+    ' validate data
+    if data = invalid or data.Items = invalid then return invalid
+
     results = []
     for each item in data.Items
         imgParams = { "AddPlayedIndicator": item.UserData.Played }
@@ -378,27 +417,50 @@ function TVSeasons(id as string)
     return data
 end function
 
-function TVEpisodes(show_id as string, season_id as string)
+function TVEpisodes(show_id as string, season_id as string) as dynamic
     url = Substitute("Shows/{0}/Episodes", show_id)
-    resp = APIRequest(url, { "seasonId": season_id, "UserId": get_setting("active_user"), "fields": "MediaStreams" })
+    resp = APIRequest(url, { "seasonId": season_id, "UserId": m.global.session.user.id, "fields": "MediaStreams,MediaSources" })
 
     data = getJson(resp)
+    ' validate data
+    if data = invalid or data.Items = invalid then return invalid
+
     results = []
     for each item in data.Items
-        imgParams = { "AddPlayedIndicator": item.UserData.Played, "maxWidth": 400, "maxheight": 250 }
-        if item.UserData.PlayedPercentage <> invalid
-            param = { "PercentPlayed": item.UserData.PlayedPercentage }
-            imgParams.Append(param)
-        end if
+        imgParams = { "maxWidth": 400, "maxheight": 250 }
         tmp = CreateObject("roSGNode", "TVEpisodeData")
         tmp.image = PosterImage(item.id, imgParams)
         if tmp.image <> invalid
             tmp.image.posterDisplayMode = "scaleToZoom"
         end if
         tmp.json = item
-        tmp.overview = ItemMetaData(item.id).overview
+        tmpMetaData = ItemMetaData(item.id)
+        ' validate meta data
+        if tmpMetaData <> invalid and tmpMetaData.overview <> invalid
+            tmp.overview = tmpMetaData.overview
+        end if
         results.push(tmp)
     end for
     data.Items = results
+    return data
+end function
+
+function TVEpisodeShuffleList(show_id as string)
+    url = Substitute("Shows/{0}/Episodes", show_id)
+    resp = APIRequest(url, {
+        "UserId": m.global.session.user.id,
+        "Limit": 200,
+        "sortBy": "Random"
+    })
+
+    data = getJson(resp)
+    results = []
+    for each item in data.Items
+        tmp = CreateObject("roSGNode", "TVEpisodeData")
+        tmp.json = item
+        results.push(tmp)
+    end for
+    data.Items = results
+
     return data
 end function

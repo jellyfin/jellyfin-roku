@@ -1,3 +1,6 @@
+import "pkg:/source/utils/misc.brs"
+import "pkg:/source/utils/config.brs"
+
 sub init()
     m.playbackTimer = m.top.findNode("playbackTimer")
     m.bufferCheckTimer = m.top.findNode("bufferCheckTimer")
@@ -10,7 +13,7 @@ sub init()
     m.top.transcodeReasons = []
     m.bufferCheckTimer.duration = 30
 
-    if get_user_setting("ui.design.hideclock") = "true"
+    if m.global.session.user.settings["ui.design.hideclock"] = true
         clockNode = findNodeBySubtype(m.top, "clock")
         if clockNode[0] <> invalid then clockNode[0].parent.removeChild(clockNode[0].node)
     end if
@@ -19,6 +22,7 @@ sub init()
     m.nextEpisodeButton = m.top.findNode("nextEpisode")
     m.nextEpisodeButton.text = tr("Next Episode")
     m.nextEpisodeButton.setFocus(false)
+    m.nextupbuttonseconds = m.global.session.user.settings["playback.nextupbuttonseconds"].ToInt()
 
     m.showNextEpisodeButtonAnimation = m.top.findNode("showNextEpisodeButton")
     m.hideNextEpisodeButtonAnimation = m.top.findNode("hideNextEpisodeButton")
@@ -27,6 +31,46 @@ sub init()
     m.getNextEpisodeTask = createObject("roSGNode", "GetNextEpisodeTask")
     m.getNextEpisodeTask.observeField("nextEpisodeData", "onNextEpisodeDataLoaded")
 
+    m.top.observeField("allowCaptions", "onAllowCaptionsChange")
+end sub
+
+sub onAllowCaptionsChange()
+    if not m.top.allowCaptions then return
+
+    m.captionGroup = m.top.findNode("captionGroup")
+    m.captionGroup.createchildren(9, "LayoutGroup")
+    m.captionTask = createObject("roSGNode", "captionTask")
+    m.captionTask.observeField("currentCaption", "updateCaption")
+    m.captionTask.observeField("useThis", "checkCaptionMode")
+    m.top.observeField("currentSubtitleTrack", "loadCaption")
+    m.top.observeField("globalCaptionMode", "toggleCaption")
+    if m.global.session.user.settings["playback.subs.custom"] = false
+        m.top.suppressCaptions = false
+    else
+        m.top.suppressCaptions = true
+        toggleCaption()
+    end if
+end sub
+
+sub loadCaption()
+    if m.top.suppressCaptions
+        m.captionTask.url = m.top.currentSubtitleTrack
+    end if
+end sub
+
+sub toggleCaption()
+    m.captionTask.playerState = m.top.state + m.top.globalCaptionMode
+    if LCase(m.top.globalCaptionMode) = "on"
+        m.captionTask.playerState = m.top.state + m.top.globalCaptionMode + "w"
+        m.captionGroup.visible = true
+    else
+        m.captionGroup.visible = false
+    end if
+end sub
+
+sub updateCaption ()
+    m.captionGroup.removeChildrenIndex(m.captionGroup.getChildCount(), 0)
+    m.captionGroup.appendChildren(m.captionTask.currentCaption)
 end sub
 
 ' Event handler for when video content field changes
@@ -35,26 +79,18 @@ sub onContentChange()
 
     m.top.observeField("position", "onPositionChanged")
 
-    ' If video content type is not episode, remove position observer
-    if m.top.content.contenttype <> 4
-        m.top.unobserveField("position")
-    end if
 end sub
 
 sub onNextEpisodeDataLoaded()
     m.checkedForNextEpisode = true
 
     m.top.observeField("position", "onPositionChanged")
-
-    if m.getNextEpisodeTask.nextEpisodeData.Items.count() <> 2
-        m.top.unobserveField("position")
-    end if
 end sub
 
 '
 ' Runs Next Episode button animation and sets focus to button
 sub showNextEpisodeButton()
-    if not m.nextEpisodeButton.visible
+    if m.global.session.user.configuration.EnableNextEpisodeAutoPlay and not m.nextEpisodeButton.visible
         m.showNextEpisodeButtonAnimation.control = "start"
         m.nextEpisodeButton.setFocus(true)
         m.nextEpisodeButton.visible = true
@@ -64,7 +100,11 @@ end sub
 '
 'Update count down text
 sub updateCount()
-    m.nextEpisodeButton.text = tr("Next Episode") + " " + Int(m.top.runTime - m.top.position).toStr()
+    nextEpisodeCountdown = Int(m.top.duration - m.top.position)
+    if nextEpisodeCountdown < 0
+        nextEpisodeCountdown = 0
+    end if
+    m.nextEpisodeButton.text = tr("Next Episode") + " " + nextEpisodeCountdown.toStr()
 end sub
 
 '
@@ -77,7 +117,10 @@ end sub
 
 ' Checks if we need to display the Next Episode button
 sub checkTimeToDisplayNextEpisode()
-    if int(m.top.position) >= (m.top.runTime - 30)
+    if m.top.content.contenttype <> 4 then return
+    if m.nextupbuttonseconds = 0 then return
+
+    if int(m.top.position) >= (m.top.duration - m.nextupbuttonseconds)
         showNextEpisodeButton()
         updateCount()
         return
@@ -91,6 +134,9 @@ end sub
 
 ' When Video Player state changes
 sub onPositionChanged()
+    if isValid(m.captionTask)
+        m.captionTask.currentPos = Int(m.top.position * 1000)
+    end if
     ' Check if dialog is open
     m.dialog = m.top.getScene().findNode("dialogBackground")
     if not isValid(m.dialog)
@@ -101,6 +147,9 @@ end sub
 '
 ' When Video Player state changes
 sub onState(msg)
+    if isValid(m.captionTask)
+        m.captionTask.playerState = m.top.state + m.top.globalCaptionMode
+    end if
     ' When buffering, start timer to monitor buffering process
     if m.top.state = "buffering" and m.bufferCheckTimer <> invalid
 
@@ -112,11 +161,10 @@ sub onState(msg)
             m.top.retryWithTranscoding = true ' If playback was not reported, retry with transcoding
         else
             ' If an error was encountered, Display dialog
-            dialog = createObject("roSGNode", "Dialog")
+            dialog = createObject("roSGNode", "PlaybackDialog")
             dialog.title = tr("Error During Playback")
             dialog.buttons = [tr("OK")]
             dialog.message = tr("An error was encountered while playing this item.")
-            dialog.observeField("buttonSelected", "dialogClosed")
             m.top.getScene().dialog = dialog
         end if
 
@@ -124,7 +172,6 @@ sub onState(msg)
         m.top.control = "stop"
         m.top.backPressed = true
     else if m.top.state = "playing"
-
         ' Check if next episde is available
         if isValid(m.top.showID)
             if m.top.showID <> "" and not m.checkedForNextEpisode and m.top.content.contenttype = 4
@@ -197,11 +244,10 @@ sub bufferCheck(msg)
             m.top.callFunc("refresh")
         else
             ' If buffering has stopped Display dialog
-            dialog = createObject("roSGNode", "Dialog")
+            dialog = createObject("roSGNode", "PlaybackDialog")
             dialog.title = tr("Error Retrieving Content")
             dialog.buttons = [tr("OK")]
             dialog.message = tr("There was an error retrieving the data for this item from the server.")
-            dialog.observeField("buttonSelected", "dialogClosed")
             m.top.getScene().dialog = dialog
 
             ' Stop playback and exit player
@@ -210,14 +256,6 @@ sub bufferCheck(msg)
         end if
     end if
 
-end sub
-
-'
-' Clean up on Dialog Closed
-sub dialogClosed(msg)
-    sourceNode = msg.getRoSGNode()
-    sourceNode.unobserveField("buttonSelected")
-    sourceNode.close = true
 end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean

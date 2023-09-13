@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <component name="MovieDetails" extends="JFScreen">
   <children>
     <LayoutGroup id="main_group" layoutDirection="horiz" itemSpacings="[30]">
@@ -8,8 +8,8 @@
           <Label id="releaseYear" />
           <Label id="runtime" />
           <Label id="officialRating" />
-          <LayoutGroup id="communityRatingGroup" layoutDirection="horiz" itemSpacings="[-5]">
-            <Poster id="star" uri="pkg:/images/sharp_star_white_18dp.png" height="32" width="32" blendColor="#cb272a" visible="false"/>
+          <LayoutGroup id="communityRatingGroup" layoutDirection="horiz" itemSpacings="[-5]" visible="false">
+            <Poster id="star" uri="pkg:/images/sharp_star_white_18dp.png" height="32" width="32" blendColor="#cb272a" />
             <Label id="communityRating" />
           </LayoutGroup>
           <LayoutGroup layoutDirection="horiz" itemSpacings="[-5]" id="criticRatingGroup">
@@ -29,18 +29,19 @@
           <Label id="audio_codec" vertAlign="bottom" height="39" />
           <label id="audio_codec_count" font="font:smallestSystemFont" vertAlign="top" color="#ceffff" />
         </LayoutGroup>
-        <ButtonGroupHoriz id="buttons" itemSpacings="[10]">
+        <ButtonGroupHoriz id="buttons" itemSpacings="[10]" visible="false">
           <Button text="Play" id="play-button" iconUri="" focusedIconUri="" maxWidth="175" minWidth="175" />
           <Button text="Options" id="options-button" iconUri="" focusedIconUri="" maxWidth="250" minWidth="250" />
           <Button text="Watched" id="watched-button" iconUri="" focusedIconUri="" maxWidth="350" minWidth="300" />
           <Button text="Favorite" id="favorite-button" iconUri="" focusedIconUri="" maxWidth="300" minWidth="300" />
-          <Button id="trailer-button" visible="false" iconUri="" focusedIconUri="" maxWidth="300" minWidth="300" />
         </ButtonGroupHoriz>
         <Label id="tagline" />
         <Label id="overview" wrap="true" maxLines="8" />
       </LayoutGroup>
     </LayoutGroup>
     <MovieOptions id="movieOptions" visible="false" />
+    <Spinner id="spinner" translation="[900, 450]" visible="true" />
+
     <!-- "Cast and Crew" row -->
     <extrasSlider id="movieExtras" />
   </children>
@@ -50,7 +51,4 @@
     <field id="selectedAudioStreamIndex" type="integer" />
     <field id="selectedVideoStreamId" type="string" />
   </interface>
-  <script type="text/brightscript" uri="pkg:/source/utils/misc.brs" />
-  <script type="text/brightscript" uri="pkg:/source/utils/config.brs" />
-  <script type="text/brightscript" uri="MovieDetails.brs" />
 </component>

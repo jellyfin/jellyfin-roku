@@ -2,8 +2,6 @@ sub init()
     m.posterImg = m.top.findNode("posterImg")
     m.name = m.top.findNode("pLabel")
     m.role = m.top.findNode("subTitle")
-
-    m.deviceInfo = CreateObject("roDeviceInfo")
 end sub
 
 sub showContent()
@@ -11,7 +9,7 @@ sub showContent()
         cont = m.top.itemContent
         m.name.text = cont.labelText
         m.name.maxWidth = cont.imageWidth
-        m.role.Width = cont.imageWidth
+        m.role.maxWidth = cont.imageWidth
         m.posterImg.uri = cont.posterUrl
         m.posterImg.width = cont.imageWidth
         m.role.Text = cont.subTitle
@@ -22,7 +20,15 @@ sub showContent()
 end sub
 
 sub focusChanged()
-    if m.deviceInfo.IsAudioGuideEnabled() = true
+    if m.top.itemHasFocus = true
+        m.name.repeatCount = -1
+        m.role.repeatCount = -1
+    else
+        m.name.repeatCount = 0
+        m.role.repeatCount = 0
+    end if
+
+    if m.global.device.isAudioGuideEnabled = true
         txt2Speech = CreateObject("roTextToSpeech")
         txt2Speech.Flush()
         txt2Speech.Say(m.name.text)

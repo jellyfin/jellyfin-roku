@@ -41,12 +41,23 @@ function ticksToHuman(ticks as longinteger) as string
     return r
 end function
 
+function secondsToHuman(totalSeconds as integer) as string
+    hours = stri(int(totalSeconds / 3600)).trim()
+    minutes = stri(int((totalSeconds - (val(hours) * 3600)) / 60)).trim()
+    seconds = stri(totalSeconds - (val(hours) * 3600) - (val(minutes) * 60)).trim()
+    if val(hours) > 0 and val(minutes) < 10 then minutes = "0" + minutes
+    if val(seconds) < 10 then seconds = "0" + seconds
+    r = ""
+    if val(hours) > 0 then r = hours + ":"
+    r = r + minutes + ":" + seconds
+    return r
+end function
+
 ' Format time as 12 or 24 hour format based on system clock setting
 function formatTime(time) as string
     hours = time.getHours()
     minHourDigits = 1
-    di = CreateObject("roDeviceInfo")
-    if di.GetClockFormat() = "12h"
+    if m.global.device.clockFormat = "12h"
         meridian = "AM"
         if hours = 0
             hours = 12
@@ -91,19 +102,23 @@ function get_dialog_result(dialog, port)
 end function
 
 function lastFocusedChild(obj as object) as object
-    if LCase(obj.focusedChild.focusedChild.subType()) = "tvepisodes"
-        if isValid(obj?.focusedChild?.focusedChild?.lastFocus)
-            return obj.focusedChild.focusedChild.lastFocus
+    if isValid(obj)
+        if isValid(obj.focusedChild) and isValid(obj.focusedChild.focusedChild) and LCase(obj.focusedChild.focusedChild.subType()) = "tvepisodes"
+            if isValid(obj.focusedChild.focusedChild.lastFocus)
+                return obj.focusedChild.focusedChild.lastFocus
+            end if
         end if
-    end if
 
-    child = obj
-    for i = 0 to obj.getChildCount()
-        if obj.focusedChild <> invalid
-            child = child.focusedChild
-        end if
-    end for
-    return child
+        child = obj
+        for i = 0 to obj.getChildCount()
+            if isValid(obj.focusedChild)
+                child = child.focusedChild
+            end if
+        end for
+        return child
+    else
+        return invalid
+    end if
 end function
 
 function show_dialog(message as string, options = [], defaultSelection = 0) as integer
@@ -191,13 +206,13 @@ sub setFieldTextValue(field, value)
 end sub
 
 ' Returns whether or not passed value is valid
-function isValid(input) as boolean
+function isValid(input as dynamic) as boolean
     return input <> invalid
 end function
 
 ' Returns whether or not passed value is valid and not empty
 ' Accepts a string, or any countable type (arrays and lists)
-function isValidAndNotEmpty(input) as boolean
+function isValidAndNotEmpty(input as dynamic) as boolean
     if not isValid(input) then return false
     ' Use roAssociativeArray instead of list so we get access to the doesExist() method
     countableTypes = { "array": 1, "list": 1, "roarray": 1, "roassociativearray": 1, "rolist": 1 }
@@ -211,6 +226,21 @@ function isValidAndNotEmpty(input) as boolean
         print "Called isValidAndNotEmpty() with invalid type: ", inputType
         return false
     end if
+end function
+
+' Returns an array from a url - [ url, proto, host, port, subdir/params ]
+' If port or subdir are not found, an empty string will be added to the array
+' Proto must be declared or array will be empty
+function parseUrl(url as string) as object
+    rgx = CreateObject("roRegex", "^(.*:)//([A-Za-z0-9\-\.]+)(:[0-9]+)?(.*)$", "")
+    return rgx.Match(url)
+end function
+
+' Returns true if the string is a loopback, such as 'localhost' or '127.0.0.1'
+function isLocalhost(url as string) as boolean
+    ' https://stackoverflow.com/questions/8426171/what-regex-will-match-all-loopback-addresses
+    rgx = CreateObject("roRegex", "^localhost$|^127(?:\.[0-9]+){0,2}\.[0-9]+$|^(?:0*\:)*?:?0*1$", "i")
+    return rgx.isMatch(url)
 end function
 
 ' Rounds number to nearest integer
@@ -280,4 +310,85 @@ function findNodeBySubtype(node, subtype)
     end for
 
     return foundNodes
+end function
+
+function AssocArrayEqual(Array1 as object, Array2 as object) as boolean
+    if not isValid(Array1) or not isValid(Array2)
+        return false
+    end if
+
+    if not Array1.Count() = Array2.Count()
+        return false
+    end if
+
+    for each key in Array1
+        if not Array2.DoesExist(key)
+            return false
+        end if
+
+        if Array1[key] <> Array2[key]
+            return false
+        end if
+    end for
+
+    return true
+end function
+
+' Search string array for search value. Return if it's found
+function inArray(haystack, needle) as boolean
+    valueToFind = needle
+
+    if LCase(type(valueToFind)) <> "rostring" and LCase(type(valueToFind)) <> "string"
+        valueToFind = str(needle)
+    end if
+
+    valueToFind = lcase(valueToFind)
+
+    for each item in haystack
+        if lcase(item) = valueToFind then return true
+    end for
+
+    return false
+end function
+
+function toString(input) as string
+    if LCase(type(input)) = "rostring" or LCase(type(input)) = "string"
+        return input
+    end if
+
+    return str(input)
+end function
+
+sub startLoadingSpinner()
+    m.spinner = createObject("roSGNode", "Spinner")
+    m.spinner.translation = "[900, 450]"
+    m.spinner.visible = true
+    m.scene.appendChild(m.spinner)
+end sub
+
+sub startMediaLoadingSpinner()
+    dialog = createObject("roSGNode", "ProgressDialog")
+    dialog.id = "invisibiledialog"
+    dialog.visible = false
+    m.scene.dialog = dialog
+    startLoadingSpinner()
+end sub
+
+sub stopLoadingSpinner()
+    if isValid(m.spinner)
+        m.spinner.visible = false
+    end if
+    if isValid(m.scene) and isValid(m.scene.dialog)
+        m.scene.dialog.close = true
+    end if
+end sub
+
+' Check if a specific value is inside of an array
+function arrayHasValue(arr as object, value as dynamic) as boolean
+    for each entry in arr
+        if entry = value
+            return true
+        end if
+    end for
+    return false
 end function

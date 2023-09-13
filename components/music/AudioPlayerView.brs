@@ -1,3 +1,8 @@
+import "pkg:/source/utils/misc.brs"
+import "pkg:/source/api/Image.brs"
+import "pkg:/source/api/baserequest.brs"
+import "pkg:/source/utils/config.brs"
+
 sub init()
     m.top.optionsAvailable = false
 
@@ -8,10 +13,9 @@ sub init()
     setupDataTasks()
     setupScreenSaver()
 
-    m.shuffleEnabled = false
-    m.loopMode = ""
+    m.playlistTypeCount = m.global.queueManager.callFunc("getQueueUniqueTypes").count()
+
     m.buttonCount = m.buttons.getChildCount()
-    m.playReported = false
 
     m.screenSaverTimeout = 300
 
@@ -26,6 +30,8 @@ sub init()
 
     loadButtons()
     pageContentChanged()
+    setShuffleIconState()
+    setLoopButtonImage()
 end sub
 
 sub onScreensaverTimeoutLoaded()
@@ -81,10 +87,9 @@ end sub
 
 ' Creates audio node used to play song(s)
 sub setupAudioNode()
-    m.top.audio = createObject("RoSGNode", "Audio")
-    m.top.audio.observeField("state", "audioStateChanged")
-    m.top.audio.observeField("position", "audioPositionChanged")
-    m.top.audio.observeField("bufferingStatus", "bufferPositionChanged")
+    m.global.audioPlayer.observeField("state", "audioStateChanged")
+    m.global.audioPlayer.observeField("position", "audioPositionChanged")
+    m.global.audioPlayer.observeField("bufferingStatus", "bufferPositionChanged")
 end sub
 
 ' Setup playback buttons, default to Play button selected
@@ -112,16 +117,17 @@ sub setupInfoNodes()
     m.playPosition = m.top.findNode("playPosition")
     m.bufferPosition = m.top.findNode("bufferPosition")
     m.seekBar = m.top.findNode("seekBar")
-    m.numberofsongsField = m.top.findNode("numberofsongs")
     m.shuffleIndicator = m.top.findNode("shuffleIndicator")
     m.loopIndicator = m.top.findNode("loopIndicator")
+    m.positionTimestamp = m.top.findNode("positionTimestamp")
+    m.totalLengthTimestamp = m.top.findNode("totalLengthTimestamp")
 end sub
 
 sub bufferPositionChanged()
-    if not isValid(m.top.audio.bufferingStatus)
+    if not isValid(m.global.audioPlayer.bufferingStatus)
         bufferPositionBarWidth = m.seekBar.width
     else
-        bufferPositionBarWidth = m.seekBar.width * m.top.audio.bufferingStatus.percentage
+        bufferPositionBarWidth = m.seekBar.width * m.global.audioPlayer.bufferingStatus.percentage
     end if
 
     ' Ensure position bar is never wider than the seek bar
@@ -135,16 +141,16 @@ sub bufferPositionChanged()
 end sub
 
 sub audioPositionChanged()
-    if m.top.audio.position = 0
+    if m.global.audioPlayer.position = 0
         m.playPosition.width = 0
     end if
 
-    if not isValid(m.top.audio.position)
+    if not isValid(m.global.audioPlayer.position)
         playPositionBarWidth = 0
     else if not isValid(m.songDuration)
         playPositionBarWidth = 0
     else
-        songPercentComplete = m.top.audio.position / m.songDuration
+        songPercentComplete = m.global.audioPlayer.position / m.songDuration
         playPositionBarWidth = m.seekBar.width * songPercentComplete
     end if
 
@@ -156,6 +162,13 @@ sub audioPositionChanged()
     ' Use animation to make the display smooth
     m.playPositionAnimationWidth.keyValue = [m.playPosition.width, playPositionBarWidth]
     m.playPositionAnimation.control = "start"
+
+    ' Update displayed position timestamp
+    if isValid(m.global.audioPlayer.position)
+        m.positionTimestamp.text = secondsToHuman(m.global.audioPlayer.position)
+    else
+        m.positionTimestamp.text = "0:00"
+    end if
 
     ' Only fall into screensaver logic if the user has screensaver enabled in Roku settings
     if m.screenSaverTimeout > 0
@@ -200,39 +213,21 @@ end sub
 
 sub audioStateChanged()
 
-    if m.top.audio.state = "playing"
-        if m.playReported
-            ReportPlayback()
-        else
-            ReportPlayback("start")
-            m.playReported = true
-        end if
-    else if m.top.audio.state = "paused"
-        ReportPlayback()
-    else if m.top.audio.state = "stopped"
-        ReportPlayback("stop")
-        m.playReported = false
-    else if m.top.audio.state = "finished"
-        ReportPlayback("stop")
-        m.playReported = false
-    end if
-
     ' Song Finished, attempt to move to next song
-    if m.top.audio.state = "finished"
+    if m.global.audioPlayer.state = "finished"
         ' User has enabled single song loop, play current song again
-        if m.loopMode = "one"
+        if m.global.audioPlayer.loopMode = "one"
             playAction()
             return
         end if
 
         if m.global.queueManager.callFunc("getPosition") < m.global.queueManager.callFunc("getCount") - 1
-            ' We are not at the end of the song queue, advance to next song
-            LoadNextSong()
+            m.top.state = "finished"
         else
             ' We are at the end of the song queue
 
             ' User has enabled loop for entire song queue, move back to first song
-            if m.loopMode = "all"
+            if m.global.audioPlayer.loopMode = "all"
                 m.global.queueManager.callFunc("setPosition", -1)
                 LoadNextSong()
                 return
@@ -245,18 +240,18 @@ sub audioStateChanged()
 end sub
 
 function playAction() as boolean
-    if m.top.audio.state = "playing"
-        m.top.audio.control = "pause"
+    if m.global.audioPlayer.state = "playing"
+        m.global.audioPlayer.control = "pause"
         ' Allow screen to go to real screensaver
         WriteAsciiFile("tmp:/scene.temp", "nowplaying-paused")
         MoveFile("tmp:/scene.temp", "tmp:/scene")
-    else if m.top.audio.state = "paused"
-        m.top.audio.control = "resume"
+    else if m.global.audioPlayer.state = "paused"
+        m.global.audioPlayer.control = "resume"
         ' Write screen tracker for screensaver
         WriteAsciiFile("tmp:/scene.temp", "nowplaying")
         MoveFile("tmp:/scene.temp", "tmp:/scene")
-    else if m.top.audio.state = "finished"
-        m.top.audio.control = "play"
+    else if m.global.audioPlayer.state = "finished"
+        m.global.audioPlayer.control = "play"
         ' Write screen tracker for screensaver
         WriteAsciiFile("tmp:/scene.temp", "nowplaying")
         MoveFile("tmp:/scene.temp", "tmp:/scene")
@@ -266,36 +261,64 @@ function playAction() as boolean
 end function
 
 function previousClicked() as boolean
-    if m.top.audio.state = "playing"
-        m.top.audio.control = "stop"
+    if m.playlistTypeCount > 1 then return false
+    if m.global.queueManager.callFunc("getPosition") = 0 then return false
+
+    if m.global.audioPlayer.state = "playing"
+        m.global.audioPlayer.control = "stop"
     end if
 
-    if m.global.queueManager.callFunc("getPosition") > 0
-        m.global.queueManager.callFunc("moveBack")
-        pageContentChanged()
+    ' Reset loop mode due to manual user interaction
+    if m.global.audioPlayer.loopMode = "one"
+        resetLoopModeToDefault()
     end if
+
+    m.global.queueManager.callFunc("moveBack")
+    pageContentChanged()
+
 
     return true
 end function
+
+sub resetLoopModeToDefault()
+    m.global.audioPlayer.loopMode = ""
+    setLoopButtonImage()
+end sub
 
 function loopClicked() as boolean
 
-    if m.loopMode = ""
-        m.loopIndicator.opacity = "1"
-        m.loopIndicator.uri = m.loopIndicator.uri.Replace("-off", "-on")
-        m.loopMode = "all"
-    else if m.loopMode = "all"
-        m.loopIndicator.uri = m.loopIndicator.uri.Replace("-on", "1-on")
-        m.loopMode = "one"
+    if m.global.audioPlayer.loopMode = ""
+        m.global.audioPlayer.loopMode = "all"
+    else if m.global.audioPlayer.loopMode = "all"
+        m.global.audioPlayer.loopMode = "one"
     else
-        m.loopIndicator.uri = m.loopIndicator.uri.Replace("1-on", "-off")
-        m.loopMode = ""
+        m.global.audioPlayer.loopMode = ""
     end if
+
+    setLoopButtonImage()
 
     return true
 end function
 
+sub setLoopButtonImage()
+    if m.global.audioPlayer.loopMode = "all"
+        m.loopIndicator.opacity = "1"
+        m.loopIndicator.uri = m.loopIndicator.uri.Replace("-off", "-on")
+    else if m.global.audioPlayer.loopMode = "one"
+        m.loopIndicator.uri = m.loopIndicator.uri.Replace("-on", "1-on")
+    else
+        m.loopIndicator.uri = m.loopIndicator.uri.Replace("1-on", "-off")
+    end if
+end sub
+
 function nextClicked() as boolean
+    if m.playlistTypeCount > 1 then return false
+
+    ' Reset loop mode due to manual user interaction
+    if m.global.audioPlayer.loopMode = "one"
+        resetLoopModeToDefault()
+    end if
+
     if m.global.queueManager.callFunc("getPosition") < m.global.queueManager.callFunc("getCount") - 1
         LoadNextSong()
     end if
@@ -304,10 +327,12 @@ function nextClicked() as boolean
 end function
 
 sub toggleShuffleEnabled()
-    m.shuffleEnabled = not m.shuffleEnabled
+    m.global.queueManager.callFunc("toggleShuffle")
 end sub
 
 function findCurrentSongIndex(songList) as integer
+    if not isValidAndNotEmpty(songList) then return 0
+
     for i = 0 to songList.count() - 1
         if songList[i].id = m.global.queueManager.callFunc("getCurrentItem").id
             return i
@@ -319,47 +344,39 @@ end function
 
 function shuffleClicked() as boolean
 
+    currentSongIndex = findCurrentSongIndex(m.global.queueManager.callFunc("getUnshuffledQueue"))
+
     toggleShuffleEnabled()
 
-    if not m.shuffleEnabled
+    if not m.global.queueManager.callFunc("getIsShuffled")
         m.shuffleIndicator.opacity = ".4"
         m.shuffleIndicator.uri = m.shuffleIndicator.uri.Replace("-on", "-off")
-
-        currentSongIndex = findCurrentSongIndex(m.originalSongList)
-        m.global.queueManager.callFunc("set", m.originalSongList)
         m.global.queueManager.callFunc("setPosition", currentSongIndex)
-        setFieldTextValue("numberofsongs", "Track " + stri(m.global.queueManager.callFunc("getPosition") + 1) + "/" + stri(m.global.queueManager.callFunc("getCount")))
-
+        setTrackNumberDisplay()
         return true
     end if
 
     m.shuffleIndicator.opacity = "1"
     m.shuffleIndicator.uri = m.shuffleIndicator.uri.Replace("-off", "-on")
-
-    m.originalSongList = m.global.queueManager.callFunc("getQueue")
-
-    songIDArray = m.global.queueManager.callFunc("getQueue")
-
-    ' Move the currently playing song to the front of the queue
-    temp = m.global.queueManager.callFunc("top")
-    songIDArray[0] = m.global.queueManager.callFunc("getCurrentItem")
-    songIDArray[m.global.queueManager.callFunc("getPosition")] = temp
-
-    for i = 1 to songIDArray.count() - 1
-        j = Rnd(songIDArray.count() - 1)
-        temp = songIDArray[i]
-        songIDArray[i] = songIDArray[j]
-        songIDArray[j] = temp
-    end for
-
-    m.global.queueManager.callFunc("set", songIDArray)
+    setTrackNumberDisplay()
 
     return true
 end function
 
+sub setShuffleIconState()
+    if m.global.queueManager.callFunc("getIsShuffled")
+        m.shuffleIndicator.opacity = "1"
+        m.shuffleIndicator.uri = m.shuffleIndicator.uri.Replace("-off", "-on")
+    end if
+end sub
+
+sub setTrackNumberDisplay()
+    setFieldTextValue("numberofsongs", "Track " + stri(m.global.queueManager.callFunc("getPosition") + 1) + "/" + stri(m.global.queueManager.callFunc("getCount")))
+end sub
+
 sub LoadNextSong()
-    if m.top.audio.state = "playing"
-        m.top.audio.control = "stop"
+    if m.global.audioPlayer.state = "playing"
+        m.global.audioPlayer.control = "stop"
     end if
 
     ' Reset playPosition bar without animation
@@ -406,6 +423,9 @@ sub pageContentChanged()
         setScreenTitle(currentItem)
         setOnScreenTextValues(currentItem)
         m.songDuration = currentItem.RunTimeTicks / 10000000.0
+
+        ' Update displayed total audio length
+        m.totalLengthTimestamp.text = ticksToHuman(currentItem.RunTimeTicks)
     end if
 
     m.LoadAudioStreamTask.itemId = currentItem.id
@@ -415,10 +435,14 @@ end sub
 
 ' If we have more and 1 song to play, fade in the next and previous controls
 sub loadButtons()
+    ' Don't show audio buttons if we have a mixed playlist
+    if m.playlistTypeCount > 1 then return
+
     if m.global.queueManager.callFunc("getCount") > 1
         m.shuffleIndicator.opacity = ".4"
         m.loopIndicator.opacity = ".4"
         m.displayButtonsAnimation.control = "start"
+        setLoopButtonImage()
     end if
 end sub
 
@@ -426,9 +450,9 @@ sub onAudioStreamLoaded()
     data = m.LoadAudioStreamTask.content[0]
     m.LoadAudioStreamTask.unobserveField("content")
     if data <> invalid and data.count() > 0
-        m.top.audio.content = data
-        m.top.audio.control = "none"
-        m.top.audio.control = "play"
+        m.global.audioPlayer.content = data
+        m.global.audioPlayer.control = "none"
+        m.global.audioPlayer.control = "play"
     end if
 end sub
 
@@ -443,26 +467,24 @@ end sub
 sub onMetaDataLoaded()
     data = m.LoadMetaDataTask.content[0]
     m.LoadMetaDataTask.unobserveField("content")
-    if data <> invalid and data.count() > 0
-
+    if isValid(data) and data.count() > 0 and isValid(data.json)
         ' Use metadata to load backdrop image
-        if isValid(data.json)
-            if isValid(data.json.ArtistItems)
-                if data.json.ArtistItems.count() > 0
-                    if isValid(data.json.ArtistItems[0].id)
-                        m.LoadBackdropImageTask.itemId = data.json.ArtistItems[0].id
-                        m.LoadBackdropImageTask.observeField("content", "onBackdropImageLoaded")
-                        m.LoadBackdropImageTask.control = "RUN"
-                    end if
-                end if
-            end if
+        if isValid(data.json.ArtistItems) and isValid(data.json.ArtistItems[0]) and isValid(data.json.ArtistItems[0].id)
+            m.LoadBackdropImageTask.itemId = data.json.ArtistItems[0].id
+            m.LoadBackdropImageTask.observeField("content", "onBackdropImageLoaded")
+            m.LoadBackdropImageTask.control = "RUN"
         end if
 
         setPosterImage(data.posterURL)
         setScreenTitle(data.json)
         setOnScreenTextValues(data.json)
 
-        m.songDuration = data.json.RunTimeTicks / 10000000.0
+        if isValid(data.json.RunTimeTicks)
+            m.songDuration = data.json.RunTimeTicks / 10000000.0
+
+            ' Update displayed total audio length
+            m.totalLengthTimestamp.text = ticksToHuman(data.json.RunTimeTicks)
+        end if
     end if
 end sub
 
@@ -499,12 +521,10 @@ end sub
 ' Populate on screen text variables
 sub setOnScreenTextValues(json)
     if isValid(json)
-        currentSongIndex = m.global.queueManager.callFunc("getPosition")
-
-        if m.shuffleEnabled
-            currentSongIndex = findCurrentSongIndex(m.originalSongList)
+        if m.playlistTypeCount = 1
+            setTrackNumberDisplay()
         end if
-        setFieldTextValue("numberofsongs", "Track " + stri(currentSongIndex + 1) + "/" + stri(m.global.queueManager.callFunc("getCount")))
+
         setFieldTextValue("artist", json.Artists[0])
         setFieldTextValue("song", json.name)
     end if
@@ -533,7 +553,8 @@ function onKeyEvent(key as string, press as boolean) as boolean
         if key = "play"
             return playAction()
         else if key = "back"
-            m.top.audio.control = "stop"
+            m.global.audioPlayer.control = "stop"
+            m.global.audioPlayer.loopMode = ""
         else if key = "rewind"
             return previousClicked()
         else if key = "fastforward"
@@ -574,22 +595,4 @@ sub OnScreenHidden()
     ' Write screen tracker for screensaver
     WriteAsciiFile("tmp:/scene.temp", "")
     MoveFile("tmp:/scene.temp", "tmp:/scene")
-end sub
-
-' Report playback to server
-sub ReportPlayback(state = "update" as string)
-
-    if m.top.audio.position = invalid then return
-
-    params = {
-        "ItemId": m.global.queueManager.callFunc("getCurrentItem").id,
-        "PlaySessionId": m.top.audio.content.id,
-        "PositionTicks": int(m.top.audio.position) * 10000000&, 'Ensure a LongInteger is used
-        "IsPaused": (m.top.audio.state = "paused")
-    }
-
-    ' Report playstate via worker task
-    playstateTask = m.global.playstateTask
-    playstateTask.setFields({ status: state, params: params })
-    playstateTask.control = "RUN"
 end sub

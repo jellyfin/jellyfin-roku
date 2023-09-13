@@ -21,13 +21,13 @@ end function
 ' returns the server-side track index for the appriate subtitle
 function defaultSubtitleTrackFromVid(video_id) as integer
     meta = ItemMetaData(video_id)
-    if meta?.json?.mediaSources <> invalid
+    if isValid(meta) and isValid(meta.json) and isValid(meta.json.mediaSources)
         subtitles = sortSubtitles(meta.id, meta.json.MediaSources[0].MediaStreams)
         default_text_subs = defaultSubtitleTrack(subtitles["all"], true) ' Find correct subtitle track (forced text)
         if default_text_subs <> -1
             return default_text_subs
         else
-            if get_user_setting("playback.subs.onlytext") = "false"
+            if m.global.session.user.settings["playback.subs.onlytext"] = false
                 return defaultSubtitleTrack(subtitles["all"]) ' if no appropriate text subs exist, allow non-text
             else
                 return -1
@@ -44,23 +44,23 @@ end function
 '     This allows forcing text subs, since roku requires transcoding of non-text subs
 ' returns the server-side track index for the appriate subtitle
 function defaultSubtitleTrack(sorted_subtitles, require_text = false) as integer
-    if m.user.Configuration.SubtitleMode = "None"
+    if m.global.session.user.configuration.SubtitleMode = "None"
         return -1 ' No subtitles desired: select none
     end if
 
     for each item in sorted_subtitles
         ' Only auto-select subtitle if language matches preference
-        languageMatch = (m.user.Configuration.SubtitleLanguagePreference = item.Track.Language)
+        languageMatch = (m.global.session.user.configuration.SubtitleLanguagePreference = item.Track.Language)
         ' Ensure textuality of subtitle matches preferenced passed as arg
         matchTextReq = ((require_text and item.IsTextSubtitleStream) or not require_text)
         if languageMatch and matchTextReq
-            if m.user.Configuration.SubtitleMode = "Default" and (item.isForced or item.IsDefault or item.IsExternal)
+            if m.global.session.user.configuration.SubtitleMode = "Default" and (item.isForced or item.IsDefault or item.IsExternal)
                 return item.Index ' Finds first forced, or default, or external subs in sorted list
-            else if m.user.Configuration.SubtitleMode = "Always" and not item.IsForced
+            else if m.global.session.user.configuration.SubtitleMode = "Always" and not item.IsForced
                 return item.Index ' Select the first non-forced subtitle option in the sorted list
-            else if m.user.Configuration.SubtitleMode = "OnlyForced" and item.IsForced
+            else if m.global.session.user.configuration.SubtitleMode = "OnlyForced" and item.IsForced
                 return item.Index ' Select the first forced subtitle option in the sorted list
-            else if m.user.Configuration.SubtitlePlaybackMode = "Smart" and (item.isForced or item.IsDefault or item.IsExternal)
+            else if m.global.session.user.configuration.SubtitlePlaybackMode = "Smart" and (item.isForced or item.IsDefault or item.IsExternal)
                 ' Simplified "Smart" logic here mimics Default (as that is fallback behavior normally)
                 ' Avoids detecting preferred audio language (as is utilized in main client)
                 return item.Index
@@ -76,7 +76,6 @@ end function
 function setupSubtitle(video, subtitles, subtitle_idx = -1) as integer
     if subtitle_idx = -1
         ' If we are not using text-based subtitles, turn them off
-        video.globalCaptionMode = "Off"
         return -1
     end if
 
@@ -85,17 +84,18 @@ function setupSubtitle(video, subtitles, subtitle_idx = -1) as integer
 
     selectedSubtitle = subtitles[subtitleSelIdx]
 
-    if selectedSubtitle.IsEncoded
-        ' With encoded subtitles, turn off captions
-        video.globalCaptionMode = "Off"
-    else
-        ' If this is a text-based subtitle, set relevant settings for roku captions
-        video.globalCaptionMode = "On"
-        video.subtitleTrack = video.availableSubtitleTracks[availSubtitleTrackIdx(video, subtitleSelIdx)].TrackName
+    if isValid(selectedSubtitle) and isValid(selectedSubtitle.IsEncoded)
+        if selectedSubtitle.IsEncoded
+            ' With encoded subtitles, turn off captions
+            video.globalCaptionMode = "Off"
+        else
+            ' If this is a text-based subtitle, set relevant settings for roku captions
+            video.globalCaptionMode = "On"
+            video.subtitleTrack = video.availableSubtitleTracks[availSubtitleTrackIdx(video, subtitleSelIdx)].TrackName
+        end if
     end if
 
     return subtitleSelIdx
-
 end function
 
 ' The subtitle index on the server differs from the index we track locally
@@ -131,7 +131,7 @@ function selectSubtitleTrackDialog(tracks, currentTrack = -1)
         default = ""
         if item.IsForced then forced = " [Forced]"
         if item.IsDefault then default = " - Default"
-        if item.Track.Language <> invalid
+        if isValid(item.Track.Language)
             language = iso6392.lookup(item.Track.Language)
             if language = invalid then language = item.Track.Language
         else
@@ -158,7 +158,7 @@ sub changeSubtitleDuringPlayback(newid)
     currentSubtitles = video.Subtitles[video.SelectedSubtitle]
     newSubtitles = video.Subtitles[newid]
 
-    if newSubtitles.IsEncoded or (currentSubtitles <> invalid and currentSubtitles.IsEncoded)
+    if newSubtitles.IsEncoded or (isValid(currentSubtitles) and currentSubtitles.IsEncoded)
         ' With encoded subtitles we need to stop/start playback
         video.control = "stop"
         AddVideoContent(video, video.mediaSourceId, video.audioIndex, newSubtitles.Index, video.position * 10000000)
@@ -178,7 +178,8 @@ sub turnoffSubtitles()
     current = video.SelectedSubtitle
     video.SelectedSubtitle = -1
     video.globalCaptionMode = "Off"
-    m.device.EnableAppFocusEvent(false)
+    device = CreateObject("roDeviceInfo")
+    device.EnableAppFocusEvent(false)
     ' Check if Enoded subtitles are being displayed, and turn off
     if current > -1 and video.Subtitles[current].IsEncoded
         video.control = "stop"
@@ -191,12 +192,12 @@ end sub
 function sortSubtitles(id as string, MediaStreams)
     tracks = { "forced": [], "default": [], "normal": [] }
     'Too many args for using substitute
-    prefered_lang = m.user.Configuration.SubtitleLanguagePreference
+    prefered_lang = m.global.session.user.configuration.SubtitleLanguagePreference
     for each stream in MediaStreams
         if stream.type = "Subtitle"
 
             url = ""
-            if stream.DeliveryUrl <> invalid
+            if isValid(stream.DeliveryUrl)
                 url = buildURL(stream.DeliveryUrl)
             end if
 

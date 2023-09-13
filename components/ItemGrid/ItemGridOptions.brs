@@ -1,5 +1,8 @@
-sub init()
+import "pkg:/source/utils/misc.brs"
+import "pkg:/source/roku_modules/log/LogMixin.brs"
 
+sub init()
+    m.log = log.Logger("ItemGridOptions")
     m.buttons = m.top.findNode("buttons")
     m.buttons.buttons = [tr("View"), tr("Sort"), tr("Filter")]
     m.buttons.selectedIndex = 1
@@ -16,6 +19,11 @@ sub init()
     m.menus.push(m.top.findNode("sortMenu"))
     m.menus.push(m.top.findNode("filterMenu"))
 
+    m.filterOptions = m.top.findNode("filterOptions")
+
+    m.filterMenu = m.top.findNode("filterMenu")
+    m.filterMenu.observeField("itemFocused", "onFilterFocusChange")
+
     m.viewNames = []
     m.sortNames = []
     m.filterNames = []
@@ -24,14 +32,63 @@ sub init()
     m.fadeAnim = m.top.findNode("fadeAnim")
     m.fadeOutAnimOpacity = m.top.findNode("outOpacity")
     m.fadeInAnimOpacity = m.top.findNode("inOpacity")
+    m.showChecklistAnimation = m.top.findNode("showChecklistAnimation")
+    m.hideChecklistAnimation = m.top.findNode("hideChecklistAnimation")
 
     m.buttons.observeField("focusedIndex", "buttonFocusChanged")
     m.favoriteMenu.observeField("buttonSelected", "toggleFavorite")
 end sub
 
+sub showChecklist()
+    if m.filterOptions.opacity = 0
+        if m.showChecklistAnimation.state = "stopped"
+            m.showChecklistAnimation.control = "start"
+        end if
+    end if
+end sub
+
+sub hideChecklist()
+    if m.filterOptions.opacity = 1
+        if m.hideChecklistAnimation.state = "stopped"
+            m.hideChecklistAnimation.control = "start"
+        end if
+    end if
+end sub
+
+sub onFilterFocusChange()
+    if not isFilterMenuDataValid()
+        hideChecklist()
+        return
+    end if
+
+    if m.filterMenu.content.getChild(m.filterMenu.itemFocused).getChildCount() > 0
+        showChecklist()
+    else
+        hideChecklist()
+    end if
+
+    m.filterOptions.content = m.filterMenu.content.getChild(m.filterMenu.itemFocused)
+    if isValid(m.filterMenu.content.getChild(m.filterMenu.itemFocused).checkedState)
+        m.filterOptions.checkedState = m.filterMenu.content.getChild(m.filterMenu.itemFocused).checkedState
+    else
+        m.filterOptions.checkedState = []
+    end if
+end sub
+
+' Check if data for Filter Menu is valid
+function isFilterMenuDataValid() as boolean
+    if not isValid(m.filterMenu) or not isValid(m.filterMenu.content) or not isValid(m.filterMenu.itemFocused)
+        return false
+    end if
+
+    if not isValid(m.filterMenu.content.getChild(m.filterMenu.itemFocused))
+        return false
+    end if
+
+    return true
+end function
 
 sub optionsSet()
-
     '  Views Tab
     if m.top.options.views <> invalid
         viewContent = CreateObject("roSGNode", "ContentNode")
@@ -90,8 +147,19 @@ sub optionsSet()
         m.selectedFilterIndex = 0
 
         for each filterItem in m.top.options.filter
-            entry = filterContent.CreateChild("ContentNode")
+            entry = filterContent.CreateChild("OptionNode")
             entry.title = filterItem.Title
+            entry.name = filterItem.Name
+            entry.delimiter = filterItem.Delimiter
+
+            if isValid(filterItem.options)
+                for each filterItemOption in filterItem.options
+                    entryOption = entry.CreateChild("ContentNode")
+                    entryOption.title = toString(filterItemOption)
+                end for
+                entry.checkedState = filterItem.checkedState
+            end if
+
             m.filterNames.push(filterItem.Name)
             if filterItem.selected <> invalid and filterItem.selected = true
                 m.selectedFilterIndex = index
@@ -155,7 +223,7 @@ sub setHeartColor(color as string)
             end if
         end for
     catch e
-        print e.number, e.message
+        m.log.error("setHeartColor()", e.number, e.message)
     end try
 end sub
 
@@ -179,7 +247,6 @@ sub saveFavoriteItemSelected(msg)
 end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean
-
     if key = "down" or (key = "OK" and m.buttons.hasFocus())
         m.buttons.setFocus(false)
         m.menus[m.selectedItem].setFocus(true)
@@ -193,13 +260,35 @@ function onKeyEvent(key as string, press as boolean) as boolean
         end if
 
         return true
+    else if key = "right"
+        if not isFilterMenuDataValid() then return false
+
+        if m.menus[m.selectedItem].isInFocusChain()
+            ' Handle Filter screen
+            if m.selectedItem = 2
+                ' Selected filter has options, move cursor to it
+                if m.filterMenu.content.getChild(m.filterMenu.itemFocused).getChildCount() > 0
+                    m.menus[m.selectedItem].setFocus(false)
+                    m.filterOptions.setFocus(true)
+                    return true
+                end if
+            end if
+        end if
     else if key = "left"
         if m.favoriteMenu.hasFocus()
             m.favoriteMenu.setFocus(false)
             m.menus[m.selectedItem].visible = true
             m.buttons.setFocus(true)
         end if
+
+        ' User wants to escape filter options
+        if m.filterOptions.isInFocusChain()
+            m.filterOptions.setFocus(false)
+            m.menus[m.selectedItem].setFocus(true)
+            return true
+        end if
     else if key = "OK"
+
         if m.menus[m.selectedItem].isInFocusChain()
             ' Handle View Screen
             if m.selectedItem = 0
@@ -229,14 +318,59 @@ function onKeyEvent(key as string, press as boolean) as boolean
                     end if
                 end if
             end if
+
             ' Handle Filter screen
             if m.selectedItem = 2
-                m.selectedFilterIndex = m.menus[2].itemSelected
-                m.top.filter = m.filterNames[m.selectedFilterIndex]
+                if not isFilterMenuDataValid() then return false
+                ' If filter has no options, select it
+                if m.filterMenu.content.getChild(m.filterMenu.itemFocused).getChildCount() = 0
+                    m.menus[2].checkedItem = m.menus[2].itemSelected
+                    m.selectedFilterIndex = m.menus[2].itemSelected
+                    m.top.filter = m.filterNames[m.selectedFilterIndex]
+                    m.top.filterOptions = {}
+                    return true
+                end if
+
+                ' Selected filter has options, move cursor to it
+                m.filterOptions.setFocus(true)
+                m.menus[m.selectedItem].setFocus(false)
+                return true
             end if
+        end if
+
+        ' User pressed OK from inside the filter's options
+        if m.filterOptions.isInFocusChain()
+            selectedOptions = []
+            for i = 0 to m.filterOptions.checkedState.count() - 1
+                if m.filterOptions.checkedState[i]
+                    selectedValue = toString(m.filterOptions.content.getChild(i).title)
+                    selectedOptions.push(selectedValue)
+                end if
+            end for
+
+            if selectedOptions.Count() > 0
+                m.menus[2].checkedItem = m.menus[2].itemFocused
+                m.selectedFilterIndex = m.menus[2].itemFocused
+                m.top.filter = m.filterMenu.content.getChild(m.filterMenu.itemFocused).Name
+
+                newFilter = {}
+                newFilter[m.top.filter] = selectedOptions.join(m.filterMenu.content.getChild(m.filterMenu.itemFocused).delimiter)
+                m.top.filterOptions = newFilter
+            else
+                m.menus[2].checkedItem = 0
+                m.selectedFilterIndex = 0
+                m.top.filter = m.filterNames[0]
+                m.top.filterOptions = {}
+            end if
+
+            m.filterMenu.content.getChild(m.filterMenu.itemFocused).checkedState = m.filterOptions.checkedState
+
+            return true
         end if
         return true
     else if key = "back" or key = "up"
+        if key = "back" then hideChecklist()
+
         m.menus[2].visible = true ' Show Filter contents in case hidden by favorite button
         if m.menus[m.selectedItem].isInFocusChain()
             m.buttons.setFocus(true)
@@ -244,11 +378,11 @@ function onKeyEvent(key as string, press as boolean) as boolean
             return true
         end if
     else if key = "options"
+        hideChecklist()
         m.menus[2].visible = true ' Show Filter contents in case hidden by favorite button
         m.menus[m.selectedItem].drawFocusFeedback = false
         return false
     end if
 
     return false
-
 end function
