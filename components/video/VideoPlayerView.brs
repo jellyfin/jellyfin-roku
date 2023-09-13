@@ -23,6 +23,21 @@ sub init()
     m.top.observeField("content", "onContentChange")
     m.top.observeField("selectedSubtitle", "onSubtitleChange")
 
+    ' Custom Caption Function
+    m.captionGroup = m.top.findNode("captionGroup")
+    m.captionGroup.createchildren(9, "LayoutGroup")
+    m.captionTask = createObject("roSGNode", "captionTask")
+    m.captionTask.observeField("currentCaption", "updateCaption")
+    m.captionTask.observeField("useThis", "checkCaptionMode")
+    m.top.observeField("subtitleTrack", "loadCaption")
+    m.top.observeField("globalCaptionMode", "toggleCaption")
+    if get_user_setting("playback.subs.custom") = "false"
+        m.top.suppressCaptions = false
+    else
+        m.top.suppressCaptions = true
+        toggleCaption()
+    end if
+
     m.playbackTimer.observeField("fire", "ReportPlayback")
     m.bufferPercentage = 0 ' Track whether content is being loaded
     m.playReported = false
@@ -49,6 +64,27 @@ sub init()
     m.top.retrievingBar.filledBarBlendColor = m.global.constants.colors.blue
     m.top.bufferingBar.filledBarBlendColor = m.global.constants.colors.blue
     m.top.trickPlayBar.filledBarBlendColor = m.global.constants.colors.blue
+end sub
+
+sub loadCaption()
+    if m.top.suppressCaptions
+        m.captionTask.url = m.top.subtitleTrack
+    end if
+end sub
+
+sub toggleCaption()
+    m.captionTask.playerState = m.top.state + m.top.globalCaptionMode
+    if LCase(m.top.globalCaptionMode) = "on"
+        m.captionTask.playerState = m.top.state + m.top.globalCaptionMode + "w"
+        m.captionGroup.visible = true
+    else
+        m.captionGroup.visible = false
+    end if
+end sub
+
+sub updateCaption()
+    m.captionGroup.removeChildrenIndex(m.captionGroup.getChildCount(), 0)
+    m.captionGroup.appendChildren(m.captionTask.currentCaption)
 end sub
 
 sub onSubtitleChange()
@@ -132,21 +168,12 @@ sub onContentChange()
     if not isValid(m.top.content) then return
 
     m.top.observeField("position", "onPositionChanged")
-
-    ' If video content type is not episode, remove position observer
-    if m.top.content.contenttype <> 4
-        m.top.unobserveField("position")
-    end if
 end sub
 
 sub onNextEpisodeDataLoaded()
     m.checkedForNextEpisode = true
 
     m.top.observeField("position", "onPositionChanged")
-
-    if m.getNextEpisodeTask.nextEpisodeData.Items.count() <> 2
-        m.top.unobserveField("position")
-    end if
 end sub
 
 '
@@ -189,6 +216,8 @@ end sub
 
 ' When Video Player state changes
 sub onPositionChanged()
+    m.captionTask.currentPos = Int(m.top.position * 1000)
+
     ' Check if dialog is open
     m.dialog = m.top.getScene().findNode("dialogBackground")
     if not isValid(m.dialog)
@@ -199,6 +228,8 @@ end sub
 '
 ' When Video Player state changes
 sub onState(msg)
+    m.captionTask.playerState = m.top.state + m.top.globalCaptionMode
+
     ' When buffering, start timer to monitor buffering process
     if m.top.state = "buffering" and m.bufferCheckTimer <> invalid
 
