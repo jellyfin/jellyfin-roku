@@ -237,24 +237,24 @@ function urlCandidates(input as string)
     else
         protoCandidates.push(proto + "//" + host) ' but still allow arbitrary protocols if they are declared
     end if
-    final_candidates = []
+    finalCandidates = []
     if isValid(port) and port <> "" ' if the port is defined just use that
         for each candidate in protoCandidates
-            final_candidates.push(candidate + port + path)
+            finalCandidates.push(candidate + port + path)
         end for
     else ' the port wasnt declared so use default jellyfin and proto ports
         for each candidate in protoCandidates:
             ' proto default
-            final_candidates.push(candidate + path)
+            finalCandidates.push(candidate + path)
             ' jellyfin defaults
             if candidate.startswith("https")
-                final_candidates.push(candidate + ":8920" + path)
+                finalCandidates.push(candidate + ":8920" + path)
             else if candidate.startswith("http")
-                final_candidates.push(candidate + ":8096" + path)
+                finalCandidates.push(candidate + ":8096" + path)
             end if
         end for
     end if
-    return final_candidates
+    return finalCandidates
 end function
 
 sub setFieldTextValue(field, value)
