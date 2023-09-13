@@ -453,8 +453,8 @@ end sub
 
 ' accepts the raw json string of /system/info/public and returns
 ' a boolean indicating if ProductName is "Jellyfin Server"
-function isJellyfinServer(si as object) as boolean
-    d = ParseJson(si)
+function isJellyfinServer(systemInfo as object) as boolean
+    d = ParseJson(systemInfo)
     if isValid(d) and isValid(d.ProductName)
         return d.ProductName = "Jellyfin Server"
     end if
