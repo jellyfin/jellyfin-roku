@@ -216,6 +216,9 @@ function inferServerUrl(url as string) as string
     return ""
 end function
 
+' this is the "educated guess" logic for inferServerUrl that generates a list of complete url's as candidates
+' for the tests in inferServerUrl. takes an incomplete url as an arg and returns a list of extrapolated
+' full urls.
 function urlCandidates(input as string)
     if input.endswith("/") then input = input.Left(len(input) - 1)
     url = parseUrl(input)
