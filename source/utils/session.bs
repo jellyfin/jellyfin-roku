@@ -151,6 +151,10 @@ namespace session
             if m.global.app.isDev
                 print "m.global.session.user.settings = ", m.global.session.user.settings
             end if
+
+            if m.global.session.user.settings["global.rememberme"]
+                set_user_setting("token", tmpSession.user.authToken)
+            end if
         end sub
 
         ' Empty the global user session array and reload defaults
@@ -226,6 +230,20 @@ namespace session
                                 end for
                             end if
                         end for
+                    end if
+                end for
+
+                ' load globals
+                session.user.settings.LoadGlobals()
+            end sub
+
+            ' Grab global vars from registry and overwrite defaults
+            sub LoadGlobals()
+                ' search main registry block for all keys that start with "global."
+                jfRegistry = RegistryReadAll("Jellyfin")
+                for each item in jfRegistry
+                    if Left(item, 7) = "global."
+                        session.user.settings.Save(item, get_setting(item))
                     end if
                 end for
             end sub

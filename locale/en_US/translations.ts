@@ -1208,5 +1208,25 @@
             <translation>Disable the HEVC codec on this device. This may improve playback for some devices (ultra).</translation>
             <extracomment>User Setting - Setting description</extracomment>
         </message>
+        <message>
+            <source>Global</source>
+            <translation>Global</translation>
+            <extracomment>User Setting - Setting title</extracomment>
+        </message>
+        <message>
+            <source>Global settings that affect everyone that uses this Roku device.</source>
+            <translation>Global settings that affect everyone that uses this Roku device.</translation>
+            <extracomment>User Setting - Setting description</extracomment>
+        </message>
+        <message>
+            <source>Remember Me?</source>
+            <translation>Remember Me?</translation>
+            <extracomment>User Setting - Setting title</extracomment>
+        </message>
+        <message>
+            <source>Remember the currently logged in user and try to log them in again next time you start the Jellyfin app.</source>
+            <translation>Remember the currently logged in user and try to log them in again next time you start the Jellyfin app.</translation>
+            <extracomment>User Setting - Setting description</extracomment>
+        </message>
     </context>
 </TS>
