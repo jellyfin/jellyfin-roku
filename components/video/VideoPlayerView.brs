@@ -24,19 +24,7 @@ sub init()
     m.top.observeField("selectedSubtitle", "onSubtitleChange")
 
     ' Custom Caption Function
-    m.captionGroup = m.top.findNode("captionGroup")
-    m.captionGroup.createchildren(9, "LayoutGroup")
-    m.captionTask = createObject("roSGNode", "captionTask")
-    m.captionTask.observeField("currentCaption", "updateCaption")
-    m.captionTask.observeField("useThis", "checkCaptionMode")
-    m.top.observeField("subtitleTrack", "loadCaption")
-    m.top.observeField("globalCaptionMode", "toggleCaption")
-    if get_user_setting("playback.subs.custom") = "false"
-        m.top.suppressCaptions = false
-    else
-        m.top.suppressCaptions = true
-        toggleCaption()
-    end if
+    m.top.observeField("allowCaptions", "onAllowCaptionsChange")
 
     m.playbackTimer.observeField("fire", "ReportPlayback")
     m.bufferPercentage = 0 ' Track whether content is being loaded
@@ -64,6 +52,26 @@ sub init()
     m.top.retrievingBar.filledBarBlendColor = m.global.constants.colors.blue
     m.top.bufferingBar.filledBarBlendColor = m.global.constants.colors.blue
     m.top.trickPlayBar.filledBarBlendColor = m.global.constants.colors.blue
+end sub
+
+' Custom Caption Function
+sub onAllowCaptionsChange()
+    if not m.top.allowCaptions then return
+
+    m.captionGroup = m.top.findNode("captionGroup")
+    m.captionGroup.createchildren(9, "LayoutGroup")
+    m.captionTask = createObject("roSGNode", "captionTask")
+    m.captionTask.observeField("currentCaption", "updateCaption")
+    m.captionTask.observeField("useThis", "checkCaptionMode")
+    m.top.observeField("subtitleTrack", "loadCaption")
+    m.top.observeField("globalCaptionMode", "toggleCaption")
+
+    if get_user_setting("playback.subs.custom") = "false"
+        m.top.suppressCaptions = false
+    else
+        m.top.suppressCaptions = true
+        toggleCaption()
+    end if
 end sub
 
 sub loadCaption()
@@ -150,7 +158,11 @@ sub onVideoContentLoaded()
     m.top.transcodeParams = videoContent[0].transcodeparams
 
     if m.LoadMetaDataTask.isIntro
+        ' Disable trackplay bar for intro videos
         m.top.enableTrickPlay = false
+    else
+        ' Allow custom captions for non intro videos
+        m.top.allowCaptions = true
     end if
 
     if isValid(m.top.audioIndex)
@@ -216,19 +228,26 @@ end sub
 
 ' When Video Player state changes
 sub onPositionChanged()
-    m.captionTask.currentPos = Int(m.top.position * 1000)
+    if isValid(m.captionTask)
+        m.captionTask.currentPos = Int(m.top.position * 1000)
+    end if
 
     ' Check if dialog is open
     m.dialog = m.top.getScene().findNode("dialogBackground")
     if not isValid(m.dialog)
-        checkTimeToDisplayNextEpisode()
+        ' Do not show Next Episode button for intro videos
+        if not m.LoadMetaDataTask.isIntro
+            checkTimeToDisplayNextEpisode()
+        end if
     end if
 end sub
 
 '
 ' When Video Player state changes
 sub onState(msg)
-    m.captionTask.playerState = m.top.state + m.top.globalCaptionMode
+    if isValid(m.captionTask)
+        m.captionTask.playerState = m.top.state + m.top.globalCaptionMode
+    end if
 
     ' When buffering, start timer to monitor buffering process
     if m.top.state = "buffering" and m.bufferCheckTimer <> invalid
@@ -350,11 +369,17 @@ function onKeyEvent(key as string, press as boolean) as boolean
     if not press then return false
 
     if key = "down"
-        m.top.selectSubtitlePressed = true
-        return true
+        ' Do not show subtitle selection for intro videos
+        if not m.LoadMetaDataTask.isIntro
+            m.top.selectSubtitlePressed = true
+            return true
+        end if
     else if key = "up"
-        m.top.selectPlaybackInfoPressed = true
-        return true
+        ' Do not show playback info for intro videos
+        if not m.LoadMetaDataTask.isIntro
+            m.top.selectPlaybackInfoPressed = true
+            return true
+        end if
     else if key = "OK"
         ' OK will play/pause depending on current state
         ' return false to allow selection during seeking

@@ -23,6 +23,7 @@
     <field id="mediaSourceId" type="string" />
     <field id="fullSubtitleData" type="array" />
     <field id="audioIndex" type="integer" />
+    <field id="allowCaptions" type="boolean" value="false" />
   </interface>
 
   <children>
