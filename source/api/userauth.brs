@@ -32,28 +32,10 @@ function AboutMe(id = "" as string)
 end function
 
 sub SignOut(deleteSavedEntry = true as boolean)
-    if m.global.session.user.id <> invalid
+    if m.global.session.user.id <> invalid and deleteSavedEntry = true
         unset_user_setting("token")
-        unset_setting("username")
-        unset_setting("password")
-        if deleteSavedEntry = true
-            'Also delete any credentials in the "saved servers" list
-            saved = get_setting("saved_servers")
-            server = m.global.session.server.url
-            if server <> invalid
-                server = LCase(server)
-                savedServers = ParseJson(saved)
-                newServers = { serverList: [] }
-                for each item in savedServers.serverList
-                    if item.baseUrl = server
-                        item.username = ""
-                        item.password = ""
-                    end if
-                    newServers.serverList.Push(item)
-                end for
-                set_setting("saved_servers", FormatJson(newServers))
-            end if
-        end if
+        unset_user_setting("username")
+        unset_user_setting("password")
     end if
     unset_setting("active_user")
     session.user.Logout()

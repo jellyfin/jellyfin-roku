@@ -20,9 +20,6 @@ sub loadFromRegistry(id as string)
 end sub
 
 sub saveToRegistry()
-    set_user_setting("username", m.top.username)
-    set_user_setting("token", m.top.token)
-
     users = parseJson(get_setting("available_users", "[]"))
     this_user = invalid
     for each user in users

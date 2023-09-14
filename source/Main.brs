@@ -524,6 +524,10 @@ sub Main (args as dynamic) as void
                 SignOut(false)
                 sceneManager.callFunc("clearScenes")
                 goto app_start
+            else if button.id = "change_user"
+                SignOut(false)
+                sceneManager.callFunc("clearScenes")
+                goto app_start
             else if button.id = "sign_out"
                 SignOut()
                 sceneManager.callFunc("clearScenes")

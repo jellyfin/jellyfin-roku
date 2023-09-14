@@ -151,9 +151,6 @@ namespace session
             if m.global.app.isDev
                 print "m.global.session.user.settings = ", m.global.session.user.settings
             end if
-            ' ensure registry is updated
-            set_user_setting("username", tmpSession.user.name)
-            set_user_setting("token", tmpSession.user.authToken)
         end sub
 
         ' Empty the global user session array and reload defaults
