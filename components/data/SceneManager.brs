@@ -85,11 +85,6 @@ sub popScene()
         else if groupType = "JFVideo"
             ' Stop video to make sure app communicates stop playstate to server
             group.control = "stop"
-        else if groupType = "UserSelect"
-            ' user pressed back on the UserSelect screen and wants to select a server
-            ' wipe the current server session data
-            session.server.Delete()
-            unset_setting("server")
         end if
 
         group.visible = false

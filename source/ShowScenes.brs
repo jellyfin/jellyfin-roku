@@ -1,4 +1,4 @@
-function LoginFlow(startOver = false as boolean)
+function LoginFlow()
     'Collect Jellyfin server and user information
     start_login:
 
@@ -41,9 +41,11 @@ function LoginFlow(startOver = false as boolean)
     activeUser = get_setting("active_user")
     if activeUser = invalid
         print "No active user found in registry"
+        user_select:
         SendPerformanceBeacon("AppDialogInitiate") ' Roku Performance monitoring - Dialog Starting
         publicUsers = GetPublicUsers()
-        if publicUsers.count()
+        numPubUsers = publicUsers.count()
+        if numPubUsers > 0
             publicUsersNodes = []
             for each item in publicUsers
                 user = CreateObject("roSGNode", "PublicUserData")
@@ -57,7 +59,9 @@ function LoginFlow(startOver = false as boolean)
             userSelected = CreateUserSelectGroup(publicUsersNodes)
             if userSelected = "backPressed"
                 SendPerformanceBeacon("AppDialogComplete") ' Roku Performance monitoring - Dialog Closed
-                return LoginFlow(true)
+                session.server.Delete()
+                unset_setting("server")
+                goto start_login
             else
                 'Try to login without password. If the token is valid, we're done
                 userData = get_token(userSelected, "")
@@ -75,8 +79,13 @@ function LoginFlow(startOver = false as boolean)
         passwordEntry = CreateSigninGroup(userSelected)
         SendPerformanceBeacon("AppDialogComplete") ' Roku Performance monitoring - Dialog Closed
         if passwordEntry = "backPressed"
-            m.global.sceneManager.callFunc("clearScenes")
-            return LoginFlow(true)
+            if numPubUsers > 0
+                goto user_select
+            else
+                session.server.Delete()
+                unset_setting("server")
+                goto start_login
+            end if
         end if
     else
         print "Active user found in registry"
