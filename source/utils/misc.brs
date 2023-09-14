@@ -199,9 +199,8 @@ function inferServerUrl(url as string) as string
             ' TODO
             ' if response code is a 300 redirect then we should return the redirect url
             ' Make sure this happens or make it happen
-            if resp.GetResponseCode() = 200
+            if resp.GetResponseCode() = 200 and isJellyfinServer(resp.GetString())
                 selectedUrl = hosts.lookup(resp.GetSourceIdentity().ToStr())
-                isJellyfinServer(resp.GetString())
                 print "Successfully inferred server URL: " selectedUrl
                 return selectedUrl
             end if
