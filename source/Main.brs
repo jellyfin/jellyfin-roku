@@ -129,24 +129,17 @@ sub Main (args as dynamic) as void
                     if isValid(itemNode.selectedAudioStreamIndex) and itemNode.selectedAudioStreamIndex > 0
                         audio_stream_idx = itemNode.selectedAudioStreamIndex
                     end if
-
                     itemNode.selectedAudioStreamIndex = audio_stream_idx
 
                     playbackPosition = 0
-
-                    ' Display playback options dialog
                     if isValid(itemNode.json) and isValid(itemNode.json.userdata) and isValid(itemNode.json.userdata.PlaybackPositionTicks)
                         playbackPosition = itemNode.json.userdata.PlaybackPositionTicks
                     end if
+                    itemNode.startingPoint = playbackPosition
 
-                    if playbackPosition > 0
-                        m.global.queueManager.callFunc("hold", itemNode)
-                        playbackOptionDialog(playbackPosition, itemNode.json)
-                    else
-                        m.global.queueManager.callFunc("clear")
-                        m.global.queueManager.callFunc("push", itemNode)
-                        m.global.queueManager.callFunc("playQueue")
-                    end if
+                    m.global.queueManager.callFunc("clear")
+                    m.global.queueManager.callFunc("push", itemNode)
+                    m.global.queueManager.callFunc("playQueue")
 
                     ' Prevent quick play node from double firing
                     reportingNode.quickPlayNode = invalid
