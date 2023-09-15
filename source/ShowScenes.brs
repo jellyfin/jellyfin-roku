@@ -782,6 +782,7 @@ function CreateItemGrid(libraryItem as object) as dynamic
     group.parentItem = libraryItem
     group.optionsAvailable = true
     group.observeField("selectedItem", m.port)
+    group.observeField("quickPlayNode", m.port)
     return group
 end function
 
@@ -793,6 +794,7 @@ function CreateMovieLibraryView(libraryItem as object) as dynamic
     group.parentItem = libraryItem
     group.optionsAvailable = true
     group.observeField("selectedItem", m.port)
+    group.observeField("quickPlayNode", m.port)
     return group
 end function
 
