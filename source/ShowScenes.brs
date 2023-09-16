@@ -93,23 +93,6 @@ function LoginFlow()
                 else
                     print "No auth token found in registry for selected user"
                 end if
-                ' try to login with password from registry
-                userData = invalid
-                myPassword = get_user_setting("password")
-                if isValid(myPassword)
-                    ' saved password found for selected user
-                    print "Saved credentials found for selected user. Attempting to login"
-                    userData = get_token(userSelected, myPassword)
-                    if isValid(userData)
-                        print "login success!"
-                        session.user.Login(userData)
-                        LoadUserPreferences()
-                        LoadUserAbilities()
-                        return true
-                    end if
-                else
-                    print "No saved credentials found for selected user"
-                end if
                 'Try to login without password. If the token is valid, we're done
                 print "Attempting to login with no password"
                 userData = get_token(userSelected, "")
@@ -157,42 +140,6 @@ function LoginFlow()
             end if
         else
             print "No auth token found in registry"
-
-            print "Checking to see if we have saved credentials"
-            myUsername = get_user_setting("username")
-            myPassword = get_user_setting("password")
-            userData = invalid
-
-            if isValid(myUsername) and isValid(myPassword)
-                if myUsername <> ""
-                    print "Username and password found in registry. Attempting to login"
-                    userData = get_token(myUsername, myPassword)
-                else
-                    print "Username in registry is an empty string"
-                    unset_user_setting("username")
-                    unset_user_setting("password")
-                end if
-            else if isValid(myUsername) and not isValid(myPassword)
-                print "Username found in registry but no password"
-                if myUsername <> ""
-                    print "Attempting to login with no password"
-                    userData = get_token(myUsername, "")
-                else
-                    print "Username in registry is an empty string"
-                    unset_user_setting("username")
-                end if
-
-            else if not isValid(myUsername) and not isValid(myPassword)
-                print "Neither username nor password found in registry - restart login flow"
-                unset_setting("active_user")
-                session.user.Logout()
-                goto start_login
-            end if
-
-            if isValid(userData)
-                print "login success!"
-                session.user.Login(userData)
-            end if
         end if
     end if
 
@@ -313,11 +260,6 @@ function CreateServerGroup()
                 m.scene.dialog = dialog
 
                 serverUrl = standardize_jellyfin_url(screen.serverUrl)
-                'If this is a different server from what we know, reset username/password setting
-                if m.global.session.server.url <> serverUrl
-                    set_setting("username", "")
-                    set_setting("password", "")
-                end if
                 set_setting("server", serverUrl)
 
                 isConnected = session.server.UpdateURL(serverUrl)
@@ -489,11 +431,7 @@ function CreateSigninGroup(user = "")
                     session.user.Login(activeUser)
                     ' save credentials
                     if checkbox.checkedState[0] = true
-                        set_user_setting("username", username.value)
-                        set_user_setting("password", password.value)
                         set_user_setting("token", activeUser.token)
-                        'Update our saved server list, so next time the user can just click and go
-                        UpdateSavedServerList()
                     end if
                     return "true"
                 end if
@@ -904,34 +842,6 @@ function CreatePersonView(personData as object) as dynamic
     stopLoadingSpinner()
     return person
 end function
-
-sub UpdateSavedServerList()
-    server = m.global.session.server.url
-    username = get_setting("username")
-    password = get_setting("password")
-
-    if server = invalid or username = invalid or password = invalid
-        return
-    end if
-
-    server = LCase(server)'Saved server data is always lowercase
-
-    saved = get_setting("saved_servers")
-    if isValid(saved)
-        savedServers = ParseJson(saved)
-        if isValid(savedServers.serverList) and savedServers.serverList.Count() > 0
-            newServers = { serverList: [] }
-            for each item in savedServers.serverList
-                if item.baseUrl = server
-                    item.username = username
-                    item.password = password
-                end if
-                newServers.serverList.Push(item)
-            end for
-            set_setting("saved_servers", FormatJson(newServers))
-        end if
-    end if
-end sub
 
 'Opens dialog asking user if they want to resume video or start playback over only on the home screen
 sub playbackOptionDialog(time as longinteger, meta as object)
