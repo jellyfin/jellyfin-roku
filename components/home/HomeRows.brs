@@ -440,21 +440,20 @@ sub itemSelected()
 end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean
-    handled = false
     if press
         if key = "play"
+            print "play was pressed from homerow"
             itemToPlay = m.top.content.getChild(m.top.rowItemFocused[0]).getChild(m.top.rowItemFocused[1])
-            if isValid(itemToPlay) and (itemToPlay.type = "Movie" or itemToPlay.type = "Episode")
+            if isValid(itemToPlay)
                 m.top.quickPlayNode = itemToPlay
             end if
-            handled = true
-        end if
-
-        if key = "replay"
+            return true
+        else if key = "replay"
             m.top.jumpToRowItem = [m.top.rowItemFocused[0], 0]
+            return true
         end if
     end if
-    return handled
+    return false
 end function
 
 function filterNodeArray(nodeArray as object, nodeKey as string, excludeArray as object) as object

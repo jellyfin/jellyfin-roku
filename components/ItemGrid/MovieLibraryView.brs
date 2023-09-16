@@ -869,11 +869,10 @@ function onKeyEvent(key as string, press as boolean) as boolean
             m.loadItemsTask.control = "stop"
             return true
         end if
-    else if key = "play" or key = "OK"
-
+    else if key = "play"
         itemToPlay = getItemFocused()
 
-        if itemToPlay <> invalid and (itemToPlay.type = "Movie" or itemToPlay.type = "Episode")
+        if itemToPlay <> invalid
             m.top.quickPlayNode = itemToPlay
             return true
         end if

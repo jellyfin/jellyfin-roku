@@ -223,15 +223,20 @@ function AppearsOnList(id as string)
 end function
 
 ' Get list of songs belonging to an artist
-function GetSongsByArtist(id as string)
+function GetSongsByArtist(id as string, params = {} as object)
     url = Substitute("Users/{0}/Items", m.global.session.user.id)
-    resp = APIRequest(url, {
+    paramArray = {
         "AlbumArtistIds": id,
         "includeitemtypes": "Audio",
         "sortBy": "SortName",
         "Recursive": true
-    })
+    }
+    ' overwrite defaults with the params provided
+    for each param in params
+        paramArray.AddReplace(param, params[param])
+    end for
 
+    resp = APIRequest(url, paramArray)
     data = getJson(resp)
     results = []
 
@@ -408,7 +413,7 @@ function TVSeasons(id as string) as dynamic
     results = []
     for each item in data.Items
         imgParams = { "AddPlayedIndicator": item.UserData.Played }
-        tmp = CreateObject("roSGNode", "TVEpisodeData")
+        tmp = CreateObject("roSGNode", "TVSeasonData")
         tmp.image = PosterImage(item.id, imgParams)
         tmp.json = item
         results.push(tmp)

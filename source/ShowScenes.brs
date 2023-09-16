@@ -565,6 +565,7 @@ function CreateMovieDetailsGroup(movie as object) as dynamic
     end if
     ' start building MovieDetails view
     group = CreateObject("roSGNode", "MovieDetails")
+    group.observeField("quickPlayNode", m.port)
     group.overhangTitle = movie.title
     group.optionsAvailable = false
     group.trailerAvailable = false
@@ -618,6 +619,7 @@ function CreateSeriesDetailsGroup(seriesID as string) as dynamic
     group.seasonData = seasonData
     ' watch for button presses
     group.observeField("seasonSelected", m.port)
+    group.observeField("quickPlayNode", m.port)
     ' setup and load series extras
     extras = group.findNode("extrasGrid")
     extras.observeField("selectedItem", m.port)
@@ -670,6 +672,7 @@ function CreateArtistView(artist as object) as dynamic
         group.observeField("appearsOnSelected", m.port)
     end if
 
+    group.observeField("quickPlayNode", m.port)
     m.global.sceneManager.callFunc("pushScene", group)
 
     return group
@@ -806,6 +809,7 @@ function CreateMusicLibraryView(libraryItem as object) as dynamic
     group.parentItem = libraryItem
     group.optionsAvailable = true
     group.observeField("selectedItem", m.port)
+    group.observeField("quickPlayNode", m.port)
     return group
 end function
 

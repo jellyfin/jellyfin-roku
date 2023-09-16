@@ -127,6 +127,11 @@ sub playQueue()
         return
     end if
 
+    if nextItemMediaType = "movie"
+        CreateVideoPlayerView()
+        return
+    end if
+
     if nextItemMediaType = "episode"
         CreateVideoPlayerView()
         return

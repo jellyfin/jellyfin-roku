@@ -313,5 +313,13 @@ function onKeyEvent(key as string, press as boolean) as boolean
         end if
     end if
 
+    if key = "play"
+        itemToPlay = m.albums.MusicArtistAlbumData.items[m.albums.itemFocused]
+        if isValid(itemToPlay)
+            m.top.quickPlayNode = itemToPlay
+        end if
+        return true
+    end if
+
     return false
 end function

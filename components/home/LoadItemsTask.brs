@@ -137,7 +137,8 @@ sub loadItems()
         if isValid(data) and isValid(data.Items)
             for each item in data.Items
                 ' Skip Books for now as we don't support it (issue #558)
-                if item.Type <> "Book"
+                ' also skip songs since there is limited space
+                if not (item.Type = "Book" or item.Type = "Audio")
                     tmp = CreateObject("roSGNode", "HomeData")
 
                     params = {}

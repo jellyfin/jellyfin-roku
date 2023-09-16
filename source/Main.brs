@@ -118,9 +118,30 @@ sub Main (args as dynamic) as void
         else if isNodeEvent(msg, "quickPlayNode")
             group = sceneManager.callFunc("getActiveScene")
             reportingNode = msg.getRoSGNode()
-            itemNode = reportingNode.quickPlayNode
+            itemNode = invalid
+            if isValid(reportingNode)
+                itemNode = reportingNode.quickPlayNode
+                reportingNodeType = reportingNode.subtype()
+                ' prevent double fire on continue watching home row
+                if isValid(reportingNodeType) and reportingNodeType = "Home"
+                    reportingNode.quickPlayNode = invalid
+                end if
+            end if
             if isValid(itemNode) and isValid(itemNode.id) and itemNode.id <> ""
-                if itemNode.type = "Episode" or itemNode.type = "Movie" or itemNode.type = "Video"
+                print "quickPlayNode=", itemNode
+                itemType = invalid
+                if isValid(itemNode.type)
+                    itemType = Lcase(itemNode.type)
+                end if
+                ' grab type from json if needed
+                if not isValid(itemType) or itemType = ""
+                    if isValid(itemNode.json) and isValid(itemNode.json.type)
+                        itemType = Lcase(itemNode.json.type)
+                    end if
+                end if
+                print "quickPlayNode type=", itemType
+                if itemType = "episode" or itemType = "movie" or itemType = "video"
+                    ' attempt to play video file. resume if possible
                     if isValid(itemNode.selectedVideoStreamId)
                         itemNode.id = itemNode.selectedVideoStreamId
                     end if
@@ -141,12 +162,182 @@ sub Main (args as dynamic) as void
                     m.global.queueManager.callFunc("push", itemNode)
                     m.global.queueManager.callFunc("playQueue")
 
-                    ' Prevent quick play node from double firing
-                    reportingNode.quickPlayNode = invalid
-
                     if LCase(group.subtype()) = "tvepisodes"
                         if isValid(group.lastFocus)
                             group.lastFocus.setFocus(true)
+                        end if
+                    end if
+                else if itemType = "audio"
+                    ' attempt to play audio file
+                    m.global.queueManager.callFunc("clear")
+                    m.global.queueManager.callFunc("push", itemNode)
+                    m.global.queueManager.callFunc("playQueue")
+                else if itemType = "musicalbum"
+                    ' attempt to play the entire album starting with track 1
+                    m.global.queueManager.callFunc("clear")
+                    ' convert album to list of songs
+                    albumSongs = MusicSongList(itemNode.id)
+                    ' add each song to the queue
+                    for each song in albumSongs.items
+                        song.type = "Audio"
+                        m.global.queueManager.callFunc("push", song)
+                    end for
+                    ' play queue
+                    m.global.queueManager.callFunc("playQueue")
+                else if itemType = "musicartist"
+                    ' attempt to shuffle play all songs by artist
+                    m.global.queueManager.callFunc("clear")
+
+                    data = GetSongsByArtist(itemNode.id, { "sortBy": "Random" })
+
+                    if isValid(data)
+                        for each item in data.items
+                            m.global.queueManager.callFunc("push", item)
+                        end for
+
+                        m.global.queueManager.callFunc("playQueue")
+                    end if
+                else if itemType = "boxset"
+                    ' attempt to play all movies in the boxset
+                    ' play them in order of release
+                    m.global.queueManager.callFunc("clear")
+
+                    data = api.items.GetByQuery({
+                        "userid": m.global.session.user.id,
+                        "parentid": itemNode.id,
+                        "EnableTotalRecordCount": false
+                    })
+                    if isValid(data) and isValid(data.Items) and data.Items.count() > 0
+                        ' there are videos inside
+                        print "found videos inside boxset"
+                        for each item in data.Items
+                            m.global.queueManager.callFunc("push", item)
+                        end for
+                        m.global.queueManager.callFunc("playQueue")
+                    end if
+                else if itemType = "series"
+                    ' attempt to play first unwatched episode
+                    m.global.queueManager.callFunc("clear")
+
+                    data = api.shows.GetNextUp({
+                        "seriesId": itemNode.id,
+                        "recursive": true,
+                        "SortBy": "DatePlayed",
+                        "SortOrder": "Descending",
+                        "ImageTypeLimit": 1,
+                        "UserId": m.global.session.user.id,
+                        "EnableRewatching": false,
+                        "DisableFirstEpisode": false,
+                        "EnableTotalRecordCount": false
+                    })
+                    if isValid(data) and isValid(data.Items) and data.Items.count() > 0
+                        ' there are unwatched episodes
+                        for each item in data.Items
+                            m.global.queueManager.callFunc("push", item)
+                        end for
+                        m.global.queueManager.callFunc("playQueue")
+                    else
+                        ' next up check was empty
+                        ' check for a resumable episode
+                        data = api.users.GetResumeItemsByQuery(m.global.session.user.id, {
+                            "parentId": itemNode.id,
+                            "userid": m.global.session.user.id,
+                            "SortBy": "DatePlayed",
+                            "recursive": true,
+                            "SortOrder": "Descending",
+                            "Filters": "IsResumable",
+                            "EnableTotalRecordCount": false
+                        })
+                        print "resumeitems data=", data
+                        if isValid(data) and isValid(data.Items) and data.Items.count() > 0
+                            ' play the resumable episode
+                            for each item in data.Items
+                                if isValid(item.UserData) and isValid(item.UserData.PlaybackPositionTicks)
+                                    item.startingPoint = item.userdata.PlaybackPositionTicks
+                                end if
+                                m.global.queueManager.callFunc("push", item)
+                            end for
+                            m.global.queueManager.callFunc("playQueue")
+                        else
+                            ' shuffle all episodes
+                            data = api.shows.GetEpisodes(itemNode.id, {
+                                "userid": m.global.session.user.id,
+                                "SortBy": "Random",
+                                "EnableTotalRecordCount": false
+                            })
+
+                            if isValid(data) and isValid(data.Items) and data.Items.count() > 0
+                                ' add all episodes found to a playlist
+                                for each item in data.Items
+                                    m.global.queueManager.callFunc("push", item)
+                                end for
+                                m.global.queueManager.callFunc("playQueue")
+                            end if
+                        end if
+                    end if
+                else if itemType = "collectionfolder"
+                    ' play depends on the kind of files inside the collectionfolder
+                else if itemType = "season"
+                    ' play first unwatched episode
+                    m.global.queueManager.callFunc("clear")
+
+                    unwatchedData = api.shows.GetEpisodes(itemNode.json.SeriesId, {
+                        "seasonId": itemNode.id,
+                        "userid": m.global.session.user.id,
+                        "EnableTotalRecordCount": false
+                    })
+
+                    if isValid(unwatchedData) and isValid(unwatchedData.Items)
+                        ' find the first unwatched episode
+                        firstUnwatchedEpisodeIndex = invalid
+                        for each item in unwatchedData.Items
+                            if isValid(item.UserData)
+                                if isValid(item.UserData.Played) and item.UserData.Played = false
+                                    firstUnwatchedEpisodeIndex = item.IndexNumber - 1
+                                    if isValid(item.UserData.PlaybackPositionTicks)
+                                        item.startingPoint = item.UserData.PlaybackPositionTicks
+                                    end if
+                                    exit for
+                                end if
+                            end if
+                        end for
+                        if isValid(firstUnwatchedEpisodeIndex)
+                            for i = firstUnwatchedEpisodeIndex to unwatchedData.Items.count() - 1
+                                m.global.queueManager.callFunc("push", unwatchedData.Items[i])
+                            end for
+
+                            m.global.queueManager.callFunc("playQueue")
+                        else
+                            ' try to find a "continue watching" episode
+                            continueData = api.users.GetResumeItemsByQuery(m.global.session.user.id, {
+                                "parentId": itemNode.id,
+                                "userid": m.global.session.user.id,
+                                "SortBy": "DatePlayed",
+                                "recursive": true,
+                                "SortOrder": "Descending",
+                                "Filters": "IsResumable",
+                                "EnableTotalRecordCount": false
+                            })
+                            print "resumeitems continueData=", continueData
+                            if isValid(continueData) and isValid(continueData.Items) and continueData.Items.count() > 0
+                                ' play the resumable episode
+                                for each item in continueData.Items
+                                    if isValid(item.UserData) and isValid(item.UserData.PlaybackPositionTicks)
+                                        item.startingPoint = item.userdata.PlaybackPositionTicks
+                                    end if
+                                    m.global.queueManager.callFunc("push", item)
+                                end for
+                                m.global.queueManager.callFunc("playQueue")
+                            else
+                                ' play the whole season in order
+                                if isValid(unwatchedData) and isValid(unwatchedData.Items) and unwatchedData.Items.count() > 0
+                                    ' add all episodes found to a playlist
+                                    for each item in unwatchedData.Items
+                                        m.global.queueManager.callFunc("push", item)
+                                    end for
+                                    m.global.queueManager.callFunc("playQueue")
+                                end if
+                            end if
                         end if
                     end if
                 end if

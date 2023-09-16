@@ -750,7 +750,6 @@ function onKeyEvent(key as string, press as boolean) as boolean
             alpha.setFocus(true)
             return true
         end if
-
     else if key = "right" and m.Alpha.isinFocusChain()
         m.top.alphaActive = false
         m.Alpha.setFocus(false)
@@ -760,14 +759,12 @@ function onKeyEvent(key as string, press as boolean) as boolean
         m.genreList.setFocus(m.genreList.opacity = 1)
 
         return true
-
     else if key = "replay" and m.itemGrid.isinFocusChain()
         if m.resetGrid = true
             m.itemGrid.animateToItem = 0
         else
             m.itemGrid.jumpToItem = 0
         end if
-
     else if key = "replay" and m.genreList.isinFocusChain()
         if m.resetGrid = true
             m.genreList.animateToItem = 0
@@ -775,6 +772,12 @@ function onKeyEvent(key as string, press as boolean) as boolean
             m.genreList.jumpToItem = 0
         end if
         return true
+    else if key = "play"
+        itemToPlay = getItemFocused()
+        if itemToPlay <> invalid
+            m.top.quickPlayNode = itemToPlay
+            return true
+        end if
     end if
 
     if key = "replay"
