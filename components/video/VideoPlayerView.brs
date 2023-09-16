@@ -54,7 +54,7 @@ sub init()
     m.top.trickPlayBar.filledBarBlendColor = m.global.constants.colors.blue
 end sub
 
-' Custom Caption Function
+' Only setup captain items if captions are allowed
 sub onAllowCaptionsChange()
     if not m.top.allowCaptions then return
 
@@ -66,20 +66,22 @@ sub onAllowCaptionsChange()
     m.top.observeField("subtitleTrack", "loadCaption")
     m.top.observeField("globalCaptionMode", "toggleCaption")
 
-    if get_user_setting("playback.subs.custom") = "false"
-        m.top.suppressCaptions = false
-    else
+    if m.global.session.user.settings["playback.subs.custom"]
         m.top.suppressCaptions = true
         toggleCaption()
+    else
+        m.top.suppressCaptions = false
     end if
 end sub
 
+' Set caption url to server subtitle track
 sub loadCaption()
     if m.top.suppressCaptions
         m.captionTask.url = m.top.subtitleTrack
     end if
 end sub
 
+' Toggles visibility of custom subtitles and sets captionTask's player state
 sub toggleCaption()
     m.captionTask.playerState = m.top.state + m.top.globalCaptionMode
     if LCase(m.top.globalCaptionMode) = "on"
@@ -90,11 +92,13 @@ sub toggleCaption()
     end if
 end sub
 
+' Removes old subtitle lines and adds new subtitle lines
 sub updateCaption()
     m.captionGroup.removeChildrenIndex(m.captionGroup.getChildCount(), 0)
     m.captionGroup.appendChildren(m.captionTask.currentCaption)
 end sub
 
+' Event handler for when selectedSubtitle changes
 sub onSubtitleChange()
     ' Save the current video position
     m.global.queueManager.callFunc("setTopStartingPoint", int(m.top.position) * 10000000&)
