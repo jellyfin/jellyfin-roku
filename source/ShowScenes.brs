@@ -65,6 +65,9 @@ function LoginFlow()
                 goto start_login
             else
                 print "A public user was selected with username=" + userSelected
+                session.user.Update("name", userSelected)
+                regex = CreateObject("roRegex", "[^a-zA-Z0-9\ \-\_]", "")
+                session.user.Update("friendlyName", regex.ReplaceAll(userSelected, ""))
                 ' save userid to session
                 for each user in publicUsersNodes
                     if user.name = userSelected
@@ -83,6 +86,7 @@ function LoginFlow()
                     if currentUser = invalid
                         print "Auth token is no longer valid - deleting token"
                         unset_user_setting("token")
+                        unset_user_setting("username")
                     else
                         print "Success! Auth token is still valid"
                         session.user.Login(currentUser)
@@ -124,16 +128,34 @@ function LoginFlow()
         print "Active user found in registry"
         session.user.Update("id", activeUser)
 
+        myUsername = get_user_setting("username")
         myAuthToken = get_user_setting("token")
-        if isValid(myAuthToken)
+        if isValid(myAuthToken) and isValid(myUsername)
             print "Auth token found in registry"
             session.user.Update("authToken", myAuthToken)
+            session.user.Update("name", myUsername)
+            regex = CreateObject("roRegex", "[^a-zA-Z0-9\ \-\_]", "")
+            session.user.Update("friendlyName", regex.ReplaceAll(myUsername, ""))
             print "Attempting to use API with auth token"
             currentUser = AboutMe()
             if currentUser = invalid
-                print "Auth token is no longer valid - delete token and restart login flow"
-                unset_user_setting("token")
-                goto start_login
+                print "Auth token is no longer valid"
+                'Try to login without password. If the token is valid, we're done
+                print "Attempting to login with no password"
+                userData = get_token(userSelected, "")
+                if isValid(userData)
+                    print "login success!"
+                    session.user.Login(userData)
+                    LoadUserPreferences()
+                    LoadUserAbilities()
+                    return true
+                else
+                    print "Auth failed. Password required"
+                    print "delete token and restart login flow"
+                    unset_user_setting("token")
+                    unset_user_setting("username")
+                    goto start_login
+                end if
             else
                 print "Success! Auth token is still valid"
                 session.user.Login(currentUser)
@@ -432,6 +454,7 @@ function CreateSigninGroup(user = "")
                     ' save credentials
                     if checkbox.checkedState[0] = true
                         set_user_setting("token", activeUser.token)
+                        set_user_setting("username", username.value)
                     end if
                     return "true"
                 end if

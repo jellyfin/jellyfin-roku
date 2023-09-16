@@ -137,6 +137,10 @@ namespace session
                 tmpSession.AddReplace("user", userData.json.User)
                 tmpSession.user.AddReplace("authToken", userData.json.AccessToken)
             end if
+            ' remove special characters from name
+            regex = CreateObject("roRegex", "[^a-zA-Z0-9\ \-\_]", "")
+            friendlyName = regex.ReplaceAll(tmpSession.user.name, "")
+            tmpSession.user.AddReplace("friendlyName", friendlyName)
 
             tmpSession.user.AddReplace("settings", oldUserSettings)
             ' update global user session
@@ -149,11 +153,13 @@ namespace session
             end for
 
             if m.global.app.isDev
+                print "m.global.session.user = ", m.global.session.user
                 print "m.global.session.user.settings = ", m.global.session.user.settings
             end if
 
             if m.global.session.user.settings["global.rememberme"]
                 set_user_setting("token", tmpSession.user.authToken)
+                set_user_setting("username", tmpSession.user.name)
             end if
         end sub
 

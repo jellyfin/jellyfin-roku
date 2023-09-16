@@ -12,7 +12,7 @@ function getDeviceCapabilities() as object
             "Photo"
         ],
         "SupportedCommands": [],
-        "SupportsPersistentIdentifier": false,
+        "SupportsPersistentIdentifier": true,
         "SupportsMediaControl": false,
         "SupportsContentUploading": false,
         "SupportsSync": false,
