@@ -116,6 +116,7 @@ sub Main (args as dynamic) as void
                 group.setFocus(true)
             end if
         else if isNodeEvent(msg, "quickPlayNode")
+            startMediaLoadingSpinner()
             group = sceneManager.callFunc("getActiveScene")
             reportingNode = msg.getRoSGNode()
             itemNode = invalid
@@ -342,6 +343,7 @@ sub Main (args as dynamic) as void
                     end if
                 end if
             end if
+            stopLoadingSpinner()
         else if isNodeEvent(msg, "selectedItem")
             ' If you select a library from ANYWHERE, follow this flow
             selectedItem = msg.getData()
