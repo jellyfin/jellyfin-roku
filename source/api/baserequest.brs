@@ -214,7 +214,7 @@ function authRequest(request as object) as object
     if m.global.session.user.authToken <> invalid
         auth = auth + ", Token=" + QUOTE + m.global.session.user.authToken + QUOTE
     end if
-    print auth
+
     request.AddHeader("Authorization", auth)
     return request
 end function

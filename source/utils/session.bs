@@ -153,7 +153,6 @@ namespace session
             end for
 
             if m.global.app.isDev
-                print "m.global.session.user = ", m.global.session.user
                 print "m.global.session.user.settings = ", m.global.session.user.settings
             end if
 
