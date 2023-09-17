@@ -211,7 +211,8 @@ sub Main (args as dynamic) as void
                     if isValid(data) and isValid(data.Items) and data.Items.count() > 0
                         ' there are videos inside
                         print "found videos inside boxset"
-                        for each item in data.Items
+                        dataItems = shuffleArray(data.items)
+                        for each item in dataItems
                             m.global.queueManager.callFunc("push", item)
                         end for
                         m.global.queueManager.callFunc("playQueue")
