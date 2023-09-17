@@ -38,11 +38,13 @@ end sub
 sub trailerAvailableChanged()
     if m.top.trailerAvailable
         ' add trailor button to button group
-        trailerButton = CreateObject("roSGNode", "JFButton")
+        trailerButton = CreateObject("roSGNode", "Button")
         trailerButton.id = "trailer-button"
         trailerButton.text = tr("Play Trailer")
+        trailerButton.iconUri = ""
+        trailerButton.focusedIconUri = ""
         trailerButton.maxWidth = "300"
-        trailerButton.minWidth = "300"
+        trailerButton.minWidth = "280"
         m.buttonGrp.appendChild(trailerButton)
     else
         ' remove trailor button from button group
