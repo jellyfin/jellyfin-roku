@@ -303,6 +303,7 @@ sub Main (args as dynamic) as void
                             end if
                         end for
                         if isValid(firstUnwatchedEpisodeIndex)
+                            ' add the first unwatched episode and the rest of the season to a playlist
                             for i = firstUnwatchedEpisodeIndex to unwatchedData.Items.count() - 1
                                 m.global.queueManager.callFunc("push", unwatchedData.Items[i])
                             end for
@@ -319,7 +320,7 @@ sub Main (args as dynamic) as void
                                 "Filters": "IsResumable",
                                 "EnableTotalRecordCount": false
                             })
-                            print "resumeitems continueData=", continueData
+
                             if isValid(continueData) and isValid(continueData.Items) and continueData.Items.count() > 0
                                 ' play the resumable episode
                                 for each item in continueData.Items
@@ -341,6 +342,22 @@ sub Main (args as dynamic) as void
                             end if
                         end if
                     end if
+                else if itemType = "playlist"
+                    m.global.queueManager.callFunc("clear")
+                    print "attempting to quickplay a playlist"
+                    ' get playlist items
+                    myPlaylist = api.playlists.GetItems(itemNode.id, {
+                        "userId": m.global.session.user.id
+                    })
+                    if isValid(myPlaylist) and isValid(myPlaylist.Items) and myPlaylist.Items.count() > 0
+                        myPlaylistItems = shuffleArray(myPlaylist.Items)
+                        ' add each item to the queue
+                        for each item in myPlaylistItems
+                            m.global.queueManager.callFunc("push", item)
+                        end for
+                        m.global.queueManager.callFunc("playQueue")
+                    end if
+
                 end if
             end if
             stopLoadingSpinner()
