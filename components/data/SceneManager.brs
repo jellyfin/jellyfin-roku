@@ -403,12 +403,9 @@ function postProfile() as boolean
     return true
 end function
 
-' Return the Post Task to it's default state
+' Post Task is finished
 sub postFinished()
     m.postTask.unobserveField("responseCode")
-    m.postTask.apiUrl = ""
-    m.postTask.arrayData = {}
-    m.postTask.stringData = ""
-    m.postTask.responseCode = 0
+    m.postTask.callFunc("emptyPostTask")
     m.postTask.observeField("responseCode", "postFinished")
 end sub
