@@ -62,13 +62,42 @@ sub Main (args as dynamic) as void
     end if
 
     ' Only show the Whats New popup the first time a user runs a new client version.
-    if m.global.app.version <> get_setting("LastRunVersion")
+    appLastRunVersion = get_setting("LastRunVersion")
+    if m.global.app.version <> appLastRunVersion
         ' Ensure the user hasn't disabled Whats New popups
         if m.global.session.user.settings["load.allowwhatsnew"] = true
             set_setting("LastRunVersion", m.global.app.version)
             dialog = createObject("roSGNode", "WhatsNewDialog")
             m.scene.dialog = dialog
             m.scene.dialog.observeField("buttonSelected", m.port)
+        end if
+    end if
+
+    ' Registry migrations
+    if isValid(appLastRunVersion) and not versionChecker(appLastRunVersion, "1.7.0")
+        ' last app version used less than 1.7.0
+        ' no longer saving raw password to registry
+        ' auth token and username are now stored in user settings and not global settings
+        print "Running 1.7.0 registry migrations"
+        ' remove global settings
+        unset_setting("token")
+        unset_setting("username")
+        unset_setting("password")
+        ' remove user settings
+        unset_user_setting("password")
+        ' remove saved credentials from saved_servers
+        saved = get_setting("saved_servers")
+        if isValid(saved)
+            savedServers = ParseJson(saved)
+            if isValid(savedServers.serverList) and savedServers.serverList.Count() > 0
+                newServers = { serverList: [] }
+                for each item in savedServers.serverList
+                    item.Delete("username")
+                    item.Delete("password")
+                    newServers.serverList.Push(item)
+                end for
+                set_setting("saved_servers", FormatJson(newServers))
+            end if
         end if
     end if
 
