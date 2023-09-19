@@ -11,6 +11,7 @@ sub init()
     m.queue = []
     m.originalQueue = []
     m.queueTypes = []
+    m.isPlaying = false
     ' Preroll videos only play if user has cinema mode setting enabled
     m.isPrerollActive = m.global.session.user.settings["playback.cinemamode"]
     m.position = 0
@@ -19,6 +20,7 @@ end sub
 
 ' Clear all content from play queue
 sub clear()
+    m.isPlaying = false
     m.queue = []
     m.queueTypes = []
     m.isPrerollActive = m.global.session.user.settings["playback.cinemamode"]
@@ -111,6 +113,7 @@ end function
 
 ' Play items in queue
 sub playQueue()
+    m.isPlaying = true
     nextItem = getCurrentItem()
     if not isValid(nextItem) then return
 
@@ -201,21 +204,25 @@ end function
 sub shuffleQueueItems()
     ' By calling getQueue 2 different ways, Roku avoids needing to do a deep copy
     m.originalQueue = m.global.queueManager.callFunc("getQueue")
-    songIDArray = getQueue()
+    itemIDArray = getQueue()
+    temp = invalid
 
-    ' Move the currently playing song to the front of the queue
-    temp = top()
-    songIDArray[0] = getCurrentItem()
-    songIDArray[getPosition()] = temp
+    if m.isPlaying
+        ' Save the currently playing item
+        temp = getCurrentItem()
+        ' remove currently playing item from itemIDArray
+        itemIDArray.Delete(m.position)
+    end if
 
-    for i = 1 to songIDArray.count() - 1
-        j = Rnd(songIDArray.count() - 1)
-        temp = songIDArray[i]
-        songIDArray[i] = songIDArray[j]
-        songIDArray[j] = temp
-    end for
+    ' shuffle all items
+    itemIDArray = shuffleArray(itemIDArray)
 
-    set(songIDArray)
+    if m.isPlaying
+        ' Put currently playing item in front of itemIDArray
+        itemIDArray.Unshift(temp)
+    end if
+
+    set(itemIDArray)
 end sub
 
 ' Return the fitst item in the play queue
