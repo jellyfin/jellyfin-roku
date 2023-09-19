@@ -184,7 +184,7 @@ sub Main (args as dynamic) as void
             end if
             stopLoadingSpinner()
             elapsed = timeSpan.TotalMilliseconds() / 1000
-            print "Quick Play finished loading in " + elapsed.toStr() + " seconds.",
+            print "Quick Play finished loading in " + elapsed.toStr() + " seconds."
         else if isNodeEvent(msg, "selectedItem")
             ' If you select a library from ANYWHERE, follow this flow
             selectedItem = msg.getData()
