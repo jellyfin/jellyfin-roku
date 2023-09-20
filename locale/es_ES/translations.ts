@@ -5170,5 +5170,327 @@
         <translation>Habilita o deshabilita la Reproducción Directa para codificadores opcionales</translation>
         <extracomment>Settings Menu - Title for settings group related to codec support</extracomment>
     </message>
+    <message>
+        <source>Media Grid</source>
+        <translation>Cuadrícula de multimedia</translation>
+        <extracomment>UI -&gt; Media Grid section in user setting screen.</extracomment>
+    </message>
+    <message>
+        <source>Show item count in the library and index of selected item.</source>
+        <translation>Mostrar cantidad de elementos en la biblioteca y el índice del elemento seleccionado.</translation>
+        <extracomment>Description for option in Setting Screen</extracomment>
+    </message>
+    <message>
+        <source>Hide Taglines</source>
+        <translation>Ocultar Eslogan</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
+    <message>
+        <source>Blur images of unwatched episodes.</source>
+        <translation>Desenfocar imágenes de episodios sin ver.</translation>
+    </message>
+    <message>
+        <source>Custom Subtitles</source>
+        <translation>Subtitulos Personalizados</translation>
+        <extracomment>Name of a setting - custom subtitles that support CJK fonts</extracomment>
+    </message>
+    <message>
+        <source>Enabled</source>
+        <translation>Habilitado</translation>
+    </message>
+    <message>
+        <source>Codec</source>
+        <translation>Códec</translation>
+    </message>
+    <message>
+        <source>Quick Connect</source>
+        <translation>Conexión Rápida</translation>
+    </message>
+    <message>
+        <source>Design Elements</source>
+        <translation>Elementos de Diseño</translation>
+    </message>
+    <message>
+        <source>Blur Unwatched Episodes</source>
+        <translation>Desenfocar Episodios No Vistos</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
+    <message>
+        <source>Skip Details for Single Seasons</source>
+        <translation>Saltar Detalles para Temporadas Únicas</translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
+    <message>
+        <source>Hide Clock</source>
+        <translation>Ocultar Reloj</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
+    <message>
+        <source>Next episode</source>
+        <translation>Siguiente episodio</translation>
+    </message>
+    <message>
+        <source>Item Count</source>
+        <translation>Cantidad de Elementos</translation>
+        <extracomment>UI -&gt; Media Grid -&gt; Item Count in user setting screen.</extracomment>
+    </message>
+    <message>
+        <source>Set Favorite</source>
+        <translation>Agregar a Favoritos</translation>
+        <extracomment>Button Text - When pressed, sets item as Favorite</extracomment>
+    </message>
+    <message>
+        <source>Set Watched</source>
+        <translation>Marcar como Visto</translation>
+        <extracomment>Button Text - When pressed, marks item as Warched</extracomment>
+    </message>
+    <message>
+        <source>Go to series</source>
+        <translation>Ir a series</translation>
+        <extracomment>Continue Watching Popup Menu - Navigate to the Series Detail Page</extracomment>
+    </message>
+    <message>
+        <source>Go to season</source>
+        <translation>Ir a temporada</translation>
+        <extracomment>Continue Watching Popup Menu - Navigate to the Season Page</extracomment>
+    </message>
+    <message>
+        <source>Go to episode</source>
+        <translation>Ir a episodio</translation>
+        <extracomment>Continue Watching Popup Menu - Navigate to the Episode Detail Page</extracomment>
+    </message>
+    <message>
+        <source>Search now</source>
+        <translation>Buscar ahora</translation>
+        <extracomment>Help text in search Box</extracomment>
+    </message>
+    <message>
+        <source>%1 of %2</source>
+        <translation>%1 de %2</translation>
+        <extracomment>Item position and count. %1 = current item. %2 = total number of items</extracomment>
+    </message>
+    <message>
+        <source>(Dialog will close automatically)</source>
+        <translation>(El Diálogo se cerrará automáticamente)</translation>
+    </message>
+    <message>
+        <source>Hides tagline text on details pages.</source>
+        <translation>Ocultar texto de eslogan en páginas de detalles.</translation>
+    </message>
+    <message>
+        <source>Options for TV Shows.</source>
+        <translation>Opciones para Series de TV.</translation>
+        <extracomment>Description for TV Shows user settings.</extracomment>
+    </message>
+    <message>
+        <source>Go directly to the episode list if a TV series has only one season.</source>
+        <translation>Ir directamente a lista de episodios si la serie de TV tiene solo una temporada.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Audio Codec</source>
+        <translation>Códec de Audio</translation>
+    </message>
+    <message>
+        <source>Video range type</source>
+        <translation>Tipo de rango de video</translation>
+    </message>
+    <message>
+        <source>Video Codec</source>
+        <translation>Códec de Video</translation>
+    </message>
+    <message>
+        <source>Playback Information</source>
+        <translation>Información de Reproducción</translation>
+    </message>
+    <message>
+        <source>Total Bitrate</source>
+        <translation>Tasa de Bits Total</translation>
+    </message>
+    <message>
+        <source>Size</source>
+        <translation>Tamaño</translation>
+        <extracomment>Video size</extracomment>
+    </message>
+    <message>
+        <source>Bit Rate</source>
+        <translation>Tasa de Bits</translation>
+        <extracomment>Video streaming bit rate</extracomment>
+    </message>
+    <message>
+        <source>Pixel format</source>
+        <translation>Formato de pixeles</translation>
+        <extracomment>Video pixel format</extracomment>
+    </message>
+    <message>
+        <source>Unable to find any albums or songs belonging to this artist</source>
+        <translation>No se pudieron encontrar álbumes o canciones relacionadas a este artista</translation>
+        <extracomment>Popup message when we find no audio data for an artist</extracomment>
+    </message>
+    <message>
+        <source>WxH</source>
+        <translation>WxH</translation>
+        <extracomment>Video width x height</extracomment>
+    </message>
+    <message>
+        <source>Text Subtitles Only</source>
+        <translation>Subtítulos de Texto Únicamente</translation>
+        <extracomment>Name of a setting - should we hide subtitles that might transcode</extracomment>
+    </message>
+    <message>
+        <source>User Interface</source>
+        <translation>Interfaz de usuario</translation>
+        <extracomment>Title for User Interface section in user setting screen.</extracomment>
+    </message>
+    <message>
+        <source>Media Grid options.</source>
+        <translation>Opciones de la Cuadrícula de Multimedia.</translation>
+    </message>
+    <message>
+        <source>Play Trailer</source>
+        <translation>Reproducir Trailer</translation>
+    </message>
+    <message>
+        <source>direct</source>
+        <translation>directo</translation>
+    </message>
+    <message>
+        <source>Aired</source>
+        <translation>Publicado</translation>
+        <extracomment>Aired date label</extracomment>
+    </message>
+    <message>
+        <source>AV1</source>
+        <translation>AV1</translation>
+        <extracomment>Name of a setting - should we try to direct play experimental av1 codec</extracomment>
+    </message>
+    <message>
+        <source>Return to Top</source>
+        <translation>Volver Arriba</translation>
+        <extracomment>UI -&gt; Media Grid -&gt; Item Title in user setting screen.</extracomment>
+    </message>
+    <message>
+        <source>Options that alter the design of Jellyfin.</source>
+        <translation>Opciones que alteran el diseño de Jellyfin.</translation>
+        <extracomment>Description for Design Elements user settings.</extracomment>
+    </message>
+    <message>
+        <source>Use Splashscreen as Home Background</source>
+        <translation>Usar Pantalla de Bienvenida como Fondo de Inicio</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
+    <message>
+        <source>Cinema Mode</source>
+        <translation>Modo Cine</translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
+    <message>
+        <source>H.264</source>
+        <translation>H.264</translation>
+        <extracomment>Name of codec used in settings menu</extracomment>
+    </message>
+    <message>
+        <source>HEVC</source>
+        <translation>HEVC</translation>
+        <extracomment>Name of codec used in settings menu</extracomment>
+    </message>
+    <message>
+        <source>Settings relating to how the application looks.</source>
+        <translation>Configuración relacionada a como se ve la aplicación.</translation>
+    </message>
+    <message>
+        <source>Reason</source>
+        <translation>Razón</translation>
+    </message>
+    <message>
+        <source>Transcoding Information</source>
+        <translation>Información de Transcodificación</translation>
+    </message>
+    <message>
+        <source>Codec Tag</source>
+        <translation>Tag del Códec</translation>
+    </message>
+    <message>
+        <source>Level</source>
+        <translation>Nivel</translation>
+        <extracomment>Video profile level</extracomment>
+    </message>
+    <message>
+        <source>Audio Channels</source>
+        <translation>Canales de Audio</translation>
+    </message>
+    <message>
+        <source>Stream Information</source>
+        <translation>Información de la Transmisión</translation>
+    </message>
+    <message>
+        <source>Container</source>
+        <translation>Contenedor</translation>
+        <extracomment>Video streaming container</extracomment>
+    </message>
+    <message>
+        <source>Only display text subtitles to minimize transcoding.</source>
+        <translation>Solo mostrar subtítulos de texto para minimizar la transcodificación.</translation>
+        <extracomment>Description of a setting - should we hide subtitles that might transcode</extracomment>
+    </message>
+    <message>
+        <source>all</source>
+        <translation>todo</translation>
+        <extracomment>all will reset the searchTerm so all data will be availible</extracomment>
+    </message>
+    <message>
+        <source>Here is your Quick Connect code:</source>
+        <translation>Este es tu código de Conexión Rápida:</translation>
+    </message>
+    <message>
+        <source>There was an error authenticating via Quick Connect.</source>
+        <translation>Hubo un error autenticando por medio de Conexión Rápida.</translation>
+    </message>
+    <message>
+        <source>Networks</source>
+        <translation>Redes</translation>
+    </message>
+    <message>
+        <source>Studios</source>
+        <translation>Estudios</translation>
+    </message>
+    <message>
+        <source>Shows</source>
+        <translation>Series</translation>
+    </message>
+    <message>
+        <source>You can search for Titles, People, Live TV Channels and more</source>
+        <translation>Puedes buscar por Títulos, Personas, Canales en vivo y más</translation>
+        <extracomment>Help text in search results</extracomment>
+    </message>
+    <message>
+        <source>Disabled</source>
+        <translation>Deshabilitado</translation>
+    </message>
+    <message>
+        <source>** EXPERIMENTAL** Support Direct Play of AV1 content if this Roku device supports it.</source>
+        <translation>**EXPERIMENTAL** Soporte de Reproducción Directa para contenido AV1 si este dispositivo Roku es compatible.</translation>
+        <extracomment>Description of a setting - should we try to direct play experimental av1 codec</extracomment>
+    </message>
+    <message>
+        <source>Use voice remote to search</source>
+        <translation>Utilizar la búsqueda por voz</translation>
+        <extracomment>Help text in search voice text box</extracomment>
+    </message>
+    <message>
+        <source>Support Direct Play of MPEG-2 content (e.g., Live TV). This will prevent transcoding of MPEG-2 content, but uses significantly more bandwidth.</source>
+        <translation>Soporte de reproducción directa para contenido MPEG-2 (ej., televisión en vivo). Esto previene la transcodificación de contenido MPEG-2, pero a mayor uso de ancho de banda.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Support Direct Play of MPEG-4 content. This may need to be disabled for playback of DIVX encoded video files.</source>
+        <translation>Soporte de reproducción directa para contenido MPEG-4. Esto podría requerir ser deshabilitado para poder reproducir los archivos de video con encodificación DIVX.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Use the replay button to slowly animate to the first item in the folder. (If disabled, the folder will reset to the first item immediately).</source>
+        <translation>Use el botón de reproducción para animar lentamente al primer elemento de la carpeta. (Si está deshabilitado, la carpeta se restablecerá al primer elemento inmediatamente).</translation>
+        <extracomment>Description for option in Setting Screen</extracomment>
+    </message>
 </context>
 </TS>
