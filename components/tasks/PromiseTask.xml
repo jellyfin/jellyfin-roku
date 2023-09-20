@@ -1,0 +1,6 @@
+<component name="PromiseTask" extends="Task">
+    <interface>
+        <field id="promise" type="node" />
+        <function name="getPromise" />
+    </interface>
+</component>

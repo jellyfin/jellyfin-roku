@@ -1,5 +1,6 @@
 import "pkg:/source/utils/misc.brs"
 import "pkg:/source/api/baserequest.brs"
+import "pkg:/source/roku_modules/promises/promises.brs"
 
 'Device Capabilities for Roku.
 'This will likely need further tweaking
@@ -963,3 +964,53 @@ function removeDecimals(value as string) as string
     value = r.ReplaceAll(value, "")
     return value
 end function
+
+' Post the deviceProfile to the server
+sub postDeviceProfile()
+    profile = getDeviceCapabilities()
+    printDeviceProfile(profile)
+
+    request = CreateObject("roSGNode", "RequestPromiseTask")
+    promise = request@.getPromise({
+        method: "GET",
+        url: "https://api.github.com/events"
+    })
+
+    promises.onThen(promise, sub (response as object)
+        ? "ok?", response.ok
+        ? "status code:", response.statusCode
+    end sub)
+end sub
+
+' Print out the deviceProfile for debugging
+sub printDeviceProfile(profile as object)
+    print "profile =", profile
+    print "profile.DeviceProfile =", profile.DeviceProfile
+    print "profile.DeviceProfile.CodecProfiles ="
+    for each prof in profile.DeviceProfile.CodecProfiles
+        print prof
+        for each cond in prof.Conditions
+            print cond
+        end for
+    end for
+    print "profile.DeviceProfile.ContainerProfiles =", profile.DeviceProfile.ContainerProfiles
+    print "profile.DeviceProfile.DirectPlayProfiles ="
+    for each prof in profile.DeviceProfile.DirectPlayProfiles
+        print prof
+    end for
+    print "profile.DeviceProfile.SubtitleProfiles ="
+    for each prof in profile.DeviceProfile.SubtitleProfiles
+        print prof
+    end for
+    print "profile.DeviceProfile.TranscodingProfiles ="
+    for each prof in profile.DeviceProfile.TranscodingProfiles
+        print prof
+        if isValid(prof.Conditions)
+            for each condition in prof.Conditions
+                print condition
+            end for
+        end if
+    end for
+    print "profile.PlayableMediaTypes =", profile.PlayableMediaTypes
+    print "profile.SupportedCommands =", profile.SupportedCommands
+end sub

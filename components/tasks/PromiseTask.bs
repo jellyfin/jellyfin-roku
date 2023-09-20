@@ -1,0 +1,27 @@
+import "pkg:/source/roku_modules/promises/promises.brs"
+
+sub init()
+    m.top.functionName = "resolve"
+    m.input = invalid
+end sub
+
+function getPromise(input = invalid as dynamic) as object
+    m.input = input
+    m.top.promise = promises.create()
+    m.top.control = "run"
+    return m.top.promise
+end function
+
+' Override me
+function exec(input = invalid as dynamic) as dynamic
+    throw "Not implemented"
+end function
+
+sub resolve()
+    try
+        result = exec(m.input)
+        promises.resolve(result, m.top.promise)
+    catch e
+        promises.reject(e, m.top.promise)
+    end try
+end sub

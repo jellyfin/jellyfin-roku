@@ -14,7 +14,6 @@
     <function name="dismissDialog" />
     <function name="isDialogOpen" />
     <function name="optionDialog" />
-    <function name="postProfile" />
     <field id="currentUser" type="string" onChange="updateUser" />
     <field id="returnData" type="assocarray" />
     <field id="dataReturned" type="boolean" />

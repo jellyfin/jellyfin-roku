@@ -1,5 +1,6 @@
 import "pkg:/source/roku_modules/log/LogMixin.brs"
 import "pkg:/source/utils/deviceCapabilities.brs"
+import "pkg:/source/roku_modules/promises/promises.brs"
 
 sub init()
     m.log = log.Logger("SceneManager")
@@ -7,8 +8,6 @@ sub init()
     m.scene = m.top.getScene()
     m.content = m.scene.findNode("content")
     m.overhang = m.scene.findNode("overhang")
-    m.postTask = CreateObject("roSGNode", "PostTask")
-    m.postTask.observeField("responseCode", "postFinished")
 end sub
 
 '
@@ -89,7 +88,7 @@ sub popScene()
             group.control = "stop"
         else if groupType = "Settings"
             ' update device profile after exiting the settings page - some settings affect the device profile
-            postProfile()
+            postDeviceProfile()
         end if
 
         group.visible = false
@@ -363,49 +362,3 @@ end sub
 function isDialogOpen() as boolean
     return m.scene.dialog <> invalid
 end function
-
-' Send Device Profile information to server
-function postProfile() as boolean
-    profile = getDeviceCapabilities()
-    print "profile =", profile
-    print "profile.DeviceProfile =", profile.DeviceProfile
-    print "profile.DeviceProfile.CodecProfiles ="
-    for each prof in profile.DeviceProfile.CodecProfiles
-        print prof
-        for each cond in prof.Conditions
-            print cond
-        end for
-    end for
-    print "profile.DeviceProfile.ContainerProfiles =", profile.DeviceProfile.ContainerProfiles
-    print "profile.DeviceProfile.DirectPlayProfiles ="
-    for each prof in profile.DeviceProfile.DirectPlayProfiles
-        print prof
-    end for
-    print "profile.DeviceProfile.SubtitleProfiles ="
-    for each prof in profile.DeviceProfile.SubtitleProfiles
-        print prof
-    end for
-    print "profile.DeviceProfile.TranscodingProfiles ="
-    for each prof in profile.DeviceProfile.TranscodingProfiles
-        print prof
-        if isValid(prof.Conditions)
-            for each condition in prof.Conditions
-                print condition
-            end for
-        end if
-    end for
-    print "profile.PlayableMediaTypes =", profile.PlayableMediaTypes
-    print "profile.SupportedCommands =", profile.SupportedCommands
-
-    m.postTask.arrayData = profile
-    m.postTask.apiUrl = "/Sessions/Capabilities/Full"
-    m.postTask.control = "RUN"
-    return true
-end function
-
-' Post Task is finished
-sub postFinished()
-    m.postTask.unobserveField("responseCode")
-    m.postTask.callFunc("emptyPostTask")
-    m.postTask.observeField("responseCode", "postFinished")
-end sub

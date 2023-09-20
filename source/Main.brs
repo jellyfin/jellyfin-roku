@@ -29,10 +29,11 @@ sub Main (args as dynamic) as void
     m.global.addFields({ audioPlayer: CreateObject("roSGNode", "AudioPlayer") })
 
     app_start:
+    postDeviceProfile()
     ' First thing to do is validate the ability to use the API
     if not LoginFlow() then return
     ' tell jellyfin server about device capabilities
-    m.global.sceneManager.callFunc("postProfile")
+
     ' remove previous scenes from the stack
     sceneManager.callFunc("clearScenes")
 

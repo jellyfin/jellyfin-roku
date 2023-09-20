@@ -149,6 +149,9 @@ namespace session
             end for
 
             if m.global.app.isDev
+                print "m.global.session.user = ", m.global.session.user
+                print "m.global.session.user.Configuration = ", m.global.session.user.Configuration
+                print "m.global.session.user.Policy = ", m.global.session.user.Policy
                 print "m.global.session.user.settings = ", m.global.session.user.settings
             end if
             ' ensure registry is updated
