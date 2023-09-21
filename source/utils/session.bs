@@ -11,7 +11,8 @@ namespace session
                 user: {
                     Configuration: {},
                     Policy: {},
-                    settings: {}
+                    settings: {},
+                    lastRunVersion: invalid
                 }
             }
         })
@@ -145,6 +146,12 @@ namespace session
             tmpSession.user.AddReplace("settings", oldUserSettings)
             ' update global user session
             session.Update("user", tmpSession.user)
+
+            ' grab lastRunVersion for this user
+            lastRunVersion = get_user_setting("LastRunVersion")
+            if lastRunVersion <> invalid
+                session.user.Update("LastRunVersion", lastRunVersion)
+            end if
 
             ' update user session settings with values from registry
             userSettings = RegistryReadAll(tmpSession.user.id)

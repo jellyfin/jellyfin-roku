@@ -28,11 +28,13 @@ end sub
 ' Save information from roAppInfo to m.global.app
 sub SaveAppToGlobal()
     appInfo = CreateObject("roAppInfo")
+    lastRunVersion = get_setting("LastRunVersion")
     m.global.addFields({
         app: {
             id: appInfo.GetID(),
             isDev: appInfo.IsDev(),
-            version: appInfo.GetVersion()
+            version: appInfo.GetVersion(),
+            lastRunVersion: lastRunVersion
         }
     })
 end sub

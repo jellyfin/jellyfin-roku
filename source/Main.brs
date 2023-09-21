@@ -61,30 +61,15 @@ sub Main (args as dynamic) as void
         end if
     end if
 
-    ' Only show the Whats New popup the first time a user runs a new client version.
-    appLastRunVersion = get_setting("LastRunVersion")
-    if m.global.app.version <> appLastRunVersion
-        ' Ensure the user hasn't disabled Whats New popups
-        if m.global.session.user.settings["load.allowwhatsnew"] = true
-            set_setting("LastRunVersion", m.global.app.version)
-            dialog = createObject("roSGNode", "WhatsNewDialog")
-            m.scene.dialog = dialog
-            m.scene.dialog.observeField("buttonSelected", m.port)
-        end if
-    end if
-
-    ' Registry migrations
-    if isValid(appLastRunVersion) and not versionChecker(appLastRunVersion, "1.7.0")
-        ' last app version used less than 1.7.0
+    ' Global registry migrations
+    if isValid(m.global.app.lastRunVersion) and not versionChecker(m.global.app.lastRunVersion, "1.7.0")
+        ' last app version used was less than 1.7.0
+        print "Running 1.7.0 global registry migrations"
         ' no longer saving raw password to registry
         ' auth token and username are now stored in user settings and not global settings
-        print "Running 1.7.0 registry migrations"
-        ' remove global settings
         unset_setting("token")
         unset_setting("username")
         unset_setting("password")
-        ' remove user settings
-        unset_user_setting("password")
         ' remove saved credentials from saved_servers
         saved = get_setting("saved_servers")
         if isValid(saved)
@@ -99,6 +84,42 @@ sub Main (args as dynamic) as void
                 set_setting("saved_servers", FormatJson(newServers))
             end if
         end if
+        ' now saving LastRunVersion globally and per user so that we can run user specific registry migrations
+        ' duplicate LastRunVersion to all user settings in the registry so that we can run user specific migrations
+        regSections = getRegistrySections()
+        for each section in regSections
+            if section <> "Jellyfin"
+                registry_write("LastRunVersion", m.global.app.version, section)
+            end if
+        end for
+    end if
+
+    ' User registry migrations
+    if m.global.session.user.lastRunVersion <> invalid and not versionChecker(m.global.session.user.lastRunVersion, "1.7.0")
+        ' last run version was less than 1.7.0
+        print "Running 1.7.0 user registry migrations"
+        ' no longer saving password to registry
+        unset_user_setting("password")
+    end if
+
+    ' Save the global last run version of the app
+    if m.global.app.version <> m.global.app.lastRunVersion
+        ' update global LastRunVersion
+        set_setting("LastRunVersion", m.global.app.version)
+
+        ' Show the Whats New popup
+        if m.global.session.user.settings["load.allowwhatsnew"] = true
+            dialog = createObject("roSGNode", "WhatsNewDialog")
+            m.scene.dialog = dialog
+            m.scene.dialog.observeField("buttonSelected", m.port)
+        end if
+    end if
+
+    ' Save the user last run version of the app
+    if m.global.session.user.lastRunVersion <> m.global.app.lastRunVersion
+        ' update user LastRunVersion
+        set_user_setting("LastRunVersion", m.global.app.version)
+        session.user.Update("lastRunVersion", m.global.app.version)
     end if
 
     ' Handle input messages

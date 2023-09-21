@@ -37,7 +37,7 @@ function RegistryReadAll(section as string) as dynamic
     registryData = {}
     for each item in regKeyList
         ' ignore session related tokens
-        if item <> "token" and item <> "username" and item <> "password"
+        if item <> "token" and item <> "username" and item <> "password" and item <> "LastRunVersion"
             if registry.Exists(item)
                 registryData.AddReplace(item, registry.Read(item))
             end if
@@ -45,6 +45,12 @@ function RegistryReadAll(section as string) as dynamic
     end for
 
     return registryData
+end function
+
+' Return an array of all the registry section keys
+function getRegistrySections() as object
+    registry = CreateObject("roRegistry")
+    return registry.GetSectionList()
 end function
 
 ' "Jellyfin" registry accessors for the default global settings
