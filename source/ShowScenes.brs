@@ -282,11 +282,11 @@ function CreateServerGroup()
                 m.scene.dialog = dialog
 
                 serverUrl = standardize_jellyfin_url(screen.serverUrl)
-                set_setting("server", serverUrl)
 
                 isConnected = session.server.UpdateURL(serverUrl)
                 serverInfoResult = invalid
                 if isConnected
+                    set_setting("server", serverUrl)
                     serverInfoResult = ServerInfo()
                 end if
                 dialog.close = true
@@ -302,9 +302,10 @@ function CreateServerGroup()
                         ' If server redirected received, update the URL
                         if isValid(serverInfoResult.UpdatedUrl)
                             serverUrl = serverInfoResult.UpdatedUrl
-                            set_setting("server", serverUrl)
+
                             isConnected = session.server.UpdateURL(serverUrl)
                             if isConnected
+                                set_setting("server", serverUrl)
                                 screen.visible = false
                                 return ""
                             end if
