@@ -1,6 +1,7 @@
 import "pkg:/source/utils/config.brs"
 import "pkg:/source/utils/misc.brs"
 import "pkg:/source/roku_modules/log/LogMixin.brs"
+import "pkg:/source/api/sdk.bs"
 
 sub init()
     m.log = log.Logger("Settings")
@@ -158,14 +159,40 @@ end sub
 
 
 sub boolSettingChanged()
-
     if m.boolSetting.focusedChild = invalid then return
     selectedSetting = m.userLocation.peek().children[m.settingsMenu.itemFocused]
 
     if m.boolSetting.checkedItem
-        set_user_setting(selectedSetting.settingName, "true")
+        session.user.settings.Save(selectedSetting.settingName, "true")
+        if Left(selectedSetting.settingName, 7) = "global."
+            ' global user setting
+            ' save to main registry block
+            set_setting(selectedSetting.settingName, "true")
+            ' setting specific triggers
+            if selectedSetting.settingName = "global.rememberme"
+                print "m.global.session.user.id=", m.global.session.user.id
+                set_setting("active_user", m.global.session.user.id)
+            end if
+        else
+            ' regular user setting
+            ' save to user specific registry block
+            set_user_setting(selectedSetting.settingName, "true")
+        end if
     else
-        set_user_setting(selectedSetting.settingName, "false")
+        session.user.settings.Save(selectedSetting.settingName, "false")
+        if Left(selectedSetting.settingName, 7) = "global."
+            ' global user setting
+            ' save to main registry block
+            set_setting(selectedSetting.settingName, "false")
+            ' setting specific triggers
+            if selectedSetting.settingName = "global.rememberme"
+                unset_setting("active_user")
+            end if
+        else
+            ' regular user setting
+            ' save to user specific registry block
+            set_user_setting(selectedSetting.settingName, "false")
+        end if
     end if
 end sub
 
