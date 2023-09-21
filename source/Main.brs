@@ -61,47 +61,9 @@ sub Main (args as dynamic) as void
         end if
     end if
 
-    ' Global registry migrations
-    if isValid(m.global.app.lastRunVersion) and not versionChecker(m.global.app.lastRunVersion, "1.7.0")
-        ' last app version used was less than 1.7.0
-        print "Running 1.7.0 global registry migrations"
-        ' no longer saving raw password to registry
-        ' auth token and username are now stored in user settings and not global settings
-        unset_setting("port")
-        unset_setting("token")
-        unset_setting("username")
-        unset_setting("password")
-        ' remove saved credentials from saved_servers
-        saved = get_setting("saved_servers")
-        if isValid(saved)
-            savedServers = ParseJson(saved)
-            if isValid(savedServers.serverList) and savedServers.serverList.Count() > 0
-                newServers = { serverList: [] }
-                for each item in savedServers.serverList
-                    item.Delete("username")
-                    item.Delete("password")
-                    newServers.serverList.Push(item)
-                end for
-                set_setting("saved_servers", FormatJson(newServers))
-            end if
-        end if
-        ' now saving LastRunVersion globally and per user so that we can run user specific registry migrations
-        ' duplicate LastRunVersion to all user settings in the registry so that we can run user specific migrations
-        regSections = getRegistrySections()
-        for each section in regSections
-            if section <> "Jellyfin"
-                registry_write("LastRunVersion", m.global.app.version, section)
-            end if
-        end for
-    end if
-
-    ' User registry migrations
-    if m.global.session.user.lastRunVersion <> invalid and not versionChecker(m.global.session.user.lastRunVersion, "1.7.0")
-        ' last run version was less than 1.7.0
-        print "Running 1.7.0 user registry migrations"
-        ' no longer saving password to registry
-        unset_user_setting("password")
-    end if
+    ' migrate registry if needed
+    runGlobalMigrations()
+    runUserMigrations()
 
     ' Save the global last run version of the app
     if m.global.app.version <> m.global.app.lastRunVersion
