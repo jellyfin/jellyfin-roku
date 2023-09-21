@@ -67,6 +67,7 @@ sub Main (args as dynamic) as void
         print "Running 1.7.0 global registry migrations"
         ' no longer saving raw password to registry
         ' auth token and username are now stored in user settings and not global settings
+        unset_setting("port")
         unset_setting("token")
         unset_setting("username")
         unset_setting("password")
