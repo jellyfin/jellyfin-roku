@@ -1,6 +1,4 @@
 import "pkg:/source/roku_modules/log/LogMixin.brs"
-import "pkg:/source/utils/config.brs"
-import "pkg:/source/utils/session.bs"
 
 sub init()
     m.log = log.Logger("SceneManager")
