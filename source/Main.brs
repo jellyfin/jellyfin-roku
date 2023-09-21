@@ -549,7 +549,7 @@ sub Main (args as dynamic) as void
                 group.findNode("SearchBox").findNode("search_Key").active = true
             else if button.id = "change_server"
                 unset_setting("server")
-                unset_setting("port")
+                session.server.Delete()
                 SignOut(false)
                 sceneManager.callFunc("clearScenes")
                 goto app_start
