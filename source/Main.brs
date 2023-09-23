@@ -182,6 +182,8 @@ sub Main (args as dynamic) as void
                         quickplay.folder(itemNode)
                     else if itemType = "musicvideo"
                         quickplay.musicVideo(itemNode)
+                    else if itemType = "person"
+                        quickplay.person(itemNode)
                     end if
 
                     m.global.queueManager.callFunc("playQueue")

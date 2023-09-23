@@ -300,6 +300,46 @@ namespace quickplay
         end if
     end sub
 
+    ' Quick Play A Person.
+    ' Shuffle play all videos found
+    sub person(itemNode as object)
+        if not isValid(itemNode) or not isValid(itemNode.id) then return
+        ' get movies and videos by the person
+        personMovies = api.users.GetItemsByQuery(m.global.session.user.id, {
+            "personIds": itemNode.id,
+            "includeItemTypes": "Movie,Video",
+            "excludeItemTypes": "Season,Series",
+            "recursive": true,
+            "limit": 2000
+        })
+        print "personMovies=", personMovies
+
+        if isValid(personMovies) and isValidAndNotEmpty(personMovies.Items)
+            ' add each item to the queue
+            pushToQueue(personMovies.Items)
+        end if
+
+        ' get watched episodes by the person
+        personEpisodes = api.users.GetItemsByQuery(m.global.session.user.id, {
+            "personIds": itemNode.id,
+            "includeItemTypes": "Episode",
+            "isPlayed": true,
+            "excludeItemTypes": "Season,Series",
+            "recursive": true,
+            "limit": 2000
+        })
+        print "personEpisodes=", personEpisodes
+
+        if isValid(personEpisodes) and isValidAndNotEmpty(personEpisodes.Items)
+            ' add each item to the queue
+            pushToQueue(personEpisodes.Items)
+        end if
+
+        if m.global.queueManager.callFunc("getCount") > 1
+            m.global.queueManager.callFunc("toggleShuffle")
+        end if
+    end sub
+
     ' Quick Play A Playlist.
     ' Play the first unwatched episode.
     ' If none, play the whole season starting with episode 1.
@@ -314,7 +354,9 @@ namespace quickplay
         if isValid(myPlaylist) and isValidAndNotEmpty(myPlaylist.Items)
             ' add each item to the queue
             pushToQueue(myPlaylist.Items)
-            m.global.queueManager.callFunc("toggleShuffle")
+            if m.global.queueManager.callFunc("getCount") > 1
+                m.global.queueManager.callFunc("toggleShuffle")
+            end if
         end if
     end sub
 
@@ -404,7 +446,7 @@ namespace quickplay
                 end if
             end if
         else if collectionType = "music"
-            ' get all audio files under this collection
+            ' get audio files from under this collection
             ' sort songs by album then artist
             songsData = api.users.GetItemsByQuery(m.global.session.user.id, {
                 "parentId": itemNode.id,
