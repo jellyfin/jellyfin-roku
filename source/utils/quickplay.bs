@@ -272,7 +272,7 @@ namespace quickplay
         print "itemNode.json=", itemNode.json
 
         paramArray = {
-            "includeItemTypes": ["Audio", "Episode", "Movie", "Video"],
+            "includeItemTypes": ["Episode", "Movie", "Video"],
             "videoTypes": "VideoFile",
             "sortBy": "Random",
             "imageTypeLimit": 1,
@@ -286,6 +286,10 @@ namespace quickplay
             paramArray["studioIds"] = itemNode.id
         else if folderType = "genre"
             paramArray["genreIds"] = itemNode.id
+        else if folderType = "musicgenre"
+            paramArray["genreIds"] = itemNode.id
+            paramArray.delete("videoTypes")
+            paramArray["includeItemTypes"] = "Audio"
         else
             paramArray["parentId"] = itemNode.id
         end if
