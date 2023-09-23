@@ -127,8 +127,9 @@ sub Main (args as dynamic) as void
             if isValid(reportingNode)
                 itemNode = reportingNode.quickPlayNode
                 reportingNodeType = reportingNode.subtype()
-                ' prevent double fire on continue watching home row
-                if isValid(reportingNodeType) and reportingNodeType = "Home"
+                print "Quick Play reporting node type=", reportingNodeType
+                ' prevent double fire bug
+                if isValid(reportingNodeType) and (reportingNodeType = "Home" or reportingNodeType = "TVEpisodes")
                     reportingNode.quickPlayNode = invalid
                 end if
             end if
