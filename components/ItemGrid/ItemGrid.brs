@@ -734,6 +734,16 @@ sub onChannelFocused(msg)
     m.channelFocused = node.focusedChannel
 end sub
 
+'Returns Focused Item
+function getItemFocused()
+    if m.itemGrid.isinFocusChain() and isValid(m.itemGrid.itemFocused)
+        return m.itemGrid.content.getChild(m.itemGrid.itemFocused)
+    else if m.genreList.isinFocusChain() and isValid(m.genreList.rowItemFocused)
+        return m.genreList.content.getChild(m.genreList.rowItemFocused[0]).getChild(m.genreList.rowItemFocused[1])
+    end if
+    return invalid
+end function
+
 function onKeyEvent(key as string, press as boolean) as boolean
     if not press then return false
 
@@ -782,8 +792,8 @@ function onKeyEvent(key as string, press as boolean) as boolean
         end if
     else if key = "play"
         markupGrid = m.top.findNode("itemGrid")
-        itemToPlay = markupGrid.content.getChild(markupGrid.itemFocused)
-
+        itemToPlay = getItemFocused()
+        print "itemToPlay=", itemToPlay
         if itemToPlay <> invalid
             m.top.quickPlayNode = itemToPlay
             return true

@@ -192,6 +192,36 @@ namespace quickplay
         end if
     end sub
 
+    ' More than one TV Show Series.
+    ' Shuffle play all watched episodes
+    sub multipleSeries(itemNodes as object)
+        if isValidAndNotEmpty(itemNodes)
+            for each tvshow in itemNodes
+                ' grab all watched episodes for each series
+                showData = api.shows.GetEpisodes(tvshow.id, {
+                    "userId": m.global.session.user.id,
+                    "imageTypeLimit": 0,
+                    "EnableTotalRecordCount": false,
+                    "enableImages": false
+                })
+
+                if isValid(showData) and isValidAndNotEmpty(showData.items)
+                    ' add all played episodes to queue
+                    for each episode in showData.items
+                        if isValid(episode.userdata) and isValid(episode.userdata.Played)
+                            if episode.userdata.Played
+                                m.global.queueManager.callFunc("push", episode)
+                            end if
+                        end if
+                    end for
+                end if
+            end for
+            if m.global.queueManager.callFunc("getCount") > 1
+                m.global.queueManager.callFunc("toggleShuffle")
+            end if
+        end if
+    end sub
+
     ' A TV Show Season.
     ' Play the first unwatched episode.
     ' If none, play the whole season starting with episode 1.
@@ -276,7 +306,6 @@ namespace quickplay
     ' Shuffle play all items found
     sub folder(itemNode as object)
         if not isValid(itemNode) or not isValid(itemNode.id) then return
-        print "itemNode.json=", itemNode.json
 
         paramArray = {
             "includeItemTypes": ["Episode", "Movie", "Video"],
@@ -289,6 +318,8 @@ namespace quickplay
         }
         ' modify api query based on folder type
         folderType = Lcase(itemNode.json.type)
+
+        ' modify qpi query based on folder type
         if folderType = "studio"
             paramArray["studioIds"] = itemNode.id
         else if folderType = "genre"
@@ -300,16 +331,28 @@ namespace quickplay
         else
             paramArray["parentId"] = itemNode.id
         end if
+        ' loof for tv series in stead of video files
+        if isValid(itemNode.json.SeriesCount) and itemNode.json.SeriesCount > 0
+            paramArray["includeItemTypes"] = "Series"
+            paramArray.Delete("videoTypes")
+        end if
         ' get folder items
         folderData = api.users.GetItemsByQuery(m.global.session.user.id, paramArray)
         print "folderData=", folderData
 
         if isValid(folderData) and isValidAndNotEmpty(folderData.items)
-            pushToQueue(folderData.items)
-
-            ' don't show shuffle icon for 1 item
-            if folderData.items.count() > 1
-                m.global.queueManager.callFunc("toggleShuffle")
+            if isValid(itemNode.json.SeriesCount) and itemNode.json.SeriesCount > 0
+                if itemNode.json.SeriesCount = 1
+                    quickplay.series(folderData.items[0])
+                else
+                    quickplay.multipleSeries(folderData.items)
+                end if
+            else
+                pushToQueue(folderData.items)
+                ' don't show shuffle icon for 1 item
+                if folderData.items.count() > 1
+                    m.global.queueManager.callFunc("toggleShuffle")
+                end if
             end if
         end if
     end sub
@@ -340,7 +383,9 @@ namespace quickplay
                         end if
                     end if
                 end for
-                m.global.queueManager.callFunc("toggleShuffle")
+                if m.global.queueManager.callFunc("getCount") > 1
+                    m.global.queueManager.callFunc("toggleShuffle")
+                end if
             end if
         else if collectionType = "music"
             ' get all audio files under this collection
@@ -402,28 +447,7 @@ namespace quickplay
             print "tvshowsData=", tvshowsData
 
             if isValid(tvshowsData) and isValidAndNotEmpty(tvshowsData.items)
-                for each tvshow in tvshowsData.items
-                    ' grab all watched episodes for each series
-                    showData = api.shows.GetEpisodes(tvshow.id, {
-                        "userId": m.global.session.user.id,
-                        "imageTypeLimit": 0,
-                        "EnableTotalRecordCount": false,
-                        "enableImages": false
-                    })
-
-                    if isValid(showData) and isValidAndNotEmpty(showData.items)
-                        ' add all played episodes to queue
-                        for each episode in showData.items
-                            if isValid(episode.userdata) and isValid(episode.userdata.Played)
-                                if episode.userdata.Played
-                                    m.global.queueManager.callFunc("push", episode)
-                                end if
-                            end if
-                        end for
-
-                    end if
-                end for
-                m.global.queueManager.callFunc("toggleShuffle")
+                quickplay.multipleSeries(tvshowsData.items)
             end if
         else if collectionType = "musicvideos"
             ' get randomized list of videos inside
