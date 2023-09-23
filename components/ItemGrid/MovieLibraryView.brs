@@ -707,7 +707,12 @@ end sub
 '
 'Returns Focused Item
 function getItemFocused()
-    return m.itemGrid.content.getChild(m.itemGrid.itemFocused)
+    if m.itemGrid.isinFocusChain() and isValid(m.itemGrid.itemFocused)
+        return m.itemGrid.content.getChild(m.itemGrid.itemFocused)
+    else if m.genreList.isinFocusChain() and isValid(m.genreList.rowItemFocused)
+        return m.genreList.content.getChild(m.genreList.rowItemFocused[0]).getChild(m.genreList.rowItemFocused[1])
+    end if
+    return invalid
 end function
 
 '

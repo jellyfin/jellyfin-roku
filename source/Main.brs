@@ -177,6 +177,8 @@ sub Main (args as dynamic) as void
                         quickplay.playlist(itemNode)
                     else if itemType = "userview"
                         quickplay.userView(itemNode)
+                    else if itemType = "folder"
+                        quickplay.folder(itemNode)
                     end if
 
                     m.global.queueManager.callFunc("playQueue")

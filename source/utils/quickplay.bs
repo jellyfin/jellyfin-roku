@@ -103,7 +103,7 @@ namespace quickplay
             pushToQueue(artistSongs.items)
 
             ' don't show shuffle icon for 1 song
-            if artistSongs.items > 1
+            if artistSongs.items.count() > 1
                 m.global.queueManager.callFunc("toggleShuffle")
             end if
         end if
@@ -265,6 +265,44 @@ namespace quickplay
         end if
     end sub
 
+    ' Quick Play A folder.
+    ' Shuffle play all items found
+    sub folder(itemNode as object)
+        if not isValid(itemNode) or not isValid(itemNode.id) then return
+        print "itemNode.json=", itemNode.json
+
+        paramArray = {
+            "includeItemTypes": ["Audio", "Episode", "Movie", "Video"],
+            "videoTypes": "VideoFile",
+            "sortBy": "Random",
+            "imageTypeLimit": 1,
+            "Recursive": true,
+            "enableUserData": false,
+            "EnableTotalRecordCount": false
+        }
+        ' modify api query based on folder type
+        folderType = Lcase(itemNode.json.type)
+        if folderType = "studio"
+            paramArray["studioIds"] = itemNode.id
+        else if folderType = "genre"
+            paramArray["genreIds"] = itemNode.id
+        else
+            paramArray["parentId"] = itemNode.id
+        end if
+        ' get folder items
+        folderData = api.users.GetItemsByQuery(m.global.session.user.id, paramArray)
+        print "folderData=", folderData
+
+        if isValid(folderData) and isValidAndNotEmpty(folderData.items)
+            pushToQueue(folderData.items)
+
+            ' don't show shuffle icon for 1 item
+            if folderData.items.count() > 1
+                m.global.queueManager.callFunc("toggleShuffle")
+            end if
+        end if
+    end sub
+
     ' Quick Play A CollectionFolder.
     ' Shuffle play the items inside
     ' with some differences based on collectionType.
@@ -308,7 +346,9 @@ namespace quickplay
             print "songsData=", songsData
             if isValid(songsData) and isValidAndNotEmpty(songsData.items)
                 pushToQueue(songsData.Items)
-                m.global.queueManager.callFunc("toggleShuffle")
+                if songsData.Items.count() > 1
+                    m.global.queueManager.callFunc("toggleShuffle")
+                end if
             end if
         else if collectionType = "boxsets"
             ' get list of all boxsets inside
@@ -415,7 +455,7 @@ namespace quickplay
                         m.global.queueManager.callFunc("push", item)
                     end for
                     ' don't show shuffle icon for 1 item
-                    if playlistItems.items > 1
+                    if playlistItems.items.count() > 1
                         m.global.queueManager.callFunc("toggleShuffle")
                     end if
                 end if
