@@ -290,6 +290,8 @@ sub Main (args as dynamic) as void
                     end if
                 else if selectedItemType = "MusicAlbum"
                     group = CreateAlbumView(selectedItem.json)
+                else if selectedItemType = "MusicVideo"
+                    group = CreateMovieDetailsGroup(selectedItem)
                 else if selectedItemType = "Playlist"
                     group = CreatePlaylistView(selectedItem.json)
                 else if selectedItemType = "Audio"
@@ -428,6 +430,8 @@ sub Main (args as dynamic) as void
                 group = CreateArtistView(node.json)
             else if node.type = "MusicAlbum"
                 group = CreateAlbumView(node.json)
+            else if node.type = "MusicVideo"
+                group = CreateMovieDetailsGroup(node)
             else if node.type = "Audio"
                 m.global.queueManager.callFunc("clear")
                 m.global.queueManager.callFunc("resetShuffle")
