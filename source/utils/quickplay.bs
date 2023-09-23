@@ -2,30 +2,16 @@
 namespace quickplay
 
     ' Takes an array of items and adds to global queue.
-    ' Stop loading items if memory level becomes low
-    sub pushToQueue(queueArray as object, limitValue = 200 as integer)
+    ' Also shuffles the playlist if asked
+    sub pushToQueue(queueArray as object, shufflePlay = false as boolean)
         if isValidAndNotEmpty(queueArray)
-            itemCount = queueArray.count()
-            if limitValue >= itemCount
-                ' load everything
-                for each item in queueArray
-                    m.global.queueManager.callFunc("push", item)
-                end for
-            else
-                newLimit = limitValue
-                for i = 0 to itemCount - 1
-                    m.global.queueManager.callFunc("push", queueArray[i])
-
-                    if i = newLimit
-                        ' hit the item limit. check memory level
-                        newLimit = newLimit + limitValue
-                        print "m.global.session.memoryLevel=", m.global.session.memoryLevel
-                        if m.global.session.memoryLevel = "low" or m.global.session.memoryLevel = "critical"
-                            print "Memory is low. Stop loading items in the playlist..."
-                            exit for
-                        end if
-                    end if
-                end for
+            ' load everything
+            for each item in queueArray
+                m.global.queueManager.callFunc("push", item)
+            end for
+            ' shuffle the playlist if asked
+            if shufflePlay and m.global.queueManager.callFunc("getCount") > 1
+                m.global.queueManager.callFunc("toggleShuffle")
             end if
         end if
     end sub
@@ -83,10 +69,7 @@ namespace quickplay
             "EnableTotalRecordCount": false
         })
         if isValid(albumSongs) and isValidAndNotEmpty(albumSongs.items)
-            ' add every song to the queue
-            for each song in albumSongs.items
-                m.global.queueManager.callFunc("push", song)
-            end for
+            quickplay.pushToQueue(albumSongs.items)
         end if
     end sub
 
@@ -109,17 +92,12 @@ namespace quickplay
         print "artistSongs=", artistSongs
 
         if isValid(artistSongs) and isValidAndNotEmpty(artistSongs.items)
-            pushToQueue(artistSongs.items)
-
-            ' don't show shuffle icon for 1 song
-            if artistSongs.items.count() > 1
-                m.global.queueManager.callFunc("toggleShuffle")
-            end if
+            quickplay.pushToQueue(artistSongs.items, true)
         end if
     end sub
 
     ' A boxset.
-    ' Shuffle play all items inside.
+    ' Play all items inside.
     sub boxset(itemNode as object)
         if not isValid(itemNode) or not isValid(itemNode.id) then return
 
@@ -130,8 +108,7 @@ namespace quickplay
             "EnableTotalRecordCount": false
         })
         if isValid(data) and isValidAndNotEmpty(data.Items)
-            ' there are videos inside
-            pushToQueue(data.items)
+            quickplay.pushToQueue(data.items)
         end if
     end sub
 
@@ -155,9 +132,7 @@ namespace quickplay
 
         if isValid(data) and isValidAndNotEmpty(data.Items)
             ' there are unwatched episodes
-            for each item in data.Items
-                m.global.queueManager.callFunc("push", item)
-            end for
+            m.global.queueManager.callFunc("push", data.Items[0])
         else
             ' next up check was empty
             ' check for a resumable episode
@@ -173,12 +148,10 @@ namespace quickplay
             print "resumeitems data=", data
             if isValid(data) and isValidAndNotEmpty(data.Items)
                 ' play the resumable episode
-                for each item in data.Items
-                    if isValid(item.UserData) and isValid(item.UserData.PlaybackPositionTicks)
-                        item.startingPoint = item.userdata.PlaybackPositionTicks
-                    end if
-                    m.global.queueManager.callFunc("push", item)
-                end for
+                if isValid(data.Items[0].UserData) and isValid(data.Items[0].UserData.PlaybackPositionTicks)
+                    data.Items[0].startingPoint = data.Items[0].userdata.PlaybackPositionTicks
+                end if
+                m.global.queueManager.callFunc("push", data.Items[0])
             else
                 ' shuffle all episodes
                 data = api.shows.GetEpisodes(itemNode.id, {
@@ -190,7 +163,7 @@ namespace quickplay
 
                 if isValid(data) and isValidAndNotEmpty(data.Items)
                     ' add all episodes found to a playlist
-                    pushToQueue(data.Items)
+                    quickplay.pushToQueue(data.Items)
                 end if
             end if
         end if
@@ -213,14 +186,16 @@ namespace quickplay
                 })
 
                 if isValid(showData) and isValidAndNotEmpty(showData.items)
+                    playedEpisodes = []
                     ' add all played episodes to queue
                     for each episode in showData.items
                         if isValid(episode.userdata) and isValid(episode.userdata.Played)
                             if episode.userdata.Played
-                                m.global.queueManager.callFunc("push", episode)
+                                playedEpisodes.push(episode)
                             end if
                         end if
                     end for
+                    quickplay.pushToQueue(playedEpisodes)
 
                     ' keep track of how many items we've seen
                     numTotal = numTotal + showData.items.count()
@@ -316,7 +291,7 @@ namespace quickplay
 
         if isValid(personMovies) and isValidAndNotEmpty(personMovies.Items)
             ' add each item to the queue
-            pushToQueue(personMovies.Items)
+            quickplay.pushToQueue(personMovies.Items)
         end if
 
         ' get watched episodes by the person
@@ -332,7 +307,7 @@ namespace quickplay
 
         if isValid(personEpisodes) and isValidAndNotEmpty(personEpisodes.Items)
             ' add each item to the queue
-            pushToQueue(personEpisodes.Items)
+            quickplay.pushToQueue(personEpisodes.Items)
         end if
 
         if m.global.queueManager.callFunc("getCount") > 1
@@ -353,7 +328,7 @@ namespace quickplay
 
         if isValid(myPlaylist) and isValidAndNotEmpty(myPlaylist.Items)
             ' add each item to the queue
-            pushToQueue(myPlaylist.Items)
+            quickplay.pushToQueue(myPlaylist.Items)
             if m.global.queueManager.callFunc("getCount") > 1
                 m.global.queueManager.callFunc("toggleShuffle")
             end if
@@ -405,11 +380,7 @@ namespace quickplay
                     quickplay.multipleSeries(folderData.items)
                 end if
             else
-                pushToQueue(folderData.items)
-                ' don't show shuffle icon for 1 item
-                if folderData.items.count() > 1
-                    m.global.queueManager.callFunc("toggleShuffle")
-                end if
+                quickplay.pushToQueue(folderData.items, true)
             end if
         end if
     end sub
@@ -428,22 +399,22 @@ namespace quickplay
             ' get randomized list of movies inside
             data = api.users.GetItemsByQuery(m.global.session.user.id, {
                 "parentId": itemNode.id,
+                "sortBy": "Random",
                 "limit": 2000
             })
 
             if isValid(data) and isValidAndNotEmpty(data.items)
+                movieList = []
                 ' add each item to the queue
                 for each item in data.Items
                     ' only add movies we're not currently watching
                     if isValid(item.userdata) and isValid(item.userdata.PlaybackPositionTicks)
                         if item.userdata.PlaybackPositionTicks = 0
-                            m.global.queueManager.callFunc("push", item)
+                            movieList.push(item)
                         end if
                     end if
                 end for
-                if m.global.queueManager.callFunc("getCount") > 1
-                    m.global.queueManager.callFunc("toggleShuffle")
-                end if
+                quickplay.pushToQueue(movieList)
             end if
         else if collectionType = "music"
             ' get audio files from under this collection
@@ -460,10 +431,7 @@ namespace quickplay
             })
             print "songsData=", songsData
             if isValid(songsData) and isValidAndNotEmpty(songsData.items)
-                pushToQueue(songsData.Items)
-                if songsData.Items.count() > 1
-                    m.global.queueManager.callFunc("toggleShuffle")
-                end if
+                quickplay.pushToQueue(songsData.Items, true)
             end if
         else if collectionType = "boxsets"
             ' get list of all boxsets inside
@@ -491,7 +459,7 @@ namespace quickplay
 
                 if isValid(boxsetData) and isValidAndNotEmpty(boxsetData.items)
                     ' add all boxset items to queue
-                    pushToQueue(boxsetData.Items)
+                    quickplay.pushToQueue(boxsetData.Items)
                 end if
             end if
         else if collectionType = "tvshows"
@@ -524,11 +492,7 @@ namespace quickplay
             })
             print "data=", data
             if isValid(data) and isValidAndNotEmpty(data.items)
-                ' add each item to the queue
-                pushToQueue(data.Items)
-                if data.items.count() > 1
-                    m.global.queueManager.callFunc("toggleShuffle")
-                end if
+                quickplay.pushToQueue(data.Items)
             end if
             ' else if collectionType = "homevideos" ' also used for a "Photo" library
         else
@@ -568,13 +532,7 @@ namespace quickplay
                 })
                 ' validate api results
                 if isValid(playlistItems) and isValidAndNotEmpty(playlistItems.items)
-                    for each item in playlistItems.items
-                        m.global.queueManager.callFunc("push", item)
-                    end for
-                    ' don't show shuffle icon for 1 item
-                    if playlistItems.items.count() > 1
-                        m.global.queueManager.callFunc("toggleShuffle")
-                    end if
+                    quickplay.pushToQueue(playlistItems.items, true)
                 end if
             end if
         else
