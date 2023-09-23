@@ -61,6 +61,13 @@ namespace quickplay
         m.global.queueManager.callFunc("push", itemNode)
     end sub
 
+    ' A single music video file.
+    sub musicVideo(itemNode as object)
+        if not isValid(itemNode) or not isValid(itemNode.id) or not isValid(itemNode.json) then return
+
+        m.global.queueManager.callFunc("push", itemNode)
+    end sub
+
     ' A music album.
     ' Play the entire album starting with track 1.
     sub album(itemNode as object)
@@ -417,6 +424,25 @@ namespace quickplay
                     end if
                 end for
                 m.global.queueManager.callFunc("toggleShuffle")
+            end if
+        else if collectionType = "musicvideos"
+            ' get randomized list of videos inside
+            data = api.users.GetItemsByQuery(m.global.session.user.id, {
+                "parentId": itemNode.id,
+                "includeItemTypes": "MusicVideo",
+                "sortBy": "Random",
+                "Recursive": true,
+                "imageTypeLimit": 1,
+                "enableUserData": false,
+                "EnableTotalRecordCount": false
+            })
+            print "data=", data
+            if isValid(data) and isValidAndNotEmpty(data.items)
+                ' add each item to the queue
+                pushToQueue(data.Items)
+                if data.items.count() > 1
+                    m.global.queueManager.callFunc("toggleShuffle")
+                end if
             end if
             ' else if collectionType = "homevideos" ' also used for a "Photo" library
         else

@@ -179,6 +179,8 @@ sub Main (args as dynamic) as void
                         quickplay.userView(itemNode)
                     else if itemType = "folder"
                         quickplay.folder(itemNode)
+                    else if itemType = "musicvideo"
+                        quickplay.musicVideo(itemNode)
                     end if
 
                     m.global.queueManager.callFunc("playQueue")

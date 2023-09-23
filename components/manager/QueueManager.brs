@@ -125,6 +125,11 @@ sub playQueue()
         return
     end if
 
+    if nextItemMediaType = "musicvideo"
+        CreateVideoPlayerView()
+        return
+    end if
+
     if nextItemMediaType = "video"
         CreateVideoPlayerView()
         return
