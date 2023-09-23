@@ -644,6 +644,7 @@ sub Main (args as dynamic) as void
                 '   - "low" means that the general memory is below acceptable levels but not critical
                 '   - "critical" means that general memory are at dangerously low level and that the OS may force terminate the application
                 print "event.generalMemoryLevel = ", event.generalMemoryLevel
+                session.Update("memoreyLevel", event.generalMemoryLevel)
             else if isValid(event.audioCodecCapabilityChanged)
                 ' The audio codec capability has changed if true.
                 print "event.audioCodecCapabilityChanged = ", event.audioCodecCapabilityChanged
