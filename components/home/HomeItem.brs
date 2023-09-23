@@ -31,8 +31,6 @@ sub itemContentChanged()
     itemData = m.top.itemContent
     if itemData = invalid then return
 
-    print "itemData=", itemData
-    print "itemData.json=", itemData.json
     itemData.Title = itemData.name ' Temporarily required while we move from "HomeItem" to "JFContentItem"
 
     m.itemPoster.width = itemData.imageWidth
