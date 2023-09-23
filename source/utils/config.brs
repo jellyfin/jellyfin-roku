@@ -100,3 +100,40 @@ function findConfigTreeKey(key as string, tree)
 
     return invalid
 end function
+
+' Returns an array of saved users from the registry
+' that belong to the active server
+function getSavedUsers() as object
+    registrySections = getRegistrySections()
+
+    savedUsers = []
+    for each section in registrySections
+        if section <> "Jellyfin"
+            savedUsers.push(section)
+        end if
+    end for
+
+    savedServerUsers = []
+    for each userId in savedUsers
+        userArray = {
+            id: userId
+        }
+        token = registry_read("token", userId)
+
+        username = registry_read("username", userId)
+        if username <> invalid
+            userArray["username"] = username
+        end if
+
+        serverId = registry_read("serverId", userId)
+        if serverId <> invalid
+            userArray["serverId"] = serverId
+        end if
+
+        if username <> invalid and token <> invalid and serverId <> invalid and serverId = m.global.session.server.id
+            savedServerUsers.push(userArray)
+        end if
+    end for
+
+    return savedServerUsers
+end function

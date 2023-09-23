@@ -1,3 +1,5 @@
+import "pkg:/source/utils/misc.brs"
+
 ' Functions that update the registry based on the last run version and the currently running version
 
 ' Run all necessary registry mirations on the "global" Jellyfin registry section
@@ -8,6 +10,21 @@ sub runGlobalMigrations()
         print "Running 1.7.0 global registry migrations"
         ' no longer saving raw password to registry
         ' auth token and username are now stored in user settings and not global settings
+
+        savedUserId = get_setting("active_user")
+        if isValid(savedUserId)
+            registry_write("serverId", m.global.session.server.id, savedUserId)
+            ' copy saved credentials to user block
+            savedUsername = get_setting("username")
+            if isValid(savedUsername)
+                registry_write("username", savedUsername, savedUserId)
+            end if
+
+            savedToken = get_setting("token")
+            if isValid(savedToken)
+                registry_write("token", savedToken, savedUserId)
+            end if
+        end if
         unset_setting("port")
         unset_setting("token")
         unset_setting("username")
@@ -26,24 +43,25 @@ sub runGlobalMigrations()
                 set_setting("saved_servers", FormatJson(newServers))
             end if
         end if
-        ' now saving LastRunVersion globally and per user so that we can run user specific registry migrations
-        ' duplicate LastRunVersion to all user settings in the registry so that we can run user specific migrations
-        regSections = getRegistrySections()
-        for each section in regSections
-            if section <> "Jellyfin"
-                registry_write("LastRunVersion", m.global.app.version, section)
-            end if
-        end for
+    end if
+    if m.global.app.lastRunVersion <> invalid
+        runRegistryUserMigrations(m.global.app.lastRunVersion)
     end if
 end sub
 
-' Run all necessary registry mirations on the user specific registry section
-sub runUserMigrations()
-    ' User registry migrations
-    if m.global.session.user.lastRunVersion <> invalid and not versionChecker(m.global.session.user.lastRunVersion, "1.7.0")
-        ' last run version was less than 1.7.0
-        print "Running 1.7.0 user registry migrations"
-        ' no longer saving password to registry
-        unset_user_setting("password")
-    end if
+sub runRegistryUserMigrations(version as string)
+    regSections = getRegistrySections()
+    for each section in regSections
+        if section <> "Jellyfin"
+            if version = "1.7.0"
+                print "Running User Registry Migration for 1.7.0"
+                ' now saving LastRunVersion globally and per user so that we can run user specific registry migrations
+                ' duplicate LastRunVersion to all user settings in the registry so that we can run user specific migrations
+                '
+                ' no longer saving password to registry
+                registry_write("LastRunVersion", m.global.app.version, section)
+                registry_delete("password", section)
+            end if
+        end if
+    end for
 end sub

@@ -1,6 +1,7 @@
 ' these are needed for ServerInfo() inside session.server.Populate()
 import "pkg:/source/api/userauth.brs"
 import "pkg:/source/api/baserequest.brs"
+import "pkg:/source/migrations.bs"
 
 namespace session
     ' Initialize the global session array
@@ -71,6 +72,9 @@ namespace session
                 session.server.Delete()
             end if
 
+            ' migrate registry if needed
+            runGlobalMigrations()
+
             return success
         end function
 
@@ -122,7 +126,7 @@ namespace session
 
         ' Update the global session after user is authenticated.
         ' Accepts a UserData.xml object from get_token() or an assocArray from AboutMe()
-        sub Login(userData as object)
+        sub Login(userData as object, saveCredentials = false as boolean)
             ' validate parameters
             if userData = invalid or userData.id = invalid then return
             ' make copy of global user session array
@@ -163,7 +167,9 @@ namespace session
                 print "m.global.session.user.settings = ", m.global.session.user.settings
             end if
 
-            if m.global.session.user.settings["global.rememberme"]
+            set_user_setting("serverId", m.global.session.server.id)
+
+            if saveCredentials
                 set_user_setting("token", tmpSession.user.authToken)
                 set_user_setting("username", tmpSession.user.name)
             end if

@@ -32,7 +32,7 @@ function AboutMe(id = "" as string)
 end function
 
 sub SignOut(deleteSavedEntry = true as boolean)
-    if m.global.session.user.id <> invalid and deleteSavedEntry = true
+    if deleteSavedEntry = true
         unset_user_setting("token")
         unset_user_setting("username")
     end if

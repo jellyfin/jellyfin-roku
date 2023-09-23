@@ -61,10 +61,6 @@ sub Main (args as dynamic) as void
         end if
     end if
 
-    ' migrate registry if needed
-    runGlobalMigrations()
-    runUserMigrations()
-
     ' Save the global last run version of the app
     if m.global.app.version <> m.global.app.lastRunVersion
         ' update global LastRunVersion
