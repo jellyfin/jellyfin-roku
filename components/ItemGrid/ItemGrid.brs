@@ -717,6 +717,7 @@ sub showTVGuide()
     m.tvGuide.filter = m.filter
     m.tvGuide.searchTerm = m.voiceBox.text
     m.top.appendChild(m.tvGuide)
+    m.scheduleGrid = m.top.findNode("scheduleGrid")
     m.tvGuide.lastFocus.setFocus(true)
 end sub
 
@@ -740,6 +741,8 @@ function getItemFocused()
         return m.itemGrid.content.getChild(m.itemGrid.itemFocused)
     else if m.genreList.isinFocusChain() and isValid(m.genreList.rowItemFocused)
         return m.genreList.content.getChild(m.genreList.rowItemFocused[0]).getChild(m.genreList.rowItemFocused[1])
+    else if m.scheduleGrid.isinFocusChain() and isValid(m.scheduleGrid.itemFocused)
+        return m.scheduleGrid.content.getChild(m.scheduleGrid.itemFocused)
     end if
     return invalid
 end function
@@ -793,7 +796,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
     else if key = "play"
         markupGrid = m.top.findNode("itemGrid")
         itemToPlay = getItemFocused()
-        print "itemToPlay=", itemToPlay
+
         if itemToPlay <> invalid
             m.top.quickPlayNode = itemToPlay
             return true

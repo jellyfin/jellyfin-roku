@@ -315,6 +315,15 @@ namespace quickplay
         end if
     end sub
 
+    ' Quick Play A TVChannel
+    sub tvChannel(itemNode as object)
+        if not isValid(itemNode) or not isValid(itemNode.id) then return
+
+        stopLoadingSpinner()
+        group = CreateVideoPlayerGroup(itemNode.id)
+        m.global.sceneManager.callFunc("pushScene", group)
+    end sub
+
     ' Quick Play A Playlist.
     ' Play the first unwatched episode.
     ' If none, play the whole season starting with episode 1.
@@ -534,6 +543,27 @@ namespace quickplay
                 if isValid(playlistItems) and isValidAndNotEmpty(playlistItems.items)
                     quickplay.pushToQueue(playlistItems.items, true)
                 end if
+            end if
+        else if collectionType = "livetv"
+            ' get list of all tv channels
+            channelData = api.users.GetItemsByQuery(m.global.session.user.id, {
+                "includeItemTypes": "TVChannel",
+                "sortBy": "Random",
+                "Recursive": true,
+                "imageTypeLimit": 0,
+                "enableUserData": false,
+                "EnableTotalRecordCount": false,
+                "enableImages": false
+            })
+            print "channelData=", channelData
+
+            if isValid(channelData) and isValidAndNotEmpty(channelData.items)
+                ' pick a random channel
+                arrayIndex = Rnd(channelData.items.count()) - 1
+                myChannel = channelData.items[arrayIndex]
+                print "myChannel=", myChannel
+                ' play channel
+                quickplay.tvChannel(myChannel)
             end if
         else
             print "Quick Play CollectionFolder WARNING: Unknown collection type"

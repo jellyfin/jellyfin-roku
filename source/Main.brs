@@ -134,6 +134,9 @@ sub Main (args as dynamic) as void
                 end if
             end if
             print "Quick Play started. itemNode=", itemNode
+            ' if itemNode.json <> invalid
+            '     print "itemNode.json=", itemNode.json
+            ' end if
             if isValid(itemNode) and isValid(itemNode.id) and itemNode.id <> ""
                 ' make sure there is a type and convert type to lowercase
                 itemType = invalid
@@ -184,6 +187,8 @@ sub Main (args as dynamic) as void
                         quickplay.musicVideo(itemNode)
                     else if itemType = "person"
                         quickplay.person(itemNode)
+                    else if itemType = "tvchannel"
+                        quickplay.tvChannel(itemNode)
                     end if
 
                     m.global.queueManager.callFunc("playQueue")
