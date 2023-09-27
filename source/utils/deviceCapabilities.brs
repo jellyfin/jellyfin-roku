@@ -606,7 +606,7 @@ function getDeviceProfile() as object
     if playAv1 and addAv1
         av1Mp4LevelSupported = 0.0
         av1TsLevelSupported = 0.0
-        av1AssProfiles = []
+        av1AssProfiles = {}
         av1HighestLevel = 0.0
         for each container in profileSupport
             for each profile in profileSupport[container]["av1"]
