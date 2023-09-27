@@ -214,15 +214,16 @@ function getDeviceProfile() as object
     end if
 
     ' AV1
+    addAv1 = di.CanDecodeVideo({ Codec: "av1" }).Result
     av1Profiles = ["main", "main 10"]
     av1Levels = ["4.1", "5.0", "5.1"]
-    addAv1 = false
-    if playAv1
+
+    if playAv1 and addAv1
         for each container in profileSupport
             for each profile in av1Profiles
                 for each level in av1Levels
-                    if di.CanDecodeVideo({ Codec: "av1", Container: container, Profile: profile, Level: level }).Result
-                        addAv1 = true
+                    ' av1 doesn't support checking for container
+                    if di.CanDecodeVideo({ Codec: "av1", Profile: profile, Level: level }).Result
                         profileSupport[container] = updateProfileArray(profileSupport[container], "av1", profile, level)
                         if container = "mp4"
                             ' check for codec string before adding it
@@ -602,7 +603,7 @@ function getDeviceProfile() as object
         deviceProfile.CodecProfiles.push(codecProfileArray)
     end if
 
-    if addAv1
+    if playAv1 and addAv1
         av1Mp4LevelSupported = 0.0
         av1TsLevelSupported = 0.0
         av1AssProfiles = []
@@ -833,11 +834,6 @@ function GetDirectPlayProfiles() as object
     videoCodecs = ["h264", "mpeg4 avc", "vp8", "vp9", "h263", "mpeg1"]
     audioCodecs = ["mp3", "mp2", "pcm", "lpcm", "wav", "ac3", "ac4", "aiff", "wma", "flac", "alac", "aac", "opus", "dts", "wmapro", "vorbis", "eac3", "mpg123"]
 
-    ' only try to direct play av1 if asked
-    if m.global.session.user.settings["playback.av1"]
-        videoCodecs.push("av1")
-    end if
-
     ' check if hevc is disabled
     if m.global.session.user.settings["playback.compatibility.disablehevc"] = false
         videoCodecs.push("hevc")
@@ -867,6 +863,15 @@ function GetDirectPlayProfiles() as object
     if m.global.session.user.settings["playback.mpeg2"]
         for each container in supportedCodecs
             supportedCodecs[container]["video"].push("mpeg2video")
+        end for
+    end if
+
+    ' video codec overrides
+    ' these codecs play fine but are not correctly detected using CanDecodeVideo()
+    if m.global.session.user.settings["playback.av1"] and di.CanDecodeVideo({ Codec: "av1" }).Result
+        ' codec must be checked by itself or the result will always be false
+        for each container in supportedCodecs
+            supportedCodecs[container]["video"].push("av1")
         end for
     end if
 
