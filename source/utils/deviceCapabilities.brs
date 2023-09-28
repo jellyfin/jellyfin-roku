@@ -396,24 +396,59 @@ function getDeviceProfile() as object
         "Protocol": "http",
         "MaxAudioChannels": maxAudioChannels
     })
-    ' add aac to TranscodingProfile for stereo audio
-    ' NOTE: multichannel aac is not supported. only decode to stereo on some devices
-    deviceProfile.TranscodingProfiles.push({
-        "Container": "ts",
-        "Type": "Audio",
-        "AudioCodec": "aac",
-        "Context": "Streaming",
-        "Protocol": "http",
-        "MaxAudioChannels": "2"
-    })
-    deviceProfile.TranscodingProfiles.push({
-        "Container": "ts",
-        "Type": "Audio",
-        "AudioCodec": "aac",
-        "Context": "Static",
-        "Protocol": "http",
-        "MaxAudioChannels": "2"
-    })
+
+    ' set preferred audio codec for transcoding
+    if isValid(surroundSoundCodec)
+        ' use preferred surround sound codec
+        deviceProfile.TranscodingProfiles.push({
+            "Container": surroundSoundCodec,
+            "Type": "Audio",
+            "AudioCodec": surroundSoundCodec,
+            "Context": "Streaming",
+            "Protocol": "http",
+            "MaxAudioChannels": maxAudioChannels
+        })
+        deviceProfile.TranscodingProfiles.push({
+            "Container": surroundSoundCodec,
+            "Type": "Audio",
+            "AudioCodec": surroundSoundCodec,
+            "Context": "Static",
+            "Protocol": "http",
+            "MaxAudioChannels": maxAudioChannels
+        })
+
+        ' put preferred surround sound codec in the front of AudioCodec strings
+        if tsArray.AudioCodec = ""
+            tsArray.AudioCodec = surroundSoundCodec
+        else
+            tsArray.AudioCodec = surroundSoundCodec + "," + tsArray.AudioCodec
+        end if
+
+        if mp4Array.AudioCodec = ""
+            mp4Array.AudioCodec = surroundSoundCodec
+        else
+            mp4Array.AudioCodec = surroundSoundCodec + "," + mp4Array.AudioCodec
+        end if
+    else
+        ' add aac for stereo audio.
+        ' stereo aac is supported on all devices
+        deviceProfile.TranscodingProfiles.push({
+            "Container": "ts",
+            "Type": "Audio",
+            "AudioCodec": "aac",
+            "Context": "Streaming",
+            "Protocol": "http",
+            "MaxAudioChannels": "2"
+        })
+        deviceProfile.TranscodingProfiles.push({
+            "Container": "ts",
+            "Type": "Audio",
+            "AudioCodec": "aac",
+            "Context": "Static",
+            "Protocol": "http",
+            "MaxAudioChannels": "2"
+        })
+    end if
 
     tsArray = {
         "Container": "ts",
@@ -442,40 +477,6 @@ function getDeviceProfile() as object
     if maxResSetting <> "off"
         tsArray.Conditions = [maxVideoHeightArray, maxVideoWidthArray]
         mp4Array.Conditions = [maxVideoHeightArray, maxVideoWidthArray]
-    end if
-
-    ' surround sound
-    if surroundSoundCodec <> invalid
-        ' add preferred surround sound codec to TranscodingProfile
-        deviceProfile.TranscodingProfiles.push({
-            "Container": surroundSoundCodec,
-            "Type": "Audio",
-            "AudioCodec": surroundSoundCodec,
-            "Context": "Streaming",
-            "Protocol": "http",
-            "MaxAudioChannels": maxAudioChannels
-        })
-        deviceProfile.TranscodingProfiles.push({
-            "Container": surroundSoundCodec,
-            "Type": "Audio",
-            "AudioCodec": surroundSoundCodec,
-            "Context": "Static",
-            "Protocol": "http",
-            "MaxAudioChannels": maxAudioChannels
-        })
-
-        ' put codec in front of AudioCodec string
-        if tsArray.AudioCodec = ""
-            tsArray.AudioCodec = surroundSoundCodec
-        else
-            tsArray.AudioCodec = surroundSoundCodec + "," + tsArray.AudioCodec
-        end if
-
-        if mp4Array.AudioCodec = ""
-            mp4Array.AudioCodec = surroundSoundCodec
-        else
-            mp4Array.AudioCodec = surroundSoundCodec + "," + mp4Array.AudioCodec
-        end if
     end if
 
     deviceProfile.TranscodingProfiles.push(tsArray)
