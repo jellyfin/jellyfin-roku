@@ -379,8 +379,7 @@ function getDeviceProfile() as object
         "IsRequired": true
     }
     '
-    ' add mp3 directly to transcoding profile.
-    ' for music i think?
+    ' add mp3 to TranscodingProfile for music
     deviceProfile.TranscodingProfiles.push({
         "Container": "mp3",
         "Type": "Audio",
@@ -397,30 +396,6 @@ function getDeviceProfile() as object
         "Protocol": "http",
         "MaxAudioChannels": maxAudioChannels
     })
-
-    ' setup container arrays
-    tsArray = {
-        "Container": "ts",
-        "Context": "Streaming",
-        "Protocol": "hls",
-        "Type": "Video",
-        "AudioCodec": tsAudioCodecs,
-        "VideoCodec": tsVideoCodecs,
-        "MaxAudioChannels": maxAudioChannels,
-        "MinSegments": 1,
-        "BreakOnNonKeyFrames": false
-    }
-    mp4Array = {
-        "Container": "mp4",
-        "Context": "Streaming",
-        "Protocol": "hls",
-        "Type": "Video",
-        "AudioCodec": mp4AudioCodecs,
-        "VideoCodec": mp4VideoCodecs,
-        "MaxAudioChannels": maxAudioChannels,
-        "MinSegments": 1,
-        "BreakOnNonKeyFrames": false
-    }
 
     ' set preferred audio codec for transcoding
     if isValid(surroundSoundCodec)
@@ -474,6 +449,29 @@ function getDeviceProfile() as object
             "MaxAudioChannels": "2"
         })
     end if
+
+    tsArray = {
+        "Container": "ts",
+        "Context": "Streaming",
+        "Protocol": "hls",
+        "Type": "Video",
+        "AudioCodec": tsAudioCodecs,
+        "VideoCodec": tsVideoCodecs,
+        "MaxAudioChannels": maxAudioChannels,
+        "MinSegments": 1,
+        "BreakOnNonKeyFrames": false
+    }
+    mp4Array = {
+        "Container": "mp4",
+        "Context": "Streaming",
+        "Protocol": "hls",
+        "Type": "Video",
+        "AudioCodec": mp4AudioCodecs,
+        "VideoCodec": mp4VideoCodecs,
+        "MaxAudioChannels": maxAudioChannels,
+        "MinSegments": 1,
+        "BreakOnNonKeyFrames": false
+    }
 
     ' apply max res to transcoding profile
     if maxResSetting <> "off"
