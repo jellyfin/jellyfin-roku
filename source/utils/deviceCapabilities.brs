@@ -78,18 +78,18 @@ function getDeviceProfile() as object
     ' does the users setup support surround sound?
     maxAudioChannels = "2" ' jellyfin expects this as a string
     ' in order of preference from left to right
-    audioCodecs = ["mp3", "vorbis", "opus", "flac", "alac", "ac4", "pcm", "wma", "wmapro"]
+    audioCodecs = ["eac3", "ac3", "dts", "mp3", "vorbis", "opus", "flac", "alac", "ac4", "pcm", "wma", "wmapro"]
     surroundSoundCodecs = ["eac3", "ac3", "dts"]
     if m.global.session.user.settings["playback.forceDTS"] = true
         surroundSoundCodecs = ["dts", "eac3", "ac3"]
     end if
 
-    surroundSoundCodec = invalid
+    preferredSurroundSoundCodec = invalid
     if di.GetAudioOutputChannel() = "5.1 surround"
         maxAudioChannels = "6"
         for each codec in surroundSoundCodecs
             if di.CanDecodeAudio({ Codec: codec, ChCnt: 6 }).Result
-                surroundSoundCodec = codec
+                preferredSurroundSoundCodec = codec
                 if di.CanDecodeAudio({ Codec: codec, ChCnt: 8 }).Result
                     maxAudioChannels = "8"
                 end if
@@ -445,37 +445,28 @@ function getDeviceProfile() as object
     end if
 
     ' surround sound
-    if surroundSoundCodec <> invalid
+    if preferredSurroundSoundCodec <> invalid
         ' add preferred surround sound codec to TranscodingProfile
         deviceProfile.TranscodingProfiles.push({
-            "Container": surroundSoundCodec,
+            "Container": preferredSurroundSoundCodec,
             "Type": "Audio",
-            "AudioCodec": surroundSoundCodec,
+            "AudioCodec": preferredSurroundSoundCodec,
             "Context": "Streaming",
             "Protocol": "http",
             "MaxAudioChannels": maxAudioChannels
         })
         deviceProfile.TranscodingProfiles.push({
-            "Container": surroundSoundCodec,
+            "Container": preferredSurroundSoundCodec,
             "Type": "Audio",
-            "AudioCodec": surroundSoundCodec,
+            "AudioCodec": preferredSurroundSoundCodec,
             "Context": "Static",
             "Protocol": "http",
             "MaxAudioChannels": maxAudioChannels
         })
 
-        ' put codec in front of AudioCodec string
-        if tsArray.AudioCodec = ""
-            tsArray.AudioCodec = surroundSoundCodec
-        else
-            tsArray.AudioCodec = surroundSoundCodec + "," + tsArray.AudioCodec
-        end if
-
-        if mp4Array.AudioCodec = ""
-            mp4Array.AudioCodec = surroundSoundCodec
-        else
-            mp4Array.AudioCodec = surroundSoundCodec + "," + mp4Array.AudioCodec
-        end if
+        ' move preferred codec to front of AudioCodec string
+        tsArray.AudioCodec = setPreferredCodec(tsArray.AudioCodec, preferredSurroundSoundCodec)
+        mp4Array.AudioCodec = setPreferredCodec(mp4Array.AudioCodec, preferredSurroundSoundCodec)
     end if
 
     deviceProfile.TranscodingProfiles.push(tsArray)
@@ -1004,4 +995,34 @@ function removeDecimals(value as string) as string
     r = CreateObject("roRegex", "\.", "")
     value = r.ReplaceAll(value, "")
     return value
+end function
+
+' Takes and returns a comma delimited string of codecs.
+' Moves the preferred codec to the front of the string
+function setPreferredCodec(codecString as string, preferredCodec as string) as string
+    if preferredCodec = "" then return ""
+    if codecString = "" then return preferredCodec
+
+    preferredCodecSize = Len(preferredCodec)
+
+    ' is the codec already in front?
+    if Left(codecString, preferredCodecSize) = preferredCodec
+        return codecString
+    else
+        ' convert string to array
+        codecArray = codecString.Split(",")
+        ' remove preferred codec from array
+        newArray = []
+        for each codec in codecArray
+            if codec <> preferredCodec
+                newArray.push(codec)
+            end if
+        end for
+        ' convert newArray to string
+        newCodecString = newArray.Join(",")
+        ' add preferred codec to front of newCodecString
+        newCodecString = preferredCodec + "," + newCodecString
+
+        return newCodecString
+    end if
 end function
