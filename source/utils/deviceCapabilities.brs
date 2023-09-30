@@ -60,7 +60,6 @@ end sub
 
 function getDeviceProfile() as object
     playMpeg2 = m.global.session.user.settings["playback.mpeg2"]
-    playAv1 = m.global.session.user.settings["playback.av1"]
     di = CreateObject("roDeviceInfo")
 
     ' TRANSCODING
@@ -218,7 +217,7 @@ function getDeviceProfile() as object
     av1Profiles = ["main", "main 10"]
     av1Levels = ["4.1", "5.0", "5.1"]
 
-    if playAv1 and addAv1
+    if addAv1
         for each container in profileSupport
             for each profile in av1Profiles
                 for each level in av1Levels
@@ -594,7 +593,7 @@ function getDeviceProfile() as object
         deviceProfile.CodecProfiles.push(codecProfileArray)
     end if
 
-    if playAv1 and addAv1
+    if addAv1
         av1Mp4LevelSupported = 0.0
         av1TsLevelSupported = 0.0
         av1AssProfiles = {}
@@ -859,7 +858,7 @@ function GetDirectPlayProfiles() as object
 
     ' video codec overrides
     ' these codecs play fine but are not correctly detected using CanDecodeVideo()
-    if m.global.session.user.settings["playback.av1"] and di.CanDecodeVideo({ Codec: "av1" }).Result
+    if di.CanDecodeVideo({ Codec: "av1" }).Result
         ' codec must be checked by itself or the result will always be false
         for each container in supportedCodecs
             supportedCodecs[container]["video"].push("av1")
