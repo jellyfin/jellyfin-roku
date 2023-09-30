@@ -58,9 +58,12 @@ sub runRegistryUserMigrations(version as string)
                 ' now saving LastRunVersion globally and per user so that we can run user specific registry migrations
                 ' duplicate LastRunVersion to all user settings in the registry so that we can run user specific migrations
                 '
-                ' no longer saving password to registry
+                ' now saving LastRunVersion per user in addition to globally
                 registry_write("LastRunVersion", m.global.app.version, section)
+                ' no longer saving password to registry
                 registry_delete("password", section)
+                ' av1 playback no longer hidden behind user setting
+                registry_delete("playback.av1", section)
             end if
         end if
     end for
