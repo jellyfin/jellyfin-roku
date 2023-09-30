@@ -1,5 +1,6 @@
 ' needed for SignOut() and ServerInfo()
 import "pkg:/source/utils/session.bs"
+import "pkg:/source/utils/misc.brs"
 
 function get_token(user as string, password as string)
     url = "Users/AuthenticateByName?format=json"
@@ -118,11 +119,46 @@ sub LoadUserPreferences()
     resp = APIRequest(url)
     jsonResponse = getJson(resp)
 
-    if jsonResponse <> invalid and jsonResponse.CustomPrefs <> invalid and jsonResponse.CustomPrefs["landing-livetv"] <> invalid
-        set_user_setting("display.livetv.landing", jsonResponse.CustomPrefs["landing-livetv"])
+    if jsonResponse <> invalid and jsonResponse.CustomPrefs <> invalid
+        LoadUserHomeSections(jsonResponse.CustomPrefs)
+
+        if jsonResponse.CustomPrefs["landing-livetv"] <> invalid
+            set_user_setting("display.livetv.landing", jsonResponse.CustomPrefs["landing-livetv"])
+        else
+            unset_user_setting("display.livetv.landing")
+        end if
     else
         unset_user_setting("display.livetv.landing")
     end if
+end sub
+
+sub LoadUserHomeSections(customPrefs as object)
+    rowTypes = []
+
+    for i = 0 to 6
+        homeSectionKey = "homesection" + i.toStr()
+        rowType = LCase(customPrefs[homeSectionKey])
+
+        ' Just in case we get invalid data
+        if not isValid(rowType) then rowType = "none"
+
+        ' Small size library item buttons - Currently unsupported, use small library titles
+        if rowType = "librarybuttons"
+            rowType = "smalllibrarytiles"
+        end if
+
+        ' None is the only section type allowed to have duplicates
+        ' For all other types, only accept the 1st entry
+        if inArray(rowTypes, rowType)
+            set_user_setting(homeSectionKey, "none")
+        else
+            set_user_setting(homeSectionKey, rowType)
+
+            if rowType <> "none"
+                rowTypes.push(rowType)
+            end if
+        end if
+    end for
 end sub
 
 sub LoadUserAbilities()
