@@ -11517,5 +11517,9 @@
         <translation>Fehler beim Empfangen des Inhalts</translation>
         <extracomment>Dialog title when unable to load Content from Server</extracomment>
     </message>
+    <message>
+        <source>Sign Out</source>
+        <translation>Abmelden</translation>
+    </message>
 </context>
 </TS>
