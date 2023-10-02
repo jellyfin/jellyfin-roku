@@ -7872,5 +7872,9 @@
         <translation>Aller à l&apos;épisode</translation>
         <extracomment>Continue Watching Popup Menu - Navigate to the Episode Detail Page</extracomment>
     </message>
+    <message>
+        <source>Shows</source>
+        <translation>Séries</translation>
+    </message>
 </context>
 </TS>
