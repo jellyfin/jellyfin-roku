@@ -11521,5 +11521,18 @@
         <source>Sign Out</source>
         <translation>Abmelden</translation>
     </message>
+    <message>
+        <source>On Now</source>
+        <translation>Jetzt läuft</translation>
+    </message>
+    <message>
+        <source>Change Server</source>
+        <translation>Server wechseln</translation>
+    </message>
+    <message>
+        <source>Error Retrieving Content</source>
+        <translation>Fehler beim Empfangen des Inhalts</translation>
+        <extracomment>Dialog title when unable to load Content from Server</extracomment>
+    </message>
 </context>
 </TS>
