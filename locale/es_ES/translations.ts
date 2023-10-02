@@ -5492,5 +5492,87 @@
         <translation>Use el botón de reproducción para animar lentamente al primer elemento de la carpeta. (Si está deshabilitado, la carpeta se restablecerá al primer elemento inmediatamente).</translation>
         <extracomment>Description for option in Setting Screen</extracomment>
     </message>
+    <message>
+        <source>Monday</source>
+        <translation>Lunes</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Tuesday</source>
+        <translation>Martes</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Thursday</source>
+        <translation>Jueves</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Sunday</source>
+        <translation>Domingo</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Press &apos;OK&apos; to Close</source>
+        <translation>Presiona &apos;OK&apos; para Cerrar</translation>
+    </message>
+    <message>
+        <source>today</source>
+        <translation>hoy</translation>
+        <extracomment>Current day</extracomment>
+    </message>
+    <message>
+        <source>yesterday</source>
+        <translation>ayer</translation>
+        <extracomment>Previous day</extracomment>
+    </message>
+    <message>
+        <source>Friday</source>
+        <translation>Viernes</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>TV Guide</source>
+        <translation>Guía de TV</translation>
+        <extracomment>Menu option for showing Live TV Guide / Schedule</extracomment>
+    </message>
+    <message>
+        <source>Wednesday</source>
+        <translation>Miércoles</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Unknown</source>
+        <translation>Desconocido</translation>
+        <extracomment>Title for a cast member for which we have no information for</extracomment>
+    </message>
+    <message>
+        <source>Saturday</source>
+        <translation>Sábado</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>tomorrow</source>
+        <translation>mañana</translation>
+        <extracomment>Next day</extracomment>
+    </message>
+    <message>
+        <source>Channels</source>
+        <translation>Canales</translation>
+        <extracomment>Menu option for showing Live TV Channel List</extracomment>
+    </message>
+    <message>
+        <source>IMDB_RATING</source>
+        <translation>Puntuación IMDb</translation>
+    </message>
+    <message>
+        <source>Record</source>
+        <translation>Grabar</translation>
+    </message>
+    <message>
+        <source>Error Retrieving Content</source>
+        <translation>Error Obteniendo Contenido</translation>
+        <extracomment>Dialog title when unable to load Content from Server</extracomment>
+    </message>
 </context>
 </TS>
