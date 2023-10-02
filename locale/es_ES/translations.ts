@@ -5574,5 +5574,44 @@
         <translation>Error Obteniendo Contenido</translation>
         <extracomment>Dialog title when unable to load Content from Server</extracomment>
     </message>
+    <message>
+        <source>An error was encountered while playing this item.</source>
+        <translation>Se produjo un error durante la reproducción de este elemento.</translation>
+        <extracomment>Dialog detail when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>¿Guardar Credenciales?</translation>
+    </message>
+    <message>
+        <source>Change Server</source>
+        <translation>Cambiar Servidor</translation>
+    </message>
+    <message>
+        <source>On Now</source>
+        <translation type="unfinished">Ahora</translation>
+    </message>
+    <message>
+        <source>Error During Playback</source>
+        <translation>Error Durante la Reproducción</translation>
+        <extracomment>Dialog title when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>There was an error retrieving the data for this item from the server.</source>
+        <translation>Se produjo un error al recuperar información para este elemento desde el servidor.</translation>
+        <extracomment>Dialog detail when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <source>Sign Out</source>
+        <translation>Cerrar Sesión</translation>
+    </message>
+    <message>
+        <source>Delete Saved</source>
+        <translation type="unfinished">Eliminar Guardado</translation>
+    </message>
+    <message>
+        <source>Loading Channel Data</source>
+        <translation>Cargando información del canal</translation>
+    </message>
 </context>
 </TS>
