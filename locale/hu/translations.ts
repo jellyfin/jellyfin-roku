@@ -11273,5 +11273,13 @@
         <source>TITLE</source>
         <translation>Név</translation>
     </message>
+    <message>
+        <source>Delete Saved</source>
+        <translation>Törlés mentve</translation>
+    </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>Menti a bejelentkezési adatokat?</translation>
+    </message>
 </context>
 </TS>
