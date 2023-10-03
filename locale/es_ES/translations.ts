@@ -5613,5 +5613,85 @@
         <source>Loading Channel Data</source>
         <translation>Cargando información del canal</translation>
     </message>
+    <message>
+        <source>OFFICIAL_RATING</source>
+        <translation>Puntaje Parental</translation>
+    </message>
+    <message>
+        <source>RELEASE_DATE</source>
+        <translation>Fecha de Lanzamiento</translation>
+    </message>
+    <message>
+        <source>RUNTIME</source>
+        <translation>Duración</translation>
+    </message>
+    <message>
+        <comment>Title of Tab for options to sort library content</comment>
+        <source>TAB_SORT</source>
+        <translation>Ordenar</translation>
+    </message>
+    <message>
+        <source>Born</source>
+        <translation>Nacido en</translation>
+    </message>
+    <message>
+        <source>DATE_ADDED</source>
+        <translation>Añadido en</translation>
+    </message>
+    <message>
+        <source>Age</source>
+        <translation>Edad</translation>
+    </message>
+    <message>
+        <source>Cast &amp; Crew</source>
+        <translation>Elenco y Equipo</translation>
+    </message>
+    <message>
+        <comment>Message displayed in Item Grid when no item to display. %1 is container type (e.g. Boxset, Collection, Folder, etc)</comment>
+        <source>NO_ITEMS</source>
+        <translation>Este %1 no contiene items</translation>
+    </message>
+    <message>
+        <comment>Name or Title field of media item</comment>
+        <source>TITLE</source>
+        <translation>Título</translation>
+    </message>
+    <message>
+        <source>CRITIC_RATING</source>
+        <translation>Calificación de la crítica</translation>
+    </message>
+    <message>
+        <source>DATE_PLAYED</source>
+        <translation>Reproducido en</translation>
+    </message>
+    <message>
+        <comment>Title of Tab for options to filter library content</comment>
+        <source>TAB_FILTER</source>
+        <translation>Filtrar</translation>
+    </message>
+    <message>
+        <source>Died</source>
+        <translation>Murió en</translation>
+    </message>
+    <message>
+        <source>On Now</source>
+        <translation>En Vivo</translation>
+    </message>
+    <message>
+        <source>Error loading Channel Data</source>
+        <translation>Error cargando datos del Canal</translation>
+    </message>
+    <message>
+        <source>PLAY_COUNT</source>
+        <translation>Número de Reproducciones</translation>
+    </message>
+    <message>
+        <source>Delete Saved</source>
+        <translation>Eliminar Guardado</translation>
+    </message>
+    <message>
+        <source>Unable to load Channel Data from the server</source>
+        <translation>Incapaz de cargar datos de Canal del servidor</translation>
+    </message>
 </context>
 </TS>
