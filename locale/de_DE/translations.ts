@@ -11534,5 +11534,18 @@
         <translation>Fehler beim Empfangen des Inhalts</translation>
         <extracomment>Dialog title when unable to load Content from Server</extracomment>
     </message>
+    <message>
+        <source>Error During Playback</source>
+        <translation>Fehler während der wiedergabe</translation>
+        <extracomment>Dialog title when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>Delete Saved</source>
+        <translation>Gespeicherte löschen</translation>
+    </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>Zugangsdaten Speichern?</translation>
+    </message>
 </context>
 </TS>
