@@ -1,4 +1,4 @@
-import "pkg:/source/utils/misc.brs"
+import "pkg:/source/utils/misc.bs"
 
 sub init()
     m.playReported = false

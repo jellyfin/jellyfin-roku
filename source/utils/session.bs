@@ -1,6 +1,6 @@
 ' these are needed for ServerInfo() inside session.server.Populate()
-import "pkg:/source/api/userauth.brs"
-import "pkg:/source/api/baserequest.brs"
+import "pkg:/source/api/userauth.bs"
+import "pkg:/source/api/baserequest.bs"
 
 namespace session
     ' Initialize the global session array

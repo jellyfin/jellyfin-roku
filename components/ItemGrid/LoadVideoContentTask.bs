@@ -1,11 +1,11 @@
-import "pkg:/source/utils/misc.brs"
-import "pkg:/source/api/Items.brs"
-import "pkg:/source/api/UserLibrary.brs"
-import "pkg:/source/api/baserequest.brs"
-import "pkg:/source/utils/config.brs"
-import "pkg:/source/api/Image.brs"
-import "pkg:/source/api/userauth.brs"
-import "pkg:/source/utils/deviceCapabilities.brs"
+import "pkg:/source/utils/misc.bs"
+import "pkg:/source/api/Items.bs"
+import "pkg:/source/api/UserLibrary.bs"
+import "pkg:/source/api/baserequest.bs"
+import "pkg:/source/utils/config.bs"
+import "pkg:/source/api/Image.bs"
+import "pkg:/source/api/userauth.bs"
+import "pkg:/source/utils/deviceCapabilities.bs"
 
 sub init()
     m.user = AboutMe()

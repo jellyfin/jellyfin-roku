@@ -1,5 +1,5 @@
-import "pkg:/source/roku_modules/log/LogMixin.brs"
-import "pkg:/source/utils/config.brs"
+import "pkg:/source/roku_modules/log/LogMixin.bs"
+import "pkg:/source/utils/config.bs"
 
 sub init()
     m.log = log.Logger("SetServerScreen")

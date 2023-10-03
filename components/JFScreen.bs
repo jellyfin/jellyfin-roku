@@ -1,4 +1,4 @@
-import "pkg:/source/roku_modules/log/LogMixin.brs"
+import "pkg:/source/roku_modules/log/LogMixin.bs"
 
 sub init()
     ' initialize the log manager. second param sets log output:

@@ -1,5 +1,5 @@
-import "pkg:/source/utils/config.brs"
-import "pkg:/source/api/baserequest.brs"
+import "pkg:/source/utils/config.bs"
+import "pkg:/source/api/baserequest.bs"
 
 sub init()
     m.top.observeField("url", "fetchCaption")

@@ -1,5 +1,5 @@
-import "pkg:/source/api/baserequest.brs"
-import "pkg:/source/utils/config.brs"
+import "pkg:/source/api/baserequest.bs"
+import "pkg:/source/utils/config.bs"
 
 sub init()
     m.top.functionName = "loadChannels"

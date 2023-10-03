@@ -1,5 +1,5 @@
-import "pkg:/source/utils/misc.brs"
-import "pkg:/source/api/baserequest.brs"
+import "pkg:/source/utils/misc.bs"
+import "pkg:/source/api/baserequest.bs"
 
 'Device Capabilities for Roku.
 'This will likely need further tweaking

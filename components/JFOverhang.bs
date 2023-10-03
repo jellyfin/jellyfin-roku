@@ -1,4 +1,4 @@
-import "pkg:/source/utils/config.brs"
+import "pkg:/source/utils/config.bs"
 
 sub init()
     m.top.id = "overhang"

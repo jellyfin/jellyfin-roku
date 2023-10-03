@@ -1,5 +1,5 @@
-import "pkg:/source/utils/misc.brs"
-import "pkg:/source/utils/config.brs"
+import "pkg:/source/utils/misc.bs"
+import "pkg:/source/utils/config.bs"
 
 sub init()
     m.itemPoster = m.top.findNode("itemPoster")

@@ -1,4 +1,4 @@
-import "pkg:/source/utils/config.brs"
+import "pkg:/source/utils/config.bs"
 
 sub setDataFromJSON()
     json = m.top.json

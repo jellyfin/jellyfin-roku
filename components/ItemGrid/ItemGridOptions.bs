@@ -1,5 +1,5 @@
-import "pkg:/source/utils/misc.brs"
-import "pkg:/source/roku_modules/log/LogMixin.brs"
+import "pkg:/source/utils/misc.bs"
+import "pkg:/source/roku_modules/log/LogMixin.bs"
 
 sub init()
     m.log = log.Logger("ItemGridOptions")
