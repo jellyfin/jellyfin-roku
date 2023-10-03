@@ -2,7 +2,7 @@ import "pkg:/source/api/Image.bs"
 import "pkg:/source/api/baserequest.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/misc.bs"
-import "pkg:/source/roku_modules/log/LogMixin.bs"
+import "pkg:/source/roku_modules/log/LogMixin.brs"
 
 sub init()
     m.log = log.Logger("HomeItem")
