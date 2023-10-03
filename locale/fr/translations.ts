@@ -7911,5 +7911,9 @@
         <source>Here is your Quick Connect code:</source>
         <translation>Voici votre code de Connexion Rapide :</translation>
     </message>
+    <message>
+        <source>Special Features</source>
+        <translation>Fonctionnalités spéciales</translation>
+    </message>
 </context>
 </TS>
