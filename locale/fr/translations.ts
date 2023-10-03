@@ -7876,5 +7876,40 @@
         <source>Shows</source>
         <translation>Séries</translation>
     </message>
+    <message>
+        <source>Quick Connect</source>
+        <translation>Connexion Rapide</translation>
+    </message>
+    <message>
+        <source>Show item count in the library and index of selected item.</source>
+        <translation>Afficher le nombre d&apos;éléments dans la librairie et l&apos;index de l&apos;élément sélectionné.</translation>
+        <extracomment>Description for option in Setting Screen</extracomment>
+    </message>
+    <message>
+        <source>(Dialog will close automatically)</source>
+        <translation>(Cette fenêtre se fermera automatiquement)</translation>
+    </message>
+    <message>
+        <source>Media Grid options.</source>
+        <translation>Options de la grille Média</translation>
+    </message>
+    <message>
+        <source>You can search for Titles, People, Live TV Channels and more</source>
+        <translation>Vous pouvez rechercher des titres, personnes, chaînes TV et plus</translation>
+        <extracomment>Help text in search results</extracomment>
+    </message>
+    <message>
+        <source>%1 of %2</source>
+        <translation>%1 sur %2</translation>
+        <extracomment>Item position and count. %1 = current item. %2 = total number of items</extracomment>
+    </message>
+    <message>
+        <source>There was an error authenticating via Quick Connect.</source>
+        <translation>Une erreur s&apos;est produite lors de la Connexion Rapide.</translation>
+    </message>
+    <message>
+        <source>Here is your Quick Connect code:</source>
+        <translation>Voici votre code de Connexion Rapide :</translation>
+    </message>
 </context>
 </TS>
