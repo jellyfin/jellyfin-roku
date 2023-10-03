@@ -53,6 +53,9 @@ sub itemContentChanged()
                 if itemData.json.UserData.UnplayedItemCount > 0
                     m.unplayedCount.visible = true
                     m.unplayedEpisodeCount.text = itemData.json.UserData.UnplayedItemCount
+                else
+                    m.unplayedCount.visible = false
+                    m.unplayedEpisodeCount.text = ""
                 end if
             end if
         end if

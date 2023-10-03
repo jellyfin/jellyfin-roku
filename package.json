@@ -5,7 +5,7 @@
   "dependencies": {
     "@rokucommunity/bslib": "0.1.1",
     "bgv": "npm:button-group-vert@1.0.2",
-    "brighterscript-formatter": "1.6.32",
+    "brighterscript-formatter": "1.6.33",
     "intKeyboard": "npm:integer-keyboard@1.0.12",
     "log": "npm:roku-log@0.11.1",
     "promises": "npm:@rokucommunity/promises@0.1.0",
@@ -19,14 +19,14 @@
 },
   "devDependencies": {
     "@rokucommunity/bslint": "0.8.10",
-    "brighterscript": "0.65.5",
+    "brighterscript": "0.65.7",
     "jshint": "2.13.6",
-    "markdownlint-cli2": "0.9.2",
-    "rimraf": "5.0.1",
+    "markdownlint-cli2": "0.10.0",
+    "rimraf": "5.0.5",
     "roku-deploy": "3.10.3",
     "roku-log-bsc-plugin": "0.8.1",
     "rooibos-roku": "5.7.0",
-    "ropm": "0.10.16",
+    "ropm": "0.10.17",
     "spellchecker-cli": "6.1.1",
     "undent": "0.1.0"
   },

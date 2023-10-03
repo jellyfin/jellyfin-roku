@@ -11268,5 +11268,18 @@
         <source>Direct playing</source>
         <translation>Közvetlen lejátszás</translation>
     </message>
+    <message>
+        <comment>Name or Title field of media item</comment>
+        <source>TITLE</source>
+        <translation>Név</translation>
+    </message>
+    <message>
+        <source>Delete Saved</source>
+        <translation>Törlés mentve</translation>
+    </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>Menti a bejelentkezési adatokat?</translation>
+    </message>
 </context>
 </TS>

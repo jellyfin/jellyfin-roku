@@ -1,4 +1,4 @@
-function LoginFlow(startOver = false as boolean)
+function LoginFlow()
     'Collect Jellyfin server and user information
     start_login:
 
@@ -41,9 +41,11 @@ function LoginFlow(startOver = false as boolean)
     activeUser = get_setting("active_user")
     if activeUser = invalid
         print "No active user found in registry"
+        user_select:
         SendPerformanceBeacon("AppDialogInitiate") ' Roku Performance monitoring - Dialog Starting
         publicUsers = GetPublicUsers()
-        if publicUsers.count()
+        numPubUsers = publicUsers.count()
+        if numPubUsers > 0
             publicUsersNodes = []
             for each item in publicUsers
                 user = CreateObject("roSGNode", "PublicUserData")
@@ -55,18 +57,57 @@ function LoginFlow(startOver = false as boolean)
                 publicUsersNodes.push(user)
             end for
             userSelected = CreateUserSelectGroup(publicUsersNodes)
+
+            SendPerformanceBeacon("AppDialogComplete") ' Roku Performance monitoring - Dialog Closed
             if userSelected = "backPressed"
-                SendPerformanceBeacon("AppDialogComplete") ' Roku Performance monitoring - Dialog Closed
-                return LoginFlow(true)
+                session.server.Delete()
+                unset_setting("server")
+                goto start_login
             else
+                print "A public user was selected with username=" + userSelected
+                session.user.Update("name", userSelected)
+                regex = CreateObject("roRegex", "[^a-zA-Z0-9\ \-\_]", "")
+                session.user.Update("friendlyName", regex.ReplaceAll(userSelected, ""))
+                ' save userid to session
+                for each user in publicUsersNodes
+                    if user.name = userSelected
+                        session.user.Update("id", user.id)
+                        exit for
+                    end if
+                end for
+                ' try to login with token from registry
+                myToken = get_user_setting("token")
+                if myToken <> invalid
+                    ' check if token is valid
+                    print "Auth token found in registry for selected user"
+                    session.user.Update("authToken", myToken)
+                    print "Attempting to use API with auth token"
+                    currentUser = AboutMe()
+                    if currentUser = invalid
+                        print "Auth token is no longer valid - deleting token"
+                        unset_user_setting("token")
+                        unset_user_setting("username")
+                    else
+                        print "Success! Auth token is still valid"
+                        session.user.Login(currentUser)
+                        LoadUserPreferences()
+                        LoadUserAbilities()
+                        return true
+                    end if
+                else
+                    print "No auth token found in registry for selected user"
+                end if
                 'Try to login without password. If the token is valid, we're done
+                print "Attempting to login with no password"
                 userData = get_token(userSelected, "")
                 if isValid(userData)
+                    print "login success!"
                     session.user.Login(userData)
                     LoadUserPreferences()
                     LoadUserAbilities()
-                    SendPerformanceBeacon("AppDialogComplete") ' Roku Performance monitoring - Dialog Closed
                     return true
+                else
+                    print "Auth failed. Password required"
                 end if
             end if
         else
@@ -75,65 +116,52 @@ function LoginFlow(startOver = false as boolean)
         passwordEntry = CreateSigninGroup(userSelected)
         SendPerformanceBeacon("AppDialogComplete") ' Roku Performance monitoring - Dialog Closed
         if passwordEntry = "backPressed"
-            m.global.sceneManager.callFunc("clearScenes")
-            return LoginFlow(true)
+            if numPubUsers > 0
+                goto user_select
+            else
+                session.server.Delete()
+                unset_setting("server")
+                goto start_login
+            end if
         end if
     else
         print "Active user found in registry"
         session.user.Update("id", activeUser)
 
+        myUsername = get_user_setting("username")
         myAuthToken = get_user_setting("token")
-        if isValid(myAuthToken)
+        if isValid(myAuthToken) and isValid(myUsername)
             print "Auth token found in registry"
             session.user.Update("authToken", myAuthToken)
+            session.user.Update("name", myUsername)
+            regex = CreateObject("roRegex", "[^a-zA-Z0-9\ \-\_]", "")
+            session.user.Update("friendlyName", regex.ReplaceAll(myUsername, ""))
             print "Attempting to use API with auth token"
             currentUser = AboutMe()
             if currentUser = invalid
-                print "Auth token is no longer valid - restart login flow"
-                unset_user_setting("token")
-                unset_setting("active_user")
-                session.user.Logout()
-                goto start_login
+                print "Auth token is no longer valid"
+                'Try to login without password. If the token is valid, we're done
+                print "Attempting to login with no password"
+                userData = get_token(userSelected, "")
+                if isValid(userData)
+                    print "login success!"
+                    session.user.Login(userData)
+                    LoadUserPreferences()
+                    LoadUserAbilities()
+                    return true
+                else
+                    print "Auth failed. Password required"
+                    print "delete token and restart login flow"
+                    unset_user_setting("token")
+                    unset_user_setting("username")
+                    goto start_login
+                end if
             else
                 print "Success! Auth token is still valid"
                 session.user.Login(currentUser)
             end if
         else
             print "No auth token found in registry"
-            myUsername = get_setting("username")
-            myPassword = get_setting("password")
-            userData = invalid
-
-            if isValid(myUsername) and isValid(myPassword)
-                if myUsername <> ""
-                    print "Username and password found in registry. Attempting to login"
-                    userData = get_token(myUsername, myPassword)
-                else
-                    print "Username in registry is an empty string"
-                    unset_setting("username")
-                    unset_setting("password")
-                end if
-            else if isValid(myUsername) and not isValid(myPassword)
-                print "Username found in registry but no password"
-                if myUsername <> ""
-                    print "Attempting to login with no password"
-                    userData = get_token(myUsername, "")
-                else
-                    print "Username in registry is an empty string"
-                    unset_setting("username")
-                end if
-
-            else if not isValid(myUsername) and not isValid(myPassword)
-                print "Neither username nor password found in registry - restart login flow"
-                unset_setting("active_user")
-                session.user.Logout()
-                goto start_login
-            end if
-
-            if isValid(userData)
-                print "login success!"
-                session.user.Login(userData)
-            end if
         end if
     end if
 
@@ -254,11 +282,6 @@ function CreateServerGroup()
                 m.scene.dialog = dialog
 
                 serverUrl = standardize_jellyfin_url(screen.serverUrl)
-                'If this is a different server from what we know, reset username/password setting
-                if m.global.session.server.url <> serverUrl
-                    set_setting("username", "")
-                    set_setting("password", "")
-                end if
                 set_setting("server", serverUrl)
 
                 isConnected = session.server.UpdateURL(serverUrl)
@@ -362,25 +385,6 @@ function CreateSigninGroup(user = "")
 
     group.findNode("prompt").text = tr("Sign In")
 
-    'Load in any saved server data and see if we can just log them in...
-    server = m.global.session.server.url
-    if isValid(server)
-        server = LCase(server)'Saved server data is always lowercase
-    end if
-    saved = get_setting("saved_servers")
-    if isValid(saved)
-        savedServers = ParseJson(saved)
-        for each item in savedServers.serverList
-            if item.baseUrl = server and isValid(item.username) and isValid(item.password)
-                userData = get_token(item.username, item.password)
-                if isValid(userData)
-                    session.user.Login(userData)
-                    return "true"
-                end if
-            end if
-        end for
-    end if
-
     config = group.findNode("configOptions")
     username_field = CreateObject("roSGNode", "ConfigData")
     username_field.label = tr("Username")
@@ -447,11 +451,10 @@ function CreateSigninGroup(user = "")
                 activeUser = get_token(username.value, password.value)
                 if isValid(activeUser)
                     session.user.Login(activeUser)
-                    set_setting("username", username.value)
-                    set_setting("password", password.value)
+                    ' save credentials
                     if checkbox.checkedState[0] = true
-                        'Update our saved server list, so next time the user can just click and go
-                        UpdateSavedServerList()
+                        set_user_setting("token", activeUser.token)
+                        set_user_setting("username", username.value)
                     end if
                     return "true"
                 end if
@@ -515,6 +518,7 @@ function CreateHomeGroup()
     new_options = []
     options_buttons = [
         { "title": "Search", "id": "goto_search" },
+        { "title": "Change user", "id": "change_user" },
         { "title": "Change server", "id": "change_server" },
         { "title": "Sign out", "id": "sign_out" }
     ]
@@ -861,34 +865,6 @@ function CreatePersonView(personData as object) as dynamic
     stopLoadingSpinner()
     return person
 end function
-
-sub UpdateSavedServerList()
-    server = m.global.session.server.url
-    username = get_setting("username")
-    password = get_setting("password")
-
-    if server = invalid or username = invalid or password = invalid
-        return
-    end if
-
-    server = LCase(server)'Saved server data is always lowercase
-
-    saved = get_setting("saved_servers")
-    if isValid(saved)
-        savedServers = ParseJson(saved)
-        if isValid(savedServers.serverList) and savedServers.serverList.Count() > 0
-            newServers = { serverList: [] }
-            for each item in savedServers.serverList
-                if item.baseUrl = server
-                    item.username = username
-                    item.password = password
-                end if
-                newServers.serverList.Push(item)
-            end for
-            set_setting("saved_servers", FormatJson(newServers))
-        end if
-    end if
-end sub
 
 'Opens dialog asking user if they want to resume video or start playback over only on the home screen
 sub playbackOptionDialog(time as longinteger, meta as object)

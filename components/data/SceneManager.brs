@@ -80,7 +80,6 @@ sub popScene()
     group = m.groups.pop()
     if group <> invalid
         groupType = group.subtype()
-
         if groupType = "JFGroup"
             unregisterOverhangData(group)
         else if groupType = "JFVideo"
