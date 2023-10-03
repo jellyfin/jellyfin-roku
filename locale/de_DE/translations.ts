@@ -11956,5 +11956,29 @@
         <translation>Sprachfernbedienung zum Suchen verwenden</translation>
         <extracomment>Help text in search voice text box</extracomment>
     </message>
+    <message>
+        <source>OFFICIAL_RATING</source>
+        <translation>Altersfreigabe</translation>
+    </message>
+    <message>
+        <source>CRITIC_RATING</source>
+        <translation>Kritikerbewertung</translation>
+    </message>
+    <message>
+        <source>IMDB_RATING</source>
+        <translation>IMDb-Bewertung</translation>
+    </message>
+    <message>
+        <source>PLAY_COUNT</source>
+        <translation>Wiedergabezähler</translation>
+    </message>
+    <message>
+        <source>DATE_PLAYED</source>
+        <translation>Abspieldatum</translation>
+    </message>
+    <message>
+        <source>DATE_ADDED</source>
+        <translation>Hinzugefügt am</translation>
+    </message>
 </context>
 </TS>
