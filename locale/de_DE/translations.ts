@@ -11547,5 +11547,67 @@
         <source>Save Credentials?</source>
         <translation>Zugangsdaten Speichern?</translation>
     </message>
+    <message>
+        <source>Search now</source>
+        <translation>Suche jetzt</translation>
+        <extracomment>Help text in search Box</extracomment>
+    </message>
+    <message>
+        <source>Quick Connect</source>
+        <translation type="unfinished">Schnell verbinden</translation>
+    </message>
+    <message>
+        <source>Set Watched</source>
+        <translation>Setze auf angesehen</translation>
+        <extracomment>Button Text - When pressed, marks item as Warched</extracomment>
+    </message>
+    <message>
+        <source>Go to episode</source>
+        <translation>Gehe zur Episode</translation>
+        <extracomment>Continue Watching Popup Menu - Navigate to the Episode Detail Page</extracomment>
+    </message>
+    <message>
+        <source>Here is your Quick Connect code:</source>
+        <translation type="unfinished">Hier ist dein Schnellverbindungs Code:</translation>
+    </message>
+    <message>
+        <source>Media Grid options.</source>
+        <translation>Medien Gitter Optionen</translation>
+    </message>
+    <message>
+        <source>Item Count</source>
+        <translation>Stückzahl</translation>
+        <extracomment>UI -&gt; Media Grid -&gt; Item Count in user setting screen.</extracomment>
+    </message>
+    <message>
+        <source>Show item count in the library and index of selected item.</source>
+        <translation>Zeige die Gegenstandsanzahl in der Bibliothek und den Index von dem ausgewählten Gegenstand</translation>
+        <extracomment>Description for option in Setting Screen</extracomment>
+    </message>
+    <message>
+        <source>Set Favorite</source>
+        <translation>Setze Favoriten</translation>
+        <extracomment>Button Text - When pressed, sets item as Favorite</extracomment>
+    </message>
+    <message>
+        <source>Go to series</source>
+        <translation>Gehe zu den Serien</translation>
+        <extracomment>Continue Watching Popup Menu - Navigate to the Series Detail Page</extracomment>
+    </message>
+    <message>
+        <source>Go to season</source>
+        <translation>Gehe zur Saison</translation>
+        <extracomment>Continue Watching Popup Menu - Navigate to the Season Page</extracomment>
+    </message>
+    <message>
+        <source>You can search for Titles, People, Live TV Channels and more</source>
+        <translation>Sie können nach Titeln, Personen, Fernseher Kanälen und mehr suchen</translation>
+        <extracomment>Help text in search results</extracomment>
+    </message>
+    <message>
+        <source>%1 of %2</source>
+        <translation>%1 von %2</translation>
+        <extracomment>Item position and count. %1 = current item. %2 = total number of items</extracomment>
+    </message>
 </context>
 </TS>
