@@ -12114,5 +12114,49 @@
         <translation>Das wiedergeben von HEVC-Medien mit nicht unterstützten Profilebenen versuchen, bevor auf die Transkodierung zurückgegriffen wird, falls dies fehlschlägt.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
+    <message>
+        <source>Media Grid</source>
+        <translation>Medienübersicht</translation>
+        <extracomment>UI -&gt; Media Grid section in user setting screen.</extracomment>
+    </message>
+    <message>
+        <source>Set Watched</source>
+        <translation>Als angesehen markieren</translation>
+        <extracomment>Button Text - When pressed, marks item as Warched</extracomment>
+    </message>
+    <message>
+        <source>Go to episode</source>
+        <translation>Gehe zu Folge</translation>
+        <extracomment>Continue Watching Popup Menu - Navigate to the Episode Detail Page</extracomment>
+    </message>
+    <message>
+        <source>Media Grid options.</source>
+        <translation>Medienübersichtoptionen</translation>
+    </message>
+    <message>
+        <source>Item Count</source>
+        <translation>Anzahl Elemente</translation>
+        <extracomment>UI -&gt; Media Grid -&gt; Item Count in user setting screen.</extracomment>
+    </message>
+    <message>
+        <source>Show item count in the library and index of selected item.</source>
+        <translation>Zeige die Anzahl der Elemente in der Bibliothek und den Index des ausgewählten Gegenstands.</translation>
+        <extracomment>Description for option in Setting Screen</extracomment>
+    </message>
+    <message>
+        <source>You can search for Titles, People, Live TV Channels and more</source>
+        <translation>Du kannst nach Titeln, Personen, Fernsehsendern und mehr suchen</translation>
+        <extracomment>Help text in search results</extracomment>
+    </message>
+    <message>
+        <source>Go to season</source>
+        <translation>Gehe zu Staffel</translation>
+        <extracomment>Continue Watching Popup Menu - Navigate to the Season Page</extracomment>
+    </message>
+    <message>
+        <source>Set Favorite</source>
+        <translation>Als Favorit markieren</translation>
+        <extracomment>Button Text - When pressed, sets item as Favorite</extracomment>
+    </message>
 </context>
 </TS>
