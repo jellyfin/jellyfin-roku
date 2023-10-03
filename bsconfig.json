@@ -1,27 +1,20 @@
 {
-    "files": [
-        "manifest",
-        "source/**/*.*",
-        "components/**/*.*",
-        "images/**/*.*",
-        "resources/**/*.*",
-        "locale/**/*.*",
-        "settings/*.*"
-    ],
-    "plugins": [
-        "@rokucommunity/bslint",
-        "roku-log-bsc-plugin"
-    ],
-    "rokuLog": {
-        "insertPkgPath": true
-    },
-    "diagnosticFilters": [
-        "node_modules/**/*",
-        "**/roku_modules/**/*"
-    ],
-    "sourceMap": true,
-    "autoImportComponentScript": true,
-    "allowBrighterScriptInBrightScript": true,
-    "stagingDir": "build/staging",
-    "retainStagingDir": true
+  "files": [
+    "manifest",
+    "source/**/*.*",
+    "components/**/*.*",
+    "images/**/*.*",
+    "resources/**/*.*",
+    "locale/**/*.*",
+    "settings/*.*"
+  ],
+  "plugins": ["@rokucommunity/bslint", "roku-log-bsc-plugin"],
+  "rokuLog": {
+    "insertPkgPath": true
+  },
+  "diagnosticFilters": ["node_modules/**/*", "**/roku_modules/**/*"],
+  "sourceMap": true,
+  "autoImportComponentScript": true,
+  "stagingDir": "build/staging",
+  "retainStagingDir": true
 }
