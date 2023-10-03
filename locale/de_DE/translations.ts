@@ -11980,5 +11980,139 @@
         <source>DATE_ADDED</source>
         <translation>Hinzugefügt am</translation>
     </message>
+    <message>
+        <source>Networks</source>
+        <translation>Netzwerke</translation>
+    </message>
+    <message>
+        <source>(Dialog will close automatically)</source>
+        <translation>(Dialog wird automatisch geschlossen)</translation>
+    </message>
+    <message>
+        <source>Hides tagline text on details pages.</source>
+        <translation>Schlagwörter auf der Detailansicht verbergen.</translation>
+    </message>
+    <message>
+        <source>Next episode</source>
+        <translation>Nächste Episode</translation>
+    </message>
+    <message>
+        <source>Hide Taglines</source>
+        <translation>Schlagwörter verbergen</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
+    <message>
+        <source>Cinema Mode</source>
+        <translation>Kinomodus</translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
+    <message>
+        <source>Play Trailer</source>
+        <translation>Trailer abspielen</translation>
+    </message>
+    <message>
+        <source>Quick Connect</source>
+        <translation>Schnellverbindung</translation>
+    </message>
+    <message>
+        <source>Studios</source>
+        <translation>Studios</translation>
+    </message>
+    <message>
+        <source>Shows</source>
+        <translation>Sendungen</translation>
+    </message>
+    <message>
+        <source>Options that alter the design of Jellyfin.</source>
+        <translation>Optionen die das Aussehen von Jellyfin ändern.</translation>
+        <extracomment>Description for Design Elements user settings.</extracomment>
+    </message>
+    <message>
+        <source>Hide Clock</source>
+        <translation>Uhr verstecken</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
+    <message>
+        <source>H.264</source>
+        <translation>H.264</translation>
+        <extracomment>Name of codec used in settings menu</extracomment>
+    </message>
+    <message>
+        <source>Options for TV Shows.</source>
+        <translation>Optionen für Fernsehsendungen.</translation>
+        <extracomment>Description for TV Shows user settings.</extracomment>
+    </message>
+    <message>
+        <source>HEVC</source>
+        <translation>HEVC</translation>
+        <extracomment>Name of codec used in settings menu</extracomment>
+    </message>
+    <message>
+        <source>Design Elements</source>
+        <translation>Designelemente</translation>
+    </message>
+    <message>
+        <source>Go directly to the episode list if a TV series has only one season.</source>
+        <translation>Direkt zur Episodenliste springen, wenn die Sendung nur eine Staffel hat.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Use Splashscreen as Home Background</source>
+        <translation>Splashscreen als Starthintergrund verwenden</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
+    <message>
+        <source>There was an error authenticating via Quick Connect.</source>
+        <translation>Es gab einen Fehler beim Authentifizieren mittels Schnellverbindung.</translation>
+    </message>
+    <message>
+        <source>Return to Top</source>
+        <translation>Zum Anfang springen</translation>
+        <extracomment>UI -&gt; Media Grid -&gt; Item Title in user setting screen.</extracomment>
+    </message>
+    <message>
+        <source>Use the replay button to slowly animate to the first item in the folder. (If disabled, the folder will reset to the first item immediately).</source>
+        <translation>Nutze den Wiedergabe-Button um das erste Objekt im Ordner langsam wiederzugeben. (Ist diese Option deaktiviert, wird der Ordner sofort zum ersten Objekt zurückspringen).</translation>
+        <extracomment>Description for option in Setting Screen</extracomment>
+    </message>
+    <message>
+        <source>Blur Unwatched Episodes</source>
+        <translation>Nicht-Gesehene Episoden ausblenden</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
+    <message>
+        <source>Skip Details for Single Seasons</source>
+        <translation>Details für einzelne Staffel überspringen</translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
+    <message>
+        <source>Blur images of unwatched episodes.</source>
+        <translation>Bilder von ungesehenen Episoden ausblenden.</translation>
+    </message>
+    <message>
+        <source>Use generated splashscreen image as Jellyfin&apos;s home background. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Generiertes Splashscreen-Bild als Jellyfins Starthintergrund verwenden. Jellyfin muss geschlossen und neu geöffnet werden, damit die Änderungen übernommen werden.</translation>
+        <extracomment>Description for option in Setting Screen</extracomment>
+    </message>
+    <message>
+        <source>Bring the theater experience straight to your living room with the ability to play custom intros before the main feature.</source>
+        <translation>Bringe das Kinoerlebnis direkt in dein Wohnzimmer, indem du benutzerdefinierte Intros vor dem Hauptfilm abspielst.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Hide all clocks in Jellyfin. Jellyfin will need to be closed and reopened for changes to take effect.</source>
+        <translation>Sämtliche Uhren in Jellyfin ausblenden. Jellyfin muss geschlossen und neu geöffnet werden, damit die Änderungen übernommen werden.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Attempt Direct Play for H.264 media with unsupported profile levels before falling back to transcoding if it fails.</source>
+        <translation>Das wiedergeben von H.264-Medien mit nicht unterstützten Profilebenen per Direct Play versuchen, bevor auf die Transkodierung zurückgegriffen wird, falls dies fehlschlägt.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Attempt Direct Play for HEVC media with unsupported profile levels before falling back to transcoding if it fails.</source>
+        <translation>Das wiedergeben von HEVC-Medien mit nicht unterstützten Profilebenen versuchen, bevor auf die Transkodierung zurückgegriffen wird, falls dies fehlschlägt.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
 </context>
 </TS>
