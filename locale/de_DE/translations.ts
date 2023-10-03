@@ -11946,5 +11946,15 @@
         <translation>Direkte Wiedergabe von MPEG-4 Inhalten unterstützen. Dies muss unter Umständen für die Wiedergabe von DIVX-kodierten Dateien deaktiviert werden.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
+    <message>
+        <source>Media Grid</source>
+        <translation>Mediengitter</translation>
+        <extracomment>UI -&gt; Media Grid section in user setting screen.</extracomment>
+    </message>
+    <message>
+        <source>Use voice remote to search</source>
+        <translation>Sprachfernbedienung zum Suchen verwenden</translation>
+        <extracomment>Help text in search voice text box</extracomment>
+    </message>
 </context>
 </TS>
