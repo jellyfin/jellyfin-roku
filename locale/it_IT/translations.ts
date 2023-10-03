@@ -2259,5 +2259,17 @@
         <source>Unable to load Channel Data from the server</source>
         <translation>Impossibile recuperare i dati del canale dal server</translation>
     </message>
+    <message>
+        <source>On Now</source>
+        <translation>In riproduzione</translation>
+    </message>
+    <message>
+        <source>Delete Saved</source>
+        <translation>Cancella salvati</translation>
+    </message>
+    <message>
+        <source>Sign Out</source>
+        <translation>Esci</translation>
+    </message>
 </context>
 </TS>
