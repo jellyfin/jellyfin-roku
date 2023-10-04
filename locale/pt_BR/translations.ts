@@ -3531,5 +3531,23 @@
         <source>IMDB_RATING</source>
         <translation>Avaliação IMDb</translation>
     </message>
+    <message>
+        <source>Hide all clocks in Jellyfin. Jellyfin will need to be closed and reopened for changes to take effect.</source>
+        <translation>Ocultar todos os relógios no Jellyfin. Jellyfin precisará ser fechado e reaberto para que as mudanças tenham efeito.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>(Dialog will close automatically)</source>
+        <translation>(Janela fechará automaticamente)</translation>
+    </message>
+    <message>
+        <source>Enable or disable Direct Play for optional codecs</source>
+        <translation>Habilitar ou desabilitar Reprodução Direta para codecs opcionais</translation>
+        <extracomment>Settings Menu - Title for settings group related to codec support</extracomment>
+    </message>
+    <message>
+        <source>There was an error authenticating via Quick Connect.</source>
+        <translation>Houve um erro ao autenticar via Quick Connect.</translation>
+    </message>
 </context>
 </TS>
