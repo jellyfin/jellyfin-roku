@@ -12688,5 +12688,27 @@
         <source>Direct playing</source>
         <translation>Direkte Wiedergabe</translation>
     </message>
+    <message>
+        <source>Quick Connect</source>
+        <translation>Schnellverbindung</translation>
+    </message>
+    <message>
+        <source>Media Grid options.</source>
+        <translation>Medienübersichtsoptionen</translation>
+    </message>
+    <message>
+        <source>Special Features</source>
+        <translation>Sonderfunktionen</translation>
+    </message>
+    <message>
+        <source>Default view for Movie Libraries.</source>
+        <translation>Standardansicht für Filmbibliotheken.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>The requested content does not exist on the server</source>
+        <translation>Der gewünschte Inhalt existiert nicht auf dem Server</translation>
+        <extracomment>Content of message box when the requested content is not found on the server</extracomment>
+    </message>
 </context>
 </TS>
