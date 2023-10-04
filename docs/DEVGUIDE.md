@@ -46,6 +46,7 @@ cd jellyfin-roku
 Install Dependencies:
 
 ```bash
+sudo apt-get install npm
 npm install
 ```
 
@@ -86,16 +87,16 @@ Example:
 Install Necessary Packages
 
 ```bash
-sudo apt-get install wget make zip
+sudo apt-get install make
 ```
 
 Build the package
 
 ```bash
-make dev
+make build-dev
 ```
 
-This will create a zip in `out/apps/Jellyfin_Roku-dev.zip`. Login to your Roku's device in your browser and upload the zip file then run install.
+This will create a zip in `out/jellyfin-roku.zip`. Login to your Roku's device in your browser and upload the zip file then run install.
 
 ## Method 3: Direct load to Roku Device
 
@@ -113,7 +114,7 @@ Normally you would have to open up your browser and upload a .zip file containin
 ### Install Necessary Packages
 
 ```bash
-sudo apt-get install wget make zip
+sudo apt-get install make curl
 ```
 
 ### Deploy
@@ -121,7 +122,7 @@ sudo apt-get install wget make zip
 Package up the application, send it to your Roku, and launch the channel:
 
 ```bash
-make install
+make build-dev install
 ```
 
 Note: You only have to run this command once if you are not a developer. The Jellyfin channel will still be installed after rebooting your Roku device.
@@ -147,7 +148,7 @@ git pull
 Deploy the app:
 
 ```bash
-make install
+make build-dev install
 ```
 
 ## Command Line Workflow
@@ -167,7 +168,7 @@ sudo apt-get install nodejs npm
 Before committing your code, please run:
 
 ```bash
-make prep_commit
+make format lint
 ```
 
 This will format your code and run the CI checks locally to ensure you will pass the CI tests.
@@ -179,7 +180,7 @@ This repo already contains all necessary images for the app. This script only ne
 Install necessary packages:
 
 ```bash
-sudo apt-get install imagemagick
+sudo apt-get install curl imagemagick
 ```
 
 Download and convert images:
