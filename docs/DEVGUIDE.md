@@ -5,25 +5,23 @@ Follow the steps below to install the app on your personal Roku device. This wil
 - [Dev Guide For The Jellyfin Roku App](#dev-guide-for-the-jellyfin-roku-app)
   - [Developer Mode](#developer-mode)
   - [Clone the GitHub Repo](#clone-the-github-repo)
+  - [Install Dependencies](#install-dependencies)
   - [Method 1: Visual Studio Code](#method-1-visual-studio-code)
     - [Install VSCode](#install-vscode)
     - [Usage](#usage)
     - [Hardcoding Roku Information](#hardcoding-roku-information)
-  - [Method 2: Sideload to Roku Device Manually](#method-2-sideload-to-roku-device-manually)
-  - [Method 3: Direct load to Roku Device](#method-3-direct-load-to-roku-device)
-    - [Login Details](#login-details)
-    - [Install Necessary Packages](#install-necessary-packages)
+  - [Method 2: Command Line](#method-2-command-line)
+    - [Workflow](#workflow)
+    - [Install Command Line Dependencies](#install-command-line-dependencies)
     - [Deploy](#deploy)
-  - [Bug/Crash Reports](#bugcrash-reports)
-  - [Upgrade](#upgrade)
-  - [Command Line Workflow](#command-line-workflow)
+    - [Bug/Crash Reports](#bugcrash-reports)
+    - [(Optional) Update Images](#optional-update-images)
   - [Committing](#committing)
-  - [(Optional) Update Images](#optional-update-images)
   - [Adding a User Setting](#adding-a-user-setting)
     - [The order of any particular menu is as follows](#the-order-of-any-particular-menu-is-as-follows)
     - [When giving your setting a name](#when-giving-your-setting-a-name)
     - [When giving your setting a description](#when-giving-your-setting-a-description)
-      - [**Remember to add all new strings to locale/en\_US/translations.ts**](#remember-to-add-all-new-strings-to-localeen_ustranslationsts)
+      - [**Remember to add all new strings to locale/en_US/translations.ts**](#remember-to-add-all-new-strings-to-localeen_ustranslationsts)
 
 ## Developer Mode
 
@@ -43,10 +41,13 @@ Open up the new folder:
 cd jellyfin-roku
 ```
 
-Install Dependencies:
+## Install Dependencies
+
+You'll need [`npm`](https://nodejs.org), version 16 at least.
+
+Then, use it to install dependencies
 
 ```bash
-sudo apt-get install npm
 npm install
 ```
 
@@ -74,21 +75,25 @@ Out of the box, the BrightScript extension will prompt you to pick a Roku device
 
 ```json
 {
-    "brightscript.debug.host": "YOUR_ROKU_HOST_HERE",
-    "brightscript.debug.password": "YOUR_ROKU_DEV_PASSWORD_HERE",
+  "brightscript.debug.host": "YOUR_ROKU_HOST_HERE",
+  "brightscript.debug.password": "YOUR_ROKU_DEV_PASSWORD_HERE"
 }
 ```
 
 Example:
 ![image](https://user-images.githubusercontent.com/2544493/170485209-0dbe6787-8026-47e7-9095-1df96cda8a0a.png)
 
-## Method 2: Sideload to Roku Device Manually
+## Method 2: Command Line
 
-Install Necessary Packages
+### Workflow
 
-```bash
-sudo apt-get install make
-```
+Modify code -> `make build-dev install` -> Use Roku remote to test changes -> `telnet ${ROKU_DEV_TARGET} 8085` -> `CTRL + ]` -> `quit + ENTER`
+
+You will need to use telnet to see log statements, warnings, and error reports. You won't always need to telnet into your device but the workflow above is typical when you are new to BrightScript or are working on tricky code.
+
+### Install Command Line Dependencies
+
+You'll need [`make`](https://www.gnu.org/software/make) and [`curl`](https://curl.se).
 
 Build the package
 
@@ -96,11 +101,10 @@ Build the package
 make build-dev
 ```
 
-This will create a zip in `out/jellyfin-roku.zip`. Login to your Roku's device in your browser and upload the zip file then run install.
+This will create a zip in `out/jellyfin-roku.zip`, that you can upload on your Roku's device via your browser.
+Or you can continue with the next steps to do it via the command line.
 
-## Method 3: Direct load to Roku Device
-
-### Login Details
+### Deploy
 
 Run this command - replacing the IP and password with your Roku device IP and dev password from the first step:
 
@@ -109,27 +113,17 @@ export ROKU_DEV_TARGET=192.168.1.234
 export ROKU_DEV_PASSWORD=password
 ```
 
-Normally you would have to open up your browser and upload a .zip file containing the app code. These commands enable the app to be zipped up and installed on the Roku automatically which is essential for developers and makes it easy to upgrade in the future for users.
-
-### Install Necessary Packages
-
-```bash
-sudo apt-get install make curl
-```
-
-### Deploy
-
 Package up the application, send it to your Roku, and launch the channel:
 
 ```bash
-make build-dev install
+make install
 ```
 
 Note: You only have to run this command once if you are not a developer. The Jellyfin channel will still be installed after rebooting your Roku device.
 
-## Bug/Crash Reports
+### Bug/Crash Reports
 
-Did the app crash? Find a nasty bug? Use the this command to view the error log and [report it to the developers](https://github.com/jellyfin/jellyfin-roku/issues):
+Did the app crash? Find a nasty bug? Use this command to view the error log and [report it to the developers](https://github.com/jellyfin/jellyfin-roku/issues):
 
 ```bash
 telnet ${ROKU_DEV_TARGET} 8085
@@ -137,51 +131,17 @@ telnet ${ROKU_DEV_TARGET} 8085
 
 To exit telnet: `CTRL + ]` and then type `quit + ENTER`
 
-## Upgrade
-
-Navigate to the folder where you installed the app then upgrade the code to the latest version:
+You can also take a screenshot of the app to augment the bug report.
 
 ```bash
-git pull
+make screenshot
 ```
 
-Deploy the app:
-
-```bash
-make build-dev install
-```
-
-## Command Line Workflow
-
-Modify code -> `make install` -> Use Roku remote to test changes -> `telnet ${ROKU_DEV_TARGET} 8085` -> `CTRL + ]` -> `quit + ENTER`
-
-Unfortunately there is no debugger. You will need to use telnet to see log statements, warnings, and error reports. You won't always need to telnet into your device but the workflow above is typical when you are new to BrightScript or are working on tricky code.
-
-Install necessary packages:
-
-```bash
-sudo apt-get install nodejs npm
-```
-
-## Committing
-
-Before committing your code, please run:
-
-```bash
-make format lint
-```
-
-This will format your code and run the CI checks locally to ensure you will pass the CI tests.
-
-## (Optional) Update Images
+### (Optional) Update Images
 
 This repo already contains all necessary images for the app. This script only needs to be run when the [official Jellyfin images](https://github.com/jellyfin/jellyfin-ux) are changed to allow us to update the repo images.
 
-Install necessary packages:
-
-```bash
-sudo apt-get install curl imagemagick
-```
+You'll need `convert`, from [ImageMagick](https://imagemagick.org)
 
 Download and convert images:
 
@@ -189,9 +149,19 @@ Download and convert images:
 make get_images
 ```
 
+## Committing
+
+Before committing your code, please run:
+
+```bash
+npm run lint
+```
+
+And fix any encountered issue.
+
 ## Adding a User Setting
 
-Your new functionality may need a setting to configure its behavior, or, sometimes, we may ask you to add a setting for your new functionality, so that users may enable or disable it.  If you find yourself in this position, please observe the following considerations when adding your new user setting.
+Your new functionality may need a setting to configure its behavior, or, sometimes, we may ask you to add a setting for your new functionality, so that users may enable or disable it. If you find yourself in this position, please observe the following considerations when adding your new user setting.
 
 ### The order of any particular menu is as follows
 
@@ -201,7 +171,7 @@ Your new functionality may need a setting to configure its behavior, or, sometim
 
 ### When giving your setting a name
 
-Ideally, your setting will be named with a relevant noun such as ```Cinema Mode``` or ```Codec Support.``` Sometimes there is no such name that is sufficiently specific, such as with ```Clock```. In this case you must use a verb phrase to name your setting, such as ```Hide Clock.``` If your verb phrase _must_ be long to be specific, you may drop implied verbs if absolutely necessary, such as how ```Text Subtitles Only``` drops the implied ```Show.``` Do not use the infinitive form ```action-doing``` or ```doing stuff.``` Instead, use the imperative: ```Do Action``` or ```Do Stuff.``` Remember that _characters are a commodity in names._
+Ideally, your setting will be named with a relevant noun such as `Cinema Mode` or `Codec Support.` Sometimes there is no such name that is sufficiently specific, such as with `Clock`. In this case you must use a verb phrase to name your setting, such as `Hide Clock.` If your verb phrase _must_ be long to be specific, you may drop implied verbs if absolutely necessary, such as how `Text Subtitles Only` drops the implied `Show.` Do not use the infinitive form `action-doing` or `doing stuff.` Instead, use the imperative: `Do Action` or `Do Stuff.` Remember that _characters are a commodity in names._
 
 Generally, we should not repeat the name of a setting's parent in the setting's name. Being a child of that parent implies that the settings are related to it.
 
