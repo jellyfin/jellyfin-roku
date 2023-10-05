@@ -3549,5 +3549,41 @@
         <source>There was an error authenticating via Quick Connect.</source>
         <translation>Houve um erro ao autenticar via Quick Connect.</translation>
     </message>
+    <message>
+        <source>%1 of %2</source>
+        <translation>%1 de %2</translation>
+        <extracomment>Item position and count. %1 = current item. %2 = total number of items</extracomment>
+    </message>
+    <message>
+        <source>Use the replay button to slowly animate to the first item in the folder. (If disabled, the folder will reset to the first item immediately).</source>
+        <translation type="unfinished">Use o botão de replay para animar devagar o primeiro item da pasta. (Se desabilitado, a pasta será redefinida para o primeiro item imediatamente).</translation>
+        <extracomment>Description for option in Setting Screen</extracomment>
+    </message>
+    <message>
+        <source>Libraries</source>
+        <translation>Coleções</translation>
+    </message>
+    <message>
+        <source>Settings relating to the appearance of Library pages</source>
+        <translation>Configurações relacionadas a aparência da página Coleções</translation>
+    </message>
+    <message>
+        <source>Networks</source>
+        <translation type="unfinished">Redes</translation>
+    </message>
+    <message>
+        <source>General</source>
+        <translation>Geral</translation>
+    </message>
+    <message>
+        <source>Search now</source>
+        <translation>Pesquisar</translation>
+        <extracomment>Help text in search Box</extracomment>
+    </message>
+    <message>
+        <source>You can search for Titles, People, Live TV Channels and more</source>
+        <translation>Pesquise por título, pessoas, canais ao vivo e mais</translation>
+        <extracomment>Help text in search results</extracomment>
+    </message>
 </context>
 </TS>
