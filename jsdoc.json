@@ -1,0 +1,19 @@
+{
+  "plugins": [
+    "./node_modules/brighterscript-jsdocs-plugin/convert-brighterscript-docs.js",
+    "plugins/markdown"
+  ],
+  "source": {
+    "include": ["source", "components"],
+    "includePattern": ".+\\.br?s$"
+  },
+  "extendedConfig": {},
+  "opts": {
+    "recurse": true,
+    "template": "node_modules/braintree-jsdoc-template",
+    "brighterscript-jsdocs-plugin": {
+      "addModule": true,
+      "escapeHTMLCharacters": false
+    }
+  }
+}
