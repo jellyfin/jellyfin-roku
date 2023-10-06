@@ -5,15 +5,20 @@
   ],
   "source": {
     "include": ["source", "components"],
-    "includePattern": ".+\\.br?s$"
+    "includePattern": ".+\\.br?s$",
+    "excludePattern": "(roku_modules)"
   },
   "extendedConfig": {},
   "opts": {
     "recurse": true,
-    "template": "node_modules/braintree-jsdoc-template",
+    "template": "node_modules/clean-jsdoc-theme",
     "brighterscript-jsdocs-plugin": {
       "addModule": true,
       "escapeHTMLCharacters": false
+    },
+    "markdown": {
+      "hardwrap": false,
+      "idInHeadings": true
     }
   }
 }
