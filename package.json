@@ -5,14 +5,14 @@
   "dependencies": {
     "@rokucommunity/bslib": "0.1.1",
     "bgv": "npm:button-group-vert@1.0.2",
-    "brighterscript-formatter": "1.6.33",
+    "brighterscript-formatter": "1.6.34",
     "intKeyboard": "npm:integer-keyboard@1.0.12",
     "log": "npm:roku-log@0.11.1",
     "sob": "npm:slide-out-button@1.0.1"
   },
   "devDependencies": {
     "@rokucommunity/bslint": "0.8.10",
-    "brighterscript": "0.65.7",
+    "brighterscript": "0.65.8",
     "brighterscript-jsdocs-plugin": "0.6.0",
     "clean-jsdoc-theme": "4.2.13",
     "jsdoc": "4.0.2",
