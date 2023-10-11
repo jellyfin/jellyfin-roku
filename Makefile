@@ -47,13 +47,7 @@ $(BUILT_PKG):; $(MAKE) build-dev
 format: node_modules/; npm run format
 
 .PHONY: lint
-lint: node_modules/
-	npm run check-formatting
-	npm run lint
-	npm run lint-json
-	npm run lint-markdown
-	npm run lint-spelling
-	npm run validate
+lint: node_modules/; npm run lint
 
 ## roku box
 
