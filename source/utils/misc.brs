@@ -193,25 +193,27 @@ function inferServerUrl(url as string) as string
     end for
     handled = 0
     timeout = CreateObject("roTimespan")
-    while timeout.totalseconds() < 15
-        resp = wait(0, port)
-        if type(resp) = "roUrlEvent"
-            ' TODO
-            ' if response code is a 300 redirect then we should return the redirect url
-            ' Make sure this happens or make it happen
-            if resp.GetResponseCode() = 200 and isJellyfinServer(resp.GetString())
-                selectedUrl = hosts.lookup(resp.GetSourceIdentity().ToStr())
-                print "Successfully inferred server URL: " selectedUrl
-                return selectedUrl
+    if hosts.count() > 0
+        while timeout.totalseconds() < 15
+            resp = wait(0, port)
+            if type(resp) = "roUrlEvent"
+                ' TODO
+                ' if response code is a 300 redirect then we should return the redirect url
+                ' Make sure this happens or make it happen
+                if resp.GetResponseCode() = 200 and isJellyfinServer(resp.GetString())
+                    selectedUrl = hosts.lookup(resp.GetSourceIdentity().ToStr())
+                    print "Successfully inferred server URL: " selectedUrl
+                    return selectedUrl
+                end if
             end if
-        end if
-        handled += 1
-        if handled = reqs.count()
-            print "inferServerUrl in utils/misc.brs failed to find a server from the string " url " but did not timeout."
-            return ""
-        end if
-    end while
-    print "inferServerUrl in utils/misc.brs failed to find a server from the string " url " because it timed out."
+            handled += 1
+            if handled = reqs.count()
+                print "inferServerUrl in utils/misc.brs failed to find a server from the string " url " but did not timeout."
+                return ""
+            end if
+        end while
+        print "inferServerUrl in utils/misc.brs failed to find a server from the string " url " because it timed out."
+    end if
     return ""
 end function
 
@@ -225,6 +227,8 @@ function urlCandidates(input as string)
         ' a proto wasn't declared
         url = parseUrl("none://" + input)
     end if
+    ' if the proto is still invalid then the string is not valid
+    if url[1] = invalid then return []
     proto = url[1]
     host = url[2]
     port = url[3]
