@@ -445,6 +445,41 @@ function TVEpisodes(show_id as string, season_id as string) as dynamic
     return data
 end function
 
+function TVSeasonExtras(season_id as string) as dynamic
+    url = Substitute("/Users/{0}/Items/{1}/SpecialFeatures", m.global.session.user.id, season_id)
+    resp = APIRequest(url)
+
+    ' validate data
+    data = getJson(resp)
+    if data = invalid then return invalid
+
+    results = []
+    for each item in data
+        imgParams = { "maxWidth": 400, "maxheight": 250 }
+        tmp = CreateObject("roSGNode", "TVEpisodeData")
+        tmp.image = PosterImage(item.id, imgParams)
+        if tmp.image <> invalid
+            tmp.image.posterDisplayMode = "scaleToZoom"
+        end if
+        tmp.json = item
+
+        ' Force item type to Video so episode auto queue is not attempted
+        tmp.type = "Video"
+        tmpMetaData = ItemMetaData(item.id)
+
+        ' Validate meta data
+        if tmpMetaData <> invalid and tmpMetaData.overview <> invalid
+            tmp.overview = tmpMetaData.overview
+        end if
+        results.push(tmp)
+    end for
+
+    ' Build that data format that the TVEpisodeRow expects
+    extrasData = { Items: [] }
+    extrasData.Items = results
+    return extrasData
+end function
+
 function TVEpisodeShuffleList(show_id as string)
     url = Substitute("Shows/{0}/Episodes", show_id)
     resp = APIRequest(url, {

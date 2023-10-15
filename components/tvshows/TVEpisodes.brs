@@ -9,6 +9,7 @@ sub init()
     m.rows = m.top.findNode("picker")
     m.poster = m.top.findNode("seasonPoster")
     m.Shuffle = m.top.findNode("Shuffle")
+    m.Extras = m.top.findNode("Extras")
     m.tvEpisodeRow = m.top.findNode("tvEpisodeRow")
 
     m.unplayedCount = m.top.findNode("unplayedCount")
@@ -19,6 +20,12 @@ end sub
 
 sub setSeasonLoading()
     m.top.overhangTitle = tr("Loading...")
+end sub
+
+sub setExtraButtonVisibility()
+    if isValid(m.top.extrasObjects) and (not m.top.extrasObjects.items.IsEmpty())
+        m.Extras.visible = true
+    end if
 end sub
 
 sub updateSeason()
@@ -45,13 +52,23 @@ function onKeyEvent(key as string, press as boolean) as boolean
         return true
     end if
 
-    if key = "right" and (m.Shuffle.hasFocus())
+    if key = "right" and (m.Shuffle.hasFocus() or m.Extras.hasFocus())
         m.tvEpisodeRow.setFocus(true)
         return true
     end if
 
-    if key = "OK" or key = "play"
+    showExtras = isValid(m.top.extrasObjects) and (not m.top.extrasObjects.IsEmpty())
+    if showExtras and key = "up" and (m.Extras.hasFocus())
+        m.Shuffle.setFocus(true)
+        return true
+    end if
 
+    if showExtras and key = "down" and (m.Shuffle.hasFocus())
+        m.Extras.setFocus(true)
+        return true
+    end if
+
+    if key = "OK" or key = "play"
         if m.Shuffle.hasFocus()
             episodeList = m.rows.getChild(0).objects.items
 
@@ -65,6 +82,16 @@ function onKeyEvent(key as string, press as boolean) as boolean
             m.global.queueManager.callFunc("set", episodeList)
             m.global.queueManager.callFunc("playQueue")
             return true
+        end if
+
+        if showExtras and m.Extras.hasFocus()
+            if m.Extras.text.trim() = "Extras"
+                m.Extras.text = "Episodes"
+                m.top.objects = m.top.extrasObjects
+            else
+                m.Extras.text = "Extras"
+                m.top.objects = m.top.episodeObjects
+            end if
         end if
     end if
 
@@ -81,7 +108,6 @@ function onKeyEvent(key as string, press as boolean) as boolean
         m.top.lastFocus = focusedChild
         itemToPlay = focusedChild.content.getChild(focusedChild.rowItemFocused[0]).getChild(0)
         if isValid(itemToPlay) and isValid(itemToPlay.id) and itemToPlay.id <> ""
-            itemToPlay.type = "Episode"
             m.top.quickPlayNode = itemToPlay
         end if
         handled = true
