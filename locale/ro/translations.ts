@@ -2706,5 +2706,9 @@
         <source>TITLE</source>
         <translation>Nume</translation>
     </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>Ține minte?</translation>
+    </message>
 </context>
 </TS>

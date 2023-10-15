@@ -62,13 +62,42 @@ sub Main (args as dynamic) as void
     end if
 
     ' Only show the Whats New popup the first time a user runs a new client version.
-    if m.global.app.version <> get_setting("LastRunVersion")
+    appLastRunVersion = get_setting("LastRunVersion")
+    if m.global.app.version <> appLastRunVersion
         ' Ensure the user hasn't disabled Whats New popups
         if m.global.session.user.settings["load.allowwhatsnew"] = true
             set_setting("LastRunVersion", m.global.app.version)
             dialog = createObject("roSGNode", "WhatsNewDialog")
             m.scene.dialog = dialog
             m.scene.dialog.observeField("buttonSelected", m.port)
+        end if
+    end if
+
+    ' Registry migrations
+    if isValid(appLastRunVersion) and not versionChecker(appLastRunVersion, "1.7.0")
+        ' last app version used less than 1.7.0
+        ' no longer saving raw password to registry
+        ' auth token and username are now stored in user settings and not global settings
+        print "Running 1.7.0 registry migrations"
+        ' remove global settings
+        unset_setting("token")
+        unset_setting("username")
+        unset_setting("password")
+        ' remove user settings
+        unset_user_setting("password")
+        ' remove saved credentials from saved_servers
+        saved = get_setting("saved_servers")
+        if isValid(saved)
+            savedServers = ParseJson(saved)
+            if isValid(savedServers.serverList) and savedServers.serverList.Count() > 0
+                newServers = { serverList: [] }
+                for each item in savedServers.serverList
+                    item.Delete("username")
+                    item.Delete("password")
+                    newServers.serverList.Push(item)
+                end for
+                set_setting("saved_servers", FormatJson(newServers))
+            end if
         end if
     end if
 
@@ -197,24 +226,15 @@ sub Main (args as dynamic) as void
 
                     selectedItem.selectedAudioStreamIndex = audio_stream_idx
 
-                    ' If we are playing a playlist, always start at the beginning
-                    if m.global.queueManager.callFunc("getCount") > 1
-                        selectedItem.startingPoint = 0
+                    ' Display playback options dialog
+                    if selectedItem.json.userdata.PlaybackPositionTicks > 0
+                        m.global.queueManager.callFunc("hold", selectedItem)
+                        playbackOptionDialog(selectedItem.json.userdata.PlaybackPositionTicks, selectedItem.json)
+                    else
                         m.global.queueManager.callFunc("clear")
                         m.global.queueManager.callFunc("push", selectedItem)
                         m.global.queueManager.callFunc("playQueue")
-                    else
-                        ' Display playback options dialog
-                        if selectedItem.json.userdata.PlaybackPositionTicks > 0
-                            m.global.queueManager.callFunc("hold", selectedItem)
-                            playbackOptionDialog(selectedItem.json.userdata.PlaybackPositionTicks, selectedItem.json)
-                        else
-                            m.global.queueManager.callFunc("clear")
-                            m.global.queueManager.callFunc("push", selectedItem)
-                            m.global.queueManager.callFunc("playQueue")
-                        end if
                     end if
-
 
                 else if selectedItemType = "Series"
                     group = CreateSeriesDetailsGroup(selectedItem.json.id)
@@ -520,7 +540,11 @@ sub Main (args as dynamic) as void
                 group.findNode("SearchBox").findNode("search_Key").active = true
             else if button.id = "change_server"
                 unset_setting("server")
-                unset_setting("port")
+                session.server.Delete()
+                SignOut(false)
+                sceneManager.callFunc("clearScenes")
+                goto app_start
+            else if button.id = "change_user"
                 SignOut(false)
                 sceneManager.callFunc("clearScenes")
                 goto app_start

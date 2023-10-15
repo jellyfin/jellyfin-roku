@@ -203,12 +203,16 @@ function authRequest(request as object) as object
 
     if m.global.session.user.id <> invalid
         auth = auth + ", UserId=" + QUOTE + m.global.session.user.id + QUOTE
-        auth = auth + ", DeviceId=" + QUOTE + m.global.device.id + QUOTE
-        if m.global.session.user.authToken <> invalid
-            auth = auth + ", Token=" + QUOTE + m.global.session.user.authToken + QUOTE
-        end if
+    end if
+
+    if m.global.session.user <> invalid and m.global.session.user.friendlyName <> invalid
+        auth = auth + ", DeviceId=" + QUOTE + m.global.device.id + m.global.session.user.friendlyName + QUOTE
     else
-        auth = auth + ", DeviceId=" + QUOTE + m.global.device.uuid + QUOTE
+        auth = auth + ", DeviceId=" + QUOTE + m.global.device.id + QUOTE
+    end if
+
+    if m.global.session.user.authToken <> invalid
+        auth = auth + ", Token=" + QUOTE + m.global.session.user.authToken + QUOTE
     end if
 
     request.AddHeader("Authorization", auth)

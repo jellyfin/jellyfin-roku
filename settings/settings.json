@@ -1,5 +1,19 @@
 [
     {
+        "title": "Global",
+        "description": "Global settings that affect everyone that uses this Roku device.",
+        "children": [
+            {
+                "title": "Remember Me?",
+                "description": "Remember the currently logged in user and try to log them in again next time you start the Jellyfin app.",
+                "settingName": "global.rememberme",
+                "type": "bool",
+                "default": "false"
+            }
+
+        ]
+    },
+    {
         "title": "Playback",
         "description": "Settings relating to playback and supported codec and media types.",
         "children": [

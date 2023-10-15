@@ -20,9 +20,6 @@ sub loadFromRegistry(id as string)
 end sub
 
 sub saveToRegistry()
-    set_user_setting("username", m.top.username)
-    set_user_setting("token", m.top.token)
-
     users = parseJson(get_setting("available_users", "[]"))
     this_user = invalid
     for each user in users
@@ -57,7 +54,9 @@ function setPreference(key as string, value as string)
 end function
 
 sub setActive()
-    set_setting("active_user", m.top.id)
+    if m.global.session.user.settings["global.rememberme"]
+        set_setting("active_user", m.top.id)
+    end if
 end sub
 
 sub setServer(hostname as string)

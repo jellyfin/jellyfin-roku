@@ -7,7 +7,6 @@
     <field id="PlaySessionId" type="string" />
     <field id="Subtitles" type="array" />
     <field id="SelectedSubtitle" type="integer" value="-1" alwaysNotify="true" />
-    <field id="captionMode" type="string" />
     <field id="container" type="string" />
     <field id="directPlaySupported" type="boolean" />
     <field id="systemOverlay" type="boolean" value="false" />
@@ -24,9 +23,11 @@
     <field id="mediaSourceId" type="string" />
     <field id="fullSubtitleData" type="array" />
     <field id="audioIndex" type="integer" />
+    <field id="allowCaptions" type="boolean" value="false" />
   </interface>
 
   <children>
+    <Group id="captionGroup" translation="[960,1020]" />
     <timer id="playbackTimer" repeat="true" duration="30" />
     <timer id="bufferCheckTimer" repeat="true" />
 
