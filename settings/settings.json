@@ -133,13 +133,6 @@
                 "description": "Enable or disable Direct Play support for certain codecs.",
                 "children": [
                     {
-                        "title": "AV1",
-                        "description": "** EXPERIMENTAL** Support Direct Play of AV1 content if this Roku device supports it.",
-                        "settingName": "playback.av1",
-                        "type": "bool",
-                        "default": "false"
-                    },
-                    {
                         "title": "MPEG-2",
                         "description": "Support Direct Play of MPEG-2 content (e.g., Live TV). This will prevent transcoding of MPEG-2 content, but uses significantly more bandwidth.",
                         "settingName": "playback.mpeg2",
