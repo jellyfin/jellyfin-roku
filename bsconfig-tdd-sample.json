@@ -18,6 +18,15 @@
     {
       "src": "settings/**/*",
       "dest": "settings"
+    },
+    "!**/*.spec.bs",
+    {
+      "src": "**/BaseTestSuite.spec.bs",
+      "dest": "source"
+    },
+    {
+      "src": "**/isValid.spec.bs",
+      "dest": "source"
     }
   ],
   "diagnosticFilters": ["node_modules/**/*", "**/roku_modules/**/*"],
