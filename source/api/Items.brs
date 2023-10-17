@@ -474,9 +474,7 @@ function TVSeasonExtras(seasonId as string) as dynamic
     end for
 
     ' Build that data format that the TVEpisodeRow expects
-    extrasData = { Items: [] }
-    extrasData.Items = results
-    return extrasData
+    return { Items: results }
 end function
 
 function TVEpisodeShuffleList(show_id as string)
