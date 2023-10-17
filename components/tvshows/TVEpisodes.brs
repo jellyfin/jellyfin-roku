@@ -2,14 +2,15 @@ import "pkg:/source/api/Image.brs"
 import "pkg:/source/api/baserequest.brs"
 import "pkg:/source/utils/config.brs"
 import "pkg:/source/utils/misc.brs"
+import "pkg:/source/api/sdk.bs"
 
 sub init()
     m.top.optionsAvailable = false
 
     m.rows = m.top.findNode("picker")
     m.poster = m.top.findNode("seasonPoster")
-    m.Shuffle = m.top.findNode("Shuffle")
-    m.Extras = m.top.findNode("Extras")
+    m.shuffle = m.top.findNode("shuffle")
+    m.extras = m.top.findNode("extras")
     m.tvEpisodeRow = m.top.findNode("tvEpisodeRow")
 
     m.unplayedCount = m.top.findNode("unplayedCount")
@@ -22,8 +23,9 @@ sub setSeasonLoading()
     m.top.overhangTitle = tr("Loading...")
 end sub
 
+' Updates the visibility of the Extras button based on if this season has any extra features
 sub setExtraButtonVisibility()
-    if isValid(m.top.extrasObjects) and (not m.top.extrasObjects.items.IsEmpty())
+    if isValid(m.top.extrasObjects) and isValidAndNotEmpty(m.top.extrasObjects.items)
         m.Extras.visible = true
     end if
 end sub
@@ -40,36 +42,36 @@ sub updateSeason()
 
     imgParams = { "maxHeight": 450, "maxWidth": 300 }
     m.poster.uri = ImageURL(m.top.seasonData.Id, "Primary", imgParams)
-    m.Shuffle.visible = true
+    m.shuffle.visible = true
     m.top.overhangTitle = m.top.seasonData.SeriesName + " - " + m.top.seasonData.name
 end sub
 
+' Handle navigation input from the remote and act on it
 function onKeyEvent(key as string, press as boolean) as boolean
     handled = false
 
     if key = "left" and m.tvEpisodeRow.hasFocus()
-        m.Shuffle.setFocus(true)
+        m.shuffle.setFocus(true)
         return true
     end if
 
-    if key = "right" and (m.Shuffle.hasFocus() or m.Extras.hasFocus())
+    if key = "right" and (m.shuffle.hasFocus() or m.Extras.hasFocus())
         m.tvEpisodeRow.setFocus(true)
         return true
     end if
 
-    showExtras = isValid(m.top.extrasObjects) and (not m.top.extrasObjects.IsEmpty())
-    if showExtras and key = "up" and (m.Extras.hasFocus())
-        m.Shuffle.setFocus(true)
+    if m.extras.visible and key = "up" and (m.Extras.hasFocus())
+        m.shuffle.setFocus(true)
         return true
     end if
 
-    if showExtras and key = "down" and (m.Shuffle.hasFocus())
+    if m.extras.visible and key = "down" and (m.shuffle.hasFocus())
         m.Extras.setFocus(true)
         return true
     end if
 
     if key = "OK" or key = "play"
-        if m.Shuffle.hasFocus()
+        if m.shuffle.hasFocus()
             episodeList = m.rows.getChild(0).objects.items
 
             for i = 0 to episodeList.count() - 1
@@ -84,12 +86,12 @@ function onKeyEvent(key as string, press as boolean) as boolean
             return true
         end if
 
-        if showExtras and m.Extras.hasFocus()
-            if m.Extras.text.trim() = "Extras"
-                m.Extras.text = "Episodes"
+        if m.extras.visible and m.extras.hasFocus()
+            if LCase(m.extras.text.trim()) = LCase(tr("Extras"))
+                m.extras.text = tr("Episodes")
                 m.top.objects = m.top.extrasObjects
             else
-                m.Extras.text = "Extras"
+                m.extras.text = tr("Extras")
                 m.top.objects = m.top.episodeObjects
             end if
         end if

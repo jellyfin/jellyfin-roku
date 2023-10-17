@@ -1,3 +1,5 @@
+import "pkg:/source/api/sdk.bs"
+
 function ItemGetPlaybackInfo(id as string, startTimeTicks = 0 as longinteger)
     params = {
         "UserId": m.global.session.user.id,
@@ -417,26 +419,25 @@ function TVSeasons(id as string) as dynamic
     return data
 end function
 
-function TVEpisodes(show_id as string, season_id as string) as dynamic
-    url = Substitute("Shows/{0}/Episodes", show_id)
-    resp = APIRequest(url, { "seasonId": season_id, "UserId": m.global.session.user.id, "fields": "MediaStreams,MediaSources" })
-
-    data = getJson(resp)
-    ' validate data
+' Returns a list of TV Shows for a given TV Show and season
+' Accepts strings for the TV Show Id and the season Id
+function TVEpisodes(showId as string, seasonId as string) as dynamic
+    ' Get and validate data
+    data = api.shows.GetEpisodes(showId, { "seasonId": seasonId, "UserId": m.global.session.user.id, "fields": "MediaStreams,MediaSources" })
     if data = invalid or data.Items = invalid then return invalid
 
     results = []
     for each item in data.Items
-        imgParams = { "maxWidth": 400, "maxheight": 250 }
         tmp = CreateObject("roSGNode", "TVEpisodeData")
-        tmp.image = PosterImage(item.id, imgParams)
-        if tmp.image <> invalid
+        tmp.image = PosterImage(item.id, { "maxWidth": 400, "maxheight": 250 })
+        if isValid(tmp.image)
             tmp.image.posterDisplayMode = "scaleToZoom"
         end if
         tmp.json = item
         tmpMetaData = ItemMetaData(item.id)
+
         ' validate meta data
-        if tmpMetaData <> invalid and tmpMetaData.overview <> invalid
+        if isValid(tmpMetaData) and isValid(tmpMetaData.overview)
             tmp.overview = tmpMetaData.overview
         end if
         results.push(tmp)
@@ -445,20 +446,18 @@ function TVEpisodes(show_id as string, season_id as string) as dynamic
     return data
 end function
 
-function TVSeasonExtras(season_id as string) as dynamic
-    url = Substitute("/Users/{0}/Items/{1}/SpecialFeatures", m.global.session.user.id, season_id)
-    resp = APIRequest(url)
-
-    ' validate data
-    data = getJson(resp)
-    if data = invalid then return invalid
+' Returns a list of extra features for a TV Show season
+' Accepts a string that is a TV Show season id
+function TVSeasonExtras(seasonId as string) as dynamic
+    ' Get and validate TV extra features data
+    data = api.users.GetSpecialFeatures(m.global.session.user.id, seasonId)
+    if not isValid(data) then return invalid
 
     results = []
     for each item in data
-        imgParams = { "maxWidth": 400, "maxheight": 250 }
         tmp = CreateObject("roSGNode", "TVEpisodeData")
-        tmp.image = PosterImage(item.id, imgParams)
-        if tmp.image <> invalid
+        tmp.image = PosterImage(item.id, { "maxWidth": 400, "maxheight": 250 })
+        if isValid(tmp.image)
             tmp.image.posterDisplayMode = "scaleToZoom"
         end if
         tmp.json = item
@@ -468,7 +467,7 @@ function TVSeasonExtras(season_id as string) as dynamic
         tmpMetaData = ItemMetaData(item.id)
 
         ' Validate meta data
-        if tmpMetaData <> invalid and tmpMetaData.overview <> invalid
+        if isValid(tmpMetaData) and isValid(tmpMetaData.overview)
             tmp.overview = tmpMetaData.overview
         end if
         results.push(tmp)
