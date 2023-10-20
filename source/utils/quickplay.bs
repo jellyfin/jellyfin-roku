@@ -365,6 +365,9 @@ namespace quickplay
             paramArray["studioIds"] = itemNode.id
         else if folderType = "genre"
             paramArray["genreIds"] = itemNode.id
+            if isValid(itemNode.json.MovieCount) and itemNode.json.MovieCount > 0
+                paramArray["includeItemTypes"] = "Movie"
+            end if
         else if folderType = "musicgenre"
             paramArray["genreIds"] = itemNode.id
             paramArray.delete("videoTypes")
