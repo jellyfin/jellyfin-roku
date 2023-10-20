@@ -177,14 +177,6 @@
             <translation>Server</translation>
         </message>
         <message>
-            <source>Extras</source>
-            <translation>Extras</translation>
-        </message>
-        <message>
-            <source>Episodes</source>
-            <translation>Episodes</translation>
-        </message>
-        <message>
             <source>Error Retrieving Content</source>
             <translation>Error Retrieving Content</translation>
             <extracomment>Dialog title when unable to load Content from Server</extracomment>
@@ -532,16 +524,6 @@
             <source>Support Direct Play of MPEG-4 content. This may need to be disabled for playback of DIVX encoded video files.</source>
             <translation>Support Direct Play of MPEG-4 content. This may need to be disabled for playback of DIVX encoded video files.</translation>
             <extracomment>Settings Menu - Description for option</extracomment>
-        </message>
-        <message>
-            <source>AV1</source>
-            <translation>AV1</translation>
-            <extracomment>Name of a setting - should we try to direct play experimental av1 codec</extracomment>
-        </message>
-        <message>
-            <source>** EXPERIMENTAL** Support Direct Play of AV1 content if this Roku device supports it.</source>
-            <translation>** EXPERIMENTAL** Support Direct Play of AV1 content if this Roku device supports it.</translation>
-            <extracomment>Description of a setting - should we try to direct play experimental av1 codec</extracomment>
         </message>
         <message>
             <source>Enabled</source>

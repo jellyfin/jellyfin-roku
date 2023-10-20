@@ -12710,5 +12710,17 @@
         <translation>Der gewünschte Inhalt existiert nicht auf dem Server</translation>
         <extracomment>Content of message box when the requested content is not found on the server</extracomment>
     </message>
+    <message>
+        <source>Change Server</source>
+        <translation>Server wechseln</translation>
+    </message>
+    <message>
+        <source>Sign Out</source>
+        <translation>Abmelden</translation>
+    </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>Zugangsdaten Speichern?</translation>
+    </message>
 </context>
 </TS>

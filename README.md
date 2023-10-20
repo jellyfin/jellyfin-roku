@@ -34,7 +34,7 @@ To test the latest features before they get released:
 
 ## Advanced
 
-For more advanced deployment methods, access to crash logs, or to learn how to setup a developer environment so you can write some code yourself please read the [DEVGUIDE](DEVGUIDE.md).
+For more advanced deployment methods, access to crash logs, or to learn how to setup a developer environment so you can write some code yourself please read the [DEVGUIDE](docs/DEVGUIDE.md).
 
 ## Feature Requests
 
