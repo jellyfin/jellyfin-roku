@@ -32,7 +32,7 @@ function AboutMe(id = "" as string)
 end function
 
 sub SignOut(deleteSavedEntry = true as boolean)
-    if deleteSavedEntry = true
+    if deleteSavedEntry
         unset_user_setting("token")
         unset_user_setting("username")
     end if

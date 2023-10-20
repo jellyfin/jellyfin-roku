@@ -52,7 +52,7 @@ end sub
 sub runRegistryUserMigrations(version as string)
     regSections = getRegistrySections()
     for each section in regSections
-        if section <> "Jellyfin"
+        if LCase(section) <> "jellyfin"
             if version = "1.7.0"
                 print "Running User Registry Migration for 1.7.0"
                 ' now saving LastRunVersion globally and per user so that we can run user specific registry migrations

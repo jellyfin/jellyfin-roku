@@ -37,7 +37,7 @@ function RegistryReadAll(section as string) as dynamic
     registryData = {}
     for each item in regKeyList
         ' ignore session related tokens
-        if item <> "token" and item <> "username" and item <> "password" and item <> "LastRunVersion"
+        if item <> "token" and item <> "username" and item <> "password" and LCase(item) <> "lastrunversion"
             if registry.Exists(item)
                 registryData.AddReplace(item, registry.Read(item))
             end if
@@ -108,7 +108,7 @@ function getSavedUsers() as object
 
     savedUsers = []
     for each section in registrySections
-        if section <> "Jellyfin"
+        if LCase(section) <> "jellyfin"
             savedUsers.push(section)
         end if
     end for
