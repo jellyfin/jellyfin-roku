@@ -110,57 +110,6 @@ function GetPublicUsers()
     return getJson(resp)
 end function
 
-' Load and parse Display Settings from server
-sub LoadUserPreferences()
-    id = m.global.session.user.id
-    ' Currently using client "emby", which is what website uses so we get same Display prefs as web.
-    ' May want to change to specific Roku display settings
-    url = Substitute("DisplayPreferences/usersettings?userId={0}&client=emby", id)
-    resp = APIRequest(url)
-    jsonResponse = getJson(resp)
-
-    if jsonResponse <> invalid and jsonResponse.CustomPrefs <> invalid
-        LoadUserHomeSections(jsonResponse.CustomPrefs)
-
-        if jsonResponse.CustomPrefs["landing-livetv"] <> invalid
-            set_user_setting("display.livetv.landing", jsonResponse.CustomPrefs["landing-livetv"])
-        else
-            unset_user_setting("display.livetv.landing")
-        end if
-    else
-        unset_user_setting("display.livetv.landing")
-    end if
-end sub
-
-sub LoadUserHomeSections(customPrefs as object)
-    rowTypes = []
-
-    for i = 0 to 6
-        homeSectionKey = "homesection" + i.toStr()
-        rowType = LCase(customPrefs[homeSectionKey])
-
-        ' Just in case we get invalid data
-        if not isValid(rowType) then rowType = "none"
-
-        ' Small size library item buttons - Currently unsupported, use small library titles
-        if rowType = "librarybuttons"
-            rowType = "smalllibrarytiles"
-        end if
-
-        ' None is the only section type allowed to have duplicates
-        ' For all other types, only accept the 1st entry
-        if inArray(rowTypes, rowType)
-            set_user_setting(homeSectionKey, "none")
-        else
-            set_user_setting(homeSectionKey, rowType)
-
-            if rowType <> "none"
-                rowTypes.push(rowType)
-            end if
-        end if
-    end for
-end sub
-
 sub LoadUserAbilities()
     if m.global.session.user.Policy.EnableLiveTvManagement = true
         set_user_setting("livetv.canrecord", "true")

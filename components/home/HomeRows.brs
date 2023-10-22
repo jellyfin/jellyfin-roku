@@ -27,8 +27,8 @@ sub init()
     m.LoadLibrariesTask.observeField("content", "onLibrariesLoaded")
 
     ' set up tesk nodes for other rows
-    m.LoadContinueTask = createObject("roSGNode", "LoadItemsTask")
-    m.LoadContinueTask.itemsToLoad = "continue"
+    m.LoadContinueWatchingTask = createObject("roSGNode", "LoadItemsTask")
+    m.LoadContinueWatchingTask.itemsToLoad = "continue"
 
     m.LoadNextUpTask = createObject("roSGNode", "LoadItemsTask")
     m.LoadNextUpTask.itemsToLoad = "nextUp"
@@ -68,10 +68,23 @@ sub onLibrariesLoaded()
 
     content = CreateObject("roSGNode", "ContentNode")
     sizeArray = []
+    loadedSections = 0
 
     ' Add sections in order based on user settings
     for i = 0 to 6
-        addHomeSection(content, sizeArray, m.global.session.user.settings["homesection" + i.toStr()])
+        sectionName = LCase(m.global.session.user.settings["homesection" + i.toStr()])
+        sectionLoaded = addHomeSection(content, sizeArray, sectionName)
+
+        ' Count how many sections with data are loaded
+        if sectionLoaded then loadedSections++
+
+        ' If 2 sections with data are loaded or we're at the end of the web client section data, consider the home view loaded
+        if loadedSections = 2 or i = 6
+            if not m.global.app_loaded
+                m.top.signalBeacon("AppLaunchComplete") ' Roku Performance monitoring
+                m.global.app_loaded = true
+            end if
+        end if
     end for
 
     ' Favorites isn't an option on Web settings, so we must manually add it for now
@@ -79,12 +92,6 @@ sub onLibrariesLoaded()
 
     m.top.rowItemSize = sizeArray
     m.top.content = content
-
-    ' consider home screen loaded when above rows are loaded
-    if not m.global.app_loaded
-        m.top.signalBeacon("AppLaunchComplete") ' Roku Performance monitoring
-        m.global.app_loaded = true
-    end if
 end sub
 
 ' Removes a home section from the home rows
@@ -93,9 +100,11 @@ sub removeHomeSection(sectionType as string)
 
     removedSectionIndex = m.homeSectionIndexes[sectionName]
 
+    if not isValid(removedSectionIndex) then return
+
     for each section in m.homeSectionIndexes
         if m.homeSectionIndexes[section] > removedSectionIndex
-            m.homeSectionIndexes[section] = m.homeSectionIndexes[section] - 1
+            m.homeSectionIndexes[section]--
         end if
     end for
 
@@ -105,47 +114,47 @@ sub removeHomeSection(sectionType as string)
     m.top.content.removeChildIndex(removedSectionIndex)
 end sub
 
-' Adds a new home section to the home rows
-sub addHomeSection(content as dynamic, sizeArray as dynamic, sectionType as string)
-    sectionName = LCase(sectionType)
-
+' Adds a new home section to the home rows.
+' Returns a boolean indicating whether the section was handled.
+function addHomeSection(content as dynamic, sizeArray as dynamic, sectionName as string) as boolean
     ' Poster size library items
     if sectionName = "livetv"
         createLiveTVRow(content, sizeArray)
-        return
+        return true
     end if
 
     ' Poster size library items
     if sectionName = "smalllibrarytiles"
         createLibraryRow(content, sizeArray)
-        return
+        return true
     end if
 
     ' Continue Watching items
     if sectionName = "resume"
-        createResumeRow(content, sizeArray)
-        return
+        createContinueWatchingRow(content, sizeArray)
+        return true
     end if
 
     ' Next Up items
     if sectionName = "nextup"
         createNextUpRow(content, sizeArray)
-        return
+        return true
     end if
 
     ' Latest items in each library
     if sectionName = "latestmedia"
         createLatestInRows(content, sizeArray)
-        return
+        return true
     end if
 
     ' Favorite Items
     if sectionName = "favorites"
         createFavoritesRow(content, sizeArray)
-        return
+        return true
     end if
 
-end sub
+    return false
+end function
 
 ' Create a row displaying the user's libraries
 sub createLibraryRow(content as dynamic, sizeArray as dynamic)
@@ -209,16 +218,16 @@ sub createLiveTVRow(content as dynamic, sizeArray as dynamic)
 end sub
 
 ' Create a row displaying items the user can continue watching
-sub createResumeRow(content as dynamic, sizeArray as dynamic)
-    continueRow = content.CreateChild("HomeRow")
-    continueRow.title = tr("Continue Watching")
+sub createContinueWatchingRow(content as dynamic, sizeArray as dynamic)
+    continueWatchingRow = content.CreateChild("HomeRow")
+    continueWatchingRow.title = tr("Continue Watching")
     m.homeSectionIndexes.AddReplace("resume", m.homeSectionIndexes.count)
     m.homeSectionIndexes.count++
     sizeArray.push([464, 331])
 
     ' Load the Continue Watching Data
-    m.LoadContinueTask.observeField("content", "updateContinueItems")
-    m.LoadContinueTask.control = "RUN"
+    m.LoadContinueWatchingTask.observeField("content", "updateContinueWatchingItems")
+    m.LoadContinueWatchingTask.control = "RUN"
 end sub
 
 ' Create a row displaying next episodes up to watch
@@ -259,14 +268,40 @@ sub updateHomeRows()
 
     ' If resume section exists, reload row's data
     if m.homeSectionIndexes.doesExist("resume")
-        m.LoadContinueTask.observeField("content", "updateContinueItems")
-        m.LoadContinueTask.control = "RUN"
+        m.LoadContinueWatchingTask.observeField("content", "updateContinueWatchingItems")
+        m.LoadContinueWatchingTask.control = "RUN"
     end if
 
     ' If next up section exists, reload row's data
     if m.homeSectionIndexes.doesExist("nextup")
         m.LoadNextUpTask.observeField("content", "updateNextUpItems")
         m.LoadNextUpTask.control = "RUN"
+    end if
+
+    ' If favorites section exists, reload row's data
+    if m.homeSectionIndexes.doesExist("favorites")
+        m.LoadFavoritesTask.observeField("content", "updateFavoritesItems")
+        m.LoadFavoritesTask.control = "RUN"
+    end if
+
+    ' If live tv's on now section exists, reload row's data
+    if m.homeSectionIndexes.doesExist("livetv")
+        m.LoadOnNowTask.observeField("content", "updateOnNowItems")
+        m.LoadOnNowTask.control = "RUN"
+    end if
+
+    ' If latest in library section exists, reload row's data
+    hasLatestHomeSection = false
+
+    for each section in m.homeSectionIndexes
+        if LCase(Left(section, 6)) = "latest"
+            hasLatestHomeSection = true
+            exit for
+        end if
+    end for
+
+    if hasLatestHomeSection
+        updateLatestInRows()
     end if
 end sub
 
@@ -305,10 +340,10 @@ sub updateFavoritesItems()
     end if
 end sub
 
-sub updateContinueItems()
-    itemData = m.LoadContinueTask.content
-    m.LoadContinueTask.unobserveField("content")
-    m.LoadContinueTask.content = []
+sub updateContinueWatchingItems()
+    itemData = m.LoadContinueWatchingTask.content
+    m.LoadContinueWatchingTask.unobserveField("content")
+    m.LoadContinueWatchingTask.content = []
 
     if itemData = invalid then return
 
@@ -358,6 +393,29 @@ sub updateNextUpItems()
         ' replace the old row
         m.top.content.replaceChild(row, m.homeSectionIndexes.nextup)
     end if
+end sub
+
+' Iterate over user's libraries and update data for each Latest In section
+sub updateLatestInRows()
+    ' Ensure we have data
+    if not isValidAndNotEmpty(m.libraryData) then return
+
+    ' Load new data for each library
+    filteredLatest = filterNodeArray(m.libraryData, "id", m.global.session.user.configuration.LatestItemsExcludes)
+    for each lib in filteredLatest
+        if lib.collectionType <> "boxsets" and lib.collectionType <> "livetv" and lib.json.CollectionType <> "Program"
+            loadLatest = createObject("roSGNode", "LoadItemsTask")
+            loadLatest.itemsToLoad = "latest"
+            loadLatest.itemId = lib.id
+
+            metadata = { "title": lib.name }
+            metadata.Append({ "contentType": lib.json.CollectionType })
+            loadLatest.metadata = metadata
+
+            loadLatest.observeField("content", "updateLatestItems")
+            loadLatest.control = "RUN"
+        end if
+    end for
 end sub
 
 sub updateLatestItems(msg)

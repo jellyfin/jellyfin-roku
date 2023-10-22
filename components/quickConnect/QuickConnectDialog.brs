@@ -34,7 +34,7 @@ sub OnAuthenticated()
         if authenticated <> invalid and authenticated = true
             currentUser = AboutMe()
             session.user.Login(currentUser)
-            LoadUserPreferences()
+            session.user.LoadUserPreferences()
             LoadUserAbilities()
             m.top.close = true
             m.top.authenticated = true
