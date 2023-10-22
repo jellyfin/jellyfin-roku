@@ -12722,5 +12722,19 @@
         <source>Save Credentials?</source>
         <translation>Zugangsdaten Speichern?</translation>
     </message>
+    <message>
+        <source>Error During Playback</source>
+        <translation type="unfinished">Fehler während dem Playback</translation>
+        <extracomment>Dialog title when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>Delete Saved</source>
+        <translation>Gespeicherte Löschen</translation>
+    </message>
+    <message>
+        <source>Error Retrieving Content</source>
+        <translation>Fehler beim Empfang der Inhalte</translation>
+        <extracomment>Dialog title when unable to load Content from Server</extracomment>
+    </message>
 </context>
 </TS>
