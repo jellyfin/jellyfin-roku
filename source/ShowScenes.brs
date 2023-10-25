@@ -119,7 +119,7 @@ function LoginFlow()
                     else
                         print "Success! Auth token is still valid"
                         session.user.Login(currentUser, true)
-                        LoadUserPreferences()
+                        session.user.LoadUserPreferences()
                         LoadUserAbilities()
                         return true
                     end if
@@ -132,7 +132,7 @@ function LoginFlow()
                 if isValid(userData)
                     print "login success!"
                     session.user.Login(userData, true)
-                    LoadUserPreferences()
+                    session.user.LoadUserPreferences()
                     LoadUserAbilities()
                     return true
                 else
@@ -175,7 +175,7 @@ function LoginFlow()
                 if isValid(userData)
                     print "login success!"
                     session.user.Login(userData, true)
-                    LoadUserPreferences()
+                    session.user.LoadUserPreferences()
                     LoadUserAbilities()
                     return true
                 else
@@ -201,7 +201,7 @@ function LoginFlow()
         goto start_login
     end if
 
-    LoadUserPreferences()
+    session.user.LoadUserPreferences()
     LoadUserAbilities()
     m.global.sceneManager.callFunc("clearScenes")
 

@@ -1,5 +1,6 @@
 ' needed for SignOut() and ServerInfo()
 import "pkg:/source/utils/session.bs"
+import "pkg:/source/utils/misc.brs"
 
 function get_token(user as string, password as string)
     url = "Users/AuthenticateByName?format=json"
@@ -108,22 +109,6 @@ function GetPublicUsers()
     resp = APIRequest(url)
     return getJson(resp)
 end function
-
-' Load and parse Display Settings from server
-sub LoadUserPreferences()
-    id = m.global.session.user.id
-    ' Currently using client "emby", which is what website uses so we get same Display prefs as web.
-    ' May want to change to specific Roku display settings
-    url = Substitute("DisplayPreferences/usersettings?userId={0}&client=emby", id)
-    resp = APIRequest(url)
-    jsonResponse = getJson(resp)
-
-    if jsonResponse <> invalid and jsonResponse.CustomPrefs <> invalid and jsonResponse.CustomPrefs["landing-livetv"] <> invalid
-        set_user_setting("display.livetv.landing", jsonResponse.CustomPrefs["landing-livetv"])
-    else
-        unset_user_setting("display.livetv.landing")
-    end if
-end sub
 
 sub LoadUserAbilities()
     if m.global.session.user.Policy.EnableLiveTvManagement = true

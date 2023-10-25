@@ -526,16 +526,6 @@
             <extracomment>Settings Menu - Description for option</extracomment>
         </message>
         <message>
-            <source>AV1</source>
-            <translation>AV1</translation>
-            <extracomment>Name of a setting - should we try to direct play experimental av1 codec</extracomment>
-        </message>
-        <message>
-            <source>** EXPERIMENTAL** Support Direct Play of AV1 content if this Roku device supports it.</source>
-            <translation>** EXPERIMENTAL** Support Direct Play of AV1 content if this Roku device supports it.</translation>
-            <extracomment>Description of a setting - should we try to direct play experimental av1 codec</extracomment>
-        </message>
-        <message>
             <source>Enabled</source>
             <translation>Enabled</translation>
         </message>

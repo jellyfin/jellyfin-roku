@@ -27,7 +27,7 @@ sub onItemSelected()
     i = m.top.itemSelected
     itemField = m.top.content.getchild(i)
 
-    showDialog(itemField)
+    configListShowDialog(itemField)
 end sub
 
 function onDialogButton()
@@ -46,7 +46,7 @@ function onDialogButton()
 end function
 
 
-sub showDialog(configField)
+sub configListShowDialog(configField)
     dialog = createObject("roSGNode", "StandardKeyboardDialog")
     m.configField = configField
     dialog.title = configField.label
