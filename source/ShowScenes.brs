@@ -743,6 +743,9 @@ function CreateSeasonDetailsGroup(series as object, season as object) as dynamic
     m.global.sceneManager.callFunc("pushScene", group)
     group.seasonData = seasonMetaData.json
     group.objects = TVEpisodes(series.id, season.id)
+    group.episodeObjects = group.objects
+    group.extrasObjects = TVSeasonExtras(season.id)
+
     ' watch for button presses
     group.observeField("episodeSelected", m.port)
     group.observeField("quickPlayNode", m.port)
@@ -770,6 +773,9 @@ function CreateSeasonDetailsGroupByID(seriesID as string, seasonID as string) as
     m.global.sceneManager.callFunc("pushScene", group)
     group.seasonData = seasonMetaData.json
     group.objects = TVEpisodes(seriesID, seasonID)
+    group.episodeObjects = group.objects
+    group.extrasObjects = TVSeasonExtras(seasonID)
+
     ' watch for button presses
     group.observeField("episodeSelected", m.port)
     group.observeField("quickPlayNode", m.port)
