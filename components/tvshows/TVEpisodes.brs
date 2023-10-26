@@ -60,12 +60,12 @@ function onKeyEvent(key as string, press as boolean) as boolean
         return true
     end if
 
-    if m.extras.visible and key = "up" and (m.extras.hasFocus())
+    if m.extras.visible and key = "up" and m.extras.hasFocus()
         m.shuffle.setFocus(true)
         return true
     end if
 
-    if m.extras.visible and key = "down" and (m.shuffle.hasFocus())
+    if m.extras.visible and key = "down" and m.shuffle.hasFocus()
         m.extras.setFocus(true)
         return true
     end if
