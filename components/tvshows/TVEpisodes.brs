@@ -26,7 +26,7 @@ end sub
 ' Updates the visibility of the Extras button based on if this season has any extra features
 sub setExtraButtonVisibility()
     if isValid(m.top.extrasObjects) and isValidAndNotEmpty(m.top.extrasObjects.items)
-        m.Extras.visible = true
+        m.extras.visible = true
     end if
 end sub
 
@@ -55,18 +55,18 @@ function onKeyEvent(key as string, press as boolean) as boolean
         return true
     end if
 
-    if key = "right" and (m.shuffle.hasFocus() or m.Extras.hasFocus())
+    if key = "right" and (m.shuffle.hasFocus() or m.extras.hasFocus())
         m.tvEpisodeRow.setFocus(true)
         return true
     end if
 
-    if m.extras.visible and key = "up" and (m.Extras.hasFocus())
+    if m.extras.visible and key = "up" and (m.extras.hasFocus())
         m.shuffle.setFocus(true)
         return true
     end if
 
     if m.extras.visible and key = "down" and (m.shuffle.hasFocus())
-        m.Extras.setFocus(true)
+        m.extras.setFocus(true)
         return true
     end if
 
