@@ -187,11 +187,31 @@ namespace session
         ' Saves user's web client home sections as Roku user settings.
         ' Handles unsupported sections and ignores duplicates.
         sub SaveUserHomeSections(customPrefs as object)
+            userPreferences = customPrefs
             rowTypes = []
+
+            ' If user has no section preferences, use default settings
+            if not userPreferences.doesExist("homesection0")
+                userPreferences = {
+                    homesection0: "smalllibrarytiles",
+                    homesection1: "resume",
+                    homesection2: "nextup",
+                    homesection3: "latestmedia",
+                    homesection4: "livetv",
+                    homesection5: "none",
+                    homesection6: "none"
+                }
+            end if
 
             for i = 0 to 6
                 homeSectionKey = "homesection" + i.toStr()
-                rowType = LCase(customPrefs[homeSectionKey])
+
+                ' If home section doesn't exist, create it as a none row
+                if not userPreferences.DoesExist(homeSectionKey)
+                    userPreferences.AddReplace(homeSectionKey, "none")
+                end if
+
+                rowType = LCase(userPreferences[homeSectionKey])
 
                 ' Just in case we get invalid data
                 if not isValid(rowType) then rowType = "none"
