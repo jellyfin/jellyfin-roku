@@ -142,7 +142,7 @@ function LoginFlow()
                 print "Auth token is no longer valid"
                 'Try to login without password. If the token is valid, we're done
                 print "Attempting to login with no password"
-                userData = get_token(userSelected, "")
+                userData = get_token(myUsername, "")
                 if isValid(userData)
                     print "login success!"
                     session.user.Login(userData)
