@@ -189,6 +189,8 @@ sub Main (args as dynamic) as void
                         quickplay.person(itemNode)
                     else if itemType = "tvchannel"
                         quickplay.tvChannel(itemNode)
+                    else if itemType = "program"
+                        quickplay.program(itemNode)
                     end if
 
                     m.global.queueManager.callFunc("playQueue")
