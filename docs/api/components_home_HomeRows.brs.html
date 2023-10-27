@@ -84,6 +84,10 @@ sub init()
     m.top.rowLabelOffset = [0, 20]
     m.top.showRowCounter = [true]
 
+    m.homeSectionIndexes = {
+        count: 0
+    }
+
     updateSize()
 
     m.top.setfocus(true)
@@ -95,8 +99,8 @@ sub init()
     m.LoadLibrariesTask.observeField("content", "onLibrariesLoaded")
 
     ' set up tesk nodes for other rows
-    m.LoadContinueTask = createObject("roSGNode", "LoadItemsTask")
-    m.LoadContinueTask.itemsToLoad = "continue"
+    m.LoadContinueWatchingTask = createObject("roSGNode", "LoadItemsTask")
+    m.LoadContinueWatchingTask.itemsToLoad = "continue"
 
     m.LoadNextUpTask = createObject("roSGNode", "LoadItemsTask")
     m.LoadNextUpTask.itemsToLoad = "nextUp"
@@ -133,73 +137,199 @@ sub onLibrariesLoaded()
     m.libraryData = m.LoadLibrariesTask.content
     m.LoadLibrariesTask.unobserveField("content")
     m.LoadLibrariesTask.content = []
-    ' create My Media, Continue Watching, and Next Up rows
+
     content = CreateObject("roSGNode", "ContentNode")
+    sizeArray = []
+    loadedSections = 0
+
+    ' Add sections in order based on user settings
+    for i = 0 to 6
+        sectionName = LCase(m.global.session.user.settings["homesection" + i.toStr()])
+        sectionLoaded = addHomeSection(content, sizeArray, sectionName)
+
+        ' Count how many sections with data are loaded
+        if sectionLoaded then loadedSections++
+
+        ' If 2 sections with data are loaded or we're at the end of the web client section data, consider the home view loaded
+        if loadedSections = 2 or i = 6
+            if not m.global.app_loaded
+                m.top.signalBeacon("AppLaunchComplete") ' Roku Performance monitoring
+                m.global.app_loaded = true
+            end if
+        end if
+    end for
+
+    ' Favorites isn't an option on Web settings, so we must manually add it for now
+    addHomeSection(content, sizeArray, "favorites")
+
+    m.top.rowItemSize = sizeArray
+    m.top.content = content
+end sub
+
+' Removes a home section from the home rows
+sub removeHomeSection(sectionType as string)
+    sectionName = LCase(sectionType)
+
+    removedSectionIndex = m.homeSectionIndexes[sectionName]
+
+    if not isValid(removedSectionIndex) then return
+
+    for each section in m.homeSectionIndexes
+        if m.homeSectionIndexes[section] > removedSectionIndex
+            m.homeSectionIndexes[section]--
+        end if
+    end for
+
+    m.homeSectionIndexes.Delete(sectionName)
+    m.homeSectionIndexes.AddReplace("count", m.homeSectionIndexes.count - 1)
+
+    m.top.content.removeChildIndex(removedSectionIndex)
+end sub
+
+' Adds a new home section to the home rows.
+' Returns a boolean indicating whether the section was handled.
+function addHomeSection(content as dynamic, sizeArray as dynamic, sectionName as string) as boolean
+    ' Poster size library items
+    if sectionName = "livetv"
+        createLiveTVRow(content, sizeArray)
+        return true
+    end if
+
+    ' Poster size library items
+    if sectionName = "smalllibrarytiles"
+        createLibraryRow(content, sizeArray)
+        return true
+    end if
+
+    ' Continue Watching items
+    if sectionName = "resume"
+        createContinueWatchingRow(content, sizeArray)
+        return true
+    end if
+
+    ' Next Up items
+    if sectionName = "nextup"
+        createNextUpRow(content, sizeArray)
+        return true
+    end if
+
+    ' Latest items in each library
+    if sectionName = "latestmedia"
+        createLatestInRows(content, sizeArray)
+        return true
+    end if
+
+    ' Favorite Items
+    if sectionName = "favorites"
+        createFavoritesRow(content, sizeArray)
+        return true
+    end if
+
+    return false
+end function
+
+' Create a row displaying the user's libraries
+sub createLibraryRow(content as dynamic, sizeArray as dynamic)
+    ' Ensure we have data
+    if not isValidAndNotEmpty(m.libraryData) then return
 
     mediaRow = content.CreateChild("HomeRow")
     mediaRow.title = tr("My Media")
 
-    continueRow = content.CreateChild("HomeRow")
-    continueRow.title = tr("Continue Watching")
+    m.homeSectionIndexes.AddReplace("library", m.homeSectionIndexes.count)
+    m.homeSectionIndexes.count++
 
-    nextUpRow = content.CreateChild("HomeRow")
-    nextUpRow.title = tr("Next Up >")
+    sizeArray.push([464, 331])
 
-    favoritesRow = content.CreateChild("HomeRow")
-    favoritesRow.title = tr("Favorites")
+    filteredMedia = filterNodeArray(m.libraryData, "id", m.global.session.user.configuration.MyMediaExcludes)
+    for each item in filteredMedia
+        mediaRow.appendChild(item)
+    end for
+end sub
 
-    sizeArray = [
-        [464, 311], ' My Media
-        [464, 331], ' Continue Watching
-        [464, 331], ' Next Up
-        [464, 331] ' Favorites
-    ]
+' Create a row displaying latest items in each of the user's libraries
+sub createLatestInRows(content as dynamic, sizeArray as dynamic)
+    ' Ensure we have data
+    if not isValidAndNotEmpty(m.libraryData) then return
 
-    haveLiveTV = false
+    ' create a "Latest In" row for each library
+    filteredLatest = filterNodeArray(m.libraryData, "id", m.global.session.user.configuration.LatestItemsExcludes)
+    for each lib in filteredLatest
+        if lib.collectionType &lt;> "boxsets" and lib.collectionType &lt;> "livetv" and lib.json.CollectionType &lt;> "Program"
+            latestInRow = content.CreateChild("HomeRow")
+            latestInRow.title = tr("Latest in") + " " + lib.name + " >"
 
-    ' validate library data
-    if isValid(m.libraryData) and m.libraryData.count() > 0
-        ' populate My Media row
-        filteredMedia = filterNodeArray(m.libraryData, "id", m.global.session.user.configuration.MyMediaExcludes)
-        for each item in filteredMedia
-            mediaRow.appendChild(item)
-        end for
+            m.homeSectionIndexes.AddReplace("latestin" + LCase(lib.name).Replace(" ", ""), m.homeSectionIndexes.count)
+            m.homeSectionIndexes.count++
+            sizeArray.Push([464, 331])
 
-        ' create a "Latest In" row for each library
-        filteredLatest = filterNodeArray(m.libraryData, "id", m.global.session.user.configuration.LatestItemsExcludes)
-        for each lib in filteredLatest
-            if lib.collectionType &lt;> "boxsets" and lib.collectionType &lt;> "livetv" and lib.json.CollectionType &lt;> "Program"
-                latestInRow = content.CreateChild("HomeRow")
-                latestInRow.title = tr("Latest in") + " " + lib.name + " >"
-                sizeArray.Push([464, 331])
-            else if lib.collectionType = "livetv"
-                ' If we have Live TV, add "On Now"
-                onNowRow = content.CreateChild("HomeRow")
-                onNowRow.title = tr("On Now")
-                sizeArray.Push([464, 331])
-                haveLiveTV = true
-            end if
-        end for
-    end if
+            loadLatest = createObject("roSGNode", "LoadItemsTask")
+            loadLatest.itemsToLoad = "latest"
+            loadLatest.itemId = lib.id
 
-    m.top.rowItemSize = sizeArray
-    m.top.content = content
+            metadata = { "title": lib.name }
+            metadata.Append({ "contentType": lib.json.CollectionType })
+            loadLatest.metadata = metadata
+
+            loadLatest.observeField("content", "updateLatestItems")
+            loadLatest.control = "RUN"
+        end if
+    end for
+end sub
+
+' Create a row displaying the live tv now on section
+sub createLiveTVRow(content as dynamic, sizeArray as dynamic)
+    contentRow = content.CreateChild("HomeRow")
+    contentRow.title = tr("On Now")
+    m.homeSectionIndexes.AddReplace("livetv", m.homeSectionIndexes.count)
+    m.homeSectionIndexes.count++
+    sizeArray.push([464, 331])
+
+    m.LoadOnNowTask.observeField("content", "updateOnNowItems")
+    m.LoadOnNowTask.control = "RUN"
+end sub
+
+' Create a row displaying items the user can continue watching
+sub createContinueWatchingRow(content as dynamic, sizeArray as dynamic)
+    continueWatchingRow = content.CreateChild("HomeRow")
+    continueWatchingRow.title = tr("Continue Watching")
+    m.homeSectionIndexes.AddReplace("resume", m.homeSectionIndexes.count)
+    m.homeSectionIndexes.count++
+    sizeArray.push([464, 331])
 
     ' Load the Continue Watching Data
-    m.LoadContinueTask.observeField("content", "updateContinueItems")
-    m.LoadContinueTask.control = "RUN"
+    m.LoadContinueWatchingTask.observeField("content", "updateContinueWatchingItems")
+    m.LoadContinueWatchingTask.control = "RUN"
+end sub
+
+' Create a row displaying next episodes up to watch
+sub createNextUpRow(content as dynamic, sizeArray as dynamic)
+    nextUpRow = content.CreateChild("HomeRow")
+    nextUpRow.title = tr("Next Up >")
+    m.homeSectionIndexes.AddReplace("nextup", m.homeSectionIndexes.count)
+    m.homeSectionIndexes.count++
+    sizeArray.push([464, 331])
+
+    ' Load the Next Up Data
+    m.LoadNextUpTask.observeField("content", "updateNextUpItems")
+    m.LoadNextUpTask.control = "RUN"
+end sub
+
+' Create a row displaying items from the user's favorites list
+sub createFavoritesRow(content as dynamic, sizeArray as dynamic)
+    favoritesRow = content.CreateChild("HomeRow")
+    favoritesRow.title = tr("Favorites")
+    sizeArray.Push([464, 331])
+
+    m.homeSectionIndexes.AddReplace("favorites", m.homeSectionIndexes.count)
+    m.homeSectionIndexes.count++
 
     ' Load the Favorites Data
     m.LoadFavoritesTask.observeField("content", "updateFavoritesItems")
     m.LoadFavoritesTask.control = "RUN"
-
-    ' If we have Live TV access, load "On Now" data
-    if haveLiveTV
-        m.LoadOnNowTask.observeField("content", "updateOnNowItems")
-        m.LoadOnNowTask.control = "RUN"
-    end if
 end sub
 
+' Update home row data
 sub updateHomeRows()
     if m.global.playstateTask.state = "run"
         m.global.playstateTask.observeField("state", "updateHomeRows")
@@ -208,8 +338,43 @@ sub updateHomeRows()
 
     m.global.playstateTask.unobserveField("state")
 
-    m.LoadContinueTask.observeField("content", "updateContinueItems")
-    m.LoadContinueTask.control = "RUN"
+    ' If resume section exists, reload row's data
+    if m.homeSectionIndexes.doesExist("resume")
+        m.LoadContinueWatchingTask.observeField("content", "updateContinueWatchingItems")
+        m.LoadContinueWatchingTask.control = "RUN"
+    end if
+
+    ' If next up section exists, reload row's data
+    if m.homeSectionIndexes.doesExist("nextup")
+        m.LoadNextUpTask.observeField("content", "updateNextUpItems")
+        m.LoadNextUpTask.control = "RUN"
+    end if
+
+    ' If favorites section exists, reload row's data
+    if m.homeSectionIndexes.doesExist("favorites")
+        m.LoadFavoritesTask.observeField("content", "updateFavoritesItems")
+        m.LoadFavoritesTask.control = "RUN"
+    end if
+
+    ' If live tv's on now section exists, reload row's data
+    if m.homeSectionIndexes.doesExist("livetv")
+        m.LoadOnNowTask.observeField("content", "updateOnNowItems")
+        m.LoadOnNowTask.control = "RUN"
+    end if
+
+    ' If latest in library section exists, reload row's data
+    hasLatestHomeSection = false
+
+    for each section in m.homeSectionIndexes
+        if LCase(Left(section, 6)) = "latest"
+            hasLatestHomeSection = true
+            exit for
+        end if
+    end for
+
+    if hasLatestHomeSection
+        updateLatestInRows()
+    end if
 end sub
 
 sub updateFavoritesItems()
@@ -219,20 +384,15 @@ sub updateFavoritesItems()
 
     if itemData = invalid then return
 
-    homeRows = m.top.content
-    rowIndex = getRowIndex("Favorites")
+    rowIndex = m.homeSectionIndexes.favorites
 
     if itemData.count() &lt; 1
-        if isValid(rowIndex)
-            ' remove the row
-            deleteFromSizeArray(rowIndex)
-            homeRows.removeChildIndex(rowIndex)
-        end if
+        removeHomeSection("favorites")
+        return
     else
         ' remake row using the new data
         row = CreateObject("roSGNode", "HomeRow")
         row.title = tr("Favorites")
-        itemSize = [464, 331]
 
         for each item in itemData
             usePoster = true
@@ -246,60 +406,40 @@ sub updateFavoritesItems()
             row.appendChild(item)
         end for
 
-        if rowIndex = invalid
-            ' insert new row under "My Media"
-            updateSizeArray(itemSize, 1)
-            homeRows.insertChild(row, 1)
-        else
-            ' replace the old row
-            homeRows.replaceChild(row, rowIndex)
-        end if
+        ' replace the old row
+        m.top.content.replaceChild(row, rowIndex)
+
     end if
 end sub
 
-sub updateContinueItems()
-    itemData = m.LoadContinueTask.content
-    m.LoadContinueTask.unobserveField("content")
-    m.LoadContinueTask.content = []
+sub updateContinueWatchingItems()
+    itemData = m.LoadContinueWatchingTask.content
+    m.LoadContinueWatchingTask.unobserveField("content")
+    m.LoadContinueWatchingTask.content = []
 
     if itemData = invalid then return
 
-    homeRows = m.top.content
-    continueRowIndex = getRowIndex("Continue Watching")
-
     if itemData.count() &lt; 1
-        if isValid(continueRowIndex)
-            ' remove the row
-            deleteFromSizeArray(continueRowIndex)
-            homeRows.removeChildIndex(continueRowIndex)
-        end if
-    else
-        ' remake row using the new data
-        row = CreateObject("roSGNode", "HomeRow")
-        row.title = tr("Continue Watching")
-        itemSize = [464, 331]
-        for each item in itemData
-            if isValid(item.json) and isValid(item.json.UserData) and isValid(item.json.UserData.PlayedPercentage)
-                item.PlayedPercentage = item.json.UserData.PlayedPercentage
-            end if
-
-            item.usePoster = row.usePoster
-            item.imageWidth = row.imageWidth
-            row.appendChild(item)
-        end for
-
-        if continueRowIndex = invalid
-            ' insert new row under "My Media"
-            updateSizeArray(itemSize, 1)
-            homeRows.insertChild(row, 1)
-        else
-            ' replace the old row
-            homeRows.replaceChild(row, continueRowIndex)
-        end if
+        removeHomeSection("resume")
+        return
     end if
 
-    m.LoadNextUpTask.observeField("content", "updateNextUpItems")
-    m.LoadNextUpTask.control = "RUN"
+    ' remake row using the new data
+    row = CreateObject("roSGNode", "HomeRow")
+    row.title = tr("Continue Watching")
+
+    for each item in itemData
+        if isValid(item.json) and isValid(item.json.UserData) and isValid(item.json.UserData.PlayedPercentage)
+            item.PlayedPercentage = item.json.UserData.PlayedPercentage
+        end if
+
+        item.usePoster = row.usePoster
+        item.imageWidth = row.imageWidth
+        row.appendChild(item)
+    end for
+
+    ' replace the old row
+    m.top.content.replaceChild(row, m.homeSectionIndexes.resume)
 end sub
 
 sub updateNextUpItems()
@@ -309,53 +449,33 @@ sub updateNextUpItems()
 
     if itemData = invalid then return
 
-    homeRows = m.top.content
-    nextUpRowIndex = getRowIndex("Next Up >")
-
     if itemData.count() &lt; 1
-        if isValid(nextUpRowIndex)
-            ' remove the row
-            deleteFromSizeArray(nextUpRowIndex)
-            homeRows.removeChildIndex(nextUpRowIndex)
-        end if
+        removeHomeSection("nextup")
+        return
     else
         ' remake row using the new data
         row = CreateObject("roSGNode", "HomeRow")
         row.title = tr("Next Up") + " >"
-        itemSize = [464, 331]
         for each item in itemData
             item.usePoster = row.usePoster
             item.imageWidth = row.imageWidth
             row.appendChild(item)
         end for
 
-        if nextUpRowIndex = invalid
-            ' insert new row under "Continue Watching"
-            continueRowIndex = getRowIndex("Continue Watching")
-            if isValid(continueRowIndex)
-                updateSizeArray(itemSize, continueRowIndex + 1)
-                homeRows.insertChild(row, continueRowIndex + 1)
-            else
-                ' insert it under My Media
-                updateSizeArray(itemSize, 1)
-                homeRows.insertChild(row, 1)
-            end if
-        else
-            ' replace the old row
-            homeRows.replaceChild(row, nextUpRowIndex)
-        end if
+        ' replace the old row
+        m.top.content.replaceChild(row, m.homeSectionIndexes.nextup)
     end if
+end sub
 
-    ' consider home screen loaded when above rows are loaded
-    if m.global.app_loaded = false
-        m.top.signalBeacon("AppLaunchComplete") ' Roku Performance monitoring
-        m.global.app_loaded = true
-    end if
+' Iterate over user's libraries and update data for each Latest In section
+sub updateLatestInRows()
+    ' Ensure we have data
+    if not isValidAndNotEmpty(m.libraryData) then return
 
-    ' create task nodes for "Latest In" rows
+    ' Load new data for each library
     filteredLatest = filterNodeArray(m.libraryData, "id", m.global.session.user.configuration.LatestItemsExcludes)
     for each lib in filteredLatest
-        if lib.collectionType &lt;> "livetv" and lib.collectionType &lt;> "boxsets" and lib.json.CollectionType &lt;> "Program"
+        if lib.collectionType &lt;> "boxsets" and lib.collectionType &lt;> "livetv" and lib.json.CollectionType &lt;> "Program"
             loadLatest = createObject("roSGNode", "LoadItemsTask")
             loadLatest.itemsToLoad = "latest"
             loadLatest.itemId = lib.id
@@ -368,7 +488,6 @@ sub updateNextUpItems()
             loadLatest.control = "RUN"
         end if
     end for
-
 end sub
 
 sub updateLatestItems(msg)
@@ -380,15 +499,13 @@ sub updateLatestItems(msg)
 
     if itemData = invalid then return
 
-    homeRows = m.top.content
-    rowIndex = getRowIndex(tr("Latest in") + " " + node.metadata.title + " >")
+    sectionName = "latestin" + LCase(node.metadata.title).Replace(" ", "")
+
+    rowIndex = m.homeSectionIndexes[sectionName]
 
     if itemData.count() &lt; 1
-        ' remove row
-        if isValid(rowIndex)
-            deleteFromSizeArray(rowIndex)
-            homeRows.removeChildIndex(rowIndex)
-        end if
+        removeHomeSection(sectionName)
+        return
     else
         ' remake row using new data
         row = CreateObject("roSGNode", "HomeRow")
@@ -412,15 +529,9 @@ sub updateLatestItems(msg)
             row.appendChild(item)
         end for
 
-        if rowIndex = invalid
-            ' append new row
-            updateSizeArray(itemSize)
-            homeRows.appendChild(row)
-        else
-            ' replace the old row
-            updateSizeArray(itemSize, rowIndex, "replace")
-            homeRows.replaceChild(row, rowIndex)
-        end if
+        ' replace the old row
+        updateSizeArray(itemSize, rowIndex, "replace")
+        m.top.content.replaceChild(row, rowIndex)
     end if
 end sub
 
@@ -431,49 +542,24 @@ sub updateOnNowItems()
 
     if itemData = invalid then return
 
-    homeRows = m.top.content
-    onNowRowIndex = getRowIndex("On Now")
-
     if itemData.count() &lt; 1
-        if isValid(onNowRowIndex)
-            ' remove the row
-            deleteFromSizeArray(onNowRowIndex)
-            homeRows.removeChildIndex(onNowRowIndex)
-        end if
+        removeHomeSection("livetv")
+        return
     else
         ' remake row using the new data
         row = CreateObject("roSGNode", "HomeRow")
         row.title = tr("On Now")
-        itemSize = [464, 331]
         for each item in itemData
             item.usePoster = row.usePoster
             item.imageWidth = row.imageWidth
             row.appendChild(item)
         end for
 
-        if onNowRowIndex = invalid
-            ' insert new row under "My Media"
-            updateSizeArray(itemSize, 1)
-            homeRows.insertChild(row, 1)
-        else
-            ' replace the old row
-            homeRows.replaceChild(row, onNowRowIndex)
-        end if
+        ' replace the old row
+        m.top.content.replaceChild(row, m.homeSectionIndexes.livetv)
+
     end if
 end sub
-
-function getRowIndex(rowTitle as string)
-    rowIndex = invalid
-    for i = 1 to m.top.content.getChildCount() - 1
-        ' skip row 0 since it's always "My Media"
-        tmpRow = m.top.content.getChild(i)
-        if tmpRow.title = rowTitle
-            rowIndex = i
-            exit for
-        end if
-    end for
-    return rowIndex
-end function
 
 sub updateSizeArray(rowItemSize, rowIndex = invalid, action = "insert")
     sizeArray = m.top.rowItemSize
@@ -498,10 +584,6 @@ sub updateSizeArray(rowItemSize, rowIndex = invalid, action = "insert")
         end if
     end for
     m.top.rowItemSize = newSizeArray
-end sub
-
-sub deleteFromSizeArray(rowIndex)
-    updateSizeArray([0, 0], rowIndex, "delete")
 end sub
 
 sub itemSelected()
@@ -589,7 +671,7 @@ end function
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a>
 	
-		on Oct 16th 2023
+		on Oct 27th 2023
 	
 	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>
