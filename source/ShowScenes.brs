@@ -43,19 +43,48 @@ function LoginFlow()
         print "No active user found in registry"
         user_select:
         SendPerformanceBeacon("AppDialogInitiate") ' Roku Performance monitoring - Dialog Starting
+
         publicUsers = GetPublicUsers()
+        savedUsers = getSavedUsers()
+
         numPubUsers = publicUsers.count()
-        if numPubUsers > 0
+        numSavedUsers = savedUsers.count()
+
+        if numPubUsers > 0 or numSavedUsers > 0
             publicUsersNodes = []
-            for each item in publicUsers
-                user = CreateObject("roSGNode", "PublicUserData")
-                user.id = item.Id
-                user.name = item.Name
-                if isValid(item.PrimaryImageTag)
-                    user.ImageURL = UserImageURL(user.id, { "tag": item.PrimaryImageTag })
-                end if
-                publicUsersNodes.push(user)
-            end for
+            publicUserIds = []
+            ' load public users
+            if numPubUsers > 0
+                for each item in publicUsers
+                    user = CreateObject("roSGNode", "PublicUserData")
+                    user.id = item.Id
+                    user.name = item.Name
+                    if isValid(item.PrimaryImageTag)
+                        user.ImageURL = UserImageURL(user.id, { "tag": item.PrimaryImageTag })
+                    end if
+                    publicUsersNodes.push(user)
+                    publicUserIds.push(user.id)
+                end for
+            end if
+            ' load saved users for this server id
+            if numSavedUsers > 0
+                for each savedUser in savedUsers
+                    if isValid(savedUser.serverId) and savedUser.serverId = m.global.session.server.id
+                        ' only show unique userids on screen.
+                        if not arrayHasValue(publicUserIds, savedUser.Id)
+                            user = CreateObject("roSGNode", "PublicUserData")
+                            user.id = savedUser.Id
+
+                            if isValid(savedUser.username)
+                                user.name = savedUser.username
+                            end if
+
+                            publicUsersNodes.push(user)
+                        end if
+                    end if
+                end for
+            end if
+            ' push all users to the user select view
             userSelected = CreateUserSelectGroup(publicUsersNodes)
 
             SendPerformanceBeacon("AppDialogComplete") ' Roku Performance monitoring - Dialog Closed
@@ -89,7 +118,7 @@ function LoginFlow()
                         unset_user_setting("username")
                     else
                         print "Success! Auth token is still valid"
-                        session.user.Login(currentUser)
+                        session.user.Login(currentUser, true)
                         session.user.LoadUserPreferences()
                         LoadUserAbilities()
                         return true
@@ -102,7 +131,7 @@ function LoginFlow()
                 userData = get_token(userSelected, "")
                 if isValid(userData)
                     print "login success!"
-                    session.user.Login(userData)
+                    session.user.Login(userData, true)
                     session.user.LoadUserPreferences()
                     LoadUserAbilities()
                     return true
@@ -145,7 +174,7 @@ function LoginFlow()
                 userData = get_token(myUsername, "")
                 if isValid(userData)
                     print "login success!"
-                    session.user.Login(userData)
+                    session.user.Login(userData, true)
                     session.user.LoadUserPreferences()
                     LoadUserAbilities()
                     return true
@@ -158,7 +187,7 @@ function LoginFlow()
                 end if
             else
                 print "Success! Auth token is still valid"
-                session.user.Login(currentUser)
+                session.user.Login(currentUser, true)
             end if
         else
             print "No auth token found in registry"
@@ -282,11 +311,11 @@ function CreateServerGroup()
                 m.scene.dialog = dialog
 
                 serverUrl = standardize_jellyfin_url(screen.serverUrl)
-                set_setting("server", serverUrl)
 
                 isConnected = session.server.UpdateURL(serverUrl)
                 serverInfoResult = invalid
                 if isConnected
+                    set_setting("server", serverUrl)
                     serverInfoResult = ServerInfo()
                 end if
                 dialog.close = true
@@ -302,9 +331,10 @@ function CreateServerGroup()
                         ' If server redirected received, update the URL
                         if isValid(serverInfoResult.UpdatedUrl)
                             serverUrl = serverInfoResult.UpdatedUrl
-                            set_setting("server", serverUrl)
+
                             isConnected = session.server.UpdateURL(serverUrl)
                             if isConnected
+                                set_setting("server", serverUrl)
                                 screen.visible = false
                                 return ""
                             end if
@@ -450,11 +480,14 @@ function CreateSigninGroup(user = "")
                 ' Validate credentials
                 activeUser = get_token(username.value, password.value)
                 if isValid(activeUser)
-                    session.user.Login(activeUser)
-                    ' save credentials
+                    print "activeUser=", activeUser
                     if checkbox.checkedState[0] = true
+                        ' save credentials
+                        session.user.Login(activeUser, true)
                         set_user_setting("token", activeUser.token)
                         set_user_setting("username", username.value)
+                    else
+                        session.user.Login(activeUser)
                     end if
                     return "true"
                 end if

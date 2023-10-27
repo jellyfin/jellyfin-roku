@@ -1,0 +1,70 @@
+import "pkg:/source/utils/misc.brs"
+
+' Functions that update the registry based on the last run version and the currently running version
+
+' Run all necessary registry mirations on the "global" Jellyfin registry section
+sub runGlobalMigrations()
+    ' Global registry migrations
+    if isValid(m.global.app.lastRunVersion) and not versionChecker(m.global.app.lastRunVersion, "1.7.0")
+        ' last app version used was less than 1.7.0
+        print "Running 1.7.0 global registry migrations"
+        ' no longer saving raw password to registry
+        ' auth token and username are now stored in user settings and not global settings
+
+        savedUserId = get_setting("active_user")
+        if isValid(savedUserId)
+            registry_write("serverId", m.global.session.server.id, savedUserId)
+            ' copy saved credentials to user block
+            savedUsername = get_setting("username")
+            if isValid(savedUsername)
+                registry_write("username", savedUsername, savedUserId)
+            end if
+
+            savedToken = get_setting("token")
+            if isValid(savedToken)
+                registry_write("token", savedToken, savedUserId)
+            end if
+        end if
+        unset_setting("port")
+        unset_setting("token")
+        unset_setting("username")
+        unset_setting("password")
+        ' remove saved credentials from saved_servers
+        saved = get_setting("saved_servers")
+        if isValid(saved)
+            savedServers = ParseJson(saved)
+            if isValid(savedServers.serverList) and savedServers.serverList.Count() > 0
+                newServers = { serverList: [] }
+                for each item in savedServers.serverList
+                    item.Delete("username")
+                    item.Delete("password")
+                    newServers.serverList.Push(item)
+                end for
+                set_setting("saved_servers", FormatJson(newServers))
+            end if
+        end if
+    end if
+    if m.global.app.lastRunVersion <> invalid
+        runRegistryUserMigrations(m.global.app.lastRunVersion)
+    end if
+end sub
+
+sub runRegistryUserMigrations(version as string)
+    regSections = getRegistrySections()
+    for each section in regSections
+        if LCase(section) <> "jellyfin"
+            if version = "1.7.0"
+                print "Running User Registry Migration for 1.7.0"
+                ' now saving LastRunVersion globally and per user so that we can run user specific registry migrations
+                ' duplicate LastRunVersion to all user settings in the registry so that we can run user specific migrations
+                '
+                ' now saving LastRunVersion per user in addition to globally
+                registry_write("LastRunVersion", m.global.app.version, section)
+                ' no longer saving password to registry
+                registry_delete("password", section)
+                ' av1 playback no longer hidden behind user setting
+                registry_delete("playback.av1", section)
+            end if
+        end if
+    end for
+end sub
