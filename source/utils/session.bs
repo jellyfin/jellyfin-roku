@@ -177,6 +177,13 @@ namespace session
 
         ' Load and parse Display Settings from server
         sub LoadUserPreferences()
+            ' Save device id so we don't calculate it every time we need it
+            if isValid(m.global.session.user) and isValid(m.global.session.user.friendlyName)
+                m.global.device.serverDeviceName = m.global.device.id + m.global.session.user.friendlyName
+            else
+                m.global.device.serverDeviceName = m.global.device.id
+            end if
+
             id = m.global.session.user.id
             ' Currently using client "emby", which is what website uses so we get same Display prefs as web.
             ' May want to change to specific Roku display settings
