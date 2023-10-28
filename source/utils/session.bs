@@ -177,7 +177,7 @@ namespace session
             session.user.LoadUserPreferences()
         end sub
 
-        ' Sets the global service device name value used by the API
+        ' Sets the global server device name value used by the API
         sub SetServerDeviceName()
             if isValid(m.global.session.user) and isValid(m.global.session.user.friendlyName)
                 m.global.device.serverDeviceName = m.global.device.id + m.global.session.user.friendlyName
