@@ -131,6 +131,7 @@ sub loadInitialItems()
     if not isValid(m.sortField) then m.sortField = "SortName"
     if not isValid(m.filter) then m.filter = "All"
     if not isValid(m.view) then m.view = "ArtistsPresentation"
+    if not isValid(m.sortAscending) then m.sortAscending = true
 
     m.top.showItemTitles = m.global.session.user.settings["itemgrid.gridTitles"]
 
