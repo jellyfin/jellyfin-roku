@@ -8,6 +8,7 @@ namespace session
     sub Init()
         m.global.addFields({
             session: {
+                "memoryLevel": "normal",
                 server: {},
                 user: {
                     Configuration: {},

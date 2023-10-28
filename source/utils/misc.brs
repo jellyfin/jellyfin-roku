@@ -392,3 +392,13 @@ function arrayHasValue(arr as object, value as dynamic) as boolean
     end for
     return false
 end function
+
+' Takes an array of data, shuffles the order, then returns the array
+' uses the Fisher-Yates shuffling algorithm
+function shuffleArray(array as object) as object
+    for i = array.count() - 1 to 1 step -1
+        j = Rnd(i + 1) - 1
+        t = array[i] : array[i] = array[j] : array[j] = t
+    end for
+    return array
+end function
