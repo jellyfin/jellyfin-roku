@@ -107,7 +107,7 @@ sub SaveDeviceToGlobal()
             uuid: deviceInfo.GetRandomUUID(),
             name: displayName,
             friendlyName: filteredFriendly,
-            serverDeviceName: "",
+            serverDeviceName: deviceInfo.getChannelClientID(),
             model: deviceInfo.GetModel(),
             modelType: deviceInfo.GetModelType(),
             modelDetails: deviceInfo.GetModelDetails(),
