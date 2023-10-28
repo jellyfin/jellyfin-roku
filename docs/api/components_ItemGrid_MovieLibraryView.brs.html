@@ -216,6 +216,7 @@ sub loadInitialItems()
     if not isValid(m.filter) then m.filter = "All"
     if not isValid(m.filterOptions) then m.filterOptions = "{}"
     if not isValid(m.view) then m.view = "Movies"
+    if not isValid(m.sortAscending) then m.sortAscending = true
 
     m.filterOptions = ParseJson(m.filterOptions)
 
