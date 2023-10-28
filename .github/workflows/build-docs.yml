@@ -27,3 +27,8 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@8756aa072ef5b4a080af5dc8fef36c5d586e521d # v5
         with:
           commit_message: Update API docs
+          # use jellyfin-bot to commit the changes instead of the default github-actions[bot]
+          commit_user_name: jellyfin-bot
+          commit_user_email: team@jellyfin.org
+          # use jellyfin-bot to author the changes instead of the default author of the merge commit
+          commit_author: jellyfin-bot <team@jellyfin.org>

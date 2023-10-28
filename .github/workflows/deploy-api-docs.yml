@@ -2,9 +2,9 @@
 name: deploy-api-docs
 
 on:
-  # Runs on pushes targeting the default branch
   push:
     branches: ["unstable"]
+    paths: ["docs/**"] # only run if the docs are updated
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -36,7 +36,7 @@ jobs:
         uses: actions/upload-pages-artifact@a753861a5debcf57bf8b404356158c8e1e33150c # v2
         with:
           # Only upload the api docs folder
-          path: "docs/api/*"
+          path: "docs/api"
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@9dbe3824824f8a1377b8e298bafde1a50ede43e5 # v2

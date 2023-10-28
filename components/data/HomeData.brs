@@ -31,7 +31,7 @@ sub setData()
             m.top.iconUrl = "pkg:/images/media_type_icons/folder_white.png"
         end if
 
-    else if datum.type = "Episode"
+    else if datum.type = "Episode" or datum.type = "MusicVideo"
         m.top.isWatched = datum.UserData.Played
 
         imgParams = {}
@@ -72,32 +72,7 @@ sub setData()
             m.top.widePosterUrl = ImageURL(datum.Id, "Backdrop", imgParams)
         end if
 
-    else if datum.type = "Movie"
-        m.top.isWatched = datum.UserData.Played
-
-        imgParams = {}
-        imgParams.Append({ "maxHeight": 261 })
-        imgParams.Append({ "maxWidth": 175 })
-
-        if datum.ImageTags.Primary <> invalid
-            param = { "Tag": datum.ImageTags.Primary }
-            imgParams.Append(param)
-        end if
-
-        m.top.posterURL = ImageURL(datum.id, "Primary", imgParams)
-
-        ' For wide image, use backdrop
-        imgParams["maxWidth"] = 464
-
-        if datum.ImageTags <> invalid and datum.imageTags.Thumb <> invalid
-            imgParams["Tag"] = datum.imageTags.Thumb
-            m.top.thumbnailUrl = ImageURL(datum.Id, "Thumb", imgParams)
-        else if datum.BackdropImageTags[0] <> invalid
-            imgParams["Tag"] = datum.BackdropImageTags[0]
-            m.top.thumbnailUrl = ImageURL(datum.id, "Backdrop", imgParams)
-        end if
-
-    else if datum.type = "Video"
+    else if datum.type = "Movie" or datum.type = "Video"
         m.top.isWatched = datum.UserData.Played
 
         imgParams = {}
@@ -126,12 +101,10 @@ sub setData()
         m.top.thumbnailURL = ImageURL(datum.id, "Primary", params)
         m.top.widePosterUrl = m.top.thumbnailURL
         m.top.posterUrl = m.top.thumbnailURL
-
     else if datum.type = "TvChannel" or datum.type = "Channel"
         params = { "Tag": datum.ImageTags.Primary, "maxHeight": 261, "maxWidth": 464 }
         m.top.thumbnailURL = ImageURL(datum.id, "Primary", params)
         m.top.widePosterUrl = m.top.thumbnailURL
         m.top.iconUrl = "pkg:/images/media_type_icons/live_tv_white.png"
     end if
-
 end sub
