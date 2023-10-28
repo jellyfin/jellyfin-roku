@@ -34,9 +34,9 @@
     </SectionScroller>
 
     <bgv_ButtonGroupVert id="sectionNavigation" translation="[-100, 175]" itemSpacings="[10]">
-      <sob_SlideOutButton background="#070707" focusBackground="#00a4dc" highlightBackground="#555555" padding="20" icon="pkg:/images/icons/details.png" text="Details" height="50" width="60" />
-      <sob_SlideOutButton id="albumsLink" background="#070707" focusBackground="#00a4dc" highlightBackground="#555555" padding="20" icon="pkg:/images/icons/cd.png" text="Albums" height="50" width="60" />
-      <sob_SlideOutButton id="appearsOnLink" background="#070707" focusBackground="#00a4dc" highlightBackground="#555555" padding="20" icon="pkg:/images/icons/cassette.png" text="Appears On" height="50" width="60" />
+      <SlideOutButton background="#070707" focusBackground="#00a4dc" highlightBackground="#555555" padding="20" icon="pkg:/images/icons/details.png" text="Details" height="50" width="60" />
+      <SlideOutButton id="albumsLink" background="#070707" focusBackground="#00a4dc" highlightBackground="#555555" padding="20" icon="pkg:/images/icons/cd.png" text="Albums" height="50" width="60" />
+      <SlideOutButton id="appearsOnLink" background="#070707" focusBackground="#00a4dc" highlightBackground="#555555" padding="20" icon="pkg:/images/icons/cassette.png" text="Appears On" height="50" width="60" />
     </bgv_ButtonGroupVert>
 
     <Animation id="pageLoad" duration="1" repeat="false">
