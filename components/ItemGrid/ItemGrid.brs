@@ -134,7 +134,15 @@ sub loadInitialItems()
         m.view = m.global.session.user.settings["display." + m.top.parentItem.Id + ".landing"]
     end if
 
-    if m.sortField = invalid then m.sortField = "SortName"
+    if m.sortField = invalid
+        ' Set the default order for boxsets to the Release Date - API calls it PremiereDate
+        if LCase(m.top.parentItem.json.Type) = "boxset"
+            m.sortField = "PremiereDate"
+        else
+            m.sortField = "SortName"
+        end if
+    end if
+
     if m.filter = invalid then m.filter = "All"
 
     if sortAscendingStr = invalid or sortAscendingStr = true
