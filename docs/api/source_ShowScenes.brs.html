@@ -191,7 +191,6 @@
                     else
                         print "Success! Auth token is still valid"
                         session.user.Login(currentUser, true)
-                        session.user.LoadUserPreferences()
                         LoadUserAbilities()
                         return true
                     end if
@@ -204,7 +203,6 @@
                 if isValid(userData)
                     print "login success!"
                     session.user.Login(userData, true)
-                    session.user.LoadUserPreferences()
                     LoadUserAbilities()
                     return true
                 else
@@ -247,7 +245,6 @@
                 if isValid(userData)
                     print "login success!"
                     session.user.Login(userData, true)
-                    session.user.LoadUserPreferences()
                     LoadUserAbilities()
                     return true
                 else
@@ -273,7 +270,6 @@
         goto start_login
     end if
 
-    session.user.LoadUserPreferences()
     LoadUserAbilities()
     m.global.sceneManager.callFunc("clearScenes")
 
