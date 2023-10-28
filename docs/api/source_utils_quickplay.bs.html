@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>jellyfin-roku api docs Source: source/utils/quickplay.bs</title>
+
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<link type="text/css" rel="stylesheet" href="styles/sunlight.dark.css">
+
+	<link type="text/css" rel="stylesheet" href="styles/site.darkly.css">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top ">
+<div class="container">
+	<div class="navbar-header">
+		<a class="navbar-brand" href="index.html">jellyfin-roku api docs</a>
+		<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#topNavigation">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+        </button>
+	</div>
+	<div class="navbar-collapse collapse" id="topNavigation">
+		<ul class="nav navbar-nav">
+			
+			<li class="dropdown">
+				<a href="modules.list.html" class="dropdown-toggle" data-toggle="dropdown">Modules<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="module-AlbumData.html">AlbumData</a></li><li><a href="module-AlbumGrid.html">AlbumGrid</a></li><li><a href="module-AlbumTrackList.html">AlbumTrackList</a></li><li><a href="module-AlbumView.html">AlbumView</a></li><li><a href="module-Alpha.html">Alpha</a></li><li><a href="module-ArtistView.html">ArtistView</a></li><li><a href="module-AudioPlayer.html">AudioPlayer</a></li><li><a href="module-AudioPlayerView.html">AudioPlayerView</a></li><li><a href="module-AudioTrackListItem.html">AudioTrackListItem</a></li><li><a href="module-ButtonGroupHoriz.html">ButtonGroupHoriz</a></li><li><a href="module-ChannelData.html">ChannelData</a></li><li><a href="module-CollectionData.html">CollectionData</a></li><li><a href="module-ConfigData.html">ConfigData</a></li><li><a href="module-ConfigItem.html">ConfigItem</a></li><li><a href="module-ConfigList.html">ConfigList</a></li><li><a href="module-ExtrasItem.html">ExtrasItem</a></li><li><a href="module-ExtrasRowList.html">ExtrasRowList</a></li><li><a href="module-FavoriteItemsTask.html">FavoriteItemsTask</a></li><li><a href="module-FolderData.html">FolderData</a></li><li><a href="module-GetFiltersTask.html">GetFiltersTask</a></li><li><a href="module-GetNextEpisodeTask.html">GetNextEpisodeTask</a></li><li><a href="module-GetPlaybackInfoTask.html">GetPlaybackInfoTask</a></li><li><a href="module-GetShuffleEpisodesTask.html">GetShuffleEpisodesTask</a></li><li><a href="module-GridItem.html">GridItem</a></li><li><a href="module-GridItemSmall.html">GridItemSmall</a></li><li><a href="module-Home.html">Home</a></li><li><a href="module-HomeData.html">HomeData</a></li><li><a href="module-HomeItem.html">HomeItem</a></li><li><a href="module-HomeRows.html">HomeRows</a></li><li><a href="module-IconButton.html">IconButton</a></li><li><a href="module-Image.html">Image</a></li><li><a href="module-ImageData.html">ImageData</a></li><li><a href="module-ItemGrid.html">ItemGrid</a></li><li><a href="module-ItemGridOptions.html">ItemGridOptions</a></li><li><a href="module-Items.html">Items</a></li><li><a href="module-JFButton.html">JFButton</a></li><li><a href="module-JFButtons.html">JFButtons</a></li><li><a href="module-JFGroup.html">JFGroup</a></li><li><a href="module-JFMessageDialog.html">JFMessageDialog</a></li><li><a href="module-JFOverhang.html">JFOverhang</a></li><li><a href="module-JFScene.html">JFScene</a></li><li><a href="module-JFScreen.html">JFScreen</a></li><li><a href="module-JFServer.html">JFServer</a></li><li><a href="module-JFVideo.html">JFVideo</a></li><li><a href="module-ListPoster.html">ListPoster</a></li><li><a href="module-LoadChannelsTask.html">LoadChannelsTask</a></li><li><a href="module-LoadItemsTask.html">LoadItemsTask</a></li><li><a href="module-LoadItemsTask2.html">LoadItemsTask2</a></li><li><a href="module-LoadPhotoTask.html">LoadPhotoTask</a></li><li><a href="module-LoadProgramDetailsTask.html">LoadProgramDetailsTask</a></li><li><a href="module-LoadScreenSaverTimeoutTask.html">LoadScreenSaverTimeoutTask</a></li><li><a href="module-LoadSheduleTask.html">LoadSheduleTask</a></li><li><a href="module-LoadVideoContentTask.html">LoadVideoContentTask</a></li><li><a href="module-LoginScene.html">LoginScene</a></li><li><a href="module-Main.html">Main</a></li><li><a href="module-MovieData.html">MovieData</a></li><li><a href="module-MovieDetails.html">MovieDetails</a></li><li><a href="module-MovieLibraryView.html">MovieLibraryView</a></li><li><a href="module-MovieOptions.html">MovieOptions</a></li><li><a href="module-MusicAlbumData.html">MusicAlbumData</a></li><li><a href="module-MusicAlbumSongListData.html">MusicAlbumSongListData</a></li><li><a href="module-MusicArtistData.html">MusicArtistData</a></li><li><a href="module-MusicArtistGridItem.html">MusicArtistGridItem</a></li><li><a href="module-MusicLibraryView.html">MusicLibraryView</a></li><li><a href="module-MusicSongData.html">MusicSongData</a></li><li><a href="module-OptionNode.html">OptionNode</a></li><li><a href="module-OptionsButton.html">OptionsButton</a></li><li><a href="module-OptionsData.html">OptionsData</a></li><li><a href="module-OptionsSlider.html">OptionsSlider</a></li><li><a href="module-OverviewDialog.html">OverviewDialog</a></li><li><a href="module-PersonData.html">PersonData</a></li><li><a href="module-PersonDetails.html">PersonDetails</a></li><li><a href="module-PhotoData.html">PhotoData</a></li><li><a href="module-PhotoDetails.html">PhotoDetails</a></li><li><a href="module-PlaybackDialog.html">PlaybackDialog</a></li><li><a href="module-PlayedCheckmark.html">PlayedCheckmark</a></li><li><a href="module-PlaylistData.html">PlaylistData</a></li><li><a href="module-PlaylistView.html">PlaylistView</a></li><li><a href="module-PlaystateTask.html">PlaystateTask</a></li><li><a href="module-ProgramDetails.html">ProgramDetails</a></li><li><a href="module-PublicUserData.html">PublicUserData</a></li><li><a href="module-QueueManager.html">QueueManager</a></li><li><a href="module-QuickConnect.html">QuickConnect</a></li><li><a href="module-QuickConnectDialog.html">QuickConnectDialog</a></li><li><a href="module-RadioDialog.html">RadioDialog</a></li><li><a href="module-RecordProgramTask.html">RecordProgramTask</a></li><li><a href="module-SceneManager.html">SceneManager</a></li><li><a href="module-ScheduleProgramData.html">ScheduleProgramData</a></li><li><a href="module-SearchBox.html">SearchBox</a></li><li><a href="module-SearchData.html">SearchData</a></li><li><a href="module-SearchResults.html">SearchResults</a></li><li><a href="module-SearchRow.html">SearchRow</a></li><li><a href="module-SearchTask.html">SearchTask</a></li><li><a href="module-SeriesData.html">SeriesData</a></li><li><a href="module-ServerDiscoveryTask.html">ServerDiscoveryTask</a></li><li><a href="module-SetServerScreen.html">SetServerScreen</a></li><li><a href="module-ShowScenes.html">ShowScenes</a></li><li><a href="module-SongItem.html">SongItem</a></li><li><a href="module-Spinner.html">Spinner</a></li><li><a href="module-StandardDialog.html">StandardDialog</a></li><li><a href="module-Subtitles.html">Subtitles</a></li><li><a href="module-TVEpisode.html">TVEpisode</a></li><li><a href="module-TVEpisodeData.html">TVEpisodeData</a></li><li><a href="module-TVEpisodeRow.html">TVEpisodeRow</a></li><li><a href="module-TVEpisodeRowWithOptions.html">TVEpisodeRowWithOptions</a></li><li><a href="module-TVEpisodes.html">TVEpisodes</a></li><li><a href="module-TVListDetails.html">TVListDetails</a></li><li><a href="module-TVListOptions.html">TVListOptions</a></li><li><a href="module-TVSeasonData.html">TVSeasonData</a></li><li><a href="module-TVSeasonRow.html">TVSeasonRow</a></li><li><a href="module-TVShowDescription.html">TVShowDescription</a></li><li><a href="module-TVShowDetails.html">TVShowDetails</a></li><li><a href="module-TextSizeTask.html">TextSizeTask</a></li><li><a href="module-UserData.html">UserData</a></li><li><a href="module-UserItem.html">UserItem</a></li><li><a href="module-UserLibrary.html">UserLibrary</a></li><li><a href="module-UserRow.html">UserRow</a></li><li><a href="module-UserSelect.html">UserSelect</a></li><li><a href="module-VideoData.html">VideoData</a></li><li><a href="module-VideoPlayer.html">VideoPlayer</a></li><li><a href="module-VideoPlayerView.html">VideoPlayerView</a></li><li><a href="module-VideoTrackListItem.html">VideoTrackListItem</a></li><li><a href="module-ViewCreator.html">ViewCreator</a></li><li><a href="module-WhatsNewDialog.html">WhatsNewDialog</a></li><li><a href="module-baserequest.html">baserequest</a></li><li><a href="module-captionTask.html">captionTask</a></li><li><a href="module-config.html">config</a></li><li><a href="module-deviceCapabilities.html">deviceCapabilities</a></li><li><a href="module-globals.html">globals</a></li><li><a href="module-migrations.html">migrations</a></li><li><a href="module-misc.html">misc</a></li><li><a href="module-quickplay.html">quickplay</a></li><li><a href="module-schedule.html">schedule</a></li><li><a href="module-section.html">section</a></li><li><a href="module-sectionScroller.html">sectionScroller</a></li><li><a href="module-settings.html">settings</a></li><li><a href="module-userauth.html">userauth</a></li>
+				</ul>
+			</li>
+			
+		</ul>
+        
+            <div class="col-sm-3 col-md-3">
+                <form class="navbar-form" role="search">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search" name="q" id="search-input">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" id="search-submit"><i class="glyphicon glyphicon-search"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        
+	</div>
+
+</div>
+</div>
+
+
+<div class="container" id="toc-content">
+<div class="row">
+
+	
+	<div class="col-md-12">
+	
+		<div id="main">
+			
+
+		<h1 class="page-title">Source: source/utils/quickplay.bs</h1>
+    
+<section>
+    <article>
+        <pre
+            class="sunlight-highlight-javascript linenums">' All of the Quick Play logic seperated by media type
+namespace quickplay
+
+    ' Takes an array of items and adds to global queue.
+    ' Also shuffles the playlist if asked
+    sub pushToQueue(queueArray as object, shufflePlay = false as boolean)
+        if isValidAndNotEmpty(queueArray)
+            ' load everything
+            for each item in queueArray
+                m.global.queueManager.callFunc("push", item)
+            end for
+            ' shuffle the playlist if asked
+            if shufflePlay and m.global.queueManager.callFunc("getCount") > 1
+                m.global.queueManager.callFunc("toggleShuffle")
+            end if
+        end if
+    end sub
+
+    ' A single video file.
+    sub video(itemNode as object)
+        if not isValid(itemNode) or not isValid(itemNode.id) or not isValid(itemNode.json) then return
+
+        ' attempt to play video file. resume if possible
+        if isValid(itemNode.selectedVideoStreamId)
+            itemNode.id = itemNode.selectedVideoStreamId
+        end if
+
+        audio_stream_idx = 0
+        if isValid(itemNode.selectedAudioStreamIndex) and itemNode.selectedAudioStreamIndex > 0
+            audio_stream_idx = itemNode.selectedAudioStreamIndex
+        end if
+        itemNode.selectedAudioStreamIndex = audio_stream_idx
+
+        playbackPosition = 0
+        if isValid(itemNode.json.userdata) and isValid(itemNode.json.userdata.PlaybackPositionTicks)
+            playbackPosition = itemNode.json.userdata.PlaybackPositionTicks
+        end if
+        itemNode.startingPoint = playbackPosition
+
+        m.global.queueManager.callFunc("push", itemNode)
+    end sub
+
+    ' A single audio file.
+    sub audio(itemNode as object)
+        if not isValid(itemNode) or not isValid(itemNode.id) then return
+
+        m.global.queueManager.callFunc("push", itemNode)
+    end sub
+
+    ' A single music video file.
+    sub musicVideo(itemNode as object)
+        if not isValid(itemNode) or not isValid(itemNode.id) or not isValid(itemNode.json) then return
+
+        m.global.queueManager.callFunc("push", itemNode)
+    end sub
+
+    ' A music album.
+    ' Play the entire album starting with track 1.
+    sub album(itemNode as object)
+        if not isValid(itemNode) or not isValid(itemNode.id) then return
+
+        ' grab list of songs in the album
+        albumSongs = api.users.GetItemsByQuery(m.global.session.user.id, {
+            "parentId": itemNode.id,
+            "imageTypeLimit": 1,
+            "sortBy": "SortName",
+            "limit": 2000,
+            "enableUserData": false,
+            "EnableTotalRecordCount": false
+        })
+        if isValid(albumSongs) and isValidAndNotEmpty(albumSongs.items)
+            quickplay.pushToQueue(albumSongs.items)
+        end if
+    end sub
+
+    ' A music artist.
+    ' Shuffle play all songs by artist.
+    sub artist(itemNode as object)
+        if not isValid(itemNode) or not isValid(itemNode.id) then return
+
+        ' get all songs by artist
+        artistSongs = api.users.GetItemsByQuery(m.global.session.user.id, {
+            "artistIds": itemNode.id,
+            "includeItemTypes": "Audio",
+            "sortBy": "Album",
+            "limit": 2000,
+            "imageTypeLimit": 1,
+            "Recursive": true,
+            "enableUserData": false,
+            "EnableTotalRecordCount": false
+        })
+        print "artistSongs=", artistSongs
+
+        if isValid(artistSongs) and isValidAndNotEmpty(artistSongs.items)
+            quickplay.pushToQueue(artistSongs.items, true)
+        end if
+    end sub
+
+    ' A boxset.
+    ' Play all items inside.
+    sub boxset(itemNode as object)
+        if not isValid(itemNode) or not isValid(itemNode.id) then return
+
+        data = api.items.GetByQuery({
+            "userid": m.global.session.user.id,
+            "parentid": itemNode.id,
+            "limit": 2000,
+            "EnableTotalRecordCount": false
+        })
+        if isValid(data) and isValidAndNotEmpty(data.Items)
+            quickplay.pushToQueue(data.items)
+        end if
+    end sub
+
+    ' A TV Show Series.
+    ' Play the first unwatched episode.
+    ' If none, shuffle play the whole series.
+    sub series(itemNode as object)
+        if not isValid(itemNode) or not isValid(itemNode.id) then return
+
+        data = api.shows.GetNextUp({
+            "seriesId": itemNode.id,
+            "recursive": true,
+            "SortBy": "DatePlayed",
+            "SortOrder": "Descending",
+            "ImageTypeLimit": 1,
+            "UserId": m.global.session.user.id,
+            "EnableRewatching": false,
+            "DisableFirstEpisode": false,
+            "EnableTotalRecordCount": false
+        })
+
+        if isValid(data) and isValidAndNotEmpty(data.Items)
+            ' there are unwatched episodes
+            m.global.queueManager.callFunc("push", data.Items[0])
+        else
+            ' next up check was empty
+            ' check for a resumable episode
+            data = api.users.GetResumeItemsByQuery(m.global.session.user.id, {
+                "parentId": itemNode.id,
+                "userid": m.global.session.user.id,
+                "SortBy": "DatePlayed",
+                "recursive": true,
+                "SortOrder": "Descending",
+                "Filters": "IsResumable",
+                "EnableTotalRecordCount": false
+            })
+            print "resumeitems data=", data
+            if isValid(data) and isValidAndNotEmpty(data.Items)
+                ' play the resumable episode
+                if isValid(data.Items[0].UserData) and isValid(data.Items[0].UserData.PlaybackPositionTicks)
+                    data.Items[0].startingPoint = data.Items[0].userdata.PlaybackPositionTicks
+                end if
+                m.global.queueManager.callFunc("push", data.Items[0])
+            else
+                ' shuffle all episodes
+                data = api.shows.GetEpisodes(itemNode.id, {
+                    "userid": m.global.session.user.id,
+                    "SortBy": "Random",
+                    "limit": 2000,
+                    "EnableTotalRecordCount": false
+                })
+
+                if isValid(data) and isValidAndNotEmpty(data.Items)
+                    ' add all episodes found to a playlist
+                    quickplay.pushToQueue(data.Items)
+                end if
+            end if
+        end if
+    end sub
+
+    ' More than one TV Show Series.
+    ' Shuffle play all watched episodes
+    sub multipleSeries(itemNodes as object)
+        if isValidAndNotEmpty(itemNodes)
+            numTotal = 0
+            numLimit = 2000
+            for each tvshow in itemNodes
+                ' grab all watched episodes for each series
+                showData = api.shows.GetEpisodes(tvshow.id, {
+                    "userId": m.global.session.user.id,
+                    "SortBy": "Random",
+                    "imageTypeLimit": 0,
+                    "EnableTotalRecordCount": false,
+                    "enableImages": false
+                })
+
+                if isValid(showData) and isValidAndNotEmpty(showData.items)
+                    playedEpisodes = []
+                    ' add all played episodes to queue
+                    for each episode in showData.items
+                        if isValid(episode.userdata) and isValid(episode.userdata.Played)
+                            if episode.userdata.Played
+                                playedEpisodes.push(episode)
+                            end if
+                        end if
+                    end for
+                    quickplay.pushToQueue(playedEpisodes)
+
+                    ' keep track of how many items we've seen
+                    numTotal = numTotal + showData.items.count()
+                    if numTotal >= numLimit
+                        ' stop grabbing more items if we hit our limit
+                        exit for
+                    end if
+                end if
+            end for
+            if m.global.queueManager.callFunc("getCount") > 1
+                m.global.queueManager.callFunc("toggleShuffle")
+            end if
+        end if
+    end sub
+
+    ' A TV Show Season.
+    ' Play the first unwatched episode.
+    ' If none, play the whole season starting with episode 1.
+    sub season(itemNode as object)
+        if not isValid(itemNode) or not isValid(itemNode.id) then return
+
+        unwatchedData = api.shows.GetEpisodes(itemNode.json.SeriesId, {
+            "seasonId": itemNode.id,
+            "userid": m.global.session.user.id,
+            "limit": 2000,
+            "EnableTotalRecordCount": false
+        })
+
+        if isValid(unwatchedData) and isValidAndNotEmpty(unwatchedData.Items)
+            ' find the first unwatched episode
+            firstUnwatchedEpisodeIndex = invalid
+            for each item in unwatchedData.Items
+                if isValid(item.UserData)
+                    if isValid(item.UserData.Played) and item.UserData.Played = false
+                        firstUnwatchedEpisodeIndex = item.IndexNumber - 1
+                        if isValid(item.UserData.PlaybackPositionTicks)
+                            item.startingPoint = item.UserData.PlaybackPositionTicks
+                        end if
+                        exit for
+                    end if
+                end if
+            end for
+
+            if isValid(firstUnwatchedEpisodeIndex)
+                ' add the first unwatched episode and the rest of the season to a playlist
+                for i = firstUnwatchedEpisodeIndex to unwatchedData.Items.count() - 1
+                    m.global.queueManager.callFunc("push", unwatchedData.Items[i])
+                end for
+            else
+                ' try to find a "continue watching" episode
+                continueData = api.users.GetResumeItemsByQuery(m.global.session.user.id, {
+                    "parentId": itemNode.id,
+                    "userid": m.global.session.user.id,
+                    "SortBy": "DatePlayed",
+                    "recursive": true,
+                    "SortOrder": "Descending",
+                    "Filters": "IsResumable",
+                    "EnableTotalRecordCount": false
+                })
+
+                if isValid(continueData) and isValidAndNotEmpty(continueData.Items)
+                    ' play the resumable episode
+                    for each item in continueData.Items
+                        if isValid(item.UserData) and isValid(item.UserData.PlaybackPositionTicks)
+                            item.startingPoint = item.userdata.PlaybackPositionTicks
+                        end if
+                        m.global.queueManager.callFunc("push", item)
+                    end for
+                else
+                    ' play the whole season in order
+                    if isValid(unwatchedData) and isValidAndNotEmpty(unwatchedData.Items)
+                        ' add all episodes found to a playlist
+                        pushToQueue(unwatchedData.Items)
+                    end if
+                end if
+            end if
+        end if
+    end sub
+
+    ' Quick Play A Person.
+    ' Shuffle play all videos found
+    sub person(itemNode as object)
+        if not isValid(itemNode) or not isValid(itemNode.id) then return
+        ' get movies and videos by the person
+        personMovies = api.users.GetItemsByQuery(m.global.session.user.id, {
+            "personIds": itemNode.id,
+            "includeItemTypes": "Movie,Video",
+            "excludeItemTypes": "Season,Series",
+            "recursive": true,
+            "limit": 2000
+        })
+        print "personMovies=", personMovies
+
+        if isValid(personMovies) and isValidAndNotEmpty(personMovies.Items)
+            ' add each item to the queue
+            quickplay.pushToQueue(personMovies.Items)
+        end if
+
+        ' get watched episodes by the person
+        personEpisodes = api.users.GetItemsByQuery(m.global.session.user.id, {
+            "personIds": itemNode.id,
+            "includeItemTypes": "Episode",
+            "isPlayed": true,
+            "excludeItemTypes": "Season,Series",
+            "recursive": true,
+            "limit": 2000
+        })
+        print "personEpisodes=", personEpisodes
+
+        if isValid(personEpisodes) and isValidAndNotEmpty(personEpisodes.Items)
+            ' add each item to the queue
+            quickplay.pushToQueue(personEpisodes.Items)
+        end if
+
+        if m.global.queueManager.callFunc("getCount") > 1
+            m.global.queueManager.callFunc("toggleShuffle")
+        end if
+    end sub
+
+    ' Quick Play A TVChannel
+    sub tvChannel(itemNode as object)
+        if not isValid(itemNode) or not isValid(itemNode.id) then return
+
+        stopLoadingSpinner()
+        group = CreateVideoPlayerGroup(itemNode.id)
+        m.global.sceneManager.callFunc("pushScene", group)
+    end sub
+
+    ' Quick Play A Live Program
+    sub program(itemNode as object)
+        if not isValid(itemNode) or not isValid(itemNode.json) or not isValid(itemNode.json.ChannelId) then return
+
+        stopLoadingSpinner()
+        group = CreateVideoPlayerGroup(itemNode.json.ChannelId)
+        m.global.sceneManager.callFunc("pushScene", group)
+    end sub
+
+    ' Quick Play A Playlist.
+    ' Play the first unwatched episode.
+    ' If none, play the whole season starting with episode 1.
+    sub playlist(itemNode as object)
+        if not isValid(itemNode) or not isValid(itemNode.id) then return
+        ' get playlist items
+        myPlaylist = api.playlists.GetItems(itemNode.id, {
+            "userId": m.global.session.user.id,
+            "limit": 2000
+        })
+
+        if isValid(myPlaylist) and isValidAndNotEmpty(myPlaylist.Items)
+            ' add each item to the queue
+            quickplay.pushToQueue(myPlaylist.Items)
+            if m.global.queueManager.callFunc("getCount") > 1
+                m.global.queueManager.callFunc("toggleShuffle")
+            end if
+        end if
+    end sub
+
+    ' Quick Play A folder.
+    ' Shuffle play all items found
+    sub folder(itemNode as object)
+        if not isValid(itemNode) or not isValid(itemNode.id) then return
+
+        paramArray = {
+            "includeItemTypes": ["Episode", "Movie", "Video"],
+            "videoTypes": "VideoFile",
+            "sortBy": "Random",
+            "limit": 2000,
+            "imageTypeLimit": 1,
+            "Recursive": true,
+            "enableUserData": false,
+            "EnableTotalRecordCount": false
+        }
+        ' modify api query based on folder type
+        folderType = Lcase(itemNode.json.type)
+        if folderType = "studio"
+            paramArray["studioIds"] = itemNode.id
+        else if folderType = "genre"
+            paramArray["genreIds"] = itemNode.id
+            if isValid(itemNode.json.MovieCount) and itemNode.json.MovieCount > 0
+                paramArray["includeItemTypes"] = "Movie"
+            end if
+        else if folderType = "musicgenre"
+            paramArray["genreIds"] = itemNode.id
+            paramArray.delete("videoTypes")
+            paramArray["includeItemTypes"] = "Audio"
+        else
+            paramArray["parentId"] = itemNode.id
+        end if
+        ' look for tv series instead of video files
+        if isValid(itemNode.json.SeriesCount) and itemNode.json.SeriesCount > 0
+            paramArray["includeItemTypes"] = "Series"
+            paramArray.Delete("videoTypes")
+        end if
+        ' get folder items
+        folderData = api.users.GetItemsByQuery(m.global.session.user.id, paramArray)
+        print "folderData=", folderData
+
+        if isValid(folderData) and isValidAndNotEmpty(folderData.items)
+            if isValid(itemNode.json.SeriesCount) and itemNode.json.SeriesCount > 0
+                if itemNode.json.SeriesCount = 1
+                    quickplay.series(folderData.items[0])
+                else
+                    quickplay.multipleSeries(folderData.items)
+                end if
+            else
+                quickplay.pushToQueue(folderData.items, true)
+            end if
+        end if
+    end sub
+
+    ' Quick Play A CollectionFolder.
+    ' Shuffle play the items inside
+    ' with some differences based on collectionType.
+    sub collectionFolder(itemNode as object)
+        if not isValid(itemNode) or not isValid(itemNode.id) then return
+        ' play depends on the kind of files inside the collectionfolder
+        print "attempting to quickplay a collection folder"
+        collectionType = LCase(itemNode.collectionType)
+        print "collectionType=", collectionType
+
+        if collectionType = "movies"
+            ' get randomized list of movies inside
+            data = api.users.GetItemsByQuery(m.global.session.user.id, {
+                "parentId": itemNode.id,
+                "sortBy": "Random",
+                "limit": 2000
+            })
+
+            if isValid(data) and isValidAndNotEmpty(data.items)
+                movieList = []
+                ' add each item to the queue
+                for each item in data.Items
+                    ' only add movies we're not currently watching
+                    if isValid(item.userdata) and isValid(item.userdata.PlaybackPositionTicks)
+                        if item.userdata.PlaybackPositionTicks = 0
+                            movieList.push(item)
+                        end if
+                    end if
+                end for
+                quickplay.pushToQueue(movieList)
+            end if
+        else if collectionType = "music"
+            ' get audio files from under this collection
+            ' sort songs by album then artist
+            songsData = api.users.GetItemsByQuery(m.global.session.user.id, {
+                "parentId": itemNode.id,
+                "includeItemTypes": "Audio",
+                "sortBy": "Album",
+                "Recursive": true,
+                "limit": 2000,
+                "imageTypeLimit": 1,
+                "enableUserData": false,
+                "EnableTotalRecordCount": false
+            })
+            print "songsData=", songsData
+            if isValid(songsData) and isValidAndNotEmpty(songsData.items)
+                quickplay.pushToQueue(songsData.Items, true)
+            end if
+        else if collectionType = "boxsets"
+            ' get list of all boxsets inside
+            boxsetData = api.users.GetItemsByQuery(m.global.session.user.id, {
+                "parentId": itemNode.id,
+                "limit": 2000,
+                "imageTypeLimit": 0,
+                "enableUserData": false,
+                "EnableTotalRecordCount": false,
+                "enableImages": false
+            })
+
+            print "boxsetData=", boxsetData
+
+            if isValid(boxsetData) and isValidAndNotEmpty(boxsetData.items)
+                ' pick a random boxset
+                arrayIndex = Rnd(boxsetData.items.count()) - 1
+                myBoxset = boxsetData.items[arrayIndex]
+                ' grab list of items from boxset
+                print "myBoxset=", myBoxset
+                boxsetData = api.users.GetItemsByQuery(m.global.session.user.id, {
+                    "parentId": myBoxset.id,
+                    "EnableTotalRecordCount": false
+                })
+
+                if isValid(boxsetData) and isValidAndNotEmpty(boxsetData.items)
+                    ' add all boxset items to queue
+                    quickplay.pushToQueue(boxsetData.Items)
+                end if
+            end if
+        else if collectionType = "tvshows" or collectionType = "collectionfolder"
+            ' get list of tv shows inside
+            tvshowsData = api.users.GetItemsByQuery(m.global.session.user.id, {
+                "parentId": itemNode.id,
+                "sortBy": "Random",
+                "imageTypeLimit": 0,
+                "enableUserData": false,
+                "EnableTotalRecordCount": false,
+                "enableImages": false
+            })
+
+            print "tvshowsData=", tvshowsData
+
+            if isValid(tvshowsData) and isValidAndNotEmpty(tvshowsData.items)
+                quickplay.multipleSeries(tvshowsData.items)
+            end if
+        else if collectionType = "musicvideos"
+            ' get randomized list of videos inside
+            data = api.users.GetItemsByQuery(m.global.session.user.id, {
+                "parentId": itemNode.id,
+                "includeItemTypes": "MusicVideo",
+                "sortBy": "Random",
+                "Recursive": true,
+                "limit": 2000,
+                "imageTypeLimit": 1,
+                "enableUserData": false,
+                "EnableTotalRecordCount": false
+            })
+            print "data=", data
+            if isValid(data) and isValidAndNotEmpty(data.items)
+                quickplay.pushToQueue(data.Items)
+            end if
+            ' else if collectionType = "homevideos" ' also used for a "Photo" library
+        else
+            print "Quick Play WARNING: Unknown collection type"
+        end if
+    end sub
+
+    ' Quick Play A UserView.
+    ' Play logic depends on "collectionType".
+    sub userView(itemNode as object)
+        ' play depends on the kind of files inside the collectionfolder
+        collectionType = LCase(itemNode.collectionType)
+        print "collectionType=", collectionType
+
+        if collectionType = "playlists"
+            ' get list of all playlists inside
+            playlistData = api.users.GetItemsByQuery(m.global.session.user.id, {
+                "parentId": itemNode.id,
+                "imageTypeLimit": 0,
+                "enableUserData": false,
+                "EnableTotalRecordCount": false,
+                "enableImages": false
+            })
+
+            print "playlistData=", playlistData
+
+            if isValid(playlistData) and isValidAndNotEmpty(playlistData.items)
+                ' pick a random playlist
+                arrayIndex = Rnd(playlistData.items.count()) - 1
+                myPlaylist = playlistData.items[arrayIndex]
+                ' grab list of items from playlist
+                print "myPlaylist=", myPlaylist
+                playlistItems = api.playlists.GetItems(myPlaylist.id, {
+                    "userId": m.global.session.user.id,
+                    "EnableTotalRecordCount": false,
+                    "limit": 2000
+                })
+                ' validate api results
+                if isValid(playlistItems) and isValidAndNotEmpty(playlistItems.items)
+                    quickplay.pushToQueue(playlistItems.items, true)
+                end if
+            end if
+        else if collectionType = "livetv"
+            ' get list of all tv channels
+            channelData = api.users.GetItemsByQuery(m.global.session.user.id, {
+                "includeItemTypes": "TVChannel",
+                "sortBy": "Random",
+                "Recursive": true,
+                "imageTypeLimit": 0,
+                "enableUserData": false,
+                "EnableTotalRecordCount": false,
+                "enableImages": false
+            })
+            print "channelData=", channelData
+
+            if isValid(channelData) and isValidAndNotEmpty(channelData.items)
+                ' pick a random channel
+                arrayIndex = Rnd(channelData.items.count()) - 1
+                myChannel = channelData.items[arrayIndex]
+                print "myChannel=", myChannel
+                ' play channel
+                quickplay.tvChannel(myChannel)
+            end if
+        else
+            print "Quick Play CollectionFolder WARNING: Unknown collection type"
+        end if
+    end sub
+
+end namespace
+</pre>
+    </article>
+</section>
+
+
+
+
+
+		</div>
+	</div>
+
+	<div class="clearfix"></div>
+
+	
+
+</div>
+</div>
+
+
+    <div class="modal fade" id="searchResults">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Search results</h4>
+          </div>
+          <div class="modal-body"></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div>
+
+
+<footer>
+
+	<span class="jsdoc-message">Source code: <a href="https://github.com/jellyfin/jellyfin-roku">https://github.com/jellyfin/jellyfin-roku</a></span><span class="jsdoc-message">Jellyfin Roku Development Forum: <a href="https://forum.jellyfin.org/f-roku-development">https://forum.jellyfin.org/f-roku-development</a></span>
+
+
+<span class="jsdoc-message">
+	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a>
+	
+		on Oct 28th 2023
+	
+	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
+</span>
+</footer>
+
+<script src="scripts/docstrap.lib.js"></script>
+<script src="scripts/toc.js"></script>
+
+    <script type="text/javascript" src="scripts/fulltext-search-ui.js"></script>
+
+
+<script>
+$( function () {
+	$( "[id*='$']" ).each( function () {
+		var $this = $( this );
+
+		$this.attr( "id", $this.attr( "id" ).replace( "$", "__" ) );
+	} );
+
+	$( ".tutorial-section pre, .readme-section pre, pre.prettyprint.source" ).each( function () {
+		var $this = $( this );
+
+		var example = $this.find( "code" );
+		exampleText = example.html();
+		var lang = /{@lang (.*?)}/.exec( exampleText );
+		if ( lang && lang[1] ) {
+			exampleText = exampleText.replace( lang[0], "" );
+			example.html( exampleText );
+			lang = lang[1];
+		} else {
+			var langClassMatch = example.parent()[0].className.match(/lang\-(\S+)/);
+			lang = langClassMatch ? langClassMatch[1] : "javascript";
+		}
+
+		if ( lang ) {
+
+			$this
+			.addClass( "sunlight-highlight-" + lang )
+			.addClass( "linenums" )
+			.html( example.html() );
+
+		}
+	} );
+
+	Sunlight.highlightAll( {
+		lineNumbers : true,
+		showMenu : true,
+		enableDoclinks : true
+	} );
+
+	$.catchAnchorLinks( {
+        navbarOffset: 10
+	} );
+	$( "#toc" ).toc( {
+		anchorName  : function ( i, heading, prefix ) {
+			return $( heading ).attr( "id" ) || ( prefix + i );
+		},
+		selectors   : "#toc-content h1,#toc-content h2,#toc-content h3,#toc-content h4",
+		showAndHide : false,
+		smoothScrolling: true
+	} );
+
+	$( "#main span[id^='toc']" ).addClass( "toc-shim" );
+	$( '.dropdown-toggle' ).dropdown();
+
+    $( "table" ).each( function () {
+      var $this = $( this );
+      $this.addClass('table');
+    } );
+
+} );
+</script>
+
+
+
+<!--Navigation and Symbol Display-->
+
+
+<!--Google Analytics-->
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            SearcherDisplay.init();
+        });
+    </script>
+
+
+</body>
+</html>
