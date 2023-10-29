@@ -57,7 +57,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
     if key = "left" and m.searchSelect.isinFocusChain()
         m.searchAlphabox.setFocus(true)
         return true
-    else if key = "right"
+    else if key = "right" and m.searchHelpText.visible = false
         m.searchSelect.setFocus(true)
         return true
     else if key = "play"
