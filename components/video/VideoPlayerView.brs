@@ -218,6 +218,9 @@ end sub
 
 ' Checks if we need to display the Next Episode button
 sub checkTimeToDisplayNextEpisode()
+    ' only display the Next Episode button when the content is type "Episode"
+    if m.top.content.contenttype <> 4 then return
+
     if int(m.top.position) >= (m.top.duration - 30)
         showNextEpisodeButton()
         updateCount()
