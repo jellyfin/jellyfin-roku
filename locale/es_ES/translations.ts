@@ -6718,5 +6718,18 @@
         <translation>No Encontrado</translation>
         <extracomment>Title of message box when the requested content is not found on the server</extracomment>
     </message>
+    <message>
+        <source>Codec</source>
+        <translation>Códec</translation>
+    </message>
+    <message>
+        <source>Bit Rate</source>
+        <translation>Tasa de Bits</translation>
+        <extracomment>Video streaming bit rate</extracomment>
+    </message>
+    <message>
+        <source>Audio Channels</source>
+        <translation>Canales de Audio</translation>
+    </message>
 </context>
 </TS>
