@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component name="PauseMenu" extends="Group" initialFocus="chapterNext">
+  <children>
+    <ButtonGroup id="chapterNavigation" itemSpacings="[20]" layoutDirection="horiz">
+      <IconButton id="chapterList" background="#070707" focusBackground="#00a4dc" padding="35" icon="pkg:/images/icons/numberList.png" height="65" width="100" />
+      <IconButton id="chapterBack" background="#070707" focusBackground="#00a4dc" padding="35" icon="pkg:/images/icons/previous.png" height="65" width="100" />
+      <IconButton id="chapterNext" background="#070707" focusBackground="#00a4dc" padding="35" icon="pkg:/images/icons/next.png" height="65" width="100" />
+    </ButtonGroup>
+  </children>
+  <interface>
+    <field id="action" type="string" alwaysNotify="true" />
+    <field id="showChapterList" type="boolean" alwaysNotify="true" />
+  </interface>
+</component>
