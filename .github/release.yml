@@ -15,6 +15,9 @@ changelog:
     - title: 🐛 Bug Fixes
       labels:
         - "bug fix"
+    - title: 🧹 Code Cleanup
+      labels:
+        - "code cleanup"
     - title: ⭐ Additional Updates
       labels:
         - "*"
