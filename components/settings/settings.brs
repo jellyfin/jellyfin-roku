@@ -1,7 +1,8 @@
 import "pkg:/source/utils/config.brs"
 import "pkg:/source/utils/misc.brs"
 import "pkg:/source/roku_modules/log/LogMixin.brs"
-import "pkg:/source/api/sdk.bs"
+' post device profile
+import "pkg:/source/utils/deviceCapabilities.brs"
 
 sub init()
     m.log = log.Logger("Settings")
@@ -27,6 +28,8 @@ sub init()
 
     m.boolSetting.observeField("checkedItem", "boolSettingChanged")
     m.radioSetting.observeField("checkedItem", "radioSettingChanged")
+
+    m.postTask = createObject("roSGNode", "PostTask")
 
     ' Load Configuration Tree
     m.configTree = GetConfigTree()
@@ -200,6 +203,20 @@ sub radioSettingChanged()
     if m.radioSetting.focusedChild = invalid then return
     selectedSetting = m.userLocation.peek().children[m.settingsMenu.itemFocused]
     set_user_setting(selectedSetting.settingName, m.radioSetting.content.getChild(m.radioSetting.checkedItem).id)
+end sub
+
+sub OnScreenHidden()
+    ' some settings affect the device profile.
+    ' assume there were changes and always post device profile when leaving the settings screen
+    m.postTask.arrayData = getDeviceCapabilities()
+    m.postTask.apiUrl = "/Sessions/Capabilities/Full"
+    m.postTask.control = "RUN"
+    m.postTask.observeField("responseCode", "postFinished")
+end sub
+
+sub postFinished()
+    m.postTask.unobserveField("responseCode")
+    m.postTask.callFunc("emptyPostTask")
 end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean

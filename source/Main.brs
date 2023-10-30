@@ -632,16 +632,6 @@ sub Main (args as dynamic) as void
 
             if event.exitedScreensaver = true
                 sceneManager.callFunc("resetTime")
-                group = sceneManager.callFunc("getActiveScene")
-                if isValid(group) and isValid(group.subtype())
-                    ' refresh the current view
-                    if group.subtype() = "Home"
-                        currentTime = CreateObject("roDateTime").AsSeconds()
-                        group.timeLastRefresh = currentTime
-                        group.callFunc("refresh")
-                    end if
-                    ' todo: add other screens to be refreshed - movie detail, tv series, episode list etc.
-                end if
             else if isValid(event.audioGuideEnabled)
                 tmpGlobalDevice = m.global.device
                 tmpGlobalDevice.AddReplace("isaudioguideenabled", event.audioGuideEnabled)

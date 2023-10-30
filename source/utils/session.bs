@@ -107,6 +107,11 @@ namespace session
             tmpSessionServer.AddReplace("isLocalHTTPS", isLocalServerHTTPS)
             ' update global server session using the temp array
             session.Update("server", tmpSessionServer)
+
+            if m.global.app.isDev
+                print "m.global.session.server = ", m.global.session.server
+            end if
+
             return true
         end function
     end namespace

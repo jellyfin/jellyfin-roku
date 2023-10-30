@@ -73,7 +73,6 @@ sub AddVideoContent(video as object, mediaSourceId as dynamic, audio_stream_idx 
                     MarkItemWatched(video.id)
                     video.content.watched = not video.content.watched
                     group = m.scene.focusedChild
-                    group.timeLastRefresh = CreateObject("roDateTime").AsSeconds()
                     group.callFunc("refresh")
                     video.content = invalid
                     return

@@ -959,6 +959,12 @@ function removeDecimals(value as string) as string
     return value
 end function
 
+' Post the deviceProfile to the server
+sub postDeviceProfile()
+    profile = getDeviceCapabilities()
+    printDeviceProfile(profile)
+end sub
+
 ' Print out the deviceProfile for debugging
 sub printDeviceProfile(profile as object)
     print "profile =", profile

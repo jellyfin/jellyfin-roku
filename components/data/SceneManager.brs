@@ -1,6 +1,5 @@
 import "pkg:/source/roku_modules/log/LogMixin.brs"
 import "pkg:/source/utils/deviceCapabilities.brs"
-import "pkg:/source/roku_modules/promises/promises.brs"
 
 sub init()
     m.log = log.Logger("SceneManager")
@@ -79,19 +78,16 @@ end sub
 sub popScene()
     group = m.groups.pop()
     if group <> invalid
-        if group.isSubType("JFGroup")
+        if group.isSubtype("JFGroup")
             unregisterOverhangData(group)
-        else if group.isSubType("JFVideo")
+        else if group.isSubtype("JFVideo")
             ' Stop video to make sure app communicates stop playstate to server
             group.control = "stop"
-        else if groupType = "Settings"
-            ' update device profile after exiting the settings page - some settings affect the device profile
-            postDeviceProfile()
         end if
 
         group.visible = false
 
-        if group.isSubType("JFScreen")
+        if group.isSubtype("JFScreen")
             group.callFunc("OnScreenHidden")
         end if
     else
@@ -102,14 +98,6 @@ sub popScene()
     group = m.groups.peek()
     if group <> invalid
         registerOverhangData(group)
-
-        if group.subtype() = "Home"
-            currentTime = CreateObject("roDateTime").AsSeconds()
-            if group.timeLastRefresh = invalid or (currentTime - group.timeLastRefresh) > 20
-                group.timeLastRefresh = currentTime
-                group.callFunc("refresh")
-            end if
-        end if
 
         group.visible = true
 
@@ -148,6 +136,11 @@ end function
 ' Clear all content from group stack
 sub clearScenes()
     if m.content <> invalid then m.content.removeChildrenIndex(m.content.getChildCount(), 0)
+    for each group in m.groups
+        if group.subtype() = "JFScreen"
+            group.callFunc("OnScreenHidden")
+        end if
+    end for
     m.groups = []
 end sub
 

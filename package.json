@@ -8,15 +8,8 @@
     "brighterscript-formatter": "1.6.34",
     "intKeyboard": "npm:integer-keyboard@1.0.12",
     "log": "npm:roku-log@0.11.1",
-    "promises": "npm:@rokucommunity/promises@0.1.0",
-    "roku-requests": "1.2.0",
     "sob": "npm:slide-out-button@1.0.1"
   },
-  "ropm": {
-    "noprefix": [
-        "roku-requests"
-    ]
-},
   "devDependencies": {
     "@rokucommunity/bslint": "0.8.11",
     "brighterscript": "0.65.8",

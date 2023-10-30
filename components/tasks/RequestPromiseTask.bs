@@ -1,6 +1,0 @@
-import "pkg:/source/roku_modules/rokurequests/Requests.brs"
-
-function exec(input as object) as dynamic
-    print "input=", input
-    return Requests.request(input.method, input.url, input.params)
-end function

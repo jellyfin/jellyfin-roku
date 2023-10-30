@@ -195,7 +195,13 @@ sub setCertificateAuthority(request as object) as void
 end sub
 
 ' Takes and returns a roUrlTransfer object after adding a Jellyfin "Authorization" header
-function authRequest(request as object) as object
+function authRequest(req as object) as object
+    req.AddHeader("Authorization", buildAuthHeader())
+    return req
+end function
+
+' Returns a string containing the "Authorization" header payload
+function buildAuthHeader() as string
     QUOTE = Chr(34)
     auth = "MediaBrowser" + " Client=" + QUOTE + "Jellyfin Roku" + QUOTE
     auth = auth + ", Device=" + QUOTE + m.global.device.name + " (" + m.global.device.model + ")" + QUOTE
@@ -211,6 +217,5 @@ function authRequest(request as object) as object
         auth = auth + ", Token=" + QUOTE + m.global.session.user.authToken + QUOTE
     end if
 
-    request.AddHeader("Authorization", auth)
-    return request
+    return auth
 end function
