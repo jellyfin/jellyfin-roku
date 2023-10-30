@@ -1,0 +1,23 @@
+changelog:
+  categories:
+    - title: 🆕 New Features
+      labels:
+        - "new feature"
+    - title: 🔨 Updated Features
+      labels:
+        - "updated feature"
+    - title: ⚙️ New Settings
+      labels:
+        - "new setting"
+    - title: 🔧 Updated Settings
+      labels:
+        - "updated setting"
+    - title: 🐛 Bug Fixes
+      labels:
+        - "bug fix"
+    - title: ⭐ Additional Updates
+      labels:
+        - "*"
+      exclude:
+        labels:
+          - dependencies
