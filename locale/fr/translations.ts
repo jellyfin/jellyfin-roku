@@ -6,7 +6,7 @@
     <name>default</name>
     <message>
         <source>192.168.1.100:8096 or https://example.com/jellyfin</source>
-        <translation>Valeur par défaut : 192.168.1.100:8096 ou https://example.com/jellyfin</translation>
+        <translation>192.168.1.100:8096 ou https://example.com/jellyfin</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -7914,6 +7914,592 @@
     <message>
         <source>Special Features</source>
         <translation>Fonctionnalités spéciales</translation>
+    </message>
+    <message>
+        <source>Remember Me?</source>
+        <translation>Se souvenir de moi ?</translation>
+        <extracomment>User Setting - Setting title</extracomment>
+    </message>
+    <message>
+        <source>Libraries</source>
+        <translation>Médiathèques</translation>
+    </message>
+    <message>
+        <source>Set the maximum amount of days a show should stay in the &apos;Next Up&apos; list without watching it.</source>
+        <translation>Définit le nombre maximal de jours qu&apos;une série peut rester dans la section &apos;À suivre&apos; si elle n&apos;est plus regardée.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Hides tagline text on details pages.</source>
+        <translation>Masquer les étiquettes sur les page de détails.</translation>
+    </message>
+    <message>
+        <source>Options that alter the design of Jellyfin.</source>
+        <translation>Options modifiant l&apos;apparence de Jellyfin.</translation>
+        <extracomment>Description for Design Elements user settings.</extracomment>
+    </message>
+    <message>
+        <source>Settings relating to how the application looks.</source>
+        <translation>Réglages relatifs à l&apos;apparence de l&apos;application.</translation>
+    </message>
+    <message>
+        <source>Album Artists (Grid)</source>
+        <translation>Artistes de l&apos;album (grille)</translation>
+    </message>
+    <message>
+        <source>Audio Codec Support</source>
+        <translation>Support de codec audio</translation>
+        <extracomment>Settings Menu - Title of option</extracomment>
+    </message>
+    <message>
+        <source>Maximum Resolution</source>
+        <translation>Résolution maximale</translation>
+        <extracomment>User Setting - Title</extracomment>
+    </message>
+    <message>
+        <source>Mode</source>
+        <translation>Mode</translation>
+        <extracomment>User Setting - Setting title</extracomment>
+    </message>
+    <message>
+        <source>Value</source>
+        <translation>Valeur</translation>
+        <extracomment>User Setting - Setting title</extracomment>
+    </message>
+    <message>
+        <source>All files</source>
+        <translation>Tous les fichiers</translation>
+        <extracomment>User Setting - Setting title</extracomment>
+    </message>
+    <message>
+        <source>Only transcoded files</source>
+        <translation>Seulement les fichiers transcodés</translation>
+        <extracomment>User Setting - Setting title</extracomment>
+    </message>
+    <message>
+        <source>Compatibility</source>
+        <translation>Compatibilité</translation>
+        <extracomment>User Setting - Setting title</extracomment>
+    </message>
+    <message>
+        <source>Attempt to prevent playback failures.</source>
+        <translation>Tenter d&apos;éviter les erreurs de lecture.</translation>
+        <extracomment>User Setting - Setting description</extracomment>
+    </message>
+    <message>
+        <source>Disable HEVC</source>
+        <translation>Désactiver HEVC</translation>
+        <extracomment>User Setting - Setting title</extracomment>
+    </message>
+    <message>
+        <source>Media Grid options.</source>
+        <translation>Options de la grille Média.</translation>
+    </message>
+    <message>
+        <source>Go directly to the episode list if a TV series has only one season.</source>
+        <translation>Aller directement à la liste des épisodes si une série TV ne possède qu&apos;une seule saison.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Use Splashscreen as Home Background</source>
+        <translation>Utiliser l&apos;écran de démarrage comme arrière-plan d&apos;accueil</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
+    <message>
+        <source>Use generated splashscreen image as Jellyfin&apos;s home background. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Utiliser une image générée d&apos;écran de démarrage comme arrière plan principal de Jellyfin. Jellyfin devra être fermé et rouvert pour que le changement prenne effet.</translation>
+        <extracomment>Description for option in Setting Screen</extracomment>
+    </message>
+    <message>
+        <source>Cinema Mode</source>
+        <translation>Mode cinéma</translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
+    <message>
+        <source>Attempt Direct Play for HEVC media with unsupported profile levels before falling back to transcoding if it fails.</source>
+        <translation>Tenter la lecture directe du média HEVC comportant des niveaux de profils incompatibles avant de revenir au transcodage si cela échoue.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Settings relating to playback and supported codec and media types.</source>
+        <translation>Réglages relatifs à la lecture et à la prise en charge des différents codecs et types de médias.</translation>
+    </message>
+    <message>
+        <source>View All</source>
+        <translation>Voir tout</translation>
+    </message>
+    <message>
+        <source>Configure the maximum playback bitrate.</source>
+        <translation>Configurer le débit maximum de lecture.</translation>
+    </message>
+    <message>
+        <source>Biographical information for this person is not currently available.</source>
+        <translation>Les informations biographiques pour cette personne ne sont pas disponibles pour le moment.</translation>
+    </message>
+    <message>
+        <source>Settings relating to the appearance of pages in TV Libraries.</source>
+        <translation>Paramètres relatifs à l&apos;apparence des pages dans les médiathèques TV.</translation>
+    </message>
+    <message>
+        <source>Loading trailer</source>
+        <translation>Chargement de la bande-annonce</translation>
+        <extracomment>Dialog title in Main.brs</extracomment>
+    </message>
+    <message>
+        <source>Next Episode Button Time</source>
+        <translation>Temps pour le bouton « Prochain épisode »</translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
+    <message>
+        <source>Enable or disable the &apos;Maximum Bitrate&apos; setting.</source>
+        <translation>Activer ou désactiver le paramètre &apos;Débit maximal&apos;.</translation>
+    </message>
+    <message>
+        <source>Off - Attempt to play all resolutions</source>
+        <translation>Désactivé - Tenter de lire toutes les résolutions</translation>
+        <extracomment>User Setting - Option title</extracomment>
+    </message>
+    <message>
+        <source>Auto - Use TV resolution</source>
+        <translation>Automatique - Utiliser la résolution de la TV</translation>
+        <extracomment>User Setting - Option title</extracomment>
+    </message>
+    <message>
+        <source>Apply max resolution to all files or only transcoded files.</source>
+        <translation>Appliquer la résolution maximale à tous les fichier ou seulement aux fichiers transcodés.</translation>
+        <extracomment>User Setting - Description</extracomment>
+    </message>
+    <message>
+        <source>Presentation</source>
+        <translation>Présentation</translation>
+        <extracomment>Title of an option - name of presentation view</extracomment>
+    </message>
+    <message>
+        <source>Resumable</source>
+        <translation>Reprise possible</translation>
+    </message>
+    <message>
+        <source>Global</source>
+        <translation>Global</translation>
+        <extracomment>User Setting - Setting title</extracomment>
+    </message>
+    <message>
+        <source>Global settings that affect everyone that uses this Roku device.</source>
+        <translation>Paramètres globaux affectant tous les utilisateurs de cet appareil Roku.</translation>
+        <extracomment>User Setting - Setting description</extracomment>
+    </message>
+    <message>
+        <source>Remember the currently logged in user and try to log them in again next time you start the Jellyfin app.</source>
+        <translation>Se souvenir de l&apos;utilisateur actuellement identifié et essayer de l&apos;identifier à nouveau au prochain démarrage de l&apos;application Jellyfin.</translation>
+        <extracomment>User Setting - Setting description</extracomment>
+    </message>
+    <message>
+        <source>Hide all clocks in Jellyfin. Jellyfin will need to be closed and reopened for changes to take effect.</source>
+        <translation>Masquer toutes les horloges dans Jellyfin. Jellyfin devra être fermé et rouvert pour que le changement prenne effet.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Disable the HEVC codec on this device. This may improve playback for some devices (ultra).</source>
+        <translation>Désactiver le codec HEVC sur cet appareil. Cela peut améliorer la lecture pour certains appareils (ultra).</translation>
+        <extracomment>User Setting - Setting description</extracomment>
+    </message>
+    <message>
+        <source>Bitrate Limit</source>
+        <translation>Limite de débit</translation>
+    </message>
+    <message>
+        <source>Settings relating to the appearance of the Home screen and the program in general.</source>
+        <translation>Paramètres relatifs à l&apos;apparence de la page d&apos;accueil et du programme en général.</translation>
+    </message>
+    <message>
+        <source>Attempt Direct Play for H.264 media with unsupported profile levels before falling back to transcoding if it fails.</source>
+        <translation>Tenter la lecture directe du média H.264 comportant des niveaux de profils incompatibles avant de revenir au transcodage si cela échoue.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>If enabled, the number of unwatched episodes in a series/season will be removed.</source>
+        <translation>Si cette option est activée, le nombre d&apos;épisodes non regardés dans une série/saison sera enlevé.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Choose your preferred audio codec when transcoding multichannel audio.</source>
+        <translation>Choisir son codec audio préféré lors du transcodage d&apos;audio multicanal.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Slideshow Resumed</source>
+        <translation>Diaporama relancé</translation>
+    </message>
+    <message>
+        <source>Force all transcodes to use DTS instead of the default EAC3. The device must support DTS for this setting to have an effect.</source>
+        <translation>Forcer tous les transcodages à utiliser le DTS à la place de l&apos;EAC3 par défaut. L&apos;appareil doit être compatible avec le DTS pour que ce paramètre ait un effet.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Configure the maximum resolution when playing video files on this device.</source>
+        <translation>Configurer la résolution maximale lorsque des fichiers vidéo sont lus sur cet appareil.</translation>
+        <extracomment>User Setting - Description</extracomment>
+    </message>
+    <message>
+        <source>Set the maximum resolution when playing video files on this device.</source>
+        <translation>Définir la résolution maximale lorsque des fichiers vidéo sont lus sur cet appareil.</translation>
+        <extracomment>User Setting - Description</extracomment>
+    </message>
+    <message>
+        <source>Next episode</source>
+        <translation>Épisode suivant</translation>
+    </message>
+    <message>
+        <source>Reason</source>
+        <translation>Motif</translation>
+    </message>
+    <message>
+        <source>Video range type</source>
+        <translation>Type de plage vidéo</translation>
+    </message>
+    <message>
+        <source>Blur images of unwatched episodes.</source>
+        <translation>Flouter les images des épisodes non visionnés.</translation>
+    </message>
+    <message>
+        <source>Design Elements</source>
+        <translation>Apparence</translation>
+    </message>
+    <message>
+        <source>Enable Limit</source>
+        <translation>Activer la limitation</translation>
+    </message>
+    <message>
+        <source>Settings relating to the appearance of pages in Movie Libraries.</source>
+        <translation>Paramètres relatifs à l&apos;apparence des pages dans les médiathèques de films.</translation>
+    </message>
+    <message>
+        <source>Blur Unwatched Episodes</source>
+        <translation>Flouter les épisodes non visionnés</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
+    <message>
+        <source>Hide Clock</source>
+        <translation>Masquer l&apos;horloge</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
+    <message>
+        <source>Video Codec</source>
+        <translation>Codec vidéo</translation>
+    </message>
+    <message>
+        <source>Audio Channels</source>
+        <translation>Canaux audio</translation>
+    </message>
+    <message>
+        <source>Stream Information</source>
+        <translation>Informations de flux</translation>
+    </message>
+    <message>
+        <source>Playback Information</source>
+        <translation>Informations de lecture</translation>
+    </message>
+    <message>
+        <source>Total Bitrate</source>
+        <translation>Débit total</translation>
+    </message>
+    <message>
+        <source>Hide Taglines</source>
+        <translation>Masquer les étiquettes</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
+    <message>
+        <source>Max Days Next Up</source>
+        <translation>Nombre maximal de jours dans la section &apos;À suivre&apos;</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
+    <message>
+        <source>Audio Codec</source>
+        <translation>Codec audio</translation>
+    </message>
+    <message>
+        <source>direct</source>
+        <translation>direct</translation>
+    </message>
+    <message>
+        <source>Grid</source>
+        <translation>Grille</translation>
+        <extracomment>Title of an option - name of grid view</extracomment>
+    </message>
+    <message>
+        <source>Text Subtitles Only</source>
+        <translation>Sous-titres de texte uniquement</translation>
+        <extracomment>Name of a setting - should we hide subtitles that might transcode</extracomment>
+    </message>
+    <message>
+        <source>Only display text subtitles to minimize transcoding.</source>
+        <translation>Seulement afficher les sous-titres de texte pour minimiser l&apos;impact du transcodage.</translation>
+        <extracomment>Description of a setting - should we hide subtitles that might transcode</extracomment>
+    </message>
+    <message>
+        <source>Show What&apos;s New popup when Jellyfin is updated to a new version.</source>
+        <translation>Affiche la fenêtre contextuelle des nouveautés quand Jellyfin est mis à jour.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Album Artists (Presentation)</source>
+        <translation>Artistes de l&apos;album (présentation)</translation>
+    </message>
+    <message>
+        <source>Set the maximum bitrate in Mbps. Set to 0 to use Roku&apos;s specifications. This setting must be enabled to take effect.</source>
+        <translation>Définir le débit maximum en Mbps. Régler sur 0 pour utiliser les spécifications de Roku. Ce paramètre doit être activé pour être pris en compte.</translation>
+    </message>
+    <message>
+        <source>Years</source>
+        <translation>Années</translation>
+        <extracomment>Used in Filter menu</extracomment>
+    </message>
+    <message>
+        <source>Movie Library Default View</source>
+        <translation>Vue par défaut pour la médiathèque de films</translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
+    <message>
+        <source>Settings relating to the appearance of Library pages</source>
+        <translation>Paramètres relatifs à l&apos;apparence des pages de médiathèque</translation>
+    </message>
+    <message>
+        <source>Disable Unwatched Episode Count</source>
+        <translation>Désactiver le décompte des épisodes non regardés</translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
+    <message>
+        <source>Default view for Movie Libraries.</source>
+        <translation>Affiche la vue par défaut dans les médiathèques de films.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Codec</source>
+        <translation>Codec</translation>
+    </message>
+    <message>
+        <source>Select when to show titles.</source>
+        <translation>Sélectionner quand les titres devraient s&apos;afficher.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Level</source>
+        <translation>Niveau</translation>
+        <extracomment>Video profile level</extracomment>
+    </message>
+    <message>
+        <source>Disable Community Rating for Episodes</source>
+        <translation>Désactiver la notation de la communauté pour les épisodes</translation>
+    </message>
+    <message>
+        <source>Custom Subtitles</source>
+        <translation>Sous-titres personnalisés</translation>
+        <extracomment>Name of a setting - custom subtitles that support CJK fonts</extracomment>
+    </message>
+    <message>
+        <source>Slideshow On</source>
+        <translation>Diaporama activé</translation>
+    </message>
+    <message>
+        <source>Parental Ratings</source>
+        <translation>Classifications parentales</translation>
+        <extracomment>Used in Filter menu</extracomment>
+    </message>
+    <message>
+        <source>Show What&apos;s New Popup</source>
+        <translation>Afficher la fenêtre contextuelle des nouveautés</translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
+    <message>
+        <source>Show On Hover</source>
+        <translation>Afficher au survol</translation>
+    </message>
+    <message>
+        <source>Always Show</source>
+        <translation>Toujours afficher</translation>
+    </message>
+    <message>
+        <source>Always Hide</source>
+        <translation>Toujours masquer</translation>
+    </message>
+    <message>
+        <source>Artists (Presentation)</source>
+        <translation>Artistes (présentation)</translation>
+    </message>
+    <message>
+        <source>Song</source>
+        <translation>Titre</translation>
+    </message>
+    <message>
+        <source>Albums</source>
+        <translation>Albums</translation>
+    </message>
+    <message>
+        <source>Maximum Bitrate</source>
+        <translation>Débit maximum</translation>
+    </message>
+    <message>
+        <source>General</source>
+        <translation>Général</translation>
+    </message>
+    <message>
+        <source>Item Titles</source>
+        <translation>Titres des éléments</translation>
+        <extracomment>Title of a setting - when should we show the title text of a grid item</extracomment>
+    </message>
+    <message>
+        <source>Grid View Settings</source>
+        <translation>Paramètres de la vue en grille</translation>
+    </message>
+    <message>
+        <source>Size</source>
+        <translation>Taille</translation>
+        <extracomment>Video size</extracomment>
+    </message>
+    <message>
+        <source>Artists (Grid)</source>
+        <translation>Artistes (grille)</translation>
+    </message>
+    <message>
+        <source>Songs</source>
+        <translation>Titres</translation>
+    </message>
+    <message>
+        <source>Codec Tag</source>
+        <translation>Étiquette du codec</translation>
+    </message>
+    <message>
+        <source>Slideshow Off</source>
+        <translation>Diaporama désactivé</translation>
+    </message>
+    <message>
+        <source>Slideshow Paused</source>
+        <translation>Diaporama mis en pause</translation>
+    </message>
+    <message>
+        <source>MPEG-4 Support</source>
+        <translation>Prise en charge du codec MPEG-4</translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
+    <message>
+        <source>Album</source>
+        <translation>Album</translation>
+    </message>
+    <message>
+        <source>Bit Rate</source>
+        <translation>Débit</translation>
+        <extracomment>Video streaming bit rate</extracomment>
+    </message>
+    <message>
+        <source>Container</source>
+        <translation>Conteneur</translation>
+        <extracomment>Video streaming container</extracomment>
+    </message>
+    <message>
+        <source>Unplayed</source>
+        <translation>Non lu</translation>
+    </message>
+    <message>
+        <source>Pixel format</source>
+        <translation>Format de pixel</translation>
+        <extracomment>Video pixel format</extracomment>
+    </message>
+    <message>
+        <source>Aired</source>
+        <translation>Diffusé</translation>
+        <extracomment>Aired date label</extracomment>
+    </message>
+    <message>
+        <source>WxH</source>
+        <translation>LxH</translation>
+        <extracomment>Video width x height</extracomment>
+    </message>
+    <message>
+        <source>all</source>
+        <translation>tout</translation>
+        <extracomment>all will reset the searchTerm so all data will be availible</extracomment>
+    </message>
+    <message>
+        <source>Unable to find any albums or songs belonging to this artist</source>
+        <translation>Aucun album ou chanson de cet artiste n&apos;a pu être trouvé</translation>
+        <extracomment>Popup message when we find no audio data for an artist</extracomment>
+    </message>
+    <message>
+        <source>Random On</source>
+        <translation>Lecture aléatoire activée</translation>
+    </message>
+    <message>
+        <source>Played</source>
+        <translation>Lu</translation>
+    </message>
+    <message>
+        <source>Random Off</source>
+        <translation>Lecture aléatoire désactivée</translation>
+    </message>
+    <message>
+        <source>Set how many seconds before the end of an episode the Next Episode button should appear. Set to 0 to disable.</source>
+        <translation>Définir combien de secondes avant la fin d&apos;un épisode le bouton « Prochain épisode » doit apparaître. La valeur 0 permet de le désactiver.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Transcoding Information</source>
+        <translation>Informations de transcodage</translation>
+    </message>
+    <message>
+        <source>Options for TV Shows.</source>
+        <translation>Options pour les séries TV.</translation>
+        <extracomment>Description for TV Shows user settings.</extracomment>
+    </message>
+    <message>
+        <source>Play Trailer</source>
+        <translation>Lire la bande annonce</translation>
+    </message>
+    <message>
+        <comment>Message displayed in Item Grid when no item to display. %1 is container type (e.g. Boxset, Collection, Folder, etc)</comment>
+        <source>NO_ITEMS</source>
+        <translation>Ce(tte) %1 ne contient pas d&apos;éléments</translation>
+    </message>
+    <message>
+        <source>Return to Top</source>
+        <translation>Retourner en haut</translation>
+        <extracomment>UI -&gt; Media Grid -&gt; Item Title in user setting screen.</extracomment>
+    </message>
+    <message>
+        <source>Use the replay button to slowly animate to the first item in the folder. (If disabled, the folder will reset to the first item immediately).</source>
+        <translation>La touche &apos;Replay&apos; utilise une animation douce afin de sélectionner le premier élément du dossier. (Si cette option est désactivée, le premier élément du dossier sera immédiatement sélectionné).</translation>
+        <extracomment>Description for option in Setting Screen</extracomment>
+    </message>
+    <message>
+        <source>The source file is entirely compatible with this client and the session is receiving the file without modifications.</source>
+        <translation>Le fichier source est entièrement compatible avec ce client et la session reçoit le fichier sans modifications.</translation>
+        <extracomment>Direct play info box text in GetPlaybackInfoTask.brs</extracomment>
+    </message>
+    <message>
+        <source>Skip Details for Single Seasons</source>
+        <translation>Sauter les détails pour les saisons uniques</translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
+    <message>
+        <source>Bring the theater experience straight to your living room with the ability to play custom intros before the main feature.</source>
+        <translation>Reproduisez une expérience de cinéma directement dans votre salon en jouant des bandes annonces personnalisées avant le film.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Replace Roku&apos;s default subtitle functions with custom functions that support CJK fonts. Fallback fonts must be configured and enabled on the server for CJK rendering to work.</source>
+        <translation>Remplacer les fonctions de sous-titres par défaut de Roku par des fonctions personnalisées qui prennent en charge les polices CJK. Des polices de secours doivent être configurées et activées sur le serveur pour que le rendu CJK fonctionne.</translation>
+        <extracomment>Description of a setting - custom subtitles that support CJK fonts</extracomment>
+    </message>
+    <message>
+        <source>Hide the star and community rating for episodes of a TV show. This is to prevent spoilers of an upcoming good/bad episode.</source>
+        <translation>Cacher les notations par étoiles et de la communauté pour les épisodes d&apos;une série TV. Cela permet d&apos;éviter les spoilers sur un bon/mauvais épisode à venir.</translation>
+    </message>
+    <message>
+        <source>Settings that apply when Grid views are enabled.</source>
+        <translation>Paramètres appliqués lorsque les vues en grille sont activées.</translation>
+    </message>
+    <message>
+        <source>Direct playing</source>
+        <translation>Lecture directe</translation>
     </message>
 </context>
 </TS>

@@ -1,6 +1,5 @@
 import "pkg:/source/utils/misc.brs"
 import "pkg:/source/api/baserequest.brs"
-import "pkg:/source/roku_modules/promises/promises.brs"
 
 'Device Capabilities for Roku.
 'This will likely need further tweaking
@@ -24,7 +23,6 @@ end function
 
 function getDeviceProfile() as object
     playMpeg2 = m.global.session.user.settings["playback.mpeg2"]
-    playAv1 = m.global.session.user.settings["playback.av1"]
     di = CreateObject("roDeviceInfo")
 
     ' TRANSCODING
@@ -42,18 +40,18 @@ function getDeviceProfile() as object
     ' does the users setup support surround sound?
     maxAudioChannels = "2" ' jellyfin expects this as a string
     ' in order of preference from left to right
-    audioCodecs = ["mp3", "vorbis", "opus", "flac", "alac", "ac4", "pcm", "wma", "wmapro"]
+    audioCodecs = ["eac3", "ac3", "dts", "mp3", "vorbis", "opus", "flac", "alac", "ac4", "pcm", "wma", "wmapro"]
     surroundSoundCodecs = ["eac3", "ac3", "dts"]
     if m.global.session.user.settings["playback.forceDTS"] = true
         surroundSoundCodecs = ["dts", "eac3", "ac3"]
     end if
 
-    surroundSoundCodec = invalid
+    preferredSurroundSoundCodec = invalid
     if di.GetAudioOutputChannel() = "5.1 surround"
         maxAudioChannels = "6"
         for each codec in surroundSoundCodecs
             if di.CanDecodeAudio({ Codec: codec, ChCnt: 6 }).Result
-                surroundSoundCodec = codec
+                preferredSurroundSoundCodec = codec
                 if di.CanDecodeAudio({ Codec: codec, ChCnt: 8 }).Result
                     maxAudioChannels = "8"
                 end if
@@ -178,15 +176,16 @@ function getDeviceProfile() as object
     end if
 
     ' AV1
+    addAv1 = di.CanDecodeVideo({ Codec: "av1" }).Result
     av1Profiles = ["main", "main 10"]
     av1Levels = ["4.1", "5.0", "5.1"]
-    addAv1 = false
-    if playAv1
+
+    if addAv1
         for each container in profileSupport
             for each profile in av1Profiles
                 for each level in av1Levels
-                    if di.CanDecodeVideo({ Codec: "av1", Container: container, Profile: profile, Level: level }).Result
-                        addAv1 = true
+                    ' av1 doesn't support checking for container
+                    if di.CanDecodeVideo({ Codec: "av1", Profile: profile, Level: level }).Result
                         profileSupport[container] = updateProfileArray(profileSupport[container], "av1", profile, level)
                         if container = "mp4"
                             ' check for codec string before adding it
@@ -408,37 +407,28 @@ function getDeviceProfile() as object
     end if
 
     ' surround sound
-    if surroundSoundCodec <> invalid
+    if preferredSurroundSoundCodec <> invalid
         ' add preferred surround sound codec to TranscodingProfile
         deviceProfile.TranscodingProfiles.push({
-            "Container": surroundSoundCodec,
+            "Container": preferredSurroundSoundCodec,
             "Type": "Audio",
-            "AudioCodec": surroundSoundCodec,
+            "AudioCodec": preferredSurroundSoundCodec,
             "Context": "Streaming",
             "Protocol": "http",
             "MaxAudioChannels": maxAudioChannels
         })
         deviceProfile.TranscodingProfiles.push({
-            "Container": surroundSoundCodec,
+            "Container": preferredSurroundSoundCodec,
             "Type": "Audio",
-            "AudioCodec": surroundSoundCodec,
+            "AudioCodec": preferredSurroundSoundCodec,
             "Context": "Static",
             "Protocol": "http",
             "MaxAudioChannels": maxAudioChannels
         })
 
-        ' put codec in front of AudioCodec string
-        if tsArray.AudioCodec = ""
-            tsArray.AudioCodec = surroundSoundCodec
-        else
-            tsArray.AudioCodec = surroundSoundCodec + "," + tsArray.AudioCodec
-        end if
-
-        if mp4Array.AudioCodec = ""
-            mp4Array.AudioCodec = surroundSoundCodec
-        else
-            mp4Array.AudioCodec = surroundSoundCodec + "," + mp4Array.AudioCodec
-        end if
+        ' move preferred codec to front of AudioCodec string
+        tsArray.AudioCodec = setPreferredCodec(tsArray.AudioCodec, preferredSurroundSoundCodec)
+        mp4Array.AudioCodec = setPreferredCodec(mp4Array.AudioCodec, preferredSurroundSoundCodec)
     end if
 
     deviceProfile.TranscodingProfiles.push(tsArray)
@@ -569,7 +559,7 @@ function getDeviceProfile() as object
     if addAv1
         av1Mp4LevelSupported = 0.0
         av1TsLevelSupported = 0.0
-        av1AssProfiles = []
+        av1AssProfiles = {}
         av1HighestLevel = 0.0
         for each container in profileSupport
             for each profile in profileSupport[container]["av1"]
@@ -797,11 +787,6 @@ function GetDirectPlayProfiles() as object
     videoCodecs = ["h264", "mpeg4 avc", "vp8", "vp9", "h263", "mpeg1"]
     audioCodecs = ["mp3", "mp2", "pcm", "lpcm", "wav", "ac3", "ac4", "aiff", "wma", "flac", "alac", "aac", "opus", "dts", "wmapro", "vorbis", "eac3", "mpg123"]
 
-    ' only try to direct play av1 if asked
-    if m.global.session.user.settings["playback.av1"]
-        videoCodecs.push("av1")
-    end if
-
     ' check if hevc is disabled
     if m.global.session.user.settings["playback.compatibility.disablehevc"] = false
         videoCodecs.push("hevc")
@@ -831,6 +816,15 @@ function GetDirectPlayProfiles() as object
     if m.global.session.user.settings["playback.mpeg2"]
         for each container in supportedCodecs
             supportedCodecs[container]["video"].push("mpeg2video")
+        end for
+    end if
+
+    ' video codec overrides
+    ' these codecs play fine but are not correctly detected using CanDecodeVideo()
+    if di.CanDecodeVideo({ Codec: "av1" }).Result
+        ' codec must be checked by itself or the result will always be false
+        for each container in supportedCodecs
+            supportedCodecs[container]["video"].push("av1")
         end for
     end if
 
@@ -965,23 +959,6 @@ function removeDecimals(value as string) as string
     return value
 end function
 
-' Post the deviceProfile to the server
-sub postDeviceProfile()
-    profile = getDeviceCapabilities()
-    printDeviceProfile(profile)
-
-    request = CreateObject("roSGNode", "RequestPromiseTask")
-    promise = request@.getPromise({
-        method: "GET",
-        url: "https://api.github.com/events"
-    })
-
-    promises.onThen(promise, sub (response as object)
-        ? "ok?", response.ok
-        ? "status code:", response.statusCode
-    end sub)
-end sub
-
 ' Print out the deviceProfile for debugging
 sub printDeviceProfile(profile as object)
     print "profile =", profile
@@ -1014,3 +991,32 @@ sub printDeviceProfile(profile as object)
     print "profile.PlayableMediaTypes =", profile.PlayableMediaTypes
     print "profile.SupportedCommands =", profile.SupportedCommands
 end sub
+' Takes and returns a comma delimited string of codecs.
+' Moves the preferred codec to the front of the string
+function setPreferredCodec(codecString as string, preferredCodec as string) as string
+    if preferredCodec = "" then return ""
+    if codecString = "" then return preferredCodec
+
+    preferredCodecSize = Len(preferredCodec)
+
+    ' is the codec already in front?
+    if Left(codecString, preferredCodecSize) = preferredCodec
+        return codecString
+    else
+        ' convert string to array
+        codecArray = codecString.Split(",")
+        ' remove preferred codec from array
+        newArray = []
+        for each codec in codecArray
+            if codec <> preferredCodec
+                newArray.push(codec)
+            end if
+        end for
+        ' convert newArray to string
+        newCodecString = newArray.Join(",")
+        ' add preferred codec to front of newCodecString
+        newCodecString = preferredCodec + "," + newCodecString
+
+        return newCodecString
+    end if
+end function

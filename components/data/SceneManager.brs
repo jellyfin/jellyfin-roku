@@ -79,10 +79,9 @@ end sub
 sub popScene()
     group = m.groups.pop()
     if group <> invalid
-        groupType = group.subtype()
-        if groupType = "JFGroup"
+        if group.isSubType("JFGroup")
             unregisterOverhangData(group)
-        else if groupType = "JFVideo"
+        else if group.isSubType("JFVideo")
             ' Stop video to make sure app communicates stop playstate to server
             group.control = "stop"
         else if groupType = "Settings"
@@ -92,7 +91,7 @@ sub popScene()
 
         group.visible = false
 
-        if groupType = "JFScreen"
+        if group.isSubType("JFScreen")
             group.callFunc("OnScreenHidden")
         end if
     else

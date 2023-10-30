@@ -1,3 +1,5 @@
+import "pkg:/source/api/sdk.bs"
+
 function ItemGetPlaybackInfo(id as string, startTimeTicks = 0 as longinteger)
     params = {
         "UserId": m.global.session.user.id,
@@ -35,11 +37,8 @@ end function
 
 ' Search across all libraries
 function searchMedia(query as string)
-    ' This appears to be done differently on the web now
-    ' For each potential type, a separate query is done:
-    ' varying item types, and artists, and people
     if query <> ""
-        resp = APIRequest(Substitute("Search/Hints", m.global.session.user.id), {
+        data = api.users.GetItemsByQuery(m.global.session.user.id, {
             "searchTerm": query,
             "IncludePeople": true,
             "IncludeMedia": true,
@@ -54,15 +53,14 @@ function searchMedia(query as string)
             "limit": 100
         })
 
-        data = getJson(resp)
         results = []
-        for each item in data.SearchHints
+        for each item in data.Items
             tmp = CreateObject("roSGNode", "SearchData")
             tmp.image = PosterImage(item.id)
             tmp.json = item
             results.push(tmp)
         end for
-        data.SearchHints = results
+        data.Items = results
         return data
     end if
     return []
@@ -223,15 +221,20 @@ function AppearsOnList(id as string)
 end function
 
 ' Get list of songs belonging to an artist
-function GetSongsByArtist(id as string)
+function GetSongsByArtist(id as string, params = {} as object)
     url = Substitute("Users/{0}/Items", m.global.session.user.id)
-    resp = APIRequest(url, {
+    paramArray = {
         "AlbumArtistIds": id,
         "includeitemtypes": "Audio",
         "sortBy": "SortName",
         "Recursive": true
-    })
+    }
+    ' overwrite defaults with the params provided
+    for each param in params
+        paramArray.AddReplace(param, params[param])
+    end for
 
+    resp = APIRequest(url, paramArray)
     data = getJson(resp)
     results = []
 
@@ -408,7 +411,7 @@ function TVSeasons(id as string) as dynamic
     results = []
     for each item in data.Items
         imgParams = { "AddPlayedIndicator": item.UserData.Played }
-        tmp = CreateObject("roSGNode", "TVEpisodeData")
+        tmp = CreateObject("roSGNode", "TVSeasonData")
         tmp.image = PosterImage(item.id, imgParams)
         tmp.json = item
         results.push(tmp)
@@ -417,32 +420,62 @@ function TVSeasons(id as string) as dynamic
     return data
 end function
 
-function TVEpisodes(show_id as string, season_id as string) as dynamic
-    url = Substitute("Shows/{0}/Episodes", show_id)
-    resp = APIRequest(url, { "seasonId": season_id, "UserId": m.global.session.user.id, "fields": "MediaStreams,MediaSources" })
-
-    data = getJson(resp)
-    ' validate data
+' Returns a list of TV Shows for a given TV Show and season
+' Accepts strings for the TV Show Id and the season Id
+function TVEpisodes(showId as string, seasonId as string) as dynamic
+    ' Get and validate data
+    data = api.shows.GetEpisodes(showId, { "seasonId": seasonId, "UserId": m.global.session.user.id, "fields": "MediaStreams,MediaSources" })
     if data = invalid or data.Items = invalid then return invalid
 
     results = []
     for each item in data.Items
-        imgParams = { "maxWidth": 400, "maxheight": 250 }
         tmp = CreateObject("roSGNode", "TVEpisodeData")
-        tmp.image = PosterImage(item.id, imgParams)
-        if tmp.image <> invalid
+        tmp.image = PosterImage(item.id, { "maxWidth": 400, "maxheight": 250 })
+        if isValid(tmp.image)
             tmp.image.posterDisplayMode = "scaleToZoom"
         end if
         tmp.json = item
         tmpMetaData = ItemMetaData(item.id)
+
         ' validate meta data
-        if tmpMetaData <> invalid and tmpMetaData.overview <> invalid
+        if isValid(tmpMetaData) and isValid(tmpMetaData.overview)
             tmp.overview = tmpMetaData.overview
         end if
         results.push(tmp)
     end for
     data.Items = results
     return data
+end function
+
+' Returns a list of extra features for a TV Show season
+' Accepts a string that is a TV Show season id
+function TVSeasonExtras(seasonId as string) as dynamic
+    ' Get and validate TV extra features data
+    data = api.users.GetSpecialFeatures(m.global.session.user.id, seasonId)
+    if not isValid(data) then return invalid
+
+    results = []
+    for each item in data
+        tmp = CreateObject("roSGNode", "TVEpisodeData")
+        tmp.image = PosterImage(item.id, { "maxWidth": 400, "maxheight": 250 })
+        if isValid(tmp.image)
+            tmp.image.posterDisplayMode = "scaleToZoom"
+        end if
+        tmp.json = item
+
+        ' Force item type to Video so episode auto queue is not attempted
+        tmp.type = "Video"
+        tmpMetaData = ItemMetaData(item.id)
+
+        ' Validate meta data
+        if isValid(tmpMetaData) and isValid(tmpMetaData.overview)
+            tmp.overview = tmpMetaData.overview
+        end if
+        results.push(tmp)
+    end for
+
+    ' Build that data format that the TVEpisodeRow expects
+    return { Items: results }
 end function
 
 function TVEpisodeShuffleList(show_id as string)

@@ -1203,5 +1203,17 @@
         <source>CRITIC_RATING</source>
         <translation>Hodnotenie kritikov</translation>
     </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>Uložiť prihlasovacie údaje?</translation>
+    </message>
+    <message>
+        <source>Delete Saved</source>
+        <translation>Vymazať uložené</translation>
+    </message>
+    <message>
+        <source>On Now</source>
+        <translation>Práve teraz</translation>
+    </message>
 </context>
 </TS>
