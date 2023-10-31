@@ -460,11 +460,11 @@ end sub
 ' accepts the raw json string of /system/info/public and returns
 ' a boolean indicating if ProductName is "Jellyfin Server"
 function isJellyfinServer(systemInfo as object) as boolean
-    d = ParseJson(systemInfo)
-    if isValid(d) and isValid(d.ProductName)
-        return d.ProductName = "Jellyfin Server"
+    data = ParseJson(systemInfo)
+    if isValid(data) and isValid(data.ProductName)
+        return LCase(data.ProductName) = m.global.constants.jellyfin_server
     end if
-    return False
+    return false
 end function
 
 ' Check if a specific value is inside of an array
