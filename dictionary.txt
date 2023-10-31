@@ -6,6 +6,7 @@ sideload
 Sideload
 Reddit
 DEVGUIDE
+ImageMagick
 ing
 hardcode
 Hardcoding
