@@ -121,7 +121,9 @@ end sub
 function getCurrentChapterIndex() as integer
     if not isValidAndNotEmpty(m.chapters) then return 0
 
-    currentPosition = m.top.position
+    ' Give a 15 second buffer to compensate for user expectation and roku video position inaccuracy
+    ' Web client uses 10 seconds, but this wasn't enough for Roku in testing
+    currentPosition = m.top.position + 15
     currentChapter = 0
 
     for i = m.chapters.count() - 1 to 0 step -1
