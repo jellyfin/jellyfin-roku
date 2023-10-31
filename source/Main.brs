@@ -630,6 +630,13 @@ sub Main (args as dynamic) as void
 
             if event.exitedScreensaver = true
                 sceneManager.callFunc("resetTime")
+                group = sceneManager.callFunc("getActiveScene")
+                if isValid(group)
+                    ' refresh the current view
+                    if group.isSubType("JFScreen")
+                        group.callFunc("OnScreenShown")
+                    end if
+                end if
             else if isValid(event.audioGuideEnabled)
                 tmpGlobalDevice = m.global.device
                 tmpGlobalDevice.AddReplace("isaudioguideenabled", event.audioGuideEnabled)
