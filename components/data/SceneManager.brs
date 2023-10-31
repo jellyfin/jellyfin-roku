@@ -1,5 +1,4 @@
 import "pkg:/source/roku_modules/log/LogMixin.brs"
-import "pkg:/source/utils/deviceCapabilities.brs"
 
 sub init()
     m.log = log.Logger("SceneManager")
@@ -78,16 +77,16 @@ end sub
 sub popScene()
     group = m.groups.pop()
     if group <> invalid
-        if group.isSubtype("JFGroup")
+        if group.isSubType("JFGroup")
             unregisterOverhangData(group)
-        else if group.isSubtype("JFVideo")
+        else if group.isSubType("JFVideo")
             ' Stop video to make sure app communicates stop playstate to server
             group.control = "stop"
         end if
 
         group.visible = false
 
-        if group.isSubtype("JFScreen")
+        if group.isSubType("JFScreen")
             group.callFunc("OnScreenHidden")
         end if
     else
