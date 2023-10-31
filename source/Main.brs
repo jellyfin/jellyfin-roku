@@ -29,12 +29,10 @@ sub Main (args as dynamic) as void
     m.global.addFields({ audioPlayer: CreateObject("roSGNode", "AudioPlayer") })
 
     app_start:
-    postDeviceProfile()
     ' First thing to do is validate the ability to use the API
     if not LoginFlow() then return
-    ' tell jellyfin server about device capabilities
 
-    ' remove previous scenes from the stack
+    ' remove login scenes from the stack
     sceneManager.callFunc("clearScenes")
 
     ' load home page
@@ -662,12 +660,18 @@ sub Main (args as dynamic) as void
                 ' The audio codec capability has changed if true.
                 print "event.audioCodecCapabilityChanged = ", event.audioCodecCapabilityChanged
 
-                m.global.sceneManager.callFunc("postProfile")
+                postTask = createObject("roSGNode", "PostTask")
+                postTask.arrayData = getDeviceCapabilities()
+                postTask.apiUrl = "/Sessions/Capabilities/Full"
+                postTask.control = "RUN"
             else if isValid(event.videoCodecCapabilityChanged)
                 ' The video codec capability has changed if true.
                 print "event.videoCodecCapabilityChanged = ", event.videoCodecCapabilityChanged
 
-                m.global.sceneManager.callFunc("postProfile")
+                postTask = createObject("roSGNode", "PostTask")
+                postTask.arrayData = getDeviceCapabilities()
+                postTask.apiUrl = "/Sessions/Capabilities/Full"
+                postTask.control = "RUN"
             else if isValid(event.appFocus)
                 ' It is set to False when the System Overlay (such as the confirm partner button HUD or the caption control overlay) takes focus and True when the channel regains focus
                 print "event.appFocus = ", event.appFocus

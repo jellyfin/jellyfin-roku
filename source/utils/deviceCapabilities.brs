@@ -1,11 +1,10 @@
 import "pkg:/source/utils/misc.brs"
 import "pkg:/source/api/baserequest.brs"
 
-'Device Capabilities for Roku.
-'This will likely need further tweaking
+' Returns the Device Capabilities for Roku.
+' Also prints out the device profile for debugging
 function getDeviceCapabilities() as object
-
-    return {
+    deviceProfile = {
         "PlayableMediaTypes": [
             "Audio",
             "Video",
@@ -19,6 +18,10 @@ function getDeviceCapabilities() as object
         "DeviceProfile": getDeviceProfile(),
         "AppStoreUrl": "https://channelstore.roku.com/details/cc5e559d08d9ec87c5f30dcebdeebc12/jellyfin"
     }
+
+    printDeviceProfile(deviceProfile)
+
+    return deviceProfile
 end function
 
 function getDeviceProfile() as object
@@ -958,12 +961,6 @@ function removeDecimals(value as string) as string
     value = r.ReplaceAll(value, "")
     return value
 end function
-
-' Post the deviceProfile to the server
-sub postDeviceProfile()
-    profile = getDeviceCapabilities()
-    printDeviceProfile(profile)
-end sub
 
 ' Print out the deviceProfile for debugging
 sub printDeviceProfile(profile as object)
