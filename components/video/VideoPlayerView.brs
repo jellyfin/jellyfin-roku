@@ -549,6 +549,15 @@ function onKeyEvent(key as string, press as boolean) as boolean
             return false
         else if m.top.state = "playing"
             m.top.control = "pause"
+            ' Disable pause menu for intro videos
+            if not m.LoadMetaDataTask.isIntro
+                ' Show pause menu
+                m.top.control = "pause"
+                m.pauseMenu.visible = true
+                m.pauseMenu.setFocus(true)
+                return true
+            end if
+
             return false
         end if
     end if
