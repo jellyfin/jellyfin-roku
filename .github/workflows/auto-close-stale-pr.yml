@@ -5,6 +5,7 @@ on:
 
 jobs:
   stale:
+    if: github.repository == 'jellyfin/jellyfin-roku'
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
