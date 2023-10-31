@@ -1,0 +1,34 @@
+name: build-docs
+
+on:
+  push:
+    branches:
+      - unstable
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+
+    permissions:
+      # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
+      contents: write
+
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+        with:
+          ref: ${{ github.head_ref }}
+          token: ${{ secrets.JF_BOT_TOKEN }}
+      - name: Install NPM dependencies
+        run: npm ci
+      - name: Build API docs
+        # TODO: fix jsdoc build errors then remove '|| true' from run command below
+        run: npm run docs || true
+      - name: Commit any changes back to the unstable branch
+        uses: stefanzweifel/git-auto-commit-action@8756aa072ef5b4a080af5dc8fef36c5d586e521d # v5
+        with:
+          commit_message: Update API docs
+          # use jellyfin-bot to commit the changes instead of the default github-actions[bot]
+          commit_user_name: jellyfin-bot
+          commit_user_email: team@jellyfin.org
+          # use jellyfin-bot to author the changes instead of the default author of the merge commit
+          commit_author: jellyfin-bot <team@jellyfin.org>

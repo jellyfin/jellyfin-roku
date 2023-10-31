@@ -94,7 +94,7 @@
     </message>
     <message>
         <source>My Media</source>
-        <translation>Mi Contenido</translation>
+        <translation>Mis contenidos</translation>
     </message>
     <message>
         <source>Continue Watching</source>
@@ -226,7 +226,7 @@
     </message>
     <message>
         <source>Director</source>
-        <translation>Director</translation>
+        <translation>Dirigido por</translation>
     </message>
     <message>
         <source>Video</source>
@@ -6569,6 +6569,167 @@
     <message>
         <source>Song</source>
         <translation>Canción</translation>
+    </message>
+    <message>
+        <source>Pick a Jellyfin server from the local network</source>
+        <translation>Selecciona un servidor Jellyfin disponible en tu red local:</translation>
+        <extracomment>Instructions on initial app launch when the user is asked to pick a server from a list</extracomment>
+    </message>
+    <message>
+        <source>The requested content does not exist on the server</source>
+        <translation>El contenido solicitado no existe en el servidor</translation>
+        <extracomment>Content of message box when the requested content is not found on the server</extracomment>
+    </message>
+    <message>
+        <source>Sunday</source>
+        <translation>Domingo</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Transcoding Information</source>
+        <translation>Información de Transcodificación</translation>
+    </message>
+    <message>
+        <source>today</source>
+        <translation>hoy</translation>
+        <extracomment>Current day</extracomment>
+    </message>
+    <message>
+        <source>yesterday</source>
+        <translation>ayer</translation>
+        <extracomment>Previous day</extracomment>
+    </message>
+    <message>
+        <source>Friday</source>
+        <translation>Viernes</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Thursday</source>
+        <translation>Jueves</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Born</source>
+        <translation>Nacido en</translation>
+    </message>
+    <message>
+        <source>Movies</source>
+        <translation>Películas</translation>
+    </message>
+    <message>
+        <source>Unknown</source>
+        <translation>Desconocido</translation>
+        <extracomment>Title for a cast member for which we have no information for</extracomment>
+    </message>
+    <message>
+        <source>Saturday</source>
+        <translation>Sábado</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>tomorrow</source>
+        <translation>mañana</translation>
+        <extracomment>Next day</extracomment>
+    </message>
+    <message>
+        <source>Age</source>
+        <translation>Edad</translation>
+    </message>
+    <message>
+        <source>Connecting to Server</source>
+        <translation>Conectando al Servidor</translation>
+        <extracomment>Message to display to user while client is attempting to connect to the server</extracomment>
+    </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>¿Guardar Credenciales?</translation>
+    </message>
+    <message>
+        <source>Set Favorite</source>
+        <translation>Agregar a Favoritos</translation>
+        <extracomment>Button Text - When pressed, sets item as Favorite</extracomment>
+    </message>
+    <message>
+        <source>Version</source>
+        <translation>Versión</translation>
+    </message>
+    <message>
+        <source>Died</source>
+        <translation>Murió en</translation>
+    </message>
+    <message>
+        <source>Monday</source>
+        <translation>Lunes</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Tuesday</source>
+        <translation>Martes</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Wednesday</source>
+        <translation>Miércoles</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Started</source>
+        <translation>Empezó</translation>
+        <extracomment>(Past Tense) For defining a day and time when a program started (e.g. Started Wednesday, 08:00) </extracomment>
+    </message>
+    <message>
+        <source>Set Watched</source>
+        <translation>Marcar como Visto</translation>
+        <extracomment>Button Text - When pressed, marks item as Warched</extracomment>
+    </message>
+    <message>
+        <source>Return to Top</source>
+        <translation>Volver Arriba</translation>
+        <extracomment>UI -&gt; Media Grid -&gt; Item Title in user setting screen.</extracomment>
+    </message>
+    <message>
+        <source>View All</source>
+        <translation>Ver Todo</translation>
+    </message>
+    <message>
+        <source>Change Server</source>
+        <translation>Cambiar Servidor</translation>
+    </message>
+    <message>
+        <source>On Now</source>
+        <translation>Transmitiendo ahora</translation>
+    </message>
+    <message>
+        <source>Sign Out</source>
+        <translation>Cerrar Sesión</translation>
+    </message>
+    <message>
+        <source>Delete Saved</source>
+        <translation>Eliminar Guardado</translation>
+    </message>
+    <message>
+        <source>Movies (Presentation)</source>
+        <translation>Películas (Modo Presentación)</translation>
+        <extracomment>Movie library view option</extracomment>
+    </message>
+    <message>
+        <source>Not found</source>
+        <translation>No Encontrado</translation>
+        <extracomment>Title of message box when the requested content is not found on the server</extracomment>
+    </message>
+    <message>
+        <source>Codec</source>
+        <translation>Códec</translation>
+    </message>
+    <message>
+        <source>Bit Rate</source>
+        <translation>Tasa de Bits</translation>
+        <extracomment>Video streaming bit rate</extracomment>
+    </message>
+    <message>
+        <source>Audio Channels</source>
+        <translation>Canales de Audio</translation>
     </message>
 </context>
 </TS>

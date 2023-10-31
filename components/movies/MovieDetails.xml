@@ -50,5 +50,6 @@
     <field id="trailerAvailable" type="bool" onChange="trailerAvailableChanged" value="false" />
     <field id="selectedAudioStreamIndex" type="integer" />
     <field id="selectedVideoStreamId" type="string" />
+    <field id="quickPlayNode" type="node" alwaysNotify="true" />
   </interface>
 </component>

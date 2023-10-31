@@ -3,6 +3,7 @@ sub init()
     updateSize()
     m.top.rowFocusAnimationStyle = "fixedFocus"
     m.top.observeField("rowItemSelected", "onRowItemSelected")
+    m.top.observeField("rowItemFocused", "onRowItemFocused")
 
     ' Set up all Tasks
     m.LoadPeopleTask = CreateObject("roSGNode", "LoadItemsTask")
@@ -206,4 +207,8 @@ end sub
 
 sub onRowItemSelected()
     m.top.selectedItem = m.top.content.getChild(m.top.rowItemSelected[0]).getChild(m.top.rowItemSelected[1])
+end sub
+
+sub onRowItemFocused()
+    m.top.focusedItem = m.top.content.getChild(m.top.rowItemFocused[0]).getChild(m.top.rowItemFocused[1])
 end sub

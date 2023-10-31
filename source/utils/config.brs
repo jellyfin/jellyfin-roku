@@ -37,7 +37,7 @@ function RegistryReadAll(section as string) as dynamic
     registryData = {}
     for each item in regKeyList
         ' ignore session related tokens
-        if item <> "token" and item <> "username" and item <> "password"
+        if item <> "token" and item <> "username" and item <> "password" and LCase(item) <> "lastrunversion"
             if registry.Exists(item)
                 registryData.AddReplace(item, registry.Read(item))
             end if
@@ -47,10 +47,16 @@ function RegistryReadAll(section as string) as dynamic
     return registryData
 end function
 
+' Return an array of all the registry section keys
+function getRegistrySections() as object
+    registry = CreateObject("roRegistry")
+    return registry.GetSectionList()
+end function
+
 ' "Jellyfin" registry accessors for the default global settings
-function get_setting(key, default = invalid)
+function get_setting(key, defaultValue = invalid)
     value = registry_read(key, "Jellyfin")
-    if value = invalid then return default
+    if value = invalid then return defaultValue
     return value
 end function
 
@@ -93,4 +99,41 @@ function findConfigTreeKey(key as string, tree)
     end for
 
     return invalid
+end function
+
+' Returns an array of saved users from the registry
+' that belong to the active server
+function getSavedUsers() as object
+    registrySections = getRegistrySections()
+
+    savedUsers = []
+    for each section in registrySections
+        if LCase(section) <> "jellyfin"
+            savedUsers.push(section)
+        end if
+    end for
+
+    savedServerUsers = []
+    for each userId in savedUsers
+        userArray = {
+            id: userId
+        }
+        token = registry_read("token", userId)
+
+        username = registry_read("username", userId)
+        if username <> invalid
+            userArray["username"] = username
+        end if
+
+        serverId = registry_read("serverId", userId)
+        if serverId <> invalid
+            userArray["serverId"] = serverId
+        end if
+
+        if username <> invalid and token <> invalid and serverId <> invalid and serverId = m.global.session.server.id
+            savedServerUsers.push(userArray)
+        end if
+    end for
+
+    return savedServerUsers
 end function

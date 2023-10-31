@@ -468,7 +468,8 @@ end sub
 ' Returns an array of playback info to be displayed during playback.
 ' In the future, with a custom playback info view, we can return an associated array.
 function GetPlaybackInfo()
-    sessions = api.sessions.Get()
+    sessions = api.sessions.Get({ "deviceId": m.global.device.serverDeviceName })
+
     if isValid(sessions) and sessions.Count() > 0
         return GetTranscodingStats(sessions[0])
     end if

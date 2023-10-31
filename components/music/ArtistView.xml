@@ -54,5 +54,6 @@
     <field id="playArtistSelected" alias="play.selected" />
     <field id="instantMixSelected" alias="instantMix.selected" />
     <field id="selectedButtonIndex" type="integer" value="-1" />
+    <field id="quickPlayNode" type="node" alwaysNotify="true" />
   </interface>
 </component>
