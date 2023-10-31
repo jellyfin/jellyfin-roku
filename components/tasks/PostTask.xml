@@ -13,6 +13,6 @@
         <field id="responseHeaders" type="assocarray" value="{}" />
         <field id="failureReason" type="string" value="" />
 
-        <function name="emptyPostTask" />
+        <function name="empty" />
     </interface>
 </component>

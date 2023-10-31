@@ -44,5 +44,5 @@ end sub
 
 sub postFinished()
     m.postTask.unobserveField("responseCode")
-    m.postTask.callFunc("emptyPostTask")
+    m.postTask.callFunc("empty")
 end sub

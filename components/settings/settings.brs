@@ -216,7 +216,7 @@ end sub
 
 sub postFinished()
     m.postTask.unobserveField("responseCode")
-    m.postTask.callFunc("emptyPostTask")
+    m.postTask.callFunc("empty")
 end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean

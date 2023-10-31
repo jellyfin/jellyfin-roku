@@ -59,7 +59,7 @@ function asyncPost(req, data = "" as string) as integer
 end function
 
 ' Revert PostTask to default state
-sub emptyPostTask()
+sub empty()
     ' These should match the defaults set in PostTask.xml
     m.top.apiUrl = ""
     m.top.timeoutSeconds = 30
