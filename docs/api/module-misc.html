@@ -276,7 +276,7 @@
 		<ul class="dummy">
 			<li>
 				<a href="source_utils_misc.brs.html">source/utils/misc.brs</a>,
-				 <a href="source_utils_misc.brs.html#sunlight-1-line-203">line 203</a>
+				 <a href="source_utils_misc.brs.html#sunlight-1-line-212">line 212</a>
 			</li>
 		</ul>
 	</dd>
@@ -458,7 +458,7 @@
 		<ul class="dummy">
 			<li>
 				<a href="source_utils_misc.brs.html">source/utils/misc.brs</a>,
-				 <a href="source_utils_misc.brs.html#sunlight-1-line-246">line 246</a>
+				 <a href="source_utils_misc.brs.html#sunlight-1-line-264">line 264</a>
 			</li>
 		</ul>
 	</dd>
@@ -814,7 +814,7 @@
 		<ul class="dummy">
 			<li>
 				<a href="source_utils_misc.brs.html">source/utils/misc.brs</a>,
-				 <a href="source_utils_misc.brs.html#sunlight-1-line-195">line 195</a>
+				 <a href="source_utils_misc.brs.html#sunlight-1-line-204">line 204</a>
 			</li>
 		</ul>
 	</dd>
@@ -1340,7 +1340,7 @@
 		<ul class="dummy">
 			<li>
 				<a href="source_utils_misc.brs.html">source/utils/misc.brs</a>,
-				 <a href="source_utils_misc.brs.html#sunlight-1-line-176">line 176</a>
+				 <a href="source_utils_misc.brs.html#sunlight-1-line-185">line 185</a>
 			</li>
 		</ul>
 	</dd>
@@ -1914,7 +1914,326 @@
 		<ul class="dummy">
 			<li>
 				<a href="source_utils_misc.brs.html">source/utils/misc.brs</a>,
-				 <a href="source_utils_misc.brs.html#sunlight-1-line-212">line 212</a>
+				 <a href="source_utils_misc.brs.html#sunlight-1-line-221">line 221</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+
+    </dd>
+</dl>
+
+
+        
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id=".inferServerUrl"><span class="type-signature">&lt;static> </span>inferServerUrl(url)</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>take an incomplete url string and use it to make educated guesses about<br>
+the complete url. then tests these guesses to see if it can find a jf server<br>
+returns the url of the server it found, or an empty string</p>
+    </div>
+    
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>url</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="source_utils_misc.brs.html">source/utils/misc.brs</a>,
+				 <a href="source_utils_misc.brs.html#sunlight-1-line-116">line 116</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">string</span>
+
+
+
+    </dd>
+</dl>
+
+
+        
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id=".isJellyfinServer"><span class="type-signature">&lt;static> </span>isJellyfinServer(systemInfo)</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>accepts the raw json string of /system/info/public and returns<br>
+a boolean indicating if ProductName is &quot;Jellyfin Server&quot;</p>
+    </div>
+    
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>systemInfo</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="source_utils_misc.brs.html">source/utils/misc.brs</a>,
+				 <a href="source_utils_misc.brs.html#sunlight-1-line-255">line 255</a>
 			</li>
 		</ul>
 	</dd>
@@ -2072,7 +2391,7 @@
 		<ul class="dummy">
 			<li>
 				<a href="source_utils_misc.brs.html">source/utils/misc.brs</a>,
-				 <a href="source_utils_misc.brs.html#sunlight-1-line-160">line 160</a>
+				 <a href="source_utils_misc.brs.html#sunlight-1-line-169">line 169</a>
 			</li>
 		</ul>
 	</dd>
@@ -2408,7 +2727,7 @@
 		<ul class="dummy">
 			<li>
 				<a href="source_utils_misc.brs.html">source/utils/misc.brs</a>,
-				 <a href="source_utils_misc.brs.html#sunlight-1-line-133">line 133</a>
+				 <a href="source_utils_misc.brs.html#sunlight-1-line-142">line 142</a>
 			</li>
 		</ul>
 	</dd>
@@ -2567,7 +2886,7 @@ Accepts a string, or any countable type (arrays and lists)</p>
 		<ul class="dummy">
 			<li>
 				<a href="source_utils_misc.brs.html">source/utils/misc.brs</a>,
-				 <a href="source_utils_misc.brs.html#sunlight-1-line-142">line 142</a>
+				 <a href="source_utils_misc.brs.html#sunlight-1-line-151">line 151</a>
 			</li>
 		</ul>
 	</dd>
@@ -3408,7 +3727,7 @@ Accepts a string, or any countable type (arrays and lists)</p>
 
     
     <div class="description">
-        <p>Returns an array from a url - [ url, proto, host, port, subdir/params ]<br>
+        <p>Returns an array from a url = [ url, proto, host, port, subdir+params ]<br>
 If port or subdir are not found, an empty string will be added to the array<br>
 Proto must be declared or array will be empty</p>
     </div>
@@ -3507,7 +3826,7 @@ Proto must be declared or array will be empty</p>
 		<ul class="dummy">
 			<li>
 				<a href="source_utils_misc.brs.html">source/utils/misc.brs</a>,
-				 <a href="source_utils_misc.brs.html#sunlight-1-line-152">line 152</a>
+				 <a href="source_utils_misc.brs.html#sunlight-1-line-161">line 161</a>
 			</li>
 		</ul>
 	</dd>
@@ -3665,7 +3984,7 @@ Proto must be declared or array will be empty</p>
 		<ul class="dummy">
 			<li>
 				<a href="source_utils_misc.brs.html">source/utils/misc.brs</a>,
-				 <a href="source_utils_misc.brs.html#sunlight-1-line-168">line 168</a>
+				 <a href="source_utils_misc.brs.html#sunlight-1-line-177">line 177</a>
 			</li>
 		</ul>
 	</dd>
@@ -3997,7 +4316,7 @@ Proto must be declared or array will be empty</p>
 		<ul class="dummy">
 			<li>
 				<a href="source_utils_misc.brs.html">source/utils/misc.brs</a>,
-				 <a href="source_utils_misc.brs.html#sunlight-1-line-125">line 125</a>
+				 <a href="source_utils_misc.brs.html#sunlight-1-line-134">line 134</a>
 			</li>
 		</ul>
 	</dd>
@@ -4406,7 +4725,7 @@ uses the Fisher-Yates shuffling algorithm</p>
 		<ul class="dummy">
 			<li>
 				<a href="source_utils_misc.brs.html">source/utils/misc.brs</a>,
-				 <a href="source_utils_misc.brs.html#sunlight-1-line-255">line 255</a>
+				 <a href="source_utils_misc.brs.html#sunlight-1-line-273">line 273</a>
 			</li>
 		</ul>
 	</dd>
@@ -4443,165 +4762,6 @@ uses the Fisher-Yates shuffling algorithm</p>
     <dd>
         
 <span class="param-type">object</span>
-
-
-
-    </dd>
-</dl>
-
-
-        
-
-    
-</dd>
-
-        
-            
-<hr>
-<dt>
-    <h4 class="name" id=".standardize_jellyfin_url"><span class="type-signature">&lt;static> </span>standardize_jellyfin_url(url)</h4>
-    
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        <p>Take a jellyfin hostname and ensure it's a full url.<br>
-prepend http or https and append default ports, and remove excess slashes</p>
-    </div>
-    
-
-    
-
-    
-
-    
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params table table-striped">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>url</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="source_utils_misc.brs.html">source/utils/misc.brs</a>,
-				 <a href="source_utils_misc.brs.html#sunlight-1-line-117">line 117</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <h5>Returns:</h5>
-    
-            
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">dynamic</span>
 
 
 
@@ -4669,7 +4829,7 @@ prepend http or https and append default ports, and remove excess slashes</p>
 		<ul class="dummy">
 			<li>
 				<a href="source_utils_misc.brs.html">source/utils/misc.brs</a>,
-				 <a href="source_utils_misc.brs.html#sunlight-1-line-225">line 225</a>
+				 <a href="source_utils_misc.brs.html#sunlight-1-line-234">line 234</a>
 			</li>
 		</ul>
 	</dd>
@@ -4773,7 +4933,7 @@ prepend http or https and append default ports, and remove excess slashes</p>
 		<ul class="dummy">
 			<li>
 				<a href="source_utils_misc.brs.html">source/utils/misc.brs</a>,
-				 <a href="source_utils_misc.brs.html#sunlight-1-line-231">line 231</a>
+				 <a href="source_utils_misc.brs.html#sunlight-1-line-240">line 240</a>
 			</li>
 		</ul>
 	</dd>
@@ -4877,7 +5037,7 @@ prepend http or https and append default ports, and remove excess slashes</p>
 		<ul class="dummy">
 			<li>
 				<a href="source_utils_misc.brs.html">source/utils/misc.brs</a>,
-				 <a href="source_utils_misc.brs.html#sunlight-1-line-237">line 237</a>
+				 <a href="source_utils_misc.brs.html#sunlight-1-line-246">line 246</a>
 			</li>
 		</ul>
 	</dd>
@@ -5185,7 +5345,7 @@ prepend http or https and append default ports, and remove excess slashes</p>
 		<ul class="dummy">
 			<li>
 				<a href="source_utils_misc.brs.html">source/utils/misc.brs</a>,
-				 <a href="source_utils_misc.brs.html#sunlight-1-line-219">line 219</a>
+				 <a href="source_utils_misc.brs.html#sunlight-1-line-228">line 228</a>
 			</li>
 		</ul>
 	</dd>
@@ -5222,6 +5382,166 @@ prepend http or https and append default ports, and remove excess slashes</p>
     <dd>
         
 <span class="param-type">string</span>
+
+
+
+    </dd>
+</dl>
+
+
+        
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id=".urlCandidates"><span class="type-signature">&lt;static> </span>urlCandidates(input)</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>this is the &quot;educated guess&quot; logic for inferServerUrl that generates a list of complete url's as candidates<br>
+for the tests in inferServerUrl. takes an incomplete url as an arg and returns a list of extrapolated<br>
+full urls.</p>
+    </div>
+    
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>input</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="source_utils_misc.brs.html">source/utils/misc.brs</a>,
+				 <a href="source_utils_misc.brs.html#sunlight-1-line-126">line 126</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">dynamic</span>
 
 
 
@@ -5368,7 +5688,7 @@ to some minimum version allowed (e.g. 10.8.0)</p>
 		<ul class="dummy">
 			<li>
 				<a href="source_utils_misc.brs.html">source/utils/misc.brs</a>,
-				 <a href="source_utils_misc.brs.html#sunlight-1-line-187">line 187</a>
+				 <a href="source_utils_misc.brs.html#sunlight-1-line-196">line 196</a>
 			</li>
 		</ul>
 	</dd>
