@@ -855,6 +855,7 @@ end function
 function CreateSearchPage()
     ' Search + Results Page
     group = CreateObject("roSGNode", "searchResults")
+    group.observeField("quickPlayNode", m.port)
     options = group.findNode("searchSelect")
     options.observeField("itemSelected", m.port)
 
