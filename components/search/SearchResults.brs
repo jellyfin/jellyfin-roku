@@ -60,7 +60,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
     else if key = "right" and m.searchSelect.itemdata <> invalid and m.searchSelect.itemdata.TotalRecordCount > 0
         m.searchSelect.setFocus(true)
         return true
-    else if key = "play"
+    else if key = "play" and m.searchSelect.rowItemFocused.count() > 0
         print "play was pressed from search results"
         if m.searchSelect.rowItemFocused <> invalid
             m.top.quickPlayNode = m.searchSelect.content.getChild(m.searchSelect.rowItemFocused[0]).getChild(m.searchSelect.rowItemFocused[1])
