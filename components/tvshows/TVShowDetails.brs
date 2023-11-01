@@ -11,6 +11,7 @@ sub init()
     m.getShuffleEpisodesTask = createObject("roSGNode", "getShuffleEpisodesTask")
     m.Shuffle = m.top.findNode("Shuffle")
     m.extrasSlider.visible = true
+    m.seasons = m.top.findNode("seasons")
 end sub
 
 sub itemContentChanged()
@@ -223,6 +224,20 @@ function onKeyEvent(key as string, press as boolean) as boolean
     else if key = "up" and m.Shuffle.hasFocus()
         overview.setFocus(true)
         return true
+    else if key = "play" and m.seasons.hasFocus()
+        print "play was pressed from the seasons row"
+        if isValid(m.seasons.TVSeasonData) and isValid(m.seasons.TVSeasonData.Items)
+            itemFocused = m.seasons.rowItemFocused
+            m.top.quickPlayNode = m.seasons.TVSeasonData.Items[itemFocused[1]]
+            return true
+        end if
+    else if key = "play" and m.extrasSlider.isInFocusChain()
+        print "play was pressed from the extras grid"
+        extrasGrid = m.top.findNode("extrasGrid")
+        if extrasGrid.focusedItem <> invalid
+            m.top.quickPlayNode = extrasGrid.focusedItem
+            return true
+        end if
     end if
 
     return false

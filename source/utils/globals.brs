@@ -6,6 +6,8 @@ sub setConstants()
     globals.addFields({
         constants: {
 
+            jellyfin_server: "jellyfin server",
+
             poster_bg_pallet: ["#00455c", "#44bae1", "#00a4db", "#1c4c5c", "#007ea8"],
 
             colors: {
@@ -107,6 +109,7 @@ sub SaveDeviceToGlobal()
             uuid: deviceInfo.GetRandomUUID(),
             name: displayName,
             friendlyName: filteredFriendly,
+            serverDeviceName: deviceInfo.getChannelClientID(),
             model: deviceInfo.GetModel(),
             modelType: deviceInfo.GetModelType(),
             modelDetails: deviceInfo.GetModelDetails(),

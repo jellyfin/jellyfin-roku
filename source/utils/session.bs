@@ -8,6 +8,7 @@ namespace session
     sub Init()
         m.global.addFields({
             session: {
+                "memoryLevel": "normal",
                 server: {},
                 user: {
                     Configuration: {},
@@ -173,10 +174,24 @@ namespace session
                 set_user_setting("token", tmpSession.user.authToken)
                 set_user_setting("username", tmpSession.user.name)
             end if
+
+            session.user.LoadUserPreferences()
+        end sub
+
+        ' Sets the global server device name value used by the API
+        sub SetServerDeviceName()
+            if isValid(m.global.session.user) and isValid(m.global.session.user.friendlyName)
+                m.global.device.serverDeviceName = m.global.device.id + m.global.session.user.friendlyName
+            else
+                m.global.device.serverDeviceName = m.global.device.id
+            end if
         end sub
 
         ' Load and parse Display Settings from server
         sub LoadUserPreferences()
+            ' Save device id so we don't calculate it every time we need it
+            session.user.SetServerDeviceName()
+
             id = m.global.session.user.id
             ' Currently using client "emby", which is what website uses so we get same Display prefs as web.
             ' May want to change to specific Roku display settings
@@ -337,6 +352,9 @@ namespace session
                         session.user.settings.Save(item, get_setting(item))
                     end if
                 end for
+
+                ' Reset server device name state
+                session.user.SetServerDeviceName()
             end sub
 
             ' Saves the user setting to the global session.

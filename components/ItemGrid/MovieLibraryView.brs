@@ -144,6 +144,7 @@ sub loadInitialItems()
     if not isValid(m.filter) then m.filter = "All"
     if not isValid(m.filterOptions) then m.filterOptions = "{}"
     if not isValid(m.view) then m.view = "Movies"
+    if not isValid(m.sortAscending) then m.sortAscending = true
 
     m.filterOptions = ParseJson(m.filterOptions)
 
@@ -707,7 +708,12 @@ end sub
 '
 'Returns Focused Item
 function getItemFocused()
-    return m.itemGrid.content.getChild(m.itemGrid.itemFocused)
+    if m.itemGrid.isinFocusChain() and isValid(m.itemGrid.itemFocused)
+        return m.itemGrid.content.getChild(m.itemGrid.itemFocused)
+    else if m.genreList.isinFocusChain() and isValid(m.genreList.rowItemFocused)
+        return m.genreList.content.getChild(m.genreList.rowItemFocused[0]).getChild(m.genreList.rowItemFocused[1])
+    end if
+    return invalid
 end function
 
 '
@@ -869,11 +875,10 @@ function onKeyEvent(key as string, press as boolean) as boolean
             m.loadItemsTask.control = "stop"
             return true
         end if
-    else if key = "play" or key = "OK"
-
+    else if key = "play"
         itemToPlay = getItemFocused()
 
-        if itemToPlay <> invalid and (itemToPlay.type = "Movie" or itemToPlay.type = "Episode")
+        if itemToPlay <> invalid
             m.top.quickPlayNode = itemToPlay
             return true
         end if

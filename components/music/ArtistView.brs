@@ -313,5 +313,21 @@ function onKeyEvent(key as string, press as boolean) as boolean
         end if
     end if
 
+    if key = "play"
+        print "play button pressed from ArtistView"
+        itemToPlay = invalid
+
+        if isValid(m.albums) and m.albums.isInFocusChain()
+            itemToPlay = m.albums.MusicArtistAlbumData.items[m.albums.itemFocused]
+        else if isValid(m.appearsOn) and m.appearsOn.isInFocusChain()
+            itemToPlay = m.appearsOn.MusicArtistAlbumData.items[m.appearsOn.itemFocused]
+        end if
+
+        if isValid(itemToPlay)
+            m.top.quickPlayNode = itemToPlay
+            return true
+        end if
+    end if
+
     return false
 end function

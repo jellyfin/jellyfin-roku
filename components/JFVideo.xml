@@ -40,7 +40,7 @@
     <Animation id="showNextEpisodeButton" duration="1.0" repeat="false" easeFunction="inQuad">
       <FloatFieldInterpolator key="[0.0, 1.0]" keyValue="[0.0, .9]" fieldToInterp="nextEpisode.opacity" />
     </Animation>
-    <Animation id="hideNextEpisodeButton" duration=".2" repeat="false" easeFunction="inQuad">
+    <Animation id="hideNextEpisodeButton" duration=".25" repeat="false" easeFunction="inQuad">
       <FloatFieldInterpolator key="[0.0, 1.0]" keyValue="[.9, 0]" fieldToInterp="nextEpisode.opacity" />
     </Animation>
   </children>

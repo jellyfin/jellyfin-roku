@@ -125,48 +125,89 @@ sub Main (args as dynamic) as void
                 group.setFocus(true)
             end if
         else if isNodeEvent(msg, "quickPlayNode")
+            ' measure processing time
+            timeSpan = CreateObject("roTimespan")
+
+            startMediaLoadingSpinner()
+
             group = sceneManager.callFunc("getActiveScene")
             reportingNode = msg.getRoSGNode()
-            itemNode = reportingNode.quickPlayNode
-            if isValid(itemNode) and isValid(itemNode.id) and itemNode.id <> ""
-                if itemNode.type = "Episode" or itemNode.type = "Movie" or itemNode.type = "Video"
-                    if isValid(itemNode.selectedVideoStreamId)
-                        itemNode.id = itemNode.selectedVideoStreamId
-                    end if
-
-                    audio_stream_idx = 0
-                    if isValid(itemNode.selectedAudioStreamIndex) and itemNode.selectedAudioStreamIndex > 0
-                        audio_stream_idx = itemNode.selectedAudioStreamIndex
-                    end if
-
-                    itemNode.selectedAudioStreamIndex = audio_stream_idx
-
-                    playbackPosition = 0
-
-                    ' Display playback options dialog
-                    if isValid(itemNode.json) and isValid(itemNode.json.userdata) and isValid(itemNode.json.userdata.PlaybackPositionTicks)
-                        playbackPosition = itemNode.json.userdata.PlaybackPositionTicks
-                    end if
-
-                    if playbackPosition > 0
-                        m.global.queueManager.callFunc("hold", itemNode)
-                        playbackOptionDialog(playbackPosition, itemNode.json)
-                    else
-                        m.global.queueManager.callFunc("clear")
-                        m.global.queueManager.callFunc("push", itemNode)
-                        m.global.queueManager.callFunc("playQueue")
-                    end if
-
-                    ' Prevent quick play node from double firing
+            itemNode = invalid
+            if isValid(reportingNode)
+                itemNode = reportingNode.quickPlayNode
+                reportingNodeType = reportingNode.subtype()
+                print "Quick Play reporting node type=", reportingNodeType
+                ' prevent double fire bug
+                if isValid(reportingNodeType) and (reportingNodeType = "Home" or reportingNodeType = "TVEpisodes")
                     reportingNode.quickPlayNode = invalid
-
-                    if LCase(group.subtype()) = "tvepisodes"
-                        if isValid(group.lastFocus)
-                            group.lastFocus.setFocus(true)
-                        end if
-                    end if
                 end if
             end if
+            print "Quick Play started. itemNode=", itemNode
+            ' if itemNode.json <> invalid
+            '     print "itemNode.json=", itemNode.json
+            ' end if
+            if isValid(itemNode) and isValid(itemNode.id) and itemNode.id <> ""
+                ' make sure there is a type and convert type to lowercase
+                itemType = invalid
+                if isValid(itemNode.type) and itemNode.type <> ""
+                    itemType = Lcase(itemNode.type)
+                else
+                    ' grab type from json and convert to lowercase
+                    if isValid(itemNode.json) and isValid(itemNode.json.type)
+                        itemType = Lcase(itemNode.json.type)
+                    end if
+                end if
+                print "Quick Play itemNode type=", itemType
+
+                ' can't play the item without knowing what type it is
+                if isValid(itemType)
+                    m.global.queueManager.callFunc("clear") ' empty queue/playlist
+                    m.global.queueManager.callFunc("resetShuffle") ' turn shuffle off
+
+                    if itemType = "episode" or itemType = "movie" or itemType = "video"
+                        quickplay.video(itemNode)
+                        ' restore focus
+                        if LCase(group.subtype()) = "tvepisodes"
+                            if isValid(group.lastFocus)
+                                group.lastFocus.setFocus(true)
+                            end if
+                        end if
+                    else if itemType = "audio"
+                        quickplay.audio(itemNode)
+                    else if itemType = "musicalbum"
+                        quickplay.album(itemNode)
+                    else if itemType = "musicartist"
+                        quickplay.artist(itemNode)
+                    else if itemType = "series"
+                        quickplay.series(itemNode)
+                    else if itemType = "season"
+                        quickplay.season(itemNode)
+                    else if itemType = "boxset"
+                        quickplay.boxset(itemNode)
+                    else if itemType = "collectionfolder"
+                        quickplay.collectionFolder(itemNode)
+                    else if itemType = "playlist"
+                        quickplay.playlist(itemNode)
+                    else if itemType = "userview"
+                        quickplay.userView(itemNode)
+                    else if itemType = "folder"
+                        quickplay.folder(itemNode)
+                    else if itemType = "musicvideo"
+                        quickplay.musicVideo(itemNode)
+                    else if itemType = "person"
+                        quickplay.person(itemNode)
+                    else if itemType = "tvchannel"
+                        quickplay.tvChannel(itemNode)
+                    else if itemType = "program"
+                        quickplay.program(itemNode)
+                    end if
+
+                    m.global.queueManager.callFunc("playQueue")
+                end if
+            end if
+            stopLoadingSpinner()
+            elapsed = timeSpan.TotalMilliseconds() / 1000
+            print "Quick Play finished loading in " + elapsed.toStr() + " seconds."
         else if isNodeEvent(msg, "selectedItem")
             ' If you select a library from ANYWHERE, follow this flow
             selectedItem = msg.getData()
@@ -259,6 +300,8 @@ sub Main (args as dynamic) as void
                     end if
                 else if selectedItemType = "MusicAlbum"
                     group = CreateAlbumView(selectedItem.json)
+                else if selectedItemType = "MusicVideo"
+                    group = CreateMovieDetailsGroup(selectedItem)
                 else if selectedItemType = "Playlist"
                     group = CreatePlaylistView(selectedItem.json)
                 else if selectedItemType = "Audio"
@@ -397,6 +440,8 @@ sub Main (args as dynamic) as void
                 group = CreateArtistView(node.json)
             else if node.type = "MusicAlbum"
                 group = CreateAlbumView(node.json)
+            else if node.type = "MusicVideo"
+                group = CreateMovieDetailsGroup(node)
             else if node.type = "Audio"
                 m.global.queueManager.callFunc("clear")
                 m.global.queueManager.callFunc("resetShuffle")
@@ -621,6 +666,7 @@ sub Main (args as dynamic) as void
                 '   - "low" means that the general memory is below acceptable levels but not critical
                 '   - "critical" means that general memory are at dangerously low level and that the OS may force terminate the application
                 print "event.generalMemoryLevel = ", event.generalMemoryLevel
+                session.Update("memoreyLevel", event.generalMemoryLevel)
             else if isValid(event.audioCodecCapabilityChanged)
                 ' The audio codec capability has changed if true.
                 print "event.audioCodecCapabilityChanged = ", event.audioCodecCapabilityChanged

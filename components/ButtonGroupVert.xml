@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="ButtonGroupVert" extends="ButtonGroup">
+  <interface>
+    <field id="escape" type="string" alwaysNotify="true" />
+    <field id="selected" type="integer" alwaysNotify="true" />
+  </interface>
+</component>

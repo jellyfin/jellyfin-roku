@@ -90,10 +90,13 @@ end sub
 '
 ' Runs Next Episode button animation and sets focus to button
 sub showNextEpisodeButton()
-    if m.global.session.user.configuration.EnableNextEpisodeAutoPlay and not m.nextEpisodeButton.visible
+    if m.top.content.contenttype <> 4 then return ' only display when content is type "Episode"
+    if m.nextupbuttonseconds = 0 then return ' is the button disabled?
+
+    if m.nextEpisodeButton.opacity = 0 and m.global.session.user.configuration.EnableNextEpisodeAutoPlay
+        m.nextEpisodeButton.visible = true
         m.showNextEpisodeButtonAnimation.control = "start"
         m.nextEpisodeButton.setFocus(true)
-        m.nextEpisodeButton.visible = true
     end if
 end sub
 
@@ -117,13 +120,22 @@ end sub
 
 ' Checks if we need to display the Next Episode button
 sub checkTimeToDisplayNextEpisode()
-    if m.top.content.contenttype <> 4 then return
-    if m.nextupbuttonseconds = 0 then return
+    if m.top.content.contenttype <> 4 then return ' only display when content is type "Episode"
+    if m.nextupbuttonseconds = 0 then return ' is the button disabled?
 
-    if int(m.top.position) >= (m.top.duration - m.nextupbuttonseconds)
-        showNextEpisodeButton()
-        updateCount()
-        return
+    if isValid(m.top.duration) and isValid(m.top.position)
+        nextEpisodeCountdown = Int(m.top.duration - m.top.position)
+
+        if nextEpisodeCountdown < 0 and m.nextEpisodeButton.opacity = 0.9
+            hideNextEpisodeButton()
+            return
+        else if nextEpisodeCountdown > 1 and int(m.top.position) >= (m.top.duration - m.nextupbuttonseconds - 1)
+            updateCount()
+            if m.nextEpisodeButton.opacity = 0
+                showNextEpisodeButton()
+            end if
+            return
+        end if
     end if
 
     if m.nextEpisodeButton.visible or m.nextEpisodeButton.hasFocus()
@@ -266,8 +278,8 @@ function onKeyEvent(key as string, press as boolean) as boolean
         return true
     else
         'Hide Next Episode Button
-        if m.nextEpisodeButton.visible or m.nextEpisodeButton.hasFocus()
-            m.nextEpisodeButton.visible = false
+        if m.nextEpisodeButton.opacity > 0 or m.nextEpisodeButton.hasFocus()
+            m.nextEpisodeButton.opacity = 0
             m.nextEpisodeButton.setFocus(false)
             m.top.setFocus(true)
         end if

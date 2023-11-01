@@ -119,7 +119,6 @@ function LoginFlow()
                     else
                         print "Success! Auth token is still valid"
                         session.user.Login(currentUser, true)
-                        session.user.LoadUserPreferences()
                         LoadUserAbilities()
                         return true
                     end if
@@ -132,7 +131,6 @@ function LoginFlow()
                 if isValid(userData)
                     print "login success!"
                     session.user.Login(userData, true)
-                    session.user.LoadUserPreferences()
                     LoadUserAbilities()
                     return true
                 else
@@ -175,7 +173,6 @@ function LoginFlow()
                 if isValid(userData)
                     print "login success!"
                     session.user.Login(userData, true)
-                    session.user.LoadUserPreferences()
                     LoadUserAbilities()
                     return true
                 else
@@ -201,7 +198,6 @@ function LoginFlow()
         goto start_login
     end if
 
-    session.user.LoadUserPreferences()
     LoadUserAbilities()
     m.global.sceneManager.callFunc("clearScenes")
 
@@ -310,13 +306,19 @@ function CreateServerGroup()
                 dialog.title = tr("Connecting to Server")
                 m.scene.dialog = dialog
 
-                serverUrl = standardize_jellyfin_url(screen.serverUrl)
+                serverUrl = inferServerUrl(screen.serverUrl)
 
                 isConnected = session.server.UpdateURL(serverUrl)
                 serverInfoResult = invalid
                 if isConnected
                     set_setting("server", serverUrl)
                     serverInfoResult = ServerInfo()
+                    'If this is a different server from what we know, reset username/password setting
+                    if m.global.session.server.url <> serverUrl
+                        set_setting("username", "")
+                        set_setting("password", "")
+                    end if
+                    set_setting("server", serverUrl)
                 end if
                 dialog.close = true
 
@@ -327,6 +329,7 @@ function CreateServerGroup()
                     screen.errorMessage = tr("Server not found, is it online?")
                     SignOut(false)
                 else
+
                     if isValid(serverInfoResult.Error) and serverInfoResult.Error
                         ' If server redirected received, update the URL
                         if isValid(serverInfoResult.UpdatedUrl)
@@ -602,6 +605,7 @@ function CreateMovieDetailsGroup(movie as object) as dynamic
     end if
     ' start building MovieDetails view
     group = CreateObject("roSGNode", "MovieDetails")
+    group.observeField("quickPlayNode", m.port)
     group.overhangTitle = movie.title
     group.optionsAvailable = false
     group.trailerAvailable = false
@@ -655,6 +659,7 @@ function CreateSeriesDetailsGroup(seriesID as string) as dynamic
     group.seasonData = seasonData
     ' watch for button presses
     group.observeField("seasonSelected", m.port)
+    group.observeField("quickPlayNode", m.port)
     ' setup and load series extras
     extras = group.findNode("extrasGrid")
     extras.observeField("selectedItem", m.port)
@@ -707,6 +712,7 @@ function CreateArtistView(artist as object) as dynamic
         group.observeField("appearsOnSelected", m.port)
     end if
 
+    group.observeField("quickPlayNode", m.port)
     m.global.sceneManager.callFunc("pushScene", group)
 
     return group
@@ -825,6 +831,7 @@ function CreateItemGrid(libraryItem as object) as dynamic
     group.parentItem = libraryItem
     group.optionsAvailable = true
     group.observeField("selectedItem", m.port)
+    group.observeField("quickPlayNode", m.port)
     return group
 end function
 
@@ -836,6 +843,7 @@ function CreateMovieLibraryView(libraryItem as object) as dynamic
     group.parentItem = libraryItem
     group.optionsAvailable = true
     group.observeField("selectedItem", m.port)
+    group.observeField("quickPlayNode", m.port)
     return group
 end function
 
@@ -847,12 +855,14 @@ function CreateMusicLibraryView(libraryItem as object) as dynamic
     group.parentItem = libraryItem
     group.optionsAvailable = true
     group.observeField("selectedItem", m.port)
+    group.observeField("quickPlayNode", m.port)
     return group
 end function
 
 function CreateSearchPage()
     ' Search + Results Page
     group = CreateObject("roSGNode", "searchResults")
+    group.observeField("quickPlayNode", m.port)
     options = group.findNode("searchSelect")
     options.observeField("itemSelected", m.port)
 
