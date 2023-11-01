@@ -5,8 +5,7 @@
   "dependencies": {
     "@rokucommunity/bslib": "0.1.1",
     "brighterscript-formatter": "1.6.34",
-    "log": "npm:roku-log@0.11.1",
-    "sob": "npm:slide-out-button@1.0.1"
+    "log": "npm:roku-log@0.11.1"
   },
   "devDependencies": {
     "@rokucommunity/bslint": "0.8.11",
