@@ -23,8 +23,10 @@ sub loadLibraries()
     m.top.findNode("homeRows").callFunc("loadLibraries")
 end sub
 
+' JFScreen hook that gets ran as needed.
+' Used to update the foces, the state of the data, and tells the server about the device profile
 sub OnScreenShown()
-    if m.top.lastFocus <> invalid
+    if isValid(m.top.lastFocus)
         m.top.lastFocus.setFocus(true)
     else
         m.top.setFocus(true)
@@ -42,6 +44,8 @@ sub OnScreenShown()
     end if
 end sub
 
+' Triggered by m.postTask after completing a post.
+' Empty the task data when finished.
 sub postFinished()
     m.postTask.unobserveField("responseCode")
     m.postTask.callFunc("empty")

@@ -136,7 +136,7 @@ end function
 sub clearScenes()
     if m.content <> invalid then m.content.removeChildrenIndex(m.content.getChildCount(), 0)
     for each group in m.groups
-        if group.subtype() = "JFScreen"
+        if LCase(group.subtype()) = "jfscreen"
             group.callFunc("OnScreenHidden")
         end if
     end for

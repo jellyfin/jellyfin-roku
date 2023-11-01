@@ -205,15 +205,18 @@ sub radioSettingChanged()
     set_user_setting(selectedSetting.settingName, m.radioSetting.content.getChild(m.radioSetting.checkedItem).id)
 end sub
 
+' JFScreen hook that gets ran as needed.
+' Assumes settings were changed and they affect the device profile.
+' Posts a new device profile to the server using the task thread
 sub OnScreenHidden()
-    ' some settings affect the device profile.
-    ' assume there were changes and always post device profile when leaving the settings screen
     m.postTask.arrayData = getDeviceCapabilities()
     m.postTask.apiUrl = "/Sessions/Capabilities/Full"
     m.postTask.control = "RUN"
     m.postTask.observeField("responseCode", "postFinished")
 end sub
 
+' Triggered by m.postTask after completing a post.
+' Empty the task data when finished.
 sub postFinished()
     m.postTask.unobserveField("responseCode")
     m.postTask.callFunc("empty")
