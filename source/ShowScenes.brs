@@ -306,13 +306,19 @@ function CreateServerGroup()
                 dialog.title = tr("Connecting to Server")
                 m.scene.dialog = dialog
 
-                serverUrl = standardize_jellyfin_url(screen.serverUrl)
+                serverUrl = inferServerUrl(screen.serverUrl)
 
                 isConnected = session.server.UpdateURL(serverUrl)
                 serverInfoResult = invalid
                 if isConnected
                     set_setting("server", serverUrl)
                     serverInfoResult = ServerInfo()
+                    'If this is a different server from what we know, reset username/password setting
+                    if m.global.session.server.url <> serverUrl
+                        set_setting("username", "")
+                        set_setting("password", "")
+                    end if
+                    set_setting("server", serverUrl)
                 end if
                 dialog.close = true
 
@@ -323,6 +329,7 @@ function CreateServerGroup()
                     screen.errorMessage = tr("Server not found, is it online?")
                     SignOut(false)
                 else
+
                     if isValid(serverInfoResult.Error) and serverInfoResult.Error
                         ' If server redirected received, update the URL
                         if isValid(serverInfoResult.UpdatedUrl)
@@ -855,6 +862,7 @@ end function
 function CreateSearchPage()
     ' Search + Results Page
     group = CreateObject("roSGNode", "searchResults")
+    group.observeField("quickPlayNode", m.port)
     options = group.findNode("searchSelect")
     options.observeField("itemSelected", m.port)
 

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<component name="IntegerKeyboard" extends="DynamicCustomKeyboard">
+    <interface>
+        <function name="keySelected" />
+        <field id="submit" type="bool" alwaysNotify="true" />
+        <field id="escape" type="string" alwaysNotify="true" />
+    </interface>
+</component>

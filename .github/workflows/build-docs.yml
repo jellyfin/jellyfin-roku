@@ -7,12 +7,11 @@ on:
 
 jobs:
   docs:
+    if: github.repository == 'jellyfin/jellyfin-roku'
     runs-on: ubuntu-latest
-
     permissions:
       # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
       contents: write
-
     steps:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
         with:

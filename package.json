@@ -4,9 +4,7 @@
   "description": "Roku app for Jellyfin media server",
   "dependencies": {
     "@rokucommunity/bslib": "0.1.1",
-    "bgv": "npm:button-group-vert@1.0.2",
     "brighterscript-formatter": "1.6.34",
-    "intKeyboard": "npm:integer-keyboard@1.0.12",
     "log": "npm:roku-log@0.11.1",
     "sob": "npm:slide-out-button@1.0.1"
   },
@@ -34,7 +32,8 @@
     "check-formatting": "npx bsfmt --check",
     "docs": "npx rimraf docs/api && jsdoc -c jsdoc.json -d docs/api --readme docs/api-docs-readme.md",
     "format": "npx bsfmt --write",
-    "lint": "bslint",
+    "lint": "npm run check-formatting && npm run lint-bs && npm run validate && npm run lint-json && npm run lint-markdown && npm run lint-spelling",
+    "lint-bs": "bslint",
     "lint-json": "jshint --extra-ext .json --verbose --exclude node_modules,scripts,docs ./",
     "lint-markdown": "markdownlint-cli2 \"**/*.md\" \"#node_modules\"",
     "lint-spelling": "spellchecker -d dictionary.txt --files \"**/*.md\" \"**/.*/**/*.md\" \"!node_modules/**/*.md\"",

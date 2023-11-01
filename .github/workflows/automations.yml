@@ -12,6 +12,7 @@ on:
 
 jobs:
   project:
+    if: github.repository == 'jellyfin/jellyfin-roku'
     name: Project board 📊
     runs-on: ubuntu-latest
     steps:
@@ -23,6 +24,7 @@ jobs:
           column: In progress
           repo-token: ${{ secrets.JF_BOT_TOKEN }}
   label:
+    if: github.repository == 'jellyfin/jellyfin-roku'
     name: Labeling 🏷️
     runs-on: ubuntu-latest
     steps:
