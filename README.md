@@ -3,6 +3,7 @@
 
 [![Logo Banner](https://raw.githubusercontent.com/jellyfin/jellyfin-ux/master/branding/SVG/banner-logo-solid.svg?sanitize=true "Jellyfin")](https://jellyfin.org)
 
+[![Code Documentation](https://img.shields.io/badge/Code%20Documentation-purple)](https://jellyfin.github.io/jellyfin-roku/)
 [![Build Status](https://img.shields.io/github/actions/workflow/status/jellyfin/jellyfin-roku/build-dev.yml?logo=github&branch=unstable "Build Status")](https://github.com/jellyfin/jellyfin-roku/actions/workflows/build-dev.yml?query=branch%3Aunstable)
 [![Current Release](https://img.shields.io/github/release/jellyfin/jellyfin-roku.svg?logo=github "Current Release")](https://github.com/jellyfin/jellyfin-roku/releases)
 [![Translation Status](https://translate.jellyfin.org/widgets/jellyfin/-/jellyfin-roku/svg-badge.svg "Translation Status")](https://translate.jellyfin.org/projects/jellyfin/jellyfin-roku/?utm_source=widget)
