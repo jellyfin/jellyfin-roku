@@ -293,7 +293,7 @@ sub populateChapterMenu()
 
     if not isValidAndNotEmpty(m.chapters)
         chapterItem = CreateObject("roSGNode", "ContentNode")
-        chapterItem.title = "No Chapter Data Found"
+        chapterItem.title = tr("No Chapter Data Found")
         chapterItem.playstart = m.playbackEnum.null
         m.chapterContent.appendChild(chapterItem)
         return
