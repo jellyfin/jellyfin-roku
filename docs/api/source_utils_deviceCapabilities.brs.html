@@ -131,739 +131,38 @@ sub PostDeviceProfile()
 end sub
 
 function getDeviceProfile() as object
-    playMpeg2 = m.global.session.user.settings["playback.mpeg2"]
-    di = CreateObject("roDeviceInfo")
-
-    ' TRANSCODING
-    ' use strings to preserve order
-    mp4AudioCodecs = "aac"
-    mp4VideoCodecs = "h264"
-    tsAudioCodecs = "aac"
-    tsVideoCodecs = "h264"
-    ' profileSupport["mp4"]["hevc"]["profile name"]["profile level"]
-    profileSupport = {
-        mp4: {},
-        ts: {}
-    }
-
-    ' does the users setup support surround sound?
-    maxAudioChannels = "2" ' jellyfin expects this as a string
-    ' in order of preference from left to right
-    audioCodecs = ["eac3", "ac3", "dts", "mp3", "vorbis", "opus", "flac", "alac", "ac4", "pcm", "wma", "wmapro"]
-    surroundSoundCodecs = ["eac3", "ac3", "dts"]
-    if m.global.session.user.settings["playback.forceDTS"] = true
-        surroundSoundCodecs = ["dts", "eac3", "ac3"]
-    end if
-
-    preferredSurroundSoundCodec = invalid
-    if di.GetAudioOutputChannel() = "5.1 surround"
-        maxAudioChannels = "6"
-        for each codec in surroundSoundCodecs
-            if di.CanDecodeAudio({ Codec: codec, ChCnt: 6 }).Result
-                preferredSurroundSoundCodec = codec
-                if di.CanDecodeAudio({ Codec: codec, ChCnt: 8 }).Result
-                    maxAudioChannels = "8"
-                end if
-                exit for
-            end if
-        end for
-    end if
-
-    ' VIDEO CODECS
-    '
-    ' AVC / h264 / MPEG4 AVC
-    h264Profiles = ["main", "high"]
-    h264Levels = ["4.1", "4.2"]
-    for each container in profileSupport
-        for each profile in h264Profiles
-            for each level in h264Levels
-                if di.CanDecodeVideo({ Codec: "h264", Container: container, Profile: profile, Level: level }).Result
-                    profileSupport[container] = updateProfileArray(profileSupport[container], "h264", profile, level)
-                end if
-                if di.CanDecodeVideo({ Codec: "mpeg4 avc", Container: container, Profile: profile, Level: level }).Result
-                    profileSupport[container] = updateProfileArray(profileSupport[container], "mpeg4 avc", profile, level)
-                    if container = "mp4"
-                        ' check for codec string before adding it
-                        if mp4VideoCodecs.Instr(0, ",mpeg4 avc") = -1
-                            mp4VideoCodecs = mp4VideoCodecs + ",mpeg4 avc"
-                        end if
-                    else if container = "ts"
-                        ' check for codec string before adding it
-                        if tsVideoCodecs.Instr(0, ",mpeg4 avc") = -1
-                            tsVideoCodecs = tsVideoCodecs + ",mpeg4 avc"
-                        end if
-                    end if
-                end if
-            end for
-        end for
-    end for
-
-    addHevc = false
-    if m.global.session.user.settings["playback.compatibility.disablehevc"] = false
-        ' HEVC / h265
-        hevcProfiles = ["main", "main 10"]
-        hevcLevels = ["4.1", "5.0", "5.1"]
-        for each container in profileSupport
-            for each profile in hevcProfiles
-                for each level in hevcLevels
-                    if di.CanDecodeVideo({ Codec: "hevc", Container: container, Profile: profile, Level: level }).Result
-                        addHevc = true
-                        profileSupport[container] = updateProfileArray(profileSupport[container], "hevc", profile, level)
-                        profileSupport[container] = updateProfileArray(profileSupport[container], "h265", profile, level)
-                        if container = "mp4"
-                            ' check for codec string before adding it
-                            if mp4VideoCodecs.Instr(0, "h265,") = -1
-                                mp4VideoCodecs = "h265," + mp4VideoCodecs
-                            end if
-                            if mp4VideoCodecs.Instr(0, "hevc,") = -1
-                                mp4VideoCodecs = "hevc," + mp4VideoCodecs
-                            end if
-                        else if container = "ts"
-                            ' check for codec string before adding it
-                            if tsVideoCodecs.Instr(0, "h265,") = -1
-                                tsVideoCodecs = "h265," + tsVideoCodecs
-                            end if
-                            if tsVideoCodecs.Instr(0, "hevc,") = -1
-                                tsVideoCodecs = "hevc," + tsVideoCodecs
-                            end if
-                        end if
-                    end if
-                end for
-            end for
-        end for
-    end if
-
-    ' VP9
-    vp9Profiles = ["profile 0", "profile 2"]
-    addVp9 = false
-    for each container in profileSupport
-        for each profile in vp9Profiles
-            if di.CanDecodeAudio({ Codec: "vp9", Container: container, Profile: profile }).Result
-                addVp9 = true
-                profileSupport[container] = updateProfileArray(profileSupport[container], "vp9", profile)
-
-                if container = "mp4"
-                    ' check for codec string before adding it
-                    if mp4VideoCodecs.Instr(0, ",vp9") = -1
-                        mp4VideoCodecs = mp4VideoCodecs + ",vp9"
-                    end if
-                else if container = "ts"
-                    ' check for codec string before adding it
-                    if tsVideoCodecs.Instr(0, ",vp9") = -1
-                        tsVideoCodecs = tsVideoCodecs + ",vp9"
-                    end if
-                end if
-            end if
-        end for
-    end for
-
-    ' MPEG2
-    ' mpeg2 uses levels with no profiles. see https://developer.roku.com/en-ca/docs/references/brightscript/interfaces/ifdeviceinfo.md#candecodevideovideo_format-as-object-as-object
-    ' NOTE: the mpeg2 levels are being saved in the profileSupport array as if they were profiles
-    mpeg2Levels = ["main", "high"]
-    addMpeg2 = false
-    if playMpeg2
-        for each container in profileSupport
-            for each level in mpeg2Levels
-                if di.CanDecodeVideo({ Codec: "mpeg2", Container: container, Level: level }).Result
-                    addMpeg2 = true
-                    profileSupport[container] = updateProfileArray(profileSupport[container], "mpeg2", level)
-                    if container = "mp4"
-                        ' check for codec string before adding it
-                        if mp4VideoCodecs.Instr(0, ",mpeg2video") = -1
-                            mp4VideoCodecs = mp4VideoCodecs + ",mpeg2video"
-                        end if
-                    else if container = "ts"
-                        ' check for codec string before adding it
-                        if tsVideoCodecs.Instr(0, ",mpeg2video") = -1
-                            tsVideoCodecs = tsVideoCodecs + ",mpeg2video"
-                        end if
-                    end if
-                end if
-            end for
-        end for
-    end if
-
-    ' AV1
-    addAv1 = di.CanDecodeVideo({ Codec: "av1" }).Result
-    av1Profiles = ["main", "main 10"]
-    av1Levels = ["4.1", "5.0", "5.1"]
-
-    if addAv1
-        for each container in profileSupport
-            for each profile in av1Profiles
-                for each level in av1Levels
-                    ' av1 doesn't support checking for container
-                    if di.CanDecodeVideo({ Codec: "av1", Profile: profile, Level: level }).Result
-                        profileSupport[container] = updateProfileArray(profileSupport[container], "av1", profile, level)
-                        if container = "mp4"
-                            ' check for codec string before adding it
-                            if mp4VideoCodecs.Instr(0, ",av1") = -1
-                                mp4VideoCodecs = mp4VideoCodecs + ",av1"
-                            end if
-                        else if container = "ts"
-                            ' check for codec string before adding it
-                            if tsVideoCodecs.Instr(0, ",av1") = -1
-                                tsVideoCodecs = tsVideoCodecs + ",av1"
-                            end if
-                        end if
-                    end if
-                end for
-            end for
-        end for
-    end if
-
-    ' AUDIO CODECS
-    for each container in profileSupport
-        for each codec in audioCodecs
-            if di.CanDecodeAudio({ Codec: codec, Container: container }).result
-                if container = "mp4"
-                    mp4AudioCodecs = mp4AudioCodecs + "," + codec
-                else if container = "ts"
-                    tsAudioCodecs = tsAudioCodecs + "," + codec
-                end if
-            end if
-        end for
-    end for
-
-    ' HDR SUPPORT
-    h264VideoRangeTypes = "SDR"
-    hevcVideoRangeTypes = "SDR"
-    vp9VideoRangeTypes = "SDR"
-    av1VideoRangeTypes = "SDR"
-
-    dp = di.GetDisplayProperties()
-    if dp.Hdr10
-        hevcVideoRangeTypes = hevcVideoRangeTypes + "|HDR10"
-        vp9VideoRangeTypes = vp9VideoRangeTypes + "|HDR10"
-        av1VideoRangeTypes = av1VideoRangeTypes + "|HDR10"
-    end if
-    if dp.Hdr10Plus
-        av1VideoRangeTypes = av1VideoRangeTypes + "|HDR10+"
-    end if
-    if dp.HLG
-        hevcVideoRangeTypes = hevcVideoRangeTypes + "|HLG"
-        vp9VideoRangeTypes = vp9VideoRangeTypes + "|HLG"
-        av1VideoRangeTypes = av1VideoRangeTypes + "|HLG"
-    end if
-    if dp.DolbyVision
-        h264VideoRangeTypes = h264VideoRangeTypes + "|DOVI"
-        hevcVideoRangeTypes = hevcVideoRangeTypes + "|DOVI"
-        'vp9VideoRangeTypes = vp9VideoRangeTypes + ",DOVI" no evidence that vp9 can hold DOVI
-        av1VideoRangeTypes = av1VideoRangeTypes + "|DOVI"
-    end if
-
-    DirectPlayProfile = GetDirectPlayProfiles()
-
-    deviceProfile = {
+    globalDevice = m.global.device
+    return {
         "Name": "Official Roku Client",
-        "Id": m.global.device.id,
+        "Id": globalDevice.id,
         "Identification": {
-            "FriendlyName": m.global.device.friendlyName,
-            "ModelNumber": m.global.device.model,
+            "FriendlyName": globalDevice.friendlyName,
+            "ModelNumber": globalDevice.model,
             "SerialNumber": "string",
-            "ModelName": m.global.device.name,
-            "ModelDescription": "Type: " + m.global.device.modelType,
-            "Manufacturer": m.global.device.modelDetails.VendorName
+            "ModelName": globalDevice.name,
+            "ModelDescription": "Type: " + globalDevice.modelType,
+            "Manufacturer": globalDevice.modelDetails.VendorName
         },
-        "FriendlyName": m.global.device.friendlyName,
-        "Manufacturer": m.global.device.modelDetails.VendorName,
-        "ModelName": m.global.device.name,
-        "ModelDescription": "Type: " + m.global.device.modelType,
-        "ModelNumber": m.global.device.model,
-        "SerialNumber": m.global.device.serial,
+        "FriendlyName": globalDevice.friendlyName,
+        "Manufacturer": globalDevice.modelDetails.VendorName,
+        "ModelName": globalDevice.name,
+        "ModelDescription": "Type: " + globalDevice.modelType,
+        "ModelNumber": globalDevice.model,
+        "SerialNumber": globalDevice.serial,
         "MaxStreamingBitrate": 120000000,
         "MaxStaticBitrate": 100000000,
         "MusicStreamingTranscodingBitrate": 192000,
-        "DirectPlayProfiles": DirectPlayProfile,
-        "TranscodingProfiles": [],
-        "ContainerProfiles": [],
-        "CodecProfiles": [
-            {
-                "Type": "VideoAudio",
-                "Conditions": [
-                    {
-                        "Condition": "LessThanEqual",
-                        "Property": "AudioChannels",
-                        "Value": maxAudioChannels,
-                        "IsRequired": false
-                    }
-                ]
-            }
-        ],
-        "SubtitleProfiles": [
-            {
-                "Format": "vtt",
-                "Method": "External"
-            },
-            {
-                "Format": "srt",
-                "Method": "External"
-            },
-            {
-                "Format": "ttml",
-                "Method": "External"
-            },
-            {
-                "Format": "sub",
-                "Method": "External"
-            }
-        ]
+        "DirectPlayProfiles": GetDirectPlayProfiles(),
+        "TranscodingProfiles": getTranscodingProfiles(),
+        "ContainerProfiles": getContainerProfiles(),
+        "CodecProfiles": getCodecProfiles(),
+        "SubtitleProfiles": getSubtitleProfiles()
     }
-
-    ' build TranscodingProfiles
-    ' max resolution
-    maxResSetting = m.global.session.user.settings["playback.resolution.max"]
-    maxResMode = m.global.session.user.settings["playback.resolution.mode"]
-    maxVideoHeight = maxResSetting
-    maxVideoWidth = invalid
-
-    if maxResSetting = "auto"
-        maxVideoHeight = m.global.device.videoHeight
-        maxVideoWidth = m.global.device.videoWidth
-    else if maxResSetting &lt;> "off"
-        if maxResSetting = "360"
-            maxVideoWidth = "480"
-        else if maxResSetting = "480"
-            maxVideoWidth = "640"
-        else if maxResSetting = "720"
-            maxVideoWidth = "1280"
-        else if maxResSetting = "1080"
-            maxVideoWidth = "1920"
-        else if maxResSetting = "2160"
-            maxVideoWidth = "3840"
-        else if maxResSetting = "4320"
-            maxVideoWidth = "7680"
-        end if
-    end if
-
-    maxVideoHeightArray = {
-        "Condition": "LessThanEqual",
-        "Property": "Width",
-        "Value": maxVideoWidth,
-        "IsRequired": true
-    }
-    maxVideoWidthArray = {
-        "Condition": "LessThanEqual",
-        "Property": "Height",
-        "Value": maxVideoHeight,
-        "IsRequired": true
-    }
-    '
-    ' add mp3 to TranscodingProfile for music
-    deviceProfile.TranscodingProfiles.push({
-        "Container": "mp3",
-        "Type": "Audio",
-        "AudioCodec": "mp3",
-        "Context": "Streaming",
-        "Protocol": "http",
-        "MaxAudioChannels": maxAudioChannels
-    })
-    deviceProfile.TranscodingProfiles.push({
-        "Container": "mp3",
-        "Type": "Audio",
-        "AudioCodec": "mp3",
-        "Context": "Static",
-        "Protocol": "http",
-        "MaxAudioChannels": maxAudioChannels
-    })
-    ' add aac to TranscodingProfile for stereo audio
-    ' NOTE: multichannel aac is not supported. only decode to stereo on some devices
-    deviceProfile.TranscodingProfiles.push({
-        "Container": "ts",
-        "Type": "Audio",
-        "AudioCodec": "aac",
-        "Context": "Streaming",
-        "Protocol": "http",
-        "MaxAudioChannels": "2"
-    })
-    deviceProfile.TranscodingProfiles.push({
-        "Container": "ts",
-        "Type": "Audio",
-        "AudioCodec": "aac",
-        "Context": "Static",
-        "Protocol": "http",
-        "MaxAudioChannels": "2"
-    })
-
-    tsArray = {
-        "Container": "ts",
-        "Context": "Streaming",
-        "Protocol": "hls",
-        "Type": "Video",
-        "AudioCodec": tsAudioCodecs,
-        "VideoCodec": tsVideoCodecs,
-        "MaxAudioChannels": maxAudioChannels,
-        "MinSegments": 1,
-        "BreakOnNonKeyFrames": false
-    }
-    mp4Array = {
-        "Container": "mp4",
-        "Context": "Streaming",
-        "Protocol": "hls",
-        "Type": "Video",
-        "AudioCodec": mp4AudioCodecs,
-        "VideoCodec": mp4VideoCodecs,
-        "MaxAudioChannels": maxAudioChannels,
-        "MinSegments": 1,
-        "BreakOnNonKeyFrames": false
-    }
-
-    ' apply max res to transcoding profile
-    if maxResSetting &lt;> "off"
-        tsArray.Conditions = [maxVideoHeightArray, maxVideoWidthArray]
-        mp4Array.Conditions = [maxVideoHeightArray, maxVideoWidthArray]
-    end if
-
-    ' surround sound
-    if preferredSurroundSoundCodec &lt;> invalid
-        ' add preferred surround sound codec to TranscodingProfile
-        deviceProfile.TranscodingProfiles.push({
-            "Container": preferredSurroundSoundCodec,
-            "Type": "Audio",
-            "AudioCodec": preferredSurroundSoundCodec,
-            "Context": "Streaming",
-            "Protocol": "http",
-            "MaxAudioChannels": maxAudioChannels
-        })
-        deviceProfile.TranscodingProfiles.push({
-            "Container": preferredSurroundSoundCodec,
-            "Type": "Audio",
-            "AudioCodec": preferredSurroundSoundCodec,
-            "Context": "Static",
-            "Protocol": "http",
-            "MaxAudioChannels": maxAudioChannels
-        })
-
-        ' move preferred codec to front of AudioCodec string
-        tsArray.AudioCodec = setPreferredCodec(tsArray.AudioCodec, preferredSurroundSoundCodec)
-        mp4Array.AudioCodec = setPreferredCodec(mp4Array.AudioCodec, preferredSurroundSoundCodec)
-    end if
-
-    deviceProfile.TranscodingProfiles.push(tsArray)
-    deviceProfile.TranscodingProfiles.push(mp4Array)
-
-    ' Build CodecProfiles
-
-    ' H264
-    h264Mp4LevelSupported = 0.0
-    h264TsLevelSupported = 0.0
-    h264AssProfiles = {}
-    h264LevelString = invalid
-    for each container in profileSupport
-        for each profile in profileSupport[container]["h264"]
-            h264AssProfiles.AddReplace(profile, true)
-            for each level in profileSupport[container]["h264"][profile]
-                levelFloat = level.ToFloat()
-                if container = "mp4"
-                    if levelFloat > h264Mp4LevelSupported
-                        h264Mp4LevelSupported = levelFloat
-                    end if
-                else if container = "ts"
-                    if levelFloat > h264TsLevelSupported
-                        h264TsLevelSupported = levelFloat
-                    end if
-                end if
-            end for
-        end for
-    end for
-
-    h264LevelString = h264Mp4LevelSupported
-    if h264TsLevelSupported > h264Mp4LevelSupported
-        h264LevelString = h264TsLevelSupported
-    end if
-    ' convert to string
-    h264LevelString = h264LevelString.ToStr()
-    ' remove decimals
-    h264LevelString = removeDecimals(h264LevelString)
-
-    codecProfileArray = {
-        "Type": "Video",
-        "Codec": "h264",
-        "Conditions": [
-            {
-                "Condition": "NotEquals",
-                "Property": "IsAnamorphic",
-                "Value": "true",
-                "IsRequired": false
-            },
-            {
-                "Condition": "EqualsAny",
-                "Property": "VideoProfile",
-                "Value": h264AssProfiles.Keys().join("|"),
-                "IsRequired": false
-            },
-            {
-                "Condition": "EqualsAny",
-                "Property": "VideoRangeType",
-                "Value": h264VideoRangeTypes,
-                "IsRequired": false
-            }
-
-        ]
-    }
-    ' set max resolution
-    if maxResMode = "everything" and maxResSetting &lt;> "off"
-        codecProfileArray.Conditions.push(maxVideoHeightArray)
-        codecProfileArray.Conditions.push(maxVideoWidthArray)
-    end if
-    ' check user setting before adding video level restrictions
-    if not m.global.session.user.settings["playback.tryDirect.h264ProfileLevel"]
-        codecProfileArray.Conditions.push({
-            "Condition": "LessThanEqual",
-            "Property": "VideoLevel",
-            "Value": h264LevelString,
-            "IsRequired": false
-        })
-    end if
-
-    ' set bitrate restrictions based on user settings
-    bitRateArray = GetBitRateLimit("h264")
-    if bitRateArray.count() > 0
-        codecProfileArray.Conditions.push(bitRateArray)
-    end if
-
-    deviceProfile.CodecProfiles.push(codecProfileArray)
-
-    ' MPEG2
-    ' NOTE: the mpeg2 levels are being saved in the profileSupport array as if they were profiles
-    if addMpeg2
-        mpeg2Levels = []
-        for each container in profileSupport
-            for each level in profileSupport[container]["mpeg2"]
-                if not arrayHasValue(mpeg2Levels, level)
-                    mpeg2Levels.push(level)
-                end if
-            end for
-        end for
-
-        codecProfileArray = {
-            "Type": "Video",
-            "Codec": "mpeg2",
-            "Conditions": [
-                {
-                    "Condition": "EqualsAny",
-                    "Property": "VideoLevel",
-                    "Value": mpeg2Levels.join("|"),
-                    "IsRequired": false
-                }
-            ]
-        }
-
-        ' set max resolution
-        if maxResMode = "everything" and maxResSetting &lt;> "off"
-            codecProfileArray.Conditions.push(maxVideoHeightArray)
-            codecProfileArray.Conditions.push(maxVideoWidthArray)
-        end if
-
-        ' set bitrate restrictions based on user settings
-        bitRateArray = GetBitRateLimit("mpeg2")
-        if bitRateArray.count() > 0
-            codecProfileArray.Conditions.push(bitRateArray)
-        end if
-
-        deviceProfile.CodecProfiles.push(codecProfileArray)
-    end if
-
-    if addAv1
-        av1Mp4LevelSupported = 0.0
-        av1TsLevelSupported = 0.0
-        av1AssProfiles = {}
-        av1HighestLevel = 0.0
-        for each container in profileSupport
-            for each profile in profileSupport[container]["av1"]
-                av1AssProfiles.AddReplace(profile, true)
-                for each level in profileSupport[container]["av1"][profile]
-                    levelFloat = level.ToFloat()
-                    if container = "mp4"
-                        if levelFloat > av1Mp4LevelSupported
-                            av1Mp4LevelSupported = levelFloat
-                        end if
-                    else if container = "ts"
-                        if levelFloat > av1TsLevelSupported
-                            av1TsLevelSupported = levelFloat
-                        end if
-                    end if
-                end for
-            end for
-        end for
-
-        av1HighestLevel = av1Mp4LevelSupported
-        if av1TsLevelSupported > av1Mp4LevelSupported
-            av1HighestLevel = av1TsLevelSupported
-        end if
-
-        codecProfileArray = {
-            "Type": "Video",
-            "Codec": "av1",
-            "Conditions": [
-                {
-                    "Condition": "EqualsAny",
-                    "Property": "VideoProfile",
-                    "Value": av1AssProfiles.Keys().join("|"),
-                    "IsRequired": false
-                },
-                {
-                    "Condition": "EqualsAny",
-                    "Property": "VideoRangeType",
-                    "Value": av1VideoRangeTypes,
-                    "IsRequired": false
-                },
-                {
-                    "Condition": "LessThanEqual",
-                    "Property": "VideoLevel",
-                    "Value": (120 * av1HighestLevel).ToStr(),
-                    "IsRequired": false
-                }
-            ]
-        }
-
-        ' set max resolution
-        if maxResMode = "everything" and maxResSetting &lt;> "off"
-            codecProfileArray.Conditions.push(maxVideoHeightArray)
-            codecProfileArray.Conditions.push(maxVideoWidthArray)
-        end if
-
-        ' set bitrate restrictions based on user settings
-        bitRateArray = GetBitRateLimit("av1")
-        if bitRateArray.count() > 0
-            codecProfileArray.Conditions.push(bitRateArray)
-        end if
-
-        deviceProfile.CodecProfiles.push(codecProfileArray)
-    end if
-
-    if addHevc
-        hevcMp4LevelSupported = 0.0
-        hevcTsLevelSupported = 0.0
-        hevcAssProfiles = {}
-        hevcHighestLevel = 0.0
-        for each container in profileSupport
-            for each profile in profileSupport[container]["hevc"]
-                hevcAssProfiles.AddReplace(profile, true)
-                for each level in profileSupport[container]["hevc"][profile]
-                    levelFloat = level.ToFloat()
-                    if container = "mp4"
-                        if levelFloat > hevcMp4LevelSupported
-                            hevcMp4LevelSupported = levelFloat
-                        end if
-                    else if container = "ts"
-                        if levelFloat > hevcTsLevelSupported
-                            hevcTsLevelSupported = levelFloat
-                        end if
-                    end if
-                end for
-            end for
-        end for
-
-        hevcHighestLevel = hevcMp4LevelSupported
-        if hevcTsLevelSupported > hevcMp4LevelSupported
-            hevcHighestLevel = hevcTsLevelSupported
-        end if
-
-        hevcLevelString = "120"
-        if hevcHighestLevel = 5.1
-            hevcLevelString = "153"
-        end if
-
-        codecProfileArray = {
-            "Type": "Video",
-            "Codec": "hevc",
-            "Conditions": [
-                {
-                    "Condition": "NotEquals",
-                    "Property": "IsAnamorphic",
-                    "Value": "true",
-                    "IsRequired": false
-                },
-                {
-                    "Condition": "EqualsAny",
-                    "Property": "VideoProfile",
-                    "Value": profileSupport["ts"]["hevc"].Keys().join("|"),
-                    "IsRequired": false
-                },
-                {
-                    "Condition": "EqualsAny",
-                    "Property": "VideoRangeType",
-                    "Value": hevcVideoRangeTypes,
-                    "IsRequired": false
-                }
-            ]
-        }
-
-        ' set max resolution
-        if maxResMode = "everything" and maxResSetting &lt;> "off"
-            codecProfileArray.Conditions.push(maxVideoHeightArray)
-            codecProfileArray.Conditions.push(maxVideoWidthArray)
-        end if
-
-        ' check user setting before adding VideoLevel restrictions
-        if not m.global.session.user.settings["playback.tryDirect.hevcProfileLevel"]
-            codecProfileArray.Conditions.push({
-                "Condition": "LessThanEqual",
-                "Property": "VideoLevel",
-                "Value": hevcLevelString,
-                "IsRequired": false
-            })
-        end if
-
-        ' set bitrate restrictions based on user settings
-        bitRateArray = GetBitRateLimit("h265")
-        if bitRateArray.count() > 0
-            codecProfileArray.Conditions.push(bitRateArray)
-        end if
-
-        deviceProfile.CodecProfiles.push(codecProfileArray)
-    end if
-
-    if addVp9
-        vp9Profiles = []
-        for each container in profileSupport
-            for each profile in profileSupport[container]["vp9"]
-                if vp9Profiles[profile] = invalid
-                    vp9Profiles.push(profile)
-                end if
-            end for
-        end for
-
-        codecProfileArray = {
-            "Type": "Video",
-            "Codec": "vp9",
-            "Conditions": [
-                {
-                    "Condition": "EqualsAny",
-                    "Property": "VideoLevel",
-                    "Value": vp9Profiles.join("|"),
-                    "IsRequired": false
-                },
-                {
-                    "Condition": "EqualsAny",
-                    "Property": "VideoRangeType",
-                    "Value": vp9VideoRangeTypes,
-                    "IsRequired": false
-                }
-            ]
-        }
-
-        ' set max resolution
-        if maxResMode = "everything" and maxResSetting &lt;> "off"
-            codecProfileArray.Conditions.push(maxVideoHeightArray)
-            codecProfileArray.Conditions.push(maxVideoWidthArray)
-        end if
-
-        ' set bitrate restrictions based on user settings
-        bitRateArray = GetBitRateLimit("vp9")
-        if bitRateArray.count() > 0
-            codecProfileArray.Conditions.push(bitRateArray)
-        end if
-
-        deviceProfile.CodecProfiles.push(codecProfileArray)
-    end if
-
-    return deviceProfile
 end function
 
 function GetDirectPlayProfiles() as object
+    globalUserSettings = m.global.session.user.settings
+    directPlayProfiles = []
     di = CreateObject("roDeviceInfo")
     ' all possible containers
     supportedCodecs = {
@@ -897,7 +196,7 @@ function GetDirectPlayProfiles() as object
     audioCodecs = ["mp3", "mp2", "pcm", "lpcm", "wav", "ac3", "ac4", "aiff", "wma", "flac", "alac", "aac", "opus", "dts", "wmapro", "vorbis", "eac3", "mpg123"]
 
     ' check if hevc is disabled
-    if m.global.session.user.settings["playback.compatibility.disablehevc"] = false
+    if globalUserSettings["playback.compatibility.disablehevc"] = false
         videoCodecs.push("hevc")
     end if
 
@@ -917,12 +216,12 @@ function GetDirectPlayProfiles() as object
     end for
 
     ' user setting overrides
-    if m.global.session.user.settings["playback.mpeg4"]
+    if globalUserSettings["playback.mpeg4"]
         for each container in supportedCodecs
             supportedCodecs[container]["video"].push("mpeg4")
         end for
     end if
-    if m.global.session.user.settings["playback.mpeg2"]
+    if globalUserSettings["playback.mpeg2"]
         for each container in supportedCodecs
             supportedCodecs[container]["video"].push("mpeg2video")
         end for
@@ -955,7 +254,6 @@ function GetDirectPlayProfiles() as object
     end for
 
     ' build return array
-    returnArray = []
     for each container in supportedCodecs
         videoCodecString = supportedCodecs[container]["video"].Join(",")
         if videoCodecString &lt;> ""
@@ -967,7 +265,7 @@ function GetDirectPlayProfiles() as object
                 containerString = "mkv,webm"
             end if
 
-            returnArray.push({
+            directPlayProfiles.push({
                 "Container": containerString,
                 "Type": "Video",
                 "VideoCodec": videoCodecString,
@@ -976,16 +274,742 @@ function GetDirectPlayProfiles() as object
         end if
     end for
 
-    returnArray.push({
+    directPlayProfiles.push({
         "Container": supportedAudio.Join(","),
         "Type": "Audio"
     })
-    return returnArray
+    return directPlayProfiles
+end function
+
+function getTranscodingProfiles() as object
+    globalUserSettings = m.global.session.user.settings
+    transcodingProfiles = []
+
+    di = CreateObject("roDeviceInfo")
+
+    transcodingContainers = ["mp4", "ts"]
+    ' use strings to preserve order
+    mp4AudioCodecs = "aac"
+    mp4VideoCodecs = "h264"
+    tsAudioCodecs = "aac"
+    tsVideoCodecs = "h264"
+
+    ' does the users setup support surround sound?
+    maxAudioChannels = "2" ' jellyfin expects this as a string
+    ' in order of preference from left to right
+    audioCodecs = ["mp3", "vorbis", "opus", "flac", "alac", "ac4", "pcm", "wma", "wmapro"]
+    surroundSoundCodecs = ["eac3", "ac3", "dts"]
+    if globalUserSettings["playback.forceDTS"] = true
+        surroundSoundCodecs = ["dts", "eac3", "ac3"]
+    end if
+
+    surroundSoundCodec = invalid
+    if di.GetAudioOutputChannel() = "5.1 surround"
+        maxAudioChannels = "6"
+        for each codec in surroundSoundCodecs
+            if di.CanDecodeAudio({ Codec: codec, ChCnt: 6 }).Result
+                surroundSoundCodec = codec
+                if di.CanDecodeAudio({ Codec: codec, ChCnt: 8 }).Result
+                    maxAudioChannels = "8"
+                end if
+                exit for
+            end if
+        end for
+    end if
+
+    ' VIDEO CODECS
+    '
+    ' AVC / h264 / MPEG4 AVC
+    for each container in transcodingContainers
+        if di.CanDecodeVideo({ Codec: "h264", Container: container }).Result
+            if container = "mp4"
+                ' check for codec string before adding it
+                if mp4VideoCodecs.Instr(0, ",h264") = -1
+                    mp4VideoCodecs = mp4VideoCodecs + ",h264"
+                end if
+            else if container = "ts"
+                ' check for codec string before adding it
+                if tsVideoCodecs.Instr(0, ",h264") = -1
+                    tsVideoCodecs = tsVideoCodecs + ",h264"
+                end if
+            end if
+        end if
+        if di.CanDecodeVideo({ Codec: "mpeg4 avc", Container: container }).Result
+            if container = "mp4"
+                ' check for codec string before adding it
+                if mp4VideoCodecs.Instr(0, ",mpeg4 avc") = -1
+                    mp4VideoCodecs = mp4VideoCodecs + ",mpeg4 avc"
+                end if
+            else if container = "ts"
+                ' check for codec string before adding it
+                if tsVideoCodecs.Instr(0, ",mpeg4 avc") = -1
+                    tsVideoCodecs = tsVideoCodecs + ",mpeg4 avc"
+                end if
+            end if
+        end if
+    end for
+
+    ' HEVC / h265
+    if globalUserSettings["playback.compatibility.disablehevc"] = false
+        for each container in transcodingContainers
+            if di.CanDecodeVideo({ Codec: "hevc", Container: container }).Result
+                if container = "mp4"
+                    ' check for codec string before adding it
+                    if mp4VideoCodecs.Instr(0, "h265,") = -1
+                        mp4VideoCodecs = "h265," + mp4VideoCodecs
+                    end if
+                    if mp4VideoCodecs.Instr(0, "hevc,") = -1
+                        mp4VideoCodecs = "hevc," + mp4VideoCodecs
+                    end if
+                else if container = "ts"
+                    ' check for codec string before adding it
+                    if tsVideoCodecs.Instr(0, "h265,") = -1
+                        tsVideoCodecs = "h265," + tsVideoCodecs
+                    end if
+                    if tsVideoCodecs.Instr(0, "hevc,") = -1
+                        tsVideoCodecs = "hevc," + tsVideoCodecs
+                    end if
+                end if
+            end if
+        end for
+    end if
+
+    ' VP9
+    for each container in transcodingContainers
+        if di.CanDecodeAudio({ Codec: "vp9", Container: container }).Result
+            if container = "mp4"
+                ' check for codec string before adding it
+                if mp4VideoCodecs.Instr(0, ",vp9") = -1
+                    mp4VideoCodecs = mp4VideoCodecs + ",vp9"
+                end if
+            else if container = "ts"
+                ' check for codec string before adding it
+                if tsVideoCodecs.Instr(0, ",vp9") = -1
+                    tsVideoCodecs = tsVideoCodecs + ",vp9"
+                end if
+            end if
+        end if
+    end for
+
+    ' MPEG2
+    if globalUserSettings["playback.mpeg2"]
+        for each container in transcodingContainers
+            if di.CanDecodeVideo({ Codec: "mpeg2", Container: container }).Result
+                if container = "mp4"
+                    ' check for codec string before adding it
+                    if mp4VideoCodecs.Instr(0, ",mpeg2video") = -1
+                        mp4VideoCodecs = mp4VideoCodecs + ",mpeg2video"
+                    end if
+                else if container = "ts"
+                    ' check for codec string before adding it
+                    if tsVideoCodecs.Instr(0, ",mpeg2video") = -1
+                        tsVideoCodecs = tsVideoCodecs + ",mpeg2video"
+                    end if
+                end if
+            end if
+        end for
+    end if
+
+    ' AV1
+    for each container in transcodingContainers
+        if di.CanDecodeVideo({ Codec: "av1", Container: container }).Result
+            if container = "mp4"
+                ' check for codec string before adding it
+                if mp4VideoCodecs.Instr(0, ",av1") = -1
+                    mp4VideoCodecs = mp4VideoCodecs + ",av1"
+                end if
+            else if container = "ts"
+                ' check for codec string before adding it
+                if tsVideoCodecs.Instr(0, ",av1") = -1
+                    tsVideoCodecs = tsVideoCodecs + ",av1"
+                end if
+            end if
+        end if
+    end for
+
+    ' AUDIO CODECS
+    for each container in transcodingContainers
+        for each codec in audioCodecs
+            if di.CanDecodeAudio({ Codec: codec, Container: container }).result
+                if container = "mp4"
+                    mp4AudioCodecs = mp4AudioCodecs + "," + codec
+                else if container = "ts"
+                    tsAudioCodecs = tsAudioCodecs + "," + codec
+                end if
+            end if
+        end for
+    end for
+
+    ' add mp3 to TranscodingProfile for music
+    transcodingProfiles.push({
+        "Container": "mp3",
+        "Type": "Audio",
+        "AudioCodec": "mp3",
+        "Context": "Streaming",
+        "Protocol": "http",
+        "MaxAudioChannels": maxAudioChannels
+    })
+    transcodingProfiles.push({
+        "Container": "mp3",
+        "Type": "Audio",
+        "AudioCodec": "mp3",
+        "Context": "Static",
+        "Protocol": "http",
+        "MaxAudioChannels": maxAudioChannels
+    })
+    ' add aac to TranscodingProfile for stereo audio
+    ' NOTE: multichannel aac is not supported. only decode to stereo on some devices
+    transcodingProfiles.push({
+        "Container": "ts",
+        "Type": "Audio",
+        "AudioCodec": "aac",
+        "Context": "Streaming",
+        "Protocol": "http",
+        "MaxAudioChannels": "2"
+    })
+    transcodingProfiles.push({
+        "Container": "ts",
+        "Type": "Audio",
+        "AudioCodec": "aac",
+        "Context": "Static",
+        "Protocol": "http",
+        "MaxAudioChannels": "2"
+    })
+
+    tsArray = {
+        "Container": "ts",
+        "Context": "Streaming",
+        "Protocol": "hls",
+        "Type": "Video",
+        "AudioCodec": tsAudioCodecs,
+        "VideoCodec": tsVideoCodecs,
+        "MaxAudioChannels": maxAudioChannels,
+        "MinSegments": 1,
+        "BreakOnNonKeyFrames": false
+    }
+    mp4Array = {
+        "Container": "mp4",
+        "Context": "Streaming",
+        "Protocol": "hls",
+        "Type": "Video",
+        "AudioCodec": mp4AudioCodecs,
+        "VideoCodec": mp4VideoCodecs,
+        "MaxAudioChannels": maxAudioChannels,
+        "MinSegments": 1,
+        "BreakOnNonKeyFrames": false
+    }
+
+    ' apply max res to transcoding profile
+    if globalUserSettings["playback.resolution.max"] &lt;> "off"
+        tsArray.Conditions = [getMaxHeightArray(), getMaxWidthArray()]
+        mp4Array.Conditions = [getMaxHeightArray(), getMaxWidthArray()]
+    end if
+
+    ' surround sound
+    if surroundSoundCodec &lt;> invalid
+        ' add preferred surround sound codec to TranscodingProfile
+        transcodingProfiles.push({
+            "Container": surroundSoundCodec,
+            "Type": "Audio",
+            "AudioCodec": surroundSoundCodec,
+            "Context": "Streaming",
+            "Protocol": "http",
+            "MaxAudioChannels": maxAudioChannels
+        })
+        transcodingProfiles.push({
+            "Container": surroundSoundCodec,
+            "Type": "Audio",
+            "AudioCodec": surroundSoundCodec,
+            "Context": "Static",
+            "Protocol": "http",
+            "MaxAudioChannels": maxAudioChannels
+        })
+
+        ' put codec in front of AudioCodec string
+        if tsArray.AudioCodec = ""
+            tsArray.AudioCodec = surroundSoundCodec
+        else
+            tsArray.AudioCodec = surroundSoundCodec + "," + tsArray.AudioCodec
+        end if
+
+        if mp4Array.AudioCodec = ""
+            mp4Array.AudioCodec = surroundSoundCodec
+        else
+            mp4Array.AudioCodec = surroundSoundCodec + "," + mp4Array.AudioCodec
+        end if
+    end if
+
+    transcodingProfiles.push(tsArray)
+    transcodingProfiles.push(mp4Array)
+
+    return transcodingProfiles
+end function
+
+function getContainerProfiles() as object
+    containerProfiles = []
+
+    return containerProfiles
+end function
+
+function getCodecProfiles() as object
+    globalUserSettings = m.global.session.user.settings
+    codecProfiles = []
+    profileSupport = {
+        "h264": {},
+        "mpeg4 avc": {},
+        "h265": {},
+        "hevc": {},
+        "vp9": {},
+        "mpeg2": {},
+        "av1": {}
+    }
+    maxResSetting = globalUserSettings["playback.resolution.max"]
+    di = CreateObject("roDeviceInfo")
+    maxHeightArray = getMaxHeightArray()
+    maxWidthArray = getMaxWidthArray()
+
+    ' AUDIO
+    ' test each codec to see how many channels are supported
+    audioCodecs = ["aac", "mp3", "mp2", "opus", "pcm", "lpcm", "wav", "flac", "alac", "ac3", "ac4", "aiff", "dts", "wmapro", "vorbis", "eac3", "mpg123"]
+    audioChannels = [8, 6, 2] ' highest first
+    for each audioCodec in audioCodecs
+        for each audioChannel in audioChannels
+            channelSupportFound = false
+            if di.CanDecodeAudio({ Codec: audioCodec, ChCnt: audioChannel }).Result
+                channelSupportFound = true
+                for each codecType in ["VideoAudio", "Audio"]
+                    codecProfiles.push({
+                        "Type": codecType,
+                        "Codec": audioCodec,
+                        "Conditions": [
+                            {
+                                "Condition": "LessThanEqual",
+                                "Property": "AudioChannels",
+                                "Value": audioChannel,
+                                "IsRequired": true
+                            }
+                        ]
+                    })
+
+                end for
+            end if
+            if channelSupportFound
+                ' if 8 channels are supported we don't need to test for 6 or 2
+                ' if 6 channels are supported we don't need to test 2
+                exit for
+            end if
+        end for
+    end for
+
+    ' check device for codec profile and level support
+    ' AVC / h264 / MPEG4 AVC
+    h264Profiles = ["main", "high"]
+    h264Levels = ["4.1", "4.2"]
+    for each profile in h264Profiles
+        for each level in h264Levels
+            if di.CanDecodeVideo({ Codec: "h264", Profile: profile, Level: level }).Result
+                profileSupport = updateProfileArray(profileSupport, "h264", profile, level)
+            end if
+            if di.CanDecodeVideo({ Codec: "mpeg4 avc", Profile: profile, Level: level }).Result
+                profileSupport = updateProfileArray(profileSupport, "mpeg4 avc", profile, level)
+            end if
+        end for
+    end for
+
+    ' HEVC / h265
+    hevcProfiles = ["main", "main 10"]
+    hevcLevels = ["4.1", "5.0", "5.1"]
+    for each profile in hevcProfiles
+        for each level in hevcLevels
+            if di.CanDecodeVideo({ Codec: "hevc", Profile: profile, Level: level }).Result
+                profileSupport = updateProfileArray(profileSupport, "h265", profile, level)
+                profileSupport = updateProfileArray(profileSupport, "hevc", profile, level)
+            end if
+        end for
+    end for
+
+    ' VP9
+    vp9Profiles = ["profile 0", "profile 2"]
+    vp9Levels = ["4.1", "5.0", "5.1"]
+    for each profile in vp9Profiles
+        for each level in vp9Levels
+            if di.CanDecodeVideo({ Codec: "vp9", Profile: profile, Level: level }).Result
+                profileSupport = updateProfileArray(profileSupport, "vp9", profile, level)
+            end if
+        end for
+    end for
+
+    ' MPEG2
+    ' mpeg2 uses levels with no profiles. see https://developer.roku.com/en-ca/docs/references/brightscript/interfaces/ifdeviceinfo.md#candecodevideovideo_format-as-object-as-object
+    ' NOTE: the mpeg2 levels are being saved in the profileSupport array as if they were profiles
+    mpeg2Levels = ["main", "high"]
+    for each level in mpeg2Levels
+        if di.CanDecodeVideo({ Codec: "mpeg2", Level: level }).Result
+            profileSupport = updateProfileArray(profileSupport, "mpeg2", level)
+        end if
+    end for
+
+    ' AV1
+    av1Profiles = ["main", "main 10"]
+    av1Levels = ["4.1", "5.0", "5.1"]
+    for each profile in av1Profiles
+        for each level in av1Levels
+            if di.CanDecodeVideo({ Codec: "av1", Profile: profile, Level: level }).Result
+                profileSupport = updateProfileArray(profileSupport, "av1", profile, level)
+            end if
+        end for
+    end for
+
+    ' HDR SUPPORT
+    h264VideoRangeTypes = "SDR"
+    hevcVideoRangeTypes = "SDR"
+    vp9VideoRangeTypes = "SDR"
+    av1VideoRangeTypes = "SDR"
+
+    dp = di.GetDisplayProperties()
+    if dp.Hdr10
+        hevcVideoRangeTypes = hevcVideoRangeTypes + "|HDR10"
+        vp9VideoRangeTypes = vp9VideoRangeTypes + "|HDR10"
+        av1VideoRangeTypes = av1VideoRangeTypes + "|HDR10"
+    end if
+    if dp.Hdr10Plus
+        av1VideoRangeTypes = av1VideoRangeTypes + "|HDR10+"
+    end if
+    if dp.HLG
+        hevcVideoRangeTypes = hevcVideoRangeTypes + "|HLG"
+        vp9VideoRangeTypes = vp9VideoRangeTypes + "|HLG"
+        av1VideoRangeTypes = av1VideoRangeTypes + "|HLG"
+    end if
+    if dp.DolbyVision
+        h264VideoRangeTypes = h264VideoRangeTypes + "|DOVI"
+        hevcVideoRangeTypes = hevcVideoRangeTypes + "|DOVI"
+        'vp9VideoRangeTypes = vp9VideoRangeTypes + ",DOVI" no evidence that vp9 can hold DOVI
+        av1VideoRangeTypes = av1VideoRangeTypes + "|DOVI"
+    end if
+
+    ' H264
+    h264LevelSupported = 0.0
+    h264AssProfiles = {}
+    for each profile in profileSupport["h264"]
+        h264AssProfiles.AddReplace(profile, true)
+        for each level in profileSupport["h264"][profile]
+            levelFloat = level.ToFloat()
+            if levelFloat > h264LevelSupported
+                h264LevelSupported = levelFloat
+            end if
+        end for
+    end for
+
+    ' convert to string
+    h264LevelString = h264LevelSupported.ToStr()
+    ' remove decimals
+    h264LevelString = removeDecimals(h264LevelString)
+
+    h264ProfileArray = {
+        "Type": "Video",
+        "Codec": "h264",
+        "Conditions": [
+            {
+                "Condition": "NotEquals",
+                "Property": "IsAnamorphic",
+                "Value": "true",
+                "IsRequired": false
+            },
+            {
+                "Condition": "LessThanEqual",
+                "Property": "VideoBitDepth",
+                "Value": "8",
+                "IsRequired": false
+            },
+            {
+                "Condition": "EqualsAny",
+                "Property": "VideoProfile",
+                "Value": h264AssProfiles.Keys().join("|"),
+                "IsRequired": false
+            },
+            {
+                "Condition": "EqualsAny",
+                "Property": "VideoRangeType",
+                "Value": h264VideoRangeTypes,
+                "IsRequired": false
+            }
+
+        ]
+    }
+
+    ' check user setting before adding video level restrictions
+    if not globalUserSettings["playback.tryDirect.h264ProfileLevel"]
+        h264ProfileArray.Conditions.push({
+            "Condition": "LessThanEqual",
+            "Property": "VideoLevel",
+            "Value": h264LevelString,
+            "IsRequired": false
+        })
+    end if
+
+    ' set max resolution
+    if globalUserSettings["playback.resolution.mode"] = "everything" and maxResSetting &lt;> "off"
+        h264ProfileArray.Conditions.push(maxHeightArray)
+        h264ProfileArray.Conditions.push(maxWidthArray)
+    end if
+
+    ' set bitrate restrictions based on user settings
+    bitRateArray = GetBitRateLimit("h264")
+    if bitRateArray.count() > 0
+        h264ProfileArray.Conditions.push(bitRateArray)
+    end if
+
+    codecProfiles.push(h264ProfileArray)
+
+    ' MPEG2
+    ' NOTE: the mpeg2 levels are being saved in the profileSupport array as if they were profiles
+    if globalUserSettings["playback.mpeg2"]
+        mpeg2Levels = []
+        for each level in profileSupport["mpeg2"]
+            if not arrayHasValue(mpeg2Levels, level)
+                mpeg2Levels.push(level)
+            end if
+        end for
+
+        mpeg2ProfileArray = {
+            "Type": "Video",
+            "Codec": "mpeg2",
+            "Conditions": [
+                {
+                    "Condition": "EqualsAny",
+                    "Property": "VideoLevel",
+                    "Value": mpeg2Levels.join("|"),
+                    "IsRequired": false
+                }
+            ]
+        }
+
+        ' set max resolution
+        if globalUserSettings["playback.resolution.mode"] = "everything" and maxResSetting &lt;> "off"
+            mpeg2ProfileArray.Conditions.push(maxHeightArray)
+            mpeg2ProfileArray.Conditions.push(maxWidthArray)
+        end if
+
+        ' set bitrate restrictions based on user settings
+        bitRateArray = GetBitRateLimit("mpeg2")
+        if bitRateArray.count() > 0
+            mpeg2ProfileArray.Conditions.push(bitRateArray)
+        end if
+
+        codecProfiles.push(mpeg2ProfileArray)
+    end if
+
+    if di.CanDecodeVideo({ Codec: "av1" }).Result
+        av1LevelSupported = 0.0
+        av1AssProfiles = {}
+        for each profile in profileSupport["av1"]
+            av1AssProfiles.AddReplace(profile, true)
+            for each level in profileSupport["av1"][profile]
+                levelFloat = level.ToFloat()
+                if levelFloat > av1LevelSupported
+                    av1LevelSupported = levelFloat
+                end if
+            end for
+        end for
+
+        av1ProfileArray = {
+            "Type": "Video",
+            "Codec": "av1",
+            "Conditions": [
+                {
+                    "Condition": "EqualsAny",
+                    "Property": "VideoProfile",
+                    "Value": av1AssProfiles.Keys().join("|"),
+                    "IsRequired": false
+                },
+                {
+                    "Condition": "EqualsAny",
+                    "Property": "VideoRangeType",
+                    "Value": av1VideoRangeTypes,
+                    "IsRequired": false
+                },
+                {
+                    "Condition": "LessThanEqual",
+                    "Property": "VideoLevel",
+                    "Value": (120 * av1LevelSupported).ToStr(),
+                    "IsRequired": false
+                }
+            ]
+        }
+
+        ' set max resolution
+        if globalUserSettings["playback.resolution.mode"] = "everything" and maxResSetting &lt;> "off"
+            av1ProfileArray.Conditions.push(maxHeightArray)
+            av1ProfileArray.Conditions.push(maxWidthArray)
+        end if
+
+        ' set bitrate restrictions based on user settings
+        bitRateArray = GetBitRateLimit("av1")
+        if bitRateArray.count() > 0
+            av1ProfileArray.Conditions.push(bitRateArray)
+        end if
+
+        codecProfiles.push(av1ProfileArray)
+    end if
+
+    if not globalUserSettings["playback.compatibility.disablehevc"] and di.CanDecodeVideo({ Codec: "hevc" }).Result
+        hevcLevelSupported = 0.0
+        hevcAssProfiles = {}
+
+        for each profile in profileSupport["hevc"]
+            hevcAssProfiles.AddReplace(profile, true)
+            for each level in profileSupport["hevc"][profile]
+                levelFloat = level.ToFloat()
+                if levelFloat > hevcLevelSupported
+                    hevcLevelSupported = levelFloat
+                end if
+            end for
+        end for
+
+        hevcLevelString = "120"
+        if hevcLevelSupported = 5.1
+            hevcLevelString = "153"
+        end if
+
+        hevcProfileArray = {
+            "Type": "Video",
+            "Codec": "hevc",
+            "Conditions": [
+                {
+                    "Condition": "NotEquals",
+                    "Property": "IsAnamorphic",
+                    "Value": "true",
+                    "IsRequired": false
+                },
+                {
+                    "Condition": "EqualsAny",
+                    "Property": "VideoProfile",
+                    "Value": profileSupport["hevc"].Keys().join("|"),
+                    "IsRequired": false
+                },
+                {
+                    "Condition": "EqualsAny",
+                    "Property": "VideoRangeType",
+                    "Value": hevcVideoRangeTypes,
+                    "IsRequired": false
+                }
+            ]
+        }
+
+        ' check user setting before adding VideoLevel restrictions
+        if not globalUserSettings["playback.tryDirect.hevcProfileLevel"]
+            hevcProfileArray.Conditions.push({
+                "Condition": "LessThanEqual",
+                "Property": "VideoLevel",
+                "Value": hevcLevelString,
+                "IsRequired": false
+            })
+        end if
+
+        ' set max resolution
+        if globalUserSettings["playback.resolution.mode"] = "everything" and maxResSetting &lt;> "off"
+            hevcProfileArray.Conditions.push(maxHeightArray)
+            hevcProfileArray.Conditions.push(maxWidthArray)
+        end if
+
+        ' set bitrate restrictions based on user settings
+        bitRateArray = GetBitRateLimit("h265")
+        if bitRateArray.count() > 0
+            hevcProfileArray.Conditions.push(bitRateArray)
+        end if
+
+        codecProfiles.push(hevcProfileArray)
+    end if
+
+    if di.CanDecodeVideo({ Codec: "vp9" }).Result
+        vp9Profiles = []
+        vp9LevelSupported = 0.0
+
+        for each profile in profileSupport["vp9"]
+            vp9Profiles.push(profile)
+            for each level in profileSupport["vp9"][profile]
+                levelFloat = level.ToFloat()
+                if levelFloat > vp9LevelSupported
+                    vp9LevelSupported = levelFloat
+                end if
+            end for
+        end for
+
+        vp9LevelString = "120"
+        if vp9LevelSupported = 5.1
+            vp9LevelString = "153"
+        end if
+
+        vp9ProfileArray = {
+            "Type": "Video",
+            "Codec": "vp9",
+            "Conditions": [
+                {
+                    "Condition": "EqualsAny",
+                    "Property": "VideoProfile",
+                    "Value": vp9Profiles.join("|"),
+                    "IsRequired": false
+                },
+                {
+                    "Condition": "EqualsAny",
+                    "Property": "VideoRangeType",
+                    "Value": vp9VideoRangeTypes,
+                    "IsRequired": false
+                },
+                {
+                    "Condition": "LessThanEqual",
+                    "Property": "VideoLevel",
+                    "Value": vp9LevelString,
+                    "IsRequired": false
+                }
+            ]
+        }
+
+        ' set max resolution
+        if globalUserSettings["playback.resolution.mode"] = "everything" and maxResSetting &lt;> "off"
+            vp9ProfileArray.Conditions.push(maxHeightArray)
+            vp9ProfileArray.Conditions.push(maxWidthArray)
+        end if
+
+        ' set bitrate restrictions based on user settings
+        bitRateArray = GetBitRateLimit("vp9")
+        if bitRateArray.count() > 0
+            vp9ProfileArray.Conditions.push(bitRateArray)
+        end if
+
+        codecProfiles.push(vp9ProfileArray)
+    end if
+
+    return codecProfiles
+end function
+
+function getSubtitleProfiles() as object
+    subtitleProfiles = []
+
+    subtitleProfiles.push({
+        "Format": "vtt",
+        "Method": "External"
+    })
+    subtitleProfiles.push({
+        "Format": "srt",
+        "Method": "External"
+    })
+    subtitleProfiles.push({
+        "Format": "ttml",
+        "Method": "External"
+    })
+    subtitleProfiles.push({
+        "Format": "sub",
+        "Method": "External"
+    })
+
+    return subtitleProfiles
 end function
 
 function GetBitRateLimit(codec as string) as object
-    if m.global.session.user.settings["playback.bitrate.maxlimited"] = true
-        userSetLimit = m.global.session.user.settings["playback.bitrate.limit"].ToInt()
+    globalUserSettings = m.global.session.user.settings
+    if globalUserSettings["playback.bitrate.maxlimited"]
+        userSetLimit = globalUserSettings["playback.bitrate.limit"].ToInt()
         if isValid(userSetLimit) and type(userSetLimit) = "Integer" and userSetLimit > 0
             userSetLimit *= 1000000
             return {
@@ -1036,6 +1060,58 @@ function GetBitRateLimit(codec as string) as object
     return {}
 end function
 
+function getMaxHeightArray() as object
+    myGlobal = m.global
+
+    maxResSetting = myGlobal.session.user.settings["playback.resolution.max"]
+    if maxResSetting = "off" then return {}
+
+    maxVideoHeight = maxResSetting
+
+    if maxResSetting = "auto"
+        maxVideoHeight = myGlobal.device.videoHeight
+    end if
+
+    return {
+        "Condition": "LessThanEqual",
+        "Property": "Height",
+        "Value": maxVideoHeight,
+        "IsRequired": true
+    }
+end function
+
+function getMaxWidthArray() as object
+    myGlobal = m.global
+
+    maxResSetting = myGlobal.session.user.settings["playback.resolution.max"]
+    if maxResSetting = "off" then return {}
+
+    maxVideoWidth = invalid
+
+    if maxResSetting = "auto"
+        maxVideoWidth = myGlobal.device.videoWidth
+    else if maxResSetting = "360"
+        maxVideoWidth = "480"
+    else if maxResSetting = "480"
+        maxVideoWidth = "640"
+    else if maxResSetting = "720"
+        maxVideoWidth = "1280"
+    else if maxResSetting = "1080"
+        maxVideoWidth = "1920"
+    else if maxResSetting = "2160"
+        maxVideoWidth = "3840"
+    else if maxResSetting = "4320"
+        maxVideoWidth = "7680"
+    end if
+
+    return {
+        "Condition": "LessThanEqual",
+        "Property": "Width",
+        "Value": maxVideoWidth,
+        "IsRequired": true
+    }
+end function
+
 ' Recieves and returns an assArray of supported profiles and levels for each video codec
 function updateProfileArray(profileArray as object, videoCodec as string, videoProfile as string, profileLevel = "" as string) as object
     ' validate params
@@ -1057,7 +1133,6 @@ function updateProfileArray(profileArray as object, videoCodec as string, videoP
         end if
     end if
 
-    ' profileSupport[container][codec][profile][level]
     return profileArray
 end function
 
@@ -1140,7 +1215,7 @@ end function
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a>
 	
-		on Nov 3rd 2023
+		on Nov 4th 2023
 	
 	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>
