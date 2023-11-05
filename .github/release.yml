@@ -18,6 +18,9 @@ changelog:
     - title: 💻 Dev Improvements
       labels:
         - "dev-improvement"
+    - title: 📝 Documentation
+      labels:
+        - "documentation"
     - title: 🧹 Code Cleanup
       labels:
         - "code-cleanup"
