@@ -173,6 +173,10 @@ function GetDirectPlayProfiles() as object
         end for
     end for
 
+    ' remove audio codecs not supported as standalone audio files (opus)
+    ' also add aac back to the list so it gets added to the direct play profile
+    audioCodecs = ["aac", "mp3", "mp2", "pcm", "lpcm", "wav", "ac3", "ac4", "aiff", "wma", "flac", "alac", "aac", "dts", "wmapro", "vorbis", "eac3", "mpg123"]
+
     ' check audio codecs with no container
     supportedAudio = []
     for each audioCodec in audioCodecs
@@ -368,27 +372,10 @@ function getTranscodingProfiles() as object
         end for
     end for
 
-    ' add mp3 to TranscodingProfile for music
-    transcodingProfiles.push({
-        "Container": "mp3",
-        "Type": "Audio",
-        "AudioCodec": "mp3",
-        "Context": "Streaming",
-        "Protocol": "http",
-        "MaxAudioChannels": maxAudioChannels
-    })
-    transcodingProfiles.push({
-        "Container": "mp3",
-        "Type": "Audio",
-        "AudioCodec": "mp3",
-        "Context": "Static",
-        "Protocol": "http",
-        "MaxAudioChannels": maxAudioChannels
-    })
     ' add aac to TranscodingProfile for stereo audio
     ' NOTE: multichannel aac is not supported. only decode to stereo on some devices
     transcodingProfiles.push({
-        "Container": "ts",
+        "Container": "aac",
         "Type": "Audio",
         "AudioCodec": "aac",
         "Context": "Streaming",
@@ -396,12 +383,29 @@ function getTranscodingProfiles() as object
         "MaxAudioChannels": "2"
     })
     transcodingProfiles.push({
-        "Container": "ts",
+        "Container": "aac",
         "Type": "Audio",
         "AudioCodec": "aac",
         "Context": "Static",
         "Protocol": "http",
         "MaxAudioChannels": "2"
+    })
+    ' add mp3 to TranscodingProfile for multichannel music
+    transcodingProfiles.push({
+        "Container": "mp3",
+        "Type": "Audio",
+        "AudioCodec": "mp3",
+        "Context": "Streaming",
+        "Protocol": "http",
+        "MaxAudioChannels": maxAudioChannels
+    })
+    transcodingProfiles.push({
+        "Container": "mp3",
+        "Type": "Audio",
+        "AudioCodec": "mp3",
+        "Context": "Static",
+        "Protocol": "http",
+        "MaxAudioChannels": maxAudioChannels
     })
 
     tsArray = {
@@ -506,19 +510,22 @@ function getCodecProfiles() as object
             if di.CanDecodeAudio({ Codec: audioCodec, ChCnt: audioChannel }).Result
                 channelSupportFound = true
                 for each codecType in ["VideoAudio", "Audio"]
-                    codecProfiles.push({
-                        "Type": codecType,
-                        "Codec": audioCodec,
-                        "Conditions": [
-                            {
-                                "Condition": "LessThanEqual",
-                                "Property": "AudioChannels",
-                                "Value": audioChannel,
-                                "IsRequired": true
-                            }
-                        ]
-                    })
-
+                    if audioCodec = "opus" and codecType = "Audio"
+                        ' opus audio files not supported by roku
+                    else
+                        codecProfiles.push({
+                            "Type": codecType,
+                            "Codec": audioCodec,
+                            "Conditions": [
+                                {
+                                    "Condition": "LessThanEqual",
+                                    "Property": "AudioChannels",
+                                    "Value": audioChannel,
+                                    "IsRequired": true
+                                }
+                            ]
+                        })
+                    end if
                 end for
             end if
             if channelSupportFound
