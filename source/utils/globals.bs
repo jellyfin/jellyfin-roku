@@ -6,6 +6,8 @@ sub setConstants()
     globals.addFields({
         constants: {
 
+            jellyfin_server: "jellyfin server",
+
             poster_bg_pallet: ["#00455c", "#44bae1", "#00a4db", "#1c4c5c", "#007ea8"],
 
             colors: {
@@ -28,11 +30,13 @@ end sub
 ' Save information from roAppInfo to m.global.app
 sub SaveAppToGlobal()
     appInfo = CreateObject("roAppInfo")
+    lastRunVersion = get_setting("LastRunVersion")
     m.global.addFields({
         app: {
             id: appInfo.GetID(),
             isDev: appInfo.IsDev(),
-            version: appInfo.GetVersion()
+            version: appInfo.GetVersion(),
+            lastRunVersion: lastRunVersion
         }
     })
 end sub
@@ -105,6 +109,7 @@ sub SaveDeviceToGlobal()
             uuid: deviceInfo.GetRandomUUID(),
             name: displayName,
             friendlyName: filteredFriendly,
+            serverDeviceName: deviceInfo.getChannelClientID(),
             model: deviceInfo.GetModel(),
             modelType: deviceInfo.GetModelType(),
             modelDetails: deviceInfo.GetModelDetails(),

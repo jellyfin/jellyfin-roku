@@ -12710,5 +12710,168 @@
         <translation>Der gewünschte Inhalt existiert nicht auf dem Server</translation>
         <extracomment>Content of message box when the requested content is not found on the server</extracomment>
     </message>
+    <message>
+        <source>Change Server</source>
+        <translation>Server wechseln</translation>
+    </message>
+    <message>
+        <source>Sign Out</source>
+        <translation>Abmelden</translation>
+    </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>Zugangsdaten Speichern?</translation>
+    </message>
+    <message>
+        <source>Error During Playback</source>
+        <translation type="unfinished">Fehler während dem Playback</translation>
+        <extracomment>Dialog title when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>Delete Saved</source>
+        <translation>Gespeicherte Löschen</translation>
+    </message>
+    <message>
+        <source>Error Retrieving Content</source>
+        <translation>Fehler beim Empfang der Inhalte</translation>
+        <extracomment>Dialog title when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <source>H.264</source>
+        <translation type="unfinished">H.264</translation>
+        <extracomment>Name of codec used in settings menu</extracomment>
+    </message>
+    <message>
+        <source>Attempt Direct Play for HEVC media with unsupported profile levels before falling back to transcoding if it fails.</source>
+        <translation>Versuchen Sie, HEVC-Medien mit nicht unterstützten Profilebenen direkt wiederzugeben, bevor Sie auf die Transkodierung zurückgreifen, wenn diese fehlschlägt.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Change Server</source>
+        <translation>Servern ändern</translation>
+    </message>
+    <message>
+        <source>Sign Out</source>
+        <translation>Abmelden</translation>
+    </message>
+    <message>
+        <source>On Now</source>
+        <translation>Jetzt aktiv</translation>
+    </message>
+    <message>
+        <source>Error During Playback</source>
+        <translation>Fehler bei der Wiedergabe</translation>
+        <extracomment>Dialog title when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>RUNTIME</source>
+        <translation>Wiedergabezeit</translation>
+    </message>
+    <message>
+        <source>Cinema Mode</source>
+        <translation>Kinomodus</translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
+    <message>
+        <source>Play Trailer</source>
+        <translation>Trailer abspielen</translation>
+    </message>
+    <message>
+        <source>Error loading Channel Data</source>
+        <translation>Fehler beim Laden der Kanaldaten</translation>
+    </message>
+    <message>
+        <source>Delete Saved</source>
+        <translation>Gespeichertes löschen</translation>
+    </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>Berechtigungen speichern?</translation>
+    </message>
+    <message>
+        <source>Hide Clock</source>
+        <translation>Uhrzeit verstecken</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
+    <message>
+        <source>RELEASE_DATE</source>
+        <translation>Veröffentlichsdatum</translation>
+    </message>
+    <message>
+        <source>HEVC</source>
+        <translation>HEVC</translation>
+        <extracomment>Name of codec used in settings menu</extracomment>
+    </message>
+    <message>
+        <source>CRITIC_RATING</source>
+        <translation>Kritiker:innen Bewertung</translation>
+    </message>
+    <message>
+        <source>OFFICIAL_RATING</source>
+        <translation>Jugendschutz-Bewertung</translation>
+    </message>
+    <message>
+        <source>There was an error retrieving the data for this item from the server.</source>
+        <translation>Es ist ein Fehler beim Abrufen der Daten für dieses Element vom Server aufgetreten.</translation>
+        <extracomment>Dialog detail when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <source>An error was encountered while playing this item.</source>
+        <translation>Beim Abspielen dieses Elements ist ein Fehler aufgetreten.</translation>
+        <extracomment>Dialog detail when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>Loading Channel Data</source>
+        <translation>Laden von Kanaldaten</translation>
+    </message>
+    <message>
+        <source>Unable to load Channel Data from the server</source>
+        <translation>Kanaldaten können nicht vom Server geladen werden</translation>
+    </message>
+    <message>
+        <source>Use generated splashscreen image as Jellyfin&apos;s home background. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Benutz das generierte Splashscreen-Bild als Jellyfin&apos;s Home-Hintergrundbild. Jellyfin muss geschlossen und erneut geöffnet werden, damit die Änderung wirksam wird.</translation>
+        <extracomment>Description for option in Setting Screen</extracomment>
+    </message>
+    <message>
+        <source>Bring the theater experience straight to your living room with the ability to play custom intros before the main feature.</source>
+        <translation>Bringen Sie das Kinoerlebnis direkt in Ihr Wohnzimmer, indem Sie benutzerdefinierte Intros vor dem Hauptfilm abspielen lassen.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Next episode</source>
+        <translation>Nächste Episode</translation>
+    </message>
+    <message>
+        <source>Attempt Direct Play for H.264 media with unsupported profile levels before falling back to transcoding if it fails.</source>
+        <translation>Versucht H.264-Medien mit nicht unterstützten Profilebenen direkt wiederzugeben, bevor es auf die Transkodierung zurückgreifen, wenn dies fehlschlägt.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Hide all clocks in Jellyfin. Jellyfin will need to be closed and reopened for changes to take effect.</source>
+        <translation>Alle Uhren in Jellyfin ausblenden. Jellyfin muss geschlossen und wieder geöffnet werden, damit die Änderungen wirksam werden.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>IMDB_RATING</source>
+        <translation>IMDb Bewertungen</translation>
+    </message>
+    <message>
+        <source>PLAY_COUNT</source>
+        <translation>Wiedergabezähler</translation>
+    </message>
+    <message>
+        <source>DATE_PLAYED</source>
+        <translation>Abspieldatum</translation>
+    </message>
+    <message>
+        <source>DATE_ADDED</source>
+        <translation type="unfinished">Hinzufügedatum</translation>
+    </message>
+    <message>
+        <source>Error Retrieving Content</source>
+        <translation>Fehler beim Abrufen des Inhalts</translation>
+        <extracomment>Dialog title when unable to load Content from Server</extracomment>
+    </message>
 </context>
 </TS>

@@ -1200,8 +1200,8 @@ namespace api
         end function
 
         ' Gets the original items of a playlist.
-        function GetItems(id as string, params = {} as object)
-            req = APIRequest(Substitute("/playlists/{0}/items", id), params)
+        function GetItems(playlistID as string, params = {} as object)
+            req = APIRequest(Substitute("/playlists/{0}/items", playlistID), params)
             return getJson(req)
         end function
 
@@ -1374,7 +1374,7 @@ namespace api
         end function
 
         ' Gets a list of sessions.
-        function Get(params = { "deviceId": m.global.device.id } as object)
+        function Get(params = { "deviceId": m.global.device.serverDeviceName } as object)
             req = APIRequest("/sessions", params)
             return getJson(req)
         end function

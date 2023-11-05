@@ -385,6 +385,12 @@ function onKeyEvent(key as string, press as boolean) as boolean
             audioOptionsClosed()
             return true
         end if
+    else if key = "play" and m.extrasGrid.hasFocus()
+        print "Play was pressed from the movie details extras slider"
+        if m.extrasGrid.focusedItem <> invalid
+            m.top.quickPlayNode = m.extrasGrid.focusedItem
+            return true
+        end if
     end if
     return false
 end function

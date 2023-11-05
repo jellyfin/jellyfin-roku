@@ -131,6 +131,7 @@ sub loadInitialItems()
     if not isValid(m.sortField) then m.sortField = "SortName"
     if not isValid(m.filter) then m.filter = "All"
     if not isValid(m.view) then m.view = "ArtistsPresentation"
+    if not isValid(m.sortAscending) then m.sortAscending = true
 
     m.top.showItemTitles = m.global.session.user.settings["itemgrid.gridTitles"]
 
@@ -572,7 +573,12 @@ end sub
 '
 'Returns Focused Item
 function getItemFocused()
-    return m.itemGrid.content.getChild(m.itemGrid.itemFocused)
+    if m.itemGrid.isinFocusChain() and isValid(m.itemGrid.itemFocused)
+        return m.itemGrid.content.getChild(m.itemGrid.itemFocused)
+    else if m.genreList.isinFocusChain() and isValid(m.genreList.itemFocused)
+        return m.genreList.content.getChild(m.genreList.itemFocused)
+    end if
+    return invalid
 end function
 
 '
@@ -750,7 +756,6 @@ function onKeyEvent(key as string, press as boolean) as boolean
             alpha.setFocus(true)
             return true
         end if
-
     else if key = "right" and m.Alpha.isinFocusChain()
         m.top.alphaActive = false
         m.Alpha.setFocus(false)
@@ -760,14 +765,12 @@ function onKeyEvent(key as string, press as boolean) as boolean
         m.genreList.setFocus(m.genreList.opacity = 1)
 
         return true
-
     else if key = "replay" and m.itemGrid.isinFocusChain()
         if m.resetGrid = true
             m.itemGrid.animateToItem = 0
         else
             m.itemGrid.jumpToItem = 0
         end if
-
     else if key = "replay" and m.genreList.isinFocusChain()
         if m.resetGrid = true
             m.genreList.animateToItem = 0
@@ -775,6 +778,12 @@ function onKeyEvent(key as string, press as boolean) as boolean
             m.genreList.jumpToItem = 0
         end if
         return true
+    else if key = "play"
+        itemToPlay = getItemFocused()
+        if itemToPlay <> invalid
+            m.top.quickPlayNode = itemToPlay
+            return true
+        end if
     end if
 
     if key = "replay"

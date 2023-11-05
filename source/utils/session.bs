@@ -1,17 +1,20 @@
 ' these are needed for ServerInfo() inside session.server.Populate()
 import "pkg:/source/api/userauth.bs"
 import "pkg:/source/api/baserequest.bs"
+import "pkg:/source/migrations.bs"
 
 namespace session
     ' Initialize the global session array
     sub Init()
         m.global.addFields({
             session: {
+                "memoryLevel": "normal",
                 server: {},
                 user: {
                     Configuration: {},
                     Policy: {},
-                    settings: {}
+                    settings: {},
+                    lastRunVersion: invalid
                 }
             }
         })
@@ -70,6 +73,9 @@ namespace session
                 session.server.Delete()
             end if
 
+            ' migrate registry if needed
+            runGlobalMigrations()
+
             return success
         end function
 
@@ -121,7 +127,7 @@ namespace session
 
         ' Update the global session after user is authenticated.
         ' Accepts a UserData.xml object from get_token() or an assocArray from AboutMe()
-        sub Login(userData as object)
+        sub Login(userData as object, saveCredentials = false as boolean)
             ' validate parameters
             if userData = invalid or userData.id = invalid then return
             ' make copy of global user session array
@@ -146,6 +152,12 @@ namespace session
             ' update global user session
             session.Update("user", tmpSession.user)
 
+            ' grab lastRunVersion for this user
+            lastRunVersion = get_user_setting("LastRunVersion")
+            if lastRunVersion <> invalid
+                session.user.Update("LastRunVersion", lastRunVersion)
+            end if
+
             ' update user session settings with values from registry
             userSettings = RegistryReadAll(tmpSession.user.id)
             for each setting in userSettings
@@ -156,10 +168,99 @@ namespace session
                 print "m.global.session.user.settings = ", m.global.session.user.settings
             end if
 
-            if m.global.session.user.settings["global.rememberme"]
+            set_user_setting("serverId", m.global.session.server.id)
+
+            if saveCredentials
                 set_user_setting("token", tmpSession.user.authToken)
                 set_user_setting("username", tmpSession.user.name)
             end if
+
+            session.user.LoadUserPreferences()
+        end sub
+
+        ' Sets the global server device name value used by the API
+        sub SetServerDeviceName()
+            if isValid(m.global.session.user) and isValid(m.global.session.user.friendlyName)
+                m.global.device.serverDeviceName = m.global.device.id + m.global.session.user.friendlyName
+            else
+                m.global.device.serverDeviceName = m.global.device.id
+            end if
+        end sub
+
+        ' Load and parse Display Settings from server
+        sub LoadUserPreferences()
+            ' Save device id so we don't calculate it every time we need it
+            session.user.SetServerDeviceName()
+
+            id = m.global.session.user.id
+            ' Currently using client "emby", which is what website uses so we get same Display prefs as web.
+            ' May want to change to specific Roku display settings
+            url = Substitute("DisplayPreferences/usersettings?userId={0}&client=emby", id)
+            resp = APIRequest(url)
+            jsonResponse = getJson(resp)
+
+            if isValid(jsonResponse) and isValid(jsonResponse.CustomPrefs)
+                session.user.SaveUserHomeSections(jsonResponse.CustomPrefs)
+
+                if isValid(jsonResponse.CustomPrefs["landing-livetv"])
+                    set_user_setting("display.livetv.landing", jsonResponse.CustomPrefs["landing-livetv"])
+                else
+                    unset_user_setting("display.livetv.landing")
+                end if
+            else
+                unset_user_setting("display.livetv.landing")
+            end if
+        end sub
+
+        ' Saves user's web client home sections as Roku user settings.
+        ' Handles unsupported sections and ignores duplicates.
+        sub SaveUserHomeSections(customPrefs as object)
+            userPreferences = customPrefs
+            rowTypes = []
+
+            ' If user has no section preferences, use default settings
+            if not userPreferences.doesExist("homesection0")
+                userPreferences = {
+                    homesection0: "smalllibrarytiles",
+                    homesection1: "resume",
+                    homesection2: "nextup",
+                    homesection3: "latestmedia",
+                    homesection4: "livetv",
+                    homesection5: "none",
+                    homesection6: "none"
+                }
+            end if
+
+            for i = 0 to 6
+                homeSectionKey = "homesection" + i.toStr()
+
+                ' If home section doesn't exist, create it as a none row
+                if not userPreferences.DoesExist(homeSectionKey)
+                    userPreferences.AddReplace(homeSectionKey, "none")
+                end if
+
+                rowType = LCase(userPreferences[homeSectionKey])
+
+                ' Just in case we get invalid data
+                if not isValid(rowType) then rowType = "none"
+
+                ' Small size library item buttons - Currently unsupported, use small library titles
+                if rowType = "librarybuttons"
+                    rowType = "smalllibrarytiles"
+                end if
+
+                ' None is the only section type allowed to have duplicates
+                ' For all other types, only accept the 1st entry
+                if inArray(rowTypes, rowType)
+                    set_user_setting(homeSectionKey, "none")
+                else
+                    set_user_setting(homeSectionKey, rowType)
+
+                    if rowType <> "none"
+                        rowTypes.push(rowType)
+                    end if
+                end if
+            end for
         end sub
 
         ' Empty the global user session array and reload defaults
@@ -251,6 +352,9 @@ namespace session
                         session.user.settings.Save(item, get_setting(item))
                     end if
                 end for
+
+                ' Reset server device name state
+                session.user.SetServerDeviceName()
             end sub
 
             ' Saves the user setting to the global session.

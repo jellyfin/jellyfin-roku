@@ -1,3 +1,5 @@
+import "pkg:/source/utils/config.bs"
+
 function isNodeEvent(msg, field as string) as boolean
     return type(msg) = "roSGNodeEvent" and msg.getField() = field
 end function
@@ -162,31 +164,103 @@ function option_dialog(options, message = "", defaultSelection = 0) as integer
     return show_dialog(message, options, defaultSelection)
 end function
 
-'
-' Take a jellyfin hostname and ensure it's a full url.
-' prepend http or https and append default ports, and remove excess slashes
-'
-function standardize_jellyfin_url(url as string)
-    'Append default ports
-    maxSlashes = 0
-    if left(url, 8) = "https://" or left(url, 7) = "http://"
-        maxSlashes = 2
+' take an incomplete url string and use it to make educated guesses about
+' the complete url. then tests these guesses to see if it can find a jf server
+' returns the url of the server it found, or an empty string
+function inferServerUrl(url as string) as string
+    ' if this server is already stored, just use the value directly
+    ' the server had to get resolved in the first place to get into the registry
+    saved = get_setting("saved_servers")
+    if isValid(saved)
+        savedServers = ParseJson(saved)
+        if isValid(savedServers.lookup(url)) then return url
     end if
-    'Check to make sure entry has no extra slashes before adding default ports.
-    if Instr(0, url, "/") = maxSlashes
-        if url.len() > 5 and mid(url, url.len() - 4, 1) <> ":" and mid(url, url.len() - 5, 1) <> ":"
-            if left(url, 5) = "https"
-                url = url + ":8920"
-            else
-                url = url + ":8096"
-            end if
+
+    port = CreateObject("roMessagePort")
+    hosts = CreateObject("roAssociativeArray")
+    reqs = []
+    candidates = urlCandidates(url)
+    for each endpoint in candidates
+        req = CreateObject("roUrlTransfer")
+        reqs.push(req) ' keep in scope outside of loop, else -10001
+        req.seturl(endpoint + "/system/info/public")
+        req.setMessagePort(port)
+        hosts.addreplace(req.getidentity().ToStr(), endpoint)
+        if endpoint.Left(8) = "https://"
+            req.setCertificatesFile("common:/certs/ca-bundle.crt")
         end if
+        req.AsyncGetToString()
+    end for
+    handled = 0
+    timeout = CreateObject("roTimespan")
+    if hosts.count() > 0
+        while timeout.totalseconds() < 15
+            resp = wait(0, port)
+            if type(resp) = "roUrlEvent"
+                ' TODO
+                ' if response code is a 300 redirect then we should return the redirect url
+                ' Make sure this happens or make it happen
+                if resp.GetResponseCode() = 200 and isJellyfinServer(resp.GetString())
+                    selectedUrl = hosts.lookup(resp.GetSourceIdentity().ToStr())
+                    print "Successfully inferred server URL: " selectedUrl
+                    return selectedUrl
+                end if
+            end if
+            handled += 1
+            if handled = reqs.count()
+                print "inferServerUrl in utils/misc.brs failed to find a server from the string " url " but did not timeout."
+                return ""
+            end if
+        end while
+        print "inferServerUrl in utils/misc.brs failed to find a server from the string " url " because it timed out."
     end if
-    'Append http:// to server
-    if left(url, 4) <> "http"
-        url = "http://" + url
+    return ""
+end function
+
+' this is the "educated guess" logic for inferServerUrl that generates a list of complete url's as candidates
+' for the tests in inferServerUrl. takes an incomplete url as an arg and returns a list of extrapolated
+' full urls.
+function urlCandidates(input as string)
+    if input.endswith("/") then input = input.Left(len(input) - 1)
+    url = parseUrl(input)
+    if url[1] = invalid
+        ' a proto wasn't declared
+        url = parseUrl("none://" + input)
     end if
-    return url
+    ' if the proto is still invalid then the string is not valid
+    if url[1] = invalid then return []
+    proto = url[1]
+    host = url[2]
+    port = url[3]
+    path = url[4]
+    protoCandidates = []
+    supportedProtos = ["http:", "https:"] ' appending colons because the regex does
+    if proto = "none:" ' the user did not declare a protocol
+        ' try every supported proto
+        for each supportedProto in supportedProtos
+            protoCandidates.push(supportedProto + "//" + host)
+        end for
+    else
+        protoCandidates.push(proto + "//" + host) ' but still allow arbitrary protocols if they are declared
+    end if
+    finalCandidates = []
+    if isValid(port) and port <> "" ' if the port is defined just use that
+        for each candidate in protoCandidates
+            finalCandidates.push(candidate + port + path)
+        end for
+    else ' the port wasnt declared so use default jellyfin and proto ports
+        for each candidate in protoCandidates:
+            ' proto default
+            finalCandidates.push(candidate + path)
+            ' jellyfin defaults
+            if candidate.startswith("https")
+                finalCandidates.push(candidate + ":8920" + path)
+            else if candidate.startswith("http")
+                finalCandidates.push(candidate + ":8096" + path)
+            end if
+        end for
+    end if
+    return finalCandidates
 end function
 
 sub setFieldTextValue(field, value)
@@ -228,7 +302,7 @@ function isValidAndNotEmpty(input as dynamic) as boolean
     end if
 end function
 
-' Returns an array from a url - [ url, proto, host, port, subdir/params ]
+' Returns an array from a url = [ url, proto, host, port, subdir+params ]
 ' If port or subdir are not found, an empty string will be added to the array
 ' Proto must be declared or array will be empty
 function parseUrl(url as string) as object
@@ -383,6 +457,16 @@ sub stopLoadingSpinner()
     end if
 end sub
 
+' accepts the raw json string of /system/info/public and returns
+' a boolean indicating if ProductName is "Jellyfin Server"
+function isJellyfinServer(systemInfo as object) as boolean
+    data = ParseJson(systemInfo)
+    if isValid(data) and isValid(data.ProductName)
+        return LCase(data.ProductName) = m.global.constants.jellyfin_server
+    end if
+    return false
+end function
+
 ' Check if a specific value is inside of an array
 function arrayHasValue(arr as object, value as dynamic) as boolean
     for each entry in arr
@@ -391,4 +475,14 @@ function arrayHasValue(arr as object, value as dynamic) as boolean
         end if
     end for
     return false
+end function
+
+' Takes an array of data, shuffles the order, then returns the array
+' uses the Fisher-Yates shuffling algorithm
+function shuffleArray(array as object) as object
+    for i = array.count() - 1 to 1 step -1
+        j = Rnd(i + 1) - 1
+        t = array[i] : array[i] = array[j] : array[j] = t
+    end for
+    return array
 end function

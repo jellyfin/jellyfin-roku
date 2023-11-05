@@ -2,13 +2,15 @@ import "pkg:/source/api/Image.bs"
 import "pkg:/source/api/baserequest.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/misc.bs"
+import "pkg:/source/api/sdk.bs"
 
 sub init()
     m.top.optionsAvailable = false
 
     m.rows = m.top.findNode("picker")
     m.poster = m.top.findNode("seasonPoster")
-    m.Shuffle = m.top.findNode("Shuffle")
+    m.shuffle = m.top.findNode("shuffle")
+    m.extras = m.top.findNode("extras")
     m.tvEpisodeRow = m.top.findNode("tvEpisodeRow")
 
     m.unplayedCount = m.top.findNode("unplayedCount")
@@ -19,6 +21,13 @@ end sub
 
 sub setSeasonLoading()
     m.top.overhangTitle = tr("Loading...")
+end sub
+
+' Updates the visibility of the Extras button based on if this season has any extra features
+sub setExtraButtonVisibility()
+    if isValid(m.top.extrasObjects) and isValidAndNotEmpty(m.top.extrasObjects.items)
+        m.extras.visible = true
+    end if
 end sub
 
 sub updateSeason()
@@ -33,26 +42,36 @@ sub updateSeason()
 
     imgParams = { "maxHeight": 450, "maxWidth": 300 }
     m.poster.uri = ImageURL(m.top.seasonData.Id, "Primary", imgParams)
-    m.Shuffle.visible = true
+    m.shuffle.visible = true
     m.top.overhangTitle = m.top.seasonData.SeriesName + " - " + m.top.seasonData.name
 end sub
 
+' Handle navigation input from the remote and act on it
 function onKeyEvent(key as string, press as boolean) as boolean
     handled = false
 
     if key = "left" and m.tvEpisodeRow.hasFocus()
-        m.Shuffle.setFocus(true)
+        m.shuffle.setFocus(true)
         return true
     end if
 
-    if key = "right" and (m.Shuffle.hasFocus())
+    if key = "right" and (m.shuffle.hasFocus() or m.extras.hasFocus())
         m.tvEpisodeRow.setFocus(true)
         return true
     end if
 
-    if key = "OK" or key = "play"
+    if m.extras.visible and key = "up" and m.extras.hasFocus()
+        m.shuffle.setFocus(true)
+        return true
+    end if
 
-        if m.Shuffle.hasFocus()
+    if m.extras.visible and key = "down" and m.shuffle.hasFocus()
+        m.extras.setFocus(true)
+        return true
+    end if
+
+    if key = "OK" or key = "play"
+        if m.shuffle.hasFocus()
             episodeList = m.rows.getChild(0).objects.items
 
             for i = 0 to episodeList.count() - 1
@@ -65,6 +84,16 @@ function onKeyEvent(key as string, press as boolean) as boolean
             m.global.queueManager.callFunc("set", episodeList)
             m.global.queueManager.callFunc("playQueue")
             return true
+        end if
+
+        if m.extras.visible and m.extras.hasFocus()
+            if LCase(m.extras.text.trim()) = LCase(tr("Extras"))
+                m.extras.text = tr("Episodes")
+                m.top.objects = m.top.extrasObjects
+            else
+                m.extras.text = tr("Extras")
+                m.top.objects = m.top.episodeObjects
+            end if
         end if
     end if
 
@@ -81,7 +110,6 @@ function onKeyEvent(key as string, press as boolean) as boolean
         m.top.lastFocus = focusedChild
         itemToPlay = focusedChild.content.getChild(focusedChild.rowItemFocused[0]).getChild(0)
         if isValid(itemToPlay) and isValid(itemToPlay.id) and itemToPlay.id <> ""
-            itemToPlay.type = "Episode"
             m.top.quickPlayNode = itemToPlay
         end if
         handled = true

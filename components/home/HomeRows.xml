@@ -2,7 +2,7 @@
 <component name="HomeRows" extends="RowList">
   <interface>
     <field id="selectedItem" type="node" alwaysNotify="true" />
-    <field id="quickPlayNode" type="node" alwaysNotify="true" />
+    <field id="quickPlayNode" type="node" />
     <function name="updateHomeRows" />
     <function name="loadLibraries" />
   </interface>
