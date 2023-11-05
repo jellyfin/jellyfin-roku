@@ -36,6 +36,8 @@ sub Main (args as dynamic) as void
     ' remove previous scenes from the stack
     sceneManager.callFunc("clearScenes")
 
+    stopLoadingSpinner()
+
     ' load home page
     sceneManager.currentUser = m.global.session.user.name
     group = CreateHomeGroup()
