@@ -829,5 +829,127 @@
         <source>Enabled</source>
         <translation>Активиран</translation>
     </message>
+    <message>
+        <source>Movies</source>
+        <translation>Филми</translation>
+    </message>
+    <message>
+        <source>Extras</source>
+        <translation>Екстри</translation>
+    </message>
+    <message>
+        <source>Episodes</source>
+        <translation>Епизоди</translation>
+    </message>
+    <message>
+        <source>OFFICIAL_RATING</source>
+        <translation>Родителски контрол</translation>
+    </message>
+    <message>
+        <comment>Title of Tab for options to sort library content</comment>
+        <source>TAB_SORT</source>
+        <translation>Сортирай</translation>
+    </message>
+    <message>
+        <source>On Now</source>
+        <translation>Включено в момента</translation>
+    </message>
+    <message>
+        <comment>Name or Title field of media item</comment>
+        <source>TITLE</source>
+        <translation>Име</translation>
+    </message>
+    <message>
+        <source>IMDB_RATING</source>
+        <translation>IMDb Рейтинг</translation>
+    </message>
+    <message>
+        <source>DATE_ADDED</source>
+        <translation>Дата на добавяне</translation>
+    </message>
+    <message>
+        <comment>Title of Tab for options to filter library content</comment>
+        <source>TAB_FILTER</source>
+        <translation>Филтър</translation>
+    </message>
+    <message>
+        <source>Died</source>
+        <translation>Починал</translation>
+    </message>
+    <message>
+        <source>Age</source>
+        <translation>Възраст</translation>
+    </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>Запази идентификация?</translation>
+    </message>
+    <message>
+        <source>Delete Saved</source>
+        <translation>Изтрий запазените</translation>
+    </message>
+    <message>
+        <source>Cast &amp; Crew</source>
+        <translation>Актьорски състав</translation>
+    </message>
+    <message>
+        <source>Special Features</source>
+        <translation>Допълнителни материали</translation>
+    </message>
+    <message>
+        <source>Movies (Grid)</source>
+        <translation>Филми (Грид)</translation>
+        <extracomment>Movie library view option</extracomment>
+    </message>
+    <message>
+        <source>today</source>
+        <translation>днес</translation>
+        <extracomment>Current day</extracomment>
+    </message>
+    <message>
+        <source>tomorrow</source>
+        <translation>утре</translation>
+        <extracomment>Next day</extracomment>
+    </message>
+    <message>
+        <source>Sunday</source>
+        <translation>Неделя</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Monday</source>
+        <translation>Понеделник</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <comment>Title of Tab for switching &quot;views&quot; when looking at a library</comment>
+        <source>TAB_VIEW</source>
+        <translation>Изглед</translation>
+    </message>
+    <message>
+        <source>RUNTIME</source>
+        <translation>Времетраене</translation>
+    </message>
+    <message>
+        <source>yesterday</source>
+        <translation>вчера</translation>
+        <extracomment>Previous day</extracomment>
+    </message>
+    <message>
+        <source>Born</source>
+        <translation>Роден</translation>
+    </message>
+    <message>
+        <source>RELEASE_DATE</source>
+        <translation>Дата на издаване</translation>
+    </message>
+    <message>
+        <source>PLAY_COUNT</source>
+        <translation>Брой пускания</translation>
+    </message>
+    <message>
+        <source>CRITIC_RATING</source>
+        <translation>Оценка</translation>
+    </message>
 </context>
 </TS>
