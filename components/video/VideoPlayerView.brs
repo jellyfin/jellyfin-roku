@@ -92,16 +92,21 @@ end sub
 
 ' handleHideAction: Handles action to hide pause menu
 '
-sub handleHideAction()
+' @param {boolean} resume - controls whether or not to resume video playback when sub is called
+'
+sub handleHideAction(resume as boolean)
     m.pauseMenu.visible = false
     m.chapterList.visible = false
     m.pauseMenu.showChapterList = false
+    m.chapterList.setFocus(false)
     m.pauseMenu.setFocus(false)
     m.top.setFocus(true)
-    m.top.control = "resume"
+    if resume
+        m.top.control = "resume"
+    end if
 end sub
 
-' handleHideAction: Handles action to show chapter list
+' handleChapterListAction: Handles action to show chapter list
 '
 sub handleChapterListAction()
     m.chapterList.visible = m.pauseMenu.showChapterList
@@ -136,13 +141,45 @@ function getCurrentChapterIndex() as integer
     return currentChapter
 end function
 
+' handleVideoPlayPauseAction: Handles action to either play or pause the video content
+'
+sub handleVideoPlayPauseAction()
+    ' If video is paused, resume it
+    if m.top.state = "paused"
+        m.top.control = "resume"
+        return
+    end if
+
+    ' Pause video
+    m.top.control = "pause"
+end sub
+
+' handleShowSubtitleMenuAction: Handles action to show subtitle selection menu
+'
+sub handleShowSubtitleMenuAction()
+    m.top.selectSubtitlePressed = true
+    handleHideAction(false)
+end sub
+
+' handleShowVideoInfoPopupAction: Handles action to show video info popup
+'
+sub handleShowVideoInfoPopupAction()
+    m.top.selectPlaybackInfoPressed = true
+    handleHideAction(false)
+end sub
+
 ' onPauseMenuAction: Process action events from pause menu to their respective handlers
 '
 sub onPauseMenuAction()
     action = LCase(m.pauseMenu.action)
 
     if action = "hide"
-        handleHideAction()
+        handleHideAction(false)
+        return
+    end if
+
+    if action = "play"
+        handleHideAction(true)
         return
     end if
 
@@ -153,6 +190,21 @@ sub onPauseMenuAction()
 
     if action = "chapterlist"
         handleChapterListAction()
+        return
+    end if
+
+    if action = "videoplaypause"
+        handleVideoPlayPauseAction()
+        return
+    end if
+
+    if action = "showsubtitlemenu"
+        handleShowSubtitleMenuAction()
+        return
+    end if
+
+    if action = "showvideoinfopopup"
+        handleShowVideoInfoPopupAction()
         return
     end if
 end sub
@@ -264,6 +316,8 @@ sub onVideoContentLoaded()
     m.top.audioIndex = videoContent[0].audioIndex
     m.top.transcodeParams = videoContent[0].transcodeparams
     m.chapters = videoContent[0].chapters
+
+    m.pauseMenu.itemTitleText = m.top.content.title
 
     populateChapterMenu()
 
@@ -381,6 +435,9 @@ sub onState(msg)
         m.captionTask.playerState = m.top.state + m.top.globalCaptionMode
     end if
 
+    ' Pass video state into pause menu
+    m.pauseMenu.playbackState = m.top.state
+
     ' When buffering, start timer to monitor buffering process
     if m.top.state = "buffering" and m.bufferCheckTimer <> invalid
 
@@ -488,7 +545,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
     if m.chapterMenu.hasFocus()
         if not press then return false
 
-        if key = "OK" or key = "play"
+        if key = "OK"
             focusedChapter = m.chapterMenu.itemFocused
             selectedChapter = m.chapterMenu.content.getChild(focusedChapter)
             seekTime = selectedChapter.playstart
@@ -506,6 +563,10 @@ function onKeyEvent(key as string, press as boolean) as boolean
             m.chapterMenu.setFocus(false)
             m.pauseMenu.setFocus(true)
             return true
+        end if
+
+        if key = "play"
+            handleVideoPlayPauseAction()
         end if
 
         return true
@@ -543,31 +604,27 @@ function onKeyEvent(key as string, press as boolean) as boolean
             return true
         end if
 
-    else if key = "OK"
-        ' OK will play/pause depending on current state
-        ' return false to allow selection during seeking
-        if m.top.state = "paused"
-            m.top.control = "resume"
-            return false
-        else if m.top.state = "playing"
-            m.top.control = "pause"
-            ' Disable pause menu for intro videos
-            if not m.LoadMetaDataTask.isIntro
-                ' Show pause menu
-                m.top.control = "pause"
-                m.pauseMenu.visible = true
-                m.pauseMenu.setFocus(true)
-                return true
-            end if
-
-            return false
+    else if key = "OK" and not m.top.trickPlayBar.visible
+        if not m.LoadMetaDataTask.isIntro
+            ' Show pause menu, but don't pause video
+            m.pauseMenu.visible = true
+            m.pauseMenu.setFocus(true)
+            return true
         end if
+
+        return false
     end if
 
     ' Disable pause menu for intro videos
     if not m.LoadMetaDataTask.isIntro
-        if key = "play"
-            ' Show pause menu
+        if key = "play" and not m.top.trickPlayBar.visible
+            ' If video is paused, resume it and don't show pause menu
+            if m.top.state = "paused"
+                m.top.control = "resume"
+                return true
+            end if
+
+            ' Pause video and show pause menu
             m.top.control = "pause"
             m.pauseMenu.visible = true
             m.pauseMenu.setFocus(true)
