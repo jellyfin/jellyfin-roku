@@ -9,6 +9,7 @@ sub init()
     m.videoPlayPause = m.top.findNode("videoPlayPause")
 
     m.top.observeField("visible", "onVisibleChanged")
+    m.top.observeField("hasFocus", "onFocusChanged")
     m.top.observeField("playbackState", "onPlaybackStateChanged")
     m.top.observeField("itemTitleText", "onItemTitleTextChanged")
 
@@ -71,6 +72,20 @@ sub onVisibleChanged()
 
     m.inactivityTimer.unobserveField("fire")
     m.inactivityTimer.control = "stop"
+end sub
+
+' onFocusChanged: Handler for changes to the focus of this pause menu.
+'
+sub onFocusChanged()
+    if m.top.hasfocus
+        focusedButton = m.optionControls.getChild(m.focusedButtonIndex)
+        if focusedButton.focus
+            m.optionControls.setFocus(true)
+            return
+        end if
+
+        m.videoControls.setFocus(true)
+    end if
 end sub
 
 ' inactiveCheck: Checks if the time since last keypress is greater than or equal to the allowed inactive time of the pause menu.

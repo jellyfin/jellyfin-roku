@@ -24,5 +24,6 @@
     <field id="playbackState" type="string" alwaysNotify="true" />
     <field id="action" type="string" alwaysNotify="true" />
     <field id="showChapterList" type="boolean" alwaysNotify="true" />
+    <field id="hasFocus" type="boolean" alwaysNotify="true" />
   </interface>
 </component>

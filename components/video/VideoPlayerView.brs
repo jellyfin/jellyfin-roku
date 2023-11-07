@@ -99,6 +99,7 @@ sub handleHideAction(resume as boolean)
     m.chapterList.visible = false
     m.pauseMenu.showChapterList = false
     m.chapterList.setFocus(false)
+    m.pauseMenu.hasFocus = false
     m.pauseMenu.setFocus(false)
     m.top.setFocus(true)
     if resume
@@ -115,6 +116,7 @@ sub handleChapterListAction()
 
     m.chapterMenu.jumpToItem = getCurrentChapterIndex()
 
+    m.pauseMenu.hasFocus = false
     m.pauseMenu.setFocus(false)
     m.chapterMenu.setFocus(true)
 end sub
@@ -561,6 +563,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
             m.chapterList.visible = false
             m.pauseMenu.showChapterList = false
             m.chapterMenu.setFocus(false)
+            m.pauseMenu.hasFocus = true
             m.pauseMenu.setFocus(true)
             return true
         end if
@@ -608,6 +611,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
         if not m.LoadMetaDataTask.isIntro
             ' Show pause menu, but don't pause video
             m.pauseMenu.visible = true
+            m.pauseMenu.hasFocus = true
             m.pauseMenu.setFocus(true)
             return true
         end if
@@ -627,6 +631,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
             ' Pause video and show pause menu
             m.top.control = "pause"
             m.pauseMenu.visible = true
+            m.pauseMenu.hasFocus = true
             m.pauseMenu.setFocus(true)
             return true
         end if
