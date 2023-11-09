@@ -142,7 +142,6 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
 
 
     ' 'TODO: allow user selection of subtitle track before playback initiated, for now set to no subtitles
-
     video.directPlaySupported = m.playbackInfo.MediaSources[0].SupportsDirectPlay
     fully_external = false
 
@@ -165,8 +164,8 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
     end if
 
     if video.directPlaySupported
-        addVideoContentURL(video, mediaSourceId, audio_stream_idx, fully_external)
         video.isTranscoded = false
+        addVideoContentURL(video, mediaSourceId, audio_stream_idx, fully_external)
     else
         if m.playbackInfo.MediaSources[0].TranscodingUrl = invalid
             ' If server does not provide a transcode URL, display a message to the user
@@ -204,15 +203,13 @@ sub addVideoContentURL(video, mediaSourceId, audio_stream_idx, fully_external)
             fully_external = true
             video.content.url = m.playbackInfo.MediaSources[0].Path
         end if
-    else:
-        params = {}
-
-        params.append({
+    else
+        params = {
             "Static": "true",
             "Container": video.container,
             "PlaySessionId": video.PlaySessionId,
             "AudioStreamIndex": audio_stream_idx
-        })
+        }
 
         if mediaSourceId <> ""
             params.MediaSourceId = mediaSourceId

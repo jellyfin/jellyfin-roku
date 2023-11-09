@@ -1,0 +1,81 @@
+sub init()
+    m.top.keyGrid.keyDefinitionUri = "pkg:/components/keyboards/IntegerKeyboardKDF.json"
+end sub
+
+function onKeyEvent(key as string, press as boolean) as boolean
+    if key = "back"
+        m.top.escape = key
+        return true
+    end if
+
+    if not press then return false
+
+    if key = "left"
+        if m.top.textEditBox.hasFocus()
+            m.top.escape = key
+            return true
+        else if m.top.focusedChild.keyFocused = "1"
+            m.top.escape = key
+            return true
+        else if m.top.focusedChild.keyFocused = "4"
+            m.top.escape = key
+            return true
+        else if m.top.focusedChild.keyFocused = "7"
+            m.top.escape = key
+            return true
+        else if m.top.focusedChild.keyFocused = "backspace"
+            m.top.escape = key
+            return true
+        end if
+    end if
+
+    if key = "right"
+        if m.top.textEditBox.hasFocus()
+            m.top.escape = key
+            return true
+        else if m.top.focusedChild.keyFocused = "3"
+            m.top.escape = key
+            return true
+        else if m.top.focusedChild.keyFocused = "6"
+            m.top.escape = key
+            return true
+        else if m.top.focusedChild.keyFocused = "9"
+            m.top.escape = key
+            return true
+        else if m.top.focusedChild.keyFocused = "submit"
+            m.top.escape = key
+            return true
+        end if
+    end if
+
+    if key = "up"
+        if m.top.textEditBox.hasFocus()
+            m.top.escape = key
+            return true
+        end if
+    end if
+
+    if key = "down"
+        if m.top.focusedChild.keyFocused = "0"
+            m.top.escape = key
+            return true
+        else if m.top.focusedChild.keyFocused = "backspace"
+            m.top.escape = key
+            return true
+        else if m.top.focusedChild.keyFocused = "submit"
+            m.top.escape = key
+            return true
+        end if
+    end if
+
+    return false
+end function
+
+function keySelected(key as string) as boolean
+    if key = "submit"
+        m.top.submit = true
+        return true
+    end if
+
+    return false
+end function

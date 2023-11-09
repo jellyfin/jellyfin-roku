@@ -12,6 +12,7 @@ on:
 
 jobs:
   project:
+    if: github.repository == 'jellyfin/jellyfin-roku'
     name: Project board 📊
     runs-on: ubuntu-latest
     steps:
@@ -23,12 +24,13 @@ jobs:
           column: In progress
           repo-token: ${{ secrets.JF_BOT_TOKEN }}
   label:
+    if: github.repository == 'jellyfin/jellyfin-roku'
     name: Labeling 🏷️
     runs-on: ubuntu-latest
     steps:
       - name: Check all PRs for merge conflicts ⛔
         uses: eps1lon/actions-label-merge-conflict@releases/2.x
         with:
-          dirtyLabel: "merge conflict"
+          dirtyLabel: "merge-conflict"
           commentOnDirty: "This pull request has merge conflicts. Please resolve the conflicts so the PR can be reviewed. Thanks!"
           repoToken: ${{ secrets.JF_BOT_TOKEN }}

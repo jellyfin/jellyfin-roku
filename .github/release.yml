@@ -1,0 +1,27 @@
+changelog:
+  categories:
+    - title: 🆕 New Features
+      labels:
+        - "new-feature"
+    - title: ⚙️ New Settings
+      labels:
+        - "new-setting"
+    - title: 🐛 Bug Fixes
+      labels:
+        - "bug-fix"
+    - title: 🧹 Code Cleanup
+      labels:
+        - "code-cleanup"
+    - title: 💻 Dev Improvements
+      labels:
+        - "dev-improvement"
+    - title: 📝 Documentation
+      labels:
+        - "documentation"
+    - title: ⭐ Additional Updates
+      labels:
+        - "*"
+      exclude:
+        labels:
+          - dependencies
+          - ignore-changelog

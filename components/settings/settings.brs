@@ -1,7 +1,6 @@
 import "pkg:/source/utils/config.brs"
 import "pkg:/source/utils/misc.brs"
 import "pkg:/source/roku_modules/log/LogMixin.brs"
-import "pkg:/source/api/sdk.bs"
 
 sub init()
     m.log = log.Logger("Settings")
@@ -202,16 +201,21 @@ sub radioSettingChanged()
     set_user_setting(selectedSetting.settingName, m.radioSetting.content.getChild(m.radioSetting.checkedItem).id)
 end sub
 
+' Returns true if any of the data entry forms are in focus
+function isFormInFocus() as boolean
+    if isValid(m.settingDetail.focusedChild) or m.radioSetting.hasFocus() or m.boolSetting.hasFocus() or m.integerSetting.hasFocus()
+        return true
+    end if
+    return false
+end function
+
 function onKeyEvent(key as string, press as boolean) as boolean
     if not press then return false
 
     if (key = "back" or key = "left") and m.settingsMenu.focusedChild <> invalid and m.userLocation.Count() > 1
         LoadMenu({})
         return true
-    else if (key = "back" or key = "left") and m.settingDetail.focusedChild <> invalid
-        m.settingsMenu.setFocus(true)
-        return true
-    else if (key = "back" or key = "left") and m.radioSetting.hasFocus()
+    else if (key = "back" or key = "left") and isFormInFocus()
         m.settingsMenu.setFocus(true)
         return true
     end if
