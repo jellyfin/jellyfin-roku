@@ -91,8 +91,6 @@ end sub
 ' inactiveCheck: Checks if the time since last keypress is greater than or equal to the allowed inactive time of the pause menu.
 '
 sub inactiveCheck()
-    if LCase(m.top.playbackState) <> "playing" then return
-
     if m.deviceInfo.timeSinceLastKeypress() >= m.top.inactiveTimeout
         m.top.action = "hide"
     end if

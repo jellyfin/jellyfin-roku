@@ -148,7 +148,7 @@ end function
 sub handleVideoPlayPauseAction()
     ' If video is paused, resume it
     if m.top.state = "paused"
-        m.top.control = "resume"
+        handleHideAction(true)
         return
     end if
 
@@ -379,6 +379,8 @@ end sub
 '
 ' Runs Next Episode button animation and sets focus to button
 sub showNextEpisodeButton()
+    if m.pauseMenu.visible then return
+
     if m.global.session.user.configuration.EnableNextEpisodeAutoPlay and not m.nextEpisodeButton.visible
         m.showNextEpisodeButtonAnimation.control = "start"
         m.nextEpisodeButton.setFocus(true)
@@ -592,18 +594,18 @@ function onKeyEvent(key as string, press as boolean) as boolean
     if not press then return false
 
     if key = "down"
-        if m.pauseMenu.visible then return true
-
-        ' Do not show subtitle selection for intro videos
         if not m.LoadMetaDataTask.isIntro
-            m.top.selectSubtitlePressed = true
+            m.pauseMenu.visible = true
+            m.pauseMenu.hasFocus = true
+            m.pauseMenu.setFocus(true)
             return true
         end if
 
     else if key = "up"
-        ' Do not show playback info for intro videos
         if not m.LoadMetaDataTask.isIntro
-            m.top.selectPlaybackInfoPressed = true
+            m.pauseMenu.visible = true
+            m.pauseMenu.hasFocus = true
+            m.pauseMenu.setFocus(true)
             return true
         end if
 
