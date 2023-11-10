@@ -81,6 +81,7 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
         video.content.contenttype = "episode"
     end if
 
+    video.chapters = meta.json.Chapters
     video.content.title = meta.title
     video.showID = meta.showID
 

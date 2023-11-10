@@ -69,7 +69,7 @@ end function
 ' MetaData about an item
 function ItemMetaData(id as string)
     url = Substitute("Users/{0}/Items/{1}", m.global.session.user.id, id)
-    resp = APIRequest(url)
+    resp = APIRequest(url, { "fields": "Chapters" })
     data = getJson(resp)
     if data = invalid then return invalid
 
