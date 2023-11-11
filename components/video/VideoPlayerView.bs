@@ -437,6 +437,12 @@ end sub
 
 ' When Video Player state changes
 sub onPositionChanged()
+
+    ' Pass video position data into pause menu
+    m.pauseMenu.progressPercentage = m.top.position / m.top.duration
+    m.pauseMenu.positionTime = m.top.position
+    m.pauseMenu.remainingPositionTime = m.top.duration - m.top.position
+
     if isValid(m.captionTask)
         m.captionTask.currentPos = Int(m.top.position * 1000)
     end if
