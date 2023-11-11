@@ -33,11 +33,7 @@ sub OnAuthenticated()
         authenticated = AuthenticateViaQuickConnect(m.top.quickConnectJson.secret)
         if authenticated <> invalid and authenticated = true
             currentUser = AboutMe()
-            if m.top.saveCredentials
-                session.user.Login(currentUser, true)
-            else
-                session.user.Login(currentUser)
-            end if
+            session.user.Login(currentUser, m.top.saveCredentials)
             session.user.LoadUserPreferences()
             LoadUserAbilities()
             m.top.close = true
