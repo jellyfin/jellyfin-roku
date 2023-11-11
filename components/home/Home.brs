@@ -24,7 +24,7 @@ sub loadLibraries()
 end sub
 
 ' JFScreen hook that gets ran as needed.
-' Used to update the foces, the state of the data, and tells the server about the device profile
+' Used to update the focus, the state of the data, and tells the server about the device profile
 sub OnScreenShown()
     if isValid(m.top.lastFocus)
         m.top.lastFocus.setFocus(true)
