@@ -98,14 +98,6 @@ sub popScene()
     if group <> invalid
         registerOverhangData(group)
 
-        if group.subtype() = "Home"
-            currentTime = CreateObject("roDateTime").AsSeconds()
-            if group.timeLastRefresh = invalid or (currentTime - group.timeLastRefresh) > 20
-                group.timeLastRefresh = currentTime
-                group.callFunc("refresh")
-            end if
-        end if
-
         group.visible = true
 
         m.content.replaceChild(group, 0)
@@ -143,6 +135,11 @@ end function
 ' Clear all content from group stack
 sub clearScenes()
     if m.content <> invalid then m.content.removeChildrenIndex(m.content.getChildCount(), 0)
+    for each group in m.groups
+        if LCase(group.subtype()) = "jfscreen"
+            group.callFunc("OnScreenHidden")
+        end if
+    end for
     m.groups = []
 end sub
 

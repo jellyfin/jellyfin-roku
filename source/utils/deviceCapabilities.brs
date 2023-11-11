@@ -1,11 +1,10 @@
 import "pkg:/source/utils/misc.brs"
 import "pkg:/source/api/baserequest.brs"
 
-'Device Capabilities for Roku.
-'This will likely need further tweaking
+' Returns the Device Capabilities for Roku.
+' Also prints out the device profile for debugging
 function getDeviceCapabilities() as object
-
-    return {
+    deviceProfile = {
         "PlayableMediaTypes": [
             "Audio",
             "Video",
@@ -19,44 +18,11 @@ function getDeviceCapabilities() as object
         "DeviceProfile": getDeviceProfile(),
         "AppStoreUrl": "https://channelstore.roku.com/details/cc5e559d08d9ec87c5f30dcebdeebc12/jellyfin"
     }
-end function
 
-' Send Device Profile information to server
-sub PostDeviceProfile()
-    profile = getDeviceCapabilities()
-    req = APIRequest("/Sessions/Capabilities/Full")
-    req.SetRequest("POST")
-    print "profile =", profile
-    print "profile.DeviceProfile =", profile.DeviceProfile
-    print "profile.DeviceProfile.CodecProfiles ="
-    for each prof in profile.DeviceProfile.CodecProfiles
-        print prof
-        for each cond in prof.Conditions
-            print cond
-        end for
-    end for
-    print "profile.DeviceProfile.ContainerProfiles =", profile.DeviceProfile.ContainerProfiles
-    print "profile.DeviceProfile.DirectPlayProfiles ="
-    for each prof in profile.DeviceProfile.DirectPlayProfiles
-        print prof
-    end for
-    print "profile.DeviceProfile.SubtitleProfiles ="
-    for each prof in profile.DeviceProfile.SubtitleProfiles
-        print prof
-    end for
-    print "profile.DeviceProfile.TranscodingProfiles ="
-    for each prof in profile.DeviceProfile.TranscodingProfiles
-        print prof
-        if isValid(prof.Conditions)
-            for each condition in prof.Conditions
-                print condition
-            end for
-        end if
-    end for
-    print "profile.PlayableMediaTypes =", profile.PlayableMediaTypes
-    print "profile.SupportedCommands =", profile.SupportedCommands
-    postJson(req, FormatJson(profile))
-end sub
+    printDeviceProfile(deviceProfile)
+
+    return deviceProfile
+end function
 
 function getDeviceProfile() as object
     globalDevice = m.global.device
@@ -1078,6 +1044,38 @@ function removeDecimals(value as string) as string
     return value
 end function
 
+' Print out the deviceProfile for debugging
+sub printDeviceProfile(profile as object)
+    print "profile =", profile
+    print "profile.DeviceProfile =", profile.DeviceProfile
+    print "profile.DeviceProfile.CodecProfiles ="
+    for each prof in profile.DeviceProfile.CodecProfiles
+        print prof
+        for each cond in prof.Conditions
+            print cond
+        end for
+    end for
+    print "profile.DeviceProfile.ContainerProfiles =", profile.DeviceProfile.ContainerProfiles
+    print "profile.DeviceProfile.DirectPlayProfiles ="
+    for each prof in profile.DeviceProfile.DirectPlayProfiles
+        print prof
+    end for
+    print "profile.DeviceProfile.SubtitleProfiles ="
+    for each prof in profile.DeviceProfile.SubtitleProfiles
+        print prof
+    end for
+    print "profile.DeviceProfile.TranscodingProfiles ="
+    for each prof in profile.DeviceProfile.TranscodingProfiles
+        print prof
+        if isValid(prof.Conditions)
+            for each condition in prof.Conditions
+                print condition
+            end for
+        end if
+    end for
+    print "profile.PlayableMediaTypes =", profile.PlayableMediaTypes
+    print "profile.SupportedCommands =", profile.SupportedCommands
+end sub
 ' Takes and returns a comma delimited string of codecs.
 ' Moves the preferred codec to the front of the string
 function setPreferredCodec(codecString as string, preferredCodec as string) as string

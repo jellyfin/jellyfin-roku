@@ -1,6 +1,8 @@
 import "pkg:/source/utils/config.brs"
 import "pkg:/source/utils/misc.brs"
 import "pkg:/source/roku_modules/log/LogMixin.brs"
+' post device profile
+import "pkg:/source/utils/deviceCapabilities.brs"
 
 sub init()
     m.log = log.Logger("Settings")
@@ -26,6 +28,8 @@ sub init()
 
     m.boolSetting.observeField("checkedItem", "boolSettingChanged")
     m.radioSetting.observeField("checkedItem", "radioSettingChanged")
+
+    m.postTask = createObject("roSGNode", "PostTask")
 
     ' Load Configuration Tree
     m.configTree = GetConfigTree()
@@ -199,6 +203,23 @@ sub radioSettingChanged()
     if m.radioSetting.focusedChild = invalid then return
     selectedSetting = m.userLocation.peek().children[m.settingsMenu.itemFocused]
     set_user_setting(selectedSetting.settingName, m.radioSetting.content.getChild(m.radioSetting.checkedItem).id)
+end sub
+
+' JFScreen hook that gets ran as needed.
+' Assumes settings were changed and they affect the device profile.
+' Posts a new device profile to the server using the task thread
+sub OnScreenHidden()
+    m.postTask.arrayData = getDeviceCapabilities()
+    m.postTask.apiUrl = "/Sessions/Capabilities/Full"
+    m.postTask.control = "RUN"
+    m.postTask.observeField("responseCode", "postFinished")
+end sub
+
+' Triggered by m.postTask after completing a post.
+' Empty the task data when finished.
+sub postFinished()
+    m.postTask.unobserveField("responseCode")
+    m.postTask.callFunc("empty")
 end sub
 
 ' Returns true if any of the data entry forms are in focus
