@@ -111,7 +111,6 @@ sub removeHomeSection(sectionType as string)
     end for
 
     m.homeSectionIndexes.Delete(sectionName)
-    m.homeSectionIndexes.AddReplace("count", m.homeSectionIndexes.count - 1)
 
     m.top.content.removeChildIndex(removedSectionIndex)
 end sub
@@ -410,10 +409,12 @@ sub updateLatestInRows()
             loadLatest.itemsToLoad = "latest"
             loadLatest.itemId = lib.id
 
-            metadata = { "title": lib.name }
-            metadata.Append({ "contentType": lib.json.CollectionType })
-            loadLatest.metadata = metadata
+            metadata = {
+                "title": lib.name,
+                "contentType": lib.json.CollectionType
+            }
 
+            loadLatest.metadata = metadata
             loadLatest.observeField("content", "updateLatestItems")
             loadLatest.control = "RUN"
         end if
@@ -430,8 +431,6 @@ sub updateLatestItems(msg)
     if itemData = invalid then return
 
     sectionName = "latestin" + LCase(node.metadata.title).Replace(" ", "")
-
-    rowIndex = m.homeSectionIndexes[sectionName]
 
     if itemData.count() &lt; 1
         removeHomeSection(sectionName)
@@ -459,9 +458,42 @@ sub updateLatestItems(msg)
             row.appendChild(item)
         end for
 
-        ' replace the old row
-        updateSizeArray(itemSize, rowIndex, "replace")
-        m.top.content.replaceChild(row, rowIndex)
+        rowIndex = m.homeSectionIndexes[sectionName]
+
+        ' Replace the old row
+        if isValid(rowIndex)
+            updateSizeArray(itemSize, rowIndex, "replace")
+            m.top.content.replaceChild(row, rowIndex)
+            return
+        end if
+
+        ' Determine highest index of a Lastest In section so we can append the new section after it
+        highestLatestHomeSectionIndex = 0
+
+        for each section in m.homeSectionIndexes
+            if LCase(Left(section, 6)) = "latest"
+                if m.homeSectionIndexes[section] > highestLatestHomeSectionIndex
+                    highestLatestHomeSectionIndex = m.homeSectionIndexes[section]
+                end if
+            end if
+        end for
+
+        ' We have data for a section that doesn't currently exist
+        rowIndex = highestLatestHomeSectionIndex + 1
+
+        ' Advance all the indexes greater than or equal than our new row
+        for each section in m.homeSectionIndexes
+            if m.homeSectionIndexes[section] >= rowIndex
+                m.homeSectionIndexes[section]++
+            end if
+        end for
+
+        m.homeSectionIndexes.AddReplace(sectionName, rowIndex)
+
+        m.top.content.insertChild(row, rowIndex)
+        updateSizeArray(itemSize, rowIndex)
+
+        return
     end if
 end sub
 
