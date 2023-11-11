@@ -21,6 +21,7 @@
       "default_theme": "fallback-dark",
       "base_url": "https://jellyfin.github.io/jellyfin-roku/",
       "title": "jellyfin-roku Code Documentation",
+      "homepageTitle": "jellyfin-roku Code Documentation",
       "displayModuleHeader": true,
       "menu": [
         {
