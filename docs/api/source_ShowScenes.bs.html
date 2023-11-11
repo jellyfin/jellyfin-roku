@@ -508,6 +508,7 @@ function CreateSigninGroup(user = "")
                 else
                     ' Server user is talking to is at least 10.8 and has quick connect enabled...
                     m.quickConnectDialog = createObject("roSGNode", "QuickConnectDialog")
+                    m.quickConnectDialog.saveCredentials = checkbox.checkedState[0]
                     m.quickConnectDialog.quickConnectJson = json
                     m.quickConnectDialog.title = tr("Quick Connect")
                     m.quickConnectDialog.message = [tr("Here is your Quick Connect code: ") + json.Code, tr("(Dialog will close automatically)")]
