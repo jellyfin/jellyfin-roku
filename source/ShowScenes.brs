@@ -86,13 +86,13 @@ function LoginFlow()
             end if
             ' push all users to the user select view
             userSelected = CreateUserSelectGroup(publicUsersNodes)
-
             SendPerformanceBeacon("AppDialogComplete") ' Roku Performance monitoring - Dialog Closed
             if userSelected = "backPressed"
                 session.server.Delete()
                 unset_setting("server")
                 goto start_login
-            else
+            else if userSelected <> ""
+                startMediaLoadingSpinner()
                 print "A public user was selected with username=" + userSelected
                 session.user.Update("name", userSelected)
                 regex = CreateObject("roRegex", "[^a-zA-Z0-9\ \-\_]", "")
@@ -140,6 +140,7 @@ function LoginFlow()
         else
             userSelected = ""
         end if
+        stopLoadingSpinner()
         passwordEntry = CreateSigninGroup(userSelected)
         SendPerformanceBeacon("AppDialogComplete") ' Roku Performance monitoring - Dialog Closed
         if passwordEntry = "backPressed"
@@ -480,6 +481,7 @@ function CreateSigninGroup(user = "")
         else if type(msg) = "roSGNodeEvent"
             node = msg.getNode()
             if node = "submit"
+                startMediaLoadingSpinner()
                 ' Validate credentials
                 activeUser = get_token(username.value, password.value)
                 if isValid(activeUser)
@@ -494,6 +496,7 @@ function CreateSigninGroup(user = "")
                     end if
                     return "true"
                 end if
+                stopLoadingSpinner()
                 print "Login attempt failed..."
                 group.findNode("alert").text = tr("Login attempt failed.")
             else if node = "quickConnect"
