@@ -1,11 +1,10 @@
 import "pkg:/source/utils/misc.bs"
 import "pkg:/source/api/baserequest.bs"
 
-'Device Capabilities for Roku.
-'This will likely need further tweaking
+' Returns the Device Capabilities for Roku.
+' Also prints out the device profile for debugging
 function getDeviceCapabilities() as object
-
-    return {
+    deviceProfile = {
         "PlayableMediaTypes": [
             "Audio",
             "Video",
@@ -19,44 +18,11 @@ function getDeviceCapabilities() as object
         "DeviceProfile": getDeviceProfile(),
         "AppStoreUrl": "https://channelstore.roku.com/details/cc5e559d08d9ec87c5f30dcebdeebc12/jellyfin"
     }
-end function
 
-' Send Device Profile information to server
-sub PostDeviceProfile()
-    profile = getDeviceCapabilities()
-    req = APIRequest("/Sessions/Capabilities/Full")
-    req.SetRequest("POST")
-    print "profile =", profile
-    print "profile.DeviceProfile =", profile.DeviceProfile
-    print "profile.DeviceProfile.CodecProfiles ="
-    for each prof in profile.DeviceProfile.CodecProfiles
-        print prof
-        for each cond in prof.Conditions
-            print cond
-        end for
-    end for
-    print "profile.DeviceProfile.ContainerProfiles =", profile.DeviceProfile.ContainerProfiles
-    print "profile.DeviceProfile.DirectPlayProfiles ="
-    for each prof in profile.DeviceProfile.DirectPlayProfiles
-        print prof
-    end for
-    print "profile.DeviceProfile.SubtitleProfiles ="
-    for each prof in profile.DeviceProfile.SubtitleProfiles
-        print prof
-    end for
-    print "profile.DeviceProfile.TranscodingProfiles ="
-    for each prof in profile.DeviceProfile.TranscodingProfiles
-        print prof
-        if isValid(prof.Conditions)
-            for each condition in prof.Conditions
-                print condition
-            end for
-        end if
-    end for
-    print "profile.PlayableMediaTypes =", profile.PlayableMediaTypes
-    print "profile.SupportedCommands =", profile.SupportedCommands
-    postJson(req, FormatJson(profile))
-end sub
+    printDeviceProfile(deviceProfile)
+
+    return deviceProfile
+end function
 
 function getDeviceProfile() as object
     globalDevice = m.global.device
@@ -172,6 +138,10 @@ function GetDirectPlayProfiles() as object
             end if
         end for
     end for
+
+    ' remove audio codecs not supported as standalone audio files (opus)
+    ' also add aac back to the list so it gets added to the direct play profile
+    audioCodecs = ["aac", "mp3", "mp2", "pcm", "lpcm", "wav", "ac3", "ac4", "aiff", "wma", "flac", "alac", "aac", "dts", "wmapro", "vorbis", "eac3", "mpg123"]
 
     ' check audio codecs with no container
     supportedAudio = []
@@ -368,27 +338,10 @@ function getTranscodingProfiles() as object
         end for
     end for
 
-    ' add mp3 to TranscodingProfile for music
-    transcodingProfiles.push({
-        "Container": "mp3",
-        "Type": "Audio",
-        "AudioCodec": "mp3",
-        "Context": "Streaming",
-        "Protocol": "http",
-        "MaxAudioChannels": maxAudioChannels
-    })
-    transcodingProfiles.push({
-        "Container": "mp3",
-        "Type": "Audio",
-        "AudioCodec": "mp3",
-        "Context": "Static",
-        "Protocol": "http",
-        "MaxAudioChannels": maxAudioChannels
-    })
     ' add aac to TranscodingProfile for stereo audio
     ' NOTE: multichannel aac is not supported. only decode to stereo on some devices
     transcodingProfiles.push({
-        "Container": "ts",
+        "Container": "aac",
         "Type": "Audio",
         "AudioCodec": "aac",
         "Context": "Streaming",
@@ -396,12 +349,29 @@ function getTranscodingProfiles() as object
         "MaxAudioChannels": "2"
     })
     transcodingProfiles.push({
-        "Container": "ts",
+        "Container": "aac",
         "Type": "Audio",
         "AudioCodec": "aac",
         "Context": "Static",
         "Protocol": "http",
         "MaxAudioChannels": "2"
+    })
+    ' add mp3 to TranscodingProfile for multichannel music
+    transcodingProfiles.push({
+        "Container": "mp3",
+        "Type": "Audio",
+        "AudioCodec": "mp3",
+        "Context": "Streaming",
+        "Protocol": "http",
+        "MaxAudioChannels": maxAudioChannels
+    })
+    transcodingProfiles.push({
+        "Container": "mp3",
+        "Type": "Audio",
+        "AudioCodec": "mp3",
+        "Context": "Static",
+        "Protocol": "http",
+        "MaxAudioChannels": maxAudioChannels
     })
 
     tsArray = {
@@ -506,19 +476,22 @@ function getCodecProfiles() as object
             if di.CanDecodeAudio({ Codec: audioCodec, ChCnt: audioChannel }).Result
                 channelSupportFound = true
                 for each codecType in ["VideoAudio", "Audio"]
-                    codecProfiles.push({
-                        "Type": codecType,
-                        "Codec": audioCodec,
-                        "Conditions": [
-                            {
-                                "Condition": "LessThanEqual",
-                                "Property": "AudioChannels",
-                                "Value": audioChannel,
-                                "IsRequired": true
-                            }
-                        ]
-                    })
-
+                    if audioCodec = "opus" and codecType = "Audio"
+                        ' opus audio files not supported by roku
+                    else
+                        codecProfiles.push({
+                            "Type": codecType,
+                            "Codec": audioCodec,
+                            "Conditions": [
+                                {
+                                    "Condition": "LessThanEqual",
+                                    "Property": "AudioChannels",
+                                    "Value": audioChannel,
+                                    "IsRequired": true
+                                }
+                            ]
+                        })
+                    end if
                 end for
             end if
             if channelSupportFound
@@ -1071,6 +1044,38 @@ function removeDecimals(value as string) as string
     return value
 end function
 
+' Print out the deviceProfile for debugging
+sub printDeviceProfile(profile as object)
+    print "profile =", profile
+    print "profile.DeviceProfile =", profile.DeviceProfile
+    print "profile.DeviceProfile.CodecProfiles ="
+    for each prof in profile.DeviceProfile.CodecProfiles
+        print prof
+        for each cond in prof.Conditions
+            print cond
+        end for
+    end for
+    print "profile.DeviceProfile.ContainerProfiles =", profile.DeviceProfile.ContainerProfiles
+    print "profile.DeviceProfile.DirectPlayProfiles ="
+    for each prof in profile.DeviceProfile.DirectPlayProfiles
+        print prof
+    end for
+    print "profile.DeviceProfile.SubtitleProfiles ="
+    for each prof in profile.DeviceProfile.SubtitleProfiles
+        print prof
+    end for
+    print "profile.DeviceProfile.TranscodingProfiles ="
+    for each prof in profile.DeviceProfile.TranscodingProfiles
+        print prof
+        if isValid(prof.Conditions)
+            for each condition in prof.Conditions
+                print condition
+            end for
+        end if
+    end for
+    print "profile.PlayableMediaTypes =", profile.PlayableMediaTypes
+    print "profile.SupportedCommands =", profile.SupportedCommands
+end sub
 ' Takes and returns a comma delimited string of codecs.
 ' Moves the preferred codec to the front of the string
 function setPreferredCodec(codecString as string, preferredCodec as string) as string

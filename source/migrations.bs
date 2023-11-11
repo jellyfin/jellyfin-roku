@@ -5,9 +5,9 @@ import "pkg:/source/utils/misc.bs"
 ' Run all necessary registry mirations on the "global" Jellyfin registry section
 sub runGlobalMigrations()
     ' Global registry migrations
-    if isValid(m.global.app.lastRunVersion) and not versionChecker(m.global.app.lastRunVersion, "1.7.0")
-        ' last app version used was less than 1.7.0
-        print "Running 1.7.0 global registry migrations"
+    if isValid(m.global.app.lastRunVersion) and not versionChecker(m.global.app.lastRunVersion, "2.0.0")
+        ' last app version used was less than 2.0.0
+        print "Running 2.0.0 global registry migrations"
         ' no longer saving raw password to registry
         ' auth token and username are now stored in user settings and not global settings
 
@@ -53,8 +53,8 @@ sub runRegistryUserMigrations(version as string)
     regSections = getRegistrySections()
     for each section in regSections
         if LCase(section) <> "jellyfin"
-            if version = "1.7.0"
-                print "Running User Registry Migration for 1.7.0"
+            if version = "2.0.0"
+                print "Running User Registry Migration for 2.0.0"
                 ' now saving LastRunVersion globally and per user so that we can run user specific registry migrations
                 ' duplicate LastRunVersion to all user settings in the registry so that we can run user specific migrations
                 '

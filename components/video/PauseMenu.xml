@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component name="PauseMenu" extends="Group" initialFocus="chapterNext">
+  <children>
+    <Label id="itemTitle" font="font:LargeBoldSystemFont" translation="[103,61]" />
+    <Clock id="clock" translation="[1618, 46]" />
+
+    <ButtonGroup id="optionControls" itemSpacings="[20]" layoutDirection="horiz" horizAlignment="left" translation="[103,120]">
+      <IconButton id="showVideoInfoPopup" background="#070707" focusBackground="#00a4dc" padding="16" icon="pkg:/images/icons/videoInfo.png" height="65" width="100" />
+      <IconButton id="chapterList" background="#070707" focusBackground="#00a4dc" padding="16" icon="pkg:/images/icons/numberList.png" height="65" width="100" />
+      <IconButton id="showSubtitleMenu" background="#070707" focusBackground="#00a4dc" padding="0" icon="pkg:/images/icons/subtitle.png" height="65" width="100" />
+    </ButtonGroup>
+
+    <ButtonGroup id="videoControls" itemSpacings="[20]" layoutDirection="horiz" horizAlignment="center" translation="[960,950]">
+      <IconButton id="chapterBack" background="#070707" focusBackground="#00a4dc" padding="16" icon="pkg:/images/icons/previousChapter.png" height="65" width="100" />
+      <IconButton id="videoPlayPause" background="#070707" focusBackground="#00a4dc" padding="35" icon="pkg:/images/icons/play.png" height="65" width="100" />
+      <IconButton id="chapterNext" background="#070707" focusBackground="#00a4dc" padding="16" icon="pkg:/images/icons/nextChapter.png" height="65" width="100" />
+    </ButtonGroup>
+
+    <Timer id="inactivityTimer" duration="1" repeat="true" />
+  </children>
+  <interface>
+    <field id="itemTitleText" type="string" />
+    <field id="inactiveTimeout" type="integer" />
+    <field id="playbackState" type="string" alwaysNotify="true" />
+    <field id="action" type="string" alwaysNotify="true" />
+    <field id="showChapterList" type="boolean" alwaysNotify="true" />
+    <field id="hasFocus" type="boolean" alwaysNotify="true" />
+  </interface>
+</component>

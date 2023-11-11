@@ -2589,5 +2589,17 @@
         <translation>Errore nel recupero del contenuto</translation>
         <extracomment>Dialog title when unable to load Content from Server</extracomment>
     </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>Salvare le credenziali?</translation>
+    </message>
+    <message>
+        <source>Change Server</source>
+        <translation>Cambia Server</translation>
+    </message>
+    <message>
+        <source>Sign Out</source>
+        <translation>Esci</translation>
+    </message>
 </context>
 </TS>

@@ -1226,5 +1226,10 @@
             <translation>Remember the currently logged in user and try to log them in again next time you start the Jellyfin app.</translation>
             <extracomment>User Setting - Setting description</extracomment>
         </message>
+        <message>
+            <source>No Chapter Data Found</source>
+            <translation>No Chapter Data Found</translation>
+            <extracomment>Message shown in pause menu when no chapter data is returned by the API</extracomment>
+        </message>
     </context>
 </TS>

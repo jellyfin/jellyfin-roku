@@ -31,10 +31,11 @@ sub Main (args as dynamic) as void
     app_start:
     ' First thing to do is validate the ability to use the API
     if not LoginFlow() then return
-    ' tell jellyfin server about device capabilities
-    PostDeviceProfile()
-    ' remove previous scenes from the stack
+
+    ' remove login scenes from the stack
     sceneManager.callFunc("clearScenes")
+
+    stopLoadingSpinner()
 
     ' load home page
     sceneManager.currentUser = m.global.session.user.name
@@ -632,14 +633,11 @@ sub Main (args as dynamic) as void
             if event.exitedScreensaver = true
                 sceneManager.callFunc("resetTime")
                 group = sceneManager.callFunc("getActiveScene")
-                if isValid(group) and isValid(group.subtype())
+                if isValid(group)
                     ' refresh the current view
-                    if group.subtype() = "Home"
-                        currentTime = CreateObject("roDateTime").AsSeconds()
-                        group.timeLastRefresh = currentTime
-                        group.callFunc("refresh")
+                    if group.isSubType("JFScreen")
+                        group.callFunc("OnScreenShown")
                     end if
-                    ' todo: add other screens to be refreshed - movie detail, tv series, episode list etc.
                 end if
             else if isValid(event.audioGuideEnabled)
                 tmpGlobalDevice = m.global.device
@@ -671,12 +669,18 @@ sub Main (args as dynamic) as void
                 ' The audio codec capability has changed if true.
                 print "event.audioCodecCapabilityChanged = ", event.audioCodecCapabilityChanged
 
-                PostDeviceProfile()
+                postTask = createObject("roSGNode", "PostTask")
+                postTask.arrayData = getDeviceCapabilities()
+                postTask.apiUrl = "/Sessions/Capabilities/Full"
+                postTask.control = "RUN"
             else if isValid(event.videoCodecCapabilityChanged)
                 ' The video codec capability has changed if true.
                 print "event.videoCodecCapabilityChanged = ", event.videoCodecCapabilityChanged
 
-                PostDeviceProfile()
+                postTask = createObject("roSGNode", "PostTask")
+                postTask.arrayData = getDeviceCapabilities()
+                postTask.apiUrl = "/Sessions/Capabilities/Full"
+                postTask.control = "RUN"
             else if isValid(event.appFocus)
                 ' It is set to False when the System Overlay (such as the confirm partner button HUD or the caption control overlay) takes focus and True when the channel regains focus
                 print "event.appFocus = ", event.appFocus
