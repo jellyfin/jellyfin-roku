@@ -6,6 +6,9 @@ changelog:
     - title: ⚙️ New Settings
       labels:
         - "new-setting"
+    - title: 🔧 General Improvements
+      labels:
+        - "general-improvement"
     - title: 🐛 Bug Fixes
       labels:
         - "bug-fix"
