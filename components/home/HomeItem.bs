@@ -96,8 +96,8 @@ sub itemContentChanged()
             m.itemPoster.uri = itemData.thumbnailURL
         else
             m.itemPoster.uri = ImageURL(itemData.json.ChannelId)
-            m.itemPoster.loadDisplayMode = "scaleToFill"
         end if
+        m.itemPoster.loadDisplayMode = "scaleToFill"
 
         ' Set Episode title if available
         if isValid(itemData.json.EpisodeTitle)
