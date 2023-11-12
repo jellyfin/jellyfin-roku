@@ -94,12 +94,12 @@ sub itemContentChanged()
     if itemData.type = "Program"
         m.itemText.Text = itemData.json.name
         m.itemTextExtra.Text = itemData.json.ChannelName
-        if itemData.widePosterURL &lt;> ""
-            m.itemPoster.uri = ImageURL(itemData.widePosterURL)
+        if itemData.usePoster
+            m.itemPoster.uri = itemData.thumbnailURL
         else
             m.itemPoster.uri = ImageURL(itemData.json.ChannelId)
-            m.itemPoster.loadDisplayMode = "scaleToFill"
         end if
+        m.itemPoster.loadDisplayMode = "scaleToFill"
 
         ' Set Episode title if available
         if isValid(itemData.json.EpisodeTitle)
