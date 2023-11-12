@@ -45,16 +45,31 @@ function ticksToHuman(ticks as longinteger) as string
     return r
 end function
 
-function secondsToHuman(totalSeconds as integer) as string
+function secondsToHuman(totalSeconds as integer, addLeadingMinuteZero as boolean) as string
+    humanTime = ""
     hours = stri(int(totalSeconds / 3600)).trim()
     minutes = stri(int((totalSeconds - (val(hours) * 3600)) / 60)).trim()
     seconds = stri(totalSeconds - (val(hours) * 3600) - (val(minutes) * 60)).trim()
-    if val(hours) > 0 and val(minutes) &lt; 10 then minutes = "0" + minutes
-    if val(seconds) &lt; 10 then seconds = "0" + seconds
-    r = ""
-    if val(hours) > 0 then r = hours + ":"
-    r = r + minutes + ":" + seconds
-    return r
+
+    if val(hours) > 0 or addLeadingMinuteZero
+        if val(minutes) &lt; 10
+            minutes = "0" + minutes
+        end if
+    end if
+
+    if val(seconds) &lt; 10
+        seconds = "0" + seconds
+    end if
+
+    if val(hours) > 0
+        hours = hours + ":"
+    else
+        hours = ""
+    end if
+
+    humanTime = hours + minutes + ":" + seconds
+
+    return humanTime
 end function
 
 ' Format time as 12 or 24 hour format based on system clock setting
