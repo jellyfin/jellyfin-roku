@@ -31,8 +31,8 @@ end sub
 ' onProgressPercentageChanged: Handler for changes to m.top.progressPercentage param
 '
 sub onProgressPercentageChanged()
-    m.videoPositionTime.text = secondsToHuman(m.top.positionTime)
-    m.videoRemainingTime.text = secondsToHuman(m.top.remainingPositionTime)
+    m.videoPositionTime.text = secondsToHuman(m.top.positionTime, true)
+    m.videoRemainingTime.text = secondsToHuman(m.top.remainingPositionTime, true)
     m.progressBar.width = m.progressBarBackground.width * m.top.progressPercentage
 end sub
 
