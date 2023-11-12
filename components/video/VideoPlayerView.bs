@@ -437,6 +437,12 @@ end sub
 
 ' When Video Player state changes
 sub onPositionChanged()
+
+    ' Pass video position data into pause menu
+    m.pauseMenu.progressPercentage = m.top.position / m.top.duration
+    m.pauseMenu.positionTime = m.top.position
+    m.pauseMenu.remainingPositionTime = m.top.duration - m.top.position
+
     if isValid(m.captionTask)
         m.captionTask.currentPos = Int(m.top.position * 1000)
     end if
@@ -612,7 +618,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
     if not press then return false
 
-    if key = "down"
+    if key = "down" and not m.top.trickPlayBar.visible
         if not m.LoadMetaDataTask.isIntro
             m.pauseMenu.visible = true
             m.pauseMenu.hasFocus = true
@@ -620,7 +626,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
             return true
         end if
 
-    else if key = "up"
+    else if key = "up" and not m.top.trickPlayBar.visible
         if not m.LoadMetaDataTask.isIntro
             m.pauseMenu.visible = true
             m.pauseMenu.hasFocus = true

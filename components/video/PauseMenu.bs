@@ -7,9 +7,14 @@ sub init()
     m.inactivityTimer = m.top.findNode("inactivityTimer")
     m.itemTitle = m.top.findNode("itemTitle")
     m.videoPlayPause = m.top.findNode("videoPlayPause")
+    m.videoPositionTime = m.top.findNode("videoPositionTime")
+    m.videoRemainingTime = m.top.findNode("videoRemainingTime")
+    m.progressBar = m.top.findNode("progressBar")
+    m.progressBarBackground = m.top.findNode("progressBarBackground")
 
     m.top.observeField("visible", "onVisibleChanged")
     m.top.observeField("hasFocus", "onFocusChanged")
+    m.top.observeField("progressPercentage", "onProgressPercentageChanged")
     m.top.observeField("playbackState", "onPlaybackStateChanged")
     m.top.observeField("itemTitleText", "onItemTitleTextChanged")
 
@@ -21,6 +26,14 @@ sub init()
 
     m.videoControls.getChild(m.defaultButtonIndex).focus = true
     m.deviceInfo = CreateObject("roDeviceInfo")
+end sub
+
+' onProgressPercentageChanged: Handler for changes to m.top.progressPercentage param
+'
+sub onProgressPercentageChanged()
+    m.videoPositionTime.text = secondsToHuman(m.top.positionTime, true)
+    m.videoRemainingTime.text = secondsToHuman(m.top.remainingPositionTime, true)
+    m.progressBar.width = m.progressBarBackground.width * m.top.progressPercentage
 end sub
 
 ' onPlaybackStateChanged: Handler for changes to m.top.playbackState param
