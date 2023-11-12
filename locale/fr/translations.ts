@@ -9548,5 +9548,13 @@
         <translation>Définit combien de secondes avant la fin d&apos;un épisode le bouton « Prochain épisode » doit apparaître. La valeur 0 permet de le désactiver.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
+    <message>
+        <source>Delete Saved</source>
+        <translation>Suppression sauvegardée</translation>
+    </message>
+    <message>
+        <source>Grid View Settings</source>
+        <translation>Paramètres de la grille de vision</translation>
+    </message>
 </context>
 </TS>
