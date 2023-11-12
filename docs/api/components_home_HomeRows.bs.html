@@ -511,13 +511,23 @@ sub updateOnNowItems()
         ' remake row using the new data
         row = CreateObject("roSGNode", "HomeRow")
         row.title = tr("On Now")
+        itemSize = [464, 331]
+        row.imageWidth = 464
         for each item in itemData
+            row.usePoster = false
+            if (not isValid(item.thumbnailURL) or item.thumbnailURL = "") and isValid(item.json) and isValid(item.json.imageURL)
+                item.thumbnailURL = item.json.imageURL
+                row.usePoster = true
+                row.imageWidth = 180
+                itemSize = [188, 331]
+            end if
             item.usePoster = row.usePoster
             item.imageWidth = row.imageWidth
             row.appendChild(item)
         end for
 
         ' replace the old row
+        updateSizeArray(itemSize, m.homeSectionIndexes.livetv, "replace")
         m.top.content.replaceChild(row, m.homeSectionIndexes.livetv)
 
     end if

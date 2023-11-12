@@ -165,7 +165,7 @@ sub audioPositionChanged()
 
     ' Update displayed position timestamp
     if isValid(m.global.audioPlayer.position)
-        m.positionTimestamp.text = secondsToHuman(m.global.audioPlayer.position)
+        m.positionTimestamp.text = secondsToHuman(m.global.audioPlayer.position, false)
     else
         m.positionTimestamp.text = "0:00"
     end if
