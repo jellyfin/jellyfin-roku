@@ -92,8 +92,8 @@ sub itemContentChanged()
     if itemData.type = "Program"
         m.itemText.Text = itemData.json.name
         m.itemTextExtra.Text = itemData.json.ChannelName
-        if itemData.widePosterURL <> ""
-            m.itemPoster.uri = ImageURL(itemData.widePosterURL)
+        if itemData.usePoster
+            m.itemPoster.uri = itemData.thumbnailURL
         else
             m.itemPoster.uri = ImageURL(itemData.json.ChannelId)
             m.itemPoster.loadDisplayMode = "scaleToFill"

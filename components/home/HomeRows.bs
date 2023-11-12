@@ -510,6 +510,11 @@ sub updateOnNowItems()
         row = CreateObject("roSGNode", "HomeRow")
         row.title = tr("On Now")
         for each item in itemData
+            row.usePoster = false
+            if (not isValid(item.thumbnailURL) or item.thumbnailURL = "") and isValid(item.json) and isValid(item.json.imageURL)
+                item.thumbnailURL = item.json.imageURL
+                row.usePoster = true
+            end if
             item.usePoster = row.usePoster
             item.imageWidth = row.imageWidth
             row.appendChild(item)
