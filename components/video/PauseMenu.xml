@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component name="PauseMenu" extends="Group" initialFocus="chapterNext">
   <children>
-    <Label id="itemTitle" font="font:LargeBoldSystemFont" translation="[103,61]" />
+    <ScrollingLabel id="itemTitle" font="font:LargeBoldSystemFont" translation="[103,61]" maxWidth="1400" />
     <Clock id="clock" translation="[1618, 46]" />
 
     <ButtonGroup id="optionControls" itemSpacings="[20]" layoutDirection="horiz" horizAlignment="left" translation="[103,120]">
@@ -16,12 +16,12 @@
       <IconButton id="chapterNext" background="#070707" focusBackground="#00a4dc" padding="16" icon="pkg:/images/icons/nextChapter.png" height="65" width="100" />
     </ButtonGroup>
 
-    <Rectangle id="progressBarBackground" color="0x00000098" width="1536" height="8" translation="[192,970]">
+    <Rectangle id="progressBarBackground" color="0x00000098" width="1714" height="8" translation="[103,970]">
       <Rectangle id="progressBar" color="#e5e4e2FF" width="0" height="8" />
     </Rectangle>
 
-    <Label id="videoPositionTime" font="font:SmallestSystemFont" color="0xffffffFF" translation="[192,985]" />
-    <Label id="videoRemainingTime" font="font:SmallestSystemFont" color="0xffffffFF" horizAlign="right" width="200" translation="[1528,985]" />
+    <Label id="videoPositionTime" font="font:MediumSystemFont" color="0xffffffFF" translation="[103,985]" />
+    <Label id="videoRemainingTime" font="font:MediumSystemFont" color="0xffffffFF" horizAlign="right" width="200" translation="[1617,985]" />
 
     <Timer id="inactivityTimer" duration="1" repeat="true" />
   </children>
