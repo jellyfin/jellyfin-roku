@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<component name="PhotoDetails" extends="JFGroup">
+<component name="PhotoDetails" extends="JFScreen">
   <children>
     <Poster id="photo" width="1920" height="1080" loadDisplayMode="scaleToFit" />
     <Rectangle id="background" color="0x101010EE" height="120" width="500" Translation="[700, -150]" opacity="0">
