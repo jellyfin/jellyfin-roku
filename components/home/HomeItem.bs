@@ -30,13 +30,6 @@ end sub
 sub itemContentChanged()
     itemData = m.top.itemContent
     if itemData = invalid then return
-    print "itemData=", itemData
-    if itemData.json <> invalid
-        print "itemData.json=", itemData.json
-        if itemData.json.UserData <> invalid
-            print "itemData.json.UserData=", itemData.json.UserData
-        end if
-    end if
 
     itemData.Title = itemData.name ' Temporarily required while we move from "HomeItem" to "JFContentItem"
 
@@ -175,6 +168,7 @@ sub itemContentChanged()
     end if
 
     if itemData.type = "Video"
+        print "Video itemContentChanged()"
         m.itemText.text = itemData.name
 
         if itemData.PlayedPercentage > 0
@@ -269,14 +263,15 @@ sub itemContentChanged()
     end if
 
     if itemData.type = "Photo"
+        print "Photo itemContentChanged()"
         m.itemText.text = itemData.name
         m.itemTextExtra.text = ""
         m.itemPoster.uri = ImageURL(itemData.id)
 
         ' subtext
         if isValidAndNotEmpty(itemData.json)
-            if isValidAndNotEmpty(itemData.json.ProductionYear)
-                m.itemTextExtra.text = tr("Year") + ": " + itemData.json.ProductionYear.ToStr().trim()
+            if isValid(itemData.json.ProductionYear)
+                m.itemTextExtra.text = itemData.json.ProductionYear.ToStr().trim()
             end if
             if isValidAndNotEmpty(itemData.json.Album)
                 if m.itemTextExtra.text = ""
@@ -290,6 +285,7 @@ sub itemContentChanged()
     end if
 
     if itemData.type = "PhotoAlbum"
+        print "PhotoAlbum itemContentChanged()"
         m.itemText.text = itemData.name
         m.itemPoster.uri = ImageURL(itemData.id)
 
