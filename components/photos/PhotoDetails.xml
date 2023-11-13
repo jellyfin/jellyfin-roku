@@ -19,7 +19,8 @@
 
   </children>
   <interface>
-    <field id="items" type="node" />
+    <field id="itemsNode" type="node" />
+    <field id="itemsArray" type="roArray" />
     <field id="itemIndex" type="integer" value="-1" onChange="itemContentChanged" />
   </interface>
 </component>

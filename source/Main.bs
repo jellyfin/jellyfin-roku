@@ -293,7 +293,33 @@ sub Main (args as dynamic) as void
                     end if
 
                 else if selectedItemType = "Photo"
-                    ' Nothing to do here, handled in ItemGrid
+                    ' only handle selection if it's from the home screen
+                    if selectedItem.isSubType("HomeData")
+                        print "a photo was selected from the home screen"
+                        print "selectedItem=", selectedItem
+
+                        photoPlayer = CreateObject("roSgNode", "PhotoDetails")
+                        photoPlayer.itemsNode = selectedItem
+                        photoPlayer.itemIndex = 0
+                        m.global.sceneManager.callfunc("pushScene", photoPlayer)
+                    end if
+                else if selectedItemType = "PhotoAlbum"
+                    print "a photo album was selected"
+                    print "selectedItem=", selectedItem
+                    ' grab all photos inside photo album
+                    photoData = api.users.GetItemsByQuery(m.global.session.user.id, {
+                        "parentId": selectedItem.id,
+                        "includeItemTypes": "Photo",
+                        "Recursive": true
+                    })
+                    print "photoData=", photoData
+
+                    if isValid(photoData) and isValidAndNotEmpty(photoData.items)
+                        photoPlayer = CreateObject("roSgNode", "PhotoDetails")
+                        photoPlayer.itemsArray = photoData.items
+                        photoPlayer.itemIndex = 0
+                        m.global.sceneManager.callfunc("pushScene", photoPlayer)
+                    end if
                 else if selectedItemType = "MusicArtist"
                     group = CreateArtistView(selectedItem.json)
                     if not isValid(group)

@@ -30,6 +30,13 @@ end sub
 sub itemContentChanged()
     itemData = m.top.itemContent
     if itemData = invalid then return
+    print "itemData=", itemData
+    if itemData.json <> invalid
+        print "itemData.json=", itemData.json
+        if itemData.json.UserData <> invalid
+            print "itemData.json.UserData=", itemData.json.UserData
+        end if
+    end if
 
     itemData.Title = itemData.name ' Temporarily required while we move from "HomeItem" to "JFContentItem"
 
@@ -258,6 +265,34 @@ sub itemContentChanged()
         m.itemText.text = itemData.json.SeriesName
         m.itemTextExtra.text = itemData.name
         m.itemPoster.uri = ImageURL(itemData.id)
+        return
+    end if
+
+    if itemData.type = "Photo"
+        m.itemText.text = itemData.name
+        m.itemTextExtra.text = ""
+        m.itemPoster.uri = ImageURL(itemData.id)
+
+        ' subtext
+        if isValidAndNotEmpty(itemData.json)
+            if isValidAndNotEmpty(itemData.json.ProductionYear)
+                m.itemTextExtra.text = tr("Year") + ": " + itemData.json.ProductionYear.ToStr().trim()
+            end if
+            if isValidAndNotEmpty(itemData.json.Album)
+                if m.itemTextExtra.text = ""
+                    m.itemTextExtra.text = tr("Album") + ": " + itemData.json.Album.trim()
+                else
+                    m.itemTextExtra.text = m.itemTextExtra.text + " - " + tr("Album") + ": " + itemData.json.Album.trim()
+                end if
+            end if
+        end if
+        return
+    end if
+
+    if itemData.type = "PhotoAlbum"
+        m.itemText.text = itemData.name
+        m.itemPoster.uri = ImageURL(itemData.id)
+
         return
     end if
 
