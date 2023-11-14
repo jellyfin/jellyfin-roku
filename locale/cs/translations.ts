@@ -4507,5 +4507,13 @@
         <source>Save Credentials?</source>
         <translation>Uložit přihlašovací údaje?</translation>
     </message>
+    <message>
+        <source>Delete Saved</source>
+        <translation>Smazat uložené</translation>
+    </message>
+    <message>
+        <source>On Now</source>
+        <translation>Nyní</translation>
+    </message>
 </context>
 </TS>
