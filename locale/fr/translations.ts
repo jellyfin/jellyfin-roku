@@ -10621,5 +10621,9 @@
         <translation>Utilisez le bouton de relecture pour animer lentement le premier élément du dossier. (S&apos;il est désactivé, le dossier sera immédiatement réinitialisé au premier élément).</translation>
         <extracomment>Description for option in Setting Screen</extracomment>
     </message>
+    <message>
+        <source>Age</source>
+        <translation>Âge</translation>
+    </message>
 </context>
 </TS>
