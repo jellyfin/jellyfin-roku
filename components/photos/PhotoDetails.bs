@@ -69,14 +69,17 @@ sub nextSlide()
         if isValid(m.top.itemsNode)
             if isValidAndNotEmpty(m.top.itemsNode.content)
                 index = rnd(m.top.itemsNode.content.getChildCount() - 1)
+            else
+                ' we're dealing with a single photo
+                return
             end if
         else if isValid(m.top.itemsArray)
-            if isValid(m.top.itemsArray.count() > 0)
+            if m.top.itemsArray.count() > 0
                 index = rnd(m.top.itemsArray.count() - 1)
             end if
         end if
 
-        if isValidToContinue(index)
+        if isValid(index) and isValidToContinue(index)
             m.top.itemIndex = index
             m.slideshowTimer.control = "start"
         end if
@@ -98,6 +101,11 @@ end sub
 ' isSlideshow component field has changed
 sub isSlideshowChanged()
     m.slideshow = m.top.isSlideshow
+end sub
+
+' isRandom component field has changed
+sub isRandomChanged()
+    m.random = m.top.isRandom
 end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean

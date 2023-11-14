@@ -80,6 +80,7 @@ namespace quickplay
         if isValid(photoAlbumData) and isValidAndNotEmpty(photoAlbumData.items)
             photoPlayer = CreateObject("roSgNode", "PhotoDetails")
             photoPlayer.isSlideshow = true
+            photoPlayer.isRandom = false
             photoPlayer.itemsArray = photoAlbumData.items
             photoPlayer.itemIndex = 0
             m.global.sceneManager.callfunc("pushScene", photoPlayer)
@@ -442,6 +443,7 @@ namespace quickplay
                 if folderType = "photoalbum"
                     photoPlayer = CreateObject("roSgNode", "PhotoDetails")
                     photoPlayer.isSlideshow = true
+                    photoPlayer.isRandom = false
                     photoPlayer.itemsArray = folderData.items
                     photoPlayer.itemIndex = 0
                     m.global.sceneManager.callfunc("pushScene", photoPlayer)
@@ -564,7 +566,7 @@ namespace quickplay
         else if collectionType = "homevideos"
             ' Photo library - items can be type video, photo, or photoAlbum
 
-            ' grab all photos inside photo album
+            ' grab all photos inside library
             folderData = api.users.GetItemsByQuery(m.global.session.user.id, {
                 "parentId": itemNode.id,
                 "includeItemTypes": "Photo",
@@ -576,6 +578,7 @@ namespace quickplay
             if isValid(folderData) and isValidAndNotEmpty(folderData.items)
                 photoPlayer = CreateObject("roSgNode", "PhotoDetails")
                 photoPlayer.isSlideshow = true
+                photoPlayer.isRandom = false
                 photoPlayer.itemsArray = folderData.items
                 photoPlayer.itemIndex = 0
                 m.global.sceneManager.callfunc("pushScene", photoPlayer)

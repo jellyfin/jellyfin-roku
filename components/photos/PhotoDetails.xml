@@ -22,6 +22,7 @@
     <field id="itemsNode" type="node" />
     <field id="itemsArray" type="roArray" />
     <field id="isSlideshow" type="bool" onChange="isSlideshowChanged" />
+    <field id="isRandom" type="bool" onChange="isRandomChanged" />
     <field id="itemIndex" type="integer" value="-1" onChange="itemContentChanged" />
   </interface>
 </component>
