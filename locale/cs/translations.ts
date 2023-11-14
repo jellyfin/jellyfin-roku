@@ -4503,5 +4503,9 @@
         <source>Played</source>
         <translation>Přehráno</translation>
     </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>Uložit přihlašovací údaje?</translation>
+    </message>
 </context>
 </TS>
