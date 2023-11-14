@@ -95,6 +95,11 @@ sub OnScreenHidden()
     m.statusTimer.control = "stop"
 end sub
 
+' isSlideshow component field has changed
+sub isSlideshowChanged()
+    m.slideshow = m.top.isSlideshow
+end sub
+
 function onKeyEvent(key as string, press as boolean) as boolean
     if not press then return false
 

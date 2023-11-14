@@ -201,6 +201,10 @@ sub Main (args as dynamic) as void
                         quickplay.tvChannel(itemNode)
                     else if itemType = "program"
                         quickplay.program(itemNode)
+                    else if itemType = "photo"
+                        quickplay.photo(itemNode)
+                    else if itemType = "photoalbum"
+                        quickplay.photoAlbum(itemNode)
                     end if
 
                     m.global.queueManager.callFunc("playQueue")
@@ -298,25 +302,23 @@ sub Main (args as dynamic) as void
                         print "a photo was selected from the home screen"
                         print "selectedItem=", selectedItem
 
-                        photoPlayer = CreateObject("roSgNode", "PhotoDetails")
-                        photoPlayer.itemsNode = selectedItem
-                        photoPlayer.itemIndex = 0
-                        m.global.sceneManager.callfunc("pushScene", photoPlayer)
+                        quickplay.photo(selectedItem)
                     end if
                 else if selectedItemType = "PhotoAlbum"
                     print "a photo album was selected"
                     print "selectedItem=", selectedItem
+
                     ' grab all photos inside photo album
-                    photoData = api.users.GetItemsByQuery(m.global.session.user.id, {
+                    photoAlbumData = api.users.GetItemsByQuery(m.global.session.user.id, {
                         "parentId": selectedItem.id,
                         "includeItemTypes": "Photo",
                         "Recursive": true
                     })
-                    print "photoData=", photoData
+                    print "photoAlbumData=", photoAlbumData
 
-                    if isValid(photoData) and isValidAndNotEmpty(photoData.items)
+                    if isValid(photoAlbumData) and isValidAndNotEmpty(photoAlbumData.items)
                         photoPlayer = CreateObject("roSgNode", "PhotoDetails")
-                        photoPlayer.itemsArray = photoData.items
+                        photoPlayer.itemsArray = photoAlbumData.items
                         photoPlayer.itemIndex = 0
                         m.global.sceneManager.callfunc("pushScene", photoPlayer)
                     end if
