@@ -10579,5 +10579,47 @@
         <translation>En direct</translation>
         <extracomment>If TV Show is being broadcast live (not pre-recorded)</extracomment>
     </message>
+    <message>
+        <source>Use generated splashscreen image as Jellyfin&apos;s home background. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Utilisez une image d’écran de démarrage générée comme arrière-plan d’accueil de Jellyfin. Jellyfin devra être fermé et rouvert pour que le changement prenne effet.</translation>
+        <extracomment>Description for option in Setting Screen</extracomment>
+    </message>
+    <message>
+        <source>Replace Roku&apos;s default subtitle functions with custom functions that support CJK fonts. Fallback fonts must be configured and enabled on the server for CJK rendering to work.</source>
+        <translation>Remplacez les fonctions de sous-titres par défaut de Roku par des fonctions personnalisées prenant en charge les polices CJK. Les polices de secours doivent être configurées et activées sur le serveur pour que le rendu CJK fonctionne.</translation>
+        <extracomment>Description of a setting - custom subtitles that support CJK fonts</extracomment>
+    </message>
+    <message>
+        <source>Next Episode Button Time</source>
+        <translation>Heure du bouton de l&apos;épisode suivant</translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
+    <message>
+        <source>Off - Attempt to play all resolutions</source>
+        <translation>Désactivé - Tentative de lecture de toutes les résolutions</translation>
+        <extracomment>User Setting - Option title</extracomment>
+    </message>
+    <message>
+        <source>Video range type</source>
+        <translation>Type de plage vidéo</translation>
+    </message>
+    <message>
+        <source>Album Artists (Grid)</source>
+        <translation>Artistes de l&apos;album (Grille)</translation>
+    </message>
+    <message>
+        <source>Use Splashscreen as Home Background</source>
+        <translation>Utiliser l&apos;écran de démarrage comme arrière-plan d&apos;accueil</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
+    <message>
+        <source>Album Artists (Presentation)</source>
+        <translation>Artistes de l&apos;album (Présentation)</translation>
+    </message>
+    <message>
+        <source>Use the replay button to slowly animate to the first item in the folder. (If disabled, the folder will reset to the first item immediately).</source>
+        <translation>Utilisez le bouton de relecture pour animer lentement le premier élément du dossier. (S&apos;il est désactivé, le dossier sera immédiatement réinitialisé au premier élément).</translation>
+        <extracomment>Description for option in Setting Screen</extracomment>
+    </message>
 </context>
 </TS>
