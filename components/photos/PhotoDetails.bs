@@ -21,17 +21,14 @@ end sub
 
 sub itemContentChanged()
     if isValidToContinue(m.top.itemIndex)
-        print "isValidToContinue() = true"
         m.LoadLibrariesTask = createObject("roSGNode", "LoadPhotoTask")
         if isValid(m.top.itemsNode)
-            print "using m.top.itemsNode"
             if isValid(m.top.itemsNode.content)
                 m.LoadLibrariesTask.itemNodeContent = m.top.itemsNode.content.getChild(m.top.itemIndex)
             else if isValidAndNotEmpty(m.top.itemsNode.id)
                 m.LoadLibrariesTask.itemNodeContent = m.top.itemsNode
             end if
         else if isValid(m.top.itemsArray)
-            print "using m.top.itemsArray"
             itemContent = m.top.itemsArray[m.top.itemIndex]
             m.LoadLibrariesTask.itemArrayContent = itemContent
         else
@@ -40,8 +37,6 @@ sub itemContentChanged()
 
         m.LoadLibrariesTask.observeField("results", "onPhotoLoaded")
         m.LoadLibrariesTask.control = "RUN"
-    else
-        print "isValidToContinue() = false"
     end if
 end sub
 
@@ -151,9 +146,7 @@ end function
 
 function isValidToContinue(index as integer)
     if isValid(m.top.itemsNode)
-        print "m.top.itemsNode is valid"
         if isValidAndNotEmpty(m.top.itemsNode.content)
-            print "m.top.itemsNode.content is ValidAndNotEmpty"
             if index >= 0 and index < m.top.itemsNode.content.getChildCount()
                 return true
             end if
@@ -161,7 +154,6 @@ function isValidToContinue(index as integer)
             return true
         end if
     else if isValidAndNotEmpty(m.top.itemsArray)
-        print "m.top.itemsArray is ValidAndNotEmpty"
         if index >= 0 and index < m.top.itemsArray.count()
             return true
         end if

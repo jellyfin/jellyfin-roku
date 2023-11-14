@@ -37,6 +37,7 @@ sub itemContentChanged()
     m.itemText.maxWidth = itemData.imageWidth
     m.itemTextExtra.width = itemData.imageWidth
     m.itemTextExtra.visible = true
+    m.itemTextExtra.text = ""
 
     m.backdrop.width = itemData.imageWidth
 
@@ -168,7 +169,6 @@ sub itemContentChanged()
     end if
 
     if itemData.type = "Video"
-        print "Video itemContentChanged()"
         m.itemText.text = itemData.name
 
         if itemData.PlayedPercentage > 0
@@ -180,6 +180,7 @@ sub itemContentChanged()
         else
             m.itemPoster.uri = itemData.thumbnailURL
         end if
+
         return
     end if
 
@@ -263,9 +264,7 @@ sub itemContentChanged()
     end if
 
     if itemData.type = "Photo"
-        print "Photo itemContentChanged()"
         m.itemText.text = itemData.name
-        m.itemTextExtra.text = ""
         m.itemPoster.uri = ImageURL(itemData.id)
 
         ' subtext
@@ -285,9 +284,13 @@ sub itemContentChanged()
     end if
 
     if itemData.type = "PhotoAlbum"
-        print "PhotoAlbum itemContentChanged()"
         m.itemText.text = itemData.name
         m.itemPoster.uri = ImageURL(itemData.id)
+
+        ' subtext
+        if isValid(itemData.json.ChildCount)
+            m.itemTextExtra.text = itemData.json.ChildCount.ToStr().trim() + " items"
+        end if
 
         return
     end if
