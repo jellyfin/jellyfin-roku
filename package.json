@@ -16,7 +16,7 @@
     "jshint": "2.13.6",
     "markdownlint-cli2": "0.10.0",
     "rimraf": "5.0.5",
-    "roku-deploy": "3.10.4",
+    "roku-deploy": "3.10.5",
     "roku-log-bsc-plugin": "0.8.1",
     "rooibos-roku": "5.8.0",
     "ropm": "0.10.19",
