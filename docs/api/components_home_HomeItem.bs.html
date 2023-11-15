@@ -39,6 +39,7 @@ sub itemContentChanged()
     m.itemText.maxWidth = itemData.imageWidth
     m.itemTextExtra.width = itemData.imageWidth
     m.itemTextExtra.visible = true
+    m.itemTextExtra.text = ""
 
     m.backdrop.width = itemData.imageWidth
 
@@ -181,6 +182,7 @@ sub itemContentChanged()
         else
             m.itemPoster.uri = itemData.thumbnailURL
         end if
+
         return
     end if
 
@@ -260,6 +262,38 @@ sub itemContentChanged()
         m.itemText.text = itemData.json.SeriesName
         m.itemTextExtra.text = itemData.name
         m.itemPoster.uri = ImageURL(itemData.id)
+        return
+    end if
+
+    if itemData.type = "Photo"
+        m.itemText.text = itemData.name
+        m.itemPoster.uri = ImageURL(itemData.id)
+
+        ' subtext
+        if isValidAndNotEmpty(itemData.json)
+            if isValid(itemData.json.ProductionYear)
+                m.itemTextExtra.text = itemData.json.ProductionYear.ToStr().trim()
+            end if
+            if isValidAndNotEmpty(itemData.json.Album)
+                if m.itemTextExtra.text = ""
+                    m.itemTextExtra.text = tr("Album") + ": " + itemData.json.Album.trim()
+                else
+                    m.itemTextExtra.text = m.itemTextExtra.text + " - " + tr("Album") + ": " + itemData.json.Album.trim()
+                end if
+            end if
+        end if
+        return
+    end if
+
+    if itemData.type = "PhotoAlbum"
+        m.itemText.text = itemData.name
+        m.itemPoster.uri = ImageURL(itemData.id)
+
+        ' subtext
+        if isValid(itemData.json.ChildCount)
+            m.itemTextExtra.text = itemData.json.ChildCount.ToStr().trim() + " items"
+        end if
+
         return
     end if
 

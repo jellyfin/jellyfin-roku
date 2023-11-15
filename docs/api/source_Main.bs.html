@@ -203,6 +203,10 @@
                         quickplay.tvChannel(itemNode)
                     else if itemType = "program"
                         quickplay.program(itemNode)
+                    else if itemType = "photo"
+                        quickplay.photo(itemNode)
+                    else if itemType = "photoalbum"
+                        quickplay.photoAlbum(itemNode)
                     end if
 
                     m.global.queueManager.callFunc("playQueue")
@@ -295,7 +299,31 @@
                     end if
 
                 else if selectedItemType = "Photo"
-                    ' Nothing to do here, handled in ItemGrid
+                    ' only handle selection if it's from the home screen
+                    if selectedItem.isSubType("HomeData")
+                        print "a photo was selected from the home screen"
+                        print "selectedItem=", selectedItem
+
+                        quickplay.photo(selectedItem)
+                    end if
+                else if selectedItemType = "PhotoAlbum"
+                    print "a photo album was selected"
+                    print "selectedItem=", selectedItem
+
+                    ' grab all photos inside photo album
+                    photoAlbumData = api.users.GetItemsByQuery(m.global.session.user.id, {
+                        "parentId": selectedItem.id,
+                        "includeItemTypes": "Photo",
+                        "Recursive": true
+                    })
+                    print "photoAlbumData=", photoAlbumData
+
+                    if isValid(photoAlbumData) and isValidAndNotEmpty(photoAlbumData.items)
+                        photoPlayer = CreateObject("roSgNode", "PhotoDetails")
+                        photoPlayer.itemsArray = photoAlbumData.items
+                        photoPlayer.itemIndex = 0
+                        m.global.sceneManager.callfunc("pushScene", photoPlayer)
+                    end if
                 else if selectedItemType = "MusicArtist"
                     group = CreateArtistView(selectedItem.json)
                     if not isValid(group)

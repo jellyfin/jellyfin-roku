@@ -311,6 +311,9 @@ function isValidAndNotEmpty(input as dynamic) as boolean
     if inputType = "string" or inputType = "rostring"
         trimmedInput = input.trim()
         return trimmedInput &lt;> ""
+    else if inputType = "rosgnode"
+        inputId = input.id
+        return inputId &lt;> invalid
     else if countableTypes.doesExist(inputType)
         return input.count() > 0
     else

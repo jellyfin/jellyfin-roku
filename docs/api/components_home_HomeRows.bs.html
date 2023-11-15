@@ -260,13 +260,6 @@ end sub
 
 ' Update home row data
 sub updateHomeRows()
-    if m.global.playstateTask.state = "run"
-        m.global.playstateTask.observeField("state", "updateHomeRows")
-        return
-    end if
-
-    m.global.playstateTask.unobserveField("state")
-
     ' If resume section exists, reload row's data
     if m.homeSectionIndexes.doesExist("resume")
         m.LoadContinueWatchingTask.observeField("content", "updateContinueWatchingItems")
