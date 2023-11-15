@@ -73,9 +73,6 @@ namespace session
                 session.server.Delete()
             end if
 
-            ' migrate registry if needed
-            runGlobalMigrations()
-
             return success
         end function
 
@@ -166,7 +163,10 @@ namespace session
             ' update user session settings with values from registry
             userSettings = RegistryReadAll(tmpSession.user.id)
             for each setting in userSettings
-                session.user.settings.Save(setting, userSettings[setting])
+                ' don't add auth token to user session
+                if setting <> "token"
+                    session.user.settings.Save(setting, userSettings[setting])
+                end if
             end for
 
             if m.global.app.isDev
