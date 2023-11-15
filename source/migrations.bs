@@ -1,4 +1,5 @@
 import "pkg:/source/utils/misc.bs"
+import "pkg:/source/utils/conditional.bs"
 
 ' Functions that update the registry based on the last run version and the currently running version
 
@@ -44,17 +45,27 @@ sub runGlobalMigrations()
             end if
         end if
     end if
-    if m.global.app.lastRunVersion <> invalid
-        runRegistryUserMigrations(m.global.app.lastRunVersion)
-    end if
+
+    runRegistryUserMigrations()
+
+    printRegistry()
 end sub
 
-sub runRegistryUserMigrations(version as string)
+sub runRegistryUserMigrations()
     regSections = getRegistrySections()
     for each section in regSections
         if LCase(section) <> "jellyfin"
-            if version = "2.0.0"
-                print "Running User Registry Migration for 2.0.0"
+            reg = CreateObject("roRegistrySection", section)
+            if reg.exists("LastRunVersion")
+                lastRunVersion = reg.read("LastRunVersion")
+            else
+                ' fall back to using the apps lastRunVersion
+                ' NOTE: app versions < 2.0.0 didn't save this at the user level
+                lastRunVersion = m.global.app.lastRunVersion
+            end if
+
+            if not versionChecker(lastRunVersion, "2.0.0")
+                print "Running Registry Migration for 2.0.0 for userid: " + section
                 ' now saving LastRunVersion globally and per user so that we can run user specific registry migrations
                 ' duplicate LastRunVersion to all user settings in the registry so that we can run user specific migrations
                 '

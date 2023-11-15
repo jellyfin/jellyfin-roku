@@ -1,4 +1,5 @@
 sub Main (args as dynamic) as void
+    printRegistry()
     ' The main function that runs when the application is launched.
     m.screen = CreateObject("roSGScreen")
     ' Set global constants

@@ -24,3 +24,5 @@ ui_resolutions=fhd
 confirm_partner_button=1
 
 supports_input_launch=1
+
+bs_const=printReg=false
