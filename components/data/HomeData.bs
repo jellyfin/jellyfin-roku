@@ -72,7 +72,7 @@ sub setData()
             m.top.widePosterUrl = ImageURL(datum.Id, "Backdrop", imgParams)
         end if
 
-    else if datum.type = "Movie" or datum.type = "Video"
+    else if datum.type = "Movie"
         m.top.isWatched = datum.UserData.Played
 
         imgParams = {}
@@ -96,6 +96,20 @@ sub setData()
             imgParams["Tag"] = datum.BackdropImageTags[0]
             m.top.thumbnailUrl = ImageURL(datum.id, "Backdrop", imgParams)
         end if
+    else if datum.type = "Video"
+        m.top.isWatched = datum.UserData.Played
+
+        imgParams = {
+            "maxHeight": 261,
+            "maxWidth": 464
+        }
+
+        if datum.ImageTags <> invalid and datum.ImageTags.Primary <> invalid
+            imgParams.Append({ "Tag": datum.ImageTags.Primary })
+        end if
+
+        m.top.posterURL = ImageURL(datum.id, "Primary", imgParams)
+        m.top.thumbnailUrl = m.top.posterURL
     else if datum.type = "MusicAlbum"
         params = { "Tag": datum.ImageTags.Primary, "maxHeight": 261, "maxWidth": 261 }
         m.top.thumbnailURL = ImageURL(datum.id, "Primary", params)
@@ -106,5 +120,17 @@ sub setData()
         m.top.thumbnailURL = ImageURL(datum.id, "Primary", params)
         m.top.widePosterUrl = m.top.thumbnailURL
         m.top.iconUrl = "pkg:/images/media_type_icons/live_tv_white.png"
+    else if datum.type = "Photo"
+        params = { "Tag": datum.ImageTags.Primary, "maxHeight": 261, "maxWidth": 464 }
+
+        m.top.thumbnailURL = ImageURL(datum.id, "Primary", params)
+        m.top.widePosterUrl = m.top.thumbnailURL
+        m.top.posterUrl = m.top.thumbnailURL
+    else if datum.type = "PhotoAlbum"
+        params = { "Tag": datum.ImageTags.Primary, "maxHeight": 261, "maxWidth": 464 }
+
+        m.top.thumbnailURL = ImageURL(datum.id, "Primary", params)
+        m.top.widePosterUrl = m.top.thumbnailURL
+        m.top.posterUrl = m.top.thumbnailURL
     end if
 end sub

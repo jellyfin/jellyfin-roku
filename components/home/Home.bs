@@ -32,7 +32,9 @@ sub OnScreenShown()
         m.top.setFocus(true)
     end if
 
-    refresh()
+    if not m.isFirstRun
+        refresh()
+    end if
 
     ' post the device profile the first time this screen is loaded
     if m.isFirstRun

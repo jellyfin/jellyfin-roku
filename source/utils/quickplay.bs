@@ -54,6 +54,39 @@ namespace quickplay
         m.global.queueManager.callFunc("push", itemNode)
     end sub
 
+    ' A single photo.
+    sub photo(itemNode as object)
+        if not isValid(itemNode) or not isValid(itemNode.id) then return
+
+        photoPlayer = CreateObject("roSgNode", "PhotoDetails")
+        photoPlayer.itemsNode = itemNode
+        photoPlayer.itemIndex = 0
+        m.global.sceneManager.callfunc("pushScene", photoPlayer)
+    end sub
+
+    ' A photo album.
+    sub photoAlbum(itemNode as object)
+        if not isValid(itemNode) or not isValid(itemNode.id) then return
+
+        ' grab all photos inside photo album
+        photoAlbumData = api.users.GetItemsByQuery(m.global.session.user.id, {
+            "parentId": itemNode.id,
+            "includeItemTypes": "Photo",
+            "sortBy": "Random",
+            "Recursive": true
+        })
+        print "photoAlbumData=", photoAlbumData
+
+        if isValid(photoAlbumData) and isValidAndNotEmpty(photoAlbumData.items)
+            photoPlayer = CreateObject("roSgNode", "PhotoDetails")
+            photoPlayer.isSlideshow = true
+            photoPlayer.isRandom = false
+            photoPlayer.itemsArray = photoAlbumData.items
+            photoPlayer.itemIndex = 0
+            m.global.sceneManager.callfunc("pushScene", photoPlayer)
+        end if
+    end sub
+
     ' A music album.
     ' Play the entire album starting with track 1.
     sub album(itemNode as object)
@@ -370,6 +403,7 @@ namespace quickplay
         }
         ' modify api query based on folder type
         folderType = Lcase(itemNode.json.type)
+        print "folderType=", folderType
         if folderType = "studio"
             paramArray["studioIds"] = itemNode.id
         else if folderType = "genre"
@@ -381,6 +415,11 @@ namespace quickplay
             paramArray["genreIds"] = itemNode.id
             paramArray.delete("videoTypes")
             paramArray["includeItemTypes"] = "Audio"
+        else if folderType = "photoalbum"
+            paramArray["parentId"] = itemNode.id
+            paramArray["includeItemTypes"] = "Photo"
+            paramArray.delete("videoTypes")
+            paramArray.delete("Recursive")
         else
             paramArray["parentId"] = itemNode.id
         end if
@@ -401,7 +440,16 @@ namespace quickplay
                     quickplay.multipleSeries(folderData.items)
                 end if
             else
-                quickplay.pushToQueue(folderData.items, true)
+                if folderType = "photoalbum"
+                    photoPlayer = CreateObject("roSgNode", "PhotoDetails")
+                    photoPlayer.isSlideshow = true
+                    photoPlayer.isRandom = false
+                    photoPlayer.itemsArray = folderData.items
+                    photoPlayer.itemIndex = 0
+                    m.global.sceneManager.callfunc("pushScene", photoPlayer)
+                else
+                    quickplay.pushToQueue(folderData.items, true)
+                end if
             end if
         end if
     end sub
@@ -515,7 +563,26 @@ namespace quickplay
             if isValid(data) and isValidAndNotEmpty(data.items)
                 quickplay.pushToQueue(data.Items)
             end if
-            ' else if collectionType = "homevideos" ' also used for a "Photo" library
+        else if collectionType = "homevideos"
+            ' Photo library - items can be type video, photo, or photoAlbum
+
+            ' grab all photos inside library
+            folderData = api.users.GetItemsByQuery(m.global.session.user.id, {
+                "parentId": itemNode.id,
+                "includeItemTypes": "Photo",
+                "sortBy": "Random",
+                "Recursive": true
+            })
+            print "folderData=", folderData
+
+            if isValid(folderData) and isValidAndNotEmpty(folderData.items)
+                photoPlayer = CreateObject("roSgNode", "PhotoDetails")
+                photoPlayer.isSlideshow = true
+                photoPlayer.isRandom = false
+                photoPlayer.itemsArray = folderData.items
+                photoPlayer.itemIndex = 0
+                m.global.sceneManager.callfunc("pushScene", photoPlayer)
+            end if
         else
             print "Quick Play WARNING: Unknown collection type"
         end if
