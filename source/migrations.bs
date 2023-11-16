@@ -1,16 +1,18 @@
 import "pkg:/source/utils/misc.bs"
 import "pkg:/source/utils/conditional.bs"
 
-' Functions that update the registry based on the last run version and the currently running version
+' @fileoverview Functions that update the registry based on the last run version and the currently running version
+
+const CLIENT_VERSION_REQUIRING_BASE_MIGRATION = "2.0.0"
 
 ' Run all necessary registry mirations on the "global" Jellyfin registry section
 sub runGlobalMigrations()
     appLastRunVersion = m.global.app.lastRunVersion
     ' Global registry migrations
-    if isValid(appLastRunVersion) and not versionChecker(appLastRunVersion, "2.0.0")
+    if isValid(appLastRunVersion) and not versionChecker(appLastRunVersion, CLIENT_VERSION_REQUIRING_BASE_MIGRATION)
         m.wasMigrated = true
-        ' last app version used was less than 2.0.0
-        print "Running 2.0.0 global registry migrations"
+        ' last app version used was less than CLIENT_VERSION_REQUIRING_BASE_MIGRATION
+        print `Running ${CLIENT_VERSION_REQUIRING_BASE_MIGRATION} global registry migrations`
         ' no longer saving raw password to registry
         ' auth token and username are now stored in user settings and not global settings
 
@@ -59,19 +61,17 @@ sub runRegistryUserMigrations()
                 lastRunVersion = reg.read("LastRunVersion")
             else
                 hasUserVersion = false
+                ' app versions < 2.0.0 didn't save LastRunVersion at the user level
                 ' fall back to using the apps lastRunVersion
-                ' NOTE: app versions < 2.0.0 didn't save this at the user level
                 lastRunVersion = m.global.app.lastRunVersion
                 registry_write("LastRunVersion", m.global.app.version, section)
             end if
 
-            ' 2.0.0
-            if not versionChecker(lastRunVersion, "2.0.0")
+            ' BASE_MIGRATION
+            if not versionChecker(lastRunVersion, CLIENT_VERSION_REQUIRING_BASE_MIGRATION)
                 m.wasMigrated = true
-                print "Running Registry Migration for 2.0.0 for userid: " + section
-                ' now saving LastRunVersion per user in addition to globally so that we can run user specific registry migrations
-                ' duplicate LastRunVersion to all user settings in the registry so that we can run user specific migrations
-                '
+                print `Running Registry Migration for ${CLIENT_VERSION_REQUIRING_BASE_MIGRATION} for userid: ${section}`
+
                 ' no longer saving password to registry
                 registry_delete("password", section)
                 ' av1 playback no longer hidden behind user setting
