@@ -36,11 +36,8 @@ function RegistryReadAll(section as string) as dynamic
     regKeyList = registry.GetKeyList()
     registryData = {}
     for each item in regKeyList
-        ' ignore session related tokens
-        if item <> "token" and item <> "username" and item <> "password" and LCase(item) <> "lastrunversion"
-            if registry.Exists(item)
-                registryData.AddReplace(item, registry.Read(item))
-            end if
+        if registry.Exists(item)
+            registryData.AddReplace(item, registry.Read(item))
         end if
     end for
 

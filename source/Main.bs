@@ -1,4 +1,5 @@
 sub Main (args as dynamic) as void
+    printRegistry()
     ' The main function that runs when the application is launched.
     m.screen = CreateObject("roSGScreen")
     ' Set global constants
@@ -14,6 +15,18 @@ sub Main (args as dynamic) as void
     SaveAppToGlobal()
     SaveDeviceToGlobal()
     session.Init()
+
+    ' migrate registry if needed
+    m.wasMigrated = false
+    runGlobalMigrations()
+    runRegistryUserMigrations()
+    ' update LastRunVersion now that migrations are finished
+    showWhatsNew = false
+    if m.global.app.version <> m.global.app.lastRunVersion
+        showWhatsNew = true
+        set_setting("LastRunVersion", m.global.app.version)
+    end if
+    if m.wasMigrated then printRegistry()
 
     m.scene = m.screen.CreateScene("JFScene")
     m.screen.show() ' vscode_rale_tracker_entry
@@ -62,24 +75,11 @@ sub Main (args as dynamic) as void
         end if
     end if
 
-    ' Save the global last run version of the app
-    if m.global.app.version <> m.global.app.lastRunVersion
-        ' update global LastRunVersion
-        set_setting("LastRunVersion", m.global.app.version)
-
-        ' Show the Whats New popup
-        if m.global.session.user.settings["load.allowwhatsnew"] = true
-            dialog = createObject("roSGNode", "WhatsNewDialog")
-            m.scene.dialog = dialog
-            m.scene.dialog.observeField("buttonSelected", m.port)
-        end if
-    end if
-
-    ' Save the user last run version of the app
-    if m.global.session.user.lastRunVersion <> m.global.app.lastRunVersion
-        ' update user LastRunVersion
-        set_user_setting("LastRunVersion", m.global.app.version)
-        session.user.Update("lastRunVersion", m.global.app.version)
+    ' Show the Whats New popup
+    if showWhatsNew and m.global.session.user.settings["load.allowwhatsnew"]
+        dialog = createObject("roSGNode", "WhatsNewDialog")
+        m.scene.dialog = dialog
+        m.scene.dialog.observeField("buttonSelected", m.port)
     end if
 
     ' Handle input messages

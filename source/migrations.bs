@@ -1,13 +1,18 @@
 import "pkg:/source/utils/misc.bs"
+import "pkg:/source/utils/conditional.bs"
 
-' Functions that update the registry based on the last run version and the currently running version
+' @fileoverview Functions that update the registry based on the last run version and the currently running version
+
+const CLIENT_VERSION_REQUIRING_BASE_MIGRATION = "2.0.0"
 
 ' Run all necessary registry mirations on the "global" Jellyfin registry section
 sub runGlobalMigrations()
+    appLastRunVersion = m.global.app.lastRunVersion
     ' Global registry migrations
-    if isValid(m.global.app.lastRunVersion) and not versionChecker(m.global.app.lastRunVersion, "2.0.0")
-        ' last app version used was less than 2.0.0
-        print "Running 2.0.0 global registry migrations"
+    if isValid(appLastRunVersion) and not versionChecker(appLastRunVersion, CLIENT_VERSION_REQUIRING_BASE_MIGRATION)
+        m.wasMigrated = true
+        ' last app version used was less than CLIENT_VERSION_REQUIRING_BASE_MIGRATION
+        print `Running ${CLIENT_VERSION_REQUIRING_BASE_MIGRATION} global registry migrations`
         ' no longer saving raw password to registry
         ' auth token and username are now stored in user settings and not global settings
 
@@ -44,26 +49,38 @@ sub runGlobalMigrations()
             end if
         end if
     end if
-    if m.global.app.lastRunVersion <> invalid
-        runRegistryUserMigrations(m.global.app.lastRunVersion)
-    end if
 end sub
 
-sub runRegistryUserMigrations(version as string)
+sub runRegistryUserMigrations()
     regSections = getRegistrySections()
     for each section in regSections
         if LCase(section) <> "jellyfin"
-            if version = "2.0.0"
-                print "Running User Registry Migration for 2.0.0"
-                ' now saving LastRunVersion globally and per user so that we can run user specific registry migrations
-                ' duplicate LastRunVersion to all user settings in the registry so that we can run user specific migrations
-                '
-                ' now saving LastRunVersion per user in addition to globally
+            reg = CreateObject("roRegistrySection", section)
+            if reg.exists("LastRunVersion")
+                hasUserVersion = true
+                lastRunVersion = reg.read("LastRunVersion")
+            else
+                hasUserVersion = false
+                ' app versions < 2.0.0 didn't save LastRunVersion at the user level
+                ' fall back to using the apps lastRunVersion
+                lastRunVersion = m.global.app.lastRunVersion
                 registry_write("LastRunVersion", m.global.app.version, section)
+            end if
+
+            ' BASE_MIGRATION
+            if not versionChecker(lastRunVersion, CLIENT_VERSION_REQUIRING_BASE_MIGRATION)
+                m.wasMigrated = true
+                print `Running Registry Migration for ${CLIENT_VERSION_REQUIRING_BASE_MIGRATION} for userid: ${section}`
+
                 ' no longer saving password to registry
                 registry_delete("password", section)
                 ' av1 playback no longer hidden behind user setting
                 registry_delete("playback.av1", section)
+            end if
+
+            ' update lastRunVersion if needed
+            if hasUserVersion and lastRunVersion <> m.global.app.version
+                registry_write("LastRunVersion", m.global.app.version, section)
             end if
         end if
     end for
