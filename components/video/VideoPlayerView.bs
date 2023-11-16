@@ -24,8 +24,8 @@ sub init()
     m.chapterList = m.top.findNode("chapterList")
     m.chapterMenu = m.top.findNode("chapterMenu")
     m.chapterContent = m.top.findNode("chapterContent")
-    m.pauseMenu = m.top.findNode("pauseMenu")
-    m.pauseMenu.observeField("action", "onPauseMenuAction")
+    m.osd = m.top.findNode("osd")
+    m.osd.observeField("action", "onOSDAction")
 
     m.playbackTimer = m.top.findNode("playbackTimer")
     m.bufferCheckTimer = m.top.findNode("bufferCheckTimer")
@@ -91,17 +91,17 @@ sub handleChapterSkipAction(action as string)
     end if
 end sub
 
-' handleHideAction: Handles action to hide pause menu
+' handleHideAction: Handles action to hide OSD menu
 '
 ' @param {boolean} resume - controls whether or not to resume video playback when sub is called
 '
 sub handleHideAction(resume as boolean)
-    m.pauseMenu.visible = false
+    m.osd.visible = false
     m.chapterList.visible = false
-    m.pauseMenu.showChapterList = false
+    m.osd.showChapterList = false
     m.chapterList.setFocus(false)
-    m.pauseMenu.hasFocus = false
-    m.pauseMenu.setFocus(false)
+    m.osd.hasFocus = false
+    m.osd.setFocus(false)
     m.top.setFocus(true)
     if resume
         m.top.control = "resume"
@@ -111,14 +111,14 @@ end sub
 ' handleChapterListAction: Handles action to show chapter list
 '
 sub handleChapterListAction()
-    m.chapterList.visible = m.pauseMenu.showChapterList
+    m.chapterList.visible = m.osd.showChapterList
 
     if not m.chapterList.visible then return
 
     m.chapterMenu.jumpToItem = getCurrentChapterIndex()
 
-    m.pauseMenu.hasFocus = false
-    m.pauseMenu.setFocus(false)
+    m.osd.hasFocus = false
+    m.osd.setFocus(false)
     m.chapterMenu.setFocus(true)
 end sub
 
@@ -171,10 +171,10 @@ sub handleShowVideoInfoPopupAction()
     handleHideAction(false)
 end sub
 
-' onPauseMenuAction: Process action events from pause menu to their respective handlers
+' onOSDAction: Process action events from OSD to their respective handlers
 '
-sub onPauseMenuAction()
-    action = LCase(m.pauseMenu.action)
+sub onOSDAction()
+    action = LCase(m.osd.action)
 
     if action = "hide"
         handleHideAction(false)
@@ -320,7 +320,7 @@ sub onVideoContentLoaded()
     m.top.transcodeParams = videoContent[0].transcodeparams
     m.chapters = videoContent[0].chapters
 
-    m.pauseMenu.itemTitleText = m.top.content.title
+    m.osd.itemTitleText = m.top.content.title
 
     populateChapterMenu()
 
@@ -380,7 +380,7 @@ end sub
 '
 ' Runs Next Episode button animation and sets focus to button
 sub showNextEpisodeButton()
-    if m.pauseMenu.visible then return
+    if m.osd.visible then return
     if m.top.content.contenttype <> 4 then return ' only display when content is type "Episode"
     if m.nextupbuttonseconds = 0 then return ' is the button disabled?
 
@@ -438,10 +438,10 @@ end sub
 ' When Video Player state changes
 sub onPositionChanged()
 
-    ' Pass video position data into pause menu
-    m.pauseMenu.progressPercentage = m.top.position / m.top.duration
-    m.pauseMenu.positionTime = m.top.position
-    m.pauseMenu.remainingPositionTime = m.top.duration - m.top.position
+    ' Pass video position data into OSD
+    m.osd.progressPercentage = m.top.position / m.top.duration
+    m.osd.positionTime = m.top.position
+    m.osd.remainingPositionTime = m.top.duration - m.top.position
 
     if isValid(m.captionTask)
         m.captionTask.currentPos = Int(m.top.position * 1000)
@@ -464,8 +464,8 @@ sub onState(msg)
         m.captionTask.playerState = m.top.state + m.top.globalCaptionMode
     end if
 
-    ' Pass video state into pause menu
-    m.pauseMenu.playbackState = m.top.state
+    ' Pass video state into OSD
+    m.osd.playbackState = m.top.state
 
     ' When buffering, start timer to monitor buffering process
     if m.top.state = "buffering" and m.bufferCheckTimer <> invalid
@@ -568,10 +568,10 @@ sub bufferCheck(msg)
 
 end sub
 
-' stateAllowsPauseMenu: Check if current video state allows showing the pause menu
+' stateAllowsOSD: Check if current video state allows showing the OSD
 '
-' @return {boolean} indicating if video state allows the pause menu to show
-function stateAllowsPauseMenu() as boolean
+' @return {boolean} indicating if video state allows the OSD to show
+function stateAllowsOSD() as boolean
     validStates = ["playing", "paused", "stopped"]
     return inArray(validStates, m.top.state)
 end function
@@ -596,10 +596,10 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
         if key = "back" or key = "replay"
             m.chapterList.visible = false
-            m.pauseMenu.showChapterList = false
+            m.osd.showChapterList = false
             m.chapterMenu.setFocus(false)
-            m.pauseMenu.hasFocus = true
-            m.pauseMenu.setFocus(true)
+            m.osd.hasFocus = true
+            m.osd.setFocus(true)
             return true
         end if
 
@@ -629,58 +629,58 @@ function onKeyEvent(key as string, press as boolean) as boolean
     if key = "down" and not m.top.trickPlayBar.visible
         if not m.LoadMetaDataTask.isIntro
             ' Don't allow user to open menu prior to video loading
-            if not stateAllowsPauseMenu() then return true
+            if not stateAllowsOSD() then return true
 
-            m.pauseMenu.visible = true
-            m.pauseMenu.hasFocus = true
-            m.pauseMenu.setFocus(true)
+            m.osd.visible = true
+            m.osd.hasFocus = true
+            m.osd.setFocus(true)
             return true
         end if
 
     else if key = "up" and not m.top.trickPlayBar.visible
         if not m.LoadMetaDataTask.isIntro
             ' Don't allow user to open menu prior to video loading
-            if not stateAllowsPauseMenu() then return true
+            if not stateAllowsOSD() then return true
 
-            m.pauseMenu.visible = true
-            m.pauseMenu.hasFocus = true
-            m.pauseMenu.setFocus(true)
+            m.osd.visible = true
+            m.osd.hasFocus = true
+            m.osd.setFocus(true)
             return true
         end if
 
     else if key = "OK" and not m.top.trickPlayBar.visible
         if not m.LoadMetaDataTask.isIntro
             ' Don't allow user to open menu prior to video loading
-            if not stateAllowsPauseMenu() then return true
+            if not stateAllowsOSD() then return true
 
-            ' Show pause menu, but don't pause video
-            m.pauseMenu.visible = true
-            m.pauseMenu.hasFocus = true
-            m.pauseMenu.setFocus(true)
+            ' Show OSD, but don't pause video
+            m.osd.visible = true
+            m.osd.hasFocus = true
+            m.osd.setFocus(true)
             return true
         end if
 
         return false
     end if
 
-    ' Disable pause menu for intro videos
+    ' Disable OSD for intro videos
     if not m.LoadMetaDataTask.isIntro
         if key = "play" and not m.top.trickPlayBar.visible
 
             ' Don't allow user to open menu prior to video loading
-            if not stateAllowsPauseMenu() then return true
+            if not stateAllowsOSD() then return true
 
-            ' If video is paused, resume it and don't show pause menu
+            ' If video is paused, resume it and don't show OSD
             if m.top.state = "paused"
                 m.top.control = "resume"
                 return true
             end if
 
-            ' Pause video and show pause menu
+            ' Pause video and show OSD
             m.top.control = "pause"
-            m.pauseMenu.visible = true
-            m.pauseMenu.hasFocus = true
-            m.pauseMenu.setFocus(true)
+            m.osd.visible = true
+            m.osd.hasFocus = true
+            m.osd.setFocus(true)
             return true
         end if
     end if
