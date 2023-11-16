@@ -13130,5 +13130,25 @@
         <translation>Fehler beim Abrufen des Inhalts vom Server</translation>
         <extracomment>Dialog title when unable to load Content from Server</extracomment>
     </message>
+    <message>
+        <source>Change Server</source>
+        <translation>Server wechseln</translation>
+    </message>
+    <message>
+        <source>Extras</source>
+        <translation>Extras</translation>
+    </message>
+    <message>
+        <source>Sign Out</source>
+        <translation>Ausloggen</translation>
+    </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>Anmeldedaten speichern?</translation>
+    </message>
+    <message>
+        <source>Episodes</source>
+        <translation>Episoden</translation>
+    </message>
 </context>
 </TS>
