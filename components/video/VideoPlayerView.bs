@@ -568,7 +568,7 @@ sub bufferCheck(msg)
 
 end sub
 
-' stateSupportsPauseMenu: Check if current video state allows showing the pause menu
+' stateAllowsPauseMenu: Check if current video state allows showing the pause menu
 '
 ' @return {boolean} indicating if video state allows the pause menu to show
 function stateAllowsPauseMenu() as boolean
