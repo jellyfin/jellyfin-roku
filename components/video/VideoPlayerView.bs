@@ -568,6 +568,14 @@ sub bufferCheck(msg)
 
 end sub
 
+' stateSupportsPauseMenu: Check if current video state allows showing the pause menu
+'
+' @return {boolean} indicating if video state allows the pause menu to show
+function stateAllowsPauseMenu() as boolean
+    validStates = ["playing", "paused", "stopped"]
+    return inArray(validStates, m.top.state)
+end function
+
 function onKeyEvent(key as string, press as boolean) as boolean
 
     ' Keypress handler while user is inside the chapter menu
@@ -620,6 +628,9 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
     if key = "down" and not m.top.trickPlayBar.visible
         if not m.LoadMetaDataTask.isIntro
+            ' Don't allow user to open menu prior to video loading
+            if not stateAllowsPauseMenu() then return true
+
             m.pauseMenu.visible = true
             m.pauseMenu.hasFocus = true
             m.pauseMenu.setFocus(true)
@@ -628,6 +639,9 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
     else if key = "up" and not m.top.trickPlayBar.visible
         if not m.LoadMetaDataTask.isIntro
+            ' Don't allow user to open menu prior to video loading
+            if not stateAllowsPauseMenu() then return true
+
             m.pauseMenu.visible = true
             m.pauseMenu.hasFocus = true
             m.pauseMenu.setFocus(true)
@@ -636,6 +650,9 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
     else if key = "OK" and not m.top.trickPlayBar.visible
         if not m.LoadMetaDataTask.isIntro
+            ' Don't allow user to open menu prior to video loading
+            if not stateAllowsPauseMenu() then return true
+
             ' Show pause menu, but don't pause video
             m.pauseMenu.visible = true
             m.pauseMenu.hasFocus = true
@@ -649,6 +666,10 @@ function onKeyEvent(key as string, press as boolean) as boolean
     ' Disable pause menu for intro videos
     if not m.LoadMetaDataTask.isIntro
         if key = "play" and not m.top.trickPlayBar.visible
+
+            ' Don't allow user to open menu prior to video loading
+            if not stateAllowsPauseMenu() then return true
+
             ' If video is paused, resume it and don't show pause menu
             if m.top.state = "paused"
                 m.top.control = "resume"
