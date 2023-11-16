@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<component name="PauseMenu" extends="Group" initialFocus="chapterNext">
+<component name="OSD" extends="Group" initialFocus="chapterNext">
   <children>
     <ScrollingLabel id="itemTitle" font="font:LargeBoldSystemFont" translation="[103,61]" maxWidth="1400" />
     <Clock id="clock" translation="[1618, 46]" />

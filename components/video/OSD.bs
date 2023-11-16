@@ -79,7 +79,7 @@ sub resetFocusToDefaultButton()
     m.optionControls.buttonFocused = m.optionControls.getChildCount() - 1
 end sub
 
-' onVisibleChanged: Handler for changes to the visibility of this pause menu.
+' onVisibleChanged: Handler for changes to the visibility of this menu.
 '
 sub onVisibleChanged()
     if m.top.visible
@@ -93,7 +93,7 @@ sub onVisibleChanged()
     m.inactivityTimer.control = "stop"
 end sub
 
-' onFocusChanged: Handler for changes to the focus of this pause menu.
+' onFocusChanged: Handler for changes to the focus of this menu.
 '
 sub onFocusChanged()
     if m.top.hasfocus
@@ -107,7 +107,7 @@ sub onFocusChanged()
     end if
 end sub
 
-' inactiveCheck: Checks if the time since last keypress is greater than or equal to the allowed inactive time of the pause menu.
+' inactiveCheck: Checks if the time since last keypress is greater than or equal to the allowed inactive time of the menu.
 '
 sub inactiveCheck()
     if m.deviceInfo.timeSinceLastKeypress() >= m.top.inactiveTimeout
@@ -115,7 +115,7 @@ sub inactiveCheck()
     end if
 end sub
 
-' onButtonSelected: Handler for selection of buttons from the pause menu.
+' onButtonSelected: Handler for selection of buttons from the menu.
 '
 sub onButtonSelected()
     if m.optionControls.isInFocusChain()

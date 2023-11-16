@@ -1229,7 +1229,7 @@
         <message>
             <source>No Chapter Data Found</source>
             <translation>No Chapter Data Found</translation>
-            <extracomment>Message shown in pause menu when no chapter data is returned by the API</extracomment>
+            <extracomment>Message shown in OSD when no chapter data is returned by the API</extracomment>
         </message>
     </context>
 </TS>
