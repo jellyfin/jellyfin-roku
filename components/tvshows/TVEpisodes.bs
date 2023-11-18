@@ -46,10 +46,28 @@ sub updateSeason()
     m.top.overhangTitle = m.top.seasonData.SeriesName + " - " + m.top.seasonData.name
 end sub
 
+' get the currently focused item
+function getFocusedItem() as dynamic
+    if isValid(m.top.focusedChild) and isValid(m.top.focusedChild.focusedChild)
+        focusedChild = m.top.focusedChild.focusedChild
+        if not isValid(focusedChild.content) then return invalid
+        m.top.lastFocus = focusedChild
+    else
+        return invalid
+    end if
+
+    if isValidAndNotEmpty(focusedChild.rowItemFocused)
+        itemToPlay = focusedChild.content.getChild(focusedChild.rowItemFocused[0]).getChild(0)
+        if isValid(itemToPlay) and isValidAndNotEmpty(itemToPlay.id)
+            return itemToPlay
+        end if
+    end if
+
+    return invalid
+end function
+
 ' Handle navigation input from the remote and act on it
 function onKeyEvent(key as string, press as boolean) as boolean
-    handled = false
-
     if key = "left" and m.tvEpisodeRow.hasFocus()
         m.shuffle.setFocus(true)
         return true
@@ -70,7 +88,15 @@ function onKeyEvent(key as string, press as boolean) as boolean
         return true
     end if
 
-    if key = "OK" or key = "play"
+    if key = "OK"
+        if m.tvEpisodeRow.isInFocusChain()
+            focusedItem = getFocusedItem()
+            if isValid(focusedItem)
+                m.top.selectedItem = focusedItem
+            end if
+            return true
+        end if
+
         if m.shuffle.hasFocus()
             episodeList = m.rows.getChild(0).objects.items
 
@@ -97,22 +123,13 @@ function onKeyEvent(key as string, press as boolean) as boolean
         end if
     end if
 
-    focusedChild = m.top.focusedChild.focusedChild
-    if focusedChild.content = invalid then return handled
-
-    ' OK needs to be handled on release...
-    proceed = false
-    if key = "OK"
-        proceed = true
-    end if
-
-    if press and key = "play" or proceed = true
-        m.top.lastFocus = focusedChild
-        itemToPlay = focusedChild.content.getChild(focusedChild.rowItemFocused[0]).getChild(0)
-        if isValid(itemToPlay) and isValid(itemToPlay.id) and itemToPlay.id <> ""
-            m.top.quickPlayNode = itemToPlay
+    if key = "play"
+        focusedItem = getFocusedItem()
+        if isValid(focusedItem)
+            m.top.quickPlayNode = focusedItem
         end if
-        handled = true
+        return true
     end if
-    return handled
+
+    return false
 end function
