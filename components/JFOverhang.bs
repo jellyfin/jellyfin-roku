@@ -2,6 +2,10 @@ import "pkg:/source/utils/config.bs"
 
 sub init()
     m.top.id = "overhang"
+    m.top.translation = [54, 0]
+
+    m.leftGroup = m.top.findNode("overlayLeftGroup")
+    m.rightGroup = m.top.findNode("overlayRightGroup")
     ' hide seperators till they're needed
     m.leftSeperator = m.top.findNode("overlayLeftSeperator")
     m.leftSeperator.visible = "false"
@@ -38,7 +42,7 @@ end sub
 
 sub onVisibleChange()
     if m.top.disableMoveAnimation
-        m.top.translation = [0, 0]
+        m.top.translation = [54, 0]
         return
     end if
     if m.top.isVisible
@@ -84,7 +88,9 @@ end sub
 sub updateUser()
     setRightSeperatorVisibility()
     user = m.top.findNode("overlayCurrentUser")
-    user.text = m.top.currentUser
+    if isValid(user)
+        user.text = m.top.currentUser
+    end if
 end sub
 
 sub updateTime()
@@ -143,5 +149,69 @@ sub updateOptions()
     else
         m.optionText.visible = false
         m.optionStar.visible = false
+    end if
+end sub
+
+' Ensure the Jellyfin logo is shown on the overhang.
+sub showLogo()
+    scene = m.top.getScene()
+    logo = scene.findNode("overlayLogo")
+    leftSeperator = scene.findNode("overlayLeftSeperator")
+
+    if not isValid(leftSeperator)
+        seperator = createSeperator("overlayLeftSeperator")
+        m.leftGroup.insertChild(seperator, 0)
+    end if
+    if not isValid(logo)
+        posterLogo = createLogoPoster()
+        m.leftGroup.insertChild(posterLogo, 0)
+    end if
+end sub
+
+' Remove the Jellyfin logo from the overhang.
+sub hideLogo()
+    scene = m.top.getScene()
+
+    logo = scene.findNode("overlayLogo")
+    leftSeperator = scene.findNode("overlayLeftSeperator")
+
+    if isValid(logo)
+        m.leftGroup.removeChild(logo)
+    end if
+    if isValid(leftSeperator)
+        m.leftGroup.removeChild(leftSeperator)
+    end if
+end sub
+
+' Ensure the current user is shown on the overhang.
+sub showUser()
+    print "HELLO from showUser()"
+    scene = m.top.getScene()
+    currentUser = scene.findNode("overlayCurrentUser")
+    rightSeperator = scene.findNode("overlayRightSeperator")
+
+    if not isValid(rightSeperator)
+        seperator = createSeperator("overlayRightSeperator")
+        m.rightGroup.insertChild(seperator, 0)
+    end if
+    if not isValid(currentUser)
+        myUser = createOverhangUser()
+        myUser.text = m.top.currentUser
+        m.rightGroup.insertChild(myUser, 0)
+    end if
+end sub
+
+' Remove the Jellyfin logo from the overhang.
+sub hideUser()
+    scene = m.top.getScene()
+
+    currentUser = scene.findNode("overlayCurrentUser")
+    rightSeperator = scene.findNode("overlayRightSeperator")
+
+    if isValid(currentUser)
+        m.rightGroup.removeChild(currentUser)
+    end if
+    if isValid(rightSeperator)
+        m.rightGroup.removeChild(rightSeperator)
     end if
 end sub

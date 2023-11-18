@@ -507,3 +507,41 @@ function shuffleArray(array as object) as object
     end for
     return array
 end function
+
+' Create and return a Jellyfin logo poster node
+function createLogoPoster()
+    logoPoster = createObject("roSGNode", "Poster")
+    logoPoster.id = "overlayLogo"
+    logoPoster.uri = "pkg:/images/logo.png"
+    logoPoster.translation = "[70, 53]"
+    logoPoster.width = "270"
+    logoPoster.height = "72"
+
+    return logoPoster
+end function
+
+' Create and return a rectangle node used as a seperator in the overhang
+function createSeperator(id as string)
+    if not isValidAndNotEmpty(id) then return invalid
+
+    seperator = createObject("roSGNode", "Rectangle")
+    seperator.id = id
+    seperator.color = "#666666"
+    seperator.width = "2"
+    seperator.height = "64"
+
+    return seperator
+end function
+
+'
+function createOverhangUser()
+    userLabel = createObject("roSGNode", "Label")
+    userLabel.id = "overlayCurrentUser"
+    userLabel.font = "font:MediumSystemFont"
+    userLabel.horizAlign = "right"
+    userLabel.vertAlign = "center"
+    userLabel.width = "300"
+    userLabel.height = "64"
+
+    return userLabel
+end function
