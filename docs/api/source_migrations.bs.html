@@ -12,16 +12,15 @@ sub runGlobalMigrations()
     appLastRunVersion = m.global.app.lastRunVersion
     ' Global registry migrations
     if isValid(appLastRunVersion) and not versionChecker(appLastRunVersion, CLIENT_VERSION_REQUIRING_BASE_MIGRATION)
+        ' last app version used &lt; CLIENT_VERSION_REQUIRING_BASE_MIGRATION
         m.wasMigrated = true
-        ' last app version used was less than CLIENT_VERSION_REQUIRING_BASE_MIGRATION
         print `Running ${CLIENT_VERSION_REQUIRING_BASE_MIGRATION} global registry migrations`
         ' no longer saving raw password to registry
         ' auth token and username are now stored in user settings and not global settings
 
+        ' migrate saved credentials for "active_user" if found
         savedUserId = get_setting("active_user")
         if isValid(savedUserId)
-            registry_write("serverId", m.global.session.server.id, savedUserId)
-            ' copy saved credentials to user block
             savedUsername = get_setting("username")
             if isValid(savedUsername)
                 registry_write("username", savedUsername, savedUserId)
@@ -32,11 +31,12 @@ sub runGlobalMigrations()
                 registry_write("token", savedToken, savedUserId)
             end if
         end if
+        ' remove settings from global "jellyfin" registry block
         unset_setting("port")
         unset_setting("token")
         unset_setting("username")
         unset_setting("password")
-        ' remove saved credentials from saved_servers
+        ' remove any saved credentials found in saved_servers assocArray
         saved = get_setting("saved_servers")
         if isValid(saved)
             savedServers = ParseJson(saved)
