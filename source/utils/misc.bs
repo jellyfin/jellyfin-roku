@@ -452,26 +452,53 @@ function toString(input) as string
 end function
 
 sub startLoadingSpinner()
-    m.spinner = createObject("roSGNode", "Spinner")
-    m.spinner.translation = "[900, 450]"
-    m.spinner.visible = true
-    m.scene.appendChild(m.spinner)
+    if not isValid(m.scene)
+        m.scene = m.top.getScene()
+    end if
+
+    if not m.scene.isLoading
+        m.scene.isLoading = true
+
+        m.spinner = createObject("roSGNode", "Spinner")
+        m.spinner.translation = "[900, 450]"
+        m.spinner.visible = true
+
+        m.scene.appendChild(m.spinner)
+    end if
 end sub
 
 sub startMediaLoadingSpinner()
-    dialog = createObject("roSGNode", "ProgressDialog")
-    dialog.id = "invisibiledialog"
-    dialog.visible = false
-    m.scene.dialog = dialog
-    startLoadingSpinner()
+    if not isValid(m.scene)
+        m.scene = m.top.getScene()
+    end if
+
+    if not m.scene.isLoading
+        dialog = createObject("roSGNode", "ProgressDialog")
+        dialog.id = "invisibiledialog"
+        dialog.visible = false
+        m.scene.dialog = dialog
+
+        startLoadingSpinner()
+    end if
 end sub
 
 sub stopLoadingSpinner()
-    if isValid(m.spinner)
-        m.spinner.visible = false
+    if not isValid(m.scene)
+        m.scene = m.top.getScene()
     end if
-    if isValid(m.scene) and isValid(m.scene.dialog)
-        m.scene.dialog.close = true
+
+    if m.scene.isLoading
+        m.scene.isLoading = false
+        if isValid(m.spinner)
+            m.spinner.visible = false
+        end if
+        if isValid(m.scene) and isValid(m.scene.dialog)
+            if m.scene.dialog.isSubType("ProgressDialog")
+                m.scene.dialog.close = true
+            else if m.scene.dialog.isSubType("Spinner")
+                m.scene.dialog.close = true
+            end if
+        end if
     end if
 end sub
 

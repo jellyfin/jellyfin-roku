@@ -5,6 +5,7 @@
     <JFOverhang id="overhang" />
   </children>
   <interface>
+    <field id="isLoading" type="boolean" value="false" />
     <field id="exit" type="boolean" alwaysNotify="true" />
   </interface>
 </component>

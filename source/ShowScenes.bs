@@ -813,17 +813,19 @@ function CreateSeasonDetailsGroupByID(seriesID as string, seasonID as string) as
     group = CreateObject("roSGNode", "TVEpisodes")
     group.optionsAvailable = false
     ' push scene asap (to prevent extra button presses when retriving series/movie info)
-    m.global.sceneManager.callFunc("pushScene", group)
     group.seasonData = seasonMetaData.json
     group.objects = TVEpisodes(seriesID, seasonID)
     group.episodeObjects = group.objects
-    group.extrasObjects = TVSeasonExtras(seasonID)
-
     ' watch for button presses
     group.observeField("episodeSelected", m.port)
     group.observeField("quickPlayNode", m.port)
-    ' finished building SeasonDetails view
+    ' don't wait for the extras button
     stopLoadingSpinner()
+    m.global.sceneManager.callFunc("pushScene", group)
+    ' check for specials/extras for this season
+    group.extrasObjects = TVSeasonExtras(seasonID)
+
+    ' finished building SeasonDetails view
     return group
 end function
 
