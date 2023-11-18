@@ -160,9 +160,6 @@ sub Main (args as dynamic) as void
 
                 ' can't play the item without knowing what type it is
                 if isValid(itemType)
-                    if not isValid(m.scene)
-                        m.scene = m.top.getScene()
-                    end if
                     startMediaLoadingSpinner()
                     m.global.queueManager.callFunc("clear") ' empty queue/playlist
                     m.global.queueManager.callFunc("resetShuffle") ' turn shuffle off
@@ -219,9 +216,6 @@ sub Main (args as dynamic) as void
             ' If you select a library from ANYWHERE, follow this flow
             selectedItem = msg.getData()
             if isValid(selectedItem)
-                if not isValid(m.scene)
-                    m.scene = m.top.getScene()
-                end if
                 startMediaLoadingSpinner()
                 selectedItemType = selectedItem.type
 
