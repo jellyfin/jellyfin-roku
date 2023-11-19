@@ -110,6 +110,11 @@ end sub
 ' inactiveCheck: Checks if the time since last keypress is greater than or equal to the allowed inactive time of the menu.
 '
 sub inactiveCheck()
+    ' If user is currently seeing a dialog box, ignore inactive check
+    if m.global.sceneManager.callFunc("isDialogOpen")
+        return
+    end if
+
     if m.deviceInfo.timeSinceLastKeypress() >= m.top.inactiveTimeout
         m.top.action = "hide"
     end if
