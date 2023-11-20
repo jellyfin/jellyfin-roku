@@ -48,13 +48,13 @@ end sub
 
 ' get the currently focused item
 function getFocusedItem() as dynamic
-    if isValid(m.top.focusedChild) and isValid(m.top.focusedChild.focusedChild)
-        focusedChild = m.top.focusedChild.focusedChild
-        if not isValid(focusedChild.content) then return invalid
-        m.top.lastFocus = focusedChild
-    else
+    if not isValid(m.top.focusedChild) or not isValid(m.top.focusedChild.focusedChild)
         return invalid
     end if
+
+    focusedChild = m.top.focusedChild.focusedChild
+    if not isValid(focusedChild.content) then return invalid
+    m.top.lastFocus = focusedChild
 
     if isValidAndNotEmpty(focusedChild.rowItemFocused)
         itemToPlay = focusedChild.content.getChild(focusedChild.rowItemFocused[0]).getChild(0)
