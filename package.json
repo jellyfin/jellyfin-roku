@@ -14,7 +14,7 @@
     "clean-jsdoc-theme": "4.2.17",
     "jsdoc": "4.0.2",
     "jshint": "2.13.6",
-    "markdownlint-cli2": "0.10.0",
+    "markdownlint-cli2": "0.11.0",
     "rimraf": "5.0.5",
     "roku-deploy": "3.10.5",
     "roku-log-bsc-plugin": "0.8.1",
