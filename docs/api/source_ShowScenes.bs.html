@@ -792,7 +792,7 @@ function CreateSeasonDetailsGroup(series as object, season as object) as dynamic
     group.extrasObjects = TVSeasonExtras(season.id)
 
     ' watch for button presses
-    group.observeField("episodeSelected", m.port)
+    group.observeField("selectedItem", m.port)
     group.observeField("quickPlayNode", m.port)
     ' finished building SeasonDetails view
     stopLoadingSpinner()
