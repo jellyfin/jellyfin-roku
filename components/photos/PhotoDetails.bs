@@ -23,14 +23,12 @@ sub itemContentChanged()
     if isValidToContinue(m.top.itemIndex)
         m.LoadLibrariesTask = createObject("roSGNode", "LoadPhotoTask")
         if isValid(m.top.itemsNode)
-            stopLoadingSpinner()
             if isValid(m.top.itemsNode.content)
                 m.LoadLibrariesTask.itemNodeContent = m.top.itemsNode.content.getChild(m.top.itemIndex)
             else if isValidAndNotEmpty(m.top.itemsNode.id)
                 m.LoadLibrariesTask.itemNodeContent = m.top.itemsNode
             end if
         else if isValid(m.top.itemsArray)
-            stopLoadingSpinner()
             itemContent = m.top.itemsArray[m.top.itemIndex]
             m.LoadLibrariesTask.itemArrayContent = itemContent
         else
@@ -43,6 +41,7 @@ sub itemContentChanged()
 end sub
 
 sub onPhotoLoaded()
+    stopLoadingSpinner()
     if m.LoadLibrariesTask.results <> invalid
         photo = m.top.findNode("photo")
         photo.uri = m.LoadLibrariesTask.results
