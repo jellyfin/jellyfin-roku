@@ -319,6 +319,7 @@ sub Main (args as dynamic) as void
                 else if selectedItemType = "MusicArtist"
                     group = CreateArtistView(selectedItem.json)
                     if not isValid(group)
+                        stopLoadingSpinner()
                         message_dialog(tr("Unable to find any albums or songs belonging to this artist"))
                     end if
                 else if selectedItemType = "MusicAlbum"
@@ -340,14 +341,17 @@ sub Main (args as dynamic) as void
             end if
         else if isNodeEvent(msg, "movieSelected")
             ' If you select a movie from ANYWHERE, follow this flow
+            startLoadingSpinner()
             node = getMsgPicker(msg, "picker")
             group = CreateMovieDetailsGroup(node)
         else if isNodeEvent(msg, "seriesSelected")
             ' If you select a TV Series from ANYWHERE, follow this flow
+            startLoadingSpinner()
             node = getMsgPicker(msg, "picker")
             group = CreateSeriesDetailsGroup(node.id)
         else if isNodeEvent(msg, "seasonSelected")
             ' If you select a TV Season from ANYWHERE, follow this flow
+            startLoadingSpinner()
             ptr = msg.getData()
             ' ptr is for [row, col] of selected item... but we only have 1 row
             series = msg.getRoSGNode()
@@ -357,18 +361,27 @@ sub Main (args as dynamic) as void
             end if
         else if isNodeEvent(msg, "musicAlbumSelected")
             ' If you select a Music Album from ANYWHERE, follow this flow
+            startLoadingSpinner()
             ptr = msg.getData()
             albums = msg.getRoSGNode()
             node = albums.musicArtistAlbumData.items[ptr]
             group = CreateAlbumView(node)
+            if not isValid(group)
+                stopLoadingSpinner()
+            end if
         else if isNodeEvent(msg, "appearsOnSelected")
             ' If you select a Music Album from ANYWHERE, follow this flow
+            startLoadingSpinner()
             ptr = msg.getData()
             albums = msg.getRoSGNode()
             node = albums.musicArtistAppearsOnData.items[ptr]
             group = CreateAlbumView(node)
+            if not isValid(group)
+                stopLoadingSpinner()
+            end if
         else if isNodeEvent(msg, "playSong")
             ' User has selected audio they want us to play
+            startLoadingSpinner()
             selectedIndex = msg.getData()
             screenContent = msg.getRoSGNode()
 
@@ -378,6 +391,7 @@ sub Main (args as dynamic) as void
             m.global.queueManager.callFunc("playQueue")
         else if isNodeEvent(msg, "playItem")
             ' User has selected audio they want us to play
+            startLoadingSpinner()
             selectedIndex = msg.getData()
             screenContent = msg.getRoSGNode()
 
@@ -388,8 +402,7 @@ sub Main (args as dynamic) as void
         else if isNodeEvent(msg, "playAllSelected")
             ' User has selected playlist of of audio they want us to play
             screenContent = msg.getRoSGNode()
-            m.spinner = screenContent.findNode("spinner")
-            m.spinner.visible = true
+            startLoadingSpinner()
 
             m.global.queueManager.callFunc("clear")
             m.global.queueManager.callFunc("resetShuffle")
@@ -397,6 +410,7 @@ sub Main (args as dynamic) as void
             m.global.queueManager.callFunc("playQueue")
         else if isNodeEvent(msg, "playArtistSelected")
             ' User has selected playlist of of audio they want us to play
+            startLoadingSpinner()
             screenContent = msg.getRoSGNode()
 
             m.global.queueManager.callFunc("clear")
@@ -408,10 +422,7 @@ sub Main (args as dynamic) as void
             ' User has selected instant mix
             ' User has selected playlist of of audio they want us to play
             screenContent = msg.getRoSGNode()
-            m.spinner = screenContent.findNode("spinner")
-            if isValid(m.spinner)
-                m.spinner.visible = true
-            end if
+            startLoadingSpinner()
 
             viewHandled = false
 
@@ -453,6 +464,7 @@ sub Main (args as dynamic) as void
             options.query = query
         else if isNodeEvent(msg, "itemSelected")
             ' Search item selected
+            startLoadingSpinner()
             node = getMsgPicker(msg)
             ' TODO - swap this based on target.mediatype
             ' types: [ Series (Show), Episode, Movie, Audio, Person, Studio, MusicArtist ]
@@ -488,6 +500,7 @@ sub Main (args as dynamic) as void
                 m.global.queueManager.callFunc("playQueue")
             else
                 ' TODO - switch on more node types
+                stopLoadingSpinner()
                 message_dialog("This type is not yet supported: " + node.type + ".")
             end if
         else if isNodeEvent(msg, "buttonSelected")
@@ -529,6 +542,7 @@ sub Main (args as dynamic) as void
 
             else if btn <> invalid and btn.id = "trailer-button"
                 ' User chose to play a trailer from the movie detail view
+                startLoadingSpinner()
                 dialog = createObject("roSGNode", "ProgressDialog")
                 dialog.title = tr("Loading trailer")
                 m.scene.dialog = dialog
@@ -540,6 +554,8 @@ sub Main (args as dynamic) as void
                     m.global.queueManager.callFunc("set", trailerData)
                     m.global.queueManager.callFunc("playQueue")
                     dialog.close = true
+                else
+                    stopLoadingSpinner()
                 end if
 
                 if isValid(group) and isValid(group.lastFocus)

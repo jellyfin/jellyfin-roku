@@ -550,7 +550,7 @@ end sub
 '
 'Load next set of items
 sub loadMoreData()
-    m.spinner.visible = true
+    startLoadingSpinner(false)
     if m.Loading = true then return
     m.Loading = true
     m.loadItemsTask.startIndex = m.loadedItems

@@ -453,7 +453,7 @@ end function
 
 '
 ' startLoadingSpinner: Start a loading spinner and attach it to the main JFScene.
-' Displays an invisible ProgressDialog node by default to disable keypresses while the app is loading.
+' Displays an invisible ProgressDialog node by default to disable keypresses while loading.
 '
 ' @param {boolean} [disableRemote=true]
 sub startLoadingSpinner(disableRemote = true as boolean)
