@@ -333,6 +333,8 @@ sub updateFavoritesItems()
 
         ' replace the old row
         m.top.content.replaceChild(row, rowIndex)
+        ' Set focus on previously focused item
+        setFocusToPreviousFocusedItem()
 
     end if
 end sub
@@ -365,6 +367,8 @@ sub updateContinueWatchingItems()
 
     ' replace the old row
     m.top.content.replaceChild(row, m.homeSections.resume.index)
+    ' Set focus on previously focused item
+    setFocusToPreviousFocusedItem()
 end sub
 
 sub updateNextUpItems()
@@ -389,6 +393,8 @@ sub updateNextUpItems()
 
         ' replace the old row
         m.top.content.replaceChild(row, m.homeSections.nextup.index)
+        ' Set focus on previously focused item
+        setFocusToPreviousFocusedItem()
     end if
 end sub
 
@@ -460,6 +466,10 @@ sub updateLatestItems(msg)
             ' Replace the old row
             if isValid(rowIndex)
                 m.top.content.replaceChild(row, rowIndex)
+
+                ' Set focus on previously focused item
+                setFocusToPreviousFocusedItem()
+
                 return
             end if
         end if
@@ -499,6 +509,16 @@ sub updateLatestItems(msg)
     end if
 end sub
 
+' setFocusToPreviousFocusedItem: Sets the cursor focus to the row and item previously selected
+'
+sub setFocusToPreviousFocusedItem()
+    if isValid(m.selectedRowItem)
+        if isValid(m.homeSections[m.selectedRowItem[0]])
+            m.top.jumpToRowItem = [m.homeSections[m.selectedRowItem[0]].index, m.selectedRowItem[1]]
+        end if
+    end if
+end sub
+
 sub updateOnNowItems()
     itemData = m.LoadOnNowTask.content
     m.LoadOnNowTask.unobserveField("content")
@@ -530,11 +550,19 @@ sub updateOnNowItems()
 
         ' replace the old row
         m.top.content.replaceChild(row, m.homeSections.livetv.index)
+        ' Set focus on previously focused item
+        setFocusToPreviousFocusedItem()
 
     end if
 end sub
 
 sub itemSelected()
+    for each section in m.homeSections
+        if m.homeSections[section].index = m.top.rowItemSelected[0]
+            m.selectedRowItem = [section, m.top.rowItemSelected[1]]
+        end if
+    end for
+
     m.top.selectedItem = m.top.content.getChild(m.top.rowItemSelected[0]).getChild(m.top.rowItemSelected[1])
 
     'Prevent the selected item event from double firing
