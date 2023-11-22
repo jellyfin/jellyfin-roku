@@ -584,6 +584,7 @@ namespace quickplay
                 m.global.sceneManager.callfunc("pushScene", photoPlayer)
             end if
         else
+            stopLoadingSpinner()
             print "Quick Play WARNING: Unknown collection type"
         end if
     end sub
@@ -645,6 +646,7 @@ namespace quickplay
                 quickplay.tvChannel(myChannel)
             end if
         else
+            stopLoadingSpinner()
             print "Quick Play CollectionFolder WARNING: Unknown collection type"
         end if
     end sub

@@ -48,12 +48,11 @@ sub Main (args as dynamic) as void
     ' remove login scenes from the stack
     sceneManager.callFunc("clearScenes")
 
-    stopLoadingSpinner()
-
     ' load home page
     sceneManager.currentUser = m.global.session.user.name
     group = CreateHomeGroup()
     group.callFunc("loadLibraries")
+    stopLoadingSpinner()
     sceneManager.callFunc("pushScene", group)
 
     m.scene.observeField("exit", m.port)
@@ -160,7 +159,7 @@ sub Main (args as dynamic) as void
 
                 ' can't play the item without knowing what type it is
                 if isValid(itemType)
-                    startMediaLoadingSpinner()
+                    startLoadingSpinner()
                     m.global.queueManager.callFunc("clear") ' empty queue/playlist
                     m.global.queueManager.callFunc("resetShuffle") ' turn shuffle off
 
@@ -205,20 +204,17 @@ sub Main (args as dynamic) as void
                     else if itemType = "photoalbum"
                         quickplay.photoAlbum(itemNode)
                     end if
-                    stopLoadingSpinner()
                     m.global.queueManager.callFunc("playQueue")
                 end if
             end if
-            stopLoadingSpinner()
             elapsed = timeSpan.TotalMilliseconds() / 1000
             print "Quick Play finished loading in " + elapsed.toStr() + " seconds."
         else if isNodeEvent(msg, "selectedItem")
             ' If you select a library from ANYWHERE, follow this flow
             selectedItem = msg.getData()
             if isValid(selectedItem)
-                startMediaLoadingSpinner()
+                startLoadingSpinner()
                 selectedItemType = selectedItem.type
-
 
                 if selectedItemType = "CollectionFolder"
                     if selectedItem.collectionType = "movies"
@@ -228,7 +224,6 @@ sub Main (args as dynamic) as void
                     else
                         group = CreateItemGrid(selectedItem)
                     end if
-                    stopLoadingSpinner()
                     sceneManager.callFunc("pushScene", group)
                 else if selectedItemType = "Folder" and selectedItem.json.type = "Genre"
                     ' User clicked on a genre folder
@@ -237,15 +232,12 @@ sub Main (args as dynamic) as void
                     else
                         group = CreateItemGrid(selectedItem)
                     end if
-                    stopLoadingSpinner()
                     sceneManager.callFunc("pushScene", group)
                 else if selectedItemType = "Folder" and selectedItem.json.type = "MusicGenre"
                     group = CreateMusicLibraryView(selectedItem)
-                    stopLoadingSpinner()
                     sceneManager.callFunc("pushScene", group)
                 else if selectedItemType = "UserView" or selectedItemType = "Folder" or selectedItemType = "Channel" or selectedItemType = "Boxset"
                     group = CreateItemGrid(selectedItem)
-                    stopLoadingSpinner()
                     sceneManager.callFunc("pushScene", group)
                 else if selectedItemType = "Episode"
                     ' User has selected a TV episode they want us to play
@@ -255,7 +247,6 @@ sub Main (args as dynamic) as void
                     end if
 
                     selectedItem.selectedAudioStreamIndex = audio_stream_idx
-                    stopLoadingSpinner()
                     ' Display playback options dialog
                     if selectedItem.json.userdata.PlaybackPositionTicks > 0
                         m.global.queueManager.callFunc("hold", selectedItem)
@@ -268,20 +259,15 @@ sub Main (args as dynamic) as void
 
                 else if selectedItemType = "Series"
                     group = CreateSeriesDetailsGroup(selectedItem.json.id)
-                    stopLoadingSpinner()
                 else if selectedItemType = "Season"
                     group = CreateSeasonDetailsGroupByID(selectedItem.json.SeriesId, selectedItem.id)
-                    stopLoadingSpinner()
                 else if selectedItemType = "Movie"
                     ' open movie detail page
                     group = CreateMovieDetailsGroup(selectedItem)
-                    stopLoadingSpinner()
                 else if selectedItemType = "Person"
                     CreatePersonView(selectedItem)
-                    stopLoadingSpinner()
                 else if selectedItemType = "TvChannel" or selectedItemType = "Video" or selectedItemType = "Program"
                     ' User selected a Live TV channel / program
-                    stopLoadingSpinner()
                     ' Show Channel Loading spinner
                     dialog = createObject("roSGNode", "ProgressDialog")
                     dialog.title = tr("Loading Channel Data")
@@ -312,7 +298,6 @@ sub Main (args as dynamic) as void
 
                         quickplay.photo(selectedItem)
                     end if
-                    stopLoadingSpinner()
                 else if selectedItemType = "PhotoAlbum"
                     print "a photo album was selected"
                     print "selectedItem=", selectedItem
@@ -331,27 +316,21 @@ sub Main (args as dynamic) as void
                         photoPlayer.itemIndex = 0
                         m.global.sceneManager.callfunc("pushScene", photoPlayer)
                     end if
-                    stopLoadingSpinner()
                 else if selectedItemType = "MusicArtist"
                     group = CreateArtistView(selectedItem.json)
-                    stopLoadingSpinner()
                     if not isValid(group)
                         message_dialog(tr("Unable to find any albums or songs belonging to this artist"))
                     end if
                 else if selectedItemType = "MusicAlbum"
                     group = CreateAlbumView(selectedItem.json)
-                    stopLoadingSpinner()
                 else if selectedItemType = "MusicVideo"
                     group = CreateMovieDetailsGroup(selectedItem)
-                    stopLoadingSpinner()
                 else if selectedItemType = "Playlist"
                     group = CreatePlaylistView(selectedItem.json)
-                    stopLoadingSpinner()
                 else if selectedItemType = "Audio"
                     m.global.queueManager.callFunc("clear")
                     m.global.queueManager.callFunc("resetShuffle")
                     m.global.queueManager.callFunc("push", selectedItem.json)
-                    stopLoadingSpinner()
                     m.global.queueManager.callFunc("playQueue")
                 else
                     ' TODO - switch on more node types
@@ -517,7 +496,7 @@ sub Main (args as dynamic) as void
             group = sceneManager.callFunc("getActiveScene")
             if isValid(btn) and btn.id = "play-button"
                 ' User chose Play button from movie detail view
-
+                startLoadingSpinner()
                 ' Check if a specific Audio Stream was selected
                 audio_stream_idx = 0
                 if isValid(group) and isValid(group.selectedAudioStreamIndex)
@@ -748,6 +727,7 @@ sub Main (args as dynamic) as void
             end if
         else if isNodeEvent(msg, "dataReturned")
             popupNode = msg.getRoSGNode()
+            stopLoadingSpinner()
             if isValid(popupNode) and isValid(popupNode.returnData)
                 selectedItem = m.global.queueManager.callFunc("getHold")
                 m.global.queueManager.callFunc("clearHold")
@@ -755,6 +735,7 @@ sub Main (args as dynamic) as void
                 if isValid(selectedItem) and selectedItem.count() > 0 and isValid(selectedItem[0])
                     if popupNode.returnData.indexselected = 0
                         'Resume video from resume point
+                        startLoadingSpinner()
                         startingPoint = 0
 
                         if isValid(selectedItem[0].json) and isValid(selectedItem[0].json.UserData) and isValid(selectedItem[0].json.UserData.PlaybackPositionTicks)
@@ -769,6 +750,7 @@ sub Main (args as dynamic) as void
                         m.global.queueManager.callFunc("playQueue")
                     else if popupNode.returnData.indexselected = 1
                         'Start Over from beginning selected, set position to 0
+                        startLoadingSpinner()
                         selectedItem[0].startingPoint = 0
                         m.global.queueManager.callFunc("clear")
                         m.global.queueManager.callFunc("push", selectedItem[0])

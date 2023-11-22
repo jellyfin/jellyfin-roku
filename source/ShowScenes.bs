@@ -92,7 +92,7 @@ function LoginFlow()
                 unset_setting("server")
                 goto start_login
             else if userSelected <> ""
-                startMediaLoadingSpinner()
+                startLoadingSpinner()
                 print "A public user was selected with username=" + userSelected
                 session.user.Update("name", userSelected)
                 regex = CreateObject("roRegex", "[^a-zA-Z0-9\ \-\_]", "")
@@ -481,7 +481,7 @@ function CreateSigninGroup(user = "")
         else if type(msg) = "roSGNodeEvent"
             node = msg.getNode()
             if node = "submit"
-                startMediaLoadingSpinner()
+                startLoadingSpinner()
                 ' Validate credentials
                 activeUser = get_token(username.value, password.value)
                 if isValid(activeUser)
@@ -879,7 +879,7 @@ function CreateVideoPlayerGroup(video_id as string, mediaSourceId = invalid as d
     ' validate video_id
     if not isValid(video_id) or video_id = "" then return invalid
 
-    startMediaLoadingSpinner()
+    startLoadingSpinner()
     ' Video is Playing
     video = VideoPlayer(video_id, mediaSourceId, audio_stream_idx, defaultSubtitleTrackFromVid(video_id), forceTranscoding, showIntro, allowResumeDialog)
 
@@ -938,6 +938,6 @@ sub playbackOptionDialog(time as longinteger, meta as object)
             resumeData.push(tr("Go to episode"))
         end if
     end if
-
+    stopLoadingSpinner()
     m.global.sceneManager.callFunc("optionDialog", tr("Playback Options"), [], resumeData)
 end sub

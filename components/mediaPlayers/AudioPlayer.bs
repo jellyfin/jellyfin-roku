@@ -14,6 +14,7 @@ sub audioStateChanged()
     m.top.disableScreenSaver = (currentState = "playing")
 
     if currentState = "playing" and not m.playReported
+        stopLoadingSpinner()
         reportedPlaybackState = "start"
         m.playReported = true
     else if currentState = "stopped" or currentState = "finished"

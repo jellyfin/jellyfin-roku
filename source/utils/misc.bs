@@ -451,34 +451,19 @@ function toString(input) as string
     return str(input)
 end function
 
-sub startLoadingSpinner()
+'
+' startLoadingSpinner: Start a loading spinner and attach it to the main JFScene.
+' Displays an invisible ProgressDialog node by default to disable keypresses while the app is loading.
+'
+' @param {boolean} [disableRemote=true]
+sub startLoadingSpinner(disableRemote = true as boolean)
     if not isValid(m.scene)
         m.scene = m.top.getScene()
     end if
 
     if not m.scene.isLoading
         m.scene.isLoading = true
-
-        m.spinner = createObject("roSGNode", "Spinner")
-        m.spinner.translation = "[900, 450]"
-        m.spinner.visible = true
-
-        m.scene.appendChild(m.spinner)
-    end if
-end sub
-
-sub startMediaLoadingSpinner()
-    if not isValid(m.scene)
-        m.scene = m.top.getScene()
-    end if
-
-    if not m.scene.isLoading
-        dialog = createObject("roSGNode", "ProgressDialog")
-        dialog.id = "invisibiledialog"
-        dialog.visible = false
-        m.scene.dialog = dialog
-
-        startLoadingSpinner()
+        m.scene.disableRemote = disableRemote
     end if
 end sub
 
@@ -489,16 +474,7 @@ sub stopLoadingSpinner()
 
     if m.scene.isLoading
         m.scene.isLoading = false
-        if isValid(m.spinner)
-            m.spinner.visible = false
-        end if
-        if isValid(m.scene) and isValid(m.scene.dialog)
-            if m.scene.dialog.isSubType("ProgressDialog")
-                m.scene.dialog.close = true
-            else if m.scene.dialog.isSubType("Spinner")
-                m.scene.dialog.close = true
-            end if
-        end if
+        m.scene.disableRemote = false
     end if
 end sub
 

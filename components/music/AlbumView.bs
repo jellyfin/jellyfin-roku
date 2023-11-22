@@ -12,8 +12,6 @@ sub init()
     m.songListRect = m.top.FindNode("songListRect")
 
     m.songList.observeField("doneLoading", "onDoneLoading")
-    m.spinner = m.top.findNode("spinner")
-    m.spinner.visible = true
 
     m.dscr = m.top.findNode("overview")
     createDialogPallete()
@@ -99,8 +97,6 @@ end sub
 function onKeyEvent(key as string, press as boolean) as boolean
     if not press then return false
 
-    if m.spinner.visible then return false
-
     if key = "options"
         if m.dscr.isTextEllipsized
             createFullDscrDlg()
@@ -169,9 +165,5 @@ end sub
 
 sub onDoneLoading()
     m.songList.unobservefield("doneLoading")
-    m.spinner.visible = false
-end sub
-
-sub OnScreenHidden()
-    m.spinner.visible = false
+    stopLoadingSpinner()
 end sub
