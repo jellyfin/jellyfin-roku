@@ -183,6 +183,10 @@ namespace session
                 set_user_setting("username", tmpSession.user.name)
             end if
 
+            if m.global.session.user.settings["global.rememberme"]
+                set_setting("active_user", tmpSession.user.id)
+            end if
+
             session.user.LoadUserPreferences()
         end sub
 
