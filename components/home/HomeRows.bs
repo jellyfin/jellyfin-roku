@@ -188,7 +188,14 @@ sub createLatestInRows(content as dynamic, sizeArray as dynamic)
 
             m.homeSectionIndexes.AddReplace("latestin" + LCase(lib.name).Replace(" ", ""), m.homeSectionIndexes.count)
             m.homeSectionIndexes.count++
-            sizeArray.Push([464, 331])
+
+            if LCase(lib.collectionType) = "movies"
+                sizeArray.Push([188, 331])
+            else if LCase(lib.collectionType) = "music"
+                sizeArray.Push([261, 331])
+            else
+                sizeArray.Push([464, 331])
+            end if
 
             loadLatest = createObject("roSGNode", "LoadItemsTask")
             loadLatest.itemsToLoad = "latest"
@@ -482,7 +489,6 @@ sub updateLatestItems(msg)
         m.homeSectionIndexes.AddReplace(sectionName, rowIndex)
 
         m.top.content.insertChild(row, rowIndex)
-        updateSizeArray(itemSize, rowIndex)
 
         return
     end if
