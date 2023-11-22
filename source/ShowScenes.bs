@@ -16,12 +16,9 @@ function LoginFlow()
 
     invalidServer = true
     if not startOver
-        ' Show Connecting to Server spinner
-        dialog = createObject("roSGNode", "ProgressDialog")
-        dialog.title = tr("Connecting to Server")
-        m.scene.dialog = dialog
+        m.scene.isLoading = true
         invalidServer = ServerInfo().Error
-        dialog.close = true
+        m.scene.isLoading = false
     end if
 
     m.serverSelection = "Saved"
@@ -302,10 +299,7 @@ function CreateServerGroup()
         else if type(msg) = "roSGNodeEvent"
             node = msg.getNode()
             if node = "submit"
-                ' Show Connecting to Server spinner
-                dialog = createObject("roSGNode", "ProgressDialog")
-                dialog.title = tr("Connecting to Server")
-                m.scene.dialog = dialog
+                m.scene.isLoading = true
 
                 serverUrl = inferServerUrl(screen.serverUrl)
 
@@ -321,7 +315,7 @@ function CreateServerGroup()
                     end if
                     set_setting("server", serverUrl)
                 end if
-                dialog.close = true
+                m.scene.isLoading = false
 
                 if isConnected = false or serverInfoResult = invalid
                     ' Maybe don't unset setting, but offer as a prompt

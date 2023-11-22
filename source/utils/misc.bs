@@ -462,8 +462,8 @@ sub startLoadingSpinner(disableRemote = true as boolean)
     end if
 
     if not m.scene.isLoading
-        m.scene.isLoading = true
         m.scene.disableRemote = disableRemote
+        m.scene.isLoading = true
     end if
 end sub
 
@@ -473,8 +473,8 @@ sub stopLoadingSpinner()
     end if
 
     if m.scene.isLoading
-        m.scene.isLoading = false
         m.scene.disableRemote = false
+        m.scene.isLoading = false
     end if
 end sub
 
