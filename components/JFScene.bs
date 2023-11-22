@@ -8,11 +8,7 @@ end sub
 
 ' Triggered when the isLoading boolean component field is changed
 sub isLoadingChanged()
-    if m.top.isLoading
-        m.spinner.visible = true
-    else
-        m.spinner.visible = false
-    end if
+    m.spinner.visible = m.top.isLoading
 end sub
 
 ' Triggered when the disableRemote boolean component field is changed
