@@ -244,6 +244,60 @@ namespace quickplay
         end if
     end sub
 
+    ' A folder with Videos inside of it.
+    ' Shuffle play all videos inside that are not resumable.
+    sub videoFolder(itemNode as object)
+        print "itemNode=", itemNode
+        if isValidAndNotEmpty(itemNode)
+            ' get randomized list of videos inside
+            data = api.users.GetItemsByQuery(m.global.session.user.id, {
+                "parentId": itemNode.id,
+                "sortBy": "Random",
+                "recursive": true,
+                "includeItemTypes": "Movie,Video",
+                "limit": 2000
+            })
+            print "data=", data
+            if isValid(data) and isValidAndNotEmpty(data.items)
+                videoList = []
+                ' add each item to the queue
+                for each item in data.Items
+                    print "data.Item=", item
+                    ' only add videos we're not currently watching
+                    if isValid(item.userdata) and isValid(item.userdata.PlaybackPositionTicks)
+                        if item.userdata.PlaybackPositionTicks = 0
+                            videoList.push(item)
+                        end if
+                    end if
+                end for
+                quickplay.pushToQueue(videoList)
+            end if
+        end if
+    end sub
+
+    ' A folder with Series inside of it
+    ' Shuffle play all watched Episodes found inside
+    sub seriesFolder(itemNode as object)
+        print "itemNode=", itemNode
+        ' get list of tv shows inside
+        tvshowsData = api.users.GetItemsByQuery(m.global.session.user.id, {
+            "parentId": itemNode.id,
+            "sortBy": "Random",
+            "recursive": true,
+            "includeItemTypes": "Series",
+            "imageTypeLimit": 0,
+            "enableUserData": false,
+            "EnableTotalRecordCount": false,
+            "enableImages": false
+        })
+
+        print "tvshowsData=", tvshowsData
+
+        if isValid(tvshowsData) and isValidAndNotEmpty(tvshowsData.items)
+            quickplay.multipleSeries(tvshowsData.items)
+        end if
+    end sub
+
     ' A TV Show Season.
     ' Play the first unwatched episode.
     ' If none, play the whole season starting with episode 1.
@@ -465,26 +519,7 @@ namespace quickplay
         print "collectionType=", collectionType
 
         if collectionType = "movies"
-            ' get randomized list of movies inside
-            data = api.users.GetItemsByQuery(m.global.session.user.id, {
-                "parentId": itemNode.id,
-                "sortBy": "Random",
-                "limit": 2000
-            })
-
-            if isValid(data) and isValidAndNotEmpty(data.items)
-                movieList = []
-                ' add each item to the queue
-                for each item in data.Items
-                    ' only add movies we're not currently watching
-                    if isValid(item.userdata) and isValid(item.userdata.PlaybackPositionTicks)
-                        if item.userdata.PlaybackPositionTicks = 0
-                            movieList.push(item)
-                        end if
-                    end if
-                end for
-                quickplay.pushToQueue(movieList)
-            end if
+            quickplay.videoFolder(itemNode)
         else if collectionType = "music"
             ' get audio files from under this collection
             ' sort songs by album then artist
@@ -532,21 +567,7 @@ namespace quickplay
                 end if
             end if
         else if collectionType = "tvshows" or collectionType = "collectionfolder"
-            ' get list of tv shows inside
-            tvshowsData = api.users.GetItemsByQuery(m.global.session.user.id, {
-                "parentId": itemNode.id,
-                "sortBy": "Random",
-                "imageTypeLimit": 0,
-                "enableUserData": false,
-                "EnableTotalRecordCount": false,
-                "enableImages": false
-            })
-
-            print "tvshowsData=", tvshowsData
-
-            if isValid(tvshowsData) and isValidAndNotEmpty(tvshowsData.items)
-                quickplay.multipleSeries(tvshowsData.items)
-            end if
+            quickplay.seriesFolder(itemNode)
         else if collectionType = "musicvideos"
             ' get randomized list of videos inside
             data = api.users.GetItemsByQuery(m.global.session.user.id, {
@@ -644,6 +665,10 @@ namespace quickplay
                 ' play channel
                 quickplay.tvChannel(myChannel)
             end if
+        else if collectionType = "movies"
+            quickplay.videoFolder(itemNode)
+        else if collectionType = "tvshows"
+            quickplay.seriesFolder(itemNode)
         else
             print "Quick Play CollectionFolder WARNING: Unknown collection type"
         end if
