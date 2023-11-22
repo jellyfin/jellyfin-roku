@@ -58,14 +58,14 @@ sub updateSize()
     m.top.visible = true
 end sub
 
-sub onLibrariesLoaded()
-    ' save data for other functions
-    m.libraryData = m.LoadLibrariesTask.content
-    m.LoadLibrariesTask.unobserveField("content")
-    m.LoadLibrariesTask.content = []
+' processUserSections: Loop through user's chosen home section settings and generate the content for each row
+'
+' @return {dynamic} content node filled with child nodes for each row
+function processUserSections() as dynamic
+    m.homeSections = {}
 
-    content = CreateObject("roSGNode", "ContentNode")
     loadedSections = 0
+    content = CreateObject("roSGNode", "ContentNode")
 
     ' Add sections in order based on user settings
     for i = 0 to 6
@@ -76,8 +76,8 @@ sub onLibrariesLoaded()
         if sectionLoaded then loadedSections++
 
         ' If 2 sections with data are loaded or we're at the end of the web client section data, consider the home view loaded
-        if loadedSections = 2 or i = 6
-            if not m.global.app_loaded
+        if not m.global.app_loaded
+            if loadedSections = 2 or i = 6
                 m.top.signalBeacon("AppLaunchComplete") ' Roku Performance monitoring
                 m.global.app_loaded = true
             end if
@@ -86,6 +86,20 @@ sub onLibrariesLoaded()
 
     ' Favorites isn't an option on Web settings, so we must manually add it for now
     addHomeSection(content, "favorites")
+
+    return content
+end function
+
+
+' onLibrariesLoaded: Handler when LoadLibrariesTask returns data
+'
+sub onLibrariesLoaded()
+    ' save data for other functions
+    m.libraryData = m.LoadLibrariesTask.content
+    m.LoadLibrariesTask.unobserveField("content")
+    m.LoadLibrariesTask.content = []
+
+    content = processUserSections()
 
     setRowItemSizes()
 
@@ -283,44 +297,9 @@ end sub
 
 ' Update home row data
 sub updateHomeRows()
-    ' If resume section exists, reload row's data
-    if m.homeSections.doesExist("resume")
-        m.LoadContinueWatchingTask.observeField("content", "updateContinueWatchingItems")
-        m.LoadContinueWatchingTask.control = "RUN"
-    end if
-
-    ' If next up section exists, reload row's data
-    if m.homeSections.doesExist("nextup")
-        m.LoadNextUpTask.observeField("content", "updateNextUpItems")
-        m.LoadNextUpTask.control = "RUN"
-    end if
-
-    ' If favorites section exists, reload row's data
-    if m.homeSections.doesExist("favorites")
-        m.LoadFavoritesTask.observeField("content", "updateFavoritesItems")
-        m.LoadFavoritesTask.control = "RUN"
-    end if
-
-    ' If live tv's on now section exists, reload row's data
-    if m.homeSections.doesExist("livetv")
-        m.LoadOnNowTask.observeField("content", "updateOnNowItems")
-        m.LoadOnNowTask.control = "RUN"
-    end if
-
-    ' If latest in library section exists, reload row's data
-    hasLatestHomeSection = false
-
-    for each section in m.homeSections
-        if LCase(Left(section, 6)) = "latest"
-            hasLatestHomeSection = true
-            exit for
-        end if
-    end for
-
-    if hasLatestHomeSection
-        updateLatestInRows()
-    end if
-
+    content = processUserSections()
+    setRowItemSizes()
+    m.top.content = content
 end sub
 
 sub updateFavoritesItems()
