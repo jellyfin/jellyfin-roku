@@ -737,6 +737,9 @@ sub onChannelSelected(msg)
     if node.watchChannel &lt;> invalid
         ' Clone the node when it's reused/update in the TimeGrid it doesn't automatically start playing
         m.top.selectedItem = node.watchChannel.clone(false)
+        ' Make sure to set watchChanel to invalid in case the user hits back and then selects
+        ' the same channel on the guide (without moving away from the currently selected channel)
+        m.tvGuide.watchChannel = invalid
     end if
 end sub
 
