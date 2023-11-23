@@ -1,4 +1,9 @@
 import "pkg:/source/utils/misc.bs"
+import "pkg:/components/ImageSizes.bs"
+
+' The maximum number of seconds we will show the loading spinner and delay the user from using the home view while the content loads
+' We use this to wait for the rows to load so we can reset focus to the row/item once it loads
+const MAX_TIME_HOME_LOADING_SPINNER_SHOWN = 1
 
 sub init()
     m.top.itemComponentName = "HomeItem"
@@ -13,6 +18,11 @@ sub init()
     m.top.showRowCounter = [true]
 
     m.homeSections = {}
+
+    m.loadingTimer = createObject("roSGNode", "Timer")
+    m.loadingTimer.duration = MAX_TIME_HOME_LOADING_SPINNER_SHOWN
+    m.loadingTimer.repeat = true
+    m.loadingTimer.observeField("fire", "stopLoadingSpinner")
 
     updateSize()
 
@@ -190,7 +200,7 @@ sub createLibraryRow(content as dynamic)
     mediaRow.title = tr("My Media")
 
     m.homeSections.AddReplace("library", {
-        imageSize: [464, 331],
+        imageSize: imageSizes.WIDE_POSTER,
         index: m.homeSections.count()
     })
 
@@ -212,12 +222,12 @@ sub createLatestInRows(content as dynamic)
             latestInRow = content.CreateChild("HomeRow")
             latestInRow.title = tr("Latest in") + " " + lib.name + " >"
 
-            imagesize = [464, 331]
+            imagesize = imageSizes.WIDE_POSTER
 
             if LCase(lib.collectionType) = "movies"
-                imagesize = [188, 331]
+                imagesize = imageSizes.MOVIE_POSTER
             else if LCase(lib.collectionType) = "music"
-                imagesize = [261, 331]
+                imagesize = imageSizes.MUSIC_ALBUM
             end if
 
             m.homeSections.AddReplace("latestin" + LCase(lib.name).Replace(" ", ""), {
@@ -244,7 +254,7 @@ sub createLiveTVRow(content as dynamic)
     contentRow = content.CreateChild("HomeRow")
     contentRow.title = tr("On Now")
     m.homeSections.AddReplace("livetv", {
-        imageSize: [464, 331],
+        imageSize: imageSizes.WIDE_POSTER,
         index: m.homeSections.count()
     })
 
@@ -257,7 +267,7 @@ sub createContinueWatchingRow(content as dynamic)
     continueWatchingRow = content.CreateChild("HomeRow")
     continueWatchingRow.title = tr("Continue Watching")
     m.homeSections.AddReplace("resume", {
-        imageSize: [464, 331],
+        imageSize: imageSizes.WIDE_POSTER,
         index: m.homeSections.count()
     })
 
@@ -271,7 +281,7 @@ sub createNextUpRow(content as dynamic)
     nextUpRow = content.CreateChild("HomeRow")
     nextUpRow.title = tr("Next Up >")
     m.homeSections.AddReplace("nextup", {
-        imageSize: [464, 331],
+        imageSize: imageSizes.WIDE_POSTER,
         index: m.homeSections.count()
     })
 
@@ -286,7 +296,7 @@ sub createFavoritesRow(content as dynamic)
     favoritesRow.title = tr("Favorites")
 
     m.homeSections.AddReplace("favorites", {
-        imageSize: [464, 331],
+        imageSize: imageSizes.WIDE_POSTER,
         index: m.homeSections.count()
     })
 
@@ -297,6 +307,7 @@ end sub
 
 ' Update home row data
 sub updateHomeRows()
+    startMediaLoadingSpinner()
     content = processUserSections()
     setRowItemSizes()
     m.top.content = content
@@ -375,6 +386,7 @@ sub updateNextUpItems()
     itemData = m.LoadNextUpTask.content
     m.LoadNextUpTask.unobserveField("content")
     m.LoadNextUpTask.content = []
+    m.LoadNextUpTask.control = "STOP"
 
     if itemData = invalid then return
 
@@ -444,14 +456,14 @@ sub updateLatestItems(msg)
         row.usePoster = true
         ' Handle specific types with different item widths
         if node.metadata.contentType = "movies"
-            row.imageWidth = 180
-            itemSize = [188, 331]
+            row.imageWidth = imageSizes.MOVIE_POSTER[0]
+            itemSize = imageSizes.MOVIE_POSTER
         else if node.metadata.contentType = "music"
-            row.imageWidth = 261
-            itemSize = [261, 331]
+            row.imageWidth = imageSizes.MUSIC_ALBUM[0]
+            itemSize = imageSizes.MUSIC_ALBUM
         else
-            row.imageWidth = 464
-            itemSize = [464, 331]
+            row.imageWidth = imageSizes.WIDE_POSTER[0]
+            itemSize = imageSizes.WIDE_POSTER
         end if
 
         for each item in itemData
@@ -512,9 +524,21 @@ end sub
 ' setFocusToPreviousFocusedItem: Sets the cursor focus to the row and item previously selected
 '
 sub setFocusToPreviousFocusedItem()
+    m.loadingTimer.control = "start"
+
     if isValid(m.selectedRowItem)
-        if isValid(m.homeSections[m.selectedRowItem[0]])
-            m.top.jumpToRowItem = [m.homeSections[m.selectedRowItem[0]].index, m.selectedRowItem[1]]
+        ' Set focus to row if it exists
+        itemRow = m.top.content.getChild(m.top.rowItemSelected[0])
+        if isValid(itemRow)
+            m.top.jumpToItem = m.top.rowItemSelected[0]
+
+            ' Set focus to column if it exists
+            itemColumn = itemRow.getChild(m.top.rowItemSelected[1])
+            if isValid(itemColumn)
+                m.top.jumpToRowItem = [m.selectedRowItem[0], m.selectedRowItem[1]]
+                m.loadingTimer.control = "stop"
+                stopLoadingSpinner()
+            end if
         end if
     end if
 end sub
@@ -533,16 +557,18 @@ sub updateOnNowItems()
         ' remake row using the new data
         row = CreateObject("roSGNode", "HomeRow")
         row.title = tr("On Now")
-        'itemSize = [464, 331]
-        row.imageWidth = 464
+        row.imageWidth = imageSizes.WIDE_POSTER[0]
         for each item in itemData
             row.usePoster = false
+
             if (not isValid(item.thumbnailURL) or item.thumbnailURL = "") and isValid(item.json) and isValid(item.json.imageURL)
                 item.thumbnailURL = item.json.imageURL
                 row.usePoster = true
-                row.imageWidth = 180
-                'itemSize = [188, 331]
+                row.imageWidth = imageSizes.MOVIE_POSTER[0]
+
+                m.homeSections.livetv.imageSize = imageSizes.MOVIE_POSTER
             end if
+
             item.usePoster = row.usePoster
             item.imageWidth = row.imageWidth
             row.appendChild(item)
@@ -553,15 +579,14 @@ sub updateOnNowItems()
         ' Set focus on previously focused item
         setFocusToPreviousFocusedItem()
 
+        ' We may now have different poster sizes. Reset the row item sizes
+        setRowItemSizes()
+
     end if
 end sub
 
 sub itemSelected()
-    for each section in m.homeSections
-        if m.homeSections[section].index = m.top.rowItemSelected[0]
-            m.selectedRowItem = [section, m.top.rowItemSelected[1]]
-        end if
-    end for
+    m.selectedRowItem = m.top.rowItemSelected
 
     m.top.selectedItem = m.top.content.getChild(m.top.rowItemSelected[0]).getChild(m.top.rowItemSelected[1])
 

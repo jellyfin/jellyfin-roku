@@ -1,0 +1,5 @@
+namespace imageSizes
+    const WIDE_POSTER = [464, 331]
+    const MOVIE_POSTER = [188, 331]
+    const MUSIC_ALBUM = [261, 331]
+end namespace

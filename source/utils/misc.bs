@@ -459,6 +459,9 @@ sub startLoadingSpinner()
 end sub
 
 sub startMediaLoadingSpinner()
+    if not isValid(m.scene)
+        m.scene = m.top.getScene()
+    end if
     dialog = createObject("roSGNode", "ProgressDialog")
     dialog.id = "invisibiledialog"
     dialog.visible = false
