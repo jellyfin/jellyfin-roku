@@ -255,7 +255,7 @@
     </message>
     <message>
         <source>today</source>
-        <translation>today</translation>
+        <translation type="unfinished">today</translation>
         <extracomment>Current day</extracomment>
     </message>
     <message>
@@ -5514,6 +5514,77 @@
         <source>Enter the server name or IP address</source>
         <translation>Enter the server name or IP address</translation>
         <extracomment>Title of KeyboardDialog when manually entering a server URL</extracomment>
+    </message>
+    <message>
+        <source>On Now</source>
+        <translation type="unfinished">On Now</translation>
+    </message>
+    <message>
+        <source>Extras</source>
+        <translation type="unfinished">Extras</translation>
+    </message>
+    <message>
+        <source>Cast &amp; Crew</source>
+        <translation type="unfinished">Cast &amp; Crew</translation>
+    </message>
+    <message>
+        <source>More Like This</source>
+        <translation type="unfinished">More Like This</translation>
+    </message>
+    <message>
+        <source>Movies (Presentation)</source>
+        <translation type="unfinished">Movies (Presentation)</translation>
+        <extracomment>Movie library view option</extracomment>
+    </message>
+    <message>
+        <source>Age</source>
+        <translation type="unfinished">Age</translation>
+    </message>
+    <message>
+        <source>Died</source>
+        <translation type="unfinished">Died</translation>
+    </message>
+    <message>
+        <source>Additional Parts</source>
+        <translation type="unfinished">Additional Parts</translation>
+        <extracomment>Additional parts of a video</extracomment>
+    </message>
+    <message>
+        <source>TV Shows</source>
+        <translation type="unfinished">TV Shows</translation>
+    </message>
+    <message>
+        <source>Movies</source>
+        <translation type="unfinished">Movies</translation>
+    </message>
+    <message>
+        <source>Delete Saved</source>
+        <translation type="unfinished">Delete Saved</translation>
+    </message>
+    <message>
+        <source>Born</source>
+        <translation type="unfinished">Born</translation>
+    </message>
+    <message>
+        <source>Special Features</source>
+        <translation type="unfinished">Special Features</translation>
+    </message>
+    <message>
+        <source>Episodes</source>
+        <translation type="unfinished">Episodes</translation>
+    </message>
+    <message>
+        <source>Movies (Grid)</source>
+        <translation type="unfinished">Movies (Grid)</translation>
+        <extracomment>Movie library view option</extracomment>
+    </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation type="unfinished">Save Credentials?</translation>
+    </message>
+    <message>
+        <source>Press &apos;OK&apos; to Close</source>
+        <translation type="unfinished">Press &apos;OK&apos; to Close</translation>
     </message>
 </context>
 </TS>
