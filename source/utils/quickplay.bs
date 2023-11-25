@@ -302,6 +302,8 @@ namespace quickplay
                     end if
                 end for
                 quickplay.pushToQueue(videoList)
+            else
+                stopLoadingSpinner()
             end if
             return
         else if collectionType = "tvshows" or collectionType = "collectionfolder"
@@ -328,7 +330,12 @@ namespace quickplay
                     ' if first item is not a series, then assume they are all videos and/or episodes
                     quickplay.pushToQueue(tvshowsData.items)
                 end if
+            else
+                stopLoadingSpinner()
             end if
+        else
+            stopLoadingSpinner()
+            print "Quick Play videoContainer WARNING: Unknown collection type"
         end if
     end sub
 
