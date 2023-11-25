@@ -276,13 +276,10 @@ namespace quickplay
     end sub
 
     ' A container with some kind of videos inside of it
-    ' Shuffle play all watched Episodes found inside
     sub videoContainer(itemNode as object)
         print "itemNode=", itemNode
-        includeItemTypes = ""
         collectionType = Lcase(itemNode.collectionType)
         if collectionType = "movies"
-            includeItemTypes = "Movie,Video"
             ' get randomized list of videos inside
             data = api.users.GetItemsByQuery(m.global.session.user.id, {
                 "parentId": itemNode.id,
@@ -307,14 +304,14 @@ namespace quickplay
                 quickplay.pushToQueue(videoList)
             end if
             return
-        else if collectionType = "tvshows"
-            includeItemTypes = "Series"
+        else if collectionType = "tvshows" or collectionType = "collectionfolder"
+            ' get list of tv shows inside
 
             tvshowsData = api.users.GetItemsByQuery(m.global.session.user.id, {
                 "parentId": itemNode.id,
                 "sortBy": "Random",
                 "recursive": true,
-                "includeItemTypes": includeItemTypes,
+                "excludeItemTypes": "Season",
                 "imageTypeLimit": 0,
                 "enableUserData": false,
                 "EnableTotalRecordCount": false,
@@ -324,7 +321,13 @@ namespace quickplay
             print "tvshowsData=", tvshowsData
 
             if isValid(tvshowsData) and isValidAndNotEmpty(tvshowsData.items)
-                quickplay.multipleSeries(tvshowsData.items)
+                ' the type of media returned from api may change.
+                if tvshowsData.items[0].Type = "Series"
+                    quickplay.multipleSeries(tvshowsData.items)
+                else
+                    ' if first item is not a series, then assume they are all videos and/or episodes
+                    quickplay.pushToQueue(tvshowsData.items)
+                end if
             end if
         end if
     end sub
