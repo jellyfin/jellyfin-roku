@@ -28,6 +28,7 @@ end sub
 
 
 sub itemContentChanged()
+    m.unplayedCount.visible = false
     itemData = m.top.itemContent
     if itemData = invalid then return
 

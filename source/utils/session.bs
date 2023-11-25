@@ -226,12 +226,6 @@ namespace session
             userPreferences = customPrefs
             rowTypes = []
 
-            ' If this is a first time user, set the useWebSectionArrangement setting to true
-            ' This way the home view for upgrading users is not changed without them opting in
-            if not isValid(m.global.app.lastRunVersion)
-                set_user_setting("ui.home.useWebSectionArrangement", "true")
-            end if
-
             useWebSectionArrangement = m.global.session.user.settings["ui.home.useWebSectionArrangement"]
 
             if isValid(useWebSectionArrangement)

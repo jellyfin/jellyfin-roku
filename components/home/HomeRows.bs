@@ -1,5 +1,5 @@
 import "pkg:/source/utils/misc.bs"
-import "pkg:/components/ImageSizes.bs"
+import "pkg:/source/constants/ImageSizes.bs"
 
 ' The maximum number of seconds we will show the loading spinner and delay the user from using the home view while the content loads
 ' We use this to wait for the rows to load so we can reset focus to the row/item once it loads
@@ -21,7 +21,6 @@ sub init()
 
     m.loadingTimer = createObject("roSGNode", "Timer")
     m.loadingTimer.duration = MAX_TIME_HOME_LOADING_SPINNER_SHOWN
-    m.loadingTimer.repeat = true
     m.loadingTimer.observeField("fire", "stopLoadingSpinner")
 
     updateSize()
@@ -308,6 +307,7 @@ end sub
 ' Update home row data
 sub updateHomeRows()
     startMediaLoadingSpinner()
+    m.loadingTimer.control = "start"
     content = processUserSections()
     setRowItemSizes()
     m.top.content = content
@@ -454,6 +454,7 @@ sub updateLatestItems(msg)
         row = CreateObject("roSGNode", "HomeRow")
         row.title = tr("Latest in") + " " + node.metadata.title + " >"
         row.usePoster = true
+
         ' Handle specific types with different item widths
         if node.metadata.contentType = "movies"
             row.imageWidth = imageSizes.MOVIE_POSTER[0]
@@ -524,21 +525,19 @@ end sub
 ' setFocusToPreviousFocusedItem: Sets the cursor focus to the row and item previously selected
 '
 sub setFocusToPreviousFocusedItem()
-    m.loadingTimer.control = "start"
+    if not isValidAndNotEmpty(m.selectedRowItem) then return
 
-    if isValid(m.selectedRowItem)
-        ' Set focus to row if it exists
-        itemRow = m.top.content.getChild(m.top.rowItemSelected[0])
-        if isValid(itemRow)
-            m.top.jumpToItem = m.top.rowItemSelected[0]
+    ' Set focus to row if it exists
+    itemRow = m.top.content.getChild(m.selectedRowItem[0])
+    if isValid(itemRow)
+        m.top.jumpToItem = m.selectedRowItem[0]
 
-            ' Set focus to column if it exists
-            itemColumn = itemRow.getChild(m.top.rowItemSelected[1])
-            if isValid(itemColumn)
-                m.top.jumpToRowItem = [m.selectedRowItem[0], m.selectedRowItem[1]]
-                m.loadingTimer.control = "stop"
-                stopLoadingSpinner()
-            end if
+        ' Set focus to column if it exists
+        itemColumn = itemRow.getChild(m.selectedRowItem[1])
+        if isValid(itemColumn)
+            m.top.jumpToRowItem = [m.selectedRowItem[0], m.selectedRowItem[1]]
+            m.loadingTimer.control = "stop"
+            stopLoadingSpinner()
         end if
     end if
 end sub
