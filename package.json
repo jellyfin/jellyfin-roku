@@ -1,5 +1,6 @@
 {
   "name": "jellyfin-roku",
+  "type": "module",
   "version": "1.6.6",
   "description": "Roku app for Jellyfin media server",
   "dependencies": {
@@ -37,7 +38,7 @@
     "lint-markdown": "markdownlint-cli2 \"**/*.md\" \"#node_modules\"",
     "lint-spelling": "spellchecker -d dictionary.txt --files \"**/*.md\" \"**/.*/**/*.md\" \"!node_modules/**/*.md\"",
     "postinstall": "npm run ropm",
-    "ropm": "ropm copy && node scripts/ropm-hook.js",
+    "ropm": "ropm copy && node scripts/ropm-hook.cjs",
     "validate": "npx bsc --copy-to-staging=false --create-package=false"
   },
   "repository": {
