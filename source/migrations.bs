@@ -74,9 +74,8 @@ sub runRegistryUserMigrations()
 
                 ' If this is an existing user, set the useWebSectionArrangement setting to false
                 ' This way the home view for upgrading users is not changed without them opting in
-                useWebSectionArrangement = registry_read("ui.home.useWebSectionArrangement", section)
-
-                if not isValid(useWebSectionArrangement)
+                if not hasUserVersion
+                    print "useWebSectionArrangement set to false"
                     registry_write("ui.home.useWebSectionArrangement", "false", section)
                 end if
 
