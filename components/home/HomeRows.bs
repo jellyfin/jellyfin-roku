@@ -1,5 +1,5 @@
 import "pkg:/source/utils/misc.bs"
-import "pkg:/source/constants/ImageSizes.bs"
+import "pkg:/source/constants/HomeRowItemSizes.bs"
 
 ' The maximum number of seconds we will show the loading spinner and delay the user from using the home view while the content loads
 ' We use this to wait for the rows to load so we can reset focus to the row/item once it loads
@@ -199,7 +199,7 @@ sub createLibraryRow(content as dynamic)
     mediaRow.title = tr("My Media")
 
     m.homeSections.AddReplace("library", {
-        imageSize: imageSizes.WIDE_POSTER,
+        imageSize: homeRowItemSizes.WIDE_POSTER,
         index: m.homeSections.count()
     })
 
@@ -221,12 +221,12 @@ sub createLatestInRows(content as dynamic)
             latestInRow = content.CreateChild("HomeRow")
             latestInRow.title = tr("Latest in") + " " + lib.name + " >"
 
-            imagesize = imageSizes.WIDE_POSTER
+            imagesize = homeRowItemSizes.WIDE_POSTER
 
             if LCase(lib.collectionType) = "movies"
-                imagesize = imageSizes.MOVIE_POSTER
+                imagesize = homeRowItemSizes.MOVIE_POSTER
             else if LCase(lib.collectionType) = "music"
-                imagesize = imageSizes.MUSIC_ALBUM
+                imagesize = homeRowItemSizes.MUSIC_ALBUM
             end if
 
             m.homeSections.AddReplace("latestin" + LCase(lib.name).Replace(" ", ""), {
@@ -253,7 +253,7 @@ sub createLiveTVRow(content as dynamic)
     contentRow = content.CreateChild("HomeRow")
     contentRow.title = tr("On Now")
     m.homeSections.AddReplace("livetv", {
-        imageSize: imageSizes.WIDE_POSTER,
+        imageSize: homeRowItemSizes.WIDE_POSTER,
         index: m.homeSections.count()
     })
 
@@ -266,7 +266,7 @@ sub createContinueWatchingRow(content as dynamic)
     continueWatchingRow = content.CreateChild("HomeRow")
     continueWatchingRow.title = tr("Continue Watching")
     m.homeSections.AddReplace("resume", {
-        imageSize: imageSizes.WIDE_POSTER,
+        imageSize: homeRowItemSizes.WIDE_POSTER,
         index: m.homeSections.count()
     })
 
@@ -280,7 +280,7 @@ sub createNextUpRow(content as dynamic)
     nextUpRow = content.CreateChild("HomeRow")
     nextUpRow.title = tr("Next Up >")
     m.homeSections.AddReplace("nextup", {
-        imageSize: imageSizes.WIDE_POSTER,
+        imageSize: homeRowItemSizes.WIDE_POSTER,
         index: m.homeSections.count()
     })
 
@@ -295,7 +295,7 @@ sub createFavoritesRow(content as dynamic)
     favoritesRow.title = tr("Favorites")
 
     m.homeSections.AddReplace("favorites", {
-        imageSize: imageSizes.WIDE_POSTER,
+        imageSize: homeRowItemSizes.WIDE_POSTER,
         index: m.homeSections.count()
     })
 
@@ -457,14 +457,14 @@ sub updateLatestItems(msg)
 
         ' Handle specific types with different item widths
         if node.metadata.contentType = "movies"
-            row.imageWidth = imageSizes.MOVIE_POSTER[0]
-            itemSize = imageSizes.MOVIE_POSTER
+            row.imageWidth = homeRowItemSizes.MOVIE_POSTER[0]
+            itemSize = homeRowItemSizes.MOVIE_POSTER
         else if node.metadata.contentType = "music"
-            row.imageWidth = imageSizes.MUSIC_ALBUM[0]
-            itemSize = imageSizes.MUSIC_ALBUM
+            row.imageWidth = homeRowItemSizes.MUSIC_ALBUM[0]
+            itemSize = homeRowItemSizes.MUSIC_ALBUM
         else
-            row.imageWidth = imageSizes.WIDE_POSTER[0]
-            itemSize = imageSizes.WIDE_POSTER
+            row.imageWidth = homeRowItemSizes.WIDE_POSTER[0]
+            itemSize = homeRowItemSizes.WIDE_POSTER
         end if
 
         for each item in itemData
@@ -556,16 +556,16 @@ sub updateOnNowItems()
         ' remake row using the new data
         row = CreateObject("roSGNode", "HomeRow")
         row.title = tr("On Now")
-        row.imageWidth = imageSizes.WIDE_POSTER[0]
+        row.imageWidth = homeRowItemSizes.WIDE_POSTER[0]
         for each item in itemData
             row.usePoster = false
 
             if (not isValid(item.thumbnailURL) or item.thumbnailURL = "") and isValid(item.json) and isValid(item.json.imageURL)
                 item.thumbnailURL = item.json.imageURL
                 row.usePoster = true
-                row.imageWidth = imageSizes.MOVIE_POSTER[0]
+                row.imageWidth = homeRowItemSizes.MOVIE_POSTER[0]
 
-                m.homeSections.livetv.imageSize = imageSizes.MOVIE_POSTER
+                m.homeSections.livetv.imageSize = homeRowItemSizes.MOVIE_POSTER
             end if
 
             item.usePoster = row.usePoster
