@@ -572,7 +572,7 @@ namespace quickplay
 
             if isValid(tvshowsData) and isValidAndNotEmpty(tvshowsData.items)
                 ' the type of media returned from api may change.
-                if tvshowsData.items[0].Type = "Series"
+                if LCase(tvshowsData.items[0].Type) = "series"
                     quickplay.multipleSeries(tvshowsData.items)
                 else
                     ' if first item is not a series, then assume they are all videos and/or episodes
