@@ -97,23 +97,6 @@ sub loadInitialItems()
     if m.top.parentItem.collectionType = "livetv"
         ' Translate between app and server nomenclature
         viewSetting = m.global.session.user.settings["display.livetv.landing"]
-        ' Show mic icon and text on TV Guide screen
-        if m.global.device.hasVoiceRemote
-            micIcon = CreateObject("roSGNode", "Poster")
-            micIcon.id = "micIcon"
-            micIcon.uri = "pkg:/images/icons/mic_icon.png"
-            micIcon.translation = "[1578, 130]"
-
-            micIconText = CreateObject("roSGNode", "Label")
-            micIconText.id = "micIconText"
-            micIconText.font = "font:SmallSystemFont"
-            micIconText.translation = "[1600,130]"
-            micIconText.font.size = 22
-            micIconText.text = tr("Search")
-
-            m.top.appendChild(micIcon)
-            m.top.appendChild(micIconText)
-        end if
         if viewSetting = "guide"
             m.view = "tvGuide"
         else

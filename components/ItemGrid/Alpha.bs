@@ -3,6 +3,7 @@ sub init()
 
     m.alphaText = m.top.findNode("alphaText")
     m.alphaMenu = m.top.findNode("alphaMenu")
+
     m.alphaMenu.setFocus(false)
     m.alphaMenu.focusedFont.size = 25
     m.alphaMenu.font.size = 25
@@ -11,6 +12,9 @@ sub init()
     if m.global.device.hasVoiceRemote
         alphaMic = m.top.findNode("alphaMic")
         alphaMic.visible = true
+
+        micText = m.top.findNode("alphaMicText")
+        micText.font.size = 22
     end if
 end sub
 
