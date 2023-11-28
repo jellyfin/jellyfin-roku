@@ -67,7 +67,7 @@ sub init()
     m.spinner.visible = true
 
     m.alpha = m.top.findNode("alpha")
-    m.alphaSelected = m.top.findNode("alphaSelected")
+    m.alphaMenu = m.alpha.findNode("alphaMenu")
 
     'Get reset folder setting
     m.resetGrid = m.global.session.user.settings["itemgrid.reset"]
@@ -455,7 +455,6 @@ end sub
 '
 'Handle loaded data, and add to Grid
 sub ItemDataLoaded(msg)
-    m.top.alphaActive = false
     itemData = msg.GetData()
     m.loadItemsTask.unobserveField("content")
     m.loadItemsTask.content = []
@@ -489,10 +488,13 @@ sub ItemDataLoaded(msg)
     end for
 
     ' keep focus on alpha menu when loading new data
-    if not m.alpha.isinFocusChain()
+    if m.top.alphaActive
+        m.alphaMenu.setFocus(true)
+    else
         m.itemGrid.opacity = "1"
         m.genreList.opacity = "0"
 
+        m.alphaMenu.setFocus(false)
         m.itemGrid.setFocus(true)
         m.genreList.setFocus(false)
     end if
@@ -619,6 +621,24 @@ sub onvoiceFilter()
         m.loadItemsTask.searchTerm = m.voiceBox.text
         m.loadItemsTask.recursive = true
         m.spinner.visible = true
+        if m.voiceBox.text.len() = 1
+            ' move focus to the letter spoken
+            alphaMenu = m.top.findNode("alphaMenu")
+            intConversion = m.voiceBox.text.ToInt() ' non numeric input returns as 0
+
+            if m.voiceBox.text = "0" or (isValid(intConversion) and intConversion <> 0)
+                alphaMenu.jumpToItem = 0
+            else
+                ' loop through each option until we find a match
+                for i = 1 to alphaMenu.numRows - 1
+                    alphaMenuOption = alphaMenu.content.getChild(i)
+                    if Lcase(alphaMenuOption.TITLE) = Lcase(m.voiceBox.text)
+                        alphaMenu.jumpToItem = i
+                        exit for
+                    end if
+                end for
+            end if
+        end if
         loadInitialItems()
     end if
 end sub
@@ -761,7 +781,7 @@ function getItemFocused()
         return m.itemGrid.content.getChild(m.itemGrid.itemFocused)
     else if m.genreList.isinFocusChain() and isValid(m.genreList.rowItemFocused)
         return m.genreList.content.getChild(m.genreList.rowItemFocused[0]).getChild(m.genreList.rowItemFocused[1])
-    else if m.scheduleGrid.isinFocusChain() and isValid(m.scheduleGrid.itemFocused)
+    else if isValid(m.scheduleGrid) and m.scheduleGrid.isinFocusChain() and isValid(m.scheduleGrid.itemFocused)
         return m.scheduleGrid.content.getChild(m.scheduleGrid.itemFocused)
     end if
     return invalid
@@ -835,13 +855,11 @@ function onKeyEvent(key as string, press as boolean) as boolean
     else if key = "left" and topGrp.isinFocusChain()
         m.top.alphaActive = true
         topGrp.setFocus(false)
-        alpha = m.alpha.getChild(0).findNode("alphaMenu")
-        alpha.setFocus(true)
+        m.alphaMenu.setFocus(true)
         return true
-
     else if key = "right" and m.alpha.isinFocusChain()
         m.top.alphaActive = false
-        m.alpha.setFocus(false)
+        m.alphaMenu.setFocus(false)
         topGrp.setFocus(true)
         return true
     else if key = "replay" and topGrp.isinFocusChain()

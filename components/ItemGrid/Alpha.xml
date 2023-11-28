@@ -4,7 +4,7 @@
     <Poster id="alphaMic" height="22" width="15" uri="pkg:/images/icons/mic_icon.png" translation="[60, 150]" visible="false" />
     <LabelList
       id="alphaMenu"
-      translation="[52, 186]"
+      translation="[52, 206]"
       vertFocusAnimationStyle="floatingFocus"
       font="font:SmallestSystemFont"
       focusedFont="font:SmallestSystemFont"
