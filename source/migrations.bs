@@ -84,11 +84,6 @@ sub runRegistryUserMigrations()
                 ' av1 playback no longer hidden behind user setting
                 registry_delete("playback.av1", section)
             end if
-
-            ' update lastRunVersion if needed
-            if hasUserVersion and lastRunVersion <> m.global.app.version
-                registry_write("LastRunVersion", m.global.app.version, section)
-            end if
         end if
     end for
 end sub
