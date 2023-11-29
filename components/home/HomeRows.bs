@@ -1,10 +1,6 @@
 import "pkg:/source/utils/misc.bs"
 import "pkg:/source/constants/HomeRowItemSizes.bs"
 
-' The maximum number of seconds we will show the loading spinner and delay the user from using the home view while the content loads
-' We use this to wait for the rows to load so we can reset focus to the row/item once it loads
-const MAX_TIME_HOME_LOADING_SPINNER_SHOWN = 1
-
 sub init()
     m.top.itemComponentName = "HomeItem"
     ' how many rows are visible on the screen
@@ -18,10 +14,6 @@ sub init()
     m.top.showRowCounter = [true]
 
     m.homeSections = {}
-
-    m.loadingTimer = createObject("roSGNode", "Timer")
-    m.loadingTimer.duration = MAX_TIME_HOME_LOADING_SPINNER_SHOWN
-    m.loadingTimer.observeField("fire", "stopLoadingSpinner")
 
     updateSize()
 
@@ -71,8 +63,6 @@ end sub
 '
 ' @return {dynamic} content node filled with child nodes for each row
 function processUserSections() as dynamic
-    m.homeSections = {}
-
     loadedSections = 0
     content = CreateObject("roSGNode", "ContentNode")
 
@@ -124,13 +114,14 @@ sub removeHomeSection(sectionType as string)
     if not isValid(removedSection) then return
     if not isValid(removedSection.index) then return
 
+    m.homeSections.Delete(sectionName)
+
     for each section in m.homeSections
         if m.homeSections[section].index > removedSection.index
             m.homeSections[section].index--
         end if
     end for
 
-    m.homeSections.Delete(sectionName)
     m.top.content.removeChildIndex(removedSection.index)
 
     setRowItemSizes()
@@ -198,15 +189,31 @@ sub createLibraryRow(content as dynamic)
     mediaRow = content.CreateChild("HomeRow")
     mediaRow.title = tr("My Media")
 
+    sectionIndex = m.homeSections.count()
+
+    isUpdate = false
+
+    if m.homeSections.doesExist("library")
+        sectionIndex = m.homeSections.library.index
+        isUpdate = true
+    end if
+
     m.homeSections.AddReplace("library", {
         imageSize: homeRowItemSizes.WIDE_POSTER,
-        index: m.homeSections.count()
+        index: sectionIndex
     })
 
     filteredMedia = filterNodeArray(m.libraryData, "id", m.global.session.user.configuration.MyMediaExcludes)
     for each item in filteredMedia
         mediaRow.appendChild(item)
     end for
+
+    if isUpdate
+        m.top.content.replaceChild(mediaRow, m.homeSections.library.index)
+        return
+    end if
+
+    content.appendChild(mediaRow)
 end sub
 
 ' Create a row displaying latest items in each of the user's libraries
@@ -218,8 +225,16 @@ sub createLatestInRows(content as dynamic)
     filteredLatest = filterNodeArray(m.libraryData, "id", m.global.session.user.configuration.LatestItemsExcludes)
     for each lib in filteredLatest
         if lib.collectionType <> "boxsets" and lib.collectionType <> "livetv" and lib.json.CollectionType <> "Program"
-            latestInRow = content.CreateChild("HomeRow")
-            latestInRow.title = tr("Latest in") + " " + lib.name + " >"
+
+            sectionName = "latestin" + LCase(lib.name).Replace(" ", "")
+
+            if not m.homeSections.doesExist(sectionName)
+                latestInRow = content.CreateChild("HomeRow")
+                latestInRow.title = tr("Latest in") + " " + lib.name + " >"
+                sectionIndex = m.homeSections.count()
+            else
+                sectionIndex = m.homeSections[sectionName].index
+            end if
 
             imagesize = homeRowItemSizes.WIDE_POSTER
 
@@ -229,9 +244,9 @@ sub createLatestInRows(content as dynamic)
                 imagesize = homeRowItemSizes.MUSIC_ALBUM
             end if
 
-            m.homeSections.AddReplace("latestin" + LCase(lib.name).Replace(" ", ""), {
+            m.homeSections.AddReplace(sectionName, {
                 imageSize: imagesize,
-                index: m.homeSections.count()
+                index: sectionIndex
             })
 
             loadLatest = createObject("roSGNode", "LoadItemsTask")
@@ -250,11 +265,20 @@ end sub
 
 ' Create a row displaying the live tv now on section
 sub createLiveTVRow(content as dynamic)
-    contentRow = content.CreateChild("HomeRow")
-    contentRow.title = tr("On Now")
+    if not m.homeSections.doesExist("livetv")
+        contentRow = content.CreateChild("HomeRow")
+        contentRow.title = tr("On Now")
+    end if
+
+    sectionIndex = m.homeSections.count()
+
+    if m.homeSections.doesExist("livetv")
+        sectionIndex = m.homeSections.livetv.index
+    end if
+
     m.homeSections.AddReplace("livetv", {
         imageSize: homeRowItemSizes.WIDE_POSTER,
-        index: m.homeSections.count()
+        index: sectionIndex
     })
 
     m.LoadOnNowTask.observeField("content", "updateOnNowItems")
@@ -263,11 +287,19 @@ end sub
 
 ' Create a row displaying items the user can continue watching
 sub createContinueWatchingRow(content as dynamic)
-    continueWatchingRow = content.CreateChild("HomeRow")
-    continueWatchingRow.title = tr("Continue Watching")
+    if not m.homeSections.doesExist("resume")
+        continueWatchingRow = content.CreateChild("HomeRow")
+        continueWatchingRow.title = tr("Continue Watching")
+    end if
+    sectionIndex = m.homeSections.count()
+
+    if m.homeSections.doesExist("resume")
+        sectionIndex = m.homeSections.resume.index
+    end if
+
     m.homeSections.AddReplace("resume", {
         imageSize: homeRowItemSizes.WIDE_POSTER,
-        index: m.homeSections.count()
+        index: sectionIndex
     })
 
     ' Load the Continue Watching Data
@@ -277,11 +309,19 @@ end sub
 
 ' Create a row displaying next episodes up to watch
 sub createNextUpRow(content as dynamic)
-    nextUpRow = content.CreateChild("HomeRow")
-    nextUpRow.title = tr("Next Up >")
+    if not m.homeSections.doesExist("nextup")
+        nextUpRow = content.CreateChild("HomeRow")
+        nextUpRow.title = tr("Next Up >")
+    end if
+    sectionIndex = m.homeSections.count()
+
+    if m.homeSections.doesExist("nextup")
+        sectionIndex = m.homeSections.nextup.index
+    end if
+
     m.homeSections.AddReplace("nextup", {
         imageSize: homeRowItemSizes.WIDE_POSTER,
-        index: m.homeSections.count()
+        index: sectionIndex
     })
 
     ' Load the Next Up Data
@@ -291,12 +331,20 @@ end sub
 
 ' Create a row displaying items from the user's favorites list
 sub createFavoritesRow(content as dynamic)
-    favoritesRow = content.CreateChild("HomeRow")
-    favoritesRow.title = tr("Favorites")
+    if not m.homeSections.doesExist("favorites")
+        favoritesRow = content.CreateChild("HomeRow")
+        favoritesRow.title = tr("Favorites")
+    end if
+
+    sectionIndex = m.homeSections.count()
+
+    if m.homeSections.doesExist("favorites")
+        sectionIndex = m.homeSections.favorites.index
+    end if
 
     m.homeSections.AddReplace("favorites", {
         imageSize: homeRowItemSizes.WIDE_POSTER,
-        index: m.homeSections.count()
+        index: sectionIndex
     })
 
     ' Load the Favorites Data
@@ -306,11 +354,8 @@ end sub
 
 ' Update home row data
 sub updateHomeRows()
-    startMediaLoadingSpinner()
-    m.loadingTimer.control = "start"
-    content = processUserSections()
+    processUserSections()
     setRowItemSizes()
-    m.top.content = content
 end sub
 
 sub updateFavoritesItems()
@@ -342,11 +387,19 @@ sub updateFavoritesItems()
             row.appendChild(item)
         end for
 
-        ' replace the old row
-        m.top.content.replaceChild(row, rowIndex)
-        ' Set focus on previously focused item
-        setFocusToPreviousFocusedItem()
+        if isValid(m.top.content.getChild(rowIndex))
+            m.top.content.replaceChild(row, rowIndex)
+        else
 
+            for each section in m.homeSections
+                if m.homeSections[section].index >= m.top.content.getChildCount()
+                    m.homeSections[section].index++
+                end if
+            end for
+
+            m.homeSections.favorites.index = m.top.content.getChildCount()
+            m.top.content.insertChild(row, m.top.content.getChildCount())
+        end if
     end if
 end sub
 
@@ -378,8 +431,6 @@ sub updateContinueWatchingItems()
 
     ' replace the old row
     m.top.content.replaceChild(row, m.homeSections.resume.index)
-    ' Set focus on previously focused item
-    setFocusToPreviousFocusedItem()
 end sub
 
 sub updateNextUpItems()
@@ -405,34 +456,7 @@ sub updateNextUpItems()
 
         ' replace the old row
         m.top.content.replaceChild(row, m.homeSections.nextup.index)
-        ' Set focus on previously focused item
-        setFocusToPreviousFocusedItem()
     end if
-end sub
-
-' Iterate over user's libraries and update data for each Latest In section
-sub updateLatestInRows()
-    ' Ensure we have data
-    if not isValidAndNotEmpty(m.libraryData) then return
-
-    ' Load new data for each library
-    filteredLatest = filterNodeArray(m.libraryData, "id", m.global.session.user.configuration.LatestItemsExcludes)
-    for each lib in filteredLatest
-        if lib.collectionType <> "boxsets" and lib.collectionType <> "livetv" and lib.json.CollectionType <> "Program"
-            loadLatest = createObject("roSGNode", "LoadItemsTask")
-            loadLatest.itemsToLoad = "latest"
-            loadLatest.itemId = lib.id
-
-            metadata = {
-                "title": lib.name,
-                "contentType": lib.json.CollectionType
-            }
-
-            loadLatest.metadata = metadata
-            loadLatest.observeField("content", "updateLatestItems")
-            loadLatest.control = "RUN"
-        end if
-    end for
 end sub
 
 sub updateLatestItems(msg)
@@ -455,90 +479,41 @@ sub updateLatestItems(msg)
         row.title = tr("Latest in") + " " + node.metadata.title + " >"
         row.usePoster = true
 
-        ' Handle specific types with different item widths
-        if node.metadata.contentType = "movies"
-            row.imageWidth = homeRowItemSizes.MOVIE_POSTER[0]
-            itemSize = homeRowItemSizes.MOVIE_POSTER
-        else if node.metadata.contentType = "music"
-            row.imageWidth = homeRowItemSizes.MUSIC_ALBUM[0]
-            itemSize = homeRowItemSizes.MUSIC_ALBUM
-        else
-            row.imageWidth = homeRowItemSizes.WIDE_POSTER[0]
-            itemSize = homeRowItemSizes.WIDE_POSTER
-        end if
-
         for each item in itemData
             item.usePoster = row.usePoster
-            item.imageWidth = row.imageWidth
+            item.imageWidth = m.homeSections[sectionName].imageSize[0]
             row.appendChild(item)
         end for
 
-        if isValid(m.homeSections[sectionName])
-            rowIndex = m.homeSections[sectionName].index
+        rowIndex = m.homeSections[sectionName].index
 
+        if isValid(rowIndex) and isValid(m.top.content.getChild(rowIndex))
             ' Replace the old row
-            if isValid(rowIndex)
-                m.top.content.replaceChild(row, rowIndex)
+            m.top.content.replaceChild(row, rowIndex)
+        else
+            firstLatestHomeSectionIndex = m.homeSections.count() - 1
 
-                ' Set focus on previously focused item
-                setFocusToPreviousFocusedItem()
+            for each section in m.homeSections
+                if LCase(Left(section, 6)) = "latest"
+                    if m.homeSections[section].index < firstLatestHomeSectionIndex
+                        firstLatestHomeSectionIndex = m.homeSections[section].index
+                    end if
+                end if
+            end for
 
-                return
-            end if
+            for each section in m.homeSections
+                if m.homeSections[section].index >= firstLatestHomeSectionIndex
+                    m.homeSections[section].index++
+                end if
+            end for
+
+            m.homeSections[sectionName].index = firstLatestHomeSectionIndex
+            m.top.content.insertChild(row, firstLatestHomeSectionIndex)
         end if
 
-        ' Determine highest index of a Lastest In section so we can append the new section after it
-        highestLatestHomeSectionIndex = 0
-
-        for each section in m.homeSections
-            if LCase(Left(section, 6)) = "latest"
-                if m.homeSections[section].index > highestLatestHomeSectionIndex
-                    highestLatestHomeSectionIndex = m.homeSections[section].index
-                end if
-            end if
-        end for
-
-        ' We have data for a section that doesn't currently exist
-        rowIndex = highestLatestHomeSectionIndex + 1
-
-        ' Advance all the indexes greater than or equal than our new row
-        for each section in m.homeSections
-            if m.homeSections[section].index >= rowIndex
-                m.homeSections[section].index++
-            end if
-        end for
-
-        m.homeSections.AddReplace(sectionName, {
-            imageSize: itemSize,
-            index: rowIndex
-        })
-
-        m.top.content.insertChild(row, rowIndex)
-
-        ' We've inserted a new row, we must set the row sizes again to ensure they're correct
         setRowItemSizes()
 
-        return
-    end if
-end sub
 
-' setFocusToPreviousFocusedItem: Sets the cursor focus to the row and item previously selected
-'
-sub setFocusToPreviousFocusedItem()
-    if not isValidAndNotEmpty(m.selectedRowItem) then return
-
-    ' Set focus to row if it exists
-    itemRow = m.top.content.getChild(m.selectedRowItem[0])
-    if isValid(itemRow)
-        m.top.jumpToItem = m.selectedRowItem[0]
-
-        ' Set focus to column if it exists
-        itemColumn = itemRow.getChild(m.selectedRowItem[1])
-        if isValid(itemColumn)
-            m.top.jumpToRowItem = [m.selectedRowItem[0], m.selectedRowItem[1]]
-            m.loadingTimer.control = "stop"
-            stopLoadingSpinner()
-        end if
     end if
 end sub
 
@@ -575,8 +550,6 @@ sub updateOnNowItems()
 
         ' replace the old row
         m.top.content.replaceChild(row, m.homeSections.livetv.index)
-        ' Set focus on previously focused item
-        setFocusToPreviousFocusedItem()
 
         ' We may now have different poster sizes. Reset the row item sizes
         setRowItemSizes()
