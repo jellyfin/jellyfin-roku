@@ -358,7 +358,7 @@ namespace quickplay
             for each item in unwatchedData.Items
                 if isValid(item.UserData)
                     if isValid(item.UserData.Played) and item.UserData.Played = false
-                        firstUnwatchedEpisodeIndex = item.IndexNumber - 1
+                        firstUnwatchedEpisodeIndex = isValid(item.IndexNumber) ? item.IndexNumber - 1 : 0
                         if isValid(item.UserData.PlaybackPositionTicks)
                             item.startingPoint = item.UserData.PlaybackPositionTicks
                         end if
