@@ -7,7 +7,6 @@ sub init()
     m.log = log.Logger("SetServerScreen")
     m.top.setFocus(true)
 
-    m.spinner = m.top.findNode("spinner")
     m.serverPicker = m.top.findNode("serverPicker")
     m.serverUrlTextbox = m.top.findNode("serverUrlTextbox")
     m.serverUrlContainer = m.top.findNode("serverUrlContainer")
@@ -78,7 +77,7 @@ sub ScanForServers()
     'run the task
     m.ssdpScanner.observeField("content", "ScanForServersComplete")
     m.ssdpScanner.control = "RUN"
-    m.spinner.visible = true
+    startLoadingSpinner(false)
 end sub
 
 sub ScanForServersComplete(event)
@@ -111,7 +110,7 @@ sub ScanForServersComplete(event)
     end if
 
     m.serverPicker.content = items
-    m.spinner.visible = false
+    stopLoadingSpinner()
 
     'if we have at least one server, focus on the server picker
     if m.servers.Count() > 0

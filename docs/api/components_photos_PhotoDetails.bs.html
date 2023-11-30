@@ -43,6 +43,7 @@ sub itemContentChanged()
 end sub
 
 sub onPhotoLoaded()
+    stopLoadingSpinner()
     if m.LoadLibrariesTask.results &lt;> invalid
         photo = m.top.findNode("photo")
         photo.uri = m.LoadLibrariesTask.results
