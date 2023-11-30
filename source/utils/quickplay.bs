@@ -256,6 +256,70 @@ namespace quickplay
         end if
     end sub
 
+    ' A container with some kind of videos inside of it
+    sub videoContainer(itemNode as object)
+        print "itemNode=", itemNode
+        collectionType = Lcase(itemNode.collectionType)
+        if collectionType = "movies"
+            ' get randomized list of videos inside
+            data = api.users.GetItemsByQuery(m.global.session.user.id, {
+                "parentId": itemNode.id,
+                "sortBy": "Random",
+                "recursive": true,
+                "includeItemTypes": "Movie,Video",
+                "limit": 2000
+            })
+            print "data=", data
+            if isValid(data) and isValidAndNotEmpty(data.items)
+                videoList = []
+                ' add each item to the queue
+                for each item in data.Items
+                    print "data.Item=", item
+                    ' only add videos we're not currently watching
+                    if isValid(item.userdata) and isValid(item.userdata.PlaybackPositionTicks)
+                        if item.userdata.PlaybackPositionTicks = 0
+                            videoList.push(item)
+                        end if
+                    end if
+                end for
+                quickplay.pushToQueue(videoList)
+            else
+                stopLoadingSpinner()
+            end if
+            return
+        else if collectionType = "tvshows" or collectionType = "collectionfolder"
+            ' get list of tv shows inside
+
+            tvshowsData = api.users.GetItemsByQuery(m.global.session.user.id, {
+                "parentId": itemNode.id,
+                "sortBy": "Random",
+                "recursive": true,
+                "excludeItemTypes": "Season",
+                "imageTypeLimit": 0,
+                "enableUserData": false,
+                "EnableTotalRecordCount": false,
+                "enableImages": false
+            })
+
+            print "tvshowsData=", tvshowsData
+
+            if isValid(tvshowsData) and isValidAndNotEmpty(tvshowsData.items)
+                ' the type of media returned from api may change.
+                if tvshowsData.items[0].Type = "Series"
+                    quickplay.multipleSeries(tvshowsData.items)
+                else
+                    ' if first item is not a series, then assume they are all videos and/or episodes
+                    quickplay.pushToQueue(tvshowsData.items)
+                end if
+            else
+                stopLoadingSpinner()
+            end if
+        else
+            stopLoadingSpinner()
+            print "Quick Play videoContainer WARNING: Unknown collection type"
+        end if
+    end sub
+
     ' A TV Show Season.
     ' Play the first unwatched episode.
     ' If none, play the whole season starting with episode 1.
@@ -275,7 +339,7 @@ namespace quickplay
             for each item in unwatchedData.Items
                 if isValid(item.UserData)
                     if isValid(item.UserData.Played) and item.UserData.Played = false
-                        firstUnwatchedEpisodeIndex = item.IndexNumber - 1
+                        firstUnwatchedEpisodeIndex = isValid(item.IndexNumber) ? item.IndexNumber - 1 : 0
                         if isValid(item.UserData.PlaybackPositionTicks)
                             item.startingPoint = item.UserData.PlaybackPositionTicks
                         end if
@@ -485,28 +549,7 @@ namespace quickplay
         print "collectionType=", collectionType
 
         if collectionType = "movies"
-            ' get randomized list of movies inside
-            data = api.users.GetItemsByQuery(m.global.session.user.id, {
-                "parentId": itemNode.id,
-                "sortBy": "Random",
-                "limit": 2000
-            })
-
-            if isValid(data) and isValidAndNotEmpty(data.items)
-                movieList = []
-                ' add each item to the queue
-                for each item in data.Items
-                    ' only add movies we're not currently watching
-                    if isValid(item.userdata) and isValid(item.userdata.PlaybackPositionTicks)
-                        if item.userdata.PlaybackPositionTicks = 0
-                            movieList.push(item)
-                        end if
-                    end if
-                end for
-                quickplay.pushToQueue(movieList)
-            else
-                stopLoadingSpinner()
-            end if
+            quickplay.videoContainer(itemNode)
         else if collectionType = "music"
             ' get audio files from under this collection
             ' sort songs by album then artist
@@ -558,29 +601,7 @@ namespace quickplay
                 end if
             end if
         else if collectionType = "tvshows" or collectionType = "collectionfolder"
-            ' get list of tv shows inside
-            tvshowsData = api.users.GetItemsByQuery(m.global.session.user.id, {
-                "parentId": itemNode.id,
-                "sortBy": "Random",
-                "imageTypeLimit": 0,
-                "enableUserData": false,
-                "EnableTotalRecordCount": false,
-                "enableImages": false
-            })
-
-            print "tvshowsData=", tvshowsData
-
-            if isValid(tvshowsData) and isValidAndNotEmpty(tvshowsData.items)
-                ' the type of media returned from api may change.
-                if LCase(tvshowsData.items[0].Type) = "series"
-                    quickplay.multipleSeries(tvshowsData.items)
-                else
-                    ' if first item is not a series, then assume they are all videos and/or episodes
-                    quickplay.pushToQueue(tvshowsData.items)
-                end if
-            else
-                stopLoadingSpinner()
-            end if
+            quickplay.videoContainer(itemNode)
         else if collectionType = "musicvideos"
             ' get randomized list of videos inside
             data = api.users.GetItemsByQuery(m.global.session.user.id, {
@@ -687,6 +708,10 @@ namespace quickplay
             else
                 stopLoadingSpinner()
             end if
+        else if collectionType = "movies"
+            quickplay.videoContainer(itemNode)
+        else if collectionType = "tvshows"
+            quickplay.videoContainer(itemNode)
         else
             stopLoadingSpinner()
             print "Quick Play CollectionFolder WARNING: Unknown collection type"
