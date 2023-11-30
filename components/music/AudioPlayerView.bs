@@ -447,6 +447,7 @@ sub loadButtons()
 end sub
 
 sub onAudioStreamLoaded()
+    stopLoadingSpinner()
     data = m.LoadAudioStreamTask.content[0]
     m.LoadAudioStreamTask.unobserveField("content")
     if data <> invalid and data.count() > 0

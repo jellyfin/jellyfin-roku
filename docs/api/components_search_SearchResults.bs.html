@@ -8,7 +8,6 @@ import "pkg:/source/utils/deviceCapabilities.bs"
 
 sub init()
     m.top.optionsAvailable = false
-    m.searchSpinner = m.top.findnode("searchSpinner")
     m.searchSelect = m.top.findnode("searchSelect")
     m.searchTask = CreateObject("roSGNode", "SearchTask")
 
@@ -22,12 +21,12 @@ sub searchMedias()
     query = m.top.searchAlpha
     'if user deletes the search string hide the spinner
     if query.len() = 0
-        m.searchSpinner.visible = false
+        stopLoadingSpinner()
     end if
     'if search task is running and user selectes another letter stop the search and load the next letter
     m.searchTask.control = "stop"
     if query &lt;> invalid and query &lt;> ""
-        m.searchSpinner.visible = true
+        startLoadingSpinner(false)
     end if
     m.searchTask.observeField("results", "loadResults")
     m.searchTask.query = query
@@ -39,7 +38,7 @@ end sub
 sub loadResults()
     m.searchTask.unobserveField("results")
 
-    m.searchSpinner.visible = false
+    stopLoadingSpinner()
     m.searchSelect.itemdata = m.searchTask.results
     m.searchSelect.query = m.top.SearchAlpha
     m.searchHelpText.visible = false

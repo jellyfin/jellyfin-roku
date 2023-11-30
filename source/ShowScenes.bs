@@ -16,12 +16,9 @@ function LoginFlow()
 
     invalidServer = true
     if not startOver
-        ' Show Connecting to Server spinner
-        dialog = createObject("roSGNode", "ProgressDialog")
-        dialog.title = tr("Connecting to Server")
-        m.scene.dialog = dialog
+        m.scene.isLoading = true
         invalidServer = ServerInfo().Error
-        dialog.close = true
+        m.scene.isLoading = false
     end if
 
     m.serverSelection = "Saved"
@@ -92,7 +89,7 @@ function LoginFlow()
                 unset_setting("server")
                 goto start_login
             else if userSelected <> ""
-                startMediaLoadingSpinner()
+                startLoadingSpinner()
                 print "A public user was selected with username=" + userSelected
                 session.user.Update("name", userSelected)
                 regex = CreateObject("roRegex", "[^a-zA-Z0-9\ \-\_]", "")
@@ -302,10 +299,7 @@ function CreateServerGroup()
         else if type(msg) = "roSGNodeEvent"
             node = msg.getNode()
             if node = "submit"
-                ' Show Connecting to Server spinner
-                dialog = createObject("roSGNode", "ProgressDialog")
-                dialog.title = tr("Connecting to Server")
-                m.scene.dialog = dialog
+                m.scene.isLoading = true
 
                 serverUrl = inferServerUrl(screen.serverUrl)
 
@@ -321,7 +315,7 @@ function CreateServerGroup()
                     end if
                     set_setting("server", serverUrl)
                 end if
-                dialog.close = true
+                m.scene.isLoading = false
 
                 if isConnected = false or serverInfoResult = invalid
                     ' Maybe don't unset setting, but offer as a prompt
@@ -481,7 +475,7 @@ function CreateSigninGroup(user = "")
         else if type(msg) = "roSGNodeEvent"
             node = msg.getNode()
             if node = "submit"
-                startMediaLoadingSpinner()
+                startLoadingSpinner()
                 ' Validate credentials
                 activeUser = get_token(username.value, password.value)
                 if isValid(activeUser)
@@ -790,7 +784,7 @@ function CreateSeasonDetailsGroup(series as object, season as object) as dynamic
     group.extrasObjects = TVSeasonExtras(season.id)
 
     ' watch for button presses
-    group.observeField("episodeSelected", m.port)
+    group.observeField("selectedItem", m.port)
     group.observeField("quickPlayNode", m.port)
     ' finished building SeasonDetails view
     stopLoadingSpinner()
@@ -813,17 +807,19 @@ function CreateSeasonDetailsGroupByID(seriesID as string, seasonID as string) as
     group = CreateObject("roSGNode", "TVEpisodes")
     group.optionsAvailable = false
     ' push scene asap (to prevent extra button presses when retriving series/movie info)
-    m.global.sceneManager.callFunc("pushScene", group)
     group.seasonData = seasonMetaData.json
     group.objects = TVEpisodes(seriesID, seasonID)
     group.episodeObjects = group.objects
-    group.extrasObjects = TVSeasonExtras(seasonID)
-
     ' watch for button presses
     group.observeField("episodeSelected", m.port)
     group.observeField("quickPlayNode", m.port)
-    ' finished building SeasonDetails view
+    ' don't wait for the extras button
     stopLoadingSpinner()
+    m.global.sceneManager.callFunc("pushScene", group)
+    ' check for specials/extras for this season
+    group.extrasObjects = TVSeasonExtras(seasonID)
+
+    ' finished building SeasonDetails view
     return group
 end function
 
@@ -877,7 +873,7 @@ function CreateVideoPlayerGroup(video_id as string, mediaSourceId = invalid as d
     ' validate video_id
     if not isValid(video_id) or video_id = "" then return invalid
 
-    startMediaLoadingSpinner()
+    startLoadingSpinner()
     ' Video is Playing
     video = VideoPlayer(video_id, mediaSourceId, audio_stream_idx, defaultSubtitleTrackFromVid(video_id), forceTranscoding, showIntro, allowResumeDialog)
 
@@ -936,6 +932,6 @@ sub playbackOptionDialog(time as longinteger, meta as object)
             resumeData.push(tr("Go to episode"))
         end if
     end if
-
+    stopLoadingSpinner()
     m.global.sceneManager.callFunc("optionDialog", tr("Playback Options"), [], resumeData)
 end sub

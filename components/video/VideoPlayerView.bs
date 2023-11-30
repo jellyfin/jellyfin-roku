@@ -297,6 +297,8 @@ sub onVideoContentLoaded()
     videoContent = m.LoadMetaDataTask.content
     m.LoadMetaDataTask.content = []
 
+    stopLoadingSpinner()
+
     ' If we have nothing to play, return to previous screen
     if not isValid(videoContent)
         showPlaybackErrorDialog(tr("There was an error retrieving the data for this item from the server."))
@@ -411,6 +413,9 @@ end sub
 sub checkTimeToDisplayNextEpisode()
     if m.top.content.contenttype <> 4 then return ' only display when content is type "Episode"
     if m.nextupbuttonseconds = 0 then return ' is the button disabled?
+
+    ' Don't show Next Episode button if trickPlayBar is visible
+    if m.top.trickPlayBar.visible then return
 
     if isValid(m.top.duration) and isValid(m.top.position)
         nextEpisodeCountdown = Int(m.top.duration - m.top.position)

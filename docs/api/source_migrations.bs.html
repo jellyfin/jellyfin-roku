@@ -18,6 +18,13 @@ sub runGlobalMigrations()
         ' no longer saving raw password to registry
         ' auth token and username are now stored in user settings and not global settings
 
+        ' enable remember me global setting for all devices whos last run version is &lt; 2.0.0
+        ' NOTE: remember me will be disabled for new installs
+        rememberMe = registry_read("global.rememberme", "Jellyfin")
+        if not isValid(rememberMe)
+            ' don't overwrite users current setting (dev installs)
+            set_setting("global.rememberme", "true")
+        end if
         ' migrate saved credentials for "active_user" if found
         savedUserId = get_setting("active_user")
         if isValid(savedUserId)

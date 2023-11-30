@@ -84,6 +84,8 @@ namespace quickplay
             photoPlayer.itemsArray = photoAlbumData.items
             photoPlayer.itemIndex = 0
             m.global.sceneManager.callfunc("pushScene", photoPlayer)
+        else
+            stopLoadingSpinner()
         end if
     end sub
 
@@ -103,6 +105,8 @@ namespace quickplay
         })
         if isValid(albumSongs) and isValidAndNotEmpty(albumSongs.items)
             quickplay.pushToQueue(albumSongs.items)
+        else
+            stopLoadingSpinner()
         end if
     end sub
 
@@ -126,6 +130,8 @@ namespace quickplay
 
         if isValid(artistSongs) and isValidAndNotEmpty(artistSongs.items)
             quickplay.pushToQueue(artistSongs.items, true)
+        else
+            stopLoadingSpinner()
         end if
     end sub
 
@@ -142,6 +148,8 @@ namespace quickplay
         })
         if isValid(data) and isValidAndNotEmpty(data.Items)
             quickplay.pushToQueue(data.items)
+        else
+            stopLoadingSpinner()
         end if
     end sub
 
@@ -197,6 +205,8 @@ namespace quickplay
                 if isValid(data) and isValidAndNotEmpty(data.Items)
                     ' add all episodes found to a playlist
                     quickplay.pushToQueue(data.Items)
+                else
+                    stopLoadingSpinner()
                 end if
             end if
         end if
@@ -240,6 +250,8 @@ namespace quickplay
             end for
             if m.global.queueManager.callFunc("getCount") > 1
                 m.global.queueManager.callFunc("toggleShuffle")
+            else
+                stopLoadingSpinner()
             end if
         end if
     end sub
@@ -400,6 +412,8 @@ namespace quickplay
                     end if
                 end if
             end if
+        else
+            stopLoadingSpinner()
         end if
     end sub
 
@@ -440,6 +454,8 @@ namespace quickplay
 
         if m.global.queueManager.callFunc("getCount") > 1
             m.global.queueManager.callFunc("toggleShuffle")
+        else
+            stopLoadingSpinner()
         end if
     end sub
 
@@ -447,8 +463,8 @@ namespace quickplay
     sub tvChannel(itemNode as object)
         if not isValid(itemNode) or not isValid(itemNode.id) then return
 
-        stopLoadingSpinner()
         group = CreateVideoPlayerGroup(itemNode.id)
+        stopLoadingSpinner()
         m.global.sceneManager.callFunc("pushScene", group)
     end sub
 
@@ -456,8 +472,8 @@ namespace quickplay
     sub program(itemNode as object)
         if not isValid(itemNode) or not isValid(itemNode.json) or not isValid(itemNode.json.ChannelId) then return
 
-        stopLoadingSpinner()
         group = CreateVideoPlayerGroup(itemNode.json.ChannelId)
+        stopLoadingSpinner()
         m.global.sceneManager.callFunc("pushScene", group)
     end sub
 
@@ -478,6 +494,8 @@ namespace quickplay
             if m.global.queueManager.callFunc("getCount") > 1
                 m.global.queueManager.callFunc("toggleShuffle")
             end if
+        else
+            stopLoadingSpinner()
         end if
     end sub
 
@@ -546,6 +564,8 @@ namespace quickplay
                     quickplay.pushToQueue(folderData.items, true)
                 end if
             end if
+        else
+            stopLoadingSpinner()
         end if
     end sub
 
@@ -577,6 +597,8 @@ namespace quickplay
             print "songsData=", songsData
             if isValid(songsData) and isValidAndNotEmpty(songsData.items)
                 quickplay.pushToQueue(songsData.Items, true)
+            else
+                stopLoadingSpinner()
             end if
         else if collectionType = "boxsets"
             ' get list of all boxsets inside
@@ -605,6 +627,8 @@ namespace quickplay
                 if isValid(boxsetData) and isValidAndNotEmpty(boxsetData.items)
                     ' add all boxset items to queue
                     quickplay.pushToQueue(boxsetData.Items)
+                else
+                    stopLoadingSpinner()
                 end if
             end if
         else if collectionType = "tvshows" or collectionType = "collectionfolder"
@@ -624,6 +648,8 @@ namespace quickplay
             print "data=", data
             if isValid(data) and isValidAndNotEmpty(data.items)
                 quickplay.pushToQueue(data.Items)
+            else
+                stopLoadingSpinner()
             end if
         else if collectionType = "homevideos"
             ' Photo library - items can be type video, photo, or photoAlbum
@@ -644,8 +670,11 @@ namespace quickplay
                 photoPlayer.itemsArray = folderData.items
                 photoPlayer.itemIndex = 0
                 m.global.sceneManager.callfunc("pushScene", photoPlayer)
+            else
+                stopLoadingSpinner()
             end if
         else
+            stopLoadingSpinner()
             print "Quick Play WARNING: Unknown collection type"
         end if
     end sub
@@ -683,6 +712,8 @@ namespace quickplay
                 ' validate api results
                 if isValid(playlistItems) and isValidAndNotEmpty(playlistItems.items)
                     quickplay.pushToQueue(playlistItems.items, true)
+                else
+                    stopLoadingSpinner()
                 end if
             end if
         else if collectionType = "livetv"
@@ -705,12 +736,15 @@ namespace quickplay
                 print "myChannel=", myChannel
                 ' play channel
                 quickplay.tvChannel(myChannel)
+            else
+                stopLoadingSpinner()
             end if
         else if collectionType = "movies"
             quickplay.videoContainer(itemNode)
         else if collectionType = "tvshows"
             quickplay.videoContainer(itemNode)
         else
+            stopLoadingSpinner()
             print "Quick Play CollectionFolder WARNING: Unknown collection type"
         end if
     end sub

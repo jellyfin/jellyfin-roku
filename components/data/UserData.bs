@@ -53,12 +53,6 @@ function setPreference(key as string, value as string)
     return set_user_setting("pref-" + key, value)
 end function
 
-sub setActive()
-    if m.global.session.user.settings["global.rememberme"]
-        set_setting("active_user", m.top.id)
-    end if
-end sub
-
 sub setServer(hostname as string)
     m.top.server = hostname
 end sub
