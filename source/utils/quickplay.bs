@@ -256,37 +256,6 @@ namespace quickplay
         end if
     end sub
 
-    ' A folder with Videos inside of it.
-    ' Shuffle play all videos inside that are not resumable.
-    sub videoFolder(itemNode as object)
-        print "itemNode=", itemNode
-        if isValidAndNotEmpty(itemNode)
-            ' get randomized list of videos inside
-            data = api.users.GetItemsByQuery(m.global.session.user.id, {
-                "parentId": itemNode.id,
-                "sortBy": "Random",
-                "recursive": true,
-                "includeItemTypes": "Movie,Video",
-                "limit": 2000
-            })
-            print "data=", data
-            if isValid(data) and isValidAndNotEmpty(data.items)
-                videoList = []
-                ' add each item to the queue
-                for each item in data.Items
-                    print "data.Item=", item
-                    ' only add videos we're not currently watching
-                    if isValid(item.userdata) and isValid(item.userdata.PlaybackPositionTicks)
-                        if item.userdata.PlaybackPositionTicks = 0
-                            videoList.push(item)
-                        end if
-                    end if
-                end for
-                quickplay.pushToQueue(videoList)
-            end if
-        end if
-    end sub
-
     ' A container with some kind of videos inside of it
     sub videoContainer(itemNode as object)
         print "itemNode=", itemNode
