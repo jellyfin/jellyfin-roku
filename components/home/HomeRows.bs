@@ -1,7 +1,7 @@
 import "pkg:/source/utils/misc.bs"
 import "pkg:/source/constants/HomeRowItemSizes.bs"
 
-const FOCUS_RESIZE_WAIT_TIME = 2
+const LOADING_WAIT_TIME = 2
 
 sub init()
     m.top.itemComponentName = "HomeItem"
@@ -19,7 +19,7 @@ sub init()
     m.top.content = CreateObject("roSGNode", "ContentNode")
 
     m.loadingTimer = createObject("roSGNode", "Timer")
-    m.loadingTimer.duration = FOCUS_RESIZE_WAIT_TIME
+    m.loadingTimer.duration = LOADING_WAIT_TIME
     m.loadingTimer.observeField("fire", "loadingTimerComplete")
 
     updateSize()
