@@ -266,22 +266,6 @@ sub createLatestInRows()
     filteredLatest = filterNodeArray(m.libraryData, "id", m.global.session.user.configuration.LatestItemsExcludes)
     for each lib in filteredLatest
         if lib.collectionType <> "boxsets" and lib.collectionType <> "livetv" and lib.json.CollectionType <> "Program"
-
-            if not sectionExists(tr("Latest in") + " " + lib.name + " >")
-                imagesize = homeRowItemSizes.WIDE_POSTER
-
-                if LCase(lib.collectionType) = "movies"
-                    imagesize = homeRowItemSizes.MOVIE_POSTER
-                else if LCase(lib.collectionType) = "music"
-                    imagesize = homeRowItemSizes.MUSIC_ALBUM
-                end if
-
-                row = CreateObject("roSGNode", "HomeRow")
-                row.title = tr("Latest in") + " " + lib.name + " >"
-                row.imageWidth = imagesize[0]
-                row.cursorSize = imagesize
-            end if
-
             loadLatest = createObject("roSGNode", "LoadItemsTask")
             loadLatest.itemsToLoad = "latest"
             loadLatest.itemId = lib.id
@@ -556,6 +540,7 @@ sub updateLatestItems(msg)
     row.title = sectionName
     row.imageWidth = imagesize[0]
     row.cursorSize = imagesize
+    row.usePoster = true
 
     for each item in itemData
         item.usePoster = row.usePoster
