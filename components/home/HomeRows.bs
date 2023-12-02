@@ -529,10 +529,12 @@ sub updateLatestItems(msg)
 
     imagesize = homeRowItemSizes.WIDE_POSTER
 
-    if LCase(node.metadata.contentType) = "movies"
-        imagesize = homeRowItemSizes.MOVIE_POSTER
-    else if LCase(node.metadata.contentType) = "music"
-        imagesize = homeRowItemSizes.MUSIC_ALBUM
+    if isValid(node.metadata.contentType)
+        if LCase(node.metadata.contentType) = "movies"
+            imagesize = homeRowItemSizes.MOVIE_POSTER
+        else if LCase(node.metadata.contentType) = "music"
+            imagesize = homeRowItemSizes.MUSIC_ALBUM
+        end if
     end if
 
     ' remake row using new data
