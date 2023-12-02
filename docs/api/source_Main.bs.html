@@ -50,12 +50,11 @@
     ' remove login scenes from the stack
     sceneManager.callFunc("clearScenes")
 
-    stopLoadingSpinner()
-
     ' load home page
     sceneManager.currentUser = m.global.session.user.name
     group = CreateHomeGroup()
     group.callFunc("loadLibraries")
+    stopLoadingSpinner()
     sceneManager.callFunc("pushScene", group)
 
     m.scene.observeField("exit", m.port)
@@ -131,8 +130,6 @@
             ' measure processing time
             timeSpan = CreateObject("roTimespan")
 
-            startMediaLoadingSpinner()
-
             group = sceneManager.callFunc("getActiveScene")
             reportingNode = msg.getRoSGNode()
             itemNode = invalid
@@ -164,6 +161,7 @@
 
                 ' can't play the item without knowing what type it is
                 if isValid(itemType)
+                    startLoadingSpinner()
                     m.global.queueManager.callFunc("clear") ' empty queue/playlist
                     m.global.queueManager.callFunc("resetShuffle") ' turn shuffle off
 
@@ -208,19 +206,17 @@
                     else if itemType = "photoalbum"
                         quickplay.photoAlbum(itemNode)
                     end if
-
                     m.global.queueManager.callFunc("playQueue")
                 end if
             end if
-            stopLoadingSpinner()
             elapsed = timeSpan.TotalMilliseconds() / 1000
             print "Quick Play finished loading in " + elapsed.toStr() + " seconds."
         else if isNodeEvent(msg, "selectedItem")
             ' If you select a library from ANYWHERE, follow this flow
             selectedItem = msg.getData()
             if isValid(selectedItem)
+                startLoadingSpinner()
                 selectedItemType = selectedItem.type
-
 
                 if selectedItemType = "CollectionFolder"
                     if selectedItem.collectionType = "movies"
@@ -253,7 +249,6 @@
                     end if
 
                     selectedItem.selectedAudioStreamIndex = audio_stream_idx
-
                     ' Display playback options dialog
                     if selectedItem.json.userdata.PlaybackPositionTicks > 0
                         m.global.queueManager.callFunc("hold", selectedItem)
@@ -275,7 +270,6 @@
                     CreatePersonView(selectedItem)
                 else if selectedItemType = "TvChannel" or selectedItemType = "Video" or selectedItemType = "Program"
                     ' User selected a Live TV channel / program
-
                     ' Show Channel Loading spinner
                     dialog = createObject("roSGNode", "ProgressDialog")
                     dialog.title = tr("Loading Channel Data")
@@ -327,6 +321,7 @@
                 else if selectedItemType = "MusicArtist"
                     group = CreateArtistView(selectedItem.json)
                     if not isValid(group)
+                        stopLoadingSpinner()
                         message_dialog(tr("Unable to find any albums or songs belonging to this artist"))
                     end if
                 else if selectedItemType = "MusicAlbum"
@@ -342,19 +337,23 @@
                     m.global.queueManager.callFunc("playQueue")
                 else
                     ' TODO - switch on more node types
+                    stopLoadingSpinner()
                     message_dialog("This type is not yet supported: " + selectedItemType + ".")
                 end if
             end if
         else if isNodeEvent(msg, "movieSelected")
             ' If you select a movie from ANYWHERE, follow this flow
+            startLoadingSpinner()
             node = getMsgPicker(msg, "picker")
             group = CreateMovieDetailsGroup(node)
         else if isNodeEvent(msg, "seriesSelected")
             ' If you select a TV Series from ANYWHERE, follow this flow
+            startLoadingSpinner()
             node = getMsgPicker(msg, "picker")
             group = CreateSeriesDetailsGroup(node.id)
         else if isNodeEvent(msg, "seasonSelected")
             ' If you select a TV Season from ANYWHERE, follow this flow
+            startLoadingSpinner()
             ptr = msg.getData()
             ' ptr is for [row, col] of selected item... but we only have 1 row
             series = msg.getRoSGNode()
@@ -364,18 +363,27 @@
             end if
         else if isNodeEvent(msg, "musicAlbumSelected")
             ' If you select a Music Album from ANYWHERE, follow this flow
+            startLoadingSpinner()
             ptr = msg.getData()
             albums = msg.getRoSGNode()
             node = albums.musicArtistAlbumData.items[ptr]
             group = CreateAlbumView(node)
+            if not isValid(group)
+                stopLoadingSpinner()
+            end if
         else if isNodeEvent(msg, "appearsOnSelected")
             ' If you select a Music Album from ANYWHERE, follow this flow
+            startLoadingSpinner()
             ptr = msg.getData()
             albums = msg.getRoSGNode()
             node = albums.musicArtistAppearsOnData.items[ptr]
             group = CreateAlbumView(node)
+            if not isValid(group)
+                stopLoadingSpinner()
+            end if
         else if isNodeEvent(msg, "playSong")
             ' User has selected audio they want us to play
+            startLoadingSpinner()
             selectedIndex = msg.getData()
             screenContent = msg.getRoSGNode()
 
@@ -385,6 +393,7 @@
             m.global.queueManager.callFunc("playQueue")
         else if isNodeEvent(msg, "playItem")
             ' User has selected audio they want us to play
+            startLoadingSpinner()
             selectedIndex = msg.getData()
             screenContent = msg.getRoSGNode()
 
@@ -395,8 +404,7 @@
         else if isNodeEvent(msg, "playAllSelected")
             ' User has selected playlist of of audio they want us to play
             screenContent = msg.getRoSGNode()
-            m.spinner = screenContent.findNode("spinner")
-            m.spinner.visible = true
+            startLoadingSpinner()
 
             m.global.queueManager.callFunc("clear")
             m.global.queueManager.callFunc("resetShuffle")
@@ -404,6 +412,7 @@
             m.global.queueManager.callFunc("playQueue")
         else if isNodeEvent(msg, "playArtistSelected")
             ' User has selected playlist of of audio they want us to play
+            startLoadingSpinner()
             screenContent = msg.getRoSGNode()
 
             m.global.queueManager.callFunc("clear")
@@ -415,10 +424,7 @@
             ' User has selected instant mix
             ' User has selected playlist of of audio they want us to play
             screenContent = msg.getRoSGNode()
-            m.spinner = screenContent.findNode("spinner")
-            if isValid(m.spinner)
-                m.spinner.visible = true
-            end if
+            startLoadingSpinner()
 
             viewHandled = false
 
@@ -460,6 +466,7 @@
             options.query = query
         else if isNodeEvent(msg, "itemSelected")
             ' Search item selected
+            startLoadingSpinner()
             node = getMsgPicker(msg)
             ' TODO - swap this based on target.mediatype
             ' types: [ Series (Show), Episode, Movie, Audio, Person, Studio, MusicArtist ]
@@ -495,6 +502,7 @@
                 m.global.queueManager.callFunc("playQueue")
             else
                 ' TODO - switch on more node types
+                stopLoadingSpinner()
                 message_dialog("This type is not yet supported: " + node.type + ".")
             end if
         else if isNodeEvent(msg, "buttonSelected")
@@ -503,7 +511,7 @@
             group = sceneManager.callFunc("getActiveScene")
             if isValid(btn) and btn.id = "play-button"
                 ' User chose Play button from movie detail view
-
+                startLoadingSpinner()
                 ' Check if a specific Audio Stream was selected
                 audio_stream_idx = 0
                 if isValid(group) and isValid(group.selectedAudioStreamIndex)
@@ -536,6 +544,7 @@
 
             else if btn &lt;> invalid and btn.id = "trailer-button"
                 ' User chose to play a trailer from the movie detail view
+                startLoadingSpinner()
                 dialog = createObject("roSGNode", "ProgressDialog")
                 dialog.title = tr("Loading trailer")
                 m.scene.dialog = dialog
@@ -547,6 +556,8 @@
                     m.global.queueManager.callFunc("set", trailerData)
                     m.global.queueManager.callFunc("playQueue")
                     dialog.close = true
+                else
+                    stopLoadingSpinner()
                 end if
 
                 if isValid(group) and isValid(group.lastFocus)
@@ -734,6 +745,7 @@
             end if
         else if isNodeEvent(msg, "dataReturned")
             popupNode = msg.getRoSGNode()
+            stopLoadingSpinner()
             if isValid(popupNode) and isValid(popupNode.returnData)
                 selectedItem = m.global.queueManager.callFunc("getHold")
                 m.global.queueManager.callFunc("clearHold")
@@ -741,6 +753,7 @@
                 if isValid(selectedItem) and selectedItem.count() > 0 and isValid(selectedItem[0])
                     if popupNode.returnData.indexselected = 0
                         'Resume video from resume point
+                        startLoadingSpinner()
                         startingPoint = 0
 
                         if isValid(selectedItem[0].json) and isValid(selectedItem[0].json.UserData) and isValid(selectedItem[0].json.UserData.PlaybackPositionTicks)
@@ -755,6 +768,7 @@
                         m.global.queueManager.callFunc("playQueue")
                     else if popupNode.returnData.indexselected = 1
                         'Start Over from beginning selected, set position to 0
+                        startLoadingSpinner()
                         selectedItem[0].startingPoint = 0
                         m.global.queueManager.callFunc("clear")
                         m.global.queueManager.callFunc("push", selectedItem[0])

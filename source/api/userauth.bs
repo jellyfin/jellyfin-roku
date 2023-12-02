@@ -12,9 +12,8 @@ function get_token(user as string, password as string)
 
     userdata = CreateObject("roSGNode", "UserData")
     userdata.json = json
-
-    userdata.callFunc("setActive")
     userdata.callFunc("saveToRegistry")
+
     return userdata
 end function
 
@@ -163,8 +162,8 @@ function AuthenticateViaQuickConnect(secret)
         userdata.json = jsonResponse
         session.user.Update("id", jsonResponse.User.Id)
         session.user.Update("authToken", jsonResponse.AccessToken)
-        userdata.callFunc("setActive")
         userdata.callFunc("saveToRegistry")
+
         return true
     end if
 

@@ -10625,5 +10625,15 @@
         <source>Age</source>
         <translation>Âge</translation>
     </message>
+    <message>
+        <source>Error During Playback</source>
+        <translation>Erreur lors de la lecture</translation>
+        <extracomment>Dialog title when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>Error Retrieving Content</source>
+        <translation>Erreur lors de la récupération du contenu</translation>
+        <extracomment>Dialog title when unable to load Content from Server</extracomment>
+    </message>
 </context>
 </TS>
