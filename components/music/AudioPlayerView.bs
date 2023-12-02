@@ -9,14 +9,14 @@ sub init()
     m.lastRecordedPositionTimestamp = 0
     m.scrubTimestamp = -1
 
+    m.playlistTypeCount = m.global.queueManager.callFunc("getQueueUniqueTypes").count()
+
     setupAudioNode()
     setupAnimationTasks()
     setupButtons()
     setupInfoNodes()
     setupDataTasks()
     setupScreenSaver()
-
-    m.playlistTypeCount = m.global.queueManager.callFunc("getQueueUniqueTypes").count()
 
     m.buttonCount = m.buttons.getChildCount()
     m.seekPosition.translation = [720 - (m.seekPosition.width / 2), m.seekPosition.translation[1]]
@@ -102,6 +102,20 @@ end sub
 sub setupButtons()
     m.buttons = m.top.findNode("buttons")
     m.top.observeField("selectedButtonIndex", "onButtonSelectedChange")
+
+    ' If we're playing a mixed playlist, remove the shuffle and loop buttons
+    if m.playlistTypeCount > 1
+        shuffleButton = m.top.findNode("shuffle")
+        m.buttons.removeChild(shuffleButton)
+
+        loopButton = m.top.findNode("loop")
+        m.buttons.removeChild(loopButton)
+
+        m.previouslySelectedButtonIndex = 0
+        m.top.selectedButtonIndex = 1
+        return
+    end if
+
     m.previouslySelectedButtonIndex = 1
     m.top.selectedButtonIndex = 2
 end sub
@@ -284,8 +298,16 @@ function playAction() as boolean
 end function
 
 function previousClicked() as boolean
-    if m.playlistTypeCount > 1 then return false
     if m.global.queueManager.callFunc("getPosition") = 0 then return false
+
+    if m.playlistTypeCount > 1
+        m.global.audioPlayer.control = "stop"
+
+        m.global.sceneManager.callFunc("clearPreviousScene")
+        m.global.queueManager.callFunc("moveBack")
+        m.global.queueManager.callFunc("playQueue")
+        return true
+    end if
 
     exitScrubMode()
 
@@ -339,7 +361,16 @@ sub setLoopButtonImage()
 end sub
 
 function nextClicked() as boolean
-    if m.playlistTypeCount > 1 then return false
+    if m.playlistTypeCount > 1
+        if m.global.queueManager.callFunc("getPosition") < m.global.queueManager.callFunc("getCount") - 1
+            m.global.audioPlayer.control = "stop"
+
+            m.global.sceneManager.callFunc("clearPreviousScene")
+            m.global.queueManager.callFunc("moveForward")
+            m.global.queueManager.callFunc("playQueue")
+        end if
+        return true
+    end if
 
     exitScrubMode()
 
@@ -433,9 +464,6 @@ end sub
 
 ' If we have more and 1 song to play, fade in the next and previous controls
 sub loadButtons()
-    ' Don't show audio buttons if we have a mixed playlist
-    if m.playlistTypeCount > 1 then return
-
     if m.global.queueManager.callFunc("getCount") > 1
         m.shuffleIndicator.opacity = ".4"
         m.loopIndicator.opacity = ".4"
