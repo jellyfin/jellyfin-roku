@@ -13929,5 +13929,105 @@
         <translation>Maximale Tage bis zum Nächsten</translation>
         <extracomment>Option Title in user setting screen</extracomment>
     </message>
+    <message>
+        <source>Movie Library Default View</source>
+        <translation>Standardansicht für Filmbibliothek</translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
+    <message>
+        <source>Default view for Movie Libraries.</source>
+        <translation>Standardansicht für Filmbibliotheken</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Item Titles</source>
+        <translation>Titel der Elemente</translation>
+        <extracomment>Title of a setting - when should we show the title text of a grid item</extracomment>
+    </message>
+    <message>
+        <source>Select when to show titles.</source>
+        <translation>Wählen Sie aus, wann die Titel angezeigt werden sollen.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Always Show</source>
+        <translation>Immer anzeigen</translation>
+    </message>
+    <message>
+        <source>Configure the maximum playback bitrate.</source>
+        <translation>Die maximale Wiedergabe-Bitrate konfigurieren.</translation>
+    </message>
+    <message>
+        <source>Resumable</source>
+        <translation>Fortsetzbar</translation>
+    </message>
+    <message>
+        <source>Show On Hover</source>
+        <translation>Bei Hover anzeigen</translation>
+    </message>
+    <message>
+        <source>Artists (Presentation)</source>
+        <translation>Künstler (Präsentation)</translation>
+    </message>
+    <message>
+        <source>Album Artists (Presentation)</source>
+        <translation>Album-Künstler (Präsentation)</translation>
+    </message>
+    <message>
+        <source>Artists (Grid)</source>
+        <translation>Künstler (Raster)</translation>
+    </message>
+    <message>
+        <source>Song</source>
+        <translation>Lied</translation>
+    </message>
+    <message>
+        <source>Always Hide</source>
+        <translation>Immer ausblenden</translation>
+    </message>
+    <message>
+        <source>Album</source>
+        <translation>Album</translation>
+    </message>
+    <message>
+        <source>Albums</source>
+        <translation>Alben</translation>
+    </message>
+    <message>
+        <source>Disable Community Rating for Episodes</source>
+        <translation>Gemeinschaftsbewertung für Episoden deaktivieren</translation>
+    </message>
+    <message>
+        <source>Songs</source>
+        <translation>Lieder</translation>
+    </message>
+    <message>
+        <source>Enable Limit</source>
+        <translation>Limits aktivieren</translation>
+    </message>
+    <message>
+        <source>Enable or disable the &apos;Maximum Bitrate&apos; setting.</source>
+        <translation>Maximale Bitrate&apos; Einstellung aktivieren oder deaktivieren.</translation>
+    </message>
+    <message>
+        <source>Biographical information for this person is not currently available.</source>
+        <translation>Biografische Informationen zu dieser Person stehen derzeit nicht zur Verfügung.</translation>
+    </message>
+    <message>
+        <source>Bitrate Limit</source>
+        <translation>Bitratenlimit</translation>
+    </message>
+    <message>
+        <source>Hide the star and community rating for episodes of a TV show. This is to prevent spoilers of an upcoming good/bad episode.</source>
+        <translation>Die Sterne- und Gemeinschaftsbewertung für Episoden einer TV-Serie ausblenden. Dies dient dazu, Spoiler für eine kommende gute/schlechte Episode zu vermeiden.</translation>
+    </message>
+    <message>
+        <source>Album Artists (Grid)</source>
+        <translation>Album-Künstler (Raster)</translation>
+    </message>
+    <message>
+        <source>View All</source>
+        <translation>Alle anzeigen</translation>
+    </message>
 </context>
 </TS>
