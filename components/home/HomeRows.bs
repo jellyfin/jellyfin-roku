@@ -72,6 +72,7 @@ end sub
 ' processUserSections: Loop through user's chosen home section settings and generate the content for each row
 '
 sub processUserSections()
+    m.expectedRowCount = 0
     loadedSections = 0
 
     ' Add sections in order based on user settings
@@ -174,13 +175,21 @@ sub setRowItemSize()
     end for
 
     m.top.rowItemSize = newSizeArray
+
+    ' If we have the expected number of content rows, stop the loading timer and run the complete function
+    if m.expectedRowCount = homeSections.count()
+        m.loadingTimer.control = "stop"
+        loadingTimerComplete()
+    end if
 end sub
 
 ' loadingTimerComplete: Event handler for when loading wait time has expired
 '
 sub loadingTimerComplete()
-    ' Show the row counter to prevent flicker
-    m.top.showRowCounter = [true]
+    if not m.top.showRowCounter[0]
+        ' Show the row counter to prevent flicker
+        m.top.showRowCounter = [true]
+    end if
 end sub
 
 ' addHomeSection: Adds a new home section to the home rows.
@@ -233,6 +242,8 @@ sub createLibraryRow()
     ' Ensure we have data
     if not isValidAndNotEmpty(m.libraryData) then return
 
+    m.expectedRowCount++
+
     sectionName = tr("My Media")
 
     row = CreateObject("roSGNode", "HomeRow")
@@ -270,6 +281,8 @@ sub createLatestInRows()
             loadLatest = createObject("roSGNode", "LoadItemsTask")
             loadLatest.itemsToLoad = "latest"
             loadLatest.itemId = lib.id
+
+            m.expectedRowCount++
 
             metadata = { "title": lib.name }
             metadata.Append({ "contentType": lib.json.CollectionType })
@@ -333,6 +346,7 @@ end function
 ' createLiveTVRow: Creates a row displaying the live tv now on section
 '
 sub createLiveTVRow()
+    m.expectedRowCount++
     m.LoadOnNowTask.observeField("content", "updateOnNowItems")
     m.LoadOnNowTask.control = "RUN"
 end sub
@@ -340,6 +354,7 @@ end sub
 ' createContinueWatchingRow: Creates a row displaying items the user can continue watching
 '
 sub createContinueWatchingRow()
+    m.expectedRowCount++
     ' Load the Continue Watching Data
     m.LoadContinueWatchingTask.observeField("content", "updateContinueWatchingItems")
     m.LoadContinueWatchingTask.control = "RUN"
@@ -348,6 +363,7 @@ end sub
 ' createNextUpRow: Creates a row displaying next episodes up to watch
 '
 sub createNextUpRow()
+    m.expectedRowCount++
     sectionName = tr("Next Up") + ">"
 
     if not sectionExists(sectionName)
@@ -365,6 +381,7 @@ end sub
 ' createFavoritesRow: Creates a row displaying items from the user's favorites list
 '
 sub createFavoritesRow()
+    m.expectedRowCount++
     ' Load the Favorites Data
     m.LoadFavoritesTask.observeField("content", "updateFavoritesItems")
     m.LoadFavoritesTask.control = "RUN"
@@ -385,11 +402,15 @@ sub updateFavoritesItems()
     m.LoadFavoritesTask.unobserveField("content")
     m.LoadFavoritesTask.content = []
 
-    if itemData = invalid then return
+    if itemData = invalid
+        m.expectedRowCount--
+        return
+    end if
 
     sectionName = tr("Favorites")
 
     if itemData.count() < 1
+        m.expectedRowCount--
         removeHomeSection(sectionName)
         return
     end if
@@ -429,11 +450,15 @@ sub updateContinueWatchingItems()
     m.LoadContinueWatchingTask.unobserveField("content")
     m.LoadContinueWatchingTask.content = []
 
-    if itemData = invalid then return
+    if not isValid(itemData)
+        m.expectedRowCount--
+        return
+    end if
 
     sectionName = tr("Continue Watching")
 
     if itemData.count() < 1
+        m.expectedRowCount--
         removeHomeSection(sectionName)
         return
     end if
@@ -476,11 +501,15 @@ sub updateNextUpItems()
     m.LoadNextUpTask.content = []
     m.LoadNextUpTask.control = "STOP"
 
-    if itemData = invalid then return
+    if itemData = invalid
+        m.expectedRowCount--
+        return
+    end if
 
     sectionName = tr("Next Up") + " >"
 
     if itemData.count() < 1
+        m.expectedRowCount--
         removeHomeSection(sectionName)
         return
     end if
@@ -519,11 +548,15 @@ sub updateLatestItems(msg)
     node.unobserveField("content")
     node.content = []
 
-    if itemData = invalid then return
+    if itemData = invalid
+        m.expectedRowCount--
+        return
+    end if
 
     sectionName = tr("Latest in") + " " + node.metadata.title + " >"
 
     if itemData.count() < 1
+        m.expectedRowCount--
         removeHomeSection(sectionName)
         return
     end if
@@ -569,11 +602,15 @@ sub updateOnNowItems()
     m.LoadOnNowTask.unobserveField("content")
     m.LoadOnNowTask.content = []
 
-    if itemData = invalid then return
+    if not isValid(itemData)
+        m.expectedRowCount--
+        return
+    end if
 
     sectionName = tr("On Now")
 
     if itemData.count() < 1
+        m.expectedRowCount--
         removeHomeSection(sectionName)
         return
     end if
