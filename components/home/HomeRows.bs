@@ -158,6 +158,7 @@ sub removeHomeSection(sectionTitleToRemove as string)
     sectionIndexToRemove = getSectionIndex(sectionTitle)
 
     m.top.content.removeChildIndex(sectionIndexToRemove)
+    setRowItemSize()
 end sub
 
 ' setRowItemSize: Loops through all home sections and sets the correct item sizes per row
