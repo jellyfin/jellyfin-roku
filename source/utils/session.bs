@@ -223,6 +223,17 @@ namespace session
                     unset_user_setting("display.livetv.landing")
                 end if
             else
+                ' User has no custom prefs. Save default home section values.
+                session.user.SaveUserHomeSections({
+                    homesection0: "smalllibrarytiles",
+                    homesection1: "resume",
+                    homesection2: "nextup",
+                    homesection3: "latestmedia",
+                    homesection4: "livetv",
+                    homesection5: "none",
+                    homesection6: "none"
+                })
+
                 unset_user_setting("display.livetv.landing")
             end if
         end sub
