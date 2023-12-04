@@ -1,4 +1,5 @@
 import "pkg:/source/roku_modules/log/LogMixin.brs"
+import "pkg:/source/utils/misc.bs"
 
 sub init()
     m.log = log.Logger("SceneManager")
@@ -120,7 +121,7 @@ sub popScene()
         ' Exit app if the stack is empty after removing group
         m.scene.exit = true
     end if
-
+    stopLoadingSpinner()
 end sub
 
 
