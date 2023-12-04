@@ -571,8 +571,9 @@ end sub
 '
 'Load next set of items
 sub loadMoreData()
-    startLoadingSpinner(false)
     if m.Loading = true then return
+
+    startLoadingSpinner(false)
     m.Loading = true
     m.loadItemsTask.startIndex = m.loadedItems
     m.loadItemsTask.observeField("content", "ItemDataLoaded")

@@ -110,7 +110,7 @@ end sub
 'Load initial set of Data
 sub loadInitialItems()
     m.loadItemsTask.control = "stop"
-    startLoadingSpinner()
+    startLoadingSpinner(false)
 
     if LCase(m.top.parentItem.json.Type) = "collectionfolder"
         m.top.HomeLibraryItem = m.top.parentItem.Id
@@ -552,8 +552,9 @@ end sub
 '
 'Load next set of items
 sub loadMoreData()
-    startLoadingSpinner(false)
     if m.Loading = true then return
+
+    startLoadingSpinner(false)
     m.Loading = true
     m.loadItemsTask.startIndex = m.loadedItems
     m.loadItemsTask.observeField("content", "ItemDataLoaded")
