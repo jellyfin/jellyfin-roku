@@ -48,7 +48,7 @@ sub itemContentChanged()
     if itemData = invalid then return
 
     if itemData.type = "Movie"
-        if isValid(itemData.json.UserData.Played) and itemData.json.UserData.Played = true
+        if isValid(itemData.json) and isValid(itemData.json.UserData) and isValid(itemData.json.UserData.Played) and itemData.json.UserData.Played
             m.playedIndicator.visible = true
         end if
 
