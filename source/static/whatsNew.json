@@ -1,6 +1,198 @@
 [
     {
-        "description": "Bug Fix: System screensaver not working",
+        "description": "New Feature: Add support for Music Videos",
+        "author": "cewert"
+    },
+    {
+        "description": "New Feature: Create video OSD with chapter skip, subtitle select, playback info",
         "author": "1hitsong"
+    },
+    {
+        "description": "New Feature: Allow selection of TV Show versions",
+        "author": "jimdogx"
+    },
+    {
+        "description": "New Feature: Add support for TV show season extra features",
+        "author": "JarodTAerts"
+    },
+    {
+        "description": "New Feature: Infer server url on server select screen",
+        "author": "sevenrats"
+    },
+    {
+        "description": "New Feature: Search honors item access permissions",
+        "author": "matty-r"
+    },
+    {
+        "description": "New Feature: Enable rememberme global setting for current installs who upgrade",
+        "author": "cewert"
+    },
+    {
+        "description": "New Feature: Improve Quick Play support across client",
+        "author": "cewert"
+    },
+    {
+        "description": "New Feature: Add photo support to home screen",
+        "author": "cewert"
+    },
+    {
+        "description": "New Feature: Update device profile when device capabilities change + enable all device events",
+        "author": "cewert"
+    },
+    {
+        "description": "New Feature: Enable support for saving user's credentials, and add \"Change User\" and \"Remember Me?\" options",
+        "author": "cewert"
+    },
+    {
+        "description": "New Feature: Use user's preferred audio language to select default audio track for TV Episodes",
+        "author": "jimdogx"
+    },
+    {
+        "description": "New Feature: Add quickplay support to search results",
+        "author": "cewert"
+    },
+    {
+        "description": "New Feature: Respect Home Section order from web",
+        "author": "1hitsong"
+    },
+    {
+        "description": "New View: Create Album Artists view for music library",
+        "author": "1hitsong"
+    },
+    {
+        "description": "Bug Fix: Rounded corner on unplayed episode count",
+        "author": "photonconvergence"
+    },
+    {
+        "description": "Bug Fix: Fix TV Guide bug that didn't allow going to same channel twice in a row",
+        "author": "jimdogx"
+    },
+    {
+        "description": "Bug Fix: Fix Live TV record button crash",
+        "author": "jimdogx"
+    },
+    {
+        "description": "Bug Fix: Don't show nextEpisode button if trickplay bar is shown",
+        "author": "1hitsong"
+    },
+    {
+        "description": "Bug Fix: Fix episode list bug where OK was triggering quickplay",
+        "author": "cewert"
+    },
+    {
+        "description": "Bug Fix: Improve \"Next Episode\" button show logic",
+        "author": "cewert"
+    },
+    {
+        "description": "Bug Fix: Fix crash if bitrate limit is enabled and empty",
+        "author": "jimdogx"
+    },
+    {
+        "description": "Bug Fix: Fix crash when unplayed strms exist in season",
+        "author": "sevenrats"
+    },
+    {
+        "description": "Bug Fix: Update settings.json to fix double-entry of \"Disable Community Rating for Episodes\"",
+        "author": "alanazar"
+    },
+    {
+        "description": "Bug Fix: Fix crash when viewing Live TV",
+        "author": "jimdogx"
+    },
+    {
+        "description": "Bug Fix: Fix crash when viewing Photo Slideshow or Photo Random",
+        "author": "jimdogx"
+    },
+    {
+        "description": "Bug Fix: Fix long movie options from getting cut off",
+        "author": "Klikini"
+    },
+    {
+        "description": "Bug Fix: Fix community rating not showing on movie detail page",
+        "author": "1hitsong"
+    },
+    {
+        "description": "Bug Fix: Fix default A-Z sorting for movies & music",
+        "author": "1hitsong"
+    },
+    {
+        "description": "Bug Fix: Order boxsets by release date by default",
+        "author": "1hitsong"
+    },
+    {
+        "description": "Bug Fix: Fix unplayedCount bug when applying filters",
+        "author": "ApexArray"
+    },
+    {
+        "description": "Bug Fix: Fix direct play of the AV1 codec",
+        "author": "cewert"
+    },
+    {
+        "description": "Bug Fix: Fix early exit from settings screen when pressing back button",
+        "author": "cewert"
+    },
+    {
+        "description": "Bug Fix: Prevent crash by validating Filter Menu data",
+        "author": "cewert"
+    },
+    {
+        "description": "Bug Fix: Fix several bugs from Roku crash logs",
+        "author": "cewert"
+    },
+    {
+        "description": "Bug Fix: Refactor deviceCapabilities, fix vp9, and make 6 channel videos downmix if possible",
+        "author": "sevenrats"
+    },
+    {
+        "description": "General Improvement: Convert app to use one spinner attached to JFScene + resize spinner",
+        "author": "cewert"
+    },
+    {
+        "description": "General Improvement: Increase font size for unwatched episode count",
+        "author": "cewert"
+    },
+    {
+        "description": "General Improvement: On Home View, use TV Show thumbnail instead of Channel logo",
+        "author": "jimdogx"
+    },
+    {
+        "description": "General Improvement: Remove progressbar delay and speed up animation on home screen",
+        "author": "cewert"
+    },
+    {
+        "description": "General Improvement: Show loading spinner and disable remote during login",
+        "author": "cewert"
+    },
+    {
+        "description": "General Improvement: Copy custom subtitle functionality into new Global Queue Player",
+        "author": "1hitsong"
+    },
+    {
+        "description": "General Improvement: Update settings page UI to create more space for long radio lists",
+        "author": "cewert"
+    },
+    {
+        "description": "General Improvement: Remove Play Random button & functionality",
+        "author": "pau1h"
+    },
+    {
+        "description": "General Improvement: Update api.sessions.get() + add tanscoding info for Direct Streaming",
+        "author": "candry7731"
+    },
+    {
+        "description": "General Improvement: Only create trailer button when needed",
+        "author": "cewert"
+    },
+    {
+        "description": "General Improvement: Update device profile - direct play, transcoding, and codec profiles",
+        "author": "cewert"
+    },
+    {
+        "description": "General Improvement: Wrap alpha menu",
+        "author": "1hitsong"
+    },
+    {
+        "description": "For full list of changes, visit our release page: ",
+        "author": "https://github.com/jellyfin/jellyfin-roku/releases"
     }
 ]
