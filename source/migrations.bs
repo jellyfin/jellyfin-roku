@@ -79,15 +79,17 @@ sub runRegistryUserMigrations()
                 m.wasMigrated = true
                 print `Running Registry Migration for ${CLIENT_VERSION_REQUIRING_BASE_MIGRATION} for userid: ${section}`
 
+                ' If this is an existing user, set the useWebSectionArrangement setting to false
+                ' This way the home view for upgrading users is not changed without them opting in
+                if not hasUserVersion
+                    print "useWebSectionArrangement set to false"
+                    registry_write("ui.home.useWebSectionArrangement", "false", section)
+                end if
+
                 ' no longer saving password to registry
                 registry_delete("password", section)
                 ' av1 playback no longer hidden behind user setting
                 registry_delete("playback.av1", section)
-            end if
-
-            ' update lastRunVersion if needed
-            if hasUserVersion and lastRunVersion <> m.global.app.version
-                registry_write("LastRunVersion", m.global.app.version, section)
             end if
         end if
     end for
