@@ -1,10 +1,10 @@
 [
     {
-        "description": "New Feature: Add support for Music Videos",
+        "description": "New Setting: Remember Me setting allowing users to toggle client auto-login",
         "author": "cewert"
     },
     {
-        "description": "New Feature: Create video OSD with chapter skip, subtitle select, playback info",
+        "description": "New Setting: Use Web Client's Home Section Arrangement",
         "author": "1hitsong"
     },
     {
@@ -16,23 +16,27 @@
         "author": "JarodTAerts"
     },
     {
-        "description": "New Feature: Infer server url on server select screen",
+        "description": "New Feature: When connecting to a server, automatically attempt connection using default protocols and ports if not specified",
         "author": "sevenrats"
     },
     {
-        "description": "New Feature: Search honors item access permissions",
+        "description": "New Feature: Fixed permissions when using search",
         "author": "matty-r"
     },
     {
-        "description": "New Feature: Enable rememberme global setting for current installs who upgrade",
-        "author": "cewert"
+        "description": "New Feature: Create video OSD with chapter skip, subtitle select, playback info - Press up, down, ok, or pause while video is playing",
+        "author": "1hitsong"
     },
     {
-        "description": "New Feature: Improve Quick Play support across client",
+        "description": "New Feature: Add support for Music Videos",
         "author": "cewert"
     },
     {
         "description": "New Feature: Add photo support to home screen",
+        "author": "cewert"
+    },
+    {
+        "description": "New Feature: Add quickplay support to entire app - Press play on your remote while highlighting something",
         "author": "cewert"
     },
     {
@@ -48,12 +52,8 @@
         "author": "jimdogx"
     },
     {
-        "description": "New Feature: Add quickplay support to search results",
+        "description": "New Feature: Remove AV1 direct play setting and instead auto-detect device support",
         "author": "cewert"
-    },
-    {
-        "description": "New Setting: Use Web Client's Home Section Arrangement",
-        "author": "1hitsong"
     },
     {
         "description": "New View: Create Album Artists view for music library",
@@ -76,10 +76,6 @@
         "author": "1hitsong"
     },
     {
-        "description": "Bug Fix: Fix episode list bug where OK was triggering quickplay",
-        "author": "cewert"
-    },
-    {
         "description": "Bug Fix: Improve \"Next Episode\" button show logic",
         "author": "cewert"
     },
@@ -97,10 +93,6 @@
     },
     {
         "description": "Bug Fix: Fix crash when viewing Live TV",
-        "author": "jimdogx"
-    },
-    {
-        "description": "Bug Fix: Fix crash when viewing Photo Slideshow or Photo Random",
         "author": "jimdogx"
     },
     {
@@ -124,27 +116,19 @@
         "author": "ApexArray"
     },
     {
-        "description": "Bug Fix: Fix direct play of the AV1 codec",
-        "author": "cewert"
-    },
-    {
-        "description": "Bug Fix: Fix early exit from settings screen when pressing back button",
-        "author": "cewert"
-    },
-    {
         "description": "Bug Fix: Prevent crash by validating Filter Menu data",
         "author": "cewert"
     },
     {
-        "description": "Bug Fix: Fix several bugs from Roku crash logs",
+        "description": "Bug Fix: Fixed several bugs that could crash the app based on Roku crash logs",
         "author": "cewert"
     },
     {
-        "description": "Bug Fix: Refactor deviceCapabilities, fix vp9, and make 6 channel videos downmix if possible",
-        "author": "sevenrats"
+        "description": "Bug Fix: Fix VP9 codec support and downmix 6 channel videos if possible to allow direct play with stereo setups",
+        "author": "cewert"
     },
     {
-        "description": "General Improvement: Convert app to use one spinner attached to JFScene + resize spinner",
+        "description": "General Improvement: Convert app to use one spinner and resize for consistency",
         "author": "cewert"
     },
     {
@@ -160,20 +144,12 @@
         "author": "cewert"
     },
     {
-        "description": "General Improvement: Show loading spinner and disable remote during login",
-        "author": "cewert"
-    },
-    {
         "description": "General Improvement: Copy custom subtitle functionality into new Global Queue Player",
         "author": "1hitsong"
     },
     {
         "description": "General Improvement: Update settings page UI to create more space for long radio lists",
         "author": "cewert"
-    },
-    {
-        "description": "General Improvement: Remove Play Random button & functionality",
-        "author": "pau1h"
     },
     {
         "description": "General Improvement: Update api.sessions.get() + add tanscoding info for Direct Streaming",
@@ -190,6 +166,14 @@
     {
         "description": "General Improvement: Wrap alpha menu",
         "author": "1hitsong"
+    },
+    {
+        "description": "Code Cleanup: Create new code for device audio support",
+        "author": "sevenrats"
+    },
+    {
+        "description": "Code Cleanup: Remove Play Random button & functionality",
+        "author": "pau1h"
     },
     {
         "description": "For full list of changes, visit our release page: ",
