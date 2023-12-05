@@ -7135,5 +7135,43 @@
         <translation>Habilita o deshabilita la Reproducción Directa para codificadores opcionales</translation>
         <extracomment>Settings Menu - Title for settings group related to codec support</extracomment>
     </message>
+    <message>
+        <source>Extras</source>
+        <translation>Extras</translation>
+    </message>
+    <message>
+        <source>Episodes</source>
+        <translation>Episodios</translation>
+    </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>¿Guardar credenciales?</translation>
+    </message>
+    <message>
+        <source>Container</source>
+        <translation>Envase</translation>
+        <extracomment>Video streaming container</extracomment>
+    </message>
+    <message>
+        <source>Change Server</source>
+        <translation>Cambiar de servidor</translation>
+    </message>
+    <message>
+        <source>On Now</source>
+        <translation>Ahora</translation>
+    </message>
+    <message>
+        <source>Error Retrieving Content</source>
+        <translation>Error al recuperar contenido</translation>
+        <extracomment>Dialog title when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <source>Sign Out</source>
+        <translation>Desconectar</translation>
+    </message>
+    <message>
+        <source>Delete Saved</source>
+        <translation>Eliminar guardado</translation>
+    </message>
 </context>
 </TS>
