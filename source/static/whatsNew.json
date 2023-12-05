@@ -1,6 +1,6 @@
 [
     {
-        "description": "New Setting: Remember Me setting allowing users to toggle client auto-login",
+        "description": "New Global Setting: Remember Me setting allowing users to toggle client auto-login",
         "author": "cewert"
     },
     {
