@@ -160,7 +160,7 @@ namespace session
                 session.user.Update("LastRunVersion", lastRunVersion)
             else
                 ' new user whos never ran the app before. update lastrunversion in registry
-                set_user_setting("LastRunVersion", m.global.app.lastRunVersion)
+                set_user_setting("LastRunVersion", m.global.app.version)
             end if
 
             ' update user session settings with values from registry
