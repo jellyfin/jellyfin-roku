@@ -21,7 +21,7 @@ sub init()
         }
     }
 
-    whatsNewList = ParseJSON(ReadAsciiFile("pkg:/source/static/whatsNew.json"))
+    whatsNewList = ParseJSON(ReadAsciiFile("pkg:/source/static/whatsNew/" + m.global.app.version.ToStr().trim() + ".json"))
 
     for each item in whatsNewList
         textLine = m.content.CreateChild("StdDlgMultiStyleTextItem")
