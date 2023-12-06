@@ -156,3 +156,15 @@ end function
 sub clearErrorMessage()
     m.top.errorMessage = ""
 end sub
+
+' JFScreen hook.
+' Used to show logo, update the focus, the state of the data, and tells the server about the device profile.
+sub OnScreenShown()
+    scene = m.top.getScene()
+    overhang = scene.findNode("overhang")
+    if isValid(overhang)
+        overhang.isLogoVisible = true
+        overhang.currentUser = ""
+        overhang.title = ""
+    end if
+end sub

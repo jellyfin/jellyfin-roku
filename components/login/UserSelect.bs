@@ -24,6 +24,17 @@ sub redraw()
     m.top.findNode("UserRow").translation = [leftBorder, topBorder]
 end sub
 
+' JFScreen hook.
+' Used to show logo, update the focus, the state of the data, and tells the server about the device profile.
+sub OnScreenShown()
+    scene = m.top.getScene()
+    overhang = scene.findNode("overhang")
+    if isValid(overhang)
+        overhang.isLogoVisible = true
+        overhang.currentUser = ""
+    end if
+end sub
+
 function onKeyEvent(key as string, press as boolean) as boolean
     if not press then return false
 

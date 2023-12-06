@@ -35,10 +35,11 @@ end sub
 sub OnScreenShown()
     scene = m.top.getScene()
     overhang = scene.findNode("overhang")
-
-    ' show the jellyfin logo
-    overhang.callFunc("showLogo")
-    overhang.callFunc("showUser")
+    if isValid(overhang)
+        overhang.isLogoVisible = true
+        overhang.currentUser = m.global.session.user.name
+        overhang.title = tr("Home")
+    end if
 
     if isValid(m.top.lastFocus)
         m.top.lastFocus.setFocus(true)
@@ -66,8 +67,9 @@ sub OnScreenHidden()
     scene = m.top.getScene()
     overhang = scene.findNode("overhang")
     if isValid(overhang)
-        overhang.callFunc("hideLogo")
-        overhang.callFunc("hideUser")
+        overhang.isLogoVisible = false
+        overhang.currentUser = ""
+        overhang.title = ""
     end if
 end sub
 

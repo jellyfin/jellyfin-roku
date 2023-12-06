@@ -529,6 +529,7 @@ function createSeperator(id as string)
     seperator.color = "#666666"
     seperator.width = "2"
     seperator.height = "64"
+    seperator.visible = true
 
     return seperator
 end function
