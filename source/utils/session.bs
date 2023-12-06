@@ -156,11 +156,8 @@ namespace session
 
             ' grab lastRunVersion for this user
             lastRunVersion = get_user_setting("LastRunVersion")
-            if isValid(lastRunVersion) and lastRunVersion = m.global.app.version
-                ' Don't update the registry, only update the global session
+            if isValid(lastRunVersion)
                 session.user.Update("LastRunVersion", lastRunVersion)
-            else
-                set_user_setting("LastRunVersion", m.global.app.version)
             end if
 
             ' update user session settings with values from registry
