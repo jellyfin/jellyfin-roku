@@ -22,10 +22,8 @@
     m.wasMigrated = false
     runGlobalMigrations()
     runRegistryUserMigrations()
-    ' update LastRunVersion now that migrations are finished
-    showWhatsNew = false
+    ' update global LastRunVersion now that migrations are finished
     if m.global.app.version &lt;> m.global.app.lastRunVersion
-        showWhatsNew = true
         set_setting("LastRunVersion", m.global.app.version)
     end if
     if m.wasMigrated then printRegistry()
@@ -76,11 +74,16 @@
         end if
     end if
 
-    ' Show the Whats New popup
-    if showWhatsNew and m.global.session.user.settings["load.allowwhatsnew"]
-        dialog = createObject("roSGNode", "WhatsNewDialog")
-        m.scene.dialog = dialog
-        m.scene.dialog.observeField("buttonSelected", m.port)
+    ' has the current user ran this version before?
+    usersLastRunVersion = m.global.session.user.settings.lastRunVersion
+    if not isValid(usersLastRunVersion) or not versionChecker(m.global.session.user.settings.lastRunVersion, m.global.app.version)
+        set_user_setting("LastRunVersion", m.global.app.version)
+        ' show what's new popup
+        if m.global.session.user.settings["load.allowwhatsnew"]
+            dialog = createObject("roSGNode", "WhatsNewDialog")
+            m.scene.dialog = dialog
+            m.scene.dialog.observeField("buttonSelected", m.port)
+        end if
     end if
 
     ' Handle input messages
