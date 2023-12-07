@@ -73,7 +73,8 @@ sub Main (args as dynamic) as void
     end if
 
     ' has the current user ran this version before?
-    if not versionChecker(m.global.session.user.settings.lastRunVersion, m.global.app.version)
+    usersLastRunVersion = m.global.session.user.settings.lastRunVersion
+    if not isValid(usersLastRunVersion) or not versionChecker(m.global.session.user.settings.lastRunVersion, m.global.app.version)
         set_user_setting("LastRunVersion", m.global.app.version)
         ' show what's new popup
         if m.global.session.user.settings["load.allowwhatsnew"]
