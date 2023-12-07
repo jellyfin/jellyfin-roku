@@ -1241,5 +1241,10 @@
             <translation>Make the arrangement of the Roku home view sections match the web client's home screen. Jellyfin will need to be closed and reopened for change to take effect.</translation>
             <extracomment>User Setting - Setting description</extracomment>
         </message>
+        <message>
+            <source>What's New?</source>
+            <translation>What's New?</translation>
+            <extracomment>Popup title - Popup displays all the major changes to the app since the last version</extracomment>
+        </message>
     </context>
 </TS>
