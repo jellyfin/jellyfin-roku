@@ -51,7 +51,7 @@ jobs:
         if: env.oldManVersion == env.newManVersion
         run: exit 1
       - name: Save new Makefile version
-        run: awk 'BEGIN { FS=" = " } /^VERSION/ { print "newMakeVersion="$2; }' Makefile >> $GITHUB_ENV
+        run: awk 'BEGIN { FS=" := " } /^VERSION/ { print "newMakeVersion="$2; }' Makefile >> $GITHUB_ENV
       - name: Makefile version must be updated
         if: env.oldMakeVersion == env.newMakeVersion
         run: exit 1
