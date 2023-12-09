@@ -6,8 +6,7 @@
     <field id="selectPlaybackInfoPressed" type="boolean" alwaysNotify="true" />
     <field id="PlaySessionId" type="string" />
     <field id="Subtitles" type="array" />
-    <field id="SelectedSubtitle" type="integer" />
-    <field id="captionMode" type="string" />
+    <field id="SelectedSubtitle" type="integer" value="-1" alwaysNotify="true" />
     <field id="container" type="string" />
     <field id="directPlaySupported" type="boolean" />
     <field id="systemOverlay" type="boolean" value="false" />
@@ -22,23 +21,29 @@
 
     <field id="videoId" type="string" />
     <field id="mediaSourceId" type="string" />
+    <field id="fullSubtitleData" type="array" />
     <field id="audioIndex" type="integer" />
+    <field id="allowCaptions" type="boolean" value="false" />
   </interface>
-  <script type="text/brightscript" uri="VideoPlayerView.brs" />
-  <script type="text/brightscript" uri="pkg:/source/utils/misc.brs" />
-  <script type="text/brightscript" uri="pkg:/source/utils/config.brs" />
-  <script type="text/brightscript" uri="pkg:/source/roku_modules/api/api.brs" />
 
   <children>
+    <Group id="captionGroup" translation="[960,1020]" />
     <timer id="playbackTimer" repeat="true" duration="30" />
     <timer id="bufferCheckTimer" repeat="true" />
+    <OSD id="osd" visible="false" inactiveTimeout="5" />
+
+    <Rectangle id="chapterList" visible="false" color="0x00000098" width="400" height="380" translation="[103,210]">
+      <LabelList id="chaptermenu" itemSpacing="[0,20]" numRows="5" font="font:SmallSystemFont" itemSize="[315,40]" translation="[40,20]">
+        <ContentNode id="chapterContent" role="content" />
+      </LabelList>
+    </Rectangle>
 
     <JFButton id="nextEpisode" opacity="0" textColor="#f0f0f0" focusedTextColor="#202020" focusFootprintBitmapUri="pkg:/images/option-menu-bg.9.png" focusBitmapUri="pkg:/images/white.9.png" translation="[1500, 900]" />
     <!--animation for the play next episode button-->
     <Animation id="showNextEpisodeButton" duration="1.0" repeat="false" easeFunction="inQuad">
       <FloatFieldInterpolator key="[0.0, 1.0]" keyValue="[0.0, .9]" fieldToInterp="nextEpisode.opacity" />
     </Animation>
-    <Animation id="hideNextEpisodeButton" duration=".2" repeat="false" easeFunction="inQuad">
+    <Animation id="hideNextEpisodeButton" duration=".25" repeat="false" easeFunction="inQuad">
       <FloatFieldInterpolator key="[0.0, 1.0]" keyValue="[.9, 0]" fieldToInterp="nextEpisode.opacity" />
     </Animation>
   </children>

@@ -3,22 +3,20 @@
   <children>
     <Poster id="seasonPoster" width="300" height="450" translation="[95,175]">
       <Rectangle id="unplayedCount" visible="false" width="90" height="60" color="#00a4dcFF" translation="[210, 0]">
-        <Label id="unplayedEpisodeCount" width="90" height="60" font="font:SmallestBoldSystemFont" horizAlign="center" vertAlign="center" />
+        <Label id="unplayedEpisodeCount" width="90" height="60" font="font:MediumBoldSystemFont" horizAlign="center" vertAlign="center" />
       </Rectangle>
     </Poster>
-    <JFButton id="Shuffle" minChars="10" text="Shuffle" translation="[90, 640]" visible="false"></JFButton>
-    <JFButton id="Random" minChars="12" text="Play Random" translation="[90, 740]" visible="false"></JFButton>
+    <JFButton id="shuffle" minChars="10" text="Shuffle" translation="[90, 640]" visible="false"></JFButton>
+    <JFButton id="extras" minChars="10" text="Extras" translation="[90, 740]" visible="false"></JFButton>
     <TVEpisodeRowWithOptions id="picker" visible="true" />
   </children>
   <interface>
     <field id="episodeSelected" alias="picker.itemSelected" />
-    <field id="quickPlayNode" type="node" alwaysNotify="true" />
+    <field id="selectedItem" type="node" alwaysNotify="true" />
+    <field id="quickPlayNode" type="node" />
     <field id="seasonData" type="assocarray" onChange="setSeasonLoading" />
     <field id="objects" alias="picker.objects" />
+    <field id="episodeObjects" type="assocarray" />
+    <field id="extrasObjects" type="assocarray" onChange="setExtraButtonVisibility" />
   </interface>
-  <script type="text/brightscript" uri="TVEpisodes.brs" />
-  <script type="text/brightscript" uri="pkg:/source/api/Image.brs" />
-  <script type="text/brightscript" uri="pkg:/source/api/baserequest.brs" />
-  <script type="text/brightscript" uri="pkg:/source/utils/config.brs" />
-  <script type="text/brightscript" uri="pkg:/source/utils/misc.brs" />
 </component>

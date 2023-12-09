@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <component name="TVShowDetails" extends="JFGroup">
   <children>
     <LayoutGroup id="toplevel" layoutDirection="vert" itemSpacings="[-10]">
       <LayoutGroup id="main_group" layoutDirection="horiz" itemSpacings="[15]">
         <Poster id="tvshowPoster" width="300" height="450">
           <Rectangle id="unplayedCount" visible="false" width="90" height="60" color="#00a4dcFF" translation="[210, 0]">
-            <Label id="unplayedEpisodeCount" width="90" height="60" font="font:SmallestBoldSystemFont" horizAlign="center" vertAlign="center" />
+            <Label id="unplayedEpisodeCount" width="90" height="60" font="font:MediumBoldSystemFont" horizAlign="center" vertAlign="center" />
           </Rectangle>
         </Poster>
         <LayoutGroup layoutDirection="vert" itemSpacings="[15]">
@@ -31,9 +31,7 @@
   <interface>
     <field id="itemContent" type="node" onChange="itemContentChanged" />
     <field id="seasonData" type="assocarray" alias="seasons.TVSeasonData" />
-    <field id="seasonSelected" alias="seasons.rowItemSelected" />
+    <field id="seasonSelected" alias="seasons.rowItemSelected" alwaysNotify="true" />
+    <field id="quickPlayNode" type="node" alwaysNotify="true" />
   </interface>
-  <script type="text/brightscript" uri="pkg:/source/utils/misc.brs" />
-  <script type="text/brightscript" uri="pkg:/source/utils/config.brs" />
-  <script type="text/brightscript" uri="TVShowDetails.brs" />
 </component>

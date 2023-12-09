@@ -2,10 +2,8 @@
 <component name="HomeRows" extends="RowList">
   <interface>
     <field id="selectedItem" type="node" alwaysNotify="true" />
-    <field id="quickPlayNode" type="node" alwaysNotify="true" />
+    <field id="quickPlayNode" type="node" />
     <function name="updateHomeRows" />
     <function name="loadLibraries" />
   </interface>
-  <script type="text/brightscript" uri="HomeRows.brs" />
-  <script type="text/brightscript" uri="pkg:/source/utils/misc.brs" />
 </component>

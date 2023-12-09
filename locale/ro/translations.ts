@@ -2613,5 +2613,123 @@
         <source>Save Credentials?</source>
         <translation>Salvezi credenţialele?</translation>
     </message>
+    <message>
+        <source>Error During Playback</source>
+        <translation>Eroare în timpul redării</translation>
+        <extracomment>Dialog title when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <comment>Title of Tab for options to sort library content</comment>
+        <source>TAB_SORT</source>
+        <translation>Sortați</translation>
+    </message>
+    <message>
+        <comment>Title of Tab for options to filter library content</comment>
+        <source>TAB_FILTER</source>
+        <translation>Filtrați</translation>
+    </message>
+    <message>
+        <source>On Now</source>
+        <translation>Pornit acum</translation>
+    </message>
+    <message>
+        <source>Special Features</source>
+        <translation>Caracteristici Speciale</translation>
+    </message>
+    <message>
+        <source>Error Retrieving Content</source>
+        <translation>Eroare în obținerea conținutului</translation>
+        <extracomment>Dialog title when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <source>Born</source>
+        <translation>Născut/ă</translation>
+    </message>
+    <message>
+        <source>More Like This</source>
+        <translation>Mai Multe Ca Acesta</translation>
+    </message>
+    <message>
+        <source>Age</source>
+        <translation>Vârstă</translation>
+    </message>
+    <message>
+        <source>Movies</source>
+        <translation>Filme</translation>
+    </message>
+    <message>
+        <source>There was an error retrieving the data for this item from the server.</source>
+        <translation>A avut loc o eroare în obținerea datelor despre acest item al serverului.</translation>
+        <extracomment>Dialog detail when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <source>An error was encountered while playing this item.</source>
+        <translation>A avut loc o eroare în timpul redării.</translation>
+        <extracomment>Dialog detail when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>Loading Channel Data</source>
+        <translation>Se încarcă datele canalului</translation>
+    </message>
+    <message>
+        <source>Error loading Channel Data</source>
+        <translation>Eroare în încărcarea datelor canalului</translation>
+    </message>
+    <message>
+        <source>IMDB_RATING</source>
+        <translation>Recenzie IMDb</translation>
+    </message>
+    <message>
+        <source>RELEASE_DATE</source>
+        <translation>Data lansării</translation>
+    </message>
+    <message>
+        <source>Died</source>
+        <translation>Decedat/ă</translation>
+    </message>
+    <message>
+        <source>Press &apos;OK&apos; to Close</source>
+        <translation>Apăsați &apos;OK&apos; pentru a închide</translation>
+    </message>
+    <message>
+        <source>Additional Parts</source>
+        <translation>Părţi Adiţionale</translation>
+        <extracomment>Additional parts of a video</extracomment>
+    </message>
+    <message>
+        <source>Sunday</source>
+        <translation>duminică</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <comment>Name or Title field of media item</comment>
+        <source>TITLE</source>
+        <translation>Nume</translation>
+    </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>Ține minte?</translation>
+    </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>Salvați datele de conectare?</translation>
+    </message>
+    <message>
+        <source>Error During Playback</source>
+        <translation>Eroare în timpul redării</translation>
+        <extracomment>Dialog title when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>Extras</source>
+        <translation>Extra</translation>
+    </message>
+    <message>
+        <source>Episodes</source>
+        <translation>Episoade</translation>
+    </message>
+    <message>
+        <source>Delete Saved</source>
+        <translation>Şterge salvările</translation>
+    </message>
 </context>
 </TS>

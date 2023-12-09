@@ -1,12 +1,13 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <component name="JFScene" extends="Scene">
   <children>
     <Group id="content" />
     <JFOverhang id="overhang" />
+    <Spinner id="spinner" translation="[897, 477]" visible="false" />
   </children>
   <interface>
+    <field id="disableRemote" type="boolean" value="false" onchange="disableRemoteChanged" />
+    <field id="isLoading" type="boolean" value="false" onchange="isLoadingChanged" />
     <field id="exit" type="boolean" alwaysNotify="true" />
   </interface>
-  <script type="text/brightscript" uri="JFScene.brs" />
-  <script type="text/brightscript" uri="pkg:/source/utils/misc.brs" />
 </component>

@@ -1,0 +1,411 @@
+' these are needed for ServerInfo() inside session.server.Populate()
+import "pkg:/source/api/userauth.bs"
+import "pkg:/source/api/baserequest.bs"
+import "pkg:/source/migrations.bs"
+
+namespace session
+    ' Initialize the global session array
+    sub Init()
+        m.global.addFields({
+            session: {
+                "memoryLevel": "normal",
+                server: {},
+                user: {
+                    Configuration: {},
+                    Policy: {},
+                    settings: {},
+                    lastRunVersion: invalid
+                }
+            }
+        })
+        session.user.settings.SaveDefaults()
+    end sub
+
+    ' Empty the global session array
+    sub Delete()
+        session.server.Delete()
+        session.user.Logout()
+    end sub
+
+    ' Update one value from the global session array (m.global.session)
+    sub Update(key as string, value = {} as object)
+        ' validate parameters
+        if key = "" or (key <> "user" and key <> "server") or value = invalid
+            print "Error in session.Update(): Invalid parameters provided"
+            return
+        end if
+        ' make copy of global session array
+        tmpSession = m.global.session
+        ' update the temp session array
+        tmpSession.AddReplace(key, value)
+        ' use the temp session array to update the global node
+        m.global.setFields({ session: tmpSession })
+        ' print "m.global.session." + key + " = ", m.global.session[key]
+    end sub
+
+    namespace server
+        ' Empty the global server session array
+        sub Delete()
+            session.Update("server")
+        end sub
+
+        ' Add or update one value from the global server session array (m.global.session.server)
+        sub Update(key as string, value as dynamic)
+            ' validate parameters
+            if key = "" or value = invalid then return
+            ' make copy of global server session array
+            tmpSessionServer = m.global.session.server
+            ' update the temp server array
+            tmpSessionServer[key] = value
+
+            session.Update("server", tmpSessionServer)
+        end sub
+
+        ' Add or update the jellyfin server URL from the global server session array (m.global.session.server)
+        ' Returns a boolean based on if a connection to the Jellyfin server was made
+        function UpdateURL(value as string) as boolean
+            ' validate parameters
+            if value = "" then return false
+            session.server.Update("url", value)
+
+            success = session.server.Populate()
+            if not success
+                session.server.Delete()
+            end if
+
+            return success
+        end function
+
+        ' Use the saved server url to populate the global server session array (m.global.session.server)
+        ' Returns a boolean based on if a connection to the Jellyfin server was made
+        function Populate() as boolean
+            ' validate server url
+            if m.global.session.server.url = invalid or m.global.session.server.url = "" then return false
+            ' get server info using API
+            myServerInfo = ServerInfo()
+            ' validate data returned from API
+            if myServerInfo.id = invalid then return false
+            ' make copy of global server session
+            tmpSessionServer = m.global.session.server
+            ' update the temp array
+            tmpSessionServer.AddReplace("id", myServerInfo.Id)
+            tmpSessionServer.AddReplace("name", myServerInfo.ServerName)
+            tmpSessionServer.AddReplace("localURL", myServerInfo.LocalAddress)
+            tmpSessionServer.AddReplace("os", myServerInfo.OperatingSystem)
+            tmpSessionServer.AddReplace("startupWizardCompleted", myServerInfo.StartupWizardCompleted)
+            tmpSessionServer.AddReplace("version", myServerInfo.Version)
+            tmpSessionServer.AddReplace("hasError", myServerInfo.error)
+            ' check urls for https
+            isServerHTTPS = false
+            if tmpSessionServer.url.left(8) = "https://" then isServerHTTPS = true
+            tmpSessionServer.AddReplace("isHTTPS", isServerHTTPS)
+            isLocalServerHTTPS = false
+            if myServerInfo.LocalAddress <> invalid and myServerInfo.LocalAddress.left(8) = "https://" then isLocalServerHTTPS = true
+            tmpSessionServer.AddReplace("isLocalHTTPS", isLocalServerHTTPS)
+            ' update global server session using the temp array
+            session.Update("server", tmpSessionServer)
+
+            if m.global.app.isDev
+                print "m.global.session.server = ", m.global.session.server
+            end if
+
+            return true
+        end function
+    end namespace
+
+    namespace user
+
+        ' Add or update one value from the global user session array (m.global.session.user)
+        sub Update(key as string, value as dynamic)
+            ' validate parameters
+            if key = "" or value = invalid then return
+            ' make copy of global user session
+            tmpSessionUser = m.global.session.user
+            ' update the temp user array
+            tmpSessionUser[key] = value
+            ' update global user session using the temp array
+            session.Update("user", tmpSessionUser)
+        end sub
+
+        ' Update the global session after user is authenticated.
+        ' Accepts a UserData.xml object from get_token() or an assocArray from AboutMe()
+        sub Login(userData as object, saveCredentials = false as boolean)
+            ' validate parameters
+            if userData = invalid or userData.id = invalid then return
+            ' make copy of global user session array
+            tmpSession = m.global.session
+            oldUserSettings = tmpSession.user.settings
+            if userData.json = invalid
+                ' we were passed data from AboutMe()
+                myAuthToken = tmpSession.user.authToken
+                tmpSession.AddReplace("user", userData)
+                tmpSession.user.AddReplace("authToken", myAuthToken)
+            else
+                ' we were passed data from a UserData object
+                tmpSession.AddReplace("user", userData.json.User)
+                tmpSession.user.AddReplace("authToken", userData.json.AccessToken)
+            end if
+            ' remove special characters from name
+            regex = CreateObject("roRegex", "[^a-zA-Z0-9\ \-\_]", "")
+            friendlyName = regex.ReplaceAll(tmpSession.user.name, "")
+            tmpSession.user.AddReplace("friendlyName", friendlyName)
+
+            tmpSession.user.AddReplace("settings", oldUserSettings)
+            ' update global user session
+            session.Update("user", tmpSession.user)
+
+            ' grab lastRunVersion for this user
+            lastRunVersion = get_user_setting("LastRunVersion")
+            if isValid(lastRunVersion)
+                session.user.Update("LastRunVersion", lastRunVersion)
+            end if
+
+            ' update user session settings with values from registry
+            userSettings = RegistryReadAll(tmpSession.user.id)
+            for each setting in userSettings
+                ' don't add auth token to user session
+                if setting <> "token"
+                    session.user.settings.Save(setting, userSettings[setting])
+                end if
+            end for
+
+            if m.global.app.isDev
+                print "m.global.session.user = ", m.global.session.user
+                print "m.global.session.user.Configuration = ", m.global.session.user.Configuration
+                print "m.global.session.user.Policy = ", m.global.session.user.Policy
+                print "m.global.session.user.settings = ", m.global.session.user.settings
+            end if
+
+            set_user_setting("serverId", m.global.session.server.id)
+
+            if saveCredentials
+                set_user_setting("token", tmpSession.user.authToken)
+                set_user_setting("username", tmpSession.user.name)
+            end if
+
+            if m.global.session.user.settings["global.rememberme"]
+                set_setting("active_user", tmpSession.user.id)
+            end if
+
+            session.user.LoadUserPreferences()
+        end sub
+
+        ' Sets the global server device name value used by the API
+        sub SetServerDeviceName()
+            if isValid(m.global.session.user) and isValid(m.global.session.user.friendlyName)
+                m.global.device.serverDeviceName = m.global.device.id + m.global.session.user.friendlyName
+            else
+                m.global.device.serverDeviceName = m.global.device.id
+            end if
+        end sub
+
+        ' Load and parse Display Settings from server
+        sub LoadUserPreferences()
+            ' Save device id so we don't calculate it every time we need it
+            session.user.SetServerDeviceName()
+
+            id = m.global.session.user.id
+            ' Currently using client "emby", which is what website uses so we get same Display prefs as web.
+            ' May want to change to specific Roku display settings
+            url = Substitute("DisplayPreferences/usersettings?userId={0}&client=emby", id)
+            resp = APIRequest(url)
+            jsonResponse = getJson(resp)
+
+            if isValid(jsonResponse) and isValid(jsonResponse.CustomPrefs)
+                session.user.SaveUserHomeSections(jsonResponse.CustomPrefs)
+
+                if isValid(jsonResponse.CustomPrefs["landing-livetv"])
+                    set_user_setting("display.livetv.landing", jsonResponse.CustomPrefs["landing-livetv"])
+                else
+                    unset_user_setting("display.livetv.landing")
+                end if
+            else
+                ' User has no custom prefs. Save default home section values.
+                session.user.SaveUserHomeSections({
+                    homesection0: "smalllibrarytiles",
+                    homesection1: "resume",
+                    homesection2: "nextup",
+                    homesection3: "latestmedia",
+                    homesection4: "livetv",
+                    homesection5: "none",
+                    homesection6: "none"
+                })
+
+                unset_user_setting("display.livetv.landing")
+            end if
+        end sub
+
+        ' Saves user's web client home sections as Roku user settings.
+        ' Handles unsupported sections and ignores duplicates.
+        sub SaveUserHomeSections(customPrefs as object)
+            userPreferences = customPrefs
+            rowTypes = []
+
+            useWebSectionArrangement = m.global.session.user.settings["ui.home.useWebSectionArrangement"]
+
+            if isValid(useWebSectionArrangement)
+                if not useWebSectionArrangement
+                    userPreferences.delete("homesection0")
+                end if
+            end if
+
+            ' If user has no section preferences, use default settings
+            if not userPreferences.doesExist("homesection0")
+                userPreferences = {
+                    homesection0: "smalllibrarytiles",
+                    homesection1: "resume",
+                    homesection2: "nextup",
+                    homesection3: "latestmedia",
+                    homesection4: "livetv",
+                    homesection5: "none",
+                    homesection6: "none"
+                }
+            end if
+
+            for i = 0 to 6
+                homeSectionKey = "homesection" + i.toStr()
+
+                ' If home section doesn't exist, create it as a none row
+                if not userPreferences.DoesExist(homeSectionKey)
+                    userPreferences.AddReplace(homeSectionKey, "none")
+                end if
+
+                rowType = LCase(userPreferences[homeSectionKey])
+
+                ' Just in case we get invalid data
+                if not isValid(rowType) then rowType = "none"
+
+                ' Small size library item buttons - Currently unsupported, use small library titles
+                if rowType = "librarybuttons"
+                    rowType = "smalllibrarytiles"
+                end if
+
+                ' None is the only section type allowed to have duplicates
+                ' For all other types, only accept the 1st entry
+                if inArray(rowTypes, rowType)
+                    set_user_setting(homeSectionKey, "none")
+                else
+                    set_user_setting(homeSectionKey, rowType)
+
+                    if rowType <> "none"
+                        rowTypes.push(rowType)
+                    end if
+                end if
+            end for
+        end sub
+
+        ' Empty the global user session array and reload defaults
+        sub Logout()
+            session.Update("user", {
+                Configuration: {},
+                Policy: {},
+                settings: {}
+            })
+            ' reload default user settings
+            session.user.settings.SaveDefaults()
+        end sub
+
+        namespace settings
+            ' Delete the user setting from the global session (m.global.session.user.settings)
+            sub Delete(name as string)
+                ' validate parameters
+                if name = "" then return
+                tmpSettingArray = m.global.session.user.settings
+                ' update the temp user array
+                tmpSettingArray.Delete(name)
+                ' update global user session using the temp array
+                session.user.Update("settings", tmpSettingArray)
+            end sub
+
+            ' Read the user setting from the global session (m.global.session.user.settings)
+            function Read(name as string) as dynamic
+                ' validate parameters
+                if name = "" then return invalid
+
+                if m.global.session.user.settings[name] <> invalid
+                    return m.global.session.user.settings[name]
+                else
+                    return invalid
+                end if
+            end function
+
+            ' retrieve all default user settings from Config Tree
+            sub SaveDefaults()
+                configTree = GetConfigTree()
+                if configTree = invalid then return
+
+                for each item in configTree
+                    if item.default <> invalid and item.settingName <> invalid
+                        session.user.settings.Save(item.settingName, item.default)
+                    else if item.children <> invalid and item.children.Count() > 0
+                        for each child in item.children
+                            if child.default <> invalid and child.settingName <> invalid
+                                session.user.settings.Save(child.settingName, child.default)
+                            else if child.children <> invalid and child.children.Count() > 0
+                                for each child in child.children
+                                    if child.default <> invalid and child.settingName <> invalid
+                                        session.user.settings.Save(child.settingName, child.default)
+                                    else if child.children <> invalid and child.children.Count() > 0
+                                        for each child in child.children
+                                            if child.default <> invalid and child.settingName <> invalid
+                                                session.user.settings.Save(child.settingName, child.default)
+                                            else if child.children <> invalid and child.children.Count() > 0
+                                                for each child in child.children
+                                                    if child.default <> invalid and child.settingName <> invalid
+                                                        session.user.settings.Save(child.settingName, child.default)
+                                                    else if child.children <> invalid and child.children.Count() > 0
+                                                        for each child in child.children
+                                                            if child.default <> invalid and child.settingName <> invalid
+                                                                session.user.settings.Save(child.settingName, child.default)
+                                                            end if
+                                                        end for
+                                                    end if
+                                                end for
+                                            end if
+                                        end for
+                                    end if
+                                end for
+                            end if
+                        end for
+                    end if
+                end for
+
+                ' load globals
+                session.user.settings.LoadGlobals()
+            end sub
+
+            ' Grab global vars from registry and overwrite defaults
+            sub LoadGlobals()
+                ' search main registry block for all keys that start with "global."
+                jfRegistry = RegistryReadAll("Jellyfin")
+                for each item in jfRegistry
+                    if Left(item, 7) = "global."
+                        session.user.settings.Save(item, get_setting(item))
+                    end if
+                end for
+
+                ' Reset server device name state
+                session.user.SetServerDeviceName()
+            end sub
+
+            ' Saves the user setting to the global session.
+            ' This also converts strings to boolean as necessary before saving to global session
+            sub Save(name as string, value as string)
+                if name = invalid or value = invalid then return
+                tmpSettingArray = m.global.session.user.settings
+                convertedValue = value
+
+                ' convert to boolean
+                if value = "true"
+                    convertedValue = true
+                else if value = "false"
+                    convertedValue = false
+                end if
+
+                tmpSettingArray[name] = convertedValue
+
+                session.user.Update("settings", tmpSettingArray)
+            end sub
+        end namespace
+    end namespace
+end namespace

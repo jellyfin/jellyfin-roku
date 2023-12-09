@@ -1,0 +1,38 @@
+{
+  "files": [
+    {
+      "src": "test-app/**/*"
+    },
+    {
+      "src": "source/**/!(Main.brs)",
+      "dest": "source"
+    },
+    {
+      "src": "components/**/*",
+      "dest": "components"
+    },
+    {
+      "src": "locale/**/*",
+      "dest": "locale"
+    },
+    {
+      "src": "settings/**/*",
+      "dest": "settings"
+    }
+  ],
+  "diagnosticFilters": ["node_modules/**/*", "**/roku_modules/**/*"],
+  "autoImportComponentScript": true,
+  "allowBrighterScriptInBrightScript": true,
+  "stagingFolderPath": "build",
+  "plugins": ["rooibos-roku"],
+  "rooibos": {
+    "isRecordingCodeCoverage": false,
+    "testsFilePattern": null,
+    "showOnlyFailures": true,
+    "catchCrashes": true,
+    "lineWidth": 70,
+    "failFast": false,
+    "sendHomeOnFinish": false
+  },
+  "sourceMap": true
+}

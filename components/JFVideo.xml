@@ -23,11 +23,6 @@
     <field id="mediaSourceId" type="string" />
     <field id="audioIndex" type="integer" />
   </interface>
-  <script type="text/brightscript" uri="JFVideo.brs" />
-  <script type="text/brightscript" uri="pkg:/source/utils/misc.brs" />
-  <script type="text/brightscript" uri="pkg:/source/utils/config.brs" />
-  <script type="text/brightscript" uri="pkg:/source/roku_modules/api/api.brs" />
-
   <children>
     <Group id="captionGroup" translation="[960,1020]"></Group>
 
@@ -45,7 +40,7 @@
     <Animation id="showNextEpisodeButton" duration="1.0" repeat="false" easeFunction="inQuad">
       <FloatFieldInterpolator key="[0.0, 1.0]" keyValue="[0.0, .9]" fieldToInterp="nextEpisode.opacity" />
     </Animation>
-    <Animation id="hideNextEpisodeButton" duration=".2" repeat="false" easeFunction="inQuad">
+    <Animation id="hideNextEpisodeButton" duration=".25" repeat="false" easeFunction="inQuad">
       <FloatFieldInterpolator key="[0.0, 1.0]" keyValue="[.9, 0]" fieldToInterp="nextEpisode.opacity" />
     </Animation>
   </children>

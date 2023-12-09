@@ -177,6 +177,14 @@
             <translation>Server</translation>
         </message>
         <message>
+            <source>Extras</source>
+            <translation>Extras</translation>
+        </message>
+        <message>
+            <source>Episodes</source>
+            <translation>Episodes</translation>
+        </message>
+        <message>
             <source>Error Retrieving Content</source>
             <translation>Error Retrieving Content</translation>
             <extracomment>Dialog title when unable to load Content from Server</extracomment>
@@ -524,16 +532,6 @@
             <source>Support Direct Play of MPEG-4 content. This may need to be disabled for playback of DIVX encoded video files.</source>
             <translation>Support Direct Play of MPEG-4 content. This may need to be disabled for playback of DIVX encoded video files.</translation>
             <extracomment>Settings Menu - Description for option</extracomment>
-        </message>
-        <message>
-            <source>AV1</source>
-            <translation>AV1</translation>
-            <extracomment>Name of a setting - should we try to direct play experimental av1 codec</extracomment>
-        </message>
-        <message>
-            <source>** EXPERIMENTAL** Support Direct Play of AV1 content if this Roku device supports it.</source>
-            <translation>** EXPERIMENTAL** Support Direct Play of AV1 content if this Roku device supports it.</translation>
-            <extracomment>Description of a setting - should we try to direct play experimental av1 codec</extracomment>
         </message>
         <message>
             <source>Enabled</source>
@@ -979,8 +977,16 @@
             <translation>Artists (Presentation)</translation>
         </message>
         <message>
+            <source>Album Artists (Presentation)</source>
+            <translation>Album Artists (Presentation)</translation>
+        </message>
+        <message>
             <source>Artists (Grid)</source>
             <translation>Artists (Grid)</translation>
+        </message>
+        <message>
+            <source>Album Artists (Grid)</source>
+            <translation>Album Artists (Grid)</translation>
         </message>
         <message>
             <source>Song</source>
@@ -1023,8 +1029,8 @@
             <translation>Enable Limit</translation>
         </message>
         <message>
-            <source>Enable or disable  the 'Maximum Bitrate' setting.</source>
-            <translation>Enable or disable  the 'Maximum Bitrate' setting.</translation>
+            <source>Enable or disable the 'Maximum Bitrate' setting.</source>
+            <translation>Enable or disable the 'Maximum Bitrate' setting.</translation>
         </message>
         <message>
             <source>Bitrate Limit</source>
@@ -1105,6 +1111,140 @@
             <source>Set how many seconds before the end of an episode the Next Episode button should appear. Set to 0 to disable.</source>
             <translation>Set how many seconds before the end of an episode the Next Episode button should appear. Set to 0 to disable.</translation>
             <extracomment>Settings Menu - Description for option</extracomment>
+        </message>
+        <message>
+            <source>Choose your preferred audio codec when transcoding multichannel audio.</source>
+            <translation>Choose your preferred audio codec when transcoding multichannel audio.</translation>
+            <extracomment>Settings Menu - Description for option</extracomment>
+        </message>
+        <message>
+            <source>Force all transcodes to use DTS instead of the default EAC3. The device must support DTS for this setting to have an effect.</source>
+            <translation>Force all transcodes to use DTS instead of the default EAC3. The device must support DTS for this setting to have an effect.</translation>
+            <extracomment>Settings Menu - Description for option</extracomment>
+        </message>
+        <message>
+            <source>Audio Codec Support</source>
+            <translation>Audio Codec Support</translation>
+            <extracomment>Settings Menu - Title of option</extracomment>
+        </message>
+        <message>
+            <source>Direct playing</source>
+            <translation>Direct playing</translation>
+        </message>
+        <message>
+            <source>The source file is entirely compatible with this client and the session is receiving the file without modifications.</source>
+            <translation>The source file is entirely compatible with this client and the session is receiving the file without modifications.</translation>
+            <extracomment>Direct play info box text in GetPlaybackInfoTask.brs</extracomment>
+        </message>
+        <message>
+            <source>Maximum Resolution</source>
+            <translation>Maximum Resolution</translation>
+            <extracomment>User Setting - Title</extracomment>
+        </message>
+        <message>
+            <source>Set the maximum resolution when playing video files on this device.</source>
+            <translation>Set the maximum resolution when playing video files on this device.</translation>
+            <extracomment>User Setting - Description</extracomment>
+        </message>
+        <message>
+            <source>Off - Attempt to play all resolutions</source>
+            <translation>Off - Attempt to play all resolutions</translation>
+            <extracomment>User Setting - Option title</extracomment>
+        </message>
+        <message>
+            <source>Auto - Use TV resolution</source>
+            <translation>Auto - Use TV resolution</translation>
+            <extracomment>User Setting - Option title</extracomment>
+        </message>
+        <message>
+            <source>Mode</source>
+            <translation>Mode</translation>
+            <extracomment>User Setting - Setting title</extracomment>
+        </message>
+        <message>
+            <source>Value</source>
+            <translation>Value</translation>
+            <extracomment>User Setting - Setting title</extracomment>
+        </message>
+        <message>
+            <source>Configure the maximum resolution when playing video files on this device.</source>
+            <translation>Configure the maximum resolution when playing video files on this device.</translation>
+            <extracomment>User Setting - Description</extracomment>
+        </message>
+        <message>
+            <source>Apply max resolution to all files or only transcoded files.</source>
+            <translation>Apply max resolution to all files or only transcoded files.</translation>
+            <extracomment>User Setting - Description</extracomment>
+        </message>
+        <message>
+            <source>All files</source>
+            <translation>All files</translation>
+            <extracomment>User Setting - Setting title</extracomment>
+        </message>
+        <message>
+            <source>Only transcoded files</source>
+            <translation>Only transcoded files</translation>
+            <extracomment>User Setting - Setting title</extracomment>
+        </message>
+        <message>
+            <source>Compatibility</source>
+            <translation>Compatibility</translation>
+            <extracomment>User Setting - Setting title</extracomment>
+        </message>
+        <message>
+            <source>Attempt to prevent playback failures.</source>
+            <translation>Attempt to prevent playback failures.</translation>
+            <extracomment>User Setting - Setting description</extracomment>
+        </message>
+        <message>
+            <source>Disable HEVC</source>
+            <translation>Disable HEVC</translation>
+            <extracomment>User Setting - Setting title</extracomment>
+        </message>
+        <message>
+            <source>Disable the HEVC codec on this device. This may improve playback for some devices (ultra).</source>
+            <translation>Disable the HEVC codec on this device. This may improve playback for some devices (ultra).</translation>
+            <extracomment>User Setting - Setting description</extracomment>
+        </message>
+        <message>
+            <source>Global</source>
+            <translation>Global</translation>
+            <extracomment>User Setting - Setting title</extracomment>
+        </message>
+        <message>
+            <source>Global settings that affect everyone that uses this Roku device.</source>
+            <translation>Global settings that affect everyone that uses this Roku device.</translation>
+            <extracomment>User Setting - Setting description</extracomment>
+        </message>
+        <message>
+            <source>Remember Me?</source>
+            <translation>Remember Me?</translation>
+            <extracomment>User Setting - Setting title</extracomment>
+        </message>
+        <message>
+            <source>Remember the currently logged in user and try to log them in again next time you start the Jellyfin app.</source>
+            <translation>Remember the currently logged in user and try to log them in again next time you start the Jellyfin app.</translation>
+            <extracomment>User Setting - Setting description</extracomment>
+        </message>
+        <message>
+            <source>No Chapter Data Found</source>
+            <translation>No Chapter Data Found</translation>
+            <extracomment>Message shown in OSD when no chapter data is returned by the API</extracomment>
+        </message>
+        <message>
+            <source>Use Web Client's Home Section Arrangement</source>
+            <translation>Use Web Client's Home Section Arrangement</translation>
+            <extracomment>User Setting - Setting title</extracomment>
+        </message>
+        <message>
+            <source>Make the arrangement of the Roku home view sections match the web client's home screen. Jellyfin will need to be closed and reopened for change to take effect.</source>
+            <translation>Make the arrangement of the Roku home view sections match the web client's home screen. Jellyfin will need to be closed and reopened for change to take effect.</translation>
+            <extracomment>User Setting - Setting description</extracomment>
+        </message>
+        <message>
+            <source>What's New?</source>
+            <translation>What's New?</translation>
+            <extracomment>Popup title - Popup displays all the major changes to the app since the last version</extracomment>
         </message>
     </context>
 </TS>

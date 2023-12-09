@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <component name="UserData" extends="ContentNode">
   <interface>
     <field id="id" type="string" />
@@ -11,8 +11,5 @@
     <function name="setPreference" />
     <function name="loadFromRegistry" />
     <function name="saveToRegistry" />
-    <function name="setActive" />
   </interface>
-  <script type="text/brightscript" uri="pkg:/source/utils/config.brs" />
-  <script type="text/brightscript" uri="UserData.brs" />
 </component>

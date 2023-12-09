@@ -1,0 +1,43 @@
+# Simple workflow for deploying static content to GitHub Pages
+name: deploy-api-docs
+
+on:
+  push:
+    branches: ["unstable"]
+    paths: ["docs/**"] # only run if the docs are updated
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: github.repository == 'jellyfin/jellyfin-roku'
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+      - name: Setup Pages
+        uses: actions/configure-pages@1f0c5cde4bc74cd7e1254d0cb4de8d49e9068c7d # v4
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@a753861a5debcf57bf8b404356158c8e1e33150c # v2
+        with:
+          # Only upload the api docs folder
+          path: "docs/api"
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@77d7344265e1f960dab5c00dbff52287a70b0d4f # v3
