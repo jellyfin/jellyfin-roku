@@ -31,7 +31,7 @@ jobs:
       - name: Save old manifest version
         run: echo "oldManVersion=${{ env.oldMajor }}.${{ env.oldMinor }}.${{ env.oldBuild }}" >> $GITHUB_ENV
       - name: Save old Makefile version
-        run: awk 'BEGIN { FS=" = " } /^VERSION/ { print "oldMakeVersion="$2; }' Makefile >> $GITHUB_ENV
+        run: awk 'BEGIN { FS=" := " } /^VERSION/ { print "oldMakeVersion="$2; }' Makefile >> $GITHUB_ENV
       - name: Checkout PR branch
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
       - name: Save new package.json version
