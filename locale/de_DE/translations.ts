@@ -14252,5 +14252,145 @@
         <translation>Die Quelldatei ist vollständig kompatibel mit diesem Client, und die Sitzung empfängt die Datei ohne Änderungen.</translation>
         <extracomment>Direct play info box text in GetPlaybackInfoTask.brs</extracomment>
     </message>
+    <message>
+        <source>On Now</source>
+        <translation>Läuft gerade</translation>
+    </message>
+    <message>
+        <source>RELEASE_DATE</source>
+        <translation>Veröffentlichungsdatum</translation>
+    </message>
+    <message>
+        <source>yesterday</source>
+        <translation>gestern</translation>
+        <extracomment>Previous day</extracomment>
+    </message>
+    <message>
+        <source>tomorrow</source>
+        <translation>morgen</translation>
+        <extracomment>Next day</extracomment>
+    </message>
+    <message>
+        <source>Wednesday</source>
+        <translation>Mittwoch</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Started at</source>
+        <translation>Gestartet bei</translation>
+        <extracomment>(Past Tense) For defining time when a program started today (e.g. Started at 08:00) </extracomment>
+    </message>
+    <message>
+        <source>Ended at</source>
+        <translation>Geendet bei</translation>
+        <extracomment>(Past Tense) For defining time when a program will ended (e.g. Ended at 08:00) </extracomment>
+    </message>
+    <message>
+        <source>Repeat</source>
+        <translation>Wiederholung</translation>
+        <extracomment>If TV Shows has previously been broadcasted</extracomment>
+    </message>
+    <message>
+        <source>Record</source>
+        <translation>Aufnehmen</translation>
+    </message>
+    <message>
+        <source>Cancel Recording</source>
+        <translation>Aufnahme abbrechen</translation>
+    </message>
+    <message>
+        <source>Connecting to Server</source>
+        <translation>Verbindung zum Server wird hergestellt</translation>
+        <extracomment>Message to display to user while client is attempting to connect to the server</extracomment>
+    </message>
+    <message>
+        <source>Pick a Jellyfin server from the local network</source>
+        <translation>Wähle einen verfügbaren Jellyfin Server aus deinem localen Netzwerk</translation>
+        <extracomment>Instructions on initial app launch when the user is asked to pick a server from a list</extracomment>
+    </message>
+    <message>
+        <source>Change Server</source>
+        <translation>Server wechseln</translation>
+    </message>
+    <message>
+        <source>Tuesday</source>
+        <translation>Dienstag</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Record Series</source>
+        <translation>Serie Aufnehmen</translation>
+    </message>
+    <message>
+        <source>Sign Out</source>
+        <translation>Ausloggen</translation>
+    </message>
+    <message>
+        <source>Episodes</source>
+        <translation>Episoden</translation>
+    </message>
+    <message>
+        <source>Sunday</source>
+        <translation>Sonntag</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Monday</source>
+        <translation>Montag</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Thursday</source>
+        <translation>Donnerstag</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Started</source>
+        <translation>Gestartet</translation>
+        <extracomment>(Past Tense) For defining a day and time when a program started (e.g. Started Wednesday, 08:00) </extracomment>
+    </message>
+    <message>
+        <source>Channels</source>
+        <translation>Sender</translation>
+        <extracomment>Menu option for showing Live TV Channel List</extracomment>
+    </message>
+    <message>
+        <source>Friday</source>
+        <translation>Freitag</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>...or enter server URL manually:</source>
+        <translation>Wenn oben kein Server angezeigt wird, kannst du auch eine Server URL manuell eingeben:</translation>
+        <extracomment>Instructions on initial app launch when the user is asked to manually enter a server URL</extracomment>
+    </message>
+    <message>
+        <source>An error was encountered while playing this item.</source>
+        <translation>Ein Fehler bei der Wiedergabe dieses Inhalts ist aufgetreten.</translation>
+        <extracomment>Dialog detail when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>Saturday</source>
+        <translation>Samstag</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Not found</source>
+        <translation>Wurde nicht gefunden</translation>
+        <extracomment>Title of message box when the requested content is not found on the server</extracomment>
+    </message>
+    <message>
+        <source>IMDB_RATING</source>
+        <translation>IMDb Bewertung</translation>
+    </message>
+    <message>
+        <source>Error Retrieving Content</source>
+        <translation>Fehler biem laden des Inhalts</translation>
+        <extracomment>Dialog title when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation>Schließen</translation>
+    </message>
 </context>
 </TS>
