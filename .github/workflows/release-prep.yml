@@ -73,7 +73,7 @@ jobs:
         run: npm run ropm
       - name: Build app for production
         run: npm run build-prod
-      - uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32 # v3
+      - uses: actions/upload-artifact@c7d193f32edcb7bfad88892161225aeda64e9392 # v4
         with:
           name: Jellyfin-Roku-v${{ env.newManVersion }}-${{ github.sha }}
           path: ${{ github.workspace }}/build/staging
