@@ -1,8 +1,11 @@
+import "pkg:/source/utils/misc.bs"
+
 sub init()
     m.top.optionsAvailable = false
 end sub
 
 sub itemContentChanged()
+    stopLoadingSpinner()
     m.top.findNode("UserRow").ItemContent = m.top.itemContent
     redraw()
 end sub

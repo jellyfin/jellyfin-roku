@@ -83,7 +83,7 @@ end sub
 'Load initial set of Data
 sub loadInitialItems()
     m.loadItemsTask.control = "stop"
-    m.spinner.visible = true
+    startLoadingSpinner()
 
     if m.top.parentItem.json.Type = "CollectionFolder" 'or m.top.parentItem.json.Type = "Folder"
         m.top.HomeLibraryItem = m.top.parentItem.Id
@@ -227,7 +227,7 @@ sub loadInitialItems()
     end if
 
     m.loadItemsTask.observeField("content", "ItemDataLoaded")
-    m.spinner.visible = true
+    startLoadingSpinner(false)
     m.loadItemsTask.control = "RUN"
     SetUpOptions()
 end sub
@@ -444,6 +444,7 @@ sub ItemDataLoaded(msg)
 
     if itemData = invalid
         m.Loading = false
+        stopLoadingSpinner()
         return
     end if
 
@@ -462,7 +463,7 @@ sub ItemDataLoaded(msg)
         m.genreList.setFocus(true)
 
         m.loading = false
-        m.spinner.visible = false
+        stopLoadingSpinner()
         return
     end if
 
@@ -493,6 +494,7 @@ sub ItemDataLoaded(msg)
     end if
 
     m.spinner.visible = false
+    stopLoadingSpinner()
 end sub
 
 '
@@ -565,8 +567,9 @@ end sub
 '
 'Load next set of items
 sub loadMoreData()
-    m.spinner.visible = true
     if m.Loading = true then return
+
+    startLoadingSpinner(false)
     m.Loading = true
     m.loadItemsTask.startIndex = m.loadedItems
     m.loadItemsTask.observeField("content", "ItemDataLoaded")
@@ -854,7 +857,6 @@ function onKeyEvent(key as string, press as boolean) as boolean
     end if
 
     if key = "replay"
-        m.spinner.visible = true
         m.loadItemsTask.searchTerm = ""
         m.loadItemsTask.nameStartsWith = ""
         m.voiceBox.text = ""

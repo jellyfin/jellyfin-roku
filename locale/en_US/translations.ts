@@ -1231,5 +1231,20 @@
             <translation>No Chapter Data Found</translation>
             <extracomment>Message shown in OSD when no chapter data is returned by the API</extracomment>
         </message>
+        <message>
+            <source>Use Web Client's Home Section Arrangement</source>
+            <translation>Use Web Client's Home Section Arrangement</translation>
+            <extracomment>User Setting - Setting title</extracomment>
+        </message>
+        <message>
+            <source>Make the arrangement of the Roku home view sections match the web client's home screen. Jellyfin will need to be closed and reopened for change to take effect.</source>
+            <translation>Make the arrangement of the Roku home view sections match the web client's home screen. Jellyfin will need to be closed and reopened for change to take effect.</translation>
+            <extracomment>User Setting - Setting description</extracomment>
+        </message>
+        <message>
+            <source>What's New?</source>
+            <translation>What's New?</translation>
+            <extracomment>Popup title - Popup displays all the major changes to the app since the last version</extracomment>
+        </message>
     </context>
 </TS>
