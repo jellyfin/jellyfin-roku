@@ -10735,5 +10735,196 @@
         <source>NO_ITEMS</source>
         <translation>Ce %1 ne contient pas d&apos;éléments</translation>
     </message>
+    <message>
+        <source>Video Codec</source>
+        <translation>Codec Vidéo</translation>
+    </message>
+    <message>
+        <source>Sunday</source>
+        <translation>Dimanche</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Support Direct Play of MPEG-4 content. This may need to be disabled for playback of DIVX encoded video files.</source>
+        <translation>Prise en charge de la lecture directe du contenu MPEG-4. Il faudra peut-être désactiver cette option pour la lecture des fichiers vidéo encodés au format DIVX.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Tuesday</source>
+        <translation>Mardi</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Wednesday</source>
+        <translation>Mercredi</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Started at</source>
+        <translation>A débuté à</translation>
+        <extracomment>(Past Tense) For defining time when a program started today (e.g. Started at 08:00) </extracomment>
+    </message>
+    <message>
+        <source>Starts at</source>
+        <translation>Débute à</translation>
+        <extracomment>(Future Tense) For defining time when a program will start today (e.g. Starts at 08:00) </extracomment>
+    </message>
+    <message>
+        <source>Starts</source>
+        <translation>Débute</translation>
+        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g. Starts Wednesday, 08:00) </extracomment>
+    </message>
+    <message>
+        <source>Ended at</source>
+        <translation>A fini à</translation>
+        <extracomment>(Past Tense) For defining time when a program will ended (e.g. Ended at 08:00) </extracomment>
+    </message>
+    <message>
+        <source>Live</source>
+        <translation>En direct</translation>
+        <extracomment>If TV Show is being broadcast live (not pre-recorded)</extracomment>
+    </message>
+    <message>
+        <source>Repeat</source>
+        <translation>Répéter</translation>
+        <extracomment>If TV Shows has previously been broadcasted</extracomment>
+    </message>
+    <message>
+        <source>TV Guide</source>
+        <translation>Guide TV</translation>
+        <extracomment>Menu option for showing Live TV Guide / Schedule</extracomment>
+    </message>
+    <message>
+        <source>User Interface</source>
+        <translation>Interface utilisateur</translation>
+        <extracomment>Title for User Interface section in user setting screen.</extracomment>
+    </message>
+    <message>
+        <source>IMDB_RATING</source>
+        <translation>Score IMDb</translation>
+    </message>
+    <message>
+        <comment>Title of Tab for options to filter library content</comment>
+        <source>TAB_FILTER</source>
+        <translation>Filtrer</translation>
+    </message>
+    <message>
+        <source>Died</source>
+        <translation>Mort</translation>
+    </message>
+    <message>
+        <source>Cast &amp; Crew</source>
+        <translation>Casting et Equipe</translation>
+    </message>
+    <message>
+        <source>More Like This</source>
+        <translation>Contenu similaire</translation>
+    </message>
+    <message>
+        <source>Special Features</source>
+        <translation>Fonctionnalités spéciales</translation>
+    </message>
+    <message>
+        <source>Movies (Presentation)</source>
+        <translation>Films (Présentation)</translation>
+        <extracomment>Movie library view option</extracomment>
+    </message>
+    <message>
+        <source>today</source>
+        <translation>aujourd&apos;hui</translation>
+        <extracomment>Current day</extracomment>
+    </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>Sauvegarder vos identifiants ?</translation>
+    </message>
+    <message>
+        <source>Monday</source>
+        <translation>Lundi</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Ends at</source>
+        <translation>Fini à</translation>
+        <extracomment>(Past Tense) For defining a day and time when a program ended (e.g. Ended Wednesday, 08:00) </extracomment>
+    </message>
+    <message>
+        <source>Press &apos;OK&apos; to Close</source>
+        <translation>Appuyez sur «OK» pour fermer</translation>
+    </message>
+    <message>
+        <source>Thursday</source>
+        <translation>Jeudi</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Friday</source>
+        <translation>Vendredi</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Channels</source>
+        <translation>Chaînes</translation>
+        <extracomment>Menu option for showing Live TV Channel List</extracomment>
+    </message>
+    <message>
+        <source>yesterday</source>
+        <translation>hier</translation>
+        <extracomment>Previous day</extracomment>
+    </message>
+    <message>
+        <source>Additional Parts</source>
+        <translation>Contenu supplémentaire</translation>
+        <extracomment>Additional parts of a video</extracomment>
+    </message>
+    <message>
+        <source>Movies</source>
+        <translation>Films</translation>
+    </message>
+    <message>
+        <source>Movies (Grid)</source>
+        <translation>Films (Grille)</translation>
+        <extracomment>Movie library view option</extracomment>
+    </message>
+    <message>
+        <source>Born</source>
+        <translation>Né</translation>
+    </message>
+    <message>
+        <source>Studios</source>
+        <translation>Studios</translation>
+    </message>
+    <message>
+        <source>TV Shows</source>
+        <translation>Émissions TV</translation>
+    </message>
+    <message>
+        <source>Saturday</source>
+        <translation>Samedi</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Started</source>
+        <translation>A débuté</translation>
+        <extracomment>(Past Tense) For defining a day and time when a program started (e.g. Started Wednesday, 08:00) </extracomment>
+    </message>
+    <message>
+        <source>Direct playing</source>
+        <translation>Lecture en directe</translation>
+    </message>
+    <message>
+        <source>Size</source>
+        <translation>Taille</translation>
+        <extracomment>Video size</extracomment>
+    </message>
+    <message>
+        <source>Age</source>
+        <translation>Âge</translation>
+    </message>
+    <message>
+        <source>tomorrow</source>
+        <translation>demain</translation>
+        <extracomment>Next day</extracomment>
+    </message>
 </context>
 </TS>
