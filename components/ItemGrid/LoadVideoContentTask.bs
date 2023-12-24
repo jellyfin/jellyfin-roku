@@ -84,7 +84,6 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
         else if isValid(meta.json.Name)
             meta.title = meta.json.Name
         end if
-        meta.showID = meta.json.id
         meta.live = true
         if LCase(meta.json.type) = "program"
             video.id = meta.json.ChannelId
