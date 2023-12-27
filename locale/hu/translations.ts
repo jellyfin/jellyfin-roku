@@ -11589,5 +11589,35 @@
         <source>Save Credentials?</source>
         <translation>Menti a bejelentkezési adatokat?</translation>
     </message>
+    <message>
+        <source>Error During Playback</source>
+        <translation>Hiba lejátszás közben</translation>
+        <extracomment>Dialog title when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>Extras</source>
+        <translation>Extrák</translation>
+    </message>
+    <message>
+        <source>Episodes</source>
+        <translation>Epizódok</translation>
+    </message>
+    <message>
+        <source>Delete Saved</source>
+        <translation>Törlés mentve</translation>
+    </message>
+    <message>
+        <source>On Now</source>
+        <translation>Adásban</translation>
+    </message>
+    <message>
+        <source>Error Retrieving Content</source>
+        <translation>Hiba a tartalom lekérdezésében</translation>
+        <extracomment>Dialog title when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>Menti a bejelentkezési adatokat?</translation>
+    </message>
 </context>
 </TS>
