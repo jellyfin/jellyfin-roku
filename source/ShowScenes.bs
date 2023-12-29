@@ -811,7 +811,7 @@ function CreateSeasonDetailsGroupByID(seriesID as string, seasonID as string) as
     group.objects = TVEpisodes(seriesID, seasonID)
     group.episodeObjects = group.objects
     ' watch for button presses
-    group.observeField("episodeSelected", m.port)
+    group.observeField("selectedItem", m.port)
     group.observeField("quickPlayNode", m.port)
     ' don't wait for the extras button
     stopLoadingSpinner()
