@@ -7,6 +7,11 @@ import "pkg:/source/api/Image.bs"
 import "pkg:/source/api/userauth.bs"
 import "pkg:/source/utils/deviceCapabilities.bs"
 
+enum SubtitleSelection
+    notset = -2
+    none = -1
+end enum
+
 sub init()
     m.user = AboutMe()
     m.top.functionName = "loadItems"
@@ -44,19 +49,18 @@ sub loadItems()
     id = m.top.itemId
     mediaSourceId = invalid
     audio_stream_idx = m.top.selectedAudioStreamIndex
-    subtitle_idx = m.top.selectedSubtitleIndex
     forceTranscoding = false
 
-    m.top.content = [LoadItems_VideoPlayer(id, mediaSourceId, audio_stream_idx, subtitle_idx, forceTranscoding)]
+    m.top.content = [LoadItems_VideoPlayer(id, mediaSourceId, audio_stream_idx, forceTranscoding)]
 end sub
 
-function LoadItems_VideoPlayer(id as string, mediaSourceId = invalid as dynamic, audio_stream_idx = 1 as integer, subtitle_idx = -1 as integer, forceTranscoding = false as boolean) as dynamic
+function LoadItems_VideoPlayer(id as string, mediaSourceId = invalid as dynamic, audio_stream_idx = 1 as integer, forceTranscoding = false as boolean) as dynamic
 
     video = {}
     video.id = id
     video.content = createObject("RoSGNode", "ContentNode")
 
-    LoadItems_AddVideoContent(video, mediaSourceId, audio_stream_idx, subtitle_idx, forceTranscoding)
+    LoadItems_AddVideoContent(video, mediaSourceId, audio_stream_idx, forceTranscoding)
 
     if video.content = invalid
         return invalid
@@ -65,9 +69,10 @@ function LoadItems_VideoPlayer(id as string, mediaSourceId = invalid as dynamic,
     return video
 end function
 
-sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_stream_idx = 1 as integer, subtitle_idx = -1 as integer, forceTranscoding = false as boolean)
+sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_stream_idx = 1 as integer, forceTranscoding = false as boolean)
 
     meta = ItemMetaData(video.id)
+    subtitle_idx = m.top.selectedSubtitleIndex
 
     if not isValid(meta)
         video.errorMsg = "Error loading metadata"
@@ -122,15 +127,37 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
     if meta.live then mediaSourceId = ""
 
     m.playbackInfo = ItemPostPlaybackInfo(video.id, mediaSourceId, audio_stream_idx, subtitle_idx, playbackPosition)
-    video.videoId = video.id
-    video.mediaSourceId = mediaSourceId
-    video.audioIndex = audio_stream_idx
-
     if not isValid(m.playbackInfo)
         video.errorMsg = "Error loading playback info"
         video.content = invalid
         return
     end if
+
+    addSubtitlesToVideo(video, meta)
+
+    ' Enable default subtitle track
+    if subtitle_idx = SubtitleSelection.notset
+        defaultSubtitleIndex = defaultSubtitleTrackFromVid(video.id)
+
+        if defaultSubtitleIndex <> SubtitleSelection.none
+            video.SelectedSubtitle = defaultSubtitleIndex
+            subtitle_idx = defaultSubtitleIndex
+
+            m.playbackInfo = ItemPostPlaybackInfo(video.id, mediaSourceId, audio_stream_idx, subtitle_idx, playbackPosition)
+            if not isValid(m.playbackInfo)
+                video.errorMsg = "Error loading playback info"
+                video.content = invalid
+                return
+            end if
+
+            addSubtitlesToVideo(video, meta)
+        end if
+    end if
+
+    video.videoId = video.id
+    video.mediaSourceId = mediaSourceId
+    video.audioIndex = audio_stream_idx
+    video.SelectedSubtitle = subtitle_idx
 
     video.PlaySessionId = m.playbackInfo.PlaySessionId
 
@@ -144,8 +171,6 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
     if not isValid(m.playbackInfo.MediaSources[0])
         m.playbackInfo = meta.json
     end if
-
-    addSubtitlesToVideo(video, meta)
 
     if meta.live
         video.transcodeParams = {
@@ -198,12 +223,74 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
     setCertificateAuthority(video.content)
     video.audioTrack = (audio_stream_idx + 1).ToStr() ' Roku's track indexes count from 1. Our index is zero based
 
-    video.SelectedSubtitle = subtitle_idx
-
     if not fully_external
         video.content = authRequest(video.content)
     end if
 end sub
+
+' defaultSubtitleTrackFromVid: Identifies the default subtitle track given video id
+'
+' @param {dynamic} video_id - id of video user is playing
+' @return {integer} indicating the default track's server-side index. Defaults to {SubtitleSelection.none} is one is not found
+function defaultSubtitleTrackFromVid(video_id) as integer
+    if m.global.session.user.configuration.SubtitleMode = "None"
+        return SubtitleSelection.none ' No subtitles desired: return none
+    end if
+
+    meta = ItemMetaData(video_id)
+
+    if not isValid(meta) then return SubtitleSelection.none
+    if not isValid(meta.json) then return SubtitleSelection.none
+    if not isValidAndNotEmpty(meta.json.mediaSources) then return SubtitleSelection.none
+    if not isValidAndNotEmpty(meta.json.MediaSources[0].MediaStreams) then return SubtitleSelection.none
+
+    subtitles = sortSubtitles(meta.id, meta.json.MediaSources[0].MediaStreams)
+
+    default_text_subs = defaultSubtitleTrack(subtitles["all"], true) ' Find correct subtitle track (forced text)
+    if default_text_subs <> SubtitleSelection.none
+        return default_text_subs
+    end if
+
+    if not m.global.session.user.settings["playback.subs.onlytext"]
+        return defaultSubtitleTrack(subtitles["all"]) ' if no appropriate text subs exist, allow non-text
+    end if
+
+    return SubtitleSelection.none
+end function
+
+' defaultSubtitleTrack:
+'
+' @param {dynamic} sorted_subtitles - array of subtitles sorted by type and language
+' @param {boolean} [require_text=false] - indicates if only text subtitles should be considered
+' @return {integer} indicating the default track's server-side index. Defaults to {SubtitleSelection.none} is one is not found
+function defaultSubtitleTrack(sorted_subtitles, require_text = false as boolean) as integer
+    for each item in sorted_subtitles
+        ' Only auto-select subtitle if language matches SubtitleLanguagePreference
+        languageMatch = true
+        if m.global.session.user.configuration.SubtitleLanguagePreference <> ""
+            languageMatch = (m.global.session.user.configuration.SubtitleLanguagePreference = item.Track.Language)
+        end if
+
+        ' Ensure textuality of subtitle matches preferenced passed as arg
+        matchTextReq = ((require_text and item.IsTextSubtitleStream) or not require_text)
+
+        if languageMatch and matchTextReq
+            if m.global.session.user.configuration.SubtitleMode = "Default" and (item.isForced or item.IsDefault or item.IsExternal)
+                return item.Index ' Finds first forced, or default, or external subs in sorted list
+            else if m.global.session.user.configuration.SubtitleMode = "Always" and not item.IsForced
+                return item.Index ' Select the first non-forced subtitle option in the sorted list
+            else if m.global.session.user.configuration.SubtitleMode = "OnlyForced" and item.IsForced
+                return item.Index ' Select the first forced subtitle option in the sorted list
+            else if m.global.session.user.configuration.SubtitlePlaybackMode = "Smart" and (item.isForced or item.IsDefault or item.IsExternal)
+                ' Simplified "Smart" logic here mimics Default (as that is fallback behavior normally)
+                ' Avoids detecting preferred audio language (as is utilized in main client)
+                return item.Index
+            end if
+        end if
+    end for
+
+    return SubtitleSelection.none ' Keep current default behavior of "None", if no correct subtitle is identified
+end function
 
 sub addVideoContentURL(video, mediaSourceId, audio_stream_idx, fully_external)
     protocol = LCase(m.playbackInfo.MediaSources[0].Protocol)

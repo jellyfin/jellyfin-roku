@@ -323,6 +323,11 @@ sub onVideoContentLoaded()
     m.top.transcodeParams = videoContent[0].transcodeparams
     m.chapters = videoContent[0].chapters
 
+    ' Allow default subtitles
+    m.top.unobserveField("selectedSubtitle")
+    m.top.selectedSubtitle = videoContent[0].selectedSubtitle
+    m.top.observeField("selectedSubtitle", "onSubtitleChange")
+
     m.osd.itemTitleText = m.top.content.title
 
     populateChapterMenu()
