@@ -65,7 +65,7 @@ end sub
 
 ' User requested subtitle selection popup
 sub onSelectSubtitlePressed()
-    ' None is always first in the subtitle list
+    ' Manually create the None option
     subtitleData = {
         data: [{
             "Index": -1,
@@ -100,7 +100,12 @@ sub onSelectSubtitlePressed()
             end if
         end if
 
-        subtitleData.data.push(item)
+        ' Put the selected item at the top of the option list
+        if isValid(item.selected) and item.selected
+            subtitleData.data.Unshift(item)
+        else
+            subtitleData.data.push(item)
+        end if
     end for
 
     m.global.sceneManager.callFunc("radioDialog", tr("Select Subtitles"), subtitleData)
