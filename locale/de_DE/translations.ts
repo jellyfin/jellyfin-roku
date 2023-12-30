@@ -14891,5 +14891,115 @@
         <translation>Alle Uhren in Jellyfin ausblenden. Jellyfin muss geschlossen und erneut geöffnet werden, damit die Änderungen wirksam werden.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
+    <message>
+        <source>Attempt Direct Play for H.264 media with unsupported profile levels before falling back to transcoding if it fails.</source>
+        <translation>Versuchen Sie Direktwiedergabe für H.264-Medien mit nicht unterstützten Profilniveaus, bevor Sie auf Transkodierung zurückgreifen, falls es fehlschlägt.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Attempt Direct Play for HEVC media with unsupported profile levels before falling back to transcoding if it fails.</source>
+        <translation>Versuchen Sie Direktwiedergabe für HEVC-Medien mit nicht unterstützten Profilniveaus, bevor Sie auf Transkodierung zurückgreifen, falls es fehlschlägt.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Settings relating to playback and supported codec and media types.</source>
+        <translation>Einstellungen bezüglich der Wiedergabe und unterstützten Codec- und Medientypen.</translation>
+    </message>
+    <message>
+        <source>Settings relating to how the application looks.</source>
+        <translation>Einstellungen bezüglich des Aussehens der Anwendung.</translation>
+    </message>
+    <message>
+        <source>Set the maximum amount of days a show should stay in the &apos;Next Up&apos; list without watching it.</source>
+        <translation>Legen Sie die maximale Anzahl von Tagen fest, die eine Sendung in der &apos;Nächste&apos; Liste bleiben soll, ohne sie anzusehen</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Playback Information</source>
+        <translation>Wiedergabeinformationen</translation>
+    </message>
+    <message>
+        <source>Transcoding Information</source>
+        <translation>Transkodierungsinformationen</translation>
+    </message>
+    <message>
+        <source>Reason</source>
+        <translation>Grund</translation>
+    </message>
+    <message>
+        <source>Video Codec</source>
+        <translation>Videocodec</translation>
+    </message>
+    <message>
+        <source>direct</source>
+        <translation>direkt</translation>
+    </message>
+    <message>
+        <source>Audio Codec</source>
+        <translation>Audiocodec</translation>
+    </message>
+    <message>
+        <source>Total Bitrate</source>
+        <translation>Gesamtbitrate</translation>
+    </message>
+    <message>
+        <source>Audio Channels</source>
+        <translation>Audiokanäle</translation>
+    </message>
+    <message>
+        <source>Stream Information</source>
+        <translation>Streaminformationen</translation>
+    </message>
+    <message>
+        <source>Codec</source>
+        <translation>Codec</translation>
+    </message>
+    <message>
+        <source>Codec Tag</source>
+        <translation>Codec-Tag</translation>
+    </message>
+    <message>
+        <source>Level</source>
+        <translation>Level</translation>
+        <extracomment>Video profile level</extracomment>
+    </message>
+    <message>
+        <source>Container</source>
+        <translation>Behälter</translation>
+        <extracomment>Video streaming container</extracomment>
+    </message>
+    <message>
+        <source>Size</source>
+        <translation>Größe</translation>
+        <extracomment>Video size</extracomment>
+    </message>
+    <message>
+        <source>Video range type</source>
+        <translation>Videobereichstyp</translation>
+    </message>
+    <message>
+        <source>Pixel format</source>
+        <translation>Pixelformat</translation>
+        <extracomment>Video pixel format</extracomment>
+    </message>
+    <message>
+        <source>WxH</source>
+        <translation>Videobreite x -höhe</translation>
+        <extracomment>Video width x height</extracomment>
+    </message>
+    <message>
+        <source>Special Features</source>
+        <translation>Besondere Merkmale</translation>
+    </message>
+    <message>
+        <source>Bit Rate</source>
+        <translation>Bitrate</translation>
+        <extracomment>Video streaming bit rate</extracomment>
+    </message>
+    <message>
+        <source>Max Days Next Up</source>
+        <translation>Maximale Tage bis zum Nächsten</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
 </context>
 </TS>
