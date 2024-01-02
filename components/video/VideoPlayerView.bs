@@ -256,6 +256,9 @@ end sub
 
 ' Event handler for when selectedSubtitle changes
 sub onSubtitleChange()
+    ' If the global caption mode is on, that means Roku can display the subtitles natively and doesn't need a video stop/start
+    if LCase(m.top.globalCaptionMode) = "on" then return
+
     ' Save the current video position
     m.global.queueManager.callFunc("setTopStartingPoint", int(m.top.position) * 10000000&)
 
