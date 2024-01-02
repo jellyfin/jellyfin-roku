@@ -11811,5 +11811,191 @@
         <translation>Utilisez le bouton de relecture pour animer lentement le premier élément du dossier. (S&apos;il est désactivé, le dossier sera immédiatement réinitialisé au premier élément).</translation>
         <extracomment>Description for option in Setting Screen</extracomment>
     </message>
+    <message>
+        <source>Album Artists (Grid)</source>
+        <translation>Artistes de l&apos;album (Grille)</translation>
+    </message>
+    <message>
+        <source>Slideshow Resumed</source>
+        <translation>Reprise du diaporama</translation>
+    </message>
+    <message>
+        <source>Show What&apos;s New popup when Jellyfin is updated to a new version.</source>
+        <translation>Affiche la fenêtre contextuelle des nouveautés quand Jellyfin est mis à jour.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Resumable</source>
+        <translation>Reprise possible</translation>
+    </message>
+    <message>
+        <source>Select when to show titles.</source>
+        <translation>Sélectionner quand afficher les titres</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Album Artists (Presentation)</source>
+        <translation>Artistes de l&apos;album (Présentation)</translation>
+    </message>
+    <message>
+        <source>Hide the star and community rating for episodes of a TV show. This is to prevent spoilers of an upcoming good/bad episode.</source>
+        <translation>Cacher les notations par étoiles et de la communauté pour les épisodes d&apos;une série TV. Cela permet d&apos;éviter les spoilers sur un bon/mauvais épisode à venir.</translation>
+    </message>
+    <message>
+        <source>Biographical information for this person is not currently available.</source>
+        <translation>Les informations biographiques pour cette personne sont indisponibles pour le moment.</translation>
+    </message>
+    <message>
+        <source>Set the maximum bitrate in Mbps. Set to 0 to use Roku&apos;s specifications. This setting must be enabled to take effect.</source>
+        <translation>Définir le débit maximum en Mbps. Régler sur 0 pour utiliser les spécifications de Roku. Ce paramètre doit être activé pour être pris en compte.</translation>
+    </message>
+    <message>
+        <source>Settings relating to the appearance of Library pages</source>
+        <translation>Paramètres relatifs à l&apos;apparence des pages de médiathèque</translation>
+    </message>
+    <message>
+        <source>Parental Ratings</source>
+        <translation>Classifications parentales</translation>
+        <extracomment>Used in Filter menu</extracomment>
+    </message>
+    <message>
+        <source>Special Features</source>
+        <translation>Fonctionnalités spéciales</translation>
+    </message>
+    <message>
+        <source>Bitrate Limit</source>
+        <translation>Limite de débit</translation>
+    </message>
+    <message>
+        <source>Years</source>
+        <translation>Années</translation>
+        <extracomment>Used in Filter menu</extracomment>
+    </message>
+    <message>
+        <source>On Now</source>
+        <translation>En cours</translation>
+    </message>
+    <message>
+        <source>Design Elements</source>
+        <translation>Eléments de design</translation>
+    </message>
+    <message>
+        <source>Enable Limit</source>
+        <translation>Activer la limitation</translation>
+    </message>
+    <message>
+        <source>Enable or disable the &apos;Maximum Bitrate&apos; setting.</source>
+        <translation>Activer ou désactiver le paramètre &apos;Débit maximal&apos;.</translation>
+    </message>
+    <message>
+        <source>Libraries</source>
+        <translation>Médiathèques</translation>
+    </message>
+    <message>
+        <source>MPEG-4 Support</source>
+        <translation>Prise en charge du codec MPEG-4</translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
+    <message>
+        <source>Movie Library Default View</source>
+        <translation>Vue par défaut pour la médiathèque de films</translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
+    <message>
+        <source>Default view for Movie Libraries.</source>
+        <translation>Afficher la vue par défaut dans les médiathèques de films.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Always Hide</source>
+        <translation>Toujours masquer</translation>
+    </message>
+    <message>
+        <source>Album</source>
+        <translation>Album</translation>
+    </message>
+    <message>
+        <source>View All</source>
+        <translation>Voir tout</translation>
+    </message>
+    <message>
+        <source>Disable Community Rating for Episodes</source>
+        <translation>Désactiver la notation de la communauté pour les épisodes</translation>
+    </message>
+    <message>
+        <source>Configure the maximum playback bitrate.</source>
+        <translation>Configurer le débit maximum de lecture.</translation>
+    </message>
+    <message>
+        <source>Show What&apos;s New Popup</source>
+        <translation>Afficher la fenêtre contextuelle des nouveautés</translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
+    <message>
+        <source>Show On Hover</source>
+        <translation>Afficher au survol</translation>
+    </message>
+    <message>
+        <source>Always Show</source>
+        <translation>Toujours afficher</translation>
+    </message>
+    <message>
+        <source>Artists (Presentation)</source>
+        <translation>Artistes (présentation)</translation>
+    </message>
+    <message>
+        <source>Song</source>
+        <translation>Titre</translation>
+    </message>
+    <message>
+        <source>Albums</source>
+        <translation>Albums</translation>
+    </message>
+    <message>
+        <source>Maximum Bitrate</source>
+        <translation>Débit maximum</translation>
+    </message>
+    <message>
+        <source>General</source>
+        <translation>Général</translation>
+    </message>
+    <message>
+        <source>Item Titles</source>
+        <translation>Titres des éléments</translation>
+        <extracomment>Title of a setting - when should we show the title text of a grid item</extracomment>
+    </message>
+    <message>
+        <source>Artists (Grid)</source>
+        <translation>Artistes (grille)</translation>
+    </message>
+    <message>
+        <source>Songs</source>
+        <translation>Titres</translation>
+    </message>
+    <message>
+        <source>Slideshow Paused</source>
+        <translation>Diaporama mis en pause</translation>
+    </message>
+    <message>
+        <source>Unplayed</source>
+        <translation>Non-lu</translation>
+    </message>
+    <message>
+        <source>Aired</source>
+        <translation>Diffusé</translation>
+        <extracomment>Aired date label</extracomment>
+    </message>
+    <message>
+        <source>Random On</source>
+        <translation>Lecture aléatoire activée</translation>
+    </message>
+    <message>
+        <source>Played</source>
+        <translation>Lu</translation>
+    </message>
+    <message>
+        <source>Random Off</source>
+        <translation>Lecture aléatoire désactivée</translation>
+    </message>
 </context>
 </TS>
