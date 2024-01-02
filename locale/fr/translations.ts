@@ -11997,5 +11997,9 @@
         <source>Random Off</source>
         <translation>Lecture aléatoire désactivée</translation>
     </message>
+    <message>
+        <source>Grid View Settings</source>
+        <translation>Paramètres de la vue de la grille</translation>
+    </message>
 </context>
 </TS>
