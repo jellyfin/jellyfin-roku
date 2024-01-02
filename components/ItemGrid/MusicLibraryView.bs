@@ -140,14 +140,12 @@ sub loadInitialItems()
         m.loadItemsTask.itemId = m.top.parentItem.parentFolder
     else if LCase(m.view) = "artistspresentation" or LCase(m.options.view) = "artistspresentation"
         m.loadItemsTask.genreIds = ""
-        m.top.showItemTitles = "hidealways"
     else if LCase(m.view) = "artistsgrid" or LCase(m.options.view) = "artistsgrid"
         m.loadItemsTask.genreIds = ""
     else if LCase(m.view) = "albumartistsgrid" or LCase(m.options.view) = "albumartistsgrid"
         m.loadItemsTask.genreIds = ""
     else if LCase(m.view) = "albumartistspresentation" or LCase(m.options.view) = "albumartistspresentation"
         m.loadItemsTask.genreIds = ""
-        m.top.showItemTitles = "hidealways"
     else
         m.loadItemsTask.itemId = m.top.parentItem.Id
     end if
