@@ -12001,5 +12001,15 @@
         <source>Grid View Settings</source>
         <translation>Paramètres de la vue de la grille</translation>
     </message>
+    <message>
+        <source>Next Episode Button Time</source>
+        <translation>Délai du bouton épisode suivant</translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
+    <message>
+        <source>Random</source>
+        <translation>Aléatoire</translation>
+        <extracomment>General use word when we want to randomize data</extracomment>
+    </message>
 </context>
 </TS>
