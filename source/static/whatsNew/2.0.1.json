@@ -1,6 +1,6 @@
 [
   {
-    "description": "Fix migration crash",
+    "description": "Fix startup crash",
     "author": "cewert"
   },
   {
