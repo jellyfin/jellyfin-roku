@@ -265,7 +265,9 @@ end function
 ' @return {integer} indicating the default track's server-side index. Defaults to {SubtitleSelection.none} is one is not found
 function defaultSubtitleTrack(sorted_subtitles, require_text = false as boolean) as integer
     userConfig = m.global.session.user.configuration
-    subtitleMode = LCase(userConfig.SubtitleMode)
+
+    subtitlePlaybackMode = isValid(userConfig.SubtitlePlaybackMode) ? LCase(userConfig.SubtitlePlaybackMode) : ""
+    subtitleMode = isValid(userConfig.SubtitleMode) ? LCase(userConfig.SubtitleMode) : ""
 
     for each item in sorted_subtitles
         ' Only auto-select subtitle if language matches SubtitleLanguagePreference
@@ -284,7 +286,7 @@ function defaultSubtitleTrack(sorted_subtitles, require_text = false as boolean)
                 return item.Index ' Select the first non-forced subtitle option in the sorted list
             else if subtitleMode = "onlyforced" and item.IsForced
                 return item.Index ' Select the first forced subtitle option in the sorted list
-            else if LCase(userConfig.SubtitlePlaybackMode) = "smart" and (item.isForced or item.IsDefault or item.IsExternal)
+            else if subtitlePlaybackMode = "smart" and (item.isForced or item.IsDefault or item.IsExternal)
                 ' Simplified "Smart" logic here mimics Default (as that is fallback behavior normally)
                 ' Avoids detecting preferred audio language (as is utilized in main client)
                 return item.Index
