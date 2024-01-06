@@ -5,6 +5,7 @@ import "pkg:/source/utils/config.bs"
 
 sub init()
     m.top.optionsAvailable = false
+    m.inScrubMode = false
 
     setupAudioNode()
     setupAnimationTasks()
@@ -32,6 +33,8 @@ sub init()
     pageContentChanged()
     setShuffleIconState()
     setLoopButtonImage()
+
+    m.buttons.setFocus(true)
 end sub
 
 sub onScreensaverTimeoutLoaded()
@@ -117,6 +120,7 @@ sub setupInfoNodes()
     m.playPosition = m.top.findNode("playPosition")
     m.bufferPosition = m.top.findNode("bufferPosition")
     m.seekBar = m.top.findNode("seekBar")
+    m.thumb = m.top.findNode("thumb")
     m.shuffleIndicator = m.top.findNode("shuffleIndicator")
     m.loopIndicator = m.top.findNode("loopIndicator")
     m.positionTimestamp = m.top.findNode("positionTimestamp")
@@ -124,6 +128,8 @@ sub setupInfoNodes()
 end sub
 
 sub bufferPositionChanged()
+    if m.inScrubMode then return
+
     if not isValid(m.global.audioPlayer.bufferingStatus)
         bufferPositionBarWidth = m.seekBar.width
     else
@@ -141,6 +147,10 @@ sub bufferPositionChanged()
 end sub
 
 sub audioPositionChanged()
+    if m.inScrubMode then return
+
+    stopLoadingSpinner()
+
     if m.global.audioPlayer.position = 0
         m.playPosition.width = 0
     end if
@@ -158,6 +168,8 @@ sub audioPositionChanged()
     if playPositionBarWidth > m.seekBar.width
         playPositionBarWidth = m.seekBar.width
     end if
+
+    moveSeekbarThumb(playPositionBarWidth)
 
     ' Use animation to make the display smooth
     m.playPositionAnimationWidth.keyValue = [m.playPosition.width, playPositionBarWidth]
@@ -217,6 +229,7 @@ sub audioStateChanged()
     if m.global.audioPlayer.state = "finished"
         ' User has enabled single song loop, play current song again
         if m.global.audioPlayer.loopMode = "one"
+            m.global.audioPlayer.content.playStart = 0
             playAction()
             return
         end if
@@ -251,6 +264,13 @@ function playAction() as boolean
         WriteAsciiFile("tmp:/scene.temp", "nowplaying")
         MoveFile("tmp:/scene.temp", "tmp:/scene")
     else if m.global.audioPlayer.state = "finished"
+        m.global.audioPlayer.control = "play"
+        ' Write screen tracker for screensaver
+        WriteAsciiFile("tmp:/scene.temp", "nowplaying")
+        MoveFile("tmp:/scene.temp", "tmp:/scene")
+    else if m.global.audioPlayer.state = "buffering"
+        m.inScrubMode = false
+        startLoadingSpinner()
         m.global.audioPlayer.control = "play"
         ' Write screen tracker for screensaver
         WriteAsciiFile("tmp:/scene.temp", "nowplaying")
@@ -540,6 +560,72 @@ sub setBackdropImage(data)
     end if
 end sub
 
+' setSelectedButtonState: Changes the icon state url for the currently selected button
+'
+' @param {string} oldState - current state to replace in icon url
+' @param {string} newState - state to replace {oldState} with in icon url
+sub setSelectedButtonState(oldState as string, newState as string)
+    selectedButton = m.buttons.getChild(m.top.selectedButtonIndex)
+    selectedButton.uri = selectedButton.uri.Replace(oldState, newState)
+end sub
+
+' processScrubAction: Handles +/- seeking for the audio trickplay bar
+'
+' @param {integer} seekStep - seconds to move the trickplay position (negative values allowed)
+sub processScrubAction(seekStep as integer)
+    m.inScrubMode = true
+    ' Change audio player control method
+    m.global.audioPlayer.control = "prebuffer"
+
+    ' Prepare starting playStart property value
+    if m.global.audioPlayer.position <> 0
+        m.global.audioPlayer.content.playStart = m.global.audioPlayer.position
+    end if
+
+    ' Don't let seek to go past the end of the song
+    if m.global.audioPlayer.content.playStart + seekStep > m.songDuration
+        return
+    end if
+
+    if seekStep > 0
+        ' Move seek forward
+        m.global.audioPlayer.content.playStart += seekStep
+    else if m.global.audioPlayer.content.playStart >= Abs(seekStep)
+        ' If back seek won't go below 0, move seek back
+        m.global.audioPlayer.content.playStart += seekStep
+    else
+        ' Back seek would go below 0, set to 0 directly
+        m.global.audioPlayer.content.playStart = 0
+    end if
+
+    ' Move the seedbar thumb forward
+    songPercentComplete = m.global.audioPlayer.content.playStart / m.songDuration
+    playPositionBarWidth = m.seekBar.width * songPercentComplete
+
+    moveSeekbarThumb(playPositionBarWidth)
+
+    ' Change the displayed position timestamp
+    m.positionTimestamp.text = secondsToHuman(m.global.audioPlayer.content.playStart, false)
+end sub
+
+' moveSeekbarThumb: Positions the thumb on the seekbar
+'
+' @param {float} playPositionBarWidth - width of the play position bar
+sub moveSeekbarThumb(playPositionBarWidth as float)
+    ' Center the thumb on the play position bar
+    thumbPostionLeft = playPositionBarWidth - 10
+
+    ' Don't let thumb go below 0
+    if thumbPostionLeft < 0 then thumbPostionLeft = 0
+
+    ' Don't let thumb go past end of seekbar
+    if thumbPostionLeft > m.seekBar.width - 25
+        thumbPostionLeft = m.seekBar.width - 25
+    end if
+
+    m.thumb.translation = [thumbPostionLeft, m.thumb.translation[1]]
+end sub
+
 ' Process key press events
 function onKeyEvent(key as string, press as boolean) as boolean
 
@@ -551,9 +637,55 @@ function onKeyEvent(key as string, press as boolean) as boolean
             return true
         end if
 
+        ' Key Event handler when m.thumb is in focus
+        if m.thumb.hasFocus()
+            if key = "right"
+                processScrubAction(10)
+                return true
+            end if
+
+            if key = "left"
+                processScrubAction(-10)
+                return true
+            end if
+
+            if key = "OK" or key = "play"
+                if m.inScrubMode
+                    startLoadingSpinner()
+                    m.inScrubMode = false
+                    m.global.audioPlayer.control = "play"
+                end if
+                return true
+            end if
+        end if
+
         if key = "play"
             return playAction()
-        else if key = "back"
+        end if
+
+        if key = "up"
+            if not m.thumb.visible
+                m.thumb.visible = true
+                setSelectedButtonState("-selected", "-default")
+            end if
+
+            m.thumb.setFocus(true)
+            m.buttons.setFocus(false)
+            return true
+        end if
+
+        if key = "down"
+            if m.thumb.visible
+                m.thumb.visible = false
+                setSelectedButtonState("-default", "-selected")
+            end if
+
+            m.buttons.setFocus(true)
+            m.thumb.setFocus(false)
+            return true
+        end if
+
+        if key = "back"
             m.global.audioPlayer.control = "stop"
             m.global.audioPlayer.loopMode = ""
         else if key = "rewind"
@@ -561,30 +693,36 @@ function onKeyEvent(key as string, press as boolean) as boolean
         else if key = "fastforward"
             return nextClicked()
         else if key = "left"
-            if m.global.queueManager.callFunc("getCount") = 1 then return false
+            if m.buttons.hasFocus()
+                if m.global.queueManager.callFunc("getCount") = 1 then return false
 
-            if m.top.selectedButtonIndex > 0
-                m.previouslySelectedButtonIndex = m.top.selectedButtonIndex
-                m.top.selectedButtonIndex = m.top.selectedButtonIndex - 1
+                if m.top.selectedButtonIndex > 0
+                    m.previouslySelectedButtonIndex = m.top.selectedButtonIndex
+                    m.top.selectedButtonIndex = m.top.selectedButtonIndex - 1
+                end if
+                return true
             end if
-            return true
         else if key = "right"
-            if m.global.queueManager.callFunc("getCount") = 1 then return false
+            if m.buttons.hasFocus()
+                if m.global.queueManager.callFunc("getCount") = 1 then return false
 
-            m.previouslySelectedButtonIndex = m.top.selectedButtonIndex
-            if m.top.selectedButtonIndex < m.buttonCount - 1 then m.top.selectedButtonIndex = m.top.selectedButtonIndex + 1
-            return true
+                m.previouslySelectedButtonIndex = m.top.selectedButtonIndex
+                if m.top.selectedButtonIndex < m.buttonCount - 1 then m.top.selectedButtonIndex = m.top.selectedButtonIndex + 1
+                return true
+            end if
         else if key = "OK"
-            if m.buttons.getChild(m.top.selectedButtonIndex).id = "play"
-                return playAction()
-            else if m.buttons.getChild(m.top.selectedButtonIndex).id = "previous"
-                return previousClicked()
-            else if m.buttons.getChild(m.top.selectedButtonIndex).id = "next"
-                return nextClicked()
-            else if m.buttons.getChild(m.top.selectedButtonIndex).id = "shuffle"
-                return shuffleClicked()
-            else if m.buttons.getChild(m.top.selectedButtonIndex).id = "loop"
-                return loopClicked()
+            if m.buttons.hasFocus()
+                if m.buttons.getChild(m.top.selectedButtonIndex).id = "play"
+                    return playAction()
+                else if m.buttons.getChild(m.top.selectedButtonIndex).id = "previous"
+                    return previousClicked()
+                else if m.buttons.getChild(m.top.selectedButtonIndex).id = "next"
+                    return nextClicked()
+                else if m.buttons.getChild(m.top.selectedButtonIndex).id = "shuffle"
+                    return shuffleClicked()
+                else if m.buttons.getChild(m.top.selectedButtonIndex).id = "loop"
+                    return loopClicked()
+                end if
             end if
         end if
     end if
