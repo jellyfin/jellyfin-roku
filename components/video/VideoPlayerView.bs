@@ -256,6 +256,9 @@ end sub
 
 ' Event handler for when selectedSubtitle changes
 sub onSubtitleChange()
+    ' If the global caption mode is on, that means Roku can display the subtitles natively and doesn't need a video stop/start
+    if LCase(m.top.globalCaptionMode) = "on" then return
+
     ' Save the current video position
     m.global.queueManager.callFunc("setTopStartingPoint", int(m.top.position) * 10000000&)
 
@@ -331,6 +334,29 @@ sub onVideoContentLoaded()
         ' Allow custom captions for non intro videos
         m.top.allowCaptions = true
     end if
+
+    ' Allow default subtitles
+    m.top.unobserveField("selectedSubtitle")
+
+    ' Set subtitleTrack property is subs are natively supported by Roku
+    selectedSubtitle = invalid
+    for each subtitle in m.top.fullSubtitleData
+        if subtitle.Index = videoContent[0].selectedSubtitle
+            selectedSubtitle = subtitle
+            exit for
+        end if
+    end for
+
+    if isValid(selectedSubtitle)
+        availableSubtitleTrackIndex = availSubtitleTrackIdx(selectedSubtitle.Track.TrackName)
+        if availableSubtitleTrackIndex <> -1
+            m.top.subtitleTrack = m.top.availableSubtitleTracks[availableSubtitleTrackIndex].TrackName
+        end if
+    end if
+
+    m.top.selectedSubtitle = videoContent[0].selectedSubtitle
+
+    m.top.observeField("selectedSubtitle", "onSubtitleChange")
 
     if isValid(m.top.audioIndex)
         m.top.audioTrack = (m.top.audioIndex + 1).toStr()
@@ -577,6 +603,25 @@ end sub
 function stateAllowsOSD() as boolean
     validStates = ["playing", "paused", "stopped"]
     return inArray(validStates, m.top.state)
+end function
+
+
+' availSubtitleTrackIdx: Returns Roku's index for requested subtitle track
+'
+' @param {string} tracknameToFind - TrackName for subtitle we're looking to match
+' @return {integer} indicating Roku's index for requested subtitle track. Returns -1 if not found
+function availSubtitleTrackIdx(tracknameToFind as string) as integer
+    idx = 0
+    for each availTrack in m.top.availableSubtitleTracks
+        ' The TrackName must contain the URL we supplied originally, though
+        ' Roku mangles the name a bit, so we check if the URL is a substring, rather
+        ' than strict equality
+        if Instr(1, availTrack.TrackName, tracknameToFind)
+            return idx
+        end if
+        idx = idx + 1
+    end for
+    return -1
 end function
 
 function onKeyEvent(key as string, press as boolean) as boolean
