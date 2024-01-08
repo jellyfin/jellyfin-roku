@@ -6,6 +6,8 @@ import "pkg:/source/utils/config.bs"
 sub init()
     m.top.optionsAvailable = false
     m.inScrubMode = false
+    m.lastRecordedPositionTimestamp = 0
+    m.scrubTimestamp = 0
 
     setupAudioNode()
     setupAnimationTasks()
@@ -17,6 +19,7 @@ sub init()
     m.playlistTypeCount = m.global.queueManager.callFunc("getQueueUniqueTypes").count()
 
     m.buttonCount = m.buttons.getChildCount()
+    m.seekPosition.translation = [720 - (m.seekPosition.width / 2), m.seekPosition.translation[1]]
 
     m.screenSaverTimeout = 300
 
@@ -124,6 +127,8 @@ sub setupInfoNodes()
     m.shuffleIndicator = m.top.findNode("shuffleIndicator")
     m.loopIndicator = m.top.findNode("loopIndicator")
     m.positionTimestamp = m.top.findNode("positionTimestamp")
+    m.seekPosition = m.top.findNode("seekPosition")
+    m.seekTimestamp = m.top.findNode("seekTimestamp")
     m.totalLengthTimestamp = m.top.findNode("totalLengthTimestamp")
 end sub
 
@@ -147,8 +152,6 @@ sub bufferPositionChanged()
 end sub
 
 sub audioPositionChanged()
-    if m.inScrubMode then return
-
     stopLoadingSpinner()
 
     if m.global.audioPlayer.position = 0
@@ -169,7 +172,11 @@ sub audioPositionChanged()
         playPositionBarWidth = m.seekBar.width
     end if
 
-    moveSeekbarThumb(playPositionBarWidth)
+    if not m.inScrubMode
+        moveSeekbarThumb(playPositionBarWidth)
+        ' Change the seek position timestamp
+        m.seekTimestamp.text = secondsToHuman(m.global.audioPlayer.position, false)
+    end if
 
     ' Use animation to make the display smooth
     m.playPositionAnimationWidth.keyValue = [m.playPosition.width, playPositionBarWidth]
@@ -177,8 +184,10 @@ sub audioPositionChanged()
 
     ' Update displayed position timestamp
     if isValid(m.global.audioPlayer.position)
+        m.lastRecordedPositionTimestamp = m.global.audioPlayer.position
         m.positionTimestamp.text = secondsToHuman(m.global.audioPlayer.position, false)
     else
+        m.lastRecordedPositionTimestamp = 0
         m.positionTimestamp.text = "0:00"
     end if
 
@@ -229,8 +238,9 @@ sub audioStateChanged()
     if m.global.audioPlayer.state = "finished"
         ' User has enabled single song loop, play current song again
         if m.global.audioPlayer.loopMode = "one"
-            m.global.audioPlayer.content.playStart = 0
+            m.scrubTimestamp = 0
             playAction()
+            exitScrubMode()
             return
         end if
 
@@ -268,13 +278,6 @@ function playAction() as boolean
         ' Write screen tracker for screensaver
         WriteAsciiFile("tmp:/scene.temp", "nowplaying")
         MoveFile("tmp:/scene.temp", "tmp:/scene")
-    else if m.global.audioPlayer.state = "buffering"
-        m.inScrubMode = false
-        startLoadingSpinner()
-        m.global.audioPlayer.control = "play"
-        ' Write screen tracker for screensaver
-        WriteAsciiFile("tmp:/scene.temp", "nowplaying")
-        MoveFile("tmp:/scene.temp", "tmp:/scene")
     end if
 
     return true
@@ -283,6 +286,11 @@ end function
 function previousClicked() as boolean
     if m.playlistTypeCount > 1 then return false
     if m.global.queueManager.callFunc("getPosition") = 0 then return false
+
+    exitScrubMode()
+
+    m.lastRecordedPositionTimestamp = 0
+    m.positionTimestamp.text = "0:00"
 
     if m.global.audioPlayer.state = "playing"
         m.global.audioPlayer.control = "stop"
@@ -295,7 +303,6 @@ function previousClicked() as boolean
 
     m.global.queueManager.callFunc("moveBack")
     pageContentChanged()
-
 
     return true
 end function
@@ -333,6 +340,11 @@ end sub
 
 function nextClicked() as boolean
     if m.playlistTypeCount > 1 then return false
+
+    exitScrubMode()
+
+    m.lastRecordedPositionTimestamp = 0
+    m.positionTimestamp.text = "0:00"
 
     ' Reset loop mode due to manual user interaction
     if m.global.audioPlayer.loopMode = "one"
@@ -398,6 +410,8 @@ sub LoadNextSong()
     if m.global.audioPlayer.state = "playing"
         m.global.audioPlayer.control = "stop"
     end if
+
+    exitScrubMode()
 
     ' Reset playPosition bar without animation
     m.playPosition.width = 0
@@ -573,39 +587,40 @@ end sub
 '
 ' @param {integer} seekStep - seconds to move the trickplay position (negative values allowed)
 sub processScrubAction(seekStep as integer)
-    m.inScrubMode = true
-    ' Change audio player control method
-    m.global.audioPlayer.control = "prebuffer"
-
     ' Prepare starting playStart property value
-    if m.global.audioPlayer.position <> 0
-        m.global.audioPlayer.content.playStart = m.global.audioPlayer.position
+    if m.scrubTimestamp = 0
+        m.scrubTimestamp = m.lastRecordedPositionTimestamp
     end if
 
     ' Don't let seek to go past the end of the song
-    if m.global.audioPlayer.content.playStart + seekStep > m.songDuration
+    if m.scrubTimestamp + seekStep > m.songDuration
         return
     end if
 
     if seekStep > 0
         ' Move seek forward
-        m.global.audioPlayer.content.playStart += seekStep
-    else if m.global.audioPlayer.content.playStart >= Abs(seekStep)
+        m.scrubTimestamp += seekStep
+    else if m.scrubTimestamp >= Abs(seekStep)
         ' If back seek won't go below 0, move seek back
-        m.global.audioPlayer.content.playStart += seekStep
+        m.scrubTimestamp += seekStep
     else
         ' Back seek would go below 0, set to 0 directly
-        m.global.audioPlayer.content.playStart = 0
+        m.scrubTimestamp = 0
     end if
 
     ' Move the seedbar thumb forward
-    songPercentComplete = m.global.audioPlayer.content.playStart / m.songDuration
+    songPercentComplete = m.scrubTimestamp / m.songDuration
     playPositionBarWidth = m.seekBar.width * songPercentComplete
 
     moveSeekbarThumb(playPositionBarWidth)
 
     ' Change the displayed position timestamp
-    m.positionTimestamp.text = secondsToHuman(m.global.audioPlayer.content.playStart, false)
+    m.seekTimestamp.text = secondsToHuman(m.scrubTimestamp, false)
+end sub
+
+sub resetSeekbarThumb()
+    m.scrubTimestamp = m.lastRecordedPositionTimestamp
+    moveSeekbarThumb(m.playPosition.width)
 end sub
 
 ' moveSeekbarThumb: Positions the thumb on the seekbar
@@ -623,7 +638,26 @@ sub moveSeekbarThumb(playPositionBarWidth as float)
         thumbPostionLeft = m.seekBar.width - 25
     end if
 
+    ' Move the thumb
     m.thumb.translation = [thumbPostionLeft, m.thumb.translation[1]]
+
+    ' Move the seek position element so it follows the thumb
+    m.seekPosition.translation = [720 + thumbPostionLeft - (m.seekPosition.width / 2), m.seekPosition.translation[1]]
+end sub
+
+sub exitScrubMode()
+    m.buttons.setFocus(true)
+    m.thumb.setFocus(false)
+
+    if m.seekPosition.visible
+        m.seekPosition.visible = false
+    end if
+
+    resetSeekbarThumb()
+
+    m.inScrubMode = false
+    m.thumb.visible = false
+    setSelectedButtonState("-default", "-selected")
 end sub
 
 ' Process key press events
@@ -640,11 +674,13 @@ function onKeyEvent(key as string, press as boolean) as boolean
         ' Key Event handler when m.thumb is in focus
         if m.thumb.hasFocus()
             if key = "right"
+                m.inScrubMode = true
                 processScrubAction(10)
                 return true
             end if
 
             if key = "left"
+                m.inScrubMode = true
                 processScrubAction(-10)
                 return true
             end if
@@ -653,9 +689,11 @@ function onKeyEvent(key as string, press as boolean) as boolean
                 if m.inScrubMode
                     startLoadingSpinner()
                     m.inScrubMode = false
-                    m.global.audioPlayer.control = "play"
+                    m.global.audioPlayer.seek = m.scrubTimestamp
+                    return true
                 end if
-                return true
+
+                return playAction()
             end if
         end if
 
@@ -668,6 +706,9 @@ function onKeyEvent(key as string, press as boolean) as boolean
                 m.thumb.visible = true
                 setSelectedButtonState("-selected", "-default")
             end if
+            if not m.seekPosition.visible
+                m.seekPosition.visible = true
+            end if
 
             m.thumb.setFocus(true)
             m.buttons.setFocus(false)
@@ -676,12 +717,8 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
         if key = "down"
             if m.thumb.visible
-                m.thumb.visible = false
-                setSelectedButtonState("-default", "-selected")
+                exitScrubMode()
             end if
-
-            m.buttons.setFocus(true)
-            m.thumb.setFocus(false)
             return true
         end if
 
