@@ -30,8 +30,7 @@ sub loadLibraries()
     m.fadeInFocusBitmap.control = "start"
 end sub
 
-' JFScreen hook.
-' Used to show logo, update the focus, the state of the data, and tells the server about the device profile.
+' JFScreen hook called when the screen is displayed by the screen manager
 sub OnScreenShown()
     scene = m.top.getScene()
     overhang = scene.findNode("overhang")
@@ -61,8 +60,7 @@ sub OnScreenShown()
     end if
 end sub
 
-' JFScreen hook.
-' Remove the Jellyfin logo and left seperator from the overhang
+' JFScreen hook called when the screen is hidden by the screen manager
 sub OnScreenHidden()
     scene = m.top.getScene()
     overhang = scene.findNode("overhang")
