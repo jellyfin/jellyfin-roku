@@ -17,7 +17,6 @@ sub setupNodes()
     m.selectedArtistGenres = m.top.findNode("selectedArtistGenres")
     m.artistLogo = m.top.findNode("artistLogo")
     m.swapAnimation = m.top.findNode("backroundSwapAnimation")
-    m.spinner = m.top.findNode("spinner")
     m.Alpha = m.top.findNode("AlphaMenu")
     m.AlphaSelected = m.top.findNode("AlphaSelected")
     m.micButton = m.top.findNode("micButton")
@@ -77,8 +76,6 @@ sub init()
     'set inital counts for overhang before content is loaded.
     m.loadItemsTask.totalRecordCount = 0
 
-    m.spinner.visible = true
-
     'Get reset folder setting
     m.resetGrid = m.global.session.user.settings["itemgrid.reset"]
 
@@ -111,7 +108,7 @@ end sub
 'Load initial set of Data
 sub loadInitialItems()
     m.loadItemsTask.control = "stop"
-    m.spinner.visible = true
+    startLoadingSpinner(false)
 
     if LCase(m.top.parentItem.json.Type) = "collectionfolder"
         m.top.HomeLibraryItem = m.top.parentItem.Id
@@ -143,14 +140,12 @@ sub loadInitialItems()
         m.loadItemsTask.itemId = m.top.parentItem.parentFolder
     else if LCase(m.view) = "artistspresentation" or LCase(m.options.view) = "artistspresentation"
         m.loadItemsTask.genreIds = ""
-        m.top.showItemTitles = "hidealways"
     else if LCase(m.view) = "artistsgrid" or LCase(m.options.view) = "artistsgrid"
         m.loadItemsTask.genreIds = ""
     else if LCase(m.view) = "albumartistsgrid" or LCase(m.options.view) = "albumartistsgrid"
         m.loadItemsTask.genreIds = ""
     else if LCase(m.view) = "albumartistspresentation" or LCase(m.options.view) = "albumartistspresentation"
         m.loadItemsTask.genreIds = ""
-        m.top.showItemTitles = "hidealways"
     else
         m.loadItemsTask.itemId = m.top.parentItem.Id
     end if
@@ -204,7 +199,6 @@ sub loadInitialItems()
     end if
 
     m.loadItemsTask.observeField("content", "ItemDataLoaded")
-    m.spinner.visible = true
     m.loadItemsTask.control = "RUN"
     SetUpOptions()
 end sub
@@ -232,6 +226,7 @@ sub setMusicOptions(options)
         { "Title": tr("DATE_ADDED"), "Name": "DateCreated" },
         { "Title": tr("DATE_PLAYED"), "Name": "DatePlayed" },
         { "Title": tr("RELEASE_DATE"), "Name": "PremiereDate" },
+        { "Title": tr("Random"), "Name": "Random" },
     ]
 
     options.filter = [
@@ -242,6 +237,7 @@ sub setMusicOptions(options)
     if LCase(m.options.view) = "genres" or LCase(m.view) = "genres"
         options.sort = [
             { "Title": tr("TITLE"), "Name": "SortName" },
+            { "Title": tr("Random"), "Name": "Random" },
         ]
         options.filter = []
     end if
@@ -250,6 +246,7 @@ sub setMusicOptions(options)
         options.sort = [
             { "Title": tr("TITLE"), "Name": "SortName" },
             { "Title": tr("DATE_ADDED"), "Name": "DateCreated" },
+            { "Title": tr("Random"), "Name": "Random" },
         ]
     end if
 end sub
@@ -326,6 +323,7 @@ end sub
 '
 'Handle loaded data, and add to Grid
 sub ItemDataLoaded(msg)
+    stopLoadingSpinner()
     m.top.alphaActive = false
     itemData = msg.GetData()
     m.loadItemsTask.unobserveField("content")
@@ -351,7 +349,6 @@ sub ItemDataLoaded(msg)
         m.loadedRows = m.loadedItems / m.genreList.numColumns
 
         m.loading = false
-        m.spinner.visible = false
         return
     end if
 
@@ -374,8 +371,6 @@ sub ItemDataLoaded(msg)
         m.emptyText.text = tr("NO_ITEMS").Replace("%1", m.top.parentItem.Type)
         m.emptyText.visible = true
     end if
-
-    m.spinner.visible = false
 end sub
 
 '
@@ -556,8 +551,9 @@ end sub
 '
 'Load next set of items
 sub loadMoreData()
-    m.spinner.visible = true
     if m.Loading = true then return
+
+    startLoadingSpinner(false)
     m.Loading = true
     m.loadItemsTask.startIndex = m.loadedItems
     m.loadItemsTask.observeField("content", "ItemDataLoaded")
@@ -612,7 +608,6 @@ sub onItemalphaSelected()
         m.loadItemsTask.searchTerm = ""
         m.VoiceBox.text = ""
         m.loadItemsTask.nameStartsWith = m.alpha.itemAlphaSelected
-        m.spinner.visible = true
         loadInitialItems()
     end if
 end sub
@@ -627,7 +622,6 @@ sub onvoiceFilter()
         m.loadItemsTask.NameStartsWith = " "
         m.loadItemsTask.searchTerm = m.voiceBox.text
         m.loadItemsTask.recursive = true
-        m.spinner.visible = true
         loadInitialItems()
     end if
 end sub
@@ -787,7 +781,6 @@ function onKeyEvent(key as string, press as boolean) as boolean
     end if
 
     if key = "replay"
-        m.spinner.visible = true
         m.loadItemsTask.searchTerm = ""
         m.loadItemsTask.nameStartsWith = ""
         m.voiceBox.text = ""

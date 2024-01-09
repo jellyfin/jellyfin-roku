@@ -28,6 +28,7 @@ end sub
 
 
 sub itemContentChanged()
+    m.unplayedCount.visible = false
     itemData = m.top.itemContent
     if itemData = invalid then return
 
@@ -65,6 +66,10 @@ sub itemContentChanged()
 
     ' Format the Data based on the type of Home Data
     if itemData.type = "CollectionFolder" or itemData.type = "UserView" or itemData.type = "Channel"
+        m.itemText.font.size = 35
+        m.itemText.height = 64
+        m.itemText.horizAlign = "center"
+        m.itemText.vertAlign = "bottom"
         m.itemText.text = itemData.name
         m.itemPoster.uri = itemData.widePosterURL
         return

@@ -156,7 +156,7 @@ namespace session
 
             ' grab lastRunVersion for this user
             lastRunVersion = get_user_setting("LastRunVersion")
-            if lastRunVersion <> invalid
+            if isValid(lastRunVersion)
                 session.user.Update("LastRunVersion", lastRunVersion)
             end if
 
@@ -181,6 +181,10 @@ namespace session
             if saveCredentials
                 set_user_setting("token", tmpSession.user.authToken)
                 set_user_setting("username", tmpSession.user.name)
+            end if
+
+            if m.global.session.user.settings["global.rememberme"]
+                set_setting("active_user", tmpSession.user.id)
             end if
 
             session.user.LoadUserPreferences()
@@ -216,6 +220,17 @@ namespace session
                     unset_user_setting("display.livetv.landing")
                 end if
             else
+                ' User has no custom prefs. Save default home section values.
+                session.user.SaveUserHomeSections({
+                    homesection0: "smalllibrarytiles",
+                    homesection1: "resume",
+                    homesection2: "nextup",
+                    homesection3: "latestmedia",
+                    homesection4: "livetv",
+                    homesection5: "none",
+                    homesection6: "none"
+                })
+
                 unset_user_setting("display.livetv.landing")
             end if
         end sub
@@ -225,6 +240,14 @@ namespace session
         sub SaveUserHomeSections(customPrefs as object)
             userPreferences = customPrefs
             rowTypes = []
+
+            useWebSectionArrangement = m.global.session.user.settings["ui.home.useWebSectionArrangement"]
+
+            if isValid(useWebSectionArrangement)
+                if not useWebSectionArrangement
+                    userPreferences.delete("homesection0")
+                end if
+            end if
 
             ' If user has no section preferences, use default settings
             if not userPreferences.doesExist("homesection0")

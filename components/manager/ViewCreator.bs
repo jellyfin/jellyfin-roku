@@ -161,19 +161,20 @@ sub processSubtitleSelection()
     end if
 
     if m.selectedSubtitle.IsEncoded
+        ' Roku can not natively display these subtitles, so turn off the caption mode on the device
         m.view.globalCaptionMode = "Off"
     else
+        ' Roku can natively display these subtitles, ensure the caption mode on the device is on
         m.view.globalCaptionMode = "On"
-    end if
 
-    if m.selectedSubtitle.IsExternal
+        ' Roku may rearrange subtitle tracks. Look up track based on name to ensure we get the correct index
         availableSubtitleTrackIndex = availSubtitleTrackIdx(m.selectedSubtitle.Track.TrackName)
         if availableSubtitleTrackIndex = -1 then return
 
         m.view.subtitleTrack = m.view.availableSubtitleTracks[availableSubtitleTrackIndex].TrackName
-    else
-        m.view.selectedSubtitle = m.selectedSubtitle.Index
     end if
+
+    m.view.selectedSubtitle = m.selectedSubtitle.Index
 end sub
 
 ' User requested playback info

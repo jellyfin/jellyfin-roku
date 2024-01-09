@@ -1,3 +1,5 @@
+import "pkg:/source/utils/misc.bs"
+
 sub init()
     m.EPGLaunchCompleteSignaled = false
     m.scheduleGrid = m.top.findNode("scheduleGrid")
@@ -26,8 +28,6 @@ sub init()
     m.top.lastFocus = m.scheduleGrid
 
     m.channelIndex = {}
-
-    m.spinner = m.top.findNode("spinner")
 end sub
 
 sub channelFilterSet()
@@ -48,14 +48,14 @@ sub channelsearchTermSet()
     if LCase(m.top.searchTerm) = LCase(tr("all")) or m.LoadChannelsTask.searchTerm = LCase(tr("all"))
         m.top.searchTerm = " "
         m.LoadChannelsTask.searchTerm = " "
-        m.spinner.visible = true
+        startLoadingSpinner()
         m.LoadChannelsTask.control = "RUN"
         'filter if the searterm is not invalid
     else if m.top.searchTerm <> invalid and LCase(m.LoadChannelsTask.searchTerm) <> LCase(m.top.searchTerm)
         if m.LoadChannelsTask.state = "run" then m.LoadChannelsTask.control = "stop"
 
         m.LoadChannelsTask.searchTerm = m.top.searchTerm
-        m.spinner.visible = true
+        startLoadingSpinner()
         m.LoadChannelsTask.control = "RUN"
     end if
 
@@ -125,7 +125,7 @@ sub onScheduleLoaded()
     m.scheduleGrid.showLoadingDataFeedback = false
     m.scheduleGrid.setFocus(true)
     m.LoadScheduleTask.schedule = []
-    m.spinner.visible = false
+    stopLoadingSpinner()
 end sub
 
 sub onProgramFocused()

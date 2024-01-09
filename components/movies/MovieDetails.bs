@@ -21,8 +21,6 @@ sub init()
     m.buttonGrp.setFocus(true)
     m.top.lastFocus = m.buttonGrp
 
-    m.spinner = m.top.findNode("spinner")
-
     m.top.observeField("itemContent", "itemContentChanged")
 end sub
 
@@ -150,7 +148,7 @@ sub itemContentChanged()
     SetUpVideoOptions(itemData.mediaSources)
     SetUpAudioOptions(itemData.mediaStreams)
     m.buttonGrp.visible = true
-    m.spinner.visible = false
+    stopLoadingSpinner()
 end sub
 
 

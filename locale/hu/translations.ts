@@ -11537,5 +11537,87 @@
         <source>Save Credentials?</source>
         <translation>Menti a bejelentkezési adatokat?</translation>
     </message>
+    <message>
+        <source>Unable to load Channel Data from the server</source>
+        <translation>Nem sikerült betölteni a csatornaadatokat a szerverről</translation>
+    </message>
+    <message>
+        <source>Extras</source>
+        <translation>Extrák</translation>
+    </message>
+    <message>
+        <source>Episodes</source>
+        <translation>Epizódok</translation>
+    </message>
+    <message>
+        <source>Delete Saved</source>
+        <translation>Törlés mentve</translation>
+    </message>
+    <message>
+        <source>There was an error retrieving the data for this item from the server.</source>
+        <translation>Hiba történt az elem adatainak a szerverről történő lekérdezésében.</translation>
+        <extracomment>Dialog detail when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <source>On Now</source>
+        <translation>Adásban</translation>
+    </message>
+    <message>
+        <source>Error Retrieving Content</source>
+        <translation>Hiba a tartalom lekérdezésében</translation>
+        <extracomment>Dialog title when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <source>Error During Playback</source>
+        <translation>Hiba lejátszás közben</translation>
+        <extracomment>Dialog title when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>An error was encountered while playing this item.</source>
+        <translation>Hiba történt az elem lejátszása közben.</translation>
+        <extracomment>Dialog detail when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>Loading Channel Data</source>
+        <translation>Csatornaadatok betöltése</translation>
+    </message>
+    <message>
+        <source>Error loading Channel Data</source>
+        <translation>Hiba a csatornaadatok betöltésében</translation>
+    </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>Menti a bejelentkezési adatokat?</translation>
+    </message>
+    <message>
+        <source>Error During Playback</source>
+        <translation>Hiba lejátszás közben</translation>
+        <extracomment>Dialog title when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>Extras</source>
+        <translation>Extrák</translation>
+    </message>
+    <message>
+        <source>Episodes</source>
+        <translation>Epizódok</translation>
+    </message>
+    <message>
+        <source>Delete Saved</source>
+        <translation>Törlés mentve</translation>
+    </message>
+    <message>
+        <source>On Now</source>
+        <translation>Adásban</translation>
+    </message>
+    <message>
+        <source>Error Retrieving Content</source>
+        <translation>Hiba a tartalom lekérdezésében</translation>
+        <extracomment>Dialog title when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>Menti a bejelentkezési adatokat?</translation>
+    </message>
 </context>
 </TS>

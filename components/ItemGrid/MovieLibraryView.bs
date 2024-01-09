@@ -17,7 +17,6 @@ sub setupNodes()
     m.selectedMovieOfficialRating = m.top.findNode("selectedMovieOfficialRating")
     m.movieLogo = m.top.findNode("movieLogo")
     m.swapAnimation = m.top.findNode("backroundSwapAnimation")
-    m.spinner = m.top.findNode("spinner")
     m.Alpha = m.top.findNode("AlphaMenu")
     m.AlphaSelected = m.top.findNode("AlphaSelected")
     m.micButton = m.top.findNode("micButton")
@@ -83,8 +82,6 @@ sub init()
     'set inital counts for overhang before content is loaded.
     m.loadItemsTask.totalRecordCount = 0
 
-    m.spinner.visible = true
-
     'Get reset folder setting
     m.resetGrid = m.global.session.user.settings["itemgrid.reset"]
 
@@ -117,7 +114,7 @@ end sub
 'Load initial set of Data
 sub loadInitialItems()
     m.loadItemsTask.control = "stop"
-    m.spinner.visible = true
+    startLoadingSpinner(false)
 
     if m.top.parentItem.json.Type = "CollectionFolder"
         m.top.HomeLibraryItem = m.top.parentItem.Id
@@ -219,7 +216,6 @@ sub loadInitialItems()
     end if
 
     m.loadItemsTask.observeField("content", "ItemDataLoaded")
-    m.spinner.visible = true
     m.loadItemsTask.control = "RUN"
 
     m.getFiltersTask.observeField("filters", "FilterDataLoaded")
@@ -257,7 +253,8 @@ sub setMoviesOptions(options)
         { "Title": tr("OFFICIAL_RATING"), "Name": "OfficialRating" },
         { "Title": tr("PLAY_COUNT"), "Name": "PlayCount" },
         { "Title": tr("RELEASE_DATE"), "Name": "PremiereDate" },
-        { "Title": tr("RUNTIME"), "Name": "Runtime" }
+        { "Title": tr("RUNTIME"), "Name": "Runtime" },
+        { "Title": tr("Random"), "Name": "Random" },
     ]
 
     options.filter = [
@@ -276,7 +273,7 @@ sub setMoviesOptions(options)
     if m.options.view = "Studios" or m.view = "Studios"
         options.sort = [
             { "Title": tr("TITLE"), "Name": "SortName" },
-            { "Title": tr("DATE_ADDED"), "Name": "DateCreated" },
+            { "Title": tr("DATE_ADDED"), "Name": "DateCreated" }
         ]
         options.filter = [
             { "Title": tr("All"), "Name": "All" },
@@ -436,7 +433,7 @@ sub ItemDataLoaded(msg)
         m.genreList.setFocus(true)
 
         m.loading = false
-        m.spinner.visible = false
+        stopLoadingSpinner()
         ' Return focus to options menu if it was opened while library was loading
         if m.options.visible
             m.options.setFocus(true)
@@ -486,7 +483,7 @@ sub ItemDataLoaded(msg)
         m.emptyText.visible = true
     end if
 
-    m.spinner.visible = false
+    stopLoadingSpinner()
     ' Return focus to options menu if it was opened while library was loading
     if m.options.visible
         m.options.setFocus(true)
@@ -691,8 +688,9 @@ end sub
 '
 'Load next set of items
 sub loadMoreData()
-    m.spinner.visible = true
     if m.Loading = true then return
+
+    startLoadingSpinner(false)
     m.Loading = true
     m.loadItemsTask.startIndex = m.loadedItems
     m.loadItemsTask.observeField("content", "ItemDataLoaded")
@@ -736,7 +734,6 @@ sub onItemalphaSelected()
         m.loadItemsTask.searchTerm = ""
         m.VoiceBox.text = ""
         m.loadItemsTask.nameStartsWith = m.alpha.itemAlphaSelected
-        m.spinner.visible = true
         loadInitialItems()
     end if
 end sub
@@ -751,7 +748,6 @@ sub onvoiceFilter()
         m.loadItemsTask.NameStartsWith = " "
         m.loadItemsTask.searchTerm = m.voiceBox.text
         m.loadItemsTask.recursive = true
-        m.spinner.visible = true
         loadInitialItems()
     end if
 end sub
@@ -924,7 +920,6 @@ function onKeyEvent(key as string, press as boolean) as boolean
     end if
 
     if key = "replay"
-        m.spinner.visible = true
         m.loadItemsTask.searchTerm = ""
         m.loadItemsTask.nameStartsWith = ""
         m.voiceBox.text = ""

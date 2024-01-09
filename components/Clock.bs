@@ -1,8 +1,16 @@
 import "pkg:/source/utils/misc.bs"
 
+' @fileoverview Clock component to display current time formatted based on user's chosen 12 or 24 hour setting
+
+' Possible clock formats
+enum ClockFormat
+    h12 = "12h"
+    h24 = "24h"
+end enum
+
 sub init()
 
-    ' If hideclick setting is checked, exit without setting any variables
+    ' If hideclick setting is enabled, exit without setting any variables
     if m.global.session.user.settings["ui.design.hideclock"]
         return
     end if
@@ -16,11 +24,11 @@ sub init()
     m.currentTimeTimer.control = "start"
 
     ' Default to 12 hour clock
-    m.format = "short-h12"
+    m.format = ClockFormat.h12
 
     ' If user has selected a 24 hour clock, update date display format
-    if LCase(m.global.device.clockFormat) = "24h"
-        m.format = "short-h24"
+    if LCase(m.global.device.clockFormat) = ClockFormat.h24
+        m.format = ClockFormat.h24
     end if
 end sub
 
@@ -34,6 +42,64 @@ sub onCurrentTimeTimerFire()
     ' Convert to local time zone
     m.dateTimeObject.ToLocalTime()
 
-    ' Format time as requested
-    m.clockTime.text = m.dateTimeObject.asTimeStringLoc(m.format)
+    ' Format time for display - based on 12h/24h setting
+    formattedTime = formatTimeAsString()
+
+    ' Display time
+    m.clockTime.text = formattedTime
 end sub
+
+' formatTimeAsString: Returns a string with the current time formatted for either a 12 or 24 hour clock
+'
+' @return {string} current time formatted for either a 12 hour or 24 hour clock
+function formatTimeAsString() as string
+    return m.format = ClockFormat.h12 ? format12HourTime() : format24HourTime()
+end function
+
+' format12HourTime: Returns a string with the current time formatted for a 12 hour clock
+'
+' @return {string} current time formatted for a 12 hour clock
+function format12HourTime() as string
+    currentHour = m.dateTimeObject.GetHours()
+    currentMinute = m.dateTimeObject.GetMinutes()
+
+    displayedHour = StrI(currentHour).trim()
+    displayedMinute = StrI(currentMinute).trim()
+    meridian = currentHour < 12 ? "am" : "pm"
+
+    if currentHour = 0
+        displayedHour = "12"
+    end if
+
+    if currentHour > 12
+        correctedHour = currentHour - 12
+        displayedHour = StrI(correctedHour).trim()
+    end if
+
+    if currentMinute < 10
+        displayedMinute = `0${displayedMinute}`
+    end if
+
+    return `${displayedHour}:${displayedMinute} ${meridian}`
+end function
+
+' format24HourTime: Returns a string with the current time formatted for a 24 hour clock
+'
+' @return {string} current time formatted for a 24 hour clock
+function format24HourTime() as string
+    currentHour = m.dateTimeObject.GetHours()
+    currentMinute = m.dateTimeObject.GetMinutes()
+
+    displayedHour = StrI(currentHour).trim()
+    displayedMinute = StrI(currentMinute).trim()
+
+    if currentHour < 10
+        displayedHour = `0${displayedHour}`
+    end if
+
+    if currentMinute < 10
+        displayedMinute = `0${displayedMinute}`
+    end if
+
+    return `${displayedHour}:${displayedMinute}`
+end function
