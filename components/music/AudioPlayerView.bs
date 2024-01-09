@@ -593,7 +593,7 @@ sub processScrubAction(seekStep as integer)
     end if
 
     ' Don't let seek to go past the end of the song
-    if m.scrubTimestamp + seekStep > m.songDuration
+    if m.scrubTimestamp + seekStep > m.songDuration - 5
         return
     end if
 
