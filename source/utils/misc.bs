@@ -514,8 +514,8 @@ function createLogoPoster()
     logoPoster.id = "overlayLogo"
     logoPoster.uri = "pkg:/images/logo.png"
     logoPoster.translation = "[70, 53]"
-    logoPoster.width = "270"
-    logoPoster.height = "72"
+    logoPoster.width = "191"
+    logoPoster.height = "66"
 
     return logoPoster
 end function
