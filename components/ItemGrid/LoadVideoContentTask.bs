@@ -250,7 +250,7 @@ function defaultSubtitleTrackFromVid(videoID) as integer
     subtitles = sortSubtitles(meta.id, meta.json.MediaSources[0].MediaStreams)
     selectedAudioLanguage = meta.json.MediaSources[0].MediaStreams[m.top.selectedAudioStreamIndex].Language ?? ""
 
-    defaultTextSubs = defaultSubtitleTrack(subtitles["all"], selectedAudioLanguage, true) ' Find correct subtitle track (forced text)
+    defaultTextSubs = defaultSubtitleTrack(subtitles["text"], selectedAudioLanguage, true) ' Find correct subtitle track (forced text)
     if defaultTextSubs <> SubtitleSelection.none
         return defaultTextSubs
     end if
@@ -494,26 +494,33 @@ function sortSubtitles(id as string, MediaStreams)
                 "IsExternal": stream.IsExternal,
                 "IsEncoded": stream.DeliveryMethod = "Encode"
             }
+
             if stream.isForced
                 trackType = "forced"
             else if stream.IsDefault
                 trackType = "default"
-            else if stream.IsTextSubtitleStream
-                trackType = "text"
             else
                 trackType = "normal"
             end if
+
             if prefered_lang <> "" and prefered_lang = stream.Track.Language
                 tracks[trackType].unshift(stream)
+
+                if stream.IsTextSubtitleStream
+                    tracks["text"].unshift(stream)
+                end if
             else
                 tracks[trackType].push(stream)
+
+                if stream.IsTextSubtitleStream
+                    tracks["text"].push(stream)
+                end if
             end if
         end if
     end for
 
     tracks["default"].append(tracks["normal"])
     tracks["forced"].append(tracks["default"])
-    tracks["forced"].append(tracks["text"])
 
     return { "all": tracks["forced"], "text": tracks["text"] }
 end function
