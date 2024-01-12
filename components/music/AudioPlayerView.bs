@@ -7,7 +7,7 @@ sub init()
     m.top.optionsAvailable = false
     m.inScrubMode = false
     m.lastRecordedPositionTimestamp = 0
-    m.scrubTimestamp = 0
+    m.scrubTimestamp = -1
 
     setupAudioNode()
     setupAnimationTasks()
@@ -238,7 +238,7 @@ sub audioStateChanged()
     if m.global.audioPlayer.state = "finished"
         ' User has enabled single song loop, play current song again
         if m.global.audioPlayer.loopMode = "one"
-            m.scrubTimestamp = 0
+            m.scrubTimestamp = -1
             playAction()
             exitScrubMode()
             return
@@ -588,7 +588,7 @@ end sub
 ' @param {integer} seekStep - seconds to move the trickplay position (negative values allowed)
 sub processScrubAction(seekStep as integer)
     ' Prepare starting playStart property value
-    if m.scrubTimestamp = 0
+    if m.scrubTimestamp = -1
         m.scrubTimestamp = m.lastRecordedPositionTimestamp
     end if
 
@@ -618,8 +618,10 @@ sub processScrubAction(seekStep as integer)
     m.seekTimestamp.text = secondsToHuman(m.scrubTimestamp, false)
 end sub
 
+' resetSeekbarThumb: Resets the thumb to the playing position
+'
 sub resetSeekbarThumb()
-    m.scrubTimestamp = m.lastRecordedPositionTimestamp
+    m.scrubTimestamp = -1
     moveSeekbarThumb(m.playPosition.width)
 end sub
 
@@ -645,6 +647,8 @@ sub moveSeekbarThumb(playPositionBarWidth as float)
     m.seekPosition.translation = [720 + thumbPostionLeft - (m.seekPosition.width / 2), m.seekPosition.translation[1]]
 end sub
 
+' exitScrubMode: Moves player out of scrub mode state,  resets back to standard play mode
+'
 sub exitScrubMode()
     m.buttons.setFocus(true)
     m.thumb.setFocus(false)
