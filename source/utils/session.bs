@@ -135,7 +135,7 @@ namespace session
             session.Update("user", tmpSessionUser)
 
             ' keep auth header in sync
-            if key = "name"
+            if LCase(key) = "name"
                 session.user.SetServerDeviceName()
             end if
         end sub
