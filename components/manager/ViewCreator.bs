@@ -99,6 +99,14 @@ sub processSubtitleSelection()
     ' The playbackData is now outdated and must be refreshed
     m.playbackData = invalid
 
+    ' Find previously selected subtitle and identify if it was encoded
+    for each item in m.view.fullSubtitleData
+        if item.index = m.view.selectedSubtitle
+            m.view.previousSubtitleWasEncoded = item.IsEncoded
+            exit for
+        end if
+    end for
+
     if LCase(m.selectedSubtitle.track.description) = "none"
         m.view.globalCaptionMode = "Off"
         m.view.subtitleTrack = ""
