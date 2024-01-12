@@ -103,6 +103,7 @@ sub processSubtitleSelection()
     for each item in m.view.fullSubtitleData
         if item.index = m.view.selectedSubtitle
             m.view.previousSubtitleWasEncoded = item.IsEncoded
+            exit for
         end if
     end for
 
