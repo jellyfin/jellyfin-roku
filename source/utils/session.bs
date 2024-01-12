@@ -126,7 +126,7 @@ namespace session
             tmpSessionUser[key] = value
 
             ' keep friendlyName in sync
-            if key = "name"
+            if LCase(key) = "name"
                 regex = CreateObject("roRegex", "[^a-zA-Z0-9\ \-\_]", "")
                 tmpSessionUser["friendlyName"] = regex.ReplaceAll(value, "")
             end if
