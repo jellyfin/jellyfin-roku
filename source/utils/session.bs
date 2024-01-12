@@ -192,11 +192,16 @@ namespace session
 
         ' Sets the global server device name value used by the API
         sub SetServerDeviceName()
+            ' default value is the unique id for the device
+            deviceName = m.global.device.id
             if isValid(m.global.session.user) and isValid(m.global.session.user.friendlyName)
-                m.global.device.serverDeviceName = m.global.device.id + m.global.session.user.friendlyName
-            else
-                m.global.device.serverDeviceName = m.global.device.id
+                deviceName = deviceName + m.global.session.user.friendlyName
             end if
+
+            ' update the global device array
+            tmpDevice = m.global.device
+            tmpDevice.AddReplace("serverDeviceName", deviceName)
+            m.global.setFields({ device: tmpDevice })
         end sub
 
         ' Load and parse Display Settings from server
