@@ -347,7 +347,7 @@ sub onVideoContentLoaded()
     ' Allow default subtitles
     m.top.unobserveField("selectedSubtitle")
 
-    ' Set subtitleTrack property is subs are natively supported by Roku
+    ' Set subtitleTrack property if subs are natively supported by Roku
     selectedSubtitle = invalid
     for each subtitle in m.top.fullSubtitleData
         if subtitle.Index = videoContent[0].selectedSubtitle
@@ -359,7 +359,10 @@ sub onVideoContentLoaded()
     if isValid(selectedSubtitle)
         availableSubtitleTrackIndex = availSubtitleTrackIdx(selectedSubtitle.Track.TrackName)
         if availableSubtitleTrackIndex <> -1
-            m.top.subtitleTrack = m.top.availableSubtitleTracks[availableSubtitleTrackIndex].TrackName
+            if not selectedSubtitle.IsEncoded
+                m.top.globalCaptionMode = "On"
+                m.top.subtitleTrack = m.top.availableSubtitleTracks[availableSubtitleTrackIndex].TrackName
+            end if
         end if
     end if
 
