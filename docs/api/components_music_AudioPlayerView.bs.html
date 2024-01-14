@@ -390,45 +390,9 @@ end sub
 ' Update values on screen when page content changes
 sub pageContentChanged()
 
-    ' Reset buffer bar without animation
-    m.bufferPosition.width = 0
+    m.LoadAudioStreamTask.control = "STOP"
 
-    useMetaTask = false
     currentItem = m.global.queueManager.callFunc("getCurrentItem")
-
-    if not isValid(currentItem.RunTimeTicks)
-        useMetaTask = true
-    end if
-
-    if not isValid(currentItem.AlbumArtist)
-        useMetaTask = true
-    end if
-
-    if not isValid(currentItem.name)
-        useMetaTask = true
-    end if
-
-    if not isValid(currentItem.Artists)
-        useMetaTask = true
-    end if
-
-    if useMetaTask
-        m.LoadMetaDataTask.itemId = currentItem.id
-        m.LoadMetaDataTask.observeField("content", "onMetaDataLoaded")
-        m.LoadMetaDataTask.control = "RUN"
-    else
-        if isValid(currentItem.ParentBackdropItemId)
-            setBackdropImage(ImageURL(currentItem.ParentBackdropItemId, "Backdrop", { "maxHeight": "720", "maxWidth": "1280" }))
-        end if
-
-        setPosterImage(ImageURL(currentItem.id, "Primary", { "maxHeight": 500, "maxWidth": 500 }))
-        setScreenTitle(currentItem)
-        setOnScreenTextValues(currentItem)
-        m.songDuration = currentItem.RunTimeTicks / 10000000.0
-
-        ' Update displayed total audio length
-        m.totalLengthTimestamp.text = ticksToHuman(currentItem.RunTimeTicks)
-    end if
 
     m.LoadAudioStreamTask.itemId = currentItem.id
     m.LoadAudioStreamTask.observeField("content", "onAudioStreamLoaded")
@@ -453,6 +417,46 @@ sub onAudioStreamLoaded()
     data = m.LoadAudioStreamTask.content[0]
     m.LoadAudioStreamTask.unobserveField("content")
     if data &lt;> invalid and data.count() > 0
+        ' Reset buffer bar without animation
+        m.bufferPosition.width = 0
+
+        useMetaTask = false
+        currentItem = m.global.queueManager.callFunc("getCurrentItem")
+
+        if not isValid(currentItem.RunTimeTicks)
+            useMetaTask = true
+        end if
+
+        if not isValid(currentItem.AlbumArtist)
+            useMetaTask = true
+        end if
+
+        if not isValid(currentItem.name)
+            useMetaTask = true
+        end if
+
+        if not isValid(currentItem.Artists)
+            useMetaTask = true
+        end if
+
+        if useMetaTask
+            m.LoadMetaDataTask.itemId = currentItem.id
+            m.LoadMetaDataTask.observeField("content", "onMetaDataLoaded")
+            m.LoadMetaDataTask.control = "RUN"
+        else
+            if isValid(currentItem.ParentBackdropItemId)
+                setBackdropImage(ImageURL(currentItem.ParentBackdropItemId, "Backdrop", { "maxHeight": "720", "maxWidth": "1280" }))
+            end if
+
+            setPosterImage(ImageURL(currentItem.id, "Primary", { "maxHeight": 500, "maxWidth": 500 }))
+            setScreenTitle(currentItem)
+            setOnScreenTextValues(currentItem)
+            m.songDuration = currentItem.RunTimeTicks / 10000000.0
+
+            ' Update displayed total audio length
+            m.totalLengthTimestamp.text = ticksToHuman(currentItem.RunTimeTicks)
+        end if
+
         m.global.audioPlayer.content = data
         m.global.audioPlayer.control = "none"
         m.global.audioPlayer.control = "play"

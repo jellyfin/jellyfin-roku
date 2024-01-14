@@ -94,8 +94,7 @@
                 startLoadingSpinner()
                 print "A public user was selected with username=" + userSelected
                 session.user.Update("name", userSelected)
-                regex = CreateObject("roRegex", "[^a-zA-Z0-9\ \-\_]", "")
-                session.user.Update("friendlyName", regex.ReplaceAll(userSelected, ""))
+
                 ' save userid to session
                 for each user in publicUsersNodes
                     if user.name = userSelected
@@ -161,8 +160,7 @@
             print "Auth token found in registry"
             session.user.Update("authToken", myAuthToken)
             session.user.Update("name", myUsername)
-            regex = CreateObject("roRegex", "[^a-zA-Z0-9\ \-\_]", "")
-            session.user.Update("friendlyName", regex.ReplaceAll(myUsername, ""))
+
             print "Attempting to use API with auth token"
             currentUser = AboutMe()
             if currentUser = invalid
