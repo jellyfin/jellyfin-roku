@@ -1,5 +1,9 @@
 [
   {
+    "description": "Fix QuickConnect",
+    "author": "jimdogx"
+  },
+  {
     "description": "Allow default subtitles to enable Roku's caption mode",
     "author": "1hitsong"
   },
@@ -12,7 +16,15 @@
     "author": "1hitsong"
   },
   {
+    "description": " Fix sporadic crash on home screen",
+    "author": "cewert"
+  },
+  {
     "description": "Prevent unneeded video stop/start when turning off text subtitles",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Fix song data out of sync if changing songs quickly",
     "author": "1hitsong"
   }
 ]
