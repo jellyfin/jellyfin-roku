@@ -3258,5 +3258,164 @@
         <translation>Errore nel recupero del contenuto</translation>
         <extracomment>Dialog title when unable to load Content from Server</extracomment>
     </message>
+    <message>
+        <source>Go to season</source>
+        <translation>Vai alla stagione</translation>
+        <extracomment>Continue Watching Popup Menu - Navigate to the Season Page</extracomment>
+    </message>
+    <message>
+        <source>Set Watched</source>
+        <translation>Segna Visto</translation>
+        <extracomment>Button Text - When pressed, marks item as Warched</extracomment>
+    </message>
+    <message>
+        <source>Use generated splashscreen image as Jellyfin&apos;s home background. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Usa pagina di splash generata come sfondo. Jellyfin dovrà essere riavviato perché i cambiamenti vengano applicati.</translation>
+        <extracomment>Description for option in Setting Screen</extracomment>
+    </message>
+    <message>
+        <source>Item Count</source>
+        <translation>Conteggio elementi</translation>
+        <extracomment>UI -&gt; Media Grid -&gt; Item Count in user setting screen.</extracomment>
+    </message>
+    <message>
+        <source>Set Favorite</source>
+        <translation>Segna Preferito</translation>
+        <extracomment>Button Text - When pressed, sets item as Favorite</extracomment>
+    </message>
+    <message>
+        <source>Use voice remote to search</source>
+        <translation>Usa il comando vocale per cercare</translation>
+        <extracomment>Help text in search voice text box</extracomment>
+    </message>
+    <message>
+        <source>Search now</source>
+        <translation>Cerca ora</translation>
+        <extracomment>Help text in search Box</extracomment>
+    </message>
+    <message>
+        <source>Quick Connect</source>
+        <translation>Connessione Rapida</translation>
+    </message>
+    <message>
+        <source>Here is your Quick Connect code:</source>
+        <translation>Ecco il tuo codice di Connessione Rapida:</translation>
+    </message>
+    <message>
+        <source>Studios</source>
+        <translation>Studi</translation>
+    </message>
+    <message>
+        <source>Return to Top</source>
+        <translation>Ritorna in cima</translation>
+        <extracomment>UI -&gt; Media Grid -&gt; Item Title in user setting screen.</extracomment>
+    </message>
+    <message>
+        <source>Blur Unwatched Episodes</source>
+        <translation>Oscura episodi non visti</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
+    <message>
+        <source>Cinema Mode</source>
+        <translation>Modalità cinema</translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
+    <message>
+        <source>Go directly to the episode list if a TV series has only one season.</source>
+        <translation>Vai direttamente alla lista degli episodi se una serie TV ha solamente una stagione.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Blur images of unwatched episodes.</source>
+        <translation>Oscura le immagini degli episodi da vedere.</translation>
+    </message>
+    <message>
+        <source>Media Grid options.</source>
+        <translation>Opzioni di griglia dei media.</translation>
+    </message>
+    <message>
+        <source>Go to episode</source>
+        <translation>Vai all&apos;episodio</translation>
+        <extracomment>Continue Watching Popup Menu - Navigate to the Episode Detail Page</extracomment>
+    </message>
+    <message>
+        <source>You can search for Titles, People, Live TV Channels and more</source>
+        <translation>Puoi cercare Titoli, Persone, Canali TV e altro</translation>
+        <extracomment>Help text in search results</extracomment>
+    </message>
+    <message>
+        <source>%1 of %2</source>
+        <translation>%1 del %2</translation>
+        <extracomment>Item position and count. %1 = current item. %2 = total number of items</extracomment>
+    </message>
+    <message>
+        <source>Networks</source>
+        <translation>Reti</translation>
+    </message>
+    <message>
+        <source>Shows</source>
+        <translation>Serie TV</translation>
+    </message>
+    <message>
+        <source>Options for TV Shows.</source>
+        <translation>Opzioni per serie tv.</translation>
+        <extracomment>Description for TV Shows user settings.</extracomment>
+    </message>
+    <message>
+        <source>Media Grid</source>
+        <translation>Griglia dei media</translation>
+        <extracomment>UI -&gt; Media Grid section in user setting screen.</extracomment>
+    </message>
+    <message>
+        <source>Show item count in the library and index of selected item.</source>
+        <translation>Mostra conteggio elementi nella libreria e indicizza l&apos;elemento selezionato.</translation>
+        <extracomment>Description for option in Setting Screen</extracomment>
+    </message>
+    <message>
+        <source>Go to series</source>
+        <translation>Vai alle serie</translation>
+        <extracomment>Continue Watching Popup Menu - Navigate to the Series Detail Page</extracomment>
+    </message>
+    <message>
+        <source>(Dialog will close automatically)</source>
+        <translation>(La finestra si chiuderà automaticamente)</translation>
+    </message>
+    <message>
+        <source>There was an error authenticating via Quick Connect.</source>
+        <translation>C&apos;è stato un errore di autenticazione durante la Connesione Rapida.</translation>
+    </message>
+    <message>
+        <source>Use the replay button to slowly animate to the first item in the folder. (If disabled, the folder will reset to the first item immediately).</source>
+        <translation>Utilizza il pulsante di replay per passare lentamente al primo elemento della cartella. (Se disattivato, la cartella si ripristinerà immediatamente al primo elemento).</translation>
+        <extracomment>Description for option in Setting Screen</extracomment>
+    </message>
+    <message>
+        <source>Hides tagline text on details pages.</source>
+        <translation>Nascondi il testo di tag nella pagina dei dettagli.</translation>
+    </message>
+    <message>
+        <source>Hide Taglines</source>
+        <translation>Nascondi tag</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
+    <message>
+        <source>Skip Details for Single Seasons</source>
+        <translation>Salta i dettagli per le stagioni singole</translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
+    <message>
+        <source>Design Elements</source>
+        <translation>Elementi di design</translation>
+    </message>
+    <message>
+        <source>Options that alter the design of Jellyfin.</source>
+        <translation>Opzioni che modificano il design di Jellyfin.</translation>
+        <extracomment>Description for Design Elements user settings.</extracomment>
+    </message>
+    <message>
+        <source>Use Splashscreen as Home Background</source>
+        <translation>Usa la schermata di splash come sfondo della pagina principale</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
 </context>
 </TS>
