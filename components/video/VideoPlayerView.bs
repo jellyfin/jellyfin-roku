@@ -365,6 +365,27 @@ sub onVideoContentLoaded()
 
     m.osd.itemTitleText = m.top.content.title
 
+    ' If video is an episode, attempt to add season and episode numbers to OSD
+    if m.top.content.contenttype = 4
+        if isValid(videoContent[0].seasonNumber)
+            m.osd.seasonNumber = videoContent[0].seasonNumber
+        end if
+
+        if isValid(videoContent[0].episodeNumber)
+            m.osd.episodeNumber = videoContent[0].episodeNumber
+        end if
+    end if
+
+    ' Attempt to add logo to OSD
+    if isValidAndNotEmpty(videoContent[0].logoImage)
+        m.osd.logoImage = videoContent[0].logoImage
+
+        ' Don't show both the logo and the video title if this isn't an episode
+        if m.top.content.contenttype <> 4
+            m.osd.itemTitleText = ""
+        end if
+    end if
+
     populateChapterMenu()
 
     if m.LoadMetaDataTask.isIntro

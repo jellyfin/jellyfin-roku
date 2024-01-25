@@ -97,13 +97,26 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
         end if
     end if
 
-    if videotype = "episode" or videotype = "series"
-        video.content.contenttype = "episode"
-    end if
-
     video.chapters = meta.json.Chapters
     video.content.title = meta.title
     video.showID = meta.showID
+
+    logoLookupID = video.id
+
+    if videotype = "episode" or videotype = "series"
+        video.content.contenttype = "episode"
+        video.seasonNumber = meta.json.ParentIndexNumber
+        video.episodeNumber = meta.json.IndexNumber
+
+        if isValid(meta.showID)
+            logoLookupID = meta.showID
+        end if
+    end if
+
+    logoImageExists = api.items.HeadImageURLByName(logoLookupID, "logo")
+    if logoImageExists
+        video.logoImage = api.items.GetImageURL(logoLookupID, "logo", 0, { "maxHeight": 75, "maxWidth": 300, "quality": "90" })
+    end if
 
     user = AboutMe()
     if user.Configuration.EnableNextEpisodeAutoPlay

@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component name="OSD" extends="Group" initialFocus="chapterNext">
   <children>
-    <ScrollingLabel id="itemTitle" font="font:LargeBoldSystemFont" translation="[103,61]" maxWidth="1400" />
+    <Poster uri="pkg:/images/osdBackground.png" width="1920" height="279" />
+
+    <LayoutGroup id="videoInfo" layoutDirection="vert" translation="[103,61]">
+      <ScrollingLabel id="itemTitle" font="font:LargeBoldSystemFont" maxWidth="1400" />
+      <LayoutGroup id="videoInfo" layoutDirection="horiz" translation="[103,61]">
+        <Label id="itemSeason" font="font:MediumSystemFont" color="0xffffffFF" />
+        <Label id="itemEpisode" font="font:MediumSystemFont" color="0xffffffFF" />
+      </LayoutGroup>
+    </LayoutGroup>
+
     <Clock id="clock" translation="[1618, 46]" />
 
     <ButtonGroup id="optionControls" itemSpacings="[20]" layoutDirection="horiz" horizAlignment="left" translation="[103,120]">
@@ -28,6 +37,9 @@
   </children>
   <interface>
     <field id="itemTitleText" type="string" />
+    <field id="seasonNumber" type="integer" />
+    <field id="episodeNumber" type="integer" />
+    <field id="logoImage" type="string" />
     <field id="inactiveTimeout" type="integer" />
     <field id="progressPercentage" type="float" />
     <field id="positionTime" type="float" />

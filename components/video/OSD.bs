@@ -1,10 +1,14 @@
 import "pkg:/source/utils/misc.bs"
 
+const LOGO_RIGHT_PADDING = 30
+const OPTIONCONTROLS_TOP_PADDING = 50
+
 sub init()
     m.videoControls = m.top.findNode("videoControls")
     m.optionControls = m.top.findNode("optionControls")
 
     m.inactivityTimer = m.top.findNode("inactivityTimer")
+    m.videoInfo = m.top.findNode("videoInfo")
     m.itemTitle = m.top.findNode("itemTitle")
     m.videoPlayPause = m.top.findNode("videoPlayPause")
     m.videoPositionTime = m.top.findNode("videoPositionTime")
@@ -16,10 +20,15 @@ sub init()
     m.top.observeField("hasFocus", "onFocusChanged")
     m.top.observeField("progressPercentage", "onProgressPercentageChanged")
     m.top.observeField("playbackState", "onPlaybackStateChanged")
+
     m.top.observeField("itemTitleText", "onItemTitleTextChanged")
+    m.top.observeField("seasonNumber", "onSeasonNumberChanged")
+    m.top.observeField("episodeNumber", "onEpisodeNumberChanged")
+    m.top.observeField("logoImage", "onLogoImageChanged")
 
     m.defaultButtonIndex = 1
     m.focusedButtonIndex = 1
+    m.optionControlsMoved = false
 
     m.videoControls.buttonFocused = m.defaultButtonIndex
     m.optionControls.buttonFocused = m.optionControls.getChildCount() - 1
@@ -51,6 +60,77 @@ end sub
 '
 sub onItemTitleTextChanged()
     m.itemTitle.text = m.top.itemTitleText
+end sub
+
+' onSeasonNumberChanged: Handler for changes to m.top.seasonNumber param.
+'
+sub onSeasonNumberChanged()
+    m.top.unobserveField("seasonNumber")
+    itemSeason = m.top.findNode("itemSeason")
+    itemSeason.font.size = 32
+    itemSeason.text = `S${m.top.seasonNumber}`
+
+    ' Move the option controls down to give room for season number
+    if not m.optionControlsMoved
+        moveOptionControls(0, OPTIONCONTROLS_TOP_PADDING)
+        m.optionControlsMoved = true
+    end if
+end sub
+
+' onEpisodeNumberChanged: Handler for changes to m.top.episodeNumber param.
+'
+sub onEpisodeNumberChanged()
+    m.top.unobserveField("episodeNumber")
+    itemEpisode = m.top.findNode("itemEpisode")
+    itemEpisode.font.size = 32
+    itemEpisode.text = `E${m.top.episodeNumber}`
+
+    ' Move the option controls down to give room for episode number
+    if not m.optionControlsMoved
+        moveOptionControls(0, OPTIONCONTROLS_TOP_PADDING)
+        m.optionControlsMoved = true
+    end if
+end sub
+
+' moveOptionControls: Moves option controls node based on passed pixel values
+'
+' @param {integer} horizontalPixels - Number of horizontal pixels to move option controls
+' @param {integer} verticalPixels - Number of vertical pixels to move option controls
+sub moveOptionControls(horizontalPixels as integer, verticalPixels as integer)
+    m.optionControls.translation = `[${m.optionControls.translation[0] + horizontalPixels}, ${m.optionControls.translation[1] + verticalPixels}]`
+end sub
+
+' onLogoLoadStatusChanged: Handler for changes to logo image's status.
+'
+' @param {dynamic} event - field change event
+sub onLogoLoadStatusChanged(event)
+    if LCase(event.GetData()) = "ready"
+        logoImage = event.getRoSGNode()
+        logoImage.unobserveField("loadStatus")
+
+        ' Move video info to the right based on the logo width
+        m.videoInfo.translation = `[${m.videoInfo.translation[0] + logoImage.bitmapWidth + LOGO_RIGHT_PADDING}, ${m.videoInfo.translation[1]}]`
+        m.itemTitle.maxWidth = m.itemTitle.maxWidth - (logoImage.bitmapWidth + LOGO_RIGHT_PADDING)
+
+        ' Move the option controls down based on the logo height
+        if not m.optionControlsMoved
+            moveOptionControls(0, OPTIONCONTROLS_TOP_PADDING)
+            m.optionControlsMoved = true
+        end if
+    end if
+end sub
+
+' onLogoImageChanged: Handler for changes to m.top.logoImage param.
+'
+sub onLogoImageChanged()
+    if isValidAndNotEmpty(m.top.logoImage)
+        logoImage = createObject("roSGNode", "Poster")
+        logoImage.Id = "logoImage"
+        logoImage.observeField("loadStatus", "onLogoLoadStatusChanged")
+        logoImage.uri = m.top.logoImage
+        logoImage.translation = [103, 61]
+        m.top.appendChild(logoImage)
+    end if
 end sub
 
 ' resetFocusToDefaultButton: Reset focus back to the default button
