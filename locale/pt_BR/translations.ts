@@ -3942,5 +3942,20 @@
         <source>Cast &amp; Crew</source>
         <translation>Elenco &amp; Equipe</translation>
     </message>
+    <message>
+        <source>Live</source>
+        <translation>Ao vivo</translation>
+        <extracomment>If TV Show is being broadcast live (not pre-recorded)</extracomment>
+    </message>
+    <message>
+        <source>Ended at</source>
+        <translation>Termina às</translation>
+        <extracomment>(Past Tense) For defining time when a program will ended (e.g. Ended at 08:00) </extracomment>
+    </message>
+    <message>
+        <source>Starts</source>
+        <translation>Começa</translation>
+        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g. Starts Wednesday, 08:00) </extracomment>
+    </message>
 </context>
 </TS>
