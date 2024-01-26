@@ -29,6 +29,9 @@ sub itemContentChanged()
 
     if isValid(itemData.indexNumber)
         indexNumber = itemData.indexNumber.toStr() + ". "
+        if isValid(itemData.indexNumberEnd)
+            indexNumber = itemData.indexNumber.toStr() + "-" + itemData.indexNumberEnd.toStr() + ". "
+        end if
     else
         indexNumber = ""
     end if
