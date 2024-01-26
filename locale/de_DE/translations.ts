@@ -15497,5 +15497,15 @@
         <translation>Zurück zum Anfang</translation>
         <extracomment>UI -&gt; Media Grid -&gt; Item Title in user setting screen.</extracomment>
     </message>
+    <message>
+        <source>Blur Unwatched Episodes</source>
+        <translation>Ungesehene Episoden verschleiern</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
+    <message>
+        <source>Options for TV Shows.</source>
+        <translation>Optionen für TV-Serien.</translation>
+        <extracomment>Description for TV Shows user settings.</extracomment>
+    </message>
 </context>
 </TS>
