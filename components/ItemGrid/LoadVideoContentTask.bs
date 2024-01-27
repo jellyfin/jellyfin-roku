@@ -248,7 +248,13 @@ function defaultSubtitleTrackFromVid(videoID) as integer
     if not isValidAndNotEmpty(meta.json.MediaSources[0].MediaStreams) then return SubtitleSelection.none
 
     subtitles = sortSubtitles(meta.id, meta.json.MediaSources[0].MediaStreams)
-    selectedAudioLanguage = meta.json.MediaSources[0].MediaStreams[m.top.selectedAudioStreamIndex].Language ?? ""
+
+    selectedAudioLanguage = ""
+    audioMediaStream = meta.json.MediaSources[0].MediaStreams[m.top.selectedAudioStreamIndex]
+
+    if isValid(audioMediaStream)
+        selectedAudioLanguage = audioMediaStream.Language ?? ""
+    end if
 
     defaultTextSubs = defaultSubtitleTrack(subtitles["text"], selectedAudioLanguage, true) ' Find correct subtitle track (forced text)
     if defaultTextSubs <> SubtitleSelection.none
