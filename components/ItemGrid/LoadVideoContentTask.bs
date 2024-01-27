@@ -252,6 +252,7 @@ function defaultSubtitleTrackFromVid(videoID) as integer
     selectedAudioLanguage = ""
     audioMediaStream = meta.json.MediaSources[0].MediaStreams[m.top.selectedAudioStreamIndex]
 
+    ' Ensure audio media stream is valid before using language property
     if isValid(audioMediaStream)
         selectedAudioLanguage = audioMediaStream.Language ?? ""
     end if
