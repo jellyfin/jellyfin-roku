@@ -19,7 +19,7 @@
           </LayoutGroup>
           <Label id="genres" />
           <Label id="tagline" />
-          <Label id="overview" wrap="true" width="1400" maxLines="4" />
+          <Label id="overview" wrap="true" width="1400" maxLines="4" ellipsisText=" ...  (Press * to read more)" />
           <Label id="history" />
           <JFButton id="Shuffle" minChars="15" text="Shuffle" translation="[90, 640]" visible="false"></JFButton>
         </LayoutGroup>
