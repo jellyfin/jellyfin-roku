@@ -28,9 +28,9 @@ sub itemContentChanged()
     end if
 
     if isValid(itemData.indexNumber)
-        indexNumber = itemData.indexNumber.toStr() + ". "
+        indexNumber = `${itemData.indexNumber}. `
         if isValid(itemData.indexNumberEnd)
-            indexNumber = itemData.indexNumber.toStr() + "-" + itemData.indexNumberEnd.toStr() + ". "
+            indexNumber = `${itemData.indexNumber}-${itemData.indexNumberEnd}. `
         end if
     else
         indexNumber = ""
