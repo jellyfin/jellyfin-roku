@@ -8,6 +8,7 @@
       <LayoutGroup id="videoInfo" layoutDirection="horiz" translation="[103,61]">
         <Label id="itemSeason" font="font:MediumSystemFont" color="0xffffffFF" />
         <Label id="itemEpisode" font="font:MediumSystemFont" color="0xffffffFF" />
+        <Label id="itemEpisodeEnd" font="font:MediumSystemFont" color="0xffffffFF" />
       </LayoutGroup>
     </LayoutGroup>
 
@@ -39,6 +40,7 @@
     <field id="itemTitleText" type="string" />
     <field id="seasonNumber" type="integer" />
     <field id="episodeNumber" type="integer" />
+    <field id="episodeNumberEnd" type="integer" />
     <field id="logoImage" type="string" />
     <field id="inactiveTimeout" type="integer" />
     <field id="progressPercentage" type="float" />

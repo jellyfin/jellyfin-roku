@@ -374,6 +374,10 @@ sub onVideoContentLoaded()
         if isValid(videoContent[0].episodeNumber)
             m.osd.episodeNumber = videoContent[0].episodeNumber
         end if
+
+        if isValid(videoContent[0].episodeNumberEnd)
+            m.osd.episodeNumberEnd = videoContent[0].episodeNumberEnd
+        end if
     end if
 
     ' Attempt to add logo to OSD

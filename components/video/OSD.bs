@@ -24,6 +24,7 @@ sub init()
     m.top.observeField("itemTitleText", "onItemTitleTextChanged")
     m.top.observeField("seasonNumber", "onSeasonNumberChanged")
     m.top.observeField("episodeNumber", "onEpisodeNumberChanged")
+    m.top.observeField("episodeNumberEnd", "onEpisodeNumberEndChanged")
     m.top.observeField("logoImage", "onLogoImageChanged")
 
     m.defaultButtonIndex = 1
@@ -84,6 +85,21 @@ sub onEpisodeNumberChanged()
     itemEpisode = m.top.findNode("itemEpisode")
     itemEpisode.font.size = 32
     itemEpisode.text = `E${m.top.episodeNumber}`
+
+    ' Move the option controls down to give room for episode number
+    if not m.optionControlsMoved
+        moveOptionControls(0, OPTIONCONTROLS_TOP_PADDING)
+        m.optionControlsMoved = true
+    end if
+end sub
+
+' onEpisodeNumberEndChanged: Handler for changes to m.top.episodeNumberEnd param.
+'
+sub onEpisodeNumberEndChanged()
+    m.top.unobserveField("episodeNumberEnd")
+    itemEpisodeEnd = m.top.findNode("itemEpisodeEnd")
+    itemEpisodeEnd.font.size = 32
+    itemEpisodeEnd.text = `-${m.top.episodeNumberEnd}`
 
     ' Move the option controls down to give room for episode number
     if not m.optionControlsMoved
