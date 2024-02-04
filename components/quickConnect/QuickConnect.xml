@@ -4,5 +4,6 @@
   <interface>
     <field id="secret" type="string" />
     <field id="authenticated" type="integer" value="0" />
+    <field id="saveCredentials" type="boolean" />
   </interface>
 </component>

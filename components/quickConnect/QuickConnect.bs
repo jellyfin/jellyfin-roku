@@ -10,8 +10,16 @@ sub monitorQuickConnect()
     authenticated = checkQuickConnect(m.top.secret)
 
     if authenticated = true
-        m.top.authenticated = 1
-    else
-        m.top.authenticated = -1
+        loggedIn = AuthenticateViaQuickConnect(m.top.secret)
+        if loggedIn
+            currentUser = AboutMe()
+            session.user.Login(currentUser, m.top.saveCredentials)
+            session.user.LoadUserPreferences()
+            LoadUserAbilities()
+            m.top.authenticated = 1
+            return
+        end if
     end if
+
+    m.top.authenticated = -1
 end sub
