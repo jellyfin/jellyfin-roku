@@ -48,7 +48,6 @@
   </children>
   <interface>
     <field id="selectedItem" type="node" alwaysNotify="true" />
-    <field id="focusedChild" type="node" onChange="focusChanged" />
     <field id="itemAlphaSelected" type="string" />
   </interface>
 </component>
