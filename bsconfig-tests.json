@@ -23,7 +23,6 @@
   ],
   "diagnosticFilters": ["node_modules/**/*", "**/roku_modules/**/*"],
   "autoImportComponentScript": true,
-  "allowBrighterScriptInBrightScript": true,
   "stagingFolderPath": "build",
   "retainStagingDir": true,
   "plugins": ["rooibos-roku"],
