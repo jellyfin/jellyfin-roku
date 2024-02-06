@@ -34,6 +34,7 @@
   "allowBrighterScriptInBrightScript": true,
   "createPackage": false,
   "stagingFolderPath": "build",
+  "retainStagingDir": true,
   "plugins": ["rooibos-roku"],
   "rooibos": {
     "isRecordingCodeCoverage": false,
