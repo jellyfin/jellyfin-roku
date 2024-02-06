@@ -6478,5 +6478,25 @@
         <source>Extras</source>
         <translation>Extras</translation>
     </message>
+    <message>
+        <source>Age</source>
+        <translation>Age</translation>
+    </message>
+    <message>
+        <source>Died</source>
+        <translation>Died</translation>
+    </message>
+    <message>
+        <source>Born</source>
+        <translation>Born</translation>
+    </message>
+    <message>
+        <source>Episodes</source>
+        <translation>Episodes</translation>
+    </message>
+    <message>
+        <source>Cast &amp; Crew</source>
+        <translation>Cast &amp; Crew</translation>
+    </message>
 </context>
 </TS>
