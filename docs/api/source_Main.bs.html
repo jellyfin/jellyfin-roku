@@ -284,7 +284,19 @@
                     end if
 
                     ' Display playback options dialog
-                    if selectedItem.json.userdata.PlaybackPositionTicks > 0
+                    showPlaybackOptionDialog = false
+
+                    if isValid(selectedItem.json)
+                        if isValid(selectedItem.json.userdata)
+                            if isValid(selectedItem.json.userdata.PlaybackPositionTicks)
+                                if selectedItem.json.userdata.PlaybackPositionTicks > 0
+                                    showPlaybackOptionDialog = true
+                                end if
+                            end if
+                        end if
+                    end if
+
+                    if showPlaybackOptionDialog
                         dialog.close = true
                         m.global.queueManager.callFunc("hold", selectedItem)
                         playbackOptionDialog(selectedItem.json.userdata.PlaybackPositionTicks, selectedItem.json)
