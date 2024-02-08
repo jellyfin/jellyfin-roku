@@ -49,7 +49,6 @@
     sceneManager.callFunc("clearScenes")
 
     ' load home page
-    sceneManager.currentUser = m.global.session.user.name
     group = CreateHomeGroup()
     group.callFunc("loadLibraries")
     stopLoadingSpinner()

@@ -26,6 +26,16 @@ sub redraw()
     m.top.findNode("UserRow").translation = [leftBorder, topBorder]
 end sub
 
+' JFScreen hook called when the screen is displayed by the screen manager
+sub OnScreenShown()
+    scene = m.top.getScene()
+    overhang = scene.findNode("overhang")
+    if isValid(overhang)
+        overhang.isLogoVisible = true
+        overhang.currentUser = ""
+    end if
+end sub
+
 function onKeyEvent(key as string, press as boolean) as boolean
     if not press then return false
 

@@ -126,20 +126,18 @@ sub popScene()
     stopLoadingSpinner()
 end sub
 
-
 '
 ' Return group at top of stack without removing
 function getActiveScene() as object
     return m.groups.peek()
 end function
 
-
 '
 ' Clear all content from group stack
 sub clearScenes()
     if m.content &lt;> invalid then m.content.removeChildrenIndex(m.content.getChildCount(), 0)
     for each group in m.groups
-        if LCase(group.subtype()) = "jfscreen"
+        if type(group) = "roSGNode" and group.isSubtype("JFScreen")
             group.callFunc("OnScreenHidden")
         end if
     end for
@@ -193,13 +191,11 @@ sub registerOverhangData(group)
     end if
 end sub
 
-
 '
 ' Remove observers for overhang data
 sub unregisterOverhangData(group)
     group.unobserveField("overhangTitle")
 end sub
-
 
 '
 ' Update overhang title
@@ -207,13 +203,11 @@ sub updateOverhangTitle(msg)
     m.overhang.title = msg.getData()
 end sub
 
-
 '
 ' Update options availability
 sub updateOptions(msg)
     m.overhang.showOptions = msg.getData()
 end sub
-
 
 '
 ' Update whether the overhang is visible or not
@@ -221,14 +215,12 @@ sub updateOverhangVisible(msg)
     m.overhang.visible = msg.getData()
 end sub
 
-
 '
 ' Update username in overhang
 sub updateUser()
     ' Passthrough to overhang
     if m.overhang &lt;> invalid then m.overhang.currentUser = m.top.currentUser
 end sub
-
 
 '
 ' Reset time
