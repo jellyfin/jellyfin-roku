@@ -145,7 +145,7 @@ sub playQueue()
         return
     end if
 
-    if LCase(nextItemMediaType) = "recording"
+    if nextItemMediaType = "recording"
         CreateVideoPlayerView()
         return
     end if

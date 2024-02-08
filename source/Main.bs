@@ -166,7 +166,7 @@ sub Main (args as dynamic) as void
                     m.global.queueManager.callFunc("clear") ' empty queue/playlist
                     m.global.queueManager.callFunc("resetShuffle") ' turn shuffle off
 
-                    if itemType = "episode" or LCase(itemType) = "recording" or itemType = "movie" or itemType = "video"
+                    if itemType = "episode" or itemType = "recording" or itemType = "movie" or itemType = "video"
                         quickplay.video(itemNode)
                         ' restore focus
                         if LCase(group.subtype()) = "tvepisodes"
