@@ -1,0 +1,6 @@
+[
+  {
+    "description": "Prevent app crash when attempting to play in-process recordings",
+    "author": "VTRunner"
+  }
+]
