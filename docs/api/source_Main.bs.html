@@ -401,9 +401,9 @@
             selectedIndex = msg.getData()
             screenContent = msg.getRoSGNode()
 
-            m.global.queueManager.callFunc("clear")
             m.global.queueManager.callFunc("resetShuffle")
-            m.global.queueManager.callFunc("push", screenContent.albumData.items[selectedIndex])
+            m.global.queueManager.callFunc("set", screenContent.albumData.items)
+            m.global.queueManager.callFunc("setPosition", selectedIndex)
             m.global.queueManager.callFunc("playQueue")
         else if isNodeEvent(msg, "playItem")
             ' User has selected audio they want us to play
