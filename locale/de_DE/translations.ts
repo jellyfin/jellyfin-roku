@@ -16075,5 +16075,28 @@
         <translation>Die Quelldatei ist vollständig mit diesem Client kompatibel und die Sitzung empfängt die Datei ohne Änderungen.</translation>
         <extracomment>Direct play info box text in GetPlaybackInfoTask.brs</extracomment>
     </message>
+    <message>
+        <source>Level</source>
+        <translation>Level</translation>
+        <extracomment>Video profile level</extracomment>
+    </message>
+    <message>
+        <source>Unplayed</source>
+        <translation>Ungespielt</translation>
+    </message>
+    <message>
+        <source>Played</source>
+        <translation>Gespielt</translation>
+    </message>
+    <message>
+        <source>Only display text subtitles to minimize transcoding.</source>
+        <translation>Nur Text-Untertitel anzeigen, um die Transkodierung zu minimieren.</translation>
+        <extracomment>Description of a setting - should we hide subtitles that might transcode</extracomment>
+    </message>
+    <message>
+        <source>Max Days Next Up</source>
+        <translation>Max. Tage für &quot;Als nächstes&quot;</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
 </context>
 </TS>
