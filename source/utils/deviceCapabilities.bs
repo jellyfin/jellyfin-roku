@@ -437,6 +437,12 @@ function getTranscodingProfiles() as object
         end if
     end if
 
+    ' add user-selected preferred codec to the front of the list
+    if globalUserSettings["playback.preferredAudioCodec"] <> "auto"
+        tsArray.AudioCodec = globalUserSettings["playback.preferredAudioCodec"] + "," + tsArray.AudioCodec
+        mp4Array.AudioCodec = globalUserSettings["playback.preferredAudioCodec"] + "," + mp4Array.AudioCodec
+    end if
+
     transcodingProfiles.push(tsArray)
     transcodingProfiles.push(mp4Array)
 

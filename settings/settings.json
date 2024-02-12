@@ -18,14 +18,43 @@
         "children": [
             {
                 "title": "Audio Codec Support",
-                "description": "Choose your preferred audio codec when transcoding multichannel audio.",
+                "description": "Choose your preferred audio codecs when transcoding.",
                 "children": [
                     {
-                        "title": "DTS",
-                        "description": "Force all transcodes to use DTS instead of the default EAC3. The device must support DTS for this setting to have an effect.",
+                        "title": "Multichannel Audio - DTS",
+                        "description": "Force all audio transcodes to use DTS instead of the default EAC3. The device must support DTS for this setting to have an effect.",
                         "settingName": "playback.forceDTS",
                         "type": "bool",
                         "default": "false"
+                    },
+                    {
+                        "title": "Preferred Audio Codec",
+                        "description": "Use the selected audio codec for transcodes. If the device or stream does not support it, a fallback codec will be used.",
+                        "settingName": "playback.preferredAudioCodec",
+                        "type": "radio",
+                        "default": "auto",
+                        "options": [
+                            {
+                                "title": "Use system settings",
+                                "id": "auto"
+                            },
+                            {
+                                "title": "AAC",
+                                "id": "aac"
+                            },
+                            {
+                                "title": "DD (AC3)",
+                                "id": "ac3"
+                            },
+                            {
+                                "title": "DD+ (EAC3)",
+                                "id": "eac3"
+                            },
+                            {
+                                "title": "DTS",
+                                "id": "dts"
+                            }
+                        ]
                     }
                 ]
             },

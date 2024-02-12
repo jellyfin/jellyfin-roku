@@ -1113,14 +1113,34 @@
             <extracomment>Settings Menu - Description for option</extracomment>
         </message>
         <message>
-            <source>Choose your preferred audio codec when transcoding multichannel audio.</source>
-            <translation>Choose your preferred audio codec when transcoding multichannel audio.</translation>
+            <source>Choose your preferred audio codecs when transcoding.</source>
+            <translation>Choose your preferred audio codecs when transcoding.</translation>
             <extracomment>Settings Menu - Description for option</extracomment>
         </message>
         <message>
-            <source>Force all transcodes to use DTS instead of the default EAC3. The device must support DTS for this setting to have an effect.</source>
-            <translation>Force all transcodes to use DTS instead of the default EAC3. The device must support DTS for this setting to have an effect.</translation>
+            <source>Multichannel Audio - DTS</source>
+            <translation>Multichannel Audio - DTS</translation>
+            <extracomment>Settings Menu - Title of option</extracomment>
+        </message>
+        <message>
+            <source>Force all audio transcodes to use DTS instead of the default EAC3. The device must support DTS for this setting to have an effect.</source>
+            <translation>Force all audio transcodes to use DTS instead of the default EAC3. The device must support DTS for this setting to have an effect.</translation>
             <extracomment>Settings Menu - Description for option</extracomment>
+        </message>
+        <message>
+            <source>Preferred Audio Codec</source>
+            <translation>Preferred Audio Codec</translation>
+            <extracomment>Settings Menu - Title of option</extracomment>
+        </message>
+        <message>
+            <source>Use the selected audio codec for transcodes. If the device or stream does not support it, a fallback codec will be used.</source>
+            <translation>Use the selected audio codec for transcodes. If the device or stream does not support it, a fallback codec will be used.</translation>
+            <extracomment>Settings Menu - Description for option</extracomment>
+        </message>
+        <message>
+            <source>Use system settings</source>
+            <translation>Use system settings</translation>
+            <extracomment>User Setting - Option title</extracomment>
         </message>
         <message>
             <source>Audio Codec Support</source>
