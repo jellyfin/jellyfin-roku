@@ -3,9 +3,6 @@ name: build-dev
 on:
   pull_request:
   push:
-    branches:
-      - master
-      - "*.*.z"
 
 jobs:
   dev:
