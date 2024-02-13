@@ -86,7 +86,7 @@ jobs:
         run: echo "newBranch=bump-${{ github.event.inputs.targetBranch }}-to-${{ env.newVersionSlug }}" >> $GITHUB_ENV
       - name: Create PR with new version
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.JF_BOT_TOKEN }}
         run: |-
           git config user.name "jellyfin-bot"
           git config user.email "team@jellyfin.org"
@@ -153,7 +153,7 @@ jobs:
         run: echo "newBranch=bump-${{ github.event.inputs.targetBranch }}-to-${{ env.newVersionSlug }}" >> $GITHUB_ENV
       - name: Create PR with new version
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.JF_BOT_TOKEN }}
         run: |-
           git config user.name "jellyfin-bot"
           git config user.email "team@jellyfin.org"
@@ -223,7 +223,7 @@ jobs:
         run: echo "newBranch=bump-${{ github.event.inputs.targetBranch }}-to-${{ env.newVersionSlug }}" >> $GITHUB_ENV
       - name: Create PR with new version
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.JF_BOT_TOKEN }}
         run: |-
           git config user.name "jellyfin-bot"
           git config user.email "team@jellyfin.org"
