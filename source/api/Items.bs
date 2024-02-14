@@ -425,6 +425,36 @@ function TVSeasons(id as string) as dynamic
     return data
 end function
 
+' Returns a single episode of a TV Show
+' Accepts a GUID string for the TV Episode Id
+function TVEpisode(episodeId as string) as dynamic
+    ' Get and validate data
+    data = api.users.GetItemsByQuery(m.global.session.user.id, {
+        "fields": "MediaStreams,MediaSources",
+        "ids": episodeId
+    })
+    if data = invalid or data.Items = invalid then return invalid
+
+    results = []
+    for each item in data.Items
+        tmp = CreateObject("roSGNode", "TVEpisodeData")
+        tmp.image = PosterImage(item.id, { "maxWidth": 400, "maxheight": 250 })
+        if isValid(tmp.image)
+            tmp.image.posterDisplayMode = "scaleToZoom"
+        end if
+        tmp.json = item
+        tmpMetaData = ItemMetaData(item.id)
+
+        ' validate meta data
+        if isValid(tmpMetaData) and isValid(tmpMetaData.overview)
+            tmp.overview = tmpMetaData.overview
+        end if
+        results.push(tmp)
+    end for
+    data.Items = results
+    return data
+end function
+
 ' Returns a list of TV Shows for a given TV Show and season
 ' Accepts strings for the TV Show Id and the season Id
 function TVEpisodes(showId as string, seasonId as string) as dynamic
