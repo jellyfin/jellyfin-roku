@@ -36,7 +36,7 @@ end sub
 
 
 sub itemContentChanged()
-    m.unplayedCount.visible = false
+    if isValid(m.unplayedCount) then m.unplayedCount.visible = false
     itemData = m.top.itemContent
     if itemData = invalid then return
     localGlobal = m.global
@@ -57,7 +57,6 @@ sub itemContentChanged()
 
     if itemData.isWatched
         m.playedIndicator.visible = true
-        m.unplayedCount.visible = false
     else
         m.playedIndicator.visible = false
 
@@ -66,7 +65,7 @@ sub itemContentChanged()
                 if localGlobal.session.user.settings["ui.tvshows.disableUnwatchedEpisodeCount"] = false
                     if isValid(itemData.json.UserData) and isValid(itemData.json.UserData.UnplayedItemCount)
                         if itemData.json.UserData.UnplayedItemCount > 0
-                            m.unplayedCount.visible = true
+                            if isValid(m.unplayedCount) then m.unplayedCount.visible = true
                             m.unplayedEpisodeCount.text = itemData.json.UserData.UnplayedItemCount
                         end if
                     end if
