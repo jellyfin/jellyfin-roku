@@ -62,7 +62,7 @@ sub itemContentChanged()
 
         if LCase(itemData.type) = "series"
             if isValid(localGlobal) and isValid(localGlobal.session) and isValid(localGlobal.session.user) and isValid(localGlobal.session.user.settings)
-                if localGlobal.session.user.settings["ui.tvshows.disableUnwatchedEpisodeCount"] = false
+                if not localGlobal.session.user.settings["ui.tvshows.disableUnwatchedEpisodeCount"]
                     if isValid(itemData.json.UserData) and isValid(itemData.json.UserData.UnplayedItemCount)
                         if itemData.json.UserData.UnplayedItemCount > 0
                             if isValid(m.unplayedCount) then m.unplayedCount.visible = true
