@@ -64,6 +64,10 @@ sub itemContentChanged()
                 end if
             end if
         end if
+
+        m.itemPoster.uri = itemData.PosterUrl
+        m.itemIcon.uri = itemData.iconUrl
+        m.itemText.text = itemData.Title
     else if itemData.type = "Boxset"
         m.itemPoster.uri = itemData.PosterUrl
         m.itemIcon.uri = itemData.iconUrl
