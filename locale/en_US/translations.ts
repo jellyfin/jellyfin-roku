@@ -1118,16 +1118,6 @@
             <extracomment>Settings Menu - Description for option</extracomment>
         </message>
         <message>
-            <source>Multichannel Audio - DTS</source>
-            <translation>Multichannel Audio - DTS</translation>
-            <extracomment>Settings Menu - Title of option</extracomment>
-        </message>
-        <message>
-            <source>Force all audio transcodes to use DTS instead of the default EAC3. The device must support DTS for this setting to have an effect.</source>
-            <translation>Force all audio transcodes to use DTS instead of the default EAC3. The device must support DTS for this setting to have an effect.</translation>
-            <extracomment>Settings Menu - Description for option</extracomment>
-        </message>
-        <message>
             <source>Preferred Audio Codec</source>
             <translation>Preferred Audio Codec</translation>
             <extracomment>Settings Menu - Title of option</extracomment>

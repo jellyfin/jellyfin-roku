@@ -195,21 +195,13 @@ function getTranscodingProfiles() as object
     ' does the users setup support surround sound?
     maxAudioChannels = "2" ' jellyfin expects this as a string
     ' in order of preference from left to right
-    audioCodecs = ["mp3", "vorbis", "opus", "flac", "alac", "ac4", "pcm", "wma", "wmapro"]
-    surroundSoundCodecs = ["eac3", "ac3", "dts"]
-    if globalUserSettings["playback.forceDTS"] = true
-        surroundSoundCodecs = ["dts", "eac3", "ac3"]
-    end if
+    audioCodecs = ["eac3", "ac3", "dts", "mp3", "vorbis", "opus", "flac", "alac", "ac4", "pcm", "wma", "wmapro"]
 
-    surroundSoundCodec = invalid
     if di.GetAudioOutputChannel() = "5.1 surround"
         maxAudioChannels = "6"
-        for each codec in surroundSoundCodecs
-            if di.CanDecodeAudio({ Codec: codec, ChCnt: 6 }).Result
-                surroundSoundCodec = codec
-                if di.CanDecodeAudio({ Codec: codec, ChCnt: 8 }).Result
-                    maxAudioChannels = "8"
-                end if
+        for each codec in audioCodecs
+            if di.CanDecodeAudio({ Codec: codec, ChCnt: 8 }).Result
+                maxAudioChannels = "8"
                 exit for
             end if
         end for
@@ -401,40 +393,6 @@ function getTranscodingProfiles() as object
     if globalUserSettings["playback.resolution.max"] <> "off"
         tsArray.Conditions = [getMaxHeightArray(), getMaxWidthArray()]
         mp4Array.Conditions = [getMaxHeightArray(), getMaxWidthArray()]
-    end if
-
-    ' surround sound
-    if surroundSoundCodec <> invalid
-        ' add preferred surround sound codec to TranscodingProfile
-        transcodingProfiles.push({
-            "Container": surroundSoundCodec,
-            "Type": "Audio",
-            "AudioCodec": surroundSoundCodec,
-            "Context": "Streaming",
-            "Protocol": "http",
-            "MaxAudioChannels": maxAudioChannels
-        })
-        transcodingProfiles.push({
-            "Container": surroundSoundCodec,
-            "Type": "Audio",
-            "AudioCodec": surroundSoundCodec,
-            "Context": "Static",
-            "Protocol": "http",
-            "MaxAudioChannels": maxAudioChannels
-        })
-
-        ' put codec in front of AudioCodec string
-        if tsArray.AudioCodec = ""
-            tsArray.AudioCodec = surroundSoundCodec
-        else
-            tsArray.AudioCodec = surroundSoundCodec + "," + tsArray.AudioCodec
-        end if
-
-        if mp4Array.AudioCodec = ""
-            mp4Array.AudioCodec = surroundSoundCodec
-        else
-            mp4Array.AudioCodec = surroundSoundCodec + "," + mp4Array.AudioCodec
-        end if
     end if
 
     ' add user-selected preferred codec to the front of the list
