@@ -319,6 +319,10 @@ function isChainValid(root as dynamic, propertyPath as string) as boolean
 
     if not isValid(rootPath) then return false
 
+    ' Root path is valid, and no properties were passed. Return state of root
+    if properties.count() = 0 then return true
+    if properties[0] = "" then return true
+
     if not isValid(rootPath.lookup(properties[0])) then return false
 
     rootPath = rootPath.lookup(properties[0])
