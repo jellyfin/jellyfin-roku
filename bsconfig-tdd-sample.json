@@ -29,12 +29,17 @@
       "dest": "source"
     }
   ],
-  "diagnosticFilters": ["node_modules/**/*", "**/roku_modules/**/*"],
+  "diagnosticFilters": [
+    "node_modules/**/*",
+    "**/roku_modules/**/*"
+  ],
   "autoImportComponentScript": true,
-  "allowBrighterScriptInBrightScript": true,
   "createPackage": false,
-  "stagingFolderPath": "build",
-  "plugins": ["rooibos-roku"],
+  "stagingDir": "build",
+  "retainStagingDir": true,
+  "plugins": [
+    "rooibos-roku"
+  ],
   "rooibos": {
     "isRecordingCodeCoverage": false,
     "testsFilePattern": null,
