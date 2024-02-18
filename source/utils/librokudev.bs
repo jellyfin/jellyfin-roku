@@ -1,0 +1,51 @@
+'The functions in this file are taken from the librokudev library available
+'at https://github.com/sumitk/librokudev under the terms of its license,
+'available at https://github.com/sumitk/librokudev/blob/master/LICENSE,
+'which, at the time of writing, is as follows:
+
+'Copyright (c) 2010, GandK Labs.  All rights reserved.
+
+'Redistribution and use in source and binary forms, with or without
+'modification, are permitted provided that the following conditions are met:
+'    * Redistributions of source code must retain the above copyright
+'      notice, this list of conditions and the following disclaimer.
+'    * Redistributions in binary form must reproduce the above copyright
+'      notice, this list of conditions and the following disclaimer in the
+'      documentation and/or other materials provided with the distribution.
+'    * Neither the GandK Labs name, the libRokuDev name, nor the
+'      names of its contributors may be used to endorse or promote products
+'      derived from this software without specific prior written permission.
+
+'THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+'ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+'WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+'DISCLAIMED. IN NO EVENT SHALL GANDK LABS BE LIABLE FOR ANY
+'DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+'(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+'LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+'ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+'(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+'SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+function rdRightShift(num as integer, count = 1 as integer) as integer
+    mult = 2 ^ count
+    summand = 1
+    total = 0
+    for i = count to 31
+        if num and summand * mult
+            total = total + summand
+        end if
+        summand = summand * 2
+    end for
+    return total
+end function
+
+function rdINTtoHEX(num as integer) as object
+    ba = CreateObject("roByteArray")
+    ba.setresize(4, false)
+    ba[0] = rdRightShift(num, 24)
+    ba[1] = rdRightShift(num, 16)
+    ba[2] = rdRightShift(num, 8)
+    ba[3] = num ' truncates
+    return ba.toHexString().Right(2)
+end function

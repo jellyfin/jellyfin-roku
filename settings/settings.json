@@ -219,6 +219,13 @@
                         "default": "365"
                     },
                     {
+                        "title": "Render blurhashes",
+                        "description": "Use an EXPERIMENTAL algorithm to render image blurhashes. This may slow down page loading and cause the app the crash.",
+                        "settingName": "ui.design.renderblurhashes",
+                        "type": "bool",
+                        "default": "false"
+                    },
+                    {
                         "title": "Show What's New Popup",
                         "description": "Show What's New popup when Jellyfin is updated to a new version.",
                         "settingName": "load.allowwhatsnew",

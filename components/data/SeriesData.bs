@@ -1,6 +1,7 @@
 import "pkg:/source/api/Image.bs"
 import "pkg:/source/api/baserequest.bs"
 import "pkg:/source/utils/config.bs"
+import "pkg:/source/utils/fakeBlurhash.bs"
 
 sub setFields()
     json = m.top.json
@@ -38,6 +39,14 @@ sub setPoster()
 
             imgParams = { "maxHeight": 440, "maxWidth": 295, "Tag": m.top.json.ImageTags.Primary }
             m.top.posterURL = ImageURL(m.top.json.id, "Primary", imgParams)
+            if isValidAndNotEmpty(m.top.json.ImageBlurHashes.Primary)
+                blurhash = m.top.json.ImageBlurHashes.Primary[m.top.json.ImageTags.Primary]
+                if get_user_setting("ui.design.renderblurhashes") = "true" and isValidAndNotEmpty(blurhash)
+                    timer = CreateObject("roTimeSpan")
+                    m.top.posterBlurHashUrl = renderFakeBlurhash(blurhash, imgParams.maxWidth, imgParams.maxHeight)
+                    print "Took " + Str(timer.totalMilliseconds()) + " milliseconds to render a blurhash in SeriesData."
+                end if
+            end if
         else if m.top.json.BackdropImageTags <> invalid
             imgParams = { "maxHeight": 440, "Tag": m.top.json.BackdropImageTags[0] }
             m.top.posterURL = ImageURL(m.top.json.id, "Backdrop", imgParams)
