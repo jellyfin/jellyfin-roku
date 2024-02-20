@@ -38,9 +38,10 @@ end sub
 
 
 sub itemContentChanged()
-    m.unplayedCount.visible = false
+    if isValid(m.unplayedCount) then m.unplayedCount.visible = false
     itemData = m.top.itemContent
     if itemData = invalid then return
+    localGlobal = m.global
 
     itemData.Title = itemData.name ' Temporarily required while we move from "HomeItem" to "JFContentItem"
 
@@ -58,16 +59,17 @@ sub itemContentChanged()
 
     if itemData.isWatched
         m.playedIndicator.visible = true
-        m.unplayedCount.visible = false
     else
         m.playedIndicator.visible = false
 
         if LCase(itemData.type) = "series"
-            if m.global.session.user.settings["ui.tvshows.disableUnwatchedEpisodeCount"] = false
-                if isValid(itemData.json.UserData) and isValid(itemData.json.UserData.UnplayedItemCount)
-                    if itemData.json.UserData.UnplayedItemCount > 0
-                        m.unplayedCount.visible = true
-                        m.unplayedEpisodeCount.text = itemData.json.UserData.UnplayedItemCount
+            if isValid(localGlobal) and isValid(localGlobal.session) and isValid(localGlobal.session.user) and isValid(localGlobal.session.user.settings)
+                if not localGlobal.session.user.settings["ui.tvshows.disableUnwatchedEpisodeCount"]
+                    if isValid(itemData.json.UserData) and isValid(itemData.json.UserData.UnplayedItemCount)
+                        if itemData.json.UserData.UnplayedItemCount > 0
+                            if isValid(m.unplayedCount) then m.unplayedCount.visible = true
+                            m.unplayedEpisodeCount.text = itemData.json.UserData.UnplayedItemCount
+                        end if
                     end if
                 end if
             end if
