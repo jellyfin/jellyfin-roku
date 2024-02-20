@@ -331,6 +331,7 @@ sub onVideoContentLoaded()
     m.top.audioIndex = videoContent[0].audioIndex
     m.top.transcodeParams = videoContent[0].transcodeparams
     m.chapters = videoContent[0].chapters
+    m.top.showID = videoContent[0].showID
 
     m.osd.itemTitleText = m.top.content.title
 
@@ -413,6 +414,11 @@ sub onNextEpisodeDataLoaded()
     m.checkedForNextEpisode = true
 
     m.top.observeField("position", "onPositionChanged")
+
+    ' If there is no next episode, disable next episode button
+    if m.getNextEpisodeTask.nextEpisodeData.Items.count() <> 2
+        m.nextupbuttonseconds = 0
+    end if
 end sub
 
 '
@@ -527,7 +533,7 @@ sub onState(msg)
         m.top.backPressed = true
     else if m.top.state = "playing"
 
-        ' Check if next episde is available
+        ' Check if next episode is available
         if isValid(m.top.showID)
             if m.top.showID <> "" and not m.checkedForNextEpisode and m.top.content.contenttype = 4
                 m.getNextEpisodeTask.showID = m.top.showID
