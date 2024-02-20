@@ -38,10 +38,13 @@ sub init()
 end sub
 
 sub itemContentChanged()
+    m.backdrop.blendColor = "#00a4db" ' set default in case global var is invalid
+    localGlobal = m.global
 
-    ' Set Random background colors from pallet
-    posterBackgrounds = m.global.constants.poster_bg_pallet
-    m.backdrop.blendColor = posterBackgrounds[rnd(posterBackgrounds.count()) - 1]
+    if isValid(localGlobal) and isValid(localGlobal.constants) and isValid(localGlobal.constants.poster_bg_pallet)
+        posterBackgrounds = localGlobal.constants.poster_bg_pallet
+        m.backdrop.blendColor = posterBackgrounds[rnd(posterBackgrounds.count()) - 1]
+    end if
 
     itemData = m.top.itemContent
 
@@ -56,14 +59,16 @@ sub itemContentChanged()
         m.itemIcon.uri = itemData.iconUrl
         m.itemText.text = itemData.Title
     else if itemData.type = "Series"
-        if m.global.session.user.settings["ui.tvshows.disableUnwatchedEpisodeCount"] = false
-            if isValid(itemData.json) and isValid(itemData.json.UserData) and isValid(itemData.json.UserData.UnplayedItemCount)
-                if itemData.json.UserData.UnplayedItemCount > 0
-                    m.unplayedCount.visible = true
-                    m.unplayedEpisodeCount.text = itemData.json.UserData.UnplayedItemCount
-                else
-                    m.unplayedCount.visible = false
-                    m.unplayedEpisodeCount.text = ""
+        if isValid(localGlobal) and isValid(localGlobal.session) and isValid(localGlobal.session.user) and isValid(localGlobal.session.user.settings)
+            if localGlobal.session.user.settings["ui.tvshows.disableUnwatchedEpisodeCount"] = false
+                if isValid(itemData.json) and isValid(itemData.json.UserData) and isValid(itemData.json.UserData.UnplayedItemCount)
+                    if itemData.json.UserData.UnplayedItemCount > 0
+                        m.unplayedCount.visible = true
+                        m.unplayedEpisodeCount.text = itemData.json.UserData.UnplayedItemCount
+                    else
+                        m.unplayedCount.visible = false
+                        m.unplayedEpisodeCount.text = ""
+                    end if
                 end if
             end if
         end if
