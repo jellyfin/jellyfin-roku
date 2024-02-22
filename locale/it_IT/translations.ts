@@ -3918,5 +3918,45 @@
         <source>Direct playing</source>
         <translation>Riproduzione diretta</translation>
     </message>
+    <message>
+        <source>Album Artists (Grid)</source>
+        <translation>Artisti dell&apos;album (griglia)</translation>
+    </message>
+    <message>
+        <source>Albums</source>
+        <translation>Album</translation>
+    </message>
+    <message>
+        <source>Always Hide</source>
+        <translation>Nascondi sempre</translation>
+    </message>
+    <message>
+        <source>Codec Tag</source>
+        <translation>Etichetta Codec</translation>
+    </message>
+    <message>
+        <source>Artists (Presentation)</source>
+        <translation>Artisti (presentazione)</translation>
+    </message>
+    <message>
+        <source>Artists (Grid)</source>
+        <translation>Artisti (griglia)</translation>
+    </message>
+    <message>
+        <source>Album</source>
+        <translation>Album</translation>
+    </message>
+    <message>
+        <source>direct</source>
+        <translation>diretto</translation>
+    </message>
+    <message>
+        <source>Resumable</source>
+        <translation>Ripresa possibile</translation>
+    </message>
+    <message>
+        <source>Biographical information for this person is not currently available.</source>
+        <translation>Informazioni biografiche per questa persona attualmente non disponibili.</translation>
+    </message>
 </context>
 </TS>
