@@ -1113,11 +1113,6 @@
             <extracomment>Settings Menu - Description for option</extracomment>
         </message>
         <message>
-            <source>Choose your preferred audio codecs when transcoding.</source>
-            <translation>Choose your preferred audio codecs when transcoding.</translation>
-            <extracomment>Settings Menu - Description for option</extracomment>
-        </message>
-        <message>
             <source>Preferred Audio Codec</source>
             <translation>Preferred Audio Codec</translation>
             <extracomment>Settings Menu - Title of option</extracomment>
@@ -1131,11 +1126,6 @@
             <source>Use system settings</source>
             <translation>Use system settings</translation>
             <extracomment>User Setting - Option title</extracomment>
-        </message>
-        <message>
-            <source>Audio Codec Support</source>
-            <translation>Audio Codec Support</translation>
-            <extracomment>Settings Menu - Title of option</extracomment>
         </message>
         <message>
             <source>Direct playing</source>

@@ -17,41 +17,6 @@
         "description": "Settings relating to playback and supported codec and media types.",
         "children": [
             {
-                "title": "Audio Codec Support",
-                "description": "Choose your preferred audio codecs when transcoding.",
-                "children": [
-                    {
-                        "title": "Preferred Audio Codec",
-                        "description": "Use the selected audio codec for transcodes. If the device or stream does not support it, a fallback codec will be used.",
-                        "settingName": "playback.preferredAudioCodec",
-                        "type": "radio",
-                        "default": "auto",
-                        "options": [
-                            {
-                                "title": "Use system settings",
-                                "id": "auto"
-                            },
-                            {
-                                "title": "AAC",
-                                "id": "aac"
-                            },
-                            {
-                                "title": "DD (AC3)",
-                                "id": "ac3"
-                            },
-                            {
-                                "title": "DD+ (EAC3)",
-                                "id": "eac3"
-                            },
-                            {
-                                "title": "DTS",
-                                "id": "dts"
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
                 "title": "Bitrate Limit",
                 "description": "Configure the maximum playback bitrate.",
                 "children": [
@@ -208,6 +173,35 @@
                 "settingName": "playback.nextupbuttonseconds",
                 "type": "integer",
                 "default": "30"
+            },
+            {
+                "title": "Preferred Audio Codec",
+                "description": "Use the selected audio codec for transcodes. If the device or stream does not support it, a fallback codec will be used.",
+                "settingName": "playback.preferredAudioCodec",
+                "type": "radio",
+                "default": "auto",
+                "options": [
+                    {
+                        "title": "Use system settings",
+                        "id": "auto"
+                    },
+                    {
+                        "title": "AAC",
+                        "id": "aac"
+                    },
+                    {
+                        "title": "DD (AC3)",
+                        "id": "ac3"
+                    },
+                    {
+                        "title": "DD+ (EAC3)",
+                        "id": "eac3"
+                    },
+                    {
+                        "title": "DTS",
+                        "id": "dts"
+                    }
+                ]
             },
             {
                 "title": "Text Subtitles Only",
