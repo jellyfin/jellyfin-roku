@@ -298,15 +298,22 @@ function playAction() as boolean
 end function
 
 function previousClicked() as boolean
-    if m.global.queueManager.callFunc("getPosition") = 0 then return false
+    currentQueuePosition = m.global.queueManager.callFunc("getPosition")
+
+    if currentQueuePosition = 0 then return false
 
     if m.playlistTypeCount > 1
-        m.global.audioPlayer.control = "stop"
+        previousItem = m.global.queueManager.callFunc("getItemByIndex", currentQueuePosition - 1)
+        previousItemType = m.global.queueManager.callFunc("getItemType", previousItem)
 
-        m.global.sceneManager.callFunc("clearPreviousScene")
-        m.global.queueManager.callFunc("moveBack")
-        m.global.queueManager.callFunc("playQueue")
-        return true
+        if previousItemType <> "audio"
+            m.global.audioPlayer.control = "stop"
+
+            m.global.sceneManager.callFunc("clearPreviousScene")
+            m.global.queueManager.callFunc("moveBack")
+            m.global.queueManager.callFunc("playQueue")
+            return true
+        end if
     end if
 
     exitScrubMode()
@@ -362,14 +369,21 @@ end sub
 
 function nextClicked() as boolean
     if m.playlistTypeCount > 1
-        if m.global.queueManager.callFunc("getPosition") < m.global.queueManager.callFunc("getCount") - 1
-            m.global.audioPlayer.control = "stop"
+        currentQueuePosition = m.global.queueManager.callFunc("getPosition")
+        if currentQueuePosition < m.global.queueManager.callFunc("getCount") - 1
 
-            m.global.sceneManager.callFunc("clearPreviousScene")
-            m.global.queueManager.callFunc("moveForward")
-            m.global.queueManager.callFunc("playQueue")
+            nextItem = m.global.queueManager.callFunc("getItemByIndex", currentQueuePosition + 1)
+            nextItemType = m.global.queueManager.callFunc("getItemType", nextItem)
+
+            if nextItemType <> "audio"
+                m.global.audioPlayer.control = "stop"
+
+                m.global.sceneManager.callFunc("clearPreviousScene")
+                m.global.queueManager.callFunc("moveForward")
+                m.global.queueManager.callFunc("playQueue")
+                return true
+            end if
         end if
-        return true
     end if
 
     exitScrubMode()

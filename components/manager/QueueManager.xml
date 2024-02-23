@@ -9,6 +9,7 @@
     <function name="getHold" />
     <function name="getIsShuffled" />
     <function name="getItemByIndex" />
+    <function name="getItemType" />
     <function name="getPosition" />
     <function name="getQueue" />
     <function name="getQueueTypes" />
