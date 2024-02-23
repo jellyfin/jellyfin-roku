@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<component name="UserSelect" extends="JFGroup">
+<component name="UserSelect" extends="JFScreen">
   <children>
     <Label text="Please sign in" horizAlign="center" font="font:LargeSystemFont" height="100" width="1920" translation="[0, 200]" />
     <UserRow id="userRow" translation="[130, 360]" />

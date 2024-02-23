@@ -27,8 +27,8 @@ sub init()
     m.top.observeField("episodeNumberEnd", "onEpisodeNumberEndChanged")
     m.top.observeField("logoImage", "onLogoImageChanged")
 
-    m.defaultButtonIndex = 1
-    m.focusedButtonIndex = 1
+    m.defaultButtonIndex = 2
+    m.focusedButtonIndex = 2
     m.optionControlsMoved = false
 
     m.videoControls.buttonFocused = m.defaultButtonIndex
@@ -171,7 +171,7 @@ sub resetFocusToDefaultButton()
     m.videoControls.setFocus(true)
     m.focusedButtonIndex = m.defaultButtonIndex
     m.videoControls.getChild(m.defaultButtonIndex).focus = true
-    m.videoControls.buttonFocused = 1
+    m.videoControls.buttonFocused = m.defaultButtonIndex
     m.optionControls.buttonFocused = m.optionControls.getChildCount() - 1
 end sub
 
