@@ -12,9 +12,11 @@
     </ButtonGroup>
 
     <ButtonGroup id="videoControls" itemSpacings="[20]" layoutDirection="horiz" horizAlignment="center" translation="[960,875]">
+      <IconButton id="itemBack" background="#070707" focusBackground="#00a4dc" padding="35" icon="pkg:/images/icons/itemPrevious.png" height="65" width="100" />
       <IconButton id="chapterBack" background="#070707" focusBackground="#00a4dc" padding="16" icon="pkg:/images/icons/previousChapter.png" height="65" width="100" />
       <IconButton id="videoPlayPause" background="#070707" focusBackground="#00a4dc" padding="35" icon="pkg:/images/icons/play.png" height="65" width="100" />
       <IconButton id="chapterNext" background="#070707" focusBackground="#00a4dc" padding="16" icon="pkg:/images/icons/nextChapter.png" height="65" width="100" />
+      <IconButton id="itemNext" background="#070707" focusBackground="#00a4dc" padding="35" icon="pkg:/images/icons/itemNext.png" height="65" width="100" />
     </ButtonGroup>
 
     <Rectangle id="progressBarBackground" color="0x00000098" width="1714" height="8" translation="[103,970]">
