@@ -1251,5 +1251,10 @@
             <translation>Random</translation>
             <extracomment>General use word when we want to randomize data</extracomment>
         </message>
+        <message>
+            <source>Special</source>
+            <translation>Special</translation>
+            <extracomment>Special episode of a TV Show</extracomment>
+        </message>
     </context>
 </TS>

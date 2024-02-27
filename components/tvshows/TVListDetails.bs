@@ -27,7 +27,9 @@ sub itemContentChanged()
         item.selectedVideoStreamId = itemData.MediaSources[0].id
     end if
 
-    if isValid(itemData.indexNumber)
+    if isValid(itemData.parentIndexNumber) and itemData.parentIndexNumber = 0
+        indexNumber = `${tr("Special")} - `
+    else if isValid(itemData.indexNumber)
         indexNumber = `${itemData.indexNumber}. `
         if isValid(itemData.indexNumberEnd)
             indexNumber = `${itemData.indexNumber}-${itemData.indexNumberEnd}. `
