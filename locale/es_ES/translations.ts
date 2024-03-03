@@ -240,6 +240,98 @@
         <source>Server</source>
         <translation>Servidor</translation>
     </message>
+    <message>
+        <source>MPEG-2</source>
+        <translation>MPEG-2</translation>
+        <extracomment>Name of codec used in settings menu</extracomment>
+    </message>
+    <message>
+        <source>%1 of %2</source>
+        <translation>%1 de %2</translation>
+        <extracomment>Item position and count. %1 = current item. %2 = total number of items</extracomment>
+    </message>
+    <message>
+        <source>Enabled</source>
+        <translation>Habilitado</translation>
+    </message>
+    <message>
+        <source>Set Watched</source>
+        <translation>Marcar visto</translation>
+        <extracomment>Button Text - When pressed, marks item as Warched</extracomment>
+    </message>
+    <message>
+        <source>Go to series</source>
+        <translation>Ir a series</translation>
+        <extracomment>Continue Watching Popup Menu - Navigate to the Series Detail Page</extracomment>
+    </message>
+    <message>
+        <source>There was an error authenticating via Quick Connect.</source>
+        <translation>Hubo un error autenticando por medio de Conexión Rápida.</translation>
+    </message>
+    <message>
+        <source>Networks</source>
+        <translation>Redes</translation>
+    </message>
+    <message>
+        <source>Studios</source>
+        <translation>Estudios</translation>
+    </message>
+    <message>
+        <source>(Dialog will close automatically)</source>
+        <translation>(El Diálogo se cerrará automáticamente)</translation>
+    </message>
+    <message>
+        <source>Go to season</source>
+        <translation>Ir a temporada</translation>
+        <extracomment>Continue Watching Popup Menu - Navigate to the Season Page</extracomment>
+    </message>
+    <message>
+        <source>Go to episode</source>
+        <translation>Ir a episodio</translation>
+        <extracomment>Continue Watching Popup Menu - Navigate to the Episode Detail Page</extracomment>
+    </message>
+    <message>
+        <source>Search now</source>
+        <translation>Buscar ahora</translation>
+        <extracomment>Help text in search Box</extracomment>
+    </message>
+    <message>
+        <source>User Interface</source>
+        <translation>Interfaz de usuario</translation>
+        <extracomment>Title for User Interface section in user setting screen.</extracomment>
+    </message>
+    <message>
+        <source>Codec Support</source>
+        <translation>Soporte de codificador</translation>
+        <extracomment>Settings Menu - Title for settings group related to codec support</extracomment>
+    </message>
+    <message>
+        <source>MPEG-4</source>
+        <translation type="unfinished">MPEG-4</translation>
+        <extracomment>Name of codec used in settings menu</extracomment>
+    </message>
+    <message>
+        <source>Shows</source>
+        <translation>Series</translation>
+    </message>
+    <message>
+        <source>Quick Connect</source>
+        <translation>Conexión rápida</translation>
+    </message>
+    <message>
+        <source>Return to Top</source>
+        <translation>Volver Arriba</translation>
+        <extracomment>UI -&gt; Media Grid -&gt; Item Title in user setting screen.</extracomment>
+    </message>
+    <message>
+        <source>Disabled</source>
+        <translation>Deshabilitado</translation>
+    </message>
+    <message>
+        <source>Enable or disable Direct Play for optional codecs</source>
+        <translation type="unfinished">Habilita o deshabilita Direct Play para codificadores opcionales</translation>
+        <extracomment>Settings Menu - Title for settings group related to codec support</extracomment>
+    </message>
 </context>
 <context>
     <name></name>
