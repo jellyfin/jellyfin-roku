@@ -1251,5 +1251,10 @@
             <translation>Random</translation>
             <extracomment>General use word when we want to randomize data</extracomment>
         </message>
+        <message>
+            <source> ... (Press * to read more)</source>
+            <translation> ... (Press * to read more)</translation>
+            <extracomment>Ellipsis Text for when text overflows its container</extracomment>
+        </message>
     </context>
 </TS>
