@@ -180,6 +180,86 @@
         <source>Server</source>
         <translation>Szerver</translation>
     </message>
+    <message>
+        <source>Settings relating to how the application looks.</source>
+        <translation>Az alkalmazás megjelenésével kapcsolatos beállítások.</translation>
+    </message>
+    <message>
+        <source>Hides tagline text on details pages.</source>
+        <translation>Elrejti a címszó szövegét a részletező oldalakon.</translation>
+    </message>
+    <message>
+        <source>Bring the theater experience straight to your living room with the ability to play custom intros before the main feature.</source>
+        <translation>Hozza el a moziélményt egyenesen a nappalijába azzal a lehetőséggel, hogy a főműsor előtt egyéni intrókat játszhat le.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Hide Clock</source>
+        <translation>Óra elrejtése</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
+    <message>
+        <source>Play Trailer</source>
+        <translation>Előzetes lejátszása</translation>
+    </message>
+    <message>
+        <source>Attempt Direct Play for H.264 media with unsupported profile levels before falling back to transcoding if it fails.</source>
+        <translation>Próbálja meg a nem támogatott profilszintű H.264-es adathordozók közvetlen lejátszását, mielőtt visszaállna az átkódolásra, ha az sikertelen.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Settings relating to playback and supported codec and media types.</source>
+        <translation>A lejátszással, valamint a támogatott kodolókkal és médiatípusokkal kapcsolatos beállítások.</translation>
+    </message>
+    <message>
+        <source>Hide Taglines</source>
+        <translation>Címsorok elrejtése</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
+    <message>
+        <source>Next episode</source>
+        <translation>Következő rész</translation>
+    </message>
+    <message>
+        <source>Cinema Mode</source>
+        <translation>Mozi mód</translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
+    <message>
+        <source>H.264</source>
+        <translation>H.26</translation>
+        <extracomment>Name of codec used in settings menu</extracomment>
+    </message>
+    <message>
+        <source>HEVC</source>
+        <translation>HEVC</translation>
+        <extracomment>Name of codec used in settings menu</extracomment>
+    </message>
+    <message>
+        <source>Use generated splashscreen image as Jellyfin&apos;s home background. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Használja a generált splashscreen képet a Jellyfin főháttereként. A Jellyfin-t be kell zárni és újra meg kell nyitni, hogy a változás érvénybe lépjen.</translation>
+        <extracomment>Description for option in Setting Screen</extracomment>
+    </message>
+    <message>
+        <source>Hide all clocks in Jellyfin. Jellyfin will need to be closed and reopened for changes to take effect.</source>
+        <translation>Rejtsd el az összes órát a Jellyfinben. A Jellyfin-t be kell zárni és újra meg kell nyitni ahhoz, hogy a módosítások hatályba lépjenek.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Attempt Direct Play for HEVC media with unsupported profile levels before falling back to transcoding if it fails.</source>
+        <translation>Megkísérli a közvetlen lejátszást a nem támogatott profilszintű HEVC-média esetében, mielőtt sikertelenül visszalépne az átkódoláshoz.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Starts</source>
+        <translation>Indul</translation>
+        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g. Starts Wednesday, 08:00) </extracomment>
+    </message>
+    <message>
+        <source>Started at</source>
+        <translation>Elkezdve</translation>
+        <extracomment>(Past Tense) For defining time when a program started today (e.g. Started at 08:00) </extracomment>
+    </message>
 </context>
 <context>
     <name></name>
