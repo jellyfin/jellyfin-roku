@@ -65,16 +65,8 @@ end sub
 
 ' User requested subtitle selection popup
 sub onSelectSubtitlePressed()
-    ' Manually create the None option
     subtitleData = {
-        data: [{
-            "Index": -1,
-            "IsExternal": false,
-            "Track": {
-                "description": "None"
-            },
-            "Type": "subtitleselection"
-        }]
+        data: []
     }
 
     for each item in m.view.fullSubtitleData
@@ -107,6 +99,16 @@ sub onSelectSubtitlePressed()
             subtitleData.data.push(item)
         end if
     end for
+
+    ' Manually create the None option and place at top
+    subtitleData.data.Unshift({
+        "Index": -1,
+        "IsExternal": false,
+        "Track": {
+            "description": "None"
+        },
+        "Type": "subtitleselection"
+    })
 
     m.global.sceneManager.callFunc("radioDialog", tr("Select Subtitles"), subtitleData)
     m.global.sceneManager.observeField("returnData", "onSelectionMade")
