@@ -138,6 +138,36 @@ sub loadItems()
 
     resp = APIRequest(url, params)
     data = getJson(resp)
+
+    ' If user has filtered by #, include special characters sorted after Z as well
+    if isValid(params.NameLessThan)
+        if LCase(params.NameLessThan) = "a"
+            ' Use same params except for name filter param
+            params.NameLessThan = ""
+            params.NameStartsWithOrGreater = "z"
+
+            ' Perform 2nd API lookup for items starting with Z or greater
+            startsWithZAndGreaterResp = APIRequest(url, params)
+            startsWithZAndGreaterData = getJson(startsWithZAndGreaterResp)
+
+            if isValidAndNotEmpty(startsWithZAndGreaterData)
+                specialCharacterItems = []
+
+                ' Filter out items starting with Z
+                for each item in startsWithZAndGreaterData.Items
+                    itemName = LCase(item.name)
+                    if not itemName.StartsWith("z")
+                        specialCharacterItems.Push(item)
+                    end if
+                end for
+
+                ' Append data to results from before A
+                data.Items.Append(specialCharacterItems)
+                data.TotalRecordCount += specialCharacterItems.Count()
+            end if
+        end if
+    end if
+
     if data &lt;> invalid
 
         if data.TotalRecordCount &lt;> invalid then m.top.totalRecordCount = data.TotalRecordCount
