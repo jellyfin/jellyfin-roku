@@ -39,6 +39,7 @@ sub init()
     m.backDrop = m.top.findNode("backdrop")
     m.artistImage = m.top.findNode("artistImage")
     m.dscr = m.top.findNode("overview")
+    m.dscr.ellipsisText = tr("... (Press * to read more)")
     m.dscr.observeField("isTextEllipsized", "onEllipsisChanged")
     createDialogPallete()
 end sub
