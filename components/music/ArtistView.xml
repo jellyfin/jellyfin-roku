@@ -8,7 +8,7 @@
         <LayoutGroup id="toplevel" layoutDirection="vert" itemSpacings="[75]">
           <LayoutGroup id="main_group" layoutDirection="horiz" itemSpacings="[125]">
             <LayoutGroup layoutDirection="vert" itemSpacings="[75]">
-              <Label id="overview" wrap="true" lineSpacing="25" maxLines="6" width="1080" ellipsisText=" ...  (Press * to read more)" />
+              <Label id="overview" wrap="true" lineSpacing="25" maxLines="6" width="1080" />
               <ButtonGroupHoriz id="buttons" itemSpacings="[20]">
                 <IconButton id="play" background="#070707" focusBackground="#00a4dc" padding="35" icon="pkg:/images/icons/play.png" text="Play" height="85" width="150" />
                 <IconButton id="instantMix" background="#070707" focusBackground="#00a4dc" padding="35" icon="pkg:/images/icons/instantMix.png" text="Instant Mix" height="85" width="150" />

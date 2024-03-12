@@ -14,7 +14,7 @@ sub init()
     m.seasons = m.top.findNode("seasons")
     m.overview = m.top.findNode("overview")
 
-    m.overview.ellipsisText = tr(" ... (Press * to read more)")
+    m.overview.ellipsisText = tr("... (Press * to read more)")
 end sub
 
 sub itemContentChanged()
