@@ -16,6 +16,7 @@ sub init()
     m.songList.observeField("doneLoading", "onDoneLoading")
 
     m.dscr = m.top.findNode("overview")
+    m.dscr.ellipsisText = tr("... (Press * to read more)")
     createDialogPallete()
 end sub
 
