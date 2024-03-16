@@ -221,7 +221,8 @@ sub Main (args as dynamic) as void
             ' Find the object in the scene's data and update its json data
             for i = 0 to currentScene.objects.Items.count() - 1
                 if LCase(currentScene.objects.Items[i].id) = LCase(currentEpisode.id)
-                    currentScene.objects.Items[i].json = TVEpisode(currentEpisode.id).Items[0].json
+                    currentScene.objects.Items[i].json = api.users.GetItem(m.global.session.user.id, currentEpisode.id)
+                    m.global.queueManager.callFunc("setTopStartingPoint", currentScene.objects.Items[i].json.UserData.PlaybackPositionTicks)
                     exit for
                 end if
             end for
