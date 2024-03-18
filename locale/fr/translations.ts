@@ -180,6 +180,16 @@
         <source>Server</source>
         <translation>Serveur</translation>
     </message>
+    <message>
+        <source>Select when to show titles.</source>
+        <translation>Sélectionner quand afficher les titres.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>What&apos;s New?</source>
+        <translation>Quoi de neuf ?</translation>
+        <extracomment>Popup title - Popup displays all the major changes to the app since the last version</extracomment>
+    </message>
 </context>
 <context>
     <name></name>
@@ -1031,7 +1041,7 @@
     </message>
     <message>
         <source>...or enter server URL manually:</source>
-        <translation>...ou entrez manuellement l&apos;adresse du serveur :</translation>
+        <translation>...ou entrez manuellement l&apos;adresse du serveur&#x202f;:</translation>
         <extracomment>Instructions on initial app launch when the user is asked to manually enter a server URL</extracomment>
     </message>
     <message>
@@ -3981,7 +3991,7 @@
     </message>
     <message>
         <source>...or enter server URL manually:</source>
-        <translation>Si aucun serveur n&apos;est affiché ci-dessus vous pouvez également saisir l&apos;adresse IP du serveur manuellement  :</translation>
+        <translation>Si aucun serveur n&apos;est affiché ci-dessus vous pouvez également saisir l&apos;adresse IP du serveur manuellement&#x202f; :</translation>
         <extracomment>Instructions on initial app launch when the user is asked to manually enter a server URL</extracomment>
     </message>
     <message>
@@ -4333,7 +4343,7 @@
     </message>
     <message>
         <source>...or enter server URL manually:</source>
-        <translation>Si aucun serveur n&apos;est affiché ci-dessus vous pouvez également saisir l&apos;adresse IP du serveur manuellement  :</translation>
+        <translation>Si aucun serveur n&apos;est affiché ci-dessus vous pouvez également saisir l&apos;adresse IP du serveur manuellement&#x202f; :</translation>
         <extracomment>Instructions on initial app launch when the user is asked to manually enter a server URL</extracomment>
     </message>
     <message>
@@ -4842,7 +4852,7 @@
     </message>
     <message>
         <source>Save Credentials?</source>
-        <translation>Sauvegarder les informations d&apos;identification ?</translation>
+        <translation>Sauvegarder les informations d&apos;identification&#x202f;?</translation>
     </message>
     <message>
         <source>On Now</source>
@@ -4892,7 +4902,7 @@
     </message>
     <message>
         <source>...or enter server URL manually:</source>
-        <translation>Si aucun serveur n&apos;est affiché ci-dessus vous pouvez également saisir l&apos;adresse IP du serveur manuellement  :</translation>
+        <translation>Si aucun serveur n&apos;est affiché ci-dessus vous pouvez également saisir l&apos;adresse IP du serveur manuellement&#x202f; :</translation>
         <extracomment>Instructions on initial app launch when the user is asked to manually enter a server URL</extracomment>
     </message>
     <message>
@@ -5282,7 +5292,7 @@
     </message>
     <message>
         <source>Save Credentials?</source>
-        <translation>Sauvegarder les informations d&apos;identification ?</translation>
+        <translation>Sauvegarder les informations d&apos;identification&#x202f;?</translation>
     </message>
     <message>
         <source>Delete Saved</source>
@@ -5719,7 +5729,7 @@
     </message>
     <message>
         <source>Save Credentials?</source>
-        <translation>Sauvegarder les informations d&apos;identification ?</translation>
+        <translation>Sauvegarder les informations d&apos;identification&#x202f;?</translation>
     </message>
     <message>
         <source>Error Retrieving Content</source>
@@ -6423,7 +6433,7 @@
     </message>
     <message>
         <source>Here is your Quick Connect code:</source>
-        <translation>Voici votre code de connexion rapide :</translation>
+        <translation>Voici votre code de connexion rapide&#x202f;:</translation>
     </message>
     <message>
         <source>Next episode</source>
@@ -6963,7 +6973,7 @@
     </message>
     <message>
         <source>Next Episode Button Time</source>
-        <translation>Temps pour le bouton « Prochain épisode »</translation>
+        <translation>Temps pour le bouton «&#x202f;Prochain épisode&#x202f;»</translation>
         <extracomment>Settings Menu - Title for option</extracomment>
     </message>
     <message>
@@ -6990,7 +7000,7 @@
     </message>
     <message>
         <source>Set how many seconds before the end of an episode the Next Episode button should appear. Set to 0 to disable.</source>
-        <translation>Définis combien de secondes avant la fin d&apos;un épisode le bouton « Prochain épisode » doit apparaître. La valeur 0 permet de le désactiver.</translation>
+        <translation>Définis combien de secondes avant la fin d&apos;un épisode le bouton «&#x202f;Prochain épisode&#x202f;» doit apparaître. La valeur 0 permet de le désactiver.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
@@ -7917,7 +7927,7 @@
     </message>
     <message>
         <source>Remember Me?</source>
-        <translation>Se souvenir de moi ?</translation>
+        <translation>Se souvenir de moi&#x202f;?</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
@@ -8047,7 +8057,7 @@
     </message>
     <message>
         <source>Next Episode Button Time</source>
-        <translation>Temps pour le bouton « Prochain épisode »</translation>
+        <translation>Temps pour le bouton «&#x202f;Prochain épisode&#x202f;»</translation>
         <extracomment>Settings Menu - Title for option</extracomment>
     </message>
     <message>
@@ -8438,7 +8448,7 @@
     </message>
     <message>
         <source>Set how many seconds before the end of an episode the Next Episode button should appear. Set to 0 to disable.</source>
-        <translation>Définir combien de secondes avant la fin d&apos;un épisode le bouton « Prochain épisode » doit apparaître. La valeur 0 permet de le désactiver.</translation>
+        <translation>Définir combien de secondes avant la fin d&apos;un épisode le bouton «&#x202f;Prochain épisode&#x202f;» doit apparaître. La valeur 0 permet de le désactiver.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
@@ -9545,7 +9555,7 @@
     </message>
     <message>
         <source>Set how many seconds before the end of an episode the Next Episode button should appear. Set to 0 to disable.</source>
-        <translation>Définit combien de secondes avant la fin d&apos;un épisode le bouton « Prochain épisode » doit apparaître. La valeur 0 permet de le désactiver.</translation>
+        <translation>Définit combien de secondes avant la fin d&apos;un épisode le bouton «&#x202f;Prochain épisode&#x202f;» doit apparaître. La valeur 0 permet de le désactiver.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
@@ -10557,7 +10567,7 @@
     </message>
     <message>
         <source>Set how many seconds before the end of an episode the Next Episode button should appear. Set to 0 to disable.</source>
-        <translation>Définit combien de secondes avant la fin d&apos;un épisode le bouton « Prochain épisode » doit apparaître. La valeur 0 permet de le désactiver.</translation>
+        <translation>Définit combien de secondes avant la fin d&apos;un épisode le bouton «&#x202f;Prochain épisode&#x202f;» doit apparaître. La valeur 0 permet de le désactiver.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
@@ -11405,7 +11415,7 @@
     </message>
     <message>
         <source>Set how many seconds before the end of an episode the Next Episode button should appear. Set to 0 to disable.</source>
-        <translation>Définit combien de secondes avant la fin d&apos;un épisode le bouton « Prochain épisode » doit apparaître. La valeur 0 permet de le désactiver.</translation>
+        <translation>Définit combien de secondes avant la fin d&apos;un épisode le bouton «&#x202f;Prochain épisode&#x202f;» doit apparaître. La valeur 0 permet de le désactiver.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
