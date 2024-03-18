@@ -202,6 +202,315 @@
         <source>Extras</source>
         <translation>Bonus</translation>
     </message>
+    <message>
+        <comment>Name or Title field of media item</comment>
+        <source>TITLE</source>
+        <translation>Nom</translation>
+    </message>
+    <message>
+        <source>(Dialog will close automatically)</source>
+        <translation>(Cette fenêtre se fermera automatiquement)</translation>
+    </message>
+    <message>
+        <source>CRITIC_RATING</source>
+        <translation>Note des critiques</translation>
+    </message>
+    <message>
+        <source>DATE_ADDED</source>
+        <translation>Date d&apos;ajout</translation>
+    </message>
+    <message>
+        <source>PLAY_COUNT</source>
+        <translation>Nombre de lectures</translation>
+    </message>
+    <message>
+        <source>Cast &amp; Crew</source>
+        <translation>Casting et Equipe</translation>
+    </message>
+    <message>
+        <source>More Like This</source>
+        <translation>Plus de ce genre</translation>
+    </message>
+    <message>
+        <source>Press &apos;OK&apos; to Close</source>
+        <translation>Appuyez sur «OK» pour fermer</translation>
+    </message>
+    <message>
+        <source>Died</source>
+        <translation>Mort</translation>
+    </message>
+    <message>
+        <source>today</source>
+        <translation>aujourd&apos;hui</translation>
+        <extracomment>Current day</extracomment>
+    </message>
+    <message>
+        <source>Tuesday</source>
+        <translation>Mardi</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Wednesday</source>
+        <translation>Mercredi</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Thursday</source>
+        <translation>Jeudi</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Saturday</source>
+        <translation>Samedi</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Sunday</source>
+        <translation>Dimanche</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Monday</source>
+        <translation>Lundi</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Started at</source>
+        <translation>A débuté à</translation>
+        <extracomment>(Past Tense) For defining time when a program started today (e.g. Started at 08:00) </extracomment>
+    </message>
+    <message>
+        <source>Ended at</source>
+        <translation>A fini à</translation>
+        <extracomment>(Past Tense) For defining time when a program will ended (e.g. Ended at 08:00) </extracomment>
+    </message>
+    <message>
+        <source>Ends at</source>
+        <translation>Finit</translation>
+        <extracomment>(Past Tense) For defining a day and time when a program ended (e.g. Ended Wednesday, 08:00) </extracomment>
+    </message>
+    <message>
+        <source>Live</source>
+        <translation>En direct</translation>
+        <extracomment>If TV Show is being broadcast live (not pre-recorded)</extracomment>
+    </message>
+    <message>
+        <source>TV Guide</source>
+        <translation>Guide TV</translation>
+        <extracomment>Menu option for showing Live TV Guide / Schedule</extracomment>
+    </message>
+    <message>
+        <source>Record</source>
+        <translation>Enregistrer</translation>
+    </message>
+    <message>
+        <source>The requested content does not exist on the server</source>
+        <translation>Le contenu demandé n&apos;existe pas sur le serveur</translation>
+        <extracomment>Content of message box when the requested content is not found on the server</extracomment>
+    </message>
+    <message>
+        <source>User Interface</source>
+        <translation>Interface utilisateur</translation>
+        <extracomment>Title for User Interface section in user setting screen.</extracomment>
+    </message>
+    <message>
+        <source>Search now</source>
+        <translation>Chercher</translation>
+        <extracomment>Help text in search Box</extracomment>
+    </message>
+    <message>
+        <source>You can search for Titles, People, Live TV Channels and more</source>
+        <translation>Vous pouvez rechercher des titres, personnes, chaînes TV en direct et plus</translation>
+        <extracomment>Help text in search results</extracomment>
+    </message>
+    <message>
+        <source>Quick Connect</source>
+        <translation>Connexion rapide</translation>
+    </message>
+    <message>
+        <source>Studios</source>
+        <translation>Studios</translation>
+    </message>
+    <message>
+        <source>Shows</source>
+        <translation>Séries</translation>
+    </message>
+    <message>
+        <source>Friday</source>
+        <translation>Vendredi</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>yesterday</source>
+        <translation>hier</translation>
+        <extracomment>Previous day</extracomment>
+    </message>
+    <message>
+        <source>An error was encountered while playing this item.</source>
+        <translation>Une erreur à été rencontrée lors de la lecture de cet élément.</translation>
+        <extracomment>Dialog detail when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>DATE_PLAYED</source>
+        <translation>Date de lecture</translation>
+    </message>
+    <message>
+        <source>IMDB_RATING</source>
+        <translation>Note IMDb</translation>
+    </message>
+    <message>
+        <source>OFFICIAL_RATING</source>
+        <translation>Classification parentale</translation>
+    </message>
+    <message>
+        <source>Disabled</source>
+        <translation>Désactivé</translation>
+    </message>
+    <message>
+        <source>Started</source>
+        <translation>A débuté</translation>
+        <extracomment>(Past Tense) For defining a day and time when a program started (e.g. Started Wednesday, 08:00) </extracomment>
+    </message>
+    <message>
+        <source>MPEG-2</source>
+        <translation>MPEG-2</translation>
+        <extracomment>Name of codec used in settings menu</extracomment>
+    </message>
+    <message>
+        <source>Set Watched</source>
+        <translation>Marquer comme vu</translation>
+        <extracomment>Button Text - When pressed, marks item as Warched</extracomment>
+    </message>
+    <message>
+        <source>Starts at</source>
+        <translation>Débute à</translation>
+        <extracomment>(Future Tense) For defining time when a program will start today (e.g. Starts at 08:00) </extracomment>
+    </message>
+    <message>
+        <source>Networks</source>
+        <translation>Réseaux</translation>
+    </message>
+    <message>
+        <source>Starts</source>
+        <translation>Débutera</translation>
+        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g. Starts Wednesday, 08:00) </extracomment>
+    </message>
+    <message>
+        <source>Connecting to Server</source>
+        <translation>Connexion au serveur</translation>
+        <extracomment>Message to display to user while client is attempting to connect to the server</extracomment>
+    </message>
+    <message>
+        <source>Return to Top</source>
+        <translation>Retourner en haut</translation>
+        <extracomment>UI -&gt; Media Grid -&gt; Item Title in user setting screen.</extracomment>
+    </message>
+    <message>
+        <source>There was an error authenticating via Quick Connect.</source>
+        <translation>Il y a eu une erreur lors de l&apos;authentification via connexion rapide.</translation>
+    </message>
+    <message>
+        <source>Movies</source>
+        <translation>Films</translation>
+    </message>
+    <message>
+        <source>Set Favorite</source>
+        <translation>Marquer comme favori</translation>
+        <extracomment>Button Text - When pressed, sets item as Favorite</extracomment>
+    </message>
+    <message>
+        <comment>Title of Tab for options to sort library content</comment>
+        <source>TAB_SORT</source>
+        <translation>Trier</translation>
+    </message>
+    <message>
+        <source>Cancel Series Recording</source>
+        <translation>Annuler l&apos;enregistrement de la série</translation>
+    </message>
+    <message>
+        <source>Cancel Recording</source>
+        <translation>Annuler l&apos;enregistrement</translation>
+    </message>
+    <message>
+        <source>Error During Playback</source>
+        <translation>Erreur lors de la lecture</translation>
+        <extracomment>Dialog title when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <comment>Title of Tab for options to filter library content</comment>
+        <source>TAB_FILTER</source>
+        <translation>Filtrer</translation>
+    </message>
+    <message>
+        <source>Born</source>
+        <translation>Né</translation>
+    </message>
+    <message>
+        <source>TV Shows</source>
+        <translation>Séries TV</translation>
+    </message>
+    <message>
+        <source>Record Series</source>
+        <translation>Enregistrer la série</translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation>Fermer</translation>
+    </message>
+    <message>
+        <source>MPEG-4</source>
+        <translation>MPEG-4</translation>
+        <extracomment>Name of codec used in settings menu</extracomment>
+    </message>
+    <message>
+        <source>Version</source>
+        <translation>Version</translation>
+    </message>
+    <message>
+        <source>Use voice remote to search</source>
+        <translation>Utilisez la commande vocale pour chercher</translation>
+        <extracomment>Help text in search voice text box</extracomment>
+    </message>
+    <message>
+        <source>RUNTIME</source>
+        <translation>Durée</translation>
+    </message>
+    <message>
+        <source>RELEASE_DATE</source>
+        <translation>Date de sortie</translation>
+    </message>
+    <message>
+        <source>Unknown</source>
+        <translation>Inconnu</translation>
+        <extracomment>Title for a cast member for which we have no information for</extracomment>
+    </message>
+    <message>
+        <source>Enabled</source>
+        <translation>Activé</translation>
+    </message>
+    <message>
+        <source>Playback</source>
+        <translation>Lecture</translation>
+        <extracomment>Title for Playback section in user setting screen.</extracomment>
+    </message>
+    <message>
+        <source>Age</source>
+        <translation>Âge</translation>
+    </message>
+    <message>
+        <source>tomorrow</source>
+        <translation>demain</translation>
+        <extracomment>Next day</extracomment>
+    </message>
+    <message>
+        <source>Item Count</source>
+        <translation>Nombre d&apos;éléments</translation>
+        <extracomment>UI -&gt; Media Grid -&gt; Item Count in user setting screen.</extracomment>
+    </message>
+    <message>
+        <source>Here is your Quick Connect code:</source>
+        <translation>Voici votre code de connexion rapide&#xa0;:</translation>
+    </message>
 </context>
 <context>
     <name></name>
