@@ -190,6 +190,18 @@
         <translation>Quoi de neuf ?</translation>
         <extracomment>Popup title - Popup displays all the major changes to the app since the last version</extracomment>
     </message>
+    <message>
+        <source>Episodes</source>
+        <translation>Épisodes</translation>
+    </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>Sauvegarder vos identifiants ?</translation>
+    </message>
+    <message>
+        <source>Extras</source>
+        <translation>Bonus</translation>
+    </message>
 </context>
 <context>
     <name></name>
