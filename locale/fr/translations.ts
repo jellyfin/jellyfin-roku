@@ -511,6 +511,138 @@
         <source>Here is your Quick Connect code:</source>
         <translation>Voici votre code de connexion rapide&#xa0;:</translation>
     </message>
+    <message>
+        <source>Repeat</source>
+        <translation>Rediffusion</translation>
+        <extracomment>If TV Shows has previously been broadcasted</extracomment>
+    </message>
+    <message>
+        <source>Pick a Jellyfin server from the local network</source>
+        <translation>Sélectionnez un serveur Jellyfin disponible depuis votre réseau local :</translation>
+        <extracomment>Instructions on initial app launch when the user is asked to pick a server from a list</extracomment>
+    </message>
+    <message>
+        <source>...or enter server URL manually:</source>
+        <translation>Si aucun serveur n&apos;est dans la liste ci-dessus, vous pouvez aussi saisir l&apos;URL du serveur manuellement :</translation>
+        <extracomment>Instructions on initial app launch when the user is asked to manually enter a server URL</extracomment>
+    </message>
+    <message>
+        <source>An error was encountered while playing this item. Server did not provide required transcoding data.</source>
+        <translation>Une erreur a été rencontrée lors de la lecture de cet élément. Le serveur n’a pas fourni les données de transcodage requises.</translation>
+        <extracomment>Content of message box when trying to play an item which requires transcoding, and the server did not provide transcode url</extracomment>
+    </message>
+    <message>
+        <source>Enable or disable Direct Play for optional codecs</source>
+        <translation>Activer ou désactiver la lecture directe pour les codecs optionnels</translation>
+        <extracomment>Settings Menu - Title for settings group related to codec support</extracomment>
+    </message>
+    <message>
+        <source>Support Direct Play of MPEG-2 content (e.g., Live TV). This will prevent transcoding of MPEG-2 content, but uses significantly more bandwidth.</source>
+        <translation>Utiliser la lecture directe pour le contenu MPEG-2 (par exemple, la télévision en direct). Cela évitera le transcodage du contenu MPEG-2, mais utilisera significativement plus de bande passante.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>On Now</source>
+        <translation>En ce moment</translation>
+    </message>
+    <message>
+        <source>Additional Parts</source>
+        <translation>Contenus supplémentaires</translation>
+        <extracomment>Additional parts of a video</extracomment>
+    </message>
+    <message>
+        <source>Movies (Presentation)</source>
+        <translation>Films (Présentation)</translation>
+        <extracomment>Movie library view option</extracomment>
+    </message>
+    <message>
+        <source>Movies (Grid)</source>
+        <translation>Films (Grille)</translation>
+        <extracomment>Movie library view option</extracomment>
+    </message>
+    <message>
+        <source>Channels</source>
+        <translation>Chaînes</translation>
+        <extracomment>Menu option for showing Live TV Channel List</extracomment>
+    </message>
+    <message>
+        <source>View Channel</source>
+        <translation>Voir la chaîne</translation>
+    </message>
+    <message>
+        <source>Not found</source>
+        <translation>Non trouvé</translation>
+        <extracomment>Title of message box when the requested content is not found on the server</extracomment>
+    </message>
+    <message>
+        <source>Enter the server name or IP address</source>
+        <translation>Entrez le nom du serveur ou son adresse IP</translation>
+        <extracomment>Title of KeyboardDialog when manually entering a server URL</extracomment>
+    </message>
+    <message>
+        <source>Codec Support</source>
+        <translation>Codecs supportés</translation>
+        <extracomment>Settings Menu - Title for settings group related to codec support</extracomment>
+    </message>
+    <message>
+        <source>Media Grid</source>
+        <translation>Grille de médias</translation>
+        <extracomment>UI -&gt; Media Grid section in user setting screen.</extracomment>
+    </message>
+    <message>
+        <source>Error loading Channel Data</source>
+        <translation>Erreur lors du chargement des données de la chaîne</translation>
+    </message>
+    <message>
+        <source>Delete Saved</source>
+        <translation>Supprimer les valeurs enregistrées</translation>
+    </message>
+    <message>
+        <source>Support Direct Play of MPEG-4 content. This may need to be disabled for playback of DIVX encoded video files.</source>
+        <translation>Prise en charge de la lecture directe du contenu MPEG-4. Il faudra peut-être désactiver cette option pour la lecture des fichiers vidéo encodés au format DIVX.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Special Features</source>
+        <translation>Fonctionnalités spéciales</translation>
+    </message>
+    <message>
+        <source>Error Getting Playback Information</source>
+        <translation>Erreur lors de la récupération des informations de lecture</translation>
+        <extracomment>Dialog Title: Received error from server when trying to get information about the selected item for playback</extracomment>
+    </message>
+    <message>
+        <source>Unable to load Channel Data from the server</source>
+        <translation>Impossible de charger les données de la chaîne depuis le serveur</translation>
+    </message>
+    <message>
+        <source>Error Retrieving Content</source>
+        <translation>Erreur lors de la récupération du contenu</translation>
+        <extracomment>Dialog title when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <source>There was an error retrieving the data for this item from the server.</source>
+        <translation>Une erreur s&apos;est produite lors de la récupération des données de cet élément sur le serveur.</translation>
+        <extracomment>Dialog detail when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <source>Media Grid options.</source>
+        <translation>Options de la grille de médias</translation>
+    </message>
+    <message>
+        <source>Loading Channel Data</source>
+        <translation>Chargement des données de la chaîne</translation>
+    </message>
+    <message>
+        <comment>Title of Tab for switching &quot;views&quot; when looking at a library</comment>
+        <source>TAB_VIEW</source>
+        <translation>Vue</translation>
+    </message>
+    <message>
+        <comment>Message displayed in Item Grid when no item to display. %1 is container type (e.g. Boxset, Collection, Folder, etc)</comment>
+        <source>NO_ITEMS</source>
+        <translation>Ce %1 ne contient pas d&apos;éléments</translation>
+    </message>
 </context>
 <context>
     <name></name>
