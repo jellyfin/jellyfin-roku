@@ -260,6 +260,300 @@
         <translation>Elkezdve</translation>
         <extracomment>(Past Tense) For defining time when a program started today (e.g. Started at 08:00) </extracomment>
     </message>
+    <message>
+        <source>Extras</source>
+        <translation>Extrák</translation>
+    </message>
+    <message>
+        <source>Error During Playback</source>
+        <translation>Hiba történt a lejátszás közben</translation>
+        <extracomment>Dialog title when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>Cast &amp; Crew</source>
+        <translation>Szereplők és Stáb</translation>
+    </message>
+    <message>
+        <source>Movies (Grid)</source>
+        <translation>Filmek (Rács)</translation>
+        <extracomment>Movie library view option</extracomment>
+    </message>
+    <message>
+        <source>Thursday</source>
+        <translation>Csütörtök</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Saturday</source>
+        <translation>Szombat</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Monday</source>
+        <translation>Hétfő</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Ends at</source>
+        <translation>Befejeződik</translation>
+        <extracomment>(Past Tense) For defining a day and time when a program ended (e.g. Ended Wednesday, 08:00) </extracomment>
+    </message>
+    <message>
+        <source>Record Series</source>
+        <translation>Sorozat Felvétele</translation>
+    </message>
+    <message>
+        <source>Died</source>
+        <translation>Meghalt</translation>
+    </message>
+    <message>
+        <source>Unable to load Channel Data from the server</source>
+        <translation>Nem lehet letölteni a csatornaadatot a szerverről</translation>
+    </message>
+    <message>
+        <source>Age</source>
+        <translation>Életkor</translation>
+    </message>
+    <message>
+        <source>More Like This</source>
+        <translation>Több Hasonló</translation>
+    </message>
+    <message>
+        <source>Special Features</source>
+        <translation>Extrák</translation>
+    </message>
+    <message>
+        <source>Additional Parts</source>
+        <translation>További Részek</translation>
+        <extracomment>Additional parts of a video</extracomment>
+    </message>
+    <message>
+        <source>TV Shows</source>
+        <translation>Sorozatok</translation>
+    </message>
+    <message>
+        <source>Tuesday</source>
+        <translation>Kedd</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>CRITIC_RATING</source>
+        <translation>Kritikusok Értékelései</translation>
+    </message>
+    <message>
+        <source>Episodes</source>
+        <translation>Epizódok</translation>
+    </message>
+    <message>
+        <comment>Title of Tab for options to filter library content</comment>
+        <source>TAB_FILTER</source>
+        <translation>Szűrés</translation>
+    </message>
+    <message>
+        <comment>Title of Tab for switching &quot;views&quot; when looking at a library</comment>
+        <source>TAB_VIEW</source>
+        <translation>Nézet</translation>
+    </message>
+    <message>
+        <source>Press &apos;OK&apos; to Close</source>
+        <translation>Nyomd meg az „OK” gombot a bezáráshoz</translation>
+    </message>
+    <message>
+        <source>Starts at</source>
+        <translation>Ekkor kezdődik</translation>
+        <extracomment>(Future Tense) For defining time when a program will start today (e.g. Starts at 08:00) </extracomment>
+    </message>
+    <message>
+        <source>Live</source>
+        <translation>Élő</translation>
+        <extracomment>If TV Show is being broadcast live (not pre-recorded)</extracomment>
+    </message>
+    <message>
+        <source>Cancel Recording</source>
+        <translation>Felvétel megszakítása</translation>
+    </message>
+    <message>
+        <source>DATE_ADDED</source>
+        <translation>Hozzáadás Dátuma</translation>
+    </message>
+    <message>
+        <comment>Title of Tab for options to sort library content</comment>
+        <source>TAB_SORT</source>
+        <translation>Rendezés</translation>
+    </message>
+    <message>
+        <source>Wednesday</source>
+        <translation>Szerda</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Born</source>
+        <translation>Született</translation>
+    </message>
+    <message>
+        <source>Movies (Presentation)</source>
+        <translation>Filmek (Előadások)</translation>
+        <extracomment>Movie library view option</extracomment>
+    </message>
+    <message>
+        <source>Friday</source>
+        <translation>Péntek</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Delete Saved</source>
+        <translation>Mentettek Törlése</translation>
+    </message>
+    <message>
+        <source>There was an error retrieving the data for this item from the server.</source>
+        <translation>Hiba történt, mikor a kliens ezt az elemet próbálta lekérni a szerverről.</translation>
+        <extracomment>Dialog detail when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation>Bezárás</translation>
+    </message>
+    <message>
+        <source>On Now</source>
+        <translation>Most</translation>
+    </message>
+    <message>
+        <source>Error Retrieving Content</source>
+        <translation>Hiba történt a tartalom letöltésekor</translation>
+        <extracomment>Dialog title when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <source>An error was encountered while playing this item.</source>
+        <translation>Hiba történt ennek az elemnek a letöltése közben.</translation>
+        <extracomment>Dialog detail when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>Loading Channel Data</source>
+        <translation>Csatornaadatok betöltése</translation>
+    </message>
+    <message>
+        <source>Error loading Channel Data</source>
+        <translation>Hiba történt a csatornaadatok betöltésekor</translation>
+    </message>
+    <message>
+        <comment>Message displayed in Item Grid when no item to display. %1 is container type (e.g. Boxset, Collection, Folder, etc)</comment>
+        <source>NO_ITEMS</source>
+        <translation>Ez a(z) %1 nem tartalmaz elemeket</translation>
+    </message>
+    <message>
+        <comment>Name or Title field of media item</comment>
+        <source>TITLE</source>
+        <translation>Név</translation>
+    </message>
+    <message>
+        <source>IMDB_RATING</source>
+        <translation>IMDb Értékelés</translation>
+    </message>
+    <message>
+        <source>DATE_PLAYED</source>
+        <translation>Lejátszás Dátuma</translation>
+    </message>
+    <message>
+        <source>OFFICIAL_RATING</source>
+        <translation>Korhatár</translation>
+    </message>
+    <message>
+        <source>PLAY_COUNT</source>
+        <translation>Lejátszások Száma</translation>
+    </message>
+    <message>
+        <source>RELEASE_DATE</source>
+        <translation>Megjelenés dátuma</translation>
+    </message>
+    <message>
+        <source>RUNTIME</source>
+        <translation>Futási idő</translation>
+    </message>
+    <message>
+        <source>Ended at</source>
+        <translation>Ekkor ért véget</translation>
+        <extracomment>(Past Tense) For defining time when a program will ended (e.g. Ended at 08:00) </extracomment>
+    </message>
+    <message>
+        <source>TV Guide</source>
+        <translation>Műsorújság</translation>
+        <extracomment>Menu option for showing Live TV Guide / Schedule</extracomment>
+    </message>
+    <message>
+        <source>Cancel Series Recording</source>
+        <translation>Sorozatfelvétel Megszakítása</translation>
+    </message>
+    <message>
+        <source>Connecting to Server</source>
+        <translation>Csatlakozás a szerverhez</translation>
+        <extracomment>Message to display to user while client is attempting to connect to the server</extracomment>
+    </message>
+    <message>
+        <source>Movies</source>
+        <translation>Filmek</translation>
+    </message>
+    <message>
+        <source>yesterday</source>
+        <translation>tegnap</translation>
+        <extracomment>Previous day</extracomment>
+    </message>
+    <message>
+        <source>tomorrow</source>
+        <translation>holnap</translation>
+        <extracomment>Next day</extracomment>
+    </message>
+    <message>
+        <source>Repeat</source>
+        <translation>Ismétlés</translation>
+        <extracomment>If TV Shows has previously been broadcasted</extracomment>
+    </message>
+    <message>
+        <source>Channels</source>
+        <translation>Csatornák</translation>
+        <extracomment>Menu option for showing Live TV Channel List</extracomment>
+    </message>
+    <message>
+        <source>View Channel</source>
+        <translation>Csatorna Megtekintése</translation>
+    </message>
+    <message>
+        <source>Record</source>
+        <translation>Felvétel</translation>
+    </message>
+    <message>
+        <source>Not found</source>
+        <translation>Nem található</translation>
+        <extracomment>Title of message box when the requested content is not found on the server</extracomment>
+    </message>
+    <message>
+        <source>Unknown</source>
+        <translation>Ismeretlen</translation>
+        <extracomment>Title for a cast member for which we have no information for</extracomment>
+    </message>
+    <message>
+        <source>The requested content does not exist on the server</source>
+        <translation>A kért tartalom nem található a szerveren</translation>
+        <extracomment>Content of message box when the requested content is not found on the server</extracomment>
+    </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>Hitelesítő adatok mentése?</translation>
+    </message>
+    <message>
+        <source>today</source>
+        <translation>ma</translation>
+        <extracomment>Current day</extracomment>
+    </message>
+    <message>
+        <source>Sunday</source>
+        <translation>Vasárnap</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Started</source>
+        <translation>Elkezdődött</translation>
+        <extracomment>(Past Tense) For defining a day and time when a program started (e.g. Started Wednesday, 08:00) </extracomment>
+    </message>
 </context>
 <context>
     <name></name>
