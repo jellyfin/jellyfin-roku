@@ -335,6 +335,13 @@
                                         "id": "MoviesGrid"
                                     }
                                 ]
+                            },
+                            {
+                                "title": "Disable Community and Critical Ratings",
+                                "description": "Hide the star, community rating, tomato, and critical rating for Movies.",
+                                "settingName": "ui.movies.disableRatings",
+                                "type": "bool",
+                                "default": "false"
                             }
                         ]
                     },

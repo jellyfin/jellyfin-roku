@@ -568,22 +568,24 @@ sub onItemFocused()
 
     m.star.uri = "pkg:/images/sharp_star_white_18dp.png"
 
-    if isValid(itemData.communityRating)
-        setFieldText("communityRating", int(itemData.communityRating * 10) / 10)
-        m.communityRatingGroup.visible = true
-    end if
-
-    if isValid(itemData.CriticRating)
-        setFieldText("criticRatingLabel", itemData.criticRating)
-
-        tomato = "pkg:/images/rotten.png"
-
-        if itemData.CriticRating > 60
-            tomato = "pkg:/images/fresh.png"
+    if get_user_setting("ui.movies.disableRatings") = "false"
+        if isValid(itemData.communityRating)
+            setFieldText("communityRating", int(itemData.communityRating * 10) / 10)
+            m.communityRatingGroup.visible = true
         end if
 
-        m.criticRatingIcon.uri = tomato
-        m.criticRatingGroup.visible = true
+        if isValid(itemData.CriticRating)
+            setFieldText("criticRatingLabel", itemData.criticRating)
+
+            tomato = "pkg:/images/rotten.png"
+
+            if itemData.CriticRating > 60
+                tomato = "pkg:/images/fresh.png"
+            end if
+
+            m.criticRatingIcon.uri = tomato
+            m.criticRatingGroup.visible = true
+        end if
     end if
 
     if isValid(itemData.Name)
