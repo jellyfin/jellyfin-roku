@@ -180,6 +180,141 @@
         <source>Server</source>
         <translation>Server</translation>
     </message>
+    <message>
+        <source>Change Server</source>
+        <translation>Cambia Server</translation>
+    </message>
+    <message>
+        <source>Error During Playback</source>
+        <translation>Errore Durante la Riproduzione</translation>
+        <extracomment>Dialog title when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>There was an error retrieving the data for this item from the server.</source>
+        <translation>Si è verificato un errore nel recupero dei dati di questo elemento dal server.</translation>
+        <extracomment>Dialog detail when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <source>today</source>
+        <translation>oggi</translation>
+        <extracomment>Current day</extracomment>
+    </message>
+    <message>
+        <source>Age</source>
+        <translation>Età</translation>
+    </message>
+    <message>
+        <source>yesterday</source>
+        <translation>ieri</translation>
+        <extracomment>Previous day</extracomment>
+    </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>Salvare le Credenziali?</translation>
+    </message>
+    <message>
+        <comment>Name or Title field of media item</comment>
+        <source>TITLE</source>
+        <translation>Nome</translation>
+    </message>
+    <message>
+        <source>IMDB_RATING</source>
+        <translation>Valutazione IMDb</translation>
+    </message>
+    <message>
+        <source>OFFICIAL_RATING</source>
+        <translation>Classificazione Parentale</translation>
+    </message>
+    <message>
+        <source>On Now</source>
+        <translation>In onda ora</translation>
+    </message>
+    <message>
+        <source>Died</source>
+        <translation>Data di Morte</translation>
+    </message>
+    <message>
+        <source>DATE_ADDED</source>
+        <translation>Data di Aggiunta</translation>
+    </message>
+    <message>
+        <source>DATE_PLAYED</source>
+        <translation>Data di Riproduzione</translation>
+    </message>
+    <message>
+        <source>Delete Saved</source>
+        <translation>Elimina Salvati</translation>
+    </message>
+    <message>
+        <source>Extras</source>
+        <translation>Extra</translation>
+    </message>
+    <message>
+        <comment>Message displayed in Item Grid when no item to display. %1 is container type (e.g. Boxset, Collection, Folder, etc)</comment>
+        <source>NO_ITEMS</source>
+        <translation>Questo %1 non contiene elementi</translation>
+    </message>
+    <message>
+        <source>Born</source>
+        <translation>Data di Nascita</translation>
+    </message>
+    <message>
+        <source>More Like This</source>
+        <translation>Titoli Simili</translation>
+    </message>
+    <message>
+        <source>Episodes</source>
+        <translation>Episodi</translation>
+    </message>
+    <message>
+        <source>Loading Channel Data</source>
+        <translation>Caricamento dei Dati del Canale</translation>
+    </message>
+    <message>
+        <source>Error loading Channel Data</source>
+        <translation>Errore nel Caricamento dei Dati del Canale</translation>
+    </message>
+    <message>
+        <source>CRITIC_RATING</source>
+        <translation>Valutazione della Critica</translation>
+    </message>
+    <message>
+        <source>Press &apos;OK&apos; to Close</source>
+        <translation>Premi &apos;OK&apos; per Chiudere</translation>
+    </message>
+    <message>
+        <source>Sunday</source>
+        <translation>Domenica</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Monday</source>
+        <translation>Lunedì</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>An error was encountered while playing this item.</source>
+        <translation>Si è verificato un errore durante la riproduzione di questo elemento.</translation>
+        <extracomment>Dialog detail when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>tomorrow</source>
+        <translation>domani</translation>
+        <extracomment>Next day</extracomment>
+    </message>
+    <message>
+        <source>Error Retrieving Content</source>
+        <translation>Errore nel Recuperare i Contenuti</translation>
+        <extracomment>Dialog title when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <source>Unable to load Channel Data from the server</source>
+        <translation>Impossibile caricare i Dati del Canale dal server</translation>
+    </message>
+    <message>
+        <source>Sign Out</source>
+        <translation>Esci</translation>
+    </message>
 </context>
 <context>
     <name></name>
