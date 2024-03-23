@@ -287,6 +287,16 @@
         <translation>Fehler beim Abrufen von Inhalten</translation>
         <extracomment>Dialog title when unable to load Content from Server</extracomment>
     </message>
+    <message>
+        <comment>Title of Tab for options to filter library content</comment>
+        <source>TAB_FILTER</source>
+        <translation>Filter</translation>
+    </message>
+    <message>
+        <comment>Title of Tab for options to sort library content</comment>
+        <source>TAB_SORT</source>
+        <translation>Sortieren</translation>
+    </message>
 </context>
 <context>
     <name></name>
