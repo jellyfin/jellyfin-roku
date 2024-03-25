@@ -315,6 +315,60 @@
         <source>Sign Out</source>
         <translation>Esci</translation>
     </message>
+    <message>
+        <source>Off - Attempt to play all resolutions</source>
+        <translation>Off - Tenta di riprodurre tutte le risoluzioni</translation>
+        <extracomment>User Setting - Option title</extracomment>
+    </message>
+    <message>
+        <source>All files</source>
+        <translation>Tutti i file</translation>
+        <extracomment>User Setting - Setting title</extracomment>
+    </message>
+    <message>
+        <source>Maximum Resolution</source>
+        <translation>Risoluzione Massima</translation>
+        <extracomment>User Setting - Title</extracomment>
+    </message>
+    <message>
+        <source>Set the maximum resolution when playing video files on this device.</source>
+        <translation>Imposta la risoluzione massima per la riproduzione di file video su questo dispositivo.</translation>
+        <extracomment>User Setting - Description</extracomment>
+    </message>
+    <message>
+        <source>Auto - Use TV resolution</source>
+        <translation>Auto - Utilizza la risoluzione della TV</translation>
+        <extracomment>User Setting - Option title</extracomment>
+    </message>
+    <message>
+        <source>Mode</source>
+        <translation>Modalità</translation>
+        <extracomment>User Setting - Setting title</extracomment>
+    </message>
+    <message>
+        <source>Value</source>
+        <translation>Valore</translation>
+        <extracomment>User Setting - Setting title</extracomment>
+    </message>
+    <message>
+        <source>Apply max resolution to all files or only transcoded files.</source>
+        <translation>Applica la massima risoluzione a tutti i file o solo a quelli transcodificati.</translation>
+        <extracomment>User Setting - Description</extracomment>
+    </message>
+    <message>
+        <source>Direct playing</source>
+        <translation>Riproduzione diretta</translation>
+    </message>
+    <message>
+        <source>The source file is entirely compatible with this client and the session is receiving the file without modifications.</source>
+        <translation>Il file sorgente è completamente compatibile con questo client e la sessione riceve il file senza modifiche.</translation>
+        <extracomment>Direct play info box text in GetPlaybackInfoTask.brs</extracomment>
+    </message>
+    <message>
+        <source>Configure the maximum resolution when playing video files on this device.</source>
+        <translation>Imposta la risoluzione massima per la riproduzione di file video su questo dispositivo.</translation>
+        <extracomment>User Setting - Description</extracomment>
+    </message>
 </context>
 <context>
     <name></name>
