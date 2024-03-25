@@ -332,6 +332,57 @@
         <translation type="unfinished">Habilita o deshabilita Direct Play para codificadores opcionales</translation>
         <extracomment>Settings Menu - Title for settings group related to codec support</extracomment>
     </message>
+    <message>
+        <source>Remember the currently logged in user and try to log them in again next time you start the Jellyfin app.</source>
+        <translation>Recordar al usuario que acaba de ingresar e intentar iniciar sesión nuevamente la próxima vez que abras la app de Jellyfin.</translation>
+        <extracomment>User Setting - Setting description</extracomment>
+    </message>
+    <message>
+        <source>Use Web Client&apos;s Home Section Arrangement</source>
+        <translation>Usar disposición del menú de inicio del cliente web</translation>
+        <extracomment>User Setting - Setting title</extracomment>
+    </message>
+    <message>
+        <source>... (Press * to read more)</source>
+        <translation>…(Pulsa * para leer mas)</translation>
+        <extracomment>Ellipsis Text for when text overflows its container</extracomment>
+    </message>
+    <message>
+        <source>Random</source>
+        <translation>Aleatoriamente</translation>
+        <extracomment>General use word when we want to randomize data</extracomment>
+    </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>¿Guardar credenciales?</translation>
+    </message>
+    <message>
+        <source>No Chapter Data Found</source>
+        <translation>No se han encontrado datos del capitulo</translation>
+        <extracomment>Message shown in OSD when no chapter data is returned by the API</extracomment>
+    </message>
+    <message>
+        <source>Change Server</source>
+        <translation>Cambiar servidor</translation>
+    </message>
+    <message>
+        <source>Sign Out</source>
+        <translation>Cerrar sesión</translation>
+    </message>
+    <message>
+        <source>Delete Saved</source>
+        <translation>Eliminar guardado</translation>
+    </message>
+    <message>
+        <source>What&apos;s New?</source>
+        <translation>Que hay nuevo?</translation>
+        <extracomment>Popup title - Popup displays all the major changes to the app since the last version</extracomment>
+    </message>
+    <message>
+        <source>Make the arrangement of the Roku home view sections match the web client&apos;s home screen. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Hacer que la disposición de las secciones de menú de inicio de Roku coincida con la pantalla de inicio del cliente web. Jellyfin deberá cerrarse y volver a abrirse para que el cambio surta efecto.</translation>
+        <extracomment>User Setting - Setting description</extracomment>
+    </message>
 </context>
 <context>
     <name></name>
