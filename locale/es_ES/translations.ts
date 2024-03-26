@@ -383,6 +383,20 @@
         <translation>Hacer que la disposición de las secciones de menú de inicio de Roku coincida con la pantalla de inicio del cliente web. Jellyfin deberá cerrarse y volver a abrirse para que el cambio surta efecto.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
+    <message>
+        <source>An error was encountered while playing this item.</source>
+        <translation>Se ha producido un error reproduciendo este ítem.</translation>
+        <extracomment>Dialog detail when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>Error Retrieving Content</source>
+        <translation>Error al acceder al contenido</translation>
+        <extracomment>Dialog title when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <source>Loading Channel Data</source>
+        <translation>Cargando Datos del Canal</translation>
+    </message>
 </context>
 <context>
     <name></name>
