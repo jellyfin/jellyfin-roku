@@ -627,7 +627,7 @@
     </message>
     <message>
         <source>Media Grid options.</source>
-        <translation>Options de la grille de médias</translation>
+        <translation>Options de la grille de médias.</translation>
     </message>
     <message>
         <source>Loading Channel Data</source>
