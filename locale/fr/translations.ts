@@ -643,6 +643,158 @@
         <source>NO_ITEMS</source>
         <translation>Ce %1 ne contient pas d&apos;éléments</translation>
     </message>
+    <message>
+        <source>Hides tagline text on details pages.</source>
+        <translation>Masquer les slogans sur les pages de détails.</translation>
+    </message>
+    <message>
+        <source>Hide Clock</source>
+        <translation>Masquer l&apos;heure</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
+    <message>
+        <source>Attempt Direct Play for HEVC media with unsupported profile levels before falling back to transcoding if it fails.</source>
+        <translation>Essayer la lecture directe des médias HEVC comportant des niveaux de profils incompatibles avant de revenir au transcodage en cas d&apos;échec.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Playback Information</source>
+        <translation>Informations de Lecture</translation>
+    </message>
+    <message>
+        <source>Next episode</source>
+        <translation>Episode suivant</translation>
+    </message>
+    <message>
+        <source>H.264</source>
+        <translation>H.264</translation>
+        <extracomment>Name of codec used in settings menu</extracomment>
+    </message>
+    <message>
+        <source>Options that alter the design of Jellyfin.</source>
+        <translation>Options qui modifie l&apos;apparence de Jellyfin.</translation>
+        <extracomment>Description for Design Elements user settings.</extracomment>
+    </message>
+    <message>
+        <source>Options for TV Shows.</source>
+        <translation>Options pour les spectacles.</translation>
+        <extracomment>Description for TV Shows user settings.</extracomment>
+    </message>
+    <message>
+        <source>%1 of %2</source>
+        <translation>%1 sur %2</translation>
+        <extracomment>Item position and count. %1 = current item. %2 = total number of items</extracomment>
+    </message>
+    <message>
+        <source>Hide Taglines</source>
+        <translation>Masquer les slogans</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
+    <message>
+        <source>Design Elements</source>
+        <translation>Eléments d&apos;apparence</translation>
+    </message>
+    <message>
+        <source>Go directly to the episode list if a TV series has only one season.</source>
+        <translation>Aller directement à la liste des épisodes si la série ne possède qu&apos;une seule saison.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Blur images of unwatched episodes.</source>
+        <translation>Flouter les images des épisodes non vu.</translation>
+    </message>
+    <message>
+        <source>Blur Unwatched Episodes</source>
+        <translation>Flouter les épisodes non vu</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
+    <message>
+        <source>Show item count in the library and index of selected item.</source>
+        <translation>Afficher le nombre d&apos;éléments dans la bibliothèque et l&apos;index de l&apos;élément sélectionné.</translation>
+        <extracomment>Description for option in Setting Screen</extracomment>
+    </message>
+    <message>
+        <source>Use generated splashscreen image as Jellyfin&apos;s home background. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Utilisez une image d’écran de démarrage générée comme arrière-plan d’accueil de Jellyfin. Jellyfin devra être fermé et rouvert pour que le changement prenne effet.</translation>
+        <extracomment>Description for option in Setting Screen</extracomment>
+    </message>
+    <message>
+        <source>Hide all clocks in Jellyfin. Jellyfin will need to be closed and reopened for changes to take effect.</source>
+        <translation type="unfinished">Masquer toutes les horloges dans Jellyfin. Jellyfin devra être fermé et rouvert pour que le changement prenne effet.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>HEVC</source>
+        <translation>HEVC</translation>
+        <extracomment>Name of codec used in settings menu</extracomment>
+    </message>
+    <message>
+        <source>Attempt Direct Play for H.264 media with unsupported profile levels before falling back to transcoding if it fails.</source>
+        <translation>Essayer la lecture directe des médias H.264 comportant des niveaux de profils incompatibles avant de revenir au transcodage en cas d&apos;échec.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Settings relating to how the application looks.</source>
+        <translation>Réglages relatifs à l&apos;apparence de l&apos;application.</translation>
+    </message>
+    <message>
+        <source>Max Days Next Up</source>
+        <translation>Maximum de jours dans la section «À suivre»</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
+    <message>
+        <source>Set the maximum amount of days a show should stay in the &apos;Next Up&apos; list without watching it.</source>
+        <translation>Définit le nombre maximal de jours qu&apos;une série peut rester dans la section &apos;À suivre&apos; si elle n&apos;est plus regardée.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Go to series</source>
+        <translation>Aller au séries</translation>
+        <extracomment>Continue Watching Popup Menu - Navigate to the Series Detail Page</extracomment>
+    </message>
+    <message>
+        <source>Go to season</source>
+        <translation>Aller à la saison</translation>
+        <extracomment>Continue Watching Popup Menu - Navigate to the Season Page</extracomment>
+    </message>
+    <message>
+        <source>Skip Details for Single Seasons</source>
+        <translation>Ignorer les détails pour les saisons uniques</translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
+    <message>
+        <source>Use Splashscreen as Home Background</source>
+        <translation>Utiliser l&apos;écran de démarrage comme arrière-plan d&apos;accueil</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
+    <message>
+        <source>Cinema Mode</source>
+        <translation>Mode cinéma</translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
+    <message>
+        <source>Bring the theater experience straight to your living room with the ability to play custom intros before the main feature.</source>
+        <translation>Apporter une expérience de cinéma directement dans votre salon en jouant des bandes annonces personnalisées avant le film.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Settings relating to playback and supported codec and media types.</source>
+        <translation>Paramètres relatifs à la lecture et aux codecs et types de médias pris en charge.</translation>
+    </message>
+    <message>
+        <source>Play Trailer</source>
+        <translation>Lire la bande annonce</translation>
+    </message>
+    <message>
+        <source>Go to episode</source>
+        <translation>Aller à l&apos;épisode</translation>
+        <extracomment>Continue Watching Popup Menu - Navigate to the Episode Detail Page</extracomment>
+    </message>
+    <message>
+        <source>Use the replay button to slowly animate to the first item in the folder. (If disabled, the folder will reset to the first item immediately).</source>
+        <translation>Utilisez le bouton de relecture pour animer lentement le premier élément du dossier. (S&apos;il est désactivé, le dossier sera immédiatement réinitialisé au premier élément).</translation>
+        <extracomment>Description for option in Setting Screen</extracomment>
+    </message>
 </context>
 <context>
     <name></name>
