@@ -795,6 +795,24 @@
         <translation>Utilisez le bouton de relecture pour animer lentement le premier élément du dossier. (S&apos;il est désactivé, le dossier sera immédiatement réinitialisé au premier élément).</translation>
         <extracomment>Description for option in Setting Screen</extracomment>
     </message>
+    <message>
+        <source>Bit Rate</source>
+        <translation>Débit binaire</translation>
+        <extracomment>Video streaming bit rate</extracomment>
+    </message>
+    <message>
+        <source>Codec</source>
+        <translation>Codec</translation>
+    </message>
+    <message>
+        <source>Level</source>
+        <translation>Niveau</translation>
+        <extracomment>Video profile level</extracomment>
+    </message>
+    <message>
+        <source>Codec Tag</source>
+        <translation>Balise de codec</translation>
+    </message>
 </context>
 <context>
     <name></name>
