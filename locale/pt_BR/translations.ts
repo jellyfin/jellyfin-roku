@@ -191,7 +191,7 @@
     </message>
     <message>
         <source>Repeat</source>
-        <translation>Repetir</translation>
+        <translation>Gravado</translation>
         <extracomment>If TV Shows has previously been broadcasted</extracomment>
     </message>
     <message>
@@ -290,7 +290,7 @@
     </message>
     <message>
         <source>TV Guide</source>
-        <translation>Guia de TV</translation>
+        <translation>Programação</translation>
         <extracomment>Menu option for showing Live TV Guide / Schedule</extracomment>
     </message>
     <message>
@@ -1024,6 +1024,159 @@
     <message>
         <source>Direct playing</source>
         <translation>Reproduzir Direto</translation>
+    </message>
+    <message>
+        <source>yesterday</source>
+        <translation>Ontem</translation>
+        <extracomment>Previous day</extracomment>
+    </message>
+    <message>
+        <source>More Like This</source>
+        <translation>Semelhantes a esse</translation>
+    </message>
+    <message>
+        <source>Extras</source>
+        <translation>Extras</translation>
+    </message>
+    <message>
+        <source>Wednesday</source>
+        <translation>Quarta-feira</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Press &apos;OK&apos; to Close</source>
+        <translation>Aperte &apos;OK&apos; para fechar</translation>
+    </message>
+    <message>
+        <source>Friday</source>
+        <translation>Sexta-feira</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Saturday</source>
+        <translation>Sábado</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Starts at</source>
+        <translation>Começa às</translation>
+        <extracomment>(Future Tense) For defining time when a program will start today (e.g. Starts at 08:00) </extracomment>
+    </message>
+    <message>
+        <source>Episodes</source>
+        <translation>Episódios</translation>
+    </message>
+    <message>
+        <source>Error loading Channel Data</source>
+        <translation>Erro ao carregar Dados do Canal</translation>
+    </message>
+    <message>
+        <source>Live</source>
+        <translation>Ao Vivo</translation>
+        <extracomment>If TV Show is being broadcast live (not pre-recorded)</extracomment>
+    </message>
+    <message>
+        <source>Started</source>
+        <translation>Começou</translation>
+        <extracomment>(Past Tense) For defining a day and time when a program started (e.g. Started Wednesday, 08:00) </extracomment>
+    </message>
+    <message>
+        <source>Special Features</source>
+        <translation>Características especiais</translation>
+    </message>
+    <message>
+        <source>Additional Parts</source>
+        <translation>Partes Adicionais</translation>
+        <extracomment>Additional parts of a video</extracomment>
+    </message>
+    <message>
+        <source>Movies</source>
+        <translation>Filmes</translation>
+    </message>
+    <message>
+        <source>Thursday</source>
+        <translation>Quinta-feira</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Ended at</source>
+        <translation>Terminou às</translation>
+        <extracomment>(Past Tense) For defining time when a program will ended (e.g. Ended at 08:00) </extracomment>
+    </message>
+    <message>
+        <source>Change Server</source>
+        <translation>Trocar de Servidor</translation>
+    </message>
+    <message>
+        <source>Sign Out</source>
+        <translation>Sair</translation>
+    </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>Salvar as credenciais?</translation>
+    </message>
+    <message>
+        <source>Error Retrieving Content</source>
+        <translation>Erro ao receber conteúdo</translation>
+        <extracomment>Dialog title when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <source>Error During Playback</source>
+        <translation>Erro durante a reprodução</translation>
+        <extracomment>Dialog title when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>There was an error retrieving the data for this item from the server.</source>
+        <translation>Houve um erro recebendo os dados desse item do servidor.</translation>
+        <extracomment>Dialog detail when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <source>An error was encountered while playing this item.</source>
+        <translation>Um erro foi encontrando reproduzindo esse item.</translation>
+        <extracomment>Dialog detail when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>Loading Channel Data</source>
+        <translation>Carregando Dados do Canal</translation>
+    </message>
+    <message>
+        <source>Unable to load Channel Data from the server</source>
+        <translation>Não foi possível carregar Dados do Canal deste servidor</translation>
+    </message>
+    <message>
+        <comment>Name or Title field of media item</comment>
+        <source>TITLE</source>
+        <translation>Nome</translation>
+    </message>
+    <message>
+        <source>tomorrow</source>
+        <translation>amanhã</translation>
+        <extracomment>Next day</extracomment>
+    </message>
+    <message>
+        <source>Monday</source>
+        <translation>Segunda-feira</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Tuesday</source>
+        <translation>Terça-feira</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Sunday</source>
+        <translation>Domingo</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Started at</source>
+        <translation>Começou às</translation>
+        <extracomment>(Past Tense) For defining time when a program started today (e.g. Started at 08:00) </extracomment>
+    </message>
+    <message>
+        <source>Starts</source>
+        <translation>Começa</translation>
+        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g. Starts Wednesday, 08:00) </extracomment>
     </message>
 </context>
 <context>
