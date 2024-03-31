@@ -1074,6 +1074,38 @@
         <source>Random Off</source>
         <translation>Aléatoire désactivée</translation>
     </message>
+    <message>
+        <source>Size</source>
+        <translation>Taille</translation>
+        <extracomment>Video size</extracomment>
+    </message>
+    <message>
+        <source>Stream Information</source>
+        <translation>Informations du flux</translation>
+    </message>
+    <message>
+        <source>Disable Unwatched Episode Count</source>
+        <translation>Désactive le décompte d&apos;épisodes non-vu</translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
+    <message>
+        <source>Video range type</source>
+        <translation>Type de plage vidéo</translation>
+    </message>
+    <message>
+        <source>Audio Channels</source>
+        <translation>Canaux Audio</translation>
+    </message>
+    <message>
+        <source>Container</source>
+        <translation>Conteneur</translation>
+        <extracomment>Video streaming container</extracomment>
+    </message>
+    <message>
+        <source>Pixel format</source>
+        <translation>Format de pixel</translation>
+        <extracomment>Video pixel format</extracomment>
+    </message>
 </context>
 <context>
     <name></name>
