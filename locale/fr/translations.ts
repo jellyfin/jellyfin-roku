@@ -813,6 +813,267 @@
         <source>Codec Tag</source>
         <translation>Balise de codec</translation>
     </message>
+    <message>
+        <source>Album Artists (Grid)</source>
+        <translation>Artistes de l&apos;album (grille)</translation>
+    </message>
+    <message>
+        <source>Transcoding Information</source>
+        <translation>Informations de Transcodage</translation>
+    </message>
+    <message>
+        <source>direct</source>
+        <translation>direct</translation>
+    </message>
+    <message>
+        <source>Unable to find any albums or songs belonging to this artist</source>
+        <translation>Aucun album ou chanson de cet artiste n&apos;a pu être trouvé</translation>
+        <extracomment>Popup message when we find no audio data for an artist</extracomment>
+    </message>
+    <message>
+        <source>Custom Subtitles</source>
+        <translation>Sous-titres Personnalisés</translation>
+        <extracomment>Name of a setting - custom subtitles that support CJK fonts</extracomment>
+    </message>
+    <message>
+        <source>Disable Community Rating for Episodes</source>
+        <translation>Désactiver la notation de la communauté pour les épisodes</translation>
+    </message>
+    <message>
+        <source>Replace Roku&apos;s default subtitle functions with custom functions that support CJK fonts. Fallback fonts must be configured and enabled on the server for CJK rendering to work.</source>
+        <translation>Remplacez les fonctions de sous-titres par défaut de Roku par des fonctions personnalisées prenant en charge les polices CJK. Les polices de secours doivent être configurées et activées sur le serveur pour que le rendu CJK fonctionne.</translation>
+        <extracomment>Description of a setting - custom subtitles that support CJK fonts</extracomment>
+    </message>
+    <message>
+        <source>Slideshow Paused</source>
+        <translation>Diaporama en Pause</translation>
+    </message>
+    <message>
+        <source>Slideshow Resumed</source>
+        <translation>Reprise du diaporama</translation>
+    </message>
+    <message>
+        <source>Video Codec</source>
+        <translation>Codec vidéo</translation>
+    </message>
+    <message>
+        <source>Audio Codec</source>
+        <translation>Codec audio</translation>
+    </message>
+    <message>
+        <source>Show What&apos;s New popup when Jellyfin is updated to a new version.</source>
+        <translation>Afficher la fenêtre contextuelle des nouveautés lorsque que Jellyfin est mise à jour avec la dernière version.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>WxH</source>
+        <translation>L × H</translation>
+        <extracomment>Video width x height</extracomment>
+    </message>
+    <message>
+        <source>Text Subtitles Only</source>
+        <translation>Sous-titres texte uniquement</translation>
+        <extracomment>Name of a setting - should we hide subtitles that might transcode</extracomment>
+    </message>
+    <message>
+        <source>Parental Ratings</source>
+        <translation>Classifications parentales</translation>
+        <extracomment>Used in Filter menu</extracomment>
+    </message>
+    <message>
+        <source>Unplayed</source>
+        <translation>Non lu</translation>
+    </message>
+    <message>
+        <source>Resumable</source>
+        <translation>Reprise possible</translation>
+    </message>
+    <message>
+        <source>Album Artists (Presentation)</source>
+        <translation>Artistes de l&apos;album (Diaporama)</translation>
+    </message>
+    <message>
+        <source>Albums</source>
+        <translation>Albums</translation>
+    </message>
+    <message>
+        <source>View All</source>
+        <translation>Tout voir</translation>
+    </message>
+    <message>
+        <source>Bitrate Limit</source>
+        <translation>Limite de débit binaire</translation>
+    </message>
+    <message>
+        <source>Settings that apply when Grid views are enabled.</source>
+        <translation>Paramètres s&apos;appliquant lorsque les vues en grille sont activées.</translation>
+    </message>
+    <message>
+        <source>Artists (Presentation)</source>
+        <translation>Artistes (diaporama)</translation>
+    </message>
+    <message>
+        <source>Artists (Grid)</source>
+        <translation>Artistes (grille)</translation>
+    </message>
+    <message>
+        <source>Biographical information for this person is not currently available.</source>
+        <translation>Les informations biographiques pour cette personne sont indisponibles pour le moment.</translation>
+    </message>
+    <message>
+        <source>Enable or disable the &apos;Maximum Bitrate&apos; setting.</source>
+        <translation>Activer ou désactiver le paramètre &apos;Débit binaire maximal&apos;.</translation>
+    </message>
+    <message>
+        <source>Enable Limit</source>
+        <translation>Activer la limite</translation>
+    </message>
+    <message>
+        <source>Set the maximum bitrate in Mbps. Set to 0 to use Roku&apos;s specifications. This setting must be enabled to take effect.</source>
+        <translation>Définir le débit binaire maximum en Mbps. Régler sur 0 pour utiliser les spécifications de Roku. Ce paramètre doit être activé pour être pris en compte.</translation>
+    </message>
+    <message>
+        <source>Settings relating to the appearance of pages in TV Libraries.</source>
+        <translation>Paramètres relatifs à l&apos;apparence des pages dans la médiathèque séries TV.</translation>
+    </message>
+    <message>
+        <source>Years</source>
+        <translation>Années</translation>
+        <extracomment>Used in Filter menu</extracomment>
+    </message>
+    <message>
+        <source>Presentation</source>
+        <translation>Présentation</translation>
+        <extracomment>Title of an option - name of presentation view</extracomment>
+    </message>
+    <message>
+        <source>Reason</source>
+        <translation>Raison</translation>
+    </message>
+    <message>
+        <source>Hide the star and community rating for episodes of a TV show. This is to prevent spoilers of an upcoming good/bad episode.</source>
+        <translation>Cacher l&apos;étoile et la notation de la communauté pour les épisodes d&apos;une série TV. Cela permet d&apos;éviter les spoilers sur un bon/mauvais épisode à venir.</translation>
+    </message>
+    <message>
+        <source>Settings relating to the appearance of Library pages</source>
+        <translation>Paramètres relatifs à l&apos;apparence des pages de médiathèque</translation>
+    </message>
+    <message>
+        <source>Album</source>
+        <translation>Album</translation>
+    </message>
+    <message>
+        <source>Aired</source>
+        <translation>Diffusé le</translation>
+        <extracomment>Aired date label</extracomment>
+    </message>
+    <message>
+        <source>Total Bitrate</source>
+        <translation>Débit Total</translation>
+    </message>
+    <message>
+        <source>Libraries</source>
+        <translation>Médiathèques</translation>
+    </message>
+    <message>
+        <source>Only display text subtitles to minimize transcoding.</source>
+        <translation>Affiche seulement des sous-titres texte pour minimiser l&apos;impact du transcodage.</translation>
+        <extracomment>Description of a setting - should we hide subtitles that might transcode</extracomment>
+    </message>
+    <message>
+        <source>Slideshow On</source>
+        <translation>Diaporama activé</translation>
+    </message>
+    <message>
+        <source>MPEG-4 Support</source>
+        <translation>Support du MPEG-4</translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
+    <message>
+        <source>Movie Library Default View</source>
+        <translation>Vue par défaut pour la médiathèque de films</translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
+    <message>
+        <source>Always Hide</source>
+        <translation>Toujours masquer</translation>
+    </message>
+    <message>
+        <source>Configure the maximum playback bitrate.</source>
+        <translation>Configurer le débit binaire maximum de lecture.</translation>
+    </message>
+    <message>
+        <source>Settings relating to the appearance of the Home screen and the program in general.</source>
+        <translation>Paramètres relatifs à l&apos;apparence de la page d&apos;accueil et du programme en général.</translation>
+    </message>
+    <message>
+        <source>Grid View Settings</source>
+        <translation>Paramètres de la vue Grille</translation>
+    </message>
+    <message>
+        <source>Settings relating to the appearance of pages in Movie Libraries.</source>
+        <translation>Paramètres relatifs à l&apos;apparence des pages dans la médiathèque de Films.</translation>
+    </message>
+    <message>
+        <source>Grid</source>
+        <translation>Grille</translation>
+        <extracomment>Title of an option - name of grid view</extracomment>
+    </message>
+    <message>
+        <source>Show What&apos;s New Popup</source>
+        <translation>Afficher la fenêtre contextuelle des nouveautés</translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
+    <message>
+        <source>Show On Hover</source>
+        <translation>Afficher au survol</translation>
+    </message>
+    <message>
+        <source>Always Show</source>
+        <translation>Toujours afficher</translation>
+    </message>
+    <message>
+        <source>Song</source>
+        <translation>Chanson</translation>
+    </message>
+    <message>
+        <source>Maximum Bitrate</source>
+        <translation>Débit binaire maximum</translation>
+    </message>
+    <message>
+        <source>General</source>
+        <translation>Général</translation>
+    </message>
+    <message>
+        <source>Item Titles</source>
+        <translation>Titres des éléments</translation>
+        <extracomment>Title of a setting - when should we show the title text of a grid item</extracomment>
+    </message>
+    <message>
+        <source>Songs</source>
+        <translation>Chansons</translation>
+    </message>
+    <message>
+        <source>Slideshow Off</source>
+        <translation>Diaporama Désactivé</translation>
+    </message>
+    <message>
+        <source>all</source>
+        <translation>tout</translation>
+        <extracomment>all will reset the searchTerm so all data will be availible</extracomment>
+    </message>
+    <message>
+        <source>Random On</source>
+        <translation>Aléatoire activée</translation>
+    </message>
+    <message>
+        <source>Played</source>
+        <translation>Lu</translation>
+    </message>
+    <message>
+        <source>Random Off</source>
+        <translation>Aléatoire désactivée</translation>
+    </message>
 </context>
 <context>
     <name></name>
