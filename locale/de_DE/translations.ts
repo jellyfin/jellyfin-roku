@@ -437,6 +437,15 @@
         <translation>Startet um</translation>
         <extracomment>(Future Tense) For defining time when a program will start today (e.g. Starts at 08:00) </extracomment>
     </message>
+    <message>
+        <source>Media Grid options.</source>
+        <translation>Medienraster-Optionen.</translation>
+    </message>
+    <message>
+        <source>Item Count</source>
+        <translation>Anzahl der Elemente</translation>
+        <extracomment>UI -&gt; Media Grid -&gt; Item Count in user setting screen.</extracomment>
+    </message>
 </context>
 <context>
     <name></name>
