@@ -1195,6 +1195,81 @@
         <translation>Désactive le codec HEVC sur cet appareil. Ceci peut améliorer la lecture sur certains appareils (ultra).</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
+    <message>
+        <source>Preferred Audio Codec</source>
+        <translation>Codec audio préféré</translation>
+        <extracomment>Settings Menu - Title of option</extracomment>
+    </message>
+    <message>
+        <source>Use system settings</source>
+        <translation>Utiliser les paramètres système</translation>
+        <extracomment>User Setting - Option title</extracomment>
+    </message>
+    <message>
+        <source>Remember Me?</source>
+        <translation>Se souvenir de moi&#xa0;?</translation>
+        <extracomment>User Setting - Setting title</extracomment>
+    </message>
+    <message>
+        <source>Random</source>
+        <translation>Aléatoire</translation>
+        <extracomment>General use word when we want to randomize data</extracomment>
+    </message>
+    <message>
+        <source>If enabled, the number of unwatched episodes in a series/season will be removed.</source>
+        <translation>Si cette option est activée, le nombre d&apos;épisodes non-vus dans une série/saison sera supprimé.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Loading trailer</source>
+        <translation>Chargement de la bande annonce</translation>
+        <extracomment>Dialog title in Main.brs</extracomment>
+    </message>
+    <message>
+        <source>Next Episode Button Time</source>
+        <translation>Délai du bouton épisode suivant</translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
+    <message>
+        <source>Default view for Movie Libraries.</source>
+        <translation>Vue par défaut pour les médiathèques de films.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Use the selected audio codec for transcodes. If the device or stream does not support it, a fallback codec will be used.</source>
+        <translation>Utilisez le codec audio sélectionné pour les transcodages. Si l&apos;appareil ou le flux ne le prend pas en charge, un codec de secours sera utilisé.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Make the arrangement of the Roku home view sections match the web client&apos;s home screen. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Fait correspondre la disposition de la section d&apos;accueil de Roku avec celle de l&apos;écran d&apos;accueil du client Web. Jellyfin doit être fermé et rouvert pour que les changements prennent effet.</translation>
+        <extracomment>User Setting - Setting description</extracomment>
+    </message>
+    <message>
+        <source>... (Press * to read more)</source>
+        <translation>... (appuyer sur * pour lire plus)</translation>
+        <extracomment>Ellipsis Text for when text overflows its container</extracomment>
+    </message>
+    <message>
+        <source>Set how many seconds before the end of an episode the Next Episode button should appear. Set to 0 to disable.</source>
+        <translation>Définir combien de secondes avant la fin d&apos;un épisode le bouton «&#x202f;Prochain épisode&#x202f;» doit apparaître. La valeur 0 permet de le désactiver.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Remember the currently logged in user and try to log them in again next time you start the Jellyfin app.</source>
+        <translation>Se souvenir de l&apos;utilisateur actuellement connecté et tenter de le connecter à nouveau au prochain démarrage de l&apos;application Jellyfin.</translation>
+        <extracomment>User Setting - Setting description</extracomment>
+    </message>
+    <message>
+        <source>No Chapter Data Found</source>
+        <translation>Aucune données de chapitre n&apos;a été trouvé</translation>
+        <extracomment>Message shown in OSD when no chapter data is returned by the API</extracomment>
+    </message>
+    <message>
+        <source>Use Web Client&apos;s Home Section Arrangement</source>
+        <translation>Utiliser la disposition de la section d&apos;accueil du client web</translation>
+        <extracomment>User Setting - Setting title</extracomment>
+    </message>
 </context>
 <context>
     <name></name>
