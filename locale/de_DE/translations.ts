@@ -297,6 +297,146 @@
         <source>TAB_SORT</source>
         <translation>Sortieren</translation>
     </message>
+    <message>
+        <source>yesterday</source>
+        <translation>gestern</translation>
+        <extracomment>Previous day</extracomment>
+    </message>
+    <message>
+        <source>Born</source>
+        <translation>Geboren</translation>
+    </message>
+    <message>
+        <source>Cast &amp; Crew</source>
+        <translation>Besetzung &amp; Mitwirkende</translation>
+    </message>
+    <message>
+        <source>More Like This</source>
+        <translation>Ähnliches</translation>
+    </message>
+    <message>
+        <source>Special Features</source>
+        <translation>Besondere Merkmale</translation>
+    </message>
+    <message>
+        <source>Movies</source>
+        <translation>Filme</translation>
+    </message>
+    <message>
+        <source>Sunday</source>
+        <translation>Sonntag</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Monday</source>
+        <translation>Montag</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Tuesday</source>
+        <translation>Dienstag</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Wednesday</source>
+        <translation>Mittwoch</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Thursday</source>
+        <translation>Donnerstag</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Started at</source>
+        <translation>Fing an bei</translation>
+        <extracomment>(Past Tense) For defining time when a program started today (e.g. Started at 08:00) </extracomment>
+    </message>
+    <message>
+        <source>Starts</source>
+        <translation>Beginnt</translation>
+        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g. Starts Wednesday, 08:00) </extracomment>
+    </message>
+    <message>
+        <source>Ends at</source>
+        <translation>Endet um</translation>
+        <extracomment>(Past Tense) For defining a day and time when a program ended (e.g. Ended Wednesday, 08:00) </extracomment>
+    </message>
+    <message>
+        <source>Live</source>
+        <translation>Live</translation>
+        <extracomment>If TV Show is being broadcast live (not pre-recorded)</extracomment>
+    </message>
+    <message>
+        <source>Repeat</source>
+        <translation>Wiederholen</translation>
+        <extracomment>If TV Shows has previously been broadcasted</extracomment>
+    </message>
+    <message>
+        <source>Channels</source>
+        <translation>Kanäle</translation>
+        <extracomment>Menu option for showing Live TV Channel List</extracomment>
+    </message>
+    <message>
+        <source>View Channel</source>
+        <translation>Kanal anzeigen</translation>
+    </message>
+    <message>
+        <source>Age</source>
+        <translation>Alter</translation>
+    </message>
+    <message>
+        <source>Movies (Grid)</source>
+        <translation>Filme (Raster)</translation>
+        <extracomment>Movie library view option</extracomment>
+    </message>
+    <message>
+        <source>Died</source>
+        <translation>Gestorben</translation>
+    </message>
+    <message>
+        <source>Press &apos;OK&apos; to Close</source>
+        <translation>Drücke &apos;OK&apos; zum schließen</translation>
+    </message>
+    <message>
+        <source>today</source>
+        <translation>heute</translation>
+        <extracomment>Current day</extracomment>
+    </message>
+    <message>
+        <source>Ended at</source>
+        <translation>Endete um</translation>
+        <extracomment>(Past Tense) For defining time when a program will ended (e.g. Ended at 08:00) </extracomment>
+    </message>
+    <message>
+        <source>tomorrow</source>
+        <translation>morgen</translation>
+        <extracomment>Next day</extracomment>
+    </message>
+    <message>
+        <source>Started</source>
+        <translation>Gestartet</translation>
+        <extracomment>(Past Tense) For defining a day and time when a program started (e.g. Started Wednesday, 08:00) </extracomment>
+    </message>
+    <message>
+        <source>Friday</source>
+        <translation>Freitag</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Saturday</source>
+        <translation>Samstag</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>TV Shows</source>
+        <translation>Fernsehserien</translation>
+    </message>
+    <message>
+        <source>Starts at</source>
+        <translation>Startet um</translation>
+        <extracomment>(Future Tense) For defining time when a program will start today (e.g. Starts at 08:00) </extracomment>
+    </message>
 </context>
 <context>
     <name></name>
