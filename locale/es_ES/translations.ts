@@ -329,7 +329,7 @@
     </message>
     <message>
         <source>Enable or disable Direct Play for optional codecs</source>
-        <translation type="unfinished">Habilita o deshabilita Direct Play para codificadores opcionales</translation>
+        <translation>Habilita o deshabilita Direct Play para codecs opcionales</translation>
         <extracomment>Settings Menu - Title for settings group related to codec support</extracomment>
     </message>
     <message>
@@ -396,6 +396,273 @@
     <message>
         <source>Loading Channel Data</source>
         <translation>Cargando Datos del Canal</translation>
+    </message>
+    <message>
+        <source>Extras</source>
+        <translation>Extras</translation>
+    </message>
+    <message>
+        <source>PLAY_COUNT</source>
+        <translation>Número de reproducciones</translation>
+    </message>
+    <message>
+        <source>RELEASE_DATE</source>
+        <translation>Fecha de lanzamiento</translation>
+    </message>
+    <message>
+        <comment>Title of Tab for switching &quot;views&quot; when looking at a library</comment>
+        <source>TAB_VIEW</source>
+        <translation>Vista</translation>
+    </message>
+    <message>
+        <source>Born</source>
+        <translation>Nacido el</translation>
+    </message>
+    <message>
+        <source>Age</source>
+        <translation>Edad</translation>
+    </message>
+    <message>
+        <source>More Like This</source>
+        <translation>Más como esto</translation>
+    </message>
+    <message>
+        <source>Special Features</source>
+        <translation>Características Especiales</translation>
+    </message>
+    <message>
+        <source>TV Shows</source>
+        <translation>Series de TV</translation>
+    </message>
+    <message>
+        <source>tomorrow</source>
+        <translation>mañana</translation>
+        <extracomment>Next day</extracomment>
+    </message>
+    <message>
+        <source>Thursday</source>
+        <translation>jueves</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Saturday</source>
+        <translation>sábado</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Repeat</source>
+        <translation>Repetición</translation>
+        <extracomment>If TV Shows has previously been broadcasted</extracomment>
+    </message>
+    <message>
+        <source>TV Guide</source>
+        <translation>Guía de TV</translation>
+        <extracomment>Menu option for showing Live TV Guide / Schedule</extracomment>
+    </message>
+    <message>
+        <source>View Channel</source>
+        <translation>Ver canal</translation>
+    </message>
+    <message>
+        <source>Record Series</source>
+        <translation>Grabar Serie</translation>
+    </message>
+    <message>
+        <source>Cancel Series Recording</source>
+        <translation>Cancelar grabación de serie</translation>
+    </message>
+    <message>
+        <source>Episodes</source>
+        <translation>Episodios</translation>
+    </message>
+    <message>
+        <source>Error loading Channel Data</source>
+        <translation>Error cargando datos del canal</translation>
+    </message>
+    <message>
+        <source>DATE_ADDED</source>
+        <translation>Añadido el</translation>
+    </message>
+    <message>
+        <source>RUNTIME</source>
+        <translation>Duración</translation>
+    </message>
+    <message>
+        <comment>Title of Tab for options to filter library content</comment>
+        <source>TAB_FILTER</source>
+        <translation>Filtro</translation>
+    </message>
+    <message>
+        <source>yesterday</source>
+        <translation>ayer</translation>
+        <extracomment>Previous day</extracomment>
+    </message>
+    <message>
+        <source>Tuesday</source>
+        <translation>martes</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Movies (Grid)</source>
+        <translation>Películas (Tabla)</translation>
+        <extracomment>Movie library view option</extracomment>
+    </message>
+    <message>
+        <source>Wednesday</source>
+        <translation>miércoles</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Friday</source>
+        <translation>viernes</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Started</source>
+        <translation>Comenzó el</translation>
+        <extracomment>(Past Tense) For defining a day and time when a program started (e.g. Started Wednesday, 08:00) </extracomment>
+    </message>
+    <message>
+        <source>Ends at</source>
+        <translation>Termina a las</translation>
+        <extracomment>(Past Tense) For defining a day and time when a program ended (e.g. Ended Wednesday, 08:00) </extracomment>
+    </message>
+    <message>
+        <source>Live</source>
+        <translation>En directo</translation>
+        <extracomment>If TV Show is being broadcast live (not pre-recorded)</extracomment>
+    </message>
+    <message>
+        <source>Channels</source>
+        <translation>Canales</translation>
+        <extracomment>Menu option for showing Live TV Channel List</extracomment>
+    </message>
+    <message>
+        <source>Connecting to Server</source>
+        <translation>Conectando con el servidor</translation>
+        <extracomment>Message to display to user while client is attempting to connect to the server</extracomment>
+    </message>
+    <message>
+        <source>Cast &amp; Crew</source>
+        <translation>Elenco y Equipo</translation>
+    </message>
+    <message>
+        <source>Additional Parts</source>
+        <translation>Partes Adicionales</translation>
+        <extracomment>Additional parts of a video</extracomment>
+    </message>
+    <message>
+        <source>Starts at</source>
+        <translation>Comienza a las</translation>
+        <extracomment>(Future Tense) For defining time when a program will start today (e.g. Starts at 08:00) </extracomment>
+    </message>
+    <message>
+        <comment>Title of Tab for options to sort library content</comment>
+        <source>TAB_SORT</source>
+        <translation>Orden</translation>
+    </message>
+    <message>
+        <source>Press &apos;OK&apos; to Close</source>
+        <translation>Presiona &apos;OK&apos; para Cerrar</translation>
+    </message>
+    <message>
+        <source>Movies</source>
+        <translation>Peliculas</translation>
+    </message>
+    <message>
+        <source>today</source>
+        <translation>hoy</translation>
+        <extracomment>Current day</extracomment>
+    </message>
+    <message>
+        <source>Sunday</source>
+        <translation>domingo</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Starts</source>
+        <translation>Comienza el</translation>
+        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g. Starts Wednesday, 08:00) </extracomment>
+    </message>
+    <message>
+        <source>Record</source>
+        <translation>Grabar</translation>
+    </message>
+    <message>
+        <source>CRITIC_RATING</source>
+        <translation>Calificación de los críticos</translation>
+    </message>
+    <message>
+        <source>DATE_PLAYED</source>
+        <translation>Reproducido el</translation>
+    </message>
+    <message>
+        <comment>Message displayed in Item Grid when no item to display. %1 is container type (e.g. Boxset, Collection, Folder, etc)</comment>
+        <source>NO_ITEMS</source>
+        <translation>Este 1% no contiene ítems</translation>
+    </message>
+    <message>
+        <comment>Name or Title field of media item</comment>
+        <source>TITLE</source>
+        <translation>Nombre</translation>
+    </message>
+    <message>
+        <source>IMDB_RATING</source>
+        <translation>Valoración IMDB</translation>
+    </message>
+    <message>
+        <source>OFFICIAL_RATING</source>
+        <translation>Clasificación parental</translation>
+    </message>
+    <message>
+        <source>Died</source>
+        <translation>Fallecimiento</translation>
+    </message>
+    <message>
+        <source>Monday</source>
+        <translation>lunes</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Started at</source>
+        <translation>Comenzó a las</translation>
+        <extracomment>(Past Tense) For defining time when a program started today (e.g. Started at 08:00) </extracomment>
+    </message>
+    <message>
+        <source>Ended at</source>
+        <translation>Terminó a las</translation>
+        <extracomment>(Past Tense) For defining time when a program will ended (e.g. Ended at 08:00) </extracomment>
+    </message>
+    <message>
+        <source>Cancel Recording</source>
+        <translation>Cancelar Grabación</translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation>Cerrar</translation>
+    </message>
+    <message>
+        <source>On Now</source>
+        <translation>Ahora</translation>
+    </message>
+    <message>
+        <source>Error During Playback</source>
+        <translation>Error al reproducir</translation>
+        <extracomment>Dialog title when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>There was an error retrieving the data for this item from the server.</source>
+        <translation>Ha habido un error obteniendo los datos de este ítem del servidor.</translation>
+        <extracomment>Dialog detail when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <source>Unable to load Channel Data from the server</source>
+        <translation>No se pudieron cargar los datos del canal del servidor</translation>
+    </message>
+    <message>
+        <source>Movies (Presentation)</source>
+        <translation>Películas (Presentación)</translation>
+        <extracomment>Movie library view option</extracomment>
     </message>
 </context>
 <context>
