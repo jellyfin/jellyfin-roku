@@ -480,7 +480,7 @@
     </message>
     <message>
         <source>Pick a Jellyfin server from the local network</source>
-        <translation>Wähle einen verfügbaren Jellyfin-Server aus Ihrem lokalen Netzwerk aus</translation>
+        <translation>Wähle einen verfügbaren Jellyfin-Server aus Ihrem lokalen Netzwerk aus:</translation>
         <extracomment>Instructions on initial app launch when the user is asked to pick a server from a list</extracomment>
     </message>
     <message>
@@ -528,7 +528,7 @@
     </message>
     <message>
         <source>An error was encountered while playing this item. Server did not provide required transcoding data.</source>
-        <translation>Bei der Wiedergabe trat ein Fehler auf. Der Server hat die benötigten Transcodinginformationen nicht übermittelt</translation>
+        <translation>Bei der Wiedergabe trat ein Fehler auf. Der Server hat die benötigten Transcodinginformationen nicht übermittelt.</translation>
         <extracomment>Content of message box when trying to play an item which requires transcoding, and the server did not provide transcode url</extracomment>
     </message>
     <message>
@@ -543,7 +543,7 @@
     </message>
     <message>
         <source>Support Direct Play of MPEG-2 content (e.g., Live TV). This will prevent transcoding of MPEG-2 content, but uses significantly more bandwidth.</source>
-        <translation>Unterstützung für das direkte Abspielen von MPEG-2-Inhalten (z.B. Live-TV). Dadurch wird das Transcodieren von MPEG-2-Inhalten vermieden, es wird jedoch erheblich mehr Bandbreite verwendet</translation>
+        <translation>Unterstützung für das direkte Abspielen von MPEG-2-Inhalten (z.B. Live-TV). Dadurch wird das Transcodieren von MPEG-2-Inhalten vermieden, es wird jedoch erheblich mehr Bandbreite verwendet.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
@@ -553,7 +553,7 @@
     </message>
     <message>
         <source>Support Direct Play of MPEG-4 content. This may need to be disabled for playback of DIVX encoded video files.</source>
-        <translation>Unterstützung für das direkte Abspielen von MPEG-4-Inhalten. Dies muss möglicherweise deaktiviert werden, um DIVX-codierte Videodateien abzuspielen</translation>
+        <translation>Unterstützung für das direkte Abspielen von MPEG-4-Inhalten. Dies muss möglicherweise deaktiviert werden, um DIVX-codierte Videodateien abzuspielen.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
@@ -564,6 +564,34 @@
         <source>The requested content does not exist on the server</source>
         <translation>Der angefragte Inhalt konnte auf dem Server nicht gefunden werden</translation>
         <extracomment>Content of message box when the requested content is not found on the server</extracomment>
+    </message>
+    <message>
+        <source>Enabled</source>
+        <translation>Aktiviert</translation>
+    </message>
+    <message>
+        <source>User Interface</source>
+        <translation>Benutzeroberfläche</translation>
+        <extracomment>Title for User Interface section in user setting screen.</extracomment>
+    </message>
+    <message>
+        <source>Set Watched</source>
+        <translation>Als angesehen markieren</translation>
+        <extracomment>Button Text - When pressed, marks item as Warched</extracomment>
+    </message>
+    <message>
+        <source>Set Favorite</source>
+        <translation>Favorit festlegen</translation>
+        <extracomment>Button Text - When pressed, sets item as Favorite</extracomment>
+    </message>
+    <message>
+        <source>Disabled</source>
+        <translation>Deaktiviert</translation>
+    </message>
+    <message>
+        <source>Go to series</source>
+        <translation>Zur Serie gehen</translation>
+        <extracomment>Continue Watching Popup Menu - Navigate to the Series Detail Page</extracomment>
     </message>
 </context>
 <context>
