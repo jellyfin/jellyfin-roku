@@ -76,6 +76,7 @@ remove:
 
 .PHONY: screenshot
 screenshot:
+	$(CURL_LOGGED_CMD) -F mysubmit=Screenshot "http://$(ROKU_DEV_TARGET)/plugin_inspect"
 	$(CURL_LOGGED_CMD) -o screenshot.jpg "http://$(ROKU_DEV_TARGET)/pkgs/dev.jpg"
 
 .PHONY: deploy
