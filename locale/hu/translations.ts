@@ -554,6 +554,21 @@
         <translation>Elkezdődött</translation>
         <extracomment>(Past Tense) For defining a day and time when a program started (e.g. Started Wednesday, 08:00) </extracomment>
     </message>
+    <message>
+        <source>Enter the server name or IP address</source>
+        <translation>Add meg a szerver nevét vagy IP-címét</translation>
+        <extracomment>Title of KeyboardDialog when manually entering a server URL</extracomment>
+    </message>
+    <message>
+        <source>Pick a Jellyfin server from the local network</source>
+        <translation>Válasszon egy elérhető Jellyfin szervert a helyi hálózatról:</translation>
+        <extracomment>Instructions on initial app launch when the user is asked to pick a server from a list</extracomment>
+    </message>
+    <message>
+        <source>...or enter server URL manually:</source>
+        <translation>Ha nincs listázott szerver, akkor add meg a szerver URL-t manuálisan:</translation>
+        <extracomment>Instructions on initial app launch when the user is asked to manually enter a server URL</extracomment>
+    </message>
 </context>
 <context>
     <name></name>
