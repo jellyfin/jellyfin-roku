@@ -664,6 +664,147 @@
         <translation>Películas (Presentación)</translation>
         <extracomment>Movie library view option</extracomment>
     </message>
+    <message>
+        <source>Not found</source>
+        <translation>Contenido no encontrado</translation>
+        <extracomment>Title of message box when the requested content is not found on the server</extracomment>
+    </message>
+    <message>
+        <source>Error Getting Playback Information</source>
+        <translation>Error obteniendo información al reproducir contenido</translation>
+        <extracomment>Dialog Title: Received error from server when trying to get information about the selected item for playback</extracomment>
+    </message>
+    <message>
+        <source>Playback</source>
+        <translation>Reproducir</translation>
+        <extracomment>Title for Playback section in user setting screen.</extracomment>
+    </message>
+    <message>
+        <source>Design Elements</source>
+        <translation>Elementos de diseño</translation>
+    </message>
+    <message>
+        <source>Only transcoded files</source>
+        <translation>Sólo archivos transcodificados</translation>
+        <extracomment>User Setting - Setting title</extracomment>
+    </message>
+    <message>
+        <source>Unknown</source>
+        <translation>Desconocido</translation>
+        <extracomment>Title for a cast member for which we have no information for</extracomment>
+    </message>
+    <message>
+        <source>Disable the HEVC codec on this device. This may improve playback for some devices (ultra).</source>
+        <translation>Deshabilitar el códec HEVC en este dispositivo. Esto puede mejorar la reproducción en algunos dispositivos (ultra).</translation>
+        <extracomment>User Setting - Setting description</extracomment>
+    </message>
+    <message>
+        <source>The requested content does not exist on the server</source>
+        <translation>El contenido solicitado no existe en el servidor</translation>
+        <extracomment>Content of message box when the requested content is not found on the server</extracomment>
+    </message>
+    <message>
+        <source>Enter the server name or IP address</source>
+        <translation>Ingrese el nombre del servidor o la dirección IP</translation>
+        <extracomment>Title of KeyboardDialog when manually entering a server URL</extracomment>
+    </message>
+    <message>
+        <source>Pick a Jellyfin server from the local network</source>
+        <translation>Seleccione un servidor Jellyfin disponible en su red local:</translation>
+        <extracomment>Instructions on initial app launch when the user is asked to pick a server from a list</extracomment>
+    </message>
+    <message>
+        <source>An error was encountered while playing this item. Server did not provide required transcoding data.</source>
+        <translation>Ha habido un error al reproducir éste contenido. El servidor no proporcionó los datos de transcodificación requeridos.</translation>
+        <extracomment>Content of message box when trying to play an item which requires transcoding, and the server did not provide transcode url</extracomment>
+    </message>
+    <message>
+        <source>Compatibility</source>
+        <translation>Compatibilidad</translation>
+        <extracomment>User Setting - Setting title</extracomment>
+    </message>
+    <message>
+        <source>Global</source>
+        <translation>Global</translation>
+        <extracomment>User Setting - Setting title</extracomment>
+    </message>
+    <message>
+        <source>All files</source>
+        <translation>Todos los archivos</translation>
+        <extracomment>User Setting - Setting title</extracomment>
+    </message>
+    <message>
+        <source>Global settings that affect everyone that uses this Roku device.</source>
+        <translation>Configuraciones globales que afectan a todos los que usen este dispositivo Roku.</translation>
+        <extracomment>User Setting - Setting description</extracomment>
+    </message>
+    <message>
+        <source>Media Grid</source>
+        <translation>Cuadrícula multimedia</translation>
+        <extracomment>UI -&gt; Media Grid section in user setting screen.</extracomment>
+    </message>
+    <message>
+        <source>Item Count</source>
+        <translation>Cantidad de elementos</translation>
+        <extracomment>UI -&gt; Media Grid -&gt; Item Count in user setting screen.</extracomment>
+    </message>
+    <message>
+        <source>Set Favorite</source>
+        <translation>Agregar a favoritos</translation>
+        <extracomment>Button Text - When pressed, sets item as Favorite</extracomment>
+    </message>
+    <message>
+        <source>Version</source>
+        <translation>Versión</translation>
+    </message>
+    <message>
+        <source>Media Grid options.</source>
+        <translation>Opciones de la cuadrícula multimedia.</translation>
+    </message>
+    <message>
+        <source>Show item count in the library and index of selected item.</source>
+        <translation>Mostrar cantidad de elementos en la biblioteca y el índice del elemento seleccionado.</translation>
+        <extracomment>Description for option in Setting Screen</extracomment>
+    </message>
+    <message>
+        <source>Use voice remote to search</source>
+        <translation>Utilizar la búsqueda por voz</translation>
+        <extracomment>Help text in search voice text box</extracomment>
+    </message>
+    <message>
+        <source>You can search for Titles, People, Live TV Channels and more</source>
+        <translation>Puedes buscar por títulos, personas, canales en vivo y más</translation>
+        <extracomment>Help text in search results</extracomment>
+    </message>
+    <message>
+        <source>Here is your Quick Connect code:</source>
+        <translation>Éste es tu código de conexión rápida:</translation>
+    </message>
+    <message>
+        <source>HEVC</source>
+        <translation>HEVC</translation>
+        <extracomment>Name of codec used in settings menu</extracomment>
+    </message>
+    <message>
+        <source>Attempt to prevent playback failures.</source>
+        <translation>Intentar prevenir fallas de reproducción.</translation>
+        <extracomment>User Setting - Setting description</extracomment>
+    </message>
+    <message>
+        <source>Disable HEVC</source>
+        <translation>Deshabilitar HEVC</translation>
+        <extracomment>User Setting - Setting title</extracomment>
+    </message>
+    <message>
+        <source>Remember Me?</source>
+        <translation>¿Recordarme?</translation>
+        <extracomment>User Setting - Setting title</extracomment>
+    </message>
+    <message>
+        <source>...or enter server URL manually:</source>
+        <translation>Si no aparece ningún servidor en la lista anterior, puede ingresar la URL manualmente:</translation>
+        <extracomment>Instructions on initial app launch when the user is asked to manually enter a server URL</extracomment>
+    </message>
 </context>
 <context>
     <name></name>
