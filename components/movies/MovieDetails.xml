@@ -8,11 +8,11 @@
           <Label id="releaseYear" />
           <Label id="runtime" />
           <Label id="officialRating" />
-          <LayoutGroup id="communityRatingGroup" layoutDirection="horiz" itemSpacings="[-5]" visible="true">
+          <LayoutGroup id="communityRatingGroup" layoutDirection="horiz" itemSpacings="[-5]">
             <Poster id="star" uri="pkg:/images/sharp_star_white_18dp.png" height="32" width="32" blendColor="#cb272a" />
             <Label id="communityRating" />
           </LayoutGroup>
-          <LayoutGroup id="criticRatingGroup" layoutDirection="horiz" itemSpacings="[-5]" visible="true">
+          <LayoutGroup id="criticRatingGroup" layoutDirection="horiz" itemSpacings="[-5]">
             <Poster id="criticRatingIcon" height="32" width="32" />
             <Label id="criticRatingLabel" />
           </LayoutGroup>

@@ -568,7 +568,7 @@ sub onItemFocused()
 
     m.star.uri = "pkg:/images/sharp_star_white_18dp.png"
 
-    if get_user_setting("ui.movies.disableRatings") = "false"
+    if m.global.session.user.settings["ui.movies.disableRatings"] = false
         if isValid(itemData.communityRating)
             setFieldText("communityRating", int(itemData.communityRating * 10) / 10)
             m.communityRatingGroup.visible = true
