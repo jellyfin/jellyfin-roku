@@ -329,7 +329,6 @@ sub ItemDataLoaded(msg)
     m.loadItemsTask.unobserveField("content")
     m.loadItemsTask.content = []
 
-    print "itemData=", itemData
     if itemData = invalid
         m.Loading = false
         stopLoadingSpinner()
