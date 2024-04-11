@@ -602,6 +602,7 @@ function CreateMovieDetailsGroup(movie as object) as dynamic
     ' start building MovieDetails view
     group = CreateObject("roSGNode", "MovieDetails")
     group.observeField("quickPlayNode", m.port)
+    group.observeField("refreshMovieDetailsData", m.port)
     group.overhangTitle = movie.title
     group.optionsAvailable = false
     group.trailerAvailable = false
