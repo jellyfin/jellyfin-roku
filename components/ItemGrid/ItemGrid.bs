@@ -63,9 +63,6 @@ sub init()
     'set inital counts for overhang before content is loaded.
     m.loadItemsTask.totalRecordCount = 0
 
-    m.spinner = m.top.findNode("spinner")
-    m.spinner.visible = true
-
     m.alpha = m.top.findNode("alpha")
     m.alphaMenu = m.alpha.findNode("alphaMenu")
 
@@ -497,7 +494,6 @@ sub ItemDataLoaded(msg)
         m.emptyText.visible = true
     end if
 
-    m.spinner.visible = false
     stopLoadingSpinner()
 end sub
 
@@ -594,7 +590,6 @@ sub alphaSelectedChanged()
         m.itemGrid.content = m.data
         m.loadItemsTask.searchTerm = ""
         m.VoiceBox.text = ""
-        m.spinner.visible = true
 
         loadInitialItems()
     end if
@@ -610,7 +605,6 @@ sub onvoiceFilter()
         m.loadItemsTask.NameStartsWith = " "
         m.loadItemsTask.searchTerm = m.voiceBox.text
         m.loadItemsTask.recursive = true
-        m.spinner.visible = true
         if m.voiceBox.text.len() = 1
             ' move focus to the letter spoken
             alphaMenu = m.top.findNode("alphaMenu")

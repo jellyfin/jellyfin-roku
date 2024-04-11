@@ -17,7 +17,6 @@ sub setupNodes()
     m.selectedMovieOfficialRating = m.top.findNode("selectedMovieOfficialRating")
     m.movieLogo = m.top.findNode("movieLogo")
     m.swapAnimation = m.top.findNode("backroundSwapAnimation")
-    m.spinner = m.top.findNode("spinner")
     m.alpha = m.top.findNode("alpha")
     m.alphaMenu = m.alpha.findNode("alphaMenu")
     m.communityRatingGroup = m.top.findNode("communityRatingGroup")
@@ -735,7 +734,6 @@ sub alphaSelectedChanged()
 
         m.loadItemsTask.searchTerm = ""
         m.VoiceBox.text = ""
-        m.spinner.visible = true
         loadInitialItems()
     end if
 end sub
@@ -750,7 +748,6 @@ sub onvoiceFilter()
         m.loadItemsTask.NameStartsWith = " "
         m.loadItemsTask.searchTerm = m.voiceBox.text
         m.loadItemsTask.recursive = true
-        m.spinner.visible = true
 
         if m.voiceBox.text.len() = 1
             ' move focus to the letter spoken
