@@ -22,6 +22,11 @@ sub init()
             "fontSize": 35,
             "fontUri": "font:SystemFontFile",
             "color": "#00a4dcFF"
+        },
+        "p": {
+            "fontSize": 27,
+            "fontUri": "font:SystemFontFile",
+            "color": "#EFEFEFFF"
         }
     }
 

@@ -61,7 +61,7 @@ jobs:
         run: npm ci
       - name: Install roku package dependencies
         run: npx ropm install
-      - uses: xt0rted/markdownlint-problem-matcher@98d94724052d20ca2e06c091f202e4c66c3c59fb # v2
+      - uses: xt0rted/markdownlint-problem-matcher@1a5fabfb577370cfdf5af944d418e4be3ea06f27 # v3
       - name: Lint markdown files
         run: npm run lint-markdown
   spelling:

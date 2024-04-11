@@ -4519,5 +4519,15 @@
         <source>Save Credentials?</source>
         <translation>Uložit přihlašovací údaje?</translation>
     </message>
+    <message>
+        <source>What&apos;s New?</source>
+        <translation>Co je nového?</translation>
+        <extracomment>Popup title - Popup displays all the major changes to the app since the last version</extracomment>
+    </message>
+    <message>
+        <source>Compatibility</source>
+        <translation>Kompatibilita</translation>
+        <extracomment>User Setting - Setting title</extracomment>
+    </message>
 </context>
 </TS>

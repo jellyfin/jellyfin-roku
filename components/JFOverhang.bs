@@ -2,9 +2,10 @@ import "pkg:/source/utils/config.bs"
 
 sub init()
     m.top.id = "overhang"
-    ' hide seperators till they're needed
-    m.leftSeperator = m.top.findNode("overlayLeftSeperator")
-    m.leftSeperator.visible = "false"
+    m.top.translation = [54, 0]
+
+    m.leftGroup = m.top.findNode("overlayLeftGroup")
+    m.rightGroup = m.top.findNode("overlayRightGroup")
     m.rightSeperator = m.top.findNode("overlayRightSeperator")
     ' set font sizes
     m.optionText = m.top.findNode("overlayOptionsText")
@@ -38,7 +39,7 @@ end sub
 
 sub onVisibleChange()
     if m.top.disableMoveAnimation
-        m.top.translation = [0, 0]
+        m.top.translation = [54, 0]
         return
     end if
     if m.top.isVisible
@@ -50,16 +51,7 @@ sub onVisibleChange()
 end sub
 
 sub updateTitle()
-    if m.top.title <> ""
-        m.leftSeperator.visible = "true"
-    else
-        m.leftSeperator.visible = "false"
-    end if
     m.title.text = m.top.title
-
-    if not m.hideClock
-        resetTime()
-    end if
 end sub
 
 sub setClockVisibility()
@@ -84,7 +76,9 @@ end sub
 sub updateUser()
     setRightSeperatorVisibility()
     user = m.top.findNode("overlayCurrentUser")
-    user.text = m.top.currentUser
+    if isValid(user)
+        user.text = m.top.currentUser
+    end if
 end sub
 
 sub updateTime()
@@ -143,5 +137,25 @@ sub updateOptions()
     else
         m.optionText.visible = false
         m.optionStar.visible = false
+    end if
+end sub
+
+' component boolean field isLogoVisibleChange has changed value
+sub isLogoVisibleChange()
+    isLogoVisible = m.top.isLogoVisible
+
+    scene = m.top.getScene()
+    logo = scene.findNode("overlayLogo")
+
+    if isLogoVisible
+        if not isValid(logo)
+            posterLogo = createLogoPoster()
+            m.leftGroup.insertChild(posterLogo, 0)
+        end if
+    else
+        ' remove the logo
+        if isValid(logo)
+            m.leftGroup.removeChild(logo)
+        end if
     end if
 end sub

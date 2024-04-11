@@ -3,7 +3,7 @@
 # If you want to get_images, you'll also need convert from ImageMagick
 ##########################################################################
 
-VERSION := 2.0.2
+VERSION := 2.0.5
 
 ## usage
 
@@ -76,6 +76,7 @@ remove:
 
 .PHONY: screenshot
 screenshot:
+	$(CURL_LOGGED_CMD) -F mysubmit=Screenshot "http://$(ROKU_DEV_TARGET)/plugin_inspect"
 	$(CURL_LOGGED_CMD) -o screenshot.jpg "http://$(ROKU_DEV_TARGET)/pkgs/dev.jpg"
 
 .PHONY: deploy

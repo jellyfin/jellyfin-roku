@@ -92,6 +92,35 @@ sub handleChapterSkipAction(action as string)
     end if
 end sub
 
+' handleItemSkipAction: Handles user command to skip items
+'
+' @param {string} action - skip action to take
+sub handleItemSkipAction(action as string)
+    if action = "itemnext"
+        ' If there is something next in the queue, play it
+        if m.global.queueManager.callFunc("getPosition") < m.global.queueManager.callFunc("getCount") - 1
+            m.top.control = "stop"
+            m.global.sceneManager.callFunc("clearPreviousScene")
+            m.global.queueManager.callFunc("moveForward")
+            m.global.queueManager.callFunc("playQueue")
+        end if
+
+        return
+    end if
+
+    if action = "itemback"
+        ' If there is something previous in the queue, play it
+        if m.global.queueManager.callFunc("getPosition") > 0
+            m.top.control = "stop"
+            m.global.sceneManager.callFunc("clearPreviousScene")
+            m.global.queueManager.callFunc("moveBack")
+            m.global.queueManager.callFunc("playQueue")
+        end if
+
+        return
+    end if
+end sub
+
 ' handleHideAction: Handles action to hide OSD menu
 '
 ' @param {boolean} resume - controls whether or not to resume video playback when sub is called
@@ -218,6 +247,11 @@ sub onOSDAction()
 
     if action = "showvideoinfopopup"
         handleShowVideoInfoPopupAction()
+        return
+    end if
+
+    if action = "itemback" or action = "itemnext"
+        handleItemSkipAction(action)
         return
     end if
 end sub
@@ -362,8 +396,34 @@ sub onVideoContentLoaded()
     m.top.audioIndex = videoContent[0].audioIndex
     m.top.transcodeParams = videoContent[0].transcodeparams
     m.chapters = videoContent[0].chapters
+    m.top.showID = videoContent[0].showID
 
     m.osd.itemTitleText = m.top.content.title
+
+    ' If video is an episode, attempt to add season and episode numbers to OSD
+    if m.top.content.contenttype = 4
+        if isValid(videoContent[0].seasonNumber)
+            m.osd.seasonNumber = videoContent[0].seasonNumber
+        end if
+
+        if isValid(videoContent[0].episodeNumber)
+            m.osd.episodeNumber = videoContent[0].episodeNumber
+        end if
+
+        if isValid(videoContent[0].episodeNumberEnd)
+            m.osd.episodeNumberEnd = videoContent[0].episodeNumberEnd
+        end if
+    end if
+
+    ' Attempt to add logo to OSD
+    if isValidAndNotEmpty(videoContent[0].logoImage)
+        m.osd.logoImage = videoContent[0].logoImage
+
+        ' Don't show both the logo and the video title if this isn't an episode
+        if m.top.content.contenttype <> 4
+            m.osd.itemTitleText = ""
+        end if
+    end if
 
     populateChapterMenu()
 
@@ -444,6 +504,11 @@ sub onNextEpisodeDataLoaded()
     m.checkedForNextEpisode = true
 
     m.top.observeField("position", "onPositionChanged")
+
+    ' If there is no next episode, disable next episode button
+    if m.getNextEpisodeTask.nextEpisodeData.Items.count() <> 2
+        m.nextupbuttonseconds = 0
+    end if
 end sub
 
 '
@@ -558,7 +623,7 @@ sub onState(msg)
         m.top.backPressed = true
     else if m.top.state = "playing"
 
-        ' Check if next episde is available
+        ' Check if next episode is available
         if isValid(m.top.showID)
             if m.top.showID <> "" and not m.checkedForNextEpisode and m.top.content.contenttype = 4
                 m.getNextEpisodeTask.showID = m.top.showID

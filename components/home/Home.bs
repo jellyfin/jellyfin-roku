@@ -30,9 +30,16 @@ sub loadLibraries()
     m.fadeInFocusBitmap.control = "start"
 end sub
 
-' JFScreen hook that gets ran as needed.
-' Used to update the focus, the state of the data, and tells the server about the device profile
+' JFScreen hook called when the screen is displayed by the screen manager
 sub OnScreenShown()
+    scene = m.top.getScene()
+    overhang = scene.findNode("overhang")
+    if isValid(overhang)
+        overhang.isLogoVisible = true
+        overhang.currentUser = m.global.session.user.name
+        overhang.title = tr("Home")
+    end if
+
     if isValid(m.top.lastFocus)
         m.top.lastFocus.setFocus(true)
     else
@@ -50,6 +57,17 @@ sub OnScreenShown()
         m.postTask.apiUrl = "/Sessions/Capabilities/Full"
         m.postTask.control = "RUN"
         m.postTask.observeField("responseCode", "postFinished")
+    end if
+end sub
+
+' JFScreen hook called when the screen is hidden by the screen manager
+sub OnScreenHidden()
+    scene = m.top.getScene()
+    overhang = scene.findNode("overhang")
+    if isValid(overhang)
+        overhang.isLogoVisible = false
+        overhang.currentUser = ""
+        overhang.title = ""
     end if
 end sub
 

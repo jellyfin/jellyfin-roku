@@ -180,6 +180,14 @@
         <source>Server</source>
         <translation>Server</translation>
     </message>
+    <message>
+        <source>Delete Saved</source>
+        <translation>Şterge salvările</translation>
+    </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>Salvați datele de conectare?</translation>
+    </message>
 </context>
 <context>
     <name></name>

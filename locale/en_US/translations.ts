@@ -1113,19 +1113,19 @@
             <extracomment>Settings Menu - Description for option</extracomment>
         </message>
         <message>
-            <source>Choose your preferred audio codec when transcoding multichannel audio.</source>
-            <translation>Choose your preferred audio codec when transcoding multichannel audio.</translation>
-            <extracomment>Settings Menu - Description for option</extracomment>
-        </message>
-        <message>
-            <source>Force all transcodes to use DTS instead of the default EAC3. The device must support DTS for this setting to have an effect.</source>
-            <translation>Force all transcodes to use DTS instead of the default EAC3. The device must support DTS for this setting to have an effect.</translation>
-            <extracomment>Settings Menu - Description for option</extracomment>
-        </message>
-        <message>
-            <source>Audio Codec Support</source>
-            <translation>Audio Codec Support</translation>
+            <source>Preferred Audio Codec</source>
+            <translation>Preferred Audio Codec</translation>
             <extracomment>Settings Menu - Title of option</extracomment>
+        </message>
+        <message>
+            <source>Use the selected audio codec for transcodes. If the device or stream does not support it, a fallback codec will be used.</source>
+            <translation>Use the selected audio codec for transcodes. If the device or stream does not support it, a fallback codec will be used.</translation>
+            <extracomment>Settings Menu - Description for option</extracomment>
+        </message>
+        <message>
+            <source>Use system settings</source>
+            <translation>Use system settings</translation>
+            <extracomment>User Setting - Option title</extracomment>
         </message>
         <message>
             <source>Direct playing</source>
@@ -1250,6 +1250,11 @@
             <source>Random</source>
             <translation>Random</translation>
             <extracomment>General use word when we want to randomize data</extracomment>
+        </message>
+        <message>
+            <source>... (Press * to read more)</source>
+            <translation>... (Press * to read more)</translation>
+            <extracomment>Ellipsis Text for when text overflows its container</extracomment>
         </message>
     </context>
 </TS>
