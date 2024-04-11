@@ -27,6 +27,7 @@ sub init()
     setupNodes()
 
     m.overhang.isVisible = false
+
     ' adjust alpha menu mic icon since there is no overhang
     alphaMic = m.alpha.findNode("alphaMic")
     alphaMic.translation = [60, 150]
