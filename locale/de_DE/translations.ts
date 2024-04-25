@@ -779,6 +779,32 @@
         <translation>Zurück nach oben</translation>
         <extracomment>UI -&gt; Media Grid -&gt; Item Title in user setting screen.</extracomment>
     </message>
+    <message>
+        <source>direct</source>
+        <translation>direkt</translation>
+    </message>
+    <message>
+        <source>Audio Channels</source>
+        <translation>Audiokanäle</translation>
+    </message>
+    <message>
+        <source>Custom Subtitles</source>
+        <translation>Benutzerdefinierte Untertitel</translation>
+        <extracomment>Name of a setting - custom subtitles that support CJK fonts</extracomment>
+    </message>
+    <message>
+        <source>Reason</source>
+        <translation>Grund</translation>
+    </message>
+    <message>
+        <source>WxH</source>
+        <translation>BxH</translation>
+        <extracomment>Video width x height</extracomment>
+    </message>
+    <message>
+        <source>Playback Information</source>
+        <translation>Wiedergabeinformationen</translation>
+    </message>
 </context>
 <context>
     <name></name>
