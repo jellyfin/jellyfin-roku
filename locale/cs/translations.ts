@@ -212,6 +212,133 @@
         <source>Unable to load Channel Data from the server</source>
         <translation>Nelze načíst data o kanálu ze serveru</translation>
     </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>Uložit přihlašovací údaje?</translation>
+    </message>
+    <message>
+        <source>CRITIC_RATING</source>
+        <translation>Honocení kritiků</translation>
+    </message>
+    <message>
+        <comment>Message displayed in Item Grid when no item to display. %1 is container type (e.g. Boxset, Collection, Folder, etc)</comment>
+        <source>NO_ITEMS</source>
+        <translation>Tato %1 neobsahuje žádné položky</translation>
+    </message>
+    <message>
+        <source>RUNTIME</source>
+        <translation>Délka</translation>
+    </message>
+    <message>
+        <source>Global</source>
+        <translation>Společné</translation>
+        <extracomment>User Setting - Setting title</extracomment>
+    </message>
+    <message>
+        <source>No Chapter Data Found</source>
+        <translation>Nenalezeny žádné informace o kapitolách</translation>
+        <extracomment>Message shown in OSD when no chapter data is returned by the API</extracomment>
+    </message>
+    <message>
+        <source>Remember the currently logged in user and try to log them in again next time you start the Jellyfin app.</source>
+        <translation>Zapamatovat si aktuálně přihlášenéhho uživatele a pokusit se ho přihlásit znovu při příštím spuštění aplikace Jellyfin.</translation>
+        <extracomment>User Setting - Setting description</extracomment>
+    </message>
+    <message>
+        <source>IMDB_RATING</source>
+        <translation>Hodnocení IMDb</translation>
+    </message>
+    <message>
+        <source>Compatibility</source>
+        <translation>Kompatibilita</translation>
+        <extracomment>User Setting - Setting title</extracomment>
+    </message>
+    <message>
+        <source>... (Press * to read more)</source>
+        <translation>... (Stiskni * pro více informací)</translation>
+        <extracomment>Ellipsis Text for when text overflows its container</extracomment>
+    </message>
+    <message>
+        <source>What&apos;s New?</source>
+        <translation>Co je nového?</translation>
+        <extracomment>Popup title - Popup displays all the major changes to the app since the last version</extracomment>
+    </message>
+    <message>
+        <source>DATE_PLAYED</source>
+        <translation>Datum přehrání</translation>
+    </message>
+    <message>
+        <source>Extras</source>
+        <translation>Doplňky</translation>
+    </message>
+    <message>
+        <source>Episodes</source>
+        <translation>Epizody</translation>
+    </message>
+    <message>
+        <source>Use Web Client&apos;s Home Section Arrangement</source>
+        <translation>Použít uspořádání sekcí domovské stránky webového klienta</translation>
+        <extracomment>User Setting - Setting title</extracomment>
+    </message>
+    <message>
+        <source>Make the arrangement of the Roku home view sections match the web client&apos;s home screen. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Uspořádejte si zobrazení sekcí domovské stránky Roku tak, aby odpovídalo domovské obrazovce webového klienta. Aby se změna projevila, bude nutné Jellyfin ukončit a znovu spustit.</translation>
+        <extracomment>User Setting - Setting description</extracomment>
+    </message>
+    <message>
+        <source>Disable HEVC</source>
+        <translation>Zakázat HEVC</translation>
+        <extracomment>User Setting - Setting title</extracomment>
+    </message>
+    <message>
+        <source>Attempt to prevent playback failures.</source>
+        <translation>Pokusit se zabránit chybám přehrávání.</translation>
+        <extracomment>User Setting - Setting description</extracomment>
+    </message>
+    <message>
+        <source>OFFICIAL_RATING</source>
+        <translation>Rodičovské hodnocení</translation>
+    </message>
+    <message>
+        <source>Random</source>
+        <translation>Náhodně</translation>
+        <extracomment>General use word when we want to randomize data</extracomment>
+    </message>
+    <message>
+        <source>PLAY_COUNT</source>
+        <translation>Počet přehrání</translation>
+    </message>
+    <message>
+        <source>Delete Saved</source>
+        <translation>Smazat uložené</translation>
+    </message>
+    <message>
+        <source>On Now</source>
+        <translation>Nyní</translation>
+    </message>
+    <message>
+        <comment>Name or Title field of media item</comment>
+        <source>TITLE</source>
+        <translation>Název</translation>
+    </message>
+    <message>
+        <source>DATE_ADDED</source>
+        <translation>Datum přidání</translation>
+    </message>
+    <message>
+        <source>RELEASE_DATE</source>
+        <translation>Datum vydání</translation>
+    </message>
+    <message>
+        <source>Disable the HEVC codec on this device. This may improve playback for some devices (ultra).</source>
+        <translation>Zakázat kodek HEVC v tomto zařízení. Může zlepšit přehrávání na některých zařízeních.</translation>
+        <extracomment>User Setting - Setting description</extracomment>
+    </message>
+    <message>
+        <source>Global settings that affect everyone that uses this Roku device.</source>
+        <translation>Společná nastavení, která mají vliv na každého uživatele tohoto zařízení Roku.</translation>
+        <extracomment>User Setting - Setting description</extracomment>
+    </message>
 </context>
 <context>
     <name></name>
