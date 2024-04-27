@@ -338,7 +338,7 @@
                             },
                             {
                                 "title": "Community and Critical Ratings",
-                                "description": "Show ratings for how good a movie is.",
+                                "description": "Ratings for how good a movie is.",
                                 "settingName": "ui.movies.showRatings",
                                 "type": "bool",
                                 "default": "true"

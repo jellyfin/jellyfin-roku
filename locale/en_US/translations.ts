@@ -1257,13 +1257,13 @@
             <extracomment>Ellipsis Text for when text overflows its container</extracomment>
         </message>
         <message>
-            <source>Disable Community and Critical Ratings</source>
-            <translation>Disable Community and Critical Ratings</translation>
+            <source>Community and Critical Ratings</source>
+            <translation>Community and Critical Ratings</translation>
             <extracomment>User Setting - Setting title</extracomment>
         </message>
         <message>
-            <source>Hide the star, community rating, tomato, and critical rating for Movies.</source>
-            <translation>Hide the star, community rating, tomato, and critical rating for Movies.</translation>
+            <source>Ratings for how good a movie is</source>
+            <translation>Ratings for how good a movie is</translation>
             <extracomment>User Setting - Setting description</extracomment>
         </message>
     </context>
