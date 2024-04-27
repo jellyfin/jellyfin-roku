@@ -337,11 +337,11 @@
                                 ]
                             },
                             {
-                                "title": "Disable Community and Critical Ratings",
-                                "description": "Hide the star, community rating, tomato, and critical rating for Movies.",
-                                "settingName": "ui.movies.disableRatings",
+                                "title": "Community and Critical Ratings",
+                                "description": "Show ratings for how good a movie is.",
+                                "settingName": "ui.movies.showRatings",
                                 "type": "bool",
-                                "default": "false"
+                                "default": "true"
                             }
                         ]
                     },

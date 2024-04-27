@@ -76,7 +76,7 @@ sub itemContentChanged()
         m.infoGroup.removeChild(m.top.findNode("officialRating"))
     end if
 
-    if m.global.session.user.settings["ui.movies.disableRatings"] = false
+    if m.global.session.user.settings["ui.movies.showRatings"] = true
         if isValid(itemData.communityRating)
             setFieldText("communityRating", int(itemData.communityRating * 10) / 10)
         else
