@@ -335,6 +335,13 @@
                                         "id": "MoviesGrid"
                                     }
                                 ]
+                            },
+                            {
+                                "title": "Community and Critical Ratings",
+                                "description": "Ratings for how good a movie is.",
+                                "settingName": "ui.movies.showRatings",
+                                "type": "bool",
+                                "default": "true"
                             }
                         ]
                     },
