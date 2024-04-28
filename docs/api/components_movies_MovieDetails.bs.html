@@ -78,23 +78,25 @@ sub itemContentChanged()
         m.infoGroup.removeChild(m.top.findNode("officialRating"))
     end if
 
-    if itemData.communityRating &lt;> invalid
-        setFieldText("communityRating", int(itemData.communityRating * 10) / 10)
-        m.top.findNode("communityRatingGroup").visible = "true"
-    else
-        ' hide the star icon
-        m.infoGroup.removeChild(m.top.findNode("communityRatingGroup"))
-    end if
-
-    if itemData.CriticRating &lt;> invalid
-        setFieldText("criticRatingLabel", itemData.criticRating)
-        if itemData.CriticRating > 60
-            tomato = "pkg:/images/fresh.png"
+    if m.global.session.user.settings["ui.movies.showRatings"]
+        if isValid(itemData.communityRating)
+            setFieldText("communityRating", int(itemData.communityRating * 10) / 10)
         else
-            tomato = "pkg:/images/rotten.png"
+            m.infoGroup.removeChild(m.top.findNode("communityRatingGroup"))
         end if
-        m.top.findNode("criticRatingIcon").uri = tomato
+        if isValid(itemData.CriticRating)
+            setFieldText("criticRatingLabel", itemData.criticRating)
+            if itemData.CriticRating > 60
+                tomato = "pkg:/images/fresh.png"
+            else
+                tomato = "pkg:/images/rotten.png"
+            end if
+            m.top.findNode("criticRatingIcon").uri = tomato
+        else
+            m.infoGroup.removeChild(m.top.findNode("criticRatingGroup"))
+        end if
     else
+        m.infoGroup.removeChild(m.top.findNode("communityRatingGroup"))
         m.infoGroup.removeChild(m.top.findNode("criticRatingGroup"))
     end if
 
