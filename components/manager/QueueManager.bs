@@ -256,6 +256,7 @@ end sub
 
 ' Set starting point for top item in the queue
 sub setTopStartingPoint(positionTicks)
+    if getCount() = 0 then return
     m.queue[0].startingPoint = positionTicks
 end sub
 
