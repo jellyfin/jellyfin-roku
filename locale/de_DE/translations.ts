@@ -772,7 +772,7 @@
     </message>
     <message>
         <source>There was an error authenticating via Quick Connect.</source>
-        <translation type="unfinished">Es gab einen Fehler bei der Authentifizierung mit Quick Connect.</translation>
+        <translation>Es gab einen Fehler bei der Authentifizierung mit Quick Connect.</translation>
     </message>
     <message>
         <source>Return to Top</source>
@@ -804,6 +804,107 @@
     <message>
         <source>Playback Information</source>
         <translation>Wiedergabeinformationen</translation>
+    </message>
+    <message>
+        <source>Only display text subtitles to minimize transcoding.</source>
+        <translation>Nur Text-Untertitel anzeigen, um die Transkodierung zu minimieren.</translation>
+        <extracomment>Description of a setting - should we hide subtitles that might transcode</extracomment>
+    </message>
+    <message>
+        <source>Set the maximum amount of days a show should stay in the &apos;Next Up&apos; list without watching it.</source>
+        <translation>Setzen Sie die maximale Anzahl von Tagen, die eine noch nicht angesehene Sendung in der &apos;Als nächstes&apos;-Liste bleiben soll.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Transcoding Information</source>
+        <translation>Transkodierungsinformationen</translation>
+    </message>
+    <message>
+        <source>Total Bitrate</source>
+        <translation>Gesamtbitrate</translation>
+    </message>
+    <message>
+        <source>Stream Information</source>
+        <translation>Streaminformationen</translation>
+    </message>
+    <message>
+        <source>Codec</source>
+        <translation>Codec</translation>
+    </message>
+    <message>
+        <source>Codec Tag</source>
+        <translation>Codec-Tag</translation>
+    </message>
+    <message>
+        <source>Level</source>
+        <translation>Stufe</translation>
+        <extracomment>Video profile level</extracomment>
+    </message>
+    <message>
+        <source>Bit Rate</source>
+        <translation>Bitrate</translation>
+        <extracomment>Video streaming bit rate</extracomment>
+    </message>
+    <message>
+        <source>Container</source>
+        <translation>Container</translation>
+        <extracomment>Video streaming container</extracomment>
+    </message>
+    <message>
+        <source>Size</source>
+        <translation>Grösse</translation>
+        <extracomment>Video size</extracomment>
+    </message>
+    <message>
+        <source>Video range type</source>
+        <translation>Video-Dynamikumfang</translation>
+    </message>
+    <message>
+        <source>Unable to find any albums or songs belonging to this artist</source>
+        <translation>Keine Alben oder Lieder dieses Künstlers gefunden</translation>
+        <extracomment>Popup message when we find no audio data for an artist</extracomment>
+    </message>
+    <message>
+        <source>Replace Roku&apos;s default subtitle functions with custom functions that support CJK fonts. Fallback fonts must be configured and enabled on the server for CJK rendering to work.</source>
+        <translation>Ersetzt die standardmässigen Untertitelfunktionen von Roku mit benutzerdefinierten Funktionen, die CJK-Schriftarten unterstützen. Ersatzschriftarten müssen auf dem Server konfiguriert und aktiviert sein, damit die CJK-Darstellung funktioniert.</translation>
+        <extracomment>Description of a setting - custom subtitles that support CJK fonts</extracomment>
+    </message>
+    <message>
+        <source>Video Codec</source>
+        <translation>Videocodec</translation>
+    </message>
+    <message>
+        <source>Audio Codec</source>
+        <translation>Audiocoded</translation>
+    </message>
+    <message>
+        <source>Text Subtitles Only</source>
+        <translation>Nur Text-Untertitel</translation>
+        <extracomment>Name of a setting - should we hide subtitles that might transcode</extracomment>
+    </message>
+    <message>
+        <source>all</source>
+        <translation>alle</translation>
+        <extracomment>all will reset the searchTerm so all data will be availible</extracomment>
+    </message>
+    <message>
+        <source>Aired</source>
+        <translation>Ausgestrahlt</translation>
+        <extracomment>Aired date label</extracomment>
+    </message>
+    <message>
+        <source>Slideshow Off</source>
+        <translation>Diashow aus</translation>
+    </message>
+    <message>
+        <source>Pixel format</source>
+        <translation>Pixelformat</translation>
+        <extracomment>Video pixel format</extracomment>
+    </message>
+    <message>
+        <source>Max Days Next Up</source>
+        <translation>Maximale Tage in &quot;Als Nächstes&quot;</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
     </message>
 </context>
 <context>
