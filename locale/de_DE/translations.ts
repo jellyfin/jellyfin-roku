@@ -941,6 +941,128 @@
         <source>Random On</source>
         <translation>Zufällig An</translation>
     </message>
+    <message>
+        <source>Played</source>
+        <translation>Gespielt</translation>
+    </message>
+    <message>
+        <source>Albums</source>
+        <translation>Alben</translation>
+    </message>
+    <message>
+        <source>Select when to show titles.</source>
+        <translation>Auswählen, wann Titel angezeigt werden sollen.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Always Show</source>
+        <translation>Immer anzeigen</translation>
+    </message>
+    <message>
+        <source>Show What&apos;s New Popup</source>
+        <translation>Neuigkeiten Popup anzeigen.</translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
+    <message>
+        <source>Show What&apos;s New popup when Jellyfin is updated to a new version.</source>
+        <translation>Popup mit Neuigkeiten anzeigen, wenn Jellyfin auf eine neue Version aktualisiert wird.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Unplayed</source>
+        <translation>Ungespielt</translation>
+    </message>
+    <message>
+        <source>Resumable</source>
+        <translation>Fortsetzbar</translation>
+    </message>
+    <message>
+        <source>Default view for Movie Libraries.</source>
+        <translation>Standardansicht für Filmbibliothek</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Artists (Grid)</source>
+        <translation>Künstler (Raster)</translation>
+    </message>
+    <message>
+        <source>Album Artists (Presentation)</source>
+        <translation>Album-Künstler (Präsentation)</translation>
+    </message>
+    <message>
+        <source>Album</source>
+        <translation>Album</translation>
+    </message>
+    <message>
+        <source>Disable Community Rating for Episodes</source>
+        <translation>Community-Bewertung für Folgen deaktivieren</translation>
+    </message>
+    <message>
+        <source>Songs</source>
+        <translation>Lieder</translation>
+    </message>
+    <message>
+        <source>Hide the star and community rating for episodes of a TV show. This is to prevent spoilers of an upcoming good/bad episode.</source>
+        <translation>Sterne- und Community-Bewertung für Episoden einer Fernsehsendung ausblenden. Dies dient dazu, Spoiler über eine bevorstehende gute/schlechte Episode zu verhindern.</translation>
+    </message>
+    <message>
+        <source>Biographical information for this person is not currently available.</source>
+        <translation>Biographische Informationen zu dieser Person sind derzeit nicht verfügbar.</translation>
+    </message>
+    <message>
+        <source>Enable Limit</source>
+        <translation>Limit aktivieren</translation>
+    </message>
+    <message>
+        <source>Enable or disable the &apos;Maximum Bitrate&apos; setting.</source>
+        <translation>&quot;Maximale Bitrate&quot;-Einstellung aktivieren oder deaktivieren</translation>
+    </message>
+    <message>
+        <source>Bitrate Limit</source>
+        <translation>Bitratenlimit</translation>
+    </message>
+    <message>
+        <source>Always Hide</source>
+        <translation>Immer ausblenden</translation>
+    </message>
+    <message>
+        <source>Show On Hover</source>
+        <translation>Bei Hover anzeigen</translation>
+    </message>
+    <message>
+        <source>Item Titles</source>
+        <translation>Elementtitel</translation>
+        <extracomment>Title of a setting - when should we show the title text of a grid item</extracomment>
+    </message>
+    <message>
+        <source>Artists (Presentation)</source>
+        <translation>Künstler (Präsentation)</translation>
+    </message>
+    <message>
+        <source>Song</source>
+        <translation>Lied</translation>
+    </message>
+    <message>
+        <source>Configure the maximum playback bitrate.</source>
+        <translation>Maximale Wiedergabe Bitrate festlegen.</translation>
+    </message>
+    <message>
+        <source>Maximum Bitrate</source>
+        <translation>Maximale Bitrate</translation>
+    </message>
+    <message>
+        <source>Movie Library Default View</source>
+        <translation>Filmbibliothek Standardansicht</translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
+    <message>
+        <source>Album Artists (Grid)</source>
+        <translation>Album-Künstler (Raster)</translation>
+    </message>
+    <message>
+        <source>View All</source>
+        <translation>Alle anzeigen</translation>
+    </message>
 </context>
 <context>
     <name></name>
