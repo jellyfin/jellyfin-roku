@@ -906,6 +906,41 @@
         <translation>Maximale Tage in &quot;Als Nächstes&quot;</translation>
         <extracomment>Option Title in user setting screen</extracomment>
     </message>
+    <message>
+        <source>Slideshow Paused</source>
+        <translation>Slideshow Pausiert</translation>
+    </message>
+    <message>
+        <source>Slideshow Resumed</source>
+        <translation>Slideshow Fortgesetzt</translation>
+    </message>
+    <message>
+        <source>MPEG-4 Support</source>
+        <translation>MPEG-4 Unterstützung</translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
+    <message>
+        <source>Parental Ratings</source>
+        <translation>Elterliche Bewertung</translation>
+        <extracomment>Used in Filter menu</extracomment>
+    </message>
+    <message>
+        <source>Years</source>
+        <translation>Jahre</translation>
+        <extracomment>Used in Filter menu</extracomment>
+    </message>
+    <message>
+        <source>Slideshow On</source>
+        <translation>Slideshow An</translation>
+    </message>
+    <message>
+        <source>Random Off</source>
+        <translation>Zufällig Aus</translation>
+    </message>
+    <message>
+        <source>Random On</source>
+        <translation>Zufällig An</translation>
+    </message>
 </context>
 <context>
     <name></name>
