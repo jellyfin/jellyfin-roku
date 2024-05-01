@@ -1270,6 +1270,16 @@
         <translation>Utiliser la disposition de la section d&apos;accueil du client web</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
+    <message>
+        <source>Community and Critical Ratings</source>
+        <translation>Notes de la communauté et des critiques</translation>
+        <extracomment>User Setting - Setting title</extracomment>
+    </message>
+    <message>
+        <source>Ratings for how good a movie is</source>
+        <translation>Notes pour dire que le film est bon</translation>
+        <extracomment>User Setting - Setting description</extracomment>
+    </message>
 </context>
 <context>
     <name></name>
