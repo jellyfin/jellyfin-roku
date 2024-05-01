@@ -1266,5 +1266,15 @@
             <translation>Ratings for how good a movie is</translation>
             <extracomment>User Setting - Setting description</extracomment>
         </message>
+        <message>
+            <source>Enable Rewatching Next Up</source>
+            <translation>Enable Rewatching Next Up</translation>
+            <extracomment>User Setting - Setting title</extracomment>
+        </message>
+        <message>
+            <source>Enable showing already watched episodes in 'Next Up' sections.</source>
+            <translation>Enable showing already watched episodes in 'Next Up' sections.</translation>
+            <extracomment>User Setting - Setting description</extracomment>
+        </message>
     </context>
 </TS>
