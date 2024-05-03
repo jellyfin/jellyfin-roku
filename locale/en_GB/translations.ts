@@ -1254,6 +1254,16 @@
         <source>Direct playing</source>
         <translation>Direct playing</translation>
     </message>
+    <message>
+        <source>Community and Critical Ratings</source>
+        <translation>Community and Critical Ratings</translation>
+        <extracomment>User Setting - Setting title</extracomment>
+    </message>
+    <message>
+        <source>Ratings for how good a movie is</source>
+        <translation>Ratings for how good a movie is</translation>
+        <extracomment>User Setting - Setting description</extracomment>
+    </message>
 </context>
 <context>
     <name></name>
