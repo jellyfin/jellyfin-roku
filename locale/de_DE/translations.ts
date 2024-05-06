@@ -1063,6 +1063,34 @@
         <source>View All</source>
         <translation>Alle anzeigen</translation>
     </message>
+    <message>
+        <source>Settings relating to the appearance of the Home screen and the program in general.</source>
+        <translation>Einstellungen, die sich auf das Aussehen des Startbildschirms und von Jellyfin im Allgemeinen beziehen.</translation>
+    </message>
+    <message>
+        <source>Settings that apply when Grid views are enabled.</source>
+        <translation>Einstellungen, die gelten, wenn Rasteransichten aktiviert sind.</translation>
+    </message>
+    <message>
+        <source>Settings relating to the appearance of Library pages</source>
+        <translation>Einstellungen für das Erscheinungsbild der Bibliotheksseiten</translation>
+    </message>
+    <message>
+        <source>General</source>
+        <translation>Allgemein</translation>
+    </message>
+    <message>
+        <source>Grid View Settings</source>
+        <translation>Einstellungen der Rasteransicht</translation>
+    </message>
+    <message>
+        <source>Libraries</source>
+        <translation>Bibliotheken</translation>
+    </message>
+    <message>
+        <source>Set the maximum bitrate in Mbps. Set to 0 to use Roku&apos;s specifications. This setting must be enabled to take effect.</source>
+        <translation>Legen Sie die maximale Bitrate in Mbps fest. Setzen Sie sie auf 0, um die Spezifikationen von Roku zu verwenden. Diese Einstellung muss aktiviert werden, um wirksam zu werden.</translation>
+    </message>
 </context>
 <context>
     <name></name>
