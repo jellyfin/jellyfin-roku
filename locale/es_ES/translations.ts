@@ -307,7 +307,7 @@
     </message>
     <message>
         <source>MPEG-4</source>
-        <translation type="unfinished">MPEG-4</translation>
+        <translation>MPEG-4</translation>
         <extracomment>Name of codec used in settings menu</extracomment>
     </message>
     <message>
@@ -804,6 +804,16 @@
         <source>...or enter server URL manually:</source>
         <translation>Si no aparece ningún servidor en la lista anterior, puede ingresar la URL manualmente:</translation>
         <extracomment>Instructions on initial app launch when the user is asked to manually enter a server URL</extracomment>
+    </message>
+    <message>
+        <source>Support Direct Play of MPEG-4 content. This may need to be disabled for playback of DIVX encoded video files.</source>
+        <translation>Perrmitir reproducción directa de contenido MPEG-4. Puede ser necesario desactivarlo para la reproducción de archivos de vídeo codificados en DIVX.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Support Direct Play of MPEG-2 content (e.g., Live TV). This will prevent transcoding of MPEG-2 content, but uses significantly more bandwidth.</source>
+        <translation>Soporte para reproducción directa de contenido MPEG-2 (por ejemplo, TV en vivo). Esto evitará la transcodificación del contenido MPEG-2, pero utilizará un ancho de banda significativamente mayor.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
     </message>
 </context>
 <context>
