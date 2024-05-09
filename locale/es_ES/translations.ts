@@ -815,6 +815,44 @@
         <translation>Soporte para reproducción directa de contenido MPEG-2 (por ejemplo, TV en vivo). Esto evitará la transcodificación del contenido MPEG-2, pero utilizará un ancho de banda significativamente mayor.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
+    <message>
+        <source>Blur Unwatched Episodes</source>
+        <translation>Ocultar Episodios No Vistos</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
+    <message>
+        <source>Hide Taglines</source>
+        <translation>Ocultar Etiquetas</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
+    <message>
+        <source>Options for TV Shows.</source>
+        <translation>Opciones para Series de Televisión.</translation>
+        <extracomment>Description for TV Shows user settings.</extracomment>
+    </message>
+    <message>
+        <source>Blur images of unwatched episodes.</source>
+        <translation type="unfinished">Ocultar imágenes de episodios sin ver.</translation>
+    </message>
+    <message>
+        <source>Hides tagline text on details pages.</source>
+        <translation type="unfinished">Ocultar texto de las etiquetas en las páginas de detalles.</translation>
+    </message>
+    <message>
+        <source>Use the replay button to slowly animate to the first item in the folder. (If disabled, the folder will reset to the first item immediately).</source>
+        <translation>Usa el botón de repetir para animar lentamente al primer elemento de la carpeta. (Si está deshabilitado, la carpeta se restablecerá al primer elemento inmediatamente).</translation>
+        <extracomment>Description for option in Setting Screen</extracomment>
+    </message>
+    <message>
+        <source>Go directly to the episode list if a TV series has only one season.</source>
+        <translation type="unfinished">Ir directamente a la lista de episodios si la serie tiene solo una temporada.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Options that alter the design of Jellyfin.</source>
+        <translation>Opciones que alteran el diseño de Jellyfin.</translation>
+        <extracomment>Description for Design Elements user settings.</extracomment>
+    </message>
 </context>
 <context>
     <name></name>
