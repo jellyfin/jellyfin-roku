@@ -1015,7 +1015,7 @@
     </message>
     <message>
         <source>Enable or disable the &apos;Maximum Bitrate&apos; setting.</source>
-        <translation>&quot;Maximale Bitrate&quot;-Einstellung aktivieren oder deaktivieren</translation>
+        <translation>&quot;Maximale Bitrate&quot;-Einstellung aktivieren oder deaktivieren.</translation>
     </message>
     <message>
         <source>Bitrate Limit</source>
