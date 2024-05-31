@@ -853,6 +853,31 @@
         <translation>Opciones que alteran el diseño de Jellyfin.</translation>
         <extracomment>Description for Design Elements user settings.</extracomment>
     </message>
+    <message>
+        <source>Cinema Mode</source>
+        <translation>Modo cine</translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
+    <message>
+        <source>Skip Details for Single Seasons</source>
+        <translation>Saltar detalles para temporadas individuales</translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
+    <message>
+        <source>Use generated splashscreen image as Jellyfin&apos;s home background. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Utilice la imagen de pantalla de presentación generada como fondo de inicio de Jellyfin. Será necesario cerrar y reabrir Jellyfin para que el cambio surta efecto.</translation>
+        <extracomment>Description for option in Setting Screen</extracomment>
+    </message>
+    <message>
+        <source>Bring the theater experience straight to your living room with the ability to play custom intros before the main feature.</source>
+        <translation>Lleve la experiencia del teatro directamente a su sala de estar con la posibilidad de reproducir introducciones personalizadas antes de la función principal.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Use Splashscreen as Home Background</source>
+        <translation>Utilice la pantalla de bienvenida como fondo de inicio</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
 </context>
 <context>
     <name></name>
