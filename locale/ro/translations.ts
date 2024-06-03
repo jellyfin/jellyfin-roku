@@ -188,6 +188,33 @@
         <source>Save Credentials?</source>
         <translation>Salvați datele de conectare?</translation>
     </message>
+    <message>
+        <source>On Now</source>
+        <translation>Activ acum</translation>
+    </message>
+    <message>
+        <source>Error During Playback</source>
+        <translation>Eroare în timpul redări</translation>
+        <extracomment>Dialog title when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>Extras</source>
+        <translation>Extra</translation>
+    </message>
+    <message>
+        <source>Error Retrieving Content</source>
+        <translation>Eroare la obținere conținut</translation>
+        <extracomment>Dialog title when unable to load Content from Server</extracomment>
+    </message>
+    <message>
+        <source>Episodes</source>
+        <translation>Episoade</translation>
+    </message>
+    <message>
+        <source>There was an error retrieving the data for this item from the server.</source>
+        <translation>A apărut o eroare la preluarea datelor pentru acest articol de pe server.</translation>
+        <extracomment>Dialog detail when unable to load Content from Server</extracomment>
+    </message>
 </context>
 <context>
     <name></name>
