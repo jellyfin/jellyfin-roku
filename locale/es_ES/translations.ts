@@ -1032,6 +1032,27 @@
         <translation>Sólo mostrar subtítulos de texto para minimizar la transcodificación.</translation>
         <extracomment>Description of a setting - should we hide subtitles that might transcode</extracomment>
     </message>
+    <message>
+        <source>Slideshow Resumed</source>
+        <translation>Presentación Reanudada</translation>
+    </message>
+    <message>
+        <source>Slideshow Off</source>
+        <translation>Desactivar Presentación</translation>
+    </message>
+    <message>
+        <source>Slideshow Paused</source>
+        <translation>Presentación Pausada</translation>
+    </message>
+    <message>
+        <source>Aired</source>
+        <translation>Publicado</translation>
+        <extracomment>Aired date label</extracomment>
+    </message>
+    <message>
+        <source>Slideshow On</source>
+        <translation>Presentación Activada</translation>
+    </message>
 </context>
 <context>
     <name></name>
