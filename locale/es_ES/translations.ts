@@ -878,6 +878,160 @@
         <translation>Utilice la pantalla de bienvenida como fondo de inicio</translation>
         <extracomment>Option Title in user setting screen</extracomment>
     </message>
+    <message>
+        <source>Stream Information</source>
+        <translation>Información de la transmisión</translation>
+    </message>
+    <message>
+        <source>Hide all clocks in Jellyfin. Jellyfin will need to be closed and reopened for changes to take effect.</source>
+        <translation>Ocultar todos los relojes en Jellyfin. Jellyfin deberá ser cerrado y reabierto para que los cambios tomen efecto.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Max Days Next Up</source>
+        <translation>Días máximos de a continuación</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
+    <message>
+        <source>all</source>
+        <translation>todo</translation>
+        <extracomment>all will reset the searchTerm so all data will be availible</extracomment>
+    </message>
+    <message>
+        <source>Hide Clock</source>
+        <translation>Ocultar Reloj</translation>
+        <extracomment>Option Title in user setting screen</extracomment>
+    </message>
+    <message>
+        <source>Set the maximum amount of days a show should stay in the &apos;Next Up&apos; list without watching it.</source>
+        <translation>Configura la máxima cantidad de días que una serie debería quedarse en la lista &apos;A Continuación&apos;.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Transcoding Information</source>
+        <translation>Información de transcodificación</translation>
+    </message>
+    <message>
+        <source>Audio Codec</source>
+        <translation>Códec de audio</translation>
+    </message>
+    <message>
+        <source>Next episode</source>
+        <translation>Siguiente episodio</translation>
+    </message>
+    <message>
+        <source>Total Bitrate</source>
+        <translation>Taza de bits total</translation>
+    </message>
+    <message>
+        <source>Attempt Direct Play for H.264 media with unsupported profile levels before falling back to transcoding if it fails.</source>
+        <translation>Intentar reproducción directa para medios H.264 con niveles de perfil no soportados antes de revertir a transcribir si falla.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Custom Subtitles</source>
+        <translation>Subtítulos personalizados</translation>
+        <extracomment>Name of a setting - custom subtitles that support CJK fonts</extracomment>
+    </message>
+    <message>
+        <source>Video range type</source>
+        <translation>Tipo de rango de video</translation>
+    </message>
+    <message>
+        <source>Playback Information</source>
+        <translation>Información de reproducción</translation>
+    </message>
+    <message>
+        <source>Video Codec</source>
+        <translation>Códec de video</translation>
+    </message>
+    <message>
+        <source>Bit Rate</source>
+        <translation>Tasa de bits</translation>
+        <extracomment>Video streaming bit rate</extracomment>
+    </message>
+    <message>
+        <source>Size</source>
+        <translation>Tamaño</translation>
+        <extracomment>Video size</extracomment>
+    </message>
+    <message>
+        <source>Pixel format</source>
+        <translation>Formato de pixeles</translation>
+        <extracomment>Video pixel format</extracomment>
+    </message>
+    <message>
+        <source>WxH</source>
+        <translation>WxH</translation>
+        <extracomment>Video width x height</extracomment>
+    </message>
+    <message>
+        <source>Text Subtitles Only</source>
+        <translation>Sólo subtítulos de texto</translation>
+        <extracomment>Name of a setting - should we hide subtitles that might transcode</extracomment>
+    </message>
+    <message>
+        <source>Codec</source>
+        <translation>Códec</translation>
+    </message>
+    <message>
+        <source>Play Trailer</source>
+        <translation>Reproducir tráiler</translation>
+    </message>
+    <message>
+        <source>direct</source>
+        <translation>directo</translation>
+    </message>
+    <message>
+        <source>H.264</source>
+        <translation>H.264</translation>
+        <extracomment>Name of codec used in settings menu</extracomment>
+    </message>
+    <message>
+        <source>Settings relating to playback and supported codec and media types.</source>
+        <translation>Ajustes realcionados con la reproducción y tipos de códec y medios soportados.</translation>
+    </message>
+    <message>
+        <source>Settings relating to how the application looks.</source>
+        <translation>Ajustes realcionados con la apariencia de la aplicación.</translation>
+    </message>
+    <message>
+        <source>Audio Channels</source>
+        <translation>Canales de audio</translation>
+    </message>
+    <message>
+        <source>Codec Tag</source>
+        <translation>Etiqueta del códec</translation>
+    </message>
+    <message>
+        <source>Level</source>
+        <translation>Nivel</translation>
+        <extracomment>Video profile level</extracomment>
+    </message>
+    <message>
+        <source>Container</source>
+        <translation>Contenedor</translation>
+        <extracomment>Video streaming container</extracomment>
+    </message>
+    <message>
+        <source>Reason</source>
+        <translation>Razón</translation>
+    </message>
+    <message>
+        <source>Unable to find any albums or songs belonging to this artist</source>
+        <translation>No se pudo encontrar álbumes o canciones que le pertenezcan a este artista</translation>
+        <extracomment>Popup message when we find no audio data for an artist</extracomment>
+    </message>
+    <message>
+        <source>Replace Roku&apos;s default subtitle functions with custom functions that support CJK fonts. Fallback fonts must be configured and enabled on the server for CJK rendering to work.</source>
+        <translation>Reemplaza las funciones de subtítulos por defecto de Roku con funciones personalizadas que soporten fuentes CJK. Las fuentes deben ser configuradas en el servidor para que la renderización de CJK funcione.</translation>
+        <extracomment>Description of a setting - custom subtitles that support CJK fonts</extracomment>
+    </message>
+    <message>
+        <source>Only display text subtitles to minimize transcoding.</source>
+        <translation>Sólo mostrar subtítulos de texto para minimizar la transcodificación.</translation>
+        <extracomment>Description of a setting - should we hide subtitles that might transcode</extracomment>
+    </message>
 </context>
 <context>
     <name></name>
