@@ -832,7 +832,7 @@
     </message>
     <message>
         <source>Blur images of unwatched episodes.</source>
-        <translation type="unfinished">Ocultar imágenes de episodios sin ver.</translation>
+        <translation>Desenfocar imágenes de episodios sin ver.</translation>
     </message>
     <message>
         <source>Hides tagline text on details pages.</source>
@@ -1052,6 +1052,84 @@
     <message>
         <source>Slideshow On</source>
         <translation>Presentación Activada</translation>
+    </message>
+    <message>
+        <source>Show What&apos;s New popup when Jellyfin is updated to a new version.</source>
+        <translation>Mostrar Ventana Emergente cuando Jellyfin se actualice a una nueva versión.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Default view for Movie Libraries.</source>
+        <translation>Vista predeterminada para las Bibliotecas de Películas.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Select when to show titles.</source>
+        <translation>Seleccionar cuando mostrar los títulos.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Attempt Direct Play for HEVC media with unsupported profile levels before falling back to transcoding if it fails.</source>
+        <translation>Intentar utilizar Direct Play para medios HEVC con niveles de perfil no compatibles antes de recurrir a la transcodificación si falla.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Random On</source>
+        <translation>Activar Aleatorio</translation>
+    </message>
+    <message>
+        <source>Parental Ratings</source>
+        <translation>Clasificación Parental</translation>
+        <extracomment>Used in Filter menu</extracomment>
+    </message>
+    <message>
+        <source>Years</source>
+        <translation>Años</translation>
+        <extracomment>Used in Filter menu</extracomment>
+    </message>
+    <message>
+        <source>Unplayed</source>
+        <translation>Sin reproducir</translation>
+    </message>
+    <message>
+        <source>Random Off</source>
+        <translation>Desactivar Aleatorio</translation>
+    </message>
+    <message>
+        <source>MPEG-4 Support</source>
+        <translation>Soporte de MPEG-4</translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
+    <message>
+        <source>Played</source>
+        <translation>Reproducido</translation>
+    </message>
+    <message>
+        <source>Movie Library Default View</source>
+        <translation>Vista Predeterminada de la Biblioteca de Películas</translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
+    <message>
+        <source>Item Titles</source>
+        <translation>Títulos del elemento</translation>
+        <extracomment>Title of a setting - when should we show the title text of a grid item</extracomment>
+    </message>
+    <message>
+        <source>Show On Hover</source>
+        <translation>Mostrar Al Mantener</translation>
+    </message>
+    <message>
+        <source>Always Show</source>
+        <translation>Mostrar Siempre</translation>
+    </message>
+    <message>
+        <source>Show What&apos;s New Popup</source>
+        <translation>Mostrar Ventana Emergente de Novedades</translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
+    <message>
+        <source>Resumable</source>
+        <translation>Renaudar</translation>
     </message>
 </context>
 <context>
