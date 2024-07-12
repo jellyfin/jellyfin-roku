@@ -17,10 +17,8 @@ sub setupNodes()
     m.selectedMovieOfficialRating = m.top.findNode("selectedMovieOfficialRating")
     m.movieLogo = m.top.findNode("movieLogo")
     m.swapAnimation = m.top.findNode("backroundSwapAnimation")
-    m.Alpha = m.top.findNode("AlphaMenu")
-    m.AlphaSelected = m.top.findNode("AlphaSelected")
-    m.micButton = m.top.findNode("micButton")
-    m.micButtonText = m.top.findNode("micButtonText")
+    m.alpha = m.top.findNode("alpha")
+    m.alphaMenu = m.alpha.findNode("alphaMenu")
     m.communityRatingGroup = m.top.findNode("communityRatingGroup")
     m.criticRatingIcon = m.top.findNode("criticRatingIcon")
     m.criticRatingGroup = m.top.findNode("criticRatingGroup")
@@ -34,6 +32,12 @@ sub init()
     setupNodes()
 
     m.overhang.isVisible = false
+
+    ' adjust alpha menu mic icon since there is no overhang
+    alphaMic = m.alpha.findNode("alphaMic")
+    alphaMic.translation = [60, 150]
+    alphaMicText = m.alpha.findNode("alphaMicText")
+    alphaMicText.visible = false
 
     m.showItemCount = m.global.session.user.settings["itemgrid.showItemCount"]
 
@@ -52,7 +56,6 @@ sub init()
 
     m.itemGrid.observeField("itemFocused", "onItemFocused")
     m.itemGrid.observeField("itemSelected", "onItemSelected")
-    m.itemGrid.observeField("alphaSelected", "onItemalphaSelected")
 
     'Voice filter setup
     m.voiceBox.voiceEnabled = true
@@ -84,12 +87,6 @@ sub init()
 
     'Get reset folder setting
     m.resetGrid = m.global.session.user.settings["itemgrid.reset"]
-
-    'Hide voice search if device does not have voice remote
-    if m.global.device.hasVoiceRemote = false
-        m.micButton.visible = false
-        m.micButtonText.visible = false
-    end if
 end sub
 
 sub OnScreenHidden()
@@ -160,7 +157,12 @@ sub loadInitialItems()
         m.loadItemsTask.itemId = m.top.parentItem.Id
     end if
 
-    m.loadItemsTask.nameStartsWith = m.top.alphaSelected
+    ' if we already searched for this alpha text than reset filter
+    if m.loadItemsTask.nameStartsWith = m.top.alphaSelected
+        m.loadItemsTask.nameStartsWith = ""
+    else
+        m.loadItemsTask.nameStartsWith = m.alpha.letterSelected
+    end if
     m.loadItemsTask.searchTerm = m.voiceBox.text
     m.emptyText.visible = false
     m.loadItemsTask.sortField = m.sortField
@@ -408,7 +410,6 @@ end sub
 '
 'Handle loaded data, and add to Grid
 sub ItemDataLoaded(msg)
-    m.top.alphaActive = false
     itemData = msg.GetData()
     m.loadItemsTask.unobserveField("content")
     m.loadItemsTask.content = []
@@ -441,11 +442,17 @@ sub ItemDataLoaded(msg)
         return
     end if
 
-    m.itemGrid.opacity = "1"
-    m.genreList.opacity = "0"
+    ' keep focus on alpha menu if it's active
+    if m.top.alphaActive
+        m.alphaMenu.setFocus(true)
+    else
+        m.itemGrid.opacity = "1"
+        m.genreList.opacity = "0"
 
-    m.itemGrid.setFocus(true)
-    m.genreList.setFocus(false)
+        m.alphaMenu.setFocus(false)
+        m.itemGrid.setFocus(true)
+        m.genreList.setFocus(false)
+    end if
 
     if m.data.getChildCount() = 0
         m.itemGrid.jumpToItem = 0
@@ -722,7 +729,7 @@ sub onGenreItemSelected()
     m.top.selectedItem = m.genreList.content.getChild(m.genreList.rowItemSelected[0]).getChild(m.genreList.rowItemSelected[1])
 end sub
 
-sub onItemalphaSelected()
+sub alphaSelectedChanged()
     if m.top.alphaSelected <> ""
         m.loadedRows = 0
         m.loadedItems = 0
@@ -735,7 +742,6 @@ sub onItemalphaSelected()
 
         m.loadItemsTask.searchTerm = ""
         m.VoiceBox.text = ""
-        m.loadItemsTask.nameStartsWith = m.alpha.itemAlphaSelected
         loadInitialItems()
     end if
 end sub
@@ -750,6 +756,26 @@ sub onvoiceFilter()
         m.loadItemsTask.NameStartsWith = " "
         m.loadItemsTask.searchTerm = m.voiceBox.text
         m.loadItemsTask.recursive = true
+
+        if m.voiceBox.text.len() = 1
+            ' move focus to the letter spoken
+            alphaMenu = m.top.findNode("alphaMenu")
+            intConversion = m.voiceBox.text.ToInt() ' non numeric input returns as 0
+
+            if m.voiceBox.text = "0" or (isValid(intConversion) and intConversion <> 0)
+                alphaMenu.jumpToItem = 0
+            else
+                ' loop through each option until we find a match
+                for i = 1 to alphaMenu.numRows - 1
+                    alphaMenuOption = alphaMenu.content.getChild(i)
+                    if Lcase(alphaMenuOption.TITLE) = Lcase(m.voiceBox.text)
+                        alphaMenu.jumpToItem = i
+                        exit for
+                    end if
+                end for
+            end if
+        end if
+
         loadInitialItems()
     end if
 end sub
@@ -884,21 +910,18 @@ function onKeyEvent(key as string, press as boolean) as boolean
         if m.itemGrid.isinFocusChain()
             m.top.alphaActive = true
             m.itemGrid.setFocus(false)
-            alpha = m.alpha.getChild(0).findNode("Alphamenu")
-            alpha.setFocus(true)
+            m.alphaMenu.setFocus(true)
             return true
         else if m.genreList.isinFocusChain()
             m.top.alphaActive = true
             m.genreList.setFocus(false)
-            alpha = m.alpha.getChild(0).findNode("Alphamenu")
-            alpha.setFocus(true)
+            m.alphaMenu.setFocus(true)
             return true
         end if
 
-    else if key = "right" and m.Alpha.isinFocusChain()
+    else if key = "right" and m.alpha.isinFocusChain()
         m.top.alphaActive = false
-        m.Alpha.setFocus(false)
-        m.Alpha.visible = true
+        m.alphaMenu.setFocus(false)
 
         m.itemGrid.setFocus(m.itemGrid.opacity = 1)
         m.genreList.setFocus(m.genreList.opacity = 1)

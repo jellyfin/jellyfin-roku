@@ -1,21 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component name="Alpha" extends="Group">
   <children>
+    <Label id="alphaMicText" font="font:SmallSystemFont" translation="[1600,130]" text="Search" />
+    <Poster id="alphaMic" height="22" width="15" uri="pkg:/images/icons/mic_icon.png" translation="[1578, 130]" visible="false" />
     <LabelList
-      translation="[50, 185]"
+      id="alphaMenu"
+      translation="[52, 206]"
       vertFocusAnimationStyle="floatingFocus"
-      drawFocusFeedback="true"
-      id="Alphamenu"
       font="font:SmallestSystemFont"
+      focusedFont="font:SmallestSystemFont"
       itemSpacing="[0,2]"
       itemSize="[28,28]"
       numRows="27"
       textHorizAlign="center"
+      drawFocusFeedback="true"
       focusBitmapUri="pkg:/images/white.png"
       focusBitmapBlendColor="#FFFFFF"
       focusFootprintBlendColor="#666666"
     >
-      <ContentNode id="alphatext" role="content">
+      <ContentNode id="alphaText" role="content">
         <ContentNode title="#" />
         <ContentNode title="A" />
         <ContentNode title="B" />
@@ -47,7 +50,6 @@
     </LabelList>
   </children>
   <interface>
-    <field id="selectedItem" type="node" alwaysNotify="true" />
-    <field id="itemAlphaSelected" type="string" />
+    <field id="letterSelected" type="string" alwaysNotify="true" />
   </interface>
 </component>
