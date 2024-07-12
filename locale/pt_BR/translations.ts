@@ -191,7 +191,7 @@
     </message>
     <message>
         <source>Repeat</source>
-        <translation>Gravado</translation>
+        <translation>Repetir</translation>
         <extracomment>If TV Shows has previously been broadcasted</extracomment>
     </message>
     <message>
@@ -1177,6 +1177,131 @@
         <source>Starts</source>
         <translation>Começa</translation>
         <extracomment>(Future Tense) For defining a day and time when a program will start (e.g. Starts Wednesday, 08:00) </extracomment>
+    </message>
+    <message>
+        <source>Delete Saved</source>
+        <translation>Deletar Salvos</translation>
+    </message>
+    <message>
+        <source>IMDB_RATING</source>
+        <translation>Avaliação IMDb</translation>
+    </message>
+    <message>
+        <source>DATE_ADDED</source>
+        <translation>Data de Adição</translation>
+    </message>
+    <message>
+        <source>RUNTIME</source>
+        <translation>Duração</translation>
+    </message>
+    <message>
+        <source>Preferred Audio Codec</source>
+        <translation>Codec de áudio preferido</translation>
+        <extracomment>Settings Menu - Title of option</extracomment>
+    </message>
+    <message>
+        <source>Use system settings</source>
+        <translation>Usar as configurações do sistema</translation>
+        <extracomment>User Setting - Option title</extracomment>
+    </message>
+    <message>
+        <source>PLAY_COUNT</source>
+        <translation>Número de Reproduções</translation>
+    </message>
+    <message>
+        <source>... (Press * to read more)</source>
+        <translation>... (Pressione * para ler mais)</translation>
+        <extracomment>Ellipsis Text for when text overflows its container</extracomment>
+    </message>
+    <message>
+        <source>On Now</source>
+        <translation>Em Exibição</translation>
+    </message>
+    <message>
+        <source>Community and Critical Ratings</source>
+        <translation>Avaliações da Crítica e da Comunidade</translation>
+        <extracomment>User Setting - Setting title</extracomment>
+    </message>
+    <message>
+        <source>Use the selected audio codec for transcodes. If the device or stream does not support it, a fallback codec will be used.</source>
+        <translation>Usar o codec de áudio selecionado para transcodificações. Se o dispositivo ou transmissão não o suportar, será utilizado um codec de recurso.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <comment>Message displayed in Item Grid when no item to display. %1 is container type (e.g. Boxset, Collection, Folder, etc)</comment>
+        <source>NO_ITEMS</source>
+        <translation>Esse %1 não possui itens</translation>
+    </message>
+    <message>
+        <source>Ratings for how good a movie is</source>
+        <translation>Avaliações de qualidade de um filme</translation>
+        <extracomment>User Setting - Setting description</extracomment>
+    </message>
+    <message>
+        <comment>Title of Tab for options to sort library content</comment>
+        <source>TAB_SORT</source>
+        <translation>Ordenar</translation>
+    </message>
+    <message>
+        <comment>Title of Tab for options to filter library content</comment>
+        <source>TAB_FILTER</source>
+        <translation>Filtrar</translation>
+    </message>
+    <message>
+        <source>Died</source>
+        <translation>Falecimento</translation>
+    </message>
+    <message>
+        <source>CRITIC_RATING</source>
+        <translation>Avaliação da Crítica</translation>
+    </message>
+    <message>
+        <source>DATE_PLAYED</source>
+        <translation>Data de Reprodução</translation>
+    </message>
+    <message>
+        <source>OFFICIAL_RATING</source>
+        <translation>Classificação Etária</translation>
+    </message>
+    <message>
+        <source>RELEASE_DATE</source>
+        <translation>Data de Lançamento</translation>
+    </message>
+    <message>
+        <comment>Title of Tab for switching &quot;views&quot; when looking at a library</comment>
+        <source>TAB_VIEW</source>
+        <translation>Visualização</translation>
+    </message>
+    <message>
+        <source>Born</source>
+        <translation>Nascimento</translation>
+    </message>
+    <message>
+        <source>Age</source>
+        <translation>Idade</translation>
+    </message>
+    <message>
+        <source>TV Shows</source>
+        <translation>Séries de TV</translation>
+    </message>
+    <message>
+        <source>today</source>
+        <translation>hoje</translation>
+        <extracomment>Current day</extracomment>
+    </message>
+    <message>
+        <source>Movies (Presentation)</source>
+        <translation>Filmes (Apresentação)</translation>
+        <extracomment>Movie library view option</extracomment>
+    </message>
+    <message>
+        <source>Movies (Grid)</source>
+        <translation>Filmes (Grade)</translation>
+        <extracomment>Movie library view option</extracomment>
+    </message>
+    <message>
+        <source>Cast &amp; Crew</source>
+        <translation>Elenco &amp; Equipe</translation>
     </message>
 </context>
 <context>
