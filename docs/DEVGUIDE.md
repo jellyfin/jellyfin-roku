@@ -17,11 +17,12 @@ Follow the steps below to install the app on your personal Roku device. This wil
     - [Bug/Crash Reports](#bugcrash-reports)
     - [(Optional) Update Images](#optional-update-images)
   - [Committing](#committing)
+  - [Bug Fixes](#bug-fixes)
   - [Adding a User Setting](#adding-a-user-setting)
     - [The order of any particular menu is as follows](#the-order-of-any-particular-menu-is-as-follows)
     - [When giving your setting a name](#when-giving-your-setting-a-name)
     - [When giving your setting a description](#when-giving-your-setting-a-description)
-      - [**Remember to add all new strings to locale/en_US/translations.ts**](#remember-to-add-all-new-strings-to-localeen_ustranslationsts)
+      - [**Remember to add all new strings to locale/en\_US/translations.ts**](#remember-to-add-all-new-strings-to-localeen_ustranslationsts)
 
 ## Developer Mode
 
@@ -158,6 +159,10 @@ npm run lint
 ```
 
 And fix any encountered issue.
+
+## Bug Fixes
+
+All Pull Requests that fix a bug in production should target the "bugfix" branch i.e. `2.0.z`, `2.1.z`, etc. All other Pull Requests should target the `master` branch.
 
 ## Adding a User Setting
 
