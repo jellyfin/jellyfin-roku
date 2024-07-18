@@ -542,6 +542,121 @@
         <translation>MPEG-4</translation>
         <extracomment>Name of codec used in settings menu</extracomment>
     </message>
+    <message>
+        <source>Go to season</source>
+        <translation>Afficher la page de la saison</translation>
+        <extracomment>Continue Watching Popup Menu - Navigate to the Season Page</extracomment>
+    </message>
+    <message>
+        <source>Search now</source>
+        <translation>Rechercher</translation>
+        <extracomment>Help text in search Box</extracomment>
+    </message>
+    <message>
+        <source>Quick Connect</source>
+        <translation>Connexion rapide</translation>
+    </message>
+    <message>
+        <source>Special Features</source>
+        <translation>Fonctionnalités supplémentaires</translation>
+    </message>
+    <message>
+        <source>Movies (Presentation)</source>
+        <translation>Films (Présentation)</translation>
+        <extracomment>Movie library view option</extracomment>
+    </message>
+    <message>
+        <source>Set Favorite</source>
+        <translation>Ajouter aux favoris</translation>
+        <extracomment>Button Text - When pressed, sets item as Favorite</extracomment>
+    </message>
+    <message>
+        <source>(Dialog will close automatically)</source>
+        <translation>(La boite de dialogue se fermera automatiquement)</translation>
+    </message>
+    <message>
+        <source>Item Count</source>
+        <translation>Nombre d&apos;items</translation>
+        <extracomment>UI -&gt; Media Grid -&gt; Item Count in user setting screen.</extracomment>
+    </message>
+    <message>
+        <source>Support Direct Play of MPEG-4 content. This may need to be disabled for playback of DIVX encoded video files.</source>
+        <translation>Contenu MPEG-4 pris en charge en «&#xa0;Direct Play&#xa0;». Cette fonctionnalité peut nécessiter d&apos;être désactivée pour le visionnement des fichiers vidéo au format DIVX.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>User Interface</source>
+        <translation>Interface utilisateur</translation>
+        <extracomment>Title for User Interface section in user setting screen.</extracomment>
+    </message>
+    <message>
+        <source>Use voice remote to search</source>
+        <translation>Utiliser la voix pour effectuer une recherche à l&apos;aide de la télécommande</translation>
+        <extracomment>Help text in search voice text box</extracomment>
+    </message>
+    <message>
+        <source>You can search for Titles, People, Live TV Channels and more</source>
+        <translation>Vous pouvez rechercher par titres, personnes, canaux de la télévision en direct et plus</translation>
+        <extracomment>Help text in search results</extracomment>
+    </message>
+    <message>
+        <source>%1 of %2</source>
+        <translation>%1 de %2</translation>
+        <extracomment>Item position and count. %1 = current item. %2 = total number of items</extracomment>
+    </message>
+    <message>
+        <source>Studios</source>
+        <translation>Studios</translation>
+    </message>
+    <message>
+        <source>Shows</source>
+        <translation>Séries</translation>
+    </message>
+    <message>
+        <source>Show item count in the library and index of selected item.</source>
+        <translation>Afficher le nombre d&apos;items dans la médiathèque et l&apos;index des items sélectionnés.</translation>
+        <extracomment>Description for option in Setting Screen</extracomment>
+    </message>
+    <message>
+        <source>Set Watched</source>
+        <translation>Marquer comme étant visionné</translation>
+        <extracomment>Button Text - When pressed, marks item as Warched</extracomment>
+    </message>
+    <message>
+        <source>Go to series</source>
+        <translation>Afficher les détails de la série</translation>
+        <extracomment>Continue Watching Popup Menu - Navigate to the Series Detail Page</extracomment>
+    </message>
+    <message>
+        <source>Go to episode</source>
+        <translation>Afficher les détails de l&apos;épisode</translation>
+        <extracomment>Continue Watching Popup Menu - Navigate to the Episode Detail Page</extracomment>
+    </message>
+    <message>
+        <source>Here is your Quick Connect code:</source>
+        <translation>Voici votre code pour la connexion rapide :</translation>
+    </message>
+    <message>
+        <source>Networks</source>
+        <translation>Réseaux</translation>
+    </message>
+    <message>
+        <source>Return to Top</source>
+        <translation>Retourner au haut de la liste</translation>
+        <extracomment>UI -&gt; Media Grid -&gt; Item Title in user setting screen.</extracomment>
+    </message>
+    <message>
+        <source>There was an error authenticating via Quick Connect.</source>
+        <translation>Une erreur d&apos;authentification s&apos;est produite lors de la tentative de connexion rapide.</translation>
+    </message>
+    <message>
+        <source>Enabled</source>
+        <translation>Activé</translation>
+    </message>
+    <message>
+        <source>Disabled</source>
+        <translation>Désactivé</translation>
+    </message>
 </context>
 <context>
     <name></name>
