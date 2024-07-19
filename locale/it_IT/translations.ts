@@ -1278,6 +1278,11 @@
         <translation>Riproduzione</translation>
         <extracomment>Title for Playback section in user setting screen.</extracomment>
     </message>
+    <message>
+        <source>Ratings for how good a movie is</source>
+        <translation>Valutazioni sulla qualità di un film</translation>
+        <extracomment>User Setting - Setting description</extracomment>
+    </message>
 </context>
 <context>
     <name></name>

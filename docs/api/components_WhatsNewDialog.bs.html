@@ -7,7 +7,7 @@
 
     m.top.id = "OKDialog"
     m.top.height = 900
-    m.top.title = m.global.app.version + " - " + tr("What's New?")
+    m.top.title = tr("Welcome to version") + " " + m.global.app.version
     m.top.buttons = [tr("OK")]
 
     dialogStyles = {
@@ -16,21 +16,20 @@
             "fontUri": "font:SystemFontFile",
             "color": "#EFEFEFFF"
         },
-        "author": {
+        "url": {
             "fontSize": 27,
             "fontUri": "font:SystemFontFile",
             "color": "#00a4dcFF"
         }
     }
 
-    whatsNewList = ParseJSON(ReadAsciiFile("pkg:/source/static/whatsNew/" + m.global.app.version.ToStr().trim() + ".json"))
+    ' empty line for spacing
+    textLine = m.content.CreateChild("StdDlgMultiStyleTextItem")
+    textLine.text = ""
 
-    for each item in whatsNewList
-        textLine = m.content.CreateChild("StdDlgMultiStyleTextItem")
-        textLine.drawingStyles = dialogStyles
-        textLine.text = "• " + item.description + " &lt;author>" + item.author + "&lt;/author>"
-    end for
-
+    textLine = m.content.CreateChild("StdDlgMultiStyleTextItem")
+    textLine.drawingStyles = dialogStyles
+    textLine.text = tr("To view a complete list of changes visit") + " &lt;url>https://github.com/jellyfin/jellyfin-roku/releases/tag/v" + m.global.app.version + "&lt;/url>"
 end sub
 
 sub setPalette()

@@ -1,40 +1,43 @@
 sub init()
-    m.top.visible = true
-    m.Alphamenu = m.top.findNode("Alphamenu")
-    m.Alphamenu.focusable = true
-    m.Alphatext = m.top.findNode("alphatext")
-    m.focusedChild = m.top.findNode("focusedChild")
-    m.Alphamenu.focusedFont.size = 25
-    m.Alphamenu.font.size = 25
+    m.top.setFocus(false)
+
+    m.alphaText = m.top.findNode("alphaText")
+    m.alphaMenu = m.top.findNode("alphaMenu")
+
+    m.alphaMenu.setFocus(false)
+    m.alphaMenu.focusedFont.size = 25
+    m.alphaMenu.font.size = 25
+
+    ' show mic icon above alpha menu if remote supports voice commands
+    if m.global.device.hasVoiceRemote
+        alphaMic = m.top.findNode("alphaMic")
+        alphaMic.visible = true
+
+        micText = m.top.findNode("alphaMicText")
+        micText.font.size = 22
+    end if
 end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean
-
     if not press then return false
+    if not m.alphaMenu.isInFocusChain() then return false
 
     if key = "OK"
-        child = m.Alphatext.getChild(m.Alphamenu.itemFocused)
-
-        if child.title = m.top.itemAlphaSelected
-            m.top.itemAlphaSelected = ""
-            m.Alphamenu.focusFootprintBitmapUri = ""
-        else
-            m.Alphamenu.focusFootprintBitmapUri = "pkg:/images/white.png"
-            m.top.itemAlphaSelected = child.title
-        end if
+        child = m.alphaText.getChild(m.alphaMenu.itemFocused)
+        m.top.letterSelected = child.title
         return true
     end if
 
     if key = "up"
-        if m.Alphamenu.itemFocused = 0
-            m.Alphamenu.jumpToItem = m.Alphamenu.numRows - 1
+        if m.alphaMenu.itemFocused = 0
+            m.alphaMenu.jumpToItem = m.alphaMenu.numRows - 1
             return true
         end if
     end if
 
     if key = "down"
-        if m.Alphamenu.itemFocused = m.Alphamenu.numRows - 1
-            m.Alphamenu.jumpToItem = 0
+        if m.alphaMenu.itemFocused = m.alphaMenu.numRows - 1
+            m.alphaMenu.jumpToItem = 0
             return true
         end if
     end if

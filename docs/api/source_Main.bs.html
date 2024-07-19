@@ -214,6 +214,50 @@
             end if
             elapsed = timeSpan.TotalMilliseconds() / 1000
             print "Quick Play finished loading in " + elapsed.toStr() + " seconds."
+        else if isNodeEvent(msg, "refreshSeasonDetailsData")
+            startLoadingSpinner()
+
+            currentScene = m.global.sceneManager.callFunc("getActiveScene")
+
+            if isValid(currentScene) and isValid(currentScene.objects) and isValid(currentScene.seasonData)
+                currentEpisode = m.global.queueManager.callFunc("getCurrentItem")
+
+                if isValid(currentScene.objects.Items) and isValid(currentEpisode) and isValid(currentEpisode.id)
+                    ' Find the object in the scene's data and update its json data
+                    for i = 0 to currentScene.objects.Items.count() - 1
+                        if LCase(currentScene.objects.Items[i].id) = LCase(currentEpisode.id)
+                            currentScene.objects.Items[i].json = api.users.GetItem(m.global.session.user.id, currentEpisode.id)
+                            m.global.queueManager.callFunc("setTopStartingPoint", currentScene.objects.Items[i].json.UserData.PlaybackPositionTicks)
+                            exit for
+                        end if
+                    end for
+                end if
+
+                seasonMetaData = ItemMetaData(currentScene.seasonData.id)
+                currentScene.seasonData = seasonMetaData.json
+                currentScene.episodeObjects = currentScene.objects
+                currentScene.callFunc("updateSeason")
+            end if
+
+            stopLoadingSpinner()
+        else if isNodeEvent(msg, "refreshMovieDetailsData")
+            startLoadingSpinner()
+
+            currentScene = m.global.sceneManager.callFunc("getActiveScene")
+
+            if isValid(currentScene) and isValid(currentScene.itemContent) and isValid(currentScene.itemContent.id)
+                ' Refresh movie detail data
+                currentScene.itemContent.json = api.users.GetItem(m.global.session.user.id, currentScene.itemContent.id)
+                movieMetaData = ItemMetaData(currentScene.itemContent.id)
+
+                ' Redraw movie poster
+                currentScene.newPosterImageURI = movieMetaData.posterURL
+
+                ' Set updated starting point for the queue item
+                m.global.queueManager.callFunc("setTopStartingPoint", currentScene.itemContent.json.UserData.PlaybackPositionTicks)
+            end if
+
+            stopLoadingSpinner()
         else if isNodeEvent(msg, "selectedItem")
             ' If you select a library from ANYWHERE, follow this flow
             selectedItem = msg.getData()
