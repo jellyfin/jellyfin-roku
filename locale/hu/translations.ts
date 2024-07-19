@@ -569,6 +569,25 @@
         <translation>Ha nincs listázott szerver, akkor add meg a szerver URL-t manuálisan:</translation>
         <extracomment>Instructions on initial app launch when the user is asked to manually enter a server URL</extracomment>
     </message>
+    <message>
+        <source>An error was encountered while playing this item. Server did not provide required transcoding data.</source>
+        <translation>Hiba történt az elem lejátszása közben. A szerver nem biztosította a szükséges átkódolási adatokat.</translation>
+        <extracomment>Content of message box when trying to play an item which requires transcoding, and the server did not provide transcode url</extracomment>
+    </message>
+    <message>
+        <source>Version</source>
+        <translation>Verzió</translation>
+    </message>
+    <message>
+        <source>Playback</source>
+        <translation>Lejátszás</translation>
+        <extracomment>Title for Playback section in user setting screen.</extracomment>
+    </message>
+    <message>
+        <source>Error Getting Playback Information</source>
+        <translation>Hiba a lejátszási információk lekérésekor</translation>
+        <extracomment>Dialog Title: Received error from server when trying to get information about the selected item for playback</extracomment>
+    </message>
 </context>
 <context>
     <name></name>
