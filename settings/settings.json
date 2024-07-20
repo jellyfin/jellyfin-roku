@@ -235,8 +235,8 @@
                         "default": "365"
                     },
                     {
-                        "title": "Enable Rewatching Next Up",
-                        "description": "Enable showing already watched episodes in 'Next Up' sections.",
+                        "title": "Rewatching Next Up",
+                        "description": "Show already watched episodes in 'Next Up' sections.",
                         "settingName": "ui.details.enablerewatchingnextup",
                         "type": "bool",
                         "default": "false"
