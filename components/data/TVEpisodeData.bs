@@ -1,4 +1,7 @@
+import "pkg:/source/utils/misc.bs"
+
 sub setFields()
+    if not isValid(m.top.json) then return
     datum = m.top.json
 
     m.top.id = datum.id
