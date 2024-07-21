@@ -68,7 +68,7 @@ sub loadItems()
         params["SortOrder"] = "Descending"
         params["ImageTypeLimit"] = 1
         params["UserId"] = m.global.session.user.id
-        params["EnableRewatching"] = false
+        params["EnableRewatching"] = m.global.session.user.settings["ui.details.enablerewatchingnextup"]
         params["DisableFirstEpisode"] = false
         params["limit"] = 24
         params["EnableTotalRecordCount"] = false

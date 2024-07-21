@@ -235,6 +235,13 @@
                         "default": "365"
                     },
                     {
+                        "title": "Rewatching Next Up",
+                        "description": "Show already watched episodes in 'Next Up' sections.",
+                        "settingName": "ui.details.enablerewatchingnextup",
+                        "type": "bool",
+                        "default": "false"
+                    },
+                    {
                         "title": "Show What's New Popup",
                         "description": "Show What's New popup when Jellyfin is updated to a new version.",
                         "settingName": "load.allowwhatsnew",

@@ -1276,5 +1276,15 @@
             <translation>View All Next Up</translation>
             <extracomment>Title for viewing all episodes available in the Next Up section</extracomment>
         </message>
+        <message>
+            <source>Rewatching Next Up</source>
+            <translation>Rewatching Next Up</translation>
+            <extracomment>User Setting - Setting title</extracomment>
+        </message>
+        <message>
+            <source>Show already watched episodes in 'Next Up' sections.</source>
+            <translation>Show already watched episodes in 'Next Up' sections.</translation>
+            <extracomment>User Setting - Setting description</extracomment>
+        </message>
     </context>
 </TS>

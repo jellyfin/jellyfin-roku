@@ -166,7 +166,7 @@ namespace quickplay
             "SortOrder": "Descending",
             "ImageTypeLimit": 1,
             "UserId": m.global.session.user.id,
-            "EnableRewatching": false,
+            "EnableRewatching": m.global.session.user.settings["ui.details.enablerewatchingnextup"],
             "DisableFirstEpisode": false,
             "EnableTotalRecordCount": false
         })
