@@ -94,16 +94,21 @@ sub loadItems()
                 results.push(tmp)
             end for
             ' Add "View All"
-            tmp = CreateObject("roSGNode", "HomeData")
-            tmp.type = "CollectionFolder"
-            tmp.usePoster = false
-            tmp.json = {
-                IsFolder: true,
-                Name: tr("View All Next Up"),
-                Type: "CollectionFolder",
-                CollectionType: "nextup"
-            }
-            results.push(tmp)
+            ' Note: Unfortunately you could have 0 items show up on the home screen and still have
+            ' a bunch of items in NextUp that are > 365 days old.  However, checking here for at
+            ' least 1 item in Next Up means you won't have a "Next Up" section with nothing but a single View All folder.
+            if data.Items.Count() > 0
+                tmp = CreateObject("roSGNode", "HomeData")
+                tmp.type = "CollectionFolder"
+                tmp.usePoster = false
+                tmp.json = {
+                    IsFolder: true,
+                    Name: tr("View All Next Up"),
+                    Type: "CollectionFolder",
+                    CollectionType: "nextup"
+                }
+                results.push(tmp)
+            end if
         end if
         ' Load Continue Watching
     else if m.top.itemsToLoad = "continue"
