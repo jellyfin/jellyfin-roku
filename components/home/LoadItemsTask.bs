@@ -93,6 +93,17 @@ sub loadItems()
                 tmp.json = item
                 results.push(tmp)
             end for
+            ' Add "View All"
+            tmp = CreateObject("roSGNode", "HomeData")
+            tmp.type = "CollectionFolder"
+            tmp.usePoster = false
+            tmp.json = {
+                IsFolder: true,
+                Name: tr("View All Next Up"),
+                Type: "CollectionFolder",
+                CollectionType: "nextup"
+            }
+            results.push(tmp)
         end if
         ' Load Continue Watching
     else if m.top.itemsToLoad = "continue"

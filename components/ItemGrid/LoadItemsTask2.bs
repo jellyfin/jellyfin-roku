@@ -130,6 +130,11 @@ sub loadItems()
         url = Substitute("Users/{0}/Items/", m.global.session.user.id)
         params.append({ ImageTypeLimit: 1 })
         params.append({ EnableImageTypes: "Primary,Backdrop,Banner,Thumb" })
+    else if LCase(m.top.ItemType) = "nextup"
+        url = "Shows/NextUp"
+        params.limit = 100 ' If you have more than 100 in your Next Up queue, maybe go outside a bit more.
+        params.append({ ImageTypeLimit: 1 })
+        params.append({ EnableImageTypes: "Primary,Backdrop,Banner,Thumb" })
     else
         url = Substitute("Users/{0}/Items/", m.global.session.user.id)
     end if
@@ -194,6 +199,12 @@ sub loadItems()
                 tmp.image = PosterImage(item.id, { "maxHeight": 425, "maxWidth": 290, "quality": "90" })
             else if item.type = "Episode"
                 tmp = CreateObject("roSGNode", "TVEpisode")
+                if LCase(m.top.ItemType) = "nextup"
+                    tmp.title = item.name
+                    tmp.json = item
+                    tmp.type = "Episode"
+                    tmp.posterUrl = api.items.GetImageURL(item.id, "primary", 0, { "maxHeight": 331, "maxWidth": 464, "quality": "90" })
+                end if
             else if LCase(item.Type) = "recording"
                 tmp = CreateObject("roSGNode", "RecordingData")
             else if item.Type = "Genre"
@@ -281,7 +292,7 @@ sub loadItems()
             end if
 
             if tmp <> invalid
-                if item.Type <> "Genre" and item.Type <> "MusicGenre"
+                if LCase(item.Type) <> "genre" and LCase(item.Type) <> "musicgenre" and LCase(m.top.ItemType) <> "nextup"
                     tmp.parentFolder = m.top.itemId
                     tmp.json = item
                     if item.UserData <> invalid and item.UserData.isFavorite <> invalid

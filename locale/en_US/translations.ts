@@ -1271,5 +1271,10 @@
             <translation>Ratings for how good a movie is</translation>
             <extracomment>User Setting - Setting description</extracomment>
         </message>
+        <message>
+            <source>View All Next Up</source>
+            <translation>View All Next Up</translation>
+            <extracomment>Title for viewing all episodes available in the Next Up section</extracomment>
+        </message>
     </context>
 </TS>

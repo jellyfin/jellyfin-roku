@@ -112,6 +112,13 @@ sub itemContentChanged()
         else
             m.itemText.text = itemData.Title
         end if
+        ' Adjust to wide posters for "View All Next Up"
+        if m.topParent.overhangTitle = tr("View All Next Up")
+            m.itemPoster.height = 331
+            m.itemPoster.width = 464
+            m.itemText.translation = [0, m.itemPoster.height + 7]
+            m.itemText.maxWidth = 464
+        end if
     else if itemData.type = "MusicArtist"
         m.itemPoster.uri = itemData.PosterUrl
         m.itemText.text = itemData.Title

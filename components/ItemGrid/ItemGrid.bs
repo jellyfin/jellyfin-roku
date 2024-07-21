@@ -198,6 +198,15 @@ sub loadInitialItems()
             ' non recursive for collections (folders, boxsets, photo albums, etc)
             m.loadItemsTask.recursive = false
         end if
+
+        if getCollectionType() = "nextup"
+            m.loadItemsTask.itemType = "NextUp"
+            m.itemGrid.itemSize = "[464, 331]"
+            m.itemGrid.itemSpacing = "[5, 5]"
+            m.top.imageDisplayMode = "scaleToFit"
+            m.itemGrid.numColumns = 3
+            m.alpha.visible = false
+        end if
     else if m.top.parentItem.json.type = "Studio"
         m.loadItemsTask.itemId = m.top.parentItem.parentFolder
         m.loadItemsTask.itemType = "Series,Movie"
@@ -357,6 +366,12 @@ sub setPhotoAlbumOptions(options)
     options.filter = []
 end sub
 
+sub setupViewAllNextUpOptions(options)
+    options.views = []
+    options.sort = []
+    options.filter = []
+end sub
+
 ' Set Default view, sort, and filter options
 sub setDefaultOptions(options)
     options.views = [
@@ -402,7 +417,8 @@ sub SetUpOptions()
         setPhotoAlbumOptions(options)
     else if getCollectionType() = "music"
         setMusicOptions(options)
-
+    else if getCollectionType() = "nextup"
+        setupViewAllNextUpOptions(options)
     else
         setDefaultOptions(options)
     end if
@@ -836,7 +852,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
             m.top.quickPlayNode = itemToPlay
             return true
         end if
-    else if key = "left" and topGrp.isinFocusChain()
+    else if key = "left" and topGrp.isinFocusChain() and m.alpha.focusable
         m.top.alphaActive = true
         topGrp.setFocus(false)
         m.alphaMenu.setFocus(true)
