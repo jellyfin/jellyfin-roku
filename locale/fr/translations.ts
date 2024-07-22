@@ -6,7 +6,7 @@
     <name>default</name>
     <message>
         <source>192.168.1.100:8096 or https://example.com/jellyfin</source>
-        <translation>192.168.1.100:8096 ou https://example.com/jellyfin</translation>
+        <translation>192.168.1.100:8096 ou https://exemple.com/jellyfin</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -50,7 +50,7 @@
     </message>
     <message>
         <source>Please sign in</source>
-        <translation>Connectez-vous s&apos;il vous plaît</translation>
+        <translation>S&apos;il vous plaît connectez-vous</translation>
     </message>
     <message>
         <source>Search</source>
@@ -58,7 +58,7 @@
     </message>
     <message>
         <source>Server not found, is it online?</source>
-        <translation>Serveur non trouvé, est-il connecté à Internet ?</translation>
+        <translation>Le serveur est introuvable. Est-ce qu&apos;il est connecté au réseau ?</translation>
     </message>
     <message>
         <source>Shuffle</source>
@@ -595,7 +595,7 @@
     </message>
     <message>
         <source>Delete Saved</source>
-        <translation>Supprimer les valeurs enregistrées</translation>
+        <translation>Effacer la sauvegarde</translation>
     </message>
     <message>
         <source>Support Direct Play of MPEG-4 content. This may need to be disabled for playback of DIVX encoded video files.</source>
@@ -1279,6 +1279,16 @@
         <source>Ratings for how good a movie is</source>
         <translation>Notes pour dire que le film est bon</translation>
         <extracomment>User Setting - Setting description</extracomment>
+    </message>
+    <message>
+        <source>Welcome to version</source>
+        <translation>Bienvenue à la version</translation>
+        <extracomment>WhatsNewDialog title - Welcome to version 2.0.0</extracomment>
+    </message>
+    <message>
+        <source>To view a complete list of changes visit</source>
+        <translation>Pour consulter la liste complète des modifications, visitez</translation>
+        <extracomment>WhatsNewDialog body text preceding the changelog URL</extracomment>
     </message>
 </context>
 <context>
