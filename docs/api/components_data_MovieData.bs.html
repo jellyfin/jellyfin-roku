@@ -6,6 +6,7 @@ import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/misc.bs"
 
 sub setFields()
+    if not isValid(m.top.json) then return
     json = m.top.json
 
     m.top.id = json.id
