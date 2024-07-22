@@ -1,4 +1,7 @@
+import "pkg:/source/utils/misc.bs"
+
 sub setFields()
+    if not isValid(m.top.json) then return
     datum = m.top.json
 
     m.top.id = datum.id
@@ -10,7 +13,7 @@ sub setFields()
 end sub
 
 sub setPoster()
-    if m.top.image <> invalid
+    if isValid(m.top.image)
         m.top.posterURL = m.top.image.url
     else
         m.top.posterURL = ""
