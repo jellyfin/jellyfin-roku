@@ -1,4 +1,4 @@
-name: lint-brightscript
+name: lint-spelling
 on:
   pull_request:
     paths:
