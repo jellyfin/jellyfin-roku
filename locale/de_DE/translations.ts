@@ -1298,6 +1298,16 @@
         <translation>Eine vollständige Liste der Änderungen findest du unter</translation>
         <extracomment>WhatsNewDialog body text preceding the changelog URL</extracomment>
     </message>
+    <message>
+        <source>Rewatching Next Up</source>
+        <translation>Als nächstes noch einmal ansehen</translation>
+        <extracomment>User Setting - Setting title</extracomment>
+    </message>
+    <message>
+        <source>Show already watched episodes in &apos;Next Up&apos; sections.</source>
+        <translation>Zeige bereits gesehene Episoden in der Rubrik &apos;Nächste Folge&apos; an.</translation>
+        <extracomment>User Setting - Setting description</extracomment>
+    </message>
 </context>
 <context>
     <name></name>
