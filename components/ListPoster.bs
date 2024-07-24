@@ -15,10 +15,16 @@ sub init()
 
     m.backdrop = m.top.findNode("backdrop")
 
-    ' Randmomise the background colors
-    posterBackgrounds = m.global.constants.poster_bg_pallet
-    m.backdrop.color = posterBackgrounds[rnd(posterBackgrounds.count()) - 1]
+    ' Randomize the background colors
+    backdropColor = "#00a4db" ' set default in case global var is invalid
+    localGlobal = m.global
 
+    if isValid(localGlobal) and isValid(localGlobal.constants) and isValid(localGlobal.constants.poster_bg_pallet)
+        posterBackgrounds = localGlobal.constants.poster_bg_pallet
+        backdropColor = posterBackgrounds[rnd(posterBackgrounds.count()) - 1]
+    end if
+
+    m.backdrop.color = backdropColor
     updateSize()
 end sub
 
