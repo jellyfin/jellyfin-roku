@@ -680,7 +680,7 @@ end sub
 '
 'Swap Complete
 sub swapDone()
-    if m.swapAnimation.state = "stopped"
+    if isValid(m.swapAnimation) and m.swapAnimation.state = "stopped"
         'Set main BG node image and hide transitioning node
         m.backdrop.uri = m.newBackdrop.uri
         m.backdrop.opacity = 1
