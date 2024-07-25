@@ -1264,6 +1264,26 @@
         <translation>Ratings for how good a movie is</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
+    <message>
+        <source>Rewatching Next Up</source>
+        <translation>Rewatching Next Up</translation>
+        <extracomment>User Setting - Setting title</extracomment>
+    </message>
+    <message>
+        <source>Welcome to version</source>
+        <translation>Welcome to version</translation>
+        <extracomment>WhatsNewDialog title - Welcome to version 2.0.0</extracomment>
+    </message>
+    <message>
+        <source>To view a complete list of changes visit</source>
+        <translation>To view a complete list of changes visit</translation>
+        <extracomment>WhatsNewDialog body text preceding the changelog URL</extracomment>
+    </message>
+    <message>
+        <source>Show already watched episodes in &apos;Next Up&apos; sections.</source>
+        <translation>Show already watched episodes in &apos;Next Up&apos; sections.</translation>
+        <extracomment>User Setting - Setting description</extracomment>
+    </message>
 </context>
 <context>
     <name></name>
