@@ -131,7 +131,8 @@ sub itemContentChanged()
             else
                 tomato = "pkg:/images/rotten.png"
             end if
-            m.top.findNode("criticRatingIcon").uri = tomato
+            criticRatingIcon = m.top.findNode("criticRatingIcon")
+            if isValid(criticRatingIcon) then criticRatingIcon.uri = tomato
         else
             m.infoGroup.removeChild(m.top.findNode("criticRatingGroup"))
         end if
