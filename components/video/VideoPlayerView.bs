@@ -574,9 +574,12 @@ end sub
 
 ' When Video Player state changes
 sub onPositionChanged()
-
     ' Pass video position data into OSD
-    m.osd.progressPercentage = m.top.position / m.top.duration
+    if m.top.duration = 0
+        m.osd.progressPercentage = 0
+    else
+        m.osd.progressPercentage = m.top.position / m.top.duration
+    end if
     m.osd.positionTime = m.top.position
     m.osd.remainingPositionTime = m.top.duration - m.top.position
 
