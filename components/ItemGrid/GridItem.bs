@@ -114,10 +114,18 @@ sub itemContentChanged()
         end if
         ' Adjust to wide posters for "View All Next Up"
         if m.topParent.overhangTitle = tr("View All Next Up")
-            m.itemPoster.height = 331
-            m.itemPoster.width = 464
+            m.posterMask.maskUri = ""
+
+            m.itemPoster.height = 300
+            m.itemPoster.width = 400
+            m.itemPoster.loadDisplayMode = "scaleToFit"
+
+            m.backdrop.height = 300
+            m.backdrop.width = 400
+            m.backdrop.loadDisplayMode = "scaleToFit"
+
             m.itemText.translation = [0, m.itemPoster.height + 7]
-            m.itemText.maxWidth = 464
+            m.itemText.maxWidth = 400
         end if
     else if itemData.type = "MusicArtist"
         m.itemPoster.uri = itemData.PosterUrl

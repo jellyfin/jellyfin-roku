@@ -201,10 +201,9 @@ sub loadInitialItems()
 
         if getCollectionType() = "nextup"
             m.loadItemsTask.itemType = "NextUp"
-            m.itemGrid.itemSize = "[464, 331]"
-            m.itemGrid.itemSpacing = "[5, 5]"
+            m.itemGrid.itemSize = "[400, 300]"
             m.top.imageDisplayMode = "scaleToFit"
-            m.itemGrid.numColumns = 3
+            m.itemGrid.numColumns = 4
             m.alpha.visible = false
         end if
     else if m.top.parentItem.json.type = "Studio"

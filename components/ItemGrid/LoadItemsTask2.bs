@@ -201,9 +201,7 @@ sub loadItems()
                 tmp = CreateObject("roSGNode", "TVEpisode")
                 if LCase(m.top.ItemType) = "nextup"
                     tmp.title = item.name
-                    tmp.json = item
                     tmp.type = "Episode"
-                    tmp.posterUrl = api.items.GetImageURL(item.id, "primary", 0, { "maxHeight": 331, "maxWidth": 464, "quality": "90" })
                 end if
             else if LCase(item.Type) = "recording"
                 tmp = CreateObject("roSGNode", "RecordingData")
@@ -292,7 +290,7 @@ sub loadItems()
             end if
 
             if tmp <> invalid
-                if LCase(item.Type) <> "genre" and LCase(item.Type) <> "musicgenre" and LCase(m.top.ItemType) <> "nextup"
+                if LCase(item.Type) <> "genre" and LCase(item.Type) <> "musicgenre"
                     tmp.parentFolder = m.top.itemId
                     tmp.json = item
                     if item.UserData <> invalid and item.UserData.isFavorite <> invalid
