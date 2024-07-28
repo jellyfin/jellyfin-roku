@@ -13,7 +13,6 @@ enum SubtitleSelection
 end enum
 
 sub init()
-    m.user = AboutMe()
     m.top.functionName = "loadItems"
 end sub
 
@@ -565,8 +564,8 @@ function sortSubtitles(id as string, MediaStreams)
 end function
 
 function FindPreferredAudioStream(streams as dynamic) as integer
-    preferredLanguage = m.user.Configuration.AudioLanguagePreference
-    playDefault = m.user.Configuration.PlayDefaultAudioTrack
+    preferredLanguage = m.global.session.user.Configuration.AudioLanguagePreference
+    playDefault = m.global.session.user.Configuration.PlayDefaultAudioTrack
 
     if playDefault <> invalid and playDefault = true
         return 1
@@ -574,7 +573,7 @@ function FindPreferredAudioStream(streams as dynamic) as integer
 
     ' Do we already have the MediaStreams or not?
     if streams = invalid
-        url = Substitute("Users/{0}/Items/{1}", m.user.id, m.top.itemId)
+        url = Substitute("Users/{0}/Items/{1}", m.global.session.user.id, m.top.itemId)
         resp = APIRequest(url)
         jsonResponse = getJson(resp)
 
