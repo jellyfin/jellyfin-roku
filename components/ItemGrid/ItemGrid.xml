@@ -35,5 +35,6 @@
     <field id="alphaSelected" type="string" alias="alpha.letterSelected" alwaysNotify="true" onChange="alphaSelectedChanged" />
     <field id="alphaActive" type="boolean" value="false" />
     <field id="jumpToItem" type="integer" value="" />
+    <field id="gridTitles" type="string" />
   </interface>
 </component>

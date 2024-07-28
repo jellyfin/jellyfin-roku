@@ -68,6 +68,8 @@ sub init()
 
     'Get reset folder setting
     m.resetGrid = m.global.session.user.settings["itemgrid.reset"]
+
+    m.top.gridTitles = m.global.session.user.settings["itemgrid.gridTitles"]
 end sub
 
 '
