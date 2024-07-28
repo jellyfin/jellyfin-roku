@@ -843,7 +843,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
             m.top.quickPlayNode = itemToPlay
             return true
         end if
-    else if key = "left" and topGrp.isinFocusChain() and m.alpha.focusable
+    else if key = "left" and topGrp.isinFocusChain() and m.alpha.visible
         m.top.alphaActive = true
         topGrp.setFocus(false)
         m.alphaMenu.setFocus(true)
