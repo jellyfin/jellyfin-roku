@@ -24,7 +24,7 @@ sub showContent()
     if not isValid(m.name) then initName()
     if not isValid(m.role) then initRole()
 
-    if m.top.itemContent <> invalid
+    if isValid(m.top.itemContent)
         cont = m.top.itemContent
         m.name.text = cont.labelText
         m.name.maxWidth = cont.imageWidth
