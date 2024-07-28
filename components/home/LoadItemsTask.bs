@@ -85,6 +85,9 @@ sub loadItems()
             end if
         end if
 
+        addViewAll = true ' Assume there will be a "View All" to start
+        checkViewAll = false ' Only need to check if we don't have anything in the Next Up home row
+
         resp = APIRequest(url, params)
         data = getJson(resp)
         if isValid(data) and isValid(data.Items)
@@ -93,22 +96,36 @@ sub loadItems()
                 tmp.json = item
                 results.push(tmp)
             end for
-            ' Add "View All"
-            ' Note: Unfortunately you could have 0 items show up on the home screen and still have
-            ' a bunch of items in NextUp that are > 365 days old.  However, checking here for at
-            ' least 1 item in Next Up means you won't have a "Next Up" section with nothing but a single View All folder.
-            if data.Items.Count() > 0
-                tmp = CreateObject("roSGNode", "HomeData")
-                tmp.type = "CollectionFolder"
-                tmp.usePoster = false
-                tmp.json = {
-                    IsFolder: true,
-                    Name: tr("View All Next Up"),
-                    Type: "CollectionFolder",
-                    CollectionType: "nextup"
-                }
-                results.push(tmp)
+            if data.Items.Count() = 0
+                checkViewAll = true
             end if
+        else
+            checkViewAll = true
+        end if
+
+        ' Add "View All"
+        if checkViewAll
+            ' Nothing to show in Next Up, but are there hidden items (e.g. > 365 days old)?
+            params.Delete("NextUpDateCutoff")
+            params["limit"] = 1 ' if there is even one, then we know we need to show "View All"
+            resp = APIRequest(url, params)
+            data = getJson(resp)
+            if not isValid(data) or isValid(data) and isValid(data.Items) and data.Items.Count() = 0
+                addViewAll = false
+            end if
+        end if
+
+        if addViewAll
+            tmp = CreateObject("roSGNode", "HomeData")
+            tmp.type = "CollectionFolder"
+            tmp.usePoster = false
+            tmp.json = {
+                IsFolder: true,
+                Name: tr("View All Next Up"),
+                Type: "CollectionFolder",
+                CollectionType: "nextup"
+            }
+            results.push(tmp)
         end if
         ' Load Continue Watching
     else if m.top.itemsToLoad = "continue"
