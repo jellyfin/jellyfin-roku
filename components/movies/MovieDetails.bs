@@ -51,6 +51,7 @@ end sub
 ' onMoviePosterSwapAnimationStateChange: Handler for changes to m.moviePosterSwapAnimation.state
 '
 sub onMoviePosterSwapAnimationStateChange()
+    if not isValid(m.moviePosterSwapAnimation) then return
     if LCase(m.moviePosterSwapAnimation.state) <> "stopped" then return
     m.moviePoster.uri = m.moviePosterSwap.uri
     m.moviePoster.opacity = 1
@@ -136,6 +137,8 @@ sub itemContentChanged()
             else
                 m.infoGroup.removeChild(m.top.findNode("criticRatingGroup"))
             end if
+            criticRatingIcon = m.top.findNode("criticRatingIcon")
+            if isValid(criticRatingIcon) then criticRatingIcon.uri = tomato
         else
             m.infoGroup.removeChild(m.top.findNode("communityRatingGroup"))
             m.infoGroup.removeChild(m.top.findNode("criticRatingGroup"))
