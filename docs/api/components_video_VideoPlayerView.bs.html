@@ -576,9 +576,12 @@ end sub
 
 ' When Video Player state changes
 sub onPositionChanged()
-
     ' Pass video position data into OSD
-    m.osd.progressPercentage = m.top.position / m.top.duration
+    if m.top.duration = 0
+        m.osd.progressPercentage = 0
+    else
+        m.osd.progressPercentage = m.top.position / m.top.duration
+    end if
     m.osd.positionTime = m.top.position
     m.osd.remainingPositionTime = m.top.duration - m.top.position
 
@@ -664,7 +667,7 @@ sub ReportPlayback(state = "update" as string)
         "PositionTicks": int(m.top.position) * 10000000&amp;, 'Ensure a LongInteger is used
         "IsPaused": (m.top.state = "paused")
     }
-    if m.top.content.live
+    if isValid(m.top.content) and isValid(m.top.content.live) and m.top.content.live
         params.append({
             "MediaSourceId": m.top.transcodeParams.MediaSourceId,
             "LiveStreamId": m.top.transcodeParams.LiveStreamId

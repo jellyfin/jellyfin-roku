@@ -44,9 +44,10 @@
         SendPerformanceBeacon("AppDialogInitiate") ' Roku Performance monitoring - Dialog Starting
 
         publicUsers = GetPublicUsers()
-        savedUsers = getSavedUsers()
+        numPubUsers = 0
+        if isValid(publicUsers) then numPubUsers = publicUsers.count()
 
-        numPubUsers = publicUsers.count()
+        savedUsers = getSavedUsers()
         numSavedUsers = savedUsers.count()
 
         if numPubUsers > 0 or numSavedUsers > 0

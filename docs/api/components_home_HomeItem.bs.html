@@ -8,12 +8,12 @@ import "pkg:/source/roku_modules/log/LogMixin.brs"
 
 sub init()
     m.log = log.Logger("HomeItem")
-    m.itemText = m.top.findNode("itemText")
-    m.itemPoster = m.top.findNode("itemPoster")
+    initItemText()
+    initItemPoster()
     m.itemProgress = m.top.findNode("progress")
     m.itemProgressBackground = m.top.findNode("progressBackground")
     m.itemIcon = m.top.findNode("itemIcon")
-    m.itemTextExtra = m.top.findNode("itemTextExtra")
+    initItemTextExtra()
     m.itemPoster.observeField("loadStatus", "onPosterLoadStatusChanged")
     m.unplayedCount = m.top.findNode("unplayedCount")
     m.unplayedEpisodeCount = m.top.findNode("unplayedEpisodeCount")
@@ -36,6 +36,17 @@ sub init()
     m.backdrop.color = backdropColor
 end sub
 
+sub initItemText()
+    m.itemText = m.top.findNode("itemText")
+end sub
+
+sub initItemPoster()
+    m.itemPoster = m.top.findNode("itemPoster")
+end sub
+
+sub initItemTextExtra()
+    m.itemTextExtra = m.top.findNode("itemTextExtra")
+end sub
 
 sub itemContentChanged()
     if isValid(m.unplayedCount) then m.unplayedCount.visible = false
@@ -44,6 +55,11 @@ sub itemContentChanged()
     localGlobal = m.global
 
     itemData.Title = itemData.name ' Temporarily required while we move from "HomeItem" to "JFContentItem"
+
+    ' validate to prevent crash
+    if not isValid(m.itemPoster) then initItemPoster()
+    if not isValid(m.itemText) then initItemText()
+    if not isValid(m.itemTextExtra) then initItemTextExtra()
 
     m.itemPoster.width = itemData.imageWidth
     m.itemText.maxWidth = itemData.imageWidth
