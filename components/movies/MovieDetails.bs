@@ -51,6 +51,7 @@ end sub
 ' onMoviePosterSwapAnimationStateChange: Handler for changes to m.moviePosterSwapAnimation.state
 '
 sub onMoviePosterSwapAnimationStateChange()
+    if not isValid(m.moviePosterSwapAnimation) then return
     if LCase(m.moviePosterSwapAnimation.state) <> "stopped" then return
     m.moviePoster.uri = m.moviePosterSwap.uri
     m.moviePoster.opacity = 1
@@ -95,102 +96,105 @@ end sub
 sub itemContentChanged()
     ' Updates video metadata
     item = m.top.itemContent
-    itemData = item.json
-    m.top.id = itemData.id
-    m.top.findNode("moviePoster").uri = m.top.itemContent.posterURL
+    if isValid(item) and isValid(item.json)
+        itemData = item.json
+        m.top.id = itemData.id
+        m.top.findNode("moviePoster").uri = m.top.itemContent.posterURL
 
-    ' Set default video source if user hasn't selected one yet
-    if m.top.selectedVideoStreamId = "" and isValid(itemData.MediaSources)
-        m.top.selectedVideoStreamId = itemData.MediaSources[0].id
-    end if
+        ' Set default video source if user hasn't selected one yet
+        if m.top.selectedVideoStreamId = "" and isValid(itemData.MediaSources)
+            m.top.selectedVideoStreamId = itemData.MediaSources[0].id
+        end if
 
-    ' Find first Audio Stream and set that as default
-    SetDefaultAudioTrack(itemData)
+        ' Find first Audio Stream and set that as default
+        SetDefaultAudioTrack(itemData)
 
-    ' Handle all "As Is" fields
-    m.top.overhangTitle = itemData.name
-    setFieldText("releaseYear", itemData.productionYear)
-    setFieldText("overview", itemData.overview)
+        ' Handle all "As Is" fields
+        m.top.overhangTitle = itemData.name
+        setFieldText("releaseYear", itemData.productionYear)
+        setFieldText("overview", itemData.overview)
 
-    if itemData.officialRating <> invalid
-        setFieldText("officialRating", itemData.officialRating)
-    else
-        m.infoGroup.removeChild(m.top.findNode("officialRating"))
-    end if
+        if itemData.officialRating <> invalid
+            setFieldText("officialRating", itemData.officialRating)
+        else
+            m.infoGroup.removeChild(m.top.findNode("officialRating"))
+        end if
 
-    if m.global.session.user.settings["ui.movies.showRatings"]
-        if isValid(itemData.communityRating)
-            setFieldText("communityRating", int(itemData.communityRating * 10) / 10)
+        if m.global.session.user.settings["ui.movies.showRatings"]
+            if isValid(itemData.communityRating)
+                setFieldText("communityRating", int(itemData.communityRating * 10) / 10)
+            else
+                m.infoGroup.removeChild(m.top.findNode("communityRatingGroup"))
+            end if
+            if isValid(itemData.CriticRating)
+                setFieldText("criticRatingLabel", itemData.criticRating)
+                if itemData.CriticRating > 60
+                    tomato = "pkg:/images/fresh.png"
+                else
+                    tomato = "pkg:/images/rotten.png"
+                end if
+                criticRatingIcon = m.top.findNode("criticRatingIcon")
+                if isValid(criticRatingIcon) then criticRatingIcon.uri = tomato
+            else
+                m.infoGroup.removeChild(m.top.findNode("criticRatingGroup"))
+            end if
         else
             m.infoGroup.removeChild(m.top.findNode("communityRatingGroup"))
-        end if
-        if isValid(itemData.CriticRating)
-            setFieldText("criticRatingLabel", itemData.criticRating)
-            if itemData.CriticRating > 60
-                tomato = "pkg:/images/fresh.png"
-            else
-                tomato = "pkg:/images/rotten.png"
-            end if
-            m.top.findNode("criticRatingIcon").uri = tomato
-        else
             m.infoGroup.removeChild(m.top.findNode("criticRatingGroup"))
         end if
-    else
-        m.infoGroup.removeChild(m.top.findNode("communityRatingGroup"))
-        m.infoGroup.removeChild(m.top.findNode("criticRatingGroup"))
-    end if
 
-    if type(itemData.RunTimeTicks) = "LongInteger"
-        setFieldText("runtime", stri(getRuntime()) + " mins")
-        if m.global.session.user.settings["ui.design.hideclock"] <> true
-            setFieldText("ends-at", tr("Ends at %1").Replace("%1", getEndTime()))
+        if type(itemData.RunTimeTicks) = "LongInteger"
+            setFieldText("runtime", stri(getRuntime()) + " mins")
+            if m.global.session.user.settings["ui.design.hideclock"] <> true
+                setFieldText("ends-at", tr("Ends at %1").Replace("%1", getEndTime()))
+            end if
         end if
-    end if
 
-    if itemData.genres.count() > 0
-        setFieldText("genres", tr("Genres") + ": " + itemData.genres.join(", "))
-    else
-        m.top.findNode("details").removeChild(m.top.findNode("genres"))
-    end if
-
-    ' show tags if there are no genres to display
-    if itemData.genres.count() = 0 and isValid(itemData.tags) and itemData.tags.count() > 0
-        setFieldText("genres", tr("Tags") + ": " + itemData.tags.join(", "))
-    end if
-
-    directors = []
-    for each person in itemData.people
-        if person.type = "Director"
-            directors.push(person.name)
+        if itemData.genres.count() > 0
+            setFieldText("genres", tr("Genres") + ": " + itemData.genres.join(", "))
+        else
+            m.top.findNode("details").removeChild(m.top.findNode("genres"))
         end if
-    end for
-    if directors.count() > 0
-        setFieldText("director", tr("Director") + ": " + directors.join(", "))
-    else
-        m.top.findNode("details").removeChild(m.top.findNode("director"))
-    end if
 
-    if m.global.session.user.settings["ui.details.hidetagline"] = false
-        if itemData.taglines.count() > 0
-            setFieldText("tagline", itemData.taglines[0])
+        ' show tags if there are no genres to display
+        if itemData.genres.count() = 0 and isValid(itemData.tags) and itemData.tags.count() > 0
+            setFieldText("genres", tr("Tags") + ": " + itemData.tags.join(", "))
         end if
-    else
-        m.details.removeChild(m.tagline)
-    end if
 
-    'set aired date if type is Episode
-    if itemData.PremiereDate <> invalid and itemData.Type = "Episode"
-        airDate = CreateObject("roDateTime")
-        airDate.FromISO8601String(itemData.PremiereDate)
-        m.top.findNode("aired").text = tr("Aired") + ": " + airDate.AsDateString("short-month-no-weekday")
-        'remove movie release year label
-        m.infoGroup.removeChild(m.top.findNode("releaseYear"))
-    end if
+        directors = []
+        for each person in itemData.people
+            if person.type = "Director"
+                directors.push(person.name)
+            end if
+        end for
+        if directors.count() > 0
+            setFieldText("director", tr("Director") + ": " + directors.join(", "))
+        else
+            m.top.findNode("details").removeChild(m.top.findNode("director"))
+        end if
 
-    setFavoriteColor()
-    setWatchedColor()
-    SetUpVideoOptions(itemData.mediaSources)
-    SetUpAudioOptions(itemData.mediaStreams)
+        if m.global.session.user.settings["ui.details.hidetagline"] = false
+            if itemData.taglines.count() > 0
+                setFieldText("tagline", itemData.taglines[0])
+            end if
+        else
+            m.details.removeChild(m.tagline)
+        end if
+
+        'set aired date if type is Episode
+        if itemData.PremiereDate <> invalid and itemData.Type = "Episode"
+            airDate = CreateObject("roDateTime")
+            airDate.FromISO8601String(itemData.PremiereDate)
+            m.top.findNode("aired").text = tr("Aired") + ": " + airDate.AsDateString("short-month-no-weekday")
+            'remove movie release year label
+            m.infoGroup.removeChild(m.top.findNode("releaseYear"))
+        end if
+
+        setFavoriteColor()
+        setWatchedColor()
+        SetUpVideoOptions(itemData.mediaSources)
+        SetUpAudioOptions(itemData.mediaStreams)
+    end if
     m.buttonGrp.visible = true
     stopLoadingSpinner()
 end sub
