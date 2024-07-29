@@ -1290,6 +1290,11 @@
         <translation>Pour consulter la liste complète des modifications, visitez</translation>
         <extracomment>WhatsNewDialog body text preceding the changelog URL</extracomment>
     </message>
+    <message>
+        <source>Show already watched episodes in &apos;Next Up&apos; sections.</source>
+        <translation>Voir les épisodes déjà vus dans la section &quot;À suivre&quot;.</translation>
+        <extracomment>User Setting - Setting description</extracomment>
+    </message>
 </context>
 <context>
     <name></name>
