@@ -1286,5 +1286,30 @@
             <translation>Show already watched episodes in 'Next Up' sections.</translation>
             <extracomment>User Setting - Setting description</extracomment>
         </message>
+        <message>
+            <source>Episode Images Next Up</source>
+            <translation>Episode Images Next Up</translation>
+            <extracomment>User Setting - Setting title</extracomment>
+        </message>
+        <message>
+            <source>What type of images to use for Episodes shown in the 'Next Up' and 'Continue Watching' sections.</source>
+            <translation>What type of images to use for Episodes shown in the 'Next Up' and 'Continue Watching' sections.</translation>
+            <extracomment>User Setting - Setting description</extracomment>
+        </message>
+        <message>
+            <source>Use Web Client Setting</source>
+            <translation>Use Web Client Setting</translation>
+            <extracomment>User Setting - Setting option title</extracomment>
+        </message>
+        <message>
+            <source>Use Episode Image</source>
+            <translation>Use Episode Image</translation>
+            <extracomment>User Setting - Setting option title</extracomment>
+        </message>
+        <message>
+            <source>Use Show Image</source>
+            <translation>Use Show Image</translation>
+            <extracomment>User Setting - Setting option title</extracomment>
+        </message>
     </context>
 </TS>

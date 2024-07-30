@@ -221,6 +221,27 @@
                 "description": "Settings relating to the appearance of the Home screen and the program in general.",
                 "children": [
                     {
+                        "title": "Episode Images Next Up",
+                        "description": "What type of images to use for Episodes shown in the 'Next Up' and 'Continue Watching' sections.",
+                        "settingName": "ui.general.episodeimagesnextup",
+                        "type": "radio",
+                        "default": "webclient",
+                        "options": [
+                            {
+                                "title": "Use Web Client Setting",
+                                "id": "webclient"
+                            },
+                            {
+                                "title": "Use Episode Image",
+                                "id": "episode"
+                            },
+                            {
+                                "title": "Use Show Image",
+                                "id": "show"
+                            }
+                        ]
+                    },
+                    {
                         "title": "Hide Clock",
                         "description": "Hide all clocks in Jellyfin. Jellyfin will need to be closed and reopened for changes to take effect.",
                         "settingName": "ui.design.hideclock",
