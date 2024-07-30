@@ -1272,6 +1272,11 @@
             <extracomment>User Setting - Setting description</extracomment>
         </message>
         <message>
+            <source>View All Next Up</source>
+            <translation>View All Next Up</translation>
+            <extracomment>Title for viewing all episodes available in the Next Up section</extracomment>
+        </message>
+        <message>
             <source>Rewatching Next Up</source>
             <translation>Rewatching Next Up</translation>
             <extracomment>User Setting - Setting title</extracomment>

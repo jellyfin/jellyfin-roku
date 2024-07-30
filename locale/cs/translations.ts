@@ -1280,6 +1280,26 @@
         <translation>Zdrojový soubor je zcela kompatibilní s tímto klientem a relace přijímá soubor bez úprav.</translation>
         <extracomment>Direct play info box text in GetPlaybackInfoTask.brs</extracomment>
     </message>
+    <message>
+        <source>Show already watched episodes in &apos;Next Up&apos; sections.</source>
+        <translation>Zobrazit již zhlédnuté díly v sekci &apos;Další díly&apos;.</translation>
+        <extracomment>User Setting - Setting description</extracomment>
+    </message>
+    <message>
+        <source>Rewatching Next Up</source>
+        <translation>Sledujte znovu Další díly</translation>
+        <extracomment>User Setting - Setting title</extracomment>
+    </message>
+    <message>
+        <source>Welcome to version</source>
+        <translation>Vítejte ve verzi</translation>
+        <extracomment>WhatsNewDialog title - Welcome to version 2.0.0</extracomment>
+    </message>
+    <message>
+        <source>To view a complete list of changes visit</source>
+        <translation>Pro zobrazení úplného seznamu změn navštivte</translation>
+        <extracomment>WhatsNewDialog body text preceding the changelog URL</extracomment>
+    </message>
 </context>
 <context>
     <name></name>

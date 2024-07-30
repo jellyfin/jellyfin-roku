@@ -198,6 +198,14 @@ sub loadInitialItems()
             ' non recursive for collections (folders, boxsets, photo albums, etc)
             m.loadItemsTask.recursive = false
         end if
+
+        if getCollectionType() = "nextup"
+            m.loadItemsTask.itemType = "NextUp"
+            m.itemGrid.itemSize = "[400, 300]"
+            m.top.imageDisplayMode = "scaleToFit"
+            m.itemGrid.numColumns = 4
+            m.alpha.visible = false
+        end if
     else if m.top.parentItem.json.type = "Studio"
         m.loadItemsTask.itemId = m.top.parentItem.parentFolder
         m.loadItemsTask.itemType = "Series,Movie"
@@ -402,7 +410,6 @@ sub SetUpOptions()
         setPhotoAlbumOptions(options)
     else if getCollectionType() = "music"
         setMusicOptions(options)
-
     else
         setDefaultOptions(options)
     end if
@@ -786,7 +793,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
         searchGrp.setFocus(false)
     end if
 
-    if key = "options"
+    if key = "options" and getCollectionType() <> "nextup"
         if m.options.visible = true
             m.options.visible = false
             m.top.removeChild(m.options)
@@ -836,7 +843,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
             m.top.quickPlayNode = itemToPlay
             return true
         end if
-    else if key = "left" and topGrp.isinFocusChain()
+    else if key = "left" and topGrp.isinFocusChain() and m.alpha.visible
         m.top.alphaActive = true
         topGrp.setFocus(false)
         m.alphaMenu.setFocus(true)

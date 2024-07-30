@@ -270,6 +270,9 @@
                         group = CreateMovieLibraryView(selectedItem)
                     else if selectedItem.collectionType = "music"
                         group = CreateMusicLibraryView(selectedItem)
+                    else if selectedItem.collectionType = "nextup"
+                        group = CreateItemGrid(selectedItem)
+                        group.optionsAvailable = false
                     else
                         group = CreateItemGrid(selectedItem)
                     end if
