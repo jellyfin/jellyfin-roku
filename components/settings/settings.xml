@@ -35,7 +35,7 @@
       </ContentNode>
     </RadioButtonList>
 
-    <IntegerKeyboard translation="[1034, 510]" id="integerSetting" maxLength="3" domain="numeric" visible="false" />
+    <IntegerKeyboard translation="[1034, 510]" id="integerSetting" domain="numeric" visible="false" />
 
   </children>
 </component>
