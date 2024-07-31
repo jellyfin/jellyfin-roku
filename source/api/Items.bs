@@ -53,6 +53,8 @@ function searchMedia(query as string)
             "limit": 100
         })
 
+        if data = invalid then return []
+
         results = []
         for each item in data.Items
             tmp = CreateObject("roSGNode", "SearchData")
