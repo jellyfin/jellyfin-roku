@@ -395,6 +395,12 @@ sub addAudioStreamsToVideo(video)
 end sub
 
 sub addSubtitlesToVideo(video, meta)
+    if not isValid(meta) then return
+    if not isValid(meta.id) then return
+    if not isValid(m.playbackInfo) then return
+    if not isValidAndNotEmpty(m.playbackInfo.MediaSources) then return
+    if not isValid(m.playbackInfo.MediaSources[0].MediaStreams) then return
+
     subtitles = sortSubtitles(meta.id, m.playbackInfo.MediaSources[0].MediaStreams)
     safesubs = subtitles["all"]
     subtitleTracks = []
