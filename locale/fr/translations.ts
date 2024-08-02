@@ -1295,6 +1295,16 @@
         <translation>Voir les épisodes déjà vus dans la section &quot;À suivre&quot;.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
+    <message>
+        <source>Rewatching Next Up</source>
+        <translation>Revoir tout ce qui est à suivre</translation>
+        <extracomment>User Setting - Setting title</extracomment>
+    </message>
+    <message>
+        <source>View All Next Up</source>
+        <translation>Voir tout ce qui est à suivre</translation>
+        <extracomment>Title for viewing all episodes available in the Next Up section</extracomment>
+    </message>
 </context>
 <context>
     <name></name>
