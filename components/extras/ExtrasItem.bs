@@ -1,11 +1,30 @@
+import "pkg:/source/utils/misc.bs"
+
 sub init()
+    initPosterImg()
+    initName()
+    initRole()
+end sub
+
+sub initPosterImg()
     m.posterImg = m.top.findNode("posterImg")
+end sub
+
+sub initName()
     m.name = m.top.findNode("pLabel")
+end sub
+
+sub initRole()
     m.role = m.top.findNode("subTitle")
 end sub
 
 sub showContent()
-    if m.top.itemContent <> invalid
+    ' validate nodes to prevent crash
+    if not isValid(m.posterImg) then initPosterImg()
+    if not isValid(m.name) then initName()
+    if not isValid(m.role) then initRole()
+
+    if isValid(m.top.itemContent)
         cont = m.top.itemContent
         m.name.text = cont.labelText
         m.name.maxWidth = cont.imageWidth
