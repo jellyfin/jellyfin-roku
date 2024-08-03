@@ -2,6 +2,7 @@
 import "pkg:/source/api/userauth.bs"
 import "pkg:/source/api/baserequest.bs"
 import "pkg:/source/migrations.bs"
+import "pkg:/source/utils/misc.bs"
 
 namespace session
     ' Initialize the global session array
@@ -182,13 +183,6 @@ namespace session
                 end if
             end for
 
-            if m.global.app.isDev
-                print "m.global.session.user = ", m.global.session.user
-                print "m.global.session.user.Configuration = ", m.global.session.user.Configuration
-                print "m.global.session.user.Policy = ", m.global.session.user.Policy
-                print "m.global.session.user.settings = ", m.global.session.user.settings
-            end if
-
             set_user_setting("serverId", m.global.session.server.id)
 
             if saveCredentials
@@ -204,6 +198,13 @@ namespace session
             session.user.SetServerDeviceName()
             ' Load user preferences from server
             session.user.LoadUserPreferences()
+
+            if m.global.app.isDev
+                print "m.global.session.user = ", m.global.session.user
+                print "m.global.session.user.Configuration = ", m.global.session.user.Configuration
+                print "m.global.session.user.Policy = ", m.global.session.user.Policy
+                print "m.global.session.user.settings = ", m.global.session.user.settings
+            end if
         end sub
 
         ' Sets the global server device name value used by the API
@@ -234,6 +235,14 @@ namespace session
             jsonResponse = getJson(resp)
 
             if isValid(jsonResponse) and isValid(jsonResponse.CustomPrefs)
+                ' save useEpisodeImagesInNextUpAndResume to global session
+                tmpSetting = jsonResponse.CustomPrefs.useEpisodeImagesInNextUpAndResume
+                if isValid(tmpSetting)
+                    tmpConfig = m.global.session.user.Configuration
+                    tmpConfig.AddReplace("useEpisodeImagesInNextUpAndResume", toBoolean(tmpSetting))
+                    session.user.Update("Configuration", tmpConfig)
+                end if
+
                 session.user.SaveUserHomeSections(jsonResponse.CustomPrefs)
 
                 if isValid(jsonResponse.CustomPrefs["landing-livetv"])
@@ -414,16 +423,8 @@ namespace session
             sub Save(name as string, value as string)
                 if name = invalid or value = invalid then return
                 tmpSettingArray = m.global.session.user.settings
-                convertedValue = value
 
-                ' convert to boolean
-                if value = "true"
-                    convertedValue = true
-                else if value = "false"
-                    convertedValue = false
-                end if
-
-                tmpSettingArray[name] = convertedValue
+                tmpSettingArray[name] = toBoolean(value)
 
                 session.user.Update("settings", tmpSettingArray)
             end sub
