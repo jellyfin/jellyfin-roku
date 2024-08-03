@@ -1308,6 +1308,11 @@
         <translation>Zeige bereits gesehene Episoden in der Rubrik &apos;Nächste Folge&apos; an.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
+    <message>
+        <source>View All Next Up</source>
+        <translation>Weiter oben alle anzeigen</translation>
+        <extracomment>Title for viewing all episodes available in the Next Up section</extracomment>
+    </message>
 </context>
 <context>
     <name></name>
