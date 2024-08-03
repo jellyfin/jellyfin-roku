@@ -1305,6 +1305,26 @@
         <translation>Voir tout ce qui est à suivre</translation>
         <extracomment>Title for viewing all episodes available in the Next Up section</extracomment>
     </message>
+    <message>
+        <source>Use Web Client Setting</source>
+        <translation>Utiliser les paramètres du client web</translation>
+        <extracomment>User Setting - Setting option title</extracomment>
+    </message>
+    <message>
+        <source>Use Episode Image</source>
+        <translation>Utiliser l&apos;image de l&apos;épisode</translation>
+        <extracomment>User Setting - Setting option title</extracomment>
+    </message>
+    <message>
+        <source>What type of images to use for Episodes shown in the &apos;Next Up&apos; and &apos;Continue Watching&apos; sections.</source>
+        <translation>images</translation>
+        <extracomment>User Setting - Setting description</extracomment>
+    </message>
+    <message>
+        <source>Use Show Image</source>
+        <translation>Utiliser l&apos;image de la série</translation>
+        <extracomment>User Setting - Setting option title</extracomment>
+    </message>
 </context>
 <context>
     <name></name>
