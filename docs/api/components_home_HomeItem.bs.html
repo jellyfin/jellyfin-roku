@@ -148,9 +148,16 @@ sub itemContentChanged()
             drawProgressBar(itemData)
         end if
 
-        if itemData.usePoster = true
+        if localGlobal.session.user.settings["ui.general.episodeimagesnextup"] = "webclient"
+            tmpSetting = localGlobal.session.user.Configuration.useEpisodeImagesInNextUpAndResume
+            if isValid(tmpSetting) and tmpSetting
+                m.itemPoster.uri = itemData.thumbnailURL
+            else
+                m.itemPoster.uri = itemData.widePosterURL
+            end if
+        else if localGlobal.session.user.settings["ui.general.episodeimagesnextup"] = "show"
             m.itemPoster.uri = itemData.widePosterURL
-        else
+        else if localGlobal.session.user.settings["ui.general.episodeimagesnextup"] = "episode"
             m.itemPoster.uri = itemData.thumbnailURL
         end if
 
