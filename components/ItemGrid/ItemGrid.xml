@@ -33,7 +33,7 @@
     <field id="quickPlayNode" type="node" alwaysNotify="true" />
     <field id="imageDisplayMode" type="string" value="scaleToZoom" />
     <field id="alphaSelected" type="string" alias="alpha.letterSelected" alwaysNotify="true" onChange="alphaSelectedChanged" />
-    <field id="alphaActive" type="boolean" value="false" />
+    <field id="alphaActive" type="boolean" value="false" onChange="alphaActiveChanged" />
     <field id="jumpToItem" type="integer" value="" />
     <field id="gridTitles" type="string" />
   </interface>
