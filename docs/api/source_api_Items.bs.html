@@ -55,6 +55,8 @@ function searchMedia(query as string)
             "limit": 100
         })
 
+        if data = invalid then return []
+
         results = []
         for each item in data.Items
             tmp = CreateObject("roSGNode", "SearchData")
@@ -97,7 +99,7 @@ function ItemMetaData(id as string)
         tmp.image = PosterImage(data.id, imgParams)
         tmp.json = data
         return tmp
-    else if LCase(data.type) = "recording"
+    else if data.type = "Recording"
         tmp = CreateObject("roSGNode", "RecordingData")
         tmp.image = PosterImage(data.id, imgParams)
         tmp.json = data
