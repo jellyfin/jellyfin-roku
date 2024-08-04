@@ -195,6 +195,8 @@ sub buttonFocusChanged()
 end sub
 
 sub toggleFavorite()
+    if not isValid(m.selectedFavoriteItem) then return
+
     m.favItemsTask = createObject("roSGNode", "FavoriteItemsTask")
     if m.favoriteMenu.iconUri = "pkg:/images/icons/favorite.png"
         m.favoriteMenu.iconUri = "pkg:/images/icons/favorite_selected.png"

@@ -13,7 +13,6 @@ enum SubtitleSelection
 end enum
 
 sub init()
-    m.user = AboutMe()
     m.top.functionName = "loadItems"
 end sub
 
@@ -119,8 +118,7 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
         video.logoImage = api.items.GetImageURL(logoLookupID, "logo", 0, { "maxHeight": 65, "maxWidth": 300, "quality": "90" })
     end if
 
-    user = AboutMe()
-    if user.Configuration.EnableNextEpisodeAutoPlay
+    if m.global.session.user.Configuration.EnableNextEpisodeAutoPlay
         if LCase(m.top.itemType) = "episode"
             addNextEpisodesToQueue(video.showID)
         end if
@@ -395,6 +393,12 @@ sub addAudioStreamsToVideo(video)
 end sub
 
 sub addSubtitlesToVideo(video, meta)
+    if not isValid(meta) then return
+    if not isValid(meta.id) then return
+    if not isValid(m.playbackInfo) then return
+    if not isValidAndNotEmpty(m.playbackInfo.MediaSources) then return
+    if not isValid(m.playbackInfo.MediaSources[0].MediaStreams) then return
+
     subtitles = sortSubtitles(meta.id, m.playbackInfo.MediaSources[0].MediaStreams)
     safesubs = subtitles["all"]
     subtitleTracks = []
@@ -565,8 +569,8 @@ function sortSubtitles(id as string, MediaStreams)
 end function
 
 function FindPreferredAudioStream(streams as dynamic) as integer
-    preferredLanguage = m.user.Configuration.AudioLanguagePreference
-    playDefault = m.user.Configuration.PlayDefaultAudioTrack
+    preferredLanguage = m.global.session.user.Configuration.AudioLanguagePreference
+    playDefault = m.global.session.user.Configuration.PlayDefaultAudioTrack
 
     if playDefault <> invalid and playDefault = true
         return 1
@@ -574,7 +578,7 @@ function FindPreferredAudioStream(streams as dynamic) as integer
 
     ' Do we already have the MediaStreams or not?
     if streams = invalid
-        url = Substitute("Users/{0}/Items/{1}", m.user.id, m.top.itemId)
+        url = Substitute("Users/{0}/Items/{1}", m.global.session.user.id, m.top.itemId)
         resp = APIRequest(url)
         jsonResponse = getJson(resp)
 
