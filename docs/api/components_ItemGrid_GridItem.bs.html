@@ -23,18 +23,21 @@ sub init()
     m.checkmark.height = 60
 
     m.itemText.translation = [0, m.itemPoster.height + 7]
-
-    m.gridTitles = m.global.session.user.settings["itemgrid.gridTitles"]
     m.itemText.visible = m.gridTitles = "showalways"
 
     ' Add some padding space when Item Titles are always showing
     if m.itemText.visible then m.itemText.maxWidth = 250
 
-    'Parent is MarkupGrid and it's parent is the ItemGrid
-    m.topParent = m.top.GetParent().GetParent()
-    'Get the imageDisplayMode for these grid items
-    if isValid(m.topParent.imageDisplayMode)
-        m.itemPoster.loadDisplayMode = m.topParent.imageDisplayMode
+    ' grab data from ItemGrid node
+    m.itemGrid = m.top.GetParent().GetParent() 'Parent is MarkupGrid and it's parent is the ItemGrid
+
+    if isValid(m.itemGrid)
+        if isValid(m.itemGrid.imageDisplayMode)
+            m.itemPoster.loadDisplayMode = m.itemGrid.imageDisplayMode
+        end if
+        if isValid(m.itemGrid.gridTitles)
+            m.gridTitles = m.itemGrid.gridTitles
+        end if
     end if
 
 end sub
@@ -93,7 +96,7 @@ sub itemContentChanged()
         m.itemPoster.uri = itemData.PosterUrl
         'm.itemIcon.uri = itemData.iconUrl
         m.itemText.text = itemData.Title
-        m.itemPoster.loadDisplayMode = m.topParent.imageDisplayMode
+        m.itemPoster.loadDisplayMode = m.itemGrid.imageDisplayMode
     else if itemData.type = "Video"
         m.itemPoster.uri = itemData.PosterUrl
         m.itemIcon.uri = itemData.iconUrl
@@ -186,7 +189,7 @@ sub focusChanged()
         m.posterMask.scale = [1, 1]
     else
         m.itemText.repeatCount = 0
-        if m.topParent.alphaActive = true
+        if m.itemGrid.alphaActive = true
             m.posterMask.scale = [0.85, 0.85]
         end if
     end if

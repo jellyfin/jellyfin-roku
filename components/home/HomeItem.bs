@@ -30,7 +30,7 @@ sub init()
     end if
 
     ' update the backdrop node
-    m.backdrop = m.top.findNode("backdrop")
+    initBackdrop()
     m.backdrop.color = backdropColor
 end sub
 
@@ -46,6 +46,10 @@ sub initItemTextExtra()
     m.itemTextExtra = m.top.findNode("itemTextExtra")
 end sub
 
+sub initBackdrop()
+    m.backdrop = m.top.findNode("backdrop")
+end sub
+
 sub itemContentChanged()
     if isValid(m.unplayedCount) then m.unplayedCount.visible = false
     itemData = m.top.itemContent
@@ -58,6 +62,7 @@ sub itemContentChanged()
     if not isValid(m.itemPoster) then initItemPoster()
     if not isValid(m.itemText) then initItemText()
     if not isValid(m.itemTextExtra) then initItemTextExtra()
+    if not isValid(m.backdrop) then initBackdrop()
 
     m.itemPoster.width = itemData.imageWidth
     m.itemText.maxWidth = itemData.imageWidth
@@ -146,9 +151,16 @@ sub itemContentChanged()
             drawProgressBar(itemData)
         end if
 
-        if itemData.usePoster = true
+        if localGlobal.session.user.settings["ui.general.episodeimagesnextup"] = "webclient"
+            tmpSetting = localGlobal.session.user.Configuration.useEpisodeImagesInNextUpAndResume
+            if isValid(tmpSetting) and tmpSetting
+                m.itemPoster.uri = itemData.thumbnailURL
+            else
+                m.itemPoster.uri = itemData.widePosterURL
+            end if
+        else if localGlobal.session.user.settings["ui.general.episodeimagesnextup"] = "show"
             m.itemPoster.uri = itemData.widePosterURL
-        else
+        else if localGlobal.session.user.settings["ui.general.episodeimagesnextup"] = "episode"
             m.itemPoster.uri = itemData.thumbnailURL
         end if
 

@@ -1207,7 +1207,7 @@
     </message>
     <message>
         <source>Remember Me?</source>
-        <translation>Se souvenir de moi&#xa0;?</translation>
+        <translation>Se souvenir de moi ?</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
@@ -1294,6 +1294,41 @@
         <source>Show already watched episodes in &apos;Next Up&apos; sections.</source>
         <translation>Voir les épisodes déjà vus dans la section &quot;À suivre&quot;.</translation>
         <extracomment>User Setting - Setting description</extracomment>
+    </message>
+    <message>
+        <source>Rewatching Next Up</source>
+        <translation>Revoir tout ce qui est à suivre</translation>
+        <extracomment>User Setting - Setting title</extracomment>
+    </message>
+    <message>
+        <source>View All Next Up</source>
+        <translation>Voir tout ce qui est à suivre</translation>
+        <extracomment>Title for viewing all episodes available in the Next Up section</extracomment>
+    </message>
+    <message>
+        <source>Use Web Client Setting</source>
+        <translation>Utiliser les paramètres du client web</translation>
+        <extracomment>User Setting - Setting option title</extracomment>
+    </message>
+    <message>
+        <source>Use Episode Image</source>
+        <translation>Utiliser l&apos;image de l&apos;épisode</translation>
+        <extracomment>User Setting - Setting option title</extracomment>
+    </message>
+    <message>
+        <source>What type of images to use for Episodes shown in the &apos;Next Up&apos; and &apos;Continue Watching&apos; sections.</source>
+        <translation>Quel type d&apos;images utiliser pour les épisodes visibles dans les sections &quot;À suivre&quot; et &quot;Continuer la lecture&quot;.</translation>
+        <extracomment>User Setting - Setting description</extracomment>
+    </message>
+    <message>
+        <source>Use Show Image</source>
+        <translation>Utiliser l&apos;image de la série</translation>
+        <extracomment>User Setting - Setting option title</extracomment>
+    </message>
+    <message>
+        <source>Episode Images Next Up</source>
+        <translation>Images d&apos;épisodes à suivre</translation>
+        <extracomment>User Setting - Setting title</extracomment>
     </message>
 </context>
 <context>

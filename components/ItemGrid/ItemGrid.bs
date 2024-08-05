@@ -68,15 +68,15 @@ sub init()
 
     'Get reset folder setting
     m.resetGrid = m.global.session.user.settings["itemgrid.reset"]
+
+    m.top.gridTitles = m.global.session.user.settings["itemgrid.gridTitles"]
 end sub
 
-'
 'Genre Item Selected
 sub onGenreItemSelected()
     m.top.selectedItem = m.genreList.content.getChild(m.genreList.rowItemSelected[0]).getChild(m.genreList.rowItemSelected[1])
 end sub
 
-'
 'Load initial set of Data
 sub loadInitialItems()
     m.loadItemsTask.control = "stop"
@@ -443,7 +443,6 @@ sub SetUpOptions()
     m.options.options = options
 end sub
 
-'
 'Handle loaded data, and add to Grid
 sub ItemDataLoaded(msg)
     itemData = msg.GetData()
@@ -504,7 +503,6 @@ sub ItemDataLoaded(msg)
     stopLoadingSpinner()
 end sub
 
-'
 'Set Background Image
 sub SetBackground(backgroundUri as string)
 
@@ -517,7 +515,6 @@ sub SetBackground(backgroundUri as string)
     m.newBackdrop.uri = backgroundUri
 end sub
 
-'
 'Handle new item being focused
 sub onItemFocused()
 
@@ -543,7 +540,6 @@ sub onItemFocused()
     end if
 end sub
 
-'
 'When Image Loading Status changes
 sub newBGLoaded()
     'If image load was sucessful, start the fade swap
@@ -552,12 +548,9 @@ sub newBGLoaded()
     end if
 end sub
 
-'
 'Swap Complete
 sub swapDone()
-
-    if m.swapAnimation.state = "stopped"
-
+    if isValid(m.swapAnimation) and m.swapAnimation.state = "stopped"
         'Set main BG node image and hide transitioning node
         m.backdrop.uri = m.newBackdrop.uri
         m.backdrop.opacity = 0.25
@@ -571,7 +564,6 @@ sub swapDone()
     end if
 end sub
 
-'
 'Load next set of items
 sub loadMoreData()
     if m.Loading = true then return
@@ -583,7 +575,6 @@ sub loadMoreData()
     m.loadItemsTask.control = "RUN"
 end sub
 
-'
 'Item Selected
 sub onItemSelected()
     m.top.selectedItem = m.itemGrid.content.getChild(m.itemGrid.itemSelected)
@@ -634,8 +625,6 @@ sub onvoiceFilter()
     end if
 end sub
 
-
-'
 'Check if options updated and any reloading required
 sub optionsClosed()
     if m.top.parentItem.collectionType = "livetv" and m.options.view <> m.view

@@ -584,3 +584,18 @@ function createOverhangUser()
 
     return userLabel
 end function
+
+' convert value to boolean and return value
+function toBoolean(value as dynamic) as dynamic
+    if value = invalid then return invalid
+    if Type(value) = "Boolean" then return value
+    if Type(value) <> "String" then return value
+
+    if value = "true"
+        return true
+    else if value = "false"
+        return false
+    else
+        return value
+    end if
+end function

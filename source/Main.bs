@@ -310,7 +310,12 @@ sub Main (args as dynamic) as void
                 else if selectedItemType = "Series"
                     group = CreateSeriesDetailsGroup(selectedItem.json.id)
                 else if selectedItemType = "Season"
-                    group = CreateSeasonDetailsGroupByID(selectedItem.json.SeriesId, selectedItem.id)
+                    if isValid(selectedItem.json) and isValid(selectedItem.json.SeriesId) and isValid(selectedItem.id)
+                        group = CreateSeasonDetailsGroupByID(selectedItem.json.SeriesId, selectedItem.id)
+                    else
+                        stopLoadingSpinner()
+                        message_dialog(tr("Error loading Season"))
+                    end if
                 else if selectedItemType = "Movie"
                     ' open movie detail page
                     group = CreateMovieDetailsGroup(selectedItem)
@@ -457,9 +462,9 @@ sub Main (args as dynamic) as void
             selectedIndex = msg.getData()
             screenContent = msg.getRoSGNode()
 
-            m.global.queueManager.callFunc("clear")
             m.global.queueManager.callFunc("resetShuffle")
-            m.global.queueManager.callFunc("push", screenContent.albumData.items[selectedIndex])
+            m.global.queueManager.callFunc("set", screenContent.albumData.items)
+            m.global.queueManager.callFunc("setPosition", selectedIndex)
             m.global.queueManager.callFunc("playQueue")
         else if isNodeEvent(msg, "playAllSelected")
             ' User has selected playlist of of audio they want us to play
@@ -813,7 +818,7 @@ sub Main (args as dynamic) as void
                 selectedItem = m.global.queueManager.callFunc("getHold")
                 m.global.queueManager.callFunc("clearHold")
 
-                if isValid(selectedItem) and selectedItem.count() > 0 and isValid(selectedItem[0])
+                if isValidAndNotEmpty(selectedItem) and isValid(selectedItem[0])
                     if popupNode.returnData.indexselected = 0
                         'Resume video from resume point
                         startLoadingSpinner()
@@ -841,7 +846,13 @@ sub Main (args as dynamic) as void
                         CreateSeriesDetailsGroup(selectedItem[0].json.SeriesId)
                     else if popupNode.returnData.indexselected = 3
                         ' User chose Go to season
-                        CreateSeasonDetailsGroupByID(selectedItem[0].json.SeriesId, selectedItem[0].json.seasonID)
+                        if isValid(selectedItem[0].json) and isValid(selectedItem[0].json.SeriesId) and isValid(selectedItem[0].json.seasonID)
+                            CreateSeasonDetailsGroupByID(selectedItem[0].json.SeriesId, selectedItem[0].json.seasonID)
+                        else
+                            stopLoadingSpinner()
+                            message_dialog(tr("Error loading Season"))
+                        end if
+
                     else if popupNode.returnData.indexselected = 4
                         ' User chose Go to episode
                         CreateMovieDetailsGroup(selectedItem[0])
