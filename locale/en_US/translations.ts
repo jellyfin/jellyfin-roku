@@ -1294,6 +1294,9 @@
         <message>
             <source>When finished playing a single episode, play the next one automatically.</source>
             <translation>When finished playing a single episode, play the next one automatically.</translation>
+            <extracomment>User Setting - Setting description</extracomment>
+        </message>
+        <message>
             <source>Episode Images Next Up</source>
             <translation>Episode Images Next Up</translation>
             <extracomment>User Setting - Setting title</extracomment>
