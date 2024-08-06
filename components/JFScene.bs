@@ -1,7 +1,7 @@
 import "pkg:/source/utils/misc.bs"
 
 sub init()
-    m.top.backgroundColor = "#262626" '"#101010"
+    m.top.backgroundColor = "#000018"
     m.top.backgroundURI = ""
     m.spinner = m.top.findNode("spinner")
 end sub

@@ -3,7 +3,7 @@
 # If you want to get_images, you'll also need convert from ImageMagick
 ##########################################################################
 
-VERSION := 2.1.4
+VERSION := 1.0.0
 
 ## usage
 

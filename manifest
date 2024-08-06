@@ -1,9 +1,9 @@
 ## Channel Details
 
-title=Jellyfin
-major_version=2
-minor_version=1
-build_version=4
+title=viv
+major_version=1
+minor_version=0
+build_version=0
 
 ### Main Menu Icons / Channel Poster Artwork
 
@@ -13,9 +13,9 @@ mm_icon_focus_sd=pkg:/images/channel-poster_sd.png
 
 ### Splash Screen + Loading Screen Artwork
 
-splash_screen_fhd=pkg:/images/splash-screen_fhd.png
-splash_screen_hd=pkg:/images/splash-screen_hd.png
-splash_screen_sd=pkg:/images/splash-screen_sd.png
+splash_screen_fhd=pkg:/images/splash-screen_fhd.jpg
+splash_screen_hd=pkg:/images/splash-screen_hd.jpg
+splash_screen_sd=pkg:/images/splash-screen_sd.jpg
 
 splash_min_time=1500
 

@@ -1,8 +1,8 @@
 {
-  "name": "jellyfin-roku",
+  "name": "viv",
   "type": "module",
-  "version": "2.1.4",
-  "description": "Roku app for Jellyfin media server",
+  "version": "1.0.0",
+  "description": "Unofficial Roku app for Jellyfin media server",
   "dependencies": {
     "@rokucommunity/bslib": "0.1.1",
     "brighterscript-formatter": "1.7.4",
