@@ -1313,6 +1313,31 @@
         <translation>Weiter oben alle anzeigen</translation>
         <extracomment>Title for viewing all episodes available in the Next Up section</extracomment>
     </message>
+    <message>
+        <source>Episode Images Next Up</source>
+        <translation>Bilder der nächsten Episode</translation>
+        <extracomment>User Setting - Setting title</extracomment>
+    </message>
+    <message>
+        <source>Use Web Client Setting</source>
+        <translation>Web Client-Einstellung verwenden</translation>
+        <extracomment>User Setting - Setting option title</extracomment>
+    </message>
+    <message>
+        <source>What type of images to use for Episodes shown in the &apos;Next Up&apos; and &apos;Continue Watching&apos; sections.</source>
+        <translation>Welche Art von Bildern soll für die Episoden in den Abschnitten &quot;Weiter&quot; und &quot;Weiterschauen&quot; verwendet werden.</translation>
+        <extracomment>User Setting - Setting description</extracomment>
+    </message>
+    <message>
+        <source>Use Episode Image</source>
+        <translation>Episodenbild verwenden</translation>
+        <extracomment>User Setting - Setting option title</extracomment>
+    </message>
+    <message>
+        <source>Use Show Image</source>
+        <translation>Serienbild verwenden</translation>
+        <extracomment>User Setting - Setting option title</extracomment>
+    </message>
 </context>
 <context>
     <name></name>
