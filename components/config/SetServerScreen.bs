@@ -1,5 +1,6 @@
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/enums/KeyCode.bs"
+import "pkg:/source/enums/ColorPalette.bs"
 
 sub init()
     m.top.setFocus(true)
@@ -7,8 +8,19 @@ sub init()
     m.serverPicker = m.top.findNode("serverPicker")
     m.serverUrlTextbox = m.top.findNode("serverUrlTextbox")
     m.serverUrlContainer = m.top.findNode("serverUrlContainer")
+    m.serverPickerContainer = m.top.findNode("serverPickerContainer")
     m.serverUrlOutline = m.top.findNode("serverUrlOutline")
+
+    m.serverPickerContainer.color = ColorPalette.ELEMENTBACKGROUND
+    m.serverUrlContainer.color = ColorPalette.BLACK77
+    m.serverPicker.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
+    m.serverPicker.focusFootprintBlendColor = ColorPalette.LIGHTHIGHLIGHT
+
     m.submit = m.top.findNode("submit")
+    m.submit.background = ColorPalette.LIGHTBLUE
+    m.submit.color = ColorPalette.DARKGREY
+    m.submit.focusBackground = ColorPalette.HIGHLIGHT
+    m.submit.focusColor = ColorPalette.WHITE
 
     m.top.observeField("serverUrl", "clearErrorMessage")
 
@@ -17,54 +29,110 @@ end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean
     if not press then return true
-    handled = true
 
-    if key = KeyCode.OK and m.serverPicker.hasFocus()
-        m.top.serverUrl = m.serverPicker.content.getChild(m.serverPicker.itemFocused).baseUrl
-        m.submit.setFocus(true)
-        'if the user pressed the down key and we are already at the last child of server picker, then change focus to the url textbox
-    else if key = KeyCode.DOWN and m.serverPicker.hasFocus() and m.serverPicker.content.getChildCount() > 0 and m.serverPicker.itemFocused = m.serverPicker.content.getChildCount() - 1
-        m.serverUrlContainer.setFocus(true)
+    if key = KeyCode.OK
+        if m.serverPicker.hasFocus()
+            m.top.serverUrl = m.serverPicker.content.getChild(m.serverPicker.itemFocused).baseUrl
+            m.submit.setFocus(true)
+            m.submit.focus = true
+            return true
+        end if
 
-        'user navigating up to the server picker from the input box (it's only focusable if it has items)
-    else if key = KeyCode.UP and m.serverUrlContainer.hasFocus() and m.servers.Count() > 0
-        m.serverPicker.setFocus(true)
-    else if key = KeyCode.UP and m.serverUrlContainer.hasFocus() and m.servers.Count() = 0
-        ScanForServers()
-    else if key = KeyCode.BACK and m.serverUrlContainer.hasFocus() and m.servers.Count() > 0
-        m.serverPicker.setFocus(true)
-    else if key = KeyCode.OK and m.serverUrlContainer.hasFocus()
-        ShowKeyboard()
-    else if key = KeyCode.BACK and m.submit.hasFocus() and m.servers.Count() > 0
-        m.serverPicker.setFocus(true)
-    else if key = KeyCode.BACK and m.submit.hasFocus() and m.servers.Count() = 0
-        m.serverUrlContainer.setFocus(true)
-    else if key = KeyCode.BACK and m.serverUrlContainer.hasFocus() and m.servers.Count() = 0
-        ScanForServers()
-    else if key = KeyCode.BACK and m.serverPicker.hasFocus() and m.servers.Count() > 0
-        ScanForServers()
-        ' On "back" with or without available local servers, will rescan for servers
-    else if key = KeyCode.UP and m.submit.hasFocus()
-        m.serverUrlContainer.setFocus(true)
-        'focus the submit button from serverUrl
-    else if key = KeyCode.DOWN and m.serverUrlContainer.hasFocus()
-        m.submit.setFocus(true)
-    else if key = KeyCode.OPTIONS
+        if m.submit.hasFocus()
+            m.submit.selected = not m.submit.selected
+            return true
+        end if
+
+        if m.serverUrlContainer.hasFocus()
+            ShowKeyboard()
+            return true
+        end if
+
+        return false
+    end if
+
+    if key = KeyCode.DOWN
+        if m.serverPicker.hasFocus() and m.serverPicker.content.getChildCount() > 0 and m.serverPicker.itemFocused = m.serverPicker.content.getChildCount() - 1
+            m.serverUrlContainer.setFocus(true)
+            m.serverUrlOutline.visible = true
+            return true
+        end if
+
+        if m.serverUrlContainer.hasFocus()
+            m.serverUrlOutline.visible = false
+            m.submit.setFocus(true)
+            m.submit.focus = true
+            return true
+        end if
+
+        return false
+    end if
+
+    if key = KeyCode.UP
+        if m.serverUrlContainer.hasFocus() and m.servers.Count() > 0
+            m.serverPicker.setFocus(true)
+            m.serverUrlOutline.visible = false
+            return true
+        end if
+
+        if m.serverUrlContainer.hasFocus() and m.servers.Count() = 0
+            ScanForServers()
+            m.serverUrlOutline.visible = false
+            return true
+        end if
+
+        if m.submit.hasFocus()
+            m.serverUrlContainer.setFocus(true)
+            m.serverUrlOutline.visible = true
+            m.submit.focus = false
+            return true
+        end if
+
+        return false
+    end if
+
+    if key = KeyCode.BACK
+        if m.serverUrlContainer.hasFocus() and m.servers.Count() > 0
+            m.serverUrlOutline.visible = false
+            m.serverPicker.setFocus(true)
+            return true
+        end if
+
+        if m.submit.hasFocus() and m.servers.Count() > 0
+            m.serverPicker.setFocus(true)
+            return true
+        end if
+
+        if m.submit.hasFocus() and m.servers.Count() = 0
+            m.serverUrlOutline.visible = true
+            m.serverUrlContainer.setFocus(true)
+            return true
+        end if
+
+        if m.serverUrlContainer.hasFocus() and m.servers.Count() = 0
+            ScanForServers()
+            return true
+        end if
+
+        if m.serverPicker.hasFocus() and m.servers.Count() > 0
+            ScanForServers()
+            return true
+        end if
+
+        return false
+    end if
+
+    if key = KeyCode.OPTIONS
+        'Can only delete previously saved servers, not locally discovered ones
+        'So if we are on a "Saved" item, let the options dialog be shown (handled elsewhere)
         if m.serverPicker.itemFocused >= 0 and m.serverPicker.itemFocused < m.serverPicker.content.getChildCount()
             serverName = m.serverPicker.content.getChild(m.serverPicker.itemFocused).name
-            if m.servers.Count() > 0 and Instr(1, serverName, "Saved") > 0
-                'Can only delete previously saved servers, not locally discovered ones
-                'So if we are on a "Saved" item, let the options dialog be shown (handled elsewhere)
-                handled = false
-            end if
+            hasSavedServers = m.servers.Count() > 0 and Instr(1, serverName, "Saved") > 0
+            return not hasSavedServers
         end if
-    else
-        handled = false
     end if
-    'show/hide input box outline
-    m.serverUrlOutline.visible = m.serverUrlContainer.isInFocusChain()
 
-    return handled
+    return false
 end function
 
 sub ScanForServers()
@@ -124,9 +192,10 @@ sub ShowKeyboard()
     dialog.title = tr("Enter the server name or ip address")
     dialog.buttons = [tr("OK"), tr("Cancel")]
     dialog.text = m.serverUrlTextbox.text
-    greenPalette = createObject("roSGNode", "RSGPalette")
-    greenPalette.colors = { DialogBackgroundColor: "#2A2B2A" }
-    dialog.palette = greenPalette
+
+    palette = createObject("roSGNode", "RSGPalette")
+    palette.colors = { DialogBackgroundColor: ColorPalette.ELEMENTBACKGROUND }
+    dialog.palette = palette
 
     m.top.getscene().dialog = dialog
     m.dialog = dialog
@@ -160,5 +229,6 @@ sub OnScreenShown()
     overhang = scene.findNode("overhang")
     if isValid(overhang)
         overhang.visible = false
+        print "OnScreenShown", overhang
     end if
 end sub

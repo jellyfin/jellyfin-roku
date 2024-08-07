@@ -1,12 +1,14 @@
-sub init() as void
+import "pkg:/source/enums/ColorPalette.bs"
+
+sub init()
     m.poster = m.top.findNode("poster")
     m.name = m.top.findNode("name")
     m.baseUrl = m.top.findNode("baseUrl")
     m.labels = m.top.findNode("labels")
-    setTextColor(0)
+    setTextColor()
 end sub
 
-sub itemContentChanged() as void
+sub itemContentChanged()
     server = m.top.itemContent
 
     m.poster.uri = server.iconUrl
@@ -14,21 +16,15 @@ sub itemContentChanged() as void
     m.baseUrl.text = server.baseUrl
 end sub
 
-sub onFocusPercentChange(event)
-    setTextColor(event.getData())
+sub onItemHasFocusChange()
+    setTextColor()
 end sub
 
-sub setTextColor(percentFocused)
-    white = "0xffffffff"
-    black = "0x00000099"
-    if percentFocused > .4
-        color = black
-    else
-        color = white
-    end if
+sub setTextColor()
+    textColor = ColorPalette.WHITE
 
     children = m.labels.getChildren(-1, 0)
     for each child in children
-        child.color = color
+        child.color = textColor
     end for
 end sub

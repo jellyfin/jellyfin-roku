@@ -246,7 +246,7 @@ function CreateServerGroup() as string
     end if
 
     button = screen.findNode("submit")
-    button.observeField("buttonSelected", port)
+    button.observeField("selected", port)
 
     'create delete saved server option
     opt = CreateObject("roSGNode", "OptionsButton")

@@ -1,0 +1,61 @@
+sub init()
+    m.buttonBackground = m.top.findNode("buttonBackground")
+    m.buttonText = m.top.findNode("buttonText")
+
+    m.top.observeField("background", "onBackgroundChanged")
+    m.top.observeField("color", "onColorChanged")
+    m.top.observeField("text", "onTextChanged")
+    m.top.observeField("height", "onHeightChanged")
+    m.top.observeField("width", "onWidthChanged")
+    m.top.observeField("focus", "onFocusChanged")
+end sub
+
+sub onFocusChanged()
+    if m.top.focus
+        m.buttonBackground.blendColor = m.top.focusBackground
+        m.buttonText.color = m.top.focusColor
+        m.buttonText.font = "font:SmallBoldSystemFont"
+    else
+        m.buttonBackground.blendColor = m.top.background
+        m.buttonText.color = m.top.color
+        m.buttonText.font = "font:SmallSystemFont"
+    end if
+end sub
+
+sub onBackgroundChanged()
+    m.buttonBackground.blendColor = m.top.background
+    m.top.unobserveField("background")
+end sub
+
+sub onColorChanged()
+    m.buttonText.color = m.top.color
+    m.top.unobserveField("color")
+end sub
+
+sub onTextChanged()
+    m.buttonText.text = m.top.text
+end sub
+
+sub onHeightChanged()
+    m.buttonBackground.height = m.top.height
+    m.buttonText.translation = [0, (m.top.height / 2) - (m.buttonText.font.size / 2)]
+end sub
+
+sub onWidthChanged()
+    m.buttonBackground.width = m.top.width
+    m.buttonText.width = m.top.width
+end sub
+
+function onKeyEvent(key as string, press as boolean) as boolean
+    if not press then return false
+
+    if key = "right" and m.top.focus
+        m.top.escape = "right"
+    end if
+
+    if key = "left" and m.top.focus
+        m.top.escape = "left"
+    end if
+
+    return false
+end function
