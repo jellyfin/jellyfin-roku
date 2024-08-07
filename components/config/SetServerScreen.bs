@@ -1,4 +1,5 @@
 import "pkg:/source/utils/config.bs"
+import "pkg:/source/enums/KeyCode.bs"
 
 sub init()
     m.top.setFocus(true)
@@ -15,42 +16,40 @@ sub init()
 end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean
-    print `SetServerScreen onKeyEvent ${key} ${press}`
-
     if not press then return true
     handled = true
 
-    if key = "OK" and m.serverPicker.hasFocus()
+    if key = KeyCode.OK and m.serverPicker.hasFocus()
         m.top.serverUrl = m.serverPicker.content.getChild(m.serverPicker.itemFocused).baseUrl
         m.submit.setFocus(true)
         'if the user pressed the down key and we are already at the last child of server picker, then change focus to the url textbox
-    else if key = "down" and m.serverPicker.hasFocus() and m.serverPicker.content.getChildCount() > 0 and m.serverPicker.itemFocused = m.serverPicker.content.getChildCount() - 1
+    else if key = KeyCode.DOWN and m.serverPicker.hasFocus() and m.serverPicker.content.getChildCount() > 0 and m.serverPicker.itemFocused = m.serverPicker.content.getChildCount() - 1
         m.serverUrlContainer.setFocus(true)
 
         'user navigating up to the server picker from the input box (it's only focusable if it has items)
-    else if key = "up" and m.serverUrlContainer.hasFocus() and m.servers.Count() > 0
+    else if key = KeyCode.UP and m.serverUrlContainer.hasFocus() and m.servers.Count() > 0
         m.serverPicker.setFocus(true)
-    else if key = "up" and m.serverUrlContainer.hasFocus() and m.servers.Count() = 0
+    else if key = KeyCode.UP and m.serverUrlContainer.hasFocus() and m.servers.Count() = 0
         ScanForServers()
-    else if key = "back" and m.serverUrlContainer.hasFocus() and m.servers.Count() > 0
+    else if key = KeyCode.BACK and m.serverUrlContainer.hasFocus() and m.servers.Count() > 0
         m.serverPicker.setFocus(true)
-    else if key = "OK" and m.serverUrlContainer.hasFocus()
+    else if key = KeyCode.OK and m.serverUrlContainer.hasFocus()
         ShowKeyboard()
-    else if key = "back" and m.submit.hasFocus() and m.servers.Count() > 0
+    else if key = KeyCode.BACK and m.submit.hasFocus() and m.servers.Count() > 0
         m.serverPicker.setFocus(true)
-    else if key = "back" and m.submit.hasFocus() and m.servers.Count() = 0
+    else if key = KeyCode.BACK and m.submit.hasFocus() and m.servers.Count() = 0
         m.serverUrlContainer.setFocus(true)
-    else if key = "back" and m.serverUrlContainer.hasFocus() and m.servers.Count() = 0
+    else if key = KeyCode.BACK and m.serverUrlContainer.hasFocus() and m.servers.Count() = 0
         ScanForServers()
-    else if key = "back" and m.serverPicker.hasFocus() and m.servers.Count() > 0
+    else if key = KeyCode.BACK and m.serverPicker.hasFocus() and m.servers.Count() > 0
         ScanForServers()
         ' On "back" with or without available local servers, will rescan for servers
-    else if key = "up" and m.submit.hasFocus()
+    else if key = KeyCode.UP and m.submit.hasFocus()
         m.serverUrlContainer.setFocus(true)
         'focus the submit button from serverUrl
-    else if key = "down" and m.serverUrlContainer.hasFocus()
+    else if key = KeyCode.DOWN and m.serverUrlContainer.hasFocus()
         m.submit.setFocus(true)
-    else if key = "options"
+    else if key = KeyCode.OPTIONS
         if m.serverPicker.itemFocused >= 0 and m.serverPicker.itemFocused < m.serverPicker.content.getChildCount()
             serverName = m.serverPicker.content.getChild(m.serverPicker.itemFocused).name
             if m.servers.Count() > 0 and Instr(1, serverName, "Saved") > 0

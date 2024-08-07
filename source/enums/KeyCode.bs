@@ -1,0 +1,13 @@
+enum KeyCode
+    UP = "up"
+    DOWN = "down"
+    LEFT = "left"
+    RIGHT = "right"
+    OK = "OK"
+    BACK = "back"
+    OPTIONS = "options"
+    FASTFORWRD = "fastforward"
+    REWIND = "rewind"
+    REPLAY = "replay"
+    PLAY = "play"
+end enum
