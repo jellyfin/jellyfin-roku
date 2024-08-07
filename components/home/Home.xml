@@ -2,7 +2,15 @@
 <component name="Home" extends="JFScreen">
   <children>
     <Poster id="backdrop" loadDisplayMode="scaleToZoom" width="1920" height="1200" />
-    <HomeRows id="homeRows" focusBitmapBlendColor="0xFFFFFF00" />
+    <HomeRows
+      id="homeRows"
+      focusBitmapBlendColor="0xFFFFFF00"
+      showRowLabel="true"
+      vertFocusAnimationStyle="fixedFocus"
+      rowFocusAnimationStyle="fixedFocusWrap"
+      itemComponentName="HomeItem"
+      numRows="2"
+      rowLabelOffset="[[0,20]]" />
     <OptionsSlider id="options" />
 
     <Animation id="fadeInFocusBitmap" delay="1" duration=".2" repeat="false" easeFunction="inQuad">

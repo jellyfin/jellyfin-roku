@@ -29,7 +29,7 @@ sub OnScreenShown()
     scene = m.top.getScene()
     overhang = scene.findNode("overhang")
     if isValid(overhang)
-        overhang.currentUser = ""
+        overhang.isVisible = false
     end if
 end sub
 

@@ -4,15 +4,12 @@ import "pkg:/source/constants/HomeRowItemSizes.bs"
 const LOADING_WAIT_TIME = 2
 
 sub init()
-    m.top.itemComponentName = "HomeItem"
-    ' how many rows are visible on the screen
-    m.top.numRows = 2
+    scene = m.top.getScene()
+    overhang = scene.findNode("overhang")
+    if isValid(overhang)
+        overhang.isVisible = true
+    end if
 
-    m.top.rowFocusAnimationStyle = "fixedFocusWrap"
-    m.top.vertFocusAnimationStyle = "fixedFocus"
-
-    m.top.showRowLabel = [true]
-    m.top.rowLabelOffset = [0, 20]
     ' Hide the row counter to prevent flicker. We'll show it once loading timer fires
     m.top.showRowCounter = [false]
 

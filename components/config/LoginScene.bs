@@ -5,15 +5,6 @@ sub init()
     m.top.optionsAvailable = false
 end sub
 
-' JFScreen hook.
-sub OnScreenShown()
-    scene = m.top.getScene()
-    overhang = scene.findNode("overhang")
-    if isValid(overhang)
-        overhang.currentUser = ""
-    end if
-end sub
-
 function onKeyEvent(key as string, press as boolean) as boolean
     ' Returns true if user navigates to a new focusable element
     if not press then return false
