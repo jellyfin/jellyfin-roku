@@ -2,10 +2,8 @@ import "pkg:/source/utils/misc.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/api/baserequest.bs"
 import "pkg:/source/utils/deviceCapabilities.bs"
-import "pkg:/source/roku_modules/log/LogMixin.brs"
 
 sub init()
-    m.log = log.Logger("ItemGrid")
     m.options = m.top.findNode("options")
 
     m.showItemCount = m.global.session.user.settings["itemgrid.showItemCount"]
@@ -214,7 +212,7 @@ sub loadInitialItems()
         m.loadItemsTask.itemType = "Series,Movie"
         m.loadItemsTask.itemId = m.top.parentItem.parentFolder
     else
-        m.log.warn("Unknown Item Type", m.top.parentItem)
+        print `Unknown Item Type ${m.top.parentItem}`
     end if
 
     if m.top.parentItem.type <> "Folder" and (m.options.view = "Networks" or m.view = "Networks" or m.options.view = "Studios" or m.view = "Studios")

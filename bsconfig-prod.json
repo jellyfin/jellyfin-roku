@@ -17,12 +17,7 @@
       "dest": "images"
     }
   ],
-  "plugins": ["@rokucommunity/bslint", "roku-log-bsc-plugin"],
-  "rokuLog": {
-    "strip": true,
-    "insertPkgPath": false,
-    "removeComments": true
-  },
+  "plugins": ["@rokucommunity/bslint"],
   "diagnosticFilters": ["node_modules/**/*", "**/roku_modules/**/*"],
   "autoImportComponentScript": true,
   "stagingDir": "build/staging",

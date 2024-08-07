@@ -8,12 +8,7 @@
     "locale/**/*.*",
     "settings/*.*"
   ],
-  "plugins": ["@rokucommunity/bslint", "roku-log-bsc-plugin"],
-  "rokuLog": {
-    "strip": false,
-    "insertPkgPath": true,
-    "removeComments": false
-  },
+  "plugins": ["@rokucommunity/bslint"],
   "diagnosticFilters": ["node_modules/**/*", "**/roku_modules/**/*"],
   "sourceMap": true,
   "autoImportComponentScript": true,
