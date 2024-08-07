@@ -45,6 +45,8 @@ function asyncPost(req, data = "" as string) as integer
     ' NOTE: wait() uses milliseconds - multiply by 1000 to convert
     resp = wait(m.top.timeoutSeconds * 1000, req.GetMessagePort())
 
+    if not isValid(resp) then return -1
+
     respString = resp.GetString()
     if isValidAndNotEmpty(respString)
         m.top.responseBody = ParseJson(respString)
