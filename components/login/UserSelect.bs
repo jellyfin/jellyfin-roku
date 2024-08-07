@@ -29,7 +29,6 @@ sub OnScreenShown()
     scene = m.top.getScene()
     overhang = scene.findNode("overhang")
     if isValid(overhang)
-        overhang.isLogoVisible = true
         overhang.currentUser = ""
     end if
 end sub

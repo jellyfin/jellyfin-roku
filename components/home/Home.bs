@@ -35,7 +35,6 @@ sub OnScreenShown()
     scene = m.top.getScene()
     overhang = scene.findNode("overhang")
     if isValid(overhang)
-        overhang.isLogoVisible = true
         overhang.currentUser = m.global.session.user.name
         overhang.title = tr("Home")
     end if
@@ -65,7 +64,6 @@ sub OnScreenHidden()
     scene = m.top.getScene()
     overhang = scene.findNode("overhang")
     if isValid(overhang)
-        overhang.isLogoVisible = false
         overhang.currentUser = ""
         overhang.title = ""
     end if

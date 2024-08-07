@@ -139,23 +139,3 @@ sub updateOptions()
         m.optionStar.visible = false
     end if
 end sub
-
-' component boolean field isLogoVisibleChange has changed value
-sub isLogoVisibleChange()
-    isLogoVisible = m.top.isLogoVisible
-
-    scene = m.top.getScene()
-    logo = scene.findNode("overlayLogo")
-
-    if isLogoVisible
-        if not isValid(logo)
-            posterLogo = createLogoPoster()
-            m.leftGroup.insertChild(posterLogo, 0)
-        end if
-    else
-        ' remove the logo
-        if isValid(logo)
-            m.leftGroup.removeChild(logo)
-        end if
-    end if
-end sub

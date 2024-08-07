@@ -258,28 +258,27 @@ sub SendPerformanceBeacon(signalName as string)
     end if
 end sub
 
-function CreateServerGroup()
+function CreateServerGroup() as string
     screen = CreateObject("roSGNode", "SetServerScreen")
     screen.optionsAvailable = true
     m.global.sceneManager.callFunc("pushScene", screen)
     port = CreateObject("roMessagePort")
-    m.colors = {}
 
     if isValid(m.global.session.server.url)
         screen.serverUrl = m.global.session.server.url
     end if
-    m.viewModel = {}
+
     button = screen.findNode("submit")
     button.observeField("buttonSelected", port)
+
     'create delete saved server option
-    new_options = []
-    sidepanel = screen.findNode("options")
     opt = CreateObject("roSGNode", "OptionsButton")
     opt.title = tr("Delete Saved")
     opt.id = "delete_saved"
     opt.observeField("optionSelected", port)
-    new_options.push(opt)
-    sidepanel.options = new_options
+
+    sidepanel = screen.findNode("options")
+    sidepanel.options = [opt]
     sidepanel.observeField("closeSidePanel", port)
 
     screen.observeField("backPressed", port)

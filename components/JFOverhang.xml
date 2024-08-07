@@ -2,7 +2,6 @@
 <component name="JFOverhang" extends="Group">
   <children>
     <LayoutGroup id="overlayLeftGroup" layoutDirection="horiz" translation="[54, 54]" itemSpacings="60">
-      <Poster id="overlayLogo" uri="pkg:/images/logo.png" height="66" width="191" />
       <ScrollingLabel id="overlayTitle" font="font:LargeSystemFont" vertAlign="center" height="64" maxWidth="1100" repeatCount="0" />
     </LayoutGroup>
     <LayoutGroup id="overlayRightGroup" layoutDirection="horiz" itemSpacings="30" translation="[1766, 53]" horizAlignment="right">
@@ -37,6 +36,5 @@
     <field id="showOptions" value="true" type="boolean" onChange="updateOptions" />
     <field id="isVisible" value="true" type="boolean" onChange="onVisibleChange" />
     <field id="disableMoveAnimation" value="false" type="boolean" />
-    <field id="isLogoVisible" value="true" type="boolean" onChange="isLogoVisibleChange" />
   </interface>
 </component>

@@ -1,17 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component name="SetServerScreen" extends="JFScreen">
-  <interface>
-    <field id="serverUrl" type="string" alias="serverUrlTextbox.text" />
-    <field id="serverWidth" alias="serverUrlOutline.width,serverUrlTextbox.width,serverUrlContainer.width,submitSizer.width" value="1620" />
-    <field id="serverHeight" alias="serverUrlOutline.height,serverUrlTextbox.height,serverUrlContainer.height" value="60" />
-    <field id="errorMessage" type="string" alias="errorMessage.text" />
-  </interface>
-
   <children>
     <LayoutGroup translation="[150,150]" itemSpacings="40">
       <LayoutGroup>
         <label text="Connect to Server" id="prompt" font="font:LargeBoldSystemFont" />
-        <label text="Pick a Jellyfin server from the local network" />
       </LayoutGroup>
       <!--background for server picker-->
       <Rectangle color="0x00000020" width="1620" height="400">
@@ -34,4 +26,10 @@
 
     <OptionsSlider id="options" />
   </children>
+  <interface>
+    <field id="serverUrl" type="string" alias="serverUrlTextbox.text" />
+    <field id="serverWidth" alias="serverUrlOutline.width,serverUrlTextbox.width,serverUrlContainer.width,submitSizer.width" value="1620" />
+    <field id="serverHeight" alias="serverUrlOutline.height,serverUrlTextbox.height,serverUrlContainer.height" value="60" />
+    <field id="errorMessage" type="string" alias="errorMessage.text" />
+  </interface>
 </component>
