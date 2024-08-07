@@ -345,8 +345,7 @@ end sub
 '
 ' @return {boolean} indicating if the section currently exists in the home row content
 function sectionExists(sectionTitle as string) as boolean
-    if not isValid(sectionTitle) then return false
-    if not isValid(m.top.content) then return false
+    if not isAllValid([sectionTitle, m.top.content]) then return false
 
     searchSectionTitle = LCase(sectionTitle).Replace(" ", "")
 
@@ -367,8 +366,7 @@ end function
 '
 ' @return {integer} indicating index of request section
 function getSectionIndex(sectionTitle as string) as integer
-    if not isValid(sectionTitle) then return false
-    if not isValid(m.top.content) then return false
+    if not isAllValid([sectionTitle, m.top.content]) then return false
 
     searchSectionTitle = LCase(sectionTitle).Replace(" ", "")
 

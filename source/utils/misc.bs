@@ -465,7 +465,7 @@ function AssocArrayEqual(Array1 as object, Array2 as object) as boolean
 end function
 
 ' Search string array for search value. Return if it's found
-function inArray(haystack, needle) as boolean
+function inArray(haystack as object, needle as dynamic) as boolean
     valueToFind = needle
 
     if LCase(type(valueToFind)) <> "rostring" and LCase(type(valueToFind)) <> "string"
@@ -526,16 +526,6 @@ function isJellyfinServer(systemInfo as object) as boolean
     return false
 end function
 
-' Check if a specific value is inside of an array
-function arrayHasValue(arr as object, value as dynamic) as boolean
-    for each entry in arr
-        if entry = value
-            return true
-        end if
-    end for
-    return false
-end function
-
 ' Takes an array of data, shuffles the order, then returns the array
 ' uses the Fisher-Yates shuffling algorithm
 function shuffleArray(array as object) as object
@@ -544,45 +534,6 @@ function shuffleArray(array as object) as object
         t = array[i] : array[i] = array[j] : array[j] = t
     end for
     return array
-end function
-
-' Create and return a Jellyfin logo poster node
-function createLogoPoster()
-    logoPoster = createObject("roSGNode", "Poster")
-    logoPoster.id = "overlayLogo"
-    logoPoster.uri = "pkg:/images/logo.png"
-    logoPoster.translation = "[70, 53]"
-    logoPoster.width = "191"
-    logoPoster.height = "66"
-
-    return logoPoster
-end function
-
-' Create and return a rectangle node used as a seperator in the overhang
-function createSeperator(id as string)
-    if not isValidAndNotEmpty(id) then return invalid
-
-    seperator = createObject("roSGNode", "Rectangle")
-    seperator.id = id
-    seperator.color = "#666666"
-    seperator.width = "2"
-    seperator.height = "64"
-    seperator.visible = true
-
-    return seperator
-end function
-
-'
-function createOverhangUser()
-    userLabel = createObject("roSGNode", "Label")
-    userLabel.id = "overlayCurrentUser"
-    userLabel.font = "font:MediumSystemFont"
-    userLabel.horizAlign = "right"
-    userLabel.vertAlign = "center"
-    userLabel.width = "300"
-    userLabel.height = "64"
-
-    return userLabel
 end function
 
 ' convert value to boolean and return value

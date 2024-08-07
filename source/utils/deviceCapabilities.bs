@@ -631,7 +631,7 @@ function getCodecProfiles() as object
     if globalUserSettings["playback.mpeg2"]
         mpeg2Levels = []
         for each level in profileSupport["mpeg2"]
-            if not arrayHasValue(mpeg2Levels, level)
+            if not inArray(mpeg2Levels, level)
                 mpeg2Levels.push(level)
             end if
         end for
