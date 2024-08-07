@@ -8,7 +8,7 @@ sub init()
     m.top.functionName = "getPlaybackInfoTask"
 end sub
 
-function ItemPostPlaybackInfo(id as string, mediaSourceId = "" as string, audioTrackIndex = -1 as integer, startTimeTicks = 0 as longinteger)
+function ItemPostPlaybackInfo(id as string)
     currentView = m.global.sceneManager.callFunc("getActiveScene")
     currentItem = m.global.queueManager.callFunc("getCurrentItem")
 
