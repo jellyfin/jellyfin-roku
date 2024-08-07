@@ -14,22 +14,19 @@ sub postItems()
         print "ERROR in PostTask. Invalid API URL provided"
         return
     end if
+
     if m.top.arrayData.count() > 0 and m.top.stringData = ""
-        print "PostTask Started - Posting array to " + m.top.apiUrl
         req = APIRequest(m.top.apiUrl)
         req.SetRequest("POST")
         httpResponse = asyncPost(req, FormatJson(m.top.arrayData))
         m.top.responseCode = httpResponse
-        print "PostTask Finished. " + m.top.apiUrl + " Response = " + httpResponse.toStr()
     else if m.top.arrayData.count() = 0 and m.top.stringData <> ""
-        print "PostTask Started - Posting string(" + m.top.stringData + ") to " + m.top.apiUrl
         req = APIRequest(m.top.apiUrl)
         req.SetRequest("POST")
         httpResponse = asyncPost(req, m.top.stringData)
         m.top.responseCode = httpResponse
-        print "PostTask Finished. " + m.top.apiUrl + " Response = " + httpResponse.toStr()
     else
-        print "ERROR processing data for PostTask"
+        print "ERROR processing data for PostTask", m.top.apiUrl
     end if
 end sub
 
@@ -45,7 +42,7 @@ function asyncPost(req, data = "" as string) as integer
     ' NOTE: wait() uses milliseconds - multiply by 1000 to convert
     resp = wait(m.top.timeoutSeconds * 1000, req.GetMessagePort())
 
-    if not isValid(resp) then return -1
+    if not isValid(resp) then return 0
 
     respString = resp.GetString()
     if isValidAndNotEmpty(respString)

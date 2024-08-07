@@ -40,7 +40,6 @@ namespace session
         tmpSession.AddReplace(key, value)
         ' use the temp session array to update the global node
         m.global.setFields({ session: tmpSession })
-        ' print "m.global.session." + key + " = ", m.global.session[key]
     end sub
 
     namespace server
@@ -104,10 +103,6 @@ namespace session
             tmpSessionServer.AddReplace("isLocalHTTPS", isLocalServerHTTPS)
             ' update global server session using the temp array
             session.Update("server", tmpSessionServer)
-
-            if m.global.app.isDev
-                print "m.global.session.server = ", m.global.session.server
-            end if
 
             return true
         end function
@@ -197,13 +192,6 @@ namespace session
             session.user.SetServerDeviceName()
             ' Load user preferences from server
             session.user.LoadUserPreferences()
-
-            if m.global.app.isDev
-                print "m.global.session.user = ", m.global.session.user
-                print "m.global.session.user.Configuration = ", m.global.session.user.Configuration
-                print "m.global.session.user.Policy = ", m.global.session.user.Policy
-                print "m.global.session.user.settings = ", m.global.session.user.settings
-            end if
         end sub
 
         ' Sets the global server device name value used by the API

@@ -758,10 +758,6 @@ sub Main (args as dynamic) as void
                 ' "Off"
                 ' "Instant replay"
                 ' "When mute" (Only returned for a TV; this option is not available on STBs).
-                print "event.Mode = ", event.Mode
-                if isValid(event.Mute)
-                    print "event.Mute = ", event.Mute
-                end if
             else if isValid(event.linkStatus)
                 ' True if the device currently seems to have an active network connection.
                 print "event.linkStatus = ", event.linkStatus
