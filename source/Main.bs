@@ -16,15 +16,10 @@ sub Main (args as dynamic) as void
     SaveDeviceToGlobal()
     session.Init()
 
-    ' migrate registry if needed
-    m.wasMigrated = false
-    runGlobalMigrations()
-    runRegistryUserMigrations()
     ' update global LastRunVersion now that migrations are finished
     if m.global.app.version <> m.global.app.lastRunVersion
         set_setting("LastRunVersion", m.global.app.version)
     end if
-    if m.wasMigrated then printRegistry()
 
     m.scene = m.screen.CreateScene("JFScene")
     m.screen.show() ' vscode_rale_tracker_entry
