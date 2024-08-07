@@ -10,7 +10,7 @@
       layoutdirection="vert" translation="[60, 180]" itemSpacings="[36]">
       <LayoutGroup id="header_group" layoutdirection="horiz">
         <LayoutGroup id="title_group" layoutdirection="vert" itemSpacings="[11]">
-          <Rectangle id="title_rectangle" height="100" width="1426" color="#262626">
+          <Rectangle id="title_rectangle" height="100" width="1426" color="#000018">
             <Label id="name" font="font:LargeBoldSystemFont" height="100" width="1426" vertAlign="bottom" />
           </Rectangle>
         </LayoutGroup>
