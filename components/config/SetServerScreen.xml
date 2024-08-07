@@ -5,22 +5,32 @@
       <LayoutGroup>
         <label text="Connect to Server" id="prompt" font="font:LargeBoldSystemFont" />
       </LayoutGroup>
-      <!--background for server picker-->
-      <Rectangle color="0x00000020" width="1620" height="400">
-        <MarkupList id="serverPicker" translation="[50, 20]" itemComponentName="JFServer" itemSpacing="[0, 10]" itemSize="[1520, 100]" numRows="3" vertFocusAnimationStyle="floatingFocus" />
+
+      <Rectangle color="#101420" width="1620" height="400">
+        <MarkupList
+          id="serverPicker"
+          translation="[50, 20]"
+          itemComponentName="JFServer"
+          itemSpacing="[0, 10]"
+          itemSize="[1520, 100]"
+          numRows="3"
+          vertFocusAnimationStyle="floatingFocus" />
       </Rectangle>
 
       <label text="...or enter server URL manually:" translation="[0, 690]" />
 
-      <Rectangle id="serverUrlContainer" color="0x00000000">
-        <TextEditBox id="serverUrlTextbox" hintText="e.g. 192.168.1.100:8096 or https://example.com/jellyfin"></TextEditBox>
+      <Rectangle id="serverUrlContainer" color="#101420">
+        <TextEditBox id="serverUrlTextbox" hintText="e.g. 192.168.1.100:8096 or https://example.com/jellyfin" />
         <Poster id="serverUrlOutline" visible="false" uri="pkg:/images/hd_focus.9.png" />
       </Rectangle>
+
       <label id="errorMessage" text="" font="font:MediumSystemFont" color="#ff0000FF" />
+
       <LayoutGroup horizAlignment="center">
-        <JFButton id="submit" minChars="30" text="Submit"></JFButton>
+        <JFButton id="submit" minChars="30" text="Submit" />
+
         <!--add a known width invisibile element to allow the button to be centered-->
-        <Rectangle id="submitSizer" width="1620" height="0" color="#00000000" />
+        <Rectangle id="submitSizer" width="1620" height="0" color="0x00000000" />
       </LayoutGroup>
     </LayoutGroup>
 

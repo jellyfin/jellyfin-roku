@@ -1,7 +1,8 @@
 import "pkg:/source/utils/misc.bs"
+import "pkg:/source/enums/ColorPalette.bs"
 
 sub init()
-    m.top.backgroundColor = "#000018"
+    m.top.backgroundColor = ColorPalette.VIEWBACKGROUND
     m.top.backgroundURI = ""
     m.spinner = m.top.findNode("spinner")
 end sub

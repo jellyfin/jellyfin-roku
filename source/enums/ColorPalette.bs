@@ -1,0 +1,5 @@
+enum ColorPalette
+    VIEWBACKGROUND = "#000018"
+    ELEMENTBACKGROUND = "#101420"
+    HIGHLIGHT = "#ff6867"
+end enum

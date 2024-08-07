@@ -1,3 +1,5 @@
+import "pkg:/source/enums/ColorPalette.bs"
+
 sub init()
     m.content = m.top.findNode("content")
 
@@ -17,7 +19,7 @@ sub init()
         "author": {
             "fontSize": 27,
             "fontUri": "font:SystemFontFile",
-            "color": "0xff6867FF"
+            "color": ColorPalette.HIGHLIGHT
         }
     }
 
@@ -37,7 +39,7 @@ sub setPalette()
         DialogFocusColor: "0xcececeFF",
         DialogFocusItemColor: "0x202020FF",
         DialogSecondaryTextColor: "0xf8f8f8ff",
-        DialogSecondaryItemColor: "0xff6867FF",
+        DialogSecondaryItemColor: ColorPalette.HIGHLIGHT,
         DialogTextColor: "0xeeeeeeFF"
     }
 
