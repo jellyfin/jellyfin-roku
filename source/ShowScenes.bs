@@ -498,7 +498,6 @@ end function
 function CreateHomeGroup()
     ' Main screen after logging in. Shows the user's libraries
     group = CreateObject("roSGNode", "Home")
-    group.overhangTitle = tr("Home")
     group.optionsAvailable = true
 
     group.observeField("selectedItem", m.port)
