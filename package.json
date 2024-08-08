@@ -41,16 +41,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/jellyfin/jellyfin-roku.git"
+    "url": "https://github.com/1hitsong/viv.git"
   },
   "keywords": [
     "jellyfin",
-    "roku"
+    "roku",
+    "viv",
+    "music",
+    "movies"
   ],
-  "author": "jellyfin",
+  "author": "1hitsong",
   "license": "GPL-2.0",
   "bugs": {
-    "url": "https://github.com/jellyfin/jellyfin-roku/issues"
+    "url": "https://github.com/1hitsong/viv"
   },
-  "homepage": "https://github.com/jellyfin/jellyfin-roku"
+  "homepage": "https://github.com/1hitsong/viv"
 }

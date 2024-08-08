@@ -14,8 +14,8 @@ function getDeviceCapabilities() as object
         "SupportsMediaControl": false,
         "SupportsContentUploading": false,
         "SupportsSync": false,
-        "DeviceProfile": getDeviceProfile(),
-        "AppStoreUrl": "https://channelstore.roku.com/details/cc5e559d08d9ec87c5f30dcebdeebc12/jellyfin"
+        "DeviceProfile": getDeviceProfile()
+        ' "AppStoreUrl": ""
     }
 
     return deviceProfile
