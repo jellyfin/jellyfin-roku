@@ -162,6 +162,13 @@ end sub
 '
 ' Register observers for overhang data
 sub registerOverhangData(group)
+    print "group", group
+
+    if group.isSubType("SetServerScreen")
+        m.overhang.visible = false
+        return
+    end if
+
     if group.isSubType("JFGroup")
         if group.overhangTitle <> invalid then m.overhang.title = group.overhangTitle
 

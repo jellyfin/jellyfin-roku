@@ -9,11 +9,12 @@
       <Rectangle id="serverPickerContainer" color="#101420" width="1620" height="400">
         <MarkupList
           id="serverPicker"
-          translation="[50, 20]"
+          translation="[20, 20]"
+          drawFocusFeedback="false"
           itemComponentName="JFServer"
           focusFootprintBitmapUri=""
-          itemSpacing="[0, 10]"
-          itemSize="[1520, 100]"
+          itemSpacing="[0, 30]"
+          itemSize="[1580, 100]"
           numRows="3"
           vertFocusAnimationStyle="floatingFocus" />
       </Rectangle>
@@ -39,10 +40,9 @@
         <Rectangle id="submitSizer" width="1620" height="0" color="0x00000000" />
       </LayoutGroup>
     </LayoutGroup>
-
-    <OptionsSlider id="options" />
   </children>
   <interface>
+    <field id="forgetServer" type="string" />
     <field id="serverUrl" type="string" alias="serverUrlTextbox.text" />
     <field id="serverWidth" alias="serverUrlOutline.width,serverUrlTextbox.width,serverUrlContainer.width,submitSizer.width" value="1620" />
     <field id="serverHeight" alias="serverUrlOutline.height,serverUrlTextbox.height,serverUrlContainer.height" value="60" />

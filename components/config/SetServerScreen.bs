@@ -3,6 +3,7 @@ import "pkg:/source/enums/KeyCode.bs"
 import "pkg:/source/enums/ColorPalette.bs"
 
 sub init()
+    m.top.optionsAvailable = false
     m.top.setFocus(true)
 
     m.serverPicker = m.top.findNode("serverPicker")
@@ -10,11 +11,10 @@ sub init()
     m.serverUrlContainer = m.top.findNode("serverUrlContainer")
     m.serverPickerContainer = m.top.findNode("serverPickerContainer")
     m.serverUrlOutline = m.top.findNode("serverUrlOutline")
+    m.serverUrlOutline.blendColor = ColorPalette.HIGHLIGHT
 
     m.serverPickerContainer.color = ColorPalette.ELEMENTBACKGROUND
     m.serverUrlContainer.color = ColorPalette.BLACK77
-    m.serverPicker.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
-    m.serverPicker.focusFootprintBlendColor = ColorPalette.LIGHTHIGHLIGHT
 
     m.submit = m.top.findNode("submit")
     m.submit.background = ColorPalette.LIGHTBLUE
@@ -30,9 +30,34 @@ end sub
 function onKeyEvent(key as string, press as boolean) as boolean
     if not press then return true
 
+    if key = KeyCode.RIGHT
+        if m.serverPicker.hasFocus()
+            selectedServer = m.serverPicker.content.getChild(m.serverPicker.itemFocused)
+            if selectedServer.isSavedServer
+                selectedServer.itemHasDeleteFocus = true
+                return true
+            end if
+        end if
+    end if
+
+    if key = KeyCode.LEFT
+        if m.serverPicker.hasFocus()
+            selectedServer = m.serverPicker.content.getChild(m.serverPicker.itemFocused)
+            selectedServer.itemHasDeleteFocus = false
+            return true
+        end if
+    end if
+
     if key = KeyCode.OK
         if m.serverPicker.hasFocus()
-            m.top.serverUrl = m.serverPicker.content.getChild(m.serverPicker.itemFocused).baseUrl
+            selectedServer = m.serverPicker.content.getChild(m.serverPicker.itemFocused)
+
+            if selectedServer.itemHasDeleteFocus
+                m.top.forgetServer = selectedServer.baseUrl
+                return true
+            end if
+
+            m.top.serverUrl = selectedServer.baseUrl
             m.submit.setFocus(true)
             m.submit.focus = true
             return true
@@ -146,9 +171,10 @@ end sub
 sub ScanForServersComplete(event)
     m.servers = event.getData()
 
-    items = CreateObject("roSGNode", "ContentNode")
+    items = CreateObject("roSGNode", "ServerData")
     for each server in m.servers
-        server.subtype = "ContentNode"
+        server.isSavedServer = false
+        server.subtype = "ServerData"
         'add new fields for every server property onto the ContentNode (rather than making a dedicated component just to hold data...)
         items.update([server], true)
     end for
@@ -166,6 +192,7 @@ sub ScanForServersComplete(event)
                 end if
             end for
             if alreadyListed = false
+                server.isSavedServer = true
                 items.update([server], true)
                 m.servers.push(server)
             end if
@@ -221,14 +248,4 @@ end function
 
 sub clearErrorMessage()
     m.top.errorMessage = ""
-end sub
-
-' JFScreen hook called when the screen is displayed by the screen manager
-sub OnScreenShown()
-    scene = m.top.getScene()
-    overhang = scene.findNode("overhang")
-    if isValid(overhang)
-        overhang.visible = false
-        print "OnScreenShown", overhang
-    end if
 end sub

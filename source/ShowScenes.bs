@@ -237,7 +237,6 @@ end sub
 
 function CreateServerGroup() as string
     screen = CreateObject("roSGNode", "SetServerScreen")
-    screen.optionsAvailable = true
     m.global.sceneManager.callFunc("pushScene", screen)
     port = CreateObject("roMessagePort")
 
@@ -245,19 +244,10 @@ function CreateServerGroup() as string
         screen.serverUrl = m.global.session.server.url
     end if
 
-    button = screen.findNode("submit")
-    button.observeField("selected", port)
+    submitButton = screen.findNode("submit")
+    submitButton.observeField("selected", port)
 
-    'create delete saved server option
-    opt = CreateObject("roSGNode", "OptionsButton")
-    opt.title = tr("Delete Saved")
-    opt.id = "delete_saved"
-    opt.observeField("optionSelected", port)
-
-    sidepanel = screen.findNode("options")
-    sidepanel.options = [opt]
-    sidepanel.observeField("closeSidePanel", port)
-
+    screen.observeField("forgetServer", port)
     screen.observeField("backPressed", port)
 
     while true
@@ -266,12 +256,9 @@ function CreateServerGroup() as string
             return "false"
         else if isNodeEvent(msg, "backPressed")
             return "backPressed"
-        else if isNodeEvent(msg, "closeSidePanel")
-            screen.setFocus(true)
-            serverPicker = screen.findNode("serverPicker")
-            serverPicker.setFocus(true)
         else if type(msg) = "roSGNodeEvent"
             node = msg.getNode()
+
             if node = "submit"
                 m.scene.isLoading = true
 
@@ -326,14 +313,13 @@ function CreateServerGroup() as string
                         end if
                     end if
                 end if
-            else if node = "delete_saved"
+            else if msg.getField() = "forgetServer"
                 serverPicker = screen.findNode("serverPicker")
                 itemToDelete = serverPicker.content.getChild(serverPicker.itemFocused)
-                urlToDelete = itemToDelete.baseUrl
+                urlToDelete = msg.GetData()
                 if isValid(urlToDelete)
                     DeleteFromServerList(urlToDelete)
                     serverPicker.content.removeChild(itemToDelete)
-                    sidepanel.visible = false
                     serverPicker.setFocus(true)
                 end if
             end if

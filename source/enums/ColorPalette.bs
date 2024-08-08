@@ -6,6 +6,7 @@ enum ColorPalette
     LIGHTBLUE = "#c8fafa"
     WHITE = "#ffffff"
     DARKGREY = "#101010"
+    MIDGREY = "#777777"
     LIGHTGREY = "#aaaaaa"
     BLACK77 = "0x00000077"
 end enum

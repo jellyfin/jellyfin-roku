@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component name="ServerData" extends="ContentNode">
+    <interface>
+        <field id="itemHasDeleteFocus" type="boolean" />
+        <field id="isSavedServer" type="boolean" />
+    </interface>
+</component>

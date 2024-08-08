@@ -1,23 +1,73 @@
 import "pkg:/source/enums/ColorPalette.bs"
+import "pkg:/source/utils/misc.bs"
 
 sub init()
     m.poster = m.top.findNode("poster")
+    m.background = m.top.findNode("background")
     m.name = m.top.findNode("name")
+    m.trashContainer = m.top.findNode("trashContainer")
     m.baseUrl = m.top.findNode("baseUrl")
     m.labels = m.top.findNode("labels")
+    m.background.color = m.top.itemHasFocus ? ColorPalette.HIGHLIGHT : ColorPalette.ELEMENTBACKGROUND
+
     setTextColor()
 end sub
 
 sub itemContentChanged()
     server = m.top.itemContent
-
     m.poster.uri = server.iconUrl
     m.name.text = server.name
     m.baseUrl.text = server.baseUrl
+
+    setTrashIconVisibility()
+
+    setBackground()
+    setDeleteFocus()
+end sub
+
+sub setTrashIconVisibility()
+    if not isValid(m.top.itemContent) then return
+    if not isValid(m.top.itemContent.isSavedServer) then return
+
+    m.trashContainer.visible = m.top.itemContent.isSavedServer
 end sub
 
 sub onItemHasFocusChange()
-    setTextColor()
+    if not m.top.itemHasFocus
+        m.top.itemContent.itemHasDeleteFocus = false
+    end if
+
+    setBackground()
+    setDeleteFocus()
+end sub
+
+sub setBackground()
+    if not isValid(m.top.itemContent) then return
+    if not isValid(m.top.itemContent.itemHasDeleteFocus) then return
+
+    if m.top.itemContent.itemHasDeleteFocus
+        m.background.color = ColorPalette.MIDGREY
+        return
+    end if
+
+    m.background.color = m.top.itemHasFocus ? ColorPalette.HIGHLIGHT : ColorPalette.ELEMENTBACKGROUND
+end sub
+
+sub setDeleteFocus()
+    if not isValid(m.top.itemContent) then return
+    if not isValid(m.top.itemContent.itemHasDeleteFocus) then return
+
+    if m.top.itemHasFocus
+        if m.top.itemContent.itemHasDeleteFocus
+            trashContainerColor = ColorPalette.HIGHLIGHT
+        else
+            trashContainerColor = ColorPalette.BLACK77
+        end if
+    else
+        trashContainerColor = ColorPalette.BLACK77
+    end if
+
+    m.trashContainer.color = trashContainerColor
 end sub
 
 sub setTextColor()
