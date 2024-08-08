@@ -224,7 +224,7 @@ sub startScreenSaver()
     m.top.overhangVisible = false
 
     if m.albumCover.uri = ""
-        ' Jellyfin Logo Screensaver
+        ' Logo Screensaver
         m.PosterOne.visible = true
         m.PosterOneFadeIn.control = "start"
         m.BounceAnimation.control = "start"

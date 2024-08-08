@@ -42,9 +42,9 @@
     <Rectangle id="seekPosition" visible="false" color="0x00000090" height="40" width="110" translation="[720, 790]">
       <Label text="0:00" id="seekTimestamp" width="110" height="40" horizAlign="center" vertAlign="center" font="font:SmallestSystemFont" />
     </Rectangle>
-    <Rectangle id="screenSaverBackground" width="1920" height="1080" color="#000000" visible="false" />
+    <Rectangle id="screenSaverBackground" width="1920" height="1080" color="#000018" visible="false" />
     <Poster id="screenSaverAlbumCover" width="500" height="500" translation="[960,575]" opacity="0" />
-    <Poster id="PosterOne" width="389" height="104" translation="[960,540]" opacity="0" />
+    <Poster id="PosterOne" width="290" height="218" translation="[960,540]" opacity="0" />
 
     <Animation id="screenSaverAlbumCoverFadeIn" duration="4" repeat="false" easeFunction="linear">
       <FloatFieldInterpolator key="[0.0, 0.75, 1.0]" keyValue="[0.0, 0.0, 1.0]" fieldToInterp="screenSaverAlbumCover.opacity" />
@@ -85,34 +85,34 @@
       </Animation>
     </SequentialAnimation>
 
-    <!-- Jellyfin Logo ScreenSaver -->
+    <!-- Logo ScreenSaver -->
     <SequentialAnimation id="BounceAnimation" repeat="true">
       <Animation id="AnimOne" repeat="false" easeFunction="linear" duration="7.2">
-        <Vector2DFieldInterpolator id="OneInterp" key="[0.0,1.0]" keyValue="[[960,540],[1500,250]]" fieldToInterp="PosterOne.translation" />
+        <Vector2DFieldInterpolator id="OneInterp" key="[0.0,1.0]" keyValue="[[960,540],[1600,250]]" fieldToInterp="PosterOne.translation" />
       </Animation>
       <Animation id="AnimTwo" repeat="false" easeFunction="linear" duration="4.5">
-        <Vector2DFieldInterpolator id="OneInterp" key="[0.0,1.0]" keyValue="[[1500,250],[1350,60]]" fieldToInterp="PosterOne.translation" />
+        <Vector2DFieldInterpolator id="OneInterp" key="[0.0,1.0]" keyValue="[[1600,250],[1350,30]]" fieldToInterp="PosterOne.translation" />
       </Animation>
       <Animation id="AnimThree" repeat="false" easeFunction="linear" duration="16">
-        <Vector2DFieldInterpolator id="OneInterp" key="[0.0,1.0]" keyValue="[[1350,60],[200,890]]" fieldToInterp="PosterOne.translation" />
+        <Vector2DFieldInterpolator id="OneInterp" key="[0.0,1.0]" keyValue="[[1350,30],[200,830]]" fieldToInterp="PosterOne.translation" />
       </Animation>
       <Animation id="AnimFour" repeat="false" easeFunction="linear" duration="3.2">
-        <Vector2DFieldInterpolator id="OneInterp" key="[0.0,1.0]" keyValue="[[200,890],[30,750]]" fieldToInterp="PosterOne.translation" />
+        <Vector2DFieldInterpolator id="OneInterp" key="[0.0,1.0]" keyValue="[[200,830],[30,750]]" fieldToInterp="PosterOne.translation" />
       </Animation>
       <Animation id="AnimFive" repeat="false" easeFunction="linear" duration="13.3">
-        <Vector2DFieldInterpolator id="OneInterp" key="[0.0,1.0]" keyValue="[[30,750],[1200,60]]" fieldToInterp="PosterOne.translation" />
+        <Vector2DFieldInterpolator id="OneInterp" key="[0.0,1.0]" keyValue="[[30,750],[1200,30]]" fieldToInterp="PosterOne.translation" />
       </Animation>
       <Animation id="AnimSix" repeat="false" easeFunction="linear" duration="6.7">
-        <Vector2DFieldInterpolator id="OneInterp" key="[0.0,1.0]" keyValue="[[1200,60],[1500,300]]" fieldToInterp="PosterOne.translation" />
+        <Vector2DFieldInterpolator id="OneInterp" key="[0.0,1.0]" keyValue="[[1200,30],[1600,300]]" fieldToInterp="PosterOne.translation" />
       </Animation>
       <Animation id="AnimSeven" repeat="false" easeFunction="linear" duration="15">
-        <Vector2DFieldInterpolator id="OneInterp" key="[0.0,1.0]" keyValue="[[1500,300],[150,935]]" fieldToInterp="PosterOne.translation" />
+        <Vector2DFieldInterpolator id="OneInterp" key="[0.0,1.0]" keyValue="[[1600,300],[150,830]]" fieldToInterp="PosterOne.translation" />
       </Animation>
       <Animation id="AnimEight" repeat="false" easeFunction="linear" duration="2">
-        <Vector2DFieldInterpolator id="OneInterp" key="[0.0,1.0]" keyValue="[[150,935],[10,899.3]]" fieldToInterp="PosterOne.translation" />
+        <Vector2DFieldInterpolator id="OneInterp" key="[0.0,1.0]" keyValue="[[150,830],[10,750]]" fieldToInterp="PosterOne.translation" />
       </Animation>
       <Animation id="AnimNine" repeat="false" easeFunction="linear" duration="11">
-        <Vector2DFieldInterpolator id="OneInterp" key="[0.0,1.0]" keyValue="[[10,899.3],[960,540]]" fieldToInterp="PosterOne.translation" />
+        <Vector2DFieldInterpolator id="OneInterp" key="[0.0,1.0]" keyValue="[[10,750],[960,540]]" fieldToInterp="PosterOne.translation" />
       </Animation>
     </SequentialAnimation>
 
