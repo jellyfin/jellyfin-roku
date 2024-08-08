@@ -8,7 +8,7 @@
                 "description": "Remember the currently logged in user and try to log them in again next time you start the Jellyfin app.",
                 "settingName": "global.rememberme",
                 "type": "bool",
-                "default": "false"
+                "default": "true"
             }
         ]
     },
