@@ -4,7 +4,6 @@ function isNodeEvent(msg, field as string) as boolean
     return type(msg) = "roSGNodeEvent" and msg.getField() = field
 end function
 
-
 function getMsgPicker(msg, subnode = "" as string) as object
     node = msg.getRoSGNode()
     ' Subnode allows for handling alias messages

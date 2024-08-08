@@ -1,6 +1,8 @@
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/enums/KeyCode.bs"
 import "pkg:/source/enums/ColorPalette.bs"
+import "pkg:/source/enums/TaskControl.bs"
+import "pkg:/source/utils/misc.bs"
 
 sub init()
     m.top.optionsAvailable = false
@@ -94,7 +96,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
     end if
 
     if key = KeyCode.UP
-        if m.serverUrlContainer.hasFocus() and m.servers.Count() > 0
+        if m.serverUrlContainer.hasFocus() and isValidAndNotEmpty(m.servers)
             m.serverPicker.setFocus(true)
             m.serverUrlOutline.visible = false
             return true
@@ -117,13 +119,13 @@ function onKeyEvent(key as string, press as boolean) as boolean
     end if
 
     if key = KeyCode.BACK
-        if m.serverUrlContainer.hasFocus() and m.servers.Count() > 0
+        if m.serverUrlContainer.hasFocus() and isValidAndNotEmpty(m.servers)
             m.serverUrlOutline.visible = false
             m.serverPicker.setFocus(true)
             return true
         end if
 
-        if m.submit.hasFocus() and m.servers.Count() > 0
+        if m.submit.hasFocus() and isValidAndNotEmpty(m.servers)
             m.serverPicker.setFocus(true)
             return true
         end if
@@ -139,7 +141,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
             return true
         end if
 
-        if m.serverPicker.hasFocus() and m.servers.Count() > 0
+        if m.serverPicker.hasFocus() and isValidAndNotEmpty(m.servers)
             ScanForServers()
             return true
         end if
@@ -147,24 +149,13 @@ function onKeyEvent(key as string, press as boolean) as boolean
         return false
     end if
 
-    if key = KeyCode.OPTIONS
-        'Can only delete previously saved servers, not locally discovered ones
-        'So if we are on a "Saved" item, let the options dialog be shown (handled elsewhere)
-        if m.serverPicker.itemFocused >= 0 and m.serverPicker.itemFocused < m.serverPicker.content.getChildCount()
-            serverName = m.serverPicker.content.getChild(m.serverPicker.itemFocused).name
-            hasSavedServers = m.servers.Count() > 0 and Instr(1, serverName, "Saved") > 0
-            return not hasSavedServers
-        end if
-    end if
-
     return false
 end function
 
 sub ScanForServers()
     m.ssdpScanner = CreateObject("roSGNode", "ServerDiscoveryTask")
-    'run the task
     m.ssdpScanner.observeField("content", "ScanForServersComplete")
-    m.ssdpScanner.control = "RUN"
+    m.ssdpScanner.control = TaskControl.RUN
     startLoadingSpinner(false)
 end sub
 
@@ -181,7 +172,7 @@ sub ScanForServersComplete(event)
 
     'load any previously logged in to servers as well (if they aren't already discovered on the local network)
     saved = get_setting("saved_servers")
-    if saved <> invalid
+    if isValid(saved)
         savedServers = ParseJson(saved)
         for each server in savedServers.serverList
             alreadyListed = false
