@@ -435,11 +435,11 @@ function getAudioInfo(meta as object) as object
 end function
 
 sub autoPlayNextEpisode(videoID as string, showID as string)
-    ' use web client setting
-    if m.global.session.user.configuration.EnableNextEpisodeAutoPlay
+    userSession = m.global.session.user
+    if userSession.settings["playback.playnextepisode"] = "enabled" or userSession.settings["playback.playnextepisode"] = "webclient" and userSession.Configuration.EnableNextEpisodeAutoPlay
         ' query API for next episode ID
         url = Substitute("Shows/{0}/Episodes", showID)
-        urlParams = { "UserId": m.global.session.user.id }
+        urlParams = { "UserId": userSession.id }
         urlParams.Append({ "StartItemId": videoID })
         urlParams.Append({ "Limit": 2 })
         resp = APIRequest(url, urlParams)

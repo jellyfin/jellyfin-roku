@@ -175,6 +175,27 @@
                 "default": "30"
             },
             {
+                "title": "Play Next Episode Automatically",
+                "description": "When finished playing a single episode, play the next one automatically.",
+                "settingName": "playback.playnextepisode",
+                "type": "radio",
+                "default": "webclient",
+                "options": [
+                    {
+                        "title": "Use Web Client Setting",
+                        "id": "webclient"
+                    },
+                    {
+                        "title": "Enabled",
+                        "id": "enabled"
+                    },
+                    {
+                        "title": "Disabled",
+                        "id": "disabled"
+                    }
+                ]
+            },
+            {
                 "title": "Preferred Audio Codec",
                 "description": "Use the selected audio codec for transcodes. If the device or stream does not support it, a fallback codec will be used.",
                 "settingName": "playback.preferredAudioCodec",

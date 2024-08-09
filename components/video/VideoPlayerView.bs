@@ -517,12 +517,14 @@ sub showNextEpisodeButton()
     if m.osd.visible then return
     if m.top.content.contenttype <> 4 then return ' only display when content is type "Episode"
     if m.nextupbuttonseconds = 0 then return ' is the button disabled?
+    if m.nextEpisodeButton.opacity <> 0 then return
+    userSession = m.global.session.user
+    if userSession.settings["playback.playnextepisode"] = "disabled" then return
+    if userSession.settings["playback.playnextepisode"] = "webclient" and not userSession.Configuration.EnableNextEpisodeAutoPlay then return
 
-    if m.nextEpisodeButton.opacity = 0 and m.global.session.user.configuration.EnableNextEpisodeAutoPlay
-        m.nextEpisodeButton.visible = true
-        m.showNextEpisodeButtonAnimation.control = "start"
-        m.nextEpisodeButton.setFocus(true)
-    end if
+    m.nextEpisodeButton.visible = true
+    m.showNextEpisodeButtonAnimation.control = "start"
+    m.nextEpisodeButton.setFocus(true)
 end sub
 
 '
