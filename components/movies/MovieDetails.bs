@@ -21,6 +21,12 @@ sub init()
     m.buttonGrp.setFocus(true)
     m.top.lastFocus = m.buttonGrp
 
+    ' Only allow Admins to see Edit Subtitles button
+    if not m.global.session.user.policy.EnableSubtitleManagement
+        editSubtitleButton = m.top.findNode("editSubtitlesButton")
+        m.buttonGrp.removeChild(editSubtitleButton)
+    end if
+
     m.isFirstRun = true
     m.top.observeField("itemContent", "itemContentChanged")
 
