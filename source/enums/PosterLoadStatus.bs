@@ -1,0 +1,6 @@
+enum PosterLoadStatus
+    NONE = "none"
+    LOADING = "loading"
+    READY = "ready"
+    FAILED = "failed"
+end enum

@@ -162,8 +162,6 @@ end sub
 '
 ' Register observers for overhang data
 sub registerOverhangData(group)
-    print "group", group
-
     if group.isSubType("SetServerScreen")
         m.overhang.visible = false
         return

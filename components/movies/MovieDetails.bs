@@ -1,5 +1,9 @@
 import "pkg:/source/utils/misc.bs"
 import "pkg:/source/utils/config.bs"
+import "pkg:/source/enums/AnimationControl.bs"
+import "pkg:/source/enums/AnimationState.bs"
+import "pkg:/source/enums/PosterLoadStatus.bs"
+import "pkg:/source/enums/KeyCode.bs"
 
 sub init()
     m.extrasGrp = m.top.findnode("extrasGrp")
@@ -50,15 +54,15 @@ end sub
 ' onPosterLoadStatusChanged: Handler for changes to m.moviePosterSwap.loadStatus
 '
 sub onPosterLoadStatusChanged()
-    if LCase(m.moviePosterSwap.loadStatus) <> "ready" then return
-    m.moviePosterSwapAnimation.control = "start"
+    if LCase(m.moviePosterSwap.loadStatus) <> PosterLoadStatus.READY then return
+    m.moviePosterSwapAnimation.control = AnimationControl.START
 end sub
 
 ' onMoviePosterSwapAnimationStateChange: Handler for changes to m.moviePosterSwapAnimation.state
 '
 sub onMoviePosterSwapAnimationStateChange()
     if not isValid(m.moviePosterSwapAnimation) then return
-    if LCase(m.moviePosterSwapAnimation.state) <> "stopped" then return
+    if LCase(m.moviePosterSwapAnimation.state) <> AnimationState.STOPPED then return
     m.moviePoster.uri = m.moviePosterSwap.uri
     m.moviePoster.opacity = 1
     m.moviePosterSwap.opacity = 0
@@ -83,124 +87,130 @@ sub OnScreenShown()
 end sub
 
 sub trailerAvailableChanged()
-    if m.top.trailerAvailable
-        ' add trailor button to button group
-        trailerButton = CreateObject("roSGNode", "Button")
-        trailerButton.id = "trailer-button"
-        trailerButton.text = tr("Play Trailer")
-        trailerButton.iconUri = ""
-        trailerButton.focusedIconUri = ""
-        trailerButton.maxWidth = "300"
-        trailerButton.minWidth = "280"
-        m.buttonGrp.appendChild(trailerButton)
-    else
-        ' remove trailor button from button group
+    if not m.top.trailerAvailable
         m.buttonGrp.removeChild(m.top.findNode("trailer-button"))
+        return
     end if
+
+    ' add trailor button to button group
+    trailerButton = CreateObject("roSGNode", "Button")
+    trailerButton.id = "trailer-button"
+    trailerButton.text = tr("Play Trailer")
+    trailerButton.iconUri = ""
+    trailerButton.focusedIconUri = ""
+    trailerButton.maxWidth = "300"
+    trailerButton.minWidth = "280"
+    m.buttonGrp.appendChild(trailerButton)
 end sub
 
 sub itemContentChanged()
     ' Updates video metadata
     item = m.top.itemContent
-    if isValid(item) and isValid(item.json)
-        itemData = item.json
-        m.top.id = itemData.id
-        m.top.findNode("moviePoster").uri = m.top.itemContent.posterURL
 
-        ' Set default video source if user hasn't selected one yet
-        if m.top.selectedVideoStreamId = "" and isValid(itemData.MediaSources)
-            m.top.selectedVideoStreamId = itemData.MediaSources[0].id
-        end if
+    if not isValid(item) or not isValid(item.json)
+        m.buttonGrp.visible = true
+        stopLoadingSpinner()
+        return
+    end if
 
-        ' Find first Audio Stream and set that as default
-        SetDefaultAudioTrack(itemData)
+    itemData = item.json
+    m.top.id = itemData.id
+    m.top.findNode("moviePoster").uri = m.top.itemContent.posterURL
 
-        ' Handle all "As Is" fields
-        m.top.overhangTitle = itemData.name
-        setFieldText("releaseYear", itemData.productionYear)
-        setFieldText("overview", itemData.overview)
+    ' Set default video source if user hasn't selected one yet
+    if m.top.selectedVideoStreamId = "" and isValid(itemData.MediaSources)
+        m.top.selectedVideoStreamId = itemData.MediaSources[0].id
+    end if
 
-        if itemData.officialRating <> invalid
-            setFieldText("officialRating", itemData.officialRating)
-        else
-            m.infoGroup.removeChild(m.top.findNode("officialRating"))
-        end if
+    ' Find first Audio Stream and set that as default
+    SetDefaultAudioTrack(itemData)
 
-        if m.global.session.user.settings["ui.movies.showRatings"]
-            if isValid(itemData.communityRating)
-                setFieldText("communityRating", int(itemData.communityRating * 10) / 10)
-            else
-                m.infoGroup.removeChild(m.top.findNode("communityRatingGroup"))
-            end if
-            if isValid(itemData.CriticRating)
-                setFieldText("criticRatingLabel", itemData.criticRating)
-                if itemData.CriticRating > 60
-                    tomato = "pkg:/images/fresh.png"
-                else
-                    tomato = "pkg:/images/rotten.png"
-                end if
-                criticRatingIcon = m.top.findNode("criticRatingIcon")
-                if isValid(criticRatingIcon) then criticRatingIcon.uri = tomato
-            else
-                m.infoGroup.removeChild(m.top.findNode("criticRatingGroup"))
-            end if
+    ' Handle all "As Is" fields
+    m.top.overhangTitle = itemData.name
+    setFieldText("releaseYear", itemData.productionYear)
+    setFieldText("overview", itemData.overview)
+
+    if isValid(itemData.officialRating)
+        setFieldText("officialRating", itemData.officialRating)
+    else
+        m.infoGroup.removeChild(m.top.findNode("officialRating"))
+    end if
+
+    if m.global.session.user.settings["ui.movies.showRatings"]
+        if isValid(itemData.communityRating)
+            setFieldText("communityRating", int(itemData.communityRating * 10) / 10)
         else
             m.infoGroup.removeChild(m.top.findNode("communityRatingGroup"))
+        end if
+        if isValid(itemData.CriticRating)
+            setFieldText("criticRatingLabel", itemData.criticRating)
+            if itemData.CriticRating > 60
+                tomato = "pkg:/images/fresh.png"
+            else
+                tomato = "pkg:/images/rotten.png"
+            end if
+            criticRatingIcon = m.top.findNode("criticRatingIcon")
+            if isValid(criticRatingIcon) then criticRatingIcon.uri = tomato
+        else
             m.infoGroup.removeChild(m.top.findNode("criticRatingGroup"))
         end if
-
-        if type(itemData.RunTimeTicks) = "LongInteger"
-            setFieldText("runtime", stri(getRuntime()) + " mins")
-            if m.global.session.user.settings["ui.design.hideclock"] <> true
-                setFieldText("ends-at", tr("Ends at %1").Replace("%1", getEndTime()))
-            end if
-        end if
-
-        if itemData.genres.count() > 0
-            setFieldText("genres", tr("Genres") + ": " + itemData.genres.join(", "))
-        else
-            m.top.findNode("details").removeChild(m.top.findNode("genres"))
-        end if
-
-        ' show tags if there are no genres to display
-        if itemData.genres.count() = 0 and isValid(itemData.tags) and itemData.tags.count() > 0
-            setFieldText("genres", tr("Tags") + ": " + itemData.tags.join(", "))
-        end if
-
-        directors = []
-        for each person in itemData.people
-            if person.type = "Director"
-                directors.push(person.name)
-            end if
-        end for
-        if directors.count() > 0
-            setFieldText("director", tr("Director") + ": " + directors.join(", "))
-        else
-            m.top.findNode("details").removeChild(m.top.findNode("director"))
-        end if
-
-        if m.global.session.user.settings["ui.details.hidetagline"] = false
-            if itemData.taglines.count() > 0
-                setFieldText("tagline", itemData.taglines[0])
-            end if
-        else
-            m.details.removeChild(m.tagline)
-        end if
-
-        'set aired date if type is Episode
-        if itemData.PremiereDate <> invalid and itemData.Type = "Episode"
-            airDate = CreateObject("roDateTime")
-            airDate.FromISO8601String(itemData.PremiereDate)
-            m.top.findNode("aired").text = tr("Aired") + ": " + airDate.AsDateString("short-month-no-weekday")
-            'remove movie release year label
-            m.infoGroup.removeChild(m.top.findNode("releaseYear"))
-        end if
-
-        setFavoriteColor()
-        setWatchedColor()
-        SetUpVideoOptions(itemData.mediaSources)
-        SetUpAudioOptions(itemData.mediaStreams)
+    else
+        m.infoGroup.removeChild(m.top.findNode("communityRatingGroup"))
+        m.infoGroup.removeChild(m.top.findNode("criticRatingGroup"))
     end if
+
+    if type(itemData.RunTimeTicks) = "LongInteger"
+        setFieldText("runtime", stri(getRuntime()) + " mins")
+        if m.global.session.user.settings["ui.design.hideclock"] <> true
+            setFieldText("ends-at", tr("Ends at %1").Replace("%1", getEndTime()))
+        end if
+    end if
+
+    if itemData.genres.count() > 0
+        setFieldText("genres", tr("Genres") + ": " + itemData.genres.join(", "))
+    else
+        m.top.findNode("details").removeChild(m.top.findNode("genres"))
+    end if
+
+    ' show tags if there are no genres to display
+    if itemData.genres.count() = 0 and isValid(itemData.tags) and itemData.tags.count() > 0
+        setFieldText("genres", tr("Tags") + ": " + itemData.tags.join(", "))
+    end if
+
+    directors = []
+    for each person in itemData.people
+        if person.type = "Director"
+            directors.push(person.name)
+        end if
+    end for
+    if directors.count() > 0
+        setFieldText("director", tr("Director") + ": " + directors.join(", "))
+    else
+        m.top.findNode("details").removeChild(m.top.findNode("director"))
+    end if
+
+    if m.global.session.user.settings["ui.details.hidetagline"] = false
+        if itemData.taglines.count() > 0
+            setFieldText("tagline", itemData.taglines[0])
+        end if
+    else
+        m.details.removeChild(m.tagline)
+    end if
+
+    'set aired date if type is Episode
+    if isValid(itemData.PremiereDate) and itemData.Type = "Episode"
+        airDate = CreateObject("roDateTime")
+        airDate.FromISO8601String(itemData.PremiereDate)
+        m.top.findNode("aired").text = tr("Aired") + ": " + airDate.AsDateString("short-month-no-weekday")
+        'remove movie release year label
+        m.infoGroup.removeChild(m.top.findNode("releaseYear"))
+    end if
+
+    setFavoriteColor()
+    setWatchedColor()
+    SetUpVideoOptions(itemData.mediaSources)
+    SetUpAudioOptions(itemData.mediaStreams)
+
     m.buttonGrp.visible = true
     stopLoadingSpinner()
 end sub
@@ -214,7 +224,7 @@ sub SetUpVideoOptions(streams)
     for i = 0 to streams.Count() - 1
         if streams[i].VideoType = "VideoFile"
             codec = ""
-            if streams[i].mediaStreams <> invalid and streams[i].mediaStreams.Count() > 0
+            if isValidAndNotEmpty(streams[i].mediaStreams)
 
                 ' find the first (default) video track to get the codec for the details screen
                 if codecDetailsSet = false
@@ -266,7 +276,7 @@ sub SetUpAudioOptions(streams)
     end if
 
     options = {}
-    if m.options.options.videos <> invalid
+    if isValid(m.options.options.videos)
         options.videos = m.options.options.videos
     end if
     options.audios = tracks
@@ -287,7 +297,7 @@ end sub
 
 sub setFieldText(field, value)
     node = m.top.findNode(field)
-    if node = invalid or value = invalid then return
+    if not isAllValid([node, value]) then return
 
     ' Handle non strings... Which _shouldn't_ happen, but hey
     if type(value) = "roInt" or type(value) = "Integer"
@@ -324,7 +334,7 @@ end function
 sub setFavoriteColor()
     fave = m.top.itemContent.favorite
     fave_button = m.top.findNode("favorite-button")
-    if fave <> invalid and fave
+    if isValid(fave) and fave
         fave_button.textColor = "#00ff00ff"
         fave_button.focusedTextColor = "#269926ff"
         fave_button.text = tr("Favorite")
@@ -403,26 +413,26 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
     ' Due to the way the button pressed event works, need to catch the release for the button as the press is being sent
     ' directly to the main loop.  Will get this sorted in the layout update for Movie Details
-    if key = "OK" and m.top.findNode("options-button").isInFocusChain()
+    if key = KeyCode.OK and m.top.findNode("options-button").isInFocusChain()
         m.options.visible = true
         m.options.setFocus(true)
     end if
 
-    if key = "down" and m.buttonGrp.isInFocusChain()
+    if key = KeyCode.DOWN and m.buttonGrp.isInFocusChain()
         m.top.lastFocus = m.extrasGrid
         m.extrasGrid.setFocus(true)
         m.top.findNode("VertSlider").reverse = false
         m.top.findNode("extrasFader").reverse = false
-        m.top.findNode("pplAnime").control = "start"
+        m.top.findNode("pplAnime").control = AnimationControl.START
         return true
     end if
 
-    if key = "up" and m.top.findNode("extrasGrid").isInFocusChain()
+    if key = KeyCode.UP and m.top.findNode("extrasGrid").isInFocusChain()
         if m.extrasGrid.itemFocused = 0
             m.top.lastFocus = m.buttonGrp
             m.top.findNode("VertSlider").reverse = true
             m.top.findNode("extrasFader").reverse = true
-            m.top.findNode("pplAnime").control = "start"
+            m.top.findNode("pplAnime").control = AnimationControl.START
             m.buttonGrp.setFocus(true)
             return true
         end if
@@ -430,16 +440,16 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
     if not press then return false
 
-    if key = "back"
+    if key = KeyCode.BACK
         if m.options.visible = true
             m.options.visible = false
             videoOptionsClosed()
             audioOptionsClosed()
             return true
         end if
-    else if key = "play" and m.extrasGrid.hasFocus()
+    else if key = KeyCode.PLAY and m.extrasGrid.hasFocus()
         print "Play was pressed from the movie details extras slider"
-        if m.extrasGrid.focusedItem <> invalid
+        if isValid(m.extrasGrid.focusedItem)
             m.top.quickPlayNode = m.extrasGrid.focusedItem
             return true
         end if
