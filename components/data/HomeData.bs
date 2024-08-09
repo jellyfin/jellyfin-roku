@@ -60,6 +60,7 @@ sub setData()
         end if
 
     else if datum.type = "Series"
+        m.top.isWatched = datum.UserData.Played
         imgParams = { "maxHeight": 261 }
         imgParams.Append({ "maxWidth": 464 })
 
