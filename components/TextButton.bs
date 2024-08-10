@@ -13,6 +13,7 @@ sub init()
     m.top.observeField("width", "onWidthChanged")
     m.top.observeField("padding", "onPaddingChanged")
     m.top.observeField("focus", "onFocusChanged")
+    m.top.observeField("iconBlendColor", "onIconBlendColorChanged")
 end sub
 
 sub onTextColorChanged()
@@ -35,7 +36,7 @@ sub onFocusChanged()
     if m.top.focus
         m.buttonText.color = m.top.focusTextColor
         m.buttonBackground.blendColor = m.top.focusBackground
-        m.buttonIcon.uri = m.top.focusIcon
+        m.buttonIcon.uri = m.top.focusIcon <> "" ? m.top.focusIcon : m.top.icon
     else
         m.buttonText.color = m.top.textColor
         m.buttonBackground.blendColor = m.top.background
@@ -51,6 +52,10 @@ end sub
 sub onIconChanged()
     m.top.unobserveField("icon")
     m.buttonIcon.uri = m.top.icon
+end sub
+
+sub onIconBlendColorChanged()
+    m.buttonIcon.blendcolor = m.top.iconBlendColor
 end sub
 
 sub onTextChanged()

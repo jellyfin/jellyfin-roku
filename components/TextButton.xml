@@ -8,6 +8,7 @@
   <interface>
     <field id="background" type="color" value="" />
     <field id="focusBackground" type="color" value="" />
+    <field id="iconBlendColor" type="color" value="" />
     <field id="textColor" type="color" value="" />
     <field id="focusTextColor" type="color" value="" />
     <field id="text" type="string" value="" />

@@ -8,5 +8,7 @@ enum ColorPalette
     DARKGREY = "#101010"
     MIDGREY = "#777777"
     LIGHTGREY = "#aaaaaa"
+    RED = "#FF0000"
     BLACK77 = "0x00000077"
+    TRANSPARENT = "0x00000000"
 end enum

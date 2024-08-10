@@ -236,6 +236,19 @@ sub Main (args as dynamic) as void
             end if
 
             stopLoadingSpinner()
+        else if isNodeEvent(msg, "refreshMovieDetailsData")
+            startLoadingSpinner()
+
+            currentScene = m.global.sceneManager.callFunc("getActiveScene")
+
+            ' Refresh movie detail data
+            currentScene.itemContent.json = api.users.GetItem(m.global.session.user.id, currentScene.itemContent.id)
+            movieMetaData = ItemMetaData(currentScene.itemContent.id)
+
+            ' Set updated starting point for the queue item
+            m.global.queueManager.callFunc("setTopStartingPoint", currentScene.itemContent.json.UserData.PlaybackPositionTicks)
+
+            stopLoadingSpinner()
         else if isNodeEvent(msg, "selectedItem")
             ' If you select a library from ANYWHERE, follow this flow
             selectedItem = msg.getData()
@@ -669,10 +682,13 @@ sub Main (args as dynamic) as void
                 message_dialog("This type is not yet supported: " + node.type + ".")
             end if
         else if isNodeEvent(msg, "buttonSelected")
+
             ' If a button is selected, we have some determining to do
-            btn = getButton(msg)
+            btn = msg.getData()
+            if isValid(btn) then btn = LCase(btn)
+
             group = sceneManager.callFunc("getActiveScene")
-            if isValid(btn) and btn.id = "play-button"
+            if isValid(btn) and btn = "play-button"
                 ' User chose Play button from movie detail view
                 startLoadingSpinner()
                 ' Check if a specific Audio Stream was selected
@@ -705,7 +721,7 @@ sub Main (args as dynamic) as void
                     group.lastFocus.setFocus(true)
                 end if
 
-            else if btn <> invalid and btn.id = "trailer-button"
+            else if isValid(btn) and btn = "trailer-button"
                 ' User chose to play a trailer from the movie detail view
                 startLoadingSpinner()
                 dialog = createObject("roSGNode", "ProgressDialog")
@@ -726,7 +742,7 @@ sub Main (args as dynamic) as void
                 if isValid(group) and isValid(group.lastFocus)
                     group.lastFocus.setFocus(true)
                 end if
-            else if btn <> invalid and btn.id = "watched-button"
+            else if isValid(btn) and btn = "watched-button"
                 movie = group.itemContent
                 if isValid(movie) and isValid(movie.watched) and isValid(movie.id)
                     if movie.watched
@@ -736,7 +752,7 @@ sub Main (args as dynamic) as void
                     end if
                     movie.watched = not movie.watched
                 end if
-            else if btn <> invalid and btn.id = "favorite-button"
+            else if isValid(btn) and btn = "favorite-button"
                 movie = group.itemContent
                 if movie.favorite
                     UnmarkItemFavorite(movie.id)
@@ -744,7 +760,7 @@ sub Main (args as dynamic) as void
                     MarkItemFavorite(movie.id)
                 end if
                 movie.favorite = not movie.favorite
-            else if isValid(btn) and LCase(btn.id) = "editsubtitlesbutton"
+            else if isValid(btn) and btn = "editsubtitlesbutton"
                 subtitleSearchView = createObject("roSGNode", "SubtitleSearchView")
                 subtitleSearchView.observeField("subtitleLanguageButtonSelected", m.port)
                 subtitleSearchView.observeField("subtitleSearchButtonSelected", m.port)

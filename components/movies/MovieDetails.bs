@@ -1,11 +1,16 @@
 import "pkg:/source/utils/misc.bs"
 import "pkg:/source/utils/config.bs"
+import "pkg:/source/api/Image.bs"
+
 import "pkg:/source/enums/AnimationControl.bs"
 import "pkg:/source/enums/AnimationState.bs"
-import "pkg:/source/enums/PosterLoadStatus.bs"
 import "pkg:/source/enums/KeyCode.bs"
+import "pkg:/source/enums/ViewLoadStatus.bs"
+import "pkg:/source/enums/ColorPalette.bs"
+import "pkg:/source/enums/ImageType.bs"
 
 sub init()
+    m.container = m.top.findnode("container")
     m.extrasGrp = m.top.findnode("extrasGrp")
     m.extrasGrid = m.top.findNode("extrasGrid")
     m.top.optionsAvailable = false
@@ -13,17 +18,15 @@ sub init()
     m.options = m.top.findNode("movieOptions")
     m.infoGroup = m.top.findNode("infoGroup")
 
-    main = m.top.findNode("main_group")
-    main.translation = [96, 175]
-    overview = m.top.findNode("overview")
-    overview.width = 1920 - 96 - 300 - 96 - 30
-
     m.details = m.top.findNode("details")
-    m.tagline = m.top.findNode("tagline")
 
     m.buttonGrp = m.top.findNode("buttons")
     m.buttonGrp.setFocus(true)
     m.top.lastFocus = m.buttonGrp
+
+    setButtonColors()
+
+    m.loadStatus = ViewLoadStatus.INIT
 
     ' Only allow Admins to see Edit Subtitles button
     if not m.global.session.user.policy.EnableSubtitleManagement
@@ -34,6 +37,21 @@ sub init()
     m.top.observeField("itemContent", "itemContentChanged")
 end sub
 
+sub setButtonColors()
+    buttonList = ["play-button", "options-button", "watched-button", "favorite-button", "editSubtitlesButton", "trailer-button"]
+
+    for each button in buttonList
+        buttonNode = m.top.findNode(button)
+        buttonNode.background = ColorPalette.TRANSPARENT
+        buttonNode.textColor = ColorPalette.WHITE
+        buttonNode.focusBackground = ColorPalette.HIGHLIGHT
+        buttonNode.focusTextColor = ColorPalette.WHITE
+    end for
+
+    firstButton = m.top.findNode(buttonList[0])
+    firstButton.setFocus(true)
+    firstButton.focus = true
+end sub
 
 ' OnScreenShown: Callback function when view is presented on screen
 '
@@ -44,6 +62,15 @@ sub OnScreenShown()
     else
         m.buttonGrp.setFocus(true)
     end if
+
+    if m.loadStatus = ViewLoadStatus.INIT
+        m.loadStatus = ViewLoadStatus.FIRSTLOAD
+        return
+    end if
+
+    m.loadStatus = ViewLoadStatus.RELOAD
+
+    m.top.refreshMovieDetailsData = not m.top.refreshMovieDetailsData
 end sub
 
 sub trailerAvailableChanged()
@@ -51,23 +78,63 @@ sub trailerAvailableChanged()
         m.buttonGrp.removeChild(m.top.findNode("trailer-button"))
         return
     end if
+end sub
 
-    ' add trailor button to button group
-    trailerButton = CreateObject("roSGNode", "Button")
-    trailerButton.id = "trailer-button"
-    trailerButton.text = tr("Play Trailer")
-    trailerButton.iconUri = ""
-    trailerButton.focusedIconUri = ""
-    trailerButton.maxWidth = "300"
-    trailerButton.minWidth = "280"
-    m.buttonGrp.appendChild(trailerButton)
+' setBackdropImage: If item has a backdrop image, use it as the background for the view
+'
+' @param {object} itemData - meta data for current item
+sub setBackdropImage(itemData as object)
+    if isValidAndNotEmpty(itemData.BackdropImageTags)
+        imageVersion = ImageType.BACKDROP
+        imageTag = itemData.BackdropImageTags[0]
+    else
+        imageVersion = ImageType.PRIMARY
+        imageTag = itemData.ImageTags.Primary
+    end if
+
+    movieBackdrop = createObject("roSGNode", "Poster")
+    movieBackdrop.loadDisplayMode = "scaleToZoom"
+    movieBackdrop.translation = "[0,0]"
+    movieBackdrop.width = "1920"
+    movieBackdrop.height = "1080"
+    movieBackdrop.opacity = .3
+    movieBackdrop.uri = ImageURL(m.top.id, imageVersion, {
+        "maxWidth": 1920,
+        "Tag": imageTag
+    })
+    m.top.insertChild(movieBackdrop, 0)
+end sub
+
+' setLogoImage: If item has a logo image, add it to the view
+'
+' @param {object} itemData - meta data for current item
+sub setLogoImage(itemData as object)
+    ' No logo found
+    if not isChainValid(itemData, "ImageTags.Logo")
+        m.container.translation = "[100, 300]"
+        return
+    end if
+
+    m.top.overhangTitle = ""
+
+    movieLogo = createObject("roSGNode", "Poster")
+    movieLogo.loadDisplayMode = "scaleToFit"
+    movieLogo.width = "300"
+    movieLogo.height = "300"
+    movieLogo.uri = ImageURL(m.top.id, ImageType.LOGO, {
+        "maxHeight": 300,
+        "maxWidth": 300,
+        "Tag": itemData.ImageTags.Logo
+    })
+
+    m.container.insertChild(movieLogo, 0)
 end sub
 
 sub itemContentChanged()
     ' Updates video metadata
     item = m.top.itemContent
 
-    if not isValid(item) or not isValid(item.json)
+    if not isChainValid(item, "json")
         m.buttonGrp.visible = true
         stopLoadingSpinner()
         return
@@ -75,7 +142,21 @@ sub itemContentChanged()
 
     itemData = item.json
     m.top.id = itemData.id
-    m.top.findNode("moviePoster").uri = m.top.itemContent.posterURL
+
+    if itemData.UserData.PlaybackPositionTicks > 0
+        playButton = m.top.findNode("play-button")
+        playButton.text = `Play / Resume from ${ticksToHuman(itemData.UserData.PlaybackPositionTicks)}`
+    end if
+    setWatchedColor()
+    setFavoriteColor()
+
+    ' We don't need to update everything if this is a reload
+    if m.loadStatus = ViewLoadStatus.RELOAD then return
+
+    m.top.overhangTitle = itemData.name
+
+    setBackdropImage(itemData)
+    setLogoImage(itemData)
 
     ' Set default video source if user hasn't selected one yet
     if m.top.selectedVideoStreamId = "" and isValid(itemData.MediaSources)
@@ -86,7 +167,6 @@ sub itemContentChanged()
     SetDefaultAudioTrack(itemData)
 
     ' Handle all "As Is" fields
-    m.top.overhangTitle = itemData.name
     setFieldText("releaseYear", itemData.productionYear)
     setFieldText("overview", itemData.overview)
 
@@ -126,35 +206,23 @@ sub itemContentChanged()
         end if
     end if
 
-    if itemData.genres.count() > 0
-        setFieldText("genres", tr("Genres") + ": " + itemData.genres.join(", "))
+    if isValidAndNotEmpty(itemData.genres)
+        setFieldText("genres", itemData.genres[0])
     else
         m.top.findNode("details").removeChild(m.top.findNode("genres"))
     end if
 
-    ' show tags if there are no genres to display
-    if itemData.genres.count() = 0 and isValid(itemData.tags) and itemData.tags.count() > 0
-        setFieldText("genres", tr("Tags") + ": " + itemData.tags.join(", "))
-    end if
-
     directors = []
     for each person in itemData.people
-        if person.type = "Director"
+        if LCase(person.type) = "director"
             directors.push(person.name)
         end if
     end for
-    if directors.count() > 0
+
+    if isValidAndNotEmpty(directors)
         setFieldText("director", tr("Director") + ": " + directors.join(", "))
     else
         m.top.findNode("details").removeChild(m.top.findNode("director"))
-    end if
-
-    if m.global.session.user.settings["ui.details.hidetagline"] = false
-        if itemData.taglines.count() > 0
-            setFieldText("tagline", itemData.taglines[0])
-        end if
-    else
-        m.details.removeChild(m.tagline)
     end if
 
     'set aired date if type is Episode
@@ -166,8 +234,6 @@ sub itemContentChanged()
         m.infoGroup.removeChild(m.top.findNode("releaseYear"))
     end if
 
-    setFavoriteColor()
-    setWatchedColor()
     SetUpVideoOptions(itemData.mediaSources)
     SetUpAudioOptions(itemData.mediaStreams)
 
@@ -295,13 +361,11 @@ sub setFavoriteColor()
     fave = m.top.itemContent.favorite
     fave_button = m.top.findNode("favorite-button")
     if isValid(fave) and fave
-        fave_button.textColor = "#00ff00ff"
-        fave_button.focusedTextColor = "#269926ff"
-        fave_button.text = tr("Favorite")
+        fave_button.iconBlendColor = ColorPalette.RED
+        fave_button.text = tr("Favorited")
     else
-        fave_button.textColor = "0xddddddff"
-        fave_button.focusedTextColor = "#262626ff"
-        fave_button.text = tr("Set Favorite")
+        fave_button.iconBlendColor = ColorPalette.WHITE
+        fave_button.text = tr("Mark As Favorite")
     end if
 end sub
 
@@ -309,13 +373,9 @@ sub setWatchedColor()
     watched = m.top.itemContent.watched
     watched_button = m.top.findNode("watched-button")
     if watched
-        watched_button.textColor = "#ff0000ff"
-        watched_button.focusedTextColor = "#992626ff"
         watched_button.text = tr("Watched")
     else
-        watched_button.textColor = "0xddddddff"
-        watched_button.focusedTextColor = "#262626ff"
-        watched_button.text = tr("Set Watched")
+        watched_button.text = tr("Mark As Watched")
     end if
 end sub
 
@@ -369,23 +429,17 @@ sub videoOptionsClosed()
     m.top.findNode("buttons").setFocus(true)
 end sub
 
-function onKeyEvent(key as string, press as boolean) as boolean
-
-    ' Due to the way the button pressed event works, need to catch the release for the button as the press is being sent
-    ' directly to the main loop.  Will get this sorted in the layout update for Movie Details
-    if key = KeyCode.OK and m.top.findNode("options-button").isInFocusChain()
-        m.options.visible = true
-        m.options.setFocus(true)
-    end if
-
-    if key = KeyCode.DOWN and m.buttonGrp.isInFocusChain()
+sub onButtonGroupEscape()
+    if LCase(m.buttonGrp.escape) = "down"
         m.top.lastFocus = m.extrasGrid
         m.extrasGrid.setFocus(true)
         m.top.findNode("VertSlider").reverse = false
         m.top.findNode("extrasFader").reverse = false
         m.top.findNode("pplAnime").control = AnimationControl.START
-        return true
     end if
+end sub
+
+function onKeyEvent(key as string, press as boolean) as boolean
 
     if key = KeyCode.UP and m.top.findNode("extrasGrid").isInFocusChain()
         if m.extrasGrid.itemFocused = 0
@@ -394,6 +448,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
             m.top.findNode("extrasFader").reverse = true
             m.top.findNode("pplAnime").control = AnimationControl.START
             m.buttonGrp.setFocus(true)
+            m.buttonGrp.getChild(m.buttonGrp.getChildCount() - 1).focus = true
             return true
         end if
 
@@ -401,6 +456,75 @@ function onKeyEvent(key as string, press as boolean) as boolean
     end if
 
     if not press then return false
+
+    if key = KeyCode.OK and m.buttonGrp.hasFocus()
+        m.loadStatus = ViewLoadStatus.RELOAD
+
+        buttonList = m.buttonGrp.getChildren(-1, 0)
+
+        i = 0
+        for each button in buttonList
+            if button.focus
+                m.top.buttonSelected = button.id
+                if button.id = "options-button"
+                    m.options.visible = true
+                    m.options.setFocus(true)
+                end if
+                exit for
+            end if
+            i++
+        end for
+
+        return true
+    end if
+
+    if key = KeyCode.DOWN and m.buttonGrp.hasFocus()
+        buttonList = m.buttonGrp.getChildren(-1, 0)
+
+        i = 0
+        for each button in buttonList
+            if button.focus
+                button.focus = false
+                if i + 1 < m.buttonGrp.getChildCount()
+                    nextButton = m.buttonGrp.getChild(i + 1)
+                    if isValid(nextButton)
+                        nextButton.focus = true
+                    end if
+                else
+                    m.top.lastFocus = m.extrasGrid
+                    m.extrasGrid.setFocus(true)
+                    m.top.findNode("VertSlider").reverse = false
+                    m.top.findNode("extrasFader").reverse = false
+                    m.top.findNode("pplAnime").control = AnimationControl.START
+                end if
+                exit for
+            end if
+            i++
+        end for
+
+        return true
+    end if
+
+    if key = KeyCode.UP and m.buttonGrp.hasFocus()
+        buttonList = m.buttonGrp.getChildren(-1, 0)
+
+        i = 0
+        for each button in buttonList
+            if button.focus
+                if i - 1 >= 0
+                    button.focus = false
+                    nextButton = m.buttonGrp.getChild(i - 1)
+                    if isValid(nextButton)
+                        nextButton.focus = true
+                    end if
+                end if
+                exit for
+            end if
+            i++
+        end for
+
+        return true
+    end if
 
     if key = KeyCode.BACK
         if m.options.visible = true
@@ -410,11 +534,20 @@ function onKeyEvent(key as string, press as boolean) as boolean
             return true
         end if
 
+        if m.top.findNode("extrasGrid").isInFocusChain()
+            m.top.lastFocus = m.buttonGrp
+            m.top.findNode("VertSlider").reverse = true
+            m.top.findNode("extrasFader").reverse = true
+            m.top.findNode("pplAnime").control = AnimationControl.START
+            m.buttonGrp.setFocus(true)
+            m.buttonGrp.getChild(m.buttonGrp.getChildCount() - 1).focus = true
+            return true
+        end if
+
         return false
     end if
 
     if key = KeyCode.PLAY and m.extrasGrid.hasFocus()
-        print "Play was pressed from the movie details extras slider"
         if isValid(m.extrasGrid.focusedItem)
             m.top.quickPlayNode = m.extrasGrid.focusedItem
             return true

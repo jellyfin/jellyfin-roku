@@ -562,20 +562,19 @@ function CreateMovieDetailsGroup(movie as object) as dynamic
     group.observeField("quickPlayNode", m.port)
     group.overhangTitle = movie.title
     group.optionsAvailable = false
-    group.trailerAvailable = false
     ' push scene asap (to prevent extra button presses when retriving series/movie info)
     m.global.sceneManager.callFunc("pushScene", group)
     group.itemContent = movieMetaData
+
+    group.observeField("refreshMovieDetailsData", m.port)
+
     ' local trailers
     trailerData = api.users.GetLocalTrailers(m.global.session.user.id, movie.id)
-    if isValid(trailerData)
-        group.trailerAvailable = trailerData.Count() > 0
-    end if
+    group.trailerAvailable = isValidAndNotEmpty(trailerData)
+
     ' watch for button presses
-    buttons = group.findNode("buttons")
-    for each b in buttons.getChildren(-1, 0)
-        b.observeField("buttonSelected", m.port)
-    end for
+    group.observeField("buttonSelected", m.port)
+
     ' setup and load movie extras
     extras = group.findNode("extrasGrid")
     extras.observeField("selectedItem", m.port)
