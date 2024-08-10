@@ -71,6 +71,8 @@ function LoginFlow()
                                 user.name = savedUser.username
                             end if
 
+                            user.ImageURL = UserImageURL(user.id)
+
                             publicUsersNodes.push(user)
                         end if
                     end if

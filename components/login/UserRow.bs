@@ -9,7 +9,7 @@ end sub
 
 sub updateSize()
     itemWidth = 300
-    itemHeight = 364
+    itemHeight = 410
 
     m.top.visible = true
 

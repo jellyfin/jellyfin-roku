@@ -1,18 +1,24 @@
 import "pkg:/source/utils/misc.bs"
+import "pkg:/source/enums/ColorPalette.bs"
 
 sub init()
+    m.top.findNode("profileType").color = ColorPalette.LIGHTGREY
 end sub
 
 sub onFocusChanged()
     itemData = m.top.itemContent
     if not isValid(itemData) then return
 
-    if m.top.itemHasFocus
-        print itemData
-    end if
-
     if not itemData.isPublic
         m.top.findNode("forgetUserIcon").visible = m.top.itemHasFocus
+    end if
+
+    if m.top.itemHasFocus
+        m.top.findNode("background").color = ColorPalette.HIGHLIGHT
+        m.top.findNode("profileType").color = ColorPalette.WHITE
+    else
+        m.top.findNode("background").color = ColorPalette.TRANSPARENT
+        m.top.findNode("profileType").color = ColorPalette.LIGHTGREY
     end if
 end sub
 
@@ -22,6 +28,8 @@ sub itemContentChanged()
 
     profileImage = m.top.findNode("profileImage")
     profileName = m.top.findNode("profileName")
+
+    m.top.findNode("profileType").text = itemData.isPublic ? "Public Profile" : "Saved Profile"
 
     if itemData.imageURL = ""
         profileImage.uri = "pkg://images/baseline_person_white_48dp.png"
