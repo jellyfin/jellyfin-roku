@@ -1,7 +1,16 @@
 import "pkg:/source/utils/misc.bs"
+import "pkg:/source/enums/KeyCode.bs"
+import "pkg:/source/enums/ColorPalette.bs"
+import "pkg:/source/utils/config.bs"
 
 sub init()
     m.top.optionsAvailable = false
+
+    m.manualLogin = m.top.findNode("manualLogin")
+    m.manualLogin.background = ColorPalette.LIGHTBLUE
+    m.manualLogin.color = ColorPalette.DARKGREY
+    m.manualLogin.focusBackground = ColorPalette.HIGHLIGHT
+    m.manualLogin.focusColor = ColorPalette.WHITE
 end sub
 
 sub itemContentChanged()
@@ -20,7 +29,7 @@ sub redraw()
     if userCount < 5
         leftBorder = (1920 - ((userCount * itemWidth) + ((userCount - 1) * itemSpacing))) / 2
     end if
-    '   break()
+
     m.top.findNode("UserRow").translation = [leftBorder, topBorder]
 end sub
 
@@ -36,18 +45,48 @@ end sub
 function onKeyEvent(key as string, press as boolean) as boolean
     if not press then return false
 
-    if key = "back"
-        m.top.backPressed = true
-    else if key = "up"
-        if m.top.focusedChild.isSubType("LabelList")
-            m.top.findNode("UserRow").setFocus(true)
+    if key = KeyCode.OK
+        if m.manualLogin.hasFocus()
+            m.manualLogin.selected = not m.manualLogin.selected
             return true
         end if
-    else if key = "down"
-        if m.top.focusedChild.isSubType("UserRow")
-            m.top.findNode("alternateOptions").setFocus(true)
-            return true
-        end if
+        return false
     end if
+
+    if key = KeyCode.OPTIONS
+        userRow = m.top.findNode("UserRow")
+        userList = userRow.itemContent
+        user = userList[userRow.rowItemFocused[1]]
+
+        if not isValid(user) then return false
+        if user.isPublic then return false
+
+        m.top.forgetUser = user.id
+        return true
+    end if
+
+    if key = KeyCode.BACK
+        m.top.backPressed = true
+        return true
+    end if
+
+    if key = KeyCode.UP
+        if m.manualLogin.hasFocus()
+            m.top.findNode("UserRow").setFocus(true)
+            m.manualLogin.focus = false
+            return true
+        end if
+        return false
+    end if
+
+    if key = KeyCode.DOWN
+        if m.top.focusedChild.isSubType("UserRow")
+            m.manualLogin.setFocus(true)
+            m.manualLogin.focus = true
+            return true
+        end if
+        return false
+    end if
+
     return false
 end function

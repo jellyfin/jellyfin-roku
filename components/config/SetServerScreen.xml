@@ -29,7 +29,6 @@
       <label id="errorMessage" text="" font="font:MediumSystemFont" color="#ff0000FF" />
 
       <LayoutGroup horizAlignment="center">
-        <!-- <JFButton id="submit" minChars="30" text="Submit" /> -->
         <StandardButton
           id="submit"
           text="Submit"

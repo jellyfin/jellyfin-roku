@@ -1,6 +1,8 @@
+import "pkg:/source/enums/ColorPalette.bs"
+
 sub init()
     options = m.top.findNode("optionList")
-    options.focusBitmapBlendColor = "0x0cb0e8"
+    options.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
     options.color = "0xffffff"
     options.focusedColor = "0xffffff"
     options.setFocus(true)
@@ -37,6 +39,8 @@ sub redraw()
     maxRows = 9
 
     bg = m.top.findNode("dialogBackground")
+    bg.blendColor = ColorPalette.ELEMENTBACKGROUND
+
     text = m.top.findNode("messageText")
     options = m.top.findNode("optionList")
     fontHeight = m.top.fontHeight

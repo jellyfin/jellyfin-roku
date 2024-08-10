@@ -1,9 +1,24 @@
+import "pkg:/source/utils/misc.bs"
+
 sub init()
+end sub
+
+sub onFocusChanged()
+    itemData = m.top.itemContent
+    if not isValid(itemData) then return
+
+    if m.top.itemHasFocus
+        print itemData
+    end if
+
+    if not itemData.isPublic
+        m.top.findNode("forgetUserIcon").visible = m.top.itemHasFocus
+    end if
 end sub
 
 sub itemContentChanged()
     itemData = m.top.itemContent
-    if itemData = invalid then return
+    if not isValid(itemData) then return
 
     profileImage = m.top.findNode("profileImage")
     profileName = m.top.findNode("profileName")

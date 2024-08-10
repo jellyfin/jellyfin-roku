@@ -4,7 +4,6 @@
     <Poster
       id="dialogBackground"
       uri="pkg:/images/dialog.9.png"
-      blendColor="#000000"
       translation="[0, 0]"
     />
     <Label id="messageText" horizAlign="center" wrap="true" />

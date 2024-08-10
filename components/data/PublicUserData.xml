@@ -2,6 +2,7 @@
 <component name="PublicUserData" extends="ContentNode">
   <interface>
     <field id="name" type="string" />
+    <field id="isPublic" type="boolean" />
     <field id="imageURL" type="string" />
   </interface>
 </component>

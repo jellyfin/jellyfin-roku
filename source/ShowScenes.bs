@@ -47,6 +47,7 @@ function LoginFlow()
             if numPubUsers > 0
                 for each item in publicUsers
                     user = CreateObject("roSGNode", "PublicUserData")
+                    user.isPublic = true
                     user.id = item.Id
                     user.name = item.Name
                     if isValid(item.PrimaryImageTag)
@@ -63,6 +64,7 @@ function LoginFlow()
                         ' only show unique userids on screen.
                         if not inArray(publicUserIds, savedUser.Id)
                             user = CreateObject("roSGNode", "PublicUserData")
+                            user.isPublic = false
                             user.id = savedUser.Id
 
                             if isValid(savedUser.username)
@@ -341,8 +343,13 @@ function CreateUserSelectGroup(users = [])
 
     group.itemContent = users
     group.findNode("userRow").observeField("userSelected", port)
-    group.findNode("alternateOptions").observeField("itemSelected", port)
+    group.observeField("forgetUser", port)
+
+    manualLoginButton = group.findNode("manualLogin")
+    manualLoginButton.observeField("selected", port)
+
     group.observeField("backPressed", port)
+
     while true
         msg = wait(0, port)
         if type(msg) = "roSGScreenEvent" and msg.isScreenClosed()
@@ -350,12 +357,32 @@ function CreateUserSelectGroup(users = [])
             return -1
         else if isNodeEvent(msg, "backPressed")
             return "backPressed"
+        else if type(msg) = "roSGNodeEvent" and msg.getField() = "forgetUser"
+            returnValue = show_dialog("Are you sure you want to forget this user?", ["Yes", "No, Cancel"], 1)
+            if returnValue = 0
+                forgetUserID = msg.GetData()
+                userList = group.itemContent
+
+                for i = userList.count() - 1 to 0 step -1
+                    if userList[i].id = forgetUserID
+                        userList.Delete(i)
+                        group.itemContent = userList
+                        exit for
+                    end if
+                end for
+
+                registry_delete("token", forgetUserID)
+                registry_delete("username", forgetUserID)
+                registry_delete("serverId", forgetUserID)
+            end if
         else if type(msg) = "roSGNodeEvent" and msg.getField() = "userSelected"
             return msg.GetData()
         else if type(msg) = "roSGNodeEvent" and msg.getField() = "itemSelected"
             if msg.getData() = 0
                 return ""
             end if
+        else if type(msg) = "roSGNodeEvent" and LCase(msg.getNode()) = "manuallogin"
+            return ""
         end if
     end while
 
