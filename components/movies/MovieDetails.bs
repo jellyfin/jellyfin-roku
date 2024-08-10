@@ -295,7 +295,7 @@ sub SetUpVideoOptions(streams)
     codecDetailsSet = false
 
     for i = 0 to streams.Count() - 1
-        if streams[i].VideoType = "VideoFile"
+        if streams[i].VideoType = VideoType.VIDEOFILE
             codec = ""
             if isValidAndNotEmpty(streams[i].mediaStreams)
 
