@@ -1,4 +1,5 @@
 import "pkg:/source/utils/misc.bs"
+import "pkg:/source/enums/ColorPalette.bs"
 
 sub init()
     m.groups = []
@@ -167,6 +168,11 @@ sub registerOverhangData(group)
         return
     end if
 
+    if group.isSubType("MovieDetails")
+        m.overhang.visible = false
+        return
+    end if
+
     if group.isSubType("JFGroup")
         if group.overhangTitle <> invalid then m.overhang.title = group.overhangTitle
 
@@ -317,12 +323,12 @@ sub optionDialog(title, message, buttons)
     dialog = createObject("roSGNode", "StandardMessageDialog")
     dlgPalette = createObject("roSGNode", "RSGPalette")
     dlgPalette.colors = {
-        DialogBackgroundColor: "0x262828FF",
-        DialogFocusColor: "0xcececeFF",
-        DialogFocusItemColor: "0x202020FF",
-        DialogSecondaryTextColor: "0xf8f8f8ff",
-        DialogSecondaryItemColor: "#00a4dcFF",
-        DialogTextColor: "0xeeeeeeFF"
+        DialogBackgroundColor: ColorPalette.ELEMENTBACKGROUND,
+        DialogFocusColor: ColorPalette.HIGHLIGHT,
+        DialogFocusItemColor: ColorPalette.WHITE,
+        DialogSecondaryTextColor: ColorPalette.WHITE,
+        DialogSecondaryItemColor: ColorPalette.LIGHTBLUE,
+        DialogTextColor: ColorPalette.WHITE
     }
     dialog.palette = dlgPalette
     dialog.observeField("buttonSelected", "optionSelected")

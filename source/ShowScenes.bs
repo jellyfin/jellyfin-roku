@@ -572,6 +572,15 @@ function CreateMovieDetailsGroup(movie as object) as dynamic
     trailerData = api.users.GetLocalTrailers(m.global.session.user.id, movie.id)
     group.trailerAvailable = isValidAndNotEmpty(trailerData)
 
+    if LCase(movieMetaData.json.type) = "episode" or LCase(movieMetaData.json.type) = "series"
+        if isValid(movieMetaData.json.SeriesID)
+            logoImageExists = api.items.HeadImageURLByName(movieMetaData.json.SeriesID, "logo")
+            if logoImageExists
+                group.logoImageURI = api.items.GetImageURL(movieMetaData.json.SeriesID, "logo", 0, { "maxHeight": 250, "maxWidth": 500, "quality": "90" })
+            end if
+        end if
+    end if
+
     ' watch for button presses
     group.observeField("buttonSelected", m.port)
 

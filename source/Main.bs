@@ -243,7 +243,6 @@ sub Main (args as dynamic) as void
 
             ' Refresh movie detail data
             currentScene.itemContent.json = api.users.GetItem(m.global.session.user.id, currentScene.itemContent.id)
-            movieMetaData = ItemMetaData(currentScene.itemContent.id)
 
             ' Set updated starting point for the queue item
             m.global.queueManager.callFunc("setTopStartingPoint", currentScene.itemContent.json.UserData.PlaybackPositionTicks)

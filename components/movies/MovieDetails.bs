@@ -18,8 +18,6 @@ sub init()
     m.options = m.top.findNode("movieOptions")
     m.infoGroup = m.top.findNode("infoGroup")
 
-    m.details = m.top.findNode("details")
-
     m.buttonGrp = m.top.findNode("buttons")
     m.buttonGrp.setFocus(true)
     m.top.lastFocus = m.buttonGrp
@@ -105,29 +103,58 @@ sub setBackdropImage(itemData as object)
     m.top.insertChild(movieBackdrop, 0)
 end sub
 
+sub onLogoImageURIChange()
+    ' We have exhaused all methods for getting a logo to display
+    if m.top.logoImageURI = "" and not isChainValid(m.top.itemContent.json, "ImageTags.Logo")
+        return
+    end if
+
+    movieLogo = createObject("roSGNode", "Poster")
+    movieLogo.loadDisplayMode = "scaleToFit"
+    movieLogo.translation = [100, 25]
+    movieLogo.width = "500"
+    movieLogo.height = "250"
+    movieLogo.uri = m.top.logoImageURI
+    m.top.insertChild(movieLogo, 1)
+end sub
+
 ' setLogoImage: If item has a logo image, add it to the view
 '
 ' @param {object} itemData - meta data for current item
 sub setLogoImage(itemData as object)
-    ' No logo found
-    if not isChainValid(itemData, "ImageTags.Logo")
-        m.container.translation = "[100, 300]"
+    if LCase(itemData.type) = "episode" or LCase(itemData.type) = "series"
         return
     end if
 
-    m.top.overhangTitle = ""
+    ' No logo found
+    if not isChainValid(itemData, "ImageTags.Logo")
+        addTextMovieTitle(itemData)
+        return
+    end if
 
     movieLogo = createObject("roSGNode", "Poster")
     movieLogo.loadDisplayMode = "scaleToFit"
-    movieLogo.width = "300"
-    movieLogo.height = "300"
+    movieLogo.translation = [100, 25]
+    movieLogo.width = "500"
+    movieLogo.height = "250"
     movieLogo.uri = ImageURL(m.top.id, ImageType.LOGO, {
         "maxHeight": 300,
-        "maxWidth": 300,
+        "maxWidth": 600,
         "Tag": itemData.ImageTags.Logo
     })
 
-    m.container.insertChild(movieLogo, 0)
+    m.top.insertChild(movieLogo, 1)
+end sub
+
+sub addTextMovieTitle(itemData as object)
+    movieTitle = createObject("roSGNode", "Label")
+    movieTitle.font = "font:LargeSystemFont"
+    movieTitle.font.size = 70
+    movieTitle.text = itemData.name
+    movieTitle.translation = [100, 210]
+    movieTitle.width = 1700
+
+    m.top.insertChild(movieTitle, 1)
 end sub
 
 sub itemContentChanged()
@@ -152,8 +179,6 @@ sub itemContentChanged()
 
     ' We don't need to update everything if this is a reload
     if m.loadStatus = ViewLoadStatus.RELOAD then return
-
-    m.top.overhangTitle = itemData.name
 
     setBackdropImage(itemData)
     setLogoImage(itemData)
@@ -209,7 +234,11 @@ sub itemContentChanged()
     if isValidAndNotEmpty(itemData.genres)
         setFieldText("genres", itemData.genres[0])
     else
-        m.top.findNode("details").removeChild(m.top.findNode("genres"))
+        dot = m.top.findNode("dot")
+        dot.getParent().removeChild(dot)
+
+        genres = m.top.findNode("genres")
+        genres.getParent().removeChild(genres)
     end if
 
     directors = []
@@ -222,16 +251,24 @@ sub itemContentChanged()
     if isValidAndNotEmpty(directors)
         setFieldText("director", tr("Director") + ": " + directors.join(", "))
     else
-        m.top.findNode("details").removeChild(m.top.findNode("director"))
+        m.top.findNode("director").getParent().removeChild(m.top.findNode("director"))
     end if
 
     'set aired date if type is Episode
-    if isValid(itemData.PremiereDate) and itemData.Type = "Episode"
-        airDate = CreateObject("roDateTime")
-        airDate.FromISO8601String(itemData.PremiereDate)
-        m.top.findNode("aired").text = tr("Aired") + ": " + airDate.AsDateString("short-month-no-weekday")
-        'remove movie release year label
-        m.infoGroup.removeChild(m.top.findNode("releaseYear"))
+    if LCase(itemData.Type) = "episode"
+        if isValid(itemData.PremiereDate)
+            airDate = CreateObject("roDateTime")
+            airDate.FromISO8601String(itemData.PremiereDate)
+            m.top.findNode("aired").text = tr("Aired") + ": " + airDate.AsDateString("short-month-no-weekday")
+            'remove movie release year label
+            m.infoGroup.removeChild(m.top.findNode("releaseYear"))
+        else
+            m.infoGroup.removeChild(m.top.findNode("aired"))
+        end if
+
+        addEpisodeTitle(itemData)
+    else
+        m.infoGroup.removeChild(m.top.findNode("aired"))
     end if
 
     SetUpVideoOptions(itemData.mediaSources)
@@ -241,6 +278,13 @@ sub itemContentChanged()
     stopLoadingSpinner()
 end sub
 
+sub addEpisodeTitle(itemData as object)
+    episodeTitle = createObject("roSGNode", "Label")
+    episodeTitle.font = "font:MediumBoldSystemFont"
+    episodeTitle.text = `Season ${itemData.ParentIndexNumber} Episode ${itemData.IndexNumber} • ${itemData.name}`
+
+    m.container.insertChild(episodeTitle, 0)
+end sub
 
 sub SetUpVideoOptions(streams)
 
@@ -284,7 +328,6 @@ sub SetUpVideoOptions(streams)
     options = {}
     options.videos = videos
     m.options.options = options
-
 end sub
 
 
@@ -315,7 +358,7 @@ sub SetDefaultAudioTrack(itemData)
     for i = 0 to itemData.mediaStreams.Count() - 1
         if itemData.mediaStreams[i].Type = "Audio"
             m.top.selectedAudioStreamIndex = i
-            setFieldText("audio_codec", tr("Audio") + ": " + itemData.mediaStreams[i].displayTitle)
+            setFieldText("audio_codec", tr("Audio") + ": " + itemData.mediaStreams[i].displayTitle + "asd adsf asdf asdf")
             exit for
         end if
     end for
