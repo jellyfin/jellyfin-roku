@@ -8,6 +8,9 @@ import "pkg:/source/enums/KeyCode.bs"
 import "pkg:/source/enums/ViewLoadStatus.bs"
 import "pkg:/source/enums/ColorPalette.bs"
 import "pkg:/source/enums/ImageType.bs"
+import "pkg:/source/enums/VideoType.bs"
+import "pkg:/source/enums/MediaStreamType.bs"
+import "pkg:/source/enums/PersonType.bs"
 
 sub init()
     m.container = m.top.findnode("container")
@@ -122,7 +125,7 @@ end sub
 '
 ' @param {object} itemData - meta data for current item
 sub setLogoImage(itemData as object)
-    if LCase(itemData.type) = "episode" or LCase(itemData.type) = "series"
+    if LCase(itemData.type) = VideoType.EPISODE or LCase(itemData.type) = VideoType.SERIES
         return
     end if
 
@@ -243,7 +246,7 @@ sub itemContentChanged()
 
     directors = []
     for each person in itemData.people
-        if LCase(person.type) = "director"
+        if LCase(person.type) = PersonType.DIRECTOR
             directors.push(person.name)
         end if
     end for
@@ -255,7 +258,7 @@ sub itemContentChanged()
     end if
 
     'set aired date if type is Episode
-    if LCase(itemData.Type) = "episode"
+    if LCase(itemData.Type) = VideoType.EPISODE
         if isValid(itemData.PremiereDate)
             airDate = CreateObject("roDateTime")
             airDate.FromISO8601String(itemData.PremiereDate)
@@ -299,7 +302,7 @@ sub SetUpVideoOptions(streams)
                 ' find the first (default) video track to get the codec for the details screen
                 if codecDetailsSet = false
                     for index = 0 to streams[i].mediaStreams.Count() - 1
-                        if streams[i].mediaStreams[index].Type = "Video"
+                        if streams[i].mediaStreams[index].Type = MediaStreamType.VIDEO
                             setFieldText("video_codec", tr("Video") + ": " + streams[i].mediaStreams[index].displayTitle)
                             codecDetailsSet = true
                             exit for

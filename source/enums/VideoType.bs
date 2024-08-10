@@ -1,0 +1,5 @@
+enum VideoType
+    EPISODE = "episode"
+    SERIES = "series"
+    VIDEO = "video"
+end enum
