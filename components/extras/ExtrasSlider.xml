@@ -3,6 +3,7 @@
   <children>
     <Rectangle id="extrasGrp" color="#0A0010" opacity="0.3" width="1860" height="900" translation="[30, 1014]">
       <ExtrasRowList id="extrasGrid"
+        rowFocusAnimationStyle="fixedFocusWrap"
         itemSpacing="[ 60, 132]"
         rowLabelOffset="[ [9, 24] ]"
         numRows="2"
