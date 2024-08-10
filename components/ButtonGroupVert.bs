@@ -26,13 +26,19 @@ function onKeyEvent(key as string, press as boolean) as boolean
     if key = "down"
         i = m.top.focusButton
         target = i + 1
-        if target >= m.top.getChildCount() then return false
+        if target >= m.top.getChildCount()
+            m.top.escape = key
+            return false
+        end if
         m.top.focusButton = target
         return true
     else if key = "up"
         i = m.top.focusButton
         target = i - 1
-        if target < 0 then return false
+        if target < 0
+            m.top.escape = key
+            return false
+        end if
         m.top.focusButton = target
         return true
     else if key = "left" or key = "right"
