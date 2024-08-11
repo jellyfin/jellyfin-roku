@@ -295,12 +295,12 @@ sub SetUpVideoOptions(streams)
     codecDetailsSet = false
 
     for i = 0 to streams.Count() - 1
-        if streams[i].VideoType = VideoType.VIDEOFILE
+        if LCase(streams[i].VideoType) = VideoType.VIDEOFILE
             codec = ""
             if isValidAndNotEmpty(streams[i].mediaStreams)
 
                 ' find the first (default) video track to get the codec for the details screen
-                if codecDetailsSet = false
+                if not codecDetailsSet
                     for index = 0 to streams[i].mediaStreams.Count() - 1
                         if LCase(streams[i].mediaStreams[index].Type) = MediaStreamType.VIDEO
                             setFieldText("video_codec", tr("Video") + ": " + streams[i].mediaStreams[index].displayTitle)

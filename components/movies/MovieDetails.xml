@@ -30,11 +30,11 @@
 
           <LayoutGroup layoutDirection="vert" itemSpacings="[0]">
             <LayoutGroup layoutDirection="horiz">
-              <Label id="video_codec" vertAlign="bottom" height="39" width="990" font="font:SmallestSystemFont" color="#aaaaaa" />
+              <ScrollingLabel id="video_codec" vertAlign="bottom" height="39" maxwidth="990" font="font:SmallestSystemFont" color="#aaaaaa" />
               <label id="video_codec_count" font="font:smallestSystemFont" vertAlign="top" color="#aaaaaa" />
             </LayoutGroup>
             <LayoutGroup layoutDirection="horiz">
-              <Label id="audio_codec" vertAlign="bottom" height="39" width="990" font="font:SmallestSystemFont" color="#aaaaaa" />
+              <ScrollingLabel id="audio_codec" vertAlign="bottom" height="39" maxwidth="990" font="font:SmallestSystemFont" color="#aaaaaa" />
               <label id="audio_codec_count" font="font:smallestSystemFont" vertAlign="top" color="#aaaaaa" />
             </LayoutGroup>
           </LayoutGroup>
