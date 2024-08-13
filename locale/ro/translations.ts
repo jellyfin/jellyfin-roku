@@ -215,6 +215,32 @@
         <translation>A apărut o eroare la preluarea datelor pentru acest articol de pe server.</translation>
         <extracomment>Dialog detail when unable to load Content from Server</extracomment>
     </message>
+    <message>
+        <source>Error loading Channel Data</source>
+        <translation>A apărut o eroare în timpul încărcării datelor canalului</translation>
+    </message>
+    <message>
+        <comment>Message displayed in Item Grid when no item to display. %1 is container type (e.g. Boxset, Collection, Folder, etc)</comment>
+        <source>NO_ITEMS</source>
+        <translation>Acest %1 nu conține articole</translation>
+    </message>
+    <message>
+        <source>Loading Channel Data</source>
+        <translation>Se încarcă datele canalului</translation>
+    </message>
+    <message>
+        <source>IMDB_RATING</source>
+        <translation>Recenzie IMDb</translation>
+    </message>
+    <message>
+        <source>Unable to load Channel Data from the server</source>
+        <translation>Nu se pot încărca datele canalului de pe server</translation>
+    </message>
+    <message>
+        <comment>Name or Title field of media item</comment>
+        <source>TITLE</source>
+        <translation>Nume</translation>
+    </message>
 </context>
 <context>
     <name></name>
