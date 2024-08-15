@@ -18,6 +18,9 @@ sub init()
     m.extrasGrid = m.top.findNode("extrasGrid")
     m.top.optionsAvailable = false
 
+    m.movieExtras = m.top.findnode("movieExtras")
+    m.movieExtras.observeField("hasItems", "onMovieExtrasHasItems")
+
     m.options = m.top.findNode("movieOptions")
     m.infoGroup = m.top.findNode("infoGroup")
 
@@ -36,6 +39,11 @@ sub init()
     end if
 
     m.top.observeField("itemContent", "itemContentChanged")
+end sub
+
+sub onMovieExtrasHasItems()
+    m.movieExtras.unobservefield("hasItems")
+    if m.movieExtras.hasItems then m.movieExtras.visible = true
 end sub
 
 sub setButtonColors()
@@ -487,7 +495,7 @@ end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean
 
-    if key = KeyCode.UP and m.top.findNode("extrasGrid").isInFocusChain()
+    if key = KeyCode.UP and m.extrasGrid.isInFocusChain()
         if m.extrasGrid.itemFocused = 0
             m.top.lastFocus = m.buttonGrp
             m.top.findNode("VertSlider").reverse = true
@@ -530,13 +538,16 @@ function onKeyEvent(key as string, press as boolean) as boolean
         i = 0
         for each button in buttonList
             if button.focus
-                button.focus = false
                 if i + 1 < m.buttonGrp.getChildCount()
+                    button.focus = false
                     nextButton = m.buttonGrp.getChild(i + 1)
                     if isValid(nextButton)
                         nextButton.focus = true
                     end if
                 else
+                    if not m.movieExtras.visible then return false
+
+                    button.focus = false
                     m.top.lastFocus = m.extrasGrid
                     m.extrasGrid.setFocus(true)
                     m.top.findNode("VertSlider").reverse = false
@@ -580,7 +591,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
             return true
         end if
 
-        if m.top.findNode("extrasGrid").isInFocusChain()
+        if m.extrasGrid.isInFocusChain()
             m.top.lastFocus = m.buttonGrp
             m.top.findNode("VertSlider").reverse = true
             m.top.findNode("extrasFader").reverse = true

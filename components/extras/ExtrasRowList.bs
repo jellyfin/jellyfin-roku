@@ -1,4 +1,7 @@
 import "pkg:/source/utils/misc.bs"
+import "pkg:/source/enums/TaskControl.bs"
+import "pkg:/source/enums/VideoType.bs"
+import "pkg:/source/enums/PersonType.bs"
 
 sub init()
     m.top.visible = true
@@ -10,19 +13,25 @@ sub init()
     m.LoadPeopleTask = CreateObject("roSGNode", "LoadItemsTask")
     m.LoadPeopleTask.itemsToLoad = "people"
     m.LoadPeopleTask.observeField("content", "onPeopleLoaded")
+
     m.LikeThisTask = CreateObject("roSGNode", "LoadItemsTask")
     m.LikeThisTask.itemsToLoad = "likethis"
     m.LikeThisTask.observeField("content", "onLikeThisLoaded")
+
     m.SpecialFeaturesTask = CreateObject("roSGNode", "LoadItemsTask")
     m.SpecialFeaturesTask.itemsToLoad = "specialfeatures"
     m.SpecialFeaturesTask.observeField("content", "onSpecialFeaturesLoaded")
+
     m.LoadAdditionalPartsTask = CreateObject("roSGNode", "LoadItemsTask")
     m.LoadAdditionalPartsTask.itemsToLoad = "additionalparts"
     m.LoadAdditionalPartsTask.observeField("content", "onAdditionalPartsLoaded")
+
     m.LoadMoviesTask = CreateObject("roSGNode", "LoadItemsTask")
     m.LoadMoviesTask.itemsToLoad = "personMovies"
+
     m.LoadShowsTask = CreateObject("roSGNode", "LoadItemsTask")
     m.LoadShowsTask.itemsToLoad = "personTVShows"
+
     m.LoadSeriesTask = CreateObject("roSGNode", "LoadItemsTask")
     m.LoadSeriesTask.itemsToLoad = "personSeries"
 end sub
@@ -37,14 +46,14 @@ sub loadParts(data as object)
     m.top.parentId = data.id
     m.people = data.People
     m.LoadAdditionalPartsTask.itemId = m.top.parentId
-    m.LoadAdditionalPartsTask.control = "RUN"
+    m.LoadAdditionalPartsTask.control = TaskControl.RUN
 end sub
 
 sub loadPersonVideos(personId)
     m.personId = personId
     m.LoadMoviesTask.itemId = m.personId
     m.LoadMoviesTask.observeField("content", "onMoviesLoaded")
-    m.LoadMoviesTask.control = "RUN"
+    m.LoadMoviesTask.control = TaskControl.RUN
 end sub
 
 sub onAdditionalPartsLoaded()
@@ -53,7 +62,8 @@ sub onAdditionalPartsLoaded()
 
     data = CreateObject("roSGNode", "ContentNode") ' The row Node
     m.top.content = data
-    if parts <> invalid and parts.count() > 0
+    if isValidAndNotEmpty(parts)
+        if not m.top.hasItems then m.top.hasItems = true
         row = buildRow("Additional Parts", parts, 464)
         addRowSize([464, 291])
         m.top.content.appendChild(row)
@@ -64,41 +74,43 @@ sub onAdditionalPartsLoaded()
 
     ' Load Cast and Crew and everything else...
     m.LoadPeopleTask.peopleList = m.people
-    m.LoadPeopleTask.control = "RUN"
+    m.LoadPeopleTask.control = TaskControl.RUN
 end sub
 
 sub onPeopleLoaded()
     people = m.LoadPeopleTask.content
     m.loadPeopleTask.unobserveField("content")
-    if people <> invalid and people.count() > 0
+    if isValidAndNotEmpty(people)
+        if not m.top.hasItems then m.top.hasItems = true
         row = m.top.content.createChild("ContentNode")
         row.Title = tr("Cast & Crew")
         for each person in people
-            if person.json.type = "Actor" and person.json.Role <> invalid and person.json.Role.ToStr().Trim() <> ""
+            if LCase(person.json.type) = PersonType.ACTOR and isValid(person.json.Role) and person.json.Role.ToStr().Trim() <> ""
                 person.subTitle = "as " + person.json.Role
             else
                 person.subTitle = person.json.Type
             end if
-            person.Type = "Person"
+            person.Type = capitalize(PersonType.PERSON)
             row.appendChild(person)
         end for
     end if
     m.LikeThisTask.itemId = m.top.parentId
-    m.LikeThisTask.control = "RUN"
+    m.LikeThisTask.control = TaskControl.RUN
 end sub
 
 sub onLikeThisLoaded()
     data = m.LikeThisTask.content
     m.LikeThisTask.unobserveField("content")
-    if data <> invalid and data.count() > 0
+    if isValidAndNotEmpty(data)
+        if not m.top.hasItems then m.top.hasItems = true
         row = m.top.content.createChild("ContentNode")
         row.Title = tr("More Like This")
         for each item in data
             item.Id = item.json.Id
             item.labelText = item.json.Name
-            if item.json.ProductionYear <> invalid
+            if isValid(item.json.ProductionYear)
                 item.subTitle = stri(item.json.ProductionYear)
-            else if item.json.PremiereDate <> invalid
+            else if isValid(item.json.PremiereDate)
                 premierYear = CreateObject("roDateTime")
                 premierYear.FromISO8601String(item.json.PremiereDate)
                 item.subTitle = stri(premierYear.GetYear())
@@ -110,13 +122,14 @@ sub onLikeThisLoaded()
     end if
     ' Special Features next...
     m.SpecialFeaturesTask.itemId = m.top.parentId
-    m.SpecialFeaturesTask.control = "RUN"
+    m.SpecialFeaturesTask.control = TaskControl.RUN
 end sub
 
 function onSpecialFeaturesLoaded()
     data = m.SpecialFeaturesTask.content
     m.SpecialFeaturesTask.unobserveField("content")
-    if data <> invalid and data.count() > 0
+    if isValidAndNotEmpty(data)
+        if not m.top.hasItems then m.top.hasItems = true
         row = m.top.content.createChild("ContentNode")
         row.Title = tr("Special Features")
         for each item in data
@@ -138,7 +151,8 @@ sub onMoviesLoaded()
     data = m.LoadMoviesTask.content
     m.LoadMoviesTask.unobserveField("content")
     rlContent = CreateObject("roSGNode", "ContentNode")
-    if data <> invalid and data.count() > 0
+    if isValidAndNotEmpty(data)
+        if not m.top.hasItems then m.top.hasItems = true
         row = rlContent.createChild("ContentNode")
         row.title = tr("Movies")
         for each mov in data
@@ -153,26 +167,28 @@ sub onMoviesLoaded()
     m.top.content = rlContent
     m.LoadShowsTask.itemId = m.personId
     m.LoadShowsTask.observeField("content", "onShowsLoaded")
-    m.LoadShowsTask.control = "RUN"
+    m.LoadShowsTask.control = TaskControl.RUN
 end sub
 
 sub onShowsLoaded()
     data = m.LoadShowsTask.content
     m.LoadShowsTask.unobserveField("content")
-    if data <> invalid and data.count() > 0
+    if isValidAndNotEmpty(data)
+        if not m.top.hasItems then m.top.hasItems = true
         row = buildRow("TV Shows", data, 502)
         addRowSize([502, 396])
         m.top.content.appendChild(row)
     end if
     m.LoadSeriesTask.itemId = m.personId
     m.LoadSeriesTask.observeField("content", "onSeriesLoaded")
-    m.LoadSeriesTask.control = "RUN"
+    m.LoadSeriesTask.control = TaskControl.RUN
 end sub
 
 sub onSeriesLoaded()
     data = m.LoadSeriesTask.content
     m.LoadSeriesTask.unobserveField("content")
-    if data <> invalid and data.count() > 0
+    if isValidAndNotEmpty(data)
+        if not m.top.hasItems then m.top.hasItems = true
         row = buildRow("Series", data)
         addRowSize([234, 396])
         m.top.content.appendChild(row)
@@ -184,7 +200,7 @@ function buildRow(rowTitle as string, items, imgWdth = 0)
     row = CreateObject("roSGNode", "ContentNode")
     row.Title = tr(rowTitle)
     for each mov in items
-        if LCase(mov.json.type) = "episode"
+        if LCase(mov.json.type) = VideoType.EPISODE
             if isAllValid([mov.json.SeriesName, mov.json.ParentIndexNumber, mov.json.IndexNumber, mov.json.Name])
                 mov.labelText = mov.json.SeriesName
                 mov.subTitle = `S${mov.json.ParentIndexNumber}:E${mov.json.IndexNumber} - ${mov.json.Name}`

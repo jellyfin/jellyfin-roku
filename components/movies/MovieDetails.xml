@@ -54,7 +54,7 @@
     <MovieOptions id="movieOptions" visible="false" />
 
     <!-- "Cast and Crew" row -->
-    <extrasSlider id="movieExtras" />
+    <extrasSlider id="movieExtras" visible="false" />
   </children>
   <interface>
     <field id="buttonSelected" type="string" alwaysNotify="true" />

@@ -3,6 +3,7 @@
 <component name="ExtrasRowList" extends="RowList">
   <interface>
     <field id="type" type="string" />
+    <field id="hasItems" type="boolean" />
     <field id="parentId" type="string" />
     <field id="focusedItem" type="node" alwaysNotify="true" />
     <field id="selectedItem" type="node" alwaysNotify="true" />

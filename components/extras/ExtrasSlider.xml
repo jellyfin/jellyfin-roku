@@ -26,4 +26,7 @@
       </Animation>
     </Rectangle>
   </children>
+  <interface>
+    <field id="hasItems" type="boolean" alias="extrasGrid.hasItems" />
+  </interface>
 </component>

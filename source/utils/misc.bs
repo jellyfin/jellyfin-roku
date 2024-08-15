@@ -178,6 +178,10 @@ function option_dialog(options, message = "", defaultSelection = 0) as integer
     return show_dialog(message, options, defaultSelection)
 end function
 
+function capitalize(input as string) as string
+    return UCase(input.left(1)) + input.mid(1)
+end function
+
 ' take an incomplete url string and use it to make educated guesses about
 ' the complete url. then tests these guesses to see if it can find a jf server
 ' returns the url of the server it found, or an empty string
