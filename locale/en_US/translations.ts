@@ -113,8 +113,8 @@
             <translation>Next Up</translation>
         </message>
         <message>
-            <source>Latest in</source>
-            <translation>Latest in</translation>
+            <source>Recently Added in</source>
+            <translation>Recently Added in</translation>
         </message>
         <message>
             <source>On Now</source>

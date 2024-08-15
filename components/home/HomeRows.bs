@@ -303,10 +303,10 @@ sub createLatestInRows()
     ' Ensure we have data
     if not isValidAndNotEmpty(m.libraryData) then return
 
-    ' create a "Latest In" row for each library
+    ' create a Recently Added in row for each library
     for each lib in m.filteredLatest
         if lib.collectionType <> "boxsets" and lib.collectionType <> "livetv" and lib.json.CollectionType <> "Program"
-            sectionName = `${tr("Latest in")} ${lib.name} >`
+            sectionName = `${tr("Recently Added in")} ${lib.name}`
 
             imagesize = homeRowItemSizes.WIDE_POSTER
 
@@ -422,7 +422,7 @@ end sub
 ' createNextUpRow: Creates a row displaying next episodes up to watch
 '
 sub createNextUpRow()
-    sectionName = tr("Next Up") + ">"
+    sectionName = tr("Next Up")
 
     if not sectionExists(sectionName)
         nextUpRow = m.top.content.CreateChild("HomeRow")
@@ -547,7 +547,7 @@ sub updateNextUpItems()
     m.LoadNextUpTask.content = []
     m.LoadNextUpTask.control = "STOP"
 
-    sectionName = tr("Next Up") + " >"
+    sectionName = tr("Next Up")
 
     if not isValidAndNotEmpty(itemData)
         removeHomeSection(sectionName)
@@ -556,7 +556,7 @@ sub updateNextUpItems()
 
     ' remake row using the new data
     row = CreateObject("roSGNode", "HomeRow")
-    row.title = tr("Next Up") + " >"
+    row.title = tr("Next Up")
     row.imageWidth = homeRowItemSizes.WIDE_POSTER[0]
     row.cursorSize = homeRowItemSizes.WIDE_POSTER
 
@@ -578,7 +578,7 @@ sub updateNextUpItems()
     setRowItemSize()
 end sub
 
-' updateLatestItems: Processes LoadItemsTask content. Removes, Creates, or Updates latest in {library} row as needed
+' updateLatestItems: Processes LoadItemsTask content. Removes, Creates, or Updates Recently Added in {library} row as needed
 '
 ' @param {dynamic} msg - LoadItemsTask
 sub updateLatestItems(msg)
@@ -589,7 +589,7 @@ sub updateLatestItems(msg)
     node.unobserveField("content")
     node.content = []
 
-    sectionName = tr("Latest in") + " " + node.metadata.title + " >"
+    sectionName = tr("Recently Added in") + " " + node.metadata.title
 
     if not isValidAndNotEmpty(itemData)
         removeHomeSection(sectionName)
@@ -630,7 +630,7 @@ sub updateLatestItems(msg)
     setRowItemSize()
 end sub
 
-' updateOnNowItems: Processes LoadOnNowTask content. Removes, Creates, or Updates latest in on now row as needed
+' updateOnNowItems: Processes LoadOnNowTask content. Removes, Creates, or Updates Recently Added in on now row as needed
 '
 sub updateOnNowItems()
     m.processedRowCount++

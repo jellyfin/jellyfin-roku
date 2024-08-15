@@ -2,34 +2,34 @@ import "pkg:/source/api/Image.bs"
 import "pkg:/source/api/baserequest.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/misc.bs"
+import "pkg:/source/enums/ColorPalette.bs"
+import "pkg:/source/enums/ItemType.bs"
+import "pkg:/source/enums/PosterLoadStatus.bs"
 
 sub init()
+    findNodes()
+
+    m.itemPoster.observeField("loadStatus", "onPosterLoadStatusChanged")
+
+    m.itemProgress.color = ColorPalette.HIGHLIGHT
+    m.unplayedCount.color = ColorPalette.HIGHLIGHT
+    m.playedIndicator.color = ColorPalette.HIGHLIGHT
+    m.backdrop.color = ColorPalette.ELEMENTBACKGROUND
+end sub
+
+sub findNodes()
     initItemText()
     initItemPoster()
+    initItemTextExtra()
+    initBackdrop()
     m.itemProgress = m.top.findNode("progress")
     m.itemProgressBackground = m.top.findNode("progressBackground")
     m.itemIcon = m.top.findNode("itemIcon")
-    initItemTextExtra()
-    m.itemPoster.observeField("loadStatus", "onPosterLoadStatusChanged")
     m.unplayedCount = m.top.findNode("unplayedCount")
     m.unplayedEpisodeCount = m.top.findNode("unplayedEpisodeCount")
     m.playedIndicator = m.top.findNode("playedIndicator")
-
     m.showProgressBarAnimation = m.top.findNode("showProgressBar")
     m.showProgressBarField = m.top.findNode("showProgressBarField")
-
-    ' Randomize the background colors
-    backdropColor = "#00a4db" ' set default in case global var is invalid
-    localGlobal = m.global
-
-    if isValid(localGlobal) and isValid(localGlobal.constants) and isValid(localGlobal.constants.poster_bg_pallet)
-        posterBackgrounds = localGlobal.constants.poster_bg_pallet
-        backdropColor = posterBackgrounds[rnd(posterBackgrounds.count()) - 1]
-    end if
-
-    ' update the backdrop node
-    initBackdrop()
-    m.backdrop.color = backdropColor
 end sub
 
 sub initItemText()
@@ -51,10 +51,11 @@ end sub
 sub itemContentChanged()
     if isValid(m.unplayedCount) then m.unplayedCount.visible = false
     itemData = m.top.itemContent
-    if itemData = invalid then return
+
+    if not isValid(itemData) then return
     localGlobal = m.global
 
-    itemData.Title = itemData.name ' Temporarily required while we move from "HomeItem" to "JFContentItem"
+    itemData.Title = itemData.name
 
     ' validate to prevent crash
     if not isValid(m.itemPoster) then initItemPoster()
@@ -63,10 +64,17 @@ sub itemContentChanged()
     if not isValid(m.backdrop) then initBackdrop()
 
     m.itemPoster.width = itemData.imageWidth
-    m.itemText.maxWidth = itemData.imageWidth
+
     m.itemTextExtra.width = itemData.imageWidth
     m.itemTextExtra.visible = true
     m.itemTextExtra.text = ""
+    m.itemTextExtra.font.size = 22
+
+    m.itemText.maxWidth = itemData.imageWidth
+    m.itemText.height = 34
+    m.itemText.font.size = 25
+    m.itemText.horizAlign = "left"
+    m.itemText.vertAlign = "bottom"
 
     m.backdrop.width = itemData.imageWidth
 
@@ -74,15 +82,17 @@ sub itemContentChanged()
         m.itemIcon.uri = itemData.iconUrl
     end if
 
+    itemDataType = LCase(itemData.type)
+
     if itemData.isWatched
         m.playedIndicator.visible = true
     else
         m.playedIndicator.visible = false
 
-        if LCase(itemData.type) = "series"
-            if isValid(localGlobal) and isValid(localGlobal.session) and isValid(localGlobal.session.user) and isValid(localGlobal.session.user.settings)
+        if itemDataType = ItemType.SERIES
+            if isChainValid(localGlobal, "session.user.settings")
                 if not localGlobal.session.user.settings["ui.tvshows.disableUnwatchedEpisodeCount"]
-                    if isValid(itemData.json.UserData) and isValid(itemData.json.UserData.UnplayedItemCount)
+                    if isChainValid(itemData, "json.UserData.UnplayedItemCount")
                         if itemData.json.UserData.UnplayedItemCount > 0
                             if isValid(m.unplayedCount) then m.unplayedCount.visible = true
                             m.unplayedEpisodeCount.text = itemData.json.UserData.UnplayedItemCount
@@ -94,7 +104,7 @@ sub itemContentChanged()
     end if
 
     ' Format the Data based on the type of Home Data
-    if itemData.type = "CollectionFolder" or itemData.type = "UserView" or itemData.type = "Channel"
+    if inArray([ItemType.COLLECTIONFOLDER, ItemType.USERVIEW, ItemType.CHANNEL], itemDataType)
         m.itemText.font.size = 35
         m.itemText.height = 64
         m.itemText.horizAlign = "center"
@@ -104,34 +114,14 @@ sub itemContentChanged()
         return
     end if
 
-    if itemData.type = "UserView"
-        m.itemPoster.width = "96"
-        m.itemPoster.height = "96"
-        m.itemPoster.translation = "[192, 88]"
-        m.itemText.text = itemData.name
-        m.itemPoster.uri = itemData.widePosterURL
-        return
-    end if
-
     playedIndicatorLeftPosition = m.itemPoster.width - 60
     m.playedIndicator.translation = [playedIndicatorLeftPosition, 0]
 
-    m.itemText.height = 34
-    m.itemText.font.size = 25
-    m.itemText.horizAlign = "left"
-    m.itemText.vertAlign = "bottom"
-    m.itemTextExtra.visible = true
-    m.itemTextExtra.font.size = 22
-
     ' "Program" is from clicking on an "On Now" item on the Home Screen
-    if itemData.type = "Program"
+    if itemDataType = ItemType.PROGRAM
         m.itemText.Text = itemData.json.name
         m.itemTextExtra.Text = itemData.json.ChannelName
-        if itemData.usePoster
-            m.itemPoster.uri = itemData.thumbnailURL
-        else
-            m.itemPoster.uri = ImageURL(itemData.json.ChannelId)
-        end if
+        m.itemPoster.uri = itemData.usePoster ? itemData.thumbnailURL : ImageURL(itemData.json.ChannelId)
         m.itemPoster.loadDisplayMode = "scaleToFill"
 
         ' Set Episode title if available
@@ -142,7 +132,7 @@ sub itemContentChanged()
         return
     end if
 
-    if itemData.type = "Episode" or LCase(itemData.type) = "recording"
+    if inArray([ItemType.EPISODE, ItemType.RECORDING], itemDataType)
         m.itemText.text = itemData.json.SeriesName
 
         if itemData.PlayedPercentage > 0
@@ -178,7 +168,7 @@ sub itemContentChanged()
         return
     end if
 
-    if itemData.type = "Movie" or itemData.type = "MusicVideo"
+    if inArray([ItemType.MOVIE, ItemType.MUSICVIDEO], itemDataType)
         m.itemText.text = itemData.name
 
         if itemData.PlayedPercentage > 0
@@ -209,7 +199,7 @@ sub itemContentChanged()
         return
     end if
 
-    if itemData.type = "Video"
+    if itemDataType = ItemType.VIDEO
         m.itemText.text = itemData.name
 
         if itemData.PlayedPercentage > 0
@@ -225,7 +215,7 @@ sub itemContentChanged()
         return
     end if
 
-    if itemData.type = "BoxSet"
+    if itemDataType = ItemType.BOXSET
         m.itemText.text = itemData.name
         m.itemPoster.uri = itemData.posterURL
 
@@ -239,11 +229,11 @@ sub itemContentChanged()
         return
     end if
 
-    if itemData.type = "Series"
+    if itemDataType = ItemType.SERIES
 
         m.itemText.text = itemData.name
 
-        if itemData.usePoster = true
+        if itemData.usePoster
             if itemData.imageWidth = 180
                 m.itemPoster.uri = itemData.posterURL
             else
@@ -269,42 +259,42 @@ sub itemContentChanged()
         return
     end if
 
-    if itemData.type = "MusicAlbum"
+    if itemDataType = ItemType.MUSICALBUM
         m.itemText.text = itemData.name
         m.itemTextExtra.text = itemData.json.AlbumArtist
         m.itemPoster.uri = itemData.posterURL
         return
     end if
 
-    if itemData.type = "MusicArtist"
+    if itemDataType = ItemType.MUSICARTIST
         m.itemText.text = itemData.name
         m.itemTextExtra.text = itemData.json.AlbumArtist
         m.itemPoster.uri = ImageURL(itemData.id)
         return
     end if
 
-    if itemData.type = "Audio"
+    if itemDataType = ItemType.AUDIO
         m.itemText.text = itemData.name
         m.itemTextExtra.text = itemData.json.AlbumArtist
         m.itemPoster.uri = ImageURL(itemData.id)
         return
     end if
 
-    if itemData.type = "TvChannel"
+    if itemDataType = ItemType.TVCHANNEL
         m.itemText.text = itemData.name
         m.itemTextExtra.text = itemData.json.AlbumArtist
         m.itemPoster.uri = ImageURL(itemData.id)
         return
     end if
 
-    if itemData.type = "Season"
+    if itemDataType = ItemType.SEASON
         m.itemText.text = itemData.json.SeriesName
         m.itemTextExtra.text = itemData.name
         m.itemPoster.uri = ImageURL(itemData.id)
         return
     end if
 
-    if itemData.type = "Photo"
+    if itemDataType = ItemType.PHOTO
         m.itemText.text = itemData.name
         m.itemPoster.uri = ImageURL(itemData.id)
 
@@ -324,7 +314,7 @@ sub itemContentChanged()
         return
     end if
 
-    if itemData.type = "PhotoAlbum"
+    if itemDataType = ItemType.PHOTOALBUM
         m.itemText.text = itemData.name
         m.itemPoster.uri = ImageURL(itemData.id)
 
@@ -336,7 +326,7 @@ sub itemContentChanged()
         return
     end if
 
-    print `Unhandled Home Item Type ${itemData.type}`
+    print `Unhandled Home Item Type ${itemDataType}`
 end sub
 
 '
@@ -351,8 +341,7 @@ end sub
 '
 ' Enable title scrolling based on item Focus
 sub focusChanged()
-
-    if m.top.itemHasFocus = true
+    if m.top.itemHasFocus
         m.itemText.repeatCount = -1
     else
         m.itemText.repeatCount = 0
@@ -362,7 +351,7 @@ end sub
 
 'Hide backdrop and icon when poster loaded
 sub onPosterLoadStatusChanged()
-    if m.itemPoster.loadStatus = "ready" and m.itemPoster.uri <> ""
+    if m.itemPoster.loadStatus = PosterLoadStatus.READY and m.itemPoster.uri <> ""
         m.backdrop.visible = false
         m.itemIcon.visible = false
     else
