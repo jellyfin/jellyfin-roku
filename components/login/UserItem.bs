@@ -14,10 +14,8 @@ sub onFocusChanged()
     end if
 
     if m.top.itemHasFocus
-        m.top.findNode("background").color = ColorPalette.HIGHLIGHT
         m.top.findNode("profileType").color = ColorPalette.WHITE
     else
-        m.top.findNode("background").color = ColorPalette.TRANSPARENT
         m.top.findNode("profileType").color = ColorPalette.LIGHTGREY
     end if
 end sub

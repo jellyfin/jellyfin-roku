@@ -1,7 +1,7 @@
 enum ColorPalette
     VIEWBACKGROUND = "#000018"
     ELEMENTBACKGROUND = "#101420"
-    HIGHLIGHT = "#ff6867"
+    HIGHLIGHT = "0xff6867FF"
     LIGHTHIGHLIGHT = "#ff9a99"
     LIGHTBLUE = "#c8fafa"
     WHITE = "#ffffff"
@@ -11,4 +11,6 @@ enum ColorPalette
     RED = "#FF0000"
     BLACK77 = "0x00000077"
     TRANSPARENT = "0x00000000"
+    TRIADGREEN = "#67ff68"
+    TRIADBLUE = "#6867ff"
 end enum

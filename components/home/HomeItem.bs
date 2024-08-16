@@ -12,9 +12,9 @@ sub init()
 
     m.itemPoster.observeField("loadStatus", "onPosterLoadStatusChanged")
 
-    m.itemProgress.color = ColorPalette.HIGHLIGHT
-    m.unplayedCount.color = ColorPalette.HIGHLIGHT
-    m.playedIndicator.color = ColorPalette.HIGHLIGHT
+    m.itemProgress.color = ColorPalette.TRIADBLUE
+    m.unplayedCount.color = ColorPalette.TRIADBLUE
+    m.playedIndicator.color = ColorPalette.TRIADBLUE
     m.backdrop.color = ColorPalette.ELEMENTBACKGROUND
 end sub
 
