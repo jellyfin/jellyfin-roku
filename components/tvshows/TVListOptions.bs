@@ -1,4 +1,5 @@
 import "pkg:/source/utils/misc.bs"
+import "pkg:/source/enums/ColorPalette.bs"
 
 sub init()
 
@@ -16,9 +17,11 @@ sub init()
     m.videoNames = []
     m.audioNames = []
 
-    ' Set button colors to global
-    m.top.findNode("videoMenu").focusBitmapBlendColor = m.global.constants.colors.button
-    m.top.findNode("audioMenu").focusBitmapBlendColor = m.global.constants.colors.button
+    m.top.findNode("videoMenu").focusBitmapBlendColor = ColorPalette.HIGHLIGHT
+    m.top.findNode("videoMenu").focusedColor = ColorPalette.WHITE
+
+    m.top.findNode("audioMenu").focusBitmapBlendColor = ColorPalette.HIGHLIGHT
+    m.top.findNode("audioMenu").focusedColor = ColorPalette.WHITE
 
     ' Animation
     m.fadeAnim = m.top.findNode("fadeAnim")
@@ -27,7 +30,6 @@ sub init()
 
     m.buttons.observeField("focusedIndex", "buttonFocusChanged")
     m.buttons.focusedIndex = m.selectedItem
-
 end sub
 
 sub optionsSet()

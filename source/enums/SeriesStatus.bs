@@ -1,0 +1,4 @@
+enum SeriesStatus
+    CONTINUING = "continuing"
+    ENDED = "ended"
+end enum

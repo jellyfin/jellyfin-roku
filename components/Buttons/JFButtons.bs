@@ -1,3 +1,9 @@
+import "pkg:/source/utils/misc.bs"
+import "pkg:/source/enums/ColorPalette.bs"
+import "pkg:/source/enums/KeyCode.bs"
+import "pkg:/source/enums/AnimationControl.bs"
+import "pkg:/source/enums/TaskControl.bs"
+
 sub init()
 
     m.top.focusable = true
@@ -12,7 +18,7 @@ sub init()
     m.focusAnimHeight = m.top.findNode("focusHeight")
 
     ' Set button color to global
-    m.focusRing.color = m.global.constants.colors.button
+    m.focusRing.color = ColorPalette.HIGHLIGHT
 
     m.buttonCount = 0
     m.selectedFocusedIndex = 0
@@ -22,7 +28,6 @@ sub init()
     m.top.observeField("focusedChild", "focusChanged")
     m.top.enableRenderTracking = true
     m.top.observeField("renderTracking", "renderChanged")
-
 end sub
 
 '
@@ -40,17 +45,15 @@ sub renderChanged()
     end if
 end sub
 
-
 sub updateButtons()
     m.textSizeTask.fontsize = 40
     m.textSizeTask.text = m.top.buttons
     m.textSizeTask.name = m.buttonCount
     m.textSizeTask.observeField("width", "showButtons")
-    m.textSizeTask.control = "RUN"
+    m.textSizeTask.control = TaskControl.RUN
 end sub
 
 sub showButtons()
-
     totalWidth = 110 ' track for menu background width - start with side padding
 
     for i = 0 to m.top.buttons.count() - 1
@@ -81,7 +84,7 @@ sub highlightSelected(index as integer, animate = true)
         m.focusAnimTranslation.keyValue = [m.focusRing.translation, [rect.x - 25, rect.y - 30]]
         m.focusAnimWidth.keyValue = [m.focusRing.width, val.width + 50]
         m.focusAnimHeight.keyValue = [m.focusRing.height, val.height + 60]
-        m.focusAnim.control = "start"
+        m.focusAnim.control = AnimationControl.START
     else
         m.focusRing.translation = [rect.x - 25, rect.y - 30]
         m.focusRing.width = val.width + 50
@@ -93,30 +96,49 @@ end sub
 ' Change opacity of the highlighted menu item based on focus
 sub focusChanged()
     if m.top.isInFocusChain()
-        m.focusRing.opacity = 1
+        m.focusRing.color = ColorPalette.HIGHLIGHT
+        setButtonColor(m.selectedFocusedIndex, ColorPalette.WHITE)
     else
-        m.focusRing.opacity = 0.6
+        m.focusRing.color = ColorPalette.LIGHTBLUE
+        setButtonColor(m.selectedFocusedIndex, ColorPalette.DARKGREY)
     end if
 end sub
 
+sub setButtonColor(buttonIndex as integer, color as string)
+    val = m.buttonGroup.getChild(m.selectedFocusedIndex)
+    if isValid(val)
+        val.color = color
+    end if
+end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean
 
     if not press then return false
 
-    if key = "left"
-        if m.selectedFocusedIndex > 0 then m.selectedFocusedIndex = m.selectedFocusedIndex - 1
+    if key = KeyCode.LEFT
+        if m.selectedFocusedIndex > 0
+            m.selectedFocusedIndex = m.selectedFocusedIndex - 1
+        end if
+
         highlightSelected(m.selectedFocusedIndex)
         m.top.focusedIndex = m.selectedFocusedIndex
         return true
-    else if key = "right"
-        if m.selectedFocusedIndex < m.buttonCount - 1 then m.selectedFocusedIndex = m.selectedFocusedIndex + 1
+    end if
+
+    if key = KeyCode.RIGHT
+        if m.selectedFocusedIndex < m.buttonCount - 1
+            m.selectedFocusedIndex = m.selectedFocusedIndex + 1
+        end if
+
         highlightSelected(m.selectedFocusedIndex)
         m.top.focusedIndex = m.selectedFocusedIndex
         return true
-    else if key = "OK"
+    end if
+
+    if key = KeyCode.OK
         m.top.selectedIndex = m.selectedFocusedIndex
         return true
     end if
+
     return false
 end function

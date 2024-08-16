@@ -292,7 +292,18 @@ end sub
 sub addEpisodeTitle(itemData as object)
     episodeTitle = createObject("roSGNode", "Label")
     episodeTitle.font = "font:MediumBoldSystemFont"
-    episodeTitle.text = `Season ${itemData.ParentIndexNumber} Episode ${itemData.IndexNumber} • ${itemData.name}`
+
+    titleText = ""
+    if isAllValid([itemData.ParentIndexNumber, itemData.IndexNumber])
+        titleText = `Season ${itemData.ParentIndexNumber} Episode ${itemData.IndexNumber}`
+    end if
+
+    if isValid(itemData.name)
+        if titleText <> "" then titleText += " • "
+        titleText += itemData.name
+    end if
+
+    episodeTitle.text = titleText
 
     m.container.insertChild(episodeTitle, 0)
 end sub

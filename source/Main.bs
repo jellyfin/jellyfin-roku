@@ -282,23 +282,7 @@ sub Main (args as dynamic) as void
                     group = CreateItemGrid(selectedItem)
                     sceneManager.callFunc("pushScene", group)
                 else if selectedItemType = "Episode" or LCase(selectedItemType) = "recording"
-                    ' User has selected a TV episode or Recording they want us to play
-                    audio_stream_idx = 0
-                    if isValid(selectedItem.selectedAudioStreamIndex) and selectedItem.selectedAudioStreamIndex > 0
-                        audio_stream_idx = selectedItem.selectedAudioStreamIndex
-                    end if
-
-                    selectedItem.selectedAudioStreamIndex = audio_stream_idx
-                    ' Display playback options dialog
-                    if selectedItem.json.userdata.PlaybackPositionTicks > 0
-                        m.global.queueManager.callFunc("hold", selectedItem)
-                        playbackOptionDialog(selectedItem.json.userdata.PlaybackPositionTicks, selectedItem.json)
-                    else
-                        m.global.queueManager.callFunc("clear")
-                        m.global.queueManager.callFunc("push", selectedItem)
-                        m.global.queueManager.callFunc("playQueue")
-                    end if
-
+                    group = CreateMovieDetailsGroup(selectedItem)
                 else if selectedItemType = "Series"
                     group = CreateSeriesDetailsGroup(selectedItem.json.id)
                 else if selectedItemType = "Season"
@@ -663,8 +647,7 @@ sub Main (args as dynamic) as void
                 group = CreateVideoPlayerGroup(node.id)
                 sceneManager.callFunc("pushScene", group)
             else if node.type = "Episode"
-                group = CreateVideoPlayerGroup(node.id)
-                sceneManager.callFunc("pushScene", group)
+                group = CreateMovieDetailsGroup(node)
             else if LCase(node.type) = "recording"
                 group = CreateVideoPlayerGroup(node.id)
                 sceneManager.callFunc("pushScene", group)

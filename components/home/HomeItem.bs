@@ -6,6 +6,7 @@ import "pkg:/source/enums/ColorPalette.bs"
 import "pkg:/source/enums/ItemType.bs"
 import "pkg:/source/enums/PosterLoadStatus.bs"
 import "pkg:/source/enums/AnimationControl.bs"
+import "pkg:/source/enums/SeriesStatus.bs"
 
 sub init()
     findNodes()
@@ -250,10 +251,12 @@ sub displaySeriesInfo(itemData as object)
     end if
 
     ' Set Years Run for Extra Text
-    if itemData.json.Status = "Continuing"
-        textExtra = textExtra + " - Present"
-    else if itemData.json.Status = "Ended" and isValid(itemData.json.EndDate)
-        textExtra = textExtra + " - " + LEFT(itemData.json.EndDate, 4)
+    if isValid(itemData.json.Status)
+        if LCase(itemData.json.Status) = SeriesStatus.CONTINUING
+            textExtra = textExtra + " - Present"
+        else if LCase(itemData.json.Status) = SeriesStatus.ENDED and isValid(itemData.json.EndDate)
+            textExtra = textExtra + " - " + LEFT(itemData.json.EndDate, 4)
+        end if
     end if
     m.itemTextExtra.text = textExtra
 end sub
@@ -278,11 +281,7 @@ sub displayVideoInfo(itemData as object)
         drawProgressBar(itemData)
     end if
 
-    if itemData.imageWidth = 180
-        m.itemPoster.uri = itemData.posterURL
-    else
-        m.itemPoster.uri = itemData.thumbnailURL
-    end if
+    m.itemPoster.uri = itemData.imageWidth = 180 ? itemData.posterURL : itemData.thumbnailURL
 end sub
 
 sub displayMovieInfo(itemData as object)

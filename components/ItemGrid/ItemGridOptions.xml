@@ -9,15 +9,45 @@
       </LayoutGroup>
       <LayoutGroup id="menuOptions" horizAlignment="center" translation="[860,200]" itemSpacings="[50]">
         <Group>
-          <RadiobuttonList id="viewMenu" itemSize="[600, 75]" itemspacing="[0,10]" vertFocusAnimationStyle="floatingFocus" opacity="0" drawFocusFeedback="false">
-          </RadiobuttonList>
-          <RadiobuttonList id="sortMenu" itemSize="[600, 75]" itemspacing="[0,10]" vertFocusAnimationStyle="floatingFocus" opacity="1" numRows="8" drawFocusFeedback="false">
-          </RadiobuttonList>
-          <RadiobuttonList id="filterMenu" itemSize="[600, 75]" checkOnSelect="false" itemspacing="[0,10]" vertFocusAnimationStyle="floatingFocus" opacity="0" drawFocusFeedback="false">
-          </RadiobuttonList>
+          <RadiobuttonList
+            id="viewMenu"
+            itemSize="[600, 75]"
+            itemspacing="[0,10]"
+            vertFocusAnimationStyle="floatingFocus"
+            opacity="0"
+            focusFootprintBitmapUri=""
+            drawFocusFeedback="false" />
+
+          <RadiobuttonList
+            id="sortMenu"
+            itemSize="[600, 75]"
+            itemspacing="[0,10]"
+            vertFocusAnimationStyle="floatingFocus"
+            opacity="1"
+            numRows="8"
+            focusFootprintBitmapUri=""
+            drawFocusFeedback="false" />
+
+          <RadiobuttonList
+            id="filterMenu"
+            itemSize="[600, 75]"
+            checkOnSelect="false"
+            itemspacing="[0,10]"
+            vertFocusAnimationStyle="floatingFocus"
+            opacity="0"
+            focusFootprintBitmapUri=""
+            drawFocusFeedback="false" />
         </Group>
       </LayoutGroup>
-      <CheckList opacity="0" translation="[900, 200]" id="filterOptions" numRows="8" itemSize="[250, 70]" />
+
+      <CheckList
+        opacity="0"
+        translation="[900, 200]"
+        id="filterOptions"
+        numRows="8"
+        focusFootprintBitmapUri=""
+        itemSize="[250, 70]" />
+
       <ButtonGroup translation="[1250,50]">
         <Button id="favoriteMenu" iconUri="pkg:/images/icons/favorite.png" focusedIconUri="pkg:/images/icons/favorite.png" focusBitmapUri="" focusFootprintBitmapUri="" text="Favorite" showFocusFootprint="false"></Button>
       </ButtonGroup>
