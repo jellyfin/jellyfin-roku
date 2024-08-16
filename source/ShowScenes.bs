@@ -774,7 +774,6 @@ function CreateSeasonDetailsGroup(series as object, season as object) as dynamic
     group.seasonData = seasonMetaData.json
     group.objects = TVEpisodes(series.id, season.id)
     group.episodeObjects = group.objects
-    group.extrasObjects = TVSeasonExtras(season.id)
 
     group.observeField("refreshSeasonDetailsData", m.port)
 
@@ -811,8 +810,6 @@ function CreateSeasonDetailsGroupByID(seriesID as string, seasonID as string) as
     ' don't wait for the extras button
     stopLoadingSpinner()
     m.global.sceneManager.callFunc("pushScene", group)
-    ' check for specials/extras for this season
-    group.extrasObjects = TVSeasonExtras(seasonID)
 
     ' finished building SeasonDetails view
     return group

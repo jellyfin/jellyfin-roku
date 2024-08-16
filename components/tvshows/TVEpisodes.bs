@@ -2,6 +2,7 @@ import "pkg:/source/api/Image.bs"
 import "pkg:/source/api/baserequest.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/misc.bs"
+import "pkg:/source/enums/TaskControl.bs"
 import "pkg:/source/api/sdk.bs"
 
 sub init()
@@ -18,7 +19,15 @@ sub init()
 
     m.rows.observeField("doneLoading", "updateSeason")
 
+    m.tvExtrasTask = createObject("roSGNode", "TVExtrasTask")
+    m.tvExtrasTask.observeField("results", "onExtrasDataLoaded")
+
     m.isFirstRun = true
+end sub
+
+sub onExtrasDataLoaded()
+    m.top.extrasObjects = m.tvExtrasTask.results
+    setExtraButtonVisibility()
 end sub
 
 sub setSeasonLoading()
@@ -43,6 +52,9 @@ sub updateSeason()
             end if
         end if
     end if
+
+    m.tvExtrasTask.seasonID = m.top.seasonData.Id
+    m.tvExtrasTask.control = TaskControl.RUN
 
     imgParams = { "maxHeight": 450, "maxWidth": 300 }
     m.poster.uri = ImageURL(m.top.seasonData.Id, "Primary", imgParams)

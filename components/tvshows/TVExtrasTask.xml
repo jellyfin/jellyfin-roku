@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<component name="TVExtrasTask" extends="Task">
+  <interface>
+    <field id="seasonID" type="string" />
+    <field id="results" type="assocarray" />
+  </interface>
+</component>

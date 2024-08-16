@@ -462,9 +462,6 @@ function TVSeasonExtras(seasonId as string) as dynamic
     for each item in data
         tmp = CreateObject("roSGNode", "TVEpisodeData")
         tmp.image = PosterImage(item.id, { "maxWidth": 400, "maxheight": 250 })
-        if isValid(tmp.image)
-            tmp.image.posterDisplayMode = "scaleToZoom"
-        end if
         tmp.json = item
 
         ' Force item type to Video so episode auto queue is not attempted
