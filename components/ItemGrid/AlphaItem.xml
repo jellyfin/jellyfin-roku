@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component name="AlphaItem" extends="Group">
+  <interface>
+    <field id="itemContent" type="node" onChange="showContent" />
+    <field id="itemHasFocus" type="boolean" onChange="focusChanged" />
+  </interface>
+  <children>
+    <Label
+      translation="[0, 7]"
+      height="25"
+      width="35"
+      id="letterText"
+      font="font:SmallestSystemFont"
+      horizAlign="center" />
+  </children>
+</component>

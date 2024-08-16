@@ -3,6 +3,7 @@ import "pkg:/source/utils/config.bs"
 import "pkg:/source/api/baserequest.bs"
 import "pkg:/source/api/Image.bs"
 import "pkg:/source/utils/deviceCapabilities.bs"
+import "pkg:/source/enums/ColorPalette.bs"
 
 sub setupNodes()
     m.options = m.top.findNode("options")
@@ -31,11 +32,14 @@ end sub
 sub init()
     setupNodes()
 
+    m.itemGrid.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
+    m.top.findNode("VoiceBoxCover").color = ColorPalette.VIEWBACKGROUND
+
     m.overhang.isVisible = false
 
     ' adjust alpha menu mic icon since there is no overhang
     alphaMic = m.alpha.findNode("alphaMic")
-    alphaMic.translation = [60, 150]
+    alphaMic.translation = [60, 62]
     alphaMicText = m.alpha.findNode("alphaMicText")
     alphaMicText.visible = false
 
@@ -180,10 +184,12 @@ sub loadInitialItems()
     ' By default we load movies
     m.loadItemsTask.studioIds = ""
     m.loadItemsTask.view = "Movies"
+
     m.itemGrid.translation = "[96, 650]"
-    m.itemGrid.itemSize = "[230, 310]"
-    m.itemGrid.rowHeights = "[310]"
+    m.itemGrid.itemSize = "[230, 345]"
+    m.itemGrid.rowHeights = "[345]"
     m.itemGrid.numRows = "2"
+
     m.selectedMovieOverview.visible = true
     m.infoGroup.visible = true
     m.top.showItemTitles = "hidealways"
@@ -202,11 +208,11 @@ sub loadInitialItems()
         m.infoGroup.visible = false
         m.top.showItemTitles = m.global.session.user.settings["itemgrid.gridTitles"]
         if LCase(m.top.showItemTitles) = "hidealways"
-            m.itemGrid.itemSize = "[230, 315]"
-            m.itemGrid.rowHeights = "[315]"
-        else
             m.itemGrid.itemSize = "[230, 350]"
             m.itemGrid.rowHeights = "[350]"
+        else
+            m.itemGrid.itemSize = "[230, 390]"
+            m.itemGrid.rowHeights = "[390]"
         end if
     else if m.options.view = "Genres" or m.view = "Genres"
         m.loadItemsTask.StudioIds = m.top.parentItem.Id

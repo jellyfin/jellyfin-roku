@@ -4,12 +4,7 @@ import "pkg:/source/enums/ColorPalette.bs"
 import "pkg:/source/enums/AnimationState.bs"
 import "pkg:/source/enums/AnimationControl.bs"
 import "pkg:/source/enums/TaskControl.bs"
-
-enum MenuType
-    VIEW
-    SORT
-    FILTER
-end enum
+import "pkg:/source/enums/MenuType.bs"
 
 sub init()
     m.buttons = m.top.findNode("buttons")

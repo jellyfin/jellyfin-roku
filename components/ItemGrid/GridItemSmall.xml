@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component name="GridItemSmall" extends="Group">
   <children>
-    <Poster id="backdrop" translation="[0,15]" width="230" height="320" loadDisplayMode="scaleToZoom" uri="pkg:/images/white.9.png" />
-    <Poster id="itemPoster" translation="[0,15]" width="230" height="320" loadDisplayMode="scaleToZoom" />
-    <ScrollingLabel translation="[0,340]" id="title" horizAlign="center" font="font:SmallSystemFont" repeatCount="0" maxWidth="230" />
+    <Poster id="backdrop" translation="[0,23]" width="230" height="345" loadDisplayMode="scaleToZoom" uri="pkg:/images/white.9.png" />
+    <Poster id="itemPoster" translation="[0,23]" width="230" height="345" loadDisplayMode="scaleToZoom" />
+
+    <ScrollingLabel
+      id="title"
+      translation="[0,380]"
+      horizAlign="center"
+      font="font:SmallSystemFont"
+      repeatCount="0"
+      maxWidth="230" />
+
     <Poster id="itemIcon" width="50" height="50" translation="[230,10]" />
-    <Label id="posterText" width="230" height="320" translation="[5,5]" horizAlign="center" vertAlign="center" ellipsizeOnBoundary="true" wrap="true" />
+    <Label id="posterText" width="230" height="345" translation="[5,5]" horizAlign="center" vertAlign="center" ellipsizeOnBoundary="true" wrap="true" />
     <PlayedCheckmark id="playedIndicator" color="#00a4dcFF" width="60" height="46" translation="[170, 15]" visible="false" />
   </children>
   <interface>
