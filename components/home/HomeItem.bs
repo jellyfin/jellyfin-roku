@@ -5,6 +5,7 @@ import "pkg:/source/utils/misc.bs"
 import "pkg:/source/enums/ColorPalette.bs"
 import "pkg:/source/enums/ItemType.bs"
 import "pkg:/source/enums/PosterLoadStatus.bs"
+import "pkg:/source/enums/AnimationControl.bs"
 
 sub init()
     findNodes()
@@ -84,33 +85,14 @@ sub itemContentChanged()
 
     itemDataType = LCase(itemData.type)
 
-    if itemData.isWatched
-        m.playedIndicator.visible = true
-    else
-        m.playedIndicator.visible = false
+    m.playedIndicator.visible = itemData.isWatched
 
-        if itemDataType = ItemType.SERIES
-            if isChainValid(localGlobal, "session.user.settings")
-                if not localGlobal.session.user.settings["ui.tvshows.disableUnwatchedEpisodeCount"]
-                    if isChainValid(itemData, "json.UserData.UnplayedItemCount")
-                        if itemData.json.UserData.UnplayedItemCount > 0
-                            if isValid(m.unplayedCount) then m.unplayedCount.visible = true
-                            m.unplayedEpisodeCount.text = itemData.json.UserData.UnplayedItemCount
-                        end if
-                    end if
-                end if
-            end if
-        end if
+    if not itemData.isWatched
+        displayUnplayedEpisodeCount(itemDataType, localGlobal, itemData)
     end if
 
-    ' Format the Data based on the type of Home Data
     if inArray([ItemType.COLLECTIONFOLDER, ItemType.USERVIEW, ItemType.CHANNEL], itemDataType)
-        m.itemText.font.size = 35
-        m.itemText.height = 64
-        m.itemText.horizAlign = "center"
-        m.itemText.vertAlign = "bottom"
-        m.itemText.text = itemData.name
-        m.itemPoster.uri = itemData.widePosterURL
+        displayCollectionInfo(itemData)
         return
     end if
 
@@ -119,214 +101,268 @@ sub itemContentChanged()
 
     ' "Program" is from clicking on an "On Now" item on the Home Screen
     if itemDataType = ItemType.PROGRAM
-        m.itemText.Text = itemData.json.name
-        m.itemTextExtra.Text = itemData.json.ChannelName
-        m.itemPoster.uri = itemData.usePoster ? itemData.thumbnailURL : ImageURL(itemData.json.ChannelId)
-        m.itemPoster.loadDisplayMode = "scaleToFill"
-
-        ' Set Episode title if available
-        if isValid(itemData.json.EpisodeTitle)
-            m.itemTextExtra.text = itemData.json.EpisodeTitle
-        end if
-
+        displayProgramInfo(itemData)
         return
     end if
 
     if inArray([ItemType.EPISODE, ItemType.RECORDING], itemDataType)
-        m.itemText.text = itemData.json.SeriesName
-
-        if itemData.PlayedPercentage > 0
-            drawProgressBar(itemData)
-        end if
-
-        if localGlobal.session.user.settings["ui.general.episodeimagesnextup"] = "webclient"
-            tmpSetting = localGlobal.session.user.Configuration.useEpisodeImagesInNextUpAndResume
-            if isValid(tmpSetting) and tmpSetting
-                m.itemPoster.uri = itemData.thumbnailURL
-            else
-                m.itemPoster.uri = itemData.widePosterURL
-            end if
-        else if localGlobal.session.user.settings["ui.general.episodeimagesnextup"] = "show"
-            m.itemPoster.uri = itemData.widePosterURL
-        else if localGlobal.session.user.settings["ui.general.episodeimagesnextup"] = "episode"
-            m.itemPoster.uri = itemData.thumbnailURL
-        end if
-
-        ' Set Series and Episode Number for Extra Text
-        extraPrefix = ""
-        if isValid(itemData.json.ParentIndexNumber)
-            extraPrefix = "S" + StrI(itemData.json.ParentIndexNumber).trim()
-        end if
-        if isValid(itemData.json.IndexNumber)
-            extraPrefix = extraPrefix + "E" + StrI(itemData.json.IndexNumber).trim()
-        end if
-        if extraPrefix.len() > 0
-            extraPrefix = extraPrefix + " - "
-        end if
-
-        m.itemTextExtra.text = extraPrefix + itemData.name
+        displayEpisodeInfo(localGlobal, itemData)
         return
     end if
 
     if inArray([ItemType.MOVIE, ItemType.MUSICVIDEO], itemDataType)
-        m.itemText.text = itemData.name
-
-        if itemData.PlayedPercentage > 0
-            drawProgressBar(itemData)
-        end if
-
-        ' Use best image, but fallback to secondary if it's empty
-        if (itemData.imageWidth = 180 and itemData.posterURL <> "") or itemData.thumbnailURL = ""
-            m.itemPoster.uri = itemData.posterURL
-        else
-            m.itemPoster.uri = itemData.thumbnailURL
-        end if
-
-        ' Set Release Year and Age Rating for Extra Text
-        textExtra = ""
-        if isValid(itemData.json.ProductionYear)
-            textExtra = StrI(itemData.json.ProductionYear).trim()
-        end if
-        if isValid(itemData.json.OfficialRating)
-            if textExtra <> ""
-                textExtra = textExtra + " - " + itemData.json.OfficialRating
-            else
-                textExtra = itemData.json.OfficialRating
-            end if
-        end if
-        m.itemTextExtra.text = textExtra
-
+        displayMovieInfo(itemData)
         return
     end if
 
     if itemDataType = ItemType.VIDEO
-        m.itemText.text = itemData.name
-
-        if itemData.PlayedPercentage > 0
-            drawProgressBar(itemData)
-        end if
-
-        if itemData.imageWidth = 180
-            m.itemPoster.uri = itemData.posterURL
-        else
-            m.itemPoster.uri = itemData.thumbnailURL
-        end if
-
+        displayVideoInfo(itemData)
         return
     end if
 
     if itemDataType = ItemType.BOXSET
-        m.itemText.text = itemData.name
-        m.itemPoster.uri = itemData.posterURL
-
-        ' Set small text to number of items in the collection
-        if isValid(itemData.json) and isValid(itemData.json.ChildCount)
-            m.itemTextExtra.text = StrI(itemData.json.ChildCount).trim() + " item"
-            if itemData.json.ChildCount > 1
-                m.itemTextExtra.text += "s"
-            end if
-        end if
+        displayBoxsetInfo(itemData)
         return
     end if
 
     if itemDataType = ItemType.SERIES
-
-        m.itemText.text = itemData.name
-
-        if itemData.usePoster
-            if itemData.imageWidth = 180
-                m.itemPoster.uri = itemData.posterURL
-            else
-                m.itemPoster.uri = itemData.widePosterURL
-            end if
-        else
-            m.itemPoster.uri = itemData.thumbnailURL
-        end if
-
-        textExtra = ""
-        if isValid(itemData.json.ProductionYear)
-            textExtra = StrI(itemData.json.ProductionYear).trim()
-        end if
-
-        ' Set Years Run for Extra Text
-        if itemData.json.Status = "Continuing"
-            textExtra = textExtra + " - Present"
-        else if itemData.json.Status = "Ended" and isValid(itemData.json.EndDate)
-            textExtra = textExtra + " - " + LEFT(itemData.json.EndDate, 4)
-        end if
-        m.itemTextExtra.text = textExtra
-
+        displaySeriesInfo(itemData)
         return
     end if
 
     if itemDataType = ItemType.MUSICALBUM
-        m.itemText.text = itemData.name
-        m.itemTextExtra.text = itemData.json.AlbumArtist
-        m.itemPoster.uri = itemData.posterURL
+        displayMusicAlbumInfo(itemData as object)
         return
     end if
 
-    if itemDataType = ItemType.MUSICARTIST
-        m.itemText.text = itemData.name
-        m.itemTextExtra.text = itemData.json.AlbumArtist
-        m.itemPoster.uri = ImageURL(itemData.id)
-        return
-    end if
-
-    if itemDataType = ItemType.AUDIO
-        m.itemText.text = itemData.name
-        m.itemTextExtra.text = itemData.json.AlbumArtist
-        m.itemPoster.uri = ImageURL(itemData.id)
-        return
+    if inArray([ItemType.MUSICARTIST, ItemType.AUDIO], itemDataType)
+        displayAudioInfo(itemData as object)
     end if
 
     if itemDataType = ItemType.TVCHANNEL
-        m.itemText.text = itemData.name
-        m.itemTextExtra.text = itemData.json.AlbumArtist
-        m.itemPoster.uri = ImageURL(itemData.id)
-        return
+        displayTVChannelInfo(itemData as object)
     end if
 
     if itemDataType = ItemType.SEASON
-        m.itemText.text = itemData.json.SeriesName
-        m.itemTextExtra.text = itemData.name
-        m.itemPoster.uri = ImageURL(itemData.id)
-        return
+        displaySeasonInfo(itemData as object)
     end if
 
     if itemDataType = ItemType.PHOTO
-        m.itemText.text = itemData.name
-        m.itemPoster.uri = ImageURL(itemData.id)
-
-        ' subtext
-        if isValidAndNotEmpty(itemData.json)
-            if isValid(itemData.json.ProductionYear)
-                m.itemTextExtra.text = itemData.json.ProductionYear.ToStr().trim()
-            end if
-            if isValidAndNotEmpty(itemData.json.Album)
-                if m.itemTextExtra.text = ""
-                    m.itemTextExtra.text = tr("Album") + ": " + itemData.json.Album.trim()
-                else
-                    m.itemTextExtra.text = m.itemTextExtra.text + " - " + tr("Album") + ": " + itemData.json.Album.trim()
-                end if
-            end if
-        end if
+        displayPhotoInfo(itemData as object)
         return
     end if
 
     if itemDataType = ItemType.PHOTOALBUM
-        m.itemText.text = itemData.name
-        m.itemPoster.uri = ImageURL(itemData.id)
-
-        ' subtext
-        if isValid(itemData.json.ChildCount)
-            m.itemTextExtra.text = itemData.json.ChildCount.ToStr().trim() + " items"
-        end if
-
+        displayPhotoAlbumInfo(itemData as object)
         return
     end if
 
     print `Unhandled Home Item Type ${itemDataType}`
+end sub
+
+sub displayUnplayedEpisodeCount(itemDataType as string, localGlobal as object, itemData as object)
+    if itemDataType <> ItemType.SERIES then return
+    if not isChainValid(localGlobal, "session.user.settings") then return
+    if localGlobal.session.user.settings["ui.tvshows.disableUnwatchedEpisodeCount"] then return
+    if not isChainValid(itemData, "json.UserData.UnplayedItemCount") then return
+
+    if itemData.json.UserData.UnplayedItemCount > 0
+        if isValid(m.unplayedCount) then m.unplayedCount.visible = true
+        m.unplayedEpisodeCount.text = itemData.json.UserData.UnplayedItemCount
+    end if
+end sub
+
+sub displayCollectionInfo(itemData as object)
+    m.itemText.font.size = 35
+    m.itemText.height = 64
+    m.itemText.horizAlign = "center"
+    m.itemText.vertAlign = "bottom"
+    m.itemText.text = itemData.name
+    m.itemPoster.uri = itemData.widePosterURL
+end sub
+
+sub displayPhotoAlbumInfo(itemData as object)
+    m.itemText.text = itemData.name
+    m.itemPoster.uri = ImageURL(itemData.id)
+
+    ' subtext
+    if isValid(itemData.json.ChildCount)
+        m.itemTextExtra.text = itemData.json.ChildCount.ToStr().trim() + " items"
+    end if
+end sub
+
+sub displayPhotoInfo(itemData as object)
+    m.itemText.text = itemData.name
+    m.itemPoster.uri = ImageURL(itemData.id)
+
+    ' subtext
+    if isValidAndNotEmpty(itemData.json)
+        if isValid(itemData.json.ProductionYear)
+            m.itemTextExtra.text = itemData.json.ProductionYear.ToStr().trim()
+        end if
+
+        if isValidAndNotEmpty(itemData.json.Album)
+            if m.itemTextExtra.text = ""
+                m.itemTextExtra.text = tr("Album") + ": " + itemData.json.Album.trim()
+            else
+                m.itemTextExtra.text = m.itemTextExtra.text + " - " + tr("Album") + ": " + itemData.json.Album.trim()
+            end if
+        end if
+    end if
+end sub
+
+sub displaySeasonInfo(itemData as object)
+    m.itemText.text = itemData.json.SeriesName
+    m.itemTextExtra.text = itemData.name
+    m.itemPoster.uri = ImageURL(itemData.id)
+end sub
+
+sub displayTVChannelInfo(itemData as object)
+    m.itemText.text = itemData.name
+    m.itemTextExtra.text = itemData.json.AlbumArtist
+    m.itemPoster.uri = ImageURL(itemData.id)
+end sub
+
+sub displayAudioInfo(itemData as object)
+    m.itemText.text = itemData.name
+    m.itemTextExtra.text = itemData.json.AlbumArtist
+    m.itemPoster.uri = ImageURL(itemData.id)
+end sub
+
+sub displayMusicAlbumInfo(itemData as object)
+    m.itemText.text = itemData.name
+    m.itemTextExtra.text = itemData.json.AlbumArtist
+    m.itemPoster.uri = itemData.posterURL
+end sub
+
+sub displaySeriesInfo(itemData as object)
+    m.itemText.text = itemData.name
+
+    if itemData.usePoster
+        m.itemPoster.uri = itemData.imageWidth = 180 ? itemData.posterURL : itemData.widePosterURL
+    else
+        m.itemPoster.uri = itemData.thumbnailURL
+    end if
+
+    textExtra = ""
+    if isValid(itemData.json.ProductionYear)
+        textExtra = StrI(itemData.json.ProductionYear).trim()
+    end if
+
+    ' Set Years Run for Extra Text
+    if itemData.json.Status = "Continuing"
+        textExtra = textExtra + " - Present"
+    else if itemData.json.Status = "Ended" and isValid(itemData.json.EndDate)
+        textExtra = textExtra + " - " + LEFT(itemData.json.EndDate, 4)
+    end if
+    m.itemTextExtra.text = textExtra
+end sub
+
+sub displayBoxsetInfo(itemData as object)
+    m.itemText.text = itemData.name
+    m.itemPoster.uri = itemData.posterURL
+
+    ' Set small text to number of items in the collection
+    if isChainValid(itemData, "json.ChildCount")
+        m.itemTextExtra.text = StrI(itemData.json.ChildCount).trim() + " item"
+        if itemData.json.ChildCount > 1
+            m.itemTextExtra.text += "s"
+        end if
+    end if
+end sub
+
+sub displayVideoInfo(itemData as object)
+    m.itemText.text = itemData.name
+
+    if itemData.PlayedPercentage > 0
+        drawProgressBar(itemData)
+    end if
+
+    if itemData.imageWidth = 180
+        m.itemPoster.uri = itemData.posterURL
+    else
+        m.itemPoster.uri = itemData.thumbnailURL
+    end if
+end sub
+
+sub displayMovieInfo(itemData as object)
+    m.itemText.text = itemData.name
+
+    if itemData.PlayedPercentage > 0
+        drawProgressBar(itemData)
+    end if
+
+    ' Use best image, but fallback to secondary if it's empty
+    if (itemData.imageWidth = 180 and itemData.posterURL <> "") or itemData.thumbnailURL = ""
+        m.itemPoster.uri = itemData.posterURL
+    else
+        m.itemPoster.uri = itemData.thumbnailURL
+    end if
+
+    ' Set Release Year and Age Rating for Extra Text
+    textExtra = ""
+    if isValid(itemData.json.ProductionYear)
+        textExtra = StrI(itemData.json.ProductionYear).trim()
+    end if
+
+    if isValid(itemData.json.OfficialRating)
+        if textExtra = ""
+            textExtra = itemData.json.OfficialRating
+        else
+            textExtra = `${textExtra} - ${itemData.json.OfficialRating}`
+        end if
+    end if
+    m.itemTextExtra.text = textExtra
+end sub
+
+sub displayProgramInfo(itemData as object)
+    m.itemText.Text = itemData.json.name
+    m.itemTextExtra.Text = itemData.json.ChannelName
+    m.itemPoster.uri = itemData.usePoster ? itemData.thumbnailURL : ImageURL(itemData.json.ChannelId)
+    m.itemPoster.loadDisplayMode = "scaleToFill"
+
+    ' Set Episode title if available
+    if isValid(itemData.json.EpisodeTitle)
+        m.itemTextExtra.text = itemData.json.EpisodeTitle
+    end if
+end sub
+
+sub displayEpisodeInfo(localGlobal as object, itemData as object)
+
+    m.itemText.text = itemData.json.SeriesName
+
+    if itemData.PlayedPercentage > 0
+        drawProgressBar(itemData)
+    end if
+
+    if localGlobal.session.user.settings["ui.general.episodeimagesnextup"] = "webclient"
+        tmpSetting = localGlobal.session.user.Configuration.useEpisodeImagesInNextUpAndResume
+        if isValid(tmpSetting) and tmpSetting
+            m.itemPoster.uri = itemData.thumbnailURL
+        else
+            m.itemPoster.uri = itemData.widePosterURL
+        end if
+    else if localGlobal.session.user.settings["ui.general.episodeimagesnextup"] = "show"
+        m.itemPoster.uri = itemData.widePosterURL
+    else if localGlobal.session.user.settings["ui.general.episodeimagesnextup"] = "episode"
+        m.itemPoster.uri = itemData.thumbnailURL
+    end if
+
+    ' Set Series and Episode Number for Extra Text
+    extraPrefix = ""
+    if isValid(itemData.json.ParentIndexNumber)
+        extraPrefix = "S" + StrI(itemData.json.ParentIndexNumber).trim()
+    end if
+
+    if isValid(itemData.json.IndexNumber)
+        extraPrefix = extraPrefix + "E" + StrI(itemData.json.IndexNumber).trim()
+    end if
+
+    if extraPrefix.len() > 0
+        extraPrefix = extraPrefix + " - "
+    end if
+
+    m.itemTextExtra.text = extraPrefix + itemData.name
 end sub
 
 '
@@ -335,18 +371,13 @@ sub drawProgressBar(itemData)
     m.itemProgressBackground.width = itemData.imageWidth
     m.itemProgressBackground.visible = true
     m.showProgressBarField.keyValue = [0, m.itemPoster.width * (itemData.PlayedPercentage / 100)]
-    m.showProgressBarAnimation.control = "Start"
+    m.showProgressBarAnimation.control = AnimationControl.START
 end sub
 
 '
 ' Enable title scrolling based on item Focus
 sub focusChanged()
-    if m.top.itemHasFocus
-        m.itemText.repeatCount = -1
-    else
-        m.itemText.repeatCount = 0
-    end if
-
+    m.itemText.repeatCount = m.top.itemHasFocus ? - 1 : 0
 end sub
 
 'Hide backdrop and icon when poster loaded
