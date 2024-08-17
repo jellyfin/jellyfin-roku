@@ -2,8 +2,21 @@ import "pkg:/source/utils/misc.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/api/baserequest.bs"
 import "pkg:/source/utils/deviceCapabilities.bs"
+import "pkg:/source/enums/ColorPalette.bs"
 
 sub init()
+    m.top.findNode("VoiceBoxCover").color = ColorPalette.VIEWBACKGROUND
+
+    overhang = m.top.getScene().findNode("overhang")
+    overhang.isVisible = false
+
+    ' adjust alpha menu mic icon since there is no overhang
+    m.alpha = m.top.findNode("alpha")
+    alphaMic = m.alpha.findNode("alphaMic")
+    alphaMic.translation = [60, 62]
+    alphaMicText = m.alpha.findNode("alphaMicText")
+    alphaMicText.visible = false
+
     m.options = m.top.findNode("options")
 
     m.showItemCount = m.global.session.user.settings["itemgrid.showItemCount"]
@@ -15,6 +28,8 @@ sub init()
     m.backdrop = m.top.findNode("backdrop")
     m.newBackdrop = m.top.findNode("backdropTransition")
     m.emptyText = m.top.findNode("emptyText")
+
+    m.itemGrid.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
 
     m.genreList = m.top.findNode("genrelist")
     m.genreList.observeField("itemSelected", "onGenreItemSelected")
@@ -530,10 +545,12 @@ sub onItemFocused()
     m.selectedFavoriteItem = m.itemGrid.content.getChild(m.itemGrid.itemFocused)
 
     ' Set Background to item backdrop
-    SetBackground(m.itemGrid.content.getChild(m.itemGrid.itemFocused).backdropUrl)
+    if isValid(m.itemGrid.content.getChild(m.itemGrid.itemFocused))
+        SetBackground(m.itemGrid.content.getChild(m.itemGrid.itemFocused).backdropUrl)
+    end if
 
     ' Load more data if focus is within last 5 rows, and there are more items to load
-    if focusedRow >= m.loadedRows - 5 and m.loadeditems < m.loadItemsTask.totalRecordCount
+    if focusedRow >= m.loadedRows - m.itemGrid.numRows and m.loadeditems < m.loadItemsTask.totalRecordCount
         loadMoreData()
     end if
 end sub

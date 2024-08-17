@@ -2,19 +2,22 @@
 <component name="ItemGrid" extends="JFGroup">
   <children>
     <VoiceTextEditBox id="VoiceBox" visible="true" width="40" translation="[52, 120]" />
-    <Rectangle id="VoiceBoxCover" height="240" width="100" color="0x000018ff" translation="[25, 75]" />
+    <Rectangle id="VoiceBoxCover" height="240" width="100" translation="[25, 75]" />
+
     <poster id="backdrop" loadDisplayMode="scaleToFill" width="1920" height="1080" opacity="0.25" />
     <poster id="backdropTransition" loadDisplayMode="scaleToFill" width="1920" height="1080" opacity="0.25" />
+
     <MarkupGrid
       id="itemGrid"
-      translation="[ 96, 160 ]"
-      itemComponentName="GridItem"
-      numColumns="6"
-      numRows="5"
+      translation="[96, 60]"
+      itemComponentName="GridItemSmall"
+      numColumns="7"
+      numRows="3"
+      rowHeights="[345]"
       vertFocusAnimationStyle="fixed"
-      itemSize="[ 290, 425 ]"
-      itemSpacing="[ 0, 45 ]"
-      drawFocusFeedback="false" />
+      itemSize="[230, 345]"
+      itemSpacing="[20, 20]"
+      drawFocusFeedback="true" />
 
     <RowList
       opacity="0"

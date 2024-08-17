@@ -2,7 +2,6 @@ import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/misc.bs"
 
 sub init()
-    m.posterMask = m.top.findNode("posterMask")
     m.itemPoster = m.top.findNode("itemPoster")
     m.itemIcon = m.top.findNode("itemIcon")
     m.posterText = m.top.findNode("posterText")
@@ -120,8 +119,6 @@ sub itemContentChanged()
 
         ' Adjust to wide posters for "View All Next Up"
         if m.topParent.overhangTitle = tr("View All Next Up")
-            m.posterMask.maskUri = ""
-
             m.itemPoster.height = 300
             m.itemPoster.width = 400
             m.itemPoster.loadDisplayMode = "scaleToFit"
@@ -176,23 +173,12 @@ sub itemContentChanged()
 end sub
 
 '
-'Use FocusPercent to animate scaling of Poser Image
-sub focusChanging()
-    scaleFactor = 0.85 + (m.top.focusPercent * 0.15)
-    m.posterMask.scale = [scaleFactor, scaleFactor]
-end sub
-
-'
 'Display or hide title Visibility on focus change
 sub focusChanged()
     if m.top.itemHasFocus = true
         m.itemText.repeatCount = -1
-        m.posterMask.scale = [1, 1]
     else
         m.itemText.repeatCount = 0
-        if m.itemGrid.alphaActive = true
-            m.posterMask.scale = [0.85, 0.85]
-        end if
     end if
     if m.gridTitles = "showonhover"
         m.itemText.visible = m.top.itemHasFocus
