@@ -363,9 +363,15 @@ end function
 function AudioStream(id as string)
     songData = AudioItem(id)
     if songData <> invalid
-        content = createObject("RoSGNode", "ContentNode")
+        content = createObject("RoSGNode", "AudioStreamData")
         if songData.title <> invalid
             content.title = songData.title
+        end if
+
+        content.hasLyrics = songData.hasLyrics
+
+        if isValid(songData.HasLyrics)
+            content.lyricData = api.audio.GetLyrics(id)
         end if
 
         playbackInfo = ItemPostPlaybackInfo(songData.id, songData.mediaSources[0].id)

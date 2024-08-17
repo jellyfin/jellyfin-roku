@@ -91,6 +91,12 @@ namespace api
         sub HeadUniversalURL()
             throw "System.NotImplementedException: The function is not implemented."
         end sub
+
+        ' Gets lyrics.
+        function GetLyrics(id as string, params = {} as object)
+            req = APIRequest(`/Audio/${id}/lyrics`, params)
+            return getJson(req)
+        end function
     end namespace
 
     namespace auth

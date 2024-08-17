@@ -8,8 +8,11 @@ sub init()
     m.inScrubMode = false
     m.lastRecordedPositionTimestamp = 0
     m.scrubTimestamp = -1
+    m.hasLyrics = false
 
     m.playlistTypeCount = m.global.queueManager.callFunc("getQueueUniqueTypes").count()
+
+    m.lyrics = m.top.FindNode("lyrics")
 
     setupAudioNode()
     setupAnimationTasks()
@@ -202,9 +205,11 @@ sub audioPositionChanged()
     if isValid(m.global.audioPlayer.position)
         m.lastRecordedPositionTimestamp = m.global.audioPlayer.position
         m.positionTimestamp.text = secondsToHuman(m.global.audioPlayer.position, false)
+        m.lyrics.positionTime = m.global.audioPlayer.position
     else
         m.lastRecordedPositionTimestamp = 0
         m.positionTimestamp.text = "0:00"
+        m.lyrics.positionTime = 0
     end if
 
     ' Only fall into screensaver logic if the user has screensaver enabled in Roku settings
@@ -561,6 +566,11 @@ sub onAudioStreamLoaded()
             m.totalLengthTimestamp.text = ticksToHuman(currentItem.RunTimeTicks)
         end if
 
+        if data.haslyrics
+            m.hasLyrics = true
+            m.lyrics.lyricdata = data.lyricdata
+        end if
+
         m.global.audioPlayer.content = data
         m.global.audioPlayer.control = "none"
         m.global.audioPlayer.control = "play"
@@ -814,6 +824,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
                     startLoadingSpinner()
                     m.inScrubMode = false
                     m.global.audioPlayer.seek = m.scrubTimestamp
+                    m.lyrics.callFunc("findPosition", m.scrubTimestamp)
                     return true
                 end if
 

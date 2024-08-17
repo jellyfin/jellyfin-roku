@@ -7,6 +7,8 @@
     <Label id="positionTimestamp" width="100" height="25" horizAlign="right" font="font:SmallestSystemFont" translation="[590,838]" color="#999999" text="0:00" />
     <Label id="totalLengthTimestamp" width="100" height="25" horizAlign="left" font="font:SmallestSystemFont" translation="[1230,838]" color="#999999" />
 
+    <Lyrics id="lyrics" translation="[100, 200]" width="500" />
+
     <LayoutGroup id="toplevel" layoutDirection="vert" horizAlignment="center" translation="[960,175]" itemSpacings="[40]">
       <LayoutGroup id="main_group" layoutDirection="vert" horizAlignment="center" itemSpacings="[15]">
         <Poster id="albumCover" width="500" height="500" />

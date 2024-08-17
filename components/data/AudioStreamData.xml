@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component name="AudioStreamData" extends="ContentNode">
+    <interface>
+        <field id="hasLyrics" type="boolean" />
+        <field id="lyricData" type="assocarray" />
+    </interface>
+</component>
