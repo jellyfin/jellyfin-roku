@@ -592,35 +592,38 @@ sub alphaSelectedChanged()
 end sub
 
 sub onvoiceFilter()
-    if m.VoiceBox.text <> ""
-        m.loadedRows = 0
-        m.loadedItems = 0
-        m.data = CreateObject("roSGNode", "ContentNode")
-        m.itemGrid.content = m.data
-        m.top.alphaSelected = ""
-        m.loadItemsTask.NameStartsWith = " "
-        m.loadItemsTask.searchTerm = m.voiceBox.text
-        m.loadItemsTask.recursive = true
-        if m.voiceBox.text.len() = 1
-            ' move focus to the letter spoken
-            alphaMenu = m.top.findNode("alphaMenu")
-            intConversion = m.voiceBox.text.ToInt() ' non numeric input returns as 0
+    if m.VoiceBox.text = "" then return
 
-            if m.voiceBox.text = "0" or (isValid(intConversion) and intConversion <> 0)
-                alphaMenu.jumpToItem = 0
-            else
-                ' loop through each option until we find a match
-                for i = 1 to alphaMenu.numRows - 1
-                    alphaMenuOption = alphaMenu.content.getChild(i)
-                    if Lcase(alphaMenuOption.TITLE) = Lcase(m.voiceBox.text)
-                        alphaMenu.jumpToItem = i
-                        exit for
-                    end if
-                end for
-            end if
+    if LCase(m.voiceBox.text) = "reset search" then m.voiceBox.text = ""
+
+    m.loadedRows = 0
+    m.loadedItems = 0
+    m.data = CreateObject("roSGNode", "ContentNode")
+    m.itemGrid.content = m.data
+    m.top.alphaSelected = ""
+    m.loadItemsTask.NameStartsWith = " "
+    m.loadItemsTask.searchTerm = m.voiceBox.text
+    m.loadItemsTask.recursive = true
+
+    ' If user searched for a letter, selected it from the alpha menu
+    if m.voiceBox.text.len() = 1
+        alphaMenu = m.top.findNode("alphaMenu")
+        intConversion = m.voiceBox.text.ToInt() ' non numeric input returns as 0
+
+        if m.voiceBox.text = "0" or (isValid(intConversion) and intConversion <> 0)
+            alphaMenu.jumpToItem = 0
+        else
+            ' loop through each option until we find a match
+            for i = 1 to alphaMenu.numRows - 1
+                alphaMenuOption = alphaMenu.content.getChild(i)
+                if Lcase(alphaMenuOption.TITLE) = Lcase(m.voiceBox.text)
+                    alphaMenu.jumpToItem = i
+                    exit for
+                end if
+            end for
         end if
-        loadInitialItems()
     end if
+    loadInitialItems()
 end sub
 
 'Check if options updated and any reloading required
