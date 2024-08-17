@@ -7,8 +7,6 @@ sub init()
     m.alphaText = m.top.findNode("alphaText")
     m.alphaMenu = m.top.findNode("alphaMenu")
 
-    m.alphaMenu.color = ColorPalette.WHITE
-    m.alphaMenu.focusedColor = ColorPalette.WHITE
     m.alphaMenu.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
     m.alphaMenu.focusFootprintBlendColor = ColorPalette.TRANSPARENT
 

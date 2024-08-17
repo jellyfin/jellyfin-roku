@@ -10,7 +10,3 @@ end sub
 sub showContent()
     m.letterText.text = m.top.itemContent.title
 end sub
-
-sub focusChanged()
-    print m.top.itemHasFocus
-end sub

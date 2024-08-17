@@ -2,7 +2,6 @@
 <component name="AlphaItem" extends="Group">
   <interface>
     <field id="itemContent" type="node" onChange="showContent" />
-    <field id="itemHasFocus" type="boolean" onChange="focusChanged" />
   </interface>
   <children>
     <Label
