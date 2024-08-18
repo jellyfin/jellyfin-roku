@@ -12,7 +12,7 @@ sub init()
 
     m.playlistTypeCount = m.global.queueManager.callFunc("getQueueUniqueTypes").count()
 
-    m.lyrics = m.top.FindNode("lyrics")
+    m.infoGroup = m.top.FindNode("infoGroup")
 
     setupAudioNode()
     setupAnimationTasks()
@@ -205,11 +205,15 @@ sub audioPositionChanged()
     if isValid(m.global.audioPlayer.position)
         m.lastRecordedPositionTimestamp = m.global.audioPlayer.position
         m.positionTimestamp.text = secondsToHuman(m.global.audioPlayer.position, false)
-        m.lyrics.positionTime = m.global.audioPlayer.position
+        if isValid(m.lyrics)
+            m.lyrics.positionTime = m.global.audioPlayer.position
+        end if
     else
         m.lastRecordedPositionTimestamp = 0
         m.positionTimestamp.text = "0:00"
-        m.lyrics.positionTime = 0
+        if isValid(m.lyrics)
+            m.lyrics.positionTime = 0
+        end if
     end if
 
     ' Only fall into screensaver logic if the user has screensaver enabled in Roku settings
@@ -528,6 +532,7 @@ sub onAudioStreamLoaded()
     if data <> invalid and data.count() > 0
         ' Reset buffer bar without animation
         m.bufferPosition.width = 0
+        m.hasLyrics = false
 
         useMetaTask = false
         currentItem = m.global.queueManager.callFunc("getCurrentItem")
@@ -566,15 +571,36 @@ sub onAudioStreamLoaded()
             m.totalLengthTimestamp.text = ticksToHuman(currentItem.RunTimeTicks)
         end if
 
+        moveDisplayElements(data.hasLyrics)
+
         if data.haslyrics
             m.hasLyrics = true
             m.lyrics.lyricdata = data.lyricdata
         end if
 
+
         m.global.audioPlayer.content = data
         m.global.audioPlayer.control = "none"
         m.global.audioPlayer.control = "play"
     end if
+end sub
+
+sub moveDisplayElements(hasLyrics as boolean)
+    if hasLyrics
+        showLyrics()
+    else
+        hideLyrics()
+    end if
+end sub
+
+sub showLyrics()
+    m.lyrics = CreateObject("roSGNode", "Lyrics")
+    m.lyrics.width = 500
+    m.infoGroup.appendChild(m.lyrics)
+end sub
+
+sub hideLyrics()
+    m.infoGroup.removeChild(m.lyrics)
 end sub
 
 sub onBackdropImageLoaded()
@@ -701,7 +727,15 @@ sub processScrubAction(seekStep as integer)
     moveSeekbarThumb(playPositionBarWidth)
 
     ' Change the displayed position timestamp
-    m.seekTimestamp.text = secondsToHuman(m.scrubTimestamp, false)
+    seekText = secondsToHuman(m.scrubTimestamp, false)
+    m.seekTimestamp.width = 110
+    m.seekPosition.width = 110
+    if m.hasLyrics
+        m.seekTimestamp.width = 620
+        m.seekPosition.width = 620
+        seekText += " • Seeking will likely cause lyrics to desync"
+    end if
+    m.seekTimestamp.text = seekText
 end sub
 
 ' resetSeekbarThumb: Resets the thumb to the playing position
@@ -824,7 +858,9 @@ function onKeyEvent(key as string, press as boolean) as boolean
                     startLoadingSpinner()
                     m.inScrubMode = false
                     m.global.audioPlayer.seek = m.scrubTimestamp
-                    m.lyrics.callFunc("findPosition", m.scrubTimestamp)
+                    if isValid(m.lyrics)
+                        m.lyrics.callFunc("findPosition", m.scrubTimestamp)
+                    end if
                     return true
                 end if
 

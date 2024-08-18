@@ -28,6 +28,8 @@ sub onLyricDataChange()
 end sub
 
 sub findPosition(newPosition)
+    if not m.dataLoaded then return
+
     m.seekMode = true
     m.currentLyric.clear()
 
