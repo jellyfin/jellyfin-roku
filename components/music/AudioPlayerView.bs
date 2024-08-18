@@ -194,7 +194,12 @@ sub audioPositionChanged()
     if not m.inScrubMode
         moveSeekbarThumb(playPositionBarWidth)
         ' Change the seek position timestamp
-        m.seekTimestamp.text = secondsToHuman(m.global.audioPlayer.position, false)
+        seekText = secondsToHuman(m.global.audioPlayer.position, false)
+        if m.hasLyrics
+            seekText += " • Seeking will likely cause lyrics to desync"
+        end if
+
+        m.seekTimestamp.text = seekText
     end if
 
     ' Use animation to make the display smooth
@@ -575,9 +580,9 @@ sub onAudioStreamLoaded()
 
         if data.haslyrics
             m.hasLyrics = true
+            m.seekTimestamp.text = m.seekTimestamp.text + " • Seeking will likely cause lyrics to desync"
             m.lyrics.lyricdata = data.lyricdata
         end if
-
 
         m.global.audioPlayer.content = data
         m.global.audioPlayer.control = "none"
@@ -587,8 +592,12 @@ end sub
 
 sub moveDisplayElements(hasLyrics as boolean)
     if hasLyrics
+        m.seekTimestamp.width = 620
+        m.seekPosition.width = 620
         showLyrics()
     else
+        m.seekTimestamp.width = 110
+        m.seekPosition.width = 110
         hideLyrics()
     end if
 end sub
@@ -728,11 +737,7 @@ sub processScrubAction(seekStep as integer)
 
     ' Change the displayed position timestamp
     seekText = secondsToHuman(m.scrubTimestamp, false)
-    m.seekTimestamp.width = 110
-    m.seekPosition.width = 110
     if m.hasLyrics
-        m.seekTimestamp.width = 620
-        m.seekPosition.width = 620
         seekText += " • Seeking will likely cause lyrics to desync"
     end if
     m.seekTimestamp.text = seekText
