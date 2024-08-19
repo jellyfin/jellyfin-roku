@@ -4,6 +4,7 @@ import "pkg:/source/api/baserequest.bs"
 import "pkg:/source/utils/config.bs"
 
 sub init()
+    m.top.overhangVisible = false
     m.top.optionsAvailable = false
     m.inScrubMode = false
     m.lastRecordedPositionTimestamp = 0
@@ -237,7 +238,6 @@ end function
 
 sub startScreenSaver()
     m.screenSaverBackground.visible = true
-    m.top.overhangVisible = false
 
     if m.albumCover.uri = ""
         ' Logo Screensaver
@@ -259,7 +259,6 @@ sub endScreenSaver()
     m.screenSaverBackground.visible = false
     m.screenSaverAlbumCover.opacity = 0
     m.PosterOne.opacity = 0
-    m.top.overhangVisible = true
 end sub
 
 sub audioStateChanged()
