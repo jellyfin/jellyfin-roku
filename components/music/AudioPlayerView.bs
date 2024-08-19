@@ -603,7 +603,7 @@ end sub
 
 sub showLyrics()
     m.lyrics = CreateObject("roSGNode", "Lyrics")
-    m.lyrics.width = 500
+    m.lyrics.width = 700
     m.infoGroup.appendChild(m.lyrics)
 end sub
 
