@@ -10,9 +10,10 @@
 
     <Label id="positionTimestamp" width="100" height="25" font="font:SmallestSystemFont" translation="[100,868]" color="#999999" text="0:00" />
     <Label id="totalLengthTimestamp" width="100" height="25" horizAlign="right" font="font:SmallestSystemFont" translation="[1720,868]" color="#999999" />
+
     <Rectangle id="seekBar" translation="[100,845]" width="1720" height="10">
-      <Rectangle id="bufferPosition" height="10"></Rectangle>
-      <Rectangle id="playPosition" height="10"></Rectangle>
+      <Rectangle id="bufferPosition" height="10" />
+      <Rectangle id="playPosition" height="10" />
       <Poster id="thumb" width="25" height="25" uri="pkg:/images/icons/circle.png" visible="false" translation="[0, -10]" />
     </Rectangle>
 

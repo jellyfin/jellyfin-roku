@@ -3,6 +3,14 @@ import "pkg:/source/api/Image.bs"
 import "pkg:/source/api/baserequest.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/enums/ColorPalette.bs"
+import "pkg:/source/enums/ImageType.bs"
+import "pkg:/source/enums/TaskControl.bs"
+import "pkg:/source/enums/KeyCode.bs"
+
+enum ButtonState
+    DEFAULT = "default"
+    SELECTED = "selected"
+end enum
 
 sub init()
     overhang = m.top.getScene().findNode("overhang")
@@ -31,7 +39,7 @@ sub init()
     m.screenSaverTimeout = 300
 
     m.LoadScreenSaverTimeoutTask.observeField("content", "onScreensaverTimeoutLoaded")
-    m.LoadScreenSaverTimeoutTask.control = "RUN"
+    m.LoadScreenSaverTimeoutTask.control = TaskControl.RUN
 
     m.di = CreateObject("roDeviceInfo")
 
@@ -500,13 +508,13 @@ end sub
 ' Update values on screen when page content changes
 sub pageContentChanged()
 
-    m.LoadAudioStreamTask.control = "STOP"
+    m.LoadAudioStreamTask.control = TaskControl.STOP
 
     currentItem = m.global.queueManager.callFunc("getCurrentItem")
 
     m.LoadAudioStreamTask.itemId = currentItem.id
     m.LoadAudioStreamTask.observeField("content", "onAudioStreamLoaded")
-    m.LoadAudioStreamTask.control = "RUN"
+    m.LoadAudioStreamTask.control = TaskControl.RUN
 
     setSiblingData()
 end sub
@@ -576,13 +584,13 @@ sub onAudioStreamLoaded()
         if useMetaTask
             m.LoadMetaDataTask.itemId = currentItem.id
             m.LoadMetaDataTask.observeField("content", "onMetaDataLoaded")
-            m.LoadMetaDataTask.control = "RUN"
+            m.LoadMetaDataTask.control = TaskControl.RUN
         else
             if isValid(currentItem.ParentBackdropItemId)
-                setBackdropImage(ImageURL(currentItem.ParentBackdropItemId, "Backdrop", { "maxHeight": "720", "maxWidth": "1280" }))
+                setBackdropImage(ImageURL(currentItem.ParentBackdropItemId, ImageType.BACKDROP, { "maxHeight": "720", "maxWidth": "1280" }))
             end if
 
-            setPosterImage(ImageURL(currentItem.id, "Primary", { "maxHeight": 500, "maxWidth": 500 }))
+            setPosterImage(ImageURL(currentItem.id, ImageType.PRIMARY, { "maxHeight": 500, "maxWidth": 500 }))
             setOnScreenTextValues(currentItem)
             m.songDuration = currentItem.RunTimeTicks / 10000000.0
 
@@ -655,12 +663,12 @@ end sub
 sub onMetaDataLoaded()
     data = m.LoadMetaDataTask.content[0]
     m.LoadMetaDataTask.unobserveField("content")
-    if isValid(data) and data.count() > 0 and isValid(data.json)
+    if isValidAndNotEmpty(data) and isValid(data.json)
         ' Use metadata to load backdrop image
         if isValid(data.json.ArtistItems) and isValid(data.json.ArtistItems[0]) and isValid(data.json.ArtistItems[0].id)
             m.LoadBackdropImageTask.itemId = data.json.ArtistItems[0].id
             m.LoadBackdropImageTask.observeField("content", "onBackdropImageLoaded")
-            m.LoadBackdropImageTask.control = "RUN"
+            m.LoadBackdropImageTask.control = TaskControl.RUN
         end if
 
         setPosterImage(data.posterURL)
@@ -711,7 +719,7 @@ end sub
 ' @param {string} newState - state to replace {oldState} with in icon url
 sub setSelectedButtonState(newState as string)
     selectedButton = m.buttons.getChild(m.top.selectedButtonIndex)
-    selectedButton.blendColor = newState = "selected" ? ColorPalette.HIGHLIGHT : ColorPalette.WHITE
+    selectedButton.blendColor = newState = ButtonState.SELECTED ? ColorPalette.HIGHLIGHT : ColorPalette.WHITE
 end sub
 
 ' processScrubAction: Handles +/- seeking for the audio trickplay bar
@@ -796,7 +804,7 @@ sub exitScrubMode()
 
     m.inScrubMode = false
     m.thumb.visible = false
-    setSelectedButtonState("selected")
+    setSelectedButtonState(ButtonState.SELECTED)
 end sub
 
 ' checkDisplaySiblingItem: Determine visible state for both previous and next item popups
@@ -856,19 +864,19 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
         ' Key Event handler when m.thumb is in focus
         if m.thumb.hasFocus()
-            if key = "right"
+            if key = KeyCode.RIGHT
                 m.inScrubMode = true
                 processScrubAction(10)
                 return true
             end if
 
-            if key = "left"
+            if key = KeyCode.LEFT
                 m.inScrubMode = true
                 processScrubAction(-10)
                 return true
             end if
 
-            if key = "OK" or key = "play"
+            if key = KeyCode.OK or key = KeyCode.PLAY
                 if m.inScrubMode
                     startLoadingSpinner()
                     m.inScrubMode = false
@@ -883,14 +891,14 @@ function onKeyEvent(key as string, press as boolean) as boolean
             end if
         end if
 
-        if key = "play"
+        if key = KeyCode.PLAY
             return playAction()
         end if
 
-        if key = "up"
+        if key = KeyCode.UP
             if not m.thumb.visible
                 m.thumb.visible = true
-                setSelectedButtonState("default")
+                setSelectedButtonState(ButtonState.DEFAULT)
             end if
             if not m.seekPosition.visible
                 m.seekPosition.visible = true
@@ -902,7 +910,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
             return true
         end if
 
-        if key = "down"
+        if key = KeyCode.DOWN
             if m.thumb.visible
                 exitScrubMode()
             end if
@@ -910,14 +918,14 @@ function onKeyEvent(key as string, press as boolean) as boolean
             return true
         end if
 
-        if key = "back"
+        if key = KeyCode.BACK
             m.global.audioPlayer.control = "stop"
             m.global.audioPlayer.loopMode = ""
-        else if key = "rewind"
+        else if key = KeyCode.REWIND
             return previousClicked()
-        else if key = "fastforward"
+        else if key = KeyCode.FASTFORWRD
             return nextClicked()
-        else if key = "left"
+        else if key = KeyCode.left
             if m.buttons.hasFocus()
                 if m.global.queueManager.callFunc("getCount") = 1 then return false
 
@@ -928,7 +936,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
                 end if
                 return true
             end if
-        else if key = "right"
+        else if key = KeyCode.RIGHT
             if m.buttons.hasFocus()
                 if m.global.queueManager.callFunc("getCount") = 1 then return false
 
@@ -937,7 +945,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
                 checkDisplaySiblingItem()
                 return true
             end if
-        else if key = "OK"
+        else if key = KeyCode.OK
             if m.buttons.hasFocus()
                 if m.buttons.getChild(m.top.selectedButtonIndex).id = "play"
                     return playAction()
