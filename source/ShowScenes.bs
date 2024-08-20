@@ -861,26 +861,6 @@ function CreateSearchPage()
     return group
 end function
 
-function CreateVideoPlayerGroup(video_id as string, mediaSourceId = invalid as dynamic, audio_stream_idx = 1 as integer, forceTranscoding = false as boolean, showIntro = true as boolean, allowResumeDialog = true as boolean)
-    ' validate video_id
-    if not isValid(video_id) or video_id = "" then return invalid
-
-    startLoadingSpinner()
-    ' Video is Playing
-    video = VideoPlayer(video_id, mediaSourceId, audio_stream_idx, defaultSubtitleTrackFromVid(video_id), forceTranscoding, showIntro, allowResumeDialog)
-
-    if video = invalid then return invalid
-
-    video.allowCaptions = true
-
-    if video.errorMsg = "introaborted" then return video
-    video.observeField("selectSubtitlePressed", m.port)
-    video.observeField("selectPlaybackInfoPressed", m.port)
-    video.observeField("state", m.port)
-    stopLoadingSpinner()
-    return video
-end function
-
 function CreatePersonView(personData as object) as dynamic
     ' validate personData node
     if not isValid(personData) or not isValid(personData.id) then return invalid

@@ -327,7 +327,6 @@ sub displayProgramInfo(itemData as object)
 end sub
 
 sub displayEpisodeInfo(localGlobal as object, itemData as object)
-
     m.itemText.text = itemData.json.SeriesName
 
     if itemData.PlayedPercentage > 0

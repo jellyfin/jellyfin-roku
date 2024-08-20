@@ -71,6 +71,7 @@ end function
 sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_stream_idx = 1 as integer, forceTranscoding = false as boolean)
 
     meta = ItemMetaData(video.id)
+
     subtitle_idx = m.top.selectedSubtitleIndex
 
     if not isValid(meta)

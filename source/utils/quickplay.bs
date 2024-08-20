@@ -432,18 +432,30 @@ namespace quickplay
     sub tvChannel(itemNode as object)
         if not isValid(itemNode) or not isValid(itemNode.id) then return
 
-        group = CreateVideoPlayerGroup(itemNode.id)
-        stopLoadingSpinner()
-        m.global.sceneManager.callFunc("pushScene", group)
+        thisItem = {
+            id: itemNode.id,
+            type: "recording"
+        }
+
+        m.global.queueManager.callFunc("clear")
+        m.global.queueManager.callFunc("resetShuffle")
+        m.global.queueManager.callFunc("push", thisItem)
+        m.global.queueManager.callFunc("playQueue")
     end sub
 
     ' Quick Play A Live Program
     sub program(itemNode as object)
         if not isValid(itemNode) or not isValid(itemNode.json) or not isValid(itemNode.json.ChannelId) then return
 
-        group = CreateVideoPlayerGroup(itemNode.json.ChannelId)
-        stopLoadingSpinner()
-        m.global.sceneManager.callFunc("pushScene", group)
+        thisItem = {
+            id: itemNode.json.ChannelId,
+            type: "recording"
+        }
+
+        m.global.queueManager.callFunc("clear")
+        m.global.queueManager.callFunc("resetShuffle")
+        m.global.queueManager.callFunc("push", thisItem)
+        m.global.queueManager.callFunc("playQueue")
     end sub
 
     ' Quick Play A Playlist.
