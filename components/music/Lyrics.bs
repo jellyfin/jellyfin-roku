@@ -8,6 +8,7 @@ sub init()
     m.nextLine1 = m.top.findNode("nextLine1")
     m.nextLine2 = m.top.findNode("nextLine2")
     m.nextLine3 = m.top.findNode("nextLine3")
+
     m.seekMode = false
     m.currentLyricIndex = 0
     m.currentLyric = {}
@@ -68,7 +69,10 @@ sub onPositionTimeChange()
 
     if position >= m.currentLyric.start
         if m.currentLyricIndex > 0
-            m.previousLine.text = m.top.lyricData.lyrics[m.currentLyricIndex - 1].text
+            lyric = m.top.lyricData.lyrics[m.currentLyricIndex - 1].text
+            if lyric.trim() <> ""
+                m.previousLine.text = lyric
+            end if
         else
             m.previousLine.text = ""
         end if
