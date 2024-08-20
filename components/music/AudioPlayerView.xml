@@ -3,14 +3,16 @@
   <children>
     <Poster id="backdrop" opacity=".5" loadDisplayMode="scaleToZoom" width="1920" height="1200" blendColor="#3f3f3f" />
 
-    <Poster id="shuffleIndicator" width="64" height="64" uri="pkg:/images/icons/shuffleIndicator-off.png" translation="[1300,818]" opacity="0" />
-    <Poster id="loopIndicator" width="64" height="64" uri="pkg:/images/icons/loopIndicator-off.png" translation="[550,818]" opacity="0" />
+    <LayoutGroup translation="[100, 780]" layoutDirection="horiz" horizAlignment="left" itemSpacings="[10]">
+      <Poster id="shuffleIndicator" width="50" height="50" uri="pkg:/images/icons/shuffleIndicator-off.png" opacity="0" />
+      <Poster id="loopIndicator" width="50" height="50" uri="pkg:/images/icons/loopIndicator-off.png" opacity="0" />
+    </LayoutGroup>
 
-    <Label id="positionTimestamp" width="100" height="25" horizAlign="right" font="font:SmallestSystemFont" translation="[590,838]" color="#999999" text="0:00" />
-    <Label id="totalLengthTimestamp" width="100" height="25" horizAlign="left" font="font:SmallestSystemFont" translation="[1230,838]" color="#999999" />
-    <Rectangle id="seekBar" translation="[715,845]" color="0x00000099" width="500" height="10">
-      <Rectangle id="bufferPosition" color="0xFFFFFF44" height="10"></Rectangle>
-      <Rectangle id="playPosition" color="#00a4dcFF" height="10"></Rectangle>
+    <Label id="positionTimestamp" width="100" height="25" font="font:SmallestSystemFont" translation="[100,868]" color="#999999" text="0:00" />
+    <Label id="totalLengthTimestamp" width="100" height="25" horizAlign="right" font="font:SmallestSystemFont" translation="[1720,868]" color="#999999" />
+    <Rectangle id="seekBar" translation="[100,845]" width="1720" height="10">
+      <Rectangle id="bufferPosition" height="10"></Rectangle>
+      <Rectangle id="playPosition" height="10"></Rectangle>
       <Poster id="thumb" width="25" height="25" uri="pkg:/images/icons/circle.png" visible="false" translation="[0, -10]" />
     </Rectangle>
 
@@ -25,31 +27,15 @@
       </LayoutGroup>
     </LayoutGroup>
 
-    <LayoutGroup id="toplevel" layoutDirection="vert" horizAlignment="center" translation="[960,175]" itemSpacings="[100]">
-      <LayoutGroup id="infoGroup" layoutDirection="horiz" horizAlignment="center" itemSpacings="[100]">
-        <LayoutGroup id="main_group" layoutDirection="vert" horizAlignment="center" itemSpacings="[15]">
-          <Poster id="albumCover" width="500" height="500" />
-          <ScrollingLabel id="artist" maxWidth="500" height="25" horizAlign="center" />
-          <ScrollingLabel id="song" maxWidth="500" height="25" horizAlign="center" />
-          <Label id="numberofsongs" width="500" height="25" horizAlign="center" font="font:SmallestSystemFont" color="#999999" />
-        </LayoutGroup>
-      </LayoutGroup>
-
-
-      <Animation id="bufferPositionAnimation" duration="1" repeat="false" easeFunction="linear">
-        <FloatFieldInterpolator id="bufferPositionAnimationWidth" key="[0.0, 1.0]" fieldToInterp="bufferPosition.width" />
-      </Animation>
-      <Animation id="playPositionAnimation" duration="1" repeat="false" easeFunction="linear">
-        <FloatFieldInterpolator id="playPositionAnimationWidth" key="[0.0, 1.0]" fieldToInterp="playPosition.width" />
-      </Animation>
-      <Animation id="displayButtonsAnimation" duration="1" repeat="false" easeFunction="linear">
-        <FloatFieldInterpolator key="[0.0, 1.0]" keyValue="[0.0, 1.0]" fieldToInterp="previous.opacity" />
-        <FloatFieldInterpolator key="[0.0, 1.0]" keyValue="[0.0, 1.0]" fieldToInterp="next.opacity" />
-        <FloatFieldInterpolator key="[0.0, 1.0]" keyValue="[0.0, 1.0]" fieldToInterp="shuffle.opacity" />
-        <FloatFieldInterpolator key="[0.0, 1.0]" keyValue="[0.0, 1.0]" fieldToInterp="loop.opacity" />
-      </Animation>
+    <LayoutGroup translation="[100,100]" layoutDirection="vert" horizAlignment="left" itemSpacings="[15]">
+      <ScrollingLabel id="song" font="font:MediumBoldSystemFont" maxWidth="1800" height="50" />
+      <ScrollingLabel id="artist" maxWidth="1800" height="25" />
+      <Label id="numberofsongs" width="500" height="25" font="font:SmallestSystemFont" color="#999999" />
     </LayoutGroup>
-    <Rectangle id="seekPosition" visible="false" color="0x00000090" height="40" width="110" translation="[720, 790]">
+
+    <Poster id="albumCover" width="500" height="500" translation="[100,275]" />
+
+    <Rectangle id="seekPosition" visible="false" color="0x00000090" height="40" width="110" translation="[100, 790]">
       <Label text="0:00" id="seekTimestamp" width="110" height="40" horizAlign="center" vertAlign="center" font="font:SmallestSystemFont" />
     </Rectangle>
 
@@ -90,6 +76,19 @@
     <Rectangle id="screenSaverBackground" width="1920" height="1080" color="#000018" visible="false" />
     <Poster id="screenSaverAlbumCover" width="500" height="500" translation="[960,575]" opacity="0" />
     <Poster id="PosterOne" width="290" height="218" translation="[960,540]" opacity="0" />
+
+    <Animation id="bufferPositionAnimation" duration="1" repeat="false" easeFunction="linear">
+      <FloatFieldInterpolator id="bufferPositionAnimationWidth" key="[0.0, 1.0]" fieldToInterp="bufferPosition.width" />
+    </Animation>
+    <Animation id="playPositionAnimation" duration="1" repeat="false" easeFunction="linear">
+      <FloatFieldInterpolator id="playPositionAnimationWidth" key="[0.0, 1.0]" fieldToInterp="playPosition.width" />
+    </Animation>
+    <Animation id="displayButtonsAnimation" duration="1" repeat="false" easeFunction="linear">
+      <FloatFieldInterpolator key="[0.0, 1.0]" keyValue="[0.0, 1.0]" fieldToInterp="previous.opacity" />
+      <FloatFieldInterpolator key="[0.0, 1.0]" keyValue="[0.0, 1.0]" fieldToInterp="next.opacity" />
+      <FloatFieldInterpolator key="[0.0, 1.0]" keyValue="[0.0, 1.0]" fieldToInterp="shuffle.opacity" />
+      <FloatFieldInterpolator key="[0.0, 1.0]" keyValue="[0.0, 1.0]" fieldToInterp="loop.opacity" />
+    </Animation>
 
     <Animation id="screenSaverAlbumCoverFadeIn" duration="4" repeat="false" easeFunction="linear">
       <FloatFieldInterpolator key="[0.0, 0.75, 1.0]" keyValue="[0.0, 0.0, 1.0]" fieldToInterp="screenSaverAlbumCover.opacity" />
