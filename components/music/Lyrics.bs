@@ -58,6 +58,7 @@ end sub
 sub onPositionTimeChange()
     if m.seekMode then return
     if not m.dataLoaded then return
+    if not isValidAndNotEmpty(m.top.lyricData.lyrics) then return
     if m.currentLyricIndex >= m.top.lyricData.lyrics.count() then return
 
     position = int(m.top.positionTime) * 10000000&
@@ -66,6 +67,8 @@ sub onPositionTimeChange()
     if m.currentLyric.count() = 0
         m.currentLyric = m.top.lyricData.lyrics[m.currentLyricIndex]
     end if
+
+    if not isValid(m.currentLyric.start) then return
 
     if position >= m.currentLyric.start
         if m.currentLyricIndex > 0

@@ -575,6 +575,23 @@ sub onAudioStreamLoaded()
             m.totalLengthTimestamp.text = ticksToHuman(currentItem.RunTimeTicks)
         end if
 
+        ' Validate lyrics data and for now only support timed lyrics
+        if data.hasLyrics
+            if not isValid(data.lyricdata) then data.hasLyrics = false
+        end if
+
+        if data.hasLyrics
+            if not isValidAndNotEmpty(data.lyricdata.Lyrics) then data.hasLyrics = false
+        end if
+
+        if data.hasLyrics
+            if not isValidAndNotEmpty(data.lyricdata.Lyrics[0]) then data.hasLyrics = false
+        end if
+
+        if data.hasLyrics
+            if not isValid(data.lyricdata.Lyrics[0].start) then data.hasLyrics = false
+        end if
+
         moveDisplayElements(data.hasLyrics)
 
         if data.haslyrics
