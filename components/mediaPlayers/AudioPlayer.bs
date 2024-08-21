@@ -1,6 +1,7 @@
 import "pkg:/source/utils/misc.bs"
 
 sub init()
+    m.top.notificationInterval = .1
     m.playReported = false
     m.top.observeField("state", "audioStateChanged")
 end sub
