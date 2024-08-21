@@ -857,8 +857,6 @@ sub Main (args as dynamic) as void
                         m.global.queueManager.callFunc("playQueue")
                     else if not isValid(node.showID)
                         sceneManager.callFunc("popScene")
-                    else
-                        ' Auto play next episode
                     end if
                 end if
             end if

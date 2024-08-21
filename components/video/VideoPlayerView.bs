@@ -815,6 +815,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
             ' Don't allow user to open menu prior to video loading
             if not stateAllowsOSD() then return true
 
+            setSiblingData()
             m.osd.visible = true
             m.osd.hasFocus = true
             m.osd.setFocus(true)
@@ -826,6 +827,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
             ' Don't allow user to open menu prior to video loading
             if not stateAllowsOSD() then return true
 
+            setSiblingData()
             m.osd.visible = true
             m.osd.hasFocus = true
             m.osd.setFocus(true)
@@ -838,6 +840,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
             if not stateAllowsOSD() then return true
 
             ' Show OSD, but don't pause video
+            setSiblingData()
             m.osd.visible = true
             m.osd.hasFocus = true
             m.osd.setFocus(true)
@@ -862,6 +865,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
             ' Pause video and show OSD
             m.top.control = "pause"
+            setSiblingData()
             m.osd.visible = true
             m.osd.hasFocus = true
             m.osd.setFocus(true)

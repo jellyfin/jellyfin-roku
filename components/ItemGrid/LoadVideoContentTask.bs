@@ -120,7 +120,7 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
     end if
 
     if m.global.session.user.Configuration.EnableNextEpisodeAutoPlay
-        if LCase(m.top.itemType) = "episode"
+        if isValid(video.showID)
             addNextEpisodesToQueue(video.showID)
         end if
     end if
@@ -514,6 +514,7 @@ sub addNextEpisodesToQueue(showID)
             m.global.queueManager.callFunc("push", data.Items[i])
         end for
     end if
+
 end sub
 
 'Checks available subtitle tracks and puts subtitles in forced, default, and non-default/forced but preferred language at the top

@@ -434,7 +434,7 @@ namespace quickplay
 
         thisItem = {
             id: itemNode.id,
-            type: "recording"
+            type: "video"
         }
 
         m.global.queueManager.callFunc("clear")
@@ -448,8 +448,8 @@ namespace quickplay
         if not isValid(itemNode) or not isValid(itemNode.json) or not isValid(itemNode.json.ChannelId) then return
 
         thisItem = {
-            id: itemNode.json.ChannelId,
-            type: "recording"
+            id: itemNode.id,
+            type: "video"
         }
 
         m.global.queueManager.callFunc("clear")

@@ -108,6 +108,7 @@ end function
 ' @param {dynamic} item - the item to get the title of
 ' @return {object} - an array with an icon url and title text
 function getItemTitleAndIcon(item as dynamic) as object
+    if not isValid(item) then return []
     itemMediaType = getItemType(item)
 
     itemData = item.json ?? item
@@ -122,6 +123,10 @@ function getItemTitleAndIcon(item as dynamic) as object
             seasonName = ""
             if isValidAndNotEmpty(itemData.SeasonName) and LCase(itemData.SeasonName) <> "season unknown"
                 seasonName = ` - ${itemData.SeasonName}`
+
+                if isValid(itemData.IndexNumber)
+                    seasonName += ` Episode ${itemData.IndexNumber}`
+                end if
             end if
 
             return [`pkg:/images/media_type_icons/tv.png`, `${itemData.seriesname}${seasonName} - ${itemData.name}`]
@@ -134,6 +139,10 @@ function getItemTitleAndIcon(item as dynamic) as object
         seasonName = ""
         if isValidAndNotEmpty(itemData.SeasonName) and LCase(itemData.SeasonName) <> "season unknown"
             seasonName = ` - ${itemData.SeasonName}`
+        end if
+
+        if isValid(itemData.IndexNumber)
+            seasonName += ` Episode ${itemData.IndexNumber}`
         end if
 
         return [`pkg:/images/media_type_icons/tv.png`, `${itemData.seriesname}${seasonName} - ${itemData.name}`]
