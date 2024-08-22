@@ -244,12 +244,12 @@ sub standardDialog(title, message)
     dialog = createObject("roSGNode", "StandardDialog")
     dlgPalette = createObject("roSGNode", "RSGPalette")
     dlgPalette.colors = {
-        DialogBackgroundColor: "0x262828FF",
-        DialogFocusColor: "0xcececeFF",
-        DialogFocusItemColor: "0x202020FF",
-        DialogSecondaryTextColor: "0xf8f8f8ff",
-        DialogSecondaryItemColor: "#00a4dcFF",
-        DialogTextColor: "0xeeeeeeFF"
+        DialogBackgroundColor: ColorPalette.ELEMENTBACKGROUND,
+        DialogFocusColor: ColorPalette.HIGHLIGHT,
+        DialogFocusItemColor: ColorPalette.WHITE,
+        DialogSecondaryTextColor: ColorPalette.WHITE,
+        DialogSecondaryItemColor: ColorPalette.LIGHTBLUE,
+        DialogTextColor: ColorPalette.WHITE
     }
     dialog.palette = dlgPalette
     dialog.observeField("buttonSelected", "dismissDialog")
@@ -266,12 +266,12 @@ sub radioDialog(title, message)
     dialog = createObject("roSGNode", "RadioDialog")
     dlgPalette = createObject("roSGNode", "RSGPalette")
     dlgPalette.colors = {
-        DialogBackgroundColor: "0x262828FF",
-        DialogFocusColor: "0xcececeFF",
-        DialogFocusItemColor: "0x202020FF",
-        DialogSecondaryTextColor: "0xf8f8f8ff",
-        DialogSecondaryItemColor: "#00a4dcFF",
-        DialogTextColor: "0xeeeeeeFF"
+        DialogBackgroundColor: ColorPalette.ELEMENTBACKGROUND,
+        DialogFocusColor: ColorPalette.HIGHLIGHT,
+        DialogFocusItemColor: ColorPalette.WHITE,
+        DialogSecondaryTextColor: ColorPalette.WHITE,
+        DialogSecondaryItemColor: ColorPalette.LIGHTBLUE,
+        DialogTextColor: ColorPalette.WHITE
     }
     dialog.palette = dlgPalette
     dialog.observeField("buttonSelected", "dismissDialog")
@@ -288,12 +288,12 @@ sub remoteSubtitleDialog(title, message)
     dialog = createObject("roSGNode", "RemoteSubtitleDialog")
     dlgPalette = createObject("roSGNode", "RSGPalette")
     dlgPalette.colors = {
-        DialogBackgroundColor: "0x262828FF",
-        DialogFocusColor: "0xcececeFF",
-        DialogFocusItemColor: "0x202020FF",
-        DialogSecondaryTextColor: "0xf8f8f8ff",
-        DialogSecondaryItemColor: "#00a4dcFF",
-        DialogTextColor: "0xeeeeeeFF"
+        DialogBackgroundColor: ColorPalette.ELEMENTBACKGROUND,
+        DialogFocusColor: ColorPalette.HIGHLIGHT,
+        DialogFocusItemColor: ColorPalette.WHITE,
+        DialogSecondaryTextColor: ColorPalette.WHITE,
+        DialogSecondaryItemColor: ColorPalette.LIGHTBLUE,
+        DialogTextColor: ColorPalette.WHITE
     }
     dialog.palette = dlgPalette
     dialog.observeField("buttonSelected", "dismissDialog")

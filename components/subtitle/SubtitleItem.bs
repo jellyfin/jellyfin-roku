@@ -1,4 +1,5 @@
 import "pkg:/source/utils/misc.bs"
+import "pkg:/source/enums/ColorPalette.bs"
 
 sub init()
     m.displayTitle = m.top.findNode("displayTitle")
@@ -24,7 +25,7 @@ sub focusChanged()
     showDeleteIcon = false
 
     if m.top.itemHasFocus
-        color = "#101010FF"
+        color = ColorPalette.WHITE
         repeatcount = -1
         showDeleteIcon = m.top.itemContent.canDelete
     end if

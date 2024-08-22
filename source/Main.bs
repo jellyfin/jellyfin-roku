@@ -241,11 +241,13 @@ sub Main (args as dynamic) as void
 
             currentScene = m.global.sceneManager.callFunc("getActiveScene")
 
-            ' Refresh movie detail data
-            currentScene.itemContent.json = api.users.GetItem(m.global.session.user.id, currentScene.itemContent.id)
+            if isValid(currentScene.itemContent)
+                ' Refresh movie detail data
+                currentScene.itemContent.json = api.users.GetItem(m.global.session.user.id, currentScene.itemContent.id)
 
-            ' Set updated starting point for the queue item
-            m.global.queueManager.callFunc("setTopStartingPoint", currentScene.itemContent.json.UserData.PlaybackPositionTicks)
+                ' Set updated starting point for the queue item
+                m.global.queueManager.callFunc("setTopStartingPoint", currentScene.itemContent.json.UserData.PlaybackPositionTicks)
+            end if
 
             stopLoadingSpinner()
         else if isNodeEvent(msg, "selectedItem")
@@ -475,7 +477,10 @@ sub Main (args as dynamic) as void
                         mySubtitleList.setFocus(true)
                     else
                         searchButton = screenContent.findNode("searchButton")
-                        if isValid(searchButton) then searchButton.setFocus(true)
+                        if isValid(searchButton)
+                            searchButton.focus = true
+                            searchButton.setFocus(true)
+                        end if
                     end if
                 end if
             end if

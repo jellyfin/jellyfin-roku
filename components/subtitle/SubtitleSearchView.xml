@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<component name="SubtitleSearchView" extends="JFScreen" initialFocus="searchButton">
+<component name="SubtitleSearchView" extends="JFScreen">
   <children>
     <LayoutGroup id="mainGroup" layoutDirection="horiz" translation="[96, 175]" itemSpacings="[75]">
       <Poster id="moviePoster" translation="[250,150]" width="300" height="450" />
@@ -14,15 +14,19 @@
 
         <LayoutGroup layoutDirection="vert" itemSpacings="[10]">
           <Label id="languageLabel" font="font:MediumBoldSystemFont" text="Language" />
-          <TextButton id="languageButton" textColor="#aaaaaa" focusTextColor="#111111" iconSide="right" fontSize="35" background="#070707" focusBackground="#eeeeee" padding="35" icon="pkg:/images/icons/dropdown-light.png" focusIcon="pkg:/images/icons/dropdown-dark.png" text="" height="75" width="500" />
+          <TextButton id="languageButton" iconSide="right" fontSize="35" padding="35" icon="pkg:/images/icons/dropdown-dark.png" focusIcon="pkg:/images/icons/dropdown-light.png" text="" height="75" width="500" />
         </LayoutGroup>
         <ButtonGroup>
-          <Button id="searchButton" text="Search" iconUri="" focusedIconUri="" />
+          <StandardButton
+            id="searchButton"
+            text="Search"
+            height="85"
+            width="250" />
         </ButtonGroup>
       </LayoutGroup>
 
       <LayoutGroup layoutDirection="vert" itemSpacings="[30]">
-        <Rectangle width="600" height="710" color="0x202020ff">
+        <Rectangle id="mySubtitleBackground" width="600" height="710">
           <Label translation="[30, 30]" id="headerText" font="font:LargeBoldSystemFont" text="My Subtitles" />
           <MarkupList id="mySubtitleList" itemComponentName="SubtitleItem" translation="[60, 85]" itemSize="[480,100]" numRows="6" vertFocusAnimationStyle="floatingFocus" />
         </Rectangle>
@@ -36,7 +40,7 @@
     <field id="preferredSubtitleLanguage" type="string" onChange="setDefaultSubtitleLanguage" alwaysNotify="true" />
     <field id="selectedCulture" type="assocarray" onChange="onSelectedCultureChanged" />
     <field id="subtitleLanguageButtonSelected" alias="languageButton.selected" />
-    <field id="subtitleSearchButtonSelected" alias="searchButton.buttonSelected" />
+    <field id="subtitleSearchButtonSelected" alias="searchButton.selected" />
     <field id="subtitleToDelete" type="node" />
 
   </interface>

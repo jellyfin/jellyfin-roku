@@ -1,3 +1,5 @@
+import "pkg:/source/enums/ColorPalette.bs"
+
 sub init()
     m.content = m.top.findNode("content")
     m.top.observeField("contentData", "onContentDataChanged")
@@ -11,22 +13,22 @@ sub init()
         "default": {
             "fontSize": 27,
             "fontUri": "font:BoldSystemFontFile",
-            "color": "#EFEFEFFF"
+            "color": ColorPalette.TRIADBLUE
         },
         "b": {
             "fontSize": 27,
             "fontUri": "font:SystemFontFile",
-            "color": "#999999"
+            "color": ColorPalette.WHITE
         },
         "header": {
             "fontSize": 35,
             "fontUri": "font:SystemFontFile",
-            "color": "#00a4dcFF"
+            "color": ColorPalette.WHITE
         },
         "p": {
             "fontSize": 27,
             "fontUri": "font:SystemFontFile",
-            "color": "#EFEFEFFF"
+            "color": ColorPalette.WHITE
         }
     }
 
