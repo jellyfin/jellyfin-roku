@@ -15,18 +15,18 @@
     <Clock id="clock" translation="[1618, 46]" />
 
     <ButtonGroup id="optionControls" itemSpacings="[20]" layoutDirection="horiz" horizAlignment="left" translation="[103,120]">
-      <IconButton id="showVideoInfoPopup" background="#070707" focusBackground="#00a4dc" padding="16" icon="pkg:/images/icons/videoInfo.png" height="65" width="100" />
-      <IconButton id="chapterList" background="#070707" focusBackground="#00a4dc" padding="16" icon="pkg:/images/icons/numberList.png" height="65" width="100" />
-      <IconButton id="showSubtitleMenu" background="#070707" focusBackground="#00a4dc" padding="0" icon="pkg:/images/icons/subtitle.png" height="65" width="100" />
-      <IconButton id="showAudioMenu" background="#070707" focusBackground="#00a4dc" padding="27" icon="pkg:/images/icons/musicNote.png" height="65" width="100" />
+      <IconButton id="showVideoInfoPopup" padding="16" icon="pkg:/images/icons/videoInfo.png" height="65" width="100" />
+      <IconButton id="chapterList" padding="16" icon="pkg:/images/icons/numberList.png" height="65" width="100" />
+      <IconButton id="showSubtitleMenu" padding="0" icon="pkg:/images/icons/subtitle.png" height="65" width="100" />
+      <IconButton id="showAudioMenu" padding="27" icon="pkg:/images/icons/musicNote.png" height="65" width="100" />
     </ButtonGroup>
 
     <ButtonGroup id="videoControls" itemSpacings="[20]" layoutDirection="horiz" horizAlignment="center" translation="[960,875]">
-      <IconButton id="itemBack" background="#070707" focusBackground="#00a4dc" padding="35" icon="pkg:/images/icons/itemPrevious.png" height="65" width="100" />
-      <IconButton id="chapterBack" background="#070707" focusBackground="#00a4dc" padding="16" icon="pkg:/images/icons/previousChapter.png" height="65" width="100" />
-      <IconButton id="videoPlayPause" background="#070707" focusBackground="#00a4dc" padding="35" icon="pkg:/images/icons/play.png" height="65" width="100" />
-      <IconButton id="chapterNext" background="#070707" focusBackground="#00a4dc" padding="16" icon="pkg:/images/icons/nextChapter.png" height="65" width="100" />
-      <IconButton id="itemNext" background="#070707" focusBackground="#00a4dc" padding="35" icon="pkg:/images/icons/itemNext.png" height="65" width="100" />
+      <IconButton id="itemBack" padding="35" icon="pkg:/images/icons/itemPrevious.png" height="65" width="100" />
+      <IconButton id="chapterBack" padding="16" icon="pkg:/images/icons/previousChapter.png" height="65" width="100" />
+      <IconButton id="videoPlayPause" padding="35" icon="pkg:/images/icons/play.png" height="65" width="100" />
+      <IconButton id="chapterNext" padding="16" icon="pkg:/images/icons/nextChapter.png" height="65" width="100" />
+      <IconButton id="itemNext" padding="35" icon="pkg:/images/icons/itemNext.png" height="65" width="100" />
     </ButtonGroup>
 
     <ExpandingLabel
@@ -63,8 +63,8 @@
       padding="[20, 10]"
     />
 
-    <Rectangle id="progressBarBackground" color="0x00000098" width="1714" height="8" translation="[103,970]">
-      <Rectangle id="progressBar" color="#e5e4e2FF" width="0" height="8" />
+    <Rectangle id="progressBarBackground" width="1714" height="8" translation="[103,970]">
+      <Rectangle id="progressBar" width="0" height="8" />
     </Rectangle>
 
     <Label id="videoPositionTime" font="font:MediumSystemFont" color="0xffffffFF" translation="[103,985]" />
