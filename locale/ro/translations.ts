@@ -241,6 +241,154 @@
         <source>TITLE</source>
         <translation>Nume</translation>
     </message>
+    <message>
+        <comment>Title of Tab for options to sort library content</comment>
+        <source>TAB_SORT</source>
+        <translation>Sortează</translation>
+    </message>
+    <message>
+        <comment>Title of Tab for options to filter library content</comment>
+        <source>TAB_FILTER</source>
+        <translation>Filtrează</translation>
+    </message>
+    <message>
+        <source>Shows</source>
+        <translation>Seriale</translation>
+    </message>
+    <message>
+        <source>An error was encountered while playing this item.</source>
+        <translation>A intervenit o eroare în timpul redării elementului.</translation>
+        <extracomment>Dialog detail when error occurs during playback</extracomment>
+    </message>
+    <message>
+        <source>DATE_ADDED</source>
+        <translation>Data adaugării</translation>
+    </message>
+    <message>
+        <source>Born</source>
+        <translation>Născut</translation>
+    </message>
+    <message>
+        <source>Cancel Series Recording</source>
+        <translation>Anulează înregistrarea serialului</translation>
+    </message>
+    <message>
+        <source>Enter the server name or IP address</source>
+        <translation>Introduceți numele sau adresa IP a serverului</translation>
+        <extracomment>Title of KeyboardDialog when manually entering a server URL</extracomment>
+    </message>
+    <message>
+        <source>PLAY_COUNT</source>
+        <translation>Număr de redări</translation>
+    </message>
+    <message>
+        <source>Movies</source>
+        <translation>Filme</translation>
+    </message>
+    <message>
+        <source>DATE_PLAYED</source>
+        <translation>Data redării</translation>
+    </message>
+    <message>
+        <source>CRITIC_RATING</source>
+        <translation>Evaluarea criticilor</translation>
+    </message>
+    <message>
+        <source>RUNTIME</source>
+        <translation>Durată</translation>
+    </message>
+    <message>
+        <comment>Title of Tab for switching &quot;views&quot; when looking at a library</comment>
+        <source>TAB_VIEW</source>
+        <translation>VIzualizează</translation>
+    </message>
+    <message>
+        <source>RELEASE_DATE</source>
+        <translation>Data lansării</translation>
+    </message>
+    <message>
+        <source>Died</source>
+        <translation>Decedat</translation>
+    </message>
+    <message>
+        <source>Go to episode</source>
+        <translation>Du-te la episod</translation>
+        <extracomment>Continue Watching Popup Menu - Navigate to the Episode Detail Page</extracomment>
+    </message>
+    <message>
+        <source>Channels</source>
+        <translation>Canale</translation>
+        <extracomment>Menu option for showing Live TV Channel List</extracomment>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation>Închide</translation>
+    </message>
+    <message>
+        <source>Pick a Jellyfin server from the local network</source>
+        <translation>Selectați un server Jellyfin din rețeaua locală:</translation>
+        <extracomment>Instructions on initial app launch when the user is asked to pick a server from a list</extracomment>
+    </message>
+    <message>
+        <source>...or enter server URL manually:</source>
+        <translation>Dacă nu vă apare niciun server în lista de deasupra, puteți introduce manual adresa URL a serverului:</translation>
+        <extracomment>Instructions on initial app launch when the user is asked to manually enter a server URL</extracomment>
+    </message>
+    <message>
+        <source>Version</source>
+        <translation>Versiune</translation>
+    </message>
+    <message>
+        <source>Codec Support</source>
+        <translation>Setări codec</translation>
+        <extracomment>Settings Menu - Title for settings group related to codec support</extracomment>
+    </message>
+    <message>
+        <source>MPEG-2</source>
+        <translation>MPEG-2</translation>
+        <extracomment>Name of codec used in settings menu</extracomment>
+    </message>
+    <message>
+        <source>MPEG-4</source>
+        <translation>MPEG-4</translation>
+        <extracomment>Name of codec used in settings menu</extracomment>
+    </message>
+    <message>
+        <source>User Interface</source>
+        <translation>Interfață utilizator</translation>
+        <extracomment>Title for User Interface section in user setting screen.</extracomment>
+    </message>
+    <message>
+        <source>Go to season</source>
+        <translation>Du-te la pagina sezonului</translation>
+        <extracomment>Continue Watching Popup Menu - Navigate to the Season Page</extracomment>
+    </message>
+    <message>
+        <source>%1 of %2</source>
+        <translation>%1 din %2</translation>
+        <extracomment>Item position and count. %1 = current item. %2 = total number of items</extracomment>
+    </message>
+    <message>
+        <source>Networks</source>
+        <translation>Rețele</translation>
+    </message>
+    <message>
+        <source>Quick Connect</source>
+        <translation>Conectare rapidă</translation>
+    </message>
+    <message>
+        <source>There was an error authenticating via Quick Connect.</source>
+        <translation>A intervenit o eroare în timpul autentificării cu Quick Connect.</translation>
+    </message>
+    <message>
+        <source>OFFICIAL_RATING</source>
+        <translation>Clasificare vârstă</translation>
+    </message>
+    <message>
+        <source>Playback</source>
+        <translation>Redare</translation>
+        <extracomment>Title for Playback section in user setting screen.</extracomment>
+    </message>
 </context>
 <context>
     <name></name>
