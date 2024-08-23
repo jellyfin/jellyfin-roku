@@ -35,7 +35,9 @@ sub init()
     ' Only allow Admins to see Edit Subtitles button
     if not m.global.session.user.policy.EnableSubtitleManagement
         editSubtitleButton = m.top.findNode("editSubtitlesButton")
-        m.buttonGrp.removeChild(editSubtitleButton)
+        if isValid(editSubtitleButton)
+            m.buttonGrp.removeChild(editSubtitleButton)
+        end if
     end if
 
     m.top.observeField("itemContent", "itemContentChanged")
@@ -101,7 +103,11 @@ sub setBackdropImage(itemData as object)
         imageTag = itemData.ImageTags.Primary
     end if
 
-    movieBackdrop = createObject("roSGNode", "Poster")
+    movieBackdrop = m.top.findNode("movieBackdrop")
+    if not isValid(movieBackdrop)
+        movieBackdrop = createObject("roSGNode", "Poster")
+    end if
+    movieBackdrop.id = "movieBackdrop"
     movieBackdrop.loadDisplayMode = "scaleToZoom"
     movieBackdrop.translation = "[0,0]"
     movieBackdrop.width = "1920"
@@ -111,7 +117,10 @@ sub setBackdropImage(itemData as object)
         "maxWidth": 1920,
         "Tag": imageTag
     })
-    m.top.insertChild(movieBackdrop, 0)
+
+    if not isValid(m.top.findNode("movieBackdrop"))
+        m.top.insertChild(movieBackdrop, 0)
+    end if
 end sub
 
 sub onLogoImageURIChange()
@@ -120,13 +129,20 @@ sub onLogoImageURIChange()
         return
     end if
 
-    movieLogo = createObject("roSGNode", "Poster")
+    movieLogo = m.top.findNode("movieLogo")
+    if not isValid(movieLogo)
+        movieLogo = createObject("roSGNode", "Poster")
+    end if
+    movieLogo.id = "movieLogo"
     movieLogo.loadDisplayMode = "scaleToFit"
     movieLogo.translation = [100, 25]
     movieLogo.width = "500"
     movieLogo.height = "250"
     movieLogo.uri = m.top.logoImageURI
-    m.top.insertChild(movieLogo, 1)
+
+    if not isValid(m.top.findNode("movieLogo"))
+        m.top.insertChild(movieLogo, 1)
+    end if
 end sub
 
 ' setLogoImage: If item has a logo image, add it to the view
@@ -143,7 +159,11 @@ sub setLogoImage(itemData as object)
         return
     end if
 
-    movieLogo = createObject("roSGNode", "Poster")
+    movieLogo = m.top.findNode("movieLogo")
+    if not isValid(movieLogo)
+        movieLogo = createObject("roSGNode", "Poster")
+    end if
+    movieLogo.id = "movieLogo"
     movieLogo.loadDisplayMode = "scaleToFit"
     movieLogo.translation = [100, 25]
     movieLogo.width = "500"
@@ -154,18 +174,26 @@ sub setLogoImage(itemData as object)
         "Tag": itemData.ImageTags.Logo
     })
 
-    m.top.insertChild(movieLogo, 1)
+    if not isValid(m.top.findNode("movieLogo"))
+        m.top.insertChild(movieLogo, 1)
+    end if
 end sub
 
 sub addTextMovieTitle(itemData as object)
-    movieTitle = createObject("roSGNode", "Label")
+    movieTitle = m.top.findNode("movieTitle")
+    if not isValid(movieTitle)
+        movieTitle = createObject("roSGNode", "Label")
+    end if
+    movieTitle.id = "movieTitle"
     movieTitle.font = "font:LargeSystemFont"
     movieTitle.font.size = 70
     movieTitle.text = itemData.name
     movieTitle.translation = [100, 210]
     movieTitle.width = 1700
 
-    m.top.insertChild(movieTitle, 1)
+    if not isValid(m.top.findNode("movieTitle"))
+        m.top.insertChild(movieTitle, 1)
+    end if
 end sub
 
 sub itemContentChanged()
@@ -184,12 +212,20 @@ sub itemContentChanged()
     if itemData.UserData.PlaybackPositionTicks > 0
         playButton = m.top.findNode("play-button")
         playButton.text = `Play / Resume from ${ticksToHuman(itemData.UserData.PlaybackPositionTicks)}`
+    else
+        playButton = m.top.findNode("play-button")
+        playButton.text = `Play`
     end if
     setWatchedColor()
     setFavoriteColor()
 
     ' We don't need to update everything if this is a reload
-    if m.loadStatus = ViewLoadStatus.RELOAD then return
+    ' Unless this is an episode
+    if m.loadStatus = ViewLoadStatus.RELOAD
+        if LCase(itemData.Type) <> VideoType.EPISODE
+            return
+        end if
+    end if
 
     setBackdropImage(itemData)
     setLogoImage(itemData)
@@ -209,15 +245,20 @@ sub itemContentChanged()
     if isValid(itemData.officialRating)
         setFieldText("officialRating", itemData.officialRating)
     else
-        m.infoGroup.removeChild(m.top.findNode("officialRating"))
+        setFieldText("officialRating", "")
     end if
+
+    criticRatingIcon = m.top.findNode("criticRatingIcon")
 
     if m.global.session.user.settings["ui.movies.showRatings"]
         if isValid(itemData.communityRating)
+            m.top.findNode("star").visible = true
             setFieldText("communityRating", int(itemData.communityRating * 10) / 10)
         else
-            m.infoGroup.removeChild(m.top.findNode("communityRatingGroup"))
+            m.top.findNode("star").visible = false
+            setFieldText("communityRating", "")
         end if
+
         if isValid(itemData.CriticRating)
             setFieldText("criticRatingLabel", itemData.criticRating)
             if itemData.CriticRating > 60
@@ -225,14 +266,16 @@ sub itemContentChanged()
             else
                 tomato = "pkg:/images/rotten.png"
             end if
-            criticRatingIcon = m.top.findNode("criticRatingIcon")
             if isValid(criticRatingIcon) then criticRatingIcon.uri = tomato
         else
-            m.infoGroup.removeChild(m.top.findNode("criticRatingGroup"))
+            criticRatingIcon.uri = ""
+            setFieldText("criticRatingLabel", "")
         end if
     else
-        m.infoGroup.removeChild(m.top.findNode("communityRatingGroup"))
-        m.infoGroup.removeChild(m.top.findNode("criticRatingGroup"))
+        criticRatingIcon.uri = ""
+        setFieldText("criticRatingLabel", "")
+        setFieldText("communityRating", "")
+        m.top.findNode("star").visible = false
     end if
 
     if type(itemData.RunTimeTicks) = "LongInteger"
@@ -240,16 +283,6 @@ sub itemContentChanged()
         if m.global.session.user.settings["ui.design.hideclock"] <> true
             setFieldText("ends-at", tr("Ends at %1").Replace("%1", getEndTime()))
         end if
-    end if
-
-    if isValidAndNotEmpty(itemData.genres)
-        setFieldText("genres", itemData.genres[0])
-    else
-        dot = m.top.findNode("dot")
-        dot.getParent().removeChild(dot)
-
-        genres = m.top.findNode("genres")
-        genres.getParent().removeChild(genres)
     end if
 
     directors = []
@@ -262,24 +295,50 @@ sub itemContentChanged()
     if isValidAndNotEmpty(directors)
         setFieldText("director", tr("Director") + ": " + directors.join(", "))
     else
-        m.top.findNode("director").getParent().removeChild(m.top.findNode("director"))
+        setFieldText("director", "")
     end if
+
+    aired = m.top.findNode("aired")
 
     'set aired date if type is Episode
     if LCase(itemData.Type) = VideoType.EPISODE
+        'remove movie release year label
+        releaseYearElement = m.top.findNode("releaseYear")
+        if isValid(releaseYearElement)
+            m.infoGroup.removeChild(releaseYearElement)
+        end if
+
         if isValid(itemData.PremiereDate)
             airDate = CreateObject("roDateTime")
             airDate.FromISO8601String(itemData.PremiereDate)
-            m.top.findNode("aired").text = tr("Aired") + ": " + airDate.AsDateString("short-month-no-weekday")
-            'remove movie release year label
-            m.infoGroup.removeChild(m.top.findNode("releaseYear"))
+            if isValid(aired)
+                aired.text = tr("Aired") + ": " + airDate.AsDateString("short-month-no-weekday")
+            end if
         else
-            m.infoGroup.removeChild(m.top.findNode("aired"))
+            if isValid(aired)
+                aired.text = ""
+            end if
         end if
 
         addEpisodeTitle(itemData)
     else
-        m.infoGroup.removeChild(m.top.findNode("aired"))
+        if isValid(aired)
+            aired.text = ""
+        end if
+    end if
+
+    dot = m.top.findNode("dot")
+    if isValidAndNotEmpty(itemData.genres)
+        if isValid(dot)
+            dot.text = isValidAndNotEmpty(aired.text) ? "•" : ""
+        end if
+        setFieldText("genres", itemData.genres[0])
+    else
+        if isValid(dot)
+            dot.text = ""
+        end if
+
+        setFieldText("genres", "")
     end if
 
     SetUpVideoOptions(itemData.mediaSources)
@@ -290,8 +349,13 @@ sub itemContentChanged()
 end sub
 
 sub addEpisodeTitle(itemData as object)
-    episodeTitle = createObject("roSGNode", "Label")
-    episodeTitle.font = "font:MediumBoldSystemFont"
+    episodeTitle = m.top.findNode("episodeTitle")
+
+    if not isValid(episodeTitle)
+        episodeTitle = createObject("roSGNode", "Label")
+        episodeTitle.id = "episodeTitle"
+        episodeTitle.font = "font:MediumBoldSystemFont"
+    end if
 
     titleText = ""
     if isAllValid([itemData.ParentIndexNumber, itemData.IndexNumber])
@@ -305,7 +369,9 @@ sub addEpisodeTitle(itemData as object)
 
     episodeTitle.text = titleText
 
-    m.container.insertChild(episodeTitle, 0)
+    if not isValid(m.top.findNode("episodeTitle"))
+        m.container.insertChild(episodeTitle, 0)
+    end if
 end sub
 
 sub SetUpVideoOptions(streams)
@@ -345,6 +411,8 @@ sub SetUpVideoOptions(streams)
 
     if streams.count() > 1
         m.top.findnode("video_codec_count").text = "+" + stri(streams.Count() - 1).trim()
+    else
+        m.top.findnode("video_codec_count").text = ""
     end if
 
     options = {}
@@ -364,6 +432,8 @@ sub SetUpAudioOptions(streams)
 
     if tracks.count() > 1
         m.top.findnode("audio_codec_count").text = "+" + stri(tracks.Count() - 1).trim()
+    else
+        m.top.findnode("audio_codec_count").text = ""
     end if
 
     options = {}

@@ -12,19 +12,15 @@ sub init()
     ' Set up all Tasks
     m.LoadPeopleTask = CreateObject("roSGNode", "LoadItemsTask")
     m.LoadPeopleTask.itemsToLoad = "people"
-    m.LoadPeopleTask.observeField("content", "onPeopleLoaded")
 
     m.LikeThisTask = CreateObject("roSGNode", "LoadItemsTask")
     m.LikeThisTask.itemsToLoad = "likethis"
-    m.LikeThisTask.observeField("content", "onLikeThisLoaded")
 
     m.SpecialFeaturesTask = CreateObject("roSGNode", "LoadItemsTask")
     m.SpecialFeaturesTask.itemsToLoad = "specialfeatures"
-    m.SpecialFeaturesTask.observeField("content", "onSpecialFeaturesLoaded")
 
     m.LoadAdditionalPartsTask = CreateObject("roSGNode", "LoadItemsTask")
     m.LoadAdditionalPartsTask.itemsToLoad = "additionalparts"
-    m.LoadAdditionalPartsTask.observeField("content", "onAdditionalPartsLoaded")
 
     m.LoadMoviesTask = CreateObject("roSGNode", "LoadItemsTask")
     m.LoadMoviesTask.itemsToLoad = "personMovies"
@@ -43,6 +39,11 @@ sub updateSize()
 end sub
 
 sub loadParts(data as object)
+    m.LoadAdditionalPartsTask.observeField("content", "onAdditionalPartsLoaded")
+    m.SpecialFeaturesTask.observeField("content", "onSpecialFeaturesLoaded")
+    m.LoadPeopleTask.observeField("content", "onPeopleLoaded")
+    m.LikeThisTask.observeField("content", "onLikeThisLoaded")
+
     m.top.parentId = data.id
     m.people = data.People
     m.LoadAdditionalPartsTask.itemId = m.top.parentId

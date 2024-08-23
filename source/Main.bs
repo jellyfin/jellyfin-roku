@@ -242,11 +242,31 @@ sub Main (args as dynamic) as void
             currentScene = m.global.sceneManager.callFunc("getActiveScene")
 
             if isValid(currentScene.itemContent)
-                ' Refresh movie detail data
-                currentScene.itemContent.json = api.users.GetItem(m.global.session.user.id, currentScene.itemContent.id)
+                ' Check if the content ID has changed since we last rendered the movie detail view
+                contentIDChanged = false
+                if currentScene.itemContent.id <> m.global.queueManager.callFunc("getCurrentItem").id
+                    currentItemID = m.global.queueManager.callFunc("getCurrentItem").id
+                    contentIDChanged = true
+                else
+                    currentItemID = currentScene.itemContent.id
+                end if
+
+                itemData = ItemMetaData(currentItemID)
+
+                currentScene.itemContent = itemData
+
+                if contentIDChanged
+                    currentScene.selectedVideoStreamId = itemData.json.MediaSources[0].id
+
+                    ' Refresh extras based on new content ID
+                    extrasGrid = currentScene.findNode("extrasGrid")
+                    if isValid(extrasGrid)
+                        extrasGrid.callFunc("loadParts", itemData.json)
+                    end if
+                end if
 
                 ' Set updated starting point for the queue item
-                m.global.queueManager.callFunc("setTopStartingPoint", currentScene.itemContent.json.UserData.PlaybackPositionTicks)
+                m.global.queueManager.callFunc("setTopStartingPoint", itemData.json.UserData.PlaybackPositionTicks)
             end if
 
             stopLoadingSpinner()
