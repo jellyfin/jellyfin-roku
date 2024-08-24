@@ -71,6 +71,7 @@ sub audioOptionsClosed()
         ' Otherwise, the users' lang peference from the server will take over.
         ' To do this, we interpret anything other than "0" as the user opened the audio options.
         m.top.objects.items[m.currentSelected].selectedAudioStreamIndex = m.tvListOptions.audioStreamIndex = 0 ? 1 : m.tvListOptions.audioStreamIndex
+        m.global.queueManager.callFunc("setPreferredAudioTrackIndex", m.top.objects.items[m.currentSelected].selectedAudioStreamIndex)
     end if
 end sub
 

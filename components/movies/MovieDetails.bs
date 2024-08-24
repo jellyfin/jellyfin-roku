@@ -533,6 +533,7 @@ end function
 sub audioOptionsClosed()
     if m.options.audioStreamIndex <> m.top.selectedAudioStreamIndex
         m.top.selectedAudioStreamIndex = m.options.audioStreamIndex
+        m.global.queueManager.callFunc("setPreferredAudioTrackIndex", m.options.audioStreamIndex)
         setFieldText("audio_codec", tr("Audio") + ": " + m.top.itemContent.json.mediaStreams[m.top.selectedAudioStreamIndex].displayTitle)
     end if
     m.top.findNode("buttons").setFocus(true)

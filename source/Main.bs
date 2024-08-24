@@ -727,6 +727,7 @@ sub Main (args as dynamic) as void
                     m.global.queueManager.callFunc("hold", group.itemContent)
                     playbackOptionDialog(group.itemContent.json.userdata.PlaybackPositionTicks, group.itemContent.json)
                 else
+                    m.global.queueManager.callFunc("bypassNextPreferredAudioTrackIndexReset")
                     m.global.queueManager.callFunc("clear")
                     m.global.queueManager.callFunc("push", group.itemContent)
                     m.global.queueManager.callFunc("playQueue")

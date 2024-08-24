@@ -13,8 +13,8 @@ end sub
 sub pushScene(newGroup)
 
     currentGroup = m.groups.peek()
-    if newGroup <> invalid
-        if currentGroup <> invalid
+    if isValid(newGroup)
+        if isValid(currentGroup)
             'Search through group and store off last focused item
             if currentGroup.focusedChild <> invalid
                 focused = currentGroup.focusedChild
@@ -38,6 +38,11 @@ sub pushScene(newGroup)
                 currentGroup.callFunc("OnScreenHidden")
             end if
 
+        end if
+
+        ' If we are moving in to a movie detail view, reset preferred audio track index
+        if newGroup.isSubType("MovieDetails")
+            m.global.queueManager.callFunc("setPreferredAudioTrackIndex", 0)
         end if
 
         m.groups.push(newGroup)
@@ -72,7 +77,7 @@ end sub
 ' Remove the current group and load the last group from the stack
 sub popScene()
     group = m.groups.pop()
-    if group <> invalid
+    if isValid(group)
         if group.isSubType("JFGroup")
             unregisterOverhangData(group)
         end if
@@ -88,8 +93,14 @@ sub popScene()
     end if
 
     group = m.groups.peek()
-    if group <> invalid
+
+    if isValid(group)
         registerOverhangData(group)
+
+        ' If we are moving back to anything other than a movie detail view, reset preferred audio track index
+        if not group.isSubType("MovieDetails")
+            m.global.queueManager.callFunc("setPreferredAudioTrackIndex", 0)
+        end if
 
         group.visible = true
 

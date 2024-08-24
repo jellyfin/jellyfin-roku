@@ -10,6 +10,12 @@ sub CreateVideoPlayerView()
     m.playbackData = {}
     m.selectedSubtitle = {}
 
+    ' If the user has set a preferred audio track index, use it
+    preferredAudioTrackIndex = m.global.queueManager.callFunc("getPreferredAudioTrackIndex")
+    if not isValid(preferredAudioTrackIndex) then preferredAudioTrackIndex = 0
+
+    m.global.queueManager.callFunc("setSelectedAudioStreamIndex", preferredAudioTrackIndex)
+
     m.view = CreateObject("roSGNode", "VideoPlayerView")
     m.view.observeField("state", "onStateChange")
     m.view.observeField("selectPlaybackInfoPressed", "onSelectPlaybackInfoPressed")
@@ -140,6 +146,7 @@ sub processAudioSelection()
 
     if isValid(selectedAudioTrack)
         if isValid(selectedAudioTrack.index)
+            m.global.queueManager.callFunc("setPreferredAudioTrackIndex", selectedAudioTrack.index)
             m.view.audioIndex = selectedAudioTrack.index
         end if
     end if

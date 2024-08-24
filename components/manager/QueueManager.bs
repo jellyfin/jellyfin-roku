@@ -7,6 +7,7 @@ import "pkg:/source/api/Image.bs"
 import "pkg:/source/utils/deviceCapabilities.bs"
 
 sub init()
+    m.bypassNextPreferredAudioTrackIndexReset = false
     m.hold = []
     m.queue = []
     m.originalQueue = []
@@ -15,6 +16,7 @@ sub init()
     ' Preroll videos only play if user has cinema mode setting enabled
     m.isPrerollActive = m.global.session.user.settings["playback.cinemamode"]
     m.position = 0
+    m.preferredAudioTrackIndex = 0
     m.shuffleEnabled = false
 end sub
 
@@ -25,6 +27,14 @@ sub clear()
     m.queueTypes = []
     m.isPrerollActive = m.global.session.user.settings["playback.cinemamode"]
     setPosition(0)
+    if not m.bypassNextPreferredAudioTrackIndexReset
+        setPreferredAudioTrackIndex(0)
+    end if
+    m.bypassNextPreferredAudioTrackIndexReset = false
+end sub
+
+sub bypassNextPreferredAudioTrackIndexReset()
+    m.bypassNextPreferredAudioTrackIndexReset = true
 end sub
 
 ' Clear all hold content
@@ -240,6 +250,17 @@ function isPrerollActive() as boolean
     return m.isPrerollActive
 end function
 
+' Gets the preferredAudioTrackIndex property for the play queue
+function getPreferredAudioTrackIndex() as integer
+    return m.preferredAudioTrackIndex
+end function
+
+' Sets the preferredAudioTrackIndex property for the play queue
+sub setPreferredAudioTrackIndex(audioData as integer)
+    print "[QueueManager] audioData", audioData
+    m.preferredAudioTrackIndex = isValid(audioData) ? audioData : 0
+end sub
+
 ' Set prerollActive status
 sub setPrerollStatus(newStatus as boolean)
     m.isPrerollActive = newStatus
@@ -326,6 +347,11 @@ end sub
 sub setTopStartingPoint(positionTicks)
     if getCount() = 0 then return
     m.queue[0].startingPoint = positionTicks
+end sub
+
+' Set starting point for top item in the queue
+sub setSelectedAudioStreamIndex(audioStreamIndex)
+    m.queue[m.position].selectedAudioStreamIndex = audioStreamIndex
 end sub
 
 ' getItemType: Returns the media type of the passed item
