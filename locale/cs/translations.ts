@@ -14,7 +14,7 @@
     </message>
     <message>
         <source>Connect to Server</source>
-        <translation>Připojit se k serveru</translation>
+        <translation>Připojit k serveru</translation>
     </message>
     <message>
         <source>Ends at %1</source>
@@ -34,7 +34,7 @@
     </message>
     <message>
         <source>Login attempt failed.</source>
-        <translation>Pokus o přihlášení selhal.</translation>
+        <translation>Přihlášení selhalo.</translation>
     </message>
     <message>
         <source>OK</source>
@@ -74,7 +74,7 @@
     </message>
     <message>
         <source>Watched</source>
-        <translation>Shlédnuté</translation>
+        <translation>Zhlédnuto</translation>
     </message>
     <message>
         <source>Change Server</source>
@@ -114,7 +114,7 @@
     </message>
     <message>
         <source>Enter a username</source>
-        <translation>Zadejte jméno</translation>
+        <translation>Zadejte přihlašovací jméno</translation>
     </message>
     <message>
         <source>Enter a password</source>
@@ -269,7 +269,7 @@
     </message>
     <message>
         <source>Extras</source>
-        <translation>Doplňky</translation>
+        <translation>Doplňky (if meant to be used like in settings), Extra (if meant for like series/movies, extras episodes)</translation>
     </message>
     <message>
         <source>Episodes</source>
