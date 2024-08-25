@@ -878,6 +878,8 @@ function onKeyEvent(key as string, press as boolean) as boolean
     end if
 
     if key = "back"
+        m.global.queueManager.callFunc("bypassNextPreferredAudioTrackIndexReset")
+        m.global.queueManager.callFunc("clear")
         m.top.control = "stop"
     end if
 

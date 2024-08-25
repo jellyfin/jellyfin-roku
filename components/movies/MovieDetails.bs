@@ -445,13 +445,23 @@ sub SetUpAudioOptions(streams)
 
 end sub
 
-
 sub SetDefaultAudioTrack(itemData)
+    preferredAudioTrackIndex = m.global.queueManager.callFunc("getPreferredAudioTrackIndex") + 1
+
     for i = 0 to itemData.mediaStreams.Count() - 1
         if itemData.mediaStreams[i].Type = "Audio"
-            m.top.selectedAudioStreamIndex = i
-            setFieldText("audio_codec", tr("Audio") + ": " + itemData.mediaStreams[i].displayTitle)
-            exit for
+            ' No preferred audio track selected, choose 1st audio track found
+            if preferredAudioTrackIndex = 0
+                m.top.selectedAudioStreamIndex = i
+                setFieldText("audio_codec", tr("Audio") + ": " + itemData.mediaStreams[i].displayTitle)
+                exit for
+            end if
+
+            if itemData.mediaStreams[i].Index = preferredAudioTrackIndex
+                m.top.selectedAudioStreamIndex = i
+                setFieldText("audio_codec", tr("Audio") + ": " + itemData.mediaStreams[i].displayTitle)
+                exit for
+            end if
         end if
     end for
 end sub

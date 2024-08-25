@@ -236,6 +236,9 @@ sub onStateChange()
             return
         end if
 
+        m.global.queueManager.callFunc("bypassNextPreferredAudioTrackIndexReset")
+        m.global.queueManager.callFunc("clear")
+
         ' Playback completed, return user to previous screen
         m.global.sceneManager.callFunc("popScene")
         m.global.audioPlayer.loopMode = ""

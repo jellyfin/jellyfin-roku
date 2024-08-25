@@ -257,7 +257,6 @@ end function
 
 ' Sets the preferredAudioTrackIndex property for the play queue
 sub setPreferredAudioTrackIndex(audioData as integer)
-    print "[QueueManager] audioData", audioData
     m.preferredAudioTrackIndex = isValid(audioData) ? audioData : 0
 end sub
 
