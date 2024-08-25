@@ -348,7 +348,7 @@ sub setTopStartingPoint(positionTicks)
     m.queue[0].startingPoint = positionTicks
 end sub
 
-' Set starting point for top item in the queue
+' Set selectedAudioStreamIndex for current item
 sub setSelectedAudioStreamIndex(audioStreamIndex)
     m.queue[m.position].selectedAudioStreamIndex = audioStreamIndex
 end sub
