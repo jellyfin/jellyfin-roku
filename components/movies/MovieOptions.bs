@@ -6,15 +6,16 @@ import "pkg:/source/enums/AnimationControl.bs"
 sub init()
 
     m.buttons = m.top.findNode("buttons")
-    m.buttons.buttons = [tr("Video"), tr("Audio")]
+    m.buttons.buttons = [tr("Subtitles"), tr("Audio"), tr("Video")]
     m.buttons.selectedIndex = 0
     m.buttons.setFocus(true)
 
     m.selectedItem = 0
     m.selectedAudioIndex = 0
     m.selectedVideoIndex = 0
+    m.selectedSubtitleIndex = -1
 
-    m.menus = [m.top.findNode("videoMenu"), m.top.findNode("audioMenu")]
+    m.menus = [m.top.findNode("subtitleMenu"), m.top.findNode("audioMenu"), m.top.findNode("videoMenu")]
 
     m.videoNames = []
     m.audioNames = []
@@ -24,6 +25,9 @@ sub init()
 
     m.top.findNode("audioMenu").focusBitmapBlendColor = ColorPalette.HIGHLIGHT
     m.top.findNode("audioMenu").focusedColor = ColorPalette.WHITE
+
+    m.top.findNode("subtitleMenu").focusBitmapBlendColor = ColorPalette.HIGHLIGHT
+    m.top.findNode("subtitleMenu").focusedColor = ColorPalette.WHITE
 
     ' Animation
     m.fadeAnim = m.top.findNode("fadeAnim")
@@ -36,31 +40,30 @@ sub init()
 end sub
 
 sub optionsSet()
-    '  Videos Tab
-    if isValid(m.top.options.videos)
-        viewContent = CreateObject("roSGNode", "ContentNode")
+    '  subtitle Tab
+    if isValid(m.top.Options.subtitles)
+        subtitleContent = CreateObject("roSGNode", "ContentNode")
         index = 0
-        selectedViewIndex = 0
+        selectedSubtitleIndex = 0
 
-        for each view in m.top.options.videos
-            entry = viewContent.CreateChild("VideoTrackListData")
-            entry.title = view.Title
-            entry.description = view.Description
-            entry.streamId = view.streamId
-            entry.video_codec = view.video_codec
-            m.videoNames.push(view.Name)
-            if view.Selected <> invalid and view.Selected = true
-                selectedViewIndex = index
+        for each subtitle in m.top.options.subtitles
+            entry = subtitleContent.CreateChild("SubtitleTrackListData")
+            entry.json = subtitle.json
+            entry.title = subtitle.Title
+            entry.description = subtitle.Title
+            entry.StreamIndex = subtitle.StreamIndex
+            if isValid(subtitle.Selected) and subtitle.Selected
+                selectedSubtitleIndex = index
                 entry.selected = true
-                m.top.videoStreamId = view.streamId
+                m.top.subtitleStreamName = subtitle.title
             end if
             index = index + 1
         end for
 
-        m.menus[0].content = viewContent
-        m.menus[0].jumpToItem = selectedViewIndex
-        m.menus[0].checkedItem = selectedViewIndex
-        m.selectedVideoIndex = selectedViewIndex
+        m.menus[0].content = subtitleContent
+        m.menus[0].jumpToItem = selectedSubtitleIndex
+        m.menus[0].checkedItem = selectedSubtitleIndex
+        m.selectedSubtitleIndex = selectedSubtitleIndex
     end if
 
     '  audio Tab
@@ -75,7 +78,7 @@ sub optionsSet()
             entry.description = audio.Description
             entry.streamIndex = audio.StreamIndex
             m.audioNames.push(audio.Name)
-            if audio.Selected <> invalid and audio.Selected = true
+            if audio.Selected <> invalid and audio.Selected
                 selectedAudioIndex = index
                 entry.selected = true
                 m.top.audioStreamIndex = audio.streamIndex
@@ -89,6 +92,32 @@ sub optionsSet()
         m.selectedAudioIndex = selectedAudioIndex
     end if
 
+    '  Videos Tab
+    if isValid(m.top.options.videos)
+        viewContent = CreateObject("roSGNode", "ContentNode")
+        index = 0
+        selectedViewIndex = 0
+
+        for each view in m.top.options.videos
+            entry = viewContent.CreateChild("VideoTrackListData")
+            entry.title = view.Title
+            entry.description = view.Description
+            entry.streamId = view.streamId
+            entry.video_codec = view.video_codec
+            m.videoNames.push(view.Name)
+            if isValid(view.Selected) and view.Selected
+                selectedViewIndex = index
+                entry.selected = true
+                m.top.videoStreamId = view.streamId
+            end if
+            index = index + 1
+        end for
+
+        m.menus[2].content = viewContent
+        m.menus[2].jumpToItem = selectedViewIndex
+        m.menus[2].checkedItem = selectedViewIndex
+        m.selectedVideoIndex = selectedViewIndex
+    end if
 end sub
 
 ' Switch menu shown when button focus changes
@@ -124,7 +153,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
             selIndex = selMenu.itemSelected
 
             'Handle Videos menu
-            if m.selectedItem = 0
+            if m.selectedItem = 2
                 if m.selectedVideoIndex = selIndex
                 else
                     selMenu.content.GetChild(m.selectedVideoIndex).selected = false
@@ -143,6 +172,17 @@ function onKeyEvent(key as string, press as boolean) as boolean
                     newSelection.selected = true
                     m.selectedAudioIndex = selIndex
                     m.top.audioStreamIndex = newSelection.streamIndex
+                end if
+                ' Then it is Subtitle options
+            else if m.selectedItem = 0
+                if m.selectedSubtitleIndex = selIndex
+                else
+                    selMenu.content.GetChild(m.selectedSubtitleIndex).selected = false
+                    newSelection = selMenu.content.GetChild(selIndex)
+                    newSelection.selected = true
+                    m.selectedSubtitleIndex = selIndex
+                    m.top.subtitleStream = newSelection
+                    m.global.queueManager.callFunc("setPreferredSubtitleTrack", newSelection)
                 end if
             end if
 

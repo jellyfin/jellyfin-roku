@@ -7,8 +7,9 @@
       <LayoutGroup horizAlignment="center" translation="[860,50]" itemSpacings="[50]">
         <JFButtons id="buttons" />
         <Group>
-          <RadiobuttonList id="videoMenu" itemspacing="[0,10]" opacity="1" vertFocusAnimationStyle="floatingFocus" drawFocusFeedback="false" itemSize="[1500, 70]" numRows="8" />
+          <RadiobuttonList id="subtitleMenu" itemspacing="[0,10]" opacity="1" vertFocusAnimationStyle="floatingFocus" drawFocusFeedback="false" itemSize="[1500, 70]" numRows="8" />
           <RadiobuttonList id="audioMenu" itemspacing="[0,10]" opacity="0" vertFocusAnimationStyle="floatingFocus" drawFocusFeedback="false" itemSize="[1500, 70]" numRows="8" />
+          <RadiobuttonList id="videoMenu" itemspacing="[0,10]" opacity="0" vertFocusAnimationStyle="floatingFocus" drawFocusFeedback="false" itemSize="[1500, 70]" numRows="8" />
         </Group>
       </LayoutGroup>
     </Group>
@@ -25,5 +26,6 @@
     <field id="videoStreamId" type="string" />
     <field id="video_codec" type="string" />
     <field id="audioStreamIndex" type="integer" />
+    <field id="subtitleStream" type="node" />
   </interface>
 </component>

@@ -28,6 +28,9 @@
     <function name="resetShuffle" />
     <function name="set" />
     <function name="bypassNextPreferredAudioTrackIndexReset" />
+    <function name="getLastKnownItemID" />
+    <function name="getPreferredSubtitleTrack" />
+    <function name="setPreferredSubtitleTrack" />
     <function name="getPreferredAudioTrackIndex" />
     <function name="setPreferredAudioTrackIndex" />
     <function name="setSelectedAudioStreamIndex" />

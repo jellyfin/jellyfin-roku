@@ -7,6 +7,7 @@ import "pkg:/source/api/Image.bs"
 import "pkg:/source/utils/deviceCapabilities.bs"
 
 sub init()
+    m.getLastKnownItemID = ""
     m.bypassNextPreferredAudioTrackIndexReset = false
     m.hold = []
     m.queue = []
@@ -17,6 +18,7 @@ sub init()
     m.isPrerollActive = m.global.session.user.settings["playback.cinemamode"]
     m.position = 0
     m.preferredAudioTrackIndex = 0
+    m.preferredSubtitleTrack = {}
     m.shuffleEnabled = false
 end sub
 
@@ -198,6 +200,8 @@ sub playQueue()
     nextItemMediaType = getItemType(nextItem)
     if nextItemMediaType = "" then return
 
+    m.getLastKnownItemID = nextItem.id
+
     if nextItemMediaType = "audio"
         CreateAudioPlayerView()
         return
@@ -250,6 +254,21 @@ function isPrerollActive() as boolean
     return m.isPrerollActive
 end function
 
+' Gets the preferredSubtitleTrack property for the play queue
+function getPreferredSubtitleTrack() as object
+    return m.preferredSubtitleTrack
+end function
+
+' Sets the preferredSubtitleTrack property for the play queue
+sub setPreferredSubtitleTrack(subtitle as object)
+    m.preferredSubtitleTrack = subtitle ?? {}
+end sub
+
+' Gets the getLastKnownItemID property for the play queue
+function getLastKnownItemID() as string
+    return m.getLastKnownItemID
+end function
+
 ' Gets the preferredAudioTrackIndex property for the play queue
 function getPreferredAudioTrackIndex() as integer
     return m.preferredAudioTrackIndex
@@ -257,7 +276,7 @@ end function
 
 ' Sets the preferredAudioTrackIndex property for the play queue
 sub setPreferredAudioTrackIndex(audioData as integer)
-    m.preferredAudioTrackIndex = isValid(audioData) ? audioData : 0
+    m.preferredAudioTrackIndex = audioData ?? 0
 end sub
 
 ' Set prerollActive status

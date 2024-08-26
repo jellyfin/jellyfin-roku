@@ -14,8 +14,12 @@ sub init()
         null: -10
     }
 
+    preferredSubtitle = m.global.queueManager.callFunc("getPreferredSubtitleTrack")
+    m.top.SelectedSubtitle = isChainValid(preferredSubtitle, "StreamIndex") ? preferredSubtitle.StreamIndex : -1
+
     ' Load meta data
     m.LoadMetaDataTask = CreateObject("roSGNode", "LoadVideoContentTask")
+    m.LoadMetaDataTask.selectedSubtitleIndex = m.top.SelectedSubtitle
     m.LoadMetaDataTask.itemId = m.currentItem.id
     m.LoadMetaDataTask.itemType = m.currentItem.type
     m.LoadMetaDataTask.selectedAudioStreamIndex = m.currentItem.selectedAudioStreamIndex

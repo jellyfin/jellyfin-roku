@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component name="SubtitleTrackListData" extends="ContentNode">
+  <interface>
+    <field id="selected" type="boolean" value="false" />
+    <field id="index" type="string" />
+    <field id="StreamIndex" type="integer" />
+    <field id="json" type="assocarray" />
+  </interface>
+</component>

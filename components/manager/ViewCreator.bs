@@ -98,6 +98,8 @@ sub onSelectSubtitlePressed()
             end if
         end if
 
+        item.StreamIndex = item.index
+
         ' Put the selected item at the top of the option list
         if isValid(item.selected) and item.selected
             subtitleData.data.Unshift(item)
@@ -179,6 +181,7 @@ sub processSubtitleSelection()
             m.view.selectedSubtitle = -1
         end if
 
+        m.global.queueManager.callFunc("setPreferredSubtitleTrack", m.selectedSubtitle)
         return
     end if
 
@@ -196,6 +199,7 @@ sub processSubtitleSelection()
         m.view.subtitleTrack = m.view.availableSubtitleTracks[availableSubtitleTrackIndex].TrackName
     end if
 
+    m.global.queueManager.callFunc("setPreferredSubtitleTrack", m.selectedSubtitle)
     m.view.selectedSubtitle = m.selectedSubtitle.Index
 end sub
 

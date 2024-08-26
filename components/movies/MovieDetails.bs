@@ -375,7 +375,6 @@ sub addEpisodeTitle(itemData as object)
 end sub
 
 sub SetUpVideoOptions(streams)
-
     videos = []
     codecDetailsSet = false
 
@@ -420,18 +419,31 @@ sub SetUpVideoOptions(streams)
     m.options.options = options
 end sub
 
-
 sub SetUpAudioOptions(streams)
-    tracks = []
+    preferredSubtitle = m.global.queueManager.callFunc("getPreferredSubtitleTrack")
+    selectedSubtitle = isChainValid(preferredSubtitle, "StreamIndex") ? preferredSubtitle.StreamIndex : -1
+
+    audioTracks = []
+    subtitleTracks = [{
+        "StreamIndex": -1,
+        "json": {},
+        "Title": "None",
+        "Description": "None",
+        "Selected": selectedSubtitle = -1
+    }]
 
     for i = 0 to streams.Count() - 1
         if streams[i].Type = "Audio"
-            tracks.push({ "Title": streams[i].displayTitle, "Description": streams[i].Title, "Selected": m.top.selectedAudioStreamIndex = i, "StreamIndex": i })
+            audioTracks.push({ "Title": streams[i].displayTitle, "Description": streams[i].Title, "Selected": m.top.selectedAudioStreamIndex = i, "StreamIndex": i })
+        end if
+        if streams[i].Type = "Subtitle"
+            print "streams[i]", streams[i]
+            subtitleTracks.push({ "Title": streams[i].displayTitle, "json": streams[i], "Description": streams[i].Title, "Selected": selectedSubtitle = streams[i].index, "StreamIndex": i })
         end if
     end for
 
-    if tracks.count() > 1
-        m.top.findnode("audio_codec_count").text = "+" + stri(tracks.Count() - 1).trim()
+    if audioTracks.count() > 1
+        m.top.findnode("audio_codec_count").text = "+" + stri(audioTracks.Count() - 1).trim()
     else
         m.top.findnode("audio_codec_count").text = ""
     end if
@@ -440,7 +452,8 @@ sub SetUpAudioOptions(streams)
     if isValid(m.options.options.videos)
         options.videos = m.options.options.videos
     end if
-    options.audios = tracks
+    options.audios = audioTracks
+    options.subtitles = subtitleTracks
     m.options.options = options
 
 end sub
