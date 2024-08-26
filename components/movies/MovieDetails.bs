@@ -437,7 +437,6 @@ sub SetUpAudioOptions(streams)
             audioTracks.push({ "Title": streams[i].displayTitle, "Description": streams[i].Title, "Selected": m.top.selectedAudioStreamIndex = i, "StreamIndex": i })
         end if
         if streams[i].Type = "Subtitle"
-            print "streams[i]", streams[i]
             subtitleTracks.push({ "Title": streams[i].displayTitle, "json": streams[i], "Description": streams[i].Title, "Selected": selectedSubtitle = streams[i].index, "StreamIndex": i })
         end if
     end for
