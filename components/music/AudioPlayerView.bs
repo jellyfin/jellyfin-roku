@@ -700,7 +700,7 @@ sub setOnScreenTextValues(json)
             setTrackNumberDisplay()
         end if
 
-        setFieldTextValue("artist", json.Artists[0])
+        setFieldTextValue("artist", json.Artists[0].replace(chr(8208), "-"))
         setFieldTextValue("song", UCase(json.name))
     end if
 end sub
