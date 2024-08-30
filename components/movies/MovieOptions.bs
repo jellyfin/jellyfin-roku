@@ -55,7 +55,6 @@ sub optionsSet()
             if isValid(subtitle.Selected) and subtitle.Selected
                 selectedSubtitleIndex = index
                 entry.selected = true
-                m.top.subtitleStreamName = subtitle.title
             end if
             index = index + 1
         end for
