@@ -1,0 +1,6 @@
+enum VideoControl
+    STOP = "STOP"
+    RESUME = "RESUME"
+    PAUSE = "PAUSE"
+    PLAY = "PLAY"
+end enum

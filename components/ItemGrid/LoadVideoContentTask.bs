@@ -97,6 +97,7 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
         end if
     end if
 
+    video.trickplay = meta.json.Trickplay
     video.chapters = meta.json.Chapters
     video.content.title = meta.title
     video.showID = meta.showID

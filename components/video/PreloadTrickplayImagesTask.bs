@@ -1,0 +1,30 @@
+import "pkg:/source/api/sdk.bs"
+import "pkg:/source/utils/config.bs"
+
+sub init()
+    m.top.functionName = "preloadTrickplayImagesTask"
+end sub
+
+sub preloadTrickplayImagesTask()
+    if m.top.method = "ADD"
+        for tileIndex = 0 to m.top.numImagesToLoad
+            updatedURL = `Videos/${m.top.videoID}/Trickplay/${m.top.trickplayWidth}/${tileIndex}.jpg?api_key=${get_user_setting("token")}`
+
+            fs = CreateObject("roFileSystem")
+            if not fs.Exists(`tmp:/${m.top.videoID}-${tileIndex}.jpg`)
+                APIRequest(updatedURL).gettofile(`tmp:/${m.top.videoID}-${tileIndex}.jpg`)
+            end if
+        end for
+        return
+    end if
+
+    if m.top.method = "REMOVE"
+        for tileIndex = 0 to m.top.numImagesToLoad
+            fs = CreateObject("roFileSystem")
+            if fs.Exists(`tmp:/${m.top.videoID}-${tileIndex}.jpg`)
+                fs.Delete(`tmp:/${m.top.videoID}-${tileIndex}.jpg`)
+            end if
+        end for
+        return
+    end if
+end sub

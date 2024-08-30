@@ -1,13 +1,17 @@
-import "pkg:/source/utils/misc.bs"
-import "pkg:/source/utils/config.bs"
 import "pkg:/source/enums/ColorPalette.bs"
+import "pkg:/source/enums/KeyCode.bs"
+import "pkg:/source/enums/String.bs"
+import "pkg:/source/enums/TaskControl.bs"
+import "pkg:/source/enums/VideoControl.bs"
+import "pkg:/source/utils/config.bs"
+import "pkg:/source/utils/misc.bs"
 
 sub init()
     ' Hide the overhang on init to prevent showing 2 clocks
     m.top.getScene().findNode("overhang").visible = false
-    m.currentItem = m.global.queueManager.callFunc("getCurrentItem")
+    currentItem = m.global.queueManager.callFunc("getCurrentItem")
+    m.top.id = currentItem.id
 
-    m.top.id = m.currentItem.id
     m.top.seekMode = "accurate"
 
     m.playbackEnum = {
@@ -20,11 +24,19 @@ sub init()
     ' Load meta data
     m.LoadMetaDataTask = CreateObject("roSGNode", "LoadVideoContentTask")
     m.LoadMetaDataTask.selectedSubtitleIndex = m.top.SelectedSubtitle
-    m.LoadMetaDataTask.itemId = m.currentItem.id
-    m.LoadMetaDataTask.itemType = m.currentItem.type
-    m.LoadMetaDataTask.selectedAudioStreamIndex = m.currentItem.selectedAudioStreamIndex
+    m.LoadMetaDataTask.itemId = currentItem.id
+    m.LoadMetaDataTask.itemType = currentItem.type
+    m.LoadMetaDataTask.selectedAudioStreamIndex = currentItem.selectedAudioStreamIndex
     m.LoadMetaDataTask.observeField("content", "onVideoContentLoaded")
-    m.LoadMetaDataTask.control = "RUN"
+    m.LoadMetaDataTask.control = TaskControl.RUN
+
+    m.PreloadTrickplayImagesTask = CreateObject("roSGNode", "PreloadTrickplayImagesTask")
+    m.PreloadTrickplayImagesTask.videoID = currentItem.id
+
+    m.positionTranslation = m.top.trickPlayBar.getChild(3)
+    m.positionText = m.top.trickPlayBar.getChild(8)
+    m.top.trickplaybar.observeField("visible", "onTrickPlayBarVisibleChange")
+    m.positionText.observeField("text", "onTrickPlayBarTextChange")
 
     m.chapterList = m.top.findNode("chapterList")
     m.chapterMenu = m.top.findNode("chapterMenu")
@@ -51,7 +63,6 @@ sub init()
     m.playbackTimer.observeField("fire", "ReportPlayback")
     m.bufferPercentage = 0 ' Track whether content is being loaded
     m.playReported = false
-    m.top.transcodeReasons = []
     m.bufferCheckTimer.duration = 30
 
     if m.global.session.user.settings["ui.design.hideclock"] = true
@@ -72,9 +83,9 @@ sub init()
     m.getNextEpisodeTask = createObject("roSGNode", "GetNextEpisodeTask")
     m.getNextEpisodeTask.observeField("nextEpisodeData", "onNextEpisodeDataLoaded")
 
-    m.top.retrievingBar.filledBarBlendColor = m.global.constants.colors.blue
-    m.top.bufferingBar.filledBarBlendColor = m.global.constants.colors.blue
-    m.top.trickPlayBar.filledBarBlendColor = m.global.constants.colors.blue
+    m.top.retrievingBar.filledBarBlendColor = ColorPalette.TRIADBLUE
+    m.top.bufferingBar.filledBarBlendColor = ColorPalette.TRIADBLUE
+    m.top.trickPlayBar.filledBarBlendColor = ColorPalette.TRIADBLUE
 end sub
 
 ' setSiblingData: Set the icon and title text for the previous and next items
@@ -85,8 +96,8 @@ sub setSiblingData()
         m.osd.previousItemIcon = previousItemTitleText[0]
         m.osd.previousItemTitleText = previousItemTitleText[1]
     else
-        m.osd.previousItemIcon = ""
-        m.osd.previousItemTitleText = ""
+        m.osd.previousItemIcon = string.EMPTY
+        m.osd.previousItemTitleText = string.EMPTY
     end if
 
     nextItemTitleText = m.global.queueManager.callFunc("getNextItemTitleAndIcon")
@@ -94,8 +105,8 @@ sub setSiblingData()
         m.osd.nextItemIcon = nextItemTitleText[0]
         m.osd.nextItemTitleText = nextItemTitleText[1]
     else
-        m.osd.nextItemIcon = ""
-        m.osd.nextItemTitleText = ""
+        m.osd.nextItemIcon = string.EMPTY
+        m.osd.nextItemTitleText = string.EMPTY
     end if
 end sub
 
@@ -132,7 +143,7 @@ sub handleItemSkipAction(action as string)
     if action = "itemnext"
         ' If there is something next in the queue, play it
         if m.global.queueManager.callFunc("getPosition") < m.global.queueManager.callFunc("getCount") - 1
-            m.top.control = "stop"
+            m.top.control = VideoControl.STOP
             m.global.sceneManager.callFunc("clearPreviousScene")
             m.global.queueManager.callFunc("moveForward")
             m.global.queueManager.callFunc("playQueue")
@@ -144,7 +155,7 @@ sub handleItemSkipAction(action as string)
     if action = "itemback"
         ' If there is something previous in the queue, play it
         if m.global.queueManager.callFunc("getPosition") > 0
-            m.top.control = "stop"
+            m.top.control = VideoControl.STOP
             m.global.sceneManager.callFunc("clearPreviousScene")
             m.global.queueManager.callFunc("moveBack")
             m.global.queueManager.callFunc("playQueue")
@@ -167,7 +178,7 @@ sub handleHideAction(resume as boolean)
     m.osd.setFocus(false)
     m.top.setFocus(true)
     if resume
-        m.top.control = "resume"
+        m.top.control = VideoControl.RESUME
     end if
 end sub
 
@@ -217,7 +228,7 @@ sub handleVideoPlayPauseAction()
     end if
 
     ' Pause video
-    m.top.control = "pause"
+    m.top.control = VideoControl.PAUSE
 end sub
 
 ' handleShowSubtitleMenuAction: Handles action to show subtitle selection menu
@@ -350,13 +361,13 @@ sub onSubtitleChange()
     ' Save the current video position
     m.global.queueManager.callFunc("setTopStartingPoint", int(m.top.position) * 10000000&)
 
-    m.top.control = "stop"
+    m.top.control = VideoControl.STOP
 
     m.LoadMetaDataTask.selectedSubtitleIndex = m.top.SelectedSubtitle
     m.LoadMetaDataTask.selectedAudioStreamIndex = m.top.audioIndex
-    m.LoadMetaDataTask.itemId = m.currentItem.id
+    m.LoadMetaDataTask.itemId = m.top.id
     m.LoadMetaDataTask.observeField("content", "onVideoContentLoaded")
-    m.LoadMetaDataTask.control = "RUN"
+    m.LoadMetaDataTask.control = TaskControl.RUN
 end sub
 
 ' Event handler for when audioIndex changes
@@ -367,13 +378,13 @@ sub onAudioIndexChange()
     ' Save the current video position
     m.global.queueManager.callFunc("setTopStartingPoint", int(m.top.position) * 10000000&)
 
-    m.top.control = "stop"
+    m.top.control = VideoControl.STOP
 
     m.LoadMetaDataTask.selectedSubtitleIndex = m.top.SelectedSubtitle
     m.LoadMetaDataTask.selectedAudioStreamIndex = m.top.audioIndex
-    m.LoadMetaDataTask.itemId = m.currentItem.id
+    m.LoadMetaDataTask.itemId = m.top.id
     m.LoadMetaDataTask.observeField("content", "onVideoContentLoaded")
-    m.LoadMetaDataTask.control = "RUN"
+    m.LoadMetaDataTask.control = TaskControl.RUN
 end sub
 
 sub onPlaybackErrorDialogClosed(msg)
@@ -401,7 +412,7 @@ end sub
 
 sub onVideoContentLoaded()
     m.LoadMetaDataTask.unobserveField("content")
-    m.LoadMetaDataTask.control = "STOP"
+    m.LoadMetaDataTask.control = TaskControl.STOP
 
     videoContent = m.LoadMetaDataTask.content
     m.LoadMetaDataTask.content = []
@@ -429,9 +440,30 @@ sub onVideoContentLoaded()
     m.top.audioIndex = videoContent[0].audioIndex
     m.top.transcodeParams = videoContent[0].transcodeparams
     m.chapters = videoContent[0].chapters
+    m.trickplay = videoContent[0].trickplay
     m.top.showID = videoContent[0].showID
 
     m.osd.itemTitleText = m.top.content.title
+
+    m.trickplayDataFinal = invalid
+    if isValidAndNotEmpty(m.trickplay)
+        if isValid(m.trickplay)
+            trickplayData = m.trickplay.LookupCI(m.top.id)
+            if isValidAndNotEmpty(trickplayData)
+                m.trickplayDataFinal = trickplayData.lookupCI(trickplayData.keys()[0])
+
+                if isValidAndNotEmpty(m.trickplayDataFinal)
+                    ' Convert interval to seconds
+                    m.iconInterval = m.trickplayDataFinal.Interval / 1000
+
+                    m.PreloadTrickplayImagesTask.numImagesToLoad = fix(m.trickplayDataFinal.ThumbnailCount / (m.trickplayDataFinal.TileHeight * m.trickplayDataFinal.TileWidth))
+                    m.PreloadTrickplayImagesTask.trickplayWidth = m.trickplayDataFinal.Width
+                    m.PreloadTrickplayImagesTask.method = "ADD"
+                    m.PreloadTrickplayImagesTask.control = TaskControl.RUN
+                end if
+            end if
+        end if
+    end if
 
     ' If video is an episode, attempt to add season and episode numbers to OSD
     if m.top.content.contenttype = 4
@@ -454,7 +486,7 @@ sub onVideoContentLoaded()
 
         ' Don't show both the logo and the video title if this isn't an episode
         if m.top.content.contenttype <> 4
-            m.osd.itemTitleText = ""
+            m.osd.itemTitleText = string.EMPTY
         end if
     end if
 
@@ -501,7 +533,65 @@ sub onVideoContentLoaded()
     end if
 
     m.top.setFocus(true)
-    m.top.control = "play"
+    m.top.control = VideoControl.PLAY
+end sub
+
+sub displayTrickplayImage(trickPosition as integer)
+    if not isValid(m.trickplayDataFinal) then return
+
+    ' Index of trickplay image that matches seek timestamp - out of all trickplay images
+    iconIndex = fix(trickPosition / m.iconInterval)
+
+    ' Index of tileset that trickplay image is located in
+    tileIndex = Fix(iconIndex / (m.trickplayDataFinal.TileHeight * m.trickplayDataFinal.TileWidth))
+
+    ' Index of trickplay image within tileset
+    tileIconIndex = iconIndex - (tileIndex * (m.trickplayDataFinal.TileHeight * m.trickplayDataFinal.TileWidth))
+
+    ' Index of row trickplay image is on within tileset
+    iconRow = fix(tileIconIndex / m.trickplayDataFinal.TileHeight)
+
+    ' Index of column trickplay image is on within tileset
+    iconColumn = tileIconIndex mod m.trickplayDataFinal.TileWidth
+
+    ' Translation values for trickplay images
+    offsetHoriz = 100
+    offsetVert = 900 - m.trickplayDataFinal.Height
+
+    ' If we can get translation data for the trickplaybar's thumb icon, use it so the trickplay images can move left/right with seeking
+    if isValid(m.positionTranslation)
+        if m.positionTranslation.translation[0] = 0 then return
+        offsetHoriz = m.positionTranslation.translation[0] - 50
+    end if
+
+    if offsetHoriz < 0 then offsetHoriz = 0
+
+    trickplayImage = m.top.findNode("trickplayImage")
+
+    ' Trickplayimage node doesn't exist, create it
+    if not isValid(trickplayImage)
+        newTrickplayImage = createObject("roSGNode", "Poster")
+        newTrickplayImage.uri = `tmp:/${m.top.id}-${tileIndex}.jpg`
+        newTrickplayImage.id = `trickplayImage`
+        newTrickplayImage.loadDisplayMode = "noScale"
+        newTrickplayImage.height = m.trickplayDataFinal.Height * m.trickplayDataFinal.TileHeight
+        newTrickplayImage.width = m.trickplayDataFinal.Width * m.trickplayDataFinal.TileWidth
+        newTrickplayImage.translation = `[${offsetHoriz - (iconColumn * m.trickplayDataFinal.Width)},  ${offsetVert - (iconRow * m.trickplayDataFinal.Height)}]`
+        newTrickplayImage.clippingRect = `[${iconColumn * m.trickplayDataFinal.Width}, ${iconRow * m.trickplayDataFinal.Height}, ${m.trickplayDataFinal.Width}, ${m.trickplayDataFinal.Height}]`
+        m.top.appendChild(newTrickplayImage)
+        return
+    end if
+
+    ' If we've changed tiles, remove existing trickplayImage node
+    ' Otherwise loading the next image will fail. 'cause Roku.
+    if trickplayImage.uri <> `tmp:/${m.top.id}-${tileIndex}.jpg`
+        m.top.removeChild(trickplayImage)
+        return
+    end if
+
+    ' Move clippingRect to next trickplay image within tileset - offsetting translation by an equal amount so it doesn't move
+    trickplayImage.translation = `[${offsetHoriz - (iconColumn * m.trickplayDataFinal.Width)},  ${offsetVert - (iconRow * m.trickplayDataFinal.Height)}]`
+    trickplayImage.clippingRect = `[${iconColumn * m.trickplayDataFinal.Width}, ${iconRow * m.trickplayDataFinal.Height}, ${m.trickplayDataFinal.Width}, ${m.trickplayDataFinal.Height}]`
 end sub
 
 ' populateChapterMenu: ' Parse chapter data from API and appeand to chapter list menu
@@ -655,16 +745,16 @@ sub onState(msg)
         end if
 
         ' Stop playback and exit player
-        m.top.control = "stop"
+        m.top.control = VideoControl.STOP
         m.top.backPressed = true
     else if m.top.state = "playing"
 
         ' Check if next episode is available
         if isValid(m.top.showID)
-            if m.top.showID <> "" and not m.checkedForNextEpisode and m.top.content.contenttype = 4
+            if m.top.showID <> string.EMPTY and not m.checkedForNextEpisode and m.top.content.contenttype = 4
                 m.getNextEpisodeTask.showID = m.top.showID
                 m.getNextEpisodeTask.videoID = m.top.id
-                m.getNextEpisodeTask.control = "RUN"
+                m.getNextEpisodeTask.control = TaskControl.RUN
             end if
         end if
 
@@ -683,7 +773,44 @@ sub onState(msg)
         ReportPlayback("stop")
         m.playReported = false
     end if
+end sub
 
+sub onTrickPlayBarVisibleChange()
+    trickplayImage = m.top.findNode("trickplayImage")
+    if isValid(trickplayImage)
+        trickplayImage.visible = m.top.trickPlayBar.visible
+    end if
+end sub
+
+sub onTrickPlayBarTextChange()
+    if not m.top.trickPlayBar.visible then return
+
+    if not isValid(m.positionText)
+        displayTrickplayImage(m.top.position)
+        return
+    end if
+
+    seekTime = 0
+    seekPosition = m.positionText.text.split(":")
+
+    if seekPosition.count() = 3
+        ' hours -> seconds
+        seekTime += seekPosition[0].toint() * 3600
+        ' minutes -> seconds
+        seekTime += seekPosition[1].toint() * 60
+    end if
+
+    ' minutes -> seconds
+    if seekPosition.count() = 2
+        seekTime += seekPosition[0].toint() * 60
+    end if
+
+    ' add seconds
+    seekTime += seekPosition[seekPosition.count() - 1].toint()
+
+    seekTime = seekTime = 0 ? m.top.position : seekTime
+
+    displayTrickplayImage(seekTime)
 end sub
 
 '
@@ -709,7 +836,7 @@ sub ReportPlayback(state = "update" as string)
     ' Report playstate via worker task
     playstateTask = m.global.playstateTask
     playstateTask.setFields({ status: state, params: params })
-    playstateTask.control = "RUN"
+    playstateTask.control = TaskControl.RUN
 end sub
 
 '
@@ -722,6 +849,7 @@ sub bufferCheck(msg)
         m.bufferCheckTimer.unobserveField("fire")
         return
     end if
+
     if m.top.bufferingStatus <> invalid
 
         ' Check that the buffering percentage is increasing
@@ -734,7 +862,7 @@ sub bufferCheck(msg)
             showPlaybackErrorDialog(tr("There was an error retrieving the data for this item from the server."))
 
             ' Stop playback and exit player
-            m.top.control = "stop"
+            m.top.control = VideoControl.STOP
             m.top.backPressed = true
         end if
     end if
@@ -769,12 +897,11 @@ function availSubtitleTrackIdx(tracknameToFind as string) as integer
 end function
 
 function onKeyEvent(key as string, press as boolean) as boolean
-
     ' Keypress handler while user is inside the chapter menu
     if m.chapterMenu.hasFocus()
         if not press then return false
 
-        if key = "OK"
+        if key = KeyCode.OK
             focusedChapter = m.chapterMenu.itemFocused
             selectedChapter = m.chapterMenu.content.getChild(focusedChapter)
             seekTime = selectedChapter.playstart
@@ -786,7 +913,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
             return true
         end if
 
-        if key = "back" or key = "replay"
+        if key = KeyCode.BACK or key = KeyCode.REPLAY
             m.chapterList.visible = false
             m.osd.showChapterList = false
             m.chapterMenu.setFocus(false)
@@ -795,15 +922,15 @@ function onKeyEvent(key as string, press as boolean) as boolean
             return true
         end if
 
-        if key = "play"
+        if key = KeyCode.PLAY
             handleVideoPlayPauseAction()
         end if
 
         return true
     end if
 
-    if key = "OK" and m.nextEpisodeButton.hasfocus() and not m.top.trickPlayBar.visible
-        m.top.control = "stop"
+    if key = KeyCode.OK and m.nextEpisodeButton.hasfocus() and not m.top.trickPlayBar.visible
+        m.top.control = VideoControl.STOP
         m.top.state = "finished"
         hideNextEpisodeButton()
         return true
@@ -818,7 +945,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
     if not press then return false
 
-    if key = "down" and not m.top.trickPlayBar.visible
+    if key = KeyCode.DOWN and not m.top.trickPlayBar.visible
         if not m.LoadMetaDataTask.isIntro
             ' Don't allow user to open menu prior to video loading
             if not stateAllowsOSD() then return true
@@ -830,7 +957,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
             return true
         end if
 
-    else if key = "up" and not m.top.trickPlayBar.visible
+    else if key = KeyCode.UP and not m.top.trickPlayBar.visible
         if not m.LoadMetaDataTask.isIntro
             ' Don't allow user to open menu prior to video loading
             if not stateAllowsOSD() then return true
@@ -842,7 +969,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
             return true
         end if
 
-    else if key = "OK" and not m.top.trickPlayBar.visible
+    else if key = KeyCode.OK and not m.top.trickPlayBar.visible
         if not m.LoadMetaDataTask.isIntro
             ' Don't allow user to open menu prior to video loading
             if not stateAllowsOSD() then return true
@@ -860,19 +987,19 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
     ' Disable OSD for intro videos
     if not m.LoadMetaDataTask.isIntro
-        if key = "play" and not m.top.trickPlayBar.visible
+        if key = KeyCode.PLAY and not m.top.trickPlayBar.visible
 
             ' Don't allow user to open menu prior to video loading
             if not stateAllowsOSD() then return true
 
             ' If video is paused, resume it and don't show OSD
             if m.top.state = "paused"
-                m.top.control = "resume"
+                m.top.control = VideoControl.RESUME
                 return true
             end if
 
             ' Pause video and show OSD
-            m.top.control = "pause"
+            m.top.control = VideoControl.PAUSE
             setSiblingData()
             m.osd.visible = true
             m.osd.hasFocus = true
@@ -881,10 +1008,13 @@ function onKeyEvent(key as string, press as boolean) as boolean
         end if
     end if
 
-    if key = "back"
+    if key = KeyCode.BACK
+        m.PreloadTrickplayImagesTask.method = "REMOVE"
+        m.PreloadTrickplayImagesTask.control = TaskControl.RUN
+
         m.global.queueManager.callFunc("bypassNextPreferredAudioTrackIndexReset")
         m.global.queueManager.callFunc("clear")
-        m.top.control = "stop"
+        m.top.control = VideoControl.STOP
     end if
 
     return false

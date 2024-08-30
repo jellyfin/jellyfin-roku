@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<component name="PreloadTrickplayImagesTask" extends="Task">
+    <interface>
+        <field id="videoID" type="string" />
+        <field id="method" type="string" />
+        <field id="numImagesToLoad" type="integer" />
+        <field id="trickplayWidth" type="integer" />
+    </interface>
+</component>
