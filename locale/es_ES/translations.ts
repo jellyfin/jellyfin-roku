@@ -1131,6 +1131,139 @@
         <source>Resumable</source>
         <translation>Renaudar</translation>
     </message>
+    <message>
+        <source>Loading trailer</source>
+        <translation>Cargando trailer</translation>
+        <extracomment>Dialog title in Main.brs</extracomment>
+    </message>
+    <message>
+        <source>Maximum Bitrate</source>
+        <translation>Tasa de Bits Máxima</translation>
+    </message>
+    <message>
+        <source>Always Hide</source>
+        <translation>Siempre Ocultar</translation>
+    </message>
+    <message>
+        <source>Album Artists (Presentation)</source>
+        <translation>Artístas del Álbum (Presentación)</translation>
+    </message>
+    <message>
+        <source>Biographical information for this person is not currently available.</source>
+        <translation>La información biográfica de esta persona no está disponible por el momento.</translation>
+    </message>
+    <message>
+        <source>Libraries</source>
+        <translation>Bibliotecas</translation>
+    </message>
+    <message>
+        <source>Settings relating to the appearance of pages in TV Libraries.</source>
+        <translation>Configuraciones relacionadas con la apariencia de las páginas en las Bibliotecas de TV.</translation>
+    </message>
+    <message>
+        <source>Songs</source>
+        <translation>Canciones</translation>
+    </message>
+    <message>
+        <source>Albums</source>
+        <translation>Álbumes</translation>
+    </message>
+    <message>
+        <source>Album Artists (Grid)</source>
+        <translation>Artistas del Álbum (Cuadrícula)</translation>
+    </message>
+    <message>
+        <source>Album</source>
+        <translation>Álbum</translation>
+    </message>
+    <message>
+        <source>Hide the star and community rating for episodes of a TV show. This is to prevent spoilers of an upcoming good/bad episode.</source>
+        <translation>Ocultar el rating de estrellas y comunidad para los episodios de una serie de TV. Esto evita spoilers de un buen/mal episodio.</translation>
+    </message>
+    <message>
+        <source>Enable or disable the &apos;Maximum Bitrate&apos; setting.</source>
+        <translation>Habilitar o deshabilitar la configuración de &apos;Tasa Máxima de Bits&apos;.</translation>
+    </message>
+    <message>
+        <source>Presentation</source>
+        <translation>Presentación</translation>
+        <extracomment>Title of an option - name of presentation view</extracomment>
+    </message>
+    <message>
+        <source>Settings relating to the appearance of Library pages</source>
+        <translation>Configuraciones relacionadas con la apariencia de las páginas de la Biblioteca</translation>
+    </message>
+    <message>
+        <source>Grid View Settings</source>
+        <translation>Configuraciones de la Vista en Cuadrícula</translation>
+    </message>
+    <message>
+        <source>Settings that apply when Grid views are enabled.</source>
+        <translation>Configuraciones que aplican cuando el modo de Cuadrícula es habilitado.</translation>
+    </message>
+    <message>
+        <source>Settings relating to the appearance of pages in Movie Libraries.</source>
+        <translation>Configuraciones relacionadas con la apariencia de las páginas en las Bibliotecas de Películas.</translation>
+    </message>
+    <message>
+        <source>Grid</source>
+        <translation>Cuadrícula</translation>
+        <extracomment>Title of an option - name of grid view</extracomment>
+    </message>
+    <message>
+        <source>If enabled, the number of unwatched episodes in a series/season will be removed.</source>
+        <translation>Si está habilitado, se eliminará la cantidad de episodios no vistos de una serie/temporada.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Configure the maximum playback bitrate.</source>
+        <translation>Configurar la tasa de bits máxima para la reproducción.</translation>
+    </message>
+    <message>
+        <source>Bitrate Limit</source>
+        <translation>Límite de Tasa de Bits</translation>
+    </message>
+    <message>
+        <source>Artists (Presentation)</source>
+        <translation>Artistas (Presentación)</translation>
+    </message>
+    <message>
+        <source>Disable Community Rating for Episodes</source>
+        <translation>Deshabilitar Ratings de la Comunidad para los Episodios</translation>
+    </message>
+    <message>
+        <source>Artists (Grid)</source>
+        <translation>Artistas (Cuadrícula)</translation>
+    </message>
+    <message>
+        <source>Song</source>
+        <translation>Canción</translation>
+    </message>
+    <message>
+        <source>View All</source>
+        <translation>Ver Todo</translation>
+    </message>
+    <message>
+        <source>Enable Limit</source>
+        <translation>Habilitar Límite</translation>
+    </message>
+    <message>
+        <source>Set the maximum bitrate in Mbps. Set to 0 to use Roku&apos;s specifications. This setting must be enabled to take effect.</source>
+        <translation>Establecer la tasa de bits máxima en Mbps. Establecela en 0 para utilizar las especificaciones de Roku. Esta configuración debe estar habilitada para que surta efecto.</translation>
+    </message>
+    <message>
+        <source>General</source>
+        <translation>General</translation>
+    </message>
+    <message>
+        <source>Disable Unwatched Episode Count</source>
+        <translation>Deshabilitar Cuenta de Episodios No Vistos</translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
+    <message>
+        <source>Settings relating to the appearance of the Home screen and the program in general.</source>
+        <translation>Configuraciones relacionada con la apariencia de la pantalla de Inicio y el programa en general.</translation>
+    </message>
 </context>
 <context>
     <name></name>
