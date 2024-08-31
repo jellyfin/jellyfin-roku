@@ -33,6 +33,7 @@ sub init()
     m.PreloadTrickplayImagesTask = CreateObject("roSGNode", "PreloadTrickplayImagesTask")
     m.PreloadTrickplayImagesTask.videoID = currentItem.id
 
+    m.canUseFastReplace = false
     m.positionTranslation = m.top.trickPlayBar.getChild(3)
     m.positionText = m.top.trickPlayBar.getChild(8)
     m.top.trickplaybar.observeField("visible", "onTrickPlayBarVisibleChange")
@@ -456,6 +457,8 @@ sub onVideoContentLoaded()
                     ' Convert interval to seconds
                     m.iconInterval = m.trickplayDataFinal.Interval / 1000
 
+                    m.canUseFastReplace = (m.trickplayDataFinal.TileHeight * m.trickplayDataFinal.Height) * (m.trickplayDataFinal.TileWidth * m.trickplayDataFinal.Width) < 2000000
+
                     m.PreloadTrickplayImagesTask.numImagesToLoad = fix(m.trickplayDataFinal.ThumbnailCount / (m.trickplayDataFinal.TileHeight * m.trickplayDataFinal.TileWidth))
                     m.PreloadTrickplayImagesTask.trickplayWidth = m.trickplayDataFinal.Width
                     m.PreloadTrickplayImagesTask.method = "ADD"
@@ -585,8 +588,12 @@ sub displayTrickplayImage(trickPosition as integer)
     ' If we've changed tiles, remove existing trickplayImage node
     ' Otherwise loading the next image will fail. 'cause Roku.
     if trickplayImage.uri <> `tmp:/${m.top.id}-${tileIndex}.jpg`
-        m.top.removeChild(trickplayImage)
-        return
+        if not m.canUseFastReplace
+            m.top.removeChild(trickplayImage)
+            return
+        end if
+
+        trickplayImage.uri = `tmp:/${m.top.id}-${tileIndex}.jpg`
     end if
 
     ' Move clippingRect to next trickplay image within tileset - offsetting translation by an equal amount so it doesn't move
