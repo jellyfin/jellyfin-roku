@@ -45,6 +45,9 @@ sub OnScreenShown()
     end if
 
     if isValid(m.top.lastFocus)
+        if LCase(m.top.lastFocus.id) = "overhang"
+            overhang.callFunc("highlightUser")
+        end if
         m.top.lastFocus.setFocus(true)
     else
         m.top.setFocus(true)
@@ -69,8 +72,8 @@ sub OnScreenHidden()
     scene = m.top.getScene()
     overhang = scene.findNode("overhang")
     if isValid(overhang)
+        overhang.callFunc("dehighlightUser")
         overhang.currentUser = ""
-        overhang.currentUserProfileImage = ""
         overhang.title = ""
     end if
 end sub

@@ -1,5 +1,5 @@
-import "pkg:/source/utils/misc.bs"
 import "pkg:/source/enums/ColorPalette.bs"
+import "pkg:/source/utils/misc.bs"
 
 sub init()
     m.top.backgroundColor = ColorPalette.VIEWBACKGROUND
@@ -37,6 +37,19 @@ function onKeyEvent(key as string, press as boolean) as boolean
         group = m.global.sceneManager.callFunc("getActiveScene")
         if isValid(group) and isValid(group.optionsAvailable) and group.optionsAvailable
             group.lastFocus = group.focusedChild
+
+            ' User opened the menu while on the user avatar
+            scene = m.top.getScene()
+            if isValid(scene)
+                overhang = scene.findNode("overhang")
+                if isValid(overhang)
+                    overlayCurrentUserSelection = overhang.findNode("overlayCurrentUserSelection")
+                    if overlayCurrentUserSelection.visible
+                        group.lastFocus = overhang
+                    end if
+                end if
+            end if
+
             panel = group.findNode("options")
             panel.visible = true
             panel.findNode("panelList").setFocus(true)
