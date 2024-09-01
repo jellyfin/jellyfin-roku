@@ -1058,6 +1058,7 @@ sub Main (args as dynamic) as void
                         end if
 
                         selectedItem[0].startingPoint = startingPoint
+                        m.global.queueManager.callFunc("bypassNextPreferredAudioTrackIndexReset")
                         m.global.queueManager.callFunc("clear")
                         m.global.queueManager.callFunc("push", selectedItem[0])
                         m.global.queueManager.callFunc("playQueue")
@@ -1065,6 +1066,7 @@ sub Main (args as dynamic) as void
                         'Start Over from beginning selected, set position to 0
                         startLoadingSpinner()
                         selectedItem[0].startingPoint = 0
+                        m.global.queueManager.callFunc("bypassNextPreferredAudioTrackIndexReset")
                         m.global.queueManager.callFunc("clear")
                         m.global.queueManager.callFunc("push", selectedItem[0])
                         m.global.queueManager.callFunc("playQueue")
