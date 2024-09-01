@@ -29,6 +29,7 @@
     <function name="set" />
     <function name="bypassNextPreferredAudioTrackIndexReset" />
     <function name="getLastKnownItemID" />
+    <function name="getLastKnownItemExtraType" />
     <function name="getPreferredSubtitleTrack" />
     <function name="setPreferredSubtitleTrack" />
     <function name="getPreferredAudioTrackIndex" />

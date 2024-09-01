@@ -1,13 +1,14 @@
+import "pkg:/source/api/baserequest.bs"
+import "pkg:/source/api/Image.bs"
+import "pkg:/source/api/Items.bs"
+import "pkg:/source/utils/config.bs"
+import "pkg:/source/utils/deviceCapabilities.bs"
 import "pkg:/source/utils/misc.bs"
 import "ViewCreator.bs"
-import "pkg:/source/api/Items.bs"
-import "pkg:/source/api/baserequest.bs"
-import "pkg:/source/utils/config.bs"
-import "pkg:/source/api/Image.bs"
-import "pkg:/source/utils/deviceCapabilities.bs"
 
 sub init()
     m.getLastKnownItemID = ""
+    m.getLastKnownItemExtraType = ""
     m.bypassNextPreferredAudioTrackIndexReset = false
     m.hold = []
     m.queue = []
@@ -200,6 +201,12 @@ sub playQueue()
     nextItemMediaType = getItemType(nextItem)
     if nextItemMediaType = "" then return
 
+    if isChainValid(nextItem, "json.ExtraType")
+        m.getLastKnownItemExtraType = nextItem.json.ExtraType
+    else
+        m.getLastKnownItemExtraType = nextItem.ExtraType
+    end if
+
     m.getLastKnownItemID = nextItem.id
 
     if nextItemMediaType = "audio"
@@ -267,6 +274,11 @@ end sub
 ' Gets the getLastKnownItemID property for the play queue
 function getLastKnownItemID() as string
     return m.getLastKnownItemID
+end function
+
+' Gets the getLastKnownItemExtraType property for the play queue
+function getLastKnownItemExtraType() as string
+    return m.getLastKnownItemExtraType ?? ""
 end function
 
 ' Gets the preferredAudioTrackIndex property for the play queue

@@ -238,6 +238,7 @@ sub Main (args as dynamic) as void
             stopLoadingSpinner()
         else if isNodeEvent(msg, "refreshMovieDetailsData")
             startLoadingSpinner()
+            canContinue = true
 
             currentScene = m.global.sceneManager.callFunc("getActiveScene")
 
@@ -245,30 +246,38 @@ sub Main (args as dynamic) as void
                 ' Check if the content ID has changed since we last rendered the movie detail view
                 contentIDChanged = false
 
-                currentItem = m.global.queueManager.callFunc("getLastKnownItemID")
-                if isValid(currentItem) and currentScene.itemContent.id <> currentItem
-                    currentItemID = currentItem
-                    contentIDChanged = true
-                else
-                    currentItemID = currentScene.itemContent.id
+                lastKnownItemExtraType = m.global.queueManager.callFunc("getLastKnownItemExtraType")
+                if isValid(lastKnownItemExtraType)
+                    canContinue = lastKnownItemExtraType = ""
                 end if
 
-                itemData = ItemMetaData(currentItemID)
+                if canContinue
 
-                if contentIDChanged
-                    currentScene.selectedVideoStreamId = itemData.json.MediaSources[0].id
-
-                    ' Refresh extras based on new content ID
-                    extrasGrid = currentScene.findNode("extrasGrid")
-                    if isValid(extrasGrid)
-                        extrasGrid.callFunc("loadParts", itemData.json)
+                    currentItem = m.global.queueManager.callFunc("getLastKnownItemID")
+                    if isValid(currentItem) and currentScene.itemContent.id <> currentItem
+                        currentItemID = currentItem
+                        contentIDChanged = true
+                    else
+                        currentItemID = currentScene.itemContent.id
                     end if
+
+                    itemData = ItemMetaData(currentItemID)
+
+                    if contentIDChanged
+                        currentScene.selectedVideoStreamId = itemData.json.MediaSources[0].id
+
+                        ' Refresh extras based on new content ID
+                        extrasGrid = currentScene.findNode("extrasGrid")
+                        if isValid(extrasGrid)
+                            extrasGrid.callFunc("loadParts", itemData.json)
+                        end if
+                    end if
+
+                    currentScene.itemContent = itemData
+
+                    ' Set updated starting point for the queue item
+                    m.global.queueManager.callFunc("setTopStartingPoint", itemData.json.UserData.PlaybackPositionTicks)
                 end if
-
-                currentScene.itemContent = itemData
-
-                ' Set updated starting point for the queue item
-                m.global.queueManager.callFunc("setTopStartingPoint", itemData.json.UserData.PlaybackPositionTicks)
             end if
 
             stopLoadingSpinner()
