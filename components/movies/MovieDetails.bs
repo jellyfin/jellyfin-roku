@@ -1,16 +1,17 @@
-import "pkg:/source/utils/misc.bs"
-import "pkg:/source/utils/config.bs"
 import "pkg:/source/api/Image.bs"
+import "pkg:/source/utils/config.bs"
+import "pkg:/source/utils/misc.bs"
 
 import "pkg:/source/enums/AnimationControl.bs"
 import "pkg:/source/enums/AnimationState.bs"
-import "pkg:/source/enums/KeyCode.bs"
-import "pkg:/source/enums/ViewLoadStatus.bs"
 import "pkg:/source/enums/ColorPalette.bs"
 import "pkg:/source/enums/ImageType.bs"
-import "pkg:/source/enums/VideoType.bs"
+import "pkg:/source/enums/KeyCode.bs"
 import "pkg:/source/enums/MediaStreamType.bs"
 import "pkg:/source/enums/PersonType.bs"
+import "pkg:/source/enums/String.bs"
+import "pkg:/source/enums/VideoType.bs"
+import "pkg:/source/enums/ViewLoadStatus.bs"
 
 sub init()
     m.container = m.top.findnode("container")
@@ -39,6 +40,8 @@ sub init()
             m.buttonGrp.removeChild(editSubtitleButton)
         end if
     end if
+
+    m.global.queueManager.callFunc("setLastKnownItemID", string.empty)
 
     m.top.observeField("itemContent", "itemContentChanged")
 end sub

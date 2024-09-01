@@ -276,6 +276,11 @@ function getLastKnownItemID() as string
     return m.getLastKnownItemID
 end function
 
+' Sets the getLastKnownItemID property for the play queue
+sub setLastKnownItemID(lastKnownItemID as string)
+    m.getLastKnownItemID = lastKnownItemID
+end sub
+
 ' Gets the getLastKnownItemExtraType property for the play queue
 function getLastKnownItemExtraType() as string
     return m.getLastKnownItemExtraType ?? ""

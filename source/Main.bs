@@ -1,3 +1,5 @@
+import "pkg:/source/enums/String.bs"
+
 sub Main (args as dynamic) as void
     ' The main function that runs when the application is launched.
     m.screen = CreateObject("roSGScreen")
@@ -251,10 +253,15 @@ sub Main (args as dynamic) as void
                     canContinue = lastKnownItemExtraType = ""
                 end if
 
+                currentItem = m.global.queueManager.callFunc("getLastKnownItemID")
                 if canContinue
+                    if isValid(currentItem)
+                        canContinue = currentItem <> ""
+                    end if
+                end if
 
-                    currentItem = m.global.queueManager.callFunc("getLastKnownItemID")
-                    if isValid(currentItem) and currentScene.itemContent.id <> currentItem
+                if canContinue
+                    if isChainValid(currentScene, "itemContent.id") and currentScene.itemContent.id <> currentItem
                         currentItemID = currentItem
                         contentIDChanged = true
                     else
