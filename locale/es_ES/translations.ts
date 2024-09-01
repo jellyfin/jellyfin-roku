@@ -836,7 +836,7 @@
     </message>
     <message>
         <source>Hides tagline text on details pages.</source>
-        <translation type="unfinished">Ocultar texto de las etiquetas en las páginas de detalles.</translation>
+        <translation>Ocultar texto de las etiquetas en las páginas de detalles.</translation>
     </message>
     <message>
         <source>Use the replay button to slowly animate to the first item in the folder. (If disabled, the folder will reset to the first item immediately).</source>
@@ -845,7 +845,7 @@
     </message>
     <message>
         <source>Go directly to the episode list if a TV series has only one season.</source>
-        <translation type="unfinished">Ir directamente a la lista de episodios si la serie tiene solo una temporada.</translation>
+        <translation>Ir directamente a la lista de episodios si la serie tiene solo una temporada.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
@@ -1263,6 +1263,140 @@
     <message>
         <source>Settings relating to the appearance of the Home screen and the program in general.</source>
         <translation>Configuraciones relacionada con la apariencia de la pantalla de Inicio y el programa en general.</translation>
+    </message>
+    <message>
+        <source>Use Web Client Setting</source>
+        <translation>Utilizar los ajustes del cliente web</translation>
+        <extracomment>User Setting - Setting option title</extracomment>
+    </message>
+    <message>
+        <source>Use Episode Image</source>
+        <translation>Usar imagen de episodio</translation>
+        <extracomment>User Setting - Setting option title</extracomment>
+    </message>
+    <message>
+        <source>Use Show Image</source>
+        <translation>Usar mostrar imagen</translation>
+        <extracomment>User Setting - Setting option title</extracomment>
+    </message>
+    <message>
+        <source>Use system settings</source>
+        <translation>Utilizar ajustes del sistema</translation>
+        <extracomment>User Setting - Option title</extracomment>
+    </message>
+    <message>
+        <source>Mode</source>
+        <translation>Modo</translation>
+        <extracomment>User Setting - Setting title</extracomment>
+    </message>
+    <message>
+        <source>Preferred Audio Codec</source>
+        <translation>Codec de Audio Preferido</translation>
+        <extracomment>Settings Menu - Title of option</extracomment>
+    </message>
+    <message>
+        <source>Use the selected audio codec for transcodes. If the device or stream does not support it, a fallback codec will be used.</source>
+        <translation>Usar el codec de audio seleccionado para las transcodificaciones. Si el dispositivo o la transmisión no lo soporta, un codec de reserva será utilizado.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>The source file is entirely compatible with this client and the session is receiving the file without modifications.</source>
+        <translation>El archivo origen es completamente compatible con este cliente y la sesión está recibiendo el archivo sin modificaciones.</translation>
+        <extracomment>Direct play info box text in GetPlaybackInfoTask.brs</extracomment>
+    </message>
+    <message>
+        <source>Set the maximum resolution when playing video files on this device.</source>
+        <translation>Establece la resolución máxima cuando se reproduzcan videos en este dispositivo.</translation>
+        <extracomment>User Setting - Description</extracomment>
+    </message>
+    <message>
+        <source>Apply max resolution to all files or only transcoded files.</source>
+        <translation>Aplicar la resolución máxima a todos los archivos o solo a los archivos transcodificados.</translation>
+        <extracomment>User Setting - Description</extracomment>
+    </message>
+    <message>
+        <source>Welcome to version</source>
+        <translation>Bienvenido a la versión</translation>
+        <extracomment>WhatsNewDialog title - Welcome to version 2.0.0</extracomment>
+    </message>
+    <message>
+        <source>To view a complete list of changes visit</source>
+        <translation>Para ver una lista completa de los cambios visita</translation>
+        <extracomment>WhatsNewDialog body text preceding the changelog URL</extracomment>
+    </message>
+    <message>
+        <source>Community and Critical Ratings</source>
+        <translation>Calificaciones comunitarias y críticas</translation>
+        <extracomment>User Setting - Setting title</extracomment>
+    </message>
+    <message>
+        <source>Ratings for how good a movie is</source>
+        <translation>Calificaciones de lo buena que es una película</translation>
+        <extracomment>User Setting - Setting description</extracomment>
+    </message>
+    <message>
+        <source>Episode Images Next Up</source>
+        <translation>Episodio Imágenes A Continuación</translation>
+        <extracomment>User Setting - Setting title</extracomment>
+    </message>
+    <message>
+        <source>Show already watched episodes in &apos;Next Up&apos; sections.</source>
+        <translation>Mostrar episodios ya visualizados en la seccion &apos;A Continuación&apos;.</translation>
+        <extracomment>User Setting - Setting description</extracomment>
+    </message>
+    <message>
+        <source>View All Next Up</source>
+        <translation>Ver Todo A Continuación</translation>
+        <extracomment>Title for viewing all episodes available in the Next Up section</extracomment>
+    </message>
+    <message>
+        <source>Rewatching Next Up</source>
+        <translation>Volviendo a ver &apos;A Continuación&apos;</translation>
+        <extracomment>User Setting - Setting title</extracomment>
+    </message>
+    <message>
+        <source>What type of images to use for Episodes shown in the &apos;Next Up&apos; and &apos;Continue Watching&apos; sections.</source>
+        <translation>Que tipo de imágenes utilizar para los Episodios mostrados en la secciones &apos;A continuación&apos; y &apos;Seguir Viendo&apos;.</translation>
+        <extracomment>User Setting - Setting description</extracomment>
+    </message>
+    <message>
+        <source>Next Episode Button Time</source>
+        <translation>Tiempo Botón Siguiente Episodio</translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
+    <message>
+        <source>Auto - Use TV resolution</source>
+        <translation>Auto - Utilizar la resolución de la TV</translation>
+        <extracomment>User Setting - Option title</extracomment>
+    </message>
+    <message>
+        <source>Set how many seconds before the end of an episode the Next Episode button should appear. Set to 0 to disable.</source>
+        <translation>Establecer cuantos segundos antes de finalizar un episodio el botón de Siguiente Episodio debe aparecer. El valor 0 deshabilita está opción.</translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Maximum Resolution</source>
+        <translation>Resolución máxima</translation>
+        <extracomment>User Setting - Title</extracomment>
+    </message>
+    <message>
+        <source>Off - Attempt to play all resolutions</source>
+        <translation>Apagado - Intentar reproducir todas la resoluciones</translation>
+        <extracomment>User Setting - Option title</extracomment>
+    </message>
+    <message>
+        <source>Value</source>
+        <translation>Valor</translation>
+        <extracomment>User Setting - Setting title</extracomment>
+    </message>
+    <message>
+        <source>Configure the maximum resolution when playing video files on this device.</source>
+        <translation>Configurar la resolución máxima cuando se reproduzcan archivos de videos en este dispositivo.</translation>
+        <extracomment>User Setting - Description</extracomment>
+    </message>
+    <message>
+        <source>Direct playing</source>
+        <translation>Reprodución directa</translation>
     </message>
 </context>
 <context>
