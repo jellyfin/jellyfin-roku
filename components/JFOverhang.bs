@@ -1,5 +1,6 @@
 import "pkg:/source/enums/ColorPalette.bs"
 import "pkg:/source/enums/KeyCode.bs"
+import "pkg:/source/enums/PosterLoadStatus.bs"
 import "pkg:/source/utils/config.bs"
 
 sub init()
@@ -18,6 +19,8 @@ sub init()
     m.overlayRightGroup = m.top.findNode("overlayRightGroup")
     m.slideDownAnimation = m.top.findNode("slideDown")
     m.slideUpAnimation = m.top.findNode("slideUp")
+
+    m.profileImage = m.top.findNode("overlayCurrentUserProfileImage")
 
     m.overlayCurrentUserSelection = m.top.findNode("overlayCurrentUserSelection")
     if isValid(m.overlayCurrentUserSelection)
@@ -65,9 +68,21 @@ sub updateUser()
 end sub
 
 sub updateUserProfileImage()
-    profileImage = m.top.findNode("overlayCurrentUserProfileImage")
-    if isValid(profileImage)
-        profileImage.uri = m.top.currentUserProfileImage
+    m.profileImage.observeField("loadStatus", "onPosterLoadStatusChanged")
+    if isValid(m.profileImage)
+        m.profileImage.uri = m.top.currentUserProfileImage
+    end if
+end sub
+
+sub onPosterLoadStatusChanged()
+    if m.profileImage.loadStatus <> PosterLoadStatus.LOADING
+        m.profileImage.unobserveField("loadStatus")
+    end if
+
+    if m.profileImage.loadStatus = PosterLoadStatus.FAILED
+        if m.profileImage.loadWidth = 0
+            m.profileImage.uri = "pkg://images/baseline_person_white_48dp.png"
+        end if
     end if
 end sub
 
