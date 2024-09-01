@@ -725,10 +725,24 @@ sub Main (args as dynamic) as void
 
             ' If a button is selected, we have some determining to do
             btn = msg.getData()
-            if isValid(btn) then btn = LCase(btn)
+
+            if isValid(btn)
+                ' If button selected is a string, lcase it
+                print "type(btn)", type(btn)
+                if LCase(type(btn)) = "rostring" then btn = LCase(btn)
+            end if
+
+            print "btn", btn
 
             group = sceneManager.callFunc("getActiveScene")
-            if isValid(btn) and btn = "play-button"
+            if type(btn) = "roInt"
+                ' If there are no other button matches, check if this is a simple "OK" Dialog & Close if so
+                dialog = msg.getRoSGNode()
+                if dialog.id = "OKDialog"
+                    dialog.unobserveField("buttonSelected")
+                    dialog.close = true
+                end if
+            else if isValid(btn) and btn = "play-button"
                 ' User chose Play button from movie detail view
                 startLoadingSpinner()
                 ' Check if a specific Audio Stream was selected
