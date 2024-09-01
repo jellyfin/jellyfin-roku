@@ -1,10 +1,30 @@
 [
   {
-    "description": "Show trickplay images when seeking in video player",
+    "description": "Show trickplay images when seeking in video player. <b>(Older Roku devices may require both Tile Width & Tile Height server settings to be changed to 5)</b>",
     "author": "1hitsong"
   },
   {
     "description": "Fix display of dash in music artist name in audio player",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Fix honoring of preselected audio/subtitle options when choosing an option from the resume popup",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Fix closing What's New popup using ok button",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Fix bug that caused extras to disappear after playing an extra",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Fix bug that caused extras and cast to disappear after playing a trailer",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Fix movie detail data refresh bug",
     "author": "1hitsong"
   }
 ]
