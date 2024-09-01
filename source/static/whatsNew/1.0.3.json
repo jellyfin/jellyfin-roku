@@ -1,6 +1,6 @@
 [
   {
-    "description": "Show trickplay images when seeking in video player. <b>(Older Roku devices may require both Tile Width & Tile Height server settings to be changed to 5)</b>",
+    "description": "Show trickplay images when seeking in video player. <b>(Older Roku devices may require trickplay images to be generated with both Tile Width & Tile Height server settings set to 5)</b>",
     "author": "1hitsong"
   },
   {
@@ -12,11 +12,19 @@
     "author": "1hitsong"
   },
   {
+    "description": "Change user by pressing up and selecting avatar on home view",
+    "author": "1hitsong"
+  },
+  {
     "description": "Fix closing What's New popup using ok button",
     "author": "1hitsong"
   },
   {
     "description": "Fix bug that caused extras to disappear after playing an extra",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Fix bug that caused user to not show on home when returning from some libraries",
     "author": "1hitsong"
   },
   {

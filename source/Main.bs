@@ -36,6 +36,11 @@ sub Main (args as dynamic) as void
     sceneManager = CreateObject("roSGNode", "SceneManager")
     sceneManager.observeField("dataReturned", m.port)
 
+    overhang = m.scene.findNode("overhang")
+    if isValid(overhang)
+        overhang.observeField("changeUserSelected", m.port)
+    end if
+
     m.global.addFields({ app_loaded: false, playstateTask: playstateTask, sceneManager: sceneManager })
     m.global.addFields({ queueManager: CreateObject("roSGNode", "QueueManager") })
     m.global.addFields({ audioPlayer: CreateObject("roSGNode", "AudioPlayer") })
@@ -728,11 +733,8 @@ sub Main (args as dynamic) as void
 
             if isValid(btn)
                 ' If button selected is a string, lcase it
-                print "type(btn)", type(btn)
                 if LCase(type(btn)) = "rostring" then btn = LCase(btn)
             end if
-
-            print "btn", btn
 
             group = sceneManager.callFunc("getActiveScene")
             if type(btn) = "roInt"
@@ -845,6 +847,10 @@ sub Main (args as dynamic) as void
                     dialog.close = true
                 end if
             end if
+        else if isNodeEvent(msg, "changeUserSelected")
+            SignOut(false)
+            sceneManager.callFunc("clearScenes")
+            goto app_start
         else if isNodeEvent(msg, "optionSelected")
             button = msg.getRoSGNode()
             group = sceneManager.callFunc("getActiveScene")

@@ -1,8 +1,9 @@
 import "pkg:/source/api/baserequest.bs"
-import "pkg:/source/utils/config.bs"
-import "pkg:/source/utils/misc.bs"
-import "pkg:/source/utils/deviceCapabilities.bs"
+import "pkg:/source/api/Image.bs"
 import "pkg:/source/enums/ColorPalette.bs"
+import "pkg:/source/utils/config.bs"
+import "pkg:/source/utils/deviceCapabilities.bs"
+import "pkg:/source/utils/misc.bs"
 
 sub init()
     m.isFirstRun = true
@@ -38,6 +39,8 @@ sub OnScreenShown()
     scene = m.top.getScene()
     overhang = scene.findNode("overhang")
     if isValid(overhang)
+        overhang.title = ""
+        overhang.currentUserProfileImage = UserImageURL(m.global.session.user.id)
         overhang.currentUser = m.global.session.user.name
     end if
 
@@ -67,6 +70,7 @@ sub OnScreenHidden()
     overhang = scene.findNode("overhang")
     if isValid(overhang)
         overhang.currentUser = ""
+        overhang.currentUserProfileImage = ""
         overhang.title = ""
     end if
 end sub

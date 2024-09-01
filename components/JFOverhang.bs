@@ -1,3 +1,5 @@
+import "pkg:/source/enums/ColorPalette.bs"
+import "pkg:/source/enums/KeyCode.bs"
 import "pkg:/source/utils/config.bs"
 
 sub init()
@@ -16,6 +18,26 @@ sub init()
     m.overlayRightGroup = m.top.findNode("overlayRightGroup")
     m.slideDownAnimation = m.top.findNode("slideDown")
     m.slideUpAnimation = m.top.findNode("slideUp")
+
+    m.overlayCurrentUserSelection = m.top.findNode("overlayCurrentUserSelection")
+    if isValid(m.overlayCurrentUserSelection)
+        m.overlayCurrentUserSelection.blendColor = ColorPalette.HIGHLIGHT
+    end if
+
+end sub
+
+sub highlightUser()
+    selectUser = m.top.findNode("overlayCurrentUserSelection")
+    if isValid(selectUser)
+        selectUser.visible = true
+    end if
+end sub
+
+sub dehighlightUser()
+    selectUser = m.top.findNode("overlayCurrentUserSelection")
+    if isValid(selectUser)
+        selectUser.visible = false
+    end if
 end sub
 
 sub onVisibleChange()
@@ -42,6 +64,13 @@ sub updateUser()
     end if
 end sub
 
+sub updateUserProfileImage()
+    profileImage = m.top.findNode("overlayCurrentUserProfileImage")
+    if isValid(profileImage)
+        profileImage.uri = m.top.currentUserProfileImage
+    end if
+end sub
+
 sub updateOptions()
     if m.top.showOptions = true
         m.optionText.visible = true
@@ -51,3 +80,23 @@ sub updateOptions()
         m.optionStar.visible = false
     end if
 end sub
+
+function onKeyEvent(key as string, press as boolean) as boolean
+    if press
+        if key = KeyCode.DOWN
+            homeRows = m.top.getscene().findNode("homeRows")
+            if isValid(homeRows)
+                dehighlightUser()
+                homeRows.setfocus(true)
+                return true
+            end if
+        end if
+        if key = KeyCode.OK
+            m.top.changeUserSelected = not m.top.changeUserSelected
+            dehighlightUser()
+            return true
+        end if
+    end if
+
+    return false
+end function

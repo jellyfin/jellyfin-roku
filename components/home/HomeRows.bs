@@ -1,13 +1,14 @@
-import "pkg:/source/utils/misc.bs"
 import "pkg:/source/constants/HomeRowItemSizes.bs"
+import "pkg:/source/enums/KeyCode.bs"
+import "pkg:/source/utils/misc.bs"
 
 const LOADING_WAIT_TIME = 2
 
 sub init()
     scene = m.top.getScene()
-    overhang = scene.findNode("overhang")
-    if isValid(overhang)
-        overhang.isVisible = true
+    m.overhang = scene.findNode("overhang")
+    if isValid(m.overhang)
+        m.overhang.isVisible = true
     end if
 
     ' Hide the row counter to prevent flicker. We'll show it once loading timer fires
@@ -699,6 +700,14 @@ function onKeyEvent(key as string, press as boolean) as boolean
         else if key = "replay"
             m.top.jumpToRowItem = [m.top.rowItemFocused[0], 0]
             return true
+        end if
+
+        if key = KeyCode.UP
+            if m.top.rowItemFocused[0] = 0
+                m.overhang.callFunc("highlightUser")
+                m.overhang.setfocus(true)
+                return true
+            end if
         end if
     end if
     return false

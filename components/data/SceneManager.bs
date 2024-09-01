@@ -1,5 +1,5 @@
-import "pkg:/source/utils/misc.bs"
 import "pkg:/source/enums/ColorPalette.bs"
+import "pkg:/source/utils/misc.bs"
 
 sub init()
     m.groups = []
@@ -177,6 +177,11 @@ sub registerOverhangData(group)
         return
     end if
 
+    if group.isSubType("Home")
+        m.overhang.isVisible = true
+        return
+    end if
+
     if group.isSubType("JFGroup")
         if group.overhangTitle <> invalid then m.overhang.title = group.overhangTitle
 
@@ -194,6 +199,7 @@ sub registerOverhangData(group)
         else
             m.overhang.visible = false
         end if
+
         group.observeField("overhangVisible", "updateOverhangVisible")
     else
         print `registerOverhangData(): Unexpected group type. ${group.subtype()}`
