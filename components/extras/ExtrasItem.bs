@@ -1,6 +1,21 @@
 import "pkg:/source/utils/misc.bs"
 
 sub init()
+    m.extrasType = {
+        BEHINDTHESCENES: "Behind the Scenes",
+        CLIP: "Clip",
+        DELETEDSCENE: "Deleted Scene",
+        FEATURETTE: "Featurette",
+        INTERVIEW: "Interview",
+        SAMPLE: "Sample",
+        SCENE: "Scene",
+        SHORT: "Short",
+        THEMESONG: "ThemeSong",
+        THEMEVIDEO: "ThemeVideo",
+        TRAILER: "Trailer",
+        UNKNOWN: "Extra"
+    }
+
     initPosterImg()
     initName()
     initRole()
@@ -31,6 +46,13 @@ sub showContent()
         m.role.maxWidth = cont.imageWidth
         m.posterImg.uri = cont.posterUrl
         m.posterImg.width = cont.imageWidth
+
+        if isChainValid(cont, "json.ExtraType")
+            if cont.json.ExtraType <> ""
+                cont.subTitle = m.extrasType[UCase(cont.json.ExtraType)]
+            end if
+        end if
+
         m.role.Text = cont.subTitle
     else
         m.role.text = tr("Unknown")
