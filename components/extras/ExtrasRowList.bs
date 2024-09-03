@@ -1,7 +1,7 @@
-import "pkg:/source/utils/misc.bs"
+import "pkg:/source/enums/PersonType.bs"
 import "pkg:/source/enums/TaskControl.bs"
 import "pkg:/source/enums/VideoType.bs"
-import "pkg:/source/enums/PersonType.bs"
+import "pkg:/source/utils/misc.bs"
 
 sub init()
     m.top.visible = true
@@ -18,9 +18,6 @@ sub init()
 
     m.SpecialFeaturesTask = CreateObject("roSGNode", "LoadItemsTask")
     m.SpecialFeaturesTask.itemsToLoad = "specialfeatures"
-
-    m.LoadAdditionalPartsTask = CreateObject("roSGNode", "LoadItemsTask")
-    m.LoadAdditionalPartsTask.itemsToLoad = "additionalparts"
 
     m.LoadMoviesTask = CreateObject("roSGNode", "LoadItemsTask")
     m.LoadMoviesTask.itemsToLoad = "personMovies"
@@ -39,15 +36,14 @@ sub updateSize()
 end sub
 
 sub loadParts(data as object)
-    m.LoadAdditionalPartsTask.observeField("content", "onAdditionalPartsLoaded")
     m.SpecialFeaturesTask.observeField("content", "onSpecialFeaturesLoaded")
     m.LoadPeopleTask.observeField("content", "onPeopleLoaded")
     m.LikeThisTask.observeField("content", "onLikeThisLoaded")
 
     m.top.parentId = data.id
     m.people = data.People
-    m.LoadAdditionalPartsTask.itemId = m.top.parentId
-    m.LoadAdditionalPartsTask.control = TaskControl.RUN
+    m.LoadPeopleTask.peopleList = m.people
+    m.LoadPeopleTask.control = TaskControl.RUN
 end sub
 
 sub loadPersonVideos(personId)
@@ -57,28 +53,10 @@ sub loadPersonVideos(personId)
     m.LoadMoviesTask.control = TaskControl.RUN
 end sub
 
-sub onAdditionalPartsLoaded()
-    parts = m.LoadAdditionalPartsTask.content
-    m.LoadAdditionalPartsTask.unobserveField("content")
-
+sub onPeopleLoaded()
     data = CreateObject("roSGNode", "ContentNode") ' The row Node
     m.top.content = data
-    if isValidAndNotEmpty(parts)
-        if not m.top.hasItems then m.top.hasItems = true
-        row = buildRow("Additional Parts", parts, 464)
-        addRowSize([464, 291])
-        m.top.content.appendChild(row)
-        m.top.rowItemSize = [[464, 291]]
-    else
-        m.top.rowItemSize = [[234, 396]]
-    end if
 
-    ' Load Cast and Crew and everything else...
-    m.LoadPeopleTask.peopleList = m.people
-    m.LoadPeopleTask.control = TaskControl.RUN
-end sub
-
-sub onPeopleLoaded()
     people = m.LoadPeopleTask.content
     m.loadPeopleTask.unobserveField("content")
     if isValidAndNotEmpty(people)

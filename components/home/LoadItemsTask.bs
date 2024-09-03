@@ -1,10 +1,10 @@
-import "pkg:/source/api/Items.bs"
 import "pkg:/source/api/baserequest.bs"
-import "pkg:/source/utils/config.bs"
-import "pkg:/source/utils/misc.bs"
-import "pkg:/source/utils/deviceCapabilities.bs"
 import "pkg:/source/api/Image.bs"
+import "pkg:/source/api/Items.bs"
 import "pkg:/source/api/sdk.bs"
+import "pkg:/source/utils/config.bs"
+import "pkg:/source/utils/deviceCapabilities.bs"
+import "pkg:/source/utils/misc.bs"
 
 sub init()
     m.top.functionName = "loadItems"
@@ -236,20 +236,6 @@ sub loadItems()
                 params["MaxHeight"] = 402
                 tmp.posterURL = ImageUrl(specfeat.Id, "Primary", params)
                 tmp.json = specfeat
-            end for
-        end if
-    else if m.top.itemsToLoad = "additionalparts"
-        additionalParts = api.videos.GetAdditionalParts(m.top.itemId)
-        if isValid(additionalParts)
-            for each part in additionalParts.items
-                tmp = CreateObject("roSGNode", "ExtrasData")
-                params = {}
-                params["Tags"] = part.ImageTags.Primary
-                params["MaxWidth"] = 450
-                params["MaxHeight"] = 402
-                tmp.posterURL = ImageUrl(part.Id, "Primary", params)
-                tmp.json = part
-                results.push(tmp)
             end for
         end if
     else if m.top.itemsToLoad = "likethis"
