@@ -42,6 +42,7 @@
 
         <LayoutGroup id="buttons" layoutDirection="vert" itemSpacings="[10]">
           <TextButton id="play-button" text="Play" iconSide="left" fontSize="35" padding="35" icon="pkg:/images/icons/play.png" height="75" width="600" />
+          <TextButton id="part-button" iconSide="left" fontSize="35" padding="35" icon="pkg:/images/icons/puzzle.png" height="75" width="600" />
           <TextButton id="options-button" text="Options" iconSide="left" fontSize="35" padding="35" icon="pkg:/images/icons/options.png" height="75" width="600" />
           <TextButton id="trailer-button" text="Play Trailer" iconSide="left" fontSize="35" padding="35" icon="pkg:/images/icons/play.png" height="75" width="600" />
           <TextButton id="watched-button" text="Watched" iconSide="left" fontSize="35" padding="35" icon="pkg:/images/icons/check.png" height="75" width="600" />
@@ -61,6 +62,8 @@
     <field id="itemContent" type="node" />
     <field id="logoImageURI" type="string" onChange="onLogoImageURIChange" />
     <field id="trailerAvailable" type="bool" onChange="trailerAvailableChanged" value="true" />
+    <field id="additionalParts" type="assocarray" onChange="additionalPartsChanged" />
+    <field id="selectedPart" type="assocarray" onChange="onSelectedPartChanged" />
     <field id="selectedAudioStreamIndex" type="integer" />
     <field id="selectedVideoStreamId" type="string" />
     <field id="quickPlayNode" type="node" alwaysNotify="true" />

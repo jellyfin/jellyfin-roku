@@ -149,9 +149,7 @@ sub Main (args as dynamic) as void
                 end if
             end if
             print "Quick Play started. itemNode=", itemNode
-            ' if itemNode.json <> invalid
-            '     print "itemNode.json=", itemNode.json
-            ' end if
+
             if isValid(itemNode) and isValid(itemNode.id) and itemNode.id <> ""
                 ' make sure there is a type and convert type to lowercase
                 itemType = invalid
@@ -281,7 +279,10 @@ sub Main (args as dynamic) as void
                         ' Refresh extras based on new content ID
                         extrasGrid = currentScene.findNode("extrasGrid")
                         if isValid(extrasGrid)
-                            extrasGrid.callFunc("loadParts", itemData.json)
+                            ' If this is a multipart video, keep the original extras
+                            if not isChainValid(currentScene, "additionalParts.masterID")
+                                extrasGrid.callFunc("loadParts", itemData.json)
+                            end if
                         end if
                     end if
 
@@ -777,7 +778,46 @@ sub Main (args as dynamic) as void
                 if isValid(group) and isValid(group.lastFocus)
                     group.lastFocus.setFocus(true)
                 end if
+            else if isValid(btn) and btn = "part-button"
+                group = sceneManager.callFunc("getActiveScene")
 
+                partData = {
+                    data: [{
+                        id: group.additionalParts.masterID,
+                        type: "partselect",
+                        Track: {
+                            description: "Part 1"
+                        }
+                    }]
+                }
+
+                selectedPart = string.EMPTY
+                if isValid(group)
+                    if isValid(group.selectedPart)
+                        selectedPart = group.selectedPart.id
+                    end if
+                end if
+
+                i = 2
+
+                for each part in group.additionalParts.parts.Items
+                    part.type = "partselect"
+                    part.Track = {}
+                    part.Track.description = `Part ${i}`
+
+                    if isValidAndNotEmpty(part.id)
+                        if part.id = selectedPart
+                            part.selected = true
+                        end if
+                    end if
+
+                    partData.data.push(part)
+
+                    i++
+                end for
+
+                m.global.sceneManager.callFunc("radioDialog", tr("Select Part"), partData)
+                m.global.sceneManager.observeField("returnData", m.port)
             else if isValid(btn) and btn = "trailer-button"
                 ' User chose to play a trailer from the movie detail view
                 startLoadingSpinner()
@@ -1000,6 +1040,20 @@ sub Main (args as dynamic) as void
             popupNode = msg.getData()
             if isValid(popupNode)
                 if isValid(popupNode.type)
+                    if LCase(popupNode.type) = "partselect"
+                        m.global.sceneManager.unobserveField("returnData")
+
+                        activeScene = sceneManager.callFunc("getActiveScene")
+                        if isValid(activeScene)
+                            activeScene.selectedPart = popupNode
+                        end if
+
+                        ' Close any open dialogs
+                        if m.global.sceneManager.callFunc("isDialogOpen")
+                            m.global.sceneManager.callFunc("dismissDialog")
+                        end if
+                    end if
+
                     if LCase(popupNode.type) = "cultureselect"
                         activeScene = sceneManager.callFunc("getActiveScene")
                         if isValid(activeScene)

@@ -2,5 +2,6 @@
 <component name="VideoData" extends="JFContentItem">
     <interface>
         <field id="image" type="node" />
+        <field id="selectedAudioStreamIndex" type="integer" value="0" />
     </interface>
 </component>

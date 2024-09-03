@@ -601,6 +601,12 @@ function CreateMovieDetailsGroup(movie as object) as dynamic
     trailerData = api.users.GetLocalTrailers(m.global.session.user.id, movie.id)
     group.trailerAvailable = isValidAndNotEmpty(trailerData)
 
+    group.additionalParts = {
+        masterID: movie.id,
+        parts: api.videos.GetAdditionalParts(movie.id)
+    }
+
+
     if LCase(movieMetaData.json.type) = "episode" or LCase(movieMetaData.json.type) = "series"
         if isValid(movieMetaData.json.SeriesID)
             logoImageExists = api.items.HeadImageURLByName(movieMetaData.json.SeriesID, "logo")

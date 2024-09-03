@@ -1,11 +1,11 @@
-import "pkg:/source/utils/misc.bs"
-import "pkg:/source/api/Items.bs"
-import "pkg:/source/api/UserLibrary.bs"
 import "pkg:/source/api/baserequest.bs"
-import "pkg:/source/utils/config.bs"
 import "pkg:/source/api/Image.bs"
+import "pkg:/source/api/Items.bs"
 import "pkg:/source/api/userauth.bs"
+import "pkg:/source/api/UserLibrary.bs"
+import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/deviceCapabilities.bs"
+import "pkg:/source/utils/misc.bs"
 
 enum SubtitleSelection
     notset = -2
@@ -132,6 +132,8 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
 
     if isValid(currentItem) and isValid(currentItem.startingPoint)
         playbackPosition = currentItem.startingPoint
+    else if isChainValid(currentItem, "json.UserData.PlaybackPositionTicks")
+        playbackPosition = currentItem.json.UserData.PlaybackPositionTicks
     end if
 
     ' PlayStart requires the time to be in seconds

@@ -52,7 +52,7 @@ sub onMovieExtrasHasItems()
 end sub
 
 sub setButtonColors()
-    buttonList = ["play-button", "options-button", "watched-button", "favorite-button", "editSubtitlesButton", "trailer-button"]
+    buttonList = ["play-button", "options-button", "watched-button", "favorite-button", "editSubtitlesButton", "trailer-button", "part-button"]
 
     for each button in buttonList
         buttonNode = m.top.findNode(button)
@@ -77,6 +77,13 @@ sub OnScreenShown()
         m.buttonGrp.setFocus(true)
     end if
 
+    if m.loadStatus = ViewLoadStatus.RELOAD
+        if isChainValid(m.top.itemContent, "json.mediaStreams")
+            SetDefaultAudioTrack(m.top.itemContent.json)
+            SetUpAudioOptions(m.top.itemContent.json.mediaStreams)
+        end if
+    end if
+
     if m.loadStatus = ViewLoadStatus.INIT
         m.loadStatus = ViewLoadStatus.FIRSTLOAD
         return
@@ -92,6 +99,42 @@ sub trailerAvailableChanged()
         m.buttonGrp.removeChild(m.top.findNode("trailer-button"))
         return
     end if
+end sub
+
+sub additionalPartsChanged()
+    partButton = m.top.findNode("part-button")
+    if not isValidAndNotEmpty(m.top.additionalParts)
+        if isValid(partButton)
+            m.buttonGrp.removeChild(partButton)
+        end if
+    end if
+
+    if m.top.additionalParts.parts.TotalRecordCount = 0
+        if isValid(partButton)
+            m.buttonGrp.removeChild(partButton)
+        end if
+        return
+    end if
+
+    if isValid(partButton)
+        if isChainValid(m.top.additionalParts, "parts.Items")
+            partButton.text = `Part ${m.top.additionalParts.parts.StartIndex + 1}`
+        end if
+    end if
+end sub
+
+sub onSelectedPartChanged()
+    if not isValid(m.top.selectedPart) then return
+
+    selectedPart = m.top.selectedPart
+    m.global.queueManager.callFunc("setLastKnownItemID", selectedPart.id)
+
+    partButton = m.top.findNode("part-button")
+    partButton.text = selectedPart.track.description
+
+    m.loadStatus = ViewLoadStatus.FIRSTLOAD
+
+    m.top.refreshMovieDetailsData = not m.top.refreshMovieDetailsData
 end sub
 
 ' setBackdropImage: If item has a backdrop image, use it as the background for the view
@@ -438,6 +481,9 @@ sub SetUpAudioOptions(streams)
     for i = 0 to streams.Count() - 1
         if streams[i].Type = "Audio"
             audioTracks.push({ "Title": streams[i].displayTitle, "Description": streams[i].Title, "Selected": m.top.selectedAudioStreamIndex = i, "StreamIndex": i })
+            if m.top.selectedAudioStreamIndex = i
+                setFieldText("audio_codec", tr("Audio") + ": " + streams[i].displayTitle)
+            end if
         end if
         if streams[i].Type = "Subtitle"
             subtitleTracks.push({ "Title": streams[i].displayTitle, "json": streams[i], "Description": streams[i].Title, "Selected": selectedSubtitle = streams[i].index, "StreamIndex": i })
@@ -461,24 +507,31 @@ sub SetUpAudioOptions(streams)
 end sub
 
 sub SetDefaultAudioTrack(itemData)
+    firstAudioTrackName = string.EMPTY
     preferredAudioTrackIndex = m.global.queueManager.callFunc("getPreferredAudioTrackIndex") + 1
 
     for i = 0 to itemData.mediaStreams.Count() - 1
         if itemData.mediaStreams[i].Type = "Audio"
+            if firstAudioTrackName = string.EMPTY
+                firstAudioTrackName = itemData.mediaStreams[i].displayTitle
+            end if
+
             ' No preferred audio track selected, choose 1st audio track found
             if preferredAudioTrackIndex = 0
                 m.top.selectedAudioStreamIndex = i
                 setFieldText("audio_codec", tr("Audio") + ": " + itemData.mediaStreams[i].displayTitle)
-                exit for
+                return
             end if
 
             if itemData.mediaStreams[i].Index = preferredAudioTrackIndex
                 m.top.selectedAudioStreamIndex = i
                 setFieldText("audio_codec", tr("Audio") + ": " + itemData.mediaStreams[i].displayTitle)
-                exit for
+                return
             end if
         end if
     end for
+
+    setFieldText("audio_codec", tr("Audio") + ": " + firstAudioTrackName)
 end sub
 
 sub setFieldText(field, value)
