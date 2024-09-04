@@ -1,8 +1,8 @@
-import "pkg:/source/utils/misc.bs"
-import "pkg:/source/utils/config.bs"
 import "pkg:/source/api/baserequest.bs"
-import "pkg:/source/utils/deviceCapabilities.bs"
 import "pkg:/source/enums/ColorPalette.bs"
+import "pkg:/source/utils/config.bs"
+import "pkg:/source/utils/deviceCapabilities.bs"
+import "pkg:/source/utils/misc.bs"
 
 sub init()
     m.top.findNode("VoiceBoxCover").color = ColorPalette.VIEWBACKGROUND
@@ -214,8 +214,10 @@ sub loadInitialItems()
 
         if getCollectionType() = "nextup"
             m.loadItemsTask.itemType = "NextUp"
-            m.itemGrid.itemSize = "[400, 300]"
-            m.top.imageDisplayMode = "scaleToFit"
+            m.itemGrid.itemComponentName = "GridItemMedium"
+            m.itemGrid.itemSize = "[400, 345]"
+
+            m.top.imageDisplayMode = "scaleToZoom"
             m.itemGrid.numColumns = 4
             m.alpha.visible = false
         end if

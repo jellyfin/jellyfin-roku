@@ -1,0 +1,85 @@
+import "pkg:/source/enums/ColorPalette.bs"
+import "pkg:/source/enums/PosterLoadStatus.bs"
+import "pkg:/source/enums/String.bs"
+import "pkg:/source/utils/config.bs"
+import "pkg:/source/utils/misc.bs"
+
+sub init()
+    m.itemPoster = m.top.findNode("itemPoster")
+    m.posterText = m.top.findNode("posterText")
+    m.posterText.font.size = 30
+    m.backdrop = m.top.findNode("backdrop")
+    m.playedIndicator = m.top.findNode("playedIndicator")
+
+    m.title = m.top.findNode("title")
+    m.title.font.size = 26
+
+    m.itemTextExtra = m.top.findNode("itemTextExtra")
+    m.itemTextExtra.font.size = 23
+
+    m.itemPoster.observeField("loadStatus", "onPosterLoadStatusChanged")
+
+    'Parent is MarkupGrid and it's parent is the ItemGrid
+    m.topParent = m.top.GetParent().GetParent()
+
+    'Get the imageDisplayMode for these grid items
+    if m.topParent.imageDisplayMode <> invalid
+        m.itemPoster.loadDisplayMode = m.topParent.imageDisplayMode
+    end if
+end sub
+
+sub itemContentChanged()
+    m.backdrop.blendColor = ColorPalette.ELEMENTBACKGROUND
+
+    itemData = m.top.itemContent
+
+    if not isValid(itemData) then return
+
+    if isChainValid(itemData.json, "UserData.Played") and itemData.json.UserData.Played
+        m.playedIndicator.visible = true
+    end if
+
+    ' Set Series and Episode Number for Extra Text
+    extraPrefix = string.EMPTY
+    if isValid(itemData.json.ParentIndexNumber)
+        extraPrefix = "S" + StrI(itemData.json.ParentIndexNumber).trim()
+    end if
+
+    if isValid(itemData.json.IndexNumber)
+        extraPrefix = extraPrefix + "E" + StrI(itemData.json.IndexNumber).trim()
+    end if
+
+    if extraPrefix.len() > 0
+        extraPrefix = extraPrefix + " - "
+    end if
+
+    m.itemTextExtra.text = extraPrefix + itemData.title
+
+    m.itemPoster.uri = itemData.PosterUrl
+    m.posterText.text = itemData.title
+    m.title.text = itemData.json.SeriesName
+
+    'If Poster not loaded, ensure backdrop is shown until loaded
+    if m.itemPoster.loadStatus <> PosterLoadStatus.READY
+        m.backdrop.visible = true
+        m.posterText.visible = true
+    end if
+end sub
+
+sub focusChanged()
+    if m.top.itemHasFocus = true
+        m.title.repeatCount = -1
+        m.itemTextExtra.repeatCount = -1
+    else
+        m.title.repeatCount = 0
+        m.itemTextExtra.repeatCount = 0
+    end if
+end sub
+
+'Hide backdrop and text when poster loaded
+sub onPosterLoadStatusChanged()
+    if m.itemPoster.loadStatus = PosterLoadStatus.READY
+        m.backdrop.visible = false
+        m.posterText.visible = false
+    end if
+end sub

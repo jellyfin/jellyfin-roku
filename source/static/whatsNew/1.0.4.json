@@ -18,5 +18,9 @@
   {
     "description": "Skipping songs no longer disables loop once in audio player",
     "author": "1hitsong"
+  },
+  {
+    "description": "Fix View All Next Up item display",
+    "author": "1hitsong"
   }
 ]
