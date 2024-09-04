@@ -1,11 +1,11 @@
-import "pkg:/source/utils/misc.bs"
-import "pkg:/source/api/Image.bs"
 import "pkg:/source/api/baserequest.bs"
-import "pkg:/source/utils/config.bs"
+import "pkg:/source/api/Image.bs"
 import "pkg:/source/enums/ColorPalette.bs"
 import "pkg:/source/enums/ImageType.bs"
-import "pkg:/source/enums/TaskControl.bs"
 import "pkg:/source/enums/KeyCode.bs"
+import "pkg:/source/enums/TaskControl.bs"
+import "pkg:/source/utils/config.bs"
+import "pkg:/source/utils/misc.bs"
 
 enum ButtonState
     DEFAULT = "default"
@@ -364,21 +364,11 @@ function previousClicked() as boolean
         m.global.audioPlayer.control = "stop"
     end if
 
-    ' Reset loop mode due to manual user interaction
-    if m.global.audioPlayer.loopMode = "one"
-        resetLoopModeToDefault()
-    end if
-
     m.global.queueManager.callFunc("moveBack")
     pageContentChanged()
 
     return true
 end function
-
-sub resetLoopModeToDefault()
-    m.global.audioPlayer.loopMode = ""
-    setLoopButtonImage()
-end sub
 
 function loopClicked() as boolean
 
@@ -429,11 +419,6 @@ function nextClicked() as boolean
 
     m.lastRecordedPositionTimestamp = 0
     m.positionTimestamp.text = "0:00"
-
-    ' Reset loop mode due to manual user interaction
-    if m.global.audioPlayer.loopMode = "one"
-        resetLoopModeToDefault()
-    end if
 
     if m.global.queueManager.callFunc("getPosition") < m.global.queueManager.callFunc("getCount") - 1
         LoadNextSong()
