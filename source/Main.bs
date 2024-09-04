@@ -311,7 +311,12 @@ sub Main (args as dynamic) as void
                 startLoadingSpinner()
                 selectedItemType = selectedItem.type
 
-                if selectedItemType = "CollectionFolder"
+                if isValid(selectedItemType)
+                    ' If button selected is a string, lcase it
+                    if LCase(type(selectedItemType)) = "rostring" then selectedItemType = LCase(selectedItemType)
+                end if
+
+                if selectedItemType = "collectionfolder"
                     if selectedItem.collectionType = "movies"
                         group = CreateMovieLibraryView(selectedItem)
                     else if selectedItem.collectionType = "music"
@@ -323,7 +328,7 @@ sub Main (args as dynamic) as void
                         group = CreateItemGrid(selectedItem)
                     end if
                     sceneManager.callFunc("pushScene", group)
-                else if selectedItemType = "Folder" and selectedItem.json.type = "Genre"
+                else if selectedItemType = "folder" and selectedItem.json.type = "genre"
                     ' User clicked on a genre folder
                     if selectedItem.json.MovieCount > 0
                         group = CreateMovieLibraryView(selectedItem)
@@ -331,29 +336,29 @@ sub Main (args as dynamic) as void
                         group = CreateItemGrid(selectedItem)
                     end if
                     sceneManager.callFunc("pushScene", group)
-                else if selectedItemType = "Folder" and selectedItem.json.type = "MusicGenre"
+                else if selectedItemType = "folder" and selectedItem.json.type = "musicgenre"
                     group = CreateMusicLibraryView(selectedItem)
                     sceneManager.callFunc("pushScene", group)
-                else if selectedItemType = "UserView" or selectedItemType = "Folder" or selectedItemType = "Channel" or selectedItemType = "Boxset"
+                else if selectedItemType = "userview" or selectedItemType = "folder" or selectedItemType = "channel" or selectedItemType = "boxset"
                     group = CreateItemGrid(selectedItem)
                     sceneManager.callFunc("pushScene", group)
-                else if selectedItemType = "Episode" or LCase(selectedItemType) = "recording"
+                else if selectedItemType = "episode" or selectedItemType = "recording"
                     group = CreateMovieDetailsGroup(selectedItem)
-                else if selectedItemType = "Series"
+                else if selectedItemType = "series"
                     group = CreateSeriesDetailsGroup(selectedItem.json.id)
-                else if selectedItemType = "Season"
+                else if selectedItemType = "season"
                     if isValid(selectedItem.json) and isValid(selectedItem.json.SeriesId) and isValid(selectedItem.id)
                         group = CreateSeasonDetailsGroupByID(selectedItem.json.SeriesId, selectedItem.id)
                     else
                         stopLoadingSpinner()
                         message_dialog(tr("Error loading Season"))
                     end if
-                else if selectedItemType = "Movie"
+                else if selectedItemType = "movie"
                     ' open movie detail page
                     group = CreateMovieDetailsGroup(selectedItem)
-                else if selectedItemType = "Person"
+                else if selectedItemType = "person"
                     CreatePersonView(selectedItem)
-                else if selectedItemType = "TvChannel" or selectedItemType = "Video" or selectedItemType = "Program"
+                else if selectedItemType = "tvchannel" or selectedItemType = "video" or selectedItemType = "program"
                     ' User selected a Live TV channel / program
                     ' Show Channel Loading spinner
                     dialog = createObject("roSGNode", "ProgressDialog")
@@ -361,7 +366,7 @@ sub Main (args as dynamic) as void
                     m.scene.dialog = dialog
 
                     ' User selected a program. Play the channel the program is on
-                    if LCase(selectedItemType) = "program"
+                    if selectedItemType = "program"
                         selectedItem.id = selectedItem.json.ChannelId
                     end if
 
@@ -389,7 +394,7 @@ sub Main (args as dynamic) as void
                         dialog.close = true
                     end if
 
-                else if selectedItemType = "Photo"
+                else if selectedItemType = "photo"
                     ' only handle selection if it's from the home screen
                     if selectedItem.isSubType("HomeData")
                         print "a photo was selected from the home screen"
@@ -397,7 +402,7 @@ sub Main (args as dynamic) as void
 
                         quickplay.photo(selectedItem)
                     end if
-                else if selectedItemType = "PhotoAlbum"
+                else if selectedItemType = "photoalbum"
                     print "a photo album was selected"
                     print "selectedItem=", selectedItem
 
@@ -415,24 +420,25 @@ sub Main (args as dynamic) as void
                         photoPlayer.itemIndex = 0
                         m.global.sceneManager.callfunc("pushScene", photoPlayer)
                     end if
-                else if selectedItemType = "MusicArtist"
+                else if selectedItemType = "musicartist"
                     group = CreateArtistView(selectedItem.json)
                     if not isValid(group)
                         stopLoadingSpinner()
                         message_dialog(tr("Unable to find any albums or songs belonging to this artist"))
                     end if
-                else if selectedItemType = "MusicAlbum"
+                else if selectedItemType = "musicalbum"
                     group = CreateAlbumView(selectedItem.json)
-                else if selectedItemType = "MusicVideo"
+                else if selectedItemType = "musicvideo"
                     group = CreateMovieDetailsGroup(selectedItem)
-                else if selectedItemType = "Playlist"
+                else if selectedItemType = "playlist"
                     group = CreatePlaylistView(selectedItem.json)
-                else if selectedItemType = "Audio"
+                else if selectedItemType = "audio"
                     m.global.queueManager.callFunc("clear")
                     m.global.queueManager.callFunc("resetShuffle")
                     m.global.queueManager.callFunc("push", selectedItem.json)
                     m.global.queueManager.callFunc("playQueue")
                 else
+
                     ' TODO - switch on more node types
                     stopLoadingSpinner()
                     message_dialog("This type is not yet supported: " + selectedItemType + ".")
