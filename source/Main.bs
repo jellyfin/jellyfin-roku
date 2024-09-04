@@ -77,6 +77,16 @@ sub Main (args as dynamic) as void
         end if
     end if
 
+    ' Delete any old library filters
+    for each settingKeys in m.global.session.user.settings.keys()
+        if left(settingKeys, 8) = "display."
+            if right(settingKeys, 7) = ".filter" or right(settingKeys, 14) = ".filterOptions"
+                m.global.session.user.settings.delete(settingKeys)
+                unset_user_setting(settingKeys)
+            end if
+        end if
+    end for
+
     ' has the current user ran this version before?
     usersLastRunVersion = m.global.session.user.settings.lastRunVersion
     if not isValid(usersLastRunVersion) or not versionChecker(m.global.session.user.settings.lastRunVersion, m.global.app.version)
