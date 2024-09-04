@@ -286,6 +286,11 @@ function getLastKnownItemExtraType() as string
     return m.getLastKnownItemExtraType ?? ""
 end function
 
+' Sets the getLastKnownItemExtraType property for the play queue
+sub setLastKnownItemExtraType(lastKnownItemExtraType as string)
+    m.getLastKnownItemExtraType = lastKnownItemExtraType
+end sub
+
 ' Gets the preferredAudioTrackIndex property for the play queue
 function getPreferredAudioTrackIndex() as integer
     return m.preferredAudioTrackIndex

@@ -31,6 +31,7 @@
     <function name="getLastKnownItemID" />
     <function name="setLastKnownItemID" />
     <function name="getLastKnownItemExtraType" />
+    <function name="setLastKnownItemExtraType" />
     <function name="getPreferredSubtitleTrack" />
     <function name="setPreferredSubtitleTrack" />
     <function name="getPreferredAudioTrackIndex" />

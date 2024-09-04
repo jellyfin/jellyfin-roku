@@ -134,6 +134,7 @@ sub onSelectedPartChanged()
 
     m.loadStatus = ViewLoadStatus.FIRSTLOAD
 
+    m.global.queueManager.callFunc("setLastKnownItemExtraType", string.EMPTY)
     m.top.refreshMovieDetailsData = not m.top.refreshMovieDetailsData
 end sub
 
