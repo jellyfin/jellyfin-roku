@@ -5,7 +5,7 @@
         "children": [
             {
                 "title": "Remember Me?",
-                "description": "Remember the currently logged in user and try to log them in again next time you start the Jellyfin app.",
+                "description": "Remember the currently logged in user and try to log them in again next time you start viv.",
                 "settingName": "global.rememberme",
                 "type": "bool",
                 "default": "true"
@@ -243,7 +243,7 @@
                     },
                     {
                         "title": "Hide Clock",
-                        "description": "Hide all clocks in Jellyfin. Jellyfin will need to be closed and reopened for changes to take effect.",
+                        "description": "Hide all clocks in viv. Viv will need to be closed and reopened for changes to take effect.",
                         "settingName": "ui.design.hideclock",
                         "type": "bool",
                         "default": "false"
@@ -264,21 +264,21 @@
                     },
                     {
                         "title": "Show What's New Popup",
-                        "description": "Show What's New popup when Jellyfin is updated to a new version.",
+                        "description": "Show What's New popup when viv is updated to a new version.",
                         "settingName": "load.allowwhatsnew",
                         "type": "bool",
                         "default": "true"
                     },
                     {
                         "title": "Use Splashscreen as Home Background",
-                        "description": "Use generated splashscreen image as Jellyfin's home background. Jellyfin will need to be closed and reopened for change to take effect.",
+                        "description": "Use generated splashscreen image as viv's home background. Viv will need to be closed and reopened for change to take effect.",
                         "settingName": "ui.home.splashBackground",
                         "type": "bool",
                         "default": "false"
                     },
                     {
                         "title": "Use Web Client's Home Section Arrangement",
-                        "description": "Make the arrangement of the Roku home view sections match the web client's home screen. Jellyfin will need to be closed and reopened for change to take effect.",
+                        "description": "Make the arrangement of the Roku home view sections match the web client's home screen. Viv will need to be closed and reopened for change to take effect.",
                         "settingName": "ui.home.useWebSectionArrangement",
                         "type": "bool",
                         "default": "true"
