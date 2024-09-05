@@ -1,12 +1,12 @@
-import "pkg:/source/api/Image.bs"
 import "pkg:/source/api/baserequest.bs"
-import "pkg:/source/utils/config.bs"
-import "pkg:/source/utils/misc.bs"
+import "pkg:/source/api/Image.bs"
+import "pkg:/source/enums/AnimationControl.bs"
 import "pkg:/source/enums/ColorPalette.bs"
 import "pkg:/source/enums/ItemType.bs"
 import "pkg:/source/enums/PosterLoadStatus.bs"
-import "pkg:/source/enums/AnimationControl.bs"
 import "pkg:/source/enums/SeriesStatus.bs"
+import "pkg:/source/utils/config.bs"
+import "pkg:/source/utils/misc.bs"
 
 sub init()
     findNodes()
@@ -84,7 +84,7 @@ sub itemContentChanged()
         m.itemIcon.uri = itemData.iconUrl
     end if
 
-    itemDataType = LCase(itemData.type)
+    itemDataType = isValid(itemData.type) ? LCase(itemData.type) : ""
 
     m.playedIndicator.visible = itemData.isWatched
 
