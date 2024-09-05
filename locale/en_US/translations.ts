@@ -256,7 +256,7 @@
         </message>
         <message>
             <source>RUNTIME</source>
-            <translation>Run Time</translation>
+            <translation>Runtime</translation>
         </message>
         <message>
             <comment>Title of Tab for switching &quot;views&quot; when looking at a library</comment>

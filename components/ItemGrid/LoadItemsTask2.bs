@@ -1,10 +1,10 @@
-import "pkg:/source/api/Items.bs"
 import "pkg:/source/api/baserequest.bs"
-import "pkg:/source/utils/config.bs"
-import "pkg:/source/utils/misc.bs"
 import "pkg:/source/api/Image.bs"
-import "pkg:/source/utils/deviceCapabilities.bs"
+import "pkg:/source/api/Items.bs"
 import "pkg:/source/api/sdk.bs"
+import "pkg:/source/utils/config.bs"
+import "pkg:/source/utils/deviceCapabilities.bs"
+import "pkg:/source/utils/misc.bs"
 
 sub init()
     m.top.functionName = "loadItems"
@@ -89,11 +89,29 @@ sub loadItems()
         params.append({ Filters: "IsPlayed" })
     else if filter = "resumable"
         params.append({ Filters: "IsResumable" })
+    else if filter = "features"
+        if isChainValid(m.top.filterOptions, "Features")
+            featureFilterList = m.top.filterOptions.Features
+            if featureFilterList.instr("Subtitles") <> -1
+                params.append({ HasSubtitles: true })
+            end if
+            if featureFilterList.instr("Special Features") <> -1
+                params.append({ HasSpecialFeature: true })
+            end if
+            if featureFilterList.instr("Theme Song") <> -1
+                params.append({ HasThemeSong: true })
+            end if
+            if featureFilterList.instr("Theme Video") <> -1
+                params.append({ HasThemeVideo: true })
+            end if
+        end if
     end if
 
-    if isValid(m.top.filterOptions)
-        if m.top.filterOptions.count() > 0
-            params.append(m.top.filterOptions)
+    if filter <> "features"
+        if isValid(m.top.filterOptions)
+            if m.top.filterOptions.count() > 0
+                params.append(m.top.filterOptions)
+            end if
         end if
     end if
 

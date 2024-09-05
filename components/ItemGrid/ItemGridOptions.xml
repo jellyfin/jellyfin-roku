@@ -35,6 +35,7 @@
             itemspacing="[0,10]"
             vertFocusAnimationStyle="floatingFocus"
             opacity="0"
+            numRows="8"
             focusFootprintBitmapUri=""
             drawFocusFeedback="false" />
         </Group>
