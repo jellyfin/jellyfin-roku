@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component name="ItemGridOptions" extends="Group">
   <children>
-    <Rectangle width="1920" height="1080" color="#000000" opacity="0.75" />
+    <Rectangle id="overlay" width="1920" height="1080" opacity="0.75" />
     <Group translation="[100,100]">
-      <Poster width="1720" height="880" uri="pkg:/images/dialog.9.png" />
+      <Poster id="background" width="1720" height="880" uri="pkg:/images/dialog.9.png" />
       <LayoutGroup horizAlignment="center" translation="[860,50]" itemSpacings="[50]">
         <JFButtons id="buttons" />
       </LayoutGroup>
@@ -11,7 +11,7 @@
         <Group>
           <RadiobuttonList
             id="viewMenu"
-            itemSize="[600, 75]"
+            itemSize="[600, 70]"
             itemspacing="[0,10]"
             vertFocusAnimationStyle="floatingFocus"
             opacity="0"
@@ -20,34 +20,35 @@
 
           <RadiobuttonList
             id="sortMenu"
-            itemSize="[600, 75]"
+            itemSize="[600, 70]"
             itemspacing="[0,10]"
             vertFocusAnimationStyle="floatingFocus"
             opacity="1"
-            numRows="8"
+            numRows="7"
             focusFootprintBitmapUri=""
             drawFocusFeedback="false" />
 
           <RadiobuttonList
             id="filterMenu"
-            itemSize="[600, 75]"
+            itemSize="[600, 70]"
             checkOnSelect="false"
             itemspacing="[0,10]"
             vertFocusAnimationStyle="floatingFocus"
             opacity="0"
-            numRows="8"
+            numRows="7"
             focusFootprintBitmapUri=""
             drawFocusFeedback="false" />
         </Group>
       </LayoutGroup>
 
+      <Rectangle id="filterOptionsBackdrop" translation="[855, 180]" height="640" width="690" opacity="0" />
       <CheckList
         opacity="0"
         translation="[900, 200]"
         id="filterOptions"
         numRows="8"
         focusFootprintBitmapUri=""
-        itemSize="[250, 70]" />
+        itemSize="[600, 70]" />
 
       <ButtonGroup translation="[1250,50]">
         <Button id="favoriteMenu" iconUri="pkg:/images/icons/favorite.png" focusedIconUri="pkg:/images/icons/favorite.png" focusBitmapUri="" focusFootprintBitmapUri="" text="Favorite" showFocusFootprint="false"></Button>
@@ -60,13 +61,15 @@
     </Animation>
 
     <Animation id="showChecklistAnimation" duration="0.5" repeat="false">
+      <FloatFieldInterpolator key="[0.0, 1.0]" keyValue="[0, .1]" fieldToInterp="filterOptionsBackdrop.opacity" />
       <FloatFieldInterpolator key="[0.0, 1.0]" keyValue="[0, 1]" fieldToInterp="filterOptions.opacity" />
-      <Vector2DFieldInterpolator key="[0.0, 1.0]" keyValue="[[860, 200], [560, 200]]" fieldToInterp="menuOptions.translation" />
+      <Vector2DFieldInterpolator key="[0.0, 1.0]" keyValue="[[860, 200], [350, 200]]" fieldToInterp="menuOptions.translation" />
     </Animation>
 
     <Animation id="hideChecklistAnimation" duration="0.5" repeat="false">
+      <FloatFieldInterpolator key="[0.0, 1.0]" keyValue="[.1, 0]" fieldToInterp="filterOptionsBackdrop.opacity" />
       <FloatFieldInterpolator key="[0.0, 1.0]" keyValue="[1, 0]" fieldToInterp="filterOptions.opacity" />
-      <Vector2DFieldInterpolator key="[0.0, 1.0]" keyValue="[[560, 200], [860, 200]]" fieldToInterp="menuOptions.translation" />
+      <Vector2DFieldInterpolator key="[0.0, 1.0]" keyValue="[[350, 200], [860, 200]]" fieldToInterp="menuOptions.translation" />
     </Animation>
 
   </children>

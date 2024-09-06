@@ -1,12 +1,18 @@
-import "pkg:/source/utils/misc.bs"
-import "pkg:/source/enums/KeyCode.bs"
-import "pkg:/source/enums/ColorPalette.bs"
-import "pkg:/source/enums/AnimationState.bs"
 import "pkg:/source/enums/AnimationControl.bs"
-import "pkg:/source/enums/TaskControl.bs"
+import "pkg:/source/enums/AnimationState.bs"
+import "pkg:/source/enums/ColorPalette.bs"
+import "pkg:/source/enums/KeyCode.bs"
 import "pkg:/source/enums/MenuType.bs"
+import "pkg:/source/enums/TaskControl.bs"
+import "pkg:/source/utils/misc.bs"
 
 sub init()
+    overlay = m.top.findNode("overlay")
+    overlay.color = ColorPalette.DARKGREY
+
+    background = m.top.findNode("background")
+    background.blendColor = ColorPalette.LIGHTGREY
+
     m.buttons = m.top.findNode("buttons")
     m.buttons.buttons = [tr("View"), tr("Sort"), tr("Filter")]
     m.buttons.selectedIndex = MenuType.SORT
@@ -32,6 +38,9 @@ sub init()
     m.filterMenu.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
     m.filterMenu.focusFootprintBlendColor = ColorPalette.LIGHTHIGHLIGHT
     m.filterMenu.focusedColor = ColorPalette.WHITE
+
+    filterOptionsBackdrop = m.top.findNode("filterOptionsBackdrop")
+    filterOptionsBackdrop.color = ColorPalette.LIGHTGREY
 
     m.menus = []
     m.menus.push(viewMenu)
