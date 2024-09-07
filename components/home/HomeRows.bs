@@ -34,6 +34,9 @@ sub init()
     m.LoadContinueWatchingTask = createObject("roSGNode", "LoadItemsTask")
     m.LoadContinueWatchingTask.itemsToLoad = "continue"
 
+    m.LoadContinueListeningTask = createObject("roSGNode", "LoadItemsTask")
+    m.LoadContinueListeningTask.itemsToLoad = "continueListening"
+
     m.LoadNextUpTask = createObject("roSGNode", "LoadItemsTask")
     m.LoadNextUpTask.itemsToLoad = "nextUp"
 
@@ -245,6 +248,12 @@ function addHomeSection(sectionType as string) as boolean
         return true
     end if
 
+    ' Continue Watching items
+    if sectionType = "resumeaudio"
+        createContinueListeningRow()
+        return true
+    end if
+
     ' Next Up items
     if sectionType = "nextup"
         createNextUpRow()
@@ -420,6 +429,23 @@ sub createContinueWatchingRow()
     m.LoadContinueWatchingTask.control = "RUN"
 end sub
 
+' createContinueListeningRow: Creates a row displaying items the user can continue listening
+'
+sub createContinueListeningRow()
+    sectionName = tr("Continue Listening")
+
+    if not sectionExists(sectionName)
+        nextUpRow = m.top.content.CreateChild("HomeRow")
+        nextUpRow.title = sectionName
+        nextUpRow.imageWidth = homeRowItemSizes.WIDE_POSTER[0]
+        nextUpRow.cursorSize = homeRowItemSizes.WIDE_POSTER
+    end if
+
+    ' Load the Continue Listening Data
+    m.LoadContinueListeningTask.observeField("content", "updateContinueListeningItems")
+    m.LoadContinueListeningTask.control = "RUN"
+end sub
+
 ' createNextUpRow: Creates a row displaying next episodes up to watch
 '
 sub createNextUpRow()
@@ -536,6 +562,49 @@ sub updateContinueWatchingItems()
 
     ' Row does not exist, insert it into the home view
     m.top.content.insertChild(row, getOriginalSectionIndex("resume"))
+    setRowItemSize()
+end sub
+
+' updateContinueListeningItems: Processes LoadContinueListeningTask content. Removes, Creates, or Updates continue listening row as needed
+'
+sub updateContinueListeningItems()
+    m.processedRowCount++
+    itemData = m.LoadContinueListeningTask.content
+    m.LoadContinueListeningTask.unobserveField("content")
+    m.LoadContinueListeningTask.content = []
+
+    sectionName = tr("Continue Listening")
+
+    if not isValidAndNotEmpty(itemData)
+        removeHomeSection(sectionName)
+        return
+    end if
+
+    ' remake row using the new data
+    row = CreateObject("roSGNode", "HomeRow")
+    row.title = sectionName
+    row.imageWidth = homeRowItemSizes.WIDE_POSTER[0]
+    row.cursorSize = homeRowItemSizes.WIDE_POSTER
+
+    for each item in itemData
+        if isValid(item.json) and isValid(item.json.UserData) and isValid(item.json.UserData.PlayedPercentage)
+            item.PlayedPercentage = item.json.UserData.PlayedPercentage
+        end if
+
+        item.usePoster = row.usePoster
+        item.imageWidth = row.imageWidth
+        row.appendChild(item)
+    end for
+
+    ' Row already exists, replace it with new content
+    if sectionExists(sectionName)
+        m.top.content.replaceChild(row, getSectionIndex(sectionName))
+        setRowItemSize()
+        return
+    end if
+
+    ' Row does not exist, insert it into the home view
+    m.top.content.insertChild(row, getOriginalSectionIndex("resumeaudio"))
     setRowItemSize()
 end sub
 

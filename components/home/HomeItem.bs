@@ -136,6 +136,10 @@ sub itemContentChanged()
         return
     end if
 
+    if itemDataType = ItemType.AUDIOBOOK
+        displayAudioBookInfo(itemData as object)
+    end if
+
     if inArray([ItemType.MUSICARTIST, ItemType.AUDIO], itemDataType)
         displayAudioInfo(itemData as object)
     end if
@@ -225,6 +229,16 @@ sub displayTVChannelInfo(itemData as object)
 end sub
 
 sub displayAudioInfo(itemData as object)
+    m.itemText.text = itemData.name
+    m.itemTextExtra.text = itemData.json.AlbumArtist
+    m.itemPoster.uri = ImageURL(itemData.id)
+end sub
+
+sub displayAudioBookInfo(itemData as object)
+    if itemData.PlayedPercentage > 0
+        drawProgressBar(itemData)
+    end if
+
     m.itemText.text = itemData.name
     m.itemTextExtra.text = itemData.json.AlbumArtist
     m.itemPoster.uri = ImageURL(itemData.id)

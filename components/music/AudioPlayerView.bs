@@ -608,9 +608,21 @@ sub onAudioStreamLoaded()
             m.lyrics.lyricdata = data.lyricdata
         end if
 
+        playbackPosition = 0!
+
+        if isValid(currentItem) and isValid(currentItem.startingPoint)
+            playbackPosition = currentItem.startingPoint
+        else if isChainValid(currentItem, "json.UserData.PlaybackPositionTicks")
+            playbackPosition = currentItem.json.UserData.PlaybackPositionTicks
+        end if
+
+        ' PlayStart requires the time to be in seconds
+        playStart = int(playbackPosition / 10000000)
+
         m.global.audioPlayer.content = data
         m.global.audioPlayer.control = "none"
         m.global.audioPlayer.control = "play"
+        m.global.audioPlayer.seek = playStart
     end if
 end sub
 

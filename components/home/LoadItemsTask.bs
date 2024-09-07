@@ -22,12 +22,9 @@ sub loadItems()
         data = getJson(resp)
         if isValid(data) and isValid(data.Items)
             for each item in data.Items
-                ' Skip Books for now as we don't support it (issue #525)
-                if item.CollectionType <> "books"
-                    tmp = CreateObject("roSGNode", "HomeData")
-                    tmp.json = item
-                    results.push(tmp)
-                end if
+                tmp = CreateObject("roSGNode", "HomeData")
+                tmp.json = item
+                results.push(tmp)
             end for
         end if
 
@@ -138,6 +135,7 @@ sub loadItems()
             params["SortBy"] = "DatePlayed"
             params["SortOrder"] = "Descending"
             params["Filters"] = "IsResumable"
+            params["MediaTypes"] = "Video"
             params["EnableTotalRecordCount"] = false
 
             resp = APIRequest(url, params)
@@ -150,6 +148,30 @@ sub loadItems()
                         tmp.json = item
                         results.push(tmp)
                     end if
+                end for
+            end if
+        end if
+
+    else if m.top.itemsToLoad = "continueListening"
+        activeUser = m.global.session.user.id
+        if isValid(activeUser)
+            url = Substitute("Users/{0}/Items/Resume", activeUser)
+
+            params = {}
+            params["recursive"] = true
+            params["SortBy"] = "DatePlayed"
+            params["SortOrder"] = "Descending"
+            params["Filters"] = "IsResumable"
+            params["MediaTypes"] = "Audio"
+            params["EnableTotalRecordCount"] = false
+
+            resp = APIRequest(url, params)
+            data = getJson(resp)
+            if isValid(data) and isValid(data.Items)
+                for each item in data.Items
+                    tmp = CreateObject("roSGNode", "HomeData")
+                    tmp.json = item
+                    results.push(tmp)
                 end for
             end if
         end if

@@ -437,11 +437,33 @@ sub Main (args as dynamic) as void
                     m.global.queueManager.callFunc("resetShuffle")
                     m.global.queueManager.callFunc("push", selectedItem.json)
                     m.global.queueManager.callFunc("playQueue")
+                else if selectedItemType = "audiobook"
+                    ' Display playback options dialog
+                    showPlaybackOptionDialog = false
+
+                    if isValid(selectedItem.json)
+                        if isValid(selectedItem.json.userdata)
+                            if isValid(selectedItem.json.userdata.PlaybackPositionTicks)
+                                if selectedItem.json.userdata.PlaybackPositionTicks > 0
+                                    showPlaybackOptionDialog = true
+                                end if
+                            end if
+                        end if
+                    end if
+
+                    if showPlaybackOptionDialog
+                        m.global.queueManager.callFunc("hold", selectedItem)
+                        playbackOptionDialog(selectedItem.json.userdata.PlaybackPositionTicks, selectedItem.json)
+                    else
+                        m.global.queueManager.callFunc("clear")
+                        m.global.queueManager.callFunc("push", selectedItem.json)
+                        m.global.queueManager.callFunc("playQueue")
+                    end if
                 else
 
                     ' TODO - switch on more node types
                     stopLoadingSpinner()
-                    message_dialog("This type is not yet supported: " + selectedItemType + ".")
+                    message_dialog("This type is not yet supported: " + selectedItemType)
                 end if
             end if
         else if isNodeEvent(msg, "movieSelected")
@@ -737,6 +759,11 @@ sub Main (args as dynamic) as void
                 m.global.queueManager.callFunc("clear")
                 m.global.queueManager.callFunc("resetShuffle")
                 m.global.queueManager.callFunc("push", screenContent.albumData.items[node.id])
+                m.global.queueManager.callFunc("playQueue")
+            else if node.type = "AudioBook"
+                m.global.queueManager.callFunc("clear")
+                m.global.queueManager.callFunc("resetShuffle")
+                m.global.queueManager.callFunc("push", selectedItem.json)
                 m.global.queueManager.callFunc("playQueue")
             else
                 ' TODO - switch on more node types

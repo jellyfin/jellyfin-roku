@@ -158,6 +158,19 @@ function ItemMetaData(id as string)
 
         tmp.json = data
         return tmp
+    else if data.type = "AudioBook"
+        tmp = CreateObject("roSGNode", "MusicSongData")
+
+        ' Try using song's parent for poster image
+        tmp.image = PosterImage(data.ParentId, { "MaxWidth": 500, "MaxHeight": 500 })
+
+        ' Song's parent poster image is no good, try using the song's poster image
+        if not isValid(tmp.image)
+            tmp.image = PosterImage(data.id, { "MaxWidth": 500, "MaxHeight": 500 })
+        end if
+
+        tmp.json = data
+        return tmp
     else if data.type = "Recording"
         ' We know it's "Recording", but we don't do any special preprocessing
         ' for this data type at the moment, so just return the json.

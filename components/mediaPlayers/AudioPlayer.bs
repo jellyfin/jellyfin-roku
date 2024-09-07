@@ -1,9 +1,13 @@
+import "pkg:/source/enums/TaskControl.bs"
 import "pkg:/source/utils/misc.bs"
 
 sub init()
     m.top.notificationInterval = .1
     m.playReported = false
     m.top.observeField("state", "audioStateChanged")
+
+    m.playbackTimer = m.top.findNode("playbackTimer")
+    m.playbackTimer.observeField("fire", "ReportPlayback")
 end sub
 
 ' State Change Event Handler
@@ -14,10 +18,16 @@ sub audioStateChanged()
 
     m.top.disableScreenSaver = (currentState = "playing")
 
-    if currentState = "playing" and not m.playReported
-        reportedPlaybackState = "start"
-        m.playReported = true
+    if currentState = "playing"
+        if not m.playReported
+            reportedPlaybackState = "start"
+            m.playReported = true
+        end if
+        m.playbackTimer.control = "start"
+    else if m.top.state = "paused"
+        m.playbackTimer.control = "stop"
     else if currentState = "stopped" or currentState = "finished"
+        m.playbackTimer.control = "stop"
         reportedPlaybackState = "stop"
         m.playReported = false
     end if
@@ -26,7 +36,7 @@ sub audioStateChanged()
 end sub
 
 ' Report playback to server
-sub ReportPlayback(state as string)
+sub ReportPlayback(state = "update" as string)
 
     if not isValid(m.top.position) then return
 
@@ -40,5 +50,5 @@ sub ReportPlayback(state as string)
     ' Report playstate via global task
     playstateTask = m.global.playstateTask
     playstateTask.setFields({ status: state, params: params })
-    playstateTask.control = "RUN"
+    playstateTask.control = TaskControl.RUN
 end sub

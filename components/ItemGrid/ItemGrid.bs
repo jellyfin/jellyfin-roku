@@ -182,6 +182,12 @@ sub loadInitialItems()
     else if getCollectionType() = "tvshows"
         m.loadItemsTask.itemType = "Series"
         m.loadItemsTask.itemId = m.top.parentItem.Id
+    else if getCollectionType() = "books"
+        m.loadItemsTask.itemType = "audiobooks"
+        m.loadItemsTask.recursive = true
+        m.itemGrid.itemSize = "[290, 290]"
+        m.itemGrid.itemComponentName = "MusicArtistGridItem"
+        m.loadItemsTask.itemId = m.top.parentItem.Id
     else if getCollectionType() = "music"
         ' Default Settings
         m.loadItemsTask.recursive = true
@@ -464,7 +470,7 @@ sub ItemDataLoaded(msg)
     m.loadItemsTask.unobserveField("content")
     m.loadItemsTask.content = []
 
-    if itemData = invalid
+    if not isValid(itemData)
         m.Loading = false
         stopLoadingSpinner()
         return
@@ -509,6 +515,7 @@ sub ItemDataLoaded(msg)
     m.loadedItems = m.itemGrid.content.getChildCount()
     m.loadedRows = m.loadedItems / m.itemGrid.numColumns
     m.Loading = false
+
     'If there are no items to display, show message
     if m.loadedItems = 0
         m.emptyText.text = tr("NO_ITEMS").Replace("%1", m.top.parentItem.Type)

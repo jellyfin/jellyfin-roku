@@ -10,6 +10,7 @@ enum ItemType
     MUSICALBUM = "musicalbum"
     MUSICARTIST = "musicartist"
     AUDIO = "audio"
+    AUDIOBOOK = "audiobook"
     TVCHANNEL = "tvchannel"
     SEASON = "season"
     PHOTO = "photo"
