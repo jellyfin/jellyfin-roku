@@ -16,6 +16,10 @@
     "author": "1hitsong"
   },
   {
+    "description": "Don't play next episode if user presses back when Next Episode button is showing",
+    "author": "1hitsong"
+  },
+  {
     "description": "Fix selecting boxsets from favorites row on home screen",
     "author": "1hitsong"
   },
