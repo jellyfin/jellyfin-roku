@@ -936,18 +936,26 @@ function onKeyEvent(key as string, press as boolean) as boolean
         return true
     end if
 
-    if key = KeyCode.OK and m.nextEpisodeButton.hasfocus() and not m.top.trickPlayBar.visible
-        m.top.control = VideoControl.STOP
-        m.top.state = "finished"
-        hideNextEpisodeButton()
-        return true
-    else
-        'Hide Next Episode Button
-        if m.nextEpisodeButton.opacity > 0 or m.nextEpisodeButton.hasFocus()
-            m.nextEpisodeButton.opacity = 0
-            m.nextEpisodeButton.setFocus(false)
-            m.top.setFocus(true)
+    if m.nextEpisodeButton.hasfocus() and not m.top.trickPlayBar.visible
+        if key = KeyCode.OK
+            m.top.control = VideoControl.STOP
+            m.top.state = "finished"
+            hideNextEpisodeButton()
+            return true
+        else if key = KeyCode.BACK
+            m.nextupbuttonseconds = 0
+            m.top.disableNextEpisodeAutoPlay = true
+            hideNextEpisodeButton()
+
+            return true
         end if
+    end if
+
+    'Hide Next Episode Button
+    if m.nextEpisodeButton.opacity > 0 or m.nextEpisodeButton.hasFocus()
+        m.nextEpisodeButton.opacity = 0
+        m.nextEpisodeButton.setFocus(false)
+        m.top.setFocus(true)
     end if
 
     if not press then return false

@@ -1,3 +1,5 @@
+import "pkg:/source/enums/TaskControl.bs"
+
 ' Play Audio
 sub CreateAudioPlayerView()
     m.view = CreateObject("roSGNode", "AudioPlayerView")
@@ -211,7 +213,7 @@ sub onSelectPlaybackInfoPressed()
         return
     end if
 
-    m.getPlaybackInfoTask.control = "RUN"
+    m.getPlaybackInfoTask.control = TaskControl.RUN
 end sub
 
 ' The playback info task has returned data
@@ -230,6 +232,19 @@ sub onStateChange()
         ' Close any open dialogs
         if m.global.sceneManager.callFunc("isDialogOpen")
             m.global.sceneManager.callFunc("dismissDialog")
+        end if
+
+        ' Check if user chose not to continue to next episode
+        currentView = m.global.sceneManager.callFunc("getActiveScene")
+        if isChainValid(currentView, "disableNextEpisodeAutoPlay")
+            if currentView.disableNextEpisodeAutoPlay
+                m.global.queueManager.callFunc("bypassNextPreferredAudioTrackIndexReset")
+                m.global.queueManager.callFunc("clear")
+
+                ' Playback completed, return user to previous screen
+                m.global.sceneManager.callFunc("popScene")
+                m.global.audioPlayer.loopMode = ""
+            end if
         end if
 
         ' If there is something next in the queue, play it
