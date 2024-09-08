@@ -1,3 +1,5 @@
+import "pkg:/source/enums/AnimationControl.bs"
+import "pkg:/source/enums/ColorPalette.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/misc.bs"
 
@@ -8,6 +10,11 @@ sub init()
     m.subText = m.top.findNode("subText")
     m.subText.font.size = 23
     m.backdrop = m.top.findNode("backdrop")
+    m.itemProgress = m.top.findNode("progress")
+    m.itemProgress.color = ColorPalette.TRIADBLUE
+    m.itemProgressBackground = m.top.findNode("progressBackground")
+    m.showProgressBarAnimation = m.top.findNode("showProgressBar")
+    m.showProgressBarField = m.top.findNode("showProgressBarField")
 
     m.itemPoster.observeField("loadStatus", "onPosterLoadStatusChanged")
 
@@ -20,6 +27,13 @@ sub init()
     end if
 
     m.gridTitles = m.global.session.user.settings["itemgrid.gridTitles"]
+end sub
+
+sub drawProgressBar(itemData)
+    m.itemProgressBackground.width = m.itemPoster.width
+    m.itemProgressBackground.visible = true
+    m.showProgressBarField.keyValue = [0, m.itemPoster.width * (itemData.json.userdata.PlayedPercentage / 100)]
+    m.showProgressBarAnimation.control = AnimationControl.START
 end sub
 
 sub itemContentChanged()
@@ -35,6 +49,12 @@ sub itemContentChanged()
         m.backdrop.uri = "pkg:/images/missingArtist.png"
     else if LCase(itemData.json.type) = "musicgenre"
         m.backdrop.uri = "pkg:/images/icons/musicFolder.png"
+    end if
+
+    if isChainValid(itemData, "json.userdata.PlayedPercentage")
+        if itemData.json.userdata.PlayedPercentage > 0
+            drawProgressBar(itemData)
+        end if
     end if
 
     m.itemPoster.uri = itemData.PosterUrl
