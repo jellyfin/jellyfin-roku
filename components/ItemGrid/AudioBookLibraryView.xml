@@ -1,22 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<component name="ItemGrid" extends="JFGroup">
+<component name="AudioBookLibraryView" extends="JFGroup">
   <children>
-    <VoiceTextEditBox id="VoiceBox" visible="true" width="40" translation="[52, 120]" />
-    <Rectangle id="VoiceBoxCover" height="240" width="100" translation="[25, 75]" />
-
     <poster id="backdrop" loadDisplayMode="scaleToFill" width="1920" height="1080" opacity="0.25" />
     <poster id="backdropTransition" loadDisplayMode="scaleToFill" width="1920" height="1080" opacity="0.25" />
 
     <MarkupGrid
       id="itemGrid"
       translation="[96, 60]"
-      itemComponentName="GridItemSmall"
-      numColumns="7"
+      itemComponentName="AudioBookGridItem"
+      numColumns="5"
       numRows="3"
-      rowHeights="[345]"
+      rowHeights="[355]"
       vertFocusAnimationStyle="fixed"
-      itemSize="[230, 345]"
-      itemSpacing="[20, 20]"
+      itemSize="[290, 355]"
+      itemSpacing="[40, 40]"
       drawFocusFeedback="true" />
 
     <RowList
@@ -39,7 +36,6 @@
       <FloatFieldInterpolator id="fadeinLoading" key="[0.0, 1.0]" keyValue="[ 0.00, 0.25 ]" fieldToInterp="backdropTransition.opacity" />
       <FloatFieldInterpolator id="fadeoutLoaded" key="[0.0, 1.0]" keyValue="[ 0.25, 0.00 ]" fieldToInterp="backdrop.opacity" />
     </Animation>
-    <Alpha id="alpha" />
   </children>
   <interface>
     <field id="HomeLibraryItem" type="string" />
@@ -47,8 +43,6 @@
     <field id="selectedItem" type="node" alwaysNotify="true" />
     <field id="quickPlayNode" type="node" alwaysNotify="true" />
     <field id="imageDisplayMode" type="string" value="scaleToZoom" />
-    <field id="alphaSelected" type="string" alias="alpha.letterSelected" alwaysNotify="true" onChange="alphaSelectedChanged" />
-    <field id="alphaActive" type="boolean" value="false" />
     <field id="jumpToItem" type="integer" value="" />
     <field id="gridTitles" type="string" />
     <field id="showItemTitles" type="string" value="showonhover" />

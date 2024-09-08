@@ -857,6 +857,18 @@ function CreateMusicLibraryView(libraryItem as object) as dynamic
     return group
 end function
 
+function CreateBookLibraryView(libraryItem as object) as dynamic
+    ' validate libraryItem
+    if not isValid(libraryItem) then return invalid
+
+    group = CreateObject("roSGNode", "AudioBookLibraryView")
+    group.parentItem = libraryItem
+    group.optionsAvailable = true
+    group.observeField("selectedItem", m.port)
+    group.observeField("quickPlayNode", m.port)
+    return group
+end function
+
 function CreateSearchPage()
     ' Search + Results Page
     group = CreateObject("roSGNode", "searchResults")

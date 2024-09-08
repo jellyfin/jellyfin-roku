@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component name="AudioBookGridItem" extends="Group">
+  <children>
+    <Poster id="backdrop" translation="[0,10]" width="290" height="290" loadDisplayMode="scaleToZoom" uri="pkg:/images/white.9.png" />
+    <Poster id="itemPoster" translation="[0,10]" width="290" height="290" loadDisplayMode="scaleToZoom" />
+
+    <LayoutGroup id="title_group" layoutdirection="vert" translation="[5, 305]">
+      <ScrollingLabel
+        id="posterText"
+        font="font:SmallBoldSystemFont"
+        color="#FFFFFF"
+        maxWidth="280"
+        height="34"
+        horizAlign="left"
+        vertAlign="center" />
+
+      <ScrollingLabel
+        id="subText"
+        font="font:SmallBoldSystemFont"
+        color="#777777FF"
+        maxWidth="280"
+        height="32"
+        horizAlign="left"
+        vertAlign="center" />
+    </LayoutGroup>
+  </children>
+  <interface>
+    <field id="itemContent" type="node" onChange="itemContentChanged" />
+    <field id="itemHasFocus" type="boolean" onChange="focusChanged" />
+  </interface>
+</component>

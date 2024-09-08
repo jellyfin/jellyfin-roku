@@ -182,12 +182,6 @@ sub loadInitialItems()
     else if getCollectionType() = "tvshows"
         m.loadItemsTask.itemType = "Series"
         m.loadItemsTask.itemId = m.top.parentItem.Id
-    else if getCollectionType() = "books"
-        m.loadItemsTask.itemType = "audiobooks"
-        m.loadItemsTask.recursive = true
-        m.itemGrid.itemSize = "[290, 290]"
-        m.itemGrid.itemComponentName = "MusicArtistGridItem"
-        m.loadItemsTask.itemId = m.top.parentItem.Id
     else if getCollectionType() = "music"
         ' Default Settings
         m.loadItemsTask.recursive = true

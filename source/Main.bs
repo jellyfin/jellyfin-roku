@@ -189,6 +189,8 @@ sub Main (args as dynamic) as void
                         end if
                     else if itemType = "audio"
                         quickplay.audio(itemNode)
+                    else if itemType = "audiobook"
+                        quickplay.audioBook(itemNode)
                     else if itemType = "musicalbum"
                         quickplay.album(itemNode)
                     else if itemType = "musicartist"
@@ -321,6 +323,8 @@ sub Main (args as dynamic) as void
                         group = CreateMovieLibraryView(selectedItem)
                     else if selectedItem.collectionType = "music"
                         group = CreateMusicLibraryView(selectedItem)
+                    else if selectedItem.collectionType = "books"
+                        group = CreateBookLibraryView(selectedItem)
                     else if selectedItem.collectionType = "nextup"
                         group = CreateItemGrid(selectedItem)
                         group.optionsAvailable = false

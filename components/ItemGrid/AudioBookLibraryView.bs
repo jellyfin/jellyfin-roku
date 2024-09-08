@@ -1,0 +1,489 @@
+import "pkg:/source/api/baserequest.bs"
+import "pkg:/source/enums/ColorPalette.bs"
+import "pkg:/source/utils/config.bs"
+import "pkg:/source/utils/deviceCapabilities.bs"
+import "pkg:/source/utils/misc.bs"
+
+sub init()
+    m.top.showItemTitles = m.global.session.user.settings["itemgrid.gridTitles"]
+
+    overhang = m.top.getScene().findNode("overhang")
+    overhang.isVisible = false
+
+    m.options = m.top.findNode("options")
+
+    m.showItemCount = m.global.session.user.settings["itemgrid.showItemCount"]
+
+    m.itemGrid = m.top.findNode("itemGrid")
+    m.backdrop = m.top.findNode("backdrop")
+    m.newBackdrop = m.top.findNode("backdropTransition")
+    m.emptyText = m.top.findNode("emptyText")
+
+    m.itemGrid.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
+
+    m.genreList = m.top.findNode("genrelist")
+    m.genreList.observeField("itemSelected", "onGenreItemSelected")
+    m.genreData = CreateObject("roSGNode", "ContentNode")
+    m.genreList.content = m.genreData
+
+    m.swapAnimation = m.top.findNode("backroundSwapAnimation")
+    m.swapAnimation.observeField("state", "swapDone")
+
+    m.loadedRows = 0
+    m.loadedItems = 0
+
+    m.data = CreateObject("roSGNode", "ContentNode")
+
+    m.itemGrid.content = m.data
+    m.itemGrid.setFocus(true)
+
+    m.itemGrid.observeField("itemFocused", "onItemFocused")
+    m.itemGrid.observeField("itemSelected", "onItemSelected")
+
+    'backdrop
+    m.newBackdrop.observeField("loadStatus", "newBGLoaded")
+
+    'Background Image Queued for loading
+    m.queuedBGUri = ""
+
+    'Item sort - maybe load defaults from user prefs?
+    m.sortField = "SortName"
+    m.sortAscending = true
+
+    m.filter = "All"
+    m.favorite = "Favorite"
+
+    m.loadItemsTask = createObject("roSGNode", "LoadItemsTask2")
+
+    'set inital counts for overhang before content is loaded.
+    m.loadItemsTask.totalRecordCount = 0
+
+    'Get reset folder setting
+    m.resetGrid = m.global.session.user.settings["itemgrid.reset"]
+
+    m.top.gridTitles = m.global.session.user.settings["itemgrid.gridTitles"]
+end sub
+
+'Genre Item Selected
+sub onGenreItemSelected()
+    m.top.selectedItem = m.genreList.content.getChild(m.genreList.rowItemSelected[0]).getChild(m.genreList.rowItemSelected[1])
+end sub
+
+'Load initial set of Data
+sub loadInitialItems()
+    m.loadItemsTask.control = "stop"
+    startLoadingSpinner()
+
+    if m.top.parentItem.json.Type = "CollectionFolder" 'or m.top.parentItem.json.Type = "Folder"
+        m.top.HomeLibraryItem = m.top.parentItem.Id
+    end if
+
+    if m.top.parentItem.backdropUrl <> invalid
+        SetBackground(m.top.parentItem.backdropUrl)
+    end if
+
+    ' Read view/sort/filter settings
+    m.sortField = m.global.session.user.settings["display." + m.top.parentItem.Id + ".sortField"]
+    sortAscendingStr = m.global.session.user.settings["display." + m.top.parentItem.Id + ".sortAscending"]
+    m.filter = m.global.session.user.settings["display." + m.top.parentItem.Id + ".filter"]
+    m.view = m.global.session.user.settings["display." + m.top.parentItem.Id + ".landing"]
+
+    if m.sortField = invalid
+        m.sortField = "SortName"
+    end if
+
+    if m.filter = invalid then m.filter = "All"
+
+    if sortAscendingStr = invalid or sortAscendingStr = true
+        m.sortAscending = true
+    else
+        m.sortAscending = false
+    end if
+
+    m.loadItemsTask.itemId = m.top.parentItem.Id
+
+    updateTitle()
+
+    m.emptyText.visible = false
+    m.loadItemsTask.sortField = m.sortField
+    m.loadItemsTask.sortAscending = m.sortAscending
+    m.loadItemsTask.filter = m.filter
+    m.loadItemsTask.startIndex = 0
+
+
+    m.loadItemsTask.itemType = "audiobooks"
+    m.loadItemsTask.recursive = true
+    m.loadItemsTask.itemId = m.top.parentItem.Id
+
+
+    m.loadItemsTask.observeField("content", "ItemDataLoaded")
+    startLoadingSpinner(false)
+    m.loadItemsTask.control = "RUN"
+    SetUpOptions()
+end sub
+
+' Set Default view, sort, and filter options
+sub setDefaultOptions(options)
+    options.views = [
+        { "Title": tr("Default"), "Name": "default" }
+    ]
+    options.sort = [
+        { "Title": tr("TITLE"), "Name": "SortName" }
+    ]
+end sub
+
+' Return parent collection type
+function getCollectionType() as string
+    if m.top.parentItem.collectionType = invalid
+        return m.top.parentItem.Type
+    else
+        return m.top.parentItem.CollectionType
+    end if
+end function
+
+' Data to display when options button selected
+sub SetUpOptions()
+    options = {}
+    options.filter = []
+    options.favorite = []
+
+
+    setDefaultOptions(options)
+
+
+    ' Set selected view option
+    for each o in options.views
+        if o.Name = m.view
+            o.Selected = true
+            o.Ascending = m.sortAscending
+            m.options.view = o.Name
+        end if
+    end for
+
+    ' Set selected sort option
+    for each o in options.sort
+        if o.Name = m.sortField
+            o.Selected = true
+            o.Ascending = m.sortAscending
+            m.options.sortField = o.Name
+        end if
+    end for
+
+    ' Set selected filter option
+    for each o in options.filter
+        if o.Name = m.filter
+            o.Selected = true
+            m.options.filter = o.Name
+        end if
+    end for
+
+    m.options.options = options
+end sub
+
+'Handle loaded data, and add to Grid
+sub ItemDataLoaded(msg)
+    itemData = msg.GetData()
+    m.loadItemsTask.unobserveField("content")
+    m.loadItemsTask.content = []
+
+    if not isValid(itemData)
+        m.Loading = false
+        stopLoadingSpinner()
+        return
+    end if
+
+    if m.loadItemsTask.view = "Genres"
+        ' Reset genre list data
+        m.genreData.removeChildren(m.genreData.getChildren(-1, 0))
+
+        for each item in itemData
+            m.genreData.appendChild(item)
+        end for
+
+        m.itemGrid.opacity = "0"
+        m.genreList.opacity = "1"
+
+        m.itemGrid.setFocus(false)
+        m.genreList.setFocus(true)
+
+        m.loading = false
+        stopLoadingSpinner()
+        return
+    end if
+
+    for each item in itemData
+        m.data.appendChild(item)
+    end for
+
+    m.itemGrid.opacity = "1"
+    m.genreList.opacity = "0"
+
+    m.itemGrid.setFocus(true)
+    m.genreList.setFocus(false)
+
+    'Update the stored counts
+    m.loadedItems = m.itemGrid.content.getChildCount()
+    m.loadedRows = m.loadedItems / m.itemGrid.numColumns
+    m.Loading = false
+
+    'If there are no items to display, show message
+    if m.loadedItems = 0
+        m.emptyText.text = tr("NO_ITEMS").Replace("%1", m.top.parentItem.Type)
+        m.emptyText.visible = true
+    end if
+
+    stopLoadingSpinner()
+end sub
+
+'Set Background Image
+sub SetBackground(backgroundUri as string)
+
+    'If a new image is being loaded, or transitioned to, store URL to load next
+    if m.swapAnimation.state <> "stopped" or m.newBackdrop.loadStatus = "loading"
+        m.queuedBGUri = backgroundUri
+        return
+    end if
+
+    m.newBackdrop.uri = backgroundUri
+end sub
+
+'Handle new item being focused
+sub onItemFocused()
+
+    focusedRow = m.itemGrid.currFocusRow
+
+    itemInt = m.itemGrid.itemFocused
+
+    updateTitle()
+
+    ' If no selected item, set background to parent backdrop
+    if itemInt = -1
+        return
+    end if
+
+    m.selectedFavoriteItem = m.itemGrid.content.getChild(m.itemGrid.itemFocused)
+
+    ' Set Background to item backdrop
+    if isValid(m.itemGrid.content.getChild(m.itemGrid.itemFocused))
+        SetBackground(m.itemGrid.content.getChild(m.itemGrid.itemFocused).backdropUrl)
+    end if
+
+    ' Load more data if focus is within last 5 rows, and there are more items to load
+    if focusedRow >= m.loadedRows - m.itemGrid.numRows and m.loadeditems < m.loadItemsTask.totalRecordCount
+        loadMoreData()
+    end if
+end sub
+
+'When Image Loading Status changes
+sub newBGLoaded()
+    'If image load was sucessful, start the fade swap
+    if m.newBackdrop.loadStatus = "ready"
+        m.swapAnimation.control = "start"
+    end if
+end sub
+
+'Swap Complete
+sub swapDone()
+    if isValid(m.swapAnimation) and m.swapAnimation.state = "stopped"
+        'Set main BG node image and hide transitioning node
+        m.backdrop.uri = m.newBackdrop.uri
+        m.backdrop.opacity = 0.25
+        m.newBackdrop.opacity = 0
+
+        'If there is another one to load
+        if m.newBackdrop.uri <> m.queuedBGUri and m.queuedBGUri <> ""
+            SetBackground(m.queuedBGUri)
+            m.queuedBGUri = ""
+        end if
+    end if
+end sub
+
+'Load next set of items
+sub loadMoreData()
+    if m.Loading = true then return
+
+    startLoadingSpinner(false)
+    m.Loading = true
+    m.loadItemsTask.startIndex = m.loadedItems
+    m.loadItemsTask.observeField("content", "ItemDataLoaded")
+    m.loadItemsTask.control = "RUN"
+end sub
+
+'Item Selected
+sub onItemSelected()
+    m.top.selectedItem = m.itemGrid.content.getChild(m.itemGrid.itemSelected)
+end sub
+
+'Check if options updated and any reloading required
+sub optionsClosed()
+    reload = false
+
+    m.view = m.global.session.user.settings["display." + m.top.parentItem.Id + ".landing"]
+    if m.options.view <> m.view
+        'reload and store new view setting
+        m.view = m.options.view
+        set_user_setting("display." + m.top.parentItem.Id + ".landing", m.view)
+        reload = true
+    end if
+
+    if m.options.sortField <> m.sortField or m.options.sortAscending <> m.sortAscending
+        m.sortField = m.options.sortField
+        m.sortAscending = m.options.sortAscending
+        reload = true
+
+        'Store sort settings
+        if m.sortAscending = true
+            sortAscendingStr = "true"
+        else
+            sortAscendingStr = "false"
+        end if
+
+        if m.top.parentItem.collectionType = "livetv"
+            set_user_setting("display.livetv.sortField", m.sortField)
+            set_user_setting("display.livetv.sortAscending", sortAscendingStr)
+        else
+            set_user_setting("display." + m.top.parentItem.Id + ".sortField", m.sortField)
+            set_user_setting("display." + m.top.parentItem.Id + ".sortAscending", sortAscendingStr)
+        end if
+    end if
+    if m.options.filter <> m.filter
+        m.filter = m.options.filter
+        updateTitle()
+        reload = true
+        'Store filter setting
+        if m.top.parentItem.collectionType = "livetv"
+            set_user_setting("display.livetv.filter", m.options.filter)
+        else
+            set_user_setting("display." + m.top.parentItem.Id + ".filter", m.options.filter)
+        end if
+    end if
+    if reload
+        m.loadedRows = 0
+        m.loadedItems = 0
+        m.data = CreateObject("roSGNode", "ContentNode")
+        m.itemGrid.content = m.data
+        loadInitialItems()
+    end if
+
+    m.itemGrid.setFocus(m.itemGrid.opacity = 1)
+    m.genreList.setFocus(m.genreList.opacity = 1)
+end sub
+
+'Returns Focused Item
+function getItemFocused()
+    if m.itemGrid.isinFocusChain() and isValid(m.itemGrid.itemFocused)
+        return m.itemGrid.content.getChild(m.itemGrid.itemFocused)
+    else if m.genreList.isinFocusChain() and isValid(m.genreList.rowItemFocused)
+        return m.genreList.content.getChild(m.genreList.rowItemFocused[0]).getChild(m.genreList.rowItemFocused[1])
+    else if isValid(m.scheduleGrid) and m.scheduleGrid.isinFocusChain() and isValid(m.scheduleGrid.itemFocused)
+        return m.scheduleGrid.content.getChild(m.scheduleGrid.itemFocused)
+    end if
+    return invalid
+end function
+
+function onKeyEvent(key as string, press as boolean) as boolean
+    if not press then return false
+
+    if m.itemGrid.opacity = 1
+        topGrp = m.itemGrid
+    else
+        topGrp = m.genreList
+    end if
+
+    if key = "options"
+        if m.options.visible = true
+            m.options.visible = false
+            m.top.removeChild(m.options)
+            optionsClosed()
+        else
+            itemSelected = m.selectedFavoriteItem
+            if itemSelected <> invalid
+                m.options.selectedFavoriteItem = itemSelected
+            end if
+            m.options.visible = true
+            m.top.appendChild(m.options)
+            m.options.setFocus(true)
+        end if
+        return true
+    else if key = "back"
+        if m.options.visible = true
+            m.options.visible = false
+            optionsClosed()
+            return true
+        else
+            m.global.sceneManager.callfunc("popScene")
+            m.loadItemsTask.control = "stop"
+            return true
+        end if
+    else if key = "OK"
+        markupGrid = m.top.findNode("itemGrid")
+        itemToPlay = getItemFocused()
+
+        if itemToPlay <> invalid and itemToPlay.type = "Photo"
+            ' Spawn photo player task
+            photoPlayer = CreateObject("roSgNode", "PhotoDetails")
+            photoPlayer.itemsNode = markupGrid
+            photoPlayer.itemIndex = markupGrid.itemFocused
+            m.global.sceneManager.callfunc("pushScene", photoPlayer)
+            return true
+        end if
+    else if key = "play"
+        itemToPlay = getItemFocused()
+
+        if itemToPlay <> invalid
+            m.top.quickPlayNode = itemToPlay
+            return true
+        end if
+    else if key = "replay" and topGrp.isinFocusChain()
+        if m.resetGrid = true
+            m.itemGrid.animateToItem = 0
+        else
+            m.itemGrid.jumpToItem = 0
+        end if
+    end if
+
+    if key = "replay"
+        m.loadItemsTask.searchTerm = ""
+        m.loadItemsTask.filter = "All"
+        m.filter = "All"
+        m.data = CreateObject("roSGNode", "ContentNode")
+        m.itemGrid.content = m.data
+        loadInitialItems()
+        return true
+    end if
+
+    return false
+end function
+
+sub updateTitle()
+    m.top.overhangTitle = m.top.parentItem.title
+
+    if m.filter = "Favorites"
+        m.top.overhangTitle = m.top.parentItem.title + " " + tr("(Favorites)")
+    end if
+
+    if m.view = "music-artist"
+        m.top.overhangTitle = "%s (%s)".Format(m.top.parentItem.title, tr("Artists"))
+    else if m.view = "music-album"
+        m.top.overhangTitle = "%s (%s)".Format(m.top.parentItem.title, tr("Albums"))
+    end if
+
+    if m.options.view = "Networks" or m.view = "Networks"
+        m.top.overhangTitle = "%s (%s)".Format(m.top.parentItem.title, tr("Networks"))
+    end if
+
+    if m.options.view = "Studios" or m.view = "Studios"
+        m.top.overhangTitle = "%s (%s)".Format(m.top.parentItem.title, tr("Studios"))
+    end if
+
+    if m.options.view = "Genres" or m.view = "Genres"
+        m.top.overhangTitle = "%s (%s)".Format(m.top.parentItem.title, tr("Genres"))
+    end if
+
+    actInt = m.itemGrid.itemFocused + 1
+
+    if m.showItemCount and m.loadItemsTask.totalRecordCount > 0 and m.options.view <> "Genres" and m.view <> "Genres"
+        m.top.overhangTitle += " (" + tr("%1 of %2").Replace("%1", actInt.toStr()).Replace("%2", m.loadItemsTask.totalRecordCount.toStr()) + ")"
+    end if
+
+end sub

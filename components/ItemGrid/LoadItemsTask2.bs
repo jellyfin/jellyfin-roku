@@ -203,6 +203,8 @@ sub loadItems()
                     tmp = CreateObject("roSGNode", "MusicSongData")
                     tmp.posterUrl = api.items.GetImageURL(item.id, "primary", 0, { "maxHeight": 280, "maxWidth": 280, "quality": "90" })
                     tmp.type = "audiobook"
+                    tmp.json = item
+                    tmp.title = item.name
                 end if
             else
                 if item.Type = "Movie" or item.Type = "MusicVideo"

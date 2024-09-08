@@ -138,6 +138,7 @@ sub itemContentChanged()
 
     if itemDataType = ItemType.AUDIOBOOK
         displayAudioBookInfo(itemData as object)
+        return
     end if
 
     if inArray([ItemType.MUSICARTIST, ItemType.AUDIO], itemDataType)

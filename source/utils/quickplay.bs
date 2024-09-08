@@ -40,6 +40,19 @@ namespace quickplay
         m.global.queueManager.callFunc("push", itemNode)
     end sub
 
+    ' A single audiobook file.
+    sub audioBook(itemNode as object)
+        if not isValid(itemNode) or not isValid(itemNode.id) or not isValid(itemNode.json) then return
+
+        playbackPosition = 0
+        if isValid(itemNode.json.userdata) and isValid(itemNode.json.userdata.PlaybackPositionTicks)
+            playbackPosition = itemNode.json.userdata.PlaybackPositionTicks
+        end if
+        itemNode.startingPoint = playbackPosition
+
+        m.global.queueManager.callFunc("push", itemNode)
+    end sub
+
     ' A single audio file.
     sub audio(itemNode as object)
         if not isValid(itemNode) or not isValid(itemNode.id) then return
@@ -569,6 +582,26 @@ namespace quickplay
                 "parentId": itemNode.id,
                 "includeItemTypes": "Audio",
                 "sortBy": "Album",
+                "Recursive": true,
+                "limit": 2000,
+                "imageTypeLimit": 1,
+                "enableUserData": false,
+                "EnableTotalRecordCount": false
+            })
+            print "songsData=", songsData
+            if isValid(songsData) and isValidAndNotEmpty(songsData.items)
+                quickplay.pushToQueue(songsData.Items, true)
+            else
+                stopLoadingSpinner()
+            end if
+        else if collectionType = "books"
+            ' get audio files from under this collection
+            ' sort songs by album then artist
+            songsData = api.users.GetItemsByQuery(m.global.session.user.id, {
+                "parentId": itemNode.id,
+                "mediaTypes": "Audio",
+                "Filters": "IsNotFolder",
+                "includeItemTypes": "audiobooks",
                 "Recursive": true,
                 "limit": 2000,
                 "imageTypeLimit": 1,
