@@ -8,13 +8,13 @@
     "brighterscript-formatter": "1.7.4"
   },
   "devDependencies": {
-    "@rokucommunity/bslint": "0.8.22",
-    "brighterscript": "0.67.5",
-    "brighterscript-jsdocs-plugin": "0.6.0",
+    "@rokucommunity/bslint": "0.8.24",
+    "brighterscript": "0.67.6",
+    "brighterscript-jsdocs-plugin": "0.7.3",
     "clean-jsdoc-theme": "4.3.0",
     "jsdoc": "4.0.3",
     "jshint": "2.13.6",
-    "markdownlint-cli2": "0.13.0",
+    "markdownlint-cli2": "0.14.0",
     "rimraf": "6.0.1",
     "roku-deploy": "3.12.1",
     "rooibos-roku": "5.12.0",
