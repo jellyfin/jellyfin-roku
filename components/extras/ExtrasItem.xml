@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component name="ExtrasItem" extends="JFGroup">
-  <interface>
-    <field id="itemContent" type="node" onChange="showContent" />
-    <field id="itemHasFocus" type="boolean" onChange="focusChanged" />
-  </interface>
   <children>
     <LayoutGroup layoutDirection="vert">
       <Poster id="posterImg" width="234" height="300" translation="[8,243]" failedBitmapUri="pkg:/images/baseline_person_white_48dp.png" />
@@ -17,4 +13,8 @@
         font="font:SmallestBoldSystemFont" color="#A7A7A7FF" repeatCount="0" />
     </LayoutGroup>
   </children>
+  <interface>
+    <field id="itemContent" type="node" onChange="showContent" />
+    <field id="itemHasFocus" type="boolean" onChange="focusChanged" />
+  </interface>
 </component>

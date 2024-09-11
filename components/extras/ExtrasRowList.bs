@@ -72,6 +72,7 @@ sub onPeopleLoaded()
             person.Type = capitalize(PersonType.PERSON)
             row.appendChild(person)
         end for
+        addRowSize([234, 372])
     end if
     m.LikeThisTask.itemId = m.top.parentId
     m.LikeThisTask.control = TaskControl.RUN
