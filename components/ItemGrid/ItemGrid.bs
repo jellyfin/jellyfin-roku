@@ -553,8 +553,11 @@ sub onItemFocused()
     end if
 
     ' Load more data if focus is within last 5 rows, and there are more items to load
-    if focusedRow >= m.loadedRows - m.itemGrid.numRows and m.loadeditems < m.loadItemsTask.totalRecordCount
-        loadMoreData()
+
+    if m.loadItemsTask.totalRecordCount > 14
+        if focusedRow >= m.loadedRows - m.itemGrid.numRows and m.loadeditems < m.loadItemsTask.totalRecordCount
+            loadMoreData()
+        end if
     end if
 end sub
 

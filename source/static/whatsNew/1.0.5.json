@@ -1,0 +1,14 @@
+[
+  {
+    "description": "Fix always show overhang on home screen",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Fix Cast & Crew item size when only row",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Fix More Like This item posters being smaller than cursor",
+    "author": "1hitsong"
+  }
+]

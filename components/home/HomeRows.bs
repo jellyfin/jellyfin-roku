@@ -760,7 +760,6 @@ end sub
 function onKeyEvent(key as string, press as boolean) as boolean
     if press
         if key = "play"
-            print "play was pressed from homerow"
             itemToPlay = m.top.content.getChild(m.top.rowItemFocused[0]).getChild(m.top.rowItemFocused[1])
             if isValid(itemToPlay)
                 m.top.quickPlayNode = itemToPlay

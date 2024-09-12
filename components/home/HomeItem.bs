@@ -92,7 +92,7 @@ sub itemContentChanged()
         displayUnplayedEpisodeCount(itemDataType, localGlobal, itemData)
     end if
 
-    if inArray([ItemType.COLLECTIONFOLDER, ItemType.USERVIEW, ItemType.CHANNEL], itemDataType)
+    if inArray([ItemType.COLLECTIONFOLDER, ItemType.USERVIEW, ItemType.CHANNEL, ItemType.FOLDER], itemDataType)
         displayCollectionInfo(itemData)
         return
     end if
@@ -179,12 +179,20 @@ sub displayUnplayedEpisodeCount(itemDataType as string, localGlobal as object, i
 end sub
 
 sub displayCollectionInfo(itemData as object)
-    m.itemText.font.size = 35
-    m.itemText.height = 64
-    m.itemText.horizAlign = "center"
-    m.itemText.vertAlign = "bottom"
     m.itemText.text = itemData.name
-    m.itemPoster.uri = itemData.widePosterURL
+    if isValidAndNotEmpty(itemData.iconUrl)
+        m.itemIcon.uri = itemData.iconUrl
+    end if
+
+    if isValidAndNotEmpty(itemData.widePosterURL)
+        m.itemPoster.uri = itemData.widePosterURL
+    else
+        m.itemPoster.uri = itemData.posterURL
+    end if
+
+    if isValid(itemData.json.ChildCount)
+        m.itemTextExtra.text = itemData.json.ChildCount.ToStr().trim() + " items"
+    end if
 end sub
 
 sub displayPhotoAlbumInfo(itemData as object)
