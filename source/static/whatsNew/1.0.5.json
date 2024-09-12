@@ -1,5 +1,9 @@
 [
   {
+    "description": "Add support for folders in favorites row on home screen",
+    "author": "1hitsong"
+  },
+  {
     "description": "Fix always show overhang on home screen",
     "author": "1hitsong"
   },
