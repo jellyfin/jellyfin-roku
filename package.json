@@ -10,7 +10,7 @@
   },
   "devDependencies": {
     "@rokucommunity/bslint": "0.8.24",
-    "brighterscript": "0.67.5",
+    "brighterscript": "0.67.6",
     "brighterscript-jsdocs-plugin": "0.7.3",
     "clean-jsdoc-theme": "4.3.0",
     "jsdoc": "4.0.3",
