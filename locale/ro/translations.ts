@@ -26,7 +26,7 @@
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favorite</translation>
+        <translation>Favorit</translation>
     </message>
     <message>
         <source>Loading...</source>
@@ -388,6 +388,198 @@
         <source>Playback</source>
         <translation>Redare</translation>
         <extracomment>Title for Playback section in user setting screen.</extracomment>
+    </message>
+    <message>
+        <source>Connecting to Server</source>
+        <translation>Se conectează la server</translation>
+        <extracomment>Message to display to user while client is attempting to connect to the server</extracomment>
+    </message>
+    <message>
+        <source>More Like This</source>
+        <translation>Mai Multe Ca Acesta</translation>
+    </message>
+    <message>
+        <source>Special Features</source>
+        <translation>Caracteristici Speciale</translation>
+    </message>
+    <message>
+        <source>Started at</source>
+        <translation>A Început la</translation>
+        <extracomment>(Past Tense) For defining time when a program started today (e.g. Started at 08:00) </extracomment>
+    </message>
+    <message>
+        <source>Live</source>
+        <translation>În direct</translation>
+        <extracomment>If TV Show is being broadcast live (not pre-recorded)</extracomment>
+    </message>
+    <message>
+        <source>Enabled</source>
+        <translation>Activat</translation>
+    </message>
+    <message>
+        <source>Age</source>
+        <translation>Vârstă</translation>
+    </message>
+    <message>
+        <source>Cast &amp; Crew</source>
+        <translation>Distribuţie &amp; Echipă</translation>
+    </message>
+    <message>
+        <source>Additional Parts</source>
+        <translation>Părţi Adiţionale</translation>
+        <extracomment>Additional parts of a video</extracomment>
+    </message>
+    <message>
+        <source>Press &apos;OK&apos; to Close</source>
+        <translation>Apăsați &apos;OK&apos; pentru a închide</translation>
+    </message>
+    <message>
+        <source>TV Shows</source>
+        <translation>Seriale TV</translation>
+    </message>
+    <message>
+        <source>tomorrow</source>
+        <translation>mâine</translation>
+        <extracomment>Next day</extracomment>
+    </message>
+    <message>
+        <source>Media Grid options.</source>
+        <translation>Opțiuni Grilă Media.</translation>
+    </message>
+    <message>
+        <source>today</source>
+        <translation>astăzi</translation>
+        <extracomment>Current day</extracomment>
+    </message>
+    <message>
+        <source>yesterday</source>
+        <translation>ieri</translation>
+        <extracomment>Previous day</extracomment>
+    </message>
+    <message>
+        <source>Sunday</source>
+        <translation>duminică</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Monday</source>
+        <translation>Luni</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Tuesday</source>
+        <translation>Marți</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Wednesday</source>
+        <translation>Miercuri</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Friday</source>
+        <translation>Vineri</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Saturday</source>
+        <translation>Sâmbătă</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Started</source>
+        <translation>A început</translation>
+        <extracomment>(Past Tense) For defining a day and time when a program started (e.g. Started Wednesday, 08:00) </extracomment>
+    </message>
+    <message>
+        <source>Starts at</source>
+        <translation>Începe la</translation>
+        <extracomment>(Future Tense) For defining time when a program will start today (e.g. Starts at 08:00) </extracomment>
+    </message>
+    <message>
+        <source>Starts</source>
+        <translation>Începe</translation>
+        <extracomment>(Future Tense) For defining a day and time when a program will start (e.g. Starts Wednesday, 08:00) </extracomment>
+    </message>
+    <message>
+        <source>Ended at</source>
+        <translation>S-a terminat la</translation>
+        <extracomment>(Past Tense) For defining time when a program will ended (e.g. Ended at 08:00) </extracomment>
+    </message>
+    <message>
+        <source>Ends at</source>
+        <translation>Se termină la</translation>
+        <extracomment>(Past Tense) For defining a day and time when a program ended (e.g. Ended Wednesday, 08:00) </extracomment>
+    </message>
+    <message>
+        <source>Repeat</source>
+        <translation>Redifuzare</translation>
+        <extracomment>If TV Shows has previously been broadcasted</extracomment>
+    </message>
+    <message>
+        <source>TV Guide</source>
+        <translation>Ghid TV</translation>
+        <extracomment>Menu option for showing Live TV Guide / Schedule</extracomment>
+    </message>
+    <message>
+        <source>View Channel</source>
+        <translation>Vezi Canal</translation>
+    </message>
+    <message>
+        <source>Record</source>
+        <translation>Înregistrează</translation>
+    </message>
+    <message>
+        <source>Record Series</source>
+        <translation>Înregistrează Serial</translation>
+    </message>
+    <message>
+        <source>Cancel Recording</source>
+        <translation>Anulează înregistrarea</translation>
+    </message>
+    <message>
+        <source>Not found</source>
+        <translation>Nu a fost găsit</translation>
+        <extracomment>Title of message box when the requested content is not found on the server</extracomment>
+    </message>
+    <message>
+        <source>The requested content does not exist on the server</source>
+        <translation>Conținutul cerut nu există pe server</translation>
+        <extracomment>Content of message box when the requested content is not found on the server</extracomment>
+    </message>
+    <message>
+        <source>Error Getting Playback Information</source>
+        <translation>Eroare la Primirea Informației despre conținutul selectat</translation>
+        <extracomment>Dialog Title: Received error from server when trying to get information about the selected item for playback</extracomment>
+    </message>
+    <message>
+        <source>An error was encountered while playing this item. Server did not provide required transcoding data.</source>
+        <translation>O eroare a fost întâlnită în timpul redării acestui element. Serverul nu a furnizat datele de transcodare necesare.</translation>
+        <extracomment>Content of message box when trying to play an item which requires transcoding, and the server did not provide transcode url</extracomment>
+    </message>
+    <message>
+        <source>Disabled</source>
+        <translation>Dezactivat</translation>
+    </message>
+    <message>
+        <source>Media Grid</source>
+        <translation>Grilă media</translation>
+        <extracomment>UI -&gt; Media Grid section in user setting screen.</extracomment>
+    </message>
+    <message>
+        <source>Item Count</source>
+        <translation>Număr Elemente</translation>
+        <extracomment>UI -&gt; Media Grid -&gt; Item Count in user setting screen.</extracomment>
+    </message>
+    <message>
+        <source>Thursday</source>
+        <translation>Joi</translation>
+        <extracomment>Day of Week</extracomment>
+    </message>
+    <message>
+        <source>Unknown</source>
+        <translation>Necunoscut</translation>
+        <extracomment>Title for a cast member for which we have no information for</extracomment>
     </message>
 </context>
 <context>
