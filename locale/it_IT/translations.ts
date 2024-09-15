@@ -1283,6 +1283,21 @@
         <translation>Valutazioni sulla qualità di un film</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
+    <message>
+        <source>Welcome to version</source>
+        <translation>Benvenuto alla versione</translation>
+        <extracomment>WhatsNewDialog title - Welcome to version 2.0.0</extracomment>
+    </message>
+    <message>
+        <source>To view a complete list of changes visit</source>
+        <translation>Per vedere una lista competa dei cambiamenti visita</translation>
+        <extracomment>WhatsNewDialog body text preceding the changelog URL</extracomment>
+    </message>
+    <message>
+        <source>Community and Critical Ratings</source>
+        <translation>Voti della Community e della Critica</translation>
+        <extracomment>User Setting - Setting title</extracomment>
+    </message>
 </context>
 <context>
     <name></name>

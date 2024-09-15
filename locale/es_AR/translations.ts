@@ -180,6 +180,18 @@
         <source>Server</source>
         <translation>Servidor</translation>
     </message>
+    <message>
+        <source>Delete Saved</source>
+        <translation>Borrar Guardado</translation>
+    </message>
+    <message>
+        <source>On Now</source>
+        <translation>Ahora</translation>
+    </message>
+    <message>
+        <source>Save Credentials?</source>
+        <translation>¿Guardar Credenciales?</translation>
+    </message>
 </context>
 <context>
     <name></name>
