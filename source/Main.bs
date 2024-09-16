@@ -44,6 +44,9 @@ sub Main (args as dynamic) as void
     m.global.addFields({ app_loaded: false, playstateTask: playstateTask, sceneManager: sceneManager })
     m.global.addFields({ queueManager: CreateObject("roSGNode", "QueueManager") })
     m.global.addFields({ audioPlayer: CreateObject("roSGNode", "AudioPlayer") })
+    m.global.addFields({ jumpToArtist: {} })
+
+    m.global.observeField("jumpToArtist", m.port)
 
     app_start:
     ' First thing to do is validate the ability to use the API
@@ -130,9 +133,20 @@ sub Main (args as dynamic) as void
     ' m.scene's children is the "previous view" stack
     while true
         msg = wait(0, m.port)
+
         if type(msg) = "roSGScreenEvent" and msg.isScreenClosed()
             print "CLOSING SCREEN"
             return
+        else if isNodeEvent(msg, "jumpToArtist")
+            selectedItem = msg.getData()
+            if isValid(selectedItem)
+                m.global.sceneManager.callFunc("clearPreviousScene")
+                group = CreateArtistView(selectedItem)
+                if not isValid(group)
+                    stopLoadingSpinner()
+                    message_dialog(tr("Unable to find any albums or songs belonging to this artist"))
+                end if
+            end if
         else if isNodeEvent(msg, "exit")
             return
         else if isNodeEvent(msg, "closeSidePanel")

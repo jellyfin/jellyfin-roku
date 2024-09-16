@@ -1,5 +1,9 @@
 [
   {
+    "description": "Press up on audio player to allow selecting playing artist",
+    "author": "1hitsong"
+  },
+  {
     "description": "Add support for folders in favorites row on home screen",
     "author": "1hitsong"
   },

@@ -712,6 +712,12 @@ function CreateArtistView(artist as object) as dynamic
     group.observeField("quickPlayNode", m.port)
     m.global.sceneManager.callFunc("pushScene", group)
 
+    overhang = group.getScene().findNode("overhang")
+    if isValid(overhang)
+        overhang.visible = true
+        overhang.isVisible = true
+    end if
+
     return group
 end function
 

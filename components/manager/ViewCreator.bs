@@ -4,6 +4,7 @@ import "pkg:/source/enums/TaskControl.bs"
 sub CreateAudioPlayerView()
     m.view = CreateObject("roSGNode", "AudioPlayerView")
     m.view.observeField("state", "onStateChange")
+    m.view.observeField("selectedArtist", "onSelectedArtistChange")
     m.global.sceneManager.callFunc("pushScene", m.view)
 end sub
 
@@ -223,6 +224,12 @@ sub onPlaybackInfoLoaded()
     ' Check if we have playback info and show it in a popup
     if isValid(m.playbackData) and isValid(m.playbackData.playbackinfo)
         m.global.sceneManager.callFunc("standardDialog", tr("Playback Info"), m.playbackData.playbackinfo)
+    end if
+end sub
+
+sub onSelectedArtistChange()
+    if isValidAndNotEmpty(m.view.selectedArtist)
+        m.global.jumpToArtist = m.view.selectedArtist
     end if
 end sub
 

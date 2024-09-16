@@ -172,6 +172,7 @@
   </children>
   <interface>
     <field id="state" type="string" />
+    <field id="selectedArtist" type="assocarray" />
     <field id="selectedButtonIndex" type="integer" />
   </interface>
 </component>
