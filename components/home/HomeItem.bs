@@ -189,10 +189,6 @@ sub displayCollectionInfo(itemData as object)
     else
         m.itemPoster.uri = itemData.posterURL
     end if
-
-    if isValid(itemData.json.ChildCount)
-        m.itemTextExtra.text = itemData.json.ChildCount.ToStr().trim() + " items"
-    end if
 end sub
 
 sub displayPhotoAlbumInfo(itemData as object)
