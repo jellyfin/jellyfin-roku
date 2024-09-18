@@ -53,8 +53,8 @@ sub init()
     setShuffleIconState()
     setLoopButtonImage()
 
-    song = m.top.findNode("song")
-    song.font.size = 60
+    m.song = m.top.findNode("song")
+    m.song.font.size = 60
 
     m.artist = m.top.findNode("artist")
     m.artist.font.size = 35
@@ -881,12 +881,63 @@ function onKeyEvent(key as string, press as boolean) as boolean
             return true
         end if
 
+        ' Key Event handler when m.song is in focus
+        if m.song.hasFocus()
+            if key = KeyCode.DOWN
+                m.song.setFocus(false)
+                m.song.color = ColorPalette.WHITE
+
+                m.artist.setFocus(true)
+                m.artist.color = ColorPalette.HIGHLIGHT
+                return true
+            end if
+
+            if key = KeyCode.OK or key = KeyCode.PLAY
+                currentItem = m.global.queueManager.callFunc("getCurrentItem")
+
+                if isChainValid(currentItem, "AlbumId")
+                    if isValidAndNotEmpty(currentItem.AlbumId)
+                        m.global.audioPlayer.control = "stop"
+                        m.global.audioPlayer.loopMode = ""
+                        data = {
+                            selectionType: "album",
+                            id: currentItem.AlbumId
+                        }
+                        m.top.getScene().jumpTo = data
+                    end if
+                end if
+
+                if not isValidAndNotEmpty(m.top.getScene().jumpTo)
+                    if isChainValid(currentItem, "json.AlbumId")
+                        if isValidAndNotEmpty(currentItem.json.AlbumId)
+                            m.global.audioPlayer.control = "stop"
+                            m.global.audioPlayer.loopMode = ""
+                            data = {
+                                selectionType: "album",
+                                id: currentItem.json.AlbumId
+                            }
+                            m.top.getScene().jumpTo = data
+                        end if
+                    end if
+                end if
+            end if
+        end if
+
         ' Key Event handler when m.artist is in focus
         if m.artist.hasFocus()
             if key = KeyCode.DOWN
                 m.artist.setFocus(false)
                 m.artist.color = ColorPalette.WHITE
                 setFocusOnThumb()
+                return true
+            end if
+
+            if key = KeyCode.UP
+                m.artist.setFocus(false)
+                m.artist.color = ColorPalette.WHITE
+
+                m.song.setFocus(true)
+                m.song.color = ColorPalette.HIGHLIGHT
                 return true
             end if
 
@@ -897,16 +948,20 @@ function onKeyEvent(key as string, press as boolean) as boolean
                     if isValidAndNotEmpty(currentItem.ArtistItems)
                         m.global.audioPlayer.control = "stop"
                         m.global.audioPlayer.loopMode = ""
-                        m.top.selectedArtist = currentItem.ArtistItems[0]
+                        data = currentItem.ArtistItems[0]
+                        data.selectionType = "artist"
+                        m.top.getScene().jumpTo = data
                     end if
                 end if
 
-                if not isValidAndNotEmpty(m.top.selectedArtist)
+                if not isValidAndNotEmpty(m.top.getScene().jumpTo)
                     if isChainValid(currentItem, "json.ArtistItems")
                         if isValidAndNotEmpty(currentItem.json.ArtistItems)
                             m.global.audioPlayer.control = "stop"
                             m.global.audioPlayer.loopMode = ""
-                            m.top.selectedArtist = currentItem.json.ArtistItems[0]
+                            data = currentItem.json.ArtistItems[0]
+                            data.selectionType = "artist"
+                            m.top.getScene().jumpTo = data
                         end if
                     end if
                 end if

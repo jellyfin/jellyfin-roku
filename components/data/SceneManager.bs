@@ -158,6 +158,12 @@ sub deleteSceneAtIndex(index = 1)
 end sub
 
 '
+' Return count of scenes
+function getSceneCount() as integer
+    return m.groups.Count()
+end function
+
+'
 ' Display user/device settings screen
 sub settings()
     settingsScreen = createObject("roSGNode", "Settings")

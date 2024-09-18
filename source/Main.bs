@@ -44,9 +44,9 @@ sub Main (args as dynamic) as void
     m.global.addFields({ app_loaded: false, playstateTask: playstateTask, sceneManager: sceneManager })
     m.global.addFields({ queueManager: CreateObject("roSGNode", "QueueManager") })
     m.global.addFields({ audioPlayer: CreateObject("roSGNode", "AudioPlayer") })
-    m.global.addFields({ jumpToArtist: {} })
+    m.global.addFields({ jumpTo: {} })
 
-    m.global.observeField("jumpToArtist", m.port)
+    m.global.observeField("jumpTo", m.port)
 
     app_start:
     ' First thing to do is validate the ability to use the API
@@ -137,14 +137,33 @@ sub Main (args as dynamic) as void
         if type(msg) = "roSGScreenEvent" and msg.isScreenClosed()
             print "CLOSING SCREEN"
             return
-        else if isNodeEvent(msg, "jumpToArtist")
-            selectedItem = msg.getData()
-            if isValid(selectedItem)
-                m.global.sceneManager.callFunc("clearPreviousScene")
-                group = CreateArtistView(selectedItem)
-                if not isValid(group)
-                    stopLoadingSpinner()
-                    message_dialog(tr("Unable to find any albums or songs belonging to this artist"))
+        else if isNodeEvent(msg, "jumpTo")
+            jumpToData = msg.getData()
+            if isValid(jumpToData)
+                currentView = m.global.sceneManager.callFunc("getActiveScene")
+
+                sceneCount = m.global.sceneManager.callFunc("getSceneCount")
+
+                if sceneCount > 2
+                    m.global.sceneManager.callFunc("clearPreviousScene")
+                end if
+
+                if jumpToData.selectiontype = "artist"
+                    startLoadingSpinner()
+                    group = CreateArtistView(jumpToData)
+                    if isValid(group)
+                    else
+                        stopLoadingSpinner()
+                        message_dialog(tr("Unable to find any albums or songs belonging to this artist"))
+                    end if
+                end if
+
+                if jumpToData.selectiontype = "album"
+                    startLoadingSpinner()
+                    group = CreateAlbumView(jumpToData)
+                    if not isValid(group)
+                        stopLoadingSpinner()
+                    end if
                 end if
             end if
         else if isNodeEvent(msg, "exit")

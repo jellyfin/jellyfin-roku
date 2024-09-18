@@ -9,5 +9,6 @@
     <field id="disableRemote" type="boolean" value="false" onchange="disableRemoteChanged" />
     <field id="isLoading" type="boolean" value="false" onchange="isLoadingChanged" />
     <field id="exit" type="boolean" alwaysNotify="true" />
+    <field id="jumpTo" type="assocarray" alwaysNotify="true" onChange="onJumpToChange" />
   </interface>
 </component>

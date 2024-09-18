@@ -4,12 +4,21 @@ import "pkg:/source/utils/misc.bs"
 sub init()
     m.top.backgroundColor = ColorPalette.VIEWBACKGROUND
     m.top.backgroundURI = ""
+
     m.spinner = m.top.findNode("spinner")
 end sub
 
 ' Triggered when the isLoading boolean component field is changed
 sub isLoadingChanged()
     m.spinner.visible = m.top.isLoading
+end sub
+
+sub onJumpToChange()
+    if not isValidAndNotEmpty(m.top.jumpTo) then return
+    if not isValid(m.top.jumpTo.selectiontype) then return
+
+    m.global.jumpTo = m.top.jumpTo
+    m.top.jumpTo = {}
 end sub
 
 ' Triggered when the disableRemote boolean component field is changed
