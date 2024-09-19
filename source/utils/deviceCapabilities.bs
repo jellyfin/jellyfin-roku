@@ -1,5 +1,5 @@
-import "pkg:/source/utils/misc.bs"
 import "pkg:/source/api/baserequest.bs"
+import "pkg:/source/utils/misc.bs"
 
 ' Returns the Device Capabilities for Roku.
 function getDeviceCapabilities() as object
@@ -138,7 +138,7 @@ function GetDirectPlayProfiles() as object
 
     ' remove audio codecs not supported as standalone audio files (opus)
     ' also add aac back to the list so it gets added to the direct play profile
-    audioCodecs = ["aac", "mp3", "mp2", "pcm", "lpcm", "wav", "ac3", "ac4", "aiff", "wma", "flac", "alac", "aac", "dts", "wmapro", "vorbis", "eac3", "mpg123"]
+    audioCodecs = ["mp3", "mp2", "pcm", "lpcm", "wav", "ac3", "ac4", "aiff", "wma", "flac", "alac", "aac", "dts", "wmapro", "vorbis", "eac3", "mpg123"]
 
     ' check audio codecs with no container
     supportedAudio = []
@@ -184,9 +184,9 @@ function getTranscodingProfiles() as object
 
     transcodingContainers = ["mp4", "ts"]
     ' use strings to preserve order
-    mp4AudioCodecs = "aac"
+    mp4AudioCodecs = "AC3"
     mp4VideoCodecs = "h264"
-    tsAudioCodecs = "aac"
+    tsAudioCodecs = "AC3"
     tsVideoCodecs = "h264"
 
     ' does the users setup support surround sound?
@@ -439,6 +439,25 @@ function getCodecProfiles() as object
                 for each codecType in ["VideoAudio", "Audio"]
                     if audioCodec = "opus" and codecType = "Audio"
                         ' opus audio files not supported by roku
+                    else if audioCodec = "aac"
+                        codecProfiles.push({
+                            "Type": codecType,
+                            "Codec": audioCodec,
+                            "Conditions": [
+                                {
+                                    "Condition": "LessThanEqual",
+                                    "Property": "AudioChannels",
+                                    "Value": audioChannel,
+                                    "IsRequired": true
+                                },
+                                {
+                                    "Condition": "NotEquals",
+                                    "Property": "AudioProfile",
+                                    "Value": "Main",
+                                    "IsRequired": true
+                                }
+                            ]
+                        })
                     else
                         codecProfiles.push({
                             "Type": codecType,
