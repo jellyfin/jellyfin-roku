@@ -373,7 +373,7 @@ sub Main (args as dynamic) as void
                         group = CreateItemGrid(selectedItem)
                     end if
                     sceneManager.callFunc("pushScene", group)
-                else if selectedItemType = "folder" and selectedItem.json.type = "musicgenre"
+                else if selectedItemType = "folder" and LCase(type(selectedItem.json.type)) = "rostring" and LCase(selectedItem.json.type) = "musicgenre"
                     group = CreateMusicLibraryView(selectedItem)
                     sceneManager.callFunc("pushScene", group)
                 else if selectedItemType = "userview" or selectedItemType = "folder" or selectedItemType = "channel" or selectedItemType = "boxset"
