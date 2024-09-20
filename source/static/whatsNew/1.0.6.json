@@ -6,5 +6,9 @@
   {
     "description": "Transcode AAC audio if profile is 'Main' - which is unsupported by Roku",
     "author": "1hitsong"
+  },
+  {
+    "description": "Fix music genre library view",
+    "author": "1hitsong"
   }
 ]
