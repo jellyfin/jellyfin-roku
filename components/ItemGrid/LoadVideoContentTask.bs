@@ -115,6 +115,15 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
         end if
     end if
 
+    if isValid(meta.json.extratype)
+        if LCase(meta.json.extratype) = "trailer"
+            if isValidAndNotEmpty(meta.json.parentlogoitemid)
+                logoLookupID = meta.json.parentlogoitemid
+                video.extraType = "trailer"
+            end if
+        end if
+    end if
+
     logoImageExists = api.items.HeadImageURLByName(logoLookupID, "logo")
     if logoImageExists
         video.logoImage = api.items.GetImageURL(logoLookupID, "logo", 0, { "maxHeight": 65, "maxWidth": 300, "quality": "90" })

@@ -487,8 +487,8 @@ sub onVideoContentLoaded()
     if isValidAndNotEmpty(videoContent[0].logoImage)
         m.osd.logoImage = videoContent[0].logoImage
 
-        ' Don't show both the logo and the video title if this isn't an episode
-        if m.top.content.contenttype <> 4
+        ' Don't show both the logo and the video title if this isn't an episode or trailer
+        if m.top.content.contenttype <> 4 and videoContent[0].extraType <> "trailer"
             m.osd.itemTitleText = string.EMPTY
         end if
     end if

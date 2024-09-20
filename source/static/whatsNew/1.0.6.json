@@ -14,5 +14,9 @@
   {
     "description": "Fix episode list vVideo codec display when video is not media stream 0",
     "author": "1hitsong"
+  },
+  {
+    "description": "Use movie logo in OSD when playing trailer",
+    "author": "1hitsong"
   }
 ]
