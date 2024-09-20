@@ -1,5 +1,5 @@
-import "pkg:/source/utils/misc.bs"
 import "pkg:/source/utils/config.bs"
+import "pkg:/source/utils/misc.bs"
 
 sub init()
     m.title = m.top.findNode("title")
@@ -104,8 +104,13 @@ sub itemContentChanged()
     m.videoCodec.visible = false
     if isValid(itemData.MediaSources)
         for i = 0 to itemData.MediaSources.Count() - 1
-            if item.selectedVideoStreamId = itemData.MediaSources[i].id and isValid(itemData.MediaSources[i].MediaStreams[0])
-                m.videoCodec.text = tr("Video") + ": " + itemData.MediaSources[i].MediaStreams[0].DisplayTitle
+            if item.selectedVideoStreamId = itemData.MediaSources[i].id and isValidAndNotEmpty(itemData.MediaSources[i].MediaStreams)
+                for j = 0 to itemData.MediaSources[i].MediaStreams.Count() - 1
+                    if LCase(itemData.MediaSources[i].MediaStreams[j].type) = "video"
+                        m.videoCodec.text = tr("Video") + ": " + itemData.MediaSources[i].MediaStreams[j].DisplayTitle
+                        exit for
+                    end if
+                end for
                 SetupAudioDisplay(itemData.MediaSources[i].MediaStreams, item.selectedAudioStreamIndex)
                 exit for
             end if
