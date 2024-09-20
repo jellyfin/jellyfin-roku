@@ -1300,6 +1300,30 @@
         <translation>Pro zobrazení úplného seznamu změn navštivte</translation>
         <extracomment>WhatsNewDialog body text preceding the changelog URL</extracomment>
     </message>
+    <message>
+        <source>View All Next Up</source>
+        <translation>Zobrazit všechny další díly</translation>
+    </message>
+    <message>
+        <source>Episode Images Next Up</source>
+        <translation>Obrázky dílů v sekci Další díly</translation>
+    </message>
+    <message>
+        <source>What type of images to use for Episodes shown in the &apos;Next Up&apos; and &apos;Continue Watching&apos; sections.</source>
+        <translation>Jaký typ obrázků se má zobrazovat u dílů v sekcích &quot;Další díly&quot; a &quot;Pokračovat ve sledování&quot;.</translation>
+    </message>
+    <message>
+        <source>Use Web Client Setting</source>
+        <translation>Použít nastavení webového klienta</translation>
+    </message>
+    <message>
+        <source>Use Episode Image</source>
+        <translation>Použít obrázek dílu</translation>
+    </message>
+    <message>
+        <source>Use Show Image</source>
+        <translation>Použít obrázek seriálu</translation>
+    </message>
 </context>
 <context>
     <name></name>
