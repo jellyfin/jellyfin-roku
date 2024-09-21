@@ -1,3 +1,5 @@
+import "pkg:/source/utils/misc.bs"
+
 function LoginFlow()
     'Collect Jellyfin server and user information
     start_login:
@@ -40,12 +42,22 @@ function LoginFlow()
         savedUsers = getSavedUsers()
         numSavedUsers = savedUsers.count()
 
+        ' unset_setting("userIgnoreList")
+        userIgnoreListSetting = get_setting("userIgnoreList", "[]")
+        userIgnoreList = ParseJson(userIgnoreListSetting)
+        userIgnoreListArray = []
+        for each ignoredUser in userIgnoreList
+            userIgnoreListArray.push(ignoredUser.ID)
+        end for
+
         if numPubUsers > 0 or numSavedUsers > 0
             publicUsersNodes = []
             publicUserIds = []
             ' load public users
             if numPubUsers > 0
                 for each item in publicUsers
+                    if inArray(userIgnoreListArray, item.id) then continue for
+
                     user = CreateObject("roSGNode", "PublicUserData")
                     user.isPublic = true
                     user.id = item.Id
@@ -336,16 +348,19 @@ function CreateServerGroup() as string
 end function
 
 function CreateUserSelectGroup(users = [])
-    if users.count() = 0
-        return ""
-    end if
     group = CreateObject("roSGNode", "UserSelect")
     m.global.sceneManager.callFunc("pushScene", group)
     port = CreateObject("roMessagePort")
 
+    userIgnoreListSetting = get_setting("userIgnoreList", "[]")
+    userIgnoreList = ParseJson(userIgnoreListSetting)
+
+    group.hiddenUserList = userIgnoreList
     group.itemContent = users
     group.findNode("userRow").observeField("userSelected", port)
     group.observeField("forgetUser", port)
+    group.observeField("hideUser", port)
+    group.observeField("showUser", port)
 
     manualLoginButton = group.findNode("manualLogin")
     manualLoginButton.observeField("selected", port)
@@ -377,6 +392,69 @@ function CreateUserSelectGroup(users = [])
                 registry_delete("username", forgetUserID)
                 registry_delete("serverId", forgetUserID)
             end if
+        else if type(msg) = "roSGNodeEvent" and msg.getField() = "hideUser"
+            returnValue = show_dialog("Are you sure you want to hide this user?", ["Yes", "No, Cancel"], 1)
+            if returnValue = 0
+                hideUser = msg.GetData()
+                userList = group.itemContent
+
+                for i = userList.count() - 1 to 0 step -1
+                    if userList[i].id = hideUser.id
+                        userList.Delete(i)
+                        group.itemContent = userList
+                        exit for
+                    end if
+                end for
+
+                ' Add user to ignore list
+                userIgnoreListSetting = get_setting("userIgnoreList", "[]")
+                userIgnoreList = ParseJson(userIgnoreListSetting)
+                userIgnoreList.push({
+                    id: hideUser.id,
+                    ImageURL: hideUser.ImageURL,
+                    isPublic: hideUser.isPublic,
+                    name: hideUser.name
+                })
+                set_setting("userIgnoreList", FormatJson(userIgnoreList))
+                group.hiddenUserList = userIgnoreList
+            end if
+        else if type(msg) = "roSGNodeEvent" and msg.getField() = "showUser"
+            showUser = msg.GetData()
+            userList = group.itemContent
+
+            ' Add user back to select user list
+            user = CreateObject("roSGNode", "PublicUserData")
+            user.name = showUser.name
+            user.isPublic = showUser.isPublic
+            user.id = showUser.id
+            user.ImageURL = showUser.imageURL
+            userList.push(user)
+
+            group.itemContent = userList
+
+            ' Remove user from hidden user list
+            hiddenUserList = group.hiddenUserList
+
+            for i = hiddenUserList.count() - 1 to 0 step -1
+                if hiddenUserList[i].id = showUser.id
+                    hiddenUserList.delete(i)
+                    group.hiddenUserList = hiddenUserList
+                    exit for
+                end if
+            end for
+
+            ' Remove user from ignore list setting
+            userIgnoreListSetting = get_setting("userIgnoreList", "[]")
+            userIgnoreList = ParseJson(userIgnoreListSetting)
+            for i = userIgnoreList.count() - 1 to 0 step -1
+                if userIgnoreList[i].id = showUser.id
+                    userIgnoreList.delete(i)
+                    exit for
+                end if
+            end for
+
+            set_setting("userIgnoreList", FormatJson(userIgnoreList))
+
         else if type(msg) = "roSGNodeEvent" and msg.getField() = "userSelected"
             return msg.GetData()
         else if type(msg) = "roSGNodeEvent" and msg.getField() = "itemSelected"

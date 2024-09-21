@@ -1,27 +1,79 @@
-import "pkg:/source/utils/misc.bs"
-import "pkg:/source/enums/KeyCode.bs"
+import "pkg:/source/enums/AnimationControl.bs"
 import "pkg:/source/enums/ColorPalette.bs"
+import "pkg:/source/enums/KeyCode.bs"
+import "pkg:/source/enums/String.bs"
 import "pkg:/source/utils/config.bs"
+import "pkg:/source/utils/misc.bs"
 
 sub init()
     m.top.optionsAvailable = false
+
+    m.unhideUsers = m.top.findNode("unhideUsers")
+    m.unhideUsers.color = ColorPalette.ELEMENTBACKGROUND
+
+    m.hiddenUsers = m.top.findNode("hiddenUsers")
+    m.manageHiddenUsers = m.top.findNode("manageHiddenUsers")
 
     m.manualLogin = m.top.findNode("manualLogin")
     m.manualLogin.background = ColorPalette.LIGHTBLUE
     m.manualLogin.color = ColorPalette.DARKGREY
     m.manualLogin.focusBackground = ColorPalette.HIGHLIGHT
     m.manualLogin.focusColor = ColorPalette.WHITE
+
+    m.hiddenUserAnimation = m.top.findNode("hiddenUserAnimation")
+    m.hiddenUserSlider = m.top.findNode("hiddenUserSlider")
+    m.viewContentSlider = m.top.findNode("viewContentSlider")
+end sub
+
+sub onHiddenUserListChanged()
+    if not isValidAndNotEmpty(m.top.hiddenUserList)
+        m.hiddenUsers.content = CreateObject("roSGNode", "ContentNode")
+        if m.hiddenUsers.isInFocusChain()
+            m.hiddenUserSlider.reverse = true
+            m.viewContentSlider.reverse = true
+            m.hiddenUserAnimation.control = AnimationControl.START
+
+            m.manualLogin.focus = true
+            m.manualLogin.setFocus(true)
+        end if
+        m.manageHiddenUsers.visible = false
+        return
+    end if
+
+    m.manageHiddenUsers.visible = true
+
+    hiddenUserList = CreateObject("roSGNode", "ContentNode")
+
+    for each user in m.top.hiddenUserList
+        if user.id = string.EMPTY then continue for
+
+        row = CreateObject("roSGNode", "PublicUserData")
+        row.title = user.Name
+        row.id = user.id
+        row.Name = user.Name
+        row.isPublic = user.isPublic
+        row.imageURL = user.imageURL
+
+        hiddenUserList.appendChild(row)
+    end for
+
+    m.hiddenUsers.content = hiddenUserList
 end sub
 
 sub itemContentChanged()
     stopLoadingSpinner()
     m.top.findNode("UserRow").ItemContent = m.top.itemContent
+    if m.top.itemContent.count() = 0
+        m.top.findNode("UserRow").setFocus(false)
+        m.manualLogin.setFocus(true)
+        m.manualLogin.focus = true
+    end if
     redraw()
 end sub
 
 sub redraw()
     userCount = m.top.itemContent.Count()
-    topBorder = 360
+    topBorder = 310
     leftBorder = 130
     itemWidth = 300
     itemSpacing = 40
@@ -45,9 +97,35 @@ end sub
 function onKeyEvent(key as string, press as boolean) as boolean
     if not press then return false
 
+    if key = KeyCode.RIGHT
+        if m.hiddenUsers.hasFocus()
+            m.manageHiddenUsers.color = ColorPalette.HIGHLIGHT
+            m.manageHiddenUsers.setFocus(true)
+
+            m.viewContentSlider.reverse = true
+            m.hiddenUserSlider.reverse = true
+            m.hiddenUserAnimation.control = AnimationControl.START
+            return true
+        end if
+    end if
+
     if key = KeyCode.OK
         if m.manualLogin.hasFocus()
             m.manualLogin.selected = not m.manualLogin.selected
+            return true
+        end if
+
+        if m.manageHiddenUsers.hasFocus()
+            m.viewContentSlider.reverse = false
+            m.hiddenUserSlider.reverse = false
+            m.hiddenUserAnimation.control = AnimationControl.START
+            m.hiddenUsers.setFocus(true)
+            m.manageHiddenUsers.color = ColorPalette.WHITE
+            return true
+        end if
+
+        if m.hiddenUsers.isInFocusChain()
+            m.top.showUser = m.hiddenUsers.content.getChild(m.hiddenUsers.itemFocused)
             return true
         end if
         return false
@@ -59,7 +137,11 @@ function onKeyEvent(key as string, press as boolean) as boolean
         user = userList[userRow.rowItemFocused[1]]
 
         if not isValid(user) then return false
-        if user.isPublic then return false
+
+        if user.isPublic
+            m.top.hideUser = user
+            return true
+        end if
 
         m.top.forgetUser = user.id
         return true
@@ -72,17 +154,36 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
     if key = KeyCode.UP
         if m.manualLogin.hasFocus()
+            if m.top.itemContent.count() = 0 then return false
             m.top.findNode("UserRow").setFocus(true)
             m.manualLogin.focus = false
             return true
         end if
+
+        if m.manageHiddenUsers.hasFocus()
+            m.manualLogin.setFocus(true)
+            m.manualLogin.focus = true
+            m.manageHiddenUsers.color = ColorPalette.WHITE
+            return true
+        end if
+
         return false
     end if
 
     if key = KeyCode.DOWN
-        if m.top.focusedChild.isSubType("UserRow")
+        if m.top.findNode("UserRow").isInFocusChain()
             m.manualLogin.setFocus(true)
             m.manualLogin.focus = true
+            return true
+        end if
+
+        if m.manualLogin.hasFocus()
+            if not m.manageHiddenUsers.visible
+                return false
+            end if
+            m.manageHiddenUsers.setFocus(true)
+            m.manualLogin.focus = false
+            m.manageHiddenUsers.color = ColorPalette.HIGHLIGHT
             return true
         end if
         return false

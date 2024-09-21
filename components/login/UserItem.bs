@@ -1,5 +1,5 @@
-import "pkg:/source/utils/misc.bs"
 import "pkg:/source/enums/ColorPalette.bs"
+import "pkg:/source/utils/misc.bs"
 
 sub init()
     m.top.findNode("profileType").color = ColorPalette.LIGHTGREY
@@ -9,9 +9,7 @@ sub onFocusChanged()
     itemData = m.top.itemContent
     if not isValid(itemData) then return
 
-    if not itemData.isPublic
-        m.top.findNode("forgetUserIcon").visible = m.top.itemHasFocus
-    end if
+    m.top.findNode("forgetUserIcon").visible = m.top.itemHasFocus
 
     if m.top.itemHasFocus
         m.top.findNode("profileType").color = ColorPalette.WHITE
