@@ -14,6 +14,9 @@ sub init()
     m.hiddenUsers = m.top.findNode("hiddenUsers")
     m.manageHiddenUsers = m.top.findNode("manageHiddenUsers")
 
+    m.hiddenUsers.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
+    m.hiddenUsers.focusedColor = ColorPalette.WHITE
+
     m.manualLogin = m.top.findNode("manualLogin")
     m.manualLogin.background = ColorPalette.LIGHTBLUE
     m.manualLogin.color = ColorPalette.DARKGREY

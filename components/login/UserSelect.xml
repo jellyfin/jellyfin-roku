@@ -16,8 +16,6 @@
         id="hiddenUsers"
         itemSize="[400,60]"
         vertFocusAnimationStyle="floatingFocus"
-        focusBitmapBlendColor="#006fab"
-        focusedColor="#ffffff"
         itemSpacing="[0, 10]"
         textVertAlign="top" />
     </Rectangle>
