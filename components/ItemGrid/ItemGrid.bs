@@ -182,6 +182,16 @@ sub loadInitialItems()
     else if getCollectionType() = "tvshows"
         m.loadItemsTask.itemType = "Series"
         m.loadItemsTask.itemId = m.top.parentItem.Id
+
+        m.top.showItemTitles = m.global.session.user.settings["itemgrid.gridTitles"]
+        if LCase(m.top.showItemTitles) = "hidealways"
+            m.itemGrid.itemSize = "[230, 345]"
+            m.itemGrid.rowHeights = "[345]"
+        else
+            m.itemGrid.itemSize = "[230, 390]"
+            m.itemGrid.rowHeights = "[390]"
+        end if
+
     else if getCollectionType() = "music"
         ' Default Settings
         m.loadItemsTask.recursive = true
