@@ -4,7 +4,7 @@
     "author": "1hitsong"
   },
   {
-    "description": "Hide public users from user select screen",
+    "description": "Let users hide public accounts from user select screen",
     "author": "1hitsong"
   },
   {
@@ -25,6 +25,10 @@
   },
   {
     "description": "Fix item showing title under next row",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Fix library bug where items can show played when they aren't",
     "author": "1hitsong"
   }
 ]
