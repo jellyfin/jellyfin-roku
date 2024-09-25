@@ -120,8 +120,9 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
         video.logoImage = api.items.GetImageURL(logoLookupID, "logo", 0, { "maxHeight": 65, "maxWidth": 300, "quality": "90" })
     end if
 
-    if m.global.session.user.Configuration.EnableNextEpisodeAutoPlay
-        if LCase(m.top.itemType) = "episode"
+    if LCase(m.top.itemType) = "episode"
+        userSession = m.global.session.user
+        if userSession.settings["playback.playnextepisode"] = "enabled" or userSession.settings["playback.playnextepisode"] = "webclient" and userSession.Configuration.EnableNextEpisodeAutoPlay
             addNextEpisodesToQueue(video.showID)
         end if
     end if
