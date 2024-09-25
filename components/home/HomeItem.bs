@@ -86,6 +86,10 @@ sub itemContentChanged()
 
     itemDataType = isValid(itemData.type) ? LCase(itemData.type) : ""
 
+    if not isValid(itemData.isWatched)
+        itemData.isWatched = false
+    end if
+
     m.playedIndicator.visible = itemData.isWatched
 
     if not itemData.isWatched

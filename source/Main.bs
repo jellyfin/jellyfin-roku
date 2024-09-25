@@ -1,3 +1,4 @@
+import "pkg:/components/manager/ViewCreator.bs"
 import "pkg:/source/enums/String.bs"
 
 sub Main (args as dynamic) as void
@@ -26,7 +27,7 @@ sub Main (args as dynamic) as void
         set_setting("LastRunVersion", m.global.app.version)
     end if
 
-    m.scene = m.screen.CreateScene("JFScene")
+    m.scene = m.screen.CreateScene("BaseScene")
     m.screen.show() ' vscode_rale_tracker_entry
     'vscode_rdb_on_device_component_entry
 
@@ -47,6 +48,11 @@ sub Main (args as dynamic) as void
     m.global.addFields({ jumpTo: {} })
 
     m.global.observeField("jumpTo", m.port)
+
+    audioMiniPlayer = m.scene.findNode("audioMiniPlayer")
+    if isValid(audioMiniPlayer)
+        audioMiniPlayer.callFunc("setup")
+    end if
 
     app_start:
     ' First thing to do is validate the ability to use the API
@@ -146,6 +152,12 @@ sub Main (args as dynamic) as void
 
                 if sceneCount > 2
                     m.global.sceneManager.callFunc("clearPreviousScene")
+                end if
+
+                if jumpToData.selectiontype = "nowplaying"
+                    audioMiniPlayer = m.scene.findNode("audioMiniPlayer")
+                    audioMiniPlayer.callFunc("setVisible", false)
+                    JumpIntoAudioPlayerView()
                 end if
 
                 if jumpToData.selectiontype = "artist"

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component name="AudioMiniPlayer" extends="Group">
+  <children>
+    <Rectangle id="audioMiniPlayerBorder" width="1920" height="200" translation="[0, 0]" />
+    <Rectangle id="audioMiniPlayerContainer" width="1910" height="190" translation="[5, 5]">
+
+      <Rectangle id="seekBar" translation="[276, 0]" width="1644" height="10">
+        <Rectangle id="bufferPosition" height="10" />
+        <Rectangle id="playPosition" height="10" />
+      </Rectangle>
+
+      <Poster id="albumCover" width="180" height="180" translation="[96, -20]" />
+
+      <LayoutGroup translation="[300, 20]" layoutDirection="vert" horizAlignment="left" itemSpacings="[15]">
+        <ScrollingLabel horizAlign="left" id="song" font="font:MediumBoldSystemFont" maxWidth="1600" height="50" />
+        <ScrollingLabel horizAlign="left" id="artist" maxWidth="1600" height="25" />
+        <Label horizAlign="left" id="numberofsongs" width="500" height="25" font="font:SmallestSystemFont" color="#999999" />
+      </LayoutGroup>
+
+      <Animation id="bufferPositionAnimation" duration="1" repeat="false" easeFunction="linear">
+        <FloatFieldInterpolator id="bufferPositionAnimationWidth" key="[0.0, 1.0]" fieldToInterp="bufferPosition.width" />
+      </Animation>
+      <Animation id="playPositionAnimation" duration="1" repeat="false" easeFunction="linear">
+        <FloatFieldInterpolator id="playPositionAnimationWidth" key="[0.0, 1.0]" fieldToInterp="playPosition.width" />
+      </Animation>
+    </Rectangle>
+  </children>
+  <interface>
+    <field id="state" type="string" />
+    <field id="selected" type="boolean" />
+    <function name="setup" />
+    <function name="setSelected" />
+    <function name="isSelected" />
+    <function name="setVisible" />
+    <function name="isVisible" />
+  </interface>
+</component>

@@ -1,0 +1,345 @@
+import "pkg:/source/api/baserequest.bs"
+import "pkg:/source/api/Image.bs"
+import "pkg:/source/enums/ColorPalette.bs"
+import "pkg:/source/enums/ImageType.bs"
+import "pkg:/source/enums/KeyCode.bs"
+import "pkg:/source/enums/String.bs"
+import "pkg:/source/enums/TaskControl.bs"
+import "pkg:/source/enums/ViewLoadStatus.bs"
+import "pkg:/source/utils/config.bs"
+import "pkg:/source/utils/misc.bs"
+
+sub init()
+    m.audioMiniPlayerBorder = m.top.findNode("audioMiniPlayerBorder")
+    m.audioMiniPlayerBorder.color = ColorPalette.DARKGREY
+    m.audioMiniPlayerBorder.visible = false
+
+    m.audioMiniPlayerContainer = m.top.findNode("audioMiniPlayerContainer")
+    m.audioMiniPlayerContainer.color = ColorPalette.DARKGREY
+    m.audioMiniPlayerContainer.visible = false
+
+    setupAnimationTasks()
+    setupInfoNodes()
+    setupDataTasks()
+
+    m.song = m.top.findNode("song")
+    m.song.font.size = 60
+
+    m.artist = m.top.findNode("artist")
+    m.artist.font.size = 35
+
+    numberofsongs = m.top.findNode("numberofsongs")
+    numberofsongs.font.size = 25
+
+    m.seekBar.color = ColorPalette.BLACK77
+    m.bufferPosition.color = ColorPalette.MIDGREY
+    m.playPosition.color = ColorPalette.TRIADBLUE
+end sub
+
+sub loadPlayingSongData()
+    m.pageState = ViewLoadStatus.INIT
+    pageContentChanged()
+end sub
+
+function isVisible() as boolean
+    return m.audioMiniPlayerContainer.visible
+end function
+
+sub setVisible(newVisibleState as boolean)
+    m.audioMiniPlayerBorder.visible = newVisibleState
+    m.audioMiniPlayerContainer.visible = newVisibleState
+
+    if newVisibleState
+        m.playlistTypeCount = m.global.queueManager.callFunc("getQueueUniqueTypes").count()
+        loadPlayingSongData()
+        return
+    end if
+end sub
+
+function isSelected() as boolean
+    return m.top.selected
+end function
+
+sub setSelected(newSelectedState as boolean)
+    m.top.selected = newSelectedState
+    m.audioMiniPlayerBorder.color = m.top.selected ? ColorPalette.HIGHLIGHT : ColorPalette.DARKGREY
+end sub
+
+sub setupAnimationTasks()
+    m.playPositionAnimation = m.top.FindNode("playPositionAnimation")
+    m.playPositionAnimationWidth = m.top.FindNode("playPositionAnimationWidth")
+
+    m.bufferPositionAnimation = m.top.FindNode("bufferPositionAnimation")
+    m.bufferPositionAnimationWidth = m.top.FindNode("bufferPositionAnimationWidth")
+end sub
+
+' Creates tasks to gather data needed to render Scene and play song
+sub setupDataTasks()
+    ' Load audio stream
+    m.LoadAudioStreamTask = CreateObject("roSGNode", "LoadItemsTask")
+    m.LoadAudioStreamTask.itemsToLoad = "audioStream"
+end sub
+
+' Creates audio node used to play song(s)
+sub setup()
+    m.global.audioPlayer.observeFieldScoped("state", "audioStateChanged")
+    m.global.audioPlayer.observeFieldScoped("position", "audioPositionChanged")
+    m.global.audioPlayer.observeFieldScoped("bufferingStatus", "bufferPositionChanged")
+end sub
+
+sub setupInfoNodes()
+    m.albumCover = m.top.findNode("albumCover")
+    m.playPosition = m.top.findNode("playPosition")
+    m.bufferPosition = m.top.findNode("bufferPosition")
+    m.seekBar = m.top.findNode("seekBar")
+end sub
+
+sub bufferPositionChanged()
+    if not isVisible() then return
+
+    if not isValid(m.global.audioPlayer.bufferingStatus)
+        bufferPositionBarWidth = m.seekBar.width
+    else
+        bufferPositionBarWidth = m.seekBar.width * m.global.audioPlayer.bufferingStatus.percentage
+    end if
+
+    ' Ensure position bar is never wider than the seek bar
+    if bufferPositionBarWidth > m.seekBar.width
+        bufferPositionBarWidth = m.seekBar.width
+    end if
+
+    ' Use animation to make the display smooth
+    m.bufferPositionAnimationWidth.keyValue = [m.bufferPosition.width, bufferPositionBarWidth]
+    m.bufferPositionAnimation.control = "start"
+end sub
+
+sub audioPositionChanged()
+    if not isVisible() then return
+
+    stopLoadingSpinner()
+
+    if m.global.audioPlayer.position = 0
+        m.playPosition.width = 0
+    end if
+
+    if not isValid(m.global.audioPlayer.position)
+        playPositionBarWidth = 0
+    else if not isValid(m.songDuration)
+        playPositionBarWidth = 0
+    else
+        songPercentComplete = m.global.audioPlayer.position / m.songDuration
+        playPositionBarWidth = m.seekBar.width * songPercentComplete
+    end if
+
+    ' Ensure position bar is never wider than the seek bar
+    if playPositionBarWidth > m.seekBar.width
+        playPositionBarWidth = m.seekBar.width
+    end if
+
+    ' Use animation to make the display smooth
+    m.playPositionAnimationWidth.keyValue = [m.playPosition.width, playPositionBarWidth]
+    m.playPositionAnimation.control = "start"
+end sub
+
+sub audioStateChanged()
+    if not isVisible() then return
+
+    ' Song Finished, attempt to move to next song
+    if m.global.audioPlayer.state = "finished"
+
+        if m.global.audioPlayer.loopMode = "one" then return
+
+        if m.global.queueManager.callFunc("getPosition") < m.global.queueManager.callFunc("getCount") - 1
+            LoadNextSong()
+            playAction()
+            return
+        else
+            ' We are at the end of the song queue
+
+            ' User has enabled loop for entire song queue, move back to first song
+            if m.global.audioPlayer.loopMode = "all"
+                m.global.queueManager.callFunc("setPosition", -1)
+                LoadNextSong()
+                return
+            end if
+
+            ' Return to previous screen
+            m.top.state = "finished"
+        end if
+    end if
+end sub
+
+function playAction() as boolean
+    if m.global.audioPlayer.state = "playing"
+        m.global.audioPlayer.control = "pause"
+    else if m.global.audioPlayer.state = "paused"
+        m.global.audioPlayer.control = "resume"
+    else if m.global.audioPlayer.state = "finished"
+        m.global.audioPlayer.control = "play"
+    end if
+
+    return true
+end function
+
+function findCurrentSongIndex(songList) as integer
+    if not isValidAndNotEmpty(songList) then return 0
+
+    for i = 0 to songList.count() - 1
+        if songList[i].id = m.global.queueManager.callFunc("getCurrentItem").id
+            return i
+        end if
+    end for
+
+    return 0
+end function
+
+sub setTrackNumberDisplay()
+    setFieldTextValue("numberofsongs", "Track " + stri(m.global.queueManager.callFunc("getPosition") + 1).trim() + "/" + stri(m.global.queueManager.callFunc("getCount")).trim())
+end sub
+
+sub LoadNextSong()
+    if m.global.audioPlayer.state = "playing"
+        m.global.audioPlayer.control = "stop"
+    end if
+
+    ' Reset playPosition bar without animation
+    m.playPosition.width = 0
+    m.global.queueManager.callFunc("moveForward")
+    pageContentChanged()
+end sub
+
+' Update values on screen when page content changes
+sub pageContentChanged()
+    m.LoadAudioStreamTask.control = TaskControl.STOP
+
+    currentItem = m.global.queueManager.callFunc("getCurrentItem")
+
+    m.LoadAudioStreamTask.itemId = currentItem.id
+    m.LoadAudioStreamTask.observeField("content", "onAudioStreamLoaded")
+    m.LoadAudioStreamTask.control = TaskControl.RUN
+end sub
+
+sub onAudioStreamLoaded()
+    stopLoadingSpinner()
+    data = m.LoadAudioStreamTask.content[0]
+    m.LoadAudioStreamTask.unobserveField("content")
+    if data <> invalid and data.count() > 0
+        ' Reset buffer bar without animation
+        m.bufferPosition.width = 0
+
+        useMetaTask = false
+        currentItem = m.global.queueManager.callFunc("getCurrentItem")
+
+        if not isValid(currentItem.RunTimeTicks)
+            useMetaTask = true
+        end if
+
+        if not isValid(currentItem.AlbumArtist)
+            useMetaTask = true
+        end if
+
+        if not isValid(currentItem.name)
+            useMetaTask = true
+        end if
+
+        if not isValid(currentItem.Artists)
+            useMetaTask = true
+        end if
+
+        if useMetaTask
+            ' Load meta data
+            m.LoadMetaDataTask = CreateObject("roSGNode", "LoadItemsTask")
+            m.LoadMetaDataTask.itemsToLoad = "metaData"
+            m.LoadMetaDataTask.itemId = currentItem.id
+            m.LoadMetaDataTask.observeField("content", "onMetaDataLoaded")
+            m.LoadMetaDataTask.control = TaskControl.RUN
+        else
+            setPosterImage(ImageURL(currentItem.id, ImageType.PRIMARY, { "maxHeight": 180, "maxWidth": 180 }))
+            setOnScreenTextValues(currentItem)
+            m.songDuration = currentItem.RunTimeTicks / 10000000.0
+        end if
+
+        playbackPosition = 0!
+
+        if isValid(currentItem) and isValid(currentItem.startingPoint)
+            playbackPosition = currentItem.startingPoint
+        else if isChainValid(currentItem, "json.UserData.PlaybackPositionTicks")
+            playbackPosition = currentItem.json.UserData.PlaybackPositionTicks
+        end if
+
+        ' PlayStart requires the time to be in seconds
+        playStart = int(playbackPosition / 10000000)
+
+        if m.pageState <> ViewLoadStatus.INIT
+            m.global.audioPlayer.content = data
+            m.global.audioPlayer.control = "none"
+            m.global.audioPlayer.control = "play"
+            m.global.audioPlayer.seek = playStart
+        end if
+
+        m.pageState = ViewLoadStatus.LOADED
+    end if
+end sub
+
+sub onMetaDataLoaded()
+    data = m.LoadMetaDataTask.content[0]
+    m.LoadMetaDataTask.unobserveField("content")
+    if isValidAndNotEmpty(data) and isValid(data.json)
+        setPosterImage(data.posterURL)
+        setOnScreenTextValues(data.json)
+
+        if isValid(data.json.RunTimeTicks)
+            m.songDuration = data.json.RunTimeTicks / 10000000.0
+        end if
+    end if
+end sub
+
+' Set poster image on screen
+sub setPosterImage(posterURL)
+    if isValid(posterURL)
+        if m.albumCover.uri <> posterURL
+            m.albumCover.uri = posterURL
+        end if
+    end if
+end sub
+
+' Populate on screen text variables
+sub setOnScreenTextValues(json)
+    if isValid(json)
+        if m.playlistTypeCount = 1
+            setTrackNumberDisplay()
+        end if
+
+        setFieldTextValue("artist", json.Artists[0].replace(chr(8208), "-"))
+        setFieldTextValue("song", UCase(json.name.trim()))
+    end if
+end sub
+
+' Process key press events
+function onKeyEvent(key as string, press as boolean) as boolean
+    if not press then return false
+
+    if key = KeyCode.OK
+        if not isSelected() then return false
+        data = {
+            selectionType: "nowplaying"
+        }
+        m.top.getScene().jumpTo = data
+    end if
+
+    if key = KeyCode.REPLAY
+        if not isSelected() then return false
+
+        setSelected(false)
+
+        group = m.global.sceneManager.callFunc("getActiveScene")
+
+        if isChainValid(group, "lastFocus")
+            group.lastFocus.setFocus(true)
+            return true
+        end if
+    end if
+
+    return false
+end function
+

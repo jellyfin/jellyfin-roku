@@ -1,7 +1,60 @@
 import "pkg:/source/enums/TaskControl.bs"
 
+sub changeSong()
+    ' Load audio stream
+    if not isValid(m.LoadAudioStreamTask)
+        m.LoadAudioStreamTask = CreateObject("roSGNode", "LoadItemsTask")
+        m.LoadAudioStreamTask.itemsToLoad = "audioStream"
+        m.LoadAudioStreamTask.control = TaskControl.STOP
+    end if
+
+    currentItem = m.global.queueManager.callFunc("getCurrentItem")
+
+    m.LoadAudioStreamTask.itemId = currentItem.id
+    m.LoadAudioStreamTask.observeField("content", "onAudioStreamLoaded")
+    m.LoadAudioStreamTask.control = TaskControl.RUN
+end sub
+
+sub onAudioStreamLoaded()
+    data = m.LoadAudioStreamTask.content[0]
+    m.LoadAudioStreamTask.unobserveField("content")
+    if isValidAndNotEmpty(data)
+        currentItem = m.global.queueManager.callFunc("getCurrentItem")
+
+        playbackPosition = 0!
+
+        if isValid(currentItem) and isValid(currentItem.startingPoint)
+            playbackPosition = currentItem.startingPoint
+        else if isChainValid(currentItem, "json.UserData.PlaybackPositionTicks")
+            playbackPosition = currentItem.json.UserData.PlaybackPositionTicks
+        end if
+
+        ' PlayStart requires the time to be in seconds
+        playStart = int(playbackPosition / 10000000)
+
+        m.global.audioPlayer.content = data
+        m.global.audioPlayer.control = "none"
+        m.global.audioPlayer.control = "play"
+        m.global.audioPlayer.seek = playStart
+    end if
+end sub
+
 ' Play Audio
 sub CreateAudioPlayerView()
+    if audioMiniPlayerIsVisible()
+        changeSong()
+        return
+    end if
+
+    m.global.audioPlayer.id = m.global.queueManager.callFunc("getCurrentItem").id
+
+    m.view = CreateObject("roSGNode", "AudioPlayerView")
+    m.view.observeField("state", "onStateChange")
+    m.global.sceneManager.callFunc("pushScene", m.view)
+end sub
+
+' Play Audio
+sub JumpIntoAudioPlayerView()
     m.view = CreateObject("roSGNode", "AudioPlayerView")
     m.view.observeField("state", "onStateChange")
     m.global.sceneManager.callFunc("pushScene", m.view)
@@ -11,6 +64,13 @@ end sub
 sub CreateVideoPlayerView()
     m.playbackData = {}
     m.selectedSubtitle = {}
+
+    ' If we're playing audio, stop it and hide the mini player
+    if audioMiniPlayerIsVisible()
+        if isValid(m.audioMiniPlayer)
+            m.audioMiniPlayer.callFunc("setVisible", false)
+        end if
+    end if
 
     ' If the user has set a preferred audio track index, use it
     preferredAudioTrackIndex = m.global.queueManager.callFunc("getPreferredAudioTrackIndex")
@@ -280,4 +340,16 @@ function availSubtitleTrackIdx(tracknameToFind as string) as integer
         idx = idx + 1
     end for
     return -1
+end function
+
+function audioMiniPlayerIsVisible() as boolean
+    m.audioMiniPlayer = invalid
+
+    scene = m.top.getScene()
+    if not isValid(scene) then return false
+
+    m.audioMiniPlayer = scene.findNode("audioMiniPlayer")
+    if not isValid(m.audioMiniPlayer) then return false
+
+    return m.audioMiniPlayer.callFunc("isVisible")
 end function

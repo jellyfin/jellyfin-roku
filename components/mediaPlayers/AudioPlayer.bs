@@ -1,3 +1,6 @@
+import "pkg:/source/api/baserequest.bs"
+import "pkg:/source/api/Image.bs"
+import "pkg:/source/enums/ImageType.bs"
 import "pkg:/source/enums/TaskControl.bs"
 import "pkg:/source/utils/misc.bs"
 
@@ -5,9 +8,16 @@ sub init()
     m.top.notificationInterval = .1
     m.playReported = false
     m.top.observeField("state", "audioStateChanged")
+    m.top.observeField("id", "changeAudioStreamContent")
 
     m.playbackTimer = m.top.findNode("playbackTimer")
     m.playbackTimer.observeField("fire", "ReportPlayback")
+
+    m.LoadAudioStreamTask = CreateObject("roSGNode", "LoadItemsTask")
+    m.LoadAudioStreamTask.itemsToLoad = "audioStream"
+
+    m.LoadMetaDataTask = CreateObject("roSGNode", "LoadItemsTask")
+    m.LoadMetaDataTask.itemsToLoad = "metaData"
 end sub
 
 ' State Change Event Handler
@@ -26,13 +36,111 @@ sub audioStateChanged()
         m.playbackTimer.control = "start"
     else if m.top.state = "paused"
         m.playbackTimer.control = "stop"
-    else if currentState = "stopped" or currentState = "finished"
+    else if currentState = "stopped"
         m.playbackTimer.control = "stop"
         reportedPlaybackState = "stop"
         m.playReported = false
+    else if currentState = "finished"
+        m.playbackTimer.control = "stop"
+        reportedPlaybackState = "stop"
+        m.playReported = false
+        ReportPlayback(reportedPlaybackState)
+
+        ' User has enabled single song loop, play current song again
+        if m.global.audioPlayer.loopMode = "one"
+            playAction()
+            return
+        end if
+    end if
+end sub
+
+sub playAction()
+    if m.global.audioPlayer.state = "playing"
+        m.global.audioPlayer.control = "pause"
+        ' Allow screen to go to real screensaver
+        WriteAsciiFile("tmp:/scene.temp", "nowplaying-paused")
+        MoveFile("tmp:/scene.temp", "tmp:/scene")
+    else if m.global.audioPlayer.state = "paused"
+        m.global.audioPlayer.control = "resume"
+        ' Write screen tracker for screensaver
+        WriteAsciiFile("tmp:/scene.temp", "nowplaying")
+        MoveFile("tmp:/scene.temp", "tmp:/scene")
+    else if m.global.audioPlayer.state = "finished"
+        m.global.audioPlayer.control = "play"
+        ' Write screen tracker for screensaver
+        WriteAsciiFile("tmp:/scene.temp", "nowplaying")
+        MoveFile("tmp:/scene.temp", "tmp:/scene")
+    end if
+end sub
+
+' Update values on screen when page content changes
+sub changeAudioStreamContent()
+    print "changeAudioStreamContent", m.top.id
+    startLoadingSpinner()
+
+    m.LoadAudioStreamTask.control = TaskControl.STOP
+    m.LoadAudioStreamTask.itemId = m.top.id
+    m.LoadAudioStreamTask.observeField("content", "onAudioStreamLoaded")
+    m.LoadAudioStreamTask.control = TaskControl.RUN
+end sub
+
+sub onAudioStreamLoaded()
+    stopLoadingSpinner()
+    data = m.LoadAudioStreamTask.content[0]
+    m.LoadAudioStreamTask.unobserveField("content")
+
+    if not isValidAndNotEmpty(data) then return
+
+    useMetaTask = false
+    currentItem = m.global.queueManager.callFunc("getCurrentItem")
+
+    if not isValid(currentItem.RunTimeTicks)
+        useMetaTask = true
     end if
 
-    ReportPlayback(reportedPlaybackState)
+    if not isValid(currentItem.AlbumArtist)
+        useMetaTask = true
+    end if
+
+    if not isValid(currentItem.name)
+        useMetaTask = true
+    end if
+
+    if not isValid(currentItem.Artists)
+        useMetaTask = true
+    end if
+
+    if useMetaTask
+        m.LoadMetaDataTask.itemId = currentItem.id
+        m.LoadMetaDataTask.observeField("content", "onMetaDataLoaded")
+        m.LoadMetaDataTask.control = TaskControl.RUN
+    else
+        m.top.audioData = [data]
+    end if
+
+    playbackPosition = 0!
+
+    if isValid(currentItem) and isValid(currentItem.startingPoint)
+        playbackPosition = currentItem.startingPoint
+    else if isChainValid(currentItem, "json.UserData.PlaybackPositionTicks")
+        playbackPosition = currentItem.json.UserData.PlaybackPositionTicks
+    end if
+
+    ' PlayStart requires the time to be in seconds
+    playStart = int(playbackPosition / 10000000)
+
+    m.global.audioPlayer.content = data
+    m.global.audioPlayer.control = "none"
+    m.global.audioPlayer.control = "play"
+    m.global.audioPlayer.seek = playStart
+end sub
+
+sub onMetaDataLoaded()
+    data = m.LoadMetaDataTask.content[0]
+    m.LoadMetaDataTask.unobserveField("content")
+    if isValidAndNotEmpty(data) and isValid(data.json)
+        m.top.audioData = [data.json]
+    end if
 end sub
 
 ' Report playback to server

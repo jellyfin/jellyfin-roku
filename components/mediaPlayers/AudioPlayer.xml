@@ -4,6 +4,8 @@
     <timer id="playbackTimer" repeat="true" duration="30" />
   </children>
   <interface>
+    <field id="id" type="string" />
     <field id="loopMode" type="string" value="" />
+    <field id="audioData" type="array" alwaysNotify="true" />
   </interface>
 </component>
