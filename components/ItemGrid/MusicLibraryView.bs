@@ -1,8 +1,8 @@
-import "pkg:/source/utils/misc.bs"
-import "pkg:/source/utils/config.bs"
 import "pkg:/source/api/baserequest.bs"
 import "pkg:/source/api/Image.bs"
+import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/deviceCapabilities.bs"
+import "pkg:/source/utils/misc.bs"
 
 sub setupNodes()
     m.options = m.top.findNode("options")
@@ -217,17 +217,11 @@ sub setMusicOptions(options)
         { "Title": tr("Genres"), "Name": "Genres" }
     ]
 
-    if LCase(m.top.parentItem.json.type) = "musicgenre"
-        options.views = [
-            { "Title": tr("Albums"), "Name": "Albums" }
-        ]
-    end if
-
     options.sort = [
         { "Title": tr("TITLE"), "Name": "SortName" },
-        { "Title": tr("DATE_ADDED"), "Name": "DateCreated" },
-        { "Title": tr("DATE_PLAYED"), "Name": "DatePlayed" },
-        { "Title": tr("RELEASE_DATE"), "Name": "PremiereDate" },
+        { "Title": tr("DATE_ADDED"), "Name": "DateCreated,SortName" },
+        { "Title": tr("DATE_PLAYED"), "Name": "DatePlayed,SortName" },
+        { "Title": tr("RELEASE_DATE"), "Name": "PremiereDate,SortName" },
         { "Title": tr("Random"), "Name": "Random" },
     ]
 
@@ -235,6 +229,12 @@ sub setMusicOptions(options)
         { "Title": tr("All"), "Name": "All" },
         { "Title": tr("Favorites"), "Name": "Favorites" }
     ]
+
+    if LCase(m.top.parentItem.json.type) = "musicgenre"
+        options.views = [
+            { "Title": tr("Albums"), "Name": "Albums" }
+        ]
+    end if
 
     if LCase(m.options.view) = "genres" or LCase(m.view) = "genres"
         options.sort = [
@@ -247,7 +247,9 @@ sub setMusicOptions(options)
     if LCase(m.options.view) = "albums" or LCase(m.view) = "albums"
         options.sort = [
             { "Title": tr("TITLE"), "Name": "SortName" },
-            { "Title": tr("DATE_ADDED"), "Name": "DateCreated" },
+            { "Title": tr("Album Artist"), "Name": "AlbumArtist,SortName" },
+            { "Title": tr("DATE_ADDED"), "Name": "DateCreated,SortName" },
+            { "Title": tr("RELEASE_DATE"), "Name": "ProductionYear,SortName" },
             { "Title": tr("Random"), "Name": "Random" },
         ]
     end if

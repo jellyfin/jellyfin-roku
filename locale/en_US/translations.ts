@@ -977,6 +977,10 @@
             <translation>Artists (Presentation)</translation>
         </message>
         <message>
+            <source>Album Artist</source>
+            <translation>Album Artist</translation>
+        </message>
+        <message>
             <source>Album Artists (Presentation)</source>
             <translation>Album Artists (Presentation)</translation>
         </message>
