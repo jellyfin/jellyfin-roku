@@ -1,5 +1,7 @@
 import "pkg:/source/api/baserequest.bs"
 import "pkg:/source/api/Image.bs"
+import "pkg:/source/enums/KeyCode.bs"
+import "pkg:/source/enums/TaskControl.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/deviceCapabilities.bs"
 import "pkg:/source/utils/misc.bs"
@@ -75,6 +77,7 @@ sub init()
 
     m.loadItemsTask = createObject("roSGNode", "LoadItemsTask2")
     m.loadLogoTask = createObject("roSGNode", "LoadItemsTask2")
+    m.getFiltersTask = createObject("roSGNode", "GetFiltersTask")
 
     'set inital counts for overhang before content is loaded.
     m.loadItemsTask.totalRecordCount = 0
@@ -104,7 +107,7 @@ end sub
 '
 'Load initial set of Data
 sub loadInitialItems()
-    m.loadItemsTask.control = "stop"
+    m.loadItemsTask.control = TaskControl.STOP
     startLoadingSpinner(false)
 
     if LCase(m.top.parentItem.json.Type) = "collectionfolder"
@@ -120,12 +123,16 @@ sub loadInitialItems()
     m.sortField = m.global.session.user.settings["display." + m.top.parentItem.Id + ".sortField"]
     m.sortAscending = m.global.session.user.settings["display." + m.top.parentItem.Id + ".sortAscending"]
     m.filter = m.global.session.user.settings["display." + m.top.parentItem.Id + ".filter"]
+    m.filterOptions = m.global.session.user.settings["display." + m.top.parentItem.Id + ".filterOptions"]
     m.view = m.global.session.user.settings["display." + m.top.parentItem.Id + ".landing"]
 
     if not isValid(m.sortField) then m.sortField = "SortName"
     if not isValid(m.filter) then m.filter = "All"
+    if not isValid(m.filterOptions) then m.filterOptions = "{}"
     if not isValid(m.view) then m.view = "ArtistsPresentation"
     if not isValid(m.sortAscending) then m.sortAscending = true
+
+    m.filterOptions = ParseJson(m.filterOptions)
 
     m.top.showItemTitles = m.global.session.user.settings["itemgrid.gridTitles"]
 
@@ -158,6 +165,7 @@ sub loadInitialItems()
     m.loadItemsTask.sortField = m.sortField
     m.loadItemsTask.sortAscending = m.sortAscending
     m.loadItemsTask.filter = m.filter
+    m.loadItemsTask.filterOptions = m.filterOptions
     m.loadItemsTask.startIndex = 0
 
     ' Load Item Types
@@ -201,8 +209,105 @@ sub loadInitialItems()
     end if
 
     m.loadItemsTask.observeField("content", "ItemDataLoaded")
-    m.loadItemsTask.control = "RUN"
-    SetUpOptions()
+    m.loadItemsTask.control = TaskControl.RUN
+
+    m.getFiltersTask.observeField("filters", "FilterDataLoaded")
+    m.getFiltersTask.params = {
+        userid: m.global.session.user.id,
+        parentid: m.top.parentItem.Id
+    }
+    m.getFiltersTask.control = TaskControl.RUN
+end sub
+
+'
+' Logo Image Loaded Event Handler
+sub FilterDataLoaded(msg)
+    options = {}
+    options.filter = []
+    options.favorite = []
+
+    setMusicOptions(options)
+
+    data = msg.GetData()
+    m.getFiltersTask.unobserveField("filters")
+
+    if not isValid(data) then return
+
+    ' Add Music filters from the API data
+    if inArray(["musicartist", "albumartists"], LCase(m.loadItemsTask.itemType))
+        if isValid(data.genres)
+            options.filter.push({ "Title": tr("Genres"), "Name": "Genres", "Options": data.genres, "Delimiter": "|", "CheckedState": [] })
+        end if
+    end if
+
+    if LCase(m.loadItemsTask.itemType) = "musicalbum"
+        if isValid(data.genres)
+            options.filter.push({ "Title": tr("Genres"), "Name": "Genres", "Options": data.genres, "Delimiter": "|", "CheckedState": [] })
+        end if
+        if isValid(data.Years)
+            options.filter.push({ "Title": tr("Years"), "Name": "Years", "Options": data.Years, "Delimiter": ",", "CheckedState": [] })
+        end if
+    end if
+
+    setSelectedOptions(options)
+
+    m.options.options = options
+end sub
+
+' Data to display when options button selected
+sub setSelectedOptions(options)
+
+    ' Set selected view option
+    for each o in options.views
+        if o.Name = m.view
+            o.Selected = true
+            o.Ascending = m.sortAscending
+            m.options.view = o.Name
+        end if
+    end for
+
+    ' Set selected sort option
+    for each o in options.sort
+        if o.Name = m.sortField
+            o.Selected = true
+            o.Ascending = m.sortAscending
+            m.options.sortField = o.Name
+        end if
+    end for
+
+    ' Set selected filter
+    for each o in options.filter
+        if o.Name = m.filter
+            o.Selected = true
+            m.options.filter = o.Name
+        end if
+
+        ' Select selected filter options
+        if isValid(o.options) and isValid(m.filterOptions)
+            if o.options.Count() > 0 and m.filterOptions.Count() > 0
+                if LCase(o.Name) = LCase(m.filterOptions.keys()[0])
+                    selectedFilterOptions = m.filterOptions[m.filterOptions.keys()[0]].split(o.delimiter)
+                    checkedState = []
+
+                    for each availableFilterOption in o.options
+                        matchFound = false
+
+                        for each selectedFilterOption in selectedFilterOptions
+                            if LCase(toString(availableFilterOption).trim()) = LCase(selectedFilterOption.trim())
+                                matchFound = true
+                            end if
+                        end for
+
+                        checkedState.push(matchFound)
+                    end for
+
+                    o.checkedState = checkedState
+                end if
+            end if
+        end if
+    end for
+
+    m.options.options = options
 end sub
 
 ' Set Music view, sort, and filter options
@@ -519,7 +624,7 @@ sub onItemFocused()
     m.loadLogoTask.itemId = itemData.id
     m.loadLogoTask.itemType = "LogoImage"
     m.loadLogoTask.observeField("content", "LogoImageLoaded")
-    m.loadLogoTask.control = "RUN"
+    m.loadLogoTask.control = TaskControl.RUN
 
     ' Set Background to item backdrop
     SetBackground(m.selectedFavoriteItem.backdropUrl)
@@ -576,7 +681,7 @@ sub loadMoreData()
     m.Loading = true
     m.loadItemsTask.startIndex = m.loadedItems
     m.loadItemsTask.observeField("content", "ItemDataLoaded")
-    m.loadItemsTask.control = "RUN"
+    m.loadItemsTask.control = TaskControl.RUN
 end sub
 
 '
@@ -697,6 +802,16 @@ sub optionsClosed()
         set_user_setting("display." + m.top.parentItem.Id + ".filter", m.options.filter)
     end if
 
+    if not isValid(m.options.filterOptions)
+        m.filterOptions = {}
+    end if
+
+    if not AssocArrayEqual(m.options.filterOptions, m.filterOptions)
+        m.filterOptions = m.options.filterOptions
+        reload = true
+        set_user_setting("display." + m.top.parentItem.Id + ".filterOptions", FormatJson(m.options.filterOptions))
+    end if
+
     m.view = m.global.session.user.settings["display." + m.top.parentItem.Id + ".landing"]
 
     if m.options.view <> m.view
@@ -709,6 +824,7 @@ sub optionsClosed()
         m.loadItemsTask.NameStartsWith = " "
         m.loadItemsTask.searchTerm = ""
         m.filter = "All"
+        m.filterOptions = {}
         m.sortField = "SortName"
         m.sortAscending = true
 
@@ -716,6 +832,7 @@ sub optionsClosed()
         set_user_setting("display." + m.top.parentItem.Id + ".sortField", m.sortField)
         set_user_setting("display." + m.top.parentItem.Id + ".sortAscending", "true")
         set_user_setting("display." + m.top.parentItem.Id + ".filter", m.filter)
+        set_user_setting("display." + m.top.parentItem.Id + ".filterOptions", FormatJson(m.filterOptions))
 
         reload = true
     end if
@@ -746,19 +863,18 @@ end sub
 function onKeyEvent(key as string, press as boolean) as boolean
     if not press then return false
 
-    if key = "left" and m.voiceBox.isinFocusChain()
+    if key = KeyCode.LEFT and m.voiceBox.isinFocusChain()
         m.itemGrid.setFocus(m.itemGrid.opacity = 1)
         m.genreList.setFocus(m.genreList.opacity = 1)
         m.voiceBox.setFocus(false)
     end if
 
-    if key = "options"
+    if key = KeyCode.OPTIONS
         if m.options.visible = true
             m.options.visible = false
             m.top.removeChild(m.options)
             optionsClosed()
         else
-
             itemSelected = m.selectedFavoriteItem
             if itemSelected <> invalid
                 m.options.selectedFavoriteItem = itemSelected
@@ -769,17 +885,17 @@ function onKeyEvent(key as string, press as boolean) as boolean
             m.options.setFocus(true)
         end if
         return true
-    else if key = "back"
+    else if key = KeyCode.BACK
         if m.options.visible = true
             m.options.visible = false
             optionsClosed()
             return true
         else
             m.global.sceneManager.callfunc("popScene")
-            m.loadItemsTask.control = "stop"
+            m.loadItemsTask.control = TaskControl.STOP
             return true
         end if
-    else if key = "left"
+    else if key = KeyCode.LEFT
         if m.itemGrid.isinFocusChain()
             m.top.alphaActive = true
             m.itemGrid.setFocus(false)
@@ -791,7 +907,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
             m.alphaMenu.setFocus(true)
             return true
         end if
-    else if key = "right" and m.alpha.isinFocusChain()
+    else if key = KeyCode.RIGHT and m.alpha.isinFocusChain()
         m.top.alphaActive = false
         m.alphaMenu.setFocus(false)
 
@@ -799,20 +915,20 @@ function onKeyEvent(key as string, press as boolean) as boolean
         m.genreList.setFocus(m.genreList.opacity = 1)
 
         return true
-    else if key = "replay" and m.itemGrid.isinFocusChain()
+    else if key = KeyCode.REPLAY and m.itemGrid.isinFocusChain()
         if m.resetGrid = true
             m.itemGrid.animateToItem = 0
         else
             m.itemGrid.jumpToItem = 0
         end if
-    else if key = "replay" and m.genreList.isinFocusChain()
+    else if key = KeyCode.REPLAY and m.genreList.isinFocusChain()
         if m.resetGrid = true
             m.genreList.animateToItem = 0
         else
             m.genreList.jumpToItem = 0
         end if
         return true
-    else if key = "play"
+    else if key = KeyCode.PLAY
         itemToPlay = getItemFocused()
         if itemToPlay <> invalid
             m.top.quickPlayNode = itemToPlay
@@ -820,7 +936,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
         end if
     end if
 
-    if key = "replay"
+    if key = KeyCode.REPLAY
         m.loadItemsTask.searchTerm = ""
         m.loadItemsTask.nameStartsWith = ""
         m.voiceBox.text = ""
