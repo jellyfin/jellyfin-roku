@@ -851,15 +851,6 @@ sub optionsClosed()
     m.genreList.setFocus(m.genreList.opacity = 1)
 end sub
 
-sub onChannelSelected(msg)
-    node = msg.getRoSGNode()
-    m.top.lastFocus = lastFocusedChild(node)
-    if node.watchChannel <> invalid
-        ' Clone the node when it's reused/update in the TimeGrid it doesn't automatically start playing
-        m.top.selectedItem = node.watchChannel.clone(false)
-    end if
-end sub
-
 function onKeyEvent(key as string, press as boolean) as boolean
     if not press then return false
 
