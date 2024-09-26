@@ -1,0 +1,6 @@
+[
+  {
+    "description": "Fix crash when playing song has no artist or song title data",
+    "author": "1hitsong"
+  }
+]
