@@ -230,6 +230,14 @@ sub setMusicOptions(options)
         { "Title": tr("Favorites"), "Name": "Favorites" }
     ]
 
+    if inArray(["musicartist", "albumartists"], LCase(m.loadItemsTask.itemType))
+        options.sort = [
+            { "Title": tr("TITLE"), "Name": "SortName" },
+            { "Title": tr("DATE_ADDED"), "Name": "DateCreated,SortName" },
+            { "Title": tr("Random"), "Name": "Random" },
+        ]
+    end if
+
     if LCase(m.top.parentItem.json.type) = "musicgenre"
         options.views = [
             { "Title": tr("Albums"), "Name": "Albums" }

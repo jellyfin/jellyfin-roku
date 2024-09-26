@@ -4,6 +4,10 @@
     "author": "1hitsong"
   },
   {
+    "description": "Remove Date Played & Release Date music artist sort options - they are not valid",
+    "author": "1hitsong"
+  },
+  {
     "description": "Fix crash when playing song has no artist or song title data",
     "author": "1hitsong"
   }
