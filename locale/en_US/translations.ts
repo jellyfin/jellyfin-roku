@@ -231,6 +231,10 @@
             <translation>IMDb Rating</translation>
         </message>
         <message>
+            <source>Community Rating</source>
+            <translation>Community Rating</translation>
+        </message>
+        <message>
             <source>CRITIC_RATING</source>
             <translation>Critics Rating</translation>
         </message>
