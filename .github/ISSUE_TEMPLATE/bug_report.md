@@ -7,6 +7,8 @@ assignees: ''
 
 ---
 
+!!! If your bug involves media playback, you MUST include a link to a sample of the media that exhibits the bug, otherwise the ticket will be closed !!!
+
 ## Software Versions
 
 - Jellyfin Server Version:  

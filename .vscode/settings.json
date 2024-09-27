@@ -5,17 +5,13 @@
   "[xml]": {
     "editor.defaultFormatter": "redhat.vscode-xml"
   },
-  "[markdown]": {
-    "editor.defaultFormatter": "DavidAnson.vscode-markdownlint"
-  },
   "xml.format.maxLineWidth": 0,
   "editor.formatOnSave": true,
   "brightscript.output.hyperlinkFormat": "FilenameAndFunction",
   "brightscript.bsdk": "node_modules/brighterscript",
   "search.exclude": {
     "**/.git": true,
-    "**/node_modules": true,
-    "docs/api/**": true
+    "**/node_modules": true
   },
   "brightscriptcomment.addExtraAtStartAndEnd": false
 }
