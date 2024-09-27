@@ -220,7 +220,7 @@ sub loadInitialItems()
 end sub
 
 '
-' Logo Image Loaded Event Handler
+' Filter Data Loaded Event Handler
 sub FilterDataLoaded(msg)
     options = {}
     options.filter = []

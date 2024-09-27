@@ -1,5 +1,7 @@
 import "pkg:/source/api/baserequest.bs"
 import "pkg:/source/enums/ColorPalette.bs"
+import "pkg:/source/enums/KeyCode.bs"
+import "pkg:/source/enums/TaskControl.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/deviceCapabilities.bs"
 import "pkg:/source/utils/misc.bs"
@@ -72,6 +74,7 @@ sub init()
     m.favorite = "Favorite"
 
     m.loadItemsTask = createObject("roSGNode", "LoadItemsTask2")
+    m.getFiltersTask = createObject("roSGNode", "GetFiltersTask")
 
     'set inital counts for overhang before content is loaded.
     m.loadItemsTask.totalRecordCount = 0
@@ -124,10 +127,18 @@ sub loadInitialItems()
         m.sortField = m.global.session.user.settings["display." + m.top.parentItem.Id + ".sortField"]
         sortAscendingStr = m.global.session.user.settings["display." + m.top.parentItem.Id + ".sortAscending"]
         m.filter = m.global.session.user.settings["display." + m.top.parentItem.Id + ".filter"]
+        m.filterOptions = m.global.session.user.settings["display." + m.top.parentItem.Id + ".filterOptions"]
         m.view = m.global.session.user.settings["display." + m.top.parentItem.Id + ".landing"]
     end if
 
-    if m.sortField = invalid
+    if getCollectionType() = "tvshows"
+        if not isValidAndNotEmpty(m.view) then m.view = "Shows"
+    end if
+
+    if not isValidAndNotEmpty(m.filter) then m.filter = "All"
+    if not isValidAndNotEmpty(m.filterOptions) then m.filterOptions = "{}"
+
+    if not isValidAndNotEmpty(m.sortField)
         ' Set the default order for boxsets to the Release Date - API calls it PremiereDate
         if LCase(m.top.parentItem.json.Type) = "boxset"
             m.sortField = "PremiereDate"
@@ -136,7 +147,7 @@ sub loadInitialItems()
         end if
     end if
 
-    if m.filter = invalid then m.filter = "All"
+    m.filterOptions = ParseJson(m.filterOptions)
 
     if sortAscendingStr = invalid or sortAscendingStr = true
         m.sortAscending = true
@@ -173,6 +184,7 @@ sub loadInitialItems()
     m.loadItemsTask.sortField = m.sortField
     m.loadItemsTask.sortAscending = m.sortAscending
     m.loadItemsTask.filter = m.filter
+    m.loadItemsTask.filterOptions = m.filterOptions
     m.loadItemsTask.startIndex = 0
 
     ' Load Item Types
@@ -259,7 +271,101 @@ sub loadInitialItems()
     m.loadItemsTask.observeField("content", "ItemDataLoaded")
     startLoadingSpinner(false)
     m.loadItemsTask.control = "RUN"
-    SetUpOptions()
+
+    m.getFiltersTask.observeField("filters", "FilterDataLoaded")
+    m.getFiltersTask.params = {
+        userid: m.global.session.user.id,
+        parentid: m.top.parentItem.Id,
+        IncludeItemTypes: "Series"
+    }
+    m.getFiltersTask.control = TaskControl.RUN
+end sub
+
+'
+' Filter Data Loaded Event Handler
+sub FilterDataLoaded(msg)
+    if not getCollectionType() = "tvshows" then return
+
+    options = {}
+    options.filter = []
+    options.favorite = []
+
+    setTvShowsOptions(options)
+
+    if m.view = "Shows" or m.options.view = "Shows"
+        data = msg.GetData()
+        m.getFiltersTask.unobserveField("filters")
+
+        if not isValid(data) then return
+
+        ' Add filters from the API data
+        if isValid(data.genres)
+            options.filter.push({ "Title": tr("Genres"), "Name": "Genres", "Options": data.genres, "Delimiter": "|", "CheckedState": [] })
+        end if
+        if isValid(data.Years)
+            options.filter.push({ "Title": tr("Years"), "Name": "Years", "Options": data.Years, "Delimiter": ",", "CheckedState": [] })
+        end if
+    end if
+
+    setSelectedOptions(options)
+
+    m.options.options = options
+end sub
+
+' Data to display when options button selected
+sub setSelectedOptions(options)
+
+    ' Set selected view option
+    for each o in options.views
+        if o.Name = m.view
+            o.Selected = true
+            o.Ascending = m.sortAscending
+            m.options.view = o.Name
+        end if
+    end for
+
+    ' Set selected sort option
+    for each o in options.sort
+        if o.Name = m.sortField
+            o.Selected = true
+            o.Ascending = m.sortAscending
+            m.options.sortField = o.Name
+        end if
+    end for
+
+    ' Set selected filter
+    for each o in options.filter
+        if o.Name = m.filter
+            o.Selected = true
+            m.options.filter = o.Name
+        end if
+
+        ' Select selected filter options
+        if isValid(o.options) and isValid(m.filterOptions)
+            if o.options.Count() > 0 and m.filterOptions.Count() > 0
+                if LCase(o.Name) = LCase(m.filterOptions.keys()[0])
+                    selectedFilterOptions = m.filterOptions[m.filterOptions.keys()[0]].split(o.delimiter)
+                    checkedState = []
+
+                    for each availableFilterOption in o.options
+                        matchFound = false
+
+                        for each selectedFilterOption in selectedFilterOptions
+                            if LCase(toString(availableFilterOption).trim()) = LCase(selectedFilterOption.trim())
+                                matchFound = true
+                            end if
+                        end for
+
+                        checkedState.push(matchFound)
+                    end for
+
+                    o.checkedState = checkedState
+                end if
+            end if
+        end if
+    end for
+
+    m.options.options = options
 end sub
 
 ' Set Movies view, sort, and filter options
@@ -335,6 +441,10 @@ sub setTvShowsOptions(options)
 
     if isValid(m.view)
         if LCase(m.options.view) = "genres" or LCase(m.view) = "genres"
+            options.sort = [{ "Title": tr("TITLE"), "Name": "SortName" }]
+            options.filter = []
+        end if
+        if LCase(m.options.view) = "networks" or LCase(m.view) = "networks"
             options.sort = [{ "Title": tr("TITLE"), "Name": "SortName" }]
             options.filter = []
         end if
@@ -429,7 +539,7 @@ sub SetUpOptions()
     else if inStringArray(["boxsets", "Boxset"], getCollectionType())
         setBoxsetsOptions(options)
     else if getCollectionType() = "tvshows"
-        setTvShowsOptions(options)
+        return
     else if getCollectionType() = "livetv"
         setLiveTvOptions(options)
     else if inStringArray(["photoalbum", "photo", "homevideos"], getCollectionType())
@@ -706,6 +816,10 @@ sub optionsClosed()
         if m.options.view <> m.view
             'reload and store new view setting
             m.view = m.options.view
+            m.filter = "All"
+            m.filterOptions = {}
+            set_user_setting("display." + m.top.parentItem.Id + ".filter", m.filter)
+            set_user_setting("display." + m.top.parentItem.Id + ".filterOptions", FormatJson(m.filterOptions))
             set_user_setting("display." + m.top.parentItem.Id + ".landing", m.view)
             reload = true
         end if
@@ -731,6 +845,7 @@ sub optionsClosed()
             set_user_setting("display." + m.top.parentItem.Id + ".sortAscending", sortAscendingStr)
         end if
     end if
+
     if m.options.filter <> m.filter
         m.filter = m.options.filter
         updateTitle()
@@ -742,6 +857,17 @@ sub optionsClosed()
             set_user_setting("display." + m.top.parentItem.Id + ".filter", m.options.filter)
         end if
     end if
+
+    if not isValid(m.options.filterOptions)
+        m.filterOptions = {}
+    end if
+
+    if not AssocArrayEqual(m.options.filterOptions, m.filterOptions)
+        m.filterOptions = m.options.filterOptions
+        reload = true
+        set_user_setting("display." + m.top.parentItem.Id + ".filterOptions", FormatJson(m.options.filterOptions))
+    end if
+
     if reload
         m.loadedRows = 0
         m.loadedItems = 0
