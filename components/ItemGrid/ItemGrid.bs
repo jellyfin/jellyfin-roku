@@ -234,6 +234,17 @@ sub loadInitialItems()
             m.loadItemsTask.recursive = false
         end if
 
+        if getCollectionType() = "boxsets"
+            m.top.showItemTitles = m.global.session.user.settings["itemgrid.gridTitles"]
+            if LCase(m.top.showItemTitles) = "hidealways"
+                m.itemGrid.itemSize = "[230, 345]"
+                m.itemGrid.rowHeights = "[345]"
+            else
+                m.itemGrid.itemSize = "[230, 390]"
+                m.itemGrid.rowHeights = "[390]"
+            end if
+        end if
+
         if getCollectionType() = "nextup"
             m.loadItemsTask.itemType = "NextUp"
             m.itemGrid.itemComponentName = "GridItemMedium"
@@ -271,6 +282,8 @@ sub loadInitialItems()
     m.loadItemsTask.observeField("content", "ItemDataLoaded")
     startLoadingSpinner(false)
     m.loadItemsTask.control = "RUN"
+
+    SetUpOptions()
 
     m.getFiltersTask.observeField("filters", "FilterDataLoaded")
     m.getFiltersTask.params = {
@@ -403,7 +416,7 @@ end sub
 
 ' Set Boxset view, sort, and filter options
 sub setBoxsetsOptions(options)
-    options.views = [{ "Title": tr("Shows"), "Name": "shows" }]
+    options.views = [{ "Title": tr("Collections"), "Name": "Collections" }]
     options.sort = [
         { "Title": tr("TITLE"), "Name": "SortName" },
         { "Title": tr("DATE_ADDED"), "Name": "DateCreated" },
