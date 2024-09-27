@@ -296,9 +296,14 @@ sub FilterDataLoaded(msg)
         data = msg.GetData()
         m.getFiltersTask.unobserveField("filters")
 
+        options.filter.push({ "Title": tr("Status"), "Name": "SeriesStatus", "Options": ["Continuing", "Ended", "Unreleased"], "Delimiter": ",", "CheckedState": [] })
+
         if not isValid(data) then return
 
         ' Add filters from the API data
+        if isValid(data.OfficialRatings)
+            options.filter.push({ "Title": tr("Parental Ratings"), "Name": "OfficialRatings", "Options": data.OfficialRatings, "Delimiter": "|", "CheckedState": [] })
+        end if
         if isValid(data.genres)
             options.filter.push({ "Title": tr("Genres"), "Name": "Genres", "Options": data.genres, "Delimiter": "|", "CheckedState": [] })
         end if
