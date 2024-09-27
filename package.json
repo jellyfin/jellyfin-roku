@@ -15,22 +15,13 @@
     "roku-deploy": "3.12.1",
     "rooibos-roku": "5.13.0",
     "ropm": "0.10.25",
-    "spellchecker-cli": "6.2.0",
     "undent": "0.1.0"
   },
   "scripts": {
     "build": "npx rimraf build/ out/ && npx bsc --project bsconfig.json",
     "build-tests": "npx rimraf build/ out/ && npx bsc --project bsconfig-tests.json",
-    "check-formatting": "npx bsfmt --check",
-    "format": "npx bsfmt --write",
-    "lint": "npm run check-formatting && npm run lint-bs && npm run validate && npm run lint-json && npm run lint-markdown && npm run lint-spelling",
-    "lint-bs": "bslint",
-    "lint-json": "jshint --extra-ext .json --verbose --exclude node_modules,scripts",
-    "lint-markdown": "markdownlint-cli2 \"**/*.md\" \"#node_modules\"",
-    "lint-spelling": "spellchecker -d dictionary.txt --files \"**/*.md\" \"**/.*/**/*.md\" \"!node_modules/**/*.md\"",
     "postinstall": "npm run ropm",
-    "ropm": "ropm copy && node scripts/ropm-hook.cjs",
-    "validate": "npx bsc --copy-to-staging=false --create-package=false"
+    "ropm": "ropm copy && node scripts/ropm-hook.cjs"
   },
   "repository": {
     "type": "git",
