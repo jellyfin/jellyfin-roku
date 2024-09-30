@@ -29,6 +29,7 @@ sub setupNodes()
 end sub
 
 sub init()
+    myGlobal = m.global
     setupNodes()
 
     m.overhang.isVisible = false
@@ -39,7 +40,7 @@ sub init()
     alphaMicText = m.alpha.findNode("alphaMicText")
     alphaMicText.visible = false
 
-    m.showItemCount = m.global.session.user.settings["itemgrid.showItemCount"]
+    m.showItemCount = myGlobal.session.user.settings["itemgrid.showItemCount"]
 
     m.swapAnimation.observeField("state", "swapDone")
 
@@ -86,7 +87,7 @@ sub init()
     m.loadItemsTask.totalRecordCount = 0
 
     'Get reset folder setting
-    m.resetGrid = m.global.session.user.settings["itemgrid.reset"]
+    m.resetGrid = myGlobal.session.user.settings["itemgrid.reset"]
 end sub
 
 sub OnScreenHidden()
@@ -112,6 +113,7 @@ end sub
 sub loadInitialItems()
     m.loadItemsTask.control = "stop"
     startLoadingSpinner(false)
+    myGlobal = m.global
 
     if m.top.parentItem.json.Type = "CollectionFolder"
         m.top.HomeLibraryItem = m.top.parentItem.Id
@@ -123,15 +125,15 @@ sub loadInitialItems()
         SetBackground("")
     end if
 
-    m.sortField = m.global.session.user.settings["display." + m.top.parentItem.Id + ".sortField"]
-    m.filter = m.global.session.user.settings["display." + m.top.parentItem.Id + ".filter"]
-    m.filterOptions = m.global.session.user.settings["display." + m.top.parentItem.Id + ".filterOptions"]
-    m.view = m.global.session.user.settings["display." + m.top.parentItem.Id + ".landing"]
-    m.sortAscending = m.global.session.user.settings["display." + m.top.parentItem.Id + ".sortAscending"]
+    m.sortField = myGlobal.session.user.settings["display." + m.top.parentItem.Id + ".sortField"]
+    m.filter = myGlobal.session.user.settings["display." + m.top.parentItem.Id + ".filter"]
+    m.filterOptions = myGlobal.session.user.settings["display." + m.top.parentItem.Id + ".filterOptions"]
+    m.view = myGlobal.session.user.settings["display." + m.top.parentItem.Id + ".landing"]
+    m.sortAscending = myGlobal.session.user.settings["display." + m.top.parentItem.Id + ".sortAscending"]
 
     ' If user has not set a preferred view for this folder, check if they've set a default view
     if not isValid(m.view)
-        m.view = m.global.session.user.settings["itemgrid.movieDefaultView"]
+        m.view = myGlobal.session.user.settings["itemgrid.movieDefaultView"]
     end if
 
     if not isValid(m.sortField) then m.sortField = "SortName"
@@ -200,7 +202,7 @@ sub loadInitialItems()
         m.itemGrid.numRows = "3"
         m.selectedMovieOverview.visible = false
         m.infoGroup.visible = false
-        m.top.showItemTitles = m.global.session.user.settings["itemgrid.gridTitles"]
+        m.top.showItemTitles = myGlobal.session.user.settings["itemgrid.gridTitles"]
         if LCase(m.top.showItemTitles) = "hidealways"
             m.itemGrid.itemSize = "[230, 315]"
             m.itemGrid.rowHeights = "[315]"
@@ -222,7 +224,7 @@ sub loadInitialItems()
 
     m.getFiltersTask.observeField("filters", "FilterDataLoaded")
     m.getFiltersTask.params = {
-        userid: m.global.session.user.id,
+        userid: myGlobal.session.user.id,
         parentid: m.top.parentItem.Id,
         includeitemtypes: "Movie"
     }

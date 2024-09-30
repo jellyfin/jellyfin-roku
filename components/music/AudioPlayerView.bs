@@ -4,14 +4,18 @@ import "pkg:/source/api/baserequest.bs"
 import "pkg:/source/utils/config.bs"
 
 sub init()
+    myGlobal = m.global
     m.top.optionsAvailable = false
     m.inScrubMode = false
     m.lastRecordedPositionTimestamp = 0
     m.scrubTimestamp = -1
 
-    m.playlistTypeCount = m.global.queueManager.callFunc("getQueueUniqueTypes").count()
+    m.playlistTypeCount = myGlobal.queueManager.callFunc("getQueueUniqueTypes").count()
 
-    setupAudioNode()
+    myGlobal.audioPlayer.observeField("state", "audioStateChanged")
+    myGlobal.audioPlayer.observeField("position", "audioPositionChanged")
+    myGlobal.audioPlayer.observeField("bufferingStatus", "bufferPositionChanged")
+
     setupAnimationTasks()
     setupButtons()
     setupInfoNodes()
@@ -91,13 +95,6 @@ sub setupDataTasks()
     m.LoadScreenSaverTimeoutTask = CreateObject("roSGNode", "LoadScreenSaverTimeoutTask")
 end sub
 
-' Creates audio node used to play song(s)
-sub setupAudioNode()
-    m.global.audioPlayer.observeField("state", "audioStateChanged")
-    m.global.audioPlayer.observeField("position", "audioPositionChanged")
-    m.global.audioPlayer.observeField("bufferingStatus", "bufferPositionChanged")
-end sub
-
 ' Setup playback buttons, default to Play button selected
 sub setupButtons()
     m.buttons = m.top.findNode("buttons")
@@ -148,11 +145,12 @@ end sub
 
 sub bufferPositionChanged()
     if m.inScrubMode then return
+    myGlobal = m.global
 
-    if not isValid(m.global.audioPlayer.bufferingStatus)
+    if not isValid(myGlobal.audioPlayer.bufferingStatus)
         bufferPositionBarWidth = m.seekBar.width
     else
-        bufferPositionBarWidth = m.seekBar.width * m.global.audioPlayer.bufferingStatus.percentage
+        bufferPositionBarWidth = m.seekBar.width * myGlobal.audioPlayer.bufferingStatus.percentage
     end if
 
     ' Ensure position bar is never wider than the seek bar
@@ -167,17 +165,18 @@ end sub
 
 sub audioPositionChanged()
     stopLoadingSpinner()
+    myGlobal = m.global
 
-    if m.global.audioPlayer.position = 0
+    if myGlobal.audioPlayer.position = 0
         m.playPosition.width = 0
     end if
 
-    if not isValid(m.global.audioPlayer.position)
+    if not isValid(myGlobal.audioPlayer.position)
         playPositionBarWidth = 0
     else if not isValid(m.songDuration)
         playPositionBarWidth = 0
     else
-        songPercentComplete = m.global.audioPlayer.position / m.songDuration
+        songPercentComplete = myGlobal.audioPlayer.position / m.songDuration
         playPositionBarWidth = m.seekBar.width * songPercentComplete
     end if
 
@@ -189,7 +188,7 @@ sub audioPositionChanged()
     if not m.inScrubMode
         moveSeekbarThumb(playPositionBarWidth)
         ' Change the seek position timestamp
-        m.seekTimestamp.text = secondsToHuman(m.global.audioPlayer.position, false)
+        m.seekTimestamp.text = secondsToHuman(myGlobal.audioPlayer.position, false)
     end if
 
     ' Use animation to make the display smooth
@@ -197,9 +196,9 @@ sub audioPositionChanged()
     m.playPositionAnimation.control = "start"
 
     ' Update displayed position timestamp
-    if isValid(m.global.audioPlayer.position)
-        m.lastRecordedPositionTimestamp = m.global.audioPlayer.position
-        m.positionTimestamp.text = secondsToHuman(m.global.audioPlayer.position, false)
+    if isValid(myGlobal.audioPlayer.position)
+        m.lastRecordedPositionTimestamp = myGlobal.audioPlayer.position
+        m.positionTimestamp.text = secondsToHuman(myGlobal.audioPlayer.position, false)
     else
         m.lastRecordedPositionTimestamp = 0
         m.positionTimestamp.text = "0:00"
@@ -247,25 +246,25 @@ sub endScreenSaver()
 end sub
 
 sub audioStateChanged()
-
+    myGlobal = m.global
     ' Song Finished, attempt to move to next song
-    if m.global.audioPlayer.state = "finished"
+    if myGlobal.audioPlayer.state = "finished"
         ' User has enabled single song loop, play current song again
-        if m.global.audioPlayer.loopMode = "one"
+        if myGlobal.audioPlayer.loopMode = "one"
             m.scrubTimestamp = -1
             playAction()
             exitScrubMode()
             return
         end if
 
-        if m.global.queueManager.callFunc("getPosition") < m.global.queueManager.callFunc("getCount") - 1
+        if myGlobal.queueManager.callFunc("getPosition") < myGlobal.queueManager.callFunc("getCount") - 1
             m.top.state = "finished"
         else
             ' We are at the end of the song queue
 
             ' User has enabled loop for entire song queue, move back to first song
-            if m.global.audioPlayer.loopMode = "all"
-                m.global.queueManager.callFunc("setPosition", -1)
+            if myGlobal.audioPlayer.loopMode = "all"
+                myGlobal.queueManager.callFunc("setPosition", -1)
                 LoadNextSong()
                 return
             end if
@@ -277,18 +276,19 @@ sub audioStateChanged()
 end sub
 
 function playAction() as boolean
-    if m.global.audioPlayer.state = "playing"
-        m.global.audioPlayer.control = "pause"
+    myGlobal = m.global
+    if myGlobal.audioPlayer.state = "playing"
+        myGlobal.audioPlayer.control = "pause"
         ' Allow screen to go to real screensaver
         WriteAsciiFile("tmp:/scene.temp", "nowplaying-paused")
         MoveFile("tmp:/scene.temp", "tmp:/scene")
-    else if m.global.audioPlayer.state = "paused"
-        m.global.audioPlayer.control = "resume"
+    else if myGlobal.audioPlayer.state = "paused"
+        myGlobal.audioPlayer.control = "resume"
         ' Write screen tracker for screensaver
         WriteAsciiFile("tmp:/scene.temp", "nowplaying")
         MoveFile("tmp:/scene.temp", "tmp:/scene")
-    else if m.global.audioPlayer.state = "finished"
-        m.global.audioPlayer.control = "play"
+    else if myGlobal.audioPlayer.state = "finished"
+        myGlobal.audioPlayer.control = "play"
         ' Write screen tracker for screensaver
         WriteAsciiFile("tmp:/scene.temp", "nowplaying")
         MoveFile("tmp:/scene.temp", "tmp:/scene")
@@ -298,20 +298,21 @@ function playAction() as boolean
 end function
 
 function previousClicked() as boolean
-    currentQueuePosition = m.global.queueManager.callFunc("getPosition")
+    myGlobal = m.global
+    currentQueuePosition = myGlobal.queueManager.callFunc("getPosition")
 
     if currentQueuePosition = 0 then return false
 
     if m.playlistTypeCount > 1
-        previousItem = m.global.queueManager.callFunc("getItemByIndex", currentQueuePosition - 1)
-        previousItemType = m.global.queueManager.callFunc("getItemType", previousItem)
+        previousItem = myGlobal.queueManager.callFunc("getItemByIndex", currentQueuePosition - 1)
+        previousItemType = myGlobal.queueManager.callFunc("getItemType", previousItem)
 
         if previousItemType <> "audio"
-            m.global.audioPlayer.control = "stop"
+            myGlobal.audioPlayer.control = "stop"
 
-            m.global.sceneManager.callFunc("clearPreviousScene")
-            m.global.queueManager.callFunc("moveBack")
-            m.global.queueManager.callFunc("playQueue")
+            myGlobal.sceneManager.callFunc("clearPreviousScene")
+            myGlobal.queueManager.callFunc("moveBack")
+            myGlobal.queueManager.callFunc("playQueue")
             return true
         end if
     end if
@@ -321,16 +322,16 @@ function previousClicked() as boolean
     m.lastRecordedPositionTimestamp = 0
     m.positionTimestamp.text = "0:00"
 
-    if m.global.audioPlayer.state = "playing"
-        m.global.audioPlayer.control = "stop"
+    if myGlobal.audioPlayer.state = "playing"
+        myGlobal.audioPlayer.control = "stop"
     end if
 
     ' Reset loop mode due to manual user interaction
-    if m.global.audioPlayer.loopMode = "one"
+    if myGlobal.audioPlayer.loopMode = "one"
         resetLoopModeToDefault()
     end if
 
-    m.global.queueManager.callFunc("moveBack")
+    myGlobal.queueManager.callFunc("moveBack")
     pageContentChanged()
 
     return true
@@ -342,13 +343,13 @@ sub resetLoopModeToDefault()
 end sub
 
 function loopClicked() as boolean
-
-    if m.global.audioPlayer.loopMode = ""
-        m.global.audioPlayer.loopMode = "all"
-    else if m.global.audioPlayer.loopMode = "all"
-        m.global.audioPlayer.loopMode = "one"
+    myGlobal = m.global
+    if myGlobal.audioPlayer.loopMode = ""
+        myGlobal.audioPlayer.loopMode = "all"
+    else if myGlobal.audioPlayer.loopMode = "all"
+        myGlobal.audioPlayer.loopMode = "one"
     else
-        m.global.audioPlayer.loopMode = ""
+        myGlobal.audioPlayer.loopMode = ""
     end if
 
     setLoopButtonImage()
@@ -357,10 +358,12 @@ function loopClicked() as boolean
 end function
 
 sub setLoopButtonImage()
-    if m.global.audioPlayer.loopMode = "all"
+    myGlobal = m.global
+
+    if myGlobal.audioPlayer.loopMode = "all"
         m.loopIndicator.opacity = "1"
         m.loopIndicator.uri = m.loopIndicator.uri.Replace("-off", "-on")
-    else if m.global.audioPlayer.loopMode = "one"
+    else if myGlobal.audioPlayer.loopMode = "one"
         m.loopIndicator.uri = m.loopIndicator.uri.Replace("-on", "1-on")
     else
         m.loopIndicator.uri = m.loopIndicator.uri.Replace("1-on", "-off")
@@ -368,19 +371,21 @@ sub setLoopButtonImage()
 end sub
 
 function nextClicked() as boolean
-    if m.playlistTypeCount > 1
-        currentQueuePosition = m.global.queueManager.callFunc("getPosition")
-        if currentQueuePosition < m.global.queueManager.callFunc("getCount") - 1
+    myGlobal = m.global
 
-            nextItem = m.global.queueManager.callFunc("getItemByIndex", currentQueuePosition + 1)
-            nextItemType = m.global.queueManager.callFunc("getItemType", nextItem)
+    if m.playlistTypeCount > 1
+        currentQueuePosition = myGlobal.queueManager.callFunc("getPosition")
+        if currentQueuePosition < myGlobal.queueManager.callFunc("getCount") - 1
+
+            nextItem = myGlobal.queueManager.callFunc("getItemByIndex", currentQueuePosition + 1)
+            nextItemType = myGlobal.queueManager.callFunc("getItemType", nextItem)
 
             if nextItemType <> "audio"
-                m.global.audioPlayer.control = "stop"
+                myGlobal.audioPlayer.control = "stop"
 
-                m.global.sceneManager.callFunc("clearPreviousScene")
-                m.global.queueManager.callFunc("moveForward")
-                m.global.queueManager.callFunc("playQueue")
+                myGlobal.sceneManager.callFunc("clearPreviousScene")
+                myGlobal.queueManager.callFunc("moveForward")
+                myGlobal.queueManager.callFunc("playQueue")
                 return true
             end if
         end if
@@ -392,11 +397,11 @@ function nextClicked() as boolean
     m.positionTimestamp.text = "0:00"
 
     ' Reset loop mode due to manual user interaction
-    if m.global.audioPlayer.loopMode = "one"
+    if myGlobal.audioPlayer.loopMode = "one"
         resetLoopModeToDefault()
     end if
 
-    if m.global.queueManager.callFunc("getPosition") < m.global.queueManager.callFunc("getCount") - 1
+    if myGlobal.queueManager.callFunc("getPosition") < myGlobal.queueManager.callFunc("getCount") - 1
         LoadNextSong()
     end if
 
@@ -409,9 +414,10 @@ end sub
 
 function findCurrentSongIndex(songList) as integer
     if not isValidAndNotEmpty(songList) then return 0
+    myGlobal = m.global
 
     for i = 0 to songList.count() - 1
-        if songList[i].id = m.global.queueManager.callFunc("getCurrentItem").id
+        if songList[i].id = myGlobal.queueManager.callFunc("getCurrentItem").id
             return i
         end if
     end for
@@ -420,15 +426,15 @@ function findCurrentSongIndex(songList) as integer
 end function
 
 function shuffleClicked() as boolean
-
-    currentSongIndex = findCurrentSongIndex(m.global.queueManager.callFunc("getUnshuffledQueue"))
+    myGlobal = m.global
+    currentSongIndex = findCurrentSongIndex(myGlobal.queueManager.callFunc("getUnshuffledQueue"))
 
     toggleShuffleEnabled()
 
-    if not m.global.queueManager.callFunc("getIsShuffled")
+    if not myGlobal.queueManager.callFunc("getIsShuffled")
         m.shuffleIndicator.opacity = ".4"
         m.shuffleIndicator.uri = m.shuffleIndicator.uri.Replace("-on", "-off")
-        m.global.queueManager.callFunc("setPosition", currentSongIndex)
+        myGlobal.queueManager.callFunc("setPosition", currentSongIndex)
         setTrackNumberDisplay()
         return true
     end if
@@ -448,19 +454,22 @@ sub setShuffleIconState()
 end sub
 
 sub setTrackNumberDisplay()
-    setFieldTextValue("numberofsongs", "Track " + stri(m.global.queueManager.callFunc("getPosition") + 1) + "/" + stri(m.global.queueManager.callFunc("getCount")))
+    myGlobal = m.global
+    setFieldTextValue("numberofsongs", "Track " + stri(myGlobal.queueManager.callFunc("getPosition") + 1) + "/" + stri(myGlobal.queueManager.callFunc("getCount")))
 end sub
 
 sub LoadNextSong()
-    if m.global.audioPlayer.state = "playing"
-        m.global.audioPlayer.control = "stop"
+    myGlobal = m.global
+
+    if myGlobal.audioPlayer.state = "playing"
+        myGlobal.audioPlayer.control = "stop"
     end if
 
     exitScrubMode()
 
     ' Reset playPosition bar without animation
     m.playPosition.width = 0
-    m.global.queueManager.callFunc("moveForward")
+    myGlobal.queueManager.callFunc("moveForward")
     pageContentChanged()
 end sub
 
@@ -491,11 +500,13 @@ sub onAudioStreamLoaded()
     data = m.LoadAudioStreamTask.content[0]
     m.LoadAudioStreamTask.unobserveField("content")
     if data <> invalid and data.count() > 0
+        myGlobal = m.global
+
         ' Reset buffer bar without animation
         m.bufferPosition.width = 0
 
         useMetaTask = false
-        currentItem = m.global.queueManager.callFunc("getCurrentItem")
+        currentItem = myGlobal.queueManager.callFunc("getCurrentItem")
 
         if not isValid(currentItem.RunTimeTicks)
             useMetaTask = true
@@ -531,9 +542,9 @@ sub onAudioStreamLoaded()
             m.totalLengthTimestamp.text = ticksToHuman(currentItem.RunTimeTicks)
         end if
 
-        m.global.audioPlayer.content = data
-        m.global.audioPlayer.control = "none"
-        m.global.audioPlayer.control = "play"
+        myGlobal.audioPlayer.content = data
+        myGlobal.audioPlayer.control = "none"
+        myGlobal.audioPlayer.control = "play"
     end if
 end sub
 
@@ -773,8 +784,9 @@ function onKeyEvent(key as string, press as boolean) as boolean
         end if
 
         if key = "back"
-            m.global.audioPlayer.control = "stop"
-            m.global.audioPlayer.loopMode = ""
+            myGlobal = m.global
+            myGlobal.audioPlayer.control = "stop"
+            myGlobal.audioPlayer.loopMode = ""
         else if key = "rewind"
             return previousClicked()
         else if key = "fastforward"

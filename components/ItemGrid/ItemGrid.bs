@@ -7,9 +7,11 @@ import "pkg:/source/roku_modules/log/LogMixin.brs"
 sub init()
     m.log = log.Logger("ItemGrid")
     m.log.debug("start init()")
+    myGlobal = m.global
+
     m.options = m.top.findNode("options")
 
-    m.showItemCount = m.global.session.user.settings["itemgrid.showItemCount"]
+    m.showItemCount = myGlobal.session.user.settings["itemgrid.showItemCount"]
 
     m.tvGuide = invalid
     m.channelFocused = invalid
@@ -68,9 +70,9 @@ sub init()
     m.alphaMenu = m.alpha.findNode("alphaMenu")
 
     'Get reset folder setting
-    m.resetGrid = m.global.session.user.settings["itemgrid.reset"]
+    m.resetGrid = myGlobal.session.user.settings["itemgrid.reset"]
 
-    m.top.gridTitles = m.global.session.user.settings["itemgrid.gridTitles"]
+    m.top.gridTitles = myGlobal.session.user.settings["itemgrid.gridTitles"]
     m.log.debug("end init()")
 end sub
 
@@ -84,6 +86,7 @@ sub loadInitialItems()
     m.log.debug("start loadInitialItems()")
     m.loadItemsTask.control = "stop"
     startLoadingSpinner()
+    myGlobal = m.global
 
     if m.top.parentItem.json.Type = "CollectionFolder" 'or m.top.parentItem.json.Type = "Folder"
         m.top.HomeLibraryItem = m.top.parentItem.Id
@@ -96,25 +99,25 @@ sub loadInitialItems()
     ' Read view/sort/filter settings
     if m.top.parentItem.collectionType = "livetv"
         ' Translate between app and server nomenclature
-        viewSetting = m.global.session.user.settings["display.livetv.landing"]
+        viewSetting = myGlobal.session.user.settings["display.livetv.landing"]
         if viewSetting = "guide"
             m.view = "tvGuide"
         else
             m.view = "livetv"
         end if
-        m.sortField = m.global.session.user.settings["display.livetv.sortField"]
-        sortAscendingStr = m.global.session.user.settings["display.livetv.sortAscending"]
-        m.filter = m.global.session.user.settings["display.livetv.filter"]
+        m.sortField = myGlobal.session.user.settings["display.livetv.sortField"]
+        sortAscendingStr = myGlobal.session.user.settings["display.livetv.sortAscending"]
+        m.filter = myGlobal.session.user.settings["display.livetv.filter"]
     else if m.top.parentItem.collectionType = "music"
-        m.view = m.global.session.user.settings["display.music.view"]
-        m.sortField = m.global.session.user.settings["display." + m.top.parentItem.Id + ".sortField"]
-        sortAscendingStr = m.global.session.user.settings["display." + m.top.parentItem.Id + ".sortAscending"]
-        m.filter = m.global.session.user.settings["display." + m.top.parentItem.Id + ".filter"]
+        m.view = myGlobal.session.user.settings["display.music.view"]
+        m.sortField = myGlobal.session.user.settings["display." + m.top.parentItem.Id + ".sortField"]
+        sortAscendingStr = myGlobal.session.user.settings["display." + m.top.parentItem.Id + ".sortAscending"]
+        m.filter = myGlobal.session.user.settings["display." + m.top.parentItem.Id + ".filter"]
     else
-        m.sortField = m.global.session.user.settings["display." + m.top.parentItem.Id + ".sortField"]
-        sortAscendingStr = m.global.session.user.settings["display." + m.top.parentItem.Id + ".sortAscending"]
-        m.filter = m.global.session.user.settings["display." + m.top.parentItem.Id + ".filter"]
-        m.view = m.global.session.user.settings["display." + m.top.parentItem.Id + ".landing"]
+        m.sortField = myGlobal.session.user.settings["display." + m.top.parentItem.Id + ".sortField"]
+        sortAscendingStr = myGlobal.session.user.settings["display." + m.top.parentItem.Id + ".sortAscending"]
+        m.filter = myGlobal.session.user.settings["display." + m.top.parentItem.Id + ".filter"]
+        m.view = myGlobal.session.user.settings["display." + m.top.parentItem.Id + ".landing"]
     end if
 
     if m.sortField = invalid
@@ -180,7 +183,7 @@ sub loadInitialItems()
         m.loadItemsTask.itemType = "MusicArtist"
         m.loadItemsTask.itemId = m.top.parentItem.Id
 
-        m.view = m.global.session.user.settings["display.music.view"]
+        m.view = myGlobal.session.user.settings["display.music.view"]
 
         if m.view = "music-album"
             m.loadItemsTask.itemType = "MusicAlbum"
@@ -191,7 +194,7 @@ sub loadInitialItems()
         ' For LiveTV, we want to "Fit" the item images, not zoom
         m.top.imageDisplayMode = "scaleToFit"
 
-        if m.global.session.user.settings["display.livetv.landing"] = "guide" and m.options.view <> "livetv"
+        if myGlobal.session.user.settings["display.livetv.landing"] = "guide" and m.options.view <> "livetv"
             showTvGuide()
         end if
     else if m.top.parentItem.collectionType = "CollectionFolder" or m.top.parentItem.type = "CollectionFolder" or m.top.parentItem.collectionType = "boxsets" or m.top.parentItem.Type = "Boxset" or m.top.parentItem.Type = "Boxsets" or m.top.parentItem.Type = "Folder" or m.top.parentItem.Type = "Channel"
