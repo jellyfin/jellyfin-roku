@@ -132,17 +132,17 @@ namespace quickplay
         artistSongs = api.users.GetItemsByQuery(m.global.session.user.id, {
             "artistIds": itemNode.id,
             "includeItemTypes": "Audio",
-            "sortBy": "Album",
+            "sortBy": "random",
             "limit": 2000,
             "imageTypeLimit": 1,
             "Recursive": true,
             "enableUserData": false,
             "EnableTotalRecordCount": false
         })
-        print "artistSongs=", artistSongs
 
         if isValid(artistSongs) and isValidAndNotEmpty(artistSongs.items)
-            quickplay.pushToQueue(artistSongs.items, true)
+            m.global.queueManager.callFunc("set", artistSongs.items)
+            m.global.queueManager.callFunc("toggleShuffle")
         else
             stopLoadingSpinner()
         end if
