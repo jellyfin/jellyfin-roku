@@ -1,5 +1,6 @@
 import "pkg:/source/utils/misc.bs"
 import "pkg:/source/utils/config.bs"
+import "pkg:/source/utils/session.bs"
 import "pkg:/source/roku_modules/log/LogMixin.brs"
 
 sub init()
@@ -102,6 +103,7 @@ sub handleItemSkipAction(action as string)
         ' If there is something next in the queue, play it
         if m.global.queueManager.callFunc("getPosition") < m.global.queueManager.callFunc("getCount") - 1
             m.top.control = "stop"
+            session.video.Delete()
             m.global.sceneManager.callFunc("clearPreviousScene")
             m.global.queueManager.callFunc("moveForward")
             m.global.queueManager.callFunc("playQueue")
@@ -114,6 +116,7 @@ sub handleItemSkipAction(action as string)
         ' If there is something previous in the queue, play it
         if m.global.queueManager.callFunc("getPosition") > 0
             m.top.control = "stop"
+            session.video.Delete()
             m.global.sceneManager.callFunc("clearPreviousScene")
             m.global.queueManager.callFunc("moveBack")
             m.global.queueManager.callFunc("playQueue")
@@ -612,18 +615,11 @@ sub onState(msg)
     ' Pass video state into OSD
     m.osd.playbackState = m.top.state
 
-    ' When buffering, start timer to monitor buffering process
     if m.top.state = "buffering"
-        ' start buffer timer
+        ' When buffering, start timer to monitor buffering process
         if isValid(m.bufferCheckTimer)
             m.bufferCheckTimer.control = "start"
             m.bufferCheckTimer.ObserveField("fire", "bufferCheck")
-        end if
-
-        ' update server if needed
-        if not m.playReported
-            m.playReported = true
-            ReportPlayback("start")
         end if
     else if m.top.state = "error"
         m.log.error(m.top.errorCode, m.top.errorMsg, m.top.errorStr, m.top.errorCode)
@@ -635,10 +631,10 @@ sub onState(msg)
         else
             ' If an error was encountered, Display dialog
             showPlaybackErrorDialog(tr("Error During Playback"))
+            session.video.Delete()
         end if
 
-        ' Stop playback and exit player
-        m.top.control = "stop"
+
     else if m.top.state = "playing"
 
         ' Check if next episode is available
@@ -664,9 +660,11 @@ sub onState(msg)
         m.playbackTimer.control = "stop"
         ReportPlayback("stop")
         m.playReported = false
+        session.video.Delete()
     else if m.top.state = "finished"
         m.playbackTimer.control = "stop"
         ReportPlayback("finished")
+        session.video.Delete()
     else
         m.log.warning("Unhandled state", m.top.state, m.playReported, m.playFinished)
     end if
@@ -725,6 +723,7 @@ sub bufferCheck(msg)
 
             ' Stop playback and exit player
             m.top.control = "stop"
+            session.video.Delete()
         end if
     end if
 
@@ -794,6 +793,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
     if key = "OK" and m.nextEpisodeButton.hasfocus() and not m.top.trickPlayBar.visible
         m.top.control = "stop"
         m.top.state = "finished"
+        session.video.Delete()
         hideNextEpisodeButton()
         return true
     else
@@ -868,6 +868,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
     if key = "back"
         m.top.control = "stop"
+        session.video.Delete()
     end if
 
     return false

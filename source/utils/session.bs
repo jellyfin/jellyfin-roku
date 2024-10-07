@@ -16,6 +16,9 @@ namespace session
                     Policy: {},
                     settings: {},
                     lastRunVersion: invalid
+                },
+                video: {
+                    json: {}
                 }
             }
         })
@@ -31,7 +34,7 @@ namespace session
     ' Update one value from the global session array (m.global.session)
     sub Update(key as string, value = {} as object)
         ' validate parameters
-        if key = "" or (key <> "user" and key <> "server") or value = invalid
+        if key = "" or (key <> "user" and key <> "server" and key <> "video") or value = invalid
             print "Error in session.Update(): Invalid parameters provided"
             return
         end if
@@ -429,5 +432,20 @@ namespace session
                 session.user.Update("settings", tmpSettingArray)
             end sub
         end namespace
+    end namespace
+
+    namespace video
+        ' Return the global video session array to it's default state
+        sub Delete()
+            session.Update("video", { json: {} })
+        end sub
+
+        ' Update the global video session array (m.global.session.video)
+        sub Update(videoMetaData as object)
+            if videoMetaData = invalid then return
+
+            session.video.Delete()
+            session.Update("video", videoMetaData)
+        end sub
     end namespace
 end namespace

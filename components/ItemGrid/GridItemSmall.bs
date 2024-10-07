@@ -4,7 +4,7 @@ import "pkg:/source/utils/config.bs"
 sub init()
     m.itemPoster = m.top.findNode("itemPoster")
     m.posterText = m.top.findNode("posterText")
-    m.title = m.top.findNode("title")
+    initTitle()
     m.posterText.font.size = 30
     m.title.font.size = 25
     m.backdrop = m.top.findNode("backdrop")
@@ -21,6 +21,10 @@ sub init()
     if m.topParent.imageDisplayMode <> invalid
         m.itemPoster.loadDisplayMode = m.topParent.imageDisplayMode
     end if
+end sub
+
+sub initTitle()
+    m.title = m.top.findNode("title")
 end sub
 
 sub itemContentChanged()
@@ -54,6 +58,8 @@ sub itemContentChanged()
 end sub
 
 sub focusChanged()
+    if not isValid(m.title) then initTitle()
+
     if m.top.itemHasFocus = true
         m.title.repeatCount = -1
     else

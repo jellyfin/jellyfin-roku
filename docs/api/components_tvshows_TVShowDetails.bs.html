@@ -183,8 +183,10 @@ end function
 
 sub onShuffleEpisodeDataLoaded()
     m.getShuffleEpisodesTask.unobserveField("data")
-    m.global.queueManager.callFunc("set", m.getShuffleEpisodesTask.data.items)
-    m.global.queueManager.callFunc("playQueue")
+    if isValid(m.getShuffleEpisodesTask.data)
+        m.global.queueManager.callFunc("set", m.getShuffleEpisodesTask.data.items)
+        m.global.queueManager.callFunc("playQueue")
+    end if
 end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean

@@ -454,6 +454,12 @@ function getCodecProfiles() as object
                                     "IsRequired": true
                                 },
                                 {
+                                    "Condition": "NotEquals",
+                                    "Property": "AudioProfile",
+                                    "Value": "HE-AAC",
+                                    "IsRequired": true
+                                },
+                                {
                                     "Condition": "LessThanEqual",
                                     "Property": "AudioChannels",
                                     "Value": audioChannel,

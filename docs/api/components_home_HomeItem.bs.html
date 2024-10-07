@@ -12,12 +12,12 @@ sub init()
     initItemPoster()
     m.itemProgress = m.top.findNode("progress")
     m.itemProgressBackground = m.top.findNode("progressBackground")
-    m.itemIcon = m.top.findNode("itemIcon")
+    initItemIcon()
     initItemTextExtra()
     m.itemPoster.observeField("loadStatus", "onPosterLoadStatusChanged")
     m.unplayedCount = m.top.findNode("unplayedCount")
     m.unplayedEpisodeCount = m.top.findNode("unplayedEpisodeCount")
-    m.playedIndicator = m.top.findNode("playedIndicator")
+    initPlayedIndicator()
 
     m.showProgressBarAnimation = m.top.findNode("showProgressBar")
     m.showProgressBarField = m.top.findNode("showProgressBarField")
@@ -52,6 +52,14 @@ sub initBackdrop()
     m.backdrop = m.top.findNode("backdrop")
 end sub
 
+sub initItemIcon()
+    m.itemIcon = m.top.findNode("itemIcon")
+end sub
+
+sub initPlayedIndicator()
+    m.playedIndicator = m.top.findNode("playedIndicator")
+end sub
+
 sub itemContentChanged()
     if isValid(m.unplayedCount) then m.unplayedCount.visible = false
     itemData = m.top.itemContent
@@ -65,6 +73,8 @@ sub itemContentChanged()
     if not isValid(m.itemText) then initItemText()
     if not isValid(m.itemTextExtra) then initItemTextExtra()
     if not isValid(m.backdrop) then initBackdrop()
+    if not isValid(m.itemIcon) then initItemIcon()
+    if not isValid(m.playedIndicator) then initPlayedIndicator()
 
     m.itemPoster.width = itemData.imageWidth
     m.itemText.maxWidth = itemData.imageWidth
@@ -85,11 +95,14 @@ sub itemContentChanged()
 
         if LCase(itemData.type) = "series"
             if isValid(localGlobal) and isValid(localGlobal.session) and isValid(localGlobal.session.user) and isValid(localGlobal.session.user.settings)
-                if not localGlobal.session.user.settings["ui.tvshows.disableUnwatchedEpisodeCount"]
+                unwatchedEpisodeCountSetting = localGlobal.session.user.settings["ui.tvshows.disableUnwatchedEpisodeCount"]
+                if isValid(unwatchedEpisodeCountSetting) and not unwatchedEpisodeCountSetting
                     if isValid(itemData.json.UserData) and isValid(itemData.json.UserData.UnplayedItemCount)
                         if itemData.json.UserData.UnplayedItemCount > 0
                             if isValid(m.unplayedCount) then m.unplayedCount.visible = true
-                            m.unplayedEpisodeCount.text = itemData.json.UserData.UnplayedItemCount
+                            if isValid(m.unplayedEpisodeCount)
+                                m.unplayedEpisodeCount.text = itemData.json.UserData.UnplayedItemCount
+                            end if
                         end if
                     end if
                 end if

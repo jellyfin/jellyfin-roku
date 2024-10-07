@@ -25,7 +25,7 @@
                         "description": "Enable or disable the 'Maximum Bitrate' setting.",
                         "settingName": "playback.bitrate.maxlimited",
                         "type": "bool",
-                        "default": "true"
+                        "default": "false"
                     },
                     {
                         "title": "Maximum Bitrate",

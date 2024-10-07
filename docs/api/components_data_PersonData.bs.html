@@ -6,9 +6,12 @@ import "pkg:/source/utils/config.bs"
 
 sub setFields()
     json = m.top.json
+    m.top.Type = "Person"
+
+    if json = invalid then return
+
     m.top.id = json.id
     m.top.favorite = json.UserData.isFavorite
-    m.top.Type = "Person"
     setPoster()
 end sub
 

@@ -1,7 +1,9 @@
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/api/baserequest.bs"
+import "pkg:/source/roku_modules/log/LogMixin.brs"
 
 sub init()
+    m.log = log.Logger("captionTask")
     m.top.observeField("url", "fetchCaption")
     m.top.currentCaption = []
     m.top.currentPos = 0
@@ -41,17 +43,26 @@ sub setFont()
 end sub
 
 sub fetchCaption()
+    m.log.debug("start fetchCaption()")
     m.captionTimer.control = "stop"
     re = CreateObject("roRegex", "(http.*?\.vtt)", "s")
     url = re.match(m.top.url)[0]
+
     if url <> invalid
+        port = createObject("roMessagePort")
         m.reader.setUrl(url)
-        text = m.reader.GetToString()
-        m.captionList = parseVTT(text)
-        m.captionTimer.control = "start"
+        m.reader.setMessagePort(port)
+        if m.reader.AsyncGetToString()
+            msg = port.waitMessage(0)
+            if type(msg) = "roUrlEvent"
+                m.captionList = parseVTT(msg.GetString())
+                m.captionTimer.control = "start"
+            end if
+        end if
     else
         m.captionTimer.control = "stop"
     end if
+    m.log.debug("end fetchCaption()", url)
 end sub
 
 function newlabel(txt)

@@ -1,4 +1,5 @@
 import "pkg:/source/api/sdk.bs"
+import "pkg:/source/utils/misc.bs"
 
 function ItemGetPlaybackInfo(id as string, startTimeTicks = 0 as longinteger)
     params = {
@@ -13,9 +14,6 @@ function ItemGetPlaybackInfo(id as string, startTimeTicks = 0 as longinteger)
 end function
 
 function ItemPostPlaybackInfo(id as string, mediaSourceId = "" as string, audioTrackIndex = -1 as integer, subtitleTrackIndex = -1 as integer, startTimeTicks = 0 as longinteger)
-    body = {
-        "DeviceProfile": getDeviceProfile()
-    }
     params = {
         "UserId": m.global.session.user.id,
         "StartTimeTicks": startTimeTicks,
@@ -25,6 +23,7 @@ function ItemPostPlaybackInfo(id as string, mediaSourceId = "" as string, audioT
         "MaxStaticBitrate": "140000000",
         "SubtitleStreamIndex": subtitleTrackIndex
     }
+    deviceProfile = getDeviceProfile()
 
     ' Note: Jellyfin v10.9+ now remuxs LiveTV and does not allow DirectPlay anymore.
     ' Because of this, we need to tell the server "EnableDirectPlay = false" so that we receive the
@@ -38,11 +37,38 @@ function ItemPostPlaybackInfo(id as string, mediaSourceId = "" as string, audioT
         params.EnableDirectPlay = false
     end if
 
-    if audioTrackIndex > -1 then params.AudioStreamIndex = audioTrackIndex
+    if audioTrackIndex > -1
+        selectedAudioStream = m.global.session.video.json.MediaStreams[audioTrackIndex]
+
+        if selectedAudioStream <> invalid
+            params.AudioStreamIndex = audioTrackIndex
+
+            ' force the server to transcode AAC profiles we don't support to MP3 instead of the usual AAC
+            ' TODO: Remove this after server adds support for transcoding AAC from one profile to another
+            if LCase(selectedAudioStream.Codec) = "aac"
+                if LCase(selectedAudioStream.Profile) = "main" or LCase(selectedAudioStream.Profile) = "he-aac"
+                    for each rule in deviceProfile.TranscodingProfiles
+                        if rule.Container = "ts" or rule.Container = "mp4"
+                            if rule.AudioCodec = "aac"
+                                rule.AudioCodec = "mp3"
+                            else if rule.AudioCodec.Left(4) = "aac,"
+                                rule.AudioCodec = mid(rule.AudioCodec, 5)
+
+                                if rule.AudioCodec.Left(3) <> "mp3"
+                                    rule.AudioCodec = "mp3," + rule.AudioCodec
+                                end if
+                            end if
+                        end if
+                    end for
+                end if
+            end if
+
+        end if
+    end if
 
     req = APIRequest(Substitute("Items/{0}/PlaybackInfo", id), params)
     req.SetRequest("POST")
-    return postJson(req, FormatJson(body))
+    return postJson(req, FormatJson({ "DeviceProfile": deviceProfile }))
 end function
 
 ' Search across all libraries

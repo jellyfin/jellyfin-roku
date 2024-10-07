@@ -263,16 +263,20 @@ sub AddVideoContent(video as object, mediaSourceId as dynamic, audio_stream_idx 
         protocol = LCase(m.playbackInfo.MediaSources[0].Protocol)
         if protocol <> "file"
             uri = parseUrl(m.playbackInfo.MediaSources[0].Path)
-            if isLocalhost(uri[2])
+            if not isValidAndNotEmpty(uri) then return
+
+            if isValid(uri[2]) and isLocalhost(uri[2])
                 ' the domain of the URI is local to the server.
                 ' create a new URI by appending the received path to the server URL
                 ' later we will substitute the users provided URL for this case
-                video.content.url = buildURL(uri[4])
+                if isValid(uri[4])
+                    video.content.url = buildURL(uri[4])
+                end if
             else
                 fully_external = true
                 video.content.url = m.playbackInfo.MediaSources[0].Path
             end if
-        else:
+        else
             params.append({
                 "Static": "true",
                 "Container": video.container,

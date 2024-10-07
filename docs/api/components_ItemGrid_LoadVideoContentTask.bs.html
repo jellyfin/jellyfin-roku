@@ -8,6 +8,7 @@ import "pkg:/source/utils/config.bs"
 import "pkg:/source/api/Image.bs"
 import "pkg:/source/api/userauth.bs"
 import "pkg:/source/utils/deviceCapabilities.bs"
+import "pkg:/source/utils/session.bs"
 
 enum SubtitleSelection
     notset = -2
@@ -73,14 +74,24 @@ end function
 sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_stream_idx = 1 as integer, forceTranscoding = false as boolean)
 
     meta = ItemMetaData(video.id)
-    subtitle_idx = m.top.selectedSubtitleIndex
-
     if not isValid(meta)
         video.errorMsg = "Error loading metadata"
         video.content = invalid
         return
     end if
 
+    session.video.Update(meta)
+
+    if isValid(meta.json.MediaSources[0].RunTimeTicks)
+        if meta.json.MediaSources[0].RunTimeTicks = 0
+            video.length = 0
+        else
+            video.length = meta.json.MediaSources[0].RunTimeTicks / 10000000
+        end if
+    end if
+    video.MaxVideoDecodeResolution = [meta.json.MediaSources[0].MediaStreams[0].Width, meta.json.MediaSources[0].MediaStreams[0].Height]
+
+    subtitle_idx = m.top.selectedSubtitleIndex
     videotype = LCase(meta.type)
 
     ' Check for any Live TV streams or Recordings coming from other places other than the TV Guide
@@ -185,6 +196,11 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
     end if
 
     video.container = getContainerType(meta)
+    if video.container = "mp4"
+        video.content.StreamFormat = "mp4"
+    else if video.container = "mkv"
+        video.content.StreamFormat = "mkv"
+    end if
 
     if not isValid(m.playbackInfo.MediaSources[0])
         m.playbackInfo = meta.json
@@ -199,11 +215,9 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
         }
     end if
 
-
     ' 'TODO: allow user selection of subtitle track before playback initiated, for now set to no subtitles
     video.directPlaySupported = m.playbackInfo.MediaSources[0].SupportsDirectPlay
     fully_external = false
-
 
     ' For h264/hevc video, Roku spec states that it supports specfic encoding levels
     ' The device can decode content with a Higher Encoding level but may play it back with certain
@@ -353,11 +367,15 @@ sub addVideoContentURL(video, mediaSourceId, audio_stream_idx, fully_external)
     protocol = LCase(m.playbackInfo.MediaSources[0].Protocol)
     if protocol &lt;> "file"
         uri = parseUrl(m.playbackInfo.MediaSources[0].Path)
-        if isLocalhost(uri[2])
+        if not isValidAndNotEmpty(uri) then return
+
+        if isValid(uri[2]) and isLocalhost(uri[2])
             ' if the domain of the URI is local to the server,
             ' create a new URI by appending the received path to the server URL
             ' later we will substitute the users provided URL for this case
-            video.content.url = buildURL(uri[4])
+            if isValid(uri[4])
+                video.content.url = buildURL(uri[4])
+            end if
         else
             fully_external = true
             video.content.url = m.playbackInfo.MediaSources[0].Path

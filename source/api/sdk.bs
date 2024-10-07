@@ -1207,7 +1207,7 @@ namespace api
 
         ' Moves a playlist item.
         function Move(playlistid as string, itemid as string, newindex as integer)
-            req = APIRequest(Substitute("/playlists/{0}/items/{1}/move/{2}", playlistid, itemid, newindex))
+            req = APIRequest(Substitute("/playlists/{0}/items/{1}/move/{2}", playlistid, itemid, newindex.ToStr()))
             return postVoid(req)
         end function
     end namespace
@@ -2099,7 +2099,7 @@ namespace api
 
         ' Gets an HLS subtitle playlist.
         function GetHLSSubtitlePlaylistURL(id as string, streamindex as integer, mediasourceid as string, params = {} as object)
-            return buildURL(Substitute("/videos/{0}/{1}/subtitles/{2}/subtitles.m3u8", id, streamindex, mediasourceid), params)
+            return buildURL(Substitute("/videos/{0}/{1}/subtitles/{2}/subtitles.m3u8", id, streamindex.ToStr(), mediasourceid), params)
         end function
 
         ' Upload an external subtitle file.
@@ -2115,13 +2115,13 @@ namespace api
         ' Gets subtitles in a specified format.
         function GetSubtitlesWithStartPosition(routeitemid as string, routemediasourceid as string, routeindex as integer, routestartpositionticks as integer, routeformat as string, params = {} as object)
             ' We maxed out params for substitute() so we must manually add the routeformat value
-            return buildURL(Substitute("/videos/{0}/{1}/subtitles/{2}/{3}/stream." + routeformat, routeitemid, routemediasourceid, routeindex, routestartpositionticks), params)
+            return buildURL(Substitute("/videos/{0}/{1}/subtitles/{2}/{3}/stream." + routeformat, routeitemid, routemediasourceid, routeindex.ToStr(), routestartpositionticks.ToStr()), params)
         end function
 
         ' Gets subtitles in a specified format.
         function GetSubtitles(routeitemid as string, routemediasourceid as string, routeindex as integer, routestartpositionticks as integer, routeformat as string, params = {} as object)
             ' We maxed out params for substitute() so we must manually add the routeformat value
-            return buildURL(Substitute("/videos/{0}/{1}/subtitles/{2}/{3}/stream." + routeformat, routeitemid, routemediasourceid, routeindex, routestartpositionticks), params)
+            return buildURL(Substitute("/videos/{0}/{1}/subtitles/{2}/{3}/stream." + routeformat, routeitemid, routemediasourceid, routeindex.ToStr(), routestartpositionticks.ToStr()), params)
         end function
     end namespace
 
