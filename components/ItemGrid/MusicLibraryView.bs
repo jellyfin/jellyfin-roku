@@ -24,6 +24,7 @@ sub setupNodes()
 end sub
 
 sub init()
+    myGlobal = m.global
     setupNodes()
 
     m.overhang.isVisible = false
@@ -34,7 +35,7 @@ sub init()
     alphaMicText = m.alpha.findNode("alphaMicText")
     alphaMicText.visible = false
 
-    m.showItemCount = m.global.session.user.settings["itemgrid.showItemCount"]
+    m.showItemCount = myGlobal.session.user.settings["itemgrid.showItemCount"]
 
     m.swapAnimation.observeField("state", "swapDone")
 
@@ -80,7 +81,7 @@ sub init()
     m.loadItemsTask.totalRecordCount = 0
 
     'Get reset folder setting
-    m.resetGrid = m.global.session.user.settings["itemgrid.reset"]
+    m.resetGrid = myGlobal.session.user.settings["itemgrid.reset"]
 end sub
 
 sub OnScreenHidden()
@@ -106,6 +107,7 @@ end sub
 sub loadInitialItems()
     m.loadItemsTask.control = "stop"
     startLoadingSpinner(false)
+    myGlobal = m.global
 
     if LCase(m.top.parentItem.json.Type) = "collectionfolder"
         m.top.HomeLibraryItem = m.top.parentItem.Id
@@ -117,17 +119,17 @@ sub loadInitialItems()
         SetBackground("")
     end if
 
-    m.sortField = m.global.session.user.settings["display." + m.top.parentItem.Id + ".sortField"]
-    m.sortAscending = m.global.session.user.settings["display." + m.top.parentItem.Id + ".sortAscending"]
-    m.filter = m.global.session.user.settings["display." + m.top.parentItem.Id + ".filter"]
-    m.view = m.global.session.user.settings["display." + m.top.parentItem.Id + ".landing"]
+    m.sortField = myGlobal.session.user.settings["display." + m.top.parentItem.Id + ".sortField"]
+    m.sortAscending = myGlobal.session.user.settings["display." + m.top.parentItem.Id + ".sortAscending"]
+    m.filter = myGlobal.session.user.settings["display." + m.top.parentItem.Id + ".filter"]
+    m.view = myGlobal.session.user.settings["display." + m.top.parentItem.Id + ".landing"]
 
     if not isValid(m.sortField) then m.sortField = "SortName"
     if not isValid(m.filter) then m.filter = "All"
     if not isValid(m.view) then m.view = "ArtistsPresentation"
     if not isValid(m.sortAscending) then m.sortAscending = true
 
-    m.top.showItemTitles = m.global.session.user.settings["itemgrid.gridTitles"]
+    m.top.showItemTitles = myGlobal.session.user.settings["itemgrid.gridTitles"]
 
     if LCase(m.top.parentItem.json.type) = "musicgenre"
         m.itemGrid.translation = "[96, 60]"

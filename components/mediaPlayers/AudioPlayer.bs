@@ -28,16 +28,17 @@ end sub
 sub ReportPlayback(state as string)
 
     if not isValid(m.top.position) then return
+    myGlobal = m.global
 
     params = {
-        "ItemId": m.global.queueManager.callFunc("getCurrentItem").id,
+        "ItemId": myGlobal.queueManager.callFunc("getCurrentItem").id,
         "PlaySessionId": m.top.content.id,
         "PositionTicks": int(m.top.position) * 10000000&, 'Ensure a LongInteger is used
         "IsPaused": (LCase(m.top.state) = "paused")
     }
 
     ' Report playstate via global task
-    playstateTask = m.global.playstateTask
+    playstateTask = myGlobal.playstateTask
     playstateTask.setFields({ status: state, params: params })
     playstateTask.control = "RUN"
 end sub

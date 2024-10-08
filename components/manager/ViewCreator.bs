@@ -7,6 +7,7 @@ end sub
 
 ' Play Video
 sub CreateVideoPlayerView()
+    myGlobal = m.global
     m.playbackData = {}
     m.selectedSubtitle = {}
 
@@ -16,17 +17,17 @@ sub CreateVideoPlayerView()
     m.view.observeField("selectSubtitlePressed", "onSelectSubtitlePressed")
     m.view.observeField("selectAudioPressed", "onSelectAudioPressed")
 
-    mediaSourceId = m.global.queueManager.callFunc("getCurrentItem").mediaSourceId
+    mediaSourceId = myGlobal.queueManager.callFunc("getCurrentItem").mediaSourceId
 
     if not isValid(mediaSourceId) or mediaSourceId = ""
-        mediaSourceId = m.global.queueManager.callFunc("getCurrentItem").id
+        mediaSourceId = myGlobal.queueManager.callFunc("getCurrentItem").id
     end if
 
     m.getPlaybackInfoTask = createObject("roSGNode", "GetPlaybackInfoTask")
     m.getPlaybackInfoTask.videoID = mediaSourceId
     m.getPlaybackInfoTask.observeField("data", "onPlaybackInfoLoaded")
 
-    m.global.sceneManager.callFunc("pushScene", m.view)
+    myGlobal.sceneManager.callFunc("pushScene", m.view)
 end sub
 
 ' -----------------
@@ -37,6 +38,7 @@ end sub
 ' onSelectAudioPressed: Display audio selection dialog
 '
 sub onSelectAudioPressed()
+    myGlobal = m.global
     audioData = {
         data: []
     }
@@ -59,12 +61,13 @@ sub onSelectAudioPressed()
         audioData.data.push(audioStreamItem)
     end for
 
-    m.global.sceneManager.callFunc("radioDialog", tr("Select Audio"), audioData)
-    m.global.sceneManager.observeField("returnData", "onSelectionMade")
+    myGlobal.sceneManager.callFunc("radioDialog", tr("Select Audio"), audioData)
+    myGlobal.sceneManager.observeField("returnData", "onSelectionMade")
 end sub
 
 ' User requested subtitle selection popup
 sub onSelectSubtitlePressed()
+    myGlobal = m.global
     subtitleData = {
         data: []
     }
@@ -110,23 +113,24 @@ sub onSelectSubtitlePressed()
         "Type": "subtitleselection"
     })
 
-    m.global.sceneManager.callFunc("radioDialog", tr("Select Subtitles"), subtitleData)
-    m.global.sceneManager.observeField("returnData", "onSelectionMade")
+    myGlobal.sceneManager.callFunc("radioDialog", tr("Select Subtitles"), subtitleData)
+    myGlobal.sceneManager.observeField("returnData", "onSelectionMade")
 end sub
 
 ' User has selected something from the radioDialog popup
 sub onSelectionMade()
-    m.global.sceneManager.unobserveField("returnData")
+    myGlobal = m.global
+    myGlobal.sceneManager.unobserveField("returnData")
 
-    if not isValid(m.global.sceneManager.returnData) then return
-    if not isValid(m.global.sceneManager.returnData.type) then return
+    if not isValid(myGlobal.sceneManager.returnData) then return
+    if not isValid(myGlobal.sceneManager.returnData.type) then return
 
-    if LCase(m.global.sceneManager.returnData.type) = "subtitleselection"
+    if LCase(myGlobal.sceneManager.returnData.type) = "subtitleselection"
         processSubtitleSelection()
         return
     end if
 
-    if LCase(m.global.sceneManager.returnData.type) = "audioselection"
+    if LCase(myGlobal.sceneManager.returnData.type) = "audioselection"
         processAudioSelection()
         return
     end if
@@ -216,22 +220,23 @@ end sub
 ' Playback state change event handlers
 sub onStateChange()
     if LCase(m.view.state) = "finished"
+        myGlobal = m.global
         ' Close any open dialogs
-        if m.global.sceneManager.callFunc("isDialogOpen")
-            m.global.sceneManager.callFunc("dismissDialog")
+        if myGlobal.sceneManager.callFunc("isDialogOpen")
+            myGlobal.sceneManager.callFunc("dismissDialog")
         end if
 
         ' If there is something next in the queue, play it
-        if m.global.queueManager.callFunc("getPosition") < m.global.queueManager.callFunc("getCount") - 1
-            m.global.sceneManager.callFunc("clearPreviousScene")
-            m.global.queueManager.callFunc("moveForward")
-            m.global.queueManager.callFunc("playQueue")
+        if myGlobal.queueManager.callFunc("getPosition") < myGlobal.queueManager.callFunc("getCount") - 1
+            myGlobal.sceneManager.callFunc("clearPreviousScene")
+            myGlobal.queueManager.callFunc("moveForward")
+            myGlobal.queueManager.callFunc("playQueue")
             return
         end if
 
         ' Playback completed, return user to previous screen
-        m.global.sceneManager.callFunc("popScene")
-        m.global.audioPlayer.loopMode = ""
+        myGlobal.sceneManager.callFunc("popScene")
+        myGlobal.audioPlayer.loopMode = ""
     end if
 end sub
 

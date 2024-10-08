@@ -2,6 +2,7 @@ sub init()
     m.title = m.top.findNode("title")
     m.description = m.top.findNode("description")
     m.selectedIcon = m.top.findNode("selectedIcon")
+    m.checkIconWhite = m.global.constants.icons.check_white
 end sub
 
 sub itemContentChanged()
@@ -13,7 +14,7 @@ sub itemContentChanged()
     end if
 
     if m.top.itemContent.selected
-        m.selectedIcon.uri = m.global.constants.icons.check_white
+        m.selectedIcon.uri = m.checkIconWhite
     else
         m.selectedIcon.uri = ""
     end if

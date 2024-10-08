@@ -97,6 +97,7 @@ sub itemContentChanged()
     ' Updates video metadata
     item = m.top.itemContent
     if isValid(item) and isValid(item.json)
+        myGlobal = m.global
         itemData = item.json
         m.top.id = itemData.id
         m.top.findNode("moviePoster").uri = m.top.itemContent.posterURL
@@ -120,7 +121,7 @@ sub itemContentChanged()
             m.infoGroup.removeChild(m.top.findNode("officialRating"))
         end if
 
-        if m.global.session.user.settings["ui.movies.showRatings"]
+        if myGlobal.session.user.settings["ui.movies.showRatings"]
             if isValid(itemData.communityRating)
                 setFieldText("communityRating", int(itemData.communityRating * 10) / 10)
             else
@@ -145,7 +146,7 @@ sub itemContentChanged()
 
         if type(itemData.RunTimeTicks) = "LongInteger"
             setFieldText("runtime", stri(getRuntime()) + " mins")
-            if m.global.session.user.settings["ui.design.hideclock"] <> true
+            if myGlobal.session.user.settings["ui.design.hideclock"] <> true
                 setFieldText("ends-at", tr("Ends at %1").Replace("%1", getEndTime()))
             end if
         end if
@@ -173,7 +174,7 @@ sub itemContentChanged()
             m.top.findNode("details").removeChild(m.top.findNode("director"))
         end if
 
-        if m.global.session.user.settings["ui.details.hidetagline"] = false
+        if myGlobal.session.user.settings["ui.details.hidetagline"] = false
             if itemData.taglines.count() > 0
                 setFieldText("tagline", itemData.taglines[0])
             end if
