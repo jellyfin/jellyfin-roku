@@ -47,35 +47,40 @@ sub audioStateChanged()
         ReportPlayback(reportedPlaybackState)
 
         ' User has enabled single song loop, play current song again
-        if m.global.audioPlayer.loopMode = "one"
+        if m.top.loopMode = "one"
             playAction()
             return
         end if
+
+        ' Play next item in the queue
+        if m.global.queueManager.callFunc("getPosition") < m.global.queueManager.callFunc("getCount") - 1
+            playNext()
+            return
+        end if
+
+        ' User has enabled loop for entire song queue, move back to first song
+        if m.top.loopMode = "all"
+            m.global.queueManager.callFunc("setPosition", -1)
+            playNext()
+            return
+        end if
+
+        m.top.audioData = []
     end if
 end sub
 
 sub playAction()
-    if m.global.audioPlayer.state = "playing"
-        m.global.audioPlayer.control = "pause"
-        ' Allow screen to go to real screensaver
-        WriteAsciiFile("tmp:/scene.temp", "nowplaying-paused")
-        MoveFile("tmp:/scene.temp", "tmp:/scene")
-    else if m.global.audioPlayer.state = "paused"
-        m.global.audioPlayer.control = "resume"
-        ' Write screen tracker for screensaver
-        WriteAsciiFile("tmp:/scene.temp", "nowplaying")
-        MoveFile("tmp:/scene.temp", "tmp:/scene")
-    else if m.global.audioPlayer.state = "finished"
-        m.global.audioPlayer.control = "play"
-        ' Write screen tracker for screensaver
-        WriteAsciiFile("tmp:/scene.temp", "nowplaying")
-        MoveFile("tmp:/scene.temp", "tmp:/scene")
+    if m.top.state = "playing"
+        m.top.control = "pause"
+    else if m.top.state = "paused"
+        m.top.control = "resume"
+    else if m.top.state = "finished"
+        m.top.control = "play"
     end if
 end sub
 
 ' Update values on screen when page content changes
 sub changeAudioStreamContent()
-    print "changeAudioStreamContent", m.top.id
     startLoadingSpinner()
 
     m.LoadAudioStreamTask.control = TaskControl.STOP
@@ -91,36 +96,12 @@ sub onAudioStreamLoaded()
 
     if not isValidAndNotEmpty(data) then return
 
-    useMetaTask = false
-    currentItem = m.global.queueManager.callFunc("getCurrentItem")
-
-    if not isValid(currentItem.RunTimeTicks)
-        useMetaTask = true
-    end if
-
-    if not isValid(currentItem.AlbumArtist)
-        useMetaTask = true
-    end if
-
-    if not isValid(currentItem.name)
-        useMetaTask = true
-    end if
-
-    if not isValid(currentItem.Artists)
-        useMetaTask = true
-    end if
-
-    if useMetaTask
-        m.LoadMetaDataTask.itemId = currentItem.id
-        m.LoadMetaDataTask.observeField("content", "onMetaDataLoaded")
-        m.LoadMetaDataTask.control = TaskControl.RUN
-    else
-        m.top.audioData = [data]
-    end if
+    m.top.audioData = [data]
 
     playbackPosition = 0!
+    currentItem = m.global.queueManager.callFunc("getCurrentItem")
 
-    if isValid(currentItem) and isValid(currentItem.startingPoint)
+    if isChainValid(currentItem, "startingPoint")
         playbackPosition = currentItem.startingPoint
     else if isChainValid(currentItem, "json.UserData.PlaybackPositionTicks")
         playbackPosition = currentItem.json.UserData.PlaybackPositionTicks
@@ -129,18 +110,10 @@ sub onAudioStreamLoaded()
     ' PlayStart requires the time to be in seconds
     playStart = int(playbackPosition / 10000000)
 
-    m.global.audioPlayer.content = data
-    m.global.audioPlayer.control = "none"
-    m.global.audioPlayer.control = "play"
-    m.global.audioPlayer.seek = playStart
-end sub
-
-sub onMetaDataLoaded()
-    data = m.LoadMetaDataTask.content[0]
-    m.LoadMetaDataTask.unobserveField("content")
-    if isValidAndNotEmpty(data) and isValid(data.json)
-        m.top.audioData = [data.json]
-    end if
+    m.top.content = data
+    m.top.control = "none"
+    m.top.control = "play"
+    m.top.seek = playStart
 end sub
 
 ' Report playback to server
@@ -159,4 +132,62 @@ sub ReportPlayback(state = "update" as string)
     playstateTask = m.global.playstateTask
     playstateTask.setFields({ status: state, params: params })
     playstateTask.control = TaskControl.RUN
+end sub
+
+sub playNext()
+    currentQueuePosition = m.global.queueManager.callFunc("getPosition")
+    if m.global.queueManager.callFunc("getPosition") >= m.global.queueManager.callFunc("getCount") - 1 then return
+
+    if m.top.state = "playing"
+        m.top.control = "stop"
+    end if
+
+    playlistTypeCount = m.global.queueManager.callFunc("getQueueUniqueTypes").count()
+
+    if playlistTypeCount > 1
+
+        nextItem = m.global.queueManager.callFunc("getItemByIndex", currentQueuePosition + 1)
+        nextItemType = m.global.queueManager.callFunc("getItemType", nextItem)
+
+        if nextItemType <> "audio"
+            m.top.control = "stop"
+
+            m.global.sceneManager.callFunc("clearPreviousScene")
+            m.global.queueManager.callFunc("moveForward")
+            m.global.queueManager.callFunc("playQueue")
+            return
+        end if
+    end if
+
+    m.global.queueManager.callFunc("moveForward")
+    m.top.id = m.global.queueManager.callFunc("getCurrentItem").id
+end sub
+
+sub playPrevious()
+    currentQueuePosition = m.global.queueManager.callFunc("getPosition")
+    if currentQueuePosition = 0 then return
+
+    if m.top.state = "playing"
+        m.top.control = "stop"
+    end if
+
+    playlistTypeCount = m.global.queueManager.callFunc("getQueueUniqueTypes").count()
+
+    if playlistTypeCount > 1
+
+        previousItem = m.global.queueManager.callFunc("getItemByIndex", currentQueuePosition + 1)
+        previousItemType = m.global.queueManager.callFunc("getItemType", previousItem)
+
+        if previousItemType <> "audio"
+            m.top.control = "stop"
+
+            m.global.sceneManager.callFunc("clearPreviousScene")
+            m.global.queueManager.callFunc("moveBack")
+            m.global.queueManager.callFunc("playQueue")
+            return
+        end if
+    end if
+
+    m.global.queueManager.callFunc("moveBack")
+    m.top.id = m.global.queueManager.callFunc("getCurrentItem").id
 end sub

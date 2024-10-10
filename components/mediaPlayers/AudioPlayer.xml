@@ -7,5 +7,7 @@
     <field id="id" type="string" />
     <field id="loopMode" type="string" value="" />
     <field id="audioData" type="array" alwaysNotify="true" />
+    <function name="playNext" />
+    <function name="playPrevious" />
   </interface>
 </component>

@@ -16,12 +16,6 @@ enum ButtonState
 end enum
 
 sub init()
-    m.pageState = ViewLoadStatus.INIT
-
-    if m.global.audioPlayer.state = "playing"
-        m.pageState = ViewLoadStatus.FIRSTLOAD
-    end if
-
     overhang = m.top.getScene().findNode("overhang")
     if isValid(overhang)
         overhang.isVisible = false
@@ -54,12 +48,7 @@ sub init()
 
     m.di = CreateObject("roDeviceInfo")
 
-    ' Write screen tracker for screensaver
-    WriteAsciiFile("tmp:/scene.temp", "nowplaying")
-    MoveFile("tmp:/scene.temp", "tmp:/scene")
-
     loadButtons()
-    pageContentChanged()
     setShuffleIconState()
     setLoopButtonImage()
 
@@ -132,15 +121,9 @@ end sub
 
 ' Creates audio node used to play song(s)
 sub setupAudioNode()
-    m.global.audioPlayer.observeFieldScoped("state", "audioStateChanged")
     m.global.audioPlayer.observeFieldScoped("position", "audioPositionChanged")
     m.global.audioPlayer.observeFieldScoped("bufferingStatus", "bufferPositionChanged")
     m.global.audioPlayer.observeFieldScoped("audioData", "onAudioDataChanged")
-end sub
-
-sub onAudioDataChanged()
-    print "onAudioDataChanged", m.global.audioPlayer.audioData
-    onAudioStreamLoaded()
 end sub
 
 ' Creates audio node used to play song(s)
@@ -309,33 +292,6 @@ sub endScreenSaver()
     m.PosterOne.opacity = 0
 end sub
 
-sub audioStateChanged()
-    ' Song Finished, attempt to move to next song
-    if m.global.audioPlayer.state = "finished"
-
-        m.scrubTimestamp = -1
-        exitScrubMode(m.buttons)
-
-        if m.global.audioPlayer.loopMode = "one" then return
-
-        if m.global.queueManager.callFunc("getPosition") < m.global.queueManager.callFunc("getCount") - 1
-            m.top.state = "finished"
-        else
-            ' We are at the end of the song queue
-
-            ' User has enabled loop for entire song queue, move back to first song
-            if m.global.audioPlayer.loopMode = "all"
-                m.global.queueManager.callFunc("setPosition", -1)
-                LoadNextSong()
-                return
-            end if
-
-            ' Return to previous screen
-            m.top.state = "finished"
-        end if
-    end if
-end sub
-
 sub displayMiniPlayer()
     if not m.global.audioPlayer.state = "playing" then return
 
@@ -369,55 +325,16 @@ end sub
 function playAction() as boolean
     if m.global.audioPlayer.state = "playing"
         m.global.audioPlayer.control = "pause"
-        ' Allow screen to go to real screensaver
-        WriteAsciiFile("tmp:/scene.temp", "nowplaying-paused")
-        MoveFile("tmp:/scene.temp", "tmp:/scene")
     else if m.global.audioPlayer.state = "paused"
-        m.global.audioPlayer.control = "resume"
-        ' Write screen tracker for screensaver
-        WriteAsciiFile("tmp:/scene.temp", "nowplaying")
-        MoveFile("tmp:/scene.temp", "tmp:/scene")
     else if m.global.audioPlayer.state = "finished"
         m.global.audioPlayer.control = "play"
-        ' Write screen tracker for screensaver
-        WriteAsciiFile("tmp:/scene.temp", "nowplaying")
-        MoveFile("tmp:/scene.temp", "tmp:/scene")
     end if
 
     return true
 end function
 
 function previousClicked() as boolean
-    currentQueuePosition = m.global.queueManager.callFunc("getPosition")
-
-    if currentQueuePosition = 0 then return false
-
-    if m.playlistTypeCount > 1
-        previousItem = m.global.queueManager.callFunc("getItemByIndex", currentQueuePosition - 1)
-        previousItemType = m.global.queueManager.callFunc("getItemType", previousItem)
-
-        if previousItemType <> "audio"
-            m.global.audioPlayer.control = "stop"
-
-            m.global.sceneManager.callFunc("clearPreviousScene")
-            m.global.queueManager.callFunc("moveBack")
-            m.global.queueManager.callFunc("playQueue")
-            return true
-        end if
-    end if
-
-    exitScrubMode(m.buttons)
-
-    m.lastRecordedPositionTimestamp = 0
-    m.positionTimestamp.text = "0:00"
-
-    if m.global.audioPlayer.state = "playing"
-        m.global.audioPlayer.control = "stop"
-    end if
-
-    m.global.queueManager.callFunc("moveBack")
-    pageContentChanged()
-
+    m.global.audioPlayer.callFunc("playPrevious")
     return true
 end function
 
@@ -448,33 +365,7 @@ sub setLoopButtonImage()
 end sub
 
 function nextClicked() as boolean
-    if m.playlistTypeCount > 1
-        currentQueuePosition = m.global.queueManager.callFunc("getPosition")
-        if currentQueuePosition < m.global.queueManager.callFunc("getCount") - 1
-
-            nextItem = m.global.queueManager.callFunc("getItemByIndex", currentQueuePosition + 1)
-            nextItemType = m.global.queueManager.callFunc("getItemType", nextItem)
-
-            if nextItemType <> "audio"
-                m.global.audioPlayer.control = "stop"
-
-                m.global.sceneManager.callFunc("clearPreviousScene")
-                m.global.queueManager.callFunc("moveForward")
-                m.global.queueManager.callFunc("playQueue")
-                return true
-            end if
-        end if
-    end if
-
-    exitScrubMode(m.buttons)
-
-    m.lastRecordedPositionTimestamp = 0
-    m.positionTimestamp.text = "0:00"
-
-    if m.global.queueManager.callFunc("getPosition") < m.global.queueManager.callFunc("getCount") - 1
-        LoadNextSong()
-    end if
-
+    m.global.audioPlayer.callFunc("playNext")
     return true
 end function
 
@@ -495,7 +386,6 @@ function findCurrentSongIndex(songList) as integer
 end function
 
 function shuffleClicked() as boolean
-
     currentSongIndex = findCurrentSongIndex(m.global.queueManager.callFunc("getUnshuffledQueue"))
 
     toggleShuffleEnabled()
@@ -537,20 +427,7 @@ sub LoadNextSong()
 
     ' Reset playPosition bar without animation
     m.playPosition.width = 0
-    m.global.queueManager.callFunc("moveForward")
-    pageContentChanged()
-end sub
-
-' Update values on screen when page content changes
-sub pageContentChanged()
-
-    ' m.LoadAudioStreamTask.control = TaskControl.STOP
-    ' currentItem = m.global.queueManager.callFunc("getCurrentItem")
-    ' m.LoadAudioStreamTask.itemId = currentItem.id
-    ' m.LoadAudioStreamTask.observeField("content", "onAudioStreamLoaded")
-    ' m.LoadAudioStreamTask.control = TaskControl.RUN
-
-    setSiblingData()
+    m.global.audioPlayer.id = m.global.queueManager.callFunc("getCurrentItem").id
 end sub
 
 ' setSiblingData: Set the icon and title text for the previous and next items
@@ -587,80 +464,87 @@ sub loadButtons()
     end if
 end sub
 
-sub onAudioStreamLoaded()
+sub onAudioDataChanged()
     stopLoadingSpinner()
     data = m.global.audioPlayer.audioData
 
-    if isValidAndNotEmpty(data)
-
-        data = data[0]
-        ' Reset buffer bar without animation
-        m.bufferPosition.width = 0
-        m.hasLyrics = false
-
-        useMetaTask = false
-        currentItem = m.global.queueManager.callFunc("getCurrentItem")
-
-        if not isValid(currentItem.RunTimeTicks)
-            useMetaTask = true
-        end if
-
-        if not isValid(currentItem.AlbumArtist)
-            useMetaTask = true
-        end if
-
-        if not isValid(currentItem.name)
-            useMetaTask = true
-        end if
-
-        if not isValid(currentItem.Artists)
-            useMetaTask = true
-        end if
-
-        if useMetaTask
-            m.LoadMetaDataTask.itemId = currentItem.id
-            m.LoadMetaDataTask.observeField("content", "onMetaDataLoaded")
-            m.LoadMetaDataTask.control = TaskControl.RUN
-        else
-            if isValid(currentItem.ParentBackdropItemId)
-                setBackdropImage(ImageURL(currentItem.ParentBackdropItemId, ImageType.BACKDROP, { "maxHeight": "720", "maxWidth": "1280" }))
-            end if
-
-            setPosterImage(ImageURL(currentItem.id, ImageType.PRIMARY, { "maxHeight": 500, "maxWidth": 500 }))
-            setOnScreenTextValues(currentItem)
-            m.songDuration = currentItem.RunTimeTicks / 10000000.0
-
-            ' Update displayed total audio length
-            m.totalLengthTimestamp.text = ticksToHuman(currentItem.RunTimeTicks)
-        end if
-
-        ' Validate lyrics data and for now only support timed lyrics
-        if data.hasLyrics
-            if not isValid(data.lyricdata) then data.hasLyrics = false
-        end if
-
-        if data.hasLyrics
-            if not isValidAndNotEmpty(data.lyricdata.Lyrics) then data.hasLyrics = false
-        end if
-
-        if data.hasLyrics
-            if not isValidAndNotEmpty(data.lyricdata.Lyrics[0]) then data.hasLyrics = false
-        end if
-
-        if data.hasLyrics
-            if not isValid(data.lyricdata.Lyrics[0].start) then data.hasLyrics = false
-        end if
-
-        moveDisplayElements(data.hasLyrics)
-
-        if data.haslyrics
-            m.hasLyrics = true
-            m.seekTimestamp.text = m.seekTimestamp.text + " • Seeking will likely cause lyrics to desync"
-            m.lyrics.lyricdata = data.lyricdata
-        end if
-
-        m.pageState = ViewLoadStatus.LOADED
+    if not isValidAndNotEmpty(data)
+        m.top.state = "finished"
+        return
     end if
+
+    data = data[0]
+    ' Reset buffer bar without animation
+    m.bufferPosition.width = 0
+    m.hasLyrics = false
+
+    exitScrubMode(m.buttons)
+    m.lastRecordedPositionTimestamp = 0
+    m.positionTimestamp.text = "0:00"
+    m.playPosition.width = 0
+
+    useMetaTask = false
+    currentItem = m.global.queueManager.callFunc("getCurrentItem")
+
+    if not isValid(currentItem.RunTimeTicks)
+        useMetaTask = true
+    end if
+
+    if not isValid(currentItem.AlbumArtist)
+        useMetaTask = true
+    end if
+
+    if not isValid(currentItem.name)
+        useMetaTask = true
+    end if
+
+    if not isValid(currentItem.Artists)
+        useMetaTask = true
+    end if
+
+    if useMetaTask
+        m.LoadMetaDataTask.itemId = currentItem.id
+        m.LoadMetaDataTask.observeField("content", "onMetaDataLoaded")
+        m.LoadMetaDataTask.control = TaskControl.RUN
+    else
+        if isValid(currentItem.ParentBackdropItemId)
+            setBackdropImage(ImageURL(currentItem.ParentBackdropItemId, ImageType.BACKDROP, { "maxHeight": "720", "maxWidth": "1280" }))
+        end if
+
+        setPosterImage(ImageURL(currentItem.id, ImageType.PRIMARY, { "maxHeight": 500, "maxWidth": 500 }))
+        setOnScreenTextValues(currentItem)
+        m.songDuration = currentItem.RunTimeTicks / 10000000.0
+
+        ' Update displayed total audio length
+        m.totalLengthTimestamp.text = ticksToHuman(currentItem.RunTimeTicks)
+    end if
+
+    ' Validate lyrics data and for now only support timed lyrics
+    if data.hasLyrics
+        if not isValid(data.lyricdata) then data.hasLyrics = false
+    end if
+
+    if data.hasLyrics
+        if not isValidAndNotEmpty(data.lyricdata.Lyrics) then data.hasLyrics = false
+    end if
+
+    if data.hasLyrics
+        if not isValidAndNotEmpty(data.lyricdata.Lyrics[0]) then data.hasLyrics = false
+    end if
+
+    if data.hasLyrics
+        if not isValid(data.lyricdata.Lyrics[0].start) then data.hasLyrics = false
+    end if
+
+    moveDisplayElements(data.hasLyrics)
+
+    if data.haslyrics
+        m.hasLyrics = true
+        m.seekTimestamp.text = m.seekTimestamp.text + " • Seeking will likely cause lyrics to desync"
+        m.lyrics.lyricdata = data.lyricdata
+    end if
+
+    setSiblingData()
 end sub
 
 sub moveDisplayElements(hasLyrics as boolean)
@@ -1118,8 +1002,3 @@ function onKeyEvent(key as string, press as boolean) as boolean
     return false
 end function
 
-sub OnScreenHidden()
-    ' Write screen tracker for screensaver
-    WriteAsciiFile("tmp:/scene.temp", "")
-    MoveFile("tmp:/scene.temp", "tmp:/scene")
-end sub
