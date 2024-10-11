@@ -124,6 +124,7 @@ sub setupAudioNode()
     m.global.audioPlayer.observeFieldScoped("position", "audioPositionChanged")
     m.global.audioPlayer.observeFieldScoped("bufferingStatus", "bufferPositionChanged")
     m.global.audioPlayer.observeFieldScoped("audioData", "onAudioDataChanged")
+    m.global.audioPlayer.observeFieldScoped("loopmode", "setLoopButtonImage")
 end sub
 
 ' Creates audio node used to play song(s)
@@ -326,6 +327,7 @@ function playAction() as boolean
     if m.global.audioPlayer.state = "playing"
         m.global.audioPlayer.control = "pause"
     else if m.global.audioPlayer.state = "paused"
+        m.global.audioPlayer.control = "resume"
     else if m.global.audioPlayer.state = "finished"
         m.global.audioPlayer.control = "play"
     end if
@@ -347,8 +349,6 @@ function loopClicked() as boolean
     else
         m.global.audioPlayer.loopMode = ""
     end if
-
-    setLoopButtonImage()
 
     return true
 end function
@@ -418,18 +418,6 @@ sub setTrackNumberDisplay()
     setFieldTextValue("numberofsongs", "Track " + stri(m.global.queueManager.callFunc("getPosition") + 1).trim() + "/" + stri(m.global.queueManager.callFunc("getCount")).trim())
 end sub
 
-sub LoadNextSong()
-    if m.global.audioPlayer.state = "playing"
-        m.global.audioPlayer.control = "stop"
-    end if
-
-    exitScrubMode(m.buttons)
-
-    ' Reset playPosition bar without animation
-    m.playPosition.width = 0
-    m.global.audioPlayer.id = m.global.queueManager.callFunc("getCurrentItem").id
-end sub
-
 ' setSiblingData: Set the icon and title text for the previous and next items
 '
 sub setSiblingData()
@@ -460,7 +448,6 @@ sub loadButtons()
         m.shuffleIndicator.opacity = ".4"
         m.loopIndicator.opacity = ".4"
         m.displayButtonsAnimation.control = "start"
-        setLoopButtonImage()
     end if
 end sub
 
