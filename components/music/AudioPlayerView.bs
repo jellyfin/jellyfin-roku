@@ -296,31 +296,23 @@ end sub
 sub displayMiniPlayer()
     if not m.global.audioPlayer.state = "playing" then return
 
-    audioMiniPlayer = invalid
-
     scene = m.top.getScene()
     if not isValid(scene) then return
 
     audioMiniPlayer = scene.findNode("audioMiniPlayer")
     if not isValid(audioMiniPlayer) then return
 
-    if isValid(audioMiniPlayer)
-        audioMiniPlayer.callFunc("setVisible", true)
-    end if
+    audioMiniPlayer.callFunc("setVisible", true)
 end sub
 
 sub hideMiniPlayer()
-    audioMiniPlayer = invalid
-
     scene = m.top.getScene()
     if not isValid(scene) then return
 
     audioMiniPlayer = scene.findNode("audioMiniPlayer")
     if not isValid(audioMiniPlayer) then return
 
-    if isValid(audioMiniPlayer)
-        audioMiniPlayer.callFunc("setVisible", false)
-    end if
+    audioMiniPlayer.callFunc("setVisible", false)
 end sub
 
 function playAction() as boolean
@@ -977,8 +969,6 @@ function onKeyEvent(key as string, press as boolean) as boolean
         if key = KeyCode.BACK
             unobserveAll()
             displayMiniPlayer()
-            ' m.global.audioPlayer.control = "stop"
-            ' m.global.audioPlayer.loopMode = ""
         else if key = KeyCode.REWIND
             return previousClicked()
         else if key = KeyCode.FASTFORWRD
