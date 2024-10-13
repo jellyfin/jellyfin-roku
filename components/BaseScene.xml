@@ -3,7 +3,7 @@
   <children>
     <Group id="content" />
     <JFOverhang id="overhang" />
-    <AudioMiniPlayer id="audioMiniPlayer" translation="[0, 880]" />
+    <AudioMiniPlayer id="audioMiniPlayer" translation="[0, 885]" />
     <Spinner id="spinner" translation="[897, 477]" visible="false" />
   </children>
   <interface>

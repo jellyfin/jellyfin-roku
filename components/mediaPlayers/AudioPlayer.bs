@@ -65,6 +65,7 @@ sub audioStateChanged()
             return
         end if
 
+        m.top.id = invalid
         m.top.audioData = []
     end if
 end sub
@@ -81,6 +82,7 @@ end sub
 
 ' Update values on screen when page content changes
 sub changeAudioStreamContent()
+    if not isValidAndNotEmpty(m.top.id) then return
     startLoadingSpinner()
 
     m.LoadAudioStreamTask.control = TaskControl.STOP

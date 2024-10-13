@@ -71,7 +71,10 @@ end sub
 sub onAudioDataChanged()
     stopLoadingSpinner()
     data = m.global.audioPlayer.audioData
-    if not isValidAndNotEmpty(data) then return
+    if not isValidAndNotEmpty(data)
+        setVisible(false)
+        return
+    end if
 
     ' Reset buffer bar without animation
     m.bufferPosition.width = 0
