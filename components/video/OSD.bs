@@ -42,7 +42,17 @@ end sub
 '
 sub onProgressPercentageChanged()
     m.videoPositionTime.text = secondsToHuman(m.top.positionTime, true)
-    m.videoRemainingTime.text = secondsToHuman(m.top.remainingPositionTime, true)
+
+    osdmode = m.global.session.user.settings["ui.general.osdremainingtime"]
+
+    if osdmode = "remaining"
+        m.videoRemainingTime.text = secondsToHuman(m.top.remainingPositionTime, true)
+    else if osdmode = "timeofday"
+        m.videoRemainingTime.text = secondsToEndTime(m.top.remainingPositionTime)
+    else if osdmode = "both"
+        m.videoRemainingTime.text = secondsToHuman(m.top.remainingPositionTime, true) + " | " + secondsToEndTime(m.top.remainingPositionTime)
+    end if
+
     m.progressBar.width = m.progressBarBackground.width * m.top.progressPercentage
 end sub
 

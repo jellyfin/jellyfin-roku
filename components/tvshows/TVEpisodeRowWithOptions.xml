@@ -8,5 +8,8 @@
     <field id="objects" type="assocarray" onChange="setupRows" />
     <field id="itemSelected" type="integer" />
     <field id="doneLoading" type="boolean" />
+    <field id="selectItemId" type="string" />
+
+    <function name="onItemSelected" />
   </interface>
 </component>

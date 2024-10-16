@@ -686,6 +686,7 @@ end sub
 sub itemSelected()
     m.selectedRowItem = m.top.rowItemSelected
 
+    m.global.launchSource = "home"
     m.top.selectedItem = m.top.content.getChild(m.top.rowItemSelected[0]).getChild(m.top.rowItemSelected[1])
 
     'Prevent the selected item event from double firing

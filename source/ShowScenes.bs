@@ -646,7 +646,7 @@ function CreateSeriesDetailsGroup(seriesID as string) as dynamic
     ' Divert to season details if user setting goStraightToEpisodeListing is enabled and only one season exists.
     if seasonData <> invalid and m.global.session.user.settings["ui.tvshows.goStraightToEpisodeListing"] and seasonData.Items.Count() = 1
         stopLoadingSpinner()
-        return CreateSeasonDetailsGroupByID(seriesID, seasonData.Items[0].id)
+        return CreateSeasonDetailsGroupByID(seriesID, seasonData.Items[0].id, "")
     end if
     ' start building SeriesDetails view
     group = CreateObject("roSGNode", "TVShowDetails")
@@ -793,7 +793,7 @@ function CreateSeasonDetailsGroup(series as object, season as object) as dynamic
     return group
 end function
 
-function CreateSeasonDetailsGroupByID(seriesID as string, seasonID as string) as dynamic
+function CreateSeasonDetailsGroupByID(seriesID as string, seasonID as string, selectId as string) as dynamic
     ' validate parameters
     if seriesID = "" or seasonID = "" then return invalid
 
@@ -805,9 +805,11 @@ function CreateSeasonDetailsGroupByID(seriesID as string, seasonID as string) as
         stopLoadingSpinner()
         return invalid
     end if
+
     ' start building SeasonDetails view
     group = CreateObject("roSGNode", "TVEpisodes")
     group.optionsAvailable = false
+
     ' push scene asap (to prevent extra button presses when retriving series/movie info)
     group.seasonData = seasonMetaData.json
     group.objects = TVEpisodes(seriesID, seasonID)
@@ -820,6 +822,10 @@ function CreateSeasonDetailsGroupByID(seriesID as string, seasonID as string) as
     m.global.sceneManager.callFunc("pushScene", group)
     ' check for specials/extras for this season
     group.extrasObjects = TVSeasonExtras(seasonID)
+
+    group.observeField("sceneReady", "onSceneReady")
+
+    group.selectItemId = selectId
 
     ' finished building SeasonDetails view
     return group

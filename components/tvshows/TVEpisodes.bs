@@ -6,6 +6,7 @@ import "pkg:/source/api/sdk.bs"
 
 sub init()
     m.top.optionsAvailable = false
+    m.top.observeField("selectItemId", "onItemSelected")
 
     m.rows = m.top.findNode("picker")
     m.poster = m.top.findNode("seasonPoster")
@@ -23,6 +24,11 @@ end sub
 
 sub setSeasonLoading()
     m.top.overhangTitle = tr("Loading...")
+end sub
+
+sub onItemSelected()
+    Id = m.top.selectItemId
+    m.rows.selectItemId = Id
 end sub
 
 ' Updates the visibility of the Extras button based on if this season has any extra features
@@ -73,6 +79,7 @@ end function
 ' OnScreenShown: Callback function when view is presented on screen
 '
 sub OnScreenShown()
+
     if m.isFirstRun
         m.isFirstRun = false
         return
@@ -80,6 +87,7 @@ sub OnScreenShown()
 
     m.tvEpisodeRow.setFocus(true)
     m.top.refreshSeasonDetailsData = not m.top.refreshSeasonDetailsData
+
 end sub
 
 ' Handle navigation input from the remote and act on it

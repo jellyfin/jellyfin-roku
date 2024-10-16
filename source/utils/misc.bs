@@ -70,6 +70,24 @@ function secondsToHuman(totalSeconds as integer, addLeadingMinuteZero as boolean
     return humanTime
 end function
 
+function secondsToEndTime(totalSeconds) as string
+    ' Get the current time in seconds since midnight UTC (Unix Epoch Time)
+    currentUTCTime = CreateObject("roDateTime").AsSeconds()
+
+    ' Calculate the target time in seconds by adding the number of seconds
+    targetTimeInSeconds = currentUTCTime + totalSeconds
+
+    ' Create a new roDateTime object for the target time
+    targetDateTime = CreateObject("roDateTime")
+    targetDateTime.FromSeconds(targetTimeInSeconds)
+    targetDateTime.ToLocalTime()
+
+    formattedTime = formatTime(targetDateTime)
+
+    return formattedTime
+end function
+
+
 ' Format time as 12 or 24 hour format based on system clock setting
 function formatTime(time) as string
     hours = time.getHours()

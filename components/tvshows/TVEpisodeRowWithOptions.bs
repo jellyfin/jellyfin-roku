@@ -4,7 +4,13 @@ sub init()
     m.rows = m.top.findNode("tvEpisodeRow")
     m.tvListOptions = m.top.findNode("tvListOptions")
 
+    m.top.observeField("selectItemId", "onItemSelected")
     m.rows.observeField("doneLoading", "rowsDoneLoading")
+end sub
+
+sub onItemSelected()
+    Id = m.top.selectItemId
+    m.rows.selectItemId = Id
 end sub
 
 sub setupRows()
