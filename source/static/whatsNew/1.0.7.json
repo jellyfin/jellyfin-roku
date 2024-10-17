@@ -1,26 +1,30 @@
 [
   {
-    "description": "Add album artist, date added, and release date sort options to music albums",
+    "description": "Reduce load time for artist quickplay",
     "author": "1hitsong"
   },
   {
-    "description": "Add date show added and date episode added sort options to TV show library",
+    "description": "Add missing sort and filter options to Movie, Music, and TV Show libraries",
     "author": "1hitsong"
   },
   {
-    "description": "Add genre and year filters to music library",
-    "author": "1hitsong"
-  },
-  {
-    "description": "Add status, parental ratings, genre, and year filters to TV show library",
-    "author": "1hitsong"
-  },
-  {
-    "description": "Remove Date Played & Release Date music artist sort options - they are not valid",
+    "description": "Fix boxset filters & row height",
     "author": "1hitsong"
   },
   {
     "description": "Fix crash when playing song has no artist or song title data",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Remove non-operational sort and filter options from Movie, Music, and TV Show libraries",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Update device profile name",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Remove more unused code, workflows, dependencies, and scripts",
     "author": "1hitsong"
   }
 ]
