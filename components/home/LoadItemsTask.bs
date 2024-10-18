@@ -73,6 +73,7 @@ sub loadItems()
         params["DisableFirstEpisode"] = false
         params["limit"] = 24
         params["EnableTotalRecordCount"] = false
+        params["EnableResumable"] = false
 
         maxDaysInNextUp = userSettings["ui.details.maxdaysnextup"].ToInt()
         if isValid(maxDaysInNextUp)
