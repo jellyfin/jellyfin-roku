@@ -1322,6 +1322,51 @@
             <extracomment>User Setting - Setting option title</extracomment>
         </message>
         <message>
+            <source>Episode Next Up Behavior</source>
+            <translation>Episode Next Up Behavior</translation>
+            <extracomment>User Setting - Setting option title</extracomment>
+        </message>
+        <message>
+            <source>What should clicking OK on a Next Up episode do.</source>
+            <translation>What should clicking OK on a Next Up episode do.</translation>
+            <extracomment>User Setting - Setting description</extracomment>
+        </message>
+        <message>
+            <source>View Episode Details</source>
+            <translation>View Episode Details</translation>
+            <extracomment>User Setting - Setting option title</extracomment>
+        </message>
+        <message>
+            <source>View Season Details</source>
+            <translation>View Season Details</translation>
+            <extracomment>User Setting - Setting option title</extracomment>
+        </message>
+        <message>
+            <source>OSD Remaining Time</source>
+            <translation>OSD Remaining Time</translation>
+            <extracomment>User Setting - Setting option title</extracomment>
+        </message>
+        <message>
+            <source>How is remaining time represented. Remaining time shows hours, minutes, and seconds remaining. Time of day shows what time the video will complete.</source>
+            <translation>How is remaining time represented. Remaining time shows hours, minutes, and seconds remaining. Time of day shows what time the video will complete.</translation>
+            <extracomment>User Setting - Setting description</extracomment>
+        </message>
+        <message>
+            <source>Remaining Time</source>
+            <translation>Remaining Time</translation>
+            <extracomment>User Setting - Setting option title</extracomment>
+        </message>
+        <message>
+            <source>Time of Day</source>
+            <translation>Time of Day</translation>
+            <extracomment>User Setting - Setting option title</extracomment>
+        </message>
+        <message>
+            <source>Both</source>
+            <translation>Both</translation>
+            <extracomment>User Setting - Setting option title</extracomment>
+        </message>
+        <message>
             <source>Special</source>
             <translation>Special</translation>
             <extracomment>Special episode of a TV Show</extracomment>
