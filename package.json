@@ -14,7 +14,7 @@
     "rimraf": "6.0.1",
     "roku-deploy": "3.12.1",
     "rooibos-roku": "5.14.0",
-    "ropm": "0.10.26",
+    "ropm": "0.10.27",
     "undent": "0.1.0"
   },
   "scripts": {
