@@ -148,19 +148,16 @@ sub Main (args as dynamic) as void
             if isValid(jumpToData)
                 currentView = m.global.sceneManager.callFunc("getActiveScene")
 
-                sceneCount = m.global.sceneManager.callFunc("getSceneCount")
-
-                if sceneCount > 2
+                ' If current view is audio player, remove it from the scene stack so users can't press back to return to it
+                if isStringEqual(currentView.subType(), "audioplayerview")
                     m.global.sceneManager.callFunc("clearPreviousScene")
                 end if
 
-                if jumpToData.selectiontype = "nowplaying"
-                    audioMiniPlayer = m.scene.findNode("audioMiniPlayer")
-                    audioMiniPlayer.callFunc("setVisible", false)
+                if isStringEqual(jumpToData.selectiontype, "nowplaying")
                     JumpIntoAudioPlayerView()
                 end if
 
-                if jumpToData.selectiontype = "artist"
+                if isStringEqual(jumpToData.selectiontype, "artist")
                     startLoadingSpinner()
                     group = CreateArtistView(jumpToData)
                     if isValid(group)
@@ -170,7 +167,7 @@ sub Main (args as dynamic) as void
                     end if
                 end if
 
-                if jumpToData.selectiontype = "album"
+                if isStringEqual(jumpToData.selectiontype, "album")
                     startLoadingSpinner()
                     group = CreateAlbumView(jumpToData)
                     if not isValid(group)
@@ -203,7 +200,6 @@ sub Main (args as dynamic) as void
                     reportingNode.quickPlayNode = invalid
                 end if
             end if
-            print "Quick Play started. itemNode=", itemNode
 
             if isValid(itemNode) and isValid(itemNode.id) and itemNode.id <> ""
                 ' make sure there is a type and convert type to lowercase

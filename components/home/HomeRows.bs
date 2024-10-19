@@ -5,15 +5,12 @@ import "pkg:/source/utils/misc.bs"
 const LOADING_WAIT_TIME = 2
 
 sub init()
-    scene = m.top.getScene()
-    m.contentBlock = scene.findNode("content")
+    m.scene = m.top.getScene()
 
-    m.overhang = scene.findNode("overhang")
+    m.overhang = m.scene.findNode("overhang")
     if isValid(m.overhang)
         m.overhang.isVisible = true
     end if
-
-    m.audioMiniPlayer = scene.findNode("audioMiniPlayer")
 
     ' Hide the row counter to prevent flicker. We'll show it once loading timer fires
     m.top.showRowCounter = [false]
@@ -772,10 +769,14 @@ function onKeyEvent(key as string, press as boolean) as boolean
         end if
 
         if key = KeyCode.REPLAY
+            audioMiniPlayer = m.scene.findNode("audioMiniPlayer")
+            if not isValid(audioMiniPlayer) then return false
+            if not audioMiniPlayer.callFunc("isVisible") then return false
+
             group = m.global.sceneManager.callFunc("getActiveScene")
             group.lastFocus = m.top
-            m.audioMiniPlayer.callFunc("setSelected", true)
-            m.audioMiniPlayer.setfocus(true)
+            audioMiniPlayer.callFunc("setSelected", true)
+            audioMiniPlayer.setfocus(true)
             return true
         end if
 

@@ -40,6 +40,8 @@ sub audioStateChanged()
         m.playbackTimer.control = "stop"
         reportedPlaybackState = "stop"
         m.playReported = false
+        m.top.id = invalid
+        m.top.audioData = []
     else if currentState = "finished"
         m.playbackTimer.control = "stop"
         reportedPlaybackState = "stop"

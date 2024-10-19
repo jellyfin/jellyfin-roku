@@ -7,7 +7,7 @@ sub CreateAudioPlayerView()
         m.global.audioPlayer.id = m.global.queueManager.callFunc("getCurrentItem").id
     end if
 
-    if audioMiniPlayerIsVisible() then return
+    if audioMiniPlayerIsVisible(m.top) then return
 
     m.view = CreateObject("roSGNode", "AudioPlayerView")
     m.view.observeField("state", "onStateChange")
@@ -17,7 +17,13 @@ end sub
 ' Play Audio
 sub JumpIntoAudioPlayerView()
     m.view = CreateObject("roSGNode", "AudioPlayerView")
-    m.view.observeField("state", "onStateChange")
+
+    ' Hide the mini player
+    if audioMiniPlayerIsVisible(m.view)
+        m.audioMiniPlayer.callFunc("setVisible", false)
+    end if
+
+    m.view.returnOnStop = true
     m.global.sceneManager.callFunc("pushScene", m.view)
 end sub
 
@@ -27,7 +33,7 @@ sub CreateVideoPlayerView()
     m.selectedSubtitle = {}
 
     ' If we're playing audio, stop it and hide the mini player
-    if audioMiniPlayerIsVisible()
+    if audioMiniPlayerIsVisible(m.top)
         m.audioMiniPlayer.callFunc("setVisible", false)
     end if
 
@@ -248,6 +254,8 @@ end sub
 ' Playback state change event handlers
 sub onStateChange()
     if LCase(m.view.state) = "finished"
+        if m.view.returnOnStop then return
+
         ' Close any open dialogs
         if m.global.sceneManager.callFunc("isDialogOpen")
             m.global.sceneManager.callFunc("dismissDialog")
@@ -301,10 +309,10 @@ function availSubtitleTrackIdx(tracknameToFind as string) as integer
     return -1
 end function
 
-function audioMiniPlayerIsVisible() as boolean
+function audioMiniPlayerIsVisible(baseNode as dynamic) as boolean
     m.audioMiniPlayer = invalid
 
-    scene = m.top.getScene()
+    scene = baseNode.getScene()
     if not isValid(scene) then return false
 
     m.audioMiniPlayer = scene.findNode("audioMiniPlayer")

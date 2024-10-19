@@ -302,6 +302,12 @@ function isValid(input as dynamic) as boolean
     return input <> invalid
 end function
 
+' Returns whether or not passed string values are equal
+function isStringEqual(input1 as string, input2 as string) as boolean
+    if not isAllValid([input1, input2]) then return false
+    return LCase(input1) = LCase(input2)
+end function
+
 ' Returns whether or not all items in passed array are valid
 function isAllValid(input as object) as boolean
     for each item in input

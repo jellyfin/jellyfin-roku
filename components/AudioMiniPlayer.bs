@@ -42,6 +42,14 @@ end function
 sub setVisible(newVisibleState as boolean)
     m.audioMiniPlayerBorder.visible = newVisibleState
     m.audioMiniPlayerContainer.visible = newVisibleState
+
+    ' We hiding a mini player that is currently selected
+    if not isVisible()
+        if isSelected()
+            setSelected(false)
+            removeFocus()
+        end if
+    end if
 end sub
 
 function isSelected() as boolean
@@ -228,12 +236,22 @@ sub setOnScreenTextValues(json)
     end if
 end sub
 
+' Remove focus from mini player
+sub removeFocus()
+    group = m.global.sceneManager.callFunc("getActiveScene")
+    if isChainValid(group, "lastFocus")
+        group.lastFocus.setFocus(true)
+    end if
+end sub
+
 ' Process key press events
 function onKeyEvent(key as string, press as boolean) as boolean
     if not press then return false
 
     if key = KeyCode.OK
         if not isSelected() then return false
+        setSelected(false)
+
         data = {
             selectionType: "nowplaying"
         }
@@ -244,13 +262,8 @@ function onKeyEvent(key as string, press as boolean) as boolean
         if not isSelected() then return false
 
         setSelected(false)
-
-        group = m.global.sceneManager.callFunc("getActiveScene")
-
-        if isChainValid(group, "lastFocus")
-            group.lastFocus.setFocus(true)
-            return true
-        end if
+        removeFocus()
+        return true
     end if
 
     return false

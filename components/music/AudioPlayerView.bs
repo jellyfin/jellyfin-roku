@@ -66,6 +66,10 @@ sub init()
     m.playPosition.color = ColorPalette.TRIADBLUE
 
     m.buttons.setFocus(true)
+
+    if m.global.audioPlayer.state = "playing"
+        onAudioDataChanged()
+    end if
 end sub
 
 sub onScreensaverTimeoutLoaded()
@@ -326,6 +330,15 @@ function playAction() as boolean
         m.global.audioPlayer.control = "play"
     end if
 
+    return true
+end function
+
+function stopClicked() as boolean
+    m.global.queueManager.callFunc("clear")
+    m.global.audioPlayer.control = "stop"
+    if m.top.returnOnStop
+        m.global.sceneManager.callFunc("popScene")
+    end if
     return true
 end function
 
@@ -803,7 +816,12 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
                 if isChainValid(currentItem, "AlbumId")
                     if isValidAndNotEmpty(currentItem.AlbumId)
-                        m.global.audioPlayer.control = "stop"
+                        if m.playlistTypeCount > 1
+                            m.global.audioPlayer.control = "stop"
+                        else
+                            displayMiniPlayer()
+                        end if
+
                         m.global.audioPlayer.loopMode = ""
                         data = {
                             selectionType: "album",
@@ -817,8 +835,12 @@ function onKeyEvent(key as string, press as boolean) as boolean
                 if not isValidAndNotEmpty(m.top.getScene().jumpTo)
                     if isChainValid(currentItem, "json.AlbumId")
                         if isValidAndNotEmpty(currentItem.json.AlbumId)
-                            m.global.audioPlayer.control = "stop"
-                            m.global.audioPlayer.loopMode = ""
+                            if m.playlistTypeCount > 1
+                                m.global.audioPlayer.control = "stop"
+                                m.global.audioPlayer.loopMode = ""
+                            else
+                                displayMiniPlayer()
+                            end if
                             data = {
                                 selectionType: "album",
                                 id: currentItem.json.AlbumId
@@ -853,8 +875,12 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
                 if isChainValid(currentItem, "ArtistItems")
                     if isValidAndNotEmpty(currentItem.ArtistItems)
-                        m.global.audioPlayer.control = "stop"
-                        m.global.audioPlayer.loopMode = ""
+                        if m.playlistTypeCount > 1
+                            m.global.audioPlayer.control = "stop"
+                            m.global.audioPlayer.loopMode = ""
+                        else
+                            displayMiniPlayer()
+                        end if
                         data = currentItem.ArtistItems[0]
                         data.selectionType = "artist"
                         m.top.getScene().jumpTo = data
@@ -864,8 +890,12 @@ function onKeyEvent(key as string, press as boolean) as boolean
                 if not isValidAndNotEmpty(m.top.getScene().jumpTo)
                     if isChainValid(currentItem, "json.ArtistItems")
                         if isValidAndNotEmpty(currentItem.json.ArtistItems)
-                            m.global.audioPlayer.control = "stop"
-                            m.global.audioPlayer.loopMode = ""
+                            if m.playlistTypeCount > 1
+                                m.global.audioPlayer.control = "stop"
+                                m.global.audioPlayer.loopMode = ""
+                            else
+                                displayMiniPlayer()
+                            end if
                             data = currentItem.json.ArtistItems[0]
                             data.selectionType = "artist"
                             m.top.getScene().jumpTo = data
@@ -927,21 +957,27 @@ function onKeyEvent(key as string, press as boolean) as boolean
             end if
 
             if key = KeyCode.OK
-                if m.buttons.getChild(m.top.selectedButtonIndex).id = "play"
+                selectedButtonID = m.buttons.getChild(m.top.selectedButtonIndex).id
+                if selectedButtonID = "play"
                     return playAction()
-                else if m.buttons.getChild(m.top.selectedButtonIndex).id = "previous"
+                else if selectedButtonID = "previous"
                     return previousClicked()
-                else if m.buttons.getChild(m.top.selectedButtonIndex).id = "next"
+                else if selectedButtonID = "next"
                     return nextClicked()
-                else if m.buttons.getChild(m.top.selectedButtonIndex).id = "shuffle"
+                else if selectedButtonID = "shuffle"
                     return shuffleClicked()
-                else if m.buttons.getChild(m.top.selectedButtonIndex).id = "loop"
+                else if selectedButtonID = "loop"
                     return loopClicked()
+                else if selectedButtonID = "stop"
+                    return stopClicked()
                 end if
             end if
 
             if key = KeyCode.RIGHT
-                if m.global.queueManager.callFunc("getCount") = 1 then return false
+                if m.global.queueManager.callFunc("getCount") = 1
+                    if m.top.selectedButtonIndex = 3 then return false
+                end if
+
                 m.previouslySelectedButtonIndex = m.top.selectedButtonIndex
                 if m.top.selectedButtonIndex < m.buttonCount - 1 then m.top.selectedButtonIndex = m.top.selectedButtonIndex + 1
                 checkDisplaySiblingItem()
@@ -949,7 +985,9 @@ function onKeyEvent(key as string, press as boolean) as boolean
             end if
 
             if key = KeyCode.LEFT
-                if m.global.queueManager.callFunc("getCount") = 1 then return false
+                if m.global.queueManager.callFunc("getCount") = 1
+                    if m.top.selectedButtonIndex = 2 then return false
+                end if
 
                 if m.top.selectedButtonIndex > 0
                     m.previouslySelectedButtonIndex = m.top.selectedButtonIndex
