@@ -1,10 +1,13 @@
 import "pkg:/source/api/baserequest.bs"
 import "pkg:/source/api/Image.bs"
+import "pkg:/source/enums/AnimationControl.bs"
 import "pkg:/source/enums/ColorPalette.bs"
 import "pkg:/source/enums/ImageType.bs"
 import "pkg:/source/enums/KeyCode.bs"
+import "pkg:/source/enums/MediaPlaybackState.bs"
 import "pkg:/source/enums/String.bs"
 import "pkg:/source/enums/TaskControl.bs"
+import "pkg:/source/enums/VideoControl.bs"
 import "pkg:/source/enums/ViewLoadStatus.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/misc.bs"
@@ -143,7 +146,7 @@ sub bufferPositionChanged()
 
     ' Use animation to make the display smooth
     m.bufferPositionAnimationWidth.keyValue = [m.bufferPosition.width, bufferPositionBarWidth]
-    m.bufferPositionAnimation.control = "start"
+    m.bufferPositionAnimation.control = AnimationControl.START
 end sub
 
 sub audioPositionChanged()
@@ -171,16 +174,16 @@ sub audioPositionChanged()
 
     ' Use animation to make the display smooth
     m.playPositionAnimationWidth.keyValue = [m.playPosition.width, playPositionBarWidth]
-    m.playPositionAnimation.control = "start"
+    m.playPositionAnimation.control = AnimationControl.START
 end sub
 
 function playAction() as boolean
-    if m.global.audioPlayer.state = "playing"
-        m.global.audioPlayer.control = "pause"
-    else if m.global.audioPlayer.state = "paused"
-        m.global.audioPlayer.control = "resume"
-    else if m.global.audioPlayer.state = "finished"
-        m.global.audioPlayer.control = "play"
+    if m.global.audioPlayer.state = MediaPlaybackState.PLAYING
+        m.global.audioPlayer.control = VideoControl.PAUSE
+    else if m.global.audioPlayer.state = MediaPlaybackState.PAUSED
+        m.global.audioPlayer.control = VideoControl.RESUME
+    else if m.global.audioPlayer.state = MediaPlaybackState.FINISHED
+        m.global.audioPlayer.control = VideoControl.PLAY
     end if
 
     return true
@@ -190,7 +193,7 @@ function findCurrentSongIndex(songList) as integer
     if not isValidAndNotEmpty(songList) then return 0
 
     for i = 0 to songList.count() - 1
-        if songList[i].id = m.global.queueManager.callFunc("getCurrentItem").id
+        if isStringEqual(songList[i].id, m.global.queueManager.callFunc("getCurrentItem").id)
             return i
         end if
     end for
@@ -218,7 +221,7 @@ end sub
 ' Set poster image on screen
 sub setPosterImage(posterURL)
     if isValid(posterURL)
-        if m.albumCover.uri <> posterURL
+        if not isStringEqual(m.albumCover.uri, posterURL)
             m.albumCover.uri = posterURL
         end if
     end if
