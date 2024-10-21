@@ -112,15 +112,21 @@ function onKeyEvent(key as string, press as boolean) as boolean
         if m.playAlbum.hasFocus() or m.instantMix.hasFocus()
             m.top.lastFocus = m.songList
             m.songList.setFocus(true)
+            group = m.global.sceneManager.callFunc("getActiveScene")
+            group.lastFocus = m.songList
             return true
         end if
     else if key = KeyCode.LEFT and m.songList.hasFocus()
         if m.playAlbum.visible
             m.top.lastFocus = m.playAlbum
             m.playAlbum.setFocus(true)
+            group = m.global.sceneManager.callFunc("getActiveScene")
+            group.lastFocus = m.playAlbum
         else if m.instantMix.visible
             m.top.lastFocus = m.instantMix
             m.instantMix.setFocus(true)
+            group = m.global.sceneManager.callFunc("getActiveScene")
+            group.lastFocus = m.instantMix
         else
             return false
         end if
@@ -128,24 +134,14 @@ function onKeyEvent(key as string, press as boolean) as boolean
     else if key = KeyCode.DOWN and m.playAlbum.hasFocus()
         m.top.lastFocus = m.instantMix
         m.instantMix.setFocus(true)
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        group.lastFocus = m.instantMix
         return true
     else if key = KeyCode.UP and m.instantMix.hasFocus()
         m.top.lastFocus = m.playAlbum
         m.playAlbum.setFocus(true)
-        return true
-    end if
-
-    if key = KeyCode.REPLAY
-        scene = m.top.getScene()
-        if not isValid(scene) then return false
-        audioMiniPlayer = scene.findNode("audioMiniPlayer")
-        if not isValid(audioMiniPlayer) then return false
-        if not audioMiniPlayer.callFunc("isVisible") then return false
-
         group = m.global.sceneManager.callFunc("getActiveScene")
-        group.lastFocus = m.top.lastFocus
-        audioMiniPlayer.callFunc("setSelected", true)
-        audioMiniPlayer.setfocus(true)
+        group.lastFocus = m.playAlbum
         return true
     end if
 

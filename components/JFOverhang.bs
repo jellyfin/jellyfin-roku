@@ -103,6 +103,8 @@ function onKeyEvent(key as string, press as boolean) as boolean
             if isValid(homeRows)
                 dehighlightUser()
                 homeRows.setfocus(true)
+                group = m.global.sceneManager.callFunc("getActiveScene")
+                group.lastFocus = homeRows
                 return true
             end if
         end if

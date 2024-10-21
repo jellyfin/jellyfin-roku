@@ -768,27 +768,22 @@ function onKeyEvent(key as string, press as boolean) as boolean
             return true
         end if
 
-        if key = KeyCode.REPLAY
-            audioMiniPlayer = m.scene.findNode("audioMiniPlayer")
-            if not isValid(audioMiniPlayer) then return false
-            if not audioMiniPlayer.callFunc("isVisible") then return false
-
-            group = m.global.sceneManager.callFunc("getActiveScene")
-            group.lastFocus = m.top
-            audioMiniPlayer.callFunc("setSelected", true)
-            audioMiniPlayer.setfocus(true)
-            return true
-        end if
-
         if key = KeyCode.UP
             if m.top.rowItemFocused[0] = 0
                 m.overhang.callFunc("highlightUser")
-
                 m.overhang.setfocus(true)
+
+                group = m.global.sceneManager.callFunc("getActiveScene")
+                group.lastFocus = m.overhang
+
                 return true
             end if
         end if
+
     end if
+
+    group = m.global.sceneManager.callFunc("getActiveScene")
+    group.lastFocus = m.top
     return false
 end function
 

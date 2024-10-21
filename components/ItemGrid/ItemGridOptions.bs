@@ -17,6 +17,8 @@ sub init()
     m.buttons.buttons = [tr("View"), tr("Sort"), tr("Filter")]
     m.buttons.selectedIndex = MenuType.SORT
     m.buttons.setFocus(true)
+    group = m.global.sceneManager.callFunc("getActiveScene")
+    group.lastFocus = m.buttons
 
     m.favoriteMenu = m.top.findNode("favoriteMenu")
     m.selectedFavoriteItem = m.top.findNode("selectedFavoriteItem")
@@ -216,6 +218,8 @@ sub buttonFocusChanged()
             m.menus[m.selectedItem].setFocus(false)
             m.menus[m.selectedItem].visible = false
             m.favoriteMenu.setFocus(true)
+            group = m.global.sceneManager.callFunc("getActiveScene")
+            group.lastFocus = m.favoriteMenu
         end if
     end if
     m.fadeOutAnimOpacity.fieldToInterp = m.menus[m.selectedItem].id + ".opacity"
@@ -282,6 +286,8 @@ function onKeyEvent(key as string, press as boolean) as boolean
     if key = KeyCode.DOWN or (key = KeyCode.OK and m.buttons.hasFocus())
         m.buttons.setFocus(false)
         m.menus[m.selectedItem].setFocus(true)
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        group.lastFocus = m.menus[m.selectedItem]
         m.menus[m.selectedItem].drawFocusFeedback = true
 
         'If user presses down from button menu, focus first item.  If OK, focus checked item
@@ -308,6 +314,8 @@ function onKeyEvent(key as string, press as boolean) as boolean
             ' Selected filter has options, move cursor to it
             m.filterOptions.setFocus(true)
             m.menus[m.selectedItem].setFocus(false)
+            group = m.global.sceneManager.callFunc("getActiveScene")
+            group.lastFocus = m.filterOptions
             return true
         end if
     end if
@@ -322,6 +330,8 @@ function onKeyEvent(key as string, press as boolean) as boolean
                 if m.filterMenu.content.getChild(m.filterMenu.itemFocused).getChildCount() > 0
                     m.menus[m.selectedItem].setFocus(false)
                     m.filterOptions.setFocus(true)
+                    group = m.global.sceneManager.callFunc("getActiveScene")
+                    group.lastFocus = m.filterOptions
                     return true
                 end if
             end if
@@ -333,12 +343,16 @@ function onKeyEvent(key as string, press as boolean) as boolean
             m.favoriteMenu.setFocus(false)
             m.menus[m.selectedItem].visible = true
             m.buttons.setFocus(true)
+            group = m.global.sceneManager.callFunc("getActiveScene")
+            group.lastFocus = m.buttons
         end if
 
         ' User wants to escape filter options
         if m.filterOptions.isInFocusChain()
             m.filterOptions.setFocus(false)
             m.menus[m.selectedItem].setFocus(true)
+            group = m.global.sceneManager.callFunc("getActiveScene")
+            group.lastFocus = m.menus[m.selectedItem]
             return true
         end if
     end if
@@ -389,6 +403,8 @@ function onKeyEvent(key as string, press as boolean) as boolean
                 ' Selected filter has options, move cursor to it
                 m.filterOptions.setFocus(true)
                 m.menus[m.selectedItem].setFocus(false)
+                group = m.global.sceneManager.callFunc("getActiveScene")
+                group.lastFocus = m.filterOptions
                 return true
             end if
         end if
@@ -432,6 +448,8 @@ function onKeyEvent(key as string, press as boolean) as boolean
         if m.menus[m.selectedItem].isInFocusChain()
             m.buttons.setFocus(true)
             m.menus[m.selectedItem].drawFocusFeedback = false
+            group = m.global.sceneManager.callFunc("getActiveScene")
+            group.lastFocus = m.buttons
             return true
         end if
     end if

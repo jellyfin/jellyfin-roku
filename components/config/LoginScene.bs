@@ -2,6 +2,8 @@ import "pkg:/source/utils/misc.bs"
 
 sub init()
     m.top.setFocus(true)
+    group = m.global.sceneManager.callFunc("getActiveScene")
+    group.lastFocus = m.top
     m.top.optionsAvailable = false
 end sub
 
@@ -20,28 +22,44 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
         if limit = list.itemFocused
             checkbox.setFocus(true)
+            group = m.global.sceneManager.callFunc("getActiveScene")
+            group.lastFocus = checkbox
             return true
         end if
     else if key = "down" and submit.focusedChild = invalid
         submit.setFocus(true)
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        group.lastFocus = submit
         return true
     else if key = "up" and submit.focusedChild <> invalid
         checkbox.setFocus(true)
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        group.lastFocus = checkbox
         return true
     else if key = "up" and quickConnect.focusedChild <> invalid
         checkbox.setFocus(true)
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        group.lastFocus = checkbox
         return true
     else if key = "up" and checkbox.focusedChild <> invalid
         list.setFocus(true)
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        group.lastFocus = list
         return true
     else if key = "right" and checkbox.focusedChild <> invalid
         quickConnect.setFocus(true)
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        group.lastFocus = quickConnect
         return true
     else if key = "right" and submit.focusedChild <> invalid
         quickConnect.setFocus(true)
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        group.lastFocus = quickConnect
         return true
     else if key = "left" and quickConnect.focusedChild <> invalid
         submit.setFocus(true)
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        group.lastFocus = submit
         return true
     end if
     return false

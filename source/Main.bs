@@ -183,6 +183,7 @@ sub Main (args as dynamic) as void
                 group.lastFocus.setFocus(true)
             else
                 group.setFocus(true)
+                group.lastFocus = group
             end if
         else if isNodeEvent(msg, "quickPlayNode")
             ' measure processing time
@@ -602,11 +603,15 @@ sub Main (args as dynamic) as void
                     ' Otherwise, set focus back to Search button
                     if mySubtitleList.content.getChildCount() > 0
                         mySubtitleList.setFocus(true)
+                        group = m.global.sceneManager.callFunc("getActiveScene")
+                        group.lastFocus = mySubtitleList
                     else
                         searchButton = screenContent.findNode("searchButton")
                         if isValid(searchButton)
                             searchButton.focus = true
                             searchButton.setFocus(true)
+                            group = m.global.sceneManager.callFunc("getActiveScene")
+                            group.lastFocus = searchButton
                         end if
                     end if
                 end if
@@ -994,10 +999,13 @@ sub Main (args as dynamic) as void
                     group.lastFocus.setFocus(true)
                 else
                     group.setFocus(true)
+                    group.lastFocus = group
                 end if
                 group = CreateSearchPage()
                 sceneManager.callFunc("pushScene", group)
                 group.findNode("SearchBox").findNode("search_Key").setFocus(true)
+                group = m.global.sceneManager.callFunc("getActiveScene")
+                group.lastFocus = group.findNode("SearchBox").findNode("search_Key")
                 group.findNode("SearchBox").findNode("search_Key").active = true
             else if button.id = "change_server"
                 unset_setting("server")

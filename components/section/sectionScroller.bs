@@ -7,6 +7,8 @@ end sub
 sub onFocusChange()
     if m.top.focus
         m.top.getChild(m.top.displayedIndex).setFocus(true)
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        group.lastFocus = m.top.getChild(m.top.displayedIndex)
     end if
 end sub
 
@@ -25,6 +27,8 @@ sub displayedIndexChanged()
 
     displayedSection = m.top.getChild(m.top.displayedIndex)
     displayedSection.setFocus(true)
+    group = m.global.sceneManager.callFunc("getActiveScene")
+    group.lastFocus = displayedSection
 
     onDeckSection = invalid
     previouslyOnDeckSection = invalid

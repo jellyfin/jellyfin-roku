@@ -1,3 +1,4 @@
+import "pkg:/source/enums/KeyCode.bs"
 import "pkg:/source/utils/misc.bs"
 
 sub init()
@@ -77,6 +78,7 @@ sub OnScreenShown()
         m.overhang.isVisible = false
         m.overhang.opacity = "1"
     end if
+
     stopLoadingSpinner()
 end sub
 
@@ -94,6 +96,8 @@ sub onAlbumsEscape()
         m.sectionNavigation.selected = m.sectionScroller.displayedIndex - 1
     else if m.albums.escape = "left"
         m.sectionNavigation.setFocus(true)
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        group.lastFocus = m.sectionNavigation
     else if m.albums.escape = "down"
         if m.sectionScroller.displayedIndex + 1 < m.sectionNavigation.getChildCount()
             m.sectionNavigation.selected = m.sectionScroller.displayedIndex + 1
@@ -106,6 +110,8 @@ sub onAppearsOnEscape()
         m.sectionNavigation.selected = m.sectionScroller.displayedIndex - 1
     else if m.appearsOn.escape = "left"
         m.sectionNavigation.setFocus(true)
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        group.lastFocus = m.sectionNavigation
     end if
 end sub
 
@@ -214,6 +220,8 @@ end sub
 sub dscrShowFocus()
     if m.dscr.isTextEllipsized
         m.dscr.setFocus(true)
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        group.lastFocus = m.dscr
         m.dscr.opacity = 1.0
     end if
 end sub
@@ -251,9 +259,27 @@ sub createDialogPallete()
     }
 end sub
 
+sub onButtonGroupFocus()
+    m.previouslySelectedButtonIndex = m.top.selectedButtonIndex
+    m.top.selectedButtonIndex = 0
+end sub
+
 function onKeyEvent(key as string, press as boolean) as boolean
 
     if m.buttonGrp.isInFocusChain()
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        group.lastFocus = m.buttonGrp
+
+        if key = KeyCode.REPLAY
+            if m.top.selectedButtonIndex = 0 then return false
+
+            selectedButton = m.buttonGrp.getChild(m.top.selectedButtonIndex)
+            selectedButton.focus = false
+            m.previouslySelectedButtonIndex = m.top.selectedButtonIndex
+            m.top.selectedButtonIndex = 0
+            return false
+        end if
+
         if key = "OK"
             if press
                 selectedButton = m.buttonGrp.getChild(m.top.selectedButtonIndex)
@@ -274,6 +300,8 @@ function onKeyEvent(key as string, press as boolean) as boolean
                 selectedButton.focus = false
 
                 m.sectionNavigation.setFocus(true)
+                group = m.global.sceneManager.callFunc("getActiveScene")
+                group.lastFocus = m.sectionNavigation
                 return true
             end if
 
@@ -289,6 +317,8 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
                 if m.top.selectedButtonIndex < m.buttonCount - 1
                     m.top.selectedButtonIndex = m.top.selectedButtonIndex + 1
+                    group = m.global.sceneManager.callFunc("getActiveScene")
+                    group.lastFocus = m.buttonGrp
                 end if
 
                 return true
@@ -299,7 +329,6 @@ function onKeyEvent(key as string, press as boolean) as boolean
             if m.sectionNavigation.getChildCount() > 1
                 selectedButton = m.buttonGrp.getChild(m.top.selectedButtonIndex)
                 selectedButton.focus = false
-
                 m.top.selectedButtonIndex = 0
                 m.sectionNavigation.selected = m.sectionScroller.displayedIndex + 1
             end if

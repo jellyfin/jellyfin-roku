@@ -6,8 +6,12 @@ end sub
 sub OnScreenShown()
     if m.top.lastFocus <> invalid
         m.top.lastFocus.setFocus(true)
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        group.lastFocus = m.top.lastFocus
     else
         m.top.setFocus(true)
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        group.lastFocus = m.top
     end if
 end sub
 

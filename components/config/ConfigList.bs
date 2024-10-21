@@ -12,6 +12,8 @@ sub init()
     m.top.itemSpacing = [0, 25]
 
     m.top.setfocus(true)
+    group = m.global.sceneManager.callFunc("getActiveScene")
+    group.lastFocus = m.top
 
 end sub
 

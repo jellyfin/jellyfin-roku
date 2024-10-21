@@ -1,9 +1,9 @@
-import "pkg:/source/api/Image.bs"
 import "pkg:/source/api/baserequest.bs"
+import "pkg:/source/api/Image.bs"
+import "pkg:/source/api/sdk.bs"
+import "pkg:/source/enums/TaskControl.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/misc.bs"
-import "pkg:/source/enums/TaskControl.bs"
-import "pkg:/source/api/sdk.bs"
 
 sub init()
     m.top.optionsAvailable = false
@@ -85,12 +85,23 @@ end function
 ' OnScreenShown: Callback function when view is presented on screen
 '
 sub OnScreenShown()
+    if isValid(m.top.lastFocus)
+        print "Last Focus Valid"
+        m.top.lastFocus.setFocus(true)
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        group.lastFocus = m.top.lastFocus
+    else
+        print "Last Focus NOT Valid"
+        m.tvEpisodeRow.setFocus(true)
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        group.lastFocus = m.tvEpisodeRow
+    end if
+
     if m.isFirstRun
         m.isFirstRun = false
         return
     end if
 
-    m.tvEpisodeRow.setFocus(true)
     m.top.refreshSeasonDetailsData = not m.top.refreshSeasonDetailsData
 end sub
 
@@ -98,21 +109,29 @@ end sub
 function onKeyEvent(key as string, press as boolean) as boolean
     if key = "left" and m.tvEpisodeRow.hasFocus()
         m.shuffle.setFocus(true)
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        group.lastFocus = m.shuffle
         return true
     end if
 
     if key = "right" and (m.shuffle.hasFocus() or m.extras.hasFocus())
         m.tvEpisodeRow.setFocus(true)
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        group.lastFocus = m.tvEpisodeRow
         return true
     end if
 
     if m.extras.visible and key = "up" and m.extras.hasFocus()
         m.shuffle.setFocus(true)
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        group.lastFocus = m.shuffle
         return true
     end if
 
     if m.extras.visible and key = "down" and m.shuffle.hasFocus()
         m.extras.setFocus(true)
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        group.lastFocus = m.extras
         return true
     end if
 

@@ -84,6 +84,8 @@ end sub
 ' If somehow the scrollbar gains focus, set focus back to the option list
 sub onScrollBarFocus()
     m.radioOptions.setFocus(true)
+    group = m.global.sceneManager.callFunc("getActiveScene")
+    group.lastFocus = m.radioOptions
 
     ' Ensure scrollbar styles remain in an unfocused state
     m.scrollBarThumb[0].node.blendColor = "#353535"
@@ -95,6 +97,8 @@ sub onItemSelected()
 
     if buttonArea.count() <> 0 and isValid(buttonArea[0]) and isValid(buttonArea[0].node)
         buttonArea[0].node.setFocus(true)
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        group.lastFocus = buttonArea[0].node
     end if
 end sub
 
