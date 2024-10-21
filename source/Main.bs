@@ -36,7 +36,7 @@ sub Main (args as dynamic) as void
     sceneManager = CreateObject("roSGNode", "SceneManager")
     sceneManager.observeField("dataReturned", m.port)
 
-    m.global.addFields({ app_loaded: false, playstateTask: playstateTask, sceneManager: sceneManager })
+    m.global.addFields({ app_loaded: false, playstateTask: playstateTask, sceneManager: sceneManager, launchSource: "" })
     m.global.addFields({ queueManager: CreateObject("roSGNode", "QueueManager") })
     m.global.addFields({ audioPlayer: CreateObject("roSGNode", "AudioPlayer") })
 
@@ -307,22 +307,39 @@ sub Main (args as dynamic) as void
                         audio_stream_idx = selectedItem.selectedAudioStreamIndex
                     end if
 
+                    launchSource = m.global.launchSource
+                    m.global.launchSource = ""
+
                     selectedItem.selectedAudioStreamIndex = audio_stream_idx
-                    ' Display playback options dialog
-                    if selectedItem.json.userdata.PlaybackPositionTicks > 0
-                        m.global.queueManager.callFunc("hold", selectedItem)
-                        playbackOptionDialog(selectedItem.json.userdata.PlaybackPositionTicks, selectedItem.json)
-                    else
-                        m.global.queueManager.callFunc("clear")
-                        m.global.queueManager.callFunc("push", selectedItem)
-                        m.global.queueManager.callFunc("playQueue")
+
+                    localGlobal = m.global
+
+                    ' we only use this special steering logic from the home screen
+                    if launchSource <> "home"
+                        ' Display playback options dialog
+                        if selectedItem.json.userdata.PlaybackPositionTicks > 0
+                            m.global.queueManager.callFunc("hold", selectedItem)
+                            playbackOptionDialog(selectedItem.json.userdata.PlaybackPositionTicks, selectedItem.json)
+                        else
+                            m.global.queueManager.callFunc("clear")
+                            m.global.queueManager.callFunc("push", selectedItem)
+                            m.global.queueManager.callFunc("playQueue")
+                        end if
+
+                    else if localGlobal.session.user.settings["ui.general.episodenextupbehavior"] = "episode"
+                        group = CreateMovieDetailsGroup(selectedItem)
+
+                    else if localGlobal.session.user.settings["ui.general.episodenextupbehavior"] = "season"
+                        group = CreateSeasonDetailsGroupByID(selectedItem.json.SeriesId, selectedItem.json.SeasonId, selectedItem.id)
+
                     end if
+
 
                 else if selectedItemType = "Series"
                     group = CreateSeriesDetailsGroup(selectedItem.json.id)
                 else if selectedItemType = "Season"
                     if isValid(selectedItem.json) and isValid(selectedItem.json.SeriesId) and isValid(selectedItem.id)
-                        group = CreateSeasonDetailsGroupByID(selectedItem.json.SeriesId, selectedItem.id)
+                        group = CreateSeasonDetailsGroupByID(selectedItem.json.SeriesId, selectedItem.id, "")
                     else
                         stopLoadingSpinner()
                         message_dialog(tr("Error loading Season"))
@@ -863,7 +880,7 @@ sub Main (args as dynamic) as void
                     else if popupNode.returnData.indexselected = 3
                         ' User chose Go to season
                         if isValid(selectedItem[0].json) and isValid(selectedItem[0].json.SeriesId) and isValid(selectedItem[0].json.seasonID)
-                            CreateSeasonDetailsGroupByID(selectedItem[0].json.SeriesId, selectedItem[0].json.seasonID)
+                            CreateSeasonDetailsGroupByID(selectedItem[0].json.SeriesId, selectedItem[0].json.seasonID, "")
                         else
                             stopLoadingSpinner()
                             message_dialog(tr("Error loading Season"))

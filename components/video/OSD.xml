@@ -34,7 +34,7 @@
     </Rectangle>
 
     <Label id="videoPositionTime" font="font:MediumSystemFont" color="0xffffffFF" translation="[103,985]" />
-    <Label id="videoRemainingTime" font="font:MediumSystemFont" color="0xffffffFF" horizAlign="right" width="200" translation="[1617,985]" />
+    <Label id="videoRemainingTime" font="font:MediumSystemFont" color="0xffffffFF" horizAlign="right" width="400" translation="[1450,985]" />
 
     <Timer id="inactivityTimer" duration="1" repeat="true" />
   </children>

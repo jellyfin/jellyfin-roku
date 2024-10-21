@@ -6,10 +6,27 @@ sub init()
 
     m.top.showRowLabel = [false]
 
+    m.top.observeField("selectItemId", "onItemSelected")
+
     updateSize()
 
     m.top.setFocus(true)
 end sub
+
+sub onItemSelected()
+    Id = m.top.selectItemId
+
+    if Id <> invalid and Id <> "" and m.top.objects <> invalid
+        for i = 0 to m.top.objects.items.count() - 1
+            item = m.top.objects.items[i]
+            if item.id = Id
+                m.top.jumpToItem = i
+                return
+            end if
+        end for
+    end if
+end sub
+
 
 sub updateSize()
     m.top.translation = [450, 180]

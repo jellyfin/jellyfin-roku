@@ -19,6 +19,9 @@
     <field id="objects" alias="picker.objects" />
     <field id="episodeObjects" type="assocarray" />
     <field id="extrasObjects" type="assocarray" onChange="setExtraButtonVisibility" />
+    <field id="selectItemId" type="string" />
+
     <function name="updateSeason" />
+    <function name="onItemSelected" />
   </interface>
 </component>
