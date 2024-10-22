@@ -353,11 +353,13 @@ end function
 sub setLoopButtonImage()
     if m.global.audioPlayer.loopMode = "all"
         m.loopIndicator.opacity = "1"
-        m.loopIndicator.uri = m.loopIndicator.uri.Replace("-off", "-on")
+        m.loopIndicator.uri = "pkg:/images/icons/loopIndicator-on.png"
     else if m.global.audioPlayer.loopMode = "one"
-        m.loopIndicator.uri = m.loopIndicator.uri.Replace("-on", "1-on")
+        m.loopIndicator.opacity = "1"
+        m.loopIndicator.uri = "pkg:/images/icons/loopIndicator1-on.png"
     else
-        m.loopIndicator.uri = m.loopIndicator.uri.Replace("1-on", "-off")
+        m.loopIndicator.opacity = "0"
+        m.loopIndicator.uri = "pkg:/images/icons/loopIndicator-off.png"
     end if
 end sub
 
