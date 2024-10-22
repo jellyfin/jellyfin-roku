@@ -94,6 +94,18 @@ sub setOnScreenTextValues(json)
     end if
 end sub
 
+sub OnScreenShown()
+    if isValid(m.top.lastFocus)
+        m.top.lastFocus.setFocus(true)
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        group.lastFocus = m.top.lastFocus
+    else
+        m.songList.setFocus(true)
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        group.lastFocus = m.songList
+    end if
+end sub
+
 function onKeyEvent(key as string, press as boolean) as boolean
     if not press then return false
 

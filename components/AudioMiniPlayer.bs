@@ -81,6 +81,13 @@ end sub
 
 sub onAudioDataChanged()
     stopLoadingSpinner()
+
+    ' If user starts playing a mixed playlist, hide mini player
+    if m.global.queueManager.callFunc("getQueueUniqueTypes").count() <> 1
+        setVisible(false)
+        return
+    end if
+
     data = m.global.audioPlayer.audioData
     if not isValidAndNotEmpty(data)
         setVisible(false)
@@ -230,10 +237,6 @@ end sub
 ' Populate on screen text variables
 sub setOnScreenTextValues(json)
     if isValid(json)
-        if m.playlistTypeCount = 1
-            setTrackNumberDisplay()
-        end if
-
         setFieldTextValue("artist", json.Artists[0].replace(chr(8208), "-"))
         setFieldTextValue("song", UCase(json.name.trim()))
     end if

@@ -9,7 +9,10 @@ sub CreateAudioPlayerView()
         m.global.audioPlayer.id = m.global.queueManager.callFunc("getCurrentItem").id
     end if
 
-    if audioMiniPlayerIsVisible(m.top) then return
+    ' Only bypass creating an audio player view if the current queue is only audio
+    if m.global.queueManager.callFunc("getQueueUniqueTypes").count() = 1
+        if audioMiniPlayerIsVisible(m.top) then return
+    end if
 
     m.view = CreateObject("roSGNode", "AudioPlayerView")
     m.view.observeField("state", "onStateChange")

@@ -817,6 +817,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
                 if isChainValid(currentItem, "AlbumId")
                     if isValidAndNotEmpty(currentItem.AlbumId)
                         if m.playlistTypeCount > 1
+                            m.global.queueManager.callFunc("clear")
                             m.global.audioPlayer.control = "stop"
                         else
                             displayMiniPlayer()
@@ -836,6 +837,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
                     if isChainValid(currentItem, "json.AlbumId")
                         if isValidAndNotEmpty(currentItem.json.AlbumId)
                             if m.playlistTypeCount > 1
+                                m.global.queueManager.callFunc("clear")
                                 m.global.audioPlayer.control = "stop"
                                 m.global.audioPlayer.loopMode = ""
                             else
@@ -876,6 +878,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
                 if isChainValid(currentItem, "ArtistItems")
                     if isValidAndNotEmpty(currentItem.ArtistItems)
                         if m.playlistTypeCount > 1
+                            m.global.queueManager.callFunc("clear")
                             m.global.audioPlayer.control = "stop"
                             m.global.audioPlayer.loopMode = ""
                         else
@@ -891,6 +894,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
                     if isChainValid(currentItem, "json.ArtistItems")
                         if isValidAndNotEmpty(currentItem.json.ArtistItems)
                             if m.playlistTypeCount > 1
+                                m.global.queueManager.callFunc("clear")
                                 m.global.audioPlayer.control = "stop"
                                 m.global.audioPlayer.loopMode = ""
                             else
@@ -1008,12 +1012,13 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
         if key = KeyCode.BACK
             if m.playlistTypeCount > 1
-                m.global.audioPlayer.control = "stop"
+                stopClicked()
             else
                 displayMiniPlayer()
             end if
 
             unobserveAll()
+            return true
         else if key = KeyCode.REWIND
             return previousClicked()
         else if key = KeyCode.FASTFORWRD

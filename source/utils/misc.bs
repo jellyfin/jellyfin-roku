@@ -158,7 +158,7 @@ function show_dialog(message as string, options = [], defaultSelection = 0) as i
     m.scene.appendChild(dialog)
     dialog.setFocus(true)
     group = m.global.sceneManager.callFunc("getActiveScene")
-    group.lastFocus = dialog
+    group.lastFocus = dialog.findNode("optionList")
 
     port = CreateObject("roMessagePort")
     dialog.observeField("backPressed", port)
