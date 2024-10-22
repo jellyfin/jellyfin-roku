@@ -579,6 +579,17 @@ sub focusAudioMiniPlayer()
     audioMiniPlayer.setfocus(true)
 end sub
 
+' Hides the audio mini player
+sub hideAudioMiniPlayer()
+    scene = m.top.getScene()
+    if not isValid(scene) then return
+
+    audioMiniPlayer = scene.findNode("audioMiniPlayer")
+    if not isValid(audioMiniPlayer) then return
+
+    audioMiniPlayer.callFunc("setVisible", false)
+end sub
+
 ' isSelectedAudioMiniPlayer: Returns bool value indicating if audio mini player is selected
 '
 function isSelectedAudioMiniPlayer() as boolean

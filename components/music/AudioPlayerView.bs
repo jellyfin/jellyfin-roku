@@ -21,7 +21,7 @@ sub init()
         overhang.isVisible = false
     end if
 
-    hideMiniPlayer()
+    hideAudioMiniPlayer()
 
     m.top.optionsAvailable = false
     m.inScrubMode = false
@@ -309,16 +309,6 @@ sub displayMiniPlayer()
     if not isValid(audioMiniPlayer) then return
 
     audioMiniPlayer.callFunc("setVisible", true)
-end sub
-
-sub hideMiniPlayer()
-    scene = m.top.getScene()
-    if not isValid(scene) then return
-
-    audioMiniPlayer = scene.findNode("audioMiniPlayer")
-    if not isValid(audioMiniPlayer) then return
-
-    audioMiniPlayer.callFunc("setVisible", false)
 end sub
 
 function playAction() as boolean
