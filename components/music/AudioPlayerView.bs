@@ -1018,7 +1018,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
             end if
 
             unobserveAll()
-            return true
+            ' We do not return true here so the keypress event can be passed along to the scene manager
         else if key = KeyCode.REWIND
             return previousClicked()
         else if key = KeyCode.FASTFORWRD
