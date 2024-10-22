@@ -327,6 +327,7 @@ function stopClicked() as boolean
     m.global.queueManager.callFunc("clear")
     m.global.audioPlayer.control = "stop"
     if m.top.returnOnStop
+        unobserveAll()
         m.global.sceneManager.callFunc("popScene")
     end if
     return true
@@ -455,6 +456,15 @@ sub onAudioDataChanged()
     data = m.global.audioPlayer.audioData
 
     if not isValidAndNotEmpty(data)
+        ' If the last item finished playing,
+        if m.global.queueManager.callFunc("getPosition") = m.global.queueManager.callFunc("getCount") - 1
+            if m.top.returnOnStop
+                unobserveAll()
+                m.global.sceneManager.callFunc("popScene")
+                return
+            end if
+        end if
+
         m.top.state = "finished"
         return
     end if
