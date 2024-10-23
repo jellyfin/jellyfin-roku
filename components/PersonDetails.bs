@@ -10,7 +10,6 @@ sub init()
     m.favBtn = m.top.findNode("favorite-button")
     m.extrasGrp = m.top.findNode("extrasGrp")
     m.extrasGrp.opacity = 1.0
-    createDialogPallete()
     m.top.optionsAvailable = false
 end sub
 
@@ -149,30 +148,9 @@ sub setFavoriteColor()
 end sub
 
 sub createFullDscrDlg()
-    dlg = CreateObject("roSGNode", "OverviewDialog")
-    dlg.Title = m.top.itemContent.json.Name
-    dlg.width = 1290
-    dlg.palette = m.dlgPalette
-    dlg.overview = m.dscr.text
-    m.fullDscrDlg = dlg
-    m.top.getScene().dialog = dlg
-
-end sub
-
-sub createDialogPallete()
-    m.dlgPalette = createObject("roSGNode", "RSGPalette")
-    m.dlgPalette.colors = {
-        DialogBackgroundColor: "0x262828FF",
-        DialogItemColor: "0x00EF00FF",
-        DialogTextColor: "0xb0b0b0FF",
-        DialogFocusColor: "0xcececeFF",
-        DialogFocusItemColor: "0x202020FF",
-        DialogSecondaryTextColor: "0xf8f8f8ff",
-        DialogSecondaryItemColor: "0xcc7ecc4D",
-        DialogInputFieldColor: "0x80FF8080",
-        KeyboardDialogColor: "0x80FF804D",
-        DialogFootprintColor: "0x80FF804D"
-    }
+    if isAllValid([m.top.itemContent.json.Name, m.dscr.text])
+        m.global.sceneManager.callFunc("standardDialog", m.top.itemContent.json.Name, { data: ["<p>" + m.dscr.text + "</p>"] })
+    end if
 end sub
 
 function shortDate(isoDate) as string
