@@ -288,7 +288,7 @@ sub loadInitialItems()
     m.getFiltersTask.params = {
         userid: m.global.session.user.id,
         parentid: m.top.parentItem.Id,
-        IncludeItemTypes: "Series"
+        IncludeItemTypes: getCollectionType() = "tvshows" ? "Series" : ""
     }
     m.getFiltersTask.control = TaskControl.RUN
 end sub
@@ -296,31 +296,46 @@ end sub
 '
 ' Filter Data Loaded Event Handler
 sub FilterDataLoaded(msg)
-    if not getCollectionType() = "tvshows" then return
+
+    if not inArray(["boxsets", "boxset", "tvshows"], getCollectionType()) then return
 
     options = {}
     options.filter = []
     options.favorite = []
 
-    setTvShowsOptions(options)
+    if getCollectionType() = "tvshows"
+        setTvShowsOptions(options)
 
-    if m.view = "Shows" or m.options.view = "Shows"
+        if m.view = "Shows" or m.options.view = "Shows"
+            data = msg.GetData()
+            m.getFiltersTask.unobserveField("filters")
+
+            options.filter.push({ "Title": tr("Status"), "Name": "SeriesStatus", "Options": ["Continuing", "Ended", "Unreleased"], "Delimiter": ",", "CheckedState": [] })
+
+            if not isValid(data) then return
+
+            ' Add filters from the API data
+            if isValid(data.OfficialRatings)
+                options.filter.push({ "Title": tr("Parental Ratings"), "Name": "OfficialRatings", "Options": data.OfficialRatings, "Delimiter": "|", "CheckedState": [] })
+            end if
+            if isValid(data.genres)
+                options.filter.push({ "Title": tr("Genres"), "Name": "Genres", "Options": data.genres, "Delimiter": "|", "CheckedState": [] })
+            end if
+            if isValid(data.Years)
+                options.filter.push({ "Title": tr("Years"), "Name": "Years", "Options": data.Years, "Delimiter": ",", "CheckedState": [] })
+            end if
+        end if
+
+    else if inArray(["boxsets", "boxset"], getCollectionType())
+        setBoxsetsOptions(options)
+
         data = msg.GetData()
         m.getFiltersTask.unobserveField("filters")
-
-        options.filter.push({ "Title": tr("Status"), "Name": "SeriesStatus", "Options": ["Continuing", "Ended", "Unreleased"], "Delimiter": ",", "CheckedState": [] })
-
         if not isValid(data) then return
 
         ' Add filters from the API data
-        if isValid(data.OfficialRatings)
-            options.filter.push({ "Title": tr("Parental Ratings"), "Name": "OfficialRatings", "Options": data.OfficialRatings, "Delimiter": "|", "CheckedState": [] })
-        end if
         if isValid(data.genres)
             options.filter.push({ "Title": tr("Genres"), "Name": "Genres", "Options": data.genres, "Delimiter": "|", "CheckedState": [] })
-        end if
-        if isValid(data.Years)
-            options.filter.push({ "Title": tr("Years"), "Name": "Years", "Options": data.Years, "Delimiter": ",", "CheckedState": [] })
         end if
     end if
 
@@ -554,7 +569,7 @@ sub SetUpOptions()
     if getCollectionType() = "movies"
         setMoviesOptions(options)
     else if inStringArray(["boxsets", "Boxset"], getCollectionType())
-        setBoxsetsOptions(options)
+        return
     else if getCollectionType() = "tvshows"
         return
     else if getCollectionType() = "livetv"
