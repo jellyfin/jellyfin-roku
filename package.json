@@ -21,7 +21,7 @@
     "roku-log-bsc-plugin": "0.8.1",
     "rooibos-roku": "5.14.0",
     "ropm": "0.10.27",
-    "spellchecker-cli": "6.2.0",
+    "spellchecker-cli": "7.0.0",
     "undent": "0.1.0"
   },
   "scripts": {
