@@ -86,12 +86,10 @@ end function
 '
 sub OnScreenShown()
     if isValid(m.top.lastFocus)
-        print "Last Focus Valid"
         m.top.lastFocus.setFocus(true)
         group = m.global.sceneManager.callFunc("getActiveScene")
         group.lastFocus = m.top.lastFocus
     else
-        print "Last Focus NOT Valid"
         m.tvEpisodeRow.setFocus(true)
         group = m.global.sceneManager.callFunc("getActiveScene")
         group.lastFocus = m.tvEpisodeRow

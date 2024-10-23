@@ -264,7 +264,9 @@ end sub
 ' Playback state change event handlers
 sub onStateChange()
     if LCase(m.view.state) = "finished"
-        if m.view.returnOnStop then return
+        if isValid(m.view.returnOnStop)
+            if m.view.returnOnStop then return
+        end if
 
         ' Close any open dialogs
         if m.global.sceneManager.callFunc("isDialogOpen")

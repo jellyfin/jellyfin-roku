@@ -129,9 +129,18 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
         video.logoImage = api.items.GetImageURL(logoLookupID, "logo", 0, { "maxHeight": 65, "maxWidth": 300, "quality": "90" })
     end if
 
+    additionalParts = api.videos.GetAdditionalParts(video.id)
+    additionalPartsCount = 0
+    if isValid(additionalParts) and additionalParts.Items.Count() > 0
+        additionalPartsCount = additionalParts.Items.Count()
+        for i = 0 to additionalPartsCount - 1
+            m.global.queueManager.callFunc("push", additionalParts.Items[i])
+        end for
+    end if
+
     if m.global.session.user.Configuration.EnableNextEpisodeAutoPlay
         if isValid(video.showID)
-            addNextEpisodesToQueue(video.showID)
+            addNextEpisodesToQueue(video.showID, additionalPartsCount)
         end if
     end if
 
@@ -487,9 +496,9 @@ function getContainerType(meta as object) as string
 end function
 
 ' Add next episodes to the playback queue
-sub addNextEpisodesToQueue(showID)
+sub addNextEpisodesToQueue(showID, additionalPartsCount as integer)
     ' Don't queue next episodes if we already have a playback queue
-    maxQueueCount = 1
+    maxQueueCount = additionalPartsCount + 1
 
     if m.top.isIntro
         maxQueueCount = 2
