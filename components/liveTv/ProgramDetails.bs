@@ -1,5 +1,5 @@
-import "pkg:/source/utils/misc.bs"
 import "pkg:/source/utils/config.bs"
+import "pkg:/source/utils/misc.bs"
 
 sub init()
 
@@ -290,6 +290,8 @@ sub focusChanged()
         m.recordFocusAnimationOpacity.keyValue = [0, 1]
         m.recordSeriesFocusAnimationOpacity.keyValue = [0, 1]
         m.viewChannelButton.setFocus(true)
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        group.lastFocus = m.viewChannelButton
         m.viewChannelOutline.visible = true
         m.recordOutline.visible = false
         m.recordSeriesOutline.visible = false
@@ -332,6 +334,8 @@ function onKeyEvent(key as string, press as boolean) as boolean
     if m.userCanRecord = true
         if key = "right" and m.viewChannelButton.hasFocus()
             m.recordButton.setFocus(true)
+            group = m.global.sceneManager.callFunc("getActiveScene")
+            group.lastFocus = m.recordButton
             m.viewChannelOutline.visible = false
             m.recordOutline.visible = true
             m.viewChannelButtonBackground.blendColor = "#000000"
@@ -340,6 +344,8 @@ function onKeyEvent(key as string, press as boolean) as boolean
             return true
         else if key = "right" and m.recordButton.hasFocus()
             m.recordSeriesButton.setFocus(true)
+            group = m.global.sceneManager.callFunc("getActiveScene")
+            group.lastFocus = m.recordSeriesButton
             m.recordOutline.visible = false
             m.recordSeriesOutline.visible = true
             m.viewChannelButtonBackground.blendColor = "#000000"
@@ -348,6 +354,8 @@ function onKeyEvent(key as string, press as boolean) as boolean
             return true
         else if key = "left" and m.recordSeriesButton.hasFocus()
             m.recordButton.setFocus(true)
+            group = m.global.sceneManager.callFunc("getActiveScene")
+            group.lastFocus = m.recordButton
             m.recordOutline.visible = true
             m.recordSeriesOutline.visible = false
             m.viewChannelButtonBackground.blendColor = "#000000"
@@ -356,6 +364,8 @@ function onKeyEvent(key as string, press as boolean) as boolean
             return true
         else if key = "left" and m.recordButton.hasFocus()
             m.viewChannelButton.setFocus(true)
+            group = m.global.sceneManager.callFunc("getActiveScene")
+            group.lastFocus = m.viewChannelButton
             m.viewChannelOutline.visible = true
             m.recordOutline.visible = false
             m.viewChannelButtonBackground.blendColor = "#006fab"

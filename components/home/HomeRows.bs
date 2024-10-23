@@ -5,8 +5,9 @@ import "pkg:/source/utils/misc.bs"
 const LOADING_WAIT_TIME = 2
 
 sub init()
-    scene = m.top.getScene()
-    m.overhang = scene.findNode("overhang")
+    m.scene = m.top.getScene()
+
+    m.overhang = m.scene.findNode("overhang")
     if isValid(m.overhang)
         m.overhang.isVisible = true
     end if
@@ -759,14 +760,11 @@ end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean
     if press
-        if key = "play"
+        if key = KeyCode.PLAY
             itemToPlay = m.top.content.getChild(m.top.rowItemFocused[0]).getChild(m.top.rowItemFocused[1])
             if isValid(itemToPlay)
                 m.top.quickPlayNode = itemToPlay
             end if
-            return true
-        else if key = "replay"
-            m.top.jumpToRowItem = [m.top.rowItemFocused[0], 0]
             return true
         end if
 
@@ -774,10 +772,18 @@ function onKeyEvent(key as string, press as boolean) as boolean
             if m.top.rowItemFocused[0] = 0
                 m.overhang.callFunc("highlightUser")
                 m.overhang.setfocus(true)
+
+                group = m.global.sceneManager.callFunc("getActiveScene")
+                group.lastFocus = m.overhang
+
                 return true
             end if
         end if
+
     end if
+
+    group = m.global.sceneManager.callFunc("getActiveScene")
+    group.lastFocus = m.top
     return false
 end function
 

@@ -64,6 +64,7 @@ sub setButtonColors()
 
     firstButton = m.top.findNode(buttonList[0])
     firstButton.setFocus(true)
+
     firstButton.focus = true
 end sub
 
@@ -73,8 +74,12 @@ sub OnScreenShown()
     ' set focus to button group
     if m.extrasGrp.opacity = 1
         m.top.lastFocus.setFocus(true)
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        group.lastFocus = m.top.lastFocus
     else
         m.buttonGrp.setFocus(true)
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        group.lastFocus = m.buttonGrp
     end if
 
     if m.loadStatus = ViewLoadStatus.RELOAD
@@ -615,7 +620,9 @@ sub audioOptionsClosed()
         m.global.queueManager.callFunc("setPreferredAudioTrackIndex", m.options.audioStreamIndex)
         setFieldText("audio_codec", tr("Audio") + ": " + m.top.itemContent.json.mediaStreams[m.top.selectedAudioStreamIndex].displayTitle)
     end if
-    m.top.findNode("buttons").setFocus(true)
+    m.buttonGrp.setFocus(true)
+    group = m.global.sceneManager.callFunc("getActiveScene")
+    group.lastFocus = m.buttonGrp
 end sub
 
 '
@@ -641,13 +648,17 @@ sub videoOptionsClosed()
         m.top.itemContent.json = itemData
         m.top.observeField("itemContent", "itemContentChanged")
     end if
-    m.top.findNode("buttons").setFocus(true)
+    m.buttonGrp.setFocus(true)
+    group = m.global.sceneManager.callFunc("getActiveScene")
+    group.lastFocus = m.buttonGrp
 end sub
 
 sub onButtonGroupEscape()
     if LCase(m.buttonGrp.escape) = "down"
         m.top.lastFocus = m.extrasGrid
         m.extrasGrid.setFocus(true)
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        group.lastFocus = m.extrasGrid
         m.top.findNode("VertSlider").reverse = false
         m.top.findNode("extrasFader").reverse = false
         m.top.findNode("pplAnime").control = AnimationControl.START
@@ -664,6 +675,8 @@ function onKeyEvent(key as string, press as boolean) as boolean
             m.top.findNode("pplAnime").control = AnimationControl.START
             m.buttonGrp.setFocus(true)
             m.buttonGrp.getChild(m.buttonGrp.getChildCount() - 1).focus = true
+            group = m.global.sceneManager.callFunc("getActiveScene")
+            group.lastFocus = m.buttonGrp
             return true
         end if
 
@@ -684,6 +697,8 @@ function onKeyEvent(key as string, press as boolean) as boolean
                 if button.id = "options-button"
                     m.options.visible = true
                     m.options.setFocus(true)
+                    group = m.global.sceneManager.callFunc("getActiveScene")
+                    group.lastFocus = m.options
                 end if
                 exit for
             end if
@@ -711,6 +726,8 @@ function onKeyEvent(key as string, press as boolean) as boolean
                     button.focus = false
                     m.top.lastFocus = m.extrasGrid
                     m.extrasGrid.setFocus(true)
+                    group = m.global.sceneManager.callFunc("getActiveScene")
+                    group.lastFocus = m.extrasGrid
                     m.top.findNode("VertSlider").reverse = false
                     m.top.findNode("extrasFader").reverse = false
                     m.top.findNode("pplAnime").control = AnimationControl.START
@@ -759,6 +776,8 @@ function onKeyEvent(key as string, press as boolean) as boolean
             m.top.findNode("pplAnime").control = AnimationControl.START
             m.buttonGrp.setFocus(true)
             m.buttonGrp.getChild(m.buttonGrp.getChildCount() - 1).focus = true
+            group = m.global.sceneManager.callFunc("getActiveScene")
+            group.lastFocus = m.buttonGrp
             return true
         end if
 

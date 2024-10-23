@@ -926,7 +926,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
             return true
         end if
 
-        if key = KeyCode.BACK or key = KeyCode.REPLAY
+        if key = KeyCode.BACK
             m.chapterList.visible = false
             m.osd.showChapterList = false
             m.chapterMenu.setFocus(false)

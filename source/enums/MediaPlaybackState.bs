@@ -1,0 +1,5 @@
+enum MediaPlaybackState
+    PLAYING = "playing"
+    PAUSED = "paused"
+    FINISHED = "finished"
+end enum

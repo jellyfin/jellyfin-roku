@@ -157,6 +157,8 @@ function show_dialog(message as string, options = [], defaultSelection = 0) as i
     dialog.visible = true
     m.scene.appendChild(dialog)
     dialog.setFocus(true)
+    group = m.global.sceneManager.callFunc("getActiveScene")
+    group.lastFocus = dialog.findNode("optionList")
 
     port = CreateObject("roMessagePort")
     dialog.observeField("backPressed", port)
@@ -166,6 +168,8 @@ function show_dialog(message as string, options = [], defaultSelection = 0) as i
 
     m.scene.removeChildIndex(m.scene.getChildCount() - 1)
     lastFocus.setFocus(true)
+    group = m.global.sceneManager.callFunc("getActiveScene")
+    group.lastFocus = lastFocus
 
     return result
 end function
@@ -300,6 +304,12 @@ end sub
 ' Returns whether or not passed value is valid
 function isValid(input as dynamic) as boolean
     return input <> invalid
+end function
+
+' Returns whether or not passed string values are equal
+function isStringEqual(input1 as string, input2 as string) as boolean
+    if not isAllValid([input1, input2]) then return false
+    return LCase(input1) = LCase(input2)
 end function
 
 ' Returns whether or not all items in passed array are valid
@@ -493,7 +503,7 @@ function toString(input) as string
 end function
 
 '
-' startLoadingSpinner: Start a loading spinner and attach it to the main JFScene.
+' startLoadingSpinner: Start a loading spinner and attach it to the main BaseScene.
 ' Displays an invisible ProgressDialog node by default to disable keypresses while loading.
 '
 ' @param {boolean} [disableRemote=true]
@@ -552,4 +562,42 @@ function toBoolean(value as dynamic) as dynamic
     else
         return value
     end if
+end function
+
+' focusAudioMiniPlayer: Moves cursor focus to audio mini player, it it's shown
+'
+sub focusAudioMiniPlayer()
+    scene = m.top.getScene()
+    if not isValid(scene) then return
+
+    audioMiniPlayer = scene.findNode("audioMiniPlayer")
+    if not isValid(audioMiniPlayer) then return
+
+    if not audioMiniPlayer.callFunc("isVisible") then return
+
+    audioMiniPlayer.callFunc("setSelected", true)
+    audioMiniPlayer.setfocus(true)
+end sub
+
+' Hides the audio mini player
+sub hideAudioMiniPlayer()
+    scene = m.top.getScene()
+    if not isValid(scene) then return
+
+    audioMiniPlayer = scene.findNode("audioMiniPlayer")
+    if not isValid(audioMiniPlayer) then return
+
+    audioMiniPlayer.callFunc("setVisible", false)
+end sub
+
+' isSelectedAudioMiniPlayer: Returns bool value indicating if audio mini player is selected
+'
+function isSelectedAudioMiniPlayer() as boolean
+    scene = m.top.getScene()
+    if not isValid(scene) then return false
+
+    audioMiniPlayer = scene.findNode("audioMiniPlayer")
+    if not isValid(audioMiniPlayer) then return false
+
+    return audioMiniPlayer.callFunc("isSelected")
 end function

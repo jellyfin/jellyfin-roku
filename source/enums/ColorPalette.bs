@@ -10,6 +10,7 @@ enum ColorPalette
     LIGHTGREY = "#aaaaaa"
     RED = "#FF0000"
     BLACK77 = "0x00000077"
+    BLACK90 = "0x00000090"
     TRANSPARENT = "0x00000000"
     TRIADGREEN = "#67ff68"
     TRIADBLUE = "#6867ff"

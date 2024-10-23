@@ -52,6 +52,8 @@ sub OnScreenShown()
         m.top.lastFocus.setFocus(true)
     else
         m.top.setFocus(true)
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        group.lastFocus = m.top
     end if
 
     if not m.isFirstRun

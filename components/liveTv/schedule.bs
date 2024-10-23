@@ -90,6 +90,8 @@ sub onChannelsLoaded()
         m.LoadProgramDetailsTask.observeField("programDetails", "onProgramDetailsLoaded")
 
         m.scheduleGrid.setFocus(true)
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        group.lastFocus = m.scheduleGrid
         if m.EPGLaunchCompleteSignaled = false
             m.top.signalBeacon("EPGLaunchComplete") ' Required Roku Performance monitoring
             m.EPGLaunchCompleteSignaled = true
@@ -124,6 +126,8 @@ sub onScheduleLoaded()
 
     m.scheduleGrid.showLoadingDataFeedback = false
     m.scheduleGrid.setFocus(true)
+    group = m.global.sceneManager.callFunc("getActiveScene")
+    group.lastFocus = m.scheduleGrid
     m.LoadScheduleTask.schedule = []
     stopLoadingSpinner()
 end sub
@@ -198,12 +202,16 @@ sub focusProgramDetails(setFocused)
     if setFocused = true
         m.gridMoveAnimationPosition.keyValue = [[0, 600], [0, h]]
         m.detailsPane.setFocus(true)
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        group.lastFocus = m.detailsPane
         m.detailsPane.hasFocus = true
         m.top.lastFocus = m.detailsPane
     else
         m.detailsPane.hasFocus = false
         m.gridMoveAnimationPosition.keyValue = [[0, h], [0, 600]]
         m.scheduleGrid.setFocus(true)
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        group.lastFocus = m.scheduleGrid
         m.top.lastFocus = m.scheduleGrid
     end if
 
@@ -294,6 +302,8 @@ function onKeyEvent(key as string, press as boolean) as boolean
         focusProgramDetails(false)
         detailsGrp.setFocus(false)
         gridGrp.setFocus(true)
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        group.lastFocus = gridGrp
         return true
     else if key = "back"
         m.LoadChannelsTask.control = "stop"

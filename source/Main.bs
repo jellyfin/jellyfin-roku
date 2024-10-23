@@ -1,3 +1,4 @@
+import "pkg:/components/manager/ViewCreator.bs"
 import "pkg:/source/enums/String.bs"
 
 sub Main (args as dynamic) as void
@@ -26,7 +27,7 @@ sub Main (args as dynamic) as void
         set_setting("LastRunVersion", m.global.app.version)
     end if
 
-    m.scene = m.screen.CreateScene("JFScene")
+    m.scene = m.screen.CreateScene("BaseScene")
     m.screen.show() ' vscode_rale_tracker_entry
     'vscode_rdb_on_device_component_entry
 
@@ -47,6 +48,11 @@ sub Main (args as dynamic) as void
     m.global.addFields({ jumpTo: {} })
 
     m.global.observeField("jumpTo", m.port)
+
+    audioMiniPlayer = m.scene.findNode("audioMiniPlayer")
+    if isValid(audioMiniPlayer)
+        audioMiniPlayer.callFunc("setup")
+    end if
 
     app_start:
     ' First thing to do is validate the ability to use the API
@@ -142,13 +148,16 @@ sub Main (args as dynamic) as void
             if isValid(jumpToData)
                 currentView = m.global.sceneManager.callFunc("getActiveScene")
 
-                sceneCount = m.global.sceneManager.callFunc("getSceneCount")
-
-                if sceneCount > 2
+                ' If current view is audio player, remove it from the scene stack so users can't press back to return to it
+                if isStringEqual(currentView.subType(), "audioplayerview")
                     m.global.sceneManager.callFunc("clearPreviousScene")
                 end if
 
-                if jumpToData.selectiontype = "artist"
+                if isStringEqual(jumpToData.selectiontype, "nowplaying")
+                    JumpIntoAudioPlayerView()
+                end if
+
+                if isStringEqual(jumpToData.selectiontype, "artist")
                     startLoadingSpinner()
                     group = CreateArtistView(jumpToData)
                     if isValid(group)
@@ -158,7 +167,7 @@ sub Main (args as dynamic) as void
                     end if
                 end if
 
-                if jumpToData.selectiontype = "album"
+                if isStringEqual(jumpToData.selectiontype, "album")
                     startLoadingSpinner()
                     group = CreateAlbumView(jumpToData)
                     if not isValid(group)
@@ -174,6 +183,7 @@ sub Main (args as dynamic) as void
                 group.lastFocus.setFocus(true)
             else
                 group.setFocus(true)
+                group.lastFocus = group
             end if
         else if isNodeEvent(msg, "quickPlayNode")
             ' measure processing time
@@ -191,7 +201,6 @@ sub Main (args as dynamic) as void
                     reportingNode.quickPlayNode = invalid
                 end if
             end if
-            print "Quick Play started. itemNode=", itemNode
 
             if isValid(itemNode) and isValid(itemNode.id) and itemNode.id <> ""
                 ' make sure there is a type and convert type to lowercase
@@ -594,11 +603,15 @@ sub Main (args as dynamic) as void
                     ' Otherwise, set focus back to Search button
                     if mySubtitleList.content.getChildCount() > 0
                         mySubtitleList.setFocus(true)
+                        group = m.global.sceneManager.callFunc("getActiveScene")
+                        group.lastFocus = mySubtitleList
                     else
                         searchButton = screenContent.findNode("searchButton")
                         if isValid(searchButton)
                             searchButton.focus = true
                             searchButton.setFocus(true)
+                            group = m.global.sceneManager.callFunc("getActiveScene")
+                            group.lastFocus = searchButton
                         end if
                     end if
                 end if
@@ -986,10 +999,13 @@ sub Main (args as dynamic) as void
                     group.lastFocus.setFocus(true)
                 else
                     group.setFocus(true)
+                    group.lastFocus = group
                 end if
                 group = CreateSearchPage()
                 sceneManager.callFunc("pushScene", group)
                 group.findNode("SearchBox").findNode("search_Key").setFocus(true)
+                group = m.global.sceneManager.callFunc("getActiveScene")
+                group.lastFocus = group.findNode("SearchBox").findNode("search_Key")
                 group.findNode("SearchBox").findNode("search_Key").active = true
             else if button.id = "change_server"
                 unset_setting("server")

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<component name="JFScene" extends="Scene">
+<component name="BaseScene" extends="Scene">
   <children>
     <Group id="content" />
     <JFOverhang id="overhang" />
+    <AudioMiniPlayer id="audioMiniPlayer" translation="[0, 885]" />
     <Spinner id="spinner" translation="[897, 477]" visible="false" />
   </children>
   <interface>

@@ -1,6 +1,6 @@
 ' needed for SignOut() and ServerInfo()
-import "pkg:/source/utils/session.bs"
 import "pkg:/source/utils/misc.bs"
+import "pkg:/source/utils/session.bs"
 
 function get_token(user as string, password as string)
     url = "Users/AuthenticateByName?format=json"
@@ -32,6 +32,9 @@ function AboutMe(id = "" as string)
 end function
 
 sub SignOut(deleteSavedEntry = true as boolean)
+    m.global.queueManager.callFunc("clear")
+    m.global.audioPlayer.control = "stop"
+
     if deleteSavedEntry
         unset_user_setting("token")
         unset_user_setting("username")

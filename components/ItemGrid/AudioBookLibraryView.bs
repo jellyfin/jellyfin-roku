@@ -36,6 +36,8 @@ sub init()
 
     m.itemGrid.content = m.data
     m.itemGrid.setFocus(true)
+    group = m.global.sceneManager.callFunc("getActiveScene")
+    group.lastFocus = m.itemGrid
 
     m.itemGrid.observeField("itemFocused", "onItemFocused")
     m.itemGrid.observeField("itemSelected", "onItemSelected")
@@ -57,9 +59,6 @@ sub init()
 
     'set inital counts for overhang before content is loaded.
     m.loadItemsTask.totalRecordCount = 0
-
-    'Get reset folder setting
-    m.resetGrid = m.global.session.user.settings["itemgrid.reset"]
 
     m.top.gridTitles = m.global.session.user.settings["itemgrid.gridTitles"]
 end sub
@@ -205,6 +204,8 @@ sub ItemDataLoaded(msg)
 
         m.itemGrid.setFocus(false)
         m.genreList.setFocus(true)
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        group.lastFocus = m.genreList
 
         m.loading = false
         stopLoadingSpinner()
@@ -220,6 +221,8 @@ sub ItemDataLoaded(msg)
 
     m.itemGrid.setFocus(true)
     m.genreList.setFocus(false)
+    group = m.global.sceneManager.callFunc("getActiveScene")
+    group.lastFocus = m.itemGrid
 
     'Update the stored counts
     m.loadedItems = m.itemGrid.content.getChildCount()
@@ -367,6 +370,9 @@ sub optionsClosed()
 
     m.itemGrid.setFocus(m.itemGrid.opacity = 1)
     m.genreList.setFocus(m.genreList.opacity = 1)
+
+    group = m.global.sceneManager.callFunc("getActiveScene")
+    group.lastFocus = m.itemGrid.opacity = 1 ? m.itemGrid : m.genreList
 end sub
 
 'Returns Focused Item
@@ -384,12 +390,6 @@ end function
 function onKeyEvent(key as string, press as boolean) as boolean
     if not press then return false
 
-    if m.itemGrid.opacity = 1
-        topGrp = m.itemGrid
-    else
-        topGrp = m.genreList
-    end if
-
     if key = "options"
         if m.options.visible = true
             m.options.visible = false
@@ -403,6 +403,8 @@ function onKeyEvent(key as string, press as boolean) as boolean
             m.options.visible = true
             m.top.appendChild(m.options)
             m.options.setFocus(true)
+            group = m.global.sceneManager.callFunc("getActiveScene")
+            group.lastFocus = m.options
         end if
         return true
     else if key = "back"
@@ -434,22 +436,6 @@ function onKeyEvent(key as string, press as boolean) as boolean
             m.top.quickPlayNode = itemToPlay
             return true
         end if
-    else if key = "replay" and topGrp.isinFocusChain()
-        if m.resetGrid = true
-            m.itemGrid.animateToItem = 0
-        else
-            m.itemGrid.jumpToItem = 0
-        end if
-    end if
-
-    if key = "replay"
-        m.loadItemsTask.searchTerm = ""
-        m.loadItemsTask.filter = "All"
-        m.filter = "All"
-        m.data = CreateObject("roSGNode", "ContentNode")
-        m.itemGrid.content = m.data
-        loadInitialItems()
-        return true
     end if
 
     return false

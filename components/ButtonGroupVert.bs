@@ -7,12 +7,17 @@ end sub
 sub onFocusChanged()
     if m.top.hasFocus()
         m.top.getChild(0).setFocus(true)
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        group.lastFocus = m.top.getChild(0)
         m.top.focusButton = 0
     end if
 end sub
 
 sub onFocusButtonChanged()
     m.top.getChild(m.top.focusButton).setFocus(true)
+
+    group = m.global.sceneManager.callFunc("getActiveScene")
+    group.lastFocus = m.top.getChild(m.top.focusButton)
 end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean

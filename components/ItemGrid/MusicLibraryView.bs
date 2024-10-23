@@ -81,9 +81,6 @@ sub init()
 
     'set inital counts for overhang before content is loaded.
     m.loadItemsTask.totalRecordCount = 0
-
-    'Get reset folder setting
-    m.resetGrid = m.global.session.user.settings["itemgrid.reset"]
 end sub
 
 sub OnScreenHidden()
@@ -97,10 +94,12 @@ end sub
 sub OnScreenShown()
     m.overhang.isVisible = false
 
-    if m.top.lastFocus <> invalid
+    if isValid(m.top.lastFocus)
         m.top.lastFocus.setFocus(true)
     else
         m.top.setFocus(true)
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        group.lastFocus = m.top
     end if
 end sub
 
@@ -460,6 +459,8 @@ sub ItemDataLoaded(msg)
 
         m.itemGrid.setFocus(false)
         m.genreList.setFocus(true)
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        group.lastFocus = m.genreList
 
         m.loadedItems = m.genreList.content.getChildCount()
         m.loadedRows = m.loadedItems / m.genreList.numColumns
@@ -472,6 +473,8 @@ sub ItemDataLoaded(msg)
     ' keep focus on alpha menu if it's active
     if m.top.alphaActive
         m.alphaMenu.setFocus(true)
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        group.lastFocus = m.alphaMenu
     else
         m.itemGrid.opacity = "1"
         m.genreList.opacity = "0"
@@ -479,6 +482,8 @@ sub ItemDataLoaded(msg)
         m.alphaMenu.setFocus(false)
         m.itemGrid.setFocus(true)
         m.genreList.setFocus(false)
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        group.lastFocus = m.itemGrid
     end if
 
     for each item in itemData
@@ -771,6 +776,8 @@ sub onvoiceFilter()
 
     if m.top.alphaActive
         m.alphaMenu.setFocus(true)
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        group.lastFocus = m.alphaMenu
     end if
 end sub
 
@@ -849,6 +856,8 @@ sub optionsClosed()
 
     m.itemGrid.setFocus(m.itemGrid.opacity = 1)
     m.genreList.setFocus(m.genreList.opacity = 1)
+    group = m.global.sceneManager.callFunc("getActiveScene")
+    group.lastFocus = m.itemGrid.opacity = 1 ? m.itemGrid : m.genreList
 end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean
@@ -858,6 +867,8 @@ function onKeyEvent(key as string, press as boolean) as boolean
         m.itemGrid.setFocus(m.itemGrid.opacity = 1)
         m.genreList.setFocus(m.genreList.opacity = 1)
         m.voiceBox.setFocus(false)
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        group.lastFocus = m.itemGrid.opacity = 1 ? m.itemGrid : m.genreList
     end if
 
     if key = KeyCode.OPTIONS
@@ -874,6 +885,8 @@ function onKeyEvent(key as string, press as boolean) as boolean
             m.options.visible = true
             m.top.appendChild(m.options)
             m.options.setFocus(true)
+            group = m.global.sceneManager.callFunc("getActiveScene")
+            group.lastFocus = m.options
         end if
         return true
     else if key = KeyCode.BACK
@@ -891,11 +904,15 @@ function onKeyEvent(key as string, press as boolean) as boolean
             m.top.alphaActive = true
             m.itemGrid.setFocus(false)
             m.alphaMenu.setFocus(true)
+            group = m.global.sceneManager.callFunc("getActiveScene")
+            group.lastFocus = m.alphaMenu
             return true
         else if m.genreList.isinFocusChain()
             m.top.alphaActive = true
             m.genreList.setFocus(false)
             m.alphaMenu.setFocus(true)
+            group = m.global.sceneManager.callFunc("getActiveScene")
+            group.lastFocus = m.alphaMenu
             return true
         end if
     else if key = KeyCode.RIGHT and m.alpha.isinFocusChain()
@@ -904,20 +921,9 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
         m.itemGrid.setFocus(m.itemGrid.opacity = 1)
         m.genreList.setFocus(m.genreList.opacity = 1)
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        group.lastFocus = m.itemGrid.opacity = 1 ? m.itemGrid : m.genreList
 
-        return true
-    else if key = KeyCode.REPLAY and m.itemGrid.isinFocusChain()
-        if m.resetGrid = true
-            m.itemGrid.animateToItem = 0
-        else
-            m.itemGrid.jumpToItem = 0
-        end if
-    else if key = KeyCode.REPLAY and m.genreList.isinFocusChain()
-        if m.resetGrid = true
-            m.genreList.animateToItem = 0
-        else
-            m.genreList.jumpToItem = 0
-        end if
         return true
     else if key = KeyCode.PLAY
         itemToPlay = getItemFocused()
@@ -925,19 +931,6 @@ function onKeyEvent(key as string, press as boolean) as boolean
             m.top.quickPlayNode = itemToPlay
             return true
         end if
-    end if
-
-    if key = KeyCode.REPLAY
-        m.loadItemsTask.searchTerm = ""
-        m.loadItemsTask.nameStartsWith = ""
-        m.voiceBox.text = ""
-        m.top.alphaSelected = ""
-        m.loadItemsTask.filter = "All"
-        m.filter = "All"
-        m.data = CreateObject("roSGNode", "ContentNode")
-        m.itemGrid.content = m.data
-        loadInitialItems()
-        return true
     end if
 
     return false

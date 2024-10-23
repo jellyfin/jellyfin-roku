@@ -166,8 +166,22 @@ end function
 '
 ' Display user/device settings screen
 sub settings()
+    hideMiniPlayer()
+    if m.global.audioPlayer.state = "playing"
+        m.global.audioPlayer.control = "stop"
+    end if
+
     settingsScreen = createObject("roSGNode", "Settings")
     pushScene(settingsScreen)
+end sub
+
+sub hideMiniPlayer()
+    if not isValid(m.scene) then return
+
+    audioMiniPlayer = m.scene.findNode("audioMiniPlayer")
+    if not isValid(audioMiniPlayer) then return
+
+    audioMiniPlayer.callFunc("setVisible", false)
 end sub
 
 '

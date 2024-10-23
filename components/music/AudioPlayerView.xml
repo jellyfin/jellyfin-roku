@@ -20,11 +20,12 @@
     <LayoutGroup translation="[0, 900]" layoutDirection="horiz" horizAlignment="center" itemSpacings="[0]">
       <Rectangle height="1" width="1920" color="0x00000000" />
       <LayoutGroup id="buttons" layoutDirection="horiz" horizAlignment="center" itemSpacings="[45]">
-        <Poster id="loop" width="64" height="64" uri="pkg:/images/icons/loop-default.png" opacity="0" />
-        <Poster id="previous" width="64" height="64" uri="pkg:/images/icons/previous-default.png" opacity="0" />
-        <Poster id="play" width="64" height="64" uri="pkg:/images/icons/play-default.png" />
-        <Poster id="next" width="64" height="64" uri="pkg:/images/icons/next-default.png" opacity="0" />
-        <Poster id="shuffle" width="64" height="64" uri="pkg:/images/icons/shuffle-default.png" opacity="0" />
+        <Poster id="loop" width="64" height="64" uri="pkg:/images/icons/loop.png" opacity="0" />
+        <Poster id="previous" width="64" height="64" uri="pkg:/images/icons/previous.png" opacity="0" />
+        <Poster id="play" width="64" height="64" uri="pkg:/images/icons/playPause.png" />
+        <Poster id="stop" width="64" height="64" uri="pkg:/images/icons/stop.png" />
+        <Poster id="next" width="64" height="64" uri="pkg:/images/icons/next.png" opacity="0" />
+        <Poster id="shuffle" width="64" height="64" uri="pkg:/images/icons/shuffle.png" opacity="0" />
       </LayoutGroup>
     </LayoutGroup>
 
@@ -162,16 +163,13 @@
     </SequentialAnimation>
 
     <!-- Preload selected icons to prevent flicker -->
-    <Poster width="0" height="0" uri="pkg:/images/icons/previous-selected.png" visible="false" />
-    <Poster width="0" height="0" uri="pkg:/images/icons/play-selected.png" visible="false" />
-    <Poster width="0" height="0" uri="pkg:/images/icons/next-selected.png" visible="false" />
-    <Poster width="0" height="0" uri="pkg:/images/icons/shuffle-selected.png" visible="false" />
     <Poster width="0" height="0" uri="pkg:/images/icons/shuffleIndicator-on.png" visible="false" />
     <Poster width="0" height="0" uri="pkg:/images/icons/loopIndicator-on.png" visible="false" />
     <Poster width="0" height="0" uri="pkg:/images/icons/loopIndicator1-on.png" visible="false" />
   </children>
   <interface>
     <field id="state" type="string" />
+    <field id="returnOnStop" type="boolean" />
     <field id="selectedButtonIndex" type="integer" />
   </interface>
 </component>
