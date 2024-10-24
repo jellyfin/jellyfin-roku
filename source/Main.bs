@@ -1,4 +1,5 @@
 import "pkg:/components/manager/ViewCreator.bs"
+import "pkg:/source/enums/ItemType.bs"
 import "pkg:/source/enums/String.bs"
 
 sub Main (args as dynamic) as void
@@ -128,50 +129,45 @@ sub Main (args as dynamic) as void
         m.global.queueManager.callFunc("clear") ' empty queue/playlist
         m.global.queueManager.callFunc("resetShuffle") ' turn shuffle off
 
-        itemType = LCase(args.mediaType)
+        mediaType = LCase(args.mediaType)
 
-        deepLinkNode = {
-            id: args.contentId,
-            type: itemType
-        }
-
-        if itemType = "episode" or itemType = "recording" or itemType = "movie" or itemType = "video"
+        if inArray([ItemType.EPISODE, ItemType.RECORDING, ItemType.MOVIE, ItemType.VIDEO], mediaType)
             quickplay.video({
                 id: args.contentId,
-                type: itemType,
+                type: mediaType,
                 json: {}
             })
-        else if itemType = "audio"
+        else if mediaType = ItemType.AUDIO
             quickplay.audio({
                 id: args.contentId,
-                type: itemType
+                type: mediaType
             })
-        else if itemType = "audiobook"
+        else if mediaType = ItemType.AUDIOBOOK
             quickplay.audioBook({
                 id: args.contentId,
-                type: itemType,
+                type: mediaType,
                 json: {}
             })
-        else if itemType = "musicalbum"
+        else if mediaType = ItemType.MUSICALBUM
             quickplay.album({
                 id: args.contentId,
-                type: itemType
+                type: mediaType
             })
-        else if itemType = "musicartist"
+        else if mediaType = ItemType.MUSICARTIST
             quickplay.artist({
                 id: args.contentId,
-                type: itemType
+                type: mediaType
             })
-        else if itemType = "series"
+        else if mediaType = ItemType.SERIES
             quickplay.series({
                 id: args.contentId,
-                type: itemType
+                type: mediaType
             })
-        else if itemType = "season"
+        else if mediaType = ItemType.SEASON
             if isValidAndNotEmpty(args.seriesID)
                 quickplay.season({
                     id: args.contentId,
-                    type: itemType,
+                    type: mediaType,
                     json: {
                         SeriesId: args.seriesID
                     }
@@ -187,16 +183,16 @@ sub Main (args as dynamic) as void
                 m.scene.dialog.observeField("buttonSelected", m.port)
             end if
 
-        else if itemType = "boxset"
+        else if mediaType = ItemType.BOXSET
             quickplay.boxset({
                 id: args.contentId,
-                type: itemType
+                type: mediaType
             })
-        else if itemType = "collectionfolder"
+        else if mediaType = ItemType.COLLECTIONFOLDER
             if isValidAndNotEmpty(args.collectionType)
                 quickplay.collectionFolder({
                     id: args.contentId,
-                    type: itemType,
+                    type: mediaType,
                     collectionType: LCase(args.collectionType)
                 })
             else
@@ -209,16 +205,16 @@ sub Main (args as dynamic) as void
                 m.scene.dialog = dialog
                 m.scene.dialog.observeField("buttonSelected", m.port)
             end if
-        else if itemType = "playlist"
+        else if mediaType = ItemType.PLAYLIST
             quickplay.playlist({
                 id: args.contentId,
-                type: itemType
+                type: mediaType
             })
-        else if itemType = "userview"
+        else if mediaType = ItemType.USERVIEW
             if isValidAndNotEmpty(args.collectionType)
                 quickplay.userView({
                     id: args.contentId,
-                    type: itemType,
+                    type: mediaType,
                     collectionType: args.collectionType
                 })
             else
@@ -231,40 +227,43 @@ sub Main (args as dynamic) as void
                 m.scene.dialog = dialog
                 m.scene.dialog.observeField("buttonSelected", m.port)
             end if
-        else if itemType = "folder"
-            quickplay.folder(deepLinkNode)
-        else if itemType = "musicvideo"
+        else if mediaType = ItemType.FOLDER
+            quickplay.folder({
+                id: args.contentId,
+                type: mediaType
+            })
+        else if mediaType = ItemType.MUSICVIDEO
             quickplay.musicVideo({
                 id: args.contentId,
-                type: itemType,
+                type: mediaType,
                 json: {}
             })
-        else if itemType = "person"
+        else if mediaType = ItemType.PERSON
             quickplay.person({
                 id: args.contentId,
-                type: itemType
+                type: mediaType
             })
-        else if itemType = "tvchannel"
+        else if mediaType = ItemType.TVCHANNEL
             quickplay.tvChannel({
                 id: args.contentId,
-                type: itemType
+                type: mediaType
             })
-        else if itemType = "program"
+        else if mediaType = ItemType.PROGRAM
             quickplay.program({
                 id: args.contentId,
-                type: itemType,
+                type: mediaType,
                 json: {
                     ChannelId: ""
                 }
             })
-        else if itemType = "photo"
+        else if mediaType = ItemType.PHOTO
             photoContent = CreateObject("roSGNode", "ContentNode")
             photoContent.id = args.contentId
             quickplay.photo(photoContent)
-        else if itemType = "photoalbum"
+        else if mediaType = ItemType.PHOTOALBUM
             quickplay.photoAlbum({
                 id: args.contentId,
-                type: itemType
+                type: mediaType
             })
         end if
 
