@@ -124,12 +124,150 @@ sub Main (args as dynamic) as void
     ' Check if we were sent content to play with the startup command (Deep Link)
     if isValidAndNotEmpty(args.mediaType) and isValidAndNotEmpty(args.contentId)
 
-        deepLinkVideo = {
+        startLoadingSpinner()
+        m.global.queueManager.callFunc("clear") ' empty queue/playlist
+        m.global.queueManager.callFunc("resetShuffle") ' turn shuffle off
+
+        itemType = LCase(args.mediaType)
+
+        deepLinkNode = {
             id: args.contentId,
-            type: "video"
+            type: itemType
         }
 
-        m.global.queueManager.callFunc("push", deepLinkVideo)
+        if itemType = "episode" or itemType = "recording" or itemType = "movie" or itemType = "video"
+            quickplay.video({
+                id: args.contentId,
+                type: itemType,
+                json: {}
+            })
+        else if itemType = "audio"
+            quickplay.audio({
+                id: args.contentId,
+                type: itemType
+            })
+        else if itemType = "audiobook"
+            quickplay.audioBook({
+                id: args.contentId,
+                type: itemType,
+                json: {}
+            })
+        else if itemType = "musicalbum"
+            quickplay.album({
+                id: args.contentId,
+                type: itemType
+            })
+        else if itemType = "musicartist"
+            quickplay.artist({
+                id: args.contentId,
+                type: itemType
+            })
+        else if itemType = "series"
+            quickplay.series({
+                id: args.contentId,
+                type: itemType
+            })
+        else if itemType = "season"
+            if isValidAndNotEmpty(args.seriesID)
+                quickplay.season({
+                    id: args.contentId,
+                    type: itemType,
+                    json: {
+                        SeriesId: args.seriesID
+                    }
+                })
+            else
+                stopLoadingSpinner()
+                dialog = createObject("roSGNode", "Dialog")
+                dialog.id = "OKDialog"
+                dialog.title = tr("Missing deep link argument")
+                dialog.buttons = [tr("OK")]
+                dialog.message = "To play a season you must provide the seriesID"
+                m.scene.dialog = dialog
+                m.scene.dialog.observeField("buttonSelected", m.port)
+            end if
+
+        else if itemType = "boxset"
+            quickplay.boxset({
+                id: args.contentId,
+                type: itemType
+            })
+        else if itemType = "collectionfolder"
+            if isValidAndNotEmpty(args.collectionType)
+                quickplay.collectionFolder({
+                    id: args.contentId,
+                    type: itemType,
+                    collectionType: LCase(args.collectionType)
+                })
+            else
+                stopLoadingSpinner()
+                dialog = createObject("roSGNode", "Dialog")
+                dialog.id = "OKDialog"
+                dialog.title = tr("Missing deep link argument")
+                dialog.buttons = [tr("OK")]
+                dialog.message = "To play a collection folder you must provide the collectionType"
+                m.scene.dialog = dialog
+                m.scene.dialog.observeField("buttonSelected", m.port)
+            end if
+        else if itemType = "playlist"
+            quickplay.playlist({
+                id: args.contentId,
+                type: itemType
+            })
+        else if itemType = "userview"
+            if isValidAndNotEmpty(args.collectionType)
+                quickplay.userView({
+                    id: args.contentId,
+                    type: itemType,
+                    collectionType: args.collectionType
+                })
+            else
+                stopLoadingSpinner()
+                dialog = createObject("roSGNode", "Dialog")
+                dialog.id = "OKDialog"
+                dialog.title = tr("Missing deep link argument")
+                dialog.buttons = [tr("OK")]
+                dialog.message = "To play a userview you must provide the collectionType"
+                m.scene.dialog = dialog
+                m.scene.dialog.observeField("buttonSelected", m.port)
+            end if
+        else if itemType = "folder"
+            quickplay.folder(deepLinkNode)
+        else if itemType = "musicvideo"
+            quickplay.musicVideo({
+                id: args.contentId,
+                type: itemType,
+                json: {}
+            })
+        else if itemType = "person"
+            quickplay.person({
+                id: args.contentId,
+                type: itemType
+            })
+        else if itemType = "tvchannel"
+            quickplay.tvChannel({
+                id: args.contentId,
+                type: itemType
+            })
+        else if itemType = "program"
+            quickplay.program({
+                id: args.contentId,
+                type: itemType,
+                json: {
+                    ChannelId: ""
+                }
+            })
+        else if itemType = "photo"
+            photoContent = CreateObject("roSGNode", "ContentNode")
+            photoContent.id = args.contentId
+            quickplay.photo(photoContent)
+        else if itemType = "photoalbum"
+            quickplay.photoAlbum({
+                id: args.contentId,
+                type: itemType
+            })
+        end if
+
         m.global.queueManager.callFunc("playQueue")
     end if
 
@@ -1125,13 +1263,54 @@ sub Main (args as dynamic) as void
             if msg.IsInput()
                 info = msg.GetInfo()
                 if info.DoesExist("mediatype") and info.DoesExist("contentid")
-                    inputEventVideo = {
-                        id: info.contentId,
-                        type: "video"
+                    startLoadingSpinner()
+                    m.global.queueManager.callFunc("clear") ' empty queue/playlist
+                    m.global.queueManager.callFunc("resetShuffle") ' turn shuffle off
+
+                    deepLinkNode = {
+                        id: args.contentId,
+                        type: args.mediaType
                     }
 
-                    m.global.queueManager.callFunc("clear")
-                    m.global.queueManager.callFunc("push", inputEventVideo)
+                    itemType = LCase(info.mediaType)
+
+                    if itemType = "episode" or itemType = "recording" or itemType = "movie" or itemType = "video"
+                        quickplay.video(deepLinkNode)
+                    else if itemType = "audio"
+                        quickplay.audio(deepLinkNode)
+                    else if itemType = "audiobook"
+                        quickplay.audioBook(deepLinkNode)
+                    else if itemType = "musicalbum"
+                        quickplay.album(deepLinkNode)
+                    else if itemType = "musicartist"
+                        quickplay.artist(deepLinkNode)
+                    else if itemType = "series"
+                        quickplay.series(deepLinkNode)
+                    else if itemType = "season"
+                        quickplay.season(deepLinkNode)
+                    else if itemType = "boxset"
+                        quickplay.boxset(deepLinkNode)
+                    else if itemType = "collectionfolder"
+                        quickplay.collectionFolder(deepLinkNode)
+                    else if itemType = "playlist"
+                        quickplay.playlist(deepLinkNode)
+                    else if itemType = "userview"
+                        quickplay.userView(deepLinkNode)
+                    else if itemType = "folder"
+                        quickplay.folder(deepLinkNode)
+                    else if itemType = "musicvideo"
+                        quickplay.musicVideo(deepLinkNode)
+                    else if itemType = "person"
+                        quickplay.person(deepLinkNode)
+                    else if itemType = "tvchannel"
+                        quickplay.tvChannel(deepLinkNode)
+                    else if itemType = "program"
+                        quickplay.program(deepLinkNode)
+                    else if itemType = "photo"
+                        quickplay.photo(deepLinkNode)
+                    else if itemType = "photoalbum"
+                        quickplay.photoAlbum(deepLinkNode)
+                    end if
                     m.global.queueManager.callFunc("playQueue")
                 end if
             end if

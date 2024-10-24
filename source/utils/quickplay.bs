@@ -88,7 +88,6 @@ namespace quickplay
             "sortBy": "Random",
             "Recursive": true
         })
-        print "photoAlbumData=", photoAlbumData
 
         if isValid(photoAlbumData) and isValidAndNotEmpty(photoAlbumData.items)
             photoPlayer = CreateObject("roSgNode", "PhotoDetails")
@@ -199,7 +198,7 @@ namespace quickplay
                 "Filters": "IsResumable",
                 "EnableTotalRecordCount": false
             })
-            print "resumeitems data=", data
+
             if isValid(data) and isValidAndNotEmpty(data.Items)
                 ' play the resumable episode
                 if isValid(data.Items[0].UserData) and isValid(data.Items[0].UserData.PlaybackPositionTicks)
@@ -271,7 +270,6 @@ namespace quickplay
 
     ' A container with some kind of videos inside of it
     sub videoContainer(itemNode as object)
-        print "itemNode=", itemNode
         collectionType = Lcase(itemNode.collectionType)
         if collectionType = "movies"
             ' get randomized list of videos inside
@@ -282,12 +280,11 @@ namespace quickplay
                 "includeItemTypes": "Movie,Video",
                 "limit": 2000
             })
-            print "data=", data
+
             if isValid(data) and isValidAndNotEmpty(data.items)
                 videoList = []
                 ' add each item to the queue
                 for each item in data.Items
-                    print "data.Item=", item
                     ' only add videos we're not currently watching
                     if isValid(item.userdata) and isValid(item.userdata.PlaybackPositionTicks)
                         if item.userdata.PlaybackPositionTicks = 0
@@ -314,8 +311,6 @@ namespace quickplay
                 "enableImages": false
             })
 
-            print "tvshowsData=", tvshowsData
-
             if isValid(tvshowsData) and isValidAndNotEmpty(tvshowsData.items)
                 ' the type of media returned from api may change.
                 if tvshowsData.items[0].Type = "Series"
@@ -337,7 +332,7 @@ namespace quickplay
     ' Play the first unwatched episode.
     ' If none, play the whole season starting with episode 1.
     sub season(itemNode as object)
-        if not isValid(itemNode) or not isValid(itemNode.id) then return
+        if not isChainValid(itemNode, "json.SeriesId") or not isValid(itemNode.id) then return
 
         unwatchedData = api.shows.GetEpisodes(itemNode.json.SeriesId, {
             "seasonId": itemNode.id,
@@ -411,7 +406,6 @@ namespace quickplay
             "recursive": true,
             "limit": 2000
         })
-        print "personMovies=", personMovies
 
         if isValid(personMovies) and isValidAndNotEmpty(personMovies.Items)
             ' add each item to the queue
@@ -427,7 +421,6 @@ namespace quickplay
             "recursive": true,
             "limit": 2000
         })
-        print "personEpisodes=", personEpisodes
 
         if isValid(personEpisodes) and isValidAndNotEmpty(personEpisodes.Items)
             ' add each item to the queue
@@ -510,7 +503,7 @@ namespace quickplay
         }
         ' modify api query based on folder type
         folderType = Lcase(itemNode.json.type)
-        print "folderType=", folderType
+
         if folderType = "studio"
             paramArray["studioIds"] = itemNode.id
         else if folderType = "genre"
@@ -537,7 +530,6 @@ namespace quickplay
         end if
         ' get folder items
         folderData = api.users.GetItemsByQuery(m.global.session.user.id, paramArray)
-        print "folderData=", folderData
 
         if isValid(folderData) and isValidAndNotEmpty(folderData.items)
             if isValid(itemNode.json.SeriesCount) and itemNode.json.SeriesCount > 0
@@ -569,9 +561,7 @@ namespace quickplay
     sub collectionFolder(itemNode as object)
         if not isValid(itemNode) or not isValid(itemNode.id) then return
         ' play depends on the kind of files inside the collectionfolder
-        print "attempting to quickplay a collection folder"
         collectionType = LCase(itemNode.collectionType)
-        print "collectionType=", collectionType
 
         if collectionType = "movies"
             quickplay.videoContainer(itemNode)
@@ -588,7 +578,7 @@ namespace quickplay
                 "enableUserData": false,
                 "EnableTotalRecordCount": false
             })
-            print "songsData=", songsData
+
             if isValid(songsData) and isValidAndNotEmpty(songsData.items)
                 quickplay.pushToQueue(songsData.Items, true)
             else
@@ -608,7 +598,7 @@ namespace quickplay
                 "enableUserData": false,
                 "EnableTotalRecordCount": false
             })
-            print "songsData=", songsData
+
             if isValid(songsData) and isValidAndNotEmpty(songsData.items)
                 quickplay.pushToQueue(songsData.Items, true)
             else
@@ -625,14 +615,11 @@ namespace quickplay
                 "enableImages": false
             })
 
-            print "boxsetData=", boxsetData
-
             if isValid(boxsetData) and isValidAndNotEmpty(boxsetData.items)
                 ' pick a random boxset
                 arrayIndex = Rnd(boxsetData.items.count()) - 1
                 myBoxset = boxsetData.items[arrayIndex]
                 ' grab list of items from boxset
-                print "myBoxset=", myBoxset
                 boxsetData = api.users.GetItemsByQuery(m.global.session.user.id, {
                     "parentId": myBoxset.id,
                     "EnableTotalRecordCount": false
@@ -659,7 +646,7 @@ namespace quickplay
                 "enableUserData": false,
                 "EnableTotalRecordCount": false
             })
-            print "data=", data
+
             if isValid(data) and isValidAndNotEmpty(data.items)
                 quickplay.pushToQueue(data.Items)
             else
@@ -675,7 +662,6 @@ namespace quickplay
                 "sortBy": "Random",
                 "Recursive": true
             })
-            print "folderData=", folderData
 
             if isValid(folderData) and isValidAndNotEmpty(folderData.items)
                 photoPlayer = CreateObject("roSgNode", "PhotoDetails")
@@ -698,7 +684,6 @@ namespace quickplay
     sub userView(itemNode as object)
         ' play depends on the kind of files inside the collectionfolder
         collectionType = LCase(itemNode.collectionType)
-        print "collectionType=", collectionType
 
         if collectionType = "playlists"
             ' get list of all playlists inside
@@ -710,14 +695,11 @@ namespace quickplay
                 "enableImages": false
             })
 
-            print "playlistData=", playlistData
-
             if isValid(playlistData) and isValidAndNotEmpty(playlistData.items)
                 ' pick a random playlist
                 arrayIndex = Rnd(playlistData.items.count()) - 1
                 myPlaylist = playlistData.items[arrayIndex]
                 ' grab list of items from playlist
-                print "myPlaylist=", myPlaylist
                 playlistItems = api.playlists.GetItems(myPlaylist.id, {
                     "userId": m.global.session.user.id,
                     "EnableTotalRecordCount": false,
@@ -741,13 +723,11 @@ namespace quickplay
                 "EnableTotalRecordCount": false,
                 "enableImages": false
             })
-            print "channelData=", channelData
 
             if isValid(channelData) and isValidAndNotEmpty(channelData.items)
                 ' pick a random channel
                 arrayIndex = Rnd(channelData.items.count()) - 1
                 myChannel = channelData.items[arrayIndex]
-                print "myChannel=", myChannel
                 ' play channel
                 quickplay.tvChannel(myChannel)
             else
