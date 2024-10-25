@@ -1,6 +1,7 @@
 import "pkg:/source/api/baserequest.bs"
 import "pkg:/source/enums/ColorPalette.bs"
 import "pkg:/source/enums/KeyCode.bs"
+import "pkg:/source/enums/String.bs"
 import "pkg:/source/enums/TaskControl.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/deviceCapabilities.bs"
@@ -26,12 +27,12 @@ sub init()
     m.tvGuide = invalid
     m.channelFocused = invalid
 
-    m.itemGrid = m.top.findNode("itemGrid")
+    m.data = CreateObject("roSGNode", "ContentNode")
+    createItemGrid()
+
     m.backdrop = m.top.findNode("backdrop")
     m.newBackdrop = m.top.findNode("backdropTransition")
     m.emptyText = m.top.findNode("emptyText")
-
-    m.itemGrid.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
 
     m.genreList = m.top.findNode("genrelist")
     m.genreList.observeField("itemSelected", "onGenreItemSelected")
@@ -44,15 +45,8 @@ sub init()
     m.loadedRows = 0
     m.loadedItems = 0
 
-    m.data = CreateObject("roSGNode", "ContentNode")
-
-    m.itemGrid.content = m.data
-    m.itemGrid.setFocus(true)
     group = m.global.sceneManager.callFunc("getActiveScene")
     group.lastFocus = m.itemGrid
-
-    m.itemGrid.observeField("itemFocused", "onItemFocused")
-    m.itemGrid.observeField("itemSelected", "onItemSelected")
 
     'Voice filter setup
     m.voiceBox = m.top.findNode("voiceBox")
@@ -66,7 +60,7 @@ sub init()
     m.newBackdrop.observeField("loadStatus", "newBGLoaded")
 
     'Background Image Queued for loading
-    m.queuedBGUri = ""
+    m.queuedBGUri = string.EMPTY
 
     'Item sort - maybe load defaults from user prefs?
     m.sortField = "SortName"
@@ -87,6 +81,26 @@ sub init()
     m.top.gridTitles = m.global.session.user.settings["itemgrid.gridTitles"]
 end sub
 
+sub createItemGrid()
+    m.itemGrid = createObject("rosgnode", "MarkupGrid")
+    m.itemGrid.id = "itemGrid"
+    m.itemGrid.translation = "[96, 60]"
+    m.itemGrid.itemComponentName = "GridItemSmall"
+    m.itemGrid.numColumns = "7"
+    m.itemGrid.numRows = "3"
+    m.itemGrid.rowHeights = "[345]"
+    m.itemGrid.vertFocusAnimationStyle = "fixed"
+    m.itemGrid.itemSize = "[230, 345]"
+    m.itemGrid.itemSpacing = "[20, 20]"
+    m.itemGrid.drawFocusFeedback = "true"
+    m.itemGrid.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
+    m.top.appendChild(m.itemGrid)
+    m.itemGrid.observeField("itemFocused", "onItemFocused")
+    m.itemGrid.observeField("itemSelected", "onItemSelected")
+    m.itemGrid.content = m.data
+    m.itemGrid.setFocus(true)
+end sub
+
 'Genre Item Selected
 sub onGenreItemSelected()
     m.top.selectedItem = m.genreList.content.getChild(m.genreList.rowItemSelected[0]).getChild(m.genreList.rowItemSelected[1])
@@ -96,6 +110,18 @@ end sub
 sub loadInitialItems()
     m.loadItemsTask.control = "stop"
     startLoadingSpinner()
+
+    m.itemGrid.itemComponentName = "GridItemSmall"
+    m.itemGrid.numColumns = "7"
+    m.itemGrid.numRows = "3"
+
+    if LCase(m.top.showItemTitles) = "hidealways"
+        m.itemGrid.itemSize = "[230, 345]"
+        m.itemGrid.rowHeights = "[345]"
+    else
+        m.itemGrid.itemSize = "[230, 390]"
+        m.itemGrid.rowHeights = "[390]"
+    end if
 
     if m.top.parentItem.json.Type = "CollectionFolder" 'or m.top.parentItem.json.Type = "Folder"
         m.top.HomeLibraryItem = m.top.parentItem.Id
@@ -157,26 +183,26 @@ sub loadInitialItems()
     if m.top.parentItem.json.type = "Studio"
         m.loadItemsTask.studioIds = m.top.parentItem.id
         m.loadItemsTask.itemId = m.top.parentItem.parentFolder
-        m.loadItemsTask.genreIds = ""
+        m.loadItemsTask.genreIds = string.EMPTY
         ' Set Genre Id
     else if m.top.parentItem.json.type = "Genre"
         m.loadItemsTask.genreIds = m.top.parentItem.id
         m.loadItemsTask.itemId = m.top.parentItem.parentFolder
-        m.loadItemsTask.studioIds = ""
+        m.loadItemsTask.studioIds = string.EMPTY
     else if (m.view = "Shows" or m.options.view = "Shows") or (m.view = "Movies" or m.options.view = "Movies")
-        m.loadItemsTask.studioIds = ""
-        m.loadItemsTask.genreIds = ""
+        m.loadItemsTask.studioIds = string.EMPTY
+        m.loadItemsTask.genreIds = string.EMPTY
     else
         m.loadItemsTask.itemId = m.top.parentItem.Id
     end if
 
     ' if we already searched for this alpha text than reset filter
     if m.loadItemsTask.nameStartsWith = m.top.alphaSelected
-        m.loadItemsTask.nameStartsWith = ""
+        m.loadItemsTask.nameStartsWith = string.EMPTY
+        m.top.alphaSelected = string.EMPTY
     else
         m.loadItemsTask.nameStartsWith = m.alpha.letterSelected
     end if
-    updateTitle()
 
     m.loadItemsTask.searchTerm = m.voiceBox.text
     m.emptyText.visible = false
@@ -195,14 +221,6 @@ sub loadInitialItems()
         m.loadItemsTask.itemId = m.top.parentItem.Id
 
         m.top.showItemTitles = m.global.session.user.settings["itemgrid.gridTitles"]
-        if LCase(m.top.showItemTitles) = "hidealways"
-            m.itemGrid.itemSize = "[230, 345]"
-            m.itemGrid.rowHeights = "[345]"
-        else
-            m.itemGrid.itemSize = "[230, 390]"
-            m.itemGrid.rowHeights = "[390]"
-        end if
-
     else if getCollectionType() = "music"
         ' Default Settings
         m.loadItemsTask.recursive = true
@@ -226,7 +244,7 @@ sub loadInitialItems()
             showTvGuide()
         end if
     else if m.top.parentItem.collectionType = "CollectionFolder" or m.top.parentItem.type = "CollectionFolder" or m.top.parentItem.collectionType = "boxsets" or m.top.parentItem.Type = "Boxset" or m.top.parentItem.Type = "Boxsets" or m.top.parentItem.Type = "Folder" or m.top.parentItem.Type = "Channel"
-        if m.voiceBox.text <> ""
+        if m.voiceBox.text <> string.EMPTY
             m.loadItemsTask.recursive = true
         else
             ' non recursive for collections (folders, boxsets, photo albums, etc)
@@ -266,15 +284,19 @@ sub loadInitialItems()
 
     if m.top.parentItem.type <> "Folder" and (m.options.view = "Networks" or m.view = "Networks" or m.options.view = "Studios" or m.view = "Studios")
         m.loadItemsTask.view = "Networks"
+        m.itemGrid.itemComponentName = "GridItemMedium"
+        m.itemGrid.itemSize = "[400, 345]"
         m.top.imageDisplayMode = "scaleToFit"
+        m.itemGrid.numColumns = 4
+
     else if m.top.parentItem.type <> "Folder" and (m.options.view = "Genres" or m.view = "Genres")
         m.loadItemsTask.StudioIds = m.top.parentItem.Id
         m.loadItemsTask.view = "Genres"
     else if m.top.parentItem.type <> "Folder" and (m.options.view = "Shows" or m.view = "Shows")
-        m.loadItemsTask.studioIds = ""
+        m.loadItemsTask.studioIds = string.EMPTY
         m.loadItemsTask.view = "Shows"
     else if m.top.parentItem.type <> "Folder" and (m.options.view = "Movies" or m.view = "Movies")
-        m.loadItemsTask.studioIds = ""
+        m.loadItemsTask.studioIds = string.EMPTY
         m.loadItemsTask.view = "Movies"
     end if
 
@@ -288,7 +310,7 @@ sub loadInitialItems()
     m.getFiltersTask.params = {
         userid: m.global.session.user.id,
         parentid: m.top.parentItem.Id,
-        IncludeItemTypes: getCollectionType() = "tvshows" ? "Series" : ""
+        IncludeItemTypes: getCollectionType() = "tvshows" ? "Series" : string.EMPTY
     }
     m.getFiltersTask.control = TaskControl.RUN
 end sub
@@ -697,8 +719,6 @@ sub onItemFocused()
 
     itemInt = m.itemGrid.itemFocused
 
-    updateTitle()
-
     ' If no selected item, set background to parent backdrop
     if itemInt = -1
         return
@@ -737,9 +757,9 @@ sub swapDone()
         m.newBackdrop.opacity = 0
 
         'If there is another one to load
-        if m.newBackdrop.uri <> m.queuedBGUri and m.queuedBGUri <> ""
+        if m.newBackdrop.uri <> m.queuedBGUri and m.queuedBGUri <> string.EMPTY
             SetBackground(m.queuedBGUri)
-            m.queuedBGUri = ""
+            m.queuedBGUri = string.EMPTY
         end if
     end if
 end sub
@@ -761,28 +781,28 @@ sub onItemSelected()
 end sub
 
 sub alphaSelectedChanged()
-    if m.top.alphaSelected <> ""
+    if m.top.alphaSelected <> string.EMPTY
         m.loadedRows = 0
         m.loadedItems = 0
         m.data = CreateObject("roSGNode", "ContentNode")
         m.itemGrid.content = m.data
-        m.loadItemsTask.searchTerm = ""
-        m.VoiceBox.text = ""
+        m.loadItemsTask.searchTerm = string.EMPTY
+        m.VoiceBox.text = string.EMPTY
 
         loadInitialItems()
     end if
 end sub
 
 sub onvoiceFilter()
-    if m.VoiceBox.text = "" then return
+    if m.VoiceBox.text = string.EMPTY then return
 
-    if LCase(m.voiceBox.text) = "reset search" then m.voiceBox.text = ""
+    if LCase(m.voiceBox.text) = "reset search" then m.voiceBox.text = string.EMPTY
 
     m.loadedRows = 0
     m.loadedItems = 0
     m.data = CreateObject("roSGNode", "ContentNode")
     m.itemGrid.content = m.data
-    m.top.alphaSelected = ""
+    m.top.alphaSelected = string.EMPTY
     m.loadItemsTask.NameStartsWith = " "
     m.loadItemsTask.searchTerm = m.voiceBox.text
     m.loadItemsTask.recursive = true
@@ -886,7 +906,6 @@ sub optionsClosed()
 
     if m.options.filter <> m.filter
         m.filter = m.options.filter
-        updateTitle()
         reload = true
         'Store filter setting
         if m.top.parentItem.collectionType = "livetv"
@@ -909,6 +928,8 @@ sub optionsClosed()
     if reload
         m.loadedRows = 0
         m.loadedItems = 0
+        m.top.removeChild(m.itemGrid)
+        createItemGrid()
         m.data = CreateObject("roSGNode", "ContentNode")
         m.itemGrid.content = m.data
         loadInitialItems()
@@ -1058,44 +1079,3 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
     return false
 end function
-
-sub updateTitle()
-    m.top.overhangTitle = m.top.parentItem.title
-
-    if m.filter = "Favorites"
-        m.top.overhangTitle = m.top.parentItem.title + " " + tr("(Favorites)")
-    end if
-
-    if m.voiceBox.text <> ""
-        m.top.overhangTitle = m.top.parentItem.title + tr(" (Filtered by ") + m.loadItemsTask.searchTerm + ")"
-    end if
-
-    if m.loadItemsTask.nameStartsWith <> ""
-        m.top.overhangTitle = m.top.parentItem.title + tr(" (Filtered by ") + m.loadItemsTask.nameStartsWith + ")"
-    end if
-
-    if m.view = "music-artist"
-        m.top.overhangTitle = "%s (%s)".Format(m.top.parentItem.title, tr("Artists"))
-    else if m.view = "music-album"
-        m.top.overhangTitle = "%s (%s)".Format(m.top.parentItem.title, tr("Albums"))
-    end if
-
-    if m.options.view = "Networks" or m.view = "Networks"
-        m.top.overhangTitle = "%s (%s)".Format(m.top.parentItem.title, tr("Networks"))
-    end if
-
-    if m.options.view = "Studios" or m.view = "Studios"
-        m.top.overhangTitle = "%s (%s)".Format(m.top.parentItem.title, tr("Studios"))
-    end if
-
-    if m.options.view = "Genres" or m.view = "Genres"
-        m.top.overhangTitle = "%s (%s)".Format(m.top.parentItem.title, tr("Genres"))
-    end if
-
-    actInt = m.itemGrid.itemFocused + 1
-
-    if m.showItemCount and m.loadItemsTask.totalRecordCount > 0 and m.options.view <> "Genres" and m.view <> "Genres"
-        m.top.overhangTitle += " (" + tr("%1 of %2").Replace("%1", actInt.toStr()).Replace("%2", m.loadItemsTask.totalRecordCount.toStr()) + ")"
-    end if
-
-end sub

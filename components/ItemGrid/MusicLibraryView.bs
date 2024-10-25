@@ -1,6 +1,7 @@
 import "pkg:/source/api/baserequest.bs"
 import "pkg:/source/api/Image.bs"
 import "pkg:/source/enums/KeyCode.bs"
+import "pkg:/source/enums/String.bs"
 import "pkg:/source/enums/TaskControl.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/deviceCapabilities.bs"
@@ -156,6 +157,7 @@ sub loadInitialItems()
     ' if we already searched for this alpha text than reset filter
     if m.loadItemsTask.nameStartsWith = m.top.alphaSelected
         m.loadItemsTask.nameStartsWith = ""
+        m.top.alphaSelected = string.EMPTY
     else
         m.loadItemsTask.nameStartsWith = m.alpha.letterSelected
     end if

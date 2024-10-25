@@ -1,4 +1,5 @@
 import "pkg:/source/enums/ColorPalette.bs"
+import "pkg:/source/enums/ItemType.bs"
 import "pkg:/source/enums/PosterLoadStatus.bs"
 import "pkg:/source/enums/String.bs"
 import "pkg:/source/utils/config.bs"
@@ -55,9 +56,16 @@ sub itemContentChanged()
 
     m.itemTextExtra.text = extraPrefix + itemData.title
 
+    if isValidAndNotEmpty(itemData.json.Type)
+        if isStringEqual(itemData.json.Type, ItemType.STUDIO)
+            m.itemTextExtra.text = `${itemData.json.SeriesCount} Series`
+        end if
+    end if
+
+
     m.itemPoster.uri = itemData.PosterUrl
     m.posterText.text = itemData.title
-    m.title.text = itemData.json.SeriesName
+    m.title.text = isValidAndNotEmpty(itemData.json.SeriesName) ? itemData.json.SeriesName : itemData.title
 
     'If Poster not loaded, ensure backdrop is shown until loaded
     if m.itemPoster.loadStatus <> PosterLoadStatus.READY

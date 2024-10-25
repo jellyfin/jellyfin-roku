@@ -12,6 +12,14 @@
     "author": "1hitsong"
   },
   {
+    "description": "Fix poster display in TV networks view",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Fix changing options reusing first letter filter after toggled off",
+    "author": "1hitsong"
+  },
+  {
     "description": "Improve look of overflow description popups",
     "author": "1hitsong"
   }

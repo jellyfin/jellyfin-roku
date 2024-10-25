@@ -7,18 +7,6 @@
     <poster id="backdrop" loadDisplayMode="scaleToFill" width="1920" height="1080" opacity="0.25" />
     <poster id="backdropTransition" loadDisplayMode="scaleToFill" width="1920" height="1080" opacity="0.25" />
 
-    <MarkupGrid
-      id="itemGrid"
-      translation="[96, 60]"
-      itemComponentName="GridItemSmall"
-      numColumns="7"
-      numRows="3"
-      rowHeights="[345]"
-      vertFocusAnimationStyle="fixed"
-      itemSize="[230, 345]"
-      itemSpacing="[20, 20]"
-      drawFocusFeedback="true" />
-
     <RowList
       opacity="0"
       id="genrelist"

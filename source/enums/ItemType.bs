@@ -18,6 +18,7 @@ enum ItemType
     RECORDING = "recording"
     SEASON = "season"
     SERIES = "series"
+    STUDIO = "studio"
     TVCHANNEL = "tvchannel"
     USERVIEW = "userview"
     VIDEO = "video"
