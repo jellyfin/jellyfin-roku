@@ -97,15 +97,18 @@ sub Main (args as dynamic) as void
         end if
     end for
 
-    ' has the current user ran this version before?
-    usersLastRunVersion = m.global.session.user.settings.lastRunVersion
-    if not isValid(usersLastRunVersion) or not versionChecker(m.global.session.user.settings.lastRunVersion, m.global.app.version)
-        set_user_setting("LastRunVersion", m.global.app.version)
-        ' show what's new popup
-        if m.global.session.user.settings["load.allowwhatsnew"]
-            dialog = createObject("roSGNode", "WhatsNewDialog")
-            m.scene.dialog = dialog
-            m.scene.dialog.observeField("buttonSelected", m.port)
+    ' Bypass What's New popup if deep linking arguments were passed
+    if not isValidAndNotEmpty(args.mediaType) or not isValidAndNotEmpty(args.contentId)
+        usersLastRunVersion = m.global.session.user.settings.lastRunVersion
+        ' has the current user ran this version before?
+        if not isValid(usersLastRunVersion) or not versionChecker(m.global.session.user.settings.lastRunVersion, m.global.app.version)
+            set_user_setting("LastRunVersion", m.global.app.version)
+            ' show what's new popup
+            if m.global.session.user.settings["load.allowwhatsnew"]
+                dialog = createObject("roSGNode", "WhatsNewDialog")
+                m.scene.dialog = dialog
+                m.scene.dialog.observeField("buttonSelected", m.port)
+            end if
         end if
     end if
 
