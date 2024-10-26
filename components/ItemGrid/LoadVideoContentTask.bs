@@ -97,6 +97,15 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
         end if
     end if
 
+    video.mediaSegments = {}
+    if isValidAndNotEmpty(meta.json.MediaSources)
+        if isValid(meta.json.MediaSources[0].HasSegments)
+            if meta.json.MediaSources[0].HasSegments
+                video.mediaSegments = api.MediaSegments.Get(video.id)
+            end if
+        end if
+    end if
+
     video.trickplay = meta.json.Trickplay
     video.chapters = meta.json.Chapters
     video.content.title = meta.title

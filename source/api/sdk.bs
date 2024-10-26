@@ -1038,6 +1038,14 @@ namespace api
         end function
     end namespace
 
+    namespace MediaSegments
+        ' Gets the Media Segments for on item
+        function Get(id as string, params = {} as object)
+            resp = APIRequest(`/mediasegments/${id}`, params)
+            return getJson(resp)
+        end function
+    end namespace
+
     namespace movies
         ' Gets similar items.
         function GetSimilar(id as string, params = {} as object)
