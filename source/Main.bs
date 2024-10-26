@@ -97,18 +97,26 @@ sub Main (args as dynamic) as void
         end if
     end for
 
+    ' Bypass What's New popup if server is Jellyfin demo
+    if isStringEqual(m.global.session.server.url, "https://demo.jellyfin.org/stable")
+        set_user_setting("LastRunVersion", m.global.app.version)
+    end if
+
     ' Bypass What's New popup if deep linking arguments were passed
     if not isValidAndNotEmpty(args.mediaType) or not isValidAndNotEmpty(args.contentId)
-        usersLastRunVersion = m.global.session.user.settings.lastRunVersion
-        ' has the current user ran this version before?
-        if not isValid(usersLastRunVersion) or not versionChecker(m.global.session.user.settings.lastRunVersion, m.global.app.version)
-            set_user_setting("LastRunVersion", m.global.app.version)
-            ' show what's new popup
-            if m.global.session.user.settings["load.allowwhatsnew"]
-                dialog = createObject("roSGNode", "WhatsNewDialog")
-                m.scene.dialog = dialog
-                m.scene.dialog.observeField("buttonSelected", m.port)
-            end if
+        set_user_setting("LastRunVersion", m.global.app.version)
+    end if
+
+    ' Bypass What's New popup if deep linking arguments were passed
+    usersLastRunVersion = m.global.session.user.settings.lastRunVersion
+    ' has the current user ran this version before?
+    if not isValid(usersLastRunVersion) or not versionChecker(m.global.session.user.settings.lastRunVersion, m.global.app.version)
+        set_user_setting("LastRunVersion", m.global.app.version)
+        ' show what's new popup
+        if m.global.session.user.settings["load.allowwhatsnew"]
+            dialog = createObject("roSGNode", "WhatsNewDialog")
+            m.scene.dialog = dialog
+            m.scene.dialog.observeField("buttonSelected", m.port)
         end if
     end if
 
@@ -369,6 +377,9 @@ sub Main (args as dynamic) as void
                         group = CreateItemGrid(selectedItem)
                     end if
                     sceneManager.callFunc("pushScene", group)
+                else if selectedItemType = "boxset"
+                    group = CreateMovieLibraryView(selectedItem)
+                    sceneManager.callFunc("pushScene", group)
                 else if selectedItemType = "folder" and selectedItem.json.type = "genre"
                     ' User clicked on a genre folder
                     if selectedItem.json.MovieCount > 0
@@ -380,7 +391,7 @@ sub Main (args as dynamic) as void
                 else if selectedItemType = "folder" and LCase(type(selectedItem.json.type)) = "rostring" and LCase(selectedItem.json.type) = "musicgenre"
                     group = CreateMusicLibraryView(selectedItem)
                     sceneManager.callFunc("pushScene", group)
-                else if selectedItemType = "userview" or selectedItemType = "folder" or selectedItemType = "channel" or selectedItemType = "boxset"
+                else if selectedItemType = "userview" or selectedItemType = "folder" or selectedItemType = "channel"
                     group = CreateItemGrid(selectedItem)
                     sceneManager.callFunc("pushScene", group)
                 else if selectedItemType = "episode" or selectedItemType = "recording"

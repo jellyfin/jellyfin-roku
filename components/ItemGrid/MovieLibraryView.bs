@@ -1,6 +1,7 @@
 import "pkg:/source/api/baserequest.bs"
 import "pkg:/source/api/Image.bs"
 import "pkg:/source/enums/ColorPalette.bs"
+import "pkg:/source/enums/ItemType.bs"
 import "pkg:/source/enums/String.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/deviceCapabilities.bs"
@@ -184,6 +185,11 @@ sub loadInitialItems()
         m.loadItemsTask.itemId = m.top.parentItem.Id
     end if
 
+    if isStringEqual(getCollectionType(), ItemType.BOXSET)
+        m.loadItemsTask.itemType = "Movie"
+        m.loadItemsTask.itemId = m.top.parentItem.Id
+    end if
+
     ' By default we load movies
     m.loadItemsTask.studioIds = ""
     m.loadItemsTask.view = "Movies"
@@ -247,6 +253,13 @@ sub setMoviesOptions(options)
         { "Title": tr("Studios"), "Name": "Studios" },
         { "Title": tr("Genres"), "Name": "Genres" }
     ]
+
+    if isStringEqual(getCollectionType(), ItemType.BOXSET)
+        options.views = [
+            { "Title": tr("Movies (Presentation)"), "Name": "Movies" },
+            { "Title": tr("Movies (Grid)"), "Name": "MoviesGrid" },
+        ]
+    end if
 
     if m.top.parentItem.json.type = "Genre"
         options.views = [
