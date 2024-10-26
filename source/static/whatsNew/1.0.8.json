@@ -1,6 +1,6 @@
 [
   {
-    "description": "Create audio mini player - allowing you to navigate the client while music plays",
+    "description": "Create audio mini player - allowing you to navigate the client while music plays. <b>When shown, press Replay to highlight mini player, then OK to go back to audio player.</b>",
     "author": "1hitsong"
   },
   {
