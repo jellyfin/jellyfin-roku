@@ -1,5 +1,5 @@
 sub init()
-    m.top.content = getData()
+    getData()
     m.top.setfocus(true)
     group = m.global.sceneManager.callFunc("getActiveScene")
     group.lastFocus = m.top
