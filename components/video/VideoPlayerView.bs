@@ -1,5 +1,6 @@
 import "pkg:/source/enums/ColorPalette.bs"
 import "pkg:/source/enums/KeyCode.bs"
+import "pkg:/source/enums/MediaSegmentType.bs"
 import "pkg:/source/enums/String.bs"
 import "pkg:/source/enums/TaskControl.bs"
 import "pkg:/source/enums/VideoControl.bs"
@@ -71,14 +72,14 @@ sub init()
         if clockNode[0] <> invalid then clockNode[0].parent.removeChild(clockNode[0].node)
     end if
 
-    'Play Next Episode button
-    m.nextEpisodeButton = m.top.findNode("nextEpisode")
-    m.nextEpisodeButton.text = tr("Next Episode")
-    m.nextEpisodeButton.setFocus(false)
-    m.nextupbuttonseconds = m.global.session.user.settings["playback.nextupbuttonseconds"].ToInt()
+    m.skipSegmentButton = m.top.findNode("skipSegment")
+    m.skipSegmentButton.background = ColorPalette.LIGHTBLUE
+    m.skipSegmentButton.color = ColorPalette.DARKGREY
+    m.skipSegmentButton.focusBackground = ColorPalette.HIGHLIGHT
+    m.skipSegmentButton.focusColor = ColorPalette.WHITE
 
-    m.showNextEpisodeButtonAnimation = m.top.findNode("showNextEpisodeButton")
-    m.hideNextEpisodeButtonAnimation = m.top.findNode("hideNextEpisodeButton")
+    'Play Next Episode button
+    m.nextupbuttonseconds = m.global.session.user.settings["playback.nextupbuttonseconds"].ToInt()
 
     m.checkedForNextEpisode = false
     m.getNextEpisodeTask = createObject("roSGNode", "GetNextEpisodeTask")
@@ -443,6 +444,7 @@ sub onVideoContentLoaded()
     m.chapters = videoContent[0].chapters
     m.trickplay = videoContent[0].trickplay
     m.top.showID = videoContent[0].showID
+    m.mediaSegments = videoContent[0].mediaSegments
 
     m.osd.itemTitleText = m.top.content.title
 
@@ -626,14 +628,11 @@ end sub
 ' Event handler for when video content field changes
 sub onContentChange()
     if not isValid(m.top.content) then return
-
     m.top.observeField("position", "onPositionChanged")
 end sub
 
 sub onNextEpisodeDataLoaded()
     m.checkedForNextEpisode = true
-
-    m.top.observeField("position", "onPositionChanged")
 
     ' If there is no next episode, disable next episode button
     if m.getNextEpisodeTask.nextEpisodeData.Items.count() <> 2
@@ -641,64 +640,60 @@ sub onNextEpisodeDataLoaded()
     end if
 end sub
 
-'
-' Runs Next Episode button animation and sets focus to button
-sub showNextEpisodeButton()
-    if m.osd.visible then return
-    if m.top.content.contenttype <> 4 then return ' only display when content is type "Episode"
-    if m.nextupbuttonseconds = 0 then return ' is the button disabled?
-
-    if m.nextEpisodeButton.opacity = 0 and m.global.session.user.configuration.EnableNextEpisodeAutoPlay
-        m.nextEpisodeButton.visible = true
-        m.showNextEpisodeButtonAnimation.control = "start"
-        m.nextEpisodeButton.setFocus(true)
-    end if
-end sub
-
-'
-'Update count down text
-sub updateCount()
-    nextEpisodeCountdown = Int(m.top.duration - m.top.position)
-    if nextEpisodeCountdown < 0
-        nextEpisodeCountdown = 0
-    end if
-    m.nextEpisodeButton.text = tr("Next Episode") + " " + nextEpisodeCountdown.toStr()
-end sub
-
-'
-' Runs hide Next Episode button animation and sets focus back to video
-sub hideNextEpisodeButton()
-    m.hideNextEpisodeButtonAnimation.control = "start"
-    m.nextEpisodeButton.setFocus(false)
+sub hideSegmentSkipButton()
+    m.currentSegmentEndTicks = 0
+    m.skipSegmentButton.visible = false
+    m.skipSegmentButton.text = string.EMPTY
+    m.skipSegmentButton.setFocus(false)
+    m.skipSegmentButton.focus = false
     m.top.setFocus(true)
 end sub
 
-' Checks if we need to display the Next Episode button
-sub checkTimeToDisplayNextEpisode()
+sub displaySegmentSkipButton(segmentType as string, endticks as double)
+    ' Check if button is already showing
+    if isStringEqual(m.skipSegmentButton.text, `Skip ${segmentType}`) then return
+
+    if m.osd.visible then return ' Don't show if OSD is visible
     if m.top.content.contenttype <> 4 then return ' only display when content is type "Episode"
-    if m.nextupbuttonseconds = 0 then return ' is the button disabled?
 
-    ' Don't show Next Episode button if trickPlayBar is visible
-    if m.top.trickPlayBar.visible then return
-
-    if isValid(m.top.duration) and isValid(m.top.position)
-        nextEpisodeCountdown = Int(m.top.duration - m.top.position)
-
-        if nextEpisodeCountdown < 0 and m.nextEpisodeButton.opacity = 0.9
-            hideNextEpisodeButton()
-            return
-        else if nextEpisodeCountdown > 1 and int(m.top.position) >= (m.top.duration - m.nextupbuttonseconds - 1)
-            updateCount()
-            if m.nextEpisodeButton.opacity = 0
-                showNextEpisodeButton()
-            end if
-            return
-        end if
+    if isStringEqual(segmentType, MediaSegmentType.OUTRO)
+        if m.nextupbuttonseconds = 0 then return ' is the button disabled?
     end if
 
-    if m.nextEpisodeButton.visible or m.nextEpisodeButton.hasFocus()
-        m.nextEpisodeButton.visible = false
-        m.nextEpisodeButton.setFocus(false)
+    m.currentSegmentEndTicks = endticks
+    m.skipSegmentButton.visible = true
+    m.skipSegmentButton.text = `Skip ${segmentType}`
+    m.skipSegmentButton.setFocus(true)
+    m.skipSegmentButton.focus = true
+end sub
+
+sub checkSegmentSkipButton()
+    if not isValidAndNotEmpty(m.mediaSegments) then return
+
+    matchFound = false
+
+    currentPositionTicks = int(m.top.position) * 10000000&
+    for i = 0 to m.mediaSegments.TotalRecordCount - 1
+        mediaSegment = m.mediaSegments.items[i]
+
+        if currentPositionTicks < mediaSegment.StartTicks then continue for
+
+        ' Don't display skip button if we are within 5 seconds of the segment end time
+        if currentPositionTicks >= (mediaSegment.EndTicks - 50000000) then continue for
+
+        ' Current position is between media segment's start and end ticks. Display a skip button
+        displaySegmentSkipButton(mediaSegment.type, mediaSegment.EndTicks)
+
+        matchFound = true
+
+        exit for
+    end for
+
+    ' Check if no match was found but the skip segment button is visible
+    if not matchFound
+        if m.skipSegmentButton.visible
+            hideSegmentSkipButton()
+        end if
     end if
 end sub
 
@@ -722,7 +717,7 @@ sub onPositionChanged()
     if not isValid(m.dialog)
         ' Do not show Next Episode button for intro videos
         if not m.LoadMetaDataTask.isIntro
-            checkTimeToDisplayNextEpisode()
+            checkSegmentSkipButton()
         end if
     end if
 end sub
@@ -909,6 +904,10 @@ function availSubtitleTrackIdx(tracknameToFind as string) as integer
     return -1
 end function
 
+sub skipCurrentSegment()
+    m.top.seek = m.currentSegmentEndTicks / 10000000#
+end sub
+
 function onKeyEvent(key as string, press as boolean) as boolean
     ' Keypress handler while user is inside the chapter menu
     if m.chapterMenu.hasFocus()
@@ -942,26 +941,14 @@ function onKeyEvent(key as string, press as boolean) as boolean
         return true
     end if
 
-    if m.nextEpisodeButton.hasfocus() and not m.top.trickPlayBar.visible
-        if key = KeyCode.OK
-            m.top.control = VideoControl.STOP
-            m.top.state = "finished"
-            hideNextEpisodeButton()
-            return true
-        else if key = KeyCode.BACK
-            m.nextupbuttonseconds = 0
-            m.top.disableNextEpisodeAutoPlay = true
-            hideNextEpisodeButton()
+    if m.skipSegmentButton.hasfocus() and not m.top.trickPlayBar.visible
+        if not press then return false
 
+        if key = KeyCode.OK
+            skipCurrentSegment()
+            hideSegmentSkipButton()
             return true
         end if
-    end if
-
-    'Hide Next Episode Button
-    if m.nextEpisodeButton.opacity > 0 or m.nextEpisodeButton.hasFocus()
-        m.nextEpisodeButton.opacity = 0
-        m.nextEpisodeButton.setFocus(false)
-        m.top.setFocus(true)
     end if
 
     if not press then return false

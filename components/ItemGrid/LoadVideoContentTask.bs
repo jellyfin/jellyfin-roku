@@ -3,6 +3,7 @@ import "pkg:/source/api/Image.bs"
 import "pkg:/source/api/Items.bs"
 import "pkg:/source/api/userauth.bs"
 import "pkg:/source/api/UserLibrary.bs"
+import "pkg:/source/enums/MediaSegmentType.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/deviceCapabilities.bs"
 import "pkg:/source/utils/misc.bs"
@@ -102,6 +103,43 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
         if isValid(meta.json.MediaSources[0].HasSegments)
             if meta.json.MediaSources[0].HasSegments
                 video.mediaSegments = api.MediaSegments.Get(video.id)
+            end if
+        end if
+    end if
+
+    hasOutroSegment = false
+    if isValidAndNotEmpty(video.mediaSegments)
+        for i = 0 to video.mediaSegments.TotalRecordCount - 1
+            mediaSegment = video.mediaSegments.items[i]
+            if isStringEqual(mediaSegment.type, MediaSegmentType.OUTRO)
+                hasOutroSegment = true
+                exit for
+            end if
+        end for
+    end if
+
+    ' If we do not have an outro segment, create a fake one at the user's requested timestamp
+    if not hasOutroSegment
+        if isValid(meta.json.RunTimeTicks)
+            if m.global.session.user.settings["playback.nextupbuttonseconds"].ToInt() <> 0
+                outroSegment = {
+                    EndTicks: meta.json.RunTimeTicks,
+                    Id: "",
+                    ItemId: "",
+                    StartTicks: meta.json.RunTimeTicks - (m.global.session.user.settings["playback.nextupbuttonseconds"].ToInt() * 10000000),
+                    Type: "Outro"
+                }
+
+                if isValidAndNotEmpty(video.mediaSegments.LookupCI("items"))
+                    video.mediaSegments.Items.push(outroSegment)
+                    video.mediaSegments.TotalRecordCount++
+                else
+                    video.mediaSegments = {
+                        Items: [outroSegment],
+                        StartIndex: 0,
+                        TotalRecordCount: 1
+                    }
+                end if
             end if
         end if
     end if
