@@ -1,0 +1,10 @@
+[
+  {
+    "description": "Add media segment support",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Create media segment actions settings allowing users to decide how to handle each segment type",
+    "author": "1hitsong"
+  }
+]
