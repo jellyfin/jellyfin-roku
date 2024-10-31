@@ -9,24 +9,18 @@
       id="settingsMenu"
       itemSize="[510,54]"
       vertFocusAnimationStyle="floatingFocus"
-      focusBitmapBlendColor="#006fab"
-      focusedColor="#ffffff"
       itemSpacing="[0,9]"
       textVertAlign="center" />
 
-    <Poster
-      translation="[710,230]" id="testRectangle" width="1210" height="830" uri="pkg:/images/white.9.png"
-      blendColor="#3f3f3f" />
+    <Poster translation="[710,230]" id="testRectangle" width="1210" height="830" uri="pkg:/images/white.9.png" />
 
-    <LayoutGroup translation="[1278,270]" id="settingDetail" vertAlignment="top" horizAlignment="center" itemSpacings="[50]">
-      <Label id="settingDesc"
-        width="1065"
-        wrap="true"
-        horizAlign="center"
-        translation="[750,270]" />
+    <Label id="settingDesc"
+      translation="[730,270]"
+      width="1065"
+      wrap="true"
+      horizAlign="left" />
 
-      <RadioButtonList id="radioSetting" vertFocusAnimationStyle="floatingFocus" />
-    </LayoutGroup>
+    <RadioButtonList id="radioSetting" numRows="6" vertFocusAnimationStyle="floatingFocus" translation="[1034, 510]" />
 
     <RadioButtonList id="boolSetting" vertFocusAnimationStyle="floatingFocus" translation="[1034, 510]">
       <ContentNode role="content">
@@ -36,6 +30,5 @@
     </RadioButtonList>
 
     <IntegerKeyboard translation="[1034, 510]" id="integerSetting" domain="numeric" visible="false" />
-
   </children>
 </component>

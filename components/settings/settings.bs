@@ -1,7 +1,7 @@
+import "pkg:/source/enums/ColorPalette.bs"
 import "pkg:/source/utils/config.bs"
-import "pkg:/source/utils/misc.bs"
-' post device profile
 import "pkg:/source/utils/deviceCapabilities.bs"
+import "pkg:/source/utils/misc.bs"
 
 sub init()
     m.top.optionsAvailable = false
@@ -9,13 +9,23 @@ sub init()
     m.userLocation = []
 
     m.settingsMenu = m.top.findNode("settingsMenu")
-    m.settingDetail = m.top.findNode("settingDetail")
+    m.settingsMenu.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
+    m.settingsMenu.focusFootprintBlendColor = ColorPalette.TRANSPARENT
+    m.settingsMenu.focusedColor = ColorPalette.WHITE
+
+    testRectangle = m.top.findNode("testRectangle")
+    testRectangle.blendColor = ColorPalette.ELEMENTBACKGROUND
+
     m.settingDesc = m.top.findNode("settingDesc")
     m.path = m.top.findNode("path")
 
     m.boolSetting = m.top.findNode("boolSetting")
     m.integerSetting = m.top.findNode("integerSetting")
+
     m.radioSetting = m.top.findNode("radioSetting")
+    m.radioSetting.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
+    m.radioSetting.focusFootprintBlendColor = ColorPalette.TRANSPARENT
+    m.radioSetting.focusedColor = ColorPalette.WHITE
 
     m.integerSetting.observeField("submit", "onKeyGridSubmit")
     m.integerSetting.observeField("escape", "onKeyGridEscape")
@@ -222,7 +232,7 @@ end sub
 
 ' Returns true if any of the data entry forms are in focus
 function isFormInFocus() as boolean
-    if isValid(m.settingDetail.focusedChild) or m.radioSetting.hasFocus() or m.boolSetting.hasFocus() or m.integerSetting.hasFocus()
+    if m.radioSetting.hasFocus() or m.boolSetting.hasFocus() or m.integerSetting.hasFocus()
         return true
     end if
     return false

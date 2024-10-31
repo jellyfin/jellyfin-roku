@@ -168,8 +168,119 @@
                 "default": "false"
             },
             {
+                "title": "Media Segment Actions",
+                "description": "Settings relating to how viv should handle media segments.",
+                "children": [
+                    {
+                        "title": "Intro Segments",
+                        "description": "What action should viv take for intro segments? ",
+                        "settingName": "playback.mediasegments.intro",
+                        "type": "radio",
+                        "default": "asktoskip",
+                        "options": [
+                            {
+                                "title": "Ask To Skip",
+                                "id": "asktoskip"
+                            },
+                            {
+                                "title": "Skip",
+                                "id": "skip"
+                            },
+                            {
+                                "title": "None",
+                                "id": "None"
+                            }
+                        ]
+                    },
+                    {
+                        "title": "Preview Segments",
+                        "description": "What action should viv take for preview segments? ",
+                        "settingName": "playback.mediasegments.preview",
+                        "type": "radio",
+                        "default": "none",
+                        "options": [
+                            {
+                                "title": "Ask To Skip",
+                                "id": "asktoskip"
+                            },
+                            {
+                                "title": "Skip",
+                                "id": "skip"
+                            },
+                            {
+                                "title": "None",
+                                "id": "none"
+                            }
+                        ]
+                    },
+                    {
+                        "title": "Recap Segments",
+                        "description": "What action should viv take for recap segments? ",
+                        "settingName": "playback.mediasegments.recap",
+                        "type": "radio",
+                        "default": "none",
+                        "options": [
+                            {
+                                "title": "Ask To Skip",
+                                "id": "asktoskip"
+                            },
+                            {
+                                "title": "Skip",
+                                "id": "skip"
+                            },
+                            {
+                                "title": "None",
+                                "id": "none"
+                            }
+                        ]
+                    },
+                    {
+                        "title": "Commercial Segments",
+                        "description": "What action should viv take for commercial segments? ",
+                        "settingName": "playback.mediasegments.commercial",
+                        "type": "radio",
+                        "default": "none",
+                        "options": [
+                            {
+                                "title": "Ask To Skip",
+                                "id": "asktoskip"
+                            },
+                            {
+                                "title": "Skip",
+                                "id": "skip"
+                            },
+                            {
+                                "title": "None",
+                                "id": "none"
+                            }
+                        ]
+                    },
+                    {
+                        "title": "Outro Segments",
+                        "description": "What action should viv take for outro segments? ",
+                        "settingName": "playback.mediasegments.outro",
+                        "type": "radio",
+                        "default": "asktoskip",
+                        "options": [
+                            {
+                                "title": "Ask To Skip",
+                                "id": "asktoskip"
+                            },
+                            {
+                                "title": "Skip",
+                                "id": "skip"
+                            },
+                            {
+                                "title": "None",
+                                "id": "none"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
                 "title": "Next Episode Button Time",
-                "description": "Set how many seconds before the end of an episode the Next Episode button should appear. Set to 0 to disable.",
+                "description": "If no Outro media segment exists, set how many seconds before the end of an episode the Skip Outro button should appear. Set to 0 to disable.",
                 "settingName": "playback.nextupbuttonseconds",
                 "type": "integer",
                 "default": "30"
