@@ -1,0 +1,171 @@
+import "pkg:/source/enums/ColorPalette.bs"
+import "pkg:/source/enums/KeyCode.bs"
+import "pkg:/source/enums/String.bs"
+import "pkg:/source/utils/misc.bs"
+
+sub init()
+    m.top.setFocus(true)
+    m.top.optionsAvailable = false
+
+    m.submit = m.top.findNode("submit")
+    m.submit.background = ColorPalette.LIGHTBLUE
+    m.submit.color = ColorPalette.DARKGREY
+    m.submit.focusBackground = ColorPalette.HIGHLIGHT
+    m.submit.focusColor = ColorPalette.WHITE
+
+    m.quickConnect = m.top.findNode("quickConnect")
+    m.quickConnect.background = ColorPalette.LIGHTBLUE
+    m.quickConnect.color = ColorPalette.DARKGREY
+    m.quickConnect.focusBackground = ColorPalette.HIGHLIGHT
+    m.quickConnect.focusColor = ColorPalette.WHITE
+
+    m.errorContainer = m.top.findNode("errorContainer")
+    m.errorContainer.color = "#CC0000"
+
+    m.config = m.top.findNode("configOptions")
+    m.config.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
+    m.config.focusFootprintBlendColor = ColorPalette.TRANSPARENT
+
+    username_field = CreateObject("roSGNode", "ConfigData")
+    username_field.label = tr("Username")
+    username_field.type = "string"
+    username_field.value = string.EMPTY
+
+    password_field = CreateObject("roSGNode", "ConfigData")
+    password_field.label = tr("Password")
+    password_field.type = "password"
+    registryPassword = get_setting("password")
+    if isValid(registryPassword)
+        password_field.value = registryPassword
+    end if
+
+    saveCredentials = m.top.findNode("saveCredentials")
+    saveCredentials.focusedColor = ColorPalette.HIGHLIGHT
+    saveCredentials.font.size = 30
+    saveCredentials.focusedFont.size = 30
+
+    items = [username_field, password_field]
+    m.config.configItems = items
+
+    saveCredentials.checkedIconUri = "pkg:/images/icons/checkboxChecked.png"
+    saveCredentials.focusedCheckedIconUri = "pkg:/images/icons/checkboxChecked.png"
+
+    saveCredentials.uncheckedIconUri = "pkg:/images/icons/checkboxUnchecked.png"
+    saveCredentials.focusedUncheckedIconUri = "pkg:/images/icons/checkboxUnchecked.png"
+end sub
+
+sub onAlertChange()
+    m.errorContainer.visible = isValidAndNotEmpty(m.top.alert)
+
+    errorMessage = m.top.findNode("errorMessage")
+    errorMessage.text = m.top.alert
+end sub
+
+sub onUserChange()
+    username_field = m.config.content.getChild(0)
+
+    if isStringEqual(m.top.user, string.EMPTY) and isValid(get_setting("username"))
+        username_field.value = get_setting("username")
+    else
+        username_field.value = m.top.user
+    end if
+
+    ' Username has been provided, focus on password field
+    if not isStringEqual(username_field.value, string.EMPTY)
+        m.config.jumpToItem = 1
+    end if
+end sub
+
+function onKeyEvent(key as string, press as boolean) as boolean
+    ' Returns true if user navigates to a new focusable element
+    if not press then return false
+
+    list = m.top.findNode("configOptions")
+    saveCredentials = m.top.findNode("saveCredentials")
+
+    if key = KeyCode.BACK
+        m.top.backPressed = true
+        return false
+    end if
+
+    if key = KeyCode.DOWN and list.isInFocusChain()
+        limit = list.content.getChildren(-1, 0).count() - 1
+
+        if limit = list.itemFocused
+            saveCredentials.setFocus(true)
+            group = m.global.sceneManager.callFunc("getActiveScene")
+            group.lastFocus = saveCredentials
+            return true
+        end if
+        return false
+    end if
+
+    if key = KeyCode.DOWN and saveCredentials.isInFocusChain()
+        m.submit.setFocus(true)
+        m.submit.focus = true
+
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        group.lastFocus = m.submit
+        return true
+    end if
+
+    if key = KeyCode.UP and m.submit.hasFocus()
+        m.submit.focus = false
+
+        saveCredentials.setFocus(true)
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        group.lastFocus = saveCredentials
+        return true
+    end if
+
+    if key = KeyCode.UP and m.quickConnect.hasFocus()
+        m.quickConnect.focus = false
+
+        saveCredentials.setFocus(true)
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        group.lastFocus = saveCredentials
+        return true
+    end if
+
+    if key = KeyCode.UP and saveCredentials.isInFocusChain()
+        list.setFocus(true)
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        group.lastFocus = list
+        return true
+    end if
+
+    if key = KeyCode.RIGHT and m.submit.hasFocus()
+        m.submit.focus = false
+
+        m.quickConnect.setFocus(true)
+        m.quickConnect.focus = true
+
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        group.lastFocus = m.quickConnect
+        return true
+    end if
+
+    if key = KeyCode.LEFT and m.quickConnect.hasFocus()
+        m.quickConnect.focus = false
+
+        m.submit.setFocus(true)
+        m.submit.focus = true
+
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        group.lastFocus = m.submit
+        return true
+    end if
+
+    if key = KeyCode.OK
+        if m.quickConnect.hasFocus()
+            m.quickConnect.selected = not m.quickConnect.selected
+            return true
+        end if
+        if m.submit.hasFocus()
+            m.submit.selected = not m.submit.selected
+            return true
+        end if
+    end if
+
+    return false
+end function

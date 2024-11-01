@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<component name="ConfigList" extends="MarkupList">
+<component name="FormList" extends="MarkupList">
   <interface>
     <field id="configItems" type="nodearray" onChange="setData" />
   </interface>

@@ -1,7 +1,7 @@
 import "pkg:/source/utils/config.bs"
 
 sub init()
-    m.top.itemComponentName = "ConfigItem"
+    m.top.itemComponentName = "FormElement"
 
     m.top.drawFocusFeedback = True
     m.top.vertFocusAnimationStyle = "floatingFocus"
@@ -26,7 +26,7 @@ sub onItemSelected()
     i = m.top.itemSelected
     itemField = m.top.content.getchild(i)
 
-    configListShowDialog(itemField)
+    formListShowDialog(itemField)
 end sub
 
 function onDialogButton()
@@ -45,7 +45,7 @@ function onDialogButton()
 end function
 
 
-sub configListShowDialog(configField)
+sub formListShowDialog(configField)
     dialog = createObject("roSGNode", "StandardKeyboardDialog")
     m.configField = configField
     dialog.title = configField.label

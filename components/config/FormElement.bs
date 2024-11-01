@@ -1,6 +1,17 @@
+import "pkg:/source/enums/ColorPalette.bs"
+import "pkg:/source/enums/String.bs"
+import "pkg:/source/utils/misc.bs"
+
 sub init()
     m.name = m.top.findNode("label")
+
     m.value = m.top.findNode("value")
+    m.value.backgroundUri = "pkg:/images/transparent.png"
+    m.value.width = 440
+
+    m.name.color = ColorPalette.WHITE
+    m.value.textColor = ColorPalette.DARKGREY
+    m.value.hintTextColor = ColorPalette.MIDGREY
 
     m.name.width = 240
     m.name.height = 75
@@ -16,22 +27,10 @@ sub itemContentChanged()
     data = m.top.itemContent
 
     m.name.text = data.label
-    if data.type = "password"
+    if isStringEqual(data.type, "password")
         m.value.hintText = tr("Enter a password")
         m.value.secureMode = true
     end if
 
     m.value.text = data.value
-end sub
-
-sub setColors()
-    if m.top.itemHasFocus
-        color = "#101010FF"
-    else
-        color = "#ffffffFF"
-    end if
-
-    m.name.color = color
-    m.value.textColor = color
-
 end sub

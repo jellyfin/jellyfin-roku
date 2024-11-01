@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component name="FormElement" extends="Group">
+  <children>
+    <Label id="label" horizAlign="right" translation="[0, 5]" />
+    <Poster id="buttonBackground" uri="pkg:/images/white.9.png" translation="[250, 8]" height="60" width="500" />
+    <TextEditBox id="value" translation="[270, 40]" />
+  </children>
+
+  <interface>
+    <field id="itemContent" type="node" onChange="itemContentChanged" />
+  </interface>
+</component>

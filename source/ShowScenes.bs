@@ -473,57 +473,28 @@ end function
 
 function CreateSigninGroup(user = "")
     ' Get and Save Jellyfin user login credentials
-    group = CreateObject("roSGNode", "LoginScene")
+    group = CreateObject("roSGNode", "SigninScene")
+    group.user = user
+
     m.global.sceneManager.callFunc("pushScene", group)
     port = CreateObject("roMessagePort")
 
-    group.findNode("prompt").text = tr("Sign In")
-
-    config = group.findNode("configOptions")
-    username_field = CreateObject("roSGNode", "ConfigData")
-    username_field.label = tr("Username")
-    username_field.field = "username"
-    username_field.type = "string"
-    if user = "" and get_setting("username") <> invalid
-        username_field.value = get_setting("username")
-    else
-        username_field.value = user
-    end if
-    password_field = CreateObject("roSGNode", "ConfigData")
-    password_field.label = tr("Password")
-    password_field.field = "password"
-    password_field.type = "password"
-    registryPassword = get_setting("password")
-    if isValid(registryPassword)
-        password_field.value = registryPassword
-    end if
     ' Add checkbox for saving credentials
-    checkbox = group.findNode("onOff")
-    items = CreateObject("roSGNode", "ContentNode")
-    items.role = "content"
-    saveCheckBox = CreateObject("roSGNode", "ContentNode")
-    saveCheckBox.title = tr("Save Credentials?")
-    items.appendChild(saveCheckBox)
-    checkbox.content = items
-    checkbox.checkedState = [true]
+    saveCredentials = group.findNode("saveCredentials")
+
     quickConnect = group.findNode("quickConnect")
     ' Quick Connect only supported for server version 10.8+ right now...
     if versionChecker(m.global.session.server.version, "10.8.0")
         ' Add option for Quick Connect
-        quickConnect.text = tr("Quick Connect")
-        quickConnect.observeField("buttonSelected", port)
+        quickConnect.observeField("selected", port)
     else
         quickConnect.visible = false
     end if
 
-    items = [username_field, password_field]
-    config.configItems = items
-
     button = group.findNode("submit")
-    button.observeField("buttonSelected", port)
+    button.observeField("selected", port)
 
     config = group.findNode("configOptions")
-
     username = config.content.getChild(0)
     password = config.content.getChild(1)
 
@@ -540,12 +511,12 @@ function CreateSigninGroup(user = "")
             return "backPressed"
         else if type(msg) = "roSGNodeEvent"
             node = msg.getNode()
-            if node = "submit"
+            if isStringEqual(node, "submit")
                 startLoadingSpinner()
                 ' Validate credentials
                 activeUser = get_token(username.value, password.value)
                 if isValid(activeUser)
-                    if checkbox.checkedState[0] = true
+                    if saveCredentials.checkedState[0] = true
                         ' save credentials
                         session.user.Login(activeUser, true)
                         set_user_setting("token", activeUser.token)
@@ -556,15 +527,15 @@ function CreateSigninGroup(user = "")
                     return "true"
                 end if
                 stopLoadingSpinner()
-                group.findNode("alert").text = tr("Login attempt failed.")
-            else if node = "quickConnect"
+                group.alert = tr("Login attempt failed.")
+            else if isStringEqual(node, "quickConnect")
                 json = initQuickConnect()
                 if json = invalid
-                    group.findNode("alert").text = tr("Quick Connect not available.")
+                    group.alert = tr("Quick Connect not available.")
                 else
                     ' Server user is talking to is at least 10.8 and has quick connect enabled...
                     m.quickConnectDialog = createObject("roSGNode", "QuickConnectDialog")
-                    m.quickConnectDialog.saveCredentials = checkbox.checkedState[0]
+                    m.quickConnectDialog.saveCredentials = saveCredentials.checkedState[0]
                     m.quickConnectDialog.quickConnectJson = json
                     m.quickConnectDialog.title = tr("Quick Connect")
                     m.quickConnectDialog.message = [tr("Here is your Quick Connect code: ") + json.Code, tr("(Dialog will close automatically)")]
