@@ -1,8 +1,11 @@
+import "pkg:/source/enums/ColorPalette.bs"
+
 sub init()
     m.top.itemComponentName = "ListPoster"
     m.top.content = getData()
 
     m.top.rowFocusAnimationStyle = "fixedFocusWrap"
+    m.top.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
 
     m.top.showRowLabel = [false]
     m.top.showRowCounter = [true]
