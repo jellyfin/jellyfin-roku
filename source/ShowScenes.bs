@@ -138,8 +138,9 @@ function LoginFlow()
         else
             userSelected = ""
         end if
+
         stopLoadingSpinner()
-        passwordEntry = CreateSigninGroup(userSelected)
+        passwordEntry = CreateSigninGroup(userSelected, UserImageURL(m.global.session.user.id))
         SendPerformanceBeacon("AppDialogComplete") ' Roku Performance monitoring - Dialog Closed
         if passwordEntry = "backPressed"
             if numPubUsers > 0
@@ -462,6 +463,7 @@ function CreateUserSelectGroup(users = [])
                 return ""
             end if
         else if type(msg) = "roSGNodeEvent" and LCase(msg.getNode()) = "manuallogin"
+            session.user.Update("id", "")
             return ""
         end if
     end while
@@ -471,10 +473,11 @@ function CreateUserSelectGroup(users = [])
     return ""
 end function
 
-function CreateSigninGroup(user = "")
+function CreateSigninGroup(user = "", profileImageUri = "")
     ' Get and Save Jellyfin user login credentials
     group = CreateObject("roSGNode", "SigninScene")
     group.user = user
+    group.profileImageUri = profileImageUri
 
     m.global.sceneManager.callFunc("pushScene", group)
     port = CreateObject("roMessagePort")

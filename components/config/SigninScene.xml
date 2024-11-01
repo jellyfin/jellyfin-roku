@@ -7,20 +7,22 @@
       font="font:LargeSystemFont"
       height="100"
       width="1920"
-      translation="[0, 150]" />
+      translation="[0, 100]" />
 
-    <Rectangle id="errorContainer" visible="false" width="600" height="60" translation="[660, 230]">
+    <Poster uri="pkg:/images/icons/circle.png" id="overlayCurrentUserProfileImage" width="256" height="256" loadDisplayMode="scaleToZoom" translation="[832, 190]" />
+
+    <Rectangle id="errorContainer" visible="false" width="600" height="60" translation="[660, 386]">
       <Label id="errorMessage" text="" wrap="true" width="600" font="font:MediumSystemFont" horizAlign="center" translation="[10, 15]" />
     </Rectangle>
 
-    <Rectangle id="signInFormContainer" color="#101420" width="870" height="280" translation="[525, 310]">
+    <Rectangle id="signInFormContainer" color="#101420" width="870" height="280" translation="[525, 466]">
       <FormList id="configOptions" translation="[60, 40]" itemSpacing="[0, 50]" />
     </Rectangle>
 
     <CheckList
       id="saveCredentials"
       checkedState="[true]"
-      translation="[560, 615]"
+      translation="[560, 771]"
       focusFootprintBitmapUri=""
       drawFocusFeedback="false">
       <ContentNode role="content">
@@ -33,19 +35,20 @@
       text="Submit"
       height="85"
       width="350"
-      translation="[595,800]" />
+      translation="[595,900]" />
 
     <StandardButton
       id="quickConnect"
       text="Quick Connect"
       height="85"
       width="350"
-      translation="[975,800]" />
+      translation="[975,900]" />
 
     <Timer id="quickConnectTimer" duration="3" repeat="true" />
   </children>
   <interface>
     <field id="user" type="string" onchange="onUserChange" value="" />
+    <field id="profileImageUri" type="string" onchange="onProfileImageUriChange" value="" />
     <field id="alert" type="string" onchange="onAlertChange" value="" />
   </interface>
 </component>
