@@ -541,28 +541,25 @@ function CreateSigninGroup(user = "")
                     m.quickConnectDialog.message = [tr("Here is your Quick Connect code: ") + json.Code, tr("(Dialog will close automatically)")]
                     m.quickConnectDialog.buttons = [tr("Cancel")]
                     m.quickConnectDialog.observeField("authenticated", port)
+                    dlgPalette = createObject("roSGNode", "RSGPalette")
+                    dlgPalette.colors = {
+                        DialogBackgroundColor: ColorPalette.ELEMENTBACKGROUND,
+                        DialogFocusColor: ColorPalette.HIGHLIGHT,
+                        DialogFocusItemColor: ColorPalette.WHITE,
+                        DialogSecondaryTextColor: ColorPalette.WHITE,
+                        DialogSecondaryItemColor: ColorPalette.LIGHTBLUE,
+                        DialogTextColor: ColorPalette.WHITE
+                    }
+                    m.quickConnectDialog.palette = dlgPalette
                     m.scene.dialog = m.quickConnectDialog
                 end if
             else if msg.getField() = "authenticated"
                 authenticated = msg.getData()
-                if authenticated = true
+                if authenticated
                     ' Quick connect authentication was successful...
                     return "true"
                 else
-                    dialog = createObject("roSGNode", "Dialog")
-                    dialog.id = "QuickConnectError"
-                    dialog.title = tr("Quick Connect")
-                    dialog.buttons = [tr("OK")]
-                    dialog.message = tr("There was an error authenticating via Quick Connect.")
-                    m.scene.dialog = dialog
-                    m.scene.dialog.observeField("buttonSelected", port)
-                end if
-            else
-                ' If there are no other button matches, check if this is a simple "OK" Dialog & Close if so
-                dialog = msg.getRoSGNode()
-                if dialog.id = "QuickConnectError"
-                    dialog.unobserveField("buttonSelected")
-                    dialog.close = true
+                    m.global.sceneManager.callFunc("standardDialog", "Quick Connect Error", { data: ["<p>" + tr("There was an error authenticating via Quick Connect.") + "</p>"] })
                 end if
             end if
         end if
