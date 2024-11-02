@@ -16,14 +16,25 @@ sub loadItems()
 
     ' Load Libraries
     if m.top.itemsToLoad = "libraries"
+        params = { "userId": m.global.session.user.id }
+        data = api.GetUserViews(params)
 
-        url = Substitute("Users/{0}/Views/", m.global.session.user.id)
-        resp = APIRequest(url)
-        data = getJson(resp)
         if isValid(data) and isValid(data.Items)
             for each item in data.Items
                 tmp = CreateObject("roSGNode", "HomeData")
-                tmp.json = item
+                tmp.json = {
+                    id: item.LookupCI("Id"),
+                    name: item.LookupCI("name"),
+                    Type: item.LookupCI("Type"),
+                    CollectionType: item.LookupCI("CollectionType"),
+                    ImageTags: item.LookupCI("ImageTags"),
+                    UserData: item.LookupCI("UserData"),
+                    ParentThumbImageTag: item.LookupCI("ParentThumbImageTag"),
+                    ParentBackdropImageTags: item.LookupCI("ParentBackdropImageTags"),
+                    ParentBackdropItemId: item.LookupCI("ParentBackdropItemId"),
+                    SeriesPrimaryImageTag: item.LookupCI("SeriesPrimaryImageTag"),
+                    BackdropImageTags: item.LookupCI("BackdropImageTags")
+                }
                 results.push(tmp)
             end for
         end if

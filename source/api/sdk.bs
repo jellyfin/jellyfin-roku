@@ -1966,12 +1966,6 @@ namespace api
             return getJson(resp)
         end function
 
-        ' Get user views.
-        function GetViews(id as string, params = {} as object)
-            resp = APIRequest(Substitute("/users/{0}/views", id), params)
-            return getJson(resp)
-        end function
-
         ' Marks an item as a favorite.
         function MarkFavorite(userid as string, itemid as string)
             req = APIRequest(Substitute("users/{0}/favoriteitems/{1}", userid, itemid))
@@ -2066,6 +2060,12 @@ namespace api
             return postJson(req)
         end function
     end namespace
+
+    ' Get user views.
+    function GetUserViews(params = {} as object)
+        resp = APIRequest(`/userviews`, params)
+        return getJson(resp)
+    end function
 
     namespace videos
         ' Gets additional parts for a video.
