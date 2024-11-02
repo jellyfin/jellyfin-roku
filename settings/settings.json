@@ -168,6 +168,13 @@
                 "default": "false"
             },
             {
+                "title": "Force Transcoding",
+                "description": "Force all playable media to be transcoded.",
+                "settingName": "playback.media.forceTranscode",
+                "type": "bool",
+                "default": "false"
+            },
+            {
                 "title": "Media Segment Actions",
                 "description": "Settings relating to how viv should handle media segments.",
                 "children": [

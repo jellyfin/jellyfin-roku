@@ -1,8 +1,8 @@
-import "pkg:/source/utils/config.bs"
-import "pkg:/source/utils/misc.bs"
-import "pkg:/source/utils/deviceCapabilities.bs"
 import "pkg:/source/api/baserequest.bs"
 import "pkg:/source/api/sdk.bs"
+import "pkg:/source/utils/config.bs"
+import "pkg:/source/utils/deviceCapabilities.bs"
+import "pkg:/source/utils/misc.bs"
 
 sub init()
     m.top.functionName = "getPlaybackInfoTask"
@@ -56,11 +56,17 @@ function GetTranscodingStats(deviceSession)
         totalBitrate = deviceSession.TranscodingInfo.Bitrate
         audioChannels = deviceSession.TranscodingInfo.AudioChannels
 
-        if isValid(transcodingReasons) and transcodingReasons.Count() > 0
+        ' User told us to force video to transcode
+        if m.global.session.user.settings["playback.media.forceTranscode"]
             sessionStats.data.push("<header>" + tr("Transcoding Information") + "</header>")
-            for each item in transcodingReasons
-                sessionStats.data.push("<b>• " + tr("Reason") + ":</b> " + item)
-            end for
+            sessionStats.data.push("<b>• " + tr("Reason") + ":</b> Force Transcoding setting is enabled")
+        else
+            if isValid(transcodingReasons) and transcodingReasons.Count() > 0
+                sessionStats.data.push("<header>" + tr("Transcoding Information") + "</header>")
+                for each item in transcodingReasons
+                    sessionStats.data.push("<b>• " + tr("Reason") + ":</b> " + item)
+                end for
+            end if
         end if
 
         if isValid(videoCodec)

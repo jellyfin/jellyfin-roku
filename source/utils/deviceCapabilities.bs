@@ -54,6 +54,9 @@ end function
 function GetDirectPlayProfiles() as object
     globalUserSettings = m.global.session.user.settings
     directPlayProfiles = []
+
+    if globalUserSettings["playback.media.forceTranscode"] then return directPlayProfiles
+
     di = CreateObject("roDeviceInfo")
     ' all possible containers
     supportedCodecs = {
