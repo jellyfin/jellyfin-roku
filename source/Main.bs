@@ -189,16 +189,12 @@ sub Main (args as dynamic) as void
                 group.lastFocus = group
             end if
         else if isNodeEvent(msg, "quickPlayNode")
-            ' measure processing time
-            timeSpan = CreateObject("roTimespan")
-
             group = sceneManager.callFunc("getActiveScene")
             reportingNode = msg.getRoSGNode()
             itemNode = invalid
             if isValid(reportingNode)
                 itemNode = reportingNode.quickPlayNode
                 reportingNodeType = reportingNode.subtype()
-                print "Quick Play reporting node type=", reportingNodeType
                 ' prevent double fire bug
                 if isValid(reportingNodeType) and (reportingNodeType = "Home" or reportingNodeType = "TVEpisodes")
                     reportingNode.quickPlayNode = invalid
@@ -216,7 +212,6 @@ sub Main (args as dynamic) as void
                         itemType = Lcase(itemNode.json.type)
                     end if
                 end if
-                print "Quick Play itemNode type=", itemType
 
                 ' can't play the item without knowing what type it is
                 if isValid(itemType)
@@ -270,8 +265,6 @@ sub Main (args as dynamic) as void
                     m.global.queueManager.callFunc("playQueue")
                 end if
             end if
-            elapsed = timeSpan.TotalMilliseconds() / 1000
-            print "Quick Play finished loading in " + elapsed.toStr() + " seconds."
         else if isNodeEvent(msg, "refreshSeasonDetailsData")
             startLoadingSpinner()
 
@@ -449,22 +442,15 @@ sub Main (args as dynamic) as void
                 else if selectedItemType = "photo"
                     ' only handle selection if it's from the home screen
                     if selectedItem.isSubType("HomeData")
-                        print "a photo was selected from the home screen"
-                        print "selectedItem=", selectedItem
-
                         quickplay.photo(selectedItem)
                     end if
                 else if selectedItemType = "photoalbum"
-                    print "a photo album was selected"
-                    print "selectedItem=", selectedItem
-
                     ' grab all photos inside photo album
                     photoAlbumData = api.users.GetItemsByQuery(m.global.session.user.id, {
                         "parentId": selectedItem.id,
                         "includeItemTypes": "Photo",
                         "Recursive": true
                     })
-                    print "photoAlbumData=", photoAlbumData
 
                     if isValid(photoAlbumData) and isValidAndNotEmpty(photoAlbumData.items)
                         photoPlayer = CreateObject("roSgNode", "PhotoDetails")
