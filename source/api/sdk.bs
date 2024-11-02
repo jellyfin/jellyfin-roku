@@ -429,9 +429,9 @@ namespace api
             return getJson(req)
         end function
 
-        ' Get item image infos.
+        ' Get item image info
         function GetImages(id as string)
-            req = APIRequest(Substitute("/items/{0}/images", id))
+            req = APIRequest(`/items/${id}/images`)
             return getJson(req)
         end function
 

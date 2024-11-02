@@ -1,14 +1,17 @@
+import "pkg:/source/api/sdk.bs"
+import "pkg:/source/enums/ImageType.bs"
+
 function ItemImages(id = "" as string, params = {} as object)
-    ' This seems to cause crazy core dumps
-    ' if there is a conflict between on disk images, and library.db
-    resp = APIRequest(Substitute("Items/{0}/Images", id))
-    data = getJson(resp)
-    if data = invalid then return invalid
+    data = api.items.GetImages(id)
+    if not isValid(data) then return invalid
 
     results = []
     for each item in data
         tmp = CreateObject("roSGNode", "ImageData")
-        tmp.json = item
+        tmp.imagetype = item.imagetype
+        tmp.size = item.size
+        tmp.height = item.height
+        tmp.width = item.width
         tmp.url = ImageURL(id, tmp.imagetype, params)
         results.push(tmp)
     end for
@@ -18,17 +21,16 @@ end function
 
 function PosterImage(id as string, params = {} as object)
     images = ItemImages(id, params)
-    if images = invalid then return invalid
+    if not isValid(images) then return invalid
     primary_image = invalid
 
     for each image in images
-        if image.imagetype = "Primary"
+        if isStringEqual(image.imagetype, ImageType.PRIMARY)
             primary_image = image
-        else if image.imagetype = "Logo" and primary_image = invalid
+        else if isStringEqual(image.imagetype, ImageType.LOGO) and primary_image = invalid
             primary_image = image
-        else if image.imagetype = "Thumb" and primary_image = invalid
+        else if isStringEqual(image.imagetype, ImageType.THUMB) and primary_image = invalid
             primary_image = image
-            ' maybe find more fallback images
         end if
     end for
 
