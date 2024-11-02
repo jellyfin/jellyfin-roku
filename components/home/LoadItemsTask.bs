@@ -44,23 +44,47 @@ sub loadItems()
     else if m.top.itemsToLoad = "latest"
         activeUser = m.global.session.user.id
         if isValid(activeUser)
-            url = Substitute("Users/{0}/Items/Latest", activeUser)
-            params = {}
-            params["Limit"] = 16
-            params["ParentId"] = m.top.itemId
-            params["EnableImageTypes"] = "Primary,Backdrop,Thumb"
-            params["ImageTypeLimit"] = 1
-            params["EnableTotalRecordCount"] = false
+            params = {
+                userId: activeUser,
+                limit: 16,
+                parentId: m.top.itemId,
+                enableImageTypes: "Primary,Backdrop,Thumb",
+                imageTypeLimit: 1,
+                enableTotalRecordCount: false
+            }
 
-            resp = APIRequest(url, params)
-            data = getJson(resp)
+            data = api.items.GetLatest(params)
 
-            if isValid(data)
+            if isValidAndNotEmpty(data)
                 for each item in data
-                    ' Skip Books for now as we don't support it (issue #525)
-                    if item.Type <> "Book"
+                    if not isStringEqual(item.Type, ItemType.BOOK)
                         tmp = CreateObject("roSGNode", "HomeData")
-                        tmp.json = item
+                        tmp.json = {
+                            id: item.LookupCI("Id"),
+                            name: item.LookupCI("name"),
+                            Type: item.LookupCI("Type"),
+                            CollectionType: item.LookupCI("CollectionType"),
+                            ChannelName: item.LookupCI("ChannelName"),
+                            ChannelId: item.LookupCI("ChannelId"),
+                            EpisodeTitle: item.LookupCI("EpisodeTitle"),
+                            ChildCount: item.LookupCI("ChildCount"),
+                            EndDate: item.LookupCI("EndDate"),
+                            OfficialRating: item.LookupCI("OfficialRating"),
+                            ProductionYear: item.LookupCI("ProductionYear"),
+                            Album: item.LookupCI("Album"),
+                            SeriesName: item.LookupCI("SeriesName"),
+                            ParentIndexNumber: item.LookupCI("ParentIndexNumber"),
+                            IndexNumber: item.LookupCI("IndexNumber"),
+                            AlbumArtist: item.LookupCI("AlbumArtist"),
+                            Status: item.LookupCI("Status"),
+                            ImageTags: item.LookupCI("ImageTags"),
+                            UserData: item.LookupCI("UserData"),
+                            ParentThumbImageTag: item.LookupCI("ParentThumbImageTag"),
+                            ParentBackdropImageTags: item.LookupCI("ParentBackdropImageTags"),
+                            ParentBackdropItemId: item.LookupCI("ParentBackdropItemId"),
+                            SeriesPrimaryImageTag: item.LookupCI("SeriesPrimaryImageTag"),
+                            BackdropImageTags: item.LookupCI("BackdropImageTags")
+                        }
                         results.push(tmp)
                     end if
                 end for

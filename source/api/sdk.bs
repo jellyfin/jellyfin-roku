@@ -429,6 +429,12 @@ namespace api
             return getJson(req)
         end function
 
+        ' Gets latest media.
+        function GetLatest(params = {} as object)
+            resp = APIRequest(`/items/latest`, params)
+            return getJson(resp)
+        end function
+
         ' Get item image info
         function GetImages(id as string)
             req = APIRequest(`/items/${id}/images`)
@@ -2015,12 +2021,6 @@ namespace api
         ' Gets special features for an item.
         function GetSpecialFeatures(userid as string, itemid as string)
             resp = APIRequest(Substitute("/users/{0}/items/{1}/specialfeatures", userid, itemid))
-            return getJson(resp)
-        end function
-
-        ' Gets latest media.
-        function GetLatestMedia(userid as string, params = {} as object)
-            resp = APIRequest(Substitute("/users/{0}/items/latest", userid), params)
             return getJson(resp)
         end function
 
