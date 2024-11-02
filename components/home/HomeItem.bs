@@ -197,7 +197,7 @@ end sub
 
 sub displayPhotoAlbumInfo(itemData as object)
     m.itemText.text = itemData.name
-    m.itemPoster.uri = ImageURL(itemData.id)
+    m.itemPoster.uri = ImageURL(itemData.LookupCI("id"))
 
     ' subtext
     if isValid(itemData.json.ChildCount)
@@ -207,7 +207,7 @@ end sub
 
 sub displayPhotoInfo(itemData as object)
     m.itemText.text = itemData.name
-    m.itemPoster.uri = ImageURL(itemData.id)
+    m.itemPoster.uri = ImageURL(itemData.LookupCI("id"))
 
     ' subtext
     if isValidAndNotEmpty(itemData.json)
@@ -228,19 +228,19 @@ end sub
 sub displaySeasonInfo(itemData as object)
     m.itemText.text = itemData.json.SeriesName
     m.itemTextExtra.text = itemData.name
-    m.itemPoster.uri = ImageURL(itemData.id)
+    m.itemPoster.uri = ImageURL(itemData.LookupCI("id"))
 end sub
 
 sub displayTVChannelInfo(itemData as object)
     m.itemText.text = itemData.name
     m.itemTextExtra.text = itemData.json.AlbumArtist
-    m.itemPoster.uri = ImageURL(itemData.id)
+    m.itemPoster.uri = ImageURL(itemData.LookupCI("id"))
 end sub
 
 sub displayAudioInfo(itemData as object)
     m.itemText.text = itemData.name
     m.itemTextExtra.text = itemData.json.AlbumArtist
-    m.itemPoster.uri = ImageURL(itemData.id)
+    m.itemPoster.uri = ImageURL(itemData.LookupCI("id"))
 end sub
 
 sub displayAudioBookInfo(itemData as object)
@@ -250,7 +250,7 @@ sub displayAudioBookInfo(itemData as object)
 
     m.itemText.text = itemData.name
     m.itemTextExtra.text = itemData.json.AlbumArtist
-    m.itemPoster.uri = ImageURL(itemData.id)
+    m.itemPoster.uri = ImageURL(itemData.LookupCI("id"))
 end sub
 
 sub displayMusicAlbumInfo(itemData as object)

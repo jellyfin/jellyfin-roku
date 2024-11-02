@@ -2067,6 +2067,13 @@ namespace api
         return getJson(resp)
     end function
 
+    namespace useritems
+        function GetResumeItems(params = {} as object)
+            resp = APIRequest(`/useritems/resume`, params)
+            return getJson(resp)
+        end function
+    end namespace
+
     namespace videos
         ' Gets additional parts for a video.
         function GetAdditionalParts(id as string, params = {} as object)

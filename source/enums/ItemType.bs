@@ -1,6 +1,7 @@
 enum ItemType
     AUDIO = "audio"
     AUDIOBOOK = "audiobook"
+    BOOK = "book"
     BOXSET = "boxset"
     CHANNEL = "channel"
     COLLECTIONFOLDER = "collectionfolder"

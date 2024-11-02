@@ -1,15 +1,15 @@
 import "pkg:/source/api/baserequest.bs"
-import "pkg:/source/utils/config.bs"
 import "pkg:/source/api/Image.bs"
+import "pkg:/source/utils/config.bs"
 
 sub setData()
     ' We keep json around just as a reference,
     ' but ideally everything should be going through one of the interfaces
     datum = m.top.json
 
-    m.top.id = datum.id
-    m.top.name = datum.name
-    m.top.type = datum.type
+    m.top.id = datum.LookupCI("Id")
+    m.top.name = datum.LookupCI("name")
+    m.top.type = datum.LookupCI("type")
 
     if datum.CollectionType = invalid
         m.top.CollectionType = datum.type
@@ -22,7 +22,7 @@ sub setData()
     if LCase(datum.type) = "collectionfolder" or LCase(datum.type) = "userview"
         if IsValid(datum.ImageTags)
             params = { "Tag": datum.ImageTags.Primary, "maxHeight": 261, "maxWidth": 464 }
-            m.top.thumbnailURL = ImageURL(datum.id, "Primary", params)
+            m.top.thumbnailURL = ImageURL(datum.LookupCI("Id"), "Primary", params)
             m.top.widePosterUrl = m.top.thumbnailURL
         end if
 
@@ -45,7 +45,7 @@ sub setData()
             imgParams.Append(param)
         end if
 
-        m.top.thumbnailURL = ImageURL(datum.id, "Primary", imgParams)
+        m.top.thumbnailURL = ImageURL(datum.LookupCI("Id"), "Primary", imgParams)
 
         ' Add Wide Poster  (Series Backdrop)
         if datum.ParentThumbImageTag <> invalid
@@ -56,22 +56,22 @@ sub setData()
             m.top.widePosterUrl = ImageURL(datum.ParentBackdropItemId, "Backdrop", imgParams)
         else if datum.ImageTags.Primary <> invalid
             imgParams["Tag"] = datum.SeriesPrimaryImageTag
-            m.top.widePosterUrl = ImageURL(datum.id, "Primary", imgParams)
+            m.top.widePosterUrl = ImageURL(datum.LookupCI("Id"), "Primary", imgParams)
         end if
 
     else if datum.type = "Series"
         imgParams = { "maxHeight": 261 }
         imgParams.Append({ "maxWidth": 464 })
 
-        m.top.posterURL = ImageURL(datum.id, "Primary", imgParams)
+        m.top.posterURL = ImageURL(datum.LookupCI("Id"), "Primary", imgParams)
 
         ' Add Wide Poster  (Series Backdrop)
         if datum.ImageTags <> invalid and datum.imageTags.Thumb <> invalid
             imgParams["Tag"] = datum.imageTags.Thumb
-            m.top.widePosterUrl = ImageURL(datum.Id, "Thumb", imgParams)
+            m.top.widePosterUrl = ImageURL(datum.LookupCI("Id"), "Thumb", imgParams)
         else if datum.BackdropImageTags <> invalid
             imgParams["Tag"] = datum.BackdropImageTags[0]
-            m.top.widePosterUrl = ImageURL(datum.Id, "Backdrop", imgParams)
+            m.top.widePosterUrl = ImageURL(datum.LookupCI("Id"), "Backdrop", imgParams)
         end if
 
     else if datum.type = "Movie"
@@ -86,17 +86,17 @@ sub setData()
             imgParams.Append(param)
         end if
 
-        m.top.posterURL = ImageURL(datum.id, "Primary", imgParams)
+        m.top.posterURL = ImageURL(datum.LookupCI("Id"), "Primary", imgParams)
 
         ' For wide image, use backdrop
         imgParams["maxWidth"] = 464
 
         if datum.ImageTags <> invalid and datum.imageTags.Thumb <> invalid
             imgParams["Tag"] = datum.imageTags.Thumb
-            m.top.thumbnailUrl = ImageURL(datum.Id, "Thumb", imgParams)
+            m.top.thumbnailUrl = ImageURL(datum.LookupCI("Id"), "Thumb", imgParams)
         else if datum.BackdropImageTags[0] <> invalid
             imgParams["Tag"] = datum.BackdropImageTags[0]
-            m.top.thumbnailUrl = ImageURL(datum.id, "Backdrop", imgParams)
+            m.top.thumbnailUrl = ImageURL(datum.LookupCI("Id"), "Backdrop", imgParams)
         end if
     else if datum.type = "Video"
         m.top.isWatched = datum.UserData.Played
@@ -110,28 +110,28 @@ sub setData()
             imgParams.Append({ "Tag": datum.ImageTags.Primary })
         end if
 
-        m.top.posterURL = ImageURL(datum.id, "Primary", imgParams)
+        m.top.posterURL = ImageURL(datum.LookupCI("Id"), "Primary", imgParams)
         m.top.thumbnailUrl = m.top.posterURL
     else if datum.type = "MusicAlbum"
         params = { "Tag": datum.ImageTags.Primary, "maxHeight": 261, "maxWidth": 261 }
-        m.top.thumbnailURL = ImageURL(datum.id, "Primary", params)
+        m.top.thumbnailURL = ImageURL(datum.LookupCI("Id"), "Primary", params)
         m.top.widePosterUrl = m.top.thumbnailURL
         m.top.posterUrl = m.top.thumbnailURL
     else if datum.type = "TvChannel" or datum.type = "Channel"
         params = { "Tag": datum.ImageTags.Primary, "maxHeight": 261, "maxWidth": 464 }
-        m.top.thumbnailURL = ImageURL(datum.id, "Primary", params)
+        m.top.thumbnailURL = ImageURL(datum.LookupCI("Id"), "Primary", params)
         m.top.widePosterUrl = m.top.thumbnailURL
         m.top.iconUrl = "pkg:/images/media_type_icons/live_tv_white.png"
     else if datum.type = "Photo"
         params = { "Tag": datum.ImageTags.Primary, "maxHeight": 261, "maxWidth": 464 }
 
-        m.top.thumbnailURL = ImageURL(datum.id, "Primary", params)
+        m.top.thumbnailURL = ImageURL(datum.LookupCI("Id"), "Primary", params)
         m.top.widePosterUrl = m.top.thumbnailURL
         m.top.posterUrl = m.top.thumbnailURL
     else if datum.type = "PhotoAlbum"
         params = { "Tag": datum.ImageTags.Primary, "maxHeight": 261, "maxWidth": 464 }
 
-        m.top.thumbnailURL = ImageURL(datum.id, "Primary", params)
+        m.top.thumbnailURL = ImageURL(datum.LookupCI("Id"), "Primary", params)
         m.top.widePosterUrl = m.top.thumbnailURL
         m.top.posterUrl = m.top.thumbnailURL
     end if

@@ -2,6 +2,7 @@ import "pkg:/source/api/baserequest.bs"
 import "pkg:/source/api/Image.bs"
 import "pkg:/source/api/Items.bs"
 import "pkg:/source/api/sdk.bs"
+import "pkg:/source/enums/ItemType.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/deviceCapabilities.bs"
 import "pkg:/source/utils/misc.bs"
@@ -139,26 +140,45 @@ sub loadItems()
     else if m.top.itemsToLoad = "continue"
         activeUser = m.global.session.user.id
         if isValid(activeUser)
-            url = Substitute("Users/{0}/Items/Resume", activeUser)
+            params = {
+                recursive: true,
+                "SortBy": "DatePlayed",
+                "SortOrder": "Descending",
+                "Filters": "IsResumable",
+                "MediaTypes": "Video",
+                "excludeItemTypes": "Book",
+                "EnableTotalRecordCount": false
+            }
+            data = api.useritems.GetResumeItems(params)
 
-            params = {}
-            params["recursive"] = true
-            params["SortBy"] = "DatePlayed"
-            params["SortOrder"] = "Descending"
-            params["Filters"] = "IsResumable"
-            params["MediaTypes"] = "Video"
-            params["EnableTotalRecordCount"] = false
-
-            resp = APIRequest(url, params)
-            data = getJson(resp)
-            if isValid(data) and isValid(data.Items)
+            if isChainValid(data, "Items")
                 for each item in data.Items
-                    ' Skip Books for now as we don't support it (issue #558)
-                    if item.Type <> "Book"
-                        tmp = CreateObject("roSGNode", "HomeData")
-                        tmp.json = item
-                        results.push(tmp)
-                    end if
+                    tmp = CreateObject("roSGNode", "HomeData")
+                    tmp.Id = item.LookupCI("Id")
+                    tmp.name = item.LookupCI("name")
+                    tmp.type = item.LookupCI("Type")
+                    tmp.json = {
+                        Id: item.LookupCI("Id"),
+                        name: item.LookupCI("name"),
+                        Type: item.LookupCI("Type"),
+                        SeriesName: item.LookupCI("SeriesName"),
+                        ProductionYear: item.LookupCI("ProductionYear"),
+                        Status: item.LookupCI("Status"),
+                        EndDate: item.LookupCI("EndDate"),
+                        ParentIndexNumber: item.LookupCI("ParentIndexNumber"),
+                        IndexNumber: item.LookupCI("IndexNumber"),
+                        OfficialRating: item.LookupCI("OfficialRating"),
+                        CollectionType: item.LookupCI("CollectionType"),
+                        ImageTags: item.LookupCI("ImageTags"),
+                        UserData: item.LookupCI("UserData"),
+                        ParentThumbItemId: item.LookupCI("ParentThumbItemId"),
+                        ParentThumbImageTag: item.LookupCI("ParentThumbImageTag"),
+                        ParentBackdropImageTags: item.LookupCI("ParentBackdropImageTags"),
+                        ParentBackdropItemId: item.LookupCI("ParentBackdropItemId"),
+                        SeriesPrimaryImageTag: item.LookupCI("SeriesPrimaryImageTag"),
+                        BackdropImageTags: item.LookupCI("BackdropImageTags")
+                    }
+                    results.push(tmp)
                 end for
             end if
         end if
