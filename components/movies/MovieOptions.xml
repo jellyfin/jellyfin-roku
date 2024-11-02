@@ -10,6 +10,12 @@
           <RadiobuttonList id="subtitleMenu" itemspacing="[0,10]" opacity="1" vertFocusAnimationStyle="floatingFocus" drawFocusFeedback="false" itemSize="[1500, 70]" numRows="8" />
           <RadiobuttonList id="audioMenu" itemspacing="[0,10]" opacity="0" vertFocusAnimationStyle="floatingFocus" drawFocusFeedback="false" itemSize="[1500, 70]" numRows="8" />
           <RadiobuttonList id="videoMenu" itemspacing="[0,10]" opacity="0" vertFocusAnimationStyle="floatingFocus" drawFocusFeedback="false" itemSize="[1500, 70]" numRows="8" />
+          <RadiobuttonList id="optionMenu" itemspacing="[0,10]" opacity="0" vertFocusAnimationStyle="floatingFocus" drawFocusFeedback="false" itemSize="[1500, 70]" numRows="8">
+            <ContentNode role="content">
+              <ContentNode title="Play Normally" />
+              <ContentNode title="Force Transcoding" />
+            </ContentNode>
+          </RadiobuttonList>
         </Group>
       </LayoutGroup>
     </Group>

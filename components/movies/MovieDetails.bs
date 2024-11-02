@@ -14,6 +14,8 @@ import "pkg:/source/enums/VideoType.bs"
 import "pkg:/source/enums/ViewLoadStatus.bs"
 
 sub init()
+    m.global.queueManager.callFunc("setForceTranscode", false)
+
     m.container = m.top.findnode("container")
     m.extrasGrp = m.top.findnode("extrasGrp")
     m.extrasGrid = m.top.findNode("extrasGrid")

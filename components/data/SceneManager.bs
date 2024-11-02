@@ -11,7 +11,6 @@ end sub
 '
 ' Push a new group onto the stack, replacing the existing group on the screen
 sub pushScene(newGroup)
-
     currentGroup = m.groups.peek()
     if isValid(newGroup)
         if isValid(currentGroup)

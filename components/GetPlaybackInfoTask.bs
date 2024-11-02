@@ -42,7 +42,7 @@ sub getPlaybackInfoTask()
     if isValid(sessions) and sessions.Count() > 0
         m.top.data = { playbackInfo: GetTranscodingStats(sessions[0]) }
     else
-        m.top.data = { playbackInfo: [tr("Unable to get playback information")] }
+        m.top.data = { playbackInfo: { data: ["<b>" + tr("Unable to get playback information" + "</b>")] } }
     end if
 end sub
 
@@ -60,6 +60,9 @@ function GetTranscodingStats(deviceSession)
         if m.global.session.user.settings["playback.media.forceTranscode"]
             sessionStats.data.push("<header>" + tr("Transcoding Information") + "</header>")
             sessionStats.data.push("<b>• " + tr("Reason") + ":</b> Force Transcoding setting is enabled")
+        else if m.global.queueManager.callFunc("getForceTranscode")
+            sessionStats.data.push("<header>" + tr("Transcoding Information") + "</header>")
+            sessionStats.data.push("<b>• " + tr("Reason") + ":</b> Force Transcode option is enabled")
         else
             if isValid(transcodingReasons) and transcodingReasons.Count() > 0
                 sessionStats.data.push("<header>" + tr("Transcoding Information") + "</header>")

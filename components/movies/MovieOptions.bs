@@ -6,16 +6,21 @@ import "pkg:/source/utils/misc.bs"
 sub init()
 
     m.buttons = m.top.findNode("buttons")
-    m.buttons.buttons = [tr("Subtitles"), tr("Audio"), tr("Video")]
+    m.buttons.buttons = [tr("Subtitles"), tr("Audio"), tr("Video"), tr("Options")]
     m.buttons.selectedIndex = 0
     m.buttons.setFocus(true)
+
 
     m.selectedItem = 0
     m.selectedAudioIndex = 0
     m.selectedVideoIndex = 0
     m.selectedSubtitleIndex = -1
 
-    m.menus = [m.top.findNode("subtitleMenu"), m.top.findNode("audioMenu"), m.top.findNode("videoMenu")]
+    m.optionMenu = m.top.findNode("optionMenu")
+    m.optionMenu.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
+    m.optionMenu.focusedColor = ColorPalette.WHITE
+
+    m.menus = [m.top.findNode("subtitleMenu"), m.top.findNode("audioMenu"), m.top.findNode("videoMenu"), m.optionMenu]
 
     m.videoNames = []
     m.audioNames = []
@@ -36,10 +41,19 @@ sub init()
 
     m.buttons.observeField("focusedIndex", "buttonFocusChanged")
     m.buttons.focusedIndex = m.selectedItem
-
 end sub
 
 sub optionsSet()
+    if m.global.session.user.settings["playback.media.forceTranscode"]
+        m.optionMenu.checkedItem = 1
+        normalOption = m.optionMenu.content.getChild(0)
+        normalOption.title = "Play Normally - disabled because force transcoding setting is enabled"
+    else if m.global.queueManager.callFunc("getForceTranscode")
+        m.optionMenu.checkedItem = 1
+    else
+        m.optionMenu.checkedItem = 0
+    end if
+
     '  subtitle Tab
     if isValid(m.top.Options.subtitles)
         subtitleContent = CreateObject("roSGNode", "ContentNode")
@@ -185,6 +199,8 @@ function onKeyEvent(key as string, press as boolean) as boolean
                     m.top.subtitleStream = newSelection
                     m.global.queueManager.callFunc("setPreferredSubtitleTrack", newSelection)
                 end if
+            else if m.selectedItem = 3 ' Options Menu
+                m.global.queueManager.callFunc("setForceTranscode", m.optionMenu.checkedItem = 1)
             end if
 
         end if

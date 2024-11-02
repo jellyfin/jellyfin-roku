@@ -8,6 +8,14 @@
     "author": "1hitsong"
   },
   {
+    "description": "Create setting to force transcoding of all playable media",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Create playback option to force transcoding of single media file",
+    "author": "1hitsong"
+  },
+  {
     "description": "Redesign sign in screen",
     "author": "1hitsong"
   },

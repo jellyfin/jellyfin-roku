@@ -10,6 +10,7 @@ sub init()
     m.getLastKnownItemID = ""
     m.getLastKnownItemExtraType = ""
     m.bypassNextPreferredAudioTrackIndexReset = false
+    m.forceTranscode = false
     m.hold = []
     m.queue = []
     m.originalQueue = []
@@ -88,11 +89,13 @@ end sub
 
 ' Move queue position back one
 sub moveBack()
+    setForceTranscode(false)
     m.position--
 end sub
 
 ' Move queue position ahead one
 sub moveForward()
+    setForceTranscode(false)
     m.position++
 end sub
 
@@ -269,6 +272,21 @@ end function
 ' Sets the preferredSubtitleTrack property for the play queue
 sub setPreferredSubtitleTrack(subtitle as object)
     m.preferredSubtitleTrack = subtitle ?? {}
+end sub
+
+' Gets the forceTranscode property
+function getForceTranscode() as boolean
+    return m.forceTranscode
+end function
+
+' Sets the forceTranscode property
+sub setForceTranscode(forceTranscode as boolean)
+    m.forceTranscode = forceTranscode
+
+    postTask = createObject("roSGNode", "PostTask")
+    postTask.arrayData = getDeviceCapabilities()
+    postTask.apiUrl = "/Sessions/Capabilities/Full"
+    postTask.control = "RUN"
 end sub
 
 ' Gets the getLastKnownItemID property for the play queue

@@ -49,18 +49,17 @@ sub loadItems()
     id = m.top.itemId
     mediaSourceId = invalid
     audio_stream_idx = m.top.selectedAudioStreamIndex
-    forceTranscoding = false
 
-    m.top.content = [LoadItems_VideoPlayer(id, mediaSourceId, audio_stream_idx, forceTranscoding)]
+    m.top.content = [LoadItems_VideoPlayer(id, mediaSourceId, audio_stream_idx)]
 end sub
 
-function LoadItems_VideoPlayer(id as string, mediaSourceId = invalid as dynamic, audio_stream_idx = 1 as integer, forceTranscoding = false as boolean) as dynamic
+function LoadItems_VideoPlayer(id as string, mediaSourceId = invalid as dynamic, audio_stream_idx = 1 as integer) as dynamic
 
     video = {}
     video.id = id
     video.content = createObject("RoSGNode", "ContentNode")
 
-    LoadItems_AddVideoContent(video, mediaSourceId, audio_stream_idx, forceTranscoding)
+    LoadItems_AddVideoContent(video, mediaSourceId, audio_stream_idx)
 
     if video.content = invalid
         return invalid
@@ -69,7 +68,7 @@ function LoadItems_VideoPlayer(id as string, mediaSourceId = invalid as dynamic,
     return video
 end function
 
-sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_stream_idx = 1 as integer, forceTranscoding = false as boolean)
+sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_stream_idx = 1 as integer)
 
     meta = ItemMetaData(video.id)
 
@@ -279,7 +278,7 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
     if m.playbackInfo.MediaSources[0].MediaStreams.Count() > 0 and meta.live = false
         tryDirectPlay = m.global.session.user.settings["playback.tryDirect.h264ProfileLevel"] and m.playbackInfo.MediaSources[0].MediaStreams[0].codec = "h264"
         tryDirectPlay = tryDirectPlay or (m.global.session.user.settings["playback.tryDirect.hevcProfileLevel"] and m.playbackInfo.MediaSources[0].MediaStreams[0].codec = "hevc")
-        if tryDirectPlay and isValid(m.playbackInfo.MediaSources[0].TranscodingUrl) and forceTranscoding = false
+        if tryDirectPlay and isValid(m.playbackInfo.MediaSources[0].TranscodingUrl)
             transcodingReasons = getTranscodeReasons(m.playbackInfo.MediaSources[0].TranscodingUrl)
             if transcodingReasons.Count() = 1 and transcodingReasons[0] = "VideoLevelNotSupported"
                 video.directPlaySupported = true
