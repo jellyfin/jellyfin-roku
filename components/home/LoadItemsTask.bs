@@ -262,14 +262,18 @@ sub loadItems()
         end if
     else if m.top.itemsToLoad = "likethis"
         params = { "userId": m.global.session.user.id, "limit": 16 }
-        url = Substitute("Items/{0}/Similar", m.top.itemId)
-        resp = APIRequest(url, params)
-        data = getJson(resp)
-        if isValid(data) and isValid(data.Items)
+        data = api.items.GetSimilar(m.top.itemId, params)
+        if isChainValid(data, "Items")
             for each item in data.items
                 tmp = CreateObject("roSGNode", "ExtrasData")
                 tmp.posterURL = ImageUrl(item.Id, "Primary", { "Tags": item.PrimaryImageTag })
-                tmp.json = item
+                tmp.json = {
+                    Id: item.ID,
+                    Name: item.Name,
+                    PremiereDate: item.PremiereDate,
+                    ProductionYear: item.ProductionYear,
+                    Type: item.Type
+                }
                 results.push(tmp)
             end for
         end if
@@ -310,12 +314,12 @@ sub getPersonVideos(videoType, dest, dimens)
 
             tmp.json = {
                 Id: item.ID,
-                Name: item.Name,
-                ProductionYear: item.ProductionYear,
-                Type: item.Type,
                 IndexNumber: item.IndexNumber,
+                Name: item.Name,
                 ParentIndexNumber: item.ParentIndexNumber,
-                SeriesName: item.SeriesName
+                ProductionYear: item.ProductionYear,
+                SeriesName: item.SeriesName,
+                Type: item.Type
             }
             dest.push(tmp)
         end for
