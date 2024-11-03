@@ -181,7 +181,6 @@ sub boolSettingChanged()
             set_setting(selectedSetting.settingName, "true")
             ' setting specific triggers
             if selectedSetting.settingName = "global.rememberme"
-                print "m.global.session.user.id=", m.global.session.user.id
                 set_setting("active_user", m.global.session.user.id)
             end if
         else

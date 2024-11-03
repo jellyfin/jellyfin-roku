@@ -47,7 +47,6 @@ function asyncPost(req, data = "" as string) as integer
     respString = resp.GetString()
     if isValidAndNotEmpty(respString)
         m.top.responseBody = ParseJson(respString)
-        print "m.top.responseBody=", m.top.responseBody
     end if
 
     respCode = resp.GetResponseCode()
