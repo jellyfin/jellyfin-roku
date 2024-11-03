@@ -44,7 +44,7 @@ function loadLatestMedia() as object
 
     params = {
         userId: m.global.session.user.id,
-        limit: 16,
+        limit: 25,
         parentId: m.top.itemId,
         enableImageTypes: `${ImageType.PRIMARY}, ${ImageType.BACKDROP}, ${ImageType.THUMB}`,
         imageTypeLimit: 1,
@@ -139,6 +139,53 @@ function loadContinueWatching() as object
     return results
 end function
 
+function loadContinueListening() as object
+    results = []
+
+    params = {
+        recursive: true,
+        SortBy: "DatePlayed",
+        SortOrder: "Descending",
+        Filters: "IsResumable",
+        MediaTypes: ItemType.AUDIO,
+        EnableTotalRecordCount: false
+    }
+    data = api.useritems.GetResumeItems(params)
+
+    if not isChainValid(data, "Items") then return results
+
+    for each item in data.Items
+        tmp = CreateObject("roSGNode", "HomeData")
+        tmp.Id = item.LookupCI("Id")
+        tmp.name = item.LookupCI("name")
+        tmp.type = item.LookupCI("Type")
+        tmp.json = {
+            Id: item.LookupCI("Id"),
+            name: item.LookupCI("name"),
+            Type: item.LookupCI("Type"),
+            SeriesName: item.LookupCI("SeriesName"),
+            ProductionYear: item.LookupCI("ProductionYear"),
+            Status: item.LookupCI("Status"),
+            EndDate: item.LookupCI("EndDate"),
+            ParentIndexNumber: item.LookupCI("ParentIndexNumber"),
+            IndexNumber: item.LookupCI("IndexNumber"),
+            OfficialRating: item.LookupCI("OfficialRating"),
+            CollectionType: item.LookupCI("CollectionType"),
+            ImageTags: item.LookupCI("ImageTags"),
+            UserData: item.LookupCI("UserData"),
+            ParentThumbItemId: item.LookupCI("ParentThumbItemId"),
+            ParentThumbImageTag: item.LookupCI("ParentThumbImageTag"),
+            ParentBackdropImageTags: item.LookupCI("ParentBackdropImageTags"),
+            ParentBackdropItemId: item.LookupCI("ParentBackdropItemId"),
+            SeriesPrimaryImageTag: item.LookupCI("SeriesPrimaryImageTag"),
+            BackdropImageTags: item.LookupCI("BackdropImageTags")
+        }
+        results.push(tmp)
+    end for
+
+    return results
+end function
+
 function loadMoreLikeThis() as object
     results = []
 
@@ -191,6 +238,53 @@ function loadSpecialFeatures() as object
     return results
 end function
 
+function loadLiveTVOnNow() as object
+    results = []
+
+    params = {
+        userId: m.global.session.user.id,
+        isAiring: true,
+        limit: 25,
+        imageTypeLimit: 1,
+        enableImageTypes: `${ImageType.PRIMARY}, ${ImageType.BACKDROP}, ${ImageType.THUMB}`,
+        enableTotalRecordCount: false,
+        fields: "ChannelInfo,PrimaryImageAspectRatio"
+    }
+
+    data = api.liveTV.GetRecommendedPrograms(params)
+
+    if not isChainValid(data, "Items") then return results
+
+    for each item in data.Items
+        tmp = CreateObject("roSGNode", "HomeData")
+        tmp.json = {
+            Id: item.LookupCI("Id"),
+            ImageURL: ImageURL(item.LookupCI("Id")),
+            name: item.LookupCI("name"),
+            Type: item.LookupCI("Type"),
+            SeriesName: item.LookupCI("SeriesName"),
+            ProductionYear: item.LookupCI("ProductionYear"),
+            Status: item.LookupCI("Status"),
+            EndDate: item.LookupCI("EndDate"),
+            ParentIndexNumber: item.LookupCI("ParentIndexNumber"),
+            IndexNumber: item.LookupCI("IndexNumber"),
+            OfficialRating: item.LookupCI("OfficialRating"),
+            CollectionType: item.LookupCI("CollectionType"),
+            ImageTags: item.LookupCI("ImageTags"),
+            UserData: item.LookupCI("UserData"),
+            ParentThumbItemId: item.LookupCI("ParentThumbItemId"),
+            ParentThumbImageTag: item.LookupCI("ParentThumbImageTag"),
+            ParentBackdropImageTags: item.LookupCI("ParentBackdropImageTags"),
+            ParentBackdropItemId: item.LookupCI("ParentBackdropItemId"),
+            SeriesPrimaryImageTag: item.LookupCI("SeriesPrimaryImageTag"),
+            BackdropImageTags: item.LookupCI("BackdropImageTags")
+        }
+        results.push(tmp)
+    end for
+
+    return results
+end function
+
 function loadNextUp() as object
     results = []
 
@@ -202,7 +296,7 @@ function loadNextUp() as object
         UserId: m.global.session.user.id,
         EnableRewatching: m.global.session.user.settings["ui.details.enablerewatchingnextup"],
         DisableFirstEpisode: false,
-        limit: 24,
+        limit: 25,
         EnableTotalRecordCount: false
     }
 
@@ -269,7 +363,7 @@ function loadFavorites() as object
     params = {
         userid: m.global.session.user.id,
         Filters: "IsFavorite",
-        Limit: 20,
+        Limit: 25,
         recursive: true,
         sortby: "random",
         EnableTotalRecordCount: false
@@ -384,8 +478,6 @@ sub loadItems()
         return
     end if
 
-    results = []
-
     if isStringEqual(m.top.itemsToLoad, "libraries")
         m.top.content = loadLibraries()
         return
@@ -456,53 +548,15 @@ sub loadItems()
         return
     end if
 
-    if m.top.itemsToLoad = "continueListening"
-        activeUser = m.global.session.user.id
-        if isValid(activeUser)
-            url = Substitute("Users/{0}/Items/Resume", activeUser)
-
-            params = {}
-            params["recursive"] = true
-            params["SortBy"] = "DatePlayed"
-            params["SortOrder"] = "Descending"
-            params["Filters"] = "IsResumable"
-            params["MediaTypes"] = "Audio"
-            params["EnableTotalRecordCount"] = false
-
-            resp = APIRequest(url, params)
-            data = getJson(resp)
-            if isValid(data) and isValid(data.Items)
-                for each item in data.Items
-                    tmp = CreateObject("roSGNode", "HomeData")
-                    tmp.json = item
-                    results.push(tmp)
-                end for
-            end if
-        end if
-    else if m.top.itemsToLoad = "onNow"
-        url = "LiveTv/Programs/Recommended"
-        params = {}
-        params["userId"] = m.global.session.user.id
-        params["isAiring"] = true
-        params["limit"] = 16
-        params["imageTypeLimit"] = 1
-        params["enableImageTypes"] = "Primary,Thumb,Backdrop"
-        params["enableTotalRecordCount"] = false
-        params["fields"] = "ChannelInfo,PrimaryImageAspectRatio"
-
-        resp = APIRequest(url, params)
-        data = getJson(resp)
-        if isValid(data) and isValid(data.Items)
-            for each item in data.Items
-                tmp = CreateObject("roSGNode", "HomeData")
-                item.ImageURL = ImageURL(item.Id)
-                tmp.json = item
-                results.push(tmp)
-            end for
-        end if
-
-        ' Extract array of persons from Views and download full metadata for each
+    if isStringEqual(m.top.itemsToLoad, "continueListening")
+        m.top.content = loadContinueListening()
+        return
     end if
 
-    m.top.content = results
+    if isStringEqual(m.top.itemsToLoad, "onNow")
+        m.top.content = loadLiveTVOnNow()
+        return
+    end if
+
+    m.top.content = []
 end sub
