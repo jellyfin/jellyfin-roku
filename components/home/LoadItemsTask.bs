@@ -300,6 +300,36 @@ sub loadItems()
         return
     end if
 
+    if isStringEqual(m.top.itemsToLoad, "backdropImage")
+        m.top.content = [BackdropImage(m.top.itemId)]
+        return
+    end if
+
+    if isStringEqual(m.top.itemsToLoad, "audioStream")
+        m.top.content = [AudioStream(m.top.itemId)]
+        return
+    end if
+
+    if isStringEqual(m.top.itemsToLoad, "metaData")
+        m.top.content = [ItemMetaData(m.top.itemId)]
+        return
+    end if
+
+    if isStringEqual(m.top.itemsToLoad, "personSeries")
+        m.top.content = loadItemsByPerson(ItemType.SERIES)
+        return
+    end if
+
+    if isStringEqual(m.top.itemsToLoad, "personTVShows")
+        m.top.content = loadItemsByPerson(ItemType.EPISODE, { MaxWidth: 502, MaxHeight: 300 })
+        return
+    end if
+
+    if isStringEqual(m.top.itemsToLoad, "personMovies")
+        m.top.content = loadItemsByPerson(ItemType.MOVIE)
+        return
+    end if
+
     if m.top.itemsToLoad = "continueListening"
         activeUser = m.global.session.user.id
         if isValid(activeUser)
@@ -384,59 +414,55 @@ sub loadItems()
                 tmp = CreateObject("roSGNode", "ExtrasData")
                 tmp.posterURL = ImageUrl(item.Id, "Primary", { "Tags": item.PrimaryImageTag })
                 tmp.json = {
-                    Id: item.ID,
-                    Name: item.Name,
-                    PremiereDate: item.PremiereDate,
-                    ProductionYear: item.ProductionYear,
+                    Id: item.LookupCI("ID"),
+                    Name: item.LookupCI("Name"),
+                    PremiereDate: item.LookupCI("PremiereDate"),
+                    ProductionYear: item.LookupCI("ProductionYear"),
+                    EndDate: item.LookupCI("EndDate"),
                     Type: item.Type
                 }
                 results.push(tmp)
             end for
         end if
-    else if m.top.itemsToLoad = "personMovies"
-        getPersonVideos("Movie", results, {})
-    else if m.top.itemsToLoad = "personTVShows"
-        getPersonVideos("Episode", results, { MaxWidth: 502, MaxHeight: 300 })
-    else if m.top.itemsToLoad = "personSeries"
-        getPersonVideos("Series", results, {})
-    else if m.top.itemsToLoad = "metaData"
-        results.push(ItemMetaData(m.top.itemId))
-    else if m.top.itemsToLoad = "audioStream"
-        results.push(AudioStream(m.top.itemId))
-    else if m.top.itemsToLoad = "backdropImage"
-        results.push(BackdropImage(m.top.itemId))
     end if
 
     m.top.content = results
 end sub
 
-sub getPersonVideos(videoType, dest, dimens)
+function loadItemsByPerson(videoType, dimens = {}) as object
+    results = []
+
     params = {
+        userid: m.global.session.user.id,
         personIds: m.top.itemId,
         recursive: true,
         includeItemTypes: videoType,
         Limit: 50,
         SortBy: "Random"
     }
-    data = api.users.GetItemsByQuery(m.global.session.user.id, params)
 
-    if isValidAndNotEmpty(data)
-        for each item in data.items
-            tmp = CreateObject("roSGNode", "ExtrasData")
-            imgParms = { "Tags": item.ImageTags.Primary }
-            imgParms.append(dimens)
-            tmp.posterURL = ImageUrl(item.Id, "Primary", imgParms)
+    data = api.items.Get(params)
 
-            tmp.json = {
-                Id: item.ID,
-                IndexNumber: item.IndexNumber,
-                Name: item.Name,
-                ParentIndexNumber: item.ParentIndexNumber,
-                ProductionYear: item.ProductionYear,
-                SeriesName: item.SeriesName,
-                Type: item.Type
-            }
-            dest.push(tmp)
-        end for
-    end if
-end sub
+    if not isValidAndNotEmpty(data) then return results
+
+    for each item in data.items
+        tmp = CreateObject("roSGNode", "ExtrasData")
+        imgParms = { "Tags": item.ImageTags.Primary }
+        imgParms.append(dimens)
+        tmp.posterURL = ImageUrl(item.Id, "Primary", imgParms)
+
+        tmp.json = {
+            Id: item.LookupCI("ID"),
+            IndexNumber: item.LookupCI("IndexNumber"),
+            Name: item.LookupCI("Name"),
+            ParentIndexNumber: item.LookupCI("ParentIndexNumber"),
+            ProductionYear: item.LookupCI("ProductionYear"),
+            SeriesName: item.LookupCI("SeriesName"),
+            EndDate: item.LookupCI("EndDate"),
+            Type: item.LookupCI("Type")
+        }
+        results.push(tmp)
+    end for
+
+    return results
+end function
