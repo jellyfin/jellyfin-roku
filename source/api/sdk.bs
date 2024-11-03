@@ -417,6 +417,13 @@ namespace api
     end namespace
 
     namespace items
+        ' Gets items based on a query.
+        ' requires userid passed in params
+        function Get(params = {} as object)
+            req = APIRequest("/items/", params)
+            return getJson(req)
+        end function
+
         ' Gets legacy query filters.
         function GetFilters(params = {} as object)
             req = APIRequest("/items/filters", params)
@@ -548,13 +555,6 @@ namespace api
         function RefreshMetaData(id as string, params = {} as object)
             req = APIRequest(Substitute("/items/{0}/refresh", id), params)
             return postVoid(req)
-        end function
-
-        ' Gets items based on a query.
-        ' requires userid passed in params
-        function GetByQuery(params = {} as object)
-            req = APIRequest("/items/", params)
-            return getJson(req)
         end function
 
         ' Deletes items from the library and filesystem.

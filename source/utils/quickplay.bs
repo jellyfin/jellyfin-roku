@@ -152,7 +152,7 @@ namespace quickplay
     sub boxset(itemNode as object)
         if not isValid(itemNode) or not isValid(itemNode.id) then return
 
-        data = api.items.GetByQuery({
+        data = api.items.Get({
             "userid": m.global.session.user.id,
             "parentid": itemNode.id,
             "limit": 2000,

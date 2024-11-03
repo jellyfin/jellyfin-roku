@@ -211,6 +211,60 @@ function loadNextUp() as object
     return results
 end function
 
+function loadFavorites() as object
+    results = []
+
+    params = {
+        userid: m.global.session.user.id,
+        Filters: "IsFavorite",
+        Limit: 20,
+        recursive: true,
+        sortby: "random",
+        EnableTotalRecordCount: false
+    }
+
+    data = api.items.Get(params)
+
+    if not isChainValid(data, "Items") then return results
+
+    for each item in data.Items
+        if inArray([ItemType.BOOK, ItemType.AUDIO], item.type) then continue for
+
+        tmp = CreateObject("roSGNode", "HomeData")
+
+        params = {
+            Tags: item.PrimaryImageTag,
+            MaxWidth: 234,
+            MaxHeight: 330
+        }
+        tmp.posterURL = ImageUrl(item.Id, "Primary", params)
+        tmp.json = {
+            Id: item.LookupCI("Id"),
+            name: item.LookupCI("name"),
+            Type: item.LookupCI("Type"),
+            SeriesName: item.LookupCI("SeriesName"),
+            ProductionYear: item.LookupCI("ProductionYear"),
+            Status: item.LookupCI("Status"),
+            EndDate: item.LookupCI("EndDate"),
+            ParentIndexNumber: item.LookupCI("ParentIndexNumber"),
+            IndexNumber: item.LookupCI("IndexNumber"),
+            OfficialRating: item.LookupCI("OfficialRating"),
+            CollectionType: item.LookupCI("CollectionType"),
+            ImageTags: item.LookupCI("ImageTags"),
+            UserData: item.LookupCI("UserData"),
+            ParentThumbItemId: item.LookupCI("ParentThumbItemId"),
+            ParentThumbImageTag: item.LookupCI("ParentThumbImageTag"),
+            ParentBackdropImageTags: item.LookupCI("ParentBackdropImageTags"),
+            ParentBackdropItemId: item.LookupCI("ParentBackdropItemId"),
+            SeriesPrimaryImageTag: item.LookupCI("SeriesPrimaryImageTag"),
+            BackdropImageTags: item.LookupCI("BackdropImageTags")
+        }
+        results.push(tmp)
+    end for
+
+    return results
+end function
+
 sub loadItems()
     if not isValidAndNotEmpty(m.global.session.user.id)
         m.top.content = []
@@ -241,6 +295,11 @@ sub loadItems()
         return
     end if
 
+    if isStringEqual(m.top.itemsToLoad, "favorites")
+        m.top.content = loadFavorites()
+        return
+    end if
+
     if m.top.itemsToLoad = "continueListening"
         activeUser = m.global.session.user.id
         if isValid(activeUser)
@@ -264,38 +323,6 @@ sub loadItems()
                 end for
             end if
         end if
-
-    else if m.top.itemsToLoad = "favorites"
-
-        url = Substitute("Users/{0}/Items", m.global.session.user.id)
-
-        params = {}
-        params["Filters"] = "IsFavorite"
-        params["Limit"] = 20
-        params["recursive"] = true
-        params["sortby"] = "random"
-        params["EnableTotalRecordCount"] = false
-
-        resp = APIRequest(url, params)
-        data = getJson(resp)
-        if isValid(data) and isValid(data.Items)
-            for each item in data.Items
-                ' Skip Books for now as we don't support it (issue #558)
-                ' also skip songs since there is limited space
-                if not (item.Type = "Book" or item.Type = "Audio")
-                    tmp = CreateObject("roSGNode", "HomeData")
-
-                    params = {}
-                    params["Tags"] = item.PrimaryImageTag
-                    params["MaxWidth"] = 234
-                    params["MaxHeight"] = 330
-                    tmp.posterURL = ImageUrl(item.Id, "Primary", params)
-                    tmp.json = item
-                    results.push(tmp)
-                end if
-            end for
-        end if
-
     else if m.top.itemsToLoad = "onNow"
         url = "LiveTv/Programs/Recommended"
         params = {}
