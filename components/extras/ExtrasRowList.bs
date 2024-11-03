@@ -195,6 +195,10 @@ function buildRow(rowTitle as string, items, imgWdth = 0)
         else
             mov.labelText = mov.json.Name
             mov.subTitle = mov.json.ProductionYear
+
+            if isValid(mov.json.EndDate)
+                mov.subTitle += ` - ${LEFT(mov.json.EndDate, 4)}`
+            end if
         end if
 
         mov.Id = mov.json.Id
