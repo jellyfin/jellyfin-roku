@@ -165,6 +165,32 @@ function loadMoreLikeThis() as object
     return results
 end function
 
+function loadSpecialFeatures() as object
+    results = []
+
+    data = api.items.GetSpecialFeatures(m.top.itemId, { "userId": m.global.session.user.id })
+
+    if not isValidAndNotEmpty(data) then return results
+
+    for each item in data
+        tmp = CreateObject("roSGNode", "ExtrasData")
+        results.push(tmp)
+        params = {
+            Tags: item.ImageTags.Primary,
+            MaxWidth: 450,
+            MaxHeight: 402
+        }
+        tmp.posterURL = ImageUrl(item.Id, "Primary", params)
+        tmp.json = {
+            Id: item.LookupCI("ID"),
+            Name: item.LookupCI("Name"),
+            Type: item.LookupCI("Type")
+        }
+    end for
+
+    return results
+end function
+
 function loadNextUp() as object
     results = []
 
@@ -425,6 +451,11 @@ sub loadItems()
         return
     end if
 
+    if isStringEqual(m.top.itemsToLoad, "specialfeatures")
+        m.top.content = loadSpecialFeatures()
+        return
+    end if
+
     if m.top.itemsToLoad = "continueListening"
         activeUser = m.global.session.user.id
         if isValid(activeUser)
@@ -471,23 +502,6 @@ sub loadItems()
         end if
 
         ' Extract array of persons from Views and download full metadata for each
-    else if m.top.itemsToLoad = "specialfeatures"
-        params = {}
-        url = Substitute("Users/{0}/Items/{1}/SpecialFeatures", m.global.session.user.id, m.top.itemId)
-        resp = APIRequest(url, params)
-        data = getJson(resp)
-        if data <> invalid and data.count() > 0
-            for each specfeat in data
-                tmp = CreateObject("roSGNode", "ExtrasData")
-                results.push(tmp)
-                params = {}
-                params["Tags"] = specfeat.ImageTags.Primary
-                params["MaxWidth"] = 450
-                params["MaxHeight"] = 402
-                tmp.posterURL = ImageUrl(specfeat.Id, "Primary", params)
-                tmp.json = specfeat
-            end for
-        end if
     end if
 
     m.top.content = results

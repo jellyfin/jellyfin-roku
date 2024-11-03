@@ -120,10 +120,10 @@ function onSpecialFeaturesLoaded()
         row.Title = tr("Special Features")
         for each item in data
             m.top.visible = true
-            item.Id = item.json.Id
-            item.labelText = item.json.Name
+            item.Id = item.json.LookupCI("Id")
+            item.labelText = item.json.LookupCI("Name")
             item.subTitle = ""
-            item.Type = item.json.Type
+            item.Type = item.json.LookupCI("Type")
             item.imageWidth = 450
             row.appendChild(item)
         end for

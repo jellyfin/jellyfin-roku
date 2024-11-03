@@ -448,6 +448,12 @@ namespace api
             return getJson(req)
         end function
 
+        ' Gets special features for an item
+        function GetSpecialFeatures(id as string, params = {} as object)
+            req = APIRequest(`/items/${id}/specialfeatures`, params)
+            return getJson(req)
+        end function
+
         ' Delete an item's image.
         sub DeleteImage()
             throw "System.NotImplementedException: The function is not implemented."
