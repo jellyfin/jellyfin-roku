@@ -5,6 +5,9 @@
     <field id="type" type="string" />
     <field id="hasItems" type="boolean" />
     <field id="parentId" type="string" />
+    <field id="showID" type="string" />
+    <field id="episodeNumber" type="Integer" />
+    <field id="seasonID" type="string" />
     <field id="focusedItem" type="node" alwaysNotify="true" />
     <field id="selectedItem" type="node" alwaysNotify="true" />
     <function name="loadParts" />

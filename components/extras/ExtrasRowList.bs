@@ -29,6 +29,9 @@ sub init()
     m.LoadShowsTask = CreateObject("roSGNode", "LoadItemsTask")
     m.LoadShowsTask.itemsToLoad = "personTVShows"
 
+    m.LoadEpisodesTask = CreateObject("roSGNode", "LoadItemsTask")
+    m.LoadEpisodesTask.itemsToLoad = "seasonOfEpisodes"
+
     m.LoadSeriesTask = CreateObject("roSGNode", "LoadItemsTask")
     m.LoadSeriesTask.itemsToLoad = "personSeries"
 end sub
@@ -39,15 +42,47 @@ sub updateSize()
     m.top.rowItemSpacing = [36, 36]
 end sub
 
+sub onSeasonOfEpisodesLoaded()
+    data = m.LoadEpisodesTask.content
+    m.LoadEpisodesTask.unobserveField("content")
+
+    if not isValidAndNotEmpty(data) then return
+
+    if not m.top.hasItems then m.top.hasItems = true
+
+    header = "Season"
+    if isChainValid(data[0], "json.ParentIndexNumber")
+        header += `${data[0].json.ParentIndexNumber}`
+    end if
+
+    if m.top.episodeNumber > 0
+        for i = 1 to m.top.episodeNumber - 1
+            itemToMove = data.Shift()
+            data.push(itemToMove)
+        end for
+    end if
+
+    row = buildRow(header, data, 502)
+    addRowSize([502, 396])
+    m.top.content.appendChild(row)
+end sub
+
 sub loadParts(data as object)
     m.SpecialFeaturesTask.observeField("content", "onSpecialFeaturesLoaded")
     m.LoadPeopleTask.observeField("content", "onPeopleLoaded")
     m.LikeThisTask.observeField("content", "onLikeThisLoaded")
+    m.LoadEpisodesTask.observeField("content", "onSeasonOfEpisodesLoaded")
 
     m.top.parentId = data.id
     m.people = data.People
     m.LoadPeopleTask.peopleList = m.people
     m.LoadPeopleTask.control = TaskControl.RUN
+
+    if isAllValid([m.top.seasonID, m.top.showID])
+        m.LoadEpisodesTask.showID = m.top.showID
+        m.LoadEpisodesTask.seasonID = m.top.seasonID
+        m.LoadEpisodesTask.control = TaskControl.RUN
+    end if
 end sub
 
 sub loadPersonVideos(personId)

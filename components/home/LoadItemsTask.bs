@@ -139,6 +139,38 @@ function loadContinueWatching() as object
     return results
 end function
 
+function loadSeasonOfEpisodes() as object
+    results = []
+
+    data = TVEpisodes(m.top.showID, m.top.seasonID)
+
+    if not isChainValid(data, "Items") then return results
+
+    for each item in data.LookupCI("items")
+        tmp = CreateObject("roSGNode", "ExtrasData")
+        imgParms = {
+            "Tags": item.json.ImageTags.Primary,
+            MaxWidth: 502,
+            MaxHeight: 300
+        }
+        tmp.posterURL = ImageUrl(item.Id, "Primary", imgParms)
+
+        tmp.json = {
+            Id: item.LookupCI("ID"),
+            IndexNumber: item.json.LookupCI("IndexNumber"),
+            Name: item.json.LookupCI("Name"),
+            ParentIndexNumber: item.json.LookupCI("ParentIndexNumber"),
+            ProductionYear: item.json.LookupCI("ProductionYear"),
+            SeriesName: item.json.LookupCI("SeriesName"),
+            EndDate: item.json.LookupCI("EndDate"),
+            Type: item.json.LookupCI("Type")
+        }
+        results.push(tmp)
+    end for
+
+    return results
+end function
+
 function loadContinueListening() as object
     results = []
 
@@ -502,6 +534,11 @@ sub loadItems()
 
     if isStringEqual(m.top.itemsToLoad, "nextUp")
         m.top.content = loadNextUp()
+        return
+    end if
+
+    if isStringEqual(m.top.itemsToLoad, "seasonOfEpisodes")
+        m.top.content = loadSeasonOfEpisodes()
         return
     end if
 

@@ -254,6 +254,12 @@ sub itemContentChanged()
     ' Updates video metadata
     item = m.top.itemContent
 
+    if isvalid(m.extrasGrid)
+        m.extrasGrid.seasonID = item.seasonID
+        m.extrasGrid.showID = item.showID
+        m.extrasGrid.episodeNumber = item.json.IndexNumber
+    end if
+
     if not isChainValid(item, "json")
         m.buttonGrp.visible = true
         stopLoadingSpinner()

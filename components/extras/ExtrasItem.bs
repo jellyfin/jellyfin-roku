@@ -41,6 +41,7 @@ sub showContent()
 
     if isValid(m.top.itemContent)
         cont = m.top.itemContent
+
         m.name.text = cont.labelText
         m.name.maxWidth = cont.imageWidth
         m.role.maxWidth = cont.imageWidth
