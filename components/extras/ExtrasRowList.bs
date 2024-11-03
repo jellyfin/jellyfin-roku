@@ -68,10 +68,10 @@ sub onPeopleLoaded()
         row = m.top.content.createChild("ContentNode")
         row.Title = tr("Cast & Crew")
         for each person in people
-            if LCase(person.json.type) = PersonType.ACTOR and isValid(person.json.Role) and person.json.Role.ToStr().Trim() <> ""
-                person.subTitle = "as " + person.json.Role
+            if LCase(person.json.LookupCI("type")) = PersonType.ACTOR and isValid(person.json.LookupCI("Role")) and person.json.LookupCI("Role").ToStr().Trim() <> ""
+                person.subTitle = "as " + person.json.LookupCI("Role")
             else
-                person.subTitle = person.json.Type
+                person.subTitle = person.json.LookupCI("Type")
             end if
             person.Type = capitalize(PersonType.PERSON)
             row.appendChild(person)
@@ -85,25 +85,27 @@ end sub
 sub onLikeThisLoaded()
     data = m.LikeThisTask.content
     m.LikeThisTask.unobserveField("content")
+
     if isValidAndNotEmpty(data)
         if not m.top.hasItems then m.top.hasItems = true
         row = m.top.content.createChild("ContentNode")
         row.Title = tr("More Like This")
         for each item in data
-            item.Id = item.json.Id
-            item.labelText = item.json.Name
-            if isValid(item.json.ProductionYear)
-                item.subTitle = stri(item.json.ProductionYear)
-            else if isValid(item.json.PremiereDate)
+            item.Id = item.json.LookupCI("Id")
+            item.labelText = item.json.LookupCI("Name")
+            if isValid(item.json.LookupCI("ProductionYear"))
+                item.subTitle = stri(item.json.LookupCI("ProductionYear"))
+            else if isValid(item.json.LookupCI("PremiereDate"))
                 premierYear = CreateObject("roDateTime")
-                premierYear.FromISO8601String(item.json.PremiereDate)
+                premierYear.FromISO8601String(item.json.LookupCI("PremiereDate"))
                 item.subTitle = stri(premierYear.GetYear())
             end if
-            item.Type = item.json.Type
+            item.Type = item.json.LookupCI("Type")
             row.appendChild(item)
         end for
         addRowSize([234, 396])
     end if
+
     ' Special Features next...
     m.SpecialFeaturesTask.itemId = m.top.parentId
     m.SpecialFeaturesTask.control = TaskControl.RUN

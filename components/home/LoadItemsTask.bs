@@ -139,6 +139,32 @@ function loadContinueWatching() as object
     return results
 end function
 
+function loadMoreLikeThis() as object
+    results = []
+
+    params = { "userId": m.global.session.user.id, "limit": 25 }
+    data = api.items.GetSimilar(m.top.itemId, params)
+
+    if not isChainValid(data, "Items") then return results
+
+    for each item in data.items
+        tmp = CreateObject("roSGNode", "ExtrasData")
+        tmp.posterURL = ImageUrl(item.Id, "Primary", { "Tags": item.PrimaryImageTag })
+        tmp.json = {
+            Id: item.LookupCI("ID"),
+            Name: item.LookupCI("Name"),
+            PremiereDate: item.LookupCI("PremiereDate"),
+            ProductionYear: item.LookupCI("ProductionYear"),
+            EndDate: item.LookupCI("EndDate"),
+            Type: item.LookupCI("Type")
+        }
+        results.push(tmp)
+    end for
+
+
+    return results
+end function
+
 function loadNextUp() as object
     results = []
 
@@ -265,6 +291,67 @@ function loadFavorites() as object
     return results
 end function
 
+function loadItemsByPerson(videoType, dimens = {}) as object
+    results = []
+
+    params = {
+        userid: m.global.session.user.id,
+        personIds: m.top.itemId,
+        recursive: true,
+        includeItemTypes: videoType,
+        Limit: 50,
+        SortBy: "Random"
+    }
+
+    data = api.items.Get(params)
+
+    if not isValidAndNotEmpty(data) then return results
+
+    for each item in data.items
+        tmp = CreateObject("roSGNode", "ExtrasData")
+        imgParms = { "Tags": item.ImageTags.Primary }
+        imgParms.append(dimens)
+        tmp.posterURL = ImageUrl(item.Id, "Primary", imgParms)
+
+        tmp.json = {
+            Id: item.LookupCI("ID"),
+            IndexNumber: item.LookupCI("IndexNumber"),
+            Name: item.LookupCI("Name"),
+            ParentIndexNumber: item.LookupCI("ParentIndexNumber"),
+            ProductionYear: item.LookupCI("ProductionYear"),
+            SeriesName: item.LookupCI("SeriesName"),
+            EndDate: item.LookupCI("EndDate"),
+            Type: item.LookupCI("Type")
+        }
+        results.push(tmp)
+    end for
+
+    return results
+end function
+
+function loadPeople() as object
+    results = []
+
+    for each person in m.top.peopleList
+        tmp = CreateObject("roSGNode", "ExtrasData")
+        tmp.Id = person.Id
+        tmp.labelText = person.Name
+        params = {
+            Tags: person.PrimaryImageTag,
+            MaxWidth: 234,
+            MaxHeight: 330
+        }
+        tmp.posterURL = ImageUrl(person.Id, "Primary", params)
+        tmp.json = {
+            type: person.LookupCI("type"),
+            Role: person.LookupCI("role")
+        }
+        results.push(tmp)
+    end for
+
+    return results
+end function
+
 sub loadItems()
     if not isValidAndNotEmpty(m.global.session.user.id)
         m.top.content = []
@@ -273,13 +360,11 @@ sub loadItems()
 
     results = []
 
-    ' Load Libraries
     if isStringEqual(m.top.itemsToLoad, "libraries")
         m.top.content = loadLibraries()
         return
     end if
 
-    ' Load Latest Additions to Libraries
     if isStringEqual(m.top.itemsToLoad, "latest")
         m.top.content = loadLatestMedia()
         return
@@ -330,6 +415,16 @@ sub loadItems()
         return
     end if
 
+    if isStringEqual(m.top.itemsToLoad, "people")
+        m.top.content = loadPeople()
+        return
+    end if
+
+    if isStringEqual(m.top.itemsToLoad, "likethis")
+        m.top.content = loadMoreLikeThis()
+        return
+    end if
+
     if m.top.itemsToLoad = "continueListening"
         activeUser = m.global.session.user.id
         if isValid(activeUser)
@@ -358,7 +453,7 @@ sub loadItems()
         params = {}
         params["userId"] = m.global.session.user.id
         params["isAiring"] = true
-        params["limit"] = 16 ' 16 to be consistent with "Latest In"
+        params["limit"] = 16
         params["imageTypeLimit"] = 1
         params["enableImageTypes"] = "Primary,Thumb,Backdrop"
         params["enableTotalRecordCount"] = false
@@ -376,19 +471,6 @@ sub loadItems()
         end if
 
         ' Extract array of persons from Views and download full metadata for each
-    else if m.top.itemsToLoad = "people"
-        for each person in m.top.peopleList
-            tmp = CreateObject("roSGNode", "ExtrasData")
-            tmp.Id = person.Id
-            tmp.labelText = person.Name
-            params = {}
-            params["Tags"] = person.PrimaryImageTag
-            params["MaxWidth"] = 234
-            params["MaxHeight"] = 330
-            tmp.posterURL = ImageUrl(person.Id, "Primary", params)
-            tmp.json = person
-            results.push(tmp)
-        end for
     else if m.top.itemsToLoad = "specialfeatures"
         params = {}
         url = Substitute("Users/{0}/Items/{1}/SpecialFeatures", m.global.session.user.id, m.top.itemId)
@@ -406,63 +488,7 @@ sub loadItems()
                 tmp.json = specfeat
             end for
         end if
-    else if m.top.itemsToLoad = "likethis"
-        params = { "userId": m.global.session.user.id, "limit": 16 }
-        data = api.items.GetSimilar(m.top.itemId, params)
-        if isChainValid(data, "Items")
-            for each item in data.items
-                tmp = CreateObject("roSGNode", "ExtrasData")
-                tmp.posterURL = ImageUrl(item.Id, "Primary", { "Tags": item.PrimaryImageTag })
-                tmp.json = {
-                    Id: item.LookupCI("ID"),
-                    Name: item.LookupCI("Name"),
-                    PremiereDate: item.LookupCI("PremiereDate"),
-                    ProductionYear: item.LookupCI("ProductionYear"),
-                    EndDate: item.LookupCI("EndDate"),
-                    Type: item.Type
-                }
-                results.push(tmp)
-            end for
-        end if
     end if
 
     m.top.content = results
 end sub
-
-function loadItemsByPerson(videoType, dimens = {}) as object
-    results = []
-
-    params = {
-        userid: m.global.session.user.id,
-        personIds: m.top.itemId,
-        recursive: true,
-        includeItemTypes: videoType,
-        Limit: 50,
-        SortBy: "Random"
-    }
-
-    data = api.items.Get(params)
-
-    if not isValidAndNotEmpty(data) then return results
-
-    for each item in data.items
-        tmp = CreateObject("roSGNode", "ExtrasData")
-        imgParms = { "Tags": item.ImageTags.Primary }
-        imgParms.append(dimens)
-        tmp.posterURL = ImageUrl(item.Id, "Primary", imgParms)
-
-        tmp.json = {
-            Id: item.LookupCI("ID"),
-            IndexNumber: item.LookupCI("IndexNumber"),
-            Name: item.LookupCI("Name"),
-            ParentIndexNumber: item.LookupCI("ParentIndexNumber"),
-            ProductionYear: item.LookupCI("ProductionYear"),
-            SeriesName: item.LookupCI("SeriesName"),
-            EndDate: item.LookupCI("EndDate"),
-            Type: item.LookupCI("Type")
-        }
-        results.push(tmp)
-    end for
-
-    return results
-end function
