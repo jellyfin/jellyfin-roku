@@ -412,7 +412,7 @@ sub Main (args as dynamic) as void
 
                     ' User selected a program. Play the channel the program is on
                     if selectedItemType = "program"
-                        selectedItem.id = selectedItem.json.ChannelId
+                        selectedItem.id = selectedItem.json.LookupCI("ChannelId")
                     end if
 
                     ' Display playback options dialog

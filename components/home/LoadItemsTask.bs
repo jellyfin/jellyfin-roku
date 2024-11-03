@@ -231,7 +231,8 @@ function loadSpecialFeatures() as object
         tmp.json = {
             Id: item.LookupCI("ID"),
             Name: item.LookupCI("Name"),
-            Type: item.LookupCI("Type")
+            Type: item.LookupCI("Type"),
+            ExtraType: item.LookupCI("ExtraType")
         }
     end for
 
@@ -258,21 +259,27 @@ function loadLiveTVOnNow() as object
     for each item in data.Items
         tmp = CreateObject("roSGNode", "HomeData")
         tmp.json = {
-            Id: item.LookupCI("Id"),
-            ImageURL: ImageURL(item.LookupCI("Id")),
+            id: item.LookupCI("Id"),
             name: item.LookupCI("name"),
+            ImageURL: ImageURL(item.LookupCI("Id")),
             Type: item.LookupCI("Type"),
-            SeriesName: item.LookupCI("SeriesName"),
-            ProductionYear: item.LookupCI("ProductionYear"),
-            Status: item.LookupCI("Status"),
+            mediatype: item.LookupCI("mediatype"),
+            CollectionType: item.LookupCI("CollectionType"),
+            ChannelName: item.LookupCI("ChannelName"),
+            ChannelId: item.LookupCI("ChannelId"),
+            EpisodeTitle: item.LookupCI("EpisodeTitle"),
+            ChildCount: item.LookupCI("ChildCount"),
             EndDate: item.LookupCI("EndDate"),
+            OfficialRating: item.LookupCI("OfficialRating"),
+            ProductionYear: item.LookupCI("ProductionYear"),
+            Album: item.LookupCI("Album"),
+            SeriesName: item.LookupCI("SeriesName"),
             ParentIndexNumber: item.LookupCI("ParentIndexNumber"),
             IndexNumber: item.LookupCI("IndexNumber"),
-            OfficialRating: item.LookupCI("OfficialRating"),
-            CollectionType: item.LookupCI("CollectionType"),
+            AlbumArtist: item.LookupCI("AlbumArtist"),
+            Status: item.LookupCI("Status"),
             ImageTags: item.LookupCI("ImageTags"),
             UserData: item.LookupCI("UserData"),
-            ParentThumbItemId: item.LookupCI("ParentThumbItemId"),
             ParentThumbImageTag: item.LookupCI("ParentThumbImageTag"),
             ParentBackdropImageTags: item.LookupCI("ParentBackdropImageTags"),
             ParentBackdropItemId: item.LookupCI("ParentBackdropItemId"),
