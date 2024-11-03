@@ -336,9 +336,9 @@ function isChainValid(root as dynamic, propertyPath as string) as boolean
     if properties.count() = 0 then return true
     if properties[0] = "" then return true
 
-    if not isValid(rootPath.lookup(properties[0])) then return false
+    if not isValid(rootPath.LookupCI(properties[0])) then return false
 
-    rootPath = rootPath.lookup(properties[0])
+    rootPath = rootPath.LookupCI(properties[0])
 
     properties.shift()
 

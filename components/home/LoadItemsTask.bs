@@ -11,203 +11,237 @@ sub init()
     m.top.functionName = "loadItems"
 end sub
 
+function loadLibraries() as object
+    results = []
+
+    data = api.GetUserViews({ "userId": m.global.session.user.id })
+
+    if not isChainValid(data, "items") then return results
+
+    for each item in data.LookupCI("items")
+        tmp = CreateObject("roSGNode", "HomeData")
+        tmp.json = {
+            id: item.LookupCI("Id"),
+            name: item.LookupCI("name"),
+            Type: item.LookupCI("Type"),
+            CollectionType: item.LookupCI("CollectionType"),
+            ImageTags: item.LookupCI("ImageTags"),
+            UserData: item.LookupCI("UserData"),
+            ParentThumbImageTag: item.LookupCI("ParentThumbImageTag"),
+            ParentBackdropImageTags: item.LookupCI("ParentBackdropImageTags"),
+            ParentBackdropItemId: item.LookupCI("ParentBackdropItemId"),
+            SeriesPrimaryImageTag: item.LookupCI("SeriesPrimaryImageTag"),
+            BackdropImageTags: item.LookupCI("BackdropImageTags")
+        }
+        results.push(tmp)
+    end for
+
+    return results
+end function
+
+function loadLatestMedia() as object
+    results = []
+
+    params = {
+        userId: m.global.session.user.id,
+        limit: 16,
+        parentId: m.top.itemId,
+        enableImageTypes: `${ImageType.PRIMARY}, ${ImageType.BACKDROP}, ${ImageType.THUMB}`,
+        imageTypeLimit: 1,
+        enableTotalRecordCount: false
+    }
+
+    data = api.items.GetLatest(params)
+
+    if not isValidAndNotEmpty(data) then return results
+
+    for each item in data
+        if not isStringEqual(item.Type, ItemType.BOOK)
+            tmp = CreateObject("roSGNode", "HomeData")
+            tmp.json = {
+                id: item.LookupCI("Id"),
+                name: item.LookupCI("name"),
+                Type: item.LookupCI("Type"),
+                CollectionType: item.LookupCI("CollectionType"),
+                ChannelName: item.LookupCI("ChannelName"),
+                ChannelId: item.LookupCI("ChannelId"),
+                EpisodeTitle: item.LookupCI("EpisodeTitle"),
+                ChildCount: item.LookupCI("ChildCount"),
+                EndDate: item.LookupCI("EndDate"),
+                OfficialRating: item.LookupCI("OfficialRating"),
+                ProductionYear: item.LookupCI("ProductionYear"),
+                Album: item.LookupCI("Album"),
+                SeriesName: item.LookupCI("SeriesName"),
+                ParentIndexNumber: item.LookupCI("ParentIndexNumber"),
+                IndexNumber: item.LookupCI("IndexNumber"),
+                AlbumArtist: item.LookupCI("AlbumArtist"),
+                Status: item.LookupCI("Status"),
+                ImageTags: item.LookupCI("ImageTags"),
+                UserData: item.LookupCI("UserData"),
+                ParentThumbImageTag: item.LookupCI("ParentThumbImageTag"),
+                ParentBackdropImageTags: item.LookupCI("ParentBackdropImageTags"),
+                ParentBackdropItemId: item.LookupCI("ParentBackdropItemId"),
+                SeriesPrimaryImageTag: item.LookupCI("SeriesPrimaryImageTag"),
+                BackdropImageTags: item.LookupCI("BackdropImageTags")
+            }
+            results.push(tmp)
+        end if
+    end for
+
+    return results
+end function
+
+function loadContinueWatching() as object
+    results = []
+
+    params = {
+        recursive: true,
+        SortBy: "DatePlayed",
+        SortOrder: "Descending",
+        Filters: "IsResumable",
+        MediaTypes: ItemType.VIDEO,
+        excludeItemTypes: ItemType.BOOK,
+        EnableTotalRecordCount: false
+    }
+    data = api.useritems.GetResumeItems(params)
+
+    if not isChainValid(data, "Items") then return results
+
+    for each item in data.Items
+        tmp = CreateObject("roSGNode", "HomeData")
+        tmp.Id = item.LookupCI("Id")
+        tmp.name = item.LookupCI("name")
+        tmp.type = item.LookupCI("Type")
+        tmp.json = {
+            Id: item.LookupCI("Id"),
+            name: item.LookupCI("name"),
+            Type: item.LookupCI("Type"),
+            SeriesName: item.LookupCI("SeriesName"),
+            ProductionYear: item.LookupCI("ProductionYear"),
+            Status: item.LookupCI("Status"),
+            EndDate: item.LookupCI("EndDate"),
+            ParentIndexNumber: item.LookupCI("ParentIndexNumber"),
+            IndexNumber: item.LookupCI("IndexNumber"),
+            OfficialRating: item.LookupCI("OfficialRating"),
+            CollectionType: item.LookupCI("CollectionType"),
+            ImageTags: item.LookupCI("ImageTags"),
+            UserData: item.LookupCI("UserData"),
+            ParentThumbItemId: item.LookupCI("ParentThumbItemId"),
+            ParentThumbImageTag: item.LookupCI("ParentThumbImageTag"),
+            ParentBackdropImageTags: item.LookupCI("ParentBackdropImageTags"),
+            ParentBackdropItemId: item.LookupCI("ParentBackdropItemId"),
+            SeriesPrimaryImageTag: item.LookupCI("SeriesPrimaryImageTag"),
+            BackdropImageTags: item.LookupCI("BackdropImageTags")
+        }
+        results.push(tmp)
+    end for
+
+    return results
+end function
+
+function loadNextUp() as object
+    results = []
+
+    params = {
+        recursive: true,
+        SortBy: "DatePlayed",
+        SortOrder: "Descending",
+        ImageTypeLimit: 1,
+        UserId: m.global.session.user.id,
+        EnableRewatching: m.global.session.user.settings["ui.details.enablerewatchingnextup"],
+        DisableFirstEpisode: false,
+        limit: 24,
+        EnableTotalRecordCount: false
+    }
+
+    maxDaysInNextUp = m.global.session.user.settings["ui.details.maxdaysnextup"].ToInt()
+    if isValid(maxDaysInNextUp)
+        if maxDaysInNextUp > 0
+            dateToday = CreateObject("roDateTime")
+            dateCutoff = CreateObject("roDateTime")
+
+            dateCutoff.FromSeconds(dateToday.AsSeconds() - (maxDaysInNextUp * 86400))
+
+            params.AddReplace("NextUpDateCutoff", dateCutoff.ToISOString())
+        end if
+    end if
+
+    addViewAll = true ' Assume there will be a "View All" to start
+    checkViewAll = false ' Only need to check if we don't have anything in the Next Up home row
+
+    data = api.shows.GetNextUp(params)
+
+    if isChainValid(data, "Items")
+        for each item in data.Items
+            tmp = CreateObject("roSGNode", "HomeData")
+            tmp.json = item
+            results.push(tmp)
+        end for
+        if data.Items.Count() = 0
+            checkViewAll = true
+        end if
+    else
+        checkViewAll = true
+    end if
+
+    ' Add "View All"
+    if checkViewAll
+        ' Nothing to show in Next Up, but are there hidden items (e.g. > 365 days old)?
+        params.Delete("NextUpDateCutoff")
+        params.AddReplace("limit", 1) ' if there is even one, then we know we need to show "View All"
+        data = api.shows.GetNextUp(params)
+        if not isValid(data) or (isValid(data) and isValid(data.Items) and data.Items.Count() = 0)
+            addViewAll = false
+        end if
+    end if
+
+    if addViewAll
+        tmp = CreateObject("roSGNode", "HomeData")
+        tmp.type = ItemType.COLLECTIONFOLDER
+        tmp.usePoster = false
+        tmp.json = {
+            IsFolder: true,
+            Name: tr("View All Next Up"),
+            Type: ItemType.COLLECTIONFOLDER,
+            CollectionType: "nextup"
+        }
+        results.push(tmp)
+    end if
+
+    return results
+end function
+
 sub loadItems()
+    if not isValidAndNotEmpty(m.global.session.user.id)
+        m.top.content = []
+        return
+    end if
 
     results = []
 
     ' Load Libraries
-    if m.top.itemsToLoad = "libraries"
-        params = { "userId": m.global.session.user.id }
-        data = api.GetUserViews(params)
+    if isStringEqual(m.top.itemsToLoad, "libraries")
+        m.top.content = loadLibraries()
+        return
+    end if
 
-        if isValid(data) and isValid(data.Items)
-            for each item in data.Items
-                tmp = CreateObject("roSGNode", "HomeData")
-                tmp.json = {
-                    id: item.LookupCI("Id"),
-                    name: item.LookupCI("name"),
-                    Type: item.LookupCI("Type"),
-                    CollectionType: item.LookupCI("CollectionType"),
-                    ImageTags: item.LookupCI("ImageTags"),
-                    UserData: item.LookupCI("UserData"),
-                    ParentThumbImageTag: item.LookupCI("ParentThumbImageTag"),
-                    ParentBackdropImageTags: item.LookupCI("ParentBackdropImageTags"),
-                    ParentBackdropItemId: item.LookupCI("ParentBackdropItemId"),
-                    SeriesPrimaryImageTag: item.LookupCI("SeriesPrimaryImageTag"),
-                    BackdropImageTags: item.LookupCI("BackdropImageTags")
-                }
-                results.push(tmp)
-            end for
-        end if
+    ' Load Latest Additions to Libraries
+    if isStringEqual(m.top.itemsToLoad, "latest")
+        m.top.content = loadLatestMedia()
+        return
+    end if
 
-        ' Load Latest Additions to Libraries
-    else if m.top.itemsToLoad = "latest"
-        activeUser = m.global.session.user.id
-        if isValid(activeUser)
-            params = {
-                userId: activeUser,
-                limit: 16,
-                parentId: m.top.itemId,
-                enableImageTypes: "Primary,Backdrop,Thumb",
-                imageTypeLimit: 1,
-                enableTotalRecordCount: false
-            }
+    if isStringEqual(m.top.itemsToLoad, "continue")
+        m.top.content = loadContinueWatching()
+        return
+    end if
 
-            data = api.items.GetLatest(params)
+    if isStringEqual(m.top.itemsToLoad, "nextUp")
+        m.top.content = loadNextUp()
+        return
+    end if
 
-            if isValidAndNotEmpty(data)
-                for each item in data
-                    if not isStringEqual(item.Type, ItemType.BOOK)
-                        tmp = CreateObject("roSGNode", "HomeData")
-                        tmp.json = {
-                            id: item.LookupCI("Id"),
-                            name: item.LookupCI("name"),
-                            Type: item.LookupCI("Type"),
-                            CollectionType: item.LookupCI("CollectionType"),
-                            ChannelName: item.LookupCI("ChannelName"),
-                            ChannelId: item.LookupCI("ChannelId"),
-                            EpisodeTitle: item.LookupCI("EpisodeTitle"),
-                            ChildCount: item.LookupCI("ChildCount"),
-                            EndDate: item.LookupCI("EndDate"),
-                            OfficialRating: item.LookupCI("OfficialRating"),
-                            ProductionYear: item.LookupCI("ProductionYear"),
-                            Album: item.LookupCI("Album"),
-                            SeriesName: item.LookupCI("SeriesName"),
-                            ParentIndexNumber: item.LookupCI("ParentIndexNumber"),
-                            IndexNumber: item.LookupCI("IndexNumber"),
-                            AlbumArtist: item.LookupCI("AlbumArtist"),
-                            Status: item.LookupCI("Status"),
-                            ImageTags: item.LookupCI("ImageTags"),
-                            UserData: item.LookupCI("UserData"),
-                            ParentThumbImageTag: item.LookupCI("ParentThumbImageTag"),
-                            ParentBackdropImageTags: item.LookupCI("ParentBackdropImageTags"),
-                            ParentBackdropItemId: item.LookupCI("ParentBackdropItemId"),
-                            SeriesPrimaryImageTag: item.LookupCI("SeriesPrimaryImageTag"),
-                            BackdropImageTags: item.LookupCI("BackdropImageTags")
-                        }
-                        results.push(tmp)
-                    end if
-                end for
-            end if
-        end if
-
-        ' Load Next Up
-    else if m.top.itemsToLoad = "nextUp"
-
-        url = "Shows/NextUp"
-        params = {}
-        params["recursive"] = true
-        params["SortBy"] = "DatePlayed"
-        params["SortOrder"] = "Descending"
-        params["ImageTypeLimit"] = 1
-        params["UserId"] = m.global.session.user.id
-        params["EnableRewatching"] = m.global.session.user.settings["ui.details.enablerewatchingnextup"]
-        params["DisableFirstEpisode"] = false
-        params["limit"] = 24
-        params["EnableTotalRecordCount"] = false
-
-        maxDaysInNextUp = m.global.session.user.settings["ui.details.maxdaysnextup"].ToInt()
-        if isValid(maxDaysInNextUp)
-            if maxDaysInNextUp > 0
-                dateToday = CreateObject("roDateTime")
-                dateCutoff = CreateObject("roDateTime")
-
-                dateCutoff.FromSeconds(dateToday.AsSeconds() - (maxDaysInNextUp * 86400))
-
-                params["NextUpDateCutoff"] = dateCutoff.ToISOString()
-            end if
-        end if
-
-        addViewAll = true ' Assume there will be a "View All" to start
-        checkViewAll = false ' Only need to check if we don't have anything in the Next Up home row
-
-        resp = APIRequest(url, params)
-        data = getJson(resp)
-        if isValid(data) and isValid(data.Items)
-            for each item in data.Items
-                tmp = CreateObject("roSGNode", "HomeData")
-                tmp.json = item
-                results.push(tmp)
-            end for
-            if data.Items.Count() = 0
-                checkViewAll = true
-            end if
-        else
-            checkViewAll = true
-        end if
-
-        ' Add "View All"
-        if checkViewAll
-            ' Nothing to show in Next Up, but are there hidden items (e.g. > 365 days old)?
-            params.Delete("NextUpDateCutoff")
-            params["limit"] = 1 ' if there is even one, then we know we need to show "View All"
-            resp = APIRequest(url, params)
-            data = getJson(resp)
-            if not isValid(data) or isValid(data) and isValid(data.Items) and data.Items.Count() = 0
-                addViewAll = false
-            end if
-        end if
-
-        if addViewAll
-            tmp = CreateObject("roSGNode", "HomeData")
-            tmp.type = "CollectionFolder"
-            tmp.usePoster = false
-            tmp.json = {
-                IsFolder: true,
-                Name: tr("View All Next Up"),
-                Type: "CollectionFolder",
-                CollectionType: "nextup"
-            }
-            results.push(tmp)
-        end if
-        ' Load Continue Watching
-    else if m.top.itemsToLoad = "continue"
-        activeUser = m.global.session.user.id
-        if isValid(activeUser)
-            params = {
-                recursive: true,
-                "SortBy": "DatePlayed",
-                "SortOrder": "Descending",
-                "Filters": "IsResumable",
-                "MediaTypes": "Video",
-                "excludeItemTypes": "Book",
-                "EnableTotalRecordCount": false
-            }
-            data = api.useritems.GetResumeItems(params)
-
-            if isChainValid(data, "Items")
-                for each item in data.Items
-                    tmp = CreateObject("roSGNode", "HomeData")
-                    tmp.Id = item.LookupCI("Id")
-                    tmp.name = item.LookupCI("name")
-                    tmp.type = item.LookupCI("Type")
-                    tmp.json = {
-                        Id: item.LookupCI("Id"),
-                        name: item.LookupCI("name"),
-                        Type: item.LookupCI("Type"),
-                        SeriesName: item.LookupCI("SeriesName"),
-                        ProductionYear: item.LookupCI("ProductionYear"),
-                        Status: item.LookupCI("Status"),
-                        EndDate: item.LookupCI("EndDate"),
-                        ParentIndexNumber: item.LookupCI("ParentIndexNumber"),
-                        IndexNumber: item.LookupCI("IndexNumber"),
-                        OfficialRating: item.LookupCI("OfficialRating"),
-                        CollectionType: item.LookupCI("CollectionType"),
-                        ImageTags: item.LookupCI("ImageTags"),
-                        UserData: item.LookupCI("UserData"),
-                        ParentThumbItemId: item.LookupCI("ParentThumbItemId"),
-                        ParentThumbImageTag: item.LookupCI("ParentThumbImageTag"),
-                        ParentBackdropImageTags: item.LookupCI("ParentBackdropImageTags"),
-                        ParentBackdropItemId: item.LookupCI("ParentBackdropItemId"),
-                        SeriesPrimaryImageTag: item.LookupCI("SeriesPrimaryImageTag"),
-                        BackdropImageTags: item.LookupCI("BackdropImageTags")
-                    }
-                    results.push(tmp)
-                end for
-            end if
-        end if
-
-    else if m.top.itemsToLoad = "continueListening"
+    if m.top.itemsToLoad = "continueListening"
         activeUser = m.global.session.user.id
         if isValid(activeUser)
             url = Substitute("Users/{0}/Items/Resume", activeUser)
@@ -347,7 +381,6 @@ sub loadItems()
     end if
 
     m.top.content = results
-
 end sub
 
 sub getPersonVideos(videoType, dest, dimens)
