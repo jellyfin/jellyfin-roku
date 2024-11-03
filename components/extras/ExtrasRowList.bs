@@ -52,7 +52,7 @@ sub onSeasonOfEpisodesLoaded()
 
     header = "Season"
     if isChainValid(data[0], "json.ParentIndexNumber")
-        header += `${data[0].json.ParentIndexNumber}`
+        header += ` ${data[0].json.ParentIndexNumber}`
     end if
 
     if m.top.episodeNumber > 0
