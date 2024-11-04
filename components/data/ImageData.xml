@@ -3,6 +3,7 @@
   <interface>
     <field id="json" type="assocarray" onChange="setFields" />
     <field id="imagetype" type="string" />
+    <field id="posterdisplaymode" type="string" />
     <field id="size" type="string" />
     <field id="height" type="integer" />
     <field id="width" type="integer" />

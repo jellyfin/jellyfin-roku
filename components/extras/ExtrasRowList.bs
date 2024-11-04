@@ -55,8 +55,18 @@ sub onSeasonOfEpisodesLoaded()
         header += ` ${data[0].json.ParentIndexNumber}`
     end if
 
-    if m.top.episodeNumber > 0
-        for i = 1 to m.top.episodeNumber - 1
+    ' We can't simply use the episode index due to combination episodes
+    shiftAmount = 0
+    if isValidAndNotEmpty(m.top.episodeID)
+        for each episode in data
+            if isStringEqual(m.top.episodeID, episode.json.LookupCI("id")) then exit for
+            shiftAmount++
+        end for
+    end if
+
+    ' Shift episodes array so the selected episode is displayed first
+    if shiftAmount > 0
+        for i = 0 to shiftAmount - 1
             itemToMove = data.Shift()
             data.push(itemToMove)
         end for
@@ -224,7 +234,13 @@ function buildRow(rowTitle as string, items, imgWdth = 0)
         if LCase(mov.json.type) = VideoType.EPISODE
             if isAllValid([mov.json.SeriesName, mov.json.ParentIndexNumber, mov.json.IndexNumber, mov.json.Name])
                 mov.labelText = mov.json.SeriesName
-                mov.subTitle = `S${mov.json.ParentIndexNumber}:E${mov.json.IndexNumber} - ${mov.json.Name}`
+
+                endingEpisode = ""
+                if isValid(mov.json.LookupCI("indexNumberEnd"))
+                    endingEpisode = `-${mov.json.LookupCI("indexNumberEnd")}`
+                end if
+
+                mov.subTitle = `S${mov.json.ParentIndexNumber}:E${mov.json.IndexNumber}${endingEpisode} - ${mov.json.Name}`
             else
                 mov.labelText = mov.json.Name
                 mov.subTitle = mov.json.ProductionYear

@@ -257,7 +257,7 @@ sub itemContentChanged()
     if isvalid(m.extrasGrid)
         m.extrasGrid.seasonID = item.seasonID
         m.extrasGrid.showID = item.showID
-        m.extrasGrid.episodeNumber = item.json.IndexNumber
+        m.extrasGrid.episodeID = item.id
     end if
 
     if not isChainValid(item, "json")
@@ -420,6 +420,10 @@ sub addEpisodeTitle(itemData as object)
     titleText = ""
     if isAllValid([itemData.ParentIndexNumber, itemData.IndexNumber])
         titleText = `Season ${itemData.ParentIndexNumber} Episode ${itemData.IndexNumber}`
+    end if
+
+    if isValid(itemData.LookupCI("indexNumberEnd"))
+        titleText += `-${itemData.LookupCI("indexNumberEnd")}`
     end if
 
     if isValid(itemData.name)
