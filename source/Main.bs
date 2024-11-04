@@ -189,6 +189,8 @@ sub Main (args as dynamic) as void
                 group.lastFocus = group
             end if
         else if isNodeEvent(msg, "quickPlayNode")
+            m.global.queueManager.callFunc("setForceTranscode", false)
+
             group = sceneManager.callFunc("getActiveScene")
             reportingNode = msg.getRoSGNode()
             itemNode = invalid
