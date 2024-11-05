@@ -1,3 +1,4 @@
+import "pkg:/source/enums/ColorPalette.bs"
 import "pkg:/source/utils/misc.bs"
 
 sub init()
@@ -17,6 +18,9 @@ sub init()
     m.scheduleGrid.observeField("programSelected", "onProgramSelected")
     m.scheduleGrid.observeField("leftEdgeTargetTime", "onGridScrolled")
     m.scheduleGrid.channelInfoWidth = 350
+
+    m.scheduleGrid.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
+    m.scheduleGrid.programTitleFocusedColor = ColorPalette.WHITE
 
     m.gridMoveAnimation = m.top.findNode("gridMoveAnimation")
     m.gridMoveAnimationPosition = m.top.findNode("gridMoveAnimationPosition")

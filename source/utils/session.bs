@@ -1,6 +1,6 @@
 ' these are needed for ServerInfo() inside session.server.Populate()
-import "pkg:/source/api/userauth.bs"
 import "pkg:/source/api/baserequest.bs"
+import "pkg:/source/api/userauth.bs"
 import "pkg:/source/utils/misc.bs"
 
 namespace session
@@ -231,12 +231,6 @@ namespace session
                 end if
 
                 session.user.SaveUserHomeSections(jsonResponse.CustomPrefs)
-
-                if isValid(jsonResponse.CustomPrefs["landing-livetv"])
-                    set_user_setting("display.livetv.landing", jsonResponse.CustomPrefs["landing-livetv"])
-                else
-                    unset_user_setting("display.livetv.landing")
-                end if
             else
                 ' User has no custom prefs. Save default home section values.
                 session.user.SaveUserHomeSections({
@@ -248,8 +242,6 @@ namespace session
                     homesection5: "none",
                     homesection6: "none"
                 })
-
-                unset_user_setting("display.livetv.landing")
             end if
         end sub
 
