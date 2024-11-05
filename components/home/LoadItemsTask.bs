@@ -237,6 +237,7 @@ function loadMoreLikeThis() as object
             Id: item.LookupCI("ID"),
             Name: item.LookupCI("Name"),
             PremiereDate: item.LookupCI("PremiereDate"),
+            OfficialRating: item.LookupCI("OfficialRating"),
             ProductionYear: item.LookupCI("ProductionYear"),
             EndDate: item.LookupCI("EndDate"),
             Type: item.LookupCI("Type")

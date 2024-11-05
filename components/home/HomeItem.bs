@@ -70,7 +70,7 @@ sub itemContentChanged()
     m.itemTextExtra.width = itemData.imageWidth
     m.itemTextExtra.visible = true
     m.itemTextExtra.text = ""
-    m.itemTextExtra.font.size = 22
+
 
     m.itemText.maxWidth = itemData.imageWidth
     m.itemText.height = 34

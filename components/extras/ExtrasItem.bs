@@ -19,6 +19,13 @@ sub init()
     initPosterImg()
     initName()
     initRole()
+
+    m.name.height = 34
+    m.name.font.size = 25
+    m.name.horizAlign = "left"
+    m.name.vertAlign = "bottom"
+
+    m.role.font.size = 22
 end sub
 
 sub initPosterImg()
@@ -54,7 +61,13 @@ sub showContent()
             end if
         end if
 
-        m.role.Text = cont.subTitle
+        if isChainValid(cont, "json.officialrating")
+            if cont.json.officialrating <> ""
+                cont.subTitle += ` - ${cont.json.officialrating}`
+            end if
+        end if
+
+        m.role.Text = cont.subTitle.trim()
     else
         m.role.text = tr("Unknown")
         m.posterImg.uri = "pkg:/images/baseline_person_white_48dp.png"
