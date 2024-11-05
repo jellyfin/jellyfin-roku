@@ -798,6 +798,13 @@ sub onTrickPlayBarVisibleChange()
     if isValid(trickplayImage)
         trickplayImage.visible = m.top.trickPlayBar.visible
     end if
+
+    ' Don't show both the trickplay bar and the skip segment button at the same time
+    if m.top.trickPlayBar.visible
+        if m.skipSegmentButton.visible
+            hideSegmentSkipButton()
+        end if
+    end if
 end sub
 
 sub onTrickPlayBarTextChange()
@@ -975,6 +982,9 @@ function onKeyEvent(key as string, press as boolean) as boolean
             if not stateAllowsOSD() then return true
 
             setSiblingData()
+            if m.skipSegmentButton.visible
+                hideSegmentSkipButton()
+            end if
             m.osd.visible = true
             m.osd.hasFocus = true
             m.osd.setFocus(true)
@@ -987,6 +997,9 @@ function onKeyEvent(key as string, press as boolean) as boolean
             if not stateAllowsOSD() then return true
 
             setSiblingData()
+            if m.skipSegmentButton.visible
+                hideSegmentSkipButton()
+            end if
             m.osd.visible = true
             m.osd.hasFocus = true
             m.osd.setFocus(true)
@@ -1000,6 +1013,9 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
             ' Show OSD, but don't pause video
             setSiblingData()
+            if m.skipSegmentButton.visible
+                hideSegmentSkipButton()
+            end if
             m.osd.visible = true
             m.osd.hasFocus = true
             m.osd.setFocus(true)
@@ -1025,6 +1041,9 @@ function onKeyEvent(key as string, press as boolean) as boolean
             ' Pause video and show OSD
             m.top.control = VideoControl.PAUSE
             setSiblingData()
+            if m.skipSegmentButton.visible
+                hideSegmentSkipButton()
+            end if
             m.osd.visible = true
             m.osd.hasFocus = true
             m.osd.setFocus(true)

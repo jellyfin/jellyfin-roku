@@ -2,5 +2,9 @@
   {
     "description": "Update design of More Like This items",
     "author": "1hitsong"
+  },
+  {
+    "description": "Don't show both the trickplay bar and the skip segment button at the same time",
+    "author": "1hitsong"
   }
 ]
