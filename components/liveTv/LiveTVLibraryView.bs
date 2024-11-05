@@ -34,11 +34,6 @@ sub init()
     m.newBackdrop = m.top.findNode("backdropTransition")
     m.emptyText = m.top.findNode("emptyText")
 
-    m.genreList = m.top.findNode("genrelist")
-    m.genreList.observeField("itemSelected", "onGenreItemSelected")
-    m.genreData = CreateObject("roSGNode", "ContentNode")
-    m.genreList.content = m.genreData
-
     m.swapAnimation = m.top.findNode("backroundSwapAnimation")
     m.swapAnimation.observeField("state", "swapDone")
 
@@ -70,7 +65,6 @@ sub init()
     m.favorite = "Favorite"
 
     m.loadItemsTask = createObject("roSGNode", "LoadItemsTask2")
-    m.getFiltersTask = createObject("roSGNode", "GetFiltersTask")
 
     'set inital counts for overhang before content is loaded.
     m.loadItemsTask.totalRecordCount = 0
@@ -101,11 +95,6 @@ sub createItemGrid()
     m.itemGrid.setFocus(true)
 end sub
 
-'Genre Item Selected
-sub onGenreItemSelected()
-    m.top.selectedItem = m.genreList.content.getChild(m.genreList.rowItemSelected[0]).getChild(m.genreList.rowItemSelected[1])
-end sub
-
 'Load initial set of Data
 sub loadInitialItems()
     m.loadItemsTask.control = "stop"
@@ -123,7 +112,7 @@ sub loadInitialItems()
         m.itemGrid.rowHeights = "[390]"
     end if
 
-    if m.top.parentItem.json.Type = "CollectionFolder" 'or m.top.parentItem.json.Type = "Folder"
+    if m.top.parentItem.json.Type = "CollectionFolder"
         m.top.HomeLibraryItem = m.top.parentItem.Id
     end if
 
@@ -132,69 +121,31 @@ sub loadInitialItems()
     end if
 
     ' Read view/sort/filter settings
-    if m.top.parentItem.collectionType = "livetv"
-        ' Translate between app and server nomenclature
-        viewSetting = m.global.session.user.settings["display.livetv.landing"]
-        if viewSetting = "guide"
-            m.view = "tvGuide"
-        else
-            m.view = "livetv"
-        end if
-        m.sortField = m.global.session.user.settings["display.livetv.sortField"]
-        sortAscendingStr = m.global.session.user.settings["display.livetv.sortAscending"]
-        m.filter = m.global.session.user.settings["display.livetv.filter"]
-    else if m.top.parentItem.collectionType = "music"
-        m.view = m.global.session.user.settings["display.music.view"]
-        m.sortField = m.global.session.user.settings["display." + m.top.parentItem.Id + ".sortField"]
-        sortAscendingStr = m.global.session.user.settings["display." + m.top.parentItem.Id + ".sortAscending"]
-        m.filter = m.global.session.user.settings["display." + m.top.parentItem.Id + ".filter"]
+    ' Translate between app and server nomenclature
+    viewSetting = m.global.session.user.settings["display.livetv.landing"]
+    if viewSetting = "guide"
+        m.view = "tvGuide"
     else
-        m.sortField = m.global.session.user.settings["display." + m.top.parentItem.Id + ".sortField"]
-        sortAscendingStr = m.global.session.user.settings["display." + m.top.parentItem.Id + ".sortAscending"]
-        m.filter = m.global.session.user.settings["display." + m.top.parentItem.Id + ".filter"]
-        m.filterOptions = m.global.session.user.settings["display." + m.top.parentItem.Id + ".filterOptions"]
-        m.view = m.global.session.user.settings["display." + m.top.parentItem.Id + ".landing"]
+        m.view = "livetv"
     end if
+    m.sortField = m.global.session.user.settings["display.livetv.sortField"]
+    sortAscendingStr = m.global.session.user.settings["display.livetv.sortAscending"]
+    m.filter = m.global.session.user.settings["display.livetv.filter"]
 
-    if getCollectionType() = "tvshows"
-        if not isValidAndNotEmpty(m.view) then m.view = "Shows"
-    end if
 
     if not isValidAndNotEmpty(m.filter) then m.filter = "All"
-    if not isValidAndNotEmpty(m.filterOptions) then m.filterOptions = "{}"
 
     if not isValidAndNotEmpty(m.sortField)
-        ' Set the default order for boxsets to the Release Date - API calls it PremiereDate
-        if LCase(m.top.parentItem.json.Type) = "boxset"
-            m.sortField = "PremiereDate"
-        else
-            m.sortField = "SortName"
-        end if
+        m.sortField = "SortName"
     end if
-
-    m.filterOptions = ParseJson(m.filterOptions)
 
     if sortAscendingStr = invalid or sortAscendingStr = true
         m.sortAscending = true
     else
         m.sortAscending = false
     end if
-    ' Set Studio Id
-    if m.top.parentItem.json.type = "Studio"
-        m.loadItemsTask.studioIds = m.top.parentItem.id
-        m.loadItemsTask.itemId = m.top.parentItem.parentFolder
-        m.loadItemsTask.genreIds = string.EMPTY
-        ' Set Genre Id
-    else if m.top.parentItem.json.type = "Genre"
-        m.loadItemsTask.genreIds = m.top.parentItem.id
-        m.loadItemsTask.itemId = m.top.parentItem.parentFolder
-        m.loadItemsTask.studioIds = string.EMPTY
-    else if (m.view = "Shows" or m.options.view = "Shows") or (m.view = "Movies" or m.options.view = "Movies")
-        m.loadItemsTask.studioIds = string.EMPTY
-        m.loadItemsTask.genreIds = string.EMPTY
-    else
-        m.loadItemsTask.itemId = m.top.parentItem.Id
-    end if
+
+    m.loadItemsTask.itemId = m.top.parentItem.Id
 
     ' if we already searched for this alpha text than reset filter
     if m.loadItemsTask.nameStartsWith = m.top.alphaSelected
@@ -209,32 +160,10 @@ sub loadInitialItems()
     m.loadItemsTask.sortField = m.sortField
     m.loadItemsTask.sortAscending = m.sortAscending
     m.loadItemsTask.filter = m.filter
-    m.loadItemsTask.filterOptions = m.filterOptions
     m.loadItemsTask.startIndex = 0
 
     ' Load Item Types
-    if getCollectionType() = "movies"
-        m.loadItemsTask.itemType = "Movie"
-        m.loadItemsTask.itemId = m.top.parentItem.Id
-    else if getCollectionType() = "tvshows"
-        m.loadItemsTask.itemType = "Series"
-        m.loadItemsTask.itemId = m.top.parentItem.Id
-
-        m.top.showItemTitles = m.global.session.user.settings["itemgrid.gridTitles"]
-    else if getCollectionType() = "music"
-        ' Default Settings
-        m.loadItemsTask.recursive = true
-        m.itemGrid.itemSize = "[290, 290]"
-
-        m.loadItemsTask.itemType = "MusicArtist"
-        m.loadItemsTask.itemId = m.top.parentItem.Id
-
-        m.view = m.global.session.user.settings["display.music.view"]
-
-        if m.view = "music-album"
-            m.loadItemsTask.itemType = "MusicAlbum"
-        end if
-    else if m.top.parentItem.collectionType = "livetv"
+    if m.top.parentItem.collectionType = "livetv"
         m.loadItemsTask.itemType = "TvChannel"
         m.loadItemsTask.itemId = " "
         ' For LiveTV, we want to "Fit" the item images, not zoom
@@ -243,61 +172,8 @@ sub loadInitialItems()
         if m.global.session.user.settings["display.livetv.landing"] = "guide" and m.options.view <> "livetv"
             showTvGuide()
         end if
-    else if m.top.parentItem.collectionType = "CollectionFolder" or m.top.parentItem.type = "CollectionFolder" or m.top.parentItem.collectionType = "boxsets" or m.top.parentItem.Type = "Boxset" or m.top.parentItem.Type = "Boxsets" or m.top.parentItem.Type = "Folder" or m.top.parentItem.Type = "Channel"
-        if m.voiceBox.text <> string.EMPTY
-            m.loadItemsTask.recursive = true
-        else
-            ' non recursive for collections (folders, boxsets, photo albums, etc)
-            m.loadItemsTask.recursive = false
-        end if
-
-        if getCollectionType() = "boxsets"
-            m.top.showItemTitles = m.global.session.user.settings["itemgrid.gridTitles"]
-            if LCase(m.top.showItemTitles) = "hidealways"
-                m.itemGrid.itemSize = "[230, 345]"
-                m.itemGrid.rowHeights = "[345]"
-            else
-                m.itemGrid.itemSize = "[230, 390]"
-                m.itemGrid.rowHeights = "[390]"
-            end if
-        end if
-
-        if getCollectionType() = "nextup"
-            m.loadItemsTask.itemType = "NextUp"
-            m.itemGrid.itemComponentName = "GridItemMedium"
-            m.itemGrid.itemSize = "[400, 345]"
-
-            m.top.imageDisplayMode = "scaleToZoom"
-            m.itemGrid.numColumns = 4
-            m.alpha.visible = false
-        end if
-    else if m.top.parentItem.json.type = "Studio"
-        m.loadItemsTask.itemId = m.top.parentItem.parentFolder
-        m.loadItemsTask.itemType = "Series,Movie"
-        m.top.imageDisplayMode = "scaleToFit"
-    else if m.top.parentItem.json.type = "Genre"
-        m.loadItemsTask.itemType = "Series,Movie"
-        m.loadItemsTask.itemId = m.top.parentItem.parentFolder
     else
         print `Unknown Item Type ${m.top.parentItem}`
-    end if
-
-    if m.top.parentItem.type <> "Folder" and (m.options.view = "Networks" or m.view = "Networks" or m.options.view = "Studios" or m.view = "Studios")
-        m.loadItemsTask.view = "Networks"
-        m.itemGrid.itemComponentName = "GridItemMedium"
-        m.itemGrid.itemSize = "[400, 345]"
-        m.top.imageDisplayMode = "scaleToFit"
-        m.itemGrid.numColumns = 4
-
-    else if m.top.parentItem.type <> "Folder" and (m.options.view = "Genres" or m.view = "Genres")
-        m.loadItemsTask.StudioIds = m.top.parentItem.Id
-        m.loadItemsTask.view = "Genres"
-    else if m.top.parentItem.type <> "Folder" and (m.options.view = "Shows" or m.view = "Shows")
-        m.loadItemsTask.studioIds = string.EMPTY
-        m.loadItemsTask.view = "Shows"
-    else if m.top.parentItem.type <> "Folder" and (m.options.view = "Movies" or m.view = "Movies")
-        m.loadItemsTask.studioIds = string.EMPTY
-        m.loadItemsTask.view = "Movies"
     end if
 
     m.loadItemsTask.observeField("content", "ItemDataLoaded")
@@ -305,65 +181,6 @@ sub loadInitialItems()
     m.loadItemsTask.control = "RUN"
 
     SetUpOptions()
-
-    m.getFiltersTask.observeField("filters", "FilterDataLoaded")
-    m.getFiltersTask.params = {
-        userid: m.global.session.user.id,
-        parentid: m.top.parentItem.Id,
-        IncludeItemTypes: getCollectionType() = "tvshows" ? "Series" : string.EMPTY
-    }
-    m.getFiltersTask.control = TaskControl.RUN
-end sub
-
-'
-' Filter Data Loaded Event Handler
-sub FilterDataLoaded(msg)
-
-    if not inArray(["boxsets", "boxset", "tvshows"], getCollectionType()) then return
-
-    options = {}
-    options.filter = []
-    options.favorite = []
-
-    if getCollectionType() = "tvshows"
-        setTvShowsOptions(options)
-
-        if m.view = "Shows" or m.options.view = "Shows"
-            data = msg.GetData()
-            m.getFiltersTask.unobserveField("filters")
-
-            options.filter.push({ "Title": tr("Status"), "Name": "SeriesStatus", "Options": ["Continuing", "Ended", "Unreleased"], "Delimiter": ",", "CheckedState": [] })
-
-            if not isValid(data) then return
-
-            ' Add filters from the API data
-            if isValid(data.OfficialRatings)
-                options.filter.push({ "Title": tr("Parental Ratings"), "Name": "OfficialRatings", "Options": data.OfficialRatings, "Delimiter": "|", "CheckedState": [] })
-            end if
-            if isValid(data.genres)
-                options.filter.push({ "Title": tr("Genres"), "Name": "Genres", "Options": data.genres, "Delimiter": "|", "CheckedState": [] })
-            end if
-            if isValid(data.Years)
-                options.filter.push({ "Title": tr("Years"), "Name": "Years", "Options": data.Years, "Delimiter": ",", "CheckedState": [] })
-            end if
-        end if
-
-    else if inArray(["boxsets", "boxset"], getCollectionType())
-        setBoxsetsOptions(options)
-
-        data = msg.GetData()
-        m.getFiltersTask.unobserveField("filters")
-        if not isValid(data) then return
-
-        ' Add filters from the API data
-        if isValid(data.genres)
-            options.filter.push({ "Title": tr("Genres"), "Name": "Genres", "Options": data.genres, "Delimiter": "|", "CheckedState": [] })
-        end if
-    end if
-
-    setSelectedOptions(options)
-
-    m.options.options = options
 end sub
 
 ' Data to display when options button selected
@@ -393,117 +210,9 @@ sub setSelectedOptions(options)
             o.Selected = true
             m.options.filter = o.Name
         end if
-
-        ' Select selected filter options
-        if isValid(o.options) and isValid(m.filterOptions)
-            if o.options.Count() > 0 and m.filterOptions.Count() > 0
-                if LCase(o.Name) = LCase(m.filterOptions.keys()[0])
-                    selectedFilterOptions = m.filterOptions[m.filterOptions.keys()[0]].split(o.delimiter)
-                    checkedState = []
-
-                    for each availableFilterOption in o.options
-                        matchFound = false
-
-                        for each selectedFilterOption in selectedFilterOptions
-                            if LCase(toString(availableFilterOption).trim()) = LCase(selectedFilterOption.trim())
-                                matchFound = true
-                            end if
-                        end for
-
-                        checkedState.push(matchFound)
-                    end for
-
-                    o.checkedState = checkedState
-                end if
-            end if
-        end if
     end for
 
     m.options.options = options
-end sub
-
-' Set Movies view, sort, and filter options
-sub setMoviesOptions(options)
-    options.views = [
-        { "Title": tr("Movies"), "Name": "Movies" },
-        { "Title": tr("Studios"), "Name": "Studios" },
-        { "Title": tr("Genres"), "Name": "Genres" }
-    ]
-    options.sort = [
-        { "Title": tr("TITLE"), "Name": "SortName" },
-        { "Title": tr("IMDB_RATING"), "Name": "CommunityRating" },
-        { "Title": tr("CRITIC_RATING"), "Name": "CriticRating" },
-        { "Title": tr("DATE_ADDED"), "Name": "DateCreated" },
-        { "Title": tr("DATE_PLAYED"), "Name": "DatePlayed" },
-        { "Title": tr("OFFICIAL_RATING"), "Name": "OfficialRating" },
-        { "Title": tr("PLAY_COUNT"), "Name": "PlayCount" },
-        { "Title": tr("RELEASE_DATE"), "Name": "PremiereDate" },
-        { "Title": tr("RUNTIME"), "Name": "Runtime" },
-        { "Title": tr("Random"), "Name": "Random" },
-    ]
-    options.filter = [
-        { "Title": tr("All"), "Name": "All" },
-        { "Title": tr("Favorites"), "Name": "Favorites" },
-        { "Title": tr("Played"), "Name": "Played" },
-        { "Title": tr("Unplayed"), "Name": "Unplayed" },
-        { "Title": tr("Resumable"), "Name": "Resumable" }
-    ]
-end sub
-
-' Set Boxset view, sort, and filter options
-sub setBoxsetsOptions(options)
-    options.views = [{ "Title": tr("Collections"), "Name": "Collections" }]
-    options.sort = [
-        { "Title": tr("TITLE"), "Name": "SortName" },
-        { "Title": tr("DATE_ADDED"), "Name": "DateCreated" },
-        { "Title": tr("DATE_PLAYED"), "Name": "DatePlayed" },
-        { "Title": tr("RELEASE_DATE"), "Name": "PremiereDate" },
-        { "Title": tr("Random"), "Name": "Random" },
-    ]
-    options.filter = [
-        { "Title": tr("All"), "Name": "All" },
-        { "Title": tr("Favorites"), "Name": "Favorites" },
-        { "Title": tr("Played"), "Name": "Played" },
-        { "Title": tr("Unplayed"), "Name": "Unplayed" }
-    ]
-end sub
-
-' Set TV Show view, sort, and filter options
-sub setTvShowsOptions(options)
-    options.views = [
-        { "Title": tr("Shows"), "Name": "Shows" },
-        { "Title": tr("Networks"), "Name": "Networks" },
-        { "Title": tr("Genres"), "Name": "Genres" }
-
-    ]
-    options.sort = [
-        { "Title": tr("TITLE"), "Name": "SortName" },
-        { "Title": tr("Community Rating"), "Name": "CommunityRating,SortName" },
-        { "Title": tr("Date Show Added"), "Name": "DateCreated,SortName" },
-        { "Title": tr("Date Episode Added"), "Name": "DateLastContentAdded,SortName" },
-        { "Title": tr("DATE_PLAYED"), "Name": "SeriesDatePlayed,SortName" },
-        { "Title": tr("OFFICIAL_RATING"), "Name": "OfficialRating,SortName" },
-        { "Title": tr("RELEASE_DATE"), "Name": "PremiereDate,SortName" },
-        { "Title": tr("Random"), "Name": "Random" },
-    ]
-    options.filter = [
-        { "Title": tr("All"), "Name": "All" },
-        { "Title": tr("Favorites"), "Name": "Favorites" },
-        { "Title": tr("Played"), "Name": "Played" },
-        { "Title": tr("Unplayed"), "Name": "Unplayed" }
-    ]
-
-    if isValid(m.view)
-        if LCase(m.options.view) = "genres" or LCase(m.view) = "genres"
-            options.sort = [{ "Title": tr("TITLE"), "Name": "SortName" }]
-            options.filter = []
-        end if
-        if LCase(m.options.view) = "networks" or LCase(m.view) = "networks"
-            options.sort = [{ "Title": tr("TITLE"), "Name": "SortName" }]
-            options.filter = []
-        end if
-    end if
-
 end sub
 
 ' Set Live TV view, sort, and filter options
@@ -521,47 +230,6 @@ sub setLiveTvOptions(options)
     ]
     options.favorite = [
         { "Title": tr("Favorite"), "Name": "Favorite" }
-    ]
-end sub
-
-' Set Music view, sort, and filter options
-sub setMusicOptions(options)
-    options.views = [
-        { "Title": tr("Artists"), "Name": "music-artist" },
-        { "Title": tr("Albums"), "Name": "music-album" },
-    ]
-    options.sort = [
-        { "Title": tr("TITLE"), "Name": "SortName" },
-        { "Title": tr("DATE_ADDED"), "Name": "DateCreated" },
-        { "Title": tr("DATE_PLAYED"), "Name": "DatePlayed" },
-        { "Title": tr("RELEASE_DATE"), "Name": "PremiereDate" },
-        { "Title": tr("Random"), "Name": "Random" },
-    ]
-    options.filter = [
-        { "Title": tr("All"), "Name": "All" },
-        { "Title": tr("Favorites"), "Name": "Favorites" }
-    ]
-end sub
-
-' Set Photo Album view, sort, and filter options
-sub setPhotoAlbumOptions(options)
-    options.views = [
-        { "Title": tr("Slideshow Off"), "Name": "singlephoto" }
-        { "Title": tr("Slideshow On"), "Name": "slideshowphoto" }
-        { "Title": tr("Random Off"), "Name": "singlephoto" }
-        { "Title": tr("Random On"), "Name": "randomphoto" }
-    ]
-    options.sort = []
-    options.filter = []
-end sub
-
-' Set Default view, sort, and filter options
-sub setDefaultOptions(options)
-    options.views = [
-        { "Title": tr("Default"), "Name": "default" }
-    ]
-    options.sort = [
-        { "Title": tr("TITLE"), "Name": "SortName" }
     ]
 end sub
 
@@ -588,21 +256,7 @@ sub SetUpOptions()
     options.filter = []
     options.favorite = []
 
-    if getCollectionType() = "movies"
-        setMoviesOptions(options)
-    else if inStringArray(["boxsets", "Boxset"], getCollectionType())
-        return
-    else if getCollectionType() = "tvshows"
-        return
-    else if getCollectionType() = "livetv"
-        setLiveTvOptions(options)
-    else if inStringArray(["photoalbum", "photo", "homevideos"], getCollectionType())
-        setPhotoAlbumOptions(options)
-    else if getCollectionType() = "music"
-        setMusicOptions(options)
-    else
-        setDefaultOptions(options)
-    end if
+    setLiveTvOptions(options)
 
     ' Set selected view option
     for each o in options.views
@@ -645,27 +299,6 @@ sub ItemDataLoaded(msg)
         return
     end if
 
-    if m.loadItemsTask.view = "Genres"
-        ' Reset genre list data
-        m.genreData.removeChildren(m.genreData.getChildren(-1, 0))
-
-        for each item in itemData
-            m.genreData.appendChild(item)
-        end for
-
-        m.itemGrid.opacity = "0"
-        m.genreList.opacity = "1"
-
-        m.itemGrid.setFocus(false)
-        m.genreList.setFocus(true)
-        group = m.global.sceneManager.callFunc("getActiveScene")
-        group.lastFocus = m.genreList
-
-        m.loading = false
-        stopLoadingSpinner()
-        return
-    end if
-
     for each item in itemData
         m.data.appendChild(item)
     end for
@@ -677,11 +310,9 @@ sub ItemDataLoaded(msg)
         group.lastFocus = m.alphaMenu
     else
         m.itemGrid.opacity = "1"
-        m.genreList.opacity = "0"
 
         m.alphaMenu.setFocus(false)
         m.itemGrid.setFocus(true)
-        m.genreList.setFocus(false)
         group = m.global.sceneManager.callFunc("getActiveScene")
         group.lastFocus = m.itemGrid
     end if
@@ -847,40 +478,16 @@ sub optionsClosed()
         end if
     end if
 
-    if m.top.parentItem.Type = "CollectionFolder" or m.top.parentItem.Type = "Folder" or m.top.parentItem.CollectionType = "CollectionFolder"
-        ' Did the user just request "Random" on a PhotoAlbum?
-        if m.options.view = "singlephoto"
-            set_user_setting("photos.slideshow", "false")
-            set_user_setting("photos.random", "false")
-        else if m.options.view = "slideshowphoto"
-            set_user_setting("photos.slideshow", "true")
-            set_user_setting("photos.random", "false")
-        else if m.options.view = "randomphoto"
-            set_user_setting("photos.random", "true")
-            set_user_setting("photos.slideshow", "false")
-        end if
-    end if
-
     reload = false
 
-    if m.top.parentItem.collectionType = "music"
-        if m.options.view <> m.view
-            m.view = m.options.view
-            set_user_setting("display.music.view", m.view)
-            reload = true
-        end if
-    else
-        m.view = m.global.session.user.settings["display." + m.top.parentItem.Id + ".landing"]
-        if m.options.view <> m.view
-            'reload and store new view setting
-            m.view = m.options.view
-            m.filter = "All"
-            m.filterOptions = {}
-            set_user_setting("display." + m.top.parentItem.Id + ".filter", m.filter)
-            set_user_setting("display." + m.top.parentItem.Id + ".filterOptions", FormatJson(m.filterOptions))
-            set_user_setting("display." + m.top.parentItem.Id + ".landing", m.view)
-            reload = true
-        end if
+    m.view = m.global.session.user.settings["display." + m.top.parentItem.Id + ".landing"]
+    if m.options.view <> m.view
+        'reload and store new view setting
+        m.view = m.options.view
+        m.filter = "All"
+        set_user_setting("display." + m.top.parentItem.Id + ".filter", m.filter)
+        set_user_setting("display." + m.top.parentItem.Id + ".landing", m.view)
+        reload = true
     end if
 
     if m.options.sortField <> m.sortField or m.options.sortAscending <> m.sortAscending
@@ -895,34 +502,16 @@ sub optionsClosed()
             sortAscendingStr = "false"
         end if
 
-        if m.top.parentItem.collectionType = "livetv"
-            set_user_setting("display.livetv.sortField", m.sortField)
-            set_user_setting("display.livetv.sortAscending", sortAscendingStr)
-        else
-            set_user_setting("display." + m.top.parentItem.Id + ".sortField", m.sortField)
-            set_user_setting("display." + m.top.parentItem.Id + ".sortAscending", sortAscendingStr)
-        end if
+
+        set_user_setting("display.livetv.sortField", m.sortField)
+        set_user_setting("display.livetv.sortAscending", sortAscendingStr)
     end if
 
     if m.options.filter <> m.filter
         m.filter = m.options.filter
         reload = true
         'Store filter setting
-        if m.top.parentItem.collectionType = "livetv"
-            set_user_setting("display.livetv.filter", m.options.filter)
-        else
-            set_user_setting("display." + m.top.parentItem.Id + ".filter", m.options.filter)
-        end if
-    end if
-
-    if not isValid(m.options.filterOptions)
-        m.filterOptions = {}
-    end if
-
-    if not AssocArrayEqual(m.options.filterOptions, m.filterOptions)
-        m.filterOptions = m.options.filterOptions
-        reload = true
-        set_user_setting("display." + m.top.parentItem.Id + ".filterOptions", FormatJson(m.options.filterOptions))
+        set_user_setting("display.livetv.filter", m.options.filter)
     end if
 
     if reload
@@ -936,9 +525,8 @@ sub optionsClosed()
     end if
 
     m.itemGrid.setFocus(m.itemGrid.opacity = 1)
-    m.genreList.setFocus(m.genreList.opacity = 1)
     group = m.global.sceneManager.callFunc("getActiveScene")
-    group.lastFocus = m.itemGrid.opacity = 1 ? m.itemGrid : m.genreList
+    group.lastFocus = m.itemGrid.opacity = 1 ? m.itemGrid : m.scheduleGrid
 
     if m.tvGuide <> invalid
         m.tvGuide.lastFocus.setFocus(true)
@@ -984,8 +572,6 @@ end sub
 function getItemFocused()
     if m.itemGrid.isinFocusChain() and isValid(m.itemGrid.itemFocused)
         return m.itemGrid.content.getChild(m.itemGrid.itemFocused)
-    else if m.genreList.isinFocusChain() and isValid(m.genreList.rowItemFocused)
-        return m.genreList.content.getChild(m.genreList.rowItemFocused[0]).getChild(m.genreList.rowItemFocused[1])
     else if isValid(m.scheduleGrid) and m.scheduleGrid.isinFocusChain() and isValid(m.scheduleGrid.itemFocused)
         return m.scheduleGrid.content.getChild(m.scheduleGrid.itemFocused)
     end if
@@ -998,7 +584,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
     if m.itemGrid.opacity = 1
         topGrp = m.itemGrid
     else
-        topGrp = m.genreList
+        topGrp = m.scheduleGrid
     end if
     searchGrp = m.top.findNode("voiceBox")
 
@@ -1009,7 +595,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
         group.lastFocus = topGrp
     end if
 
-    if key = "options" and getCollectionType() <> "nextup"
+    if key = "options"
         if m.options.visible = true
             m.options.visible = false
             m.top.removeChild(m.options)
