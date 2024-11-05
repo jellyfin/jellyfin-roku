@@ -888,6 +888,18 @@ function CreateItemGrid(libraryItem as object) as dynamic
     return group
 end function
 
+function CreateLiveTVLibraryView(libraryItem as object) as dynamic
+    ' validate libraryItem
+    if not isValid(libraryItem) then return invalid
+
+    group = CreateObject("roSGNode", "LiveTVLibraryView")
+    group.parentItem = libraryItem
+    group.optionsAvailable = true
+    group.observeField("selectedItem", m.port)
+    group.observeField("quickPlayNode", m.port)
+    return group
+end function
+
 function CreateMovieLibraryView(libraryItem as object) as dynamic
     ' validate libraryItem
     if not isValid(libraryItem) then return invalid

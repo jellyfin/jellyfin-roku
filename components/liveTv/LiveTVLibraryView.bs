@@ -24,6 +24,9 @@ sub init()
 
     m.showItemCount = m.global.session.user.settings["itemgrid.showItemCount"]
 
+    m.tvGuide = invalid
+    m.channelFocused = invalid
+
     m.data = CreateObject("roSGNode", "ContentNode")
     createItemGrid()
 
@@ -129,7 +132,18 @@ sub loadInitialItems()
     end if
 
     ' Read view/sort/filter settings
-    if m.top.parentItem.collectionType = "music"
+    if m.top.parentItem.collectionType = "livetv"
+        ' Translate between app and server nomenclature
+        viewSetting = m.global.session.user.settings["display.livetv.landing"]
+        if viewSetting = "guide"
+            m.view = "tvGuide"
+        else
+            m.view = "livetv"
+        end if
+        m.sortField = m.global.session.user.settings["display.livetv.sortField"]
+        sortAscendingStr = m.global.session.user.settings["display.livetv.sortAscending"]
+        m.filter = m.global.session.user.settings["display.livetv.filter"]
+    else if m.top.parentItem.collectionType = "music"
         m.view = m.global.session.user.settings["display.music.view"]
         m.sortField = m.global.session.user.settings["display." + m.top.parentItem.Id + ".sortField"]
         sortAscendingStr = m.global.session.user.settings["display." + m.top.parentItem.Id + ".sortAscending"]
@@ -220,7 +234,16 @@ sub loadInitialItems()
         if m.view = "music-album"
             m.loadItemsTask.itemType = "MusicAlbum"
         end if
-    else if m.top.parentItem.collectionType = "CollectionFolder" or m.top.parentItem.type = "CollectionFolder" or m.top.parentItem.collectionType = "boxsets" or m.top.parentItem.Type = "Boxset" or m.top.parentItem.Type = "Boxsets" or m.top.parentItem.Type = "Folder"
+    else if m.top.parentItem.collectionType = "livetv"
+        m.loadItemsTask.itemType = "TvChannel"
+        m.loadItemsTask.itemId = " "
+        ' For LiveTV, we want to "Fit" the item images, not zoom
+        m.top.imageDisplayMode = "scaleToFit"
+
+        if m.global.session.user.settings["display.livetv.landing"] = "guide" and m.options.view <> "livetv"
+            showTvGuide()
+        end if
+    else if m.top.parentItem.collectionType = "CollectionFolder" or m.top.parentItem.type = "CollectionFolder" or m.top.parentItem.collectionType = "boxsets" or m.top.parentItem.Type = "Boxset" or m.top.parentItem.Type = "Boxsets" or m.top.parentItem.Type = "Folder" or m.top.parentItem.Type = "Channel"
         if m.voiceBox.text <> string.EMPTY
             m.loadItemsTask.recursive = true
         else
@@ -483,6 +506,24 @@ sub setTvShowsOptions(options)
 
 end sub
 
+' Set Live TV view, sort, and filter options
+sub setLiveTvOptions(options)
+    options.views = [
+        { "Title": tr("Channels"), "Name": "livetv" },
+        { "Title": tr("TV Guide"), "Name": "tvGuide" }
+    ]
+    options.sort = [
+        { "Title": tr("TITLE"), "Name": "SortName" }
+    ]
+    options.filter = [
+        { "Title": tr("All"), "Name": "All" },
+        { "Title": tr("Favorites"), "Name": "Favorites" }
+    ]
+    options.favorite = [
+        { "Title": tr("Favorite"), "Name": "Favorite" }
+    ]
+end sub
+
 ' Set Music view, sort, and filter options
 sub setMusicOptions(options)
     options.views = [
@@ -553,6 +594,8 @@ sub SetUpOptions()
         return
     else if getCollectionType() = "tvshows"
         return
+    else if getCollectionType() = "livetv"
+        setLiveTvOptions(options)
     else if inStringArray(["photoalbum", "photo", "homevideos"], getCollectionType())
         setPhotoAlbumOptions(options)
     else if getCollectionType() = "music"
@@ -787,6 +830,23 @@ end sub
 
 'Check if options updated and any reloading required
 sub optionsClosed()
+    if m.top.parentItem.collectionType = "livetv" and m.options.view <> m.view
+        if m.options.view = "tvGuide"
+            m.view = "tvGuide"
+            set_user_setting("display.livetv.landing", "guide")
+            showTVGuide()
+            return
+        else
+            m.view = "livetv"
+            set_user_setting("display.livetv.landing", "channels")
+
+            if m.tvGuide <> invalid
+                ' Try to hide the TV Guide
+                m.top.removeChild(m.tvGuide)
+            end if
+        end if
+    end if
+
     if m.top.parentItem.Type = "CollectionFolder" or m.top.parentItem.Type = "Folder" or m.top.parentItem.CollectionType = "CollectionFolder"
         ' Did the user just request "Random" on a PhotoAlbum?
         if m.options.view = "singlephoto"
@@ -835,15 +895,24 @@ sub optionsClosed()
             sortAscendingStr = "false"
         end if
 
-        set_user_setting("display." + m.top.parentItem.Id + ".sortField", m.sortField)
-        set_user_setting("display." + m.top.parentItem.Id + ".sortAscending", sortAscendingStr)
+        if m.top.parentItem.collectionType = "livetv"
+            set_user_setting("display.livetv.sortField", m.sortField)
+            set_user_setting("display.livetv.sortAscending", sortAscendingStr)
+        else
+            set_user_setting("display." + m.top.parentItem.Id + ".sortField", m.sortField)
+            set_user_setting("display." + m.top.parentItem.Id + ".sortAscending", sortAscendingStr)
+        end if
     end if
 
     if m.options.filter <> m.filter
         m.filter = m.options.filter
         reload = true
         'Store filter setting
-        set_user_setting("display." + m.top.parentItem.Id + ".filter", m.options.filter)
+        if m.top.parentItem.collectionType = "livetv"
+            set_user_setting("display.livetv.filter", m.options.filter)
+        else
+            set_user_setting("display." + m.top.parentItem.Id + ".filter", m.options.filter)
+        end if
     end if
 
     if not isValid(m.options.filterOptions)
@@ -871,6 +940,44 @@ sub optionsClosed()
     group = m.global.sceneManager.callFunc("getActiveScene")
     group.lastFocus = m.itemGrid.opacity = 1 ? m.itemGrid : m.genreList
 
+    if m.tvGuide <> invalid
+        m.tvGuide.lastFocus.setFocus(true)
+        group.lastFocus = m.tvGuide
+    end if
+
+end sub
+
+sub showTVGuide()
+    if m.tvGuide = invalid
+        m.tvGuide = createObject("roSGNode", "Schedule")
+        m.top.signalBeacon("EPGLaunchInitiate") ' Required Roku Performance monitoring
+        m.tvGuide.observeField("watchChannel", "onChannelSelected")
+        m.tvGuide.observeField("focusedChannel", "onChannelFocused")
+    end if
+    m.tvGuide.filter = m.filter
+    m.tvGuide.searchTerm = m.voiceBox.text
+    m.top.appendChild(m.tvGuide)
+    m.scheduleGrid = m.top.findNode("scheduleGrid")
+    m.tvGuide.lastFocus.setFocus(true)
+    group = m.global.sceneManager.callFunc("getActiveScene")
+    group.lastFocus = m.tvGuide.lastFocus
+end sub
+
+sub onChannelSelected(msg)
+    node = msg.getRoSGNode()
+    m.top.lastFocus = lastFocusedChild(node)
+    if node.watchChannel <> invalid
+        ' Clone the node when it's reused/update in the TimeGrid it doesn't automatically start playing
+        m.top.selectedItem = node.watchChannel.clone(false)
+        ' Make sure to set watchChanel to invalid in case the user hits back and then selects
+        ' the same channel on the guide (without moving away from the currently selected channel)
+        m.tvGuide.watchChannel = invalid
+    end if
+end sub
+
+sub onChannelFocused(msg)
+    node = msg.getRoSGNode()
+    m.channelFocused = node.focusedChannel
 end sub
 
 'Returns Focused Item
@@ -879,6 +986,8 @@ function getItemFocused()
         return m.itemGrid.content.getChild(m.itemGrid.itemFocused)
     else if m.genreList.isinFocusChain() and isValid(m.genreList.rowItemFocused)
         return m.genreList.content.getChild(m.genreList.rowItemFocused[0]).getChild(m.genreList.rowItemFocused[1])
+    else if isValid(m.scheduleGrid) and m.scheduleGrid.isinFocusChain() and isValid(m.scheduleGrid.itemFocused)
+        return m.scheduleGrid.content.getChild(m.scheduleGrid.itemFocused)
     end if
     return invalid
 end function
@@ -906,9 +1015,15 @@ function onKeyEvent(key as string, press as boolean) as boolean
             m.top.removeChild(m.options)
             optionsClosed()
         else
+            channelSelected = m.channelFocused
             itemSelected = m.selectedFavoriteItem
             if itemSelected <> invalid
                 m.options.selectedFavoriteItem = itemSelected
+            end if
+            if channelSelected <> invalid
+                if channelSelected.type = "TvChannel"
+                    m.options.selectedFavoriteItem = channelSelected
+                end if
             end if
             m.options.visible = true
             m.top.appendChild(m.options)

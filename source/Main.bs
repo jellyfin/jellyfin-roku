@@ -386,6 +386,9 @@ sub Main (args as dynamic) as void
                 else if selectedItemType = "folder" and LCase(type(selectedItem.json.type)) = "rostring" and LCase(selectedItem.json.type) = "musicgenre"
                     group = CreateMusicLibraryView(selectedItem)
                     sceneManager.callFunc("pushScene", group)
+                else if selectedItemType = "userview" and isStringEqual(selectedItem.json.collectiontype, "livetv")
+                    group = CreateLiveTVLibraryView(selectedItem)
+                    sceneManager.callFunc("pushScene", group)
                 else if selectedItemType = "userview" or selectedItemType = "folder" or selectedItemType = "channel"
                     group = CreateItemGrid(selectedItem)
                     sceneManager.callFunc("pushScene", group)
