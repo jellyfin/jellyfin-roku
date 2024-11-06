@@ -28,14 +28,14 @@ sub init()
     m.channelFocused = invalid
 
     m.data = CreateObject("roSGNode", "ContentNode")
-    createItemGrid()
 
-    m.backdrop = m.top.findNode("backdrop")
-    m.newBackdrop = m.top.findNode("backdropTransition")
+    m.itemGrid = m.top.findNode("itemGrid")
+    m.itemGrid.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
+    m.itemGrid.observeField("itemFocused", "onItemFocused")
+    m.itemGrid.observeField("itemSelected", "onItemSelected")
+    m.itemGrid.content = m.data
+
     m.emptyText = m.top.findNode("emptyText")
-
-    m.swapAnimation = m.top.findNode("backroundSwapAnimation")
-    m.swapAnimation.observeField("state", "swapDone")
 
     m.loadedRows = 0
     m.loadedItems = 0
@@ -50,12 +50,6 @@ sub init()
     m.voiceBox.observeField("text", "onvoiceFilter")
     'set voice help text
     m.voiceBox.hintText = tr("Use voice remote to search")
-
-    'backdrop
-    m.newBackdrop.observeField("loadStatus", "newBGLoaded")
-
-    'Background Image Queued for loading
-    m.queuedBGUri = string.EMPTY
 
     'Item sort - maybe load defaults from user prefs?
     m.sortField = "SortName"
@@ -73,26 +67,6 @@ sub init()
     m.alphaMenu = m.alpha.findNode("alphaMenu")
 
     m.top.gridTitles = m.global.session.user.settings["itemgrid.gridTitles"]
-end sub
-
-sub createItemGrid()
-    m.itemGrid = createObject("rosgnode", "MarkupGrid")
-    m.itemGrid.id = "itemGrid"
-    m.itemGrid.translation = "[96, 60]"
-    m.itemGrid.itemComponentName = "GridItemSmall"
-    m.itemGrid.numColumns = "7"
-    m.itemGrid.numRows = "3"
-    m.itemGrid.rowHeights = "[345]"
-    m.itemGrid.vertFocusAnimationStyle = "fixed"
-    m.itemGrid.itemSize = "[230, 345]"
-    m.itemGrid.itemSpacing = "[20, 20]"
-    m.itemGrid.drawFocusFeedback = "true"
-    m.itemGrid.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
-    m.top.appendChild(m.itemGrid)
-    m.itemGrid.observeField("itemFocused", "onItemFocused")
-    m.itemGrid.observeField("itemSelected", "onItemSelected")
-    m.itemGrid.content = m.data
-    m.itemGrid.setFocus(true)
 end sub
 
 'Load initial set of Data
@@ -116,10 +90,6 @@ sub loadInitialItems()
         m.top.HomeLibraryItem = m.top.parentItem.Id
     end if
 
-    if m.top.parentItem.backdropUrl <> invalid
-        SetBackground(m.top.parentItem.backdropUrl)
-    end if
-
     ' Read view/sort/filter settings
     ' Translate between app and server nomenclature
     viewSetting = m.global.session.user.settings["display.livetv.landing"]
@@ -127,11 +97,15 @@ sub loadInitialItems()
         m.view = "tvGuide"
     else
         m.view = "livetv"
+        if isValid(m.tvGuide)
+            m.tvGuide.opacity = 0
+        end if
+        m.alpha.visible = true
+        m.itemGrid.opacity = 1
     end if
     m.sortField = m.global.session.user.settings["display.livetv.sortField"]
     sortAscendingStr = m.global.session.user.settings["display.livetv.sortAscending"]
     m.filter = m.global.session.user.settings["display.livetv.filter"]
-
 
     if not isValidAndNotEmpty(m.filter) then m.filter = "All"
 
@@ -163,17 +137,13 @@ sub loadInitialItems()
     m.loadItemsTask.startIndex = 0
 
     ' Load Item Types
-    if m.top.parentItem.collectionType = "livetv"
-        m.loadItemsTask.itemType = "TvChannel"
-        m.loadItemsTask.itemId = " "
-        ' For LiveTV, we want to "Fit" the item images, not zoom
-        m.top.imageDisplayMode = "scaleToFit"
+    m.loadItemsTask.itemType = "TvChannel"
+    m.loadItemsTask.itemId = " "
+    ' For LiveTV, we want to "Fit" the item images, not zoom
+    m.top.imageDisplayMode = "scaleToFit"
 
-        if m.global.session.user.settings["display.livetv.landing"] = "guide" and m.options.view <> "livetv"
-            showTvGuide()
-        end if
-    else
-        print `Unknown Item Type ${m.top.parentItem}`
+    if m.global.session.user.settings["display.livetv.landing"] = "guide" and m.options.view <> "livetv"
+        showTvGuide()
     end if
 
     m.loadItemsTask.observeField("content", "ItemDataLoaded")
@@ -309,8 +279,6 @@ sub ItemDataLoaded(msg)
         group = m.global.sceneManager.callFunc("getActiveScene")
         group.lastFocus = m.alphaMenu
     else
-        m.itemGrid.opacity = "1"
-
         m.alphaMenu.setFocus(false)
         m.itemGrid.setFocus(true)
         group = m.global.sceneManager.callFunc("getActiveScene")
@@ -331,18 +299,6 @@ sub ItemDataLoaded(msg)
     stopLoadingSpinner()
 end sub
 
-'Set Background Image
-sub SetBackground(backgroundUri as string)
-
-    'If a new image is being loaded, or transitioned to, store URL to load next
-    if m.swapAnimation.state <> "stopped" or m.newBackdrop.loadStatus = "loading"
-        m.queuedBGUri = backgroundUri
-        return
-    end if
-
-    m.newBackdrop.uri = backgroundUri
-end sub
-
 'Handle new item being focused
 sub onItemFocused()
 
@@ -350,47 +306,16 @@ sub onItemFocused()
 
     itemInt = m.itemGrid.itemFocused
 
-    ' If no selected item, set background to parent backdrop
     if itemInt = -1
         return
     end if
 
     m.selectedFavoriteItem = m.itemGrid.content.getChild(m.itemGrid.itemFocused)
 
-    ' Set Background to item backdrop
-    if isValid(m.itemGrid.content.getChild(m.itemGrid.itemFocused))
-        SetBackground(m.itemGrid.content.getChild(m.itemGrid.itemFocused).backdropUrl)
-    end if
-
     ' Load more data if focus is within last 5 rows, and there are more items to load
-
     if m.loadItemsTask.totalRecordCount > 14
         if focusedRow >= m.loadedRows - m.itemGrid.numRows and m.loadeditems < m.loadItemsTask.totalRecordCount
             loadMoreData()
-        end if
-    end if
-end sub
-
-'When Image Loading Status changes
-sub newBGLoaded()
-    'If image load was sucessful, start the fade swap
-    if m.newBackdrop.loadStatus = "ready"
-        m.swapAnimation.control = "start"
-    end if
-end sub
-
-'Swap Complete
-sub swapDone()
-    if isValid(m.swapAnimation) and m.swapAnimation.state = "stopped"
-        'Set main BG node image and hide transitioning node
-        m.backdrop.uri = m.newBackdrop.uri
-        m.backdrop.opacity = 0.25
-        m.newBackdrop.opacity = 0
-
-        'If there is another one to load
-        if m.newBackdrop.uri <> m.queuedBGUri and m.queuedBGUri <> string.EMPTY
-            SetBackground(m.queuedBGUri)
-            m.queuedBGUri = string.EMPTY
         end if
     end if
 end sub
@@ -461,8 +386,11 @@ end sub
 
 'Check if options updated and any reloading required
 sub optionsClosed()
-    if m.top.parentItem.collectionType = "livetv" and m.options.view <> m.view
-        if m.options.view = "tvGuide"
+    reload = false
+
+    ' Check if view option changed
+    if not isStringEqual(m.options.view, m.view)
+        if isStringEqual(m.options.view, "tvGuide")
             m.view = "tvGuide"
             set_user_setting("display.livetv.landing", "guide")
             showTVGuide()
@@ -470,44 +398,32 @@ sub optionsClosed()
         else
             m.view = "livetv"
             set_user_setting("display.livetv.landing", "channels")
+            if isValid(m.tvGuide)
+                m.tvGuide.opacity = 0
+            end if
+            m.alpha.visible = true
+            m.itemGrid.opacity = 1
 
-            if m.tvGuide <> invalid
+            if isValid(m.tvGuide)
                 ' Try to hide the TV Guide
                 m.top.removeChild(m.tvGuide)
             end if
         end if
-    end if
-
-    reload = false
-
-    m.view = m.global.session.user.settings["display." + m.top.parentItem.Id + ".landing"]
-    if m.options.view <> m.view
-        'reload and store new view setting
-        m.view = m.options.view
-        m.filter = "All"
-        set_user_setting("display." + m.top.parentItem.Id + ".filter", m.filter)
-        set_user_setting("display." + m.top.parentItem.Id + ".landing", m.view)
         reload = true
     end if
 
-    if m.options.sortField <> m.sortField or m.options.sortAscending <> m.sortAscending
+    ' Check if sort options changed
+    if not isStringEqual(m.options.sortField, m.sortField) or not (m.options.sortAscending = m.sortAscending)
         m.sortField = m.options.sortField
         m.sortAscending = m.options.sortAscending
         reload = true
 
-        'Store sort settings
-        if m.sortAscending = true
-            sortAscendingStr = "true"
-        else
-            sortAscendingStr = "false"
-        end if
-
-
         set_user_setting("display.livetv.sortField", m.sortField)
-        set_user_setting("display.livetv.sortAscending", sortAscendingStr)
+        set_user_setting("display.livetv.sortAscending", m.sortAscending.tostr())
     end if
 
-    if m.options.filter <> m.filter
+    ' Check if filter option changed
+    if not isStringEqual(m.options.filter, m.filter)
         m.filter = m.options.filter
         reload = true
         'Store filter setting
@@ -517,16 +433,15 @@ sub optionsClosed()
     if reload
         m.loadedRows = 0
         m.loadedItems = 0
-        m.top.removeChild(m.itemGrid)
-        createItemGrid()
         m.data = CreateObject("roSGNode", "ContentNode")
         m.itemGrid.content = m.data
         loadInitialItems()
     end if
 
     m.itemGrid.setFocus(m.itemGrid.opacity = 1)
+
     group = m.global.sceneManager.callFunc("getActiveScene")
-    group.lastFocus = m.itemGrid.opacity = 1 ? m.itemGrid : m.scheduleGrid
+    group.lastFocus = m.itemGrid.opacity = 1 ? m.itemGrid : m.tvGuide
 
     if m.tvGuide <> invalid
         m.tvGuide.lastFocus.setFocus(true)
@@ -536,19 +451,26 @@ sub optionsClosed()
 end sub
 
 sub showTVGuide()
-    if m.tvGuide = invalid
+    if not isValid(m.tvGuide)
         m.tvGuide = createObject("roSGNode", "Schedule")
         m.top.signalBeacon("EPGLaunchInitiate") ' Required Roku Performance monitoring
         m.tvGuide.observeField("watchChannel", "onChannelSelected")
         m.tvGuide.observeField("focusedChannel", "onChannelFocused")
     end if
+
     m.tvGuide.filter = m.filter
     m.tvGuide.searchTerm = m.voiceBox.text
     m.top.appendChild(m.tvGuide)
+
     m.scheduleGrid = m.top.findNode("scheduleGrid")
     m.tvGuide.lastFocus.setFocus(true)
     group = m.global.sceneManager.callFunc("getActiveScene")
     group.lastFocus = m.tvGuide.lastFocus
+
+    m.alpha.visible = false
+
+    m.tvGuide.opacity = 1
+    m.itemGrid.opacity = 0
 end sub
 
 sub onChannelSelected(msg)
