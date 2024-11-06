@@ -10,5 +10,13 @@
   {
     "description": "Don't use web setting for Live TV view",
     "author": "1hitsong"
+  },
+  {
+    "description": "Begin reworking LiveTV design & code",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Fix login crash",
+    "author": "1hitsong"
   }
 ]

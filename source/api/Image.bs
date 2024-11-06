@@ -56,6 +56,8 @@ function ImageURL(id, version = "Primary", params = {})
 end function
 
 function UserImageURL(id, params = {})
+    if not isValid(id) then return ""
+
     ' set defaults
     if params.maxHeight = invalid
         params.append({ "maxHeight": "300" })
@@ -67,6 +69,5 @@ function UserImageURL(id, params = {})
         params.append({ "quality": "90" })
     end if
 
-    url = Substitute("Users/{0}/Images/Primary", id)
-    return buildURL(url, params)
+    return buildURL(`Users/${id}/Images/Primary`, params)
 end function
