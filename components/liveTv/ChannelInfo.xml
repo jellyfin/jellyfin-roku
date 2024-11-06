@@ -2,7 +2,9 @@
 <component name="ChannelInfo" extends="Group">
   <children>
     <Rectangle id="backdrop" />
-    <ScrollingLabel id="channelTitle" horizAlign="center" vertAlign="center" />
+    <Rectangle id="borderTop" height="1" />
+
+    <ScrollingLabel id="channelTitle" horizAlign="left" vertAlign="center" translation="[10, 0]" />
   </children>
   <interface>
     <field id="content" type="node" onChange="contentChanged" />

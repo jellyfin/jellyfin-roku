@@ -2,17 +2,21 @@ import "pkg:/source/enums/ColorPalette.bs"
 import "pkg:/source/utils/misc.bs"
 
 sub init()
+    m.borderTop = m.top.findNode("borderTop")
+    m.borderTop.color = ColorPalette.DARKGREY
+
     m.backdrop = m.top.findNode("backdrop")
-    m.backdrop.color = "#383838"
+    m.backdrop.color = ColorPalette.LIGHTBLUE
 
     m.channelTitle = m.top.findNode("channelTitle")
     m.channelTitle.font.size = 27
-    m.channelTitle.color = "#eeeeee"
+    m.channelTitle.color = ColorPalette.DARKGREY
 end sub
 
 sub onWidthChanged()
+    m.borderTop.width = m.top.width
     m.backdrop.width = m.top.width
-    m.channelTitle.maxWidth = m.top.width
+    m.channelTitle.maxWidth = m.top.width - 20
 end sub
 
 sub onHeightChanged()
@@ -26,7 +30,7 @@ sub contentChanged()
 
     if not isValid(itemData) then return
 
-    if isValid(itemData.title)
+    if isValid(itemData.LookupCI("title"))
         m.channelTitle.text = itemData.LookupCI("title")
     end if
 end sub
