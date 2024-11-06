@@ -2,6 +2,8 @@ import "pkg:/source/api/sdk.bs"
 import "pkg:/source/enums/ImageType.bs"
 
 function ItemImages(id = "" as string, params = {} as object)
+    if not isValidAndNotEmpty(id) then return []
+
     data = api.items.GetImages(id)
     if not isValid(data) then return invalid
 
@@ -20,6 +22,8 @@ end function
 
 
 function PosterImage(id as string, params = {} as object)
+    if not isValidAndNotEmpty(id) then return invalid
+
     images = ItemImages(id, params)
     if not isValid(images) then return invalid
     primary_image = invalid
@@ -38,6 +42,8 @@ function PosterImage(id as string, params = {} as object)
 end function
 
 function ImageURL(id, version = "Primary", params = {})
+    if not isValidAndNotEmpty(id) then return ""
+
     ' set defaults
     if params.maxHeight = invalid
         param = { "maxHeight": "384" }
@@ -56,7 +62,7 @@ function ImageURL(id, version = "Primary", params = {})
 end function
 
 function UserImageURL(id, params = {})
-    if not isValid(id) then return ""
+    if not isValidAndNotEmpty(id) then return ""
 
     ' set defaults
     if params.maxHeight = invalid
