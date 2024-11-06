@@ -78,7 +78,6 @@ sub init()
     m.sortAscending = true
 
     m.filter = "All"
-    m.favorite = "Favorite"
 
     m.loadItemsTask = createObject("roSGNode", "LoadItemsTask2")
     m.loadLogoTask = createObject("roSGNode", "LoadItemsTask2")
