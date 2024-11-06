@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component name="ChannelInfo" extends="Group">
+  <children>
+    <Rectangle id="backdrop" />
+    <ScrollingLabel id="channelTitle" horizAlign="center" vertAlign="center" />
+  </children>
+  <interface>
+    <field id="content" type="node" onChange="contentChanged" />
+    <field id="width" type="integer" onChange="onWidthChanged" />
+    <field id="height" type="integer" onChange="onHeightChanged" />
+  </interface>
+</component>

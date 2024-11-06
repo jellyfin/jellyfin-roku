@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component name="ProgramDetails" extends="JFGroup">
     <children>
+        <Rectangle id="backdrop" height="1080" width="1920" />
 
         <!-- Selected Item Details -->
         <maskGroup id="backgroundMask" maskUri="pkg:/images/backgroundmask.png" translation="[1320, 150]" maskSize="[500,375]">

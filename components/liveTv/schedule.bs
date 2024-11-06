@@ -21,6 +21,8 @@ sub init()
 
     m.scheduleGrid.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
     m.scheduleGrid.programTitleFocusedColor = ColorPalette.WHITE
+    m.scheduleGrid.timeLabelColor = ColorPalette.LIGHTGREY
+    m.scheduleGrid.timeLabelFont.size = 30
 
     m.gridMoveAnimation = m.top.findNode("gridMoveAnimation")
     m.gridMoveAnimationPosition = m.top.findNode("gridMoveAnimationPosition")
