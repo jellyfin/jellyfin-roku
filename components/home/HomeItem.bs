@@ -350,32 +350,36 @@ sub displayProgramInfo(itemData as object)
 end sub
 
 sub displayEpisodeInfo(localGlobal as object, itemData as object)
-    m.itemText.text = itemData.json.SeriesName
+    if isChainValid(itemData, "json.SeriesName")
+        m.itemText.text = itemData.json.SeriesName
+    end if
 
-    if itemData.PlayedPercentage > 0
-        drawProgressBar(itemData)
+    if isValid(itemData.LookupCI("PlayedPercentage"))
+        if itemData.LookupCI("PlayedPercentage") > 0
+            drawProgressBar(itemData)
+        end if
     end if
 
     if localGlobal.session.user.settings["ui.general.episodeimagesnextup"] = "webclient"
         tmpSetting = localGlobal.session.user.Configuration.useEpisodeImagesInNextUpAndResume
         if isValid(tmpSetting) and tmpSetting
-            m.itemPoster.uri = itemData.thumbnailURL
+            m.itemPoster.uri = itemData.LookupCI("thumbnailURL")
         else
-            m.itemPoster.uri = itemData.widePosterURL
+            m.itemPoster.uri = itemData.LookupCI("widePosterURL")
         end if
     else if localGlobal.session.user.settings["ui.general.episodeimagesnextup"] = "show"
-        m.itemPoster.uri = itemData.widePosterURL
+        m.itemPoster.uri = itemData.LookupCI("widePosterURL")
     else if localGlobal.session.user.settings["ui.general.episodeimagesnextup"] = "episode"
-        m.itemPoster.uri = itemData.thumbnailURL
+        m.itemPoster.uri = itemData.LookupCI("thumbnailURL")
     end if
 
     ' Set Series and Episode Number for Extra Text
     extraPrefix = ""
-    if isValid(itemData.json.ParentIndexNumber)
+    if isChainValid(itemData, "json.ParentIndexNumber")
         extraPrefix = "S" + StrI(itemData.json.ParentIndexNumber).trim()
     end if
 
-    if isValid(itemData.json.IndexNumber)
+    if isChainValid(itemData, "json.IndexNumber")
         extraPrefix = extraPrefix + "E" + StrI(itemData.json.IndexNumber).trim()
     end if
 
@@ -383,13 +387,15 @@ sub displayEpisodeInfo(localGlobal as object, itemData as object)
         extraPrefix = extraPrefix + " - "
     end if
 
-    m.itemTextExtra.text = extraPrefix + itemData.name
+    m.itemTextExtra.text = extraPrefix + itemData.LookupCI("name")
 end sub
 
 '
 ' Draws and animates item progress bar
 sub drawProgressBar(itemData)
-    m.itemProgressBackground.width = itemData.imageWidth
+    if not isValid(itemData.LookupCI("imageWidth")) then return
+
+    m.itemProgressBackground.width = itemData.LookupCI("imageWidth")
     m.itemProgressBackground.visible = true
     m.showProgressBarField.keyValue = [0, m.itemPoster.width * (itemData.PlayedPercentage / 100)]
     m.showProgressBarAnimation.control = AnimationControl.START
