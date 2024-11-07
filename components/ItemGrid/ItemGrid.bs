@@ -111,7 +111,7 @@ sub loadInitialItems()
     m.itemGrid.numColumns = "7"
     m.itemGrid.numRows = "3"
 
-    if LCase(m.top.showItemTitles) = "hidealways"
+    if isStringEqual(m.top.showItemTitles, "hidealways")
         m.itemGrid.itemSize = "[230, 345]"
         m.itemGrid.rowHeights = "[345]"
     else
@@ -119,16 +119,16 @@ sub loadInitialItems()
         m.itemGrid.rowHeights = "[390]"
     end if
 
-    if m.top.parentItem.json.Type = "CollectionFolder" 'or m.top.parentItem.json.Type = "Folder"
+    if isStringEqual(m.top.parentItem.json.Type, "CollectionFolder")
         m.top.HomeLibraryItem = m.top.parentItem.Id
     end if
 
-    if m.top.parentItem.backdropUrl <> invalid
+    if isValid(m.top.parentItem.backdropUrl)
         SetBackground(m.top.parentItem.backdropUrl)
     end if
 
     ' Read view/sort/filter settings
-    if m.top.parentItem.collectionType = "music"
+    if isStringEqual(m.top.parentItem.collectionType, "music")
         m.view = m.global.session.user.settings["display.music.view"]
         m.sortField = m.global.session.user.settings["display." + m.top.parentItem.Id + ".sortField"]
         sortAscendingStr = m.global.session.user.settings["display." + m.top.parentItem.Id + ".sortAscending"]
@@ -141,7 +141,7 @@ sub loadInitialItems()
         m.view = m.global.session.user.settings["display." + m.top.parentItem.Id + ".landing"]
     end if
 
-    if getCollectionType() = "tvshows"
+    if isStringEqual(getCollectionType(), "tvshows")
         if not isValidAndNotEmpty(m.view) then m.view = "Shows"
     end if
 
@@ -150,7 +150,7 @@ sub loadInitialItems()
 
     if not isValidAndNotEmpty(m.sortField)
         ' Set the default order for boxsets to the Release Date - API calls it PremiereDate
-        if LCase(m.top.parentItem.json.Type) = "boxset"
+        if isStringEqual(m.top.parentItem.json.Type, "boxset")
             m.sortField = "PremiereDate"
         else
             m.sortField = "SortName"
@@ -159,22 +159,22 @@ sub loadInitialItems()
 
     m.filterOptions = ParseJson(m.filterOptions)
 
-    if sortAscendingStr = invalid or sortAscendingStr = true
+    if not isValid(sortAscendingStr) or sortAscendingStr = true
         m.sortAscending = true
     else
         m.sortAscending = false
     end if
     ' Set Studio Id
-    if m.top.parentItem.json.type = "Studio"
+    if isStringEqual(m.top.parentItem.json.type, "Studio")
         m.loadItemsTask.studioIds = m.top.parentItem.id
         m.loadItemsTask.itemId = m.top.parentItem.parentFolder
         m.loadItemsTask.genreIds = string.EMPTY
         ' Set Genre Id
-    else if m.top.parentItem.json.type = "Genre"
+    else if isStringEqual(m.top.parentItem.json.type, "Genre")
         m.loadItemsTask.genreIds = m.top.parentItem.id
         m.loadItemsTask.itemId = m.top.parentItem.parentFolder
         m.loadItemsTask.studioIds = string.EMPTY
-    else if (m.view = "Shows" or m.options.view = "Shows") or (m.view = "Movies" or m.options.view = "Movies")
+    else if (isStringEqual(m.view, "Shows") or isStringEqual(m.options.view, "Shows")) or (isStringEqual(m.view, "Movies") or isStringEqual(m.options.view, "Movies"))
         m.loadItemsTask.studioIds = string.EMPTY
         m.loadItemsTask.genreIds = string.EMPTY
     else
@@ -182,7 +182,7 @@ sub loadInitialItems()
     end if
 
     ' if we already searched for this alpha text than reset filter
-    if m.loadItemsTask.nameStartsWith = m.top.alphaSelected
+    if isStringEqual(m.loadItemsTask.nameStartsWith, m.top.alphaSelected)
         m.loadItemsTask.nameStartsWith = string.EMPTY
         m.top.alphaSelected = string.EMPTY
     else
@@ -198,15 +198,15 @@ sub loadInitialItems()
     m.loadItemsTask.startIndex = 0
 
     ' Load Item Types
-    if getCollectionType() = "movies"
+    if isStringEqual(getCollectionType(), "movies")
         m.loadItemsTask.itemType = "Movie"
         m.loadItemsTask.itemId = m.top.parentItem.Id
-    else if getCollectionType() = "tvshows"
+    else if isStringEqual(getCollectionType(), "tvshows")
         m.loadItemsTask.itemType = "Series"
         m.loadItemsTask.itemId = m.top.parentItem.Id
 
         m.top.showItemTitles = m.global.session.user.settings["itemgrid.gridTitles"]
-    else if getCollectionType() = "music"
+    else if isStringEqual(getCollectionType(), "music")
         ' Default Settings
         m.loadItemsTask.recursive = true
         m.itemGrid.itemSize = "[290, 290]"
@@ -216,10 +216,10 @@ sub loadInitialItems()
 
         m.view = m.global.session.user.settings["display.music.view"]
 
-        if m.view = "music-album"
+        if isStringEqual(m.view, "music-album")
             m.loadItemsTask.itemType = "MusicAlbum"
         end if
-    else if m.top.parentItem.collectionType = "CollectionFolder" or m.top.parentItem.type = "CollectionFolder" or m.top.parentItem.collectionType = "boxsets" or m.top.parentItem.Type = "Boxset" or m.top.parentItem.Type = "Boxsets" or m.top.parentItem.Type = "Folder"
+    else if isStringEqual(m.top.parentItem.collectionType, "CollectionFolder") or isStringEqual(m.top.parentItem.type, "CollectionFolder") or isStringEqual(m.top.parentItem.collectionType, "boxsets") or isStringEqual(m.top.parentItem.Type, "Boxset") or isStringEqual(m.top.parentItem.Type, "Boxsets") or isStringEqual(m.top.parentItem.Type, "Folder")
         if m.voiceBox.text <> string.EMPTY
             m.loadItemsTask.recursive = true
         else
@@ -227,9 +227,9 @@ sub loadInitialItems()
             m.loadItemsTask.recursive = false
         end if
 
-        if getCollectionType() = "boxsets"
+        if isStringEqual(getCollectionType(), "boxsets")
             m.top.showItemTitles = m.global.session.user.settings["itemgrid.gridTitles"]
-            if LCase(m.top.showItemTitles) = "hidealways"
+            if isStringEqual(m.top.showItemTitles, "hidealways")
                 m.itemGrid.itemSize = "[230, 345]"
                 m.itemGrid.rowHeights = "[345]"
             else
@@ -238,20 +238,21 @@ sub loadInitialItems()
             end if
         end if
 
-        if getCollectionType() = "nextup"
+        if isStringEqual(getCollectionType(), "nextup")
             m.loadItemsTask.itemType = "NextUp"
             m.itemGrid.itemComponentName = "GridItemMedium"
             m.itemGrid.itemSize = "[400, 345]"
+            m.itemGrid.rowHeights = "[345]"
 
             m.top.imageDisplayMode = "scaleToZoom"
             m.itemGrid.numColumns = 4
             m.alpha.visible = false
         end if
-    else if m.top.parentItem.json.type = "Studio"
+    else if isStringEqual(m.top.parentItem.json.type, "Studio")
         m.loadItemsTask.itemId = m.top.parentItem.parentFolder
         m.loadItemsTask.itemType = "Series,Movie"
         m.top.imageDisplayMode = "scaleToFit"
-    else if m.top.parentItem.json.type = "Genre"
+    else if isStringEqual(m.top.parentItem.json.type, "Genre")
         m.loadItemsTask.itemType = "Series,Movie"
         m.loadItemsTask.itemId = m.top.parentItem.parentFolder
     else
@@ -786,7 +787,7 @@ end sub
 
 'Check if options updated and any reloading required
 sub optionsClosed()
-    if m.top.parentItem.Type = "CollectionFolder" or m.top.parentItem.Type = "Folder" or m.top.parentItem.CollectionType = "CollectionFolder"
+    if isStringEqual(m.top.parentItem.Type, "CollectionFolder") or isStringEqual(m.top.parentItem.Type, "Folder") or isStringEqual(m.top.parentItem.CollectionType, "CollectionFolder")
         ' Did the user just request "Random" on a PhotoAlbum?
         if m.options.view = "singlephoto"
             set_user_setting("photos.slideshow", "false")
@@ -802,7 +803,7 @@ sub optionsClosed()
 
     reload = false
 
-    if m.top.parentItem.collectionType = "music"
+    if isStringEqual(m.top.parentItem.collectionType, "music")
         if m.options.view <> m.view
             m.view = m.options.view
             set_user_setting("display.music.view", m.view)
