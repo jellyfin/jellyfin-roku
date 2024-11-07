@@ -1,7 +1,10 @@
 import "pkg:/source/enums/ColorPalette.bs"
+import "pkg:/source/enums/PosterLoadStatus.bs"
 import "pkg:/source/utils/misc.bs"
 
 sub init()
+    m.channelLogo = m.top.findNode("channelLogo")
+
     m.borderTop = m.top.findNode("borderTop")
     m.borderTop.color = ColorPalette.DARKGREY
 
@@ -13,22 +16,47 @@ sub init()
     m.channelTitle.color = ColorPalette.DARKGREY
 end sub
 
+sub onLoadStatusChanged()
+    if m.channelLogo.loadStatus <> PosterLoadStatus.LOADING
+        m.channelLogo.unobserveFieldScoped("loadStatus")
+    end if
+
+    if m.channelLogo.loadStatus = PosterLoadStatus.READY
+        m.channelTitle.visible = false
+        m.channelLogo.visible = true
+        return
+    end if
+end sub
+
 sub onWidthChanged()
+    m.channelLogo.width = m.top.width
     m.borderTop.width = m.top.width
     m.backdrop.width = m.top.width
     m.channelTitle.maxWidth = m.top.width - 20
 end sub
 
 sub onHeightChanged()
+    m.channelLogo.height = m.top.height
     m.backdrop.height = m.top.height
     m.channelTitle.height = m.top.height
 end sub
 
 sub contentChanged()
-
     itemData = m.top.content
 
     if not isValid(itemData) then return
+
+    ' Reset all values due to Roku's component reuse
+    m.channelLogo.uri = ""
+    m.channelTitle.text = ""
+    m.channelTitle.visible = true
+
+    if isValidAndNotEmpty(itemData.LookupCI("hdsmalliconurl"))
+        m.channelLogo.observeFieldScoped("loadStatus", "onLoadStatusChanged")
+        m.channelLogo.uri = itemData.LookupCI("hdsmalliconurl")
+    else
+        m.channelLogo.visible = false
+    end if
 
     if isValid(itemData.LookupCI("title"))
         m.channelTitle.text = itemData.LookupCI("title")

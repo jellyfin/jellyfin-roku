@@ -1,0 +1,10 @@
+[
+  {
+    "description": "Fix crash caused if item in Latest In row has invalid ID",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Improve design of Live TV guide",
+    "author": "1hitsong"
+  }
+]

@@ -123,6 +123,7 @@ sub onScheduleLoaded()
         if channel.PosterUrl <> ""
             item.channelLogoUri = channel.PosterUrl
         end if
+
         if channel.Title <> ""
             item.channelName = channel.Title
         end if
