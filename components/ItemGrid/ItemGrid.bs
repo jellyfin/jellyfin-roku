@@ -1,6 +1,10 @@
 import "pkg:/source/api/baserequest.bs"
+import "pkg:/source/enums/AnimationControl.bs"
+import "pkg:/source/enums/AnimationState.bs"
 import "pkg:/source/enums/ColorPalette.bs"
+import "pkg:/source/enums/ItemType.bs"
 import "pkg:/source/enums/KeyCode.bs"
+import "pkg:/source/enums/PosterLoadStatus.bs"
 import "pkg:/source/enums/String.bs"
 import "pkg:/source/enums/TaskControl.bs"
 import "pkg:/source/utils/config.bs"
@@ -104,7 +108,7 @@ end sub
 
 'Load initial set of Data
 sub loadInitialItems()
-    m.loadItemsTask.control = "stop"
+    m.loadItemsTask.control = TaskControl.STOP
     startLoadingSpinner()
 
     m.itemGrid.itemComponentName = "GridItemSmall"
@@ -220,7 +224,7 @@ sub loadInitialItems()
             m.loadItemsTask.itemType = "MusicAlbum"
         end if
     else if isStringEqual(m.top.parentItem.collectionType, "CollectionFolder") or isStringEqual(m.top.parentItem.type, "CollectionFolder") or isStringEqual(m.top.parentItem.collectionType, "boxsets") or isStringEqual(m.top.parentItem.Type, "Boxset") or isStringEqual(m.top.parentItem.Type, "Boxsets") or isStringEqual(m.top.parentItem.Type, "Folder")
-        if m.voiceBox.text <> string.EMPTY
+        if not isStringEqual(m.voiceBox.text, string.EMPTY)
             m.loadItemsTask.recursive = true
         else
             ' non recursive for collections (folders, boxsets, photo albums, etc)
@@ -259,27 +263,28 @@ sub loadInitialItems()
         print `Unknown Item Type ${m.top.parentItem}`
     end if
 
-    if m.top.parentItem.type <> "Folder" and (m.options.view = "Networks" or m.view = "Networks" or m.options.view = "Studios" or m.view = "Studios")
+    if (isStringEqual(m.top.parentItem.type, "Folder") or isStringEqual(m.top.parentItem.type, "CollectionFolder")) and (isStringEqual(m.options.view, "Networks") or isStringEqual(m.view, "Networks") or isStringEqual(m.options.view, "Studios") or isStringEqual(m.view, "Studios"))
         m.loadItemsTask.view = "Networks"
         m.itemGrid.itemComponentName = "GridItemMedium"
         m.itemGrid.itemSize = "[400, 345]"
+        m.itemGrid.rowHeights = "[345]"
         m.top.imageDisplayMode = "scaleToFit"
         m.itemGrid.numColumns = 4
 
-    else if m.top.parentItem.type <> "Folder" and (m.options.view = "Genres" or m.view = "Genres")
+    else if not isStringEqual(m.top.parentItem.type, "Folder") and (isStringEqual(m.options.view, "Genres") or isStringEqual(m.view, "Genres"))
         m.loadItemsTask.StudioIds = m.top.parentItem.Id
         m.loadItemsTask.view = "Genres"
-    else if m.top.parentItem.type <> "Folder" and (m.options.view = "Shows" or m.view = "Shows")
+    else if not isStringEqual(m.top.parentItem.type, "Folder") and (isStringEqual(m.options.view, "Shows") or isStringEqual(m.view, "Shows"))
         m.loadItemsTask.studioIds = string.EMPTY
         m.loadItemsTask.view = "Shows"
-    else if m.top.parentItem.type <> "Folder" and (m.options.view = "Movies" or m.view = "Movies")
+    else if not isStringEqual(m.top.parentItem.typ, "Folder") and (isStringEqual(m.options.view, "Movies") or isStringEqual(m.view, "Movies"))
         m.loadItemsTask.studioIds = string.EMPTY
         m.loadItemsTask.view = "Movies"
     end if
 
     m.loadItemsTask.observeField("content", "ItemDataLoaded")
     startLoadingSpinner(false)
-    m.loadItemsTask.control = "RUN"
+    m.loadItemsTask.control = TaskControl.RUN
 
     SetUpOptions()
 
@@ -287,7 +292,7 @@ sub loadInitialItems()
     m.getFiltersTask.params = {
         userid: m.global.session.user.id,
         parentid: m.top.parentItem.Id,
-        IncludeItemTypes: getCollectionType() = "tvshows" ? "Series" : string.EMPTY
+        IncludeItemTypes: isStringEqual(getCollectionType(), "tvshows") ? "Series" : string.EMPTY
     }
     m.getFiltersTask.control = TaskControl.RUN
 end sub
@@ -302,10 +307,10 @@ sub FilterDataLoaded(msg)
     options.filter = []
     options.favorite = []
 
-    if getCollectionType() = "tvshows"
+    if isStringEqual(getCollectionType(), "tvshows")
         setTvShowsOptions(options)
 
-        if m.view = "Shows" or m.options.view = "Shows"
+        if isStringEqual(m.view, "Shows") or isStringEqual(m.options.view, "Shows")
             data = msg.GetData()
             m.getFiltersTask.unobserveField("filters")
 
@@ -471,11 +476,11 @@ sub setTvShowsOptions(options)
     ]
 
     if isValid(m.view)
-        if LCase(m.options.view) = "genres" or LCase(m.view) = "genres"
+        if isStringEqual(m.options.view, "genres") or isStringEqual(m.view, "genres")
             options.sort = [{ "Title": tr("TITLE"), "Name": "SortName" }]
             options.filter = []
         end if
-        if LCase(m.options.view) = "networks" or LCase(m.view) = "networks"
+        if isStringEqual(m.options.view, "networks") or isStringEqual(m.view, "networks")
             options.sort = [{ "Title": tr("TITLE"), "Name": "SortName" }]
             options.filter = []
         end if
@@ -526,7 +531,7 @@ end sub
 
 ' Return parent collection type
 function getCollectionType() as string
-    if m.top.parentItem.collectionType = invalid
+    if not isValid(m.top.parentItem.collectionType)
         return m.top.parentItem.Type
     else
         return m.top.parentItem.CollectionType
@@ -547,15 +552,15 @@ sub SetUpOptions()
     options.filter = []
     options.favorite = []
 
-    if getCollectionType() = "movies"
+    if isStringEqual(getCollectionType(), "movies")
         setMoviesOptions(options)
     else if inStringArray(["boxsets", "Boxset"], getCollectionType())
         return
-    else if getCollectionType() = "tvshows"
+    else if isStringEqual(getCollectionType(), "tvshows")
         return
     else if inStringArray(["photoalbum", "photo", "homevideos"], getCollectionType())
         setPhotoAlbumOptions(options)
-    else if getCollectionType() = "music"
+    else if isStringEqual(getCollectionType(), "music")
         setMusicOptions(options)
     else
         setDefaultOptions(options)
@@ -602,7 +607,7 @@ sub ItemDataLoaded(msg)
         return
     end if
 
-    if m.loadItemsTask.view = "Genres"
+    if isStringEqual(m.loadItemsTask.view, "Genres")
         ' Reset genre list data
         m.genreData.removeChildren(m.genreData.getChildren(-1, 0))
 
@@ -661,7 +666,7 @@ end sub
 sub SetBackground(backgroundUri as string)
 
     'If a new image is being loaded, or transitioned to, store URL to load next
-    if m.swapAnimation.state <> "stopped" or m.newBackdrop.loadStatus = "loading"
+    if not isStringEqual(m.swapAnimation.state, AnimationState.STOPPED) or isStringEqual(m.newBackdrop.loadStatus, PosterLoadStatus.LOADING)
         m.queuedBGUri = backgroundUri
         return
     end if
@@ -700,21 +705,21 @@ end sub
 'When Image Loading Status changes
 sub newBGLoaded()
     'If image load was sucessful, start the fade swap
-    if m.newBackdrop.loadStatus = "ready"
-        m.swapAnimation.control = "start"
+    if isStringEqual(m.newBackdrop.loadStatus, PosterLoadStatus.READY)
+        m.swapAnimation.control = AnimationControl.START
     end if
 end sub
 
 'Swap Complete
 sub swapDone()
-    if isValid(m.swapAnimation) and m.swapAnimation.state = "stopped"
+    if isValid(m.swapAnimation) and isStringEqual(m.swapAnimation.state, AnimationState.STOPPED)
         'Set main BG node image and hide transitioning node
         m.backdrop.uri = m.newBackdrop.uri
         m.backdrop.opacity = 0.25
         m.newBackdrop.opacity = 0
 
         'If there is another one to load
-        if m.newBackdrop.uri <> m.queuedBGUri and m.queuedBGUri <> string.EMPTY
+        if not isStringEqual(m.newBackdrop.uri, m.queuedBGUri) and not isStringEqual(m.queuedBGUri, string.EMPTY)
             SetBackground(m.queuedBGUri)
             m.queuedBGUri = string.EMPTY
         end if
@@ -729,7 +734,7 @@ sub loadMoreData()
     m.Loading = true
     m.loadItemsTask.startIndex = m.loadedItems
     m.loadItemsTask.observeField("content", "ItemDataLoaded")
-    m.loadItemsTask.control = "RUN"
+    m.loadItemsTask.control = TaskControl.RUN
 end sub
 
 'Item Selected
@@ -738,7 +743,7 @@ sub onItemSelected()
 end sub
 
 sub alphaSelectedChanged()
-    if m.top.alphaSelected <> string.EMPTY
+    if not isStringEqual(m.top.alphaSelected, string.EMPTY)
         m.loadedRows = 0
         m.loadedItems = 0
         m.data = CreateObject("roSGNode", "ContentNode")
@@ -769,7 +774,7 @@ sub onvoiceFilter()
         alphaMenu = m.top.findNode("alphaMenu")
         intConversion = m.voiceBox.text.ToInt() ' non numeric input returns as 0
 
-        if m.voiceBox.text = "0" or (isValid(intConversion) and intConversion <> 0)
+        if isStringEqual(m.voiceBox.text, "0") or (isValid(intConversion) and intConversion <> 0)
             alphaMenu.jumpToItem = 0
         else
             ' loop through each option until we find a match
@@ -804,14 +809,14 @@ sub optionsClosed()
     reload = false
 
     if isStringEqual(m.top.parentItem.collectionType, "music")
-        if m.options.view <> m.view
+        if not isStringEqual(m.options.view, m.view)
             m.view = m.options.view
             set_user_setting("display.music.view", m.view)
             reload = true
         end if
     else
         m.view = m.global.session.user.settings["display." + m.top.parentItem.Id + ".landing"]
-        if m.options.view <> m.view
+        if not isStringEqual(m.options.view, m.view)
             'reload and store new view setting
             m.view = m.options.view
             m.filter = "All"
@@ -823,7 +828,7 @@ sub optionsClosed()
         end if
     end if
 
-    if m.options.sortField <> m.sortField or m.options.sortAscending <> m.sortAscending
+    if not isStringEqual(m.options.sortField, m.sortField) or not isStringEqual(m.options.sortAscending, m.sortAscending)
         m.sortField = m.options.sortField
         m.sortAscending = m.options.sortAscending
         reload = true
@@ -839,7 +844,7 @@ sub optionsClosed()
         set_user_setting("display." + m.top.parentItem.Id + ".sortAscending", sortAscendingStr)
     end if
 
-    if m.options.filter <> m.filter
+    if not isStringEqual(m.options.filter, m.filter)
         m.filter = m.options.filter
         reload = true
         'Store filter setting
@@ -877,37 +882,37 @@ end sub
 function getItemFocused()
     if m.itemGrid.isinFocusChain() and isValid(m.itemGrid.itemFocused)
         return m.itemGrid.content.getChild(m.itemGrid.itemFocused)
-    else if m.genreList.isinFocusChain() and isValid(m.genreList.rowItemFocused)
+    end if
+
+    if m.genreList.isinFocusChain() and isValid(m.genreList.rowItemFocused)
         return m.genreList.content.getChild(m.genreList.rowItemFocused[0]).getChild(m.genreList.rowItemFocused[1])
     end if
+
     return invalid
 end function
 
 function onKeyEvent(key as string, press as boolean) as boolean
     if not press then return false
 
-    if m.itemGrid.opacity = 1
-        topGrp = m.itemGrid
-    else
-        topGrp = m.genreList
-    end if
+    topGrp = m.itemGrid.opacity = 1 ? m.itemGrid : m.genreList
+
     searchGrp = m.top.findNode("voiceBox")
 
-    if key = "left" and searchGrp.isinFocusChain()
+    if isStringEqual(key, KeyCode.LEFT) and searchGrp.isinFocusChain()
         topGrp.setFocus(true)
         searchGrp.setFocus(false)
         group = m.global.sceneManager.callFunc("getActiveScene")
         group.lastFocus = topGrp
     end if
 
-    if key = "options" and getCollectionType() <> "nextup"
-        if m.options.visible = true
+    if isStringEqual(key, KeyCode.OPTIONS) and not isStringEqual(getCollectionType(), "nextup")
+        if m.options.visible
             m.options.visible = false
             m.top.removeChild(m.options)
             optionsClosed()
         else
             itemSelected = m.selectedFavoriteItem
-            if itemSelected <> invalid
+            if isValid(itemSelected)
                 m.options.selectedFavoriteItem = itemSelected
             end if
             m.options.visible = true
@@ -916,22 +921,27 @@ function onKeyEvent(key as string, press as boolean) as boolean
             group = m.global.sceneManager.callFunc("getActiveScene")
             group.lastFocus = m.options
         end if
+
         return true
-    else if key = "back"
-        if m.options.visible = true
+    end if
+
+    if isStringEqual(key, KeyCode.BACK)
+        if m.options.visible
             m.options.visible = false
             optionsClosed()
-            return true
         else
             m.global.sceneManager.callfunc("popScene")
-            m.loadItemsTask.control = "stop"
-            return true
+            m.loadItemsTask.control = TaskControl.STOP
         end if
-    else if key = "OK"
+
+        return true
+    end if
+
+    if isStringEqual(key, KeyCode.OK)
         markupGrid = m.top.findNode("itemGrid")
         itemToPlay = getItemFocused()
 
-        if itemToPlay <> invalid and itemToPlay.type = "Photo"
+        if isValid(itemToPlay) and isStringEqual(itemToPlay.type, ItemType.PHOTO)
             ' Spawn photo player task
             photoPlayer = CreateObject("roSgNode", "PhotoDetails")
             photoPlayer.itemsNode = markupGrid
@@ -939,21 +949,27 @@ function onKeyEvent(key as string, press as boolean) as boolean
             m.global.sceneManager.callfunc("pushScene", photoPlayer)
             return true
         end if
-    else if key = "play"
+    end if
+
+    if isStringEqual(key, KeyCode.PLAY)
         itemToPlay = getItemFocused()
 
-        if itemToPlay <> invalid
+        if isValid(itemToPlay)
             m.top.quickPlayNode = itemToPlay
             return true
         end if
-    else if key = "left" and topGrp.isinFocusChain() and m.alpha.visible
+    end if
+
+    if isStringEqual(key, KeyCode.LEFT) and topGrp.isinFocusChain() and m.alpha.visible
         m.top.alphaActive = true
         topGrp.setFocus(false)
         m.alphaMenu.setFocus(true)
         group = m.global.sceneManager.callFunc("getActiveScene")
         group.lastFocus = m.alphaMenu
         return true
-    else if key = "right" and m.alpha.isinFocusChain()
+    end if
+
+    if isStringEqual(key, KeyCode.RIGHT) and m.alpha.isinFocusChain()
         m.top.alphaActive = false
         m.alphaMenu.setFocus(false)
         topGrp.setFocus(true)
