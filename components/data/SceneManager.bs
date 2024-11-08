@@ -297,6 +297,14 @@ sub standardDialog(title, message)
 end sub
 
 '
+' Display What's New dialog to user with an OK button
+sub whatsNewDialog()
+    dialog = createObject("roSGNode", "WhatsNewDialog")
+    dialog.observeField("buttonSelected", "dismissDialog")
+    m.scene.dialog = dialog
+end sub
+
+'
 ' Display dialog to user with an OK button
 sub radioDialog(title, message)
     dialog = createObject("roSGNode", "RadioDialog")
