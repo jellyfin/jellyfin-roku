@@ -73,13 +73,13 @@ sub Main (args as dynamic) as void
     ' Downloads and stores a fallback font to tmp:/
     configEncoding = api.system.GetConfigurationByName("encoding")
 
-    if isValid(configEncoding) and isValid(configEncoding.EnableFallbackFont)
+    if isChainValid(configEncoding, "EnableFallbackFont")
         if configEncoding.EnableFallbackFont
             re = CreateObject("roRegex", "Name.:.(.*?).,.Size", "s")
             filename = APIRequest("FallbackFont/Fonts").GetToString()
             if isValid(filename)
                 filename = re.match(filename)
-                if isValid(filename) and filename.count() > 0
+                if isValidAndNotEmpty(filename)
                     filename = filename[1]
                     APIRequest("FallbackFont/Fonts/" + filename).gettofile("tmp:/font")
                 end if
@@ -89,8 +89,8 @@ sub Main (args as dynamic) as void
 
     ' Delete any old library filters
     for each settingKeys in m.global.session.user.settings.keys()
-        if left(settingKeys, 8) = "display."
-            if right(settingKeys, 7) = ".filter" or right(settingKeys, 14) = ".filterOptions"
+        if isStringEqual(left(settingKeys, 8), "display.")
+            if isStringEqual(right(settingKeys, 7), ".filter") or isStringEqual(right(settingKeys, 14), ".filterOptions")
                 m.global.session.user.settings.delete(settingKeys)
                 unset_user_setting(settingKeys)
             end if
@@ -136,10 +136,6 @@ sub Main (args as dynamic) as void
     ' Check if we were sent content to play with the startup command (Deep Link)
     handleDeepLinking(args)
 
-    ' This is the core logic loop. Mostly for transitioning between scenes
-    ' This now only references m. fields so could be placed anywhere, in theory
-    ' "group" is always "whats on the screen"
-    ' m.scene's children is the "previous view" stack
     while true
         msg = wait(0, m.port)
 
