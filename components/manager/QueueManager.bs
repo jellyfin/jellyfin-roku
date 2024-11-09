@@ -130,7 +130,7 @@ function getItemTitleAndIcon(item as dynamic) as object
     itemData = item.json ?? item
 
     if inArray(["audio", "audiobook"], itemMediaType)
-        return [`pkg:/images/icons/musicNote.png`, `${itemData.artists[0]} - ${itemData.name}`]
+        return [`pkg:/images/icons/musicNote.png`, `${itemData.artists[0]} - ${itemData.name ?? itemData.title}`]
     end if
 
     if inArray(["movie", "video", "recording", "musicvideo"], itemMediaType)
