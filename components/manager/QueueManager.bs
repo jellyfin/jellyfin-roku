@@ -145,10 +145,10 @@ function getItemTitleAndIcon(item as dynamic) as object
                 end if
             end if
 
-            return [`pkg:/images/media_type_icons/tv.png`, `${itemData.seriesname}${seasonName} - ${itemData.name}`]
+            return [`pkg:/images/media_type_icons/tv.png`, `${itemData.seriesname}${seasonName} - ${itemData.name ?? itemData.title}`]
         end if
 
-        return [`pkg:/images/media_type_icons/movie.png`, `${itemData.name}`]
+        return [`pkg:/images/media_type_icons/movie.png`, `${itemData.name ?? itemData.title}`]
     end if
 
     if itemMediaType = "episode"
@@ -161,7 +161,7 @@ function getItemTitleAndIcon(item as dynamic) as object
             seasonName += ` Episode ${itemData.IndexNumber}`
         end if
 
-        return [`pkg:/images/media_type_icons/tv.png`, `${itemData.seriesname}${seasonName} - ${itemData.name}`]
+        return [`pkg:/images/media_type_icons/tv.png`, `${itemData.seriesname}${seasonName} - ${itemData.name ?? itemData.title}`]
     end if
 
     return []

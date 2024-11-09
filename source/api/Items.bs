@@ -314,7 +314,7 @@ function GetSongsByArtist(id as string, params = {} as object)
     if data.Items.Count() = 0 then return invalid
 
     for each item in data.Items
-        tmp = CreateObject("roSGNode", "PlaylistItemData")
+        tmp = CreateObject("roSGNode", "MusicSongData")
         tmp.id = item.LookupCI("id")
         tmp.title = item.LookupCI("name")
         tmp.type = item.LookupCI("type")
@@ -347,9 +347,12 @@ function PlaylistItemList(id as string)
         tmp = CreateObject("roSGNode", "PlaylistItemData")
         tmp.id = item.LookupCI("id")
         tmp.title = item.LookupCI("name")
+        tmp.artists = item.LookupCI("artists")
         tmp.type = item.LookupCI("type")
         tmp.RunTimeTicks = item.LookupCI("RunTimeTicks")
-        tmp.trackNumber = item.LookupCI("IndexNumber")
+        tmp.IndexNumber = item.LookupCI("IndexNumber")
+        tmp.seriesname = item.LookupCI("seriesname")
+        tmp.SeasonName = item.LookupCI("SeasonName")
         results.push(tmp)
     end for
 
