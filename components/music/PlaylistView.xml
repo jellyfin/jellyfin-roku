@@ -13,7 +13,7 @@
         <LayoutGroup id="infoGroup" layoutDirection="vert" itemSpacings="[15]">
           <Label id="overview" wrap="true" height="310" width="1250" />
           <Rectangle id='songListRect' translation="[-30, 0]" width="1260" height="510" color="0x202020ff">
-            <AlbumTrackList itemComponentName="SongItem" id="songList" translation="[45, 25]" itemSize="[1170,60]" numRows="7" />
+            <PlaylistItems itemComponentName="PlaylistItem" id="playlist" translation="[45, 25]" itemSize="[1170,60]" numRows="7" />
           </Rectangle>
         </LayoutGroup>
       </LayoutGroup>
@@ -21,7 +21,7 @@
   </children>
   <interface>
     <field id="pageContent" type="node" onChange="pageContentChanged" />
-    <field id="albumData" type="node" alias="songList.MusicArtistAlbumData" />
-    <field id="playItem" alias="songList.itemSelected" />
+    <field id="albumData" type="node" alias="playlist.PlaylistData" />
+    <field id="playItem" alias="playlist.itemSelected" />
   </interface>
 </component>

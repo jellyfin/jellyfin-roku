@@ -5,11 +5,11 @@ sub init()
     setupMainNode()
 
     m.albumCover = m.top.findNode("albumCover")
-    m.songList = m.top.findNode("songList")
+    m.playlist = m.top.findNode("playlist")
     m.infoGroup = m.top.FindNode("infoGroup")
     m.songListRect = m.top.FindNode("songListRect")
 
-    m.songList.observeField("doneLoading", "onDoneLoading")
+    m.playlist.observeField("doneLoading", "onDoneLoading")
 
     m.dscr = m.top.findNode("overview")
     m.dscr.ellipsisText = tr("... (Press * to read more)")
@@ -57,7 +57,7 @@ end sub
 sub adjustScreenForNoOverview()
     m.infoGroup.removeChild(m.dscr)
     m.songListRect.height = 800
-    m.songList.numRows = 12
+    m.playlist.numRows = 12
 end sub
 
 ' Populate on screen text variables
@@ -93,9 +93,9 @@ sub OnScreenShown()
         group = m.global.sceneManager.callFunc("getActiveScene")
         group.lastFocus = m.top.lastFocus
     else
-        m.songList.setFocus(true)
+        m.playlist.setFocus(true)
         group = m.global.sceneManager.callFunc("getActiveScene")
-        group.lastFocus = m.songList
+        group.lastFocus = m.playlist
     end if
 end sub
 
@@ -120,6 +120,6 @@ sub createFullDscrDlg()
 end sub
 
 sub onDoneLoading()
-    m.songList.unobservefield("doneLoading")
+    m.playlist.unobservefield("doneLoading")
     stopLoadingSpinner()
 end sub

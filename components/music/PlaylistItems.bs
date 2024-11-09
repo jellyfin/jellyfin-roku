@@ -1,0 +1,19 @@
+sub init()
+    getData()
+    m.top.setfocus(true)
+    group = m.global.sceneManager.callFunc("getActiveScene")
+    group.lastFocus = m.top
+end sub
+
+function getData()
+    if m.top.PlaylistData = invalid
+        data = CreateObject("roSGNode", "ContentNode")
+        return data
+    end if
+
+    m.top.content = m.top.PlaylistData
+
+    m.top.doneLoading = true
+
+    return data
+end function
