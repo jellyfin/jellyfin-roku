@@ -1,5 +1,3 @@
-import "pkg:/source/utils/misc.bs"
-
 sub setFields()
     datum = m.top.json
 
@@ -9,9 +7,9 @@ sub setFields()
 end sub
 
 sub setPoster()
-    if isvalid(m.top.image)
+    if m.top.image <> invalid
         m.top.posterURL = m.top.image.url
     else
-        m.top.posterURL = "pkg:/images/icons/album.png"
+        m.top.posterURL = ""
     end if
 end sub

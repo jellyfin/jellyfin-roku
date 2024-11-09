@@ -212,16 +212,34 @@ function MusicAlbumList(id as string)
         "Recursive": true
     })
 
-    data = getJson(resp)
     results = []
+    data = getJson(resp)
+    row = CreateObject("roSGNode", "ContentNode")
+
+    if data = invalid then return invalid
+    if data.Items = invalid then return invalid
+    if data.Items.Count() = 0 then return invalid
+
     for each item in data.Items
         tmp = CreateObject("roSGNode", "MusicAlbumData")
+
         tmp.image = PosterImage(item.id)
-        tmp.json = item
+        tmp.id = item.LookupCI("id")
+        tmp.title = item.LookupCI("name")
+        tmp.type = item.LookupCI("type")
+        tmp.RunTimeTicks = item.LookupCI("RunTimeTicks")
+
+        tmp.shortdescriptionline1 = item.LookupCI("name")
+        tmp.HDGRIDPOSTERURL = tmp.image.url
+        tmp.hdposterurl = tmp.image.url
+        tmp.SDGRIDPOSTERURL = tmp.image.url
+        tmp.sdposterurl = tmp.image.url
         results.push(tmp)
     end for
-    data.Items = results
-    return data
+
+    row.appendChildren(results)
+
+    return row
 end function
 
 ' Get list of albums an artist appears on
@@ -236,16 +254,34 @@ function AppearsOnList(id as string)
         "Recursive": true
     })
 
-    data = getJson(resp)
     results = []
+    data = getJson(resp)
+    row = CreateObject("roSGNode", "ContentNode")
+
+    if data = invalid then return invalid
+    if data.Items = invalid then return invalid
+    if data.Items.Count() = 0 then return invalid
+
     for each item in data.Items
         tmp = CreateObject("roSGNode", "MusicAlbumData")
+
         tmp.image = PosterImage(item.id)
-        tmp.json = item
+        tmp.id = item.LookupCI("id")
+        tmp.title = item.LookupCI("name")
+        tmp.type = item.LookupCI("type")
+        tmp.RunTimeTicks = item.LookupCI("RunTimeTicks")
+
+        tmp.shortdescriptionline1 = item.LookupCI("name")
+        tmp.HDGRIDPOSTERURL = tmp.image.url
+        tmp.hdposterurl = tmp.image.url
+        tmp.SDGRIDPOSTERURL = tmp.image.url
+        tmp.sdposterurl = tmp.image.url
         results.push(tmp)
     end for
-    data.Items = results
-    return data
+
+    row.appendChildren(results)
+
+    return row
 end function
 
 ' Get list of songs belonging to an artist
@@ -264,20 +300,32 @@ function GetSongsByArtist(id as string, params = {} as object)
 
     resp = APIRequest(url, paramArray)
     data = getJson(resp)
+
+    if data = invalid then return invalid
+    if data.Items = invalid then return invalid
+    if data.Items.Count() = 0 then return invalid
+
     results = []
+    data = getJson(resp)
+    row = CreateObject("roSGNode", "ContentNode")
 
     if data = invalid then return invalid
     if data.Items = invalid then return invalid
     if data.Items.Count() = 0 then return invalid
 
     for each item in data.Items
-        tmp = CreateObject("roSGNode", "MusicAlbumData")
-        tmp.image = PosterImage(item.id)
-        tmp.json = item
+        tmp = CreateObject("roSGNode", "PlaylistItemData")
+        tmp.id = item.LookupCI("id")
+        tmp.title = item.LookupCI("name")
+        tmp.type = item.LookupCI("type")
+        tmp.RunTimeTicks = item.LookupCI("RunTimeTicks")
+        tmp.trackNumber = item.LookupCI("IndexNumber")
         results.push(tmp)
     end for
-    data.Items = results
-    return data
+
+    row.appendChildren(results)
+
+    return row
 end function
 
 ' Get Items that are under the provided item
@@ -289,19 +337,25 @@ function PlaylistItemList(id as string)
 
     results = []
     data = getJson(resp)
+    row = CreateObject("roSGNode", "ContentNode")
 
     if data = invalid then return invalid
     if data.Items = invalid then return invalid
     if data.Items.Count() = 0 then return invalid
 
     for each item in data.Items
-        tmp = CreateObject("roSGNode", "PlaylistData")
-        tmp.image = PosterImage(item.id)
-        tmp.json = item
+        tmp = CreateObject("roSGNode", "PlaylistItemData")
+        tmp.id = item.LookupCI("id")
+        tmp.title = item.LookupCI("name")
+        tmp.type = item.LookupCI("type")
+        tmp.RunTimeTicks = item.LookupCI("RunTimeTicks")
+        tmp.trackNumber = item.LookupCI("IndexNumber")
         results.push(tmp)
     end for
-    data.Items = results
-    return data
+
+    row.appendChildren(results)
+
+    return row
 end function
 
 ' Get Songs that are on an Album
@@ -316,6 +370,7 @@ function MusicSongList(id as string)
 
     results = []
     data = getJson(resp)
+    row = CreateObject("roSGNode", "ContentNode")
 
     if data = invalid then return invalid
     if data.Items = invalid then return invalid
@@ -323,12 +378,18 @@ function MusicSongList(id as string)
 
     for each item in data.Items
         tmp = CreateObject("roSGNode", "MusicSongData")
-        tmp.image = PosterImage(item.id)
-        tmp.json = item
+        tmp.id = item.LookupCI("id")
+        tmp.title = item.LookupCI("name")
+        tmp.type = item.LookupCI("type")
+        tmp.artists = item.LookupCI("artists")
+        tmp.RunTimeTicks = item.LookupCI("RunTimeTicks")
+        tmp.trackNumber = item.LookupCI("IndexNumber")
         results.push(tmp)
     end for
-    data.Items = results
-    return data
+
+    row.appendChildren(results)
+
+    return row
 end function
 
 ' Get Songs that are on an Album

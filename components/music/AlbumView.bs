@@ -6,7 +6,6 @@ sub init()
     m.top.optionsAvailable = false
     setupMainNode()
 
-    m.playAlbum = m.top.findNode("playAlbum")
     m.instantMix = m.top.findNode("instantMix")
     m.albumCover = m.top.findNode("albumCover")
     m.songList = m.top.findNode("songList")
@@ -32,11 +31,6 @@ sub pageContentChanged()
     setPosterImage(item.posterURL)
     setScreenTitle(item.json)
     setOnScreenTextValues(item.json)
-
-    ' Only 1 song shown, so hide Play Album button
-    if item.json.ChildCount = 1
-        m.playAlbum.visible = false
-    end if
 end sub
 
 ' Set poster image on screen
@@ -109,7 +103,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
     end if
 
     if key = KeyCode.RIGHT
-        if m.playAlbum.hasFocus() or m.instantMix.hasFocus()
+        if m.instantMix.hasFocus()
             m.top.lastFocus = m.songList
             m.songList.setFocus(true)
             group = m.global.sceneManager.callFunc("getActiveScene")
@@ -117,12 +111,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
             return true
         end if
     else if key = KeyCode.LEFT and m.songList.hasFocus()
-        if m.playAlbum.visible
-            m.top.lastFocus = m.playAlbum
-            m.playAlbum.setFocus(true)
-            group = m.global.sceneManager.callFunc("getActiveScene")
-            group.lastFocus = m.playAlbum
-        else if m.instantMix.visible
+        if m.instantMix.visible
             m.top.lastFocus = m.instantMix
             m.instantMix.setFocus(true)
             group = m.global.sceneManager.callFunc("getActiveScene")
@@ -130,18 +119,6 @@ function onKeyEvent(key as string, press as boolean) as boolean
         else
             return false
         end if
-        return true
-    else if key = KeyCode.DOWN and m.playAlbum.hasFocus()
-        m.top.lastFocus = m.instantMix
-        m.instantMix.setFocus(true)
-        group = m.global.sceneManager.callFunc("getActiveScene")
-        group.lastFocus = m.instantMix
-        return true
-    else if key = KeyCode.UP and m.instantMix.hasFocus()
-        m.top.lastFocus = m.playAlbum
-        m.playAlbum.setFocus(true)
-        group = m.global.sceneManager.callFunc("getActiveScene")
-        group.lastFocus = m.playAlbum
         return true
     end if
 

@@ -45,8 +45,7 @@ sub init()
 end sub
 
 sub onAlbumsData()
-    ' We have no album data
-    if m.albums.MusicArtistAlbumData.TotalRecordCount = 0
+    if not isValid(m.albums.MusicArtistAlbumData) or m.albums.MusicArtistAlbumData.getChildCount() = 0
         m.sectionScroller.removeChild(m.top.findNode("albumsSlide"))
         m.sectionNavigation.removeChild(m.top.findNode("albumsLink"))
         m.top.findNode("appearsOnSlide").callFunc("scrollUpToOnDeck")
@@ -55,7 +54,7 @@ end sub
 
 sub onAppearsOnData()
     ' We have no appears on data
-    if m.appearsOn.MusicArtistAlbumData.TotalRecordCount = 0
+    if not isValid(m.appearsOn.MusicArtistAlbumData) or m.appearsOn.MusicArtistAlbumData.getChildCount() = 0
         m.sectionScroller.removeChild(m.top.findNode("appearsOnSlide"))
         m.sectionNavigation.removeChild(m.top.findNode("appearsOnLink"))
     end if
@@ -320,9 +319,9 @@ function onKeyEvent(key as string, press as boolean) as boolean
         itemToPlay = invalid
 
         if isValid(m.albums) and m.albums.isInFocusChain()
-            itemToPlay = m.albums.MusicArtistAlbumData.items[m.albums.itemFocused]
+            itemToPlay = m.albums.MusicArtistAlbumData.getChild(m.albums.itemFocused)
         else if isValid(m.appearsOn) and m.appearsOn.isInFocusChain()
-            itemToPlay = m.appearsOn.MusicArtistAlbumData.items[m.appearsOn.itemFocused]
+            itemToPlay = m.appearsOn.MusicArtistAlbumData.getChild(m.appearsOn.itemFocused)
         end if
 
         if isValid(itemToPlay)

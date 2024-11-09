@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<component name="MusicSongData" extends="JFContentItem">
+<component name="PlaylistItemData" extends="JFContentItem">
   <interface>
     <field id="id" type="string" />
     <field id="title" type="string" />
@@ -7,5 +7,7 @@
     <field id="RunTimeTicks" type="float" />
     <field id="image" type="node" onChange="setPoster" />
     <field id="overview" type="string" />
+    <field id="selectedAudioStreamIndex" type="integer" value="0" />
+    <field id="startingPoint" type="longinteger" value="0" />
   </interface>
 </component>

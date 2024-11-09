@@ -11,16 +11,7 @@ function getData()
         return data
     end if
 
-    albumData = m.top.MusicArtistAlbumData
-    data = CreateObject("roSGNode", "ContentNode")
-    ' data.appendChildren(albumData.items)
-
-    for each song in albumData.items
-        songcontent = data.createChild("MusicSongData")
-        songcontent.json = song.json
-    end for
-
-    m.top.content = data
+    m.top.content = m.top.MusicArtistAlbumData
 
     m.top.doneLoading = true
 

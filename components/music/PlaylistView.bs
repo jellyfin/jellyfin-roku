@@ -4,7 +4,6 @@ sub init()
     m.top.optionsAvailable = false
     setupMainNode()
 
-    m.playAll = m.top.findNode("playAll")
     m.albumCover = m.top.findNode("albumCover")
     m.songList = m.top.findNode("songList")
     m.infoGroup = m.top.FindNode("infoGroup")
@@ -28,11 +27,6 @@ sub pageContentChanged()
     setPosterImage(item.posterURL)
     setScreenTitle(item.json)
     setOnScreenTextValues(item.json)
-
-    ' Only 1 song shown, so hide Play Album button
-    if item.json.ChildCount = 1
-        m.playAll.visible = false
-    end if
 end sub
 
 ' Set poster image on screen
@@ -114,24 +108,6 @@ function onKeyEvent(key as string, press as boolean) as boolean
             return true
         end if
         return false
-    end if
-
-    if key = "right"
-        if m.playAll.hasFocus()
-            m.songList.setFocus(true)
-            group = m.global.sceneManager.callFunc("getActiveScene")
-            group.lastFocus = m.songList
-            return true
-        end if
-    else if key = "left" and m.songList.hasFocus()
-        if m.playAll.visible
-            m.playAll.setFocus(true)
-            group = m.global.sceneManager.callFunc("getActiveScene")
-            group.lastFocus = m.playAll
-        else
-            return false
-        end if
-        return true
     end if
 
     return false

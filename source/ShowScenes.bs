@@ -723,7 +723,7 @@ function CreateArtistView(artist as object) as dynamic
     musicData = MusicAlbumList(artist.id)
     appearsOnData = AppearsOnList(artist.id)
 
-    if (musicData = invalid or musicData.Items.Count() = 0) and (appearsOnData = invalid or appearsOnData.Items.Count() = 0)
+    if (not isValid(musicData) or musicData.getChildCount() = 0) and (not isValid(appearsOnData) or appearsOnData.getChildCount() = 0)
         ' Just songs under artists...
         group = CreateObject("roSGNode", "AlbumView")
         group.pageContent = ItemMetaData(artist.id)
@@ -742,7 +742,6 @@ function CreateArtistView(artist as object) as dynamic
 
         group.albumData = songList
         group.observeField("playSong", m.port)
-        group.observeField("playAllSelected", m.port)
         group.observeField("instantMixSelected", m.port)
     else
         ' User has albums under artists
@@ -784,9 +783,6 @@ function CreateAlbumView(album as object) as dynamic
     ' Watch for user clicking on a song
     group.observeField("playSong", m.port)
 
-    ' Watch for user click on Play button on album
-    group.observeField("playAllSelected", m.port)
-
     ' Watch for user click on Instant Mix button on album
     group.observeField("instantMixSelected", m.port)
 
@@ -806,9 +802,6 @@ function CreatePlaylistView(playlist as object) as dynamic
 
     ' Watch for user clicking on an item
     group.observeField("playItem", m.port)
-
-    ' Watch for user click on Play button
-    group.observeField("playAllSelected", m.port)
 
     return group
 end function

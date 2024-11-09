@@ -46,8 +46,8 @@
   </children>
   <interface>
     <field id="pageContent" type="node" onChange="pageContentChanged" />
-    <field id="musicArtistAlbumData" type="assocarray" alias="albums.MusicArtistAlbumData" />
-    <field id="musicArtistAppearsOnData" type="assocarray" alias="appearsOn.MusicArtistAlbumData" />
+    <field id="musicArtistAlbumData" type="node" alias="albums.MusicArtistAlbumData" alwaysNotify="true" />
+    <field id="musicArtistAppearsOnData" type="node" alias="appearsOn.MusicArtistAlbumData" alwaysNotify="true" />
     <field id="artistOverview" type="string" onChange="artistOverviewChanged" />
     <field id="musicAlbumSelected" alias="albums.itemSelected" />
     <field id="appearsOnSelected" alias="appearsOn.itemSelected" />

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component name="AlbumGrid" extends="PosterGrid">
   <interface>
-    <field id="MusicArtistAlbumData" type="assocarray" onChange="getData" />
+    <field id="MusicArtistAlbumData" type="node" onChange="getData" alwaysNotify="true" />
     <field id="escape" type="string" alwaysNotify="true" />
   </interface>
 </component>

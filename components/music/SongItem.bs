@@ -11,11 +11,15 @@ end sub
 sub itemContentChanged()
     itemData = m.top.itemContent
     if itemData = invalid then return
-    m.itemText.text = itemData.title
-    if itemData.trackNumber <> 0
-        m.trackNumber.text = itemData.trackNumber
+    m.itemText.text = itemData.LookupCI("title")
+
+    if itemData.LookupCI("trackNumber") <> 0
+        m.trackNumber.text = itemData.LookupCI("trackNumber")
     end if
-    m.tracklength.text = ticksToHuman(itemData.length)
+
+    if isValid(itemData.LookupCI("RunTimeTicks"))
+        m.tracklength.text = ticksToHuman(itemData.LookupCI("RunTimeTicks"))
+    end if
 end sub
 
 sub focusChanged()

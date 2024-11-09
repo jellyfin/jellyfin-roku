@@ -528,7 +528,7 @@ sub Main (args as dynamic) as void
             startLoadingSpinner()
             ptr = msg.getData()
             albums = msg.getRoSGNode()
-            node = albums.musicArtistAlbumData.items[ptr]
+            node = albums.musicArtistAlbumData.getChild(ptr)
             group = CreateAlbumView(node)
             if not isValid(group)
                 stopLoadingSpinner()
@@ -538,7 +538,7 @@ sub Main (args as dynamic) as void
             startLoadingSpinner()
             ptr = msg.getData()
             albums = msg.getRoSGNode()
-            node = albums.musicArtistAppearsOnData.items[ptr]
+            node = albums.musicArtistAppearsOnData.getChild(ptr)
             group = CreateAlbumView(node)
             if not isValid(group)
                 stopLoadingSpinner()
@@ -550,7 +550,7 @@ sub Main (args as dynamic) as void
             screenContent = msg.getRoSGNode()
 
             m.global.queueManager.callFunc("resetShuffle")
-            m.global.queueManager.callFunc("set", screenContent.albumData.items)
+            m.global.queueManager.callFunc("set", screenContent.albumData.getChildren(-1, 0))
             m.global.queueManager.callFunc("setPosition", selectedIndex)
             m.global.queueManager.callFunc("playQueue")
         else if isNodeEvent(msg, "subtitleToDelete")
@@ -682,17 +682,8 @@ sub Main (args as dynamic) as void
             screenContent = msg.getRoSGNode()
 
             m.global.queueManager.callFunc("resetShuffle")
-            m.global.queueManager.callFunc("set", screenContent.albumData.items)
+            m.global.queueManager.callFunc("set", screenContent.albumData.getChildren(-1, 0))
             m.global.queueManager.callFunc("setPosition", selectedIndex)
-            m.global.queueManager.callFunc("playQueue")
-        else if isNodeEvent(msg, "playAllSelected")
-            ' User has selected playlist of of audio they want us to play
-            screenContent = msg.getRoSGNode()
-            startLoadingSpinner()
-
-            m.global.queueManager.callFunc("clear")
-            m.global.queueManager.callFunc("resetShuffle")
-            m.global.queueManager.callFunc("set", screenContent.albumData.items)
             m.global.queueManager.callFunc("playQueue")
         else if isNodeEvent(msg, "playArtistSelected")
             ' User has selected playlist of of audio they want us to play
@@ -714,15 +705,13 @@ sub Main (args as dynamic) as void
 
             ' Create instant mix based on selected album
             if isValid(screenContent.albumData)
-                if isValid(screenContent.albumData.items)
-                    if screenContent.albumData.items.count() > 0
-                        m.global.queueManager.callFunc("clear")
-                        m.global.queueManager.callFunc("resetShuffle")
-                        m.global.queueManager.callFunc("set", CreateInstantMix(screenContent.albumData.items[0].id).Items)
-                        m.global.queueManager.callFunc("playQueue")
+                if screenContent.albumData.getChildCount() > 0
+                    m.global.queueManager.callFunc("clear")
+                    m.global.queueManager.callFunc("resetShuffle")
+                    m.global.queueManager.callFunc("set", CreateInstantMix(screenContent.albumData.getChild(0).id).Items)
+                    m.global.queueManager.callFunc("playQueue")
 
-                        viewHandled = true
-                    end if
+                    viewHandled = true
                 end if
             end if
 

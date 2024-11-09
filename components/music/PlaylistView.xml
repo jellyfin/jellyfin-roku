@@ -9,7 +9,6 @@
           <Label id="genres" width="450" height="25" />
           <Label id="runtime" width="450" height="25" />
           <Label id="released" width="450" height="25" />
-          <JFButton id="playAll" minChars="8" text="Play All"></JFButton>
         </LayoutGroup>
         <LayoutGroup id="infoGroup" layoutDirection="vert" itemSpacings="[15]">
           <Label id="overview" wrap="true" height="310" width="1250" />
@@ -22,8 +21,7 @@
   </children>
   <interface>
     <field id="pageContent" type="node" onChange="pageContentChanged" />
-    <field id="albumData" type="assocarray" alias="songList.MusicArtistAlbumData" />
+    <field id="albumData" type="node" alias="songList.MusicArtistAlbumData" />
     <field id="playItem" alias="songList.itemSelected" />
-    <field id="playAllSelected" alias="playAll.buttonSelected" />
   </interface>
 </component>
