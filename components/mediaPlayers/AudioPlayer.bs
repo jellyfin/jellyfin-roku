@@ -142,10 +142,6 @@ sub playNext()
     currentQueuePosition = m.global.queueManager.callFunc("getPosition")
     if m.global.queueManager.callFunc("getPosition") >= m.global.queueManager.callFunc("getCount") - 1 then return
 
-    if m.top.state = "playing"
-        m.top.control = "stop"
-    end if
-
     playlistTypeCount = m.global.queueManager.callFunc("getQueueUniqueTypes").count()
 
     if playlistTypeCount > 1
@@ -170,10 +166,6 @@ end sub
 sub playPrevious()
     currentQueuePosition = m.global.queueManager.callFunc("getPosition")
     if currentQueuePosition = 0 then return
-
-    if m.top.state = "playing"
-        m.top.control = "stop"
-    end if
 
     playlistTypeCount = m.global.queueManager.callFunc("getQueueUniqueTypes").count()
 
