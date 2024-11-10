@@ -2,6 +2,7 @@ import "pkg:/source/utils/misc.bs"
 
 sub init()
     m.itemText = m.top.findNode("itemText")
+    m.mediaTypeIcon = m.top.findNode("mediaTypeIcon")
     m.tracklength = m.top.findNode("tracklength")
 
     m.defaultTextColor = m.itemText.color
@@ -12,18 +13,13 @@ sub itemContentChanged()
     if itemData = invalid then return
     m.itemText.text = itemData.LookupCI("title")
 
+    itemIcon = m.global.queueManager.callFunc("getItemTitleAndIcon", itemData)
+
+    if isValidAndNotEmpty(itemIcon)
+        m.mediaTypeIcon.uri = itemIcon[0]
+    end if
+
     if isValid(itemData.LookupCI("RunTimeTicks"))
         m.tracklength.text = ticksToHuman(itemData.LookupCI("RunTimeTicks"))
     end if
-end sub
-
-sub focusChanged()
-    if m.top.itemHasFocus
-        color = "#101010FF"
-    else
-        color = m.defaultTextColor
-    end if
-
-    m.itemText.color = color
-    m.tracklength.color = color
 end sub

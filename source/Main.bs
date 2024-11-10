@@ -682,7 +682,7 @@ sub Main (args as dynamic) as void
             screenContent = msg.getRoSGNode()
 
             m.global.queueManager.callFunc("resetShuffle")
-            m.global.queueManager.callFunc("set", screenContent.albumData.getChildren(-1, 0))
+            m.global.queueManager.callFunc("set", screenContent.listData.getChildren(-1, 0))
             m.global.queueManager.callFunc("setPosition", selectedIndex)
             m.global.queueManager.callFunc("playQueue")
         else if isNodeEvent(msg, "playArtistSelected")
@@ -782,13 +782,6 @@ sub Main (args as dynamic) as void
                 m.global.queueManager.callFunc("clear")
                 m.global.queueManager.callFunc("resetShuffle")
                 m.global.queueManager.callFunc("push", thisItem)
-                m.global.queueManager.callFunc("playQueue")
-            else if node.type = "Audio"
-                selectedIndex = msg.getData()
-                screenContent = msg.getRoSGNode()
-                m.global.queueManager.callFunc("clear")
-                m.global.queueManager.callFunc("resetShuffle")
-                m.global.queueManager.callFunc("push", screenContent.albumData.items[node.id])
                 m.global.queueManager.callFunc("playQueue")
             else if node.type = "AudioBook"
                 m.global.queueManager.callFunc("clear")

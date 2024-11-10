@@ -11,6 +11,7 @@
     <function name="getItemByIndex" />
     <function name="getItemType" />
     <function name="getNextItemTitleAndIcon" />
+    <function name="getItemTitleAndIcon" />
     <function name="getPosition" />
     <function name="getPreviousItemTitleAndIcon" />
     <function name="getQueue" />

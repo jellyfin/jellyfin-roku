@@ -1,13 +1,18 @@
+import "pkg:/source/enums/ColorPalette.bs"
 import "pkg:/source/utils/misc.bs"
 
 sub init()
     m.top.optionsAvailable = false
-    setupMainNode()
 
     m.albumCover = m.top.findNode("albumCover")
     m.playlist = m.top.findNode("playlist")
     m.infoGroup = m.top.FindNode("infoGroup")
     m.songListRect = m.top.FindNode("songListRect")
+    m.songListRect.color = ColorPalette.ELEMENTBACKGROUND
+
+    m.playlist.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
+    m.playlist.color = ColorPalette.WHITE
+    m.playlist.focusedColor = ColorPalette.WHITE
 
     m.playlist.observeField("doneLoading", "onDoneLoading")
 
@@ -15,17 +20,19 @@ sub init()
     m.dscr.ellipsisText = tr("... (Press * to read more)")
 end sub
 
-sub setupMainNode()
-    main = m.top.findNode("toplevel")
-    main.translation = [96, 175]
-end sub
-
 ' Set values for displayed values on screen
 sub pageContentChanged()
     item = m.top.pageContent
 
+    if not isValidAndNotEmpty(item) then return
+
+    title = m.top.findNode("title")
+    if isValid(title)
+        title.font.size = 60
+        title.text = item.title
+    end if
+
     setPosterImage(item.posterURL)
-    setScreenTitle(item.json)
     setOnScreenTextValues(item.json)
 end sub
 
@@ -34,23 +41,6 @@ sub setPosterImage(posterURL)
     if isValid(posterURL)
         m.albumCover.uri = posterURL
     end if
-end sub
-
-' Set screen's title text
-sub setScreenTitle(json)
-    newTitle = ""
-    if isValid(json)
-        if isValid(json.AlbumArtist)
-            newTitle = json.AlbumArtist
-        end if
-        if isValid(json.AlbumArtist) and isValid(json.name)
-            newTitle = newTitle + " / "
-        end if
-        if isValid(json.name)
-            newTitle = newTitle + json.name
-        end if
-    end if
-    m.top.overhangTitle = newTitle
 end sub
 
 ' Adjust scene by removing overview node and showing more songs
@@ -62,28 +52,24 @@ end sub
 
 ' Populate on screen text variables
 sub setOnScreenTextValues(json)
-    if isValid(json)
-        if isValid(json.overview) and json.overview <> ""
-            ' We have overview text
-            setFieldTextValue("overview", json.overview)
-        else
-            ' We don't have overview text
-            adjustScreenForNoOverview()
-        end if
+    if not isValid(json) then return
 
-        setFieldTextValue("numberofsongs", stri(json.ChildCount) + " Tracks")
+    if isValidAndNotEmpty(json.overview)
+        ' We have overview text
+        setFieldTextValue("overview", json.overview)
+    else
+        ' We don't have overview text
+        adjustScreenForNoOverview()
+    end if
 
-        if type(json.ProductionYear) = "roInt"
-            setFieldTextValue("released", "Released " + stri(json.ProductionYear))
-        end if
+    setFieldTextValue("numberofsongs", `${json.ChildCount} items`)
 
-        if json.genres.count() > 0
-            setFieldTextValue("genres", json.genres.join(", "))
-        end if
+    if isStringEqual(type(json.ProductionYear), "roInt")
+        setFieldTextValue("released", `Released ${json.ProductionYear}`)
+    end if
 
-        if type(json.RunTimeTicks) = "LongInteger"
-            setFieldTextValue("runtime", stri(getMinutes(json.RunTimeTicks)) + " mins")
-        end if
+    if isStringEqual(type(json.RunTimeTicks), "LongInteger")
+        setFieldTextValue("runtime", `${getMinutes(json.RunTimeTicks)} mins`)
     end if
 end sub
 

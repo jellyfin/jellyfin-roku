@@ -1,18 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component name="PlaylistView" extends="JFScreen">
   <children>
-    <LayoutGroup id="toplevel" layoutDirection="vert" itemSpacings="[-10]">
+    <ScrollingLabel
+      horizAlign="left"
+      id="title"
+      translation="[100, 100]"
+      font="font:MediumBoldSystemFont"
+      maxWidth="1600"
+      height="50" />
+
+    <LayoutGroup id="toplevel" layoutDirection="vert" itemSpacings="[-10]" translation="[96, 200]">
       <LayoutGroup id="main_group" layoutDirection="horiz" itemSpacings="[15]">
         <LayoutGroup layoutDirection="vert" itemSpacings="[15]">
           <Poster id="albumCover" width="450" height="450" />
           <Label id="numberofsongs" width="450" height="25" />
-          <Label id="genres" width="450" height="25" />
           <Label id="runtime" width="450" height="25" />
           <Label id="released" width="450" height="25" />
         </LayoutGroup>
         <LayoutGroup id="infoGroup" layoutDirection="vert" itemSpacings="[15]">
           <Label id="overview" wrap="true" height="310" width="1250" />
-          <Rectangle id='songListRect' translation="[-30, 0]" width="1260" height="510" color="0x202020ff">
+          <Rectangle id='songListRect' translation="[-30, 0]" width="1260" height="510">
             <PlaylistItems itemComponentName="PlaylistItem" id="playlist" translation="[45, 25]" itemSize="[1170,60]" numRows="7" />
           </Rectangle>
         </LayoutGroup>
@@ -21,7 +28,7 @@
   </children>
   <interface>
     <field id="pageContent" type="node" onChange="pageContentChanged" />
-    <field id="albumData" type="node" alias="playlist.PlaylistData" />
+    <field id="listData" type="node" alias="playlist.PlaylistData" />
     <field id="playItem" alias="playlist.itemSelected" />
   </interface>
 </component>

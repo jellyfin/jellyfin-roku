@@ -143,9 +143,9 @@ function getItemTitleAndIcon(item as dynamic) as object
                 if isValid(itemData.IndexNumber)
                     seasonName += ` Episode ${itemData.IndexNumber}`
                 end if
-            end if
 
-            return [`pkg:/images/media_type_icons/tv.png`, `${itemData.seriesname}${seasonName} - ${itemData.name ?? itemData.title}`]
+                return [`pkg:/images/media_type_icons/tv.png`, `${itemData.seriesname}${seasonName} - ${itemData.name ?? itemData.title}`]
+            end if
         end if
 
         return [`pkg:/images/media_type_icons/movie.png`, `${itemData.name ?? itemData.title}`]
