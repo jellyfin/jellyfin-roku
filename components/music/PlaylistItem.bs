@@ -1,25 +1,97 @@
+import "pkg:/source/enums/ColorPalette.bs"
+import "pkg:/source/enums/ItemType.bs"
+import "pkg:/source/enums/String.bs"
 import "pkg:/source/utils/misc.bs"
 
 sub init()
-    m.itemText = m.top.findNode("itemText")
-    m.mediaTypeIcon = m.top.findNode("mediaTypeIcon")
-    m.tracklength = m.top.findNode("tracklength")
-
-    m.defaultTextColor = m.itemText.color
 end sub
 
 sub itemContentChanged()
     itemData = m.top.itemContent
-    if itemData = invalid then return
-    m.itemText.text = itemData.LookupCI("title")
+    if not isValidAndNotEmpty(itemData) then return
 
-    itemIcon = m.global.queueManager.callFunc("getItemTitleAndIcon", itemData)
+    title = m.top.findNode("title")
+    title.text = itemData.LookupCI("title")
 
-    if isValidAndNotEmpty(itemIcon)
-        m.mediaTypeIcon.uri = itemIcon[0]
+    subtitle = m.top.findNode("subtitle")
+    subtitle.color = ColorPalette.LIGHTGREY
+    subtitle.text = getSubtitleText(itemData)
+    subtitle.font.size = 27
+
+    itemIconData = m.global.queueManager.callFunc("getItemTitleAndIcon", itemData)
+
+    if isValidAndNotEmpty(itemIconData)
+        mediaTypeIcon = m.top.findNode("mediaTypeIcon")
+        mediaTypeIcon.uri = itemIconData[0]
     end if
 
     if isValid(itemData.LookupCI("RunTimeTicks"))
-        m.tracklength.text = ticksToHuman(itemData.LookupCI("RunTimeTicks"))
+        tracklength = m.top.findNode("tracklength")
+        tracklength.text = ticksToHuman(itemData.LookupCI("RunTimeTicks"))
     end if
 end sub
+
+function getSubtitleText(itemData as object) as string
+    playlistItemType = itemData.LookupCI("type")
+    if not isValid(playlistItemType) then return string.EMPTY
+
+    if isStringEqual(playlistItemType, ItemType.AUDIO)
+        subtitleText = string.EMPTY
+        if isValid(itemData.LookupCI("artists"))
+            subtitleText += itemData.LookupCI("artists").join(", ")
+            if isValid(itemData.LookupCI("album"))
+                subtitleText += " • "
+            end if
+        end if
+
+        if isValid(itemData.LookupCI("album"))
+            subtitleText += itemData.LookupCI("album")
+        end if
+
+        return subtitleText
+    end if
+
+    if isStringEqual(playlistItemType, ItemType.MOVIE)
+        subtitleText = string.EMPTY
+
+        if isValid(itemData.LookupCI("ProductionYear"))
+            subtitleText += `${itemData.LookupCI("ProductionYear")}`
+            if isValid(itemData.LookupCI("ProductionYear"))
+                subtitleText += ` - `
+            end if
+        end if
+
+        if isValid(itemData.LookupCI("OfficialRating"))
+            subtitleText += `${itemData.LookupCI("OfficialRating")}`
+        end if
+
+        return subtitleText
+    end if
+
+    if isStringEqual(playlistItemType, ItemType.EPISODE)
+        subtitleText = string.EMPTY
+
+        if isValid(itemData.LookupCI("seriesname"))
+            subtitleText += itemData.LookupCI("seriesname")
+        end if
+
+        if isValid(itemData.LookupCI("ParentIndexNumber"))
+            if itemData.LookupCI("ParentIndexNumber") <> 0
+                subtitleText += ` S${itemData.LookupCI("ParentIndexNumber")}`
+            end if
+        end if
+
+        if isValid(itemData.LookupCI("IndexNumber"))
+            subtitleText += `:E${itemData.LookupCI("IndexNumber")}`
+
+            if isValid(itemData.LookupCI("IndexNumberEnd"))
+                if itemData.LookupCI("IndexNumberEnd") <> 0
+                    subtitleText += `-${itemData.LookupCI("IndexNumberEnd")}`
+                end if
+            end if
+        end if
+        return subtitleText
+    end if
+
+    return string.EMPTY
+end function

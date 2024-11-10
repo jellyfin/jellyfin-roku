@@ -11,8 +11,6 @@ sub init()
     m.songListRect.color = ColorPalette.ELEMENTBACKGROUND
 
     m.playlist.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
-    m.playlist.color = ColorPalette.WHITE
-    m.playlist.focusedColor = ColorPalette.WHITE
 
     m.playlist.observeField("doneLoading", "onDoneLoading")
 
@@ -45,9 +43,10 @@ end sub
 
 ' Adjust scene by removing overview node and showing more songs
 sub adjustScreenForNoOverview()
+    print "no overview"
     m.infoGroup.removeChild(m.dscr)
     m.songListRect.height = 800
-    m.playlist.numRows = 12
+    m.playlist.numRows = 7
 end sub
 
 ' Populate on screen text variables
