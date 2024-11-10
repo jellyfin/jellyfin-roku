@@ -1,5 +1,6 @@
 import "pkg:/source/constants/HomeRowItemSizes.bs"
 import "pkg:/source/enums/KeyCode.bs"
+import "pkg:/source/enums/TaskControl.bs"
 import "pkg:/source/utils/misc.bs"
 
 const LOADING_WAIT_TIME = 2
@@ -316,15 +317,15 @@ sub createLatestInRows()
 
     ' create a Recently Added in row for each library
     for each lib in m.filteredLatest
-        if lib.collectionType <> "boxsets" and lib.collectionType <> "livetv" and lib.json.CollectionType <> "Program"
+        if not isStringEqual(lib.collectionType, "boxsets") and not isStringEqual(lib.collectionType, "livetv") and not isStringEqual(lib.json.CollectionType, "Program")
             sectionName = `${tr("Recently Added in")} ${lib.name}`
 
             imagesize = homeRowItemSizes.WIDE_POSTER
 
             if isValid(lib.json.CollectionType)
-                if LCase(lib.json.CollectionType) = "movies"
+                if isStringEqual(lib.json.CollectionType, "movies")
                     imagesize = homeRowItemSizes.MOVIE_POSTER
-                else if LCase(lib.json.CollectionType) = "music"
+                else if isStringEqual(lib.json.CollectionType, "music")
                     imagesize = homeRowItemSizes.MUSIC_ALBUM
                 end if
             end if
@@ -336,16 +337,21 @@ sub createLatestInRows()
                 nextUpRow.cursorSize = imagesize
             end if
 
-            loadLatest = createObject("roSGNode", "LoadItemsTask")
-            loadLatest.itemsToLoad = "latest"
-            loadLatest.itemId = lib.id
+            try
+                loadLatest = createObject("roSGNode", "LoadItemsTask")
+                loadLatest.itemsToLoad = "latest"
+                loadLatest.itemId = lib.id
 
-            metadata = { "title": lib.name }
-            metadata.Append({ "contentType": lib.json.CollectionType })
-            loadLatest.metadata = metadata
+                metadata = { "title": lib.name }
+                metadata.Append({ "contentType": lib.json.CollectionType })
+                loadLatest.metadata = metadata
 
-            loadLatest.observeField("content", "updateLatestItems")
-            loadLatest.control = "RUN"
+                loadLatest.observeField("content", "updateLatestItems")
+                loadLatest.control = TaskControl.RUN
+            catch e
+                removeHomeSection(sectionName)
+                m.global.sceneManager.callFunc("standardDialog", `Error creating Recently Added rows`, { data: ["<p>" + `Error Message: ${e.message}` + "</p>"] })
+            end try
         end if
     end for
 end sub
