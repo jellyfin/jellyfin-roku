@@ -13,10 +13,6 @@
     </LayoutGroup>
     <Poster visible="false" uri="pkg:/images/icons/openCircle.png" id="overlayCurrentUserSelection" translation="[1702, 53]" width="64" height="64" loadDisplayMode="scaleToZoom" />
 
-    <LayoutGroup layoutDirection="horiz" horizAlignment="right" translation="[1766, 125]" vertAlignment="custom">
-      <Label id="overlayOptionsStar" font="font:LargeSystemFont" text="*" />
-      <Label id="overlayOptionsText" font="font:SmallSystemFont" text="Options" translation="[0,6]" />
-    </LayoutGroup>
     <Timer id="currentTimeTimer" repeat="true" duration="60" />
 
     <Animation id="slideUp" duration=".5" repeat="false">

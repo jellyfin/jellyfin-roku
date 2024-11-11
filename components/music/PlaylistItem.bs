@@ -4,19 +4,18 @@ import "pkg:/source/enums/String.bs"
 import "pkg:/source/utils/misc.bs"
 
 sub init()
+    m.title = m.top.findNode("title")
+    m.subtitle = m.top.findNode("subtitle")
+    m.subtitle.color = ColorPalette.LIGHTGREY
+    m.subtitle.font.size = 27
 end sub
 
 sub itemContentChanged()
     itemData = m.top.itemContent
     if not isValidAndNotEmpty(itemData) then return
 
-    title = m.top.findNode("title")
-    title.text = itemData.LookupCI("title")
-
-    subtitle = m.top.findNode("subtitle")
-    subtitle.color = ColorPalette.LIGHTGREY
-    subtitle.text = getSubtitleText(itemData)
-    subtitle.font.size = 27
+    m.title.text = itemData.LookupCI("title")
+    m.subtitle.text = getSubtitleText(itemData)
 
     itemIconData = m.global.queueManager.callFunc("getItemTitleAndIcon", itemData)
 

@@ -3,7 +3,7 @@ sub init()
 
     panel = m.top.findNode("panel")
     panel.panelSize = "small"
-    panel.leftPosition = 96
+    panel.leftPosition = 1250
     panel.focusable = true
     panel.hasNextPanel = false
     panel.leftOnly = true

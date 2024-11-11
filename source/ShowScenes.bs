@@ -576,7 +576,6 @@ end function
 function CreateHomeGroup()
     ' Main screen after logging in. Shows the user's libraries
     group = CreateObject("roSGNode", "Home")
-    group.optionsAvailable = true
 
     group.observeField("selectedItem", m.port)
     group.observeField("quickPlayNode", m.port)

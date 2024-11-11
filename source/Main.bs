@@ -176,8 +176,12 @@ sub Main (args as dynamic) as void
             return
         else if isNodeEvent(msg, "closeSidePanel")
             group = sceneManager.callFunc("getActiveScene")
-            if group.lastFocus <> invalid
+            if isValid(group.lastFocus)
                 group.lastFocus.setFocus(true)
+
+                if group.lastFocus.isSubType("JFOverhang")
+                    group.lastFocus.callFunc("highlightUser")
+                end if
             else
                 group.setFocus(true)
                 group.lastFocus = group

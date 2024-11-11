@@ -9,11 +9,7 @@ sub init()
 
     m.leftGroup = m.top.findNode("overlayLeftGroup")
     m.rightGroup = m.top.findNode("overlayRightGroup")
-    ' set font sizes
-    m.optionText = m.top.findNode("overlayOptionsText")
-    m.optionText.font.size = 20
-    m.optionStar = m.top.findNode("overlayOptionsStar")
-    m.optionStar.font.size = 58
+
     ' save node references
     m.title = m.top.findNode("overlayTitle")
     m.overlayRightGroup = m.top.findNode("overlayRightGroup")
@@ -87,13 +83,7 @@ sub onPosterLoadStatusChanged()
 end sub
 
 sub updateOptions()
-    if m.top.showOptions = true
-        m.optionText.visible = true
-        m.optionStar.visible = true
-    else
-        m.optionText.visible = false
-        m.optionStar.visible = false
-    end if
+
 end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean
@@ -108,8 +98,14 @@ function onKeyEvent(key as string, press as boolean) as boolean
                 return true
             end if
         end if
+
         if key = KeyCode.OK
-            m.top.changeUserSelected = not m.top.changeUserSelected
+            group = m.global.sceneManager.callFunc("getActiveScene")
+            panel = group.findNode("options")
+            panel.visible = true
+            panel.findNode("panelList").setFocus(true)
+
+            ' m.top.changeUserSelected = not m.top.changeUserSelected
             dehighlightUser()
             return true
         end if

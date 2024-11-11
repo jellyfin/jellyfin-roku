@@ -8,7 +8,7 @@ import "pkg:/source/utils/misc.bs"
 sub init()
     m.isFirstRun = true
     m.top.overhangTitle = ""
-    m.top.optionsAvailable = true
+    m.top.optionsAvailable = false
     m.postTask = createObject("roSGNode", "PostTask")
 
     m.homeRows = m.top.findNode("homeRows")
