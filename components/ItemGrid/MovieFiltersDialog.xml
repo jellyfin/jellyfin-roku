@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component name="MovieFiltersDialog" extends="Group">
+  <children>
+    <Rectangle id="overlay" width="1920" height="1080" opacity="0.75" />
+    <Group translation="[100,100]">
+      <Poster id="background" width="1720" height="880" uri="pkg:/images/dialog.9.png" />
+      <LayoutGroup id="menuOptions" horizAlignment="center" translation="[860,200]" itemSpacings="[50]">
+        <Group>
+          <RadiobuttonList
+            id="filterMenu"
+            itemSize="[600, 70]"
+            checkOnSelect="false"
+            itemspacing="[0,10]"
+            vertFocusAnimationStyle="floatingFocus"
+            numRows="7"
+            focusFootprintBitmapUri=""
+            drawFocusFeedback="false" />
+        </Group>
+      </LayoutGroup>
+
+      <Rectangle id="filterOptionsBackdrop" translation="[855, 180]" height="640" width="690" opacity="0" />
+      <CheckList
+        opacity="0"
+        translation="[900, 200]"
+        id="filterOptions"
+        numRows="8"
+        focusFootprintBitmapUri=""
+        itemSize="[600, 70]" />
+    </Group>
+
+    <Animation id="fadeAnim" duration="0.5" repeat="false">
+      <FloatFieldInterpolator id="outOpacity" key="[0.0, 0.5, 1.0]" keyValue="[ 1, 0, 0 ]" fieldToInterp="focus.opacity" />
+      <FloatFieldInterpolator id="inOpacity" key="[0.0, 0.5, 1.0]" keyValue="[ 0, 0, 1 ]" fieldToInterp="focus.opacity" />
+    </Animation>
+
+    <Animation id="showChecklistAnimation" duration="0.5" repeat="false">
+      <FloatFieldInterpolator key="[0.0, 1.0]" keyValue="[0, .1]" fieldToInterp="filterOptionsBackdrop.opacity" />
+      <FloatFieldInterpolator key="[0.0, 1.0]" keyValue="[0, 1]" fieldToInterp="filterOptions.opacity" />
+      <Vector2DFieldInterpolator key="[0.0, 1.0]" keyValue="[[860, 200], [350, 200]]" fieldToInterp="menuOptions.translation" />
+    </Animation>
+
+    <Animation id="hideChecklistAnimation" duration="0.5" repeat="false">
+      <FloatFieldInterpolator key="[0.0, 1.0]" keyValue="[.1, 0]" fieldToInterp="filterOptionsBackdrop.opacity" />
+      <FloatFieldInterpolator key="[0.0, 1.0]" keyValue="[1, 0]" fieldToInterp="filterOptions.opacity" />
+      <Vector2DFieldInterpolator key="[0.0, 1.0]" keyValue="[[350, 200], [860, 200]]" fieldToInterp="menuOptions.translation" />
+    </Animation>
+
+  </children>
+  <interface>
+    <field id="buttons" type="nodearray" />
+    <field id="options" type="assocarray" onChange="optionsSet" />
+    <field id="filter" type="string" value="All" />
+    <field id="filterOptions" type="assocarray" value="" />
+    <field id="favorite" type="string" value="Favorite" />
+
+  </interface>
+</component>
