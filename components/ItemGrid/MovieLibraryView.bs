@@ -31,6 +31,7 @@ sub setupNodes()
     m.infoGroup = m.top.findNode("infoGroup")
     m.star = m.top.findNode("star")
     m.dropdownOptions = m.top.findNode("dropdownOptions")
+    m.submitButton = m.top.findNode("submitButton")
 
     m.sortButton = m.top.findNode("sortButton")
     m.sortButton.textColor = ColorPalette.DARKGREY
@@ -58,6 +59,7 @@ sub setupNodes()
 end sub
 
 sub init()
+    m.top.optionsAvailable = false
     setupNodes()
 
     m.itemGrid.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
@@ -74,6 +76,7 @@ sub init()
     m.showItemCount = m.global.session.user.settings["itemgrid.showItemCount"]
 
     m.swapAnimation.observeField("state", "swapDone")
+    m.options.observeField("visible", "onOptionsVisibleChange")
 
     m.loadedRows = 0
     m.loadedItems = 0
@@ -166,10 +169,10 @@ sub loadInitialItems()
         m.view = m.global.session.user.settings["itemgrid.movieDefaultView"]
     end if
 
-    if not isValid(m.sortField) then m.sortField = "SortName"
-    if not isValid(m.filter) then m.filter = "All"
-    if not isValid(m.filterOptions) then m.filterOptions = "{}"
-    if not isValid(m.view) then m.view = "Movies"
+    if not isValidAndNotEmpty(m.sortField) then m.sortField = "SortName"
+    if not isValidAndNotEmpty(m.filter) then m.filter = "All"
+    if not isValidAndNotEmpty(m.filterOptions) then m.filterOptions = "{}"
+    if not isValidAndNotEmpty(m.view) then m.view = "Movies"
     if not isValid(m.sortAscending) then m.sortAscending = true
     if not isStringEqual(type(m.sortAscending), "roBoolean") then m.sortAscending = true
 
@@ -183,7 +186,7 @@ sub loadInitialItems()
         m.loadItemsTask.genreIds = m.top.parentItem.id
         m.loadItemsTask.itemId = m.top.parentItem.parentFolder
         m.loadItemsTask.studioIds = string.EMPTY
-    else if m.view = "Movies" or m.options.view = "Movies"
+    else if m.view = "Movies"
         m.loadItemsTask.studioIds = string.EMPTY
         m.loadItemsTask.genreIds = string.EMPTY
     else
@@ -199,13 +202,13 @@ sub loadInitialItems()
     m.loadItemsTask.startIndex = 0
 
     ' Load Item Types
-    if getCollectionType() = "movies"
-        m.loadItemsTask.itemType = "Movie"
+    if isStringEqual(getCollectionType(), "movies")
+        m.loadItemsTask.itemType = ItemType.MOVIE
         m.loadItemsTask.itemId = m.top.parentItem.Id
     end if
 
     if isStringEqual(getCollectionType(), ItemType.BOXSET)
-        m.loadItemsTask.itemType = "Movie"
+        m.loadItemsTask.itemType = ItemType.MOVIE
         m.loadItemsTask.itemId = m.top.parentItem.Id
     end if
 
@@ -222,7 +225,7 @@ sub loadInitialItems()
     m.infoGroup.visible = true
     m.top.showItemTitles = "hidealways"
 
-    if m.options.view = "Studios" or m.view = "Studios"
+    if isStringEqual(m.view, "Studios")
         m.itemGrid.translation = "[100, 60]"
         m.itemGrid.numRows = "3"
         m.loadItemsTask.view = "Networks"
@@ -235,14 +238,14 @@ sub loadInitialItems()
         m.selectedMovieOverview.visible = false
         m.infoGroup.visible = false
         m.top.showItemTitles = m.global.session.user.settings["itemgrid.gridTitles"]
-        if LCase(m.top.showItemTitles) = "hidealways"
+        if isStringEqual(m.top.showItemTitles, "hidealways")
             m.itemGrid.itemSize = "[230, 350]"
             m.itemGrid.rowHeights = "[350]"
         else
             m.itemGrid.itemSize = "[230, 390]"
             m.itemGrid.rowHeights = "[390]"
         end if
-    else if m.options.view = "Genres" or m.view = "Genres"
+    else if isStringEqual(m.view, "Genres")
         m.loadItemsTask.StudioIds = m.top.parentItem.Id
         m.loadItemsTask.view = "Genres"
         m.movieLogo.visible = false
@@ -350,7 +353,6 @@ sub setSelectedOptions(options)
         if o.Name = m.view
             m.viewButton.text = o.LookupCI("title")
             o.Selected = true
-            m.options.view = o.Name
         end if
     end for
 
@@ -359,7 +361,6 @@ sub setSelectedOptions(options)
         if o.Name = m.sortField
             m.sortButton.text = o.LookupCI("title")
             o.Selected = true
-            m.options.sortField = o.Name
         end if
     end for
 
@@ -406,7 +407,6 @@ end sub
 sub FilterDataLoaded(msg)
     options = {}
     options.filter = []
-    options.favorite = []
 
     setMoviesOptions(options)
 
@@ -843,8 +843,24 @@ end sub
 
 '
 'Check if options updated and any reloading required
-sub optionsClosed()
+sub onOptionsVisibleChange()
+    if m.options.visible then return
+
     reload = false
+
+    ' Check if nothing changed
+    if isStringEqual(m.options.filter, m.filter)
+        if AssocArrayEqual(m.options.filterOptions, m.filterOptions)
+            m.filterButton.focus = false
+
+            m.itemGrid.setFocus(m.itemGrid.opacity = 1)
+            m.genreList.setFocus(m.genreList.opacity = 1)
+
+            group = m.global.sceneManager.callFunc("getActiveScene")
+            group.lastFocus = m.itemGrid.opacity = 1 ? m.itemGrid : m.genreList
+            return
+        end if
+    end if
 
     if m.options.filter <> m.filter
         m.filter = m.options.filter
@@ -869,6 +885,8 @@ sub optionsClosed()
         m.itemGrid.content = m.data
         loadInitialItems()
     end if
+
+    m.filterButton.focus = false
 
     m.itemGrid.setFocus(m.itemGrid.opacity = 1)
     m.genreList.setFocus(m.genreList.opacity = 1)
@@ -1009,8 +1027,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
         if m.filterButton.isinFocusChain()
             m.options.visible = true
-            m.top.appendChild(m.options)
-            m.options.setFocus(true)
+            m.options.findNode("filterMenu").setFocus(true)
             group = m.global.sceneManager.callFunc("getActiveScene")
             group.lastFocus = m.options
             return true
@@ -1109,7 +1126,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
         end if
     end if
 
-    if key = "left" and m.voiceBox.isinFocusChain()
+    if isStringEqual(key, KeyCode.LEFT) and m.voiceBox.isinFocusChain()
         m.itemGrid.setFocus(m.itemGrid.opacity = 1)
         m.genreList.setFocus(m.genreList.opacity = 1)
         m.voiceBox.setFocus(false)
@@ -1117,42 +1134,27 @@ function onKeyEvent(key as string, press as boolean) as boolean
         group.lastFocus = m.itemGrid.opacity = 1 ? m.itemGrid : m.genreList
     end if
 
-    if key = "options"
-        if m.options.visible = true
-            m.options.visible = false
-            m.top.removeChild(m.options)
-            optionsClosed()
-        else
-            m.options.visible = true
-            m.top.appendChild(m.options)
-            m.options.setFocus(true)
-            group = m.global.sceneManager.callFunc("getActiveScene")
-            group.lastFocus = m.options
-        end if
-        return true
-    else if key = "back"
-        if m.options.visible = true
-            m.options.visible = false
-            optionsClosed()
+    if isStringEqual(key, KeyCode.BACK)
+        if m.itemGrid.itemFocused = 0
+            m.loadItemsTask.control = "stop"
+            m.global.sceneManager.callfunc("popScene")
             return true
-        else
-            if m.itemGrid.itemFocused = 0
-                m.loadItemsTask.control = "stop"
-                m.global.sceneManager.callfunc("popScene")
-                return true
-            end if
+        end if
 
-            m.itemGrid.jumpToItem = 0
-            return true
-        end if
-    else if key = "play"
+        m.itemGrid.jumpToItem = 0
+        return true
+    end if
+
+    if isStringEqual(key, KeyCode.PLAY)
         itemToPlay = getItemFocused()
 
-        if itemToPlay <> invalid
+        if isValid(itemToPlay)
             m.top.quickPlayNode = itemToPlay
             return true
         end if
-    else if key = "left"
+    end if
+
+    if isStringEqual(key, KeyCode.LEFT)
         if m.itemGrid.isinFocusChain()
             m.top.alphaActive = true
             m.itemGrid.setFocus(false)
@@ -1168,7 +1170,9 @@ function onKeyEvent(key as string, press as boolean) as boolean
             group.lastFocus = m.alphaMenu
             return true
         end if
-    else if key = "right" and m.alpha.isinFocusChain()
+    end if
+
+    if isStringEqual(key, KeyCode.RIGHT) and m.alpha.isinFocusChain()
         m.top.alphaActive = false
         m.alphaMenu.setFocus(false)
 
