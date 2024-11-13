@@ -112,6 +112,8 @@ sub init()
     m.filter = "All"
     m.filterOptions = {}
 
+    m.view = "Movies"
+
     m.loadItemsTask = createObject("roSGNode", "LoadItemsTask2")
     m.loadLogoTask = createObject("roSGNode", "LoadItemsTask2")
     m.getFiltersTask = createObject("roSGNode", "GetFiltersTask")
@@ -178,15 +180,14 @@ sub loadInitialItems()
 
     m.filterOptions = ParseJson(m.filterOptions)
 
-    if m.top.parentItem.json.type = "Studio"
-        m.loadItemsTask.studioIds = m.top.parentItem.id
-        m.loadItemsTask.itemId = m.top.parentItem.parentFolder
-        m.loadItemsTask.genreIds = string.EMPTY
-    else if m.top.parentItem.json.type = "Genre"
+    if isStringEqual(m.view, "Genres")
         m.loadItemsTask.genreIds = m.top.parentItem.id
         m.loadItemsTask.itemId = m.top.parentItem.parentFolder
         m.loadItemsTask.studioIds = string.EMPTY
-    else if m.view = "Movies"
+    else if isStringEqual(m.view, "Movies")
+        m.loadItemsTask.studioIds = string.EMPTY
+        m.loadItemsTask.genreIds = string.EMPTY
+    else if isStringEqual(m.view, "moviesgrid")
         m.loadItemsTask.studioIds = string.EMPTY
         m.loadItemsTask.genreIds = string.EMPTY
     else
@@ -216,7 +217,8 @@ sub loadInitialItems()
     m.loadItemsTask.studioIds = string.EMPTY
     m.loadItemsTask.view = "Movies"
 
-    m.itemGrid.translation = "[100, 650]"
+    m.itemGrid.translation = "[100, 670]"
+    m.dropdownOptions.translation = "[100, 540]"
     m.itemGrid.itemSize = "[230, 345]"
     m.itemGrid.rowHeights = "[345]"
     m.itemGrid.numRows = "2"
@@ -225,15 +227,16 @@ sub loadInitialItems()
     m.infoGroup.visible = true
     m.top.showItemTitles = "hidealways"
 
-    if isStringEqual(m.view, "Studios")
-        m.itemGrid.translation = "[100, 60]"
-        m.itemGrid.numRows = "3"
-        m.loadItemsTask.view = "Networks"
-        m.top.imageDisplayMode = "scaleToFit"
-        m.selectedMovieOverview.visible = false
-        m.infoGroup.visible = false
-    else if isStringEqual(m.view, "moviesgrid")
+    m.movieLogo.visible = false
+    m.backdrop.opacity = 1
+    m.newBackdrop.opacity = 0
+
+    if isStringEqual(m.view, "moviesgrid")
+        m.backdrop.opacity = 0
+        m.newBackdrop.opacity = 0
+        m.movieLogo.visible = false
         m.itemGrid.translation = "[100, 210]"
+        m.dropdownOptions.translation = "[100, 60]"
         m.itemGrid.numRows = "3"
         m.selectedMovieOverview.visible = false
         m.infoGroup.visible = false
@@ -246,8 +249,11 @@ sub loadInitialItems()
             m.itemGrid.rowHeights = "[390]"
         end if
     else if isStringEqual(m.view, "Genres")
+        m.backdrop.opacity = 0
+        m.newBackdrop.opacity = 0
         m.loadItemsTask.StudioIds = m.top.parentItem.Id
         m.loadItemsTask.view = "Genres"
+        m.dropdownOptions.translation = "[100, 60]"
         m.movieLogo.visible = false
         m.selectedMovieName.visible = false
         m.selectedMovieOverview.visible = false
@@ -272,18 +278,10 @@ sub setMoviesOptions(options)
     options.views = [
         { "Title": tr("Movies (Presentation)"), "Name": "Movies", "Track": { "description": tr("Movies (Presentation)") } },
         { "Title": tr("Movies (Grid)"), "Name": "MoviesGrid", "Track": { "description": tr("Movies (Grid)") } },
-        { "Title": tr("Studios"), "Name": "Studios", "Track": { "description": tr("Studios") } },
         { "Title": tr("Genres"), "Name": "Genres", "Track": { "description": tr("Genres") } }
     ]
 
     if isStringEqual(getCollectionType(), ItemType.BOXSET)
-        options.views = [
-            { "Title": tr("Movies (Presentation)"), "Name": "Movies", "Track": { "description": tr("Movies (Presentation)") } },
-            { "Title": tr("Movies (Grid)"), "Name": "MoviesGrid", "Track": { "description": tr("Movies (Grid)") } },
-        ]
-    end if
-
-    if m.top.parentItem.json.type = "Genre"
         options.views = [
             { "Title": tr("Movies (Presentation)"), "Name": "Movies", "Track": { "description": tr("Movies (Presentation)") } },
             { "Title": tr("Movies (Grid)"), "Name": "MoviesGrid", "Track": { "description": tr("Movies (Grid)") } },
@@ -311,20 +309,9 @@ sub setMoviesOptions(options)
         { "Title": tr("Favorites"), "Name": "Favorites" },
     ]
 
-    if m.options.view = "Genres" or m.view = "Genres"
+    if isStringEqual(m.view, "Genres")
         options.sort = [{ "Title": tr("TITLE"), "Name": "SortName", "Track": { "description": tr("TITLE") } }]
         options.filter = []
-    end if
-
-    if m.options.view = "Studios" or m.view = "Studios"
-        options.sort = [
-            { "Title": tr("TITLE"), "Name": "SortName", "Track": { "description": tr("TITLE") } },
-            { "Title": tr("DATE_ADDED"), "Name": "DateCreated", "Track": { "description": tr("DATE_ADDED") } }
-        ]
-        options.filter = [
-            { "Title": tr("All"), "Name": "All" },
-            { "Title": tr("Favorites"), "Name": "Favorites" }
-        ]
     end if
 end sub
 
@@ -541,6 +528,10 @@ sub ItemDataLoaded(msg)
 
         m.emptyText.text = tr("NO_ITEMS").Replace("%1", m.top.parentItem.Type)
         m.emptyText.visible = true
+        m.sortButton.focus = true
+        m.sortButton.setfocus(true)
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        group.lastFocus = m.sortButton
     end if
 
     stopLoadingSpinner()
@@ -620,9 +611,7 @@ sub onItemFocused()
         return
     end if
 
-    if isStringEqual(m.view, "studios")
-        return
-    else if isStringEqual(m.view, "moviesgrid")
+    if isStringEqual(m.view, "moviesgrid")
         return
     end if
 
@@ -986,7 +975,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
     if not press then return false
 
     if isStringEqual(key, KeyCode.UP)
-        if m.itemGrid.isinFocusChain()
+        if m.itemGrid.isinFocusChain() or m.genreList.isinFocusChain()
             m.sortButton.focus = true
             m.sortButton.setFocus(true)
             group = m.global.sceneManager.callFunc("getActiveScene")
@@ -1116,10 +1105,15 @@ function onKeyEvent(key as string, press as boolean) as boolean
         end if
 
         if isStringEqual(key, KeyCode.DOWN)
+            if m.loadedItems = 0 then return false
+
             m.sortButton.focus = false
             m.viewButton.focus = false
             m.filterButton.focus = false
-            m.itemGrid.setFocus(true)
+
+            m.itemGrid.setFocus(m.itemGrid.opacity = 1)
+            m.genreList.setFocus(m.genreList.opacity = 1)
+
             group = m.global.sceneManager.callFunc("getActiveScene")
             group.lastFocus = m.itemGrid
             return true
@@ -1135,13 +1129,15 @@ function onKeyEvent(key as string, press as boolean) as boolean
     end if
 
     if isStringEqual(key, KeyCode.BACK)
-        if m.itemGrid.itemFocused = 0
+        gridComponent = m.itemGrid.isinFocusChain() ? m.itemGrid : m.genreList
+
+        if gridComponent.itemFocused = 0
             m.loadItemsTask.control = "stop"
             m.global.sceneManager.callfunc("popScene")
             return true
         end if
 
-        m.itemGrid.jumpToItem = 0
+        gridComponent.jumpToItem = 0
         return true
     end if
 
@@ -1176,10 +1172,18 @@ function onKeyEvent(key as string, press as boolean) as boolean
         m.top.alphaActive = false
         m.alphaMenu.setFocus(false)
 
-        m.itemGrid.setFocus(m.itemGrid.opacity = 1)
-        m.genreList.setFocus(m.genreList.opacity = 1)
-        group = m.global.sceneManager.callFunc("getActiveScene")
-        group.lastFocus = m.itemGrid.opacity = 1 ? m.itemGrid : m.genreList
+        if m.loadedItems = 0
+            m.sortButton.focus = true
+            m.sortButton.setfocus(true)
+            group = m.global.sceneManager.callFunc("getActiveScene")
+            group.lastFocus = m.sortButton
+        else
+
+            m.itemGrid.setFocus(m.itemGrid.opacity = 1)
+            m.genreList.setFocus(m.genreList.opacity = 1)
+            group = m.global.sceneManager.callFunc("getActiveScene")
+            group.lastFocus = m.itemGrid.opacity = 1 ? m.itemGrid : m.genreList
+        end if
 
         return true
     end if

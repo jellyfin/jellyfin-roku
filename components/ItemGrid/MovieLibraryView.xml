@@ -11,7 +11,7 @@
 
     <LayoutGroup id="dropdownOptions" layoutDirection="horiz" translation="[100, 60]" itemSpacings="[30]">
       <LayoutGroup layoutDirection="vert" itemSpacings="[10]">
-        <Label id="sortLabel" font="font:MediumSystemFont" text="Sort By" />
+        <Label id="sortLabel" font="font:SmallSystemFont" text="Sort By" />
         <TextButton
           id="sortButton"
           iconSide="right"
@@ -24,7 +24,7 @@
           width="410" />
       </LayoutGroup>
       <LayoutGroup layoutDirection="vert" itemSpacings="[10]">
-        <Label id="sortOrderLabel" font="font:MediumSystemFont" text="Sort Order" />
+        <Label id="sortOrderLabel" font="font:SmallSystemFont" text="Sort Order" />
         <TextButton
           id="sortOrderButton"
           iconSide="right"
@@ -37,7 +37,7 @@
           width="410" />
       </LayoutGroup>
       <LayoutGroup layoutDirection="vert" itemSpacings="[10]">
-        <Label id="filterLabel" font="font:MediumSystemFont" text="Filter" />
+        <Label id="filterLabel" font="font:SmallSystemFont" text="Filter" />
         <TextButton
           id="filterButton"
           iconSide="right"
@@ -50,7 +50,7 @@
           width="410" />
       </LayoutGroup>
       <LayoutGroup layoutDirection="vert" itemSpacings="[10]">
-        <Label id="viewLabel" font="font:MediumSystemFont" text="View" />
+        <Label id="viewLabel" font="font:SmallSystemFont" text="View" />
         <TextButton
           id="viewButton"
           iconSide="right"
@@ -67,7 +67,7 @@
     <Label id="selectedMovieName" visible="false" translation="[120, 40]" wrap="true" font="font:LargeBoldSystemFont" width="850" height="196" horizAlign="left" vertAlign="center" />
     <Poster id="movieLogo" visible="false" translation="[120, 40]" loadDisplayMode="scaleToFit" width="384" height="196" />
 
-    <LayoutGroup layoutDirection="horiz" translation="[120, 270]" itemSpacings="[30]" id="infoGroup">
+    <LayoutGroup layoutDirection="horiz" translation="[120, 260]" itemSpacings="[30]" id="infoGroup">
       <Label id="selectedMovieProductionYear" font="font:SmallestSystemFont" />
       <Label id="runtime" font="font:SmallestSystemFont" />
       <Label id="selectedMovieOfficialRating" font="font:SmallestSystemFont" />
@@ -83,7 +83,7 @@
       </LayoutGroup>
     </LayoutGroup>
 
-    <Label id="selectedMovieOverview" font="font:SmallestSystemFont" translation="[120, 360]" wrap="true" lineSpacing="20" maxLines="5" width="850" ellipsisText="..." />
+    <Label id="selectedMovieOverview" font="font:SmallestSystemFont" translation="[120, 320]" wrap="true" lineSpacing="20" maxLines="4" width="900" ellipsisText="..." />
 
     <MarkupGrid
       id="itemGrid"
@@ -92,7 +92,19 @@
       vertFocusAnimationStyle="fixed"
       itemSpacing="[20, 20]" />
 
-    <RowList opacity="0" id="genrelist" translation="[120, 60]" showRowLabel="true" itemComponentName="GridItemSmall" numColumns="1" numRows="3" vertFocusAnimationStyle="fixed" itemSize="[1900, 360]" rowItemSize="[ [230, 320] ]" rowItemSpacing="[ [20, 0] ]" itemSpacing="[0, 60]" />
+    <RowList
+      opacity="0"
+      id="genrelist"
+      translation="[100, 210]"
+      showRowLabel="true"
+      itemComponentName="GridItemSmall"
+      numColumns="1"
+      numRows="3"
+      vertFocusAnimationStyle="fixed"
+      itemSize="[1900, 360]"
+      rowItemSize="[ [230, 320] ]"
+      rowItemSpacing="[ [20, 0] ]"
+      itemSpacing="[0, 60]" />
 
     <Label translation="[0,540]" id="emptyText" font="font:LargeSystemFont" width="1910" horizAlign="center" vertAlign="center" height="64" visible="false" />
     <MovieFiltersDialog id="options" visible="false" />
