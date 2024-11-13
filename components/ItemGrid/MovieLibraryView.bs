@@ -281,13 +281,6 @@ sub setMoviesOptions(options)
         { "Title": tr("Genres"), "Name": "Genres", "Track": { "description": tr("Genres") } }
     ]
 
-    if isStringEqual(getCollectionType(), ItemType.BOXSET)
-        options.views = [
-            { "Title": tr("Movies (Presentation)"), "Name": "Movies", "Track": { "description": tr("Movies (Presentation)") } },
-            { "Title": tr("Movies (Grid)"), "Name": "MoviesGrid", "Track": { "description": tr("Movies (Grid)") } },
-        ]
-    end if
-
     options.sort = [
         { "Title": tr("TITLE"), "Name": "SortName", "Track": { "description": tr("TITLE") } },
         { "Title": tr("Random"), "Name": "Random", "Track": { "description": tr("Random") } },
@@ -308,6 +301,13 @@ sub setMoviesOptions(options)
         { "Title": tr("Resumable"), "Name": "Resumable" }
         { "Title": tr("Favorites"), "Name": "Favorites" },
     ]
+
+    if isStringEqual(getCollectionType(), ItemType.BOXSET)
+        options.views = [
+            { "Title": tr("Movies (Presentation)"), "Name": "Movies", "Track": { "description": tr("Movies (Presentation)") } },
+            { "Title": tr("Movies (Grid)"), "Name": "MoviesGrid", "Track": { "description": tr("Movies (Grid)") } },
+        ]
+    end if
 
     if isStringEqual(m.view, "Genres")
         options.sort = [{ "Title": tr("TITLE"), "Name": "SortName", "Track": { "description": tr("TITLE") } }]
