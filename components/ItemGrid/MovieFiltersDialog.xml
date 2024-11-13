@@ -21,16 +21,16 @@
           checkOnSelect="false"
           itemspacing="[0,10]"
           vertFocusAnimationStyle="floatingFocus"
-          numRows="7"
+          numRows="6"
           focusFootprintBitmapUri="" />
       </LayoutGroup>
 
-      <Rectangle id="filterOptionsBackdrop" translation="[855, 180]" height="640" width="690" opacity="0" />
+      <Rectangle id="filterOptionsBackdrop" translation="[855, 180]" height="505" width="690" opacity="0" />
       <CheckList
         opacity="0"
         translation="[900, 200]"
         id="filterOptionsMenu"
-        numRows="8"
+        numRows="6"
         focusFootprintBitmapUri=""
         itemSize="[600, 70]" />
     </Group>
@@ -39,7 +39,8 @@
       id="submitButton"
       text="OK"
       height="85"
-      width="250" />
+      width="660"
+      translation="[205, 850]" />
 
     <Animation id="showChecklistAnimation" duration="0.5" repeat="false">
       <FloatFieldInterpolator key="[0.0, 1.0]" keyValue="[0, .1]" fieldToInterp="filterOptionsBackdrop.opacity" />

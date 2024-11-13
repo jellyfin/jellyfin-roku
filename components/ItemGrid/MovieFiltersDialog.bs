@@ -207,6 +207,14 @@ function onKeyEvent(key as string, press as boolean) as boolean
         end if
     end if
 
+    if key = KeyCode.UP
+        if m.submitButton.isInFocusChain()
+            m.submitButton.focus = false
+            m.filterMenu.setfocus(true)
+            return true
+        end if
+    end if
+
     if key = KeyCode.Back
         if isValidAndNotEmpty(m.originalOptions)
             m.top.filter = m.originalOptions.LookupCI("filter")
@@ -218,20 +226,6 @@ function onKeyEvent(key as string, press as boolean) as boolean
         m.submitButton.focus = false
         m.filterMenu.jumpToItem = 0
         return true
-    end if
-
-    if key = KeyCode.OK
-        if m.submitButton.isInFocusChain()
-            m.originalOptions = {
-                filterData: m.top.options,
-                filter: m.top.filter,
-                filterOptions: m.top.filterOptions
-            }
-
-            m.top.visible = false
-            m.submitButton.focus = false
-            m.filterMenu.jumpToItem = 0
-        end if
     end if
 
     if key = KeyCode.LEFT
@@ -246,6 +240,18 @@ function onKeyEvent(key as string, press as boolean) as boolean
     end if
 
     if key = KeyCode.OK
+        if m.submitButton.isInFocusChain()
+            m.originalOptions = {
+                filterData: m.top.options,
+                filter: m.top.filter,
+                filterOptions: m.top.filterOptions
+            }
+
+            m.top.visible = false
+            m.submitButton.focus = false
+            m.filterMenu.jumpToItem = 0
+        end if
+
         if m.filterMenu.isInFocusChain()
             ' Handle Filter screen
             if not isFilterMenuDataValid() then return false
