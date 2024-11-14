@@ -178,6 +178,9 @@ sub loadInitialItems()
     if not isValid(m.sortAscending) then m.sortAscending = true
     if not isStringEqual(type(m.sortAscending), "roBoolean") then m.sortAscending = true
 
+    ' If view is not valid, use default view
+    if not inArray(["Movies", "moviesgrid", "Genres"], m.view) then m.view = "Movies"
+
     m.filterOptions = ParseJson(m.filterOptions)
 
     if isStringEqual(m.view, "Genres")
@@ -355,6 +358,7 @@ sub setSelectedOptions(options)
     for each o in options.filter
         if o.Name = m.filter
             o.Selected = true
+            m.filterButton.text = o.LookupCI("title")
             m.options.filter = o.Name
         end if
 
@@ -384,8 +388,6 @@ sub setSelectedOptions(options)
     end for
 
     m.options.options = options
-
-    m.FilterButton.text = m.filter
     m.sortOrderButton.text = m.sortAscending ? "Ascending" : "Descending"
 end sub
 
@@ -1129,15 +1131,22 @@ function onKeyEvent(key as string, press as boolean) as boolean
     end if
 
     if isStringEqual(key, KeyCode.BACK)
-        gridComponent = m.itemGrid.isinFocusChain() ? m.itemGrid : m.genreList
+        ' If user pressed back whole scrolled down the grid, reset to item 1
+        if m.itemGrid.isinFocusChain() or m.genreList.isinFocusChain()
+            gridComponent = m.itemGrid.isinFocusChain() ? m.itemGrid : m.genreList
 
-        if gridComponent.itemFocused = 0
-            m.loadItemsTask.control = "stop"
-            m.global.sceneManager.callfunc("popScene")
+            if gridComponent.itemFocused = 0
+                m.loadItemsTask.control = "stop"
+                m.global.sceneManager.callfunc("popScene")
+                return true
+            end if
+
+            gridComponent.jumpToItem = 0
             return true
         end if
 
-        gridComponent.jumpToItem = 0
+        m.loadItemsTask.control = "stop"
+        m.global.sceneManager.callfunc("popScene")
         return true
     end if
 

@@ -485,10 +485,8 @@ function inArray(haystack as object, needle as dynamic) as boolean
         valueToFind = str(needle)
     end if
 
-    valueToFind = lcase(valueToFind)
-
     for each item in haystack
-        if lcase(item) = valueToFind then return true
+        if isStringEqual(item, valueToFind) then return true
     end for
 
     return false

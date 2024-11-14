@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component name="TVShowsLibraryView" extends="JFScreen">
+  <children>
+    <VoiceTextEditBox id="VoiceBox" visible="true" width="40" translation="[52, 120]" />
+    <Rectangle id="VoiceBoxCover" height="240" width="100" translation="[25, 75]" />
+
+    <maskGroup translation="[820, 0]" id="backgroundMask" maskUri="pkg:/images/backgroundmask.png" maskSize="[1220,700]">
+      <poster id="backdrop" loadDisplayMode="scaleToFill" width="1100" height="700" opacity="1" />
+      <poster id="backdropTransition" loadDisplayMode="scaleToFill" width="1100" height="700" opacity="1" />
+    </maskGroup>
+
+    <LayoutGroup id="dropdownOptions" layoutDirection="horiz" translation="[100, 60]" itemSpacings="[30]">
+      <LayoutGroup layoutDirection="vert" itemSpacings="[10]">
+        <Label id="sortLabel" font="font:SmallSystemFont" text="Sort By" />
+        <TextButton
+          id="sortButton"
+          iconSide="right"
+          fontSize="30"
+          padding="35"
+          icon="pkg:/images/icons/dropdown-dark.png"
+          focusIcon="pkg:/images/icons/dropdown-light.png"
+          text=""
+          height="75"
+          width="410" />
+      </LayoutGroup>
+      <LayoutGroup layoutDirection="vert" itemSpacings="[10]">
+        <Label id="sortOrderLabel" font="font:SmallSystemFont" text="Sort Order" />
+        <TextButton
+          id="sortOrderButton"
+          iconSide="right"
+          fontSize="30"
+          padding="35"
+          icon="pkg:/images/icons/dropdown-dark.png"
+          focusIcon="pkg:/images/icons/dropdown-light.png"
+          text=""
+          height="75"
+          width="410" />
+      </LayoutGroup>
+      <LayoutGroup layoutDirection="vert" itemSpacings="[10]">
+        <Label id="filterLabel" font="font:SmallSystemFont" text="Filter" />
+        <TextButton
+          id="filterButton"
+          iconSide="right"
+          fontSize="30"
+          padding="35"
+          icon="pkg:/images/icons/dropdown-dark.png"
+          focusIcon="pkg:/images/icons/dropdown-light.png"
+          text=""
+          height="75"
+          width="410" />
+      </LayoutGroup>
+      <LayoutGroup layoutDirection="vert" itemSpacings="[10]">
+        <Label id="viewLabel" font="font:SmallSystemFont" text="View" />
+        <TextButton
+          id="viewButton"
+          iconSide="right"
+          fontSize="30"
+          padding="35"
+          icon="pkg:/images/icons/dropdown-dark.png"
+          focusIcon="pkg:/images/icons/dropdown-light.png"
+          text=""
+          height="75"
+          width="410" />
+      </LayoutGroup>
+    </LayoutGroup>
+
+    <Label id="selectedMovieName" visible="false" translation="[120, 40]" wrap="true" font="font:LargeBoldSystemFont" width="850" height="196" horizAlign="left" vertAlign="center" />
+    <Poster id="movieLogo" visible="false" translation="[120, 40]" loadDisplayMode="scaleToFit" width="384" height="196" />
+
+    <LayoutGroup layoutDirection="horiz" translation="[120, 260]" itemSpacings="[30]" id="infoGroup">
+      <Label id="selectedMovieProductionYear" font="font:SmallestSystemFont" />
+      <Label id="runtime" font="font:SmallestSystemFont" />
+      <Label id="selectedMovieOfficialRating" font="font:SmallestSystemFont" />
+
+      <LayoutGroup id="communityRatingGroup" visible="false" layoutDirection="horiz" itemSpacings="[-5]">
+        <Poster id="star" uri="pkg:/images/sharp_star_white_18dp.png" height="28" width="28" blendColor="#00a4dcFF" />
+        <Label id="communityRating" font="font:SmallestSystemFont" />
+      </LayoutGroup>
+
+      <LayoutGroup layoutDirection="horiz" id="criticRatingGroup">
+        <Poster id="criticRatingIcon" height="28" width="28" />
+        <Label id="criticRatingLabel" font="font:SmallestSystemFont" />
+      </LayoutGroup>
+    </LayoutGroup>
+
+    <Label id="selectedMovieOverview" font="font:SmallestSystemFont" translation="[120, 320]" wrap="true" lineSpacing="20" maxLines="4" width="900" ellipsisText="..." />
+
+    <MarkupGrid
+      id="itemGrid"
+      itemComponentName="GridItemSmall"
+      numColumns="7"
+      vertFocusAnimationStyle="fixed"
+      itemSpacing="[20, 20]" />
+
+    <RowList
+      opacity="0"
+      id="genrelist"
+      translation="[100, 210]"
+      showRowLabel="true"
+      itemComponentName="GridItemSmall"
+      numColumns="1"
+      numRows="3"
+      vertFocusAnimationStyle="fixed"
+      itemSize="[1900, 360]"
+      rowItemSize="[ [230, 320] ]"
+      rowItemSpacing="[ [20, 0] ]"
+      itemSpacing="[0, 60]" />
+
+    <Label translation="[0,540]" id="emptyText" font="font:LargeSystemFont" width="1910" horizAlign="center" vertAlign="center" height="64" visible="false" />
+    <LibraryFilterDialog id="options" visible="false" />
+    <Animation id="backroundSwapAnimation" duration="1" repeat="false" easeFunction="linear">
+      <FloatFieldInterpolator id="fadeinLoading" key="[0.0, 1.0]" keyValue="[ 0.00, 1.00 ]" fieldToInterp="backdropTransition.opacity" />
+      <FloatFieldInterpolator id="fadeoutLoaded" key="[0.0, 1.0]" keyValue="[ 1.00, 0.00 ]" fieldToInterp="backdrop.opacity" />
+    </Animation>
+    <Alpha id="alpha" />
+  </children>
+  <interface>
+    <field id="HomeLibraryItem" type="string" />
+    <field id="parentItem" type="node" onChange="loadInitialItems" />
+    <field id="selectedItem" type="node" alwaysNotify="true" />
+    <field id="quickPlayNode" type="node" alwaysNotify="true" />
+    <field id="imageDisplayMode" type="string" value="scaleToZoom" />
+    <field id="alphaSelected" type="string" alias="alpha.letterSelected" onChange="alphaSelectedChanged" alwaysNotify="true" />
+    <field id="alphaActive" type="boolean" value="false" />
+    <field id="showItemTitles" type="string" value="showonhover" />
+    <field id="jumpToItem" type="integer" value="" />
+  </interface>
+</component>
