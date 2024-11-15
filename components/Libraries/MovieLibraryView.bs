@@ -469,6 +469,8 @@ sub ItemDataLoaded(msg)
             m.genreData.appendChild(item)
         end for
 
+        m.loadedItems = m.genreData.getChildCount()
+
         m.itemGrid.opacity = "0"
         m.genreList.opacity = "1"
 
@@ -1064,6 +1066,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
         if isStringEqual(key, KeyCode.LEFT)
             if m.sortButton.isinFocusChain()
                 m.sortButton.focus = false
+                m.sortOrderButton.focus = false
                 m.viewButton.focus = false
                 m.filterButton.focus = false
 
@@ -1135,6 +1138,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
             if m.loadedItems = 0 then return false
 
             m.sortButton.focus = false
+            m.sortOrderButton.focus = false
             m.viewButton.focus = false
             m.filterButton.focus = false
 
