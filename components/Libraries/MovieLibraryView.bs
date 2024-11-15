@@ -181,6 +181,10 @@ sub loadInitialItems()
     ' If view is not valid, use default view
     if not inArray(["Movies", "moviesgrid", "Genres"], m.view) then m.view = "Movies"
 
+    if isValid(m.top.parentItem.parentFolder)
+        if not inArray(["Movies", "moviesgrid"], m.view) then m.view = "Movies"
+    end if
+
     m.filterOptions = ParseJson(m.filterOptions)
 
     if isStringEqual(m.view, "Genres")
@@ -204,6 +208,11 @@ sub loadInitialItems()
     m.loadItemsTask.filter = m.filter
     m.loadItemsTask.filterOptions = m.filterOptions
     m.loadItemsTask.startIndex = 0
+
+    if isValid(m.top.parentItem.parentFolder)
+        m.loadItemsTask.itemId = m.top.parentItem.parentFolder
+        m.loadItemsTask.genreIds = m.top.parentItem.id
+    end if
 
     ' Load Item Types
     if isStringEqual(getCollectionType(), "movies")
@@ -308,6 +317,13 @@ sub setMoviesOptions(options)
     ]
 
     if isStringEqual(getCollectionType(), ItemType.BOXSET)
+        options.views = [
+            { "Title": tr("Movies (Presentation)"), "Name": "Movies", "Track": { "description": tr("Movies (Presentation)") } },
+            { "Title": tr("Movies (Grid)"), "Name": "MoviesGrid", "Track": { "description": tr("Movies (Grid)") } },
+        ]
+    end if
+
+    if isValid(m.top.parentItem.parentFolder)
         options.views = [
             { "Title": tr("Movies (Presentation)"), "Name": "Movies", "Track": { "description": tr("Movies (Presentation)") } },
             { "Title": tr("Movies (Grid)"), "Name": "MoviesGrid", "Track": { "description": tr("Movies (Grid)") } },
