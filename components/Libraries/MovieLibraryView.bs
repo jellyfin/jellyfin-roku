@@ -168,7 +168,7 @@ sub loadInitialItems()
 
     ' If user has not set a preferred view for this folder, check if they've set a default view
     if not isValid(m.view)
-        m.view = m.global.session.user.settings["itemgrid.movieDefaultView"]
+        m.view = m.global.session.user.settings["display.movielibrary.defaultview"]
     end if
 
     if not isValidAndNotEmpty(m.sortField) then m.sortField = "SortName"
@@ -945,35 +945,39 @@ sub onViewChange()
     m.itemGrid.setFocus(m.itemGrid.opacity = 1)
     m.genreList.setFocus(m.genreList.opacity = 1)
 
-    if not isStringEqual(viewChoice.LookupCI("name"), m.view)
-        m.view = viewChoice.LookupCI("name")
-        m.viewButton.text = viewChoice.LookupCI("title")
+    if isStringEqual(viewChoice.LookupCI("name"), m.view) then return
 
-        set_user_setting("display." + m.top.parentItem.Id + ".landing", m.view)
+    m.view = viewChoice.LookupCI("name")
+    m.viewButton.text = viewChoice.LookupCI("title")
 
-        ' Reset any filtering or search terms
-        m.top.alphaSelected = string.EMPTY
-        m.loadItemsTask.NameStartsWith = " "
-        m.loadItemsTask.searchTerm = string.EMPTY
-        m.filter = "All"
-        m.filterOptions = {}
-        m.sortField = "SortName"
-        m.sortAscending = true
+    set_user_setting("display." + m.top.parentItem.Id + ".landing", m.view)
 
-        ' Reset view to defaults
-        set_user_setting("display." + m.top.parentItem.Id + ".sortField", m.sortField)
-        set_user_setting("display." + m.top.parentItem.Id + ".sortAscending", "true")
-        set_user_setting("display." + m.top.parentItem.Id + ".filter", m.filter)
-        set_user_setting("display." + m.top.parentItem.Id + ".filterOptions", FormatJson(m.filterOptions))
+    ' Reset any filtering or search terms
+    m.top.alphaSelected = string.EMPTY
+    m.loadItemsTask.NameStartsWith = " "
+    m.loadItemsTask.searchTerm = string.EMPTY
+    m.filter = "All"
+    m.filterOptions = {}
+    m.sortField = "SortName"
+    m.sortAscending = true
 
-        m.getFiltersTask.control = "RUN"
+    ' Reset view to defaults
+    set_user_setting("display." + m.top.parentItem.Id + ".sortField", m.sortField)
+    set_user_setting("display." + m.top.parentItem.Id + ".sortAscending", "true")
+    set_user_setting("display." + m.top.parentItem.Id + ".filter", m.filter)
+    set_user_setting("display." + m.top.parentItem.Id + ".filterOptions", FormatJson(m.filterOptions))
 
-        m.loadedRows = 0
-        m.loadedItems = 0
-        m.data = CreateObject("roSGNode", "ContentNode")
-        m.itemGrid.content = m.data
-        loadInitialItems()
+    if not isStringEqual(m.view, "Genres")
+        set_user_setting("display.tvshowlibrary.defaultview", m.view)
     end if
+
+    m.getFiltersTask.control = "RUN"
+
+    m.loadedRows = 0
+    m.loadedItems = 0
+    m.data = CreateObject("roSGNode", "ContentNode")
+    m.itemGrid.content = m.data
+    loadInitialItems()
 end sub
 
 sub onSortOrderChange()

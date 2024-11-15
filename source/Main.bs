@@ -375,15 +375,17 @@ sub Main (args as dynamic) as void
                 else if selectedItemType = "boxset"
                     group = CreateMovieLibraryView(selectedItem)
                     sceneManager.callFunc("pushScene", group)
-                else if selectedItemType = "folder" and selectedItem.json.type = "genre"
+                else if selectedItemType = "folder" and isStringEqual(selectedItem.json.type, "genre")
                     ' User clicked on a genre folder
                     if selectedItem.json.MovieCount > 0
                         group = CreateMovieLibraryView(selectedItem)
+                    else if selectedItem.json.SeriesCount > 0
+                        group = CreateTVShowsLibraryView(selectedItem)
                     else
                         group = CreateItemGrid(selectedItem)
                     end if
                     sceneManager.callFunc("pushScene", group)
-                else if selectedItemType = "folder" and LCase(type(selectedItem.json.type)) = "rostring" and LCase(selectedItem.json.type) = "musicgenre"
+                else if selectedItemType = "folder" and LCase(type(selectedItem.json.type)) = "rostring" and isStringEqual(selectedItem.json.type, "musicgenre")
                     group = CreateMusicLibraryView(selectedItem)
                     sceneManager.callFunc("pushScene", group)
                 else if selectedItemType = "userview" and isStringEqual(selectedItem.json.collectiontype, "livetv")

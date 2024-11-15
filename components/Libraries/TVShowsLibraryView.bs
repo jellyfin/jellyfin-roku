@@ -166,6 +166,11 @@ sub loadInitialItems()
     m.view = m.global.session.user.settings["display." + m.top.parentItem.Id + ".landing"]
     m.sortAscending = m.global.session.user.settings["display." + m.top.parentItem.Id + ".sortAscending"]
 
+    ' If user has not set a preferred view for this folder, check if they've set a default view
+    if not isValid(m.view)
+        m.view = m.global.session.user.settings["display.tvshowlibrary.defaultview"]
+    end if
+
     if not isValidAndNotEmpty(m.sortField) then m.sortField = "SortName"
     if not isValidAndNotEmpty(m.filter) then m.filter = "All"
     if not isValidAndNotEmpty(m.filterOptions) then m.filterOptions = "{}"
@@ -175,6 +180,10 @@ sub loadInitialItems()
 
     ' If view is not valid, use default view
     if not inArray(["Shows", "showspresentation", "Genres"], m.view) then m.view = "Shows"
+
+    if isValid(m.top.parentItem.parentFolder)
+        if not inArray(["Shows", "showspresentation"], m.view) then m.view = "Shows"
+    end if
 
     m.filterOptions = ParseJson(m.filterOptions)
 
@@ -194,6 +203,12 @@ sub loadInitialItems()
     m.newBackdrop.opacity = 0
 
     m.loadItemsTask.itemId = m.top.parentItem.Id
+    m.loadItemsTask.genreIds = string.EMPTY
+
+    if isValid(m.top.parentItem.parentFolder)
+        m.loadItemsTask.itemId = m.top.parentItem.parentFolder
+        m.loadItemsTask.genreIds = m.top.parentItem.id
+    end if
 
     m.loadItemsTask.searchTerm = m.voiceBox.text
     m.emptyText.visible = false
@@ -203,15 +218,11 @@ sub loadInitialItems()
     m.loadItemsTask.filterOptions = m.filterOptions
     m.loadItemsTask.startIndex = 0
     m.loadItemsTask.studioIds = string.EMPTY
-    m.loadItemsTask.genreIds = string.EMPTY
     m.loadItemsTask.itemType = ItemType.SERIES
     m.loadItemsTask.view = string.EMPTY
 
-    if isStringEqual(m.view, "Shows") or isStringEqual(m.view, "showspresentation")
-        m.top.showItemTitles = m.global.session.user.settings["itemgrid.gridTitles"]
-    end if
-
     if isStringEqual(m.view, "shows")
+        m.top.showItemTitles = m.global.session.user.settings["itemgrid.gridTitles"]
         m.backdrop.opacity = 0
         m.newBackdrop.opacity = 0
         m.movieLogo.visible = false
@@ -265,8 +276,8 @@ sub setTvShowsOptions(options)
         { "Title": tr("Shows (Presentation)"), "Name": "ShowsPresentation", "Track": { "description": tr("Shows (Presentation)") } },
         { "Title": tr("Shows (Grid)"), "Name": "Shows", "Track": { "description": tr("Shows (Grid)") } },
         { "Title": tr("Genres"), "Name": "Genres", "Track": { "description": tr("Genres") } }
-
     ]
+
     options.sort = [
         { "Title": tr("TITLE"), "Name": "SortName", "Track": { "description": tr("TITLE") } },
         { "Title": tr("Community Rating"), "Name": "CommunityRating,SortName", "Track": { "description": tr("Community Rating") } },
@@ -277,6 +288,7 @@ sub setTvShowsOptions(options)
         { "Title": tr("RELEASE_DATE"), "Name": "PremiereDate,SortName", "Track": { "description": tr("RELEASE_DATE") } },
         { "Title": tr("Random"), "Name": "Random", "Track": { "description": tr("Random") } },
     ]
+
     options.filter = [
         { "Title": tr("All"), "Name": "All", "Track": { "description": tr("All") } },
         { "Title": tr("Favorites"), "Name": "Favorites", "Track": { "description": tr("Favorites") } },
@@ -287,6 +299,14 @@ sub setTvShowsOptions(options)
     if isStringEqual(m.view, "genres")
         options.sort = [{ "Title": tr("TITLE"), "Name": "SortName", "Track": { "description": tr("TITLE") } }]
         options.filter = [{ "Title": tr("All"), "Name": "All", "Track": { "description": tr("All") } }]
+    end if
+
+    ' If we're in a genre subfolder
+    if isValid(m.top.parentItem.parentFolder)
+        options.views = [
+            { "Title": tr("Shows (Presentation)"), "Name": "ShowsPresentation", "Track": { "description": tr("Shows (Presentation)") } },
+            { "Title": tr("Shows (Grid)"), "Name": "Shows", "Track": { "description": tr("Shows (Grid)") } }
+        ]
     end if
 end sub
 
@@ -903,35 +923,39 @@ sub onViewChange()
     m.itemGrid.setFocus(m.itemGrid.opacity = 1)
     m.genreList.setFocus(m.genreList.opacity = 1)
 
-    if not isStringEqual(viewChoice.LookupCI("name"), m.view)
-        m.view = viewChoice.LookupCI("name")
-        m.viewButton.text = viewChoice.LookupCI("title")
+    if isStringEqual(viewChoice.LookupCI("name"), m.view) then return
 
-        set_user_setting("display." + m.top.parentItem.Id + ".landing", m.view)
+    m.view = viewChoice.LookupCI("name")
+    m.viewButton.text = viewChoice.LookupCI("title")
 
-        ' Reset any filtering or search terms
-        m.top.alphaSelected = string.EMPTY
-        m.loadItemsTask.NameStartsWith = " "
-        m.loadItemsTask.searchTerm = string.EMPTY
-        m.filter = "All"
-        m.filterOptions = {}
-        m.sortField = "SortName"
-        m.sortAscending = true
+    set_user_setting("display." + m.top.parentItem.Id + ".landing", m.view)
 
-        ' Reset view to defaults
-        set_user_setting("display." + m.top.parentItem.Id + ".sortField", m.sortField)
-        set_user_setting("display." + m.top.parentItem.Id + ".sortAscending", "true")
-        set_user_setting("display." + m.top.parentItem.Id + ".filter", m.filter)
-        set_user_setting("display." + m.top.parentItem.Id + ".filterOptions", FormatJson(m.filterOptions))
+    ' Reset any filtering or search terms
+    m.top.alphaSelected = string.EMPTY
+    m.loadItemsTask.NameStartsWith = " "
+    m.loadItemsTask.searchTerm = string.EMPTY
+    m.filter = "All"
+    m.filterOptions = {}
+    m.sortField = "SortName"
+    m.sortAscending = true
 
-        m.getFiltersTask.control = "RUN"
+    ' Reset view to defaults
+    set_user_setting("display." + m.top.parentItem.Id + ".sortField", m.sortField)
+    set_user_setting("display." + m.top.parentItem.Id + ".sortAscending", "true")
+    set_user_setting("display." + m.top.parentItem.Id + ".filter", m.filter)
+    set_user_setting("display." + m.top.parentItem.Id + ".filterOptions", FormatJson(m.filterOptions))
 
-        m.loadedRows = 0
-        m.loadedItems = 0
-        m.data = CreateObject("roSGNode", "ContentNode")
-        m.itemGrid.content = m.data
-        loadInitialItems()
+    if not isStringEqual(m.view, "Genres")
+        set_user_setting("display.tvshowlibrary.defaultview", m.view)
     end if
+
+    m.getFiltersTask.control = "RUN"
+
+    m.loadedRows = 0
+    m.loadedItems = 0
+    m.data = CreateObject("roSGNode", "ContentNode")
+    m.itemGrid.content = m.data
+    loadInitialItems()
 end sub
 
 sub onSortOrderChange()

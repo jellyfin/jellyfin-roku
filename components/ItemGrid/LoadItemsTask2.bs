@@ -125,7 +125,7 @@ sub loadItems()
     else if m.top.view = "Networks"
         url = "Studios"
         params.append({ UserId: m.global.session.user.id })
-    else if m.top.view = "Genres"
+    else if isStringEqual(m.top.view, "Genres")
         url = "Genres"
         params.append({ UserId: m.global.session.user.id, includeItemTypes: m.top.itemType })
     else if m.top.ItemType = "MusicArtist"
@@ -257,6 +257,7 @@ sub loadItems()
                         ' Add View All item to the start of the row
                         row = tmp.createChild("FolderData")
                         row.parentFolder = m.top.itemId
+                        row.id = m.top.itemId
                         row.title = tr("View All") + " " + item.name
                         item.name = tr("View All") + " " + item.name
                         row.json = item
@@ -320,7 +321,7 @@ sub loadItems()
             end if
 
             if tmp <> invalid
-                if LCase(item.Type) <> "genre" and LCase(item.Type) <> "musicgenre"
+                if not isStringEqual(item.Type, "genre") and LCase(item.Type) <> "musicgenre"
                     tmp.parentFolder = m.top.itemId
                     tmp.json = item
                     if item.UserData <> invalid and item.UserData.isFavorite <> invalid
