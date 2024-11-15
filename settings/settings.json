@@ -452,23 +452,6 @@
                         "description": "Settings relating to the appearance of pages in Movie Libraries.",
                         "children": [
                             {
-                                "title": "Default View",
-                                "description": "Default view for Movie Libraries.",
-                                "settingName": "itemgrid.movieDefaultView",
-                                "type": "radio",
-                                "default": "movies",
-                                "options": [
-                                    {
-                                        "title": "Movies (Presentation)",
-                                        "id": "Movies"
-                                    },
-                                    {
-                                        "title": "Movies (Grid)",
-                                        "id": "MoviesGrid"
-                                    }
-                                ]
-                            },
-                            {
                                 "title": "Community and Critical Ratings",
                                 "description": "Ratings for how good a movie is.",
                                 "settingName": "ui.movies.showRatings",
