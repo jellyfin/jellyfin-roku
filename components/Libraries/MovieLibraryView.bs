@@ -235,6 +235,7 @@ sub loadInitialItems()
     m.newBackdrop.opacity = 0
 
     if isStringEqual(m.view, "moviesgrid")
+        m.newBackdrop.opacity = 0
         m.backdrop.opacity = 0
         m.newBackdrop.opacity = 0
         m.movieLogo.visible = false
@@ -252,6 +253,7 @@ sub loadInitialItems()
             m.itemGrid.rowHeights = "[390]"
         end if
     else if isStringEqual(m.view, "Genres")
+        m.newBackdrop.opacity = 0
         m.backdrop.opacity = 0
         m.newBackdrop.opacity = 0
         m.loadItemsTask.StudioIds = m.top.parentItem.Id
@@ -314,7 +316,7 @@ sub setMoviesOptions(options)
 
     if isStringEqual(m.view, "Genres")
         options.sort = [{ "Title": tr("TITLE"), "Name": "SortName", "Track": { "description": tr("TITLE") } }]
-        options.filter = []
+        options.filter = [{ "Title": tr("All"), "Name": "All" },]
     end if
 end sub
 
@@ -433,6 +435,11 @@ sub LogoImageLoaded(msg)
     data = msg.GetData()
     m.loadLogoTask.unobserveField("content")
     m.loadLogoTask.content = []
+
+    if not isStringEqual(m.view, "Movies")
+        m.movieLogo.visible = false
+        return
+    end if
 
     if data.Count() > 0
         m.movieLogo.uri = data[0]
@@ -576,6 +583,12 @@ sub SetBackground(backgroundUri as string)
         m.backdrop.opacity = 0
     end if
 
+    if not isStringEqual(m.view, "Movies")
+        m.newBackdrop.opacity = 0
+        m.backdrop.opacity = 0
+        return
+    end if
+
     'If a new image is being loaded, or transitioned to, store URL to load next
     if m.swapAnimation.state <> "stopped" or m.newBackdrop.loadStatus = "loading"
         m.queuedBGUri = backgroundUri
@@ -717,6 +730,12 @@ end sub
 '
 'When Image Loading Status changes
 sub newBGLoaded()
+    if not isStringEqual(m.view, "Movies")
+        m.newBackdrop.opacity = 0
+        m.backdrop.opacity = 0
+        return
+    end if
+
     'If image load was sucessful, start the fade swap
     if m.newBackdrop.loadStatus = "ready"
         m.swapAnimation.control = "start"
@@ -726,6 +745,12 @@ end sub
 '
 'Swap Complete
 sub swapDone()
+    if not isStringEqual(m.view, "Movies")
+        m.newBackdrop.opacity = 0
+        m.backdrop.opacity = 0
+        return
+    end if
+
     if isValid(m.swapAnimation) and m.swapAnimation.state = "stopped"
         'Set main BG node image and hide transitioning node
         m.backdrop.uri = m.newBackdrop.uri
