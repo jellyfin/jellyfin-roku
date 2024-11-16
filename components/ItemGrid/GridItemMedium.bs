@@ -60,12 +60,20 @@ sub itemContentChanged()
         if isStringEqual(itemData.json.Type, ItemType.STUDIO)
             m.itemTextExtra.text = `${itemData.json.SeriesCount} Series`
         end if
-    end if
 
+        if isStringEqual(itemData.json.Type, ItemType.MUSICVIDEO)
+            m.itemTextExtra.text = itemData.SubTitle
+        end if
+    end if
 
     m.itemPoster.uri = itemData.PosterUrl
     m.posterText.text = itemData.title
     m.title.text = isValidAndNotEmpty(itemData.json.SeriesName) ? itemData.json.SeriesName : itemData.title
+
+    ' Don't show the same text for both the title and subtitle
+    if isStringEqual(m.itemTextExtra.text, m.title.text)
+        m.itemTextExtra.text = string.EMPTY
+    end if
 
     'If Poster not loaded, ensure backdrop is shown until loaded
     if m.itemPoster.loadStatus <> PosterLoadStatus.READY

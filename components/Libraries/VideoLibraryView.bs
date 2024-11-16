@@ -83,15 +83,13 @@ sub init()
     m.loadedItems = 0
 
     m.data = CreateObject("roSGNode", "ContentNode")
-
+    m.itemGrid.observeField("itemFocused", "onItemFocused")
+    m.itemGrid.observeField("itemSelected", "onItemSelected")
     m.itemGrid.content = m.data
 
     m.genreData = CreateObject("roSGNode", "ContentNode")
     m.genreList.observeField("itemSelected", "onGenreItemSelected")
     m.genreList.content = m.genreData
-
-    m.itemGrid.observeField("itemFocused", "onItemFocused")
-    m.itemGrid.observeField("itemSelected", "onItemSelected")
 
     'Voice filter setup
     m.voiceBox.voiceEnabled = true
@@ -194,15 +192,10 @@ sub loadInitialItems()
     m.loadItemsTask.filterOptions = m.filterOptions
     m.loadItemsTask.startIndex = 0
     m.loadItemsTask.studioIds = string.EMPTY
+    m.loadItemsTask.view = string.EMPTY
 
-    if isStringEqual(m.top.mediaType, ItemType.MOVIE)
-        m.loadItemsTask.view = "Movies"
-        m.loadItemsTask.itemType = ItemType.MOVIE
-    end if
-
-    if isStringEqual(m.top.mediaType, ItemType.SERIES)
-        m.loadItemsTask.view = "Series"
-        m.loadItemsTask.itemType = ItemType.SERIES
+    if not isStringEqual(m.top.mediaType, ItemType.BOXSET)
+        m.loadItemsTask.itemType = m.top.mediaType
     end if
 
     if isStringEqual(m.view, "Genres")
@@ -276,6 +269,17 @@ sub loadInitialItems()
         m.infoGroup.visible = false
     end if
 
+    if isStringEqual(m.top.mediaType, ItemType.MUSICVIDEO)
+        m.itemGrid.itemComponentName = "GridItemMedium"
+        m.itemGrid.itemSize = "[400, 330]"
+        m.itemGrid.rowHeights = "[330]"
+        m.top.imageDisplayMode = "scaleToZoom"
+
+        m.genreList.itemComponentName = "GridItemMedium"
+        m.genreList.rowItemSize = "[[400, 330]]"
+        m.genreList.rowHeights = "[360]"
+    end if
+
     m.loadItemsTask.observeField("content", "ItemDataLoaded")
     m.loadItemsTask.control = "RUN"
 
@@ -299,6 +303,10 @@ function setOptions() as object
 
     if isStringEqual(m.top.mediaType, ItemType.SERIES)
         return setSeriesOptions()
+    end if
+
+    if isStringEqual(m.top.mediaType, ItemType.MUSICVIDEO)
+        return setMusicVideoOptions()
     end if
 
     return {
@@ -345,6 +353,54 @@ function setMovieOptions() as object
             { "Title": tr("Grid"), "Name": "grid", "Track": { "description": tr("Grid") } }
         ]
     end if
+
+    if isStringEqual(m.view, "genres")
+        options.sort = [{ "Title": tr("TITLE"), "Name": "SortName", "Track": { "description": tr("TITLE") } }]
+        options.filter = [{ "Title": tr("All"), "Name": "All" }]
+    end if
+
+    ' If we're in a genre subfolder
+    if isValid(m.top.parentItem.parentFolder)
+        options.views = [
+            { "Title": tr("Presentation"), "Name": "presentation", "Track": { "description": tr("Presentation") } },
+            { "Title": tr("Grid"), "Name": "grid", "Track": { "description": tr("Grid") } }
+        ]
+    end if
+
+    return options
+end function
+
+function setMusicVideoOptions() as object
+    options = {
+        filter: []
+    }
+
+    options.views = [
+        { "Title": tr("Presentation"), "Name": "presentation", "Track": { "description": tr("Presentation") } },
+        { "Title": tr("Grid"), "Name": "grid", "Track": { "description": tr("Grid") } },
+        { "Title": tr("Genres"), "Name": "Genres", "Track": { "description": tr("Genres") } }
+    ]
+
+    options.sort = [
+        { "Title": tr("TITLE"), "Name": "SortName", "Track": { "description": tr("TITLE") } },
+        { "Title": tr("Community Rating"), "Name": "CommunityRating,SortName", "Track": { "description": tr("Community Rating") } },
+        { "Title": tr("Critics Rating"), "Name": "CriticRating,SortName", "Track": { "description": tr("Critics Rating") } },
+        { "Title": tr("DATE_ADDED"), "Name": "DateCreated,SortName", "Track": { "description": tr("DATE_ADDED") } },
+        { "Title": tr("DATE_PLAYED"), "Name": "DatePlayed,SortName", "Track": { "description": tr("DATE_PLAYED") } },
+        { "Title": tr("Parental Rating"), "Name": "OfficialRating,SortName", "Track": { "description": tr("Parental Rating") } },
+        { "Title": tr("PLAY_COUNT"), "Name": "PlayCount,SortName", "Track": { "description": tr("PLAY_COUNT") } },
+        { "Title": tr("RELEASE_DATE"), "Name": "PremiereDate,SortName", "Track": { "description": tr("RELEASE_DATE") } },
+        { "Title": tr("RUNTIME"), "Name": "Runtime,SortName", "Track": { "description": tr("RUNTIME") } },
+        { "Title": tr("Random"), "Name": "Random", "Track": { "description": tr("Random") } }
+    ]
+
+    options.filter = [
+        { "Title": tr("All"), "Name": "All" },
+        { "Title": tr("Played"), "Name": "Played" },
+        { "Title": tr("Unplayed"), "Name": "Unplayed" },
+        { "Title": tr("Resumable"), "Name": "Resumable" },
+        { "Title": tr("Favorites"), "Name": "Favorites" }
+    ]
 
     if isStringEqual(m.view, "genres")
         options.sort = [{ "Title": tr("TITLE"), "Name": "SortName", "Track": { "description": tr("TITLE") } }]
@@ -596,6 +652,9 @@ sub ItemDataLoaded(msg)
     m.loadedItems = m.itemGrid.content.getChildCount()
     m.loadedRows = m.loadedItems / m.itemGrid.numColumns
     m.Loading = false
+
+    onItemFocused()
+
     'If there are no items to display, show message
     if m.loadedItems = 0
         m.selectedItemOverview.visible = false
@@ -708,7 +767,6 @@ sub onItemFocused()
         loadMoreData()
     end if
 
-    m.selectedFavoriteItem = getItemFocused()
     m.communityRatingGroup.visible = false
     m.criticRatingGroup.visible = false
 
@@ -716,11 +774,13 @@ sub onItemFocused()
         return
     end if
 
-    if not isChainValid(m.selectedFavoriteItem, "json")
+    focusedItem = getItemFocused()
+
+    if not isChainValid(focusedItem, "json")
         return
     end if
 
-    itemData = m.selectedFavoriteItem.json
+    itemData = focusedItem.json
 
     m.star.uri = "pkg:/images/sharp_star_white_18dp.png"
 
@@ -780,7 +840,12 @@ sub onItemFocused()
     m.loadLogoTask.control = "RUN"
 
     ' Set Background to item backdrop
-    SetBackground(m.selectedFavoriteItem.backdropUrl)
+    if isValidAndNotEmpty(focusedItem.backdropUrl)
+        SetBackground(focusedItem.backdropUrl)
+    else if isValidAndNotEmpty(focusedItem.posterUrl)
+        ' We have a poster image URL, request a new one at a higher resolution
+        SetBackground(api.items.GetImageURL(focusedItem.id, "primary", 0, { "maxHeight": 700, "maxWidth": 1100, "quality": "90" }))
+    end if
 end sub
 
 function getRuntime(runTimeTicks) as integer

@@ -247,7 +247,6 @@ sub loadInitialItems()
             m.itemGrid.itemComponentName = "GridItemMedium"
             m.itemGrid.itemSize = "[400, 345]"
             m.itemGrid.rowHeights = "[345]"
-
             m.top.imageDisplayMode = "scaleToZoom"
             m.itemGrid.numColumns = 4
             m.alpha.visible = false
