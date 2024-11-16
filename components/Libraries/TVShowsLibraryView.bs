@@ -63,6 +63,7 @@ sub init()
     setupNodes()
 
     m.itemGrid.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
+    m.genreList.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
     m.top.findNode("VoiceBoxCover").color = ColorPalette.VIEWBACKGROUND
 
     m.overhang.isVisible = false
@@ -150,11 +151,11 @@ sub loadInitialItems()
     m.loadItemsTask.control = "stop"
     startLoadingSpinner(false)
 
-    if m.top.parentItem.json.Type = "CollectionFolder"
+    if isStringEqual(m.top.parentItem.json.Type, "CollectionFolder")
         m.top.HomeLibraryItem = m.top.parentItem.Id
     end if
 
-    if m.top.parentItem.backdropUrl <> invalid
+    if isvalid(m.top.parentItem.backdropUrl)
         SetBackground(m.top.parentItem.backdropUrl)
     else
         SetBackground(string.EMPTY)
@@ -398,23 +399,19 @@ sub FilterDataLoaded(msg)
 
     ' Add filters from the API data
     if isStringEqual(getCollectionType(), "tvshows")
-        setTvShowsOptions(options)
-
         if isStringEqual(m.view, "Shows") or isStringEqual(m.view, "showspresentation")
             data = msg.GetData()
             m.getFiltersTask.unobserveField("filters")
 
             options.filter.push({ "Title": tr("Status"), "Name": "SeriesStatus", "Options": ["Continuing", "Ended", "Unreleased"], "Delimiter": ",", "CheckedState": [], "Track": { "description": tr("Status") } })
 
-            if not isValid(data) then return
-
-            if isValid(data.OfficialRatings)
+            if isValidAndNotEmpty(data.OfficialRatings)
                 options.filter.push({ "Title": tr("Parental Ratings"), "Name": "OfficialRatings", "Options": data.OfficialRatings, "Delimiter": "|", "CheckedState": [], "Track": { "description": tr("Parental Ratings") } })
             end if
-            if isValid(data.genres)
+            if isValidAndNotEmpty(data.genres)
                 options.filter.push({ "Title": tr("Genres"), "Name": "Genres", "Options": data.genres, "Delimiter": "|", "CheckedState": [], "Track": { "description": tr("Genres") } })
             end if
-            if isValid(data.Years)
+            if isValidAndNotEmpty(data.Years)
                 options.filter.push({ "Title": tr("Years"), "Name": "Years", "Options": data.Years, "Delimiter": ",", "CheckedState": [], "Track": { "description": tr("Years") } })
             end if
         end if

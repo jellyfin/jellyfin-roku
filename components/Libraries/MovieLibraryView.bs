@@ -63,6 +63,7 @@ sub init()
     setupNodes()
 
     m.itemGrid.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
+    m.genreList.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
     m.top.findNode("VoiceBoxCover").color = ColorPalette.VIEWBACKGROUND
 
     m.overhang.isVisible = false
@@ -150,11 +151,11 @@ sub loadInitialItems()
     m.loadItemsTask.control = "stop"
     startLoadingSpinner(false)
 
-    if m.top.parentItem.json.Type = "CollectionFolder"
+    if isStringEqual(m.top.parentItem.json.Type, "CollectionFolder")
         m.top.HomeLibraryItem = m.top.parentItem.Id
     end if
 
-    if m.top.parentItem.backdropUrl <> invalid
+    if isValid(m.top.parentItem.backdropUrl)
         SetBackground(m.top.parentItem.backdropUrl)
     else
         SetBackground(string.EMPTY)
@@ -283,6 +284,7 @@ sub loadInitialItems()
         parentid: m.top.parentItem.Id,
         includeitemtypes: "Movie"
     }
+
     m.getFiltersTask.control = "RUN"
 end sub
 
@@ -426,15 +428,15 @@ sub FilterDataLoaded(msg)
     if LCase(m.loadItemsTask.view) = "movies"
         options.filter.push({ "Title": tr("Features"), "Name": "Features", "Options": ["Subtitles", "Special Features", "Theme Song", "Theme Video"], "Delimiter": "|", "CheckedState": [] })
 
-        if isValid(data.genres)
+        if isValidAndNotEmpty(data.genres)
             options.filter.push({ "Title": tr("Genres"), "Name": "Genres", "Options": data.genres, "Delimiter": "|", "CheckedState": [] })
         end if
 
-        if isValid(data.OfficialRatings)
+        if isValidAndNotEmpty(data.OfficialRatings)
             options.filter.push({ "Title": tr("Parental Ratings"), "Name": "OfficialRatings", "Options": data.OfficialRatings, "Delimiter": "|", "CheckedState": [] })
         end if
 
-        if isValid(data.Years)
+        if isValidAndNotEmpty(data.Years)
             options.filter.push({ "Title": tr("Years"), "Name": "Years", "Options": data.Years, "Delimiter": ",", "CheckedState": [] })
         end if
     end if
