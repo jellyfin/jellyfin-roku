@@ -203,23 +203,23 @@ sub Main (args as dynamic) as void
 
             if isValid(itemNode) and isValid(itemNode.id) and itemNode.id <> ""
                 ' make sure there is a type and convert type to lowercase
-                itemType = invalid
+                selectedItemType = invalid
                 if isValid(itemNode.type) and itemNode.type <> ""
-                    itemType = Lcase(itemNode.type)
+                    selectedItemType = Lcase(itemNode.type)
                 else
                     ' grab type from json and convert to lowercase
                     if isValid(itemNode.json) and isValid(itemNode.json.type)
-                        itemType = Lcase(itemNode.json.type)
+                        selectedItemType = Lcase(itemNode.json.type)
                     end if
                 end if
 
                 ' can't play the item without knowing what type it is
-                if isValid(itemType)
+                if isValid(selectedItemType)
                     startLoadingSpinner()
                     m.global.queueManager.callFunc("clear") ' empty queue/playlist
                     m.global.queueManager.callFunc("resetShuffle") ' turn shuffle off
 
-                    if itemType = "episode" or itemType = "recording" or itemType = "movie" or itemType = "video"
+                    if selectedItemType = "episode" or selectedItemType = "recording" or selectedItemType = "movie" or selectedItemType = "video"
                         quickplay.video(itemNode)
                         ' restore focus
                         if LCase(group.subtype()) = "tvepisodes"
@@ -227,39 +227,39 @@ sub Main (args as dynamic) as void
                                 group.lastFocus.setFocus(true)
                             end if
                         end if
-                    else if itemType = "audio"
+                    else if selectedItemType = "audio"
                         quickplay.audio(itemNode)
-                    else if itemType = "audiobook"
+                    else if selectedItemType = "audiobook"
                         quickplay.audioBook(itemNode)
-                    else if itemType = "musicalbum"
+                    else if selectedItemType = "musicalbum"
                         quickplay.album(itemNode)
-                    else if itemType = "musicartist"
+                    else if selectedItemType = "musicartist"
                         quickplay.artist(itemNode)
-                    else if itemType = "series"
+                    else if selectedItemType = "series"
                         quickplay.series(itemNode)
-                    else if itemType = "season"
+                    else if selectedItemType = "season"
                         quickplay.season(itemNode)
-                    else if itemType = "boxset"
+                    else if selectedItemType = "boxset"
                         quickplay.boxset(itemNode)
-                    else if itemType = "collectionfolder"
+                    else if selectedItemType = "collectionfolder"
                         quickplay.collectionFolder(itemNode)
-                    else if itemType = "playlist"
+                    else if selectedItemType = "playlist"
                         quickplay.playlist(itemNode)
-                    else if itemType = "userview"
+                    else if selectedItemType = "userview"
                         quickplay.userView(itemNode)
-                    else if itemType = "folder"
+                    else if selectedItemType = "folder"
                         quickplay.folder(itemNode)
-                    else if itemType = "musicvideo"
+                    else if selectedItemType = "musicvideo"
                         quickplay.musicVideo(itemNode)
-                    else if itemType = "person"
+                    else if selectedItemType = "person"
                         quickplay.person(itemNode)
-                    else if itemType = "tvchannel"
+                    else if selectedItemType = "tvchannel"
                         quickplay.tvChannel(itemNode)
-                    else if itemType = "program"
+                    else if selectedItemType = "program"
                         quickplay.program(itemNode)
-                    else if itemType = "photo"
+                    else if selectedItemType = "photo"
                         quickplay.photo(itemNode)
-                    else if itemType = "photoalbum"
+                    else if selectedItemType = "photoalbum"
                         quickplay.photoAlbum(itemNode)
                     end if
                     m.global.queueManager.callFunc("playQueue")
@@ -358,9 +358,9 @@ sub Main (args as dynamic) as void
 
                 if selectedItemType = "collectionfolder"
                     if selectedItem.collectionType = "movies"
-                        group = CreateMovieLibraryView(selectedItem)
+                        group = CreateVideoLibraryView(selectedItem, ItemType.MOVIE)
                     else if isStringEqual(selectedItem.collectionType, "tvshows")
-                        group = CreateTVShowsLibraryView(selectedItem)
+                        group = CreateVideoLibraryView(selectedItem, ItemType.SERIES)
                     else if selectedItem.collectionType = "music"
                         group = CreateMusicLibraryView(selectedItem)
                     else if selectedItem.collectionType = "books"
@@ -373,14 +373,14 @@ sub Main (args as dynamic) as void
                     end if
                     sceneManager.callFunc("pushScene", group)
                 else if selectedItemType = "boxset"
-                    group = CreateMovieLibraryView(selectedItem)
+                    group = CreateVideoLibraryView(selectedItem, ItemType.BOXSET)
                     sceneManager.callFunc("pushScene", group)
                 else if selectedItemType = "folder" and isStringEqual(selectedItem.json.type, "genre")
                     ' User clicked on a genre folder
                     if selectedItem.json.MovieCount > 0
-                        group = CreateMovieLibraryView(selectedItem)
+                        group = CreateVideoLibraryView(selectedItem, ItemType.MOVIE)
                     else if selectedItem.json.SeriesCount > 0
-                        group = CreateTVShowsLibraryView(selectedItem)
+                        group = CreateVideoLibraryView(selectedItem, ItemType.SERIES)
                     else
                         group = CreateItemGrid(selectedItem)
                     end if

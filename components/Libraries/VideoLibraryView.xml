@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<component name="TVShowsLibraryView" extends="JFScreen">
+<component name="VideoLibraryView" extends="JFScreen">
   <children>
     <VoiceTextEditBox id="VoiceBox" visible="true" width="40" translation="[52, 120]" />
     <Rectangle id="VoiceBoxCover" height="240" width="100" translation="[25, 75]" />
@@ -64,13 +64,13 @@
       </LayoutGroup>
     </LayoutGroup>
 
-    <Label id="selectedMovieName" visible="false" translation="[120, 40]" wrap="true" font="font:LargeBoldSystemFont" width="850" height="196" horizAlign="left" vertAlign="center" />
-    <Poster id="movieLogo" visible="false" translation="[120, 40]" loadDisplayMode="scaleToFit" width="384" height="196" />
+    <Label id="selectedItemName" visible="false" translation="[120, 40]" wrap="true" font="font:LargeBoldSystemFont" width="850" height="196" horizAlign="left" vertAlign="center" />
+    <Poster id="itemLogo" visible="false" translation="[120, 40]" loadDisplayMode="scaleToFit" width="384" height="196" />
 
     <LayoutGroup layoutDirection="horiz" translation="[120, 260]" itemSpacings="[30]" id="infoGroup">
-      <Label id="selectedMovieProductionYear" font="font:SmallestSystemFont" />
+      <Label id="selectedItemProductionYear" font="font:SmallestSystemFont" />
       <Label id="runtime" font="font:SmallestSystemFont" />
-      <Label id="selectedMovieOfficialRating" font="font:SmallestSystemFont" />
+      <Label id="selectedItemOfficialRating" font="font:SmallestSystemFont" />
 
       <LayoutGroup id="communityRatingGroup" visible="false" layoutDirection="horiz" itemSpacings="[-5]">
         <Poster id="star" uri="pkg:/images/sharp_star_white_18dp.png" height="28" width="28" blendColor="#00a4dcFF" />
@@ -83,7 +83,7 @@
       </LayoutGroup>
     </LayoutGroup>
 
-    <Label id="selectedMovieOverview" font="font:SmallestSystemFont" translation="[120, 320]" wrap="true" lineSpacing="20" maxLines="4" width="900" ellipsisText="..." />
+    <Label id="selectedItemOverview" font="font:SmallestSystemFont" translation="[120, 320]" wrap="true" lineSpacing="20" maxLines="4" width="900" ellipsisText="..." />
 
     <MarkupGrid
       id="itemGrid"
@@ -115,7 +115,7 @@
     <Alpha id="alpha" />
   </children>
   <interface>
-    <field id="HomeLibraryItem" type="string" />
+    <field id="mediaType" type="string" />
     <field id="parentItem" type="node" onChange="loadInitialItems" />
     <field id="selectedItem" type="node" alwaysNotify="true" />
     <field id="quickPlayNode" type="node" alwaysNotify="true" />
@@ -123,6 +123,5 @@
     <field id="alphaSelected" type="string" alias="alpha.letterSelected" onChange="alphaSelectedChanged" alwaysNotify="true" />
     <field id="alphaActive" type="boolean" value="false" />
     <field id="showItemTitles" type="string" value="showonhover" />
-    <field id="jumpToItem" type="integer" value="" />
   </interface>
 </component>

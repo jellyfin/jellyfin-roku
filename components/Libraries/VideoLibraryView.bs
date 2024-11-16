@@ -15,11 +15,11 @@ sub setupNodes()
     m.backdrop = m.top.findNode("backdrop")
     m.newBackdrop = m.top.findNode("backdropTransition")
     m.emptyText = m.top.findNode("emptyText")
-    m.selectedMovieName = m.top.findNode("selectedMovieName")
-    m.selectedMovieOverview = m.top.findNode("selectedMovieOverview")
-    m.selectedMovieProductionYear = m.top.findNode("selectedMovieProductionYear")
-    m.selectedMovieOfficialRating = m.top.findNode("selectedMovieOfficialRating")
-    m.movieLogo = m.top.findNode("movieLogo")
+    m.selectedItemName = m.top.findNode("selectedItemName")
+    m.selectedItemOverview = m.top.findNode("selectedItemOverview")
+    m.selectedItemProductionYear = m.top.findNode("selectedItemProductionYear")
+    m.selectedItemOfficialRating = m.top.findNode("selectedItemOfficialRating")
+    m.itemLogo = m.top.findNode("itemLogo")
     m.swapAnimation = m.top.findNode("backroundSwapAnimation")
     m.alpha = m.top.findNode("alpha")
     m.alphaMenu = m.alpha.findNode("alphaMenu")
@@ -151,10 +151,6 @@ sub loadInitialItems()
     m.loadItemsTask.control = "stop"
     startLoadingSpinner(false)
 
-    if isStringEqual(m.top.parentItem.json.Type, "CollectionFolder")
-        m.top.HomeLibraryItem = m.top.parentItem.Id
-    end if
-
     if isValid(m.top.parentItem.backdropUrl)
         SetBackground(m.top.parentItem.backdropUrl)
     else
@@ -169,10 +165,13 @@ sub loadInitialItems()
 
     ' If user has not set a preferred view for this folder, check if they've set a default view
     if not isValid(m.view)
-        m.view = m.global.session.user.settings["display.tvshowlibrary.defaultview"]
+        m.view = m.global.session.user.settings[`display.${m.top.mediaType}library.defaultview`]
     end if
 
-    if not isValidAndNotEmpty(m.sortField) then m.sortField = "SortName"
+    ' Boxsets are sorted by Premiere Data by default
+    if not isValidAndNotEmpty(m.sortField)
+        m.sortField = isStringEqual(getCollectionType(), ItemType.BOXSET) ? "PremiereDate,SortName" : "SortName"
+    end if
     if not isValidAndNotEmpty(m.filter) then m.filter = "All"
     if not isValidAndNotEmpty(m.filterOptions) then m.filterOptions = "{}"
     if not isValidAndNotEmpty(m.view) then m.view = "presentation"
@@ -195,8 +194,16 @@ sub loadInitialItems()
     m.loadItemsTask.filterOptions = m.filterOptions
     m.loadItemsTask.startIndex = 0
     m.loadItemsTask.studioIds = string.EMPTY
-    m.loadItemsTask.view = "Series"
-    m.loadItemsTask.itemType = ItemType.SERIES
+
+    if isStringEqual(m.top.mediaType, ItemType.MOVIE)
+        m.loadItemsTask.view = "Movies"
+        m.loadItemsTask.itemType = ItemType.MOVIE
+    end if
+
+    if isStringEqual(m.top.mediaType, ItemType.SERIES)
+        m.loadItemsTask.view = "Series"
+        m.loadItemsTask.itemType = ItemType.SERIES
+    end if
 
     if isStringEqual(m.view, "Genres")
         m.loadItemsTask.view = "Genres"
@@ -214,22 +221,23 @@ sub loadInitialItems()
     end if
 
     ' We're in a genre sub folder
-    if isValid(m.top.parentItem.parentFolder)
+    if isValid(m.top.parentItem.parentFolder) and not isStringEqual(getCollectionType(), ItemType.BOXSET)
         m.loadItemsTask.itemId = m.top.parentItem.parentFolder
         m.loadItemsTask.genreIds = m.top.parentItem.id
     end if
 
     m.dropdownOptions.translation = "[100, 540]"
     m.itemGrid.translation = "[100, 670]"
+    m.emptyText.translation = "[0, 750]"
     m.itemGrid.itemSize = "[230, 345]"
     m.itemGrid.rowHeights = "[345]"
     m.itemGrid.numRows = "2"
 
-    m.selectedMovieOverview.visible = true
+    m.selectedItemOverview.visible = true
     m.infoGroup.visible = true
     m.top.showItemTitles = "hidealways"
 
-    m.movieLogo.visible = false
+    m.itemLogo.visible = false
     m.backdrop.opacity = 1
     m.newBackdrop.opacity = 0
 
@@ -239,12 +247,13 @@ sub loadInitialItems()
         m.top.showItemTitles = m.global.session.user.settings["itemgrid.gridTitles"]
         m.backdrop.opacity = 0
         m.newBackdrop.opacity = 0
-        m.movieLogo.visible = false
+        m.itemLogo.visible = false
         m.itemGrid.translation = "[100, 210]"
+        m.emptyText.translation = "[0, 540]"
         m.dropdownOptions.translation = "[100, 60]"
         m.itemGrid.numRows = "3"
-        m.selectedMovieOverview.visible = false
-        m.selectedMovieName.visible = false
+        m.selectedItemOverview.visible = false
+        m.selectedItemName.visible = false
         m.infoGroup.visible = false
 
         if isStringEqual(m.top.showItemTitles, "hidealways")
@@ -257,12 +266,13 @@ sub loadInitialItems()
     else if isStringEqual(m.view, "Genres")
         m.backdrop.opacity = 0
         m.newBackdrop.opacity = 0
-        m.movieLogo.visible = false
+        m.itemLogo.visible = false
         m.itemGrid.translation = "[100, 210]"
+        m.emptyText.translation = "[0, 540]"
         m.dropdownOptions.translation = "[100, 60]"
         m.itemGrid.numRows = "3"
-        m.selectedMovieOverview.visible = false
-        m.selectedMovieName.visible = false
+        m.selectedItemOverview.visible = false
+        m.selectedItemName.visible = false
         m.infoGroup.visible = false
     end if
 
@@ -278,8 +288,84 @@ sub loadInitialItems()
     m.getFiltersTask.control = "RUN"
 end sub
 
+function setOptions() as object
+    if isStringEqual(m.top.mediaType, ItemType.MOVIE)
+        return setMovieOptions()
+    end if
+
+    if isStringEqual(m.top.mediaType, ItemType.BOXSET)
+        return setMovieOptions()
+    end if
+
+    if isStringEqual(m.top.mediaType, ItemType.SERIES)
+        return setSeriesOptions()
+    end if
+
+    return {
+        filter: []
+    }
+end function
+
 ' Set view, sort, and filter options
-sub setBaseOptions(options)
+function setMovieOptions() as object
+    options = {
+        filter: []
+    }
+
+    options.views = [
+        { "Title": tr("Presentation"), "Name": "presentation", "Track": { "description": tr("Presentation") } },
+        { "Title": tr("Grid"), "Name": "grid", "Track": { "description": tr("Grid") } },
+        { "Title": tr("Genres"), "Name": "Genres", "Track": { "description": tr("Genres") } }
+    ]
+
+    options.sort = [
+        { "Title": tr("TITLE"), "Name": "SortName", "Track": { "description": tr("TITLE") } },
+        { "Title": tr("Community Rating"), "Name": "CommunityRating,SortName", "Track": { "description": tr("Community Rating") } },
+        { "Title": tr("Critics Rating"), "Name": "CriticRating,SortName", "Track": { "description": tr("Critics Rating") } },
+        { "Title": tr("DATE_ADDED"), "Name": "DateCreated,SortName", "Track": { "description": tr("DATE_ADDED") } },
+        { "Title": tr("DATE_PLAYED"), "Name": "DatePlayed,SortName", "Track": { "description": tr("DATE_PLAYED") } },
+        { "Title": tr("Parental Rating"), "Name": "OfficialRating,SortName", "Track": { "description": tr("Parental Rating") } },
+        { "Title": tr("PLAY_COUNT"), "Name": "PlayCount,SortName", "Track": { "description": tr("PLAY_COUNT") } },
+        { "Title": tr("RELEASE_DATE"), "Name": "PremiereDate,SortName", "Track": { "description": tr("RELEASE_DATE") } },
+        { "Title": tr("RUNTIME"), "Name": "Runtime,SortName", "Track": { "description": tr("RUNTIME") } },
+        { "Title": tr("Random"), "Name": "Random", "Track": { "description": tr("Random") } }
+    ]
+
+    options.filter = [
+        { "Title": tr("All"), "Name": "All" },
+        { "Title": tr("Played"), "Name": "Played" },
+        { "Title": tr("Unplayed"), "Name": "Unplayed" },
+        { "Title": tr("Resumable"), "Name": "Resumable" },
+        { "Title": tr("Favorites"), "Name": "Favorites" }
+    ]
+
+    if isStringEqual(getCollectionType(), ItemType.BOXSET)
+        options.views = [
+            { "Title": tr("Presentation"), "Name": "presentation", "Track": { "description": tr("Presentation") } },
+            { "Title": tr("Grid"), "Name": "grid", "Track": { "description": tr("Grid") } }
+        ]
+    end if
+
+    if isStringEqual(m.view, "genres")
+        options.sort = [{ "Title": tr("TITLE"), "Name": "SortName", "Track": { "description": tr("TITLE") } }]
+        options.filter = [{ "Title": tr("All"), "Name": "All" }]
+    end if
+
+    ' If we're in a genre subfolder
+    if isValid(m.top.parentItem.parentFolder)
+        options.views = [
+            { "Title": tr("Presentation"), "Name": "presentation", "Track": { "description": tr("Presentation") } },
+            { "Title": tr("Grid"), "Name": "grid", "Track": { "description": tr("Grid") } }
+        ]
+    end if
+
+    return options
+end function
+
+function setSeriesOptions() as object
+    options = {
+        filter: []
+    }
 
     options.views = [
         { "Title": tr("Presentation"), "Name": "presentation", "Track": { "description": tr("Presentation") } },
@@ -317,7 +403,9 @@ sub setBaseOptions(options)
             { "Title": tr("Grid"), "Name": "grid", "Track": { "description": tr("Grid") } }
         ]
     end if
-end sub
+
+    return options
+end function
 
 ' Return parent collection type
 function getCollectionType() as string
@@ -391,10 +479,7 @@ end sub
 '
 ' Logo Image Loaded Event Handler
 sub FilterDataLoaded(msg)
-    options = {}
-    options.filter = []
-
-    setBaseOptions(options)
+    options = setOptions()
 
     data = msg.GetData()
     m.getFiltersTask.unobserveField("filters")
@@ -403,7 +488,7 @@ sub FilterDataLoaded(msg)
 
     ' Add filters from the API data
     if inArray(["presentation", "grid"], m.view)
-        options.filter.push({ "Title": tr("Status"), "Name": "SeriesStatus", "Options": ["Continuing", "Ended", "Unreleased"], "Delimiter": ",", "CheckedState": [] })
+        options.filter.push({ "Title": tr("Features"), "Name": "Features", "Options": ["Subtitles", "Special Features", "Theme Song", "Theme Video"], "Delimiter": "|", "CheckedState": [] })
 
         if isValidAndNotEmpty(data.genres)
             options.filter.push({ "Title": tr("Genres"), "Name": "Genres", "Options": data.genres, "Delimiter": "|", "CheckedState": [] })
@@ -432,15 +517,15 @@ sub LogoImageLoaded(msg)
     m.loadLogoTask.content = []
 
     if not isStringEqual(m.view, "presentation")
-        m.movieLogo.visible = false
+        m.itemLogo.visible = false
         return
     end if
 
     if data.Count() > 0
-        m.movieLogo.uri = data[0]
-        m.movieLogo.visible = true
+        m.itemLogo.uri = data[0]
+        m.itemLogo.visible = true
     else
-        m.selectedMovieName.visible = true
+        m.selectedItemName.visible = true
     end if
 end sub
 
@@ -513,13 +598,13 @@ sub ItemDataLoaded(msg)
     m.Loading = false
     'If there are no items to display, show message
     if m.loadedItems = 0
-        m.selectedMovieOverview.visible = false
+        m.selectedItemOverview.visible = false
         m.infoGroup.visible = false
 
-        m.movieLogo.visible = false
-        m.movieLogo.uri = string.EMPTY
+        m.itemLogo.visible = false
+        m.itemLogo.uri = string.EMPTY
 
-        m.selectedMovieName.visible = false
+        m.selectedItemName.visible = false
 
         SetName(string.EMPTY)
         SetOverview(string.EMPTY)
@@ -531,7 +616,10 @@ sub ItemDataLoaded(msg)
         m.criticRatingIcon.uri = string.EMPTY
         m.star.uri = string.EMPTY
 
-        m.emptyText.text = tr("NO_ITEMS").Replace("%1", m.top.parentItem.Type)
+        m.newBackdrop.opacity = 0
+        m.backdrop.opacity = 0
+
+        m.emptyText.text = tr("No items found. Try adjusting your selected filters.")
         m.emptyText.visible = true
         m.sortButton.focus = true
         m.sortButton.setfocus(true)
@@ -549,27 +637,27 @@ sub ItemDataLoaded(msg)
 end sub
 
 '
-'Set Selected Movie Name
-sub SetName(movieName as string)
-    m.selectedMovieName.text = movieName
+'Set Selected Name
+sub SetName(itemName as string)
+    m.selectedItemName.text = itemName
 end sub
 
 '
-'Set Selected Movie Overview
-sub SetOverview(movieOverview as string)
-    m.selectedMovieOverview.text = movieOverview
+'Set Selected Overview
+sub SetOverview(itemOverview as string)
+    m.selectedItemOverview.text = itemOverview
 end sub
 
 '
-'Set Selected Movie OfficialRating
-sub SetOfficialRating(movieOfficialRating as string)
-    m.selectedMovieOfficialRating.text = movieOfficialRating
+'Set Selected OfficialRating
+sub SetOfficialRating(itemOfficialRating as string)
+    m.selectedItemOfficialRating.text = itemOfficialRating
 end sub
 
 '
-'Set Selected Movie ProductionYear
-sub SetProductionYear(movieProductionYear)
-    m.selectedMovieProductionYear.text = movieProductionYear
+'Set Selected ProductionYear
+sub SetProductionYear(itemProductionYear)
+    m.selectedItemProductionYear.text = itemProductionYear
 end sub
 
 '
@@ -580,6 +668,12 @@ sub SetBackground(backgroundUri as string)
     end if
 
     if not isStringEqual(m.view, "presentation")
+        m.newBackdrop.opacity = 0
+        m.backdrop.opacity = 0
+        return
+    end if
+
+    if m.loadedItems = 0
         m.newBackdrop.opacity = 0
         m.backdrop.opacity = 0
         return
@@ -606,8 +700,8 @@ sub onItemFocused()
         return
     end if
 
-    m.movieLogo.visible = false
-    m.selectedMovieName.visible = false
+    m.itemLogo.visible = false
+    m.selectedItemName.visible = false
 
     ' Load more data if focus is within last 5 rows, and there are more items to load
     if focusedRow >= m.loadedRows - 5 and m.loadeditems < m.loadItemsTask.totalRecordCount
@@ -732,6 +826,12 @@ sub newBGLoaded()
         return
     end if
 
+    if m.loadedItems = 0
+        m.newBackdrop.opacity = 0
+        m.backdrop.opacity = 0
+        return
+    end if
+
     'If image load was sucessful, start the fade swap
     if m.newBackdrop.loadStatus = "ready"
         m.swapAnimation.control = "start"
@@ -741,6 +841,12 @@ end sub
 '
 'Swap Complete
 sub swapDone()
+    if m.loadedItems = 0
+        m.newBackdrop.opacity = 0
+        m.backdrop.opacity = 0
+        return
+    end if
+
     if not isStringEqual(m.view, "presentation")
         m.newBackdrop.opacity = 0
         m.backdrop.opacity = 0
@@ -956,7 +1062,7 @@ sub onViewChange()
     set_user_setting("display." + m.top.parentItem.Id + ".filterOptions", FormatJson(m.filterOptions))
 
     if not isStringEqual(m.view, "Genres")
-        set_user_setting("display.tvshowlibrary.defaultview", m.view)
+        set_user_setting(`display.${m.top.mediaType}library.defaultview`, m.view)
     end if
 
     m.getFiltersTask.control = "RUN"
