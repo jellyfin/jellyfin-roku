@@ -102,7 +102,7 @@
       numRows="3"
       vertFocusAnimationStyle="fixed"
       itemSize="[1900, 360]"
-      rowItemSize="[ [230, 320] ]"
+      rowItemSize="[ [230, 340] ]"
       rowItemSpacing="[ [20, 0] ]"
       itemSpacing="[0, 60]" />
 
