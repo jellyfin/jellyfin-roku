@@ -7,6 +7,7 @@ import "pkg:/source/utils/misc.bs"
 
 sub init()
     m.itemPoster = m.top.findNode("itemPoster")
+    m.itemIcon = m.top.findNode("itemIcon")
     m.posterText = m.top.findNode("posterText")
     m.posterText.font.size = 30
     m.backdrop = m.top.findNode("backdrop")
@@ -19,6 +20,9 @@ sub init()
     m.itemTextExtra.font.size = 23
 
     m.itemPoster.observeField("loadStatus", "onPosterLoadStatusChanged")
+
+    itemIconBackground = m.top.findNode("itemIconBackground")
+    itemIconBackground.color = ColorPalette.VIEWBACKGROUND
 
     'Parent is MarkupGrid and it's parent is the ItemGrid
     m.topParent = m.top.GetParent().GetParent()
@@ -63,6 +67,20 @@ sub itemContentChanged()
 
         if isStringEqual(itemData.json.Type, ItemType.MUSICVIDEO)
             m.itemTextExtra.text = itemData.SubTitle
+        end if
+    end if
+
+    if isValidAndNotEmpty(itemData.LookupCI("type"))
+        if isStringEqual(itemData.LookupCI("type"), ItemType.PHOTO)
+            m.itemIcon.uri = "pkg:/images/media_type_icons/photo.png"
+        end if
+
+        if isStringEqual(itemData.LookupCI("type"), ItemType.FOLDER)
+            m.itemIcon.uri = "pkg:/images/media_type_icons/photoFolder.png"
+        end if
+
+        if isStringEqual(itemData.LookupCI("type"), ItemType.VIDEO)
+            m.itemIcon.uri = "pkg:/images/media_type_icons/movie.png"
         end if
     end if
 

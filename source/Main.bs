@@ -363,6 +363,8 @@ sub Main (args as dynamic) as void
                         group = CreateVideoLibraryView(selectedItem, ItemType.SERIES)
                     else if isStringEqual(selectedItem.collectionType, "musicvideos")
                         group = CreateVideoLibraryView(selectedItem, ItemType.MUSICVIDEO)
+                    else if isStringEqual(selectedItem.collectionType, "homevideos")
+                        group = CreateVideoLibraryView(selectedItem, ItemType.PHOTO)
                     else if selectedItem.collectionType = "music"
                         group = CreateMusicLibraryView(selectedItem)
                     else if selectedItem.collectionType = "books"
@@ -386,6 +388,9 @@ sub Main (args as dynamic) as void
                     else
                         group = CreateItemGrid(selectedItem)
                     end if
+                    sceneManager.callFunc("pushScene", group)
+                else if isStringEqual(selectedItemType, "folder") and isStringEqual(selectedItem.json.LookupCI("type"), ItemType.PHOTOALBUM)
+                    group = CreateVideoLibraryView(selectedItem, ItemType.PHOTOALBUM)
                     sceneManager.callFunc("pushScene", group)
                 else if selectedItemType = "folder" and LCase(type(selectedItem.json.type)) = "rostring" and isStringEqual(selectedItem.json.type, "musicgenre")
                     group = CreateMusicLibraryView(selectedItem)
@@ -449,6 +454,15 @@ sub Main (args as dynamic) as void
                     end if
 
                 else if selectedItemType = "photo"
+                    sceneNode = msg.getRoSGNode()
+
+                    if sceneNode.isSubType("VideoLibraryView")
+                        photoPlayer = CreateObject("roSgNode", "PhotoDetails")
+                        photoPlayer.itemsNode = sceneNode.lastFocus
+                        photoPlayer.itemIndex = sceneNode.lastFocus.itemFocused
+                        m.global.sceneManager.callfunc("pushScene", photoPlayer)
+                    end if
+
                     ' only handle selection if it's from the home screen
                     if selectedItem.isSubType("HomeData")
                         quickplay.photo(selectedItem)

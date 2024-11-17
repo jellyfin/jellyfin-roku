@@ -1,5 +1,6 @@
 import "pkg:/source/api/baserequest.bs"
 import "pkg:/source/api/Image.bs"
+import "pkg:/source/enums/CollectionType.bs"
 import "pkg:/source/enums/ColorPalette.bs"
 import "pkg:/source/enums/ItemType.bs"
 import "pkg:/source/enums/KeyCode.bs"
@@ -163,7 +164,13 @@ sub loadInitialItems()
 
     ' If user has not set a preferred view for this folder, check if they've set a default view
     if not isValid(m.view)
-        m.view = m.global.session.user.settings[`display.${m.top.mediaType}library.defaultview`]
+        settingName = `display.${m.top.mediaType}library.defaultview`
+
+        if isStringEqual(m.top.mediaType, ItemType.PHOTOALBUM)
+            settingName = `display.${ItemType.PHOTO}library.defaultview`
+        end if
+
+        m.view = m.global.session.user.settings[settingName]
     end if
 
     ' Boxsets are sorted by Premiere Data by default
@@ -194,8 +201,12 @@ sub loadInitialItems()
     m.loadItemsTask.studioIds = string.EMPTY
     m.loadItemsTask.view = string.EMPTY
 
-    if not isStringEqual(m.top.mediaType, ItemType.BOXSET)
+    if not inArray([ItemType.BOXSET, ItemType.PHOTO, ItemType.PHOTOALBUM], m.top.mediaType)
         m.loadItemsTask.itemType = m.top.mediaType
+    end if
+
+    if inArray([ItemType.PHOTO, ItemType.PHOTOALBUM], m.top.mediaType)
+        m.loadItemsTask.recursive = false
     end if
 
     if isStringEqual(m.view, "Genres")
@@ -214,15 +225,18 @@ sub loadInitialItems()
     end if
 
     ' We're in a genre sub folder
-    if isValid(m.top.parentItem.parentFolder) and not isStringEqual(getCollectionType(), ItemType.BOXSET)
-        m.loadItemsTask.itemId = m.top.parentItem.parentFolder
-        m.loadItemsTask.genreIds = m.top.parentItem.id
+    if isValid(m.top.parentItem.parentFolder) and not isStringEqual(getCollectionType(), CollectionType.BOXSET)
+        if not isStringEqual(m.top.mediaType, ItemType.PHOTOALBUM)
+            m.loadItemsTask.itemId = m.top.parentItem.parentFolder
+            m.loadItemsTask.genreIds = m.top.parentItem.id
+        end if
     end if
 
     m.dropdownOptions.translation = "[100, 540]"
     m.itemGrid.translation = "[100, 670]"
     m.emptyText.translation = "[0, 750]"
     m.itemGrid.itemSize = "[230, 345]"
+    m.itemGrid.itemSpacing = "[20, 20]"
     m.itemGrid.rowHeights = "[345]"
     m.itemGrid.numRows = "2"
 
@@ -273,6 +287,20 @@ sub loadInitialItems()
         m.itemGrid.itemComponentName = "GridItemMedium"
         m.itemGrid.itemSize = "[400, 330]"
         m.itemGrid.rowHeights = "[330]"
+        m.itemGrid.itemSpacing = "[40, 20]"
+        m.itemGrid.numColumns = "4"
+        m.top.imageDisplayMode = "scaleToZoom"
+
+        m.genreList.itemComponentName = "GridItemMedium"
+        m.genreList.rowItemSize = "[[400, 330]]"
+        m.genreList.rowHeights = "[360]"
+    end if
+
+    if inArray([ItemType.PHOTO, ItemType.PHOTOALBUM], m.top.mediaType)
+        m.itemGrid.itemComponentName = "GridItemMedium"
+        m.itemGrid.itemSize = "[400, 330]"
+        m.itemGrid.rowHeights = "[330]"
+        m.itemGrid.itemSpacing = "[40, 20]"
         m.itemGrid.numColumns = "4"
         m.top.imageDisplayMode = "scaleToZoom"
 
@@ -308,6 +336,10 @@ function setOptions() as object
 
     if isStringEqual(m.top.mediaType, ItemType.MUSICVIDEO)
         return setMusicVideoOptions()
+    end if
+
+    if inArray([ItemType.PHOTO, ItemType.PHOTOALBUM], m.top.mediaType)
+        return setPhotoOptions()
     end if
 
     return {
@@ -415,6 +447,31 @@ function setMusicVideoOptions() as object
             { "Title": tr("Grid"), "Name": "grid", "Track": { "description": tr("Grid") } }
         ]
     end if
+
+    return options
+end function
+
+function setPhotoOptions() as object
+    options = {
+        filter: []
+    }
+
+    options.views = [
+        { "Title": tr("Presentation"), "Name": "presentation", "Track": { "description": tr("Presentation") } },
+        { "Title": tr("Grid"), "Name": "grid", "Track": { "description": tr("Grid") } }
+    ]
+
+    options.sort = [
+        { "Title": tr("TITLE"), "Name": "SortName", "Track": { "description": tr("TITLE") } },
+        { "Title": tr("DATE_ADDED"), "Name": "DateCreated,SortName", "Track": { "description": tr("DATE_ADDED") } },
+        { "Title": tr("Random"), "Name": "Random", "Track": { "description": tr("Random") } }
+    ]
+
+    options.filter = [
+        { "Title": tr("All"), "Name": "All" },
+        { "Title": tr("Favorites"), "Name": "Favorites" }
+        { "Title": tr("Item Type"), "Name": "includeItemTypes", "Options": ["Photo", "Photo Album", "Video"], "Delimiter": ",", "CheckedState": [] }
+    ]
 
     return options
 end function
@@ -645,9 +702,7 @@ sub ItemDataLoaded(msg)
         m.itemGrid.jumpToItem = 0
     end if
 
-    for each item in itemData
-        m.data.appendChild(item)
-    end for
+    m.data.appendChildren(itemData)
 
     'Update the stored counts
     m.loadedItems = m.itemGrid.content.getChildCount()
