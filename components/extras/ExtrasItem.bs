@@ -1,3 +1,4 @@
+import "pkg:/source/enums/ItemType.bs"
 import "pkg:/source/utils/misc.bs"
 
 sub init()
@@ -54,6 +55,13 @@ sub showContent()
         m.role.maxWidth = cont.imageWidth
         m.posterImg.uri = cont.posterUrl
         m.posterImg.width = cont.imageWidth
+
+        if isStringEqual(cont.LookupCI("type"), ItemType.MUSICVIDEO)
+            m.posterImg.width = 400
+            m.name.maxWidth = 400
+            m.role.maxWidth = 400
+            m.posterImg.height = 260
+        end if
 
         if isChainValid(cont, "json.ExtraType")
             if cont.json.ExtraType <> ""

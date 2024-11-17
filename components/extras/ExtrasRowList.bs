@@ -1,4 +1,5 @@
 import "pkg:/source/enums/ColorPalette.bs"
+import "pkg:/source/enums/ItemType.bs"
 import "pkg:/source/enums/PersonType.bs"
 import "pkg:/source/enums/TaskControl.bs"
 import "pkg:/source/enums/VideoType.bs"
@@ -148,7 +149,12 @@ sub onLikeThisLoaded()
             item.Type = item.json.LookupCI("Type")
             row.appendChild(item)
         end for
-        addRowSize([234, 396])
+
+        if isStringEqual(data[0].json.LookupCI("Type"), ItemType.MUSICVIDEO)
+            addRowSize([400, 330])
+        else
+            addRowSize([234, 396])
+        end if
     end if
 
     ' Special Features next...

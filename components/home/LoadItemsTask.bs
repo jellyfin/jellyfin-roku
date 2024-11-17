@@ -232,7 +232,16 @@ function loadMoreLikeThis() as object
 
     for each item in data.items
         tmp = CreateObject("roSGNode", "ExtrasData")
-        tmp.posterURL = ImageUrl(item.Id, "Primary", { "Tags": item.PrimaryImageTag })
+        imgParms = {
+            "Tags": item.PrimaryImageTag,
+            MaxWidth: 384,
+            MaxHeight: 196
+        }
+        if isStringEqual(item.LookupCI("type"), ItemType.MUSICVIDEO)
+            imgParms.MaxHeight = 330
+            imgParms.MaxWidth = 400
+        end if
+        tmp.posterURL = ImageUrl(item.Id, "Primary", imgParms)
         tmp.json = {
             Id: item.LookupCI("ID"),
             Name: item.LookupCI("Name"),
