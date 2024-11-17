@@ -16,6 +16,10 @@
     "author": "1hitsong"
   },
   {
+    "description": "Add sort, filter, and view options to boxsets",
+    "author": "1hitsong"
+  },
+  {
     "description": "Reuse current library view setting for genre folders - No longer need default view setting",
     "author": "1hitsong"
   },
@@ -36,7 +40,7 @@
     "author": "1hitsong"
   },
   {
-    "description": "Add media type icons to playlist items",
+    "description": "Add media type icon to playlist items",
     "author": "1hitsong"
   },
   {
@@ -44,7 +48,7 @@
     "author": "1hitsong"
   },
   {
-    "description": "Remove Studio view from movie library",
+    "description": "Remove Studio/Network views from libraries",
     "author": "1hitsong"
   },
   {

@@ -1,4 +1,5 @@
 enum CollectionType
     BOXSET = "boxset"
+    BOXSETS = "boxsets"
     HOMEVIDEOS = "homevideos"
 end enum

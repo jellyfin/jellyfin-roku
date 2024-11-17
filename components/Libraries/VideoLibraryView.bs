@@ -380,7 +380,7 @@ function setMovieOptions() as object
         { "Title": tr("Favorites"), "Name": "Favorites" }
     ]
 
-    if isStringEqual(getCollectionType(), ItemType.BOXSET)
+    if inArray([ItemType.BOXSET, CollectionType.BOXSETS], getCollectionType())
         options.views = [
             { "Title": tr("Presentation"), "Name": "presentation", "Track": { "description": tr("Presentation") } },
             { "Title": tr("Grid"), "Name": "grid", "Track": { "description": tr("Grid") } }
