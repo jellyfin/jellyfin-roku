@@ -62,5 +62,9 @@
   {
     "description": "Prevent crash if user has more libraries than the home data tasks can handle",
     "author": "1hitsong"
+  },
+  {
+    "description": "Create dev channel logo image",
+    "author": "1hitsong"
   }
 ]
