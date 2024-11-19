@@ -5,6 +5,8 @@
     <field id="title" type="string" />
     <field id="trackNumber" type="integer" />
     <field id="RunTimeTicks" type="float" />
+    <field id="ArtistItems" type="array" />
+    <field id="AlbumId" type="string" />
     <field id="image" type="node" onChange="setPoster" />
     <field id="overview" type="string" />
   </interface>

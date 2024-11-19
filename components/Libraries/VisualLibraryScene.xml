@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<component name="VideoLibraryView" extends="JFScreen">
+<component name="VisualLibraryScene" extends="JFScreen">
   <children>
     <VoiceTextEditBox id="VoiceBox" visible="true" width="40" translation="[52, 120]" />
     <Rectangle id="VoiceBoxCover" height="240" width="100" translation="[25, 75]" />

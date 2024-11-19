@@ -892,11 +892,11 @@ function CreateLiveTVLibraryView(libraryItem as object) as dynamic
     return group
 end function
 
-function CreateVideoLibraryView(libraryItem as object, mediaType as string) as dynamic
+function CreateVisualLibraryScene(libraryItem as object, mediaType as string) as dynamic
     ' validate libraryItem
     if not isValid(libraryItem) then return invalid
 
-    group = CreateObject("roSGNode", "VideoLibraryView")
+    group = CreateObject("roSGNode", "VisualLibraryScene")
     group.mediaType = mediaType
     group.parentItem = libraryItem
     group.observeField("selectedItem", m.port)

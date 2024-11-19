@@ -140,52 +140,17 @@ sub Main (args as dynamic) as void
         if type(msg) = "roSGScreenEvent" and msg.isScreenClosed()
             print "CLOSING SCREEN"
             return
-        else if isNodeEvent(msg, "jumpTo")
-            jumpToData = msg.getData()
-            if isValid(jumpToData)
-                currentView = m.global.sceneManager.callFunc("getActiveScene")
+        end if
 
-                ' If current view is audio player, remove it from the scene stack so users can't press back to return to it
-                if isStringEqual(currentView.subType(), "audioplayerview")
-                    m.global.sceneManager.callFunc("clearPreviousScene")
-                end if
-
-                if isStringEqual(jumpToData.selectiontype, "nowplaying")
-                    JumpIntoAudioPlayerView()
-                end if
-
-                if isStringEqual(jumpToData.selectiontype, "artist")
-                    startLoadingSpinner()
-                    group = CreateArtistView(jumpToData)
-                    if isValid(group)
-                    else
-                        stopLoadingSpinner()
-                        message_dialog(tr("Unable to find any albums or songs belonging to this artist"))
-                    end if
-                end if
-
-                if isStringEqual(jumpToData.selectiontype, "album")
-                    startLoadingSpinner()
-                    group = CreateAlbumView(jumpToData)
-                    if not isValid(group)
-                        stopLoadingSpinner()
-                    end if
-                end if
-            end if
-        else if isNodeEvent(msg, "exit")
+        if isNodeEvent(msg, "exit")
+            print "CLOSING SCREEN"
             return
-        else if isNodeEvent(msg, "closeSidePanel")
-            group = sceneManager.callFunc("getActiveScene")
-            if isValid(group.lastFocus)
-                group.lastFocus.setFocus(true)
+        end if
 
-                if group.lastFocus.isSubType("JFOverhang")
-                    group.lastFocus.callFunc("highlightUser")
-                end if
-            else
-                group.setFocus(true)
-                group.lastFocus = group
-            end if
+        if isNodeEvent(msg, "jumpTo")
+            handleJumpToEvent(msg)
+        else if isNodeEvent(msg, "closeSidePanel")
+            handleCloseSidePanelEvent()
         else if isNodeEvent(msg, "quickPlayNode")
             m.global.queueManager.callFunc("setForceTranscode", false)
 
@@ -353,46 +318,26 @@ sub Main (args as dynamic) as void
 
                 if isValid(selectedItemType)
                     ' If button selected is a string, lcase it
-                    if LCase(type(selectedItemType)) = "rostring" then selectedItemType = LCase(selectedItemType)
+                    if isStringEqual(type(selectedItemType), "rostring") then selectedItemType = LCase(selectedItemType)
                 end if
 
                 if selectedItemType = "collectionfolder"
-                    if selectedItem.collectionType = "movies"
-                        group = CreateVideoLibraryView(selectedItem, ItemType.MOVIE)
-                    else if isStringEqual(selectedItem.collectionType, "tvshows")
-                        group = CreateVideoLibraryView(selectedItem, ItemType.SERIES)
-                    else if isStringEqual(selectedItem.collectionType, "musicvideos")
-                        group = CreateVideoLibraryView(selectedItem, ItemType.MUSICVIDEO)
-                    else if isStringEqual(selectedItem.collectionType, "homevideos")
-                        group = CreateVideoLibraryView(selectedItem, ItemType.PHOTO)
-                    else if isStringEqual(selectedItem.collectionType, "boxsets")
-                        group = CreateVideoLibraryView(selectedItem, ItemType.BOXSET)
-                    else if selectedItem.collectionType = "music"
-                        group = CreateMusicLibraryView(selectedItem)
-                    else if selectedItem.collectionType = "books"
-                        group = CreateBookLibraryView(selectedItem)
-                    else if selectedItem.collectionType = "nextup"
-                        group = CreateItemGrid(selectedItem)
-                        group.optionsAvailable = false
-                    else
-                        group = CreateItemGrid(selectedItem)
-                    end if
-                    sceneManager.callFunc("pushScene", group)
+                    onLibrarySelection(selectedItem)
                 else if selectedItemType = "boxset"
-                    group = CreateVideoLibraryView(selectedItem, ItemType.BOXSET)
+                    group = CreateVisualLibraryScene(selectedItem, ItemType.BOXSET)
                     sceneManager.callFunc("pushScene", group)
                 else if selectedItemType = "folder" and isStringEqual(selectedItem.json.type, "genre")
                     ' User clicked on a genre folder
                     if selectedItem.json.MovieCount > 0
-                        group = CreateVideoLibraryView(selectedItem, ItemType.MOVIE)
+                        group = CreateVisualLibraryScene(selectedItem, ItemType.MOVIE)
                     else if selectedItem.json.SeriesCount > 0
-                        group = CreateVideoLibraryView(selectedItem, ItemType.SERIES)
+                        group = CreateVisualLibraryScene(selectedItem, ItemType.SERIES)
                     else
                         group = CreateItemGrid(selectedItem)
                     end if
                     sceneManager.callFunc("pushScene", group)
                 else if isStringEqual(selectedItemType, "folder") and isStringEqual(selectedItem.json.LookupCI("type"), ItemType.PHOTOALBUM)
-                    group = CreateVideoLibraryView(selectedItem, ItemType.PHOTOALBUM)
+                    group = CreateVisualLibraryScene(selectedItem, ItemType.PHOTOALBUM)
                     sceneManager.callFunc("pushScene", group)
                 else if selectedItemType = "folder" and LCase(type(selectedItem.json.type)) = "rostring" and isStringEqual(selectedItem.json.type, "musicgenre")
                     group = CreateMusicLibraryView(selectedItem)
@@ -458,7 +403,7 @@ sub Main (args as dynamic) as void
                 else if selectedItemType = "photo"
                     sceneNode = msg.getRoSGNode()
 
-                    if sceneNode.isSubType("VideoLibraryView")
+                    if sceneNode.isSubType("VisualLibraryScene")
                         photoPlayer = CreateObject("roSgNode", "PhotoDetails")
                         photoPlayer.itemsNode = sceneNode.lastFocus
                         photoPlayer.itemIndex = sceneNode.lastFocus.itemFocused
@@ -1257,7 +1202,59 @@ sub Main (args as dynamic) as void
             print msg
         end if
     end while
+end sub
 
+sub onLibrarySelection(selectedItem)
+    if selectedItem.collectionType = "movies"
+        group = CreateVisualLibraryScene(selectedItem, ItemType.MOVIE)
+        m.global.sceneManager.callFunc("pushScene", group)
+    end if
+
+    if isStringEqual(selectedItem.collectionType, "tvshows")
+        group = CreateVisualLibraryScene(selectedItem, ItemType.SERIES)
+        m.global.sceneManager.callFunc("pushScene", group)
+        return
+    end if
+
+    if isStringEqual(selectedItem.collectionType, "musicvideos")
+        group = CreateVisualLibraryScene(selectedItem, ItemType.MUSICVIDEO)
+        m.global.sceneManager.callFunc("pushScene", group)
+        return
+    end if
+
+    if isStringEqual(selectedItem.collectionType, "homevideos")
+        group = CreateVisualLibraryScene(selectedItem, ItemType.PHOTO)
+        m.global.sceneManager.callFunc("pushScene", group)
+        return
+    end if
+
+    if isStringEqual(selectedItem.collectionType, "boxsets")
+        group = CreateVisualLibraryScene(selectedItem, ItemType.BOXSET)
+        m.global.sceneManager.callFunc("pushScene", group)
+        return
+    end if
+
+    if selectedItem.collectionType = "music"
+        group = CreateMusicLibraryView(selectedItem)
+        m.global.sceneManager.callFunc("pushScene", group)
+        return
+    end if
+
+    if selectedItem.collectionType = "books"
+        group = CreateBookLibraryView(selectedItem)
+        m.global.sceneManager.callFunc("pushScene", group)
+        return
+    end if
+
+    if selectedItem.collectionType = "nextup"
+        group = CreateItemGrid(selectedItem)
+        group.optionsAvailable = false
+        m.global.sceneManager.callFunc("pushScene", group)
+        return
+    end if
+
+    group = CreateItemGrid(selectedItem)
+    m.global.sceneManager.callFunc("pushScene", group)
 end sub
 
 sub handleDeepLinking(args)
@@ -1484,4 +1481,53 @@ sub handleDeepLinking(args)
     dialog.message = "The passed media type is not supported"
     m.scene.dialog = dialog
     m.scene.dialog.observeField("buttonSelected", m.port)
+end sub
+
+sub handleJumpToEvent(msg)
+    jumpToData = msg.getData()
+    if not isValid(jumpToData) then return
+
+    currentView = m.global.sceneManager.callFunc("getActiveScene")
+
+    ' If current view is audio player, remove it from the scene stack so users can't press back to return to it
+    if isStringEqual(currentView.subType(), "audioplayerview")
+        m.global.sceneManager.callFunc("clearPreviousScene")
+    end if
+
+    if isStringEqual(jumpToData.selectiontype, "nowplaying")
+        JumpIntoAudioPlayerView()
+    end if
+
+    if isStringEqual(jumpToData.selectiontype, "artist")
+        startLoadingSpinner()
+        group = CreateArtistView(jumpToData)
+        if not isValid(group)
+            stopLoadingSpinner()
+            message_dialog(tr("Unable to find any albums or songs belonging to this artist"))
+        end if
+    end if
+
+    if isStringEqual(jumpToData.selectiontype, "album")
+        startLoadingSpinner()
+        group = CreateAlbumView(jumpToData)
+        if not isValid(group)
+            stopLoadingSpinner()
+        end if
+    end if
+end sub
+
+sub handleCloseSidePanelEvent()
+    group = m.global.sceneManager.callFunc("getActiveScene")
+    if isValid(group.lastFocus)
+        group.lastFocus.setFocus(true)
+
+        if group.lastFocus.isSubType("JFOverhang")
+            group.lastFocus.callFunc("highlightUser")
+        end if
+
+        return
+    end if
+
+    group.setFocus(true)
+    group.lastFocus = group
 end sub
