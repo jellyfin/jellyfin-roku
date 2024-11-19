@@ -56,6 +56,10 @@
     "author": "1hitsong"
   },
   {
+    "description": "Fix cursor loss when returning to song list after stopping audio",
+    "author": "1hitsong"
+  },
+  {
     "description": "Prevent crash if user has more libraries than the home data tasks can handle",
     "author": "1hitsong"
   }
