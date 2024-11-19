@@ -451,22 +451,20 @@ sub onVideoContentLoaded()
 
     m.trickplayDataFinal = invalid
     if isValidAndNotEmpty(m.trickplay)
-        if isValid(m.trickplay)
-            trickplayData = m.trickplay.LookupCI(m.top.id)
-            if isValidAndNotEmpty(trickplayData)
-                m.trickplayDataFinal = trickplayData.lookupCI(trickplayData.keys()[0])
+        trickplayData = m.trickplay.LookupCI(m.top.id)
+        if isValidAndNotEmpty(trickplayData)
+            m.trickplayDataFinal = trickplayData.lookupCI(trickplayData.keys()[0])
 
-                if isValidAndNotEmpty(m.trickplayDataFinal)
-                    ' Convert interval to seconds
-                    m.iconInterval = m.trickplayDataFinal.Interval / 1000
+            if isValidAndNotEmpty(m.trickplayDataFinal)
+                ' Convert interval to seconds
+                m.iconInterval = m.trickplayDataFinal.Interval / 1000
 
-                    m.canUseFastReplace = (m.trickplayDataFinal.TileHeight * m.trickplayDataFinal.Height) * (m.trickplayDataFinal.TileWidth * m.trickplayDataFinal.Width) < 2000000
+                m.canUseFastReplace = (m.trickplayDataFinal.TileHeight * m.trickplayDataFinal.Height) * (m.trickplayDataFinal.TileWidth * m.trickplayDataFinal.Width) < 2000000
 
-                    m.PreloadTrickplayImagesTask.numImagesToLoad = fix(m.trickplayDataFinal.ThumbnailCount / (m.trickplayDataFinal.TileHeight * m.trickplayDataFinal.TileWidth))
-                    m.PreloadTrickplayImagesTask.trickplayWidth = m.trickplayDataFinal.Width
-                    m.PreloadTrickplayImagesTask.method = "ADD"
-                    m.PreloadTrickplayImagesTask.control = TaskControl.RUN
-                end if
+                m.PreloadTrickplayImagesTask.numImagesToLoad = fix(m.trickplayDataFinal.ThumbnailCount / (m.trickplayDataFinal.TileHeight * m.trickplayDataFinal.TileWidth))
+                m.PreloadTrickplayImagesTask.trickplayWidth = m.trickplayDataFinal.Width
+                m.PreloadTrickplayImagesTask.method = "ADD"
+                m.PreloadTrickplayImagesTask.control = TaskControl.RUN
             end if
         end if
     end if
