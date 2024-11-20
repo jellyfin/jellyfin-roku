@@ -1,34 +1,6 @@
 [
   {
-    "description": "Add version number and link to What's New popup to setting screen",
-    "author": "1hitsong"
-  },
-  {
-    "description": "Move Sort, Filter, and View options to top of movie library",
-    "author": "1hitsong"
-  },
-  {
-    "description": "Move Sort, Filter, and View options to top of TV Show library",
-    "author": "1hitsong"
-  },
-  {
-    "description": "Create presentation view for TV Show library",
-    "author": "1hitsong"
-  },
-  {
-    "description": "Add sort, filter, and view options to boxsets",
-    "author": "1hitsong"
-  },
-  {
-    "description": "Reuse current library view setting for genre folders - No longer need default view setting",
-    "author": "1hitsong"
-  },
-  {
-    "description": "Add sort, filter, and view support to Music Video libraries",
-    "author": "1hitsong"
-  },
-  {
-    "description": "Add sort, filter, and view support to Photo libraries",
+    "description": "Move Sort, Filter, and View options to top of Collections, Movie, TV Show, and Music Video libraries",
     "author": "1hitsong"
   },
   {
@@ -40,11 +12,19 @@
     "author": "1hitsong"
   },
   {
-    "description": "Add media type icon to playlist items",
+    "description": "Create presentation view for Collections, TV Show, and Music Video libraries",
     "author": "1hitsong"
   },
   {
-    "description": "Add additional info to playlist items",
+    "description": "Reuse current library view setting for genre folders - No longer need default view setting",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Add sort, filter, and view support to Collections, Photo, and Music Video libraries",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Add media type icon and additional info to playlist items",
     "author": "1hitsong"
   },
   {
@@ -61,6 +41,10 @@
   },
   {
     "description": "Prevent crash if user has more libraries than the home data tasks can handle",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Add version number and link to What's New popup to setting screen",
     "author": "1hitsong"
   },
   {
