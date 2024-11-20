@@ -1208,6 +1208,7 @@ sub onLibrarySelection(selectedItem)
     if selectedItem.collectionType = "movies"
         group = CreateVisualLibraryScene(selectedItem, ItemType.MOVIE)
         m.global.sceneManager.callFunc("pushScene", group)
+        return
     end if
 
     if isStringEqual(selectedItem.collectionType, "tvshows")
