@@ -313,7 +313,7 @@ sub itemContentChanged()
 
     criticRatingIcon = m.top.findNode("criticRatingIcon")
 
-    if m.global.session.user.settings["ui.movies.showRatings"]
+    if m.global.session.user.settings["ui.itemdetail.showRatings"]
         if isValid(itemData.communityRating)
             m.top.findNode("star").visible = true
             setFieldText("communityRating", int(itemData.communityRating * 10) / 10)
