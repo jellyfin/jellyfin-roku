@@ -409,31 +409,29 @@ function getMinutes(ticks) as integer
 end function
 
 '
-' Returns whether or not a version number (e.g. 10.7.7) is greater or equal
-' to some minimum version allowed (e.g. 10.8.0)
-function versionChecker(versionToCheck as string, minVersionAccepted as string)
-    leftHand = CreateObject("roLongInteger")
-    rightHand = CreateObject("roLongInteger")
+' Returns whether or not the channel version number is higher than the passed version number
+function ChannelVersionUpdated(versionToCheck)
+    if not isValidAndNotEmpty(versionToCheck) then return true
 
-    regEx = CreateObject("roRegex", "\.", "")
-    version = regEx.Split(versionToCheck)
+    version = versionToCheck.split(".")
     if version.Count() < 3
         for i = version.Count() to 3 step 1
-            version.AddTail("0")
+            version.push("0")
         end for
     end if
 
-    minVersion = regEx.Split(minVersionAccepted)
-    if minVersion.Count() < 3
-        for i = minVersion.Count() to 3 step 1
-            minVersion.AddTail("0")
-        end for
-    end if
+    currentVersion = m.global.app.version.split(".")
 
-    leftHand = (version[0].ToInt() * 10000) + (version[1].ToInt() * 100) + (version[2].ToInt() * 10)
-    rightHand = (minVersion[0].ToInt() * 10000) + (minVersion[1].ToInt() * 100) + (minVersion[2].ToInt() * 10)
+    ' Check Major version
+    if currentVersion[0].ToInt() > version[0].ToInt() then return true
 
-    return leftHand >= rightHand
+    ' Check Minor version
+    if currentVersion[1].ToInt() > version[1].ToInt() then return true
+
+    ' Check Patch version
+    if currentVersion[2].ToInt() > version[2].ToInt() then return true
+
+    return false
 end function
 
 function findNodeBySubtype(node, subtype)

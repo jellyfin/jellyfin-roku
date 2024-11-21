@@ -107,10 +107,9 @@ sub Main (args as dynamic) as void
         set_user_setting("LastRunVersion", m.global.app.version)
     end if
 
-    ' Bypass What's New popup if deep linking arguments were passed
+    ' Has the current user run this version before?
     usersLastRunVersion = m.global.session.user.settings.lastRunVersion
-    ' has the current user ran this version before?
-    if not isValid(usersLastRunVersion) or not versionChecker(m.global.session.user.settings.lastRunVersion, m.global.app.version)
+    if ChannelVersionUpdated(usersLastRunVersion)
         set_user_setting("LastRunVersion", m.global.app.version)
         ' show what's new popup
         if m.global.session.user.settings["load.allowwhatsnew"]

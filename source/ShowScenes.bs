@@ -486,13 +486,7 @@ function CreateSigninGroup(user = "", profileImageUri = "")
     saveCredentials = group.findNode("saveCredentials")
 
     quickConnect = group.findNode("quickConnect")
-    ' Quick Connect only supported for server version 10.8+ right now...
-    if versionChecker(m.global.session.server.version, "10.8.0")
-        ' Add option for Quick Connect
-        quickConnect.observeField("selected", port)
-    else
-        quickConnect.visible = false
-    end if
+    quickConnect.observeField("selected", port)
 
     button = group.findNode("submit")
     button.observeField("selected", port)
