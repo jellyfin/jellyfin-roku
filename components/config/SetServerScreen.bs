@@ -61,8 +61,6 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
             m.top.serverUrl = selectedServer.baseUrl
             m.submit.setFocus(true)
-            group = m.global.sceneManager.callFunc("getActiveScene")
-            group.lastFocus = m.submit
             m.submit.focus = true
             return true
         end if
@@ -83,8 +81,6 @@ function onKeyEvent(key as string, press as boolean) as boolean
     if key = KeyCode.DOWN
         if m.serverPicker.hasFocus() and m.serverPicker.content.getChildCount() > 0 and m.serverPicker.itemFocused = m.serverPicker.content.getChildCount() - 1
             m.serverUrlContainer.setFocus(true)
-            group = m.global.sceneManager.callFunc("getActiveScene")
-            group.lastFocus = m.serverUrlContainer
             m.serverUrlOutline.visible = true
             return true
         end if
@@ -92,8 +88,6 @@ function onKeyEvent(key as string, press as boolean) as boolean
         if m.serverUrlContainer.hasFocus()
             m.serverUrlOutline.visible = false
             m.submit.setFocus(true)
-            group = m.global.sceneManager.callFunc("getActiveScene")
-            group.lastFocus = m.submit
             m.submit.focus = true
             return true
         end if
@@ -104,8 +98,6 @@ function onKeyEvent(key as string, press as boolean) as boolean
     if key = KeyCode.UP
         if m.serverUrlContainer.hasFocus() and isValidAndNotEmpty(m.servers)
             m.serverPicker.setFocus(true)
-            group = m.global.sceneManager.callFunc("getActiveScene")
-            group.lastFocus = m.serverPicker
             m.serverUrlOutline.visible = false
             return true
         end if
@@ -118,8 +110,6 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
         if m.submit.hasFocus()
             m.serverUrlContainer.setFocus(true)
-            group = m.global.sceneManager.callFunc("getActiveScene")
-            group.lastFocus = m.serverUrlContainer
             m.serverUrlOutline.visible = true
             m.submit.focus = false
             return true
@@ -132,23 +122,17 @@ function onKeyEvent(key as string, press as boolean) as boolean
         if m.serverUrlContainer.hasFocus() and isValidAndNotEmpty(m.servers)
             m.serverUrlOutline.visible = false
             m.serverPicker.setFocus(true)
-            group = m.global.sceneManager.callFunc("getActiveScene")
-            group.lastFocus = m.serverPicker
             return true
         end if
 
         if m.submit.hasFocus() and isValidAndNotEmpty(m.servers)
             m.serverPicker.setFocus(true)
-            group = m.global.sceneManager.callFunc("getActiveScene")
-            group.lastFocus = m.serverPicker
             return true
         end if
 
         if m.submit.hasFocus() and m.servers.Count() = 0
             m.serverUrlOutline.visible = true
             m.serverUrlContainer.setFocus(true)
-            group = m.global.sceneManager.callFunc("getActiveScene")
-            group.lastFocus = m.serverUrlContainer
             return true
         end if
 
@@ -212,13 +196,9 @@ sub ScanForServersComplete(event)
     'if we have at least one server, focus on the server picker
     if m.servers.Count() > 0
         m.serverPicker.setFocus(true)
-        group = m.global.sceneManager.callFunc("getActiveScene")
-        group.lastFocus = m.serverPicker
         'no servers found...focus on the input textbox
     else
         m.serverUrlContainer.setFocus(true)
-        group = m.global.sceneManager.callFunc("getActiveScene")
-        group.lastFocus = m.serverUrlContainer
         'show/hide input box outline
         m.serverUrlOutline.visible = true
     end if
