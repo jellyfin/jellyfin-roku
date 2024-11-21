@@ -404,6 +404,19 @@
                 ]
             },
             {
+                "title": "Item Detail Screen",
+                "description": "Settings relating to the appearance of the item detail screen.",
+                "children": [
+                    {
+                        "title": "Show Overview Content",
+                        "description": "If available, show the overview content on the item detail screen",
+                        "settingName": "ui.itemdetail.showoverviewcontent",
+                        "type": "bool",
+                        "default": "true"
+                    }
+                ]
+            },
+            {
                 "title": "Libraries",
                 "description": "Settings relating to the appearance of Library pages.",
                 "children": [

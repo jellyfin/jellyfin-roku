@@ -300,7 +300,10 @@ sub itemContentChanged()
 
     ' Handle all "As Is" fields
     setFieldText("releaseYear", itemData.productionYear)
-    setFieldText("overview", itemData.overview)
+
+    if m.global.session.user.settings["ui.itemdetail.showoverviewcontent"]
+        setFieldText("overview", itemData.overview)
+    end if
 
     if isValid(itemData.officialRating)
         setFieldText("officialRating", itemData.officialRating)
