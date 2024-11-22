@@ -131,7 +131,7 @@ sub Main (args as dynamic) as void
     device.EnableAudioGuideChangedEvent(true)
 
     ' Check if we were sent content to play with the startup command (Deep Link)
-    handleDeepLinking(args)
+    onDeepLinkingEvent(args)
 
     while true
         msg = wait(0, m.port)
@@ -147,471 +147,47 @@ sub Main (args as dynamic) as void
         end if
 
         if isNodeEvent(msg, "jumpTo")
-            handleJumpToEvent(msg)
+            onJumpToEvent(msg)
         else if isNodeEvent(msg, "closeSidePanel")
-            handleCloseSidePanelEvent()
+            onCloseSidePanelEvent()
         else if isNodeEvent(msg, "quickPlayNode")
-            handleQuickPlayEvent(msg)
+            onQuickPlayEvent(msg)
         else if isNodeEvent(msg, "refreshSeasonDetailsData")
-            handleRefreshSeasonDetailsDataEvent()
+            onRefreshSeasonDetailsDataEvent()
         else if isNodeEvent(msg, "refreshMovieDetailsData")
-            handleRefreshMovieDetailsDataEvent()
+            onRefreshMovieDetailsDataEvent()
         else if isNodeEvent(msg, "selectedItem")
-            handleSelectedItemEvent(msg)
+            onSelectedItemEvent(msg)
         else if isNodeEvent(msg, "movieSelected")
-            ' If you select a movie from ANYWHERE, follow this flow
-            startLoadingSpinner()
-            node = getMsgPicker(msg, "picker")
-            group = CreateMovieDetailsGroup(node)
+            onMovieSelectedEvent(msg)
         else if isNodeEvent(msg, "seriesSelected")
-            ' If you select a TV Series from ANYWHERE, follow this flow
-            startLoadingSpinner()
-            node = getMsgPicker(msg, "picker")
-            group = CreateSeriesDetailsGroup(node.id)
+            onSeriesSelectedEvent(msg)
         else if isNodeEvent(msg, "seasonSelected")
-            ' If you select a TV Season from ANYWHERE, follow this flow
-            startLoadingSpinner()
-            ptr = msg.getData()
-            ' ptr is for [row, col] of selected item... but we only have 1 row
-            series = msg.getRoSGNode()
-            if isValid(ptr) and ptr.count() >= 2 and isValid(ptr[1]) and isValid(series) and isValid(series.seasonData) and isValid(series.seasonData.items)
-                node = series.seasonData.items[ptr[1]]
-                group = CreateSeasonDetailsGroup(series.itemContent, node)
-            end if
+            onSeasonSelectedEvent(msg)
         else if isNodeEvent(msg, "musicAlbumSelected")
-            ' If you select a Music Album from ANYWHERE, follow this flow
-            startLoadingSpinner()
-            ptr = msg.getData()
-            albums = msg.getRoSGNode()
-            node = albums.musicArtistAlbumData.getChild(ptr)
-            group = CreateAlbumView(node)
-            if not isValid(group)
-                stopLoadingSpinner()
-            end if
+            onMusicAlbumSelectedEvent(msg)
         else if isNodeEvent(msg, "appearsOnSelected")
-            ' If you select a Music Album from ANYWHERE, follow this flow
-            startLoadingSpinner()
-            ptr = msg.getData()
-            albums = msg.getRoSGNode()
-            node = albums.musicArtistAppearsOnData.getChild(ptr)
-            group = CreateAlbumView(node)
-            if not isValid(group)
-                stopLoadingSpinner()
-            end if
+            onAppearsOnSelectedEvent(msg)
         else if isNodeEvent(msg, "playSong")
-            ' User has selected audio they want us to play
-            startLoadingSpinner()
-            selectedIndex = msg.getData()
-            screenContent = msg.getRoSGNode()
-
-            m.global.queueManager.callFunc("resetShuffle")
-            m.global.queueManager.callFunc("set", screenContent.albumData.getChildren(-1, 0))
-            m.global.queueManager.callFunc("setPosition", selectedIndex)
-            m.global.queueManager.callFunc("playQueue")
+            onPlaySongEvent(msg)
         else if isNodeEvent(msg, "subtitleToDelete")
-            subtitleData = msg.getData()
-            screenContent = msg.getRoSGNode()
-
-            mySubtitleList = screenContent.findNode("mySubtitleList")
-
-            if isAllValid([subtitleData, screenContent, mySubtitleList])
-                if isAllValid([screenContent.itemContent.id, subtitleData.index, mySubtitleList.content])
-                    ' Ask the user for confirmation before deleting subtitle file
-                    returnValue = show_dialog("Are you sure you want to delete this subtitle?", ["Yes", "No, Cancel"], 1)
-
-                    ' User chose Yes from confirmation dialog
-                    if returnValue = 0
-                        ' Call delete subtitle API
-                        api.videos.DeleteSubtitle(screenContent.itemContent.id, subtitleData.index)
-
-                        ' We now need to remove the deleted subtitle from the My Subtitles list
-                        ' and subtract 1 from all indexs higher than the one we deleted
-                        subtitleListContent = mySubtitleList.content.getChildren(-1, 0)
-
-                        i = 0
-                        for each subtitle in subtitleListContent
-                            ' Remove subtitle from My Subtitles list
-                            if subtitle.index = subtitleData.index
-                                mySubtitleList.content.removeChild(subtitle)
-                            end if
-
-                            ' Subtract 1 from indexes higher than deleted subtitle's index
-                            if subtitle.index > subtitleData.index
-                                subtitle.index--
-                                mySubtitleList.content.replaceChild(subtitle, i)
-                            end if
-
-                            i++
-                        end for
-                    end if
-
-                    ' If there remain subtitles in My Subtitles list, set focus back to list
-                    ' Otherwise, set focus back to Search button
-                    if mySubtitleList.content.getChildCount() > 0
-                        mySubtitleList.setFocus(true)
-                        group = m.global.sceneManager.callFunc("getActiveScene")
-                        group.lastFocus = mySubtitleList
-                    else
-                        searchButton = screenContent.findNode("searchButton")
-                        if isValid(searchButton)
-                            searchButton.focus = true
-                            searchButton.setFocus(true)
-                            group = m.global.sceneManager.callFunc("getActiveScene")
-                            group.lastFocus = searchButton
-                        end if
-                    end if
-                end if
-            end if
+            onSubtitleToDeleteEvent(msg)
         else if isNodeEvent(msg, "subtitleSearchButtonSelected")
-            group = sceneManager.callFunc("getActiveScene")
-
-            if isValid(group)
-                if isAllValid([group.itemContent, group.selectedCulture])
-                    if isAllValid([group.itemContent.id, group.selectedCulture.ThreeLetterISOLanguageName])
-
-                        ' Get remote subtitles from API
-                        remoteSubtitles = api.items.SearchRemoteSubtitles(group.itemContent.id, group.selectedCulture.ThreeLetterISOLanguageName)
-
-                        if isValid(remoteSubtitles)
-                            remoteSubtitleData = {
-                                data: []
-                            }
-
-                            ' Populate data for remote subtitle dialog
-                            for each remoteSubtitle in remoteSubtitles
-                                remoteSubtitle.type = "remotesubtitleselect"
-                                remoteSubtitle.track = {}
-                                remoteSubtitle.track.description = remoteSubtitle.Name
-                                remoteSubtitleData.data.push(remoteSubtitle)
-                            end for
-
-                            m.global.sceneManager.callFunc("remoteSubtitleDialog", tr("Download Subtitle"), remoteSubtitleData)
-                            m.global.sceneManager.observeField("returnData", m.port)
-                        end if
-                    end if
-                end if
-            end if
-
+            onSubtitleSearchButtonSelectedEvent()
         else if isNodeEvent(msg, "subtitleLanguageButtonSelected")
-
-            languageData = {
-                data: []
-            }
-
-            ' Default to user's default subtitle language
-            selectedCulture = "eng"
-
-            group = sceneManager.callFunc("getActiveScene")
-            if isValid(group)
-                if isValid(group.selectedCulture)
-                    if isValidAndNotEmpty(group.selectedCulture.ThreeLetterISOLanguageName)
-                        selectedCulture = LCase(group.selectedCulture.ThreeLetterISOLanguageName)
-                    end if
-                end if
-            end if
-
-            for each culture in group.cultures
-                culture.type = "cultureselect"
-                culture.Track = {}
-                culture.Track.description = culture.displayname
-
-                ' Put preferred subtitle language at the top of the language list
-                if isValidAndNotEmpty(culture.ThreeLetterISOLanguageName)
-                    if LCase(culture.ThreeLetterISOLanguageName) = selectedCulture
-                        culture.selected = true
-                        languageData.data.unshift(culture)
-                    else
-                        languageData.data.push(culture)
-                    end if
-                else
-                    languageData.data.push(culture)
-                end if
-            end for
-
-            m.global.sceneManager.callFunc("radioDialog", tr("Select Language"), languageData)
-            m.global.sceneManager.observeField("returnData", m.port)
+            onSubtitleLanguageButtonSelectedEvent()
         else if isNodeEvent(msg, "playItem")
-            ' User has selected audio they want us to play
-            startLoadingSpinner()
-            selectedIndex = msg.getData()
-            screenContent = msg.getRoSGNode()
-
-            m.global.queueManager.callFunc("resetShuffle")
-            m.global.queueManager.callFunc("set", screenContent.listData.getChildren(-1, 0))
-            m.global.queueManager.callFunc("setPosition", selectedIndex)
-            m.global.queueManager.callFunc("playQueue")
+            onPlayItemEvent(msg)
         else if isNodeEvent(msg, "playArtistSelected")
-            ' User has selected playlist of of audio they want us to play
-            startLoadingSpinner()
-            screenContent = msg.getRoSGNode()
-
-            m.global.queueManager.callFunc("clear")
-            m.global.queueManager.callFunc("resetShuffle")
-            m.global.queueManager.callFunc("set", CreateArtistMix(screenContent.pageContent.id).Items)
-            m.global.queueManager.callFunc("playQueue")
-
+            onPlayArtistSelectedEvent(msg)
         else if isNodeEvent(msg, "instantMixSelected")
-            ' User has selected instant mix
-            ' User has selected playlist of of audio they want us to play
-            screenContent = msg.getRoSGNode()
-            startLoadingSpinner()
-
-            viewHandled = false
-
-            ' Create instant mix based on selected album
-            if isValid(screenContent.albumData)
-                if screenContent.albumData.getChildCount() > 0
-                    m.global.queueManager.callFunc("clear")
-                    m.global.queueManager.callFunc("resetShuffle")
-                    m.global.queueManager.callFunc("set", CreateInstantMix(screenContent.albumData.getChild(0).id).Items)
-                    m.global.queueManager.callFunc("playQueue")
-
-                    viewHandled = true
-                end if
-            end if
-
-            if not viewHandled
-                ' Create instant mix based on selected artist
-                m.global.queueManager.callFunc("clear")
-                m.global.queueManager.callFunc("resetShuffle")
-                m.global.queueManager.callFunc("set", CreateInstantMix(screenContent.pageContent.id).Items)
-                m.global.queueManager.callFunc("playQueue")
-            end if
-
+            onInstantMixSelectedEvent(msg)
         else if isNodeEvent(msg, "search_value")
-            query = msg.getRoSGNode().search_value
-            group.findNode("SearchBox").visible = false
-            options = group.findNode("SearchSelect")
-            options.visible = true
-            options.setFocus(true)
-
-            dialog = createObject("roSGNode", "ProgressDialog")
-            dialog.title = tr("Loading Search Data")
-            m.scene.dialog = dialog
-            results = SearchMedia(query)
-            dialog.close = true
-            options.itemData = results
-            options.query = query
+            onSearch_valueEvent(msg)
         else if isNodeEvent(msg, "itemSelected")
-            ' Search item selected
-            startLoadingSpinner()
-            node = getMsgPicker(msg)
-            ' TODO - swap this based on target.mediatype
-            ' types: [ Series (Show), Episode, Movie, Audio, Person, Studio, MusicArtist, Recording ]
-            if node.type = "Series"
-                group = CreateSeriesDetailsGroup(node.id)
-            else if node.type = "Movie"
-                group = CreateMovieDetailsGroup(node)
-            else if node.type = "MusicArtist"
-                group = CreateArtistView(node.json)
-            else if node.type = "MusicAlbum"
-                group = CreateAlbumView(node.json)
-            else if node.type = "MusicVideo"
-                group = CreateMovieDetailsGroup(node)
-            else if node.type = "Audio"
-                m.global.queueManager.callFunc("clear")
-                m.global.queueManager.callFunc("resetShuffle")
-                m.global.queueManager.callFunc("push", node.json)
-                m.global.queueManager.callFunc("playQueue")
-            else if node.type = "Person"
-                group = CreatePersonView(node)
-            else if node.type = "TvChannel"
-
-                thisItem = {
-                    id: node.id,
-                    type: "video"
-                }
-
-                m.global.queueManager.callFunc("clear")
-                m.global.queueManager.callFunc("resetShuffle")
-                m.global.queueManager.callFunc("push", thisItem)
-                m.global.queueManager.callFunc("playQueue")
-            else if node.type = "Episode"
-                group = CreateMovieDetailsGroup(node)
-            else if LCase(node.type) = "recording"
-                thisItem = {
-                    id: node.id,
-                    type: "Episode"
-                }
-
-                m.global.queueManager.callFunc("clear")
-                m.global.queueManager.callFunc("resetShuffle")
-                m.global.queueManager.callFunc("push", thisItem)
-                m.global.queueManager.callFunc("playQueue")
-            else if node.type = "AudioBook"
-                m.global.queueManager.callFunc("clear")
-                m.global.queueManager.callFunc("resetShuffle")
-                m.global.queueManager.callFunc("push", node.json)
-                m.global.queueManager.callFunc("playQueue")
-            else
-                ' TODO - switch on more node types
-                stopLoadingSpinner()
-                message_dialog("This type is not yet supported: " + node.type + ".")
-            end if
+            onItemSelectedEvent(msg)
         else if isNodeEvent(msg, "buttonSelected")
-
-            ' If a button is selected, we have some determining to do
-            btn = msg.getData()
-
-            if isValid(btn)
-                ' If button selected is a string, lcase it
-                if LCase(type(btn)) = "rostring" then btn = LCase(btn)
-            end if
-
-            group = sceneManager.callFunc("getActiveScene")
-            if type(btn) = "roInt"
-                ' If there are no other button matches, check if this is a simple "OK" Dialog & Close if so
-                dialog = msg.getRoSGNode()
-                if dialog.id = "OKDialog"
-                    dialog.unobserveField("buttonSelected")
-                    dialog.close = true
-                end if
-            else if isValid(btn) and btn = "play-button"
-                ' User chose Play button from movie detail view
-                startLoadingSpinner()
-                ' Check if a specific Audio Stream was selected
-                audio_stream_idx = 0
-                if isValid(group) and isValid(group.selectedAudioStreamIndex)
-                    audio_stream_idx = group.selectedAudioStreamIndex
-                end if
-
-                group.itemContent.selectedAudioStreamIndex = audio_stream_idx
-                group.itemContent.id = group.selectedVideoStreamId
-
-                ' Display playback options dialog
-                if group.itemContent.json.userdata.PlaybackPositionTicks > 0
-                    m.global.queueManager.callFunc("hold", group.itemContent)
-                    playbackOptionDialog(group.itemContent.json.userdata.PlaybackPositionTicks, group.itemContent.json)
-                else
-                    m.global.queueManager.callFunc("bypassNextPreferredAudioTrackIndexReset")
-                    m.global.queueManager.callFunc("clear")
-                    m.global.queueManager.callFunc("push", group.itemContent)
-                    m.global.queueManager.callFunc("playQueue")
-                end if
-
-                if isValid(group) and isValid(group.lastFocus) and isValid(group.lastFocus.id) and group.lastFocus.id = "main_group"
-                    buttons = group.findNode("buttons")
-                    if isValid(buttons)
-                        group.lastFocus = group.findNode("buttons")
-                    end if
-                end if
-
-                if isValid(group) and isValid(group.lastFocus)
-                    group.lastFocus.setFocus(true)
-                end if
-            else if isValid(btn) and btn = "part-button"
-                group = sceneManager.callFunc("getActiveScene")
-
-                partData = {
-                    data: [{
-                        id: group.additionalParts.masterID,
-                        type: "partselect",
-                        Track: {
-                            description: "Part 1"
-                        }
-                    }]
-                }
-
-                selectedPart = string.EMPTY
-                if isValid(group)
-                    if isValid(group.selectedPart)
-                        selectedPart = group.selectedPart.id
-                    end if
-                end if
-
-                i = 2
-
-                for each part in group.additionalParts.parts.Items
-                    part.type = "partselect"
-                    part.Track = {}
-                    part.Track.description = `Part ${i}`
-
-                    if isValidAndNotEmpty(part.id)
-                        if part.id = selectedPart
-                            part.selected = true
-                        end if
-                    end if
-
-                    partData.data.push(part)
-
-                    i++
-                end for
-
-                m.global.sceneManager.callFunc("radioDialog", tr("Select Part"), partData)
-                m.global.sceneManager.observeField("returnData", m.port)
-            else if isValid(btn) and btn = "trailer-button"
-                ' User chose to play a trailer from the movie detail view
-                startLoadingSpinner()
-                dialog = createObject("roSGNode", "ProgressDialog")
-                dialog.title = tr("Loading trailer")
-                m.scene.dialog = dialog
-
-                if isChainValid(group, "additionalParts.masterID")
-                    trailerData = api.users.GetLocalTrailers(m.global.session.user.id, group.additionalParts.masterID)
-                else
-                    trailerData = api.users.GetLocalTrailers(m.global.session.user.id, group.id)
-                end if
-
-                if isValid(trailerData) and isValid(trailerData[0]) and isValid(trailerData[0].id)
-                    m.global.queueManager.callFunc("bypassNextPreferredAudioTrackIndexReset")
-                    m.global.queueManager.callFunc("set", trailerData)
-                    m.global.queueManager.callFunc("playQueue")
-                    dialog.close = true
-                else
-                    stopLoadingSpinner()
-                end if
-
-                if isValid(group) and isValid(group.lastFocus)
-                    group.lastFocus.setFocus(true)
-                end if
-            else if isValid(btn) and btn = "watched-button"
-                movie = group.itemContent
-                if isValid(movie) and isValid(movie.watched) and isValid(movie.id)
-                    if movie.watched
-                        UnmarkItemWatched(movie.id)
-                    else
-                        MarkItemWatched(movie.id)
-                    end if
-                    movie.watched = not movie.watched
-                end if
-            else if isValid(btn) and btn = "favorite-button"
-                movie = group.itemContent
-                if movie.favorite
-                    UnmarkItemFavorite(movie.id)
-                else
-                    MarkItemFavorite(movie.id)
-                end if
-                movie.favorite = not movie.favorite
-            else if isValid(btn) and btn = "editsubtitlesbutton"
-                subtitleSearchView = createObject("roSGNode", "SubtitleSearchView")
-                subtitleSearchView.observeField("subtitleLanguageButtonSelected", m.port)
-                subtitleSearchView.observeField("subtitleSearchButtonSelected", m.port)
-                subtitleSearchView.observeField("subtitleToDelete", m.port)
-
-                ' Set preferredSubtitleLanguage data so we can default the dropdown and popup correctly
-                subtitleSearchView.cultures = api.localization.GetCultures()
-                preferredSubtitleLanguage = m.global.session.user.configuration.SubtitleLanguagePreference
-                if not isValidAndNotEmpty(preferredSubtitleLanguage)
-                    preferredSubtitleLanguage = "eng"
-                end if
-
-                subtitleSearchView.preferredSubtitleLanguage = preferredSubtitleLanguage
-
-                ' Load the My Subtitles data now so it's up to date if user adds/deletes something it's updated
-                ' If the data is bad, don't load the view
-                metaData = ItemMetaData(group.itemContent.id)
-                if isValidAndNotEmpty(metaData)
-                    subtitleSearchView.itemContent = metaData
-                    sceneManager.callFunc("pushScene", subtitleSearchView)
-                end if
-            else
-                ' If there are no other button matches, check if this is a simple "OK" Dialog & Close if so
-                dialog = msg.getRoSGNode()
-                if dialog.id = "OKDialog"
-                    dialog.unobserveField("buttonSelected")
-                    dialog.close = true
-                end if
-            end if
+            onButtonSelectedEvent(msg)
         else if isNodeEvent(msg, "changeUserSelected")
             SignOut(false)
             sceneManager.callFunc("clearScenes")
@@ -661,210 +237,18 @@ sub Main (args as dynamic) as void
                 sceneManager.callFunc("settings")
             end if
         else if isNodeEvent(msg, "state")
-            node = msg.getRoSGNode()
-            if isValid(node) and isValid(node.state)
-                if node.selectedItemType = "TvChannel" and node.state = "finished"
-                    thisItem = {
-                        id: node.id,
-                        type: "recording"
-                    }
-
-                    m.global.queueManager.callFunc("clear")
-                    m.global.queueManager.callFunc("resetShuffle")
-                    m.global.queueManager.callFunc("push", thisItem)
-                    m.global.queueManager.callFunc("playQueue")
-                else if node.state = "finished"
-                    node.control = "stop"
-
-                    ' If node allows retrying using Transcode Url, give that shot
-                    if isValid(node.retryWithTranscoding) and node.retryWithTranscoding
-                        thisItem = {
-                            id: node.id,
-                            type: m.global.queueManager.callFunc("getCurrentItem").type
-                        }
-
-                        m.global.queueManager.callFunc("clear")
-                        m.global.queueManager.callFunc("resetShuffle")
-                        m.global.queueManager.callFunc("push", thisItem)
-                        m.global.queueManager.callFunc("playQueue")
-                    else if not isValid(node.showID)
-                        sceneManager.callFunc("popScene")
-                    end if
-                end if
-            end if
+            onStateEvent(msg)
         else if type(msg) = "roDeviceInfoEvent"
-            event = msg.GetInfo()
-
-            if event.exitedScreensaver = true
-                sceneManager.callFunc("resetTime")
-                group = sceneManager.callFunc("getActiveScene")
-                if isValid(group)
-                    ' refresh the current view
-                    if group.isSubType("JFScreen")
-                        group.callFunc("OnScreenShown")
-                    end if
-                end if
-            else if isValid(event.audioGuideEnabled)
-                tmpGlobalDevice = m.global.device
-                tmpGlobalDevice.AddReplace("isaudioguideenabled", event.audioGuideEnabled)
-
-                ' update global device array
-                m.global.setFields({ device: tmpGlobalDevice })
-            else if isValid(event.generalMemoryLevel)
-                ' This event will be sent first when the OS transitions from "normal" to "low" state and will continue to be sent while in "low" or "critical" states.
-                '   - "normal" means that the general memory is within acceptable levels
-                '   - "low" means that the general memory is below acceptable levels but not critical
-                '   - "critical" means that general memory are at dangerously low level and that the OS may force terminate the application
-                print "event.generalMemoryLevel = ", event.generalMemoryLevel
-            else if isValid(event.audioCodecCapabilityChanged)
-                ' The audio codec capability has changed if true.
-                print "event.audioCodecCapabilityChanged = ", event.audioCodecCapabilityChanged
-
-                postTask = createObject("roSGNode", "PostTask")
-                postTask.arrayData = getDeviceCapabilities()
-                postTask.apiUrl = "/Sessions/Capabilities/Full"
-                postTask.control = "RUN"
-            else if isValid(event.videoCodecCapabilityChanged)
-                ' The video codec capability has changed if true.
-                print "event.videoCodecCapabilityChanged = ", event.videoCodecCapabilityChanged
-
-                postTask = createObject("roSGNode", "PostTask")
-                postTask.arrayData = getDeviceCapabilities()
-                postTask.apiUrl = "/Sessions/Capabilities/Full"
-                postTask.control = "RUN"
-            end if
+            onRoDeviceInfoEvent(msg)
         else if type(msg) = "roInputEvent"
             if msg.IsInput()
                 info = msg.GetInfo()
-                handleDeepLinking(info)
+                onDeepLinkingEvent(info)
             end if
         else if isNodeEvent(msg, "returnData")
-            ' User has chosen an option in a radio dialog
-            popupNode = msg.getData()
-            if isValid(popupNode)
-                if isValid(popupNode.type)
-                    if LCase(popupNode.type) = "partselect"
-                        m.global.sceneManager.unobserveField("returnData")
-
-                        activeScene = sceneManager.callFunc("getActiveScene")
-                        if isValid(activeScene)
-                            activeScene.selectedPart = popupNode
-                        end if
-
-                        ' Close any open dialogs
-                        if m.global.sceneManager.callFunc("isDialogOpen")
-                            m.global.sceneManager.callFunc("dismissDialog")
-                        end if
-                    end if
-
-                    if LCase(popupNode.type) = "cultureselect"
-                        activeScene = sceneManager.callFunc("getActiveScene")
-                        if isValid(activeScene)
-                            activeScene.selectedCulture = popupNode
-                        end if
-
-                        ' Close any open dialogs
-                        if m.global.sceneManager.callFunc("isDialogOpen")
-                            m.global.sceneManager.callFunc("dismissDialog")
-                        end if
-                    end if
-
-                    if LCase(popupNode.type) = "remotesubtitleselect"
-                        activeScene = sceneManager.callFunc("getActiveScene")
-                        if isAllValid([activeScene, popupNode.id])
-
-                            mySubtitleList = activeScene.findNode("mySubtitleList")
-
-                            ' Add downloading message to My Subtitles so users know we're processing their input
-                            if isValid(mySubtitleList)
-                                subtitleListContent = mySubtitleList.content
-
-                                canAddSubtitle = true
-
-                                ' Search list of subtitles to see if we already have a downloading message for this item
-                                for each subtitle in subtitleListContent.getChildren(-1, 0)
-                                    if subtitle.index = -1
-                                        if isAllValid([subtitle.displaytitle, popupNode.Name])
-                                            if LCase(subtitle.displaytitle) = LCase(popupNode.Name)
-                                                canAddSubtitle = false
-                                            end if
-                                        end if
-                                    end if
-                                end for
-
-                                ' Don't add multiple downloading message for the same subtitle name
-                                if canAddSubtitle
-                                    mySubtitle = CreateObject("roSGNode", "SubtitleData")
-                                    mySubtitle.path = tr("Downloading - Refresh for updated status")
-                                    mySubtitle.index = -1
-                                    mySubtitle.displaytitle = popupNode.Name
-                                    mySubtitle.canDelete = false
-
-                                    subtitleListContent.insertChild(mySubtitle, 0)
-
-                                    mySubtitleList.content = subtitleListContent
-
-                                    api.items.DownloadRemoteSubtitles(activeScene.itemContent.id, popupNode.id)
-                                end if
-                            end if
-
-                            ' Prevent double fires
-                            popupNode.id = invalid
-                        end if
-
-                    end if
-                end if
-            end if
+            onReturnDataEvent(msg)
         else if isNodeEvent(msg, "dataReturned")
-            popupNode = msg.getRoSGNode()
-            stopLoadingSpinner()
-            if isValid(popupNode) and isValid(popupNode.returnData)
-                selectedItem = m.global.queueManager.callFunc("getHold")
-                m.global.queueManager.callFunc("clearHold")
-
-                if isValidAndNotEmpty(selectedItem) and isValid(selectedItem[0])
-                    if popupNode.returnData.indexselected = 0
-                        'Resume video from resume point
-                        startLoadingSpinner()
-                        startingPoint = 0
-
-                        if isValid(selectedItem[0].json) and isValid(selectedItem[0].json.UserData) and isValid(selectedItem[0].json.UserData.PlaybackPositionTicks)
-                            if selectedItem[0].json.UserData.PlaybackPositionTicks > 0
-                                startingPoint = selectedItem[0].json.UserData.PlaybackPositionTicks
-                            end if
-                        end if
-
-                        selectedItem[0].startingPoint = startingPoint
-                        m.global.queueManager.callFunc("bypassNextPreferredAudioTrackIndexReset")
-                        m.global.queueManager.callFunc("clear")
-                        m.global.queueManager.callFunc("push", selectedItem[0])
-                        m.global.queueManager.callFunc("playQueue")
-                    else if popupNode.returnData.indexselected = 1
-                        'Start Over from beginning selected, set position to 0
-                        startLoadingSpinner()
-                        selectedItem[0].startingPoint = 0
-                        m.global.queueManager.callFunc("bypassNextPreferredAudioTrackIndexReset")
-                        m.global.queueManager.callFunc("clear")
-                        m.global.queueManager.callFunc("push", selectedItem[0])
-                        m.global.queueManager.callFunc("playQueue")
-                    else if popupNode.returnData.indexselected = 2
-                        ' User chose Go to series
-                        CreateSeriesDetailsGroup(selectedItem[0].json.SeriesId)
-                    else if popupNode.returnData.indexselected = 3
-                        ' User chose Go to season
-                        if isValid(selectedItem[0].json) and isValid(selectedItem[0].json.SeriesId) and isValid(selectedItem[0].json.seasonID)
-                            CreateSeasonDetailsGroupByID(selectedItem[0].json.SeriesId, selectedItem[0].json.seasonID)
-                        else
-                            stopLoadingSpinner()
-                            message_dialog(tr("Error loading Season"))
-                        end if
-
-                    else if popupNode.returnData.indexselected = 4
-                        ' User chose Go to episode
-                        CreateMovieDetailsGroup(selectedItem[0])
-                    end if
-                end if
-            end if
+            onDataReturnedEvent(msg)
         else
             print "Unhandled " type(msg)
             print msg
