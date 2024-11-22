@@ -783,9 +783,9 @@ function CreateAlbumView(album as object) as dynamic
 end function
 
 ' Shows details on selected playlist. Description text, image, and list of available items
-function CreatePlaylistView(playlist as object) as dynamic
+sub CreatePlaylistView(playlist as object)
     ' validate playlist node
-    if not isValid(playlist) or not isValid(playlist.id) then return invalid
+    if not isValid(playlist) or not isValid(playlist.id) then return
 
     group = CreateObject("roSGNode", "PlaylistView")
     m.global.sceneManager.callFunc("pushScene", group)
@@ -795,9 +795,7 @@ function CreatePlaylistView(playlist as object) as dynamic
 
     ' Watch for user clicking on an item
     group.observeField("playItem", m.port)
-
-    return group
-end function
+end sub
 
 function CreateSeasonDetailsGroup(series as object, season as object) as dynamic
     ' validate series node
