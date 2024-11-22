@@ -350,6 +350,32 @@ function isChainValid(root as dynamic, propertyPath as string) as boolean
     return true
 end function
 
+' chainLookup: Returns value from property chain using case insensitive lookups
+'
+' @param {dynamic} root - high-level object to test property chain against
+' @param {string} propertyPath - chain of properties under root object to test
+' @return {dynamic} value of requested item
+function chainLookup(root as dynamic, propertyPath as string) as dynamic
+    rootPath = root
+    properties = propertyPath.Split(".")
+
+    if not isValid(rootPath) then return rootPath
+
+    ' Root path is valid, and no properties were passed. Return root
+    if properties.count() = 0 then return rootPath
+    if properties[0] = "" then return rootPath
+
+    rootPath = rootPath.LookupCI(properties[0])
+    if not isValid(rootPath) then return invalid
+
+    properties.shift()
+
+    if properties.count() = 0 then return rootPath
+
+    nextPath = properties.join(".")
+    return chainLookup(rootPath, nextPath)
+end function
+
 ' Returns whether or not passed value is valid and not empty
 ' Accepts a string, or any countable type (arrays and lists)
 function isValidAndNotEmpty(input as dynamic) as boolean
