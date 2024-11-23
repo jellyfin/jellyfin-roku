@@ -1,5 +1,5 @@
-import "pkg:/source/api/Image.bs"
 import "pkg:/source/api/baserequest.bs"
+import "pkg:/source/api/Image.bs"
 import "pkg:/source/utils/config.bs"
 
 sub setFields()
@@ -9,7 +9,7 @@ sub setFields()
     m.top.Title = json.name
     m.top.Description = json.overview
     m.top.favorite = json.UserData.isFavorite
-    m.top.watched = json.UserData.played
+    m.top.watched = chainLookup(json, "UserData.played")
     m.top.Type = "Series"
     m.top.overview = json.overview
 

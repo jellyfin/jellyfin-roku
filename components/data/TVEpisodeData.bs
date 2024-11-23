@@ -10,6 +10,7 @@ sub setFields()
     m.top.seasonID = datum.SeasonID
     m.top.overview = datum.overview
     m.top.favorite = datum.UserData.isFavorite
+    m.top.watched = chainLookup(datum, "UserData.played")
 end sub
 
 sub setPoster()

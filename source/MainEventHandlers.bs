@@ -1162,6 +1162,9 @@ sub onButtonSelectedEvent(msg)
             date = CreateObject("roDateTime")
             dateStr = date.ToISOString()
             api.users.MarkPlayed(m.global.session.user.id, movie.id, { "DatePlayed": dateStr, "PlaybackPositionTicks": 0 })
+            movieData = movie.json
+            movieData.UserData.PlaybackPositionTicks = 0
+            movie.json = movieData
         end if
         movie.watched = not movie.watched
         return
