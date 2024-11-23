@@ -15,7 +15,6 @@ function getDeviceCapabilities() as object
         "SupportsContentUploading": false,
         "SupportsSync": false,
         "DeviceProfile": getDeviceProfile()
-        ' "AppStoreUrl": ""
     }
 
     return deviceProfile

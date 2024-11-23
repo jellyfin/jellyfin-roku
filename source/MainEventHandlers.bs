@@ -887,7 +887,6 @@ sub onSubtitleSearchButtonSelectedEvent()
 end sub
 
 sub onSubtitleLanguageButtonSelectedEvent()
-
     languageData = {
         data: []
     }
@@ -926,16 +925,13 @@ sub onSubtitleLanguageButtonSelectedEvent()
     m.global.sceneManager.observeField("returnData", m.port)
 end sub
 
-sub onPlayItemEvent(msg)
-    ' User has selected audio they want us to play
+' User clicked on an item from a playlist
+sub onPlaylistItemSelectedEvent(msg)
     startLoadingSpinner()
     selectedIndex = msg.getData()
     screenContent = msg.getRoSGNode()
 
-    m.global.queueManager.callFunc("resetShuffle")
-    m.global.queueManager.callFunc("set", screenContent.listData.getChildren(-1, 0))
-    m.global.queueManager.callFunc("setPosition", selectedIndex)
-    m.global.queueManager.callFunc("playQueue")
+    MainAction.playItem(screenContent.listData.getChildren(-1, 0), { method: "set", resetShuffle: true, position: selectedIndex })
 end sub
 
 sub onPlayArtistSelectedEvent(msg)
@@ -946,15 +942,14 @@ sub onPlayArtistSelectedEvent(msg)
     artistMixList = CreateArtistMix(chainLookup(screenContent, "pageContent.id"))
 
     if isChainValid(artistMixList, "items")
-        playItem(artistMixList.LookupCI("Items"), { method: "set", resetShuffle: true })
+        MainAction.playItem(artistMixList.LookupCI("Items"), { method: "set", resetShuffle: true })
     else
         stopLoadingSpinner()
     end if
 end sub
 
+' User has selected instant mix
 sub onInstantMixSelectedEvent(msg)
-    ' User has selected instant mix
-    ' User has selected playlist of of audio they want us to play
     screenContent = msg.getRoSGNode()
     startLoadingSpinner()
 
@@ -963,7 +958,7 @@ sub onInstantMixSelectedEvent(msg)
         if screenContent.albumData.getChildCount() > 0
             instantMixList = CreateInstantMix(screenContent.albumData.getChild(0).id)
             if isChainValid(instantMixList, "items")
-                playItem(instantMixList.LookupCI("Items"), { method: "set", resetShuffle: true })
+                MainAction.playItem(instantMixList.LookupCI("Items"), { method: "set", resetShuffle: true })
             else
                 stopLoadingSpinner()
             end if
@@ -975,7 +970,7 @@ sub onInstantMixSelectedEvent(msg)
     ' Create instant mix based on selected artist
     instantMixList = CreateInstantMix(chainLookup(screenContent, "pageContent.id"))
     if isChainValid(instantMixList, "items")
-        playItem(instantMixList.LookupCI("Items"), { method: "set", resetShuffle: true })
+        MainAction.playItem(instantMixList.LookupCI("Items"), { method: "set", resetShuffle: true })
     else
         stopLoadingSpinner()
     end if
@@ -1013,7 +1008,7 @@ sub onItemSelectedEvent(msg)
     else if node.type = "MusicVideo"
         CreateMovieDetailsGroup(node)
     else if node.type = "Audio"
-        playItem(node.json, { resetShuffle: true })
+        MainAction.playItem(node.json, { resetShuffle: true })
     else if node.type = "Person"
         CreatePersonView(node)
     else if node.type = "TvChannel"
@@ -1023,7 +1018,7 @@ sub onItemSelectedEvent(msg)
             type: "video"
         }
 
-        playItem(thisItem, { resetShuffle: true })
+        MainAction.playItem(thisItem, { resetShuffle: true })
     else if node.type = "Episode"
         CreateMovieDetailsGroup(node)
     else if LCase(node.type) = "recording"
@@ -1031,22 +1026,13 @@ sub onItemSelectedEvent(msg)
             id: node.id,
             type: "Episode"
         }
-        playItem(thisItem, { resetShuffle: true })
+        MainAction.playItem(thisItem, { resetShuffle: true })
     else if node.type = "AudioBook"
-        playItem(node.json, { resetShuffle: true })
+        MainAction.playItem(node.json, { resetShuffle: true })
     else
         ' TODO - switch on more node types
         stopLoadingSpinner()
         message_dialog("This type is not yet supported: " + node.type + ".")
-    end if
-end sub
-
-' Check if this is a, "OK" Dialog and close if so
-sub closeOKDialog(msg)
-    dialog = msg.getRoSGNode()
-    if isStringEqual(dialog.id, "OKDialog")
-        dialog.unobserveField("buttonSelected")
-        dialog.close = true
     end if
 end sub
 
@@ -1056,160 +1042,45 @@ sub onButtonSelectedEvent(msg)
     activeScene = m.global.sceneManager.callFunc("getActiveScene")
 
     if not isValid(btn) or isStringEqual(type(btn), "roInt")
-        closeOKDialog(msg)
+        MainAction.closeOKDialog(msg)
         return
     end if
 
     ' User chose Play button from movie detail view
     if isStringEqual(btn, "play-button")
-        startLoadingSpinner()
-        activeScene.itemContent.id = chainLookup(activeScene, "selectedVideoStreamId")
-
-        ' Check if a specific Audio Stream was selected
-        activeScene.itemContent.selectedAudioStreamIndex = chainLookup(activeScene, "selectedAudioStreamIndex") ?? 0
-
-        playbackPositionTicks = chainLookup(activeScene, "itemContent.json.userdata.PlaybackPositionTicks") ?? 0
-
-        ' Display playback options dialog
-        if playbackPositionTicks > 0
-            m.global.queueManager.callFunc("hold", activeScene.itemContent)
-            playbackOptionDialog(playbackPositionTicks, activeScene.itemContent.json)
-        else
-            playItem(activeScene.itemContent, { method: "push", bypassNextPreferredAudioTrackIndexReset: true })
-        end if
-
-        if isChainValid(activeScene, "lastFocus.id") and isStringEqual(activeScene.lastFocus.id, "main_group")
-            buttons = activeScene.findNode("buttons")
-            if isValid(buttons)
-                activeScene.lastFocus = activeScene.findNode("buttons")
-            end if
-        end if
-
-        if isChainValid(activeScene, "lastFocus")
-            activeScene.lastFocus.setFocus(true)
-        end if
-
+        MainAction.onPlayButtonClicked(activeScene)
         return
     end if
 
     if isStringEqual(btn, "part-button")
-        partData = {
-            data: [{
-                id: chainLookup(activeScene, "additionalParts.masterID"),
-                type: "partselect",
-                Track: {
-                    description: "Part 1"
-                }
-            }]
-        }
-
-        selectedPart = chainLookup(activeScene, "selectedPart.id") ?? string.EMPTY
-
-        i = 2
-        for each part in chainLookup(activeScene, "additionalParts.parts.Items")
-            part.type = "partselect"
-            part.Track = {}
-            part.Track.description = `Part ${i}`
-
-            if selectedPart <> string.EMPTY
-                if isStringEqual(part.id, selectedPart)
-                    part.selected = true
-                end if
-            end if
-
-            partData.data.push(part)
-
-            i++
-        end for
-
-        m.global.sceneManager.callFunc("radioDialog", tr("Select Part"), partData)
-        m.global.sceneManager.observeField("returnData", m.port)
-
+        MainAction.onPartButtonClicked(activeScene)
         return
     end if
 
     ' User chose to play a trailer from the movie detail view
     if isStringEqual(btn, "trailer-button")
-        startLoadingSpinner()
-
-        if isChainValid(activeScene, "additionalParts.masterID")
-            trailerData = api.users.GetLocalTrailers(m.global.session.user.id, activeScene.additionalParts.masterID)
-        else
-            trailerData = api.users.GetLocalTrailers(m.global.session.user.id, activeScene.id)
-        end if
-
-        if isValid(trailerData) and isValid(trailerData[0]) and isValid(trailerData[0].id)
-            playItem(trailerData, { method: "set", bypassNextPreferredAudioTrackIndexReset: true })
-        else
-            stopLoadingSpinner()
-        end if
-
-        if isChainValid(activeScene, "lastFocus")
-            activeScene.lastFocus.setFocus(true)
-        end if
-
+        MainAction.onTrailerButtonClicked(activeScene)
         return
     end if
 
     ' Toggle watched state
     if isStringEqual(btn, "watched-button")
-        movie = chainLookup(activeScene, "itemContent")
-        if not isChainValid(movie, "watched") or not isValid(movie.id) then return
-
-        if movie.watched
-            api.users.UnmarkPlayed(m.global.session.user.id, movie.id)
-        else
-            date = CreateObject("roDateTime")
-            dateStr = date.ToISOString()
-            api.users.MarkPlayed(m.global.session.user.id, movie.id, { "DatePlayed": dateStr, "PlaybackPositionTicks": 0 })
-            movieData = movie.json
-            movieData.UserData.PlaybackPositionTicks = 0
-            movie.json = movieData
-        end if
-        movie.watched = not movie.watched
+        MainAction.onWatchedButtonClicked(activeScene)
         return
     end if
 
     ' Toggle favorite state
     if isStringEqual(btn, "favorite-button")
-        movie = chainLookup(activeScene, "itemContent")
-        if not isChainValid(movie, "favorite") or not isValid(movie.id) then return
-
-        if movie.favorite
-            api.users.UnmarkFavorite(m.global.session.user.id, movie.id)
-        else
-            api.users.MarkFavorite(m.global.session.user.id, movie.id)
-        end if
-        movie.favorite = not movie.favorite
+        MainAction.onFavoriteButtonClicked(activeScene)
         return
     end if
 
     if isStringEqual(btn, "editsubtitlesbutton")
-        subtitleSearchView = createObject("roSGNode", "SubtitleSearchView")
-        subtitleSearchView.observeField("subtitleLanguageButtonSelected", m.port)
-        subtitleSearchView.observeField("subtitleSearchButtonSelected", m.port)
-        subtitleSearchView.observeField("subtitleToDelete", m.port)
-
-        ' Set preferredSubtitleLanguage data so we can default the dropdown and popup correctly
-        subtitleSearchView.cultures = api.localization.GetCultures()
-        preferredSubtitleLanguage = chainLookup(m.global.session, "user.configuration.SubtitleLanguagePreference")
-        if not isValidAndNotEmpty(preferredSubtitleLanguage)
-            preferredSubtitleLanguage = "eng"
-        end if
-
-        subtitleSearchView.preferredSubtitleLanguage = preferredSubtitleLanguage
-
-        ' Load the My Subtitles data now so it's up to date if user adds/deletes something it's updated
-        ' If the data is bad, don't load the view
-        metaData = ItemMetaData(activeScene.itemContent.id)
-        if isValidAndNotEmpty(metaData)
-            subtitleSearchView.itemContent = metaData
-            m.global.sceneManager.callFunc("pushScene", subtitleSearchView)
-        end if
+        MainAction.onEditSubtitlesButtonClicked(activeScene)
         return
     end if
 
-    closeOKDialog(msg)
+    MainAction.closeOKDialog(msg)
 end sub
 
 sub onStateEvent(msg)
@@ -1223,7 +1094,7 @@ sub onStateEvent(msg)
                 type: ItemType.RECORDING
             }
 
-            playItem(thisItem, { resetShuffle: true })
+            MainAction.playItem(thisItem, { resetShuffle: true })
             return
         end if
 
@@ -1236,8 +1107,11 @@ sub onStateEvent(msg)
                 type: m.global.queueManager.callFunc("getCurrentItem").type
             }
 
-            playItem(thisItem, { resetShuffle: true })
-        else if not isValid(node.showID)
+            MainAction.playItem(thisItem, { resetShuffle: true })
+            return
+        end if
+
+        if not isValid(node.showID)
             m.global.sceneManager.callFunc("popScene")
         end if
     end if
@@ -1372,14 +1246,14 @@ sub onDataReturnedEvent(msg)
     'Resume video from resume point
     if selectedPopupAction = ResumePopupAction.RESUME
         selectedItem[0].startingPoint = chainLookup(selectedItem[0], "json.UserData.PlaybackPositionTicks") ?? 0
-        playItem(selectedItem[0], { method: "push", bypassNextPreferredAudioTrackIndexReset: true })
+        MainAction.playItem(selectedItem[0], { method: "push", bypassNextPreferredAudioTrackIndexReset: true })
         return
     end if
 
     'Start Over from beginning selected, set position to 0
     if selectedPopupAction = ResumePopupAction.STARTOVER
         selectedItem[0].startingPoint = 0
-        playItem(selectedItem[0], { method: "push", bypassNextPreferredAudioTrackIndexReset: true })
+        MainAction.playItem(selectedItem[0], { method: "push", bypassNextPreferredAudioTrackIndexReset: true })
         return
     end if
 
@@ -1408,30 +1282,4 @@ sub onDataReturnedEvent(msg)
         CreateMovieDetailsGroup(selectedItem[0])
         return
     end if
-end sub
-
-sub playItem(item as dynamic, params = {} as object)
-    if not isValid(item) then return
-
-    startLoadingSpinner()
-
-    playItemParams = {
-        method: "push",
-        bypassNextPreferredAudioTrackIndexReset: false,
-        resetShuffle: false
-    }
-
-    playItemParams.append(params)
-
-    if playItemParams.bypassNextPreferredAudioTrackIndexReset
-        m.global.queueManager.callFunc("bypassNextPreferredAudioTrackIndexReset")
-    end if
-
-    if playItemParams.resetShuffle
-        m.global.queueManager.callFunc("resetShuffle")
-    end if
-
-    m.global.queueManager.callFunc("clear")
-    m.global.queueManager.callFunc(playItemParams.method, item)
-    m.global.queueManager.callFunc("playQueue")
 end sub

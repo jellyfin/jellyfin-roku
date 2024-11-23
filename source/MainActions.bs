@@ -1,0 +1,184 @@
+import "pkg:/components/manager/ViewCreator.bs"
+import "pkg:/source/enums/CollectionType.bs"
+import "pkg:/source/enums/ItemType.bs"
+import "pkg:/source/enums/ResumePopupAction.bs"
+import "pkg:/source/enums/String.bs"
+import "pkg:/source/utils/misc.bs"
+
+namespace MainAction
+    sub onPlayButtonClicked(activeScene as object)
+        startLoadingSpinner()
+        activeScene.itemContent.id = chainLookup(activeScene, "selectedVideoStreamId")
+
+        ' Check if a specific Audio Stream was selected
+        activeScene.itemContent.selectedAudioStreamIndex = chainLookup(activeScene, "selectedAudioStreamIndex") ?? 0
+
+        playbackPositionTicks = chainLookup(activeScene, "itemContent.json.userdata.PlaybackPositionTicks") ?? 0
+
+        ' Display playback options dialog
+        if playbackPositionTicks > 0
+            m.global.queueManager.callFunc("hold", activeScene.itemContent)
+            playbackOptionDialog(playbackPositionTicks, activeScene.itemContent.json)
+        else
+            playItem(activeScene.itemContent, { method: "push", bypassNextPreferredAudioTrackIndexReset: true })
+        end if
+
+        if isChainValid(activeScene, "lastFocus.id") and isStringEqual(activeScene.lastFocus.id, "main_group")
+            buttons = activeScene.findNode("buttons")
+            if isValid(buttons)
+                activeScene.lastFocus = activeScene.findNode("buttons")
+            end if
+        end if
+
+        if isChainValid(activeScene, "lastFocus")
+            activeScene.lastFocus.setFocus(true)
+        end if
+    end sub
+
+    sub onPartButtonClicked(activeScene as object)
+        partData = {
+            data: [{
+                id: chainLookup(activeScene, "additionalParts.masterID"),
+                type: "partselect",
+                Track: {
+                    description: "Part 1"
+                }
+            }]
+        }
+
+        selectedPart = chainLookup(activeScene, "selectedPart.id") ?? string.EMPTY
+
+        i = 2
+        for each part in chainLookup(activeScene, "additionalParts.parts.Items")
+            part.type = "partselect"
+            part.Track = {}
+            part.Track.description = `Part ${i}`
+
+            if selectedPart <> string.EMPTY
+                if isStringEqual(part.id, selectedPart)
+                    part.selected = true
+                end if
+            end if
+
+            partData.data.push(part)
+
+            i++
+        end for
+
+        m.global.sceneManager.callFunc("radioDialog", tr("Select Part"), partData)
+        m.global.sceneManager.observeField("returnData", m.port)
+    end sub
+
+    sub onTrailerButtonClicked(activeScene as object)
+        startLoadingSpinner()
+
+        if isChainValid(activeScene, "additionalParts.masterID")
+            trailerData = api.users.GetLocalTrailers(m.global.session.user.id, activeScene.additionalParts.masterID)
+        else
+            trailerData = api.users.GetLocalTrailers(m.global.session.user.id, activeScene.id)
+        end if
+
+        if isValid(trailerData) and isValid(trailerData[0]) and isValid(trailerData[0].id)
+            playItem(trailerData, { method: "set", bypassNextPreferredAudioTrackIndexReset: true })
+        else
+            stopLoadingSpinner()
+        end if
+
+        if isChainValid(activeScene, "lastFocus")
+            activeScene.lastFocus.setFocus(true)
+        end if
+    end sub
+
+    sub onWatchedButtonClicked(activeScene as object)
+        movie = chainLookup(activeScene, "itemContent")
+        if not isChainValid(movie, "watched") or not isValid(movie.id) then return
+
+        if movie.watched
+            api.users.UnmarkPlayed(m.global.session.user.id, movie.id)
+        else
+            date = CreateObject("roDateTime")
+            dateStr = date.ToISOString()
+            api.users.MarkPlayed(m.global.session.user.id, movie.id, { "DatePlayed": dateStr, "PlaybackPositionTicks": 0 })
+            movieData = movie.json
+            movieData.UserData.PlaybackPositionTicks = 0
+            movie.json = movieData
+        end if
+        movie.watched = not movie.watched
+    end sub
+
+    sub onFavoriteButtonClicked(activeScene as object)
+        movie = chainLookup(activeScene, "itemContent")
+        if not isChainValid(movie, "favorite") or not isValid(movie.id) then return
+
+        if movie.favorite
+            api.users.UnmarkFavorite(m.global.session.user.id, movie.id)
+        else
+            api.users.MarkFavorite(m.global.session.user.id, movie.id)
+        end if
+        movie.favorite = not movie.favorite
+    end sub
+
+    sub onEditSubtitlesButtonClicked(activeScene as object)
+        subtitleSearchView = createObject("roSGNode", "SubtitleSearchView")
+        subtitleSearchView.observeField("subtitleLanguageButtonSelected", m.port)
+        subtitleSearchView.observeField("subtitleSearchButtonSelected", m.port)
+        subtitleSearchView.observeField("subtitleToDelete", m.port)
+
+        ' Set preferredSubtitleLanguage data so we can default the dropdown and popup correctly
+        subtitleSearchView.cultures = api.localization.GetCultures()
+        preferredSubtitleLanguage = chainLookup(m.global.session, "user.configuration.SubtitleLanguagePreference")
+        if not isValidAndNotEmpty(preferredSubtitleLanguage)
+            preferredSubtitleLanguage = "eng"
+        end if
+
+        subtitleSearchView.preferredSubtitleLanguage = preferredSubtitleLanguage
+
+        ' Load the My Subtitles data now so it's up to date if user adds/deletes something it's updated
+        ' If the data is bad, don't load the view
+        metaData = ItemMetaData(activeScene.itemContent.id)
+        if isValidAndNotEmpty(metaData)
+            subtitleSearchView.itemContent = metaData
+            m.global.sceneManager.callFunc("pushScene", subtitleSearchView)
+        end if
+    end sub
+
+    sub playItem(item as dynamic, params = {} as object)
+        if not isValid(item) then return
+
+        startLoadingSpinner()
+
+        playItemParams = {
+            method: "push",
+            bypassNextPreferredAudioTrackIndexReset: false,
+            resetShuffle: false,
+            position: -1
+        }
+
+        playItemParams.append(params)
+
+        if playItemParams.bypassNextPreferredAudioTrackIndexReset
+            m.global.queueManager.callFunc("bypassNextPreferredAudioTrackIndexReset")
+        end if
+
+        if playItemParams.resetShuffle
+            m.global.queueManager.callFunc("resetShuffle")
+        end if
+
+        if playItemParams.position <> -1
+            m.global.queueManager.callFunc("setPosition", playItemParams.position)
+        end if
+
+        m.global.queueManager.callFunc("clear")
+        m.global.queueManager.callFunc(playItemParams.method, item)
+        m.global.queueManager.callFunc("playQueue")
+    end sub
+
+    ' Check if this is a, "OK" Dialog and close if so
+    sub closeOKDialog(msg)
+        dialog = msg.getRoSGNode()
+        if isStringEqual(dialog.id, "OKDialog")
+            dialog.unobserveField("buttonSelected")
+            dialog.close = true
+        end if
+    end sub
+end namespace

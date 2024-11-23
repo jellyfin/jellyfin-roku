@@ -34,6 +34,6 @@
   <interface>
     <field id="pageContent" type="node" onChange="pageContentChanged" />
     <field id="listData" type="node" alias="playlist.PlaylistData" />
-    <field id="playItem" alias="playlist.itemSelected" />
+    <field id="playlistItemSelected" alias="playlist.itemSelected" />
   </interface>
 </component>

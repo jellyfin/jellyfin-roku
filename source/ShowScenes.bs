@@ -794,7 +794,7 @@ sub CreatePlaylistView(playlist as object)
     group.listData = PlaylistItemList(playlist.id)
 
     ' Watch for user clicking on an item
-    group.observeField("playItem", m.port)
+    group.observeField("playlistItemSelected", m.port)
 end sub
 
 function CreateSeasonDetailsGroup(series as object, season as object) as dynamic
