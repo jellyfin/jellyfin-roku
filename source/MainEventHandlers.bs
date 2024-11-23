@@ -1039,59 +1039,61 @@ sub onItemSelectedEvent(msg)
     end if
 end sub
 
+' Check if this is a, "OK" Dialog and close if so
+sub closeOKDialog(msg)
+    dialog = msg.getRoSGNode()
+    if isStringEqual(dialog.id, "OKDialog")
+        dialog.unobserveField("buttonSelected")
+        dialog.close = true
+    end if
+end sub
+
 sub onButtonSelectedEvent(msg)
     ' If a button is selected, we have some determining to do
     btn = msg.getData()
+    activeScene = m.global.sceneManager.callFunc("getActiveScene")
 
-    if isValid(btn)
-        ' If button selected is a string, lcase it
-        if LCase(type(btn)) = "rostring" then btn = LCase(btn)
+    if not isValid(btn) or isStringEqual(type(btn), "roInt")
+        closeOKDialog(msg)
+        return
     end if
 
-    group = m.global.sceneManager.callFunc("getActiveScene")
-    if type(btn) = "roInt"
-        ' If there are no other button matches, check if this is a simple "OK" Dialog & Close if so
-        dialog = msg.getRoSGNode()
-        if dialog.id = "OKDialog"
-            dialog.unobserveField("buttonSelected")
-            dialog.close = true
-        end if
-    else if isValid(btn) and btn = "play-button"
-        ' User chose Play button from movie detail view
+    ' User chose Play button from movie detail view
+    if isStringEqual(btn, "play-button")
         startLoadingSpinner()
-        ' Check if a specific Audio Stream was selected
-        audio_stream_idx = 0
-        if isValid(group) and isValid(group.selectedAudioStreamIndex)
-            audio_stream_idx = group.selectedAudioStreamIndex
-        end if
+        activeScene.itemContent.id = chainLookup(activeScene, "selectedVideoStreamId")
 
-        group.itemContent.selectedAudioStreamIndex = audio_stream_idx
-        group.itemContent.id = group.selectedVideoStreamId
+        ' Check if a specific Audio Stream was selected
+        activeScene.itemContent.selectedAudioStreamIndex = chainLookup(activeScene, "selectedAudioStreamIndex") ?? 0
+
+        playbackPositionTicks = chainLookup(activeScene, "itemContent.json.userdata.PlaybackPositionTicks") ?? 0
 
         ' Display playback options dialog
-        if group.itemContent.json.userdata.PlaybackPositionTicks > 0
-            m.global.queueManager.callFunc("hold", group.itemContent)
-            playbackOptionDialog(group.itemContent.json.userdata.PlaybackPositionTicks, group.itemContent.json)
+        if playbackPositionTicks > 0
+            m.global.queueManager.callFunc("hold", activeScene.itemContent)
+            playbackOptionDialog(playbackPositionTicks, activeScene.itemContent.json)
         else
-            playItem(group.itemContent, { method: "push", bypassNextPreferredAudioTrackIndexReset: true })
+            playItem(activeScene.itemContent, { method: "push", bypassNextPreferredAudioTrackIndexReset: true })
         end if
 
-        if isValid(group) and isValid(group.lastFocus) and isValid(group.lastFocus.id) and group.lastFocus.id = "main_group"
-            buttons = group.findNode("buttons")
+        if isChainValid(activeScene, "lastFocus.id") and isStringEqual(activeScene.lastFocus.id, "main_group")
+            buttons = activeScene.findNode("buttons")
             if isValid(buttons)
-                group.lastFocus = group.findNode("buttons")
+                activeScene.lastFocus = activeScene.findNode("buttons")
             end if
         end if
 
-        if isValid(group) and isValid(group.lastFocus)
-            group.lastFocus.setFocus(true)
+        if isChainValid(activeScene, "lastFocus")
+            activeScene.lastFocus.setFocus(true)
         end if
-    else if isValid(btn) and btn = "part-button"
-        group = m.global.sceneManager.callFunc("getActiveScene")
 
+        return
+    end if
+
+    if isStringEqual(btn, "part-button")
         partData = {
             data: [{
-                id: group.additionalParts.masterID,
+                id: chainLookup(activeScene, "additionalParts.masterID"),
                 type: "partselect",
                 Track: {
                     description: "Part 1"
@@ -1099,22 +1101,16 @@ sub onButtonSelectedEvent(msg)
             }]
         }
 
-        selectedPart = string.EMPTY
-        if isValid(group)
-            if isValid(group.selectedPart)
-                selectedPart = group.selectedPart.id
-            end if
-        end if
+        selectedPart = chainLookup(activeScene, "selectedPart.id") ?? string.EMPTY
 
         i = 2
-
-        for each part in group.additionalParts.parts.Items
+        for each part in chainLookup(activeScene, "additionalParts.parts.Items")
             part.type = "partselect"
             part.Track = {}
             part.Track.description = `Part ${i}`
 
-            if isValidAndNotEmpty(part.id)
-                if part.id = selectedPart
+            if selectedPart <> string.EMPTY
+                if isStringEqual(part.id, selectedPart)
                     part.selected = true
                 end if
             end if
@@ -1126,48 +1122,64 @@ sub onButtonSelectedEvent(msg)
 
         m.global.sceneManager.callFunc("radioDialog", tr("Select Part"), partData)
         m.global.sceneManager.observeField("returnData", m.port)
-    else if isValid(btn) and btn = "trailer-button"
-        ' User chose to play a trailer from the movie detail view
-        startLoadingSpinner()
-        dialog = createObject("roSGNode", "ProgressDialog")
-        dialog.title = tr("Loading trailer")
-        m.scene.dialog = dialog
 
-        if isChainValid(group, "additionalParts.masterID")
-            trailerData = api.users.GetLocalTrailers(m.global.session.user.id, group.additionalParts.masterID)
+        return
+    end if
+
+    ' User chose to play a trailer from the movie detail view
+    if isStringEqual(btn, "trailer-button")
+        startLoadingSpinner()
+
+        if isChainValid(activeScene, "additionalParts.masterID")
+            trailerData = api.users.GetLocalTrailers(m.global.session.user.id, activeScene.additionalParts.masterID)
         else
-            trailerData = api.users.GetLocalTrailers(m.global.session.user.id, group.id)
+            trailerData = api.users.GetLocalTrailers(m.global.session.user.id, activeScene.id)
         end if
 
         if isValid(trailerData) and isValid(trailerData[0]) and isValid(trailerData[0].id)
             playItem(trailerData, { method: "set", bypassNextPreferredAudioTrackIndexReset: true })
-            dialog.close = true
         else
             stopLoadingSpinner()
         end if
 
-        if isValid(group) and isValid(group.lastFocus)
-            group.lastFocus.setFocus(true)
+        if isChainValid(activeScene, "lastFocus")
+            activeScene.lastFocus.setFocus(true)
         end if
-    else if isValid(btn) and btn = "watched-button"
-        movie = group.itemContent
-        if isValid(movie) and isValid(movie.watched) and isValid(movie.id)
-            if movie.watched
-                UnmarkItemWatched(movie.id)
-            else
-                MarkItemWatched(movie.id)
-            end if
-            movie.watched = not movie.watched
-        end if
-    else if isValid(btn) and btn = "favorite-button"
-        movie = group.itemContent
-        if movie.favorite
-            UnmarkItemFavorite(movie.id)
+
+        return
+    end if
+
+    ' Toggle watched state
+    if isStringEqual(btn, "watched-button")
+        movie = chainLookup(activeScene, "itemContent")
+        if not isChainValid(movie, "watched") or not isValid(movie.id) then return
+
+        if movie.watched
+            api.users.UnmarkPlayed(m.global.session.user.id, movie.id)
         else
-            MarkItemFavorite(movie.id)
+            date = CreateObject("roDateTime")
+            dateStr = date.ToISOString()
+            api.users.MarkPlayed(m.global.session.user.id, movie.id, { "DatePlayed": dateStr, "PlaybackPositionTicks": 0 })
+        end if
+        movie.watched = not movie.watched
+        return
+    end if
+
+    ' Toggle favorite state
+    if isStringEqual(btn, "favorite-button")
+        movie = chainLookup(activeScene, "itemContent")
+        if not isChainValid(movie, "favorite") or not isValid(movie.id) then return
+
+        if movie.favorite
+            api.users.UnmarkFavorite(m.global.session.user.id, movie.id)
+        else
+            api.users.MarkFavorite(m.global.session.user.id, movie.id)
         end if
         movie.favorite = not movie.favorite
-    else if isValid(btn) and btn = "editsubtitlesbutton"
+        return
+    end if
+
+    if isStringEqual(btn, "editsubtitlesbutton")
         subtitleSearchView = createObject("roSGNode", "SubtitleSearchView")
         subtitleSearchView.observeField("subtitleLanguageButtonSelected", m.port)
         subtitleSearchView.observeField("subtitleSearchButtonSelected", m.port)
@@ -1175,7 +1187,7 @@ sub onButtonSelectedEvent(msg)
 
         ' Set preferredSubtitleLanguage data so we can default the dropdown and popup correctly
         subtitleSearchView.cultures = api.localization.GetCultures()
-        preferredSubtitleLanguage = m.global.session.user.configuration.SubtitleLanguagePreference
+        preferredSubtitleLanguage = chainLookup(m.global.session, "user.configuration.SubtitleLanguagePreference")
         if not isValidAndNotEmpty(preferredSubtitleLanguage)
             preferredSubtitleLanguage = "eng"
         end if
@@ -1184,49 +1196,49 @@ sub onButtonSelectedEvent(msg)
 
         ' Load the My Subtitles data now so it's up to date if user adds/deletes something it's updated
         ' If the data is bad, don't load the view
-        metaData = ItemMetaData(group.itemContent.id)
+        metaData = ItemMetaData(activeScene.itemContent.id)
         if isValidAndNotEmpty(metaData)
             subtitleSearchView.itemContent = metaData
             m.global.sceneManager.callFunc("pushScene", subtitleSearchView)
         end if
-    else
-        ' If there are no other button matches, check if this is a simple "OK" Dialog & Close if so
-        dialog = msg.getRoSGNode()
-        if dialog.id = "OKDialog"
-            dialog.unobserveField("buttonSelected")
-            dialog.close = true
-        end if
+        return
     end if
+
+    closeOKDialog(msg)
 end sub
 
 sub onStateEvent(msg)
     node = msg.getRoSGNode()
-    if isValid(node) and isValid(node.state)
-        if node.selectedItemType = "TvChannel" and node.state = "finished"
+    if not isChainValid(node, "state") then return
+
+    if isStringEqual(node.state, "finished")
+        if isStringEqual(node.selectedItemType, ItemType.TVCHANNEL)
             thisItem = {
                 id: node.id,
-                type: "recording"
+                type: ItemType.RECORDING
             }
 
             playItem(thisItem, { resetShuffle: true })
-        else if node.state = "finished"
-            node.control = "stop"
+            return
+        end if
 
-            ' If node allows retrying using Transcode Url, give that shot
-            if isValid(node.retryWithTranscoding) and node.retryWithTranscoding
-                thisItem = {
-                    id: node.id,
-                    type: m.global.queueManager.callFunc("getCurrentItem").type
-                }
+        node.control = VideoControl.STOP
 
-                playItem(thisItem, { resetShuffle: true })
-            else if not isValid(node.showID)
-                m.global.sceneManager.callFunc("popScene")
-            end if
+        ' If node allows retrying using Transcode Url, give that shot
+        if isValid(node.retryWithTranscoding) and node.retryWithTranscoding
+            thisItem = {
+                id: node.id,
+                type: m.global.queueManager.callFunc("getCurrentItem").type
+            }
+
+            playItem(thisItem, { resetShuffle: true })
+        else if not isValid(node.showID)
+            m.global.sceneManager.callFunc("popScene")
         end if
     end if
 end sub
 
+' https://developer.roku.com/en-ca/docs/references/brightscript/events/rodeviceinfoevent.md
 sub onRoDeviceInfoEvent(msg)
     event = msg.GetInfo()
 
@@ -1239,34 +1251,41 @@ sub onRoDeviceInfoEvent(msg)
                 group.callFunc("OnScreenShown")
             end if
         end if
-    else if isValid(event.audioGuideEnabled)
+        return
+    end if
+
+    if isValid(event.audioGuideEnabled)
         tmpGlobalDevice = m.global.device
         tmpGlobalDevice.AddReplace("isaudioguideenabled", event.audioGuideEnabled)
 
         ' update global device array
         m.global.setFields({ device: tmpGlobalDevice })
-    else if isValid(event.generalMemoryLevel)
-        ' This event will be sent first when the OS transitions from "normal" to "low" state and will continue to be sent while in "low" or "critical" states.
-        '   - "normal" means that the general memory is within acceptable levels
-        '   - "low" means that the general memory is below acceptable levels but not critical
-        '   - "critical" means that general memory are at dangerously low level and that the OS may force terminate the application
+        return
+    end if
+
+    if isValid(event.generalMemoryLevel)
         print "event.generalMemoryLevel = ", event.generalMemoryLevel
-    else if isValid(event.audioCodecCapabilityChanged)
-        ' The audio codec capability has changed if true.
+        return
+    end if
+
+    if isValid(event.audioCodecCapabilityChanged)
         print "event.audioCodecCapabilityChanged = ", event.audioCodecCapabilityChanged
 
         postTask = createObject("roSGNode", "PostTask")
         postTask.arrayData = getDeviceCapabilities()
         postTask.apiUrl = "/Sessions/Capabilities/Full"
         postTask.control = "RUN"
-    else if isValid(event.videoCodecCapabilityChanged)
-        ' The video codec capability has changed if true.
+        return
+    end if
+
+    if isValid(event.videoCodecCapabilityChanged)
         print "event.videoCodecCapabilityChanged = ", event.videoCodecCapabilityChanged
 
         postTask = createObject("roSGNode", "PostTask")
         postTask.arrayData = getDeviceCapabilities()
         postTask.apiUrl = "/Sessions/Capabilities/Full"
         postTask.control = "RUN"
+        return
     end if
 end sub
 
