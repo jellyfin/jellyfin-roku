@@ -1,4 +1,5 @@
 import "pkg:/components/manager/ViewCreator.bs"
+import "pkg:/source/enums/CollectionType.bs"
 import "pkg:/source/enums/ItemType.bs"
 import "pkg:/source/enums/ResumePopupAction.bs"
 import "pkg:/source/enums/String.bs"
@@ -437,49 +438,49 @@ sub onDeepLinkingEvent(args)
 end sub
 
 sub onLibrarySelection(selectedItem)
-    if selectedItem.collectionType = "movies"
+    if isStringEqual(selectedItem.collectionType, CollectionType.MOVIES)
         group = CreateVisualLibraryScene(selectedItem, ItemType.MOVIE)
         m.global.sceneManager.callFunc("pushScene", group)
         return
     end if
 
-    if isStringEqual(selectedItem.collectionType, "tvshows")
+    if isStringEqual(selectedItem.collectionType, CollectionType.TVSHOWS)
         group = CreateVisualLibraryScene(selectedItem, ItemType.SERIES)
         m.global.sceneManager.callFunc("pushScene", group)
         return
     end if
 
-    if isStringEqual(selectedItem.collectionType, "musicvideos")
+    if isStringEqual(selectedItem.collectionType, CollectionType.MUSICVIDEOS)
         group = CreateVisualLibraryScene(selectedItem, ItemType.MUSICVIDEO)
         m.global.sceneManager.callFunc("pushScene", group)
         return
     end if
 
-    if isStringEqual(selectedItem.collectionType, "homevideos")
+    if isStringEqual(selectedItem.collectionType, CollectionType.HOMEVIDEOS)
         group = CreateVisualLibraryScene(selectedItem, ItemType.PHOTO)
         m.global.sceneManager.callFunc("pushScene", group)
         return
     end if
 
-    if isStringEqual(selectedItem.collectionType, "boxsets")
+    if isStringEqual(selectedItem.collectionType, CollectionType.BOXSETS)
         group = CreateVisualLibraryScene(selectedItem, ItemType.BOXSET)
         m.global.sceneManager.callFunc("pushScene", group)
         return
     end if
 
-    if selectedItem.collectionType = "music"
+    if isStringEqual(selectedItem.collectionType, CollectionType.MUSIC)
         group = CreateMusicLibraryView(selectedItem)
         m.global.sceneManager.callFunc("pushScene", group)
         return
     end if
 
-    if selectedItem.collectionType = "books"
+    if isStringEqual(selectedItem.collectionType, CollectionType.BOOKS)
         group = CreateBookLibraryView(selectedItem)
         m.global.sceneManager.callFunc("pushScene", group)
         return
     end if
 
-    if selectedItem.collectionType = "nextup"
+    if isStringEqual(selectedItem.collectionType, CollectionType.NEXTUP)
         group = CreateItemGrid(selectedItem)
         group.optionsAvailable = false
         m.global.sceneManager.callFunc("pushScene", group)
@@ -491,17 +492,18 @@ sub onLibrarySelection(selectedItem)
 end sub
 
 sub onRefreshSeasonDetailsDataEvent()
+    print "onRefreshSeasonDetailsDataEvent", onRefreshSeasonDetailsDataEvent
     startLoadingSpinner()
 
     currentScene = m.global.sceneManager.callFunc("getActiveScene")
 
-    if isValid(currentScene) and isValid(currentScene.objects) and isValid(currentScene.seasonData)
+    if isChainValid(currentScene, "objects") and isValid(currentScene.seasonData)
         currentEpisode = m.global.queueManager.callFunc("getCurrentItem")
 
-        if isValid(currentScene.objects.Items) and isValid(currentEpisode) and isValid(currentEpisode.id)
+        if isChainValid(currentScene, "objects.Items") and isChainValid(currentEpisode, "id")
             ' Find the object in the scene's data and update its json data
             for i = 0 to currentScene.objects.Items.count() - 1
-                if LCase(currentScene.objects.Items[i].id) = LCase(currentEpisode.id)
+                if isStringEqual(currentScene.objects.Items[i].id, currentEpisode.id)
                     currentScene.objects.Items[i].json = api.users.GetItem(m.global.session.user.id, currentEpisode.id)
                     m.global.queueManager.callFunc("setTopStartingPoint", currentScene.objects.Items[i].json.UserData.PlaybackPositionTicks)
                     exit for

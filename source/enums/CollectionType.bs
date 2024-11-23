@@ -1,5 +1,11 @@
 enum CollectionType
+    BOOKS = "books"
     BOXSET = "boxset"
     BOXSETS = "boxsets"
     HOMEVIDEOS = "homevideos"
+    MOVIES = "movies"
+    MUSIC = "music"
+    MUSICVIDEOS = "musicvideos"
+    NEXTUP = "nextup"
+    TVSHOWS = "tvshows"
 end enum
