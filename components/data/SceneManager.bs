@@ -403,6 +403,8 @@ end sub
 '
 ' Close currently displayed dialog
 sub dismissDialog(msg = invalid)
+    if not isDialogOpen() then return
+
     if isValid(msg)
         ' User chose cancel button
         if msg.getData() = 1
@@ -416,5 +418,5 @@ end sub
 '
 ' Returns bool indicating if dialog is currently displayed
 function isDialogOpen() as boolean
-    return m.scene.dialog <> invalid
+    return isValid(m.scene.dialog)
 end function
