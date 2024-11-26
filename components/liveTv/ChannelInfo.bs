@@ -6,14 +6,14 @@ sub init()
     m.channelLogo = m.top.findNode("channelLogo")
 
     m.borderTop = m.top.findNode("borderTop")
-    m.borderTop.color = ColorPalette.DARKGREY
+    m.borderTop.color = ColorPalette.MIDGREY
 
     m.backdrop = m.top.findNode("backdrop")
-    m.backdrop.color = ColorPalette.LIGHTBLUE
+    m.backdrop.color = ColorPalette.BLACK90
 
     m.channelTitle = m.top.findNode("channelTitle")
     m.channelTitle.font.size = 27
-    m.channelTitle.color = ColorPalette.DARKGREY
+    m.channelTitle.color = ColorPalette.OFFWHITE
 end sub
 
 sub onLoadStatusChanged()
