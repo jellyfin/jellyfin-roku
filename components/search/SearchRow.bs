@@ -94,7 +94,7 @@ sub addRow(data, title, type_filter)
                 localStartDate = createObject("roDateTime")
                 localStartDate.FromISO8601String(item.json.StartDate)
                 localStartDate.ToLocalTime()
-                item.title = item.title + " -- " + localStartDate.asDateStringLoc("short") + " " + localStartDate.asTimeStringLoc("short")
+                item.title = `${item.title} -- ${localStartDate.asDateStringLoc("short")} ${localStartDate.asTimeStringLoc("short")}`
             end if
             row.appendChild(item)
         end if
