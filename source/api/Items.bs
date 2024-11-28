@@ -48,14 +48,11 @@ end function
 ' Search across all libraries
 function searchMedia(query as string)
     if query <> ""
-        data = api.users.GetItemsByQuery(m.global.session.user.id, {
+
+        ' Everything except Live TV shows (but including TV Channels)
+        data = api.users.GetItemsByQuery({
+            "userid": m.global.session.user.id,
             "searchTerm": query,
-            "IncludePeople": true,
-            "IncludeMedia": true,
-            "IncludeShows": true,
-            "IncludeGenres": true,
-            "IncludeStudios": true,
-            "IncludeArtists": true,
             "IncludeItemTypes": "LiveTvChannel,Movie,BoxSet,Series,Episode,Video,Person,Audio,MusicAlbum,MusicArtist,Playlist",
             "EnableTotalRecordCount": false,
             "ImageTypeLimit": 1,
@@ -63,7 +60,32 @@ function searchMedia(query as string)
             "limit": 100
         })
 
-        if data = invalid then return []
+        ' Separate query so that we can get all programs just like the Web Client
+        liveTv = api.users.GetItemsByQuery({
+            "userid": m.global.session.user.id,
+            "searchTerm": query,
+            "IncludeItemTypes": "LiveTvProgram",
+            "EnableTotalRecordCount": false,
+            "ImageTypeLimit": 1,
+            "Recursive": true,
+            "limit": 100,
+            "IsMovie": false,
+            "IsSeries": false,
+            "IsSports": false,
+            "IsNews": false,
+            "IsKids": false
+        })
+
+        if isValid(data) and isValid(liveTv)
+            ' we've got both regular stuff and live tv
+            data.Items.Append(liveTv.Items)
+        else if isValid(liveTv)
+            ' we only have live tv
+            data = liveTv
+        else if not isValid(data)
+            ' we have neither
+            return []
+        end if
 
         results = []
         for each item in data.Items

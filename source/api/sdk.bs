@@ -1361,7 +1361,7 @@ namespace api
         end function
 
         ' Stop specified task.
-        function stop(id as string)
+        function STOP(id as string)
             req = APIRequest(Substitute("/scheduledtasks/running/{0}", id))
             return deleteVoid(req)
         end function
@@ -1710,7 +1710,7 @@ namespace api
         end function
 
         ' Request stop in SyncPlay group.
-        function stop()
+        function STOP()
             req = APIRequest("/syncplay/stop")
             return postVoid(req)
         end function
@@ -1955,8 +1955,8 @@ namespace api
         end function
 
         ' Gets items based on a query.
-        function GetItemsByQuery(id as string, params = {} as object)
-            req = APIRequest(Substitute("/users/{0}/items", id), params)
+        function GetItemsByQuery(params = {} as object)
+            req = APIRequest("/items", params)
             return getJson(req)
         end function
 
