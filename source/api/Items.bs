@@ -50,7 +50,7 @@ function searchMedia(query as string)
     if query <> ""
 
         ' Everything except Live TV shows (but including TV Channels)
-        data = api.users.GetItemsByQuery({
+        data = api.items.Get({
             "userid": m.global.session.user.id,
             "searchTerm": query,
             "IncludeItemTypes": "LiveTvChannel,Movie,BoxSet,Series,Episode,Video,Person,Audio,MusicAlbum,MusicArtist,Playlist",
@@ -61,7 +61,7 @@ function searchMedia(query as string)
         })
 
         ' Separate query so that we can get all programs just like the Web Client
-        liveTv = api.users.GetItemsByQuery({
+        liveTv = api.items.Get({
             "userid": m.global.session.user.id,
             "searchTerm": query,
             "IncludeItemTypes": "LiveTvProgram",

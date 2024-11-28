@@ -682,7 +682,7 @@ sub onSelectedItemEvent(msg)
             end if
         else if selectedItemType = "photoalbum"
             ' grab all photos inside photo album
-            photoAlbumData = api.users.GetItemsByQuery({
+            photoAlbumData = api.items.Get({
                 "userid": m.global.session.user.id,
                 "parentId": selectedItem.id,
                 "includeItemTypes": "Photo",
