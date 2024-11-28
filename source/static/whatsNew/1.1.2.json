@@ -1,6 +1,14 @@
 [
   {
+    "description": "Add live TV programs to search results",
+    "author": "jimdogx"
+  },
+  {
     "description": "Fix TV episode watched button text not changing when clicked",
     "author": "1hitsong"
+  },
+  {
+    "description": "Update item API calls",
+    "author": "jimdogx"
   }
 ]
