@@ -7,6 +7,7 @@ end sub
 
 sub loadChannels()
 
+    m.top.totalRecordCount = 0
     results = []
 
     sort_field = m.top.sortField
@@ -22,7 +23,9 @@ sub loadChannels()
         SortBy: sort_field,
         SortOrder: sort_order,
         recursive: m.top.recursive,
-        UserId: m.global.session.user.id
+        UserId: m.global.session.user.id,
+        limit: m.top.limit,
+        startIndex: m.top.startIndex
     }
 
     ' Handle special case when getting names starting with numeral
@@ -53,6 +56,7 @@ sub loadChannels()
         return
     end if
 
+    m.top.totalRecordCount = data.TotalRecordCount
 
     for each item in data.Items
         channel = createObject("roSGNode", "ChannelData")
