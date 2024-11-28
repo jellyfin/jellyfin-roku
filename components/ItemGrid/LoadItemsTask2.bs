@@ -239,7 +239,8 @@ sub loadItems()
                     tmp = CreateObject("roSGNode", "ContentNode")
                     tmp.title = item.name
 
-                    genreData = api.users.GetItemsByQuery(m.global.session.user.id, {
+                    genreData = api.items.Get({
+                        UserId: m.global.session.user.id,
                         SortBy: "Random",
                         SortOrder: "Ascending",
                         IncludeItemTypes: m.top.itemType,

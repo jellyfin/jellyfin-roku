@@ -682,7 +682,8 @@ sub onSelectedItemEvent(msg)
             end if
         else if selectedItemType = "photoalbum"
             ' grab all photos inside photo album
-            photoAlbumData = api.users.GetItemsByQuery(m.global.session.user.id, {
+            photoAlbumData = api.items.Get({
+                "userid": m.global.session.user.id,
                 "parentId": selectedItem.id,
                 "includeItemTypes": "Photo",
                 "Recursive": true
@@ -1011,7 +1012,7 @@ sub onItemSelectedEvent(msg)
         MainAction.playItem(node.json, { resetShuffle: true })
     else if node.type = "Person"
         CreatePersonView(node)
-    else if node.type = "TvChannel"
+    else if node.type = "TvChannel" or node.type = "Program"
 
         thisItem = {
             id: node.id,
