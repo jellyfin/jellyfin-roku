@@ -299,7 +299,7 @@ sub focusChanged()
         m.viewChannelOutline.visible = true
         m.recordOutline.visible = false
         m.recordSeriesOutline.visible = false
-        m.viewChannelButtonBackground.blendColor = "#006fab"
+        m.viewChannelButtonBackground.blendColor = ColorPalette.HIGHLIGHT
         m.recordButtonBackground.blendColor = "#000000"
         m.recordSeriesButtonBackground.blendColor = "#000000"
     else
@@ -343,7 +343,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
             m.viewChannelOutline.visible = false
             m.recordOutline.visible = true
             m.viewChannelButtonBackground.blendColor = "#000000"
-            m.recordButtonBackground.blendColor = "#006fab"
+            m.recordButtonBackground.blendColor = ColorPalette.HIGHLIGHT
             m.recordSeriesButtonBackground.blendColor = "#000000"
             return true
         else if key = "right" and m.recordButton.hasFocus()
@@ -354,7 +354,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
             m.recordSeriesOutline.visible = true
             m.viewChannelButtonBackground.blendColor = "#000000"
             m.recordButtonBackground.blendColor = "#000000"
-            m.recordSeriesButtonBackground.blendColor = "#006fab"
+            m.recordSeriesButtonBackground.blendColor = ColorPalette.HIGHLIGHT
             return true
         else if key = "left" and m.recordSeriesButton.hasFocus()
             m.recordButton.setFocus(true)
@@ -363,7 +363,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
             m.recordOutline.visible = true
             m.recordSeriesOutline.visible = false
             m.viewChannelButtonBackground.blendColor = "#000000"
-            m.recordButtonBackground.blendColor = "#006fab"
+            m.recordButtonBackground.blendColor = ColorPalette.HIGHLIGHT
             m.recordSeriesButtonBackground.blendColor = "#000000"
             return true
         else if key = "left" and m.recordButton.hasFocus()
@@ -372,7 +372,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
             group.lastFocus = m.viewChannelButton
             m.viewChannelOutline.visible = true
             m.recordOutline.visible = false
-            m.viewChannelButtonBackground.blendColor = "#006fab"
+            m.viewChannelButtonBackground.blendColor = ColorPalette.HIGHLIGHT
             m.recordButtonBackground.blendColor = "#000000"
             m.recordSeriesButtonBackground.blendColor = "#000000"
             return true

@@ -16,9 +16,6 @@ sub init()
     m.buttons = m.top.findNode("buttons")
     m.buttons.buttons = [tr("View"), tr("Sort"), tr("Filter")]
     m.buttons.selectedIndex = MenuType.SORT
-    m.buttons.setFocus(true)
-    group = m.global.sceneManager.callFunc("getActiveScene")
-    group.lastFocus = m.buttons
 
     m.favoriteMenu = m.top.findNode("favoriteMenu")
     m.selectedFavoriteItem = m.top.findNode("selectedFavoriteItem")

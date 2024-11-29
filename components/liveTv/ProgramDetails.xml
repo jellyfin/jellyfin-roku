@@ -83,6 +83,6 @@
         <field id="favorite" type="node" onchange="channelUpdated" />
         <field id="programDetails" type="node" onchange="programUpdated" />
         <field id="height" type="integer" />
-        <field id="hasFocus" type="boolean" onChange="focusChanged" />
+        <field id="hasFocus" type="boolean" onChange="focusChanged" alwaysNotify="true" />
     </interface>
 </component>

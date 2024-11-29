@@ -5,16 +5,11 @@ import "pkg:/source/enums/String.bs"
 sub Main (args as dynamic) as void
     ' The main function that runs when the application is launched.
     m.screen = CreateObject("roSGScreen")
+    m.port = CreateObject("roMessagePort")
+    m.screen.setMessagePort(m.port)
 
     ' Set global constants
     setConstants()
-
-    ' Write screen tracker for screensaver
-    WriteAsciiFile("tmp:/scene.temp", "")
-    MoveFile("tmp:/scene.temp", "tmp:/scene")
-
-    m.port = CreateObject("roMessagePort")
-    m.screen.setMessagePort(m.port)
 
     ' Set any initial Global Variables
     m.global = m.screen.getGlobalNode()
@@ -22,11 +17,6 @@ sub Main (args as dynamic) as void
     SaveDeviceToGlobal()
 
     session.Init()
-
-    ' update global LastRunVersion now that migrations are finished
-    if m.global.app.version <> m.global.app.lastRunVersion
-        set_setting("LastRunVersion", m.global.app.version)
-    end if
 
     m.scene = m.screen.CreateScene("BaseScene")
     m.screen.show() ' vscode_rale_tracker_entry
@@ -70,52 +60,14 @@ sub Main (args as dynamic) as void
 
     m.scene.observeField("exit", m.port)
 
-    ' Downloads and stores a fallback font to tmp:/
-    configEncoding = api.system.GetConfigurationByName("encoding")
-
-    if isChainValid(configEncoding, "EnableFallbackFont")
-        if configEncoding.EnableFallbackFont
-            re = CreateObject("roRegex", "Name.:.(.*?).,.Size", "s")
-            filename = APIRequest("FallbackFont/Fonts").GetToString()
-            if isValid(filename)
-                filename = re.match(filename)
-                if isValidAndNotEmpty(filename)
-                    filename = filename[1]
-                    APIRequest("FallbackFont/Fonts/" + filename).gettofile("tmp:/font")
-                end if
-            end if
-        end if
-    end if
+    ' Download and store the fallback font to tmp:/
+    ' This font may be used for CJK subtitles
+    downloadFallbackFont()
 
     ' Delete any old library filters
-    for each settingKeys in m.global.session.user.settings.keys()
-        if isStringEqual(left(settingKeys, 8), "display.")
-            if isStringEqual(right(settingKeys, 7), ".filter") or isStringEqual(right(settingKeys, 14), ".filterOptions")
-                m.global.session.user.settings.delete(settingKeys)
-                unset_user_setting(settingKeys)
-            end if
-        end if
-    end for
+    clearOldLibraryFilters()
 
-    ' Bypass What's New popup if server is Jellyfin demo
-    if isStringEqual(m.global.session.server.url, "https://demo.jellyfin.org/stable")
-        set_user_setting("LastRunVersion", m.global.app.version)
-    end if
-
-    ' Bypass What's New popup if deep linking arguments were passed
-    if isValidAndNotEmpty(args.mediaType) and isValidAndNotEmpty(args.contentId)
-        set_user_setting("LastRunVersion", m.global.app.version)
-    end if
-
-    ' Has the current user run this version before?
-    usersLastRunVersion = m.global.session.user.settings.lastRunVersion
-    if ChannelVersionUpdated(usersLastRunVersion)
-        set_user_setting("LastRunVersion", m.global.app.version)
-        ' show what's new popup
-        if m.global.session.user.settings["load.allowwhatsnew"]
-            m.global.sceneManager.callFunc("whatsNewDialog")
-        end if
-    end if
+    displayWhatsNewPopup(args)
 
     ' Handle input messages
     input = CreateObject("roInput")
@@ -124,11 +76,9 @@ sub Main (args as dynamic) as void
     device = CreateObject("roDeviceInfo")
     device.setMessagePort(m.port)
     device.EnableScreensaverExitedEvent(true)
-    device.EnableAppFocusEvent(true)
-    device.EnableLowGeneralMemoryEvent(true)
-    device.EnableLinkStatusEvent(true)
-    device.EnableCodecCapChangedEvent(true)
     device.EnableAudioGuideChangedEvent(true)
+    device.EnableLowGeneralMemoryEvent(true)
+    device.EnableCodecCapChangedEvent(true)
 
     ' Check if we were sent content to play with the startup command (Deep Link)
     onDeepLinkingEvent(args)
@@ -254,4 +204,55 @@ sub Main (args as dynamic) as void
             print msg
         end if
     end while
+end sub
+
+sub downloadFallbackFont()
+    configEncoding = api.system.GetConfigurationByName("encoding")
+
+    if isChainValid(configEncoding, "EnableFallbackFont")
+        if configEncoding.EnableFallbackFont
+            re = CreateObject("roRegex", "Name.:.(.*?).,.Size", "s")
+            filename = APIRequest("FallbackFont/Fonts").GetToString()
+            if isValid(filename)
+                filename = re.match(filename)
+                if isValidAndNotEmpty(filename)
+                    filename = filename[1]
+                    APIRequest("FallbackFont/Fonts/" + filename).gettofile("tmp:/font")
+                end if
+            end if
+        end if
+    end if
+end sub
+
+sub clearOldLibraryFilters()
+    for each settingKeys in m.global.session.user.settings.keys()
+        if isStringEqual(left(settingKeys, 8), "display.")
+            if isStringEqual(right(settingKeys, 7), ".filter") or isStringEqual(right(settingKeys, 14), ".filterOptions")
+                m.global.session.user.settings.delete(settingKeys)
+                unset_user_setting(settingKeys)
+            end if
+        end if
+    end for
+end sub
+
+sub displayWhatsNewPopup(args)
+    ' Bypass What's New popup if server is Jellyfin demo
+    if isStringEqual(m.global.session.server.url, "https://demo.jellyfin.org/stable")
+        set_user_setting("LastRunVersion", m.global.app.version)
+    end if
+
+    ' Bypass What's New popup if deep linking arguments were passed
+    if isValidAndNotEmpty(args.mediaType) and isValidAndNotEmpty(args.contentId)
+        set_user_setting("LastRunVersion", m.global.app.version)
+    end if
+
+    ' Has the current user run this version before?
+    usersLastRunVersion = m.global.session.user.settings.lastRunVersion
+    if ChannelVersionUpdated(usersLastRunVersion)
+        set_user_setting("LastRunVersion", m.global.app.version)
+        ' show what's new popup
+        if m.global.session.user.settings["load.allowwhatsnew"]
+            m.global.sceneManager.callFunc("whatsNewDialog")
+        end if
+    end if
 end sub

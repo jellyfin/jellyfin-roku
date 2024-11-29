@@ -278,10 +278,11 @@ sub ItemDataLoaded(msg)
         group = m.global.sceneManager.callFunc("getActiveScene")
         group.lastFocus = m.alphaMenu
     else
-        m.alphaMenu.setFocus(false)
-        m.itemGrid.setFocus(true)
-        group = m.global.sceneManager.callFunc("getActiveScene")
-        group.lastFocus = m.itemGrid
+        if not isStringEqual(m.global.session.user.settings["display.livetv.landing"], "guide") or isStringEqual(m.options.view, "livetv")
+            m.itemGrid.setFocus(true)
+            group = m.global.sceneManager.callFunc("getActiveScene")
+            group.lastFocus = m.itemGrid
+        end if
     end if
 
     'Update the stored counts
@@ -442,11 +443,14 @@ sub optionsClosed()
     group = m.global.sceneManager.callFunc("getActiveScene")
     group.lastFocus = m.itemGrid.opacity = 1 ? m.itemGrid : m.tvGuide
 
-    if m.tvGuide <> invalid
+    if isValid(m.tvGuide)
         m.tvGuide.lastFocus.setFocus(true)
-        group.lastFocus = m.tvGuide
-    end if
+        group.lastFocus = m.tvGuide.lastFocus
 
+        if isChainValid(m.tvGuide, "lastFocus.hasFocus")
+            m.tvGuide.lastFocus.hasFocus = m.tvGuide.lastFocus.hasFocus
+        end if
+    end if
 end sub
 
 sub showTVGuide()
