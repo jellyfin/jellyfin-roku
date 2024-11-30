@@ -11,6 +11,8 @@ end sub
 
 function getData()
     data = CreateObject("roSGNode", "ContentNode")
+    m.rowItemSizes = []
+    m.rowHeights = []
 
     itemData = m.top.itemData
 
@@ -19,49 +21,53 @@ function getData()
     end if
 
     ' Do this to keep the ordering, AssociateArrays have no order
-    type_array = ["Movie", "Series", "TvChannel", "Episode", "MusicArtist", "MusicAlbum", "Audio", "Person", "PlaylistsFolder", "Program"]
+    type_array = [ItemType.MOVIE, ItemType.SERIES, ItemType.TVCHANNEL, ItemType.EPISODE, ItemType.MUSICARTIST, ItemType.MUSICALBUM, ItemType.AUDIO, ItemType.PERSON, ItemType.PLAYLIST, ItemType.PROGRAM]
     content_types = {
-        "TvChannel": { "label": "Channels", "count": 0 },
-        "Movie": { "label": "Movies", "count": 0 },
-        "Series": { "label": "Shows", "count": 0 },
-        "Episode": { "label": "Episodes", "count": 0 },
-        "MusicArtist": { "label": "Artists", "count": 0 },
-        "MusicAlbum": { "label": "Albums", "count": 0 },
-        "Audio": { "label": "Songs", "count": 0 },
-        "Person": { "label": "People", "count": 0 },
-        "PlaylistsFolder": { "label": "Playlist", "count": 0 },
-        "Program": { "label": "Programs", "count": 0 }
+        "movie": { "label": "Movies", "count": 0, size: [230, 405], imageDimensions: [230, 340] },
+        "episode": { "label": "Episodes", "count": 0, size: [400, 330], imageDimensions: [400, 260] },
+        "musicartist": { "label": "Artists", "count": 0, size: [400, 305], imageDimensions: [400, 260] },
+        "program": { "label": "Programs", "count": 0, size: [400, 330], imageDimensions: [400, 260] },
+        "tvChannel": { "label": "Channels", "count": 0, size: [400, 305], imageDimensions: [400, 260] },
+        "musicalbum": { "label": "Albums", "count": 0, size: [330, 330], imageDimensions: [330, 260] },
+        "audio": { "label": "Songs", "count": 0, size: [330, 330], imageDimensions: [330, 260] },
+        "series": { "label": "Shows", "count": 0, size: [400, 330], imageDimensions: [400, 260] },
+        "person": { "label": "People", "count": 0, size: [230, 385], imageDimensions: [230, 340] },
+        "playlist": { "label": "Playlists", "count": 0, size: [330, 330], imageDimensions: [330, 260] }
     }
 
-    for each item in itemData.Items
-        if content_types[item.type] <> invalid
-            content_types[item.type].count += 1
+    ' Loop through all items to get count of each item type
+    for each item in chainLookup(itemData, "items")
+        if isValid(content_types.LookupCI(item.type))
+            content_types.LookupCI(item.type).count += 1
         end if
     end for
 
+    ' Loop through each item type in order and create rows if it has items
     for each ctype in type_array
-        content_type = content_types[ctype]
+        content_type = content_types.LookupCI(ctype)
         if content_type.count > 0
-            addRow(data, content_type.label, ctype)
+            addRow(data, content_type, ctype)
+            m.rowItemSizes.push(content_type.size)
+            m.rowHeights.push(content_type.size[1] + 30)
         end if
     end for
 
+    m.top.rowHeights = m.rowHeights
+    m.top.rowItemSize = m.rowItemSizes
     m.top.content = data
     return data
 end function
 
-sub addRow(data, title, type_filter)
+sub addRow(pageData, content, type_filter)
     itemData = m.top.itemData
-    row = data.CreateChild("ContentNode")
-    row.title = title
-    for each item in itemData.Items
-        if item.type = type_filter
-            if isStringEqual(item.type, ItemType.PROGRAM)
-                localStartDate = createObject("roDateTime")
-                localStartDate.FromISO8601String(item.json.StartDate)
-                localStartDate.ToLocalTime()
-                item.title = `${item.title} -- ${localStartDate.asDateStringLoc("short")} ${localStartDate.asTimeStringLoc("short")}`
-            end if
+    row = pageData.CreateChild("ContentNode")
+
+    row.title = content.label
+
+    ' Loop through all items, but only get items that match the passed type
+    for each item in chainLookup(itemData, "items")
+        if isStringEqual(item.type, type_filter)
+            item.imageDimensions = content.imageDimensions
             row.appendChild(item)
         end if
     end for

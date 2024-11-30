@@ -981,7 +981,7 @@ sub onSearch_valueEvent(msg)
     query = msg.getRoSGNode().search_value
     group = m.global.sceneManager.callFunc("getActiveScene")
     group.findNode("SearchBox").visible = false
-    options = group.findNode("SearchSelect")
+    options = group.findNode("searchRow")
     options.visible = true
     options.setFocus(true)
 
@@ -998,21 +998,23 @@ end sub
 sub onItemSelectedEvent(msg)
     startLoadingSpinner()
     node = getMsgPicker(msg)
-    if node.type = "Series"
+    if isStringEqual(node.type, ItemType.SERIES)
         CreateSeriesDetailsGroup(node.id)
-    else if node.type = "Movie"
+    else if isStringEqual(node.type, ItemType.MOVIE)
         CreateMovieDetailsGroup(node)
-    else if node.type = "MusicArtist"
+    else if isStringEqual(node.type, ItemType.MUSICARTIST)
         CreateArtistView(node.json)
-    else if node.type = "MusicAlbum"
+    else if isStringEqual(node.type, ItemType.MUSICALBUM)
         CreateAlbumView(node.json)
-    else if node.type = "MusicVideo"
+    else if isStringEqual(node.type, ItemType.PLAYLIST)
+        CreatePlaylistView(node.json)
+    else if isStringEqual(node.type, ItemType.MUSICVIDEO)
         CreateMovieDetailsGroup(node)
-    else if node.type = "Audio"
+    else if isStringEqual(node.type, ItemType.AUDIO)
         MainAction.playItem(node.json, { resetShuffle: true })
-    else if node.type = "Person"
+    else if isStringEqual(node.type, ItemType.PERSON)
         CreatePersonView(node)
-    else if node.type = "TvChannel" or node.type = "Program"
+    else if isStringEqual(node.type, ItemType.TVCHANNEL) or isStringEqual(node.type, ItemType.PROGRAM)
 
         thisItem = {
             id: node.id,
@@ -1020,18 +1022,17 @@ sub onItemSelectedEvent(msg)
         }
 
         MainAction.playItem(thisItem, { resetShuffle: true })
-    else if node.type = "Episode"
+    else if isStringEqual(node.type, ItemType.EPISODE)
         CreateMovieDetailsGroup(node)
-    else if LCase(node.type) = "recording"
+    else if isStringEqual(node.type, ItemType.RECORDING)
         thisItem = {
             id: node.id,
             type: "Episode"
         }
         MainAction.playItem(thisItem, { resetShuffle: true })
-    else if node.type = "AudioBook"
+    else if isStringEqual(node.type, ItemType.AUDIOBOOK)
         MainAction.playItem(node.json, { resetShuffle: true })
     else
-        ' TODO - switch on more node types
         stopLoadingSpinner()
         message_dialog("This type is not yet supported: " + node.type + ".")
     end if

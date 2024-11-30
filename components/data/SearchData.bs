@@ -1,9 +1,16 @@
-sub setFields()
-    datum = m.top.json
+import "pkg:/source/enums/ItemType.bs"
+import "pkg:/source/enums/String.bs"
+import "pkg:/source/utils/misc.bs"
 
-    m.top.id = datum.id
-    m.top.title = datum.name
-    m.top.type = datum.Type
+
+sub setFields()
+    if not isValid(m.top.json) then return
+    json = m.top.json
+
+    m.top.favorite = chainLookup(json, "UserData.isFavorite")
+    m.top.watched = chainLookup(json, "UserData.played")
+
+    setItemSubTitle(json)
 end sub
 
 sub setPoster()
@@ -12,4 +19,79 @@ sub setPoster()
     else
         m.top.posterURL = ""
     end if
+end sub
+
+sub setItemSubTitle(json as object)
+    if isStringEqual(m.top.type, ItemType.AUDIO)
+        if isChainValid(json, "AlbumArtist")
+            m.top.SubTitle = chainLookup(json, "AlbumArtist")
+        end if
+
+        if not isChainValid(json, "Album") then return
+
+        if m.top.SubTitle = string.EMPTY
+            m.top.SubTitle = json.Album
+            return
+        end if
+
+        m.top.SubTitle = `${m.top.SubTitle} - ${json.Album}`
+
+        return
+    end if
+
+    if isStringEqual(m.top.type, ItemType.PROGRAM)
+        localStartDate = createObject("roDateTime")
+        localStartDate.FromISO8601String(json.StartDate)
+        localStartDate.ToLocalTime()
+        m.top.SubTitle = `${localStartDate.asDateStringLoc("short")} ${localStartDate.asTimeStringLoc("short")}`
+        return
+    end if
+
+    if isStringEqual(m.top.type, ItemType.MOVIE)
+        if isChainValid(json, "ProductionYear")
+            m.top.SubTitle = chainLookup(json, "ProductionYear")
+        end if
+
+        if isChainValid(json, "OfficialRating")
+            m.top.Rating = chainLookup(json, "OfficialRating")
+            if m.top.SubTitle = string.EMPTY
+                m.top.SubTitle = m.top.Rating
+                return
+            end if
+
+            m.top.SubTitle = `${m.top.SubTitle} - ${m.top.Rating}`
+        end if
+
+        return
+    end if
+
+    if isStringEqual(m.top.type, ItemType.MUSICALBUM)
+        if isChainValid(json, "AlbumArtist")
+            m.top.SubTitle = chainLookup(json, "AlbumArtist")
+        end if
+
+        return
+    end if
+
+    if isStringEqual(m.top.type, ItemType.PLAYLIST)
+        if isChainValid(json, "RecursiveItemCount")
+            m.top.SubTitle = `${chainLookup(json, "RecursiveItemCount")} items`
+        end if
+
+        return
+    end if
+
+    if isStringEqual(m.top.type, ItemType.SERIES)
+
+        if not isChainValid(json, "ProductionYear") then return
+
+        m.top.SubTitle = chainLookup(json, "ProductionYear")
+
+        if isChainValid(json, "EndDate")
+            m.top.SubTitle += ` - ${LEFT(chainLookup(json, "EndDate"), 4)}`
+        end if
+
+        return
+    end if
+
 end sub

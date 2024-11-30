@@ -6,7 +6,7 @@ import "pkg:/source/utils/deviceCapabilities.bs"
 
 sub init()
     m.top.optionsAvailable = false
-    m.searchSelect = m.top.findnode("searchSelect")
+    m.searchRow = m.top.findnode("searchRow")
     m.searchTask = CreateObject("roSGNode", "SearchTask")
 
     'set label text
@@ -37,12 +37,12 @@ sub loadResults()
     m.searchTask.unobserveField("results")
 
     stopLoadingSpinner()
-    m.searchSelect.itemdata = m.searchTask.results
-    m.searchSelect.query = m.top.SearchAlpha
+    m.searchRow.itemData = m.searchTask.results
+    m.searchRow.query = m.top.SearchAlpha
     m.searchHelpText.visible = false
     if m.searchTask.results.TotalRecordCount = 0
         ' make sure focus is on the keyboard
-        if m.searchSelect.isinFocusChain()
+        if m.searchRow.isinFocusChain()
             m.searchAlphabox.setFocus(true)
             group = m.global.sceneManager.callFunc("getActiveScene")
             group.lastFocus = m.searchAlphabox
@@ -62,21 +62,21 @@ function onKeyEvent(key as string, press as boolean) as boolean
         m.searchAlphabox.textEditBox.translation = "[0, 0]"
     end if
 
-    if key = "left" and m.searchSelect.isinFocusChain()
+    if key = "left" and m.searchRow.isinFocusChain()
         m.searchAlphabox.setFocus(true)
         group = m.global.sceneManager.callFunc("getActiveScene")
         group.lastFocus = m.searchAlphabox
         return true
-    else if key = "right" and m.searchSelect.content <> invalid and m.searchSelect.content.getChildCount() > 0
-        m.searchSelect.setFocus(true)
+    else if key = "right" and m.searchRow.content <> invalid and m.searchRow.content.getChildCount() > 0
+        m.searchRow.setFocus(true)
         group = m.global.sceneManager.callFunc("getActiveScene")
-        group.lastFocus = m.searchSelect
+        group.lastFocus = m.searchRow
         return true
-    else if key = "play" and m.searchSelect.isinFocusChain() and m.searchSelect.rowItemFocused.count() > 0
-        if m.searchSelect.rowItemFocused <> invalid
-            selectedContent = m.searchSelect.content.getChild(m.searchSelect.rowItemFocused[0])
+    else if key = "play" and m.searchRow.isinFocusChain() and m.searchRow.rowItemFocused.count() > 0
+        if m.searchRow.rowItemFocused <> invalid
+            selectedContent = m.searchRow.content.getChild(m.searchRow.rowItemFocused[0])
             if selectedContent <> invalid
-                selectedItem = selectedContent.getChild(m.searchSelect.rowItemFocused[1])
+                selectedItem = selectedContent.getChild(m.searchRow.rowItemFocused[1])
                 if selectedItem <> invalid
                     m.top.quickPlayNode = selectedItem
                     return true

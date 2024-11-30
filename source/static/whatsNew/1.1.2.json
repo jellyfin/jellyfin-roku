@@ -16,6 +16,14 @@
     "author": "1hitsong"
   },
   {
+    "description": "Fix search not returning people in results",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Fix search not returning playlists in results",
+    "author": "1hitsong"
+  },
+  {
     "description": "Update item API calls",
     "author": "jimdogx"
   }

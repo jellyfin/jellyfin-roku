@@ -1,7 +1,7 @@
-import "pkg:/source/api/Items.bs"
 import "pkg:/source/api/baserequest.bs"
-import "pkg:/source/utils/config.bs"
 import "pkg:/source/api/Image.bs"
+import "pkg:/source/api/Items.bs"
+import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/deviceCapabilities.bs"
 
 sub init()
@@ -15,7 +15,7 @@ sub init()
     m.searchText.textEditBox.voiceEnabled = true
     m.searchText.textEditBox.active = true
     m.searchText.ObserveField("text", "searchMedias")
-    m.searchSelect = m.top.findNode("searchSelect")
+    m.searchRow = m.top.findNode("searchRow")
 
     'set lable text
     m.label = m.top.findNode("text")

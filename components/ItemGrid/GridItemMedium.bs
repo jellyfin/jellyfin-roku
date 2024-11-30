@@ -21,8 +21,8 @@ sub init()
 
     m.itemPoster.observeField("loadStatus", "onPosterLoadStatusChanged")
 
-    itemIconBackground = m.top.findNode("itemIconBackground")
-    itemIconBackground.color = ColorPalette.VIEWBACKGROUND
+    m.itemIconBackground = m.top.findNode("itemIconBackground")
+    m.itemIconBackground.color = ColorPalette.VIEWBACKGROUND
 
     'Parent is MarkupGrid and it's parent is the ItemGrid
     m.topParent = m.top.GetParent().GetParent()
@@ -65,10 +65,12 @@ sub itemContentChanged()
             m.itemTextExtra.text = `${itemData.json.SeriesCount} Series`
         end if
 
-        if isStringEqual(itemData.json.Type, ItemType.MUSICVIDEO)
+        if inArray([ItemType.MOVIE, ItemType.SERIES, ItemType.MUSICALBUM, ItemType.AUDIO, ItemType.PLAYLIST, ItemType.PROGRAM, ItemType.MUSICVIDEO], itemData.json.Type)
             m.itemTextExtra.text = itemData.SubTitle
         end if
     end if
+
+    m.itemIcon.uri = string.EMPTY
 
     if isValidAndNotEmpty(itemData.LookupCI("type"))
         if isStringEqual(itemData.LookupCI("type"), ItemType.PHOTO)
@@ -83,6 +85,24 @@ sub itemContentChanged()
             m.itemIcon.uri = "pkg:/images/media_type_icons/movie.png"
         end if
     end if
+
+    m.itemIconBackground.visible = m.itemIcon.uri <> string.EMPTY
+
+    imageDimensions = chainLookup(itemData, "imageDimensions") ?? [400, 260]
+    m.itemPoster.width = imageDimensions[0]
+    m.backdrop.width = imageDimensions[0]
+    m.posterText.width = imageDimensions[0]
+
+    m.title.maxWidth = imageDimensions[0] - 16
+    m.itemTextExtra.maxWidth = imageDimensions[0] - 16
+
+    m.itemPoster.height = imageDimensions[1]
+    m.backdrop.height = imageDimensions[1]
+    m.posterText.height = imageDimensions[1] + 40
+
+    m.playedIndicator.translation = [imageDimensions[0] - 60, m.playedIndicator.translation[1]]
+    m.title.translation = [m.title.translation[0], imageDimensions[1] + 30]
+    m.itemTextExtra.translation = [m.itemTextExtra.translation[0], imageDimensions[1] + 65]
 
     m.itemPoster.uri = itemData.PosterUrl
     m.posterText.text = itemData.title

@@ -8,14 +8,12 @@
     <LayoutGroup layoutDirection="vert" id="searchResults" translation="[470, 150]">
       <Label id="SearchHelpText" text="" />
       <SearchRow
-        id="searchSelect"
+        id="searchRow"
         itemComponentName="GridItemMedium"
         visible="true"
         itemSize="[1350, 360]"
-        rowItemSize="[[400, 330]]"
         rowItemSpacing="[ [40, 0] ]"
         itemSpacing="[0, 60]"
-        rowHeights="[360]"
         numColumns="1"
         vertFocusAnimationStyle="fixed"
         numRows="2"

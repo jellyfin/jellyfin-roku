@@ -1,11 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<component name="SearchData" extends="ContentNode">
+<component name="SearchData" extends="JFContentItem">
   <interface>
     <field id="id" type="string" />
-    <field id="type" type="string" />
     <field id="title" type="string" />
+    <field id="trackNumber" type="integer" />
+    <field id="RunTimeTicks" type="float" />
+    <field id="IndexNumber" type="integer" />
+    <field id="IndexNumberEnd" type="integer" />
+    <field id="seriesname" type="string" />
+    <field id="AlbumArtist" type="string" />
+    <field id="SeasonName" type="string" />
+    <field id="ParentIndexNumber" type="integer" />
+    <field id="ProductionYear" type="integer" />
+    <field id="EndDate" type="string" />
+    <field id="OfficialRating" type="string" />
+    <field id="album" type="string" />
+
+    <field id="imageDimensions" type="array" />
     <field id="image" type="node" onChange="setPoster" />
-    <field id="posterURL" type="string" />
-    <field id="json" type="assocarray" onChange="setFields" />
   </interface>
 </component>
