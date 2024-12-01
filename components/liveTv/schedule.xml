@@ -6,7 +6,7 @@
     <!-- Selected Item Details -->
     <ProgramDetails id="detailsPane" focusable="true" />
 
-    <TimeGrid
+    <TVSchedule
       id="scheduleGrid"
       channelInfoComponentName="ChannelInfo"
       translation="[0,600]"
