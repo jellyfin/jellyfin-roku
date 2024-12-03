@@ -24,6 +24,10 @@
     "author": "1hitsong"
   },
   {
+    "description": "Fix crash on music artist view when no appears on album poster available",
+    "author": "1hitsong"
+  },
+  {
     "description": "Update item API calls",
     "author": "jimdogx"
   }
