@@ -357,7 +357,9 @@ function onKeyEvent(key as string, press as boolean) as boolean
         m.LoadChannelsTask.control = TaskControl.STOP
         m.LoadScheduleTask.control = TaskControl.STOP
 
-        m.gridData.removeChildren(m.gridData.getChildren(-1, 0))
+        m.gridData = createObject("roSGNode", "ContentNode")
+        m.scheduleGrid.content = m.gridData
+
         m.LoadChannelsTask.channels = []
         m.LoadScheduleTask.schedule = []
         m.LoadScheduleTask.channelIds = string.EMPTY
