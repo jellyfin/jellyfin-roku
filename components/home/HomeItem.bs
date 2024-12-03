@@ -387,7 +387,9 @@ sub displayEpisodeInfo(localGlobal as object, itemData as object)
         extraPrefix = extraPrefix + " - "
     end if
 
-    m.itemTextExtra.text = extraPrefix + itemData.LookupCI("name")
+    if isValid(m.itemTextExtra)
+        m.itemTextExtra.text = extraPrefix + itemData.LookupCI("name")
+    end if
 end sub
 
 '
