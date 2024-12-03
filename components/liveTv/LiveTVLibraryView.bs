@@ -296,7 +296,9 @@ sub ItemDataLoaded(msg)
         m.emptyText.visible = true
     end if
 
-    stopLoadingSpinner()
+    if not isStringEqual(m.global.session.user.settings["display.livetv.landing"], "guide") or isStringEqual(m.options.view, "livetv")
+        stopLoadingSpinner()
+    end if
 end sub
 
 'Handle new item being focused

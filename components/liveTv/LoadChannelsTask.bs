@@ -23,8 +23,6 @@ sub loadChannels()
         SortBy: sort_field,
         SortOrder: sort_order,
         UserId: m.global.session.user.id,
-        limit: m.top.limit,
-        startIndex: m.top.startIndex,
         EnableFavoriteSorting: true,
         EnableUserData: false,
         AddCurrentProgram: false

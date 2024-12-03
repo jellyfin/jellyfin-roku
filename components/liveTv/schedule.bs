@@ -1,18 +1,17 @@
 import "pkg:/source/enums/ColorPalette.bs"
 import "pkg:/source/enums/KeyCode.bs"
+import "pkg:/source/enums/String.bs"
 import "pkg:/source/enums/TaskControl.bs"
 import "pkg:/source/utils/misc.bs"
 
 sub init()
     m.state = TaskControl.RUN
-    m.loadedChannelCount = 0
-    m.channelFirstLoadLimit = 20
-    m.channelLaterLoadLimit = 100
+    m.channelScheduleLimit = 50
+    m.channelScheduleLoadedCount = 0
+
     m.EPGLaunchCompleteSignaled = false
     m.scheduleGrid = m.top.findNode("scheduleGrid")
     m.detailsPane = m.top.findNode("detailsPane")
-
-    m.scheduleGrid.isLoaded = false
 
     m.gridData = createObject("roSGNode", "ContentNode")
     m.scheduleGrid.content = m.gridData
@@ -39,70 +38,69 @@ sub init()
     m.gridMoveAnimationPosition = m.top.findNode("gridMoveAnimationPosition")
 
     m.LoadChannelsTask = createObject("roSGNode", "LoadChannelsTask")
-    m.LoadChannelsTask.observeField("channels", "onChannelsLoaded")
+    m.LoadChannelsTask.observeField("channels", "onChannelListLoaded")
 
     m.LoadScheduleTask = createObject("roSGNode", "LoadScheduleTask")
-    m.LoadScheduleTask.observeField("schedule", "onScheduleLoaded")
     m.LoadScheduleTask.startTime = m.gridStartDate.ToISOString()
     m.LoadScheduleTask.endTime = m.gridEndDate.ToISOString()
 
     m.LoadProgramDetailsTask = createObject("roSGNode", "LoadProgramDetailsTask")
     m.LoadProgramDetailsTask.observeField("programDetails", "onProgramDetailsLoaded")
 
-    loadChannels(m.channelFirstLoadLimit)
+    m.loadedChannels = {}
+
+    loadChannelList()
 
     m.top.lastFocus = m.scheduleGrid
 
-    m.channelIndex = {}
 end sub
 
-sub loadChannels(limit as integer)
+sub loadChannelList()
     if not isStringEqual(m.state, TaskControl.RUN) then return
-
-    m.LoadChannelsTask.limit = limit
-    m.LoadChannelsTask.startIndex = m.loadedChannelCount
+    startLoadingSpinner()
     m.LoadChannelsTask.control = "RUN"
 end sub
 
-sub channelFilterSet()
+sub onFilterSet()
+    ' Do nothing if the selected filter didn't change
+    if not isValid(m.top.filter) then return
+    if isStringEqual(m.LoadChannelsTask.filter, m.top.filter) then return
+
     m.scheduleGrid.jumpToChannel = 0
-    if m.top.filter <> invalid and m.LoadChannelsTask.filter <> m.top.filter
-        if m.LoadChannelsTask.state = "run" then m.LoadChannelsTask.control = "stop"
 
-        m.LoadChannelsTask.filter = m.top.filter
-        m.gridData.removeChildren(m.gridData.getChildren(-1, 0))
-        m.loadedChannelCount = 0
-        m.scheduleGrid.isLoaded = false
-        loadChannels(m.channelFirstLoadLimit)
-    end if
+    if m.LoadChannelsTask.state = TaskControl.RUN then m.LoadChannelsTask.control = TaskControl.STOP
 
+    m.LoadChannelsTask.filter = m.top.filter
+    m.gridData.removeChildren(m.gridData.getChildren(-1, 0))
+    loadChannelList()
 end sub
 
 'Voice Search set
-sub channelsearchTermSet()
+sub onSearchTermSet()
     m.scheduleGrid.jumpToChannel = 0
     'Reset filter if user says all
-    if LCase(m.top.searchTerm) = LCase(tr("all")) or m.LoadChannelsTask.searchTerm = LCase(tr("all"))
+    if isStringEqual(m.top.searchTerm, tr("all")) or isStringEqual(m.LoadChannelsTask.searchTerm, tr("all"))
         m.top.searchTerm = " "
         m.LoadChannelsTask.searchTerm = " "
         'filter if the searterm is not invalid
-    else if m.top.searchTerm <> invalid and LCase(m.LoadChannelsTask.searchTerm) <> LCase(m.top.searchTerm)
-        if m.LoadChannelsTask.state = "run" then m.LoadChannelsTask.control = "stop"
+    else if isValid(m.top.searchTerm) and not isStringEqual(m.LoadChannelsTask.searchTerm, m.top.searchTerm)
+        if m.LoadChannelsTask.state = TaskControl.RUN then m.LoadChannelsTask.control = TaskControl.STOP
         m.LoadChannelsTask.searchTerm = m.top.searchTerm
     end if
 
-
     startLoadingSpinner()
     m.gridData.removeChildren(m.gridData.getChildren(-1, 0))
-    m.loadedChannelCount = 0
-    m.scheduleGrid.isLoaded = false
-    loadChannels(m.channelFirstLoadLimit)
+    loadChannelList()
 end sub
 
-' Initial list of channels loaded
-sub onChannelsLoaded()
-    counter = m.loadedChannelCount
-    channelIdList = ""
+' List of channels loaded
+sub onChannelListLoaded()
+    m.LoadChannelsTask.control = TaskControl.STOP
+    m.LoadChannelsTask.unobserveField("channels")
+
+    counter = 0
+    m.channelIdList = []
+    m.channelIndex = {}
 
     'if search returns channels
     if m.LoadChannelsTask.channels.count() = 0 then return
@@ -110,12 +108,11 @@ sub onChannelsLoaded()
     for each item in m.LoadChannelsTask.channels
         m.gridData.appendChild(item)
         m.channelIndex[item.Id] = counter
-        counter = counter + 1
-        channelIdList = channelIdList + item.Id + ","
+        m.channelIdList.push(item.Id)
+        counter++
     end for
 
-    m.LoadScheduleTask.channelIds = channelIdList
-    m.LoadScheduleTask.control = "RUN"
+    loadScheduleData()
 
     if m.EPGLaunchCompleteSignaled = false
         m.top.signalBeacon("EPGLaunchComplete") ' Required Roku Performance monitoring
@@ -125,8 +122,23 @@ sub onChannelsLoaded()
     m.LoadChannelsTask.channels = []
 end sub
 
+sub loadScheduleData()
+    if not isStringEqual(m.state, TaskControl.RUN) then return
+    m.LoadScheduleTask.control = TaskControl.STOP
+
+    m.LoadScheduleTask.observeField("schedule", "onScheduleLoaded")
+
+    startingIndex = m.channelScheduleLoadedCount >= 1 ? m.channelScheduleLoadedCount - 1 : 0
+
+    m.LoadScheduleTask.channelIds = m.channelIdList.slice(startingIndex, startingIndex + m.channelScheduleLimit).join(", ")
+    m.LoadScheduleTask.control = TaskControl.RUN
+
+    m.channelScheduleLimit = 500
+end sub
+
 ' When LoadScheduleTask completes (initial or more data) and we have a schedule to display
 sub onScheduleLoaded()
+    m.LoadScheduleTask.unobserveField("schedule")
 
     ' make sure we actually have a schedule (i.e. filter by favorites, but no channels have been favorited)
     if m.scheduleGrid.content.GetChildCount() <= 0
@@ -134,7 +146,6 @@ sub onScheduleLoaded()
     end if
 
     for each item in m.LoadScheduleTask.schedule
-
         channel = m.scheduleGrid.content.GetChild(m.channelIndex[item.ChannelId])
         if not isValid(channel) then continue for
 
@@ -147,26 +158,22 @@ sub onScheduleLoaded()
         end if
 
         channel.appendChild(item)
+
+        m.loadedChannels[item.ChannelId] = 1
     end for
 
     m.scheduleGrid.showLoadingDataFeedback = false
 
-    ' Only set focus the first time
-    if m.loadedChannelCount = 0
-        m.scheduleGrid.setFocus(true)
-    end if
-
     group = m.global.sceneManager.callFunc("getActiveScene")
     group.lastFocus = m.scheduleGrid
-    m.LoadScheduleTask.schedule = []
     stopLoadingSpinner()
 
-    ' Load next group of channels
-    m.loadedChannelCount += m.LoadChannelsTask.limit
-    if m.LoadChannelsTask.totalRecordCount > m.loadedChannelCount
-        loadChannels(m.channelLaterLoadLimit)
-    else
-        m.scheduleGrid.isLoaded = true
+    m.channelScheduleLoadedCount = m.loadedChannels.count()
+
+    m.LoadScheduleTask.schedule = invalid
+
+    if m.LoadChannelsTask.totalRecordCount > m.channelScheduleLoadedCount
+        loadScheduleData()
     end if
 end sub
 
@@ -205,6 +212,8 @@ end sub
 
 ' Update the Program Details with full information
 sub onProgramDetailsLoaded()
+    if not isStringEqual(m.state, TaskControl.RUN) then return
+
     if m.LoadProgramDetailsTask.programDetails = invalid then return
     channel = m.scheduleGrid.content.GetChild(m.LoadProgramDetailsTask.programDetails.channelIndex)
 
@@ -217,7 +226,6 @@ sub onProgramDetailsLoaded()
     m.LoadProgramDetailsTask.programDetails = invalid
     m.scheduleGrid.showLoadingDataFeedback = false
 end sub
-
 
 sub onProgramSelected()
     ' If there is no program data - view the channel
@@ -258,7 +266,6 @@ end sub
 
 ' Handle user selecting "Watch Channel" from Program Details
 sub onWatchChannelSelected()
-
     if m.detailsPane.watchSelectedChannel = false then return
 
     ' Set focus back to grid before showing channel, to ensure grid has focus when we return
@@ -269,7 +276,6 @@ end sub
 
 ' As user scrolls grid, check if more data requries to be loaded
 sub onGridScrolled()
-
     ' If we're within 12 hours of end of grid, load next 24hrs of data
     if m.scheduleGrid.leftEdgeTargetTime + (12 * 60 * 60) > m.gridEndDate.AsSeconds()
 
@@ -351,8 +357,13 @@ function onKeyEvent(key as string, press as boolean) as boolean
         m.LoadChannelsTask.control = TaskControl.STOP
         m.LoadScheduleTask.control = TaskControl.STOP
 
+        m.gridData.removeChildren(m.gridData.getChildren(-1, 0))
         m.LoadChannelsTask.channels = []
         m.LoadScheduleTask.schedule = []
+        m.LoadScheduleTask.channelIds = string.EMPTY
+
+        m.loadedChannels = {}
+        m.channelIdList = []
         m.channelIndex = {}
 
         m.global.sceneManager.callFunc("popScene")
