@@ -7,9 +7,9 @@ build_version=2
 
 ### Main Menu Icons / Channel Poster Artwork
 
-mm_icon_focus_fhd=pkg:/images/channel-poster_fhd.jpg
-mm_icon_focus_hd=pkg:/images/channel-poster_hd.jpg
-mm_icon_focus_sd=pkg:/images/channel-poster_sd.jpg
+mm_icon_focus_fhd=pkg:/images/channel-poster_fhd_dev.jpg
+mm_icon_focus_hd=pkg:/images/channel-poster_hd_dev.jpg
+mm_icon_focus_sd=pkg:/images/channel-poster_sd_dev.jpg
 
 ### Splash Screen + Loading Screen Artwork
 
