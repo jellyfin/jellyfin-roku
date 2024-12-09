@@ -6,7 +6,7 @@ const LOADING_WAIT_TIME = 2
 sub init()
     m.top.itemComponentName = "HomeItem"
     ' how many rows are visible on the screen
-    m.top.numRows = 2
+    m.top.numRows = 3
 
     m.top.rowFocusAnimationStyle = "fixedFocusWrap"
     m.top.vertFocusAnimationStyle = "fixedFocus"
@@ -74,7 +74,7 @@ sub updateSize()
     ' spacing between rows
     m.top.itemSpacing = [0, 105]
     ' spacing between items in a row
-    m.top.rowItemSpacing = [21, 0]
+    m.top.rowItemSpacing = [30, 0]
 
     m.top.visible = true
 end sub
