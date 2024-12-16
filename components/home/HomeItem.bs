@@ -360,17 +360,24 @@ sub displayEpisodeInfo(localGlobal as object, itemData as object)
         end if
     end if
 
-    if localGlobal.session.user.settings["ui.general.episodeimagesnextup"] = "webclient"
-        tmpSetting = localGlobal.session.user.Configuration.useEpisodeImagesInNextUpAndResume
-        if isValid(tmpSetting) and tmpSetting
-            m.itemPoster.uri = itemData.LookupCI("thumbnailURL")
-        else
+    episodeimagesnextupSetting = chainLookup(localGlobal, "session.user.settings.ui.general.episodeimagesnextup")
+
+    ' Default to wide poster image
+    m.itemPoster.uri = itemData.LookupCI("widePosterURL")
+
+    if isValid(episodeimagesnextupSetting)
+        if isStringEqual(episodeimagesnextupSetting, "webclient")
+            useEpisodeImagesInNextUpAndResumeSetting = chainLookup(localGlobal, "session.user.Configuration.useEpisodeImagesInNextUpAndResume")
+            if isValid(useEpisodeImagesInNextUpAndResumeSetting) and useEpisodeImagesInNextUpAndResumeSetting
+                m.itemPoster.uri = itemData.LookupCI("thumbnailURL")
+            else
+                m.itemPoster.uri = itemData.LookupCI("widePosterURL")
+            end if
+        else if isStringEqual(episodeimagesnextupSetting, "show")
             m.itemPoster.uri = itemData.LookupCI("widePosterURL")
+        else if isStringEqual(episodeimagesnextupSetting, "episode")
+            m.itemPoster.uri = itemData.LookupCI("thumbnailURL")
         end if
-    else if localGlobal.session.user.settings["ui.general.episodeimagesnextup"] = "show"
-        m.itemPoster.uri = itemData.LookupCI("widePosterURL")
-    else if localGlobal.session.user.settings["ui.general.episodeimagesnextup"] = "episode"
-        m.itemPoster.uri = itemData.LookupCI("thumbnailURL")
     end if
 
     ' Set Series and Episode Number for Extra Text
