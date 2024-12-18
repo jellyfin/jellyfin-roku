@@ -2,5 +2,9 @@
   {
     "description": "Pressing back on home screen focuses 1st item in row, or exits channel if already there",
     "author": "jimdogx"
+  },
+  {
+    "description": "Fix possible crash if music album doesn't have an image",
+    "author": "1hitsong"
   }
 ]
