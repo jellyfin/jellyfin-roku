@@ -4,6 +4,10 @@
     "author": "jimdogx"
   },
   {
+    "description": "Fix issue that could prevent changing audio & subtitle tracks",
+    "author": "jimdogx"
+  },
+  {
     "description": "Fix possible crash if music album doesn't have an image",
     "author": "1hitsong"
   }
