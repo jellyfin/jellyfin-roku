@@ -368,7 +368,6 @@ sub onSubtitleChange()
     m.top.control = VideoControl.STOP
 
     m.LoadMetaDataTask.selectedSubtitleIndex = m.top.SelectedSubtitle
-    m.LoadMetaDataTask.selectedAudioStreamIndex = m.top.audioIndex
     m.LoadMetaDataTask.itemId = m.top.id
     m.LoadMetaDataTask.observeField("content", "onVideoContentLoaded")
     m.LoadMetaDataTask.control = TaskControl.RUN
@@ -384,7 +383,6 @@ sub onAudioIndexChange()
 
     m.top.control = VideoControl.STOP
 
-    m.LoadMetaDataTask.selectedSubtitleIndex = m.top.SelectedSubtitle
     m.LoadMetaDataTask.selectedAudioStreamIndex = m.top.audioIndex
     m.LoadMetaDataTask.itemId = m.top.id
     m.LoadMetaDataTask.observeField("content", "onVideoContentLoaded")

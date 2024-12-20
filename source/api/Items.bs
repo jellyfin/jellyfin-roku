@@ -283,10 +283,14 @@ function MusicAlbumList(id as string)
         tmp.RunTimeTicks = item.LookupCI("RunTimeTicks")
 
         tmp.shortdescriptionline1 = item.LookupCI("name")
-        tmp.HDGRIDPOSTERURL = tmp.image.url
-        tmp.hdposterurl = tmp.image.url
-        tmp.SDGRIDPOSTERURL = tmp.image.url
-        tmp.sdposterurl = tmp.image.url
+
+        if isChainValid(tmp, "image.url")
+            tmp.HDGRIDPOSTERURL = tmp.image.url
+            tmp.hdposterurl = tmp.image.url
+            tmp.SDGRIDPOSTERURL = tmp.image.url
+            tmp.sdposterurl = tmp.image.url
+        end if
+
         results.push(tmp)
     end for
 
