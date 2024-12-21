@@ -5,10 +5,10 @@
   "description": "Unofficial Roku app for Jellyfin media server",
   "dependencies": {
     "@rokucommunity/bslib": "0.1.1",
-    "brighterscript-formatter": "1.7.6"
+    "brighterscript-formatter": "1.7.7"
   },
   "devDependencies": {
-    "@rokucommunity/bslint": "0.8.26",
+    "@rokucommunity/bslint": "0.8.27",
     "brighterscript": "0.68.2",
     "jshint": "2.13.6",
     "rimraf": "6.0.1",
