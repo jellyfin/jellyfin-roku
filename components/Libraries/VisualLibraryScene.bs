@@ -1473,6 +1473,14 @@ function onKeyEvent(key as string, press as boolean) as boolean
         return true
     end if
 
+    if isStringEqual(key, KeyCode.OPTIONS)
+        focusedItem = getItemFocused()
+        if not isValid(focusedItem) then return false
+
+        resumeData = [tr("Add To My List")]
+        m.global.sceneManager.callFunc("optionDialog", "libraryitem", tr("Options"), [], resumeData, focusedItem.LookupCI("id"))
+    end if
+
     return false
 end function
 

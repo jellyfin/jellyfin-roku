@@ -47,6 +47,9 @@ sub init()
 
     m.LoadFavoritesTask = createObject("roSGNode", "LoadItemsTask")
     m.LoadFavoritesTask.itemsToLoad = "favorites"
+
+    m.LoadMyListTask = createObject("roSGNode", "LoadItemsTask")
+    m.LoadMyListTask.itemsToLoad = "mylist"
 end sub
 
 sub loadLibraries()
@@ -123,7 +126,8 @@ sub processUserSections()
         end if
     end for
 
-    ' Favorites isn't an option in Web settings, so we manually add it to the end for now
+    ' Favorites and my list aren't an option in Web settings, so we manually add them to the end for now
+    addHomeSection("mylist")
     addHomeSection("favorites")
 
     ' Start the timer for creating the content rows before we set the cursor size
@@ -271,6 +275,12 @@ function addHomeSection(sectionType as string) as boolean
     ' Favorite Items
     if sectionType = "favorites"
         createFavoritesRow()
+        return true
+    end if
+
+    ' My List Items
+    if sectionType = "mylist"
+        createMyListRow()
         return true
     end if
 
@@ -470,6 +480,14 @@ sub createNextUpRow()
     m.LoadNextUpTask.control = "RUN"
 end sub
 
+' createMyListRow: Creates a row displaying items from the user's personal list
+'
+sub createMyListRow()
+    ' Load the My List Data
+    m.LoadMyListTask.observeField("content", "updateMyListItems")
+    m.LoadMyListTask.control = "RUN"
+end sub
+
 ' createFavoritesRow: Creates a row displaying items from the user's favorites list
 '
 sub createFavoritesRow()
@@ -495,6 +513,49 @@ sub updateFavoritesItems()
     m.LoadFavoritesTask.content = []
 
     sectionName = tr("Favorites")
+
+    if not isValidAndNotEmpty(itemData)
+        removeHomeSection(sectionName)
+        return
+    end if
+
+    ' remake row using the new data
+    row = CreateObject("roSGNode", "HomeRow")
+    row.title = sectionName
+    row.imageWidth = homeRowItemSizes.WIDE_POSTER[0]
+    row.cursorSize = homeRowItemSizes.WIDE_POSTER
+
+    for each item in itemData
+        usePoster = true
+
+        if lcase(item.type) = "episode" or lcase(item.type) = "audio" or lcase(item.type) = "musicartist"
+            usePoster = false
+        end if
+
+        item.usePoster = usePoster
+        item.imageWidth = row.imageWidth
+        row.appendChild(item)
+    end for
+
+    if sectionExists(sectionName)
+        m.top.content.replaceChild(row, getSectionIndex(sectionName))
+        setRowItemSize()
+        return
+    end if
+
+    m.top.content.insertChild(row, getSectionIndex(sectionName))
+    setRowItemSize()
+end sub
+
+' updateMyListItems: Processes LoadMyListTask content. Removes, Creates, or Updates My List row as needed
+'
+sub updateMyListItems()
+    m.processedRowCount++
+    itemData = m.LoadMyListTask.content
+    m.LoadMyListTask.unobserveField("content")
+    m.LoadMyListTask.content = []
+
+    sectionName = tr("My List")
 
     if not isValidAndNotEmpty(itemData)
         removeHomeSection(sectionName)

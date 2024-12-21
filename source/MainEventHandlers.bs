@@ -1238,13 +1238,28 @@ sub onDataReturnedEvent(msg)
 
     if not isChainValid(popupNode, "returnData") then return
 
-    selectedItem = m.global.queueManager.callFunc("getHold")
-    m.global.queueManager.callFunc("clearHold")
-
-    if not isValidAndNotEmpty(selectedItem) or not isValid(selectedItem[0]) then return
-
+    selectedPopupID = chainLookup(popupNode, "returndata.id")
+    itemID = chainLookup(popupNode, "returndata.itemID")
     selectedPopupAction = chainLookup(popupNode, "returndata.indexselected")
 
+    if isStringEqual(selectedPopupID, "playback")
+        selectedItem = m.global.queueManager.callFunc("getHold")
+        m.global.queueManager.callFunc("clearHold")
+
+        if not isValidAndNotEmpty(selectedItem) or not isValid(selectedItem[0]) then return
+
+        processPlaybackPopup(selectedPopupAction, selectedItem)
+        return
+    end if
+
+    if isStringEqual(selectedPopupID, "libraryitem")
+        if not isValid(itemID) then return
+        processLibraryItemPopup(selectedPopupAction, itemID)
+        return
+    end if
+end sub
+
+sub processPlaybackPopup(selectedPopupAction as integer, selectedItem as object)
     'Resume video from resume point
     if selectedPopupAction = ResumePopupAction.RESUME
         selectedItem[0].startingPoint = chainLookup(selectedItem[0], "json.UserData.PlaybackPositionTicks") ?? 0
@@ -1283,5 +1298,51 @@ sub onDataReturnedEvent(msg)
     if selectedPopupAction = ResumePopupAction.GOTOEPISODE
         CreateMovieDetailsGroup(selectedItem[0])
         return
+    end if
+end sub
+
+sub processLibraryItemPopup(selectedPopupAction as integer, itemID as string)
+    ' Add item to user's list
+    if selectedPopupAction = 0
+        data = api.GetUserViews({ "userId": m.global.session.user.id })
+        if not isChainValid(data, "items") then return
+
+        myListPlaylist = invalid
+
+        for each item in data.LookupCI("items")
+            if isStringEqual(item.LookupCI("CollectionType"), "playlists")
+                myListPlaylist = api.items.Get({
+                    "userid": m.global.session.user.id,
+                    "includeItemTypes": "Playlist",
+                    "nameStartsWith": "[ROKU] My List",
+                    "parentId": item.LookupCI("id")
+                })
+                exit for
+            end if
+        end for
+
+        ' My list playlist exists. Add item to it
+        if isValid(myListPlaylist) and isValidAndNotEmpty(myListPlaylist.items)
+            api.playlists.Add(myListPlaylist.items[0].LookupCI("id"), {
+                ids: itemID,
+                userid: m.global.session.user.id
+            })
+            return
+        end if
+
+        ' My list playlist does not exist. Create it with this item
+        api.playlists.Create({
+            name: "[ROKU] My List",
+            ids: [itemID],
+            userid: m.global.session.user.id,
+            mediatype: "Unknown",
+            users: [
+                {
+                    userid: m.global.session.user.id,
+                    canedit: true
+                }
+            ],
+            ispublic: false
+        })
     end if
 end sub
