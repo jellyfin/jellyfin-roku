@@ -466,6 +466,21 @@ function loadFavorites() as object
     return results
 end function
 
+function loadIsInMyList() as object
+    results = [false]
+
+    listData = loadMyList()
+
+    for each item in listData
+        if isStringEqual(m.top.itemId, item.LookupCI("id"))
+            results = [true]
+            exit for
+        end if
+    end for
+
+    return results
+end function
+
 function loadMyList() as object
     results = []
 
@@ -642,6 +657,11 @@ sub loadItems()
 
     if isStringEqual(m.top.itemsToLoad, "mylist")
         m.top.content = loadMyList()
+        return
+    end if
+
+    if isStringEqual(m.top.itemsToLoad, "isInMyList")
+        m.top.content = loadIsInMyList()
         return
     end if
 

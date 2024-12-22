@@ -492,7 +492,6 @@ sub onLibrarySelection(selectedItem)
 end sub
 
 sub onRefreshSeasonDetailsDataEvent()
-    print "onRefreshSeasonDetailsDataEvent", onRefreshSeasonDetailsDataEvent
     startLoadingSpinner()
 
     currentScene = m.global.sceneManager.callFunc("getActiveScene")
@@ -1241,6 +1240,7 @@ sub onDataReturnedEvent(msg)
     selectedPopupID = chainLookup(popupNode, "returndata.id")
     itemID = chainLookup(popupNode, "returndata.itemID")
     selectedPopupAction = chainLookup(popupNode, "returndata.indexselected")
+    selectedPopupButton = chainLookup(popupNode, "returndata.buttonselected")
 
     if isStringEqual(selectedPopupID, "playback")
         selectedItem = m.global.queueManager.callFunc("getHold")
@@ -1254,7 +1254,7 @@ sub onDataReturnedEvent(msg)
 
     if isStringEqual(selectedPopupID, "libraryitem")
         if not isValid(itemID) then return
-        processLibraryItemPopup(selectedPopupAction, itemID)
+        processLibraryItemPopup(selectedPopupButton, itemID)
         return
     end if
 end sub
@@ -1301,9 +1301,9 @@ sub processPlaybackPopup(selectedPopupAction as integer, selectedItem as object)
     end if
 end sub
 
-sub processLibraryItemPopup(selectedPopupAction as integer, itemID as string)
+sub processLibraryItemPopup(selectedPopupButton as string, itemID as string)
     ' Add item to user's list
-    if selectedPopupAction = 0
+    if isStringEqual(selectedPopupButton, "Add To My List")
         data = api.GetUserViews({ "userId": m.global.session.user.id })
         if not isChainValid(data, "items") then return
 
@@ -1344,5 +1344,34 @@ sub processLibraryItemPopup(selectedPopupAction as integer, itemID as string)
             ],
             ispublic: false
         })
+        return
+    end if
+
+    if isStringEqual(selectedPopupButton, "Remove From My List")
+        data = api.GetUserViews({ "userId": m.global.session.user.id })
+        if not isChainValid(data, "items") then return
+
+        myListPlaylist = invalid
+
+        for each item in data.LookupCI("items")
+            if isStringEqual(item.LookupCI("CollectionType"), "playlists")
+                myListPlaylist = api.items.Get({
+                    "userid": m.global.session.user.id,
+                    "includeItemTypes": "Playlist",
+                    "nameStartsWith": "[ROKU] My List",
+                    "parentId": item.LookupCI("id")
+                })
+                exit for
+            end if
+        end for
+
+        ' My list playlist exists. Remove item from it
+        if isValid(myListPlaylist) and isValidAndNotEmpty(myListPlaylist.items)
+            api.playlists.Remove(myListPlaylist.items[0].LookupCI("id"), {
+                entryIds: itemID
+            })
+        end if
+
+        return
     end if
 end sub
