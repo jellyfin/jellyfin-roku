@@ -182,8 +182,8 @@ sub loadItems()
 
         url = "/items/"
 
-        params.append(
-        { UserId: m.global.session.user.id,
+        params.append({
+            UserId: m.global.session.user.id,
             ImageTypeLimit: 1,
             EnableImageTypes: `${ImageType.PRIMARY}, ${ImageType.BACKDROP}, ${ImageType.THUMB}`,
             Limit: 50,
