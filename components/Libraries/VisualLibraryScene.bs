@@ -180,8 +180,15 @@ sub loadInitialItems()
 
     ' Boxsets are sorted by Premiere Data by default
     if not isValidAndNotEmpty(m.sortField)
-        m.sortField = isStringEqual(getCollectionType(), ItemType.BOXSET) ? "PremiereDate,SortName" : "SortName"
+        if isStringEqual(getCollectionType(), ItemType.BOXSET)
+            m.sortField = "PremiereDate,SortName"
+        else if isStringEqual(getCollectionType(), ItemType.MYLIST)
+            m.sortField = "OrderAdded"
+        else
+            m.sortField = "SortName"
+        end if
     end if
+
     if not isValidAndNotEmpty(m.filter) then m.filter = "All"
     if not isValidAndNotEmpty(m.filterOptions) then m.filterOptions = "{}"
     if not isValidAndNotEmpty(m.view) then m.view = "presentation"
@@ -335,6 +342,10 @@ function setOptions() as object
         return setMovieOptions()
     end if
 
+    if isStringEqual(m.top.mediaType, ItemType.MYLIST)
+        return setMovieOptions()
+    end if
+
     if isStringEqual(m.top.mediaType, ItemType.SERIES)
         return setSeriesOptions()
     end if
@@ -390,6 +401,10 @@ function setMovieOptions() as object
             { "Title": tr("Presentation"), "Name": "presentation", "Track": { "description": tr("Presentation") } },
             { "Title": tr("Grid"), "Name": "grid", "Track": { "description": tr("Grid") } }
         ]
+    end if
+
+    if inArray([ItemType.MYLIST], getCollectionType())
+        options.sort.unshift({ "Title": tr("Order Added"), "Name": "OrderAdded", "Track": { "description": tr("Order Added") } })
     end if
 
     if isStringEqual(m.view, "genres")
@@ -1178,7 +1193,13 @@ sub onViewChange()
     m.loadItemsTask.searchTerm = string.EMPTY
     m.filter = "All"
     m.filterOptions = {}
-    m.sortField = "SortName"
+    if isStringEqual(getCollectionType(), ItemType.BOXSET)
+        m.sortField = "PremiereDate,SortName"
+    else if isStringEqual(getCollectionType(), ItemType.MYLIST)
+        m.sortField = "OrderAdded"
+    else
+        m.sortField = "SortName"
+    end if
     m.sortAscending = true
 
     ' Reset view to defaults

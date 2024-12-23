@@ -487,6 +487,12 @@ sub onLibrarySelection(selectedItem)
         return
     end if
 
+    if isStringEqual(selectedItem.collectionType, CollectionType.MYLIST)
+        group = CreateVisualLibraryScene(selectedItem, ITEMTYPE.MYLIST)
+        m.global.sceneManager.callFunc("pushScene", group)
+        return
+    end if
+
     group = CreateItemGrid(selectedItem)
     m.global.sceneManager.callFunc("pushScene", group)
 end sub

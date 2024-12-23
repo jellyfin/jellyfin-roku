@@ -156,6 +156,40 @@ sub loadItems()
         params.limit = 100 ' If you have more than 100 in your Next Up queue, maybe go outside a bit more.
         params.append({ ImageTypeLimit: 1 })
         params.append({ EnableImageTypes: "Primary,Backdrop,Banner,Thumb" })
+    else if isStringEqual(m.top.ItemType, "mylist")
+        data = api.GetUserViews({ "userId": m.global.session.user.id })
+        if not isChainValid(data, "Items") then return
+
+        myListPlaylist = invalid
+
+        for each item in data.LookupCI("items")
+            if isStringEqual(item.LookupCI("CollectionType"), "playlists")
+                myListPlaylist = api.items.Get({
+                    "userid": m.global.session.user.id,
+                    "includeItemTypes": "Playlist",
+                    "nameStartsWith": "[ROKU] My List",
+                    "parentId": item.LookupCI("id")
+                })
+                exit for
+            end if
+        end for
+
+        if not isValid(myListPlaylist) or not isValidAndNotEmpty(myListPlaylist.items) then return
+
+        playlistID = myListPlaylist.items[0].LookupCI("id")
+
+        if not isValid(playlistID) then return
+
+        url = "/items/"
+
+        params.append(
+        { UserId: m.global.session.user.id,
+            ImageTypeLimit: 1,
+            EnableImageTypes: `${ImageType.PRIMARY}, ${ImageType.BACKDROP}, ${ImageType.THUMB}`,
+            Limit: 50,
+            EnableTotalRecordCount: false,
+            ParentId: playlistID
+        })
     else
         url = Substitute("Users/{0}/Items/", m.global.session.user.id)
     end if

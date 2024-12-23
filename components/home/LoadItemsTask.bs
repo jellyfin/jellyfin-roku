@@ -554,6 +554,21 @@ function loadMyList() as object
         results.push(tmp)
     end for
 
+    if myListData.Items.count() > 3
+        tmp = CreateObject("roSGNode", "HomeData")
+        tmp.id = playlistID
+        tmp.type = ItemType.COLLECTIONFOLDER
+        tmp.usePoster = false
+        tmp.json = {
+            id: playlistID,
+            IsFolder: true,
+            Name: tr("View Full List"),
+            Type: ItemType.COLLECTIONFOLDER,
+            CollectionType: "mylist"
+        }
+        results.Unshift(tmp)
+    end if
+
     return results
 end function
 
