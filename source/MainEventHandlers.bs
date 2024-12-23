@@ -1320,7 +1320,7 @@ sub processLibraryItemPopup(selectedPopupButton as string, itemID as string)
                 myListPlaylist = api.items.Get({
                     "userid": m.global.session.user.id,
                     "includeItemTypes": "Playlist",
-                    "nameStartsWith": "[ROKU] My List",
+                    "nameStartsWith": "|My List|",
                     "parentId": item.LookupCI("id")
                 })
                 exit for
@@ -1338,7 +1338,7 @@ sub processLibraryItemPopup(selectedPopupButton as string, itemID as string)
 
         ' My list playlist does not exist. Create it with this item
         api.playlists.Create({
-            name: "[ROKU] My List",
+            name: "|My List|",
             ids: [itemID],
             userid: m.global.session.user.id,
             mediatype: "Unknown",
@@ -1364,7 +1364,7 @@ sub processLibraryItemPopup(selectedPopupButton as string, itemID as string)
                 myListPlaylist = api.items.Get({
                     "userid": m.global.session.user.id,
                     "includeItemTypes": "Playlist",
-                    "nameStartsWith": "[ROKU] My List",
+                    "nameStartsWith": "|My List|",
                     "parentId": item.LookupCI("id")
                 })
                 exit for

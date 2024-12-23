@@ -494,7 +494,7 @@ function loadMyList() as object
             myListPlaylist = api.items.Get({
                 "userid": m.global.session.user.id,
                 "includeItemTypes": "Playlist",
-                "nameStartsWith": "[ROKU] My List",
+                "nameStartsWith": "|My List|",
                 "parentId": item.LookupCI("id")
             })
             exit for
