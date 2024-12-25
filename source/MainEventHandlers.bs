@@ -557,6 +557,9 @@ sub onRefreshMovieDetailsDataEvent()
 
             itemData = ItemMetaData(currentItemID)
 
+            ' Can't continue if invalid data was returned
+            if not isChainValid(itemData, "json.MediaSources") then return
+
             if contentIDChanged
                 currentScene.selectedVideoStreamId = itemData.json.MediaSources[0].id
 
