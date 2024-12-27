@@ -21,7 +21,7 @@ sub init()
     }
 
     preferredSubtitle = m.global.queueManager.callFunc("getPreferredSubtitleTrack")
-    m.top.SelectedSubtitle = isChainValid(preferredSubtitle, "StreamIndex") ? preferredSubtitle.StreamIndex : -1
+    m.top.SelectedSubtitle = isChainValid(preferredSubtitle, "StreamIndex") ? preferredSubtitle.StreamIndex : -2
     m.originalClosedCaptionState = invalid
 
     ' Load meta data
@@ -509,7 +509,7 @@ sub onVideoContentLoaded()
     ' Set subtitleTrack property if subs are natively supported by Roku
     selectedSubtitle = invalid
     for each subtitle in m.top.fullSubtitleData
-        if subtitle.Index = videoContent[0].selectedSubtitle or subtitle.IsForced
+        if subtitle.Index = videoContent[0].selectedSubtitle
             selectedSubtitle = subtitle
             exit for
         end if
