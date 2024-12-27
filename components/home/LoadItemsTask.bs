@@ -466,6 +466,112 @@ function loadFavorites() as object
     return results
 end function
 
+function loadIsInMyList() as object
+    results = [false]
+
+    listData = loadMyList()
+
+    for each item in listData
+        if isStringEqual(m.top.itemId, item.LookupCI("id"))
+            results = [true]
+            exit for
+        end if
+    end for
+
+    return results
+end function
+
+function loadMyList() as object
+    results = []
+
+    data = api.GetUserViews({ "userId": m.global.session.user.id })
+    if not isChainValid(data, "Items") then return results
+
+    myListPlaylist = invalid
+
+    for each item in data.LookupCI("items")
+        if isStringEqual(item.LookupCI("CollectionType"), "playlists")
+            myListPlaylist = api.items.Get({
+                "userid": m.global.session.user.id,
+                "includeItemTypes": "Playlist",
+                "nameStartsWith": "|My List|",
+                "parentId": item.LookupCI("id")
+            })
+            exit for
+        end if
+    end for
+
+    if not isValid(myListPlaylist) or not isValidAndNotEmpty(myListPlaylist.items) then return results
+
+    playlistID = myListPlaylist.items[0].LookupCI("id")
+
+    if not isValid(playlistID) then return results
+
+    myListData = api.items.Get({
+        UserId: m.global.session.user.id,
+        ImageTypeLimit: 1,
+        EnableImageTypes: `${ImageType.PRIMARY}, ${ImageType.BACKDROP}, ${ImageType.THUMB}`,
+        Limit: 50,
+        EnableTotalRecordCount: false,
+        ParentId: playlistID
+    })
+
+    if not isChainValid(myListData, "Items") then return results
+
+    for each item in myListData.Items
+        if inArray([ItemType.BOOK, ItemType.AUDIO], item.type) then continue for
+
+        tmp = CreateObject("roSGNode", "HomeData")
+
+        params = {
+            Tags: item.PrimaryImageTag,
+            MaxWidth: 234,
+            MaxHeight: 330
+        }
+        tmp.posterURL = ImageUrl(item.Id, "Primary", params)
+        tmp.json = {
+            Id: item.LookupCI("Id"),
+            name: item.LookupCI("name"),
+            Type: item.LookupCI("Type"),
+            SeriesName: item.LookupCI("SeriesName"),
+            ProductionYear: item.LookupCI("ProductionYear"),
+            Status: item.LookupCI("Status"),
+            EndDate: item.LookupCI("EndDate"),
+            ParentIndexNumber: item.LookupCI("ParentIndexNumber"),
+            IndexNumberEnd: item.LookupCI("IndexNumberEnd"),
+            IndexNumber: item.LookupCI("IndexNumber"),
+            OfficialRating: item.LookupCI("OfficialRating"),
+            CollectionType: item.LookupCI("CollectionType"),
+            ImageTags: item.LookupCI("ImageTags"),
+            UserData: item.LookupCI("UserData"),
+            ParentThumbItemId: item.LookupCI("ParentThumbItemId"),
+            ParentThumbImageTag: item.LookupCI("ParentThumbImageTag"),
+            ParentBackdropImageTags: item.LookupCI("ParentBackdropImageTags"),
+            ParentBackdropItemId: item.LookupCI("ParentBackdropItemId"),
+            SeriesPrimaryImageTag: item.LookupCI("SeriesPrimaryImageTag"),
+            BackdropImageTags: item.LookupCI("BackdropImageTags")
+        }
+        results.push(tmp)
+    end for
+
+    if myListData.Items.count() > 3
+        tmp = CreateObject("roSGNode", "HomeData")
+        tmp.id = playlistID
+        tmp.type = ItemType.COLLECTIONFOLDER
+        tmp.usePoster = false
+        tmp.json = {
+            id: playlistID,
+            IsFolder: true,
+            Name: tr("View Full List"),
+            Type: ItemType.COLLECTIONFOLDER,
+            CollectionType: "mylist"
+        }
+        results.Unshift(tmp)
+    end if
+
+    return results
+end function
+
 function loadItemsByPerson(videoType, dimens = {}) as object
     results = []
 
@@ -561,6 +667,16 @@ sub loadItems()
 
     if isStringEqual(m.top.itemsToLoad, "favorites")
         m.top.content = loadFavorites()
+        return
+    end if
+
+    if isStringEqual(m.top.itemsToLoad, "mylist")
+        m.top.content = loadMyList()
+        return
+    end if
+
+    if isStringEqual(m.top.itemsToLoad, "isInMyList")
+        m.top.content = loadIsInMyList()
         return
     end if
 

@@ -6,6 +6,7 @@ enum CollectionType
     MOVIES = "movies"
     MUSIC = "music"
     MUSICVIDEOS = "musicvideos"
+    MYLIST = "mylist"
     NEXTUP = "nextup"
     TVSHOWS = "tvshows"
 end enum

@@ -11,6 +11,7 @@ enum ItemType
     MUSICALBUM = "musicalbum"
     MUSICARTIST = "musicartist"
     MUSICVIDEO = "musicvideo"
+    MYLIST = "mylist"
     PERSON = "person"
     PHOTO = "photo"
     PHOTOALBUM = "photoalbum"
