@@ -865,7 +865,7 @@ sub ReportPlayback(state = "update" as string)
         m.bufferCheckTimer.duration = 30
     end if
 
-    if (state = "stop" or state = "finished") and m.originalClosedCaptionState <> invalid
+    if inArray(["stop", "finished"], state) and isValid(m.originalClosedCaptionState)
         m.top.globalCaptionMode = m.originalClosedCaptionState
         m.originalClosedCaptionState = invalid
     end if
