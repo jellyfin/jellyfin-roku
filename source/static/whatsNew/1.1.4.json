@@ -1,11 +1,11 @@
 [
   {
-    "description": "Pressing back on home screen focuses 1st item in row, or exits channel if already there",
-    "author": "jimdogx"
-  },
-  {
     "description": "Create My List - a personal queue",
     "author": "1hitsong"
+  },
+  {
+    "description": "Pressing back on home screen focuses 1st item in row, or exits channel if already there",
+    "author": "jimdogx"
   },
   {
     "description": "Fix issue that could prevent changing audio & subtitle tracks",
@@ -14,6 +14,10 @@
   {
     "description": "Fix possible crash if music album doesn't have an image",
     "author": "1hitsong"
+  },
+  {
+    "description": "Fix issue that caused forced subs to not display",
+    "author": "jimdogx"
   },
   {
     "description": "Fix possible crash when refreshing movie detail data",
