@@ -21,7 +21,8 @@ sub init()
     }
 
     preferredSubtitle = m.global.queueManager.callFunc("getPreferredSubtitleTrack")
-    m.top.SelectedSubtitle = isChainValid(preferredSubtitle, "StreamIndex") ? preferredSubtitle.StreamIndex : -1
+    m.top.SelectedSubtitle = isChainValid(preferredSubtitle, "StreamIndex") ? preferredSubtitle.StreamIndex : -2
+    m.originalClosedCaptionState = invalid
 
     ' Load meta data
     m.LoadMetaDataTask = CreateObject("roSGNode", "LoadVideoContentTask")
@@ -518,6 +519,10 @@ sub onVideoContentLoaded()
         availableSubtitleTrackIndex = availSubtitleTrackIdx(selectedSubtitle.Track.TrackName)
         if availableSubtitleTrackIndex <> -1
             if not selectedSubtitle.IsEncoded
+                if selectedSubtitle.IsForced
+                    ' If IsForced, make sure to remember the Roku global setting so we can set it back when the video is done playing.
+                    m.originalClosedCaptionState = m.top.globalCaptionMode
+                end if
                 m.top.globalCaptionMode = "On"
                 m.top.subtitleTrack = m.top.availableSubtitleTracks[availableSubtitleTrackIndex].TrackName
             end if
@@ -858,6 +863,11 @@ sub ReportPlayback(state = "update" as string)
             "LiveStreamId": m.top.transcodeParams.LiveStreamId
         })
         m.bufferCheckTimer.duration = 30
+    end if
+
+    if inArray(["stop", "finished"], state) and isValid(m.originalClosedCaptionState)
+        m.top.globalCaptionMode = m.originalClosedCaptionState
+        m.originalClosedCaptionState = invalid
     end if
 
     ' Report playstate via worker task
