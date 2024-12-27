@@ -1079,6 +1079,12 @@ sub onButtonSelectedEvent(msg)
         return
     end if
 
+    ' Toggle item in My List
+    if isStringEqual(btn, "mylist-button")
+        MainAction.onMyListButtonClicked(activeScene)
+        return
+    end if
+
     ' Toggle favorite state
     if isStringEqual(btn, "favorite-button")
         MainAction.onFavoriteButtonClicked(activeScene)
@@ -1313,82 +1319,23 @@ end sub
 sub processLibraryItemPopup(selectedPopupButton as string, itemID as string)
     ' Add item to user's list
     if isStringEqual(selectedPopupButton, "Add To My List")
-        data = api.GetUserViews({ "userId": m.global.session.user.id })
-        if not isChainValid(data, "items") then return
-
-        myListPlaylist = invalid
-
-        for each item in data.LookupCI("items")
-            if isStringEqual(item.LookupCI("CollectionType"), "playlists")
-                myListPlaylist = api.items.Get({
-                    "userid": m.global.session.user.id,
-                    "includeItemTypes": "Playlist",
-                    "nameStartsWith": "|My List|",
-                    "parentId": item.LookupCI("id")
-                })
-                exit for
-            end if
-        end for
-
-        ' My list playlist exists. Add item to it
-        if isValid(myListPlaylist) and isValidAndNotEmpty(myListPlaylist.items)
-            api.playlists.Add(myListPlaylist.items[0].LookupCI("id"), {
-                ids: itemID,
-                userid: m.global.session.user.id
-            })
-            return
-        end if
-
-        ' My list playlist does not exist. Create it with this item
-        api.playlists.Create({
-            name: "|My List|",
-            ids: [itemID],
-            userid: m.global.session.user.id,
-            mediatype: "Unknown",
-            users: [
-                {
-                    userid: m.global.session.user.id,
-                    canedit: true
-                }
-            ],
-            ispublic: false
-        })
+        MainAction.addItemToMyList(itemID)
         return
     end if
 
+    ' Remove item from user's list
     if isStringEqual(selectedPopupButton, "Remove From My List")
-        data = api.GetUserViews({ "userId": m.global.session.user.id })
-        if not isChainValid(data, "items") then return
+        MainAction.removeItemFromMyList(itemID)
 
-        myListPlaylist = invalid
+        ' If we're in My List, remove item from the item grid
+        activeScene = m.global.sceneManager.callFunc("getActiveScene")
+        if not isValid(activeScene) then return
 
-        for each item in data.LookupCI("items")
-            if isStringEqual(item.LookupCI("CollectionType"), "playlists")
-                myListPlaylist = api.items.Get({
-                    "userid": m.global.session.user.id,
-                    "includeItemTypes": "Playlist",
-                    "nameStartsWith": "|My List|",
-                    "parentId": item.LookupCI("id")
-                })
-                exit for
-            end if
-        end for
+        if isStringEqual(activeScene.parentItem.collectionType, CollectionType.MYLIST)
+            itemGrid = activeScene.findNode("itemGrid")
+            if not isValid(itemGrid) then return
 
-        ' My list playlist exists. Remove item from it
-        if isValid(myListPlaylist) and isValidAndNotEmpty(myListPlaylist.items)
-            api.playlists.Remove(myListPlaylist.items[0].LookupCI("id"), {
-                entryIds: itemID
-            })
-
-            activeScene = m.global.sceneManager.callFunc("getActiveScene")
-            if not isValid(activeScene) then return
-
-            if isStringEqual(activeScene.parentItem.collectionType, CollectionType.MYLIST)
-                itemGrid = activeScene.findNode("itemGrid")
-                if not isValid(itemGrid) then return
-
-                itemGrid.content.removeChildIndex(itemGrid.itemFocused)
-            end if
+            itemGrid.content.removeChildIndex(itemGrid.itemFocused)
         end if
 
         return

@@ -53,6 +53,7 @@
             <ButtonData id="part-button" iconSide="left" fontSize="35" padding="35" icon="pkg:/images/icons/puzzle.png" height="75" width="600" />
             <ButtonData id="options-button" text="Options" iconSide="left" fontSize="35" padding="35" icon="pkg:/images/icons/options.png" height="75" width="600" />
             <ButtonData id="trailer-button" text="Play Trailer" iconSide="left" fontSize="35" padding="35" icon="pkg:/images/icons/play.png" height="75" width="600" />
+            <ButtonData id="mylist-button" text="Add To My List" iconSide="left" fontSize="35" padding="35" icon="pkg:/images/icons/plus.png" height="75" width="600" />
             <ButtonData id="watched-button" text="Watched" iconSide="left" fontSize="35" padding="35" icon="pkg:/images/icons/check.png" height="75" width="600" />
             <ButtonData id="favorite-button" text="Favorite" iconSide="left" fontSize="35" padding="35" icon="pkg:/images/icons/heart.png" height="75" width="600" />
             <ButtonData id="editSubtitlesButton" text="Manage Subtitles" iconSide="left" fontSize="35" padding="35" icon="pkg:/images/icons/cc.png" height="75" width="600" />
@@ -71,6 +72,7 @@
     <field id="itemContent" type="node" />
     <field id="logoImageURI" type="string" onChange="onLogoImageURIChange" />
     <field id="trailerAvailable" type="bool" onChange="trailerAvailableChanged" value="true" />
+    <field id="isInMyList" type="bool" onChange="onIsInMyListChanged" />
     <field id="additionalParts" type="assocarray" onChange="additionalPartsChanged" />
     <field id="selectedPart" type="assocarray" onChange="onSelectedPartChanged" />
     <field id="selectedAudioStreamIndex" type="integer" />

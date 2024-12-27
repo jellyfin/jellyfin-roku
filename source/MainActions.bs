@@ -106,6 +106,19 @@ namespace MainAction
         movie.watched = not movie.watched
     end sub
 
+    sub onMyListButtonClicked(activeScene as object)
+        movie = chainLookup(activeScene, "itemContent")
+        if not isValid(movie.id) then return
+
+        if activeScene.isInMyList
+            MainAction.removeItemFromMyList(movie.id)
+        else
+            MainAction.addItemToMyList(movie.id)
+        end if
+
+        activeScene.isInMyList = not activeScene.isInMyList
+    end sub
+
     sub onFavoriteButtonClicked(activeScene as object)
         movie = chainLookup(activeScene, "itemContent")
         if not isChainValid(movie, "favorite") or not isValid(movie.id) then return
@@ -179,6 +192,78 @@ namespace MainAction
         if isStringEqual(dialog.id, "OKDialog")
             dialog.unobserveField("buttonSelected")
             dialog.close = true
+        end if
+    end sub
+
+    ' Add item to user's My List playlist
+    sub addItemToMyList(itemID as string)
+        data = api.GetUserViews({ "userId": m.global.session.user.id })
+        if not isChainValid(data, "items") then return
+
+        myListPlaylist = invalid
+
+        for each item in data.LookupCI("items")
+            if isStringEqual(item.LookupCI("CollectionType"), "playlists")
+                myListPlaylist = api.items.Get({
+                    "userid": m.global.session.user.id,
+                    "includeItemTypes": "Playlist",
+                    "nameStartsWith": "|My List|",
+                    "parentId": item.LookupCI("id")
+                })
+                exit for
+            end if
+        end for
+
+        ' My list playlist exists. Add item to it
+        if isValid(myListPlaylist) and isValidAndNotEmpty(myListPlaylist.items)
+            api.playlists.Add(myListPlaylist.items[0].LookupCI("id"), {
+                ids: itemID,
+                userid: m.global.session.user.id
+            })
+            return
+        end if
+
+        ' My list playlist does not exist. Create it with this item
+        api.playlists.Create({
+            name: "|My List|",
+            ids: [itemID],
+            userid: m.global.session.user.id,
+            mediatype: "Unknown",
+            users: [
+                {
+                    userid: m.global.session.user.id,
+                    canedit: true
+                }
+            ],
+            ispublic: false
+        })
+    end sub
+
+    ' Remove item from user's My List playlist
+    sub removeItemFromMyList(itemID as string)
+
+        data = api.GetUserViews({ "userId": m.global.session.user.id })
+        if not isChainValid(data, "items") then return
+
+        myListPlaylist = invalid
+
+        for each item in data.LookupCI("items")
+            if isStringEqual(item.LookupCI("CollectionType"), "playlists")
+                myListPlaylist = api.items.Get({
+                    "userid": m.global.session.user.id,
+                    "includeItemTypes": "Playlist",
+                    "nameStartsWith": "|My List|",
+                    "parentId": item.LookupCI("id")
+                })
+                exit for
+            end if
+        end for
+
+        ' My list playlist exists. Remove item from it
+        if isValid(myListPlaylist) and isValidAndNotEmpty(myListPlaylist.items)
+            api.playlists.Remove(myListPlaylist.items[0].LookupCI("id"), {
+                entryIds: itemID
+            })
         end if
     end sub
 end namespace

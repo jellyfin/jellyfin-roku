@@ -10,6 +10,7 @@ import "pkg:/source/enums/KeyCode.bs"
 import "pkg:/source/enums/MediaStreamType.bs"
 import "pkg:/source/enums/PersonType.bs"
 import "pkg:/source/enums/String.bs"
+import "pkg:/source/enums/TaskControl.bs"
 import "pkg:/source/enums/VideoType.bs"
 import "pkg:/source/enums/ViewLoadStatus.bs"
 
@@ -48,6 +49,40 @@ sub init()
     m.global.queueManager.callFunc("setLastKnownItemID", string.empty)
 
     m.top.observeField("itemContent", "itemContentChanged")
+
+    m.loadItemsTask = createObject("roSGNode", "LoadItemsTask")
+    m.loadItemsTask.observeField("content", "onMyListLoaded")
+    m.loadItemsTask.itemsToLoad = "isInMyList"
+end sub
+
+sub onIsInMyListChanged()
+    myListButton = m.top.findNode("mylist-button")
+    if not isValid(myListButton) then return
+
+    if m.top.isInMyList
+        myListButton.text = tr("In My List")
+        myListButton.iconBlendColor = ColorPalette.RED
+    else
+        myListButton.text = tr("Add To My List")
+        myListButton.iconBlendColor = ColorPalette.WHITE
+    end if
+end sub
+
+sub onMyListLoaded()
+    isInMyListData = m.loadItemsTask.content
+    m.loadItemsTask.unobserveField("content")
+    m.loadItemsTask.content = []
+
+    myListButton = m.top.findNode("mylist-button")
+    if not isValid(myListButton) then return
+
+    ' Invalid data returned, remove button to prevent issues
+    if not isValidAndNotEmpty(isInMyListData)
+        m.buttonGrp.content.removeChild(myListButton)
+        return
+    end if
+
+    m.top.isInMyList = isInMyListData[0]
 end sub
 
 sub onMovieExtrasHasItems()
@@ -258,6 +293,9 @@ sub itemContentChanged()
 
     itemData = item.json
     m.top.id = itemData.id
+
+    m.loadItemsTask.itemId = m.top.id
+    m.loadItemsTask.control = TaskControl.RUN
 
     if itemData.UserData.PlaybackPositionTicks > 0
         playButton = m.top.findNode("play-button")
