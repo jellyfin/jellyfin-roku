@@ -4,6 +4,10 @@
     "author": "jimdogx"
   },
   {
+    "description": "Create My List - a personal queue",
+    "author": "1hitsong"
+  },
+  {
     "description": "Fix issue that could prevent changing audio & subtitle tracks",
     "author": "jimdogx"
   },
@@ -13,10 +17,6 @@
   },
   {
     "description": "Fix possible crash when refreshing movie detail data",
-    "author": "1hitsong"
-  },
-  {
-    "description": "Create My List - a personal queue",
     "author": "1hitsong"
   },
   {
