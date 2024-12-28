@@ -1,5 +1,19 @@
 [
     {
+        "title": "Secret",
+        "description": "Not for public consumption.",
+        "visible": false,
+        "children": [
+            {
+                "title": "Force Custom Trickplay",
+                "description": "Display custom trickplay images even if this Roku says it's displaying its own. This may cause the two images to overlay on top of each other.",
+                "settingName": "secret.forcecustomtrickplay",
+                "type": "bool",
+                "default": "false"
+            }
+        ]
+    },
+    {
         "title": "Global",
         "description": "Global settings that affect everyone that uses this Roku device.",
         "children": [

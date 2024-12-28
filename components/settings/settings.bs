@@ -7,6 +7,10 @@ import "pkg:/source/utils/misc.bs"
 sub init()
     m.top.optionsAvailable = false
 
+    m.showSecretMenu = false
+    m.keypresses = []
+    m.magicKeyPressSequence = [KeyCode.UP, KeyCode.LEFT, KeyCode.REPLAY, KeyCode.REWIND, KeyCode.UP, KeyCode.LEFT, KeyCode.REPLAY, KeyCode.REWIND]
+
     m.userLocation = []
 
     m.settingsMenu = m.top.findNode("settingsMenu")
@@ -59,9 +63,16 @@ sub init()
 
     m.postTask = createObject("roSGNode", "PostTask")
 
+    m.keypressTimer = m.top.findNode("keypressTimer")
+    m.keypressTimer.observeField("fire", "onKeypressTimerFire")
+
     ' Load Configuration Tree
     m.configTree = GetConfigTree()
     LoadMenu({ children: m.configTree })
+end sub
+
+sub onKeypressTimerFire()
+    m.keypresses.clear()
 end sub
 
 sub onKeyGridSubmit()
@@ -89,6 +100,14 @@ sub LoadMenu(configSection)
     result = CreateObject("roSGNode", "ContentNode")
 
     for each item in configSection.children
+        if isValid(item.visible)
+            if not item.visible
+                if not m.showSecretMenu
+                    continue for
+                end if
+            end if
+        end if
+
         listItem = result.CreateChild("ContentNode")
         listItem.title = tr(item.title)
         listItem.Description = tr(item.description)
@@ -257,8 +276,26 @@ function isFormInFocus() as boolean
     return false
 end function
 
+sub checkMagicKeyPressSequence(key as string)
+    m.keypressTimer.control = "stop"
+    m.keypressTimer.control = "start"
+
+    m.keypresses.push(key)
+
+    if m.keypresses.count() < m.magicKeyPressSequence.count() then return
+
+    for i = 0 to m.keypresses.count()
+        if m.keypresses[i] <> m.magicKeyPressSequence[i] then return
+    end for
+
+    m.showSecretMenu = true
+    LoadMenu({ children: m.configTree })
+end sub
+
 function onKeyEvent(key as string, press as boolean) as boolean
     if not press then return false
+
+    checkMagicKeyPressSequence(key)
 
     if (key = "back" or key = "left") and m.settingsMenu.focusedChild <> invalid and m.userLocation.Count() > 1
         LoadMenu({})

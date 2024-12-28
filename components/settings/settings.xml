@@ -28,5 +28,6 @@
     </RadioButtonList>
 
     <IntegerKeyboard translation="[1034, 510]" id="integerSetting" domain="numeric" visible="false" />
+    <Timer id="keypressTimer" duration="5" />
   </children>
 </component>

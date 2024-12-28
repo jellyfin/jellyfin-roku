@@ -812,9 +812,11 @@ sub onTrickPlayBarTextChange()
     if not m.top.trickPlayBar.visible then return
 
     ' If Roku has pulled thumbnailtiles from the video stream, use them instead
-    if isValidAndNotEmpty(m.top.thumbnailTiles)
-        m.positionText.unobserveField("text")
-        return
+    if not m.global.session.user.settings["secret.forcecustomtrickplay"]
+        if isValidAndNotEmpty(m.top.thumbnailTiles)
+            m.positionText.unobserveField("text")
+            return
+        end if
     end if
 
     if not isValid(m.positionText)
