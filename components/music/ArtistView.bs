@@ -159,7 +159,11 @@ sub setupButtons()
     m.buttonCount = m.buttonGrp.getChildCount()
 
     m.playButton = m.top.findNode("play")
+    m.playButton.focusBackground = ColorPalette.HIGHLIGHT
     m.previouslySelectedButtonIndex = -1
+
+    instantMix = m.top.findNode("instantMix")
+    instantMix.focusBackground = ColorPalette.HIGHLIGHT
 
     m.top.observeField("selectedButtonIndex", "onButtonSelectedChange")
     m.top.selectedButtonIndex = 0
