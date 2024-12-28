@@ -25,10 +25,12 @@ sub init()
     m.LoadSimilarArtistTask.observeField("content", "onSimilarArtistLoaded")
 
     m.appearsOn = m.top.findNode("appearsOn")
+    m.appearsOn.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
     m.appearsOn.observeField("escape", "onAppearsOnEscape")
     m.appearsOn.observeField("MusicArtistAlbumData", "onAppearsOnData")
 
     m.albums = m.top.findNode("albums")
+    m.albums.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
     m.albums.observeField("escape", "onAlbumsEscape")
     m.albums.observeField("MusicArtistAlbumData", "onAlbumsData")
 
@@ -162,8 +164,14 @@ sub setupButtons()
     m.playButton.focusBackground = ColorPalette.HIGHLIGHT
     m.previouslySelectedButtonIndex = -1
 
-    instantMix = m.top.findNode("instantMix")
-    instantMix.focusBackground = ColorPalette.HIGHLIGHT
+    buttons = ["instantMix", "albumsLink", "appearsOnLink", "similarArtistLink", "detailsLink"]
+
+    for each button in buttons
+        thisButton = m.top.findNode(button)
+        if isValid(thisButton)
+            thisButton.focusBackground = ColorPalette.HIGHLIGHT
+        end if
+    end for
 
     m.top.observeField("selectedButtonIndex", "onButtonSelectedChange")
     m.top.selectedButtonIndex = 0

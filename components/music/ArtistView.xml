@@ -47,15 +47,13 @@
           drawFocusFeedback="true"
         />
       </Section>
-
-
     </SectionScroller>
 
     <ButtonGroupVert id="sectionNavigation" translation="[-100, 175]" itemSpacings="[10]">
-      <SlideOutButton background="#070707" focusBackground="#00a4dc" highlightBackground="#555555" padding="20" icon="pkg:/images/icons/details.png" text="Details" height="50" width="60" />
-      <SlideOutButton id="albumsLink" background="#070707" focusBackground="#00a4dc" highlightBackground="#555555" padding="20" icon="pkg:/images/icons/cd.png" text="Albums" height="50" width="60" />
-      <SlideOutButton id="appearsOnLink" background="#070707" focusBackground="#00a4dc" highlightBackground="#555555" padding="20" icon="pkg:/images/icons/cassette.png" text="Appears On" height="50" width="60" />
-      <SlideOutButton id="similarArtistLink" background="#070707" focusBackground="#00a4dc" highlightBackground="#555555" padding="20" icon="pkg:/images/icons/userGroup.png" text="Similar Artists" height="50" width="60" />
+      <SlideOutButton id="detailsLink" background="#070707" highlightBackground="#555555" padding="20" icon="pkg:/images/icons/details.png" text="Details" height="50" width="60" />
+      <SlideOutButton id="albumsLink" background="#070707" highlightBackground="#555555" padding="20" icon="pkg:/images/icons/cd.png" text="Albums" height="50" width="60" />
+      <SlideOutButton id="appearsOnLink" background="#070707" highlightBackground="#555555" padding="20" icon="pkg:/images/icons/cassette.png" text="Appears On" height="50" width="60" />
+      <SlideOutButton id="similarArtistLink" background="#070707" highlightBackground="#555555" padding="20" icon="pkg:/images/icons/userGroup.png" text="Similar Artists" height="50" width="60" />
     </ButtonGroupVert>
 
     <Animation id="pageLoad" duration="1" repeat="false">
