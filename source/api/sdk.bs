@@ -53,7 +53,7 @@ namespace api
 
         ' Gets similar items.
         function GetSimilar(id as string, params = {} as object)
-            req = APIRequest(Substitute("/artists/{0}/similar", id), params)
+            req = APIRequest(`/artists/${id}/similar`, params)
             return getJson(req)
         end function
 

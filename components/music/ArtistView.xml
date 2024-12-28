@@ -31,12 +31,31 @@
         <AlbumGrid id="appearsOn" translation="[120, 150]" vertFocusAnimationStyle="fixedFocus" basePosterSize="[300, 300]" numColumns="5" numRows="99" caption1NumLines="1" itemSpacing="[50, 50]" />
       </Section>
 
+      <Section showItemTitles="showalways" id="similarArtistSlide" translation="[0, 1100]" defaultFocusID="similarArtist">
+        <Rectangle id='similarArtistRect' translation="[0, 0]" width="1920" height="1080" color="#000000" opacity=".75" />
+        <Label id="similarArtistHeader" text="Similar Artists" translation="[120, 50]" font="font:LargeSystemFont" />
+        <SimilarArtistGrid
+          id="similarArtist"
+          translation="[120, 150]"
+          numColumns="6"
+          numRows="3"
+          itemComponentName="MusicArtistGridItem"
+          rowHeights="[280]"
+          vertFocusAnimationStyle="fixed"
+          itemSize="[280, 280]"
+          itemSpacing="[20, 20]"
+          drawFocusFeedback="true"
+        />
+      </Section>
+
+
     </SectionScroller>
 
     <ButtonGroupVert id="sectionNavigation" translation="[-100, 175]" itemSpacings="[10]">
       <SlideOutButton background="#070707" focusBackground="#00a4dc" highlightBackground="#555555" padding="20" icon="pkg:/images/icons/details.png" text="Details" height="50" width="60" />
       <SlideOutButton id="albumsLink" background="#070707" focusBackground="#00a4dc" highlightBackground="#555555" padding="20" icon="pkg:/images/icons/cd.png" text="Albums" height="50" width="60" />
       <SlideOutButton id="appearsOnLink" background="#070707" focusBackground="#00a4dc" highlightBackground="#555555" padding="20" icon="pkg:/images/icons/cassette.png" text="Appears On" height="50" width="60" />
+      <SlideOutButton id="similarArtistLink" background="#070707" focusBackground="#00a4dc" highlightBackground="#555555" padding="20" icon="pkg:/images/icons/cassette.png" text="Similar Artists" height="50" width="60" />
     </ButtonGroupVert>
 
     <Animation id="pageLoad" duration="1" repeat="false">
@@ -51,6 +70,7 @@
     <field id="artistOverview" type="string" onChange="artistOverviewChanged" />
     <field id="musicAlbumSelected" alias="albums.itemSelected" />
     <field id="appearsOnSelected" alias="appearsOn.itemSelected" />
+    <field id="similarArtistSelected" type="node" />
     <field id="playArtistSelected" alias="play.selected" />
     <field id="instantMixSelected" alias="instantMix.selected" />
     <field id="selectedButtonIndex" type="integer" value="-1" />

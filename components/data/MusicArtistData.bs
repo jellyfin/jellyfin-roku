@@ -1,11 +1,13 @@
-import "pkg:/source/api/Image.bs"
 import "pkg:/source/api/baserequest.bs"
+import "pkg:/source/api/Image.bs"
 import "pkg:/source/utils/config.bs"
 
 sub setFields()
     json = m.top.json
     m.top.id = json.id
-    m.top.favorite = json.UserData.isFavorite
+    if isChainValid(json, "UserData.isFavorite")
+        m.top.favorite = json.UserData.isFavorite
+    end if
     m.top.Type = "MusicArtist"
     setPoster()
 
@@ -16,6 +18,8 @@ sub setPoster()
     if m.top.image <> invalid
         m.top.posterURL = m.top.image.url
     else
+
+        if not isChainValid(m.top.json, "ImageTags") then return
 
         ' Add Artist Image
         if m.top.json.ImageTags.Primary <> invalid

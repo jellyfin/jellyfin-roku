@@ -748,6 +748,7 @@ function CreateArtistView(artist as object) as dynamic
         group.observeField("playArtistSelected", m.port)
         group.observeField("instantMixSelected", m.port)
         group.observeField("appearsOnSelected", m.port)
+        group.observeField("similarArtistSelected", m.port)
     end if
 
     group.observeField("quickPlayNode", m.port)

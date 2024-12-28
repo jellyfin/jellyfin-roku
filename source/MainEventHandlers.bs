@@ -796,6 +796,16 @@ sub onAppearsOnSelectedEvent(msg)
     end if
 end sub
 
+sub onSimilarArtistSelectedEvent(msg)
+    startLoadingSpinner()
+    ptr = msg.getData()
+
+    group = CreateArtistView(ptr.json)
+    if not isValid(group)
+        stopLoadingSpinner()
+    end if
+end sub
+
 sub onPlaySongEvent(msg)
     ' User has selected audio they want us to play
     startLoadingSpinner()

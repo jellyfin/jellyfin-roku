@@ -29,6 +29,7 @@
     </children>
     <interface>
         <field id="defaultFocusID" type="string" />
+        <field id="showItemTitles" type="string" value="showalways" />
         <function name="showFromTop" />
         <function name="showFromBottom" />
         <function name="scrollOffTop" />

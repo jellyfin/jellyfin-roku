@@ -118,6 +118,8 @@ sub Main (args as dynamic) as void
             onMusicAlbumSelectedEvent(msg)
         else if isNodeEvent(msg, "appearsOnSelected")
             onAppearsOnSelectedEvent(msg)
+        else if isNodeEvent(msg, "similarArtistSelected")
+            onSimilarArtistSelectedEvent(msg)
         else if isNodeEvent(msg, "playSong")
             onPlaySongEvent(msg)
         else if isNodeEvent(msg, "subtitleToDelete")

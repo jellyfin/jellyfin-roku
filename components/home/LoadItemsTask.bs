@@ -258,6 +258,38 @@ function loadMoreLikeThis() as object
     return results
 end function
 
+function loadSimilarArtists() as object
+    results = []
+
+    params = {
+        userId: m.global.session.user.id,
+        limit: 18,
+        enableImageTypes: `${ImageType.PRIMARY}`
+    }
+    data = api.artists.GetSimilar(m.top.itemId, params)
+
+    if not isChainValid(data, "Items") then return results
+
+    for each item in data.items
+        tmp = CreateObject("roSGNode", "MusicArtistData")
+        imgParms = {
+            "Tags": item.PrimaryImageTag,
+            MaxWidth: 280,
+            MaxHeight: 280
+        }
+        tmp.posterURL = ImageUrl(item.Id, "Primary", imgParms)
+        tmp.json = {
+            Id: item.LookupCI("ID"),
+            Name: item.LookupCI("Name"),
+            Type: item.LookupCI("Type")
+        }
+        results.push(tmp)
+    end for
+
+
+    return results
+end function
+
 function loadSpecialFeatures() as object
     results = []
 
@@ -717,6 +749,11 @@ sub loadItems()
 
     if isStringEqual(m.top.itemsToLoad, "likethis")
         m.top.content = loadMoreLikeThis()
+        return
+    end if
+
+    if isStringEqual(m.top.itemsToLoad, "similarartists")
+        m.top.content = loadSimilarArtists()
         return
     end if
 

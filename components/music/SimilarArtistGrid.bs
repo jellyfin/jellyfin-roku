@@ -1,0 +1,40 @@
+import "pkg:/source/utils/misc.bs"
+
+sub init()
+end sub
+
+function onKeyEvent(key as string, press as boolean) as boolean
+    if not press then return false
+
+    if key = "up"
+        if m.top.itemFocused <= 5
+            m.top.escape = key
+            return true
+        end if
+    else if key = "left"
+        if m.top.itemFocused mod 6 = 0
+            m.top.escape = key
+            return true
+        end if
+    else if key = "right"
+        if m.top.itemFocused + 1 mod 6 = 0
+            m.top.escape = key
+            return true
+        end if
+    else if key = "down"
+        totalCount = 0
+        if isValid(m.top.content)
+            totalCount = m.top.content.getChildCount()
+        end if
+
+        totalRows = div_ceiling(totalCount, 6)
+        currentRow = fix(m.top.itemFocused / 6)
+
+        if currentRow = totalRows - 1
+            m.top.escape = key
+            return true
+        end if
+    end if
+
+    return false
+end function
