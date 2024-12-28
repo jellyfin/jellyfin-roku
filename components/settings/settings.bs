@@ -93,6 +93,20 @@ sub LoadMenu(configSection)
         m.userLocation.pop()
         configSection = m.userLocation.peek()
     else
+        settingsArray = []
+        for each item in configSection.children
+            if isValid(item.visible)
+                if not item.visible
+                    if not m.showSecretMenu
+                        continue for
+                    end if
+                end if
+            end if
+            settingsArray.push(item)
+        end for
+
+        configSection.children = settingsArray
+
         if m.userLocation.Count() > 0 then m.userLocation.peek().selectedIndex = m.settingsMenu.itemFocused
         m.userLocation.push(configSection)
     end if
@@ -100,14 +114,6 @@ sub LoadMenu(configSection)
     result = CreateObject("roSGNode", "ContentNode")
 
     for each item in configSection.children
-        if isValid(item.visible)
-            if not item.visible
-                if not m.showSecretMenu
-                    continue for
-                end if
-            end if
-        end if
-
         listItem = result.CreateChild("ContentNode")
         listItem.title = tr(item.title)
         listItem.Description = tr(item.description)
