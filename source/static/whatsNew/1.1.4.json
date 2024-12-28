@@ -20,6 +20,10 @@
     "author": "jimdogx"
   },
   {
+    "description": "Add similar artists to music artist screen",
+    "author": "1hitsong"
+  },
+  {
     "description": "Fix possible crash when refreshing movie detail data",
     "author": "1hitsong"
   },
