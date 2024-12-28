@@ -263,14 +263,20 @@ function loadSimilarArtists() as object
 
     params = {
         userId: m.global.session.user.id,
-        limit: 18,
+        limit: 19,
         enableImageTypes: `${ImageType.PRIMARY}`
     }
     data = api.artists.GetSimilar(m.top.itemId, params)
 
     if not isChainValid(data, "Items") then return results
 
+    i = 0
     for each item in data.items
+        ' Don't include Various Artists
+        if isStringEqual("Various Artists", item.LookupCI("Name"))
+            continue for
+        end if
+
         tmp = CreateObject("roSGNode", "MusicArtistData")
         imgParms = {
             "Tags": item.PrimaryImageTag,
@@ -284,6 +290,10 @@ function loadSimilarArtists() as object
             Type: item.LookupCI("Type")
         }
         results.push(tmp)
+
+        i++
+
+        if i = 18 then exit for
     end for
 
 
