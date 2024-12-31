@@ -579,6 +579,7 @@ function CreateHomeGroup()
     new_options = []
     options_buttons = [
         { "title": "Search", "id": "goto_search" },
+        { "title": "Settings", "id": "settings" },
         { "title": "Change user", "id": "change_user" },
         { "title": "Change server", "id": "change_server" },
         { "title": "Sign out", "id": "sign_out" }
@@ -590,13 +591,6 @@ function CreateHomeGroup()
         o.observeField("optionSelected", m.port)
         new_options.push(o)
     end for
-
-    ' Add settings option to menu
-    o = CreateObject("roSGNode", "OptionsButton")
-    o.title = "Settings"
-    o.id = "settings"
-    o.observeField("optionSelected", m.port)
-    new_options.push(o)
 
     ' And a profile button
     user_node = CreateObject("roSGNode", "OptionsData")
