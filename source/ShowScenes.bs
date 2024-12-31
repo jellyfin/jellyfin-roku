@@ -588,7 +588,7 @@ function CreateHomeGroup()
         o = CreateObject("roSGNode", "OptionsButton")
         o.title = tr(opt.title)
         o.id = opt.id
-        o.observeField("optionSelected", m.port)
+        o.observeField("userMenuOptionSelected", m.port)
         new_options.push(o)
     end for
 

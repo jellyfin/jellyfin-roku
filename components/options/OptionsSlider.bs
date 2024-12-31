@@ -33,7 +33,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
     else if key = "OK"
         list = m.top.findNode("panelList")
         data = list.content.getChild(list.itemFocused)
-        data.optionSelected = true
+        data.userMenuOptionSelected = true
         return true
     end if
 

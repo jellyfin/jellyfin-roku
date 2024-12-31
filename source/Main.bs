@@ -144,10 +144,10 @@ sub Main (args as dynamic) as void
             SignOut(false)
             sceneManager.callFunc("clearScenes")
             goto app_start
-        else if isNodeEvent(msg, "optionSelected")
+        else if isNodeEvent(msg, "userMenuOptionSelected")
             button = msg.getRoSGNode()
             group = sceneManager.callFunc("getActiveScene")
-            if button.id = "goto_search" and isValid(group)
+            if isStringEqual(button.id, "goto_search") and isValid(group)
                 ' Exit out of the side panel
                 panel = group.findNode("options")
                 panel.visible = false
@@ -163,21 +163,21 @@ sub Main (args as dynamic) as void
                 group = m.global.sceneManager.callFunc("getActiveScene")
                 group.lastFocus = group.findNode("SearchBox").findNode("search_Key")
                 group.findNode("SearchBox").findNode("search_Key").active = true
-            else if button.id = "change_server"
+            else if isStringEqual(button.id, "change_server")
                 unset_setting("server")
                 session.server.Delete()
                 SignOut(false)
                 sceneManager.callFunc("clearScenes")
                 goto app_start
-            else if button.id = "change_user"
+            else if isStringEqual(button.id, "change_user")
                 SignOut(false)
                 sceneManager.callFunc("clearScenes")
                 goto app_start
-            else if button.id = "sign_out"
+            else if isStringEqual(button.id, "sign_out")
                 SignOut()
                 sceneManager.callFunc("clearScenes")
                 goto app_start
-            else if button.id = "settings"
+            else if isStringEqual(button.id, "settings")
                 ' Exit out of the side panel
                 panel = group.findNode("options")
                 panel.visible = false
