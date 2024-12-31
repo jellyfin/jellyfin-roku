@@ -24,6 +24,10 @@
     "author": "1hitsong"
   },
   {
+    "description": "Create new setting to force custom trickplay implementation",
+    "author": "1hitsong"
+  },
+  {
     "description": "Fix possible crash when refreshing movie detail data",
     "author": "1hitsong"
   },
@@ -41,6 +45,10 @@
   },
   {
     "description": "Fix extras not refreshing when episode changed during playback",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Alphabetize settings",
     "author": "1hitsong"
   }
 ]
