@@ -38,5 +38,9 @@
   {
     "description": "Exclude 'Various Artists' from similar artists section",
     "author": "1hitsong"
+  },
+  {
+    "description": "Fix extras not refreshing when episode changed during playback",
+    "author": "1hitsong"
   }
 ]
