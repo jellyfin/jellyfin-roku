@@ -566,8 +566,18 @@ sub onRefreshMovieDetailsDataEvent()
                 ' Refresh extras based on new content ID
                 extrasGrid = currentScene.findNode("extrasGrid")
                 if isValid(extrasGrid)
+                    reloadExtras = true
+
                     ' If this is a multipart video, keep the original extras
-                    if not isChainValid(currentScene, "additionalParts.masterID")
+                    additionalPartItemCount = chainLookup(currentScene, "additionalParts.parts.TotalRecordCount")
+
+                    if isValid(additionalPartItemCount)
+                        if additionalPartItemCount <> 0
+                            reloadExtras = false
+                        end if
+                    end if
+
+                    if reloadExtras
                         extrasGrid.callFunc("loadParts", itemData.json)
                     end if
                 end if
