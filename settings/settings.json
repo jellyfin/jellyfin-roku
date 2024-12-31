@@ -1,17 +1,9 @@
 [
     {
         "title": "Secret",
-        "description": "Not for public consumption.",
+        "description": "Settings that are not for public consumption. There's nothing to see here at the moment.",
         "visible": false,
-        "children": [
-            {
-                "title": "Force Custom Trickplay",
-                "description": "Display custom trickplay images even if this Roku says it's displaying its own. This may cause the two images to overlay on top of each other.",
-                "settingName": "secret.forcecustomtrickplay",
-                "type": "bool",
-                "default": "false"
-            }
-        ]
+        "children": []
     },
     {
         "title": "Global",
@@ -51,6 +43,13 @@
                 ]
             },
             {
+                "title": "Cinema Mode",
+                "description": "Bring the theater experience straight to your living room with the ability to play custom intros before the main feature.",
+                "settingName": "playback.cinemamode",
+                "type": "bool",
+                "default": "false"
+            },
+            {
                 "title": "Compatibility",
                 "description": "Attempt to prevent playback failures.",
                 "children": [
@@ -62,6 +61,27 @@
                         "default": "false"
                     }
                 ]
+            },
+            {
+                "title": "Custom Subtitles",
+                "description": "Replace Roku's default subtitle functions with custom functions that support CJK fonts. Fallback fonts must be configured and enabled on the server for CJK rendering to work.",
+                "settingName": "playback.subs.custom",
+                "type": "bool",
+                "default": "false"
+            },
+            {
+                "title": "Custom Trickplay",
+                "description": "Display custom trickplay images even if this Roku says it's displaying its own. This may cause the two images to overlay on top of each other.",
+                "settingName": "playback.trickplay.forcecustom",
+                "type": "bool",
+                "default": "false"
+            },
+            {
+                "title": "Force Transcoding",
+                "description": "Force all playable media to be transcoded.",
+                "settingName": "playback.media.forceTranscode",
+                "type": "bool",
+                "default": "false"
             },
             {
                 "title": "Maximum Resolution",
@@ -128,70 +148,30 @@
                 ]
             },
             {
-                "title": "Video Codec Support",
-                "description": "Enable or disable Direct Play support for certain codecs.",
-                "children": [
-                    {
-                        "title": "MPEG-2",
-                        "description": "Support Direct Play of MPEG-2 content (e.g., Live TV). This will prevent transcoding of MPEG-2 content, but uses significantly more bandwidth.",
-                        "settingName": "playback.mpeg2",
-                        "type": "bool",
-                        "default": "false"
-                    },
-                    {
-                        "title": "MPEG-4",
-                        "description": "Support Direct Play of MPEG-4 content. This may need to be disabled for playback of DIVX encoded video files.",
-                        "settingName": "playback.mpeg4",
-                        "type": "bool",
-                        "default": "true"
-                    }
-                ]
-            },
-            {
-                "title": "Video Profile Level Support",
-                "description": "Attempt Direct Play of potentially unsupported profile levels",
-                "children": [
-                    {
-                        "title": "H.264",
-                        "description": "Attempt Direct Play for H.264 media with unsupported profile levels before falling back to transcoding if it fails.",
-                        "settingName": "playback.tryDirect.h264ProfileLevel",
-                        "type": "bool",
-                        "default": "false"
-                    },
-                    {
-                        "title": "HEVC",
-                        "description": "Attempt Direct Play for HEVC media with unsupported profile levels before falling back to transcoding if it fails.",
-                        "settingName": "playback.tryDirect.hevcProfileLevel",
-                        "type": "bool",
-                        "default": "false"
-                    }
-                ]
-            },
-            {
-                "title": "Cinema Mode",
-                "description": "Bring the theater experience straight to your living room with the ability to play custom intros before the main feature.",
-                "settingName": "playback.cinemamode",
-                "type": "bool",
-                "default": "false"
-            },
-            {
-                "title": "Custom Subtitles",
-                "description": "Replace Roku's default subtitle functions with custom functions that support CJK fonts. Fallback fonts must be configured and enabled on the server for CJK rendering to work.",
-                "settingName": "playback.subs.custom",
-                "type": "bool",
-                "default": "false"
-            },
-            {
-                "title": "Force Transcoding",
-                "description": "Force all playable media to be transcoded.",
-                "settingName": "playback.media.forceTranscode",
-                "type": "bool",
-                "default": "false"
-            },
-            {
                 "title": "Media Segment Actions",
                 "description": "Settings relating to how viv should handle media segments.",
                 "children": [
+                    {
+                        "title": "Commercial Segments",
+                        "description": "What action should viv take for commercial segments? ",
+                        "settingName": "playback.mediasegments.commercial",
+                        "type": "radio",
+                        "default": "none",
+                        "options": [
+                            {
+                                "title": "Ask To Skip",
+                                "id": "asktoskip"
+                            },
+                            {
+                                "title": "Skip",
+                                "id": "skip"
+                            },
+                            {
+                                "title": "None",
+                                "id": "none"
+                            }
+                        ]
+                    },
                     {
                         "title": "Intro Segments",
                         "description": "What action should viv take for intro segments? ",
@@ -210,6 +190,27 @@
                             {
                                 "title": "None",
                                 "id": "None"
+                            }
+                        ]
+                    },
+                    {
+                        "title": "Outro Segments",
+                        "description": "What action should viv take for outro segments? ",
+                        "settingName": "playback.mediasegments.outro",
+                        "type": "radio",
+                        "default": "asktoskip",
+                        "options": [
+                            {
+                                "title": "Ask To Skip",
+                                "id": "asktoskip"
+                            },
+                            {
+                                "title": "Skip",
+                                "id": "skip"
+                            },
+                            {
+                                "title": "None",
+                                "id": "none"
                             }
                         ]
                     },
@@ -240,48 +241,6 @@
                         "settingName": "playback.mediasegments.recap",
                         "type": "radio",
                         "default": "none",
-                        "options": [
-                            {
-                                "title": "Ask To Skip",
-                                "id": "asktoskip"
-                            },
-                            {
-                                "title": "Skip",
-                                "id": "skip"
-                            },
-                            {
-                                "title": "None",
-                                "id": "none"
-                            }
-                        ]
-                    },
-                    {
-                        "title": "Commercial Segments",
-                        "description": "What action should viv take for commercial segments? ",
-                        "settingName": "playback.mediasegments.commercial",
-                        "type": "radio",
-                        "default": "none",
-                        "options": [
-                            {
-                                "title": "Ask To Skip",
-                                "id": "asktoskip"
-                            },
-                            {
-                                "title": "Skip",
-                                "id": "skip"
-                            },
-                            {
-                                "title": "None",
-                                "id": "none"
-                            }
-                        ]
-                    },
-                    {
-                        "title": "Outro Segments",
-                        "description": "What action should viv take for outro segments? ",
-                        "settingName": "playback.mediasegments.outro",
-                        "type": "radio",
-                        "default": "asktoskip",
                         "options": [
                             {
                                 "title": "Ask To Skip",
@@ -341,6 +300,46 @@
                 "settingName": "playback.subs.onlytext",
                 "type": "bool",
                 "default": "false"
+            },
+            {
+                "title": "Video Codec Support",
+                "description": "Enable or disable Direct Play support for certain codecs.",
+                "children": [
+                    {
+                        "title": "MPEG-2",
+                        "description": "Support Direct Play of MPEG-2 content (e.g., Live TV). This will prevent transcoding of MPEG-2 content, but uses significantly more bandwidth.",
+                        "settingName": "playback.mpeg2",
+                        "type": "bool",
+                        "default": "false"
+                    },
+                    {
+                        "title": "MPEG-4",
+                        "description": "Support Direct Play of MPEG-4 content. This may need to be disabled for playback of DIVX encoded video files.",
+                        "settingName": "playback.mpeg4",
+                        "type": "bool",
+                        "default": "true"
+                    }
+                ]
+            },
+            {
+                "title": "Video Profile Level Support",
+                "description": "Attempt Direct Play of potentially unsupported profile levels",
+                "children": [
+                    {
+                        "title": "H.264",
+                        "description": "Attempt Direct Play for H.264 media with unsupported profile levels before falling back to transcoding if it fails.",
+                        "settingName": "playback.tryDirect.h264ProfileLevel",
+                        "type": "bool",
+                        "default": "false"
+                    },
+                    {
+                        "title": "HEVC",
+                        "description": "Attempt Direct Play for HEVC media with unsupported profile levels before falling back to transcoding if it fails.",
+                        "settingName": "playback.tryDirect.hevcProfileLevel",
+                        "type": "bool",
+                        "default": "false"
+                    }
+                ]
             }
         ]
     },
