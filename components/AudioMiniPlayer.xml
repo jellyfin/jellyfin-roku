@@ -1,25 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component name="AudioMiniPlayer" extends="Group">
   <children>
-    <Rectangle id="audioMiniPlayerBorder" width="1920" height="200" translation="[0, 0]" />
-    <Rectangle id="audioMiniPlayerContainer" width="1910" height="190" translation="[5, 5]">
+    <Rectangle id="audioMiniPlayerContainer" width="1920" height="150" translation="[0, 0]">
 
-      <Rectangle id="seekBar" translation="[276, 0]" width="1644" height="10">
-        <Rectangle id="bufferPosition" height="10" />
-        <Rectangle id="playPosition" height="10" />
+      <Rectangle id="seekBar" translation="[5, 5]" width="1910" height="140">
+        <Rectangle id="playPosition" height="140" />
       </Rectangle>
 
-      <Poster id="albumCover" width="180" height="180" translation="[96, -20]" />
+      <Poster id="albumCover" width="100" height="100" translation="[100, 20]" />
 
-      <LayoutGroup translation="[300, 20]" layoutDirection="vert" horizAlignment="left" itemSpacings="[15]">
-        <ScrollingLabel horizAlign="left" id="song" font="font:MediumBoldSystemFont" maxWidth="1600" height="50" />
-        <ScrollingLabel horizAlign="left" id="artist" maxWidth="1600" height="25" />
-        <Label horizAlign="left" id="numberofsongs" width="500" height="25" font="font:SmallestSystemFont" color="#999999" />
+      <ScrollingLabel translation="[240, 20]" horizAlign="left" id="song" font="font:MediumSystemFont" maxWidth="1600" height="50" />
+
+      <LayoutGroup id="buttons" translation="[240, 80]" layoutDirection="horiz" horizAlignment="left" itemSpacings="[25]">
+        <Poster id="previous" width="32" height="32" uri="pkg:/images/icons/itemPrevious.png" opacity=".85" />
+        <Poster id="play" width="32" height="32" uri="pkg:/images/icons/pause.png" opacity=".85" />
+        <Poster id="stop" width="32" height="32" uri="pkg:/images/white.png" opacity=".85" />
+        <Poster id="next" width="32" height="32" uri="pkg:/images/icons/itemNext.png" opacity=".85" />
       </LayoutGroup>
 
-      <Animation id="bufferPositionAnimation" duration="1" repeat="false" easeFunction="linear">
-        <FloatFieldInterpolator id="bufferPositionAnimationWidth" key="[0.0, 1.0]" fieldToInterp="bufferPosition.width" />
-      </Animation>
       <Animation id="playPositionAnimation" duration="1" repeat="false" easeFunction="linear">
         <FloatFieldInterpolator id="playPositionAnimationWidth" key="[0.0, 1.0]" fieldToInterp="playPosition.width" />
       </Animation>

@@ -13,29 +13,41 @@ import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/misc.bs"
 
 sub init()
-    m.audioMiniPlayerBorder = m.top.findNode("audioMiniPlayerBorder")
-    m.audioMiniPlayerBorder.color = ColorPalette.DARKGREY
-    m.audioMiniPlayerBorder.visible = false
-
     m.audioMiniPlayerContainer = m.top.findNode("audioMiniPlayerContainer")
     m.audioMiniPlayerContainer.color = ColorPalette.DARKGREY
     m.audioMiniPlayerContainer.visible = false
 
     setupAnimationTasks()
     setupInfoNodes()
+    setupButtons()
 
     m.song = m.top.findNode("song")
-    m.song.font.size = 60
-
-    m.artist = m.top.findNode("artist")
-    m.artist.font.size = 35
-
-    numberofsongs = m.top.findNode("numberofsongs")
-    numberofsongs.font.size = 25
+    m.song.font.size = 35
 
     m.seekBar.color = ColorPalette.BLACK77
-    m.bufferPosition.color = ColorPalette.MIDGREY
-    m.playPosition.color = ColorPalette.TRIADBLUE
+    m.playPosition.color = ColorPalette.SMOKE
+
+    m.previouslySelectedButtonIndex = 0
+    m.selectedButtonIndex = 1
+end sub
+
+sub setupButtons()
+    buttons = ["buttons", "previous", "stop", "play", "next"]
+
+    for each button in buttons
+        m[button] = m.top.findNode(button)
+    end for
+end sub
+
+' Event handler when user selected a different playback button
+sub onButtonSelectedChange()
+    ' Change previously selected button back to default image
+    selectedButton = m.buttons.getChild(m.previouslySelectedButtonIndex)
+    selectedButton.blendColor = ColorPalette.WHITE
+
+    ' Change selected button image to selected image
+    selectedButton = m.buttons.getChild(m.selectedButtonIndex)
+    selectedButton.blendColor = ColorPalette.HIGHLIGHT
 end sub
 
 function isVisible() as boolean
@@ -43,11 +55,11 @@ function isVisible() as boolean
 end function
 
 sub setVisible(newVisibleState as boolean)
-    m.audioMiniPlayerBorder.visible = newVisibleState
     m.audioMiniPlayerContainer.visible = newVisibleState
 
     ' We hiding a mini player that is currently selected
     if not isVisible()
+        m.selectedButtonIndex = 1
         if isSelected()
             setSelected(false)
             removeFocus()
@@ -61,21 +73,17 @@ end function
 
 sub setSelected(newSelectedState as boolean)
     m.top.selected = newSelectedState
-    m.audioMiniPlayerBorder.color = m.top.selected ? ColorPalette.HIGHLIGHT : ColorPalette.DARKGREY
+    m.play.blendColor = m.top.selected ? ColorPalette.HIGHLIGHT : ColorPalette.WHITE
 end sub
 
 sub setupAnimationTasks()
     m.playPositionAnimation = m.top.FindNode("playPositionAnimation")
     m.playPositionAnimationWidth = m.top.FindNode("playPositionAnimationWidth")
-
-    m.bufferPositionAnimation = m.top.FindNode("bufferPositionAnimation")
-    m.bufferPositionAnimationWidth = m.top.FindNode("bufferPositionAnimationWidth")
 end sub
 
 ' Creates audio node used to play song(s)
 sub setup()
     m.global.audioPlayer.observeFieldScoped("position", "audioPositionChanged")
-    m.global.audioPlayer.observeFieldScoped("bufferingStatus", "bufferPositionChanged")
     m.global.audioPlayer.observeFieldScoped("audioData", "onAudioDataChanged")
 end sub
 
@@ -93,9 +101,6 @@ sub onAudioDataChanged()
         setVisible(false)
         return
     end if
-
-    ' Reset buffer bar without animation
-    m.bufferPosition.width = 0
 
     useMetaTask = false
     currentItem = m.global.queueManager.callFunc("getCurrentItem")
@@ -133,27 +138,7 @@ end sub
 sub setupInfoNodes()
     m.albumCover = m.top.findNode("albumCover")
     m.playPosition = m.top.findNode("playPosition")
-    m.bufferPosition = m.top.findNode("bufferPosition")
     m.seekBar = m.top.findNode("seekBar")
-end sub
-
-sub bufferPositionChanged()
-    if not isVisible() then return
-
-    if not isValid(m.global.audioPlayer.bufferingStatus)
-        bufferPositionBarWidth = m.seekBar.width
-    else
-        bufferPositionBarWidth = m.seekBar.width * m.global.audioPlayer.bufferingStatus.percentage
-    end if
-
-    ' Ensure position bar is never wider than the seek bar
-    if bufferPositionBarWidth > m.seekBar.width
-        bufferPositionBarWidth = m.seekBar.width
-    end if
-
-    ' Use animation to make the display smooth
-    m.bufferPositionAnimationWidth.keyValue = [m.bufferPosition.width, bufferPositionBarWidth]
-    m.bufferPositionAnimation.control = AnimationControl.START
 end sub
 
 sub audioPositionChanged()
@@ -184,17 +169,34 @@ sub audioPositionChanged()
     m.playPositionAnimation.control = AnimationControl.START
 end sub
 
-function playAction() as boolean
+sub playAction()
     if m.global.audioPlayer.state = MediaPlaybackState.PLAYING
         m.global.audioPlayer.control = VideoControl.PAUSE
-    else if m.global.audioPlayer.state = MediaPlaybackState.PAUSED
-        m.global.audioPlayer.control = VideoControl.RESUME
-    else if m.global.audioPlayer.state = MediaPlaybackState.FINISHED
-        m.global.audioPlayer.control = VideoControl.PLAY
+        m.play.uri = "pkg:/images/icons/play.png"
+        return
     end if
 
-    return true
-end function
+    if m.global.audioPlayer.state = MediaPlaybackState.PAUSED
+        m.global.audioPlayer.control = VideoControl.RESUME
+        m.play.uri = "pkg:/images/icons/pause.png"
+        return
+    end if
+
+    if m.global.audioPlayer.state = MediaPlaybackState.FINISHED
+        m.global.audioPlayer.control = VideoControl.PLAY
+        m.play.uri = "pkg:/images/icons/pause.png"
+        return
+    end if
+end sub
+
+sub stopClicked()
+    m.previouslySelectedButtonIndex = m.selectedButtonIndex
+    m.selectedButtonIndex = 1
+    onButtonSelectedChange()
+
+    m.global.queueManager.callFunc("clear")
+    m.global.audioPlayer.control = "stop"
+end sub
 
 function findCurrentSongIndex(songList) as integer
     if not isValidAndNotEmpty(songList) then return 0
@@ -207,10 +209,6 @@ function findCurrentSongIndex(songList) as integer
 
     return 0
 end function
-
-sub setTrackNumberDisplay()
-    setFieldTextValue("numberofsongs", "Track " + stri(m.global.queueManager.callFunc("getPosition") + 1).trim() + "/" + stri(m.global.queueManager.callFunc("getCount")).trim())
-end sub
 
 sub onMetaDataLoaded()
     data = m.LoadMetaDataTask.content[0]
@@ -237,8 +235,7 @@ end sub
 ' Populate on screen text variables
 sub setOnScreenTextValues(json)
     if isValid(json)
-        setFieldTextValue("artist", json.Artists[0].replace(chr(8208), "-"))
-        setFieldTextValue("song", UCase(json.name.trim()))
+        setFieldTextValue("song", `${json.Artists[0].replace(chr(8208), "-")} - ${json.name.trim()}`)
     end if
 end sub
 
@@ -254,8 +251,44 @@ end sub
 function onKeyEvent(key as string, press as boolean) as boolean
     if not press then return false
 
+    if not isSelected() then return false
+
+    if key = KeyCode.RIGHT
+        if m.selectedButtonIndex >= 3 then return false
+
+        m.previouslySelectedButtonIndex = m.selectedButtonIndex
+        m.selectedButtonIndex = m.selectedButtonIndex + 1
+
+        onButtonSelectedChange()
+        return true
+    end if
+
+    if key = KeyCode.LEFT
+        if m.selectedButtonIndex = 0 then return false
+        m.previouslySelectedButtonIndex = m.selectedButtonIndex
+        m.selectedButtonIndex = m.selectedButtonIndex - 1
+
+        onButtonSelectedChange()
+        return true
+    end if
+
     if key = KeyCode.OK
-        if not isSelected() then return false
+        selectedButtonID = m.buttons.getChild(m.selectedButtonIndex).id
+
+        if isStringEqual(selectedButtonID, "play")
+            playAction()
+            return true
+        else if isStringEqual(selectedButtonID, "previous")
+            m.global.audioPlayer.callFunc("playPrevious")
+            return true
+        else if isStringEqual(selectedButtonID, "next")
+            m.global.audioPlayer.callFunc("playNext")
+            return true
+        else if isStringEqual(selectedButtonID, "stop")
+            stopClicked()
+            return true
+        end if
+
         setSelected(false)
         removeFocus()
 
@@ -266,8 +299,6 @@ function onKeyEvent(key as string, press as boolean) as boolean
     end if
 
     if key = KeyCode.REPLAY
-        if not isSelected() then return false
-
         setSelected(false)
         removeFocus()
         return true
