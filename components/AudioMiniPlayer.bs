@@ -13,6 +13,10 @@ import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/misc.bs"
 
 sub init()
+    m.audioMiniPlayerContainerBorder = m.top.findNode("audioMiniPlayerContainerBorder")
+    m.audioMiniPlayerContainerBorder.color = ColorPalette.LIGHTGREY
+    m.audioMiniPlayerContainerBorder.visible = false
+
     m.audioMiniPlayerContainer = m.top.findNode("audioMiniPlayerContainer")
     m.audioMiniPlayerContainer.color = ColorPalette.DARKGREY
     m.audioMiniPlayerContainer.visible = false
@@ -22,7 +26,7 @@ sub init()
     setupButtons()
 
     m.song = m.top.findNode("song")
-    m.song.font.size = 35
+    m.song.font.size = 40
 
     m.seekBar.color = ColorPalette.BLACK77
     m.playPosition.color = ColorPalette.SMOKE
@@ -32,7 +36,7 @@ sub init()
 end sub
 
 sub setupButtons()
-    buttons = ["buttons", "previous", "stop", "play", "next"]
+    buttons = ["buttons", "previous", "stop", "play", "next", "nowPlaying"]
 
     for each button in buttons
         m[button] = m.top.findNode(button)
@@ -43,11 +47,17 @@ end sub
 sub onButtonSelectedChange()
     ' Change previously selected button back to default image
     selectedButton = m.buttons.getChild(m.previouslySelectedButtonIndex)
-    selectedButton.blendColor = ColorPalette.WHITE
+    if isValid(selectedButton)
+        selectedButton.blendColor = ColorPalette.WHITE
+        selectedButton.opacity = .85
+    end if
 
     ' Change selected button image to selected image
     selectedButton = m.buttons.getChild(m.selectedButtonIndex)
-    selectedButton.blendColor = ColorPalette.HIGHLIGHT
+    if isValid(selectedButton)
+        selectedButton.blendColor = ColorPalette.HIGHLIGHT
+        selectedButton.opacity = 1
+    end if
 end sub
 
 function isVisible() as boolean
@@ -55,11 +65,16 @@ function isVisible() as boolean
 end function
 
 sub setVisible(newVisibleState as boolean)
+    m.audioMiniPlayerContainerBorder.visible = newVisibleState
     m.audioMiniPlayerContainer.visible = newVisibleState
 
     ' We hiding a mini player that is currently selected
     if not isVisible()
-        m.selectedButtonIndex = 1
+
+        m.previouslySelectedButtonIndex = m.selectedButtonIndex
+        m.selectedButtonIndex = -1
+        onButtonSelectedChange()
+
         if isSelected()
             setSelected(false)
             removeFocus()
@@ -73,7 +88,18 @@ end function
 
 sub setSelected(newSelectedState as boolean)
     m.top.selected = newSelectedState
-    m.play.blendColor = m.top.selected ? ColorPalette.HIGHLIGHT : ColorPalette.WHITE
+
+    if m.top.selected
+        m.previouslySelectedButtonIndex = m.selectedButtonIndex
+        m.selectedButtonIndex = 1
+        onButtonSelectedChange()
+    end if
+
+    if not m.top.selected
+        m.previouslySelectedButtonIndex = m.selectedButtonIndex
+        m.selectedButtonIndex = -1
+        onButtonSelectedChange()
+    end if
 end sub
 
 sub setupAnimationTasks()
@@ -190,10 +216,6 @@ sub playAction()
 end sub
 
 sub stopClicked()
-    m.previouslySelectedButtonIndex = m.selectedButtonIndex
-    m.selectedButtonIndex = 1
-    onButtonSelectedChange()
-
     m.global.queueManager.callFunc("clear")
     m.global.audioPlayer.control = "stop"
 end sub
@@ -247,6 +269,16 @@ sub removeFocus()
     end if
 end sub
 
+sub nowPlayingClicked()
+    setSelected(false)
+    removeFocus()
+
+    data = {
+        selectionType: "nowplaying"
+    }
+    m.top.getScene().jumpTo = data
+end sub
+
 ' Process key press events
 function onKeyEvent(key as string, press as boolean) as boolean
     if not press then return false
@@ -254,7 +286,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
     if not isSelected() then return false
 
     if key = KeyCode.RIGHT
-        if m.selectedButtonIndex >= 3 then return false
+        if m.selectedButtonIndex >= m.buttons.getChildCount() - 1 then return false
 
         m.previouslySelectedButtonIndex = m.selectedButtonIndex
         m.selectedButtonIndex = m.selectedButtonIndex + 1
@@ -287,15 +319,10 @@ function onKeyEvent(key as string, press as boolean) as boolean
         else if isStringEqual(selectedButtonID, "stop")
             stopClicked()
             return true
+        else if isStringEqual(selectedButtonID, "nowPlaying")
+            nowPlayingClicked()
+            return true
         end if
-
-        setSelected(false)
-        removeFocus()
-
-        data = {
-            selectionType: "nowplaying"
-        }
-        m.top.getScene().jumpTo = data
     end if
 
     if key = KeyCode.REPLAY
@@ -303,6 +330,9 @@ function onKeyEvent(key as string, press as boolean) as boolean
         removeFocus()
         return true
     end if
+
+    setSelected(false)
+    removeFocus()
 
     return false
 end function

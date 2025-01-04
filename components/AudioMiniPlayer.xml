@@ -1,21 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component name="AudioMiniPlayer" extends="Group">
   <children>
-    <Rectangle id="audioMiniPlayerContainer" width="1920" height="150" translation="[0, 0]">
+    <Rectangle id="audioMiniPlayerContainerBorder" width="1920" height="150" translation="[0, 0]" opacity=".3" />
+    <Rectangle id="audioMiniPlayerContainer" width="1920" height="145" translation="[0, 5]">
 
-      <Rectangle id="seekBar" translation="[5, 5]" width="1910" height="140">
-        <Rectangle id="playPosition" height="140" />
+      <Rectangle id="seekBar" translation="[0, 0]" width="1920" height="140">
+        <Rectangle id="playPosition" height="145" />
       </Rectangle>
 
       <Poster id="albumCover" width="100" height="100" translation="[100, 20]" />
 
-      <ScrollingLabel translation="[240, 20]" horizAlign="left" id="song" font="font:MediumSystemFont" maxWidth="1600" height="50" />
+      <ScrollingLabel id="song" translation="[240, 20]" horizAlign="left" font="font:MediumSystemFont" maxWidth="1600" height="50" />
 
       <LayoutGroup id="buttons" translation="[240, 80]" layoutDirection="horiz" horizAlignment="left" itemSpacings="[25]">
         <Poster id="previous" width="32" height="32" uri="pkg:/images/icons/itemPrevious.png" opacity=".85" />
         <Poster id="play" width="32" height="32" uri="pkg:/images/icons/pause.png" opacity=".85" />
         <Poster id="stop" width="32" height="32" uri="pkg:/images/white.png" opacity=".85" />
         <Poster id="next" width="32" height="32" uri="pkg:/images/icons/itemNext.png" opacity=".85" />
+        <Poster id="nowPlaying" width="32" height="32" uri="pkg:/images/icons/musicNote.png" opacity=".85" />
       </LayoutGroup>
 
       <Animation id="playPositionAnimation" duration="1" repeat="false" easeFunction="linear">
