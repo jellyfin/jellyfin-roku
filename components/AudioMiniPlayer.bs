@@ -21,6 +21,9 @@ sub init()
     m.audioMiniPlayerContainer.color = ColorPalette.DARKGREY
     m.audioMiniPlayerContainer.visible = false
 
+    m.slideDownAnimation = m.top.findNode("slideDown")
+    m.slideUpAnimation = m.top.findNode("slideUp")
+
     setupAnimationTasks()
     setupInfoNodes()
     setupButtons()
@@ -64,21 +67,34 @@ function isVisible() as boolean
     return m.audioMiniPlayerContainer.visible
 end function
 
-sub setVisible(newVisibleState as boolean)
-    m.audioMiniPlayerContainerBorder.visible = newVisibleState
-    m.audioMiniPlayerContainer.visible = newVisibleState
+sub onSlideDownAnimationStateChange()
+    if not isStringEqual(m.slideDownAnimation.state, "stopped") then return
+
+    m.slideDownAnimation.unobserveFieldScoped("state")
+    m.audioMiniPlayerContainerBorder.visible = false
+    m.audioMiniPlayerContainer.visible = false
+
+    m.previouslySelectedButtonIndex = m.selectedButtonIndex
+    m.selectedButtonIndex = -1
+    onButtonSelectedChange()
 
     ' We hiding a mini player that is currently selected
-    if not isVisible()
+    if isSelected()
+        setSelected(false)
+        removeFocus()
+    end if
+end sub
 
-        m.previouslySelectedButtonIndex = m.selectedButtonIndex
-        m.selectedButtonIndex = -1
-        onButtonSelectedChange()
+sub setVisible(newVisibleState as boolean)
 
-        if isSelected()
-            setSelected(false)
-            removeFocus()
-        end if
+    if newVisibleState
+        m.audioMiniPlayerContainerBorder.visible = true
+        m.audioMiniPlayerContainer.visible = true
+        m.slideUpAnimation.control = AnimationControl.START
+    else
+        m.slideDownAnimation.observeFieldScoped("state", "onSlideDownAnimationStateChange")
+        m.slideDownAnimation.control = AnimationControl.START
+        return
     end if
 end sub
 
