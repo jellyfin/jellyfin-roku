@@ -25,6 +25,7 @@ sub setupNodes()
     m.alphaMenu = m.alpha.findNode("alphaMenu")
     m.overhang = m.top.getScene().findNode("overhang")
     m.genreList = m.top.findNode("genrelist")
+    m.dropdownOptions = m.top.findNode("dropdownOptions")
 end sub
 
 sub init()
@@ -32,6 +33,7 @@ sub init()
 
     m.itemGrid.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
     m.genrelist.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
+    m.top.findNode("VoiceBoxCover").color = ColorPalette.VIEWBACKGROUND
 
     m.overhang.isVisible = false
 
@@ -140,7 +142,6 @@ sub loadInitialItems()
     m.top.showItemTitles = m.global.session.user.settings["itemgrid.gridTitles"]
 
     if LCase(m.top.parentItem.json.type) = "musicgenre"
-        m.itemGrid.translation = "[96, 60]"
         m.loadItemsTask.itemType = "MusicAlbum"
         m.loadItemsTask.recursive = true
         m.loadItemsTask.genreIds = m.top.parentItem.id
@@ -164,6 +165,7 @@ sub loadInitialItems()
     else
         m.loadItemsTask.nameStartsWith = m.alpha.letterSelected
     end if
+
     m.loadItemsTask.searchTerm = m.voiceBox.text
     m.emptyText.visible = false
     m.loadItemsTask.sortField = m.sortField
@@ -178,26 +180,28 @@ sub loadInitialItems()
         m.loadItemsTask.itemId = m.top.parentItem.Id
     end if
 
-    ' By default we load Artists
+    ' By default we load artist grid view
     m.loadItemsTask.view = "Artists"
-    m.itemGrid.translation = "[96, 420]"
+    m.itemGrid.translation = "[100, 210]"
     m.itemGrid.numRows = "3"
+    m.dropdownOptions.translation = "[100, 60]"
 
-    if LCase(m.options.view) = "albums" or LCase(m.view) = "albums"
-        m.itemGrid.translation = "[96, 60]"
-        m.itemGrid.numRows = "4"
+
+    if isStringEqual(m.view, "albums")
         m.loadItemsTask.itemType = "MusicAlbum"
         m.top.imageDisplayMode = "scaleToFit"
-    else if LCase(m.options.view) = "artistsgrid" or LCase(m.view) = "artistsgrid"
-        m.itemGrid.translation = "[96, 60]"
-        m.itemGrid.numRows = "4"
-    else if LCase(m.options.view) = "albumartistsgrid" or LCase(m.view) = "albumartistsgrid"
+    else if isStringEqual(m.view, "albumartistsgrid")
         m.loadItemsTask.itemType = "AlbumArtists"
-        m.itemGrid.translation = "[96, 60]"
-        m.itemGrid.numRows = "4"
-    else if LCase(m.options.view) = "albumartistspresentation" or LCase(m.view) = "albumartistspresentation"
+    else if isStringEqual(m.view, "albumartistspresentation")
         m.loadItemsTask.itemType = "AlbumArtists"
-    else if LCase(m.options.view) = "genres" or LCase(m.view) = "genres"
+        m.itemGrid.translation = "[100, 670]"
+        m.itemGrid.numRows = "2"
+        m.dropdownOptions.translation = "[100, 540]"
+    else if isStringEqual(m.view, "ArtistsPresentation")
+        m.itemGrid.translation = "[100, 670]"
+        m.itemGrid.numRows = "2"
+        m.dropdownOptions.translation = "[100, 540]"
+    else if isStringEqual(m.view, "genres")
         m.loadItemsTask.itemType = ""
         m.loadItemsTask.recursive = true
         m.loadItemsTask.view = "Genres"
@@ -205,12 +209,7 @@ sub loadInitialItems()
         m.selectedArtistName.visible = false
     end if
 
-    if LCase(m.top.parentItem.json.type) = "musicgenre"
-        m.itemGrid.translation = "[96, 60]"
-        m.itemGrid.numRows = "4"
-        m.artistLogo.visible = false
-        m.selectedArtistName.visible = false
-    end if
+    print "m.itemGrid.translation", m.itemGrid.translation
 
     m.loadItemsTask.observeField("content", "ItemDataLoaded")
     m.loadItemsTask.control = TaskControl.RUN
