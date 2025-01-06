@@ -26,6 +26,30 @@ sub setupNodes()
     m.overhang = m.top.getScene().findNode("overhang")
     m.genreList = m.top.findNode("genrelist")
     m.dropdownOptions = m.top.findNode("dropdownOptions")
+
+    m.sortButton = m.top.findNode("sortButton")
+    m.sortButton.textColor = ColorPalette.DARKGREY
+    m.sortButton.focusTextColor = ColorPalette.WHITE
+    m.sortButton.background = ColorPalette.WHITE
+    m.sortButton.focusBackground = ColorPalette.HIGHLIGHT
+
+    m.sortOrderButton = m.top.findNode("sortOrderButton")
+    m.sortOrderButton.textColor = ColorPalette.DARKGREY
+    m.sortOrderButton.focusTextColor = ColorPalette.WHITE
+    m.sortOrderButton.background = ColorPalette.WHITE
+    m.sortOrderButton.focusBackground = ColorPalette.HIGHLIGHT
+
+    m.filterButton = m.top.findNode("filterButton")
+    m.filterButton.textColor = ColorPalette.DARKGREY
+    m.filterButton.focusTextColor = ColorPalette.WHITE
+    m.filterButton.background = ColorPalette.WHITE
+    m.filterButton.focusBackground = ColorPalette.HIGHLIGHT
+
+    m.viewButton = m.top.findNode("viewButton")
+    m.viewButton.textColor = ColorPalette.DARKGREY
+    m.viewButton.focusTextColor = ColorPalette.WHITE
+    m.viewButton.background = ColorPalette.WHITE
+    m.viewButton.focusBackground = ColorPalette.HIGHLIGHT
 end sub
 
 sub init()
@@ -131,11 +155,12 @@ sub loadInitialItems()
     m.filterOptions = m.global.session.user.settings["display." + m.top.parentItem.Id + ".filterOptions"]
     m.view = m.global.session.user.settings["display." + m.top.parentItem.Id + ".landing"]
 
-    if not isValid(m.sortField) then m.sortField = "SortName"
-    if not isValid(m.filter) then m.filter = "All"
-    if not isValid(m.filterOptions) then m.filterOptions = "{}"
-    if not isValid(m.view) then m.view = "ArtistsPresentation"
+    if not isValidAndNotEmpty(m.sortField) then m.sortField = "SortName"
+    if not isValidAndNotEmpty(m.filter) then m.filter = "All"
+    if not isValidAndNotEmpty(m.filterOptions) then m.filterOptions = "{}"
+    if not isValidAndNotEmpty(m.view) then m.view = "ArtistsPresentation"
     if not isValid(m.sortAscending) then m.sortAscending = true
+    if not isStringEqual(type(m.sortAscending), "roBoolean") then m.sortAscending = true
 
     m.filterOptions = ParseJson(m.filterOptions)
 
@@ -252,18 +277,16 @@ sub setSelectedOptions(options)
     ' Set selected view option
     for each o in options.views
         if o.Name = m.view
+            m.viewButton.text = o.LookupCI("title")
             o.Selected = true
-            o.Ascending = m.sortAscending
-            m.options.view = o.Name
         end if
     end for
 
     ' Set selected sort option
     for each o in options.sort
         if o.Name = m.sortField
+            m.sortButton.text = o.LookupCI("title")
             o.Selected = true
-            o.Ascending = m.sortAscending
-            m.options.sortField = o.Name
         end if
     end for
 
@@ -271,6 +294,7 @@ sub setSelectedOptions(options)
     for each o in options.filter
         if o.Name = m.filter
             o.Selected = true
+            m.filterButton.text = o.LookupCI("title")
             m.options.filter = o.Name
         end if
 
@@ -300,6 +324,7 @@ sub setSelectedOptions(options)
     end for
 
     m.options.options = options
+    m.sortOrderButton.text = m.sortAscending ? "Ascending" : "Descending"
 end sub
 
 ' Set Music view, sort, and filter options
