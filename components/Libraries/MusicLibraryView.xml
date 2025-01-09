@@ -76,7 +76,7 @@
       numColumns="6"
       numRows="2"
       vertFocusAnimationStyle="fixed"
-      itemSize="[280, 280]"
+      itemSize="[270, 270]"
       itemSpacing="[20, 20]" />
 
     <MarkupGrid
@@ -86,7 +86,7 @@
       numRows="3"
       vertFocusAnimationStyle="fixed"
       translation="[100, 210]"
-      itemSize="[280, 280]"
+      itemSize="[270, 270]"
       itemSpacing="[20, 20]"
       opacity="0" />
 

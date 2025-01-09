@@ -280,8 +280,8 @@ function loadSimilarArtists() as object
         tmp = CreateObject("roSGNode", "MusicArtistData")
         imgParms = {
             "Tags": item.PrimaryImageTag,
-            MaxWidth: 280,
-            MaxHeight: 280
+            MaxWidth: 270,
+            MaxHeight: 270
         }
         tmp.posterURL = ImageUrl(item.Id, "Primary", imgParms)
         tmp.json = {

@@ -349,7 +349,7 @@ sub loadItems()
                     tmp.parentFolder = m.top.itemId
                     tmp.json = item
                     tmp.type = "Folder"
-                    tmp.posterUrl = api.items.GetImageURL(item.id, "primary", 0, { "maxHeight": 280, "maxWidth": 280, "quality": "90" })
+                    tmp.posterUrl = api.items.GetImageURL(item.id, "primary", 0, { "maxHeight": 270, "maxWidth": 270, "quality": "90" })
                 else
                     ' print `Unknown Type ${item.Type}`
                 end if
