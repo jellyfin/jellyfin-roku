@@ -1258,21 +1258,21 @@ function getOverhangingButton()
     if m.itemGrid.isinFocusChain()
         if m.itemGrid.numColumns = 4
             buttonList = [m.sortButton, m.sortOrderButton, m.filterButton, m.viewButton]
-            return buttonList[m.itemGrid.itemFocused]
+            return buttonList[m.itemGrid.currFocusColumn]
         end if
 
         if m.itemGrid.numColumns = 7
-            if m.itemGrid.itemFocused <= 1 then return m.sortButton
-            if m.itemGrid.itemFocused <= 2 then return m.sortOrderButton
-            if m.itemGrid.itemFocused <= 4 then return m.filterButton
+            if m.itemGrid.currFocusColumn <= 1 then return m.sortButton
+            if m.itemGrid.currFocusColumn <= 2 then return m.sortOrderButton
+            if m.itemGrid.currFocusColumn <= 4 then return m.filterButton
             return m.viewButton
         end if
     end if
 
     if m.genreList.isinFocusChain()
-        if m.genreList.rowItemFocused[1] <= 1 then return m.sortButton
-        if m.genreList.rowItemFocused[1] <= 2 then return m.sortOrderButton
-        if m.genreList.rowItemFocused[1] <= 4 then return m.filterButton
+        if m.genreList.currFocusColumn <= 1 then return m.sortButton
+        if m.genreList.currFocusColumn <= 2 then return m.sortOrderButton
+        if m.genreList.currFocusColumn <= 4 then return m.filterButton
         return m.viewButton
     end if
 
