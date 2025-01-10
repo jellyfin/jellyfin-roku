@@ -69,6 +69,7 @@ sub init()
 
     m.showItemCount = m.global.session.user.settings["itemgrid.showItemCount"]
 
+    m.options.observeField("visible", "onOptionsVisibleChange")
     m.swapAnimation.observeField("state", "swapDone")
 
     m.loadedRows = 0
@@ -115,6 +116,96 @@ sub init()
 
     'set inital counts for overhang before content is loaded.
     m.loadItemsTask.totalRecordCount = 0
+end sub
+
+sub onSortChange()
+    m.global.sceneManager.unobserveFieldScoped("returnData")
+    sortChoice = m.global.sceneManager.returnData
+    m.sortButton.focus = false
+
+    m.itemGrid.setFocus(m.itemGrid.opacity = 1)
+    m.genreList.setFocus(m.genreList.opacity = 1)
+
+    if not isStringEqual(sortChoice.LookupCI("name"), m.sortField)
+        m.sortField = sortChoice.LookupCI("name")
+        m.sortButton.text = sortChoice.LookupCI("title")
+
+        m.sortAscending = true
+
+        set_user_setting("display." + m.top.parentItem.Id + ".sortField", m.sortField)
+
+        m.loadedRows = 0
+        m.loadedItems = 0
+        m.data = CreateObject("roSGNode", "ContentNode")
+        m.itemGrid.content = m.data
+        loadInitialItems()
+    end if
+end sub
+
+sub onViewChange()
+    m.global.sceneManager.unobserveFieldScoped("returnData")
+    viewChoice = m.global.sceneManager.returnData
+    m.viewButton.focus = false
+
+    m.itemGrid.setFocus(m.itemGrid.opacity = 1)
+    m.genreList.setFocus(m.genreList.opacity = 1)
+
+    if isStringEqual(viewChoice.LookupCI("name"), m.view) then return
+
+    m.view = viewChoice.LookupCI("name")
+    m.viewButton.text = viewChoice.LookupCI("title")
+
+    set_user_setting("display." + m.top.parentItem.Id + ".landing", m.view)
+
+    ' Reset any filtering or search terms
+    m.top.alphaSelected = string.EMPTY
+    m.loadItemsTask.NameStartsWith = " "
+    m.loadItemsTask.searchTerm = string.EMPTY
+    m.filter = "All"
+    m.filterOptions = {}
+    m.sortField = "SortName"
+    m.sortAscending = true
+
+    ' Reset view to defaults
+    set_user_setting("display." + m.top.parentItem.Id + ".sortField", m.sortField)
+    set_user_setting("display." + m.top.parentItem.Id + ".sortAscending", "true")
+    set_user_setting("display." + m.top.parentItem.Id + ".filter", m.filter)
+    set_user_setting("display." + m.top.parentItem.Id + ".filterOptions", FormatJson(m.filterOptions))
+
+    if not isStringEqual(m.view, "Genres")
+        set_user_setting(`display.${m.top.mediaType}library.defaultview`, m.view)
+    end if
+
+    m.getFiltersTask.control = "RUN"
+
+    m.loadedRows = 0
+    m.loadedItems = 0
+    m.data = CreateObject("roSGNode", "ContentNode")
+    m.itemGrid.content = m.data
+    loadInitialItems()
+end sub
+
+sub onSortOrderChange()
+    m.global.sceneManager.unobserveFieldScoped("returnData")
+    sortOrderChoice = m.global.sceneManager.returnData
+    m.sortOrderButton.focus = false
+
+    m.itemGrid.setFocus(m.itemGrid.opacity = 1)
+    m.genreList.setFocus(m.genreList.opacity = 1)
+
+    if not isStringEqual(sortOrderChoice.LookupCI("name"), m.sortAscending.toStr())
+
+        m.sortAscending = isStringEqual(sortOrderChoice.LookupCI("name"), "Ascending")
+        m.sortOrderButton.text = sortOrderChoice.LookupCI("title")
+
+        set_user_setting("display." + m.top.parentItem.Id + ".sortAscending", m.sortAscending.toStr())
+
+        m.loadedRows = 0
+        m.loadedItems = 0
+        m.data = CreateObject("roSGNode", "ContentNode")
+        m.itemGrid.content = m.data
+        loadInitialItems()
+    end if
 end sub
 
 sub OnScreenHidden()
@@ -238,6 +329,55 @@ sub loadInitialItems()
         parentid: m.top.parentItem.Id
     }
     m.getFiltersTask.control = TaskControl.RUN
+end sub
+
+'
+'Check if options updated and any reloading required
+sub onOptionsVisibleChange()
+    if m.options.visible then return
+
+    reload = false
+
+    ' Nothing changed
+    if isStringEqual(m.options.filter, m.filter)
+        if AssocArrayEqual(m.options.filterOptions, m.filterOptions)
+            m.filterButton.focus = true
+            m.filterButton.setfocus(true)
+            return
+        end if
+    end if
+
+    if m.options.filter <> m.filter
+        m.filter = m.options.filter
+        reload = true
+        set_user_setting("display." + m.top.parentItem.Id + ".filter", m.options.filter)
+    end if
+
+    if not isValid(m.options.filterOptions)
+        m.filterOptions = {}
+    end if
+
+    if not AssocArrayEqual(m.options.filterOptions, m.filterOptions)
+        m.filterOptions = m.options.filterOptions
+        reload = true
+        set_user_setting("display." + m.top.parentItem.Id + ".filterOptions", FormatJson(m.options.filterOptions))
+    end if
+
+    if reload
+        m.loadedRows = 0
+        m.loadedItems = 0
+        m.data = CreateObject("roSGNode", "ContentNode")
+        m.itemGrid.content = m.data
+        loadInitialItems()
+    end if
+
+    m.filterButton.focus = false
+
+    m.itemGrid.setFocus(m.itemGrid.opacity = 1)
+    m.genreList.setFocus(m.genreList.opacity = 1)
+
+    group = m.global.sceneManager.callFunc("getActiveScene")
+    group.lastFocus = m.itemGrid.opacity = 1 ? m.itemGrid : m.genreList
 end sub
 
 '
