@@ -40,9 +40,9 @@
           numColumns="6"
           numRows="3"
           itemComponentName="MusicArtistGridItem"
-          rowHeights="[280]"
+          rowHeights="[270]"
           vertFocusAnimationStyle="fixed"
-          itemSize="[280, 280]"
+          itemSize="[270, 270]"
           itemSpacing="[20, 20]"
           drawFocusFeedback="true"
         />
