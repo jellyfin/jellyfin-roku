@@ -1,5 +1,5 @@
-import "pkg:/source/utils/misc.bs"
 import "pkg:/source/utils/config.bs"
+import "pkg:/source/utils/misc.bs"
 
 sub init()
     m.itemPoster = m.top.findNode("itemPoster")
@@ -25,8 +25,6 @@ sub init()
 end sub
 
 sub itemContentChanged()
-    m.backdrop.blendColor = "#101010"
-
     m.posterText.visible = false
     m.postTextBackground.visible = false
 
