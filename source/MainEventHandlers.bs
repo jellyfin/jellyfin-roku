@@ -1337,6 +1337,57 @@ sub processPlaybackPopup(selectedPopupAction as integer, selectedItem as object)
 end sub
 
 sub processLibraryItemPopup(selectedPopupButton as string, itemID as string)
+    if isStringEqual(selectedPopupButton, "Play Track")
+        quickplay.audio({
+            id: itemID,
+            type: ItemType.AUDIO
+        })
+        m.global.queueManager.callFunc("playQueue")
+        return
+    end if
+
+    if isStringEqual(selectedPopupButton, "Play Album")
+        quickplay.album({
+            id: itemID,
+            type: ItemType.MUSICALBUM
+        })
+
+        if m.global.queueManager.callFunc("getIsShuffled")
+            m.global.queueManager.callFunc("resetShuffle")
+        end if
+
+        m.global.queueManager.callFunc("playQueue")
+        return
+    end if
+
+    if isStringEqual(selectedPopupButton, "Shuffle Play Album")
+        quickplay.album({
+            id: itemID,
+            type: ItemType.MUSICALBUM
+        })
+
+        if not m.global.queueManager.callFunc("getIsShuffled")
+            m.global.queueManager.callFunc("toggleShuffle")
+        end if
+
+        m.global.queueManager.callFunc("playQueue")
+        return
+    end if
+
+    if isStringEqual(selectedPopupButton, "Instant Mix Album")
+        quickplay.album({
+            id: itemID,
+            type: ItemType.MUSICALBUM
+        })
+
+        instantMixList = CreateInstantMix(itemID)
+        if isChainValid(instantMixList, "items")
+            MainAction.playItem(instantMixList.LookupCI("Items"), { method: "set", resetShuffle: true })
+        end if
+
+        return
+    end if
+
     ' Add item to user's list
     if isStringEqual(selectedPopupButton, "Add To My List")
         MainAction.addItemToMyList(itemID)
