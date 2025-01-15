@@ -1095,6 +1095,12 @@ function onKeyEvent(key as string, press as boolean) as boolean
     end if
 
     if isStringEqual(key, KeyCode.OPTIONS)
+        focusedItem = getItemFocused()
+        if not isValid(focusedItem) then return false
+
+        dialogData = [tr("Play Album"), tr("Shuffle Play Album"), tr("Instant Mix Album")]
+        m.global.sceneManager.callFunc("optionDialog", "libraryitem", tr("Options"), [], dialogData, focusedItem.LookupCI("id"))
+
         return true
     end if
 
