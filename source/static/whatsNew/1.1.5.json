@@ -2,5 +2,9 @@
   {
     "description": "Move Sort, Filter, and View options as dropdowns to top of the Music library",
     "author": "1hitsong"
+  },
+  {
+    "description": "Add Play Album, Shuffle Play Album, and Instant Mix Album to option menu",
+    "author": "1hitsong"
   }
 ]
