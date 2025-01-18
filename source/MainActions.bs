@@ -119,6 +119,19 @@ namespace MainAction
         activeScene.isInMyList = not activeScene.isInMyList
     end sub
 
+    sub onPlaylistButtonClicked(activeScene as object)
+        movie = chainLookup(activeScene, "itemContent")
+        if not isValid(movie.id) then return
+
+        resumeData = [
+            tr("Existing Playlist"),
+            tr("New Playlist")
+        ]
+
+        stopLoadingSpinner()
+        m.global.sceneManager.callFunc("optionDialog", "playlist", tr("Add To Playlist"), [], resumeData, movie.id)
+    end sub
+
     sub onFavoriteButtonClicked(activeScene as object)
         movie = chainLookup(activeScene, "itemContent")
         if not isChainValid(movie, "favorite") or not isValid(movie.id) then return
