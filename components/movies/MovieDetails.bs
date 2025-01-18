@@ -61,9 +61,11 @@ sub onIsInMyListChanged()
 
     if m.top.isInMyList
         myListButton.text = tr("In My List")
+        myListButton.AUDIO_GUIDE_SUFFIX = tr("In My List")
         myListButton.iconBlendColor = ColorPalette.RED
     else
         myListButton.text = tr("Add To My List")
+        myListButton.AUDIO_GUIDE_SUFFIX = tr("Add To My List")
         myListButton.iconBlendColor = ColorPalette.WHITE
     end if
 end sub
@@ -151,6 +153,7 @@ sub additionalPartsChanged()
     if isValid(partButton)
         if isChainValid(m.top.additionalParts, "parts.Items")
             partButton.text = `Part ${m.top.additionalParts.parts.StartIndex + 1}`
+            partButton.AUDIO_GUIDE_SUFFIX = `Part ${m.top.additionalParts.parts.StartIndex + 1}`
         end if
     end if
 end sub
@@ -163,6 +166,7 @@ sub onSelectedPartChanged()
 
     partButton = m.top.findNode("part-button")
     partButton.text = selectedPart.track.description
+    partButton.AUDIO_GUIDE_SUFFIX = selectedPart.track.description
 
     m.loadStatus = ViewLoadStatus.FIRSTLOAD
 
@@ -300,9 +304,11 @@ sub itemContentChanged()
     if itemData.UserData.PlaybackPositionTicks > 0
         playButton = m.top.findNode("play-button")
         playButton.text = `Play / Resume from ${ticksToHuman(itemData.UserData.PlaybackPositionTicks)}`
+        playButton.AUDIO_GUIDE_SUFFIX = `Play or Resume from ${ticksToAudioGuide(itemData.UserData.PlaybackPositionTicks)}`
     else
         playButton = m.top.findNode("play-button")
         playButton.text = `Play`
+        playButton.AUDIO_GUIDE_SUFFIX = `Play`
     end if
     setWatchedColor()
     setFavoriteColor()
@@ -625,9 +631,11 @@ sub setFavoriteColor()
     if isValid(fave) and fave
         fave_button.iconBlendColor = ColorPalette.RED
         fave_button.text = tr("Favorited")
+        fave_button.AUDIO_GUIDE_SUFFIX = tr("Favorited")
     else
         fave_button.iconBlendColor = ColorPalette.WHITE
         fave_button.text = tr("Mark As Favorite")
+        fave_button.AUDIO_GUIDE_SUFFIX = tr("Mark As Favorite")
     end if
 end sub
 
@@ -636,8 +644,10 @@ sub setWatchedColor()
     watched_button = m.top.findNode("watched-button")
     if watched
         watched_button.text = tr("Watched")
+        watched_button.AUDIO_GUIDE_SUFFIX = tr("Watched")
     else
         watched_button.text = tr("Mark As Watched")
+        watched_button.AUDIO_GUIDE_SUFFIX = tr("Mark As Watched")
     end if
 end sub
 
