@@ -43,7 +43,6 @@ end sub
 
 ' Adjust scene by removing overview node and showing more songs
 sub adjustScreenForNoOverview()
-    print "no overview"
     m.infoGroup.removeChild(m.dscr)
     m.songListRect.height = 800
     m.playlist.numRows = 7

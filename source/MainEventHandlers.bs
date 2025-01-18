@@ -1066,6 +1066,24 @@ sub onItemSelectedEvent(msg)
     end if
 end sub
 
+sub onContentEvent(msg)
+    node = msg.getRoSGNode()
+    if not isValid(node) then return
+
+    m.playlistData = msg.getData()
+
+    popupData = []
+
+    if isValidAndNotEmpty(m.playlistData)
+        popupData.push(tr("Existing Playlist"))
+    end if
+
+    popupData.push(tr("New Playlist"))
+
+    stopLoadingSpinner()
+    m.global.sceneManager.callFunc("optionDialog", "playlist", tr("Add To Playlist"), [], popupData, node.itemId)
+end sub
+
 sub onButtonSelectedEvent(msg)
     ' If a button is selected, we have some determining to do
     btn = msg.getData()
@@ -1283,6 +1301,14 @@ sub onDataReturnedEvent(msg)
     selectedPopupAction = chainLookup(popupNode, "returndata.indexselected")
     selectedPopupButton = chainLookup(popupNode, "returndata.buttonselected")
 
+    if isStringEqual(selectedPopupID, "existingPlaylist")
+        api.playlists.Add(selectedPopupButton.id, {
+            ids: itemID,
+            userId: m.global.session.user.id
+        })
+        return
+    end if
+
     if isStringEqual(selectedPopupID, "playback")
         selectedItem = m.global.queueManager.callFunc("getHold")
         m.global.queueManager.callFunc("clearHold")
@@ -1350,13 +1376,10 @@ end sub
 
 sub processPlaylistPopup(selectedPopupButton as string, itemID as string)
     if isStringEqual(selectedPopupButton, "Existing Playlist")
-        resumeData = [
-            tr("Playlist 1"),
-            tr("Playlist 2")
-        ]
+        if not isValidAndNotEmpty(m.playlistData) then return
 
         stopLoadingSpinner()
-        m.global.sceneManager.callFunc("optionDialog", "existingPlaylist", tr("Add To Playlist"), [], resumeData, itemID)
+        m.global.sceneManager.callFunc("optionDialog", "existingPlaylist", tr("Add To Playlist"), [], m.playlistData, itemID)
         return
     end if
 

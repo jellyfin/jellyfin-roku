@@ -1216,7 +1216,7 @@ namespace api
 
         ' Adds items to a playlist.
         function Add(id as string, params = {} as object)
-            req = APIRequest(Substitute("/playlists/{0}/items", id), params)
+            req = APIRequest(`/playlists/${id}/items`, params)
             return postVoid(req)
         end function
 

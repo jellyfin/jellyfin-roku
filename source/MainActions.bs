@@ -123,13 +123,11 @@ namespace MainAction
         movie = chainLookup(activeScene, "itemContent")
         if not isValid(movie.id) then return
 
-        resumeData = [
-            tr("Existing Playlist"),
-            tr("New Playlist")
-        ]
-
-        stopLoadingSpinner()
-        m.global.sceneManager.callFunc("optionDialog", "playlist", tr("Add To Playlist"), [], resumeData, movie.id)
+        m.LoadPlaylistsTask = createObject("roSGNode", "LoadItemsTask")
+        m.LoadPlaylistsTask.itemId = movie.id
+        m.LoadPlaylistsTask.itemsToLoad = "playlists"
+        m.LoadPlaylistsTask.observeFieldScoped("content", m.port)
+        m.LoadPlaylistsTask.control = TaskControl.RUN
     end sub
 
     sub onFavoriteButtonClicked(activeScene as object)
