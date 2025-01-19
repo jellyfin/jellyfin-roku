@@ -1066,6 +1066,24 @@ sub onItemSelectedEvent(msg)
     end if
 end sub
 
+sub onContentEvent(msg)
+    node = msg.getRoSGNode()
+    if not isValid(node) then return
+
+    m.playlistData = msg.getData()
+
+    popupData = []
+
+    if isValidAndNotEmpty(m.playlistData)
+        popupData.push(tr("Existing Playlist"))
+    end if
+
+    popupData.push(tr("New Playlist"))
+
+    stopLoadingSpinner()
+    m.global.sceneManager.callFunc("optionDialog", "playlist", tr("Add To Playlist"), [], popupData, node.itemId)
+end sub
+
 sub onButtonSelectedEvent(msg)
     ' If a button is selected, we have some determining to do
     btn = msg.getData()
@@ -1102,6 +1120,12 @@ sub onButtonSelectedEvent(msg)
     ' Toggle item in My List
     if isStringEqual(btn, "mylist-button")
         MainAction.onMyListButtonClicked(activeScene)
+        return
+    end if
+
+    ' Add to playlist button was clicked
+    if isStringEqual(btn, "playlist-button")
+        MainAction.onPlaylistButtonClicked(activeScene)
         return
     end if
 
@@ -1277,6 +1301,37 @@ sub onDataReturnedEvent(msg)
     selectedPopupAction = chainLookup(popupNode, "returndata.indexselected")
     selectedPopupButton = chainLookup(popupNode, "returndata.buttonselected")
 
+    if isStringEqual(selectedPopupID, "newPlaylist")
+        newPlaylistName = chainLookup(popupNode, "returndata.text")
+
+        if not isValidAndNotEmpty(newPlaylistName) then return
+
+        api.playlists.Create({
+            name: newPlaylistName,
+            ids: itemID,
+            users: [
+                {
+                    userid: m.global.session.user.id,
+                    canedit: true
+                }
+            ],
+            userId: m.global.session.user.id,
+            IsPublic: false
+        })
+        return
+    end if
+
+    if isStringEqual(selectedPopupID, "existingPlaylist")
+        ' Check if user pressed back and didn't select anything
+        if isStringEqual(selectedPopupButton, string.EMPTY) then return
+
+        api.playlists.Add(selectedPopupButton.id, {
+            ids: itemID,
+            userId: m.global.session.user.id
+        })
+        return
+    end if
+
     if isStringEqual(selectedPopupID, "playback")
         selectedItem = m.global.queueManager.callFunc("getHold")
         m.global.queueManager.callFunc("clearHold")
@@ -1290,6 +1345,12 @@ sub onDataReturnedEvent(msg)
     if isStringEqual(selectedPopupID, "libraryitem")
         if not isValid(itemID) then return
         processLibraryItemPopup(selectedPopupButton, itemID)
+        return
+    end if
+
+    if isStringEqual(selectedPopupID, "playlist")
+        if not isValid(itemID) then return
+        processPlaylistPopup(selectedPopupButton, itemID)
         return
     end if
 end sub
@@ -1332,6 +1393,34 @@ sub processPlaybackPopup(selectedPopupAction as integer, selectedItem as object)
     ' User chose Go to episode
     if selectedPopupAction = ResumePopupAction.GOTOEPISODE
         CreateMovieDetailsGroup(selectedItem[0])
+        return
+    end if
+end sub
+
+sub processPlaylistPopup(selectedPopupButton as string, itemID as string)
+    if isStringEqual(selectedPopupButton, "Existing Playlist")
+        if not isValidAndNotEmpty(m.playlistData)
+            activeScene = m.global.sceneManager.callFunc("getActiveScene")
+            if not isValid(activeScene) then return
+
+            scenePlaylistData = activeScene.LookupCI("playlistData")
+            if not isValidAndNotEmpty(scenePlaylistData) then return
+
+            m.playlistData = activeScene.playlistData
+        end if
+
+        stopLoadingSpinner()
+        m.global.sceneManager.callFunc("optionDialog", "existingPlaylist", tr("Add To Playlist"), [], m.playlistData, itemID)
+        return
+    end if
+
+    if isStringEqual(selectedPopupButton, "New Playlist")
+        resumeData = [
+            tr("Create")
+        ]
+
+        stopLoadingSpinner()
+        m.global.sceneManager.callFunc("keyboardDialog", "newPlaylist", tr("Create New Playlist"), ["Input name of new playlist"], resumeData, tr("Name of new playlist"), itemID)
         return
     end if
 end sub
@@ -1418,6 +1507,18 @@ sub processLibraryItemPopup(selectedPopupButton as string, itemID as string)
     ' Add item to user's list
     if isStringEqual(selectedPopupButton, "Add To My List")
         MainAction.addItemToMyList(itemID)
+        return
+    end if
+
+    ' Add item to playlist
+    if isStringEqual(selectedPopupButton, "Add To Playlist")
+        activeScene = m.global.sceneManager.callFunc("getActiveScene")
+        MainAction.onPlaylistButtonClicked({
+            itemContent: {
+                id: itemID
+            }
+        })
+
         return
     end if
 

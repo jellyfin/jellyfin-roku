@@ -119,6 +119,17 @@ namespace MainAction
         activeScene.isInMyList = not activeScene.isInMyList
     end sub
 
+    sub onPlaylistButtonClicked(activeScene as object)
+        movie = chainLookup(activeScene, "itemContent")
+        if not isValid(movie.id) then return
+
+        m.LoadPlaylistsTask = createObject("roSGNode", "LoadItemsTask")
+        m.LoadPlaylistsTask.itemId = movie.id
+        m.LoadPlaylistsTask.itemsToLoad = "playlists"
+        m.LoadPlaylistsTask.observeFieldScoped("content", m.port)
+        m.LoadPlaylistsTask.control = TaskControl.RUN
+    end sub
+
     sub onFavoriteButtonClicked(activeScene as object)
         movie = chainLookup(activeScene, "itemContent")
         if not isChainValid(movie, "favorite") or not isValid(movie.id) then return

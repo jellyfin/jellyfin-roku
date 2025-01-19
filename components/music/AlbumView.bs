@@ -1,5 +1,7 @@
 import "pkg:/source/enums/ColorPalette.bs"
 import "pkg:/source/enums/KeyCode.bs"
+import "pkg:/source/enums/String.bs"
+import "pkg:/source/enums/TaskControl.bs"
 import "pkg:/source/utils/misc.bs"
 
 sub init()
@@ -16,7 +18,7 @@ sub init()
     m.songList.observeField("doneLoading", "onDoneLoading")
 
     m.dscr = m.top.findNode("overview")
-    m.dscr.ellipsisText = tr("... (Press * to read more)")
+    m.dscr.ellipsisText = tr("...")
 end sub
 
 sub setupMainNode()
@@ -91,15 +93,51 @@ sub setOnScreenTextValues(json)
     end if
 end sub
 
+sub onPlaylistsLoaded(msg)
+    node = msg.getRoSGNode()
+    if not isValid(node) then return
+
+    m.top.playlistData = msg.getData()
+
+    popupData = []
+
+    if isValidAndNotEmpty(m.top.playlistData)
+        popupData.push(tr("Existing Playlist"))
+    end if
+
+    popupData.push(tr("New Playlist"))
+
+    stopLoadingSpinner()
+    m.global.sceneManager.callFunc("optionDialog", "playlist", tr("Add To Playlist"), [], popupData, node.itemId)
+end sub
+
 function onKeyEvent(key as string, press as boolean) as boolean
     if not press then return false
 
     if key = KeyCode.OPTIONS
-        if m.dscr.isTextEllipsized
-            createFullDscrDlg()
+        if m.songList.hasFocus()
+            focusedSong = m.songList.content.getChild(m.songList.itemFocused)
+            if not isValidAndNotEmpty(focusedSong) then return false
+
+            LoadPlaylistsTask = createObject("roSGNode", "LoadItemsTask")
+            LoadPlaylistsTask.itemId = focusedSong.LookupCI("id")
+            LoadPlaylistsTask.itemsToLoad = "playlists"
+            LoadPlaylistsTask.observeFieldScoped("content", "onPlaylistsLoaded")
+            LoadPlaylistsTask.control = TaskControl.RUN
+
             return true
+
+
+
+            ' popupData = [tr("New Playlist")]
+            ' m.global.sceneManager.callFunc("optionDialog", "playlist", tr("Add To Playlist"), [], popupData, focusedSong.LookupCI("id"))
+
+            '     if m.dscr.isTextEllipsized
+            '         createFullDscrDlg()
+            '         return true
+            '     end if
+            '     return false
         end if
-        return false
     end if
 
     if key = KeyCode.RIGHT

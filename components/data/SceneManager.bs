@@ -348,9 +348,46 @@ sub remoteSubtitleDialog(title, message)
     m.scene.dialog = dialog
 end sub
 
+sub keyboardDialog(id, title, message, buttons, hintText, itemID)
+    m.buttonData = buttons
+    m.itemID = itemID
+    m.top.dataReturned = false
+    m.top.returnData = invalid
+    m.userselection = false
+
+    dialog = createObject("roSGNode", "StandardKeyboardDialog")
+    dialog.id = id
+    dlgPalette = createObject("roSGNode", "RSGPalette")
+    dlgPalette.colors = {
+        DialogBackgroundColor: ColorPalette.ELEMENTBACKGROUND,
+        DialogFocusColor: ColorPalette.HIGHLIGHT,
+        DialogFocusItemColor: ColorPalette.WHITE,
+        DialogSecondaryTextColor: ColorPalette.WHITE,
+        DialogSecondaryItemColor: ColorPalette.LIGHTBLUE,
+        DialogTextColor: ColorPalette.WHITE
+    }
+    dialog.palette = dlgPalette
+    dialog.observeField("buttonSelected", "optionSelected")
+    dialog.observeField("wasClosed", "optionClosed")
+    dialog.title = title
+    dialog.message = message
+    if isStringEqual(type(buttons[0]), "rostring")
+        dialog.buttons = buttons
+    else
+        objectTitles = []
+        for each playlist in buttons
+            objectTitles.push(playlist.title)
+        end for
+        dialog.buttons = objectTitles
+    end if
+
+    m.scene.dialog = dialog
+end sub
+
 '
 ' Display dialog to user with an OK button
 sub optionDialog(id, title, message, buttons, itemID)
+    m.buttonData = buttons
     m.itemID = itemID
     m.top.dataReturned = false
     m.top.returnData = invalid
@@ -372,7 +409,15 @@ sub optionDialog(id, title, message, buttons, itemID)
     dialog.observeField("wasClosed", "optionClosed")
     dialog.title = title
     dialog.message = message
-    dialog.buttons = buttons
+    if isStringEqual(type(buttons[0]), "rostring")
+        dialog.buttons = buttons
+    else
+        objectTitles = []
+        for each playlist in buttons
+            objectTitles.push(playlist.title)
+        end for
+        dialog.buttons = objectTitles
+    end if
 
     m.scene.dialog = dialog
 end sub
@@ -399,7 +444,8 @@ sub optionSelected()
         id: m.scene.dialog.id,
         itemID: m.itemID,
         indexSelected: m.scene.dialog.buttonSelected,
-        buttonSelected: m.scene.dialog.buttons[m.scene.dialog.buttonSelected]
+        buttonSelected: m.buttonData[m.scene.dialog.buttonSelected],
+        text: m.scene.dialog.text
     }
     m.top.dataReturned = true
 

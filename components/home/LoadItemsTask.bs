@@ -614,6 +614,42 @@ function loadMyList() as object
     return results
 end function
 
+function loadPlaylists() as object
+    results = []
+
+    data = api.GetUserViews({ "userId": m.global.session.user.id })
+    if not isChainValid(data, "Items") then return results
+
+    playlistData = invalid
+
+    for each item in data.LookupCI("items")
+        if isStringEqual(item.LookupCI("CollectionType"), "playlists")
+            playlistData = api.items.Get({
+                userid: m.global.session.user.id,
+                includeItemTypes: "Playlist",
+                parentId: item.LookupCI("id"),
+                SortBy: "SortName"
+            })
+            exit for
+        end if
+    end for
+
+    if not isValid(playlistData) or not isValidAndNotEmpty(playlistData.items) then return results
+
+    for each item in playlistData.Items
+        if isStringEqual(item.name, "|My List|") then continue for
+
+        tmp = CreateObject("roSGNode", "PlaylistData")
+        tmp.type = "Playlist"
+        tmp.title = item.name
+        tmp.id = item.id
+
+        results.push(tmp)
+    end for
+
+    return results
+end function
+
 function loadItemsByPerson(videoType, dimens = {}) as object
     results = []
 
@@ -714,6 +750,11 @@ sub loadItems()
 
     if isStringEqual(m.top.itemsToLoad, "mylist")
         m.top.content = loadMyList()
+        return
+    end if
+
+    if isStringEqual(m.top.itemsToLoad, "playlists")
+        m.top.content = loadPlaylists()
         return
     end if
 

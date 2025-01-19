@@ -6,5 +6,13 @@
   {
     "description": "Add Play Album, Shuffle Play Album, and Instant Mix Album to option menu",
     "author": "1hitsong"
+  },
+  {
+    "description": "Create add to playlist function on movie detail screen",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Add playlist functions to movie option menu",
+    "author": "1hitsong"
   }
 ]

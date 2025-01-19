@@ -9,7 +9,7 @@
           <Label id="genres" width="450" height="25" />
           <Label id="runtime" width="450" height="25" />
           <Label id="released" width="450" height="25" />
-          <JFButton id="instantMix" minChars="8" text="Instant Mix"></JFButton>
+          <JFButton id="instantMix" minChars="8" text="Instant Mix" />
         </LayoutGroup>
         <LayoutGroup id="infoGroup" layoutDirection="vert" itemSpacings="[15]">
           <Label id="overview" wrap="true" height="310" width="1250" />
@@ -21,6 +21,7 @@
     </LayoutGroup>
   </children>
   <interface>
+    <field id="playlistData" type="array" />
     <field id="pageContent" type="node" onChange="pageContentChanged" />
     <field id="albumData" type="node" alias="songList.MusicArtistAlbumData" />
     <field id="playSong" alias="songList.itemSelected" />
