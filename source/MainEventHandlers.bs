@@ -1399,7 +1399,15 @@ end sub
 
 sub processPlaylistPopup(selectedPopupButton as string, itemID as string)
     if isStringEqual(selectedPopupButton, "Existing Playlist")
-        if not isValidAndNotEmpty(m.playlistData) then return
+        if not isValidAndNotEmpty(m.playlistData)
+            activeScene = m.global.sceneManager.callFunc("getActiveScene")
+            if not isValid(activeScene) then return
+
+            scenePlaylistData = activeScene.LookupCI("playlistData")
+            if not isValidAndNotEmpty(scenePlaylistData) then return
+
+            m.playlistData = activeScene.playlistData
+        end if
 
         stopLoadingSpinner()
         m.global.sceneManager.callFunc("optionDialog", "existingPlaylist", tr("Add To Playlist"), [], m.playlistData, itemID)
