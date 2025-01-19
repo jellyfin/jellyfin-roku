@@ -16,6 +16,7 @@
     <function name="dismissDialog" />
     <function name="isDialogOpen" />
     <function name="optionDialog" />
+    <function name="keyboardDialog" />
     <function name="deleteSceneAtIndex" />
     <function name="getSceneCount" />
     <field id="currentUser" type="string" onChange="updateUser" />

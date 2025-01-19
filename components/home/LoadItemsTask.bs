@@ -625,9 +625,10 @@ function loadPlaylists() as object
     for each item in data.LookupCI("items")
         if isStringEqual(item.LookupCI("CollectionType"), "playlists")
             playlistData = api.items.Get({
-                "userid": m.global.session.user.id,
-                "includeItemTypes": "Playlist",
-                "parentId": item.LookupCI("id")
+                userid: m.global.session.user.id,
+                includeItemTypes: "Playlist",
+                parentId: item.LookupCI("id"),
+                SortBy: "SortName"
             })
             exit for
         end if

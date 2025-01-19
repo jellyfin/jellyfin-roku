@@ -1301,6 +1301,26 @@ sub onDataReturnedEvent(msg)
     selectedPopupAction = chainLookup(popupNode, "returndata.indexselected")
     selectedPopupButton = chainLookup(popupNode, "returndata.buttonselected")
 
+    if isStringEqual(selectedPopupID, "newPlaylist")
+        newPlaylistName = chainLookup(popupNode, "returndata.text")
+
+        if not isValidAndNotEmpty(newPlaylistName) then return
+
+        api.playlists.Create({
+            name: newPlaylistName,
+            ids: itemID,
+            users: [
+                {
+                    userid: m.global.session.user.id,
+                    canedit: true
+                }
+            ],
+            userId: m.global.session.user.id,
+            IsPublic: false
+        })
+        return
+    end if
+
     if isStringEqual(selectedPopupID, "existingPlaylist")
         ' Check if user pressed back and didn't select anything
         if isStringEqual(selectedPopupButton, string.EMPTY) then return
@@ -1388,11 +1408,11 @@ sub processPlaylistPopup(selectedPopupButton as string, itemID as string)
 
     if isStringEqual(selectedPopupButton, "New Playlist")
         resumeData = [
-            tr("Create New Playlist")
+            tr("Create")
         ]
 
         stopLoadingSpinner()
-        m.global.sceneManager.callFunc("optionDialog", "newPlaylist", tr("Add To Playlist"), [], resumeData, itemID)
+        m.global.sceneManager.callFunc("keyboardDialog", "newPlaylist", tr("Create New Playlist"), ["Input name of new playlist"], resumeData, tr("Name of new playlist"), itemID)
         return
     end if
 end sub
