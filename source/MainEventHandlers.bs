@@ -1302,6 +1302,9 @@ sub onDataReturnedEvent(msg)
     selectedPopupButton = chainLookup(popupNode, "returndata.buttonselected")
 
     if isStringEqual(selectedPopupID, "existingPlaylist")
+        ' Check if user pressed back and didn't select anything
+        if isStringEqual(selectedPopupButton, string.EMPTY) then return
+
         api.playlists.Add(selectedPopupButton.id, {
             ids: itemID,
             userId: m.global.session.user.id
@@ -1476,6 +1479,18 @@ sub processLibraryItemPopup(selectedPopupButton as string, itemID as string)
     ' Add item to user's list
     if isStringEqual(selectedPopupButton, "Add To My List")
         MainAction.addItemToMyList(itemID)
+        return
+    end if
+
+    ' Add item to playlist
+    if isStringEqual(selectedPopupButton, "Add To Playlist")
+        activeScene = m.global.sceneManager.callFunc("getActiveScene")
+        MainAction.onPlaylistButtonClicked({
+            itemContent: {
+                id: itemID
+            }
+        })
+
         return
     end if
 

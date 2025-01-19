@@ -1528,15 +1528,10 @@ sub onMyListLoaded()
     focusedItem = getItemFocused()
     if not isValid(focusedItem) then return
 
-    ' Item is already in My List
-    if isInMyListData[0]
-        dialogData = [tr("Remove From My List")]
-        m.global.sceneManager.callFunc("optionDialog", "libraryitem", tr("Options"), [], dialogData, focusedItem.LookupCI("id"))
-        return
-    end if
+    dialogData = isInMyListData[0] ? [tr("Remove From My List")] : [tr("Add To My List")]
 
-    ' Item is not in My List
-    dialogData = [tr("Add To My List")]
+    dialogData.push(tr("Add To Playlist"))
+
     m.global.sceneManager.callFunc("optionDialog", "libraryitem", tr("Options"), [], dialogData, focusedItem.LookupCI("id"))
 end sub
 
