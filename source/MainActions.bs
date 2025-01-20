@@ -277,4 +277,13 @@ namespace MainAction
             })
         end if
     end sub
+
+    ' Remove item from playlist
+    sub removeItemFromPlaylist(playlistID as string, itemID as string)
+        if isValidAndNotEmpty(playlistID) and isValidAndNotEmpty(itemID)
+            api.playlists.Remove(playlistID, {
+                entryIds: itemID
+            })
+        end if
+    end sub
 end namespace

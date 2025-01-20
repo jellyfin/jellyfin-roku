@@ -99,6 +99,7 @@
     <Alpha id="alpha" />
   </children>
   <interface>
+    <field id="playlistData" type="array" />
     <field id="HomeLibraryItem" type="string" />
     <field id="parentItem" type="node" onChange="loadInitialItems" />
     <field id="selectedItem" type="node" alwaysNotify="true" />

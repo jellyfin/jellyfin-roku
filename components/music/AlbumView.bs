@@ -77,6 +77,24 @@ sub adjustScreenForNoOverview()
     m.songList.numRows = 12
 end sub
 
+sub OnScreenShown()
+    overhang = m.top.getScene().findNode("overhang")
+
+    if not overhang.isVisible
+        overhang.isVisible = true
+    end if
+
+    if isValid(m.top.lastFocus)
+        m.top.lastFocus.setFocus(true)
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        group.lastFocus = m.top.lastFocus
+    else
+        m.top.setFocus(true)
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        group.lastFocus = m.top
+    end if
+end sub
+
 ' Populate on screen text variables
 sub setOnScreenTextValues(json)
     if isValid(json)
@@ -137,17 +155,6 @@ function onKeyEvent(key as string, press as boolean) as boolean
             LoadPlaylistsTask.control = TaskControl.RUN
 
             return true
-
-
-
-            ' popupData = [tr("New Playlist")]
-            ' m.global.sceneManager.callFunc("optionDialog", "playlist", tr("Add To Playlist"), [], popupData, focusedSong.LookupCI("id"))
-
-            '     if m.dscr.isTextEllipsized
-            '         createFullDscrDlg()
-            '         return true
-            '     end if
-            '     return false
         end if
     end if
 

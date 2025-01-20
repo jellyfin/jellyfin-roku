@@ -87,11 +87,20 @@ function onKeyEvent(key as string, press as boolean) as boolean
     if not press then return false
 
     if key = "options"
-        if m.dscr.isTextEllipsized
-            createFullDscrDlg()
-            return true
-        end if
-        return false
+        selectedItem = m.playlist.content.getChild(m.playlist.itemFocused)
+
+        if not isValid(selectedItem) then return false
+
+        popupData = [tr("Remove From Playlist")]
+
+        m.global.sceneManager.callFunc("optionDialog", "playlist", tr("Options"), [], popupData, selectedItem.LookupCI("id"))
+
+        ' if m.dscr.isTextEllipsized
+        '     createFullDscrDlg()
+        '     return true
+        ' end if
+
+        return true
     end if
 
     return false
