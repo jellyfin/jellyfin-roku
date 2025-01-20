@@ -9,12 +9,22 @@
           <Label id="genres" width="450" height="25" />
           <Label id="runtime" width="450" height="25" />
           <Label id="released" width="450" height="25" />
-          <JFButton id="instantMix" minChars="8" text="Instant Mix" />
+          <StandardButton
+            id="instantMix"
+            text="Instant Mix"
+            height="85"
+            width="250" />
         </LayoutGroup>
         <LayoutGroup id="infoGroup" layoutDirection="vert" itemSpacings="[15]">
           <Label id="overview" wrap="true" height="310" width="1250" />
-          <Rectangle id='songListRect' translation="[-30, 0]" width="1260" height="510" color="0x202020ff">
-            <AlbumTrackList itemComponentName="SongItem" id="songList" translation="[45, 25]" itemSize="[1170,60]" numRows="7" />
+          <Rectangle id='songListRect' translation="[-30, 0]" width="1260" height="510">
+            <AlbumTrackList
+              id="songList"
+              vertFocusAnimationStyle="floatingFocus"
+              itemComponentName="SongItem"
+              translation="[45, 25]"
+              itemSize="[1170,60]"
+              numRows="7" />
           </Rectangle>
         </LayoutGroup>
       </LayoutGroup>
@@ -25,6 +35,6 @@
     <field id="pageContent" type="node" onChange="pageContentChanged" />
     <field id="albumData" type="node" alias="songList.MusicArtistAlbumData" />
     <field id="playSong" alias="songList.itemSelected" />
-    <field id="instantMixSelected" alias="instantMix.buttonSelected" />
+    <field id="instantMixSelected" alias="instantMix.selected" />
   </interface>
 </component>

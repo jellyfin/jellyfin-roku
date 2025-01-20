@@ -9,11 +9,22 @@ sub init()
     setupMainNode()
 
     m.instantMix = m.top.findNode("instantMix")
+    m.instantMix.background = ColorPalette.LIGHTBLUE
+    m.instantMix.color = ColorPalette.DARKGREY
+    m.instantMix.focusBackground = ColorPalette.HIGHLIGHT
+    m.instantMix.focusColor = ColorPalette.WHITE
+
     m.albumCover = m.top.findNode("albumCover")
     m.songList = m.top.findNode("songList")
     m.infoGroup = m.top.FindNode("infoGroup")
     m.songListRect = m.top.FindNode("songListRect")
     m.top.lastFocus = m.songList
+
+    m.songList.focusFootprintBitmapUri = string.EMPTY
+    m.songList.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
+    m.songList.focusFootprintBlendColor = ColorPalette.LIGHTHIGHLIGHT
+
+    m.songListRect.color = ColorPalette.ELEMENTBACKGROUND
 
     m.songList.observeField("doneLoading", "onDoneLoading")
 
@@ -144,20 +155,53 @@ function onKeyEvent(key as string, press as boolean) as boolean
         if m.instantMix.hasFocus()
             m.top.lastFocus = m.songList
             m.songList.setFocus(true)
+            m.instantMix.focus = false
             group = m.global.sceneManager.callFunc("getActiveScene")
             group.lastFocus = m.songList
             return true
         end if
-    else if key = KeyCode.LEFT and m.songList.hasFocus()
-        if m.instantMix.visible
-            m.top.lastFocus = m.instantMix
-            m.instantMix.setFocus(true)
-            group = m.global.sceneManager.callFunc("getActiveScene")
-            group.lastFocus = m.instantMix
-        else
-            return false
+    end if
+
+    if key = KeyCode.UP
+        if m.songList.hasFocus()
+            if m.dscr.isTextEllipsized
+                m.dscr.setFocus(true)
+                m.dscr.color = ColorPalette.HIGHLIGHT
+                return true
+            end if
         end if
-        return true
+    end if
+
+    if key = KeyCode.OK
+        if m.dscr.hasFocus()
+            createFullDscrDlg()
+            return true
+        end if
+        if m.instantMix.hasFocus()
+            m.instantMix.selected = not m.instantMix.selected
+            return true
+        end if
+    end if
+
+    if key = KeyCode.DOWN
+        if m.dscr.hasFocus()
+            m.songList.setFocus(true)
+            m.dscr.color = ColorPalette.WHITE
+            return true
+        end if
+    end if
+
+    if key = KeyCode.LEFT
+        if m.songList.hasFocus()
+            if m.instantMix.visible
+                m.top.lastFocus = m.instantMix
+                m.instantMix.setFocus(true)
+                m.instantMix.focus = true
+                group = m.global.sceneManager.callFunc("getActiveScene")
+                group.lastFocus = m.instantMix
+                return true
+            end if
+        end if
     end if
 
     return false
