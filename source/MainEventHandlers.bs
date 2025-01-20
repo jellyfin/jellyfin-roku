@@ -1423,6 +1423,23 @@ sub processPlaylistPopup(selectedPopupButton as string, itemID as string)
         m.global.sceneManager.callFunc("keyboardDialog", "newPlaylist", tr("Create New Playlist"), ["Input name of new playlist"], resumeData, tr("Name of new playlist"), itemID)
         return
     end if
+
+    ' Remove item from playlist
+    if isStringEqual(selectedPopupButton, "Remove From Playlist")
+
+        ' Remove item from the item grid
+        activeScene = m.global.sceneManager.callFunc("getActiveScene")
+        if not isValid(activeScene) then return
+
+        itemGrid = activeScene.findNode("playlist")
+        if not isValid(itemGrid) then return
+
+        itemGrid.content.removeChildIndex(itemGrid.itemFocused)
+
+        mainAction.removeItemFromPlaylist(activeScene.pageContent.LookupCI("id"), itemID)
+
+        return
+    end if
 end sub
 
 sub processLibraryItemPopup(selectedPopupButton as string, itemID as string)
@@ -1519,6 +1536,32 @@ sub processLibraryItemPopup(selectedPopupButton as string, itemID as string)
             }
         })
 
+        return
+    end if
+
+    if isStringEqual(selectedPopupButton, "Existing Playlist")
+        if not isValidAndNotEmpty(m.playlistData)
+            activeScene = m.global.sceneManager.callFunc("getActiveScene")
+            if not isValid(activeScene) then return
+
+            scenePlaylistData = activeScene.LookupCI("playlistData")
+            if not isValidAndNotEmpty(scenePlaylistData) then return
+
+            m.playlistData = activeScene.playlistData
+        end if
+
+        stopLoadingSpinner()
+        m.global.sceneManager.callFunc("optionDialog", "existingPlaylist", tr("Add To Playlist"), [], m.playlistData, itemID)
+        return
+    end if
+
+    if isStringEqual(selectedPopupButton, "New Playlist")
+        resumeData = [
+            tr("Create")
+        ]
+
+        stopLoadingSpinner()
+        m.global.sceneManager.callFunc("keyboardDialog", "newPlaylist", tr("Create New Playlist"), ["Input name of new playlist"], resumeData, tr("Name of new playlist"), itemID)
         return
     end if
 
