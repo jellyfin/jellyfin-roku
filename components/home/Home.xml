@@ -17,6 +17,7 @@
     </Animation>
   </children>
   <interface>
+    <field id="playlistData" type="array" />
     <field id="selectedItem" alias="homeRows.selectedItem" />
     <field id="quickPlayNode" alias="homeRows.quickPlayNode" />
     <function name="refresh" />
