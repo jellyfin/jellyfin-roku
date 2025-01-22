@@ -18,6 +18,17 @@ function loadLibraries() as object
 
     if not isChainValid(data, "items") then return results
 
+    listData = loadMyList()
+
+    if isValidAndNotEmpty(listData)
+        data.items.unshift({
+            id: listData[0].json.LookupCI("playlistid"),
+            name: `My List`,
+            Type: ItemType.COLLECTIONFOLDER,
+            CollectionType: ItemType.MYLIST
+        })
+    end if
+
     for each item in data.LookupCI("items")
         tmp = CreateObject("roSGNode", "HomeData")
         tmp.json = {
@@ -572,6 +583,7 @@ function loadMyList() as object
         }
         tmp.posterURL = ImageUrl(item.Id, "Primary", params)
         tmp.json = {
+            PlaylistID: playlistID,
             Id: item.LookupCI("Id"),
             name: item.LookupCI("name"),
             Type: item.LookupCI("Type"),
@@ -603,6 +615,7 @@ function loadMyList() as object
         tmp.usePoster = false
         tmp.json = {
             id: playlistID,
+            PlaylistID: playlistID,
             IsFolder: true,
             Name: tr("View Full List"),
             Type: ItemType.COLLECTIONFOLDER,
