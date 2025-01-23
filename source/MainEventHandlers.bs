@@ -1555,6 +1555,22 @@ sub processLibraryItemPopup(selectedPopupButton as string, itemID as string)
         return
     end if
 
+    if isStringEqual(selectedPopupButton, "Delete Playlist")
+        api.items.Delete({
+            ids: itemID
+        })
+
+        activeScene = m.global.sceneManager.callFunc("getActiveScene")
+        if not isValid(activeScene) then return
+
+        itemGrid = activeScene.findNode("itemGrid")
+        if not isValid(itemGrid) then return
+
+        itemGrid.content.removeChildIndex(itemGrid.itemFocused)
+
+        return
+    end if
+
     if isStringEqual(selectedPopupButton, "New Playlist")
         resumeData = [
             tr("Create")
