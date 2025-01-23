@@ -400,9 +400,9 @@ function PlaylistItemList(id as string)
     data = getJson(resp)
     row = CreateObject("roSGNode", "ContentNode")
 
-    if data = invalid then return invalid
-    if data.Items = invalid then return invalid
-    if data.Items.Count() = 0 then return invalid
+    if data = invalid then return row
+    if data.Items = invalid then return row
+    if data.Items.Count() = 0 then return row
 
     for each item in data.Items
         tmp = CreateObject("roSGNode", "PlaylistItemData")
