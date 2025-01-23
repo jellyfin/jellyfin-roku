@@ -231,6 +231,14 @@ namespace MainAction
                 ids: itemID,
                 userid: m.global.session.user.id
             })
+
+            group = m.global.sceneManager.callFunc("getActiveScene")
+            if isValid(group)
+                if isStringEqual(group.subtype(), "home")
+                    group.callFunc("refresh")
+                end if
+            end if
+
             return
         end if
 
@@ -248,6 +256,13 @@ namespace MainAction
             ],
             ispublic: false
         })
+
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        if isValid(group)
+            if isStringEqual(group.subtype(), "home")
+                group.callFunc("refresh")
+            end if
+        end if
     end sub
 
     ' Remove item from user's My List playlist
@@ -275,6 +290,13 @@ namespace MainAction
             api.playlists.Remove(myListPlaylist.items[0].LookupCI("id"), {
                 entryIds: itemID
             })
+
+            group = m.global.sceneManager.callFunc("getActiveScene")
+            if isValid(group)
+                if isStringEqual(group.subtype(), "home")
+                    group.callFunc("refresh")
+                end if
+            end if
         end if
     end sub
 
