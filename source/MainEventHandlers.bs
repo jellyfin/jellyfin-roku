@@ -1573,11 +1573,13 @@ sub processLibraryItemPopup(selectedPopupButton as string, itemID as string)
         activeScene = m.global.sceneManager.callFunc("getActiveScene")
         if not isValid(activeScene) then return
 
-        if isStringEqual(activeScene.parentItem.collectionType, CollectionType.MYLIST)
-            itemGrid = activeScene.findNode("itemGrid")
-            if not isValid(itemGrid) then return
+        if isChainValid(activeScene, "parentItem.collectionType")
+            if isStringEqual(activeScene.parentItem.collectionType, CollectionType.MYLIST)
+                itemGrid = activeScene.findNode("itemGrid")
+                if not isValid(itemGrid) then return
 
-            itemGrid.content.removeChildIndex(itemGrid.itemFocused)
+                itemGrid.content.removeChildIndex(itemGrid.itemFocused)
+            end if
         end if
 
         return
