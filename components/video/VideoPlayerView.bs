@@ -756,6 +756,9 @@ sub onState(msg)
         m.bufferCheckTimer.control = "start"
         m.bufferCheckTimer.ObserveField("fire", "bufferCheck")
     else if m.top.state = "error"
+        print "Error: " m.top.errorCode, m.top.errorMsg, " ErrorStr: " m.top.errorStr
+        print m.top.errorInfo
+
         if not m.playReported and m.top.transcodeAvailable
             m.top.retryWithTranscoding = true ' If playback was not reported, retry with transcoding
         else
