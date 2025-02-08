@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component name="GetPlaylistDataTask" extends="Task">
+    <interface>
+        <field id="playlistID" type="string" />
+        <field id="selectedItemID" type="string" />
+        <field id="playlistData" type="assocarray" />
+    </interface>
+</component>

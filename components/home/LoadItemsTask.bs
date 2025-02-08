@@ -652,6 +652,11 @@ function loadPlaylists() as object
     for each item in playlistData.Items
         if isStringEqual(item.name, "|My List|") then continue for
 
+        canEditPermission = api.playlists.GetUser(item.id, m.global.session.user.id)
+        if not isValid(canEditPermission) then continue for
+        if not isChainValid(canEditPermission, "canedit") then continue for
+        if not chainLookup(canEditPermission, "canedit") then continue for
+
         tmp = CreateObject("roSGNode", "PlaylistData")
         tmp.type = "Playlist"
         tmp.title = item.name

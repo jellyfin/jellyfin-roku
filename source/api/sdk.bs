@@ -1232,6 +1232,24 @@ namespace api
             return getJson(req)
         end function
 
+        ' Get a playlist
+        function Get(playlistID as string)
+            req = APIRequest(`/playlists/${playlistID}/items`)
+            return getJson(req)
+        end function
+
+        ' Get a playlist's users
+        function GetUsers(playlistID as string)
+            req = APIRequest(`/playlists/${playlistID}/users`)
+            return getJson(req)
+        end function
+
+        ' Get a playlist user
+        function GetUser(playlistID as string, userid as string)
+            req = APIRequest(`/playlists/${playlistID}/users/${userid}`)
+            return getJson(req)
+        end function
+
         ' Moves a playlist item.
         function Move(playlistid as string, itemid as string, newindex as integer)
             req = APIRequest(Substitute("/playlists/{0}/items/{1}/move/{2}", playlistid, itemid, newindex))

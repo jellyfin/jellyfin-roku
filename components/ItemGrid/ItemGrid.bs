@@ -71,6 +71,7 @@ sub init()
 
     m.loadItemsTask = createObject("roSGNode", "LoadItemsTask2")
     m.getFiltersTask = createObject("roSGNode", "GetFiltersTask")
+    m.getPlaylistDataTask = createObject("roSGNode", "GetPlaylistDataTask")
 
     'set inital counts for overhang before content is loaded.
     m.loadItemsTask.totalRecordCount = 0
@@ -907,7 +908,12 @@ function onKeyEvent(key as string, press as boolean) as boolean
     if isStringEqual(key, KeyCode.OPTIONS) and not isStringEqual(getCollectionType(), "nextup")
         if isStringEqual(getCollectionType(), "playlists")
             itemToPlay = getItemFocused()
-            if not isValid(itemToPlay) then return false
+            if not isValid(itemToPlay) then return true
+
+            if not m.global.session.user.Policy.IsAdministrator
+                confirmPlaylistAccess(itemToPlay.LookupCI("id"))
+                return true
+            end if
 
             dialogData = [tr("Delete Playlist")]
             m.global.sceneManager.callFunc("optionDialog", "libraryitem", tr("Options"), [], dialogData, itemToPlay.LookupCI("id"))
@@ -988,3 +994,23 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
     return false
 end function
+
+sub confirmPlaylistAccess(playlistID as string)
+    m.getPlaylistDataTask.observeFieldScoped("playlistData", "onPlaylistDataLoaded")
+    m.getPlaylistDataTask.playlistID = playlistID
+    m.getPlaylistDataTask.control = TaskControl.RUN
+end sub
+
+sub onPlaylistDataLoaded()
+    m.getPlaylistDataTask.unobserveFieldScoped("playlistData")
+
+    ' Confirm data is valid
+    if not isValidAndNotEmpty(m.getPlaylistDataTask.playlistData) then return
+    if not isChainValid(m.getPlaylistDataTask.playlistData, "canedit") then return
+
+    ' Confirm user has edit permissions
+    if not chainLookup(m.getPlaylistDataTask.playlistData, "canedit") then return
+
+    dialogData = [tr("Delete Playlist")]
+    m.global.sceneManager.callFunc("optionDialog", "libraryitem", tr("Options"), [], dialogData, m.getPlaylistDataTask.LookupCI("playlistID"))
+end sub
