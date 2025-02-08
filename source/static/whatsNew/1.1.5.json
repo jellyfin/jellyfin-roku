@@ -40,6 +40,10 @@
     "author": "1hitsong"
   },
   {
+    "description": "Fix playback when transcoding long movies",
+    "author": "jimdogx"
+  },
+  {
     "description": "Fix access to empty playlist",
     "author": "1hitsong"
   },
