@@ -120,6 +120,8 @@ namespace MainAction
     end sub
 
     sub onPlaylistButtonClicked(activeScene as object)
+        startLoadingSpinner()
+
         movie = chainLookup(activeScene, "itemContent")
         if not isValid(movie.id) then return
 
