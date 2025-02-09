@@ -934,24 +934,6 @@ function getOverhangingButton()
     return m.sortButton
 end function
 
-sub onPlaylistsLoaded(msg)
-    node = msg.getRoSGNode()
-    if not isValid(node) then return
-
-    m.top.playlistData = msg.getData()
-
-    dialogData = [tr("Play Album"), tr("Shuffle Play Album"), tr("Instant Mix Album")]
-
-    if isValidAndNotEmpty(m.top.playlistData)
-        dialogData.push(tr("Existing Playlist"))
-    end if
-
-    dialogData.push(tr("New Playlist"))
-
-    stopLoadingSpinner()
-    m.global.sceneManager.callFunc("optionDialog", "libraryitem", tr("Options"), [], dialogData, node.itemId)
-end sub
-
 function onKeyEvent(key as string, press as boolean) as boolean
     if not press then return false
 
@@ -1116,11 +1098,10 @@ function onKeyEvent(key as string, press as boolean) as boolean
         focusedItem = getItemFocused()
         if not isValid(focusedItem) then return false
 
-        LoadPlaylistsTask = createObject("roSGNode", "LoadItemsTask")
-        LoadPlaylistsTask.itemId = focusedItem.LookupCI("id")
-        LoadPlaylistsTask.itemsToLoad = "playlists"
-        LoadPlaylistsTask.observeFieldScoped("content", "onPlaylistsLoaded")
-        LoadPlaylistsTask.control = TaskControl.RUN
+        if isStringEqual(focusedItem.LookupCI("type"), ItemType.MUSICALBUM)
+            dialogData = [tr("Play Album"), tr("Shuffle Play Album"), tr("Instant Mix Album"), tr("Add To Playlist")]
+            m.global.sceneManager.callFunc("optionDialog", "libraryitem", tr("Options"), [], dialogData, focusedItem.LookupCI("id"))
+        end if
 
         return true
     end if
