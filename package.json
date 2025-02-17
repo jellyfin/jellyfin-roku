@@ -13,7 +13,7 @@
     "jshint": "2.13.6",
     "rimraf": "6.0.1",
     "roku-deploy": "3.12.4",
-    "rooibos-roku": "5.15.1",
+    "rooibos-roku": "5.15.2",
     "ropm": "0.10.31",
     "undent": "0.1.0"
   },
