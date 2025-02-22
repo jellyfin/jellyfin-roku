@@ -309,8 +309,6 @@ end sub
 ' Display dialog to user with an OK button
 sub radioDialog(title, message)
     m.itemID = string.EMPTY
-    m.top.dataReturned = false
-    m.top.returnData = invalid
     m.userselection = false
 
     dialog = createObject("roSGNode", "RadioDialog")
@@ -324,13 +322,18 @@ sub radioDialog(title, message)
         DialogTextColor: ColorPalette.WHITE
     }
     dialog.palette = dlgPalette
-    dialog.observeField("buttonSelected", "dismissDialog")
+    dialog.observeField("buttonSelected", "radioButtonSelected")
     dialog.observeField("wasClosed", "optionClosed")
     dialog.title = title
     dialog.contentData = message
     dialog.buttons = [tr("OK")]
 
     m.scene.dialog = dialog
+end sub
+
+sub radioButtonSelected()
+    m.userselection = true
+    dismissDialog()
 end sub
 
 '
