@@ -35,6 +35,12 @@ sub setupNodes()
     m.dropdownOptions = m.top.findNode("dropdownOptions")
     m.submitButton = m.top.findNode("submitButton")
 
+    m.searchButton = m.top.findNode("searchButton")
+    m.searchButton.textColor = ColorPalette.DARKGREY
+    m.searchButton.focusTextColor = ColorPalette.WHITE
+    m.searchButton.background = ColorPalette.WHITE
+    m.searchButton.focusBackground = ColorPalette.HIGHLIGHT
+
     m.sortButton = m.top.findNode("sortButton")
     m.sortButton.textColor = ColorPalette.DARKGREY
     m.sortButton.focusTextColor = ColorPalette.WHITE
@@ -63,6 +69,7 @@ end sub
 sub init()
     m.top.optionsAvailable = false
     setupNodes()
+    m.bypassSearchEvent = false
 
     m.itemGrid.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
     m.genreList.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
@@ -204,7 +211,7 @@ sub loadInitialItems()
 
     m.filterOptions = ParseJson(m.filterOptions)
 
-    m.loadItemsTask.searchTerm = m.voiceBox.text
+    m.loadItemsTask.searchTerm = m.top.searchTerm <> string.EMPTY ? m.top.searchTerm : m.voiceBox.text
     m.loadItemsTask.sortField = m.sortField
     m.loadItemsTask.sortAscending = m.sortAscending
     m.loadItemsTask.filter = m.filter
@@ -380,9 +387,12 @@ function setMovieOptions() as object
 
     options.views = [
         { "Title": tr("Presentation"), "Name": "presentation", "Track": { "description": tr("Presentation") } },
-        { "Title": tr("Grid"), "Name": "grid", "Track": { "description": tr("Grid") } },
-        { "Title": tr("Genres"), "Name": "Genres", "Track": { "description": tr("Genres") } }
+        { "Title": tr("Grid"), "Name": "grid", "Track": { "description": tr("Grid") } }
     ]
+
+    if not isStringEqual(m.top.mediaType, ItemType.MYLIST)
+        options.views.push({ "Title": tr("Genres"), "Name": "Genres", "Track": { "description": tr("Genres") } })
+    end if
 
     options.sort = [
         { "Title": tr("TITLE"), "Name": "SortName", "Track": { "description": tr("TITLE") } },
@@ -1052,6 +1062,70 @@ sub onGenreItemSelected()
     m.top.selectedItem = m.genreList.content.getChild(m.genreList.rowItemSelected[0]).getChild(m.genreList.rowItemSelected[1])
 end sub
 
+sub processDropdownState(searchTerm as string)
+    if not isStringEqual(searchTerm, string.EMPTY)
+        resetDropdownsToDefaultState()
+        setDropdownDisabledState(true)
+        return
+    end if
+
+    setDropdownDisabledState(false)
+end sub
+
+sub setDropdownDisabledState(disabledState = false as boolean)
+    m.sortButton.disabled = disabledState
+    m.sortOrderButton.disabled = disabledState
+    m.filterButton.disabled = disabledState
+end sub
+
+sub resetDropdownsToDefaultState()
+    m.filter = "All"
+    m.filterOptions = {}
+    if isStringEqual(getCollectionType(), ItemType.BOXSET)
+        m.sortField = "PremiereDate,SortName"
+    else if isStringEqual(getCollectionType(), ItemType.MYLIST)
+        m.sortField = "OrderAdded"
+    else
+        m.sortField = "SortName"
+    end if
+    m.sortAscending = true
+
+    ' Reset view to defaults
+    set_user_setting("display." + m.top.parentItem.Id + ".sortField", m.sortField)
+    set_user_setting("display." + m.top.parentItem.Id + ".sortAscending", "true")
+    set_user_setting("display." + m.top.parentItem.Id + ".filter", m.filter)
+    set_user_setting("display." + m.top.parentItem.Id + ".filterOptions", FormatJson(m.filterOptions))
+
+    if not isStringEqual(m.view, "Genres")
+        set_user_setting(`display.${m.top.mediaType}library.defaultview`, m.view)
+    end if
+
+    m.getFiltersTask.control = "RUN"
+end sub
+
+sub onSearchTermChanged()
+    m.searchButton.text = m.top.searchTerm
+    m.searchButton.focus = false
+
+    processDropdownState(m.top.searchTerm)
+
+    if m.bypassSearchEvent
+        m.bypassSearchEvent = false
+        return
+    end if
+
+    m.loadedRows = 0
+    m.loadedItems = 0
+
+    m.data = CreateObject("roSGNode", "ContentNode")
+    m.itemGrid.content = m.data
+
+    m.genreData = CreateObject("roSGNode", "ContentNode")
+    m.genreList.content = m.genreData
+
+    loadInitialItems()
+end sub
+
 sub alphaSelectedChanged()
     ' Allow user to toggle by clicking letter twice
     if isStringEqual(m.loadItemsTask.nameStartsWith, m.top.alphaSelected)
@@ -1160,36 +1234,37 @@ end sub
 sub onSortChange()
     m.global.sceneManager.unobserveFieldScoped("returnData")
     sortChoice = m.global.sceneManager.returnData
-    m.sortButton.focus = false
 
+    if not isChainValid(sortChoice, "name") then return
+    if isStringEqual(sortChoice.LookupCI("name"), m.sortField) then return
+
+    m.sortButton.focus = false
     m.itemGrid.setFocus(m.itemGrid.opacity = 1)
     m.genreList.setFocus(m.genreList.opacity = 1)
 
-    if not isStringEqual(sortChoice.LookupCI("name"), m.sortField)
-        m.sortField = sortChoice.LookupCI("name")
-        m.sortButton.text = sortChoice.LookupCI("title")
+    m.sortField = sortChoice.LookupCI("name")
+    m.sortButton.text = sortChoice.LookupCI("title")
 
-        m.sortAscending = true
+    m.sortAscending = true
 
-        set_user_setting("display." + m.top.parentItem.Id + ".sortField", m.sortField)
+    set_user_setting("display." + m.top.parentItem.Id + ".sortField", m.sortField)
 
-        m.loadedRows = 0
-        m.loadedItems = 0
-        m.data = CreateObject("roSGNode", "ContentNode")
-        m.itemGrid.content = m.data
-        loadInitialItems()
-    end if
+    m.loadedRows = 0
+    m.loadedItems = 0
+    m.data = CreateObject("roSGNode", "ContentNode")
+    m.itemGrid.content = m.data
+    loadInitialItems()
 end sub
 
 sub onViewChange()
     m.global.sceneManager.unobserveFieldScoped("returnData")
     viewChoice = m.global.sceneManager.returnData
-    m.viewButton.focus = false
+    if not isChainValid(viewChoice, "name") then return
+    if isStringEqual(viewChoice.LookupCI("name"), m.view) then return
 
+    m.viewButton.focus = false
     m.itemGrid.setFocus(m.itemGrid.opacity = 1)
     m.genreList.setFocus(m.genreList.opacity = 1)
-
-    if isStringEqual(viewChoice.LookupCI("name"), m.view) then return
 
     m.view = viewChoice.LookupCI("name")
     m.viewButton.text = viewChoice.LookupCI("title")
@@ -1197,6 +1272,8 @@ sub onViewChange()
     set_user_setting("display." + m.top.parentItem.Id + ".landing", m.view)
 
     ' Reset any filtering or search terms
+    m.bypassSearchEvent = true
+    m.top.searchTerm = string.EMPTY
     m.top.alphaSelected = string.EMPTY
     m.loadItemsTask.NameStartsWith = " "
     m.loadItemsTask.searchTerm = string.EMPTY
@@ -1233,46 +1310,47 @@ end sub
 sub onSortOrderChange()
     m.global.sceneManager.unobserveFieldScoped("returnData")
     sortOrderChoice = m.global.sceneManager.returnData
-    m.sortOrderButton.focus = false
+    if not isChainValid(sortOrderChoice, "name") then return
+    if m.sortAscending = isStringEqual(sortOrderChoice.LookupCI("name"), "ascending") then return
 
+    m.sortOrderButton.focus = false
     m.itemGrid.setFocus(m.itemGrid.opacity = 1)
     m.genreList.setFocus(m.genreList.opacity = 1)
 
-    if not isStringEqual(sortOrderChoice.LookupCI("name"), m.sortAscending.toStr())
+    m.sortAscending = isStringEqual(sortOrderChoice.LookupCI("name"), "Ascending")
+    m.sortOrderButton.text = sortOrderChoice.LookupCI("title")
 
-        m.sortAscending = isStringEqual(sortOrderChoice.LookupCI("name"), "Ascending")
-        m.sortOrderButton.text = sortOrderChoice.LookupCI("title")
+    set_user_setting("display." + m.top.parentItem.Id + ".sortAscending", m.sortAscending.toStr())
 
-        set_user_setting("display." + m.top.parentItem.Id + ".sortAscending", m.sortAscending.toStr())
-
-        m.loadedRows = 0
-        m.loadedItems = 0
-        m.data = CreateObject("roSGNode", "ContentNode")
-        m.itemGrid.content = m.data
-        loadInitialItems()
-    end if
+    m.loadedRows = 0
+    m.loadedItems = 0
+    m.data = CreateObject("roSGNode", "ContentNode")
+    m.itemGrid.content = m.data
+    loadInitialItems()
 end sub
 
 ' Using the user's cursor position, determine which dropdown is above them
 function getOverhangingButton()
     if m.itemGrid.isinFocusChain()
         if m.itemGrid.numColumns = 4
-            buttonList = [m.sortButton, m.sortOrderButton, m.filterButton, m.viewButton]
+            buttonList = [m.searchButton, m.sortButton, m.filterButton, m.viewButton]
             return buttonList[m.itemGrid.currFocusColumn]
         end if
 
         if m.itemGrid.numColumns = 7
-            if m.itemGrid.currFocusColumn <= 1 then return m.sortButton
-            if m.itemGrid.currFocusColumn <= 2 then return m.sortOrderButton
-            if m.itemGrid.currFocusColumn <= 4 then return m.filterButton
+            if m.itemGrid.currFocusColumn = 0 then return m.searchButton
+            if m.itemGrid.currFocusColumn <= 2 then return m.sortButton
+            if m.itemGrid.currFocusColumn <= 3 then return m.sortOrderButton
+            if m.itemGrid.currFocusColumn <= 5 then return m.filterButton
             return m.viewButton
         end if
     end if
 
     if m.genreList.isinFocusChain()
-        if m.genreList.currFocusColumn <= 1 then return m.sortButton
-        if m.genreList.currFocusColumn <= 2 then return m.sortOrderButton
-        if m.genreList.currFocusColumn <= 4 then return m.filterButton
+        if m.genreList.currFocusColumn <= 0 then return m.searchButton
+        if m.genreList.currFocusColumn <= 2 then return m.sortButton
+        if m.genreList.currFocusColumn <= 3 then return m.sortOrderButton
+        if m.genreList.currFocusColumn <= 5 then return m.filterButton
         return m.viewButton
     end if
 
@@ -1295,7 +1373,18 @@ function onKeyEvent(key as string, press as boolean) as boolean
     end if
 
     if isStringEqual(key, KeyCode.OK)
+        if m.searchButton.isinFocusChain()
+            buttonData = [
+                tr("Search")
+            ]
+
+            m.global.sceneManager.callFunc("keyboardDialog", "searchLibrary", tr("Search this library"), [""], buttonData, m.top.searchTerm, m.top.parentItem.Id)
+            return true
+        end if
+
         if m.sortButton.isinFocusChain()
+            if m.sortButton.disabled then return false
+
             sortData = {
                 data: m.options.options.sort
             }
@@ -1306,6 +1395,8 @@ function onKeyEvent(key as string, press as boolean) as boolean
         end if
 
         if m.sortOrderButton.isinFocusChain()
+            if m.sortOrderButton.disabled then return false
+
             sortOrderData = {
                 data: [
                     { Title: tr("Ascending"), Name: "ascending", Track: { description: tr("Ascending") } },
@@ -1325,6 +1416,8 @@ function onKeyEvent(key as string, press as boolean) as boolean
         end if
 
         if m.filterButton.isinFocusChain()
+            if m.filterButton.disabled then return false
+
             m.options.visible = true
             m.options.findNode("filterMenu").setFocus(true)
             group = m.global.sceneManager.callFunc("getActiveScene")
@@ -1345,7 +1438,8 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
     if m.dropdownOptions.isinFocusChain()
         if isStringEqual(key, KeyCode.LEFT)
-            if m.sortButton.isinFocusChain()
+            if m.searchButton.isinFocusChain()
+                m.searchButton.focus = false
                 m.sortButton.focus = false
                 m.sortOrderButton.focus = false
                 m.viewButton.focus = false
@@ -1355,6 +1449,15 @@ function onKeyEvent(key as string, press as boolean) as boolean
                 m.alphaMenu.setFocus(true)
                 group = m.global.sceneManager.callFunc("getActiveScene")
                 group.lastFocus = m.alphaMenu
+                return true
+            end if
+
+            if m.sortButton.isinFocusChain()
+                m.searchButton.focus = true
+                m.searchButton.setFocus(true)
+                m.sortButton.focus = false
+                group = m.global.sceneManager.callFunc("getActiveScene")
+                group.lastFocus = m.searchButton
                 return true
             end if
 
@@ -1387,6 +1490,15 @@ function onKeyEvent(key as string, press as boolean) as boolean
         end if
 
         if isStringEqual(key, KeyCode.Right)
+            if m.searchButton.isinFocusChain()
+                m.searchButton.focus = false
+                m.sortButton.focus = true
+                m.sortButton.setFocus(true)
+                group = m.global.sceneManager.callFunc("getActiveScene")
+                group.lastFocus = m.sortButton
+                return true
+            end if
+
             if m.sortButton.isinFocusChain()
                 m.sortButton.focus = false
                 m.sortOrderButton.focus = true
@@ -1418,6 +1530,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
         if isStringEqual(key, KeyCode.DOWN)
             if m.loadedItems = 0 then return false
 
+            m.searchButton.focus = false
             m.sortButton.focus = false
             m.sortOrderButton.focus = false
             m.viewButton.focus = false
@@ -1497,7 +1610,6 @@ function onKeyEvent(key as string, press as boolean) as boolean
             group = m.global.sceneManager.callFunc("getActiveScene")
             group.lastFocus = m.sortButton
         else
-
             m.itemGrid.setFocus(m.itemGrid.opacity = 1)
             m.genreList.setFocus(m.genreList.opacity = 1)
             group = m.global.sceneManager.callFunc("getActiveScene")

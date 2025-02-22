@@ -1,0 +1,6 @@
+[
+  {
+    "description": "Fix dropdowns getting out of sync if user backs out of popup menus",
+    "author": "1hitsong"
+  }
+]
