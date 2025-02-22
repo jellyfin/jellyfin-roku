@@ -118,36 +118,36 @@ end sub
 sub onSortChange()
     m.global.sceneManager.unobserveFieldScoped("returnData")
     sortChoice = m.global.sceneManager.returnData
-    m.sortButton.focus = false
+    if not isChainValid(sortChoice, "name") then return
+    if isStringEqual(sortChoice.LookupCI("name"), m.sortField) then return
 
+    m.sortButton.focus = false
     m.itemGrid.setFocus(m.itemGrid.opacity = 1)
     m.genreList.setFocus(m.genreList.opacity = 1)
 
-    if not isStringEqual(sortChoice.LookupCI("name"), m.sortField)
-        m.sortField = sortChoice.LookupCI("name")
-        m.sortButton.text = sortChoice.LookupCI("title")
+    m.sortField = sortChoice.LookupCI("name")
+    m.sortButton.text = sortChoice.LookupCI("title")
 
-        m.sortAscending = true
+    m.sortAscending = true
 
-        set_user_setting("display." + m.top.parentItem.Id + ".sortField", m.sortField)
+    set_user_setting("display." + m.top.parentItem.Id + ".sortField", m.sortField)
 
-        m.loadedRows = 0
-        m.loadedItems = 0
-        m.data = CreateObject("roSGNode", "ContentNode")
-        m.itemGrid.content = m.data
-        loadInitialItems()
-    end if
+    m.loadedRows = 0
+    m.loadedItems = 0
+    m.data = CreateObject("roSGNode", "ContentNode")
+    m.itemGrid.content = m.data
+    loadInitialItems()
 end sub
 
 sub onViewChange()
     m.global.sceneManager.unobserveFieldScoped("returnData")
     viewChoice = m.global.sceneManager.returnData
-    m.viewButton.focus = false
+    if not isChainValid(viewChoice, "name") then return
+    if isStringEqual(viewChoice.LookupCI("name"), m.view) then return
 
+    m.viewButton.focus = false
     m.itemGrid.setFocus(m.itemGrid.opacity = 1)
     m.genreList.setFocus(m.genreList.opacity = 1)
-
-    if isStringEqual(viewChoice.LookupCI("name"), m.view) then return
 
     m.view = viewChoice.LookupCI("name")
     m.viewButton.text = viewChoice.LookupCI("title")
@@ -181,24 +181,23 @@ end sub
 sub onSortOrderChange()
     m.global.sceneManager.unobserveFieldScoped("returnData")
     sortOrderChoice = m.global.sceneManager.returnData
-    m.sortOrderButton.focus = false
+    if not isChainValid(sortOrderChoice, "name") then return
+    if m.sortAscending = isStringEqual(sortOrderChoice.LookupCI("name"), "ascending") then return
 
+    m.sortOrderButton.focus = false
     m.itemGrid.setFocus(m.itemGrid.opacity = 1)
     m.genreList.setFocus(m.genreList.opacity = 1)
 
-    if not isStringEqual(sortOrderChoice.LookupCI("name"), m.sortAscending.toStr())
+    m.sortAscending = isStringEqual(sortOrderChoice.LookupCI("name"), "Ascending")
+    m.sortOrderButton.text = sortOrderChoice.LookupCI("title")
 
-        m.sortAscending = isStringEqual(sortOrderChoice.LookupCI("name"), "Ascending")
-        m.sortOrderButton.text = sortOrderChoice.LookupCI("title")
+    set_user_setting("display." + m.top.parentItem.Id + ".sortAscending", m.sortAscending.toStr())
 
-        set_user_setting("display." + m.top.parentItem.Id + ".sortAscending", m.sortAscending.toStr())
-
-        m.loadedRows = 0
-        m.loadedItems = 0
-        m.data = CreateObject("roSGNode", "ContentNode")
-        m.itemGrid.content = m.data
-        loadInitialItems()
-    end if
+    m.loadedRows = 0
+    m.loadedItems = 0
+    m.data = CreateObject("roSGNode", "ContentNode")
+    m.itemGrid.content = m.data
+    loadInitialItems()
 end sub
 
 sub OnScreenHidden()

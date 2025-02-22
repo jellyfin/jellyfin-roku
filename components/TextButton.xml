@@ -21,6 +21,7 @@
     <field id="iconSide" type="string" value="left" />
     <field id="selected" type="boolean" value="false" />
     <field id="focus" type="boolean" />
+    <field id="disabled" type="boolean" />
     <field id="escape" type="string" value="" />
   </interface>
 </component>

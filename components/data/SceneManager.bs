@@ -1,4 +1,5 @@
 import "pkg:/source/enums/ColorPalette.bs"
+import "pkg:/source/enums/String.bs"
 import "pkg:/source/utils/misc.bs"
 
 sub init()
@@ -307,6 +308,11 @@ end sub
 '
 ' Display dialog to user with an OK button
 sub radioDialog(title, message)
+    m.itemID = string.EMPTY
+    m.top.dataReturned = false
+    m.top.returnData = invalid
+    m.userselection = false
+
     dialog = createObject("roSGNode", "RadioDialog")
     dlgPalette = createObject("roSGNode", "RSGPalette")
     dlgPalette.colors = {
@@ -319,6 +325,7 @@ sub radioDialog(title, message)
     }
     dialog.palette = dlgPalette
     dialog.observeField("buttonSelected", "dismissDialog")
+    dialog.observeField("wasClosed", "optionClosed")
     dialog.title = title
     dialog.contentData = message
     dialog.buttons = [tr("OK")]
@@ -371,6 +378,7 @@ sub keyboardDialog(id, title, message, buttons, hintText, itemID)
     dialog.observeField("wasClosed", "optionClosed")
     dialog.title = title
     dialog.message = message
+    dialog.text = hintText
     if isStringEqual(type(buttons[0]), "rostring")
         dialog.buttons = buttons
     else

@@ -297,6 +297,7 @@ sub loadItems()
                         item.name = tr("View All") + " " + item.name
                         row.json = item
                         row.type = "Folder"
+                        row.itemType = m.top.itemType
 
                         if LCase(m.top.itemType) = "movie"
                             genreItemImage = api.items.GetImageURL(item.id)

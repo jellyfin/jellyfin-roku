@@ -9,58 +9,70 @@
       <poster id="backdropTransition" loadDisplayMode="scaleToFill" width="1100" height="700" opacity="1" />
     </maskGroup>
 
-    <LayoutGroup id="dropdownOptions" layoutDirection="horiz" translation="[100, 60]" itemSpacings="[30]">
+    <LayoutGroup id="dropdownOptions" layoutDirection="horiz" translation="[100, 60]" itemSpacings="[15]">
+      <LayoutGroup layoutDirection="vert" itemSpacings="[10]">
+        <Label font="font:SmallSystemFont" text="Search" />
+        <TextButton
+          id="searchButton"
+          fontSize="28"
+          padding="35"
+          icon="pkg:/images/icons/search-dark.png"
+          focusIcon="pkg:/images/icons/search-light.png"
+          text=""
+          height="75"
+          width="335" />
+      </LayoutGroup>
       <LayoutGroup layoutDirection="vert" itemSpacings="[10]">
         <Label id="sortLabel" font="font:SmallSystemFont" text="Sort By" />
         <TextButton
           id="sortButton"
           iconSide="right"
-          fontSize="30"
+          fontSize="28"
           padding="35"
           icon="pkg:/images/icons/dropdown-dark.png"
           focusIcon="pkg:/images/icons/dropdown-light.png"
           text=""
           height="75"
-          width="410" />
+          width="335" />
       </LayoutGroup>
       <LayoutGroup layoutDirection="vert" itemSpacings="[10]">
         <Label id="sortOrderLabel" font="font:SmallSystemFont" text="Sort Order" />
         <TextButton
           id="sortOrderButton"
           iconSide="right"
-          fontSize="30"
+          fontSize="28"
           padding="35"
           icon="pkg:/images/icons/dropdown-dark.png"
           focusIcon="pkg:/images/icons/dropdown-light.png"
           text=""
           height="75"
-          width="410" />
+          width="335" />
       </LayoutGroup>
       <LayoutGroup layoutDirection="vert" itemSpacings="[10]">
         <Label id="filterLabel" font="font:SmallSystemFont" text="Filter" />
         <TextButton
           id="filterButton"
           iconSide="right"
-          fontSize="30"
+          fontSize="28"
           padding="35"
           icon="pkg:/images/icons/dropdown-dark.png"
           focusIcon="pkg:/images/icons/dropdown-light.png"
           text=""
           height="75"
-          width="410" />
+          width="335" />
       </LayoutGroup>
       <LayoutGroup layoutDirection="vert" itemSpacings="[10]">
         <Label id="viewLabel" font="font:SmallSystemFont" text="View" />
         <TextButton
           id="viewButton"
           iconSide="right"
-          fontSize="30"
+          fontSize="28"
           padding="35"
           icon="pkg:/images/icons/dropdown-dark.png"
           focusIcon="pkg:/images/icons/dropdown-light.png"
           text=""
           height="75"
-          width="410" />
+          width="335" />
       </LayoutGroup>
     </LayoutGroup>
 
@@ -121,6 +133,7 @@
     <field id="quickPlayNode" type="node" alwaysNotify="true" />
     <field id="imageDisplayMode" type="string" value="scaleToZoom" />
     <field id="alphaSelected" type="string" alias="alpha.letterSelected" onChange="alphaSelectedChanged" alwaysNotify="true" />
+    <field id="searchTerm" type="string" onChange="onSearchTermChanged" alwaysNotify="true" />
     <field id="alphaActive" type="boolean" value="false" />
     <field id="showItemTitles" type="string" value="showonhover" />
   </interface>

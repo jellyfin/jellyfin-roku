@@ -605,17 +605,19 @@ sub onSelectedItemEvent(msg)
             if isStringEqual(type(selectedItemType), "rostring") then selectedItemType = LCase(selectedItemType)
         end if
 
-        if selectedItemType = "collectionfolder"
+        if isStringEqual(selectedItemType, "collectionfolder")
             onLibrarySelection(selectedItem)
-        else if selectedItemType = "boxset"
+        else if isStringEqual(selectedItemType, "boxset")
             group = CreateVisualLibraryScene(selectedItem, ItemType.BOXSET)
             m.global.sceneManager.callFunc("pushScene", group)
-        else if selectedItemType = "folder" and isStringEqual(selectedItem.json.type, "genre")
+        else if isStringEqual(selectedItemType, "folder") and isStringEqual(selectedItem.json.type, "genre")
             ' User clicked on a genre folder
-            if selectedItem.json.MovieCount > 0
+            if isStringEqual(selectedItem.itemType, ItemType.MOVIE)
                 group = CreateVisualLibraryScene(selectedItem, ItemType.MOVIE)
-            else if selectedItem.json.SeriesCount > 0
+            else if isStringEqual(selectedItem.itemType, ItemType.SERIES)
                 group = CreateVisualLibraryScene(selectedItem, ItemType.SERIES)
+            else if isStringEqual(selectedItem.itemType, ItemType.MUSICVIDEO)
+                group = CreateVisualLibraryScene(selectedItem, ItemType.MUSICVIDEO)
             else
                 group = CreateItemGrid(selectedItem)
             end if
@@ -1342,6 +1344,18 @@ sub onDataReturnedEvent(msg)
         return
     end if
 
+    if isStringEqual(selectedPopupID, "searchLibrary")
+        searchTerm = chainLookup(popupNode, "returndata.text")
+
+        if not isValid(searchTerm) then return
+
+        activeScene = m.global.sceneManager.callFunc("getActiveScene")
+        if not isValid(activeScene) then return
+
+        activeScene.searchTerm = searchTerm
+        return
+    end if
+
     if isStringEqual(selectedPopupID, "libraryitem")
         if not isValid(itemID) then return
         processLibraryItemPopup(selectedPopupButton, itemID)
@@ -1420,7 +1434,7 @@ sub processPlaylistPopup(selectedPopupButton as string, itemID as string)
         ]
 
         stopLoadingSpinner()
-        m.global.sceneManager.callFunc("keyboardDialog", "newPlaylist", tr("Create New Playlist"), ["Input name of new playlist"], resumeData, tr("Name of new playlist"), itemID)
+        m.global.sceneManager.callFunc("keyboardDialog", "newPlaylist", tr("Create New Playlist"), ["Input name of new playlist"], resumeData, string.EMPTY, itemID)
         return
     end if
 
@@ -1577,7 +1591,7 @@ sub processLibraryItemPopup(selectedPopupButton as string, itemID as string)
         ]
 
         stopLoadingSpinner()
-        m.global.sceneManager.callFunc("keyboardDialog", "newPlaylist", tr("Create New Playlist"), ["Input name of new playlist"], resumeData, tr("Name of new playlist"), itemID)
+        m.global.sceneManager.callFunc("keyboardDialog", "newPlaylist", tr("Create New Playlist"), ["Input name of new playlist"], resumeData, string.EMPTY, itemID)
         return
     end if
 
