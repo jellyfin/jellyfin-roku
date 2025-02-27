@@ -1,9 +1,6 @@
 {
   "files": [
     {
-      "src": "test-app/**/*"
-    },
-    {
       "src": "source/**/!(Main.brs)",
       "dest": "source"
     },
@@ -21,24 +18,10 @@
     },
     "manifest"
   ],
-  "diagnosticFilters": [
-    "node_modules/**/*",
-    "**/roku_modules/**/*"
-  ],
+  "diagnosticFilters": ["node_modules/**/*", "**/roku_modules/**/*"],
   "autoImportComponentScript": true,
   "stagingDir": "build",
   "retainStagingDir": true,
-  "plugins": [
-    "rooibos-roku"
-  ],
-  "rooibos": {
-    "isRecordingCodeCoverage": false,
-    "testsFilePattern": null,
-    "showOnlyFailures": true,
-    "catchCrashes": true,
-    "lineWidth": 70,
-    "failFast": false,
-    "sendHomeOnFinish": false
-  },
+  "plugins": [],
   "sourceMap": true
 }
