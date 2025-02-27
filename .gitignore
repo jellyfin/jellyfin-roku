@@ -7,8 +7,6 @@ build/
 roku_modules
 source/globals.brs
 jellyfin-roku.zip
-# Rooibos
-bsconfig-tdd.json
 # NPM 
 node_modules/
 # Eclipse

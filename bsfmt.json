@@ -1,18 +1,17 @@
 {
-    "indentStyle": "spaces",
-    "indentSpaceCount": 4,
-    "keywordCase": "lower",
-    "keywordCaseOverride": {
-        "stop": "upper"
-    },
-    "formatSingleLineCommentType": "singlequote",
-    "sortImports": true,
-    "files": [
-        "source/**/*.brs",
-        "source/**/*.bs",
-        "components/**/*.brs",
-        "components/**/*.bs",
-        "test-app/**/*.bs",
-        "!**/roku_modules/**/*.*"
-    ]
+  "indentStyle": "spaces",
+  "indentSpaceCount": 4,
+  "keywordCase": "lower",
+  "keywordCaseOverride": {
+    "stop": "upper"
+  },
+  "formatSingleLineCommentType": "singlequote",
+  "sortImports": true,
+  "files": [
+    "source/**/*.brs",
+    "source/**/*.bs",
+    "components/**/*.brs",
+    "components/**/*.bs",
+    "!**/roku_modules/**/*.*"
+  ]
 }
