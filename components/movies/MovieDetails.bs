@@ -646,8 +646,8 @@ sub setWatchedColor()
         watched_button.text = tr("Watched")
         watched_button.AUDIO_GUIDE_SUFFIX = tr("Watched")
     else
-        watched_button.text = tr("Mark As Watched")
-        watched_button.AUDIO_GUIDE_SUFFIX = tr("Mark As Watched")
+        watched_button.text = tr("Mark As Played")
+        watched_button.AUDIO_GUIDE_SUFFIX = tr("Mark As Played")
     end if
 end sub
 
