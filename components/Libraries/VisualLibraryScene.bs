@@ -93,11 +93,11 @@ sub init()
 
     m.data = CreateObject("roSGNode", "ContentNode")
     m.itemGrid.observeField("itemFocused", "onItemFocused")
-    m.itemGrid.observeField("itemSelected", "onItemSelected")
+    m.itemGrid.observeFieldScoped("itemSelected", "onItemSelected")
     m.itemGrid.content = m.data
 
     m.genreData = CreateObject("roSGNode", "ContentNode")
-    m.genreList.observeField("itemSelected", "onGenreItemSelected")
+    m.genreList.observeFieldScoped("itemSelected", "onGenreItemSelected")
     m.genreList.content = m.genreData
 
     'Voice filter setup
@@ -145,13 +145,13 @@ end sub
 sub OnScreenShown()
     m.overhang.isVisible = false
 
-    if m.top.lastFocus <> invalid
+    group = m.global.sceneManager.callFunc("getActiveScene")
+
+    if isValid(m.top.lastFocus)
         m.top.lastFocus.setFocus(true)
-        group = m.global.sceneManager.callFunc("getActiveScene")
         group.lastFocus = m.top.lastFocus
     else
         m.top.setFocus(true)
-        group = m.global.sceneManager.callFunc("getActiveScene")
         group.lastFocus = m.top
     end if
 end sub
@@ -1643,6 +1643,14 @@ sub onMyListLoaded()
     dialogData = isInMyListData[0] ? [tr("Remove From My List")] : [tr("Add To My List")]
 
     dialogData.push(tr("Add To Playlist"))
+
+    if isChainValid(focusedItem, "watched")
+        if focusedItem.watched
+            dialogData.push(tr("Mark As Unplayed"))
+        else
+            dialogData.push(tr("Mark As Played"))
+        end if
+    end if
 
     m.global.sceneManager.callFunc("optionDialog", "libraryitem", tr("Options"), [], dialogData, focusedItem.LookupCI("id"))
 end sub

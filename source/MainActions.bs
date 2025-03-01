@@ -207,6 +207,16 @@ namespace MainAction
     end sub
 
     sub setPlayed(itemID as string, isPlayed as boolean)
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        if isValid(group)
+            if isStringEqual(group.subtype(), "VisualLibraryScene")
+                group.selectedItem = invalid
+                group.quickPlayNode = invalid
+                itemFocused = group.callFunc("getItemFocused")
+                itemFocused.callFunc("setWatched", isPlayed)
+            end if
+        end if
+
         if isPlayed
             date = CreateObject("roDateTime")
             dateStr = date.ToISOString()

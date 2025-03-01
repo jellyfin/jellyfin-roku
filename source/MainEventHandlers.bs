@@ -14,10 +14,12 @@ sub onQuickPlayEvent(msg)
     ' Prevent double fire bug
     if isValid(reportingNode)
         itemNode = reportingNode.quickPlayNode
-        reportingNodeType = reportingNode.subtype()
-        if isValid(reportingNodeType)
-            if inArray(["home", "TVEpisodes"], reportingNodeType)
-                reportingNode.quickPlayNode = invalid
+        if isValid(itemNode)
+            reportingNodeType = reportingNode.subtype()
+            if isValid(reportingNodeType)
+                if inArray(["home", "TVEpisodes", "VisualLibraryScene"], reportingNodeType)
+                    reportingNode.quickPlayNode = invalid
+                end if
             end if
         end if
     end if

@@ -571,7 +571,7 @@ function CreateHomeGroup()
     ' Main screen after logging in. Shows the user's libraries
     group = CreateObject("roSGNode", "Home")
 
-    group.observeField("selectedItem", m.port)
+    group.observeFieldScoped("selectedItem", m.port)
     group.observeField("quickPlayNode", m.port)
 
     sidepanel = group.findNode("options")
@@ -657,7 +657,7 @@ function CreateMovieDetailsGroup(movie as object) as dynamic
 
     ' setup and load movie extras
     extras = group.findNode("extrasGrid")
-    extras.observeField("selectedItem", m.port)
+    extras.observeFieldScoped("selectedItem", m.port)
     extras.callFunc("loadParts", movieMetaData.json)
     ' done building MovieDetails view
     stopLoadingSpinner()
@@ -695,7 +695,7 @@ function CreateSeriesDetailsGroup(seriesID as string) as dynamic
     group.observeField("quickPlayNode", m.port)
     ' setup and load series extras
     extras = group.findNode("extrasGrid")
-    extras.observeField("selectedItem", m.port)
+    extras.observeFieldScoped("selectedItem", m.port)
     extras.callFunc("loadParts", seriesMetaData.json)
     ' done building SeriesDetails view
     stopLoadingSpinner()
@@ -818,7 +818,7 @@ function CreateSeasonDetailsGroup(series as object, season as object) as dynamic
     group.observeField("refreshSeasonDetailsData", m.port)
 
     ' watch for button presses
-    group.observeField("selectedItem", m.port)
+    group.observeFieldScoped("selectedItem", m.port)
     group.observeField("quickPlayNode", m.port)
     ' finished building SeasonDetails view
     stopLoadingSpinner()
@@ -845,7 +845,7 @@ function CreateSeasonDetailsGroupByID(seriesID as string, seasonID as string) as
     group.objects = TVEpisodes(seriesID, seasonID)
     group.episodeObjects = group.objects
     ' watch for button presses
-    group.observeField("selectedItem", m.port)
+    group.observeFieldScoped("selectedItem", m.port)
     group.observeField("quickPlayNode", m.port)
     ' don't wait for the extras button
     stopLoadingSpinner()
@@ -862,7 +862,7 @@ function CreateItemGrid(libraryItem as object) as dynamic
     group = CreateObject("roSGNode", "ItemGrid")
     group.parentItem = libraryItem
     group.optionsAvailable = true
-    group.observeField("selectedItem", m.port)
+    group.observeFieldScoped("selectedItem", m.port)
     group.observeField("quickPlayNode", m.port)
     return group
 end function
@@ -874,7 +874,7 @@ function CreateLiveTVLibraryView(libraryItem as object) as dynamic
     group = CreateObject("roSGNode", "LiveTVLibraryView")
     group.parentItem = libraryItem
     group.optionsAvailable = true
-    group.observeField("selectedItem", m.port)
+    group.observeFieldScoped("selectedItem", m.port)
     group.observeField("quickPlayNode", m.port)
     return group
 end function
@@ -886,7 +886,7 @@ function CreateVisualLibraryScene(libraryItem as object, mediaType as string) as
     group = CreateObject("roSGNode", "VisualLibraryScene")
     group.mediaType = mediaType
     group.parentItem = libraryItem
-    group.observeField("selectedItem", m.port)
+    group.observeFieldScoped("selectedItem", m.port)
     group.observeField("quickPlayNode", m.port)
     return group
 end function
@@ -898,7 +898,7 @@ function CreateMusicLibraryView(libraryItem as object) as dynamic
     group = CreateObject("roSGNode", "MusicLibraryView")
     group.parentItem = libraryItem
     group.optionsAvailable = true
-    group.observeField("selectedItem", m.port)
+    group.observeFieldScoped("selectedItem", m.port)
     group.observeField("quickPlayNode", m.port)
     return group
 end function
@@ -910,7 +910,7 @@ function CreateBookLibraryView(libraryItem as object) as dynamic
     group = CreateObject("roSGNode", "AudioBookLibraryView")
     group.parentItem = libraryItem
     group.optionsAvailable = true
-    group.observeField("selectedItem", m.port)
+    group.observeFieldScoped("selectedItem", m.port)
     group.observeField("quickPlayNode", m.port)
     return group
 end function
@@ -944,7 +944,7 @@ function CreatePersonView(personData as object) as dynamic
     person.itemContent = personMetaData
     person.setFocus(true)
     ' watch for button presses
-    person.observeField("selectedItem", m.port)
+    person.observeFieldScoped("selectedItem", m.port)
     person.findNode("favorite-button").observeField("buttonSelected", m.port)
     ' finished building Person View
     stopLoadingSpinner()

@@ -40,6 +40,20 @@ sub setFields()
     setContainer()
 end sub
 
+sub setWatched(isWatched as boolean)
+    if not isValid(m.top.json) then return
+
+    json = m.top.json
+
+    if isChainValid(json, "UserData.Played")
+        json.UserData.AddReplace("Played", isWatched)
+        json.UserData.AddReplace("PlaybackPositionTicks", 0)
+        m.top.json = json
+    end if
+
+    m.top.watched = isWatched
+end sub
+
 sub setPoster()
     if m.top.image <> invalid
         m.top.posterURL = m.top.image.url

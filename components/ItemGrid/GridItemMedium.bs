@@ -42,6 +42,8 @@ sub itemContentChanged()
 
     if isChainValid(itemData.json, "UserData.Played") and itemData.json.UserData.Played
         m.playedIndicator.visible = true
+    else
+        m.playedIndicator.visible = false
     end if
 
     ' Set Series and Episode Number for Extra Text

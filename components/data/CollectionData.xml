@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component name="CollectionData" extends="JFContentItem">
   <interface>
+    <function name="setWatched" />
     <field id="collectionID" type="string" />
     <field id="description" type="string" />
     <field id="overview" type="string" value="boxsets" />

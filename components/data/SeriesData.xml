@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component name="SeriesData" extends="JFContentItem">
   <interface>
+    <function name="setWatched" />
     <field id="overview" type="string" />
     <field id="seasons" type="assocarray" />
     <field id="nextup" type="assocarray" />
