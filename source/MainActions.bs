@@ -94,11 +94,9 @@ namespace MainAction
         if not isChainValid(movie, "watched") or not isValid(movie.id) then return
 
         if movie.watched
-            api.users.UnmarkPlayed(m.global.session.user.id, movie.id)
+            setPlayed(movie.id, false)
         else
-            date = CreateObject("roDateTime")
-            dateStr = date.ToISOString()
-            api.users.MarkPlayed(m.global.session.user.id, movie.id, { "DatePlayed": dateStr, "PlaybackPositionTicks": 0 })
+            setPlayed(movie.id, true)
             movieData = movie.json
             movieData.UserData.PlaybackPositionTicks = 0
             movie.json = movieData
@@ -206,6 +204,17 @@ namespace MainAction
             dialog.unobserveField("buttonSelected")
             dialog.close = true
         end if
+    end sub
+
+    sub setPlayed(itemID as string, isPlayed as boolean)
+        if isPlayed
+            date = CreateObject("roDateTime")
+            dateStr = date.ToISOString()
+            api.users.MarkPlayed(m.global.session.user.id, itemID, { "DatePlayed": dateStr, "PlaybackPositionTicks": 0 })
+            return
+        end if
+
+        api.users.UnmarkPlayed(m.global.session.user.id, itemID)
     end sub
 
     ' Add item to user's My List playlist

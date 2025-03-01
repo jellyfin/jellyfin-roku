@@ -116,6 +116,16 @@ sub onMyListLoaded()
 
     dialogData.push(tr("Add To Playlist"))
 
+    if inArray([ItemType.EPISODE, ItemType.MOVIE, ItemType.SEASON, ItemType.SERIES, ItemType.VIDEO, ItemType.MUSICVIDEO, ItemType.RECORDING, ItemType.BOXSET, ItemType.AUDIOBOOK, ItemType.BOOK], focusedItem.LookupCI("type"))
+        if isChainValid(focusedItem, "isWatched")
+            if focusedItem.isWatched
+                dialogData.push(tr("Mark As Unplayed"))
+            else
+                dialogData.push(tr("Mark As Played"))
+            end if
+        end if
+    end if
+
     m.global.sceneManager.callFunc("optionDialog", "libraryitem", tr("Options"), [], dialogData, focusedItem.LookupCI("id"))
 end sub
 

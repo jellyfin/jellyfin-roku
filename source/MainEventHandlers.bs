@@ -1541,6 +1541,34 @@ sub processLibraryItemPopup(selectedPopupButton as string, itemID as string)
         return
     end if
 
+    ' Mark item as played
+    if isStringEqual(selectedPopupButton, "Mark As Played")
+        MainAction.setPlayed(itemID, true)
+
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        if isValid(group)
+            if isStringEqual(group.subtype(), "home")
+                group.callFunc("refresh")
+            end if
+        end if
+
+        return
+    end if
+
+    ' Mark item as unplayed
+    if isStringEqual(selectedPopupButton, "Mark As Unplayed")
+        MainAction.setPlayed(itemID, false)
+
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        if isValid(group)
+            if isStringEqual(group.subtype(), "home")
+                group.callFunc("refresh")
+            end if
+        end if
+
+        return
+    end if
+
     ' Add item to playlist
     if isStringEqual(selectedPopupButton, "Add To Playlist")
         activeScene = m.global.sceneManager.callFunc("getActiveScene")
