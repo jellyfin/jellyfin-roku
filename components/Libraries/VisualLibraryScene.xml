@@ -127,6 +127,7 @@
     <Alpha id="alpha" />
   </children>
   <interface>
+    <function name="getItemFocused" />
     <field id="mediaType" type="string" />
     <field id="parentItem" type="node" onChange="loadInitialItems" />
     <field id="selectedItem" type="node" alwaysNotify="true" />

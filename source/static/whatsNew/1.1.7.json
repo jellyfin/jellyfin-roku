@@ -2,5 +2,9 @@
   {
     "description": "Add ability to mark items Played/Unplayed from home option menu",
     "author": "1hitsong"
+  },
+  {
+    "description": "Add ability to mark items Played/Unplayed from visual libraries (Movies, TV Shows, Music Videos, Collections)",
+    "author": "1hitsong"
   }
 ]
