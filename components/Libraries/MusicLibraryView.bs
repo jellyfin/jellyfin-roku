@@ -1032,6 +1032,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
     if isStringEqual(key, KeyCode.OK)
         if m.searchButton.isinFocusChain()
+            if m.searchButton.disabled then return false
             buttonData = [
                 tr("Search")
             ]
@@ -1041,6 +1042,8 @@ function onKeyEvent(key as string, press as boolean) as boolean
         end if
 
         if m.sortButton.isinFocusChain()
+            if m.sortButton.disabled then return false
+
             sortData = {
                 data: m.options.options.sort
             }
@@ -1051,6 +1054,8 @@ function onKeyEvent(key as string, press as boolean) as boolean
         end if
 
         if m.sortOrderButton.isinFocusChain()
+            if m.sortOrderButton.disabled then return false
+
             sortOrderData = {
                 data: [
                     { Title: tr("Ascending"), Name: "ascending", Track: { description: tr("Ascending") } },
@@ -1070,6 +1075,8 @@ function onKeyEvent(key as string, press as boolean) as boolean
         end if
 
         if m.filterButton.isinFocusChain()
+            if m.filterButton.disabled then return false
+
             m.options.visible = true
             m.options.findNode("filterMenu").setFocus(true)
             group = m.global.sceneManager.callFunc("getActiveScene")
