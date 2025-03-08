@@ -14,5 +14,9 @@
   {
     "description": "Use item title as option menu header",
     "author": "1hitsong"
+  },
+  {
+    "description": "Disable search in My List. <b>Sorry, the API disallows search inside playlists</b>",
+    "author": "1hitsong"
   }
 ]

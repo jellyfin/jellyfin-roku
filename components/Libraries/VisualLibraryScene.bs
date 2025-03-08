@@ -303,6 +303,9 @@ sub loadInitialItems()
     end if
 
     if isStringEqual(m.top.mediaType, ItemType.MYLIST)
+        ' Search doesn't work for My List because it is a playlist
+        m.searchButton.disabled = true
+
         m.itemGrid.itemComponentName = "GridItemMedium"
         m.itemGrid.itemSize = "[400, 330]"
         m.itemGrid.rowHeights = "[330]"
@@ -1374,6 +1377,8 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
     if isStringEqual(key, KeyCode.OK)
         if m.searchButton.isinFocusChain()
+            if m.searchButton.disabled then return false
+
             buttonData = [
                 tr("Search")
             ]
