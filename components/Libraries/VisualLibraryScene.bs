@@ -716,11 +716,22 @@ sub ItemDataLoaded(msg)
 
         m.loading = false
         stopLoadingSpinner()
+
         ' Return focus to options menu if it was opened while library was loading
         if m.options.visible
             m.options.setFocus(true)
             group.lastFocus = m.options
         end if
+
+        if m.loadedItems = 0
+            m.emptyText.text = tr("No items found. Try adjusting your selected filters.")
+            m.emptyText.visible = true
+            m.searchButton.focus = true
+            m.searchButton.setfocus(true)
+            group = m.global.sceneManager.callFunc("getActiveScene")
+            group.lastFocus = m.searchButton
+        end if
+
         return
     end if
 
@@ -778,10 +789,10 @@ sub ItemDataLoaded(msg)
 
         m.emptyText.text = tr("No items found. Try adjusting your selected filters.")
         m.emptyText.visible = true
-        m.sortButton.focus = true
-        m.sortButton.setfocus(true)
+        m.searchButton.focus = true
+        m.searchButton.setfocus(true)
         group = m.global.sceneManager.callFunc("getActiveScene")
-        group.lastFocus = m.sortButton
+        group.lastFocus = m.searchButton
     end if
 
     stopLoadingSpinner()
