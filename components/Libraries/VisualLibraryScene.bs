@@ -1652,7 +1652,7 @@ sub onMyListLoaded()
         end if
     end if
 
-    m.global.sceneManager.callFunc("optionDialog", "libraryitem", tr("Options"), [], dialogData, focusedItem.LookupCI("id"))
+    m.global.sceneManager.callFunc("optionDialog", "libraryitem", focusedItem.LookupCI("title") ?? tr("Options"), [], dialogData, focusedItem.LookupCI("id"))
 end sub
 
 sub reclaimResources()
