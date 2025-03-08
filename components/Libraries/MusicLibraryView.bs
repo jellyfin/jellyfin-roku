@@ -295,6 +295,7 @@ sub loadInitialItems()
     m.itemGrid.translation = "[100, 210]"
     m.itemGrid.numRows = "3"
     m.dropdownOptions.translation = "[100, 60]"
+    m.emptyText.translation = "[0, 540]"
 
     ' We're inside a genre
     if isStringEqual(m.top.parentItem.json.type, "musicgenre")
@@ -310,11 +311,13 @@ sub loadInitialItems()
     else if isStringEqual(m.view, "albumartistsgrid")
         m.loadItemsTask.itemType = "AlbumArtists"
     else if isStringEqual(m.view, "albumartistspresentation")
+        m.emptyText.translation = "[0, 750]"
         m.loadItemsTask.itemType = "AlbumArtists"
         m.itemGrid.translation = "[100, 670]"
         m.itemGrid.numRows = "2"
         m.dropdownOptions.translation = "[100, 540]"
     else if isStringEqual(m.view, "ArtistsPresentation")
+        m.emptyText.translation = "[0, 750]"
         m.itemGrid.translation = "[100, 670]"
         m.itemGrid.numRows = "2"
         m.dropdownOptions.translation = "[100, 540]"
@@ -599,6 +602,16 @@ sub ItemDataLoaded(msg)
         m.loadedItems = m.genreList.content.getChildCount()
         m.loadedRows = m.loadedItems / m.genreList.numColumns
 
+        if m.loadedItems = 0
+            m.emptyText.text = tr("NO_ITEMS").Replace("%1", m.top.parentItem.Type)
+            m.emptyText.visible = true
+
+            m.searchButton.focus = true
+            m.searchButton.setfocus(true)
+            group = m.global.sceneManager.callFunc("getActiveScene")
+            group.lastFocus = m.searchButton
+        end if
+
         m.loading = false
         stopLoadingSpinner()
         return
@@ -628,11 +641,24 @@ sub ItemDataLoaded(msg)
     m.loadedItems = m.itemGrid.content.getChildCount()
     m.loadedRows = m.loadedItems / m.itemGrid.numColumns
     m.Loading = false
+
     'If there are no items to display, show message
     if m.loadedItems = 0
+        m.artistLogo.visible = false
+        m.selectedArtistName.visible = false
+        m.selectedArtistGenres.visible = false
+        m.selectedArtistSongCount.visible = false
+        m.selectedArtistAlbumCount.visible = false
+
         m.emptyText.text = tr("NO_ITEMS").Replace("%1", m.top.parentItem.Type)
         m.emptyText.visible = true
+
+        m.searchButton.focus = true
+        m.searchButton.setfocus(true)
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        group.lastFocus = m.searchButton
     end if
+
     stopLoadingSpinner()
 end sub
 
