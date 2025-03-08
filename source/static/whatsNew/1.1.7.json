@@ -18,5 +18,13 @@
   {
     "description": "Disable search in My List. <b>Sorry, the API disallows search inside playlists</b>",
     "author": "1hitsong"
+  },
+  {
+    "description": "Fix display of no results text in music libraries",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Fix loss of cursor when search returns no results in libraries",
+    "author": "1hitsong"
   }
 ]
