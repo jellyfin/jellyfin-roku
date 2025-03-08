@@ -1,7 +1,7 @@
 {
   "name": "viv",
   "type": "module",
-  "version": "1.1.4",
+  "version": "1.1.7",
   "description": "Unofficial Roku app for Jellyfin media server",
   "dependencies": {
     "@rokucommunity/bslib": "0.1.1",
