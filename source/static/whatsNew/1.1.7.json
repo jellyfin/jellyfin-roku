@@ -10,5 +10,9 @@
   {
     "description": "Add search bar to top of music library",
     "author": "1hitsong"
+  },
+  {
+    "description": "Use item title as option menu header",
+    "author": "1hitsong"
   }
 ]

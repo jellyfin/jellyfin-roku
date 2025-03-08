@@ -1201,9 +1201,17 @@ function onKeyEvent(key as string, press as boolean) as boolean
         focusedItem = getItemFocused()
         if not isValid(focusedItem) then return false
 
+        popupTitle = focusedItem.LookupCI("title")
+
+        if isValid(popupTitle)
+            if isChainValid(focusedItem, "json.AlbumArtist")
+                popupTitle = `${chainLookup(focusedItem, "json.AlbumArtist")} - ${popupTitle}`
+            end if
+        end if
+
         if isStringEqual(focusedItem.LookupCI("type"), ItemType.MUSICALBUM)
             dialogData = [tr("Play Album"), tr("Shuffle Play Album"), tr("Instant Mix Album"), tr("Add To Playlist")]
-            m.global.sceneManager.callFunc("optionDialog", "libraryitem", tr("Options"), [], dialogData, focusedItem.LookupCI("id"))
+            m.global.sceneManager.callFunc("optionDialog", "libraryitem", popupTitle ?? tr("Options"), [], dialogData, focusedItem.LookupCI("id"))
         end if
 
         return true

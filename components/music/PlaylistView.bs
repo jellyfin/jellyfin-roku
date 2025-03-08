@@ -93,7 +93,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
         selectedItem = m.playlist.content.getChild(m.playlist.itemFocused)
         if not isValid(selectedItem) then return true
 
-        confirmPlaylistAccess(m.top.pageContent.LookupCI("id"), selectedItem.LookupCI("id"))
+        confirmPlaylistAccess(m.top.pageContent.LookupCI("id"), selectedItem.LookupCI("id"), selectedItem.LookupCI("title"))
         return true
     end if
 
@@ -111,10 +111,11 @@ sub onDoneLoading()
     stopLoadingSpinner()
 end sub
 
-sub confirmPlaylistAccess(playlistID as string, selectedItemID as string)
+sub confirmPlaylistAccess(playlistID as string, selectedItemID as string, selectedItemTitle as string)
     m.getPlaylistDataTask.observeFieldScoped("playlistData", "onPlaylistDataLoaded")
     m.getPlaylistDataTask.playlistID = playlistID
     m.getPlaylistDataTask.selectedItemID = selectedItemID
+    m.getPlaylistDataTask.selectedItemTitle = selectedItemTitle
     m.getPlaylistDataTask.control = TaskControl.RUN
 end sub
 
@@ -129,5 +130,5 @@ sub onPlaylistDataLoaded()
     if not chainLookup(m.getPlaylistDataTask.playlistData, "canedit") then return
 
     popupData = [tr("Remove From Playlist")]
-    m.global.sceneManager.callFunc("optionDialog", "playlist", tr("Options"), [], popupData, m.getPlaylistDataTask.selectedItemID)
+    m.global.sceneManager.callFunc("optionDialog", "playlist", m.getPlaylistDataTask.LookupCI("selectedItemTitle") ?? tr("Options"), [], popupData, m.getPlaylistDataTask.LookupCI("selectedItemID"))
 end sub
