@@ -1,10 +1,14 @@
 [
   {
-    "description": "Add ability to mark items Played/Unplayed from home option menu",
+    "description": "Add ability to mark items played/unplayed from home option menu",
     "author": "1hitsong"
   },
   {
-    "description": "Add ability to mark items Played/Unplayed from visual libraries (Movies, TV Shows, Music Videos, Collections)",
+    "description": "Add ability to mark items played/unplayed from visual libraries (movies, TV shows, music videos, collections) option menu",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Add search bar to top of music library",
     "author": "1hitsong"
   }
 ]

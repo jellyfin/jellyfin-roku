@@ -28,6 +28,12 @@ sub setupNodes()
     m.genreList = m.top.findNode("genrelist")
     m.dropdownOptions = m.top.findNode("dropdownOptions")
 
+    m.searchButton = m.top.findNode("searchButton")
+    m.searchButton.textColor = ColorPalette.DARKGREY
+    m.searchButton.focusTextColor = ColorPalette.WHITE
+    m.searchButton.background = ColorPalette.WHITE
+    m.searchButton.focusBackground = ColorPalette.HIGHLIGHT
+
     m.sortButton = m.top.findNode("sortButton")
     m.sortButton.textColor = ColorPalette.DARKGREY
     m.sortButton.focusTextColor = ColorPalette.WHITE
@@ -55,6 +61,7 @@ end sub
 
 sub init()
     setupNodes()
+    m.bypassSearchEvent = false
 
     m.itemGrid.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
     m.genrelist.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
@@ -155,6 +162,8 @@ sub onViewChange()
     set_user_setting("display." + m.top.parentItem.Id + ".landing", m.view)
 
     ' Reset any filtering or search terms
+    m.bypassSearchEvent = true
+    m.top.searchTerm = string.EMPTY
     m.top.alphaSelected = string.EMPTY
     m.loadItemsTask.NameStartsWith = " "
     m.loadItemsTask.searchTerm = string.EMPTY
@@ -266,7 +275,7 @@ sub loadInitialItems()
         m.loadItemsTask.nameStartsWith = m.alpha.letterSelected
     end if
 
-    m.loadItemsTask.searchTerm = m.voiceBox.text
+    m.loadItemsTask.searchTerm = m.top.searchTerm <> string.EMPTY ? m.top.searchTerm : m.voiceBox.text
     m.emptyText.visible = false
     m.loadItemsTask.sortField = m.sortField
     m.loadItemsTask.sortAscending = m.sortAscending
@@ -848,6 +857,70 @@ sub onGenreItemFocused()
     end if
 end sub
 
+sub processDropdownState(searchTerm as string)
+    if not isStringEqual(searchTerm, string.EMPTY)
+        resetDropdownsToDefaultState()
+        setDropdownDisabledState(true)
+        return
+    end if
+
+    setDropdownDisabledState(false)
+end sub
+
+sub setDropdownDisabledState(disabledState = false as boolean)
+    m.sortButton.disabled = disabledState
+    m.sortOrderButton.disabled = disabledState
+    m.filterButton.disabled = disabledState
+end sub
+
+sub resetDropdownsToDefaultState()
+    m.filter = "All"
+    m.filterOptions = {}
+    if isStringEqual(getCollectionType(), ItemType.BOXSET)
+        m.sortField = "PremiereDate,SortName"
+    else if isStringEqual(getCollectionType(), ItemType.MYLIST)
+        m.sortField = "OrderAdded"
+    else
+        m.sortField = "SortName"
+    end if
+    m.sortAscending = true
+
+    ' Reset view to defaults
+    set_user_setting("display." + m.top.parentItem.Id + ".sortField", m.sortField)
+    set_user_setting("display." + m.top.parentItem.Id + ".sortAscending", "true")
+    set_user_setting("display." + m.top.parentItem.Id + ".filter", m.filter)
+    set_user_setting("display." + m.top.parentItem.Id + ".filterOptions", FormatJson(m.filterOptions))
+
+    if not isStringEqual(m.view, "Genres")
+        set_user_setting(`display.${m.top.mediaType}library.defaultview`, m.view)
+    end if
+
+    m.getFiltersTask.control = "RUN"
+end sub
+
+sub onSearchTermChanged()
+    m.searchButton.text = m.top.searchTerm
+    m.searchButton.focus = false
+
+    processDropdownState(m.top.searchTerm)
+
+    if m.bypassSearchEvent
+        m.bypassSearchEvent = false
+        return
+    end if
+
+    m.loadedRows = 0
+    m.loadedItems = 0
+
+    m.data = CreateObject("roSGNode", "ContentNode")
+    m.itemGrid.content = m.data
+
+    m.genreData = CreateObject("roSGNode", "ContentNode")
+    m.genreList.content = m.genreData
+
+    loadInitialItems()
+end sub
+
 sub alphaSelectedChanged()
     if m.top.alphaSelected <> ""
         m.loadedRows = 0
@@ -911,26 +984,28 @@ end sub
 function getOverhangingButton()
     if m.itemGrid.isinFocusChain()
         if m.itemGrid.numColumns = 4
-            buttonList = [m.sortButton, m.sortOrderButton, m.filterButton, m.viewButton]
+            buttonList = [m.searchButton, m.sortButton, m.filterButton, m.viewButton]
             return buttonList[m.itemGrid.itemFocused]
         end if
 
         if m.itemGrid.numColumns = 6
-            if m.itemGrid.itemFocused <= 1 then return m.sortButton
-            if m.itemGrid.itemFocused <= 2 then return m.sortOrderButton
+            if m.itemGrid.itemFocused <= 0 then return m.searchButton
+            if m.itemGrid.itemFocused <= 2 then return m.sortButton
+            if m.itemGrid.itemFocused <= 3 then return m.sortOrderButton
             if m.itemGrid.itemFocused <= 4 then return m.filterButton
             return m.viewButton
         end if
     end if
 
     if m.genreList.isinFocusChain()
-        if m.genreList.itemFocused <= 1 then return m.sortButton
-        if m.genreList.itemFocused <= 2 then return m.sortOrderButton
+        if m.genreList.itemFocused <= 0 then return m.searchButton
+        if m.genreList.itemFocused <= 2 then return m.sortButton
+        if m.genreList.itemFocused <= 3 then return m.sortOrderButton
         if m.genreList.itemFocused <= 4 then return m.filterButton
         return m.viewButton
     end if
 
-    return m.sortButton
+    return m.searchButton
 end function
 
 function onKeyEvent(key as string, press as boolean) as boolean
@@ -956,6 +1031,15 @@ function onKeyEvent(key as string, press as boolean) as boolean
     end if
 
     if isStringEqual(key, KeyCode.OK)
+        if m.searchButton.isinFocusChain()
+            buttonData = [
+                tr("Search")
+            ]
+
+            m.global.sceneManager.callFunc("keyboardDialog", "searchLibrary", tr("Search this library"), [""], buttonData, m.top.searchTerm, m.top.parentItem.Id)
+            return true
+        end if
+
         if m.sortButton.isinFocusChain()
             sortData = {
                 data: m.options.options.sort
@@ -1006,7 +1090,8 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
     if m.dropdownOptions.isinFocusChain()
         if isStringEqual(key, KeyCode.LEFT)
-            if m.sortButton.isinFocusChain()
+            if m.searchButton.isinFocusChain()
+                m.searchButton.focus = false
                 m.sortButton.focus = false
                 m.sortOrderButton.focus = false
                 m.viewButton.focus = false
@@ -1016,6 +1101,15 @@ function onKeyEvent(key as string, press as boolean) as boolean
                 m.alphaMenu.setFocus(true)
                 group = m.global.sceneManager.callFunc("getActiveScene")
                 group.lastFocus = m.alphaMenu
+                return true
+            end if
+
+            if m.sortButton.isinFocusChain()
+                m.searchButton.focus = true
+                m.searchButton.setFocus(true)
+                m.sortButton.focus = false
+                group = m.global.sceneManager.callFunc("getActiveScene")
+                group.lastFocus = m.searchButton
                 return true
             end if
 
@@ -1048,6 +1142,15 @@ function onKeyEvent(key as string, press as boolean) as boolean
         end if
 
         if isStringEqual(key, KeyCode.Right)
+            if m.searchButton.isinFocusChain()
+                m.searchButton.focus = false
+                m.sortButton.focus = true
+                m.sortButton.setFocus(true)
+                group = m.global.sceneManager.callFunc("getActiveScene")
+                group.lastFocus = m.sortButton
+                return true
+            end if
+
             if m.sortButton.isinFocusChain()
                 m.sortButton.focus = false
                 m.sortOrderButton.focus = true
@@ -1079,6 +1182,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
         if isStringEqual(key, KeyCode.DOWN)
             if m.loadedItems = 0 then return false
 
+            m.searchButton.focus = false
             m.sortButton.focus = false
             m.sortOrderButton.focus = false
             m.viewButton.focus = false

@@ -1354,7 +1354,7 @@ function getOverhangingButton()
         return m.viewButton
     end if
 
-    return m.sortButton
+    return m.searchButton
 end function
 
 
