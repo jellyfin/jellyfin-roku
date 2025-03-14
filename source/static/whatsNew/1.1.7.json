@@ -1,5 +1,9 @@
 [
   {
+    "description": "Add 'go to season' and 'go to series' to option menu on home and my list screens",
+    "author": "1hitsong"
+  },
+  {
     "description": "Fix possible crash on home screen",
     "author": "1hitsong"
   }
