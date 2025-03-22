@@ -1,0 +1,82 @@
+[
+  {
+    "description": "Show trickplay images when seeking in video player. <b> (Older Rokus may require trickplay images to be generated with both tile width & tile height server settings set to 5)</b> ",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Add timed lyrics support",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Add media segment support - including settings to choose how to handle each segment type",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Create option menu you can access by pressing * when items are highlighed - allowing you to mark items played, add to playlists, and more",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Create audio mini player - allowing you to navigate the client while music plays. When shown, press Replay to highlight mini player",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Create My List - a personal queue for videos to 'watch later'",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Allow selection of subtitle track and audio track before playing video",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Persist selected audio and/or selected subtitle tracks across episodes",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Add remote subtitle management functions - search & download subtitles from your Roku",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Add basic audiobook support",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Create playback option to force transcoding of single media file - including setting to always force transcoding",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Decrease music album and playlist load times by 90%",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Add live TV programs, people, and playlists to search results",
+    "author": "jimdogx & 1hitsong"
+  },
+  {
+    "description": "Sorting and filter options updated",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Show next/previous items in queue when hovering over next/previous buttons",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Support deeplinking for everything that quickplay supports",
+    "author": "1hitsong"
+  },
+  {
+    "description": "UI on many <b>(oh so many!)</b> screens updated, including new layouts and colors",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Add support for selecting artist/album in audio player",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Forget any library filters when you close/reopen viv",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Dozens of bugs fixed",
+    "author": "1hitsong"
+  }
+]
