@@ -263,6 +263,12 @@ end sub
 
 ' Playback state change event handlers
 sub onStateChange()
+    ' If the state changed due to an error, we don't want to continue the queue
+    if m.view.errorCode <> 0
+        m.global.queueManager.callFunc("clear")
+        return
+    end if
+
     if LCase(m.view.state) = "finished"
         if isValid(m.view.returnOnStop)
             if m.view.returnOnStop then return
