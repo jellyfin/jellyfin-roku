@@ -1415,7 +1415,7 @@ sub processPlaybackPopup(selectedPopupAction as integer, selectedItem as object)
 end sub
 
 sub processPlaylistPopup(selectedPopupButton as string, itemID as string)
-    if isStringEqual(selectedPopupButton, "Existing Playlist")
+    if isStringEqual(selectedPopupButton, tr("Existing Playlist"))
         if not isValidAndNotEmpty(m.playlistData)
             activeScene = m.global.sceneManager.callFunc("getActiveScene")
             if not isValid(activeScene) then return
@@ -1431,7 +1431,7 @@ sub processPlaylistPopup(selectedPopupButton as string, itemID as string)
         return
     end if
 
-    if isStringEqual(selectedPopupButton, "New Playlist")
+    if isStringEqual(selectedPopupButton, tr("New Playlist"))
         resumeData = [
             tr("Create")
         ]
@@ -1442,7 +1442,7 @@ sub processPlaylistPopup(selectedPopupButton as string, itemID as string)
     end if
 
     ' Remove item from playlist
-    if isStringEqual(selectedPopupButton, "Remove From Playlist")
+    if isStringEqual(selectedPopupButton, tr("Remove From Playlist"))
 
         ' Remove item from the item grid
         activeScene = m.global.sceneManager.callFunc("getActiveScene")
@@ -1460,7 +1460,7 @@ sub processPlaylistPopup(selectedPopupButton as string, itemID as string)
 end sub
 
 sub processLibraryItemPopup(selectedPopupButton as string, itemID as string, params as object)
-    if isStringEqual(selectedPopupButton, "Play Track")
+    if isStringEqual(selectedPopupButton, tr("Play Track"))
         quickplay.audio({
             id: itemID,
             type: ItemType.AUDIO
@@ -1469,7 +1469,7 @@ sub processLibraryItemPopup(selectedPopupButton as string, itemID as string, par
         return
     end if
 
-    if isStringEqual(selectedPopupButton, "Play Album")
+    if isStringEqual(selectedPopupButton, tr("Play Album"))
         ' First try to play in audio mini player
         scene = m.scene
         if isValid(scene)
@@ -1492,7 +1492,7 @@ sub processLibraryItemPopup(selectedPopupButton as string, itemID as string, par
         return
     end if
 
-    if isStringEqual(selectedPopupButton, "Shuffle Play Album")
+    if isStringEqual(selectedPopupButton, tr("Shuffle Play Album"))
         ' First try to play in audio mini player
         scene = m.scene
         if isValid(scene)
@@ -1515,7 +1515,7 @@ sub processLibraryItemPopup(selectedPopupButton as string, itemID as string, par
         return
     end if
 
-    if isStringEqual(selectedPopupButton, "Instant Mix Album")
+    if isStringEqual(selectedPopupButton, tr("Instant Mix Album"))
         ' First try to play in audio mini player
         scene = m.scene
         if isValid(scene)
@@ -1539,23 +1539,23 @@ sub processLibraryItemPopup(selectedPopupButton as string, itemID as string, par
     end if
 
     ' Add item to user's list
-    if isStringEqual(selectedPopupButton, "Add To My List")
+    if isStringEqual(selectedPopupButton, tr("Add To My List"))
         MainAction.addItemToMyList(itemID)
         return
     end if
 
-    if isStringEqual(selectedPopupButton, "Go To Series")
+    if isStringEqual(selectedPopupButton, tr("Go To Series"))
         CreateSeriesDetailsGroup(params.seriesid)
         return
     end if
 
-    if isStringEqual(selectedPopupButton, "Go To Season")
+    if isStringEqual(selectedPopupButton, tr("Go To Season"))
         CreateSeasonDetailsGroupByID(params.LookupCI("seriesid"), params.LookupCI("seasonid"))
         return
     end if
 
     ' Mark item as played
-    if isStringEqual(selectedPopupButton, "Mark As Played")
+    if isStringEqual(selectedPopupButton, tr("Mark As Played"))
         MainAction.setPlayed(itemID, true)
 
         group = m.global.sceneManager.callFunc("getActiveScene")
@@ -1569,7 +1569,7 @@ sub processLibraryItemPopup(selectedPopupButton as string, itemID as string, par
     end if
 
     ' Mark item as unplayed
-    if isStringEqual(selectedPopupButton, "Mark As Unplayed")
+    if isStringEqual(selectedPopupButton, tr("Mark As Unplayed"))
         MainAction.setPlayed(itemID, false)
 
         group = m.global.sceneManager.callFunc("getActiveScene")
@@ -1583,7 +1583,7 @@ sub processLibraryItemPopup(selectedPopupButton as string, itemID as string, par
     end if
 
     ' Add item to playlist
-    if isStringEqual(selectedPopupButton, "Add To Playlist")
+    if isStringEqual(selectedPopupButton, tr("Add To Playlist"))
         activeScene = m.global.sceneManager.callFunc("getActiveScene")
         MainAction.onPlaylistButtonClicked({
             itemContent: {
@@ -1594,7 +1594,7 @@ sub processLibraryItemPopup(selectedPopupButton as string, itemID as string, par
         return
     end if
 
-    if isStringEqual(selectedPopupButton, "Existing Playlist")
+    if isStringEqual(selectedPopupButton, tr("Existing Playlist"))
         if not isValidAndNotEmpty(m.playlistData)
             activeScene = m.global.sceneManager.callFunc("getActiveScene")
             if not isValid(activeScene) then return
@@ -1610,7 +1610,7 @@ sub processLibraryItemPopup(selectedPopupButton as string, itemID as string, par
         return
     end if
 
-    if isStringEqual(selectedPopupButton, "Delete Playlist")
+    if isStringEqual(selectedPopupButton, tr("Delete Playlist"))
         api.items.Delete({
             ids: itemID
         })
@@ -1626,7 +1626,7 @@ sub processLibraryItemPopup(selectedPopupButton as string, itemID as string, par
         return
     end if
 
-    if isStringEqual(selectedPopupButton, "New Playlist")
+    if isStringEqual(selectedPopupButton, tr("New Playlist"))
         resumeData = [
             tr("Create")
         ]
@@ -1637,7 +1637,7 @@ sub processLibraryItemPopup(selectedPopupButton as string, itemID as string, par
     end if
 
     ' Remove item from user's list
-    if isStringEqual(selectedPopupButton, "Remove From My List")
+    if isStringEqual(selectedPopupButton, tr("Remove From My List"))
         MainAction.removeItemFromMyList(itemID)
 
         ' If we're in My List, remove item from the item grid
