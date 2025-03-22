@@ -14,3 +14,7 @@
 <a href="https://raw.githubusercontent.com/jellyfin/jellyfin-roku/master/screenshots/musicPlayback.jpg" title="Music Playback"><img src="https://raw.githubusercontent.com/jellyfin/jellyfin-roku/master/screenshots/musicPlayback.jpg" style="border: 1px solid #eee;" width="300" alt="Music Playback" /></a>
 <a href="https://raw.githubusercontent.com/jellyfin/jellyfin-roku/master/screenshots/tvLibrary.jpg" title="TV Show Library"><img src="https://raw.githubusercontent.com/jellyfin/jellyfin-roku/master/screenshots/tvLibrary.jpg" style="border: 1px solid #eee;" width="300" alt="TV Show Library" /></a>
 </p>
+
+## Advanced
+
+For more advanced deployment methods, access to crash logs, or to learn how to setup a developer environment so you can write some code yourself please read the [DEVGUIDE](docs/DEVGUIDE.md).
