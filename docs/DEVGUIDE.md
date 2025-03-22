@@ -2,6 +2,8 @@
 
 Follow the steps below to install the app on your personal Roku device. This will enable you to write code for the app, install the latest beta release, as well as provide app logs to the developers if you encounter a bug.
 
+Authors: [frothedoatmilk](https://github.com/frothedoatmilk), [cewert](https://github.com/cewert), [tharvik](https://github.com/tharvik), [sevenrats](https://github.com/sevenrats), [1hitsong](https://github.com/1hitsong), [neilsb](https://github.com/neilsb), [TwitchBronBron](https://github.com/TwitchBronBron), [jimdogx](https://github.com/jimdogx), [Fyb3roptik](https://github.com/Fyb3roptik), [Artiume](https://github.com/Artiume), [grasponcrypto](https://github.com/grasponcrypto)
+
 - [Dev Guide For The Jellyfin Roku App](#dev-guide-for-the-jellyfin-roku-app)
   - [Developer Mode](#developer-mode)
   - [Clone the GitHub Repo](#clone-the-github-repo)
