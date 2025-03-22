@@ -22,10 +22,12 @@ end sub
 sub saveToRegistry()
     users = parseJson(get_setting("available_users", "[]"))
     this_user = invalid
+
     for each user in users
         if user.id = m.top.id then this_user = user
     end for
-    if this_user = invalid
+
+    if not isValid(this_user)
         users.push({
             id: m.top.id,
             username: m.top.username,

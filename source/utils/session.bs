@@ -188,6 +188,10 @@ namespace session
                 set_setting("active_user", tmpSession.user.id)
             end if
 
+            user = CreateObject("roSGNode", "UserData")
+            user.json = tmpSession
+            user.callFunc("saveToRegistry")
+
             ' Save device id so we don't calculate it every time we need it
             session.user.SetServerDeviceName()
             ' Load user preferences from server
