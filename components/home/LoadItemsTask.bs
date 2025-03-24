@@ -115,6 +115,14 @@ function loadContinueWatching() as object
         excludeItemTypes: ItemType.BOOK,
         EnableTotalRecordCount: false
     }
+
+    maxLimitContinueWatching = m.global.session.user.settings["ui.details.maxlimitcontinuewatching"].ToInt()
+    if isValid(maxLimitContinueWatching)
+        if maxLimitContinueWatching > 0
+            params.AddReplace("limit", maxLimitContinueWatching)
+        end if
+    end if
+
     data = api.useritems.GetResumeItems(params)
 
     if not isChainValid(data, "Items") then return results

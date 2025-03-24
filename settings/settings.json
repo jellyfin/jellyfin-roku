@@ -387,6 +387,13 @@
                         "default": "365"
                     },
                     {
+                        "title": "Max Limit Continue Watching",
+                        "description": "Set the maximum number of items to keep in the 'Continue Watching' list.",
+                        "settingName": "ui.details.maxlimitcontinuewatching",
+                        "type": "integer",
+                        "default": "15"
+                    },
+                    {
                         "title": "Rewatching Next Up",
                         "description": "Show already watched episodes in 'Next Up' sections.",
                         "settingName": "ui.details.enablerewatchingnextup",
