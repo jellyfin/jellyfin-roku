@@ -1662,11 +1662,26 @@ sub onMyListLoaded()
         id: focusedItem.LookupCI("id")
     }
 
-    if isChainValid(focusedItem, "watched")
-        if focusedItem.watched
+    if isChainValid(focusedItem, "PlayedPercentage")
+        if focusedItem.PlayedPercentage > 0
             dialogData.push(tr("Mark As Unplayed"))
-        else
             dialogData.push(tr("Mark As Played"))
+        else
+            if isChainValid(focusedItem, "isWatched")
+                if focusedItem.isWatched
+                    dialogData.push(tr("Mark As Unplayed"))
+                else
+                    dialogData.push(tr("Mark As Played"))
+                end if
+            end if
+        end if
+    else
+        if isChainValid(focusedItem, "watched")
+            if focusedItem.watched
+                dialogData.push(tr("Mark As Unplayed"))
+            else
+                dialogData.push(tr("Mark As Played"))
+            end if
         end if
     end if
 
