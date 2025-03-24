@@ -119,12 +119,30 @@ sub onMyListLoaded()
 
     dialogData.push(tr("Add To Playlist"))
 
+    ' If watched and complete then get 'Mark Unplayed' option.
+    ' If unwatched and unstarted then get 'Mark Played' option.
+    ' If in progress then get both options regardless of watched state.
     if inArray([ItemType.EPISODE, ItemType.MOVIE, ItemType.SEASON, ItemType.SERIES, ItemType.VIDEO, ItemType.MUSICVIDEO, ItemType.RECORDING, ItemType.BOXSET, ItemType.AUDIOBOOK, ItemType.BOOK], focusedItem.LookupCI("type"))
-        if isChainValid(focusedItem, "isWatched")
-            if focusedItem.isWatched
+        if isChainValid(focusedItem, "PlayedPercentage")
+            if focusedItem.PlayedPercentage > 0
                 dialogData.push(tr("Mark As Unplayed"))
-            else
                 dialogData.push(tr("Mark As Played"))
+            else
+                if isChainValid(focusedItem, "isWatched")
+                    if focusedItem.isWatched
+                        dialogData.push(tr("Mark As Unplayed"))
+                    else
+                        dialogData.push(tr("Mark As Played"))
+                    end if
+                end if
+            end if
+        else
+            if isChainValid(focusedItem, "isWatched")
+                if focusedItem.isWatched
+                    dialogData.push(tr("Mark As Unplayed"))
+                else
+                    dialogData.push(tr("Mark As Played"))
+                end if
             end if
         end if
     end if
