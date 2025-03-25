@@ -13,7 +13,7 @@
   },
   {
     "description": "Create option menu you can access by pressing * when items are highlighed - allowing you to mark items played, add to playlists, and more",
-    "author": "1hitsong"
+    "author": "1hitsong & K-Money"
   },
   {
     "description": "Create audio mini player - allowing you to navigate the client while music plays. When shown, press Replay to highlight mini player",
@@ -78,6 +78,10 @@
   {
     "description": "Add played check mark to series on home screen",
     "author": "K-Money"
+  },
+  {
+    "description": "Update Jellyfin logos",
+    "author": "1hitsong"
   },
   {
     "description": "Dozens of bugs fixed",
