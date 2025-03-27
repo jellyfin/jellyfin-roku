@@ -1298,6 +1298,18 @@
         <translation>Voti della Community e della Critica</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
+    <message>
+        <source>Recently Added in</source>
+        <translation>Aggiunti recentemente in</translation>
+    </message>
+    <message>
+        <source>Community Rating</source>
+        <translation>Punteggio comunità</translation>
+    </message>
+    <message>
+        <source>Album Artist</source>
+        <translation>Artista Album</translation>
+    </message>
 </context>
 <context>
     <name></name>
