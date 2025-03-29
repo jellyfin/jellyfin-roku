@@ -9,6 +9,7 @@
     </children>
     <interface>
         <function name="findPosition" />
+        <function name="clearDisplayText" />
         <field id="lyricData" type="assocarray" onChange="onLyricDataChange" />
         <field id="positionTime" type="float" onChange="onPositionTimeChange" />
         <field id="width" type="integer" onChange="onWidthChange" />

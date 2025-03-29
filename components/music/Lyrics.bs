@@ -32,14 +32,8 @@ sub findPosition(newPosition)
     if not m.dataLoaded then return
 
     m.seekMode = true
-    m.currentLyric.clear()
 
-    m.previousLine.text = ""
-    m.currentLine.text = ""
-
-    for lineIndex = 1 to 3
-        m[`nextLine${lineIndex}`].text = ""
-    end for
+    clearDisplayText()
 
     position = int(newPosition) * 10000000&
 
@@ -53,6 +47,17 @@ sub findPosition(newPosition)
 
     m.currentLyricIndex = 0
     m.seekMode = false
+end sub
+
+sub clearDisplayText()
+    m.currentLyric.clear()
+
+    m.previousLine.text = ""
+    m.currentLine.text = ""
+
+    for lineIndex = 1 to 3
+        m[`nextLine${lineIndex}`].text = ""
+    end for
 end sub
 
 sub onPositionTimeChange()

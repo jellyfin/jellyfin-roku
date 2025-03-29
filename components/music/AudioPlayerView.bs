@@ -556,6 +556,11 @@ sub moveDisplayElements(hasLyrics as boolean)
 end sub
 
 sub showLyrics()
+    ' make sure if we have old lyrics up and showing that we clear those first
+    if isValid(m.lyrics)
+        m.lyrics.callFunc("clearDisplayText")
+    end if
+
     m.lyrics = CreateObject("roSGNode", "Lyrics")
     m.lyrics.translation = "[650, 300]"
     m.lyrics.width = 1000
