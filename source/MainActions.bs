@@ -188,12 +188,13 @@ namespace MainAction
             m.global.queueManager.callFunc("resetShuffle")
         end if
 
+        m.global.queueManager.callFunc("clear")
+        m.global.queueManager.callFunc(playItemParams.method, item)
+
         if playItemParams.position <> -1
             m.global.queueManager.callFunc("setPosition", playItemParams.position)
         end if
 
-        m.global.queueManager.callFunc("clear")
-        m.global.queueManager.callFunc(playItemParams.method, item)
         m.global.queueManager.callFunc("playQueue")
     end sub
 
