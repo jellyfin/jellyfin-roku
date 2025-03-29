@@ -45,8 +45,13 @@ sub itemContentChanged()
     end if
 
     m.itemPoster.uri = itemData.PosterUrl
-    m.posterText.text = itemData.title
-    m.title.text = itemData.title
+    if isValidAndNotEmpty(itemData.LookupCI("fullNameWithShowTitle"))
+        m.posterText.text = itemData.LookupCI("fullNameWithShowTitle")
+    else
+        m.posterText.text = itemData.title
+    end if
+
+    m.title.text = m.posterText.text
 
     'If Poster not loaded, ensure "blue box" is shown until loaded
     if m.itemPoster.loadStatus <> "ready"
