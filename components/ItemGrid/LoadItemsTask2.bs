@@ -263,8 +263,17 @@ sub loadItems()
                     tmp.image = PosterImage(item.id, { "maxHeight": 450, "maxWidth": 450, "quality": "90" })
                 else if item.type = "Episode"
                     tmp = CreateObject("roSGNode", "TVEpisode")
+                    tmp.title = item.name
+
+                    seasonName = ` - ${item.LookupCI("SeasonName")}`
+
+                    if isValid(item.LookupCI("IndexNumber"))
+                        seasonName += ` Episode ${item.LookupCI("IndexNumber")}`
+                    end if
+
+                    tmp.fullNameWithShowTitle = `${item.LookupCI("seriesname")}${seasonName} - ${item.LookupCI("name")}`
+
                     if LCase(m.top.ItemType) = "nextup"
-                        tmp.title = item.name
                         tmp.type = "Episode"
                     end if
                 else if LCase(item.Type) = "recording"

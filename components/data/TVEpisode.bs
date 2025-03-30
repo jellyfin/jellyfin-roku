@@ -6,7 +6,6 @@ sub setFields()
     json = m.top.json
 
     m.top.id = json.id
-    m.top.Title = json.name
     m.top.Description = json.overview
     m.top.favorite = json.UserData.isFavorite
     m.top.watched = chainLookup(json, "UserData.played")
