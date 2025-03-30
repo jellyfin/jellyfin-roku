@@ -10,5 +10,9 @@
   {
     "description": "Fix overlapping lyrics when skipping to the next song",
     "author": "jimdogx"
+  },
+  {
+    "description": "Fix typo in Community and Critical Ratings settings description",
+    "author": "michaelcresswell"
   }
 ]
