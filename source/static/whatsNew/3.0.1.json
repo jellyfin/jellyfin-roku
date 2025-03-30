@@ -14,5 +14,9 @@
   {
     "description": "Fix typo in Community and Critical Ratings settings description",
     "author": "michaelcresswell"
+  },
+  {
+    "description": "Fix crash if album is missing an artist",
+    "author": "jimdogx"    
   }
 ]
