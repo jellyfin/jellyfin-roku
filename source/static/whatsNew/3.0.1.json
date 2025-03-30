@@ -17,6 +17,10 @@
   },
   {
     "description": "Fix crash if album is missing an artist",
-    "author": "jimdogx"    
+    "author": "jimdogx"
+  },
+  {
+    "description": "Create setting allowing users to remember applied library filters on channel close",
+    "author": "jimdogx"
   }
 ]

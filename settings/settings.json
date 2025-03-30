@@ -445,6 +445,13 @@
                         "description": "Settings relating to the appearance of pages in all Libraries.",
                         "children": [
                             {
+                                "title": "Forget Filters",
+                                "description": "Forget applied library filters when Jellyfin is closed.",
+                                "settingName": "itemgrid.forgetFilters",
+                                "type": "bool",
+                                "default": "true"
+                            },
+                            {
                                 "title": "Grid View Settings",
                                 "description": "Settings that apply when Grid views are enabled.",
                                 "children": [
