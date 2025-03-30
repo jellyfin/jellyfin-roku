@@ -422,7 +422,7 @@
                 "children": [
                     {
                         "title": "Community and Critical Ratings",
-                        "description": "Community and critic review ratings from Rotten Tomatoes.",
+                        "description": "Community and critic review ratings from Rotton Tomatoes.",
                         "settingName": "ui.itemdetail.showRatings",
                         "type": "bool",
                         "default": "true"
