@@ -4,7 +4,19 @@
     "author": "1hitsong"
   },
   {
-    "description": "Fix crash if album is missing an artist",
+    "description": "Fix collection display when a series is added",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Fix overlapping lyrics when skipping to the next song",
     "author": "jimdogx"
+  },
+  {
+    "description": "Fix typo in Community and Critical Ratings settings description",
+    "author": "michaelcresswell"
+  },
+  {
+    "description": "Fix crash if album is missing an artist",
+    "author": "jimdogx"    
   }
 ]
