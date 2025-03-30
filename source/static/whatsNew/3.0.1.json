@@ -2,5 +2,9 @@
   {
     "description": "Fix playlist playback starting from specific item",
     "author": "1hitsong"
+  },
+  {
+    "description": "Fix collection display when a series is added",
+    "author": "1hitsong"
   }
 ]

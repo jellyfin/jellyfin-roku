@@ -220,12 +220,10 @@ sub loadInitialItems()
     m.loadItemsTask.studioIds = string.EMPTY
     m.loadItemsTask.view = string.EMPTY
 
-    if not inArray([ItemType.BOXSET, ItemType.PHOTO, ItemType.PHOTOALBUM], m.top.mediaType)
-        m.loadItemsTask.itemType = m.top.mediaType
-    end if
-
-    if inArray([ItemType.PHOTO, ItemType.PHOTOALBUM], m.top.mediaType)
+    if inArray([ItemType.BOXSET, ItemType.PHOTO, ItemType.PHOTOALBUM], m.top.mediaType)
         m.loadItemsTask.recursive = false
+    else
+        m.loadItemsTask.itemType = m.top.mediaType
     end if
 
     if isStringEqual(m.view, "Genres")
