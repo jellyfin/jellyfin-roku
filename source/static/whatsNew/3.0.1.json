@@ -14,5 +14,9 @@
   {
     "description": "Fix typo in Community and Critical Ratings settings description",
     "author": "michaelcresswell"
+  },
+  {
+    "description": "Fix type mismatch error on movie detail screen",
+    "author": "1hitsong"
   }
 ]
