@@ -365,7 +365,7 @@ sub displayEpisodeInfo(localGlobal as object, itemData as object)
         end if
     end if
 
-    episodeimagesnextupSetting = chainLookup(localGlobal, "session.user.settings.ui.general.episodeimagesnextup")
+    episodeimagesnextupSetting = chainLookup(localGlobal, "session.user.settings.ui-general-episodeimagesnextup")
 
     ' Default to wide poster image
     m.itemPoster.uri = itemData.LookupCI("widePosterURL")

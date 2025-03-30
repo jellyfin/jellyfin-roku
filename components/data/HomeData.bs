@@ -62,6 +62,11 @@ sub setData()
             m.top.widePosterUrl = ImageURL(datum.LookupCI("Id"), "Primary", imgParams)
         end if
 
+        ' If no widePosterUrl has been determined, revent to thumbnailURL
+        if not isValidAndNotEmpty(m.top.widePosterUrl)
+            m.top.widePosterUrl = m.top.thumbnailURL
+        end if
+
     else if datum.type = "Series"
         m.top.isWatched = datum.UserData.Played
 
