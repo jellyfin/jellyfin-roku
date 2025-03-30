@@ -272,8 +272,10 @@ end sub
 
 ' Populate on screen text variables
 sub setOnScreenTextValues(json)
-    if isValid(json)
+    if isValid(json) and isValid(json.Artists[0])
         setFieldTextValue("song", `${json.Artists[0].replace(chr(8208), "-")} - ${json.name.trim()}`)
+    else
+        setFieldTextValue("song", `${json.name.trim()}`)
     end if
 end sub
 
