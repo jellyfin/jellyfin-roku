@@ -6,5 +6,9 @@
   {
     "description": "Fix collection display when a series is added",
     "author": "1hitsong"
+  },
+  {
+    "description": "Fix overlapping lyrics when skipping to the next song",
+    "author": "jimdogx"
   }
 ]
