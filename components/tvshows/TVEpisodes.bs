@@ -1,6 +1,7 @@
 import "pkg:/source/api/baserequest.bs"
 import "pkg:/source/api/Image.bs"
 import "pkg:/source/api/sdk.bs"
+import "pkg:/source/enums/ColorPalette.bs"
 import "pkg:/source/enums/TaskControl.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/misc.bs"
@@ -13,6 +14,7 @@ sub init()
     m.shuffle = m.top.findNode("shuffle")
     m.extras = m.top.findNode("extras")
     m.tvEpisodeRow = m.top.findNode("tvEpisodeRow")
+    m.tvEpisodeRow.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
 
     m.unplayedCount = m.top.findNode("unplayedCount")
     m.unplayedEpisodeCount = m.top.findNode("unplayedEpisodeCount")
