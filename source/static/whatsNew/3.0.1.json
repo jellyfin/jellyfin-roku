@@ -16,6 +16,10 @@
     "author": "michaelcresswell"
   },
   {
+    "description": "Fix crash when playing a song that is missing an artist",
+    "author": "jimdogx"    
+  },
+  {
     "description": "Fix broken image for episodes in recently added sections",
     "author": "1hitsong"
   },
