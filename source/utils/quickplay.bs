@@ -453,7 +453,6 @@ namespace quickplay
         m.global.queueManager.callFunc("clear")
         m.global.queueManager.callFunc("resetShuffle")
         m.global.queueManager.callFunc("push", thisItem)
-        m.global.queueManager.callFunc("playQueue")
     end sub
 
     ' Quick Play A Live Program
@@ -468,7 +467,6 @@ namespace quickplay
         m.global.queueManager.callFunc("clear")
         m.global.queueManager.callFunc("resetShuffle")
         m.global.queueManager.callFunc("push", thisItem)
-        m.global.queueManager.callFunc("playQueue")
     end sub
 
     ' Quick Play A Playlist.
