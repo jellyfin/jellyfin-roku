@@ -38,5 +38,9 @@
   {
     "description": "Update TV episode selection box color to match other screens",
     "author": "michaelcresswell"
+  },
+  {
+    "description": "Fix Live TV playback error popup",
+    "author": "michaelcresswell"
   }
 ]
