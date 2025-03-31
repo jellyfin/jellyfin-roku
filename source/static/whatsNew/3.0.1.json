@@ -17,7 +17,7 @@
   },
   {
     "description": "Fix crash when playing a song that is missing an artist",
-    "author": "jimdogx"    
+    "author": "jimdogx"
   },
   {
     "description": "Fix broken image for episodes in recently added sections",
@@ -36,7 +36,7 @@
     "author": "1hitsong"
   },
   {
-    "description": "Fix Live TV playback error popup",
+    "description": "Update TV episode selection box color to match other screens",
     "author": "michaelcresswell"
   }
 ]
