@@ -232,7 +232,7 @@ sub loadInitialItems()
 
     m.filterOptions = ParseJson(m.filterOptions)
 
-    m.loadItemsTask.searchTerm = m.top.searchTerm <> string.EMPTY ? m.top.searchTerm : m.voiceBox.text
+    m.loadItemsTask.searchTerm = m.top.searchTerm
     m.loadItemsTask.sortField = m.sortField
     m.loadItemsTask.sortAscending = m.sortAscending
     m.loadItemsTask.filter = m.filter
@@ -1161,9 +1161,12 @@ sub onSearchTermChanged()
 end sub
 
 sub alphaSelectedChanged()
-    ' Allow user to toggle by clicking letter twice
-    if isStringEqual(m.loadItemsTask.nameStartsWith, m.top.alphaSelected)
-        m.top.alphaSelected = string.EMPTY
+    ' Prevent voicebox change double firing
+    if m.voiceBox.text = string.EMPTY
+        ' Allow user to toggle by clicking letter twice
+        if isStringEqual(m.loadItemsTask.nameStartsWith, m.top.alphaSelected)
+            m.top.alphaSelected = string.EMPTY
+        end if
     end if
 
     m.loadedRows = 0
@@ -1176,23 +1179,15 @@ sub alphaSelectedChanged()
     m.genreList.content = m.genreData
 
     m.loadItemsTask.nameStartsWith = m.top.alphaSelected
-    m.VoiceBox.text = string.EMPTY
+    m.voiceBox.text = string.EMPTY
+    m.top.searchTerm = string.EMPTY
     loadInitialItems()
 end sub
 
 sub onvoiceFilter()
-    if not isValidAndNotEmpty(m.VoiceBox.text) then return
+    if not isValidAndNotEmpty(m.voiceBox.text) then return
 
-    if isStringEqual(m.voiceBox.text, "reset search") then m.voiceBox.text = string.EMPTY
-
-    m.loadedRows = 0
-    m.loadedItems = 0
-    m.data = CreateObject("roSGNode", "ContentNode")
-    m.itemGrid.content = m.data
-    m.top.alphaSelected = string.EMPTY
-    m.loadItemsTask.NameStartsWith = " "
-    m.loadItemsTask.searchTerm = m.voiceBox.text
-    m.loadItemsTask.recursive = true
+    if isStringEqual(m.voiceBox.text.trim(), "reset search") then m.voiceBox.text = string.EMPTY
 
     ' If user searched for a letter, selected it from the alpha menu
     if m.voiceBox.text.len() = 1
@@ -1205,15 +1200,24 @@ sub onvoiceFilter()
             ' loop through each option until we find a match
             for i = 1 to alphaMenu.numRows - 1
                 alphaMenuOption = alphaMenu.content.getChild(i)
-                if Lcase(alphaMenuOption.TITLE) = Lcase(m.voiceBox.text)
+                if isStringEqual(alphaMenuOption.TITLE, m.voiceBox.text)
                     alphaMenu.jumpToItem = i
                     exit for
                 end if
             end for
         end if
+
+        m.top.alphaSelected = m.voiceBox.text
+        return
     end if
 
-    loadInitialItems()
+    if m.searchButton.disabled
+        m.itemGrid.setFocus(m.itemGrid.opacity = 1)
+        m.genreList.setFocus(m.genreList.opacity = 1)
+        return
+    end if
+
+    m.top.searchTerm = m.voiceBox.text.trim()
 end sub
 
 '
