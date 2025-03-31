@@ -537,7 +537,9 @@ sub onAudioDataChanged()
     if data.haslyrics
         m.hasLyrics = true
         m.seekTimestamp.text = m.seekTimestamp.text + " • Seeking will likely cause lyrics to desync"
-        m.lyrics.lyricdata = data.lyricdata
+        if isValid(m.lyrics)
+            m.lyrics.lyricdata = data.lyricdata
+        end if
     end if
 
     setSiblingData()
@@ -556,6 +558,11 @@ sub moveDisplayElements(hasLyrics as boolean)
 end sub
 
 sub showLyrics()
+    ' make sure if we have old lyrics up and showing that we clear those first
+    if isValid(m.lyrics)
+        hideLyrics()
+    end if
+
     m.lyrics = CreateObject("roSGNode", "Lyrics")
     m.lyrics.translation = "[650, 300]"
     m.lyrics.width = 1000
@@ -563,7 +570,10 @@ sub showLyrics()
 end sub
 
 sub hideLyrics()
+    if not isValid(m.lyrics) then return
+
     m.top.removeChild(m.lyrics)
+    m.lyrics = invalid
 end sub
 
 sub onBackdropImageLoaded()

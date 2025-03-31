@@ -354,7 +354,7 @@
                     {
                         "title": "Episode Images Next Up",
                         "description": "What type of images to use for Episodes shown in the 'Next Up' and 'Continue Watching' sections.",
-                        "settingName": "ui.general.episodeimagesnextup",
+                        "settingName": "ui-general-episodeimagesnextup",
                         "type": "radio",
                         "default": "webclient",
                         "options": [
@@ -422,7 +422,7 @@
                 "children": [
                     {
                         "title": "Community and Critical Ratings",
-                        "description": "Community and critic review ratings from Rotton Tomatoes.",
+                        "description": "Community and critic review ratings from Rotten Tomatoes.",
                         "settingName": "ui.itemdetail.showRatings",
                         "type": "bool",
                         "default": "true"
@@ -444,6 +444,13 @@
                         "title": "General",
                         "description": "Settings relating to the appearance of pages in all Libraries.",
                         "children": [
+                            {
+                                "title": "Forget Filters",
+                                "description": "Forget applied library filters when Jellyfin is closed.",
+                                "settingName": "itemgrid.forgetFilters",
+                                "type": "bool",
+                                "default": "true"
+                            },
                             {
                                 "title": "Grid View Settings",
                                 "description": "Settings that apply when Grid views are enabled.",

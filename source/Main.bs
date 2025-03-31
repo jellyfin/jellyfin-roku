@@ -229,6 +229,9 @@ sub downloadFallbackFont()
 end sub
 
 sub clearOldLibraryFilters()
+    forgetFilters = m.global.session.user.settings["itemgrid.forgetFilters"] ?? true
+    if not forgetFilters then return
+
     for each settingKeys in m.global.session.user.settings.keys()
         if isStringEqual(left(settingKeys, 8), "display.")
             if isStringEqual(right(settingKeys, 7), ".filter") or isStringEqual(right(settingKeys, 14), ".filterOptions")

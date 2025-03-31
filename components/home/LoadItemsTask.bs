@@ -83,6 +83,8 @@ function loadLatestMedia() as object
                 ProductionYear: item.LookupCI("ProductionYear"),
                 Album: item.LookupCI("Album"),
                 SeriesName: item.LookupCI("SeriesName"),
+                SeriesId: item.LookupCI("SeriesId"),
+                SeasonId: item.LookupCI("SeasonId"),
                 ParentIndexNumber: item.LookupCI("ParentIndexNumber"),
                 IndexNumber: item.LookupCI("IndexNumber"),
                 IndexNumberEnd: item.LookupCI("IndexNumberEnd"),
