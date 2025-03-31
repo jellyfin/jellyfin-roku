@@ -354,7 +354,7 @@
                     {
                         "title": "Episode Images Next Up",
                         "description": "What type of images to use for Episodes shown in the 'Next Up' and 'Continue Watching' sections.",
-                        "settingName": "ui.general.episodeimagesnextup",
+                        "settingName": "ui-general-episodeimagesnextup",
                         "type": "radio",
                         "default": "webclient",
                         "options": [

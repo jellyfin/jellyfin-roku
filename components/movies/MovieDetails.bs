@@ -38,8 +38,14 @@ sub init()
 
     m.loadStatus = ViewLoadStatus.INIT
 
-    ' Only allow Admins to see Edit Subtitles button
-    if not m.global.session.user.policy.EnableSubtitleManagement
+    hasSubtitleManagementPermissions = false
+
+    if isChainValid(m.global.session, "user.policy.EnableSubtitleManagement")
+        hasSubtitleManagementPermissions = m.global.session.user.policy.EnableSubtitleManagement
+    end if
+
+    ' Only allow those with EnableSubtitleManagement permissions to see Edit Subtitles button
+    if not hasSubtitleManagementPermissions
         editSubtitleButton = m.top.findNode("editSubtitlesButton")
         if isValid(editSubtitleButton)
             m.buttonGrp.content.removeChild(editSubtitleButton)

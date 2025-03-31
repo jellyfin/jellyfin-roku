@@ -16,11 +16,23 @@
     "author": "michaelcresswell"
   },
   {
-    "description": "Fix crash if album is missing an artist",
-    "author": "jimdogx"
+    "description": "Fix crash when playing a song that is missing an artist",
+    "author": "jimdogx"    
   },
   {
+    "description": "Fix broken image for episodes in recently added sections",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Fix crash when selecting go to series / go to season from episodes in recently added sections",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Fix type mismatch error on movie detail screen",
+    "author": "1hitsong"
+  }
+  {
     "description": "Create setting allowing users to remember applied library filters on channel close",
-    "author": "jimdogx"
+    "author": "1hitsong"
   }
 ]
