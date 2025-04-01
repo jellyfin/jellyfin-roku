@@ -195,7 +195,7 @@
     </message>
     <message>
         <source>Extras</source>
-        <translation type="unfinished">Bonus</translation>
+        <translation>Extras</translation>
     </message>
     <message>
         <source>There was an error retrieving the data for this item from the server.</source>
@@ -302,7 +302,7 @@
     </message>
     <message>
         <source>CRITIC_RATING</source>
-        <translation type="unfinished">Note des critiques</translation>
+        <translation>Note des critiques</translation>
     </message>
     <message>
         <source>DATE_PLAYED</source>
@@ -437,7 +437,7 @@
     </message>
     <message>
         <source>View Channel</source>
-        <translation type="unfinished">Afficher la chaîne</translation>
+        <translation>Afficher la chaîne</translation>
     </message>
     <message>
         <source>Record</source>
@@ -744,7 +744,7 @@
     </message>
     <message>
         <source>Attempt Direct Play for H.264 media with unsupported profile levels before falling back to transcoding if it fails.</source>
-        <translation type="unfinished">Essayer Lecture directe pour les médias en H.264 avec des profils non supportés avant de se tourner vers la conversion si ça échoue.</translation>
+        <translation>Essayer Lecture directe pour les médias en H.264 avec des profils non supportés avant de se tourner vers la conversion si ça échoue.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
@@ -773,6 +773,14 @@
         <source>Skip Details for Single Seasons</source>
         <translation>Sauter les détails pour les saisons uniques</translation>
         <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
+    <message>
+        <source>Recently Added in</source>
+        <translation>Récemment ajouté dans</translation>
+    </message>
+    <message>
+        <source>Community Rating</source>
+        <translation>Note communautaire</translation>
     </message>
 </context>
 <context>
