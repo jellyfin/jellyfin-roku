@@ -10,12 +10,8 @@ import "pkg:/source/utils/misc.bs"
 
 sub init()
     findNodes()
-
     m.itemPoster.observeField("loadStatus", "onPosterLoadStatusChanged")
-
     m.itemProgress.color = ColorPalette.TRIADBLUE
-    m.unplayedCount.color = ColorPalette.TRIADBLUE
-    m.playedIndicator.color = ColorPalette.TRIADBLUE
     m.backdrop.color = ColorPalette.ELEMENTBACKGROUND
 end sub
 
@@ -27,8 +23,6 @@ sub findNodes()
     initItemIcon()
     m.itemProgress = m.top.findNode("progress")
     m.itemProgressBackground = m.top.findNode("progressBackground")
-    m.unplayedCount = m.top.findNode("unplayedCount")
-    m.unplayedEpisodeCount = m.top.findNode("unplayedEpisodeCount")
     m.playedIndicator = m.top.findNode("playedIndicator")
     m.showProgressBarAnimation = m.top.findNode("showProgressBar")
     m.showProgressBarField = m.top.findNode("showProgressBarField")
@@ -55,11 +49,15 @@ sub initItemIcon()
 end sub
 
 sub itemContentChanged()
-    if isValid(m.unplayedCount) then m.unplayedCount.visible = false
     itemData = m.top.itemContent
 
     if not isValid(itemData) then return
     localGlobal = m.global
+
+    m.playedIndicator.data = {
+        played: chainLookupReturn(itemData, "json.UserData.Played", false),
+        unplayedCount: chainLookupReturn(itemData, "json.UserData.UnplayedItemCount", 0)
+    }
 
     itemData.Title = itemData.name
 
@@ -90,16 +88,6 @@ sub itemContentChanged()
     end if
 
     itemDataType = isValid(itemData.type) ? LCase(itemData.type) : ""
-
-    if not isValid(itemData.isWatched)
-        itemData.isWatched = false
-    end if
-
-    m.playedIndicator.visible = itemData.isWatched
-
-    if not itemData.isWatched
-        displayUnplayedEpisodeCount(itemDataType, localGlobal, itemData)
-    end if
 
     if inArray([ItemType.COLLECTIONFOLDER, ItemType.USERVIEW, ItemType.CHANNEL, ItemType.FOLDER], itemDataType)
         displayCollectionInfo(itemData)
@@ -173,18 +161,6 @@ sub itemContentChanged()
     end if
 
     print `Unhandled Home Item Type ${itemDataType}`
-end sub
-
-sub displayUnplayedEpisodeCount(itemDataType as string, localGlobal as object, itemData as object)
-    if itemDataType <> ItemType.SERIES then return
-    if not isChainValid(localGlobal, "session.user.settings") then return
-    if localGlobal.session.user.settings["ui.tvshows.disableUnwatchedEpisodeCount"] then return
-    if not isChainValid(itemData, "json.UserData.UnplayedItemCount") then return
-
-    if itemData.json.UserData.UnplayedItemCount > 0
-        if isValid(m.unplayedCount) then m.unplayedCount.visible = true
-        m.unplayedEpisodeCount.text = itemData.json.UserData.UnplayedItemCount
-    end if
 end sub
 
 sub displayCollectionInfo(itemData as object)

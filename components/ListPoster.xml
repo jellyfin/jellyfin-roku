@@ -4,7 +4,7 @@
     <Rectangle id="backdrop" />
     <ScrollingLabel id="Series" horizAlign="center" font="font:SmallSystemFont" repeatCount="0" visible="false" />
     <Poster id="poster" translation="[2,0]" loadDisplayMode="scaleToFit">
-      <PlayedCheckmark id="playedIndicator" width="60" height="46" translation="[135, 0]" />
+      <PlayedCheckmark id="playedIndicator" translation="[135, 0]" />
     </Poster>
     <ScrollingLabel id="title" horizAlign="center" font="font:SmallSystemFont" repeatCount="0" visible="false" />
     <Label id="staticTitle" horizAlign="center" font="font:SmallSystemFont" wrap="false" />

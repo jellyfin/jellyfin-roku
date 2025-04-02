@@ -4,9 +4,7 @@
     <LayoutGroup id="toplevel" layoutDirection="vert" itemSpacings="[40]">
       <LayoutGroup id="main_group" layoutDirection="horiz" itemSpacings="[30]">
         <Poster id="poster" width="350" height="300" loadDisplayMode="scaleToZoom">
-          <Rectangle id="playedIndicator" color="#00a4dcFF" width="60" height="46" visible="false" translation="[290, 0]">
-            <Label id="checkmark" width="60" height="42" font="font:SmallestBoldSystemFont" horizAlign="center" vertAlign="bottom" text="✓" />
-          </Rectangle>
+          <PlayedCheckmark id="playedIndicator" translation="[290, 0]" />
           <Rectangle id="progressBackground" visible="false" color="0x00000098" width="350" height="16" translation="[0,286]">
             <Rectangle id="progressBar" color="#00a4dcFF" width="0" height="16" visible="false" />
           </Rectangle>
