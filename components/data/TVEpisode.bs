@@ -22,3 +22,17 @@ sub setPoster()
         m.top.posterURL = ImageURL(m.top.json.id, "Primary", imgParams)
     end if
 end sub
+
+sub setWatched(isWatched as boolean, unplayedItemCount = 0 as integer)
+    if not isValid(m.top.json) then return
+
+    json = m.top.json
+
+    if isChainValid(json, "UserData.Played")
+        json.UserData.AddReplace("Played", isWatched)
+        json.UserData.AddReplace("PlaybackPositionTicks", 0)
+        m.top.json = json
+    end if
+
+    m.top.watched = isWatched
+end sub

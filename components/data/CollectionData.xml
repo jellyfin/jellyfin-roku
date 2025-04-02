@@ -2,6 +2,7 @@
 <component name="CollectionData" extends="JFContentItem">
   <interface>
     <function name="setWatched" />
+    <field id="image" type="node" />
     <field id="collectionID" type="string" />
     <field id="description" type="string" />
     <field id="overview" type="string" value="boxsets" />
