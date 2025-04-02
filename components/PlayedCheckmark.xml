@@ -1,8 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component name="PlayedCheckmark" extends="Rectangle">
   <children>
-    <Label id="checkmark" width="60" height="50" font="font:MediumBoldSystemFont" horizAlign="center" vertAlign="bottom" text="✓" visible="false" />
-    <Label id="unplayedNumber" width="60" height="50" font="font:MediumBoldSystemFont" horizAlign="center" vertAlign="center" visible="false" />
+    <Label
+      id="checkmark"
+      width="60"
+      height="50"
+      font="font:MediumBoldSystemFont"
+      horizAlign="center"
+      vertAlign="center"
+      text="✓"
+      visible="false" />
+
+    <Label
+      id="unplayedNumber"
+      width="60"
+      height="50"
+      font="font:MediumBoldSystemFont"
+      horizAlign="center"
+      vertAlign="center"
+      visible="false" />
   </children>
   <interface>
     <field id="data" type="assocarray" onChange="onDataChange" />

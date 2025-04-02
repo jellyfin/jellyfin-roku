@@ -2,6 +2,9 @@ import "pkg:/source/enums/ColorPalette.bs"
 import "pkg:/source/utils/misc.bs"
 
 sub init()
+    m.top.width = 60
+    m.top.height = 50
+
     m.unplayedNumber = m.top.findNode("unplayedNumber")
 
     m.checkmark = m.top.findNode("checkmark")
@@ -20,6 +23,8 @@ sub onDataChange()
     if not isValidAndNotEmpty(m.top.data) then return
 
     if chainLookupReturn(m.top.data, "unplayedCount", 0) > 0
+        if m.global.session.user.settings["ui.tvshows.disableUnwatchedEpisodeCount"] then return
+
         unplayedCount = m.top.data.unplayedCount.ToStr()
         unplayedCountLength = len(unplayedCount)
 

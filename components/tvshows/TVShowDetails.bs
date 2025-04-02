@@ -6,13 +6,12 @@ sub init()
     main = m.top.findNode("toplevel")
     main.translation = [96, 175]
     m.extrasSlider = m.top.findNode("tvSeasonExtras")
-    m.unplayedCount = m.top.findNode("unplayedCount")
-    m.unplayedEpisodeCount = m.top.findNode("unplayedEpisodeCount")
     m.getShuffleEpisodesTask = createObject("roSGNode", "getShuffleEpisodesTask")
     m.Shuffle = m.top.findNode("Shuffle")
     m.extrasSlider.visible = true
     m.seasons = m.top.findNode("seasons")
     m.overview = m.top.findNode("overview")
+    m.playedIndicator = m.top.findNode("playedIndicator")
 
     m.overview.ellipsisText = tr("... (Press * to read more)")
 end sub
@@ -23,16 +22,12 @@ sub itemContentChanged()
     item = m.top.itemContent
     itemData = item.json
 
-    if m.global.session.user.settings["ui.tvshows.disableUnwatchedEpisodeCount"] = false
-        if isValid(itemData.UserData) and isValid(itemData.UserData.UnplayedItemCount)
-            if itemData.UserData.UnplayedItemCount > 0
-                m.unplayedCount.visible = true
-                m.unplayedEpisodeCount.text = itemData.UserData.UnplayedItemCount
-            end if
-        end if
-    end if
-
     m.top.findNode("tvshowPoster").uri = m.top.itemContent.posterURL
+
+    m.playedIndicator.data = {
+        played: chainLookupReturn(item, "json.UserData.Played", false),
+        unplayedCount: chainLookupReturn(item, "json.UserData.UnplayedItemCount", 0)
+    }
 
     ' Handle all "As Is" fields
     m.top.overhangTitle = itemData.name

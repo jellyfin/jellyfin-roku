@@ -16,8 +16,7 @@ sub init()
     m.tvEpisodeRow = m.top.findNode("tvEpisodeRow")
     m.tvEpisodeRow.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
 
-    m.unplayedCount = m.top.findNode("unplayedCount")
-    m.unplayedEpisodeCount = m.top.findNode("unplayedEpisodeCount")
+    m.playedIndicator = m.top.findNode("playedIndicator")
 
     m.rows.observeField("doneLoading", "updateSeason")
 
@@ -44,16 +43,10 @@ sub setExtraButtonVisibility()
 end sub
 
 sub updateSeason()
-    if m.global.session.user.settings["ui.tvshows.disableUnwatchedEpisodeCount"] = false
-        if isValid(m.top.seasonData) and isValid(m.top.seasonData.UserData) and isValid(m.top.seasonData.UserData.UnplayedItemCount)
-            if m.top.seasonData.UserData.UnplayedItemCount > 0
-                m.unplayedCount.visible = true
-                m.unplayedEpisodeCount.text = m.top.seasonData.UserData.UnplayedItemCount
-            else
-                m.unplayedCount.visible = false
-            end if
-        end if
-    end if
+    m.playedIndicator.data = {
+        played: chainLookupReturn(m.top.seasonData, "UserData.Played", false),
+        unplayedCount: chainLookupReturn(m.top.seasonData, "UserData.UnplayedItemCount", 0)
+    }
 
     m.tvExtrasTask.seasonID = m.top.seasonData.Id
     m.tvExtrasTask.control = TaskControl.RUN

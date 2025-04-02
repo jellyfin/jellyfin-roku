@@ -2,12 +2,10 @@
 <component name="TVEpisodes" extends="JFScreen">
   <children>
     <Poster id="seasonPoster" width="300" height="450" translation="[95,175]">
-      <Rectangle id="unplayedCount" visible="false" width="90" height="60" color="#00a4dcFF" translation="[210, 0]">
-        <Label id="unplayedEpisodeCount" width="90" height="60" font="font:MediumBoldSystemFont" horizAlign="center" vertAlign="center" />
-      </Rectangle>
+      <PlayedCheckmark id="playedIndicator" translation="[240, 0]" />
     </Poster>
-    <JFButton id="shuffle" minChars="10" text="Shuffle" translation="[90, 640]" visible="false"></JFButton>
-    <JFButton id="extras" minChars="10" text="Extras" translation="[90, 740]" visible="false"></JFButton>
+    <JFButton id="shuffle" minChars="10" text="Shuffle" translation="[90, 640]" visible="false" />
+    <JFButton id="extras" minChars="10" text="Extras" translation="[90, 740]" visible="false" />
     <TVEpisodeRowWithOptions id="picker" visible="true" />
   </children>
   <interface>
