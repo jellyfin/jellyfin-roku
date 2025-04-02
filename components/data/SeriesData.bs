@@ -37,6 +37,13 @@ sub setWatched(isWatched as boolean)
     if isChainValid(json, "UserData.Played")
         json.UserData.AddReplace("Played", isWatched)
         json.UserData.AddReplace("PlaybackPositionTicks", 0)
+        if isWatched
+            json.UserData.AddReplace("UnplayedItemCount", 0)
+        else
+            if isValid(json.RecursiveItemCount)
+                json.UserData.AddReplace("UnplayedItemCount", json.RecursiveItemCount)
+            end if
+        end if
         m.top.json = json
     end if
 

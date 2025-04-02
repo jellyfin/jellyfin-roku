@@ -1,4 +1,39 @@
+import "pkg:/source/enums/ColorPalette.bs"
+import "pkg:/source/utils/misc.bs"
+
 sub init()
-    checkmark = m.top.findNode("checkmark")
-    checkmark.font.size = 48
+    m.unplayedNumber = m.top.findNode("unplayedNumber")
+
+    m.checkmark = m.top.findNode("checkmark")
+    m.checkmark.font.size = 48
+
+    m.top.color = ColorPalette.TRANSPARENT
+    m.checkmark.visible = false
+    m.unplayedNumber.visible = false
+end sub
+
+sub onDataChange()
+    m.top.color = ColorPalette.TRANSPARENT
+    m.checkmark.visible = false
+    m.unplayedNumber.visible = false
+
+    if not isValidAndNotEmpty(m.top.data) then return
+
+    if chainLookupReturn(m.top.data, "unplayedCount", 0) > 0
+        unplayedCount = m.top.data.unplayedCount.ToStr()
+        unplayedCountLength = len(unplayedCount)
+
+        m.unplayedNumber.font.size = unplayedCountLength = 4 ? 25 : 30
+
+        m.top.color = ColorPalette.TRIADBLUE
+        m.unplayedNumber.visible = true
+        m.unplayedNumber.text = unplayedCount
+        return
+    end if
+
+    if chainLookupReturn(m.top.data, "played", false)
+        m.top.color = ColorPalette.TRIADBLUE
+        m.checkmark.visible = true
+        return
+    end if
 end sub

@@ -46,7 +46,7 @@ sub loadItems()
         SortBy: sort_field,
         SortOrder: sort_order,
         recursive: m.top.recursive,
-        Fields: "Overview",
+        Fields: "Overview, RecursiveItemCount",
         StudioIds: m.top.studioIds,
         genreIds: m.top.genreIds
     }
