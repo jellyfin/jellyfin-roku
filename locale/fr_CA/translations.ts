@@ -782,6 +782,18 @@
         <source>Community Rating</source>
         <translation>Note communautaire</translation>
     </message>
+    <message>
+        <source>Max Days Next Up</source>
+        <translation>Nombre maximal de jours à suivre</translation>
+    </message>
+    <message>
+        <source>Attempt Direct Play for HEVC media with unsupported profile levels before falling back to transcoding if it fails.</source>
+        <translation>Essayez la lecture directe pour les médias HEVC avec des niveaux de profil non pris en charge avant de revenir au transcodage en cas d&apos;échec.</translation>
+    </message>
+    <message>
+        <source>Set the maximum amount of days a show should stay in the &apos;Next Up&apos; list without watching it.</source>
+        <translation>Définissez le nombre maximum de jours pendant lesquels une émission doit rester dans la liste «&#xa0;à suivre&#xa0;» sans être regardée.</translation>
+    </message>
 </context>
 <context>
     <name></name>
