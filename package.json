@@ -18,8 +18,11 @@
   },
   "scripts": {
     "build": "npx rimraf build/ out/ && npx bsc --project bsconfig.json",
+    "check-formatting": "npx bsfmt --check",
+    "format": "npx bsfmt --write",
     "postinstall": "npm run ropm",
-    "ropm": "ropm copy && node scripts/ropm-hook.cjs"
+    "ropm": "ropm copy && node scripts/ropm-hook.cjs",
+    "validate": "npx bsc --copy-to-staging=false --create-package=false"
   },
   "repository": {
     "type": "git",
