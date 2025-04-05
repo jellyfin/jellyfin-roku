@@ -730,7 +730,7 @@
     </message>
     <message>
         <source>Hides tagline text on details pages.</source>
-        <translation type="unfinished">Masque le texte de l&apos;accroche sur les pages de détails.</translation>
+        <translation>Masque le texte de l&apos;accroche sur les pages de détails.</translation>
     </message>
     <message>
         <source>Options for TV Shows.</source>
@@ -793,6 +793,486 @@
     <message>
         <source>Set the maximum amount of days a show should stay in the &apos;Next Up&apos; list without watching it.</source>
         <translation>Définissez le nombre maximum de jours pendant lesquels une émission doit rester dans la liste «&#xa0;à suivre&#xa0;» sans être regardée.</translation>
+    </message>
+    <message>
+        <source>Replace Roku&apos;s default subtitle functions with custom functions that support CJK fonts. Fallback fonts must be configured and enabled on the server for CJK rendering to work.</source>
+        <translation>Remplacez les fonctions de sous-titres par défaut de Roku par des fonctions personnalisées prenant en charge les polices CJK. Les polices de secours doivent être configurées et activées sur le serveur pour que le rendu CJK fonctionne.</translation>
+    </message>
+    <message>
+        <source>Album</source>
+        <translation>Album</translation>
+    </message>
+    <message>
+        <source>Disable Community Rating for Episodes</source>
+        <translation>Désactiver la notation de la communauté pour les épisodes</translation>
+    </message>
+    <message>
+        <source>Settings relating to the appearance of the Home screen and the program in general.</source>
+        <translation>Paramètres relatifs à l&apos;apparence de la page d&apos;accueil et du programme en général.</translation>
+    </message>
+    <message>
+        <source>Settings relating to the appearance of pages in TV Libraries.</source>
+        <translation>Paramètres relatifs à l&apos;apparence des pages dans la médiathèque séries TV.</translation>
+    </message>
+    <message>
+        <source>Set how many seconds before the end of an episode the Next Episode button should appear. Set to 0 to disable.</source>
+        <translation>Définir combien de secondes avant la fin d&apos;un épisode le bouton «&#x202f;Prochain épisode&#x202f;» doit apparaître. La valeur 0 permet de le désactiver.</translation>
+    </message>
+    <message>
+        <source>The source file is entirely compatible with this client and the session is receiving the file without modifications.</source>
+        <translation>Le fichier source est entièrement compatible avec ce client et la session reçoit le fichier sans modifications.</translation>
+    </message>
+    <message>
+        <source>Playback Information</source>
+        <translation>Informations de lecture</translation>
+    </message>
+    <message>
+        <source>Transcoding Information</source>
+        <translation>Informations de transcodage</translation>
+    </message>
+    <message>
+        <source>Reason</source>
+        <translation>Raison</translation>
+    </message>
+    <message>
+        <source>Video Codec</source>
+        <translation>Codec vidéo</translation>
+    </message>
+    <message>
+        <source>Audio Codec</source>
+        <translation>Codec audio</translation>
+    </message>
+    <message>
+        <source>direct</source>
+        <translation>direct</translation>
+    </message>
+    <message>
+        <source>Total Bitrate</source>
+        <translation>Débit Total</translation>
+    </message>
+    <message>
+        <source>Audio Channels</source>
+        <translation>Canaux Audio</translation>
+    </message>
+    <message>
+        <source>Stream Information</source>
+        <translation>Informations du flux</translation>
+    </message>
+    <message>
+        <source>Codec</source>
+        <translation>Codec</translation>
+    </message>
+    <message>
+        <source>Codec Tag</source>
+        <translation>Balise de codec</translation>
+    </message>
+    <message>
+        <source>Level</source>
+        <translation>Niveau</translation>
+    </message>
+    <message>
+        <source>Bit Rate</source>
+        <translation>Débit binaire</translation>
+    </message>
+    <message>
+        <source>Container</source>
+        <translation>Conteneur</translation>
+    </message>
+    <message>
+        <source>Size</source>
+        <translation>Taille</translation>
+    </message>
+    <message>
+        <source>Video range type</source>
+        <translation>Type de plage vidéo</translation>
+    </message>
+    <message>
+        <source>Pixel format</source>
+        <translation>Format de pixel</translation>
+    </message>
+    <message>
+        <source>WxH</source>
+        <translation>L × H</translation>
+    </message>
+    <message>
+        <source>Unable to find any albums or songs belonging to this artist</source>
+        <translation>Aucun album ou chanson de cet artiste n&apos;a pu être trouvé</translation>
+    </message>
+    <message>
+        <source>Custom Subtitles</source>
+        <translation>Sous-titres Personnalisés</translation>
+    </message>
+    <message>
+        <source>Text Subtitles Only</source>
+        <translation>Sous-titres texte uniquement</translation>
+    </message>
+    <message>
+        <source>Only display text subtitles to minimize transcoding.</source>
+        <translation>Affiche seulement des sous-titres texte pour minimiser l&apos;impact du transcodage.</translation>
+    </message>
+    <message>
+        <source>all</source>
+        <translation>tout</translation>
+    </message>
+    <message>
+        <source>Aired</source>
+        <translation>Diffusé le</translation>
+    </message>
+    <message>
+        <source>Slideshow Off</source>
+        <translation>Diaporama Désactivé</translation>
+    </message>
+    <message>
+        <source>Slideshow On</source>
+        <translation>Diaporama activé</translation>
+    </message>
+    <message>
+        <source>Slideshow Paused</source>
+        <translation>Diaporama en Pause</translation>
+    </message>
+    <message>
+        <source>Slideshow Resumed</source>
+        <translation>Reprise du diaporama</translation>
+    </message>
+    <message>
+        <source>Random Off</source>
+        <translation>Aléatoire désactivée</translation>
+    </message>
+    <message>
+        <source>Random On</source>
+        <translation>Aléatoire activée</translation>
+    </message>
+    <message>
+        <source>MPEG-4 Support</source>
+        <translation>Support du MPEG-4</translation>
+    </message>
+    <message>
+        <source>Parental Ratings</source>
+        <translation>Classifications parentales</translation>
+    </message>
+    <message>
+        <source>Years</source>
+        <translation>Années</translation>
+    </message>
+    <message>
+        <source>Show What&apos;s New Popup</source>
+        <translation>Afficher la fenêtre contextuelle des nouveautés</translation>
+    </message>
+    <message>
+        <source>Show What&apos;s New popup when Jellyfin is updated to a new version.</source>
+        <translation>Afficher la fenêtre contextuelle des nouveautés lorsque que Jellyfin est mise à jour avec la dernière version.</translation>
+    </message>
+    <message>
+        <source>Unplayed</source>
+        <translation>Non lu</translation>
+    </message>
+    <message>
+        <source>Played</source>
+        <translation>Lu</translation>
+    </message>
+    <message>
+        <source>Resumable</source>
+        <translation>Reprise possible</translation>
+    </message>
+    <message>
+        <source>Movie Library Default View</source>
+        <translation>Vue par défaut pour la médiathèque de films</translation>
+    </message>
+    <message>
+        <source>Default view for Movie Libraries.</source>
+        <translation>Vue par défaut pour les médiathèques de films.</translation>
+    </message>
+    <message>
+        <source>Item Titles</source>
+        <translation>Titres des éléments</translation>
+    </message>
+    <message>
+        <source>Select when to show titles.</source>
+        <translation>Sélectionner quand afficher les titres.</translation>
+    </message>
+    <message>
+        <source>Show On Hover</source>
+        <translation>Afficher au survol</translation>
+    </message>
+    <message>
+        <source>Always Show</source>
+        <translation>Toujours afficher</translation>
+    </message>
+    <message>
+        <source>Always Hide</source>
+        <translation>Toujours masquer</translation>
+    </message>
+    <message>
+        <source>Artists (Presentation)</source>
+        <translation>Artistes (diaporama)</translation>
+    </message>
+    <message>
+        <source>Album Artist</source>
+        <translation>Artiste de l&apos;album</translation>
+    </message>
+    <message>
+        <source>Album Artists (Presentation)</source>
+        <translation>Artistes de l&apos;album (Diaporama)</translation>
+    </message>
+    <message>
+        <source>Artists (Grid)</source>
+        <translation>Artistes (grille)</translation>
+    </message>
+    <message>
+        <source>Album Artists (Grid)</source>
+        <translation>Artistes de l&apos;album (grille)</translation>
+    </message>
+    <message>
+        <source>Song</source>
+        <translation>Chanson</translation>
+    </message>
+    <message>
+        <source>Songs</source>
+        <translation>Chansons</translation>
+    </message>
+    <message>
+        <source>Albums</source>
+        <translation>Albums</translation>
+    </message>
+    <message>
+        <source>View All</source>
+        <translation>Tout voir</translation>
+    </message>
+    <message>
+        <source>Hide the star and community rating for episodes of a TV show. This is to prevent spoilers of an upcoming good/bad episode.</source>
+        <translation>Cacher l&apos;étoile et la notation de la communauté pour les épisodes d&apos;une série TV. Cela permet d&apos;éviter les spoilers sur un bon/mauvais épisode à venir.</translation>
+    </message>
+    <message>
+        <source>Configure the maximum playback bitrate.</source>
+        <translation>Configurer le débit binaire maximum de lecture.</translation>
+    </message>
+    <message>
+        <source>Biographical information for this person is not currently available.</source>
+        <translation>Les informations biographiques pour cette personne sont indisponibles pour le moment.</translation>
+    </message>
+    <message>
+        <source>Enable Limit</source>
+        <translation>Activer la limite</translation>
+    </message>
+    <message>
+        <source>Enable or disable the &apos;Maximum Bitrate&apos; setting.</source>
+        <translation>Activer ou désactiver le paramètre &apos;Débit binaire maximal&apos;.</translation>
+    </message>
+    <message>
+        <source>Bitrate Limit</source>
+        <translation>Limite de débit binaire</translation>
+    </message>
+    <message>
+        <source>Maximum Bitrate</source>
+        <translation>Débit binaire maximum</translation>
+    </message>
+    <message>
+        <source>Set the maximum bitrate in Mbps. Set to 0 to use Roku&apos;s specifications. This setting must be enabled to take effect.</source>
+        <translation>Définir le débit binaire maximum en Mbps. Régler sur 0 pour utiliser les spécifications de Roku. Ce paramètre doit être activé pour être pris en compte.</translation>
+    </message>
+    <message>
+        <source>Libraries</source>
+        <translation>Médiathèques</translation>
+    </message>
+    <message>
+        <source>Settings relating to the appearance of Library pages</source>
+        <translation>Paramètres relatifs à l&apos;apparence des pages de médiathèque</translation>
+    </message>
+    <message>
+        <source>General</source>
+        <translation>Général</translation>
+    </message>
+    <message>
+        <source>Grid View Settings</source>
+        <translation>Paramètres de la vue Grille</translation>
+    </message>
+    <message>
+        <source>Settings that apply when Grid views are enabled.</source>
+        <translation>Paramètres s&apos;appliquant lorsque les vues en grille sont activées.</translation>
+    </message>
+    <message>
+        <source>Settings relating to the appearance of pages in Movie Libraries.</source>
+        <translation>Paramètres relatifs à l&apos;apparence des pages dans la médiathèque de Films.</translation>
+    </message>
+    <message>
+        <source>Presentation</source>
+        <translation>Présentation</translation>
+    </message>
+    <message>
+        <source>Grid</source>
+        <translation>Grille</translation>
+    </message>
+    <message>
+        <source>Disable Unwatched Episode Count</source>
+        <translation>Désactive le décompte d&apos;épisodes non-vu</translation>
+    </message>
+    <message>
+        <source>If enabled, the number of unwatched episodes in a series/season will be removed.</source>
+        <translation>Si cette option est activée, le nombre d&apos;épisodes non-vus dans une série/saison sera retiré.</translation>
+    </message>
+    <message>
+        <source>Loading trailer</source>
+        <translation>Chargement de la bande annonce</translation>
+    </message>
+    <message>
+        <source>Next Episode Button Time</source>
+        <translation>Délai du bouton épisode suivant</translation>
+    </message>
+    <message>
+        <source>Preferred Audio Codec</source>
+        <translation>Codec audio préféré</translation>
+    </message>
+    <message>
+        <source>Use the selected audio codec for transcodes. If the device or stream does not support it, a fallback codec will be used.</source>
+        <translation>Utilisez le codec audio sélectionné pour les transcodages. Si l&apos;appareil ou le flux ne le prend pas en charge, un codec de secours sera utilisé.</translation>
+    </message>
+    <message>
+        <source>Use system settings</source>
+        <translation>Utiliser les paramètres système</translation>
+    </message>
+    <message>
+        <source>Direct playing</source>
+        <translation>Lecture directe</translation>
+    </message>
+    <message>
+        <source>Maximum Resolution</source>
+        <translation>Résolution maximale</translation>
+    </message>
+    <message>
+        <source>Set the maximum resolution when playing video files on this device.</source>
+        <translation>Définit la résolution maximale de lecture de fichiers vidéos sur cet appareil.</translation>
+    </message>
+    <message>
+        <source>Off - Attempt to play all resolutions</source>
+        <translation>Désactivé - Essaie de lire à toutes les résolutions</translation>
+    </message>
+    <message>
+        <source>Auto - Use TV resolution</source>
+        <translation>Auto - Utiliser la résolution de la TV</translation>
+    </message>
+    <message>
+        <source>Mode</source>
+        <translation>Mode</translation>
+    </message>
+    <message>
+        <source>Value</source>
+        <translation>Valeur</translation>
+    </message>
+    <message>
+        <source>Configure the maximum resolution when playing video files on this device.</source>
+        <translation>Définit la résolution maximale de lecture de fichiers vidéos sur cet appareil.</translation>
+    </message>
+    <message>
+        <source>Apply max resolution to all files or only transcoded files.</source>
+        <translation>Appliquer la résolution maximale à tous les fichiers ou seulement aux fichiers transcodés.</translation>
+    </message>
+    <message>
+        <source>All files</source>
+        <translation>Tous les fichiers</translation>
+    </message>
+    <message>
+        <source>Only transcoded files</source>
+        <translation>Uniquement les fichiers transcodés</translation>
+    </message>
+    <message>
+        <source>Compatibility</source>
+        <translation>Compatibilité</translation>
+    </message>
+    <message>
+        <source>Attempt to prevent playback failures.</source>
+        <translation>Essaie de prévenir les erreurs de lecture.</translation>
+    </message>
+    <message>
+        <source>Disable HEVC</source>
+        <translation>Désactiver HEVC</translation>
+    </message>
+    <message>
+        <source>Disable the HEVC codec on this device. This may improve playback for some devices (ultra).</source>
+        <translation>Désactive le codec HEVC sur cet appareil. Ceci peut améliorer la lecture sur certains appareils (ultra).</translation>
+    </message>
+    <message>
+        <source>Global</source>
+        <translation>Général</translation>
+    </message>
+    <message>
+        <source>Global settings that affect everyone that uses this Roku device.</source>
+        <translation>Paramètres généraux qui s&apos;appliquent à tous ceux qui utilisent cet appareil Roku.</translation>
+    </message>
+    <message>
+        <source>Remember Me?</source>
+        <translation>Se souvenir de moi?</translation>
+    </message>
+    <message>
+        <source>Remember the currently logged in user and try to log them in again next time you start the Jellyfin app.</source>
+        <translation>Se souvenir de l&apos;utilisateur actuellement connecté et tenter de le connecter à nouveau au prochain démarrage de l&apos;application Jellyfin.</translation>
+    </message>
+    <message>
+        <source>No Chapter Data Found</source>
+        <translation>Aucune données de chapitre n&apos;a été trouvé</translation>
+    </message>
+    <message>
+        <source>Use Web Client&apos;s Home Section Arrangement</source>
+        <translation>Utiliser la disposition de la section d&apos;accueil du client web</translation>
+    </message>
+    <message>
+        <source>Make the arrangement of the Roku home view sections match the web client&apos;s home screen. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Fait correspondre la disposition de la section d&apos;accueil de Roku avec celle de l&apos;écran d&apos;accueil du client Web. Jellyfin doit être fermé et rouvert pour que les changements prennent effet.</translation>
+    </message>
+    <message>
+        <source>Welcome to version</source>
+        <translation>Bienvenue à la version</translation>
+    </message>
+    <message>
+        <source>To view a complete list of changes visit</source>
+        <translation>Pour consulter la liste complète des modifications, visitez</translation>
+    </message>
+    <message>
+        <source>Random</source>
+        <translation>Aléatoire</translation>
+    </message>
+    <message>
+        <source>... (Press * to read more)</source>
+        <translation>... (appuyer sur * pour lire plus)</translation>
+    </message>
+    <message>
+        <source>Community and Critical Ratings</source>
+        <translation>Notes de la communauté et des critiques</translation>
+    </message>
+    <message>
+        <source>Ratings for how good a movie is</source>
+        <translation>Notes pour dire que le film est bon</translation>
+    </message>
+    <message>
+        <source>View All Next Up</source>
+        <translation>Voir tout ce qui est à suivre</translation>
+    </message>
+    <message>
+        <source>Rewatching Next Up</source>
+        <translation>Revoir tout ce qui est à suivre</translation>
+    </message>
+    <message>
+        <source>Show already watched episodes in &apos;Next Up&apos; sections.</source>
+        <translation>Voir les épisodes déjà vus dans la section &quot;À suivre&quot;.</translation>
+    </message>
+    <message>
+        <source>Episode Images Next Up</source>
+        <translation>Images d&apos;épisodes à suivre</translation>
+    </message>
+    <message>
+        <source>What type of images to use for Episodes shown in the &apos;Next Up&apos; and &apos;Continue Watching&apos; sections.</source>
+        <translation>Quel type d&apos;images utiliser pour les épisodes visibles dans les sections &quot;À suivre&quot; et &quot;Continuer la lecture&quot;.</translation>
+    </message>
+    <message>
+        <source>Use Web Client Setting</source>
+        <translation>Utiliser les paramètres du client web</translation>
+    </message>
+    <message>
+        <source>Use Episode Image</source>
+        <translation>Utiliser l&apos;image de l&apos;épisode</translation>
+    </message>
+    <message>
+        <source>Use Show Image</source>
+        <translation>Utiliser l&apos;image de la série</translation>
     </message>
 </context>
 <context>
