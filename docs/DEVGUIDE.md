@@ -1,6 +1,6 @@
 # Dev Guide For The Jellyfin Roku App
 
-Follow the steps below to install the app on your personal Roku device. This will enable you to write code for the app, install the latest beta release, as well as provide app logs to the developers if you encounter a bug.
+Follow the steps below to install the app on your personal Roku device for developing, testing and troubleshooting.
 
 Authors: [frothedoatmilk](https://github.com/frothedoatmilk), [cewert](https://github.com/cewert), [tharvik](https://github.com/tharvik), [sevenrats](https://github.com/sevenrats), [1hitsong](https://github.com/1hitsong), [neilsb](https://github.com/neilsb), [TwitchBronBron](https://github.com/TwitchBronBron), [jimdogx](https://github.com/jimdogx), [Fyb3roptik](https://github.com/Fyb3roptik), [Artiume](https://github.com/Artiume), [grasponcrypto](https://github.com/grasponcrypto)
 
@@ -19,7 +19,6 @@ Authors: [frothedoatmilk](https://github.com/frothedoatmilk), [cewert](https://g
     - [Bug/Crash Reports](#bugcrash-reports)
     - [(Optional) Update Images](#optional-update-images)
   - [Committing](#committing)
-  - [Bug Fixes](#bug-fixes)
   - [Adding a User Setting](#adding-a-user-setting)
     - [The order of any particular menu is as follows](#the-order-of-any-particular-menu-is-as-follows)
     - [When giving your setting a name](#when-giving-your-setting-a-name)
@@ -109,7 +108,7 @@ Or you can continue with the next steps to do it via the command line.
 
 ### Deploy
 
-Run this command - replacing the IP and password with your Roku device IP and dev password from the first step:
+Run this command - replacing the IP and password with your Roku device IP and dev password from the first step, example:
 
 ```bash
 export ROKU_DEV_TARGET=192.168.1.234
@@ -161,10 +160,6 @@ npm run lint
 ```
 
 And fix any encountered issue.
-
-## Bug Fixes
-
-All Pull Requests that fix a bug in production should target the "bugfix" branch i.e. `2.0.z`, `2.1.z`, etc. All other Pull Requests should target the `master` branch.
 
 ## Adding a User Setting
 
