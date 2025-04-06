@@ -549,7 +549,7 @@
     </message>
     <message>
         <source>Search now</source>
-        <translation>Rechercher</translation>
+        <translation>Rechercher maintenant</translation>
         <extracomment>Help text in search Box</extracomment>
     </message>
     <message>
