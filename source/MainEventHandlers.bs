@@ -504,13 +504,24 @@ sub onRefreshSeasonDetailsDataEvent()
 
     currentScene = m.global.sceneManager.callFunc("getActiveScene")
 
-    if isChainValid(currentScene, "objects") and isValid(currentScene.seasonData)
+    ' Refresh data over poster on TV Show Detail screen
+    if currentScene.isSubType("TVShowDetails")
+        seriesID = chainLookup(currentScene, "itemContent.id")
+        if isValid(seriesID)
+            currentScene.itemContent = ItemMetaData(seriesID)
+        end if
+    end if
+
+    ' Update data over item user clicked on
+    if isValid(currentScene)
         focusedItem = currentScene.callFunc("getFocusedItem")
         if isValid(focusedItem)
             focusedItem.json = api.users.GetItem(m.global.session.user.id, focusedItem.id)
         end if
+    end if
 
-        ' Update screen if user started playing an item
+    ' Update screen data if user started playing an item
+    if isChainValid(currentScene, "objects") and isValid(currentScene.seasonData)
         currentEpisode = m.global.queueManager.callFunc("getCurrentItem")
         if isChainValid(currentScene, "objects.Items") and isChainValid(currentEpisode, "id")
             ' Find the object in the scene's data and update its json data

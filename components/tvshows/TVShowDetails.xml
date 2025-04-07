@@ -27,6 +27,8 @@
     <ExtrasSlider id="tvSeasonExtras" />
   </children>
   <interface>
+    <function name="getFocusedItem" />
+    <field id="refreshSeasonDetailsData" type="bool" alwaysNotify="true" />
     <field id="itemContent" type="node" onChange="itemContentChanged" />
     <field id="seasonData" type="assocarray" alias="seasons.TVSeasonData" />
     <field id="seasonSelected" alias="seasons.rowItemSelected" alwaysNotify="true" />

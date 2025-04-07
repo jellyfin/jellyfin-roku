@@ -1,4 +1,5 @@
 import "pkg:/source/enums/ColorPalette.bs"
+import "pkg:/source/enums/ViewLoadStatus.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/misc.bs"
 
@@ -8,6 +9,7 @@ sub init()
     m.series = m.top.findNode("Series")
     m.poster = m.top.findNode("poster")
     m.playedIndicator = m.top.findNode("playedIndicator")
+    m.loadStatus = ViewLoadStatus.INIT
 
     m.backdrop = m.top.findNode("backdrop")
 
@@ -65,6 +67,7 @@ sub itemContentChanged() as void
     else
         m.series.visible = false
     end if
+
     m.staticTitle.text = m.title.text
 
     imageUrl = itemData.posterURL
@@ -79,7 +82,13 @@ sub itemContentChanged() as void
 
     m.poster.uri = imageUrl
 
+    if not isStringEqual(m.loadStatus, ViewLoadStatus.INIT) then return
+
     updateSize()
+
+    if isStringEqual(m.loadStatus, ViewLoadStatus.INIT)
+        m.loadStatus = ViewLoadStatus.FIRSTLOAD
+    end if
 end sub
 
 '
