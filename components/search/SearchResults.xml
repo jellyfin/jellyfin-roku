@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<component name="searchResults" extends="JFGroup">
+<component name="searchResults" extends="JFScreen">
   <children>
     <Rectangle width="1920" height="1080" color="#000000" opacity="0.75" />
     <LayoutGroup layoutDirection="horiz" id="SearchAlphabox" translation="[70, 120]">

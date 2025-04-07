@@ -15,8 +15,8 @@
     <field id="EndDate" type="string" />
     <field id="OfficialRating" type="string" />
     <field id="album" type="string" />
-
     <field id="imageDimensions" type="array" />
     <field id="image" type="node" onChange="setPoster" />
+    <function name="setWatched" />
   </interface>
 </component>

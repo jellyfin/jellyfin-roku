@@ -1,10 +1,14 @@
 import "pkg:/source/api/baserequest.bs"
 import "pkg:/source/api/Image.bs"
 import "pkg:/source/api/Items.bs"
+import "pkg:/source/enums/ItemType.bs"
+import "pkg:/source/enums/TaskControl.bs"
+import "pkg:/source/enums/ViewLoadStatus.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/deviceCapabilities.bs"
 
 sub init()
+    m.loadItemsTask1 = createObject("roSGNode", "LoadItemsTask")
     m.top.optionsAvailable = false
     m.searchRow = m.top.findnode("searchRow")
     m.searchTask = CreateObject("roSGNode", "SearchTask")
@@ -13,6 +17,7 @@ sub init()
     m.searchHelpText = m.top.findNode("SearchHelpText")
     m.searchHelpText.text = tr("You can search for Titles, People, Live TV Channels and more")
 
+    m.loadStatus = ViewLoadStatus.INIT
 end sub
 
 sub searchMedias()
@@ -87,3 +92,55 @@ function onKeyEvent(key as string, press as boolean) as boolean
     return false
 
 end function
+
+function getItemFocused() as object
+    if not m.searchRow.isinFocusChain() then return invalid
+    if not isValidAndNotEmpty(m.searchRow.rowItemFocused) then return invalid
+
+    selectedContent = m.searchRow.content.getChild(m.searchRow.rowItemFocused[0])
+    if not isValid(selectedContent) then return invalid
+
+    return selectedContent.getChild(m.searchRow.rowItemFocused[1])
+end function
+
+sub OnScreenShown()
+    group = m.global.sceneManager.callFunc("getActiveScene")
+
+    if isValid(m.top.lastFocus)
+        m.top.lastFocus.setFocus(true)
+        group.lastFocus = m.top.lastFocus
+    else
+        m.top.setFocus(true)
+        group.lastFocus = m.top
+    end if
+
+    if isStringEqual(m.loadStatus, ViewLoadStatus.INIT)
+        m.loadStatus = ViewLoadStatus.FIRSTLOAD
+        return
+    end if
+
+    focusedItem = getItemFocused()
+
+    if not isValid(focusedItem) then return
+
+    ' Only refresh meta data for specific item types
+    if not inArray([ItemType.EPISODE, ItemType.MOVIE, ItemType.SEASON, ItemType.SERIES, ItemType.VIDEO, ItemType.MUSICVIDEO, ItemType.RECORDING, ItemType.BOXSET], focusedItem.LookupCI("type")) then return
+
+    m.loadItemsTask1.itemId = focusedItem.LookupCI("id")
+    m.loadItemsTask1.observeField("content", "onItemDataLoaded")
+    m.loadItemsTask1.itemsToLoad = "metaData"
+    m.loadItemsTask1.control = TaskControl.RUN
+end sub
+
+sub onItemDataLoaded()
+    itemData = m.loadItemsTask1.content
+    m.loadItemsTask1.unobserveField("content")
+    m.loadItemsTask1.content = []
+
+    if not isValidAndNotEmpty(itemData) then return
+
+    focusedItem = getItemFocused()
+    if not isValid(focusedItem) then return
+
+    focusedItem.callFunc("setWatched", chainLookupReturn(itemData[0], "json.UserData.Played", false), chainLookupReturn(itemData[0], "json.UserData.UnplayedItemCount", 0))
+end sub
