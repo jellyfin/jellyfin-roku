@@ -505,8 +505,13 @@ sub onRefreshSeasonDetailsDataEvent()
     currentScene = m.global.sceneManager.callFunc("getActiveScene")
 
     if isChainValid(currentScene, "objects") and isValid(currentScene.seasonData)
-        currentEpisode = m.global.queueManager.callFunc("getCurrentItem")
+        focusedItem = currentScene.callFunc("getFocusedItem")
+        if isValid(focusedItem)
+            focusedItem.json = api.users.GetItem(m.global.session.user.id, focusedItem.id)
+        end if
 
+        ' Update screen if user started playing an item
+        currentEpisode = m.global.queueManager.callFunc("getCurrentItem")
         if isChainValid(currentScene, "objects.Items") and isChainValid(currentEpisode, "id")
             ' Find the object in the scene's data and update its json data
             for i = 0 to currentScene.objects.Items.count() - 1

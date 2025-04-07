@@ -18,5 +18,6 @@
     <field id="episodeObjects" type="assocarray" />
     <field id="extrasObjects" type="assocarray" />
     <function name="updateSeason" />
+    <function name="getFocusedItem" />
   </interface>
 </component>
