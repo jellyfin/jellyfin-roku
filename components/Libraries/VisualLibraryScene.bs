@@ -1184,8 +1184,18 @@ sub alphaSelectedChanged()
     loadInitialItems()
 end sub
 
+sub unfocusAllButtons()
+    m.searchButton.focus = false
+    m.sortButton.focus = false
+    m.sortOrderButton.focus = false
+    m.filterButton.focus = false
+    m.viewButton.focus = false
+end sub
+
 sub onvoiceFilter()
     if not isValidAndNotEmpty(m.voiceBox.text) then return
+
+    unfocusAllButtons()
 
     if isStringEqual(m.voiceBox.text.trim(), "reset search") then m.voiceBox.text = string.EMPTY
 

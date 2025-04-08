@@ -2,5 +2,9 @@
   {
     "description": "Add unplayed episode count and refresh number in real time",
     "author": "1hitsong"
+  },
+  {
+    "description": "Fix voice search in visual and music libraries",
+    "author": "1hitsong"
   }
 ]
