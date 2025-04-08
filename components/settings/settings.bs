@@ -7,7 +7,7 @@ import "pkg:/source/utils/misc.bs"
 sub init()
     m.top.optionsAvailable = false
 
-    m.showSecretMenu = false
+    m.showSecretMenu = true
     m.keypresses = []
     m.magicKeyPressSequence = [KeyCode.UP, KeyCode.LEFT, KeyCode.REPLAY, KeyCode.REWIND, KeyCode.UP, KeyCode.LEFT, KeyCode.REPLAY, KeyCode.REWIND]
 
@@ -45,6 +45,7 @@ sub init()
 
     m.boolSetting = m.top.findNode("boolSetting")
     m.integerSetting = m.top.findNode("integerSetting")
+    m.colorgrid = m.top.findNode("colorgrid")
 
     m.radioSetting = m.top.findNode("radioSetting")
     m.radioSetting.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
@@ -60,6 +61,7 @@ sub init()
 
     m.boolSetting.observeField("checkedItem", "boolSettingChanged")
     m.radioSetting.observeField("checkedItem", "radioSettingChanged")
+    m.colorgrid.observeField("itemSelected", "onColorSelected")
 
     m.postTask = createObject("roSGNode", "PostTask")
 
@@ -73,6 +75,26 @@ end sub
 
 sub onKeypressTimerFire()
     m.keypresses.clear()
+end sub
+
+sub onColorSelected()
+    selectedColor = m.colorgrid.content.getChild(m.colorgrid.itemSelected).colorCode
+
+    for each color in m.colorgrid.content.getChildren(-1, 0)
+        if color.isChecked then color.isChecked = false
+
+        if isStringEqual(color.colorCode, selectedColor)
+            color.isChecked = true
+        end if
+    end for
+
+    selectedSetting = m.userLocation.peek().children[m.settingsMenu.itemFocused]
+    set_user_setting(selectedSetting.settingName, selectedColor ?? ColorPalette.VIEWBACKGROUND)
+
+    if isStringEqual(selectedSetting.settingName, "colorBackground")
+        scene = m.top.getScene()
+        scene.backgroundColor = selectedColor ?? ColorPalette.VIEWBACKGROUND
+    end if
 end sub
 
 sub onKeyGridSubmit()
@@ -143,11 +165,17 @@ sub settingFocused()
     m.boolSetting.visible = false
     m.integerSetting.visible = false
     m.radioSetting.visible = false
+    m.colorgrid.visible = false
 
-    if selectedSetting.type = invalid
+    if not isValid(selectedSetting.type) then return
+
+    if isStringEqual(selectedSetting.type, "colorgrid")
+        m.colorgrid.setting = selectedSetting
+        m.colorgrid.visible = true
         return
-    else if selectedSetting.type = "bool"
+    end if
 
+    if isStringEqual(selectedSetting.type, "bool")
         m.boolSetting.visible = true
 
         if m.global.session.user.settings[selectedSetting.settingName] = true
@@ -155,14 +183,21 @@ sub settingFocused()
         else
             m.boolSetting.checkedItem = 0
         end if
-    else if selectedSetting.type = "integer"
+
+        return
+    end if
+
+    if isStringEqual(selectedSetting.type, "integer")
         integerValue = m.global.session.user.settings[selectedSetting.settingName].ToStr()
         if isValid(integerValue)
             m.integerSetting.text = integerValue
         end if
         m.integerSetting.visible = true
-    else if LCase(selectedSetting.type) = "radio"
 
+        return
+    end if
+
+    if isStringEqual(selectedSetting.type, "radio")
         selectedValue = m.global.session.user.settings[selectedSetting.settingName]
 
         radioContent = CreateObject("roSGNode", "ContentNode")
@@ -181,20 +216,22 @@ sub settingFocused()
         m.radioSetting.content = radioContent
 
         m.radioSetting.visible = true
-    else
-        print `Unknown setting type ${selectedSetting.type}`
+
+        return
     end if
 
+    print `Unknown setting type ${selectedSetting.type}`
 end sub
 
-
 sub settingSelected()
-
     selectedItem = m.userLocation.peek().children[m.settingsMenu.itemFocused]
 
     if selectedItem.type <> invalid ' Show setting
         if selectedItem.type = "bool"
             m.boolSetting.setFocus(true)
+        end if
+        if isStringEqual(selectedItem.type, "colorgrid")
+            m.colorgrid.setFocus(true)
         end if
         if selectedItem.type = "integer"
             m.integerSetting.setFocus(true)
@@ -212,7 +249,6 @@ sub settingSelected()
     m.settingDesc.text = m.settingsMenu.content.GetChild(m.settingsMenu.itemFocused).Description
 
 end sub
-
 
 sub boolSettingChanged()
     if m.boolSetting.focusedChild = invalid then return
@@ -276,7 +312,7 @@ end sub
 
 ' Returns true if any of the data entry forms are in focus
 function isFormInFocus() as boolean
-    if m.radioSetting.hasFocus() or m.boolSetting.hasFocus() or m.integerSetting.hasFocus()
+    if m.radioSetting.hasFocus() or m.boolSetting.hasFocus() or m.integerSetting.hasFocus() or m.colorgrid.hasFocus()
         return true
     end if
     return false
