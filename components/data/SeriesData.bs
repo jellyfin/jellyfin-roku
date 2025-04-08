@@ -29,7 +29,7 @@ sub setFields()
     setPoster()
 end sub
 
-sub setWatched(isWatched as boolean)
+sub setWatched(isWatched as boolean, unplayedItemCount = 0 as integer)
     if not isValid(m.top.json) then return
 
     json = m.top.json
@@ -37,6 +37,17 @@ sub setWatched(isWatched as boolean)
     if isChainValid(json, "UserData.Played")
         json.UserData.AddReplace("Played", isWatched)
         json.UserData.AddReplace("PlaybackPositionTicks", 0)
+        if isWatched
+            json.UserData.AddReplace("UnplayedItemCount", 0)
+        else
+            if unplayedItemCount = 0
+                if isValid(json.RecursiveItemCount)
+                    json.UserData.AddReplace("UnplayedItemCount", json.RecursiveItemCount)
+                end if
+            else
+                json.UserData.AddReplace("UnplayedItemCount", unplayedItemCount)
+            end if
+        end if
         m.top.json = json
     end if
 

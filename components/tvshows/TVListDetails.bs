@@ -12,8 +12,6 @@ sub init()
     m.progressBackground = m.top.findNode("progressBackground")
     m.progressBar = m.top.findnode("progressBar")
     m.playedIndicator = m.top.findNode("playedIndicator")
-    m.checkmark = m.top.findNode("checkmark")
-    m.checkmark.font.size = 35
 
     m.videoCodec = m.top.findNode("video_codec")
 end sub
@@ -26,6 +24,11 @@ sub itemContentChanged()
     if item.selectedVideoStreamId = "" and isValid(itemData.MediaSources)
         item.selectedVideoStreamId = itemData.MediaSources[0].id
     end if
+
+    m.playedIndicator.data = {
+        played: chainLookupReturn(item, "json.UserData.Played", false),
+        unplayedCount: chainLookupReturn(item, "json.UserData.UnplayedItemCount", 0)
+    }
 
     if isValid(itemData.indexNumber)
         indexNumber = `${itemData.indexNumber}. `
@@ -79,13 +82,6 @@ sub itemContentChanged()
     else
         m.rating.visible = false
         m.infoBar.itemSpacings = [20, -25, 20, 20]
-    end if
-
-    ' Add checkmark in corner (if applicable)
-    if isValid(itemData.UserData) and isValid(itemData.UserData.Played) and itemData.UserData.Played = true
-        m.playedIndicator.visible = true
-    else
-        m.playedIndicator.visible = false
     end if
 
     ' Add progress bar on bottom (if applicable)

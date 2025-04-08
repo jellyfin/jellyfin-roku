@@ -1,3 +1,5 @@
+import "pkg:/source/enums/ColorPalette.bs"
+import "pkg:/source/enums/ViewLoadStatus.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/misc.bs"
 
@@ -6,25 +8,12 @@ sub init()
     m.staticTitle = m.top.findNode("staticTitle")
     m.series = m.top.findNode("Series")
     m.poster = m.top.findNode("poster")
-    m.unplayedCount = m.top.findNode("unplayedCount")
-    m.unplayedEpisodeCount = m.top.findNode("unplayedEpisodeCount")
     m.playedIndicator = m.top.findNode("playedIndicator")
-    m.checkmark = m.top.findNode("checkmark")
-    m.checkmark.width = 90
-    m.checkmark.height = 60
+    m.loadStatus = ViewLoadStatus.INIT
 
     m.backdrop = m.top.findNode("backdrop")
 
-    ' Randomize the background colors
-    backdropColor = "#00a4db" ' set default in case global var is invalid
-    localGlobal = m.global
-
-    if isValid(localGlobal) and isValid(localGlobal.constants) and isValid(localGlobal.constants.poster_bg_pallet)
-        posterBackgrounds = localGlobal.constants.poster_bg_pallet
-        backdropColor = posterBackgrounds[rnd(posterBackgrounds.count()) - 1]
-    end if
-
-    m.backdrop.color = backdropColor
+    m.backdrop.color = ColorPalette.DARKGREY
     updateSize()
 end sub
 
@@ -34,11 +23,7 @@ sub updateSize()
         image = m.top.itemContent.image
     end if
 
-    if image = invalid
-        m.backdrop.visible = true
-    else
-        m.backdrop.visible = false
-    end if
+    m.backdrop.visible = not isValid(image)
 
     ' TODO - abstract this in case the parent doesnt have itemSize
     maxSize = m.top.getParent().itemSize
@@ -66,18 +51,10 @@ sub itemContentChanged() as void
     itemData = m.top.itemContent
     m.title.text = itemData.title
 
-    if m.global.session.user.settings["ui.tvshows.disableUnwatchedEpisodeCount"] = false
-        if isValid(itemData.json.UserData) and isValid(itemData.json.UserData.UnplayedItemCount)
-            if itemData.json.UserData.UnplayedItemCount > 0
-                m.unplayedCount.visible = true
-                m.unplayedEpisodeCount.text = itemData.json.UserData.UnplayedItemCount
-            end if
-        end if
-    end if
-
-    if isValid(itemData.json) and isValid(itemData.json.UserData) and isValid(itemData.json.UserData.Played) and itemData.json.UserData.Played
-        m.playedIndicator.visible = true
-    end if
+    m.playedIndicator.data = {
+        played: chainLookupReturn(itemData, "json.UserData.Played", false),
+        unplayedCount: chainLookupReturn(itemData, "json.UserData.UnplayedItemCount", 0)
+    }
 
     if itemData.json.lookup("Type") = "Episode" and isValid(itemData.json.IndexNumber)
         m.title.text = StrI(itemData.json.IndexNumber) + ". " + m.title.text
@@ -90,6 +67,7 @@ sub itemContentChanged() as void
     else
         m.series.visible = false
     end if
+
     m.staticTitle.text = m.title.text
 
     imageUrl = itemData.posterURL
@@ -104,7 +82,13 @@ sub itemContentChanged() as void
 
     m.poster.uri = imageUrl
 
+    if not isStringEqual(m.loadStatus, ViewLoadStatus.INIT) then return
+
     updateSize()
+
+    if isStringEqual(m.loadStatus, ViewLoadStatus.INIT)
+        m.loadStatus = ViewLoadStatus.FIRSTLOAD
+    end if
 end sub
 
 '

@@ -7,12 +7,14 @@ import "pkg:/source/enums/KeyCode.bs"
 import "pkg:/source/enums/PosterLoadStatus.bs"
 import "pkg:/source/enums/String.bs"
 import "pkg:/source/enums/TaskControl.bs"
+import "pkg:/source/enums/ViewLoadStatus.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/deviceCapabilities.bs"
 import "pkg:/source/utils/misc.bs"
 
 sub init()
     m.top.findNode("VoiceBoxCover").color = ColorPalette.VIEWBACKGROUND
+    m.loadItemsTask1 = createObject("roSGNode", "LoadItemsTask")
 
     overhang = m.top.getScene().findNode("overhang")
     overhang.isVisible = false
@@ -80,6 +82,8 @@ sub init()
     m.alphaMenu = m.alpha.findNode("alphaMenu")
 
     m.top.gridTitles = m.global.session.user.settings["itemgrid.gridTitles"]
+
+    m.loadStatus = ViewLoadStatus.INIT
 end sub
 
 sub createItemGrid()
@@ -740,6 +744,7 @@ end sub
 'Item Selected
 sub onItemSelected()
     m.top.selectedItem = m.itemGrid.content.getChild(m.itemGrid.itemSelected)
+    m.top.selectedItem = invalid
 end sub
 
 sub alphaSelectedChanged()
@@ -1014,4 +1019,43 @@ sub onPlaylistDataLoaded()
 
     dialogData = [tr("Delete Playlist")]
     m.global.sceneManager.callFunc("optionDialog", "libraryitem", m.getPlaylistDataTask.LookupCI("selectedItemTitle") ?? tr("Options"), [], dialogData, { id: m.getPlaylistDataTask.LookupCI("playlistID") })
+end sub
+
+sub OnScreenShown()
+    group = m.global.sceneManager.callFunc("getActiveScene")
+
+    if isValid(m.top.lastFocus)
+        m.top.lastFocus.setFocus(true)
+        group.lastFocus = m.top.lastFocus
+    else
+        m.top.setFocus(true)
+        group.lastFocus = m.top
+    end if
+
+    if isStringEqual(m.loadStatus, ViewLoadStatus.INIT)
+        m.loadStatus = ViewLoadStatus.FIRSTLOAD
+        return
+    end if
+
+    focusedItem = getItemFocused()
+
+    if isValid(focusedItem)
+        m.loadItemsTask1.itemId = focusedItem.LookupCI("id")
+        m.loadItemsTask1.observeField("content", "onItemDataLoaded")
+        m.loadItemsTask1.itemsToLoad = "metaData"
+        m.loadItemsTask1.control = TaskControl.RUN
+    end if
+end sub
+
+sub onItemDataLoaded()
+    itemData = m.loadItemsTask1.content
+    m.loadItemsTask1.unobserveField("content")
+    m.loadItemsTask1.content = []
+
+    if not isValidAndNotEmpty(itemData) then return
+
+    focusedItem = getItemFocused()
+    if not isValid(focusedItem) then return
+
+    focusedItem.callFunc("setWatched", chainLookupReturn(itemData[0], "json.UserData.Played", false), chainLookupReturn(itemData[0], "json.UserData.UnplayedItemCount", 0))
 end sub

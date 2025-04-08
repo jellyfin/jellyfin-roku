@@ -1,3 +1,4 @@
+import "pkg:/source/enums/ViewLoadStatus.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/misc.bs"
 
@@ -6,35 +7,29 @@ sub init()
     main = m.top.findNode("toplevel")
     main.translation = [96, 175]
     m.extrasSlider = m.top.findNode("tvSeasonExtras")
-    m.unplayedCount = m.top.findNode("unplayedCount")
-    m.unplayedEpisodeCount = m.top.findNode("unplayedEpisodeCount")
     m.getShuffleEpisodesTask = createObject("roSGNode", "getShuffleEpisodesTask")
     m.Shuffle = m.top.findNode("Shuffle")
     m.extrasSlider.visible = true
     m.seasons = m.top.findNode("seasons")
     m.overview = m.top.findNode("overview")
+    m.playedIndicator = m.top.findNode("playedIndicator")
 
     m.overview.ellipsisText = tr("... (Press * to read more)")
+    m.loadStatus = ViewLoadStatus.INIT
 end sub
 
 sub itemContentChanged()
     ' Updates video metadata
-    ' TODO - make things use item rather than itemData
     item = m.top.itemContent
     itemData = item.json
 
-    if m.global.session.user.settings["ui.tvshows.disableUnwatchedEpisodeCount"] = false
-        if isValid(itemData.UserData) and isValid(itemData.UserData.UnplayedItemCount)
-            if itemData.UserData.UnplayedItemCount > 0
-                m.unplayedCount.visible = true
-                m.unplayedEpisodeCount.text = itemData.UserData.UnplayedItemCount
-            end if
-        end if
-    end if
-
     m.top.findNode("tvshowPoster").uri = m.top.itemContent.posterURL
 
-    ' Handle all "As Is" fields
+    m.playedIndicator.data = {
+        played: chainLookupReturn(item, "json.UserData.Played", false),
+        unplayedCount: chainLookupReturn(item, "json.UserData.UnplayedItemCount", 0)
+    }
+
     m.top.overhangTitle = itemData.name
 
     'Check production year, if invalid remove label
@@ -89,6 +84,11 @@ sub itemContentChanged()
         setFieldText("tagline", itemData.taglines[0])
     else
         m.top.findNode("main_group").removeChild(m.top.findNode("tagline"))
+    end if
+
+    if isStringEqual(m.loadStatus, ViewLoadStatus.INIT)
+        m.loadStatus = ViewLoadStatus.FIRSTLOAD
+        return
     end if
 end sub
 
@@ -189,7 +189,29 @@ sub OnScreenShown()
         group = m.global.sceneManager.callFunc("getActiveScene")
         group.lastFocus = m.top.findNode("seasons")
     end if
+
+    if isStringEqual(m.loadStatus, ViewLoadStatus.INIT)
+        return
+    end if
+
+    m.top.refreshSeasonDetailsData = not m.top.refreshSeasonDetailsData
 end sub
+
+function getFocusedItem() as object
+    if m.seasons.isInFocusChain()
+        itemFocused = m.seasons.rowItemFocused
+        return m.seasons.TVSeasonData.Items[itemFocused[1]]
+    end if
+
+    if m.extrasSlider.isInFocusChain()
+        extrasGrid = m.top.findNode("extrasGrid")
+        if isValid(extrasGrid.focusedItem)
+            return extrasGrid.focusedItem
+        end if
+    end if
+
+    return invalid
+end function
 
 sub onShuffleEpisodeDataLoaded()
     m.getShuffleEpisodesTask.unobserveField("data")
