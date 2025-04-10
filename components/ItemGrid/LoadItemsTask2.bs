@@ -366,6 +366,7 @@ sub loadItems()
             end if
 
             if tmp <> invalid
+                item.AddReplace("passedData", m.top.passToItem)
                 if not isStringEqual(item.Type, "genre") and LCase(item.Type) <> "musicgenre"
                     tmp.parentFolder = m.top.itemId
                     tmp.json = item
