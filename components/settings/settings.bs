@@ -7,7 +7,7 @@ import "pkg:/source/utils/misc.bs"
 sub init()
     m.top.optionsAvailable = false
 
-    m.showSecretMenu = true
+    m.showSecretMenu = false
     m.keypresses = []
     m.magicKeyPressSequence = [KeyCode.UP, KeyCode.LEFT, KeyCode.REPLAY, KeyCode.REWIND, KeyCode.UP, KeyCode.LEFT, KeyCode.REPLAY, KeyCode.REWIND]
 

@@ -17,6 +17,9 @@ end sub
 
 sub onDataChange()
     m.top.color = ColorPalette.TRANSPARENT
+    m.checkmark.color = chainLookupReturn(m.global.session, "user.settings.colorPlayedCheckmarkIcon", ColorPalette.WHITE)
+    m.unplayedNumber.color = chainLookupReturn(m.global.session, "user.settings.colorUnplayedCountTextColor", ColorPalette.WHITE)
+
     m.checkmark.visible = false
     m.unplayedNumber.visible = false
 
@@ -30,14 +33,15 @@ sub onDataChange()
 
         m.unplayedNumber.font.size = unplayedCountLength = 4 ? 25 : 30
 
-        m.top.color = ColorPalette.TRIADBLUE
+        m.top.color = chainLookupReturn(m.global.session, "user.settings.colorPlayedCheckmarkBackground", ColorPalette.TRIADBLUE)
+
         m.unplayedNumber.visible = true
         m.unplayedNumber.text = unplayedCount
         return
     end if
 
     if chainLookupReturn(m.top.data, "played", false)
-        m.top.color = ColorPalette.TRIADBLUE
+        m.top.color = chainLookupReturn(m.global.session, "user.settings.colorPlayedCheckmarkBackground", ColorPalette.TRIADBLUE)
         m.checkmark.visible = true
         return
     end if
