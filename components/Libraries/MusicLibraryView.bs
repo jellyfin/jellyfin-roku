@@ -232,8 +232,6 @@ end sub
 '
 'Load initial set of Data
 sub loadInitialItems()
-    print "loadInitialItems:: m.top.searchTerm", m.top.searchTerm
-
     m.loadItemsTask.control = TaskControl.STOP
     startLoadingSpinner(false)
 
