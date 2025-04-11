@@ -3,9 +3,7 @@ import "pkg:/source/enums/KeyCode.bs"
 import "pkg:/source/utils/misc.bs"
 
 sub init()
-    m.top.backgroundColor = ColorPalette.VIEWBACKGROUND
     m.top.backgroundURI = ""
-
     m.spinner = m.top.findNode("spinner")
 end sub
 

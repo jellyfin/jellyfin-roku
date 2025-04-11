@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component name="ColorOption" extends="Group">
+  <children>
+    <Rectangle id="backdrop" width="50" height="50" translation="[0,23]" />
+    <Label
+      color="0x000000CC"
+      id="checkmarkShadow"
+      width="50"
+      height="50"
+      translation="[2,27]"
+      font="font:MediumBoldSystemFont"
+      horizAlign="center"
+      vertAlign="center"
+      text="✓"
+      visible="false" />
+    <Label
+      id="checkmark"
+      width="50"
+      height="50"
+      translation="[0,25]"
+      font="font:MediumBoldSystemFont"
+      horizAlign="center"
+      vertAlign="center"
+      text="✓"
+      visible="false" />
+  </children>
+  <interface>
+    <field id="itemContent" type="node" onChange="itemContentChanged" />
+  </interface>
+</component>

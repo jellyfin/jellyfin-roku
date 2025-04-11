@@ -22,7 +22,7 @@ sub init()
     m.itemPoster.observeField("loadStatus", "onPosterLoadStatusChanged")
 
     m.itemIconBackground = m.top.findNode("itemIconBackground")
-    m.itemIconBackground.color = ColorPalette.VIEWBACKGROUND
+    m.itemIconBackground.color = chainLookupReturn(m.global.session, "user.settings.colorBackground", ColorPalette.VIEWBACKGROUND)
 
     'Parent is MarkupGrid and it's parent is the ItemGrid
     m.topParent = m.top.GetParent().GetParent()

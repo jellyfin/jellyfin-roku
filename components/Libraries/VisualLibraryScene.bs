@@ -73,7 +73,7 @@ sub init()
 
     m.itemGrid.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
     m.genreList.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
-    m.top.findNode("VoiceBoxCover").color = ColorPalette.VIEWBACKGROUND
+    m.top.findNode("VoiceBoxCover").color = chainLookupReturn(m.global.session, "user.settings.colorBackground", ColorPalette.VIEWBACKGROUND)
 
     m.overhang.isVisible = false
 

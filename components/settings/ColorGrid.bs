@@ -1,0 +1,13 @@
+import "pkg:/source/utils/misc.bs"
+
+sub onSettingChange()
+    selectedColor = chainLookupReturn(m.global.session, `user.settings.${m.top.setting.settingName}`, m.top.setting.default)
+
+    for each color in m.top.content.getChildren(-1, 0)
+        if color.isChecked then color.isChecked = false
+
+        if isStringEqual(color.colorCode, selectedColor)
+            color.isChecked = true
+        end if
+    end for
+end sub
