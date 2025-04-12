@@ -75,6 +75,13 @@ sub Main (args as dynamic) as void
         end if
     end if
 
+    if isValid(audioMiniPlayer)
+        songLabel = audioMiniPlayer.findNode("song")
+        if isValid(songLabel)
+            songLabel.font = "font:MediumSystemFont"
+        end if
+    end if
+
     ' Delete any old library filters
     clearOldLibraryFilters()
 
