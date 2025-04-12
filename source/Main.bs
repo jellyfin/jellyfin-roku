@@ -67,6 +67,14 @@ sub Main (args as dynamic) as void
     ' This font may be used for CJK subtitles
     downloadFallbackFont()
 
+    ' Refresh overhang title font so it can change to fallback if desired
+    if isValid(overhang)
+        titleLabel = overhang.findNode("overlayTitle")
+        if isValid(titleLabel)
+            titleLabel.font = "font:LargeSystemFont"
+        end if
+    end if
+
     ' Delete any old library filters
     clearOldLibraryFilters()
 
