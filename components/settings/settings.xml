@@ -27,6 +27,19 @@
       </ContentNode>
     </RadioButtonList>
 
+    <ColorGrid
+      id="colorgrid"
+      translation="[740, 350]"
+      itemComponentName="ColorOption"
+      numColumns="15"
+      numRows="9"
+      rowHeights="[50]"
+      visible="false"
+      vertFocusAnimationStyle="fixed"
+      itemSize="[50, 50]"
+      itemSpacing="[20, 20]"
+      drawFocusFeedback="true" />
+
     <IntegerKeyboard translation="[1034, 510]" id="integerSetting" domain="numeric" visible="false" />
     <Timer id="keypressTimer" duration="5" />
   </children>

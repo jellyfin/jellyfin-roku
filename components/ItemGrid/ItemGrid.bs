@@ -13,7 +13,7 @@ import "pkg:/source/utils/deviceCapabilities.bs"
 import "pkg:/source/utils/misc.bs"
 
 sub init()
-    m.top.findNode("VoiceBoxCover").color = ColorPalette.VIEWBACKGROUND
+    m.top.findNode("VoiceBoxCover").color = chainLookupReturn(m.global.session, "user.settings.colorBackground", ColorPalette.VIEWBACKGROUND)
     m.loadItemsTask1 = createObject("roSGNode", "LoadItemsTask")
 
     overhang = m.top.getScene().findNode("overhang")

@@ -49,6 +49,8 @@ sub Main (args as dynamic) as void
     ' First thing to do is validate the ability to use the API
     if not LoginFlow() then return
 
+    m.scene.backgroundColor = chainLookupReturn(m.global.session, "user.settings.colorBackground", ColorPalette.VIEWBACKGROUND)
+
     ' remove login scenes from the stack
     sceneManager.callFunc("clearScenes")
 
