@@ -241,12 +241,6 @@ sub loadInitialItems()
     m.loadItemsTask.studioIds = string.EMPTY
     m.loadItemsTask.view = string.EMPTY
 
-    if inArray([ItemType.BOXSET, ItemType.PHOTO, ItemType.PHOTOALBUM], m.top.mediaType)
-        m.loadItemsTask.recursive = false
-    else
-        m.loadItemsTask.itemType = m.top.mediaType
-    end if
-
     if isStringEqual(m.view, "Genres")
         m.loadItemsTask.view = "Genres"
         m.loadItemsTask.genreIds = m.top.parentItem.id
@@ -260,6 +254,26 @@ sub loadInitialItems()
         m.loadItemsTask.itemId = m.top.parentItem.Id
         m.loadItemsTask.studioIds = string.EMPTY
         m.loadItemsTask.genreIds = string.EMPTY
+    end if
+
+    if inArray([ItemType.BOXSET, ItemType.PHOTO, ItemType.PHOTOALBUM], m.top.mediaType)
+        m.loadItemsTask.recursive = false
+
+        if isStringEqual(m.top.mediaType, ItemType.BOXSET)
+            if not isStringEqual(m.top.parentItem.LookupCI("type"), ItemType.BOXSET)
+                if m.loadItemsTask.searchTerm <> string.EMPTY
+                    m.loadItemsTask.itemType = ItemType.BOXSET
+                    m.loadItemsTask.recursive = true
+                end if
+            else
+                if isValid(m.top.parentItem.parentFolder)
+                    ' The API does not support searching inside boxsets
+                    m.searchButton.disabled = true
+                end if
+            end if
+        end if
+    else
+        m.loadItemsTask.itemType = m.top.mediaType
     end if
 
     ' We're in a genre sub folder
