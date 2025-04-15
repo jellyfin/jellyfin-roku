@@ -1,0 +1,20 @@
+import "pkg:/source/utils/config.bs"
+import "pkg:/source/utils/misc.bs"
+
+sub init()
+    m.backdrop = m.top.findNode("backdrop")
+    m.checkmarkShadow = m.top.findNode("checkmarkShadow")
+    m.checkmarkShadow.font.size = 42
+
+    m.checkmark = m.top.findNode("checkmark")
+    m.checkmark.font.size = 42
+end sub
+
+sub itemContentChanged()
+    itemData = m.top.itemContent
+    if not isValid(itemData) then return
+
+    m.backdrop.color = itemData.colorCode
+    m.checkmark.visible = itemData.isChecked
+    m.checkmarkShadow.visible = itemData.isChecked
+end sub

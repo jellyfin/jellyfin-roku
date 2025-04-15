@@ -65,7 +65,7 @@ sub init()
 
     m.itemGrid.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
     m.genrelist.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
-    m.top.findNode("VoiceBoxCover").color = ColorPalette.VIEWBACKGROUND
+    m.top.findNode("VoiceBoxCover").color = chainLookupReturn(m.global.session, "user.settings.colorBackground", ColorPalette.VIEWBACKGROUND)
 
     m.overhang.isVisible = false
 
@@ -267,15 +267,7 @@ sub loadInitialItems()
 
     m.top.showItemTitles = m.global.session.user.settings["itemgrid.gridTitles"]
 
-    ' if we already searched for this alpha text than reset filter
-    if m.loadItemsTask.nameStartsWith = m.top.alphaSelected
-        m.loadItemsTask.nameStartsWith = ""
-        m.top.alphaSelected = string.EMPTY
-    else
-        m.loadItemsTask.nameStartsWith = m.alpha.letterSelected
-    end if
-
-    m.loadItemsTask.searchTerm = m.top.searchTerm <> string.EMPTY ? m.top.searchTerm : m.voiceBox.text
+    m.loadItemsTask.searchTerm = m.top.searchTerm
     m.emptyText.visible = false
     m.loadItemsTask.sortField = m.sortField
     m.loadItemsTask.sortAscending = m.sortAscending
@@ -948,61 +940,73 @@ sub onSearchTermChanged()
 end sub
 
 sub alphaSelectedChanged()
-    if m.top.alphaSelected <> ""
-        m.loadedRows = 0
-        m.loadedItems = 0
-
-        m.data = CreateObject("roSGNode", "ContentNode")
-        m.itemGrid.content = m.data
-
-        m.genreData = CreateObject("roSGNode", "ContentNode")
-        m.genreList.content = m.genreData
-
-        m.loadItemsTask.searchTerm = ""
-        m.VoiceBox.text = ""
-        loadInitialItems()
+    ' Prevent voicebox change double firing
+    if m.voiceBox.text = string.EMPTY
+        ' Allow user to toggle by clicking letter twice
+        if isStringEqual(m.loadItemsTask.nameStartsWith, m.top.alphaSelected)
+            m.top.alphaSelected = string.EMPTY
+        end if
     end if
-end sub
-
-sub onvoiceFilter()
-    if m.VoiceBox.text = "" then return
-
-    if LCase(m.voiceBox.text) = "reset search" then m.voiceBox.text = ""
 
     m.loadedRows = 0
     m.loadedItems = 0
+
     m.data = CreateObject("roSGNode", "ContentNode")
     m.itemGrid.content = m.data
-    m.top.alphaSelected = ""
-    m.loadItemsTask.NameStartsWith = " "
-    m.loadItemsTask.searchTerm = m.voiceBox.text
-    m.loadItemsTask.recursive = true
+
+    m.genreData = CreateObject("roSGNode", "ContentNode")
+    m.genreList.content = m.genreData
+
+    m.loadItemsTask.nameStartsWith = m.top.alphaSelected
+    m.voiceBox.text = string.EMPTY
+    m.top.searchTerm = string.EMPTY
+    loadInitialItems()
+end sub
+
+sub unfocusAllButtons()
+    m.searchButton.focus = false
+    m.sortButton.focus = false
+    m.sortOrderButton.focus = false
+    m.filterButton.focus = false
+    m.viewButton.focus = false
+end sub
+
+sub onvoiceFilter()
+    if not isValidAndNotEmpty(m.voiceBox.text) then return
+
+    unfocusAllButtons()
+
+    if isStringEqual(m.voiceBox.text.trim(), "reset search") then m.voiceBox.text = string.EMPTY
 
     ' If user searched for a letter, selected it from the alpha menu
     if m.voiceBox.text.len() = 1
+        alphaMenu = m.top.findNode("alphaMenu")
         intConversion = m.voiceBox.text.ToInt() ' non numeric input returns as 0
 
         if m.voiceBox.text = "0" or (isValid(intConversion) and intConversion <> 0)
-            m.alphaMenu.jumpToItem = 0
+            alphaMenu.jumpToItem = 0
         else
             ' loop through each option until we find a match
-            for i = 1 to m.alphaMenu.numRows - 1
-                alphaMenuOption = m.alphaMenu.content.getChild(i)
-                if Lcase(alphaMenuOption.TITLE) = Lcase(m.voiceBox.text)
-                    m.alphaMenu.jumpToItem = i
+            for i = 1 to alphaMenu.numRows - 1
+                alphaMenuOption = alphaMenu.content.getChild(i)
+                if isStringEqual(alphaMenuOption.TITLE, m.voiceBox.text)
+                    alphaMenu.jumpToItem = i
                     exit for
                 end if
             end for
         end if
+
+        m.top.alphaSelected = m.voiceBox.text
+        return
     end if
 
-    loadInitialItems()
-
-    if m.top.alphaActive
-        m.alphaMenu.setFocus(true)
-        group = m.global.sceneManager.callFunc("getActiveScene")
-        group.lastFocus = m.alphaMenu
+    if m.searchButton.disabled
+        m.itemGrid.setFocus(m.itemGrid.opacity = 1)
+        m.genreList.setFocus(m.genreList.opacity = 1)
+        return
     end if
+
+    m.top.searchTerm = m.voiceBox.text.trim()
 end sub
 
 

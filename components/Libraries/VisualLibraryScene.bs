@@ -73,7 +73,7 @@ sub init()
 
     m.itemGrid.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
     m.genreList.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
-    m.top.findNode("VoiceBoxCover").color = ColorPalette.VIEWBACKGROUND
+    m.top.findNode("VoiceBoxCover").color = chainLookupReturn(m.global.session, "user.settings.colorBackground", ColorPalette.VIEWBACKGROUND)
 
     m.overhang.isVisible = false
 
@@ -232,7 +232,7 @@ sub loadInitialItems()
 
     m.filterOptions = ParseJson(m.filterOptions)
 
-    m.loadItemsTask.searchTerm = m.top.searchTerm <> string.EMPTY ? m.top.searchTerm : m.voiceBox.text
+    m.loadItemsTask.searchTerm = m.top.searchTerm
     m.loadItemsTask.sortField = m.sortField
     m.loadItemsTask.sortAscending = m.sortAscending
     m.loadItemsTask.filter = m.filter
@@ -240,21 +240,6 @@ sub loadInitialItems()
     m.loadItemsTask.startIndex = 0
     m.loadItemsTask.studioIds = string.EMPTY
     m.loadItemsTask.view = string.EMPTY
-
-    if inArray([ItemType.BOXSET, ItemType.PHOTO, ItemType.PHOTOALBUM, ItemType.MUSICVIDEO], m.top.mediaType)
-        m.loadItemsTask.recursive = false
-
-        if isStringEqual(m.top.mediaType, ItemType.MUSICVIDEO)
-            ' Sort folders to the top of results
-            m.loadItemsTask.sortField = `IsFolder,${m.sortField}`
-            m.loadItemsTask.itemType = `${ItemType.MUSICVIDEO},${ItemType.FOLDER}`
-            m.loadItemsTask.passToItem = {
-                collectionType: ItemType.MUSICVIDEO
-            }
-        end if
-    else
-        m.loadItemsTask.itemType = m.top.mediaType
-    end if
 
     if isStringEqual(m.view, "Genres")
         m.loadItemsTask.view = "Genres"
@@ -272,6 +257,36 @@ sub loadInitialItems()
         m.loadItemsTask.itemId = m.top.parentItem.Id
         m.loadItemsTask.studioIds = string.EMPTY
         m.loadItemsTask.genreIds = string.EMPTY
+    end if
+
+
+    if inArray([ItemType.BOXSET, ItemType.PHOTO, ItemType.PHOTOALBUM, ItemType.MUSICVIDEO], m.top.mediaType)
+        m.loadItemsTask.recursive = false
+
+        if isStringEqual(m.top.mediaType, ItemType.MUSICVIDEO)
+            ' Sort folders to the top of results
+            m.loadItemsTask.sortField = `IsFolder,${m.sortField}`
+            m.loadItemsTask.itemType = `${ItemType.MUSICVIDEO},${ItemType.FOLDER}`
+            m.loadItemsTask.passToItem = {
+                collectionType: ItemType.MUSICVIDEO
+            }
+        end if
+
+        if isStringEqual(m.top.mediaType, ItemType.BOXSET)
+            if not isStringEqual(m.top.parentItem.LookupCI("type"), ItemType.BOXSET)
+                if m.loadItemsTask.searchTerm <> string.EMPTY
+                    m.loadItemsTask.itemType = ItemType.BOXSET
+                    m.loadItemsTask.recursive = true
+                end if
+            else
+                if isValid(m.top.parentItem.parentFolder)
+                    ' The API does not support searching inside boxsets
+                    m.searchButton.disabled = true
+                end if
+            end if
+        end if
+    else
+        m.loadItemsTask.itemType = m.top.mediaType
     end if
 
     ' We're in a genre sub folder
@@ -1183,9 +1198,12 @@ sub onSearchTermChanged()
 end sub
 
 sub alphaSelectedChanged()
-    ' Allow user to toggle by clicking letter twice
-    if isStringEqual(m.loadItemsTask.nameStartsWith, m.top.alphaSelected)
-        m.top.alphaSelected = string.EMPTY
+    ' Prevent voicebox change double firing
+    if m.voiceBox.text = string.EMPTY
+        ' Allow user to toggle by clicking letter twice
+        if isStringEqual(m.loadItemsTask.nameStartsWith, m.top.alphaSelected)
+            m.top.alphaSelected = string.EMPTY
+        end if
     end if
 
     m.loadedRows = 0
@@ -1198,23 +1216,25 @@ sub alphaSelectedChanged()
     m.genreList.content = m.genreData
 
     m.loadItemsTask.nameStartsWith = m.top.alphaSelected
-    m.VoiceBox.text = string.EMPTY
+    m.voiceBox.text = string.EMPTY
+    m.top.searchTerm = string.EMPTY
     loadInitialItems()
 end sub
 
+sub unfocusAllButtons()
+    m.searchButton.focus = false
+    m.sortButton.focus = false
+    m.sortOrderButton.focus = false
+    m.filterButton.focus = false
+    m.viewButton.focus = false
+end sub
+
 sub onvoiceFilter()
-    if not isValidAndNotEmpty(m.VoiceBox.text) then return
+    if not isValidAndNotEmpty(m.voiceBox.text) then return
 
-    if isStringEqual(m.voiceBox.text, "reset search") then m.voiceBox.text = string.EMPTY
+    unfocusAllButtons()
 
-    m.loadedRows = 0
-    m.loadedItems = 0
-    m.data = CreateObject("roSGNode", "ContentNode")
-    m.itemGrid.content = m.data
-    m.top.alphaSelected = string.EMPTY
-    m.loadItemsTask.NameStartsWith = " "
-    m.loadItemsTask.searchTerm = m.voiceBox.text
-    m.loadItemsTask.recursive = true
+    if isStringEqual(m.voiceBox.text.trim(), "reset search") then m.voiceBox.text = string.EMPTY
 
     ' If user searched for a letter, selected it from the alpha menu
     if m.voiceBox.text.len() = 1
@@ -1227,15 +1247,24 @@ sub onvoiceFilter()
             ' loop through each option until we find a match
             for i = 1 to alphaMenu.numRows - 1
                 alphaMenuOption = alphaMenu.content.getChild(i)
-                if Lcase(alphaMenuOption.TITLE) = Lcase(m.voiceBox.text)
+                if isStringEqual(alphaMenuOption.TITLE, m.voiceBox.text)
                     alphaMenu.jumpToItem = i
                     exit for
                 end if
             end for
         end if
+
+        m.top.alphaSelected = m.voiceBox.text
+        return
     end if
 
-    loadInitialItems()
+    if m.searchButton.disabled
+        m.itemGrid.setFocus(m.itemGrid.opacity = 1)
+        m.genreList.setFocus(m.genreList.opacity = 1)
+        return
+    end if
+
+    m.top.searchTerm = m.voiceBox.text.trim()
 end sub
 
 '
