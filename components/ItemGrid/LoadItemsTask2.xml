@@ -13,6 +13,7 @@
     <field id="recursive" type="boolean" value="true" />
     <field id="filter" type="string" value="All" />
     <field id="filterOptions" type="assocarray" value="" />
+    <field id="passToItem" type="assocarray" value="{}" />
     <field id="searchTerm" type="string" value="" />
     <field id="studioIds" type="string" value="" />
     <field id="genreIds" type="string" value="" />

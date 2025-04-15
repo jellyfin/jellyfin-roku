@@ -14,5 +14,9 @@
   {
     "description": "Fix search in collections library. <b>Due to API restrictions, all sub-folders are included in search results and is disabled when inside a collection.</b>",
     "author": "1hitsong"
+  },
+  {
+    "description": "Add folder support to music video library",
+    "author": "1hitsong"
   }
 ]

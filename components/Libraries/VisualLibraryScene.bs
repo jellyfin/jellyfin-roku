@@ -180,7 +180,7 @@ end sub
 '
 'Load initial set of Data
 sub loadInitialItems()
-    m.loadItemsTask.control = "stop"
+    m.loadItemsTask.control = TaskControl.STOP
     startLoadingSpinner(false)
 
     if isValid(m.top.parentItem.backdropUrl)
@@ -246,6 +246,9 @@ sub loadInitialItems()
         m.loadItemsTask.genreIds = m.top.parentItem.id
         m.loadItemsTask.itemId = m.top.parentItem.parentFolder
         m.loadItemsTask.studioIds = m.top.parentItem.Id
+        if isStringEqual(m.top.mediaType, ItemType.MUSICVIDEO)
+            m.loadItemsTask.recursive = true
+        end if
     else if isStringEqual(m.view, "presentation")
         m.loadItemsTask.itemId = m.top.parentItem.Id
         m.loadItemsTask.studioIds = string.EMPTY
@@ -256,8 +259,18 @@ sub loadInitialItems()
         m.loadItemsTask.genreIds = string.EMPTY
     end if
 
-    if inArray([ItemType.BOXSET, ItemType.PHOTO, ItemType.PHOTOALBUM], m.top.mediaType)
+
+    if inArray([ItemType.BOXSET, ItemType.PHOTO, ItemType.PHOTOALBUM, ItemType.MUSICVIDEO], m.top.mediaType)
         m.loadItemsTask.recursive = false
+
+        if isStringEqual(m.top.mediaType, ItemType.MUSICVIDEO)
+            ' Sort folders to the top of results
+            m.loadItemsTask.sortField = `IsFolder,${m.sortField}`
+            m.loadItemsTask.itemType = `${ItemType.MUSICVIDEO},${ItemType.FOLDER}`
+            m.loadItemsTask.passToItem = {
+                collectionType: ItemType.MUSICVIDEO
+            }
+        end if
 
         if isStringEqual(m.top.mediaType, ItemType.BOXSET)
             if not isStringEqual(m.top.parentItem.LookupCI("type"), ItemType.BOXSET)
@@ -278,9 +291,19 @@ sub loadInitialItems()
 
     ' We're in a genre sub folder
     if isValid(m.top.parentItem.parentFolder) and not isStringEqual(getCollectionType(), CollectionType.BOXSET)
-        if not isStringEqual(m.top.mediaType, ItemType.PHOTOALBUM)
+        if not inArray([ItemType.PHOTOALBUM, ItemType.MUSICVIDEO], m.top.mediaType)
             m.loadItemsTask.itemId = m.top.parentItem.parentFolder
             m.loadItemsTask.genreIds = m.top.parentItem.id
+        end if
+    end if
+
+    ' We're inside a music video genre sub folder
+    if isStringEqual(m.top.mediaType, ItemType.MUSICVIDEO)
+        if isStringEqual(chainLookup(m.top.parentItem, "itemType"), `${ItemType.MUSICVIDEO},${ItemType.FOLDER}`)
+            m.loadItemsTask.itemId = m.top.parentItem.id
+            m.loadItemsTask.genreIds = m.top.parentItem.id
+            m.loadItemsTask.itemType = ItemType.MUSICVIDEO
+            m.loadItemsTask.recursive = true
         end if
     end if
 
@@ -374,7 +397,7 @@ sub loadInitialItems()
     end if
 
     m.loadItemsTask.observeField("content", "ItemDataLoaded")
-    m.loadItemsTask.control = "RUN"
+    m.loadItemsTask.control = TaskControl.RUN
 
     m.getFiltersTask.observeField("filters", "FilterDataLoaded")
     m.getFiltersTask.params = {
@@ -1083,7 +1106,7 @@ sub loadMoreData()
     m.Loading = true
     m.loadItemsTask.startIndex = m.loadedItems
     m.loadItemsTask.observeField("content", "ItemDataLoaded")
-    m.loadItemsTask.control = "RUN"
+    m.loadItemsTask.control = TaskControl.RUN
 end sub
 
 '
