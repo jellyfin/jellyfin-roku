@@ -30,8 +30,8 @@
     </LayoutGroup>
 
     <LayoutGroup translation="[100,100]" layoutDirection="vert" horizAlignment="left" itemSpacings="[15]">
-      <ScrollingLabel id="song" font="font:MediumBoldSystemFont" maxWidth="1800" height="50" />
-      <ScrollingLabel id="artist" maxWidth="1800" height="25" />
+      <ScrollingText id="song" font="font:MediumBoldSystemFont" maxWidth="1800" height="50" />
+      <ScrollingText id="artist" maxWidth="1800" height="25" />
       <Label id="numberofsongs" width="500" height="25" font="font:SmallestSystemFont" color="#999999" />
     </LayoutGroup>
 

@@ -4,8 +4,8 @@
     <LayoutGroup layoutDirection="horiz" horizAlignment="left" itemSpacings="[25, 0]" translation="[0, 15]">
       <Poster id="mediaTypeIcon" width="32" height="32" />
       <LayoutGroup layoutDirection="vert" horizAlignment="left" itemSpacings="[0, 10]">
-        <ScrollingLabel id="title" horizAlign="left" vertAlign="center" font="font:SmallBoldSystemFont" maxWidth="960" />
-        <ScrollingLabel id="subtitle" horizAlign="left" vertAlign="center" font="font:SmallSystemFont" maxWidth="960" />
+        <ScrollingText id="title" horizAlign="left" vertAlign="center" font="font:SmallBoldSystemFont" maxWidth="960" />
+        <ScrollingText id="subtitle" horizAlign="left" vertAlign="center" font="font:SmallSystemFont" maxWidth="960" />
       </LayoutGroup>
       <Label id="tracklength" horizAlign="right" vertAlign="center" font="font:SmallBoldSystemFont" width="150" />
     </LayoutGroup>

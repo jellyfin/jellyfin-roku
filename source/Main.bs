@@ -37,6 +37,7 @@ sub Main (args as dynamic) as void
     m.global.addFields({ queueManager: CreateObject("roSGNode", "QueueManager") })
     m.global.addFields({ audioPlayer: CreateObject("roSGNode", "AudioPlayer") })
     m.global.addFields({ jumpTo: {} })
+    m.global.addFields({ fallbackFont: string.EMPTY })
 
     m.global.observeField("jumpTo", m.port)
 
@@ -65,6 +66,21 @@ sub Main (args as dynamic) as void
     ' Download and store the fallback font to tmp:/
     ' This font may be used for CJK subtitles
     downloadFallbackFont()
+
+    ' Refresh overhang title font so it can change to fallback if desired
+    if isValid(overhang)
+        titleLabel = overhang.findNode("overlayTitle")
+        if isValid(titleLabel)
+            titleLabel.font = "font:LargeSystemFont"
+        end if
+    end if
+
+    if isValid(audioMiniPlayer)
+        songLabel = audioMiniPlayer.findNode("song")
+        if isValid(songLabel)
+            songLabel.font = "font:MediumSystemFont"
+        end if
+    end if
 
     ' Delete any old library filters
     clearOldLibraryFilters()
@@ -224,6 +240,7 @@ sub downloadFallbackFont()
                 if isValidAndNotEmpty(filename)
                     filename = filename[1]
                     APIRequest("FallbackFont/Fonts/" + filename).gettofile("tmp:/font")
+                    m.global.fallbackFont = "tmp:/font"
                 end if
             end if
         end if
