@@ -3,6 +3,7 @@
   <children>
     <ContentNode role="content">
       <ColorOptionData colorcode="#000000" />
+      <ColorOptionData colorcode="#000018" />
       <ColorOptionData colorcode="#222222" />
       <ColorOptionData colorcode="#333333" />
       <ColorOptionData colorcode="#444444" />
