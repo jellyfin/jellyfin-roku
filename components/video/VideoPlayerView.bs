@@ -1,5 +1,6 @@
 import "pkg:/source/enums/ColorPalette.bs"
 import "pkg:/source/enums/KeyCode.bs"
+import "pkg:/source/enums/MediaPlaybackState.bs"
 import "pkg:/source/enums/MediaSegmentAction.bs"
 import "pkg:/source/enums/MediaSegmentType.bs"
 import "pkg:/source/enums/String.bs"
@@ -750,12 +751,11 @@ sub onState(msg)
     m.osd.playbackState = m.top.state
 
     ' When buffering, start timer to monitor buffering process
-    if m.top.state = "buffering" and m.bufferCheckTimer <> invalid
-
+    if isStringEqual(m.top.state, MediaPlaybackState.BUFFERING) and m.bufferCheckTimer <> invalid
         ' start timer
         m.bufferCheckTimer.control = "start"
         m.bufferCheckTimer.ObserveField("fire", "bufferCheck")
-    else if m.top.state = "error"
+    else if isStringEqual(m.top.state, MediaPlaybackState.ERROR)
         print "Error: " m.top.errorCode, m.top.errorMsg, " ErrorStr: " m.top.errorStr
         print m.top.errorInfo
 
@@ -769,8 +769,7 @@ sub onState(msg)
         ' Stop playback and exit player
         m.top.control = VideoControl.STOP
         m.top.backPressed = true
-    else if m.top.state = "playing"
-
+    else if isStringEqual(m.top.state, MediaPlaybackState.PLAYING)
         ' Check if next episode is available
         if isValid(m.top.showID)
             if m.top.showID <> string.EMPTY and not m.checkedForNextEpisode and m.top.content.contenttype = 4
@@ -787,10 +786,14 @@ sub onState(msg)
             ReportPlayback()
         end if
         m.playbackTimer.control = "start"
-    else if m.top.state = "paused"
+    else if isStringEqual(m.top.state, MediaPlaybackState.PAUSED)
         m.playbackTimer.control = "stop"
         ReportPlayback()
-    else if m.top.state = "stopped"
+    else if isStringEqual(m.top.state, MediaPlaybackState.STOPPED)
+        m.playbackTimer.control = "stop"
+        ReportPlayback("stop")
+        m.playReported = false
+    else if isStringEqual(m.top.state, MediaPlaybackState.FINISHED)
         m.playbackTimer.control = "stop"
         ReportPlayback("stop")
         m.playReported = false
@@ -860,7 +863,7 @@ sub ReportPlayback(state = "update" as string)
         "ItemId": m.top.id,
         "PlaySessionId": m.top.PlaySessionId,
         "PositionTicks": int(m.top.position) * 10000000&, 'Ensure a LongInteger is used
-        "IsPaused": (m.top.state = "paused")
+        "IsPaused": isStringEqual(m.top.state, MediaPlaybackState.PAUSED)
     }
     if isValid(m.top.content) and isValid(m.top.content.live) and m.top.content.live
         params.append({
