@@ -19,6 +19,10 @@ sub Main (args as dynamic) as void
     session.Init()
 
     m.scene = m.screen.CreateScene("BaseScene")
+
+    ' Set default background color
+    m.scene.backgroundColor = chainLookupReturn(m.global.session, "user.settings.colorBackground", ColorPalette.VIEWBACKGROUND)
+
     m.screen.show() ' vscode_rale_tracker_entry
     'vscode_rdb_on_device_component_entry
 
@@ -50,6 +54,7 @@ sub Main (args as dynamic) as void
     ' First thing to do is validate the ability to use the API
     if not LoginFlow() then return
 
+    ' Set user's chosen background color
     m.scene.backgroundColor = chainLookupReturn(m.global.session, "user.settings.colorBackground", ColorPalette.VIEWBACKGROUND)
 
     ' remove login scenes from the stack
