@@ -666,7 +666,7 @@ function FindPreferredAudioStream(streams as dynamic) as integer
         streams = jsonResponse.MediaStreams
     end if
 
-    if playDefault <> invalid and playDefault = true
+    if isValid(playDefault) and playDefault
         return FindDefaultTrack(streams)
     end if
 
