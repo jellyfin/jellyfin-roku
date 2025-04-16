@@ -636,13 +636,24 @@ function sortSubtitles(MediaStreams)
     return { "all": tracks["forced"], "text": tracks["text"] }
 end function
 
+function FindDefaultTrack(streams as dynamic)
+    ' Usually the first audio stream, so this should be fast.
+    ' But it's not always the first audio stream :-(
+    for i = 0 to streams.Count() - 1
+        if LCase(streams[i].Type) = "audio"
+            if streams[i].IsDefault
+                return i
+            end if
+        end if
+    end for
+
+    ' No default?  Return the first one.
+    return 1
+end function
+
 function FindPreferredAudioStream(streams as dynamic) as integer
     preferredLanguage = m.global.session.user.Configuration.AudioLanguagePreference
     playDefault = m.global.session.user.Configuration.PlayDefaultAudioTrack
-
-    if playDefault <> invalid and playDefault = true
-        return 1
-    end if
 
     ' Do we already have the MediaStreams or not?
     if streams = invalid
@@ -653,6 +664,10 @@ function FindPreferredAudioStream(streams as dynamic) as integer
         if jsonResponse = invalid or jsonResponse.MediaStreams = invalid then return 1
 
         streams = jsonResponse.MediaStreams
+    end if
+
+    if playDefault <> invalid and playDefault = true
+        return FindDefaultTrack(streams)
     end if
 
     if preferredLanguage <> invalid
