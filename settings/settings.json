@@ -21,7 +21,7 @@
                         "description": "The base background color for all screens in Jellyfin.",
                         "settingName": "colorBackground",
                         "type": "colorgrid",
-                        "default": "#000033"
+                        "default": "#000018"
                     },
                     {
                         "title": "Watched Check Mark & Unplayed Count Background",
