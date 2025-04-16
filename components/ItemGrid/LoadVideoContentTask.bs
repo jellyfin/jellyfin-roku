@@ -640,8 +640,8 @@ function FindDefaultTrack(streams as dynamic)
     ' Usually the first audio stream, so this should be fast.
     ' But it's not always the first audio stream :-(
     for i = 0 to streams.Count() - 1
-        if LCase(streams[i].Type) = "audio"
-            if streams[i].IsDefault
+        if isStringEqual(streams[i].LookupCI("type"), "audio")
+            if chainLookupReturn(streams[i], "IsDefault", false)
                 return i
             end if
         end if
