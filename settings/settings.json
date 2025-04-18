@@ -1,8 +1,8 @@
 [
     {
         "title": "Secret",
-        "description": "Settings that are not for public consumption. Don't get mad if these things change without notice.",
-        "visible": true,
+        "description": "Settings that are not for public consumption. Do not get mad if these things change without notice.",
+        "visible": false,
         "children": [
             {
                 "title": "CJK Text",
