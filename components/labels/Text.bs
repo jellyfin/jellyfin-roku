@@ -1,7 +1,9 @@
+import "pkg:/source/enums/ColorPalette.bs"
 import "pkg:/source/enums/String.bs"
 import "pkg:/source/utils/misc.bs"
 
 sub init()
+    m.top.color = chainLookupReturn(m.global.session, "user.settings.colorText", ColorPalette.WHITE)
     setFont()
 
     m.top.observeFieldScoped("font", "onFontChanged")
