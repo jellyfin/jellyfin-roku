@@ -5,15 +5,15 @@
       <Poster id="moviePoster" translation="[250,150]" width="300" height="450" />
 
       <LayoutGroup layoutDirection="vert" itemSpacings="[30]">
-        <Label id="headerText" font="font:LargeBoldSystemFont" text="Search for Subtitles" width="690" />
+        <Text id="headerText" font="font:LargeBoldSystemFont" text="Search for Subtitles" width="690" />
 
         <LayoutGroup layoutDirection="vert" itemSpacings="[10]">
-          <Label id="fileNameLabel" font="font:MediumBoldSystemFont" text="File" />
-          <scrollingLabel id="fileName" maxWidth="690" repeatCount="2" />
+          <Text id="fileNameLabel" font="font:MediumBoldSystemFont" text="File" />
+          <ScrollingText id="fileName" maxWidth="690" repeatCount="2" />
         </LayoutGroup>
 
         <LayoutGroup layoutDirection="vert" itemSpacings="[10]">
-          <Label id="languageLabel" font="font:MediumBoldSystemFont" text="Language" />
+          <Text id="languageLabel" font="font:MediumBoldSystemFont" text="Language" />
           <TextButton id="languageButton" iconSide="right" fontSize="35" padding="35" icon="pkg:/images/icons/dropdown-dark.png" focusIcon="pkg:/images/icons/dropdown-light.png" text="" height="75" width="500" />
         </LayoutGroup>
         <ButtonGroup>
@@ -27,7 +27,7 @@
 
       <LayoutGroup layoutDirection="vert" itemSpacings="[30]">
         <Rectangle id="mySubtitleBackground" width="600" height="710">
-          <Label translation="[30, 30]" id="headerText" font="font:LargeBoldSystemFont" text="My Subtitles" />
+          <Text translation="[30, 30]" id="headerText" font="font:LargeBoldSystemFont" text="My Subtitles" />
           <MarkupList id="mySubtitleList" itemComponentName="SubtitleItem" translation="[60, 85]" itemSize="[480,100]" numRows="6" vertFocusAnimationStyle="floatingFocus" />
         </Rectangle>
       </LayoutGroup>

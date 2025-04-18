@@ -3,7 +3,7 @@
   <children>
     <Poster id="buttonBackground" uri="pkg:/images/white.9.png" />
     <Poster id="buttonIcon" />
-    <Label id="buttonText" color="#aaaaaa" font="font:SmallestSystemFont" horizAlign="center" />
+    <Text id="buttonText" color="#aaaaaa" font="font:SmallestSystemFont" horizAlign="center" />
   </children>
   <interface>
     <field id="background" type="color" value="" />

@@ -14,49 +14,49 @@
 
             <Group translation="[ 96, 160 ]">
                 <LayoutGroup itemSpacings="[4,20, 20, 20, 40]">
-                    <Label id="programName" font="font:LargeBoldSystemFont" />
+                    <Text id="programName" font="font:LargeBoldSystemFont" />
 
                     <LayoutGroup id="episodeDetailsGroup" layoutDirection="horiz" itemSpacings="[10]">
                         <Group id="isLive">
                             <Poster id="isLiveBackground" uri="pkg:/images/white.9.png" blendColor="#FF0000" />
-                            <Label id="isLiveText" text="Live" font="font:SmallestBoldSystemFont" translation="[8,4]" />
+                            <Text id="isLiveText" text="Live" font="font:SmallestBoldSystemFont" translation="[8,4]" />
                         </Group>
                         <Group id="isRepeat">
                             <Poster id="isRepeatBackground" uri="pkg:/images/white.9.png" blendColor="#009688" />
-                            <Label id="isRepeatText" text="Repeat" font="font:SmallestBoldSystemFont" translation="[8,4]" />
+                            <Text id="isRepeatText" text="Repeat" font="font:SmallestBoldSystemFont" translation="[8,4]" />
                         </Group>
-                        <Label id="episodeNumber" font="font:SmallSystemFont" />
-                        <Label id="episodeTitle" font="font:SmallSystemFont" />
+                        <Text id="episodeNumber" font="font:SmallSystemFont" />
+                        <Text id="episodeTitle" font="font:SmallSystemFont" />
                     </LayoutGroup>
 
                     <LayoutGroup layoutDirection="horiz" itemSpacings="[30]">
-                        <Label id="duration" />
-                        <Label id="broadcastDetails" />
-                        <Label id="channelName" />
+                        <Text id="duration" />
+                        <Text id="broadcastDetails" />
+                        <Text id="channelName" />
                     </LayoutGroup>
 
-                    <label id="overview" wrap="true" width="1210" font="font:SmallestSystemFont" />
+                    <Text id="overview" wrap="true" width="1210" font="font:SmallestSystemFont" />
 
                     <LayoutGroup layoutDirection="horiz" itemSpacings="[30]">
                         <!-- View Channel button -->
                         <Group id="viewChannelButton" opacity="0">
                             <Poster id="viewChannelButtonBackground" uri="pkg:/images/white.9.png" blendColor="#000000" />
                             <Poster id="viewChannelOutline" visible="false" uri="pkg:/images/hd_focus.9.png" />
-                            <Label id="viewChannelButtonLabel" text="View Channel" translation="[20,20]" />
+                            <Text id="viewChannelButtonLabel" text="View Channel" translation="[20,20]" />
                         </Group>
 
                         <!-- Record button -->
                         <Group id="recordButton" opacity="0">
                             <Poster id="recordButtonBackground" uri="pkg:/images/white.9.png" blendColor="#000000" />
                             <Poster id="recordOutline" visible="false" uri="pkg:/images/hd_focus.9.png" />
-                            <Label id="recordButtonLabel" text="Record" translation="[20,20]" />
+                            <Text id="recordButtonLabel" text="Record" translation="[20,20]" />
                         </Group>
 
                         <!-- Record Series button-->
                         <Group id="recordSeriesButton" opacity="0">
                             <Poster id="recordSeriesButtonBackground" uri="pkg:/images/white.9.png" blendColor="#000000" />
                             <Poster id="recordSeriesOutline" visible="false" uri="pkg:/images/hd_focus.9.png" />
-                            <Label id="recordSeriesButtonLabel" text="Record Series" translation="[20,20]" />
+                            <Text id="recordSeriesButtonLabel" text="Record Series" translation="[20,20]" />
                         </Group>
                     </LayoutGroup>
 
@@ -66,8 +66,8 @@
         </Group>
         <!-- When no schedule information to display  -->
         <LayoutGroup id="noInformation" translation="[96, 300]">
-            <Label id="noInfoChannelName" font="font:LargeBoldSystemFont" />
-            <Label font="font:SmallSystemFont" text="No schedule information" />
+            <Text id="noInfoChannelName" font="font:LargeBoldSystemFont" />
+            <Text font="font:SmallSystemFont" text="No schedule information" />
         </LayoutGroup>
         <Animation id="focusAnimation" duration="0.66" repeat="false" easeFunction="linear">
             <FloatFieldInterpolator id="viewChannelFocusAnimationOpacity" key="[0.0, 1]" fieldToInterp="viewChannelButton.opacity" />

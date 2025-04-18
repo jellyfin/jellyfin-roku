@@ -4,7 +4,7 @@
     <field id="itemContent" type="node" onChange="showContent" />
   </interface>
   <children>
-    <Label
+    <Text
       translation="[0, 7]"
       height="25"
       width="35"

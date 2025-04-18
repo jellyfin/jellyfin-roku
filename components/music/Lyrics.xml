@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component name="Lyrics" extends="Group">
     <children>
-        <Label id="previousLine" translation="[0, 0]" numLines="2" wrap="true" horizAlign="left" vertAlign="top" font="font:MediumSystemFont" opacity=".25" />
-        <Label id="currentLine" translation="[0, 100]" numLines="2" wrap="true" horizAlign="left" vertAlign="top" font="font:MediumSystemFont" opacity="1.0" />
-        <Label id="nextLine1" translation="[0, 200]" numLines="2" wrap="true" horizAlign="left" vertAlign="top" font="font:MediumSystemFont" opacity=".5" />
-        <Label id="nextLine2" translation="[0, 300]" numLines="2" wrap="true" horizAlign="left" vertAlign="top" font="font:MediumSystemFont" opacity=".5" />
-        <Label id="nextLine3" translation="[0, 400]" numLines="2" wrap="true" horizAlign="left" vertAlign="top" font="font:MediumSystemFont" opacity=".25" />
+        <Text id="previousLine" translation="[0, 0]" numLines="2" wrap="true" horizAlign="left" vertAlign="top" font="font:MediumSystemFont" opacity=".25" />
+        <Text id="currentLine" translation="[0, 100]" numLines="2" wrap="true" horizAlign="left" vertAlign="top" font="font:MediumSystemFont" opacity="1.0" />
+        <Text id="nextLine1" translation="[0, 200]" numLines="2" wrap="true" horizAlign="left" vertAlign="top" font="font:MediumSystemFont" opacity=".5" />
+        <Text id="nextLine2" translation="[0, 300]" numLines="2" wrap="true" horizAlign="left" vertAlign="top" font="font:MediumSystemFont" opacity=".5" />
+        <Text id="nextLine3" translation="[0, 400]" numLines="2" wrap="true" horizAlign="left" vertAlign="top" font="font:MediumSystemFont" opacity=".25" />
     </children>
     <interface>
         <function name="findPosition" />

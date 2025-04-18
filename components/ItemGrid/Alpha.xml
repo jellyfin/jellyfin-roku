@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component name="Alpha" extends="Group">
   <children>
-    <Label id="alphaMicText" font="font:SmallSystemFont" translation="[1600,75]" text="Search" />
+    <Text id="alphaMicText" font="font:SmallSystemFont" translation="[1600,75]" text="Search" />
     <Poster
       id="alphaMic"
       height="22"

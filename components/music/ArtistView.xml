@@ -8,7 +8,7 @@
         <LayoutGroup id="toplevel" layoutDirection="vert" itemSpacings="[75]">
           <LayoutGroup id="main_group" layoutDirection="horiz" itemSpacings="[125]">
             <LayoutGroup layoutDirection="vert" itemSpacings="[75]">
-              <Label id="overview" wrap="true" lineSpacing="25" maxLines="6" width="1080" />
+              <Text id="overview" wrap="true" lineSpacing="25" maxLines="6" width="1080" />
               <ButtonGroupHoriz id="buttons" itemSpacings="[20]">
                 <IconButton id="play" background="#070707" padding="35" icon="pkg:/images/icons/play.png" text="Play" height="85" width="150" />
                 <IconButton id="instantMix" background="#070707" padding="35" icon="pkg:/images/icons/instantMix.png" text="Instant Mix" height="85" width="150" />
@@ -21,19 +21,19 @@
 
       <Section id="albumsSlide" translation="[0, 950]" defaultFocusID="albums">
         <Rectangle id='albumRect' translation="[0, 0]" width="1920" height="1080" color="#000000" opacity=".75" />
-        <Label id="albumHeader" translation="[120, 50]" font="font:LargeSystemFont" />
+        <Text id="albumHeader" translation="[120, 50]" font="font:LargeSystemFont" />
         <AlbumGrid id="albums" translation="[120, 150]" vertFocusAnimationStyle="fixedFocus" basePosterSize="[300, 300]" numColumns="5" numRows="99" caption1NumLines="1" itemSpacing="[50, 50]" />
       </Section>
 
       <Section id="appearsOnSlide" translation="[0, 1100]" defaultFocusID="appearsOn">
         <Rectangle id='appearsOnRect' translation="[0, 0]" width="1920" height="1080" color="#000000" opacity=".75" />
-        <Label id="appearsOnHeader" translation="[120, 50]" font="font:LargeSystemFont" />
+        <Text id="appearsOnHeader" translation="[120, 50]" font="font:LargeSystemFont" />
         <AlbumGrid id="appearsOn" translation="[120, 150]" vertFocusAnimationStyle="fixedFocus" basePosterSize="[300, 300]" numColumns="5" numRows="99" caption1NumLines="1" itemSpacing="[50, 50]" />
       </Section>
 
       <Section showItemTitles="showalways" id="similarArtistSlide" translation="[0, 1100]" defaultFocusID="similarArtist">
         <Rectangle id='similarArtistRect' translation="[0, 0]" width="1920" height="1080" color="#000000" opacity=".75" />
-        <Label id="similarArtistHeader" text="Similar Artists" translation="[120, 50]" font="font:LargeSystemFont" />
+        <Text id="similarArtistHeader" text="Similar Artists" translation="[120, 50]" font="font:LargeSystemFont" />
         <SimilarArtistGrid
           id="similarArtist"
           translation="[120, 150]"

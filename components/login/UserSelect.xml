@@ -2,7 +2,7 @@
 <component name="UserSelect" extends="JFScreen">
   <children>
     <Rectangle id="unhideUsers" translation="[-600, 0]" width="600" height="1080">
-      <Label
+      <Text
         id="unhideUserHeader"
         text="Unhide Users"
         horizAlign="left"
@@ -21,7 +21,7 @@
     </Rectangle>
 
     <Rectangle id="viewContent" translation="[0, 0]">
-      <Label
+      <Text
         text="Select User"
         horizAlign="center"
         font="font:LargeSystemFont"
@@ -38,7 +38,7 @@
         width="350"
         translation="[785,800]" />
 
-      <Label
+      <Text
         id="manageHiddenUsers"
         text="Manage Hidden Users"
         horizAlign="center"
