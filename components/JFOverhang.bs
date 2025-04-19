@@ -105,7 +105,6 @@ function onKeyEvent(key as string, press as boolean) as boolean
             panel.visible = true
             panel.findNode("panelList").setFocus(true)
 
-            ' m.top.changeUserSelected = not m.top.changeUserSelected
             dehighlightUser()
             return true
         end if

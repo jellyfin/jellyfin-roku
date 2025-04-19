@@ -33,9 +33,6 @@ sub Main (args as dynamic) as void
     sceneManager.observeField("dataReturned", m.port)
 
     overhang = m.scene.findNode("overhang")
-    if isValid(overhang)
-        overhang.observeField("changeUserSelected", m.port)
-    end if
 
     m.global.addFields({ app_loaded: false, playstateTask: playstateTask, sceneManager: sceneManager })
     m.global.addFields({ queueManager: CreateObject("roSGNode", "QueueManager") })
@@ -165,10 +162,6 @@ sub Main (args as dynamic) as void
             onButtonSelectedEvent(msg)
         else if isNodeEvent(msg, "content")
             onContentEvent(msg)
-        else if isNodeEvent(msg, "changeUserSelected")
-            SignOut(false)
-            sceneManager.callFunc("clearScenes")
-            goto app_start
         else if isNodeEvent(msg, "userMenuOptionSelected")
             button = msg.getRoSGNode()
             group = sceneManager.callFunc("getActiveScene")
