@@ -6,11 +6,43 @@
       <poster id="backdropTransition" loadDisplayMode="scaleToFill" width="1100" height="700" opacity="1" />
     </maskGroup>
 
+    <MarkupGrid
+      id="itemGrid"
+      itemComponentName="GridItemSmall"
+      numColumns="7"
+      vertFocusAnimationStyle="fixed"
+      itemSpacing="[20, 20]" />
+
+    <RowList
+      opacity="0"
+      id="genrelist"
+      translation="[100, 210]"
+      showRowLabel="true"
+      itemComponentName="GridItemSmall"
+      numColumns="1"
+      numRows="3"
+      vertFocusAnimationStyle="fixed"
+      itemSize="[1900, 360]"
+      rowItemSize="[ [230, 340] ]"
+      rowItemSpacing="[ [20, 0] ]"
+      itemSpacing="[0, 60]" />
+
     <LayoutGroup id="dropdownOptions" layoutDirection="horiz" translation="[100, 60]" itemSpacings="[15]">
       <LayoutGroup layoutDirection="vert" itemSpacings="[10]">
         <Text font="font:SmallSystemFont" text="Search" />
-        <Poster id="buttonBackground" uri="pkg:/images/white.9.png" blendColor="#FFFFFF" height="75" width="335">
-          <VoiceTextEditBox id="voiceBox" voiceEnabled="true" hintText="" visible="true" width="335" textColor="#777777" clearOnDownKey="false" />
+        <Poster id="voiceBoxBackground" uri="pkg:/images/white.9.png" blendColor="#FFFFFF" height="75" width="335">
+          <VoiceTextEditBox
+            id="voiceBox"
+            fontUri="font:SmallSystemFont"
+            maxTextLength="75"
+            height="75"
+            fontSize="28"
+            voiceEnabled="true"
+            hintText="Press OK to type"
+            visible="true"
+            width="335"
+            textColor="#777777"
+            clearOnDownKey="false" />
         </Poster>
       </LayoutGroup>
       <LayoutGroup layoutDirection="vert" itemSpacings="[10]">
@@ -87,27 +119,6 @@
     </LayoutGroup>
 
     <Text id="selectedItemOverview" font="font:SmallestSystemFont" translation="[120, 320]" wrap="true" lineSpacing="20" maxLines="4" width="900" ellipsisText="..." />
-
-    <MarkupGrid
-      id="itemGrid"
-      itemComponentName="GridItemSmall"
-      numColumns="7"
-      vertFocusAnimationStyle="fixed"
-      itemSpacing="[20, 20]" />
-
-    <RowList
-      opacity="0"
-      id="genrelist"
-      translation="[100, 210]"
-      showRowLabel="true"
-      itemComponentName="GridItemSmall"
-      numColumns="1"
-      numRows="3"
-      vertFocusAnimationStyle="fixed"
-      itemSize="[1900, 360]"
-      rowItemSize="[ [230, 340] ]"
-      rowItemSpacing="[ [20, 0] ]"
-      itemSpacing="[0, 60]" />
 
     <Text translation="[0,540]" id="emptyText" font="font:LargeSystemFont" width="1910" horizAlign="center" vertAlign="center" height="64" visible="false" />
     <LibraryFilterDialog id="options" visible="false" />

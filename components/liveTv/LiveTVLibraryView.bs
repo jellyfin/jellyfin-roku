@@ -11,13 +11,6 @@ sub init()
     overhang = m.top.getScene().findNode("overhang")
     overhang.isVisible = false
 
-    ' adjust alpha menu mic icon since there is no overhang
-    m.alpha = m.top.findNode("alpha")
-    alphaMic = m.alpha.findNode("alphaMic")
-    alphaMic.translation = [60, 62]
-    alphaMicText = m.alpha.findNode("alphaMicText")
-    alphaMicText.visible = false
-
     m.options = m.top.findNode("options")
 
     m.showItemCount = m.global.session.user.settings["itemgrid.showItemCount"]

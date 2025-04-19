@@ -68,12 +68,6 @@ sub init()
 
     m.overhang.isVisible = false
 
-    ' adjust alpha menu mic icon since there is no overhang
-    alphaMic = m.alpha.findNode("alphaMic")
-    alphaMic.translation = [60, 62]
-    alphaMicText = m.alpha.findNode("alphaMicText")
-    alphaMicText.visible = false
-
     m.showItemCount = m.global.session.user.settings["itemgrid.showItemCount"]
 
     m.options.observeField("visible", "onOptionsVisibleChange")
