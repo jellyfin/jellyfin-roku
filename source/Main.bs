@@ -185,14 +185,18 @@ sub Main (args as dynamic) as void
                 unset_setting("server")
                 session.server.Delete()
                 SignOut(false)
+                setUserBackground()
                 sceneManager.callFunc("clearScenes")
                 goto app_start
             else if isStringEqual(button.id, "change_user")
                 SignOut(false)
+                ' Reset colors to defaults
+                setUserBackground()
                 sceneManager.callFunc("clearScenes")
                 goto app_start
             else if isStringEqual(button.id, "sign_out")
                 SignOut()
+                setUserBackground()
                 sceneManager.callFunc("clearScenes")
                 goto app_start
             else if isStringEqual(button.id, "settings")
