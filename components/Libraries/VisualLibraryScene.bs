@@ -10,6 +10,12 @@ import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/deviceCapabilities.bs"
 import "pkg:/source/utils/misc.bs"
 
+enum SearchButtonState
+    ACTIVE
+    INACTIVE
+    DISABLED
+end enum
+
 sub setupNodes()
     m.options = m.top.findNode("options")
     m.itemGrid = m.top.findNode("itemGrid")
@@ -60,10 +66,11 @@ sub setupNodes()
     m.viewButton.background = ColorPalette.WHITE
     m.viewButton.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
 
-    setSearchBackground(false)
+    setSearchBackground(SearchButtonState.INACTIVE)
 end sub
 
 sub init()
+    m.searchButtonDisabled = false
     m.top.optionsAvailable = false
     setupNodes()
     m.bypassSearchEvent = false
@@ -126,6 +133,10 @@ sub init()
         if isChainValid(searchPoster, "bitmap")
             searchPoster.bitmap = ""
             searchPoster.blendColor = ColorPalette.WHITE
+        end if
+        searchPoster = m.voiceBox.getChild(5)
+        if isChainValid(searchPoster, "bitmap")
+            searchPoster.blendColor = ColorPalette.MIDGREY
         end if
     end if
 end sub
@@ -279,7 +290,8 @@ sub loadInitialItems()
             else
                 if isValid(m.top.parentItem.parentFolder)
                     ' The API does not support searching inside boxsets
-                    ' m.searchButton.disabled = true
+                    m.searchButtonDisabled = true
+                    setSearchBackground(SearchButtonState.DISABLED)
                 end if
             end if
         end if
@@ -358,7 +370,8 @@ sub loadInitialItems()
 
     if isStringEqual(m.top.mediaType, ItemType.MYLIST)
         ' Search doesn't work for My List because it is a playlist
-        ' m.searchButton.disabled = true
+        m.searchButtonDisabled = true
+        setSearchBackground(SearchButtonState.DISABLED)
 
         m.itemGrid.itemComponentName = "GridItemMedium"
         m.itemGrid.itemSize = "[400, 330]"
@@ -781,7 +794,7 @@ sub ItemDataLoaded(msg)
             m.emptyText.text = tr("No items found. Try adjusting your selected filters.")
             m.emptyText.visible = true
             m.voiceBox.setfocus(true)
-            setSearchBackground(true)
+            setSearchBackground(SearchButtonState.ACTIVE)
             group = m.global.sceneManager.callFunc("getActiveScene")
             group.lastFocus = m.voiceBox
         end if
@@ -844,7 +857,7 @@ sub ItemDataLoaded(msg)
         m.emptyText.text = tr("No items found. Try adjusting your selected filters.")
         m.emptyText.visible = true
         m.voiceBox.setfocus(true)
-        setSearchBackground(true)
+        setSearchBackground(SearchButtonState.ACTIVE)
         group = m.global.sceneManager.callFunc("getActiveScene")
         group.lastFocus = m.voiceBox
     end if
@@ -1174,7 +1187,7 @@ end sub
 
 sub onSearchTermChanged()
     m.voiceBox.hintText = m.top.searchTerm
-    setSearchBackground(false)
+    setSearchBackground(SearchButtonState.INACTIVE)
 
     processDropdownState(m.top.searchTerm)
 
@@ -1220,7 +1233,7 @@ sub alphaSelectedChanged()
 end sub
 
 sub unfocusAllButtons()
-    setSearchBackground(false)
+    setSearchBackground(SearchButtonState.INACTIVE)
     m.sortButton.focus = false
     m.sortOrderButton.focus = false
     m.filterButton.focus = false
@@ -1258,11 +1271,11 @@ sub onvoiceFilter()
         return
     end if
 
-    ' if m.searchButton.disabled
-    '     m.itemGrid.setFocus(m.itemGrid.opacity = 1)
-    '     m.genreList.setFocus(m.genreList.opacity = 1)
-    '     return
-    ' end if
+    if m.searchButtonDisabled
+        m.itemGrid.setFocus(m.itemGrid.opacity = 1)
+        m.genreList.setFocus(m.genreList.opacity = 1)
+        return
+    end if
 
     m.top.searchTerm = m.voiceBox.text.trim()
 end sub
@@ -1450,7 +1463,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
         if m.itemGrid.isinFocusChain() or m.genreList.isinFocusChain()
             overhangButton = getOverhangingButton()
             if overhangButton.isSubType("VoiceTextEditBox")
-                setSearchBackground(true)
+                setSearchBackground(SearchButtonState.ACTIVE)
             else
                 overhangButton.focus = true
             end if
@@ -1463,7 +1476,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
     if isStringEqual(key, KeyCode.OK)
         if m.voiceBox.isinFocusChain()
-            ' if m.searchButton.disabled then return false
+            if m.searchButtonDisabled then return false
 
             buttonData = [
                 tr("Search")
@@ -1530,7 +1543,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
     if m.dropdownOptions.isinFocusChain()
         if isStringEqual(key, KeyCode.LEFT)
             if m.voiceBox.isinFocusChain()
-                setSearchBackground(false)
+                setSearchBackground(SearchButtonState.INACTIVE)
                 m.sortButton.focus = false
                 m.sortOrderButton.focus = false
                 m.viewButton.focus = false
@@ -1545,7 +1558,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
             if m.sortButton.isinFocusChain()
                 m.voiceBox.setFocus(true)
-                setSearchBackground(true)
+                setSearchBackground(SearchButtonState.ACTIVE)
                 m.sortButton.focus = false
                 group = m.global.sceneManager.callFunc("getActiveScene")
                 group.lastFocus = m.voiceBox
@@ -1582,7 +1595,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
         if isStringEqual(key, KeyCode.Right)
             if m.voiceBox.isinFocusChain()
-                setSearchBackground(false)
+                setSearchBackground(SearchButtonState.INACTIVE)
                 m.sortButton.focus = true
                 m.sortButton.setFocus(true)
                 group = m.global.sceneManager.callFunc("getActiveScene")
@@ -1621,7 +1634,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
         if isStringEqual(key, KeyCode.DOWN)
             if m.loadedItems = 0 then return false
 
-            setSearchBackground(false)
+            setSearchBackground(SearchButtonState.INACTIVE)
             m.sortButton.focus = false
             m.sortOrderButton.focus = false
             m.viewButton.focus = false
@@ -1640,7 +1653,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
         m.itemGrid.setFocus(m.itemGrid.opacity = 1)
         m.genreList.setFocus(m.genreList.opacity = 1)
         m.voiceBox.setFocus(false)
-        setSearchBackground(false)
+        setSearchBackground(SearchButtonState.INACTIVE)
         group = m.global.sceneManager.callFunc("getActiveScene")
         group.lastFocus = m.itemGrid.opacity = 1 ? m.itemGrid : m.genreList
     end if
@@ -1770,15 +1783,33 @@ sub reclaimResources()
     m.genreList.content = m.genreData
 end sub
 
-sub setSearchBackground(isActive as boolean)
-    if isActive
+sub setSearchBackground(state)
+    if state = SearchButtonState.ACTIVE
         m.voiceBox.textColor = ColorPalette.WHITE
         m.voiceBox.hintTextColor = ColorPalette.WHITE
         m.voiceBoxBackground.blendColor = ColorPalette.HIGHLIGHT
+
+        searchPoster = m.voiceBox.getChild(5)
+        if isChainValid(searchPoster, "bitmap")
+            searchPoster.blendColor = ColorPalette.WHITE
+        end if
+
+        return
+    end if
+
+    if state = SearchButtonState.DISABLED
+        m.voiceBox.textColor = ColorPalette.MIDGREY
+        m.voiceBox.hintTextColor = ColorPalette.MIDGREY
+        m.voiceBoxBackground.blendColor = ColorPalette.MIDGREY
         return
     end if
 
     m.voiceBox.textColor = ColorPalette.MIDGREY
     m.voiceBox.hintTextColor = ColorPalette.MIDGREY
     m.voiceBoxBackground.blendColor = ColorPalette.WHITE
+
+    searchPoster = m.voiceBox.getChild(5)
+    if isChainValid(searchPoster, "bitmap")
+        searchPoster.blendColor = ColorPalette.MIDGREY
+    end if
 end sub
