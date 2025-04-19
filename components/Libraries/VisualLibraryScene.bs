@@ -70,6 +70,7 @@ sub setupNodes()
 end sub
 
 sub init()
+    m.disabledReasaon = string.EMPTY
     m.searchButtonDisabled = false
     m.top.optionsAvailable = false
     setupNodes()
@@ -134,9 +135,40 @@ sub init()
             searchPoster.bitmap = ""
             searchPoster.blendColor = ColorPalette.WHITE
         end if
-        searchPoster = m.voiceBox.getChild(5)
-        if isChainValid(searchPoster, "bitmap")
-            searchPoster.blendColor = ColorPalette.MIDGREY
+
+        searchText = m.voiceBox.getChild(1)
+        if isChainValid(searchText, "height")
+            searchText.vertAlign = "bottom"
+            searchText.height = 37
+        end if
+
+        m.micIcon = m.voiceBox.getChild(6)
+        if isValid(m.micIcon)
+            m.micIcon.observeFieldScoped("blendColor", "onMicIconBlendColorChange")
+        end if
+    end if
+end sub
+
+' VoiceTextEditBox.voiceEnabled doesn't have alwaysNotify enabled
+' To trigger a change event, we must change the value to something else, then back to the value we want
+sub onVoiceEnabledChange()
+    m.voiceBox.voiceEnabled = m.searchButtonDisabled
+    m.voiceBox.voiceEnabled = not m.searchButtonDisabled
+end sub
+
+sub onMicIconBlendColorChange()
+    ' DARKGREY: 269488383
+    ' WHITE: -1
+    ' LIGHTGREY: -1431655681
+    ' HIGHLIGHT: -9934849
+
+    if m.voiceBoxBackground.blendColor = -9934849
+        if m.micIcon.blendColor <> -1
+            m.micIcon.blendColor = ColorPalette.WHITE
+        end if
+    else
+        if m.micIcon.blendColor <> 269488383
+            m.micIcon.blendColor = ColorPalette.DARKGREY
         end if
     end if
 end sub
@@ -289,9 +321,7 @@ sub loadInitialItems()
                 end if
             else
                 if isValid(m.top.parentItem.parentFolder)
-                    ' The API does not support searching inside boxsets
-                    m.searchButtonDisabled = true
-                    setSearchBackground(SearchButtonState.DISABLED)
+                    disableSearch(tr("Search is unavailable because the API does not support searching inside boxsets."))
                 end if
             end if
         end if
@@ -369,9 +399,7 @@ sub loadInitialItems()
     end if
 
     if isStringEqual(m.top.mediaType, ItemType.MYLIST)
-        ' Search doesn't work for My List because it is a playlist
-        m.searchButtonDisabled = true
-        setSearchBackground(SearchButtonState.DISABLED)
+        disableSearch(tr("Search is unavailable because the API does not support searching inside My List."))
 
         m.itemGrid.itemComponentName = "GridItemMedium"
         m.itemGrid.itemSize = "[400, 330]"
@@ -1186,7 +1214,21 @@ sub resetDropdownsToDefaultState()
 end sub
 
 sub onSearchTermChanged()
-    m.voiceBox.hintText = m.top.searchTerm
+    if m.top.searchTerm = string.EMPTY
+        ' User clicked on search, then pressed back without searching
+        if m.loadItemsTask.searchTerm = string.EMPTY
+            m.voiceBox.hintText = tr("Press OK to type")
+            onVoiceEnabledChange()
+            return
+        else
+            ' User cleared an old search
+            m.voiceBox.hintText = tr("Press OK to type")
+        end if
+    else
+        m.voiceBox.hintText = m.top.searchTerm
+        onVoiceEnabledChange()
+    end if
+
     setSearchBackground(SearchButtonState.INACTIVE)
 
     processDropdownState(m.top.searchTerm)
@@ -1246,6 +1288,7 @@ sub onvoiceFilter()
     unfocusAllButtons()
 
     if isStringEqual(m.voiceBox.text.trim(), "reset search") then m.voiceBox.text = string.EMPTY
+    if isStringEqual(m.voiceBox.text.trim(), "clear search") then m.voiceBox.text = string.EMPTY
 
     m.voiceBox.hintText = m.voiceBox.text
 
@@ -1476,7 +1519,10 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
     if isStringEqual(key, KeyCode.OK)
         if m.voiceBox.isinFocusChain()
-            if m.searchButtonDisabled then return false
+            if m.searchButtonDisabled
+                m.global.sceneManager.callFunc("standardDialog", "Search Unavailable", { data: [`<p>${m.disabledReasaon}</p>`] })
+                return false
+            end if
 
             buttonData = [
                 tr("Search")
@@ -1785,21 +1831,22 @@ end sub
 
 sub setSearchBackground(state)
     if state = SearchButtonState.ACTIVE
+        if m.searchButtonDisabled
+            m.voiceBox.textColor = ColorPalette.MIDGREY
+            m.voiceBox.hintTextColor = ColorPalette.MIDGREY
+            m.voiceBoxBackground.blendColor = ColorPalette.DARKGREY
+            return
+        end if
+
         m.voiceBox.textColor = ColorPalette.WHITE
         m.voiceBox.hintTextColor = ColorPalette.WHITE
         m.voiceBoxBackground.blendColor = ColorPalette.HIGHLIGHT
-
-        searchPoster = m.voiceBox.getChild(5)
-        if isChainValid(searchPoster, "bitmap")
-            searchPoster.blendColor = ColorPalette.WHITE
-        end if
-
         return
     end if
 
     if state = SearchButtonState.DISABLED
-        m.voiceBox.textColor = ColorPalette.MIDGREY
-        m.voiceBox.hintTextColor = ColorPalette.MIDGREY
+        m.voiceBox.textColor = ColorPalette.DARKGREY
+        m.voiceBox.hintTextColor = ColorPalette.DARKGREY
         m.voiceBoxBackground.blendColor = ColorPalette.MIDGREY
         return
     end if
@@ -1807,9 +1854,12 @@ sub setSearchBackground(state)
     m.voiceBox.textColor = ColorPalette.MIDGREY
     m.voiceBox.hintTextColor = ColorPalette.MIDGREY
     m.voiceBoxBackground.blendColor = ColorPalette.WHITE
+end sub
 
-    searchPoster = m.voiceBox.getChild(5)
-    if isChainValid(searchPoster, "bitmap")
-        searchPoster.blendColor = ColorPalette.MIDGREY
-    end if
+sub disableSearch(disabledReason as string)
+    m.disabledReasaon = disabledReason
+    m.searchButtonDisabled = true
+    m.voiceBox.voiceEnabled = false
+    m.voiceBox.hintText = "Search Unavailable"
+    setSearchBackground(SearchButtonState.DISABLED)
 end sub
