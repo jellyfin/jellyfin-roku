@@ -2,7 +2,6 @@
 <component name="MusicLibraryView" extends="JFScreen">
   <children>
     <VoiceTextEditBox id="voiceBox" visible="true" width="40" translation="[52, 120]" />
-    <Rectangle id="voiceBoxCover" height="240" width="100" translation="[25, 75]" />
 
     <maskGroup translation="[820, 0]" id="backgroundMask" maskUri="pkg:/images/backgroundmask.png" maskSize="[1220,445]">
       <poster id="backdrop" loadDisplayMode="scaleToFill" width="1100" height="450" opacity="1" />

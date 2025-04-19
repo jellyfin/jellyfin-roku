@@ -2,7 +2,6 @@
 <component name="ItemGrid" extends="JFScreen">
   <children>
     <VoiceTextEditBox id="VoiceBox" visible="true" width="40" translation="[52, 120]" />
-    <Rectangle id="VoiceBoxCover" height="240" width="100" translation="[25, 75]" />
 
     <poster id="backdrop" loadDisplayMode="scaleToFill" width="1920" height="1080" opacity="0.25" />
     <poster id="backdropTransition" loadDisplayMode="scaleToFill" width="1920" height="1080" opacity="0.25" />

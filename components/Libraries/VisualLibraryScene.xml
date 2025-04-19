@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component name="VisualLibraryScene" extends="JFScreen">
   <children>
-    <VoiceTextEditBox id="voiceBox" visible="true" width="40" translation="[52, 120]" />
-    <Rectangle id="voiceBoxCover" height="240" width="100" translation="[25, 75]" />
-
     <maskGroup translation="[820, 0]" id="backgroundMask" maskUri="pkg:/images/backgroundmask.png" maskSize="[1220,700]">
       <poster id="backdrop" loadDisplayMode="scaleToFill" width="1100" height="700" opacity="1" />
       <poster id="backdropTransition" loadDisplayMode="scaleToFill" width="1100" height="700" opacity="1" />
@@ -12,15 +9,9 @@
     <LayoutGroup id="dropdownOptions" layoutDirection="horiz" translation="[100, 60]" itemSpacings="[15]">
       <LayoutGroup layoutDirection="vert" itemSpacings="[10]">
         <Text font="font:SmallSystemFont" text="Search" />
-        <TextButton
-          id="searchButton"
-          fontSize="28"
-          padding="35"
-          icon="pkg:/images/icons/search-dark.png"
-          focusIcon="pkg:/images/icons/search-light.png"
-          text=""
-          height="75"
-          width="335" />
+        <Poster id="buttonBackground" uri="pkg:/images/white.9.png" blendColor="#FFFFFF" height="75" width="335">
+          <VoiceTextEditBox id="voiceBox" voiceEnabled="true" hintText="" visible="true" width="335" textColor="#777777" clearOnDownKey="false" />
+        </Poster>
       </LayoutGroup>
       <LayoutGroup layoutDirection="vert" itemSpacings="[10]">
         <Text id="sortLabel" font="font:SmallSystemFont" text="Sort By" />
