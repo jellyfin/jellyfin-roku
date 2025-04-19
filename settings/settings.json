@@ -12,6 +12,31 @@
                 "default": "false"
             },
             {
+                "title": "Channel Background Image",
+                "description": "Overlay a background image over your chosen background color",
+                "settingName": "imageBackground",
+                "type": "radio",
+                "default": "",
+                "options": [
+                    {
+                        "title": "None",
+                        "id": ""
+                    },
+                    {
+                        "title": "Circles",
+                        "id": "pkg:/images/background/bg1.jpg"
+                    },
+                    {
+                        "title": "Swoosh",
+                        "id": "pkg:/images/background/bg2.jpg"
+                    },
+                    {
+                        "title": "Splashscreen Image",
+                        "id": "splash"
+                    }
+                ]
+            },
+            {
                 "title": "Color Settings",
                 "description": "Change the colors of elements in the channel",
                 "visible": false,
@@ -442,13 +467,6 @@
                         "settingName": "load.allowwhatsnew",
                         "type": "bool",
                         "default": "true"
-                    },
-                    {
-                        "title": "Use Splashscreen as Home Background",
-                        "description": "Use generated splashscreen image as Jellyfin's home background. Jellyfin will need to be closed and reopened for change to take effect.",
-                        "settingName": "ui.home.splashBackground",
-                        "type": "bool",
-                        "default": "false"
                     },
                     {
                         "title": "Use Web Client's Home Section Arrangement",

@@ -55,7 +55,7 @@ sub Main (args as dynamic) as void
     if not LoginFlow() then return
 
     ' Set user's chosen background color
-    m.scene.backgroundColor = chainLookupReturn(m.global.session, "user.settings.colorBackground", ColorPalette.VIEWBACKGROUND)
+    setUserBackground()
 
     ' remove login scenes from the stack
     sceneManager.callFunc("clearScenes")
@@ -286,4 +286,23 @@ sub displayWhatsNewPopup(args)
             m.global.sceneManager.callFunc("whatsNewDialog")
         end if
     end if
+end sub
+
+sub setUserBackground()
+    m.scene.backgroundColor = chainLookupReturn(m.global.session, "user.settings.colorBackground", ColorPalette.VIEWBACKGROUND)
+    selectedBackgroundImage = chainLookupReturn(m.global.session, "user.settings.imageBackground", string.EMPTY)
+
+    if isStringEqual(selectedBackgroundImage, "splash")
+        selectedBackgroundImage = api.branding.GetSplashScreen({
+            format: "jpg",
+            foregroundLayer: 1,
+            fillWidth: 1920,
+            width: 1920,
+            fillHeight: 1080,
+            height: 1080,
+            tag: "splash"
+        })
+    end if
+
+    m.scene.callFunc("setBackgroundImage", selectedBackgroundImage)
 end sub

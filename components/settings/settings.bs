@@ -1,3 +1,4 @@
+import "pkg:/source/api/sdk.bs"
 import "pkg:/source/enums/ColorPalette.bs"
 import "pkg:/source/enums/KeyCode.bs"
 import "pkg:/source/utils/config.bs"
@@ -291,6 +292,26 @@ sub radioSettingChanged()
     if m.radioSetting.focusedChild = invalid then return
     selectedSetting = m.userLocation.peek().children[m.settingsMenu.itemFocused]
     set_user_setting(selectedSetting.settingName, m.radioSetting.content.getChild(m.radioSetting.checkedItem).id)
+
+    if isStringEqual(selectedSetting.settingName, "imageBackground")
+        scene = m.top.getScene()
+
+        selectedBackgroundImage = m.radioSetting.content.getChild(m.radioSetting.checkedItem).id
+
+        if isStringEqual(selectedBackgroundImage, "splash")
+            selectedBackgroundImage = api.branding.GetSplashScreen({
+                format: "jpg",
+                foregroundLayer: 1,
+                fillWidth: 1920,
+                width: 1920,
+                fillHeight: 1080,
+                height: 1080,
+                tag: "splash"
+            })
+        end if
+
+        scene.callFunc("setBackgroundImage", selectedBackgroundImage)
+    end if
 end sub
 
 ' JFScreen hook that gets ran as needed.
