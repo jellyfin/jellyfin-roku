@@ -12,22 +12,22 @@
         <LayoutGroup id="text" layoutDirection="vert" itemSpacings="[15]">
           <!-- Using poster of 1 length to get spacing. Not successful with adding translation to title -->
           <Poster id="null" height="1" />
-          <ScrollingLabel id="title" font="font:MediumBoldSystemFont" maxWidth="950" />
+          <ScrollingText id="title" font="font:MediumBoldSystemFont" maxWidth="950" />
           <LayoutGroup id="infoBar" layoutDirection="horiz" itemSpacings="[20]">
-            <Label id="runtime" font="font:SmallestSystemFont" />
+            <Text id="runtime" font="font:SmallestSystemFont" />
             <LayoutGroup id="rating" layoutDirection="horiz" itemSpacings="[-5]">
               <Poster id="star" uri="pkg:/images/sharp_star_white_18dp.png" height="26" width="26" blendColor="#cb272a" />
-              <Label id="communityRating" font="font:SmallestSystemFont" />
+              <Text id="communityRating" font="font:SmallestSystemFont" />
             </LayoutGroup>
-            <Label id="endtime" font="font:SmallestSystemFont" />
-            <Label id="aired" font="font:SmallestSystemFont" />
+            <Text id="endtime" font="font:SmallestSystemFont" />
+            <Text id="aired" font="font:SmallestSystemFont" />
           </LayoutGroup>
-          <Label id="overview" font="font:SmallestSystemFont" wrap="true" height="130" width="950" maxLines="3" ellipsizeOnBoundary="true" />
+          <Text id="overview" font="font:SmallestSystemFont" wrap="true" height="130" width="950" maxLines="3" ellipsizeOnBoundary="true" />
           <LayoutGroup layoutDirection="horiz" itemSpacings="[15]">
-            <ScrollingLabel id="video_codec" font="font:SmallestSystemFont" maxWidth="400" />
-            <label id="video_codec_count" font="font:smallestSystemFont" vertAlign="top" color="#ceffff" />
-            <ScrollingLabel id="audio_codec" font="font:SmallestSystemFont" maxWidth="400" />
-            <label id="audio_codec_count" font="font:smallestSystemFont" vertAlign="top" color="#ceffff" />
+            <ScrollingText id="video_codec" font="font:SmallestSystemFont" maxWidth="400" />
+            <Text id="video_codec_count" font="font:smallestSystemFont" vertAlign="top" color="#ceffff" />
+            <ScrollingText id="audio_codec" font="font:SmallestSystemFont" maxWidth="400" />
+            <Text id="audio_codec_count" font="font:smallestSystemFont" vertAlign="top" color="#ceffff" />
           </LayoutGroup>
         </LayoutGroup>
       </LayoutGroup>

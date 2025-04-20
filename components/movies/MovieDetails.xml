@@ -3,39 +3,39 @@
   <children>
     <LayoutGroup id="container" layoutDirection="vert" itemSpacings="[30]" translation="[100, 320]">
       <LayoutGroup id="infoGroup" layoutDirection="horiz" horizAlignment="left" itemSpacings="[20]">
-        <Label id="releaseYear" font="font:SmallestSystemFont" />
-        <Label id="aired" font="font:SmallestSystemFont" />
-        <Label id="dot" font="font:SmallestSystemFont" text="•" />
-        <Label id="genres" font="font:SmallestSystemFont" />
-        <Label id="officialRating" font="font:SmallestBoldSystemFont" />
-        <Label id="runtime" font="font:SmallestSystemFont" />
+        <Text id="releaseYear" font="font:SmallestSystemFont" />
+        <Text id="aired" font="font:SmallestSystemFont" />
+        <Text id="dot" font="font:SmallestSystemFont" text="•" />
+        <Text id="genres" font="font:SmallestSystemFont" />
+        <Text id="officialRating" font="font:SmallestBoldSystemFont" />
+        <Text id="runtime" font="font:SmallestSystemFont" />
 
         <LayoutGroup id="communityRatingGroup" layoutDirection="horiz" itemSpacings="[-5]">
           <Poster id="star" uri="pkg:/images/sharp_star_white_18dp.png" height="32" width="32" blendColor="#cb272a" />
-          <Label id="communityRating" font="font:SmallestSystemFont" />
+          <Text id="communityRating" font="font:SmallestSystemFont" />
         </LayoutGroup>
 
         <LayoutGroup id="criticRatingGroup" layoutDirection="horiz" itemSpacings="[-5]">
           <Poster id="criticRatingIcon" height="32" width="32" />
-          <Label id="criticRatingLabel" font="font:SmallestSystemFont" />
+          <Text id="criticRatingLabel" font="font:SmallestSystemFont" />
         </LayoutGroup>
 
-        <Label id="ends-at" font="font:SmallestSystemFont" />
+        <Text id="ends-at" font="font:SmallestSystemFont" />
       </LayoutGroup>
 
       <LayoutGroup id="infoGroup" layoutDirection="horiz" horizAlignment="left" itemSpacings="[50]">
         <LayoutGroup layoutDirection="vert" itemSpacings="[30]">
-          <Label id="overview" wrap="true" maxLines="8" width="1000" />
-          <Label id="director" font="font:SmallestSystemFont" color="#aaaaaa" />
+          <Text id="overview" wrap="true" maxLines="8" width="1000" />
+          <Text id="director" font="font:SmallestSystemFont" color="#aaaaaa" />
 
           <LayoutGroup layoutDirection="vert" itemSpacings="[0]">
             <LayoutGroup layoutDirection="horiz" horizAlignment="left">
-              <ScrollingLabel id="video_codec" vertAlign="bottom" height="39" maxwidth="990" font="font:SmallestSystemFont" color="#aaaaaa" />
-              <label id="video_codec_count" font="font:smallestSystemFont" vertAlign="top" color="#aaaaaa" />
+              <ScrollingText id="video_codec" vertAlign="bottom" height="39" maxwidth="990" font="font:SmallestSystemFont" color="#aaaaaa" />
+              <Text id="video_codec_count" font="font:smallestSystemFont" vertAlign="top" color="#aaaaaa" />
             </LayoutGroup>
             <LayoutGroup layoutDirection="horiz" horizAlignment="left">
-              <ScrollingLabel id="audio_codec" vertAlign="bottom" height="39" maxwidth="990" font="font:SmallestSystemFont" color="#aaaaaa" />
-              <label id="audio_codec_count" font="font:smallestSystemFont" vertAlign="top" color="#aaaaaa" />
+              <ScrollingText id="audio_codec" vertAlign="bottom" height="39" maxwidth="990" font="font:SmallestSystemFont" color="#aaaaaa" />
+              <Text id="audio_codec_count" font="font:smallestSystemFont" vertAlign="top" color="#aaaaaa" />
             </LayoutGroup>
           </LayoutGroup>
         </LayoutGroup>

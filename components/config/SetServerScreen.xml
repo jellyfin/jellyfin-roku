@@ -3,7 +3,7 @@
   <children>
     <LayoutGroup translation="[150,150]" itemSpacings="40">
       <LayoutGroup>
-        <label text="Connect to Server" id="prompt" font="font:LargeBoldSystemFont" />
+        <Text text="Connect to Server" id="prompt" font="font:LargeBoldSystemFont" />
       </LayoutGroup>
 
       <Rectangle id="serverPickerContainer" color="#101420" width="1620" height="400">
@@ -19,14 +19,14 @@
           vertFocusAnimationStyle="floatingFocus" />
       </Rectangle>
 
-      <label text="...or enter server URL manually:" translation="[0, 690]" />
+      <Text text="...or enter server URL manually:" translation="[0, 690]" />
 
       <Rectangle id="serverUrlContainer">
         <TextEditBox id="serverUrlTextbox" hintText="e.g. 192.168.1.100:8096 or https://example.com/jellyfin" />
         <Poster id="serverUrlOutline" visible="false" uri="pkg:/images/hd_focus.9.png" />
       </Rectangle>
 
-      <label id="errorMessage" text="" font="font:MediumSystemFont" color="#ff0000FF" />
+      <Text id="errorMessage" text="" font="font:MediumSystemFont" color="#ff0000FF" />
 
       <LayoutGroup horizAlignment="center">
         <StandardButton

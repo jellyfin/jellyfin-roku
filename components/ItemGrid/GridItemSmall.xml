@@ -4,7 +4,7 @@
     <Poster id="backdrop" translation="[0,23]" width="230" height="345" loadDisplayMode="scaleToZoom" uri="pkg:/images/white.9.png" />
     <Poster id="itemPoster" translation="[0,23]" width="230" height="345" loadDisplayMode="scaleToZoom" />
 
-    <ScrollingLabel
+    <ScrollingText
       id="title"
       translation="[0,380]"
       horizAlign="center"
@@ -13,7 +13,7 @@
       maxWidth="230" />
 
     <Poster id="itemIcon" width="50" height="50" translation="[230,10]" />
-    <Label id="posterText" width="230" height="345" translation="[5,5]" horizAlign="center" vertAlign="center" ellipsizeOnBoundary="true" wrap="true" />
+    <Text id="posterText" width="230" height="345" translation="[5,5]" horizAlign="center" vertAlign="center" ellipsizeOnBoundary="true" wrap="true" />
     <PlayedCheckmark id="playedIndicator" width="60" height="46" translation="[170, 22]" />
   </children>
   <interface>

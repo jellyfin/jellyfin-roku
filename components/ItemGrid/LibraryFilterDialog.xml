@@ -4,7 +4,7 @@
     <Rectangle id="overlay" width="1920" height="1080" opacity="0.75" />
     <Group translation="[100,100]">
       <Rectangle id="background" width="1720" height="880" />
-      <Label
+      <Text
         id="headerText"
         text="Filter"
         horizAlign="Left"

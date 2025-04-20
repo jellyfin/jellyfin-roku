@@ -3,8 +3,8 @@
   <children>
     <LayoutGroup layoutDirection="vert">
       <Poster id="profileImage" width="300" height="300" loadDisplayMode="scaleToZoom" />
-      <Label id="profileName" horizAlign="center" vertAlign="center" font="font:SmallBoldSystemFont" height="64" width="300" />
-      <Label id="profileType" horizAlign="center" vertAlign="top" font="font:SmallestboldSystemFont" height="44" width="300" />
+      <Text id="profileName" horizAlign="center" vertAlign="center" font="font:SmallBoldSystemFont" height="64" width="300" />
+      <Text id="profileType" horizAlign="center" vertAlign="top" font="font:SmallestboldSystemFont" height="44" width="300" />
     </LayoutGroup>
     <Poster id="forgetUserIcon" visible="false" width="30" height="30" uri="pkg:/images/icons/cancel.png" translation="[265, 5]" />
   </children>

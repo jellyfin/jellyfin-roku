@@ -7,7 +7,7 @@
         <ScrollingText id="title" horizAlign="left" vertAlign="center" font="font:SmallBoldSystemFont" maxWidth="960" />
         <ScrollingText id="subtitle" horizAlign="left" vertAlign="center" font="font:SmallSystemFont" maxWidth="960" />
       </LayoutGroup>
-      <Label id="tracklength" horizAlign="right" vertAlign="center" font="font:SmallBoldSystemFont" width="150" />
+      <Text id="tracklength" horizAlign="right" vertAlign="center" font="font:SmallBoldSystemFont" width="150" />
     </LayoutGroup>
   </children>
   <interface>

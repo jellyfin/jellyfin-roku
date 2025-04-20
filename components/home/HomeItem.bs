@@ -30,6 +30,9 @@ end sub
 
 sub initItemText()
     m.itemText = m.top.findNode("itemText")
+    if isValid(m.itemText)
+        m.itemText.color = chainLookupReturn(m.global.session, "user.settings.colorText", ColorPalette.MIDGREY)
+    end if
 end sub
 
 sub initItemPoster()
@@ -38,6 +41,9 @@ end sub
 
 sub initItemTextExtra()
     m.itemTextExtra = m.top.findNode("itemTextExtra")
+    if isValid(m.itemTextExtra)
+        m.itemTextExtra.color = chainLookupReturn(m.global.session, "user.settings.colorSubText", ColorPalette.MIDGREY)
+    end if
 end sub
 
 sub initBackdrop()
@@ -61,10 +67,11 @@ sub itemContentChanged()
 
     itemData.Title = itemData.name
 
+    initItemText()
+    initItemTextExtra()
+
     ' validate to prevent crash
     if not isValid(m.itemPoster) then initItemPoster()
-    if not isValid(m.itemText) then initItemText()
-    if not isValid(m.itemTextExtra) then initItemTextExtra()
     if not isValid(m.backdrop) then initBackdrop()
     if not isValid(m.itemIcon) then initItemIcon()
 

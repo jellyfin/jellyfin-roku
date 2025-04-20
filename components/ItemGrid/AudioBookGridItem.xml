@@ -5,7 +5,7 @@
     <Poster id="itemPoster" translation="[0,10]" width="290" height="290" loadDisplayMode="scaleToZoom" />
 
     <LayoutGroup id="title_group" layoutdirection="vert" translation="[5, 305]">
-      <ScrollingLabel
+      <ScrollingText
         id="posterText"
         font="font:SmallBoldSystemFont"
         color="#FFFFFF"
@@ -14,7 +14,7 @@
         horizAlign="left"
         vertAlign="center" />
 
-      <ScrollingLabel
+      <ScrollingText
         id="subText"
         font="font:SmallBoldSystemFont"
         color="#777777FF"

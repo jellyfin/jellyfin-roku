@@ -4,7 +4,7 @@
     <Poster id="backdrop" blendColor="#FFFFFF" opacity=".25" translation="[0,15]" width="270" height="270" loadDisplayMode="scaleToZoom" uri="pkg:/images/white.9.png" />
     <Poster id="itemPoster" translation="[0,15]" width="270" height="270" loadDisplayMode="scaleToZoom" />
     <Rectangle id="postTextBackground" height="50" width="260" color="0x000000DD" translation="[5, 230]">
-      <ScrollingLabel id="posterText" color="#FFFFFF" maxWidth="260" height="50" horizAlign="center" vertAlign="center" />
+      <ScrollingText id="posterText" color="#FFFFFF" maxWidth="260" height="50" horizAlign="center" vertAlign="center" />
     </Rectangle>
   </children>
   <interface>

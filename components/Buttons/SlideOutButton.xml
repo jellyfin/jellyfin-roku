@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <component name="SlideOutButton" extends="Group">
   <children>
-      <Poster id="buttonBackground" uri="pkg:/images/white.9.png" />
-      <Poster id="buttonIcon" />
-      <Label id="buttonText" color="#ffffff" font="font:SmallestSystemFont" horizAlign="center" />
+    <Poster id="buttonBackground" uri="pkg:/images/white.9.png" />
+    <Poster id="buttonIcon" />
+    <Text id="buttonText" color="#ffffff" font="font:SmallestSystemFont" horizAlign="center" />
   </children>
   <interface>
     <field id="background" type="color" value="" />

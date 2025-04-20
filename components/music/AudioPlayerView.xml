@@ -8,8 +8,8 @@
       <Poster id="loopIndicator" width="50" height="50" uri="pkg:/images/icons/loopIndicator-off.png" opacity="0" />
     </LayoutGroup>
 
-    <Label id="positionTimestamp" width="100" height="25" font="font:SmallestSystemFont" translation="[100,868]" color="#999999" text="0:00" />
-    <Label id="totalLengthTimestamp" width="100" height="25" horizAlign="right" font="font:SmallestSystemFont" translation="[1720,868]" color="#999999" />
+    <Text id="positionTimestamp" width="100" height="25" font="font:SmallestSystemFont" translation="[100,868]" color="#999999" text="0:00" />
+    <Text id="totalLengthTimestamp" width="100" height="25" horizAlign="right" font="font:SmallestSystemFont" translation="[1720,868]" color="#999999" />
 
     <Rectangle id="seekBar" translation="[100,845]" width="1720" height="10">
       <Rectangle id="bufferPosition" height="10" />
@@ -32,13 +32,13 @@
     <LayoutGroup translation="[100,100]" layoutDirection="vert" horizAlignment="left" itemSpacings="[15]">
       <ScrollingText id="song" font="font:MediumBoldSystemFont" maxWidth="1800" height="50" />
       <ScrollingText id="artist" maxWidth="1800" height="25" />
-      <Label id="numberofsongs" width="500" height="25" font="font:SmallestSystemFont" color="#999999" />
+      <Text id="numberofsongs" width="500" height="25" font="font:SmallestSystemFont" color="#999999" />
     </LayoutGroup>
 
     <Poster id="albumCover" width="500" height="500" translation="[100,275]" />
 
     <Rectangle id="seekPosition" visible="false" color="0x00000090" height="40" width="110" translation="[100, 790]">
-      <Label text="0:00" id="seekTimestamp" width="110" height="40" horizAlign="center" vertAlign="center" font="font:SmallestSystemFont" />
+      <Text text="0:00" id="seekTimestamp" width="110" height="40" horizAlign="center" vertAlign="center" font="font:SmallestSystemFont" />
     </Rectangle>
 
     <ExpandingLabel
