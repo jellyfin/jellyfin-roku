@@ -58,12 +58,9 @@ end sub
 
 ' get the currently focused item
 function getFocusedItem() as dynamic
-    if not isValid(m.top.focusedChild)
-        return invalid
-    end if
+    if not isChainValid(m.top.focusedChild, "content") then return invalid
 
     focusedChild = m.top.focusedChild
-    if not isValid(focusedChild.content) then return invalid
     m.top.lastFocus = focusedChild
 
     if isValidAndNotEmpty(focusedChild.rowItemFocused)
