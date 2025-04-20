@@ -636,22 +636,8 @@ function sortSubtitles(MediaStreams)
     return { "all": tracks["forced"], "text": tracks["text"] }
 end function
 
-function FindDefaultTrack(streams as dynamic)
-    ' Usually the first audio stream, so this should be fast.
-    ' But it's not always the first audio stream :-(
-    for i = 0 to streams.Count() - 1
-        if isStringEqual(streams[i].LookupCI("type"), "audio")
-            if chainLookupReturn(streams[i], "IsDefault", false)
-                return i
-            end if
-        end if
-    end for
-
-    ' No default?  Return the first one.
-    return 1
-end function
-
 function FindPreferredAudioStream(streams as dynamic) as integer
+    preferredAudioTrackIndex = m.global.queueManager.callFunc("getPreferredAudioTrackIndex")
     preferredLanguage = m.global.session.user.Configuration.AudioLanguagePreference
     playDefault = m.global.session.user.Configuration.PlayDefaultAudioTrack
 
@@ -666,19 +652,27 @@ function FindPreferredAudioStream(streams as dynamic) as integer
         streams = jsonResponse.MediaStreams
     end if
 
-    if isValid(playDefault) and playDefault
-        return FindDefaultTrack(streams)
+    ' User selected something other than the first track?
+    if preferredAudioTrackIndex >= 0
+        return preferredAudioTrackIndex
     end if
 
+    ' No selction, but they have Default as their preference?
+    if isValid(playDefault) and playDefault
+        return findDefaultTrack(streams)
+    end if
+
+    ' No user selection and not configured to play the default, how about a preferred language?
     if preferredLanguage <> invalid
         for i = 0 to streams.Count() - 1
             if LCase(streams[i].Type) = "audio"
-                if streams[i].Language <> invalid and LCase(streams[i].Language) = LCase(preferredLanguage)
+                if isStringEqual(chainLookupReturn(streams[i], "Language", invalid), preferredLanguage)
                     return i
                 end if
             end if
         end for
     end if
 
+    ' User doesn't care, play the first track :-)
     return 1
 end function

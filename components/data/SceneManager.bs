@@ -43,7 +43,7 @@ sub pushScene(newGroup)
 
         ' If we are moving in to a movie detail view, reset preferred audio track index
         if newGroup.isSubType("MovieDetails")
-            m.global.queueManager.callFunc("setPreferredAudioTrackIndex", 0)
+            m.global.queueManager.callFunc("setPreferredAudioTrackIndex", -1)
         end if
 
         m.groups.push(newGroup)
@@ -100,7 +100,7 @@ sub popScene()
 
         ' If we are moving back to anything other than a movie detail view, reset preferred audio track index
         if not group.isSubType("MovieDetails")
-            m.global.queueManager.callFunc("setPreferredAudioTrackIndex", 0)
+            m.global.queueManager.callFunc("setPreferredAudioTrackIndex", -1)
         end if
 
         group.visible = true
