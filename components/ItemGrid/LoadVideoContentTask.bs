@@ -657,7 +657,7 @@ function FindPreferredAudioStream(streams as dynamic) as integer
         return preferredAudioTrackIndex
     end if
 
-    ' No selction, but they have Default as their preference?
+    ' No selection, but they have Default as their preference?
     if isValid(playDefault) and playDefault
         return findDefaultTrack(streams)
     end if
