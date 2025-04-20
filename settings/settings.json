@@ -1,7 +1,7 @@
 [
     {
         "title": "Secret",
-        "description": "Settings that are not for public consumption.",
+        "description": "Settings that are not for public consumption. Do not get mad if these things change without notice.",
         "visible": false,
         "children": [
             {
@@ -14,7 +14,6 @@
             {
                 "title": "Color Settings",
                 "description": "Change the colors of elements in the channel",
-                "visible": false,
                 "children": [
                     {
                         "title": "Background",
@@ -24,25 +23,45 @@
                         "default": "#000018"
                     },
                     {
-                        "title": "Watched Check Mark & Unplayed Count Background",
-                        "description": "The background color of the check mark & unplayed count shown in the top right corner of items.",
-                        "settingName": "colorPlayedCheckmarkBackground",
-                        "type": "colorgrid",
-                        "default": "#6666FF"
-                    },
-                    {
-                        "title": "Watched Check Mark",
-                        "description": "The color of the watched check mark.",
-                        "settingName": "colorPlayedCheckmarkIcon",
+                        "title": "Primary Text Color",
+                        "description": "The primary text color for all screens in Jellyfin.",
+                        "settingName": "colorText",
                         "type": "colorgrid",
                         "default": "#FFFFFF"
                     },
                     {
-                        "title": "Unplayed Count",
-                        "description": "The text color of the unplayed count number.",
-                        "settingName": "colorUnplayedCountTextColor",
+                        "title": "Secondary Text Color",
+                        "description": "The secondary text color for all screens in Jellyfin.",
+                        "settingName": "colorSubText",
                         "type": "colorgrid",
-                        "default": "#FFFFFF"
+                        "default": "#777777FF"
+                    },
+                    {
+                        "title": "Watched Check Mark & Unplayed Count",
+                        "description": "Watched Check Mark & Unplayed Count color settings",
+                        "children": [
+                            {
+                                "title": "Background",
+                                "description": "The background color of the check mark & unplayed count shown in the top right corner of items.",
+                                "settingName": "colorPlayedCheckmarkBackground",
+                                "type": "colorgrid",
+                                "default": "#6666FF"
+                            },
+                            {
+                                "title": "Watched Check Mark",
+                                "description": "The color of the watched check mark.",
+                                "settingName": "colorPlayedCheckmarkIcon",
+                                "type": "colorgrid",
+                                "default": "#FFFFFF"
+                            },
+                            {
+                                "title": "Unplayed Count",
+                                "description": "The text color of the unplayed count number.",
+                                "settingName": "colorUnplayedCountTextColor",
+                                "type": "colorgrid",
+                                "default": "#FFFFFF"
+                            }
+                        ]
                     }
                 ]
             }

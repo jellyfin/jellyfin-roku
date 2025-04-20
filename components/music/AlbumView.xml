@@ -5,10 +5,10 @@
       <LayoutGroup id="main_group" layoutDirection="horiz" itemSpacings="[15]">
         <LayoutGroup layoutDirection="vert" itemSpacings="[15]">
           <Poster id="albumCover" width="450" height="450" />
-          <Label id="numberofsongs" width="450" height="25" />
-          <Label id="genres" width="450" height="25" />
-          <Label id="runtime" width="450" height="25" />
-          <Label id="released" width="450" height="25" />
+          <Text id="numberofsongs" width="450" height="25" />
+          <Text id="genres" width="450" height="25" />
+          <Text id="runtime" width="450" height="25" />
+          <Text id="released" width="450" height="25" />
           <StandardButton
             id="instantMix"
             text="Instant Mix"
@@ -16,7 +16,7 @@
             width="250" />
         </LayoutGroup>
         <LayoutGroup id="infoGroup" layoutDirection="vert" itemSpacings="[15]">
-          <Label id="overview" wrap="true" height="310" width="1250" />
+          <Text id="overview" wrap="true" height="310" width="1250" />
           <Rectangle id='songListRect' translation="[-30, 0]" width="1260" height="510">
             <AlbumTrackList
               id="songList"

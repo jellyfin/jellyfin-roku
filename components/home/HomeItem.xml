@@ -12,7 +12,7 @@
     </Rectangle>
 
     <ScrollingText id="itemText" horizAlign="center" vertAlign="center" font="font:SmallBoldSystemFont" height="64" maxWidth="456" translation="[8,267]" repeatCount="0" />
-    <Text id="itemTextExtra" horizAlign="left" vertAlign="center" font="font:SmallBoldSystemFont" height="32" width="456" translation="[8,300]" visible="false" color="#777777FF" />
+    <Text id="itemTextExtra" horizAlign="left" vertAlign="center" font="font:SmallBoldSystemFont" height="32" width="456" translation="[8,300]" visible="false" />
 
     <Animation id="showProgressBar" duration="0.5" repeat="false" easeFunction="linear">
       <FloatFieldInterpolator id="showProgressBarField" key="[0.0, 1.0]" fieldToInterp="progress.width" />

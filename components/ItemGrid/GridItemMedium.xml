@@ -4,13 +4,13 @@
     <Poster id="backdrop" translation="[0,23]" width="400" height="260" loadDisplayMode="scaleToZoom" uri="pkg:/images/white.9.png" />
     <Poster id="itemPoster" translation="[0,23]" width="400" height="260" loadDisplayMode="scaleToZoom" />
 
-    <ScrollingLabel id="title" horizAlign="left" vertAlign="bottom" font="font:SmallBoldSystemFont" height="34" maxWidth="384" translation="[8,290]" repeatCount="0" />
-    <ScrollingLabel id="itemTextExtra" horizAlign="left" vertAlign="center" font="font:SmallBoldSystemFont" height="32" maxWidth="384" translation="[8,325]" color="#777777FF" repeatCount="0" />
+    <ScrollingText id="title" horizAlign="left" vertAlign="bottom" font="font:SmallBoldSystemFont" height="34" maxWidth="384" translation="[8,290]" repeatCount="0" />
+    <ScrollingText id="itemTextExtra" horizAlign="left" vertAlign="center" font="font:SmallBoldSystemFont" height="32" maxWidth="384" translation="[8,325]" color="#777777FF" repeatCount="0" />
 
     <Rectangle id="itemIconBackground" height="60" width="60" translation="[345,225]">
       <Poster id="itemIcon" width="50" height="50" translation="[5,5]" />
     </Rectangle>
-    <Label id="posterText" width="400" height="300" translation="[5,5]" horizAlign="center" vertAlign="center" ellipsizeOnBoundary="true" wrap="true" />
+    <Text id="posterText" width="400" height="300" translation="[5,5]" horizAlign="center" vertAlign="center" ellipsizeOnBoundary="true" wrap="true" />
     <PlayedCheckmark id="playedIndicator" translation="[340, 22]" />
   </children>
   <interface>

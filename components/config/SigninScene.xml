@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component name="SigninScene" extends="JFScreen">
   <children>
-    <Label
+    <Text
       text="Sign In"
       horizAlign="center"
       font="font:LargeSystemFont"
@@ -12,7 +12,7 @@
     <Poster uri="pkg:/images/icons/circle.png" id="overlayCurrentUserProfileImage" width="256" height="256" loadDisplayMode="scaleToZoom" translation="[832, 190]" />
 
     <Rectangle id="errorContainer" visible="false" width="600" height="60" translation="[660, 386]">
-      <Label id="errorMessage" text="" wrap="true" width="600" font="font:MediumSystemFont" horizAlign="center" translation="[10, 15]" />
+      <Text id="errorMessage" text="" wrap="true" width="600" font="font:MediumSystemFont" horizAlign="center" translation="[10, 15]" />
     </Rectangle>
 
     <Rectangle id="signInFormContainer" color="#101420" width="870" height="280" translation="[525, 466]">

@@ -6,7 +6,7 @@
       uri="pkg:/images/dialog.9.png"
       translation="[0, 0]"
     />
-    <Label id="messageText" horizAlign="center" wrap="true" />
+    <Text id="messageText" horizAlign="center" wrap="true" />
     <LabelList id="optionList" vertFocusAnimationStyle="floatingFocus" textHorizAlign="center">
       <ContentNode id="content" role="content"></ContentNode>
     </LabelList>

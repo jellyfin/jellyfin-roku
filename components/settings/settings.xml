@@ -2,7 +2,7 @@
 <component name="Settings" extends="JFScreen">
   <children>
 
-    <Label id="path" translation="[95, 175]" font="font:SmallestBoldSystemFont" />
+    <Text id="path" translation="[95, 175]" font="font:SmallestBoldSystemFont" />
     <MultiStyleLabel id="version" translation="[95, 1000]" />
 
     <LabelList
@@ -16,7 +16,7 @@
 
     <Poster translation="[710, 230]" id="testRectangle" width="1110" height="800" uri="pkg:/images/white.9.png" />
 
-    <Label id="settingDesc" translation="[730, 270]" width="1065" wrap="true" horizAlign="left" />
+    <Text id="settingDesc" translation="[730, 270]" width="1065" wrap="true" horizAlign="left" />
 
     <RadioButtonList id="radioSetting" numRows="6" vertFocusAnimationStyle="floatingFocus" translation="[1034, 510]" />
 

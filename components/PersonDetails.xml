@@ -11,7 +11,7 @@
       <LayoutGroup id="header_group" layoutdirection="horiz">
         <LayoutGroup id="title_group" layoutdirection="vert" itemSpacings="[11]">
           <Rectangle id="title_rectangle" height="100" width="1426" color="#000018">
-            <Label id="name" font="font:LargeBoldSystemFont" height="100" width="1426" vertAlign="bottom" />
+            <Text id="name" font="font:LargeBoldSystemFont" height="100" width="1426" vertAlign="bottom" />
           </Rectangle>
         </LayoutGroup>
         <ButtonGroupHoriz id="buttons">
@@ -26,7 +26,7 @@
           <LayoutGroup id="dataGroup>" layoutDirection="vert" translation="[450,180]">
             <Rectangle id="dscrBorder" height="645" width="1322" color="0x202020ff" visible="true">
               <Rectangle id='dscrRect' translation="[3, 3]" height="639" width="1316" color="0x202020ff">
-                <Label id="description"
+                <Text id="description"
                   height="627" width="1280" wrap="true" translation="[18, 15]"
                   font="font:SmallestSystemFont" color="#e4e4e4ff" ellipsisText=" ...  (-OK- for More)" />
               </Rectangle>
