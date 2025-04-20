@@ -4,17 +4,12 @@ import "pkg:/source/enums/CollectionType.bs"
 import "pkg:/source/enums/ColorPalette.bs"
 import "pkg:/source/enums/ItemType.bs"
 import "pkg:/source/enums/KeyCode.bs"
+import "pkg:/source/enums/SearchButtonState.bs"
 import "pkg:/source/enums/String.bs"
 import "pkg:/source/enums/TaskControl.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/deviceCapabilities.bs"
 import "pkg:/source/utils/misc.bs"
-
-enum SearchButtonState
-    ACTIVE
-    INACTIVE
-    DISABLED
-end enum
 
 sub setupNodes()
     m.options = m.top.findNode("options")
@@ -70,7 +65,7 @@ sub setupNodes()
 end sub
 
 sub init()
-    m.disabledReasaon = string.EMPTY
+    m.disabledReason = string.EMPTY
     m.searchButtonDisabled = false
     m.top.optionsAvailable = false
     setupNodes()
@@ -1214,20 +1209,11 @@ sub resetDropdownsToDefaultState()
 end sub
 
 sub onSearchTermChanged()
-    if m.top.searchTerm = string.EMPTY
-        ' User clicked on search, then pressed back without searching
-        if m.loadItemsTask.searchTerm = string.EMPTY
-            m.voiceBox.hintText = tr("Press OK to type")
-            onVoiceEnabledChange()
-            return
-        else
-            ' User cleared an old search
-            m.voiceBox.hintText = tr("Press OK to type")
-        end if
-    else
-        m.voiceBox.hintText = m.top.searchTerm
-        onVoiceEnabledChange()
-    end if
+    m.voiceBox.hintText = m.top.searchTerm = string.EMPTY ? tr("Press OK to type") : m.top.searchTerm
+
+    onVoiceEnabledChange()
+
+    if isStringEqual(m.loadItemsTask.searchTerm, m.top.searchTerm) then return
 
     setSearchBackground(SearchButtonState.INACTIVE)
 
@@ -1520,7 +1506,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
     if isStringEqual(key, KeyCode.OK)
         if m.voiceBox.isinFocusChain()
             if m.searchButtonDisabled
-                m.global.sceneManager.callFunc("standardDialog", "Search Unavailable", { data: [`<p>${m.disabledReasaon}</p>`] })
+                m.global.sceneManager.callFunc("standardDialog", "Search Unavailable", { data: [`<p>${m.disabledReason}</p>`] })
                 return false
             end if
 
@@ -1857,7 +1843,7 @@ sub setSearchBackground(state)
 end sub
 
 sub disableSearch(disabledReason as string)
-    m.disabledReasaon = disabledReason
+    m.disabledReason = disabledReason
     m.searchButtonDisabled = true
     m.voiceBox.voiceEnabled = false
     m.voiceBox.hintText = "Search Unavailable"
