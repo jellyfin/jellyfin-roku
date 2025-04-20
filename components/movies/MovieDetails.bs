@@ -577,7 +577,7 @@ sub SetDefaultAudioTrack(itemData)
         preferredAudioTrackIndex = findDefaultTrack(itemData.mediaStreams)
     end if
 
-    ' No selction, but they have Default as their preference?
+    ' No selection, but they have Default as their preference?
     if isValid(playDefault) and playDefault
         preferredAudioTrackIndex = findDefaultTrack(itemData.mediaStreams)
     end if
