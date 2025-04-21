@@ -571,6 +571,7 @@ sub SetDefaultAudioTrack(itemData)
     preferredAudioTrackIndex = m.global.queueManager.callFunc("getPreferredAudioTrackIndex")
     preferredLanguage = m.global.session.user.Configuration.AudioLanguagePreference
     playDefault = m.global.session.user.Configuration.PlayDefaultAudioTrack
+    firstAudioTrack = -1
 
     ' Do we have a preferred audio track?
     if preferredAudioTrackIndex < 0 and not isValid(playDefault)
@@ -584,6 +585,7 @@ sub SetDefaultAudioTrack(itemData)
 
     for i = 0 to itemData.mediaStreams.Count() - 1
         if itemData.mediaStreams[i].Type = "Audio"
+            if firstAudioTrack < 0 then firstAudioTrack = i
 
             if preferredAudioTrackIndex < 0 and isValid(preferredLanguage)
                 ' No user selection and not configured to play the default, how about a preferred language?
@@ -601,8 +603,8 @@ sub SetDefaultAudioTrack(itemData)
     end for
 
     ' If we got here, then nothing matched.  First track it is...
-    m.top.selectedAudioStreamIndex = 0
-    setFieldText("audio_codec", tr("Audio") + ": " + itemData.mediaStreams[0].displayTitle)
+    m.top.selectedAudioStreamIndex = firstAudioTrack
+    setFieldText("audio_codec", tr("Audio") + ": " + itemData.mediaStreams[firstAudioTrack].displayTitle)
 end sub
 
 sub setFieldText(field, value)
