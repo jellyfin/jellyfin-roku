@@ -21,7 +21,7 @@ namespace quickplay
         if not isValid(itemNode) or not isValid(itemNode.id) or not isValid(itemNode.json) then return
 
         ' attempt to play video file. resume if possible
-        if isValid(itemNode.selectedVideoStreamId)
+        if isValidAndNotEmpty(itemNode.selectedVideoStreamId)
             itemNode.id = itemNode.selectedVideoStreamId
         end if
 
