@@ -6,7 +6,7 @@
     </Poster>
     <JFButton id="shuffle" minChars="10" text="Shuffle" translation="[90, 640]" visible="false" />
     <JFButton id="extras" minChars="10" text="Extras" translation="[90, 740]" visible="false" />
-    <TVEpisodeRowWithOptions id="picker" visible="true" />
+    <TVEpisodeRow id="picker" visible="true" />
   </children>
   <interface>
     <field id="episodeSelected" alias="picker.itemSelected" />

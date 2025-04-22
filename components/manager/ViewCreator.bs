@@ -49,7 +49,7 @@ sub CreateVideoPlayerView()
 
     ' If the user has set a preferred audio track index, use it
     preferredAudioTrackIndex = m.global.queueManager.callFunc("getPreferredAudioTrackIndex")
-    if not isValid(preferredAudioTrackIndex) then preferredAudioTrackIndex = 0
+    if preferredAudioTrackIndex < 0 then preferredAudioTrackIndex = 0
 
     m.global.queueManager.callFunc("setSelectedAudioStreamIndex", preferredAudioTrackIndex)
 

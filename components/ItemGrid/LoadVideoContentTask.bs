@@ -637,12 +637,9 @@ function sortSubtitles(MediaStreams)
 end function
 
 function FindPreferredAudioStream(streams as dynamic) as integer
+    preferredAudioTrackIndex = m.global.queueManager.callFunc("getPreferredAudioTrackIndex")
     preferredLanguage = m.global.session.user.Configuration.AudioLanguagePreference
     playDefault = m.global.session.user.Configuration.PlayDefaultAudioTrack
-
-    if playDefault <> invalid and playDefault = true
-        return 1
-    end if
 
     ' Do we already have the MediaStreams or not?
     if streams = invalid
@@ -655,15 +652,27 @@ function FindPreferredAudioStream(streams as dynamic) as integer
         streams = jsonResponse.MediaStreams
     end if
 
+    ' User selected something other than the first track?
+    if preferredAudioTrackIndex >= 0
+        return preferredAudioTrackIndex
+    end if
+
+    ' No selection, but they have Default as their preference?
+    if isValid(playDefault) and playDefault
+        return findDefaultTrack(streams)
+    end if
+
+    ' No user selection and not configured to play the default, how about a preferred language?
     if preferredLanguage <> invalid
         for i = 0 to streams.Count() - 1
             if LCase(streams[i].Type) = "audio"
-                if streams[i].Language <> invalid and LCase(streams[i].Language) = LCase(preferredLanguage)
+                if isStringEqual(chainLookupReturn(streams[i], "Language", invalid), preferredLanguage)
                     return i
                 end if
             end if
         end for
     end if
 
+    ' User doesn't care, play the first track :-)
     return 1
 end function

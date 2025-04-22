@@ -23,20 +23,12 @@
             <Text id="aired" font="font:SmallestSystemFont" />
           </LayoutGroup>
           <Text id="overview" font="font:SmallestSystemFont" wrap="true" height="130" width="950" maxLines="3" ellipsizeOnBoundary="true" />
-          <LayoutGroup layoutDirection="horiz" itemSpacings="[15]">
-            <ScrollingText id="video_codec" font="font:SmallestSystemFont" maxWidth="400" />
-            <Text id="video_codec_count" font="font:smallestSystemFont" vertAlign="top" color="#ceffff" />
-            <ScrollingText id="audio_codec" font="font:SmallestSystemFont" maxWidth="400" />
-            <Text id="audio_codec_count" font="font:smallestSystemFont" vertAlign="top" color="#ceffff" />
-          </LayoutGroup>
         </LayoutGroup>
       </LayoutGroup>
     </LayoutGroup>
   </children>
   <interface>
     <field id="itemContent" type="node" onChange="itemContentChanged" />
-    <field id="selectedVideoStreamId" type="string" />
-    <field id="selectedAudioStreamIndex" type="integer" />
     <field id="itemHasFocus" type="boolean" onChange="focusChanged" />
   </interface>
 </component>

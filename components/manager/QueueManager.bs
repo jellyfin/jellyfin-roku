@@ -19,7 +19,7 @@ sub init()
     ' Preroll videos only play if user has cinema mode setting enabled
     m.isPrerollActive = m.global.session.user.settings["playback.cinemamode"]
     m.position = 0
-    m.preferredAudioTrackIndex = 0
+    m.preferredAudioTrackIndex = -1
     m.preferredSubtitleTrack = {}
     m.shuffleEnabled = false
 end sub
@@ -32,7 +32,7 @@ sub clear()
     m.isPrerollActive = m.global.session.user.settings["playback.cinemamode"]
     setPosition(0)
     if not m.bypassNextPreferredAudioTrackIndexReset
-        setPreferredAudioTrackIndex(0)
+        setPreferredAudioTrackIndex(-1)
     end if
     m.bypassNextPreferredAudioTrackIndexReset = false
 end sub
@@ -316,7 +316,7 @@ end function
 
 ' Sets the preferredAudioTrackIndex property for the play queue
 sub setPreferredAudioTrackIndex(audioData as integer)
-    m.preferredAudioTrackIndex = audioData ?? 0
+    m.preferredAudioTrackIndex = audioData ?? (-1)
 end sub
 
 ' Set prerollActive status
