@@ -12,16 +12,9 @@ sub onQuickPlayEvent(msg)
     itemNode = invalid
 
     ' Prevent double fire bug
-    if isValid(reportingNode)
-        itemNode = reportingNode.quickPlayNode
-        if isValid(itemNode)
-            reportingNodeType = reportingNode.subtype()
-            if isValid(reportingNodeType)
-                if inArray(["home", "TVEpisodes", "VisualLibraryScene"], reportingNodeType)
-                    reportingNode.quickPlayNode = invalid
-                end if
-            end if
-        end if
+    if isChainValid(reportingNode, "quickPlayNode")
+        itemNode = reportingNode.quickPlayNode.clone(false)
+        reportingNode.quickPlayNode = invalid
     end if
 
     if not isValid(itemNode) then return
