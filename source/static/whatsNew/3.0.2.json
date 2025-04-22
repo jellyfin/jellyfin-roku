@@ -28,7 +28,7 @@
     "author": "jimdogx"
   },
   {
-    "description": "Fix quickplay from causing video player error on list of episodes in TV season",
-    "author": "jimdogx"
+    "description": "Fix possible video player error when using quickplay on list of episodes in TV season screen",
+    "author": "1hitsong"
   }
 ]
