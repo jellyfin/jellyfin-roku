@@ -26,5 +26,9 @@
   {
     "description": "Fix default audio track not always selected correctly",
     "author": "jimdogx"
+  },
+  {
+    "description": "Fix quickplay from causing video player error on list of episodes in TV season",
+    "author": "jimdogx"
   }
 ]
