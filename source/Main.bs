@@ -33,9 +33,6 @@ sub Main (args as dynamic) as void
     sceneManager.observeField("dataReturned", m.port)
 
     overhang = m.scene.findNode("overhang")
-    if isValid(overhang)
-        overhang.observeField("changeUserSelected", m.port)
-    end if
 
     m.global.addFields({ app_loaded: false, playstateTask: playstateTask, sceneManager: sceneManager })
     m.global.addFields({ queueManager: CreateObject("roSGNode", "QueueManager") })
@@ -55,7 +52,7 @@ sub Main (args as dynamic) as void
     if not LoginFlow() then return
 
     ' Set user's chosen background color
-    m.scene.backgroundColor = chainLookupReturn(m.global.session, "user.settings.colorBackground", ColorPalette.VIEWBACKGROUND)
+    setUserBackground()
 
     ' remove login scenes from the stack
     sceneManager.callFunc("clearScenes")
@@ -165,10 +162,6 @@ sub Main (args as dynamic) as void
             onButtonSelectedEvent(msg)
         else if isNodeEvent(msg, "content")
             onContentEvent(msg)
-        else if isNodeEvent(msg, "changeUserSelected")
-            SignOut(false)
-            sceneManager.callFunc("clearScenes")
-            goto app_start
         else if isNodeEvent(msg, "userMenuOptionSelected")
             button = msg.getRoSGNode()
             group = sceneManager.callFunc("getActiveScene")
@@ -192,14 +185,18 @@ sub Main (args as dynamic) as void
                 unset_setting("server")
                 session.server.Delete()
                 SignOut(false)
+                setUserBackground()
                 sceneManager.callFunc("clearScenes")
                 goto app_start
             else if isStringEqual(button.id, "change_user")
                 SignOut(false)
+                ' Reset colors to defaults
+                setUserBackground()
                 sceneManager.callFunc("clearScenes")
                 goto app_start
             else if isStringEqual(button.id, "sign_out")
                 SignOut()
+                setUserBackground()
                 sceneManager.callFunc("clearScenes")
                 goto app_start
             else if isStringEqual(button.id, "settings")
@@ -286,4 +283,23 @@ sub displayWhatsNewPopup(args)
             m.global.sceneManager.callFunc("whatsNewDialog")
         end if
     end if
+end sub
+
+sub setUserBackground()
+    m.scene.backgroundColor = chainLookupReturn(m.global.session, "user.settings.colorBackground", ColorPalette.VIEWBACKGROUND)
+    selectedBackgroundImage = chainLookupReturn(m.global.session, "user.settings.imageBackground", string.EMPTY)
+
+    if isStringEqual(selectedBackgroundImage, "splash")
+        selectedBackgroundImage = api.branding.GetSplashScreen({
+            format: "jpg",
+            foregroundLayer: 1,
+            fillWidth: 1920,
+            width: 1920,
+            fillHeight: 1080,
+            height: 1080,
+            tag: "splash"
+        })
+    end if
+
+    m.scene.callFunc("setBackgroundImage", selectedBackgroundImage)
 end sub

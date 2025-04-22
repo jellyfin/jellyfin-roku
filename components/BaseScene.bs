@@ -12,6 +12,13 @@ sub isLoadingChanged()
     m.spinner.visible = m.top.isLoading
 end sub
 
+sub setBackgroundImage(backgroundURI as string)
+    imageBackground = m.top.findNode("imageBackground")
+    if not isValid(imageBackground) then return
+
+    imageBackground.uri = backgroundURI
+end sub
+
 sub onJumpToChange()
     if not isValidAndNotEmpty(m.top.jumpTo) then return
     if not isValid(m.top.jumpTo.selectiontype) then return

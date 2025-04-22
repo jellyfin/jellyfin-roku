@@ -26,7 +26,6 @@
   <interface>
     <function name="highlightUser" />
     <function name="dehighlightUser" />
-    <field id="changeUserSelected" type="boolean" />
     <field id="id" type="string" />
     <field id="currentUserProfileImage" type="string" onChange="updateUserProfileImage" />
     <field id="currentUser" type="string" onChange="updateUser" />
