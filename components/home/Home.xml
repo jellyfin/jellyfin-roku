@@ -11,10 +11,6 @@
       numRows="2"
       rowLabelOffset="[[0,20]]" />
     <OptionsSlider id="options" />
-
-    <Animation id="fadeInFocusBitmap" delay="1" duration=".2" repeat="false" easeFunction="inQuad">
-      <ColorFieldInterpolator id="fadeInFocusBitmapInterpolator" key="[0.0, 1.0]" fieldToInterp="homeRows.focusBitmapBlendColor" />
-    </Animation>
   </children>
   <interface>
     <field id="playlistData" type="array" />

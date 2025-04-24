@@ -20,7 +20,7 @@ sub init()
 
     m.overlayCurrentUserSelection = m.top.findNode("overlayCurrentUserSelection")
     if isValid(m.overlayCurrentUserSelection)
-        m.overlayCurrentUserSelection.blendColor = ColorPalette.HIGHLIGHT
+        m.overlayCurrentUserSelection.blendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
     end if
 
 end sub

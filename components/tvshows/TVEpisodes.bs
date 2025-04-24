@@ -14,7 +14,7 @@ sub init()
     m.poster = m.top.findNode("seasonPoster")
     m.shuffle = m.top.findNode("shuffle")
     m.extras = m.top.findNode("extras")
-    m.rows.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
+    m.rows.focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
 
     m.playedIndicator = m.top.findNode("playedIndicator")
 

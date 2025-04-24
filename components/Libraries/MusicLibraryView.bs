@@ -32,39 +32,39 @@ sub setupNodes()
     m.searchButton.textColor = ColorPalette.DARKGREY
     m.searchButton.focusTextColor = ColorPalette.WHITE
     m.searchButton.background = ColorPalette.WHITE
-    m.searchButton.focusBackground = ColorPalette.HIGHLIGHT
+    m.searchButton.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
 
     m.sortButton = m.top.findNode("sortButton")
     m.sortButton.textColor = ColorPalette.DARKGREY
     m.sortButton.focusTextColor = ColorPalette.WHITE
     m.sortButton.background = ColorPalette.WHITE
-    m.sortButton.focusBackground = ColorPalette.HIGHLIGHT
+    m.sortButton.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
 
     m.sortOrderButton = m.top.findNode("sortOrderButton")
     m.sortOrderButton.textColor = ColorPalette.DARKGREY
     m.sortOrderButton.focusTextColor = ColorPalette.WHITE
     m.sortOrderButton.background = ColorPalette.WHITE
-    m.sortOrderButton.focusBackground = ColorPalette.HIGHLIGHT
+    m.sortOrderButton.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
 
     m.filterButton = m.top.findNode("filterButton")
     m.filterButton.textColor = ColorPalette.DARKGREY
     m.filterButton.focusTextColor = ColorPalette.WHITE
     m.filterButton.background = ColorPalette.WHITE
-    m.filterButton.focusBackground = ColorPalette.HIGHLIGHT
+    m.filterButton.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
 
     m.viewButton = m.top.findNode("viewButton")
     m.viewButton.textColor = ColorPalette.DARKGREY
     m.viewButton.focusTextColor = ColorPalette.WHITE
     m.viewButton.background = ColorPalette.WHITE
-    m.viewButton.focusBackground = ColorPalette.HIGHLIGHT
+    m.viewButton.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
 end sub
 
 sub init()
     setupNodes()
     m.bypassSearchEvent = false
 
-    m.itemGrid.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
-    m.genrelist.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
+    m.itemGrid.focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+    m.genrelist.focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
     m.top.findNode("VoiceBoxCover").color = chainLookupReturn(m.global.session, "user.settings.colorBackground", ColorPalette.VIEWBACKGROUND)
 
     m.overhang.isVisible = false

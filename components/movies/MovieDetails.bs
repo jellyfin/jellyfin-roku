@@ -100,7 +100,7 @@ end sub
 
 sub setButtonColors()
     m.buttonGrp.focusBitmapUri = "pkg:/images/white.9.png"
-    m.buttonGrp.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
+    m.buttonGrp.focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
 end sub
 
 ' OnScreenShown: Callback function when view is presented on screen

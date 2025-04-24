@@ -1,7 +1,8 @@
 import "pkg:/source/enums/ColorPalette.bs"
+import "pkg:/source/utils/misc.bs"
 
 sub init()
-    m.top.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
+    m.top.focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
     m.top.itemComponentName = "UserItem"
     m.top.content = SetData()
     m.top.observeField("itemSelected", "SetUser")

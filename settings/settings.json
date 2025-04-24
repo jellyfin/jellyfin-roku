@@ -62,6 +62,13 @@
                         "default": "#777777FF"
                     },
                     {
+                        "title": "Cursor Color",
+                        "description": "The highlight color for the cursor showing where the user's focus is.",
+                        "settingName": "colorCursor",
+                        "type": "colorgrid",
+                        "default": "#FF6666"
+                    },
+                    {
                         "title": "Watched Check Mark & Unplayed Count",
                         "description": "Watched Check Mark & Unplayed Count color settings",
                         "children": [

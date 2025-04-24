@@ -15,7 +15,7 @@ sub init()
     m.userLocation = []
 
     m.settingsMenu = m.top.findNode("settingsMenu")
-    m.settingsMenu.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
+    m.settingsMenu.focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
     m.settingsMenu.focusFootprintBlendColor = ColorPalette.TRANSPARENT
     m.settingsMenu.focusedColor = ColorPalette.WHITE
 
@@ -35,7 +35,7 @@ sub init()
         "b": {
             "fontSize": 27,
             "fontUri": "font:SystemFontFile",
-            "color": ColorPalette.HIGHLIGHT
+            "color": chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
         }
     }
 
@@ -49,7 +49,7 @@ sub init()
     m.colorgrid = m.top.findNode("colorgrid")
 
     m.radioSetting = m.top.findNode("radioSetting")
-    m.radioSetting.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
+    m.radioSetting.focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
     m.radioSetting.focusFootprintBlendColor = ColorPalette.TRANSPARENT
     m.radioSetting.focusedColor = ColorPalette.WHITE
 
