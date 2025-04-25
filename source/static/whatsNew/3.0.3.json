@@ -2,5 +2,9 @@
   {
     "description": "Fix crash when watching a recording in progress",
     "author": "1hitsong"
+  },
+  {
+    "description": "Fix transparent backgrounds when using SVG logos",
+    "author": "1hitsong"
   }
 ]
