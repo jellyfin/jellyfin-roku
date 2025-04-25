@@ -345,7 +345,8 @@ end sub
 sub onvoiceFilter()
     if m.VoiceBox.text = string.EMPTY then return
 
-    if LCase(m.voiceBox.text) = "reset search" then m.voiceBox.text = string.EMPTY
+    if isStringEqual(m.voiceBox.text, "reset search") then m.voiceBox.text = string.EMPTY
+    if isStringEqual(m.voiceBox.text, "clear search") then m.voiceBox.text = string.EMPTY
 
     m.loadedRows = 0
     m.loadedItems = 0

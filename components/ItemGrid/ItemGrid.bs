@@ -189,7 +189,7 @@ sub loadInitialItems()
         m.loadItemsTask.nameStartsWith = string.EMPTY
         m.top.alphaSelected = string.EMPTY
     else
-        m.loadItemsTask.nameStartsWith = m.alpha.letterSelected
+        m.loadItemsTask.nameStartsWith = m.top.alphaSelected
     end if
 
     m.loadItemsTask.searchTerm = m.voiceBox.text
@@ -744,16 +744,15 @@ end sub
 sub onvoiceFilter()
     if m.VoiceBox.text = string.EMPTY then return
 
-    if LCase(m.voiceBox.text) = "reset search" then m.voiceBox.text = string.EMPTY
+    if isStringEqual(m.voiceBox.text, "reset search") then m.voiceBox.text = string.EMPTY
+    if isStringEqual(m.voiceBox.text, "clear search") then m.voiceBox.text = string.EMPTY
 
     m.loadedRows = 0
     m.loadedItems = 0
     m.data = CreateObject("roSGNode", "ContentNode")
     m.itemGrid.content = m.data
     m.top.alphaSelected = string.EMPTY
-    m.loadItemsTask.NameStartsWith = " "
-    m.loadItemsTask.searchTerm = m.voiceBox.text
-    m.loadItemsTask.recursive = true
+    m.loadItemsTask.NameStartsWith = string.EMPTY
 
     ' If user searched for a letter, selected it from the alpha menu
     if m.voiceBox.text.len() = 1
@@ -772,7 +771,13 @@ sub onvoiceFilter()
                 end if
             end for
         end if
+
+        m.top.alphaSelected = m.voiceBox.text
+        return
     end if
+
+    m.loadItemsTask.searchTerm = m.voiceBox.text
+
     loadInitialItems()
 end sub
 

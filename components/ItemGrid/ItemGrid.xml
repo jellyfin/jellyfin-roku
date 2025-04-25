@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component name="ItemGrid" extends="JFScreen">
   <children>
-    <VoiceTextEditBox id="VoiceBox" visible="true" width="40" translation="[52, 120]" />
+    <VoiceTextEditBox id="VoiceBox" visible="true" width="0" translation="[33, 40]" />
 
     <poster id="backdrop" loadDisplayMode="scaleToFill" width="1920" height="1080" opacity="0.25" />
     <poster id="backdropTransition" loadDisplayMode="scaleToFill" width="1920" height="1080" opacity="0.25" />

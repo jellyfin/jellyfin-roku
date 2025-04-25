@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component name="LiveTVLibraryView" extends="JFGroup">
   <children>
-    <VoiceTextEditBox id="VoiceBox" visible="true" width="40" translation="[52, 120]" />
+    <VoiceTextEditBox id="VoiceBox" visible="true" width="0" translation="[33, 40]" />
     <Alpha id="alpha" />
 
     <MarkupGrid
