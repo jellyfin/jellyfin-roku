@@ -45,11 +45,14 @@ sub init()
 
     'Voice filter setup
     m.voiceBox = m.top.findNode("voiceBox")
-    m.voiceBox.voiceEnabled = true
-    m.voiceBox.active = true
-    m.voiceBox.observeField("text", "onvoiceFilter")
-    'set voice help text
-    m.voiceBox.hintText = tr("Use voice remote to search")
+    if m.global.device.hasVoiceRemote
+        m.voiceBox.voiceEnabled = true
+        m.voiceBox.active = true
+        m.voiceBox.observeField("text", "onvoiceFilter")
+    else
+        m.voiceBox.visible = false
+        m.voiceBox.backgroundUri = "pkg:/images/transparent.png"
+    end if
 
     'backdrop
     m.newBackdrop.observeField("loadStatus", "newBGLoaded")
