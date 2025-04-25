@@ -149,6 +149,18 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
 
     logoLookupID = video.id
 
+    if videotype = "tvchannel" and isChainValid(meta, "json.CurrentProgram")
+        video.content.contenttype = "episode"
+        if isValid(meta.json.CurrentProgram.Name)
+            video.content.title = `${video.content.title}: ${meta.json.CurrentProgram.Name}`
+        end if
+        if isValid([meta.json.CurrentProgram.ParentIndexNumber, meta.json.CurrentProgram.ParentIndexNumber, meta.json.CurrentProgram.IndexNumberEnd])
+            video.seasonNumber = meta.json.CurrentProgram.ParentIndexNumber
+            video.episodeNumber = meta.json.CurrentProgram.IndexNumber
+            video.episodeNumberEnd = meta.json.CurrentProgram.IndexNumberEnd
+        end if
+    end if
+
     if videotype = "episode" or videotype = "series"
         video.content.contenttype = "episode"
         video.seasonNumber = meta.json.ParentIndexNumber
@@ -169,9 +181,10 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
         end if
     end if
 
-    logoImageExists = api.items.HeadImageURLByName(logoLookupID, "logo")
+    logoSource = videotype = "tvchannel" ? "primary" : "logo" ' TV Channel logos are stored under '/primary' instead of '/logo'
+    logoImageExists = api.items.HeadImageURLByName(logoLookupID, logoSource)
     if logoImageExists
-        video.logoImage = api.items.GetImageURL(logoLookupID, "logo", 0, { "maxHeight": 65, "maxWidth": 300, "quality": "90" })
+        video.logoImage = api.items.GetImageURL(logoLookupID, logoSource, 0, { "maxHeight": 65, "maxWidth": 300, "quality": "90" })
     end if
 
     additionalParts = api.videos.GetAdditionalParts(video.id)
