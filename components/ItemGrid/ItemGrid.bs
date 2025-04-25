@@ -120,6 +120,8 @@ sub loadInitialItems()
     m.itemGrid.numColumns = "7"
     m.itemGrid.numRows = "3"
 
+    m.top.showItemTitles = m.global.session.user.settings["itemgrid.gridTitles"]
+
     if isStringEqual(m.top.showItemTitles, "hidealways")
         m.itemGrid.itemSize = "[230, 345]"
         m.itemGrid.rowHeights = "[345]"
@@ -213,8 +215,6 @@ sub loadInitialItems()
     else if isStringEqual(getCollectionType(), "tvshows")
         m.loadItemsTask.itemType = "Series"
         m.loadItemsTask.itemId = m.top.parentItem.Id
-
-        m.top.showItemTitles = m.global.session.user.settings["itemgrid.gridTitles"]
     else if isStringEqual(getCollectionType(), "music")
         ' Default Settings
         m.loadItemsTask.recursive = true
@@ -234,17 +234,6 @@ sub loadInitialItems()
         else
             ' non recursive for collections (folders, boxsets, photo albums, etc)
             m.loadItemsTask.recursive = false
-        end if
-
-        if isStringEqual(getCollectionType(), "boxsets")
-            m.top.showItemTitles = m.global.session.user.settings["itemgrid.gridTitles"]
-            if isStringEqual(m.top.showItemTitles, "hidealways")
-                m.itemGrid.itemSize = "[230, 345]"
-                m.itemGrid.rowHeights = "[345]"
-            else
-                m.itemGrid.itemSize = "[230, 390]"
-                m.itemGrid.rowHeights = "[390]"
-            end if
         end if
 
         if isStringEqual(getCollectionType(), "nextup")
