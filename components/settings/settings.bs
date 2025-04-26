@@ -92,9 +92,26 @@ sub onColorSelected()
     selectedSetting = m.userLocation.peek().children[m.settingsMenu.itemFocused]
     set_user_setting(selectedSetting.settingName, selectedColor ?? ColorPalette.VIEWBACKGROUND)
 
+    ' Apply settings to items already loaded so user doesn't need to close the channel to see the changes
+
+    ' Apply global background color
     if isStringEqual(selectedSetting.settingName, "colorBackground")
         scene = m.top.getScene()
         scene.backgroundColor = selectedColor ?? ColorPalette.VIEWBACKGROUND
+    end if
+
+    ' Apply cursor color
+    if isStringEqual(selectedSetting.settingName, "colorCursor")
+        ' Update cursor around user avatar
+        scene = m.top.getScene()
+        overhang = scene.findNode("overhang")
+        if isValid(overhang)
+            overlayCurrentUserSelection = overhang.findNode("overlayCurrentUserSelection")
+            overlayCurrentUserSelection.blendColor = selectedColor ?? ColorPalette.HIGHLIGHT
+        end if
+
+        ' Update setting menu colors
+        m.settingsMenu.focusBitmapBlendColor = selectedColor ?? ColorPalette.HIGHLIGHT
     end if
 end sub
 
