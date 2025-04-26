@@ -25,7 +25,7 @@ sub init()
         "author": {
             "fontSize": 27,
             "fontUri": "font:SystemFontFile",
-            "color": chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+            "color": chainLookupReturn(m.global.session, "user.settings.colorWhatsNewAuthor", ColorPalette.HIGHLIGHT)
         }
     }
 
