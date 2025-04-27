@@ -1319,5 +1319,10 @@
             <translation>Use Show Image</translation>
             <extracomment>User Setting - Setting option title</extracomment>
         </message>
+        <message>
+            <source>CH</source>
+            <translation>CH</translation>
+            <extracomment>Abbreviation for Channel</extracomment>
+        </message>
     </context>
 </TS>
