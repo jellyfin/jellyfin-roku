@@ -2,6 +2,7 @@ import "pkg:/source/api/baserequest.bs"
 import "pkg:/source/api/Image.bs"
 import "pkg:/source/api/Items.bs"
 import "pkg:/source/api/userauth.bs"
+import "pkg:/source/enums/ImageType.bs"
 import "pkg:/source/enums/MediaSegmentType.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/deviceCapabilities.bs"
@@ -169,9 +170,9 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
         end if
     end if
 
-    logoImageExists = api.items.HeadImageURLByName(logoLookupID, "logo")
+    logoImageExists = api.items.HeadImageURLByName(logoLookupID, ImageType.LOGO)
     if logoImageExists
-        video.logoImage = api.items.GetImageURL(logoLookupID, "logo", 0, { "maxHeight": 65, "maxWidth": 300, "quality": "90" })
+        video.logoImage = api.items.GetImageURL(logoLookupID, ImageType.LOGO, 0, { "format": "Png", "maxHeight": 65, "maxWidth": 300, "quality": "90" })
     end if
 
     additionalParts = api.videos.GetAdditionalParts(video.id)

@@ -1,3 +1,4 @@
+import "pkg:/source/enums/ImageType.bs"
 import "pkg:/source/utils/misc.bs"
 
 function LoginFlow()
@@ -645,9 +646,9 @@ function CreateMovieDetailsGroup(movie as object) as dynamic
 
     if LCase(movieMetaData.json.type) = "episode" or LCase(movieMetaData.json.type) = "series"
         if isValid(movieMetaData.json.SeriesID)
-            logoImageExists = api.items.HeadImageURLByName(movieMetaData.json.SeriesID, "logo")
+            logoImageExists = api.items.HeadImageURLByName(movieMetaData.json.SeriesID, ImageType.LOGO)
             if logoImageExists
-                group.logoImageURI = api.items.GetImageURL(movieMetaData.json.SeriesID, "logo", 0, { "maxHeight": 250, "maxWidth": 500, "quality": "90" })
+                group.logoImageURI = api.items.GetImageURL(movieMetaData.json.SeriesID, ImageType.LOGO, 0, { "format": "Png", "maxHeight": 250, "maxWidth": 500, "quality": "90" })
             end if
         end if
     end if

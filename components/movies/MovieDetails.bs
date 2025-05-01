@@ -258,6 +258,7 @@ sub setLogoImage(itemData as object)
     movieLogo.width = "500"
     movieLogo.height = "250"
     movieLogo.uri = ImageURL(m.top.id, ImageType.LOGO, {
+        "format": "Png",
         "maxHeight": 300,
         "maxWidth": 600,
         "Tag": itemData.ImageTags.Logo
