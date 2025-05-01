@@ -10,5 +10,9 @@
   {
     "description": "Honor item title showing setting in \"other\" library views",
     "author": "1hitsong"
+  },
+  {
+    "description": "Fix bug that caused users to get stuck on actor detail screen",
+    "author": "1hitsong"
   }
 ]
