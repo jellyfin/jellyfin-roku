@@ -603,8 +603,10 @@ sub SetDefaultAudioTrack(itemData)
     end for
 
     ' If we got here, then nothing matched.  First track it is...
-    m.top.selectedAudioStreamIndex = firstAudioTrack
-    setFieldText("audio_codec", tr("Audio") + ": " + itemData.mediaStreams[firstAudioTrack].displayTitle)
+    if firstAudioTrack > -1
+        m.top.selectedAudioStreamIndex = firstAudioTrack
+        setFieldText("audio_codec", tr("Audio") + ": " + itemData.mediaStreams[firstAudioTrack].displayTitle)
+    end if
 end sub
 
 sub setFieldText(field, value)
