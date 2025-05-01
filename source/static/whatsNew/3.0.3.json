@@ -1,1 +1,6 @@
-[]
+[
+  {
+    "description": "Fix crash when watching a recording in progress",
+    "author": "1hitsong"
+  }
+]
