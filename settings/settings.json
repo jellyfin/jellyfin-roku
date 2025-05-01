@@ -48,18 +48,32 @@
                         "default": "#000018"
                     },
                     {
-                        "title": "Primary Text Color",
+                        "title": "Primary Text",
                         "description": "The primary text color for all screens in Jellyfin.",
                         "settingName": "colorText",
                         "type": "colorgrid",
                         "default": "#FFFFFF"
                     },
                     {
-                        "title": "Secondary Text Color",
+                        "title": "Secondary Text",
                         "description": "The secondary text color for all screens in Jellyfin.",
                         "settingName": "colorSubText",
                         "type": "colorgrid",
                         "default": "#777777FF"
+                    },
+                    {
+                        "title": "Cursor",
+                        "description": "The highlight color for the cursor showing where the user's focus is.",
+                        "settingName": "colorCursor",
+                        "type": "colorgrid",
+                        "default": "#FF6666"
+                    },
+                    {
+                        "title": "What's New Author",
+                        "description": "The text color for the author in the What's New popup.",
+                        "settingName": "colorWhatsNewAuthor",
+                        "type": "colorgrid",
+                        "default": "#FF6666"
                     },
                     {
                         "title": "Watched Check Mark & Unplayed Count",

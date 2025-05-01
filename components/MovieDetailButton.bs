@@ -1,4 +1,5 @@
 import "pkg:/source/enums/ColorPalette.bs"
+import "pkg:/source/utils/misc.bs"
 
 sub init()
     m.buttonBackground = m.top.findNode("buttonBackground")
@@ -20,7 +21,7 @@ sub itemContentChanged()
 
     m.focusTextColor = ColorPalette.WHITE
     m.textColor = ColorPalette.WHITE
-    m.focusBackground = ColorPalette.HIGHLIGHT
+    m.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
     m.focusIcon = itemData.focusIcon
     m.icon = itemData.icon
     m.background = ColorPalette.TRANSPARENT

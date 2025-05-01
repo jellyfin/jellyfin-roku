@@ -15,14 +15,14 @@ sub init()
     m.languageButton.textColor = ColorPalette.DARKGREY
     m.languageButton.focusTextColor = ColorPalette.WHITE
     m.languageButton.background = ColorPalette.WHITE
-    m.languageButton.focusBackground = ColorPalette.HIGHLIGHT
+    m.languageButton.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
 
     m.searchButton.background = ColorPalette.LIGHTBLUE
     m.searchButton.color = ColorPalette.DARKGREY
-    m.searchButton.focusBackground = ColorPalette.HIGHLIGHT
+    m.searchButton.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
     m.searchButton.focusColor = ColorPalette.WHITE
 
-    m.mySubtitleList.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
+    m.mySubtitleList.focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
     m.mySubtitleList.focusFootprintBlendColor = ColorPalette.WHITE
 
     headerText = m.top.findNode("headerText")

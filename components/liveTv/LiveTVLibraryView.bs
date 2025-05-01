@@ -30,7 +30,7 @@ sub init()
     m.data = CreateObject("roSGNode", "ContentNode")
 
     m.itemGrid = m.top.findNode("itemGrid")
-    m.itemGrid.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
+    m.itemGrid.focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
     m.itemGrid.observeField("itemFocused", "onItemFocused")
     m.itemGrid.observeField("itemSelected", "onItemSelected")
     m.itemGrid.content = m.data

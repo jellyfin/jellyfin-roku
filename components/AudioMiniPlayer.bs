@@ -58,7 +58,7 @@ sub onButtonSelectedChange()
     ' Change selected button image to selected image
     selectedButton = m.buttons.getChild(m.selectedButtonIndex)
     if isValid(selectedButton)
-        selectedButton.blendColor = ColorPalette.HIGHLIGHT
+        selectedButton.blendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
         selectedButton.opacity = 1
     end if
 end sub

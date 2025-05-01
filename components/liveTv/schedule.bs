@@ -29,7 +29,7 @@ sub init()
     m.scheduleGrid.observeField("leftEdgeTargetTime", "onGridScrolled")
     m.scheduleGrid.channelInfoWidth = 350
 
-    m.scheduleGrid.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
+    m.scheduleGrid.focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
     m.scheduleGrid.programTitleFocusedColor = ColorPalette.WHITE
     m.scheduleGrid.timeLabelColor = ColorPalette.LIGHTGREY
     m.scheduleGrid.timeLabelFont.size = 30

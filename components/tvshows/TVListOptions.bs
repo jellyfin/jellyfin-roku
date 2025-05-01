@@ -19,10 +19,10 @@ sub init()
     m.videoNames = []
     m.audioNames = []
 
-    m.top.findNode("videoMenu").focusBitmapBlendColor = ColorPalette.HIGHLIGHT
+    m.top.findNode("videoMenu").focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
     m.top.findNode("videoMenu").focusedColor = ColorPalette.WHITE
 
-    m.top.findNode("audioMenu").focusBitmapBlendColor = ColorPalette.HIGHLIGHT
+    m.top.findNode("audioMenu").focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
     m.top.findNode("audioMenu").focusedColor = ColorPalette.WHITE
 
     ' Animation

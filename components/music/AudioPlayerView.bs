@@ -169,7 +169,7 @@ sub onButtonSelectedChange()
 
     ' Change selected button image to selected image
     selectedButton = m.buttons.getChild(m.top.selectedButtonIndex)
-    selectedButton.blendColor = ColorPalette.HIGHLIGHT
+    selectedButton.blendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
 end sub
 
 sub setupInfoNodes()
@@ -648,7 +648,7 @@ end sub
 ' @param {string} newState - state to replace {oldState} with in icon url
 sub setSelectedButtonState(newState as string)
     selectedButton = m.buttons.getChild(m.top.selectedButtonIndex)
-    selectedButton.blendColor = newState = ButtonState.SELECTED ? ColorPalette.HIGHLIGHT : ColorPalette.WHITE
+    selectedButton.blendColor = newState = ButtonState.SELECTED ? chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT) : ColorPalette.WHITE
 end sub
 
 ' processScrubAction: Handles +/- seeking for the audio trickplay bar
@@ -819,7 +819,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
                 m.song.color = ColorPalette.WHITE
 
                 m.artist.setFocus(true)
-                m.artist.color = ColorPalette.HIGHLIGHT
+                m.artist.color = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
                 return true
             end if
 
@@ -880,7 +880,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
                 m.artist.color = ColorPalette.WHITE
 
                 m.song.setFocus(true)
-                m.song.color = ColorPalette.HIGHLIGHT
+                m.song.color = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
                 return true
             end if
 
@@ -938,7 +938,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
             end if
 
             if key = KeyCode.UP
-                m.artist.color = ColorPalette.HIGHLIGHT
+                m.artist.color = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
                 if m.thumb.visible
                     exitScrubMode(m.artist)
                 end if

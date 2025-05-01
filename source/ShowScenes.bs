@@ -541,7 +541,7 @@ function CreateSigninGroup(user = "", profileImageUri = "")
                     dlgPalette = createObject("roSGNode", "RSGPalette")
                     dlgPalette.colors = {
                         DialogBackgroundColor: ColorPalette.ELEMENTBACKGROUND,
-                        DialogFocusColor: ColorPalette.HIGHLIGHT,
+                        DialogFocusColor: chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT),
                         DialogFocusItemColor: ColorPalette.WHITE,
                         DialogSecondaryTextColor: ColorPalette.WHITE,
                         DialogSecondaryItemColor: ColorPalette.LIGHTBLUE,

@@ -13,7 +13,7 @@ sub init()
     m.songListRect = m.top.FindNode("songListRect")
     m.songListRect.color = ColorPalette.ELEMENTBACKGROUND
 
-    m.playlist.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
+    m.playlist.focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
 
     m.playlist.observeField("doneLoading", "onDoneLoading")
 

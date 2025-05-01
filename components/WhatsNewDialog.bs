@@ -1,4 +1,5 @@
 import "pkg:/source/enums/ColorPalette.bs"
+import "pkg:/source/utils/misc.bs"
 
 sub init()
     m.content = m.top.findNode("content")
@@ -24,7 +25,7 @@ sub init()
         "author": {
             "fontSize": 27,
             "fontUri": "font:SystemFontFile",
-            "color": ColorPalette.HIGHLIGHT
+            "color": chainLookupReturn(m.global.session, "user.settings.colorWhatsNewAuthor", ColorPalette.HIGHLIGHT)
         }
     }
 
@@ -44,7 +45,7 @@ sub setPalette()
         DialogFocusColor: "0xcececeFF",
         DialogFocusItemColor: "0x202020FF",
         DialogSecondaryTextColor: "0xf8f8f8ff",
-        DialogSecondaryItemColor: ColorPalette.HIGHLIGHT,
+        DialogSecondaryItemColor: chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT),
         DialogTextColor: "0xeeeeeeFF"
     }
 

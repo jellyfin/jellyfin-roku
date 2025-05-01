@@ -24,17 +24,17 @@ sub init()
     m.selectedItem = MenuType.SORT
 
     viewMenu = m.top.findNode("viewMenu")
-    viewMenu.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
+    viewMenu.focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
     viewMenu.focusFootprintBlendColor = ColorPalette.LIGHTHIGHLIGHT
     viewMenu.focusedColor = ColorPalette.WHITE
 
     sortMenu = m.top.findNode("sortMenu")
-    sortMenu.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
+    sortMenu.focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
     sortMenu.focusFootprintBlendColor = ColorPalette.LIGHTHIGHLIGHT
     sortMenu.focusedColor = ColorPalette.WHITE
 
     m.filterMenu = m.top.findNode("filterMenu")
-    m.filterMenu.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
+    m.filterMenu.focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
     m.filterMenu.focusFootprintBlendColor = ColorPalette.LIGHTHIGHLIGHT
     m.filterMenu.focusedColor = ColorPalette.WHITE
 
@@ -47,7 +47,7 @@ sub init()
     m.menus.push(m.filterMenu)
 
     m.filterOptions = m.top.findNode("filterOptions")
-    m.filterOptions.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
+    m.filterOptions.focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
     m.filterOptions.focusFootprintBlendColor = ColorPalette.LIGHTHIGHLIGHT
     m.filterOptions.focusedColor = ColorPalette.WHITE
 
