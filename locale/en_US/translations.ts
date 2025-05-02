@@ -1013,6 +1013,14 @@
             <translation>Albums</translation>
         </message>
         <message>
+            <source>Autoplay Episode Limit</source>
+            <translation>Autoplay Episode Limit</source>
+        </message>
+        <message>
+            <source>The number of episodes that will play automatically after the selected episode. Requires 'Play next episode automatically' server setting to be enabled.</source>
+            <translation>The number of episodes that will play automatically after the selected episode. Requires 'Play next episode automatically' server setting to be enabled.</translation>
+        </message>
+        <message>
             <source>View All</source>
             <translation>View All</translation>
         </message>

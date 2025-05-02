@@ -1,5 +1,9 @@
 [
   {
+    "description": "Add playback \"Autoplay Episode Limit\" setting and behavior",
+    "author": "rookly"
+  },
+  {
     "description": "Fix crash when watching a recording in progress",
     "author": "1hitsong"
   },
