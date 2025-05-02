@@ -574,7 +574,7 @@ sub addNextEpisodesToQueue(showID, additionalPartsCount as integer, queueLimit a
     url = Substitute("Shows/{0}/Episodes", showID)
     urlParams = { "UserId": m.global.session.user.id }
     urlParams.Append({ "StartItemId": videoID })
-    urlParams.Append({ "Limit": queueLimit })
+    urlParams.Append({ "Limit": queueLimit + 1 })
     resp = APIRequest(url, urlParams)
     data = getJson(resp)
 
