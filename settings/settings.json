@@ -125,10 +125,10 @@
     "children": [
       {
         "title": "Autoplay Episode Limit",
-        "description": "The number of episodes that will play automatically before stopping. Requires 'Play next episode automatically' server setting to be enabled. Set to 0 to disable.",
-        "settingName": "playback.episodeQueueLimit",
+        "description": "The number of episodes that will play automatically before stopping. Requires 'Play next episode automatically' server setting to be enabled.",
+        "settingName": "episodeQueueLimit",
         "type": "integer",
-        "default": "0"
+        "default": "50"
       },
       {
         "title": "Bitrate Limit",

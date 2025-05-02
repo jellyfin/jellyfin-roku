@@ -185,7 +185,8 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
     end if
 
     if m.global.session.user.Configuration.EnableNextEpisodeAutoPlay
-        episodeQueueLimit = m.global.session.user.settings.["playback.episodeQueueLimit"].ToInt()
+        episodeQueueLimit = chainLookupReturn(m.global.session, "user.settings.episodeQueueLimit", "50")
+        episodeQueueLimit = episodeQueueLimit.ToInt()
         if isValid(video.showID)
             addNextEpisodesToQueue(video.showID, additionalPartsCount, episodeQueueLimit)
         end if
@@ -570,17 +571,10 @@ sub addNextEpisodesToQueue(showID, additionalPartsCount as integer, queueLimit a
         end if
     end if
 
-    limitParam = queueLimit
-
-    ' If the queue limit is set to 0 / disabled, default to 50
-    if limitParam = 0
-        limitParam = 50
-    end if
-
     url = Substitute("Shows/{0}/Episodes", showID)
     urlParams = { "UserId": m.global.session.user.id }
     urlParams.Append({ "StartItemId": videoID })
-    urlParams.Append({ "Limit": limitParam })
+    urlParams.Append({ "Limit": queueLimit })
     resp = APIRequest(url, urlParams)
     data = getJson(resp)
 
