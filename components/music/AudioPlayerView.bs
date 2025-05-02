@@ -3,6 +3,7 @@ import "pkg:/source/api/Image.bs"
 import "pkg:/source/enums/ColorPalette.bs"
 import "pkg:/source/enums/ImageType.bs"
 import "pkg:/source/enums/KeyCode.bs"
+import "pkg:/source/enums/MediaPlaybackState.bs"
 import "pkg:/source/enums/String.bs"
 import "pkg:/source/enums/TaskControl.bs"
 import "pkg:/source/enums/ViewLoadStatus.bs"
@@ -299,7 +300,12 @@ sub endScreenSaver()
 end sub
 
 sub displayMiniPlayer()
-    if not m.global.audioPlayer.state = "playing" then return
+    if not isStringEqual(m.global.audioPlayer.state, MediaPlaybackState.PLAYING)
+        m.global.queueManager.callFunc("clear")
+        m.global.audioPlayer.control = "stop"
+        return
+    end if
+
     if m.playlistTypeCount > 1 then return
 
     scene = m.top.getScene()
