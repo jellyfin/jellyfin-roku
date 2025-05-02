@@ -184,12 +184,11 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
         end for
     end if
 
-    if m.global.session.user.Configuration.EnableNextEpisodeAutoPlay
+    if m.global.session.user.Configuration.EnableNextEpisodeAutoPlay and isValid(video.showID)
         episodeQueueLimit = chainLookupReturn(m.global.session, "user.settings.episodeQueueLimit", "50")
         episodeQueueLimit = episodeQueueLimit.ToInt()
-        if isValid(video.showID)
-            addNextEpisodesToQueue(video.showID, additionalPartsCount, episodeQueueLimit)
-        end if
+
+        addNextEpisodesToQueue(video.showID, additionalPartsCount, episodeQueueLimit)
     end if
 
     playbackPosition = 0!
