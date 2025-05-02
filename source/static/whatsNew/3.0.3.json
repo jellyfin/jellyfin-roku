@@ -18,5 +18,9 @@
   {
     "description": "Fix bug that caused video playback failure if audio was paused first",
     "author": "1hitsong"
+  },
+  {
+    "description": "Improve fix for skip outro can result in video stuck in buffering state",
+    "author": "1hitsong"
   }
 ]

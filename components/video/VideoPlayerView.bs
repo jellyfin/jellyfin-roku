@@ -944,8 +944,13 @@ end function
 sub skipCurrentSegment()
     seekPosition = m.currentSegmentEndTicks / 10000000#
 
-    if seekPosition > m.top.duration
-        seekPosition = m.top.duration
+    if seekPosition > (m.top.duration - 2)
+        if m.global.queueManager.callFunc("getPosition") < m.global.queueManager.callFunc("getCount") - 1
+            handleItemSkipAction("itemnext")
+            return
+        else
+            seekPosition = m.top.duration - 1
+        end if
     end if
 
     m.top.seek = seekPosition
