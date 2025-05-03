@@ -29,7 +29,7 @@
 
     <ColorGrid
       id="colorgrid"
-      translation="[740, 350]"
+      translation="[740, 390]"
       itemComponentName="ColorOption"
       numColumns="15"
       numRows="9"
