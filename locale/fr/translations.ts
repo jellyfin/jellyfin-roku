@@ -1317,5 +1317,13 @@
         <translation>Utiliser l&apos;image de la série</translation>
         <extracomment>User Setting - Setting option title</extracomment>
     </message>
+    <message>
+        <source>Autoplay Episode Limit</source>
+        <translation>Limite d&apos;épisode en lecture automatique</translation>
+    </message>
+    <message>
+        <source>The number of episodes that will play automatically after the selected episode. Requires &apos;Play next episode automatically&apos; server setting to be enabled.</source>
+        <translation>Le nombre d&apos;épisodes qui seront lus automatiquement après l&apos;épisode sélectionné. Nécessite que le paramètre du serveur «&#xa0;Lire automatiquement l&apos;épisode suivant&#xa0;» soit activé.</translation>
+    </message>
 </context>
 </TS>
