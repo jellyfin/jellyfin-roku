@@ -1327,5 +1327,21 @@
             <translation>Use Show Image</translation>
             <extracomment>User Setting - Setting option title</extracomment>
         </message>
+        <message>
+            <source>This server uses Jellyfin version</source>
+            <translation>This server uses Jellyfin version</translation>
+        </message>
+        <message>
+            <source>which is unsupported. Please update to Jellyfin</source>
+            <translation>which is unsupported. Please update to Jellyfin </translation>
+        </message>
+        <message>
+            <source>or newer to continue using the app or install the Jellyfin Legacy channel</source>
+            <translation>or newer to continue using the app or install the Jellyfin Legacy channel</translation>
+        </message>
+        <message>
+            <source>Return to server select screen</source>
+            <translation>Return to server select screen</translation>
+        </message>
     </context>
 </TS>

@@ -207,7 +207,7 @@ sub ServerVersionCheck(systemVersion as string)
         stopLoadingSpinner()
 
         displayMinimumServerVersion = `${minimumServerVersion[0]}.${minimumServerVersion[1]}.${minimumServerVersion[2]}`
-        returnValue = show_dialog(`This server uses Jellyfin version ${systemVersion} which is unsupported. Please update to Jellyfin ${displayMinimumServerVersion} or newer to continue using the app or install the Jellyfin Legacy channel.`, ["Return to server select screen"], 0)
+        returnValue = show_dialog(`${tr("This server uses Jellyfin version")} ${systemVersion} ${tr("which is unsupported. Please update to Jellyfin")} ${displayMinimumServerVersion} ${tr("or newer to continue using the app or install the Jellyfin Legacy channel")}.`, [tr("Return to server select screen")], 0)
 
         if isValid(returnValue)
             session.server.Delete()
