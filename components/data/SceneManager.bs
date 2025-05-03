@@ -445,7 +445,8 @@ sub optionClosed()
         itemID: m.itemID,
         params: m.params,
         indexSelected: -1,
-        buttonSelected: ""
+        buttonSelected: "",
+        text: m.scene.dialog.text
     }
     m.top.dataReturned = true
 end sub
