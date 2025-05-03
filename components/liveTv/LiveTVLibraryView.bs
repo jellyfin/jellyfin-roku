@@ -8,17 +8,8 @@ import "pkg:/source/utils/deviceCapabilities.bs"
 import "pkg:/source/utils/misc.bs"
 
 sub init()
-    m.top.findNode("VoiceBoxCover").color = chainLookupReturn(m.global.session, "user.settings.colorBackground", ColorPalette.VIEWBACKGROUND)
-
     overhang = m.top.getScene().findNode("overhang")
     overhang.isVisible = false
-
-    ' adjust alpha menu mic icon since there is no overhang
-    m.alpha = m.top.findNode("alpha")
-    alphaMic = m.alpha.findNode("alphaMic")
-    alphaMic.translation = [60, 62]
-    alphaMicText = m.alpha.findNode("alphaMicText")
-    alphaMicText.visible = false
 
     m.options = m.top.findNode("options")
 
@@ -354,7 +345,8 @@ end sub
 sub onvoiceFilter()
     if m.VoiceBox.text = string.EMPTY then return
 
-    if LCase(m.voiceBox.text) = "reset search" then m.voiceBox.text = string.EMPTY
+    if isStringEqual(m.voiceBox.text, "reset search") then m.voiceBox.text = string.EMPTY
+    if isStringEqual(m.voiceBox.text, "clear search") then m.voiceBox.text = string.EMPTY
 
     m.loadedRows = 0
     m.loadedItems = 0

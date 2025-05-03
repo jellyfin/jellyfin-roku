@@ -12,15 +12,6 @@ sub init()
     m.alphaMenu.focusFootprintBlendColor = ColorPalette.TRANSPARENT
 
     m.alphaMenu.setFocus(false)
-
-    ' show mic icon above alpha menu if remote supports voice commands
-    if m.global.device.hasVoiceRemote
-        alphaMic = m.top.findNode("alphaMic")
-        alphaMic.visible = true
-
-        micText = m.top.findNode("alphaMicText")
-        micText.font.size = 22
-    end if
 end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean

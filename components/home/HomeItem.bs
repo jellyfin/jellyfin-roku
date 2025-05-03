@@ -65,7 +65,7 @@ sub itemContentChanged()
         unplayedCount: chainLookupReturn(itemData, "json.UserData.UnplayedItemCount", 0)
     }
 
-    itemData.Title = itemData.name
+    itemData.AddReplace("Title", itemData.LookupCI("name"))
 
     initItemText()
     initItemTextExtra()

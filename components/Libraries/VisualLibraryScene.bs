@@ -4,6 +4,7 @@ import "pkg:/source/enums/CollectionType.bs"
 import "pkg:/source/enums/ColorPalette.bs"
 import "pkg:/source/enums/ItemType.bs"
 import "pkg:/source/enums/KeyCode.bs"
+import "pkg:/source/enums/SearchButtonState.bs"
 import "pkg:/source/enums/String.bs"
 import "pkg:/source/enums/TaskControl.bs"
 import "pkg:/source/utils/config.bs"
@@ -14,6 +15,7 @@ sub setupNodes()
     m.options = m.top.findNode("options")
     m.itemGrid = m.top.findNode("itemGrid")
     m.voiceBox = m.top.findNode("voiceBox")
+    m.voiceBoxBackground = m.top.findNode("voiceBoxBackground")
     m.backdrop = m.top.findNode("backdrop")
     m.newBackdrop = m.top.findNode("backdropTransition")
     m.emptyText = m.top.findNode("emptyText")
@@ -34,12 +36,6 @@ sub setupNodes()
     m.star = m.top.findNode("star")
     m.dropdownOptions = m.top.findNode("dropdownOptions")
     m.submitButton = m.top.findNode("submitButton")
-
-    m.searchButton = m.top.findNode("searchButton")
-    m.searchButton.textColor = ColorPalette.DARKGREY
-    m.searchButton.focusTextColor = ColorPalette.WHITE
-    m.searchButton.background = ColorPalette.WHITE
-    m.searchButton.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
 
     m.sortButton = m.top.findNode("sortButton")
     m.sortButton.textColor = ColorPalette.DARKGREY
@@ -64,24 +60,21 @@ sub setupNodes()
     m.viewButton.focusTextColor = ColorPalette.WHITE
     m.viewButton.background = ColorPalette.WHITE
     m.viewButton.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+
+    setSearchBackground(SearchButtonState.INACTIVE)
 end sub
 
 sub init()
+    m.disabledReason = string.EMPTY
+    m.searchButtonDisabled = false
     m.top.optionsAvailable = false
     setupNodes()
     m.bypassSearchEvent = false
 
     m.itemGrid.focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
     m.genreList.focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
-    m.top.findNode("VoiceBoxCover").color = chainLookupReturn(m.global.session, "user.settings.colorBackground", ColorPalette.VIEWBACKGROUND)
 
     m.overhang.isVisible = false
-
-    ' adjust alpha menu mic icon since there is no overhang
-    alphaMic = m.alpha.findNode("alphaMic")
-    alphaMic.translation = [60, 62]
-    alphaMicText = m.alpha.findNode("alphaMicText")
-    alphaMicText.visible = false
 
     m.showItemCount = m.global.session.user.settings["itemgrid.showItemCount"]
 
@@ -101,11 +94,7 @@ sub init()
     m.genreList.content = m.genreData
 
     'Voice filter setup
-    m.voiceBox.voiceEnabled = true
-    m.voiceBox.active = true
     m.voiceBox.observeField("text", "onvoiceFilter")
-    'set voice help text
-    m.voiceBox.hintText = tr("Use voice remote to search")
 
     'backdrop
     m.newBackdrop.observeField("loadStatus", "newBGLoaded")
@@ -130,6 +119,53 @@ sub init()
 
     'set inital counts for overhang before content is loaded.
     m.loadItemsTask.totalRecordCount = 0
+
+    if not m.global.device.hasVoiceRemote
+        m.voiceBox.backgroundUri = "pkg:/images/transparent.png"
+        m.voiceBox.translation = "[15, 0]"
+        m.voiceBox.width = m.voiceBox.width - 15
+    else
+        searchPoster = m.voiceBox.getChild(0)
+        if isChainValid(searchPoster, "bitmap")
+            searchPoster.bitmap = ""
+            searchPoster.blendColor = ColorPalette.WHITE
+        end if
+
+        searchText = m.voiceBox.getChild(1)
+        if isChainValid(searchText, "height")
+            searchText.vertAlign = "bottom"
+            searchText.height = 37
+        end if
+
+        m.micIcon = m.voiceBox.getChild(6)
+        if isValid(m.micIcon)
+            m.micIcon.observeFieldScoped("blendColor", "onMicIconBlendColorChange")
+        end if
+    end if
+end sub
+
+' VoiceTextEditBox.voiceEnabled doesn't have alwaysNotify enabled
+' To trigger a change event, we must change the value to something else, then back to the value we want
+sub onVoiceEnabledChange()
+    m.voiceBox.voiceEnabled = m.searchButtonDisabled
+    m.voiceBox.voiceEnabled = not m.searchButtonDisabled
+end sub
+
+sub onMicIconBlendColorChange()
+    ' DARKGREY: 269488383
+    ' WHITE: -1
+    ' LIGHTGREY: -1431655681
+    ' HIGHLIGHT: -9934849
+
+    if m.voiceBoxBackground.blendColor = -9934849
+        if m.micIcon.blendColor <> -1
+            m.micIcon.blendColor = ColorPalette.WHITE
+        end if
+    else
+        if m.micIcon.blendColor <> 269488383
+            m.micIcon.blendColor = ColorPalette.DARKGREY
+        end if
+    end if
 end sub
 
 sub OnScreenHidden()
@@ -280,8 +316,7 @@ sub loadInitialItems()
                 end if
             else
                 if isValid(m.top.parentItem.parentFolder)
-                    ' The API does not support searching inside boxsets
-                    m.searchButton.disabled = true
+                    disableSearch(tr("Search is unavailable because the API does not support searching inside boxsets."))
                 end if
             end if
         end if
@@ -359,8 +394,7 @@ sub loadInitialItems()
     end if
 
     if isStringEqual(m.top.mediaType, ItemType.MYLIST)
-        ' Search doesn't work for My List because it is a playlist
-        m.searchButton.disabled = true
+        disableSearch(tr("Search is unavailable because the API does not support searching inside My List."))
 
         m.itemGrid.itemComponentName = "GridItemMedium"
         m.itemGrid.itemSize = "[400, 330]"
@@ -782,10 +816,10 @@ sub ItemDataLoaded(msg)
         if m.loadedItems = 0
             m.emptyText.text = tr("No items found. Try adjusting your selected filters.")
             m.emptyText.visible = true
-            m.searchButton.focus = true
-            m.searchButton.setfocus(true)
+            m.voiceBox.setfocus(true)
+            setSearchBackground(SearchButtonState.ACTIVE)
             group = m.global.sceneManager.callFunc("getActiveScene")
-            group.lastFocus = m.searchButton
+            group.lastFocus = m.voiceBox
         end if
 
         return
@@ -845,10 +879,10 @@ sub ItemDataLoaded(msg)
 
         m.emptyText.text = tr("No items found. Try adjusting your selected filters.")
         m.emptyText.visible = true
-        m.searchButton.focus = true
-        m.searchButton.setfocus(true)
+        m.voiceBox.setfocus(true)
+        setSearchBackground(SearchButtonState.ACTIVE)
         group = m.global.sceneManager.callFunc("getActiveScene")
-        group.lastFocus = m.searchButton
+        group.lastFocus = m.voiceBox
     end if
 
     stopLoadingSpinner()
@@ -1175,8 +1209,13 @@ sub resetDropdownsToDefaultState()
 end sub
 
 sub onSearchTermChanged()
-    m.searchButton.text = m.top.searchTerm
-    m.searchButton.focus = false
+    m.voiceBox.hintText = m.top.searchTerm = string.EMPTY ? tr("Press OK to type") : m.top.searchTerm
+
+    onVoiceEnabledChange()
+
+    if isStringEqual(m.loadItemsTask.searchTerm, m.top.searchTerm) then return
+
+    setSearchBackground(SearchButtonState.INACTIVE)
 
     processDropdownState(m.top.searchTerm)
 
@@ -1222,7 +1261,7 @@ sub alphaSelectedChanged()
 end sub
 
 sub unfocusAllButtons()
-    m.searchButton.focus = false
+    setSearchBackground(SearchButtonState.INACTIVE)
     m.sortButton.focus = false
     m.sortOrderButton.focus = false
     m.filterButton.focus = false
@@ -1235,6 +1274,9 @@ sub onvoiceFilter()
     unfocusAllButtons()
 
     if isStringEqual(m.voiceBox.text.trim(), "reset search") then m.voiceBox.text = string.EMPTY
+    if isStringEqual(m.voiceBox.text.trim(), "clear search") then m.voiceBox.text = string.EMPTY
+
+    m.voiceBox.hintText = m.voiceBox.text
 
     ' If user searched for a letter, selected it from the alpha menu
     if m.voiceBox.text.len() = 1
@@ -1258,7 +1300,7 @@ sub onvoiceFilter()
         return
     end if
 
-    if m.searchButton.disabled
+    if m.searchButtonDisabled
         m.itemGrid.setFocus(m.itemGrid.opacity = 1)
         m.genreList.setFocus(m.genreList.opacity = 1)
         return
@@ -1418,12 +1460,12 @@ end sub
 function getOverhangingButton()
     if m.itemGrid.isinFocusChain()
         if m.itemGrid.numColumns = 4
-            buttonList = [m.searchButton, m.sortButton, m.filterButton, m.viewButton]
+            buttonList = [m.voiceBox, m.sortButton, m.filterButton, m.viewButton]
             return buttonList[m.itemGrid.currFocusColumn]
         end if
 
         if m.itemGrid.numColumns = 7
-            if m.itemGrid.currFocusColumn = 0 then return m.searchButton
+            if m.itemGrid.currFocusColumn = 0 then return m.voiceBox
             if m.itemGrid.currFocusColumn <= 2 then return m.sortButton
             if m.itemGrid.currFocusColumn <= 3 then return m.sortOrderButton
             if m.itemGrid.currFocusColumn <= 5 then return m.filterButton
@@ -1432,14 +1474,14 @@ function getOverhangingButton()
     end if
 
     if m.genreList.isinFocusChain()
-        if m.genreList.currFocusColumn <= 0 then return m.searchButton
+        if m.genreList.currFocusColumn <= 0 then return m.voiceBox
         if m.genreList.currFocusColumn <= 2 then return m.sortButton
         if m.genreList.currFocusColumn <= 3 then return m.sortOrderButton
         if m.genreList.currFocusColumn <= 5 then return m.filterButton
         return m.viewButton
     end if
 
-    return m.searchButton
+    return m.voiceBox
 end function
 
 
@@ -1449,7 +1491,11 @@ function onKeyEvent(key as string, press as boolean) as boolean
     if isStringEqual(key, KeyCode.UP)
         if m.itemGrid.isinFocusChain() or m.genreList.isinFocusChain()
             overhangButton = getOverhangingButton()
-            overhangButton.focus = true
+            if overhangButton.isSubType("VoiceTextEditBox")
+                setSearchBackground(SearchButtonState.ACTIVE)
+            else
+                overhangButton.focus = true
+            end if
             overhangButton.setFocus(true)
             group = m.global.sceneManager.callFunc("getActiveScene")
             group.lastFocus = overhangButton
@@ -1458,8 +1504,11 @@ function onKeyEvent(key as string, press as boolean) as boolean
     end if
 
     if isStringEqual(key, KeyCode.OK)
-        if m.searchButton.isinFocusChain()
-            if m.searchButton.disabled then return false
+        if m.voiceBox.isinFocusChain()
+            if m.searchButtonDisabled
+                m.global.sceneManager.callFunc("standardDialog", "Search Unavailable", { data: [`<p>${m.disabledReason}</p>`] })
+                return false
+            end if
 
             buttonData = [
                 tr("Search")
@@ -1525,8 +1574,8 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
     if m.dropdownOptions.isinFocusChain()
         if isStringEqual(key, KeyCode.LEFT)
-            if m.searchButton.isinFocusChain()
-                m.searchButton.focus = false
+            if m.voiceBox.isinFocusChain()
+                setSearchBackground(SearchButtonState.INACTIVE)
                 m.sortButton.focus = false
                 m.sortOrderButton.focus = false
                 m.viewButton.focus = false
@@ -1540,11 +1589,11 @@ function onKeyEvent(key as string, press as boolean) as boolean
             end if
 
             if m.sortButton.isinFocusChain()
-                m.searchButton.focus = true
-                m.searchButton.setFocus(true)
+                m.voiceBox.setFocus(true)
+                setSearchBackground(SearchButtonState.ACTIVE)
                 m.sortButton.focus = false
                 group = m.global.sceneManager.callFunc("getActiveScene")
-                group.lastFocus = m.searchButton
+                group.lastFocus = m.voiceBox
                 return true
             end if
 
@@ -1577,8 +1626,8 @@ function onKeyEvent(key as string, press as boolean) as boolean
         end if
 
         if isStringEqual(key, KeyCode.Right)
-            if m.searchButton.isinFocusChain()
-                m.searchButton.focus = false
+            if m.voiceBox.isinFocusChain()
+                setSearchBackground(SearchButtonState.INACTIVE)
                 m.sortButton.focus = true
                 m.sortButton.setFocus(true)
                 group = m.global.sceneManager.callFunc("getActiveScene")
@@ -1617,7 +1666,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
         if isStringEqual(key, KeyCode.DOWN)
             if m.loadedItems = 0 then return false
 
-            m.searchButton.focus = false
+            setSearchBackground(SearchButtonState.INACTIVE)
             m.sortButton.focus = false
             m.sortOrderButton.focus = false
             m.viewButton.focus = false
@@ -1636,6 +1685,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
         m.itemGrid.setFocus(m.itemGrid.opacity = 1)
         m.genreList.setFocus(m.genreList.opacity = 1)
         m.voiceBox.setFocus(false)
+        setSearchBackground(SearchButtonState.INACTIVE)
         group = m.global.sceneManager.callFunc("getActiveScene")
         group.lastFocus = m.itemGrid.opacity = 1 ? m.itemGrid : m.genreList
     end if
@@ -1763,4 +1813,39 @@ sub reclaimResources()
 
     m.genreData = CreateObject("roSGNode", "ContentNode")
     m.genreList.content = m.genreData
+end sub
+
+sub setSearchBackground(state)
+    if state = SearchButtonState.ACTIVE
+        if m.searchButtonDisabled
+            m.voiceBox.textColor = ColorPalette.MIDGREY
+            m.voiceBox.hintTextColor = ColorPalette.MIDGREY
+            m.voiceBoxBackground.blendColor = ColorPalette.DARKGREY
+            return
+        end if
+
+        m.voiceBox.textColor = ColorPalette.WHITE
+        m.voiceBox.hintTextColor = ColorPalette.WHITE
+        m.voiceBoxBackground.blendColor = ColorPalette.HIGHLIGHT
+        return
+    end if
+
+    if state = SearchButtonState.DISABLED
+        m.voiceBox.textColor = ColorPalette.DARKGREY
+        m.voiceBox.hintTextColor = ColorPalette.DARKGREY
+        m.voiceBoxBackground.blendColor = ColorPalette.MIDGREY
+        return
+    end if
+
+    m.voiceBox.textColor = ColorPalette.MIDGREY
+    m.voiceBox.hintTextColor = ColorPalette.MIDGREY
+    m.voiceBoxBackground.blendColor = ColorPalette.WHITE
+end sub
+
+sub disableSearch(disabledReason as string)
+    m.disabledReason = disabledReason
+    m.searchButtonDisabled = true
+    m.voiceBox.voiceEnabled = false
+    m.voiceBox.hintText = "Search Unavailable"
+    setSearchBackground(SearchButtonState.DISABLED)
 end sub

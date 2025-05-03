@@ -670,7 +670,7 @@ function isSelectedAudioMiniPlayer() as boolean
     return audioMiniPlayer.callFunc("isSelected")
 end function
 
-function FindDefaultTrack(streams as dynamic)
+function findDefaultTrack(streams as dynamic)
     ' Usually the first audio stream, so this should be fast.
     ' But it's not always the first audio stream :-(
     for i = 0 to streams.Count() - 1
