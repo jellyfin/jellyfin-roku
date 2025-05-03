@@ -1327,5 +1327,9 @@
             <translation>Use Show Image</translation>
             <extracomment>User Setting - Setting option title</extracomment>
         </message>
+        <message>
+            <source>Highlighted Color</source>
+            <translation>Highlighted Color</translation>
+        </message>
     </context>
 </TS>
