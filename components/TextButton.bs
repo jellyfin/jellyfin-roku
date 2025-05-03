@@ -82,6 +82,7 @@ sub setIconSize()
     if height > 0 and width > 0
         ' TODO: Use smallest number between them
         m.buttonIcon.height = m.top.height
+        m.buttonText.height = m.top.height
 
         if m.top.padding > 0
             m.buttonIcon.height = m.buttonIcon.height - m.top.padding
@@ -92,10 +93,10 @@ sub setIconSize()
         ' Set Icon translation
         if LCase(m.top.iconSide) = "right"
             m.buttonIcon.translation = [m.buttonBackground.width - m.top.padding - m.buttonIcon.width, ((height - m.buttonIcon.height) / 2)]
-            m.buttonText.translation = [m.top.padding, ((height - m.buttonText.font.size) / 2)]
+            m.buttonText.translation = [m.top.padding, 0]
         else
             m.buttonIcon.translation = [m.top.padding, ((height - m.buttonIcon.height) / 2)]
-            m.buttonText.translation = [m.top.padding + m.buttonIcon.width + 20, ((height - m.buttonText.font.size) / 2)]
+            m.buttonText.translation = [m.top.padding + m.buttonIcon.width + 20, 0]
         end if
 
         ' Set text max width
