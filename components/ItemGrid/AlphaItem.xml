@@ -10,6 +10,7 @@
       width="35"
       id="letterText"
       font="font:SmallestSystemFont"
-      horizAlign="center" />
+      horizAlign="center"
+      vertAlign="center" />
   </children>
 </component>
