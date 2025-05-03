@@ -1014,7 +1014,7 @@
         </message>
         <message>
             <source>Autoplay Episode Limit</source>
-            <translation>Autoplay Episode Limit</source>
+            <translation>Autoplay Episode Limit</translation>
         </message>
         <message>
             <source>The number of episodes that will play automatically after the selected episode. Requires 'Play next episode automatically' server setting to be enabled.</source>
