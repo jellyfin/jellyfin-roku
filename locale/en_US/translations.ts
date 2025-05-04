@@ -1328,16 +1328,16 @@
             <extracomment>User Setting - Setting option title</extracomment>
         </message>
         <message>
-            <source>This server uses Jellyfin version</source>
-            <translation>This server uses Jellyfin version</translation>
+            <source>The selected Jellyfin server uses version</source>
+            <translation>The selected Jellyfin server uses version</translation>
         </message>
         <message>
-            <source>which is unsupported. Please update to Jellyfin</source>
-            <translation>which is unsupported. Please update to Jellyfin </translation>
+            <source>which is not supported by this app. Please update the server to</source>
+            <translation>which is not supported by this app. Please update the server to</translation>
         </message>
         <message>
-            <source>or newer to continue using the app or install the Jellyfin Legacy channel</source>
-            <translation>or newer to continue using the app or install the Jellyfin Legacy channel</translation>
+            <source>or newer to use this app or install and use the Jellyfin Legacy app from Roku's Streaming Store</source>
+            <translation>or newer to use this app or install and use the Jellyfin Legacy app from Roku's Streaming Store</translation>
         </message>
         <message>
             <source>Return to server select screen</source>

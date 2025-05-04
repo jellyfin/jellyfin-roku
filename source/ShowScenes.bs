@@ -207,7 +207,7 @@ sub ServerVersionCheck(systemVersion as string)
         stopLoadingSpinner()
 
         displayMinimumServerVersion = `${minimumServerVersion[0]}.${minimumServerVersion[1]}.${minimumServerVersion[2]}`
-        returnValue = show_dialog(`${tr("This server uses Jellyfin version")} ${systemVersion} ${tr("which is unsupported. Please update to Jellyfin")} ${displayMinimumServerVersion} ${tr("or newer to continue using the app or install the Jellyfin Legacy channel")}.`, [tr("Return to server select screen")], 0)
+        returnValue = show_dialog(`${tr("The selected Jellyfin server uses version")} ${systemVersion} ${tr("which is not supported by this app. Please update the server to")} ${displayMinimumServerVersion} ${tr("or newer to use this app or install and use the Jellyfin Legacy app from Roku's Streaming Store")}.`, [tr("Return to server select screen")], 0)
 
         if isValid(returnValue)
             session.server.Delete()
