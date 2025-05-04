@@ -348,7 +348,8 @@ sub loadInitialItems()
     m.itemGrid.itemSize = "[230, 345]"
     m.itemGrid.itemSpacing = "[20, 20]"
     m.itemGrid.rowHeights = "[345]"
-    m.itemGrid.numRows = "2"
+    m.itemGrid.numRows = 2
+    m.itemGrid.numColumns = 7
 
     m.selectedItemOverview.visible = true
     m.infoGroup.visible = true
@@ -374,12 +375,18 @@ sub loadInitialItems()
         m.infoGroup.visible = false
 
         if isStringEqual(m.top.showItemTitles, "hidealways")
-            m.itemGrid.itemSize = "[230, 350]"
-            m.itemGrid.rowHeights = "[350]"
+            defaultSize = [230, 350] ' standard
+            defaultSize = [154, 234] ' small
         else
-            m.itemGrid.itemSize = "[230, 390]"
-            m.itemGrid.rowHeights = "[390]"
+            defaultSize = [230, 390] ' standard
+            defaultSize = [154, 261] ' small
         end if
+
+        m.itemGrid.itemSize = defaultSize
+        m.itemGrid.rowHeights = [defaultSize[1]]
+        m.itemGrid.numRows = abs(1080 / (defaultSize[1] + m.itemGrid.itemSpacing[1]))
+        m.itemGrid.numColumns = abs(1750 / (defaultSize[0] + m.itemGrid.itemSpacing[0]))
+
     else if isStringEqual(m.view, "Genres")
         m.backdrop.opacity = 0
         m.newBackdrop.opacity = 0

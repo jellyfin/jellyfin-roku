@@ -9,7 +9,6 @@
     <MarkupGrid
       id="itemGrid"
       itemComponentName="GridItemSmall"
-      numColumns="7"
       vertFocusAnimationStyle="fixed"
       itemSpacing="[20, 20]" />
 
