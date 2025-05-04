@@ -173,7 +173,9 @@ function show_dialog(message as string, options = [], defaultSelection = 0) as i
     m.scene.appendChild(dialog)
     dialog.setFocus(true)
     group = m.global.sceneManager.callFunc("getActiveScene")
-    group.lastFocus = dialog.findNode("optionList")
+    if isValid(group)
+        group.lastFocus = dialog.findNode("optionList")
+    end if
 
     port = CreateObject("roMessagePort")
     dialog.observeField("backPressed", port)
@@ -184,7 +186,9 @@ function show_dialog(message as string, options = [], defaultSelection = 0) as i
     m.scene.removeChildIndex(m.scene.getChildCount() - 1)
     lastFocus.setFocus(true)
     group = m.global.sceneManager.callFunc("getActiveScene")
-    group.lastFocus = lastFocus
+    if isValid(group)
+        group.lastFocus = lastFocus
+    end if
 
     return result
 end function
