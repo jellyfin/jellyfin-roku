@@ -3,6 +3,7 @@ import "pkg:/source/utils/misc.bs"
 
 sub init()
     m.itemPoster = m.top.findNode("itemPoster")
+    m.itemIcon = m.top.findNode("itemIcon")
     m.posterText = m.top.findNode("posterText")
     m.title = m.top.findNode("title")
     m.posterText.font.size = 30
@@ -21,6 +22,29 @@ sub init()
     if m.topParent.imageDisplayMode <> invalid
         m.itemPoster.loadDisplayMode = m.topParent.imageDisplayMode
     end if
+end sub
+
+sub onHeightChanged()
+    calculatedHeight = m.top.height
+
+    showItemTitles = chainLookupReturn(m.topParent, "showItemTitles", "showonhover")
+    if not isStringEqual(showItemTitles, "hidealways")
+        calculatedHeight -= 40
+    end if
+
+    m.backdrop.height = calculatedHeight
+    m.itemPoster.height = calculatedHeight
+    m.posterText.height = calculatedHeight
+    m.title.translation = [0, calculatedHeight + 35]
+end sub
+
+sub onWidthChanged()
+    m.backdrop.width = m.top.width
+    m.itemPoster.width = m.top.width
+    m.posterText.width = m.top.width
+    m.title.maxWidth = m.top.width
+    m.itemIcon.translation = [m.top.width, 10]
+    m.playedIndicator.translation = [m.top.width - m.playedIndicator.width, 22]
 end sub
 
 sub itemContentChanged()
