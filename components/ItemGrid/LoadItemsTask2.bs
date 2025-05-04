@@ -11,11 +11,6 @@ sub init()
     m.top.functionName = "loadItems"
 
     m.top.limit = 60
-    usersettingLimit = m.global.session.user.settings["itemgrid.Limit"]
-
-    if usersettingLimit <> invalid
-        m.top.limit = usersettingLimit
-    end if
 end sub
 
 sub loadItems()
