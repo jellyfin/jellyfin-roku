@@ -12,6 +12,38 @@
         "default": "false"
       },
       {
+        "title": "Library Column Count",
+        "description": "Number of columns in library view",
+        "settingName": "numberOfColumns",
+        "type": "slider",
+        "default": "7",
+        "options": [
+              {
+                "value": "6",
+                "data": "272"
+              },
+              {
+                "value": "7",
+                "data": "230"
+              },
+              {
+                "value": "8",
+                "data": "198"
+              },
+              {
+                "value": "9",
+                "data": "175"
+              },
+              {
+                "value": "10",
+                "data": "154"
+              },
+              {
+                "value": "11",
+                "data": "139"
+              }
+            ]
+      },
         "title": "Color Settings",
         "description": "Change the colors of elements in the channel",
         "children": [
@@ -545,39 +577,6 @@
             "title": "General",
             "description": "Settings relating to the appearance of pages in all Libraries.",
             "children": [
-              {
-                "title": "Number of Columns",
-                "description": "Number of columns in library view",
-                "settingName": "numberOfColumns",
-                "type": "slider",
-                "default": "7",
-                "options": [
-                      {
-                        "value": "6",
-                        "data": "272"
-                      },
-                      {
-                        "value": "7",
-                        "data": "230"
-                      },
-                      {
-                        "value": "8",
-                        "data": "198"
-                      },
-                      {
-                        "value": "9",
-                        "data": "175"
-                      },
-                      {
-                        "value": "10",
-                        "data": "154"
-                      },
-                      {
-                        "value": "11",
-                        "data": "139"
-                      }
-                    ]
-              },
               {
                 "title": "Forget Filters",
                 "description": "Forget applied library filters when Jellyfin is closed.",
