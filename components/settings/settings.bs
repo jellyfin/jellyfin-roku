@@ -85,7 +85,17 @@ sub onSliderSelected()
     if not isValid(m.slider.value) then return
 
     selectedSetting = m.userLocation.peek().children[m.settingsMenu.itemFocused]
-    set_user_setting(selectedSetting.settingName, `${m.slider.value}`)
+
+    for each option in selectedSetting.options
+        if not isValid(option.data) then continue for
+
+        if isStringEqual(option.value, m.slider.value)
+            set_user_setting(`${selectedSetting.settingName}Data`, option.data)
+            exit for
+        end if
+    end for
+
+    set_user_setting(selectedSetting.settingName, m.slider.value)
     m.settingsMenu.setFocus(true)
 end sub
 
@@ -208,7 +218,12 @@ sub settingFocused()
     if isStringEqual(selectedSetting.type, SettingType.SLIDER)
         m.slider.value = m.global.session.user.settings[selectedSetting.settingName]
 
-        m.slider.options = [7, 8, 9, 10]
+        sliderOptions = []
+        for each item in m.userLocation.peek().children[m.settingsMenu.itemFocused].options
+            sliderOptions.push(item.value)
+        end for
+
+        m.slider.options = sliderOptions
         m.slider.visible = true
         return
     end if

@@ -375,27 +375,12 @@ sub loadInitialItems()
         m.infoGroup.visible = false
 
         numberOfColumns = chainLookupReturn(m.global.session, "user.settings.numberOfColumns", "7")
+        imageWidth = Val(chainLookupReturn(m.global.session, "user.settings.numberOfColumnsData", "230"))
 
         if isStringEqual(m.top.showItemTitles, "hidealways")
-            if numberOfColumns = "10"
-                defaultSize = [154, 234]
-            else if numberOfColumns = "9"
-                defaultSize = [175, 266]
-            else if numberOfColumns = "8"
-                defaultSize = [198, 301]
-            else
-                defaultSize = [230, 350]
-            end if
+            defaultSize = [imageWidth, CInt(imageWidth * 1.52173)]
         else
-            if numberOfColumns = "10"
-                defaultSize = [154, 261]
-            else if numberOfColumns = "9"
-                defaultSize = [175, 297]
-            else if numberOfColumns = "8"
-                defaultSize = [198, 336]
-            else
-                defaultSize = [230, 390]
-            end if
+            defaultSize = [imageWidth, CInt(imageWidth * 1.69565)]
         end if
 
         m.itemGrid.itemSize = defaultSize

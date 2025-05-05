@@ -7,7 +7,7 @@
     </Rectangle>
   </children>
   <interface>
-    <field id="value" type="integer" onChange="onValueChange" />
+    <field id="value" type="string" onChange="onValueChange" />
     <field id="options" type="array" onChange="onOptionsChange" />
   </interface>
 </component>
