@@ -374,18 +374,34 @@ sub loadInitialItems()
         m.selectedItemName.visible = false
         m.infoGroup.visible = false
 
+        numberOfColumns = chainLookupReturn(m.global.session, "user.settings.numberOfColumns", "7")
+
         if isStringEqual(m.top.showItemTitles, "hidealways")
-            defaultSize = [230, 350] ' standard
-            defaultSize = [154, 234] ' small
+            if numberOfColumns = "10"
+                defaultSize = [154, 234]
+            else if numberOfColumns = "9"
+                defaultSize = [175, 266]
+            else if numberOfColumns = "8"
+                defaultSize = [198, 301]
+            else
+                defaultSize = [230, 350]
+            end if
         else
-            defaultSize = [230, 390] ' standard
-            defaultSize = [154, 261] ' small
+            if numberOfColumns = "10"
+                defaultSize = [154, 261]
+            else if numberOfColumns = "9"
+                defaultSize = [175, 297]
+            else if numberOfColumns = "8"
+                defaultSize = [198, 336]
+            else
+                defaultSize = [230, 390]
+            end if
         end if
 
         m.itemGrid.itemSize = defaultSize
         m.itemGrid.rowHeights = [defaultSize[1]]
-        m.itemGrid.numRows = abs(1080 / (defaultSize[1] + m.itemGrid.itemSpacing[1]))
-        m.itemGrid.numColumns = abs(1750 / (defaultSize[0] + m.itemGrid.itemSpacing[0]))
+        m.itemGrid.numRows = abs(1180 / (defaultSize[1] + m.itemGrid.itemSpacing[1]))
+        m.itemGrid.numColumns = numberOfColumns
 
     else if isStringEqual(m.view, "Genres")
         m.backdrop.opacity = 0

@@ -546,6 +546,13 @@
             "description": "Settings relating to the appearance of pages in all Libraries.",
             "children": [
               {
+                "title": "Number of Columns",
+                "description": "Number of columns in library view",
+                "settingName": "numberOfColumns",
+                "type": "slider",
+                "default": "7"
+              },
+              {
                 "title": "Forget Filters",
                 "description": "Forget applied library filters when Jellyfin is closed.",
                 "settingName": "itemgrid.forgetFilters",

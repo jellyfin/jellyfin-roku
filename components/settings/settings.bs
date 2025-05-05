@@ -1,6 +1,7 @@
 import "pkg:/source/api/sdk.bs"
 import "pkg:/source/enums/ColorPalette.bs"
 import "pkg:/source/enums/KeyCode.bs"
+import "pkg:/source/enums/SettingType.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/deviceCapabilities.bs"
 import "pkg:/source/utils/misc.bs"
@@ -47,6 +48,7 @@ sub init()
     m.boolSetting = m.top.findNode("boolSetting")
     m.integerSetting = m.top.findNode("integerSetting")
     m.colorgrid = m.top.findNode("colorgrid")
+    m.slider = m.top.findNode("slider")
 
     m.radioSetting = m.top.findNode("radioSetting")
     m.radioSetting.focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
@@ -63,6 +65,7 @@ sub init()
     m.boolSetting.observeField("checkedItem", "boolSettingChanged")
     m.radioSetting.observeField("checkedItem", "radioSettingChanged")
     m.colorgrid.observeField("itemSelected", "onColorSelected")
+    m.slider.observeField("value", "onSliderSelected")
 
     m.postTask = createObject("roSGNode", "PostTask")
 
@@ -76,6 +79,14 @@ end sub
 
 sub onKeypressTimerFire()
     m.keypresses.clear()
+end sub
+
+sub onSliderSelected()
+    if not isValid(m.slider.value) then return
+
+    selectedSetting = m.userLocation.peek().children[m.settingsMenu.itemFocused]
+    set_user_setting(selectedSetting.settingName, `${m.slider.value}`)
+    m.settingsMenu.setFocus(true)
 end sub
 
 sub onColorSelected()
@@ -184,12 +195,21 @@ sub settingFocused()
     m.integerSetting.visible = false
     m.radioSetting.visible = false
     m.colorgrid.visible = false
+    m.slider.visible = false
 
     if not isValid(selectedSetting.type) then return
 
     if isStringEqual(selectedSetting.type, "colorgrid")
         m.colorgrid.setting = selectedSetting
         m.colorgrid.visible = true
+        return
+    end if
+
+    if isStringEqual(selectedSetting.type, SettingType.SLIDER)
+        m.slider.value = m.global.session.user.settings[selectedSetting.settingName]
+
+        m.slider.options = [7, 8, 9, 10]
+        m.slider.visible = true
         return
     end if
 
@@ -245,17 +265,20 @@ sub settingSelected()
     selectedItem = m.userLocation.peek().children[m.settingsMenu.itemFocused]
 
     if selectedItem.type <> invalid ' Show setting
-        if selectedItem.type = "bool"
+        if isStringEqual(selectedItem.type, SettingType.BOOL)
             m.boolSetting.setFocus(true)
         end if
-        if isStringEqual(selectedItem.type, "colorgrid")
+        if isStringEqual(selectedItem.type, SettingType.COLORGRID)
             m.colorgrid.setFocus(true)
         end if
-        if selectedItem.type = "integer"
+        if isStringEqual(selectedItem.type, SettingType.integer)
             m.integerSetting.setFocus(true)
         end if
-        if (selectedItem.type) = "radio"
+        if isStringEqual(selectedItem.type, SettingType.RADIO)
             m.radioSetting.setFocus(true)
+        end if
+        if isStringEqual(selectedItem.type, SettingType.SLIDER)
+            m.slider.setFocus(true)
         end if
     else if selectedItem.children <> invalid and selectedItem.children.Count() > 0 ' Show sub menu
         LoadMenu(selectedItem)
@@ -350,7 +373,7 @@ end sub
 
 ' Returns true if any of the data entry forms are in focus
 function isFormInFocus() as boolean
-    if m.radioSetting.hasFocus() or m.boolSetting.hasFocus() or m.integerSetting.hasFocus() or m.colorgrid.hasFocus()
+    if m.radioSetting.hasFocus() or m.boolSetting.hasFocus() or m.integerSetting.hasFocus() or m.colorgrid.hasFocus() or m.slider.hasFocus()
         return true
     end if
     return false
