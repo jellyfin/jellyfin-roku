@@ -1,8 +1,9 @@
 import "pkg:/source/enums/ColorPalette.bs"
+import "pkg:/source/utils/misc.bs"
 
 sub init()
     options = m.top.findNode("optionList")
-    options.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
+    options.focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
     options.color = "0xffffff"
     options.focusedColor = "0xffffff"
     options.setFocus(true)

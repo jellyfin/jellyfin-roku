@@ -17,7 +17,7 @@ sub init()
     m.appearsOnHeader.text = tr("AppearsOn")
 
     m.similarArtist = m.top.findNode("similarArtist")
-    m.similarArtist.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
+    m.similarArtist.focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
     m.similarArtist.observeField("escape", "onSimilarArtistEscape")
 
     m.LoadSimilarArtistTask = CreateObject("roSGNode", "LoadItemsTask")
@@ -25,12 +25,12 @@ sub init()
     m.LoadSimilarArtistTask.observeField("content", "onSimilarArtistLoaded")
 
     m.appearsOn = m.top.findNode("appearsOn")
-    m.appearsOn.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
+    m.appearsOn.focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
     m.appearsOn.observeField("escape", "onAppearsOnEscape")
     m.appearsOn.observeField("MusicArtistAlbumData", "onAppearsOnData")
 
     m.albums = m.top.findNode("albums")
-    m.albums.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
+    m.albums.focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
     m.albums.observeField("escape", "onAlbumsEscape")
     m.albums.observeField("MusicArtistAlbumData", "onAlbumsData")
 
@@ -161,7 +161,7 @@ sub setupButtons()
     m.buttonCount = m.buttonGrp.getChildCount()
 
     m.playButton = m.top.findNode("play")
-    m.playButton.focusBackground = ColorPalette.HIGHLIGHT
+    m.playButton.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
     m.previouslySelectedButtonIndex = -1
 
     buttons = ["instantMix", "albumsLink", "appearsOnLink", "similarArtistLink", "detailsLink"]
@@ -169,7 +169,7 @@ sub setupButtons()
     for each button in buttons
         thisButton = m.top.findNode(button)
         if isValid(thisButton)
-            thisButton.focusBackground = ColorPalette.HIGHLIGHT
+            thisButton.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
         end if
     end for
 

@@ -17,7 +17,7 @@ sub init()
     m.selectedSubtitleIndex = -1
 
     m.optionMenu = m.top.findNode("optionMenu")
-    m.optionMenu.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
+    m.optionMenu.focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
     m.optionMenu.focusedColor = ColorPalette.WHITE
 
     m.menus = [m.top.findNode("subtitleMenu"), m.top.findNode("audioMenu"), m.top.findNode("videoMenu"), m.optionMenu]
@@ -25,13 +25,13 @@ sub init()
     m.videoNames = []
     m.audioNames = []
 
-    m.top.findNode("videoMenu").focusBitmapBlendColor = ColorPalette.HIGHLIGHT
+    m.top.findNode("videoMenu").focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
     m.top.findNode("videoMenu").focusedColor = ColorPalette.WHITE
 
-    m.top.findNode("audioMenu").focusBitmapBlendColor = ColorPalette.HIGHLIGHT
+    m.top.findNode("audioMenu").focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
     m.top.findNode("audioMenu").focusedColor = ColorPalette.WHITE
 
-    m.top.findNode("subtitleMenu").focusBitmapBlendColor = ColorPalette.HIGHLIGHT
+    m.top.findNode("subtitleMenu").focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
     m.top.findNode("subtitleMenu").focusedColor = ColorPalette.WHITE
 
     ' Animation

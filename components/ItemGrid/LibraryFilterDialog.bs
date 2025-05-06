@@ -11,7 +11,7 @@ sub init()
     m.submitButton = m.top.findNode("submitButton")
     m.submitButton.background = ColorPalette.LIGHTBLUE
     m.submitButton.color = ColorPalette.DARKGREY
-    m.submitButton.focusBackground = ColorPalette.HIGHLIGHT
+    m.submitButton.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
     m.submitButton.focusColor = ColorPalette.WHITE
 
     overlay = m.top.findNode("overlay")
@@ -27,7 +27,7 @@ sub init()
     headerBorder.color = ColorPalette.LIGHTBLUE
 
     m.filterMenu = m.top.findNode("filterMenu")
-    m.filterMenu.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
+    m.filterMenu.focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
     m.filterMenu.focusFootprintBlendColor = ColorPalette.LIGHTHIGHLIGHT
     m.filterMenu.focusedColor = ColorPalette.WHITE
 
@@ -35,7 +35,7 @@ sub init()
     filterOptionsBackdrop.color = ColorPalette.LIGHTGREY
 
     m.filterOptionsMenu = m.top.findNode("filterOptionsMenu")
-    m.filterOptionsMenu.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
+    m.filterOptionsMenu.focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
     m.filterOptionsMenu.focusFootprintBlendColor = ColorPalette.LIGHTHIGHLIGHT
     m.filterOptionsMenu.focusedColor = ColorPalette.WHITE
 

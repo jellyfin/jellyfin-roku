@@ -19,7 +19,7 @@ sub init()
     m.newBackdrop = m.top.findNode("backdropTransition")
     m.emptyText = m.top.findNode("emptyText")
 
-    m.itemGrid.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
+    m.itemGrid.focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
 
     m.genreList = m.top.findNode("genrelist")
     m.genreList.observeField("itemSelected", "onGenreItemSelected")

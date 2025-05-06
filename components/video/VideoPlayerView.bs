@@ -45,7 +45,7 @@ sub init()
 
     m.chapterList = m.top.findNode("chapterList")
     m.chapterMenu = m.top.findNode("chapterMenu")
-    m.chapterMenu.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
+    m.chapterMenu.focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
     m.chapterMenu.color = ColorPalette.WHITE
     m.chapterMenu.focusedColor = ColorPalette.WHITE
     m.chapterContent = m.top.findNode("chapterContent")
@@ -78,7 +78,7 @@ sub init()
     m.skipSegmentButton = m.top.findNode("skipSegment")
     m.skipSegmentButton.background = ColorPalette.LIGHTBLUE
     m.skipSegmentButton.color = ColorPalette.DARKGREY
-    m.skipSegmentButton.focusBackground = ColorPalette.HIGHLIGHT
+    m.skipSegmentButton.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
     m.skipSegmentButton.focusColor = ColorPalette.WHITE
 
     'Play Next Episode button
@@ -944,8 +944,13 @@ end function
 sub skipCurrentSegment()
     seekPosition = m.currentSegmentEndTicks / 10000000#
 
-    if seekPosition > m.top.duration
-        seekPosition = m.top.duration
+    if seekPosition > (m.top.duration - 2)
+        if m.global.queueManager.callFunc("getPosition") < m.global.queueManager.callFunc("getCount") - 1
+            handleItemSkipAction("itemnext")
+            return
+        else
+            seekPosition = m.top.duration - 1
+        end if
     end if
 
     m.top.seek = seekPosition

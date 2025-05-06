@@ -1013,6 +1013,14 @@
             <translation>Albums</translation>
         </message>
         <message>
+            <source>Autoplay Episode Limit</source>
+            <translation>Autoplay Episode Limit</translation>
+        </message>
+        <message>
+            <source>The number of episodes that will play automatically after the selected episode. Requires 'Play next episode automatically' server setting to be enabled.</source>
+            <translation>The number of episodes that will play automatically after the selected episode. Requires 'Play next episode automatically' server setting to be enabled.</translation>
+        </message>
+        <message>
             <source>View All</source>
             <translation>View All</translation>
         </message>
@@ -1318,6 +1326,22 @@
             <source>Use Show Image</source>
             <translation>Use Show Image</translation>
             <extracomment>User Setting - Setting option title</extracomment>
+        </message>
+        <message>
+            <source>The selected Jellyfin server uses version</source>
+            <translation>The selected Jellyfin server uses version</translation>
+        </message>
+        <message>
+            <source>which is not supported by this app. Please update the server to</source>
+            <translation>which is not supported by this app. Please update the server to</translation>
+        </message>
+        <message>
+            <source>or newer to use this app or install and use the Jellyfin Legacy app from Roku's Streaming Store</source>
+            <translation>or newer to use this app or install and use the Jellyfin Legacy app from Roku's Streaming Store</translation>
+        </message>
+        <message>
+            <source>Return to server select screen</source>
+            <translation>Return to server select screen</translation>
         </message>
         <message>
             <source>CH</source>

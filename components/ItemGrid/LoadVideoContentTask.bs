@@ -2,6 +2,7 @@ import "pkg:/source/api/baserequest.bs"
 import "pkg:/source/api/Image.bs"
 import "pkg:/source/api/Items.bs"
 import "pkg:/source/api/userauth.bs"
+import "pkg:/source/enums/ImageType.bs"
 import "pkg:/source/enums/ItemType.bs"
 import "pkg:/source/enums/MediaSegmentType.bs"
 import "pkg:/source/utils/config.bs"
@@ -173,7 +174,7 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
     logoSource = isStringEqual(videotype, ItemType.TVCHANNEL) ? ImageType.PRIMARY : ImageType.LOGO ' TV Channel logos are stored under '/primary' instead of '/logo'
     logoImageExists = api.items.HeadImageURLByName(logoLookupID, logoSource)
     if logoImageExists
-        video.logoImage = api.items.GetImageURL(logoLookupID, logoSource, 0, { "maxHeight": 65, "maxWidth": 300, "quality": "90" })
+        video.logoImage = api.items.GetImageURL(logoLookupID, logoSource, 0, { "format": "Png", "maxHeight": 65, "maxWidth": 300, "quality": "90" })
     end if
 
     additionalParts = api.videos.GetAdditionalParts(video.id)
@@ -185,10 +186,11 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
         end for
     end if
 
-    if m.global.session.user.Configuration.EnableNextEpisodeAutoPlay
-        if isValid(video.showID)
-            addNextEpisodesToQueue(video.showID, additionalPartsCount)
-        end if
+    if m.global.session.user.Configuration.EnableNextEpisodeAutoPlay and isValid(video.showID)
+        episodeQueueLimit = chainLookupReturn(m.global.session, "user.settings.episodeQueueLimit", "50")
+        episodeQueueLimit = episodeQueueLimit.ToInt()
+
+        addNextEpisodesToQueue(video.showID, additionalPartsCount, episodeQueueLimit)
     end if
 
     playbackPosition = 0!
@@ -543,7 +545,7 @@ function getContainerType(meta as object) as string
 end function
 
 ' Add next episodes to the playback queue
-sub addNextEpisodesToQueue(showID, additionalPartsCount as integer)
+sub addNextEpisodesToQueue(showID, additionalPartsCount as integer, queueLimit as integer)
     ' Don't queue next episodes if we already have a playback queue
     maxQueueCount = additionalPartsCount + 1
 
@@ -573,7 +575,7 @@ sub addNextEpisodesToQueue(showID, additionalPartsCount as integer)
     url = Substitute("Shows/{0}/Episodes", showID)
     urlParams = { "UserId": m.global.session.user.id }
     urlParams.Append({ "StartItemId": videoID })
-    urlParams.Append({ "Limit": 50 })
+    urlParams.Append({ "Limit": queueLimit + 1 })
     resp = APIRequest(url, urlParams)
     data = getJson(resp)
 

@@ -15,7 +15,7 @@ sub init()
     m.userLocation = []
 
     m.settingsMenu = m.top.findNode("settingsMenu")
-    m.settingsMenu.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
+    m.settingsMenu.focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
     m.settingsMenu.focusFootprintBlendColor = ColorPalette.TRANSPARENT
     m.settingsMenu.focusedColor = ColorPalette.WHITE
 
@@ -35,7 +35,7 @@ sub init()
         "b": {
             "fontSize": 27,
             "fontUri": "font:SystemFontFile",
-            "color": ColorPalette.HIGHLIGHT
+            "color": chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
         }
     }
 
@@ -49,7 +49,7 @@ sub init()
     m.colorgrid = m.top.findNode("colorgrid")
 
     m.radioSetting = m.top.findNode("radioSetting")
-    m.radioSetting.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
+    m.radioSetting.focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
     m.radioSetting.focusFootprintBlendColor = ColorPalette.TRANSPARENT
     m.radioSetting.focusedColor = ColorPalette.WHITE
 
@@ -92,9 +92,26 @@ sub onColorSelected()
     selectedSetting = m.userLocation.peek().children[m.settingsMenu.itemFocused]
     set_user_setting(selectedSetting.settingName, selectedColor ?? ColorPalette.VIEWBACKGROUND)
 
+    ' Apply settings to items already loaded so user doesn't need to close the channel to see the changes
+
+    ' Apply global background color
     if isStringEqual(selectedSetting.settingName, "colorBackground")
         scene = m.top.getScene()
         scene.backgroundColor = selectedColor ?? ColorPalette.VIEWBACKGROUND
+    end if
+
+    ' Apply cursor color
+    if isStringEqual(selectedSetting.settingName, "colorCursor")
+        ' Update cursor around user avatar
+        scene = m.top.getScene()
+        overhang = scene.findNode("overhang")
+        if isValid(overhang)
+            overlayCurrentUserSelection = overhang.findNode("overlayCurrentUserSelection")
+            overlayCurrentUserSelection.blendColor = selectedColor ?? ColorPalette.HIGHLIGHT
+        end if
+
+        ' Update setting menu colors
+        m.settingsMenu.focusBitmapBlendColor = selectedColor ?? ColorPalette.HIGHLIGHT
     end if
 end sub
 

@@ -283,7 +283,7 @@ sub standardDialog(title, message)
     dlgPalette = createObject("roSGNode", "RSGPalette")
     dlgPalette.colors = {
         DialogBackgroundColor: ColorPalette.ELEMENTBACKGROUND,
-        DialogFocusColor: ColorPalette.HIGHLIGHT,
+        DialogFocusColor: chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT),
         DialogFocusItemColor: ColorPalette.WHITE,
         DialogSecondaryTextColor: ColorPalette.WHITE,
         DialogSecondaryItemColor: ColorPalette.LIGHTBLUE,
@@ -316,7 +316,7 @@ sub radioDialog(title, message)
     dlgPalette = createObject("roSGNode", "RSGPalette")
     dlgPalette.colors = {
         DialogBackgroundColor: ColorPalette.ELEMENTBACKGROUND,
-        DialogFocusColor: ColorPalette.HIGHLIGHT,
+        DialogFocusColor: chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT),
         DialogFocusItemColor: ColorPalette.WHITE,
         DialogSecondaryTextColor: ColorPalette.WHITE,
         DialogSecondaryItemColor: ColorPalette.LIGHTBLUE,
@@ -344,7 +344,7 @@ sub remoteSubtitleDialog(title, message)
     dlgPalette = createObject("roSGNode", "RSGPalette")
     dlgPalette.colors = {
         DialogBackgroundColor: ColorPalette.ELEMENTBACKGROUND,
-        DialogFocusColor: ColorPalette.HIGHLIGHT,
+        DialogFocusColor: chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT),
         DialogFocusItemColor: ColorPalette.WHITE,
         DialogSecondaryTextColor: ColorPalette.WHITE,
         DialogSecondaryItemColor: ColorPalette.LIGHTBLUE,
@@ -371,7 +371,7 @@ sub keyboardDialog(id, title, message, buttons, hintText, itemID)
     dlgPalette = createObject("roSGNode", "RSGPalette")
     dlgPalette.colors = {
         DialogBackgroundColor: ColorPalette.ELEMENTBACKGROUND,
-        DialogFocusColor: ColorPalette.HIGHLIGHT,
+        DialogFocusColor: chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT),
         DialogFocusItemColor: ColorPalette.WHITE,
         DialogSecondaryTextColor: ColorPalette.WHITE,
         DialogSecondaryItemColor: ColorPalette.LIGHTBLUE,
@@ -411,7 +411,7 @@ sub optionDialog(id, title, message, buttons, params)
     dlgPalette = createObject("roSGNode", "RSGPalette")
     dlgPalette.colors = {
         DialogBackgroundColor: ColorPalette.ELEMENTBACKGROUND,
-        DialogFocusColor: ColorPalette.HIGHLIGHT,
+        DialogFocusColor: chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT),
         DialogFocusItemColor: ColorPalette.WHITE,
         DialogSecondaryTextColor: ColorPalette.WHITE,
         DialogSecondaryItemColor: ColorPalette.LIGHTBLUE,
@@ -445,7 +445,8 @@ sub optionClosed()
         itemID: m.itemID,
         params: m.params,
         indexSelected: -1,
-        buttonSelected: ""
+        buttonSelected: "",
+        text: m.scene.dialog.text
     }
     m.top.dataReturned = true
 end sub

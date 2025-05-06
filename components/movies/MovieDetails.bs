@@ -100,7 +100,7 @@ end sub
 
 sub setButtonColors()
     m.buttonGrp.focusBitmapUri = "pkg:/images/white.9.png"
-    m.buttonGrp.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
+    m.buttonGrp.focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
 end sub
 
 ' OnScreenShown: Callback function when view is presented on screen
@@ -258,6 +258,7 @@ sub setLogoImage(itemData as object)
     movieLogo.width = "500"
     movieLogo.height = "250"
     movieLogo.uri = ImageURL(m.top.id, ImageType.LOGO, {
+        "format": "Png",
         "maxHeight": 300,
         "maxWidth": 600,
         "Tag": itemData.ImageTags.Logo
@@ -603,8 +604,10 @@ sub SetDefaultAudioTrack(itemData)
     end for
 
     ' If we got here, then nothing matched.  First track it is...
-    m.top.selectedAudioStreamIndex = firstAudioTrack
-    setFieldText("audio_codec", tr("Audio") + ": " + itemData.mediaStreams[firstAudioTrack].displayTitle)
+    if firstAudioTrack > -1
+        m.top.selectedAudioStreamIndex = firstAudioTrack
+        setFieldText("audio_codec", tr("Audio") + ": " + itemData.mediaStreams[firstAudioTrack].displayTitle)
+    end if
 end sub
 
 sub setFieldText(field, value)

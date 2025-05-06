@@ -2,6 +2,7 @@ import "pkg:/source/api/baserequest.bs"
 import "pkg:/source/api/Image.bs"
 import "pkg:/source/api/Items.bs"
 import "pkg:/source/api/sdk.bs"
+import "pkg:/source/enums/ImageType.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/deviceCapabilities.bs"
 import "pkg:/source/utils/misc.bs"
@@ -29,9 +30,9 @@ sub loadItems()
     end if
 
     if m.top.ItemType = "LogoImage"
-        logoImageExists = api.items.HeadImageURLByName(m.top.itemId, "logo")
+        logoImageExists = api.items.HeadImageURLByName(m.top.itemId, ImageType.LOGO)
         if logoImageExists
-            m.top.content = [api.items.GetImageURL(m.top.itemId, "logo", 0, { "maxHeight": 500, "maxWidth": 500, "quality": "90" })]
+            m.top.content = [api.items.GetImageURL(m.top.itemId, ImageType.LOGO, 0, { "format": "Png", "maxHeight": 500, "maxWidth": 500, "quality": "90" })]
         else
             m.top.content = []
         end if

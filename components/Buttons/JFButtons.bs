@@ -18,7 +18,7 @@ sub init()
     m.focusAnimHeight = m.top.findNode("focusHeight")
 
     ' Set button color to global
-    m.focusRing.color = ColorPalette.HIGHLIGHT
+    m.focusRing.color = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
 
     m.buttonCount = 0
     m.selectedFocusedIndex = 0
@@ -98,7 +98,7 @@ end sub
 ' Change opacity of the highlighted menu item based on focus
 sub focusChanged()
     if m.top.isInFocusChain()
-        m.focusRing.color = ColorPalette.HIGHLIGHT
+        m.focusRing.color = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
         setButtonColor(m.selectedFocusedIndex, ColorPalette.WHITE)
     else
         m.focusRing.color = ColorPalette.LIGHTBLUE

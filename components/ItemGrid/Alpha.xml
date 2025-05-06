@@ -1,15 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component name="Alpha" extends="Group">
   <children>
-    <Text id="alphaMicText" font="font:SmallSystemFont" translation="[1600,75]" text="Search" />
-    <Poster
-      id="alphaMic"
-      height="22"
-      width="15"
-      uri="pkg:/images/icons/mic_icon.png"
-      translation="[1578, 75]"
-      visible="false" />
-
     <MarkupList
       id="alphaMenu"
       translation="[50, 100]"

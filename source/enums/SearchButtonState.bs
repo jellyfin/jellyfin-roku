@@ -1,0 +1,5 @@
+enum SearchButtonState
+    ACTIVE
+    INACTIVE
+    DISABLED
+end enum

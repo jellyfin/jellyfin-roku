@@ -8,7 +8,7 @@ import "pkg:/source/utils/misc.bs"
 sub init()
     m.top.visible = true
 
-    m.top.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
+    m.top.focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
 
     updateSize()
     m.top.observeField("rowItemSelected", "onRowItemSelected")
@@ -281,6 +281,7 @@ end sub
 
 sub onRowItemSelected()
     m.top.selectedItem = m.top.content.getChild(m.top.rowItemSelected[0]).getChild(m.top.rowItemSelected[1])
+    m.top.selectedItem = invalid
 end sub
 
 sub onRowItemFocused()

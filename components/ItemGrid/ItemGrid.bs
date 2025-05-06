@@ -13,18 +13,10 @@ import "pkg:/source/utils/deviceCapabilities.bs"
 import "pkg:/source/utils/misc.bs"
 
 sub init()
-    m.top.findNode("VoiceBoxCover").color = chainLookupReturn(m.global.session, "user.settings.colorBackground", ColorPalette.VIEWBACKGROUND)
     m.loadItemsTask1 = createObject("roSGNode", "LoadItemsTask")
 
     overhang = m.top.getScene().findNode("overhang")
     overhang.isVisible = false
-
-    ' adjust alpha menu mic icon since there is no overhang
-    m.alpha = m.top.findNode("alpha")
-    alphaMic = m.alpha.findNode("alphaMic")
-    alphaMic.translation = [60, 62]
-    alphaMicText = m.alpha.findNode("alphaMicText")
-    alphaMicText.visible = false
 
     m.options = m.top.findNode("options")
 
@@ -53,11 +45,14 @@ sub init()
 
     'Voice filter setup
     m.voiceBox = m.top.findNode("voiceBox")
-    m.voiceBox.voiceEnabled = true
-    m.voiceBox.active = true
-    m.voiceBox.observeField("text", "onvoiceFilter")
-    'set voice help text
-    m.voiceBox.hintText = tr("Use voice remote to search")
+    if m.global.device.hasVoiceRemote
+        m.voiceBox.voiceEnabled = true
+        m.voiceBox.active = true
+        m.voiceBox.observeField("text", "onvoiceFilter")
+    else
+        m.voiceBox.visible = false
+        m.voiceBox.backgroundUri = "pkg:/images/transparent.png"
+    end if
 
     'backdrop
     m.newBackdrop.observeField("loadStatus", "newBGLoaded")
@@ -98,7 +93,7 @@ sub createItemGrid()
     m.itemGrid.itemSize = "[230, 345]"
     m.itemGrid.itemSpacing = "[20, 20]"
     m.itemGrid.drawFocusFeedback = "true"
-    m.itemGrid.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
+    m.itemGrid.focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
     m.top.appendChild(m.itemGrid)
     m.itemGrid.observeField("itemFocused", "onItemFocused")
     m.itemGrid.observeField("itemSelected", "onItemSelected")
@@ -119,6 +114,8 @@ sub loadInitialItems()
     m.itemGrid.itemComponentName = "GridItemSmall"
     m.itemGrid.numColumns = "7"
     m.itemGrid.numRows = "3"
+
+    m.top.showItemTitles = m.global.session.user.settings["itemgrid.gridTitles"]
 
     if isStringEqual(m.top.showItemTitles, "hidealways")
         m.itemGrid.itemSize = "[230, 345]"
@@ -195,7 +192,7 @@ sub loadInitialItems()
         m.loadItemsTask.nameStartsWith = string.EMPTY
         m.top.alphaSelected = string.EMPTY
     else
-        m.loadItemsTask.nameStartsWith = m.alpha.letterSelected
+        m.loadItemsTask.nameStartsWith = m.top.alphaSelected
     end if
 
     m.loadItemsTask.searchTerm = m.voiceBox.text
@@ -213,8 +210,6 @@ sub loadInitialItems()
     else if isStringEqual(getCollectionType(), "tvshows")
         m.loadItemsTask.itemType = "Series"
         m.loadItemsTask.itemId = m.top.parentItem.Id
-
-        m.top.showItemTitles = m.global.session.user.settings["itemgrid.gridTitles"]
     else if isStringEqual(getCollectionType(), "music")
         ' Default Settings
         m.loadItemsTask.recursive = true
@@ -234,17 +229,6 @@ sub loadInitialItems()
         else
             ' non recursive for collections (folders, boxsets, photo albums, etc)
             m.loadItemsTask.recursive = false
-        end if
-
-        if isStringEqual(getCollectionType(), "boxsets")
-            m.top.showItemTitles = m.global.session.user.settings["itemgrid.gridTitles"]
-            if isStringEqual(m.top.showItemTitles, "hidealways")
-                m.itemGrid.itemSize = "[230, 345]"
-                m.itemGrid.rowHeights = "[345]"
-            else
-                m.itemGrid.itemSize = "[230, 390]"
-                m.itemGrid.rowHeights = "[390]"
-            end if
         end if
 
         if isStringEqual(getCollectionType(), "nextup")
@@ -763,16 +747,15 @@ end sub
 sub onvoiceFilter()
     if m.VoiceBox.text = string.EMPTY then return
 
-    if LCase(m.voiceBox.text) = "reset search" then m.voiceBox.text = string.EMPTY
+    if isStringEqual(m.voiceBox.text, "reset search") then m.voiceBox.text = string.EMPTY
+    if isStringEqual(m.voiceBox.text, "clear search") then m.voiceBox.text = string.EMPTY
 
     m.loadedRows = 0
     m.loadedItems = 0
     m.data = CreateObject("roSGNode", "ContentNode")
     m.itemGrid.content = m.data
     m.top.alphaSelected = string.EMPTY
-    m.loadItemsTask.NameStartsWith = " "
-    m.loadItemsTask.searchTerm = m.voiceBox.text
-    m.loadItemsTask.recursive = true
+    m.loadItemsTask.NameStartsWith = string.EMPTY
 
     ' If user searched for a letter, selected it from the alpha menu
     if m.voiceBox.text.len() = 1
@@ -791,7 +774,13 @@ sub onvoiceFilter()
                 end if
             end for
         end if
+
+        m.top.alphaSelected = m.voiceBox.text
+        return
     end if
+
+    m.loadItemsTask.searchTerm = m.voiceBox.text
+
     loadInitialItems()
 end sub
 
