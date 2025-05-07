@@ -150,7 +150,7 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
     video.showID = meta.showID
 
     logoLookupID = video.id
-    if videotype = ItemType.TVCHANNEL and isChainValid(meta, "json.CurrentProgram")
+    if isStringEqual(videotype, ItemType.TVCHANNEL) and isChainValid(meta, "json.CurrentProgram")
         video.content.contenttype = ItemType.EPISODE
     end if
 
