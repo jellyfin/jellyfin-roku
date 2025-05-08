@@ -5,7 +5,11 @@ import "pkg:/source/utils/config.bs"
 sub setFields()
     json = m.top.json
     m.top.id = json.id
-    m.top.title = json.name
+    if isValid(json.number)
+        m.top.title = `${tr("CH")} ${json.number} ${json.name}`
+    else
+        m.top.title = json.name
+    end if
     m.top.live = true
     m.top.Type = "TvChannel"
     setPoster()

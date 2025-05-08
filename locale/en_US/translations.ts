@@ -1343,5 +1343,10 @@
             <source>Return to server select screen</source>
             <translation>Return to server select screen</translation>
         </message>
+        <message>
+            <source>CH</source>
+            <translation>CH</translation>
+            <extracomment>Abbreviation for Channel</extracomment>
+        </message>
     </context>
 </TS>
