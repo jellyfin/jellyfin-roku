@@ -424,7 +424,7 @@ sub optionDialog(id, title, message, buttons, params)
 
     ' Apply fallback font to dialog title
     if m.global.fallbackFont <> string.EMPTY
-        if chainLookupReturn(m.global.session, "user.settings.cjkText", false)
+        if chainLookupReturn(m.global.session, "user.settings.useFallbackFont", false)
             dialogTitle = findNodeBySubtype(dialog, "StdDlgTitleArea")
             if dialogTitle.count() <> 0 and isValid(dialogTitle[0]) and isValid(dialogTitle[0].node)
                 dialogTitleLabel = dialogTitle[0].node.getChild(0)

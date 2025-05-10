@@ -1348,5 +1348,13 @@
             <translation>CH</translation>
             <extracomment>Abbreviation for Channel</extracomment>
         </message>
+        <message>
+            <source>Use Fallback Font Across App</source>
+            <translation>Use Fallback Font Across App</translation>
+        </message>
+        <message>
+            <source>Changes the font used in the app to the server's configured fallback font.</source>
+            <translation>Changes the font used in the app to the server's configured fallback font.</translation>
+        </message>
     </context>
 </TS>
