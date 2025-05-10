@@ -5,13 +5,6 @@
     "visible": false,
     "children": [
       {
-        "title": "CJK Text",
-        "description": "Use CJK fallback font for text elements across the channel",
-        "settingName": "cjkText",
-        "type": "bool",
-        "default": "false"
-      },
-      {
         "title": "Channel Background Image",
         "description": "Overlay a background image over your chosen background color",
         "settingName": "imageBackground",
@@ -38,7 +31,7 @@
       },
       {
         "title": "Color Settings",
-        "description": "Change the colors of elements in the channel",
+        "description": "Change the colors of elements in the app",
         "children": [
           {
             "title": "Background",
@@ -479,6 +472,13 @@
                 "id": "show"
               }
             ]
+          },
+          {
+            "title": "Use Fallback Font Across App",
+            "description": "Changes the font used in the app to the server's configured fallback font.",
+            "settingName": "useFallbackFont",
+            "type": "bool",
+            "default": "false"
           },
           {
             "title": "Hide Clock",
