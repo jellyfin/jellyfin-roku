@@ -12,31 +12,6 @@
         "default": "false"
       },
       {
-        "title": "Channel Background Image",
-        "description": "Overlay a background image over your chosen background color",
-        "settingName": "imageBackground",
-        "type": "radio",
-        "default": "",
-        "options": [
-          {
-            "title": "None",
-            "id": ""
-          },
-          {
-            "title": "Circles",
-            "id": "pkg:/images/background/bg1.jpg"
-          },
-          {
-            "title": "Swoosh",
-            "id": "pkg:/images/background/bg2.jpg"
-          },
-          {
-            "title": "Splashscreen Image",
-            "id": "splash"
-          }
-        ]
-      },
-      {
         "title": "Color Settings",
         "description": "Change the colors of elements in the channel",
         "children": [
@@ -459,6 +434,31 @@
         "title": "General",
         "description": "Settings relating to the appearance of the Home screen and the program in general.",
         "children": [
+          {
+            "title": "Channel Background Image",
+            "description": "Overlay a background image over the channel's background color",
+            "settingName": "imageBackground",
+            "type": "radio",
+            "default": "",
+            "options": [
+              {
+                "title": "None",
+                "id": ""
+              },
+              {
+                "title": "Circles",
+                "id": "pkg:/images/background/bg1.jpg"
+              },
+              {
+                "title": "Swoosh",
+                "id": "pkg:/images/background/bg2.jpg"
+              },
+              {
+                "title": "Splashscreen Image",
+                "id": "splash"
+              }
+            ]
+          },
           {
             "title": "Episode Images Next Up",
             "description": "What type of images to use for Episodes shown in the 'Next Up' and 'Continue Watching' sections.",
