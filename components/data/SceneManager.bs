@@ -421,6 +421,23 @@ sub optionDialog(id, title, message, buttons, params)
     dialog.observeField("buttonSelected", "optionSelected")
     dialog.observeField("wasClosed", "optionClosed")
     dialog.title = title
+
+    ' Apply fallback font to dialog title
+    if m.global.fallbackFont <> string.EMPTY
+        if chainLookupReturn(m.global.session, "user.settings.useFallbackFont", false)
+            dialogTitle = findNodeBySubtype(dialog, "StdDlgTitleArea")
+            if dialogTitle.count() <> 0 and isValid(dialogTitle[0]) and isValid(dialogTitle[0].node)
+                dialogTitleLabel = dialogTitle[0].node.getChild(0)
+
+                if isValid(dialogTitleLabel)
+                    if dialogTitleLabel.isSubType("ScrollingLabel")
+                        dialogTitleLabel.font.uri = m.global.fallbackFont
+                    end if
+                end if
+            end if
+        end if
+    end if
+
     dialog.message = message
     if isStringEqual(type(buttons[0]), "rostring")
         dialog.buttons = buttons

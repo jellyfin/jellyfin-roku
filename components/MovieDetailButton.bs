@@ -32,6 +32,8 @@ sub itemContentChanged()
 
     setIconSize()
 
+    m.buttonText.height = m.height
+
     m.top.focus = itemData.focus
     onFocusChanged()
 end sub
@@ -63,10 +65,10 @@ sub setIconSize()
         ' Set Icon translation
         if LCase(m.iconSide) = "right"
             m.buttonIcon.translation = [m.buttonBackground.width - m.padding - m.buttonIcon.width, ((height - m.buttonIcon.height) / 2)]
-            m.buttonText.translation = [m.padding, ((height - m.buttonText.font.size) / 2)]
+            m.buttonText.translation = [m.padding, 0]
         else
             m.buttonIcon.translation = [m.padding, ((height - m.buttonIcon.height) / 2)]
-            m.buttonText.translation = [m.padding + m.buttonIcon.width + 20, ((height - m.buttonText.font.size) / 2)]
+            m.buttonText.translation = [m.padding + m.buttonIcon.width + 20, 0]
         end if
 
         ' Set text max width

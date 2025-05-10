@@ -3,7 +3,7 @@
   <children>
     <Poster id="buttonBackground" uri="pkg:/images/white.9.png" />
     <Poster id="buttonIcon" />
-    <ScrollingText id="buttonText" font="font:MediumSystemFont" horizAlign="left" />
+    <ScrollingText id="buttonText" vertAlign="center" font="font:MediumSystemFont" horizAlign="left" />
   </children>
   <interface>
     <field id="background" type="color" value="" />
