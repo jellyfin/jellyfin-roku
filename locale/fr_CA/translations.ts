@@ -238,7 +238,7 @@
     </message>
     <message>
         <source>Started at</source>
-        <translation>Début</translation>
+        <translation>A débuté à</translation>
         <extracomment>(Past Tense) For defining time when a program started today (e.g. Started at 08:00) </extracomment>
     </message>
     <message>
@@ -397,7 +397,7 @@
     </message>
     <message>
         <source>Started</source>
-        <translation>Début</translation>
+        <translation>A débuté</translation>
         <extracomment>(Past Tense) For defining a day and time when a program started (e.g. Started Wednesday, 08:00) </extracomment>
     </message>
     <message>
@@ -407,7 +407,7 @@
     </message>
     <message>
         <source>Ended at</source>
-        <translation>Fin</translation>
+        <translation>Fini à</translation>
         <extracomment>(Past Tense) For defining time when a program will ended (e.g. Ended at 08:00) </extracomment>
     </message>
     <message>
@@ -1281,6 +1281,26 @@
     <message>
         <source>The number of episodes that will play automatically after the selected episode. Requires &apos;Play next episode automatically&apos; server setting to be enabled.</source>
         <translation>Le nombre d&apos;épisodes qui seront lus automatiquement après l&apos;épisode sélectionné. Nécessite que le paramètre du serveur «&#xa0;Lire automatiquement l&apos;épisode suivant&#xa0;» soit activé.</translation>
+    </message>
+    <message>
+        <source>The selected Jellyfin server uses version</source>
+        <translation>Le serveur Jellyfin sélectionné utilise la version</translation>
+    </message>
+    <message>
+        <source>which is not supported by this app. Please update the server to</source>
+        <translation>qui n&apos;est pas pris en charge par cette application. Veuillez mettre à jour le serveur pour</translation>
+    </message>
+    <message>
+        <source>CH</source>
+        <translation>Ch</translation>
+    </message>
+    <message>
+        <source>or newer to use this app or install and use the Jellyfin Legacy app from Roku&apos;s Streaming Store</source>
+        <translation>ou plus récent pour utiliser cette application ou installer et utiliser l&apos;application Jellyfin Legacy depuis le Streaming Store de Roku</translation>
+    </message>
+    <message>
+        <source>Return to server select screen</source>
+        <translation>Retourner à l&apos;écran de sélection du serveur</translation>
     </message>
 </context>
 <context>
