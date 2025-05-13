@@ -1,7 +1,7 @@
 import "pkg:/source/enums/ImageType.bs"
 import "pkg:/source/utils/misc.bs"
 
-const minimumServerVersion = [10, 10, 0]
+const minimumServerVersion = [10, 9, 0]
 
 function LoginFlow()
     'Collect Jellyfin server and user information
