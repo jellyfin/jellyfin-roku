@@ -3,6 +3,7 @@ import "pkg:/source/api/Image.bs"
 import "pkg:/source/api/Items.bs"
 import "pkg:/source/api/userauth.bs"
 import "pkg:/source/enums/ImageType.bs"
+import "pkg:/source/enums/ItemType.bs"
 import "pkg:/source/enums/MediaSegmentType.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/deviceCapabilities.bs"
@@ -149,6 +150,9 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
     video.showID = meta.showID
 
     logoLookupID = video.id
+    if isStringEqual(videotype, ItemType.TVCHANNEL) and isChainValid(meta, "json.CurrentProgram")
+        video.content.contenttype = ItemType.EPISODE
+    end if
 
     if videotype = "episode" or videotype = "series"
         video.content.contenttype = "episode"
@@ -170,9 +174,10 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
         end if
     end if
 
-    logoImageExists = api.items.HeadImageURLByName(logoLookupID, ImageType.LOGO)
+    logoSource = isStringEqual(videotype, ItemType.TVCHANNEL) ? ImageType.PRIMARY : ImageType.LOGO ' TV Channel logos are stored under '/primary' instead of '/logo'
+    logoImageExists = api.items.HeadImageURLByName(logoLookupID, logoSource)
     if logoImageExists
-        video.logoImage = api.items.GetImageURL(logoLookupID, ImageType.LOGO, 0, { "format": "Png", "maxHeight": 65, "maxWidth": 300, "quality": "90" })
+        video.logoImage = api.items.GetImageURL(logoLookupID, logoSource, 0, { "format": "Png", "maxHeight": 65, "maxWidth": 300, "quality": "90" })
     end if
 
     additionalParts = api.videos.GetAdditionalParts(video.id)

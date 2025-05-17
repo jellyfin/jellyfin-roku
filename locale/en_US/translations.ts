@@ -1328,6 +1328,35 @@
             <extracomment>User Setting - Setting option title</extracomment>
         </message>
         <message>
+            <source>The selected Jellyfin server uses version</source>
+            <translation>The selected Jellyfin server uses version</translation>
+        </message>
+        <message>
+            <source>which is not supported by this app. Please update the server to</source>
+            <translation>which is not supported by this app. Please update the server to</translation>
+        </message>
+        <message>
+            <source>or newer to use this app or install and use the Jellyfin Legacy app from Roku's Streaming Store</source>
+            <translation>or newer to use this app or install and use the Jellyfin Legacy app from Roku's Streaming Store</translation>
+        </message>
+        <message>
+            <source>Return to server select screen</source>
+            <translation>Return to server select screen</translation>
+        </message>
+        <message>
+            <source>CH</source>
+            <translation>CH</translation>
+            <extracomment>Abbreviation for Channel</extracomment>
+        </message>
+        <message>
+            <source>Use Fallback Font Across App</source>
+            <translation>Use Fallback Font Across App</translation>
+        </message>
+        <message>
+            <source>Changes the font used in the app to the server's configured fallback font.</source>
+            <translation>Changes the font used in the app to the server's configured fallback font.</translation>
+        </message>
+        <message>
             <source>Highlighted Color</source>
             <translation>Highlighted Color</translation>
         </message>

@@ -345,10 +345,7 @@ sub loadInitialItems()
     m.dropdownOptions.translation = "[100, 540]"
     m.itemGrid.translation = "[100, 670]"
     m.emptyText.translation = "[0, 750]"
-    m.itemGrid.itemSize = "[230, 345]"
     m.itemGrid.itemSpacing = "[20, 20]"
-    m.itemGrid.rowHeights = "[345]"
-    m.itemGrid.numRows = "2"
 
     m.selectedItemOverview.visible = true
     m.infoGroup.visible = true
@@ -373,14 +370,8 @@ sub loadInitialItems()
         m.selectedItemName.visible = false
         m.infoGroup.visible = false
 
-        if isStringEqual(m.top.showItemTitles, "hidealways")
-            m.itemGrid.itemSize = "[230, 350]"
-            m.itemGrid.rowHeights = "[350]"
-        else
-            m.itemGrid.itemSize = "[230, 390]"
-            m.itemGrid.rowHeights = "[390]"
-        end if
     else if isStringEqual(m.view, "Genres")
+        m.top.showItemTitles = m.global.session.user.settings["itemgrid.gridTitles"]
         m.backdrop.opacity = 0
         m.newBackdrop.opacity = 0
         m.itemLogo.visible = false
@@ -430,6 +421,8 @@ sub loadInitialItems()
         m.genreList.rowHeights = "[360]"
     end if
 
+    setColumnSizes()
+
     m.loadItemsTask.observeField("content", "ItemDataLoaded")
     m.loadItemsTask.control = TaskControl.RUN
 
@@ -440,6 +433,27 @@ sub loadInitialItems()
         includeitemtypes: m.loadItemsTask.itemType
     }
     m.getFiltersTask.control = "RUN"
+end sub
+
+sub setColumnSizes()
+    numberOfColumns = chainLookupReturn(m.global.session, "user.settings.numberOfColumns", "7")
+    imageWidth = Val(chainLookupReturn(m.global.session, "user.settings.numberOfColumnsData", "230"))
+
+    if isStringEqual(m.top.showItemTitles, "hidealways")
+        defaultSize = [imageWidth, CInt(imageWidth * 1.52173)]
+    else
+        defaultSize = [imageWidth, CInt(imageWidth * 1.69565)]
+    end if
+
+    m.itemGrid.itemSize = defaultSize
+    m.itemGrid.rowHeights = [defaultSize[1]]
+    m.itemGrid.numRows = abs(1180 / (defaultSize[1] + m.itemGrid.itemSpacing[1]))
+    m.itemGrid.numColumns = numberOfColumns
+
+    m.genreList.itemSize = [1900, defaultSize[1] + 30]
+    m.genreList.rowItemSize = [defaultSize]
+    m.genreList.rowHeights = [defaultSize[1] + 30]
+    m.genreList.numRows = abs(1180 / (defaultSize[1] + m.genreList.itemSpacing[1]))
 end sub
 
 function setOptions() as object
@@ -1460,17 +1474,19 @@ end sub
 function getOverhangingButton()
     if m.itemGrid.isinFocusChain()
         if m.itemGrid.numColumns = 4
-            buttonList = [m.voiceBox, m.sortButton, m.filterButton, m.viewButton]
-            return buttonList[m.itemGrid.currFocusColumn]
+            shortButtonList = [m.voiceBox, m.sortButton, m.filterButton, m.viewButton]
+            return shortButtonList[m.itemGrid.currFocusColumn]
         end if
 
-        if m.itemGrid.numColumns = 7
-            if m.itemGrid.currFocusColumn = 0 then return m.voiceBox
-            if m.itemGrid.currFocusColumn <= 2 then return m.sortButton
-            if m.itemGrid.currFocusColumn <= 3 then return m.sortOrderButton
-            if m.itemGrid.currFocusColumn <= 5 then return m.filterButton
-            return m.viewButton
-        end if
+        numberOfColumns = chainLookupReturn(m.global.session, "user.settings.numberOfColumns", "7")
+        buttonList = [m.voiceBox, m.sortButton, m.sortOrderButton, m.filterButton, m.viewButton]
+
+        columnDisplacement = (Val(numberOfColumns) / buttonList.count())
+
+        calculatedButtonIndex = CInt(((m.itemGrid.currFocusColumn + 1) / columnDisplacement) - 1)
+        if calculatedButtonIndex < 0 then calculatedButtonIndex = 0
+        if calculatedButtonIndex >= buttonList.count() then calculatedButtonIndex = buttonList.count() - 1
+        return buttonList[calculatedButtonIndex]
     end if
 
     if m.genreList.isinFocusChain()

@@ -5,40 +5,41 @@
     "visible": false,
     "children": [
       {
-        "title": "CJK Text",
-        "description": "Use CJK fallback font for text elements across the channel",
-        "settingName": "cjkText",
-        "type": "bool",
-        "default": "false"
-      },
-      {
-        "title": "Channel Background Image",
-        "description": "Overlay a background image over your chosen background color",
-        "settingName": "imageBackground",
-        "type": "radio",
-        "default": "",
+        "title": "Library Column Count",
+        "description": "Number of columns in library view",
+        "settingName": "numberOfColumns",
+        "type": "slider",
+        "default": "7",
         "options": [
-          {
-            "title": "None",
-            "id": ""
-          },
-          {
-            "title": "Circles",
-            "id": "pkg:/images/background/bg1.jpg"
-          },
-          {
-            "title": "Swoosh",
-            "id": "pkg:/images/background/bg2.jpg"
-          },
-          {
-            "title": "Splashscreen Image",
-            "id": "splash"
-          }
-        ]
+              {
+                "value": "6",
+                "data": "272"
+              },
+              {
+                "value": "7",
+                "data": "230"
+              },
+              {
+                "value": "8",
+                "data": "198"
+              },
+              {
+                "value": "9",
+                "data": "175"
+              },
+              {
+                "value": "10",
+                "data": "154"
+              },
+              {
+                "value": "11",
+                "data": "139"
+              }
+            ]
       },
       {
         "title": "Color Settings",
-        "description": "Change the colors of elements in the channel",
+        "description": "Change the colors of elements in the app",
         "children": [
           {
             "title": "Background",
@@ -460,6 +461,31 @@
         "description": "Settings relating to the appearance of the Home screen and the program in general.",
         "children": [
           {
+            "title": "Channel Background Image",
+            "description": "Overlay a background image over the channel's background color",
+            "settingName": "imageBackground",
+            "type": "radio",
+            "default": "",
+            "options": [
+              {
+                "title": "None",
+                "id": ""
+              },
+              {
+                "title": "Circles",
+                "id": "pkg:/images/background/bg1.jpg"
+              },
+              {
+                "title": "Swoosh",
+                "id": "pkg:/images/background/bg2.jpg"
+              },
+              {
+                "title": "Splashscreen Image",
+                "id": "splash"
+              }
+            ]
+          },
+          {
             "title": "Episode Images Next Up",
             "description": "What type of images to use for Episodes shown in the 'Next Up' and 'Continue Watching' sections.",
             "settingName": "ui-general-episodeimagesnextup",
@@ -479,6 +505,13 @@
                 "id": "show"
               }
             ]
+          },
+          {
+            "title": "Use Fallback Font Across App",
+            "description": "Changes the font used in the app to the server's configured fallback font.",
+            "settingName": "useFallbackFont",
+            "type": "bool",
+            "default": "false"
           },
           {
             "title": "Hide Clock",

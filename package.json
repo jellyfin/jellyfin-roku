@@ -5,15 +5,15 @@
   "description": "Official Roku app for Jellyfin media server",
   "dependencies": {
     "@rokucommunity/bslib": "0.1.1",
-    "brighterscript-formatter": "1.7.12"
+    "brighterscript-formatter": "1.7.14"
   },
   "devDependencies": {
-    "@rokucommunity/bslint": "0.8.29",
-    "brighterscript": "0.69.7",
+    "@rokucommunity/bslint": "0.8.31",
+    "brighterscript": "0.69.9",
     "jshint": "2.13.6",
     "rimraf": "6.0.1",
-    "roku-deploy": "3.12.4",
-    "ropm": "0.10.32",
+    "roku-deploy": "3.12.5",
+    "ropm": "0.10.33",
     "undent": "0.1.0"
   },
   "scripts": {

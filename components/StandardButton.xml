@@ -2,7 +2,7 @@
 <component name="StandardButton" extends="Group">
   <children>
     <Poster id="buttonBackground" uri="pkg:/images/white.9.png" />
-    <Text id="buttonText" font="font:SmallSystemFont" horizAlign="center" />
+    <Text id="buttonText" font="font:SmallSystemFont" horizAlign="center" vertAlign="center" />
   </children>
   <interface>
     <field id="background" type="color" value="" />
