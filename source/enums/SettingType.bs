@@ -1,0 +1,7 @@
+enum SettingType
+    BOOL = "bool"
+    COLORGRID = "colorgrid"
+    integer = "integer"
+    RADIO = "radio"
+    SLIDER = "slider"
+end enum

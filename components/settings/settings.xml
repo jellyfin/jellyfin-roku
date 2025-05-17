@@ -40,6 +40,8 @@
       itemSpacing="[20, 20]"
       drawFocusFeedback="true" />
 
+    <Slider id="slider" translation="[740, 510]" />
+
     <IntegerKeyboard translation="[1034, 510]" id="integerSetting" domain="numeric" visible="false" />
     <Timer id="keypressTimer" duration="5" />
   </children>
