@@ -1,5 +1,9 @@
 [
   {
+    "description": "Create setting to use fallback font across app",
+    "author": "1hitsong & 9123086"
+  },
+  {
     "description": "Create minimum server version check and notification",
     "author": "1hitsong"
   },
