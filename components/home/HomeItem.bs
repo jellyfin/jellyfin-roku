@@ -5,6 +5,7 @@ import "pkg:/source/enums/ColorPalette.bs"
 import "pkg:/source/enums/ItemType.bs"
 import "pkg:/source/enums/PosterLoadStatus.bs"
 import "pkg:/source/enums/SeriesStatus.bs"
+import "pkg:/source/enums/String.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/misc.bs"
 
@@ -406,7 +407,61 @@ end sub
 
 'Hide backdrop and icon when poster loaded
 sub onPosterLoadStatusChanged()
-    if m.itemPoster.loadStatus = PosterLoadStatus.READY and m.itemPoster.uri <> ""
+    if m.itemPoster.loadStatus = PosterLoadStatus.FAILED
+        thisItemType = chainLookupReturn(m.top.itemContent, "json.type", string.EMPTY)
+
+        ' If loading the album poster image failed, try loading the artist image
+        if isStringEqual(thisItemType, ItemType.MUSICALBUM)
+            params = {
+                tag: m.top.itemContent.json.parentbackdropimagetags,
+                maxHeight: 261,
+                maxWidth: 261
+            }
+            artistPrimaryImageURL = ImageURL(m.top.itemContent.json.parentbackdropitemid, "Primary", params)
+
+            ' Check if we've already tried to fall back to the artist image
+            if isStringEqual(m.itemPoster.uri, artistPrimaryImageURL) then return
+
+            m.itemPoster.uri = artistPrimaryImageURL
+            return
+        end if
+
+        ' If loading the episode poster image failed, try loading the series image
+        if isStringEqual(thisItemType, ItemType.EPISODE)
+            params = {
+                tag: m.top.itemContent.json.parentbackdropimagetags,
+                maxHeight: 261,
+                maxWidth: 261
+            }
+            seriesPrimaryImageURL = ImageURL(m.top.itemContent.json.parentbackdropitemid, "Primary", params)
+
+            ' Check if we've already tried to fall back to the series image
+            if isStringEqual(m.itemPoster.uri, seriesPrimaryImageURL) then return
+
+            m.itemPoster.uri = seriesPrimaryImageURL
+            return
+        end if
+
+        ' Wide Poster failed to load, try poster url
+        if isStringEqual(m.itemPoster.uri, m.top.itemContent.widePosterURL)
+            m.itemPoster.uri = m.top.itemContent.posterURL
+            return
+        end if
+
+        ' Thumbnail failed to load, try poster url
+        if isStringEqual(m.itemPoster.uri, m.top.itemContent.thumbnailURL)
+            m.itemPoster.uri = m.top.itemContent.posterURL
+            return
+        end if
+
+        ' Poster url has failed. Show blank backdrop
+        m.backdrop.visible = true
+        m.itemIcon.visible = true
+
+        return
+    end if
+
+    if m.itemPoster.loadStatus = PosterLoadStatus.READY and m.itemPoster.uri <> string.EMPTY
         m.backdrop.visible = false
         m.itemIcon.visible = false
     else
