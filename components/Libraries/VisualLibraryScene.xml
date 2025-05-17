@@ -13,18 +13,15 @@
       itemSpacing="[20, 20]" />
 
     <RowList
-      opacity="0"
       id="genrelist"
+      itemComponentName="GridItemSmall"
+      vertFocusAnimationStyle="fixed"
+      itemSpacing="[0, 60]"
+      opacity="0"
       translation="[100, 210]"
       showRowLabel="true"
-      itemComponentName="GridItemSmall"
       numColumns="1"
-      numRows="3"
-      vertFocusAnimationStyle="fixed"
-      itemSize="[1900, 360]"
-      rowItemSize="[ [230, 340] ]"
-      rowItemSpacing="[ [20, 0] ]"
-      itemSpacing="[0, 60]" />
+      rowItemSpacing="[ [20, 0] ]" />
 
     <LayoutGroup id="dropdownOptions" layoutDirection="horiz" translation="[100, 60]" itemSpacings="[15]">
       <LayoutGroup layoutDirection="vert" itemSpacings="[10]">

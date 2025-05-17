@@ -16,6 +16,10 @@ sub init()
     'Parent is MarkupGrid and it's parent is the ItemGrid
     m.topParent = m.top.GetParent().GetParent()
 
+    if not isValid(m.topParent.showItemTitles)
+        m.topParent = m.topParent.GetParent().GetParent()
+    end if
+
     m.title.visible = false
 
     'Get the imageDisplayMode for these grid items

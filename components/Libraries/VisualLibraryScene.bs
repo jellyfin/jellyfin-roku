@@ -371,6 +371,7 @@ sub loadInitialItems()
         m.infoGroup.visible = false
 
     else if isStringEqual(m.view, "Genres")
+        m.top.showItemTitles = m.global.session.user.settings["itemgrid.gridTitles"]
         m.backdrop.opacity = 0
         m.newBackdrop.opacity = 0
         m.itemLogo.visible = false
@@ -448,6 +449,11 @@ sub setColumnSizes()
     m.itemGrid.rowHeights = [defaultSize[1]]
     m.itemGrid.numRows = abs(1180 / (defaultSize[1] + m.itemGrid.itemSpacing[1]))
     m.itemGrid.numColumns = numberOfColumns
+
+    m.genreList.itemSize = [1900, defaultSize[1] + 30]
+    m.genreList.rowItemSize = [defaultSize]
+    m.genreList.rowHeights = [defaultSize[1] + 30]
+    m.genreList.numRows = abs(1180 / (defaultSize[1] + m.genreList.itemSpacing[1]))
 end sub
 
 function setOptions() as object

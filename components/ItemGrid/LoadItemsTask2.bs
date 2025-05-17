@@ -275,6 +275,9 @@ sub loadItems()
                 else if LCase(item.Type) = "recording"
                     tmp = CreateObject("roSGNode", "RecordingData")
                 else if item.Type = "Genre"
+                    numberOfColumns = chainLookupReturn(m.global.session, "user.settings.numberOfColumns", "7")
+                    itemLimit = numberOfColumns.toInt()
+
                     tmp = CreateObject("roSGNode", "ContentNode")
                     tmp.title = item.name
 
@@ -287,13 +290,13 @@ sub loadItems()
                         Fields: "PrimaryImageAspectRatio,MediaSourceCount,BasicSyncInfo",
                         ImageTypeLimit: 1,
                         EnableImageTypes: "Primary",
-                        Limit: 6,
+                        Limit: itemLimit - 1,
                         GenreIds: item.id,
                         EnableTotalRecordCount: false,
                         ParentId: m.top.itemId
                     })
 
-                    if genreData.Items.Count() > 5
+                    if genreData.Items.Count() > (itemLimit - 2)
                         ' Add View All item to the start of the row
                         row = tmp.createChild("FolderData")
                         row.parentFolder = m.top.itemId
