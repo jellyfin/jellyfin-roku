@@ -1356,5 +1356,9 @@
             <source>Changes the font used in the app to the server's configured fallback font.</source>
             <translation>Changes the font used in the app to the server's configured fallback font.</translation>
         </message>
+        <message>
+            <source>Highlighted Color</source>
+            <translation>Highlighted Color</translation>
+        </message>
     </context>
 </TS>

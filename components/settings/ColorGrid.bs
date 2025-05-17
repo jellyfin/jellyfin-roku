@@ -1,5 +1,21 @@
 import "pkg:/source/utils/misc.bs"
 
+sub init()
+    m.selectedColor = m.top.findNode("selectedColor")
+    m.selectedColor.font.size = 20
+
+    m.top.observeField("itemFocused", "onItemFocused")
+end sub
+
+sub onItemFocused()
+    if not isValid(m.top.itemFocused) then return
+    focusedColor = m.top.content.getChild(m.top.itemFocused)
+
+    if not isChainValid(focusedColor, "colorCode") then return
+
+    m.selectedColor.text = `${tr("Highlighted Color")}: ${focusedColor.colorCode}`
+end sub
+
 sub onSettingChange()
     selectedColor = chainLookupReturn(m.global.session, `user.settings.${m.top.setting.settingName}`, m.top.setting.default)
 
