@@ -426,6 +426,22 @@ sub onPosterLoadStatusChanged()
             return
         end if
 
+        ' If loading the episode poster image failed, try loading the series image
+        if isStringEqual(thisItemType, ItemType.EPISODE)
+            params = {
+                tag: m.top.itemContent.json.parentbackdropimagetags,
+                maxHeight: 261,
+                maxWidth: 261
+            }
+            seriesPrimaryImageURL = ImageURL(m.top.itemContent.json.parentbackdropitemid, "Primary", params)
+
+            ' Check if we've already tried to fall back to the series image
+            if isStringEqual(m.itemPoster.uri, seriesPrimaryImageURL) then return
+
+            m.itemPoster.uri = seriesPrimaryImageURL
+            return
+        end if
+
         ' Wide Poster failed to load, try poster url
         if isStringEqual(m.itemPoster.uri, m.top.itemContent.widePosterURL)
             m.itemPoster.uri = m.top.itemContent.posterURL
