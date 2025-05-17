@@ -745,7 +745,9 @@ sub onButtonItemFocused()
 end sub
 sub onButtonItemUnfocused()
     button = m.buttonGrp.content.getChild(m.buttonGrp.itemUnfocused)
-    button.focus = false
+    if isValid(button)
+        button.focus = false
+    end if
 end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean
