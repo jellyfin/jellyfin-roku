@@ -5,5 +5,7 @@
     <Timer id="currentTimeTimer" repeat="true" duration="1" />
   </children>
   <interface>
+    <function name="getCurrentTime" />
+    <function name="getFormattedTime" />
   </interface>
 </component>

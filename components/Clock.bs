@@ -43,25 +43,35 @@ sub onCurrentTimeTimerFire()
     m.dateTimeObject.ToLocalTime()
 
     ' Format time for display - based on 12h/24h setting
-    formattedTime = formatTimeAsString()
+    formattedTime = formatTimeAsString(m.dateTimeObject)
 
     ' Display time
     m.clockTime.text = formattedTime
 end sub
 
+function getCurrentTime()
+    return m.dateTimeObject.AsSecondsLong()
+end function
+
+function getFormattedTime(timestamp as object)
+    dateTimeObject = CreateObject("roDateTime")
+    dateTimeObject.FromSecondsLong(timestamp)
+    return formatTimeAsString(dateTimeObject)
+end function
+
 ' formatTimeAsString: Returns a string with the current time formatted for either a 12 or 24 hour clock
 '
 ' @return {string} current time formatted for either a 12 hour or 24 hour clock
-function formatTimeAsString() as string
-    return m.format = ClockFormat.h12 ? format12HourTime() : format24HourTime()
+function formatTimeAsString(dateTimeObject as object) as string
+    return m.format = ClockFormat.h12 ? format12HourTime(dateTimeObject) : format24HourTime(dateTimeObject)
 end function
 
 ' format12HourTime: Returns a string with the current time formatted for a 12 hour clock
 '
 ' @return {string} current time formatted for a 12 hour clock
-function format12HourTime() as string
-    currentHour = m.dateTimeObject.GetHours()
-    currentMinute = m.dateTimeObject.GetMinutes()
+function format12HourTime(dateTimeObject as object) as string
+    currentHour = dateTimeObject.GetHours()
+    currentMinute = dateTimeObject.GetMinutes()
 
     displayedHour = StrI(currentHour).trim()
     displayedMinute = StrI(currentMinute).trim()
@@ -86,9 +96,9 @@ end function
 ' format24HourTime: Returns a string with the current time formatted for a 24 hour clock
 '
 ' @return {string} current time formatted for a 24 hour clock
-function format24HourTime() as string
-    currentHour = m.dateTimeObject.GetHours()
-    currentMinute = m.dateTimeObject.GetMinutes()
+function format24HourTime(dateTimeObject as object) as string
+    currentHour = dateTimeObject.GetHours()
+    currentMinute = dateTimeObject.GetMinutes()
 
     displayedHour = StrI(currentHour).trim()
     displayedMinute = StrI(currentMinute).trim()

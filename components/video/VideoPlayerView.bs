@@ -51,6 +51,9 @@ sub init()
     m.chapterContent = m.top.findNode("chapterContent")
     m.osd = m.top.findNode("osd")
     m.osd.observeField("action", "onOSDAction")
+    m.clock = m.osd.findNode("clock")
+    currentTimeTimer = m.clock.findNode("currentTimeTimer")
+    currentTimeTimer.observeField("fire", "setVideoEndingTime")
 
     m.playbackTimer = m.top.findNode("playbackTimer")
     m.bufferCheckTimer = m.top.findNode("bufferCheckTimer")
@@ -74,6 +77,8 @@ sub init()
         clockNode = findNodeBySubtype(m.top, "clock")
         if clockNode[0] <> invalid then clockNode[0].parent.removeChild(clockNode[0].node)
     end if
+
+    m.videoEndingTime = m.top.findNode("videoEndingTime")
 
     m.skipSegmentButton = m.top.findNode("skipSegment")
     m.skipSegmentButton.background = ColorPalette.LIGHTBLUE
@@ -806,6 +811,10 @@ sub onTrickPlayBarVisibleChange()
         trickplayImage.visible = m.top.trickPlayBar.visible
     end if
 
+    if isValid(m.videoEndingTime)
+        m.videoEndingTime.visible = m.top.trickPlayBar.visible
+    end if
+
     ' Don't show both the trickplay bar and the skip segment button at the same time
     if m.top.trickPlayBar.visible
         if m.skipSegmentButton.visible
@@ -814,8 +823,51 @@ sub onTrickPlayBarVisibleChange()
     end if
 end sub
 
+sub setVideoEndingTime()
+    m.clock = m.osd.findNode("clock")
+    if not isValid(m.clock) then return
+
+    currentTime = m.clock.callFunc("getCurrentTime")
+    remainingTime = getremainingTime()
+
+    videoEndingTime = m.clock.callFunc("getFormattedTime", (currentTime + remainingTime))
+
+    m.videoEndingTime.text = videoEndingTime
+    m.osd.videoEndingTime = videoEndingTime
+end sub
+
+function getRemainingTime()
+    if not isChainValid(m.positionText, "text")
+        return m.top.duration - m.top.position
+    end if
+
+    seekTime = 0#
+    seekPosition = m.positionText.text.split(":")
+
+    if seekPosition.count() = 3
+        ' hours -> seconds
+        seekTime += seekPosition[0].toint() * 3600
+        ' minutes -> seconds
+        seekTime += seekPosition[1].toint() * 60
+    end if
+
+    ' minutes -> seconds
+    if seekPosition.count() = 2
+        seekTime += seekPosition[0].toint() * 60
+    end if
+
+    ' add seconds
+    seekTime += seekPosition[seekPosition.count() - 1].toint()
+
+    seekTime = seekTime = 0 ? m.top.position : seekTime
+
+    return m.top.duration - seekTime
+end function
+
 sub onTrickPlayBarTextChange()
     if not m.top.trickPlayBar.visible then return
+
+    setVideoEndingTime()
 
     ' If Roku has pulled thumbnailtiles from the video stream, use them instead
     if not m.global.session.user.settings["playback.trickplay.forcecustom"]
