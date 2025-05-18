@@ -1302,6 +1302,18 @@
         <source>Return to server select screen</source>
         <translation>Retourner à l&apos;écran de sélection du serveur</translation>
     </message>
+    <message>
+        <source>Use Fallback Font Across App</source>
+        <translation>Utiliser la police de secours dans l&apos;application</translation>
+    </message>
+    <message>
+        <source>Changes the font used in the app to the server&apos;s configured fallback font.</source>
+        <translation>Modifie la police utilisée dans l&apos;application par la police de secours configurée du serveur.</translation>
+    </message>
+    <message>
+        <source>Highlighted Color</source>
+        <translation>Couleur en surbrillance</translation>
+    </message>
 </context>
 <context>
     <name></name>
