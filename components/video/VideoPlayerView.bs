@@ -811,8 +811,10 @@ sub onTrickPlayBarVisibleChange()
         trickplayImage.visible = m.top.trickPlayBar.visible
     end if
 
-    if isValid(m.videoEndingTime)
-        m.videoEndingTime.visible = m.top.trickPlayBar.visible
+    if not m.top.content.live
+        if isValid(m.videoEndingTime)
+            m.videoEndingTime.visible = m.top.trickPlayBar.visible
+        end if
     end if
 
     ' Don't show both the trickplay bar and the skip segment button at the same time
@@ -826,6 +828,9 @@ end sub
 sub setVideoEndingTime()
     m.clock = m.osd.findNode("clock")
     if not isValid(m.clock) then return
+    if not isValid(m.top.content) then return
+
+    if m.top.content.live then return
 
     currentTime = m.clock.callFunc("getCurrentTime")
     remainingTime = getremainingTime()
