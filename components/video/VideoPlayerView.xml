@@ -41,6 +41,8 @@
       </LabelList>
     </Rectangle>
 
+    <Text id="videoEndingTime" font="font:SmallSystemFont" color="0xffffffFF" horizAlign="right" width="200" translation="[1617,900]" visible="false" />
+
     <StandardButton id="skipSegment" visible="false" height="85" width="250" translation="[1500, 900]" />
   </children>
 </component>
