@@ -835,7 +835,7 @@ sub setVideoEndingTime()
     currentTime = m.clock.callFunc("getCurrentTime")
     remainingTime = getremainingTime()
 
-    videoEndingTime = m.clock.callFunc("getFormattedTime", (currentTime + remainingTime))
+    videoEndingTime = m.clock.callFunc("getFormattedTime", (currentTime + remainingTime), false)
 
     m.videoEndingTime.text = videoEndingTime
     m.osd.videoEndingTime = videoEndingTime

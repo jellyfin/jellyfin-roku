@@ -1,3 +1,4 @@
+import "pkg:/source/enums/String.bs"
 import "pkg:/source/utils/misc.bs"
 
 ' @fileoverview Clock component to display current time formatted based on user's chosen 12 or 24 hour setting
@@ -53,9 +54,15 @@ function getCurrentTime()
     return m.dateTimeObject.AsSecondsLong()
 end function
 
-function getFormattedTime(timestamp as object)
+function getFormattedTime(timestamp as object, allowPastTime = true as boolean)
     dateTimeObject = CreateObject("roDateTime")
     dateTimeObject.FromSecondsLong(timestamp)
+
+    ' If passed timestamp is before current time, return empty string
+    if not allowPastTime
+        if dateTimeObject.AsSeconds() <= m.dateTimeObject.AsSeconds() then return string.EMPTY
+    end if
+
     return formatTimeAsString(dateTimeObject)
 end function
 
