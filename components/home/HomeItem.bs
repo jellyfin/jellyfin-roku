@@ -148,14 +148,17 @@ sub itemContentChanged()
 
     if inArray([ItemType.MUSICARTIST, ItemType.AUDIO], itemDataType)
         displayAudioInfo(itemData as object)
+        return
     end if
 
     if itemDataType = ItemType.TVCHANNEL
         displayTVChannelInfo(itemData as object)
+        return
     end if
 
     if itemDataType = ItemType.SEASON
         displaySeasonInfo(itemData as object)
+        return
     end if
 
     if itemDataType = ItemType.PHOTO
