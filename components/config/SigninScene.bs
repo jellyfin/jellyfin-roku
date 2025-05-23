@@ -4,7 +4,17 @@ import "pkg:/source/enums/PosterLoadStatus.bs"
 import "pkg:/source/enums/String.bs"
 import "pkg:/source/utils/misc.bs"
 
+const blankUserAvatarUri = "pkg:/images/baseline_person_white_48dp.png"
+
 sub onProfileImageUriChange()
+    if not isValid(m.top.profileImageUri)
+        m.top.profileImageUri = blankUserAvatarUri
+    end if
+
+    if isStringEqual(m.top.profileImageUri, string.EMPTY)
+        m.top.profileImageUri = blankUserAvatarUri
+    end if
+
     m.profileImage.uri = m.top.profileImageUri
 end sub
 
@@ -14,7 +24,7 @@ sub onPosterLoadStatusChanged()
     end if
 
     if isStringEqual(m.profileImage.loadStatus, PosterLoadStatus.FAILED)
-        m.top.profileImageUri = "pkg:/images/baseline_person_white_48dp.png"
+        m.top.profileImageUri = blankUserAvatarUri
     end if
 end sub
 
