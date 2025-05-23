@@ -20,11 +20,19 @@
     "author": "1hitsong"
   },
   {
+    "description": "Fix playing TV channel from favorites row on home screen",
+    "author": "1hitsong"
+  },
+  {
     "description": "Show blank avatar on login screen if user has no avatar image or avatar fails to load",
     "author": "1hitsong"
   },
   {
     "description": "Fix several crashes across app",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Remove duplicated user setting",
     "author": "1hitsong"
   }
 ]
