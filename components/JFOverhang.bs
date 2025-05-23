@@ -77,7 +77,7 @@ sub onPosterLoadStatusChanged()
 
     if m.profileImage.loadStatus = PosterLoadStatus.FAILED
         if m.profileImage.loadWidth = 0
-            m.profileImage.uri = "pkg://images/baseline_person_white_48dp.png"
+            m.profileImage.uri = "pkg:/images/baseline_person_white_48dp.png"
         end if
     end if
 end sub
