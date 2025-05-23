@@ -22,5 +22,9 @@
   {
     "description": "Fix several crashes across app",
     "author": "1hitsong"
+  },
+  {
+    "description": "Remove duplicated user setting",
+    "author": "1hitsong"
   }
 ]
