@@ -507,13 +507,6 @@
             ]
           },
           {
-            "title": "Use Fallback Font Across App",
-            "description": "Changes the font used in the app to the server's configured fallback font.",
-            "settingName": "useFallbackFont",
-            "type": "bool",
-            "default": "false"
-          },
-          {
             "title": "Hide Clock",
             "description": "Hide all clocks in Jellyfin. Jellyfin will need to be closed and reopened for changes to take effect.",
             "settingName": "ui.design.hideclock",
@@ -540,6 +533,13 @@
             "settingName": "load.allowwhatsnew",
             "type": "bool",
             "default": "true"
+          },
+          {
+            "title": "Use Fallback Font Across App",
+            "description": "Changes the font used in the app to the server's configured fallback font.",
+            "settingName": "useFallbackFont",
+            "type": "bool",
+            "default": "false"
           },
           {
             "title": "Use Web Client's Home Section Arrangement",
