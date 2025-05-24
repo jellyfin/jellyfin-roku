@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component name="AudioPlayerView" extends="JFScreen">
   <children>
-    <Poster id="backdrop" opacity=".5" loadDisplayMode="scaleToZoom" width="1920" height="1200" blendColor="#3f3f3f" />
+    <Rectangle id="background" width="1920" height="1080" color="#000000" visible="false" />
+    <Poster id="backdrop" opacity=".3" loadDisplayMode="scaleToZoom" width="1920" height="1200" />
 
     <LayoutGroup translation="[100, 780]" layoutDirection="horiz" horizAlignment="left" itemSpacings="[10]">
       <Poster id="shuffleIndicator" width="50" height="50" uri="pkg:/images/icons/shuffleIndicator-off.png" opacity="0" />
