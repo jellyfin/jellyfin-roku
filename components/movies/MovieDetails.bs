@@ -192,6 +192,19 @@ sub setBackdropImage(itemData as object)
         imageTag = itemData.ImageTags.Primary
     end if
 
+    ' Create a blank background so the user's background image doesn't bleed over
+    movieBackground = m.top.findNode("movieBackground")
+    if not isValid(movieBackground)
+        movieBackground = createObject("roSGNode", "Rectangle")
+    end if
+    movieBackground.id = "movieBackground"
+    movieBackground.width = "1920"
+    movieBackground.height = "1080"
+    movieBackground.color = "#000000"
+    if not isValid(m.top.findNode("movieBackdrop"))
+        m.top.insertChild(movieBackground, 0)
+    end if
+
     movieBackdrop = m.top.findNode("movieBackdrop")
     if not isValid(movieBackdrop)
         movieBackdrop = createObject("roSGNode", "Poster")
@@ -208,7 +221,7 @@ sub setBackdropImage(itemData as object)
     })
 
     if not isValid(m.top.findNode("movieBackdrop"))
-        m.top.insertChild(movieBackdrop, 0)
+        m.top.insertChild(movieBackdrop, 1)
     end if
 end sub
 
