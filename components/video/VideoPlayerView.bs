@@ -254,6 +254,16 @@ sub handleShowVideoInfoPopupAction()
     m.top.selectPlaybackInfoPressed = true
 end sub
 
+' handleShowVideoOverviewPopupAction: Handles action to show video overview popup
+'
+sub handleShowVideoOverviewPopupAction()
+    if not isValidAndNotEmpty(m.overview)
+        m.overview = "No overview data available"
+    end if
+
+    m.global.sceneManager.callFunc("standardDialog", m.top.content.title, { data: ["<p>" + m.overview + "</p>"] })
+end sub
+
 ' onOSDAction: Process action events from OSD to their respective handlers
 '
 sub onOSDAction()
@@ -296,6 +306,11 @@ sub onOSDAction()
 
     if action = "showvideoinfopopup"
         handleShowVideoInfoPopupAction()
+        return
+    end if
+
+    if isStringEqual(action, "showvideooverviewpopup")
+        handleShowVideoOverviewPopupAction()
         return
     end if
 
@@ -443,6 +458,7 @@ sub onVideoContentLoaded()
     m.top.audioIndex = videoContent[0].audioIndex
     m.top.transcodeParams = videoContent[0].transcodeparams
     m.chapters = videoContent[0].chapters
+    m.overview = videoContent[0].overview
     m.trickplay = videoContent[0].trickplay
     m.top.showID = videoContent[0].showID
     m.mediaSegments = videoContent[0].mediaSegments
