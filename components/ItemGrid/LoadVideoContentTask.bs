@@ -144,6 +144,11 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
         end if
     end if
 
+    video.overview = meta.json.overview
+    if not isValid(video.overview) and isValid(meta.json.CurrentProgram)
+        ' Live TV is under CurrentProgram.Overview
+        video.overview = meta.json.CurrentProgram.overview
+    end if    
     video.trickplay = meta.json.Trickplay
     video.chapters = meta.json.Chapters
     video.content.title = meta.title
