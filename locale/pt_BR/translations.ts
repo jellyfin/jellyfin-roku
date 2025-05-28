@@ -310,7 +310,7 @@
     </message>
     <message>
         <source>Remember Me?</source>
-        <translation>Lembra de mim?</translation>
+        <translation>Lembrar de mim?</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
@@ -1315,7 +1315,7 @@
     </message>
     <message>
         <source>Welcome to version</source>
-        <translation>Bme-vindo à versão</translation>
+        <translation>Bem-vindo à versão</translation>
         <extracomment>WhatsNewDialog title - Welcome to version 2.0.0</extracomment>
     </message>
     <message>
@@ -1352,6 +1352,54 @@
         <source>Use Show Image</source>
         <translation>Usar imagem da série</translation>
         <extracomment>User Setting - Setting option title</extracomment>
+    </message>
+    <message>
+        <source>The selected Jellyfin server uses version</source>
+        <translation>O servidor Jellyfin selecionado utiliza a versão</translation>
+    </message>
+    <message>
+        <source>which is not supported by this app. Please update the server to</source>
+        <translation>que não é suportado por este aplicativo. Atualize o servidor para</translation>
+    </message>
+    <message>
+        <source>Return to server select screen</source>
+        <translation>Retorna a tela de seleção de servidor</translation>
+    </message>
+    <message>
+        <source>Autoplay Episode Limit</source>
+        <translation>Limite de Episódios de Reprodução Automática</translation>
+    </message>
+    <message>
+        <source>The number of episodes that will play automatically after the selected episode. Requires &apos;Play next episode automatically&apos; server setting to be enabled.</source>
+        <translation>O número de episódios que serão reproduzidos automaticamente após o episódio selecionado. Requer que a configuração do servidor “Reproduzir o próximo episódio automaticamente” esteja ativada.</translation>
+    </message>
+    <message>
+        <source>or newer to use this app or install and use the Jellyfin Legacy app from Roku&apos;s Streaming Store</source>
+        <translation>ou mais recente para usar este aplicativo ou instale e use o aplicativo Jellyfin Legacy na Streaming Store da Roku</translation>
+    </message>
+    <message>
+        <source>Recently Added in</source>
+        <translation>Adicionado recentemente em</translation>
+    </message>
+    <message>
+        <source>Community Rating</source>
+        <translation>Classificação da Comunidade</translation>
+    </message>
+    <message>
+        <source>Album Artist</source>
+        <translation>Álbum do Artista</translation>
+    </message>
+    <message>
+        <source>Use Fallback Font Across App</source>
+        <translation>Usar fonte reserva em todos o aplicativo</translation>
+    </message>
+    <message>
+        <source>Changes the font used in the app to the server&apos;s configured fallback font.</source>
+        <translation>Altera a fonte usada no aplicativo para a fonte reserva configurada no servidor.</translation>
+    </message>
+    <message>
+        <source>Highlighted Color</source>
+        <translation>Cor destacada</translation>
     </message>
 </context>
 <context>

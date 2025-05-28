@@ -232,6 +232,11 @@ sub playQueue()
         return
     end if
 
+    if nextItemMediaType = "tvchannel"
+        CreateVideoPlayerView()
+        return
+    end if
+
     if nextItemMediaType = "movie"
         CreateVideoPlayerView()
         return

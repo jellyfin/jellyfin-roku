@@ -1,16 +1,39 @@
 import "pkg:/source/enums/ColorPalette.bs"
 import "pkg:/source/enums/KeyCode.bs"
+import "pkg:/source/enums/PosterLoadStatus.bs"
 import "pkg:/source/enums/String.bs"
 import "pkg:/source/utils/misc.bs"
 
+const blankUserAvatarUri = "pkg:/images/baseline_person_white_48dp.png"
+
 sub onProfileImageUriChange()
-    profileImage = m.top.findNode("overlayCurrentUserProfileImage")
-    profileImage.uri = m.top.profileImageUri
+    if not isValid(m.top.profileImageUri)
+        m.top.profileImageUri = blankUserAvatarUri
+    end if
+
+    if isStringEqual(m.top.profileImageUri, string.EMPTY)
+        m.top.profileImageUri = blankUserAvatarUri
+    end if
+
+    m.profileImage.uri = m.top.profileImageUri
+end sub
+
+sub onPosterLoadStatusChanged()
+    if m.profileImage.loadStatus <> PosterLoadStatus.LOADING
+        m.profileImage.unobserveField("loadStatus")
+    end if
+
+    if isStringEqual(m.profileImage.loadStatus, PosterLoadStatus.FAILED)
+        m.top.profileImageUri = blankUserAvatarUri
+    end if
 end sub
 
 sub init()
     m.top.setFocus(true)
     m.top.optionsAvailable = false
+
+    m.profileImage = m.top.findNode("overlayCurrentUserProfileImage")
+    m.profileImage.observeField("loadStatus", "onPosterLoadStatusChanged")
 
     m.submit = m.top.findNode("submit")
     m.submit.background = ColorPalette.LIGHTBLUE
