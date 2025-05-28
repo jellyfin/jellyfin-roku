@@ -14,6 +14,7 @@ sub init()
     m.videoPlayPause = m.top.findNode("videoPlayPause")
     m.videoPositionTime = m.top.findNode("videoPositionTime")
     m.videoRemainingTime = m.top.findNode("videoRemainingTime")
+    m.videoEndingTime = m.top.findNode("videoEndingTime")
     m.progressBar = m.top.findNode("progressBar")
     m.progressBarBackground = m.top.findNode("progressBarBackground")
     m.nextItem = m.top.FindNode("nextItem")
@@ -23,6 +24,7 @@ sub init()
     m.top.observeField("hasFocus", "onFocusChanged")
     m.top.observeField("progressPercentage", "onProgressPercentageChanged")
     m.top.observeField("playbackState", "onPlaybackStateChanged")
+    m.top.observeField("videoEndingTime", "setVideoEndingTime")
 
     m.top.observeField("itemTitleText", "onItemTitleTextChanged")
     m.top.observeField("seasonNumber", "onSeasonNumberChanged")
@@ -68,6 +70,11 @@ sub onProgressPercentageChanged()
     m.videoRemainingTime.text = secondsToHuman(m.top.remainingPositionTime, true)
     m.progressBar.width = m.progressBarBackground.width * m.top.progressPercentage
 end sub
+
+sub setVideoEndingTime()
+    m.videoEndingTime.text = m.top.videoEndingTime
+end sub
+
 
 ' onPlaybackStateChanged: Handler for changes to m.top.playbackState param
 '
@@ -257,6 +264,8 @@ sub inactiveCheck()
     if m.global.sceneManager.callFunc("isDialogOpen")
         return
     end if
+
+    return
 
     if m.deviceInfo.timeSinceLastKeypress() >= m.top.inactiveTimeout
         checkDisplaySiblingItem("")
