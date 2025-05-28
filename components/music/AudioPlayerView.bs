@@ -176,6 +176,7 @@ end sub
 sub setupInfoNodes()
     m.albumCover = m.top.findNode("albumCover")
     m.backDrop = m.top.findNode("backdrop")
+    m.background = m.top.findNode("background")
     m.playPosition = m.top.findNode("playPosition")
     m.bufferPosition = m.top.findNode("bufferPosition")
     m.seekBar = m.top.findNode("seekBar")
@@ -511,6 +512,8 @@ sub onAudioDataChanged()
     else
         if isValid(currentItem.ParentBackdropItemId)
             setBackdropImage(ImageURL(currentItem.ParentBackdropItemId, ImageType.BACKDROP, { "maxHeight": "720", "maxWidth": "1280" }))
+        else
+            m.background.visible = false
         end if
 
         setPosterImage(ImageURL(currentItem.id, ImageType.PRIMARY, { "maxHeight": 500, "maxWidth": 500 }))
@@ -585,9 +588,7 @@ end sub
 sub onBackdropImageLoaded()
     data = m.LoadBackdropImageTask.content[0]
     m.LoadBackdropImageTask.unobserveField("content")
-    if isValid(data) and data <> ""
-        setBackdropImage(data)
-    end if
+    setBackdropImage(data)
 end sub
 
 sub onMetaDataLoaded()
@@ -642,10 +643,19 @@ end sub
 
 ' Add backdrop image to screen
 sub setBackdropImage(data)
-    if isValid(data)
-        if m.backDrop.uri <> data
-            m.backDrop.uri = data
-        end if
+    if not isValid(data)
+        m.background.visible = false
+        return
+    end if
+
+    if isStringEqual(data, string.EMPTY)
+        m.background.visible = false
+        return
+    end if
+
+    if m.backDrop.uri <> data
+        m.backDrop.uri = data
+        m.background.visible = true
     end if
 end sub
 
