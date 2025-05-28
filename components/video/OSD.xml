@@ -69,6 +69,7 @@
 
     <Text id="videoPositionTime" font="font:MediumSystemFont" color="0xffffffFF" translation="[103,985]" />
     <Text id="videoRemainingTime" font="font:MediumSystemFont" color="0xffffffFF" horizAlign="right" width="200" translation="[1617,985]" />
+    <Text id="videoEndingTime" font="font:SmallSystemFont" color="0xffffffFF" horizAlign="right" width="200" translation="[1617,915]" />
 
     <Timer id="inactivityTimer" duration="1" repeat="true" />
   </children>
@@ -85,6 +86,7 @@
     <field id="inactiveTimeout" type="integer" />
     <field id="progressPercentage" type="float" />
     <field id="positionTime" type="float" />
+    <field id="videoEndingTime" type="string" />
     <field id="remainingPositionTime" type="float" />
     <field id="playbackState" type="string" alwaysNotify="true" />
     <field id="action" type="string" alwaysNotify="true" />
