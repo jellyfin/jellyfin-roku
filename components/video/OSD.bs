@@ -265,8 +265,6 @@ sub inactiveCheck()
         return
     end if
 
-    return
-
     if m.deviceInfo.timeSinceLastKeypress() >= m.top.inactiveTimeout
         checkDisplaySiblingItem("")
         m.top.action = "hide"

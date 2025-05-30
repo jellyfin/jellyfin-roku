@@ -1,1 +1,6 @@
-[]
+[
+  {
+    "description": "Fix OSD auto hide",
+    "author": "1hitsong"
+  }
+]
