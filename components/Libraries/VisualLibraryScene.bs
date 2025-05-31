@@ -12,6 +12,10 @@ import "pkg:/source/utils/deviceCapabilities.bs"
 import "pkg:/source/utils/misc.bs"
 
 sub setupNodes()
+    m.librarySettings = m.top.findNode("librarySettings")
+    m.librarySettings.observeFieldScoped("selected", "onLibrarySettingsSelected")
+    m.librarySettings.highlightBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+
     m.options = m.top.findNode("options")
     m.itemGrid = m.top.findNode("itemGrid")
     m.voiceBox = m.top.findNode("voiceBox")
@@ -177,6 +181,8 @@ sub OnScreenHidden()
 end sub
 
 sub OnScreenShown()
+    redrawItems()
+
     m.overhang.isVisible = false
 
     group = m.global.sceneManager.callFunc("getActiveScene")
@@ -211,6 +217,18 @@ sub onItemDataLoaded()
     if not isValid(focusedItem) then return
 
     focusedItem.callFunc("setWatched", chainLookupReturn(itemData[0], "json.UserData.Played", false), chainLookupReturn(itemData[0], "json.UserData.UnplayedItemCount", 0))
+end sub
+
+sub redrawItems()
+    itemGridContent = m.data.getChildren(-1, 0)
+    m.data = CreateObject("roSGNode", "ContentNode")
+    m.itemGrid.content = m.data
+    m.data.appendChildren(itemGridContent)
+
+    genreContent = m.genreData.getChildren(-1, 0)
+    m.genreData = CreateObject("roSGNode", "ContentNode")
+    m.genreList.content = m.genreData
+    m.genreData.appendChildren(genreContent)
 end sub
 
 '
@@ -276,6 +294,9 @@ sub loadInitialItems()
     m.loadItemsTask.startIndex = 0
     m.loadItemsTask.studioIds = string.EMPTY
     m.loadItemsTask.view = string.EMPTY
+    m.loadItemsTask.passToItem = {
+        libraryID: m.top.parentItem.id
+    }
 
     if isStringEqual(m.view, "Genres")
         m.loadItemsTask.view = "Genres"
@@ -303,9 +324,7 @@ sub loadInitialItems()
             ' Sort folders to the top of results
             m.loadItemsTask.sortField = `IsFolder,${m.sortField}`
             m.loadItemsTask.itemType = `${ItemType.MUSICVIDEO},${ItemType.FOLDER}`
-            m.loadItemsTask.passToItem = {
-                collectionType: ItemType.MUSICVIDEO
-            }
+            m.loadItemsTask.passToItem.addreplace("collectionType", ItemType.MUSICVIDEO)
         end if
 
         if isStringEqual(m.top.mediaType, ItemType.BOXSET)
@@ -327,6 +346,10 @@ sub loadInitialItems()
     ' We're in a genre sub folder
     if isValid(m.top.parentItem.parentFolder) and not isStringEqual(getCollectionType(), CollectionType.BOXSET)
         if not inArray([ItemType.PHOTOALBUM, ItemType.MUSICVIDEO], m.top.mediaType)
+            m.loadItemsTask.passToItem = {
+                libraryID: m.top.parentItem.libraryID
+            }
+
             m.loadItemsTask.itemId = m.top.parentItem.parentFolder
             m.loadItemsTask.genreIds = m.top.parentItem.id
         end if
@@ -796,7 +819,7 @@ sub ItemDataLoaded(msg)
     m.loadItemsTask.unobserveField("content")
     m.loadItemsTask.content = []
 
-    if itemData = invalid
+    if not isValid(itemData)
         m.Loading = false
         return
     end if
@@ -1500,11 +1523,46 @@ function getOverhangingButton()
     return m.voiceBox
 end function
 
+sub onLibrarySettingsSelected()
+    m.global.sceneManager.callFunc("settingDialog", tr("Library Settings"))
+end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean
     if not press then return false
 
+    if isStringEqual(key, KeyCode.DOWN)
+        if m.alphaMenu.isinFocusChain()
+            if m.alphaMenu.itemFocused = m.alphaMenu.numRows - 1
+                m.librarySettings.setFocus(true)
+                m.librarySettings.highlighted = true
+                return true
+            end if
+        end if
+
+        if m.librarySettings.isinFocusChain()
+            m.librarySettings.highlighted = false
+            m.alphaMenu.setFocus(true)
+            m.alphaMenu.jumpToItem = 0
+            return true
+        end if
+    end if
+
     if isStringEqual(key, KeyCode.UP)
+        if m.alphaMenu.isinFocusChain()
+            if m.alphaMenu.itemFocused = 0
+                m.librarySettings.setFocus(true)
+                m.librarySettings.highlighted = true
+                return true
+            end if
+        end if
+
+        if m.librarySettings.isinFocusChain()
+            m.librarySettings.highlighted = false
+            m.alphaMenu.setFocus(true)
+            m.alphaMenu.jumpToItem = m.alphaMenu.numRows - 1
+            return true
+        end if
+
         if m.itemGrid.isinFocusChain() or m.genreList.isinFocusChain()
             overhangButton = getOverhangingButton()
             if overhangButton.isSubType("VoiceTextEditBox")
@@ -1753,23 +1811,26 @@ function onKeyEvent(key as string, press as boolean) as boolean
         end if
     end if
 
-    if isStringEqual(key, KeyCode.RIGHT) and m.alpha.isinFocusChain()
-        m.top.alphaActive = false
-        m.alphaMenu.setFocus(false)
+    if isStringEqual(key, KeyCode.RIGHT)
+        if m.alpha.isinFocusChain() or m.librarySettings.isinFocusChain()
+            m.librarySettings.highlighted = false
+            m.top.alphaActive = false
+            m.alphaMenu.setFocus(false)
 
-        if m.loadedItems = 0
-            m.sortButton.focus = true
-            m.sortButton.setfocus(true)
-            group = m.global.sceneManager.callFunc("getActiveScene")
-            group.lastFocus = m.sortButton
-        else
-            m.itemGrid.setFocus(m.itemGrid.opacity = 1)
-            m.genreList.setFocus(m.genreList.opacity = 1)
-            group = m.global.sceneManager.callFunc("getActiveScene")
-            group.lastFocus = m.itemGrid.opacity = 1 ? m.itemGrid : m.genreList
+            if m.loadedItems = 0
+                m.sortButton.focus = true
+                m.sortButton.setfocus(true)
+                group = m.global.sceneManager.callFunc("getActiveScene")
+                group.lastFocus = m.sortButton
+            else
+                m.itemGrid.setFocus(m.itemGrid.opacity = 1)
+                m.genreList.setFocus(m.genreList.opacity = 1)
+                group = m.global.sceneManager.callFunc("getActiveScene")
+                group.lastFocus = m.itemGrid.opacity = 1 ? m.itemGrid : m.genreList
+            end if
+
+            return true
         end if
-
-        return true
     end if
 
     if isStringEqual(key, KeyCode.OPTIONS)

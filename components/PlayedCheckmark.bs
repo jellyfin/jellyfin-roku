@@ -41,6 +41,8 @@ sub onDataChange()
         return
     end if
 
+    if not chainLookupReturn(m.top.data, "showWatchedCheckmark", true) then return
+
     if chainLookupReturn(m.top.data, "played", false)
         m.top.color = chainLookupReturn(m.global.session, "user.settings.colorPlayedCheckmarkBackground", ColorPalette.TRIADBLUE)
         m.checkmark.visible = true

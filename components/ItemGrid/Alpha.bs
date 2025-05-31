@@ -26,15 +26,19 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
     if key = KeyCode.UP
         if m.alphaMenu.itemFocused = 0
-            m.alphaMenu.jumpToItem = m.alphaMenu.numRows - 1
-            return true
+            if m.top.wrap
+                m.alphaMenu.jumpToItem = m.alphaMenu.numRows - 1
+            end if
+            return false
         end if
     end if
 
     if key = KeyCode.DOWN
         if m.alphaMenu.itemFocused = m.alphaMenu.numRows - 1
-            m.alphaMenu.jumpToItem = 0
-            return true
+            if m.top.wrap
+                m.alphaMenu.jumpToItem = 0
+            end if
+            return false
         end if
     end if
 

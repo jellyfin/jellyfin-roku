@@ -22,7 +22,7 @@ sub onFocusChanged()
     if m.top.hasFocus()
         m.buttonText.visible = true
         m.buttonBackground.blendColor = m.top.focusBackground
-        m.top.width = 250
+        m.top.width = 275
     else
         m.buttonText.visible = false
         m.top.width = m.originalWidth

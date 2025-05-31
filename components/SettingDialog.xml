@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component name="SettingDialog" extends="StandardMessageDialog" initialFocus="watchedCheckmark">
+  <children>
+    <StdDlgContentArea>
+      <CheckList
+        id="watchedCheckmark"
+        checkedState="[true]"
+        translation="[0, 0]"
+        checkedIconUri="pkg:/images/icons/checkboxChecked.png"
+        focusedCheckedIconUri="pkg:/images/icons/checkboxChecked.png"
+        uncheckedIconUri="pkg:/images/icons/checkboxUnchecked.png"
+        focusedUncheckedIconUri="pkg:/images/icons/checkboxUnchecked.png"
+        focusFootprintBitmapUri=""
+        drawFocusFeedback="false">
+        <ContentNode role="content">
+          <ContentNode title="Display Watched Checkmark" />
+        </ContentNode>
+      </CheckList>
+    </StdDlgContentArea>
+  </children>
+</component>

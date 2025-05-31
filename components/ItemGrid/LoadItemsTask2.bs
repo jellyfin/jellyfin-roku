@@ -299,6 +299,8 @@ sub loadItems()
                     if genreData.Items.Count() > (itemLimit - 2)
                         ' Add View All item to the start of the row
                         row = tmp.createChild("FolderData")
+
+                        row.libraryID = m.top.genreIds
                         row.parentFolder = m.top.itemId
                         row.id = m.top.itemId
                         row.title = tr("View All") + " " + item.name
@@ -331,7 +333,11 @@ sub loadItems()
                         row.FHDPOSTERURL = genreItemImage
                         row.HDPOSTERURL = genreItemImage
                         row.SDPOSTERURL = genreItemImage
+
+                        genreItem.AddReplace("passedData", m.top.passToItem)
+
                         row.json = genreItem
+
                         row.id = genreItem.id
                         row.type = genreItem.type
                     end for

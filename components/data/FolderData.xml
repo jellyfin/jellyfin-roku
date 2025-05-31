@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component name="FolderData" extends="JFContentItem">
     <interface>
+        <field id="libraryID" type="string" value="" />
         <field id="itemType" type="string" value="" />
         <function name="setWatched" />
     </interface>

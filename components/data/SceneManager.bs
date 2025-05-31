@@ -308,6 +308,31 @@ end sub
 
 '
 ' Display dialog to user with an OK button
+sub settingDialog(title)
+    m.itemID = string.EMPTY
+    m.userselection = false
+
+    dialog = createObject("roSGNode", "SettingDialog")
+    dlgPalette = createObject("roSGNode", "RSGPalette")
+    dlgPalette.colors = {
+        DialogBackgroundColor: ColorPalette.ELEMENTBACKGROUND,
+        DialogFocusColor: chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT),
+        DialogFocusItemColor: ColorPalette.WHITE,
+        DialogSecondaryTextColor: ColorPalette.WHITE,
+        DialogSecondaryItemColor: ColorPalette.LIGHTBLUE,
+        DialogTextColor: ColorPalette.WHITE
+    }
+    dialog.palette = dlgPalette
+    dialog.observeField("buttonSelected", "radioButtonSelected")
+    dialog.observeField("wasClosed", "optionClosed")
+    dialog.title = title
+    dialog.buttons = [tr("OK")]
+
+    m.scene.dialog = dialog
+end sub
+
+'
+' Display dialog to user with an OK button
 sub radioDialog(title, message)
     m.itemID = string.EMPTY
     m.userselection = false
