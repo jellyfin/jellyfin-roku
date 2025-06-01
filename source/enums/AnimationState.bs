@@ -1,3 +1,5 @@
 enum AnimationState
+    PAUSED = "paused"
+    RUNNING = "running"
     STOPPED = "stopped"
 end enum
