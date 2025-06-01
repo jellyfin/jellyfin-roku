@@ -2,5 +2,9 @@
   {
     "description": "Fix OSD auto hide",
     "author": "1hitsong"
+  },
+  {
+    "description": "Make the play button play an album from the selected track",
+    "author": "michaelcresswell"
   }
 ]
