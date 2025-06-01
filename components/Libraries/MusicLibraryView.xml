@@ -19,7 +19,7 @@
       id="genrelist"
       itemComponentName="MusicArtistGridItem"
       numColumns="6"
-      numRows="3"
+      numRows="4"
       vertFocusAnimationStyle="fixed"
       translation="[100, 210]"
       itemSize="[270, 270]"
@@ -97,6 +97,12 @@
           width="335" />
       </LayoutGroup>
     </LayoutGroup>
+    <Animation id="toggleDropdownOptionsAnimation" duration="1" repeat="false" easeFunction="linear">
+      <FloatFieldInterpolator id="dropdownOptionsFade" key="[0.0, 1.0]" keyValue="[1.00, 0.00]" fieldToInterp="dropdownOptions.opacity" />
+      <Vector2DFieldInterpolator id="dropdownOptionsMove" key="[0.1, .9]" keyValue="[[100, 60], [100, 0]]" fieldToInterp="dropdownOptions.translation" />
+      <Vector2DFieldInterpolator id="itemGridMove" key="[0.1, .9]" keyValue="[[100, 210], [100, 60]]" fieldToInterp="itemGrid.translation" />
+      <Vector2DFieldInterpolator id="genreListMove" key="[0.1, .9]" keyValue="[[100, 210], [100, 60]]" fieldToInterp="genrelist.translation" />
+    </Animation>
 
     <Text id="selectedArtistName" visible="false" translation="[120, 40]" wrap="true" font="font:LargeBoldSystemFont" width="850" height="196" horizAlign="left" vertAlign="center" />
     <Poster id="artistLogo" visible="false" translation="[120, 40]" loadDisplayMode="scaleToFit" width="384" height="196" />

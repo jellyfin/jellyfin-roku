@@ -2,5 +2,9 @@
   {
     "description": "Fix OSD auto hide",
     "author": "1hitsong"
+  },
+  {
+    "description": "Hide dropdown menus once you scroll down past the first row of items in a library",
+    "author": "1hitsong"
   }
 ]
