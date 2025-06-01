@@ -346,6 +346,7 @@ sub loadInitialItems()
     m.itemGrid.translation = "[100, 670]"
     m.emptyText.translation = "[0, 750]"
     m.itemGrid.itemSpacing = "[20, 20]"
+    m.itemGrid.numRows = 3
 
     m.selectedItemOverview.visible = true
     m.infoGroup.visible = true
@@ -356,6 +357,7 @@ sub loadInitialItems()
     m.newBackdrop.opacity = 0
 
     m.emptyText.visible = false
+
 
     if isStringEqual(m.view, "grid")
         m.top.showItemTitles = m.global.session.user.settings["itemgrid.gridTitles"]
@@ -391,7 +393,7 @@ sub loadInitialItems()
         m.itemGrid.itemSize = "[400, 330]"
         m.itemGrid.rowHeights = "[330]"
         m.itemGrid.itemSpacing = "[40, 20]"
-        m.itemGrid.numColumns = "4"
+        m.itemGrid.numColumns = 4
         m.top.imageDisplayMode = "scaleToZoom"
     end if
 
@@ -400,7 +402,7 @@ sub loadInitialItems()
         m.itemGrid.itemSize = "[400, 330]"
         m.itemGrid.rowHeights = "[330]"
         m.itemGrid.itemSpacing = "[40, 20]"
-        m.itemGrid.numColumns = "4"
+        m.itemGrid.numColumns = 4
         m.top.imageDisplayMode = "scaleToZoom"
 
         m.genreList.itemComponentName = "GridItemMedium"
@@ -413,7 +415,7 @@ sub loadInitialItems()
         m.itemGrid.itemSize = "[400, 330]"
         m.itemGrid.rowHeights = "[330]"
         m.itemGrid.itemSpacing = "[40, 20]"
-        m.itemGrid.numColumns = "4"
+        m.itemGrid.numColumns = 4
         m.top.imageDisplayMode = "scaleToZoom"
 
         m.genreList.itemComponentName = "GridItemMedium"
@@ -421,7 +423,9 @@ sub loadInitialItems()
         m.genreList.rowHeights = "[360]"
     end if
 
-    setColumnSizes()
+    if not inArray([ItemType.PHOTO, ItemType.PHOTOALBUM, ItemType.MUSICVIDEO, ItemType.MYLIST], m.top.mediaType)
+        setColumnSizes()
+    end if
 
     m.loadItemsTask.observeField("content", "ItemDataLoaded")
     m.loadItemsTask.control = TaskControl.RUN
@@ -1478,10 +1482,9 @@ function getOverhangingButton()
             return shortButtonList[m.itemGrid.currFocusColumn]
         end if
 
-        numberOfColumns = chainLookupReturn(m.global.session, "user.settings.numberOfColumns", "7")
         buttonList = [m.voiceBox, m.sortButton, m.sortOrderButton, m.filterButton, m.viewButton]
 
-        columnDisplacement = (Val(numberOfColumns) / buttonList.count())
+        columnDisplacement = (m.itemGrid.numColumns / buttonList.count())
 
         calculatedButtonIndex = CInt(((m.itemGrid.currFocusColumn + 1) / columnDisplacement) - 1)
         if calculatedButtonIndex < 0 then calculatedButtonIndex = 0
