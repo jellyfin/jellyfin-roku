@@ -6,5 +6,9 @@
   {
     "description": "Add ability to play album starting from selected track on album screen using play button",
     "author": "michaelcresswell"
+  },
+  {
+    "description": "Add ability to play playlist starting from selected track on playlist screen using play button",
+    "author": "michaelcresswell"
   }
 ]
