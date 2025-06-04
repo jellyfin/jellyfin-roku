@@ -4,6 +4,7 @@ import "pkg:/source/enums/AnimationControl.bs"
 import "pkg:/source/enums/AnimationState.bs"
 import "pkg:/source/enums/CollectionType.bs"
 import "pkg:/source/enums/ColorPalette.bs"
+import "pkg:/source/enums/ImageLayout.bs"
 import "pkg:/source/enums/ItemType.bs"
 import "pkg:/source/enums/KeyCode.bs"
 import "pkg:/source/enums/SearchButtonState.bs"
@@ -12,6 +13,11 @@ import "pkg:/source/enums/TaskControl.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/deviceCapabilities.bs"
 import "pkg:/source/utils/misc.bs"
+
+const ASPECT_RATIO_PORTRAIT_NO_TITLE = 1.52173
+const ASPECT_RATIO_LANDSCAPE_NO_TITLE = .825
+const ASPECT_RATIO_PORTRAIT_WITH_TITLE = 1.69565
+const ASPECT_RATIO_LANDSCAPE_WITH_TITLE = .925
 
 sub setupNodes()
     m.librarySettings = m.top.findNode("librarySettings")
@@ -481,8 +487,10 @@ sub loadInitialItems()
         m.genreList.rowHeights = "[360]"
     end if
 
-    if not inArray([ItemType.PHOTO, ItemType.PHOTOALBUM, ItemType.MUSICVIDEO, ItemType.MYLIST], m.top.mediaType)
-        setColumnSizes()
+    if inArray([ItemType.PHOTO, ItemType.PHOTOALBUM, ItemType.MUSICVIDEO, ItemType.MYLIST], m.top.mediaType)
+        setColumnSizes(ImageLayout.LANDSCAPE)
+    else
+        setColumnSizes(ImageLayout.PORTRAIT)
     end if
 
     m.loadItemsTask.observeField("content", "ItemDataLoaded")
@@ -497,15 +505,23 @@ sub loadInitialItems()
     m.getFiltersTask.control = "RUN"
 end sub
 
-sub setColumnSizes()
-    numberOfColumns = chainLookupReturn(m.global.session, "user.settings.numberOfColumns", "7")
-    imageWidth = Val(chainLookupReturn(m.global.session, "user.settings.numberOfColumnsData", "230"))
+sub setColumnSizes(layout = ImageLayout.PORTRAIT as string)
+
+    if isStringEqual(layout, ImageLayout.PORTRAIT)
+        numberOfColumns = chainLookupReturn(m.global.session, "user.settings.numberOfColumnsPortrait", "7")
+        imageWidthData = val(chainLookupReturn(m.global.session, "user.settings.numberOfColumnsPortraitData", "230"))
+    else
+        numberOfColumns = chainLookupReturn(m.global.session, "user.settings.numberOfColumnsLandscape", "4")
+        imageWidthData = val(chainLookupReturn(m.global.session, "user.settings.numberOfColumnsLandscapeData", "400"))
+    end if
 
     if isStringEqual(m.top.showItemTitles, "hidealways")
-        defaultSize = [imageWidth, CInt(imageWidth * 1.52173)]
+        aspectRatio = isStringEqual(layout, ImageLayout.PORTRAIT) ? ASPECT_RATIO_PORTRAIT_NO_TITLE : ASPECT_RATIO_LANDSCAPE_NO_TITLE
     else
-        defaultSize = [imageWidth, CInt(imageWidth * 1.69565)]
+        aspectRatio = isStringEqual(layout, ImageLayout.PORTRAIT) ? ASPECT_RATIO_PORTRAIT_WITH_TITLE : ASPECT_RATIO_LANDSCAPE_WITH_TITLE
     end if
+
+    defaultSize = [imageWidthData, CInt(imageWidthData * aspectRatio)]
 
     m.itemGrid.itemSize = defaultSize
     m.itemGrid.rowHeights = [defaultSize[1]]
@@ -515,7 +531,9 @@ sub setColumnSizes()
     m.genreList.itemSize = [1900, defaultSize[1] + 30]
     m.genreList.rowItemSize = [defaultSize]
     m.genreList.rowHeights = [defaultSize[1] + 30]
-    m.genreList.numRows = abs(1230 / (defaultSize[1] + m.genreList.itemSpacing[1]))
+    m.genreList.numRows = abs(1180 / (defaultSize[1] + m.genreList.itemSpacing[1]))
+
+    m.loadItemsTask.numberOfColumns = numberOfColumns
 end sub
 
 function setOptions() as object

@@ -275,8 +275,7 @@ sub loadItems()
                 else if LCase(item.Type) = "recording"
                     tmp = CreateObject("roSGNode", "RecordingData")
                 else if item.Type = "Genre"
-                    numberOfColumns = chainLookupReturn(m.global.session, "user.settings.numberOfColumns", "7")
-                    itemLimit = numberOfColumns.toInt()
+                    itemLimit = m.top.numberOfColumns ?? 7
 
                     tmp = CreateObject("roSGNode", "ContentNode")
                     tmp.title = item.name
@@ -290,7 +289,7 @@ sub loadItems()
                         Fields: "PrimaryImageAspectRatio,MediaSourceCount,BasicSyncInfo",
                         ImageTypeLimit: 1,
                         EnableImageTypes: "Primary",
-                        Limit: itemLimit - 1,
+                        Limit: itemLimit,
                         GenreIds: item.id,
                         EnableTotalRecordCount: false,
                         ParentId: m.top.itemId
@@ -319,6 +318,8 @@ sub loadItems()
                         row.FHDPOSTERURL = genreItemImage
                         row.HDPOSTERURL = genreItemImage
                         row.SDPOSTERURL = genreItemImage
+
+                        genreData.Items.Pop()
                     end if
 
                     for each genreItem in genreData.Items
