@@ -5,9 +5,9 @@
     "visible": false,
     "children": [
       {
-        "title": "Library Column Count",
-        "description": "Number of columns in library view",
-        "settingName": "numberOfColumns",
+        "title": "Library Portrait Column Count",
+        "description": "Number of columns in library view when showing portrait (tall) images",
+        "settingName": "numberOfColumnsPortrait",
         "type": "slider",
         "default": "7",
         "options": [
@@ -34,6 +34,39 @@
               {
                 "value": "11",
                 "data": "139"
+              }
+            ]
+      },
+      {
+        "title": "Library Landscape Column Count",
+        "description": "Number of columns in library view when showing landscape (wide) images",
+        "settingName": "numberOfColumnsLandscape",
+        "type": "slider",
+        "default": "4",
+        "options": [
+              {
+                "value": "3",
+                "data": "550"
+              },
+              {
+                "value": "4",
+                "data": "400"
+              },
+              {
+                "value": "5",
+                "data": "313"
+              },
+              {
+                "value": "6",
+                "data": "255"
+              },
+              {
+                "value": "7",
+                "data": "212"
+              },
+              {
+                "value": "8",
+                "data": "181"
               }
             ]
       },

@@ -2,6 +2,7 @@ import "pkg:/source/api/baserequest.bs"
 import "pkg:/source/api/Image.bs"
 import "pkg:/source/enums/CollectionType.bs"
 import "pkg:/source/enums/ColorPalette.bs"
+import "pkg:/source/enums/ImageLayout.bs"
 import "pkg:/source/enums/ItemType.bs"
 import "pkg:/source/enums/KeyCode.bs"
 import "pkg:/source/enums/SearchButtonState.bs"
@@ -10,6 +11,11 @@ import "pkg:/source/enums/TaskControl.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/deviceCapabilities.bs"
 import "pkg:/source/utils/misc.bs"
+
+const ASPECT_RATIO_PORTRAIT_NO_TITLE = 1.52173
+const ASPECT_RATIO_LANDSCAPE_NO_TITLE = .825
+const ASPECT_RATIO_PORTRAIT_WITH_TITLE = 1.69565
+const ASPECT_RATIO_LANDSCAPE_WITH_TITLE = .925
 
 sub setupNodes()
     m.options = m.top.findNode("options")
@@ -346,6 +352,7 @@ sub loadInitialItems()
     m.itemGrid.translation = "[100, 670]"
     m.emptyText.translation = "[0, 750]"
     m.itemGrid.itemSpacing = "[20, 20]"
+    m.itemGrid.numRows = 3
 
     m.selectedItemOverview.visible = true
     m.infoGroup.visible = true
@@ -356,6 +363,7 @@ sub loadInitialItems()
     m.newBackdrop.opacity = 0
 
     m.emptyText.visible = false
+
 
     if isStringEqual(m.view, "grid")
         m.top.showItemTitles = m.global.session.user.settings["itemgrid.gridTitles"]
@@ -391,7 +399,7 @@ sub loadInitialItems()
         m.itemGrid.itemSize = "[400, 330]"
         m.itemGrid.rowHeights = "[330]"
         m.itemGrid.itemSpacing = "[40, 20]"
-        m.itemGrid.numColumns = "4"
+        m.itemGrid.numColumns = 4
         m.top.imageDisplayMode = "scaleToZoom"
     end if
 
@@ -400,7 +408,7 @@ sub loadInitialItems()
         m.itemGrid.itemSize = "[400, 330]"
         m.itemGrid.rowHeights = "[330]"
         m.itemGrid.itemSpacing = "[40, 20]"
-        m.itemGrid.numColumns = "4"
+        m.itemGrid.numColumns = 4
         m.top.imageDisplayMode = "scaleToZoom"
 
         m.genreList.itemComponentName = "GridItemMedium"
@@ -413,7 +421,7 @@ sub loadInitialItems()
         m.itemGrid.itemSize = "[400, 330]"
         m.itemGrid.rowHeights = "[330]"
         m.itemGrid.itemSpacing = "[40, 20]"
-        m.itemGrid.numColumns = "4"
+        m.itemGrid.numColumns = 4
         m.top.imageDisplayMode = "scaleToZoom"
 
         m.genreList.itemComponentName = "GridItemMedium"
@@ -421,7 +429,11 @@ sub loadInitialItems()
         m.genreList.rowHeights = "[360]"
     end if
 
-    setColumnSizes()
+    if inArray([ItemType.PHOTO, ItemType.PHOTOALBUM, ItemType.MUSICVIDEO, ItemType.MYLIST], m.top.mediaType)
+        setColumnSizes(ImageLayout.LANDSCAPE)
+    else
+        setColumnSizes(ImageLayout.PORTRAIT)
+    end if
 
     m.loadItemsTask.observeField("content", "ItemDataLoaded")
     m.loadItemsTask.control = TaskControl.RUN
@@ -435,15 +447,23 @@ sub loadInitialItems()
     m.getFiltersTask.control = "RUN"
 end sub
 
-sub setColumnSizes()
-    numberOfColumns = chainLookupReturn(m.global.session, "user.settings.numberOfColumns", "7")
-    imageWidth = Val(chainLookupReturn(m.global.session, "user.settings.numberOfColumnsData", "230"))
+sub setColumnSizes(layout = ImageLayout.PORTRAIT as string)
+
+    if isStringEqual(layout, ImageLayout.PORTRAIT)
+        numberOfColumns = chainLookupReturn(m.global.session, "user.settings.numberOfColumnsPortrait", "7")
+        imageWidthData = val(chainLookupReturn(m.global.session, "user.settings.numberOfColumnsPortraitData", "230"))
+    else
+        numberOfColumns = chainLookupReturn(m.global.session, "user.settings.numberOfColumnsLandscape", "4")
+        imageWidthData = val(chainLookupReturn(m.global.session, "user.settings.numberOfColumnsLandscapeData", "400"))
+    end if
 
     if isStringEqual(m.top.showItemTitles, "hidealways")
-        defaultSize = [imageWidth, CInt(imageWidth * 1.52173)]
+        aspectRatio = isStringEqual(layout, ImageLayout.PORTRAIT) ? ASPECT_RATIO_PORTRAIT_NO_TITLE : ASPECT_RATIO_LANDSCAPE_NO_TITLE
     else
-        defaultSize = [imageWidth, CInt(imageWidth * 1.69565)]
+        aspectRatio = isStringEqual(layout, ImageLayout.PORTRAIT) ? ASPECT_RATIO_PORTRAIT_WITH_TITLE : ASPECT_RATIO_LANDSCAPE_WITH_TITLE
     end if
+
+    defaultSize = [imageWidthData, CInt(imageWidthData * aspectRatio)]
 
     m.itemGrid.itemSize = defaultSize
     m.itemGrid.rowHeights = [defaultSize[1]]
@@ -454,6 +474,8 @@ sub setColumnSizes()
     m.genreList.rowItemSize = [defaultSize]
     m.genreList.rowHeights = [defaultSize[1] + 30]
     m.genreList.numRows = abs(1180 / (defaultSize[1] + m.genreList.itemSpacing[1]))
+
+    m.loadItemsTask.numberOfColumns = numberOfColumns
 end sub
 
 function setOptions() as object
@@ -1478,10 +1500,9 @@ function getOverhangingButton()
             return shortButtonList[m.itemGrid.currFocusColumn]
         end if
 
-        numberOfColumns = chainLookupReturn(m.global.session, "user.settings.numberOfColumns", "7")
         buttonList = [m.voiceBox, m.sortButton, m.sortOrderButton, m.filterButton, m.viewButton]
 
-        columnDisplacement = (Val(numberOfColumns) / buttonList.count())
+        columnDisplacement = (m.itemGrid.numColumns / buttonList.count())
 
         calculatedButtonIndex = CInt(((m.itemGrid.currFocusColumn + 1) / columnDisplacement) - 1)
         if calculatedButtonIndex < 0 then calculatedButtonIndex = 0
