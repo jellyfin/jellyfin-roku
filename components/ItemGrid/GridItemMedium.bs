@@ -27,6 +27,10 @@ sub init()
     'Parent is MarkupGrid and it's parent is the ItemGrid
     m.topParent = m.top.GetParent().GetParent()
 
+    if not isValid(m.topParent.showItemTitles)
+        m.topParent = m.topParent.GetParent().GetParent()
+    end if
+
     'Get the imageDisplayMode for these grid items
     if m.topParent.imageDisplayMode <> invalid
         m.itemPoster.loadDisplayMode = m.topParent.imageDisplayMode
@@ -62,6 +66,16 @@ end sub
 
 sub itemContentChanged()
     m.backdrop.blendColor = ColorPalette.ELEMENTBACKGROUND
+
+    m.title.visible = false
+    m.itemTextExtra.visible = false
+
+    if isValid(m.topParent.showItemTitles)
+        if LCase(m.topParent.showItemTitles) = "showalways"
+            m.title.visible = true
+            m.itemTextExtra.visible = true
+        end if
+    end if
 
     itemData = m.top.itemContent
 
@@ -157,6 +171,13 @@ sub focusChanged()
     else
         m.title.repeatCount = 0
         m.itemTextExtra.repeatCount = 0
+    end if
+
+    if isValid(m.topParent.showItemTitles)
+        if LCase(m.topParent.showItemTitles) = "showonhover"
+            m.title.visible = m.top.itemHasFocus
+            m.itemTextExtra.visible = m.top.itemHasFocus
+        end if
     end if
 end sub
 
