@@ -10,5 +10,9 @@
   {
     "description": "Add ability to play playlist starting from selected track on playlist screen using play button",
     "author": "michaelcresswell"
+  },
+  {
+    "description": "Hide dropdown menus once you scroll down past the first row of items in a library",
+    "author": "1hitsong"
   }
 ]
