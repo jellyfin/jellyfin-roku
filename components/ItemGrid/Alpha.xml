@@ -45,6 +45,7 @@
     </MarkupList>
   </children>
   <interface>
+    <field id="wrap" type="boolean" value="true" />
     <field id="letterSelected" type="string" alwaysNotify="true" />
   </interface>
 </component>

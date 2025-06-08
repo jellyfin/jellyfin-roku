@@ -128,10 +128,14 @@
       <FloatFieldInterpolator id="fadeinLoading" key="[0.0, 1.0]" keyValue="[ 0.00, 1.00 ]" fieldToInterp="backdropTransition.opacity" />
       <FloatFieldInterpolator id="fadeoutLoaded" key="[0.0, 1.0]" keyValue="[ 1.00, 0.00 ]" fieldToInterp="backdrop.opacity" />
     </Animation>
-    <Alpha id="alpha" />
+    <Alpha id="alpha" wrap="false" />
+
+    <SlideOutButton id="librarySettings" translation="[32, 50]" background="0x00000000" highlightBackground="#555555" padding="20" icon="pkg:/images/icons/settings.png" text="Library Settings" height="50" width="60" />
+
   </children>
   <interface>
     <function name="getItemFocused" />
+    <function name="redrawItems" />
     <field id="mediaType" type="string" />
     <field id="parentItem" type="node" onChange="loadInitialItems" />
     <field id="selectedItem" type="node" alwaysNotify="true" />

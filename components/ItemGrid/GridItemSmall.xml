@@ -13,7 +13,7 @@
   <interface>
     <field id="height" type="float" onChange="onHeightChanged" />
     <field id="width" type="float" onChange="onWidthChanged" />
-    <field id="itemContent" type="node" onChange="itemContentChanged" />
+    <field id="itemContent" type="node" onChange="itemContentChanged" alwaysNotify="true" />
     <field id="itemHasFocus" type="boolean" onChange="focusChanged" alwaysNotify="true" />
   </interface>
 </component>

@@ -1,0 +1,51 @@
+import "pkg:/source/enums/ColorPalette.bs"
+import "pkg:/source/enums/KeyCode.bs"
+import "pkg:/source/utils/misc.bs"
+
+sub init()
+    m.top.id = "OKDialog"
+    m.top.height = 900
+    m.top.width = 1500
+
+    m.group = m.global.sceneManager.callFunc("getActiveScene")
+
+    m.watchedCheckmark = m.top.findNode("watchedCheckmark")
+    m.watchedCheckmark.focusedColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+    m.watchedCheckmark.focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+    m.watchedCheckmark.font.size = 30
+    m.watchedCheckmark.focusedFont.size = 30
+    m.watchedCheckmark.observeFieldScoped("checkedState", "onWatchedCheckmarkChange")
+
+    if isChainValid(m.group, "parentItem.Id")
+        m.libraryID = m.group.parentItem.Id
+
+        if isChainValid(m.group.parentItem, "libraryID")
+            m.libraryID = m.group.parentItem.libraryID
+        end if
+
+        showWatchedCheckmark = chainLookupReturn(m.global.session, `user.settings.${m.libraryID}-showWatchedCheckmark`, true)
+        m.watchedCheckmark.checkedState = [showWatchedCheckmark]
+    end if
+end sub
+
+sub onWatchedCheckmarkChange()
+    if not isValid(m.libraryID) then return
+
+    set_user_setting(`${m.libraryID}-showWatchedCheckmark`, m.watchedCheckmark.checkedState[0].toStr())
+    m.group.callFunc("redrawItems")
+end sub
+
+function onKeyEvent(key as string, press as boolean) as boolean
+    if not press then return false
+
+    if isStringEqual(key, KeyCode.UP)
+        ' By default UP from the OK button is the scrollbar
+        ' Instead, move the user to the option list
+        if not m.watchedCheckmark.isinFocusChain()
+            m.watchedCheckmark.setFocus(true)
+            return true
+        end if
+    end if
+
+    return false
+end function

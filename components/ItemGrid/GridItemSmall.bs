@@ -66,7 +66,14 @@ sub itemContentChanged()
 
     if not isValid(itemData) then return
 
+    showWatchedCheckmark = true
+
+    if isChainValid(itemData, "json.passedData.libraryID")
+        showWatchedCheckmark = chainLookupReturn(m.global.session, `user.settings.${itemData.json.passedData.libraryID}-showWatchedCheckmark`, true)
+    end if
+
     m.playedIndicator.data = {
+        showWatchedCheckmark: showWatchedCheckmark,
         played: chainLookupReturn(itemData, "json.UserData.Played", false),
         unplayedCount: chainLookupReturn(itemData, "json.UserData.UnplayedItemCount", 0)
     }
