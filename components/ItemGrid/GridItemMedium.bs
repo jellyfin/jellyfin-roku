@@ -27,14 +27,55 @@ sub init()
     'Parent is MarkupGrid and it's parent is the ItemGrid
     m.topParent = m.top.GetParent().GetParent()
 
+    if not isValid(m.topParent.showItemTitles)
+        m.topParent = m.topParent.GetParent().GetParent()
+    end if
+
     'Get the imageDisplayMode for these grid items
     if m.topParent.imageDisplayMode <> invalid
         m.itemPoster.loadDisplayMode = m.topParent.imageDisplayMode
     end if
 end sub
 
+sub onHeightChanged()
+    calculatedHeight = m.top.height
+
+    showItemTitles = chainLookupReturn(m.topParent, "showItemTitles", "showonhover")
+    if not isStringEqual(showItemTitles, "hidealways")
+        calculatedHeight -= 60
+    end if
+
+    m.backdrop.height = calculatedHeight
+    m.itemPoster.height = calculatedHeight
+    m.posterText.height = calculatedHeight
+    m.title.translation = [0, calculatedHeight + 30]
+    m.itemTextExtra.translation = [0, calculatedHeight + 60]
+
+    m.itemIconBackground.translation = [m.itemIconBackground.translation[0], calculatedHeight - 37]
+end sub
+
+sub onWidthChanged()
+    m.backdrop.width = m.top.width
+    m.itemPoster.width = m.top.width
+    m.posterText.width = m.top.width
+    m.title.maxWidth = m.top.width
+    m.itemTextExtra.maxWidth = m.top.width
+    m.playedIndicator.translation = [m.top.width - m.playedIndicator.width, 22]
+    m.itemIconBackground.translation = [m.top.width - m.itemIconBackground.width, m.itemIconBackground.translation[1]]
+end sub
+
 sub itemContentChanged()
     m.backdrop.blendColor = ColorPalette.ELEMENTBACKGROUND
+
+    m.title.visible = false
+    m.itemTextExtra.visible = false
+
+    if isValid(m.topParent.showItemTitles)
+        if LCase(m.topParent.showItemTitles) = "showalways"
+            m.title.visible = true
+            m.itemTextExtra.visible = true
+        end if
+    end if
 
     itemData = m.top.itemContent
 
@@ -89,21 +130,23 @@ sub itemContentChanged()
 
     m.itemIconBackground.visible = m.itemIcon.uri <> string.EMPTY
 
-    imageDimensions = chainLookup(itemData, "imageDimensions") ?? [400, 260]
-    m.itemPoster.width = imageDimensions[0]
-    m.backdrop.width = imageDimensions[0]
-    m.posterText.width = imageDimensions[0]
+    if isChainValid(itemData, "imageDimensions")
+        imageDimensions = itemData.imageDimensions
+        m.itemPoster.width = imageDimensions[0]
+        m.backdrop.width = imageDimensions[0]
+        m.posterText.width = imageDimensions[0]
 
-    m.title.maxWidth = imageDimensions[0] - 16
-    m.itemTextExtra.maxWidth = imageDimensions[0] - 16
+        m.title.maxWidth = imageDimensions[0] - 16
+        m.itemTextExtra.maxWidth = imageDimensions[0] - 16
 
-    m.itemPoster.height = imageDimensions[1]
-    m.backdrop.height = imageDimensions[1]
-    m.posterText.height = imageDimensions[1] + 40
+        m.itemPoster.height = imageDimensions[1]
+        m.backdrop.height = imageDimensions[1]
+        m.posterText.height = imageDimensions[1] + 40
 
-    m.playedIndicator.translation = [imageDimensions[0] - 60, m.playedIndicator.translation[1]]
-    m.title.translation = [m.title.translation[0], imageDimensions[1] + 30]
-    m.itemTextExtra.translation = [m.itemTextExtra.translation[0], imageDimensions[1] + 65]
+        m.playedIndicator.translation = [imageDimensions[0] - 60, m.playedIndicator.translation[1]]
+        m.title.translation = [m.title.translation[0], imageDimensions[1] + 30]
+        m.itemTextExtra.translation = [m.itemTextExtra.translation[0], imageDimensions[1] + 65]
+    end if
 
     m.itemPoster.uri = itemData.PosterUrl
     m.posterText.text = itemData.title
@@ -128,6 +171,13 @@ sub focusChanged()
     else
         m.title.repeatCount = 0
         m.itemTextExtra.repeatCount = 0
+    end if
+
+    if isValid(m.topParent.showItemTitles)
+        if LCase(m.topParent.showItemTitles) = "showonhover"
+            m.title.visible = m.top.itemHasFocus
+            m.itemTextExtra.visible = m.top.itemHasFocus
+        end if
     end if
 end sub
 
