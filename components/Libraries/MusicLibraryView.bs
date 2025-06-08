@@ -1,5 +1,7 @@
 import "pkg:/source/api/baserequest.bs"
 import "pkg:/source/api/Image.bs"
+import "pkg:/source/enums/AnimationControl.bs"
+import "pkg:/source/enums/AnimationState.bs"
 import "pkg:/source/enums/ColorPalette.bs"
 import "pkg:/source/enums/ItemType.bs"
 import "pkg:/source/enums/KeyCode.bs"
@@ -11,6 +13,11 @@ import "pkg:/source/utils/deviceCapabilities.bs"
 import "pkg:/source/utils/misc.bs"
 
 sub setupNodes()
+    m.toggleDropdownOptionsAnimation = m.top.findNode("toggleDropdownOptionsAnimation")
+    m.dropdownOptionsMove = m.top.findNode("dropdownOptionsMove")
+    m.itemGridMove = m.top.findNode("itemGridMove")
+    m.genreListMove = m.top.findNode("genreListMove")
+    m.dropdownOptionsFade = m.top.findNode("dropdownOptionsFade")
     m.options = m.top.findNode("options")
     m.itemGrid = m.top.findNode("itemGrid")
     m.voiceBox = m.top.findNode("voiceBox")
@@ -279,6 +286,10 @@ sub loadInitialItems()
         SetBackground("")
     end if
 
+    if m.dropdownOptions.opacity < 1
+        toggleDropdownOptions(true)
+    end if
+
     m.sortField = m.global.session.user.settings["display." + m.top.parentItem.Id + ".sortField"]
     m.sortAscending = m.global.session.user.settings["display." + m.top.parentItem.Id + ".sortAscending"]
     m.filter = m.global.session.user.settings["display." + m.top.parentItem.Id + ".filter"]
@@ -319,8 +330,16 @@ sub loadInitialItems()
     m.loadItemsTask.view = "Artists"
     m.loadItemsTask.genreIds = ""
     m.itemGrid.translation = "[100, 210]"
-    m.itemGrid.numRows = "3"
+    m.itemGrid.numRows = "4"
     m.dropdownOptions.translation = "[100, 60]"
+    if m.dropdownOptions.opacity < 1
+        m.itemGrid.translation = "[100, 60]"
+    else
+        m.itemGrid.translation = "[100, 210]"
+    end if
+
+    m.dropdownOptionsMove.keyValue = "[[100, 60], [100, 0]]"
+    m.itemGridMove.keyValue = "[[100, 210], [100, 60]]"
     m.emptyText.translation = "[0, 540]"
 
     ' We're inside a genre
@@ -342,11 +361,25 @@ sub loadInitialItems()
         m.itemGrid.translation = "[100, 670]"
         m.itemGrid.numRows = "2"
         m.dropdownOptions.translation = "[100, 540]"
+        if m.dropdownOptions.opacity < 1
+            m.itemGrid.translation = "[100, 520]"
+        else
+            m.itemGrid.translation = "[100, 670]"
+        end if
+        m.dropdownOptionsMove.keyValue = "[[100, 540], [100, 480]]"
+        m.itemGridMove.keyValue = "[[100, 670], [100, 520]]"
     else if isStringEqual(m.view, "ArtistsPresentation")
         m.emptyText.translation = "[0, 750]"
         m.itemGrid.translation = "[100, 670]"
         m.itemGrid.numRows = "2"
         m.dropdownOptions.translation = "[100, 540]"
+        if m.dropdownOptions.opacity < 1
+            m.itemGrid.translation = "[100, 520]"
+        else
+            m.itemGrid.translation = "[100, 670]"
+        end if
+        m.dropdownOptionsMove.keyValue = "[[100, 540], [100, 480]]"
+        m.itemGridMove.keyValue = "[[100, 670], [100, 520]]"
     else if isStringEqual(m.view, "genres")
         m.loadItemsTask.itemType = ""
         m.loadItemsTask.recursive = true
@@ -742,6 +775,18 @@ end sub
 sub onItemFocused()
     focusedRow = m.itemGrid.currFocusRow
 
+    if m.itemGrid.isinFocusChain() or m.dropdownOptions.isinFocusChain()
+        if focusedRow = 0
+            if m.dropdownOptions.opacity < 1
+                toggleDropdownOptions(true)
+            end if
+        else if focusedRow > 0
+            if m.dropdownOptions.opacity > 0
+                toggleDropdownOptions(false)
+            end if
+        end if
+    end if
+
     itemInt = m.itemGrid.itemFocused
 
     ' If no selected item, set background to parent backdrop
@@ -903,9 +948,32 @@ end sub
 sub onGenreItemFocused()
     focusedRow = m.genreList.currFocusRow
 
+    if m.genreList.isinFocusChain()
+        if focusedRow = 0
+            if m.dropdownOptions.opacity < 1
+                toggleDropdownOptions(true)
+            end if
+        else if focusedRow > 0
+            if m.dropdownOptions.opacity > 0
+                toggleDropdownOptions(false)
+            end if
+        end if
+    end if
+
     ' Load more data if focus is within last 5 rows, and there are more items to load
     if focusedRow >= m.loadedRows - 5 and m.loadeditems < m.loadItemsTask.totalRecordCount
         loadMoreData()
+    end if
+end sub
+
+sub toggleDropdownOptions(runInReverse = false as boolean)
+    m.dropdownOptionsFade.reverse = runInReverse
+    m.dropdownOptionsMove.reverse = runInReverse
+    m.itemGridMove.reverse = runInReverse
+    m.genreListMove.reverse = runInReverse
+
+    if not isStringEqual(m.toggleDropdownOptionsAnimation.state, AnimationState.RUNNING)
+        m.toggleDropdownOptionsAnimation.control = AnimationControl.START
     end if
 end sub
 
@@ -1088,6 +1156,12 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
     if isStringEqual(key, KeyCode.UP)
         if m.itemGrid.isinFocusChain() or m.genreList.isinFocusChain()
+
+            ' In case user quickly moves out of grid without focused row getting updated
+            if m.dropdownOptions.opacity < 1
+                toggleDropdownOptions(true)
+            end if
+
             overhangButton = getOverhangingButton()
             if overhangButton.isSubType("VoiceTextEditBox")
                 setSearchBackground(SearchButtonState.ACTIVE)

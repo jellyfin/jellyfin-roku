@@ -1,5 +1,7 @@
 import "pkg:/source/api/baserequest.bs"
 import "pkg:/source/api/Image.bs"
+import "pkg:/source/enums/AnimationControl.bs"
+import "pkg:/source/enums/AnimationState.bs"
 import "pkg:/source/enums/CollectionType.bs"
 import "pkg:/source/enums/ColorPalette.bs"
 import "pkg:/source/enums/ItemType.bs"
@@ -16,6 +18,11 @@ sub setupNodes()
     m.librarySettings.observeFieldScoped("selected", "onLibrarySettingsSelected")
     m.librarySettings.highlightBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
 
+    m.toggleDropdownOptionsAnimation = m.top.findNode("toggleDropdownOptionsAnimation")
+    m.dropdownOptionsMove = m.top.findNode("dropdownOptionsMove")
+    m.itemGridMove = m.top.findNode("itemGridMove")
+    m.genreListMove = m.top.findNode("genreListMove")
+    m.dropdownOptionsFade = m.top.findNode("dropdownOptionsFade")
     m.options = m.top.findNode("options")
     m.itemGrid = m.top.findNode("itemGrid")
     m.voiceBox = m.top.findNode("voiceBox")
@@ -94,6 +101,7 @@ sub init()
     m.itemGrid.content = m.data
 
     m.genreData = CreateObject("roSGNode", "ContentNode")
+    m.genreList.observeFieldScoped("itemFocused", "onGenreItemFocused")
     m.genreList.observeFieldScoped("itemSelected", "onGenreItemSelected")
     m.genreList.content = m.genreData
 
@@ -243,6 +251,10 @@ sub loadInitialItems()
         SetBackground(string.EMPTY)
     end if
 
+    if m.dropdownOptions.opacity < 1
+        toggleDropdownOptions(true)
+    end if
+
     m.sortField = m.global.session.user.settings["display." + m.top.parentItem.Id + ".sortField"]
     m.filter = m.global.session.user.settings["display." + m.top.parentItem.Id + ".filter"]
     m.filterOptions = m.global.session.user.settings["display." + m.top.parentItem.Id + ".filterOptions"]
@@ -366,7 +378,14 @@ sub loadInitialItems()
     end if
 
     m.dropdownOptions.translation = "[100, 540]"
-    m.itemGrid.translation = "[100, 670]"
+    if m.dropdownOptions.opacity < 1
+        m.itemGrid.translation = "[100, 520]"
+    else
+        m.itemGrid.translation = "[100, 670]"
+    end if
+    m.dropdownOptionsMove.keyValue = "[[100, 540], [100, 480]]"
+    m.itemGridMove.keyValue = "[[100, 670], [100, 520]]"
+
     m.emptyText.translation = "[0, 750]"
     m.itemGrid.itemSpacing = "[20, 20]"
 
@@ -385,7 +404,15 @@ sub loadInitialItems()
         m.backdrop.opacity = 0
         m.newBackdrop.opacity = 0
         m.itemLogo.visible = false
-        m.itemGrid.translation = "[100, 210]"
+
+        if m.dropdownOptions.opacity < 1
+            m.itemGrid.translation = "[100, 60]"
+        else
+            m.itemGrid.translation = "[100, 210]"
+        end if
+
+        m.dropdownOptionsMove.keyValue = "[[100, 60], [100, 0]]"
+        m.itemGridMove.keyValue = "[[100, 210], [100, 60]]"
         m.emptyText.translation = "[0, 540]"
         m.dropdownOptions.translation = "[100, 60]"
         m.itemGrid.numRows = "3"
@@ -398,7 +425,15 @@ sub loadInitialItems()
         m.backdrop.opacity = 0
         m.newBackdrop.opacity = 0
         m.itemLogo.visible = false
-        m.itemGrid.translation = "[100, 210]"
+
+        if m.dropdownOptions.opacity < 1
+            m.itemGrid.translation = "[100, 60]"
+        else
+            m.itemGrid.translation = "[100, 210]"
+        end if
+
+        m.dropdownOptionsMove.keyValue = "[[100, 60], [100, 0]]"
+        m.itemGridMove.keyValue = "[[100, 210], [100, 60]]"
         m.emptyText.translation = "[0, 540]"
         m.dropdownOptions.translation = "[100, 60]"
         m.itemGrid.numRows = "3"
@@ -470,13 +505,13 @@ sub setColumnSizes()
 
     m.itemGrid.itemSize = defaultSize
     m.itemGrid.rowHeights = [defaultSize[1]]
-    m.itemGrid.numRows = abs(1180 / (defaultSize[1] + m.itemGrid.itemSpacing[1]))
+    m.itemGrid.numRows = abs(1230 / (defaultSize[1] + m.itemGrid.itemSpacing[1]))
     m.itemGrid.numColumns = numberOfColumns
 
     m.genreList.itemSize = [1900, defaultSize[1] + 30]
     m.genreList.rowItemSize = [defaultSize]
     m.genreList.rowHeights = [defaultSize[1] + 30]
-    m.genreList.numRows = abs(1180 / (defaultSize[1] + m.genreList.itemSpacing[1]))
+    m.genreList.numRows = abs(1230 / (defaultSize[1] + m.genreList.itemSpacing[1]))
 end sub
 
 function setOptions() as object
@@ -983,10 +1018,33 @@ sub SetBackground(backgroundUri as string)
     m.newBackdrop.uri = backgroundUri
 end sub
 
+sub toggleDropdownOptions(runInReverse = false as boolean)
+    m.dropdownOptionsFade.reverse = runInReverse
+    m.dropdownOptionsMove.reverse = runInReverse
+    m.itemGridMove.reverse = runInReverse
+    m.genreListMove.reverse = runInReverse
+
+    if not isStringEqual(m.toggleDropdownOptionsAnimation.state, AnimationState.RUNNING)
+        m.toggleDropdownOptionsAnimation.control = AnimationControl.START
+    end if
+end sub
+
 '
 'Handle new item being focused
 sub onItemFocused()
     focusedRow = m.itemGrid.currFocusRow
+
+    if m.itemGrid.isinFocusChain() or m.dropdownOptions.isinFocusChain()
+        if focusedRow = 0
+            if m.dropdownOptions.opacity < 1
+                toggleDropdownOptions(true)
+            end if
+        else if focusedRow > 0
+            if m.dropdownOptions.opacity > 0
+                toggleDropdownOptions(false)
+            end if
+        end if
+    end if
 
     itemInt = m.itemGrid.itemFocused
 
@@ -1202,6 +1260,24 @@ end function
 'Genre Item Selected
 sub onGenreItemSelected()
     m.top.selectedItem = m.genreList.content.getChild(m.genreList.rowItemSelected[0]).getChild(m.genreList.rowItemSelected[1])
+end sub
+
+'
+'Genre Item Focused
+sub onGenreItemFocused()
+    focusedRow = m.genreList.currFocusRow
+
+    if m.genreList.isinFocusChain()
+        if focusedRow = 0
+            if m.dropdownOptions.opacity < 1
+                toggleDropdownOptions(true)
+            end if
+        else if focusedRow > 0
+            if m.dropdownOptions.opacity > 0
+                toggleDropdownOptions(false)
+            end if
+        end if
+    end if
 end sub
 
 sub processDropdownState(searchTerm as string)
@@ -1564,6 +1640,12 @@ function onKeyEvent(key as string, press as boolean) as boolean
         end if
 
         if m.itemGrid.isinFocusChain() or m.genreList.isinFocusChain()
+
+            ' In case user quickly moves out of grid without focused row getting updated
+            if m.dropdownOptions.opacity < 1
+                toggleDropdownOptions(true)
+            end if
+
             overhangButton = getOverhangingButton()
             if overhangButton.isSubType("VoiceTextEditBox")
                 setSearchBackground(SearchButtonState.ACTIVE)

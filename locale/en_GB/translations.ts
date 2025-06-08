@@ -1314,6 +1314,22 @@
         <translation>Use Show Image</translation>
         <extracomment>User Setting - Setting option title</extracomment>
     </message>
+    <message>
+        <source>Autoplay Episode Limit</source>
+        <translation>Autoplay Episode Limit</translation>
+    </message>
+    <message>
+        <source>Recently Added in</source>
+        <translation>Recently Added in</translation>
+    </message>
+    <message>
+        <source>Community Rating</source>
+        <translation>Community Rating</translation>
+    </message>
+    <message>
+        <source>Album Artist</source>
+        <translation>Album Artist</translation>
+    </message>
 </context>
 <context>
     <name></name>
