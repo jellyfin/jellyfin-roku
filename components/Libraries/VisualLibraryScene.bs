@@ -239,10 +239,16 @@ sub redrawItems()
     m.itemGrid.content = m.data
     m.data.appendChildren(itemGridContent)
 
+    ' Reset cursor back to its previous location
+    m.itemGrid.jumpToItem = m.itemGrid.itemFocused
+
     genreContent = m.genreData.getChildren(-1, 0)
     m.genreData = CreateObject("roSGNode", "ContentNode")
     m.genreList.content = m.genreData
     m.genreData.appendChildren(genreContent)
+
+    ' Reset cursor back to its previous location
+    m.genreList.jumpToRowItem = m.genreList.rowItemSelected
 end sub
 
 '
