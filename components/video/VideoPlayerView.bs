@@ -1053,6 +1053,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
             if seekTime = m.playbackEnum.null then return true
 
             m.top.seek = seekTime
+            m.positionText.text = secondsToHuman(seekTime, true)
             return true
         end if
 
