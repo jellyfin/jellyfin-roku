@@ -132,7 +132,10 @@ sub handleChapterSkipAction(action as string)
         ' If there is no next chapter, exit
         if gotoChapter > m.chapters.count() - 1 then return
 
-        m.top.seek = m.chapters[gotoChapter].StartPositionTicks / 10000000#
+        newPosition = m.chapters[gotoChapter].StartPositionTicks / 10000000#
+        m.top.seek = newPosition
+        setVideoEndingTime(newPosition)
+        m.positionText.text = secondsToHuman(newPosition, true)
         return
     end if
 
@@ -141,7 +144,10 @@ sub handleChapterSkipAction(action as string)
         ' If there is no previous chapter, restart current chapter
         if gotoChapter < 0 then gotoChapter = 0
 
-        m.top.seek = m.chapters[gotoChapter].StartPositionTicks / 10000000#
+        newPosition = m.chapters[gotoChapter].StartPositionTicks / 10000000#
+        m.top.seek = newPosition
+        setVideoEndingTime(newPosition)
+        m.positionText.text = secondsToHuman(newPosition, true)
         return
     end if
 end sub
@@ -841,7 +847,7 @@ sub onTrickPlayBarVisibleChange()
     end if
 end sub
 
-sub setVideoEndingTime()
+sub setVideoEndingTime(videoSeekPosition = 0 as integer)
     m.clock = m.osd.findNode("clock")
     if not isValid(m.clock) then return
     if not isValid(m.top.content) then return
@@ -849,7 +855,7 @@ sub setVideoEndingTime()
     if m.top.content.live then return
 
     currentTime = m.clock.callFunc("getCurrentTime")
-    remainingTime = getremainingTime()
+    remainingTime = getremainingTime(videoSeekPosition)
 
     videoEndingTime = m.clock.callFunc("getFormattedTime", (currentTime + remainingTime), false)
 
@@ -857,7 +863,7 @@ sub setVideoEndingTime()
     m.osd.videoEndingTime = videoEndingTime
 end sub
 
-function getRemainingTime()
+function getRemainingTime(videoSeekPosition = 0 as integer)
     if not isChainValid(m.positionText, "text")
         return m.top.duration - m.top.position
     end if
@@ -880,6 +886,10 @@ function getRemainingTime()
     ' add seconds
     seekTime += seekPosition[seekPosition.count() - 1].toint()
 
+    if videoSeekPosition > 0
+        seekTime = videoSeekPosition
+    end if
+
     seekTime = seekTime = 0 ? m.top.position : seekTime
 
     return m.top.duration - seekTime
@@ -888,7 +898,7 @@ end function
 sub onTrickPlayBarTextChange()
     if not m.top.trickPlayBar.visible then return
 
-    setVideoEndingTime()
+    setVideoEndingTime(0)
 
     ' If Roku has pulled thumbnailtiles from the video stream, use them instead
     if not m.global.session.user.settings["playback.trickplay.forcecustom"]
@@ -1043,6 +1053,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
             if seekTime = m.playbackEnum.null then return true
 
             m.top.seek = seekTime
+            m.positionText.text = secondsToHuman(seekTime, true)
             return true
         end if
 

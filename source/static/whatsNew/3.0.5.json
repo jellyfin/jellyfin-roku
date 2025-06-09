@@ -18,5 +18,9 @@
   {
     "description": "Create library specific watched checkmark setting",
     "author": "1hitsong"
+  },
+  {
+    "description": "Fix issue that can cause video end time to be incorrect",
+    "author": "1hitsong"
   }
 ]
