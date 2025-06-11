@@ -1338,6 +1338,58 @@
         <translation>Serienbild verwenden</translation>
         <extracomment>User Setting - Setting option title</extracomment>
     </message>
+    <message>
+        <source>Autoplay Episode Limit</source>
+        <translation>Episoden Limit für die automatische Wiedergabe</translation>
+    </message>
+    <message>
+        <source>Return to server select screen</source>
+        <translation>Zurück zum Serverauswahl Bildschirm</translation>
+    </message>
+    <message>
+        <source>Community Rating</source>
+        <translation>Community Bewertung</translation>
+    </message>
+    <message>
+        <source>Album Artist</source>
+        <translation>Album Interpret</translation>
+    </message>
+    <message>
+        <source>The selected Jellyfin server uses version</source>
+        <translation>Der gewählte Jellyfin-Server nutzt Version</translation>
+    </message>
+    <message>
+        <source>The number of episodes that will play automatically after the selected episode. Requires &apos;Play next episode automatically&apos; server setting to be enabled.</source>
+        <translation>Die Anzahl der Episoden die automatisch nach der ausgewählten Episode abgespielt wird. Benötigt, das die Option &quot;Nächste Episode automatisch abspielen&quot; auf dem Server aktiviert ist.</translation>
+    </message>
+    <message>
+        <source>or newer to use this app or install and use the Jellyfin Legacy app from Roku&apos;s Streaming Store</source>
+        <translation>oder neuer um diese App zu nutzen oder installiere die Jellyfin Legacy App von Roku&apos;s Streaming Store</translation>
+    </message>
+    <message>
+        <source>which is not supported by this app. Please update the server to</source>
+        <translation>was nicht von dieser App unterstützt wird. Bitte aktualisiere den Server zu</translation>
+    </message>
+    <message>
+        <source>Recently Added in</source>
+        <translation>Kürzlich hinzugefügt in</translation>
+    </message>
+    <message>
+        <source>CH</source>
+        <translation>Kanal</translation>
+    </message>
+    <message>
+        <source>Use Fallback Font Across App</source>
+        <translation>Die Rückfallschriftart in der App benutzen</translation>
+    </message>
+    <message>
+        <source>Changes the font used in the app to the server&apos;s configured fallback font.</source>
+        <translation>Verändert die Schriftart, die in der App benutzt wird, zur Rückfallschruftart des Server&apos;s.</translation>
+    </message>
+    <message>
+        <source>Highlighted Color</source>
+        <translation>Markierte Farbe</translation>
+    </message>
 </context>
 <context>
     <name></name>
