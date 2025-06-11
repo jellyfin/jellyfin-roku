@@ -3,13 +3,13 @@
 title=jellyfin
 major_version=3
 minor_version=0
-build_version=5
+build_version=6
 
 ### Main Menu Icons / Channel Poster Artwork
 
-mm_icon_focus_fhd=pkg:/images/channel-poster_fhd.png
-mm_icon_focus_hd=pkg:/images/channel-poster_hd.png
-mm_icon_focus_sd=pkg:/images/channel-poster_sd.png
+mm_icon_focus_fhd=pkg:/images/channel-poster_fhd_dev.png
+mm_icon_focus_hd=pkg:/images/channel-poster_hd_dev.png
+mm_icon_focus_sd=pkg:/images/channel-poster_sd_dev.png
 
 ### Splash Screen + Loading Screen Artwork
 
