@@ -8,16 +8,11 @@ Authors: [frothedoatmilk](https://github.com/frothedoatmilk), [cewert](https://g
   - [Developer Mode](#developer-mode)
   - [Clone the GitHub Repo](#clone-the-github-repo)
   - [Install Dependencies](#install-dependencies)
-  - [Method 1: Visual Studio Code](#method-1-visual-studio-code)
+  - [Setting up Visual Studio Code](#setting-up-visual-studio-code)
     - [Install VSCode](#install-vscode)
     - [Usage](#usage)
     - [Hardcoding Roku Information](#hardcoding-roku-information)
-  - [Method 2: Command Line](#method-2-command-line)
-    - [Workflow](#workflow)
-    - [Install Command Line Dependencies](#install-command-line-dependencies)
-    - [Deploy](#deploy)
-    - [Bug/Crash Reports](#bugcrash-reports)
-    - [(Optional) Update Images](#optional-update-images)
+  - [Bug/Crash Reports](#bugcrash-reports)
   - [Committing](#committing)
   - [Adding a User Setting](#adding-a-user-setting)
     - [The order of any particular menu is as follows](#the-order-of-any-particular-menu-is-as-follows)
@@ -53,7 +48,7 @@ Then, use `npm` to install dependencies
 npm install
 ```
 
-## Method 1: Visual Studio Code
+## Setting up Visual Studio Code
 
 We recommend using Visual Studio Code when working on this project. The [BrightScript Language extension](https://marketplace.visualstudio.com/items?itemName=RokuCommunity.brightscript) provides a rich debugging experience, including in-editor syntax checking, debugging/breakpoint support, variable inspection at runtime, auto-formatting, an integrated remote control mode, and [much more](https://rokucommunity.github.io/vscode-brightscript-language/features.html).
 
@@ -85,44 +80,6 @@ Out of the box, the BrightScript extension will prompt you to pick a Roku device
 Example:
 ![image](https://user-images.githubusercontent.com/2544493/170485209-0dbe6787-8026-47e7-9095-1df96cda8a0a.png)
 
-## Method 2: Command Line
-
-### Workflow
-
-Modify code -> `make build-dev install` -> Use Roku remote to test changes -> `telnet ${ROKU_DEV_TARGET} 8085` -> `CTRL + ]` -> `quit + ENTER`
-
-You will need to use telnet to see log statements, warnings, and error reports. You won't always need to telnet into your device but the workflow above is typical when you are new to BrightScript or are working on tricky code.
-
-### Install Command Line Dependencies
-
-You'll need [`make`](https://www.gnu.org/software/make) and [`curl`](https://curl.se).
-
-Build the package
-
-```bash
-make build-dev
-```
-
-This will create a zip in `out/jellyfin-roku.zip`, that you can upload on your Roku's device via your browser.
-Or you can continue with the next steps to do it via the command line.
-
-### Deploy
-
-Run this command - replacing the IP and password with your Roku device IP and dev password from the first step, example:
-
-```bash
-export ROKU_DEV_TARGET=192.168.1.234
-export ROKU_DEV_PASSWORD=password
-```
-
-Package up the application, send it to your Roku, and launch the channel:
-
-```bash
-make install
-```
-
-Note: You only have to run this command once if you are not a developer. The Jellyfin channel will still be installed after rebooting your Roku device.
-
 ### Bug/Crash Reports
 
 Did the app crash? Find a nasty bug? Use this command to view the error log and [report it to the developers](https://github.com/jellyfin/jellyfin-roku/issues):
@@ -132,24 +89,6 @@ telnet ${ROKU_DEV_TARGET} 8085
 ```
 
 To exit telnet: `CTRL + ]` and then type `quit + ENTER`
-
-You can also take a screenshot of the app to augment the bug report.
-
-```bash
-make screenshot
-```
-
-### (Optional) Update Images
-
-This repo already contains all necessary images for the app. This script only needs to be run when the [official Jellyfin images](https://github.com/jellyfin/jellyfin-ux) are changed to allow us to update the repo images.
-
-You'll need `convert`, from [ImageMagick](https://imagemagick.org)
-
-Download and convert images:
-
-```bash
-make get_images
-```
 
 ## Committing
 
