@@ -20,7 +20,7 @@
           <Rectangle id='songListRect' translation="[-30, 0]" width="1260" height="510">
             <AlbumTrackList
               id="songList"
-              vertFocusAnimationStyle="floatingFocus"
+              vertFocusAnimationStyle="fixedFocusWrap"
               itemComponentName="SongItem"
               translation="[45, 25]"
               itemSize="[1170,60]"
