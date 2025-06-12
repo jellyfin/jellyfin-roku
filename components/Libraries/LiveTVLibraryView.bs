@@ -1,11 +1,17 @@
 import "pkg:/source/api/baserequest.bs"
 import "pkg:/source/enums/ColorPalette.bs"
+import "pkg:/source/enums/ImageLayout.bs"
 import "pkg:/source/enums/KeyCode.bs"
 import "pkg:/source/enums/String.bs"
 import "pkg:/source/enums/TaskControl.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/deviceCapabilities.bs"
 import "pkg:/source/utils/misc.bs"
+
+const ASPECT_RATIO_PORTRAIT_NO_TITLE = 1.52173
+const ASPECT_RATIO_LANDSCAPE_NO_TITLE = .825
+const ASPECT_RATIO_PORTRAIT_WITH_TITLE = 1.69565
+const ASPECT_RATIO_LANDSCAPE_WITH_TITLE = .925
 
 sub init()
     overhang = m.top.getScene().findNode("overhang")
@@ -50,6 +56,8 @@ sub init()
 
     m.loadItemsTask = createObject("roSGNode", "LoadItemsTask2")
 
+    setColumnSizes(ImageLayout.PORTRAIT)
+
     'set inital counts for overhang before content is loaded.
     m.loadItemsTask.totalRecordCount = 0
 
@@ -59,22 +67,36 @@ sub init()
     m.top.gridTitles = m.global.session.user.settings["itemgrid.gridTitles"]
 end sub
 
+sub setColumnSizes(layout = ImageLayout.PORTRAIT as string)
+
+    if isStringEqual(layout, ImageLayout.PORTRAIT)
+        numberOfColumns = chainLookupReturn(m.global.session, "user.settings.numberOfColumnsPortrait", "7")
+        imageWidthData = val(chainLookupReturn(m.global.session, "user.settings.numberOfColumnsPortraitData", "230"))
+    else
+        numberOfColumns = chainLookupReturn(m.global.session, "user.settings.numberOfColumnsLandscape", "4")
+        imageWidthData = val(chainLookupReturn(m.global.session, "user.settings.numberOfColumnsLandscapeData", "400"))
+    end if
+
+    if isStringEqual(m.top.showItemTitles, "hidealways")
+        aspectRatio = isStringEqual(layout, ImageLayout.PORTRAIT) ? ASPECT_RATIO_PORTRAIT_NO_TITLE : ASPECT_RATIO_LANDSCAPE_NO_TITLE
+    else
+        aspectRatio = isStringEqual(layout, ImageLayout.PORTRAIT) ? ASPECT_RATIO_PORTRAIT_WITH_TITLE : ASPECT_RATIO_LANDSCAPE_WITH_TITLE
+    end if
+
+    defaultSize = [imageWidthData, CInt(imageWidthData * aspectRatio)]
+
+    m.itemGrid.itemSize = defaultSize
+    m.itemGrid.rowHeights = [defaultSize[1]]
+    m.itemGrid.numRows = abs(1230 / (defaultSize[1] + m.itemGrid.itemSpacing[1]))
+    m.itemGrid.numColumns = numberOfColumns
+
+    m.loadItemsTask.numberOfColumns = numberOfColumns
+end sub
+
 'Load initial set of Data
 sub loadInitialItems()
     m.loadItemsTask.control = "stop"
     startLoadingSpinner()
-
-    m.itemGrid.itemComponentName = "GridItemSmall"
-    m.itemGrid.numColumns = "7"
-    m.itemGrid.numRows = "3"
-
-    if LCase(m.top.showItemTitles) = "hidealways"
-        m.itemGrid.itemSize = "[230, 345]"
-        m.itemGrid.rowHeights = "[345]"
-    else
-        m.itemGrid.itemSize = "[230, 390]"
-        m.itemGrid.rowHeights = "[390]"
-    end if
 
     if m.top.parentItem.json.Type = "CollectionFolder"
         m.top.HomeLibraryItem = m.top.parentItem.Id
