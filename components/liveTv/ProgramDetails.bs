@@ -1,4 +1,8 @@
+import "pkg:/source/api/baserequest.bs"
+import "pkg:/source/api/Image.bs"
 import "pkg:/source/enums/ColorPalette.bs"
+import "pkg:/source/enums/ImageType.bs"
+import "pkg:/source/enums/PosterLoadStatus.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/misc.bs"
 
@@ -27,6 +31,8 @@ sub init()
     m.duration = m.top.findNode("duration")
     m.channelName = m.top.findNode("channelName")
     m.image = m.top.findNode("image")
+    m.image.observeField("loadStatus", "onImageLoadStatusChanged")
+
     m.favorite = m.top.findNode("favorite")
 
     m.viewChannelFocusAnimationOpacity = m.top.findNode("viewChannelFocusAnimationOpacity")
@@ -211,7 +217,7 @@ sub programUpdated()
         end if
     end if
 
-    m.image.uri = prog.PosterURL
+    m.image.uri = ImageURL(prog.id, ImageType.PRIMARY, { "maxHeight": 440, "maxWidth": 295 })
 
     ' If currently being recorded, change button to "Stop Recording"
     if prog.json.TimerId <> invalid
@@ -236,6 +242,20 @@ sub programUpdated()
 
     m.top.height = m.detailsView.boundingRect().height
     m.overview.maxLines = m.maxPreviewLines
+end sub
+
+sub onPosterLoadStatusChanged()
+    if not isStringEqual(m.image.loadStatus, PosterLoadStatus.LOADING)
+        m.image.unobserveField("loadStatus")
+    end if
+
+    if isStringEqual(m.image.loadStatus, PosterLoadStatus.FAILED)
+        if m.image.loadWidth = 0
+            if isChainValid(m.top.programDetails, "PosterURL")
+                m.image.uri = m.top.programDetails.PosterURL
+            end if
+        end if
+    end if
 end sub
 
 '
