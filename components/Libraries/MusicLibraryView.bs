@@ -3,6 +3,7 @@ import "pkg:/source/api/Image.bs"
 import "pkg:/source/enums/AnimationControl.bs"
 import "pkg:/source/enums/AnimationState.bs"
 import "pkg:/source/enums/ColorPalette.bs"
+import "pkg:/source/enums/ImageLayout.bs"
 import "pkg:/source/enums/ItemType.bs"
 import "pkg:/source/enums/KeyCode.bs"
 import "pkg:/source/enums/SearchButtonState.bs"
@@ -388,6 +389,8 @@ sub loadInitialItems()
         m.selectedArtistName.visible = false
     end if
 
+    setColumnSizes()
+
     m.loadItemsTask.observeField("content", "ItemDataLoaded")
     m.loadItemsTask.control = TaskControl.RUN
 
@@ -397,6 +400,25 @@ sub loadInitialItems()
         parentid: m.top.parentItem.Id
     }
     m.getFiltersTask.control = TaskControl.RUN
+end sub
+
+sub setColumnSizes()
+    numberOfColumns = chainLookupReturn(m.global.session, "user.settings.numberOfColumnsSquare", "6")
+    imageWidthData = val(chainLookupReturn(m.global.session, "user.settings.numberOfColumnsSquareData", "270"))
+
+    defaultSize = [imageWidthData, imageWidthData]
+
+    m.itemGrid.itemSize = defaultSize
+    m.itemGrid.rowHeights = [defaultSize[1]]
+    m.itemGrid.numRows = abs(1230 / (defaultSize[1] + m.itemGrid.itemSpacing[1]))
+    m.itemGrid.numColumns = numberOfColumns
+
+    m.genreList.itemSize = defaultSize
+    m.genreList.rowHeights = [defaultSize[1]]
+    m.genreList.numRows = abs(1230 / (defaultSize[1] + m.itemGrid.itemSpacing[1]))
+    m.genreList.numColumns = numberOfColumns
+
+    m.loadItemsTask.numberOfColumns = numberOfColumns
 end sub
 
 '
@@ -1116,30 +1138,21 @@ end sub
 
 ' Using the user's cursor position, determine which dropdown is above them
 function getOverhangingButton()
-    if m.itemGrid.isinFocusChain()
-        if m.itemGrid.numColumns = 4
-            buttonList = [m.voiceBox, m.sortButton, m.filterButton, m.viewButton]
-            return buttonList[m.itemGrid.itemFocused]
-        end if
+    gridNode = m.itemGrid.isinFocusChain() ? m.itemGrid : m.genreList
 
-        if m.itemGrid.numColumns = 6
-            if m.itemGrid.itemFocused <= 0 then return m.voiceBox
-            if m.itemGrid.itemFocused <= 2 then return m.sortButton
-            if m.itemGrid.itemFocused <= 3 then return m.sortOrderButton
-            if m.itemGrid.itemFocused <= 4 then return m.filterButton
-            return m.viewButton
-        end if
+    if gridNode.numColumns = 4
+        buttonList = [m.voiceBox, m.sortButton, m.filterButton, m.viewButton]
+        return buttonList[gridNode.currFocusColumn]
     end if
 
-    if m.genreList.isinFocusChain()
-        if m.genreList.itemFocused <= 0 then return m.voiceBox
-        if m.genreList.itemFocused <= 2 then return m.sortButton
-        if m.genreList.itemFocused <= 3 then return m.sortOrderButton
-        if m.genreList.itemFocused <= 4 then return m.filterButton
-        return m.viewButton
-    end if
+    buttonList = [m.voiceBox, m.sortButton, m.sortOrderButton, m.filterButton, m.viewButton]
 
-    return m.voiceBox
+    columnDisplacement = (gridNode.numColumns / buttonList.count())
+
+    calculatedButtonIndex = CInt(((gridNode.currFocusColumn + 1) / columnDisplacement) - 1)
+    if calculatedButtonIndex < 0 then calculatedButtonIndex = 0
+    if calculatedButtonIndex >= buttonList.count() then calculatedButtonIndex = buttonList.count() - 1
+    return buttonList[calculatedButtonIndex]
 end function
 
 function onKeyEvent(key as string, press as boolean) as boolean
