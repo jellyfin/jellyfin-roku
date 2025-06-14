@@ -6,5 +6,9 @@
   {
     "description": "Refresh OSD data on demand if media is Live TV",
     "author": "1hitsong"
+  },
+  {
+    "description": "Create setting to customize number of columns in libraries",
+    "author": "1hitsong"
   }
 ]
