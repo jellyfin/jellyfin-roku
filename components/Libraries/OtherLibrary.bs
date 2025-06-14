@@ -642,9 +642,7 @@ sub ItemDataLoaded(msg)
         return
     end if
 
-    for each item in itemData
-        m.data.appendChild(item)
-    end for
+    m.data.appendChildren(itemData)
 
     ' keep focus on alpha menu when loading new data
     if m.top.alphaActive

@@ -714,9 +714,7 @@ sub ItemDataLoaded(msg)
         group.lastFocus = m.itemGrid
     end if
 
-    for each item in itemData
-        m.data.appendChild(item)
-    end for
+    m.data.appendChildren(itemData)
 
     'Update the stored counts
     m.loadedItems = m.itemGrid.content.getChildCount()

@@ -211,9 +211,7 @@ sub ItemDataLoaded(msg)
         return
     end if
 
-    for each item in itemData
-        m.data.appendChild(item)
-    end for
+    m.data.appendChildren(itemData)
 
     m.itemGrid.opacity = "1"
     m.genreList.opacity = "0"
