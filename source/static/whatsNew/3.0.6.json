@@ -1,5 +1,13 @@
 [
   {
+    "description": "Wrap track list on album view",
+    "author": "michaelcresswell"
+  },
+  {
+    "description": "Refresh OSD data on demand if media is Live TV",
+    "author": "1hitsong"
+  },
+  {
     "description": "Try to use episode image in LiveTV Channel details. Fallback to channel logo.",
     "author": "1hitsong"
   }

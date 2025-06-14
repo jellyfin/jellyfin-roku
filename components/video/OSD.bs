@@ -27,6 +27,7 @@ sub init()
     m.top.observeField("videoEndingTime", "setVideoEndingTime")
 
     m.top.observeField("itemTitleText", "onItemTitleTextChanged")
+    m.top.observeField("itemSubtitleText", "onItemSubtitleTextChanged")
     m.top.observeField("seasonNumber", "onSeasonNumberChanged")
     m.top.observeField("episodeNumber", "onEpisodeNumberChanged")
     m.top.observeField("episodeNumberEnd", "onEpisodeNumberEndChanged")
@@ -91,6 +92,18 @@ end sub
 '
 sub onItemTitleTextChanged()
     m.itemTitle.text = m.top.itemTitleText
+end sub
+
+sub onItemSubtitleTextChanged()
+    itemSeason = m.top.findNode("itemSeason")
+    itemSeason.font.size = 32
+    itemSeason.text = m.top.itemSubtitleText
+
+    ' Move the option controls down to give room for season number
+    if not m.optionControlsMoved
+        moveOptionControls(0, OPTIONCONTROLS_TOP_PADDING)
+        m.optionControlsMoved = true
+    end if
 end sub
 
 ' onSeasonNumberChanged: Handler for changes to m.top.seasonNumber param.

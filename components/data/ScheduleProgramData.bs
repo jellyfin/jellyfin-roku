@@ -1,18 +1,23 @@
-import "pkg:/source/api/Image.bs"
 import "pkg:/source/api/baserequest.bs"
+import "pkg:/source/api/Image.bs"
 import "pkg:/source/utils/config.bs"
 
 sub setFields()
     json = m.top.json
 
-    startDate = createObject("roDateTime")
-    endDate = createObject("roDateTime")
-    startDate.FromISO8601String(json.StartDate)
-    endDate.FromISO8601String(json.EndDate)
+    if isChainValid(json, "StartDate")
+        startDate = createObject("roDateTime")
+        startDate.FromISO8601String(json.StartDate)
+        m.top.PlayStart = startDate.AsSeconds()
+    end if
+
+    if isChainValid(json, "EndDate")
+        endDate = createObject("roDateTime")
+        endDate.FromISO8601String(json.EndDate)
+        m.top.PlayDuration = endDate.AsSeconds() - m.top.PlayStart
+    end if
 
     m.top.Title = json.Name
-    m.top.PlayStart = startDate.AsSeconds()
-    m.top.PlayDuration = endDate.AsSeconds() - m.top.PlayStart
     m.top.Id = json.Id
     m.top.Description = json.overview
     m.top.EpisodeTitle = json.EpisodeTitle
