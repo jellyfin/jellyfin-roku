@@ -31,7 +31,7 @@ sub init()
     m.duration = m.top.findNode("duration")
     m.channelName = m.top.findNode("channelName")
     m.image = m.top.findNode("image")
-    m.image.observeField("loadStatus", "onImageLoadStatusChanged")
+    m.image.observeField("loadStatus", "onPosterLoadStatusChanged")
 
     m.favorite = m.top.findNode("favorite")
 
@@ -245,8 +245,10 @@ sub programUpdated()
 end sub
 
 sub onPosterLoadStatusChanged()
-    if not isStringEqual(m.image.loadStatus, PosterLoadStatus.LOADING)
-        m.image.unobserveField("loadStatus")
+    if isStringEqual(m.image.loadStatus, PosterLoadStatus.READY)
+        if m.image.loadWidth > 0
+            m.image.unobserveField("loadStatus")
+        end if
     end if
 
     if isStringEqual(m.image.loadStatus, PosterLoadStatus.FAILED)
