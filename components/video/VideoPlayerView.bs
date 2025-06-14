@@ -10,6 +10,9 @@ import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/misc.bs"
 
 sub init()
+    m.LoadProgramDetailsTask = createObject("roSGNode", "LoadProgramDetailsTask")
+    m.LoadProgramDetailsTask.observeField("programDetails", "onProgramDetailsLoaded")
+
     ' Hide the overhang on init to prevent showing 2 clocks
     m.top.getScene().findNode("overhang").visible = false
     currentItem = m.global.queueManager.callFunc("getCurrentItem")
@@ -272,7 +275,17 @@ sub handleShowVideoOverviewPopupAction()
         m.overview = "No overview data available"
     end if
 
-    m.global.sceneManager.callFunc("standardDialog", m.top.content.title, { data: ["<p>" + m.overview + "</p>"] })
+    overviewPopupTitle = m.top.content.title
+
+    if m.top.content.live
+        if isValidAndNotEmpty(m.osd.itemSubtitleText)
+            overviewPopupTitle = m.osd.itemSubtitleText
+        else if isValidAndNotEmpty(m.osd.itemTitleText)
+            overviewPopupTitle = m.osd.itemTitleText
+        end if
+    end if
+
+    m.global.sceneManager.callFunc("standardDialog", overviewPopupTitle, { data: ["<p>" + m.overview + "</p>"] })
 end sub
 
 ' onOSDAction: Process action events from OSD to their respective handlers
@@ -1039,6 +1052,36 @@ sub skipCurrentSegment()
     m.top.seek = seekPosition
 end sub
 
+sub onProgramDetailsLoaded()
+    if not isChainValid(m.LoadProgramDetailsTask, "programDetails.json") then return
+
+    titleText = string.EMPTY
+
+    if isValidAndNotEmpty(m.LoadProgramDetailsTask.programDetails.json.CurrentProgram.ChannelNumber)
+        titleText += `${tr("CH")} ${m.LoadProgramDetailsTask.programDetails.json.CurrentProgram.ChannelNumber} `
+    end if
+
+    if isValidAndNotEmpty(m.LoadProgramDetailsTask.programDetails.json.CurrentProgram.Name)
+        titleText += m.LoadProgramDetailsTask.programDetails.json.CurrentProgram.Name
+    end if
+
+    m.osd.itemTitleText = titleText
+
+    if isValidAndNotEmpty(m.LoadProgramDetailsTask.programDetails.json.CurrentProgram.EpisodeTitle)
+        m.osd.itemSubtitleText = m.LoadProgramDetailsTask.programDetails.json.CurrentProgram.EpisodeTitle
+    else
+        m.osd.itemSubtitleText = string.EMPTY
+    end if
+
+    m.overview = m.LoadProgramDetailsTask.programDetails.json.CurrentProgram.Overview
+end sub
+
+sub refreshLiveOSDContent()
+    if not m.top.content.live then return
+    m.LoadProgramDetailsTask.programId = m.top.id
+    m.LoadProgramDetailsTask.control = TaskControl.RUN
+end sub
+
 function onKeyEvent(key as string, press as boolean) as boolean
     ' Keypress handler while user is inside the chapter menu
     if m.chapterMenu.hasFocus()
@@ -1094,6 +1137,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
             if m.skipSegmentButton.visible
                 hideSegmentSkipButton()
             end if
+            refreshLiveOSDContent()
             m.osd.visible = true
             m.osd.hasFocus = true
             m.osd.setFocus(true)
@@ -1109,6 +1153,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
             if m.skipSegmentButton.visible
                 hideSegmentSkipButton()
             end if
+            refreshLiveOSDContent()
             m.osd.visible = true
             m.osd.hasFocus = true
             m.osd.setFocus(true)
@@ -1125,6 +1170,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
             if m.skipSegmentButton.visible
                 hideSegmentSkipButton()
             end if
+            refreshLiveOSDContent()
             m.osd.visible = true
             m.osd.hasFocus = true
             m.osd.setFocus(true)
@@ -1153,6 +1199,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
             if m.skipSegmentButton.visible
                 hideSegmentSkipButton()
             end if
+            refreshLiveOSDContent()
             m.osd.visible = true
             m.osd.hasFocus = true
             m.osd.setFocus(true)
