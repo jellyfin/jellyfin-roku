@@ -6,5 +6,9 @@
   {
     "description": "Refresh OSD data on demand if media is Live TV",
     "author": "1hitsong"
+  },
+  {
+    "description": "Remove unused showItemCount setting",
+    "author": "1hitsong"
   }
 ]

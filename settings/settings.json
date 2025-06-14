@@ -623,13 +623,6 @@
                 "description": "Settings that apply when Grid views are enabled.",
                 "children": [
                   {
-                    "title": "Item Count",
-                    "description": "Show item count in the library and index of selected item.",
-                    "settingName": "itemgrid.showItemCount",
-                    "type": "bool",
-                    "default": "false"
-                  },
-                  {
                     "title": "Item Titles",
                     "description": "Select when to show titles.",
                     "settingName": "itemgrid.gridTitles",
