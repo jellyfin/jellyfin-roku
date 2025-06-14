@@ -12,8 +12,6 @@ sub init()
 
     m.options = m.top.findNode("options")
 
-    m.showItemCount = m.global.session.user.settings["itemgrid.showItemCount"]
-
     m.itemGrid = m.top.findNode("itemGrid")
     m.backdrop = m.top.findNode("backdrop")
     m.newBackdrop = m.top.findNode("backdropTransition")
@@ -464,11 +462,4 @@ sub updateTitle()
     if m.options.view = "Genres" or m.view = "Genres"
         m.top.overhangTitle = "%s (%s)".Format(m.top.parentItem.title, tr("Genres"))
     end if
-
-    actInt = m.itemGrid.itemFocused + 1
-
-    if m.showItemCount and m.loadItemsTask.totalRecordCount > 0 and m.options.view <> "Genres" and m.view <> "Genres"
-        m.top.overhangTitle += " (" + tr("%1 of %2").Replace("%1", actInt.toStr()).Replace("%2", m.loadItemsTask.totalRecordCount.toStr()) + ")"
-    end if
-
 end sub

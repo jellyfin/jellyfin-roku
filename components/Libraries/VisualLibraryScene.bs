@@ -93,8 +93,6 @@ sub init()
 
     m.overhang.isVisible = false
 
-    m.showItemCount = m.global.session.user.settings["itemgrid.showItemCount"]
-
     m.swapAnimation.observeField("state", "swapDone")
     m.options.observeField("visible", "onOptionsVisibleChange")
 
