@@ -33,6 +33,8 @@
     </Animation>
   </children>
   <interface>
+    <field id="height" type="float" onChange="onHeightChanged" />
+    <field id="width" type="float" onChange="onWidthChanged" />
     <field id="itemContent" type="node" onChange="itemContentChanged" />
     <field id="itemHasFocus" type="boolean" onChange="focusChanged" />
   </interface>
