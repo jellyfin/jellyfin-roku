@@ -1,6 +1,10 @@
 [
-    {
-        "description": "Wrap track list on album view",
-        "author": "michaelcresswell"
-    }
+  {
+    "description": "Wrap track list on album view",
+    "author": "michaelcresswell"
+  },
+  {
+    "description": "Refresh OSD data on demand if media is Live TV",
+    "author": "1hitsong"
+  }
 ]

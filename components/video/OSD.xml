@@ -76,6 +76,7 @@
   </children>
   <interface>
     <field id="itemTitleText" type="string" />
+    <field id="itemSubtitleText" type="string" />
     <field id="seasonNumber" type="integer" />
     <field id="episodeNumber" type="integer" />
     <field id="episodeNumberEnd" type="integer" />
