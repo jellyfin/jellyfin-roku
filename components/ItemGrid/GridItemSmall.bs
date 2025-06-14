@@ -39,7 +39,7 @@ sub onHeightChanged()
     m.backdrop.height = calculatedHeight
     m.itemPoster.height = calculatedHeight
     m.posterText.height = calculatedHeight
-    m.title.translation = [0, calculatedHeight + 35]
+    m.title.translation = [0, calculatedHeight + 25]
 end sub
 
 sub onWidthChanged()

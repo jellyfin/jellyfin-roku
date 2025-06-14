@@ -9,20 +9,14 @@
     <MarkupGrid
       id="itemGrid"
       itemComponentName="MusicArtistGridItem"
-      numColumns="6"
-      numRows="2"
       vertFocusAnimationStyle="fixed"
-      itemSize="[270, 270]"
       itemSpacing="[20, 20]" />
 
     <MarkupGrid
       id="genrelist"
       itemComponentName="MusicArtistGridItem"
-      numColumns="6"
-      numRows="4"
       vertFocusAnimationStyle="fixed"
       translation="[100, 210]"
-      itemSize="[270, 270]"
       itemSpacing="[20, 20]"
       opacity="0" />
 

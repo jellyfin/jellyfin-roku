@@ -5,72 +5,6 @@
     "visible": false,
     "children": [
       {
-        "title": "Library Portrait Column Count",
-        "description": "Number of columns in library view when showing portrait (tall) images",
-        "settingName": "numberOfColumnsPortrait",
-        "type": "slider",
-        "default": "7",
-        "options": [
-              {
-                "value": "6",
-                "data": "272"
-              },
-              {
-                "value": "7",
-                "data": "230"
-              },
-              {
-                "value": "8",
-                "data": "198"
-              },
-              {
-                "value": "9",
-                "data": "175"
-              },
-              {
-                "value": "10",
-                "data": "154"
-              },
-              {
-                "value": "11",
-                "data": "139"
-              }
-            ]
-      },
-      {
-        "title": "Library Landscape Column Count",
-        "description": "Number of columns in library view when showing landscape (wide) images",
-        "settingName": "numberOfColumnsLandscape",
-        "type": "slider",
-        "default": "4",
-        "options": [
-              {
-                "value": "3",
-                "data": "550"
-              },
-              {
-                "value": "4",
-                "data": "400"
-              },
-              {
-                "value": "5",
-                "data": "313"
-              },
-              {
-                "value": "6",
-                "data": "255"
-              },
-              {
-                "value": "7",
-                "data": "212"
-              },
-              {
-                "value": "8",
-                "data": "181"
-              }
-            ]
-      },
-      {
         "title": "Color Settings",
         "description": "Change the colors of elements in the app",
         "children": [
@@ -649,6 +583,105 @@
                         "id": "hidealways"
                       }
                     ]
+                  }
+                ]
+              },
+              {
+                "title": "Library Landscape Column Count",
+                "description": "Number of columns in library view when showing landscape (wide) images",
+                "settingName": "numberOfColumnsLandscape",
+                "type": "slider",
+                "default": "4",
+                "options": [
+                  {
+                    "value": "3",
+                    "data": "550"
+                  },
+                  {
+                    "value": "4",
+                    "data": "400"
+                  },
+                  {
+                    "value": "5",
+                    "data": "313"
+                  },
+                  {
+                    "value": "6",
+                    "data": "255"
+                  },
+                  {
+                    "value": "7",
+                    "data": "212"
+                  },
+                  {
+                    "value": "8",
+                    "data": "181"
+                  }
+                ]
+              },
+              {
+                "title": "Library Portrait Column Count",
+                "description": "Number of columns in library view when showing portrait (tall) images",
+                "settingName": "numberOfColumnsPortrait",
+                "type": "slider",
+                "default": "7",
+                "options": [
+                  {
+                    "value": "6",
+                    "data": "272"
+                  },
+                  {
+                    "value": "7",
+                    "data": "230"
+                  },
+                  {
+                    "value": "8",
+                    "data": "198"
+                  },
+                  {
+                    "value": "9",
+                    "data": "175"
+                  },
+                  {
+                    "value": "10",
+                    "data": "154"
+                  },
+                  {
+                    "value": "11",
+                    "data": "139"
+                  }
+                ]
+              },
+              {
+                "title": "Library Square Column Count",
+                "description": "Number of columns in library view when showing square images",
+                "settingName": "numberOfColumnsSquare",
+                "type": "slider",
+                "default": "6",
+                "options": [
+                  {
+                    "value": "5",
+                    "data": "330"
+                  },
+                  {
+                    "value": "6",
+                    "data": "272"
+                  },
+                  {
+                    "value": "7",
+                    "data": "230"
+                  },
+                  {
+                    "value": "8",
+                    "data": "198"
+                  },
+                  {
+                    "value": "9",
+                    "data": "175"
+                  },
+                  {
+                    "value": "10",
+                    "data": "154"
                   }
                 ]
               }

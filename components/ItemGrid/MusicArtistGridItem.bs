@@ -21,7 +21,19 @@ sub init()
     m.gridTitles = m.global.session.user.settings["itemgrid.gridTitles"]
     m.posterText.visible = false
     m.postTextBackground.visible = false
+end sub
 
+sub onHeightChanged()
+    m.backdrop.height = m.top.height
+    m.itemPoster.height = m.top.height
+    m.postTextBackground.translation = [5, m.top.height - 40]
+end sub
+
+sub onWidthChanged()
+    m.backdrop.width = m.top.width
+    m.itemPoster.width = m.top.width
+    m.posterText.maxwidth = m.top.width
+    m.postTextBackground.width = m.top.width - 10
 end sub
 
 sub itemContentChanged()

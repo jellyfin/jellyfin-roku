@@ -1,23 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<component name="LiveTVLibraryView" extends="JFGroup">
+<component name="OtherLibrary" extends="JFScreen">
   <children>
     <VoiceTextEditBox id="VoiceBox" visible="true" width="0" translation="[33, 40]" />
-    <Alpha id="alpha" />
 
-    <MarkupGrid
-      id="itemGrid"
-      translation="[96, 60]"
+    <poster id="backdrop" loadDisplayMode="scaleToFill" width="1920" height="1080" opacity="0.25" />
+    <poster id="backdropTransition" loadDisplayMode="scaleToFill" width="1920" height="1080" opacity="0.25" />
+
+    <RowList
+      opacity="0"
+      id="genrelist"
+      translation="[120, 160]"
+      showRowLabel="true"
       itemComponentName="GridItemSmall"
-      numColumns="7"
+      numColumns="1"
       numRows="3"
-      rowHeights="[345]"
       vertFocusAnimationStyle="fixed"
-      itemSize="[230, 345]"
-      itemSpacing="[20, 20]"
-      drawFocusFeedback="true"
-    />
+      itemSize="[1900, 360]"
+      rowItemSize="[ [230, 345] ]"
+      rowItemSpacing="[ [20, 0] ]"
+      itemSpacing="[0, 60]" />
+
     <Text translation="[0,540]" id="emptyText" font="font:LargeSystemFont" width="1910" horizAlign="center" vertAlign="center" height="64" visible="false" />
     <ItemGridOptions id="options" visible="false" />
+    <Animation id="backroundSwapAnimation" duration="1" repeat="false" easeFunction="linear">
+      <FloatFieldInterpolator id="fadeinLoading" key="[0.0, 1.0]" keyValue="[ 0.00, 0.25 ]" fieldToInterp="backdropTransition.opacity" />
+      <FloatFieldInterpolator id="fadeoutLoaded" key="[0.0, 1.0]" keyValue="[ 0.25, 0.00 ]" fieldToInterp="backdrop.opacity" />
+    </Animation>
+    <Alpha id="alpha" />
   </children>
   <interface>
     <field id="HomeLibraryItem" type="string" />
