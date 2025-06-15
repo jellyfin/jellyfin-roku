@@ -20,8 +20,6 @@ sub init()
 
     m.options = m.top.findNode("options")
 
-    m.showItemCount = m.global.session.user.settings["itemgrid.showItemCount"]
-
     m.data = CreateObject("roSGNode", "ContentNode")
     createItemGrid()
 

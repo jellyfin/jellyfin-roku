@@ -10,5 +10,9 @@
   {
     "description": "Try to use episode image in LiveTV Channel details. Fallback to channel logo.",
     "author": "1hitsong"
+  },
+  {
+    "description": "Remove unused showItemCount setting",
+    "author": "1hitsong"
   }
 ]
