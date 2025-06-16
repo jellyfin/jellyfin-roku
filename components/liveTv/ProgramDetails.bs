@@ -58,6 +58,8 @@ sub init()
 
     m.focusAnimation.observeField("state", "onAnimationComplete")
 
+    m.userPreferenceDisplayRepeat = m.global.session.user.settings["ui.guide.indicator.repeat"]
+
     setupLabels()
 end sub
 
@@ -164,7 +166,7 @@ sub programUpdated()
 
     if prog.isLive
         m.episodeDetailsGroup.appendChild(m.isLiveGroup)
-    else if prog.isRepeat
+    else if prog.isRepeat and m.userPreferenceDisplayRepeat
         m.episodeDetailsGroup.appendChild(m.isRepeatGroup)
     end if
 

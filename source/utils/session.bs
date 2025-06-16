@@ -234,6 +234,7 @@ namespace session
                     session.user.Update("Configuration", tmpConfig)
                 end if
 
+                session.user.SaveUserGuideSettings(jsonResponse.CustomPrefs)
                 session.user.SaveUserHomeSections(jsonResponse.CustomPrefs)
             else
                 ' User has no custom prefs. Save default home section values.
@@ -247,6 +248,21 @@ namespace session
                     homesection6: "none"
                 })
             end if
+        end sub
+
+        ' Saves user's Live TV guide settings as Roku guide user settings.
+        sub SaveUserGuideSettings(customPrefs as object)
+            displayRepeat = "true"
+
+            if isValid(customPrefs)
+                userPreferenceDisplayRepeat = customPrefs["guide-indicator-repeat"]
+
+                if isValidAndNotEmpty(userPreferenceDisplayRepeat)
+                    displayRepeat = userPreferenceDisplayRepeat
+                end if
+            end if
+
+            set_user_setting("ui.guide.indicator.repeat", displayRepeat)
         end sub
 
         ' Saves user's web client home sections as Roku user settings.
