@@ -373,14 +373,25 @@ end function
 ' Returns passed default if the chain of properties is invalid
 '
 ' @param {dynamic} root - high-level object to test property chain against
-' @param {string} propertyPath - chain of properties under root object to test
+' @param {string/array} propertyPath - chain of properties under root object to test. Pass string to separate by periods. Pass array to use entry as name as-is
 ' @param {dynamic} default - value to return if chain of properties is invalid
 ' @return {dynamic} value of final chain of properties
-function chainLookupReturn(root as dynamic, propertyPath as string, default as dynamic) as dynamic
+function chainLookupReturn(root as dynamic, propertyPath as dynamic, default as dynamic) as dynamic
     rootPath = root
-    properties = propertyPath.Split(".")
-
     if not isValid(rootPath) then return default
+
+    propertyType = type(propertyPath)
+
+    if isStringEqual(propertyType, "roarray")
+        rootPath = rootPath.LookupCI(propertyPath[0])
+        if not isValid(rootPath) then return default
+
+        return rootPath
+    end if
+
+    if not isStringEqual(propertyType, "string") then return default
+
+    properties = propertyPath.Split(".")
 
     ' Root path is valid, and no properties were passed. Return state of root
     if properties.count() = 0 then return rootPath
