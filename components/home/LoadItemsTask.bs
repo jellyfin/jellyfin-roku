@@ -3,6 +3,7 @@ import "pkg:/source/api/Image.bs"
 import "pkg:/source/api/Items.bs"
 import "pkg:/source/api/sdk.bs"
 import "pkg:/source/enums/ItemType.bs"
+import "pkg:/source/enums/String.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/deviceCapabilities.bs"
 import "pkg:/source/utils/misc.bs"
@@ -69,6 +70,13 @@ function loadLatestMedia() as object
     for each item in data
         if not isStringEqual(item.Type, ItemType.BOOK)
             tmp = CreateObject("roSGNode", "HomeData")
+
+            albumArtistID = invalid
+
+            if isValidAndNotEmpty(item.AlbumArtists)
+                albumArtistID = item.AlbumArtists[0].LookupCI("id")
+            end if
+
             tmp.json = {
                 id: item.LookupCI("Id"),
                 name: item.LookupCI("name"),
@@ -89,6 +97,7 @@ function loadLatestMedia() as object
                 IndexNumber: item.LookupCI("IndexNumber"),
                 IndexNumberEnd: item.LookupCI("IndexNumberEnd"),
                 AlbumArtist: item.LookupCI("AlbumArtist"),
+                AlbumArtistId: albumArtistID,
                 Status: item.LookupCI("Status"),
                 ImageTags: item.LookupCI("ImageTags"),
                 UserData: item.LookupCI("UserData"),

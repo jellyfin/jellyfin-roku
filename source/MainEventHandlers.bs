@@ -1568,6 +1568,14 @@ sub processLibraryItemPopup(selectedPopupButton as string, itemID as string, par
         return
     end if
 
+    if isStringEqual(selectedPopupButton, tr("Go To Artist"))
+        CreateArtistView({
+            name: params.LookupCI("artistname"),
+            id: params.LookupCI("artistid")
+        })
+        return
+    end if
+
     ' Mark item as played
     if isStringEqual(selectedPopupButton, tr("Mark As Played"))
         MainAction.setPlayed(itemID, true)
