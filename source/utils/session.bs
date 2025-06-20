@@ -252,17 +252,31 @@ namespace session
 
         ' Saves user's Live TV guide settings as Roku guide user settings.
         sub SaveUserGuideSettings(customPrefs as object)
+            displayNew = "true"
             displayRepeat = "true"
+            displayScreen = "guide"
 
             if isValid(customPrefs)
+                userPreferenceDisplayNew = customPrefs["guide-indicator-new"]
                 userPreferenceDisplayRepeat = customPrefs["guide-indicator-repeat"]
+                userPreferenceDisplayScreen = customPrefs["landing-livetv"]
 
+                if isValidAndNotEmpty(userPreferenceDisplayNew)
+                    displayNew = userPreferenceDisplayNew
+                end if
                 if isValidAndNotEmpty(userPreferenceDisplayRepeat)
                     displayRepeat = userPreferenceDisplayRepeat
                 end if
+                if isValidAndNotEmpty(userPreferenceDisplayScreen) and isStringEqual(userPreferenceDisplayScreen, "channels")
+                    ' Live TV has five options but Roku only supports guide and channels in this context
+                    displayScreen = userPreferenceDisplayScreen
+                end if
+
             end if
 
+            set_user_setting("ui.guide.indicator.new", displayNew)
             set_user_setting("ui.guide.indicator.repeat", displayRepeat)
+            set_user_setting("display.livetv.landing", displayScreen)
         end sub
 
         ' Saves user's web client home sections as Roku user settings.
