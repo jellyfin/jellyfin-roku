@@ -4,6 +4,7 @@ import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/misc.bs"
 
 sub init()
+    m.titleGroup = m.top.findNode("title_group")
     m.itemPoster = m.top.findNode("itemPoster")
     m.posterText = m.top.findNode("posterText")
     m.posterText.font.size = 26
@@ -27,6 +28,26 @@ sub init()
     end if
 
     m.gridTitles = m.global.session.user.settings["itemgrid.gridTitles"]
+end sub
+
+sub onHeightChanged()
+    calculatedHeight = m.top.height
+
+    showItemTitles = chainLookupReturn(m.topParent, "showItemTitles", "showonhover")
+    if not isStringEqual(showItemTitles, "hidealways")
+        calculatedHeight -= 65
+    end if
+
+    m.backdrop.height = calculatedHeight
+    m.itemPoster.height = calculatedHeight
+    m.titleGroup.translation = [0, calculatedHeight + 20]
+end sub
+
+sub onWidthChanged()
+    m.backdrop.width = m.top.width
+    m.itemPoster.width = m.top.width
+    m.posterText.maxwidth = m.top.width
+    m.subText.maxWidth = m.top.width
 end sub
 
 sub drawProgressBar(itemData)
