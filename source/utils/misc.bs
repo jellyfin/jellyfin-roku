@@ -378,22 +378,27 @@ end function
 ' @return {dynamic} value of final chain of properties
 function chainLookupReturn(root as dynamic, propertyPath as string, default as dynamic) as dynamic
     rootPath = root
-    properties = propertyPath.Split(".")
+
+    regex = CreateObject("roRegex", "[^\.`]+|`[^`]+`", "")
+    properties = regex.MatchAll(propertyPath)
 
     if not isValid(rootPath) then return default
 
     ' Root path is valid, and no properties were passed. Return state of root
     if properties.count() = 0 then return rootPath
-    if properties[0] = "" then return rootPath
+    if properties[0].count() = 0 then return rootPath
+    if properties[0][0] = "" then return rootPath
 
-    rootPath = rootPath.LookupCI(properties[0])
+    rootPath = rootPath.LookupCI(properties[0][0].Replace("`", ""))
 
     if not isValid(rootPath) then return default
+
+    propertyLength = Len(properties[0][0])
 
     properties.shift()
 
     if properties.count() <> 0
-        nextPath = properties.join(".")
+        nextPath = propertyPath.Mid(propertyLength + 1)
         return chainLookupReturn(rootPath, nextPath, default)
     end if
 

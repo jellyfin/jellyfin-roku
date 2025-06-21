@@ -476,7 +476,7 @@ sub onLibrarySelection(selectedItem)
     end if
 
     if isStringEqual(selectedItem.collectionType, CollectionType.NEXTUP)
-        group = CreateItemGrid(selectedItem)
+        group = CreateOtherLibrary(selectedItem)
         group.optionsAvailable = false
         m.global.sceneManager.callFunc("pushScene", group)
         return
@@ -488,7 +488,7 @@ sub onLibrarySelection(selectedItem)
         return
     end if
 
-    group = CreateItemGrid(selectedItem)
+    group = CreateOtherLibrary(selectedItem)
     m.global.sceneManager.callFunc("pushScene", group)
 end sub
 
@@ -632,7 +632,7 @@ sub onSelectedItemEvent(msg)
             else if isStringEqual(selectedItem.itemType, `${ItemType.MUSICVIDEO},${ItemType.FOLDER}`)
                 group = CreateVisualLibraryScene(selectedItem, ItemType.MUSICVIDEO)
             else
-                group = CreateItemGrid(selectedItem)
+                group = CreateOtherLibrary(selectedItem)
             end if
             m.global.sceneManager.callFunc("pushScene", group)
         else if isStringEqual(selectedItemType, "folder") and isStringEqual(selectedItem.json.LookupCI("type"), ItemType.PHOTOALBUM)
@@ -648,7 +648,7 @@ sub onSelectedItemEvent(msg)
             group = CreateLiveTVLibraryView(selectedItem)
             m.global.sceneManager.callFunc("pushScene", group)
         else if selectedItemType = "userview" or selectedItemType = "folder" or selectedItemType = "channel"
-            group = CreateItemGrid(selectedItem)
+            group = CreateOtherLibrary(selectedItem)
             m.global.sceneManager.callFunc("pushScene", group)
         else if selectedItemType = "episode" or selectedItemType = "recording"
             group = CreateMovieDetailsGroup(selectedItem)

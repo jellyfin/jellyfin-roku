@@ -902,11 +902,11 @@ function CreateSeasonDetailsGroupByID(seriesID as string, seasonID as string) as
     return group
 end function
 
-function CreateItemGrid(libraryItem as object) as dynamic
+function CreateOtherLibrary(libraryItem as object) as dynamic
     ' validate libraryItem
     if not isValid(libraryItem) then return invalid
 
-    group = CreateObject("roSGNode", "ItemGrid")
+    group = CreateObject("roSGNode", "OtherLibrary")
     group.parentItem = libraryItem
     group.optionsAvailable = true
     group.observeFieldScoped("selectedItem", m.port)

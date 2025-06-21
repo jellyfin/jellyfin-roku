@@ -1401,6 +1401,10 @@
         <source>Highlighted Color</source>
         <translation>Cor destacada</translation>
     </message>
+    <message>
+        <source>CH</source>
+        <translation>CH</translation>
+    </message>
 </context>
 <context>
     <name></name>

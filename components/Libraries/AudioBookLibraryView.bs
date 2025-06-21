@@ -19,11 +19,6 @@ sub init()
 
     m.itemGrid.focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
 
-    m.genreList = m.top.findNode("genrelist")
-    m.genreList.observeField("itemSelected", "onGenreItemSelected")
-    m.genreData = CreateObject("roSGNode", "ContentNode")
-    m.genreList.content = m.genreData
-
     m.swapAnimation = m.top.findNode("backroundSwapAnimation")
     m.swapAnimation.observeField("state", "swapDone")
 
@@ -58,11 +53,6 @@ sub init()
     m.loadItemsTask.totalRecordCount = 0
 
     m.top.gridTitles = m.global.session.user.settings["itemgrid.gridTitles"]
-end sub
-
-'Genre Item Selected
-sub onGenreItemSelected()
-    m.top.selectedItem = m.genreList.content.getChild(m.genreList.rowItemSelected[0]).getChild(m.genreList.rowItemSelected[1])
 end sub
 
 'Load initial set of Data
@@ -111,11 +101,30 @@ sub loadInitialItems()
     m.loadItemsTask.recursive = true
     m.loadItemsTask.itemId = m.top.parentItem.Id
 
+    setColumnSizes()
 
     m.loadItemsTask.observeField("content", "ItemDataLoaded")
     startLoadingSpinner(false)
     m.loadItemsTask.control = "RUN"
     SetUpOptions()
+end sub
+
+sub setColumnSizes()
+    numberOfColumns = chainLookupReturn(m.global.session, "user.settings.numberOfColumnsSquare", "6")
+    imageWidthData = val(chainLookupReturn(m.global.session, "user.settings.numberOfColumnsSquareData", "270"))
+
+    defaultSize = [imageWidthData, imageWidthData]
+
+    if not isStringEqual(m.top.showItemTitles, "hidealways")
+        defaultSize = [imageWidthData, imageWidthData + 65]
+    end if
+
+    m.itemGrid.itemSize = defaultSize
+    m.itemGrid.rowHeights = [defaultSize[1]]
+    m.itemGrid.numRows = abs(1230 / (defaultSize[1] + m.itemGrid.itemSpacing[1]))
+    m.itemGrid.numColumns = numberOfColumns
+
+    m.loadItemsTask.numberOfColumns = numberOfColumns
 end sub
 
 ' Set Default view, sort, and filter options
@@ -188,36 +197,11 @@ sub ItemDataLoaded(msg)
         return
     end if
 
-    if m.loadItemsTask.view = "Genres"
-        ' Reset genre list data
-        m.genreData.removeChildren(m.genreData.getChildren(-1, 0))
-
-        for each item in itemData
-            m.genreData.appendChild(item)
-        end for
-
-        m.itemGrid.opacity = "0"
-        m.genreList.opacity = "1"
-
-        m.itemGrid.setFocus(false)
-        m.genreList.setFocus(true)
-        group = m.global.sceneManager.callFunc("getActiveScene")
-        group.lastFocus = m.genreList
-
-        m.loading = false
-        stopLoadingSpinner()
-        return
-    end if
-
-    for each item in itemData
-        m.data.appendChild(item)
-    end for
+    m.data.appendChildren(itemData)
 
     m.itemGrid.opacity = "1"
-    m.genreList.opacity = "0"
 
     m.itemGrid.setFocus(true)
-    m.genreList.setFocus(false)
     group = m.global.sceneManager.callFunc("getActiveScene")
     group.lastFocus = m.itemGrid
 
@@ -366,20 +350,15 @@ sub optionsClosed()
     end if
 
     m.itemGrid.setFocus(m.itemGrid.opacity = 1)
-    m.genreList.setFocus(m.genreList.opacity = 1)
 
     group = m.global.sceneManager.callFunc("getActiveScene")
-    group.lastFocus = m.itemGrid.opacity = 1 ? m.itemGrid : m.genreList
+    group.lastFocus = m.itemGrid
 end sub
 
 'Returns Focused Item
 function getItemFocused()
     if m.itemGrid.isinFocusChain() and isValid(m.itemGrid.itemFocused)
         return m.itemGrid.content.getChild(m.itemGrid.itemFocused)
-    else if m.genreList.isinFocusChain() and isValid(m.genreList.rowItemFocused)
-        return m.genreList.content.getChild(m.genreList.rowItemFocused[0]).getChild(m.genreList.rowItemFocused[1])
-    else if isValid(m.scheduleGrid) and m.scheduleGrid.isinFocusChain() and isValid(m.scheduleGrid.itemFocused)
-        return m.scheduleGrid.content.getChild(m.scheduleGrid.itemFocused)
     end if
     return invalid
 end function
@@ -457,9 +436,5 @@ sub updateTitle()
 
     if m.options.view = "Studios" or m.view = "Studios"
         m.top.overhangTitle = "%s (%s)".Format(m.top.parentItem.title, tr("Studios"))
-    end if
-
-    if m.options.view = "Genres" or m.view = "Genres"
-        m.top.overhangTitle = "%s (%s)".Format(m.top.parentItem.title, tr("Genres"))
     end if
 end sub
