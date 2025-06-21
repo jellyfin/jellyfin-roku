@@ -511,7 +511,8 @@ sub setDefaultOptions(options)
         { "Title": tr("Default"), "Name": "default" }
     ]
     options.sort = [
-        { "Title": tr("TITLE"), "Name": "SortName" }
+        { "Title": tr("TITLE"), "Name": "SortName" },
+        { "Title": tr("Folders"), "Name": "IsFolder,SortName" }
     ]
 end sub
 
