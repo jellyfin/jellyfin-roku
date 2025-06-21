@@ -140,6 +140,11 @@ sub onMyListLoaded()
         paramData.SeriesId = focusedItem.json.LookupCI("SeriesId")
     end if
 
+    if inArray([ItemType.MUSICALBUM], focusedItem.LookupCI("type"))
+        dialogData.push(tr("Go To Artist"))
+        paramData.ArtistId = focusedItem.json.LookupCI("AlbumArtistId")
+        paramData.ArtistName = focusedItem.json.LookupCI("albumartist")
+    end if
 
     m.global.sceneManager.callFunc("optionDialog", "libraryitem", focusedItem.LookupCI("title") ?? tr("Options"), [], dialogData, paramData)
 end sub

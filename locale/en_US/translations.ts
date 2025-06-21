@@ -1364,5 +1364,9 @@
             <source>Folders</source>
             <translation>Folders</translation>
         </message>
+        <message>
+            <source>Go To Artist</source>
+            <translation>Go To Artist</translation>
+        </message>
     </context>
 </TS>
