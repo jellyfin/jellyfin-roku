@@ -58,8 +58,8 @@ sub init()
 
     m.focusAnimation.observeField("state", "onAnimationComplete")
 
-    m.userPreferenceDisplayNew = m.global.session.user.settings["ui.guide.indicator.new"]
-    m.userPreferenceDisplayRepeat = m.global.session.user.settings["ui.guide.indicator.repeat"]
+    m.userPreferenceDisplayNew = chainLookupReturn(m.global, "session.user.settings.`ui.guide.indicator.new`", true)
+    m.userPreferenceDisplayRepeat = chainLookupReturn(m.global, "session.user.settings.`ui.guide.indicator.repeat`", true)
 
     setupLabels()
 end sub
