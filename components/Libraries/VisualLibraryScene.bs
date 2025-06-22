@@ -344,7 +344,7 @@ sub loadInitialItems()
 
         if isStringEqual(m.top.mediaType, ItemType.MUSICVIDEO)
             ' Sort folders to the top of results
-            m.loadItemsTask.sortField = `IsFolder,${m.sortField}`
+            m.loadItemsTask.sortField = `${m.sortField}`
             m.loadItemsTask.itemType = `${ItemType.MUSICVIDEO},${ItemType.FOLDER}`
             m.loadItemsTask.passToItem.addreplace("collectionType", ItemType.MUSICVIDEO)
         end if
@@ -650,6 +650,7 @@ function setMusicVideoOptions() as object
         { "Title": tr("Critics Rating"), "Name": "CriticRating,SortName", "Track": { "description": tr("Critics Rating") } },
         { "Title": tr("DATE_ADDED"), "Name": "DateCreated,SortName", "Track": { "description": tr("DATE_ADDED") } },
         { "Title": tr("DATE_PLAYED"), "Name": "DatePlayed,SortName", "Track": { "description": tr("DATE_PLAYED") } },
+        { "Title": tr("Folders"), "Name": "IsFolder,SortName", "Track": { "description": tr("Folders") } },
         { "Title": tr("Parental Rating"), "Name": "OfficialRating,SortName", "Track": { "description": tr("Parental Rating") } },
         { "Title": tr("PLAY_COUNT"), "Name": "PlayCount,SortName", "Track": { "description": tr("PLAY_COUNT") } },
         { "Title": tr("RELEASE_DATE"), "Name": "PremiereDate,SortName", "Track": { "description": tr("RELEASE_DATE") } },
@@ -694,6 +695,7 @@ function setPhotoOptions() as object
     options.sort = [
         { "Title": tr("TITLE"), "Name": "SortName", "Track": { "description": tr("TITLE") } },
         { "Title": tr("DATE_ADDED"), "Name": "DateCreated,SortName", "Track": { "description": tr("DATE_ADDED") } },
+        { "Title": tr("Folders"), "Name": "IsFolder,SortName", "Track": { "description": tr("Folders") } },
         { "Title": tr("Random"), "Name": "Random", "Track": { "description": tr("Random") } }
     ]
 

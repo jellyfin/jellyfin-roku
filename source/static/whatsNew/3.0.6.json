@@ -4,15 +4,27 @@
     "author": "michaelcresswell"
   },
   {
-    "description": "Refresh OSD data on demand if media is Live TV",
+    "description": "Refresh OSD data on demand if media is live TV",
     "author": "1hitsong"
   },
   {
-    "description": "Try to use episode image in LiveTV Channel details. Fallback to channel logo.",
+    "description": "Try to use episode image in live TV channel details. Fallback to channel logo",
     "author": "1hitsong"
   },
   {
     "description": "Remove unused showItemCount setting",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Add \"Folders\" sort option to music videos, photos, mixed, and unknown libraries.",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Create setting to customize number of columns in libraries",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Add Go To Artist to album option menu in recently added in music on home screen",
     "author": "1hitsong"
   }
 ]
