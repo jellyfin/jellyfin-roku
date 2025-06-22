@@ -1314,6 +1314,14 @@
         <source>Highlighted Color</source>
         <translation>Couleur en surbrillance</translation>
     </message>
+    <message>
+        <source>Folders</source>
+        <translation>Dossiers</translation>
+    </message>
+    <message>
+        <source>Go To Artist</source>
+        <translation>Afficher l&apos;artiste</translation>
+    </message>
 </context>
 <context>
     <name></name>
