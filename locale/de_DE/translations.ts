@@ -978,7 +978,7 @@
     </message>
     <message>
         <source>Default view for Movie Libraries.</source>
-        <translation>Standardansicht für Filmbibliothek</translation>
+        <translation>Standard-Ansicht für Filmbibliothek</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
@@ -1093,7 +1093,7 @@
     </message>
     <message>
         <source>Settings relating to the appearance of pages in TV Libraries.</source>
-        <translation>Einstellungen für das Erscheinungsbild von Seiten in TV-Bibliotheken.</translation>
+        <translation>Einstellungen zur Darstellung von Seiten in TV-Bibliotheken.</translation>
     </message>
     <message>
         <source>Grid</source>
@@ -1127,7 +1127,7 @@
     </message>
     <message>
         <source>Set the maximum resolution when playing video files on this device.</source>
-        <translation>Lege die maximale Auflösung für die Wiedergabe von Videodateien auf diesem Gerät fest.</translation>
+        <translation>Legen Sie die maximale Auflösung für die Wiedergabe von Video-Dateien auf diesem Gerät fest.</translation>
         <extracomment>User Setting - Description</extracomment>
     </message>
     <message>
@@ -1137,7 +1137,7 @@
     </message>
     <message>
         <source>Configure the maximum resolution when playing video files on this device.</source>
-        <translation>Lege die maximale Auflösung für die Wiedergabe von Videodateien auf diesem Gerät fest.</translation>
+        <translation>Konfigurieren Sie die maximale Auflösung für die Wiedergabe von Video-Dateien auf diesem Gerät.</translation>
         <extracomment>User Setting - Description</extracomment>
     </message>
     <message>
@@ -1202,7 +1202,7 @@
     </message>
     <message>
         <source>Settings relating to the appearance of pages in Movie Libraries.</source>
-        <translation>Einstellungen für das Erscheinungsbild von Seiten in TV-Bibliotheken.</translation>
+        <translation>Einstellungen zur Darstellung von Seiten in Filmbibliotheken.</translation>
     </message>
     <message>
         <source>Presentation</source>
@@ -1271,7 +1271,7 @@
     </message>
     <message>
         <source>Remember Me?</source>
-        <translation>Erinnere dich an mich</translation>
+        <translation>Erinnerst du dich an mich?</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
@@ -1389,6 +1389,14 @@
     <message>
         <source>Highlighted Color</source>
         <translation>Markierte Farbe</translation>
+    </message>
+    <message>
+        <source>Folders</source>
+        <translation>Ordner</translation>
+    </message>
+    <message>
+        <source>Go To Artist</source>
+        <translation>Zum Künstler</translation>
     </message>
 </context>
 <context>
