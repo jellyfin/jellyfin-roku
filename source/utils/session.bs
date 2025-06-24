@@ -267,7 +267,7 @@ namespace session
                 if isValidAndNotEmpty(userPreferenceDisplayRepeat)
                     displayRepeat = userPreferenceDisplayRepeat
                 end if
-                if isValidAndNotEmpty(userPreferenceDisplayScreen) and isStringEqual(userPreferenceDisplayScreen, "channels")
+                if isStringEqual(userPreferenceDisplayScreen, "channels")
                     ' Live TV has five options but Roku only supports guide and channels in this context
                     displayScreen = userPreferenceDisplayScreen
                 end if
