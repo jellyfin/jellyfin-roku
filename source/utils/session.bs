@@ -252,17 +252,17 @@ namespace session
 
         ' Saves user's Live TV guide settings as Roku guide user settings.
         sub SaveUserGuideSettings(customPrefs as object)
-            displayNew = "true"
+            displayLive = "true"
             displayRepeat = "false"
             displayScreen = "guide"
 
             if isValid(customPrefs)
-                userPreferenceDisplayNew = customPrefs["guide-indicator-new"]
+                userPreferenceDisplayLive = customPrefs["guide-indicator-live"]
                 userPreferenceDisplayRepeat = customPrefs["guide-indicator-repeat"]
                 userPreferenceDisplayScreen = customPrefs["landing-livetv"]
 
-                if isValidAndNotEmpty(userPreferenceDisplayNew)
-                    displayNew = userPreferenceDisplayNew
+                if isValidAndNotEmpty(userPreferenceDisplayLive)
+                    displayLive = userPreferenceDisplayLive
                 end if
                 if isValidAndNotEmpty(userPreferenceDisplayRepeat)
                     displayRepeat = userPreferenceDisplayRepeat
@@ -274,7 +274,7 @@ namespace session
 
             end if
 
-            set_user_setting("ui.guide.indicator.new", displayNew)
+            set_user_setting("ui.guide.indicator.live", displayLive)
             set_user_setting("ui.guide.indicator.repeat", displayRepeat)
             set_user_setting("display.livetv.landing", displayScreen)
         end sub
