@@ -1,6 +1,7 @@
 ' these are needed for ServerInfo() inside session.server.Populate()
 import "pkg:/source/api/baserequest.bs"
 import "pkg:/source/api/userauth.bs"
+import "pkg:/source/enums/LiveTVScreen.bs"
 import "pkg:/source/utils/misc.bs"
 
 namespace session
@@ -254,7 +255,7 @@ namespace session
         sub SaveUserGuideSettings(customPrefs as object)
             displayLive = "true"
             displayRepeat = "false"
-            displayScreen = "guide"
+            displayScreen = LiveTVScreen.Guide
 
             if isValid(customPrefs)
                 userPreferenceDisplayLive = customPrefs["guide-indicator-live"]
@@ -267,7 +268,7 @@ namespace session
                 if isValidAndNotEmpty(userPreferenceDisplayRepeat)
                     displayRepeat = userPreferenceDisplayRepeat
                 end if
-                if isStringEqual(userPreferenceDisplayScreen, "channels")
+                if isStringEqual(userPreferenceDisplayScreen, LiveTVScreen.CHANNELS)
                     ' Live TV has five options but Roku only supports guide and channels in this context
                     displayScreen = userPreferenceDisplayScreen
                 end if
