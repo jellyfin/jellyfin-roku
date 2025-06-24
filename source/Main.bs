@@ -288,7 +288,7 @@ end sub
 sub setUserColors()
     setBackgroundColor()
     setBackgroundImage()
-    setCursorColor()
+    setOverhangColors()
 end sub
 
 sub setBackgroundColor()
@@ -313,10 +313,13 @@ sub setBackgroundImage()
     m.scene.callFunc("setBackgroundImage", selectedBackgroundImage)
 end sub
 
-sub setCursorColor()
+sub setOverhangColors()
     overhang = m.scene.findNode("overhang")
-    if isValid(overhang)
-        overlayCurrentUserSelection = overhang.findNode("overlayCurrentUserSelection")
-        overlayCurrentUserSelection.blendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
-    end if
+    if not isValid(overhang) then return
+
+    overlayCurrentUserSelection = overhang.findNode("overlayCurrentUserSelection")
+    overlayCurrentUserSelection.blendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+
+    overlayCurrentUser = overhang.findNode("overlayCurrentUser")
+    overlayCurrentUser.color = chainLookupReturn(m.global.session, "user.settings.colorHomeUsername", ColorPalette.WHITE)
 end sub

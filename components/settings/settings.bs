@@ -129,10 +129,25 @@ sub onColorSelected()
         if isValid(overhang)
             overlayCurrentUserSelection = overhang.findNode("overlayCurrentUserSelection")
             overlayCurrentUserSelection.blendColor = selectedColor ?? ColorPalette.HIGHLIGHT
+
+            overlayCurrentUser = overhang.findNode("overlayCurrentUser")
+            overlayCurrentUser.color = selectedColor ?? ColorPalette.WHITE
         end if
 
         ' Update setting menu colors
         m.settingsMenu.focusBitmapBlendColor = selectedColor ?? ColorPalette.HIGHLIGHT
+    end if
+
+    ' Apply cursor color
+    if isStringEqual(selectedSetting.settingName, "colorHomeUsername")
+        ' Update cursor around user avatar
+        scene = m.top.getScene()
+        overhang = scene.findNode("overhang")
+        if isValid(overhang)
+            overlayCurrentUser = overhang.findNode("overlayCurrentUser")
+            print "selectedColor", selectedColor
+            overlayCurrentUser.color = selectedColor ?? ColorPalette.WHITE
+        end if
     end if
 end sub
 

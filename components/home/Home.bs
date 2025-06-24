@@ -33,7 +33,7 @@ end sub
 
 ' JFScreen hook called when the screen is displayed by the screen manager
 sub OnScreenShown()
-    m.homeRows.rowLabelColor = chainLookupReturn(m.global.session, "user.settings.colorText", ColorPalette.WHITE)
+    m.homeRows.rowLabelColor = chainLookupReturn(m.global.session, "user.settings.colorHomeRowHeaders", ColorPalette.WHITE)
 
     scene = m.top.getScene()
     overhang = scene.findNode("overhang")
