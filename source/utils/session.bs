@@ -253,7 +253,7 @@ namespace session
         ' Saves user's Live TV guide settings as Roku guide user settings.
         sub SaveUserGuideSettings(customPrefs as object)
             displayNew = "true"
-            displayRepeat = "true"
+            displayRepeat = "false"
             displayScreen = "guide"
 
             if isValid(customPrefs)
