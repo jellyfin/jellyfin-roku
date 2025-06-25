@@ -1,0 +1,4 @@
+enum LiveTVScreen
+    CHANNELS = "channels"
+    GUIDE = "guide"
+end enum

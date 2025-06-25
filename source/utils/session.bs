@@ -1,6 +1,7 @@
 ' these are needed for ServerInfo() inside session.server.Populate()
 import "pkg:/source/api/baserequest.bs"
 import "pkg:/source/api/userauth.bs"
+import "pkg:/source/enums/LiveTVScreen.bs"
 import "pkg:/source/utils/misc.bs"
 
 namespace session
@@ -234,6 +235,7 @@ namespace session
                     session.user.Update("Configuration", tmpConfig)
                 end if
 
+                session.user.SaveUserGuideSettings(jsonResponse.CustomPrefs)
                 session.user.SaveUserHomeSections(jsonResponse.CustomPrefs)
             else
                 ' User has no custom prefs. Save default home section values.
@@ -247,6 +249,35 @@ namespace session
                     homesection6: "none"
                 })
             end if
+        end sub
+
+        ' Saves user's Live TV guide settings as Roku guide user settings.
+        sub SaveUserGuideSettings(customPrefs as object)
+            displayLive = "true"
+            displayRepeat = "false"
+            displayScreen = LiveTVScreen.Guide
+
+            if isValid(customPrefs)
+                userPreferenceDisplayLive = customPrefs["guide-indicator-live"]
+                userPreferenceDisplayRepeat = customPrefs["guide-indicator-repeat"]
+                userPreferenceDisplayScreen = customPrefs["landing-livetv"]
+
+                if isValidAndNotEmpty(userPreferenceDisplayLive)
+                    displayLive = userPreferenceDisplayLive
+                end if
+                if isValidAndNotEmpty(userPreferenceDisplayRepeat)
+                    displayRepeat = userPreferenceDisplayRepeat
+                end if
+                if isStringEqual(userPreferenceDisplayScreen, LiveTVScreen.CHANNELS)
+                    ' Live TV has five options but Roku only supports guide and channels in this context
+                    displayScreen = userPreferenceDisplayScreen
+                end if
+
+            end if
+
+            set_user_setting("ui.guide.indicator.live", displayLive)
+            set_user_setting("ui.guide.indicator.repeat", displayRepeat)
+            set_user_setting("display.livetv.landing", displayScreen)
         end sub
 
         ' Saves user's web client home sections as Roku user settings.

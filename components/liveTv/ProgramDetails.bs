@@ -58,6 +58,9 @@ sub init()
 
     m.focusAnimation.observeField("state", "onAnimationComplete")
 
+    m.userPreferenceDisplayLive = chainLookupReturn(m.global, "session.user.settings.`ui.guide.indicator.live`", true)
+    m.userPreferenceDisplayRepeat = chainLookupReturn(m.global, "session.user.settings.`ui.guide.indicator.repeat`", false)
+
     setupLabels()
 end sub
 
@@ -162,9 +165,9 @@ sub programUpdated()
 
     m.episodeDetailsGroup.removeChildrenIndex(m.episodeDetailsGroup.getChildCount(), 0)
 
-    if prog.isLive
+    if prog.isLive and m.userPreferenceDisplayLive
         m.episodeDetailsGroup.appendChild(m.isLiveGroup)
-    else if prog.isRepeat
+    else if prog.isRepeat and m.userPreferenceDisplayRepeat
         m.episodeDetailsGroup.appendChild(m.isRepeatGroup)
     end if
 
