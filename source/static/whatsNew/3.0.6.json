@@ -30,5 +30,9 @@
   {
     "description": "Honor user settings for landing page and displayed live/repeat indicators in live TV",
     "author": "michaelcresswell"
+  },
+  {
+    "description": "Fix bug causing some audiobooks to show incorrect poster image in audio player",
+    "author": "1hitsong"
   }
 ]
