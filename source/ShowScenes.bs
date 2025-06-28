@@ -891,6 +891,9 @@ function CreateSeasonDetailsGroupByID(seriesID as string, seasonID as string) as
     group.seasonData = seasonMetaData.json
     group.objects = TVEpisodes(seriesID, seasonID)
     group.episodeObjects = group.objects
+
+    group.observeField("refreshSeasonDetailsData", m.port)
+
     ' watch for button presses
     group.observeFieldScoped("selectedItem", m.port)
     group.observeField("quickPlayNode", m.port)

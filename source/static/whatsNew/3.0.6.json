@@ -42,5 +42,9 @@
   {
     "description": "Allow media segment actions for all video types",
     "author": "1hitsong"
+  },
+  {
+    "description": "Fix show checkmark/unplayed count update bug",
+    "author": "1hitsong"
   }
 ]
