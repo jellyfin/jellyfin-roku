@@ -9,6 +9,68 @@
         "description": "Change the colors of elements in the app",
         "children": [
           {
+            "title": "Home",
+            "description": "Change the colors of elements on the home screen",
+            "children": [
+              {
+                "title": "My List Icon",
+                "description": "",
+                "settingName": "colorHomeMyListIcon",
+                "type": "colorgrid",
+                "default": "#FFFFFF"
+              },
+              {
+                "title": "Row Headers",
+                "description": "",
+                "settingName": "colorHomeRowHeaders",
+                "type": "colorgrid",
+                "default": "#FFFFFF"
+              },
+              {
+                "title": "Row Item Background",
+                "description": "",
+                "settingName": "colorHomeRowItemBackground",
+                "type": "colorgrid",
+                "default": "#101420"
+              },
+              {
+                "title": "Row Item Progress",
+                "description": "",
+                "settingName": "colorHomeRowItemProgress",
+                "type": "colorgrid",
+                "default": "#6867ff"
+              },
+              {
+                "title": "Row Item Progress Background",
+                "description": "",
+                "settingName": "colorHomeRowItemProgressBackground",
+                "type": "colorgrid",
+                "default": "#000000"
+              },
+              {
+                "title": "Row Item Title",
+                "description": "",
+                "settingName": "colorHomeRowItemTitle",
+                "type": "colorgrid",
+                "default": "#FFFFFF"
+              },
+              {
+                "title": "Row Item Subtitle",
+                "description": "",
+                "settingName": "colorHomeRowItemSubtitle",
+                "type": "colorgrid",
+                "default": "#777777"
+              },
+              {
+                "title": "Username In Header",
+                "description": "",
+                "settingName": "colorHomeUsername",
+                "type": "colorgrid",
+                "default": "#FFFFFF"
+              }
+            ]
+          },
+          {
             "title": "Background",
             "description": "The base background color for all screens in Jellyfin.",
             "settingName": "colorBackground",

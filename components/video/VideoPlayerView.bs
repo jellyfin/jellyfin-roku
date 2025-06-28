@@ -713,14 +713,13 @@ sub displaySegmentSkipButton(segmentType as string, endticks as double)
     if isStringEqual(m.skipSegmentButton.text, `Skip ${segmentType}`) then return
 
     if m.osd.visible then return ' Don't show if OSD is visible
-    if m.top.content.contenttype <> 4 then return ' only display when content is type "Episode"
 
     if isStringEqual(segmentType, MediaSegmentType.OUTRO)
         if m.nextupbuttonseconds = 0 then return ' is the button disabled?
     end if
 
     m.skipSegmentButton.visible = true
-    m.skipSegmentButton.text = `Skip ${segmentType}`
+    m.skipSegmentButton.text = `${tr("Skip")} ${segmentType}`
     m.skipSegmentButton.setFocus(true)
     m.skipSegmentButton.focus = true
 end sub

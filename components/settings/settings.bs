@@ -42,7 +42,7 @@ sub init()
 
     if isValid(m.version)
         m.version.drawingStyles = drawingStyles
-        m.version.text = `jellyfin ${m.global.app.version} - What's New?`
+        m.version.text = `jellyfin ${m.global.app.version} - ${tr("What's New")}?`
     end if
 
     m.boolSetting = m.top.findNode("boolSetting")
@@ -129,10 +129,25 @@ sub onColorSelected()
         if isValid(overhang)
             overlayCurrentUserSelection = overhang.findNode("overlayCurrentUserSelection")
             overlayCurrentUserSelection.blendColor = selectedColor ?? ColorPalette.HIGHLIGHT
+
+            overlayCurrentUser = overhang.findNode("overlayCurrentUser")
+            overlayCurrentUser.color = selectedColor ?? ColorPalette.WHITE
         end if
 
         ' Update setting menu colors
         m.settingsMenu.focusBitmapBlendColor = selectedColor ?? ColorPalette.HIGHLIGHT
+    end if
+
+    ' Apply cursor color
+    if isStringEqual(selectedSetting.settingName, "colorHomeUsername")
+        ' Update cursor around user avatar
+        scene = m.top.getScene()
+        overhang = scene.findNode("overhang")
+        if isValid(overhang)
+            overlayCurrentUser = overhang.findNode("overlayCurrentUser")
+            print "selectedColor", selectedColor
+            overlayCurrentUser.color = selectedColor ?? ColorPalette.WHITE
+        end if
     end if
 end sub
 
@@ -432,7 +447,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
         if isStringEqual(key, KeyCode.DOWN)
             if m.settingsMenu.hasFocus()
                 m.version.setfocus(true)
-                m.version.text = `jellyfin ${m.global.app.version} - <b>What's New?</b>`
+                m.version.text = `jellyfin ${m.global.app.version} - <b>${tr("What's New")}?</b>`
                 return true
             end if
         end if
@@ -440,7 +455,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
         if m.version.hasFocus()
             if isStringEqual(key, KeyCode.UP)
                 m.settingsMenu.setfocus(true)
-                m.version.text = `jellyfin ${m.global.app.version} - What's New?`
+                m.version.text = `jellyfin ${m.global.app.version} - ${tr("What's New")}?`
                 return true
             end if
 

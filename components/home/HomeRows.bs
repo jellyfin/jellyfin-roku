@@ -301,7 +301,7 @@ sub createLibraryRow()
 
     ' We don't refresh library data, so if section already exists, exit
     if sectionExists(sectionName)
-        return
+        ' return
     end if
 
     row = CreateObject("roSGNode", "HomeRow")
@@ -313,6 +313,13 @@ sub createLibraryRow()
     for each item in filteredMedia
         row.appendChild(item)
     end for
+
+    ' Row already exists, replace it with new content
+    if sectionExists(sectionName)
+        m.top.content.replaceChild(row, getSectionIndex(sectionName))
+        setRowItemSize()
+        return
+    end if
 
     ' Row does not exist, insert it into the home view
     m.top.content.insertChild(row, getOriginalSectionIndex("smalllibrarytiles"))
