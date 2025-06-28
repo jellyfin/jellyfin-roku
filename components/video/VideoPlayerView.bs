@@ -719,7 +719,7 @@ sub displaySegmentSkipButton(segmentType as string, endticks as double)
     end if
 
     m.skipSegmentButton.visible = true
-    m.skipSegmentButton.text = `Skip ${segmentType}`
+    m.skipSegmentButton.text = `${tr("Skip")} ${segmentType}`
     m.skipSegmentButton.setFocus(true)
     m.skipSegmentButton.focus = true
 end sub

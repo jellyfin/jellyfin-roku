@@ -12,8 +12,13 @@ import "pkg:/source/utils/misc.bs"
 sub init()
     findNodes()
     m.itemPoster.observeField("loadStatus", "onPosterLoadStatusChanged")
-    m.itemProgress.color = ColorPalette.TRIADBLUE
-    m.backdrop.color = ColorPalette.ELEMENTBACKGROUND
+    setColors()
+end sub
+
+sub setColors()
+    m.itemProgress.color = chainLookupReturn(m.global.session, "user.settings.colorHomeRowItemProgress", ColorPalette.TRIADBLUE)
+    m.itemProgressBackground.color = chainLookupReturn(m.global.session, "user.settings.colorHomeRowItemProgressBackground", ColorPalette.BLACK90)
+    m.backdrop.color = chainLookupReturn(m.global.session, "user.settings.colorHomeRowItemBackground", ColorPalette.ELEMENTBACKGROUND)
 end sub
 
 sub findNodes()
@@ -32,7 +37,7 @@ end sub
 sub initItemText()
     m.itemText = m.top.findNode("itemText")
     if isValid(m.itemText)
-        m.itemText.color = chainLookupReturn(m.global.session, "user.settings.colorText", ColorPalette.MIDGREY)
+        m.itemText.color = chainLookupReturn(m.global.session, "user.settings.colorHomeRowItemTitle", ColorPalette.WHITE)
     end if
 end sub
 
@@ -43,7 +48,7 @@ end sub
 sub initItemTextExtra()
     m.itemTextExtra = m.top.findNode("itemTextExtra")
     if isValid(m.itemTextExtra)
-        m.itemTextExtra.color = chainLookupReturn(m.global.session, "user.settings.colorSubText", ColorPalette.MIDGREY)
+        m.itemTextExtra.color = chainLookupReturn(m.global.session, "user.settings.colorHomeRowItemSubtitle", ColorPalette.MIDGREY)
     end if
 end sub
 
@@ -53,6 +58,9 @@ end sub
 
 sub initItemIcon()
     m.itemIcon = m.top.findNode("itemIcon")
+    if not isValid(m.itemIcon) then return
+
+    m.itemIcon.blendcolor = chainLookupReturn(m.global.session, "user.settings.colorHomeMyListIcon", ColorPalette.WHITE)
 end sub
 
 sub itemContentChanged()
@@ -68,6 +76,8 @@ sub itemContentChanged()
 
     itemData.AddReplace("Title", itemData.LookupCI("name"))
 
+    setColors()
+    initItemIcon()
     initItemText()
     initItemTextExtra()
 
