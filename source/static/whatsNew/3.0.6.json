@@ -36,6 +36,18 @@
     "author": "1hitsong"
   },
   {
+    "description": "Make more text in app eligible for translation",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Allow media segment actions for all video types",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Fix show checkmark/unplayed count update bug",
+    "author": "1hitsong"
+  },
+  {
     "description": "Increase shown buttons on detail screen from 5 to 6",
     "author": "1hitsong"
   }

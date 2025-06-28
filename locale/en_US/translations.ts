@@ -1368,5 +1368,41 @@
             <source>Go To Artist</source>
             <translation>Go To Artist</translation>
         </message>
+        <message>
+            <source>No Results Found</source>
+            <translation>No Results Found</translation>
+        </message>
+        <message>
+            <source>Format</source>
+            <translation>Format</translation>
+        </message>
+        <message>
+            <source>downloads</source>
+            <translation>downloads</translation>
+        </message>
+        <message>
+            <source>Series</source>
+            <translation>Series</translation>
+        </message>
+        <message>
+            <source>Part</source>
+            <translation>Part</translation>
+        </message>
+        <message>
+            <source>Play / Resume from</source>
+            <translation>Play / Resume from</translation>
+        </message>
+        <message>
+            <source>Play or Resume from</source>
+            <translation>Play or Resume from</translation>
+        </message>
+        <message>
+            <source>What's New</source>
+            <translation>What's New</translation>
+        </message>
+        <message>
+            <source>Skip</source>
+            <translation>Skip</translation>
+        </message>
     </context>
 </TS>

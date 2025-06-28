@@ -134,7 +134,7 @@ sub onContentDataChanged()
 
     if not isValidAndNotEmpty(m.top.contentData.data)
         noResultsLabel = m.radioOptions.CreateChild("label")
-        noResultsLabel.text = "No Results Found"
+        noResultsLabel.text = tr("No Results Found")
         return
     end if
 
@@ -159,7 +159,7 @@ sub onContentDataChanged()
 
         textLine = cardGroup.CreateChild("Label")
         textLine.Width = "690"
-        textLine.text = `Format: ${item.format}   ${item.downloadcount} downloads`
+        textLine.text = `${tr("Format")}: ${item.format}   ${item.downloadcount} ${tr("downloads")}`
         textLine.font.size = 30
 
         if item.comment <> ""

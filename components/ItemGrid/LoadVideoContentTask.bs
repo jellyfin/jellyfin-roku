@@ -98,6 +98,32 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
         end if
     end if
 
+    video.overview = meta.json.overview
+    if not isValid(video.overview) and isValid(meta.json.CurrentProgram)
+        ' Live TV is under CurrentProgram.Overview
+        video.overview = meta.json.CurrentProgram.overview
+    end if
+    video.trickplay = meta.json.Trickplay
+    video.chapters = meta.json.Chapters
+    video.content.title = meta.title
+    video.showID = meta.showID
+
+    logoLookupID = video.id
+    if isStringEqual(videotype, ItemType.TVCHANNEL) and isChainValid(meta, "json.CurrentProgram")
+        video.content.contenttype = ItemType.EPISODE
+    end if
+
+    if videotype = "episode" or videotype = "series"
+        video.content.contenttype = "episode"
+        video.seasonNumber = meta.json.ParentIndexNumber
+        video.episodeNumber = meta.json.IndexNumber
+        video.episodeNumberEnd = meta.json.IndexNumberEnd
+
+        if isValid(meta.showID)
+            logoLookupID = meta.showID
+        end if
+    end if
+
     video.mediaSegments = {}
     if isValidAndNotEmpty(meta.json.MediaSources)
         if isValid(meta.json.MediaSources[0].HasSegments)
@@ -118,55 +144,31 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
         end for
     end if
 
-    ' If we do not have an outro segment, create a fake one at the user's requested timestamp
-    if not hasOutroSegment
-        if isValid(meta.json.RunTimeTicks)
-            if m.global.session.user.settings["playback.nextupbuttonseconds"].ToInt() <> 0
-                outroSegment = {
-                    EndTicks: meta.json.RunTimeTicks,
-                    Id: "",
-                    ItemId: "",
-                    StartTicks: meta.json.RunTimeTicks - (m.global.session.user.settings["playback.nextupbuttonseconds"].ToInt() * 10000000),
-                    Type: "Outro"
-                }
-
-                if isValidAndNotEmpty(video.mediaSegments.LookupCI("items"))
-                    video.mediaSegments.Items.push(outroSegment)
-                    video.mediaSegments.TotalRecordCount++
-                else
-                    video.mediaSegments = {
-                        Items: [outroSegment],
-                        StartIndex: 0,
-                        TotalRecordCount: 1
+    ' If an episode does not have an outro segment, create a fake one at the user's requested timestamp
+    if isStringEqual(video.content.contenttype, ItemType.EPISODE)
+        if not hasOutroSegment
+            if isValid(meta.json.RunTimeTicks)
+                if m.global.session.user.settings["playback.nextupbuttonseconds"].ToInt() <> 0
+                    outroSegment = {
+                        EndTicks: meta.json.RunTimeTicks,
+                        Id: "",
+                        ItemId: "",
+                        StartTicks: meta.json.RunTimeTicks - (m.global.session.user.settings["playback.nextupbuttonseconds"].ToInt() * 10000000),
+                        Type: "Outro"
                     }
+
+                    if isValidAndNotEmpty(video.mediaSegments.LookupCI("items"))
+                        video.mediaSegments.Items.push(outroSegment)
+                        video.mediaSegments.TotalRecordCount++
+                    else
+                        video.mediaSegments = {
+                            Items: [outroSegment],
+                            StartIndex: 0,
+                            TotalRecordCount: 1
+                        }
+                    end if
                 end if
             end if
-        end if
-    end if
-
-    video.overview = meta.json.overview
-    if not isValid(video.overview) and isValid(meta.json.CurrentProgram)
-        ' Live TV is under CurrentProgram.Overview
-        video.overview = meta.json.CurrentProgram.overview
-    end if    
-    video.trickplay = meta.json.Trickplay
-    video.chapters = meta.json.Chapters
-    video.content.title = meta.title
-    video.showID = meta.showID
-
-    logoLookupID = video.id
-    if isStringEqual(videotype, ItemType.TVCHANNEL) and isChainValid(meta, "json.CurrentProgram")
-        video.content.contenttype = ItemType.EPISODE
-    end if
-
-    if videotype = "episode" or videotype = "series"
-        video.content.contenttype = "episode"
-        video.seasonNumber = meta.json.ParentIndexNumber
-        video.episodeNumber = meta.json.IndexNumber
-        video.episodeNumberEnd = meta.json.IndexNumberEnd
-
-        if isValid(meta.showID)
-            logoLookupID = meta.showID
         end if
     end if
 
