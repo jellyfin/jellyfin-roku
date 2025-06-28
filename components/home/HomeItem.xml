@@ -7,7 +7,7 @@
       <PlayedCheckmark id="playedIndicator" translation="[375, 0]" />
     </Poster>
 
-    <Rectangle id="progressBackground" visible="false" color="0x00000098" width="464" height="8" translation="[0,253]">
+    <Rectangle id="progressBackground" visible="false" width="464" height="8" translation="[0,253]">
       <Rectangle id="progress" width="0" height="8" />
     </Rectangle>
 

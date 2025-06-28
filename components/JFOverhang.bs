@@ -18,11 +18,15 @@ sub init()
 
     m.profileImage = m.top.findNode("overlayCurrentUserProfileImage")
 
+    m.overlayCurrentUser = m.top.findNode("overlayCurrentUser")
+    if isValid(m.overlayCurrentUser)
+        m.overlayCurrentUser.color = chainLookupReturn(m.global.session, "user.settings.colorHomeUsername", ColorPalette.WHITE)
+    end if
+
     m.overlayCurrentUserSelection = m.top.findNode("overlayCurrentUserSelection")
     if isValid(m.overlayCurrentUserSelection)
         m.overlayCurrentUserSelection.blendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
     end if
-
 end sub
 
 sub highlightUser()
@@ -57,9 +61,8 @@ sub updateTitle()
 end sub
 
 sub updateUser()
-    user = m.top.findNode("overlayCurrentUser")
-    if isValid(user)
-        user.text = m.top.currentUser
+    if isValid(m.overlayCurrentUser)
+        m.overlayCurrentUser.text = m.top.currentUser
     end if
 end sub
 
