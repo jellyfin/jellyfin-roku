@@ -46,7 +46,7 @@
           focusFootprintBitmapUri=""
           itemSpacing="[0, 10]"
           itemSize="[600, 75]"
-          numRows="5"
+          numRows="6"
           vertFocusAnimationStyle="floatingFocus">
           <ContentNode role="content">
             <ButtonData id="play-button" focus="true" text="Play" AUDIO_GUIDE_SUFFIX="Play" iconSide="left" fontSize="35" padding="35" icon="pkg:/images/icons/play.png" height="75" width="600" />
