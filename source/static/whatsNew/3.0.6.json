@@ -50,5 +50,9 @@
   {
     "description": "Increase shown buttons on detail screen from 5 to 6",
     "author": "1hitsong"
+  },
+  {
+    "description": "Hide Skip Outro if back button pressed. Reset if user seeks video",
+    "author": "1hitsong"
   }
 ]
