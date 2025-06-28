@@ -158,8 +158,8 @@ sub additionalPartsChanged()
 
     if isValid(partButton)
         if isChainValid(m.top.additionalParts, "parts.Items")
-            partButton.text = `Part ${m.top.additionalParts.parts.StartIndex + 1}`
-            partButton.AUDIO_GUIDE_SUFFIX = `Part ${m.top.additionalParts.parts.StartIndex + 1}`
+            partButton.text = `${tr("Part")} ${m.top.additionalParts.parts.StartIndex + 1}`
+            partButton.AUDIO_GUIDE_SUFFIX = `${tr("Part")} ${m.top.additionalParts.parts.StartIndex + 1}`
         end if
     end if
 end sub
@@ -323,12 +323,12 @@ sub itemContentChanged()
 
     if itemData.UserData.PlaybackPositionTicks > 0
         playButton = m.top.findNode("play-button")
-        playButton.text = `Play / Resume from ${ticksToHuman(itemData.UserData.PlaybackPositionTicks)}`
-        playButton.AUDIO_GUIDE_SUFFIX = `Play or Resume from ${ticksToAudioGuide(itemData.UserData.PlaybackPositionTicks)}`
+        playButton.text = `${tr("Play / Resume from")} ${ticksToHuman(itemData.UserData.PlaybackPositionTicks)}`
+        playButton.AUDIO_GUIDE_SUFFIX = `${tr("Play or Resume from")} ${ticksToAudioGuide(itemData.UserData.PlaybackPositionTicks)}`
     else
         playButton = m.top.findNode("play-button")
-        playButton.text = `Play`
-        playButton.AUDIO_GUIDE_SUFFIX = `Play`
+        playButton.text = tr("Play")
+        playButton.AUDIO_GUIDE_SUFFIX = tr("Play")
     end if
     setWatchedColor()
     setFavoriteColor()

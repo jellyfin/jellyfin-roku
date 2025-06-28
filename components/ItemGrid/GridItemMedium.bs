@@ -104,7 +104,7 @@ sub itemContentChanged()
 
     if isValidAndNotEmpty(itemData.json.Type)
         if isStringEqual(itemData.json.Type, ItemType.STUDIO)
-            m.itemTextExtra.text = `${itemData.json.SeriesCount} Series`
+            m.itemTextExtra.text = `${itemData.json.SeriesCount} ${tr("Series")}`
         end if
 
         if inArray([ItemType.MOVIE, ItemType.SERIES, ItemType.MUSICALBUM, ItemType.AUDIO, ItemType.PLAYLIST, ItemType.PROGRAM, ItemType.MUSICVIDEO], itemData.json.Type)
