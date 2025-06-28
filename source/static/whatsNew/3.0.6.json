@@ -34,5 +34,9 @@
   {
     "description": "Fix bug causing some audiobooks to show incorrect poster image in audio player",
     "author": "1hitsong"
+  },
+  {
+    "description": "Fix show checkmark/unplayed count update bug",
+    "author": "1hitsong"
   }
 ]
