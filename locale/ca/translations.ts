@@ -677,25 +677,25 @@
     </message>
     <message>
         <source>Go directly to the episode list if a TV series has only one season.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ves directament a la llista d&apos;episodis si la sèrie només té una temporada.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Blur images of unwatched episodes.</source>
-        <translation type="unfinished"></translation>
+        <translation>Difumina les imatges dels episodis no vistos.</translation>
     </message>
     <message>
         <source>Design Elements</source>
-        <translation type="unfinished"></translation>
+        <translation>Elements de disseny</translation>
     </message>
     <message>
         <source>Options that alter the design of Jellyfin.</source>
-        <translation type="unfinished"></translation>
+        <translation>Opcions que alteren el disseny de Jellyfin.</translation>
         <extracomment>Description for Design Elements user settings.</extracomment>
     </message>
     <message>
         <source>Use Splashscreen as Home Background</source>
-        <translation type="unfinished"></translation>
+        <translation>Fes servir la pantalla de benvinguda com a fons de l&apos;inici</translation>
         <extracomment>Option Title in user setting screen</extracomment>
     </message>
     <message>
