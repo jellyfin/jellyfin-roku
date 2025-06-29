@@ -700,292 +700,292 @@
     </message>
     <message>
         <source>Use generated splashscreen image as Jellyfin&apos;s home background. Jellyfin will need to be closed and reopened for change to take effect.</source>
-        <translation type="unfinished"></translation>
+        <translation>Fes servir la pantalla de presentació generada com a imatge de fons. Caldrà tancar i reobrir Jellyfin perquè el canvi tingui efecte.</translation>
         <extracomment>Description for option in Setting Screen</extracomment>
     </message>
     <message>
         <source>Cinema Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Mode de cinema</translation>
         <extracomment>Settings Menu - Title for option</extracomment>
     </message>
     <message>
         <source>Bring the theater experience straight to your living room with the ability to play custom intros before the main feature.</source>
-        <translation type="unfinished"></translation>
+        <translation>Porteu l&apos;experiència d&apos;un cinema directament a la vostra llar, amb l&apos;habilitat de reproduir introduccions personalitzades abans del contingut principal.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Hide Clock</source>
-        <translation type="unfinished"></translation>
+        <translation>Amaga el rellotge</translation>
         <extracomment>Option Title in user setting screen</extracomment>
     </message>
     <message>
         <source>Hide all clocks in Jellyfin. Jellyfin will need to be closed and reopened for changes to take effect.</source>
-        <translation type="unfinished"></translation>
+        <translation>Amaga tots els rellotges de Jellyfin. Caldrà tancar i reobrir Jellyfin perquè els canvis tinguin efecte.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Next episode</source>
-        <translation type="unfinished"></translation>
+        <translation>Episodi següent</translation>
     </message>
     <message>
         <source>Play Trailer</source>
-        <translation type="unfinished"></translation>
+        <translation>Reprodueix el tràiler</translation>
     </message>
     <message>
         <source>H.264</source>
-        <translation type="unfinished"></translation>
+        <translation>H.264</translation>
         <extracomment>Name of codec used in settings menu</extracomment>
     </message>
     <message>
         <source>Attempt Direct Play for H.264 media with unsupported profile levels before falling back to transcoding if it fails.</source>
-        <translation type="unfinished"></translation>
+        <translation>Intenta la reproducció directa per a contingut H.264 amb nivells de perfil no compatibles, abans de tornar a la transcodificació si falla.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>HEVC</source>
-        <translation type="unfinished"></translation>
+        <translation>HEVC</translation>
         <extracomment>Name of codec used in settings menu</extracomment>
     </message>
     <message>
         <source>Attempt Direct Play for HEVC media with unsupported profile levels before falling back to transcoding if it fails.</source>
-        <translation type="unfinished"></translation>
+        <translation>Intenta la reproducció directa per a HEVC amb nivells de perfils no compatibles abans de tornar a la transcodificació si falla.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Settings relating to playback and supported codec and media types.</source>
-        <translation type="unfinished"></translation>
+        <translation>Configuració relacionada amb la reproducció i còdecs i tipus de multimèdia compatibles.</translation>
     </message>
     <message>
         <source>Settings relating to how the application looks.</source>
-        <translation type="unfinished"></translation>
+        <translation>Configuració relacionada amb l&apos;aparença de l&apos;aplicació.</translation>
     </message>
     <message>
         <source>Max Days Next Up</source>
-        <translation type="unfinished"></translation>
+        <translation>Màxim de dies a Més</translation>
         <extracomment>Option Title in user setting screen</extracomment>
     </message>
     <message>
         <source>Set the maximum amount of days a show should stay in the &apos;Next Up&apos; list without watching it.</source>
-        <translation type="unfinished"></translation>
+        <translation>Indiqueu el màxim nombre de dies que una sèrie hauria d&apos;estar-se a la llista &quot;Més&quot; sense ser vista.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Playback Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Informació de reproducció</translation>
     </message>
     <message>
         <source>Transcoding Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Informació de transcodificació</translation>
     </message>
     <message>
         <source>Reason</source>
-        <translation type="unfinished"></translation>
+        <translation>Motiu</translation>
     </message>
     <message>
         <source>Video Codec</source>
-        <translation type="unfinished"></translation>
+        <translation>Còdec de vídeo</translation>
     </message>
     <message>
         <source>Audio Codec</source>
-        <translation type="unfinished"></translation>
+        <translation>Còdec d&apos;àudio</translation>
     </message>
     <message>
         <source>direct</source>
-        <translation type="unfinished"></translation>
+        <translation>directe</translation>
     </message>
     <message>
         <source>Total Bitrate</source>
-        <translation type="unfinished"></translation>
+        <translation>Taxa de bits local</translation>
     </message>
     <message>
         <source>Audio Channels</source>
-        <translation type="unfinished"></translation>
+        <translation>Canals d&apos;àudio</translation>
     </message>
     <message>
         <source>Stream Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Informació de la transmissió de dades</translation>
     </message>
     <message>
         <source>Codec</source>
-        <translation type="unfinished"></translation>
+        <translation>Còdec</translation>
     </message>
     <message>
         <source>Codec Tag</source>
-        <translation type="unfinished"></translation>
+        <translation>Etiqueta de còdec</translation>
     </message>
     <message>
         <source>Level</source>
-        <translation type="unfinished"></translation>
+        <translation>Nivell</translation>
         <extracomment>Video profile level</extracomment>
     </message>
     <message>
         <source>Bit Rate</source>
-        <translation type="unfinished"></translation>
+        <translation>Taxa de bits</translation>
         <extracomment>Video streaming bit rate</extracomment>
     </message>
     <message>
         <source>Container</source>
-        <translation type="unfinished"></translation>
+        <translation>Contenidor</translation>
         <extracomment>Video streaming container</extracomment>
     </message>
     <message>
         <source>Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Mida</translation>
         <extracomment>Video size</extracomment>
     </message>
     <message>
         <source>Video range type</source>
-        <translation type="unfinished"></translation>
+        <translation>Tipus de rang de vídeo</translation>
     </message>
     <message>
         <source>Pixel format</source>
-        <translation type="unfinished"></translation>
+        <translation>Format de píxel</translation>
         <extracomment>Video pixel format</extracomment>
     </message>
     <message>
         <source>WxH</source>
-        <translation type="unfinished"></translation>
+        <translation>Amplada x Alçada</translation>
         <extracomment>Video width x height</extracomment>
     </message>
     <message>
         <source>Unable to find any albums or songs belonging to this artist</source>
-        <translation type="unfinished"></translation>
+        <translation>No s&apos;ha pogut trobar cap àlbum de cançons pertanyent a aquest artista</translation>
         <extracomment>Popup message when we find no audio data for an artist</extracomment>
     </message>
     <message>
         <source>Custom Subtitles</source>
-        <translation type="unfinished"></translation>
+        <translation>Subtítols personalitzats</translation>
         <extracomment>Name of a setting - custom subtitles that support CJK fonts</extracomment>
     </message>
     <message>
         <source>Replace Roku&apos;s default subtitle functions with custom functions that support CJK fonts. Fallback fonts must be configured and enabled on the server for CJK rendering to work.</source>
-        <translation type="unfinished"></translation>
+        <translation>Substitueix les funcions predeterminades de Roku amb funcions personalitzades compatibles els tipus de lletra CJK. Les fonts de recanvi han de ser configurades i habilitades en el servidor perquè al renderització de CJK funcioni.</translation>
         <extracomment>Description of a setting - custom subtitles that support CJK fonts</extracomment>
     </message>
     <message>
         <source>Text Subtitles Only</source>
-        <translation type="unfinished"></translation>
+        <translation>Només subtítols de texts de</translation>
         <extracomment>Name of a setting - should we hide subtitles that might transcode</extracomment>
     </message>
     <message>
         <source>Only display text subtitles to minimize transcoding.</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostra només subtítols de text per a minimitzar la transcodificació.</translation>
         <extracomment>Description of a setting - should we hide subtitles that might transcode</extracomment>
     </message>
     <message>
         <source>all</source>
-        <translation type="unfinished"></translation>
+        <translation>tot</translation>
         <extracomment>all will reset the searchTerm so all data will be availible</extracomment>
     </message>
     <message>
         <source>Aired</source>
-        <translation type="unfinished"></translation>
+        <translation>Emès</translation>
         <extracomment>Aired date label</extracomment>
     </message>
     <message>
         <source>Slideshow Off</source>
-        <translation type="unfinished"></translation>
+        <translation>Presentació apagada</translation>
     </message>
     <message>
         <source>Slideshow On</source>
-        <translation type="unfinished"></translation>
+        <translation>Presentació engegada</translation>
     </message>
     <message>
         <source>Slideshow Paused</source>
-        <translation type="unfinished"></translation>
+        <translation>Presentació aturada</translation>
     </message>
     <message>
         <source>Slideshow Resumed</source>
-        <translation type="unfinished"></translation>
+        <translation>Presentació represa</translation>
     </message>
     <message>
         <source>Random Off</source>
-        <translation type="unfinished"></translation>
+        <translation>Aleatorietat apagada</translation>
     </message>
     <message>
         <source>Random On</source>
-        <translation type="unfinished"></translation>
+        <translation>Aleatorietat engegada</translation>
     </message>
     <message>
         <source>MPEG-4 Support</source>
-        <translation type="unfinished"></translation>
+        <translation>Permet MPEG-4</translation>
         <extracomment>Settings Menu - Title for option</extracomment>
     </message>
     <message>
         <source>Parental Ratings</source>
-        <translation type="unfinished"></translation>
+        <translation>Valoracions parentals</translation>
         <extracomment>Used in Filter menu</extracomment>
     </message>
     <message>
         <source>Years</source>
-        <translation type="unfinished"></translation>
+        <translation>Anys</translation>
         <extracomment>Used in Filter menu</extracomment>
     </message>
     <message>
         <source>Show What&apos;s New Popup</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostra la finestra emergent de novetats</translation>
         <extracomment>Settings Menu - Title for option</extracomment>
     </message>
     <message>
         <source>Show What&apos;s New popup when Jellyfin is updated to a new version.</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostra la finestra emergent quan Jellyfin s&apos;actualitzi a una nova versió.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Unplayed</source>
-        <translation type="unfinished"></translation>
+        <translation>No reproduït</translation>
     </message>
     <message>
         <source>Played</source>
-        <translation type="unfinished"></translation>
+        <translation>Reproduït</translation>
     </message>
     <message>
         <source>Resumable</source>
-        <translation type="unfinished"></translation>
+        <translation>Es pot reprendre</translation>
     </message>
     <message>
         <source>Movie Library Default View</source>
-        <translation type="unfinished"></translation>
+        <translation>Vista predeterminada de la mediateca de pel·lícules</translation>
         <extracomment>Settings Menu - Title for option</extracomment>
     </message>
     <message>
         <source>Default view for Movie Libraries.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vista predeterminada per a la biblioteca de pel·lícules.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Item Titles</source>
-        <translation type="unfinished"></translation>
+        <translation>Títols de l&apos;element</translation>
         <extracomment>Title of a setting - when should we show the title text of a grid item</extracomment>
     </message>
     <message>
         <source>Select when to show titles.</source>
-        <translation type="unfinished"></translation>
+        <translation>Seleccioneu quan cal mostrar títols.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Show On Hover</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostra en mantenir</translation>
     </message>
     <message>
         <source>Always Show</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostra sempre</translation>
     </message>
     <message>
         <source>Always Hide</source>
-        <translation type="unfinished"></translation>
+        <translation>Amaga sempre</translation>
     </message>
     <message>
         <source>Artists (Presentation)</source>
-        <translation type="unfinished"></translation>
+        <translation>Artistes (presentació)</translation>
     </message>
     <message>
         <source>Album Artist</source>
-        <translation type="unfinished"></translation>
+        <translation>Artista de l&apos;àlbum</translation>
     </message>
     <message>
         <source>Album Artists (Presentation)</source>
-        <translation type="unfinished"></translation>
+        <translation>Artista de l&apos;àlbum (presentació)</translation>
     </message>
     <message>
         <source>Artists (Grid)</source>
