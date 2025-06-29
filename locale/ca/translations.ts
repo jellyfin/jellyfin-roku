@@ -859,7 +859,7 @@
     </message>
     <message>
         <source>Replace Roku&apos;s default subtitle functions with custom functions that support CJK fonts. Fallback fonts must be configured and enabled on the server for CJK rendering to work.</source>
-        <translation>Substitueix les funcions predeterminades de Roku amb funcions personalitzades compatibles els tipus de lletra CJK. Les fonts de recanvi han de ser configurades i habilitades en el servidor perquè al renderització de CJK funcioni.</translation>
+        <translation>Substitueix les funcions predeterminades de Roku amb funcions personalitzades compatibles els tipus de lletra CJK. Les fonts de reserva han de ser configurades i habilitades en el servidor perquè al renderització de CJK funcioni.</translation>
         <extracomment>Description of a setting - custom subtitles that support CJK fonts</extracomment>
     </message>
     <message>
@@ -1197,174 +1197,210 @@
     </message>
     <message>
         <source>Only transcoded files</source>
-        <translation type="unfinished"></translation>
+        <translation>Només fitxers transcodificats</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Compatibility</source>
-        <translation type="unfinished"></translation>
+        <translation>Compatibilitat</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Attempt to prevent playback failures.</source>
-        <translation type="unfinished"></translation>
+        <translation>Intenta prevenir fallades de reproducció.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
         <source>Disable HEVC</source>
-        <translation type="unfinished"></translation>
+        <translation>Deshabilita HEVC</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Disable the HEVC codec on this device. This may improve playback for some devices (ultra).</source>
-        <translation type="unfinished"></translation>
+        <translation>Deshabilita el còdec HEVC d&apos;aquest dispositiu. Això pot millorar la reproducció en alguns dispositius (ultra).</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
         <source>Global</source>
-        <translation type="unfinished"></translation>
+        <translation>Global</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Global settings that affect everyone that uses this Roku device.</source>
-        <translation type="unfinished"></translation>
+        <translation>Configuracions globals que afecti tothom que faci servir aquest dispositiu Roku.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
         <source>Remember Me?</source>
-        <translation type="unfinished"></translation>
+        <translation>Em recordeu?</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Remember the currently logged in user and try to log them in again next time you start the Jellyfin app.</source>
-        <translation type="unfinished"></translation>
+        <translation>Recorda l&apos;usuari que acaba d&apos;iniciar sessió i intenta que ho pugui fer cada cop que comenci l&apos;aplicació de Jellyfin.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
         <source>No Chapter Data Found</source>
-        <translation type="unfinished"></translation>
+        <translation>No s&apos;han trobat dades de capítols</translation>
         <extracomment>Message shown in OSD when no chapter data is returned by the API</extracomment>
     </message>
     <message>
         <source>Use Web Client&apos;s Home Section Arrangement</source>
-        <translation type="unfinished"></translation>
+        <translation>Fes servir la disposició del menú d&apos;inici del client web</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Make the arrangement of the Roku home view sections match the web client&apos;s home screen. Jellyfin will need to be closed and reopened for change to take effect.</source>
-        <translation type="unfinished"></translation>
+        <translation>Fes que la disposició de les seccions del menú d&apos;inici de Roku coincideixi amb la pantalla d&apos;inici del client web. Caldrà tancar i reobrir Jellyfin perquè el canvi tingui efecte.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
         <source>Welcome to version</source>
-        <translation type="unfinished"></translation>
+        <translation>Us donem la benvinguda a la versió</translation>
         <extracomment>WhatsNewDialog title - Welcome to version 2.0.0</extracomment>
     </message>
     <message>
         <source>To view a complete list of changes visit</source>
-        <translation type="unfinished"></translation>
+        <translation>Per a veure una llista completa de canvis visiteu</translation>
         <extracomment>WhatsNewDialog body text preceding the changelog URL</extracomment>
     </message>
     <message>
         <source>Random</source>
-        <translation type="unfinished"></translation>
+        <translation>Aleatori</translation>
         <extracomment>General use word when we want to randomize data</extracomment>
     </message>
     <message>
         <source>... (Press * to read more)</source>
-        <translation type="unfinished"></translation>
+        <translation>... (Pitgeu * per a llegir més)</translation>
         <extracomment>Ellipsis Text for when text overflows its container</extracomment>
     </message>
     <message>
         <source>Community and Critical Ratings</source>
-        <translation type="unfinished"></translation>
+        <translation>Valoracions i crítiques de la comunitat</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Ratings for how good a movie is</source>
-        <translation type="unfinished"></translation>
+        <translation>Valoracions sobre com de bona és una pel·lícula</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
         <source>View All Next Up</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostra&apos;ls tots</translation>
         <extracomment>Title for viewing all episodes available in the Next Up section</extracomment>
     </message>
     <message>
         <source>Rewatching Next Up</source>
-        <translation type="unfinished"></translation>
+        <translation>Torna&apos;ls a passar</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Show already watched episodes in &apos;Next Up&apos; sections.</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostra episodis ja visualitzats en la secció &quot;Més&quot;.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
         <source>Episode Images Next Up</source>
-        <translation type="unfinished"></translation>
+        <translation>Episodis d&apos;imatges a &quot;Més&quot;</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>What type of images to use for Episodes shown in the &apos;Next Up&apos; and &apos;Continue Watching&apos; sections.</source>
-        <translation type="unfinished"></translation>
+        <translation>Quin tipus d&apos;imatges a fer servir per als episodis mostrats en les seccions &quot;Més&quot; i &quot;Continueu mirant&quot;.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
         <source>Use Web Client Setting</source>
-        <translation type="unfinished"></translation>
+        <translation>Fes servir la configuració del client web</translation>
         <extracomment>User Setting - Setting option title</extracomment>
     </message>
     <message>
         <source>Use Episode Image</source>
-        <translation type="unfinished"></translation>
+        <translation>Fes servir la imatge de l&apos;episodi</translation>
         <extracomment>User Setting - Setting option title</extracomment>
     </message>
     <message>
         <source>Use Show Image</source>
-        <translation type="unfinished"></translation>
+        <translation>Fes servir la imatge de la sèrie</translation>
         <extracomment>User Setting - Setting option title</extracomment>
     </message>
     <message>
         <source>The selected Jellyfin server uses version</source>
-        <translation type="unfinished"></translation>
+        <translation>El servidor de Jellyfin seleccionat fa servir la versió</translation>
     </message>
     <message>
         <source>which is not supported by this app. Please update the server to</source>
-        <translation type="unfinished"></translation>
+        <translation>que no és compatible amb aquesta aplicació. Cal que actualitzeu el servidor a</translation>
     </message>
     <message>
         <source>or newer to use this app or install and use the Jellyfin Legacy app from Roku&apos;s Streaming Store</source>
-        <translation type="unfinished"></translation>
+        <translation>o més nova per a fer servir aquesta aplicació o instal·leu una versió antiga de Roku&apos;s Streaming Store</translation>
     </message>
     <message>
         <source>Return to server select screen</source>
-        <translation type="unfinished"></translation>
+        <translation>Retorna a la pantalla de selecció del servidor</translation>
     </message>
     <message>
         <source>CH</source>
-        <translation type="unfinished"></translation>
+        <translation>CH</translation>
         <extracomment>Abbreviation for Channel</extracomment>
     </message>
     <message>
         <source>Use Fallback Font Across App</source>
-        <translation type="unfinished"></translation>
+        <translation>Fes servir el tipus de lletra de reserva en tota l&apos;aplicació</translation>
     </message>
     <message>
         <source>Changes the font used in the app to the server&apos;s configured fallback font.</source>
-        <translation type="unfinished"></translation>
+        <translation>Canvia el tipus de lletra fet servir en l&apos;aplicació al tipus de lletra de reserva configurat al servidor.</translation>
     </message>
     <message>
         <source>Highlighted Color</source>
-        <translation type="unfinished"></translation>
+        <translation>Color ressaltat</translation>
     </message>
     <message>
         <source>Folders</source>
-        <translation type="unfinished"></translation>
+        <translation>Directoris</translation>
     </message>
     <message>
         <source>Go To Artist</source>
-        <translation type="unfinished"></translation>
+        <translation>Ves a l&apos;artista</translation>
+    </message>
+    <message>
+        <source>No Results Found</source>
+        <translation>No s&apos;han trobat resultats</translation>
+    </message>
+    <message>
+        <source>Format</source>
+        <translation>Format</translation>
+    </message>
+    <message>
+        <source>downloads</source>
+        <translation>descàrregues</translation>
+    </message>
+    <message>
+        <source>Series</source>
+        <translation>Sèries</translation>
+    </message>
+    <message>
+        <source>Part</source>
+        <translation>Part</translation>
+    </message>
+    <message>
+        <source>Play / Resume from</source>
+        <translation>Reprodueix / Reprèn des de</translation>
+    </message>
+    <message>
+        <source>Play or Resume from</source>
+        <translation>Reprodueix o reprèn des de</translation>
+    </message>
+    <message>
+        <source>What&apos;s New</source>
+        <translation>Què hi ha de nou</translation>
+    </message>
+    <message>
+        <source>Skip</source>
+        <translation>Salta-ho</translation>
     </message>
 </context>
 </TS>
