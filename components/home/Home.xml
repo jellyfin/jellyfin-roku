@@ -2,6 +2,7 @@
 <component name="Home" extends="JFScreen">
   <children>
     <Poster id="backdrop" loadDisplayMode="scaleToZoom" width="1920" height="1200" />
+    <Rectangle id="backdropOverlay" width="1920" height="1200" color="0x000000" opacity="0.94" />
     <HomeRows
       id="homeRows"
       showRowLabel="true"

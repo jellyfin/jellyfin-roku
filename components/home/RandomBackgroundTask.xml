@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component name="RandomBackgroundTask" extends="Task">
+  <interface>
+    <field id="backdropURL" type="string" />
+  </interface>
+</component>

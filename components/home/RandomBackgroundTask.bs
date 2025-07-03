@@ -1,0 +1,69 @@
+import "pkg:/source/api/baserequest.bs"
+import "pkg:/source/api/Image.bs"
+import "pkg:/source/api/sdk.bs"
+import "pkg:/source/utils/misc.bs"
+
+sub init()
+    m.top.functionName = "fetchRandomMovieBackdrop"
+end sub
+
+function fetchRandomMovieBackdrop() as string
+    ' First try to get latest movies from all libraries
+    params = {
+        "userId": m.global.session.user.id,
+        "limit": 50,
+        "includeItemTypes": "Movie",
+        "enableImageTypes": "Backdrop",
+        "imageTypeLimit": 1,
+        "EnableTotalRecordCount": false,
+        "recursive": true
+    }
+    
+    ' Try getting latest movies first
+    movies = api.items.GetLatest(params)
+    
+    ' If no movies from latest, try getting all movies
+    if not isValidAndNotEmpty(movies)
+        params = {
+            "userId": m.global.session.user.id,
+            "limit": 50,
+            "includeItemTypes": "Movie",
+            "enableImageTypes": "Backdrop",
+            "imageTypeLimit": 1,
+            "EnableTotalRecordCount": false,
+            "recursive": true,
+            "sortBy": "Random"
+        }
+        movieData = api.items.Get(params)
+        if isChainValid(movieData, "Items")
+            movies = movieData.Items
+        end if
+    end if
+    
+    if isValidAndNotEmpty(movies)
+        ' Filter movies that have backdrop images
+        moviesWithBackdrops = []
+        for each movie in movies
+            if isValidAndNotEmpty(movie.BackdropImageTags)
+                moviesWithBackdrops.push(movie)
+            end if
+        end for
+        
+        if isValidAndNotEmpty(moviesWithBackdrops)
+            randomIndex = Rnd(moviesWithBackdrops.Count()) - 1
+            randomMovie = moviesWithBackdrops[randomIndex]
+            firstBackdropTag = randomMovie.BackdropImageTags[0]
+            backdropURL = ImageURL(randomMovie.Id, "Backdrop", {
+                "Tag": firstBackdropTag,
+                "maxWidth": 1920,
+                "maxHeight": 1200
+            })
+            m.top.backdropURL = backdropURL
+            return backdropURL
+        end if
+    end if
+    
+    ' Return empty string if no backdrop found
+    m.top.backdropURL = ""
+    return ""
+end function

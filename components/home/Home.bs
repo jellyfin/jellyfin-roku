@@ -1,5 +1,6 @@
 import "pkg:/source/api/baserequest.bs"
 import "pkg:/source/api/Image.bs"
+import "pkg:/source/api/sdk.bs"
 import "pkg:/source/enums/ColorPalette.bs"
 import "pkg:/source/enums/ItemType.bs"
 import "pkg:/source/enums/KeyCode.bs"
@@ -20,11 +21,80 @@ sub init()
 
     m.homeRows = m.top.findNode("homeRows")
     m.homeRows.focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+
+    ' Create random background task
+    m.randomBackgroundTask = createObject("roSGNode", "RandomBackgroundTask")
+    m.randomBackgroundTask.observeField("backdropURL", "onBackdropURLChanged")
+
+    ' Set up backdrop overlay with configurable opacity
+    m.backdropOverlay = m.top.findNode("backdropOverlay")
+    overlayOpacity = chainLookupReturn(m.global.session, "user.settings.backgroundOverlayOpacity", 0.94)
+    if isValid(m.backdropOverlay)
+        m.backdropOverlay.opacity = overlayOpacity
+    end if
+
+    ' Only set up random backgrounds if the feature is enabled (default to true)
+    randomBackgroundsEnabled = chainLookupReturn(m.global.session, "user.settings.enableRandomBackgrounds", true)
+    if randomBackgroundsEnabled
+        ' Create timer to change background every X minutes (configurable, default 2 minutes)
+        backgroundInterval = chainLookupReturn(m.global.session, "user.settings.backgroundChangeInterval", 120)
+        m.backgroundTimer = createObject("roSGNode", "Timer")
+        m.backgroundTimer.duration = backgroundInterval
+        m.backgroundTimer.repeat = true
+        m.backgroundTimer.observeField("fire", "onBackgroundTimerFired")
+        m.backgroundTimer.control = "start"
+
+        setRandomBackground() ' Call to set a random movie background
+    end if
+end sub
+
+' Function to fetch and set a random movie backdrop
+sub setRandomBackground()
+    if isValid(m.randomBackgroundTask)
+        m.randomBackgroundTask.control = "RUN"
+    end if
+end sub
+
+' Callback when backdrop URL is fetched
+sub onBackdropURLChanged()
+    backdropURL = m.randomBackgroundTask.backdropURL
+    if isValidAndNotEmpty(backdropURL)
+        backdrop = m.top.findNode("backdrop")
+        if isValid(backdrop)
+            backdrop.uri = backdropURL
+        end if
+    end if
+end sub
+
+' Timer callback to change background periodically
+sub onBackgroundTimerFired()
+    setRandomBackground()
+end sub
+
+' Function to update backdrop overlay settings
+sub updateBackdropOverlay()
+    if not isValid(m.backdropOverlay) then return
+
+    ' Get overlay settings from user preferences
+    overlayOpacity = chainLookupReturn(m.global.session, "user.settings.backgroundOverlayOpacity", 0.94)
+    overlayColor = chainLookupReturn(m.global.session, "user.settings.backgroundOverlayColor", "0x000000")
+
+    m.backdropOverlay.opacity = overlayOpacity
+    m.backdropOverlay.color = overlayColor
 end sub
 
 sub refresh()
     m.homeRows.focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
     m.homeRows.callFunc("updateHomeRows")
+
+    ' Update backdrop overlay settings
+    updateBackdropOverlay()
+
+    ' Only refresh background if random backgrounds are enabled
+    randomBackgroundsEnabled = chainLookupReturn(m.global.session, "user.settings.enableRandomBackgrounds", true)
+    if randomBackgroundsEnabled
+        setRandomBackground() ' Refresh the background on each refresh
+    end if
 end sub
 
 sub loadLibraries()
