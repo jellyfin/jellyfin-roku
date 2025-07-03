@@ -2,5 +2,9 @@
   {
     "description": "Fix displaying item titles in search results",
     "author": "1hitsong"
+  },
+  {
+    "description": "Fix crash with OSD with LiveTV from search results",
+    "author": "jimdogx"
   }
 ]
