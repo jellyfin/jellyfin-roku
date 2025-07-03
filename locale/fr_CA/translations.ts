@@ -46,7 +46,7 @@
     </message>
     <message>
         <source>Play</source>
-        <translation>Démarrer</translation>
+        <translation>Lire</translation>
     </message>
     <message>
         <source>Please sign in</source>
