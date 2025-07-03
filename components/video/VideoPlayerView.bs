@@ -1056,7 +1056,8 @@ sub skipCurrentSegment()
 end sub
 
 sub onProgramDetailsLoaded()
-    if not isChainValid(m.LoadProgramDetailsTask, "programDetails.json") then return
+    ' CurrentProgram can be invalid if we're coming from search results for a show that is not currently airing
+    if not isChainValid(m.LoadProgramDetailsTask, "programDetails.json.CurrentProgram") then return
 
     titleText = string.EMPTY
 
