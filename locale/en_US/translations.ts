@@ -1404,5 +1404,65 @@
             <source>Skip</source>
             <translation>Skip</translation>
         </message>
+        <message>
+            <source>Sort by</source>
+            <translation>Sort by</translation>
+        </message>
+        <message>
+            <source>Search is unavailable because the API does not support searching inside boxsets.</source>
+            <translation>Search is unavailable because the API does not support searching inside boxsets.</translation>
+        </message>
+        <message>
+            <source>Search is unavailable because the API does not support searching inside My List.</source>
+            <translation>Search is unavailable because the API does not support searching inside My List.</translation>
+        </message>
+        <message>
+            <source>Search this library</source>
+            <translation>Search this library</translation>
+        </message>
+        <message>
+            <source>Mark As Unplayed</source>
+            <translation>Mark As Unplayed</translation>
+        </message>
+        <message>
+            <source>Mark As Played</source>
+            <translation>Mark As Played</translation>
+        </message>
+        <message>
+            <source>Go To Series</source>
+            <translation>Go To Series</translation>
+        </message>
+        <message>
+            <source>Go To Season</source>
+            <translation>Go To Season</translation>
+        </message>
+        <message>
+            <source>Add To Playlist</source>
+            <translation>Add To Playlist</translation>
+        </message>
+        <message>
+            <source>Remove From My List</source>
+            <translation>Remove From My List</translation>
+        </message>
+        <message>
+            <source>Add To My List</source>
+            <translation>Add To My List</translation>
+        </message>
+        <message>
+            <source>Press OK to type</source>
+            <translation>Press OK to type</translation>
+        </message>
+        <message>
+            <source>Select Audio</source>
+            <translation>Select Audio</translation>
+        </message>
+        <message>
+            <source>Select Subtitles</source>
+            <translation>Select Subtitles</translation>
+        </message>
+        <message>
+            <source>Select Language</source>
+            <translation>Select Language</translation>
+        </message>
     </context>
 </TS>

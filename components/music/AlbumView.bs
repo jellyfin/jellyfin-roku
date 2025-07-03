@@ -9,6 +9,7 @@ sub init()
     setupMainNode()
 
     m.instantMix = m.top.findNode("instantMix")
+    m.instantMix.text = tr("Instant Mix")
     m.instantMix.background = ColorPalette.LIGHTBLUE
     m.instantMix.color = ColorPalette.DARKGREY
     m.instantMix.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
@@ -106,10 +107,10 @@ sub setOnScreenTextValues(json)
             adjustScreenForNoOverview()
         end if
 
-        setFieldTextValue("numberofsongs", stri(json.ChildCount) + " Tracks")
+        setFieldTextValue("numberofsongs", tr("%1 Tracks").Replace("%1", stri(json.ChildCount)))
 
         if type(json.ProductionYear) = "roInt"
-            setFieldTextValue("released", "Released " + stri(json.ProductionYear))
+            setFieldTextValue("released", tr("Released %1").Replace("%1", stri(json.ProductionYear)))
         end if
 
         if json.genres.count() > 0
@@ -117,7 +118,7 @@ sub setOnScreenTextValues(json)
         end if
 
         if type(json.RunTimeTicks) = "LongInteger"
-            setFieldTextValue("runtime", stri(getMinutes(json.RunTimeTicks)) + " mins")
+            setFieldTextValue("runtime", tr("%1 mins").Replace("%1", stri(getMinutes(json.RunTimeTicks))))
         end if
     end if
 end sub

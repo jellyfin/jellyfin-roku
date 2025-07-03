@@ -129,7 +129,7 @@ sub optionsSet()
     else
         filterContent = CreateObject("roSGNode", "ContentNode")
         entry = filterContent.CreateChild("ContentNode")
-        entry.title = "All"
+        entry.title = tr("All")
         m.filterNames.push("All")
         m.filterMenu.content = filterContent
         m.filterMenu.checkedItem = 0
