@@ -28,7 +28,12 @@ sub init()
     m.topParent = m.top.GetParent().GetParent()
 
     if not isValid(m.topParent.showItemTitles)
-        m.topParent = m.topParent.GetParent().GetParent()
+        ' Search items need to only look 1 level above
+        if m.topParent.GetParent().isSubType("SearchRow")
+            m.topParent = m.topParent.GetParent()
+        else
+            m.topParent = m.topParent.GetParent().GetParent()
+        end if
     end if
 
     'Get the imageDisplayMode for these grid items
