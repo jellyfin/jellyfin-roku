@@ -1749,7 +1749,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
                 data: m.options.options.views
             }
 
-            m.global.sceneManager.callFunc("radioDialog", tr("View"), viewData)
+            m.global.sceneManager.callFunc("radioDialog", tr("TAB_View"), viewData)
             m.global.sceneManager.observeFieldScoped("returnData", "onViewChange")
             return true
         end if
