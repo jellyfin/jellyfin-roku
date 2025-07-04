@@ -1429,14 +1429,6 @@
             <translation>Mark As Played</translation>
         </message>
         <message>
-            <source>Go To Series</source>
-            <translation>Go To Series</translation>
-        </message>
-        <message>
-            <source>Go To Season</source>
-            <translation>Go To Season</translation>
-        </message>
-        <message>
             <source>Add To Playlist</source>
             <translation>Add To Playlist</translation>
         </message>
@@ -1463,6 +1455,18 @@
         <message>
             <source>Select Language</source>
             <translation>Select Language</translation>
+        </message>
+        <message>
+            <source>Tracks</source>
+            <translation>Tracks</translation>
+        </message>
+        <message>
+            <source>Released</source>
+            <translation>Released</translation>
+        </message>
+        <message>
+            <source>mins</source>
+            <translation>mins</translation>
         </message>
     </context>
 </TS>
