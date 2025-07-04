@@ -1,3 +1,4 @@
+import "pkg:/source/enums/ColorPalette.bs"
 import "pkg:/source/utils/misc.bs"
 
 sub init()
@@ -23,8 +24,26 @@ end sub
 
 ' Event handler for when user's cursor highlights an option in the option list
 sub onItemFocused()
+    ' Reset colors back to default
+    for each radioOption in m.radioOptions.getChildren(-1, 0)
+        itemText = radioOption.getChild(0)
+        if isValid(itemText)
+            if itemText.isSubType("ScrollingText")
+                itemText.color = chainLookupReturn(m.global.session, "user.settings.colorDialogText", ColorPalette.WHITE)
+            end if
+        end if
+    end for
+
     focusedChild = m.radioOptions.focusedChild
     if not isValid(focusedChild) then return
+
+    itemText = focusedChild.getChild(0)
+
+    if isValid(itemText)
+        if itemText.isSubType("ScrollingText")
+            itemText.color = chainLookupReturn(m.global.session, "user.settings.colorDialogSelectedText", ColorPalette.WHITE)
+        end if
+    end if
 
     moveScrollBar()
 
@@ -113,7 +132,8 @@ sub onContentDataChanged()
             m.radioOptions.selectedIndex = i
         end if
 
-        textLine = cardItem.CreateChild("ScrollingLabel")
+        textLine = cardItem.CreateChild("ScrollingText")
+        textLine.color = chainLookupReturn(m.global.session, "user.settings.colorDialogText", ColorPalette.WHITE)
         textLine.maxWidth = "690"
         textLine.text = item.track.description
         cardItem.observeField("selected", "onItemSelected")

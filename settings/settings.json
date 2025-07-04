@@ -31,7 +31,7 @@
                 "description": "",
                 "settingName": "colorHomeRowItemBackground",
                 "type": "colorgrid",
-                "default": "#101420"
+                "default": "#000033"
               },
               {
                 "title": "Row Item Progress",
@@ -71,6 +71,54 @@
             ]
           },
           {
+            "title": "Dialog Popups",
+            "description": "Change the colors of elements in dialog popups",
+            "children": [
+              {
+                "title": "Background",
+                "description": "The background color for all dialog popups.",
+                "settingName": "colorDialogBackground",
+                "type": "colorgrid",
+                "default": "#000033"
+              },
+              {
+                "title": "Bold Text",
+                "description": "The text color for bold text.",
+                "settingName": "colorDialogBoldText",
+                "type": "colorgrid",
+                "default": "#66FF33"
+              },
+              {
+                "title": "Horizontal Border line",
+                "description": "The color of the thin border line under the header text.",
+                "settingName": "colorDialogBorderLine",
+                "type": "colorgrid",
+                "default": "#CCFFF"
+              },
+              {
+                "title": "Selected Text",
+                "description": "The text color for the item the cursor is over.",
+                "settingName": "colorDialogSelectedText",
+                "type": "colorgrid",
+                "default": "#FFFFFF"
+              },
+              {
+                "title": "Text Color",
+                "description": "The text color for title and items the cursor is not over.",
+                "settingName": "colorDialogText",
+                "type": "colorgrid",
+                "default": "#FFFFFF"
+              },
+              {
+                "title": "What's New Author",
+                "description": "The text color for the author in the What's New popup.",
+                "settingName": "colorWhatsNewAuthor",
+                "type": "colorgrid",
+                "default": "#FF6666"
+              }
+            ]
+          },
+          {
             "title": "Background",
             "description": "The base background color for all screens in Jellyfin.",
             "settingName": "colorBackground",
@@ -95,13 +143,6 @@
             "title": "Cursor",
             "description": "The highlight color for the cursor showing where the user's focus is.",
             "settingName": "colorCursor",
-            "type": "colorgrid",
-            "default": "#FF6666"
-          },
-          {
-            "title": "What's New Author",
-            "description": "The text color for the author in the What's New popup.",
-            "settingName": "colorWhatsNewAuthor",
             "type": "colorgrid",
             "default": "#FF6666"
           },

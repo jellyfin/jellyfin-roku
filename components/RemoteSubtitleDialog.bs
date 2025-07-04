@@ -1,3 +1,4 @@
+import "pkg:/source/enums/ColorPalette.bs"
 import "pkg:/source/utils/misc.bs"
 
 sub init()
@@ -7,6 +8,7 @@ sub init()
 
     m.focusedNameLine = invalid
     m.focusedCommentLine = invalid
+    m.focusedTextLine = invalid
 
     m.top.observeField("contentData", "onContentDataChanged")
     m.top.observeFieldScoped("buttonSelected", "onButtonSelected")
@@ -34,24 +36,38 @@ sub onItemFocused()
     focusedChild = m.radioOptions.focusedChild
     if not isValid(focusedChild) then return
 
+    if isValid(m.focusedTextLine)
+        m.focusedTextLine.color = chainLookupReturn(m.global.session, "user.settings.colorDialogText", ColorPalette.WHITE)
+    end if
+
     if isValid(m.focusedNameLine)
+        m.focusedNameLine.color = chainLookupReturn(m.global.session, "user.settings.colorDialogText", ColorPalette.WHITE)
         m.focusedNameLine.repeatCount = 0
     end if
 
     if isValid(m.focusedCommentLine)
+        m.focusedCommentLine.color = chainLookupReturn(m.global.session, "user.settings.colorDialogText", ColorPalette.WHITE)
         m.focusedCommentLine.repeatCount = 0
     end if
 
     focusedNameLine = focusedChild.focusedChild.findNode(`name${focusedChild.id}`)
     if isValid(focusedNameLine)
         focusedNameLine.repeatCount = -1
+        focusedNameLine.color = chainLookupReturn(m.global.session, "user.settings.colorDialogSelectedText", ColorPalette.WHITE)
         m.focusedNameLine = focusedNameLine
     end if
 
     focusedCommentLine = focusedChild.focusedChild.findNode(`comment${focusedChild.id}`)
     if isValid(focusedCommentLine)
         focusedCommentLine.repeatCount = -1
+        focusedCommentLine.color = chainLookupReturn(m.global.session, "user.settings.colorDialogSelectedText", ColorPalette.WHITE)
         m.focusedCommentLine = focusedCommentLine
+    end if
+
+    focusedTextLine = focusedChild.focusedChild.findNode(`text${focusedChild.id}`)
+    if isValid(focusedTextLine)
+        focusedTextLine.color = chainLookupReturn(m.global.session, "user.settings.colorDialogSelectedText", ColorPalette.WHITE)
+        m.focusedTextLine = focusedTextLine
     end if
 
     moveScrollBar()
@@ -151,19 +167,23 @@ sub onContentDataChanged()
             m.radioOptions.selectedIndex = i
         end if
 
-        textLine = cardGroup.CreateChild("ScrollingLabel")
+        textLine = cardGroup.CreateChild("ScrollingText")
+        textLine.color = chainLookupReturn(m.global.session, "user.settings.colorDialogText", ColorPalette.WHITE)
         textLine.id = `name${i}`
         textLine.maxWidth = "690"
         textLine.text = item.track.description
         textLine.repeatCount = 0
 
-        textLine = cardGroup.CreateChild("Label")
+        textLine = cardGroup.CreateChild("Text")
+        textLine.id = `text${i}`
+        textLine.color = chainLookupReturn(m.global.session, "user.settings.colorDialogText", ColorPalette.WHITE)
         textLine.Width = "690"
         textLine.text = `${tr("Format")}: ${item.format}   ${item.downloadcount} ${tr("downloads")}`
         textLine.font.size = 30
 
         if item.comment <> ""
-            textLine = cardGroup.CreateChild("ScrollingLabel")
+            textLine = cardGroup.CreateChild("ScrollingText")
+            textLine.color = chainLookupReturn(m.global.session, "user.settings.colorDialogText", ColorPalette.WHITE)
             textLine.id = `comment${i}`
             textLine.maxWidth = "690"
             textLine.text = item.Comment

@@ -1,4 +1,5 @@
 import "pkg:/source/enums/ColorPalette.bs"
+import "pkg:/source/utils/misc.bs"
 
 sub init()
     m.content = m.top.findNode("content")
@@ -13,22 +14,22 @@ sub init()
         "default": {
             "fontSize": 27,
             "fontUri": "font:BoldSystemFontFile",
-            "color": ColorPalette.TRIADBLUE
+            "color": chainLookupReturn(m.global.session, "user.settings.colorDialogText", ColorPalette.WHITE)
         },
         "b": {
             "fontSize": 27,
             "fontUri": "font:SystemFontFile",
-            "color": ColorPalette.WHITE
+            "color": chainLookupReturn(m.global.session, "user.settings.colorDialogBoldText", ColorPalette.TRIADGREEN)
         },
         "header": {
             "fontSize": 35,
             "fontUri": "font:SystemFontFile",
-            "color": ColorPalette.WHITE
+            "color": chainLookupReturn(m.global.session, "user.settings.colorDialogText", ColorPalette.WHITE)
         },
         "p": {
             "fontSize": 27,
             "fontUri": "font:SystemFontFile",
-            "color": ColorPalette.WHITE
+            "color": chainLookupReturn(m.global.session, "user.settings.colorDialogText", ColorPalette.WHITE)
         }
     }
 
