@@ -15,12 +15,12 @@ sub init()
         "default": {
             "fontSize": 27,
             "fontUri": "font:SystemFontFile",
-            "color": "#EFEFEFFF"
+            "color": chainLookupReturn(m.global.session, "user.settings.colorDialogText", ColorPalette.WHITE)
         },
         "b": {
             "fontSize": 27,
             "fontUri": "font:SystemFontFile",
-            "color": ColorPalette.TRIADGREEN
+            "color": chainLookupReturn(m.global.session, "user.settings.colorDialogBoldText", ColorPalette.TRIADGREEN)
         },
         "author": {
             "fontSize": 27,
@@ -41,12 +41,12 @@ end sub
 sub setPalette()
     dlgPalette = createObject("roSGNode", "RSGPalette")
     dlgPalette.colors = {
-        DialogBackgroundColor: "0x262828FF",
-        DialogFocusColor: "0xcececeFF",
-        DialogFocusItemColor: "0x202020FF",
-        DialogSecondaryTextColor: "0xf8f8f8ff",
-        DialogSecondaryItemColor: chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT),
-        DialogTextColor: "0xeeeeeeFF"
+        DialogBackgroundColor: chainLookupReturn(m.global.session, "user.settings.colorDialogBackground", ColorPalette.ELEMENTBACKGROUND),
+        DialogFocusColor: chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT),
+        DialogFocusItemColor: chainLookupReturn(m.global.session, "user.settings.colorDialogSelectedText", ColorPalette.WHITE),
+        DialogSecondaryTextColor: ColorPalette.RED,
+        DialogSecondaryItemColor: chainLookupReturn(m.global.session, "user.settings.colorDialogBorderLine", ColorPalette.LIGHTBLUE),
+        DialogTextColor: chainLookupReturn(m.global.session, "user.settings.colorDialogText", ColorPalette.WHITE)
     }
 
     m.top.palette = dlgPalette
