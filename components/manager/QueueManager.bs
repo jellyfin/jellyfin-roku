@@ -1,6 +1,7 @@
 import "pkg:/source/api/baserequest.bs"
 import "pkg:/source/api/Image.bs"
 import "pkg:/source/api/Items.bs"
+import "pkg:/source/enums/ItemType.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/deviceCapabilities.bs"
 import "pkg:/source/utils/misc.bs"
@@ -425,6 +426,10 @@ function getItemType(item) as string
     if not isValid(item) then return ""
 
     if isValid(item.json) and isValid(item.json.mediatype) and item.json.mediatype <> ""
+        if isStringEqual(chainLookup(item, "type"), ItemType.EPISODE)
+            return ItemType.EPISODE
+        end if
+
         return LCase(item.json.mediatype)
     end if
 
