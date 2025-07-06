@@ -1540,5 +1540,29 @@
             <source>AppearsOn</source>
             <translation>AppearsOn</translation>
         </message>
+        <message>
+            <source>Public Profile</source>
+            <translation>Public Profile</translation>
+        </message>
+        <message>
+            <source>Saved Profile</source>
+            <translation>Saved Profile</translation>
+        </message>
+        <message>
+            <source>Manage Hidden Users</source>
+            <translation>Manage Hidden Users</translation>
+        </message>
+        <message>
+            <source>Manual Login</source>
+            <translation>Manual Login</translation>
+        </message>
+        <message>
+            <source>Unhide Users</source>
+            <translation>Unhide Users</translation>
+        </message>
+        <message>
+            <source>Unhide Users</source>
+            <translation>Unhide Users</translation>
+        </message>
     </context>
 </TS>
