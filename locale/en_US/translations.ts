@@ -195,6 +195,10 @@
             <extracomment>Dialog title when error occurs during playback</extracomment>
         </message>
         <message>
+            <source>Unable to get playback information</source>
+            <translation>Unable to get playback information</translation>
+        </message>
+        <message>
             <source>There was an error retrieving the data for this item from the server.</source>
             <translation>There was an error retrieving the data for this item from the server.</translation>
             <extracomment>Dialog detail when unable to load Content from Server</extracomment>
@@ -249,6 +253,14 @@
         <message>
             <source>OFFICIAL_RATING</source>
             <translation>Parental Rating</translation>
+        </message>
+        <message>
+            <source>Date Show Added</source>
+            <translation>Date Show Added</translation>
+        </message>
+        <message>
+            <source>Date Episode Added</source>
+            <translation>Date Episode Added</translation>
         </message>
         <message>
             <source>PLAY_COUNT</source>
@@ -575,6 +587,14 @@
             <extracomment>Button Text - When pressed, sets item as Favorite</extracomment>
         </message>
         <message>
+            <source>Favorited</source>
+            <translation>Favorited</translation>
+        </message>
+        <message>
+            <source>Mark As Favorite</source>
+            <translation>Mark As Favorite</translation>
+        </message>
+        <message>
             <source>Set Watched</source>
             <translation>Set Watched</translation>
             <extracomment>Button Text - When pressed, marks item as Warched</extracomment>
@@ -783,6 +803,14 @@
             <translation>Reason</translation>
         </message>
         <message>
+            <source>Force Transcoding setting is enabled</source>
+            <translation>Force Transcoding setting is enabled</translation>
+        </message>
+        <message>
+            <source>Force Transcode option is enabled</source>
+            <translation>Force Transcode option is enabled</translation>
+        </message>
+        <message>
             <source>Video Codec</source>
             <translation>Video Codec</translation>
         </message>
@@ -896,6 +924,18 @@
             <translation>Slideshow Paused</translation>
         </message>
         <message>
+            <source>(Favorites)</source>
+            <translation>(Favorites)</translation>
+        </message>
+        <message>
+            <source>Favorites</source>
+            <translation>Favorites</translation>
+        </message>
+        <message>
+            <source>Artists</source>
+            <translation>Artists</translation>
+        </message>
+        <message>
             <source>Slideshow Resumed</source>
             <translation>Slideshow Resumed</translation>
         </message>
@@ -908,6 +948,10 @@
             <translation>Random On</translation>
         </message>
         <message>
+            <source>Delete Playlist</source>
+            <translation>Delete Playlist</translation>
+        </message>
+        <message>
             <source>MPEG-4 Support</source>
             <translation>MPEG-4 Support</translation>
             <extracomment>Settings Menu - Title for option</extracomment>
@@ -918,9 +962,17 @@
             <extracomment>Used in Filter menu</extracomment>
         </message>
         <message>
+            <source>Collections</source>
+            <translation>Collections</translation>
+        </message>
+        <message>
             <source>Years</source>
             <translation>Years</translation>
             <extracomment>Used in Filter menu</extracomment>
+        </message>
+        <message>
+            <source>No items found. Try adjusting your selected filters.</source>
+            <translation>No items found. Try adjusting your selected filters.</translation>
         </message>
         <message>
             <source>Show What's New Popup</source>
@@ -1445,6 +1497,14 @@
             <translation>Press OK to type</translation>
         </message>
         <message>
+            <source>Library Settings</source>
+            <translation>Library Settings</translation>
+        </message>
+        <message>
+            <source>Playback Info</source>
+            <translation>Playback Info</translation>
+        </message>
+        <message>
             <source>Select Audio</source>
             <translation>Select Audio</translation>
         </message>
@@ -1467,6 +1527,18 @@
         <message>
             <source>mins</source>
             <translation>mins</translation>
+        </message>
+        <message>
+            <source>Continue Listening</source>
+            <translation>Continue Listening</translation>
+        </message>
+        <message>
+            <source>In My List</source>
+            <translation>In My List</translation>
+        </message>
+        <message>
+            <source>AppearsOn</source>
+            <translation>AppearsOn</translation>
         </message>
     </context>
 </TS>
