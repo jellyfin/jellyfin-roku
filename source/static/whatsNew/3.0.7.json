@@ -10,5 +10,13 @@
   {
     "description": "Show next episode info when skip outro button is shown",
     "author": "1hitsong"
+  },
+  {
+    "description": "Fix bug that caused end time to stop updating if video is transcoding",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Fix auto generated outro segments",
+    "author": "1hitsong"
   }
 ]

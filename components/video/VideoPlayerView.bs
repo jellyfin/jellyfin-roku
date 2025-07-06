@@ -97,7 +97,6 @@ sub init()
 
     'Play Next Episode button
     m.nextupbuttonseconds = m.global.session.user.settings["playback.nextupbuttonseconds"].ToInt()
-    m.originalNextupbuttonseconds = m.nextupbuttonseconds
 
     m.checkedForNextEpisode = false
     m.getNextEpisodeTask = createObject("roSGNode", "GetNextEpisodeTask")
@@ -687,7 +686,6 @@ sub onNextEpisodeDataLoaded()
     ' If there is no next episode, disable next episode button
     if m.getNextEpisodeTask.nextEpisodeData.Items.count() <> 2
         m.nextupbuttonseconds = 0
-        m.originalNextupbuttonseconds = 0
     end if
 end sub
 
@@ -963,7 +961,7 @@ function getRemainingTime(videoSeekPosition = 0 as integer)
 end function
 
 sub onTrickPlayBarTextChange()
-    m.nextupbuttonseconds = m.originalNextupbuttonseconds
+    m.nextupbuttonseconds = m.global.session.user.settings["playback.nextupbuttonseconds"].ToInt()
 
     if not m.top.trickPlayBar.visible then return
 
@@ -972,7 +970,6 @@ sub onTrickPlayBarTextChange()
     ' If Roku has pulled thumbnailtiles from the video stream, use them instead
     if not m.global.session.user.settings["playback.trickplay.forcecustom"]
         if isValidAndNotEmpty(m.top.thumbnailTiles)
-            m.positionText.unobserveField("text")
             return
         end if
     end if
