@@ -116,7 +116,7 @@ sub onPeopleLoaded()
         row.Title = tr("Cast & Crew")
         for each person in people
             if LCase(person.json.LookupCI("type")) = PersonType.ACTOR and isValid(person.json.LookupCI("Role")) and person.json.LookupCI("Role").ToStr().Trim() <> ""
-                person.subTitle = "as " + person.json.LookupCI("Role")
+                person.subTitle = `tr("as") person.json.LookupCI("Role")`
             else
                 person.subTitle = person.json.LookupCI("Type")
             end if

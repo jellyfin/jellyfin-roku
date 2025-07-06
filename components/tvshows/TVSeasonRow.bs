@@ -43,7 +43,7 @@ function getData()
     seasonData = m.top.TVSeasonData
     data = CreateObject("roSGNode", "ContentNode")
     row = data.CreateChild("ContentNode")
-    row.title = "Seasons"
+    row.title = tr("Seasons")
     for each item in seasonData.items
         row.appendChild(item)
     end for

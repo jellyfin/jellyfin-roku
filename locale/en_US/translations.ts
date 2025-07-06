@@ -1525,6 +1525,10 @@
             <translation>Released</translation>
         </message>
         <message>
+            <source>min</source>
+            <translation>min</translation>
+        </message>
+        <message>
             <source>mins</source>
             <translation>mins</translation>
         </message>
@@ -1563,6 +1567,20 @@
         <message>
             <source>Unhide Users</source>
             <translation>Unhide Users</translation>
+        </message>
+        <message>
+            <source>Play Normally - disabled because force transcoding setting is enabled</source>
+            <translation>Play Normally - disabled because force transcoding setting is enabled</translation>
+        </message>
+        <message>
+            <source>as</source>
+            <translation>as</translation>
+            <extracomment>Used in ExtrasRowList.bs to show the role of a person in a movie or TV show</extracomment>
+        </message>
+        <message>
+            <source>Seasons</source>
+            <translation>Seasons</translation>
+            <extracomment>Used in TVSeasonRow.bs to show the title of a row containing seasons</extracomment>
         </message>
     </context>
 </TS>
