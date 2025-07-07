@@ -740,13 +740,14 @@ sub displayNextItem()
     ' Disable for mixed playlists
     if m.global.queueManager.callFunc("getQueueUniqueTypes").count() <> 1 then return
 
+    ' Disable if we're at the end of the queue
+    if m.global.queueManager.callFunc("getPosition") >= m.global.queueManager.callFunc("getCount") - 1 then return
+
     ' Only show if next in queue is an episode
     currentQueuePosition = m.global.queueManager.callFunc("getPosition")
     nextItem = m.global.queueManager.callFunc("getItemByIndex", currentQueuePosition + 1)
+    if not isValid(nextItem) then return
     if not isStringEqual(nextItem.lookupCI("Type"), ItemType.EPISODE) then return
-
-    ' Disable if we're at the end of the queue
-    if m.global.queueManager.callFunc("getPosition") >= m.global.queueManager.callFunc("getCount") - 1 then return
 
     if m.nextUpInfoLoaded
         m.nextUp.visible = true
