@@ -1594,5 +1594,13 @@
             <translation>Seasons</translation>
             <extracomment>Used in TVSeasonRow.bs to show the title of a row containing seasons</extracomment>
         </message>
+        <message>
+            <source>Season</source>
+            <translation>Season</translation>
+        </message>
+        <message>
+            <source>Episode</source>
+            <translation>Episode</translation>
+        </message>
     </context>
 </TS>
