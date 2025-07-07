@@ -600,6 +600,18 @@
             <extracomment>Button Text - When pressed, marks item as Warched</extracomment>
         </message>
         <message>
+            <source>Resume playing at </source>
+            <translation>Resume playing at </translation>
+        </message>
+        <message>
+            <source>Start over from the beginning.</source>
+            <translation>Start over from the beginning.</translation>
+        </message>
+        <message>
+            <source>Playback Options</source>
+            <translation>Playback Options</translation>
+        </message>
+        <message>
             <source>Go to series</source>
             <translation>Go to series</translation>
             <extracomment>Continue Watching Popup Menu - Navigate to the Series Detail Page</extracomment>
