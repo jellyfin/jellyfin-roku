@@ -1,4 +1,7 @@
+import "pkg:/source/api/Image.bs"
 import "pkg:/source/enums/ColorPalette.bs"
+import "pkg:/source/enums/ImageType.bs"
+import "pkg:/source/enums/ItemType.bs"
 import "pkg:/source/enums/KeyCode.bs"
 import "pkg:/source/enums/MediaPlaybackState.bs"
 import "pkg:/source/enums/MediaSegmentAction.bs"
@@ -83,6 +86,9 @@ sub init()
 
     m.videoEndingTime = m.top.findNode("videoEndingTime")
 
+    m.nextUp = m.top.findNode("nextUp")
+    m.nextUpInfoLoaded = false
+
     m.skipSegmentButton = m.top.findNode("skipSegment")
     m.skipSegmentButton.background = ColorPalette.LIGHTBLUE
     m.skipSegmentButton.color = ColorPalette.DARKGREY
@@ -91,7 +97,6 @@ sub init()
 
     'Play Next Episode button
     m.nextupbuttonseconds = m.global.session.user.settings["playback.nextupbuttonseconds"].ToInt()
-    m.originalNextupbuttonseconds = m.nextupbuttonseconds
 
     m.checkedForNextEpisode = false
     m.getNextEpisodeTask = createObject("roSGNode", "GetNextEpisodeTask")
@@ -681,7 +686,6 @@ sub onNextEpisodeDataLoaded()
     ' If there is no next episode, disable next episode button
     if m.getNextEpisodeTask.nextEpisodeData.Items.count() <> 2
         m.nextupbuttonseconds = 0
-        m.originalNextupbuttonseconds = 0
     end if
 end sub
 
@@ -691,6 +695,7 @@ sub hideSegmentSkipButton()
     m.skipSegmentButton.text = string.EMPTY
     m.skipSegmentButton.setFocus(false)
     m.skipSegmentButton.focus = false
+    hideNextItem()
     m.top.setFocus(true)
 end sub
 
@@ -718,12 +723,59 @@ sub displaySegmentSkipButton(segmentType as string, endticks as double)
 
     if isStringEqual(segmentType, MediaSegmentType.OUTRO)
         if m.nextupbuttonseconds = 0 then return ' is the button disabled?
+        displayNextItem()
     end if
 
     m.skipSegmentButton.visible = true
     m.skipSegmentButton.text = `${tr("Skip")} ${segmentType}`
     m.skipSegmentButton.setFocus(true)
     m.skipSegmentButton.focus = true
+end sub
+
+sub hideNextItem()
+    m.nextUp.visible = false
+end sub
+
+sub displayNextItem()
+    ' Disable for mixed playlists
+    if m.global.queueManager.callFunc("getQueueUniqueTypes").count() <> 1 then return
+
+    ' Disable if we're at the end of the queue
+    if m.global.queueManager.callFunc("getPosition") >= m.global.queueManager.callFunc("getCount") - 1 then return
+
+    ' Only show if next in queue is an episode
+    currentQueuePosition = m.global.queueManager.callFunc("getPosition")
+    nextItem = m.global.queueManager.callFunc("getItemByIndex", currentQueuePosition + 1)
+    if not isValid(nextItem) then return
+    if not isStringEqual(nextItem.lookupCI("Type"), ItemType.EPISODE) then return
+
+    if m.nextUpInfoLoaded
+        m.nextUp.visible = true
+        return
+    end if
+
+    imageTags = nextItem.lookupCI("ImageTags")
+    nextItemPoster = m.top.findNode("nextItemPoster")
+    if isValid(nextItemPoster)
+        nextItemPoster.uri = ImageURL(nextItem.lookupCI("id"), ImageType.PRIMARY, { "maxHeight": 124, "maxWidth": 150, "Tag": chainLookupReturn(imageTags, ImageType.PRIMARY, `cacheBuster${rnd(99999)}`) })
+    end if
+
+    nextItemSeriesTitle = m.top.findNode("nextItemSeriesTitle")
+    if isValid(nextItemSeriesTitle)
+        nextItemSeriesTitle.font.size = 25
+        nextItemSeriesTitle.text = nextItem.lookupCI("SeriesName")
+    end if
+
+    nextItemEpisodeTitle = m.top.findNode("nextItemEpisodeTitle")
+    if isValid(nextItemEpisodeTitle)
+        seasonName = nextItem.lookupCI("SeasonName") ?? ""
+        seasonName = seasonName.Replace("Season ", "S")
+        nextItemEpisodeTitle.font.size = 22
+        nextItemEpisodeTitle.text = `${seasonName}E${nextItem.lookupCI("IndexNumber")} - ${nextItem.lookupCI("name")}`
+    end if
+
+    m.nextUp.visible = true
+    m.nextUpInfoLoaded = true
 end sub
 
 sub checkSegmentSkipButton()
@@ -910,7 +962,7 @@ function getRemainingTime(videoSeekPosition = 0 as integer)
 end function
 
 sub onTrickPlayBarTextChange()
-    m.nextupbuttonseconds = m.originalNextupbuttonseconds
+    m.nextupbuttonseconds = m.global.session.user.settings["playback.nextupbuttonseconds"].ToInt()
 
     if not m.top.trickPlayBar.visible then return
 
@@ -919,7 +971,6 @@ sub onTrickPlayBarTextChange()
     ' If Roku has pulled thumbnailtiles from the video stream, use them instead
     if not m.global.session.user.settings["playback.trickplay.forcecustom"]
         if isValidAndNotEmpty(m.top.thumbnailTiles)
-            m.positionText.unobserveField("text")
             return
         end if
     end if
