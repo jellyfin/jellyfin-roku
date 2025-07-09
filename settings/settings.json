@@ -142,7 +142,7 @@
     "children": [
       {
         "title": "Remember Me?",
-        "description": "Remember the currently logged in user and try to log them in again next time you start Jellyfin.",
+        "description": "Remember the currently logged in user and try to log them in again next time you start the Jellyfin app.",
         "settingName": "global.rememberme",
         "type": "bool",
         "default": "true"
@@ -291,7 +291,7 @@
         "children": [
           {
             "title": "Commercial Segments",
-            "description": "What action should Jellyfin take for commercial segments? ",
+            "description": "What action should Jellyfin take for commercial segments?",
             "settingName": "playback.mediasegments.commercial",
             "type": "radio",
             "default": "none",
@@ -312,7 +312,7 @@
           },
           {
             "title": "Intro Segments",
-            "description": "What action should Jellyfin take for intro segments? ",
+            "description": "What action should Jellyfin take for intro segments?",
             "settingName": "playback.mediasegments.intro",
             "type": "radio",
             "default": "asktoskip",
@@ -333,7 +333,7 @@
           },
           {
             "title": "Outro Segments",
-            "description": "What action should Jellyfin take for outro segments? ",
+            "description": "What action should Jellyfin take for outro segments?",
             "settingName": "playback.mediasegments.outro",
             "type": "radio",
             "default": "asktoskip",
@@ -354,7 +354,7 @@
           },
           {
             "title": "Preview Segments",
-            "description": "What action should Jellyfin take for preview segments? ",
+            "description": "What action should Jellyfin take for preview segments?",
             "settingName": "playback.mediasegments.preview",
             "type": "radio",
             "default": "none",
@@ -375,7 +375,7 @@
           },
           {
             "title": "Recap Segments",
-            "description": "What action should Jellyfin take for recap segments? ",
+            "description": "What action should Jellyfin take for recap segments?",
             "settingName": "playback.mediasegments.recap",
             "type": "radio",
             "default": "none",
@@ -398,7 +398,7 @@
       },
       {
         "title": "Next Episode Button Time",
-        "description": "If no Outro media segment exists, set how many seconds before the end of an episode the Skip Outro button should appear. Set to 0 to disable.",
+        "description": "Set how many seconds before the end of an episode the Next Episode button should appear. Set to 0 to disable.",
         "settingName": "playback.nextupbuttonseconds",
         "type": "integer",
         "default": "30"
@@ -585,7 +585,7 @@
         "children": [
           {
             "title": "Community and Critical Ratings",
-            "description": "Community and critic review ratings from Rotten Tomatoes.",
+            "description": "Ratings for how good a movie is",
             "settingName": "ui.itemdetail.showRatings",
             "type": "bool",
             "default": "true"
@@ -755,7 +755,7 @@
               },
               {
                 "title": "Skip Details for Single Seasons",
-                "description": "If enabled, selecting a TV series with only one season will go straight to the episode list rather than the show details and season list.",
+                "description": "Go directly to the episode list if a TV series has only one season.",
                 "settingName": "ui.tvshows.goStraightToEpisodeListing",
                 "type": "bool",
                 "default": "false"

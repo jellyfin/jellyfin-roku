@@ -14,7 +14,7 @@ sub init()
     background.blendColor = ColorPalette.LIGHTGREY
 
     m.buttons = m.top.findNode("buttons")
-    m.buttons.buttons = [tr("TAB_View"), tr("TAB_Sort"), tr("TAB_Filter")]
+    m.buttons.buttons = [tr("TAB_VIEW"), tr("TAB_SORT"), tr("TAB_FILTER")]
     m.buttons.selectedIndex = MenuType.SORT
 
     m.favoriteMenu = m.top.findNode("favoriteMenu")

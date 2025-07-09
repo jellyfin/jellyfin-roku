@@ -59,7 +59,7 @@ sub itemContentChanged()
         if runTime < 2
             m.top.findNode("runtime").text = "1 " + tr("min")
         else
-            m.top.findNode("runtime").text = `stri(runTime).trim() tr("mins")`
+            m.top.findNode("runtime").text = `stri(runTime).trim() ${tr("mins")}`
         end if
 
         if m.global.session.user.settings["ui.design.hideclock"] <> true

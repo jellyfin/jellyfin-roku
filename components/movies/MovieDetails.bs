@@ -476,7 +476,7 @@ sub addEpisodeTitle(itemData as object)
 
     titleText = ""
     if isAllValid([itemData.ParentIndexNumber, itemData.IndexNumber])
-        titleText = `tr("Season") ${itemData.ParentIndexNumber} tr("Episode") ${itemData.IndexNumber}`
+        titleText = `${tr("Season")} ${itemData.ParentIndexNumber} ${tr("Episode")} ${itemData.IndexNumber}`
     end if
 
     if isValid(itemData.LookupCI("indexNumberEnd"))

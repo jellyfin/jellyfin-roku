@@ -62,6 +62,10 @@ sub setupNodes()
     m.viewButton.background = ColorPalette.WHITE
     m.viewButton.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
 
+    m.top.findNode("filterLabel").text = tr("TAB_FILTER")
+    m.top.findNode("viewLabel").text = tr("TAB_VIEW")
+    m.options.findNode("headerText").text = tr("TAB_FILTER")
+
     setSearchBackground(SearchButtonState.INACTIVE)
 end sub
 
@@ -173,7 +177,7 @@ sub onSortChange()
     m.genreList.setFocus(m.genreList.opacity = 1)
 
     m.sortField = sortChoice.LookupCI("name")
-    m.sortButton.text = sortChoice.LookupCI("title")
+    m.sortButton.text = tr(sortChoice.LookupCI("title"))
 
     m.sortAscending = true
 
@@ -197,7 +201,7 @@ sub onViewChange()
     m.genreList.setFocus(m.genreList.opacity = 1)
 
     m.view = viewChoice.LookupCI("name")
-    m.viewButton.text = viewChoice.LookupCI("title")
+    m.viewButton.text = tr(viewChoice.LookupCI("title"))
 
     set_user_setting("display." + m.top.parentItem.Id + ".landing", m.view)
 
@@ -231,14 +235,14 @@ sub onSortOrderChange()
     m.global.sceneManager.unobserveFieldScoped("returnData")
     sortOrderChoice = m.global.sceneManager.returnData
     if not isChainValid(sortOrderChoice, "name") then return
-    if m.sortAscending = isStringEqual(sortOrderChoice.LookupCI("name"), "ascending") then return
+    if m.sortAscending = isStringEqual(sortOrderChoice.LookupCI("name"), "Ascending") then return
 
     m.sortOrderButton.focus = false
     m.itemGrid.setFocus(m.itemGrid.opacity = 1)
     m.genreList.setFocus(m.genreList.opacity = 1)
 
     m.sortAscending = isStringEqual(sortOrderChoice.LookupCI("name"), "Ascending")
-    m.sortOrderButton.text = sortOrderChoice.LookupCI("title")
+    m.sortOrderButton.text = tr(sortOrderChoice.LookupCI("title"))
 
     set_user_setting("display." + m.top.parentItem.Id + ".sortAscending", m.sortAscending.toStr())
 
@@ -505,7 +509,7 @@ sub setSelectedOptions(options)
     ' Set selected view option
     for each o in options.views
         if isStringEqual(o.Name, m.view)
-            m.viewButton.text = o.LookupCI("title")
+            m.viewButton.text = tr(o.LookupCI("title"))
             o.Selected = true
         end if
     end for
@@ -513,7 +517,7 @@ sub setSelectedOptions(options)
     ' Set selected sort option
     for each o in options.sort
         if isStringEqual(o.Name, m.sortField)
-            m.sortButton.text = o.LookupCI("title")
+            m.sortButton.text = tr(o.LookupCI("title"))
             o.Selected = true
         end if
     end for
@@ -522,7 +526,7 @@ sub setSelectedOptions(options)
     for each o in options.filter
         if isStringEqual(o.Name, m.filter)
             o.Selected = true
-            m.filterButton.text = o.LookupCI("title")
+            m.filterButton.text = tr(o.LookupCI("title"))
             m.options.filter = o.Name
         end if
 
@@ -552,7 +556,7 @@ sub setSelectedOptions(options)
     end for
 
     m.options.options = options
-    m.sortOrderButton.text = m.sortAscending ? "Ascending" : "Descending"
+    m.sortOrderButton.text = m.sortAscending ? tr("Ascending") : tr("Descending")
 end sub
 
 ' Set Music view, sort, and filter options
@@ -1242,7 +1246,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
                 data: m.options.options.views
             }
 
-            m.global.sceneManager.callFunc("radioDialog", tr("View"), viewData)
+            m.global.sceneManager.callFunc("radioDialog", tr("TAB_VIEW"), viewData)
             m.global.sceneManager.observeFieldScoped("returnData", "onViewChange")
             return true
         end if
