@@ -264,7 +264,7 @@ sub loadItems()
                     seasonName = ` - ${item.LookupCI("SeasonName")}`
 
                     if isValid(item.LookupCI("IndexNumber"))
-                        seasonName += ` Episode ${item.LookupCI("IndexNumber")}`
+                        seasonName += ` ${tr("Episode")} ${item.LookupCI("IndexNumber")}`
                     end if
 
                     tmp.fullNameWithShowTitle = `${item.LookupCI("seriesname")}${seasonName} - ${item.LookupCI("name")}`

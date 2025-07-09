@@ -22,6 +22,7 @@
 
     <Rectangle id="viewContent" translation="[0, 0]">
       <Text
+        id="userSelectHeader"
         text="Select User"
         horizAlign="center"
         font="font:LargeSystemFont"
