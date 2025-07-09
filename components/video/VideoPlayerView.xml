@@ -43,6 +43,15 @@
 
     <Text id="videoEndingTime" font="font:SmallSystemFont" color="0xffffffFF" horizAlign="right" width="200" translation="[1617,900]" visible="false" />
 
+    <Rectangle id="nextUp" visible="false" color="0x000000CC" height="144" width="500" translation="[1250, 750]">
+      <Poster id="nextItemPoster" width="150" height="124" translation="[10, 10]" />
+      <LayoutGroup layoutDirection="vert" horizAlignment="left" itemSpacings="[10, 10]" translation="[180, 15]">
+        <Text text="Next Up" color="#FFFFFF" font="font:SmallBoldSystemFont" horizAlign="left" vertAlign="center" />
+        <ScrollingText id="nextItemSeriesTitle" maxWidth="300" color="#FFFFFF" font="font:SmallBoldSystemFont" horizAlign="left" vertAlign="top" />
+        <ScrollingText id="nextItemEpisodeTitle" maxWidth="300" color="#AAAAAA" font="font:SmallBoldSystemFont" horizAlign="left" vertAlign="top" />
+      </LayoutGroup>
+    </Rectangle>
+
     <StandardButton id="skipSegment" visible="false" height="85" width="250" translation="[1500, 900]" />
   </children>
 </component>

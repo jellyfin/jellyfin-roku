@@ -109,7 +109,7 @@ sub getTextSize()
     labelExists = isValid(m.textLine)
 
     if not labelExists
-        m.textLine = m.textLabelContainer.CreateChild("ScrollingLabel")
+        m.textLine = m.textLabelContainer.CreateChild("ScrollingText")
     end if
 
     m.textLine.horizAlign = m.top.horizAlign

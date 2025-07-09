@@ -145,7 +145,7 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
     end if
 
     ' If an episode does not have an outro segment, create a fake one at the user's requested timestamp
-    if isStringEqual(video.content.contenttype, ItemType.EPISODE)
+    if video.content.contenttype = 4
         if not hasOutroSegment
             if isValid(meta.json.RunTimeTicks)
                 if m.global.session.user.settings["playback.nextupbuttonseconds"].ToInt() <> 0
