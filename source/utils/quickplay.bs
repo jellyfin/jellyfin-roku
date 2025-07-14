@@ -214,7 +214,8 @@ namespace quickplay
                     "userid": m.global.session.user.id,
                     "SortBy": "Random",
                     "limit": 2000,
-                    "EnableTotalRecordCount": false
+                    "EnableTotalRecordCount": false,
+                    "isMissing": false
                 })
 
                 if isValid(data) and isValidAndNotEmpty(data.Items)
@@ -240,7 +241,8 @@ namespace quickplay
                     "SortBy": "Random",
                     "imageTypeLimit": 0,
                     "EnableTotalRecordCount": false,
-                    "enableImages": false
+                    "enableImages": false,
+                    "isMissing": false
                 })
 
                 if isValid(showData) and isValidAndNotEmpty(showData.items)
@@ -313,7 +315,8 @@ namespace quickplay
                 "imageTypeLimit": 0,
                 "enableUserData": false,
                 "EnableTotalRecordCount": false,
-                "enableImages": false
+                "enableImages": false,
+                "isMissing": false
             })
 
             if isValid(tvshowsData) and isValidAndNotEmpty(tvshowsData.items)
@@ -343,7 +346,8 @@ namespace quickplay
             "seasonId": itemNode.id,
             "userid": m.global.session.user.id,
             "limit": 2000,
-            "EnableTotalRecordCount": false
+            "EnableTotalRecordCount": false,
+            "isMissing": false
         })
 
         if isValid(unwatchedData) and isValidAndNotEmpty(unwatchedData.Items)
