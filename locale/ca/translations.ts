@@ -94,7 +94,7 @@
     </message>
     <message>
         <source>Save Credentials?</source>
-        <translation>Desitgeu desar els credencials?</translation>
+        <translation>Desitgeu desar les credencials?</translation>
     </message>
     <message>
         <source>Delete Saved</source>
@@ -484,7 +484,7 @@
     </message>
     <message>
         <source>...or enter server URL manually:</source>
-        <translation>Si no apareix cap servidor llistat, també podeu entrar el URL manualment:</translation>
+        <translation>Si no apareix cap servidor llistat, també podeu entrar l&apos;URL manualment:</translation>
         <extracomment>Instructions on initial app launch when the user is asked to manually enter a server URL</extracomment>
     </message>
     <message>
@@ -523,7 +523,7 @@
     </message>
     <message>
         <source>Support Direct Play of MPEG-2 content (e.g., Live TV). This will prevent transcoding of MPEG-2 content, but uses significantly more bandwidth.</source>
-        <translation>Admet la reproducció directa de contingut MPEG-2 (p.ex., televisió en directe). Això evitarà la transcodificació de contingut MPEG-2, però fa servir força més amplada de banda.</translation>
+        <translation>Admet la reproducció directa de contingut MPEG-2 (p. ex., televisió en directe). Això evitarà la transcodificació de contingut MPEG-2, però fa servir força més amplada de banda.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
@@ -658,11 +658,11 @@
     </message>
     <message>
         <source>Hides tagline text on details pages.</source>
-        <translation>Oculta el text de les etiquetes en les pàgines de detalls</translation>
+        <translation>Oculta el text de les etiquetes en les pàgines de detalls.</translation>
     </message>
     <message>
         <source>Options for TV Shows.</source>
-        <translation>Opcions de les sèries de televisió</translation>
+        <translation>Opcions de les sèries de televisió.</translation>
         <extracomment>Description for TV Shows user settings.</extracomment>
     </message>
     <message>
@@ -859,7 +859,7 @@
     </message>
     <message>
         <source>Replace Roku&apos;s default subtitle functions with custom functions that support CJK fonts. Fallback fonts must be configured and enabled on the server for CJK rendering to work.</source>
-        <translation>Substitueix les funcions predeterminades de Roku amb funcions personalitzades compatibles els tipus de lletra CJK. Les fonts de reserva han de ser configurades i habilitades en el servidor perquè al renderització de CJK funcioni.</translation>
+        <translation>Substitueix les funcions predeterminades de Roku amb funcions personalitzades compatibles les famílies tipogràfiques CJK. Les fonts de reserva han de ser configurades i habilitades en el servidor perquè la renderització de CJK funcioni.</translation>
         <extracomment>Description of a setting - custom subtitles that support CJK fonts</extracomment>
     </message>
     <message>
@@ -1037,7 +1037,7 @@
     </message>
     <message>
         <source>Biographical information for this person is not currently available.</source>
-        <translation>Actualment no es troba disponible la informació biogràfica per a aquesta persona.</translation>
+        <translation>Actualment, no es troba disponible la informació biogràfica per a aquesta persona.</translation>
     </message>
     <message>
         <source>Enable Limit</source>
@@ -1057,7 +1057,7 @@
     </message>
     <message>
         <source>Set the maximum bitrate in Mbps. Set to 0 to use Roku&apos;s specifications. This setting must be enabled to take effect.</source>
-        <translation>Estableix la taxa de bits màxima en Mbps. Poseu-hi 0 per fer servir les especificacions de Roku. Aquesta configuració ha d&apos;estar habilitada per a tenir efecte.</translation>
+        <translation>Estableix la taxa de bits màxima en Mbps. Poseu-hi 0 per a fer servir les especificacions de Roku. Aquesta configuració ha d&apos;estar habilitada per a tenir efecte.</translation>
     </message>
     <message>
         <source>Libraries</source>
@@ -1282,7 +1282,7 @@
     </message>
     <message>
         <source>Ratings for how good a movie is</source>
-        <translation>Valoracions sobre com de bona és una pel·lícula</translation>
+        <translation>Valoracions sobre com n&apos;és de bona una pel·lícula</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
@@ -1348,11 +1348,11 @@
     </message>
     <message>
         <source>Use Fallback Font Across App</source>
-        <translation>Fes servir el tipus de lletra de reserva en tota l&apos;aplicació</translation>
+        <translation>Fes servir les famílies tipogràfiques de reserva en tota l&apos;aplicació</translation>
     </message>
     <message>
         <source>Changes the font used in the app to the server&apos;s configured fallback font.</source>
-        <translation>Canvia el tipus de lletra fet servir en l&apos;aplicació al tipus de lletra de reserva configurat al servidor.</translation>
+        <translation>Canvia la família tripogràfica feta servir en l&apos;aplicació a la família tipogràfica de reserva configurada al servidor.</translation>
     </message>
     <message>
         <source>Highlighted Color</source>
