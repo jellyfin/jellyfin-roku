@@ -608,7 +608,7 @@
     </message>
     <message>
         <source>IMDB_RATING</source>
-        <translation>Valoración IMDB</translation>
+        <translation>Valoración IMDb</translation>
     </message>
     <message>
         <source>OFFICIAL_RATING</source>
@@ -962,7 +962,7 @@
     </message>
     <message>
         <source>WxH</source>
-        <translation>WxH</translation>
+        <translation>AnxAl</translation>
         <extracomment>Video width x height</extracomment>
     </message>
     <message>
@@ -1397,6 +1397,102 @@
     <message>
         <source>Direct playing</source>
         <translation>Reprodución directa</translation>
+    </message>
+    <message>
+        <source>Folders</source>
+        <translation>Carpetas</translation>
+    </message>
+    <message>
+        <source>Autoplay Episode Limit</source>
+        <translation>Límite de auto-reproducción</translation>
+    </message>
+    <message>
+        <source>The selected Jellyfin server uses version</source>
+        <translation>El servidor Jellyfin seleccionado usa la versión</translation>
+    </message>
+    <message>
+        <source>which is not supported by this app. Please update the server to</source>
+        <translation>no es compatible con esta aplicación. Por favor, actualiza el servidor a la versión</translation>
+    </message>
+    <message>
+        <source>Return to server select screen</source>
+        <translation>Regresar a selección de servidor</translation>
+    </message>
+    <message>
+        <source>The number of episodes that will play automatically after the selected episode. Requires &apos;Play next episode automatically&apos; server setting to be enabled.</source>
+        <translation>Número de episodios que se reproducirán automáticamente después del episodio seleccionado. Requiere que la opción &apos;Reproducir el siguiente episodio automáticamente&apos; esté habilitada en el servidor.</translation>
+    </message>
+    <message>
+        <source>or newer to use this app or install and use the Jellyfin Legacy app from Roku&apos;s Streaming Store</source>
+        <translation>o una versión más reciente para usar esta aplicación, o instala y usa la aplicación Jellyfin Legacy desde la Roku Store</translation>
+    </message>
+    <message>
+        <source>Go To Artist</source>
+        <translation>Ir al Artista</translation>
+    </message>
+    <message>
+        <source>No Results Found</source>
+        <translation>No Hay Resultados</translation>
+    </message>
+    <message>
+        <source>Format</source>
+        <translation>Formato</translation>
+    </message>
+    <message>
+        <source>downloads</source>
+        <translation>Descargas</translation>
+    </message>
+    <message>
+        <source>Series</source>
+        <translation>Programas</translation>
+    </message>
+    <message>
+        <source>Part</source>
+        <translation>Parte</translation>
+    </message>
+    <message>
+        <source>Play / Resume from</source>
+        <translation>Reproducir / Retomar desde</translation>
+    </message>
+    <message>
+        <source>Play or Resume from</source>
+        <translation>Reproducir o Continuar Desde</translation>
+    </message>
+    <message>
+        <source>What&apos;s New</source>
+        <translation>Novedades</translation>
+    </message>
+    <message>
+        <source>Skip</source>
+        <translation>Omitir</translation>
+    </message>
+    <message>
+        <source>CH</source>
+        <translation>Can</translation>
+    </message>
+    <message>
+        <source>Recently Added in</source>
+        <translation>Añadidos recientemente</translation>
+    </message>
+    <message>
+        <source>Community Rating</source>
+        <translation>Calificación de la comunidad</translation>
+    </message>
+    <message>
+        <source>Album Artist</source>
+        <translation>Artista del álbum</translation>
+    </message>
+    <message>
+        <source>Use Fallback Font Across App</source>
+        <translation>Usar fuente alternativa en toda la App</translation>
+    </message>
+    <message>
+        <source>Changes the font used in the app to the server&apos;s configured fallback font.</source>
+        <translation>Cambia la fuente de la app por la fuente de reserva del servidor.</translation>
+    </message>
+    <message>
+        <source>Highlighted Color</source>
+        <translation>Color del Resaltado</translation>
     </message>
 </context>
 <context>
