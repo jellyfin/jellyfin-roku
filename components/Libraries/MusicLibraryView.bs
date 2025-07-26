@@ -849,6 +849,8 @@ sub onItemFocused()
         m.selectedArtistAlbumCount.visible = true
     end if
 
+    if not isChainValid(m.selectedFavoriteItem, "json") then return
+
     itemData = m.selectedFavoriteItem.json
 
     if isValid(itemData.SongCount)

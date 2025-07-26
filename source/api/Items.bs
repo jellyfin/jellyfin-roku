@@ -649,7 +649,8 @@ function TVEpisodeShuffleList(show_id as string)
     resp = APIRequest(url, {
         "UserId": m.global.session.user.id,
         "Limit": 200,
-        "sortBy": "Random"
+        "sortBy": "Random",
+        "isMissing": false
     })
 
     data = getJson(resp)
