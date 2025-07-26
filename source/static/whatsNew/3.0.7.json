@@ -26,5 +26,9 @@
   {
     "description": "Fix crash when filtering music library by genre",
     "author": "1hitsong"
+  },
+  {
+    "description": "Update 100+ text elements in app to be translatable",
+    "author": "myrad2267"
   }
 ]
