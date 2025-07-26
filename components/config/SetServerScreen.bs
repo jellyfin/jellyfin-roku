@@ -35,7 +35,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
     if key = KeyCode.RIGHT
         if m.serverPicker.hasFocus()
             selectedServer = m.serverPicker.content.getChild(m.serverPicker.itemFocused)
-            if selectedServer.isSavedServer
+            if chainLookupReturn(selectedServer, "isSavedServer", false)
                 selectedServer.itemHasDeleteFocus = true
                 return true
             end if
@@ -45,7 +45,9 @@ function onKeyEvent(key as string, press as boolean) as boolean
     if key = KeyCode.LEFT
         if m.serverPicker.hasFocus()
             selectedServer = m.serverPicker.content.getChild(m.serverPicker.itemFocused)
-            selectedServer.itemHasDeleteFocus = false
+            if isValid(selectedServer)
+                selectedServer.itemHasDeleteFocus = false
+            end if
             return true
         end if
     end if
@@ -54,7 +56,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
         if m.serverPicker.hasFocus()
             selectedServer = m.serverPicker.content.getChild(m.serverPicker.itemFocused)
 
-            if selectedServer.itemHasDeleteFocus
+            if chainLookupReturn(selectedServer, "itemHasDeleteFocus", false)
                 m.top.forgetServer = selectedServer.baseUrl
                 return true
             end if
