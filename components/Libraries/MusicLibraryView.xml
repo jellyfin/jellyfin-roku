@@ -78,7 +78,7 @@
           width="335" />
       </LayoutGroup>
       <LayoutGroup layoutDirection="vert" itemSpacings="[10]">
-        <Text id="viewLabel" font="font:SmallSystemFont" text="TAB_FILTER" />
+        <Text id="viewLabel" font="font:SmallSystemFont" text="TAB_VIEW" />
         <TextButton
           id="viewButton"
           iconSide="right"
