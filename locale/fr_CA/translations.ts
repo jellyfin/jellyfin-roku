@@ -1240,7 +1240,7 @@
     </message>
     <message>
         <source>Ratings for how good a movie is</source>
-        <translation type="unfinished">Notes pour dire que le film est bon</translation>
+        <translation>Évaluations de la communauté et des critiques de Rotten Tomatoes.</translation>
     </message>
     <message>
         <source>View All Next Up</source>
@@ -1525,6 +1525,46 @@
     <message>
         <source>What action should Jellyfin take for recap segments?</source>
         <translation>Quelle action Jellyfin doit-il prendre pour les segments récapitulatifs ?</translation>
+    </message>
+    <message>
+        <source>Settings relating to the appearance of pages in all Libraries.</source>
+        <translation>Paramètres relatifs à l&apos;apparence des pages dans toutes les médiathèques.</translation>
+    </message>
+    <message>
+        <source>Library Landscape Column Count</source>
+        <translation>Nombre de colonnes en mode paysage de la bibliothèque</translation>
+    </message>
+    <message>
+        <source>Overview Content</source>
+        <translation>Aperçu du contenu</translation>
+    </message>
+    <message>
+        <source>Number of columns in library view when showing landscape (wide) images</source>
+        <translation>Nombre de colonnes dans la vue de la bibliothèque lors de l&apos;affichage d&apos;images en mode paysage (largeur)</translation>
+    </message>
+    <message>
+        <source>Item Detail Screen</source>
+        <translation>Écran détaillé de l&apos;élément</translation>
+    </message>
+    <message>
+        <source>Forget applied library filters when Jellyfin is closed.</source>
+        <translation>Oubliez les filtres de médiathèque appliqués lorsque Jellyfin est fermé.</translation>
+    </message>
+    <message>
+        <source>Settings relating to the appearance of the item detail screen.</source>
+        <translation>Paramètres relatifs à l&apos;apparence de l&apos;écran de détail de l&apos;élément.</translation>
+    </message>
+    <message>
+        <source>A quick overview of the item selected - typically a short plot outline.</source>
+        <translation>Un aperçu rapide de l&apos;élément sélectionné - généralement un bref aperçu de l&apos;intrigue.</translation>
+    </message>
+    <message>
+        <source>Settings relating to the appearance of Library pages.</source>
+        <translation>Paramètres relatifs à l&apos;apparence des pages de la médiathèque.</translation>
+    </message>
+    <message>
+        <source>Forget Filters</source>
+        <translation>Oubliez les filtres</translation>
     </message>
 </context>
 <context>
