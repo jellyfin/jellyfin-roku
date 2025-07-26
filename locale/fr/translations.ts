@@ -677,7 +677,7 @@
     </message>
     <message>
         <source>Go directly to the episode list if a TV series has only one season.</source>
-        <translation>Aller directement à la liste des épisodes si la série ne possède qu&apos;une seule saison.</translation>
+        <translation type="unfinished">Aller directement à la liste des épisodes si la série ne possède qu&apos;une seule saison.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
@@ -1115,7 +1115,7 @@
     </message>
     <message>
         <source>Set how many seconds before the end of an episode the Next Episode button should appear. Set to 0 to disable.</source>
-        <translation>Définir combien de secondes avant la fin d&apos;un épisode le bouton «&#x202f;Prochain épisode&#x202f;» doit apparaître. La valeur 0 permet de le désactiver.</translation>
+        <translation type="unfinished">Définir combien de secondes avant la fin d&apos;un épisode le bouton «&#x202f;Prochain épisode&#x202f;» doit apparaître. La valeur 0 permet de le désactiver.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
@@ -1229,7 +1229,7 @@
     </message>
     <message>
         <source>Remember the currently logged in user and try to log them in again next time you start the Jellyfin app.</source>
-        <translation>Se souvenir de l&apos;utilisateur actuellement connecté et tenter de le connecter à nouveau au prochain démarrage de l&apos;application Jellyfin.</translation>
+        <translation type="unfinished">Se souvenir de l&apos;utilisateur actuellement connecté et tenter de le connecter à nouveau au prochain démarrage de l&apos;application Jellyfin.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
@@ -1274,7 +1274,7 @@
     </message>
     <message>
         <source>Ratings for how good a movie is</source>
-        <translation>Notes pour dire que le film est bon</translation>
+        <translation type="unfinished">Notes pour dire que le film est bon</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
