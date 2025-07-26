@@ -26,5 +26,9 @@
   {
     "description": "Fix crash when filtering music library by genre",
     "author": "1hitsong"
+  },
+  {
+    "description": "Fix possible crash from played check mark",
+    "author": "1hitsong"
   }
 ]
