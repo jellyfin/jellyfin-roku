@@ -26,7 +26,7 @@
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favoris</translation>
+        <translation>Favori</translation>
     </message>
     <message>
         <source>Loading...</source>
@@ -1392,7 +1392,7 @@
     </message>
     <message>
         <source>Mark As Favorite</source>
-        <translation>Marquer comme favori</translation>
+        <translation>Ajouter comme favori</translation>
     </message>
     <message>
         <source>Start over from the beginning.</source>
@@ -1565,6 +1565,150 @@
     <message>
         <source>Forget Filters</source>
         <translation>Oubliez les filtres</translation>
+    </message>
+    <message>
+        <source>Library Square Column Count</source>
+        <translation>Nombre de colonnes en mode carré de la médiathèque</translation>
+    </message>
+    <message>
+        <source>Search is unavailable because the API does not support searching inside My List.</source>
+        <translation>La recherche n&apos;est pas disponible parce que l&apos;API ne prend pas en charge la recherche dans Ma liste.</translation>
+    </message>
+    <message>
+        <source>Mark As Played</source>
+        <translation>Marquer comme lu</translation>
+    </message>
+    <message>
+        <source>Remove From My List</source>
+        <translation>Supprimer de Ma liste</translation>
+    </message>
+    <message>
+        <source>Add To My List</source>
+        <translation>Ajouter à Ma liste</translation>
+    </message>
+    <message>
+        <source>Library Settings</source>
+        <translation>Paramètres de la médiathèque</translation>
+    </message>
+    <message>
+        <source>Playback Info</source>
+        <translation>Informations de Lecture</translation>
+    </message>
+    <message>
+        <source>Select Subtitles</source>
+        <translation>Sélectionnez les sous-titres</translation>
+    </message>
+    <message>
+        <source>Select Audio</source>
+        <translation>Sélectionner la piste audio</translation>
+    </message>
+    <message>
+        <source>Select Language</source>
+        <translation>Sélectionner la langue</translation>
+    </message>
+    <message>
+        <source>min</source>
+        <translation>min</translation>
+    </message>
+    <message>
+        <source>mins</source>
+        <translation>mins</translation>
+    </message>
+    <message>
+        <source>In My List</source>
+        <translation>Dans Ma liste</translation>
+    </message>
+    <message>
+        <source>Public Profile</source>
+        <translation>Profil public</translation>
+    </message>
+    <message>
+        <source>Saved Profile</source>
+        <translation>Profil enregistré</translation>
+    </message>
+    <message>
+        <source>Manual Login</source>
+        <translation>Connexion manuelle</translation>
+    </message>
+    <message>
+        <source>Seasons</source>
+        <translation>Saisons</translation>
+    </message>
+    <message>
+        <source>Season</source>
+        <translation>Saison</translation>
+    </message>
+    <message>
+        <source>Episode</source>
+        <translation>Épisode</translation>
+    </message>
+    <message>
+        <source>Number of columns in library view when showing portrait (tall) images</source>
+        <translation>Nombre de colonnes dans la vue de la bibliothèque lors de l&apos;affichage d&apos;images en mode portrait (hauteur)</translation>
+    </message>
+    <message>
+        <source>Continue Listening</source>
+        <translation>Continuer d&apos;écouter</translation>
+    </message>
+    <message>
+        <source>Add To Playlist</source>
+        <translation>Ajouter à la liste de lecture</translation>
+    </message>
+    <message>
+        <source>Number of columns in library view when showing square images</source>
+        <translation>Nombre de colonnes dans la vue de la bibliothèque lors de l&apos;affichage d&apos;images carrées</translation>
+    </message>
+    <message>
+        <source>Search this library</source>
+        <translation>Rechercher dans cette médiathèque</translation>
+    </message>
+    <message>
+        <source>Library Portrait Column Count</source>
+        <translation>Nombre de colonnes en mode portraits de la médiathèque</translation>
+    </message>
+    <message>
+        <source>Sort by</source>
+        <translation>Trié par</translation>
+    </message>
+    <message>
+        <source>Search is unavailable because the API does not support searching inside boxsets.</source>
+        <translation>La recherche n&apos;est pas disponible parce que l&apos;API ne prend pas en charge la recherche à l&apos;intérieur des collections.</translation>
+    </message>
+    <message>
+        <source>Tracks</source>
+        <translation>Pistes</translation>
+    </message>
+    <message>
+        <source>AppearsOn</source>
+        <translation>Apparaît sur</translation>
+    </message>
+    <message>
+        <source>Mark As Unplayed</source>
+        <translation>Marquer comme non lu</translation>
+    </message>
+    <message>
+        <source>Manage Hidden Users</source>
+        <translation>Gérer les utilisateurs masqués</translation>
+    </message>
+    <message>
+        <source>Unhide Users</source>
+        <translation>Démasquer les utilisateurs</translation>
+    </message>
+    <message>
+        <source>Press OK to type</source>
+        <translation>Appuyez sur OK pour écrire</translation>
+    </message>
+    <message>
+        <source>Display Watched Checkmark</source>
+        <translation>Afficher l&apos;indicateur comme lu</translation>
+    </message>
+    <message>
+        <source>Play Normally - disabled because force transcoding setting is enabled</source>
+        <translation>Lire normalement - désactivé car le paramètre de transcodage forcé est activé</translation>
+    </message>
+    <message>
+        <source>as</source>
+        <translation>est</translation>
     </message>
 </context>
 <context>
