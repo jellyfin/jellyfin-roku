@@ -77,6 +77,14 @@
             <translation>Watched</translation>
         </message>
         <message>
+            <source>Settings</source>
+            <translation>Settings</translation>
+        </message>
+        <message>
+            <source>Change User</source>
+            <translation>Change User</translation>
+        </message>
+        <message>
             <source>Change Server</source>
             <translation>Change Server</translation>
         </message>
@@ -195,6 +203,10 @@
             <extracomment>Dialog title when error occurs during playback</extracomment>
         </message>
         <message>
+            <source>Unable to get playback information</source>
+            <translation>Unable to get playback information</translation>
+        </message>
+        <message>
             <source>There was an error retrieving the data for this item from the server.</source>
             <translation>There was an error retrieving the data for this item from the server.</translation>
             <extracomment>Dialog detail when unable to load Content from Server</extracomment>
@@ -249,6 +261,14 @@
         <message>
             <source>OFFICIAL_RATING</source>
             <translation>Parental Rating</translation>
+        </message>
+        <message>
+            <source>Date Show Added</source>
+            <translation>Date Show Added</translation>
+        </message>
+        <message>
+            <source>Date Episode Added</source>
+            <translation>Date Episode Added</translation>
         </message>
         <message>
             <source>PLAY_COUNT</source>
@@ -575,9 +595,29 @@
             <extracomment>Button Text - When pressed, sets item as Favorite</extracomment>
         </message>
         <message>
+            <source>Favorited</source>
+            <translation>Favorited</translation>
+        </message>
+        <message>
+            <source>Mark As Favorite</source>
+            <translation>Mark As Favorite</translation>
+        </message>
+        <message>
             <source>Set Watched</source>
             <translation>Set Watched</translation>
             <extracomment>Button Text - When pressed, marks item as Warched</extracomment>
+        </message>
+        <message>
+            <source>Resume playing at </source>
+            <translation>Resume playing at </translation>
+        </message>
+        <message>
+            <source>Start over from the beginning.</source>
+            <translation>Start over from the beginning.</translation>
+        </message>
+        <message>
+            <source>Playback Options</source>
+            <translation>Playback Options</translation>
         </message>
         <message>
             <source>Go to series</source>
@@ -678,7 +718,7 @@
         </message>
         <message>
             <source>Go directly to the episode list if a TV series has only one season.</source>
-            <translation>Go directly to the episode list if a TV series has only one season.</translation>
+            <translation>If enabled, selecting a TV series with only one season will go straight to the episode list rather than the show details and season list.</translation>
             <extracomment>Settings Menu - Description for option</extracomment>
         </message>
         <message>
@@ -783,6 +823,14 @@
             <translation>Reason</translation>
         </message>
         <message>
+            <source>Force Transcoding setting is enabled</source>
+            <translation>Force Transcoding setting is enabled</translation>
+        </message>
+        <message>
+            <source>Force Transcode option is enabled</source>
+            <translation>Force Transcode option is enabled</translation>
+        </message>
+        <message>
             <source>Video Codec</source>
             <translation>Video Codec</translation>
         </message>
@@ -879,6 +927,11 @@
             <extracomment>all will reset the searchTerm so all data will be availible</extracomment>
         </message>
         <message>
+            <source>All</source>
+            <translation>All</translation>
+            <extracomment>All in filter</extracomment>
+        </message>
+        <message>
             <source>Aired</source>
             <translation>Aired</translation>
             <extracomment>Aired date label</extracomment>
@@ -896,6 +949,18 @@
             <translation>Slideshow Paused</translation>
         </message>
         <message>
+            <source>(Favorites)</source>
+            <translation>(Favorites)</translation>
+        </message>
+        <message>
+            <source>Favorites</source>
+            <translation>Favorites</translation>
+        </message>
+        <message>
+            <source>Artists</source>
+            <translation>Artists</translation>
+        </message>
+        <message>
             <source>Slideshow Resumed</source>
             <translation>Slideshow Resumed</translation>
         </message>
@@ -908,6 +973,10 @@
             <translation>Random On</translation>
         </message>
         <message>
+            <source>Delete Playlist</source>
+            <translation>Delete Playlist</translation>
+        </message>
+        <message>
             <source>MPEG-4 Support</source>
             <translation>MPEG-4 Support</translation>
             <extracomment>Settings Menu - Title for option</extracomment>
@@ -918,9 +987,21 @@
             <extracomment>Used in Filter menu</extracomment>
         </message>
         <message>
+            <source>Collections</source>
+            <translation>Collections</translation>
+        </message>
+        <message>
+            <source>Playlists</source>
+            <translation>Playlists</translation>
+        </message>
+        <message>
             <source>Years</source>
             <translation>Years</translation>
             <extracomment>Used in Filter menu</extracomment>
+        </message>
+        <message>
+            <source>No items found. Try adjusting your selected filters.</source>
+            <translation>No items found. Try adjusting your selected filters.</translation>
         </message>
         <message>
             <source>Show What's New Popup</source>
@@ -1125,7 +1206,7 @@
         </message>
         <message>
             <source>Set how many seconds before the end of an episode the Next Episode button should appear. Set to 0 to disable.</source>
-            <translation>Set how many seconds before the end of an episode the Next Episode button should appear. Set to 0 to disable.</translation>
+            <translation>If no Outro media segment exists, set how many seconds before the end of an episode the Skip Outro button should appear. Set to 0 to disable.</translation>
             <extracomment>Settings Menu - Description for option</extracomment>
         </message>
         <message>
@@ -1136,6 +1217,26 @@
         <message>
             <source>Use the selected audio codec for transcodes. If the device or stream does not support it, a fallback codec will be used.</source>
             <translation>Use the selected audio codec for transcodes. If the device or stream does not support it, a fallback codec will be used.</translation>
+            <extracomment>Settings Menu - Description for option</extracomment>
+        </message>
+        <message>
+            <source>Video Codec Support</source>
+            <translation>Video Codec Support</translation>
+            <extracomment>Settings Menu - Title for option</extracomment>
+        </message>
+        <message>
+            <source>Enable or disable Direct Play support for certain codecs.</source>
+            <translation>Enable or disable Direct Play support for certain codecs.</translation>
+            <extracomment>Settings Menu - Description for option</extracomment>
+        </message>
+        <message>
+            <source>Video Profile Level Support</source>
+            <translation>Video Profile Level Support</translation>
+            <extracomment>Settings Menu - Title for option</extracomment>
+        </message>
+        <message>
+            <source>Attempt Direct Play of potentially unsupported profile levels</source>
+            <translation>Attempt Direct Play of potentially unsupported profile levels</translation>
             <extracomment>Settings Menu - Description for option</extracomment>
         </message>
         <message>
@@ -1239,8 +1340,103 @@
         </message>
         <message>
             <source>Remember the currently logged in user and try to log them in again next time you start the Jellyfin app.</source>
-            <translation>Remember the currently logged in user and try to log them in again next time you start the Jellyfin app.</translation>
+            <translation>Remember the currently logged in user and try to log them in again next time you start Jellyfin.</translation>
             <extracomment>User Setting - Setting description</extracomment>
+        </message>
+        <message>
+            <source>Custom Trickplay</source>
+            <translation>Custom Trickplay</translation>
+            <extracomment>User Setting - Title for option</extracomment>
+        </message>
+        <message>
+            <source>Display custom trickplay images even if this Roku says it's displaying its own. This may cause the two images to overlay on top of each other.</source>
+            <translation>Display custom trickplay images even if this Roku says it's displaying its own. This may cause the two images to overlay on top of each other.</translation>
+            <extracomment>User Setting - Description for option</extracomment>
+        </message>
+        <message>
+            <source>Force Transcoding</source>
+            <translation>Force Transcoding</translation>
+            <extracomment>User Setting - Title for option</extracomment>
+        </message>
+        <message>
+            <source>Force all playable media to be transcoded.</source>
+            <translation>Force all playable media to be transcoded.</translation>
+            <extracomment>User Setting - Description for option</extracomment>
+        </message>
+        <message>
+            <source>Media Segment Actions</source>
+            <translation>Media Segment Actions</translation>
+            <extracomment>User Setting - Title for option</extracomment>
+        </message>
+        <message>
+            <source>Settings relating to how Jellyfin should handle media segments.</source>
+            <translation>Settings relating to how Jellyfin should handle media segments.</translation>
+            <extracomment>User Setting - Description for option</extracomment>
+        </message>
+        <message>
+            <source>Commercial Segments</source>
+            <translation>Commercial Segments</translation>
+            <extracomment>User Setting - Title for option</extracomment>
+        </message>
+        <message>
+            <source>What action should Jellyfin take for commercial segments?</source>
+            <translation>What action should Jellyfin take for commercial segments?</translation>
+            <extracomment>User Setting - Description for option</extracomment>
+        </message>
+        <message>
+            <source>Intro Segments</source>
+            <translation>Intro Segments</translation>
+            <extracomment>User Setting - Title for option</extracomment>
+        </message>
+        <message>
+            <source>What action should Jellyfin take for intro segments?</source>
+            <translation>What action should Jellyfin take for intro segments?</translation>
+            <extracomment>User Setting - Description for option</extracomment>
+        </message>
+        <message>
+            <source>Outro Segments</source>
+            <translation>Outro Segments</translation>
+            <extracomment>User Setting - Title for option</extracomment>
+        </message>
+        <message>
+            <source>What action should Jellyfin take for outro segments?</source>
+            <translation>What action should Jellyfin take for outro segments?</translation>
+            <extracomment>User Setting - Description for option</extracomment>
+        </message>
+        <message>
+            <source>Preview Segments</source>
+            <translation>Preview Segments</translation>
+            <extracomment>User Setting - Title for option</extracomment>
+        </message>
+        <message>
+            <source>What action should Jellyfin take for preview segments?</source>
+            <translation>What action should Jellyfin take for preview segments?</translation>
+            <extracomment>User Setting - Description for option</extracomment>
+        </message>
+        <message>
+            <source>Recap Segments</source>
+            <translation>Recap Segments</translation>
+            <extracomment>User Setting - Title for option</extracomment>
+        </message>
+        <message>
+            <source>What action should Jellyfin take for recap segments?</source>
+            <translation>What action should Jellyfin take for recap segments?</translation>
+            <extracomment>User Setting - Description for option</extracomment>
+        </message>
+        <message>
+            <source>Ask To Skip</source>
+            <translation>Ask To Skip</translation>
+            <extracomment>User Setting - Options</extracomment>
+        </message>
+        <message>
+            <source>Skip</source>
+            <translation>Skip</translation>
+            <extracomment>User Setting - Options</extracomment>
+        </message>
+        <message>
+            <source>None</source>
+            <translation>None</translation>
+            <extracomment>User Setting - Options</extracomment>
         </message>
         <message>
             <source>No Chapter Data Found</source>
@@ -1278,15 +1474,86 @@
             <extracomment>Ellipsis Text for when text overflows its container</extracomment>
         </message>
         <message>
+            <source>Item Detail Screen</source>
+            <translation>Item Detail Screen</translation>
+            <extracomment>User interface Menu - Title for option</extracomment>
+        </message>
+        <message>
+            <source>Settings relating to the appearance of the item detail screen.</source>
+            <translation>Settings relating to the appearance of the item detail screen.</translation>
+            <extracomment>User interface Menu - Description for option</extracomment>
+        </message>
+        <message>
             <source>Community and Critical Ratings</source>
             <translation>Community and Critical Ratings</translation>
             <extracomment>User Setting - Setting title</extracomment>
         </message>
         <message>
             <source>Ratings for how good a movie is</source>
-            <translation>Ratings for how good a movie is</translation>
+            <translation>Community and critic review ratings from Rotten Tomatoes.</translation>
             <extracomment>User Setting - Setting description</extracomment>
         </message>
+        <message>
+            <source>Overview Content</source>
+            <translation>Overview Content</translation>
+            <extracomment>User Setting - Setting title</extracomment>
+        </message>
+        <message>
+            <source>A quick overview of the item selected - typically a short plot outline.</source>
+            <translation>A quick overview of the item selected - typically a short plot outline.</translation>
+            <extracomment>User Setting - Setting description</extracomment>
+        </message>
+        <message>
+            <source>Settings relating to the appearance of Library pages.</source>
+            <translation>Settings relating to the appearance of Library pages.</translation>
+            <extracomment>Libraries Setting - Setting description</extracomment>
+        </message>
+        <message>
+            <source>Settings relating to the appearance of pages in all Libraries.</source>
+            <translation>Settings relating to the appearance of pages in all Libraries.</translation>
+            <extracomment>Libraries Setting - Setting description</extracomment>
+        </message>
+        <message>
+            <source>Forget Filters</source>
+            <translation>Forget Filters</translation>
+            <extracomment>Libraries Setting - Setting title</extracomment>
+        </message>
+        <message>
+            <source>Forget applied library filters when Jellyfin is closed.</source>
+            <translation>Forget applied library filters when Jellyfin is closed.</translation>
+            <extracomment>Libraries Setting - Setting description</extracomment>
+        </message>
+        <message>
+            <source>Library Landscape Column Count</source>
+            <translation>Library Landscape Column Count</translation>
+            <extracomment>Libraries Setting - Setting title</extracomment>
+        </message>
+        <message>
+            <source>Number of columns in library view when showing landscape (wide) images</source>
+            <translation>Number of columns in library view when showing landscape (wide) images</translation>
+            <extracomment>Libraries Setting - Setting description</extracomment>
+        </message>
+        <message>
+            <source>Library Portrait Column Count</source>
+            <translation>Library Portrait Column Count</translation>
+            <extracomment>Libraries Setting - Setting title</extracomment>
+        </message>
+        <message>
+            <source>Number of columns in library view when showing portrait (tall) images</source>
+            <translation>Number of columns in library view when showing portrait (tall) images</translation>
+            <extracomment>Libraries Setting - Setting description</extracomment>
+        </message>
+        <message>
+            <source>Library Square Column Count</source>
+            <translation>Library Square Column Count</translation>
+            <extracomment>Libraries Setting - Setting title</extracomment>
+        </message>
+        <message>
+            <source>Number of columns in library view when showing square images</source>
+            <translation>Number of columns in library view when showing square images</translation>
+            <extracomment>Libraries Setting - Setting description</extracomment>
+        </message>
+
         <message>
             <source>View All Next Up</source>
             <translation>View All Next Up</translation>
@@ -1403,6 +1670,144 @@
         <message>
             <source>Skip</source>
             <translation>Skip</translation>
+        </message>
+        <message>
+            <source>Sort by</source>
+            <translation>Sort by</translation>
+        </message>
+        <message>
+            <source>Search is unavailable because the API does not support searching inside boxsets.</source>
+            <translation>Search is unavailable because the API does not support searching inside boxsets.</translation>
+        </message>
+        <message>
+            <source>Search is unavailable because the API does not support searching inside My List.</source>
+            <translation>Search is unavailable because the API does not support searching inside My List.</translation>
+        </message>
+        <message>
+            <source>Search this library</source>
+            <translation>Search this library</translation>
+        </message>
+        <message>
+            <source>Mark As Unplayed</source>
+            <translation>Mark As Unplayed</translation>
+        </message>
+        <message>
+            <source>Mark As Played</source>
+            <translation>Mark As Played</translation>
+        </message>
+        <message>
+            <source>Add To Playlist</source>
+            <translation>Add To Playlist</translation>
+        </message>
+        <message>
+            <source>Remove From My List</source>
+            <translation>Remove From My List</translation>
+        </message>
+        <message>
+            <source>Add To My List</source>
+            <translation>Add To My List</translation>
+        </message>
+        <message>
+            <source>Press OK to type</source>
+            <translation>Press OK to type</translation>
+        </message>
+        <message>
+            <source>Library Settings</source>
+            <translation>Library Settings</translation>
+        </message>
+        <message>
+            <source>Display Watched Checkmark</source>
+            <translation>Display Watched Checkmark</translation>
+        </message>
+        <message>
+            <source>Playback Info</source>
+            <translation>Playback Info</translation>
+        </message>
+        <message>
+            <source>Select Audio</source>
+            <translation>Select Audio</translation>
+        </message>
+        <message>
+            <source>Select Subtitles</source>
+            <translation>Select Subtitles</translation>
+        </message>
+        <message>
+            <source>Select Language</source>
+            <translation>Select Language</translation>
+        </message>
+        <message>
+            <source>Tracks</source>
+            <translation>Tracks</translation>
+        </message>
+        <message>
+            <source>Released</source>
+            <translation>Released</translation>
+        </message>
+        <message>
+            <source>min</source>
+            <translation>min</translation>
+        </message>
+        <message>
+            <source>mins</source>
+            <translation>mins</translation>
+        </message>
+        <message>
+            <source>Continue Listening</source>
+            <translation>Continue Listening</translation>
+        </message>
+        <message>
+            <source>In My List</source>
+            <translation>In My List</translation>
+        </message>
+        <message>
+            <source>AppearsOn</source>
+            <translation>AppearsOn</translation>
+        </message>
+        <message>
+            <source>Public Profile</source>
+            <translation>Public Profile</translation>
+        </message>
+        <message>
+            <source>Saved Profile</source>
+            <translation>Saved Profile</translation>
+        </message>
+        <message>
+            <source>Manage Hidden Users</source>
+            <translation>Manage Hidden Users</translation>
+        </message>
+        <message>
+            <source>Manual Login</source>
+            <translation>Manual Login</translation>
+        </message>
+        <message>
+            <source>Unhide Users</source>
+            <translation>Unhide Users</translation>
+        </message>
+        <message>
+            <source>Unhide Users</source>
+            <translation>Unhide Users</translation>
+        </message>
+        <message>
+            <source>Play Normally - disabled because force transcoding setting is enabled</source>
+            <translation>Play Normally - disabled because force transcoding setting is enabled</translation>
+        </message>
+        <message>
+            <source>as</source>
+            <translation>as</translation>
+            <extracomment>Used in ExtrasRowList.bs to show the role of a person in a movie or TV show</extracomment>
+        </message>
+        <message>
+            <source>Seasons</source>
+            <translation>Seasons</translation>
+            <extracomment>Used in TVSeasonRow.bs to show the title of a row containing seasons</extracomment>
+        </message>
+        <message>
+            <source>Season</source>
+            <translation>Season</translation>
+        </message>
+        <message>
+            <source>Episode</source>
+            <translation>Episode</translation>
         </message>
     </context>
 </TS>
