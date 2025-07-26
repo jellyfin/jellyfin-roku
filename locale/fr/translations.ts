@@ -677,7 +677,7 @@
     </message>
     <message>
         <source>Go directly to the episode list if a TV series has only one season.</source>
-        <translation type="unfinished">Aller directement à la liste des épisodes si la série ne possède qu&apos;une seule saison.</translation>
+        <translation>Si cette option est activée, la sélection d&apos;une série télévisée avec une seule saison accédera directement à la liste des épisodes plutôt qu&apos;aux détails de la série et à la liste des saisons.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
@@ -1115,7 +1115,7 @@
     </message>
     <message>
         <source>Set how many seconds before the end of an episode the Next Episode button should appear. Set to 0 to disable.</source>
-        <translation type="unfinished">Définir combien de secondes avant la fin d&apos;un épisode le bouton «&#x202f;Prochain épisode&#x202f;» doit apparaître. La valeur 0 permet de le désactiver.</translation>
+        <translation>S&apos;il n&apos;existe aucun segment média « Outro », définissez le nombre de secondes avant la fin de l&apos;épisode où le bouton « Ignorer l&apos;outro » doit apparaître. Définissez cette option à 0 pour la désactiver.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
@@ -1229,7 +1229,7 @@
     </message>
     <message>
         <source>Remember the currently logged in user and try to log them in again next time you start the Jellyfin app.</source>
-        <translation type="unfinished">Se souvenir de l&apos;utilisateur actuellement connecté et tenter de le connecter à nouveau au prochain démarrage de l&apos;application Jellyfin.</translation>
+        <translation>Se souvenir de l&apos;utilisateur actuellement connecté et tenter de le connecter à nouveau au prochain démarrage de l&apos;application Jellyfin.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
@@ -1274,7 +1274,7 @@
     </message>
     <message>
         <source>Ratings for how good a movie is</source>
-        <translation type="unfinished">Notes pour dire que le film est bon</translation>
+        <translation>Évaluations de la communauté et des critiques de Rotten Tomatoes.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
@@ -1400,6 +1400,358 @@
     <message>
         <source>Part</source>
         <translation>Partie</translation>
+    </message>
+    <message>
+        <source>Resume playing at </source>
+        <translation>Reprendre la lecture à </translation>
+    </message>
+    <message>
+        <source>(Favorites)</source>
+        <translation>(Favoris)</translation>
+    </message>
+    <message>
+        <source>Favorites</source>
+        <translation>Favoris</translation>
+    </message>
+    <message>
+        <source>Collections</source>
+        <translation>Collections</translation>
+    </message>
+    <message>
+        <source>No items found. Try adjusting your selected filters.</source>
+        <translation>Aucun élément trouvé. Essayez d&apos;ajuster vos filtres.</translation>
+    </message>
+    <message>
+        <source>Video Codec Support</source>
+        <translation>Codecs vidéo prise en charge</translation>
+    </message>
+    <message>
+        <source>Enable or disable Direct Play support for certain codecs.</source>
+        <translation>Activer ou désactiver la prise en charge de Direct Play pour certains codecs.</translation>
+    </message>
+    <message>
+        <source>Video Profile Level Support</source>
+        <translation>Prise en charge du profil vidéo par niveau</translation>
+    </message>
+    <message>
+        <source>Custom Trickplay</source>
+        <translation>Trickplay personnalisé</translation>
+    </message>
+    <message>
+        <source>Force all playable media to be transcoded.</source>
+        <translation>Forcer tous les médias lisibles à être transcodés.</translation>
+    </message>
+    <message>
+        <source>Media Segment Actions</source>
+        <translation>Actions sur les segments multimédia</translation>
+    </message>
+    <message>
+        <source>Commercial Segments</source>
+        <translation>Segments commerciaux</translation>
+    </message>
+    <message>
+        <source>Intro Segments</source>
+        <translation>Segments d&apos;introduction</translation>
+    </message>
+    <message>
+        <source>What action should Jellyfin take for intro segments?</source>
+        <translation>Quelle action Jellyfin doit-il prendre pour les segments d&apos;introduction ?</translation>
+    </message>
+    <message>
+        <source>What action should Jellyfin take for outro segments?</source>
+        <translation>Quelle action Jellyfin doit-il prendre pour les segments d&apos;outro ?</translation>
+    </message>
+    <message>
+        <source>Preview Segments</source>
+        <translation>Segments d&apos;aperçu</translation>
+    </message>
+    <message>
+        <source>Recap Segments</source>
+        <translation>Segments récapitulatifs</translation>
+    </message>
+    <message>
+        <source>What action should Jellyfin take for recap segments?</source>
+        <translation>Quelle action Jellyfin doit-il prendre pour les segments récapitulatifs ?</translation>
+    </message>
+    <message>
+        <source>Ask To Skip</source>
+        <translation>Demander à sauter</translation>
+    </message>
+    <message>
+        <source>Item Detail Screen</source>
+        <translation>Écran détaillé de l&apos;élément</translation>
+    </message>
+    <message>
+        <source>Forget Filters</source>
+        <translation>Oubliez les filtres</translation>
+    </message>
+    <message>
+        <source>Forget applied library filters when Jellyfin is closed.</source>
+        <translation>Oubliez les filtres de médiathèque appliqués lorsque Jellyfin est fermé.</translation>
+    </message>
+    <message>
+        <source>Library Landscape Column Count</source>
+        <translation>Nombre de colonnes en mode paysage de la bibliothèque</translation>
+    </message>
+    <message>
+        <source>Library Portrait Column Count</source>
+        <translation>Nombre de colonnes en mode portraits de la médiathèque</translation>
+    </message>
+    <message>
+        <source>Number of columns in library view when showing square images</source>
+        <translation>Nombre de colonnes dans la vue de la bibliothèque lors de l&apos;affichage d&apos;images carrées</translation>
+    </message>
+    <message>
+        <source>Search is unavailable because the API does not support searching inside My List.</source>
+        <translation>La recherche n&apos;est pas disponible parce que l&apos;API ne prend pas en charge la recherche dans Ma liste.</translation>
+    </message>
+    <message>
+        <source>Mark As Unplayed</source>
+        <translation>Marquer comme non lu</translation>
+    </message>
+    <message>
+        <source>Mark As Played</source>
+        <translation>Marquer comme lu</translation>
+    </message>
+    <message>
+        <source>Remove From My List</source>
+        <translation>Supprimer de Ma liste</translation>
+    </message>
+    <message>
+        <source>Add To My List</source>
+        <translation>Ajouter à Ma liste</translation>
+    </message>
+    <message>
+        <source>Press OK to type</source>
+        <translation>Appuyez sur OK pour écrire</translation>
+    </message>
+    <message>
+        <source>Library Settings</source>
+        <translation>Paramètres de la médiathèque</translation>
+    </message>
+    <message>
+        <source>Display Watched Checkmark</source>
+        <translation>Afficher l&apos;indicateur comme lu</translation>
+    </message>
+    <message>
+        <source>Playback Info</source>
+        <translation>Informations de Lecture</translation>
+    </message>
+    <message>
+        <source>Select Audio</source>
+        <translation>Sélectionner la piste audio</translation>
+    </message>
+    <message>
+        <source>Select Subtitles</source>
+        <translation>Sélectionnez les sous-titres</translation>
+    </message>
+    <message>
+        <source>Select Language</source>
+        <translation>Sélectionner la langue</translation>
+    </message>
+    <message>
+        <source>Tracks</source>
+        <translation>Pistes</translation>
+    </message>
+    <message>
+        <source>min</source>
+        <translation>min</translation>
+    </message>
+    <message>
+        <source>mins</source>
+        <translation>mins</translation>
+    </message>
+    <message>
+        <source>Continue Listening</source>
+        <translation>Continuer d&apos;écouter</translation>
+    </message>
+    <message>
+        <source>In My List</source>
+        <translation>Dans Ma liste</translation>
+    </message>
+    <message>
+        <source>AppearsOn</source>
+        <translation>Apparaît sur</translation>
+    </message>
+    <message>
+        <source>Public Profile</source>
+        <translation>Profil public</translation>
+    </message>
+    <message>
+        <source>Saved Profile</source>
+        <translation>Profil enregistré</translation>
+    </message>
+    <message>
+        <source>Manual Login</source>
+        <translation>Connexion manuelle</translation>
+    </message>
+    <message>
+        <source>Unhide Users</source>
+        <translation>Démasquer les utilisateurs</translation>
+    </message>
+    <message>
+        <source>Seasons</source>
+        <translation>Saisons</translation>
+    </message>
+    <message>
+        <source>Season</source>
+        <translation>Saison</translation>
+    </message>
+    <message>
+        <source>Episode</source>
+        <translation>Épisode</translation>
+    </message>
+    <message>
+        <source>Settings</source>
+        <translation>Paramètres</translation>
+    </message>
+    <message>
+        <source>Unable to get playback information</source>
+        <translation>Impossible d&apos;obtenir les informations de lecture</translation>
+    </message>
+    <message>
+        <source>Outro Segments</source>
+        <translation>Segments d&apos;outro</translation>
+    </message>
+    <message>
+        <source>Overview Content</source>
+        <translation>Aperçu du contenu</translation>
+    </message>
+    <message>
+        <source>Number of columns in library view when showing portrait (tall) images</source>
+        <translation>Nombre de colonnes dans la vue de la bibliothèque lors de l&apos;affichage d&apos;images en mode portrait (hauteur)</translation>
+    </message>
+    <message>
+        <source>Search this library</source>
+        <translation>Rechercher dans cette médiathèque</translation>
+    </message>
+    <message>
+        <source>Artists</source>
+        <translation>Artistes</translation>
+    </message>
+    <message>
+        <source>Date Show Added</source>
+        <translation>Date d&apos;ajout des émissions télé</translation>
+    </message>
+    <message>
+        <source>Mark As Favorite</source>
+        <translation>Marquer comme favori</translation>
+    </message>
+    <message>
+        <source>Start over from the beginning.</source>
+        <translation>Recommencer du début.</translation>
+    </message>
+    <message>
+        <source>Date Episode Added</source>
+        <translation>Date d&apos;ajout de l&apos;épisode</translation>
+    </message>
+    <message>
+        <source>Playback Options</source>
+        <translation>Options de lecture</translation>
+    </message>
+    <message>
+        <source>Force Transcoding setting is enabled</source>
+        <translation>Le paramètre forcer le transcodage est activé</translation>
+    </message>
+    <message>
+        <source>Change User</source>
+        <translation>Changer d&apos;utilisateur</translation>
+    </message>
+    <message>
+        <source>Favorited</source>
+        <translation>Favoris</translation>
+    </message>
+    <message>
+        <source>Force Transcode option is enabled</source>
+        <translation>L&apos;option forcer le transcodage est activée</translation>
+    </message>
+    <message>
+        <source>All</source>
+        <translation>Tout</translation>
+    </message>
+    <message>
+        <source>Playlists</source>
+        <translation>Listes de lecture</translation>
+    </message>
+    <message>
+        <source>What action should Jellyfin take for preview segments?</source>
+        <translation>Quelle action Jellyfin doit-il prendre pour les segments d&apos;aperçu ?</translation>
+    </message>
+    <message>
+        <source>Delete Playlist</source>
+        <translation>Supprimer la liste de lecture</translation>
+    </message>
+    <message>
+        <source>A quick overview of the item selected - typically a short plot outline.</source>
+        <translation>Un aperçu rapide de l&apos;élément sélectionné - généralement un bref aperçu de l&apos;intrigue.</translation>
+    </message>
+    <message>
+        <source>None</source>
+        <translation>Rien</translation>
+    </message>
+    <message>
+        <source>Attempt Direct Play of potentially unsupported profile levels</source>
+        <translation>Essayer la lecture directe des niveaux de profil potentiellement non pris en charge</translation>
+    </message>
+    <message>
+        <source>Display custom trickplay images even if this Roku says it&apos;s displaying its own. This may cause the two images to overlay on top of each other.</source>
+        <translation>Afficher des images TrickPlay personnalisées même si ce Roku indique afficher les siennes. Cela peut entraîner une superposition des deux images.</translation>
+    </message>
+    <message>
+        <source>What action should Jellyfin take for commercial segments?</source>
+        <translation>Quelle action Jellyfin devrait-elle prendre pour les segments commerciaux ?</translation>
+    </message>
+    <message>
+        <source>Settings relating to the appearance of pages in all Libraries.</source>
+        <translation>Paramètres relatifs à l&apos;apparence des pages dans toutes les médiathèques.</translation>
+    </message>
+    <message>
+        <source>Force Transcoding</source>
+        <translation>Transcodage forcé</translation>
+    </message>
+    <message>
+        <source>Settings relating to how Jellyfin should handle media segments.</source>
+        <translation>Paramètres relatifs à la façon dont Jellyfin doit gérer les segments multimédias.</translation>
+    </message>
+    <message>
+        <source>Settings relating to the appearance of the item detail screen.</source>
+        <translation>Paramètres relatifs à l&apos;apparence de l&apos;écran de détail de l&apos;élément.</translation>
+    </message>
+    <message>
+        <source>Settings relating to the appearance of Library pages.</source>
+        <translation>Paramètres relatifs à l&apos;apparence des pages de la médiathèque.</translation>
+    </message>
+    <message>
+        <source>Sort by</source>
+        <translation>Trié par</translation>
+    </message>
+    <message>
+        <source>Search is unavailable because the API does not support searching inside boxsets.</source>
+        <translation>La recherche n&apos;est pas disponible parce que l&apos;API ne prend pas en charge la recherche à l&apos;intérieur des collections.</translation>
+    </message>
+    <message>
+        <source>Number of columns in library view when showing landscape (wide) images</source>
+        <translation>Nombre de colonnes dans la vue de la bibliothèque lors de l&apos;affichage d&apos;images en mode paysage (largeur)</translation>
+    </message>
+    <message>
+        <source>Play Normally - disabled because force transcoding setting is enabled</source>
+        <translation>Lire normalement - désactivé car le paramètre de transcodage forcé est activé</translation>
+    </message>
+    <message>
+        <source>Library Square Column Count</source>
+        <translation>Nombre de colonnes en mode carré de la médiathèque</translation>
+    </message>
+    <message>
+        <source>Add To Playlist</source>
+        <translation>Ajouter à la liste de lecture</translation>
+    </message>
+    <message>
+        <source>Manage Hidden Users</source>
+        <translation>Gérer les utilisateurs masqués</translation>
+    </message>
+    <message>
+        <source>as</source>
+        <translation>est</translation>
     </message>
 </context>
 </TS>
