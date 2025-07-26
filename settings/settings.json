@@ -332,7 +332,7 @@
         "children": [
           {
             "title": "Commercial Segments",
-            "description": "What action should Jellyfin take for commercial segments? ",
+            "description": "What action should Jellyfin take for commercial segments?",
             "settingName": "playback.mediasegments.commercial",
             "type": "radio",
             "default": "none",
@@ -353,7 +353,7 @@
           },
           {
             "title": "Intro Segments",
-            "description": "What action should Jellyfin take for intro segments? ",
+            "description": "What action should Jellyfin take for intro segments?",
             "settingName": "playback.mediasegments.intro",
             "type": "radio",
             "default": "asktoskip",
@@ -374,7 +374,7 @@
           },
           {
             "title": "Outro Segments",
-            "description": "What action should Jellyfin take for outro segments? ",
+            "description": "What action should Jellyfin take for outro segments?",
             "settingName": "playback.mediasegments.outro",
             "type": "radio",
             "default": "asktoskip",
@@ -395,7 +395,7 @@
           },
           {
             "title": "Preview Segments",
-            "description": "What action should Jellyfin take for preview segments? ",
+            "description": "What action should Jellyfin take for preview segments?",
             "settingName": "playback.mediasegments.preview",
             "type": "radio",
             "default": "none",
@@ -416,7 +416,7 @@
           },
           {
             "title": "Recap Segments",
-            "description": "What action should Jellyfin take for recap segments? ",
+            "description": "What action should Jellyfin take for recap segments?",
             "settingName": "playback.mediasegments.recap",
             "type": "radio",
             "default": "none",

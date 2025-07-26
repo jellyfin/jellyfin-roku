@@ -47,7 +47,7 @@ sub optionsSet()
     if m.global.session.user.settings["playback.media.forceTranscode"]
         m.optionMenu.checkedItem = 1
         normalOption = m.optionMenu.content.getChild(0)
-        normalOption.title = "Play Normally - disabled because force transcoding setting is enabled"
+        normalOption.title = tr("Play Normally - disabled because force transcoding setting is enabled")
     else if m.global.queueManager.callFunc("getForceTranscode")
         m.optionMenu.checkedItem = 1
     else

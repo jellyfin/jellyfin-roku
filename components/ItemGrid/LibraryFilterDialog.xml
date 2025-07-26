@@ -6,7 +6,7 @@
       <Rectangle id="background" width="1720" height="880" />
       <Text
         id="headerText"
-        text="Filter"
+        text="TAB_FILTER"
         horizAlign="Left"
         font="font:LargeSystemFont"
         height="100"

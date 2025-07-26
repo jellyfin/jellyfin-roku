@@ -106,10 +106,10 @@ sub setOnScreenTextValues(json)
             adjustScreenForNoOverview()
         end if
 
-        setFieldTextValue("numberofsongs", stri(json.ChildCount) + " Tracks")
+        setFieldTextValue("numberofsongs", `${json.ChildCount} ${tr("Tracks")}`)
 
         if type(json.ProductionYear) = "roInt"
-            setFieldTextValue("released", "Released " + stri(json.ProductionYear))
+            setFieldTextValue("released", `${tr("Released")} ${json.ProductionYear}`)
         end if
 
         if json.genres.count() > 0
@@ -117,7 +117,7 @@ sub setOnScreenTextValues(json)
         end if
 
         if type(json.RunTimeTicks) = "LongInteger"
-            setFieldTextValue("runtime", stri(getMinutes(json.RunTimeTicks)) + " mins")
+            setFieldTextValue("runtime", `${getMinutes(json.RunTimeTicks)} ${tr("mins")}`)
         end if
     end if
 end sub
