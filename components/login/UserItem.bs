@@ -38,7 +38,7 @@ sub itemContentChanged()
 
     profileName = m.top.findNode("profileName")
 
-    m.top.findNode("profileType").text = itemData.isPublic ? tr("Public Profile") : tr("Saved Profile")
+    m.top.findNode("profileType").text = itemData.isPublic ? "Public Profile" : "Saved Profile"
 
     if itemData.imageURL = ""
         m.profileImage.uri = "pkg:/images/baseline_person_white_48dp.png"

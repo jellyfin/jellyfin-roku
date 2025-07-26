@@ -78,9 +78,6 @@ sub setupNodes()
     m.viewButton.background = ColorPalette.WHITE
     m.viewButton.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
 
-    m.top.findNode("filterLabel").text = tr("TAB_FILTER")
-    m.top.findNode("viewLabel").text = tr("TAB_VIEW")
-    m.options.findNode("headerText").text = tr("TAB_FILTER")
 
     setSearchBackground(SearchButtonState.INACTIVE)
 end sub

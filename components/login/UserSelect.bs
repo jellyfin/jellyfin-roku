@@ -10,12 +10,9 @@ sub init()
 
     m.unhideUsers = m.top.findNode("unhideUsers")
     m.unhideUsers.color = ColorPalette.ELEMENTBACKGROUND
-    m.top.findNode("unhideUserHeader").text = tr("Unhide Users")
 
     m.hiddenUsers = m.top.findNode("hiddenUsers")
     m.manageHiddenUsers = m.top.findNode("manageHiddenUsers")
-    m.manageHiddenUsers.text = tr("Manage Hidden Users")
-    m.top.findNode("userSelectHeader").text = tr("Select User")
 
     m.hiddenUsers.focusBitmapBlendColor = ColorPalette.HIGHLIGHT
     m.hiddenUsers.focusedColor = ColorPalette.WHITE
@@ -25,12 +22,10 @@ sub init()
     m.manualLogin.color = ColorPalette.DARKGREY
     m.manualLogin.focusBackground = ColorPalette.HIGHLIGHT
     m.manualLogin.focusColor = ColorPalette.WHITE
-    m.manualLogin.text = tr("Manual Login")
 
     m.hiddenUserAnimation = m.top.findNode("hiddenUserAnimation")
     m.hiddenUserSlider = m.top.findNode("hiddenUserSlider")
     m.viewContentSlider = m.top.findNode("viewContentSlider")
-
 end sub
 
 sub onHiddenUserListChanged()

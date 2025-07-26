@@ -65,7 +65,7 @@
           width="335" />
       </LayoutGroup>
       <LayoutGroup layoutDirection="vert" itemSpacings="[10]">
-        <Text id="filterLabel" font="font:SmallSystemFont" text="Filter" />
+        <Text id="filterLabel" font="font:SmallSystemFont" text="TAB_FILTER" />
         <TextButton
           id="filterButton"
           iconSide="right"
@@ -78,7 +78,7 @@
           width="335" />
       </LayoutGroup>
       <LayoutGroup layoutDirection="vert" itemSpacings="[10]">
-        <Text id="viewLabel" font="font:SmallSystemFont" text="View" />
+        <Text id="viewLabel" font="font:SmallSystemFont" text="TAB_FILTER" />
         <TextButton
           id="viewButton"
           iconSide="right"

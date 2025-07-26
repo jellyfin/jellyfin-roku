@@ -9,7 +9,6 @@ sub init()
     setupMainNode()
 
     m.instantMix = m.top.findNode("instantMix")
-    m.instantMix.text = tr("Instant Mix")
     m.instantMix.background = ColorPalette.LIGHTBLUE
     m.instantMix.color = ColorPalette.DARKGREY
     m.instantMix.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
@@ -118,7 +117,7 @@ sub setOnScreenTextValues(json)
         end if
 
         if type(json.RunTimeTicks) = "LongInteger"
-            setFieldTextValue("runtime", `${getMinutes(json.RunTimeTicks)} tr("mins")`)
+            setFieldTextValue("runtime", `${getMinutes(json.RunTimeTicks)} ${tr("mins")}`)
         end if
     end if
 end sub
