@@ -1358,6 +1358,46 @@
         <source>Series</source>
         <translation>Séries TV</translation>
     </message>
+    <message>
+        <source>Change User</source>
+        <translation>Changer d&apos;utilisateur</translation>
+    </message>
+    <message>
+        <source>Resume playing at </source>
+        <translation>Reprendre la lecture à </translation>
+    </message>
+    <message>
+        <source>Playback Options</source>
+        <translation>Options de lecture</translation>
+    </message>
+    <message>
+        <source>Settings</source>
+        <translation>Paramètres</translation>
+    </message>
+    <message>
+        <source>Unable to get playback information</source>
+        <translation>Impossible d&apos;obtenir les informations de lecture</translation>
+    </message>
+    <message>
+        <source>Date Show Added</source>
+        <translation>Date d&apos;ajout des émissions télé</translation>
+    </message>
+    <message>
+        <source>Date Episode Added</source>
+        <translation>Date d&apos;ajout de l&apos;épisode</translation>
+    </message>
+    <message>
+        <source>Favorited</source>
+        <translation>Favoris</translation>
+    </message>
+    <message>
+        <source>Mark As Favorite</source>
+        <translation>Marquer comme favori</translation>
+    </message>
+    <message>
+        <source>Start over from the beginning.</source>
+        <translation>Recommencer du début.</translation>
+    </message>
 </context>
 <context>
     <name></name>
