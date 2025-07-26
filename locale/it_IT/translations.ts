@@ -643,7 +643,7 @@
     </message>
     <message>
         <source>Remember the currently logged in user and try to log them in again next time you start the Jellyfin app.</source>
-        <translation>Ricorda l&apos;utente attualmente connesso e prova a loggarlo nuovamente la prossima volta che l&apos;app Jellyfin viene aperta.</translation>
+        <translation type="unfinished">Ricorda l&apos;utente attualmente connesso e prova a loggarlo nuovamente la prossima volta che l&apos;app Jellyfin viene aperta.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
@@ -796,7 +796,7 @@
     </message>
     <message>
         <source>Set how many seconds before the end of an episode the Next Episode button should appear. Set to 0 to disable.</source>
-        <translation>Imposta quanti secondi prima della fine di un episodio appare il tasto Prossimo episodio. Impostare a 0 per disabilitare.</translation>
+        <translation type="unfinished">Imposta quanti secondi prima della fine di un episodio appare il tasto Prossimo episodio. Impostare a 0 per disabilitare.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
@@ -953,7 +953,7 @@
     </message>
     <message>
         <source>Go directly to the episode list if a TV series has only one season.</source>
-        <translation>Vai direttamente alla lista degli episodi se una serie TV ha solamente una stagione.</translation>
+        <translation type="unfinished">Vai direttamente alla lista degli episodi se una serie TV ha solamente una stagione.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
@@ -1280,7 +1280,7 @@
     </message>
     <message>
         <source>Ratings for how good a movie is</source>
-        <translation>Valutazioni sulla qualità di un film</translation>
+        <translation type="unfinished">Valutazioni sulla qualità di un film</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
