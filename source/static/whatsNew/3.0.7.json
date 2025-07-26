@@ -22,5 +22,9 @@
   {
     "description": "Exclude missing episodes when populating playback queue",
     "author": "michaelcresswell"
+  },
+  {
+    "description": "Fix crash when filtering music library by genre",
+    "author": "1hitsong"
   }
 ]
