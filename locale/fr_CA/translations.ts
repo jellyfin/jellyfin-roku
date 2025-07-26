@@ -681,7 +681,7 @@
     </message>
     <message>
         <source>Go directly to the episode list if a TV series has only one season.</source>
-        <translation type="unfinished">Aller directement à la liste des épisodes si la série télé n&apos;a qu&apos;une saison.</translation>
+        <translation>Si cette option est activée, la sélection d&apos;une série télévisée avec une seule saison accédera directement à la liste des épisodes plutôt qu&apos;aux détails de la série et à la liste des saisons.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
@@ -816,7 +816,7 @@
     </message>
     <message>
         <source>Set how many seconds before the end of an episode the Next Episode button should appear. Set to 0 to disable.</source>
-        <translation type="unfinished">Définir combien de secondes avant la fin d&apos;un épisode le bouton «&#x202f;Prochain épisode&#x202f;» doit apparaître. La valeur 0 permet de le désactiver.</translation>
+        <translation>S&apos;il n&apos;existe aucun segment média « Outro », définissez le nombre de secondes avant la fin de l&apos;épisode où le bouton « Ignorer l&apos;outro » doit apparaître. Définissez cette option à 0 pour la désactiver.</translation>
     </message>
     <message>
         <source>The source file is entirely compatible with this client and the session is receiving the file without modifications.</source>
@@ -1204,7 +1204,7 @@
     </message>
     <message>
         <source>Remember the currently logged in user and try to log them in again next time you start the Jellyfin app.</source>
-        <translation type="unfinished">Se souvenir de l&apos;utilisateur actuellement connecté et tenter de le connecter à nouveau au prochain démarrage de l&apos;application Jellyfin.</translation>
+        <translation>Se souvenir de l&apos;utilisateur actuellement connecté et tenter de le connecter à nouveau au prochain démarrage de l&apos;application Jellyfin.</translation>
     </message>
     <message>
         <source>No Chapter Data Found</source>
@@ -1397,6 +1397,134 @@
     <message>
         <source>Start over from the beginning.</source>
         <translation>Recommencer du début.</translation>
+    </message>
+    <message>
+        <source>Force Transcode option is enabled</source>
+        <translation>L&apos;option forcer le transcodage est activée</translation>
+    </message>
+    <message>
+        <source>All</source>
+        <translation>Tout</translation>
+    </message>
+    <message>
+        <source>(Favorites)</source>
+        <translation>(Favoris)</translation>
+    </message>
+    <message>
+        <source>Favorites</source>
+        <translation>Favoris</translation>
+    </message>
+    <message>
+        <source>Delete Playlist</source>
+        <translation>Supprimer la liste de lecture</translation>
+    </message>
+    <message>
+        <source>Collections</source>
+        <translation>Collections</translation>
+    </message>
+    <message>
+        <source>Playlists</source>
+        <translation>Listes de lecture</translation>
+    </message>
+    <message>
+        <source>Attempt Direct Play of potentially unsupported profile levels</source>
+        <translation>Essayer la lecture directe des niveaux de profil potentiellement non pris en charge</translation>
+    </message>
+    <message>
+        <source>Custom Trickplay</source>
+        <translation>Trickplay personnalisé</translation>
+    </message>
+    <message>
+        <source>Force Transcoding</source>
+        <translation>Transcodage forcé</translation>
+    </message>
+    <message>
+        <source>Force all playable media to be transcoded.</source>
+        <translation>Forcer tous les médias lisibles à être transcodés.</translation>
+    </message>
+    <message>
+        <source>Media Segment Actions</source>
+        <translation>Actions sur les segments multimédia</translation>
+    </message>
+    <message>
+        <source>Commercial Segments</source>
+        <translation>Segments commerciaux</translation>
+    </message>
+    <message>
+        <source>Intro Segments</source>
+        <translation>Segments d&apos;introduction</translation>
+    </message>
+    <message>
+        <source>Recap Segments</source>
+        <translation>Segments récapitulatifs</translation>
+    </message>
+    <message>
+        <source>Ask To Skip</source>
+        <translation>Demander à sauter</translation>
+    </message>
+    <message>
+        <source>None</source>
+        <translation>Rien</translation>
+    </message>
+    <message>
+        <source>Artists</source>
+        <translation>Artistes</translation>
+    </message>
+    <message>
+        <source>No items found. Try adjusting your selected filters.</source>
+        <translation>Aucun élément trouvé. Essayez d&apos;ajuster vos filtres.</translation>
+    </message>
+    <message>
+        <source>Display custom trickplay images even if this Roku says it&apos;s displaying its own. This may cause the two images to overlay on top of each other.</source>
+        <translation>Afficher des images TrickPlay personnalisées même si ce Roku indique afficher les siennes. Cela peut entraîner une superposition des deux images.</translation>
+    </message>
+    <message>
+        <source>Video Codec Support</source>
+        <translation>Codecs vidéo prise en charge</translation>
+    </message>
+    <message>
+        <source>Force Transcoding setting is enabled</source>
+        <translation>Le paramètre forcer le transcodage est activé</translation>
+    </message>
+    <message>
+        <source>Enable or disable Direct Play support for certain codecs.</source>
+        <translation>Activer ou désactiver la prise en charge de Direct Play pour certains codecs.</translation>
+    </message>
+    <message>
+        <source>Video Profile Level Support</source>
+        <translation>Prise en charge du profil vidéo par niveau</translation>
+    </message>
+    <message>
+        <source>Settings relating to how Jellyfin should handle media segments.</source>
+        <translation>Paramètres relatifs à la façon dont Jellyfin doit gérer les segments multimédias.</translation>
+    </message>
+    <message>
+        <source>What action should Jellyfin take for commercial segments?</source>
+        <translation>Quelle action Jellyfin devrait-elle prendre pour les segments commerciaux ?</translation>
+    </message>
+    <message>
+        <source>What action should Jellyfin take for intro segments?</source>
+        <translation>Quelle action Jellyfin doit-il prendre pour les segments d&apos;introduction ?</translation>
+    </message>
+    <message>
+        <source>Preview Segments</source>
+        <translation>Segments d&apos;aperçu</translation>
+    </message>
+    <message>
+        <source>Outro Segments</source>
+        <translation>Segments d&apos;outro</translation>
+    </message>
+    <message>
+        <source>What action should Jellyfin take for preview segments?</source>
+        <translation>Quelle action Jellyfin doit-il prendre pour les segments d&apos;aperçu ?</translation>
+    </message>
+    <message>
+        <source>What action should Jellyfin take for outro segments?</source>
+        <translation>Quelle action Jellyfin doit-il prendre pour les segments d&apos;outro ?</translation>
+    </message>
+    <message>
+        <source>What action should Jellyfin take for recap segments?</source>
+        <translation>Quelle action Jellyfin doit-il prendre pour les segments récapitulatifs ?</translation>
     </message>
 </context>
 <context>
