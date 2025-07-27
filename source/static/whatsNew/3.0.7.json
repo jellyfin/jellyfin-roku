@@ -32,6 +32,10 @@
     "author": "myrad2267"
   },
   {
+    "description": "Fix crash on server select screen",
+    "author": "1hitsong"
+  },
+  {
     "description": "Fix possible crash from played check mark",
     "author": "1hitsong"
   }

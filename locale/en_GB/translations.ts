@@ -421,7 +421,7 @@
     </message>
     <message>
         <source>Go directly to the episode list if a TV series has only one season.</source>
-        <translation>Go directly to the episode list if a TV series has only one season.</translation>
+        <translation type="unfinished">Go directly to the episode list if a TV series has only one season.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
@@ -807,7 +807,7 @@
     </message>
     <message>
         <source>Set how many seconds before the end of an episode the Next Episode button should appear. Set to 0 to disable.</source>
-        <translation>Set how many seconds before the end of an episode the Next Episode button should appear. Set to 0 to disable.</translation>
+        <translation type="unfinished">Set how many seconds before the end of an episode the Next Episode button should appear. Set to 0 to disable.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
@@ -1117,7 +1117,7 @@
     </message>
     <message>
         <source>Remember the currently logged in user and try to log them in again next time you start the Jellyfin app.</source>
-        <translation>Remember the currently logged in user and try to log them in again next time you start the Jellyfin app.</translation>
+        <translation type="unfinished">Remember the currently logged in user and try to log them in again next time you start the Jellyfin app.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
@@ -1261,7 +1261,7 @@
     </message>
     <message>
         <source>Ratings for how good a movie is</source>
-        <translation>Ratings for how good a movie is</translation>
+        <translation type="unfinished">Ratings for how good a movie is</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>

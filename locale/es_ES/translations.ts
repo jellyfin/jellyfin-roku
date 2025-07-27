@@ -334,7 +334,7 @@
     </message>
     <message>
         <source>Remember the currently logged in user and try to log them in again next time you start the Jellyfin app.</source>
-        <translation>Recordar al usuario que acaba de ingresar e intentar iniciar sesión nuevamente la próxima vez que abras la app de Jellyfin.</translation>
+        <translation type="unfinished">Recordar al usuario que acaba de ingresar e intentar iniciar sesión nuevamente la próxima vez que abras la app de Jellyfin.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
@@ -845,7 +845,7 @@
     </message>
     <message>
         <source>Go directly to the episode list if a TV series has only one season.</source>
-        <translation>Ir directamente a la lista de episodios si la serie tiene solo una temporada.</translation>
+        <translation type="unfinished">Ir directamente a la lista de episodios si la serie tiene solo una temporada.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
@@ -1331,7 +1331,7 @@
     </message>
     <message>
         <source>Ratings for how good a movie is</source>
-        <translation>Calificaciones de lo buena que es una película</translation>
+        <translation type="unfinished">Calificaciones de lo buena que es una película</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
@@ -1371,7 +1371,7 @@
     </message>
     <message>
         <source>Set how many seconds before the end of an episode the Next Episode button should appear. Set to 0 to disable.</source>
-        <translation>Establecer cuantos segundos antes de finalizar un episodio el botón de Siguiente Episodio debe aparecer. El valor 0 deshabilita está opción.</translation>
+        <translation type="unfinished">Establecer cuantos segundos antes de finalizar un episodio el botón de Siguiente Episodio debe aparecer. El valor 0 deshabilita está opción.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>

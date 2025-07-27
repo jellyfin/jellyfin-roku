@@ -677,7 +677,7 @@
     </message>
     <message>
         <source>Go directly to the episode list if a TV series has only one season.</source>
-        <translation>Ves directament a la llista d&apos;episodis si la sèrie només té una temporada.</translation>
+        <translation type="unfinished">Ves directament a la llista d&apos;episodis si la sèrie només té una temporada.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
@@ -1123,7 +1123,7 @@
     </message>
     <message>
         <source>Set how many seconds before the end of an episode the Next Episode button should appear. Set to 0 to disable.</source>
-        <translation>Estableix quants segons abans d&apos;acabar un episodi ha d&apos;aparèixer el botó d&apos;Episodi següent. El valor de 0 deshabilita aquesta opció.</translation>
+        <translation type="unfinished">Estableix quants segons abans d&apos;acabar un episodi ha d&apos;aparèixer el botó d&apos;Episodi següent. El valor de 0 deshabilita aquesta opció.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
@@ -1237,7 +1237,7 @@
     </message>
     <message>
         <source>Remember the currently logged in user and try to log them in again next time you start the Jellyfin app.</source>
-        <translation>Recorda l&apos;usuari que acaba d&apos;iniciar sessió i intenta que ho pugui fer cada cop que comenci l&apos;aplicació de Jellyfin.</translation>
+        <translation type="unfinished">Recorda l&apos;usuari que acaba d&apos;iniciar sessió i intenta que ho pugui fer cada cop que comenci l&apos;aplicació de Jellyfin.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
@@ -1282,7 +1282,7 @@
     </message>
     <message>
         <source>Ratings for how good a movie is</source>
-        <translation>Valoracions sobre com n&apos;és de bona una pel·lícula</translation>
+        <translation type="unfinished">Valoracions sobre com n&apos;és de bona una pel·lícula</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>

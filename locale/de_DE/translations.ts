@@ -687,7 +687,7 @@
     </message>
     <message>
         <source>Go directly to the episode list if a TV series has only one season.</source>
-        <translation>Direkt zur Episodenliste gehen, wenn eine TV-Serie nur eine Staffel hat.</translation>
+        <translation type="unfinished">Direkt zur Episodenliste gehen, wenn eine TV-Serie nur eine Staffel hat.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
@@ -1107,12 +1107,12 @@
     </message>
     <message>
         <source>Set how many seconds before the end of an episode the Next Episode button should appear. Set to 0 to disable.</source>
-        <translation>Lege fest, wie viele Sekunden vor dem Ende einer Episode die Schaltfläche &quot;Nächste Episode&quot; erscheinen soll. Zum Deaktivieren auf 0 setzen.</translation>
+        <translation type="unfinished">Lege fest, wie viele Sekunden vor dem Ende einer Episode die Schaltfläche &quot;Nächste Episode&quot; erscheinen soll. Zum Deaktivieren auf 0 setzen.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Ratings for how good a movie is</source>
-        <translation>Bewertungen, wie gut ein Film ist</translation>
+        <translation type="unfinished">Bewertungen, wie gut ein Film ist</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
@@ -1172,7 +1172,7 @@
     </message>
     <message>
         <source>Remember the currently logged in user and try to log them in again next time you start the Jellyfin app.</source>
-        <translation>Merke den aktuell angemeldeten Benutzer und versuche, ihn beim nächsten Start der Jellyfin-App erneut anzumelden.</translation>
+        <translation type="unfinished">Merke den aktuell angemeldeten Benutzer und versuche, ihn beim nächsten Start der Jellyfin-App erneut anzumelden.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>

@@ -358,7 +358,7 @@
     </message>
     <message>
         <source>Set how many seconds before the end of an episode the Next Episode button should appear. Set to 0 to disable.</source>
-        <translation>Defina quantos segundos antes do final de um episódio o botão Próximo Episódio deve aparecer. Defina como 0 para desativar.</translation>
+        <translation type="unfinished">Defina quantos segundos antes do final de um episódio o botão Próximo Episódio deve aparecer. Defina como 0 para desativar.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
@@ -499,7 +499,7 @@
     </message>
     <message>
         <source>Go directly to the episode list if a TV series has only one season.</source>
-        <translation>Vá diretamente para a lista de episódios caso uma série de TV tenha apenas uma temporada.</translation>
+        <translation type="unfinished">Vá diretamente para a lista de episódios caso uma série de TV tenha apenas uma temporada.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
@@ -920,7 +920,7 @@
     </message>
     <message>
         <source>Remember the currently logged in user and try to log them in again next time you start the Jellyfin app.</source>
-        <translation>Lembre-se do usuário conectado no momento e tente entra novamente na próxima vez que iniciar o aplicativo Jellyfin.</translation>
+        <translation type="unfinished">Lembre-se do usuário conectado no momento e tente entra novamente na próxima vez que iniciar o aplicativo Jellyfin.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
@@ -1234,7 +1234,7 @@
     </message>
     <message>
         <source>Ratings for how good a movie is</source>
-        <translation>Avaliações de qualidade de um filme</translation>
+        <translation type="unfinished">Avaliações de qualidade de um filme</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
