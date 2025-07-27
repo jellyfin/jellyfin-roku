@@ -31,7 +31,7 @@ sub onDataChange()
     if not isValidAndNotEmpty(m.top.data) then return
 
     if chainLookupReturn(m.top.data, "unplayedCount", 0) > 0
-        disableUnwatchedEpisodeCount = m.global.session.user.settings["ui.tvshows.disableUnwatchedEpisodeCount"] ?? false
+        disableUnwatchedEpisodeCount = chainLookupReturn(m.global.session, "user.settings.`ui.tvshows.disableUnwatchedEpisodeCount`", false)
         if disableUnwatchedEpisodeCount then return
 
         unplayedCount = m.top.data.unplayedCount.ToStr()
