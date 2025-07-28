@@ -1,9 +1,11 @@
+import "pkg:/source/enums/ItemType.bs"
 import "pkg:/source/utils/misc.bs"
 
 sub setFields()
     datum = m.top.json
 
     m.top.id = datum.id
+    m.top.type = ItemType.RECORDING
     m.top.title = datum.name
     m.top.showID = datum.SeriesID
     m.top.seasonID = datum.SeasonID
