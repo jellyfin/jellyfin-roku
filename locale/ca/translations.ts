@@ -1754,5 +1754,9 @@
         <source>No items found. Try adjusting your selected filters.</source>
         <translation>No s&apos;han trobat elements. Proveu de refinar els filtres seleccionats.</translation>
     </message>
+    <message>
+        <source>Enable or disable Direct Play support for certain codecs.</source>
+        <translation>Habilita o deshabilita el suport per a la reproducció directa de certs còdecs.</translation>
+    </message>
 </context>
 </TS>
