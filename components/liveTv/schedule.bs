@@ -5,6 +5,7 @@ import "pkg:/source/enums/TaskControl.bs"
 import "pkg:/source/utils/misc.bs"
 
 sub init()
+    m.top.filter = "All"
     m.state = TaskControl.RUN
     m.channelScheduleLimit = 50
     m.channelScheduleLoadedCount = 0
