@@ -677,7 +677,7 @@
     </message>
     <message>
         <source>Go directly to the episode list if a TV series has only one season.</source>
-        <translation type="unfinished">Ves directament a la llista d&apos;episodis si la sèrie només té una temporada.</translation>
+        <translation>Si està habilitat, en seleccionar una sèrie de televisió amb només una temporada, es mostrarà directament la llista d&apos;episodis en comptes dels detalls del programa i la llista de temporades.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
@@ -1123,7 +1123,7 @@
     </message>
     <message>
         <source>Set how many seconds before the end of an episode the Next Episode button should appear. Set to 0 to disable.</source>
-        <translation type="unfinished">Estableix quants segons abans d&apos;acabar un episodi ha d&apos;aparèixer el botó d&apos;Episodi següent. El valor de 0 deshabilita aquesta opció.</translation>
+        <translation>Si no hi ha cap segment inicial, estableix quants segons abans d&apos;acabar un episodi ha d&apos;aparèixer el botó de saltar-se la introducció. El valor de 0 deshabilita aquesta opció.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
@@ -1437,6 +1437,66 @@
     <message>
         <source>Library Landscape Column Count</source>
         <translation>Nombre de columnes en la mediateca en mode imatges apaïsades</translation>
+    </message>
+    <message>
+        <source>Number of columns in library view when showing portrait (tall) images</source>
+        <translation>Nombre de columnes en la visualització de la mediateca en mode retrat</translation>
+    </message>
+    <message>
+        <source>Number of columns in library view when showing square images</source>
+        <translation>Nombre de columnes en la mediateca en mode imatges quadrades</translation>
+    </message>
+    <message>
+        <source>Episode</source>
+        <translation>Episodi</translation>
+    </message>
+    <message>
+        <source>Unable to get playback information</source>
+        <translation>No s&apos;ha pogut obtenir la informació de reproducció</translation>
+    </message>
+    <message>
+        <source>Date Show Added</source>
+        <translation>Data d&apos;adició del títol</translation>
+    </message>
+    <message>
+        <source>Date Episode Added</source>
+        <translation>Data d&apos;adició de l&apos;episodi</translation>
+    </message>
+    <message>
+        <source>Favorited</source>
+        <translation>Preferit</translation>
+    </message>
+    <message>
+        <source>Mark As Favorite</source>
+        <translation>Marca com a preferit</translation>
+    </message>
+    <message>
+        <source>Start over from the beginning.</source>
+        <translation>Comença des de l&apos;inici.</translation>
+    </message>
+    <message>
+        <source>Force Transcoding setting is enabled</source>
+        <translation>L&apos;opció de transcodificació forçada està habilitada</translation>
+    </message>
+    <message>
+        <source>Settings</source>
+        <translation>Paràmetres</translation>
+    </message>
+    <message>
+        <source>Change User</source>
+        <translation>Canvia l&apos;usuari</translation>
+    </message>
+    <message>
+        <source>Resume playing at </source>
+        <translation>Reprèn la reproducció a </translation>
+    </message>
+    <message>
+        <source>Playback Options</source>
+        <translation>Opcions de reproducció</translation>
+    </message>
+    <message>
+        <source>Library Square Column Count</source>
+        <translation>Nombre de columnes en la mediateca en mode quadrats</translation>
     </message>
 </context>
 </TS>
