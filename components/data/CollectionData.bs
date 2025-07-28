@@ -2,6 +2,10 @@ import "pkg:/source/api/baserequest.bs"
 import "pkg:/source/api/Image.bs"
 import "pkg:/source/utils/config.bs"
 
+sub init()
+    m.top.overview = "boxsets"
+end sub
+
 sub setFields()
     json = m.top.json
 

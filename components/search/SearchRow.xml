@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component name="SearchRow" extends="RowList">
   <interface>
-    <field id="showItemTitles" type="string" value="showalways" />
+    <field id="showItemTitles" type="string" value="" />
     <field id="rowSize" type="int" />
     <field id="itemData" type="assocarray" onChange="getData" />
     <field id="query" type="string" />

@@ -140,10 +140,10 @@
     <field id="parentItem" type="node" onChange="loadInitialItems" />
     <field id="selectedItem" type="node" alwaysNotify="true" />
     <field id="quickPlayNode" type="node" alwaysNotify="true" />
-    <field id="imageDisplayMode" type="string" value="scaleToZoom" />
+    <field id="imageDisplayMode" type="string" value="" />
     <field id="alphaSelected" type="string" alias="alpha.letterSelected" onChange="alphaSelectedChanged" alwaysNotify="true" />
     <field id="searchTerm" type="string" onChange="onSearchTermChanged" alwaysNotify="true" />
     <field id="alphaActive" type="boolean" value="false" />
-    <field id="showItemTitles" type="string" value="showonhover" />
+    <field id="showItemTitles" type="string" value="" />
   </interface>
 </component>

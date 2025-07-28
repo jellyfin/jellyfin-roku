@@ -20,6 +20,9 @@ const ASPECT_RATIO_PORTRAIT_WITH_TITLE = 1.69565
 const ASPECT_RATIO_LANDSCAPE_WITH_TITLE = .925
 
 sub setupNodes()
+    m.top.imageDisplayMode = "scaleToZoom"
+    m.top.showItemTitles = "showonhover"
+
     m.librarySettings = m.top.findNode("librarySettings")
     m.librarySettings.observeFieldScoped("selected", "onLibrarySettingsSelected")
     m.librarySettings.highlightBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
