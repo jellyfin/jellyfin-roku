@@ -1282,7 +1282,7 @@
     </message>
     <message>
         <source>Ratings for how good a movie is</source>
-        <translation type="unfinished">Valoracions sobre com n&apos;és de bona una pel·lícula</translation>
+        <translation>Crítiques professionals i de la comunitat de Rotten Tomatoes.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
@@ -1401,6 +1401,42 @@
     <message>
         <source>Skip</source>
         <translation>Salta-ho</translation>
+    </message>
+    <message>
+        <source>Settings relating to the appearance of pages in all Libraries.</source>
+        <translation>Paràmetres relacionats amb l&apos;aparença de les pàgines de totes les mediateques.</translation>
+    </message>
+    <message>
+        <source>Number of columns in library view when showing landscape (wide) images</source>
+        <translation>Nombre de columnes en la visualització de la mediateca en mostrar imatges apaïsades</translation>
+    </message>
+    <message>
+        <source>A quick overview of the item selected - typically a short plot outline.</source>
+        <translation>Una descripció senzilla de l&apos;element seleccionat - normalment una breu sinopsi.</translation>
+    </message>
+    <message>
+        <source>Settings relating to the appearance of Library pages.</source>
+        <translation>Paràmetres relacionats amb l&apos;aparença de les pàgines de la mediateca.</translation>
+    </message>
+    <message>
+        <source>Forget applied library filters when Jellyfin is closed.</source>
+        <translation>Neteja els filtres aplicats a la mediateca en tancar Jellyfin.</translation>
+    </message>
+    <message>
+        <source>Library Portrait Column Count</source>
+        <translation>Nombre de columnes en la mediateca en mode retrat</translation>
+    </message>
+    <message>
+        <source>Overview Content</source>
+        <translation>Resum del contingut</translation>
+    </message>
+    <message>
+        <source>Forget Filters</source>
+        <translation>Neteja els filtres</translation>
+    </message>
+    <message>
+        <source>Library Landscape Column Count</source>
+        <translation>Nombre de columnes en la mediateca en mode imatges apaïsades</translation>
     </message>
 </context>
 </TS>
