@@ -1234,7 +1234,7 @@
     </message>
     <message>
         <source>Ratings for how good a movie is</source>
-        <translation type="unfinished">Avaliações de qualidade de um filme</translation>
+        <translation>Avaliações da comunidade e de críticas do Rotten Tomatoes.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
@@ -1325,17 +1325,17 @@
     </message>
     <message>
         <source>View All Next Up</source>
-        <translation>Ver todos Próximos</translation>
+        <translation>Ver todos os próximos</translation>
         <extracomment>Title for viewing all episodes available in the Next Up section</extracomment>
     </message>
     <message>
         <source>Rewatching Next Up</source>
-        <translation>Reassitir Próximos</translation>
+        <translation>Reassistir próximos</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Show already watched episodes in &apos;Next Up&apos; sections.</source>
-        <translation>Mostrar episódios já assistidos nas seções &quot;Próximos&quot;.</translation>
+        <translation>Mostrar episódios já assistidos na seção “Próximo a assistir”.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
@@ -1404,6 +1404,190 @@
     <message>
         <source>CH</source>
         <translation>CH</translation>
+    </message>
+    <message>
+        <source>Overview Content</source>
+        <translation>Resumo do conteúdo</translation>
+    </message>
+    <message>
+        <source>A quick overview of the item selected - typically a short plot outline.</source>
+        <translation>Um resumo rápido do que foi selecionado – geralmente uma sinopse curta.</translation>
+    </message>
+    <message>
+        <source>Forget applied library filters when Jellyfin is closed.</source>
+        <translation>Limpar filtros da biblioteca ao sair do Jellyfin.</translation>
+    </message>
+    <message>
+        <source>Settings relating to the appearance of Library pages.</source>
+        <translation>Ajustes de aparência das páginas da biblioteca.</translation>
+    </message>
+    <message>
+        <source>Date Show Added</source>
+        <translation>Série adicionada em</translation>
+    </message>
+    <message>
+        <source>Settings relating to the appearance of pages in all Libraries.</source>
+        <translation>Ajustes de aparência das páginas de todas as bibliotecas.</translation>
+    </message>
+    <message>
+        <source>Number of columns in library view when showing landscape (wide) images</source>
+        <translation>Número de colunas na biblioteca (modo paisagem)</translation>
+    </message>
+    <message>
+        <source>Number of columns in library view when showing portrait (tall) images</source>
+        <translation>Número de colunas na biblioteca (modo retrato)</translation>
+    </message>
+    <message>
+        <source>Number of columns in library view when showing square images</source>
+        <translation>Número de colunas ao mostrar imagens quadradas</translation>
+    </message>
+    <message>
+        <source>Date Episode Added</source>
+        <translation>Episódio adicionado em</translation>
+    </message>
+    <message>
+        <source>Settings</source>
+        <translation>Configurações</translation>
+    </message>
+    <message>
+        <source>Favorited</source>
+        <translation>Favoritos</translation>
+    </message>
+    <message>
+        <source>Resume playing at </source>
+        <translation>Retomar a reprodução em </translation>
+    </message>
+    <message>
+        <source>Start over from the beginning.</source>
+        <translation>Assistir do início.</translation>
+    </message>
+    <message>
+        <source>downloads</source>
+        <translation>downloads</translation>
+    </message>
+    <message>
+        <source>Seasons</source>
+        <translation>Temporadas</translation>
+    </message>
+    <message>
+        <source>All</source>
+        <translation>Todos</translation>
+    </message>
+    <message>
+        <source>Manage Hidden Users</source>
+        <translation>Gerenciar usuários ocultos</translation>
+    </message>
+    <message>
+        <source>Play Normally - disabled because force transcoding setting is enabled</source>
+        <translation>Reproduzir normalmente – desativado porque a opção de transcodificação forçada está ativada</translation>
+    </message>
+    <message>
+        <source>Force Transcoding setting is enabled</source>
+        <translation>A opção de transcodificação forçada está ativada</translation>
+    </message>
+    <message>
+        <source>Favorites</source>
+        <translation>Favoritos</translation>
+    </message>
+    <message>
+        <source>Delete Playlist</source>
+        <translation>Excluir playlist</translation>
+    </message>
+    <message>
+        <source>No items found. Try adjusting your selected filters.</source>
+        <translation>Nenhum item encontrado. Tente ajustar os filtros selecionados.</translation>
+    </message>
+    <message>
+        <source>Video Codec Support</source>
+        <translation>Suporte a codec de vídeo</translation>
+    </message>
+    <message>
+        <source>Enable or disable Direct Play support for certain codecs.</source>
+        <translation>Ative ou desative o suporte ao Direct Play para certos codecs.</translation>
+    </message>
+    <message>
+        <source>Attempt Direct Play of potentially unsupported profile levels</source>
+        <translation>Tentar Direct Play para níveis de perfil possivelmente não suportados</translation>
+    </message>
+    <message>
+        <source>Change User</source>
+        <translation>Trocar usuário</translation>
+    </message>
+    <message>
+        <source>Unable to get playback information</source>
+        <translation>Não foi possível obter as informações de reprodução</translation>
+    </message>
+    <message>
+        <source>Mark As Favorite</source>
+        <translation>Favoritar</translation>
+    </message>
+    <message>
+        <source>Playback Options</source>
+        <translation>Opções de reprodução</translation>
+    </message>
+    <message>
+        <source>Force Transcode option is enabled</source>
+        <translation>A opção forçar transcodificação está ativada</translation>
+    </message>
+    <message>
+        <source>Artists</source>
+        <translation>Artistas</translation>
+    </message>
+    <message>
+        <source>Collections</source>
+        <translation>Coleções</translation>
+    </message>
+    <message>
+        <source>(Favorites)</source>
+        <translation>(Favoritos)</translation>
+    </message>
+    <message>
+        <source>Playlists</source>
+        <translation>Playlists</translation>
+    </message>
+    <message>
+        <source>Video Profile Level Support</source>
+        <translation>Suporte ao nível de perfil de vídeo</translation>
+    </message>
+    <message>
+        <source>Forget Filters</source>
+        <translation>Limpar filtros</translation>
+    </message>
+    <message>
+        <source>Library Landscape Column Count</source>
+        <translation>Colunas (modo paisagem)</translation>
+    </message>
+    <message>
+        <source>Library Portrait Column Count</source>
+        <translation>Colunas (modo retrato)</translation>
+    </message>
+    <message>
+        <source>Library Square Column Count</source>
+        <translation>Quantidade de colunas quadradas da biblioteca</translation>
+    </message>
+    <message>
+        <source>Folders</source>
+        <translation>Pastas</translation>
+    </message>
+    <message>
+        <source>Manual Login</source>
+        <translation>Login manual</translation>
+    </message>
+    <message>
+        <source>Unhide Users</source>
+        <translation>Mostrar usuários ocultos</translation>
+    </message>
+    <message>
+        <source>as</source>
+        <translation>como</translation>
+    </message>
+    <message>
+        <source>Episode</source>
+        <translation>Episódio</translation>
+    </message>
+    <message>
+        <source>Season</source>
+        <translation>Temporada</translation>
     </message>
 </context>
 <context>
