@@ -1,2 +1,3 @@
 sub init()
+    m.top.iconSide = "left"
 end sub

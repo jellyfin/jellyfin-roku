@@ -12,7 +12,7 @@
     <field id="text" type="string" onChange="onTextChange" />
     <field id="backgroundColor" type="color" value="" onChange="onBackgroundColorChange" />
     <field id="horizAlign" type="string" />
-    <field id="alignmentSide" type="string" value="left" />
+    <field id="alignmentSide" type="string" value="" />
     <field id="maxWidth" type="int" value="0" />
     <field id="horizOffset" type="int" value="0" />
 
