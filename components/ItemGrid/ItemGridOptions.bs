@@ -7,6 +7,8 @@ import "pkg:/source/enums/TaskControl.bs"
 import "pkg:/source/utils/misc.bs"
 
 sub init()
+    m.top.sortField = "SortName"
+    m.top.favorite = "Favorite"
     overlay = m.top.findNode("overlay")
     overlay.color = ColorPalette.DARKGREY
 

@@ -2,7 +2,7 @@
 
 <component name="LoadItemsTask" extends="Task">
   <interface>
-    <field id="itemsToLoad" type="string" value="libraries" />
+    <field id="itemsToLoad" type="string" value="" />
     <field id="itemId" type="string" />
     <field id="showID" type="string" />
     <field id="seasonID" type="string" />
