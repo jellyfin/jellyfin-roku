@@ -1494,6 +1494,142 @@
         <source>Highlighted Color</source>
         <translation>Color del Resaltado</translation>
     </message>
+    <message>
+        <source>Playback Options</source>
+        <translation>Opciones de Reproducción</translation>
+    </message>
+    <message>
+        <source>Force Transcode option is enabled</source>
+        <translation>La codificación forzada esta activada</translation>
+    </message>
+    <message>
+        <source>(Favorites)</source>
+        <translation>(Favoritos)</translation>
+    </message>
+    <message>
+        <source>Favorites</source>
+        <translation>Favoritos</translation>
+    </message>
+    <message>
+        <source>Artists</source>
+        <translation>Artistas</translation>
+    </message>
+    <message>
+        <source>Delete Playlist</source>
+        <translation>Eliminar lista de reproducción</translation>
+    </message>
+    <message>
+        <source>Playlists</source>
+        <translation>Listas de reproducción</translation>
+    </message>
+    <message>
+        <source>Video Profile Level Support</source>
+        <translation>Soporte a nivel de Perfil de Video</translation>
+    </message>
+    <message>
+        <source>Media Segment Actions</source>
+        <translation>Acciones de medios de segmentos</translation>
+    </message>
+    <message>
+        <source>Commercial Segments</source>
+        <translation>Segmentos comerciales</translation>
+    </message>
+    <message>
+        <source>Mark As Favorite</source>
+        <translation>Marcar como Favorito</translation>
+    </message>
+    <message>
+        <source>Date Show Added</source>
+        <translation>Fecha de Añadido</translation>
+    </message>
+    <message>
+        <source>Date Episode Added</source>
+        <translation>Fecha de episodio añadido</translation>
+    </message>
+    <message>
+        <source>Change User</source>
+        <translation>Cambiar de Usuario</translation>
+    </message>
+    <message>
+        <source>Settings</source>
+        <translation>Configuración</translation>
+    </message>
+    <message>
+        <source>Collections</source>
+        <translation>Colecciones</translation>
+    </message>
+    <message>
+        <source>All</source>
+        <translation>Todos</translation>
+    </message>
+    <message>
+        <source>Start over from the beginning.</source>
+        <translation>Volver a empezar desde el inicio.</translation>
+    </message>
+    <message>
+        <source>Unable to get playback information</source>
+        <translation>No se pudo obtener la información de reproducción</translation>
+    </message>
+    <message>
+        <source>Favorited</source>
+        <translation>Favorito</translation>
+    </message>
+    <message>
+        <source>Resume playing at </source>
+        <translation>Continuar la reproducción en </translation>
+    </message>
+    <message>
+        <source>Force Transcoding setting is enabled</source>
+        <translation>La opción de codificación forzada esta activada</translation>
+    </message>
+    <message>
+        <source>No items found. Try adjusting your selected filters.</source>
+        <translation>No se encontraron resultados. Intenta ajustar tus filtros seleccionados.</translation>
+    </message>
+    <message>
+        <source>Video Codec Support</source>
+        <translation>Soporte de Códec de Video</translation>
+    </message>
+    <message>
+        <source>Enable or disable Direct Play support for certain codecs.</source>
+        <translation>Activa o desactiva el soporte de la Reproducción Directa para ciertos códecs.</translation>
+    </message>
+    <message>
+        <source>Attempt Direct Play of potentially unsupported profile levels</source>
+        <translation>Intentar la Reproducción Directa de niveles de perfil potencialmente no soportados</translation>
+    </message>
+    <message>
+        <source>Custom Trickplay</source>
+        <translation>Avance rápido personalizado</translation>
+    </message>
+    <message>
+        <source>Display custom trickplay images even if this Roku says it&apos;s displaying its own. This may cause the two images to overlay on top of each other.</source>
+        <translation>Mostrar imágenes personalizadas de Avance Rápido incluso si este Roku dice que ya está mostrando las suyas. Esto puede causar que las dos imágenes se superpongan una encima de la otra.</translation>
+    </message>
+    <message>
+        <source>Force Transcoding</source>
+        <translation>Forzar Transcodificación</translation>
+    </message>
+    <message>
+        <source>Force all playable media to be transcoded.</source>
+        <translation>Forzar la transcodificación de todos los medios.</translation>
+    </message>
+    <message>
+        <source>Settings relating to how Jellyfin should handle media segments.</source>
+        <translation>Configuraciones relacionadas con cómo Jellyfin debería manejar los segmentos multimedia.</translation>
+    </message>
+    <message>
+        <source>What action should Jellyfin take for commercial segments?</source>
+        <translation>Que acción debería tomar Jellyfin para los segmentos comerciales?</translation>
+    </message>
+    <message>
+        <source>Intro Segments</source>
+        <translation>Segmentos de Introducción</translation>
+    </message>
+    <message>
+        <source>What action should Jellyfin take for intro segments?</source>
+        <translation>Que acción debería tomar Jellyfin para los segmentos de Introducción?</translation>
+    </message>
 </context>
 <context>
     <name></name>
