@@ -1,6 +1,7 @@
 import "pkg:/source/utils/misc.bs"
 
 sub init()
+    m.top.alignmentSide = "left"
     m.textLabelContainer = m.top.FindNode("textLabelContainer")
     m.background = m.top.FindNode("background")
 

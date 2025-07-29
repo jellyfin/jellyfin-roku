@@ -1,7 +1,9 @@
-import "pkg:/source/utils/config.bs"
 import "pkg:/source/api/baserequest.bs"
+import "pkg:/source/enums/MediaPlaybackState.bs"
+import "pkg:/source/utils/config.bs"
 
 sub init()
+    m.top.playerState = MediaPlaybackState.STOPPED
     m.top.observeField("url", "fetchCaption")
     m.top.currentCaption = []
     m.top.currentPos = 0

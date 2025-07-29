@@ -3,7 +3,7 @@
        <interface>
               <field id="url" type="string" />
               <field id="currentCaption" type="roArray" />
-              <field id="playerState" type="string" value="stopped" />
+              <field id="playerState" type="string" />
               <field id="currentPos" type="int" />
        </interface>
        <children>

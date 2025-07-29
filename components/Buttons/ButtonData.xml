@@ -13,7 +13,7 @@
     <field id="fontSize" type="integer" value="35" />
     <field id="icon" type="string" value="" />
     <field id="focusIcon" type="string" value="" />
-    <field id="iconSide" type="string" value="left" />
+    <field id="iconSide" type="string" value="" />
     <field id="selected" type="boolean" value="false" />
     <field id="focus" type="boolean" />
     <field id="escape" type="string" value="" />

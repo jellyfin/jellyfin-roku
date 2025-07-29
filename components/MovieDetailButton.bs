@@ -2,6 +2,7 @@ import "pkg:/source/enums/ColorPalette.bs"
 import "pkg:/source/utils/misc.bs"
 
 sub init()
+    m.top.iconSide = "left"
     m.buttonBackground = m.top.findNode("buttonBackground")
     m.buttonIcon = m.top.findNode("buttonIcon")
     m.buttonText = m.top.findNode("buttonText")
