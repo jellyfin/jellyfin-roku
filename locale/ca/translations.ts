@@ -1498,5 +1498,265 @@
         <source>Library Square Column Count</source>
         <translation>Nombre de columnes en la mediateca en mode quadrats</translation>
     </message>
+    <message>
+        <source>Video Profile Level Support</source>
+        <translation>Suport al nivell del perfil de vídeo</translation>
+    </message>
+    <message>
+        <source>Attempt Direct Play of potentially unsupported profile levels</source>
+        <translation>Intenta la reproducció directa de nivells de perfil potencialment no compatibles</translation>
+    </message>
+    <message>
+        <source>Preview Segments</source>
+        <translation>Segments de previsualització</translation>
+    </message>
+    <message>
+        <source>Custom Trickplay</source>
+        <translation>Previsualització personalitzada</translation>
+    </message>
+    <message>
+        <source>Display custom trickplay images even if this Roku says it&apos;s displaying its own. This may cause the two images to overlay on top of each other.</source>
+        <translation>Mostra imatges personalitzades de previsualització fins i tot si aquest Roku diu que està mostrant les seves pròpies. Això pot provocar que dues imatges se superposin.</translation>
+    </message>
+    <message>
+        <source>Force Transcoding</source>
+        <translation>Força la trancodificació</translation>
+    </message>
+    <message>
+        <source>What action should Jellyfin take for recap segments?</source>
+        <translation>Quina acció hauria de prendre Jellyfin per als segments de recapitulació?</translation>
+    </message>
+    <message>
+        <source>Force all playable media to be transcoded.</source>
+        <translation>Força la transcodificació de tot el contingut reproduïble.</translation>
+    </message>
+    <message>
+        <source>Recap Segments</source>
+        <translation>Segments de recapitulació</translation>
+    </message>
+    <message>
+        <source>Commercial Segments</source>
+        <translation>Segments comercials</translation>
+    </message>
+    <message>
+        <source>What action should Jellyfin take for outro segments?</source>
+        <translation>Quina acció hauria d&apos;emprendre Jellyfin per als segments finals?</translation>
+    </message>
+    <message>
+        <source>Settings relating to how Jellyfin should handle media segments.</source>
+        <translation>Configuració sobre com Jellyfin ha de gestionar els segments multimèdia.</translation>
+    </message>
+    <message>
+        <source>What action should Jellyfin take for commercial segments?</source>
+        <translation>Quines accions hauria de prendre Jellyfin per als segments comercials?</translation>
+    </message>
+    <message>
+        <source>Intro Segments</source>
+        <translation>Segments introductoris</translation>
+    </message>
+    <message>
+        <source>What action should Jellyfin take for intro segments?</source>
+        <translation>Quina acció hauria d&apos;emprendre Jellyfin per als segments introductoris?</translation>
+    </message>
+    <message>
+        <source>Media Segment Actions</source>
+        <translation>Accions en els segments mutimèdia</translation>
+    </message>
+    <message>
+        <source>Outro Segments</source>
+        <translation>Segments finals</translation>
+    </message>
+    <message>
+        <source>Mark As Unplayed</source>
+        <translation>Marca com a no reproduït</translation>
+    </message>
+    <message>
+        <source>Mark As Played</source>
+        <translation>Marca com a reproduït</translation>
+    </message>
+    <message>
+        <source>Add To My List</source>
+        <translation>Agrega a La meva llista</translation>
+    </message>
+    <message>
+        <source>Press OK to type</source>
+        <translation>Pitgeu D&apos;acord per a escriure</translation>
+    </message>
+    <message>
+        <source>What action should Jellyfin take for preview segments?</source>
+        <translation>Quina acció hauria d&apos;emprendre Jellyfin per als segments de previsualització?</translation>
+    </message>
+    <message>
+        <source>Ask To Skip</source>
+        <translation>Pregunta abans de saltar</translation>
+    </message>
+    <message>
+        <source>None</source>
+        <translation>Cap</translation>
+    </message>
+    <message>
+        <source>Item Detail Screen</source>
+        <translation>Pantalla de detalls de l&apos;element</translation>
+    </message>
+    <message>
+        <source>Sort by</source>
+        <translation>Ordena per</translation>
+    </message>
+    <message>
+        <source>Search this library</source>
+        <translation>Cerca en aquesta mediateca</translation>
+    </message>
+    <message>
+        <source>Settings relating to the appearance of the item detail screen.</source>
+        <translation>Paràmetres relacionats amb l&apos;aparença de la pantalla de detalls de l&apos;element.</translation>
+    </message>
+    <message>
+        <source>Search is unavailable because the API does not support searching inside boxsets.</source>
+        <translation>La cerca no es troba disponible perquè l&apos;API no permet cercar dintre de cofres.</translation>
+    </message>
+    <message>
+        <source>Search is unavailable because the API does not support searching inside My List.</source>
+        <translation>La cerca no es troba disponible perquè l&apos;API no permet cercar dintre de La meva llista.</translation>
+    </message>
+    <message>
+        <source>Add To Playlist</source>
+        <translation>Agrega a la llista de reproducció</translation>
+    </message>
+    <message>
+        <source>Remove From My List</source>
+        <translation>Elimina de La meva llista</translation>
+    </message>
+    <message>
+        <source>All</source>
+        <translation>Tot</translation>
+    </message>
+    <message>
+        <source>Favorites</source>
+        <translation>Preferits</translation>
+    </message>
+    <message>
+        <source>Artists</source>
+        <translation>Artistes</translation>
+    </message>
+    <message>
+        <source>Playlists</source>
+        <translation>Llistes de reproducció</translation>
+    </message>
+    <message>
+        <source>Video Codec Support</source>
+        <translation>Compatibilitat amb còdecs de vídeo</translation>
+    </message>
+    <message>
+        <source>Playback Info</source>
+        <translation>Informació de reproducció</translation>
+    </message>
+    <message>
+        <source>Select Subtitles</source>
+        <translation>Selecció de subtítols</translation>
+    </message>
+    <message>
+        <source>Select Language</source>
+        <translation>Selecció d&apos;idioma</translation>
+    </message>
+    <message>
+        <source>min</source>
+        <translation>min</translation>
+    </message>
+    <message>
+        <source>mins</source>
+        <translation>mins</translation>
+    </message>
+    <message>
+        <source>In My List</source>
+        <translation>A la meva llista</translation>
+    </message>
+    <message>
+        <source>Public Profile</source>
+        <translation>Perfil públic</translation>
+    </message>
+    <message>
+        <source>Season</source>
+        <translation>Temporada</translation>
+    </message>
+    <message>
+        <source>Released</source>
+        <translation>Estrenat</translation>
+    </message>
+    <message>
+        <source>AppearsOn</source>
+        <translation>Apareix a</translation>
+    </message>
+    <message>
+        <source>Display Watched Checkmark</source>
+        <translation>Mostra la marca de vist</translation>
+    </message>
+    <message>
+        <source>Continue Listening</source>
+        <translation>Continueu escoltant</translation>
+    </message>
+    <message>
+        <source>Library Settings</source>
+        <translation>Paràmetres de la mediateca</translation>
+    </message>
+    <message>
+        <source>Select Audio</source>
+        <translation>Selecció d&apos;àudio</translation>
+    </message>
+    <message>
+        <source>Manage Hidden Users</source>
+        <translation>Administra usuaris amagats</translation>
+    </message>
+    <message>
+        <source>Tracks</source>
+        <translation>Pistes</translation>
+    </message>
+    <message>
+        <source>Saved Profile</source>
+        <translation>Perfil desat</translation>
+    </message>
+    <message>
+        <source>Manual Login</source>
+        <translation>Registre manual</translation>
+    </message>
+    <message>
+        <source>Unhide Users</source>
+        <translation>Mostra els usuaris ocults</translation>
+    </message>
+    <message>
+        <source>Seasons</source>
+        <translation>Temporades</translation>
+    </message>
+    <message>
+        <source>(Favorites)</source>
+        <translation>(Preferits)</translation>
+    </message>
+    <message>
+        <source>Delete Playlist</source>
+        <translation>Elimina la llista de reproducció</translation>
+    </message>
+    <message>
+        <source>Play Normally - disabled because force transcoding setting is enabled</source>
+        <translation>Reprodueix amb normalitat - inhabilitat perquè hi ha habilitada la transcodificació forçada</translation>
+    </message>
+    <message>
+        <source>as</source>
+        <translation>com a</translation>
+    </message>
+    <message>
+        <source>Force Transcode option is enabled</source>
+        <translation>La transcodificació forçada està habilitada</translation>
+    </message>
+    <message>
+        <source>Collections</source>
+        <translation>Col·leccions</translation>
+    </message>
+    <message>
+        <source>No items found. Try adjusting your selected filters.</source>
+        <translation>No s&apos;han trobat elements. Proveu de refinar els filtres seleccionats.</translation>
+    </message>
+    <message>
+        <source>Enable or disable Direct Play support for certain codecs.</source>
+        <translation>Habilita o deshabilita el suport per a la reproducció directa de certs còdecs.</translation>
+    </message>
 </context>
 </TS>
