@@ -6,6 +6,7 @@ import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/deviceCapabilities.bs"
 
 sub init()
+    m.top.showItemTitles = "showalways"
     m.top.content = getData()
 end sub
 

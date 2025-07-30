@@ -5,6 +5,6 @@
     <field id="image" type="node" />
     <field id="collectionID" type="string" />
     <field id="description" type="string" />
-    <field id="overview" type="string" value="boxsets" />
+    <field id="overview" type="string" value="" />
   </interface>
 </component>

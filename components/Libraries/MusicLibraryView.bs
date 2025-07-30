@@ -66,6 +66,9 @@ sub setupNodes()
 end sub
 
 sub init()
+    m.top.imageDisplayMode = "scaleToZoom"
+    m.top.showItemTitles = "showonhover"
+
     setupNodes()
     m.bypassSearchEvent = false
 
