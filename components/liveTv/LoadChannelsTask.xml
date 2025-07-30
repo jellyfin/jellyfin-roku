@@ -3,9 +3,9 @@
 <component name="LoadChannelsTask" extends="Task">
   <interface>
     <field id="totalRecordCount" type="integer" value="0" />
-    <field id="filter" type="string" value="All" />
+    <field id="filter" type="string" value="" />
     <field id="searchTerm" type="string" value="" />
-    <field id="sortField" type="string" value="SortName" />
+    <field id="sortField" type="string" value="" />
     <field id="sortAscending" type="boolean" value="true" />
     <field id="nameStartsWith" type="string" value="" />
     <field id="recursive" type="boolean" value="true" />

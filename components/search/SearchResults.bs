@@ -8,6 +8,7 @@ import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/deviceCapabilities.bs"
 
 sub init()
+    m.top.imageDisplayMode = "scaleToZoom"
     m.loadItemsTask1 = createObject("roSGNode", "LoadItemsTask")
     m.top.optionsAvailable = false
     m.searchRow = m.top.findnode("searchRow")

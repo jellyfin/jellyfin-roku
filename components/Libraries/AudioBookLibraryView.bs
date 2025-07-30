@@ -5,6 +5,7 @@ import "pkg:/source/utils/deviceCapabilities.bs"
 import "pkg:/source/utils/misc.bs"
 
 sub init()
+    m.top.imageDisplayMode = "scaleToZoom"
     m.top.showItemTitles = m.global.session.user.settings["itemgrid.gridTitles"]
 
     overhang = m.top.getScene().findNode("overhang")

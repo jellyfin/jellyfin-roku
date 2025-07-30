@@ -14,6 +14,9 @@ const ASPECT_RATIO_PORTRAIT_WITH_TITLE = 1.69565
 const ASPECT_RATIO_LANDSCAPE_WITH_TITLE = .925
 
 sub init()
+    m.top.imageDisplayMode = "scaleToZoom"
+    m.top.showItemTitles = "showonhover"
+
     overhang = m.top.getScene().findNode("overhang")
     overhang.isVisible = false
 

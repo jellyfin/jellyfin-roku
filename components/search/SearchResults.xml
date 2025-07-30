@@ -28,7 +28,7 @@
     <field id="query" type="string" alwaysNotify="true" />
     <field id="selectedItem" type="node" alwaysNotify="true" />
     <field id="quickPlayNode" type="node" alwaysNotify="true" />
-    <field id="imageDisplayMode" type="string" value="scaleToZoom" />
+    <field id="imageDisplayMode" type="string" value="" />
     <field id="searchAlpha" type="string" alias="SearchBox.search_values" alwaysNotify="true" onChange="searchMedias" />
   </interface>
 </component>

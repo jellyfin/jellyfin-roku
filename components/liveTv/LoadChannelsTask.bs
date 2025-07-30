@@ -3,6 +3,8 @@ import "pkg:/source/api/sdk.bs"
 import "pkg:/source/utils/config.bs"
 
 sub init()
+    m.top.filter = "All"
+    m.top.sortField = "SortName"
     m.top.functionName = "loadChannels"
 end sub
 
