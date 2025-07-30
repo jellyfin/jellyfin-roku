@@ -9,6 +9,7 @@ import "pkg:/source/utils/deviceCapabilities.bs"
 import "pkg:/source/utils/misc.bs"
 
 sub init()
+    m.top.itemsToLoad = "libraries"
     m.top.functionName = "loadItems"
 end sub
 

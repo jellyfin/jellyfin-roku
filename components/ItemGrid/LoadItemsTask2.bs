@@ -8,6 +8,8 @@ import "pkg:/source/utils/deviceCapabilities.bs"
 import "pkg:/source/utils/misc.bs"
 
 sub init()
+    m.top.filter = "All"
+    m.top.sortField = "SortName"
     m.top.functionName = "loadItems"
 
     m.top.limit = 60

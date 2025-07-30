@@ -7,6 +7,7 @@ import "pkg:/source/enums/TaskControl.bs"
 import "pkg:/source/utils/misc.bs"
 
 sub init()
+    m.top.filter = "All"
     m.originalOptions = {}
     m.submitButton = m.top.findNode("submitButton")
     m.submitButton.background = ColorPalette.LIGHTBLUE

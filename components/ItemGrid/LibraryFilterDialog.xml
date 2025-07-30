@@ -55,7 +55,7 @@
   </children>
   <interface>
     <field id="options" type="assocarray" onChange="optionsSet" />
-    <field id="filter" type="string" value="All" />
+    <field id="filter" type="string" value="" />
     <field id="filterOptions" type="assocarray" value="{}" />
   </interface>
 </component>

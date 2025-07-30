@@ -1,6 +1,8 @@
 import "pkg:/source/utils/misc.bs"
 
 sub init()
+    m.top.showItemTitles = "showalways"
+
     m.showFromBottomAnimation = m.top.findNode("showFromBottomAnimation")
     m.showFromBottomPosition = m.top.findNode("showFromBottomPosition")
     m.showFromBottomOpacity = m.top.findNode("showFromBottomOpacity")
