@@ -17,27 +17,34 @@ end sub
 
 sub onDataChange()
     m.top.color = ColorPalette.TRANSPARENT
-    m.checkmark.color = chainLookupReturn(m.global.session, "user.settings.colorPlayedCheckmarkIcon", ColorPalette.WHITE)
-    m.unplayedNumber.color = chainLookupReturn(m.global.session, "user.settings.colorUnplayedCountTextColor", ColorPalette.WHITE)
 
-    m.checkmark.visible = false
-    m.unplayedNumber.visible = false
+    if isValid(m.checkmark)
+        m.checkmark.color = chainLookupReturn(m.global.session, "user.settings.colorPlayedCheckmarkIcon", ColorPalette.WHITE)
+        m.checkmark.visible = false
+    end if
+
+    if isValid(m.unplayedNumber)
+        m.unplayedNumber.color = chainLookupReturn(m.global.session, "user.settings.colorUnplayedCountTextColor", ColorPalette.WHITE)
+        m.unplayedNumber.visible = false
+    end if
 
     if not isValidAndNotEmpty(m.top.data) then return
 
     if chainLookupReturn(m.top.data, "unplayedCount", 0) > 0
-        disableUnwatchedEpisodeCount = m.global.session.user.settings["ui.tvshows.disableUnwatchedEpisodeCount"] ?? false
+        disableUnwatchedEpisodeCount = chainLookupReturn(m.global.session, "user.settings.`ui.tvshows.disableUnwatchedEpisodeCount`", false)
         if disableUnwatchedEpisodeCount then return
 
         unplayedCount = m.top.data.unplayedCount.ToStr()
         unplayedCountLength = len(unplayedCount)
 
-        m.unplayedNumber.font.size = unplayedCountLength = 4 ? 25 : 30
 
         m.top.color = chainLookupReturn(m.global.session, "user.settings.colorPlayedCheckmarkBackground", ColorPalette.TRIADBLUE)
 
-        m.unplayedNumber.visible = true
-        m.unplayedNumber.text = unplayedCount
+        if isValid(m.unplayedNumber)
+            m.unplayedNumber.font.size = unplayedCountLength = 4 ? 25 : 30
+            m.unplayedNumber.visible = true
+            m.unplayedNumber.text = unplayedCount
+        end if
         return
     end if
 
@@ -45,7 +52,9 @@ sub onDataChange()
 
     if chainLookupReturn(m.top.data, "played", false)
         m.top.color = chainLookupReturn(m.global.session, "user.settings.colorPlayedCheckmarkBackground", ColorPalette.TRIADBLUE)
-        m.checkmark.visible = true
+        if isValid(m.checkmark)
+            m.checkmark.visible = true
+        end if
         return
     end if
 end sub
