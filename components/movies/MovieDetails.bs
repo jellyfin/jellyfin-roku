@@ -410,7 +410,8 @@ sub itemContentChanged()
     end for
 
     if isValidAndNotEmpty(directors)
-        setFieldText("director", tr("Director") + ": " + directors.join(", "))
+        directorLabel = directors.Count() > 1 ? tr("Directors") : tr("Director")
+        setFieldText("director", `${directorLabel}: ${directors.join(", ")}`)
     else
         setFieldText("director", "")
     end if
