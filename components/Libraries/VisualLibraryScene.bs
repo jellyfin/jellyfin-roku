@@ -81,11 +81,11 @@ sub setupNodes()
     m.viewButton.background = ColorPalette.WHITE
     m.viewButton.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
 
-
     setSearchBackground(SearchButtonState.INACTIVE)
 end sub
 
 sub init()
+    m.itemGridCounter = 0
     m.disabledReason = string.EMPTY
     m.searchButtonDisabled = false
     m.top.optionsAvailable = false
@@ -304,7 +304,7 @@ sub loadInitialItems()
     if not isStringEqual(type(m.sortAscending), "roBoolean") then m.sortAscending = true
 
     ' If view is not valid, use default view
-    if not inArray(["presentation", "grid", "Genres"], m.view) then m.view = "presentation"
+    if not inArray(["presentation", "grid", "Genres", "Episodes"], m.view) then m.view = "presentation"
 
     if isValid(m.top.parentItem.parentFolder)
         if not inArray(["presentation", "grid"], m.view) then m.view = "presentation"
@@ -340,8 +340,14 @@ sub loadInitialItems()
         m.loadItemsTask.itemId = m.top.parentItem.Id
         m.loadItemsTask.studioIds = string.EMPTY
         m.loadItemsTask.genreIds = string.EMPTY
+    else if isStringEqual(m.view, "Episodes")
+        m.loadItemsTask.itemId = m.top.parentItem.Id
+        m.loadItemsTask.studioIds = string.EMPTY
+        m.loadItemsTask.genreIds = string.EMPTY
+        if isStringEqual(m.loadItemsTask.sortField, "SortName")
+            m.loadItemsTask.sortField = `SeriesSortName,SortName`
+        end if
     end if
-
 
     if inArray([ItemType.BOXSET, ItemType.PHOTO, ItemType.PHOTOALBUM, ItemType.MUSICVIDEO], m.top.mediaType)
         m.loadItemsTask.recursive = false
@@ -365,6 +371,9 @@ sub loadInitialItems()
                 end if
             end if
         end if
+    else if isStringEqual(m.view, "Episodes")
+        m.loadItemsTask.recursive = true
+        m.loadItemsTask.itemType = ItemType.EPISODE
     else
         m.loadItemsTask.itemType = m.top.mediaType
     end if
@@ -414,8 +423,28 @@ sub loadInitialItems()
 
     m.emptyText.visible = false
 
-
     if isStringEqual(m.view, "grid")
+        m.top.showItemTitles = m.global.session.user.settings["itemgrid.gridTitles"]
+        m.backdrop.opacity = 0
+        m.newBackdrop.opacity = 0
+        m.itemLogo.visible = false
+
+        if m.dropdownOptions.opacity < 1
+            m.itemGrid.translation = "[100, 60]"
+        else
+            m.itemGrid.translation = "[100, 210]"
+        end if
+
+        m.dropdownOptionsMove.keyValue = "[[100, 60], [100, 0]]"
+        m.itemGridMove.keyValue = "[[100, 210], [100, 60]]"
+        m.emptyText.translation = "[0, 540]"
+        m.dropdownOptions.translation = "[100, 60]"
+        m.itemGrid.numRows = "3"
+        m.selectedItemOverview.visible = false
+        m.selectedItemName.visible = false
+        m.infoGroup.visible = false
+
+    else if isStringEqual(m.view, "Episodes")
         m.top.showItemTitles = m.global.session.user.settings["itemgrid.gridTitles"]
         m.backdrop.opacity = 0
         m.newBackdrop.opacity = 0
@@ -495,7 +524,28 @@ sub loadInitialItems()
         m.genreList.rowHeights = "[360]"
     end if
 
+    alphaDisplayed = m.alpha.callFunc("getDisplay")
+
+    if isStringEqual(m.view, "Episodes")
+        m.itemGrid.itemComponentName = "GridItemMedium"
+        m.itemGrid.itemSize = "[400, 330]"
+        m.itemGrid.rowHeights = "[330]"
+        m.itemGrid.itemSpacing = "[40, 20]"
+        m.itemGrid.numColumns = 4
+        m.top.imageDisplayMode = "scaleToZoom"
+
+        if alphaDisplayed
+            m.alpha.callFunc("setDisplay", false)
+        end if
+    else
+        if not alphaDisplayed
+            m.alpha.callFunc("setDisplay", true)
+        end if
+    end if
+
     if inArray([ItemType.PHOTO, ItemType.PHOTOALBUM, ItemType.MUSICVIDEO, ItemType.MYLIST], m.top.mediaType)
+        setColumnSizes(ImageLayout.LANDSCAPE)
+    else if isStringEqual(m.view, "Episodes")
         setColumnSizes(ImageLayout.LANDSCAPE)
     else
         setColumnSizes(ImageLayout.PORTRAIT)
@@ -720,7 +770,8 @@ function setSeriesOptions() as object
     options.views = [
         { "Title": tr("Presentation"), "Name": "presentation", "Track": { "description": tr("Presentation") } },
         { "Title": tr("Grid"), "Name": "grid", "Track": { "description": tr("Grid") } },
-        { "Title": tr("Genres"), "Name": "Genres", "Track": { "description": tr("Genres") } }
+        { "Title": tr("Genres"), "Name": "Genres", "Track": { "description": tr("Genres") } },
+        { "Title": tr("Episodes"), "Name": "Episodes", "Track": { "description": tr("Episodes") } }
     ]
 
     options.sort = [
@@ -1535,8 +1586,14 @@ sub onViewChange()
     if isStringEqual(viewChoice.LookupCI("name"), m.view) then return
 
     m.viewButton.focus = false
-    m.itemGrid.setFocus(m.itemGrid.opacity = 1)
-    m.genreList.setFocus(m.genreList.opacity = 1)
+
+    ' If we're moving to or from the episodes view, we must recreate the item grid to change the itemComponentName property
+    if inArray([m.view, viewChoice.LookupCI("name")], "Episodes")
+        m.top.removeChild(m.itemGrid)
+        ' The slide up animation will fail if the new itemGrid ID isn't unique /shrug
+        m.itemGridCounter++
+        createItemGrid(`itemGrid${m.itemGridCounter}`)
+    end if
 
     m.view = viewChoice.LookupCI("name")
     m.viewButton.text = tr(viewChoice.LookupCI("title"))
@@ -1574,9 +1631,33 @@ sub onViewChange()
 
     m.loadedRows = 0
     m.loadedItems = 0
+
+    m.itemGrid.setFocus(m.itemGrid.opacity = 1)
+    m.genreList.setFocus(m.genreList.opacity = 1)
+
     m.data = CreateObject("roSGNode", "ContentNode")
     m.itemGrid.content = m.data
     loadInitialItems()
+end sub
+
+sub createItemGrid(itemGridID = "itemGrid" as string)
+    m.itemGrid = createObject("rosgnode", "MarkupGrid")
+    m.itemGrid.id = itemGridID
+    m.itemGrid.itemSpacing = "[20, 20]"
+    m.itemGrid.vertFocusAnimationStyle = "fixed"
+    m.itemGrid.observeField("itemFocused", "onItemFocused")
+    m.itemGrid.observeFieldScoped("itemSelected", "onItemSelected")
+    m.itemGrid.focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+
+    if isStringEqual(m.view, "Episodes")
+        m.itemGrid.itemComponentName = "GridItemMedium"
+    else
+        m.itemGrid.itemComponentName = "GridItemSmall"
+    end if
+
+    m.top.insertChild(m.itemGrid, 1)
+
+    m.itemGridMove.fieldToInterp = `${m.itemGrid.id}.translation`
 end sub
 
 sub onSortOrderChange()
@@ -1647,6 +1728,9 @@ function onKeyEvent(key as string, press as boolean) as boolean
         end if
 
         if m.librarySettings.isinFocusChain()
+            alphaDisplayed = m.alpha.callFunc("getDisplay")
+            if not alphaDisplayed then return true
+
             m.librarySettings.highlighted = false
             m.alphaMenu.setFocus(true)
             m.alphaMenu.jumpToItem = 0
@@ -1664,6 +1748,9 @@ function onKeyEvent(key as string, press as boolean) as boolean
         end if
 
         if m.librarySettings.isinFocusChain()
+            alphaDisplayed = m.alpha.callFunc("getDisplay")
+            if not alphaDisplayed then return true
+
             m.librarySettings.highlighted = false
             m.alphaMenu.setFocus(true)
             m.alphaMenu.jumpToItem = m.alphaMenu.numRows - 1
@@ -1761,6 +1848,8 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
     if m.dropdownOptions.isinFocusChain()
         if isStringEqual(key, KeyCode.LEFT)
+            alphaDisplayed = m.alpha.callFunc("getDisplay")
+
             if m.voiceBox.isinFocusChain()
                 setSearchBackground(SearchButtonState.INACTIVE)
                 m.sortButton.focus = false
@@ -1768,10 +1857,17 @@ function onKeyEvent(key as string, press as boolean) as boolean
                 m.viewButton.focus = false
                 m.filterButton.focus = false
 
-                m.top.alphaActive = true
-                m.alphaMenu.setFocus(true)
-                group = m.global.sceneManager.callFunc("getActiveScene")
-                group.lastFocus = m.alphaMenu
+                if alphaDisplayed
+                    m.top.alphaActive = true
+                    m.alphaMenu.setFocus(true)
+                    group = m.global.sceneManager.callFunc("getActiveScene")
+                    group.lastFocus = m.alphaMenu
+                else
+                    m.librarySettings.setFocus(true)
+                    m.librarySettings.highlighted = true
+                    group = m.global.sceneManager.callFunc("getActiveScene")
+                    group.lastFocus = m.librarySettings
+                end if
                 return true
             end if
 
@@ -1907,6 +2003,17 @@ function onKeyEvent(key as string, press as boolean) as boolean
     end if
 
     if isStringEqual(key, KeyCode.LEFT)
+        alphaDisplayed = m.alpha.callFunc("getDisplay")
+        if not alphaDisplayed
+            if not m.librarySettings.highlighted
+                m.librarySettings.setFocus(true)
+                m.librarySettings.highlighted = true
+            end if
+            group = m.global.sceneManager.callFunc("getActiveScene")
+            group.lastFocus = m.librarySettings
+            return true
+        end if
+
         if m.itemGrid.isinFocusChain()
             m.top.alphaActive = true
             m.itemGrid.setFocus(false)
