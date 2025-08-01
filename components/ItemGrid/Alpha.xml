@@ -43,8 +43,14 @@
         <ContentNode title="Z" />
       </ContentNode>
     </MarkupList>
+    <Animation id="toggleDisplayAnimation" duration=".5" repeat="false" easeFunction="linear">
+      <FloatFieldInterpolator id="displayOpacity" key="[0.0, 1.0]" keyValue="[1.00, 0.00]" fieldToInterp="alphaMenu.opacity" />
+      <Vector2DFieldInterpolator id="displayTranslation" key="[0.1, .9]" keyValue="[[50, 100], [-50, 100]]" fieldToInterp="alphaMenu.translation" />
+    </Animation>
   </children>
   <interface>
+    <function name="setDisplay" />
+    <function name="getDisplay" />
     <field id="wrap" type="boolean" value="true" />
     <field id="letterSelected" type="string" alwaysNotify="true" />
   </interface>
