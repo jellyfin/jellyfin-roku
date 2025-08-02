@@ -67,7 +67,7 @@ sub itemContentChanged()
         end if
     end if
 
-    if m.global.session.user.settings["ui.tvshows.disableCommunityRating"] = false
+    if chainLookupReturn(m.global.session, "user.settings.`ui.itemdetail.showRatings`", true)
         if isValid(itemData.communityRating)
             m.top.findNode("star").visible = true
             m.top.findNode("communityRating").text = str(int(itemData.communityRating * 10) / 10)
