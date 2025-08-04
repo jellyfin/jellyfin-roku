@@ -44,7 +44,7 @@ sub loadItems()
 
     if m.top.selectedAudioStreamIndex = 0
         currentItem = m.global.queueManager.callFunc("getCurrentItem")
-        if isValid(currentItem) and isValid(currentItem.json)
+        if isChainValid(currentItem, "json")
             m.top.selectedAudioStreamIndex = FindPreferredAudioStream(currentItem.json.MediaStreams)
         end if
     end if
@@ -320,7 +320,6 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
     end if
 
     setCertificateAuthority(video.content)
-    video.audioTrack = (audio_stream_idx + 1).ToStr() ' Roku's track indexes count from 1. Our index is zero based
 
     if not fully_external
         video.content = authRequest(video.content)
@@ -466,9 +465,12 @@ sub addAudioStreamsToVideo(video)
     audioStreams = []
     mediaStreams = m.playbackInfo.MediaSources[0].MediaStreams
 
+    audioStreamCount = 1
     for i = 0 to mediaStreams.Count() - 1
         if LCase(mediaStreams[i].Type) = "audio"
+            mediaStreams[i].addreplace("RokuTrackName", `#uniq:${mediaStreams[i].LookupCI("Title")}(${audioStreamCount})`)
             audioStreams.push(mediaStreams[i])
+            audioStreamCount++
         end if
     end for
 
@@ -656,10 +658,10 @@ end function
 function FindPreferredAudioStream(streams as dynamic) as integer
     preferredAudioTrackIndex = m.global.queueManager.callFunc("getPreferredAudioTrackIndex")
     preferredLanguage = m.global.session.user.Configuration.AudioLanguagePreference
-    playDefault = m.global.session.user.Configuration.PlayDefaultAudioTrack
+    playDefault = chainLookupReturn(m.global.session, "user.Configuration.PlayDefaultAudioTrack", false)
 
     ' Do we already have the MediaStreams or not?
-    if streams = invalid
+    if not isValidAndNotEmpty(streams)
         url = Substitute("Users/{0}/Items/{1}", m.global.session.user.id, m.top.itemId)
         resp = APIRequest(url)
         jsonResponse = getJson(resp)
@@ -675,14 +677,18 @@ function FindPreferredAudioStream(streams as dynamic) as integer
     end if
 
     ' No selection, but they have Default as their preference?
-    if isValid(playDefault) and playDefault
+    if playDefault
         return findDefaultTrack(streams)
     end if
 
+    firstAudioTrack = -1
+
     ' No user selection and not configured to play the default, how about a preferred language?
-    if preferredLanguage <> invalid
+    if isValid(preferredLanguage)
         for i = 0 to streams.Count() - 1
             if LCase(streams[i].Type) = "audio"
+                if firstAudioTrack < 0 then firstAudioTrack = i
+
                 if isStringEqual(chainLookupReturn(streams[i], "Language", invalid), preferredLanguage)
                     return i
                 end if
@@ -691,5 +697,5 @@ function FindPreferredAudioStream(streams as dynamic) as integer
     end if
 
     ' User doesn't care, play the first track :-)
-    return 1
+    return firstAudioTrack
 end function

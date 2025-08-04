@@ -554,12 +554,16 @@ sub SetUpAudioOptions(streams)
         "Selected": selectedSubtitle = -1
     }]
 
+    audioStreamCount = 1
     for i = 0 to streams.Count() - 1
         if streams[i].Type = "Audio"
-            audioTracks.push({ "Title": streams[i].displayTitle, "Description": streams[i].Title, "Selected": m.top.selectedAudioStreamIndex = i, "StreamIndex": i })
+            rokuTrackName = `#uniq:${streams[i].LookupCI("Title")}(${audioStreamCount})`
+
+            audioTracks.push({ "Title": streams[i].displayTitle, "Description": streams[i].Title, "Selected": m.top.selectedAudioStreamIndex = i, "StreamIndex": i, "RokuTrackName": rokuTrackName })
             if m.top.selectedAudioStreamIndex = i
                 setFieldText("audio_codec", tr("Audio") + ": " + streams[i].displayTitle)
             end if
+            audioStreamCount++
         end if
         if streams[i].Type = "Subtitle"
             subtitleTracks.push({ "Title": streams[i].displayTitle, "json": streams[i], "Description": streams[i].Title, "Selected": selectedSubtitle = streams[i].index, "StreamIndex": i })
@@ -585,16 +589,10 @@ end sub
 sub SetDefaultAudioTrack(itemData)
     preferredAudioTrackIndex = m.global.queueManager.callFunc("getPreferredAudioTrackIndex")
     preferredLanguage = m.global.session.user.Configuration.AudioLanguagePreference
-    playDefault = m.global.session.user.Configuration.PlayDefaultAudioTrack
     firstAudioTrack = -1
 
-    ' Do we have a preferred audio track?
-    if preferredAudioTrackIndex < 0 and not isValid(playDefault)
-        preferredAudioTrackIndex = findDefaultTrack(itemData.mediaStreams)
-    end if
-
-    ' No selection, but they have Default as their preference?
-    if isValid(playDefault) and playDefault
+    ' If user has not selected an audio track and PlayDefaultAudioTrack setting is enabled, find the default track
+    if preferredAudioTrackIndex < 0 and chainLookupReturn(m.global.session, "user.Configuration.PlayDefaultAudioTrack", false)
         preferredAudioTrackIndex = findDefaultTrack(itemData.mediaStreams)
     end if
 
@@ -705,9 +703,11 @@ end function
 sub audioOptionsClosed()
     if m.options.audioStreamIndex <> m.top.selectedAudioStreamIndex
         m.top.selectedAudioStreamIndex = m.options.audioStreamIndex
-        m.global.queueManager.callFunc("setPreferredAudioTrackIndex", m.options.audioStreamIndex)
+        m.global.queueManager.callFunc("setPreferredAudioTrackIndex", -1)
+        m.global.queueManager.callFunc("setPreferredAudioTrackName", m.options.audioStreamName)
         setFieldText("audio_codec", tr("Audio") + ": " + m.top.itemContent.json.mediaStreams[m.top.selectedAudioStreamIndex].displayTitle)
     end if
+
     m.buttonGrp.setFocus(true)
     group = m.global.sceneManager.callFunc("getActiveScene")
     group.lastFocus = m.buttonGrp

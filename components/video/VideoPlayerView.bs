@@ -13,6 +13,8 @@ import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/misc.bs"
 
 sub init()
+    m.top.observeField("availableAudioTracks", "onAvailableAudioTracksChanged")
+
     m.LoadProgramDetailsTask = createObject("roSGNode", "LoadProgramDetailsTask")
     m.LoadProgramDetailsTask.observeField("programDetails", "onProgramDetailsLoaded")
 
@@ -105,6 +107,31 @@ sub init()
     m.top.retrievingBar.filledBarBlendColor = ColorPalette.TRIADBLUE
     m.top.bufferingBar.filledBarBlendColor = ColorPalette.TRIADBLUE
     m.top.trickPlayBar.filledBarBlendColor = ColorPalette.TRIADBLUE
+end sub
+
+sub onAvailableAudioTracksChanged()
+    if not isValidAndNotEmpty(m.top.availableAudioTracks) then return
+
+    preferredAudioTrackName = m.global.queueManager.callFunc("getPreferredAudioTrackName")
+
+    for each audioTrack in m.top.availableAudioTracks
+        if isStringEqual(audioTrack.LookupCI("name"), preferredAudioTrackName)
+            m.global.queueManager.callFunc("setPreferredAudioTrackIndex", audioTrack.LookupCI("Track").toint())
+            m.top.audioIndex = audioTrack.LookupCI("Track")
+
+            ' Save the current video position
+            m.global.queueManager.callFunc("setTopStartingPoint", int(m.top.position) * 10000000&)
+
+            m.top.control = VideoControl.STOP
+
+            m.LoadMetaDataTask.selectedAudioStreamIndex = m.top.audioIndex
+            m.LoadMetaDataTask.itemId = m.top.id
+            m.LoadMetaDataTask.observeField("content", "onVideoContentLoaded")
+            m.LoadMetaDataTask.control = TaskControl.RUN
+
+            exit for
+        end if
+    end for
 end sub
 
 ' setSiblingData: Set the icon and title text for the previous and next items
@@ -581,7 +608,7 @@ sub onVideoContentLoaded()
     m.top.observeField("selectedSubtitle", "onSubtitleChange")
 
     if isValid(m.top.audioIndex)
-        m.top.audioTrack = (m.top.audioIndex + 1).toStr()
+        m.top.audioTrack = m.top.audioIndex.toStr()
     else
         m.top.audioTrack = "2"
     end if

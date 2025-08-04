@@ -2,5 +2,9 @@
   {
     "description": "Wrap director label and ellipt if too long on movie detail screen",
     "author": "1hitsong"
+  },
+  {
+    "description": "Fix audio track selection bug",
+    "author": "1hitsong"
   }
 ]

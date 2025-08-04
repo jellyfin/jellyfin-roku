@@ -39,6 +39,8 @@
     <function name="setPreferredSubtitleTrack" />
     <function name="getPreferredAudioTrackIndex" />
     <function name="setPreferredAudioTrackIndex" />
+    <function name="getPreferredAudioTrackName" />
+    <function name="setPreferredAudioTrackName" />
     <function name="setSelectedAudioStreamIndex" />
     <function name="setTopStartingPoint" />
     <function name="setPosition" />
