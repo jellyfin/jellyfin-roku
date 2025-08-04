@@ -556,6 +556,13 @@
             ]
           },
           {
+            "title": "Community and Critical Ratings",
+            "description": "Community and critic review ratings from Rotten Tomatoes.",
+            "settingName": "ui.itemdetail.showRatings",
+            "type": "bool",
+            "default": "true"
+          },
+          {
             "title": "Episode Images Next Up",
             "description": "What type of images to use for Episodes shown in the 'Next Up' and 'Continue Watching' sections.",
             "settingName": "ui-general-episodeimagesnextup",
@@ -624,13 +631,6 @@
         "title": "Item Detail Screen",
         "description": "Settings relating to the appearance of the item detail screen.",
         "children": [
-          {
-            "title": "Community and Critical Ratings",
-            "description": "Community and critic review ratings from Rotten Tomatoes.",
-            "settingName": "ui.itemdetail.showRatings",
-            "type": "bool",
-            "default": "true"
-          },
           {
             "title": "Overview Content",
             "description": "A quick overview of the item selected - typically a short plot outline.",
