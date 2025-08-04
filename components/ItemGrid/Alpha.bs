@@ -1,17 +1,37 @@
+import "pkg:/source/enums/AnimationControl.bs"
+import "pkg:/source/enums/AnimationState.bs"
 import "pkg:/source/enums/ColorPalette.bs"
 import "pkg:/source/enums/KeyCode.bs"
 import "pkg:/source/utils/misc.bs"
 
 sub init()
+    m.display = true
     m.top.setFocus(false)
 
     m.alphaText = m.top.findNode("alphaText")
     m.alphaMenu = m.top.findNode("alphaMenu")
+    m.toggleDisplayAnimation = m.top.findNode("toggleDisplayAnimation")
+    m.displayOpacity = m.top.findNode("displayOpacity")
+    m.displayTranslation = m.top.findNode("displayTranslation")
 
     m.alphaMenu.focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
     m.alphaMenu.focusFootprintBlendColor = ColorPalette.TRANSPARENT
 
     m.alphaMenu.setFocus(false)
+end sub
+
+function getDisplay() as boolean
+    return m.display
+end function
+
+sub setDisplay(show = true as boolean)
+    m.display = show
+    m.displayOpacity.reverse = show
+    m.displayTranslation.reverse = show
+
+    if not isStringEqual(m.toggleDisplayAnimation.state, AnimationState.RUNNING)
+        m.toggleDisplayAnimation.control = AnimationControl.START
+    end if
 end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean

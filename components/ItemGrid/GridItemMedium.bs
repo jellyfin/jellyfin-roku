@@ -50,6 +50,11 @@ sub onHeightChanged()
         calculatedHeight -= 60
     end if
 
+    ' If we have a second line of text, further reduce the image height to make room
+    if not isStringEqual(m.itemTextExtra.text, string.EMPTY)
+        calculatedHeight -= 12
+    end if
+
     m.backdrop.height = calculatedHeight
     m.itemPoster.height = calculatedHeight
     m.posterText.height = calculatedHeight
@@ -166,6 +171,10 @@ sub itemContentChanged()
     if m.itemPoster.loadStatus <> PosterLoadStatus.READY
         m.backdrop.visible = true
         m.posterText.visible = true
+    end if
+
+    if not isStringEqual(m.itemTextExtra.text, string.EMPTY)
+        onHeightChanged()
     end if
 end sub
 
