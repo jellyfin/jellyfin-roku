@@ -422,7 +422,7 @@ function CreateUserSelectGroup(users = [])
         else if isNodeEvent(msg, "backPressed")
             return "backPressed"
         else if type(msg) = "roSGNodeEvent" and msg.getField() = "forgetUser"
-            returnValue = show_dialog("Are you sure you want to forget this user?", ["Yes", "No, Cancel"], 1)
+            returnValue = show_dialog(tr("Are you sure you want to forget this user?"), [tr("Yes"), tr("No, Cancel")], 1)
             if returnValue = 0
                 forgetUserID = msg.GetData()
                 userList = group.itemContent

@@ -855,7 +855,7 @@ sub onSubtitleToDeleteEvent(msg)
     if isAllValid([subtitleData, screenContent, mySubtitleList])
         if isAllValid([screenContent.itemContent.id, subtitleData.index, mySubtitleList.content])
             ' Ask the user for confirmation before deleting subtitle file
-            returnValue = show_dialog("Are you sure you want to delete this subtitle?", ["Yes", "No, Cancel"], 1)
+            returnValue = show_dialog(tr("Are you sure you want to delete this subtitle?"), [tr("Yes"), tr("No, Cancel")], 1)
 
             ' User chose Yes from confirmation dialog
             if returnValue = 0
