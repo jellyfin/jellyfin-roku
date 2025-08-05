@@ -1710,6 +1710,26 @@
         <source>as</source>
         <translation>est</translation>
     </message>
+    <message>
+        <source>Yes</source>
+        <translation>Oui</translation>
+    </message>
+    <message>
+        <source>No, Cancel</source>
+        <translation>Non, annuler</translation>
+    </message>
+    <message>
+        <source>Select User</source>
+        <translation>Sélectionner l&apos;utilisateur</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to forget this user?</source>
+        <translation>Êtes-vous sûr de vouloir oublier cet utilisateur ?</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to delete this subtitle?</source>
+        <translation>Êtes-vous sûr de vouloir supprimer ce sous-titre ?</translation>
+    </message>
 </context>
 <context>
     <name></name>
