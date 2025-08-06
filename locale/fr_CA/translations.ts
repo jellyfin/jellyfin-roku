@@ -1730,6 +1730,10 @@
         <source>Are you sure you want to delete this subtitle?</source>
         <translation>Êtes-vous sûr de vouloir supprimer ce sous-titre ?</translation>
     </message>
+    <message>
+        <source>Released</source>
+        <translation>Sortie</translation>
+    </message>
 </context>
 <context>
     <name></name>
