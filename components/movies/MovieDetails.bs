@@ -557,7 +557,7 @@ sub SetUpAudioOptions(streams)
     audioStreamCount = 1
     for i = 0 to streams.Count() - 1
         if streams[i].Type = "Audio"
-            rokuTrackName = `#uniq:${streams[i].LookupCI("Title")}(${audioStreamCount})`
+            rokuTrackName = `#uniq:${streams[i].LookupCI("Title") ?? string.EMPTY}(${audioStreamCount})`
 
             audioTracks.push({ "Title": streams[i].displayTitle, "Description": streams[i].Title, "Selected": m.top.selectedAudioStreamIndex = i, "StreamIndex": i, "RokuTrackName": rokuTrackName })
             if m.top.selectedAudioStreamIndex = i
@@ -602,16 +602,17 @@ sub SetDefaultAudioTrack(itemData)
         if itemData.mediaStreams[i].Type = "Audio"
             if firstAudioTrack < 0 then firstAudioTrack = i
 
+            rokuTrackName = `#uniq:${itemData.mediaStreams[i].LookupCI("Title") ?? string.EMPTY}(${audioStreamCount})`
+
             if preferredAudioTrackIndex < 0 and isValid(preferredLanguage)
                 ' No user selection and not configured to play the default, how about a preferred language?
                 if isStringEqual(chainLookupReturn(itemData.mediaStreams[i], "Language", invalid), preferredLanguage)
                     m.top.selectedAudioStreamIndex = i
+                    m.global.queueManager.callFunc("setPreferredAudioTrackName", rokuTrackName)
                     setFieldText("audio_codec", tr("Audio") + ": " + itemData.mediaStreams[i].displayTitle)
                     return
                 end if
             end if
-
-            rokuTrackName = `#uniq:${itemData.mediaStreams[i].LookupCI("Title")}(${audioStreamCount})`
 
             if isStringEqual(rokuTrackName, preferredAudioTrackName)
                 m.top.selectedAudioStreamIndex = i

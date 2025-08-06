@@ -5,6 +5,7 @@ import "pkg:/source/api/userauth.bs"
 import "pkg:/source/enums/ImageType.bs"
 import "pkg:/source/enums/ItemType.bs"
 import "pkg:/source/enums/MediaSegmentType.bs"
+import "pkg:/source/enums/String.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/deviceCapabilities.bs"
 import "pkg:/source/utils/misc.bs"
@@ -468,7 +469,7 @@ sub addAudioStreamsToVideo(video)
     audioStreamCount = 1
     for i = 0 to mediaStreams.Count() - 1
         if LCase(mediaStreams[i].Type) = "audio"
-            mediaStreams[i].addreplace("RokuTrackName", `#uniq:${mediaStreams[i].LookupCI("Title")}(${audioStreamCount})`)
+            mediaStreams[i].addreplace("RokuTrackName", `#uniq:${mediaStreams[i].LookupCI("Title") ?? string.EMPTY}(${audioStreamCount})`)
             audioStreams.push(mediaStreams[i])
             audioStreamCount++
         end if
