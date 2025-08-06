@@ -1773,5 +1773,9 @@
         <source>Are you sure you want to forget this user?</source>
         <translation>Êtes-vous sûr de vouloir oublier cet utilisateur ?</translation>
     </message>
+    <message>
+        <source>Released</source>
+        <translation>Sortie</translation>
+    </message>
 </context>
 </TS>
