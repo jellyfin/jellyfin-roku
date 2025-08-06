@@ -80,6 +80,8 @@ end sub
 ' onSelectAudioPressed: Display audio selection dialog
 '
 sub onSelectAudioPressed()
+    preferredAudioTrackName = m.global.queueManager.callFunc("getPreferredAudioTrackName")
+
     audioData = {
         data: []
     }
@@ -95,8 +97,14 @@ sub onSelectAudioPressed()
             "Type": "audioselection"
         }
 
-        if m.view.audioIndex = item.Index
-            audioStreamItem.selected = true
+        if isStringEqual(preferredAudioTrackName, string.EMPTY)
+            if m.view.audioIndex = item.Index
+                audioStreamItem.selected = true
+            end if
+        else
+            if isStringEqual(item.RokuTrackName, preferredAudioTrackName)
+                audioStreamItem.selected = true
+            end if
         end if
 
         audioData.data.push(audioStreamItem)
@@ -185,11 +193,13 @@ sub processAudioSelection()
 
     if not isChainValid(selectedAudioTrack, "index") then return
 
+    m.global.queueManager.callFunc("setPreferredAudioTrackName", selectedAudioTrack.LookupCI("RokuTrackName"))
+
     for each audioTrack in m.view.availableAudioTracks
         if isStringEqual(audioTrack.LookupCI("name"), selectedAudioTrack.LookupCI("RokuTrackName"))
             m.global.queueManager.callFunc("setPreferredAudioTrackIndex", audioTrack.LookupCI("Track").toint())
             m.view.audioIndex = audioTrack.LookupCI("Track").toint()
-            exit for
+            return
         end if
     end for
 

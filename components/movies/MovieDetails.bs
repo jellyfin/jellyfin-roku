@@ -588,6 +588,7 @@ end sub
 
 sub SetDefaultAudioTrack(itemData)
     preferredAudioTrackIndex = m.global.queueManager.callFunc("getPreferredAudioTrackIndex")
+    preferredAudioTrackName = m.global.queueManager.callFunc("getPreferredAudioTrackName")
     preferredLanguage = m.global.session.user.Configuration.AudioLanguagePreference
     firstAudioTrack = -1
 
@@ -596,6 +597,7 @@ sub SetDefaultAudioTrack(itemData)
         preferredAudioTrackIndex = findDefaultTrack(itemData.mediaStreams)
     end if
 
+    audioStreamCount = 1
     for i = 0 to itemData.mediaStreams.Count() - 1
         if itemData.mediaStreams[i].Type = "Audio"
             if firstAudioTrack < 0 then firstAudioTrack = i
@@ -603,15 +605,21 @@ sub SetDefaultAudioTrack(itemData)
             if preferredAudioTrackIndex < 0 and isValid(preferredLanguage)
                 ' No user selection and not configured to play the default, how about a preferred language?
                 if isStringEqual(chainLookupReturn(itemData.mediaStreams[i], "Language", invalid), preferredLanguage)
-                    preferredAudioTrackIndex = i
+                    m.top.selectedAudioStreamIndex = i
+                    setFieldText("audio_codec", tr("Audio") + ": " + itemData.mediaStreams[i].displayTitle)
+                    return
                 end if
             end if
 
-            if itemData.mediaStreams[i].Index = preferredAudioTrackIndex
+            rokuTrackName = `#uniq:${itemData.mediaStreams[i].LookupCI("Title")}(${audioStreamCount})`
+
+            if isStringEqual(rokuTrackName, preferredAudioTrackName)
                 m.top.selectedAudioStreamIndex = i
                 setFieldText("audio_codec", tr("Audio") + ": " + itemData.mediaStreams[i].displayTitle)
                 return
             end if
+
+            audioStreamCount++
         end if
     end for
 
@@ -703,7 +711,7 @@ end function
 sub audioOptionsClosed()
     if m.options.audioStreamIndex <> m.top.selectedAudioStreamIndex
         m.top.selectedAudioStreamIndex = m.options.audioStreamIndex
-        m.global.queueManager.callFunc("setPreferredAudioTrackIndex", -1)
+        m.global.queueManager.callFunc("setPreferredAudioTrackIndex", m.options.audioStreamIndex)
         m.global.queueManager.callFunc("setPreferredAudioTrackName", m.options.audioStreamName)
         setFieldText("audio_codec", tr("Audio") + ": " + m.top.itemContent.json.mediaStreams[m.top.selectedAudioStreamIndex].displayTitle)
     end if
