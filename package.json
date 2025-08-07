@@ -13,13 +13,10 @@
     "jshint": "2.13.6",
     "rimraf": "6.0.1",
     "roku-deploy": "3.13.0",
-    "ropm": "0.10.37",
     "undent": "1.0.0"
   },
   "scripts": {
-    "build": "npx rimraf build/ out/ && npx bsc --project bsconfig.json",
-    "postinstall": "npm run ropm",
-    "ropm": "ropm copy && node scripts/ropm-hook.cjs"
+    "build": "npx rimraf build/ out/ && npx bsc --project bsconfig.json"
   },
   "repository": {
     "type": "git",
