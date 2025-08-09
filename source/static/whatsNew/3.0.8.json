@@ -10,5 +10,9 @@
   {
     "description": "Apply \"Community and Critical Ratings\" setting to remaining rating locations",
     "author": "1hitsong"
+  },
+  {
+    "description": "Fix audio track selection bug",
+    "author": "1hitsong"
   }
 ]
