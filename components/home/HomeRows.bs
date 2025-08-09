@@ -84,7 +84,7 @@ sub processUserSections()
     sessionUser = m.global.session.user
 
     ' calculate expected row count by processing homesections
-    for i = 0 to 6
+    for i = 0 to 7
         userSection = sessionUser.settings["homesection" + i.toStr()]
         sectionName = userSection ?? "none"
         sectionName = LCase(sectionName)
@@ -104,7 +104,7 @@ sub processUserSections()
 
     ' Add home sections in order based on user settings
     loadedSections = 0
-    for i = 0 to 6
+    for i = 0 to 7
         userSection = sessionUser.settings["homesection" + i.toStr()]
         sectionName = userSection ?? "none"
         sectionName = LCase(sectionName)
@@ -119,16 +119,20 @@ sub processUserSections()
 
         ' If 2 sections with data are loaded or we're at the end of the web client section data, consider the home view loaded
         if not m.global.app_loaded
-            if loadedSections = 2 or i = 6
+            if loadedSections = 2 or i = 7
                 m.top.signalBeacon("AppLaunchComplete") ' Roku Performance monitoring
                 m.global.app_loaded = true
             end if
         end if
     end for
 
-    ' Favorites and my list aren't an option in Web settings, so we manually add them to the end for now
-    addHomeSection("mylist")
-    addHomeSection("favorites")
+    ' Favorites and My List aren't options in web settings. So if user has useWebSectionArrangement setting checked, add the sections to the bottom
+    useWebSectionArrangement = chainLookupReturn(m.global, "session.user.settings.`ui.home.useWebSectionArrangement`", true)
+    if useWebSectionArrangement
+        addHomeSection("mylist")
+        addHomeSection("favorites")
+    end if
+
 
     ' Start the timer for creating the content rows before we set the cursor size
     m.loadingTimer.control = "start"
@@ -158,7 +162,7 @@ function getOriginalSectionIndex(sectionName as string) as integer
 
     sessionUser = m.global.session.user
 
-    for i = 0 to 6
+    for i = 0 to 7
         userSection = sessionUser.settings["homesection" + i.toStr()]
         settingSectionName = userSection ?? "none"
         settingSectionName = LCase(settingSectionName)
@@ -490,6 +494,15 @@ end sub
 ' createMyListRow: Creates a row displaying items from the user's personal list
 '
 sub createMyListRow()
+    sectionName = tr("My List")
+
+    if not sectionExists(sectionName)
+        nextUpRow = m.top.content.CreateChild("HomeRow")
+        nextUpRow.title = sectionName
+        nextUpRow.imageWidth = homeRowItemSizes.WIDE_POSTER[0]
+        nextUpRow.cursorSize = homeRowItemSizes.WIDE_POSTER
+    end if
+
     ' Load the My List Data
     m.LoadMyListTask.observeField("content", "updateMyListItems")
     m.LoadMyListTask.control = "RUN"
@@ -498,6 +511,15 @@ end sub
 ' createFavoritesRow: Creates a row displaying items from the user's favorites list
 '
 sub createFavoritesRow()
+    sectionName = tr("Favorites")
+
+    if not sectionExists(sectionName)
+        nextUpRow = m.top.content.CreateChild("HomeRow")
+        nextUpRow.title = sectionName
+        nextUpRow.imageWidth = homeRowItemSizes.WIDE_POSTER[0]
+        nextUpRow.cursorSize = homeRowItemSizes.WIDE_POSTER
+    end if
+
     ' Load the Favorites Data
     m.LoadFavoritesTask.observeField("content", "updateFavoritesItems")
     m.LoadFavoritesTask.control = "RUN"

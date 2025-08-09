@@ -617,13 +617,387 @@
             "settingName": "useFallbackFont",
             "type": "bool",
             "default": "false"
-          },
+          }
+        ]
+      },
+      {
+        "title": "Home Rows",
+        "description": "Customize the home screen sections",
+        "children": [
           {
             "title": "Use Web Client's Home Section Arrangement",
             "description": "Make the arrangement of the Roku home view sections match the web client's home screen. Jellyfin will need to be closed and reopened for change to take effect.",
             "settingName": "ui.home.useWebSectionArrangement",
             "type": "bool",
             "default": "true"
+          },
+          {
+            "title": "Section 1",
+            "visible": false,
+            "description": "Select what to show in section 1. This setting has no effect if \"Use Web Client's Home Section Arrangement\" is enabled. Jellyfin will need to be closed and reopened for change to take effect.",
+            "settingName": "homeScreenSection0",
+            "type": "radio",
+            "default": "smalllibrarytiles",
+            "options": [
+              {
+                "title": "Continue Listening",
+                "id": "resumeaudio"
+              },
+              {
+                "title": "Continue Watching",
+                "id": "resume"
+              },
+              {
+                "title": "Favorites",
+                "id": "favorites"
+              },
+              {
+                "title": "Live TV",
+                "id": "livetv"
+              },
+              {
+                "title": "My List",
+                "id": "mylist"
+              },
+              {
+                "title": "My Media",
+                "id": "smalllibrarytiles"
+              },
+              {
+                "title": "Next Up",
+                "id": "nextup"
+              },
+              {
+                "title": "None",
+                "id": "none"
+              },
+              {
+                "title": "Recently Added Media",
+                "id": "latestmedia"
+              }
+            ]
+          },
+          {
+            "title": "Section 2",
+            "visible": false,
+            "description": "Select what to show in section 2. This setting has no effect if \"Use Web Client's Home Section Arrangement\" is enabled. Jellyfin will need to be closed and reopened for change to take effect.",
+            "settingName": "homeScreenSection1",
+            "type": "radio",
+            "default": "resume",
+            "options": [
+              {
+                "title": "Continue Listening",
+                "id": "resumeaudio"
+              },
+              {
+                "title": "Continue Watching",
+                "id": "resume"
+              },
+              {
+                "title": "Favorites",
+                "id": "favorites"
+              },
+              {
+                "title": "Live TV",
+                "id": "livetv"
+              },
+              {
+                "title": "My List",
+                "id": "mylist"
+              },
+              {
+                "title": "My Media",
+                "id": "smalllibrarytiles"
+              },
+              {
+                "title": "Next Up",
+                "id": "nextup"
+              },
+              {
+                "title": "None",
+                "id": "none"
+              },
+              {
+                "title": "Recently Added Media",
+                "id": "latestmedia"
+              }
+            ]
+          },
+          {
+            "title": "Section 3",
+            "visible": false,
+            "description": "Select what to show in section 3. This setting has no effect if \"Use Web Client's Home Section Arrangement\" is enabled. Jellyfin will need to be closed and reopened for change to take effect.",
+            "settingName": "homeScreenSection2",
+            "type": "radio",
+            "default": "nextup",
+            "options": [
+              {
+                "title": "Continue Listening",
+                "id": "resumeaudio"
+              },
+              {
+                "title": "Continue Watching",
+                "id": "resume"
+              },
+              {
+                "title": "Favorites",
+                "id": "favorites"
+              },
+              {
+                "title": "Live TV",
+                "id": "livetv"
+              },
+              {
+                "title": "My List",
+                "id": "mylist"
+              },
+              {
+                "title": "My Media",
+                "id": "smalllibrarytiles"
+              },
+              {
+                "title": "Next Up",
+                "id": "nextup"
+              },
+              {
+                "title": "None",
+                "id": "none"
+              },
+              {
+                "title": "Recently Added Media",
+                "id": "latestmedia"
+              }
+            ]
+          },
+          {
+            "title": "Section 4",
+            "visible": false,
+            "description": "Select what to show in section 4. This setting has no effect if \"Use Web Client's Home Section Arrangement\" is enabled. Jellyfin will need to be closed and reopened for change to take effect.",
+            "settingName": "homeScreenSection3",
+            "type": "radio",
+            "default": "latestmedia",
+            "options": [
+              {
+                "title": "Continue Listening",
+                "id": "resumeaudio"
+              },
+              {
+                "title": "Continue Watching",
+                "id": "resume"
+              },
+              {
+                "title": "Favorites",
+                "id": "favorites"
+              },
+              {
+                "title": "Live TV",
+                "id": "livetv"
+              },
+              {
+                "title": "My List",
+                "id": "mylist"
+              },
+              {
+                "title": "My Media",
+                "id": "smalllibrarytiles"
+              },
+              {
+                "title": "Next Up",
+                "id": "nextup"
+              },
+              {
+                "title": "None",
+                "id": "none"
+              },
+              {
+                "title": "Recently Added Media",
+                "id": "latestmedia"
+              }
+            ]
+          },
+          {
+            "title": "Section 5",
+            "visible": false,
+            "description": "Select what to show in section 5. This setting has no effect if \"Use Web Client's Home Section Arrangement\" is enabled. Jellyfin will need to be closed and reopened for change to take effect.",
+            "settingName": "homeScreenSection4",
+            "type": "radio",
+            "default": "livetv",
+            "options": [
+              {
+                "title": "Continue Listening",
+                "id": "resumeaudio"
+              },
+              {
+                "title": "Continue Watching",
+                "id": "resume"
+              },
+              {
+                "title": "Favorites",
+                "id": "favorites"
+              },
+              {
+                "title": "Live TV",
+                "id": "livetv"
+              },
+              {
+                "title": "My List",
+                "id": "mylist"
+              },
+              {
+                "title": "My Media",
+                "id": "smalllibrarytiles"
+              },
+              {
+                "title": "Next Up",
+                "id": "nextup"
+              },
+              {
+                "title": "None",
+                "id": "none"
+              },
+              {
+                "title": "Recently Added Media",
+                "id": "latestmedia"
+              }
+            ]
+          },
+          {
+            "title": "Section 6",
+            "visible": false,
+            "description": "Select what to show in section 6. This setting has no effect if \"Use Web Client's Home Section Arrangement\" is enabled. Jellyfin will need to be closed and reopened for change to take effect.",
+            "settingName": "homeScreenSection5",
+            "type": "radio",
+            "default": "mylist",
+            "options": [
+              {
+                "title": "Continue Listening",
+                "id": "resumeaudio"
+              },
+              {
+                "title": "Continue Watching",
+                "id": "resume"
+              },
+              {
+                "title": "Favorites",
+                "id": "favorites"
+              },
+              {
+                "title": "Live TV",
+                "id": "livetv"
+              },
+              {
+                "title": "My List",
+                "id": "mylist"
+              },
+              {
+                "title": "My Media",
+                "id": "smalllibrarytiles"
+              },
+              {
+                "title": "Next Up",
+                "id": "nextup"
+              },
+              {
+                "title": "None",
+                "id": "none"
+              },
+              {
+                "title": "Recently Added Media",
+                "id": "latestmedia"
+              }
+            ]
+          },
+          {
+            "title": "Section 7",
+            "visible": false,
+            "description": "Select what to show in section 7. This setting has no effect if \"Use Web Client's Home Section Arrangement\" is enabled. Jellyfin will need to be closed and reopened for change to take effect.",
+            "settingName": "homeScreenSection6",
+            "type": "radio",
+            "default": "favorites",
+            "options": [
+              {
+                "title": "Continue Listening",
+                "id": "resumeaudio"
+              },
+              {
+                "title": "Continue Watching",
+                "id": "resume"
+              },
+              {
+                "title": "Favorites",
+                "id": "favorites"
+              },
+              {
+                "title": "Live TV",
+                "id": "livetv"
+              },
+              {
+                "title": "My List",
+                "id": "mylist"
+              },
+              {
+                "title": "My Media",
+                "id": "smalllibrarytiles"
+              },
+              {
+                "title": "Next Up",
+                "id": "nextup"
+              },
+              {
+                "title": "None",
+                "id": "none"
+              },
+              {
+                "title": "Recently Added Media",
+                "id": "latestmedia"
+              }
+            ]
+          },
+          {
+            "title": "Section 8",
+            "visible": false,
+            "description": "Select what to show in section 8. This setting has no effect if \"Use Web Client's Home Section Arrangement\" is enabled. Jellyfin will need to be closed and reopened for change to take effect.",
+            "settingName": "homeScreenSection7",
+            "type": "radio",
+            "default": "none",
+            "options": [
+              {
+                "title": "Continue Listening",
+                "id": "resumeaudio"
+              },
+              {
+                "title": "Continue Watching",
+                "id": "resume"
+              },
+              {
+                "title": "Favorites",
+                "id": "favorites"
+              },
+              {
+                "title": "Live TV",
+                "id": "livetv"
+              },
+              {
+                "title": "My List",
+                "id": "mylist"
+              },
+              {
+                "title": "My Media",
+                "id": "smalllibrarytiles"
+              },
+              {
+                "title": "Next Up",
+                "id": "nextup"
+              },
+              {
+                "title": "None",
+                "id": "none"
+              },
+              {
+                "title": "Recently Added Media",
+                "id": "latestmedia"
+              }
+            ]
           }
         ]
       },

@@ -2,6 +2,7 @@ import "pkg:/source/api/sdk.bs"
 import "pkg:/source/enums/ColorPalette.bs"
 import "pkg:/source/enums/KeyCode.bs"
 import "pkg:/source/enums/SettingType.bs"
+import "pkg:/source/enums/String.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/deviceCapabilities.bs"
 import "pkg:/source/utils/misc.bs"
@@ -145,7 +146,6 @@ sub onColorSelected()
         overhang = scene.findNode("overhang")
         if isValid(overhang)
             overlayCurrentUser = overhang.findNode("overlayCurrentUser")
-            print "selectedColor", selectedColor
             overlayCurrentUser.color = selectedColor ?? ColorPalette.WHITE
         end if
     end if
@@ -170,7 +170,15 @@ sub LoadMenu(configSection)
         configSection = m.userLocation.peek()
     else
         settingsArray = []
+
+        useWebSectionArrangement = chainLookupReturn(m.global, "session.user.settings.`ui.home.useWebSectionArrangement`", true)
+
         for each item in configSection.children
+            settingName = chainLookupReturn(item, "settingName", string.EMPTY)
+            if isStringEqual(left(settingName, 17), "homescreensection")
+                if not useWebSectionArrangement then item.visible = true
+            end if
+
             if isValid(item.visible)
                 if not item.visible
                     if not m.showSecretMenu
@@ -321,9 +329,38 @@ sub settingSelected()
 
 end sub
 
+sub refreshMenu()
+    selectedItem = m.userLocation[m.userLocation.count() - 1]
+
+    result = CreateObject("roSGNode", "ContentNode")
+    m.settingsMenu.content = result
+
+    useWebSectionArrangement = chainLookupReturn(m.global, "session.user.settings.`ui.home.useWebSectionArrangement`", true)
+
+    for each item in selectedItem.children
+        settingName = chainLookupReturn(item, "settingName", string.EMPTY)
+        if isStringEqual(left(settingName, 17), "homescreensection")
+            item.visible = not useWebSectionArrangement
+        end if
+
+        if chainLookupReturn(item, "visible", false)
+            continue for
+        end if
+
+        listItem = result.CreateChild("ContentNode")
+        listItem.title = tr(item.title)
+        listItem.Description = tr(item.description)
+        listItem.id = item.id
+    end for
+end sub
+
 sub boolSettingChanged()
     if m.boolSetting.focusedChild = invalid then return
     selectedSetting = m.userLocation.peek().children[m.settingsMenu.itemFocused]
+
+    if isStringEqual(selectedSetting.settingName, "ui.home.useWebSectionArrangement")
+        refreshMenu()
+    end if
 
     if m.boolSetting.checkedItem
         session.user.settings.Save(selectedSetting.settingName, "true")
