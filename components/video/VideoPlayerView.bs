@@ -357,6 +357,7 @@ sub onAllowCaptionsChange()
     m.captionGroup = m.top.findNode("captionGroup")
     m.captionGroup.createchildren(9, "LayoutGroup")
     m.captionTask = createObject("roSGNode", "captionTask")
+    m.captionTask.observeField("captionPosition", "updateCaptionPosition")
     m.captionTask.observeField("currentCaption", "updateCaption")
     m.captionTask.observeField("useThis", "checkCaptionMode")
     m.top.observeField("subtitleTrack", "loadCaption")
@@ -386,6 +387,27 @@ sub toggleCaption()
     else
         m.captionGroup.visible = false
     end if
+end sub
+
+sub updateCaptionPosition()
+    captionPosition = m.captionTask.captionPosition
+
+    if not isValidAndNotEmpty(captionPosition) then captionPosition = "0"
+
+    if captionPosition.Instr("%") <> -1
+        calculatedPosition = 1080 * (val(captionPosition) / 100)
+        calculatedPosition += m.captionGroup.BoundingRect().height
+
+        if calculatedPosition > 1020
+            calculatedPosition = 1020
+        end if
+
+        m.captionGroup.translation = [960, calculatedPosition]
+        return
+    end if
+
+    ' No position passed, reset to default position
+    m.captionGroup.translation = [960, 1020]
 end sub
 
 ' Removes old subtitle lines and adds new subtitle lines

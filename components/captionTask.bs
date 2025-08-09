@@ -99,8 +99,10 @@ sub updateCaption()
     if LCase(m.top.playerState) = "playingon"
         m.top.currentPos = m.top.currentPos + 100
         texts = []
+        captionPosition = ""
         for each entry in m.captionList
             if entry["start"] <= m.top.currentPos and m.top.currentPos < entry["end"]
+                captionPosition = entry["position"]
                 t = m.tags.replaceAll(entry["text"], "")
                 texts.push(t)
             end if
@@ -112,6 +114,10 @@ sub updateCaption()
         lines = newLayoutGroup(labels)
         rect = newRect(lines)
         m.top.currentCaption = [rect, lines]
+
+        if not isStringEqual(m.top.captionPosition, captionPosition)
+            m.top.captionPosition = captionPosition
+        end if
     else if LCase(m.top.playerState.right(1)) = "w"
         m.top.playerState = m.top.playerState.left(len (m.top.playerState) - 1)
     end if
@@ -119,6 +125,10 @@ end sub
 
 function isTime(text)
     return text.right(1) = chr(31)
+end function
+
+function isLinePosition(text)
+    return text.left(11) = "[position] "
 end function
 
 function toMs(t)
@@ -129,21 +139,27 @@ function toMs(t)
 end function
 
 function parseVTT(lines)
+    lines = lines.replace(" line:", chr(10) + "[position] ")
     lines = lines.replace(" --> ", chr(31) + chr(10))
+
     lines = lines.split(chr(10))
     curStart = -1
     curEnd = -1
+    curLinePosition = "0"
     entries = []
 
     for i = 0 to lines.count() - 1
         if isTime(lines[i])
+            curLinePosition = "0"
             curStart = toMs (lines[i])
             curEnd = toMs (lines[i + 1])
             i += 1
+        else if isLinePosition(lines[i])
+            curLinePosition = lines[i].replace("[position]", "").trim()
         else if curStart <> -1
             trimmed = lines[i].trim()
             if trimmed <> chr(0)
-                entry = { "start": curStart, "end": curEnd, "text": trimmed }
+                entry = { "start": curStart, "end": curEnd, "text": trimmed, "position": curLinePosition }
                 entries.push(entry)
             end if
         end if
