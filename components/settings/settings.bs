@@ -340,10 +340,10 @@ sub refreshMenu()
     for each item in selectedItem.children
         settingName = chainLookupReturn(item, "settingName", string.EMPTY)
         if isStringEqual(left(settingName, 17), "homescreensection")
-            item.visible = not useWebSectionArrangement
+            item.visible = (not useWebSectionArrangement)
         end if
 
-        if chainLookupReturn(item, "visible", false)
+        if not chainLookupReturn(item, "visible", true)
             continue for
         end if
 
@@ -357,10 +357,6 @@ end sub
 sub boolSettingChanged()
     if m.boolSetting.focusedChild = invalid then return
     selectedSetting = m.userLocation.peek().children[m.settingsMenu.itemFocused]
-
-    if isStringEqual(selectedSetting.settingName, "ui.home.useWebSectionArrangement")
-        refreshMenu()
-    end if
 
     if m.boolSetting.checkedItem
         session.user.settings.Save(selectedSetting.settingName, "true")
@@ -392,6 +388,10 @@ sub boolSettingChanged()
             ' save to user specific registry block
             set_user_setting(selectedSetting.settingName, "false")
         end if
+    end if
+
+    if isStringEqual(selectedSetting.settingName, "ui.home.useWebSectionArrangement")
+        refreshMenu()
     end if
 end sub
 
