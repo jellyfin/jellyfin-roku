@@ -334,7 +334,7 @@
     </message>
     <message>
         <source>Remember the currently logged in user and try to log them in again next time you start the Jellyfin app.</source>
-        <translation type="unfinished">Recordar al usuario que acaba de ingresar e intentar iniciar sesión nuevamente la próxima vez que abras la app de Jellyfin.</translation>
+        <translation>Recordar al usuario que ha iniciado sesión para intentar entrar automáticamente la próxima vez que inicies Jellyfin.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
@@ -608,7 +608,7 @@
     </message>
     <message>
         <source>IMDB_RATING</source>
-        <translation>Valoración IMDb</translation>
+        <translation>Valoración de IMDb</translation>
     </message>
     <message>
         <source>OFFICIAL_RATING</source>
@@ -845,7 +845,7 @@
     </message>
     <message>
         <source>Go directly to the episode list if a TV series has only one season.</source>
-        <translation type="unfinished">Ir directamente a la lista de episodios si la serie tiene solo una temporada.</translation>
+        <translation>Ir directamente a la lista de episodios si la serie tiene solo una temporada.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
@@ -889,7 +889,7 @@
     </message>
     <message>
         <source>Max Days Next Up</source>
-        <translation>Días máximos de a continuación</translation>
+        <translation>Máximo de días para &quot;A continuación&quot;</translation>
         <extracomment>Option Title in user setting screen</extracomment>
     </message>
     <message>
@@ -962,7 +962,7 @@
     </message>
     <message>
         <source>WxH</source>
-        <translation>AnxAl</translation>
+        <translation>An x Al</translation>
         <extracomment>Video width x height</extracomment>
     </message>
     <message>
@@ -1331,7 +1331,7 @@
     </message>
     <message>
         <source>Ratings for how good a movie is</source>
-        <translation type="unfinished">Calificaciones de lo buena que es una película</translation>
+        <translation>Calificaciones de la comunidad y de los críticos de Rotten Tomatoes.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
@@ -1371,7 +1371,7 @@
     </message>
     <message>
         <source>Set how many seconds before the end of an episode the Next Episode button should appear. Set to 0 to disable.</source>
-        <translation type="unfinished">Establecer cuantos segundos antes de finalizar un episodio el botón de Siguiente Episodio debe aparecer. El valor 0 deshabilita está opción.</translation>
+        <translation>Si no hay un segmento de créditos programado, ajusta cuántos segundos antes de que termine el episodio debe aparecer el botón de &quot;Saltar créditos&quot;. Ponlo a 0 para desactivarlo.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
@@ -1629,6 +1629,246 @@
     <message>
         <source>What action should Jellyfin take for intro segments?</source>
         <translation>Que acción debería tomar Jellyfin para los segmentos de Introducción?</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to delete this subtitle?</source>
+        <translation>¿Estás seguro de que quieres eliminar este subtítulo?</translation>
+    </message>
+    <message>
+        <source>as</source>
+        <translation>como</translation>
+    </message>
+    <message>
+        <source>Episode</source>
+        <translation>Episodio</translation>
+    </message>
+    <message>
+        <source>Outro Segments</source>
+        <translation>Segmentos finales</translation>
+    </message>
+    <message>
+        <source>What action should Jellyfin take for preview segments?</source>
+        <translation>¿Qué acción debe realizar Jellyfin para los segmentos de vista previa?</translation>
+    </message>
+    <message>
+        <source>Preview Segments</source>
+        <translation>Segmentos de vista previa</translation>
+    </message>
+    <message>
+        <source>Recap Segments</source>
+        <translation>Segmentos de recapitulación</translation>
+    </message>
+    <message>
+        <source>What action should Jellyfin take for recap segments?</source>
+        <translation>¿Qué acción debe realizar Jellyfin para los segmentos de recapitulación?</translation>
+    </message>
+    <message>
+        <source>Ask To Skip</source>
+        <translation>Pregunta antes de saltar</translation>
+    </message>
+    <message>
+        <source>None</source>
+        <translation>Ninguno</translation>
+    </message>
+    <message>
+        <source>Settings relating to the appearance of pages in all Libraries.</source>
+        <translation>Ajustes relacionados con la apariencia de las páginas de todas las Bibliotecas.</translation>
+    </message>
+    <message>
+        <source>Forget Filters</source>
+        <translation>Limpia los filtros</translation>
+    </message>
+    <message>
+        <source>Forget applied library filters when Jellyfin is closed.</source>
+        <translation>Limpia los filtros aplicados a la biblioteca al cerrar Jellyfin.</translation>
+    </message>
+    <message>
+        <source>Library Portrait Column Count</source>
+        <translation>Número de columnas en la biblioteca en modo imágenes verticales</translation>
+    </message>
+    <message>
+        <source>Number of columns in library view when showing portrait (tall) images</source>
+        <translation>Número de columnas en la vista de biblioteca al mostrar imágenes verticales</translation>
+    </message>
+    <message>
+        <source>Number of columns in library view when showing square images</source>
+        <translation>Número de columnas en la vista de biblioteca al mostrar imágenes cuadradas</translation>
+    </message>
+    <message>
+        <source>Sort by</source>
+        <translation>Ordenar por</translation>
+    </message>
+    <message>
+        <source>Search is unavailable because the API does not support searching inside My List.</source>
+        <translation>La búsqueda no está disponible porque la API no admite la búsqueda dentro de Mi lista.</translation>
+    </message>
+    <message>
+        <source>Search this library</source>
+        <translation>Buscar en esta biblioteca</translation>
+    </message>
+    <message>
+        <source>Mark As Unplayed</source>
+        <translation>Marcar como no vista</translation>
+    </message>
+    <message>
+        <source>Mark As Played</source>
+        <translation>Marcar como vista</translation>
+    </message>
+    <message>
+        <source>Add To Playlist</source>
+        <translation>Añadir a la lista de reproducción</translation>
+    </message>
+    <message>
+        <source>Remove From My List</source>
+        <translation>Eliminar de Mi lista</translation>
+    </message>
+    <message>
+        <source>Add To My List</source>
+        <translation>Añadir a Mi lista</translation>
+    </message>
+    <message>
+        <source>Library Settings</source>
+        <translation>Ajustes de la biblioteca</translation>
+    </message>
+    <message>
+        <source>Display Watched Checkmark</source>
+        <translation>Mostrar marca de visto</translation>
+    </message>
+    <message>
+        <source>Playback Info</source>
+        <translation>Información de reproducción</translation>
+    </message>
+    <message>
+        <source>Select Audio</source>
+        <translation>Selección de audio</translation>
+    </message>
+    <message>
+        <source>Select Subtitles</source>
+        <translation>Selección de subtítulos</translation>
+    </message>
+    <message>
+        <source>Select Language</source>
+        <translation>Selección de idioma</translation>
+    </message>
+    <message>
+        <source>Tracks</source>
+        <translation>Pistas</translation>
+    </message>
+    <message>
+        <source>min</source>
+        <translation>min</translation>
+    </message>
+    <message>
+        <source>mins</source>
+        <translation>min</translation>
+    </message>
+    <message>
+        <source>Continue Listening</source>
+        <translation>Continuar escuchando</translation>
+    </message>
+    <message>
+        <source>In My List</source>
+        <translation>En Mi lista</translation>
+    </message>
+    <message>
+        <source>AppearsOn</source>
+        <translation>Aparece en</translation>
+    </message>
+    <message>
+        <source>Public Profile</source>
+        <translation>Perfil público</translation>
+    </message>
+    <message>
+        <source>Saved Profile</source>
+        <translation>Perfil guardado</translation>
+    </message>
+    <message>
+        <source>Manual Login</source>
+        <translation>Inicio de sesión manual</translation>
+    </message>
+    <message>
+        <source>Season</source>
+        <translation>Temporada</translation>
+    </message>
+    <message>
+        <source>Item Detail Screen</source>
+        <translation>Pantalla de detalles del elemento</translation>
+    </message>
+    <message>
+        <source>Press OK to type</source>
+        <translation>Pulsa OK para escribir</translation>
+    </message>
+    <message>
+        <source>Manage Hidden Users</source>
+        <translation>Gestionar usuarios ocultos</translation>
+    </message>
+    <message>
+        <source>Settings relating to the appearance of Library pages.</source>
+        <translation>Ajustes relacionados con la apariencia de las páginas de la Biblioteca.</translation>
+    </message>
+    <message>
+        <source>What action should Jellyfin take for outro segments?</source>
+        <translation>¿Qué acción debería realizar Jellyfin para los segmentos finales?</translation>
+    </message>
+    <message>
+        <source>Settings relating to the appearance of the item detail screen.</source>
+        <translation>Ajustes relacionados con la apariencia de la pantalla de detalles del elemento.</translation>
+    </message>
+    <message>
+        <source>Overview Content</source>
+        <translation>Resumen del contenido</translation>
+    </message>
+    <message>
+        <source>A quick overview of the item selected - typically a short plot outline.</source>
+        <translation>Una descripción general rápida del elemento seleccionado, generalmente un breve resumen de la trama.</translation>
+    </message>
+    <message>
+        <source>Select User</source>
+        <translation>Seleccionar usuario</translation>
+    </message>
+    <message>
+        <source>Number of columns in library view when showing landscape (wide) images</source>
+        <translation>Número de columnas en la vista de biblioteca al mostrar imágenes horizontales (anchas)</translation>
+    </message>
+    <message>
+        <source>Library Landscape Column Count</source>
+        <translation>Número de columnas en la biblioteca en modo imágenes horizontales</translation>
+    </message>
+    <message>
+        <source>Search is unavailable because the API does not support searching inside boxsets.</source>
+        <translation>La búsqueda no está disponible porque la API no admite la búsqueda dentro de colecciones.</translation>
+    </message>
+    <message>
+        <source>Library Square Column Count</source>
+        <translation>Número de columnas en la biblioteca en modo imágenes cuadradas</translation>
+    </message>
+    <message>
+        <source>Unhide Users</source>
+        <translation>Mostrar usuarios ocultos</translation>
+    </message>
+    <message>
+        <source>Released</source>
+        <translation>Estrenado</translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation>Sí</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to forget this user?</source>
+        <translation>¿Estás seguro de que quieres olvidar a este usuario?</translation>
+    </message>
+    <message>
+        <source>Play Normally - disabled because force transcoding setting is enabled</source>
+        <translation>Reproducir normalmente: desactivado porque la configuración de transcodificación forzada está activada</translation>
+    </message>
+    <message>
+        <source>No, Cancel</source>
+        <translation>No, cancelar</translation>
+    </message>
+    <message>
+        <source>Seasons</source>
+        <translation>Temporadas</translation>
     </message>
 </context>
 <context>
