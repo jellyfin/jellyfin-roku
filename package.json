@@ -5,21 +5,18 @@
   "description": "Official Roku app for Jellyfin media server",
   "dependencies": {
     "@rokucommunity/bslib": "0.1.1",
-    "brighterscript-formatter": "1.7.16"
+    "brighterscript-formatter": "1.7.17"
   },
   "devDependencies": {
-    "@rokucommunity/bslint": "0.8.33",
-    "brighterscript": "0.69.12",
+    "@rokucommunity/bslint": "0.8.34",
+    "brighterscript": "0.69.13",
     "jshint": "2.13.6",
     "rimraf": "6.0.1",
-    "roku-deploy": "3.12.6",
-    "ropm": "0.10.36",
+    "roku-deploy": "3.13.0",
     "undent": "1.0.0"
   },
   "scripts": {
-    "build": "npx rimraf build/ out/ && npx bsc --project bsconfig.json",
-    "postinstall": "npm run ropm",
-    "ropm": "ropm copy && node scripts/ropm-hook.cjs"
+    "build": "npx rimraf build/ out/ && npx bsc --project bsconfig.json"
   },
   "repository": {
     "type": "git",

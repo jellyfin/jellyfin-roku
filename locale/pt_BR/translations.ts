@@ -358,7 +358,7 @@
     </message>
     <message>
         <source>Set how many seconds before the end of an episode the Next Episode button should appear. Set to 0 to disable.</source>
-        <translation type="unfinished">Defina quantos segundos antes do final de um episódio o botão Próximo Episódio deve aparecer. Defina como 0 para desativar.</translation>
+        <translation>Caso não exista um segmento de encerramento, defina quantos segundos antes do fim do episódio o botão &quot;Pular Encerramento&quot; deve aparecer. Defina 0 para desativar.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
@@ -499,7 +499,7 @@
     </message>
     <message>
         <source>Go directly to the episode list if a TV series has only one season.</source>
-        <translation type="unfinished">Vá diretamente para a lista de episódios caso uma série de TV tenha apenas uma temporada.</translation>
+        <translation>Se ativado, ao selecionar uma série com apenas uma temporada, será exibida diretamente a lista de episódios em vez dos detalhes da série e da lista de temporadas.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
@@ -920,7 +920,7 @@
     </message>
     <message>
         <source>Remember the currently logged in user and try to log them in again next time you start the Jellyfin app.</source>
-        <translation type="unfinished">Lembre-se do usuário conectado no momento e tente entra novamente na próxima vez que iniciar o aplicativo Jellyfin.</translation>
+        <translation>Manter o usuário conectado e tentar o login automático ao abrir o Jellyfin.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
@@ -1315,7 +1315,7 @@
     </message>
     <message>
         <source>Welcome to version</source>
-        <translation>Bem-vindo à versão</translation>
+        <translation>Chegou a versão</translation>
         <extracomment>WhatsNewDialog title - Welcome to version 2.0.0</extracomment>
     </message>
     <message>
@@ -1588,6 +1588,234 @@
     <message>
         <source>Season</source>
         <translation>Temporada</translation>
+    </message>
+    <message>
+        <source>No, Cancel</source>
+        <translation>Não, cancelar</translation>
+    </message>
+    <message>
+        <source>Commercial Segments</source>
+        <translation>Segmentos comerciais</translation>
+    </message>
+    <message>
+        <source>Settings relating to the appearance of the item detail screen.</source>
+        <translation>Configurações relacionadas à aparência da tela de detalhes do item.</translation>
+    </message>
+    <message>
+        <source>Display custom trickplay images even if this Roku says it&apos;s displaying its own. This may cause the two images to overlay on top of each other.</source>
+        <translation>Exibir imagens de pré-visualização personalizadas mesmo que este Roku indique estar usando as suas próprias. Isso pode fazer com que as duas imagens se sobreponham.</translation>
+    </message>
+    <message>
+        <source>Force Transcoding</source>
+        <translation>Forçar transcodificação</translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation>Sim</translation>
+    </message>
+    <message>
+        <source>Select User</source>
+        <translation>Selecionar usuário</translation>
+    </message>
+    <message>
+        <source>Go To Artist</source>
+        <translation>Ir para o Artista</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to forget this user?</source>
+        <translation>Tem certeza de que deseja esquecer este usuário?</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to delete this subtitle?</source>
+        <translation>Tem certeza de que deseja excluir esta legenda?</translation>
+    </message>
+    <message>
+        <source>What action should Jellyfin take for preview segments?</source>
+        <translation>Que ação o Jellyfin deve executar para segmentos de prévia?</translation>
+    </message>
+    <message>
+        <source>What action should Jellyfin take for recap segments?</source>
+        <translation>Que ação o Jellyfin deve executar para segmentos de recapitulação?</translation>
+    </message>
+    <message>
+        <source>Custom Trickplay</source>
+        <translation>Pré-visualização personalizada</translation>
+    </message>
+    <message>
+        <source>Force all playable media to be transcoded.</source>
+        <translation>Forçar a transcodificação de toda mídia reproduzível.</translation>
+    </message>
+    <message>
+        <source>Media Segment Actions</source>
+        <translation>Ações de segmentos</translation>
+    </message>
+    <message>
+        <source>Settings relating to how Jellyfin should handle media segments.</source>
+        <translation>Configurações sobre como o Jellyfin deve lidar com segmentos de mídia.</translation>
+    </message>
+    <message>
+        <source>Intro Segments</source>
+        <translation>Segmentos de introdução</translation>
+    </message>
+    <message>
+        <source>What action should Jellyfin take for commercial segments?</source>
+        <translation>Que ação o Jellyfin deve executar para segmentos comerciais?</translation>
+    </message>
+    <message>
+        <source>What action should Jellyfin take for intro segments?</source>
+        <translation>Que ação o Jellyfin deve executar para segmentos de introdução?</translation>
+    </message>
+    <message>
+        <source>Outro Segments</source>
+        <translation>Segmentos de encerramento</translation>
+    </message>
+    <message>
+        <source>What action should Jellyfin take for outro segments?</source>
+        <translation>Que ação o Jellyfin deve executar para segmentos de encerramento?</translation>
+    </message>
+    <message>
+        <source>Preview Segments</source>
+        <translation>Segmentos de prévia</translation>
+    </message>
+    <message>
+        <source>Recap Segments</source>
+        <translation>Segmentos de recapitulação</translation>
+    </message>
+    <message>
+        <source>None</source>
+        <translation>Nenhum</translation>
+    </message>
+    <message>
+        <source>Ask To Skip</source>
+        <translation>Perguntar se deseja pular</translation>
+    </message>
+    <message>
+        <source>Item Detail Screen</source>
+        <translation>Tela de detalhes do item</translation>
+    </message>
+    <message>
+        <source>Play / Resume from</source>
+        <translation>Reproduzir / Retomar de</translation>
+    </message>
+    <message>
+        <source>Part</source>
+        <translation>Parte</translation>
+    </message>
+    <message>
+        <source>Series</source>
+        <translation>Série</translation>
+    </message>
+    <message>
+        <source>Format</source>
+        <translation>Formato</translation>
+    </message>
+    <message>
+        <source>Search is unavailable because the API does not support searching inside boxsets.</source>
+        <translation>A pesquisa está indisponível porque a API não permite buscas dentro de coleções.</translation>
+    </message>
+    <message>
+        <source>Sort by</source>
+        <translation>Ordenar por</translation>
+    </message>
+    <message>
+        <source>Search this library</source>
+        <translation>Pesquisar nesta biblioteca</translation>
+    </message>
+    <message>
+        <source>Search is unavailable because the API does not support searching inside My List.</source>
+        <translation>A pesquisa está indisponível porque a API não permite buscas dentro da Minha Lista.</translation>
+    </message>
+    <message>
+        <source>Library Settings</source>
+        <translation>Configurações da biblioteca</translation>
+    </message>
+    <message>
+        <source>Press OK to type</source>
+        <translation>Pressione OK para digitar</translation>
+    </message>
+    <message>
+        <source>Add To My List</source>
+        <translation>Adicionar à minha lista</translation>
+    </message>
+    <message>
+        <source>Remove From My List</source>
+        <translation>Remover da minha lista</translation>
+    </message>
+    <message>
+        <source>Add To Playlist</source>
+        <translation>Adicionar à playlist</translation>
+    </message>
+    <message>
+        <source>Mark As Played</source>
+        <translation>Marcar como assistido</translation>
+    </message>
+    <message>
+        <source>Mark As Unplayed</source>
+        <translation>Marcar como não assistido</translation>
+    </message>
+    <message>
+        <source>Select Subtitles</source>
+        <translation>Selecionar legenda</translation>
+    </message>
+    <message>
+        <source>Select Audio</source>
+        <translation>Selecionar áudio</translation>
+    </message>
+    <message>
+        <source>Playback Info</source>
+        <translation>Informações de reprodução</translation>
+    </message>
+    <message>
+        <source>Display Watched Checkmark</source>
+        <translation>Exibir marca de assistido</translation>
+    </message>
+    <message>
+        <source>Released</source>
+        <translation>Lançamento</translation>
+    </message>
+    <message>
+        <source>Tracks</source>
+        <translation>Faixas</translation>
+    </message>
+    <message>
+        <source>Select Language</source>
+        <translation>Selecionar idioma</translation>
+    </message>
+    <message>
+        <source>Public Profile</source>
+        <translation>Perfil público</translation>
+    </message>
+    <message>
+        <source>Saved Profile</source>
+        <translation>Perfil salvo</translation>
+    </message>
+    <message>
+        <source>AppearsOn</source>
+        <translation>Aparece em</translation>
+    </message>
+    <message>
+        <source>In My List</source>
+        <translation>Na Minha Lista</translation>
+    </message>
+    <message>
+        <source>Continue Listening</source>
+        <translation>Continuar ouvindo</translation>
+    </message>
+    <message>
+        <source>No Results Found</source>
+        <translation>Nenhum resultado encontrado</translation>
+    </message>
+    <message>
+        <source>What&apos;s New</source>
+        <translation>Novidades</translation>
+    </message>
+    <message>
+        <source>Play or Resume from</source>
+        <translation>Reproduzir ou Retomar de</translation>
+    </message>
+    <message>
+        <source>Skip</source>
+        <translation>Pular</translation>
     </message>
 </context>
 <context>

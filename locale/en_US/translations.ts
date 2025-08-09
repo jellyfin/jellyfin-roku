@@ -1776,6 +1776,26 @@
             <translation>Manage Hidden Users</translation>
         </message>
         <message>
+            <source>Select User</source>
+            <translation>Select User</translation>
+        </message>
+        <message>
+            <source>Are you sure you want to forget this user?</source>
+            <translation>Are you sure you want to forget this user?</translation>
+        </message>
+        <message>
+            <source>Are you sure you want to delete this subtitle?</source>
+            <translation>Are you sure you want to delete this subtitle?</translation>
+        </message>
+        <message>
+            <source>Yes</source>
+            <translation>Yes</translation>
+        </message>
+        <message>
+            <source>No, Cancel</source>
+            <translation>No, Cancel</translation>
+        </message>
+        <message>
             <source>Manual Login</source>
             <translation>Manual Login</translation>
         </message>
