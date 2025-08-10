@@ -163,7 +163,7 @@ sub onKeyGridEscape()
     end if
 end sub
 
-sub LoadMenu(configSection)
+sub LoadMenu(configSection, appendPath = true as boolean)
     if configSection.children = invalid
         ' Load parent menu
         m.userLocation.pop()
@@ -171,50 +171,54 @@ sub LoadMenu(configSection)
     else
         settingsArray = []
 
-        useWebSectionArrangement = chainLookupReturn(m.global, "session.user.settings.`ui.home.useWebSectionArrangement`", true)
-
         for each item in configSection.children
-            settingName = chainLookupReturn(item, "settingName", string.EMPTY)
-            if isStringEqual(left(settingName, 17), "homescreensection")
-                if not useWebSectionArrangement then item.visible = true
-            end if
-
-            if isValid(item.visible)
-                if not item.visible
-                    if not m.showSecretMenu
-                        continue for
-                    end if
-                end if
-            end if
             settingsArray.push(item)
         end for
 
         configSection.children = settingsArray
 
-        if m.userLocation.Count() > 0 then m.userLocation.peek().selectedIndex = m.settingsMenu.itemFocused
-        m.userLocation.push(configSection)
+        if appendPath
+            if m.userLocation.Count() > 0 then m.userLocation.peek().selectedIndex = m.settingsMenu.itemFocused
+            m.userLocation.push(configSection)
+        end if
     end if
 
     result = CreateObject("roSGNode", "ContentNode")
+    m.settingsMenu.content = result
+
+    useWebSectionArrangement = chainLookupReturn(m.global, "session.user.settings.`ui.home.useWebSectionArrangement`", true)
 
     for each item in configSection.children
+        settingName = chainLookupReturn(item, "settingName", string.EMPTY)
+        if isStringEqual(left(settingName, 17), "homescreensection")
+            item.visible = not useWebSectionArrangement
+        end if
+
+        if isValid(item.visible)
+            if not item.visible
+                if not m.showSecretMenu
+                    continue for
+                end if
+            end if
+        end if
+
         listItem = result.CreateChild("ContentNode")
         listItem.title = tr(item.title)
         listItem.Description = tr(item.description)
         listItem.id = item.id
     end for
 
-    m.settingsMenu.content = result
-
     if configSection.selectedIndex <> invalid and configSection.selectedIndex > -1
         m.settingsMenu.jumpToItem = configSection.selectedIndex
     end if
 
     ' Set Path display
-    m.path.text = tr("Settings")
-    for each level in m.userLocation
-        if level.title <> invalid then m.path.text += " / " + tr(level.title)
-    end for
+    if appendPath
+        m.path.text = tr("Settings")
+        for each level in m.userLocation
+            if level.title <> invalid then m.path.text += " / " + tr(level.title)
+        end for
+    end if
 end sub
 
 sub settingFocused()
@@ -331,27 +335,7 @@ end sub
 
 sub refreshMenu()
     selectedItem = m.userLocation[m.userLocation.count() - 1]
-
-    result = CreateObject("roSGNode", "ContentNode")
-    m.settingsMenu.content = result
-
-    useWebSectionArrangement = chainLookupReturn(m.global, "session.user.settings.`ui.home.useWebSectionArrangement`", true)
-
-    for each item in selectedItem.children
-        settingName = chainLookupReturn(item, "settingName", string.EMPTY)
-        if isStringEqual(left(settingName, 17), "homescreensection")
-            item.visible = (not useWebSectionArrangement)
-        end if
-
-        if not chainLookupReturn(item, "visible", true)
-            continue for
-        end if
-
-        listItem = result.CreateChild("ContentNode")
-        listItem.title = tr(item.title)
-        listItem.Description = tr(item.description)
-        listItem.id = item.id
-    end for
+    LoadMenu(selectedItem, false)
 end sub
 
 sub boolSettingChanged()
