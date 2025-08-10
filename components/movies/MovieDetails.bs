@@ -17,6 +17,14 @@ import "pkg:/source/enums/ViewLoadStatus.bs"
 sub init()
     m.global.queueManager.callFunc("setForceTranscode", false)
 
+    m.scrollBar = m.top.findnode("scrollBar")
+    m.thumb = m.top.findnode("thumb")
+    m.thumbStep = 0
+
+    m.scrollBar.opacity = .75
+    m.scrollBar.color = ColorPalette.BLACK77
+    m.thumb.color = ColorPalette.LIGHTGREY
+
     m.container = m.top.findnode("container")
     m.extrasGrp = m.top.findnode("extrasGrp")
     m.extrasGrid = m.top.findNode("extrasGrid")
@@ -49,6 +57,7 @@ sub init()
         editSubtitleButton = m.top.findNode("editSubtitlesButton")
         if isValid(editSubtitleButton)
             m.buttonGrp.content.removeChild(editSubtitleButton)
+            calculateButtonThumbProperties()
         end if
     end if
 
@@ -59,6 +68,19 @@ sub init()
     m.loadItemsTask = createObject("roSGNode", "LoadItemsTask")
     m.loadItemsTask.observeField("content", "onMyListLoaded")
     m.loadItemsTask.itemsToLoad = "isInMyList"
+end sub
+
+sub calculateButtonThumbProperties()
+    if not isAllValid([m.buttonGrp, m.scrollBar]) then return
+
+    buttonGroupHeight = m.buttonGrp.BoundingRect().height
+
+    m.scrollBar.height = buttonGroupHeight
+    if m.scrollBar.height < 510
+        m.scrollBar.visible = false
+    end if
+
+    m.thumbStep = (buttonGroupHeight - m.thumb.height) / (m.buttonGrp.content.getChildCount() - 1)
 end sub
 
 sub onIsInMyListChanged()
@@ -87,6 +109,7 @@ sub onMyListLoaded()
     ' Invalid data returned, remove button to prevent issues
     if not isValidAndNotEmpty(isInMyListData)
         m.buttonGrp.content.removeChild(myListButton)
+        calculateButtonThumbProperties()
         return
     end if
 
@@ -137,6 +160,7 @@ end sub
 sub trailerAvailableChanged()
     if not m.top.trailerAvailable
         m.buttonGrp.content.removeChild(m.top.findNode("trailer-button"))
+        calculateButtonThumbProperties()
         return
     end if
 end sub
@@ -146,12 +170,14 @@ sub additionalPartsChanged()
     if not isValidAndNotEmpty(m.top.additionalParts)
         if isValid(partButton)
             m.buttonGrp.content.removeChild(partButton)
+            calculateButtonThumbProperties()
         end if
     end if
 
     if m.top.additionalParts.parts.TotalRecordCount = 0
         if isValid(partButton)
             m.buttonGrp.content.removeChild(partButton)
+            calculateButtonThumbProperties()
         end if
         return
     end if
@@ -670,6 +696,7 @@ end function
 sub setFavoriteColor()
     fave = m.top.itemContent.favorite
     fave_button = m.top.findNode("favorite-button")
+    if not isValid(fave_button) then return
     if isValid(fave) and fave
         fave_button.iconBlendColor = ColorPalette.RED
         fave_button.text = tr("Favorited")
@@ -684,6 +711,7 @@ end sub
 sub setWatchedColor()
     watched = m.top.itemContent.watched
     watched_button = m.top.findNode("watched-button")
+    if not isValid(watched_button) then return
     if watched
         watched_button.text = tr("Watched")
         watched_button.AUDIO_GUIDE_SUFFIX = tr("Watched")
@@ -765,7 +793,10 @@ end sub
 sub onButtonItemFocused()
     button = m.buttonGrp.content.getChild(m.buttonGrp.itemFocused)
     button.focus = true
+
+    m.thumb.translation = [0, m.thumbStep * m.buttonGrp.itemFocused]
 end sub
+
 sub onButtonItemUnfocused()
     button = m.buttonGrp.content.getChild(m.buttonGrp.itemUnfocused)
     if isValid(button)
