@@ -17,6 +17,9 @@ import "pkg:/source/enums/ViewLoadStatus.bs"
 sub init()
     m.global.queueManager.callFunc("setForceTranscode", false)
 
+    m.scrollBarThumbSlideAnimation = m.top.findnode("scrollBarThumbSlideAnimation")
+    m.scrollBarThumbSlideInterpolator = m.top.findnode("scrollBarThumbSlideInterpolator")
+
     m.scrollBar = m.top.findnode("scrollBar")
     m.thumb = m.top.findnode("thumb")
     m.thumbStep = 0
@@ -794,7 +797,8 @@ sub onButtonItemFocused()
     button = m.buttonGrp.content.getChild(m.buttonGrp.itemFocused)
     button.focus = true
 
-    m.thumb.translation = [0, m.thumbStep * m.buttonGrp.itemFocused]
+    m.scrollBarThumbSlideInterpolator.keyValue = [m.thumb.translation, [0, m.thumbStep * m.buttonGrp.itemFocused]]
+    m.scrollBarThumbSlideAnimation.control = AnimationControl.START
 end sub
 
 sub onButtonItemUnfocused()

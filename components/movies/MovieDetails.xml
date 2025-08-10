@@ -80,6 +80,10 @@
       </LayoutGroup>
     </LayoutGroup>
 
+    <Animation id="scrollBarThumbSlideAnimation" duration=".4" repeat="false">
+      <Vector2DFieldInterpolator id="scrollBarThumbSlideInterpolator" key="[0.0, 1.0]" keyValue="[[0, 0], [0, 0]]" fieldToInterp="thumb.translation" />
+    </Animation>
+
     <MovieOptions id="movieOptions" visible="false" />
 
     <!-- "Cast and Crew" row -->
