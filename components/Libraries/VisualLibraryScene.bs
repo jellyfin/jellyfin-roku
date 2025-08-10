@@ -2123,7 +2123,7 @@ sub setSearchBackground(state)
 
         m.voiceBox.textColor = ColorPalette.WHITE
         m.voiceBox.hintTextColor = ColorPalette.WHITE
-        m.voiceBoxBackground.blendColor = ColorPalette.HIGHLIGHT
+        m.voiceBoxBackground.blendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
         return
     end if
 
