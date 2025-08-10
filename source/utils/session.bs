@@ -239,13 +239,13 @@ namespace session
                 session.user.SaveUserHomeSections(jsonResponse.CustomPrefs)
             else
                 homeSection0 = chainLookupReturn(m.global, "session.user.settings.homeScreenSection0", "smalllibrarytiles")
-                homeSection1 = chainLookupReturn(m.global, "session.user.settings.homeScreenSection0", "resume")
-                homeSection2 = chainLookupReturn(m.global, "session.user.settings.homeScreenSection0", "nextup")
-                homeSection3 = chainLookupReturn(m.global, "session.user.settings.homeScreenSection0", "latestmedia")
-                homeSection4 = chainLookupReturn(m.global, "session.user.settings.homeScreenSection0", "livetv")
-                homeSection5 = chainLookupReturn(m.global, "session.user.settings.homeScreenSection0", "mylist")
-                homeSection6 = chainLookupReturn(m.global, "session.user.settings.homeScreenSection0", "favorites")
-                homeSection7 = chainLookupReturn(m.global, "session.user.settings.homeScreenSection0", "none")
+                homeSection1 = chainLookupReturn(m.global, "session.user.settings.homeScreenSection1", "resume")
+                homeSection2 = chainLookupReturn(m.global, "session.user.settings.homeScreenSection2", "nextup")
+                homeSection3 = chainLookupReturn(m.global, "session.user.settings.homeScreenSection3", "latestmedia")
+                homeSection4 = chainLookupReturn(m.global, "session.user.settings.homeScreenSection4", "livetv")
+                homeSection5 = chainLookupReturn(m.global, "session.user.settings.homeScreenSection5", "mylist")
+                homeSection6 = chainLookupReturn(m.global, "session.user.settings.homeScreenSection6", "favorites")
+                homeSection7 = chainLookupReturn(m.global, "session.user.settings.homeScreenSection7", "none")
 
                 ' User has no custom prefs. Save default home section values.
                 session.user.SaveUserHomeSections({
@@ -305,22 +305,29 @@ namespace session
             end if
 
             homeSection0 = chainLookupReturn(m.global, "session.user.settings.homeScreenSection0", "smalllibrarytiles")
+            homeSection1 = chainLookupReturn(m.global, "session.user.settings.homeScreenSection1", "resume")
+            homeSection2 = chainLookupReturn(m.global, "session.user.settings.homeScreenSection2", "nextup")
+            homeSection3 = chainLookupReturn(m.global, "session.user.settings.homeScreenSection3", "latestmedia")
+            homeSection4 = chainLookupReturn(m.global, "session.user.settings.homeScreenSection4", "livetv")
+            homeSection5 = chainLookupReturn(m.global, "session.user.settings.homeScreenSection5", "mylist")
+            homeSection6 = chainLookupReturn(m.global, "session.user.settings.homeScreenSection6", "favorites")
+            homeSection7 = chainLookupReturn(m.global, "session.user.settings.homeScreenSection7", "none")
 
             ' If user has no section preferences, use default settings
             if not userPreferences.doesExist("homesection0")
                 userPreferences = {
                     homesection0: homeSection0,
-                    homesection1: "resume",
-                    homesection2: "nextup",
-                    homesection3: "latestmedia",
-                    homesection4: "livetv",
-                    homesection5: "mylist",
-                    homesection6: "favorites",
-                    homesection7: "none"
+                    homesection1: homeSection1,
+                    homesection2: homeSection2,
+                    homesection3: homeSection3,
+                    homesection4: homeSection4,
+                    homesection5: homeSection5,
+                    homesection6: homeSection6,
+                    homesection7: homeSection7
                 }
             end if
 
-            for i = 0 to 6
+            for i = 0 to 7
                 homeSectionKey = "homesection" + i.toStr()
 
                 ' If home section doesn't exist, create it as a none row
