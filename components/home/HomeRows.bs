@@ -78,7 +78,7 @@ end sub
 ' processUserSections: Loop through user's chosen home section settings and generate the content for each row
 '
 sub processUserSections()
-    m.expectedRowCount = 1 ' the favorites row is hardcoded to always show atm
+    m.expectedRowCount = 0 ' the favorites row is hardcoded to always show atm
     m.processedRowCount = 0
 
     sessionUser = m.global.session.user
@@ -131,8 +131,13 @@ sub processUserSections()
     if useWebSectionArrangement
         addHomeSection("mylist")
         addHomeSection("favorites")
+        loadedSections += 2
     end if
 
+    if loadedSections = 0
+        m.overhang.callFunc("highlightUser")
+        m.overhang.setfocus(true)
+    end if
 
     ' Start the timer for creating the content rows before we set the cursor size
     m.loadingTimer.control = "start"

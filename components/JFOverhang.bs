@@ -94,6 +94,8 @@ function onKeyEvent(key as string, press as boolean) as boolean
         if key = KeyCode.DOWN
             homeRows = m.top.getscene().findNode("homeRows")
             if isValid(homeRows)
+                if homeRows.content.getChildCount() = 0 then return false
+
                 dehighlightUser()
                 homeRows.setfocus(true)
                 group = m.global.sceneManager.callFunc("getActiveScene")
@@ -107,6 +109,13 @@ function onKeyEvent(key as string, press as boolean) as boolean
             panel = group.findNode("options")
             panel.visible = true
             panel.findNode("panelList").setFocus(true)
+
+            homeRows = m.top.getscene().findNode("homeRows")
+            if isValid(homeRows)
+                if homeRows.content.getChildCount() = 0
+                    group.lastFocus = m.top
+                end if
+            end if
 
             dehighlightUser()
             return true
