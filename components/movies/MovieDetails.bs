@@ -79,7 +79,8 @@ sub calculateButtonThumbProperties()
     buttonGroupHeight = m.buttonGrp.BoundingRect().height
 
     m.scrollBar.height = buttonGroupHeight
-    if m.scrollBar.height < 510
+
+    if m.scrollBar.height <= 510
         m.scrollBar.visible = false
     end if
 
