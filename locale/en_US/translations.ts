@@ -1829,5 +1829,89 @@
             <source>Episode</source>
             <translation>Episode</translation>
         </message>
+        <message>
+            <source>Section 1</source>
+            <translation>Section 1</translation>
+        </message>
+        <message>
+            <source>Section 2</source>
+            <translation>Section 2</translation>
+        </message>
+        <message>
+            <source>Section 3</source>
+            <translation>Section 3</translation>
+        </message>
+        <message>
+            <source>Section 4</source>
+            <translation>Section 4</translation>
+        </message>
+        <message>
+            <source>Section 5</source>
+            <translation>Section 5</translation>
+        </message>
+        <message>
+            <source>Section 6</source>
+            <translation>Section 6</translation>
+        </message>
+        <message>
+            <source>Section 7</source>
+            <translation>Section 7</translation>
+        </message>
+        <message>
+            <source>Section 8</source>
+            <translation>Section 8</translation>
+        </message>
+        <message>
+            <source>Select what to show in section 1. This setting has no effect if \"Use Web Client's Home Section Arrangement\" is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
+            <translation>Select what to show in section 1. This setting has no effect if \"Use Web Client's Home Section Arrangement\" is enabled. Jellyfin will need to be closed and reopened for change to take effect.</translation>
+        </message>
+        <message>
+            <source>Select what to show in section 2. This setting has no effect if \"Use Web Client's Home Section Arrangement\" is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
+            <translation>Select what to show in section 2. This setting has no effect if \"Use Web Client's Home Section Arrangement\" is enabled. Jellyfin will need to be closed and reopened for change to take effect.</translation>
+        </message>
+        <message>
+            <source>Select what to show in section 3. This setting has no effect if \"Use Web Client's Home Section Arrangement\" is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
+            <translation>Select what to show in section 3. This setting has no effect if \"Use Web Client's Home Section Arrangement\" is enabled. Jellyfin will need to be closed and reopened for change to take effect.</translation>
+        </message>
+        <message>
+            <source>Select what to show in section 4. This setting has no effect if \"Use Web Client's Home Section Arrangement\" is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
+            <translation>Select what to show in section 4. This setting has no effect if \"Use Web Client's Home Section Arrangement\" is enabled. Jellyfin will need to be closed and reopened for change to take effect.</translation>
+        </message>
+        <message>
+            <source>Select what to show in section 5. This setting has no effect if \"Use Web Client's Home Section Arrangement\" is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
+            <translation>Select what to show in section 5. This setting has no effect if \"Use Web Client's Home Section Arrangement\" is enabled. Jellyfin will need to be closed and reopened for change to take effect.</translation>
+        </message>
+        <message>
+            <source>Select what to show in section 6. This setting has no effect if \"Use Web Client's Home Section Arrangement\" is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
+            <translation>Select what to show in section 6. This setting has no effect if \"Use Web Client's Home Section Arrangement\" is enabled. Jellyfin will need to be closed and reopened for change to take effect.</translation>
+        </message>
+        <message>
+            <source>Select what to show in section 7. This setting has no effect if \"Use Web Client's Home Section Arrangement\" is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
+            <translation>Select what to show in section 7. This setting has no effect if \"Use Web Client's Home Section Arrangement\" is enabled. Jellyfin will need to be closed and reopened for change to take effect.</translation>
+        </message>
+        <message>
+            <source>Select what to show in section 8. This setting has no effect if \"Use Web Client's Home Section Arrangement\" is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
+            <translation>Select what to show in section 8. This setting has no effect if \"Use Web Client's Home Section Arrangement\" is enabled. Jellyfin will need to be closed and reopened for change to take effect.</translation>
+        </message>
+        <message>
+            <source>Live TV</source>
+            <translation>Live TV</translation>
+        </message>
+        <message>
+            <source>My List</source>
+            <translation>My List</translation>
+        </message>
+        <message>
+            <source>Recently Added Media</source>
+            <translation>Recently Added Media</translation>
+        </message>
+        <message>
+            <source>Customize the home screen sections</source>
+            <translation>Customize the home screen sections</translation>
+        </message>
+        <message>
+            <source>Home Rows</source>
+            <translation>Home Rows</translation>
+        </message>
     </context>
 </TS>

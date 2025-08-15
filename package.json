@@ -9,7 +9,7 @@
   },
   "devDependencies": {
     "@rokucommunity/bslint": "0.8.34",
-    "brighterscript": "0.69.13",
+    "brighterscript": "0.70.0",
     "jshint": "2.13.6",
     "rimraf": "6.0.1",
     "roku-deploy": "3.13.0",

@@ -1758,5 +1758,25 @@
         <source>Enable or disable Direct Play support for certain codecs.</source>
         <translation>Habilita o deshabilita el suport per a la reproducció directa de certs còdecs.</translation>
     </message>
+    <message>
+        <source>Are you sure you want to forget this user?</source>
+        <translation>N&apos;esteu segur, que voleu oblidar aquest usuari?</translation>
+    </message>
+    <message>
+        <source>No, Cancel</source>
+        <translation>No, anul·la</translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation>Sí</translation>
+    </message>
+    <message>
+        <source>Select User</source>
+        <translation>Selecció d&apos;usuari</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to delete this subtitle?</source>
+        <translation>N&apos;esteu segur, que desitgeu eliminar aquest subtítol?</translation>
+    </message>
 </context>
 </TS>

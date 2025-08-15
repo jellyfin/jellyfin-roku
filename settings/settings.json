@@ -1,183 +1,5 @@
 [
   {
-    "title": "Secret",
-    "description": "Settings that are not for public consumption. Do not get mad if these things change without notice.",
-    "visible": false,
-    "children": [
-      {
-        "title": "Color Settings",
-        "description": "Change the colors of elements in the app",
-        "children": [
-          {
-            "title": "Home",
-            "description": "Change the colors of elements on the home screen",
-            "children": [
-              {
-                "title": "My List Icon",
-                "description": "",
-                "settingName": "colorHomeMyListIcon",
-                "type": "colorgrid",
-                "default": "#FFFFFF"
-              },
-              {
-                "title": "Row Headers",
-                "description": "",
-                "settingName": "colorHomeRowHeaders",
-                "type": "colorgrid",
-                "default": "#FFFFFF"
-              },
-              {
-                "title": "Row Item Background",
-                "description": "",
-                "settingName": "colorHomeRowItemBackground",
-                "type": "colorgrid",
-                "default": "#000033"
-              },
-              {
-                "title": "Row Item Progress",
-                "description": "",
-                "settingName": "colorHomeRowItemProgress",
-                "type": "colorgrid",
-                "default": "#6867ff"
-              },
-              {
-                "title": "Row Item Progress Background",
-                "description": "",
-                "settingName": "colorHomeRowItemProgressBackground",
-                "type": "colorgrid",
-                "default": "#000000"
-              },
-              {
-                "title": "Row Item Title",
-                "description": "",
-                "settingName": "colorHomeRowItemTitle",
-                "type": "colorgrid",
-                "default": "#FFFFFF"
-              },
-              {
-                "title": "Row Item Subtitle",
-                "description": "",
-                "settingName": "colorHomeRowItemSubtitle",
-                "type": "colorgrid",
-                "default": "#777777"
-              },
-              {
-                "title": "Username In Header",
-                "description": "",
-                "settingName": "colorHomeUsername",
-                "type": "colorgrid",
-                "default": "#FFFFFF"
-              }
-            ]
-          },
-          {
-            "title": "Dialog Popups",
-            "description": "Change the colors of elements in dialog popups",
-            "children": [
-              {
-                "title": "Background",
-                "description": "The background color for all dialog popups.",
-                "settingName": "colorDialogBackground",
-                "type": "colorgrid",
-                "default": "#000033"
-              },
-              {
-                "title": "Bold Text",
-                "description": "The text color for bold text.",
-                "settingName": "colorDialogBoldText",
-                "type": "colorgrid",
-                "default": "#66FF33"
-              },
-              {
-                "title": "Horizontal Border line",
-                "description": "The color of the thin border line under the header text.",
-                "settingName": "colorDialogBorderLine",
-                "type": "colorgrid",
-                "default": "#CCFFF"
-              },
-              {
-                "title": "Selected Text",
-                "description": "The text color for the item the cursor is over.",
-                "settingName": "colorDialogSelectedText",
-                "type": "colorgrid",
-                "default": "#FFFFFF"
-              },
-              {
-                "title": "Text Color",
-                "description": "The text color for title and items the cursor is not over.",
-                "settingName": "colorDialogText",
-                "type": "colorgrid",
-                "default": "#FFFFFF"
-              },
-              {
-                "title": "What's New Author",
-                "description": "The text color for the author in the What's New popup.",
-                "settingName": "colorWhatsNewAuthor",
-                "type": "colorgrid",
-                "default": "#FF6666"
-              }
-            ]
-          },
-          {
-            "title": "Background",
-            "description": "The base background color for all screens in Jellyfin.",
-            "settingName": "colorBackground",
-            "type": "colorgrid",
-            "default": "#000018"
-          },
-          {
-            "title": "Primary Text",
-            "description": "The primary text color for all screens in Jellyfin.",
-            "settingName": "colorText",
-            "type": "colorgrid",
-            "default": "#FFFFFF"
-          },
-          {
-            "title": "Secondary Text",
-            "description": "The secondary text color for all screens in Jellyfin.",
-            "settingName": "colorSubText",
-            "type": "colorgrid",
-            "default": "#777777FF"
-          },
-          {
-            "title": "Cursor",
-            "description": "The highlight color for the cursor showing where the user's focus is.",
-            "settingName": "colorCursor",
-            "type": "colorgrid",
-            "default": "#FF6666"
-          },
-          {
-            "title": "Watched Check Mark & Unplayed Count",
-            "description": "Watched Check Mark & Unplayed Count color settings",
-            "children": [
-              {
-                "title": "Background",
-                "description": "The background color of the check mark & unplayed count shown in the top right corner of items.",
-                "settingName": "colorPlayedCheckmarkBackground",
-                "type": "colorgrid",
-                "default": "#6666FF"
-              },
-              {
-                "title": "Watched Check Mark",
-                "description": "The color of the watched check mark.",
-                "settingName": "colorPlayedCheckmarkIcon",
-                "type": "colorgrid",
-                "default": "#FFFFFF"
-              },
-              {
-                "title": "Unplayed Count",
-                "description": "The text color of the unplayed count number.",
-                "settingName": "colorUnplayedCountTextColor",
-                "type": "colorgrid",
-                "default": "#FFFFFF"
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  },
-  {
     "title": "Global",
     "description": "Global settings that affect everyone that uses this Roku device.",
     "children": [
@@ -617,13 +439,387 @@
             "settingName": "useFallbackFont",
             "type": "bool",
             "default": "false"
-          },
+          }
+        ]
+      },
+      {
+        "title": "Home Rows",
+        "description": "Customize the home screen sections",
+        "children": [
           {
             "title": "Use Web Client's Home Section Arrangement",
             "description": "Make the arrangement of the Roku home view sections match the web client's home screen. Jellyfin will need to be closed and reopened for change to take effect.",
             "settingName": "ui.home.useWebSectionArrangement",
             "type": "bool",
             "default": "true"
+          },
+          {
+            "title": "Section 1",
+            "visible": false,
+            "description": "Select what to show in section 1. This setting has no effect if \"Use Web Client's Home Section Arrangement\" is enabled. Jellyfin will need to be closed and reopened for change to take effect.",
+            "settingName": "homeScreenSection0",
+            "type": "radio",
+            "default": "smalllibrarytiles",
+            "options": [
+              {
+                "title": "Continue Listening",
+                "id": "resumeaudio"
+              },
+              {
+                "title": "Continue Watching",
+                "id": "resume"
+              },
+              {
+                "title": "Favorites",
+                "id": "favorites"
+              },
+              {
+                "title": "Live TV",
+                "id": "livetv"
+              },
+              {
+                "title": "My List",
+                "id": "mylist"
+              },
+              {
+                "title": "My Media",
+                "id": "smalllibrarytiles"
+              },
+              {
+                "title": "Next Up",
+                "id": "nextup"
+              },
+              {
+                "title": "None",
+                "id": "none"
+              },
+              {
+                "title": "Recently Added Media",
+                "id": "latestmedia"
+              }
+            ]
+          },
+          {
+            "title": "Section 2",
+            "visible": false,
+            "description": "Select what to show in section 2. This setting has no effect if \"Use Web Client's Home Section Arrangement\" is enabled. Jellyfin will need to be closed and reopened for change to take effect.",
+            "settingName": "homeScreenSection1",
+            "type": "radio",
+            "default": "resume",
+            "options": [
+              {
+                "title": "Continue Listening",
+                "id": "resumeaudio"
+              },
+              {
+                "title": "Continue Watching",
+                "id": "resume"
+              },
+              {
+                "title": "Favorites",
+                "id": "favorites"
+              },
+              {
+                "title": "Live TV",
+                "id": "livetv"
+              },
+              {
+                "title": "My List",
+                "id": "mylist"
+              },
+              {
+                "title": "My Media",
+                "id": "smalllibrarytiles"
+              },
+              {
+                "title": "Next Up",
+                "id": "nextup"
+              },
+              {
+                "title": "None",
+                "id": "none"
+              },
+              {
+                "title": "Recently Added Media",
+                "id": "latestmedia"
+              }
+            ]
+          },
+          {
+            "title": "Section 3",
+            "visible": false,
+            "description": "Select what to show in section 3. This setting has no effect if \"Use Web Client's Home Section Arrangement\" is enabled. Jellyfin will need to be closed and reopened for change to take effect.",
+            "settingName": "homeScreenSection2",
+            "type": "radio",
+            "default": "nextup",
+            "options": [
+              {
+                "title": "Continue Listening",
+                "id": "resumeaudio"
+              },
+              {
+                "title": "Continue Watching",
+                "id": "resume"
+              },
+              {
+                "title": "Favorites",
+                "id": "favorites"
+              },
+              {
+                "title": "Live TV",
+                "id": "livetv"
+              },
+              {
+                "title": "My List",
+                "id": "mylist"
+              },
+              {
+                "title": "My Media",
+                "id": "smalllibrarytiles"
+              },
+              {
+                "title": "Next Up",
+                "id": "nextup"
+              },
+              {
+                "title": "None",
+                "id": "none"
+              },
+              {
+                "title": "Recently Added Media",
+                "id": "latestmedia"
+              }
+            ]
+          },
+          {
+            "title": "Section 4",
+            "visible": false,
+            "description": "Select what to show in section 4. This setting has no effect if \"Use Web Client's Home Section Arrangement\" is enabled. Jellyfin will need to be closed and reopened for change to take effect.",
+            "settingName": "homeScreenSection3",
+            "type": "radio",
+            "default": "latestmedia",
+            "options": [
+              {
+                "title": "Continue Listening",
+                "id": "resumeaudio"
+              },
+              {
+                "title": "Continue Watching",
+                "id": "resume"
+              },
+              {
+                "title": "Favorites",
+                "id": "favorites"
+              },
+              {
+                "title": "Live TV",
+                "id": "livetv"
+              },
+              {
+                "title": "My List",
+                "id": "mylist"
+              },
+              {
+                "title": "My Media",
+                "id": "smalllibrarytiles"
+              },
+              {
+                "title": "Next Up",
+                "id": "nextup"
+              },
+              {
+                "title": "None",
+                "id": "none"
+              },
+              {
+                "title": "Recently Added Media",
+                "id": "latestmedia"
+              }
+            ]
+          },
+          {
+            "title": "Section 5",
+            "visible": false,
+            "description": "Select what to show in section 5. This setting has no effect if \"Use Web Client's Home Section Arrangement\" is enabled. Jellyfin will need to be closed and reopened for change to take effect.",
+            "settingName": "homeScreenSection4",
+            "type": "radio",
+            "default": "livetv",
+            "options": [
+              {
+                "title": "Continue Listening",
+                "id": "resumeaudio"
+              },
+              {
+                "title": "Continue Watching",
+                "id": "resume"
+              },
+              {
+                "title": "Favorites",
+                "id": "favorites"
+              },
+              {
+                "title": "Live TV",
+                "id": "livetv"
+              },
+              {
+                "title": "My List",
+                "id": "mylist"
+              },
+              {
+                "title": "My Media",
+                "id": "smalllibrarytiles"
+              },
+              {
+                "title": "Next Up",
+                "id": "nextup"
+              },
+              {
+                "title": "None",
+                "id": "none"
+              },
+              {
+                "title": "Recently Added Media",
+                "id": "latestmedia"
+              }
+            ]
+          },
+          {
+            "title": "Section 6",
+            "visible": false,
+            "description": "Select what to show in section 6. This setting has no effect if \"Use Web Client's Home Section Arrangement\" is enabled. Jellyfin will need to be closed and reopened for change to take effect.",
+            "settingName": "homeScreenSection5",
+            "type": "radio",
+            "default": "mylist",
+            "options": [
+              {
+                "title": "Continue Listening",
+                "id": "resumeaudio"
+              },
+              {
+                "title": "Continue Watching",
+                "id": "resume"
+              },
+              {
+                "title": "Favorites",
+                "id": "favorites"
+              },
+              {
+                "title": "Live TV",
+                "id": "livetv"
+              },
+              {
+                "title": "My List",
+                "id": "mylist"
+              },
+              {
+                "title": "My Media",
+                "id": "smalllibrarytiles"
+              },
+              {
+                "title": "Next Up",
+                "id": "nextup"
+              },
+              {
+                "title": "None",
+                "id": "none"
+              },
+              {
+                "title": "Recently Added Media",
+                "id": "latestmedia"
+              }
+            ]
+          },
+          {
+            "title": "Section 7",
+            "visible": false,
+            "description": "Select what to show in section 7. This setting has no effect if \"Use Web Client's Home Section Arrangement\" is enabled. Jellyfin will need to be closed and reopened for change to take effect.",
+            "settingName": "homeScreenSection6",
+            "type": "radio",
+            "default": "favorites",
+            "options": [
+              {
+                "title": "Continue Listening",
+                "id": "resumeaudio"
+              },
+              {
+                "title": "Continue Watching",
+                "id": "resume"
+              },
+              {
+                "title": "Favorites",
+                "id": "favorites"
+              },
+              {
+                "title": "Live TV",
+                "id": "livetv"
+              },
+              {
+                "title": "My List",
+                "id": "mylist"
+              },
+              {
+                "title": "My Media",
+                "id": "smalllibrarytiles"
+              },
+              {
+                "title": "Next Up",
+                "id": "nextup"
+              },
+              {
+                "title": "None",
+                "id": "none"
+              },
+              {
+                "title": "Recently Added Media",
+                "id": "latestmedia"
+              }
+            ]
+          },
+          {
+            "title": "Section 8",
+            "visible": false,
+            "description": "Select what to show in section 8. This setting has no effect if \"Use Web Client's Home Section Arrangement\" is enabled. Jellyfin will need to be closed and reopened for change to take effect.",
+            "settingName": "homeScreenSection7",
+            "type": "radio",
+            "default": "none",
+            "options": [
+              {
+                "title": "Continue Listening",
+                "id": "resumeaudio"
+              },
+              {
+                "title": "Continue Watching",
+                "id": "resume"
+              },
+              {
+                "title": "Favorites",
+                "id": "favorites"
+              },
+              {
+                "title": "Live TV",
+                "id": "livetv"
+              },
+              {
+                "title": "My List",
+                "id": "mylist"
+              },
+              {
+                "title": "My Media",
+                "id": "smalllibrarytiles"
+              },
+              {
+                "title": "Next Up",
+                "id": "nextup"
+              },
+              {
+                "title": "None",
+                "id": "none"
+              },
+              {
+                "title": "Recently Added Media",
+                "id": "latestmedia"
+              }
+            ]
           }
         ]
       },
@@ -800,6 +996,184 @@
                 "settingName": "ui.tvshows.goStraightToEpisodeListing",
                 "type": "bool",
                 "default": "false"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Secret",
+    "description": "Settings that are not for public consumption. Do not get mad if these things change without notice.",
+    "visible": false,
+    "children": [
+      {
+        "title": "Color Settings",
+        "description": "Change the colors of elements in the app",
+        "children": [
+          {
+            "title": "Home",
+            "description": "Change the colors of elements on the home screen",
+            "children": [
+              {
+                "title": "My List Icon",
+                "description": "",
+                "settingName": "colorHomeMyListIcon",
+                "type": "colorgrid",
+                "default": "#FFFFFF"
+              },
+              {
+                "title": "Row Headers",
+                "description": "",
+                "settingName": "colorHomeRowHeaders",
+                "type": "colorgrid",
+                "default": "#FFFFFF"
+              },
+              {
+                "title": "Row Item Background",
+                "description": "",
+                "settingName": "colorHomeRowItemBackground",
+                "type": "colorgrid",
+                "default": "#000033"
+              },
+              {
+                "title": "Row Item Progress",
+                "description": "",
+                "settingName": "colorHomeRowItemProgress",
+                "type": "colorgrid",
+                "default": "#6867ff"
+              },
+              {
+                "title": "Row Item Progress Background",
+                "description": "",
+                "settingName": "colorHomeRowItemProgressBackground",
+                "type": "colorgrid",
+                "default": "#000000"
+              },
+              {
+                "title": "Row Item Title",
+                "description": "",
+                "settingName": "colorHomeRowItemTitle",
+                "type": "colorgrid",
+                "default": "#FFFFFF"
+              },
+              {
+                "title": "Row Item Subtitle",
+                "description": "",
+                "settingName": "colorHomeRowItemSubtitle",
+                "type": "colorgrid",
+                "default": "#777777"
+              },
+              {
+                "title": "Username In Header",
+                "description": "",
+                "settingName": "colorHomeUsername",
+                "type": "colorgrid",
+                "default": "#FFFFFF"
+              }
+            ]
+          },
+          {
+            "title": "Dialog Popups",
+            "description": "Change the colors of elements in dialog popups",
+            "children": [
+              {
+                "title": "Background",
+                "description": "The background color for all dialog popups.",
+                "settingName": "colorDialogBackground",
+                "type": "colorgrid",
+                "default": "#000033"
+              },
+              {
+                "title": "Bold Text",
+                "description": "The text color for bold text.",
+                "settingName": "colorDialogBoldText",
+                "type": "colorgrid",
+                "default": "#66FF33"
+              },
+              {
+                "title": "Horizontal Border line",
+                "description": "The color of the thin border line under the header text.",
+                "settingName": "colorDialogBorderLine",
+                "type": "colorgrid",
+                "default": "#CCFFF"
+              },
+              {
+                "title": "Selected Text",
+                "description": "The text color for the item the cursor is over.",
+                "settingName": "colorDialogSelectedText",
+                "type": "colorgrid",
+                "default": "#FFFFFF"
+              },
+              {
+                "title": "Text Color",
+                "description": "The text color for title and items the cursor is not over.",
+                "settingName": "colorDialogText",
+                "type": "colorgrid",
+                "default": "#FFFFFF"
+              },
+              {
+                "title": "What's New Author",
+                "description": "The text color for the author in the What's New popup.",
+                "settingName": "colorWhatsNewAuthor",
+                "type": "colorgrid",
+                "default": "#FF6666"
+              }
+            ]
+          },
+          {
+            "title": "Background",
+            "description": "The base background color for all screens in Jellyfin.",
+            "settingName": "colorBackground",
+            "type": "colorgrid",
+            "default": "#000018"
+          },
+          {
+            "title": "Primary Text",
+            "description": "The primary text color for all screens in Jellyfin.",
+            "settingName": "colorText",
+            "type": "colorgrid",
+            "default": "#FFFFFF"
+          },
+          {
+            "title": "Secondary Text",
+            "description": "The secondary text color for all screens in Jellyfin.",
+            "settingName": "colorSubText",
+            "type": "colorgrid",
+            "default": "#777777FF"
+          },
+          {
+            "title": "Cursor",
+            "description": "The highlight color for the cursor showing where the user's focus is.",
+            "settingName": "colorCursor",
+            "type": "colorgrid",
+            "default": "#FF6666"
+          },
+          {
+            "title": "Watched Check Mark & Unplayed Count",
+            "description": "Watched Check Mark & Unplayed Count color settings",
+            "children": [
+              {
+                "title": "Background",
+                "description": "The background color of the check mark & unplayed count shown in the top right corner of items.",
+                "settingName": "colorPlayedCheckmarkBackground",
+                "type": "colorgrid",
+                "default": "#6666FF"
+              },
+              {
+                "title": "Watched Check Mark",
+                "description": "The color of the watched check mark.",
+                "settingName": "colorPlayedCheckmarkIcon",
+                "type": "colorgrid",
+                "default": "#FFFFFF"
+              },
+              {
+                "title": "Unplayed Count",
+                "description": "The text color of the unplayed count number.",
+                "settingName": "colorUnplayedCountTextColor",
+                "type": "colorgrid",
+                "default": "#FFFFFF"
               }
             ]
           }

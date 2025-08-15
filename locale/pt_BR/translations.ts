@@ -1451,7 +1451,7 @@
     </message>
     <message>
         <source>Favorited</source>
-        <translation>Favoritos</translation>
+        <translation>Favoritado</translation>
     </message>
     <message>
         <source>Resume playing at </source>
@@ -1816,6 +1816,14 @@
     <message>
         <source>Skip</source>
         <translation>Pular</translation>
+    </message>
+    <message>
+        <source>min</source>
+        <translation>min</translation>
+    </message>
+    <message>
+        <source>mins</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
