@@ -18,5 +18,9 @@
   {
     "description": "Create settings allowing users to choose home screen sections",
     "author": "1hitsong"
+  },
+  {
+    "description": "Create settings allowing users to choose colors for several components. More to come.",
+    "author": "1hitsong"
   }
 ]
