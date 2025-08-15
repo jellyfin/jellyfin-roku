@@ -14,5 +14,9 @@
   {
     "description": "Fix audio track selection bug",
     "author": "1hitsong"
+  },
+  {
+    "description": "Create settings allowing users to choose home screen sections",
+    "author": "1hitsong"
   }
 ]
