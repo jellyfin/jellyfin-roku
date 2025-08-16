@@ -2,6 +2,7 @@ import "pkg:/source/api/baserequest.bs"
 import "pkg:/source/api/Image.bs"
 import "pkg:/source/api/Items.bs"
 import "pkg:/source/enums/ItemType.bs"
+import "pkg:/source/enums/String.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/deviceCapabilities.bs"
 import "pkg:/source/utils/misc.bs"
@@ -21,6 +22,7 @@ sub init()
     m.isPrerollActive = m.global.session.user.settings["playback.cinemamode"]
     m.position = 0
     m.preferredAudioTrackIndex = -1
+    m.preferredAudioTrackName = string.EMPTY
     m.preferredSubtitleTrack = {}
     m.shuffleEnabled = false
 end sub
@@ -34,6 +36,7 @@ sub clear()
     setPosition(0)
     if not m.bypassNextPreferredAudioTrackIndexReset
         setPreferredAudioTrackIndex(-1)
+        setPreferredAudioTrackName(string.EMPTY)
     end if
     m.bypassNextPreferredAudioTrackIndexReset = false
 end sub
@@ -323,6 +326,16 @@ end function
 ' Sets the preferredAudioTrackIndex property for the play queue
 sub setPreferredAudioTrackIndex(audioData as integer)
     m.preferredAudioTrackIndex = audioData ?? (-1)
+end sub
+
+' Gets the preferredAudioTrackName property for the play queue
+function getPreferredAudioTrackName() as string
+    return m.preferredAudioTrackName
+end function
+
+' Sets the preferredAudioTrackName property for the play queue
+sub setPreferredAudioTrackName(audioTrackName as string)
+    m.preferredAudioTrackName = audioTrackName ?? string.EMPTY
 end sub
 
 ' Set prerollActive status

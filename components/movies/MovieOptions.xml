@@ -32,6 +32,7 @@
     <field id="videoStreamId" type="string" />
     <field id="video_codec" type="string" />
     <field id="audioStreamIndex" type="integer" />
+    <field id="audioStreamName" type="string" />
     <field id="subtitleStream" type="node" />
   </interface>
 </component>

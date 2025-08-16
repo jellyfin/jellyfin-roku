@@ -2,6 +2,7 @@ import "pkg:/source/api/sdk.bs"
 import "pkg:/source/enums/ColorPalette.bs"
 import "pkg:/source/enums/KeyCode.bs"
 import "pkg:/source/enums/SettingType.bs"
+import "pkg:/source/enums/String.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/deviceCapabilities.bs"
 import "pkg:/source/utils/misc.bs"
@@ -101,14 +102,7 @@ end sub
 
 sub onColorSelected()
     selectedColor = m.colorgrid.content.getChild(m.colorgrid.itemSelected).colorCode
-
-    for each color in m.colorgrid.content.getChildren(-1, 0)
-        if color.isChecked then color.isChecked = false
-
-        if isStringEqual(color.colorCode, selectedColor)
-            color.isChecked = true
-        end if
-    end for
+    m.colorgrid.selectedColor = selectedColor
 
     selectedSetting = m.userLocation.peek().children[m.settingsMenu.itemFocused]
     set_user_setting(selectedSetting.settingName, selectedColor ?? ColorPalette.VIEWBACKGROUND)
@@ -129,9 +123,6 @@ sub onColorSelected()
         if isValid(overhang)
             overlayCurrentUserSelection = overhang.findNode("overlayCurrentUserSelection")
             overlayCurrentUserSelection.blendColor = selectedColor ?? ColorPalette.HIGHLIGHT
-
-            overlayCurrentUser = overhang.findNode("overlayCurrentUser")
-            overlayCurrentUser.color = selectedColor ?? ColorPalette.WHITE
         end if
 
         ' Update setting menu colors
@@ -145,7 +136,6 @@ sub onColorSelected()
         overhang = scene.findNode("overhang")
         if isValid(overhang)
             overlayCurrentUser = overhang.findNode("overlayCurrentUser")
-            print "selectedColor", selectedColor
             overlayCurrentUser.color = selectedColor ?? ColorPalette.WHITE
         end if
     end if
@@ -163,50 +153,62 @@ sub onKeyGridEscape()
     end if
 end sub
 
-sub LoadMenu(configSection)
+sub LoadMenu(configSection, appendPath = true as boolean)
     if configSection.children = invalid
         ' Load parent menu
         m.userLocation.pop()
         configSection = m.userLocation.peek()
     else
         settingsArray = []
+
         for each item in configSection.children
-            if isValid(item.visible)
-                if not item.visible
-                    if not m.showSecretMenu
-                        continue for
-                    end if
-                end if
-            end if
             settingsArray.push(item)
         end for
 
         configSection.children = settingsArray
 
-        if m.userLocation.Count() > 0 then m.userLocation.peek().selectedIndex = m.settingsMenu.itemFocused
-        m.userLocation.push(configSection)
+        if appendPath
+            if m.userLocation.Count() > 0 then m.userLocation.peek().selectedIndex = m.settingsMenu.itemFocused
+            m.userLocation.push(configSection)
+        end if
     end if
 
     result = CreateObject("roSGNode", "ContentNode")
+    m.settingsMenu.content = result
+
+    useWebSectionArrangement = chainLookupReturn(m.global, "session.user.settings.`ui.home.useWebSectionArrangement`", true)
 
     for each item in configSection.children
+        settingName = chainLookupReturn(item, "settingName", string.EMPTY)
+        if isStringEqual(left(settingName, 17), "homescreensection")
+            item.visible = not useWebSectionArrangement
+        end if
+
+        if isValid(item.visible)
+            if not item.visible
+                if not m.showSecretMenu
+                    continue for
+                end if
+            end if
+        end if
+
         listItem = result.CreateChild("ContentNode")
         listItem.title = tr(item.title)
         listItem.Description = tr(item.description)
         listItem.id = item.id
     end for
 
-    m.settingsMenu.content = result
-
     if configSection.selectedIndex <> invalid and configSection.selectedIndex > -1
         m.settingsMenu.jumpToItem = configSection.selectedIndex
     end if
 
     ' Set Path display
-    m.path.text = tr("Settings")
-    for each level in m.userLocation
-        if level.title <> invalid then m.path.text += " / " + tr(level.title)
-    end for
+    if appendPath
+        m.path.text = tr("Settings")
+        for each level in m.userLocation
+            if level.title <> invalid then m.path.text += " / " + tr(level.title)
+        end for
+    end if
 end sub
 
 sub settingFocused()
@@ -321,6 +323,11 @@ sub settingSelected()
 
 end sub
 
+sub refreshMenu()
+    selectedItem = m.userLocation[m.userLocation.count() - 1]
+    LoadMenu(selectedItem, false)
+end sub
+
 sub boolSettingChanged()
     if m.boolSetting.focusedChild = invalid then return
     selectedSetting = m.userLocation.peek().children[m.settingsMenu.itemFocused]
@@ -355,6 +362,10 @@ sub boolSettingChanged()
             ' save to user specific registry block
             set_user_setting(selectedSetting.settingName, "false")
         end if
+    end if
+
+    if isStringEqual(selectedSetting.settingName, "ui.home.useWebSectionArrangement")
+        refreshMenu()
     end if
 end sub
 

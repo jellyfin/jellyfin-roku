@@ -1,28 +1,54 @@
+import "pkg:/source/enums/String.bs"
 import "pkg:/source/utils/misc.bs"
 
 sub init()
+    m.highlightedColor = m.top.findNode("highlightedColor")
+    m.highlightedColor.font.size = 20
+
     m.selectedColor = m.top.findNode("selectedColor")
     m.selectedColor.font.size = 20
 
     m.top.observeField("itemFocused", "onItemFocused")
+    m.top.observeField("itemSelected", "onItemSelected")
 end sub
 
 sub onItemFocused()
-    if not isValid(m.top.itemFocused) then return
+    if not isValid(m.top.itemFocused)
+        setHighlightedColor(string.EMPTY)
+        return
+    end if
+
     focusedColor = m.top.content.getChild(m.top.itemFocused)
 
-    if not isChainValid(focusedColor, "colorCode") then return
+    if not isChainValid(focusedColor, "colorCode")
+        setHighlightedColor(string.EMPTY)
+        return
+    end if
 
-    m.selectedColor.text = `${tr("Highlighted Color")}: ${focusedColor.colorCode}`
+    setHighlightedColor(focusedColor.colorCode)
+end sub
+
+sub setHighlightedColor(colorCode as string)
+    m.highlightedColor.text = `${tr("Highlighted Color")}: ${colorCode}`
 end sub
 
 sub onSettingChange()
-    selectedColor = chainLookupReturn(m.global.session, `user.settings.${m.top.setting.settingName}`, m.top.setting.default)
+    m.top.selectedColor = chainLookupReturn(m.global.session, `user.settings.${m.top.setting.settingName}`, m.top.setting.default)
+end sub
+
+sub onSelectedColorChange()
+    selectedColor = m.top.selectedColor
+
+    if not m.top.isInFocusChain()
+        setHighlightedColor(string.EMPTY)
+    end if
+
+    m.selectedColor.text = `${tr("Selected Color")}: ${selectedColor}`
 
     for each color in m.top.content.getChildren(-1, 0)
         if color.isChecked then color.isChecked = false
 
-        if isStringEqual(color.colorCode, selectedColor)
+        if isStringEqual(chainLookup(color, "colorCode"), selectedColor)
             color.isChecked = true
         end if
     end for

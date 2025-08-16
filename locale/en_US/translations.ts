@@ -1829,5 +1829,289 @@
             <source>Episode</source>
             <translation>Episode</translation>
         </message>
+        <message>
+            <source>Section 1</source>
+            <translation>Section 1</translation>
+        </message>
+        <message>
+            <source>Section 2</source>
+            <translation>Section 2</translation>
+        </message>
+        <message>
+            <source>Section 3</source>
+            <translation>Section 3</translation>
+        </message>
+        <message>
+            <source>Section 4</source>
+            <translation>Section 4</translation>
+        </message>
+        <message>
+            <source>Section 5</source>
+            <translation>Section 5</translation>
+        </message>
+        <message>
+            <source>Section 6</source>
+            <translation>Section 6</translation>
+        </message>
+        <message>
+            <source>Section 7</source>
+            <translation>Section 7</translation>
+        </message>
+        <message>
+            <source>Section 8</source>
+            <translation>Section 8</translation>
+        </message>
+        <message>
+            <source>Select what to show in section 1. This setting has no effect if \"Use Web Client's Home Section Arrangement\" is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
+            <translation>Select what to show in section 1. This setting has no effect if \"Use Web Client's Home Section Arrangement\" is enabled. Jellyfin will need to be closed and reopened for change to take effect.</translation>
+        </message>
+        <message>
+            <source>Select what to show in section 2. This setting has no effect if \"Use Web Client's Home Section Arrangement\" is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
+            <translation>Select what to show in section 2. This setting has no effect if \"Use Web Client's Home Section Arrangement\" is enabled. Jellyfin will need to be closed and reopened for change to take effect.</translation>
+        </message>
+        <message>
+            <source>Select what to show in section 3. This setting has no effect if \"Use Web Client's Home Section Arrangement\" is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
+            <translation>Select what to show in section 3. This setting has no effect if \"Use Web Client's Home Section Arrangement\" is enabled. Jellyfin will need to be closed and reopened for change to take effect.</translation>
+        </message>
+        <message>
+            <source>Select what to show in section 4. This setting has no effect if \"Use Web Client's Home Section Arrangement\" is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
+            <translation>Select what to show in section 4. This setting has no effect if \"Use Web Client's Home Section Arrangement\" is enabled. Jellyfin will need to be closed and reopened for change to take effect.</translation>
+        </message>
+        <message>
+            <source>Select what to show in section 5. This setting has no effect if \"Use Web Client's Home Section Arrangement\" is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
+            <translation>Select what to show in section 5. This setting has no effect if \"Use Web Client's Home Section Arrangement\" is enabled. Jellyfin will need to be closed and reopened for change to take effect.</translation>
+        </message>
+        <message>
+            <source>Select what to show in section 6. This setting has no effect if \"Use Web Client's Home Section Arrangement\" is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
+            <translation>Select what to show in section 6. This setting has no effect if \"Use Web Client's Home Section Arrangement\" is enabled. Jellyfin will need to be closed and reopened for change to take effect.</translation>
+        </message>
+        <message>
+            <source>Select what to show in section 7. This setting has no effect if \"Use Web Client's Home Section Arrangement\" is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
+            <translation>Select what to show in section 7. This setting has no effect if \"Use Web Client's Home Section Arrangement\" is enabled. Jellyfin will need to be closed and reopened for change to take effect.</translation>
+        </message>
+        <message>
+            <source>Select what to show in section 8. This setting has no effect if \"Use Web Client's Home Section Arrangement\" is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
+            <translation>Select what to show in section 8. This setting has no effect if \"Use Web Client's Home Section Arrangement\" is enabled. Jellyfin will need to be closed and reopened for change to take effect.</translation>
+        </message>
+        <message>
+            <source>Live TV</source>
+            <translation>Live TV</translation>
+        </message>
+        <message>
+            <source>My List</source>
+            <translation>My List</translation>
+        </message>
+        <message>
+            <source>Recently Added Media</source>
+            <translation>Recently Added Media</translation>
+        </message>
+        <message>
+            <source>Customize the home screen sections</source>
+            <translation>Customize the home screen sections</translation>
+        </message>
+        <message>
+            <source>Home Rows</source>
+            <translation>Home Rows</translation>
+        </message>
+        <message>
+            <source>Colors</source>
+            <translation>Colors</translation>
+        </message>
+        <message>
+            <source>Change the colors of elements in the app.</source>
+            <translation>Change the colors of elements in the app.</translation>
+        </message>
+        <message>
+            <source>All Screens</source>
+            <translation>All Screens</translation>
+        </message>
+        <message>
+            <source>Colors used across multiple screens.</source>
+            <translation>Colors used across multiple screens.</translation>
+        </message>
+        <message>
+            <source>Background</source>
+            <translation>Background</translation>
+        </message>
+        <message>
+            <source>The base background color. Background images are layered on top of this color.</source>
+            <translation>The base background color. Background images are layered on top of this color.</translation>
+        </message>
+        <message>
+            <source>Cursor</source>
+            <translation>Cursor</translation>
+        </message>
+        <message>
+            <source>The color of the remote control's cursor.</source>
+            <translation>The color of the remote control's cursor.</translation>
+        </message>
+        <message>
+            <source>Primary Text</source>
+            <translation>Primary Text</translation>
+        </message>
+        <message>
+            <source>The primary text color.</source>
+            <translation>The primary text color.</translation>
+        </message>
+        <message>
+            <source>Secondary Text</source>
+            <translation>Secondary Text</translation>
+        </message>
+        <message>
+            <source>The secondary text color.</source>
+            <translation>The secondary text color.</translation>
+        </message>
+        <message>
+            <source>Watched Check Mark &amp; Unplayed Count</source>
+            <translation>Watched Check Mark &amp; Unplayed Count</translation>
+        </message>
+        <message>
+            <source>Colors specific to the watched check mark &amp; unplayed count box.</source>
+            <translation>Colors specific to the watched check mark &amp; unplayed count box.</translation>
+        </message>
+        <message>
+            <source>The background color of the check mark &amp; unplayed count shown in the top right corner of items.</source>
+            <translation>The background color of the check mark &amp; unplayed count shown in the top right corner of items.</translation>
+        </message>
+        <message>
+            <source>Unplayed Count</source>
+            <translation>Unplayed Count</translation>
+        </message>
+        <message>
+            <source>The color of the unplayed count number.</source>
+            <translation>The color of the unplayed count number.</translation>
+        </message>
+        <message>
+            <source>Watched Check Mark</source>
+            <translation>Watched Check Mark</translation>
+        </message>
+        <message>
+            <source>The color of the watched check mark.</source>
+            <translation>The color of the watched check mark.</translation>
+        </message>
+        <message>
+            <source>Dialog Popups</source>
+            <translation>Dialog Popups</translation>
+        </message>
+        <message>
+            <source>Colors specific to dialog popups</source>
+            <translation>Colors specific to dialog popups</translation>
+        </message>
+        <message>
+            <source>The background color for all dialog popups.</source>
+            <translation>The background color for all dialog popups.</translation>
+        </message>
+        <message>
+            <source>Bold Text</source>
+            <translation>Bold Text</translation>
+        </message>
+        <message>
+            <source>The text color for bold text.</source>
+            <translation>The text color for bold text.</translation>
+        </message>
+        <message>
+            <source>Horizontal Border line</source>
+            <translation>Horizontal Border line</translation>
+        </message>
+        <message>
+            <source>The color of the thin border line under the header text.</source>
+            <translation>The color of the thin border line under the header text.</translation>
+        </message>
+        <message>
+            <source>Selected Text</source>
+            <translation>Selected Text</translation>
+        </message>
+        <message>
+            <source>The text color for the item the cursor is over.</source>
+            <translation>The text color for the item the cursor is over.</translation>
+        </message>
+        <message>
+            <source>Text Color</source>
+            <translation>Text Color</translation>
+        </message>
+        <message>
+            <source>The text color for title and items the cursor is not over.</source>
+            <translation>The text color for title and items the cursor is not over.</translation>
+        </message>
+        <message>
+            <source>What's New Author</source>
+            <translation>What's New Author</translation>
+        </message>
+        <message>
+            <source>The text color for the author in the What's New popup.</source>
+            <translation>The text color for the author in the What's New popup.</translation>
+        </message>
+        <message>
+            <source>Home Screen</source>
+            <translation>Home Screen</translation>
+        </message>
+        <message>
+            <source>Colors specific to the home screen</source>
+            <translation>Colors specific to the home screen</translation>
+        </message>
+        <message>
+            <source>My List Icon</source>
+            <translation>My List Icon</translation>
+        </message>
+        <message>
+            <source>The color of the star icon in the My List library item.</source>
+            <translation>The color of the star icon in the My List library item.</translation>
+        </message>
+        <message>
+            <source>Row Headers</source>
+            <translation>Row Headers</translation>
+        </message>
+        <message>
+            <source>The text color of the headers of each row.</source>
+            <translation>The text color of the headers of each row.</translation>
+        </message>
+        <message>
+            <source>Row Item Background</source>
+            <translation>Row Item Background</translation>
+        </message>
+        <message>
+            <source>The background color of items. Only seen if no image loads on top of it.</source>
+            <translation>The background color of items. Only seen if no image loads on top of it.</translation>
+        </message>
+        <message>
+            <source>Row Item Progress</source>
+            <translation>Row Item Progress</translation>
+        </message>
+        <message>
+            <source>The color of the watched portion of the progress bar.</source>
+            <translation>The color of the watched portion of the progress bar.</translation>
+        </message>
+        <message>
+            <source>Row Item Progress Background</source>
+            <translation>Row Item Progress Background</translation>
+        </message>
+        <message>
+            <source>The background color of the progress bar.</source>
+            <translation>The background color of the progress bar.</translation>
+        </message>
+        <message>
+            <source>Row Item Subtitle</source>
+            <translation>Row Item Subtitle</translation>
+        </message>
+        <message>
+            <source>The text color of the second line displayed under items.</source>
+            <translation>The text color of the second line displayed under items.</translation>
+        </message>
+        <message>
+            <source>Row Item Title</source>
+            <translation>Row Item Title</translation>
+        </message>
+        <message>
+            <source>The text color of the first line displayed under items.</source>
+            <translation>The text color of the first line displayed under items.</translation>
+        </message>
+        <message>
+            <source>Username In Header</source>
+            <translation>Username In Header</translation>
+        </message>
+        <message>
+            <source>The text color of the user's name in the header.</source>
+            <translation>The text color of the user's name in the header.</translation>
+        </message>
     </context>
 </TS>

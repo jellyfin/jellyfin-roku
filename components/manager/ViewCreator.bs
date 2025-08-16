@@ -80,14 +80,16 @@ end sub
 ' onSelectAudioPressed: Display audio selection dialog
 '
 sub onSelectAudioPressed()
+    preferredAudioTrackName = m.global.queueManager.callFunc("getPreferredAudioTrackName")
+
     audioData = {
         data: []
     }
 
     for each item in m.view.fullAudioData
-
         audioStreamItem = {
             "Index": item.Index,
+            "RokuTrackName": item.RokuTrackName,
             "IsExternal": item.IsExternal,
             "Track": {
                 "description": item.DisplayTitle
@@ -95,8 +97,14 @@ sub onSelectAudioPressed()
             "Type": "audioselection"
         }
 
-        if m.view.audioIndex = item.Index
-            audioStreamItem.selected = true
+        if isStringEqual(preferredAudioTrackName, string.EMPTY)
+            if m.view.audioIndex = item.Index
+                audioStreamItem.selected = true
+            end if
+        else
+            if isStringEqual(item.RokuTrackName, preferredAudioTrackName)
+                audioStreamItem.selected = true
+            end if
         end if
 
         audioData.data.push(audioStreamItem)
@@ -183,12 +191,20 @@ end sub
 sub processAudioSelection()
     selectedAudioTrack = m.global.sceneManager.returnData
 
-    if isValid(selectedAudioTrack)
-        if isValid(selectedAudioTrack.index)
-            m.global.queueManager.callFunc("setPreferredAudioTrackIndex", selectedAudioTrack.index)
-            m.view.audioIndex = selectedAudioTrack.index
+    if not isChainValid(selectedAudioTrack, "index") then return
+
+    m.global.queueManager.callFunc("setPreferredAudioTrackName", selectedAudioTrack.LookupCI("RokuTrackName"))
+
+    for each audioTrack in m.view.availableAudioTracks
+        if isStringEqual(audioTrack.LookupCI("name"), selectedAudioTrack.LookupCI("RokuTrackName"))
+            m.global.queueManager.callFunc("setPreferredAudioTrackIndex", audioTrack.LookupCI("Track").toint())
+            m.view.audioIndex = audioTrack.LookupCI("Track").toint()
+            return
         end if
-    end if
+    end for
+
+    m.global.queueManager.callFunc("setPreferredAudioTrackIndex", selectedAudioTrack.index)
+    m.view.audioIndex = selectedAudioTrack.index
 end sub
 
 sub processSubtitleSelection()
