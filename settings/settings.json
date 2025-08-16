@@ -349,6 +349,183 @@
     "description": "Settings relating to how the application looks.",
     "children": [
       {
+        "title": "Colors",
+        "description": "Change the colors of elements in the app.",
+        "children": [
+          {
+            "title": "All Screens",
+            "description": "Colors used across multiple screens.",
+            "children": [
+              {
+                "title": "Background",
+                "description": "The base background color. Background images are layered on top of this color.",
+                "settingName": "colorBackground",
+                "type": "colorgrid",
+                "default": "#000018"
+              },
+              {
+                "title": "Cursor",
+                "description": "The color of the remote control's cursor.",
+                "settingName": "colorCursor",
+                "type": "colorgrid",
+                "default": "#FF6666"
+              },
+              {
+                "title": "Primary Text",
+                "description": "The primary text color.",
+                "settingName": "colorText",
+                "type": "colorgrid",
+                "default": "#FFFFFF"
+              },
+              {
+                "title": "Secondary Text",
+                "description": "The secondary text color.",
+                "settingName": "colorSubText",
+                "type": "colorgrid",
+                "default": "#777777FF"
+              },
+              {
+                "title": "Watched Check Mark & Unplayed Count",
+                "description": "Colors specific to the watched check mark & unplayed count box.",
+                "children": [
+                  {
+                    "title": "Background",
+                    "description": "The background color of the check mark & unplayed count shown in the top right corner of items.",
+                    "settingName": "colorPlayedCheckmarkBackground",
+                    "type": "colorgrid",
+                    "default": "#6666FF"
+                  },
+                  {
+                    "title": "Unplayed Count",
+                    "description": "The color of the unplayed count number.",
+                    "settingName": "colorUnplayedCountTextColor",
+                    "type": "colorgrid",
+                    "default": "#FFFFFF"
+                  },
+                  {
+                    "title": "Watched Check Mark",
+                    "description": "The color of the watched check mark.",
+                    "settingName": "colorPlayedCheckmarkIcon",
+                    "type": "colorgrid",
+                    "default": "#FFFFFF"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Dialog Popups",
+            "description": "Colors specific to dialog popups",
+            "children": [
+              {
+                "title": "Background",
+                "description": "The background color for all dialog popups.",
+                "settingName": "colorDialogBackground",
+                "type": "colorgrid",
+                "default": "#000033"
+              },
+              {
+                "title": "Bold Text",
+                "description": "The text color for bold text.",
+                "settingName": "colorDialogBoldText",
+                "type": "colorgrid",
+                "default": "#66FF33"
+              },
+              {
+                "title": "Horizontal Border line",
+                "description": "The color of the thin border line under the header text.",
+                "settingName": "colorDialogBorderLine",
+                "type": "colorgrid",
+                "default": "#CCFFF"
+              },
+              {
+                "title": "Selected Text",
+                "description": "The text color for the item the cursor is over.",
+                "settingName": "colorDialogSelectedText",
+                "type": "colorgrid",
+                "default": "#FFFFFF"
+              },
+              {
+                "title": "Text Color",
+                "description": "The text color for title and items the cursor is not over.",
+                "settingName": "colorDialogText",
+                "type": "colorgrid",
+                "default": "#FFFFFF"
+              },
+              {
+                "title": "What's New Author",
+                "description": "The text color for the author in the What's New popup.",
+                "settingName": "colorWhatsNewAuthor",
+                "type": "colorgrid",
+                "default": "#FF6666"
+              }
+            ]
+          },
+          {
+            "title": "Home Screen",
+            "description": "Colors specific to the home screen",
+            "children": [
+              {
+                "title": "My List Icon",
+                "description": "The color of the star icon in the My List library item.",
+                "settingName": "colorHomeMyListIcon",
+                "type": "colorgrid",
+                "default": "#FFFFFF"
+              },
+              {
+                "title": "Row Headers",
+                "description": "The text color of the headers of each row.",
+                "settingName": "colorHomeRowHeaders",
+                "type": "colorgrid",
+                "default": "#FFFFFF"
+              },
+              {
+                "title": "Row Item Background",
+                "description": "The background color of items. Only seen if no image loads on top of it.",
+                "settingName": "colorHomeRowItemBackground",
+                "type": "colorgrid",
+                "default": "#000033"
+              },
+              {
+                "title": "Row Item Progress",
+                "description": "The color of the watched portion of the progress bar.",
+                "settingName": "colorHomeRowItemProgress",
+                "type": "colorgrid",
+                "default": "#6867ff"
+              },
+              {
+                "title": "Row Item Progress Background",
+                "description": "The background color of the progress bar.",
+                "settingName": "colorHomeRowItemProgressBackground",
+                "type": "colorgrid",
+                "default": "#000000"
+              },
+              {
+                "title": "Row Item Subtitle",
+                "description": "The text color of the second line displayed under items.",
+                "settingName": "colorHomeRowItemSubtitle",
+                "type": "colorgrid",
+                "default": "#777777"
+              },
+              {
+                "title": "Row Item Title",
+                "description": "The text color of the first line displayed under items.",
+                "settingName": "colorHomeRowItemTitle",
+                "type": "colorgrid",
+                "default": "#FFFFFF"
+              },
+              {
+                "title": "Username In Header",
+                "description": "The text color of the user's name in the header.",
+                "settingName": "colorHomeUsername",
+                "type": "colorgrid",
+                "default": "#FFFFFF"
+              }
+            ]
+          }
+        ]
+      },
+      {
         "title": "General",
         "description": "Settings relating to the appearance of the Home screen and the program in general.",
         "children": [
@@ -1005,180 +1182,8 @@
   },
   {
     "title": "Secret",
-    "description": "Settings that are not for public consumption. Do not get mad if these things change without notice.",
+    "description": "Nothing here. The settings are in another castle.",
     "visible": false,
-    "children": [
-      {
-        "title": "Color Settings",
-        "description": "Change the colors of elements in the app",
-        "children": [
-          {
-            "title": "Home",
-            "description": "Change the colors of elements on the home screen",
-            "children": [
-              {
-                "title": "My List Icon",
-                "description": "",
-                "settingName": "colorHomeMyListIcon",
-                "type": "colorgrid",
-                "default": "#FFFFFF"
-              },
-              {
-                "title": "Row Headers",
-                "description": "",
-                "settingName": "colorHomeRowHeaders",
-                "type": "colorgrid",
-                "default": "#FFFFFF"
-              },
-              {
-                "title": "Row Item Background",
-                "description": "",
-                "settingName": "colorHomeRowItemBackground",
-                "type": "colorgrid",
-                "default": "#000033"
-              },
-              {
-                "title": "Row Item Progress",
-                "description": "",
-                "settingName": "colorHomeRowItemProgress",
-                "type": "colorgrid",
-                "default": "#6867ff"
-              },
-              {
-                "title": "Row Item Progress Background",
-                "description": "",
-                "settingName": "colorHomeRowItemProgressBackground",
-                "type": "colorgrid",
-                "default": "#000000"
-              },
-              {
-                "title": "Row Item Title",
-                "description": "",
-                "settingName": "colorHomeRowItemTitle",
-                "type": "colorgrid",
-                "default": "#FFFFFF"
-              },
-              {
-                "title": "Row Item Subtitle",
-                "description": "",
-                "settingName": "colorHomeRowItemSubtitle",
-                "type": "colorgrid",
-                "default": "#777777"
-              },
-              {
-                "title": "Username In Header",
-                "description": "",
-                "settingName": "colorHomeUsername",
-                "type": "colorgrid",
-                "default": "#FFFFFF"
-              }
-            ]
-          },
-          {
-            "title": "Dialog Popups",
-            "description": "Change the colors of elements in dialog popups",
-            "children": [
-              {
-                "title": "Background",
-                "description": "The background color for all dialog popups.",
-                "settingName": "colorDialogBackground",
-                "type": "colorgrid",
-                "default": "#000033"
-              },
-              {
-                "title": "Bold Text",
-                "description": "The text color for bold text.",
-                "settingName": "colorDialogBoldText",
-                "type": "colorgrid",
-                "default": "#66FF33"
-              },
-              {
-                "title": "Horizontal Border line",
-                "description": "The color of the thin border line under the header text.",
-                "settingName": "colorDialogBorderLine",
-                "type": "colorgrid",
-                "default": "#CCFFF"
-              },
-              {
-                "title": "Selected Text",
-                "description": "The text color for the item the cursor is over.",
-                "settingName": "colorDialogSelectedText",
-                "type": "colorgrid",
-                "default": "#FFFFFF"
-              },
-              {
-                "title": "Text Color",
-                "description": "The text color for title and items the cursor is not over.",
-                "settingName": "colorDialogText",
-                "type": "colorgrid",
-                "default": "#FFFFFF"
-              },
-              {
-                "title": "What's New Author",
-                "description": "The text color for the author in the What's New popup.",
-                "settingName": "colorWhatsNewAuthor",
-                "type": "colorgrid",
-                "default": "#FF6666"
-              }
-            ]
-          },
-          {
-            "title": "Background",
-            "description": "The base background color for all screens in Jellyfin.",
-            "settingName": "colorBackground",
-            "type": "colorgrid",
-            "default": "#000018"
-          },
-          {
-            "title": "Primary Text",
-            "description": "The primary text color for all screens in Jellyfin.",
-            "settingName": "colorText",
-            "type": "colorgrid",
-            "default": "#FFFFFF"
-          },
-          {
-            "title": "Secondary Text",
-            "description": "The secondary text color for all screens in Jellyfin.",
-            "settingName": "colorSubText",
-            "type": "colorgrid",
-            "default": "#777777FF"
-          },
-          {
-            "title": "Cursor",
-            "description": "The highlight color for the cursor showing where the user's focus is.",
-            "settingName": "colorCursor",
-            "type": "colorgrid",
-            "default": "#FF6666"
-          },
-          {
-            "title": "Watched Check Mark & Unplayed Count",
-            "description": "Watched Check Mark & Unplayed Count color settings",
-            "children": [
-              {
-                "title": "Background",
-                "description": "The background color of the check mark & unplayed count shown in the top right corner of items.",
-                "settingName": "colorPlayedCheckmarkBackground",
-                "type": "colorgrid",
-                "default": "#6666FF"
-              },
-              {
-                "title": "Watched Check Mark",
-                "description": "The color of the watched check mark.",
-                "settingName": "colorPlayedCheckmarkIcon",
-                "type": "colorgrid",
-                "default": "#FFFFFF"
-              },
-              {
-                "title": "Unplayed Count",
-                "description": "The text color of the unplayed count number.",
-                "settingName": "colorUnplayedCountTextColor",
-                "type": "colorgrid",
-                "default": "#FFFFFF"
-              }
-            ]
-          }
-        ]
-      }
-    ]
+    "children": []
   }
 ]

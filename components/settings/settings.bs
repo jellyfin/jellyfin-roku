@@ -102,14 +102,7 @@ end sub
 
 sub onColorSelected()
     selectedColor = m.colorgrid.content.getChild(m.colorgrid.itemSelected).colorCode
-
-    for each color in m.colorgrid.content.getChildren(-1, 0)
-        if color.isChecked then color.isChecked = false
-
-        if isStringEqual(color.colorCode, selectedColor)
-            color.isChecked = true
-        end if
-    end for
+    m.colorgrid.selectedColor = selectedColor
 
     selectedSetting = m.userLocation.peek().children[m.settingsMenu.itemFocused]
     set_user_setting(selectedSetting.settingName, selectedColor ?? ColorPalette.VIEWBACKGROUND)
@@ -130,9 +123,6 @@ sub onColorSelected()
         if isValid(overhang)
             overlayCurrentUserSelection = overhang.findNode("overlayCurrentUserSelection")
             overlayCurrentUserSelection.blendColor = selectedColor ?? ColorPalette.HIGHLIGHT
-
-            overlayCurrentUser = overhang.findNode("overlayCurrentUser")
-            overlayCurrentUser.color = selectedColor ?? ColorPalette.WHITE
         end if
 
         ' Update setting menu colors

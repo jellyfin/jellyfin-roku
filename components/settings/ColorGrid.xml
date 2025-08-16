@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component name="ColorGrid" extends="MarkupGrid">
   <children>
-    <Text id="selectedColor" horizAlign="left" vertAlign="center" text="Highlighted Color:" translation="[800, -25]" />
+    <Text id="highlightedColor" horizAlign="left" vertAlign="center" text="Highlighted Color:" translation="[0, -25]" />
+    <Text id="selectedColor" horizAlign="left" vertAlign="center" text="Selected Color:" translation="[800, -25]" />
 
     <ContentNode role="content">
       <ColorOptionData colorcode="#000000" />
@@ -232,5 +233,6 @@
   </children>
   <interface>
     <field id="setting" type="assocarray" onChange="onSettingChange" alwaysNotify="true" />
+    <field id="selectedColor" type="string" onChange="onSelectedColorChange" alwaysNotify="true" />
   </interface>
 </component>
