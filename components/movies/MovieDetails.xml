@@ -66,9 +66,23 @@
             <ButtonData id="favorite-button" text="Favorite" AUDIO_GUIDE_SUFFIX="Favorite" iconSide="left" fontSize="35" padding="35" icon="pkg:/images/icons/heart.png" height="75" width="600" />
             <ButtonData id="editSubtitlesButton" text="Manage Subtitles" AUDIO_GUIDE_SUFFIX="Manage Subtitles" iconSide="left" fontSize="35" padding="35" icon="pkg:/images/icons/cc.png" height="75" width="600" />
           </ContentNode>
+          <Rectangle
+            id="scrollBar"
+            width="6"
+            translation="[620, 0]">
+            <Rectangle
+              id="thumb"
+              height="100"
+              width="6">
+            </Rectangle>
+          </Rectangle>
         </MarkupList>
       </LayoutGroup>
     </LayoutGroup>
+
+    <Animation id="scrollBarThumbSlideAnimation" duration=".4" repeat="false">
+      <Vector2DFieldInterpolator id="scrollBarThumbSlideInterpolator" key="[0.0, 1.0]" keyValue="[[0, 0], [0, 0]]" fieldToInterp="thumb.translation" />
+    </Animation>
 
     <MovieOptions id="movieOptions" visible="false" />
 
