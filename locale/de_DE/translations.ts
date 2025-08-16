@@ -687,7 +687,7 @@
     </message>
     <message>
         <source>Go directly to the episode list if a TV series has only one season.</source>
-        <translation type="unfinished">Direkt zur Episodenliste gehen, wenn eine TV-Serie nur eine Staffel hat.</translation>
+        <translation>Direkt die Episodenliste anzeigen, wenn eine TV-Serie nur eine Staffel hat.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
@@ -1397,6 +1397,82 @@
     <message>
         <source>Go To Artist</source>
         <translation>Zum Künstler</translation>
+    </message>
+    <message>
+        <source>Settings</source>
+        <translation>Einstellungen</translation>
+    </message>
+    <message>
+        <source>Unable to get playback information</source>
+        <translation>Konnte Wiedergabeinformationen nicht abrufen</translation>
+    </message>
+    <message>
+        <source>Mark As Favorite</source>
+        <translation>Zu Favoriten hinzufügen</translation>
+    </message>
+    <message>
+        <source>Playback Options</source>
+        <translation>Wiedergabeoptionen</translation>
+    </message>
+    <message>
+        <source>Force Transcoding setting is enabled</source>
+        <translation type="unfinished">Transkodierung erzwingen ist aktiv</translation>
+    </message>
+    <message>
+        <source>No items found. Try adjusting your selected filters.</source>
+        <translation type="unfinished">Keine Einträge gefunden. Versuche deine Filter anzupassen</translation>
+    </message>
+    <message>
+        <source>Attempt Direct Play of potentially unsupported profile levels</source>
+        <translation type="unfinished">Direct Play für potenziell nicht unterstützte Profile versuchen</translation>
+    </message>
+    <message>
+        <source>Change User</source>
+        <translation>Benutzer wechseln</translation>
+    </message>
+    <message>
+        <source>Favorited</source>
+        <translation>Zu Favoriten hinzugefügt</translation>
+    </message>
+    <message>
+        <source>Resume playing at </source>
+        <translation>Wiedergabe fortsetzen bei </translation>
+    </message>
+    <message>
+        <source>Force Transcode option is enabled</source>
+        <translation type="unfinished">Transkodierung erzwingen ist aktiv</translation>
+    </message>
+    <message>
+        <source>All</source>
+        <translation>Alle</translation>
+    </message>
+    <message>
+        <source>(Favorites)</source>
+        <translation>(Favoriten)</translation>
+    </message>
+    <message>
+        <source>Favorites</source>
+        <translation>Favoriten</translation>
+    </message>
+    <message>
+        <source>Delete Playlist</source>
+        <translation>Playlist löschen</translation>
+    </message>
+    <message>
+        <source>Artists</source>
+        <translation>Künstler</translation>
+    </message>
+    <message>
+        <source>Collections</source>
+        <translation>Sammlung</translation>
+    </message>
+    <message>
+        <source>Playlists</source>
+        <translation>Wiedergabelisten</translation>
+    </message>
+    <message>
+        <source>Enable or disable Direct Play support for certain codecs.</source>
+        <translation>Direct Play Unterstützung für bestimmte Codecs aktivieren oder deaktivieren.</translation>
     </message>
 </context>
 <context>
