@@ -303,7 +303,7 @@
     </message>
     <message>
         <source>Special Features</source>
-        <translation>Característiques especials</translation>
+        <translation>Contingut especial</translation>
     </message>
     <message>
         <source>Additional Parts</source>
