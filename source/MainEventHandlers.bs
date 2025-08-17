@@ -1658,6 +1658,21 @@ sub processLibraryItemPopup(selectedPopupButton as string, itemID as string, par
         return
     end if
 
+    if isStringEqual(selectedPopupButton, tr("Shuffle Play Collection"))
+        quickplay.boxset({
+            id: itemID
+        })
+
+        if not m.global.queueManager.callFunc("getIsShuffled")
+            m.global.queueManager.callFunc("toggleShuffle")
+        end if
+
+        m.global.queueManager.callFunc("getIsShuffled")
+
+        m.global.queueManager.callFunc("playQueue")
+        return
+    end if
+
     ' Remove item from user's list
     if isStringEqual(selectedPopupButton, tr("Remove From My List"))
         MainAction.removeItemFromMyList(itemID)

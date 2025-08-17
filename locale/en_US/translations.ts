@@ -2113,5 +2113,9 @@
             <source>The text color of the user's name in the header.</source>
             <translation>The text color of the user's name in the header.</translation>
         </message>
+        <message>
+            <source>Shuffle Play Collection</source>
+            <translation>Shuffle Play Collection</translation>
+        </message>
     </context>
 </TS>
