@@ -26,5 +26,9 @@
   {
     "description": "Create settings allowing users to choose colors for several components. More to come.",
     "author": "1hitsong"
+  },
+  {
+    "description": "Add support for VTT percentage line placement to custom subs",
+    "author": "1hitsong"
   }
 ]
