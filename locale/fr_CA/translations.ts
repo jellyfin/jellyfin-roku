@@ -1818,6 +1818,66 @@
         <source>Customize the home screen sections</source>
         <translation>Personnaliser les sections de l&apos;écran d&apos;accueil</translation>
     </message>
+    <message>
+        <source>The text color of the user&apos;s name in the header.</source>
+        <translation>La couleur du texte du nom de l&apos;utilisateur dans l&apos;en-tête.</translation>
+    </message>
+    <message>
+        <source>Colors</source>
+        <translation>Couleurs</translation>
+    </message>
+    <message>
+        <source>All Screens</source>
+        <translation>Tous les écrans</translation>
+    </message>
+    <message>
+        <source>Colors used across multiple screens.</source>
+        <translation>Couleurs utilisées sur plusieurs écrans.</translation>
+    </message>
+    <message>
+        <source>The base background color. Background images are layered on top of this color.</source>
+        <translation>Couleur de base d&apos;arrière-plan. Les images d&apos;arrière-plan sont superposées sur cette couleur.</translation>
+    </message>
+    <message>
+        <source>The color of the remote control&apos;s cursor.</source>
+        <translation>La couleur du curseur de la télécommande.</translation>
+    </message>
+    <message>
+        <source>Watched Check Mark &amp; Unplayed Count</source>
+        <translation>Coche regardée et nombre de non lus</translation>
+    </message>
+    <message>
+        <source>Colors specific to the watched check mark &amp; unplayed count box.</source>
+        <translation>Couleurs spécifiques pour la coche regardée et le nombre non lus.</translation>
+    </message>
+    <message>
+        <source>Change the colors of elements in the app.</source>
+        <translation>Modifiez les couleurs des éléments de l&apos;application.</translation>
+    </message>
+    <message>
+        <source>Background</source>
+        <translation>Fond d&apos;écran</translation>
+    </message>
+    <message>
+        <source>Cursor</source>
+        <translation>Curseur</translation>
+    </message>
+    <message>
+        <source>Primary Text</source>
+        <translation>Texte principal</translation>
+    </message>
+    <message>
+        <source>The primary text color.</source>
+        <translation>La couleur du texte principale.</translation>
+    </message>
+    <message>
+        <source>Secondary Text</source>
+        <translation>Texte secondaire</translation>
+    </message>
+    <message>
+        <source>The secondary text color.</source>
+        <translation>La couleur du texte secondaire.</translation>
+    </message>
 </context>
 <context>
     <name></name>
