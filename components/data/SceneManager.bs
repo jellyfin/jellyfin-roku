@@ -261,13 +261,6 @@ sub updateUser()
 end sub
 
 '
-' Reset time
-sub resetTime()
-    ' Passthrough to overhang
-    m.overhang.callFunc("resetTime")
-end sub
-
-'
 ' Display dialog to user with an OK button
 sub userMessage(title as string, message as string)
     dialog = createObject("roSGNode", "StandardMessageDialog")
