@@ -1878,6 +1878,14 @@
         <source>The secondary text color.</source>
         <translation>La couleur du texte secondaire.</translation>
     </message>
+    <message>
+        <source>Unplayed Count</source>
+        <translation>Compteur non lus</translation>
+    </message>
+    <message>
+        <source>The background color of the check mark &amp; unplayed count shown in the top right corner of items.</source>
+        <translation>La couleur d&apos;arrière-plan de la coche et le nombre de non lus affichés dans le coin supérieur droit des éléments.</translation>
+    </message>
 </context>
 <context>
     <name></name>
