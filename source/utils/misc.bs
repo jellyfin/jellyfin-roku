@@ -619,7 +619,7 @@ end function
 ' Takes an array of data, shuffles the order, then returns the array
 ' uses the Fisher-Yates shuffling algorithm
 function shuffleArray(array as object) as object
-    for i = array.count() - 1 to 1 step -1
+    for i = array.count() - 1 to 0 step -1
         j = Rnd(i + 1) - 1
         t = array[i] : array[i] = array[j] : array[j] = t
     end for
