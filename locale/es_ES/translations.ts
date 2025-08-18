@@ -962,7 +962,7 @@
     </message>
     <message>
         <source>WxH</source>
-        <translation>An x Al</translation>
+        <translation>LxA</translation>
         <extracomment>Video width x height</extracomment>
     </message>
     <message>
@@ -1371,7 +1371,7 @@
     </message>
     <message>
         <source>Set how many seconds before the end of an episode the Next Episode button should appear. Set to 0 to disable.</source>
-        <translation>Si no hay un segmento de créditos programado, ajusta cuántos segundos antes de que termine el episodio debe aparecer el botón de &quot;Saltar créditos&quot;. Ponlo a 0 para desactivarlo.</translation>
+        <translation>Si no hay un segmento Outro, ajusta cuántos segundos antes de que termine el episodio debe aparecer el botón de &quot;Saltar Outro&quot;. Ponlo a 0 para desactivarlo.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
@@ -1901,6 +1901,262 @@
     <message>
         <source>Section 8</source>
         <translation>Sección 8</translation>
+    </message>
+    <message>
+        <source>Live TV</source>
+        <translation>TV en vivo</translation>
+    </message>
+    <message>
+        <source>Recently Added Media</source>
+        <translation>Medios agregados recientemente</translation>
+    </message>
+    <message>
+        <source>Customize the home screen sections</source>
+        <translation>Personalizar las secciones de la pantalla de inicio</translation>
+    </message>
+    <message>
+        <source>Home Rows</source>
+        <translation>Filas de Inicio</translation>
+    </message>
+    <message>
+        <source>Colors</source>
+        <translation>Colores</translation>
+    </message>
+    <message>
+        <source>All Screens</source>
+        <translation>Todas las pantallas</translation>
+    </message>
+    <message>
+        <source>Background</source>
+        <translation>Fondo</translation>
+    </message>
+    <message>
+        <source>Cursor</source>
+        <translation>Cursor</translation>
+    </message>
+    <message>
+        <source>The color of the remote control&apos;s cursor.</source>
+        <translation>Color del cursor del control remoto.</translation>
+    </message>
+    <message>
+        <source>Secondary Text</source>
+        <translation>Texto Secundario</translation>
+    </message>
+    <message>
+        <source>The secondary text color.</source>
+        <translation>Color del texto secundario.</translation>
+    </message>
+    <message>
+        <source>Watched Check Mark &amp; Unplayed Count</source>
+        <translation>Marca de Visto y Contador de no Reproducidos</translation>
+    </message>
+    <message>
+        <source>Unplayed Count</source>
+        <translation>Contador de No Reproducidos</translation>
+    </message>
+    <message>
+        <source>The color of the unplayed count number.</source>
+        <translation>Color del número del contador de no reproducidos.</translation>
+    </message>
+    <message>
+        <source>Watched Check Mark</source>
+        <translation>Marca de visto</translation>
+    </message>
+    <message>
+        <source>Dialog Popups</source>
+        <translation>Ventanas Emergentes de Diálogo</translation>
+    </message>
+    <message>
+        <source>The background color for all dialog popups.</source>
+        <translation>Color de fondo de todas las ventanas emergentes de diálogo.</translation>
+    </message>
+    <message>
+        <source>Bold Text</source>
+        <translation>Texto en Negrita</translation>
+    </message>
+    <message>
+        <source>Horizontal Border line</source>
+        <translation>Línea de Borde Horizontal</translation>
+    </message>
+    <message>
+        <source>Selected Text</source>
+        <translation>Texto Seleccionado</translation>
+    </message>
+    <message>
+        <source>The text color for the author in the What&apos;s New popup.</source>
+        <translation>Color del texto del autor en la ventana emergente de &apos;Novedades&apos;.</translation>
+    </message>
+    <message>
+        <source>What&apos;s New Author</source>
+        <translation type="unfinished">Novedades Autor</translation>
+    </message>
+    <message>
+        <source>Colors specific to the home screen</source>
+        <translation>Colores específicos de la pantalla de inicio</translation>
+    </message>
+    <message>
+        <source>My List Icon</source>
+        <translation>Ícono de Mi Lista</translation>
+    </message>
+    <message>
+        <source>The text color of the headers of each row.</source>
+        <translation>Color del texto de los encabezados de cada fila.</translation>
+    </message>
+    <message>
+        <source>Row Headers</source>
+        <translation type="unfinished">Fila Encabezados</translation>
+    </message>
+    <message>
+        <source>Row Item Progress</source>
+        <translation>Progreso de los Elementos de la Fila</translation>
+    </message>
+    <message>
+        <source>The color of the watched portion of the progress bar.</source>
+        <translation>Color de la porción vista de la barra de progreso.</translation>
+    </message>
+    <message>
+        <source>Row Item Progress Background</source>
+        <translation type="unfinished">Fila Fondo de la Barra de Progreso</translation>
+    </message>
+    <message>
+        <source>Row Item Subtitle</source>
+        <translation type="unfinished">Fila Subtitulo</translation>
+    </message>
+    <message>
+        <source>Row Item Title</source>
+        <translation type="unfinished">Fila Título</translation>
+    </message>
+    <message>
+        <source>The text color of the first line displayed under items.</source>
+        <translation>Color del texto de la primera línea que se muestra debajo de los elementos.</translation>
+    </message>
+    <message>
+        <source>Username In Header</source>
+        <translation>Nombre de Usuario en el Encabezado</translation>
+    </message>
+    <message>
+        <source>The text color of the user&apos;s name in the header.</source>
+        <translation>Color del texto del nombre del usuario en el encabezado.</translation>
+    </message>
+    <message>
+        <source>Colors specific to the watched check mark &amp; unplayed count box.</source>
+        <translation>Colores específicos de la marca de visto y del recuadro del contador de no reproducidos.</translation>
+    </message>
+    <message>
+        <source>Select what to show in section 3. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Selecciona qué mostrar en la sección 3. Esta configuración no tendrá efecto si \&quot;Usar la disposición de las secciones de inicio del cliente web\&quot; esta habilitada. Será necesario cerrar y volver a abrir Jellyfin para que el cambio tenga efecto.</translation>
+    </message>
+    <message>
+        <source>Select what to show in section 1. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Selecciona qué mostrar en la sección 1. Esta configuración no tendrá efecto si \&quot;Usar la disposición de las secciones de inicio del cliente web\&quot; esta habilitada. Será necesario cerrar y volver a abrir Jellyfin para que el cambio tenga efecto.</translation>
+    </message>
+    <message>
+        <source>Select what to show in section 2. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Selecciona qué mostrar en la sección 2. Esta configuración no tendrá efecto si \&quot;Usar la disposición de las secciones de inicio del cliente web\&quot; esta habilitada. Será necesario cerrar y volver a abrir Jellyfin para que el cambio tenga efecto.</translation>
+    </message>
+    <message>
+        <source>Select what to show in section 4. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Selecciona qué mostrar en la sección 4. Esta configuración no tendrá efecto si \&quot;Usar la disposición de las secciones de inicio del cliente web\&quot; esta habilitada. Será necesario cerrar y volver a abrir Jellyfin para que el cambio tenga efecto.</translation>
+    </message>
+    <message>
+        <source>Select what to show in section 5. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Selecciona qué mostrar en la sección 5. Esta configuración no tendrá efecto si \&quot;Usar la disposición de las secciones de inicio del cliente web\&quot; esta habilitada. Será necesario cerrar y volver a abrir Jellyfin para que el cambio tenga efecto.</translation>
+    </message>
+    <message>
+        <source>Select what to show in section 6. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Selecciona qué mostrar en la sección 6. Esta configuración no tendrá efecto si \&quot;Usar la disposición de las secciones de inicio del cliente web\&quot; esta habilitada. Será necesario cerrar y volver a abrir Jellyfin para que el cambio tenga efecto.</translation>
+    </message>
+    <message>
+        <source>Select what to show in section 7. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Selecciona qué mostrar en la sección 7. Esta configuración no tendrá efecto si \&quot;Usar la disposición de las secciones de inicio del cliente web\&quot; esta habilitada. Será necesario cerrar y volver a abrir Jellyfin para que el cambio tenga efecto.</translation>
+    </message>
+    <message>
+        <source>The primary text color.</source>
+        <translation>Color del texto principal.</translation>
+    </message>
+    <message>
+        <source>Text Color</source>
+        <translation>Color del texto</translation>
+    </message>
+    <message>
+        <source>Select what to show in section 8. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Selecciona qué mostrar en la sección 8. Esta configuración no tendrá efecto si \&quot;Usar la disposición de las secciones de inicio del cliente web\&quot; esta habilitada. Será necesario cerrar y volver a abrir Jellyfin para que el cambio tenga efecto.</translation>
+    </message>
+    <message>
+        <source>My List</source>
+        <translation>Mi lista</translation>
+    </message>
+    <message>
+        <source>Change the colors of elements in the app.</source>
+        <translation>Cambiar los colores de los elementos en la aplicación.</translation>
+    </message>
+    <message>
+        <source>The text color for bold text.</source>
+        <translation>Color del texto en negrita.</translation>
+    </message>
+    <message>
+        <source>Colors used across multiple screens.</source>
+        <translation>Colores utilizados en varias pantallas.</translation>
+    </message>
+    <message>
+        <source>The base background color. Background images are layered on top of this color.</source>
+        <translation>El color de fondo base. Las imágenes de fondo se colocan encima de este color.</translation>
+    </message>
+    <message>
+        <source>Primary Text</source>
+        <translation>Texto Principal</translation>
+    </message>
+    <message>
+        <source>The background color of the check mark &amp; unplayed count shown in the top right corner of items.</source>
+        <translation>El color de fondo de la marca de visto y del contador de no reproducidos que se muestra en la esquina superior derecha de los elementos.</translation>
+    </message>
+    <message>
+        <source>The color of the watched check mark.</source>
+        <translation>Color de la marca de visto.</translation>
+    </message>
+    <message>
+        <source>Home Screen</source>
+        <translation>Pantalla de Inicio</translation>
+    </message>
+    <message>
+        <source>The background color of the progress bar.</source>
+        <translation>Color de fondo de la barra de progreso.</translation>
+    </message>
+    <message>
+        <source>Colors specific to dialog popups</source>
+        <translation>Colores específicos de las ventanas emergentes de diálogo</translation>
+    </message>
+    <message>
+        <source>The color of the thin border line under the header text.</source>
+        <translation>Color de la línea de borde delgada debajo del texto del encabezado.</translation>
+    </message>
+    <message>
+        <source>The text color for the item the cursor is over.</source>
+        <translation>Color del texto del elemento sobre el que está el cursor.</translation>
+    </message>
+    <message>
+        <source>The color of the star icon in the My List library item.</source>
+        <translation>Color del ícono de estrella en los elementos de la biblioteca de Mi Lista.</translation>
+    </message>
+    <message>
+        <source>The text color for title and items the cursor is not over.</source>
+        <translation>Color del texto para títulos y elementos sobre los que el cursor no está.</translation>
+    </message>
+    <message>
+        <source>Row Item Background</source>
+        <translation>Fondo de los elementos de la fila</translation>
+    </message>
+    <message>
+        <source>Shuffle Play Collection</source>
+        <translation>Reproducción Aleatoria de la Colección</translation>
+    </message>
+    <message>
+        <source>The background color of items. Only seen if no image loads on top of it.</source>
+        <translation>Color de fondo de los elementos. Solo se ve si no se carga ninguna imagen encima.</translation>
+    </message>
+    <message>
+        <source>The text color of the second line displayed under items.</source>
+        <translation>Color del texto de la segunda línea que se muestra debajo de los elementos.</translation>
     </message>
 </context>
 <context>
