@@ -30,5 +30,9 @@
   {
     "description": "Add support for VTT line property to custom subs",
     "author": "1hitsong"
+  },
+  {
+    "description": "Add \"Shuffle Play Collection\" to collection's option menu",
+    "author": "1hitsong"
   }
 ]

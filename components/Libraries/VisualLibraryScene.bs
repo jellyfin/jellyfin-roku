@@ -2077,7 +2077,11 @@ sub onMyListLoaded()
     focusedItem = getItemFocused()
     if not isValid(focusedItem) then return
 
-    dialogData = isInMyListData[0] ? [tr("Remove From My List")] : [tr("Add To My List")]
+    dialogData = [tr("Shuffle Play Collection")]
+
+    myListOption = isInMyListData[0] ? [tr("Remove From My List")] : [tr("Add To My List")]
+    dialogData.push(myListOption)
+
     dialogData.push(tr("Add To Playlist"))
     paramData = {
         id: focusedItem.LookupCI("id")
