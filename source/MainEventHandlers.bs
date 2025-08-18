@@ -1200,7 +1200,6 @@ sub onRoDeviceInfoEvent(msg)
     event = msg.GetInfo()
 
     if event.exitedScreensaver = true
-        m.global.sceneManager.callFunc("resetTime")
         group = m.global.sceneManager.callFunc("getActiveScene")
         if isValid(group)
             ' refresh the current view
