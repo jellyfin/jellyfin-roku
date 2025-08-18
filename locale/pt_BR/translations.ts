@@ -1823,7 +1823,39 @@
     </message>
     <message>
         <source>mins</source>
-        <translation type="unfinished"></translation>
+        <translation>minutos</translation>
+    </message>
+    <message>
+        <source>Section 1</source>
+        <translation>Seção 1</translation>
+    </message>
+    <message>
+        <source>Section 3</source>
+        <translation>Seção 3</translation>
+    </message>
+    <message>
+        <source>Section 4</source>
+        <translation>Seção 4</translation>
+    </message>
+    <message>
+        <source>Section 5</source>
+        <translation>Seção 5</translation>
+    </message>
+    <message>
+        <source>Section 2</source>
+        <translation>Seção 2</translation>
+    </message>
+    <message>
+        <source>Section 6</source>
+        <translation>Seção 6</translation>
+    </message>
+    <message>
+        <source>Section 7</source>
+        <translation>Seção 7</translation>
+    </message>
+    <message>
+        <source>Section 8</source>
+        <translation>Seção 8</translation>
     </message>
 </context>
 <context>
