@@ -99,10 +99,10 @@ sub updateCaption()
     if LCase(m.top.playerState) = "playingon"
         m.top.currentPos = m.top.currentPos + 100
         texts = []
-        captionPosition = ""
+        captionStyles = {}
         for each entry in m.captionList
             if entry["start"] <= m.top.currentPos and m.top.currentPos < entry["end"]
-                captionPosition = entry["position"]
+                captionStyles = entry["styles"]
                 t = m.tags.replaceAll(entry["text"], "")
                 texts.push(t)
             end if
@@ -115,9 +115,7 @@ sub updateCaption()
         rect = newRect(lines)
         m.top.currentCaption = [rect, lines]
 
-        if not isStringEqual(m.top.captionPosition, captionPosition)
-            m.top.captionPosition = captionPosition
-        end if
+        m.top.captionStyles = captionStyles
     else if LCase(m.top.playerState.right(1)) = "w"
         m.top.playerState = m.top.playerState.left(len (m.top.playerState) - 1)
     end if
@@ -158,21 +156,19 @@ function parseVTT(lines)
     lines = lines.split(chr(10))
     curStart = -1
     curEnd = -1
-    curLinePosition = "0"
     entries = []
 
     for i = 0 to lines.count() - 1
         if isTime(lines[i])
-            curLinePosition = "0"
             curStart = toMs(lines[i])
             lineData = extractStyles(lines[i + 1])
             curEnd = toMs(lineData.LookupCI("endTimestamp"))
-            curLinePosition = chainLookup(lineData, "styles.line")
+            curstyles = chainLookup(lineData, "styles")
             i += 1
         else if curStart <> -1
             trimmed = lines[i].trim()
             if trimmed <> chr(0)
-                entry = { "start": curStart, "end": curEnd, "text": trimmed, "position": curLinePosition }
+                entry = { "start": curStart, "end": curEnd, "text": trimmed, "styles": curstyles }
                 entries.push(entry)
             end if
         end if
