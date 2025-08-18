@@ -1870,6 +1870,38 @@
         <source>Seasons</source>
         <translation>Temporadas</translation>
     </message>
+    <message>
+        <source>Section 6</source>
+        <translation>Sección 6</translation>
+    </message>
+    <message>
+        <source>Section 1</source>
+        <translation>Sección 1</translation>
+    </message>
+    <message>
+        <source>Section 2</source>
+        <translation>Sección 2</translation>
+    </message>
+    <message>
+        <source>Section 3</source>
+        <translation>Sección 3</translation>
+    </message>
+    <message>
+        <source>Section 4</source>
+        <translation>Sección 4</translation>
+    </message>
+    <message>
+        <source>Section 5</source>
+        <translation>Sección 5</translation>
+    </message>
+    <message>
+        <source>Section 7</source>
+        <translation>Sección 7</translation>
+    </message>
+    <message>
+        <source>Section 8</source>
+        <translation>Sección 8</translation>
+    </message>
 </context>
 <context>
     <name></name>
