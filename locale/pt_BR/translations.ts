@@ -1335,7 +1335,7 @@
     </message>
     <message>
         <source>Show already watched episodes in &apos;Next Up&apos; sections.</source>
-        <translation>Mostrar episódios já assistidos na seção “Próximo a assistir”.</translation>
+        <translation>Exibir episódios já assistidos nas seções &apos;A Seguir&apos;.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
@@ -1543,7 +1543,7 @@
     </message>
     <message>
         <source>Playlists</source>
-        <translation>Playlists</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Video Profile Level Support</source>
@@ -1856,6 +1856,102 @@
     <message>
         <source>Section 8</source>
         <translation>Seção 8</translation>
+    </message>
+    <message>
+        <source>My List</source>
+        <translation>Minha Lista</translation>
+    </message>
+    <message>
+        <source>Home Rows</source>
+        <translation>Seções da tela inicial</translation>
+    </message>
+    <message>
+        <source>All Screens</source>
+        <translation>Todas as telas</translation>
+    </message>
+    <message>
+        <source>Colors used across multiple screens.</source>
+        <translation>Cores usadas em várias telas.</translation>
+    </message>
+    <message>
+        <source>Background</source>
+        <translation>Plano de fundo</translation>
+    </message>
+    <message>
+        <source>Row Item Progress Background</source>
+        <translation>Fundo da barra de progresso do item</translation>
+    </message>
+    <message>
+        <source>The background color of the progress bar.</source>
+        <translation>Cor de fundo da barra de progresso.</translation>
+    </message>
+    <message>
+        <source>Row Item Title</source>
+        <translation>Título do item da linha</translation>
+    </message>
+    <message>
+        <source>Colors</source>
+        <translation>Cores</translation>
+    </message>
+    <message>
+        <source>Recently Added Media</source>
+        <translation>Adicionados recentemente</translation>
+    </message>
+    <message>
+        <source>Live TV</source>
+        <translation>TV ao vivo</translation>
+    </message>
+    <message>
+        <source>Customize the home screen sections</source>
+        <translation>Personalizar as seções da tela inicial</translation>
+    </message>
+    <message>
+        <source>Cursor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Change the colors of elements in the app.</source>
+        <translation>Alterar as cores dos elementos do aplicativo.</translation>
+    </message>
+    <message>
+        <source>The text color of the second line displayed under items.</source>
+        <translation>A cor do texto da segunda linha exibida sob os itens.</translation>
+    </message>
+    <message>
+        <source>The color of the remote control&apos;s cursor.</source>
+        <translation>A cor do cursor do controle remoto.</translation>
+    </message>
+    <message>
+        <source>Shuffle Play Collection</source>
+        <translation>Reproduzir aleatoriamente</translation>
+    </message>
+    <message>
+        <source>The text color of the user&apos;s name in the header.</source>
+        <translation>A cor do texto do nome do usuário no cabeçalho.</translation>
+    </message>
+    <message>
+        <source>The background color of items. Only seen if no image loads on top of it.</source>
+        <translation>Cor de fundo dos itens (visível apenas se nenhuma imagem for carregada sobre eles).</translation>
+    </message>
+    <message>
+        <source>Username In Header</source>
+        <translation>Nome do Usuário no cabeçalho</translation>
+    </message>
+    <message>
+        <source>Row Item Subtitle</source>
+        <translation>Subtítulo do item da linha</translation>
+    </message>
+    <message>
+        <source>The text color of the first line displayed under items.</source>
+        <translation>A cor do texto da primeira linha exibida sob os itens.</translation>
+    </message>
+    <message>
+        <source>Row Item Progress</source>
+        <translation>Progresso do item</translation>
+    </message>
+    <message>
+        <source>The color of the watched portion of the progress bar.</source>
+        <translation>Cor da parte assistida da barra de progresso.</translation>
     </message>
 </context>
 <context>
