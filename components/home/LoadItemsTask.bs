@@ -775,7 +775,11 @@ sub loadItems()
     end if
 
     if isStringEqual(m.top.itemsToLoad, "seasonOfEpisodes")
-        m.top.content = loadSeasonOfEpisodes()
+        try
+            m.top.content = loadSeasonOfEpisodes()
+        catch e
+            m.top.content = []
+        end try
         return
     end if
 
