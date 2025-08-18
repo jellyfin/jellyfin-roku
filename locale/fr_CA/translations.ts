@@ -1836,7 +1836,7 @@
     </message>
     <message>
         <source>The base background color. Background images are layered on top of this color.</source>
-        <translation>Couleur de base d&apos;arrière-plan. Les images d&apos;arrière-plan sont superposées sur cette couleur.</translation>
+        <translation>Couleur de base du fond de l&apos;écran. Les images du fond de l&apos;écran sont superposées sur cette couleur.</translation>
     </message>
     <message>
         <source>The color of the remote control&apos;s cursor.</source>
@@ -1884,7 +1884,139 @@
     </message>
     <message>
         <source>The background color of the check mark &amp; unplayed count shown in the top right corner of items.</source>
-        <translation>La couleur d&apos;arrière-plan de la coche et le nombre de non lus affichés dans le coin supérieur droit des éléments.</translation>
+        <translation>La couleur du fond de l&apos;écran de la coche et le nombre de non lus affichés dans le coin supérieur droit des éléments.</translation>
+    </message>
+    <message>
+        <source>The color of the unplayed count number.</source>
+        <translation>La couleur du compteur non lus.</translation>
+    </message>
+    <message>
+        <source>Bold Text</source>
+        <translation>Texte en gras</translation>
+    </message>
+    <message>
+        <source>The color of the thin border line under the header text.</source>
+        <translation>La couleur de la mince ligne de bordure sous le texte de l&apos;en-tête.</translation>
+    </message>
+    <message>
+        <source>Selected Text</source>
+        <translation>Texte sélectionné</translation>
+    </message>
+    <message>
+        <source>The text color for the item the cursor is over.</source>
+        <translation>La couleur du texte de l&apos;élément sur lequel se trouve le curseur.</translation>
+    </message>
+    <message>
+        <source>What&apos;s New Author</source>
+        <translation>Quoi de neuf Auteur</translation>
+    </message>
+    <message>
+        <source>The text color for the author in the What&apos;s New popup.</source>
+        <translation>La couleur du texte de l&apos;auteur dans la fenêtre contextuelle Quoi de neuf.</translation>
+    </message>
+    <message>
+        <source>My List Icon</source>
+        <translation>Icône Ma liste</translation>
+    </message>
+    <message>
+        <source>The color of the star icon in the My List library item.</source>
+        <translation>La couleur de l&apos;icône étoile dans l&apos;élément de bibliothèque Ma liste.</translation>
+    </message>
+    <message>
+        <source>The text color of the headers of each row.</source>
+        <translation>La couleur du texte des en-têtes de chaque ligne.</translation>
+    </message>
+    <message>
+        <source>The color of the watched portion of the progress bar.</source>
+        <translation>La couleur de la partie vue de la barre de progression.</translation>
+    </message>
+    <message>
+        <source>The text color of the second line displayed under items.</source>
+        <translation>La couleur du texte de la deuxième ligne affichée sous les éléments.</translation>
+    </message>
+    <message>
+        <source>The background color for all dialog popups.</source>
+        <translation>La couleur du fond de l&apos;écran de toutes les fenêtres contextuelles de dialogue.</translation>
+    </message>
+    <message>
+        <source>The background color of items. Only seen if no image loads on top of it.</source>
+        <translation>Couleur de fond de l&apos;écran des éléments. Visible seulement si aucune image ne charge par-dessus.</translation>
+    </message>
+    <message>
+        <source>Watched Check Mark</source>
+        <translation>Coche lu</translation>
+    </message>
+    <message>
+        <source>The color of the watched check mark.</source>
+        <translation>La couleur de la coche lu.</translation>
+    </message>
+    <message>
+        <source>Dialog Popups</source>
+        <translation>Fenêtres contextuelles de dialogue</translation>
+    </message>
+    <message>
+        <source>Colors specific to dialog popups</source>
+        <translation>Couleurs propres aux fenêtres de dialogue</translation>
+    </message>
+    <message>
+        <source>The text color for bold text.</source>
+        <translation>La couleur du texte pour le texte en gras.</translation>
+    </message>
+    <message>
+        <source>Horizontal Border line</source>
+        <translation>Ligne de bordure horizontale</translation>
+    </message>
+    <message>
+        <source>Text Color</source>
+        <translation>Couleur du texte</translation>
+    </message>
+    <message>
+        <source>The text color for title and items the cursor is not over.</source>
+        <translation>La couleur du texte pour le titre et les éléments sur lesquels le curseur n&apos;est pas placé.</translation>
+    </message>
+    <message>
+        <source>Home Screen</source>
+        <translation>Écran d&apos;accueil</translation>
+    </message>
+    <message>
+        <source>Colors specific to the home screen</source>
+        <translation>Couleurs spécifiques à l&apos;écran d&apos;accueil</translation>
+    </message>
+    <message>
+        <source>Row Headers</source>
+        <translation>En-têtes de ligne</translation>
+    </message>
+    <message>
+        <source>Row Item Progress</source>
+        <translation>Lignes des éléments de progression</translation>
+    </message>
+    <message>
+        <source>Row Item Background</source>
+        <translation>Fond de l&apos;écran de l&apos;élément de ligne</translation>
+    </message>
+    <message>
+        <source>Row Item Subtitle</source>
+        <translation>Ligne des éléments de sous-titre</translation>
+    </message>
+    <message>
+        <source>Row Item Progress Background</source>
+        <translation>Fond de l&apos;écran des lignes des éléments de progression</translation>
+    </message>
+    <message>
+        <source>The background color of the progress bar.</source>
+        <translation>La couleur du fond de l&apos;écran de la barre de progression.</translation>
+    </message>
+    <message>
+        <source>Row Item Title</source>
+        <translation>Lignes des éléments de titre</translation>
+    </message>
+    <message>
+        <source>The text color of the first line displayed under items.</source>
+        <translation>La couleur du texte de la première ligne affichée sous les éléments.</translation>
+    </message>
+    <message>
+        <source>Username In Header</source>
+        <translation>Nom d&apos;utilisateur dans l&apos;en-tête</translation>
     </message>
 </context>
 <context>
