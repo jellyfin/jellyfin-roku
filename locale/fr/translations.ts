@@ -2061,5 +2061,9 @@
         <source>Username In Header</source>
         <translation>Nom d&apos;utilisateur dans l&apos;en-tête</translation>
     </message>
+    <message>
+        <source>Shuffle Play Collection</source>
+        <translation>Lecture aléatoire de collection</translation>
+    </message>
 </context>
 </TS>
