@@ -419,8 +419,22 @@ end sub
 sub updateCaption()
     m.captionGroup.removeChildrenIndex(m.captionGroup.getChildCount(), 0)
 
-    for each caption in m.captionTask.currentCaption
-        m.captionGroup.appendChildren(caption)
+    for each currentCaption in m.captionTask.currentCaption
+        for each caption in currentCaption
+            captionBounds = caption.sceneBoundingRect()
+
+            fullCaptionList = m.captionGroup.getChildren(-1, 0)
+            for each activeCaption in fullCaptionList
+                activeCaptionBounds = activeCaption.sceneBoundingRect()
+
+                isOverlapping = captionBounds.x < (activeCaptionBounds.x + activeCaptionBounds.width) and activeCaptionBounds.x < (captionBounds.x + captionBounds.width) and captionBounds.y < (activeCaptionBounds.y + activeCaptionBounds.height) and activeCaptionBounds.y < (captionBounds.y + captionBounds.width)
+                if isOverlapping
+                    activeCaption.translation = [activeCaption.translation[0], activeCaption.translation[1] - activeCaptionBounds.height]
+                end if
+            end for
+
+        end for
+        m.captionGroup.appendChildren(currentCaption)
     end for
 end sub
 
