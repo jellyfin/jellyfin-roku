@@ -1,4 +1,5 @@
 import "pkg:/source/api/baserequest.bs"
+import "pkg:/source/enums/CaptionMoveDirection.bs"
 import "pkg:/source/enums/MediaPlaybackState.bs"
 import "pkg:/source/enums/String.bs"
 import "pkg:/source/utils/config.bs"
@@ -77,10 +78,11 @@ function newLayoutGroup(labels)
     return newlg
 end function
 
-function newRect(lg)
+function newRect(lg, id as string)
     rectxy = lg.BoundingRect()
 
     rect = CreateObject("roSGNode", "Rectangle")
+    rect.addreplace("id", id)
     rect.appendchild(lg)
     lg.translation = [5, 5]
 
@@ -120,10 +122,12 @@ sub updateCaption()
             end for
 
             lines = newLayoutGroup(labels)
-            rect = newRect(lines)
+            rect = newRect(lines, entry.LookupCI("id"))
 
-            finalStyles = prepareStyles(entry["styles"], rect)
+            finalStyles = prepareStyles(entry["styles"], rect, labels.count())
             rect.translation = finalStyles.translation
+
+            adjustForCaptionOverlaps(rect, captions)
 
             captions.push(rect)
         end if
@@ -132,7 +136,47 @@ sub updateCaption()
     m.top.currentCaption = captions
 end sub
 
-function prepareStyles(styles as object, rect) as object
+sub adjustForCaptionOverlaps(newCaption, existingCaptions, moveDirection = CaptionMoveDirection.UP)
+    newCaptionBounds = newCaption.sceneBoundingRect()
+
+    for i = existingCaptions.count() - 1 to 0 step -1
+        comparisonCaption = existingCaptions[i]
+
+        ' Don't compare the caption to itself
+        if isStringEqual(newCaption.lookupCI("id"), comparisonCaption.lookupCI("id")) then continue for
+
+        comparisonCaptionBounds = comparisonCaption.sceneBoundingRect()
+
+        overlapping = isOverlapping(newCaption, comparisonCaption)
+
+        if overlapping
+            ' If we're in the top half of the screen, push the other caption down
+            ' otherwise push the other caption up
+            if newCaptionBounds.y < 540
+                moveDirection = CaptionMoveDirection.DOWN
+            end if
+
+            if moveDirection = CaptionMoveDirection.DOWN
+                calculatedVerticalPosition = newCaptionBounds.y + newCaptionBounds.height + 5
+            else
+                calculatedVerticalPosition = newCaptionBounds.y - comparisonCaptionBounds.height - 5
+            end if
+
+            if calculatedVerticalPosition < 0 then calculatedVerticalPosition = 0
+
+            comparisonCaption.translation = [comparisonCaption.translation[0], calculatedVerticalPosition]
+            adjustForCaptionOverlaps(comparisonCaption, existingCaptions, moveDirection)
+        end if
+    end for
+end sub
+
+function isOverlapping(node1, node2) as boolean
+    node1Bounds = node1.sceneBoundingRect()
+    node2Bounds = node2.sceneBoundingRect()
+    return node1Bounds.x < (node2Bounds.x + node2Bounds.width) and node2Bounds.x < (node1Bounds.x + node1Bounds.width) and node1Bounds.y < (node2Bounds.y + node2Bounds.height) and node2Bounds.y < (node1Bounds.y + node1Bounds.height)
+end function
+
+function prepareStyles(styles as object, rect, lineCount = 1 as integer) as object
     captionStyles = styles
     finalStyles = { translation: [960, 1020] }
 
@@ -147,7 +191,7 @@ function prepareStyles(styles as object, rect) as object
 
     ' Line
     if not isStringEqual(captionLine, string.EMPTY)
-        captionLineHeight = rect.BoundingRect().height
+        captionLineHeight = (rect.BoundingRect().height / lineCount)
         verticalPosition = processLineCue(captionLine, captionLineHeight)
     end if
 
@@ -178,7 +222,7 @@ function processLineCue(captionLine as string, captionLineHeight as float) as in
         calculatedPosition = lineValue * captionLineHeight
 
         if calculatedPosition + captionLineHeight > 1080
-            calculatedPosition = 1080
+            calculatedPosition = 1080 - captionLineHeight
         end if
 
         return calculatedPosition
@@ -244,7 +288,7 @@ function parseVTT(lines)
             lineData = extractStyles(lines[i + 1])
             curEnd = toMs(lineData.LookupCI("endTimestamp"))
             curstyles = chainLookup(lineData, "styles")
-            entry = { "start": curStart, "end": curEnd, "styles": curstyles }
+            entry = { "start": curStart, "end": curEnd, "styles": curstyles, "id": `caption${i}` }
             isNewLine = true
 
             i += 1
@@ -255,12 +299,25 @@ function parseVTT(lines)
             trimmed = lines[i].trim()
             finalText = m.tags.replaceAll(trimmed, "")
 
+            ' We reached a blank line
             if isStringEqual(finalText, string.EMPTY)
                 entry.AddReplace("text", currentLine)
                 entries.push(entry)
                 isNewLine = false
-            else
-                currentLine.push(finalText)
+
+                continue for
+            end if
+
+            ' We're inside a text block
+            currentLine.push(finalText)
+
+            ' We reached the end of the file and it doesn't end with a blank line
+            if i = (lines.count() - 1)
+                entry.AddReplace("text", currentLine)
+                entries.push(entry)
+                isNewLine = false
+
+                exit for
             end if
 
         end if
