@@ -70,28 +70,31 @@ end function
 function newLayoutGroup(labels)
     newlg = CreateObject("roSGNode", "LayoutGroup")
     newlg.appendchildren(labels)
-    newlg.horizalignment = "center"
-    newlg.vertalignment = "bottom"
+    newlg.layoutDirection = "vert"
+    newlg.horizalignment = "left"
+    newlg.vertalignment = "top"
+    newlg.itemSpacings = "[5]"
     return newlg
 end function
 
 function newRect(lg)
-    rectLG = CreateObject("roSGNode", "LayoutGroup")
     rectxy = lg.BoundingRect()
+
     rect = CreateObject("roSGNode", "Rectangle")
+    rect.appendchild(lg)
+    lg.translation = [5, 5]
+
     rect.color = m.bgColor
     rect.opacity = m.bgOpac
-    rect.width = rectxy.width + 50
-    rect.height = rectxy.height
+    rect.width = rectxy.width + 10
+    rect.height = rectxy.height + 10
+
     if lg.getchildCount() = 0
         rect.width = 0
         rect.height = 0
     end if
-    rectLG.translation = [0, -rect.height / 2]
-    rectLG.horizalignment = "center"
-    rectLG.vertalignment = "center"
-    rectLG.appendchild(rect)
-    return rectLG
+
+    return rect
 end function
 
 
@@ -120,12 +123,9 @@ sub updateCaption()
             rect = newRect(lines)
 
             finalStyles = prepareStyles(entry["styles"], rect)
-            lines.translation = finalStyles.translation
+            rect.translation = finalStyles.translation
 
-            rectxy = lines.BoundingRect()
-            rect.translation = [finalStyles.translation[0], finalStyles.translation[1] - (rectxy.height / 2)]
-
-            captions.push([rect, lines])
+            captions.push(rect)
         end if
     end for
 
@@ -137,6 +137,7 @@ function prepareStyles(styles as object, rect) as object
     finalStyles = { translation: [960, 1020] }
 
     verticalPosition = 1020
+    horizontalPositon = 960 - (rect.BoundingRect().width / 2)
 
     if not isValidAndNotEmpty(captionStyles)
         return finalStyles
@@ -150,7 +151,7 @@ function prepareStyles(styles as object, rect) as object
         verticalPosition = processLineCue(captionLine, captionLineHeight)
     end if
 
-    finalStyles.translation = [960, verticalPosition]
+    finalStyles.translation = [horizontalPositon, verticalPosition]
 
     return finalStyles
 end function
@@ -159,10 +160,9 @@ function processLineCue(captionLine as string, captionLineHeight as float) as in
     ' A percentage
     if captionLine.Instr("%") <> -1
         calculatedPosition = 1080 * (val(captionLine) / 100)
-        calculatedPosition += captionLineHeight
 
-        if calculatedPosition > 1020
-            calculatedPosition = 1020
+        if calculatedPosition + captionLineHeight > 1080
+            calculatedPosition = 1080
         end if
 
         return calculatedPosition
@@ -171,19 +171,21 @@ function processLineCue(captionLine as string, captionLineHeight as float) as in
     ' Note: Non-numeric values are treated as 0
     lineValue = val(captionLine)
 
+    if lineValue = 0 then return 0
+
     ' A positive line value. Count from the top
     if lineValue >= 0
-        calculatedPosition = (lineValue + 1) * captionLineHeight
+        calculatedPosition = lineValue * captionLineHeight
 
-        if calculatedPosition > 1020
-            calculatedPosition = 1020
+        if calculatedPosition + captionLineHeight > 1080
+            calculatedPosition = 1080
         end if
 
         return calculatedPosition
     end if
 
     ' A negative line value. Count from the bottom
-    calculatedPosition = 1080 - Abs((lineValue + 1) * captionLineHeight)
+    calculatedPosition = 1080 - Abs(lineValue * captionLineHeight)
 
     if calculatedPosition < 0
         calculatedPosition = 0
