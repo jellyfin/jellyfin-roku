@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component name="PlaylistItem" extends="Group">
   <children>
-    <LayoutGroup layoutDirection="horiz" horizAlignment="left" itemSpacings="[25, 0]" translation="[0, 15]">
+    <LayoutGroup layoutDirection="horiz" horizAlignment="left" itemSpacings="[25]" translation="[0, 15]">
       <Poster id="mediaTypeIcon" width="32" height="32" />
-      <LayoutGroup layoutDirection="vert" horizAlignment="left" itemSpacings="[0, 10]">
-        <ScrollingText height="40" id="title" horizAlign="left" vertAlign="center" font="font:SmallBoldSystemFont" maxWidth="960" />
-        <ScrollingText height="25" id="subtitle" horizAlign="left" vertAlign="center" font="font:SmallSystemFont" maxWidth="960" />
+
+      <LayoutGroup layoutDirection="vert" horizAlignment="left" itemSpacings="[0]">
+        <ScrollingText height="40" id="title" horizAlign="left" vertAlign="center" font="font:SmallBoldSystemFont" maxWidth="850" />
+        <ScrollingText height="25" id="subtitle" horizAlign="left" vertAlign="center" font="font:SmallSystemFont" maxWidth="850" />
       </LayoutGroup>
+
+      <PlayedCheckmark id="playedIndicator" width="60" height="46" />
+
       <Text id="tracklength" height="60" horizAlign="right" vertAlign="center" font="font:SmallBoldSystemFont" width="150" />
     </LayoutGroup>
   </children>

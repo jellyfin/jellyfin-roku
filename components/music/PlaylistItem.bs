@@ -28,6 +28,11 @@ sub itemContentChanged()
         tracklength = m.top.findNode("tracklength")
         tracklength.text = ticksToHuman(itemData.LookupCI("RunTimeTicks"))
     end if
+
+    playedIndicator = m.top.findNode("playedIndicator")
+    playedIndicator.data = {
+        played: chainLookupReturn(itemData, "played", false)
+    }
 end sub
 
 function getSubtitleText(itemData as object) as string
