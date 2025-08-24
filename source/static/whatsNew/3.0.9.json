@@ -1,6 +1,6 @@
 [
   {
-    "description": "",
-    "author": ""
+    "description": "Automatically enable force transcode option if video is rotated",
+    "author": "1hitsong"
   }
 ]
