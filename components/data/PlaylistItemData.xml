@@ -12,6 +12,7 @@
     <field id="ParentIndexNumber" type="integer" />
     <field id="ProductionYear" type="integer" />
     <field id="OfficialRating" type="string" />
+    <field id="played" type="boolean" />
     <field id="album" type="string" />
     <field id="image" type="node" onChange="setPoster" />
     <field id="overview" type="string" />
