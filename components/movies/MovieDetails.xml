@@ -37,6 +37,9 @@
 
           <LayoutGroup layoutDirection="vert" itemSpacings="[0]">
             <LayoutGroup layoutDirection="horiz" horizAlignment="left">
+              <Text id="rotationWarning" font="font:smallestboldSystemFont" vertAlign="top" color="#eeeeee" />
+            </LayoutGroup>
+            <LayoutGroup layoutDirection="horiz" horizAlignment="left">
               <ScrollingText id="video_codec" vertAlign="bottom" height="39" maxwidth="990" font="font:SmallestSystemFont" color="#aaaaaa" />
               <Text id="video_codec_count" font="font:smallestSystemFont" vertAlign="top" color="#aaaaaa" />
             </LayoutGroup>
