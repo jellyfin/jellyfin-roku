@@ -30,7 +30,7 @@
   </interface>
 
   <children>
-    <Group id="captionGroup" translation="[960,1020]" />
+    <Group id="captionGroup" translation="[0,0]" />
     <timer id="playbackTimer" repeat="true" duration="30" />
     <timer id="bufferCheckTimer" repeat="true" />
     <OSD id="osd" visible="false" inactiveTimeout="5" />
