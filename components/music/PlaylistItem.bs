@@ -29,10 +29,14 @@ sub itemContentChanged()
         tracklength.text = ticksToHuman(itemData.LookupCI("RunTimeTicks"))
     end if
 
-    playedIndicator = m.top.findNode("playedIndicator")
-    playedIndicator.data = {
-        played: chainLookupReturn(itemData, "played", false)
-    }
+    ' Only apply the played checkmark to specific item types
+    playlistItemType = chainLookupReturn(itemData, "type", string.EMPTY)
+    if inArray([ItemType.MOVIE, ItemType.MUSICVIDEO, ItemType.EPISODE, ItemType.RECORDING, ItemType.VIDEO, ItemType.PROGRAM], playlistItemType)
+        playedIndicator = m.top.findNode("playedIndicator")
+        playedIndicator.data = {
+            played: chainLookupReturn(itemData, "played", false)
+        }
+    end if
 end sub
 
 function getSubtitleText(itemData as object) as string
