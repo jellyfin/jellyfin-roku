@@ -1914,5 +1914,153 @@
         <source>Row Item Progress</source>
         <translation>Progrés de l&apos;element de la fila</translation>
     </message>
+    <message>
+        <source>The background color of the check mark &amp; unplayed count shown in the top right corner of items.</source>
+        <translation>El color de fons de la marca de vist i del comptador de no reproduïts que es mostra a la cantonada superior dreta dels elements.</translation>
+    </message>
+    <message>
+        <source>The base background color. Background images are layered on top of this color.</source>
+        <translation>El color base de fons. Les imatges de fons es col·loquen a sobre d&apos;aquest color.</translation>
+    </message>
+    <message>
+        <source>Change the colors of elements in the app.</source>
+        <translation>Canvia els colors dels elements a l&apos;aplicació.</translation>
+    </message>
+    <message>
+        <source>Home Rows</source>
+        <translation>Files de l&apos;inici</translation>
+    </message>
+    <message>
+        <source>Live TV</source>
+        <translation>Televisió en directe</translation>
+    </message>
+    <message>
+        <source>Select what to show in section 8. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Seleccioneu què mostrar en la secció 8. Aquesta configuració no té efecte si s&apos;ha habilitat \&quot;Fes servir la disposició de seccions d&apos;inici del client web\&quot;. Per a què el canvi tingui efecte caldrà tancar i reobrir l&apos;aplicació.</translation>
+    </message>
+    <message>
+        <source>Select what to show in section 7. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Seleccioneu què mostrar a la secció 7. Aquesta configuració no té efecte si s&apos;ha habilitat \&quot;Fes servir la disposició de seccions d&apos;inici del client web\&quot;. Per a què el canvi tingui efecte caldrà tancar i reobrir l&apos;aplicació.</translation>
+    </message>
+    <message>
+        <source>Select what to show in section 6. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Seleccioneu què mostrar a la secció 6. Aquesta configuració no té efecte si s&apos;ha habilitat \&quot;Fes servir la disposició de seccions d&apos;inici del client web\&quot;. Per a què el canvi tingui efecte caldrà tancar i reobrir l&apos;aplicació.</translation>
+    </message>
+    <message>
+        <source>Select what to show in section 1. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Seleccioneu què mostrar a la secció 1. Aquesta configuració no té efecte si s&apos;ha habilitat \&quot;Fes servir la disposició de seccions d&apos;inici del client web\&quot;. Per a què el canvi tingui efecte caldrà tancar i reobrir l&apos;aplicació.</translation>
+    </message>
+    <message>
+        <source>Select what to show in section 2. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Seleccioneu què mostrar a la secció 2. Aquesta configuració no té efecte si s&apos;ha habilitat \&quot;Fes servir la disposició de seccions d&apos;inici del client web\&quot;. Per a què el canvi tingui efecte caldrà tancar i reobrir l&apos;aplicació.</translation>
+    </message>
+    <message>
+        <source>Select what to show in section 3. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Seleccioneu què mostrar a la secció 3. Aquesta configuració no té efecte si s&apos;ha habilitat \&quot;Fes servir la disposició de seccions d&apos;inici del client web\&quot;. Per a què el canvi tingui efecte caldrà tancar i reobrir l&apos;aplicació.</translation>
+    </message>
+    <message>
+        <source>Select what to show in section 4. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Seleccioneu què mostrar a la secció 4. Aquesta configuració no té efecte si s&apos;ha habilitat \&quot;Fes servir la disposició de seccions d&apos;inici del client web\&quot;. Per a què el canvi tingui efecte caldrà tancar i reobrir l&apos;aplicació.</translation>
+    </message>
+    <message>
+        <source>Select what to show in section 5. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Seleccioneu què mostrar a la secció 5. Aquesta configuració no té efecte si s&apos;ha habilitat \&quot;Fes servir la disposició de seccions d&apos;inici del client web\&quot;. Per a què el canvi tingui efecte caldrà tancar i reobrir l&apos;aplicació.</translation>
+    </message>
+    <message>
+        <source>Section 1</source>
+        <translation>Secció 1</translation>
+    </message>
+    <message>
+        <source>Section 2</source>
+        <translation>Secció 2</translation>
+    </message>
+    <message>
+        <source>Section 3</source>
+        <translation>Secció 3</translation>
+    </message>
+    <message>
+        <source>Section 4</source>
+        <translation>Secció 4</translation>
+    </message>
+    <message>
+        <source>Section 5</source>
+        <translation>Secció 5</translation>
+    </message>
+    <message>
+        <source>Section 6</source>
+        <translation>Secció 6</translation>
+    </message>
+    <message>
+        <source>Section 7</source>
+        <translation>Secció 7</translation>
+    </message>
+    <message>
+        <source>Section 8</source>
+        <translation>Secció 8</translation>
+    </message>
+    <message>
+        <source>Customize the home screen sections</source>
+        <translation>Personalització de les seccions de la pantalla d&apos;inici</translation>
+    </message>
+    <message>
+        <source>Recently Added Media</source>
+        <translation>Continguts afegits recentment</translation>
+    </message>
+    <message>
+        <source>My List</source>
+        <translation>La meva llista</translation>
+    </message>
+    <message>
+        <source>All Screens</source>
+        <translation>Totes les pantalles</translation>
+    </message>
+    <message>
+        <source>Colors</source>
+        <translation>Colors</translation>
+    </message>
+    <message>
+        <source>Background</source>
+        <translation>Fons</translation>
+    </message>
+    <message>
+        <source>Colors used across multiple screens.</source>
+        <translation>Colors fets servir en diverses pantalles.</translation>
+    </message>
+    <message>
+        <source>The color of the remote control&apos;s cursor.</source>
+        <translation>Color del cursor del control remot.</translation>
+    </message>
+    <message>
+        <source>Cursor</source>
+        <translation>Cursor</translation>
+    </message>
+    <message>
+        <source>Primary Text</source>
+        <translation>Text principal</translation>
+    </message>
+    <message>
+        <source>The secondary text color.</source>
+        <translation>Color del text secundari.</translation>
+    </message>
+    <message>
+        <source>Secondary Text</source>
+        <translation>Text secundari</translation>
+    </message>
+    <message>
+        <source>The primary text color.</source>
+        <translation>Color del text principal.</translation>
+    </message>
+    <message>
+        <source>Colors specific to the watched check mark &amp; unplayed count box.</source>
+        <translation>Colors específics de la marca de vist i del requadre del comptador de no reproduïts.</translation>
+    </message>
+    <message>
+        <source>Watched Check Mark &amp; Unplayed Count</source>
+        <translation>Marca de vist i comptador de no reproduïts</translation>
+    </message>
+    <message>
+        <source>Unplayed Count</source>
+        <translation>Comptador de no reproduïts</translation>
+    </message>
 </context>
 </TS>
