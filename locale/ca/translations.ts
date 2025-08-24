@@ -1814,5 +1814,105 @@
         <source>Row Item Subtitle</source>
         <translation>Subtítol de l&apos;element de la línia</translation>
     </message>
+    <message>
+        <source>The background color of items. Only seen if no image loads on top of it.</source>
+        <translation>Color de fons dels elements. Només es veu si no es carrega cap imatge al damunt.</translation>
+    </message>
+    <message>
+        <source>The text color for the author in the What&apos;s New popup.</source>
+        <translation>Color del text de l&apos;autor a la finestra emergent de Novetats.</translation>
+    </message>
+    <message>
+        <source>Colors specific to dialog popups</source>
+        <translation>Colors específics de les finestres emergents de diàlegs</translation>
+    </message>
+    <message>
+        <source>The color of the watched check mark.</source>
+        <translation>Color de la marca de vist.</translation>
+    </message>
+    <message>
+        <source>Watched Check Mark</source>
+        <translation>Marca de vist</translation>
+    </message>
+    <message>
+        <source>The color of the unplayed count number.</source>
+        <translation>Color del comptador de no reproduïts.</translation>
+    </message>
+    <message>
+        <source>The text color for bold text.</source>
+        <translation>Color del text en negreta.</translation>
+    </message>
+    <message>
+        <source>Bold Text</source>
+        <translation>Text en negreta</translation>
+    </message>
+    <message>
+        <source>The background color for all dialog popups.</source>
+        <translation>Color de fons de totes les finestres emergents de diàleg.</translation>
+    </message>
+    <message>
+        <source>Dialog Popups</source>
+        <translation>Finestres emergents de diàleg</translation>
+    </message>
+    <message>
+        <source>The text color for the item the cursor is over.</source>
+        <translation>Color del text de l&apos;element que cobreix el cursor.</translation>
+    </message>
+    <message>
+        <source>Selected Text</source>
+        <translation>Text seleccionat</translation>
+    </message>
+    <message>
+        <source>The color of the thin border line under the header text.</source>
+        <translation>Color de la línia prima del marge sota el text de la capçalera.</translation>
+    </message>
+    <message>
+        <source>Horizontal Border line</source>
+        <translation>Línia del marge horitzontal</translation>
+    </message>
+    <message>
+        <source>What&apos;s New Author</source>
+        <translation>Novetats de l&apos;autor</translation>
+    </message>
+    <message>
+        <source>Text Color</source>
+        <translation>Color del text</translation>
+    </message>
+    <message>
+        <source>The text color for title and items the cursor is not over.</source>
+        <translation>Color del text per a títols i elements que no cobreix el cursor.</translation>
+    </message>
+    <message>
+        <source>Row Headers</source>
+        <translation>Capçalera de les files</translation>
+    </message>
+    <message>
+        <source>The color of the star icon in the My List library item.</source>
+        <translation>Color de la icona de l&apos;estrella de La meva llista.</translation>
+    </message>
+    <message>
+        <source>My List Icon</source>
+        <translation>Icona de La meva llista</translation>
+    </message>
+    <message>
+        <source>Colors specific to the home screen</source>
+        <translation>Colors específics de la pantalla d&apos;inici</translation>
+    </message>
+    <message>
+        <source>Home Screen</source>
+        <translation>Pantalla d&apos;inici</translation>
+    </message>
+    <message>
+        <source>Row Item Background</source>
+        <translation>Fons dels elements de la fila</translation>
+    </message>
+    <message>
+        <source>The text color of the headers of each row.</source>
+        <translation>Color de text de les capçaleres de cada fila.</translation>
+    </message>
+    <message>
+        <source>Row Item Progress</source>
+        <translation>Progrés de l&apos;element de la fila</translation>
+    </message>
 </context>
 </TS>
