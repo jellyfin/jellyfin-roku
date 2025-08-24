@@ -1778,5 +1778,41 @@
         <source>Are you sure you want to delete this subtitle?</source>
         <translation>N&apos;esteu segur, que desitgeu eliminar aquest subtítol?</translation>
     </message>
+    <message>
+        <source>The text color of the user&apos;s name in the header.</source>
+        <translation>Color del text del nom de l&apos;usuari a la capçalera.</translation>
+    </message>
+    <message>
+        <source>The text color of the first line displayed under items.</source>
+        <translation>Color del text de la primera línia que es mostra a sota dels elements.</translation>
+    </message>
+    <message>
+        <source>The color of the watched portion of the progress bar.</source>
+        <translation>Color del fragment observat de la barra de progrés.</translation>
+    </message>
+    <message>
+        <source>The background color of the progress bar.</source>
+        <translation>Color de fons de la barra de progrés.</translation>
+    </message>
+    <message>
+        <source>Row Item Progress Background</source>
+        <translation>Fons del progrés de l&apos;element de la línia</translation>
+    </message>
+    <message>
+        <source>Username In Header</source>
+        <translation>Nom d&apos;usuari a la capçalera</translation>
+    </message>
+    <message>
+        <source>Row Item Title</source>
+        <translation>Títol de l&apos;element de la línia</translation>
+    </message>
+    <message>
+        <source>The text color of the second line displayed under items.</source>
+        <translation>Color del text de la segona línia mostrada a sota els elements.</translation>
+    </message>
+    <message>
+        <source>Row Item Subtitle</source>
+        <translation>Subtítol de l&apos;element de la línia</translation>
+    </message>
 </context>
 </TS>
