@@ -622,20 +622,30 @@ sub SetDefaultAudioTrack(itemData)
     preferredLanguage = m.global.session.user.Configuration.AudioLanguagePreference
     firstAudioTrack = -1
 
+    defaultAudioTrackIndex = getDefaultAudioTrackIndex(itemData.mediaStreams)
+    defaultAudioTrackName = string.EMPTY
+
     ' If user has not selected an audio track and PlayDefaultAudioTrack setting is enabled, find the default track
     if preferredAudioTrackIndex < 0 and chainLookupReturn(m.global.session, "user.Configuration.PlayDefaultAudioTrack", false)
-        preferredAudioTrackIndex = findDefaultTrack(itemData.mediaStreams)
+        preferredAudioTrackIndex = defaultAudioTrackIndex
     end if
 
     audioStreamCount = 1
     for i = 0 to itemData.mediaStreams.Count() - 1
         if itemData.mediaStreams[i].Type = "Audio"
-            if firstAudioTrack < 0 then firstAudioTrack = i
-
             rokuTrackName = `#uniq:${itemData.mediaStreams[i].LookupCI("Title") ?? string.EMPTY}(${audioStreamCount})`
 
+            if firstAudioTrack < 0 then firstAudioTrack = i
+
+            if i = defaultAudioTrackIndex then defaultAudioTrackName = rokuTrackName
+
+            if i = preferredAudioTrackIndex
+                m.global.queueManager.callFunc("setPreferredAudioTrackName", rokuTrackName)
+                preferredAudioTrackName = rokuTrackName
+            end if
+
+            ' No user selection and not configured to play the default, how about a preferred language?
             if preferredAudioTrackIndex < 0 and isValid(preferredLanguage)
-                ' No user selection and not configured to play the default, how about a preferred language?
                 if isStringEqual(chainLookupReturn(itemData.mediaStreams[i], "Language", invalid), preferredLanguage)
                     m.top.selectedAudioStreamIndex = i
                     m.global.queueManager.callFunc("setPreferredAudioTrackName", rokuTrackName)
@@ -653,6 +663,13 @@ sub SetDefaultAudioTrack(itemData)
             audioStreamCount++
         end if
     end for
+
+    if defaultAudioTrackIndex > -1
+        m.top.selectedAudioStreamIndex = defaultAudioTrackIndex
+        m.global.queueManager.callFunc("setPreferredAudioTrackName", defaultAudioTrackName)
+        setFieldText("audio_codec", tr("Audio") + ": " + itemData.mediaStreams[defaultAudioTrackIndex].displayTitle)
+        return
+    end if
 
     ' If we got here, then nothing matched.  First track it is...
     if firstAudioTrack > -1
