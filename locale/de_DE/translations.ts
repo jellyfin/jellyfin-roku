@@ -1474,6 +1474,10 @@
         <source>Enable or disable Direct Play support for certain codecs.</source>
         <translation>Direct Play Unterstützung für bestimmte Codecs aktivieren oder deaktivieren.</translation>
     </message>
+    <message>
+        <source>Shuffle Play Collection</source>
+        <translation>Shuffle Play-Sammlung</translation>
+    </message>
 </context>
 <context>
     <name></name>
