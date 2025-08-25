@@ -2062,5 +2062,9 @@
         <source>Unplayed Count</source>
         <translation>Comptador de no reproduïts</translation>
     </message>
+    <message>
+        <source>Shuffle Play Collection</source>
+        <translation>Reproducció aleatòria de la col·lecció</translation>
+    </message>
 </context>
 </TS>
