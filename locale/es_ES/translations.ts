@@ -334,7 +334,7 @@
     </message>
     <message>
         <source>Remember the currently logged in user and try to log them in again next time you start the Jellyfin app.</source>
-        <translation>Recordar al usuario que ha iniciado sesión para intentar entrar automáticamente la próxima vez que inicies Jellyfin.</translation>
+        <translation>Recordar al usuario que acaba de ingresar e intentar iniciar sesión nuevamente la próxima vez que abras Jellyfin.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
@@ -1468,7 +1468,7 @@
     </message>
     <message>
         <source>CH</source>
-        <translation>Can</translation>
+        <translation>CH</translation>
     </message>
     <message>
         <source>Recently Added in</source>
@@ -1932,7 +1932,7 @@
     </message>
     <message>
         <source>Cursor</source>
-        <translation>Cursor</translation>
+        <translation>Puntero</translation>
     </message>
     <message>
         <source>The color of the remote control&apos;s cursor.</source>
@@ -1988,7 +1988,7 @@
     </message>
     <message>
         <source>What&apos;s New Author</source>
-        <translation type="unfinished">Novedades Autor</translation>
+        <translation>Novedades Autor</translation>
     </message>
     <message>
         <source>Colors specific to the home screen</source>
