@@ -26,7 +26,7 @@
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favoriten</translation>
+        <translation>Favorit</translation>
     </message>
     <message>
         <source>Loading...</source>
