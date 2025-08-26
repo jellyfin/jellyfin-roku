@@ -2004,7 +2004,7 @@
     </message>
     <message>
         <source>Row Headers</source>
-        <translation type="unfinished">Fila Encabezados</translation>
+        <translation>Fila Encabezados</translation>
     </message>
     <message>
         <source>Row Item Progress</source>
@@ -2016,15 +2016,15 @@
     </message>
     <message>
         <source>Row Item Progress Background</source>
-        <translation type="unfinished">Fila Fondo de la Barra de Progreso</translation>
+        <translation>Fila Fondo de la Barra de Progreso</translation>
     </message>
     <message>
         <source>Row Item Subtitle</source>
-        <translation type="unfinished">Fila Subtitulo</translation>
+        <translation>Fila Subtitulo</translation>
     </message>
     <message>
         <source>Row Item Title</source>
-        <translation type="unfinished">Fila Título</translation>
+        <translation>Fila Título</translation>
     </message>
     <message>
         <source>The text color of the first line displayed under items.</source>
