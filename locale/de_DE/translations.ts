@@ -978,7 +978,7 @@
     </message>
     <message>
         <source>Default view for Movie Libraries.</source>
-        <translation>Standard-Ansicht für Filmbibliothek</translation>
+        <translation>Standard-Ansicht für Filmbibliothek.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
@@ -1112,7 +1112,7 @@
     </message>
     <message>
         <source>Ratings for how good a movie is</source>
-        <translation type="unfinished">Bewertungen, wie gut ein Film ist</translation>
+        <translation>Community- und Kritikerbewertungen von Rotten Tomatoes.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
@@ -1127,7 +1127,7 @@
     </message>
     <message>
         <source>Set the maximum resolution when playing video files on this device.</source>
-        <translation>Legen Sie die maximale Auflösung für die Wiedergabe von Video-Dateien auf diesem Gerät fest.</translation>
+        <translation>Lege die maximale Auflösung für die Wiedergabe von Video-Dateien auf diesem Gerät fest.</translation>
         <extracomment>User Setting - Description</extracomment>
     </message>
     <message>
@@ -1137,7 +1137,7 @@
     </message>
     <message>
         <source>Configure the maximum resolution when playing video files on this device.</source>
-        <translation>Konfigurieren Sie die maximale Auflösung für die Wiedergabe von Video-Dateien auf diesem Gerät.</translation>
+        <translation>Konfiguriere die maximale Auflösung für die Wiedergabe von Video-Dateien auf diesem Gerät.</translation>
         <extracomment>User Setting - Description</extracomment>
     </message>
     <message>
@@ -1420,7 +1420,7 @@
     </message>
     <message>
         <source>No items found. Try adjusting your selected filters.</source>
-        <translation type="unfinished">Keine Einträge gefunden. Versuche deine Filter anzupassen</translation>
+        <translation>Keine Einträge gefunden. Versuche deine Filter anzupassen.</translation>
     </message>
     <message>
         <source>Attempt Direct Play of potentially unsupported profile levels</source>
@@ -1477,6 +1477,22 @@
     <message>
         <source>Shuffle Play Collection</source>
         <translation>Shuffle Play-Sammlung</translation>
+    </message>
+    <message>
+        <source>Date Show Added</source>
+        <translation>Hinzugefügt am</translation>
+    </message>
+    <message>
+        <source>Date Episode Added</source>
+        <translation>Episode hinzugefügt am</translation>
+    </message>
+    <message>
+        <source>Force Transcoding</source>
+        <translation>Erzwinge Transkodierung</translation>
+    </message>
+    <message>
+        <source>Display custom trickplay images even if this Roku says it&apos;s displaying its own. This may cause the two images to overlay on top of each other.</source>
+        <translation>Zeigen Sie benutzerdefinierte Trickplay-Bilder an, auch wenn dieser Roku sagt, dass er seine eigenen anzeigt. Dies kann dazu führen, dass die beiden Bilder übereinander liegen.</translation>
     </message>
 </context>
 <context>
