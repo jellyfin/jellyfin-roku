@@ -94,11 +94,11 @@
     </message>
     <message>
         <source>My Media</source>
-        <translation>Mis contenidos</translation>
+        <translation>Mi Contenido</translation>
     </message>
     <message>
         <source>Continue Watching</source>
-        <translation>Seguir viendo</translation>
+        <translation>Seguir Viendo</translation>
     </message>
     <message>
         <source>Next Up</source>
@@ -354,7 +354,7 @@
     </message>
     <message>
         <source>Save Credentials?</source>
-        <translation>¿Guardar credenciales?</translation>
+        <translation>¿Guardar Credenciales?</translation>
     </message>
     <message>
         <source>No Chapter Data Found</source>
@@ -363,15 +363,15 @@
     </message>
     <message>
         <source>Change Server</source>
-        <translation>Cambiar servidor</translation>
+        <translation>Cambiar Servidor</translation>
     </message>
     <message>
         <source>Sign Out</source>
-        <translation>Cerrar sesión</translation>
+        <translation>Cerrar Sesión</translation>
     </message>
     <message>
         <source>Delete Saved</source>
-        <translation>Eliminar guardado</translation>
+        <translation>Eliminar Guardado</translation>
     </message>
     <message>
         <source>What&apos;s New?</source>
@@ -403,7 +403,7 @@
     </message>
     <message>
         <source>PLAY_COUNT</source>
-        <translation>Número de reproducciones</translation>
+        <translation>Número de Reproducciones</translation>
     </message>
     <message>
         <source>RELEASE_DATE</source>
@@ -567,7 +567,7 @@
     </message>
     <message>
         <source>Movies</source>
-        <translation>Peliculas</translation>
+        <translation>Películas</translation>
     </message>
     <message>
         <source>today</source>
@@ -590,7 +590,7 @@
     </message>
     <message>
         <source>CRITIC_RATING</source>
-        <translation>Calificación de los críticos</translation>
+        <translation>Calificación de los Críticos</translation>
     </message>
     <message>
         <source>DATE_PLAYED</source>
@@ -608,7 +608,7 @@
     </message>
     <message>
         <source>IMDB_RATING</source>
-        <translation>Valoración de IMDb</translation>
+        <translation>Calificación de IMDb</translation>
     </message>
     <message>
         <source>OFFICIAL_RATING</source>
@@ -889,7 +889,7 @@
     </message>
     <message>
         <source>Max Days Next Up</source>
-        <translation>Máximo de días para &quot;A continuación&quot;</translation>
+        <translation>Días Máximos en &apos;Siguiente&apos;</translation>
         <extracomment>Option Title in user setting screen</extracomment>
     </message>
     <message>
@@ -1331,7 +1331,7 @@
     </message>
     <message>
         <source>Ratings for how good a movie is</source>
-        <translation>Calificaciones de la comunidad y de los críticos de Rotten Tomatoes.</translation>
+        <translation>Calificaciones de la comunidad y de los críticos de &apos;Rotten Tomatoes&apos;&apos;.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
@@ -1472,7 +1472,7 @@
     </message>
     <message>
         <source>Recently Added in</source>
-        <translation>Añadidos recientemente</translation>
+        <translation>Añadidos Recientemente</translation>
     </message>
     <message>
         <source>Community Rating</source>
@@ -1544,11 +1544,11 @@
     </message>
     <message>
         <source>Date Episode Added</source>
-        <translation>Fecha de episodio añadido</translation>
+        <translation>Fecha de Episodio Añadido</translation>
     </message>
     <message>
         <source>Change User</source>
-        <translation>Cambiar de Usuario</translation>
+        <translation>Cambiar Usuario</translation>
     </message>
     <message>
         <source>Settings</source>
