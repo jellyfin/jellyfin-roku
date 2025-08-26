@@ -9,7 +9,10 @@
         <ScrollingText height="25" id="subtitle" horizAlign="left" vertAlign="center" font="font:SmallSystemFont" maxWidth="850" />
       </LayoutGroup>
 
-      <PlayedCheckmark id="playedIndicator" width="60" height="46" />
+      <LayoutGroup layoutDirection="vert" horizAlignment="left" itemSpacings="[0]">
+        <Rectangle width="60" height="10" color="0X00000000" />
+        <PlayedCheckmark id="playedIndicator" width="60" height="46" scale="[.75, .75]" scaleRotateCenter="[0, 0]" />
+      </LayoutGroup>
 
       <Text id="tracklength" height="60" horizAlign="right" vertAlign="center" font="font:SmallBoldSystemFont" width="150" />
     </LayoutGroup>
