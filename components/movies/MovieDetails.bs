@@ -150,8 +150,8 @@ sub OnScreenShown()
             SetDefaultAudioTrack(m.top.itemContent.json)
             SetUpAudioOptions(m.top.itemContent.json.mediaStreams)
         end if
-        if isChainValid(m.top.itemContent, "json.mediaStreams")
-            SetUpVideoOptions(m.top.itemContent.json.mediaStreams)
+        if isChainValid(m.top.itemContent, "json.mediaSources")
+            SetUpVideoOptions(m.top.itemContent.json.mediaSources)
         end if
     end if
 
