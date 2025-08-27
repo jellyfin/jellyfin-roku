@@ -1374,6 +1374,7 @@ sub onDataReturnedEvent(msg)
 
     if isStringEqual(selectedPopupID, "libraryitem")
         if not isValid(itemID) then return
+        if not isString(selectedPopupButton) then return
         processLibraryItemPopup(selectedPopupButton, itemID, params)
         return
     end if
