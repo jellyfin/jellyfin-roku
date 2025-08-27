@@ -1,6 +1,10 @@
 [
   {
-    "description": "Add played checkmark to individual items in playlists",
+    "description": "Fix possible crash on home screen",
     "author": "1hitsong"
+  }.
+  {
+    "description": "Add played checkmark to individual items in playlists",
+    "author": "1hitsong"    
   }
 ]

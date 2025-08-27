@@ -1330,6 +1330,38 @@
         <source>Album Artist</source>
         <translation>Album Artist</translation>
     </message>
+    <message>
+        <source>Change User</source>
+        <translation>Change User</translation>
+    </message>
+    <message>
+        <source>Unable to get playback information</source>
+        <translation>Unable to get playback information</translation>
+    </message>
+    <message>
+        <source>Date Episode Added</source>
+        <translation>Date Episode Added</translation>
+    </message>
+    <message>
+        <source>Favorited</source>
+        <translation>Favourited</translation>
+    </message>
+    <message>
+        <source>Mark As Favorite</source>
+        <translation>Mark As Favourite</translation>
+    </message>
+    <message>
+        <source>Resume playing at </source>
+        <translation>Resume playing at </translation>
+    </message>
+    <message>
+        <source>Settings</source>
+        <translation>Settings</translation>
+    </message>
+    <message>
+        <source>Date Show Added</source>
+        <translation>Date Show Added</translation>
+    </message>
 </context>
 <context>
     <name></name>
