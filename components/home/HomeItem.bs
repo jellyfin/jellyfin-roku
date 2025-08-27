@@ -69,10 +69,12 @@ sub itemContentChanged()
     if not isValid(itemData) then return
     localGlobal = m.global
 
-    m.playedIndicator.data = {
-        played: chainLookupReturn(itemData, "json.UserData.Played", false),
-        unplayedCount: chainLookupReturn(itemData, "json.UserData.UnplayedItemCount", 0)
-    }
+    if isValid(m.playedIndicator)
+        m.playedIndicator.data = {
+            played: chainLookupReturn(itemData, "json.UserData.Played", false),
+            unplayedCount: chainLookupReturn(itemData, "json.UserData.UnplayedItemCount", 0)
+        }
+    end if
 
     itemData.AddReplace("Title", itemData.LookupCI("name"))
 
