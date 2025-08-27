@@ -1,6 +1,14 @@
 [
   {
-    "description": "Apply item title show/hide setting to All Next Up screen",
+    "description": "Fix possible crash on home screen",
     "author": "1hitsong"
+  },
+  {
+    "description": "Add played checkmark to individual items in playlists",
+    "author": "1hitsong"    
+  },
+  {
+    "description": "Apply item title show/hide setting to All Next Up screen",
+    "author": "1hitsong"    
   }
 ]

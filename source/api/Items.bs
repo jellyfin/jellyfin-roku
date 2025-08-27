@@ -423,6 +423,7 @@ function PlaylistItemList(id as string)
         tmp.SeasonName = item.LookupCI("SeasonName")
         tmp.IndexNumberEnd = item.LookupCI("IndexNumberEnd")
         tmp.ParentIndexNumber = item.LookupCI("ParentIndexNumber")
+        tmp.played = chainLookupReturn(item, "UserData.played", false)
         results.push(tmp)
     end for
 
