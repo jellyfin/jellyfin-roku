@@ -118,6 +118,12 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
 
     if videotype = "episode" or videotype = "series"
         video.content.contenttype = "episode"
+        video.content.TitleSeason = `Season ${meta.json.ParentIndexNumber}`
+        video.content.SecondaryTitle = `Episode ${meta.json.IndexNumber}`
+        if isValid(meta.json.IndexNumberEnd)
+            video.content.SecondaryTitle += `-${meta.json.IndexNumberEnd}`
+        end if
+
         video.seasonNumber = meta.json.ParentIndexNumber
         video.episodeNumber = meta.json.IndexNumber
         video.episodeNumberEnd = meta.json.IndexNumberEnd
