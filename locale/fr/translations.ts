@@ -2065,5 +2065,9 @@
         <source>Shuffle Play Collection</source>
         <translation>Lecture aléatoire de collection</translation>
     </message>
+    <message>
+        <source>Note: Force transcode option automatically enabled due to video rotation</source>
+        <translation>Remarque : l&apos;option de transcodage forcé est automatiquement activée en raison de la rotation de la vidéo</translation>
+    </message>
 </context>
 </TS>
