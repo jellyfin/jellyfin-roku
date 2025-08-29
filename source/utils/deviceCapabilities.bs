@@ -1,8 +1,9 @@
 import "pkg:/source/api/baserequest.bs"
+import "pkg:/source/enums/String.bs"
 import "pkg:/source/utils/misc.bs"
 
 ' Returns the Device Capabilities for Roku.
-function getDeviceCapabilities() as object
+function getDeviceCapabilities(videoCodec = string.EMPTY as string) as object
     deviceProfile = {
         "PlayableMediaTypes": [
             "Audio",
@@ -14,13 +15,13 @@ function getDeviceCapabilities() as object
         "SupportsMediaControl": false,
         "SupportsContentUploading": false,
         "SupportsSync": false,
-        "DeviceProfile": getDeviceProfile()
+        "DeviceProfile": getDeviceProfile(videoCodec)
     }
 
     return deviceProfile
 end function
 
-function getDeviceProfile() as object
+function getDeviceProfile(videoCodec = string.EMPTY as string) as object
     globalDevice = m.global.device
     return {
         "Name": "Official Roku Client",
@@ -43,9 +44,9 @@ function getDeviceProfile() as object
         "MaxStaticBitrate": 100000000,
         "MusicStreamingTranscodingBitrate": 192000,
         "DirectPlayProfiles": GetDirectPlayProfiles(),
-        "TranscodingProfiles": getTranscodingProfiles(),
+        "TranscodingProfiles": getTranscodingProfiles(videoCodec),
         "ContainerProfiles": getContainerProfiles(),
-        "CodecProfiles": getCodecProfiles(),
+        "CodecProfiles": getCodecProfiles(videoCodec),
         "SubtitleProfiles": getSubtitleProfiles()
     }
 end function
@@ -179,7 +180,7 @@ function GetDirectPlayProfiles() as object
     return directPlayProfiles
 end function
 
-function getTranscodingProfiles() as object
+function getTranscodingProfiles(videoCodec = string.EMPTY as string) as object
     globalUserSettings = m.global.session.user.settings
     transcodingProfiles = []
 
@@ -188,9 +189,9 @@ function getTranscodingProfiles() as object
     transcodingContainers = ["mp4", "ts"]
     ' use strings to preserve order
     mp4AudioCodecs = "AC3"
-    mp4VideoCodecs = "h264"
+    mp4VideoCodecs = isStringEqual(videoCodec, "h264") ? string.EMPTY : "h264"
     tsAudioCodecs = "AC3"
-    tsVideoCodecs = "h264"
+    tsVideoCodecs = isStringEqual(videoCodec, "h264") ? string.EMPTY : "h264"
 
     ' does the users setup support surround sound?
     maxAudioChannels = "2" ' jellyfin expects this as a string
@@ -211,29 +212,33 @@ function getTranscodingProfiles() as object
     '
     ' AVC / h264 / MPEG4 AVC
     for each container in transcodingContainers
-        if di.CanDecodeVideo({ Codec: "h264", Container: container }).Result
-            if container = "mp4"
-                ' check for codec string before adding it
-                if mp4VideoCodecs.Instr(0, ",h264") = -1
-                    mp4VideoCodecs = mp4VideoCodecs + ",h264"
-                end if
-            else if container = "ts"
-                ' check for codec string before adding it
-                if tsVideoCodecs.Instr(0, ",h264") = -1
-                    tsVideoCodecs = tsVideoCodecs + ",h264"
+        if not isStringEqual(videoCodec, "h264")
+            if di.CanDecodeVideo({ Codec: "h264", Container: container }).Result
+                if container = "mp4"
+                    ' check for codec string before adding it
+                    if mp4VideoCodecs.Instr(0, ",h264") = -1
+                        mp4VideoCodecs = mp4VideoCodecs + ",h264"
+                    end if
+                else if container = "ts"
+                    ' check for codec string before adding it
+                    if tsVideoCodecs.Instr(0, ",h264") = -1
+                        tsVideoCodecs = tsVideoCodecs + ",h264"
+                    end if
                 end if
             end if
         end if
-        if di.CanDecodeVideo({ Codec: "mpeg4 avc", Container: container }).Result
-            if container = "mp4"
-                ' check for codec string before adding it
-                if mp4VideoCodecs.Instr(0, ",mpeg4 avc") = -1
-                    mp4VideoCodecs = mp4VideoCodecs + ",mpeg4 avc"
-                end if
-            else if container = "ts"
-                ' check for codec string before adding it
-                if tsVideoCodecs.Instr(0, ",mpeg4 avc") = -1
-                    tsVideoCodecs = tsVideoCodecs + ",mpeg4 avc"
+        if not isStringEqual(videoCodec, "mpeg4 avc")
+            if di.CanDecodeVideo({ Codec: "mpeg4 avc", Container: container }).Result
+                if container = "mp4"
+                    ' check for codec string before adding it
+                    if mp4VideoCodecs.Instr(0, ",mpeg4 avc") = -1
+                        mp4VideoCodecs = mp4VideoCodecs + ",mpeg4 avc"
+                    end if
+                else if container = "ts"
+                    ' check for codec string before adding it
+                    if tsVideoCodecs.Instr(0, ",mpeg4 avc") = -1
+                        tsVideoCodecs = tsVideoCodecs + ",mpeg4 avc"
+                    end if
                 end if
             end if
         end if
@@ -242,22 +247,24 @@ function getTranscodingProfiles() as object
     ' HEVC / h265
     if globalUserSettings["playback.compatibility.disablehevc"] = false
         for each container in transcodingContainers
-            if di.CanDecodeVideo({ Codec: "hevc", Container: container }).Result
-                if container = "mp4"
-                    ' check for codec string before adding it
-                    if mp4VideoCodecs.Instr(0, "h265,") = -1
-                        mp4VideoCodecs = "h265," + mp4VideoCodecs
-                    end if
-                    if mp4VideoCodecs.Instr(0, "hevc,") = -1
-                        mp4VideoCodecs = "hevc," + mp4VideoCodecs
-                    end if
-                else if container = "ts"
-                    ' check for codec string before adding it
-                    if tsVideoCodecs.Instr(0, "h265,") = -1
-                        tsVideoCodecs = "h265," + tsVideoCodecs
-                    end if
-                    if tsVideoCodecs.Instr(0, "hevc,") = -1
-                        tsVideoCodecs = "hevc," + tsVideoCodecs
+            if not isStringEqual(videoCodec, "hevc")
+                if di.CanDecodeVideo({ Codec: "hevc", Container: container }).Result
+                    if container = "mp4"
+                        ' check for codec string before adding it
+                        if mp4VideoCodecs.Instr(0, "h265,") = -1
+                            mp4VideoCodecs = "h265," + mp4VideoCodecs
+                        end if
+                        if mp4VideoCodecs.Instr(0, "hevc,") = -1
+                            mp4VideoCodecs = "hevc," + mp4VideoCodecs
+                        end if
+                    else if container = "ts"
+                        ' check for codec string before adding it
+                        if tsVideoCodecs.Instr(0, "h265,") = -1
+                            tsVideoCodecs = "h265," + tsVideoCodecs
+                        end if
+                        if tsVideoCodecs.Instr(0, "hevc,") = -1
+                            tsVideoCodecs = "hevc," + tsVideoCodecs
+                        end if
                     end if
                 end if
             end if
@@ -266,16 +273,18 @@ function getTranscodingProfiles() as object
 
     ' VP9
     for each container in transcodingContainers
-        if di.CanDecodeAudio({ Codec: "vp9", Container: container }).Result
-            if container = "mp4"
-                ' check for codec string before adding it
-                if mp4VideoCodecs.Instr(0, ",vp9") = -1
-                    mp4VideoCodecs = mp4VideoCodecs + ",vp9"
-                end if
-            else if container = "ts"
-                ' check for codec string before adding it
-                if tsVideoCodecs.Instr(0, ",vp9") = -1
-                    tsVideoCodecs = tsVideoCodecs + ",vp9"
+        if not isStringEqual(videoCodec, "vp9")
+            if di.CanDecodeVideo({ Codec: "vp9", Container: container }).Result
+                if container = "mp4"
+                    ' check for codec string before adding it
+                    if mp4VideoCodecs.Instr(0, ",vp9") = -1
+                        mp4VideoCodecs = mp4VideoCodecs + ",vp9"
+                    end if
+                else if container = "ts"
+                    ' check for codec string before adding it
+                    if tsVideoCodecs.Instr(0, ",vp9") = -1
+                        tsVideoCodecs = tsVideoCodecs + ",vp9"
+                    end if
                 end if
             end if
         end if
@@ -284,16 +293,18 @@ function getTranscodingProfiles() as object
     ' MPEG2
     if globalUserSettings["playback.mpeg2"]
         for each container in transcodingContainers
-            if di.CanDecodeVideo({ Codec: "mpeg2", Container: container }).Result
-                if container = "mp4"
-                    ' check for codec string before adding it
-                    if mp4VideoCodecs.Instr(0, ",mpeg2video") = -1
-                        mp4VideoCodecs = mp4VideoCodecs + ",mpeg2video"
-                    end if
-                else if container = "ts"
-                    ' check for codec string before adding it
-                    if tsVideoCodecs.Instr(0, ",mpeg2video") = -1
-                        tsVideoCodecs = tsVideoCodecs + ",mpeg2video"
+            if not isStringEqual(videoCodec, "mpeg2")
+                if di.CanDecodeVideo({ Codec: "mpeg2", Container: container }).Result
+                    if container = "mp4"
+                        ' check for codec string before adding it
+                        if mp4VideoCodecs.Instr(0, ",mpeg2video") = -1
+                            mp4VideoCodecs = mp4VideoCodecs + ",mpeg2video"
+                        end if
+                    else if container = "ts"
+                        ' check for codec string before adding it
+                        if tsVideoCodecs.Instr(0, ",mpeg2video") = -1
+                            tsVideoCodecs = tsVideoCodecs + ",mpeg2video"
+                        end if
                     end if
                 end if
             end if
@@ -302,16 +313,18 @@ function getTranscodingProfiles() as object
 
     ' AV1
     for each container in transcodingContainers
-        if di.CanDecodeVideo({ Codec: "av1", Container: container }).Result
-            if container = "mp4"
-                ' check for codec string before adding it
-                if mp4VideoCodecs.Instr(0, ",av1") = -1
-                    mp4VideoCodecs = mp4VideoCodecs + ",av1"
-                end if
-            else if container = "ts"
-                ' check for codec string before adding it
-                if tsVideoCodecs.Instr(0, ",av1") = -1
-                    tsVideoCodecs = tsVideoCodecs + ",av1"
+        if not isStringEqual(videoCodec, "av1")
+            if di.CanDecodeVideo({ Codec: "av1", Container: container }).Result
+                if container = "mp4"
+                    ' check for codec string before adding it
+                    if mp4VideoCodecs.Instr(0, ",av1") = -1
+                        mp4VideoCodecs = mp4VideoCodecs + ",av1"
+                    end if
+                else if container = "ts"
+                    ' check for codec string before adding it
+                    if tsVideoCodecs.Instr(0, ",av1") = -1
+                        tsVideoCodecs = tsVideoCodecs + ",av1"
+                    end if
                 end if
             end if
         end if
@@ -415,7 +428,7 @@ function getContainerProfiles() as object
     return containerProfiles
 end function
 
-function getCodecProfiles() as object
+function getCodecProfiles(videoCodec = string.EMPTY as string) as object
     globalUserSettings = m.global.session.user.settings
     codecProfiles = []
     profileSupport = {
@@ -427,6 +440,7 @@ function getCodecProfiles() as object
         "mpeg2": {},
         "av1": {}
     }
+
     maxResSetting = globalUserSettings["playback.resolution.max"]
     di = CreateObject("roDeviceInfo")
     maxHeightArray = getMaxHeightArray()
@@ -493,58 +507,74 @@ function getCodecProfiles() as object
     h264Levels = ["4.1", "4.2"]
     for each profile in h264Profiles
         for each level in h264Levels
-            if di.CanDecodeVideo({ Codec: "h264", Profile: profile, Level: level }).Result
-                profileSupport = updateProfileArray(profileSupport, "h264", profile, level)
+            if not isStringEqual(videoCodec, "h264")
+                if di.CanDecodeVideo({ Codec: "h264", Profile: profile, Level: level }).Result
+                    profileSupport = updateProfileArray(profileSupport, "h264", profile, level)
+                end if
             end if
-            if di.CanDecodeVideo({ Codec: "mpeg4 avc", Profile: profile, Level: level }).Result
-                profileSupport = updateProfileArray(profileSupport, "mpeg4 avc", profile, level)
+            if not isStringEqual(videoCodec, "mpeg4 avc")
+                if di.CanDecodeVideo({ Codec: "mpeg4 avc", Profile: profile, Level: level }).Result
+                    profileSupport = updateProfileArray(profileSupport, "mpeg4 avc", profile, level)
+                end if
             end if
         end for
     end for
 
     ' HEVC / h265
-    hevcProfiles = ["main", "main 10"]
-    hevcLevels = ["4.1", "5.0", "5.1"]
-    for each profile in hevcProfiles
-        for each level in hevcLevels
-            if di.CanDecodeVideo({ Codec: "hevc", Profile: profile, Level: level }).Result
-                profileSupport = updateProfileArray(profileSupport, "h265", profile, level)
-                profileSupport = updateProfileArray(profileSupport, "hevc", profile, level)
-            end if
+    if not isStringEqual(videoCodec, "hevc")
+        hevcProfiles = ["main", "main 10"]
+        hevcLevels = ["4.1", "5.0", "5.1"]
+        for each profile in hevcProfiles
+            for each level in hevcLevels
+                if di.CanDecodeVideo({ Codec: "hevc", Profile: profile, Level: level }).Result
+                    profileSupport = updateProfileArray(profileSupport, "h265", profile, level)
+                    profileSupport = updateProfileArray(profileSupport, "hevc", profile, level)
+                end if
+            end for
         end for
-    end for
+    end if
 
     ' VP9
-    vp9Profiles = ["profile 0", "profile 2"]
-    vp9Levels = ["4.1", "5.0", "5.1"]
-    for each profile in vp9Profiles
-        for each level in vp9Levels
-            if di.CanDecodeVideo({ Codec: "vp9", Profile: profile, Level: level }).Result
-                profileSupport = updateProfileArray(profileSupport, "vp9", profile, level)
-            end if
+    if not isStringEqual(videoCodec, "vp9")
+        vp9Profiles = ["profile 0", "profile 2"]
+        vp9Levels = ["4.1", "5.0", "5.1"]
+        for each profile in vp9Profiles
+            for each level in vp9Levels
+                if di.CanDecodeVideo({ Codec: "vp9", Profile: profile, Level: level }).Result
+                    profileSupport = updateProfileArray(profileSupport, "vp9", profile, level)
+                end if
+            end for
         end for
-    end for
+    end if
 
     ' MPEG2
     ' mpeg2 uses levels with no profiles. see https://developer.roku.com/en-ca/docs/references/brightscript/interfaces/ifdeviceinfo.md#candecodevideovideo_format-as-object-as-object
     ' NOTE: the mpeg2 levels are being saved in the profileSupport array as if they were profiles
-    mpeg2Levels = ["main", "high"]
-    for each level in mpeg2Levels
-        if di.CanDecodeVideo({ Codec: "mpeg2", Level: level }).Result
-            profileSupport = updateProfileArray(profileSupport, "mpeg2", level)
-        end if
-    end for
-
-    ' AV1
-    av1Profiles = ["main", "main 10"]
-    av1Levels = ["4.1", "5.0", "5.1"]
-    for each profile in av1Profiles
-        for each level in av1Levels
-            if di.CanDecodeVideo({ Codec: "av1", Profile: profile, Level: level }).Result
-                profileSupport = updateProfileArray(profileSupport, "av1", profile, level)
+    if not isStringEqual(videoCodec, "mpeg2")
+        mpeg2Levels = ["main", "high"]
+        for each level in mpeg2Levels
+            if di.CanDecodeVideo({ Codec: "mpeg2", Level: level }).Result
+                profileSupport = updateProfileArray(profileSupport, "mpeg2", level)
             end if
         end for
-    end for
+    end if
+
+    ' AV1
+    if not isStringEqual(videoCodec, "av1")
+        av1Profiles = ["main", "main 10"]
+        av1Levels = ["4.1", "5.0", "5.1"]
+        for each profile in av1Profiles
+            for each level in av1Levels
+                if di.CanDecodeVideo({ Codec: "av1", Profile: profile, Level: level }).Result
+                    profileSupport = updateProfileArray(profileSupport, "av1", profile, level)
+                end if
+            end for
+        end for
+    end if
+
+    if not isStringEqual(videoCodec, string.EMPTY)
+        profileSupport.addreplace(videoCodec, {})
+    end if
 
     ' HDR SUPPORT
     h264VideoRangeTypes = "SDR"
@@ -645,7 +675,9 @@ function getCodecProfiles() as object
         h264ProfileArray.Conditions.push(bitRateArray)
     end if
 
-    codecProfiles.push(h264ProfileArray)
+    if not isStringEqual(videoCodec, "h264")
+        codecProfiles.push(h264ProfileArray)
+    end if
 
     ' MPEG2
     ' NOTE: the mpeg2 levels are being saved in the profileSupport array as if they were profiles
@@ -682,7 +714,9 @@ function getCodecProfiles() as object
             mpeg2ProfileArray.Conditions.push(bitRateArray)
         end if
 
-        codecProfiles.push(mpeg2ProfileArray)
+        if not isStringEqual(videoCodec, "mpeg2")
+            codecProfiles.push(mpeg2ProfileArray)
+        end if
     end if
 
     if di.CanDecodeVideo({ Codec: "av1" }).Result
@@ -735,7 +769,9 @@ function getCodecProfiles() as object
             av1ProfileArray.Conditions.push(bitRateArray)
         end if
 
-        codecProfiles.push(av1ProfileArray)
+        if not isStringEqual(videoCodec, "av1")
+            codecProfiles.push(av1ProfileArray)
+        end if
     end if
 
     if not globalUserSettings["playback.compatibility.disablehevc"] and di.CanDecodeVideo({ Codec: "hevc" }).Result
@@ -804,7 +840,9 @@ function getCodecProfiles() as object
             hevcProfileArray.Conditions.push(bitRateArray)
         end if
 
-        codecProfiles.push(hevcProfileArray)
+        if not isStringEqual(videoCodec, "h265")
+            codecProfiles.push(hevcProfileArray)
+        end if
     end if
 
     if di.CanDecodeVideo({ Codec: "vp9" }).Result
@@ -863,7 +901,9 @@ function getCodecProfiles() as object
             vp9ProfileArray.Conditions.push(bitRateArray)
         end if
 
-        codecProfiles.push(vp9ProfileArray)
+        if not isStringEqual(videoCodec, "vp9")
+            codecProfiles.push(vp9ProfileArray)
+        end if
     end if
 
     return codecProfiles
