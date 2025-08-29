@@ -2117,5 +2117,9 @@
             <source>Shuffle Play Collection</source>
             <translation>Shuffle Play Collection</translation>
         </message>
+        <message>
+            <source>Note: Force transcode option automatically enabled due to video rotation</source>
+            <translation>Note: Force transcode option automatically enabled due to video rotation</translation>
+        </message>
     </context>
 </TS>

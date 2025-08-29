@@ -23,6 +23,7 @@ sub init()
     m.scrollBar = m.top.findnode("scrollBar")
     m.thumb = m.top.findnode("thumb")
     m.thumbStep = 0
+    m.performRotationCheck = true
 
     m.scrollBar.opacity = .75
     m.scrollBar.color = ColorPalette.BLACK77
@@ -148,6 +149,9 @@ sub OnScreenShown()
         if isChainValid(m.top.itemContent, "json.mediaStreams")
             SetDefaultAudioTrack(m.top.itemContent.json)
             SetUpAudioOptions(m.top.itemContent.json.mediaStreams)
+        end if
+        if isChainValid(m.top.itemContent, "json.mediaSources")
+            SetUpVideoOptions(m.top.itemContent.json.mediaSources)
         end if
     end if
 
@@ -530,21 +534,32 @@ sub SetUpVideoOptions(streams)
     videos = []
     codecDetailsSet = false
 
+    setFieldText("rotationWarning", string.EMPTY)
+
     for i = 0 to streams.Count() - 1
         if LCase(streams[i].VideoType) = VideoType.VIDEOFILE
             codec = ""
             if isValidAndNotEmpty(streams[i].mediaStreams)
 
                 ' find the first (default) video track to get the codec for the details screen
-                if not codecDetailsSet
-                    for index = 0 to streams[i].mediaStreams.Count() - 1
-                        if LCase(streams[i].mediaStreams[index].Type) = MediaStreamType.VIDEO
+
+                for index = 0 to streams[i].mediaStreams.Count() - 1
+                    if LCase(streams[i].mediaStreams[index].Type) = MediaStreamType.VIDEO
+                        if m.performRotationCheck
+                            rotation = chainLookupReturn(streams[i].mediaStreams[index], "rotation", 0)
+                            if rotation <> 0
+                                setFieldText("rotationWarning", tr("Note: Force transcode option automatically enabled due to video rotation"))
+                                m.global.queueManager.callFunc("setForceTranscode", true)
+                            end if
+                        end if
+
+                        if not codecDetailsSet
                             setFieldText("video_codec", tr("Video") + ": " + streams[i].mediaStreams[index].displayTitle)
                             codecDetailsSet = true
-                            exit for
                         end if
-                    end for
-                end if
+                        exit for
+                    end if
+                end for
 
                 codec = streams[i].mediaStreams[0].displayTitle
             end if
@@ -795,6 +810,13 @@ sub videoOptionsClosed()
         m.top.observeField("itemContent", "itemContentChanged")
     end if
     m.buttonGrp.setFocus(true)
+
+    ' If user manually disables force transcode, disable rotation check
+    m.performRotationCheck = m.global.queueManager.callFunc("getForceTranscode")
+    if not m.performRotationCheck
+        setFieldText("rotationWarning", string.EMPTY)
+    end if
+
     group = m.global.sceneManager.callFunc("getActiveScene")
     group.lastFocus = m.buttonGrp
 end sub
