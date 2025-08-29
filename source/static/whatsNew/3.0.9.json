@@ -16,6 +16,14 @@
     "author": "1hitsong"
   },
   {
+    "description": "Fix possible crash on library option menu",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Improve automatic audio selection logic",
+    "author": "1hitsong"
+  },
+  {
     "description": "Add season and episode information to Roku's video player screen",
     "author": "1hitsong"
   }
