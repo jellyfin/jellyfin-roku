@@ -51,7 +51,13 @@ sub onCurrentTimeTimerFire()
 end sub
 
 function getCurrentTime()
-    return m.dateTimeObject.AsSecondsLong()
+    try
+        timeInSeconds = m.dateTimeObject.AsSecondsLong()
+    catch e
+        timeInSeconds = m.dateTimeObject.AsSeconds() * 1&
+    end try
+
+    return timeInSeconds
 end function
 
 function getFormattedTime(timestamp as object, allowPastTime = true as boolean)
