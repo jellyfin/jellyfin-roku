@@ -380,6 +380,16 @@ sub itemContentChanged()
 
     ' Set default video source if user hasn't selected one yet
     if m.top.selectedVideoStreamId = "" and isValid(itemData.MediaSources)
+        for i = 0 to itemData.mediaStreams.Count() - 1
+            if itemData.mediaStreams[i].Type = "Video"
+                m.options.codec = itemData.MediaStreams[i].Codec
+                if chainLookupReturn(m.global.session, "user.settings.`playback.media.forceTranscode`", false)
+                    m.global.queueManager.callFunc("setForceTranscode", true, m.options.codec)
+                    exit for
+                end if
+            end if
+        end for
+
         m.top.selectedVideoStreamId = itemData.MediaSources[0].id
     end if
 
@@ -538,6 +548,7 @@ sub SetUpVideoOptions(streams)
 
     for i = 0 to streams.Count() - 1
         if LCase(streams[i].VideoType) = VideoType.VIDEOFILE
+            videoCodecForDisplay = ""
             codec = ""
             if isValidAndNotEmpty(streams[i].mediaStreams)
 
@@ -561,7 +572,8 @@ sub SetUpVideoOptions(streams)
                     end if
                 end for
 
-                codec = streams[i].mediaStreams[0].displayTitle
+                videoCodecForDisplay = streams[i].mediaStreams[0].displayTitle
+                codec = streams[i].mediaStreams[0].Codec
             end if
 
             ' Create options for user to switch between video tracks
@@ -570,7 +582,8 @@ sub SetUpVideoOptions(streams)
                 "Description": tr("Video"),
                 "Selected": m.top.selectedVideoStreamId = streams[i].id,
                 "StreamID": streams[i].id,
-                "video_codec": codec
+                "video_codec": videoCodecForDisplay,
+                "codec": codec
             })
         end if
     end for

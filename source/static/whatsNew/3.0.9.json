@@ -26,5 +26,13 @@
   {
     "description": "Add season and episode information to Roku's video player screen",
     "author": "1hitsong"
+  },
+  {
+    "description": "Update force transcode options to prevent remux",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Burn subtitles if video is transcoding",
+    "author": "1hitsong"
   }
 ]
