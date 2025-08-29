@@ -14,7 +14,8 @@ end function
 
 function ItemPostPlaybackInfo(id as string, mediaSourceId = "" as string, audioTrackIndex = -1 as integer, subtitleTrackIndex = -1 as integer, startTimeTicks = 0 as longinteger)
     body = {
-        "DeviceProfile": getDeviceProfile()
+        "DeviceProfile": getDeviceProfile(),
+        "AlwaysBurnInSubtitleWhenTranscoding": true
     }
     params = {
         "UserId": m.global.session.user.id,
