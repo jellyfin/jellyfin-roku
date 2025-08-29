@@ -22,5 +22,9 @@
   {
     "description": "Improve automatic audio selection logic",
     "author": "1hitsong"
+  },
+  {
+    "description": "Add season and episode information to Roku's video player screen",
+    "author": "1hitsong"
   }
 ]
