@@ -26,5 +26,9 @@
   {
     "description": "Add season and episode information to Roku's video player screen",
     "author": "1hitsong"
+  },
+  {
+    "description": "Add setting to start episode list from first unwatched episode",
+    "author": "1hitsong"
   }
 ]

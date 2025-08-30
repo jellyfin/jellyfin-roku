@@ -1173,6 +1173,13 @@
                 "settingName": "ui.tvshows.goStraightToEpisodeListing",
                 "type": "bool",
                 "default": "false"
+              },
+              {
+                "title": "Start Episode List From First Unwatched Episode",
+                "description": "When opening a season's list of episodes, automatically scroll down and start the cursor on the first unwatched episode.",
+                "settingName": "ui.tvshows.startListFromUnwatched",
+                "type": "bool",
+                "default": "false"
               }
             ]
           }
