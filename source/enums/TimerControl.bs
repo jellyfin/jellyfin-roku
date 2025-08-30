@@ -1,0 +1,4 @@
+enum TimerControl
+    START = "start"
+    STOP = "stop"
+end enum

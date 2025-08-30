@@ -8,6 +8,7 @@ import "pkg:/source/enums/MediaSegmentAction.bs"
 import "pkg:/source/enums/MediaSegmentType.bs"
 import "pkg:/source/enums/String.bs"
 import "pkg:/source/enums/TaskControl.bs"
+import "pkg:/source/enums/TimerControl.bs"
 import "pkg:/source/enums/VideoControl.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/misc.bs"
@@ -1355,6 +1356,9 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
         m.PreloadTrickplayImagesTask.method = "REMOVE"
         m.PreloadTrickplayImagesTask.control = TaskControl.RUN
+
+        currentTimeTimer = m.clock.findNode("currentTimeTimer")
+        if isValid(currentTimeTimer) then currentTimeTimer.control = TimerControl.STOP
 
         m.global.queueManager.callFunc("bypassNextPreferredAudioTrackIndexReset")
         m.global.queueManager.callFunc("clear")
