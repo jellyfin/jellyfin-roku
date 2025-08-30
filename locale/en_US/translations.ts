@@ -2121,5 +2121,13 @@
             <source>Note: Force transcode option automatically enabled due to video rotation</source>
             <translation>Note: Force transcode option automatically enabled due to video rotation</translation>
         </message>
+        <message>
+            <source>Add To Favorites</source>
+            <translation>Add To Favorites</translation>
+        </message>
+        <message>
+            <source>Remove From Favorites</source>
+            <translation>Remove From Favorites</translation>
+        </message>
     </context>
 </TS>
