@@ -26,5 +26,9 @@
   {
     "description": "Add season and episode information to Roku's video player screen",
     "author": "1hitsong"
+  },
+  {
+    "description": "Fix \"Remove From My List\" and \"Add To My List\" options in visual library scene",
+    "author": "1hitsong"
   }
 ]
