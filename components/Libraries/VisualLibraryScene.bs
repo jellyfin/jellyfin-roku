@@ -2079,7 +2079,7 @@ sub onMyListLoaded()
 
     dialogData = [tr("Shuffle Play Collection")]
 
-    myListOption = isInMyListData[0] ? [tr("Remove From My List")] : [tr("Add To My List")]
+    myListOption = isInMyListData[0] ? tr("Remove From My List") : tr("Add To My List")
     dialogData.push(myListOption)
 
     dialogData.push(tr("Add To Playlist"))
