@@ -26,5 +26,9 @@
   {
     "description": "Add season and episode information to Roku's video player screen",
     "author": "1hitsong"
+  },
+  {
+    "description": "Fix possible crash in OSD",
+    "author": "1hitsong"
   }
 ]
