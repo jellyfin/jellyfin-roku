@@ -2121,5 +2121,13 @@
             <source>Note: Force transcode option automatically enabled due to video rotation</source>
             <translation>Note: Force transcode option automatically enabled due to video rotation</translation>
         </message>
+        <message>
+            <source>Start Episode List From First Unwatched Episode</source>
+            <translation>Start Episode List From First Unwatched Episode</translation>
+        </message>
+        <message>
+            <source>When opening a season\'s list of episodes, automatically scroll down and start the cursor on the first unwatched episode.</source>
+            <translation>When opening a season\'s list of episodes, automatically scroll down and start the cursor on the first unwatched episode.</translation>
+        </message>
     </context>
 </TS>
