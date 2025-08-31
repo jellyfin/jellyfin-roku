@@ -1558,6 +1558,16 @@ sub processLibraryItemPopup(selectedPopupButton as string, itemID as string, par
         return
     end if
 
+    if isStringEqual(selectedPopupButton, tr("Add To Favorites"))
+        MainAction.addItemToFavorites(itemID)
+        return
+    end if
+
+    if isStringEqual(selectedPopupButton, tr("Remove From Favorites"))
+        MainAction.removeItemFromFavorites(itemID)
+        return
+    end if
+
     if isStringEqual(selectedPopupButton, tr("Go To Series"))
         CreateSeriesDetailsGroup(params.seriesid)
         return

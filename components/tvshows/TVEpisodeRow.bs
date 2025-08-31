@@ -1,6 +1,13 @@
+import "pkg:/source/utils/misc.bs"
+
 sub init()
+    m.firstUnwatched = 0
     m.top.itemComponentName = "TVListDetails"
     m.top.content = setData()
+
+    if chainLookupReturn(m.global.session, "user.settings.`ui.tvshows.startListFromUnwatched`", false)
+        m.top.jumpToItem = m.firstUnwatched
+    end if
 
     m.top.vertFocusAnimationStyle = "fixedFocusWrap"
 
@@ -36,6 +43,10 @@ sub setupRows()
     objects = m.top.objects
     m.top.numRows = objects.items.count()
     m.top.content = setData()
+
+    if chainLookupReturn(m.global.session, "user.settings.`ui.tvshows.startListFromUnwatched`", false)
+        m.top.jumpToItem = m.firstUnwatched
+    end if
 end sub
 
 function setData()
@@ -45,9 +56,18 @@ function setData()
         return data
     end if
 
+    i = 0
+    m.firstUnwatched = -1
     for each item in m.top.objects.items
+        if m.firstUnwatched = -1
+            if not chainLookupReturn(item, "watched", false)
+                m.firstUnwatched = i
+            end if
+        end if
+
         row = data.CreateChild("ContentNode")
         row.appendChild(item)
+        i++
     end for
 
     m.top.doneLoading = true

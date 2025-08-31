@@ -1,4 +1,5 @@
 import "pkg:/source/enums/String.bs"
+import "pkg:/source/enums/TimerControl.bs"
 import "pkg:/source/utils/misc.bs"
 
 ' @fileoverview Clock component to display current time formatted based on user's chosen 12 or 24 hour setting
@@ -22,7 +23,7 @@ sub init()
     m.dateTimeObject = CreateObject("roDateTime")
 
     m.currentTimeTimer.observeField("fire", "onCurrentTimeTimerFire")
-    m.currentTimeTimer.control = "start"
+    m.currentTimeTimer.control = TimerControl.START
 
     ' Default to 12 hour clock
     m.format = ClockFormat.h12
@@ -51,7 +52,13 @@ sub onCurrentTimeTimerFire()
 end sub
 
 function getCurrentTime()
-    return m.dateTimeObject.AsSecondsLong()
+    try
+        timeInSeconds = m.dateTimeObject.AsSecondsLong()
+    catch e
+        timeInSeconds = m.dateTimeObject.AsSeconds() * 1&
+    end try
+
+    return timeInSeconds
 end function
 
 function getFormattedTime(timestamp as object, allowPastTime = true as boolean)

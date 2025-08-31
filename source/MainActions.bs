@@ -228,7 +228,28 @@ namespace MainAction
         api.users.UnmarkPlayed(m.global.session.user.id, itemID)
     end sub
 
-    ' Add item to user's My List playlist
+    sub addItemToFavorites(itemID as string)
+        api.users.MarkFavorite(m.global.session.user.id, itemID)
+
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        if isValid(group)
+            if isStringEqual(group.subtype(), "home")
+                group.callFunc("refresh")
+            end if
+        end if
+    end sub
+
+    sub removeItemFromFavorites(itemID as string)
+        api.users.UnmarkFavorite(m.global.session.user.id, itemID)
+
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        if isValid(group)
+            if isStringEqual(group.subtype(), "home")
+                group.callFunc("refresh")
+            end if
+        end if
+    end sub
+
     sub addItemToMyList(itemID as string)
         data = api.GetUserViews({ "userId": m.global.session.user.id })
         if not isChainValid(data, "items") then return
