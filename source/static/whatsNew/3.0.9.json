@@ -28,6 +28,18 @@
     "author": "1hitsong"
   },
   {
+    "description": "Fix possible crash in OSD",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Add setting to start episode list from first unwatched episode",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Fix \"Remove From My List\" and \"Add To My List\" options in visual library scene",
+    "author": "1hitsong"
+  },
+  {
     "description": "Add \"Add To Favorites\" and \"Remove From Favorites\" to home and library option menus",
     "author": "1hitsong"
   }
