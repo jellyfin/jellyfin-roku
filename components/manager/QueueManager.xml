@@ -29,6 +29,7 @@
     <function name="resetShuffle" />
     <function name="set" />
     <function name="bypassNextPreferredAudioTrackIndexReset" />
+    <function name="getTranscodeCodec" />
     <function name="getForceTranscode" />
     <function name="setForceTranscode" />
     <function name="getLastKnownItemID" />

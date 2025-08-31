@@ -560,6 +560,12 @@ sub onVideoContentLoaded()
         return
     end if
 
+    m.isTranscoded = videoContent[0].isTranscoded
+
+    if m.isTranscoded
+        videoContent[0].content.SubtitleTracks = []
+    end if
+
     m.top.content = videoContent[0].content
     m.top.PlaySessionId = videoContent[0].PlaySessionId
     m.top.videoId = videoContent[0].id
@@ -628,8 +634,8 @@ sub onVideoContentLoaded()
         ' Disable trackplay bar for intro videos
         m.top.enableTrickPlay = false
     else
-        ' Allow custom captions for non intro videos
-        m.top.allowCaptions = true
+        ' Allow custom captions for non intro videos as long as the video isn't transcoded
+        m.top.allowCaptions = not m.isTranscoded
     end if
 
     ' Allow default subtitles
@@ -637,12 +643,23 @@ sub onVideoContentLoaded()
 
     ' Set subtitleTrack property if subs are natively supported by Roku
     selectedSubtitle = invalid
+    updatedSubtitleData = []
     for each subtitle in m.top.fullSubtitleData
+        if m.isTranscoded
+            subtitle.IsEncoded = true
+            updatedSubtitleData.push(subtitle)
+        end if
+
         if subtitle.Index = videoContent[0].selectedSubtitle
             selectedSubtitle = subtitle
             exit for
         end if
     end for
+
+    if m.isTranscoded
+        m.top.fullSubtitleData = updatedSubtitleData
+        m.top.globalCaptionMode = "Off"
+    end if
 
     if isValid(selectedSubtitle)
         availableSubtitleTrackIndex = availSubtitleTrackIdx(selectedSubtitle.Track.TrackName)
@@ -658,7 +675,9 @@ sub onVideoContentLoaded()
         end if
     end if
 
-    m.top.selectedSubtitle = videoContent[0].selectedSubtitle
+    if not m.isTranscoded
+        m.top.selectedSubtitle = videoContent[0].selectedSubtitle
+    end if
 
     m.top.observeField("selectedSubtitle", "onSubtitleChange")
 

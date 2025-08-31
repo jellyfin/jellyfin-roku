@@ -362,6 +362,10 @@ sub boolSettingChanged()
             ' save to user specific registry block
             set_user_setting(selectedSetting.settingName, "false")
         end if
+
+        if isStringEqual(selectedSetting.settingName, "playback.media.forceTranscode")
+            m.global.queueManager.callFunc("setForceTranscode", false)
+        end if
     end if
 
     if isStringEqual(selectedSetting.settingName, "ui.home.useWebSectionArrangement")
