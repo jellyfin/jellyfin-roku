@@ -206,7 +206,7 @@ function processLineCue(captionLine as string, captionLineHeight as float) as in
         calculatedPosition = 1080 * (val(captionLine) / 100)
 
         if calculatedPosition + captionLineHeight > 1080
-            calculatedPosition = 1080
+            calculatedPosition = 1080 - captionLineHeight
         end if
 
         return calculatedPosition
@@ -315,7 +315,6 @@ function parseVTT(lines)
             if i = (lines.count() - 1)
                 entry.AddReplace("text", currentLine)
                 entries.push(entry)
-                isNewLine = false
 
                 exit for
             end if
