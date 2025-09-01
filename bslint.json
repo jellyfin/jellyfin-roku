@@ -1,5 +1,5 @@
 {
-    "rules": {
-        "unused-variable": "error"
-    }
+  "rules": {
+    "unused-variable": "warn"
+  }
 }

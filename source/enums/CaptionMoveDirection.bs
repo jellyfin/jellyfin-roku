@@ -1,0 +1,5 @@
+enum CaptionMoveDirection
+    NOTSET
+    UP
+    DOWN
+end enum

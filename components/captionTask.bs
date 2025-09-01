@@ -1,5 +1,7 @@
 import "pkg:/source/api/baserequest.bs"
+import "pkg:/source/enums/CaptionMoveDirection.bs"
 import "pkg:/source/enums/MediaPlaybackState.bs"
+import "pkg:/source/enums/String.bs"
 import "pkg:/source/utils/config.bs"
 
 sub init()
@@ -69,57 +71,172 @@ end function
 function newLayoutGroup(labels)
     newlg = CreateObject("roSGNode", "LayoutGroup")
     newlg.appendchildren(labels)
-    newlg.horizalignment = "center"
-    newlg.vertalignment = "bottom"
+    newlg.layoutDirection = "vert"
+    newlg.horizalignment = "left"
+    newlg.vertalignment = "top"
+    newlg.itemSpacings = "[5]"
     return newlg
 end function
 
-function newRect(lg)
-    rectLG = CreateObject("roSGNode", "LayoutGroup")
+function newRect(lg, id as string)
     rectxy = lg.BoundingRect()
+
     rect = CreateObject("roSGNode", "Rectangle")
+    rect.addreplace("id", id)
+    rect.appendchild(lg)
+    lg.translation = [5, 5]
+
     rect.color = m.bgColor
     rect.opacity = m.bgOpac
-    rect.width = rectxy.width + 50
-    rect.height = rectxy.height
+    rect.width = rectxy.width + 10
+    rect.height = rectxy.height + 10
+
     if lg.getchildCount() = 0
         rect.width = 0
         rect.height = 0
     end if
-    rectLG.translation = [0, -rect.height / 2]
-    rectLG.horizalignment = "center"
-    rectLG.vertalignment = "center"
-    rectLG.appendchild(rect)
-    return rectLG
+
+    return rect
 end function
 
 
 sub updateCaption()
-    m.top.currentCaption = []
-    if LCase(m.top.playerState) = "playingon"
-        m.top.currentPos = m.top.currentPos + 100
-        texts = []
-        captionStyles = {}
-        for each entry in m.captionList
-            if entry["start"] <= m.top.currentPos and m.top.currentPos < entry["end"]
-                captionStyles = entry["styles"]
-                t = m.tags.replaceAll(entry["text"], "")
-                texts.push(t)
-            end if
-        end for
-        labels = []
-        for each text in texts
-            labels.push(newlabel (text))
-        end for
-        lines = newLayoutGroup(labels)
-        rect = newRect(lines)
-        m.top.currentCaption = [rect, lines]
-
-        m.top.captionStyles = captionStyles
-    else if LCase(m.top.playerState.right(1)) = "w"
+    if LCase(m.top.playerState.right(1)) = "w"
         m.top.playerState = m.top.playerState.left(len (m.top.playerState) - 1)
+        return
     end if
+
+    m.top.currentCaption = []
+
+    if not isStringEqual(m.top.playerState, "playingon") then return
+
+    m.top.currentPos = m.top.currentPos + 100
+    captions = []
+
+    for each entry in m.captionList
+        if entry["start"] <= m.top.currentPos and m.top.currentPos < entry["end"]
+
+            labels = []
+            for each text in entry["text"]
+                labels.push(newlabel(text))
+            end for
+
+            lines = newLayoutGroup(labels)
+            rect = newRect(lines, entry.LookupCI("id"))
+
+            finalStyles = prepareStyles(entry["styles"], rect, labels.count())
+            rect.translation = finalStyles.translation
+
+            adjustForCaptionOverlaps(rect, captions)
+
+            captions.push(rect)
+        end if
+    end for
+
+    m.top.currentCaption = captions
 end sub
+
+sub adjustForCaptionOverlaps(newCaption, existingCaptions, moveDirection = CaptionMoveDirection.UP)
+    newCaptionBounds = newCaption.sceneBoundingRect()
+
+    for i = existingCaptions.count() - 1 to 0 step -1
+        comparisonCaption = existingCaptions[i]
+
+        ' Don't compare the caption to itself
+        if isStringEqual(newCaption.lookupCI("id"), comparisonCaption.lookupCI("id")) then continue for
+
+        comparisonCaptionBounds = comparisonCaption.sceneBoundingRect()
+
+        overlapping = isOverlapping(newCaption, comparisonCaption)
+
+        if overlapping
+            ' If we're in the top half of the screen, push the other caption down
+            ' otherwise push the other caption up
+            if newCaptionBounds.y < 540
+                moveDirection = CaptionMoveDirection.DOWN
+            end if
+
+            if moveDirection = CaptionMoveDirection.DOWN
+                calculatedVerticalPosition = newCaptionBounds.y + newCaptionBounds.height + 5
+            else
+                calculatedVerticalPosition = newCaptionBounds.y - comparisonCaptionBounds.height - 5
+            end if
+
+            if calculatedVerticalPosition < 0 then calculatedVerticalPosition = 0
+
+            comparisonCaption.translation = [comparisonCaption.translation[0], calculatedVerticalPosition]
+            adjustForCaptionOverlaps(comparisonCaption, existingCaptions, moveDirection)
+        end if
+    end for
+end sub
+
+function isOverlapping(node1, node2) as boolean
+    node1Bounds = node1.sceneBoundingRect()
+    node2Bounds = node2.sceneBoundingRect()
+    return node1Bounds.x < (node2Bounds.x + node2Bounds.width) and node2Bounds.x < (node1Bounds.x + node1Bounds.width) and node1Bounds.y < (node2Bounds.y + node2Bounds.height) and node2Bounds.y < (node1Bounds.y + node1Bounds.height)
+end function
+
+function prepareStyles(styles as object, rect, lineCount = 1 as integer) as object
+    captionStyles = styles
+    finalStyles = { translation: [960, 1020] }
+
+    verticalPosition = 1020
+    horizontalPositon = 960 - (rect.BoundingRect().width / 2)
+
+    if not isValidAndNotEmpty(captionStyles)
+        return finalStyles
+    end if
+
+    captionLine = chainLookupReturn(captionStyles, "line", string.EMPTY)
+
+    ' Line
+    if not isStringEqual(captionLine, string.EMPTY)
+        captionLineHeight = (rect.BoundingRect().height / lineCount)
+        verticalPosition = processLineCue(captionLine, captionLineHeight)
+    end if
+
+    finalStyles.translation = [horizontalPositon, verticalPosition]
+
+    return finalStyles
+end function
+
+function processLineCue(captionLine as string, captionLineHeight as float) as integer
+    ' A percentage
+    if captionLine.Instr("%") <> -1
+        calculatedPosition = 1080 * (val(captionLine) / 100)
+
+        if calculatedPosition + captionLineHeight > 1080
+            calculatedPosition = 1080 - captionLineHeight
+        end if
+
+        return calculatedPosition
+    end if
+
+    ' Note: Non-numeric values are treated as 0
+    lineValue = val(captionLine)
+
+    if lineValue = 0 then return 0
+
+    ' A positive line value. Count from the top
+    if lineValue >= 0
+        calculatedPosition = lineValue * captionLineHeight
+
+        if calculatedPosition + captionLineHeight > 1080
+            calculatedPosition = 1080 - captionLineHeight
+        end if
+
+        return calculatedPosition
+    end if
+
+    ' A negative line value. Count from the bottom
+    calculatedPosition = 1080 - Abs(lineValue * captionLineHeight)
+
+    if calculatedPosition < 0
+        calculatedPosition = 0
+    end if
+
+    return calculatedPosition
+end function
 
 function isTime(text)
     return text.right(1) = chr(31)
@@ -158,20 +275,52 @@ function parseVTT(lines)
     curEnd = -1
     entries = []
 
+    currentLine = []
+    entry = {}
+
+    isNewLine = false
+
     for i = 0 to lines.count() - 1
         if isTime(lines[i])
+            currentLine = []
+
             curStart = toMs(lines[i])
             lineData = extractStyles(lines[i + 1])
             curEnd = toMs(lineData.LookupCI("endTimestamp"))
             curstyles = chainLookup(lineData, "styles")
+            entry = { "start": curStart, "end": curEnd, "styles": curstyles, "id": `caption${i}` }
+            isNewLine = true
+
             i += 1
-        else if curStart <> -1
+            continue for
+        end if
+
+        if isNewLine
             trimmed = lines[i].trim()
-            if trimmed <> chr(0)
-                entry = { "start": curStart, "end": curEnd, "text": trimmed, "styles": curstyles }
+            finalText = m.tags.replaceAll(trimmed, "")
+
+            ' We reached a blank line
+            if isStringEqual(finalText, string.EMPTY)
+                entry.AddReplace("text", currentLine)
                 entries.push(entry)
+                isNewLine = false
+
+                continue for
             end if
+
+            ' We're inside a text block
+            currentLine.push(finalText)
+
+            ' We reached the end of the file and it doesn't end with a blank line
+            if i = (lines.count() - 1)
+                entry.AddReplace("text", currentLine)
+                entries.push(entry)
+
+                exit for
+            end if
+
         end if
     end for
+
     return entries
 end function

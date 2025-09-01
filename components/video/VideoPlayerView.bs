@@ -385,7 +385,6 @@ sub onAllowCaptionsChange()
     m.captionGroup = m.top.findNode("captionGroup")
     m.captionGroup.createchildren(9, "LayoutGroup")
     m.captionTask = createObject("roSGNode", "captionTask")
-    m.captionTask.observeField("captionStyles", "updateCaptionStyles")
     m.captionTask.observeField("currentCaption", "updateCaption")
     m.captionTask.observeField("useThis", "checkCaptionMode")
     m.top.observeField("subtitleTrack", "loadCaption")
@@ -415,59 +414,6 @@ sub toggleCaption()
     else
         m.captionGroup.visible = false
     end if
-end sub
-
-sub updateCaptionStyles()
-    captionStyles = m.captionTask.captionStyles
-    if not isValidAndNotEmpty(captionStyles)
-        m.captionGroup.translation = [960, 1020]
-    end if
-
-    captionLine = chainLookupReturn(captionStyles, "line", string.EMPTY)
-
-    ' Line
-    if not isStringEqual(captionLine, string.EMPTY)
-        ' A percentage
-        if captionLine.Instr("%") <> -1
-            calculatedPosition = 1080 * (val(captionLine) / 100)
-            calculatedPosition += m.captionGroup.BoundingRect().height
-
-            if calculatedPosition > 1020
-                calculatedPosition = 1020
-            end if
-
-            m.captionGroup.translation = [960, calculatedPosition]
-            return
-        end if
-
-        ' Note: Non-numeric values are treated as 0
-        lineValue = val(captionLine)
-
-        ' A positive line value. Count from the top
-        if lineValue >= 0
-            calculatedPosition = (lineValue + 1) * m.captionGroup.BoundingRect().height
-
-            if calculatedPosition > 1020
-                calculatedPosition = 1020
-            end if
-
-            m.captionGroup.translation = [960, calculatedPosition]
-            return
-        end if
-
-        ' A negative line value. Count from the bottom
-        calculatedPosition = 1080 - Abs((lineValue + 1) * m.captionGroup.BoundingRect().height)
-
-        if calculatedPosition < 0
-            calculatedPosition = 0
-        end if
-
-        m.captionGroup.translation = [960, calculatedPosition]
-        return
-    end if
-
-    ' No styles passed, reset to default position
-    m.captionGroup.translation = [960, 1020]
 end sub
 
 ' Removes old subtitle lines and adds new subtitle lines

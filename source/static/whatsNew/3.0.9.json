@@ -50,5 +50,9 @@
   {
     "description": "Burn subtitles if video is transcoding",
     "author": "1hitsong"
+  },
+  {
+    "description": "Add custom subtitle support for multiple captions, in different locations, at the same time",
+    "author": "1hitsong"
   }
 ]
