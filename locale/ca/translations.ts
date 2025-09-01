@@ -2066,5 +2066,25 @@
         <source>Shuffle Play Collection</source>
         <translation>Reproducció aleatòria de la col·lecció</translation>
     </message>
+    <message>
+        <source>Start Episode List From First Unwatched Episode</source>
+        <translation>Comença la llista d&apos;episodis des del primer no vist</translation>
+    </message>
+    <message>
+        <source>Note: Force transcode option automatically enabled due to video rotation</source>
+        <translation>Nota: Força automàticament l&apos;opció de la transcodificació habilitada per la rotació del vídeo</translation>
+    </message>
+    <message>
+        <source>Remove From Favorites</source>
+        <translation>Elimina dels preferits</translation>
+    </message>
+    <message>
+        <source>Add To Favorites</source>
+        <translation>Afegeix als preferits</translation>
+    </message>
+    <message>
+        <source>When opening a season&apos;s list of episodes, automatically scroll down and start the cursor on the first unwatched episode.</source>
+        <translation>En obrir la llista d&apos;episodis d&apos;una temporada, desplaça automàticament cap avall i comença el cursor al primer episodi no vist.</translation>
+    </message>
 </context>
 </TS>
