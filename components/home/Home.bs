@@ -116,7 +116,10 @@ sub onMyListLoaded()
     end if
 
     dialogData.push(m.favoritesOptionText)
-    dialogData.push(tr("Add To Playlist"))
+
+    if not inArray([ItemType.COLLECTIONFOLDER, ItemType.CHANNEL, ItemType.FOLDER, ItemType.PLAYLIST, ItemType.PROGRAM, ItemType.TVCHANNEL, ItemType.USERVIEW], focusedItem.LookupCI("type"))
+        dialogData.push(tr("Add To Playlist"))
+    end if
 
     if inArray([ItemType.EPISODE, ItemType.MOVIE, ItemType.SEASON, ItemType.SERIES, ItemType.VIDEO, ItemType.MUSICVIDEO, ItemType.RECORDING, ItemType.BOXSET, ItemType.AUDIOBOOK, ItemType.BOOK], focusedItem.LookupCI("type"))
         showBothOptions = false
@@ -173,8 +176,6 @@ function onKeyEvent(key as string, press as boolean) as boolean
             focusedItem = m.homeRows.content.getChild(m.homeRows.rowItemFocused[0]).getChild(m.homeRows.rowItemFocused[1])
             if not isValidAndNotEmpty(focusedItem) then return false
 
-            if inArray([ItemType.COLLECTIONFOLDER, ItemType.CHANNEL, ItemType.FOLDER, ItemType.PLAYLIST, ItemType.PROGRAM, ItemType.TVCHANNEL, ItemType.USERVIEW], focusedItem.type) then return false
-
             m.loadMetaDataTask.itemId = focusedItem.LookupCI("id")
             m.loadMetaDataTask.control = TaskControl.RUN
             return true
@@ -190,6 +191,7 @@ sub onMetaDataLoaded()
     m.favoritesOptionText = chainLookupReturn(data, "json.UserData.IsFavorite", false) ? tr("Remove From Favorites") : tr("Add To Favorites")
 
     focusedItem = m.homeRows.content.getChild(m.homeRows.rowItemFocused[0]).getChild(m.homeRows.rowItemFocused[1])
+
     m.loadItemsTask1.itemId = focusedItem.LookupCI("id")
     m.loadItemsTask1.control = TaskControl.RUN
 end sub
