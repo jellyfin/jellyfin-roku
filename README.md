@@ -1,7 +1,7 @@
 <p align="center"><img src="https://raw.githubusercontent.com/jellyfin/jellyfin-roku/master/images/channel-poster_fhd.png" style="border: 1px solid #eee; border-radius: 4px" /></p>
 
-<h1 align="center">Jellyfin Roku</h1>
-<p align="center">An official <strong>Jellyfin</strong> roku client.</p>
+<h1 align="center">Jellyfin for Roku</h1>
+<p align="center">The official <strong>Jellyfin</strong> Roku client.</p>
 <p align="center">Navigate your Jellyfin library and watch, listen, and view your media.</p>
 <p align="center">Cool features include song lyric support, trickplay images, media segment support, downloading subtitles direct from your Roku, and more.</p>
 <h2 align="center">Part of the <a href="https://jellyfin.org">Jellyfin Project</a></h2>

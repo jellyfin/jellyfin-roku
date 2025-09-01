@@ -85,6 +85,9 @@ sub setupNodes()
 end sub
 
 sub init()
+    m.favoritesOptionText = tr("Add To Favorites")
+    m.showOptionMenu = false
+
     m.itemGridCounter = 0
     m.disabledReason = string.EMPTY
     m.searchButtonDisabled = false
@@ -200,6 +203,7 @@ sub OnScreenShown()
     redrawItems()
 
     m.overhang.isVisible = false
+    m.showOptionMenu = false
 
     group = m.global.sceneManager.callFunc("getActiveScene")
 
@@ -225,6 +229,7 @@ end sub
 sub onItemDataLoaded()
     itemData = m.loadItemsTask1.content
     m.loadItemsTask1.unobserveField("content")
+    m.loadItemsTask1.control = TaskControl.STOP
     m.loadItemsTask1.content = []
 
     if not isValidAndNotEmpty(itemData) then return
@@ -233,6 +238,14 @@ sub onItemDataLoaded()
     if not isValid(focusedItem) then return
 
     focusedItem.callFunc("setWatched", chainLookupReturn(itemData[0], "json.UserData.Played", false), chainLookupReturn(itemData[0], "json.UserData.UnplayedItemCount", 0))
+
+    m.favoritesOptionText = chainLookupReturn(itemData[0], "json.UserData.IsFavorite", false) ? tr("Remove From Favorites") : tr("Add To Favorites")
+
+    if m.showOptionMenu
+        m.loadItemsTask1.itemsToLoad = "isInMyList"
+        m.loadItemsTask1.observeField("content", "onMyListLoaded")
+        m.loadItemsTask1.control = TaskControl.RUN
+    end if
 end sub
 
 sub redrawItems()
@@ -2054,12 +2067,13 @@ function onKeyEvent(key as string, press as boolean) as boolean
     end if
 
     if isStringEqual(key, KeyCode.OPTIONS)
+        m.showOptionMenu = true
         focusedItem = getItemFocused()
         if not isValid(focusedItem) then return false
 
         m.loadItemsTask1.itemId = focusedItem.LookupCI("id")
-        m.loadItemsTask1.observeField("content", "onMyListLoaded")
-        m.loadItemsTask1.itemsToLoad = "isInMyList"
+        m.loadItemsTask1.observeField("content", "onItemDataLoaded")
+        m.loadItemsTask1.itemsToLoad = "metaData"
         m.loadItemsTask1.control = TaskControl.RUN
         return true
     end if
@@ -2071,6 +2085,7 @@ sub onMyListLoaded()
     isInMyListData = m.loadItemsTask1.content
     m.loadItemsTask1.content = []
     m.loadItemsTask1.unobserveField("content")
+    m.loadItemsTask1.control = TaskControl.STOP
 
     if not isValidAndNotEmpty(isInMyListData) then return
 
@@ -2079,9 +2094,10 @@ sub onMyListLoaded()
 
     dialogData = [tr("Shuffle Play Collection")]
 
-    myListOption = isInMyListData[0] ? [tr("Remove From My List")] : [tr("Add To My List")]
+    myListOption = isInMyListData[0] ? tr("Remove From My List") : tr("Add To My List")
     dialogData.push(myListOption)
 
+    dialogData.push(m.favoritesOptionText)
     dialogData.push(tr("Add To Playlist"))
     paramData = {
         id: focusedItem.LookupCI("id")

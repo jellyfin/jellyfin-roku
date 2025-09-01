@@ -1374,6 +1374,7 @@ sub onDataReturnedEvent(msg)
 
     if isStringEqual(selectedPopupID, "libraryitem")
         if not isValid(itemID) then return
+        if not isString(selectedPopupButton) then return
         processLibraryItemPopup(selectedPopupButton, itemID, params)
         return
     end if
@@ -1554,6 +1555,16 @@ sub processLibraryItemPopup(selectedPopupButton as string, itemID as string, par
     ' Add item to user's list
     if isStringEqual(selectedPopupButton, tr("Add To My List"))
         MainAction.addItemToMyList(itemID)
+        return
+    end if
+
+    if isStringEqual(selectedPopupButton, tr("Add To Favorites"))
+        MainAction.addItemToFavorites(itemID)
+        return
+    end if
+
+    if isStringEqual(selectedPopupButton, tr("Remove From Favorites"))
+        MainAction.removeItemFromFavorites(itemID)
         return
     end if
 

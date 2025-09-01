@@ -13,8 +13,16 @@ function ItemGetPlaybackInfo(id as string, startTimeTicks = 0 as longinteger)
 end function
 
 function ItemPostPlaybackInfo(id as string, mediaSourceId = "" as string, audioTrackIndex = -1 as integer, subtitleTrackIndex = -1 as integer, startTimeTicks = 0 as longinteger)
+
+    transcodeCodec = string.EMPTY
+
+    if m.global.queueManager.callFunc("getForceTranscode")
+        transcodeCodec = m.global.queueManager.callFunc("getTranscodeCodec")
+    end if
+
     body = {
-        "DeviceProfile": getDeviceProfile()
+        "DeviceProfile": getDeviceProfile(transcodeCodec),
+        "AlwaysBurnInSubtitleWhenTranscoding": true
     }
     params = {
         "UserId": m.global.session.user.id,
@@ -423,6 +431,7 @@ function PlaylistItemList(id as string)
         tmp.SeasonName = item.LookupCI("SeasonName")
         tmp.IndexNumberEnd = item.LookupCI("IndexNumberEnd")
         tmp.ParentIndexNumber = item.LookupCI("ParentIndexNumber")
+        tmp.played = chainLookupReturn(item, "UserData.played", false)
         results.push(tmp)
     end for
 

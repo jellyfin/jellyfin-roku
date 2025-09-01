@@ -116,8 +116,21 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
         video.content.contenttype = ItemType.EPISODE
     end if
 
-    if videotype = "episode" or videotype = "series"
-        video.content.contenttype = "episode"
+    if isStringEqual(videotype, ItemType.EPISODE) or isStringEqual(videotype, ItemType.SERIES)
+        video.content.contenttype = ItemType.EPISODE
+
+        if isValid(meta.json.ParentIndexNumber)
+            video.content.TitleSeason = `${tr("Season")} ${meta.json.ParentIndexNumber}`
+        end if
+
+        if isValid(meta.json.IndexNumber)
+            video.content.SecondaryTitle = `${tr("Episode")} ${meta.json.IndexNumber}`
+
+            if isValid(meta.json.IndexNumberEnd)
+                video.content.SecondaryTitle += `-${meta.json.IndexNumberEnd}`
+            end if
+        end if
+
         video.seasonNumber = meta.json.ParentIndexNumber
         video.episodeNumber = meta.json.IndexNumber
         video.episodeNumberEnd = meta.json.IndexNumberEnd
@@ -227,6 +240,25 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
         video.errorMsg = "Error loading playback info"
         video.content = invalid
         return
+    end if
+
+    ' If forceTranscode setting is enabled, but we haven't set the transcode codec yet, set it now and update Playback Info
+    if chainLookupReturn(m.global.session, "user.settings.`playback.media.forceTranscode`", false)
+        if isStringEqual(m.global.queueManager.callFunc("getTranscodeCodec"), string.EMPTY)
+            for i = 0 to m.playbackInfo.MediaSources[0].MediaStreams.Count() - 1
+                if m.playbackInfo.MediaSources[0].MediaStreams[i].Type = "Video"
+                    m.global.queueManager.callFunc("setForceTranscode", true, m.playbackInfo.MediaSources[0].MediaStreams[i].Codec)
+                    exit for
+                end if
+            end for
+
+            m.playbackInfo = ItemPostPlaybackInfo(video.id, mediaSourceId, audio_stream_idx, subtitle_idx, playbackPosition)
+            if not isValid(m.playbackInfo)
+                video.errorMsg = "Error loading playback info"
+                video.content = invalid
+                return
+            end if
+        end if
     end if
 
     addSubtitlesToVideo(video, meta)

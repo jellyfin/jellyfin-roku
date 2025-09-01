@@ -14,9 +14,15 @@ sub init()
     m.top.optionsAvailable = false
     m.postTask = createObject("roSGNode", "PostTask")
 
+    m.favoritesOptionText = tr("Add To Favorites")
+
     m.loadItemsTask1 = createObject("roSGNode", "LoadItemsTask")
     m.loadItemsTask1.observeField("content", "onMyListLoaded")
     m.loadItemsTask1.itemsToLoad = "isInMyList"
+
+    m.loadMetaDataTask = CreateObject("roSGNode", "LoadItemsTask")
+    m.loadMetaDataTask.itemsToLoad = "metaData"
+    m.loadMetaDataTask.observeField("content", "onMetaDataLoaded")
 
     m.homeRows = m.top.findNode("homeRows")
     m.homeRows.focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
@@ -109,6 +115,7 @@ sub onMyListLoaded()
         end if
     end if
 
+    dialogData.push(m.favoritesOptionText)
     dialogData.push(tr("Add To Playlist"))
 
     if inArray([ItemType.EPISODE, ItemType.MOVIE, ItemType.SEASON, ItemType.SERIES, ItemType.VIDEO, ItemType.MUSICVIDEO, ItemType.RECORDING, ItemType.BOXSET, ItemType.AUDIOBOOK, ItemType.BOOK], focusedItem.LookupCI("type"))
@@ -168,11 +175,21 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
             if inArray([ItemType.COLLECTIONFOLDER, ItemType.CHANNEL, ItemType.FOLDER, ItemType.PLAYLIST, ItemType.PROGRAM, ItemType.TVCHANNEL, ItemType.USERVIEW], focusedItem.type) then return false
 
-            m.loadItemsTask1.itemId = focusedItem.LookupCI("id")
-            m.loadItemsTask1.control = TaskControl.RUN
+            m.loadMetaDataTask.itemId = focusedItem.LookupCI("id")
+            m.loadMetaDataTask.control = TaskControl.RUN
             return true
         end if
     end if
 
     return false
 end function
+
+sub onMetaDataLoaded()
+    data = m.loadMetaDataTask.content[0]
+
+    m.favoritesOptionText = chainLookupReturn(data, "json.UserData.IsFavorite", false) ? tr("Remove From Favorites") : tr("Add To Favorites")
+
+    focusedItem = m.homeRows.content.getChild(m.homeRows.rowItemFocused[0]).getChild(m.homeRows.rowItemFocused[1])
+    m.loadItemsTask1.itemId = focusedItem.LookupCI("id")
+    m.loadItemsTask1.control = TaskControl.RUN
+end sub

@@ -1778,5 +1778,313 @@
         <source>Are you sure you want to delete this subtitle?</source>
         <translation>N&apos;esteu segur, que desitgeu eliminar aquest subtítol?</translation>
     </message>
+    <message>
+        <source>The text color of the user&apos;s name in the header.</source>
+        <translation>Color del text del nom de l&apos;usuari a la capçalera.</translation>
+    </message>
+    <message>
+        <source>The text color of the first line displayed under items.</source>
+        <translation>Color del text de la primera línia que es mostra a sota dels elements.</translation>
+    </message>
+    <message>
+        <source>The color of the watched portion of the progress bar.</source>
+        <translation>Color del fragment observat de la barra de progrés.</translation>
+    </message>
+    <message>
+        <source>The background color of the progress bar.</source>
+        <translation>Color de fons de la barra de progrés.</translation>
+    </message>
+    <message>
+        <source>Row Item Progress Background</source>
+        <translation>Fons del progrés de l&apos;element de la línia</translation>
+    </message>
+    <message>
+        <source>Username In Header</source>
+        <translation>Nom d&apos;usuari a la capçalera</translation>
+    </message>
+    <message>
+        <source>Row Item Title</source>
+        <translation>Títol de l&apos;element de la línia</translation>
+    </message>
+    <message>
+        <source>The text color of the second line displayed under items.</source>
+        <translation>Color del text de la segona línia mostrada a sota els elements.</translation>
+    </message>
+    <message>
+        <source>Row Item Subtitle</source>
+        <translation>Subtítol de l&apos;element de la línia</translation>
+    </message>
+    <message>
+        <source>The background color of items. Only seen if no image loads on top of it.</source>
+        <translation>Color de fons dels elements. Només es veu si no es carrega cap imatge al damunt.</translation>
+    </message>
+    <message>
+        <source>The text color for the author in the What&apos;s New popup.</source>
+        <translation>Color del text de l&apos;autor a la finestra emergent de Novetats.</translation>
+    </message>
+    <message>
+        <source>Colors specific to dialog popups</source>
+        <translation>Colors específics de les finestres emergents de diàlegs</translation>
+    </message>
+    <message>
+        <source>The color of the watched check mark.</source>
+        <translation>Color de la marca de vist.</translation>
+    </message>
+    <message>
+        <source>Watched Check Mark</source>
+        <translation>Marca de vist</translation>
+    </message>
+    <message>
+        <source>The color of the unplayed count number.</source>
+        <translation>Color del comptador de no reproduïts.</translation>
+    </message>
+    <message>
+        <source>The text color for bold text.</source>
+        <translation>Color del text en negreta.</translation>
+    </message>
+    <message>
+        <source>Bold Text</source>
+        <translation>Text en negreta</translation>
+    </message>
+    <message>
+        <source>The background color for all dialog popups.</source>
+        <translation>Color de fons de totes les finestres emergents de diàleg.</translation>
+    </message>
+    <message>
+        <source>Dialog Popups</source>
+        <translation>Finestres emergents de diàleg</translation>
+    </message>
+    <message>
+        <source>The text color for the item the cursor is over.</source>
+        <translation>Color del text de l&apos;element que cobreix el cursor.</translation>
+    </message>
+    <message>
+        <source>Selected Text</source>
+        <translation>Text seleccionat</translation>
+    </message>
+    <message>
+        <source>The color of the thin border line under the header text.</source>
+        <translation>Color de la línia prima del marge sota el text de la capçalera.</translation>
+    </message>
+    <message>
+        <source>Horizontal Border line</source>
+        <translation>Línia del marge horitzontal</translation>
+    </message>
+    <message>
+        <source>What&apos;s New Author</source>
+        <translation>Novetats de l&apos;autor</translation>
+    </message>
+    <message>
+        <source>Text Color</source>
+        <translation>Color del text</translation>
+    </message>
+    <message>
+        <source>The text color for title and items the cursor is not over.</source>
+        <translation>Color del text per a títols i elements que no cobreix el cursor.</translation>
+    </message>
+    <message>
+        <source>Row Headers</source>
+        <translation>Capçalera de les files</translation>
+    </message>
+    <message>
+        <source>The color of the star icon in the My List library item.</source>
+        <translation>Color de la icona de l&apos;estrella de La meva llista.</translation>
+    </message>
+    <message>
+        <source>My List Icon</source>
+        <translation>Icona de La meva llista</translation>
+    </message>
+    <message>
+        <source>Colors specific to the home screen</source>
+        <translation>Colors específics de la pantalla d&apos;inici</translation>
+    </message>
+    <message>
+        <source>Home Screen</source>
+        <translation>Pantalla d&apos;inici</translation>
+    </message>
+    <message>
+        <source>Row Item Background</source>
+        <translation>Fons dels elements de la fila</translation>
+    </message>
+    <message>
+        <source>The text color of the headers of each row.</source>
+        <translation>Color de text de les capçaleres de cada fila.</translation>
+    </message>
+    <message>
+        <source>Row Item Progress</source>
+        <translation>Progrés de l&apos;element de la fila</translation>
+    </message>
+    <message>
+        <source>The background color of the check mark &amp; unplayed count shown in the top right corner of items.</source>
+        <translation>El color de fons de la marca de vist i del comptador de no reproduïts que es mostra a la cantonada superior dreta dels elements.</translation>
+    </message>
+    <message>
+        <source>The base background color. Background images are layered on top of this color.</source>
+        <translation>El color base de fons. Les imatges de fons es col·loquen a sobre d&apos;aquest color.</translation>
+    </message>
+    <message>
+        <source>Change the colors of elements in the app.</source>
+        <translation>Canvia els colors dels elements a l&apos;aplicació.</translation>
+    </message>
+    <message>
+        <source>Home Rows</source>
+        <translation>Files de l&apos;inici</translation>
+    </message>
+    <message>
+        <source>Live TV</source>
+        <translation>Televisió en directe</translation>
+    </message>
+    <message>
+        <source>Select what to show in section 8. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Seleccioneu què mostrar en la secció 8. Aquesta configuració no té efecte si s&apos;ha habilitat \&quot;Fes servir la disposició de seccions d&apos;inici del client web\&quot;. Per a què el canvi tingui efecte caldrà tancar i reobrir l&apos;aplicació.</translation>
+    </message>
+    <message>
+        <source>Select what to show in section 7. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Seleccioneu què mostrar a la secció 7. Aquesta configuració no té efecte si s&apos;ha habilitat \&quot;Fes servir la disposició de seccions d&apos;inici del client web\&quot;. Per a què el canvi tingui efecte caldrà tancar i reobrir l&apos;aplicació.</translation>
+    </message>
+    <message>
+        <source>Select what to show in section 6. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Seleccioneu què mostrar a la secció 6. Aquesta configuració no té efecte si s&apos;ha habilitat \&quot;Fes servir la disposició de seccions d&apos;inici del client web\&quot;. Per a què el canvi tingui efecte caldrà tancar i reobrir l&apos;aplicació.</translation>
+    </message>
+    <message>
+        <source>Select what to show in section 1. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Seleccioneu què mostrar a la secció 1. Aquesta configuració no té efecte si s&apos;ha habilitat \&quot;Fes servir la disposició de seccions d&apos;inici del client web\&quot;. Per a què el canvi tingui efecte caldrà tancar i reobrir l&apos;aplicació.</translation>
+    </message>
+    <message>
+        <source>Select what to show in section 2. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Seleccioneu què mostrar a la secció 2. Aquesta configuració no té efecte si s&apos;ha habilitat \&quot;Fes servir la disposició de seccions d&apos;inici del client web\&quot;. Per a què el canvi tingui efecte caldrà tancar i reobrir l&apos;aplicació.</translation>
+    </message>
+    <message>
+        <source>Select what to show in section 3. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Seleccioneu què mostrar a la secció 3. Aquesta configuració no té efecte si s&apos;ha habilitat \&quot;Fes servir la disposició de seccions d&apos;inici del client web\&quot;. Per a què el canvi tingui efecte caldrà tancar i reobrir l&apos;aplicació.</translation>
+    </message>
+    <message>
+        <source>Select what to show in section 4. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Seleccioneu què mostrar a la secció 4. Aquesta configuració no té efecte si s&apos;ha habilitat \&quot;Fes servir la disposició de seccions d&apos;inici del client web\&quot;. Per a què el canvi tingui efecte caldrà tancar i reobrir l&apos;aplicació.</translation>
+    </message>
+    <message>
+        <source>Select what to show in section 5. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Seleccioneu què mostrar a la secció 5. Aquesta configuració no té efecte si s&apos;ha habilitat \&quot;Fes servir la disposició de seccions d&apos;inici del client web\&quot;. Per a què el canvi tingui efecte caldrà tancar i reobrir l&apos;aplicació.</translation>
+    </message>
+    <message>
+        <source>Section 1</source>
+        <translation>Secció 1</translation>
+    </message>
+    <message>
+        <source>Section 2</source>
+        <translation>Secció 2</translation>
+    </message>
+    <message>
+        <source>Section 3</source>
+        <translation>Secció 3</translation>
+    </message>
+    <message>
+        <source>Section 4</source>
+        <translation>Secció 4</translation>
+    </message>
+    <message>
+        <source>Section 5</source>
+        <translation>Secció 5</translation>
+    </message>
+    <message>
+        <source>Section 6</source>
+        <translation>Secció 6</translation>
+    </message>
+    <message>
+        <source>Section 7</source>
+        <translation>Secció 7</translation>
+    </message>
+    <message>
+        <source>Section 8</source>
+        <translation>Secció 8</translation>
+    </message>
+    <message>
+        <source>Customize the home screen sections</source>
+        <translation>Personalització de les seccions de la pantalla d&apos;inici</translation>
+    </message>
+    <message>
+        <source>Recently Added Media</source>
+        <translation>Continguts afegits recentment</translation>
+    </message>
+    <message>
+        <source>My List</source>
+        <translation>La meva llista</translation>
+    </message>
+    <message>
+        <source>All Screens</source>
+        <translation>Totes les pantalles</translation>
+    </message>
+    <message>
+        <source>Colors</source>
+        <translation>Colors</translation>
+    </message>
+    <message>
+        <source>Background</source>
+        <translation>Fons</translation>
+    </message>
+    <message>
+        <source>Colors used across multiple screens.</source>
+        <translation>Colors fets servir en diverses pantalles.</translation>
+    </message>
+    <message>
+        <source>The color of the remote control&apos;s cursor.</source>
+        <translation>Color del cursor del control remot.</translation>
+    </message>
+    <message>
+        <source>Cursor</source>
+        <translation>Cursor</translation>
+    </message>
+    <message>
+        <source>Primary Text</source>
+        <translation>Text principal</translation>
+    </message>
+    <message>
+        <source>The secondary text color.</source>
+        <translation>Color del text secundari.</translation>
+    </message>
+    <message>
+        <source>Secondary Text</source>
+        <translation>Text secundari</translation>
+    </message>
+    <message>
+        <source>The primary text color.</source>
+        <translation>Color del text principal.</translation>
+    </message>
+    <message>
+        <source>Colors specific to the watched check mark &amp; unplayed count box.</source>
+        <translation>Colors específics de la marca de vist i del requadre del comptador de no reproduïts.</translation>
+    </message>
+    <message>
+        <source>Watched Check Mark &amp; Unplayed Count</source>
+        <translation>Marca de vist i comptador de no reproduïts</translation>
+    </message>
+    <message>
+        <source>Unplayed Count</source>
+        <translation>Comptador de no reproduïts</translation>
+    </message>
+    <message>
+        <source>Shuffle Play Collection</source>
+        <translation>Reproducció aleatòria de la col·lecció</translation>
+    </message>
+    <message>
+        <source>Start Episode List From First Unwatched Episode</source>
+        <translation>Comença la llista d&apos;episodis des del primer no vist</translation>
+    </message>
+    <message>
+        <source>Note: Force transcode option automatically enabled due to video rotation</source>
+        <translation>Nota: Força automàticament l&apos;opció de la transcodificació habilitada per la rotació del vídeo</translation>
+    </message>
+    <message>
+        <source>Remove From Favorites</source>
+        <translation>Elimina dels preferits</translation>
+    </message>
+    <message>
+        <source>Add To Favorites</source>
+        <translation>Afegeix als preferits</translation>
+    </message>
+    <message>
+        <source>When opening a season&apos;s list of episodes, automatically scroll down and start the cursor on the first unwatched episode.</source>
+        <translation>En obrir la llista d&apos;episodis d&apos;una temporada, desplaça automàticament cap avall i comença el cursor al primer episodi no vist.</translation>
+    </message>
 </context>
 </TS>

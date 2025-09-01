@@ -3,17 +3,23 @@ description: Suggest a modification to an existing feature
 labels: enhancement
 
 body:
+  - type: markdown
+    attributes:
+      value: |
+        # <span style="color:red">This is only for small modifications to existing features!!! Large enhancements and/or new features MUST be submitted at https://features.jellyfin.org/ and will be automatically closed if posted here.</span>
+
   - type: checkboxes
     id: before-posting
     attributes:
       label: "This request respects the following points:"
       description: All conditions are **required**.
       options:
-        - label: This request is **not** already on [GitHub](https://github.com/jellyfin/jellyfin-roku/labels/enhancement) _(I've searched it)_.
+        - label: This request is **not** already on [GitHub](https://github.com/jellyfin/jellyfin-roku/labels/enhancement) _(I've searched open and closed issues)_.
+          required: true
+        - label: This request is **not** a brand new feature. It is a small modification to an existing feature.
           required: true
         - label: I agree to follow Jellyfin's [Code of Conduct](https://jellyfin.org/docs/general/community-standards.html#code-of-conduct).
           required: true
-
 
   - type: textarea
     attributes:

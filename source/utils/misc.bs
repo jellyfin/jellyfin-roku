@@ -255,6 +255,12 @@ function inferServerUrl(url as string) as string
     return ""
 end function
 
+function isString(input as dynamic) as boolean
+    if isStringEqual(type(input), "roString") then return true
+    if isStringEqual(type(input), "String") then return true
+    return false
+end function
+
 ' this is the "educated guess" logic for inferServerUrl that generates a list of complete url's as candidates
 ' for the tests in inferServerUrl. takes an incomplete url as an arg and returns a list of extrapolated
 ' full urls.
@@ -692,5 +698,17 @@ function findDefaultTrack(streams as dynamic)
 
     ' No default?  Return the first one.
     return 1
+end function
+
+function getDefaultAudioTrackIndex(streams as dynamic)
+    for i = 0 to streams.Count() - 1
+        if isStringEqual(streams[i].LookupCI("type"), "audio")
+            if chainLookupReturn(streams[i], "IsDefault", false)
+                return i
+            end if
+        end if
+    end for
+
+    return -1
 end function
 

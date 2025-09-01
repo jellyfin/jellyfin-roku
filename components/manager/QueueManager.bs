@@ -13,6 +13,7 @@ sub init()
     m.getLastKnownItemExtraType = ""
     m.bypassNextPreferredAudioTrackIndexReset = false
     m.forceTranscode = false
+    m.transcodeCodec = string.EMPTY
     m.hold = []
     m.queue = []
     m.originalQueue = []
@@ -288,12 +289,20 @@ function getForceTranscode() as boolean
     return m.forceTranscode
 end function
 
+' Gets the forceTranscode property
+function getTranscodeCodec() as string
+    return m.transcodeCodec
+end function
+
 ' Sets the forceTranscode property
-sub setForceTranscode(forceTranscode as boolean)
+sub setForceTranscode(forceTranscode as boolean, videoCodec = "" as string)
     m.forceTranscode = forceTranscode
 
+    if not forceTranscode then videoCodec = string.EMPTY
+    m.transcodeCodec = videoCodec
+
     postTask = createObject("roSGNode", "PostTask")
-    postTask.arrayData = getDeviceCapabilities()
+    postTask.arrayData = getDeviceCapabilities(videoCodec)
     postTask.apiUrl = "/Sessions/Capabilities/Full"
     postTask.control = "RUN"
 end sub
