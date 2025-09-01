@@ -2026,6 +2026,22 @@
         <source>Note: Force transcode option automatically enabled due to video rotation</source>
         <translation>Remarque : l&apos;option de transcodage forcé est automatiquement activée en raison de la rotation de la vidéo</translation>
     </message>
+    <message>
+        <source>Start Episode List From First Unwatched Episode</source>
+        <translation>Commencer la liste des épisodes à partir du premier épisode non regardé</translation>
+    </message>
+    <message>
+        <source>When opening a season&apos;s list of episodes, automatically scroll down and start the cursor on the first unwatched episode.</source>
+        <translation>Lorsque vous ouvrez la liste des épisodes d&apos;une saison, faites défiler automatiquement vers le bas et démarrez le curseur sur le premier épisode non regardé.</translation>
+    </message>
+    <message>
+        <source>Add To Favorites</source>
+        <translation>Ajouter aux favoris</translation>
+    </message>
+    <message>
+        <source>Remove From Favorites</source>
+        <translation>Supprimer des favoris</translation>
+    </message>
 </context>
 <context>
     <name></name>
