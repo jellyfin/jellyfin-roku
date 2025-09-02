@@ -5,6 +5,7 @@ import "pkg:/source/api/userauth.bs"
 import "pkg:/source/enums/ImageType.bs"
 import "pkg:/source/enums/ItemType.bs"
 import "pkg:/source/enums/MediaSegmentType.bs"
+import "pkg:/source/enums/PlaybackMethod.bs"
 import "pkg:/source/enums/String.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/deviceCapabilities.bs"
@@ -243,11 +244,11 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
     end if
 
     ' If forceTranscode setting is enabled, but we haven't set the transcode codec yet, set it now and update Playback Info
-    if isStringEqual("forceTranscodeDisableRemux", chainLookupReturn(m.global.session, "user.settings.`playback.media.forceTranscode`", "playNormally"))
+    if isStringEqual(PlaybackMethod.FORCETRANSCODEDISABLEREMUX, chainLookupReturn(m.global.session, "user.settings.`playback.media.forceTranscode`", PlaybackMethod.PLAYNORMALLY))
         if isStringEqual(m.global.queueManager.callFunc("getTranscodeCodec"), string.EMPTY)
             for i = 0 to m.playbackInfo.MediaSources[0].MediaStreams.Count() - 1
                 if m.playbackInfo.MediaSources[0].MediaStreams[i].Type = "Video"
-                    m.global.queueManager.callFunc("setForceTranscode", true, m.playbackInfo.MediaSources[0].MediaStreams[i].Codec)
+                    m.global.queueManager.callFunc("setForceTranscode", PlaybackMethod.FORCETRANSCODEDISABLEREMUX, m.playbackInfo.MediaSources[0].MediaStreams[i].Codec)
                     exit for
                 end if
             end for

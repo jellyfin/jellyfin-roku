@@ -1,0 +1,5 @@
+enum PlaybackMethod
+    PLAYNORMALLY = "playNormally"
+    FORCETRANSCODEALLOWREMUX = "forceTranscodeAllowRemux"
+    FORCETRANSCODEDISABLEREMUX = "forceTranscodeDisableRemux"
+end enum

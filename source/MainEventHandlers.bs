@@ -1,12 +1,13 @@
 import "pkg:/components/manager/ViewCreator.bs"
 import "pkg:/source/enums/CollectionType.bs"
 import "pkg:/source/enums/ItemType.bs"
+import "pkg:/source/enums/PlaybackMethod.bs"
 import "pkg:/source/enums/ResumePopupAction.bs"
 import "pkg:/source/enums/String.bs"
 import "pkg:/source/utils/misc.bs"
 
 sub onQuickPlayEvent(msg)
-    m.global.queueManager.callFunc("setForceTranscode", false)
+    m.global.queueManager.callFunc("setForceTranscode", PlaybackMethod.PLAYNORMALLY)
 
     reportingNode = msg.getRoSGNode()
     itemNode = invalid

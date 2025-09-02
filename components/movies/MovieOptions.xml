@@ -12,8 +12,9 @@
           <RadiobuttonList id="videoMenu" itemspacing="[0,10]" opacity="0" vertFocusAnimationStyle="floatingFocus" drawFocusFeedback="false" itemSize="[1500, 70]" numRows="8" />
           <RadiobuttonList id="optionMenu" itemspacing="[0,10]" opacity="0" vertFocusAnimationStyle="floatingFocus" drawFocusFeedback="false" itemSize="[1500, 70]" numRows="8">
             <ContentNode role="content">
-              <ContentNode title="Play Normally" />
-              <ContentNode title="Force Transcoding" />
+              <ContentNode title="Play Normally" id="playNormally" />
+              <ContentNode title="Force Transcode (Allow Remux)" id="forceTranscodeAllowRemux" />
+              <ContentNode title="Force Transcode (Remux Disabled)" id="forceTranscodeDisableRemux" />
             </ContentNode>
           </RadiobuttonList>
         </Group>

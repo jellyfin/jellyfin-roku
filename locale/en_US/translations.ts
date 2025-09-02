@@ -1808,8 +1808,8 @@
             <translation>Unhide Users</translation>
         </message>
         <message>
-            <source>Play Normally - disabled because force transcoding setting is enabled</source>
-            <translation>Play Normally - disabled because force transcoding setting is enabled</translation>
+            <source>Play Normally - disabled because of selected force transcoding setting</source>
+            <translation>Play Normally - disabled because of selected force transcoding setting</translation>
         </message>
         <message>
             <source>as</source>
@@ -2146,8 +2146,16 @@
             <translation>Force Transcode (Allow Remux)</translation>
         </message>
         <message>
+            <source>Force Transcode (Allow Remux) - disabled because of selected force transcoding setting</source>
+            <translation>Force Transcode (Allow Remux) - disabled because of selected force transcoding setting</translation>
+        </message>
+        <message>
             <source>Force Transcode (Remux Disabled)</source>
             <translation>Force Transcode (Remux Disabled)</translation>
+        </message>
+        <message>
+            <source>Force Transcode (Remux Disabled) - disabled because of selected force transcoding setting</source>
+            <translation>Force Transcode (Remux Disabled) - disabled because of selected force transcoding setting</translation>
         </message>
     </context>
 </TS>

@@ -2,6 +2,7 @@ import "pkg:/source/api/baserequest.bs"
 import "pkg:/source/api/Image.bs"
 import "pkg:/source/api/Items.bs"
 import "pkg:/source/enums/ItemType.bs"
+import "pkg:/source/enums/PlaybackMethod.bs"
 import "pkg:/source/enums/String.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/deviceCapabilities.bs"
@@ -12,7 +13,7 @@ sub init()
     m.getLastKnownItemID = ""
     m.getLastKnownItemExtraType = ""
     m.bypassNextPreferredAudioTrackIndexReset = false
-    m.forceTranscode = false
+    m.forceTranscode = PlaybackMethod.PLAYNORMALLY
     m.transcodeCodec = string.EMPTY
     m.hold = []
     m.queue = []
@@ -94,13 +95,13 @@ end sub
 
 ' Move queue position back one
 sub moveBack()
-    setForceTranscode(false)
+    setForceTranscode(PlaybackMethod.PLAYNORMALLY)
     m.position--
 end sub
 
 ' Move queue position ahead one
 sub moveForward()
-    setForceTranscode(false)
+    setForceTranscode(PlaybackMethod.PLAYNORMALLY)
     m.position++
 end sub
 
@@ -285,7 +286,7 @@ sub setPreferredSubtitleTrack(subtitle as object)
 end sub
 
 ' Gets the forceTranscode property
-function getForceTranscode() as boolean
+function getForceTranscode() as string
     return m.forceTranscode
 end function
 
@@ -295,10 +296,11 @@ function getTranscodeCodec() as string
 end function
 
 ' Sets the forceTranscode property
-sub setForceTranscode(forceTranscode as boolean, videoCodec = "" as string)
+sub setForceTranscode(forceTranscode = PlaybackMethod.PLAYNORMALLY as string, videoCodec = string.EMPTY as string)
     m.forceTranscode = forceTranscode
 
-    if not forceTranscode then videoCodec = string.EMPTY
+    if isStringEqual(forceTranscode, PlaybackMethod.PLAYNORMALLY) then videoCodec = string.EMPTY
+    if isStringEqual(forceTranscode, PlaybackMethod.FORCETRANSCODEALLOWREMUX) then videoCodec = string.EMPTY
     m.transcodeCodec = videoCodec
 
     postTask = createObject("roSGNode", "PostTask")

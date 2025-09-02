@@ -1,4 +1,5 @@
 import "pkg:/source/api/baserequest.bs"
+import "pkg:/source/enums/PlaybackMethod.bs"
 import "pkg:/source/enums/String.bs"
 import "pkg:/source/utils/misc.bs"
 
@@ -55,8 +56,8 @@ function GetDirectPlayProfiles() as object
     globalUserSettings = m.global.session.user.settings
     directPlayProfiles = []
 
-    if not isStringEqual("playNormally", chainLookupReturn(globalUserSettings, "`playback.media.forceTranscode`", "playNormally")) then return directPlayProfiles
-    if m.global.queueManager.callFunc("getForceTranscode") then return directPlayProfiles
+    if not isStringEqual(PlaybackMethod.PLAYNORMALLY, chainLookupReturn(globalUserSettings, "`playback.media.forceTranscode`", PlaybackMethod.PLAYNORMALLY)) then return directPlayProfiles
+    if not isStringEqual(m.global.queueManager.callFunc("getForceTranscode"), PlaybackMethod.PLAYNORMALLY) then return directPlayProfiles
 
     di = CreateObject("roDeviceInfo")
     ' all possible containers
