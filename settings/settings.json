@@ -81,8 +81,22 @@
         "title": "Force Transcoding",
         "description": "Force all playable media to be transcoded.",
         "settingName": "playback.media.forceTranscode",
-        "type": "bool",
-        "default": "false"
+        "type": "radio",
+        "default": "playNormally",
+        "options": [
+          {
+            "title": "Play Normally",
+            "id": "playNormally"
+          },
+          {
+            "title": "Force Transcode (Allow Remux)",
+            "id": "forceTranscodeAllowRemux"
+          },
+          {
+            "title": "Force Transcode (Remux Disabled)",
+            "id": "forceTranscodeDisableRemux"
+          }
+        ]
       },
       {
         "title": "Maximum Resolution",

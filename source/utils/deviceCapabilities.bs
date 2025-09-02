@@ -55,7 +55,7 @@ function GetDirectPlayProfiles() as object
     globalUserSettings = m.global.session.user.settings
     directPlayProfiles = []
 
-    if globalUserSettings["playback.media.forceTranscode"] then return directPlayProfiles
+    if not isStringEqual("playNormally", chainLookupReturn(globalUserSettings, "`playback.media.forceTranscode`", "playNormally")) then return directPlayProfiles
     if m.global.queueManager.callFunc("getForceTranscode") then return directPlayProfiles
 
     di = CreateObject("roDeviceInfo")

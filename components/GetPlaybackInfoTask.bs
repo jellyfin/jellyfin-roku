@@ -57,7 +57,7 @@ function GetTranscodingStats(deviceSession)
         audioChannels = deviceSession.TranscodingInfo.AudioChannels
 
         ' User told us to force video to transcode
-        if m.global.session.user.settings["playback.media.forceTranscode"]
+        if not isStringEqual("playNormally", m.global.session.user.settings["playback.media.forceTranscode"])
             sessionStats.data.push("<header>" + tr("Transcoding Information") + "</header>")
             sessionStats.data.push("<b>• " + tr("Reason") + ":</b> " + tr("Force Transcoding setting is enabled"))
         else if m.global.queueManager.callFunc("getForceTranscode")

@@ -2137,5 +2137,17 @@
             <source>Remove From Favorites</source>
             <translation>Remove From Favorites</translation>
         </message>
+        <message>
+            <source>Play Normally</source>
+            <translation>Play Normally</translation>
+        </message>
+        <message>
+            <source>Force Transcode (Allow Remux)</source>
+            <translation>Force Transcode (Allow Remux)</translation>
+        </message>
+        <message>
+            <source>Force Transcode (Remux Disabled)</source>
+            <translation>Force Transcode (Remux Disabled)</translation>
+        </message>
     </context>
 </TS>

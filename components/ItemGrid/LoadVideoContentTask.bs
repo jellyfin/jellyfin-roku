@@ -243,7 +243,7 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
     end if
 
     ' If forceTranscode setting is enabled, but we haven't set the transcode codec yet, set it now and update Playback Info
-    if chainLookupReturn(m.global.session, "user.settings.`playback.media.forceTranscode`", false)
+    if isStringEqual("forceTranscodeDisableRemux", chainLookupReturn(m.global.session, "user.settings.`playback.media.forceTranscode`", "playNormally"))
         if isStringEqual(m.global.queueManager.callFunc("getTranscodeCodec"), string.EMPTY)
             for i = 0 to m.playbackInfo.MediaSources[0].MediaStreams.Count() - 1
                 if m.playbackInfo.MediaSources[0].MediaStreams[i].Type = "Video"
