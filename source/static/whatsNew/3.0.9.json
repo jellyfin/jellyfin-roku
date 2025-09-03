@@ -44,7 +44,7 @@
     "author": "1hitsong"
   },
   {
-    "description": "Update force transcode options to prevent remux",
+    "description": "Split Force Transcode into 2 options - Allow Remux and Disable Remux",
     "author": "1hitsong"
   },
   {
