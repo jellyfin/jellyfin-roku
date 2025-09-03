@@ -60,7 +60,8 @@ end sub
 sub loadChannelList()
     if not isStringEqual(m.state, TaskControl.RUN) then return
     startLoadingSpinner()
-    m.LoadChannelsTask.control = "RUN"
+    m.LoadChannelsTask.observeField("channels", "onChannelListLoaded")
+    m.LoadChannelsTask.control = TaskControl.RUN
 end sub
 
 sub onFilterSet()
@@ -73,7 +74,18 @@ sub onFilterSet()
     if m.LoadChannelsTask.state = TaskControl.RUN then m.LoadChannelsTask.control = TaskControl.STOP
 
     m.LoadChannelsTask.filter = m.top.filter
-    m.gridData.removeChildren(m.gridData.getChildren(-1, 0))
+
+    m.gridData = createObject("roSGNode", "ContentNode")
+    m.scheduleGrid.content = m.gridData
+
+    m.LoadChannelsTask.channels = []
+    m.LoadScheduleTask.schedule = []
+    m.LoadScheduleTask.channelIds = string.EMPTY
+
+    m.loadedChannels = {}
+    m.channelIdList = []
+    m.channelIndex = {}
+
     loadChannelList()
 end sub
 
@@ -90,8 +102,12 @@ sub onSearchTermSet()
         m.LoadChannelsTask.searchTerm = m.top.searchTerm
     end if
 
-    startLoadingSpinner()
     m.gridData.removeChildren(m.gridData.getChildren(-1, 0))
+    m.channelScheduleLoadedCount = 0
+    m.loadedChannels = {}
+    m.channelIdList = []
+    m.channelIndex = {}
+
     loadChannelList()
 end sub
 

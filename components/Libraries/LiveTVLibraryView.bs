@@ -480,7 +480,7 @@ sub showTVGuide()
 
     m.tvGuide.filter = m.filter
     m.tvGuide.searchTerm = m.voiceBox.text
-    m.top.appendChild(m.tvGuide)
+    m.top.insertChild(m.tvGuide, 1)
 
     m.scheduleGrid = m.top.findNode("scheduleGrid")
     m.tvGuide.lastFocus.setFocus(true)
