@@ -1,4 +1,5 @@
 import "pkg:/source/api/sdk.bs"
+import "pkg:/source/enums/PlaybackMethod.bs"
 
 function ItemGetPlaybackInfo(id as string, startTimeTicks = 0 as longinteger)
     params = {
@@ -16,7 +17,7 @@ function ItemPostPlaybackInfo(id as string, mediaSourceId = "" as string, audioT
 
     transcodeCodec = string.EMPTY
 
-    if m.global.queueManager.callFunc("getForceTranscode")
+    if isStringEqual(m.global.queueManager.callFunc("getForceTranscode"), PlaybackMethod.FORCETRANSCODEDISABLEREMUX)
         transcodeCodec = m.global.queueManager.callFunc("getTranscodeCodec")
     end if
 

@@ -1,5 +1,6 @@
 import "pkg:/source/api/baserequest.bs"
 import "pkg:/source/api/sdk.bs"
+import "pkg:/source/enums/PlaybackMethod.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/deviceCapabilities.bs"
 import "pkg:/source/utils/misc.bs"
@@ -57,10 +58,10 @@ function GetTranscodingStats(deviceSession)
         audioChannels = deviceSession.TranscodingInfo.AudioChannels
 
         ' User told us to force video to transcode
-        if m.global.session.user.settings["playback.media.forceTranscode"]
+        if not isStringEqual(PlaybackMethod.PLAYNORMALLY, m.global.session.user.settings["playback.media.forceTranscode"])
             sessionStats.data.push("<header>" + tr("Transcoding Information") + "</header>")
             sessionStats.data.push("<b>• " + tr("Reason") + ":</b> " + tr("Force Transcoding setting is enabled"))
-        else if m.global.queueManager.callFunc("getForceTranscode")
+        else if not isStringEqual(PlaybackMethod.PLAYNORMALLY, m.global.queueManager.callFunc("getForceTranscode"))
             sessionStats.data.push("<header>" + tr("Transcoding Information") + "</header>")
             sessionStats.data.push("<b>• " + tr("Reason") + ":</b> " + tr("Force Transcode option is enabled"))
         else

@@ -1,6 +1,7 @@
 import "pkg:/source/api/sdk.bs"
 import "pkg:/source/enums/ColorPalette.bs"
 import "pkg:/source/enums/KeyCode.bs"
+import "pkg:/source/enums/PlaybackMethod.bs"
 import "pkg:/source/enums/SettingType.bs"
 import "pkg:/source/enums/String.bs"
 import "pkg:/source/utils/config.bs"
@@ -268,6 +269,16 @@ sub settingFocused()
     end if
 
     if isStringEqual(selectedSetting.type, "radio")
+        ' Translate user's old setting value to the new value so it doesn't get reset
+        if isStringEqual(selectedSetting.settingName, "playback.media.forceTranscode")
+            originalSelectedValue = m.global.session.user.settings[selectedSetting.settingName]
+
+            if isStringEqual(type(originalSelectedValue), "roBoolean") or isStringEqual(type(originalSelectedValue), "Boolean")
+                convertedValue = originalSelectedValue ? PlaybackMethod.FORCETRANSCODEALLOWREMUX : m.userLocation.peek().children[m.settingsMenu.itemFocused].default
+                set_user_setting(selectedSetting.settingName, convertedValue)
+            end if
+        end if
+
         selectedValue = m.global.session.user.settings[selectedSetting.settingName]
 
         radioContent = CreateObject("roSGNode", "ContentNode")
@@ -362,10 +373,6 @@ sub boolSettingChanged()
             ' save to user specific registry block
             set_user_setting(selectedSetting.settingName, "false")
         end if
-
-        if isStringEqual(selectedSetting.settingName, "playback.media.forceTranscode")
-            m.global.queueManager.callFunc("setForceTranscode", false)
-        end if
     end if
 
     if isStringEqual(selectedSetting.settingName, "ui.home.useWebSectionArrangement")
@@ -396,6 +403,12 @@ sub radioSettingChanged()
         end if
 
         scene.callFunc("setBackgroundImage", selectedBackgroundImage)
+    end if
+
+    if isStringEqual(selectedSetting.settingName, "playback.media.forceTranscode")
+        if isStringEqual(m.radioSetting.content.getChild(m.radioSetting.checkedItem).id, PlaybackMethod.PLAYNORMALLY)
+            m.global.queueManager.callFunc("setForceTranscode", PlaybackMethod.PLAYNORMALLY)
+        end if
     end if
 end sub
 

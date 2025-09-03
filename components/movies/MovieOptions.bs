@@ -1,6 +1,8 @@
 import "pkg:/source/enums/AnimationControl.bs"
 import "pkg:/source/enums/ColorPalette.bs"
 import "pkg:/source/enums/KeyCode.bs"
+import "pkg:/source/enums/PlaybackMethod.bs"
+import "pkg:/source/enums/String.bs"
 import "pkg:/source/utils/misc.bs"
 
 sub init()
@@ -44,12 +46,28 @@ sub init()
 end sub
 
 sub optionsSet()
-    if m.global.session.user.settings["playback.media.forceTranscode"]
-        m.optionMenu.checkedItem = 1
+    forceTranscodeSetting = chainLookupReturn(m.global.session, "user.settings.`playback.media.forceTranscode`", PlaybackMethod.PLAYNORMALLY)
+
+    if not isStringEqual(PlaybackMethod.PLAYNORMALLY, forceTranscodeSetting)
         normalOption = m.optionMenu.content.getChild(0)
-        normalOption.title = tr("Play Normally - disabled because force transcoding setting is enabled")
-    else if m.global.queueManager.callFunc("getForceTranscode")
+        normalOption.title = tr("Play Normally - disabled because of selected force transcoding setting")
+
+        if isStringEqual(forceTranscodeSetting, PlaybackMethod.FORCETRANSCODEALLOWREMUX)
+            transcodeOption = m.optionMenu.content.getChild(2)
+            transcodeOption.title = tr("Force Transcode (Allow Remux) - disabled because of selected force transcoding setting")
+
+            m.optionMenu.checkedItem = 1
+        end if
+        if isStringEqual(forceTranscodeSetting, PlaybackMethod.FORCETRANSCODEDISABLEREMUX)
+            transcodeOption = m.optionMenu.content.getChild(1)
+            transcodeOption.title = tr("Force Transcode (Remux Disabled) - disabled because of selected force transcoding setting")
+
+            m.optionMenu.checkedItem = 2
+        end if
+    else if isStringEqual(m.global.queueManager.callFunc("getForceTranscode"), PlaybackMethod.FORCETRANSCODEALLOWREMUX)
         m.optionMenu.checkedItem = 1
+    else if isStringEqual(m.global.queueManager.callFunc("getForceTranscode"), PlaybackMethod.FORCETRANSCODEDISABLEREMUX)
+        m.optionMenu.checkedItem = 2
     else
         m.optionMenu.checkedItem = 0
     end if
@@ -205,10 +223,20 @@ function onKeyEvent(key as string, press as boolean) as boolean
                     m.global.queueManager.callFunc("setPreferredSubtitleTrack", newSelection)
                 end if
             else if m.selectedItem = 3 ' Options Menu
-                if chainLookupReturn(m.global.session, "user.settings.`playback.media.forceTranscode`", false)
+                if isStringEqual(PlaybackMethod.FORCETRANSCODEALLOWREMUX, chainLookupReturn(m.global.session, "user.settings.`playback.media.forceTranscode`", PlaybackMethod.PLAYNORMALLY))
                     m.optionMenu.checkedItem = 1
                 end if
-                m.global.queueManager.callFunc("setForceTranscode", m.optionMenu.checkedItem = 1, m.top.codec)
+                if isStringEqual(PlaybackMethod.FORCETRANSCODEDISABLEREMUX, chainLookupReturn(m.global.session, "user.settings.`playback.media.forceTranscode`", PlaybackMethod.PLAYNORMALLY))
+                    m.optionMenu.checkedItem = 2
+                end if
+
+                if m.optionMenu.checkedItem = 0
+                    m.global.queueManager.callFunc("setForceTranscode", PlaybackMethod.PLAYNORMALLY)
+                else if m.optionMenu.checkedItem = 1
+                    m.global.queueManager.callFunc("setForceTranscode", PlaybackMethod.FORCETRANSCODEALLOWREMUX, string.EMPTY)
+                else if m.optionMenu.checkedItem = 2
+                    m.global.queueManager.callFunc("setForceTranscode", PlaybackMethod.FORCETRANSCODEDISABLEREMUX, m.top.codec)
+                end if
             end if
 
         end if

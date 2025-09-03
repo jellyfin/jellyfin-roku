@@ -9,13 +9,14 @@ import "pkg:/source/enums/ImageType.bs"
 import "pkg:/source/enums/KeyCode.bs"
 import "pkg:/source/enums/MediaStreamType.bs"
 import "pkg:/source/enums/PersonType.bs"
+import "pkg:/source/enums/PlaybackMethod.bs"
 import "pkg:/source/enums/String.bs"
 import "pkg:/source/enums/TaskControl.bs"
 import "pkg:/source/enums/VideoType.bs"
 import "pkg:/source/enums/ViewLoadStatus.bs"
 
 sub init()
-    m.global.queueManager.callFunc("setForceTranscode", false)
+    m.global.queueManager.callFunc("setForceTranscode", PlaybackMethod.PLAYNORMALLY)
 
     m.scrollBarThumbSlideAnimation = m.top.findnode("scrollBarThumbSlideAnimation")
     m.scrollBarThumbSlideInterpolator = m.top.findnode("scrollBarThumbSlideInterpolator")
@@ -383,8 +384,8 @@ sub itemContentChanged()
         for i = 0 to itemData.mediaStreams.Count() - 1
             if itemData.mediaStreams[i].Type = "Video"
                 m.options.codec = itemData.MediaStreams[i].Codec
-                if chainLookupReturn(m.global.session, "user.settings.`playback.media.forceTranscode`", false)
-                    m.global.queueManager.callFunc("setForceTranscode", true, m.options.codec)
+                if isStringEqual(PlaybackMethod.FORCETRANSCODEDISABLEREMUX, chainLookupReturn(m.global.session, "user.settings.`playback.media.forceTranscode`", PlaybackMethod.PLAYNORMALLY))
+                    m.global.queueManager.callFunc("setForceTranscode", PlaybackMethod.FORCETRANSCODEDISABLEREMUX, m.options.codec)
                     exit for
                 end if
             end if
@@ -560,7 +561,7 @@ sub SetUpVideoOptions(streams)
                             rotation = chainLookupReturn(streams[i].mediaStreams[index], "rotation", 0)
                             if rotation <> 0
                                 setFieldText("rotationWarning", tr("Note: Force transcode option automatically enabled due to video rotation"))
-                                m.global.queueManager.callFunc("setForceTranscode", true)
+                                m.global.queueManager.callFunc("setForceTranscode", PlaybackMethod.FORCETRANSCODEALLOWREMUX)
                             end if
                         end if
 
@@ -825,7 +826,7 @@ sub videoOptionsClosed()
     m.buttonGrp.setFocus(true)
 
     ' If user manually disables force transcode, disable rotation check
-    m.performRotationCheck = m.global.queueManager.callFunc("getForceTranscode")
+    m.performRotationCheck = not isStringEqual(m.global.queueManager.callFunc("getForceTranscode"), PlaybackMethod.PLAYNORMALLY)
     if not m.performRotationCheck
         setFieldText("rotationWarning", string.EMPTY)
     end if
