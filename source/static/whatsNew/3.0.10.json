@@ -2,5 +2,9 @@
   {
     "description": "Disable screensaver while photo slideshows are running",
     "author": "1hitsong"
+  },
+  {
+    "description": "Fix voice search in live TV's TV guide view",
+    "author": "1hitsong"
   }
 ]

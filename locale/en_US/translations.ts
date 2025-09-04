@@ -2157,5 +2157,9 @@
             <source>Force Transcode (Remux Disabled) - disabled because of selected force transcoding setting</source>
             <translation>Force Transcode (Remux Disabled) - disabled because of selected force transcoding setting</translation>
         </message>
+        <message>
+            <source>No channels found matching your search criteria</source>
+            <translation>No channels found matching your search criteria</translation>
+        </message>
     </context>
 </TS>
