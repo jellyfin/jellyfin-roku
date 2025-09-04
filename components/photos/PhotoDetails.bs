@@ -16,28 +16,29 @@ sub init()
     m.showStatusAnimation = m.top.findNode("showStatusAnimation")
     m.hideStatusAnimation = m.top.findNode("hideStatusAnimation")
 
+    m.videoPlayer = m.top.findNode("videoPlayer")
+    m.videoPlayer.disableScreenSaver = true
+
     itemContentChanged()
 end sub
 
 sub itemContentChanged()
-    if isValidToContinue(m.top.itemIndex)
-        m.LoadLibrariesTask = createObject("roSGNode", "LoadPhotoTask")
-        if isValid(m.top.itemsNode)
-            if isValid(m.top.itemsNode.content)
-                m.LoadLibrariesTask.itemNodeContent = m.top.itemsNode.content.getChild(m.top.itemIndex)
-            else if isValidAndNotEmpty(m.top.itemsNode.id)
-                m.LoadLibrariesTask.itemNodeContent = m.top.itemsNode
-            end if
-        else if isValid(m.top.itemsArray)
-            itemContent = m.top.itemsArray[m.top.itemIndex]
-            m.LoadLibrariesTask.itemArrayContent = itemContent
-        else
-            return
+    m.LoadLibrariesTask = createObject("roSGNode", "LoadPhotoTask")
+    if isValid(m.top.itemsNode)
+        if isValid(m.top.itemsNode.content)
+            m.LoadLibrariesTask.itemNodeContent = m.top.itemsNode.content.getChild(m.top.itemIndex)
+        else if isValidAndNotEmpty(m.top.itemsNode.id)
+            m.LoadLibrariesTask.itemNodeContent = m.top.itemsNode
         end if
-
-        m.LoadLibrariesTask.observeField("results", "onPhotoLoaded")
-        m.LoadLibrariesTask.control = "RUN"
+    else if isValid(m.top.itemsArray)
+        itemContent = m.top.itemsArray[m.top.itemIndex]
+        m.LoadLibrariesTask.itemArrayContent = itemContent
+    else
+        return
     end if
+
+    m.LoadLibrariesTask.observeField("results", "onPhotoLoaded")
+    m.LoadLibrariesTask.control = "RUN"
 end sub
 
 sub onPhotoLoaded()
@@ -63,6 +64,7 @@ sub nextSlide()
         if isValidToContinue(m.top.itemIndex + 1)
             m.top.itemIndex++
             m.slideshowTimer.control = "start"
+            return
         end if
     else if m.random = true
         index = invalid
@@ -83,7 +85,13 @@ sub nextSlide()
         if isValid(index) and isValidToContinue(index)
             m.top.itemIndex = index
             m.slideshowTimer.control = "start"
+            return
         end if
+    end if
+
+    ' We're not moving to a new image, enable the screensaver
+    if m.videoPlayer.disableScreenSaver
+        m.videoPlayer.disableScreenSaver = false
     end if
 end sub
 
@@ -114,6 +122,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
     if key = "right"
         if isValidToContinue(m.top.itemIndex + 1)
+            m.videoPlayer.disableScreenSaver = true
             m.slideshowTimer.control = "stop"
             m.top.itemIndex++
         end if
@@ -122,6 +131,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
     if key = "left"
         if isValidToContinue(m.top.itemIndex - 1)
+            m.videoPlayer.disableScreenSaver = true
             m.slideshowTimer.control = "stop"
             m.top.itemIndex--
         end if
@@ -137,6 +147,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
                 m.showStatusAnimation.control = "start"
             end if
             m.statusTimer.control = "start"
+            m.videoPlayer.disableScreenSaver = true
         else
             ' start the slideshow if the user hits "play"
             m.status.text = tr("Slideshow Resumed")
@@ -146,6 +157,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
             m.slideshow = true
             m.statusTimer.control = "start"
             m.slideshowTimer.control = "start"
+            m.videoPlayer.disableScreenSaver = true
         end if
         return true
     end if

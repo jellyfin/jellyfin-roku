@@ -7,6 +7,7 @@
     </Rectangle>
     <Timer id="slideshowTimer" duration="5" repeat="false" />
     <Timer id="statusTimer" duration="2" repeat="false" />
+    <Video id="videoPlayer" opacity="0" />
 
     <Animation id="showStatusAnimation" duration="1" repeat="false">
       <FloatFieldInterpolator key="[0.0, 0.1]" keyValue="[0, 1]" fieldToInterp="background.opacity" />
