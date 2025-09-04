@@ -120,8 +120,11 @@ sub onChannelListLoaded()
     m.channelIdList = []
     m.channelIndex = {}
 
-    'if search returns channels
-    if m.LoadChannelsTask.channels.count() = 0 then return
+    'if search returns no channels
+    if m.LoadChannelsTask.channels.count() = 0
+        stopLoadingSpinner()
+        return
+    end if
 
     for each item in m.LoadChannelsTask.channels
         m.gridData.appendChild(item)
@@ -211,7 +214,6 @@ sub onProgramFocused()
     ' Exit if Channels not yet loaded
 
     if channel = invalid or channel.getChildCount() = 0
-
         m.detailsPane.programDetails = invalid
         return
     end if

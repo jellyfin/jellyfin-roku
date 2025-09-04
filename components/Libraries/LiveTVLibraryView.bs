@@ -306,7 +306,14 @@ sub ItemDataLoaded(msg)
 
     'If there are no items to display, show message
     if m.loadedItems = 0
-        m.emptyText.text = tr("NO_ITEMS").Replace("%1", m.top.parentItem.Type)
+        if isStringEqual(m.options.view, "tvGuide")
+            m.emptyText.translation = "[0,650]"
+            m.emptyText.text = tr("No channels found matching your search criteria")
+        else
+            m.emptyText.translation = "[0,540]"
+            m.emptyText.text = tr("NO_ITEMS").Replace("%1", m.top.parentItem.Type)
+        end if
+
         m.emptyText.visible = true
     end if
 

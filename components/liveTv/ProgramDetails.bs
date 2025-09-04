@@ -3,6 +3,7 @@ import "pkg:/source/api/Image.bs"
 import "pkg:/source/enums/ColorPalette.bs"
 import "pkg:/source/enums/ImageType.bs"
 import "pkg:/source/enums/PosterLoadStatus.bs"
+import "pkg:/source/enums/String.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/misc.bs"
 
@@ -134,6 +135,7 @@ sub channelUpdated()
     if m.top.channel = invalid
         m.top.findNode("noInfoChannelName").text = ""
         m.channelName.text = ""
+        m.image.uri = string.EMPTY
     else
         m.top.findNode("noInfoChannelName").text = m.top.channel.Title
         m.channelName.text = m.top.channel.Title
