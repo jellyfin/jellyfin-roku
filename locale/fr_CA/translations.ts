@@ -2042,6 +2042,10 @@
         <source>Remove From Favorites</source>
         <translation>Supprimer des favoris</translation>
     </message>
+    <message>
+        <source>No channels found matching your search criteria</source>
+        <translation>Aucune chaîne trouvée correspondant à vos critères de recherche</translation>
+    </message>
 </context>
 <context>
     <name></name>
