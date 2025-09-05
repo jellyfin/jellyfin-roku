@@ -6,5 +6,9 @@
   {
     "description": "Fix voice search in live TV's TV guide view",
     "author": "1hitsong"
+  },
+  {
+    "description": "Fix slideshow function if quickplaying a photo",
+    "author": "1hitsong"
   }
 ]
