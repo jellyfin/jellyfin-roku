@@ -2010,6 +2010,12 @@ function onKeyEvent(key as string, press as boolean) as boolean
         itemToPlay = getItemFocused()
 
         if isValid(itemToPlay)
+            ' If user presses play on a photo, load it normally instead of using quickplay so they can start a slideshow
+            if isStringEqual(ItemType.PHOTO, chainLookupReturn(itemToPlay, "type", string.EMPTY))
+                m.itemGrid.itemSelected = m.itemGrid.itemFocused
+                return true
+            end if
+
             m.top.quickPlayNode = itemToPlay
             return true
         end if
