@@ -17,6 +17,13 @@
     "description": "Settings relating to playback and supported codec and media types.",
     "children": [
       {
+        "title": "Are You Still Watching Popup",
+        "description": "How many minutes of inactivity before playback is stopped between items and a popup is shown to continue? Set to 0 to disable.",
+        "settingName": "stillwatchingPopupInactivityTime",
+        "type": "integer",
+        "default": "0"
+      },
+      {
         "title": "Autoplay Episode Limit",
         "description": "The number of episodes that will play automatically after the selected episode. Requires 'Play next episode automatically' server setting to be enabled.",
         "settingName": "episodeQueueLimit",

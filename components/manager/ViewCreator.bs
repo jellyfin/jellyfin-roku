@@ -1,6 +1,10 @@
 import "pkg:/source/enums/MediaPlaybackState.bs"
 import "pkg:/source/enums/TaskControl.bs"
+import "pkg:/source/enums/TimerControl.bs"
 import "pkg:/source/enums/VideoControl.bs"
+
+const STILL_WATCHING_POPUP_TIMER_SECONDS = 60
+
 
 ' Play Audio
 sub CreateAudioPlayerView()
@@ -310,6 +314,23 @@ sub onStateChange()
 
         ' If there is something next in the queue, play it
         if m.global.queueManager.callFunc("getPosition") < m.global.queueManager.callFunc("getCount") - 1
+            stillwatchingPopupInactivityTime = chainLookupReturn(m.global.session, "user.settings.stillwatchingPopupInactivityTime", "0")
+            if stillwatchingPopupInactivityTime <> "0"
+                stillwatchingPopupInactivityTime = stillwatchingPopupInactivityTime.ToInt()
+                m.deviceInfo = CreateObject("roDeviceInfo")
+
+                if m.deviceInfo.TimeSinceLastKeypress() >= (stillwatchingPopupInactivityTime * 60)
+                    m.stillWatchingTimer = createObject("roSGNode", "Timer")
+                    m.stillWatchingTimer.repeat = false
+                    m.stillWatchingTimer.duration = STILL_WATCHING_POPUP_TIMER_SECONDS
+                    m.stillWatchingTimer.observeField("fire", "stillWatchingTimerComplete")
+                    m.stillWatchingTimer.control = TimerControl.START
+
+                    m.global.sceneManager.callFunc("optionDialog", "stillwatching", tr("Are You Still Watching?"), [tr("Playback will automatically stop in 1 minute if no choice is made.")], [tr("Yes, continue"), tr("No, stop playback")], {})
+                    return
+                end if
+            end if
+
             m.global.sceneManager.callFunc("clearPreviousScene")
             m.global.queueManager.callFunc("moveForward")
             m.global.queueManager.callFunc("playQueue")
@@ -323,6 +344,21 @@ sub onStateChange()
         m.global.sceneManager.callFunc("popScene")
         m.global.audioPlayer.loopMode = ""
     end if
+end sub
+
+sub stillWatchingTimerComplete()
+    m.stillWatchingTimer.control = TimerControl.STOP
+
+    ' Check if user pressed a button before the timer fired
+    if m.deviceInfo.TimeSinceLastKeypress() <= STILL_WATCHING_POPUP_TIMER_SECONDS then return
+
+    if m.global.sceneManager.callFunc("isDialogOpen")
+        m.global.sceneManager.callFunc("dismissDialog")
+    end if
+
+    m.global.queueManager.callFunc("bypassNextPreferredAudioTrackIndexReset")
+    m.global.queueManager.callFunc("clear")
+    m.global.sceneManager.callFunc("popScene")
 end sub
 
 ' Roku translates the info provided in subtitleTracks into availableSubtitleTracks
