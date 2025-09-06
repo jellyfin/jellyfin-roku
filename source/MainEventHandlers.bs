@@ -1380,6 +1380,12 @@ sub onDataReturnedEvent(msg)
         return
     end if
 
+    if isStringEqual(selectedPopupID, "stillwatching")
+        if not isString(selectedPopupButton) then return
+        processStillWatchingPopup(selectedPopupButton)
+        return
+    end if
+
     if isStringEqual(selectedPopupID, "playlist")
         if not isValid(itemID) then return
         processPlaylistPopup(selectedPopupButton, itemID)
@@ -1426,6 +1432,19 @@ sub processPlaybackPopup(selectedPopupAction as integer, selectedItem as object)
     if selectedPopupAction = ResumePopupAction.GOTOEPISODE
         CreateMovieDetailsGroup(selectedItem[0])
         return
+    end if
+end sub
+
+sub processStillWatchingPopup(selectedPopupButton as string)
+    if isStringEqual(selectedPopupButton, tr("Yes, continue"))
+        m.global.sceneManager.callFunc("clearPreviousScene")
+        m.global.queueManager.callFunc("moveForward")
+        m.global.queueManager.callFunc("playQueue")
+    end if
+    if isStringEqual(selectedPopupButton, tr("No, stop playback"))
+        m.global.queueManager.callFunc("bypassNextPreferredAudioTrackIndexReset")
+        m.global.queueManager.callFunc("clear")
+        m.global.sceneManager.callFunc("popScene")
     end if
 end sub
 

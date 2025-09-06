@@ -10,5 +10,9 @@
   {
     "description": "Fix slideshow function if quickplaying a photo",
     "author": "1hitsong"
+  },
+  {
+    "description": "Create setting to display \"Are you still watching?\" popup to cancel playback due to inactivity",
+    "author": "1hitsong"
   }
 ]
