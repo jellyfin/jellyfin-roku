@@ -326,7 +326,7 @@ sub onStateChange()
                     m.stillWatchingTimer.observeField("fire", "stillWatchingTimerComplete")
                     m.stillWatchingTimer.control = TimerControl.START
 
-                    m.global.sceneManager.callFunc("optionDialog", "stillwatching", tr("Are You Still Watching?"), [tr("Playback will automatically stop in 1 minute if no choice is made.")], [tr("Yes, continue"), tr("No, stop playback")], {})
+                    m.global.sceneManager.callFunc("optionDialog", "stillwatching", tr("Are You Still Watching?"), [tr("Playback will automatically stop in 1 minute if no buttons are pressed.")], [tr("Yes, continue"), tr("No, stop playback")], {})
                     return
                 end if
             end if

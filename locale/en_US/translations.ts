@@ -2182,7 +2182,7 @@
             <translation>No, stop playback</translation>
         </message>
         <message>
-            <source>Playback will automatically stop in 1 minute if no choice is made.</source>
+            <source>Playback will automatically stop in 1 minute if no buttons are pressed.</source>
             <translation>Playback will automatically stop in 1 minute if no buttons are pressed.</translation>
         </message>
     </context>
