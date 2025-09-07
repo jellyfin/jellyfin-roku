@@ -2161,5 +2161,29 @@
             <source>No channels found matching your search criteria</source>
             <translation>No channels found matching your search criteria</translation>
         </message>
+        <message>
+            <source>Are You Still Watching Popup</source>
+            <translation>Are You Still Watching Popup</translation>
+        </message>
+        <message>
+            <source>How many minutes of inactivity before playback is stopped between items and a popup is shown to continue? Set to 0 to disable.</source>
+            <translation>How many minutes of inactivity before playback is stopped between items and a popup is shown to continue? Set to 0 to disable.</translation>
+        </message>
+        <message>
+            <source>Are You Still Watching?</source>
+            <translation>Are You Still Watching?</translation>
+        </message>
+        <message>
+            <source>Yes, continue</source>
+            <translation>Yes, continue</translation>
+        </message>
+        <message>
+            <source>No, stop playback</source>
+            <translation>No, stop playback</translation>
+        </message>
+        <message>
+            <source>Playback will automatically stop in 1 minute if no buttons are pressed.</source>
+            <translation>Playback will automatically stop in 1 minute if no buttons are pressed.</translation>
+        </message>
     </context>
 </TS>
