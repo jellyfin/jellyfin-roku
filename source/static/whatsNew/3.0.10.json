@@ -10,5 +10,9 @@
   {
     "description": "Fix slideshow function if quickplaying a photo",
     "author": "1hitsong"
+  },
+  {
+    "description": "Fix crash in video player when hide clock setting is enabled",
+    "author": "1hitsong"
   }
 ]
