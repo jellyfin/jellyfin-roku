@@ -11,6 +11,8 @@ enum ClockFormat
 end enum
 
 sub init()
+    m.dateTimeObject = CreateObject("roDateTime")
+
 
     ' If hideclick setting is enabled, exit without setting any variables
     if m.global.session.user.settings["ui.design.hideclock"]
@@ -20,8 +22,6 @@ sub init()
     m.clockTime = m.top.findNode("clockTime")
 
     m.currentTimeTimer = m.top.findNode("currentTimeTimer")
-    m.dateTimeObject = CreateObject("roDateTime")
-
     m.currentTimeTimer.observeField("fire", "onCurrentTimeTimerFire")
     m.currentTimeTimer.control = TimerControl.START
 
