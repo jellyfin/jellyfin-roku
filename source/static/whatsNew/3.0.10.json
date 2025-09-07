@@ -18,5 +18,9 @@
   {
     "description": "Create setting to display \"Are you still watching?\" popup after inactive for a set number of minutes",
     "author": "1hitsong"
+  },
+  {
+    "description": "Fix resuming video from timestamp",
+    "author": "1hitsong"
   }
 ]
