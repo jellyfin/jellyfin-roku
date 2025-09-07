@@ -817,10 +817,13 @@ sub displayNextItem()
 
     nextItemEpisodeTitle = m.top.findNode("nextItemEpisodeTitle")
     if isValid(nextItemEpisodeTitle)
-        seasonName = nextItem.lookupCI("SeasonName") ?? ""
+        seasonName = nextItem.lookupCI("SeasonName") ?? string.EMPTY
         seasonName = seasonName.Replace("Season ", "S")
+
+        episodeNumber = isValid(nextItem.lookupCI("IndexNumber")) ? `E${nextItem.lookupCI("IndexNumber")}` : string.EMPTY
+
         nextItemEpisodeTitle.font.size = 22
-        nextItemEpisodeTitle.text = `${seasonName}E${nextItem.lookupCI("IndexNumber")} - ${nextItem.lookupCI("name")}`
+        nextItemEpisodeTitle.text = `${seasonName}${episodeNumber} - ${nextItem.lookupCI("name")}`
     end if
 
     m.nextUp.visible = true
