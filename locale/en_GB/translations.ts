@@ -1261,7 +1261,7 @@
     </message>
     <message>
         <source>Ratings for how good a movie is</source>
-        <translation type="unfinished">Ratings for how good a movie is</translation>
+        <translation>Community and critic review ratings from Rotten Tomatoes.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
@@ -1361,6 +1361,18 @@
     <message>
         <source>Date Show Added</source>
         <translation>Date Show Added</translation>
+    </message>
+    <message>
+        <source>Folders</source>
+        <translation>Folders</translation>
+    </message>
+    <message>
+        <source>Go To Artist</source>
+        <translation>Go To Artist</translation>
+    </message>
+    <message>
+        <source>CH</source>
+        <translation>CH</translation>
     </message>
 </context>
 <context>
