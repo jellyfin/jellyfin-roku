@@ -2085,5 +2085,57 @@
         <source>Add To Favorites</source>
         <translation>Ajouter aux favoris</translation>
     </message>
+    <message>
+        <source>Play Normally</source>
+        <translation>Lire normalement</translation>
+    </message>
+    <message>
+        <source>Force Transcode (Allow Remux) - disabled because of selected force transcoding setting</source>
+        <translation>Forcer le transcodage (Autoriser le remuxage) - désactivé en raison du paramètre de transcodage forcé sélectionné</translation>
+    </message>
+    <message>
+        <source>Are You Still Watching?</source>
+        <translation>Tu regardes toujours ?</translation>
+    </message>
+    <message>
+        <source>No, stop playback</source>
+        <translation>Non, arrête la lecture</translation>
+    </message>
+    <message>
+        <source>Force Transcode (Allow Remux)</source>
+        <translation>Forcer le transcodage (autoriser le remuxage)</translation>
+    </message>
+    <message>
+        <source>Play Normally - disabled because of selected force transcoding setting</source>
+        <translation>Lecture normale - désactivé en raison du paramètre de transcodage forcé sélectionné</translation>
+    </message>
+    <message>
+        <source>Force Transcode (Remux Disabled)</source>
+        <translation>Forcer le transcodage (remux désactivé)</translation>
+    </message>
+    <message>
+        <source>Force Transcode (Remux Disabled) - disabled because of selected force transcoding setting</source>
+        <translation>Forcer le transcodage (Remux désactivé) - désactivé en raison du paramètre de transcodage forcé sélectionné</translation>
+    </message>
+    <message>
+        <source>No channels found matching your search criteria</source>
+        <translation>Aucune chaîne trouvée correspondant à vos critères de recherche</translation>
+    </message>
+    <message>
+        <source>Are You Still Watching Popup</source>
+        <translation>Popup Regardez-vous toujours</translation>
+    </message>
+    <message>
+        <source>How many minutes of inactivity before playback is stopped between items and a popup is shown to continue? Set to 0 to disable.</source>
+        <translation>Combien de minutes d&apos;inactivité faut-il attendre avant que la lecture s&apos;arrête entre les éléments et qu&apos;une fenêtre contextuelle s&apos;affiche pour continuer ? Définissez sur 0 pour désactiver.</translation>
+    </message>
+    <message>
+        <source>Yes, continue</source>
+        <translation>Oui, continuez</translation>
+    </message>
+    <message>
+        <source>Playback will automatically stop in 1 minute if no buttons are pressed.</source>
+        <translation>La lecture s&apos;arrêtera automatiquement dans 1 minute si aucun bouton n&apos;est enfoncé.</translation>
+    </message>
 </context>
 </TS>
