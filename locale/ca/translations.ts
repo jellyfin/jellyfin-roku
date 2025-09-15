@@ -2086,5 +2086,53 @@
         <source>When opening a season&apos;s list of episodes, automatically scroll down and start the cursor on the first unwatched episode.</source>
         <translation>En obrir la llista d&apos;episodis d&apos;una temporada, desplaça automàticament cap avall i comença el cursor al primer episodi no vist.</translation>
     </message>
+    <message>
+        <source>Are You Still Watching Popup</source>
+        <translation>Finestra emergent preguntant si encara ho esteu mirant</translation>
+    </message>
+    <message>
+        <source>No, stop playback</source>
+        <translation>No, atura la reproducció</translation>
+    </message>
+    <message>
+        <source>Playback will automatically stop in 1 minute if no buttons are pressed.</source>
+        <translation>Si no es pitja cap botó, la reproducció s&apos;aturarà en 1 minut.</translation>
+    </message>
+    <message>
+        <source>Yes, continue</source>
+        <translation>Sí, continua</translation>
+    </message>
+    <message>
+        <source>Are You Still Watching?</source>
+        <translation>Encara ho esteu mirant?</translation>
+    </message>
+    <message>
+        <source>How many minutes of inactivity before playback is stopped between items and a popup is shown to continue? Set to 0 to disable.</source>
+        <translation>Minuts d&apos;inactivitat abans no s&apos;aturi la reproducció entre elements i es mostri una finestra emergent per a continuar. Deixeu-hi un 0 per a inhabilitar la funció.</translation>
+    </message>
+    <message>
+        <source>No channels found matching your search criteria</source>
+        <translation>No s&apos;han trobat canals que encaixin amb el vostre criteri de cerca</translation>
+    </message>
+    <message>
+        <source>Play Normally - disabled because of selected force transcoding setting</source>
+        <translation>Reprodueix amb normalitat - inhabilitat degut a la configuració de transcodificació forçada seleccionada</translation>
+    </message>
+    <message>
+        <source>Force Transcode (Remux Disabled) - disabled because of selected force transcoding setting</source>
+        <translation>Forçat de la transcodificació (Remux deshabilitat) - deshabilitat per la configuració de transcodificació forçada seleccionada</translation>
+    </message>
+    <message>
+        <source>Force Transcode (Allow Remux)</source>
+        <translation>Força la transcodificació (Permet Remux)</translation>
+    </message>
+    <message>
+        <source>Force Transcode (Remux Disabled)</source>
+        <translation>Força la transcodificació (Remux inhabilitat)</translation>
+    </message>
+    <message>
+        <source>Play Normally</source>
+        <translation>Reprodueix amb normalitat</translation>
+    </message>
 </context>
 </TS>
