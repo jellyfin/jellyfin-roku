@@ -188,6 +188,7 @@ function prepareStyles(styles as object, rect, lineCount = 1 as integer) as obje
     end if
 
     captionLine = chainLookupReturn(captionStyles, "line", string.EMPTY)
+    captionPosition = chainLookupReturn(captionStyles, "position", string.EMPTY)
 
     ' Line
     if not isStringEqual(captionLine, string.EMPTY)
@@ -195,9 +196,28 @@ function prepareStyles(styles as object, rect, lineCount = 1 as integer) as obje
         verticalPosition = processLineCue(captionLine, captionLineHeight)
     end if
 
+    ' Position
+    if not isStringEqual(captionPosition, string.EMPTY)
+        horizontalPositon = processPositionCue(captionPosition, rect.BoundingRect().width)
+    end if
+
     finalStyles.translation = [horizontalPositon, verticalPosition]
 
     return finalStyles
+end function
+
+function processPositionCue(captionPosition as string, captionLineWidth as float) as integer
+    calculatedPosition = 1920 * (val(captionPosition) / 100)
+
+    if calculatedPosition + captionLineWidth > 1920
+        calculatedPosition = 1920 - captionLineWidth
+    end if
+
+    if calculatedPosition < 0
+        calculatedPosition = 0
+    end if
+
+    return calculatedPosition
 end function
 
 function processLineCue(captionLine as string, captionLineHeight as float) as integer
@@ -260,7 +280,11 @@ function extractStyles(lineData as string) as object
 
     for each style in lineDataArray
         styleData = style.split(":")
-        returnData.styles.addreplace(styleData[0], styleData[1])
+
+        ' We don't support RTL text, so positionAlign properties must be removed
+        styleDataPositionAlign = styleData[1].split(",")
+
+        returnData.styles.addreplace(styleData[0], styleDataPositionAlign[0])
     end for
 
     return returnData
