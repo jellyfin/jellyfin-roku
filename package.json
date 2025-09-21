@@ -8,15 +8,18 @@
     "brighterscript-formatter": "1.7.18"
   },
   "devDependencies": {
+    "@hulu/roca": "0.27.0",
     "@rokucommunity/bslint": "0.8.35",
     "brighterscript": "0.70.1",
+    "brs": "0.45.0",
     "jshint": "2.13.6",
     "rimraf": "6.0.1",
     "roku-deploy": "3.13.0",
     "undent": "1.0.0"
   },
   "scripts": {
-    "build": "npx rimraf build/ out/ && npx bsc --project bsconfig.json"
+    "build": "npx rimraf build/ out/ && npx bsc --project bsconfig.json",
+    "test": "npx bsc --project bsconfig-tests.json && roca --source build/source"
   },
   "repository": {
     "type": "git",
