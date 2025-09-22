@@ -9,8 +9,8 @@
   },
   "devDependencies": {
     "@hulu/roca": "0.27.0",
-    "@rokucommunity/bslint": "0.8.35",
     "@rokucommunity/brs": "0.47.4",
+    "@rokucommunity/bslint": "0.8.35",
     "brighterscript": "0.70.1",
     "jshint": "2.13.6",
     "rimraf": "6.0.1",
