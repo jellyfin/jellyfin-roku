@@ -2185,5 +2185,13 @@
             <source>Playback will automatically stop in 1 minute if no buttons are pressed.</source>
             <translation>Playback will automatically stop in 1 minute if no buttons are pressed.</translation>
         </message>
+        <message>
+            <source>Burn In Subtitles When Transcoding</source>
+            <translation>Burn In Subtitles When Transcoding</translation>
+        </message>
+        <message>
+            <source>Burn in all subtitles when transcoding is triggered. This ensures subtitle synchronization after transcoding at the cost of reduced transcoding speed.</source>
+            <translation>Burn in all subtitles when transcoding is triggered. This ensures subtitle synchronization after transcoding at the cost of reduced transcoding speed.</translation>
+        </message>
     </context>
 </TS>

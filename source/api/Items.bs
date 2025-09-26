@@ -21,9 +21,16 @@ function ItemPostPlaybackInfo(id as string, mediaSourceId = "" as string, audioT
         transcodeCodec = m.global.queueManager.callFunc("getTranscodeCodec")
     end if
 
+    burnsubtitlestranscoding = false
+
+    ' If a subtitle track was selected, check the user's burnsubtitlestranscoding setting
+    if subtitleTrackIndex >= 0
+        burnsubtitlestranscoding = chainLookupReturn(m.global.session, "user.settings.`playback.media.burnsubtitlestranscoding`", true)
+    end if
+
     body = {
         "DeviceProfile": getDeviceProfile(transcodeCodec),
-        "AlwaysBurnInSubtitleWhenTranscoding": true
+        "AlwaysBurnInSubtitleWhenTranscoding": burnsubtitlestranscoding
     }
     params = {
         "UserId": m.global.session.user.id,

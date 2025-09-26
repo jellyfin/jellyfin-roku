@@ -436,6 +436,15 @@ sub onSubtitleChange()
     ' If previous sustitle was encoded, then we need to a video stop/start to change subtitle content
     if m.top.previousSubtitleWasEncoded then switchWithoutRefresh = false
 
+    ' If we are transcoding and the user wants subtitles burned, force a refresh
+    if isValid(m.isTranscoded)
+        if m.isTranscoded
+            if chainLookupReturn(m.global.session, "user.settings.`playback.media.burnsubtitlestranscoding`", true)
+                switchWithoutRefresh = false
+            end if
+        end if
+    end if
+
     if switchWithoutRefresh then return
 
     ' Save the current video position
