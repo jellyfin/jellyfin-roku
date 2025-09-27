@@ -409,11 +409,14 @@ function defaultSubtitleTrack(sortedSubtitles, selectedAudioLanguage as string, 
 
     subtitleMode = isValid(userConfig.SubtitleMode) ? LCase(userConfig.SubtitleMode) : ""
 
+    audioLanguagePreference = chainLookupReturn(userConfig, "AudioLanguagePreference", string.EMPTY)
+
     allowSmartMode = false
 
-    ' Only evaluate selected audio language if we have a value
-    if selectedAudioLanguage <> ""
-        allowSmartMode = selectedAudioLanguage <> userConfig.SubtitleLanguagePreference
+    ' Confirm the selected audio track has a language
+    if not isStringEqual(selectedAudioLanguage, string.EMPTY)
+        ' Confirm the selected audio track does not match the user's preferred audio language
+        allowSmartMode = selectedAudioLanguage <> audioLanguagePreference
     end if
 
     for each item in sortedSubtitles
