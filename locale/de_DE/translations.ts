@@ -978,7 +978,7 @@
     </message>
     <message>
         <source>Default view for Movie Libraries.</source>
-        <translation>Standard-Ansicht für Filmbibliothek.</translation>
+        <translation>Standardansicht für Filmbibliothek.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
@@ -1093,7 +1093,7 @@
     </message>
     <message>
         <source>Settings relating to the appearance of pages in TV Libraries.</source>
-        <translation>Einstellungen zur Darstellung von Seiten in TV-Bibliotheken.</translation>
+        <translation>Einstellungen für das Erscheinungsbild von Seiten in TV-Bibliotheken.</translation>
     </message>
     <message>
         <source>Grid</source>
@@ -1127,7 +1127,7 @@
     </message>
     <message>
         <source>Set the maximum resolution when playing video files on this device.</source>
-        <translation>Lege die maximale Auflösung für die Wiedergabe von Video-Dateien auf diesem Gerät fest.</translation>
+        <translation>Legen Sie die maximale Auflösung für die Wiedergabe von Video-Dateien auf diesem Gerät fest.</translation>
         <extracomment>User Setting - Description</extracomment>
     </message>
     <message>
@@ -1137,7 +1137,7 @@
     </message>
     <message>
         <source>Configure the maximum resolution when playing video files on this device.</source>
-        <translation>Konfiguriere die maximale Auflösung für die Wiedergabe von Video-Dateien auf diesem Gerät.</translation>
+        <translation>Konfigurieren Sie die maximale Auflösung für die Wiedergabe von Video-Dateien auf diesem Gerät.</translation>
         <extracomment>User Setting - Description</extracomment>
     </message>
     <message>
@@ -1202,7 +1202,7 @@
     </message>
     <message>
         <source>Settings relating to the appearance of pages in Movie Libraries.</source>
-        <translation>Einstellungen zur Darstellung von Seiten in Filmbibliotheken.</translation>
+        <translation>Einstellungen für das Erscheinungsbild von Seiten in TV-Bibliotheken.</translation>
     </message>
     <message>
         <source>Presentation</source>
@@ -1271,7 +1271,7 @@
     </message>
     <message>
         <source>Remember Me?</source>
-        <translation>Erinnerst du dich an mich?</translation>
+        <translation>Erinnere dich an mich</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
@@ -1360,11 +1360,11 @@
     </message>
     <message>
         <source>The number of episodes that will play automatically after the selected episode. Requires &apos;Play next episode automatically&apos; server setting to be enabled.</source>
-        <translation>Die Anzahl der Episoden die automatisch nach der ausgewählten Episode abgespielt wird. Benötigt, das die Option &quot;Nächste Episode automatisch abspielen&quot; auf dem Server aktiviert ist.</translation>
+        <translation>Die Anzahl an Episoden die automatisch nach der gewählten Episode abgespielt werden. Benötigt, das die Option &quot;Nächste Episode automatisch abspielen&quot; auf dem Server aktiviert ist.</translation>
     </message>
     <message>
         <source>or newer to use this app or install and use the Jellyfin Legacy app from Roku&apos;s Streaming Store</source>
-        <translation>oder neuer um diese App zu nutzen oder installiere die Jellyfin Legacy App von Roku&apos;s Streaming Store</translation>
+        <translation>oder neuer um diese App zu nutzen oder installiere und nutze die App &quot;Jellyfin Legacy&quot; von Roku&apos;s Streaming Store</translation>
     </message>
     <message>
         <source>which is not supported by this app. Please update the server to</source>
@@ -1497,6 +1497,50 @@
     <message>
         <source>Custom Trickplay</source>
         <translation>Benutzerdefiniertes Trickplay</translation>
+    </message>
+    <message>
+        <source>Format</source>
+        <translation>Format</translation>
+    </message>
+    <message>
+        <source>Start over from the beginning.</source>
+        <translation>Von vorne beginnen.</translation>
+    </message>
+    <message>
+        <source>Settings relating to how Jellyfin should handle media segments.</source>
+        <translation>Einstellungen, wie Jellyfin mit Mediensegmenten umgehen sollte.</translation>
+    </message>
+    <message>
+        <source>No Results Found</source>
+        <translation>Keine Ergebnisse gefunden</translation>
+    </message>
+    <message>
+        <source>downloads</source>
+        <translation>Downloads</translation>
+    </message>
+    <message>
+        <source>Series</source>
+        <translation>Serien</translation>
+    </message>
+    <message>
+        <source>Play / Resume from</source>
+        <translation>Abspielen von</translation>
+    </message>
+    <message>
+        <source>Play or Resume from</source>
+        <translation>Abspielen oder Fortfahren von</translation>
+    </message>
+    <message>
+        <source>Part</source>
+        <translation>Teil</translation>
+    </message>
+    <message>
+        <source>Skip</source>
+        <translation>Überspringen</translation>
+    </message>
+    <message>
+        <source>What&apos;s New</source>
+        <translation>Was ist Neu</translation>
     </message>
 </context>
 <context>
