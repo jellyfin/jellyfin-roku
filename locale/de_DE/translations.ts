@@ -1376,7 +1376,7 @@
     </message>
     <message>
         <source>CH</source>
-        <translation>Kanal</translation>
+        <translation>CH</translation>
     </message>
     <message>
         <source>Use Fallback Font Across App</source>
