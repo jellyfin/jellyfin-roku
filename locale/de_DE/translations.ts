@@ -1480,7 +1480,7 @@
     </message>
     <message>
         <source>Date Show Added</source>
-        <translation>Hinzugefügt am</translation>
+        <translation>Show hinzugefügt am</translation>
     </message>
     <message>
         <source>Date Episode Added</source>
@@ -1493,6 +1493,10 @@
     <message>
         <source>Display custom trickplay images even if this Roku says it&apos;s displaying its own. This may cause the two images to overlay on top of each other.</source>
         <translation>Zeigen Sie benutzerdefinierte Trickplay-Bilder an, auch wenn dieser Roku sagt, dass er seine eigenen anzeigt. Dies kann dazu führen, dass die beiden Bilder übereinander liegen.</translation>
+    </message>
+    <message>
+        <source>Custom Trickplay</source>
+        <translation>Benutzerdefiniertes Trickplay</translation>
     </message>
 </context>
 <context>
