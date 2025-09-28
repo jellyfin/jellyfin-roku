@@ -236,7 +236,7 @@
     </message>
     <message>
         <source>RUNTIME</source>
-        <translation>Run Time</translation>
+        <translation>Runtime</translation>
     </message>
     <message>
         <comment>Title of Tab for switching &quot;views&quot; when looking at a library</comment>
@@ -1373,6 +1373,14 @@
     <message>
         <source>CH</source>
         <translation>CH</translation>
+    </message>
+    <message>
+        <source>Start over from the beginning.</source>
+        <translation>Start over from the beginning.</translation>
+    </message>
+    <message>
+        <source>Playback Options</source>
+        <translation>Playback Options</translation>
     </message>
 </context>
 <context>
