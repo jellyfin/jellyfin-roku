@@ -127,7 +127,7 @@ sub onSelectSubtitlePressed()
     for each item in m.view.fullSubtitleData
         item.type = "subtitleselection"
 
-        if m.view.selectedSubtitle <> -1
+        if m.view.selectedSubtitle <> SubtitleSelection.none
             ' Subtitle is a track within the file
             if item.index = m.view.selectedSubtitle
                 item.selected = true
@@ -135,7 +135,7 @@ sub onSelectSubtitlePressed()
         else
             ' Subtitle is from an external source
             availableSubtitleTrackIndex = availSubtitleTrackIdx(item.track.TrackName)
-            if availableSubtitleTrackIndex <> -1
+            if availableSubtitleTrackIndex <> SubtitleSelection.none
 
                 ' Convert Jellyfin subtitle track name to Roku track name
                 subtitleFullTrackName = m.view.availableSubtitleTracks[availableSubtitleTrackIndex].TrackName
@@ -215,7 +215,7 @@ sub processSubtitleSelection()
     m.selectedSubtitle = m.global.sceneManager.returnData
 
     ' The selected encoded subtitle did not change.
-    if m.view.selectedSubtitle <> -1 or m.selectedSubtitle.index <> -1
+    if m.view.selectedSubtitle <> SubtitleSelection.none or m.selectedSubtitle.index <> SubtitleSelection.none
         if m.view.selectedSubtitle = m.selectedSubtitle.index then return
     end if
 
@@ -234,8 +234,8 @@ sub processSubtitleSelection()
         m.view.globalCaptionMode = "Off"
         m.view.subtitleTrack = ""
 
-        if m.view.selectedSubtitle <> -1
-            m.view.selectedSubtitle = -1
+        if m.view.selectedSubtitle <> SubtitleSelection.none
+            m.view.selectedSubtitle = SubtitleSelection.none
         end if
 
         m.global.queueManager.callFunc("setPreferredSubtitleTrack", m.selectedSubtitle)
@@ -251,7 +251,7 @@ sub processSubtitleSelection()
 
         ' Roku may rearrange subtitle tracks. Look up track based on name to ensure we get the correct index
         availableSubtitleTrackIndex = availSubtitleTrackIdx(m.selectedSubtitle.Track.TrackName)
-        if availableSubtitleTrackIndex = -1 then return
+        if availableSubtitleTrackIndex = SubtitleSelection.none then return
 
         m.view.subtitleTrack = m.view.availableSubtitleTracks[availableSubtitleTrackIndex].TrackName
     end if
@@ -376,7 +376,7 @@ function availSubtitleTrackIdx(tracknameToFind as string) as integer
         end if
         idx = idx + 1
     end for
-    return -1
+    return SubtitleSelection.none
 end function
 
 function audioMiniPlayerIsVisible(baseNode as dynamic) as boolean

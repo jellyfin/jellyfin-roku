@@ -11,6 +11,7 @@ import "pkg:/source/enums/MediaStreamType.bs"
 import "pkg:/source/enums/PersonType.bs"
 import "pkg:/source/enums/PlaybackMethod.bs"
 import "pkg:/source/enums/String.bs"
+import "pkg:/source/enums/SubtitleSelection.bs"
 import "pkg:/source/enums/TaskControl.bs"
 import "pkg:/source/enums/VideoType.bs"
 import "pkg:/source/enums/ViewLoadStatus.bs"
@@ -602,7 +603,7 @@ end sub
 
 sub SetUpAudioOptions(streams)
     preferredSubtitle = m.global.queueManager.callFunc("getPreferredSubtitleTrack")
-    selectedSubtitle = isChainValid(preferredSubtitle, "StreamIndex") ? preferredSubtitle.StreamIndex : -1
+    selectedSubtitle = isChainValid(preferredSubtitle, "StreamIndex") ? preferredSubtitle.StreamIndex : SubtitleSelection.none
 
     audioTracks = []
     subtitleTracks = [{
@@ -610,7 +611,7 @@ sub SetUpAudioOptions(streams)
         "json": {},
         "Title": "None",
         "Description": "None",
-        "Selected": selectedSubtitle = -1
+        "Selected": selectedSubtitle = SubtitleSelection.none
     }]
 
     audioStreamCount = 1

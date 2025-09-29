@@ -7,6 +7,7 @@ import "pkg:/source/enums/MediaPlaybackState.bs"
 import "pkg:/source/enums/MediaSegmentAction.bs"
 import "pkg:/source/enums/MediaSegmentType.bs"
 import "pkg:/source/enums/String.bs"
+import "pkg:/source/enums/SubtitleSelection.bs"
 import "pkg:/source/enums/TaskControl.bs"
 import "pkg:/source/enums/TimerControl.bs"
 import "pkg:/source/enums/VideoControl.bs"
@@ -31,7 +32,7 @@ sub init()
     }
 
     preferredSubtitle = m.global.queueManager.callFunc("getPreferredSubtitleTrack")
-    m.top.SelectedSubtitle = isChainValid(preferredSubtitle, "StreamIndex") ? preferredSubtitle.StreamIndex : -2
+    m.top.SelectedSubtitle = isChainValid(preferredSubtitle, "StreamIndex") ? preferredSubtitle.StreamIndex : SubtitleSelection.notset
     m.originalClosedCaptionState = invalid
 
     ' Load meta data
@@ -428,7 +429,7 @@ end sub
 sub onSubtitleChange()
     switchWithoutRefresh = true
 
-    if m.top.SelectedSubtitle <> -1
+    if m.top.SelectedSubtitle <> SubtitleSelection.none
         ' If the global caption mode is off, then Roku can't display the subtitles natively and needs a video stop/start
         if LCase(m.top.globalCaptionMode) <> "on" then switchWithoutRefresh = false
     end if
@@ -611,7 +612,7 @@ sub onVideoContentLoaded()
 
     if isValid(selectedSubtitle)
         availableSubtitleTrackIndex = availSubtitleTrackIdx(selectedSubtitle.Track.TrackName)
-        if availableSubtitleTrackIndex <> -1
+        if availableSubtitleTrackIndex <> SubtitleSelection.none
             if not selectedSubtitle.IsEncoded
                 if selectedSubtitle.IsForced
                     ' If IsForced, make sure to remember the Roku global setting so we can set it back when the video is done playing.
@@ -1128,7 +1129,7 @@ end function
 ' availSubtitleTrackIdx: Returns Roku's index for requested subtitle track
 '
 ' @param {string} tracknameToFind - TrackName for subtitle we're looking to match
-' @return {integer} indicating Roku's index for requested subtitle track. Returns -1 if not found
+' @return {integer} indicating Roku's index for requested subtitle track. Returns SubtitleSelection.none if not found
 function availSubtitleTrackIdx(tracknameToFind as string) as integer
     idx = 0
     for each availTrack in m.top.availableSubtitleTracks
@@ -1140,7 +1141,7 @@ function availSubtitleTrackIdx(tracknameToFind as string) as integer
         end if
         idx = idx + 1
     end for
-    return -1
+    return SubtitleSelection.none
 end function
 
 sub skipCurrentSegment()

@@ -3,6 +3,7 @@ import "pkg:/source/enums/ColorPalette.bs"
 import "pkg:/source/enums/KeyCode.bs"
 import "pkg:/source/enums/PlaybackMethod.bs"
 import "pkg:/source/enums/String.bs"
+import "pkg:/source/enums/SubtitleSelection.bs"
 import "pkg:/source/utils/misc.bs"
 
 sub init()
@@ -16,7 +17,7 @@ sub init()
     m.selectedItem = 0
     m.selectedAudioIndex = 0
     m.selectedVideoIndex = 0
-    m.selectedSubtitleIndex = -1
+    m.selectedSubtitleIndex = SubtitleSelection.none
 
     m.optionMenu = m.top.findNode("optionMenu")
     m.optionMenu.focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
