@@ -1271,7 +1271,7 @@
     </message>
     <message>
         <source>Remember Me?</source>
-        <translation>Erinnere dich an mich</translation>
+        <translation>Erinnere dich an mich?</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
@@ -1416,7 +1416,7 @@
     </message>
     <message>
         <source>Force Transcoding setting is enabled</source>
-        <translation type="unfinished">Transkodierung erzwingen ist aktiv</translation>
+        <translation>Erzwungene Transkodierung ist aktiv</translation>
     </message>
     <message>
         <source>No items found. Try adjusting your selected filters.</source>
@@ -1440,7 +1440,7 @@
     </message>
     <message>
         <source>Force Transcode option is enabled</source>
-        <translation type="unfinished">Transkodierung erzwingen ist aktiv</translation>
+        <translation>Erzwungene Transkodierung ist aktiviert</translation>
     </message>
     <message>
         <source>All</source>
@@ -1541,6 +1541,22 @@
     <message>
         <source>What&apos;s New</source>
         <translation>Was ist Neu</translation>
+    </message>
+    <message>
+        <source>Video Codec Support</source>
+        <translation>Unterstützung für Video Codec</translation>
+    </message>
+    <message>
+        <source>Force all playable media to be transcoded.</source>
+        <translation>Erzwinge das alle abspielbaren Medien transkodiert werden.</translation>
+    </message>
+    <message>
+        <source>Ask To Skip</source>
+        <translation>Überspringen</translation>
+    </message>
+    <message>
+        <source>None</source>
+        <translation>Keine</translation>
     </message>
 </context>
 <context>
