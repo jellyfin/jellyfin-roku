@@ -607,7 +607,7 @@ sub SetUpAudioOptions(streams)
 
     audioTracks = []
     subtitleTracks = [{
-        "StreamIndex": -1,
+        "StreamIndex": SubtitleSelection.none,
         "json": {},
         "Title": "None",
         "Description": "None",
