@@ -14,7 +14,7 @@ function ItemGetPlaybackInfo(id as string, startTimeTicks = 0 as longinteger)
     return getJson(resp)
 end function
 
-function ItemPostPlaybackInfo(id as string, mediaSourceId = "" as string, audioTrackIndex = -1 as integer, subtitleTrackIndex = SubtitleSelection.none as integer, startTimeTicks = 0 as longinteger)
+function ItemPostPlaybackInfo(id as string, mediaSourceId = "" as string, audioTrackIndex = -1 as integer, subtitleTrackIndex = SubtitleSelection.NONE as integer, startTimeTicks = 0 as longinteger)
 
     transcodeCodec = string.EMPTY
 

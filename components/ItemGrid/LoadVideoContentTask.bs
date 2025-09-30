@@ -261,10 +261,10 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
     addSubtitlesToVideo(video, meta)
 
     ' Enable default subtitle track
-    if subtitle_idx = SubtitleSelection.notset
+    if subtitle_idx = SubtitleSelection.NOTSET
         defaultSubtitleIndex = defaultSubtitleTrackFromVid(video.id)
 
-        if defaultSubtitleIndex <> SubtitleSelection.none
+        if defaultSubtitleIndex <> SubtitleSelection.NONE
             video.SelectedSubtitle = defaultSubtitleIndex
             subtitle_idx = defaultSubtitleIndex
 
@@ -359,18 +359,18 @@ end sub
 ' defaultSubtitleTrackFromVid: Identifies the default subtitle track given video id
 '
 ' @param {dynamic} videoID - id of video user is playing
-' @return {integer} indicating the default track's server-side index. Defaults to {SubtitleSelection.none} is one is not found
+' @return {integer} indicating the default track's server-side index. Defaults to {SubtitleSelection.NONE} is one is not found
 function defaultSubtitleTrackFromVid(videoID) as integer
     if m.global.session.user.configuration.SubtitleMode = "None"
-        return SubtitleSelection.none ' No subtitles desired: return none
+        return SubtitleSelection.NONE ' No subtitles desired: return none
     end if
 
     meta = ItemMetaData(videoID)
 
-    if not isValid(meta) then return SubtitleSelection.none
-    if not isValid(meta.json) then return SubtitleSelection.none
-    if not isValidAndNotEmpty(meta.json.mediaSources) then return SubtitleSelection.none
-    if not isValidAndNotEmpty(meta.json.MediaSources[0].MediaStreams) then return SubtitleSelection.none
+    if not isValid(meta) then return SubtitleSelection.NONE
+    if not isValid(meta.json) then return SubtitleSelection.NONE
+    if not isValidAndNotEmpty(meta.json.mediaSources) then return SubtitleSelection.NONE
+    if not isValidAndNotEmpty(meta.json.MediaSources[0].MediaStreams) then return SubtitleSelection.NONE
 
     subtitles = sortSubtitles(meta.json.MediaSources[0].MediaStreams)
 
@@ -383,7 +383,7 @@ function defaultSubtitleTrackFromVid(videoID) as integer
     end if
 
     defaultTextSubs = defaultSubtitleTrack(subtitles["text"], selectedAudioLanguage, true) ' Find correct subtitle track (forced text)
-    if defaultTextSubs <> SubtitleSelection.none
+    if defaultTextSubs <> SubtitleSelection.NONE
         return defaultTextSubs
     end if
 
@@ -391,7 +391,7 @@ function defaultSubtitleTrackFromVid(videoID) as integer
         return defaultSubtitleTrack(subtitles["all"], selectedAudioLanguage) ' if no appropriate text subs exist, allow non-text
     end if
 
-    return SubtitleSelection.none
+    return SubtitleSelection.NONE
 end function
 
 ' defaultSubtitleTrack:
@@ -399,7 +399,7 @@ end function
 ' @param {dynamic} sortedSubtitles - array of subtitles sorted by type and language
 ' @param {string} selectedAudioLanguage - language for selected audio track
 ' @param {boolean} [requireText=false] - indicates if only text subtitles should be considered
-' @return {integer} indicating the default track's server-side index. Defaults to {SubtitleSelection.none} is one is not found
+' @return {integer} indicating the default track's server-side index. Defaults to {SubtitleSelection.NONE} is one is not found
 function defaultSubtitleTrack(sortedSubtitles, selectedAudioLanguage as string, requireText = false as boolean) as integer
     userConfig = m.global.session.user.configuration
 
@@ -455,7 +455,7 @@ function defaultSubtitleTrack(sortedSubtitles, selectedAudioLanguage as string, 
         end for
     end if
 
-    return SubtitleSelection.none ' Keep current default behavior of "None", if no correct subtitle is identified
+    return SubtitleSelection.NONE ' Keep current default behavior of "None", if no correct subtitle is identified
 end function
 
 sub addVideoContentURL(video, mediaSourceId, audio_stream_idx, fully_external)

@@ -1281,7 +1281,7 @@ sub onReturnDataEvent(msg)
 
             ' Search list of subtitles to see if we already have a downloading message for this item
             for each subtitle in subtitleListContent.getChildren(-1, 0)
-                if subtitle.LookupCI("index") = SubtitleSelection.none
+                if subtitle.LookupCI("index") = SubtitleSelection.NONE
                     if isStringEqual(subtitle.LookupCI("displaytitle"), popupNode.LookupCI("name"))
                         canAddSubtitle = false
                     end if
@@ -1292,7 +1292,7 @@ sub onReturnDataEvent(msg)
             if canAddSubtitle
                 mySubtitle = CreateObject("roSGNode", "SubtitleData")
                 mySubtitle.path = tr("Downloading - Refresh for updated status")
-                mySubtitle.index = SubtitleSelection.none
+                mySubtitle.index = SubtitleSelection.NONE
                 mySubtitle.displaytitle = popupNode.LookupCI("name")
                 mySubtitle.canDelete = false
 

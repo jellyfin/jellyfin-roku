@@ -603,15 +603,15 @@ end sub
 
 sub SetUpAudioOptions(streams)
     preferredSubtitle = m.global.queueManager.callFunc("getPreferredSubtitleTrack")
-    selectedSubtitle = isChainValid(preferredSubtitle, "StreamIndex") ? preferredSubtitle.StreamIndex : SubtitleSelection.none
+    selectedSubtitle = isChainValid(preferredSubtitle, "StreamIndex") ? preferredSubtitle.StreamIndex : SubtitleSelection.NONE
 
     audioTracks = []
     subtitleTracks = [{
-        "StreamIndex": SubtitleSelection.none,
+        "StreamIndex": SubtitleSelection.NONE,
         "json": {},
         "Title": "None",
         "Description": "None",
-        "Selected": selectedSubtitle = SubtitleSelection.none
+        "Selected": selectedSubtitle = SubtitleSelection.NONE
     }]
 
     audioStreamCount = 1

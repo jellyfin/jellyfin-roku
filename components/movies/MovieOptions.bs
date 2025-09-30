@@ -17,7 +17,7 @@ sub init()
     m.selectedItem = 0
     m.selectedAudioIndex = 0
     m.selectedVideoIndex = 0
-    m.selectedSubtitleIndex = SubtitleSelection.none
+    m.selectedSubtitleIndex = SubtitleSelection.NONE
 
     m.optionMenu = m.top.findNode("optionMenu")
     m.optionMenu.focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
