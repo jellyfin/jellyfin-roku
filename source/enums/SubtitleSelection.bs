@@ -1,0 +1,4 @@
+enum SubtitleSelection
+    NOTSET = -2
+    NONE = -1
+end enum

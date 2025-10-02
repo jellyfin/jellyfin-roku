@@ -4,6 +4,7 @@ import "pkg:/source/enums/ItemType.bs"
 import "pkg:/source/enums/PlaybackMethod.bs"
 import "pkg:/source/enums/ResumePopupAction.bs"
 import "pkg:/source/enums/String.bs"
+import "pkg:/source/enums/SubtitleSelection.bs"
 import "pkg:/source/utils/misc.bs"
 
 sub onQuickPlayEvent(msg)
@@ -1280,7 +1281,7 @@ sub onReturnDataEvent(msg)
 
             ' Search list of subtitles to see if we already have a downloading message for this item
             for each subtitle in subtitleListContent.getChildren(-1, 0)
-                if subtitle.LookupCI("index") = -1
+                if subtitle.LookupCI("index") = SubtitleSelection.NONE
                     if isStringEqual(subtitle.LookupCI("displaytitle"), popupNode.LookupCI("name"))
                         canAddSubtitle = false
                     end if
@@ -1291,7 +1292,7 @@ sub onReturnDataEvent(msg)
             if canAddSubtitle
                 mySubtitle = CreateObject("roSGNode", "SubtitleData")
                 mySubtitle.path = tr("Downloading - Refresh for updated status")
-                mySubtitle.index = -1
+                mySubtitle.index = SubtitleSelection.NONE
                 mySubtitle.displaytitle = popupNode.LookupCI("name")
                 mySubtitle.canDelete = false
 
