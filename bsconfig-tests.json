@@ -1,7 +1,7 @@
 {
   "files": [
     {
-      "src": "source/**/!(Main.brs)",
+      "src": "source/**/!(Main.brs|Main.bs)",
       "dest": "source"
     },
     {
