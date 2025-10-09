@@ -1284,6 +1284,21 @@
             <extracomment>User Setting - Setting title</extracomment>
         </message>
         <message>
+            <source>Maximum Audio Channels</source>
+            <translation>Maximum Audio Channels</translation>
+            <extracomment>User Setting - Title</extracomment>
+        </message>
+        <message>
+            <source>Configure the maximum audio channels when playing video files on this device.</source>
+            <translation>Configure the maximum audio channels when playing video files on this device.</translation>
+            <extracomment>User Setting - Description</extracomment>
+        </message>
+        <message>
+            <source>Off - Attempt to play all channels</source>
+            <translation>Off - Attempt to play all channels</translation>
+            <extracomment>User Setting - Option title</extracomment>
+        </message>
+        <message>
             <source>Configure the maximum resolution when playing video files on this device.</source>
             <translation>Configure the maximum resolution when playing video files on this device.</translation>
             <extracomment>User Setting - Description</extracomment>
