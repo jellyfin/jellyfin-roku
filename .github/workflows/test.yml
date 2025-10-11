@@ -1,0 +1,35 @@
+name: Build
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build jellyfin-roku client project
+        run: npm run build
+
+      - name: Save build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: jellyfin-roku-build
+          # This creates a zip of a zip, which is not ideal, but it means we're
+          # using the same output we'd get from a local build.
+          path: ./out/jellyfin-roku.zip
+          retention-days: 30
