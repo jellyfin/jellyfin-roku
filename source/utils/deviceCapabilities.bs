@@ -450,7 +450,18 @@ function getCodecProfiles(videoCodec = string.EMPTY as string) as object
     ' AUDIO
     ' test each codec to see how many channels are supported
     audioCodecs = ["aac", "mp3", "mp2", "opus", "pcm", "lpcm", "wav", "flac", "alac", "ac3", "ac4", "aiff", "dts", "wmapro", "vorbis", "eac3", "mpg123"]
+
+    ' get maximum audio channels
+    maxAudioChannelsSetting = globalUserSettings["playback.media.maxAudioChannels"]
     audioChannels = [8, 6, 2] ' highest first
+
+    if maxAudioChannelsSetting = "6"
+        audioChannels = [6, 2] ' highest first
+    end if
+    if maxAudioChannelsSetting = "2"
+        audioChannels = [2]
+    end if
+
     for each audioCodec in audioCodecs
         for each audioChannel in audioChannels
             channelSupportFound = false
