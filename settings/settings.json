@@ -51,6 +51,13 @@
         ]
       },
       {
+        "title": "Burn In Subtitles When Transcoding",
+        "description": "Burn in all subtitles when transcoding is triggered. This ensures subtitle synchronization after transcoding at the cost of reduced transcoding speed.",
+        "settingName": "playback.media.burnsubtitlestranscoding",
+        "type": "bool",
+        "default": "false"
+      },
+      {
         "title": "Cinema Mode",
         "description": "Bring the theater experience straight to your living room with the ability to play custom intros before the main feature.",
         "settingName": "playback.cinemamode",

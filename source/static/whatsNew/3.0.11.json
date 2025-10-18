@@ -1,6 +1,6 @@
 [
   {
-    "description": "",
-    "author": ""
+    "description": "Fix subtitles showing when not selected and transcode burn in is disabled",
+    "author": "1hitsong"
   }
 ]
