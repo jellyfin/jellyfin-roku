@@ -1,6 +1,6 @@
 [
   {
-    "description": "",
-    "author": ""
+    "description": "Fix bug that caused video end time to climb",
+    "author": "1hitsong"
   }
 ]
