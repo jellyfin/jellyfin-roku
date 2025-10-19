@@ -22,9 +22,10 @@ function ItemPostPlaybackInfo(id as string, mediaSourceId = "" as string, audioT
         transcodeCodec = m.global.queueManager.callFunc("getTranscodeCodec")
     end if
 
+    burnInSubtitles = chainLookupReturn(m.global, "session.user.settings.`playback.subs.burnin`", false)
     body = {
         "DeviceProfile": getDeviceProfile(transcodeCodec),
-        "AlwaysBurnInSubtitleWhenTranscoding": true
+        "AlwaysBurnInSubtitleWhenTranscoding": burnInSubtitles
     }
     params = {
         "UserId": m.global.session.user.id,
