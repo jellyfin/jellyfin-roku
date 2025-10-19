@@ -510,8 +510,10 @@ sub onVideoContentLoaded()
     end if
 
     m.isTranscoded = videoContent[0].isTranscoded
+    burnInSubtitles = chainLookupReturn(m.global, "session.user.settings.`playback.subs.burnin`", false)
 
-    if m.isTranscoded
+
+    if m.isTranscoded and burnInSubtitles
         videoContent[0].content.SubtitleTracks = []
     end if
 
@@ -583,8 +585,8 @@ sub onVideoContentLoaded()
         ' Disable trackplay bar for intro videos
         m.top.enableTrickPlay = false
     else
-        ' Allow custom captions for non intro videos as long as the video isn't transcoded
-        m.top.allowCaptions = not m.isTranscoded
+        ' Allow custom captions for non intro videos unless the video is being transcoded and burn subtitles are enabled
+        m.top.allowCaptions = not (m.isTranscoded and burnInSubtitles)
     end if
 
     ' Allow default subtitles
@@ -594,7 +596,7 @@ sub onVideoContentLoaded()
     selectedSubtitle = invalid
     updatedSubtitleData = []
     for each subtitle in m.top.fullSubtitleData
-        if m.isTranscoded
+        if m.isTranscoded and burnInSubtitles
             subtitle.IsEncoded = true
             updatedSubtitleData.push(subtitle)
         end if
@@ -605,7 +607,7 @@ sub onVideoContentLoaded()
         end if
     end for
 
-    if m.isTranscoded
+    if m.isTranscoded and burnInSubtitles
         m.top.fullSubtitleData = updatedSubtitleData
         m.top.globalCaptionMode = "Off"
     end if
@@ -624,7 +626,7 @@ sub onVideoContentLoaded()
         end if
     end if
 
-    if not m.isTranscoded
+    if not (m.isTranscoded and burnInSubtitles)
         m.top.selectedSubtitle = videoContent[0].selectedSubtitle
     end if
 

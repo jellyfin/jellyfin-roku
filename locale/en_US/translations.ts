@@ -2185,5 +2185,15 @@
             <source>Playback will automatically stop in 1 minute if no buttons are pressed.</source>
             <translation>Playback will automatically stop in 1 minute if no buttons are pressed.</translation>
         </message>
+        <message>
+            <source>Burn Subtitles</source>
+            <translation>Burn Subtitles</translation>
+            <extracomment>Settings Menu - Title for option</extracomment>
+        </message>
+        <message>
+            <source>Burn subtitles directly into the video stream during transcoding.</source>
+            <translation>Burn subtitles directly into the video stream during transcoding.</translation>
+            <extracomment>Settings Menu - Description for option</extracomment>
+        </message>
     </context>
 </TS>
