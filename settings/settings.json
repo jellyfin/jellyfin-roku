@@ -51,6 +51,13 @@
         ]
       },
       {
+        "title": "Burn Subtitles",
+        "description": "Burn subtitles directly into the video stream during transcoding.",
+        "settingName": "playback.subs.burnin",
+        "type": "bool",
+        "default": "false"
+      },
+      {
         "title": "Cinema Mode",
         "description": "Bring the theater experience straight to your living room with the ability to play custom intros before the main feature.",
         "settingName": "playback.cinemamode",
