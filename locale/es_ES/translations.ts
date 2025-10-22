@@ -94,7 +94,7 @@
     </message>
     <message>
         <source>My Media</source>
-        <translation>Mi contenido</translation>
+        <translation>Mis contenidos</translation>
     </message>
     <message>
         <source>Continue Watching</source>
@@ -334,7 +334,7 @@
     </message>
     <message>
         <source>Remember the currently logged in user and try to log them in again next time you start the Jellyfin app.</source>
-        <translation>Recordar al usuario que acaba de ingresar e intentar iniciar sesión nuevamente la próxima vez que abras Jellyfin.</translation>
+        <translation>Recordar al usuario que acaba de ingresar e intentar iniciar sesión nuevamente la próxima vez que abras la app de Jellyfin.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
@@ -354,7 +354,7 @@
     </message>
     <message>
         <source>Save Credentials?</source>
-        <translation>¿Deseas guardar las credenciales de acceso?</translation>
+        <translation>¿Guardar credenciales?</translation>
     </message>
     <message>
         <source>No Chapter Data Found</source>
@@ -363,7 +363,7 @@
     </message>
     <message>
         <source>Change Server</source>
-        <translation>Cambiar Servidor</translation>
+        <translation>Cambiar servidor</translation>
     </message>
     <message>
         <source>Sign Out</source>
@@ -371,7 +371,7 @@
     </message>
     <message>
         <source>Delete Saved</source>
-        <translation>Eliminar lo guardado</translation>
+        <translation>Eliminar guardado</translation>
     </message>
     <message>
         <source>What&apos;s New?</source>
@@ -567,7 +567,7 @@
     </message>
     <message>
         <source>Movies</source>
-        <translation>Películas</translation>
+        <translation>Peliculas</translation>
     </message>
     <message>
         <source>today</source>
@@ -590,7 +590,7 @@
     </message>
     <message>
         <source>CRITIC_RATING</source>
-        <translation>Valoración de la crítica</translation>
+        <translation>Calificación de los críticos</translation>
     </message>
     <message>
         <source>DATE_PLAYED</source>
@@ -608,7 +608,7 @@
     </message>
     <message>
         <source>IMDB_RATING</source>
-        <translation>Valoración de IMDb</translation>
+        <translation>Valoración de la comunidad</translation>
     </message>
     <message>
         <source>OFFICIAL_RATING</source>
@@ -889,7 +889,7 @@
     </message>
     <message>
         <source>Max Days Next Up</source>
-        <translation>Máximo de días en &apos;Siguiente&apos;</translation>
+        <translation>Días máximos para el siguiente</translation>
         <extracomment>Option Title in user setting screen</extracomment>
     </message>
     <message>
@@ -962,7 +962,7 @@
     </message>
     <message>
         <source>WxH</source>
-        <translation>Ancho x Alto</translation>
+        <translation>ancho x alto</translation>
         <extracomment>Video width x height</extracomment>
     </message>
     <message>
@@ -1331,7 +1331,7 @@
     </message>
     <message>
         <source>Ratings for how good a movie is</source>
-        <translation>Calificaciones de la comunidad y de los críticos de &apos;Rotten Tomatoes&apos;&apos;.</translation>
+        <translation>Calificaciones de lo buena que es una película.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
@@ -1371,7 +1371,7 @@
     </message>
     <message>
         <source>Set how many seconds before the end of an episode the Next Episode button should appear. Set to 0 to disable.</source>
-        <translation>Si no hay un segmento de tipo Outro, ajusta cuántos segundos antes de que termine el episodio debe aparecer el botón de &quot;Saltar Outro&quot;. Ponlo a 0 para desactivarlo.</translation>
+        <translation>Establecer cuantos segundos antes de finalizar un episodio el botón de Siguiente Episodio debe aparecer. El valor 0 deshabilita está opción.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
