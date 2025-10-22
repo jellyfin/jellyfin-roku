@@ -2,5 +2,9 @@
   {
     "description": "Fix bug that caused video end time to climb",
     "author": "1hitsong"
+  },
+  {
+    "description": "Fix 10.11.0 transcode issue when username has spaces in it",
+    "author": "1hitsong"
   }
 ]
