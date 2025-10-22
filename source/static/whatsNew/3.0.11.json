@@ -1,6 +1,6 @@
 [
   {
-    "description": "",
-    "author": ""
+    "description": "Fix 10.11.0 transcode issue when username has spaces in it",
+    "author": "1hitsong"
   }
 ]
