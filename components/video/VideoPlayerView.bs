@@ -869,6 +869,10 @@ sub onPositionChanged()
     else
         m.osd.progressPercentage = m.top.position / m.top.duration
     end if
+
+    ' Ensure position text is accurate
+    m.positionText.text = secondsToHuman(m.top.position, true)
+
     m.osd.positionTime = m.top.position
     m.osd.remainingPositionTime = m.top.duration - m.top.position
 
@@ -1184,6 +1188,12 @@ sub onProgramDetailsLoaded()
     m.overview = m.LoadProgramDetailsTask.programDetails.json.CurrentProgram.Overview
 end sub
 
+sub showOSD()
+    m.osd.visible = true
+    m.osd.hasFocus = true
+    m.osd.setFocus(true)
+end sub
+
 sub refreshLiveOSDContent()
     if not m.top.content.live then return
     m.LoadProgramDetailsTask.programId = m.top.id
@@ -1246,9 +1256,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
                 hideSegmentSkipButton()
             end if
             refreshLiveOSDContent()
-            m.osd.visible = true
-            m.osd.hasFocus = true
-            m.osd.setFocus(true)
+            showOSD()
             return true
         end if
 
@@ -1262,9 +1270,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
                 hideSegmentSkipButton()
             end if
             refreshLiveOSDContent()
-            m.osd.visible = true
-            m.osd.hasFocus = true
-            m.osd.setFocus(true)
+            showOSD()
             return true
         end if
 
@@ -1279,9 +1285,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
                 hideSegmentSkipButton()
             end if
             refreshLiveOSDContent()
-            m.osd.visible = true
-            m.osd.hasFocus = true
-            m.osd.setFocus(true)
+            showOSD()
             return true
         end if
 
@@ -1308,9 +1312,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
                 hideSegmentSkipButton()
             end if
             refreshLiveOSDContent()
-            m.osd.visible = true
-            m.osd.hasFocus = true
-            m.osd.setFocus(true)
+            showOSD()
             return true
         end if
     end if
