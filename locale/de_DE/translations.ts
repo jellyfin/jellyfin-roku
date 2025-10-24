@@ -1172,7 +1172,7 @@
     </message>
     <message>
         <source>Remember the currently logged in user and try to log them in again next time you start the Jellyfin app.</source>
-        <translation type="unfinished">Merke den aktuell angemeldeten Benutzer und versuche, ihn beim nächsten Start der Jellyfin-App erneut anzumelden.</translation>
+        <translation>Merke den aktuell angemeldeten Benutzer und versuche, ihn beim nächsten Start von Jellyfin erneut anzumelden.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
@@ -1645,6 +1645,38 @@
     <message>
         <source>Select Language</source>
         <translation>Sprache auswählen</translation>
+    </message>
+    <message>
+        <source>Sort by</source>
+        <translation>Sortieren nach</translation>
+    </message>
+    <message>
+        <source>Press OK to type</source>
+        <translation>OK drücken für Eingabe</translation>
+    </message>
+    <message>
+        <source>Search this library</source>
+        <translation>Diese Bibliothek durchsuchen</translation>
+    </message>
+    <message>
+        <source>Released</source>
+        <translation>Veröffentlicht</translation>
+    </message>
+    <message>
+        <source>My List</source>
+        <translation>Meine Liste</translation>
+    </message>
+    <message>
+        <source>Recently Added Media</source>
+        <translation>Kürzlich hinzugefügte Medien</translation>
+    </message>
+    <message>
+        <source>Colors</source>
+        <translation>Farben</translation>
+    </message>
+    <message>
+        <source>Background</source>
+        <translation>Hintergrund</translation>
     </message>
 </context>
 <context>
