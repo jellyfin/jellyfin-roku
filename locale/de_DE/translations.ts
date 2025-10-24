@@ -1172,7 +1172,7 @@
     </message>
     <message>
         <source>Remember the currently logged in user and try to log them in again next time you start the Jellyfin app.</source>
-        <translation type="unfinished">Merke den aktuell angemeldeten Benutzer und versuche, ihn beim nächsten Start der Jellyfin-App erneut anzumelden.</translation>
+        <translation>Merke den aktuell angemeldeten Benutzer und versuche, ihn beim nächsten Start von Jellyfin erneut anzumelden.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
@@ -1557,6 +1557,126 @@
     <message>
         <source>None</source>
         <translation>Keine</translation>
+    </message>
+    <message>
+        <source>Settings relating to the appearance of pages in all Libraries.</source>
+        <translation>Einstellungen zum Erscheinungsbild von Seiten in allen Bibliotheken.</translation>
+    </message>
+    <message>
+        <source>Playback Info</source>
+        <translation>Wiedergabe Informationen</translation>
+    </message>
+    <message>
+        <source>In My List</source>
+        <translation>In meiner Liste</translation>
+    </message>
+    <message>
+        <source>Manual Login</source>
+        <translation>Manueller Login</translation>
+    </message>
+    <message>
+        <source>as</source>
+        <translation>als</translation>
+    </message>
+    <message>
+        <source>Select User</source>
+        <translation>Benutzer auswählen</translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation>Ja</translation>
+    </message>
+    <message>
+        <source>No, Cancel</source>
+        <translation>Nein, abbrechen</translation>
+    </message>
+    <message>
+        <source>Seasons</source>
+        <translation>Staffeln</translation>
+    </message>
+    <message>
+        <source>Season</source>
+        <translation>Staffel</translation>
+    </message>
+    <message>
+        <source>Episode</source>
+        <translation>Episode</translation>
+    </message>
+    <message>
+        <source>Settings relating to the appearance of Library pages.</source>
+        <translation>Einstellungen zum Erscheinungsbild von Bibliotheken.</translation>
+    </message>
+    <message>
+        <source>Forget Filters</source>
+        <translation>Filter verwerfen</translation>
+    </message>
+    <message>
+        <source>Forget applied library filters when Jellyfin is closed.</source>
+        <translation>Verwerfen von angewendeten Filter auf Bibliotheken beim Beenden von Jellyfin.</translation>
+    </message>
+    <message>
+        <source>Mark As Played</source>
+        <translation>Als gesehen markieren</translation>
+    </message>
+    <message>
+        <source>Mark As Unplayed</source>
+        <translation>Als ungesehen markieren</translation>
+    </message>
+    <message>
+        <source>Add To Playlist</source>
+        <translation>Zur Wiedergabeliste hinzufügen</translation>
+    </message>
+    <message>
+        <source>Remove From My List</source>
+        <translation>Von meiner Liste entfernen</translation>
+    </message>
+    <message>
+        <source>Add To My List</source>
+        <translation>Zu meiner Liste hinzufügen</translation>
+    </message>
+    <message>
+        <source>Select Audio</source>
+        <translation>Audio auswählen</translation>
+    </message>
+    <message>
+        <source>Select Subtitles</source>
+        <translation>Untertitel auswählen</translation>
+    </message>
+    <message>
+        <source>Select Language</source>
+        <translation>Sprache auswählen</translation>
+    </message>
+    <message>
+        <source>Sort by</source>
+        <translation>Sortieren nach</translation>
+    </message>
+    <message>
+        <source>Press OK to type</source>
+        <translation>OK drücken für Eingabe</translation>
+    </message>
+    <message>
+        <source>Search this library</source>
+        <translation>Diese Bibliothek durchsuchen</translation>
+    </message>
+    <message>
+        <source>Released</source>
+        <translation>Veröffentlicht</translation>
+    </message>
+    <message>
+        <source>My List</source>
+        <translation>Meine Liste</translation>
+    </message>
+    <message>
+        <source>Recently Added Media</source>
+        <translation>Kürzlich hinzugefügte Medien</translation>
+    </message>
+    <message>
+        <source>Colors</source>
+        <translation>Farben</translation>
+    </message>
+    <message>
+        <source>Background</source>
+        <translation>Hintergrund</translation>
     </message>
 </context>
 <context>
