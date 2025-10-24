@@ -16,9 +16,19 @@ sub init()
 end sub
 
 sub setColors()
-    m.itemProgress.color = chainLookupReturn(m.global.session, "user.settings.colorHomeRowItemProgress", ColorPalette.TRIADBLUE)
-    m.itemProgressBackground.color = chainLookupReturn(m.global.session, "user.settings.colorHomeRowItemProgressBackground", ColorPalette.BLACK90)
-    m.backdrop.color = chainLookupReturn(m.global.session, "user.settings.colorHomeRowItemBackground", ColorPalette.ELEMENTBACKGROUND)
+    if not isAllValid([m.itemProgress, m.itemProgressBackground, m.backdrop]) then findNodes()
+
+    if isValid(m.itemProgress)
+        m.itemProgress.color = chainLookupReturn(m.global.session, "user.settings.colorHomeRowItemProgress", ColorPalette.TRIADBLUE)
+    end if
+
+    if isValid(m.itemProgressBackground)
+        m.itemProgressBackground.color = chainLookupReturn(m.global.session, "user.settings.colorHomeRowItemProgressBackground", ColorPalette.BLACK90)
+    end if
+
+    if isValid(m.backdrop)
+        m.backdrop.color = chainLookupReturn(m.global.session, "user.settings.colorHomeRowItemBackground", ColorPalette.ELEMENTBACKGROUND)
+    end if
 end sub
 
 sub findNodes()
