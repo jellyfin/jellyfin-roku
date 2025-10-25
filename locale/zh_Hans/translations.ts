@@ -671,7 +671,7 @@
     </message>
     <message>
         <source>Networks</source>
-        <translation>网络</translation>
+        <translation>平台</translation>
     </message>
     <message>
         <source>Studios</source>
@@ -1004,12 +1004,12 @@
     </message>
     <message>
         <source>Show What&apos;s New Popup</source>
-        <translation>显示“新内容”弹窗</translation>
+        <translation>显示“更新内容”弹窗</translation>
         <extracomment>Settings Menu - Title for option</extracomment>
     </message>
     <message>
         <source>Show What&apos;s New popup when Jellyfin is updated to a new version.</source>
-        <translation>在Jellyfin更新到新版本时显示“新内容”弹窗。</translation>
+        <translation>在Jellyfin更新到新版本时显示“更新内容”弹窗。</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
@@ -1209,221 +1209,221 @@
     </message>
     <message>
         <source>Preferred Audio Codec</source>
-        <translation type="unfinished"></translation>
+        <translation>首选音频编码</translation>
         <extracomment>Settings Menu - Title of option</extracomment>
     </message>
     <message>
         <source>Use the selected audio codec for transcodes. If the device or stream does not support it, a fallback codec will be used.</source>
-        <translation type="unfinished"></translation>
+        <translation>在转码时使用所选音频编码。如果设备或流不支持，将使用备用编码。</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Video Codec Support</source>
-        <translation type="unfinished"></translation>
+        <translation>视频编码支持</translation>
         <extracomment>Settings Menu - Title for option</extracomment>
     </message>
     <message>
         <source>Enable or disable Direct Play support for certain codecs.</source>
-        <translation type="unfinished"></translation>
+        <translation>启用或禁用对某些编码的直接播放支持。</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Video Profile Level Support</source>
-        <translation type="unfinished"></translation>
+        <translation>视频配置档与级别支持</translation>
         <extracomment>Settings Menu - Title for option</extracomment>
     </message>
     <message>
         <source>Attempt Direct Play of potentially unsupported profile levels</source>
-        <translation type="unfinished"></translation>
+        <translation>尝试直接播放可能不受支持的配置档级别</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Use system settings</source>
-        <translation type="unfinished"></translation>
+        <translation>使用系统设置</translation>
         <extracomment>User Setting - Option title</extracomment>
     </message>
     <message>
         <source>Direct playing</source>
-        <translation type="unfinished"></translation>
+        <translation>直接播放</translation>
     </message>
     <message>
         <source>The source file is entirely compatible with this client and the session is receiving the file without modifications.</source>
-        <translation type="unfinished"></translation>
+        <translation>源文件与客户端完全兼容，正在接收原始文件。</translation>
         <extracomment>Direct play info box text in GetPlaybackInfoTask.brs</extracomment>
     </message>
     <message>
         <source>Maximum Resolution</source>
-        <translation type="unfinished"></translation>
+        <translation>最大分辨率</translation>
         <extracomment>User Setting - Title</extracomment>
     </message>
     <message>
         <source>Set the maximum resolution when playing video files on this device.</source>
-        <translation type="unfinished"></translation>
+        <translation>设置在此设备上播放视频文件时的最大分辨率。</translation>
         <extracomment>User Setting - Description</extracomment>
     </message>
     <message>
         <source>Off - Attempt to play all resolutions</source>
-        <translation type="unfinished"></translation>
+        <translation>关闭 - 尝试播放所有分辨率</translation>
         <extracomment>User Setting - Option title</extracomment>
     </message>
     <message>
         <source>Auto - Use TV resolution</source>
-        <translation type="unfinished"></translation>
+        <translation>自动 - 使用电视分辨率</translation>
         <extracomment>User Setting - Option title</extracomment>
     </message>
     <message>
         <source>Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>模式</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Value</source>
-        <translation type="unfinished"></translation>
+        <translation>值</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Configure the maximum resolution when playing video files on this device.</source>
-        <translation type="unfinished"></translation>
+        <translation>配置在此设备上播放视频文件时的最大分辨率。</translation>
         <extracomment>User Setting - Description</extracomment>
     </message>
     <message>
         <source>Apply max resolution to all files or only transcoded files.</source>
-        <translation type="unfinished"></translation>
+        <translation>将最大分辨率应用于所有文件或仅转码文件。</translation>
         <extracomment>User Setting - Description</extracomment>
     </message>
     <message>
         <source>All files</source>
-        <translation type="unfinished"></translation>
+        <translation>所有文件</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Only transcoded files</source>
-        <translation type="unfinished"></translation>
+        <translation>仅转码文件</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Compatibility</source>
-        <translation type="unfinished"></translation>
+        <translation>兼容性</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Attempt to prevent playback failures.</source>
-        <translation type="unfinished"></translation>
+        <translation>尝试避免播放失败。</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
         <source>Disable HEVC</source>
-        <translation type="unfinished"></translation>
+        <translation>禁用HEVC</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Disable the HEVC codec on this device. This may improve playback for some devices (ultra).</source>
-        <translation type="unfinished"></translation>
+        <translation>在此设备上禁用 HEVC 编码。这可能改善部分设备（如 Ultra 型号）的播放表现。</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
         <source>Global</source>
-        <translation type="unfinished"></translation>
+        <translation>全局</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Global settings that affect everyone that uses this Roku device.</source>
-        <translation type="unfinished"></translation>
+        <translation>对所有使用此 Roku 设备的用户生效的全局设置。</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
         <source>Remember Me?</source>
-        <translation type="unfinished"></translation>
+        <translation>是否记住我？</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Remember the currently logged in user and try to log them in again next time you start the Jellyfin app.</source>
-        <translation type="unfinished"></translation>
+        <translation>记住当前登录的用户，下次启动 Jellyfin 时尝试自动登录。</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
         <source>Custom Trickplay</source>
-        <translation type="unfinished"></translation>
+        <translation>自定义播放预览</translation>
         <extracomment>User Setting - Title for option</extracomment>
     </message>
     <message>
         <source>Display custom trickplay images even if this Roku says it&apos;s displaying its own. This may cause the two images to overlay on top of each other.</source>
-        <translation type="unfinished"></translation>
+        <translation>即使此 Roku 设备会显示其自带的快进/快退预览图，也显示自定义的预览图。可能会导致两张图片叠加显示。</translation>
         <extracomment>User Setting - Description for option</extracomment>
     </message>
     <message>
         <source>Force Transcoding</source>
-        <translation type="unfinished"></translation>
+        <translation>强制转码</translation>
         <extracomment>User Setting - Title for option</extracomment>
     </message>
     <message>
         <source>Force all playable media to be transcoded.</source>
-        <translation type="unfinished"></translation>
+        <translation>强制所有可播放媒体进行转码。</translation>
         <extracomment>User Setting - Description for option</extracomment>
     </message>
     <message>
         <source>Media Segment Actions</source>
-        <translation type="unfinished"></translation>
+        <translation>媒体片段操作</translation>
         <extracomment>User Setting - Title for option</extracomment>
     </message>
     <message>
         <source>Settings relating to how Jellyfin should handle media segments.</source>
-        <translation type="unfinished"></translation>
+        <translation>与Jellyfin如何处理媒体片段相关的设置。</translation>
         <extracomment>User Setting - Description for option</extracomment>
     </message>
     <message>
         <source>Commercial Segments</source>
-        <translation type="unfinished"></translation>
+        <translation>广告片段</translation>
         <extracomment>User Setting - Title for option</extracomment>
     </message>
     <message>
         <source>What action should Jellyfin take for commercial segments?</source>
-        <translation type="unfinished"></translation>
+        <translation>Jellyfin 应对广告片段执行什么操作？</translation>
         <extracomment>User Setting - Description for option</extracomment>
     </message>
     <message>
         <source>Intro Segments</source>
-        <translation type="unfinished"></translation>
+        <translation>片头片段</translation>
         <extracomment>User Setting - Title for option</extracomment>
     </message>
     <message>
         <source>What action should Jellyfin take for intro segments?</source>
-        <translation type="unfinished"></translation>
+        <translation>Jellyfin 应对片头片段执行什么操作？</translation>
         <extracomment>User Setting - Description for option</extracomment>
     </message>
     <message>
         <source>Outro Segments</source>
-        <translation type="unfinished"></translation>
+        <translation>片尾片段</translation>
         <extracomment>User Setting - Title for option</extracomment>
     </message>
     <message>
         <source>What action should Jellyfin take for outro segments?</source>
-        <translation type="unfinished"></translation>
+        <translation>Jellyfin 应对片尾片段执行什么操作？</translation>
         <extracomment>User Setting - Description for option</extracomment>
     </message>
     <message>
         <source>Preview Segments</source>
-        <translation type="unfinished"></translation>
+        <translation>预览片段</translation>
         <extracomment>User Setting - Title for option</extracomment>
     </message>
     <message>
         <source>What action should Jellyfin take for preview segments?</source>
-        <translation type="unfinished"></translation>
+        <translation>Jellyfin 应对预览片段执行什么操作？</translation>
         <extracomment>User Setting - Description for option</extracomment>
     </message>
     <message>
         <source>Recap Segments</source>
-        <translation type="unfinished"></translation>
+        <translation>剧情回顾片段</translation>
         <extracomment>User Setting - Title for option</extracomment>
     </message>
     <message>
         <source>What action should Jellyfin take for recap segments?</source>
-        <translation type="unfinished"></translation>
+        <translation>Jellyfin 应对剧情回顾片段执行什么操作？</translation>
         <extracomment>User Setting - Description for option</extracomment>
     </message>
     <message>
         <source>Ask To Skip</source>
-        <translation type="unfinished"></translation>
+        <translation>请求跳过</translation>
         <extracomment>User Setting - Options</extracomment>
     </message>
     <message>
@@ -1433,368 +1433,368 @@
     </message>
     <message>
         <source>None</source>
-        <translation type="unfinished"></translation>
+        <translation>无</translation>
         <extracomment>User Setting - Options</extracomment>
     </message>
     <message>
         <source>No Chapter Data Found</source>
-        <translation type="unfinished"></translation>
+        <translation>未找到章节数据</translation>
         <extracomment>Message shown in OSD when no chapter data is returned by the API</extracomment>
     </message>
     <message>
         <source>Use Web Client&apos;s Home Section Arrangement</source>
-        <translation type="unfinished"></translation>
+        <translation>使用网页版客户端的首页栏目排列</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Make the arrangement of the Roku home view sections match the web client&apos;s home screen. Jellyfin will need to be closed and reopened for change to take effect.</source>
-        <translation type="unfinished"></translation>
+        <translation>将 Roku 主界面栏目的排列方式与网页版客户端首页保持一致。更改后需要关闭并重新打开 Jellyfin 才能生效。</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
         <source>Welcome to version</source>
-        <translation type="unfinished"></translation>
+        <translation>欢迎使用版本</translation>
         <extracomment>WhatsNewDialog title - Welcome to version 2.0.0</extracomment>
     </message>
     <message>
         <source>To view a complete list of changes visit</source>
-        <translation type="unfinished"></translation>
+        <translation>要查看完整的更新列表，请访问</translation>
         <extracomment>WhatsNewDialog body text preceding the changelog URL</extracomment>
     </message>
     <message>
         <source>Random</source>
-        <translation type="unfinished"></translation>
+        <translation>随机</translation>
         <extracomment>General use word when we want to randomize data</extracomment>
     </message>
     <message>
         <source>... (Press * to read more)</source>
-        <translation type="unfinished"></translation>
+        <translation>...（按 * 键查看更多）</translation>
         <extracomment>Ellipsis Text for when text overflows its container</extracomment>
     </message>
     <message>
         <source>Item Detail Screen</source>
-        <translation type="unfinished"></translation>
+        <translation>条目详情界面</translation>
         <extracomment>User interface Menu - Title for option</extracomment>
     </message>
     <message>
         <source>Settings relating to the appearance of the item detail screen.</source>
-        <translation type="unfinished"></translation>
+        <translation>与条目详情界面外观相关的设置。</translation>
         <extracomment>User interface Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Community and Critical Ratings</source>
-        <translation type="unfinished"></translation>
+        <translation>社区与影评评分</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Ratings for how good a movie is</source>
-        <translation type="unfinished"></translation>
+        <translation>来自烂番茄的社区评分和影评评分。</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
         <source>Overview Content</source>
-        <translation type="unfinished"></translation>
+        <translation>概览内容</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>A quick overview of the item selected - typically a short plot outline.</source>
-        <translation type="unfinished"></translation>
+        <translation>所选条目的快速概览——通常为简短剧情简介。</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
         <source>Settings relating to the appearance of Library pages.</source>
-        <translation type="unfinished"></translation>
+        <translation>与媒体库页面外观相关的设置。</translation>
         <extracomment>Libraries Setting - Setting description</extracomment>
     </message>
     <message>
         <source>Settings relating to the appearance of pages in all Libraries.</source>
-        <translation type="unfinished"></translation>
+        <translation>与所有媒体库页面外观相关的设置。</translation>
         <extracomment>Libraries Setting - Setting description</extracomment>
     </message>
     <message>
         <source>Forget Filters</source>
-        <translation type="unfinished"></translation>
+        <translation>清除筛选</translation>
         <extracomment>Libraries Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Forget applied library filters when Jellyfin is closed.</source>
-        <translation type="unfinished"></translation>
+        <translation>关闭 Jellyfin 时清除已应用的媒体库筛选条件。</translation>
         <extracomment>Libraries Setting - Setting description</extracomment>
     </message>
     <message>
         <source>Library Landscape Column Count</source>
-        <translation type="unfinished"></translation>
+        <translation>媒体库横向列数</translation>
         <extracomment>Libraries Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Number of columns in library view when showing landscape (wide) images</source>
-        <translation type="unfinished"></translation>
+        <translation>在显示横向（宽幅）图片时，媒体库视图的列数</translation>
         <extracomment>Libraries Setting - Setting description</extracomment>
     </message>
     <message>
         <source>Library Portrait Column Count</source>
-        <translation type="unfinished"></translation>
+        <translation>媒体库纵向列数</translation>
         <extracomment>Libraries Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Number of columns in library view when showing portrait (tall) images</source>
-        <translation type="unfinished"></translation>
+        <translation>在显示纵向（高幅）图片时，媒体库视图的列数</translation>
         <extracomment>Libraries Setting - Setting description</extracomment>
     </message>
     <message>
         <source>Library Square Column Count</source>
-        <translation type="unfinished"></translation>
+        <translation>媒体库方形列数</translation>
         <extracomment>Libraries Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Number of columns in library view when showing square images</source>
-        <translation type="unfinished"></translation>
+        <translation>在显示方形图片时，媒体库视图的列数</translation>
         <extracomment>Libraries Setting - Setting description</extracomment>
     </message>
     <message>
         <source>View All Next Up</source>
-        <translation type="unfinished"></translation>
+        <translation>查看下一集中所有剧集</translation>
         <extracomment>Title for viewing all episodes available in the Next Up section</extracomment>
     </message>
     <message>
         <source>Rewatching Next Up</source>
-        <translation type="unfinished"></translation>
+        <translation>重看下一集</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Show already watched episodes in &apos;Next Up&apos; sections.</source>
-        <translation type="unfinished"></translation>
+        <translation>在“下一集”区域显示已观看的剧集。</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
         <source>Episode Images Next Up</source>
-        <translation type="unfinished"></translation>
+        <translation>下一集剧集图片</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>What type of images to use for Episodes shown in the &apos;Next Up&apos; and &apos;Continue Watching&apos; sections.</source>
-        <translation type="unfinished"></translation>
+        <translation>在“下一集”和“继续观看”区域显示剧集时使用的图片类型。</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
         <source>Use Web Client Setting</source>
-        <translation type="unfinished"></translation>
+        <translation>使用网页版客户端设置</translation>
         <extracomment>User Setting - Setting option title</extracomment>
     </message>
     <message>
         <source>Use Episode Image</source>
-        <translation type="unfinished"></translation>
+        <translation>使用单集封面</translation>
         <extracomment>User Setting - Setting option title</extracomment>
     </message>
     <message>
         <source>Use Show Image</source>
-        <translation type="unfinished"></translation>
+        <translation>使用剧集封面</translation>
         <extracomment>User Setting - Setting option title</extracomment>
     </message>
     <message>
         <source>The selected Jellyfin server uses version</source>
-        <translation type="unfinished"></translation>
+        <translation>所选的 Jellyfin 服务器使用版本</translation>
     </message>
     <message>
         <source>which is not supported by this app. Please update the server to</source>
-        <translation type="unfinished"></translation>
+        <translation>不被此应用支持。请将服务器更新至</translation>
     </message>
     <message>
         <source>or newer to use this app or install and use the Jellyfin Legacy app from Roku&apos;s Streaming Store</source>
-        <translation type="unfinished"></translation>
+        <translation>或更新版本，以使用此应用；或者从 Roku 流媒体商店安装并使用 Jellyfin Legacy 应用</translation>
     </message>
     <message>
         <source>Return to server select screen</source>
-        <translation type="unfinished"></translation>
+        <translation>返回服务器选择界面</translation>
     </message>
     <message>
         <source>CH</source>
-        <translation type="unfinished"></translation>
+        <translation>频道</translation>
         <extracomment>Abbreviation for Channel</extracomment>
     </message>
     <message>
         <source>Use Fallback Font Across App</source>
-        <translation type="unfinished"></translation>
+        <translation>全应用使用备用字体</translation>
     </message>
     <message>
         <source>Changes the font used in the app to the server&apos;s configured fallback font.</source>
-        <translation type="unfinished"></translation>
+        <translation>将应用中使用的字体更改为服务器配置的备用字体。</translation>
     </message>
     <message>
         <source>Highlighted Color</source>
-        <translation type="unfinished"></translation>
+        <translation>高亮颜色</translation>
     </message>
     <message>
         <source>Folders</source>
-        <translation type="unfinished"></translation>
+        <translation>文件夹</translation>
     </message>
     <message>
         <source>Go To Artist</source>
-        <translation type="unfinished"></translation>
+        <translation>前往艺术家页面</translation>
     </message>
     <message>
         <source>No Results Found</source>
-        <translation type="unfinished"></translation>
+        <translation>未找到结果</translation>
     </message>
     <message>
         <source>Format</source>
-        <translation type="unfinished"></translation>
+        <translation>格式</translation>
     </message>
     <message>
         <source>downloads</source>
-        <translation type="unfinished"></translation>
+        <translation>下载</translation>
     </message>
     <message>
         <source>Series</source>
-        <translation type="unfinished"></translation>
+        <translation>剧集</translation>
     </message>
     <message>
         <source>Part</source>
-        <translation type="unfinished"></translation>
+        <translation>部分</translation>
     </message>
     <message>
         <source>Play / Resume from</source>
-        <translation type="unfinished"></translation>
+        <translation>播放 / 从上次位置继续</translation>
     </message>
     <message>
         <source>Play or Resume from</source>
-        <translation type="unfinished"></translation>
+        <translation>播放或从上次位置继续</translation>
     </message>
     <message>
         <source>What&apos;s New</source>
-        <translation type="unfinished"></translation>
+        <translation>更新内容</translation>
     </message>
     <message>
         <source>Skip</source>
-        <translation type="unfinished"></translation>
+        <translation>跳过</translation>
     </message>
     <message>
         <source>Sort by</source>
-        <translation type="unfinished"></translation>
+        <translation>排序方式</translation>
     </message>
     <message>
         <source>Search is unavailable because the API does not support searching inside boxsets.</source>
-        <translation type="unfinished"></translation>
+        <translation>搜索不可用，因为 API 不支持在合集内搜索。</translation>
     </message>
     <message>
         <source>Search is unavailable because the API does not support searching inside My List.</source>
-        <translation type="unfinished"></translation>
+        <translation>搜索不可用，因为 API 不支持在“我的列表”中搜索。</translation>
     </message>
     <message>
         <source>Search this library</source>
-        <translation type="unfinished"></translation>
+        <translation>在此媒体库中搜索</translation>
     </message>
     <message>
         <source>Mark As Unplayed</source>
-        <translation type="unfinished"></translation>
+        <translation>标记为未观看</translation>
     </message>
     <message>
         <source>Mark As Played</source>
-        <translation type="unfinished"></translation>
+        <translation>标记为已观看</translation>
     </message>
     <message>
         <source>Add To Playlist</source>
-        <translation type="unfinished"></translation>
+        <translation>加入播放列表</translation>
     </message>
     <message>
         <source>Remove From My List</source>
-        <translation type="unfinished"></translation>
+        <translation>从“我的列表”中移除</translation>
     </message>
     <message>
         <source>Add To My List</source>
-        <translation type="unfinished"></translation>
+        <translation>加入“我的列表”</translation>
     </message>
     <message>
         <source>Press OK to type</source>
-        <translation type="unfinished"></translation>
+        <translation>按 OK 键输入</translation>
     </message>
     <message>
         <source>Library Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>媒体库设置</translation>
     </message>
     <message>
         <source>Display Watched Checkmark</source>
-        <translation type="unfinished"></translation>
+        <translation>显示已观看勾选标记</translation>
     </message>
     <message>
         <source>Playback Info</source>
-        <translation type="unfinished"></translation>
+        <translation>播放信息</translation>
     </message>
     <message>
         <source>Select Audio</source>
-        <translation type="unfinished"></translation>
+        <translation>选择音轨</translation>
     </message>
     <message>
         <source>Select Subtitles</source>
-        <translation type="unfinished"></translation>
+        <translation>选择字幕</translation>
     </message>
     <message>
         <source>Select Language</source>
-        <translation type="unfinished"></translation>
+        <translation>选择语言</translation>
     </message>
     <message>
         <source>Tracks</source>
-        <translation type="unfinished"></translation>
+        <translation>轨道</translation>
     </message>
     <message>
         <source>Released</source>
-        <translation type="unfinished"></translation>
+        <translation>发行日期</translation>
     </message>
     <message>
         <source>min</source>
-        <translation type="unfinished"></translation>
+        <translation>分钟</translation>
     </message>
     <message>
         <source>mins</source>
-        <translation type="unfinished"></translation>
+        <translation>分钟</translation>
     </message>
     <message>
         <source>Continue Listening</source>
-        <translation type="unfinished"></translation>
+        <translation>继续收听</translation>
     </message>
     <message>
         <source>In My List</source>
-        <translation type="unfinished"></translation>
+        <translation>在“我的列表”中</translation>
     </message>
     <message>
         <source>AppearsOn</source>
-        <translation type="unfinished"></translation>
+        <translation>参演作品</translation>
     </message>
     <message>
         <source>Public Profile</source>
-        <translation type="unfinished"></translation>
+        <translation>公开资料</translation>
     </message>
     <message>
         <source>Saved Profile</source>
-        <translation type="unfinished"></translation>
+        <translation>已保存资料</translation>
     </message>
     <message>
         <source>Manage Hidden Users</source>
-        <translation type="unfinished"></translation>
+        <translation>管理隐藏用户</translation>
     </message>
     <message>
         <source>Select User</source>
-        <translation type="unfinished"></translation>
+        <translation>选择用户</translation>
     </message>
     <message>
         <source>Are you sure you want to forget this user?</source>
-        <translation type="unfinished"></translation>
+        <translation>您确定要删除此用户吗？</translation>
     </message>
     <message>
         <source>Are you sure you want to delete this subtitle?</source>
-        <translation type="unfinished"></translation>
+        <translation>您确定要删除这个字幕吗？</translation>
     </message>
     <message>
         <source>Yes</source>
-        <translation type="unfinished"></translation>
+        <translation>是</translation>
     </message>
     <message>
         <source>No, Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>否，取消</translation>
     </message>
     <message>
         <source>Manual Login</source>
-        <translation type="unfinished"></translation>
+        <translation>手动登录</translation>
     </message>
     <message>
         <source>Unhide Users</source>
@@ -1802,289 +1802,289 @@
     </message>
     <message>
         <source>Unhide Users</source>
-        <translation type="unfinished"></translation>
+        <translation>取消隐藏用户</translation>
     </message>
     <message>
         <source>Play Normally - disabled because of selected force transcoding setting</source>
-        <translation type="unfinished"></translation>
+        <translation>正常播放 —— 已禁用，因为已选择强制转码设置</translation>
     </message>
     <message>
         <source>as</source>
-        <translation type="unfinished"></translation>
+        <translation>饰</translation>
         <extracomment>Used in ExtrasRowList.bs to show the role of a person in a movie or TV show</extracomment>
     </message>
     <message>
         <source>Seasons</source>
-        <translation type="unfinished"></translation>
+        <translation>季数</translation>
         <extracomment>Used in TVSeasonRow.bs to show the title of a row containing seasons</extracomment>
     </message>
     <message>
         <source>Season</source>
-        <translation type="unfinished"></translation>
+        <translation>季</translation>
     </message>
     <message>
         <source>Episode</source>
-        <translation type="unfinished"></translation>
+        <translation>集</translation>
     </message>
     <message>
         <source>Section 1</source>
-        <translation type="unfinished"></translation>
+        <translation>第 1 部分</translation>
     </message>
     <message>
         <source>Section 2</source>
-        <translation type="unfinished"></translation>
+        <translation>第 2 部分</translation>
     </message>
     <message>
         <source>Section 3</source>
-        <translation type="unfinished"></translation>
+        <translation>第 3 部分</translation>
     </message>
     <message>
         <source>Section 4</source>
-        <translation type="unfinished"></translation>
+        <translation>第 4 部分</translation>
     </message>
     <message>
         <source>Section 5</source>
-        <translation type="unfinished"></translation>
+        <translation>第 5 部分</translation>
     </message>
     <message>
         <source>Section 6</source>
-        <translation type="unfinished"></translation>
+        <translation>第 6 部分</translation>
     </message>
     <message>
         <source>Section 7</source>
-        <translation type="unfinished"></translation>
+        <translation>第 7 部分</translation>
     </message>
     <message>
         <source>Section 8</source>
-        <translation type="unfinished"></translation>
+        <translation>第 8 部分</translation>
     </message>
     <message>
         <source>Select what to show in section 1. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
-        <translation type="unfinished"></translation>
+        <translation>选择在第1部分显示的内容。如果启用了“使用网页版客户端的首页栏目排列”，此设置将无效。更改后需要关闭并重新打开 Jellyfin 才能生效。</translation>
     </message>
     <message>
         <source>Select what to show in section 2. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
-        <translation type="unfinished"></translation>
+        <translation>选择在第2部分显示的内容。如果启用了“使用网页版客户端的首页栏目排列”，此设置将无效。更改后需要关闭并重新打开 Jellyfin 才能生效。</translation>
     </message>
     <message>
         <source>Select what to show in section 3. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
-        <translation type="unfinished"></translation>
+        <translation>选择在第3部分显示的内容。如果启用了“使用网页版客户端的首页栏目排列”，此设置将无效。更改后需要关闭并重新打开 Jellyfin 才能生效。</translation>
     </message>
     <message>
         <source>Select what to show in section 4. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
-        <translation type="unfinished"></translation>
+        <translation>选择在第4部分显示的内容。如果启用了“使用网页版客户端的首页栏目排列”，此设置将无效。更改后需要关闭并重新打开 Jellyfin 才能生效。</translation>
     </message>
     <message>
         <source>Select what to show in section 5. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
-        <translation type="unfinished"></translation>
+        <translation>选择在第5部分显示的内容。如果启用了“使用网页版客户端的首页栏目排列”，此设置将无效。更改后需要关闭并重新打开 Jellyfin 才能生效。</translation>
     </message>
     <message>
         <source>Select what to show in section 6. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
-        <translation type="unfinished"></translation>
+        <translation>选择在第6部分显示的内容。如果启用了“使用网页版客户端的首页栏目排列”，此设置将无效。更改后需要关闭并重新打开 Jellyfin 才能生效。</translation>
     </message>
     <message>
         <source>Select what to show in section 7. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
-        <translation type="unfinished"></translation>
+        <translation>选择在第7部分显示的内容。如果启用了“使用网页版客户端的首页栏目排列”，此设置将无效。更改后需要关闭并重新打开 Jellyfin 才能生效。</translation>
     </message>
     <message>
         <source>Select what to show in section 8. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
-        <translation type="unfinished"></translation>
+        <translation>选择在第8部分显示的内容。如果启用了“使用网页版客户端的首页栏目排列”，此设置将无效。更改后需要关闭并重新打开 Jellyfin 才能生效。</translation>
     </message>
     <message>
         <source>Live TV</source>
-        <translation type="unfinished"></translation>
+        <translation>直播电视</translation>
     </message>
     <message>
         <source>My List</source>
-        <translation type="unfinished"></translation>
+        <translation>我的列表</translation>
     </message>
     <message>
         <source>Recently Added Media</source>
-        <translation type="unfinished"></translation>
+        <translation>最近添加的媒体</translation>
     </message>
     <message>
         <source>Customize the home screen sections</source>
-        <translation type="unfinished"></translation>
+        <translation>自定义主页部分</translation>
     </message>
     <message>
         <source>Home Rows</source>
-        <translation type="unfinished"></translation>
+        <translation>首页栏目</translation>
     </message>
     <message>
         <source>Colors</source>
-        <translation type="unfinished"></translation>
+        <translation>颜色</translation>
     </message>
     <message>
         <source>Change the colors of elements in the app.</source>
-        <translation type="unfinished"></translation>
+        <translation>更改应用中元素的颜色。</translation>
     </message>
     <message>
         <source>All Screens</source>
-        <translation type="unfinished"></translation>
+        <translation>所有屏幕</translation>
     </message>
     <message>
         <source>Colors used across multiple screens.</source>
-        <translation type="unfinished"></translation>
+        <translation>在多个屏幕中使用的颜色。</translation>
     </message>
     <message>
         <source>Background</source>
-        <translation type="unfinished"></translation>
+        <translation>背景</translation>
     </message>
     <message>
         <source>The base background color. Background images are layered on top of this color.</source>
-        <translation type="unfinished"></translation>
+        <translation>基础背景颜色。背景图片会叠加在此颜色之上。</translation>
     </message>
     <message>
         <source>Cursor</source>
-        <translation type="unfinished"></translation>
+        <translation>光标</translation>
     </message>
     <message>
         <source>The color of the remote control&apos;s cursor.</source>
-        <translation type="unfinished"></translation>
+        <translation>遥控器光标的颜色。</translation>
     </message>
     <message>
         <source>Primary Text</source>
-        <translation type="unfinished"></translation>
+        <translation>主文本</translation>
     </message>
     <message>
         <source>The primary text color.</source>
-        <translation type="unfinished"></translation>
+        <translation>主文本颜色。</translation>
     </message>
     <message>
         <source>Secondary Text</source>
-        <translation type="unfinished"></translation>
+        <translation>次文本</translation>
     </message>
     <message>
         <source>The secondary text color.</source>
-        <translation type="unfinished"></translation>
+        <translation>次文本颜色。</translation>
     </message>
     <message>
         <source>Watched Check Mark &amp; Unplayed Count</source>
-        <translation type="unfinished"></translation>
+        <translation>已观看标记 &amp; 未播放计数</translation>
     </message>
     <message>
         <source>Colors specific to the watched check mark &amp; unplayed count box.</source>
-        <translation type="unfinished"></translation>
+        <translation>已观看标记与未播放计数框的专用颜色。</translation>
     </message>
     <message>
         <source>The background color of the check mark &amp; unplayed count shown in the top right corner of items.</source>
-        <translation type="unfinished"></translation>
+        <translation>显示在项目右上角的已观看标记和未播放计数的背景颜色。</translation>
     </message>
     <message>
         <source>Unplayed Count</source>
-        <translation type="unfinished"></translation>
+        <translation>未播放计数</translation>
     </message>
     <message>
         <source>The color of the unplayed count number.</source>
-        <translation type="unfinished"></translation>
+        <translation>未播放计数数字的颜色。</translation>
     </message>
     <message>
         <source>Watched Check Mark</source>
-        <translation type="unfinished"></translation>
+        <translation>已观看标记</translation>
     </message>
     <message>
         <source>The color of the watched check mark.</source>
-        <translation type="unfinished"></translation>
+        <translation>已观看标记的颜色。</translation>
     </message>
     <message>
         <source>Dialog Popups</source>
-        <translation type="unfinished"></translation>
+        <translation>对话弹窗</translation>
     </message>
     <message>
         <source>Colors specific to dialog popups</source>
-        <translation type="unfinished"></translation>
+        <translation>对话弹窗的专用颜色</translation>
     </message>
     <message>
         <source>The background color for all dialog popups.</source>
-        <translation type="unfinished"></translation>
+        <translation>所有对话弹窗的背景颜色。</translation>
     </message>
     <message>
         <source>Bold Text</source>
-        <translation type="unfinished"></translation>
+        <translation>粗体文本</translation>
     </message>
     <message>
         <source>The text color for bold text.</source>
-        <translation type="unfinished"></translation>
+        <translation>粗体文本的颜色。</translation>
     </message>
     <message>
         <source>Horizontal Border line</source>
-        <translation type="unfinished"></translation>
+        <translation>下划线</translation>
     </message>
     <message>
         <source>The color of the thin border line under the header text.</source>
-        <translation type="unfinished"></translation>
+        <translation>标题文字下方下划线的颜色。</translation>
     </message>
     <message>
         <source>Selected Text</source>
-        <translation type="unfinished"></translation>
+        <translation>选中文本</translation>
     </message>
     <message>
         <source>The text color for the item the cursor is over.</source>
-        <translation type="unfinished"></translation>
+        <translation>光标所在项目的文字颜色。</translation>
     </message>
     <message>
         <source>Text Color</source>
-        <translation type="unfinished"></translation>
+        <translation>文字颜色</translation>
     </message>
     <message>
         <source>The text color for title and items the cursor is not over.</source>
-        <translation type="unfinished"></translation>
+        <translation>非光标所在标题及项目的文字颜色。</translation>
     </message>
     <message>
         <source>What&apos;s New Author</source>
-        <translation type="unfinished"></translation>
+        <translation>更新作者</translation>
     </message>
     <message>
         <source>The text color for the author in the What&apos;s New popup.</source>
-        <translation type="unfinished"></translation>
+        <translation>“更新内容”弹窗中作者的文字颜色。</translation>
     </message>
     <message>
         <source>Home Screen</source>
-        <translation type="unfinished"></translation>
+        <translation>首页</translation>
     </message>
     <message>
         <source>Colors specific to the home screen</source>
-        <translation type="unfinished"></translation>
+        <translation>首页专用颜色</translation>
     </message>
     <message>
         <source>My List Icon</source>
-        <translation type="unfinished"></translation>
+        <translation>“我的列表”图标</translation>
     </message>
     <message>
         <source>The color of the star icon in the My List library item.</source>
-        <translation type="unfinished"></translation>
+        <translation>“我的列表”中项目星标的颜色。</translation>
     </message>
     <message>
         <source>Row Headers</source>
-        <translation type="unfinished"></translation>
+        <translation>栏目标题</translation>
     </message>
     <message>
         <source>The text color of the headers of each row.</source>
-        <translation type="unfinished"></translation>
+        <translation>每个栏目标题的文字颜色。</translation>
     </message>
     <message>
         <source>Row Item Background</source>
-        <translation type="unfinished"></translation>
+        <translation>行项目背景</translation>
     </message>
     <message>
         <source>The background color of items. Only seen if no image loads on top of it.</source>
-        <translation type="unfinished"></translation>
+        <translation>项目的背景颜色，仅在未加载图片时显示。</translation>
     </message>
     <message>
         <source>Row Item Progress</source>
-        <translation type="unfinished"></translation>
+        <translation>行项目进度</translation>
     </message>
     <message>
         <source>The color of the watched portion of the progress bar.</source>
-        <translation type="unfinished"></translation>
+        <translation>进度条中已观看部分的颜色。</translation>
     </message>
     <message>
         <source>Row Item Progress Background</source>
-        <translation type="unfinished"></translation>
+        <translation>行项目进度条背景</translation>
     </message>
     <message>
         <source>The background color of the progress bar.</source>
-        <translation type="unfinished"></translation>
+        <translation>进度条的背景颜色。</translation>
     </message>
     <message>
         <source>Row Item Subtitle</source>
