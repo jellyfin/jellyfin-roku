@@ -1473,12 +1473,12 @@
     </message>
     <message>
         <source>Item Detail Screen</source>
-        <translation>条目详情界面</translation>
+        <translation>项目详情界面</translation>
         <extracomment>User interface Menu - Title for option</extracomment>
     </message>
     <message>
         <source>Settings relating to the appearance of the item detail screen.</source>
-        <translation>与条目详情界面外观相关的设置。</translation>
+        <translation>与项目详情界面外观相关的设置。</translation>
         <extracomment>User interface Menu - Description for option</extracomment>
     </message>
     <message>
@@ -1498,7 +1498,7 @@
     </message>
     <message>
         <source>A quick overview of the item selected - typically a short plot outline.</source>
-        <translation>所选条目的快速概览——通常为简短剧情简介。</translation>
+        <translation>所选项目的快速概览——通常为简短剧情简介。</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
@@ -1523,7 +1523,7 @@
     </message>
     <message>
         <source>Library Landscape Column Count</source>
-        <translation>媒体库横向列数</translation>
+        <translation>横向媒体库列数</translation>
         <extracomment>Libraries Setting - Setting title</extracomment>
     </message>
     <message>
@@ -1533,7 +1533,7 @@
     </message>
     <message>
         <source>Library Portrait Column Count</source>
-        <translation>媒体库纵向列数</translation>
+        <translation>纵向媒体库列数</translation>
         <extracomment>Libraries Setting - Setting title</extracomment>
     </message>
     <message>
@@ -1543,7 +1543,7 @@
     </message>
     <message>
         <source>Library Square Column Count</source>
-        <translation>媒体库方形列数</translation>
+        <translation>方形媒体库列数</translation>
         <extracomment>Libraries Setting - Setting title</extracomment>
     </message>
     <message>
@@ -2064,7 +2064,7 @@
     </message>
     <message>
         <source>Row Item Background</source>
-        <translation>行项目背景</translation>
+        <translation>内容项背景</translation>
     </message>
     <message>
         <source>The background color of items. Only seen if no image loads on top of it.</source>
@@ -2072,7 +2072,7 @@
     </message>
     <message>
         <source>Row Item Progress</source>
-        <translation>行项目进度</translation>
+        <translation>内容项进度条</translation>
     </message>
     <message>
         <source>The color of the watched portion of the progress bar.</source>
@@ -2080,7 +2080,7 @@
     </message>
     <message>
         <source>Row Item Progress Background</source>
-        <translation>行项目进度条背景</translation>
+        <translation>内容项进度条背景</translation>
     </message>
     <message>
         <source>The background color of the progress bar.</source>
@@ -2088,99 +2088,99 @@
     </message>
     <message>
         <source>Row Item Subtitle</source>
-        <translation type="unfinished"></translation>
+        <translation>内容项副标题</translation>
     </message>
     <message>
         <source>The text color of the second line displayed under items.</source>
-        <translation type="unfinished"></translation>
+        <translation>项目下方第二行文字的颜色。</translation>
     </message>
     <message>
         <source>Row Item Title</source>
-        <translation type="unfinished"></translation>
+        <translation>内容项标题</translation>
     </message>
     <message>
         <source>The text color of the first line displayed under items.</source>
-        <translation type="unfinished"></translation>
+        <translation>项目下方第一行文字的颜色。</translation>
     </message>
     <message>
         <source>Username In Header</source>
-        <translation type="unfinished"></translation>
+        <translation>标题栏用户名</translation>
     </message>
     <message>
         <source>The text color of the user&apos;s name in the header.</source>
-        <translation type="unfinished"></translation>
+        <translation>标题栏中用户名的文字颜色。</translation>
     </message>
     <message>
         <source>Shuffle Play Collection</source>
-        <translation type="unfinished"></translation>
+        <translation>随机播放合集</translation>
     </message>
     <message>
         <source>Note: Force transcode option automatically enabled due to video rotation</source>
-        <translation type="unfinished"></translation>
+        <translation>注意：由于视频旋转，已自动启用强制转码选项</translation>
     </message>
     <message>
         <source>Start Episode List From First Unwatched Episode</source>
-        <translation type="unfinished"></translation>
+        <translation>从未观看的第一集开始播放列表</translation>
     </message>
     <message>
         <source>When opening a season&apos;s list of episodes, automatically scroll down and start the cursor on the first unwatched episode.</source>
-        <translation type="unfinished"></translation>
+        <translation>打开剧集季列表时，自动滚动并将光标定位到未观看的第一集。</translation>
     </message>
     <message>
         <source>Add To Favorites</source>
-        <translation type="unfinished"></translation>
+        <translation>添加到收藏</translation>
     </message>
     <message>
         <source>Remove From Favorites</source>
-        <translation type="unfinished"></translation>
+        <translation>从收藏中移除</translation>
     </message>
     <message>
         <source>Play Normally</source>
-        <translation type="unfinished"></translation>
+        <translation>正常播放</translation>
     </message>
     <message>
         <source>Force Transcode (Allow Remux)</source>
-        <translation type="unfinished"></translation>
+        <translation>强制转码（允许直传）</translation>
     </message>
     <message>
         <source>Force Transcode (Allow Remux) - disabled because of selected force transcoding setting</source>
-        <translation type="unfinished"></translation>
+        <translation>强制转码（允许直传）——已禁用，因为已选择强制转码设置</translation>
     </message>
     <message>
         <source>Force Transcode (Remux Disabled)</source>
-        <translation type="unfinished"></translation>
+        <translation>强制转码（禁用直传）</translation>
     </message>
     <message>
         <source>Force Transcode (Remux Disabled) - disabled because of selected force transcoding setting</source>
-        <translation type="unfinished"></translation>
+        <translation>强制转码（禁用直传）——已禁用，因为已选择强制转码设置</translation>
     </message>
     <message>
         <source>No channels found matching your search criteria</source>
-        <translation type="unfinished"></translation>
+        <translation>未找到符合搜索条件的频道</translation>
     </message>
     <message>
         <source>Are You Still Watching Popup</source>
-        <translation type="unfinished"></translation>
+        <translation>继续观看确认弹窗</translation>
     </message>
     <message>
         <source>How many minutes of inactivity before playback is stopped between items and a popup is shown to continue? Set to 0 to disable.</source>
-        <translation type="unfinished"></translation>
+        <translation>在连续播放的项目间，如果用户空闲达到多少分钟后，播放将暂停，并弹出“是否继续观看？”提示。设置为 0 可禁用此功能。</translation>
     </message>
     <message>
         <source>Are You Still Watching?</source>
-        <translation type="unfinished"></translation>
+        <translation>您是否仍在观看？</translation>
     </message>
     <message>
         <source>Yes, continue</source>
-        <translation type="unfinished"></translation>
+        <translation>是，继续</translation>
     </message>
     <message>
         <source>No, stop playback</source>
-        <translation type="unfinished"></translation>
+        <translation>否，停止播放</translation>
     </message>
     <message>
         <source>Playback will automatically stop in 1 minute if no buttons are pressed.</source>
-        <translation type="unfinished"></translation>
+        <translation>如果未按下任何按钮，播放将在 1 分钟后自动停止。</translation>
     </message>
 </context>
 </TS>
