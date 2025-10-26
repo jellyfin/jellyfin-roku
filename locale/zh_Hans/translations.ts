@@ -688,7 +688,7 @@
     </message>
     <message>
         <source>Use the replay button to slowly animate to the first item in the folder. (If disabled, the folder will reset to the first item immediately).</source>
-        <translation>使用重播按钮可以缓慢滚动到文件夹中的第一个项目。（如果禁用，该文件夹会立即跳到第一个项目）。</translation>
+        <translation>使用重播按钮后可让光标平滑返回文件夹中的第一个项目。（若禁用，将立即跳转到第一个项目）。</translation>
         <extracomment>Description for option in Setting Screen</extracomment>
     </message>
     <message>
@@ -1601,7 +1601,7 @@
     </message>
     <message>
         <source>or newer to use this app or install and use the Jellyfin Legacy app from Roku&apos;s Streaming Store</source>
-        <translation>或更新版本，以使用此应用；或者从 Roku 流媒体商店安装并使用 Jellyfin Legacy 应用</translation>
+        <translation>或更高版本，以使用此应用；或者从 Roku 流媒体商店安装并使用 Jellyfin Legacy 应用</translation>
     </message>
     <message>
         <source>Return to server select screen</source>
