@@ -1424,7 +1424,7 @@
     </message>
     <message>
         <source>Attempt Direct Play of potentially unsupported profile levels</source>
-        <translation type="unfinished">Direct Play für potenziell nicht unterstützte Profile versuchen</translation>
+        <translation>Direct Play für potenziell nicht unterstützte Profile versuchen</translation>
     </message>
     <message>
         <source>Change User</source>
@@ -1677,6 +1677,10 @@
     <message>
         <source>Background</source>
         <translation>Hintergrund</translation>
+    </message>
+    <message>
+        <source>Video Profile Level Support</source>
+        <translation>Video Profil Level Support</translation>
     </message>
 </context>
 <context>
