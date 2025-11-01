@@ -11,7 +11,7 @@
     "@rokucommunity/bslint": "0.8.37",
     "brighterscript": "0.70.2",
     "jshint": "2.13.6",
-    "rimraf": "6.0.1",
+    "rimraf": "6.1.0",
     "roku-deploy": "3.14.4",
     "undent": "1.0.0"
   },
