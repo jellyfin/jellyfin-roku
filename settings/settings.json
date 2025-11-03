@@ -55,7 +55,7 @@
         "description": "Burn in all subtitles when transcoding is triggered. This ensures subtitle synchronization after transcoding at the cost of reduced transcoding speed.",
         "settingName": "playback.subs.burnin",
         "type": "bool",
-        "default": "false"
+        "default": "true"
       },
       {
         "title": "Cinema Mode",

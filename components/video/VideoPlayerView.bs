@@ -510,7 +510,7 @@ sub onVideoContentLoaded()
     end if
 
     m.isTranscoded = videoContent[0].isTranscoded
-    burnInSubtitles = chainLookupReturn(m.global, "session.user.settings.`playback.subs.burnin`", false)
+    burnInSubtitles = chainLookupReturn(m.global, "session.user.settings.`playback.subs.burnin`", true)
 
 
     if m.isTranscoded and burnInSubtitles
