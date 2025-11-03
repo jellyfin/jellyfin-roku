@@ -1424,7 +1424,7 @@
     </message>
     <message>
         <source>Attempt Direct Play of potentially unsupported profile levels</source>
-        <translation type="unfinished">Direct Play für potenziell nicht unterstützte Profile versuchen</translation>
+        <translation>Direct Play für potenziell nicht unterstützte Profile versuchen</translation>
     </message>
     <message>
         <source>Change User</source>
@@ -1677,6 +1677,46 @@
     <message>
         <source>Background</source>
         <translation>Hintergrund</translation>
+    </message>
+    <message>
+        <source>Video Profile Level Support</source>
+        <translation>Video Profil Level Support</translation>
+    </message>
+    <message>
+        <source>Media Segment Actions</source>
+        <translation>Mediensegment Aktionen</translation>
+    </message>
+    <message>
+        <source>Commercial Segments</source>
+        <translation>Kommerzielle Segmente</translation>
+    </message>
+    <message>
+        <source>What action should Jellyfin take for commercial segments?</source>
+        <translation>Welche Maßnahmen sollte Jellyfin für kommerzielle Segmente ergreifen?</translation>
+    </message>
+    <message>
+        <source>Intro Segments</source>
+        <translation>Intro-Segmente</translation>
+    </message>
+    <message>
+        <source>What action should Jellyfin take for intro segments?</source>
+        <translation>Welche Maßnahmen sollte Jellyfin für Intro-Segmente ergreifen?</translation>
+    </message>
+    <message>
+        <source>Outro Segments</source>
+        <translation>Outro-Segmente</translation>
+    </message>
+    <message>
+        <source>What action should Jellyfin take for outro segments?</source>
+        <translation>Welche Maßnahmen sollte Jellyfin für die Outro-Segmente ergreifen?</translation>
+    </message>
+    <message>
+        <source>Preview Segments</source>
+        <translation>Vorschau-Segmente</translation>
+    </message>
+    <message>
+        <source>What action should Jellyfin take for preview segments?</source>
+        <translation>Welche Maßnahmen sollte Jellyfin für die Vorschau-Segmente ergreifen?</translation>
     </message>
 </context>
 <context>
