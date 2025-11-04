@@ -113,6 +113,31 @@
         ]
       },
       {
+        "title": "Maximum Audio Channels",
+        "description": "Configure the maximum audio channels when playing video files on this device.",
+        "settingName": "playback.media.maxAudioChannels",
+        "type": "radio",
+        "default": "off",
+        "options": [
+          {
+            "title": "Off - Attempt to play all channels",
+            "id": "off"
+          },
+          {
+            "title": "7.1",
+            "id": "8"
+          },
+          {
+            "title": "5.1",
+            "id": "6"
+          },
+          {
+            "title": "2.0",
+            "id": "2"
+          }
+        ]
+      },
+      {
         "title": "Maximum Resolution",
         "description": "Configure the maximum resolution when playing video files on this device.",
         "children": [
