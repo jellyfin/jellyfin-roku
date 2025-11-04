@@ -24,12 +24,3 @@ jobs:
 
       - name: Build jellyfin-roku client project
         run: npm run build
-
-      - name: Save build artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: jellyfin-roku-build
-          # This creates a zip of a zip, which is not ideal, but it means we're
-          # using the same output we'd get from a local build.
-          path: ./out/jellyfin-roku.zip
-          retention-days: 30
