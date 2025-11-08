@@ -1021,9 +1021,9 @@ function getRemainingTime(videoSeekPosition = 0 as integer)
 end function
 
 sub onTrickPlayBarTextChange()
-    if m.nextupbuttonseconds <> 0 then m.nextupbuttonseconds = m.global.session.user.settings["playback.nextupbuttonseconds"].ToInt()
-
     if not m.top.trickPlayBar.visible then return
+
+    m.nextupbuttonseconds = m.global.session.user.settings["playback.nextupbuttonseconds"].ToInt()
 
     setVideoEndingTime(0)
 
