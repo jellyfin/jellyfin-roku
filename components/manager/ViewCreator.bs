@@ -1,5 +1,6 @@
 import "pkg:/source/enums/MediaPlaybackState.bs"
 import "pkg:/source/enums/TaskControl.bs"
+import "pkg:/source/enums/SubtitleSelection.bs"
 import "pkg:/source/enums/TimerControl.bs"
 import "pkg:/source/enums/VideoControl.bs"
 
@@ -127,7 +128,7 @@ sub onSelectSubtitlePressed()
     for each item in m.view.fullSubtitleData
         item.type = "subtitleselection"
 
-        if m.view.selectedSubtitle <> -1
+        if m.view.selectedSubtitle <> SubtitleSelection.NONE
             ' Subtitle is a track within the file
             if item.index = m.view.selectedSubtitle
                 item.selected = true
@@ -135,7 +136,7 @@ sub onSelectSubtitlePressed()
         else
             ' Subtitle is from an external source
             availableSubtitleTrackIndex = availSubtitleTrackIdx(item.track.TrackName)
-            if availableSubtitleTrackIndex <> -1
+            if availableSubtitleTrackIndex <> SubtitleSelection.NONE
 
                 ' Convert Jellyfin subtitle track name to Roku track name
                 subtitleFullTrackName = m.view.availableSubtitleTracks[availableSubtitleTrackIndex].TrackName
@@ -159,7 +160,7 @@ sub onSelectSubtitlePressed()
 
     ' Manually create the None option and place at top
     subtitleData.data.Unshift({
-        "Index": -1,
+        "Index": SubtitleSelection.NONE,
         "IsExternal": false,
         "Track": {
             "description": "None"
@@ -215,7 +216,7 @@ sub processSubtitleSelection()
     m.selectedSubtitle = m.global.sceneManager.returnData
 
     ' The selected encoded subtitle did not change.
-    if m.view.selectedSubtitle <> -1 or m.selectedSubtitle.index <> -1
+    if m.view.selectedSubtitle <> SubtitleSelection.NONE or m.selectedSubtitle.index <> SubtitleSelection.NONE
         if m.view.selectedSubtitle = m.selectedSubtitle.index then return
     end if
 
@@ -234,8 +235,8 @@ sub processSubtitleSelection()
         m.view.globalCaptionMode = "Off"
         m.view.subtitleTrack = ""
 
-        if m.view.selectedSubtitle <> -1
-            m.view.selectedSubtitle = -1
+        if m.view.selectedSubtitle <> SubtitleSelection.NONE
+            m.view.selectedSubtitle = SubtitleSelection.NONE
         end if
 
         m.global.queueManager.callFunc("setPreferredSubtitleTrack", m.selectedSubtitle)
@@ -251,7 +252,7 @@ sub processSubtitleSelection()
 
         ' Roku may rearrange subtitle tracks. Look up track based on name to ensure we get the correct index
         availableSubtitleTrackIndex = availSubtitleTrackIdx(m.selectedSubtitle.Track.TrackName)
-        if availableSubtitleTrackIndex = -1 then return
+        if availableSubtitleTrackIndex = SubtitleSelection.NONE then return
 
         m.view.subtitleTrack = m.view.availableSubtitleTracks[availableSubtitleTrackIndex].TrackName
     end if
@@ -376,7 +377,7 @@ function availSubtitleTrackIdx(tracknameToFind as string) as integer
         end if
         idx = idx + 1
     end for
-    return -1
+    return SubtitleSelection.NONE
 end function
 
 function audioMiniPlayerIsVisible(baseNode as dynamic) as boolean

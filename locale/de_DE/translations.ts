@@ -978,7 +978,7 @@
     </message>
     <message>
         <source>Default view for Movie Libraries.</source>
-        <translation>Standard-Ansicht für Filmbibliothek.</translation>
+        <translation>Standardansicht für Filmbibliothek.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
@@ -1093,7 +1093,7 @@
     </message>
     <message>
         <source>Settings relating to the appearance of pages in TV Libraries.</source>
-        <translation>Einstellungen zur Darstellung von Seiten in TV-Bibliotheken.</translation>
+        <translation>Einstellungen für das Erscheinungsbild von Seiten in TV-Bibliotheken.</translation>
     </message>
     <message>
         <source>Grid</source>
@@ -1127,7 +1127,7 @@
     </message>
     <message>
         <source>Set the maximum resolution when playing video files on this device.</source>
-        <translation>Lege die maximale Auflösung für die Wiedergabe von Video-Dateien auf diesem Gerät fest.</translation>
+        <translation>Legen Sie die maximale Auflösung für die Wiedergabe von Video-Dateien auf diesem Gerät fest.</translation>
         <extracomment>User Setting - Description</extracomment>
     </message>
     <message>
@@ -1137,7 +1137,7 @@
     </message>
     <message>
         <source>Configure the maximum resolution when playing video files on this device.</source>
-        <translation>Konfiguriere die maximale Auflösung für die Wiedergabe von Video-Dateien auf diesem Gerät.</translation>
+        <translation>Konfigurieren Sie die maximale Auflösung für die Wiedergabe von Video-Dateien auf diesem Gerät.</translation>
         <extracomment>User Setting - Description</extracomment>
     </message>
     <message>
@@ -1172,7 +1172,7 @@
     </message>
     <message>
         <source>Remember the currently logged in user and try to log them in again next time you start the Jellyfin app.</source>
-        <translation type="unfinished">Merke den aktuell angemeldeten Benutzer und versuche, ihn beim nächsten Start der Jellyfin-App erneut anzumelden.</translation>
+        <translation>Merke den aktuell angemeldeten Benutzer und versuche, ihn beim nächsten Start von Jellyfin erneut anzumelden.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
@@ -1202,7 +1202,7 @@
     </message>
     <message>
         <source>Settings relating to the appearance of pages in Movie Libraries.</source>
-        <translation>Einstellungen zur Darstellung von Seiten in Filmbibliotheken.</translation>
+        <translation>Einstellungen für das Erscheinungsbild von Seiten in TV-Bibliotheken.</translation>
     </message>
     <message>
         <source>Presentation</source>
@@ -1271,7 +1271,7 @@
     </message>
     <message>
         <source>Remember Me?</source>
-        <translation>Erinnerst du dich an mich?</translation>
+        <translation>Erinnere dich an mich?</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
@@ -1360,11 +1360,11 @@
     </message>
     <message>
         <source>The number of episodes that will play automatically after the selected episode. Requires &apos;Play next episode automatically&apos; server setting to be enabled.</source>
-        <translation>Die Anzahl der Episoden die automatisch nach der ausgewählten Episode abgespielt wird. Benötigt, das die Option &quot;Nächste Episode automatisch abspielen&quot; auf dem Server aktiviert ist.</translation>
+        <translation>Die Anzahl an Episoden die automatisch nach der gewählten Episode abgespielt werden. Benötigt, das die Option &quot;Nächste Episode automatisch abspielen&quot; auf dem Server aktiviert ist.</translation>
     </message>
     <message>
         <source>or newer to use this app or install and use the Jellyfin Legacy app from Roku&apos;s Streaming Store</source>
-        <translation>oder neuer um diese App zu nutzen oder installiere die Jellyfin Legacy App von Roku&apos;s Streaming Store</translation>
+        <translation>oder neuer um diese App zu nutzen oder installiere und nutze die App &quot;Jellyfin Legacy&quot; von Roku&apos;s Streaming Store</translation>
     </message>
     <message>
         <source>which is not supported by this app. Please update the server to</source>
@@ -1376,7 +1376,7 @@
     </message>
     <message>
         <source>CH</source>
-        <translation>Kanal</translation>
+        <translation>CH</translation>
     </message>
     <message>
         <source>Use Fallback Font Across App</source>
@@ -1416,7 +1416,7 @@
     </message>
     <message>
         <source>Force Transcoding setting is enabled</source>
-        <translation type="unfinished">Transkodierung erzwingen ist aktiv</translation>
+        <translation>Erzwungene Transkodierung ist aktiv</translation>
     </message>
     <message>
         <source>No items found. Try adjusting your selected filters.</source>
@@ -1424,7 +1424,7 @@
     </message>
     <message>
         <source>Attempt Direct Play of potentially unsupported profile levels</source>
-        <translation type="unfinished">Direct Play für potenziell nicht unterstützte Profile versuchen</translation>
+        <translation>Direct Play für potenziell nicht unterstützte Profile versuchen</translation>
     </message>
     <message>
         <source>Change User</source>
@@ -1440,7 +1440,7 @@
     </message>
     <message>
         <source>Force Transcode option is enabled</source>
-        <translation type="unfinished">Transkodierung erzwingen ist aktiv</translation>
+        <translation>Erzwungene Transkodierung ist aktiviert</translation>
     </message>
     <message>
         <source>All</source>
@@ -1480,7 +1480,7 @@
     </message>
     <message>
         <source>Date Show Added</source>
-        <translation>Hinzugefügt am</translation>
+        <translation>Show hinzugefügt am</translation>
     </message>
     <message>
         <source>Date Episode Added</source>
@@ -1493,6 +1493,230 @@
     <message>
         <source>Display custom trickplay images even if this Roku says it&apos;s displaying its own. This may cause the two images to overlay on top of each other.</source>
         <translation>Zeigen Sie benutzerdefinierte Trickplay-Bilder an, auch wenn dieser Roku sagt, dass er seine eigenen anzeigt. Dies kann dazu führen, dass die beiden Bilder übereinander liegen.</translation>
+    </message>
+    <message>
+        <source>Custom Trickplay</source>
+        <translation>Benutzerdefiniertes Trickplay</translation>
+    </message>
+    <message>
+        <source>Format</source>
+        <translation>Format</translation>
+    </message>
+    <message>
+        <source>Start over from the beginning.</source>
+        <translation>Von vorne beginnen.</translation>
+    </message>
+    <message>
+        <source>Settings relating to how Jellyfin should handle media segments.</source>
+        <translation>Einstellungen, wie Jellyfin mit Mediensegmenten umgehen sollte.</translation>
+    </message>
+    <message>
+        <source>No Results Found</source>
+        <translation>Keine Ergebnisse gefunden</translation>
+    </message>
+    <message>
+        <source>downloads</source>
+        <translation>Downloads</translation>
+    </message>
+    <message>
+        <source>Series</source>
+        <translation>Serien</translation>
+    </message>
+    <message>
+        <source>Play / Resume from</source>
+        <translation>Abspielen von</translation>
+    </message>
+    <message>
+        <source>Play or Resume from</source>
+        <translation>Abspielen oder Fortfahren von</translation>
+    </message>
+    <message>
+        <source>Part</source>
+        <translation>Teil</translation>
+    </message>
+    <message>
+        <source>Skip</source>
+        <translation>Überspringen</translation>
+    </message>
+    <message>
+        <source>What&apos;s New</source>
+        <translation>Was ist Neu</translation>
+    </message>
+    <message>
+        <source>Video Codec Support</source>
+        <translation>Unterstützung für Video Codec</translation>
+    </message>
+    <message>
+        <source>Force all playable media to be transcoded.</source>
+        <translation>Erzwinge das alle abspielbaren Medien transkodiert werden.</translation>
+    </message>
+    <message>
+        <source>Ask To Skip</source>
+        <translation>Überspringen</translation>
+    </message>
+    <message>
+        <source>None</source>
+        <translation>Keine</translation>
+    </message>
+    <message>
+        <source>Settings relating to the appearance of pages in all Libraries.</source>
+        <translation>Einstellungen zum Erscheinungsbild von Seiten in allen Bibliotheken.</translation>
+    </message>
+    <message>
+        <source>Playback Info</source>
+        <translation>Wiedergabe Informationen</translation>
+    </message>
+    <message>
+        <source>In My List</source>
+        <translation>In meiner Liste</translation>
+    </message>
+    <message>
+        <source>Manual Login</source>
+        <translation>Manueller Login</translation>
+    </message>
+    <message>
+        <source>as</source>
+        <translation>als</translation>
+    </message>
+    <message>
+        <source>Select User</source>
+        <translation>Benutzer auswählen</translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation>Ja</translation>
+    </message>
+    <message>
+        <source>No, Cancel</source>
+        <translation>Nein, abbrechen</translation>
+    </message>
+    <message>
+        <source>Seasons</source>
+        <translation>Staffeln</translation>
+    </message>
+    <message>
+        <source>Season</source>
+        <translation>Staffel</translation>
+    </message>
+    <message>
+        <source>Episode</source>
+        <translation>Episode</translation>
+    </message>
+    <message>
+        <source>Settings relating to the appearance of Library pages.</source>
+        <translation>Einstellungen zum Erscheinungsbild von Bibliotheken.</translation>
+    </message>
+    <message>
+        <source>Forget Filters</source>
+        <translation>Filter verwerfen</translation>
+    </message>
+    <message>
+        <source>Forget applied library filters when Jellyfin is closed.</source>
+        <translation>Verwerfen von angewendeten Filter auf Bibliotheken beim Beenden von Jellyfin.</translation>
+    </message>
+    <message>
+        <source>Mark As Played</source>
+        <translation>Als gesehen markieren</translation>
+    </message>
+    <message>
+        <source>Mark As Unplayed</source>
+        <translation>Als ungesehen markieren</translation>
+    </message>
+    <message>
+        <source>Add To Playlist</source>
+        <translation>Zur Wiedergabeliste hinzufügen</translation>
+    </message>
+    <message>
+        <source>Remove From My List</source>
+        <translation>Von meiner Liste entfernen</translation>
+    </message>
+    <message>
+        <source>Add To My List</source>
+        <translation>Zu meiner Liste hinzufügen</translation>
+    </message>
+    <message>
+        <source>Select Audio</source>
+        <translation>Audio auswählen</translation>
+    </message>
+    <message>
+        <source>Select Subtitles</source>
+        <translation>Untertitel auswählen</translation>
+    </message>
+    <message>
+        <source>Select Language</source>
+        <translation>Sprache auswählen</translation>
+    </message>
+    <message>
+        <source>Sort by</source>
+        <translation>Sortieren nach</translation>
+    </message>
+    <message>
+        <source>Press OK to type</source>
+        <translation>OK drücken für Eingabe</translation>
+    </message>
+    <message>
+        <source>Search this library</source>
+        <translation>Diese Bibliothek durchsuchen</translation>
+    </message>
+    <message>
+        <source>Released</source>
+        <translation>Veröffentlicht</translation>
+    </message>
+    <message>
+        <source>My List</source>
+        <translation>Meine Liste</translation>
+    </message>
+    <message>
+        <source>Recently Added Media</source>
+        <translation>Kürzlich hinzugefügte Medien</translation>
+    </message>
+    <message>
+        <source>Colors</source>
+        <translation>Farben</translation>
+    </message>
+    <message>
+        <source>Background</source>
+        <translation>Hintergrund</translation>
+    </message>
+    <message>
+        <source>Video Profile Level Support</source>
+        <translation>Video Profil Level Support</translation>
+    </message>
+    <message>
+        <source>Media Segment Actions</source>
+        <translation>Mediensegment Aktionen</translation>
+    </message>
+    <message>
+        <source>Commercial Segments</source>
+        <translation>Kommerzielle Segmente</translation>
+    </message>
+    <message>
+        <source>What action should Jellyfin take for commercial segments?</source>
+        <translation>Welche Maßnahmen sollte Jellyfin für kommerzielle Segmente ergreifen?</translation>
+    </message>
+    <message>
+        <source>Intro Segments</source>
+        <translation>Intro-Segmente</translation>
+    </message>
+    <message>
+        <source>What action should Jellyfin take for intro segments?</source>
+        <translation>Welche Maßnahmen sollte Jellyfin für Intro-Segmente ergreifen?</translation>
+    </message>
+    <message>
+        <source>Outro Segments</source>
+        <translation>Outro-Segmente</translation>
+    </message>
+    <message>
+        <source>What action should Jellyfin take for outro segments?</source>
+        <translation>Welche Maßnahmen sollte Jellyfin für die Outro-Segmente ergreifen?</translation>
+    </message>
+    <message>
+        <source>Preview Segments</source>
+        <translation>Vorschau-Segmente</translation>
+    </message>
+    <message>
+        <source>What action should Jellyfin take for preview segments?</source>
+        <translation>Welche Maßnahmen sollte Jellyfin für die Vorschau-Segmente ergreifen?</translation>
     </message>
 </context>
 <context>

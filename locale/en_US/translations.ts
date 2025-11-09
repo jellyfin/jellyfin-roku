@@ -1284,6 +1284,21 @@
             <extracomment>User Setting - Setting title</extracomment>
         </message>
         <message>
+            <source>Maximum Audio Channels</source>
+            <translation>Maximum Audio Channels</translation>
+            <extracomment>User Setting - Title</extracomment>
+        </message>
+        <message>
+            <source>Configure the maximum audio channels when playing video files on this device.</source>
+            <translation>Configure the maximum audio channels when playing video files on this device.</translation>
+            <extracomment>User Setting - Description</extracomment>
+        </message>
+        <message>
+            <source>Off - Attempt to play all channels</source>
+            <translation>Off - Attempt to play all channels</translation>
+            <extracomment>User Setting - Option title</extracomment>
+        </message>
+        <message>
             <source>Configure the maximum resolution when playing video files on this device.</source>
             <translation>Configure the maximum resolution when playing video files on this device.</translation>
             <extracomment>User Setting - Description</extracomment>
@@ -2184,6 +2199,16 @@
         <message>
             <source>Playback will automatically stop in 1 minute if no buttons are pressed.</source>
             <translation>Playback will automatically stop in 1 minute if no buttons are pressed.</translation>
+        </message>
+        <message>
+            <source>Burn in subtitle when transcoding</source>
+            <translation>Burn in subtitle when transcoding</translation>
+            <extracomment>Settings Menu - Title for option</extracomment>
+        </message>
+        <message>
+            <source>Burn in all subtitles when transcoding is triggered. This ensures subtitle synchronization after transcoding at the cost of reduced transcoding speed.</source>
+            <translation>Burn in all subtitles when transcoding is triggered. This ensures subtitle synchronization after transcoding at the cost of reduced transcoding speed.</translation>
+            <extracomment>Settings Menu - Description for option</extracomment>
         </message>
     </context>
 </TS>

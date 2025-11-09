@@ -51,6 +51,13 @@
         ]
       },
       {
+        "title": "Burn in subtitle when transcoding",
+        "description": "Burn in all subtitles when transcoding is triggered. This ensures subtitle synchronization after transcoding at the cost of reduced transcoding speed.",
+        "settingName": "playback.subs.burnin",
+        "type": "bool",
+        "default": "true"
+      },
+      {
         "title": "Cinema Mode",
         "description": "Bring the theater experience straight to your living room with the ability to play custom intros before the main feature.",
         "settingName": "playback.cinemamode",
@@ -102,6 +109,31 @@
           {
             "title": "Force Transcode (Remux Disabled)",
             "id": "forceTranscodeDisableRemux"
+          }
+        ]
+      },
+      {
+        "title": "Maximum Audio Channels",
+        "description": "Configure the maximum audio channels when playing video files on this device.",
+        "settingName": "playback.media.maxAudioChannels",
+        "type": "radio",
+        "default": "off",
+        "options": [
+          {
+            "title": "Off - Attempt to play all channels",
+            "id": "off"
+          },
+          {
+            "title": "7.1",
+            "id": "8"
+          },
+          {
+            "title": "5.1",
+            "id": "6"
+          },
+          {
+            "title": "2.0",
+            "id": "2"
           }
         ]
       },

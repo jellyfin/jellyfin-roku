@@ -7,6 +7,7 @@ import "pkg:/source/enums/MediaPlaybackState.bs"
 import "pkg:/source/enums/MediaSegmentAction.bs"
 import "pkg:/source/enums/MediaSegmentType.bs"
 import "pkg:/source/enums/String.bs"
+import "pkg:/source/enums/SubtitleSelection.bs"
 import "pkg:/source/enums/TaskControl.bs"
 import "pkg:/source/enums/TimerControl.bs"
 import "pkg:/source/enums/VideoControl.bs"
@@ -31,7 +32,7 @@ sub init()
     }
 
     preferredSubtitle = m.global.queueManager.callFunc("getPreferredSubtitleTrack")
-    m.top.SelectedSubtitle = isChainValid(preferredSubtitle, "StreamIndex") ? preferredSubtitle.StreamIndex : -2
+    m.top.SelectedSubtitle = isChainValid(preferredSubtitle, "StreamIndex") ? preferredSubtitle.StreamIndex : SubtitleSelection.NOTSET
     m.originalClosedCaptionState = invalid
 
     ' Load meta data
@@ -428,7 +429,7 @@ end sub
 sub onSubtitleChange()
     switchWithoutRefresh = true
 
-    if m.top.SelectedSubtitle <> -1
+    if m.top.SelectedSubtitle <> SubtitleSelection.NONE
         ' If the global caption mode is off, then Roku can't display the subtitles natively and needs a video stop/start
         if LCase(m.top.globalCaptionMode) <> "on" then switchWithoutRefresh = false
     end if
@@ -509,8 +510,10 @@ sub onVideoContentLoaded()
     end if
 
     m.isTranscoded = videoContent[0].isTranscoded
+    burnInSubtitles = chainLookupReturn(m.global, "session.user.settings.`playback.subs.burnin`", true)
 
-    if m.isTranscoded
+
+    if m.isTranscoded and burnInSubtitles
         videoContent[0].content.SubtitleTracks = []
     end if
 
@@ -582,8 +585,8 @@ sub onVideoContentLoaded()
         ' Disable trackplay bar for intro videos
         m.top.enableTrickPlay = false
     else
-        ' Allow custom captions for non intro videos as long as the video isn't transcoded
-        m.top.allowCaptions = not m.isTranscoded
+        ' Allow custom captions for non intro videos unless the video is being transcoded and burn subtitles are enabled
+        m.top.allowCaptions = not (m.isTranscoded and burnInSubtitles)
     end if
 
     ' Allow default subtitles
@@ -593,7 +596,7 @@ sub onVideoContentLoaded()
     selectedSubtitle = invalid
     updatedSubtitleData = []
     for each subtitle in m.top.fullSubtitleData
-        if m.isTranscoded
+        if m.isTranscoded and burnInSubtitles
             subtitle.IsEncoded = true
             updatedSubtitleData.push(subtitle)
         end if
@@ -604,14 +607,14 @@ sub onVideoContentLoaded()
         end if
     end for
 
-    if m.isTranscoded
+    if m.isTranscoded and burnInSubtitles
         m.top.fullSubtitleData = updatedSubtitleData
         m.top.globalCaptionMode = "Off"
     end if
 
     if isValid(selectedSubtitle)
         availableSubtitleTrackIndex = availSubtitleTrackIdx(selectedSubtitle.Track.TrackName)
-        if availableSubtitleTrackIndex <> -1
+        if availableSubtitleTrackIndex <> SubtitleSelection.NONE
             if not selectedSubtitle.IsEncoded
                 if selectedSubtitle.IsForced
                     ' If IsForced, make sure to remember the Roku global setting so we can set it back when the video is done playing.
@@ -623,7 +626,7 @@ sub onVideoContentLoaded()
         end if
     end if
 
-    if not m.isTranscoded
+    if not (m.isTranscoded and burnInSubtitles)
         m.top.selectedSubtitle = videoContent[0].selectedSubtitle
     end if
 
@@ -868,6 +871,10 @@ sub onPositionChanged()
     else
         m.osd.progressPercentage = m.top.position / m.top.duration
     end if
+
+    ' Ensure position text is accurate
+    m.positionText.text = secondsToHuman(m.top.position, true)
+
     m.osd.positionTime = m.top.position
     m.osd.remainingPositionTime = m.top.duration - m.top.position
 
@@ -1014,9 +1021,9 @@ function getRemainingTime(videoSeekPosition = 0 as integer)
 end function
 
 sub onTrickPlayBarTextChange()
-    m.nextupbuttonseconds = m.global.session.user.settings["playback.nextupbuttonseconds"].ToInt()
-
     if not m.top.trickPlayBar.visible then return
+
+    m.nextupbuttonseconds = m.global.session.user.settings["playback.nextupbuttonseconds"].ToInt()
 
     setVideoEndingTime(0)
 
@@ -1128,7 +1135,7 @@ end function
 ' availSubtitleTrackIdx: Returns Roku's index for requested subtitle track
 '
 ' @param {string} tracknameToFind - TrackName for subtitle we're looking to match
-' @return {integer} indicating Roku's index for requested subtitle track. Returns -1 if not found
+' @return {integer} indicating Roku's index for requested subtitle track. Returns SubtitleSelection.NONE if not found
 function availSubtitleTrackIdx(tracknameToFind as string) as integer
     idx = 0
     for each availTrack in m.top.availableSubtitleTracks
@@ -1140,7 +1147,7 @@ function availSubtitleTrackIdx(tracknameToFind as string) as integer
         end if
         idx = idx + 1
     end for
-    return -1
+    return SubtitleSelection.NONE
 end function
 
 sub skipCurrentSegment()
@@ -1181,6 +1188,12 @@ sub onProgramDetailsLoaded()
     end if
 
     m.overview = m.LoadProgramDetailsTask.programDetails.json.CurrentProgram.Overview
+end sub
+
+sub showOSD()
+    m.osd.visible = true
+    m.osd.hasFocus = true
+    m.osd.setFocus(true)
 end sub
 
 sub refreshLiveOSDContent()
@@ -1245,9 +1258,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
                 hideSegmentSkipButton()
             end if
             refreshLiveOSDContent()
-            m.osd.visible = true
-            m.osd.hasFocus = true
-            m.osd.setFocus(true)
+            showOSD()
             return true
         end if
 
@@ -1261,9 +1272,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
                 hideSegmentSkipButton()
             end if
             refreshLiveOSDContent()
-            m.osd.visible = true
-            m.osd.hasFocus = true
-            m.osd.setFocus(true)
+            showOSD()
             return true
         end if
 
@@ -1278,9 +1287,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
                 hideSegmentSkipButton()
             end if
             refreshLiveOSDContent()
-            m.osd.visible = true
-            m.osd.hasFocus = true
-            m.osd.setFocus(true)
+            showOSD()
             return true
         end if
 
@@ -1307,9 +1314,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
                 hideSegmentSkipButton()
             end if
             refreshLiveOSDContent()
-            m.osd.visible = true
-            m.osd.hasFocus = true
-            m.osd.setFocus(true)
+            showOSD()
             return true
         end if
     end if

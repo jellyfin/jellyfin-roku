@@ -2094,6 +2094,26 @@
         <source>Playback will automatically stop in 1 minute if no buttons are pressed.</source>
         <translation>La lecture s&apos;arrêtera automatiquement dans 1 minute si aucun bouton n&apos;est enfoncé.</translation>
     </message>
+    <message>
+        <source>Burn in subtitle when transcoding</source>
+        <translation>Incrustation des sous-titres lors du transcodage</translation>
+    </message>
+    <message>
+        <source>Burn in all subtitles when transcoding is triggered. This ensures subtitle synchronization after transcoding at the cost of reduced transcoding speed.</source>
+        <translation>Incorporez tous les sous-titres lors du transcodage. Cela garantit la synchronisation des sous-titres après le transcodage, au prix d&apos;une vitesse de transcodage réduite.</translation>
+    </message>
+    <message>
+        <source>Off - Attempt to play all channels</source>
+        <translation>Désactivé - Tentative de lecture de toutes les chaînes</translation>
+    </message>
+    <message>
+        <source>Maximum Audio Channels</source>
+        <translation>Nombre maximal de canaux audio</translation>
+    </message>
+    <message>
+        <source>Configure the maximum audio channels when playing video files on this device.</source>
+        <translation>Configurez le nombre maximal de canaux audio lors de la lecture de fichiers vidéo sur cet appareil.</translation>
+    </message>
 </context>
 <context>
     <name></name>

@@ -1,0 +1,14 @@
+[
+  {
+    "description": "Add setting to enable burn in subtitles during transcoding",
+    "author": "michaelforgit"
+  },
+  {
+    "description": "Add setting to limit maximum audio channels",
+    "author": "brianpardy"
+  },
+  {
+    "description": "Fix bug preventing dismissal of Next Up display",
+    "author": "brianpardy"
+  }
+]

@@ -94,11 +94,11 @@
     </message>
     <message>
         <source>My Media</source>
-        <translation>Mi Contenido</translation>
+        <translation>Mis contenidos</translation>
     </message>
     <message>
         <source>Continue Watching</source>
-        <translation>Seguir Viendo</translation>
+        <translation>Seguir viendo</translation>
     </message>
     <message>
         <source>Next Up</source>
@@ -334,7 +334,7 @@
     </message>
     <message>
         <source>Remember the currently logged in user and try to log them in again next time you start the Jellyfin app.</source>
-        <translation>Recordar al usuario que acaba de ingresar e intentar iniciar sesión nuevamente la próxima vez que abras Jellyfin.</translation>
+        <translation>Recordar al usuario que acaba de ingresar e intentar iniciar sesión nuevamente la próxima vez que abras la app de Jellyfin.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
@@ -354,7 +354,7 @@
     </message>
     <message>
         <source>Save Credentials?</source>
-        <translation>¿Guardar Credenciales?</translation>
+        <translation>¿Guardar credenciales?</translation>
     </message>
     <message>
         <source>No Chapter Data Found</source>
@@ -363,15 +363,15 @@
     </message>
     <message>
         <source>Change Server</source>
-        <translation>Cambiar Servidor</translation>
+        <translation>Cambiar servidor</translation>
     </message>
     <message>
         <source>Sign Out</source>
-        <translation>Cerrar Sesión</translation>
+        <translation>Cerrar sesión</translation>
     </message>
     <message>
         <source>Delete Saved</source>
-        <translation>Eliminar Guardado</translation>
+        <translation>Eliminar guardado</translation>
     </message>
     <message>
         <source>What&apos;s New?</source>
@@ -403,7 +403,7 @@
     </message>
     <message>
         <source>PLAY_COUNT</source>
-        <translation>Número de Reproducciones</translation>
+        <translation>Número de reproducciones</translation>
     </message>
     <message>
         <source>RELEASE_DATE</source>
@@ -567,7 +567,7 @@
     </message>
     <message>
         <source>Movies</source>
-        <translation>Películas</translation>
+        <translation>Peliculas</translation>
     </message>
     <message>
         <source>today</source>
@@ -590,7 +590,7 @@
     </message>
     <message>
         <source>CRITIC_RATING</source>
-        <translation>Calificación de los Críticos</translation>
+        <translation>Calificación de los críticos</translation>
     </message>
     <message>
         <source>DATE_PLAYED</source>
@@ -608,7 +608,7 @@
     </message>
     <message>
         <source>IMDB_RATING</source>
-        <translation>Calificación de IMDb</translation>
+        <translation>Valoración de la comunidad</translation>
     </message>
     <message>
         <source>OFFICIAL_RATING</source>
@@ -889,7 +889,7 @@
     </message>
     <message>
         <source>Max Days Next Up</source>
-        <translation>Días Máximos en &apos;Siguiente&apos;</translation>
+        <translation>Días máximos para el siguiente</translation>
         <extracomment>Option Title in user setting screen</extracomment>
     </message>
     <message>
@@ -962,7 +962,7 @@
     </message>
     <message>
         <source>WxH</source>
-        <translation>LxA</translation>
+        <translation>ancho x alto</translation>
         <extracomment>Video width x height</extracomment>
     </message>
     <message>
@@ -1331,7 +1331,7 @@
     </message>
     <message>
         <source>Ratings for how good a movie is</source>
-        <translation>Calificaciones de la comunidad y de los críticos de &apos;Rotten Tomatoes&apos;&apos;.</translation>
+        <translation>Calificaciones de lo buena que es una película.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
@@ -1371,7 +1371,7 @@
     </message>
     <message>
         <source>Set how many seconds before the end of an episode the Next Episode button should appear. Set to 0 to disable.</source>
-        <translation>Si no hay un segmento Outro, ajusta cuántos segundos antes de que termine el episodio debe aparecer el botón de &quot;Saltar Outro&quot;. Ponlo a 0 para desactivarlo.</translation>
+        <translation>Establecer cuantos segundos antes de finalizar un episodio el botón de Siguiente Episodio debe aparecer. El valor 0 deshabilita está opción.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
@@ -2157,6 +2157,78 @@
     <message>
         <source>The text color of the second line displayed under items.</source>
         <translation>Color del texto de la segunda línea que se muestra debajo de los elementos.</translation>
+    </message>
+    <message>
+        <source>Play Normally - disabled because of selected force transcoding setting</source>
+        <translation>Reproducción normal - desactivado debido a la configuración de transcodificación seleccionada</translation>
+    </message>
+    <message>
+        <source>Note: Force transcode option automatically enabled due to video rotation</source>
+        <translation>Nota: La opción de transcodificación forzada ha sido activada automáticamente debido a la rotación del vídeo</translation>
+    </message>
+    <message>
+        <source>Start Episode List From First Unwatched Episode</source>
+        <translation>Comienza la lista de episodios desde el primer episodio no visto</translation>
+    </message>
+    <message>
+        <source>Force Transcode (Allow Remux)</source>
+        <translation>Fuerza la transcodificación (Permite Remux)</translation>
+    </message>
+    <message>
+        <source>Force Transcode (Remux Disabled)</source>
+        <translation>Transcodificación forzada (Remux deshabilitado)</translation>
+    </message>
+    <message>
+        <source>Add To Favorites</source>
+        <translation>Añadir a los favoritos</translation>
+    </message>
+    <message>
+        <source>No channels found matching your search criteria</source>
+        <translation>No se encontraron canales que satisfagan tu criterio de búsqueda</translation>
+    </message>
+    <message>
+        <source>Playback will automatically stop in 1 minute if no buttons are pressed.</source>
+        <translation>La reproducción se detendrá automáticamente en 1 minuto si no se aprieta ningún botón.</translation>
+    </message>
+    <message>
+        <source>When opening a season&apos;s list of episodes, automatically scroll down and start the cursor on the first unwatched episode.</source>
+        <translation>Cuando se abra una lista de episodios de una temporada, desplazar hacia abajo automáticamente y comenzar el cursor en el primer episodio no visto.</translation>
+    </message>
+    <message>
+        <source>Remove From Favorites</source>
+        <translation>Eliminar de los favoritos</translation>
+    </message>
+    <message>
+        <source>Play Normally</source>
+        <translation>Reproducir con normalidad</translation>
+    </message>
+    <message>
+        <source>Force Transcode (Allow Remux) - disabled because of selected force transcoding setting</source>
+        <translation>Forzar la transcodificación (Autoriza Remux) - desactivado debido a que la opción de transcodificación forzada está activada</translation>
+    </message>
+    <message>
+        <source>Force Transcode (Remux Disabled) - disabled because of selected force transcoding setting</source>
+        <translation>Transcodificación forzada (Remux deshabilitado) - desactivado debido a que la opción de transcodificación forzada está activa</translation>
+    </message>
+    <message>
+        <source>Are You Still Watching Popup</source>
+        <translation>Ventana emergente que pregunta si aún estás viendo</translation>
+    </message>
+    <message>
+        <source>How many minutes of inactivity before playback is stopped between items and a popup is shown to continue? Set to 0 to disable.</source>
+        <translation>¿Cuántos minutos de inactividad deben transcurrir antes de que se detenga la reproducción entre elementos y se muestre una ventana emergente para continuar?. Configurar con 0 para desactivar.</translation>
+    </message>
+    <message>
+        <source>Are You Still Watching?</source>
+        <translation>¿Aún estás mirando?</translation>
+    </message>
+    <message>
+        <source>No, stop playback</source>
+        <translation>No, detener la reproducción</translation>
+    </message>
+    <message>
+        <source>Yes, continue</source>
+        <translation>Si, continua</translation>
     </message>
 </context>
 <context>

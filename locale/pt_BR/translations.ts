@@ -499,7 +499,7 @@
     </message>
     <message>
         <source>Go directly to the episode list if a TV series has only one season.</source>
-        <translation>Se ativado, ao selecionar uma série com apenas uma temporada, será exibida diretamente a lista de episódios em vez dos detalhes da série e da lista de temporadas.</translation>
+        <translation>Se ativado, ao selecionar uma série com apenas uma temporada, a navegação irá direto para a lista de episódios, em vez de exibir os detalhes da série e a lista de temporadas.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
@@ -1543,7 +1543,7 @@
     </message>
     <message>
         <source>Playlists</source>
-        <translation type="unfinished"></translation>
+        <translation>Listas de reprodução</translation>
     </message>
     <message>
         <source>Video Profile Level Support</source>
@@ -1907,7 +1907,7 @@
     </message>
     <message>
         <source>Cursor</source>
-        <translation type="unfinished"></translation>
+        <translation>Cursor</translation>
     </message>
     <message>
         <source>Change the colors of elements in the app.</source>
@@ -1952,6 +1952,238 @@
     <message>
         <source>The color of the watched portion of the progress bar.</source>
         <translation>Cor da parte assistida da barra de progresso.</translation>
+    </message>
+    <message>
+        <source>Play Normally - disabled because of selected force transcoding setting</source>
+        <translation>Reproduzir normalmente — desativado devido à configuração de transcodificação forçada selecionada</translation>
+    </message>
+    <message>
+        <source>Add To Favorites</source>
+        <translation>Adicionar aos favoritos</translation>
+    </message>
+    <message>
+        <source>Force Transcode (Allow Remux)</source>
+        <translation>Forçar transcodificação (remux ativado)</translation>
+    </message>
+    <message>
+        <source>Play Normally</source>
+        <translation>Reproduzir normalmente</translation>
+    </message>
+    <message>
+        <source>Force Transcode (Remux Disabled)</source>
+        <translation>Forçar transcodificação (remux desativado)</translation>
+    </message>
+    <message>
+        <source>Select what to show in section 1. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Selecione o que exibir na seção 1. Esta configuração não terá efeito se \“Usar a disposição de seções da tela inicial do cliente web\” estiver ativada. O Jellyfin precisará ser fechado e reaberto para que a alteração tenha efeito.</translation>
+    </message>
+    <message>
+        <source>Select what to show in section 2. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Selecione o que exibir na seção 2. Esta configuração não terá efeito se \“Usar a disposição de seções da tela inicial do cliente web\” estiver ativada. O Jellyfin precisará ser fechado e reaberto para que a alteração tenha efeito.</translation>
+    </message>
+    <message>
+        <source>Select what to show in section 4. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Selecione o que exibir na seção 4. Esta configuração não terá efeito se \“Usar a disposição de seções da tela inicial do cliente web\” estiver ativada. O Jellyfin precisará ser fechado e reaberto para que a alteração tenha efeito.</translation>
+    </message>
+    <message>
+        <source>Select what to show in section 5. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Selecione o que exibir na seção 5. Esta configuração não terá efeito se \“Usar a disposição de seções da tela inicial do cliente web\” estiver ativada. O Jellyfin precisará ser fechado e reaberto para que a alteração tenha efeito.</translation>
+    </message>
+    <message>
+        <source>Select what to show in section 6. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Selecione o que exibir na seção 6. Esta configuração não terá efeito se \“Usar a disposição de seções da tela inicial do cliente web\” estiver ativada. O Jellyfin precisará ser fechado e reaberto para que a alteração tenha efeito.</translation>
+    </message>
+    <message>
+        <source>Select what to show in section 7. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Selecione o que exibir na seção 7. Esta configuração não terá efeito se \“Usar a disposição de seções da tela inicial do cliente web\” estiver ativada. O Jellyfin precisará ser fechado e reaberto para que a alteração tenha efeito.</translation>
+    </message>
+    <message>
+        <source>Select what to show in section 8. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Selecione o que exibir na seção 8. Esta configuração não terá efeito se \“Usar a disposição de seções da tela inicial do cliente web\” estiver ativada. O Jellyfin precisará ser fechado e reaberto para que a alteração tenha efeito.</translation>
+    </message>
+    <message>
+        <source>Yes, continue</source>
+        <translation>Sim, continuar</translation>
+    </message>
+    <message>
+        <source>Start Episode List From First Unwatched Episode</source>
+        <translation>Iniciar lista de episódios a partir do primeiro não assistido</translation>
+    </message>
+    <message>
+        <source>No channels found matching your search criteria</source>
+        <translation>Não foram encontrados canais correspondentes aos seus critérios de pesquisa</translation>
+    </message>
+    <message>
+        <source>Force Transcode (Remux Disabled) - disabled because of selected force transcoding setting</source>
+        <translation>Forçar transcodificação (remux desativado) — desativado devido à configuração selecionada de transcodificação forçada</translation>
+    </message>
+    <message>
+        <source>Force Transcode (Allow Remux) - disabled because of selected force transcoding setting</source>
+        <translation>Forçar transcodificação (remux ativado) — desativado devido à configuração selecionada de transcodificação forçada</translation>
+    </message>
+    <message>
+        <source>Remove From Favorites</source>
+        <translation>Remover dos favoritos</translation>
+    </message>
+    <message>
+        <source>When opening a season&apos;s list of episodes, automatically scroll down and start the cursor on the first unwatched episode.</source>
+        <translation>Ao abrir a lista de episódios de uma temporada, rola automaticamente até o primeiro episódio não assistido e posiciona o cursor nele.</translation>
+    </message>
+    <message>
+        <source>How many minutes of inactivity before playback is stopped between items and a popup is shown to continue? Set to 0 to disable.</source>
+        <translation>Define o tempo de inatividade (em minutos) antes que a reprodução seja pausada entre os itens e uma mensagem, seja exibida perguntando se você continua assistindo. Defina como 0 para desativar esta verificação.</translation>
+    </message>
+    <message>
+        <source>Note: Force transcode option automatically enabled due to video rotation</source>
+        <translation>Observação: a opção de transcodificação forçada foi ativada automaticamente devido à rotação do vídeo</translation>
+    </message>
+    <message>
+        <source>Are You Still Watching?</source>
+        <translation>Você continua assistindo?</translation>
+    </message>
+    <message>
+        <source>Are You Still Watching Popup</source>
+        <translation>Pop-up “Você continua assistindo?”</translation>
+    </message>
+    <message>
+        <source>Playback will automatically stop in 1 minute if no buttons are pressed.</source>
+        <translation>A reprodução será interrompida automaticamente em 1 minuto se nenhum botão for pressionado.</translation>
+    </message>
+    <message>
+        <source>No, stop playback</source>
+        <translation>Não, parar reprodução</translation>
+    </message>
+    <message>
+        <source>Select what to show in section 3. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Selecione o que exibir na seção 3. Esta configuração não terá efeito se \“Usar a disposição de seções da tela inicial do cliente web\” estiver ativada. O Jellyfin precisará ser fechado e reaberto para que a alteração tenha efeito.</translation>
+    </message>
+    <message>
+        <source>The base background color. Background images are layered on top of this color.</source>
+        <translation>A cor de fundo padrão. As imagens de fundo são sobrepostas a essa cor.</translation>
+    </message>
+    <message>
+        <source>Primary Text</source>
+        <translation>Texto principal</translation>
+    </message>
+    <message>
+        <source>The primary text color.</source>
+        <translation>A cor do texto principal.</translation>
+    </message>
+    <message>
+        <source>Secondary Text</source>
+        <translation>Texto secundário</translation>
+    </message>
+    <message>
+        <source>The secondary text color.</source>
+        <translation>A cor do texto secundário.</translation>
+    </message>
+    <message>
+        <source>Watched Check Mark &amp; Unplayed Count</source>
+        <translation>Marca de assistido e contagem de não reproduzidos</translation>
+    </message>
+    <message>
+        <source>Colors specific to the watched check mark &amp; unplayed count box.</source>
+        <translation>Cores específicas da marca de assistido e da caixa de contagem de não reproduzidos.</translation>
+    </message>
+    <message>
+        <source>Unplayed Count</source>
+        <translation>Quantidade de itens não reproduzidos</translation>
+    </message>
+    <message>
+        <source>The background color of the check mark &amp; unplayed count shown in the top right corner of items.</source>
+        <translation>A cor de fundo da marca de assistido e da contagem de não reproduzidos exibidas no canto superior direito dos itens.</translation>
+    </message>
+    <message>
+        <source>The color of the unplayed count number.</source>
+        <translation>A cor do número de itens não reproduzidos.</translation>
+    </message>
+    <message>
+        <source>Watched Check Mark</source>
+        <translation>Marca de assistido</translation>
+    </message>
+    <message>
+        <source>The color of the watched check mark.</source>
+        <translation>A cor do ícone de assistido.</translation>
+    </message>
+    <message>
+        <source>Dialog Popups</source>
+        <translation>Pop-ups</translation>
+    </message>
+    <message>
+        <source>Colors specific to dialog popups</source>
+        <translation>Cores específicas dos pop-ups</translation>
+    </message>
+    <message>
+        <source>The background color for all dialog popups.</source>
+        <translation>A cor de fundo de todos os pop-ups.</translation>
+    </message>
+    <message>
+        <source>Bold Text</source>
+        <translation>Texto em negrito</translation>
+    </message>
+    <message>
+        <source>The text color for bold text.</source>
+        <translation>A cor do texto em negrito.</translation>
+    </message>
+    <message>
+        <source>Horizontal Border line</source>
+        <translation>Linha de borda horizontal</translation>
+    </message>
+    <message>
+        <source>The color of the thin border line under the header text.</source>
+        <translation>A cor da linha fina exibida sob o texto do cabeçalho.</translation>
+    </message>
+    <message>
+        <source>Selected Text</source>
+        <translation>Texto selecionado</translation>
+    </message>
+    <message>
+        <source>The text color for the item the cursor is over.</source>
+        <translation>A cor do texto do item em que o cursor está posicionado.</translation>
+    </message>
+    <message>
+        <source>Text Color</source>
+        <translation>Cor do texto</translation>
+    </message>
+    <message>
+        <source>The text color for title and items the cursor is not over.</source>
+        <translation>A cor do texto dos títulos e dos itens que não estão sob o cursor.</translation>
+    </message>
+    <message>
+        <source>What&apos;s New Author</source>
+        <translation>Novidades do autor</translation>
+    </message>
+    <message>
+        <source>The text color for the author in the What&apos;s New popup.</source>
+        <translation>A cor do nome do autor exibido no pop-up “Novidades”.</translation>
+    </message>
+    <message>
+        <source>Home Screen</source>
+        <translation>Tela inicial</translation>
+    </message>
+    <message>
+        <source>Colors specific to the home screen</source>
+        <translation>Cores específicas da tela inicial</translation>
+    </message>
+    <message>
+        <source>My List Icon</source>
+        <translation>Ícone da &quot;Minha Lista&quot;</translation>
+    </message>
+    <message>
+        <source>The color of the star icon in the My List library item.</source>
+        <translation>A cor do ícone de estrela nos itens da biblioteca da Minha Lista.</translation>
+    </message>
+    <message>
+        <source>Row Headers</source>
+        <translation>Cabeçalhos das seções</translation>
+    </message>
+    <message>
+        <source>The text color of the headers of each row.</source>
+        <translation>A cor do texto dos cabeçalhos de cada seção.</translation>
+    </message>
+    <message>
+        <source>Row Item Background</source>
+        <translation>Fundo dos itens da linha</translation>
     </message>
 </context>
 <context>
