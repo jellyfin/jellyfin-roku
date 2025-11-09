@@ -8,7 +8,11 @@
     "author": "brianpardy"
   },
   {
-    "description": "Fix bug preventing dismissal of Next Up display",
+    "description": "Fix bug preventing dismissal of Skip Outro button",
     "author": "brianpardy"
+  },
+  {
+    "description": "Add position cue support to custom subtitles",
+    "author": "1hitsong"
   }
 ]
