@@ -2134,5 +2134,17 @@
         <source>Play Normally</source>
         <translation>Reprodueix amb normalitat</translation>
     </message>
+    <message>
+        <source>Off - Attempt to play all channels</source>
+        <translation>Desactivat - Intent de reproduir tots els canals</translation>
+    </message>
+    <message>
+        <source>Configure the maximum audio channels when playing video files on this device.</source>
+        <translation>Configureu el nombre màxim de canals d&apos;àudio en reproduir fitxers de vídeo en aquest dispositiu.</translation>
+    </message>
+    <message>
+        <source>Maximum Audio Channels</source>
+        <translation>Nombre màxim de canals d&apos;àudio</translation>
+    </message>
 </context>
 </TS>
