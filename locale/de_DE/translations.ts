@@ -1271,7 +1271,7 @@
     </message>
     <message>
         <source>Remember Me?</source>
-        <translation>Erinnere dich an mich?</translation>
+        <translation>An mich erinnern?</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
