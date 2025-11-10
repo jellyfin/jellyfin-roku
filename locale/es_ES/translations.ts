@@ -334,7 +334,7 @@
     </message>
     <message>
         <source>Remember the currently logged in user and try to log them in again next time you start the Jellyfin app.</source>
-        <translation>Recordar al usuario que acaba de ingresar e intentar iniciar sesión nuevamente la próxima vez que abras la app de Jellyfin.</translation>
+        <translation>Recordar al usuario actual e intentar iniciar sesión nuevamente la próxima vez que abras la app de Jellyfin.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
@@ -358,7 +358,7 @@
     </message>
     <message>
         <source>No Chapter Data Found</source>
-        <translation>No se han encontrado datos del capitulo</translation>
+        <translation>No se han encontrado datos sobre el capitulo</translation>
         <extracomment>Message shown in OSD when no chapter data is returned by the API</extracomment>
     </message>
     <message>
@@ -1321,17 +1321,17 @@
     </message>
     <message>
         <source>To view a complete list of changes visit</source>
-        <translation>Para ver una lista completa de los cambios visita</translation>
+        <translation>Visita para ver una lista completa de los cambios</translation>
         <extracomment>WhatsNewDialog body text preceding the changelog URL</extracomment>
     </message>
     <message>
         <source>Community and Critical Ratings</source>
-        <translation>Calificaciones comunitarias y críticas</translation>
+        <translation>Valoraciones de la comunidad y de la crítica</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Ratings for how good a movie is</source>
-        <translation>Calificaciones de lo buena que es una película.</translation>
+        <translation>Valoraciones y crítica de Rotten Tomatoes</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
@@ -1528,7 +1528,7 @@
     </message>
     <message>
         <source>Media Segment Actions</source>
-        <translation>Acciones de medios de segmentos</translation>
+        <translation>Acciones de segmentos multimedia</translation>
     </message>
     <message>
         <source>Commercial Segments</source>
@@ -1620,15 +1620,15 @@
     </message>
     <message>
         <source>What action should Jellyfin take for commercial segments?</source>
-        <translation>Que acción debería tomar Jellyfin para los segmentos comerciales?</translation>
+        <translation>¿Qué acción debería tomar Jellyfin para los segmentos comerciales?</translation>
     </message>
     <message>
         <source>Intro Segments</source>
-        <translation>Segmentos de Introducción</translation>
+        <translation>Segmentos de introducción</translation>
     </message>
     <message>
         <source>What action should Jellyfin take for intro segments?</source>
-        <translation>Que acción debería tomar Jellyfin para los segmentos de Introducción?</translation>
+        <translation>¿Que acción debería tomar Jellyfin para los segmentos de introducción?</translation>
     </message>
     <message>
         <source>Are you sure you want to delete this subtitle?</source>
@@ -1664,7 +1664,7 @@
     </message>
     <message>
         <source>Ask To Skip</source>
-        <translation>Pregunta antes de saltar</translation>
+        <translation>Preguntar para omitir</translation>
     </message>
     <message>
         <source>None</source>
@@ -1676,11 +1676,11 @@
     </message>
     <message>
         <source>Forget Filters</source>
-        <translation>Limpia los filtros</translation>
+        <translation>Elimina los filtros</translation>
     </message>
     <message>
         <source>Forget applied library filters when Jellyfin is closed.</source>
-        <translation>Limpia los filtros aplicados a la biblioteca al cerrar Jellyfin.</translation>
+        <translation>Elimina los filtros aplicados a la biblioteca al cerrar Jellyfin.</translation>
     </message>
     <message>
         <source>Library Portrait Column Count</source>
@@ -2229,6 +2229,10 @@
     <message>
         <source>Yes, continue</source>
         <translation>Si, continua</translation>
+    </message>
+    <message>
+        <source>Off - Attempt to play all channels</source>
+        <translation>Desactivado - Intento de reproducir todos los canales</translation>
     </message>
 </context>
 <context>
