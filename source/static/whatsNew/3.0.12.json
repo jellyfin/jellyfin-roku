@@ -1,6 +1,6 @@
 [
   {
-    "description": "Add setting to enable burn in subtitles during transcoding",
+    "description": "Add setting to toggle burn in subtitles during transcoding",
     "author": "michaelforgit"
   },
   {
