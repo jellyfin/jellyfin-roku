@@ -2096,7 +2096,7 @@
     </message>
     <message>
         <source>Burn in subtitle when transcoding</source>
-        <translation>Incrustation des sous-titres lors du transcodage</translation>
+        <translation type="unfinished">Incrustation des sous-titres lors du transcodage</translation>
     </message>
     <message>
         <source>Burn in all subtitles when transcoding is triggered. This ensures subtitle synchronization after transcoding at the cost of reduced transcoding speed.</source>
