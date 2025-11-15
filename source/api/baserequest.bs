@@ -39,15 +39,29 @@ function buildURL(path as string, params = {} as object) as dynamic
     serverURL = get_url()
     if serverURL = invalid then return invalid
 
-    ' Add intial '/' if path does not start with one
-    if path.Left(1) = "/"
-        full_url = serverURL + path
-    else
-        full_url = serverURL + "/" + path
-    end if
+    parsed_url = ParsedUrl(serverURL)
+    full_url = `${parsed_url.proto}://${parsed_url.host}${parsed_url.port = "" ? "" : `:${parsed_url.port}`}${parsed_url.path}`
 
-    if params.count() > 0
-        full_url = full_url + "?" + buildParams(params)
+    ' some parts of the code include a query string with the path, so split it
+    pathParts = path.split("?")
+    realPath = pathParts[0]
+    pathQuery = pathParts.count() > 1 ? pathParts[1] : ""
+
+    ' Add intial '/' if path does not start with one
+    full_url += realPath.startswith("/") ? realPath : `/${realPath}`
+
+    ' append query string values
+    if parsed_url.query <> "" or pathQuery <> "" or params.count() > 0
+        full_url += "?"
+        if parsed_url.query <> ""
+            full_url += parsed_url.query
+            if pathQuery <> "" or params.count() > 0 then full_url += "&"
+        end if
+        if pathQuery <> ""
+            full_url += pathQuery
+            if params.count() > 0 then full_url += "&"
+        end if
+        if params.count() > 0 then full_url += buildParams(params)
     end if
 
     return full_url
