@@ -14,7 +14,7 @@ function ItemGetPlaybackInfo(id as string, startTimeTicks = 0 as longinteger)
     return getJson(resp)
 end function
 
-function ItemPostPlaybackInfo(id as string, mediaSourceId = "" as string, audioTrackIndex = -1 as integer, subtitleTrackIndex = SubtitleSelection.NONE as integer, startTimeTicks = 0 as longinteger)
+function ItemPostPlaybackInfo(id as string, mediaSourceId = "" as string, audioTrackIndex = -1 as integer, subtitleTrackIndex = SubtitleSelection.NONE as integer, startTimeTicks = 0 as longinteger, options = {} as object)
 
     transcodeCodec = string.EMPTY
 
@@ -36,6 +36,10 @@ function ItemPostPlaybackInfo(id as string, mediaSourceId = "" as string, audioT
         "MaxStaticBitrate": "140000000",
         "SubtitleStreamIndex": subtitleTrackIndex
     }
+
+    if chainLookupReturn(options, "emptySubtitleProfiles", false)
+        body.DeviceProfile.SubtitleProfiles = []
+    end if
 
     ' Note: Jellyfin v10.9+ now remuxs LiveTV and does not allow DirectPlay anymore.
     ' Because of this, we need to tell the server "EnableDirectPlay = false" so that we receive the

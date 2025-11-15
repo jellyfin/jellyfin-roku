@@ -343,6 +343,14 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
             video.content = invalid
             return
         end if
+
+        ' If transcoding and burnInSubtitlesIfTrancoding is enabled, zero out SubtitleProfiles
+        if chainLookupReturn(m.global, "session.user.settings.`playback.subs.burnin`", true)
+            m.playbackInfo = ItemPostPlaybackInfo(video.id, mediaSourceId, audio_stream_idx, subtitle_idx, playbackPosition, {
+                emptySubtitleProfiles: true
+            })
+        end if
+
         ' Get transcoding reason
         video.transcodeReasons = getTranscodeReasons(m.playbackInfo.MediaSources[0].TranscodingUrl)
         video.content.url = buildURL(m.playbackInfo.MediaSources[0].TranscodingUrl)

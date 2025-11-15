@@ -2202,7 +2202,7 @@
         </message>
         <message>
             <source>Burn in subtitle when transcoding</source>
-            <translation>Burn in subtitle when transcoding</translation>
+            <translation>Burn In Subtitle When Transcoding</translation>
             <extracomment>Settings Menu - Title for option</extracomment>
         </message>
         <message>
