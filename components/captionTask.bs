@@ -327,6 +327,9 @@ function parseVTT(lines)
             if isStringEqual(finalText, string.EMPTY)
                 entry.AddReplace("text", currentLine)
                 entries.push(entry)
+                ' This is a false positive in bslint due to
+                ' https://github.com/rokucommunity/bslint/issues/47
+                ' bs:disable-next-line
                 isNewLine = false
 
                 continue for
