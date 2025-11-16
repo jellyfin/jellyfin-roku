@@ -6,436 +6,436 @@
     <name>default</name>
     <message>
         <source>192.168.1.100:8096 or https://example.com/jellyfin</source>
-        <translation type="unfinished"></translation>
+        <translation>192.168.1.100:8096 veya https://example.com/jellyfin</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>İptal</translation>
     </message>
     <message>
         <source>Connect to Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Sunucuya Bağlan</translation>
     </message>
     <message>
         <source>Ends at %1</source>
-        <translation type="unfinished"></translation>
+        <translation>%1&apos;de biter</translation>
     </message>
     <message>
         <source>Enter Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>Yapılandırmaya girin</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished"></translation>
+        <translation>Favori</translation>
     </message>
     <message>
         <source>Loading...</source>
-        <translation type="unfinished"></translation>
+        <translation>Yükleniyor…</translation>
     </message>
     <message>
         <source>Login attempt failed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Giriş denemesi başarısız oldu.</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished"></translation>
+        <translation>Tamam</translation>
     </message>
     <message>
         <source>Options</source>
-        <translation type="unfinished"></translation>
+        <translation>Seçenekler</translation>
     </message>
     <message>
         <source>Play</source>
-        <translation type="unfinished"></translation>
+        <translation>Oynat</translation>
     </message>
     <message>
         <source>Please sign in</source>
-        <translation type="unfinished"></translation>
+        <translation>Lütfen giriş yapın</translation>
     </message>
     <message>
         <source>Search</source>
-        <translation type="unfinished"></translation>
+        <translation>Ara</translation>
     </message>
     <message>
         <source>Server not found, is it online?</source>
-        <translation type="unfinished"></translation>
+        <translation>Sunucu bulunamadı, çevrimiçi mi?</translation>
     </message>
     <message>
         <source>Shuffle</source>
-        <translation type="unfinished"></translation>
+        <translation>Karıştır</translation>
     </message>
     <message>
         <source>Sign In</source>
-        <translation type="unfinished"></translation>
+        <translation>Giriş Yap</translation>
     </message>
     <message>
         <source>Submit</source>
-        <translation type="unfinished"></translation>
+        <translation>Gönder</translation>
     </message>
     <message>
         <source>Watched</source>
-        <translation type="unfinished"></translation>
+        <translation>İzlendi</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Ayarlar</translation>
     </message>
     <message>
         <source>Change User</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcıyı Değiştir</translation>
     </message>
     <message>
         <source>Change Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Sunucuyu Değiştir</translation>
     </message>
     <message>
         <source>Sign Out</source>
-        <translation type="unfinished"></translation>
+        <translation>Çıkış</translation>
     </message>
     <message>
         <source>Add User</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcı Ekle</translation>
     </message>
     <message>
         <source>Profile</source>
-        <translation type="unfinished"></translation>
+        <translation>Profil</translation>
     </message>
     <message>
         <source>Save Credentials?</source>
-        <translation type="unfinished"></translation>
+        <translation>Kimlik bilgilerini kaydetmek ister misiniz?</translation>
     </message>
     <message>
         <source>Delete Saved</source>
-        <translation type="unfinished"></translation>
+        <translation>Kaydedilenleri Sil</translation>
     </message>
     <message>
         <source>My Media</source>
-        <translation type="unfinished"></translation>
+        <translation>Benim Medyam</translation>
     </message>
     <message>
         <source>Continue Watching</source>
-        <translation type="unfinished"></translation>
+        <translation>İzlemeye Devam Et</translation>
     </message>
     <message>
         <source>Next Up</source>
-        <translation type="unfinished"></translation>
+        <translation>Sıradaki</translation>
     </message>
     <message>
         <source>Recently Added in</source>
-        <translation type="unfinished"></translation>
+        <translation>Son Eklenenler</translation>
     </message>
     <message>
         <source>On Now</source>
-        <translation type="unfinished"></translation>
+        <translation>Şu anda</translation>
     </message>
     <message>
         <source>Home</source>
-        <translation type="unfinished"></translation>
+        <translation>Ana Sayfa</translation>
     </message>
     <message>
         <source>Enter a username</source>
-        <translation type="unfinished"></translation>
+        <translation>Bir kullanıcı adı girin</translation>
     </message>
     <message>
         <source>Enter a password</source>
-        <translation type="unfinished"></translation>
+        <translation>Bir şifre girin</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Ad</translation>
     </message>
     <message>
         <source>Sort Order</source>
-        <translation type="unfinished"></translation>
+        <translation>Sıralama Düzeni</translation>
     </message>
     <message>
         <source>Descending</source>
-        <translation type="unfinished"></translation>
+        <translation>Azalan</translation>
     </message>
     <message>
         <source>Ascending</source>
-        <translation type="unfinished"></translation>
+        <translation>Artan</translation>
     </message>
     <message>
         <source>Password</source>
-        <translation type="unfinished"></translation>
+        <translation>Şifre</translation>
     </message>
     <message>
         <source>Username</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcı Adı</translation>
     </message>
     <message>
         <source>Genres</source>
-        <translation type="unfinished"></translation>
+        <translation>Türler</translation>
     </message>
     <message>
         <source>Director</source>
-        <translation type="unfinished"></translation>
+        <translation>Yönetmen</translation>
     </message>
     <message>
         <source>Video</source>
-        <translation type="unfinished"></translation>
+        <translation>Video</translation>
     </message>
     <message>
         <source>Audio</source>
-        <translation type="unfinished"></translation>
+        <translation>Ses</translation>
     </message>
     <message>
         <source>Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Sunucu</translation>
     </message>
     <message>
         <source>Extras</source>
-        <translation type="unfinished"></translation>
+        <translation>Ekstra</translation>
     </message>
     <message>
         <source>Episodes</source>
-        <translation type="unfinished"></translation>
+        <translation>Bölümler</translation>
     </message>
     <message>
         <source>Error Retrieving Content</source>
-        <translation type="unfinished"></translation>
+        <translation>İçeriği Alırken Hata Oluştu</translation>
         <extracomment>Dialog title when unable to load Content from Server</extracomment>
     </message>
     <message>
         <source>Error During Playback</source>
-        <translation type="unfinished"></translation>
+        <translation>Oynatma Sırasında Hata</translation>
         <extracomment>Dialog title when error occurs during playback</extracomment>
     </message>
     <message>
         <source>Unable to get playback information</source>
-        <translation type="unfinished"></translation>
+        <translation>Oynatma bilgilerini alamıyor</translation>
     </message>
     <message>
         <source>There was an error retrieving the data for this item from the server.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sunucudan bu öğenin verilerini alırken bir hata oluştu.</translation>
         <extracomment>Dialog detail when unable to load Content from Server</extracomment>
     </message>
     <message>
         <source>An error was encountered while playing this item.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bu öğeyi oynatırken bir hata oluştu.</translation>
         <extracomment>Dialog detail when error occurs during playback</extracomment>
     </message>
     <message>
         <source>Loading Channel Data</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanal Verilerini Yükleme</translation>
     </message>
     <message>
         <source>Error loading Channel Data</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanal Verilerini Yükleme Hatası</translation>
     </message>
     <message>
         <source>Unable to load Channel Data from the server</source>
-        <translation type="unfinished"></translation>
+        <translation>Sunucudan Kanal Verileri yüklenemiyor</translation>
     </message>
     <message>
         <comment>Message displayed in Item Grid when no item to display. %1 is container type (e.g. Boxset, Collection, Folder, etc)</comment>
         <source>NO_ITEMS</source>
-        <translation type="unfinished"></translation>
+        <translation>Bu %1 hiçbir öğe içermiyor</translation>
     </message>
     <message>
         <comment>Name or Title field of media item</comment>
         <source>TITLE</source>
-        <translation type="unfinished"></translation>
+        <translation>Ad</translation>
     </message>
     <message>
         <source>IMDB_RATING</source>
-        <translation type="unfinished"></translation>
+        <translation>IMDb Puanı</translation>
     </message>
     <message>
         <source>Community Rating</source>
-        <translation type="unfinished"></translation>
+        <translation>Topluluk Derecelendirmesi</translation>
     </message>
     <message>
         <source>CRITIC_RATING</source>
-        <translation type="unfinished"></translation>
+        <translation>Eleştirmenlerin Puanı</translation>
     </message>
     <message>
         <source>DATE_ADDED</source>
-        <translation type="unfinished"></translation>
+        <translation>Eklenme Tarihi</translation>
     </message>
     <message>
         <source>DATE_PLAYED</source>
-        <translation type="unfinished"></translation>
+        <translation>Oynama Tarihi</translation>
     </message>
     <message>
         <source>OFFICIAL_RATING</source>
-        <translation type="unfinished"></translation>
+        <translation>Ebeveyn Derecelendirmesi</translation>
     </message>
     <message>
         <source>Date Show Added</source>
-        <translation type="unfinished"></translation>
+        <translation>Eklendiği Tarih Göster</translation>
     </message>
     <message>
         <source>Date Episode Added</source>
-        <translation type="unfinished"></translation>
+        <translation>Bölüm Eklendiği Tarih</translation>
     </message>
     <message>
         <source>PLAY_COUNT</source>
-        <translation type="unfinished"></translation>
+        <translation>Oynatma Sayısı</translation>
     </message>
     <message>
         <source>RELEASE_DATE</source>
-        <translation type="unfinished"></translation>
+        <translation>Yayın Tarihi</translation>
     </message>
     <message>
         <source>RUNTIME</source>
-        <translation type="unfinished"></translation>
+        <translation>Çalışma süresi</translation>
     </message>
     <message>
         <comment>Title of Tab for switching &quot;views&quot; when looking at a library</comment>
         <source>TAB_VIEW</source>
-        <translation type="unfinished"></translation>
+        <translation>Görünüm</translation>
     </message>
     <message>
         <comment>Title of Tab for options to sort library content</comment>
         <source>TAB_SORT</source>
-        <translation type="unfinished"></translation>
+        <translation>Sıralama</translation>
     </message>
     <message>
         <comment>Title of Tab for options to filter library content</comment>
         <source>TAB_FILTER</source>
-        <translation type="unfinished"></translation>
+        <translation>Filtre</translation>
     </message>
     <message>
         <source>Born</source>
-        <translation type="unfinished"></translation>
+        <translation>Doğum</translation>
     </message>
     <message>
         <source>Died</source>
-        <translation type="unfinished"></translation>
+        <translation>Ölüm</translation>
     </message>
     <message>
         <source>Age</source>
-        <translation type="unfinished"></translation>
+        <translation>Yaş</translation>
     </message>
     <message>
         <source>Cast &amp; Crew</source>
-        <translation type="unfinished"></translation>
+        <translation>Oyuncular ve Ekip</translation>
     </message>
     <message>
         <source>More Like This</source>
-        <translation type="unfinished"></translation>
+        <translation>Buna benzer diğerleri</translation>
     </message>
     <message>
         <source>Press &apos;OK&apos; to Close</source>
-        <translation type="unfinished"></translation>
+        <translation>Kapatmak için &apos;Tamam&apos; düğmesine basın.</translation>
     </message>
     <message>
         <source>Special Features</source>
-        <translation type="unfinished"></translation>
+        <translation>Özel Özellikler</translation>
     </message>
     <message>
         <source>Additional Parts</source>
-        <translation type="unfinished"></translation>
+        <translation>Ek Parçalar</translation>
         <extracomment>Additional parts of a video</extracomment>
     </message>
     <message>
         <source>Movies</source>
-        <translation type="unfinished"></translation>
+        <translation>Filmler</translation>
     </message>
     <message>
         <source>Movies (Presentation)</source>
-        <translation type="unfinished"></translation>
+        <translation>Filmler (Sunum)</translation>
         <extracomment>Movie library view option</extracomment>
     </message>
     <message>
         <source>Movies (Grid)</source>
-        <translation type="unfinished"></translation>
+        <translation>Filmler (Izgara)</translation>
         <extracomment>Movie library view option</extracomment>
     </message>
     <message>
         <source>TV Shows</source>
-        <translation type="unfinished"></translation>
+        <translation>TV Programları</translation>
     </message>
     <message>
         <source>today</source>
-        <translation type="unfinished"></translation>
+        <translation>bugün</translation>
         <extracomment>Current day</extracomment>
     </message>
     <message>
         <source>yesterday</source>
-        <translation type="unfinished"></translation>
+        <translation>dün</translation>
         <extracomment>Previous day</extracomment>
     </message>
     <message>
         <source>tomorrow</source>
-        <translation type="unfinished"></translation>
+        <translation>yarın</translation>
         <extracomment>Next day</extracomment>
     </message>
     <message>
         <source>Sunday</source>
-        <translation type="unfinished"></translation>
+        <translation>Pazar</translation>
         <extracomment>Day of Week</extracomment>
     </message>
     <message>
         <source>Monday</source>
-        <translation type="unfinished"></translation>
+        <translation>Pazartesi</translation>
         <extracomment>Day of Week</extracomment>
     </message>
     <message>
         <source>Tuesday</source>
-        <translation type="unfinished"></translation>
+        <translation>Salı</translation>
         <extracomment>Day of Week</extracomment>
     </message>
     <message>
         <source>Wednesday</source>
-        <translation type="unfinished"></translation>
+        <translation>Çarşamba</translation>
         <extracomment>Day of Week</extracomment>
     </message>
     <message>
         <source>Thursday</source>
-        <translation type="unfinished"></translation>
+        <translation>Perşembe</translation>
         <extracomment>Day of Week</extracomment>
     </message>
     <message>
         <source>Friday</source>
-        <translation type="unfinished"></translation>
+        <translation>Cuma</translation>
         <extracomment>Day of Week</extracomment>
     </message>
     <message>
         <source>Saturday</source>
-        <translation type="unfinished"></translation>
+        <translation>Cumartesi</translation>
         <extracomment>Day of Week</extracomment>
     </message>
     <message>
         <source>Started at</source>
-        <translation type="unfinished"></translation>
+        <translation>Başlangıç</translation>
         <extracomment>(Past Tense) For defining time when a program started today (e.g. Started at 08:00) </extracomment>
     </message>
     <message>
         <source>Started</source>
-        <translation type="unfinished"></translation>
+        <translation>Başladı</translation>
         <extracomment>(Past Tense) For defining a day and time when a program started (e.g. Started Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Starts at</source>
-        <translation type="unfinished"></translation>
+        <translation>Başlangıç zamanı</translation>
         <extracomment>(Future Tense) For defining time when a program will start today (e.g. Starts at 08:00) </extracomment>
     </message>
     <message>
         <source>Starts</source>
-        <translation type="unfinished"></translation>
+        <translation>Başladı</translation>
         <extracomment>(Future Tense) For defining a day and time when a program will start (e.g. Starts Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Ended at</source>
-        <translation type="unfinished"></translation>
+        <translation>Bitti</translation>
         <extracomment>(Past Tense) For defining time when a program will ended (e.g. Ended at 08:00) </extracomment>
     </message>
     <message>
         <source>Ends at</source>
-        <translation type="unfinished"></translation>
+        <translation>Biter</translation>
         <extracomment>(Past Tense) For defining a day and time when a program ended (e.g. Ended Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Live</source>
-        <translation type="unfinished"></translation>
+        <translation>Canlı</translation>
         <extracomment>If TV Show is being broadcast live (not pre-recorded)</extracomment>
     </message>
     <message>
         <source>Repeat</source>
-        <translation type="unfinished"></translation>
+        <translation>Tekrarla</translation>
         <extracomment>If TV Shows has previously been broadcasted</extracomment>
     </message>
     <message>
