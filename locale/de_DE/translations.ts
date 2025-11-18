@@ -1718,6 +1718,34 @@
         <source>What action should Jellyfin take for preview segments?</source>
         <translation>Welche Maßnahmen sollte Jellyfin für die Vorschau-Segmente ergreifen?</translation>
     </message>
+    <message>
+        <source>Saved Profile</source>
+        <translation>Gespeichertes Profil</translation>
+    </message>
+    <message>
+        <source>Public Profile</source>
+        <translation>Sichtbares Profil</translation>
+    </message>
+    <message>
+        <source>Manage Hidden Users</source>
+        <translation>Verwalte versteckte Benutzer</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to forget this user?</source>
+        <translation>Bist du dir sicher, dass du den Benutzer vergessen möchtest?</translation>
+    </message>
+    <message>
+        <source>Unhide Users</source>
+        <translation>Benutzer sichtbar machen</translation>
+    </message>
+    <message>
+        <source>Add To Favorites</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove From Favorites</source>
+        <translation>Von Favoriten entfernen</translation>
+    </message>
 </context>
 <context>
     <name></name>
