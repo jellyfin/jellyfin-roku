@@ -166,6 +166,14 @@ namespace MainAction
         end if
     end sub
 
+    sub onGoToSeriesButtonClicked(activeScene as object)
+        CreateSeriesDetailsGroup(activeScene.itemContent.showID)
+    end sub
+
+    sub onGoToSeasonButtonClicked(activeScene as object)
+        CreateSeasonDetailsGroupByID(activeScene.itemContent.LookupCI("showID"), activeScene.itemContent.LookupCI("seasonID"))
+    end sub
+
     sub playItem(item as dynamic, params = {} as object)
         if not isValid(item) then return
 

@@ -1160,6 +1160,16 @@ sub onButtonSelectedEvent(msg)
         return
     end if
 
+    if isStringEqual(btn, "goToSeasonButton")
+        MainAction.onGoToSeasonButtonClicked(activeScene)
+        return
+    end if
+
+    if isStringEqual(btn, "goToSeriesButton")
+        MainAction.onGoToSeriesButtonClicked(activeScene)
+        return
+    end if
+
     MainAction.closeOKDialog(msg)
 end sub
 
