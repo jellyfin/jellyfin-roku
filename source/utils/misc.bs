@@ -273,7 +273,7 @@ function urlCandidates(input as string)
     finalCandidates = []
     for each proto in protoCandidates:
         finalCandidates.push(url.withProto(proto))
-        if isValid(url.port) = false or url.port = "" ' if the port isn't defined, use default jellyfin and proto ports
+        if not isValidAndNotEmpty(url.port) ' if the port isn't defined, use default jellyfin and proto ports
             ' jellyfin defaults
             if proto = "https"
                 finalCandidates.push(url.withPort("8920"))
