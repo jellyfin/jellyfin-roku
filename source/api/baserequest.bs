@@ -51,17 +51,26 @@ function buildURL(path as string, params = {} as object) as dynamic
     full_url += realPath.startswith("/") ? realPath : `/${realPath}`
 
     ' append query string values
-    if parsed_url.query <> "" or pathQuery <> "" or params.count() > 0
+    if isValidAndNotEmpty(parsed_url.query) or isValidAndNotEmpty(pathQuery) or isValidAndNotEmpty(params)
         full_url += "?"
-        if parsed_url.query <> ""
+
+        if isValidAndNotEmpty(parsed_url.query)
             full_url += parsed_url.query
-            if pathQuery <> "" or params.count() > 0 then full_url += "&"
+            if isValidAndNotEmpty(pathQuery) or isValidAndNotEmpty(params)
+                full_url += "&"
+            end if
         end if
-        if pathQuery <> ""
+
+        if isValidAndNotEmpty(pathQuery)
             full_url += pathQuery
-            if params.count() > 0 then full_url += "&"
+            if isValidAndNotEmpty(params)
+                full_url += "&"
+            end if
         end if
-        if params.count() > 0 then full_url += buildParams(params)
+
+        if isValidAndNotEmpty(params)
+            full_url += buildParams(params)
+        end if
     end if
 
     return full_url
