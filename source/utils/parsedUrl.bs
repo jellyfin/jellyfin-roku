@@ -10,11 +10,11 @@ function ParsedUrl(url as string) as object
     if not isValid(match) then return invalid
 
     return {
-        proto: match[1] = invalid ? "" : match[1],
-        host: match[2] = invalid ? "" : match[2],
-        port: match[3] = invalid ? "" : match[3],
-        path: match[4] = invalid ? "" : match[4].endswith("/") ? match[4].left(len(match[4]) - 1) : match[4],
-        query: match[5] = invalid ? "" : match[5],
+        proto: isValid(match[1]) ? match[1] : string.EMPTY,
+        host: isValid(match[2]) ? match[2] : string.EMPTY,
+        port: isValid(match[3]) ? match[3] : string.EMPTY,
+        path: isValid(match[4]) ? match[4].endswith("/") ? match[4].left(len(match[4]) - 1) : match[4] : string.EMPTY,
+        query: isValid(match[5]) ? match[5] : string.EMPTY,
         toString: __ParsedUrl_ToString,
         withProto: __ParsedUrl_WithProto,
         withHost: __ParsedUrl_WithHost,
