@@ -63,7 +63,9 @@ end function
 function __ParsedUrl_WithQuery(query as string, replace = false as boolean) as object
     newCopy = CreateObject("roUtils").DeepCopy(m)
     newQuery = "?"
-    if replace = false and m.query <> "" then newQuery += `${m.query}&`
+    if not replace and isValidAndNotEmpty(m.query) 
+        newQuery += `${m.query}&`
+    end if
     newQuery += query.startswith("?") ? query.right(len(query) - 1) : query
     newCopy.query = newQuery
     return newCopy
