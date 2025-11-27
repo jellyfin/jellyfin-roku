@@ -7,7 +7,7 @@
 function ParsedUrl(url as string) as object
     rgx = CreateObject("roRegex", "^(?:(.*):\/\/)?([^\/:?]+)(?::(\d+))?(\/[^\r\n?]+)?(?:\?(.*))?$", "")
     match = rgx.Match(url)
-    if match = invalid then return invalid
+    if not isValid(match) then return invalid
 
     return {
         proto: match[1] = invalid ? "" : match[1],
