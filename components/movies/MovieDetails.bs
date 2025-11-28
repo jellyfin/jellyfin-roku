@@ -321,7 +321,7 @@ end sub
 sub addTextMovieTitle(itemData as object)
     movieTitle = m.top.findNode("movieTitle")
     if not isValid(movieTitle)
-        movieTitle = createObject("roSGNode", "Label")
+        movieTitle = createObject("roSGNode", "Text")
     end if
     movieTitle.id = "movieTitle"
     movieTitle.font = "font:LargeSystemFont"
@@ -516,7 +516,7 @@ sub addEpisodeTitle(itemData as object)
     episodeTitle = m.top.findNode("episodeTitle")
 
     if not isValid(episodeTitle)
-        episodeTitle = createObject("roSGNode", "Label")
+        episodeTitle = createObject("roSGNode", "Text")
         episodeTitle.id = "episodeTitle"
         episodeTitle.font = "font:MediumBoldSystemFont"
     end if
