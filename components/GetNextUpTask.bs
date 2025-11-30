@@ -1,0 +1,29 @@
+import "pkg:/source/utils/config.bs"
+import "pkg:/source/api/sdk.bs"
+
+sub init()
+    m.top.functionName = "getNextUpTask"
+end sub
+
+sub getNextUpTask()
+    if not isValid(m.top.showID) or m.top.showID = ""
+        m.top.nextUpData = invalid
+        return
+    end if
+
+    params = {
+        "seriesId": m.top.showID,
+        "recursive": true,
+        "SortBy": "DatePlayed",
+        "SortOrder": "Descending",
+        "ImageTypeLimit": 1,
+        "UserId": m.global.session.user.id,
+        "EnableRewatching": m.global.session.user.settings["ui.details.enablerewatchingnextup"],
+        "DisableFirstEpisode": false,
+        "limit": 1,
+        "EnableTotalRecordCount": false
+    }
+
+    m.top.nextUpData = api.shows.GetNextUp(params)
+end sub
+

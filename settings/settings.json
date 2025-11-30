@@ -320,6 +320,13 @@
         "default": "30"
       },
       {
+        "title": "Show Next Up After Finish",
+        "description": "Display the next up episode's details page after an episode finishes playing. If no next up episode is found, return to the just-played episode's page.",
+        "settingName": "playback.showNextUpAfterFinish",
+        "type": "bool",
+        "default": "false"
+      },
+      {
         "title": "Preferred Audio Codec",
         "description": "Use the selected audio codec for transcodes. If the device or stream does not support it, a fallback codec will be used.",
         "settingName": "playback.preferredAudioCodec",
