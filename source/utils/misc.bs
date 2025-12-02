@@ -1,4 +1,5 @@
 import "pkg:/source/utils/config.bs"
+import "pkg:/source/utils/parsedUrl.bs"
 
 function isNodeEvent(msg, field as string) as boolean
     return type(msg) = "roSGNodeEvent" and msg.getField() = field
@@ -224,10 +225,11 @@ function inferServerUrl(url as string) as string
     for each endpoint in candidates
         req = CreateObject("roUrlTransfer")
         reqs.push(req) ' keep in scope outside of loop, else -10001
-        req.seturl(endpoint + "/system/info/public")
+        finalUrl = `${endpoint.proto}://${endpoint.host}${endpoint.port = "" ? "" : `:${endpoint.port}`}${endpoint.path}`
+        req.seturl(`${finalUrl}/system/info/public${endpoint.query = "" ? "" : `?${endpoint.query}`}`)
         req.setMessagePort(port)
-        hosts.addreplace(req.getidentity().ToStr(), endpoint)
-        if endpoint.Left(8) = "https://"
+        hosts.addreplace(req.getidentity().ToStr(), `${finalUrl}${endpoint.query = "" ? "" : `?${endpoint.query}`}`)
+        if isStringEqual(endpoint.proto, "https")
             req.setCertificatesFile("common:/certs/ca-bundle.crt")
         end if
         req.AsyncGetToString()
@@ -265,45 +267,23 @@ end function
 ' for the tests in inferServerUrl. takes an incomplete url as an arg and returns a list of extrapolated
 ' full urls.
 function urlCandidates(input as string)
-    if input.endswith("/") then input = input.Left(len(input) - 1)
-    url = parseUrl(input)
-    if url[1] = invalid
-        ' a proto wasn't declared
-        url = parseUrl("none://" + input)
-    end if
-    ' if the proto is still invalid then the string is not valid
-    if url[1] = invalid then return []
-    proto = url[1]
-    host = url[2]
-    port = url[3]
-    path = url[4]
-    protoCandidates = []
-    supportedProtos = ["http:", "https:"] ' appending colons because the regex does
-    if proto = "none:" ' the user did not declare a protocol
-        ' try every supported proto
-        for each supportedProto in supportedProtos
-            protoCandidates.push(supportedProto + "//" + host)
-        end for
-    else
-        protoCandidates.push(proto + "//" + host) ' but still allow arbitrary protocols if they are declared
-    end if
+    url = ParsedUrl(input)
+    ' if the parsed url is invalid then the string is not a valid url
+    if not isValid(url) then return []
+    supportedProtos = ["http", "https"]
+    protoCandidates = isValidAndNotEmpty(url.proto) ? [url.proto] : supportedProtos ' if no proto was declared, try all supported
     finalCandidates = []
-    if isValid(port) and port <> "" ' if the port is defined just use that
-        for each candidate in protoCandidates
-            finalCandidates.push(candidate + port + path)
-        end for
-    else ' the port wasnt declared so use default jellyfin and proto ports
-        for each candidate in protoCandidates:
-            ' proto default
-            finalCandidates.push(candidate + path)
+    for each proto in protoCandidates:
+        finalCandidates.push(url.withProto(proto))
+        if not isValidAndNotEmpty(url.port) ' if the port isn't defined, use default jellyfin and proto ports
             ' jellyfin defaults
-            if candidate.startswith("https")
-                finalCandidates.push(candidate + ":8920" + path)
-            else if candidate.startswith("http")
-                finalCandidates.push(candidate + ":8096" + path)
+            if isStringEqual(proto, "https")
+                finalCandidates.push(url.withPort("8920"))
+            else if isStringEqual(proto, "http")
+                finalCandidates.push(url.withPort("8096"))
             end if
-        end for
-    end if
+        end if
+    end for
     return finalCandidates
 end function
 
@@ -456,14 +436,6 @@ function isValidAndNotEmpty(input as dynamic) as boolean
         print "Called isValidAndNotEmpty() with invalid type: ", inputType
         return false
     end if
-end function
-
-' Returns an array from a url = [ url, proto, host, port, subdir+params ]
-' If port or subdir are not found, an empty string will be added to the array
-' Proto must be declared or array will be empty
-function parseUrl(url as string) as object
-    rgx = CreateObject("roRegex", "^(.*:)//([A-Za-z0-9\-\.]+)(:[0-9]+)?(.*)$", "")
-    return rgx.Match(url)
 end function
 
 ' Returns true if the string is a loopback, such as 'localhost' or '127.0.0.1'

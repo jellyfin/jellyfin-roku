@@ -1,0 +1,72 @@
+'
+' Returns an object from a URL with its URI components as properties = { proto, host, port, path, query }
+' If any of those URI components are missing, they will be set as empty strings = ""
+' If the url param provided cannot be parsed, then invalid will be returned
+'
+' @param url a URL string which will be parsed into URI components
+function ParsedUrl(url as string) as object
+    rgx = CreateObject("roRegex", "^(?:(.*):\/\/)?([^\/:?]+)(?::(\d+))?(\/[^\r\n?]+)?(?:\?(.*))?$", "")
+    match = rgx.Match(url)
+    if not isValid(match) then return invalid
+
+    return {
+        proto: isValid(match[1]) ? match[1] : string.EMPTY,
+        host: isValid(match[2]) ? match[2] : string.EMPTY,
+        port: isValid(match[3]) ? match[3] : string.EMPTY,
+        path: isValid(match[4]) ? match[4].endswith("/") ? match[4].left(len(match[4]) - 1) : match[4] : string.EMPTY,
+        query: isValid(match[5]) ? match[5] : string.EMPTY,
+        toString: __ParsedUrl_ToString,
+        withProto: __ParsedUrl_WithProto,
+        withHost: __ParsedUrl_WithHost,
+        withPort: __ParsedUrl_WithPort,
+        withPath: __ParsedUrl_WithPath,
+        withQuery: __ParsedUrl_WithQuery
+    }
+end function
+
+' Returns the parsed URL as a complete URL string
+function __ParsedUrl_ToString() as string
+    return `${m.proto = "" ? "" : `://${m.proto}`}${m.host}${m.port = "" ? "" : `:${m.port}`}${m.path}${m.query = "" ? "" : `?${m.query}`}`
+end function
+
+' Returns a copy of the parsed URL with the proto changed to the provided proto
+function __ParsedUrl_WithProto(proto as string) as object
+    newCopy = CreateObject("roUtils").DeepCopy(m)
+    newCopy.proto = proto
+    return newCopy
+end function
+
+' Returns a copy of the parsed URL with the host changed to the provided host
+function __ParsedUrl_WithHost(host as string) as object
+    newCopy = CreateObject("roUtils").DeepCopy(m)
+    newCopy.host = host
+    return newCopy
+end function
+
+' Returns a copy of the parsed URL with the port changed to the provided port
+function __ParsedUrl_WithPort(port as string) as object
+    newCopy = CreateObject("roUtils").DeepCopy(m)
+    newCopy.port = port.startsWith(":") ? port.right(len(port) - 1) : port
+    return newCopy
+end function
+
+' Returns a copy of the parsed URL with the provided path appended to the original path,
+' or with the path replaced by the provided path if replace = true
+function __ParsedUrl_WithPath(path as string, replace = false as boolean) as object
+    newCopy = CreateObject("roUtils").DeepCopy(m)
+    newCopy.path = `${replace ? "" : m.path}/${path.endsWith("/") ? path.left(len(path) - 1) : path}`
+    return newCopy
+end function
+
+' Returns a copy of the parsed URL with the provided query appended to the original query,
+' or with the query replaced by the provided query if replace = true
+function __ParsedUrl_WithQuery(query as string, replace = false as boolean) as object
+    newCopy = CreateObject("roUtils").DeepCopy(m)
+    newQuery = "?"
+    if not replace and isValidAndNotEmpty(m.query) 
+        newQuery += `${m.query}&`
+    end if
+    newQuery += query.startswith("?") ? query.right(len(query) - 1) : query
+    newCopy.query = newQuery
+    return newCopy
+end function
