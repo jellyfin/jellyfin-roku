@@ -2,5 +2,9 @@
   {
     "description": "Fix subtitles not displaying when burning into transcoded video",
     "author": "1hitsong"
+  },
+  {
+    "description": "Add support for querystring values in server address",
+    "author": "GeekJosh"
   }
 ]
