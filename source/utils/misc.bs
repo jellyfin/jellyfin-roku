@@ -269,7 +269,7 @@ end function
 function urlCandidates(input as string)
     url = ParsedUrl(input)
     ' if the parsed url is invalid then the string is not a valid url
-    if url = invalid then return []
+    if not isValid(url) then return []
     supportedProtos = ["http", "https"]
     protoCandidates = isValidAndNotEmpty(url.proto) ? [url.proto] : supportedProtos ' if no proto was declared, try all supported
     finalCandidates = []
