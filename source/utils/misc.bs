@@ -279,7 +279,7 @@ function urlCandidates(input as string)
             ' jellyfin defaults
             if isStringEqual(proto, "https")
                 finalCandidates.push(url.withPort("8920"))
-            else if proto = "http"
+            else if isStringEqual(proto, "http")
                 finalCandidates.push(url.withPort("8096"))
             end if
         end if
