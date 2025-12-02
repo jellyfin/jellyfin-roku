@@ -277,7 +277,7 @@ function urlCandidates(input as string)
         finalCandidates.push(url.withProto(proto))
         if not isValidAndNotEmpty(url.port) ' if the port isn't defined, use default jellyfin and proto ports
             ' jellyfin defaults
-            if proto = "https"
+            if isStringEqual(proto, "https")
                 finalCandidates.push(url.withPort("8920"))
             else if proto = "http"
                 finalCandidates.push(url.withPort("8096"))
