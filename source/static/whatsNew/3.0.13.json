@@ -4,6 +4,10 @@
     "author": "1hitsong"
   },
   {
+    "description": "Add support for querystring values in server address",
+    "author": "GeekJosh"
+  },
+  {
     "description": "Add \"Go To Series\" and \"Go To Series\" buttons to episode detail screen",
     "author": "1hitsong"
   },
