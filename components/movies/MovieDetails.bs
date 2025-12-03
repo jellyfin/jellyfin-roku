@@ -123,6 +123,20 @@ sub onMyListLoaded()
     m.top.isInMyList = isInMyListData[0]
 end sub
 
+sub removeTelevisionGoToButtons()
+    goToSeriesButton = m.top.findNode("goToSeriesButton")
+    if isValid(goToSeriesButton)
+        m.buttonGrp.content.removeChild(goToSeriesButton)
+    end if
+
+    goToSeasonButton = m.top.findNode("goToSeasonButton")
+    if isValid(goToSeasonButton)
+        m.buttonGrp.content.removeChild(goToSeasonButton)
+    end if
+
+    calculateButtonThumbProperties()
+end sub
+
 sub onMovieExtrasHasItems()
     m.movieExtras.unobservefield("hasItems")
     if m.movieExtras.hasItems then m.movieExtras.visible = true
@@ -368,6 +382,10 @@ sub itemContentChanged()
     end if
     setWatchedColor()
     setFavoriteColor()
+
+    if not isStringEqual(itemData.Type, VideoType.EPISODE)
+        removeTelevisionGoToButtons()
+    end if
 
     ' We don't need to update everything if this is a reload
     ' Unless this is an episode
@@ -906,6 +924,27 @@ function onKeyEvent(key as string, press as boolean) as boolean
         end for
 
         return true
+    end if
+
+    if key = KeyCode.OPTIONS
+        if m.buttonGrp.hasFocus()
+            if not m.movieExtras.visible then return false
+
+            for each button in m.buttonGrp.content.getChildren(-1, 0)
+                if button.focus
+                    button.focus = false
+                end if
+                exit for
+            end for
+
+            m.top.lastFocus = m.extrasGrid
+            m.extrasGrid.setFocus(true)
+            group = m.global.sceneManager.callFunc("getActiveScene")
+            group.lastFocus = m.extrasGrid
+            m.top.findNode("VertSlider").reverse = false
+            m.top.findNode("extrasFader").reverse = false
+            m.top.findNode("pplAnime").control = AnimationControl.START
+        end if
     end if
 
     if key = KeyCode.DOWN and m.buttonGrp.hasFocus()

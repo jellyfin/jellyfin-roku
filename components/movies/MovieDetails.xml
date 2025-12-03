@@ -68,6 +68,8 @@
             <ButtonData id="watched-button" text="Watched" AUDIO_GUIDE_SUFFIX="Watched" iconSide="left" fontSize="35" padding="35" icon="pkg:/images/icons/check.png" height="75" width="600" />
             <ButtonData id="favorite-button" text="Favorite" AUDIO_GUIDE_SUFFIX="Favorite" iconSide="left" fontSize="35" padding="35" icon="pkg:/images/icons/heart.png" height="75" width="600" />
             <ButtonData id="editSubtitlesButton" text="Manage Subtitles" AUDIO_GUIDE_SUFFIX="Manage Subtitles" iconSide="left" fontSize="35" padding="35" icon="pkg:/images/icons/cc.png" height="75" width="600" />
+            <ButtonData id="goToSeriesButton" text="Go To Series" AUDIO_GUIDE_SUFFIX="Go To Series" iconSide="left" fontSize="35" padding="35" icon="pkg:/images/media_type_icons/tv.png" height="75" width="600" />
+            <ButtonData id="goToSeasonButton" text="Go To Season" AUDIO_GUIDE_SUFFIX="Go To Season" iconSide="left" fontSize="35" padding="35" icon="pkg:/images/icons/numberList.png" height="75" width="600" />
           </ContentNode>
           <Rectangle
             id="scrollBar"
