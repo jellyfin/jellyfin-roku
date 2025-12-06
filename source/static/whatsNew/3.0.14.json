@@ -1,6 +1,6 @@
 [
   {
-    "description": "",
-    "author": ""
+    "description": "Fix crash affecting users on Roku OS 14 or below",
+    "author": "GeekJosh"
   }
 ]
