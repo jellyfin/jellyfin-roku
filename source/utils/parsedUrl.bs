@@ -26,7 +26,7 @@ end function
 
 ' Returns the parsed URL as a complete URL string
 function __ParsedUrl_ToString() as string
-    return `${m.proto = "" ? "" : `://${m.proto}`}${m.host}${m.port = "" ? "" : `:${m.port}`}${m.path}${m.query = "" ? "" : `?${m.query}`}`
+    return `${m.proto = "" ? "" : `${m.proto}://`}${m.host}${m.port = "" ? "" : `:${m.port}`}${m.path}${m.query = "" ? "" : `?${m.query}`}`
 end function
 
 ' Returns a copy of the parsed URL with the proto changed to the provided proto
@@ -63,7 +63,7 @@ end function
 function __ParsedUrl_WithQuery(query as string, replace = false as boolean) as object
     newCopy = CreateObject("roUtils").DeepCopy(m)
     newQuery = "?"
-    if not replace and isValidAndNotEmpty(m.query) 
+    if not replace and isValidAndNotEmpty(m.query)
         newQuery += `${m.query}&`
     end if
     newQuery += query.startswith("?") ? query.right(len(query) - 1) : query
