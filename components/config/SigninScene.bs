@@ -72,6 +72,10 @@ sub init()
     saveCredentials.font.size = 30
     saveCredentials.focusedFont.size = 30
 
+    if not isStringEqual(get_setting("saveCredentials", "true"), "true")
+        saveCredentials.checkedState = "[false]"
+    end if
+
     items = [username_field, password_field]
     m.config.configItems = items
 
