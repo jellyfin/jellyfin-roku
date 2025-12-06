@@ -1,8 +1,11 @@
+import "pkg:/source/api/sdk.bs"
+import "pkg:/source/enums/ItemType.bs"
 import "pkg:/source/enums/MediaPlaybackState.bs"
-import "pkg:/source/enums/TaskControl.bs"
 import "pkg:/source/enums/SubtitleSelection.bs"
+import "pkg:/source/enums/TaskControl.bs"
 import "pkg:/source/enums/TimerControl.bs"
 import "pkg:/source/enums/VideoControl.bs"
+import "pkg:/source/ShowScenes.bs"
 
 const STILL_WATCHING_POPUP_TIMER_SECONDS = 60
 
@@ -73,6 +76,10 @@ sub CreateVideoPlayerView()
     m.getPlaybackInfoTask = createObject("roSGNode", "GetPlaybackInfoTask")
     m.getPlaybackInfoTask.videoID = mediaSourceId
     m.getPlaybackInfoTask.observeField("data", "onPlaybackInfoLoaded")
+
+    ' Create task for getting next up episode after playback finishes
+    m.getNextUpTask = createObject("roSGNode", "GetNextUpTask")
+    m.getNextUpTask.observeField("nextUpData", "onNextUpDataLoaded")
 
     m.global.sceneManager.callFunc("pushScene", m.view)
 end sub
@@ -282,6 +289,40 @@ sub onPlaybackInfoLoaded()
     end if
 end sub
 
+' The next up task has returned data
+sub onNextUpDataLoaded()
+    m.getNextUpTask.unobserveField("nextUpData")
+
+    nextUpData = m.getNextUpTask.nextUpData
+
+    ' If we found a next up episode, navigate to its details page
+    if isValid(nextUpData) and isValidAndNotEmpty(nextUpData.Items) and nextUpData.Items.Count() > 0
+        nextEpisode = nextUpData.Items[0]
+        nextEpisodeId = nextEpisode.Id
+        ' Only navigate if it's a different episode
+        if nextEpisodeId <> m.currentEpisodeId
+            ' Pop the video player scene first
+            m.global.sceneManager.callFunc("popScene")
+            ' Trigger navigation through main event loop using jumpTo
+            ' This ensures CreateMovieDetailsGroup is called from Main.bs context where m.port exists
+            episodeNode = {
+                selectiontype: "episode",
+                id: nextEpisodeId,
+                title: nextEpisode.Name
+            }
+            m.global.jumpTo = episodeNode
+            m.global.audioPlayer.loopMode = ""
+            m.currentEpisodeId = invalid
+            return
+        end if
+    end if
+
+    ' No next up episode found or it's the same episode, return to previous screen
+    m.global.sceneManager.callFunc("popScene")
+    m.global.audioPlayer.loopMode = ""
+    m.currentEpisodeId = invalid
+end sub
+
 ' Playback state change event handlers
 sub onStateChange()
     ' If the state changed due to an error, we don't want to continue the queue
@@ -340,6 +381,24 @@ sub onStateChange()
 
         m.global.queueManager.callFunc("bypassNextPreferredAudioTrackIndexReset")
         m.global.queueManager.callFunc("clear")
+
+        ' Check if setting is enabled to show next up episode after finish
+        showNextUpAfterFinish = m.global.session.user.settings["playback.showNextUpAfterFinish"]
+        if showNextUpAfterFinish = true
+            ' Check if this was an episode and we have a showID
+            if isValid(m.view.showID) and m.view.showID <> string.EMPTY
+                ' Check if content type is episode (4 = Episode)
+                if isValid(m.view.content) and isValid(m.view.content.contenttype) and m.view.content.contenttype = 4
+                    ' Store current episode ID for comparison when task completes
+                    m.currentEpisodeId = m.view.id
+                    ' Start async task to get next up episode
+                    m.getNextUpTask.showID = m.view.showID
+                    m.getNextUpTask.control = TaskControl.RUN
+                    ' Don't pop scene yet - wait for task to complete
+                    return
+                end if
+            end if
+        end if
 
         ' Playback completed, return user to previous screen
         m.global.sceneManager.callFunc("popScene")
