@@ -559,6 +559,8 @@ function CreateSigninGroup(user = "", profileImageUri = "")
                 ' Validate credentials
                 activeUser = get_token(username.value, password.value)
                 if isValid(activeUser)
+                    set_setting("saveCredentials", saveCredentials.checkedState[0].toStr())
+
                     if saveCredentials.checkedState[0] = true
                         ' save credentials
                         session.user.Login(activeUser, true)
