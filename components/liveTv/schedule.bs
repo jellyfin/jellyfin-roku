@@ -20,7 +20,7 @@ sub init()
     m.detailsPane.observeField("recordSelectedChannel", "onRecordChannelSelected")
     m.detailsPane.observeField("recordSeriesSelectedChannel", "onRecordSeriesChannelSelected")
     m.gridStartDate = CreateObject("roDateTime")
-    m.scheduleGrid.contentStartTime = m.gridStartDate.AsSeconds() - 1800
+    m.scheduleGrid.contentStartTime = m.gridStartDate.AsSeconds()
     m.gridEndDate = createObject("roDateTime")
     m.gridEndDate.FromSeconds(m.gridStartDate.AsSeconds() + (12 * 60 * 60))
 
@@ -227,10 +227,10 @@ sub onProgramFocused()
         if m.LoadProgramDetailsTask.programId <> prog.Id
             m.LoadProgramDetailsTask.unobserveField("programDetails")
             m.LoadProgramDetailsTask.observeField("programDetails", "onProgramDetailsLoaded")
-        m.LoadProgramDetailsTask.programId = prog.Id
-        m.LoadProgramDetailsTask.channelIndex = m.scheduleGrid.programFocusedDetails.focusChannelIndex
-        m.LoadProgramDetailsTask.programIndex = m.scheduleGrid.programFocusedDetails.focusIndex
-        m.LoadProgramDetailsTask.control = "RUN"
+            m.LoadProgramDetailsTask.programId = prog.Id
+            m.LoadProgramDetailsTask.channelIndex = m.scheduleGrid.programFocusedDetails.focusChannelIndex
+            m.LoadProgramDetailsTask.programIndex = m.scheduleGrid.programFocusedDetails.focusIndex
+            m.LoadProgramDetailsTask.control = "RUN"
         end if
     end if
 
