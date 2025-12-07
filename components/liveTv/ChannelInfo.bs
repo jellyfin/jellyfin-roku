@@ -62,3 +62,8 @@ sub contentChanged()
         m.channelTitle.text = itemData.LookupCI("title")
     end if
 end sub
+
+sub onDestroy()
+    ' Cleanup image observer to prevent memory leaks
+    m.channelLogo.unobserveFieldScoped("loadStatus")
+end sub
