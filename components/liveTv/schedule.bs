@@ -60,6 +60,7 @@ end sub
 sub loadChannelList()
     if not isStringEqual(m.state, TaskControl.RUN) then return
     startLoadingSpinner()
+    m.LoadChannelsTask.unobserveField("channels")
     m.LoadChannelsTask.observeField("channels", "onChannelListLoaded")
     m.LoadChannelsTask.control = TaskControl.RUN
 end sub
@@ -147,6 +148,7 @@ sub loadScheduleData()
     if not isStringEqual(m.state, TaskControl.RUN) then return
     m.LoadScheduleTask.control = TaskControl.STOP
 
+    m.LoadScheduleTask.unobserveField("schedule")
     m.LoadScheduleTask.observeField("schedule", "onScheduleLoaded")
 
     startingIndex = m.channelScheduleLoadedCount >= 1 ? m.channelScheduleLoadedCount - 1 : 0
@@ -342,7 +344,11 @@ sub onRecordSeriesChannelSelected()
 end sub
 
 sub onRecordOperationDone()
-    if m.RecordProgramTask.recordSeries = true and m.LoadScheduleTask.state <> "run"
+    recordSeriesValue = m.RecordProgramTask.recordSeries
+    m.RecordProgramTask.unobserveField("recordOperationDone")
+    m.RecordProgramTask = invalid
+
+    if recordSeriesValue = true and m.LoadScheduleTask.state <> "run"
         m.LoadScheduleTask.control = "RUN"
     else
         ' This reloads just the details for the currently selected program, so that we don't have to
@@ -394,3 +400,30 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
     return false
 end function
+
+sub onDestroy()
+    ' Cleanup all field observers to prevent memory leaks
+    m.detailsPane.unobserveField("watchSelectedChannel")
+    m.detailsPane.unobserveField("recordSelectedChannel")
+    m.detailsPane.unobserveField("recordSeriesSelectedChannel")
+    m.scheduleGrid.unobserveField("programFocused")
+    m.scheduleGrid.unobserveField("programSelected")
+    m.scheduleGrid.unobserveField("leftEdgeTargetTime")
+
+    ' Cleanup task observers
+    m.LoadChannelsTask.unobserveField("channels")
+    m.LoadScheduleTask.unobserveField("schedule")
+    m.LoadProgramDetailsTask.unobserveField("programDetails")
+
+    if m.RecordProgramTask <> invalid
+        m.RecordProgramTask.unobserveField("recordOperationDone")
+        m.RecordProgramTask = invalid
+    end if
+
+    ' Clear data
+    m.gridData = invalid
+    m.loadedChannels = {}
+    m.channelIdList = []
+    m.channelIndex = {}
+end sub
+
