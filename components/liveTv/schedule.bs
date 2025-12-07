@@ -22,7 +22,7 @@ sub init()
     m.gridStartDate = CreateObject("roDateTime")
     m.scheduleGrid.contentStartTime = m.gridStartDate.AsSeconds() - 1800
     m.gridEndDate = createObject("roDateTime")
-    m.gridEndDate.FromSeconds(m.gridStartDate.AsSeconds() + (24 * 60 * 60))
+    m.gridEndDate.FromSeconds(m.gridStartDate.AsSeconds() + (12 * 60 * 60))
 
     m.scheduleGrid.observeField("programFocused", "onProgramFocused")
     m.scheduleGrid.observeField("programSelected", "onProgramSelected")
@@ -156,7 +156,7 @@ sub loadScheduleData()
     m.LoadScheduleTask.channelIds = m.channelIdList.slice(startingIndex, startingIndex + m.channelScheduleLimit).join(", ")
     m.LoadScheduleTask.control = TaskControl.RUN
 
-    m.channelScheduleLimit = 500
+    m.channelScheduleLimit = 100
 end sub
 
 ' When LoadScheduleTask completes (initial or more data) and we have a schedule to display
@@ -298,13 +298,13 @@ end sub
 
 ' As user scrolls grid, check if more data requries to be loaded
 sub onGridScrolled()
-    ' If we're within 12 hours of end of grid, load next 24hrs of data
-    if m.scheduleGrid.leftEdgeTargetTime + (12 * 60 * 60) > m.gridEndDate.AsSeconds()
+    ' If we're within 6 hours of end of grid, load next 12hrs of data
+    if m.scheduleGrid.leftEdgeTargetTime + (6 * 60 * 60) > m.gridEndDate.AsSeconds()
 
         ' Ensure the task is not already (still) running,
         if m.LoadScheduleTask.state <> "run"
             m.LoadScheduleTask.startTime = m.gridEndDate.ToISOString()
-            m.gridEndDate.FromSeconds(m.gridEndDate.AsSeconds() + (24 * 60 * 60))
+            m.gridEndDate.FromSeconds(m.gridEndDate.AsSeconds() + (12 * 60 * 60))
             m.LoadScheduleTask.endTime = m.gridEndDate.ToISOString()
             m.LoadScheduleTask.control = "RUN"
         end if
