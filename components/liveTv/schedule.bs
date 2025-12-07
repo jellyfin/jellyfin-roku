@@ -223,10 +223,15 @@ sub onProgramFocused()
     prog = channel.GetChild(m.scheduleGrid.programFocusedDetails.focusIndex)
 
     if prog <> invalid and prog.fullyLoaded = false
+        ' Only load if not already loading to prevent duplicate requests
+        if m.LoadProgramDetailsTask.programId <> prog.Id
+            m.LoadProgramDetailsTask.unobserveField("programDetails")
+            m.LoadProgramDetailsTask.observeField("programDetails", "onProgramDetailsLoaded")
         m.LoadProgramDetailsTask.programId = prog.Id
         m.LoadProgramDetailsTask.channelIndex = m.scheduleGrid.programFocusedDetails.focusChannelIndex
         m.LoadProgramDetailsTask.programIndex = m.scheduleGrid.programFocusedDetails.focusIndex
         m.LoadProgramDetailsTask.control = "RUN"
+        end if
     end if
 
     m.detailsPane.programDetails = prog
@@ -410,10 +415,13 @@ sub onDestroy()
     m.scheduleGrid.unobserveField("programSelected")
     m.scheduleGrid.unobserveField("leftEdgeTargetTime")
 
-    ' Cleanup task observers
+    ' Cleanup task observers and references
     m.LoadChannelsTask.unobserveField("channels")
+    m.LoadChannelsTask = invalid
     m.LoadScheduleTask.unobserveField("schedule")
+    m.LoadScheduleTask = invalid
     m.LoadProgramDetailsTask.unobserveField("programDetails")
+    m.LoadProgramDetailsTask = invalid
 
     if m.RecordProgramTask <> invalid
         m.RecordProgramTask.unobserveField("recordOperationDone")
