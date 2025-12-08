@@ -295,6 +295,9 @@ end sub
 sub onWatchChannelSelected()
     if m.detailsPane.watchSelectedChannel = false then return
 
+    ' Cleanup resources immediately before navigating away
+    cleanupGuideResources()
+
     ' Set focus back to grid before showing channel, to ensure grid has focus when we return
     focusProgramDetails(false)
 
@@ -330,6 +333,9 @@ sub onRecordChannelSelected()
     m.RecordProgramTask.recordSeries = false
     m.RecordProgramTask.observeField("recordOperationDone", "onRecordOperationDone")
     m.RecordProgramTask.control = "RUN"
+
+    ' Cleanup grid resources to free memory while recording dialog is shown
+    cleanupScheduleGridResources()
 end sub
 
 ' Handle user selecting "Record Series" from Program Details
@@ -346,6 +352,9 @@ sub onRecordSeriesChannelSelected()
     m.RecordProgramTask.recordSeries = true
     m.RecordProgramTask.observeField("recordOperationDone", "onRecordOperationDone")
     m.RecordProgramTask.control = "RUN"
+
+    ' Cleanup grid resources to free memory while recording dialog is shown
+    cleanupScheduleGridResources()
 end sub
 
 sub onRecordOperationDone()
@@ -383,6 +392,9 @@ function onKeyEvent(key as string, press as boolean) as boolean
             return true
         end if
 
+        ' Cleanup resources before popping scene
+        cleanupGuideResources()
+
         m.state = TaskControl.STOP
 
         m.LoadChannelsTask.control = TaskControl.STOP
@@ -406,7 +418,8 @@ function onKeyEvent(key as string, press as boolean) as boolean
     return false
 end function
 
-sub onDestroy()
+' Cleanup guide resources when navigating away (proactive cleanup)
+sub cleanupGuideResources()
     ' Cleanup all field observers to prevent memory leaks
     m.detailsPane.unobserveField("watchSelectedChannel")
     m.detailsPane.unobserveField("recordSelectedChannel")
@@ -433,5 +446,29 @@ sub onDestroy()
     m.loadedChannels = {}
     m.channelIdList = []
     m.channelIndex = {}
+end sub
+
+' Cleanup only schedule grid resources (used when showing recording dialog)
+sub cleanupScheduleGridResources()
+    ' Stop loading tasks but keep record task active
+    m.LoadChannelsTask.control = TaskControl.STOP
+    m.LoadScheduleTask.control = TaskControl.STOP
+
+    ' Unobserve grid observers
+    m.scheduleGrid.unobserveField("programFocused")
+    m.scheduleGrid.unobserveField("programSelected")
+    m.scheduleGrid.unobserveField("leftEdgeTargetTime")
+
+    ' Clear grid data but keep details pane active
+    m.gridData = invalid
+    m.loadedChannels = {}
+    m.channelIdList = []
+    m.channelIndex = {}
+end sub
+
+sub onDestroy()
+    ' Final cleanup when component is destroyed
+    ' Call main cleanup in case it wasn't called during navigation
+    cleanupGuideResources()
 end sub
 
