@@ -189,3 +189,22 @@ function isValidToContinue(index as integer)
 
     return false
 end function
+
+sub onDestroy()
+    ' Cleanup all timers to prevent memory leaks
+    m.slideshowTimer.unobserveField("fire")
+    m.slideshowTimer.control = "stop"
+    m.statusTimer.unobserveField("fire")
+    m.statusTimer.control = "stop"
+
+    ' Cleanup task observers and references
+    if m.LoadLibrariesTask <> invalid
+        m.LoadLibrariesTask.unobserveField("results")
+        m.LoadLibrariesTask = invalid
+    end if
+
+    ' Clear UI references
+    m.videoPlayer = invalid
+    m.status = invalid
+    m.textBackground = invalid
+end sub

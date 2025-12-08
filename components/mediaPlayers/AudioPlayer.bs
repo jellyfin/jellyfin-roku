@@ -187,3 +187,16 @@ sub playPrevious()
     m.global.queueManager.callFunc("moveBack")
     m.top.id = m.global.queueManager.callFunc("getCurrentItem").id
 end sub
+
+sub onDestroy()
+    ' Cleanup all field observers to prevent memory leaks
+    m.top.unobserveField("state")
+    m.top.unobserveField("id")
+    m.playbackTimer.unobserveField("fire")
+    m.playbackTimer.control = "stop"
+    m.playbackTimer = invalid
+
+    ' Cleanup task observers and references
+    m.LoadAudioStreamTask = invalid
+    m.LoadMetaDataTask = invalid
+end sub

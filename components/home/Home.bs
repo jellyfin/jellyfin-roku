@@ -195,3 +195,14 @@ sub onMetaDataLoaded()
     m.loadItemsTask1.itemId = focusedItem.LookupCI("id")
     m.loadItemsTask1.control = TaskControl.RUN
 end sub
+
+sub onDestroy()
+    ' Cleanup all field observers to prevent memory leaks
+    m.loadItemsTask1.unobserveField("content")
+    m.loadItemsTask1 = invalid
+    m.loadMetaDataTask.unobserveField("content")
+    m.loadMetaDataTask = invalid
+    m.postTask.unobserveField("responseCode")
+    m.postTask = invalid
+    m.homeRows = invalid
+end sub

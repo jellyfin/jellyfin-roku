@@ -907,3 +907,26 @@ function filterNodeArray(nodeArray as object, nodeKey as string, excludeArray as
     end for
     return newNodeArray
 end function
+
+sub onDestroy()
+    ' Cleanup all field observers to prevent memory leaks
+    m.top.unobserveField("rowItemSelected")
+    m.loadingTimer.unobserveField("fire")
+    m.loadingTimer.control = "stop"
+    m.loadingTimer = invalid
+
+    ' Cleanup task observers and references
+    m.LoadLibrariesTask.unobserveField("content")
+    m.LoadLibrariesTask = invalid
+    m.LoadContinueWatchingTask = invalid
+    m.LoadContinueListeningTask = invalid
+    m.LoadNextUpTask = invalid
+    m.LoadOnNowTask = invalid
+    m.LoadFavoritesTask = invalid
+    m.LoadMyListTask = invalid
+
+    ' Clear data structures
+    m.top.content = invalid
+    m.libraryData = []
+    m.filteredLatest = []
+end sub

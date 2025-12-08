@@ -2172,3 +2172,39 @@ sub disableSearch(disabledReason as string)
     m.voiceBox.hintText = "Search Unavailable"
     setSearchBackground(SearchButtonState.DISABLED)
 end sub
+
+sub onDestroy()
+    ' Cleanup all field observers to prevent memory leaks
+    m.librarySettings.unobserveFieldScoped("selected")
+    m.swapAnimation.unobserveField("state")
+    m.options.unobserveField("visible")
+    m.itemGrid.unobserveField("itemFocused")
+    m.itemGrid.unobserveFieldScoped("itemSelected")
+    m.genreList.unobserveFieldScoped("itemFocused")
+    m.genreList.unobserveFieldScoped("itemSelected")
+    m.voiceBox.unobserveField("text")
+    m.newBackdrop.unobserveField("loadStatus")
+
+    ' Cleanup task observers and references
+    if m.loadItemsTask <> invalid
+        m.loadItemsTask.unobserveField("content")
+        m.loadItemsTask = invalid
+    end if
+    if m.loadLogoTask <> invalid
+        m.loadLogoTask.unobserveField("content")
+        m.loadLogoTask = invalid
+    end if
+    if m.getFiltersTask <> invalid
+        m.getFiltersTask.unobserveField("filters")
+        m.getFiltersTask = invalid
+    end if
+    if m.loadItemsTask1 <> invalid
+        m.loadItemsTask1.unobserveField("content")
+        m.loadItemsTask1 = invalid
+    end if
+
+    ' Clear data structures
+    m.data = invalid
+    m.genreData = invalid
+    m.filterOptions = {}
+end sub
