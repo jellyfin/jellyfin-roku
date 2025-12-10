@@ -295,14 +295,20 @@ sub onNextUpDataLoaded()
 
     nextUpData = m.getNextUpTask.nextUpData
 
+    ' Check if video player is still the active scene (might have been popped by scene manager)
+    currentView = m.global.sceneManager.callFunc("getActiveScene")
+    videoPlayerStillActive = (isValid(currentView) and currentView.isSubType("VideoPlayerView"))
+
     ' If we found a next up episode, navigate to its details page
     if isValid(nextUpData) and isValidAndNotEmpty(nextUpData.Items) and nextUpData.Items.Count() > 0
         nextEpisode = nextUpData.Items[0]
         nextEpisodeId = nextEpisode.Id
         ' Only navigate if it's a different episode
         if nextEpisodeId <> m.currentEpisodeId
-            ' Pop the video player scene first
-            m.global.sceneManager.callFunc("popScene")
+            ' Pop the video player scene first (only if it's still active)
+            if videoPlayerStillActive
+                m.global.sceneManager.callFunc("popScene")
+            end if
             ' Trigger navigation through main event loop using jumpTo
             ' This ensures CreateMovieDetailsGroup is called from Main.bs context where m.port exists
             episodeNode = {
@@ -318,7 +324,10 @@ sub onNextUpDataLoaded()
     end if
 
     ' No next up episode found or it's the same episode, return to previous screen
-    m.global.sceneManager.callFunc("popScene")
+    ' Only pop if video player is still active (scene manager may have already popped it)
+    if videoPlayerStillActive
+        m.global.sceneManager.callFunc("popScene")
+    end if
     m.global.audioPlayer.loopMode = ""
     m.currentEpisodeId = invalid
 end sub
@@ -331,7 +340,10 @@ sub onStateChange()
         return
     end if
 
-    if LCase(m.view.state) = "finished"
+    currentState = LCase(m.view.state)
+
+    ' Handle "finished" state (always means playback completed)
+    if currentState = "finished"
         if isValid(m.view.returnOnStop)
             if m.view.returnOnStop then return
         end if
@@ -403,6 +415,35 @@ sub onStateChange()
         ' Playback completed, return user to previous screen
         m.global.sceneManager.callFunc("popScene")
         m.global.audioPlayer.loopMode = ""
+    else if currentState = "stopped" and isValid(m.view.content) and isValid(m.view.duration) and m.view.duration > 0
+        ' Handle "stopped" state only if playback has actually started
+        ' (to avoid triggering during player initialization)
+        ' For "stopped", handle next-up logic if enabled
+        ' Server determines completion status, so we check for next-up even when stopped
+        ' Note: Don't pop scene here - let scene manager handle it when back button bubbles up
+        ' onNextUpDataLoaded() will handle navigation if next episode is found
+        m.global.queueManager.callFunc("bypassNextPreferredAudioTrackIndexReset")
+        m.global.queueManager.callFunc("clear")
+
+        ' Check if setting is enabled to show next up episode after finish
+        showNextUpAfterFinish = m.global.session.user.settings["playback.showNextUpAfterFinish"]
+        if showNextUpAfterFinish = true
+            ' Check if this was an episode and we have a showID
+            if isValid(m.view.showID) and m.view.showID <> string.EMPTY
+                ' Check if content type is episode (4 = Episode)
+                if isValid(m.view.content) and isValid(m.view.content.contenttype) and m.view.content.contenttype = 4
+                    ' Store current episode ID for comparison when task completes
+                    m.currentEpisodeId = m.view.id
+                    ' Start async task to get next up episode
+                    m.getNextUpTask.showID = m.view.showID
+                    m.getNextUpTask.control = TaskControl.RUN
+                    ' Don't pop scene - scene manager will pop when back button bubbles up
+                    ' onNextUpDataLoaded() will handle navigation if next episode found
+                    return
+                end if
+            end if
+        end if
+        ' If no next-up logic needed, let scene manager handle the pop normally
     end if
 end sub
 
