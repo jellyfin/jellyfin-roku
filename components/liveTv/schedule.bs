@@ -20,9 +20,9 @@ sub init()
     m.detailsPane.observeField("recordSelectedChannel", "onRecordChannelSelected")
     m.detailsPane.observeField("recordSeriesSelectedChannel", "onRecordSeriesChannelSelected")
     m.gridStartDate = CreateObject("roDateTime")
-    m.scheduleGrid.contentStartTime = m.gridStartDate.AsSeconds()
+    m.scheduleGrid.contentStartTime = m.gridStartDate.AsSeconds() - 1800
     m.gridEndDate = createObject("roDateTime")
-    m.gridEndDate.FromSeconds(m.gridStartDate.AsSeconds() + (12 * 60 * 60))
+    m.gridEndDate.FromSeconds(m.gridStartDate.AsSeconds() + (24 * 60 * 60))
 
     m.scheduleGrid.observeField("programFocused", "onProgramFocused")
     m.scheduleGrid.observeField("programSelected", "onProgramSelected")
@@ -60,7 +60,6 @@ end sub
 sub loadChannelList()
     if not isStringEqual(m.state, TaskControl.RUN) then return
     startLoadingSpinner()
-    m.LoadChannelsTask.unobserveField("channels")
     m.LoadChannelsTask.observeField("channels", "onChannelListLoaded")
     m.LoadChannelsTask.control = TaskControl.RUN
 end sub
@@ -148,7 +147,6 @@ sub loadScheduleData()
     if not isStringEqual(m.state, TaskControl.RUN) then return
     m.LoadScheduleTask.control = TaskControl.STOP
 
-    m.LoadScheduleTask.unobserveField("schedule")
     m.LoadScheduleTask.observeField("schedule", "onScheduleLoaded")
 
     startingIndex = m.channelScheduleLoadedCount >= 1 ? m.channelScheduleLoadedCount - 1 : 0
@@ -156,7 +154,7 @@ sub loadScheduleData()
     m.LoadScheduleTask.channelIds = m.channelIdList.slice(startingIndex, startingIndex + m.channelScheduleLimit).join(", ")
     m.LoadScheduleTask.control = TaskControl.RUN
 
-    m.channelScheduleLimit = 100
+    m.channelScheduleLimit = 500
 end sub
 
 ' When LoadScheduleTask completes (initial or more data) and we have a schedule to display
@@ -223,15 +221,10 @@ sub onProgramFocused()
     prog = channel.GetChild(m.scheduleGrid.programFocusedDetails.focusIndex)
 
     if prog <> invalid and prog.fullyLoaded = false
-        ' Only load if not already loading to prevent duplicate requests
-        if m.LoadProgramDetailsTask.programId <> prog.Id
-            m.LoadProgramDetailsTask.unobserveField("programDetails")
-            m.LoadProgramDetailsTask.observeField("programDetails", "onProgramDetailsLoaded")
-            m.LoadProgramDetailsTask.programId = prog.Id
-            m.LoadProgramDetailsTask.channelIndex = m.scheduleGrid.programFocusedDetails.focusChannelIndex
-            m.LoadProgramDetailsTask.programIndex = m.scheduleGrid.programFocusedDetails.focusIndex
-            m.LoadProgramDetailsTask.control = "RUN"
-        end if
+        m.LoadProgramDetailsTask.programId = prog.Id
+        m.LoadProgramDetailsTask.channelIndex = m.scheduleGrid.programFocusedDetails.focusChannelIndex
+        m.LoadProgramDetailsTask.programIndex = m.scheduleGrid.programFocusedDetails.focusIndex
+        m.LoadProgramDetailsTask.control = "RUN"
     end if
 
     m.detailsPane.programDetails = prog
@@ -295,9 +288,6 @@ end sub
 sub onWatchChannelSelected()
     if m.detailsPane.watchSelectedChannel = false then return
 
-    ' Cleanup resources immediately before navigating away
-    cleanupGuideResources()
-
     ' Set focus back to grid before showing channel, to ensure grid has focus when we return
     focusProgramDetails(false)
 
@@ -306,13 +296,13 @@ end sub
 
 ' As user scrolls grid, check if more data requries to be loaded
 sub onGridScrolled()
-    ' If we're within 6 hours of end of grid, load next 12hrs of data
-    if m.scheduleGrid.leftEdgeTargetTime + (6 * 60 * 60) > m.gridEndDate.AsSeconds()
+    ' If we're within 12 hours of end of grid, load next 24hrs of data
+    if m.scheduleGrid.leftEdgeTargetTime + (12 * 60 * 60) > m.gridEndDate.AsSeconds()
 
         ' Ensure the task is not already (still) running,
         if m.LoadScheduleTask.state <> "run"
             m.LoadScheduleTask.startTime = m.gridEndDate.ToISOString()
-            m.gridEndDate.FromSeconds(m.gridEndDate.AsSeconds() + (12 * 60 * 60))
+            m.gridEndDate.FromSeconds(m.gridEndDate.AsSeconds() + (24 * 60 * 60))
             m.LoadScheduleTask.endTime = m.gridEndDate.ToISOString()
             m.LoadScheduleTask.control = "RUN"
         end if
@@ -333,9 +323,6 @@ sub onRecordChannelSelected()
     m.RecordProgramTask.recordSeries = false
     m.RecordProgramTask.observeField("recordOperationDone", "onRecordOperationDone")
     m.RecordProgramTask.control = "RUN"
-
-    ' Cleanup grid resources to free memory while recording dialog is shown
-    cleanupScheduleGridResources()
 end sub
 
 ' Handle user selecting "Record Series" from Program Details
@@ -352,17 +339,10 @@ sub onRecordSeriesChannelSelected()
     m.RecordProgramTask.recordSeries = true
     m.RecordProgramTask.observeField("recordOperationDone", "onRecordOperationDone")
     m.RecordProgramTask.control = "RUN"
-
-    ' Cleanup grid resources to free memory while recording dialog is shown
-    cleanupScheduleGridResources()
 end sub
 
 sub onRecordOperationDone()
-    recordSeriesValue = m.RecordProgramTask.recordSeries
-    m.RecordProgramTask.unobserveField("recordOperationDone")
-    m.RecordProgramTask = invalid
-
-    if recordSeriesValue = true and m.LoadScheduleTask.state <> "run"
+    if m.RecordProgramTask.recordSeries = true and m.LoadScheduleTask.state <> "run"
         m.LoadScheduleTask.control = "RUN"
     else
         ' This reloads just the details for the currently selected program, so that we don't have to
@@ -392,9 +372,6 @@ function onKeyEvent(key as string, press as boolean) as boolean
             return true
         end if
 
-        ' Cleanup resources before popping scene
-        cleanupGuideResources()
-
         m.state = TaskControl.STOP
 
         m.LoadChannelsTask.control = TaskControl.STOP
@@ -418,8 +395,8 @@ function onKeyEvent(key as string, press as boolean) as boolean
     return false
 end function
 
-' Cleanup guide resources when navigating away (proactive cleanup)
-sub cleanupGuideResources()
+sub onDestroy()
+    ' Final cleanup when component is destroyed
     ' Cleanup all field observers to prevent memory leaks
     m.detailsPane.unobserveField("watchSelectedChannel")
     m.detailsPane.unobserveField("recordSelectedChannel")
@@ -446,29 +423,5 @@ sub cleanupGuideResources()
     m.loadedChannels = {}
     m.channelIdList = []
     m.channelIndex = {}
-end sub
-
-' Cleanup only schedule grid resources (used when showing recording dialog)
-sub cleanupScheduleGridResources()
-    ' Stop loading tasks but keep record task active
-    m.LoadChannelsTask.control = TaskControl.STOP
-    m.LoadScheduleTask.control = TaskControl.STOP
-
-    ' Unobserve grid observers
-    m.scheduleGrid.unobserveField("programFocused")
-    m.scheduleGrid.unobserveField("programSelected")
-    m.scheduleGrid.unobserveField("leftEdgeTargetTime")
-
-    ' Clear grid data but keep details pane active
-    m.gridData = invalid
-    m.loadedChannels = {}
-    m.channelIdList = []
-    m.channelIndex = {}
-end sub
-
-sub onDestroy()
-    ' Final cleanup when component is destroyed
-    ' Call main cleanup in case it wasn't called during navigation
-    cleanupGuideResources()
 end sub
 
