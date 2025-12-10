@@ -394,3 +394,34 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
     return false
 end function
+
+sub onDestroy()
+    ' Final cleanup when component is destroyed
+    ' Cleanup all field observers to prevent memory leaks
+    m.detailsPane.unobserveField("watchSelectedChannel")
+    m.detailsPane.unobserveField("recordSelectedChannel")
+    m.detailsPane.unobserveField("recordSeriesSelectedChannel")
+    m.scheduleGrid.unobserveField("programFocused")
+    m.scheduleGrid.unobserveField("programSelected")
+    m.scheduleGrid.unobserveField("leftEdgeTargetTime")
+
+    ' Cleanup task observers and references
+    m.LoadChannelsTask.unobserveField("channels")
+    m.LoadChannelsTask = invalid
+    m.LoadScheduleTask.unobserveField("schedule")
+    m.LoadScheduleTask = invalid
+    m.LoadProgramDetailsTask.unobserveField("programDetails")
+    m.LoadProgramDetailsTask = invalid
+
+    if m.RecordProgramTask <> invalid
+        m.RecordProgramTask.unobserveField("recordOperationDone")
+        m.RecordProgramTask = invalid
+    end if
+
+    ' Clear data
+    m.gridData = invalid
+    m.loadedChannels = {}
+    m.channelIdList = []
+    m.channelIndex = {}
+end sub
+

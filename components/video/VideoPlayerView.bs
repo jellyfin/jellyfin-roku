@@ -1342,3 +1342,37 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
     return false
 end function
+
+sub onDestroy()
+    ' Cleanup all field observers to prevent memory leaks
+    m.top.unobserveField("availableAudioTracks")
+    m.top.unobserveField("state")
+    m.top.unobserveField("content")
+    m.top.unobserveField("selectedSubtitle")
+    m.top.unobserveField("audioIndex")
+    m.top.unobserveField("allowCaptions")
+    m.osd.unobserveField("action")
+    m.top.trickplaybar.unobserveField("visible")
+    m.positionText.unobserveField("text")
+    m.playbackTimer.unobserveField("fire")
+    m.bufferCheckTimer.unobserveField("fire")
+
+    currentTimeTimer = m.clock.findNode("currentTimeTimer")
+    if isValid(currentTimeTimer)
+        currentTimeTimer.unobserveField("fire")
+        currentTimeTimer.control = TimerControl.STOP
+    end if
+
+    ' Cleanup task observers and references
+    m.LoadProgramDetailsTask.unobserveField("programDetails")
+    m.LoadProgramDetailsTask = invalid
+    m.LoadMetaDataTask.unobserveField("content")
+    m.LoadMetaDataTask = invalid
+    m.PreloadTrickplayImagesTask = invalid
+
+    ' Clear UI references and data
+    m.chapterContent = invalid
+    m.osd = invalid
+    m.nextUp = invalid
+    m.videoEndingTime = invalid
+end sub

@@ -145,3 +145,12 @@ sub onItemDataLoaded()
 
     focusedItem.callFunc("setWatched", chainLookupReturn(itemData[0], "json.UserData.Played", false), chainLookupReturn(itemData[0], "json.UserData.UnplayedItemCount", 0))
 end sub
+
+sub onDestroy()
+    ' Cleanup all field observers to prevent memory leaks
+    m.searchTask.unobserveField("results")
+    m.searchTask = invalid
+    m.loadItemsTask1 = invalid
+    m.searchRow = invalid
+    m.searchHelpText = invalid
+end sub
