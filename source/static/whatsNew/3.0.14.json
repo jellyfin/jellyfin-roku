@@ -6,5 +6,9 @@
   {
     "description": "Fix crash affecting users on Roku OS 14 or below",
     "author": "GeekJosh"
+  },
+  {
+    "description": "Reduce memory usage across the application. Fix crash to homescreen from LiveTV after using guide",
+    "author": "MichaelMoskie"
   }
 ]
