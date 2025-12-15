@@ -1036,13 +1036,13 @@
             <extracomment>Settings Menu - Description for option</extracomment>
         </message>
         <message>
-            <source>Item Titles</source>
-            <translation>Item Titles</translation>
+            <source>Grid View Item Titles</source>
+            <translation>Grid View Item Titles</translation>
             <extracomment>Title of a setting - when should we show the title text of a grid item</extracomment>
         </message>
         <message>
-            <source>Select when to show titles.</source>
-            <translation>Select when to show titles.</translation>
+            <source>Select when to show titles in grid view.</source>
+            <translation>Select when to show titles in grid view.</translation>
             <extracomment>Settings Menu - Description for option</extracomment>
         </message>
         <message>
@@ -1521,11 +1521,6 @@
         <message>
             <source>Settings relating to the appearance of Library pages.</source>
             <translation>Settings relating to the appearance of Library pages.</translation>
-            <extracomment>Libraries Setting - Setting description</extracomment>
-        </message>
-        <message>
-            <source>Settings relating to the appearance of pages in all Libraries.</source>
-            <translation>Settings relating to the appearance of pages in all Libraries.</translation>
             <extracomment>Libraries Setting - Setting description</extracomment>
         </message>
         <message>
@@ -2209,6 +2204,26 @@
             <source>Burn in all subtitles when transcoding is triggered. This ensures subtitle synchronization after transcoding at the cost of reduced transcoding speed.</source>
             <translation>Burn in all subtitles when transcoding is triggered. This ensures subtitle synchronization after transcoding at the cost of reduced transcoding speed.</translation>
             <extracomment>Settings Menu - Description for option</extracomment>
+        </message>
+        <message>
+            <source>Library Image Orientation</source>
+            <translation>Library Image Orientation</translation>
+        </message>
+        <message>
+            <source>Select the poster image orientation for the library views.</source>
+            <translation>Select the poster image orientation for the library views.</translation>
+        </message>
+        <message>
+            <source>Default (Varies By Media Type)</source>
+            <translation>Default (Varies By Media Type)</translation>
+        </message>
+        <message>
+            <source>Landscape (Wide)</source>
+            <translation>Landscape (Wide)</translation>
+        </message>
+        <message>
+            <source>Portrait (Vertical)</source>
+            <translation>Portrait (Vertical)</translation>
         </message>
     </context>
 </TS>
