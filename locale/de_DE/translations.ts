@@ -1878,6 +1878,94 @@
         <source>Section 7</source>
         <translation>Abschnitt 7</translation>
     </message>
+    <message>
+        <source>Section 8</source>
+        <translation>Abschnitt 8</translation>
+    </message>
+    <message>
+        <source>Select what to show in section 1. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Auswahl für Abschnitt 1. Diese Einstellung hat keinen Effekt wenn &quot;Verwende die Anordnung der Home-Sektion des Webclients&quot; aktiv ist. Um die Änderungen zu übernehmen muss Jellyfin geschlossen und neu geöffnet werden.</translation>
+    </message>
+    <message>
+        <source>Select what to show in section 2. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Auswahl für Abschnitt 2. Diese Einstellung hat keinen Effekt wenn &quot;Verwende die Anordnung der Home-Sektion des Webclients&quot; aktiv ist. Um die Änderungen zu übernehmen muss Jellyfin geschlossen und neu geöffnet werden.</translation>
+    </message>
+    <message>
+        <source>Select what to show in section 3. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Auswahl für Abschnitt 3. Diese Einstellung hat keinen Effekt wenn &quot;Verwende die Anordnung der Home-Sektion des Webclients&quot; aktiv ist. Um die Änderungen zu übernehmen muss Jellyfin geschlossen und neu geöffnet werden.</translation>
+    </message>
+    <message>
+        <source>Select what to show in section 4. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Auswahl für Abschnitt 4. Diese Einstellung hat keinen Effekt wenn &quot;Verwende die Anordnung der Home-Sektion des Webclients&quot; aktiv ist. Um die Änderungen zu übernehmen muss Jellyfin geschlossen und neu geöffnet werden.</translation>
+    </message>
+    <message>
+        <source>Select what to show in section 5. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Auswahl für Abschnitt 5. Diese Einstellung hat keinen Effekt wenn &quot;Verwende die Anordnung der Home-Sektion des Webclients&quot; aktiv ist. Um die Änderungen zu übernehmen muss Jellyfin geschlossen und neu geöffnet werden.</translation>
+    </message>
+    <message>
+        <source>Select what to show in section 6. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Auswahl für Abschnitt 6. Diese Einstellung hat keinen Effekt wenn &quot;Verwende die Anordnung der Home-Sektion des Webclients&quot; aktiv ist. Um die Änderungen zu übernehmen muss Jellyfin geschlossen und neu geöffnet werden.</translation>
+    </message>
+    <message>
+        <source>Select what to show in section 7. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Auswahl für Abschnitt 7. Diese Einstellung hat keinen Effekt wenn &quot;Verwende die Anordnung der Home-Sektion des Webclients&quot; aktiv ist. Um die Änderungen zu übernehmen muss Jellyfin geschlossen und neu geöffnet werden.</translation>
+    </message>
+    <message>
+        <source>Select what to show in section 8. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Auswahl für Abschnitt 8. Diese Einstellung hat keinen Effekt wenn &quot;Verwende die Anordnung der Home-Sektion des Webclients&quot; aktiv ist. Um die Änderungen zu übernehmen muss Jellyfin geschlossen und neu geöffnet werden.</translation>
+    </message>
+    <message>
+        <source>Live TV</source>
+        <translation>Live-TV</translation>
+    </message>
+    <message>
+        <source>Customize the home screen sections</source>
+        <translation>Bearbeite die Homescreen-Abschnitte</translation>
+    </message>
+    <message>
+        <source>Home Rows</source>
+        <translation>Home-Zeilen</translation>
+    </message>
+    <message>
+        <source>Change the colors of elements in the app.</source>
+        <translation>Ändere die Elementfarben in der App.</translation>
+    </message>
+    <message>
+        <source>All Screens</source>
+        <translation>Alle Bildschirme</translation>
+    </message>
+    <message>
+        <source>Colors used across multiple screens.</source>
+        <translation>Farben, die über mehrere Bildschirme verwendet werden.</translation>
+    </message>
+    <message>
+        <source>The base background color. Background images are layered on top of this color.</source>
+        <translation>Die Basis-Hintergrundfarbe. Hintergrundbilder werden über diese Farbe gelegt.</translation>
+    </message>
+    <message>
+        <source>Cursor</source>
+        <translation>Zeiger</translation>
+    </message>
+    <message>
+        <source>The color of the remote control&apos;s cursor.</source>
+        <translation>Farbe des Fernbedienung-Zeigers.</translation>
+    </message>
+    <message>
+        <source>Primary Text</source>
+        <translation>Primärer Text</translation>
+    </message>
+    <message>
+        <source>The primary text color.</source>
+        <translation>Die Primärtextfarbe.</translation>
+    </message>
+    <message>
+        <source>Secondary Text</source>
+        <translation>Sekundärer Text</translation>
+    </message>
+    <message>
+        <source>The secondary text color.</source>
+        <translation>Die Sekundärtextfarbe.</translation>
+    </message>
 </context>
 <context>
     <name></name>
