@@ -1107,7 +1107,7 @@
     </message>
     <message>
         <source>Set how many seconds before the end of an episode the Next Episode button should appear. Set to 0 to disable.</source>
-        <translation type="unfinished">Lege fest, wie viele Sekunden vor dem Ende einer Episode die Schaltfläche &quot;Nächste Episode&quot; erscheinen soll. Zum Deaktivieren auf 0 setzen.</translation>
+        <translation>Falls kein Outro-Mediensegment vorhanden ist, legen Sie fest, wie viele Sekunden vor dem Ende einer Folge die Schaltfläche „Outro überspringen“ erscheinen soll. Setzen Sie den Wert auf 0, um die Schaltfläche zu deaktivieren.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
@@ -1745,6 +1745,138 @@
     <message>
         <source>Remove From Favorites</source>
         <translation>Von Favoriten entfernen</translation>
+    </message>
+    <message>
+        <source>Maximum Audio Channels</source>
+        <translation>Maximale Anzahl Audiokanäle</translation>
+    </message>
+    <message>
+        <source>Configure the maximum audio channels when playing video files on this device.</source>
+        <translation>Konfigurieren Sie die maximale Anzahl an Audiokanälen für die Wiedergabe von Videodateien auf diesem Gerät.</translation>
+    </message>
+    <message>
+        <source>Off - Attempt to play all channels</source>
+        <translation>Aus – Versuch, alle Kanäle abzuspielen</translation>
+    </message>
+    <message>
+        <source>Recap Segments</source>
+        <translation>Zusammenfassungssegmente</translation>
+    </message>
+    <message>
+        <source>What action should Jellyfin take for recap segments?</source>
+        <translation>Welche Maßnahmen sollte Jellyfin in Bezug auf die Zusammenfassungssegmente ergreifen?</translation>
+    </message>
+    <message>
+        <source>Item Detail Screen</source>
+        <translation>Artikeldetailseite</translation>
+    </message>
+    <message>
+        <source>Settings relating to the appearance of the item detail screen.</source>
+        <translation>Einstellungen bezüglich des Erscheinungsbilds der Artikeldetailseite.</translation>
+    </message>
+    <message>
+        <source>Overview Content</source>
+        <translation>Inhaltsübersicht</translation>
+    </message>
+    <message>
+        <source>A quick overview of the item selected - typically a short plot outline.</source>
+        <translation>Eine kurze Übersicht über den ausgewählten Eintrag – typischerweise eine kurze Inhaltsangabe.</translation>
+    </message>
+    <message>
+        <source>Library Landscape Column Count</source>
+        <translation>Spaltenanzahl im Bibliotheks-Querformat</translation>
+    </message>
+    <message>
+        <source>Number of columns in library view when showing landscape (wide) images</source>
+        <translation>Anzahl der Spalten in der Bibliotheksansicht bei Anzeige von Querformatbildern (breit)</translation>
+    </message>
+    <message>
+        <source>Library Portrait Column Count</source>
+        <translation>Anzahl der Spalten im Bibliotheksporträt</translation>
+    </message>
+    <message>
+        <source>Number of columns in library view when showing portrait (tall) images</source>
+        <translation>Anzahl der Spalten in der Bibliotheksansicht bei Anzeige von Hochformatbildern</translation>
+    </message>
+    <message>
+        <source>Library Square Column Count</source>
+        <translation>Spaltenanzahl im Bibliotheksplatz</translation>
+    </message>
+    <message>
+        <source>Number of columns in library view when showing square images</source>
+        <translation>Anzahl der Spalten in der Bibliotheksansicht bei Anzeige quadratischer Bilder</translation>
+    </message>
+    <message>
+        <source>Search is unavailable because the API does not support searching inside boxsets.</source>
+        <translation>Die Suche ist nicht verfügbar, da die API das Durchsuchen innerhalb von Boxsets nicht unterstützt.</translation>
+    </message>
+    <message>
+        <source>Search is unavailable because the API does not support searching inside My List.</source>
+        <translation>Die Suche ist nicht verfügbar, da die API das Durchsuchen innerhalb von „Meine Liste“ nicht unterstützt.</translation>
+    </message>
+    <message>
+        <source>Library Settings</source>
+        <translation>Bibliothekseinstellungen</translation>
+    </message>
+    <message>
+        <source>Display Watched Checkmark</source>
+        <translation>Überwachte Anzeige (Häkchen)</translation>
+    </message>
+    <message>
+        <source>Tracks</source>
+        <translation>Tracks</translation>
+    </message>
+    <message>
+        <source>min</source>
+        <translation>min</translation>
+    </message>
+    <message>
+        <source>mins</source>
+        <translation>Minuten</translation>
+    </message>
+    <message>
+        <source>Continue Listening</source>
+        <translation>Hören Sie weiter zu</translation>
+    </message>
+    <message>
+        <source>AppearsOn</source>
+        <translation>ErscheintAuf</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to delete this subtitle?</source>
+        <translation>Möchten Sie diesen Untertitel wirklich löschen?</translation>
+    </message>
+    <message>
+        <source>Play Normally - disabled because of selected force transcoding setting</source>
+        <translation>Normal wiedergeben – deaktiviert aufgrund der ausgewählten Einstellung „Transkodierung erzwingen“</translation>
+    </message>
+    <message>
+        <source>Section 1</source>
+        <translation>Abschnitt 1</translation>
+    </message>
+    <message>
+        <source>Section 2</source>
+        <translation>Abschnitt 2</translation>
+    </message>
+    <message>
+        <source>Section 3</source>
+        <translation>Abschnitt 3</translation>
+    </message>
+    <message>
+        <source>Section 4</source>
+        <translation>Abschnitt 4</translation>
+    </message>
+    <message>
+        <source>Section 5</source>
+        <translation>Abschnitt 5</translation>
+    </message>
+    <message>
+        <source>Section 6</source>
+        <translation>Abschnitt 6</translation>
+    </message>
+    <message>
+        <source>Section 7</source>
+        <translation>Abschnitt 7</translation>
     </message>
 </context>
 <context>
