@@ -413,3 +413,8 @@ function onKeyEvent(key as string, press as boolean) as boolean
     return false
 end function
 
+sub onDestroy()
+    ' Cleanup all field observers to prevent memory leaks
+    m.image.unobserveField("loadStatus")
+    m.focusAnimation.unobserveField("state")
+end sub

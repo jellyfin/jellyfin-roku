@@ -287,3 +287,21 @@ end sub
 sub onRowItemFocused()
     m.top.focusedItem = m.top.content.getChild(m.top.rowItemFocused[0]).getChild(m.top.rowItemFocused[1])
 end sub
+
+sub onDestroy()
+    ' Cleanup all field observers to prevent memory leaks
+    m.top.unobserveField("rowItemSelected")
+    m.top.unobserveField("rowItemFocused")
+
+    ' Cleanup task observers and references
+    m.LoadPeopleTask = invalid
+    m.LikeThisTask = invalid
+    m.SpecialFeaturesTask = invalid
+    m.LoadMoviesTask = invalid
+    m.LoadShowsTask = invalid
+    m.LoadEpisodesTask = invalid
+    m.LoadSeriesTask = invalid
+
+    ' Clear data structures
+    m.top.content = invalid
+end sub
