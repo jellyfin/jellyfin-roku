@@ -345,7 +345,7 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
         end if
 
         ' If transcoding and burnInSubtitlesIfTrancoding is enabled, zero out SubtitleProfiles
-        if chainLookupReturn(m.global, "session.user.settings.`playback.subs.burnin`", true)
+        if chainLookupReturn(m.global, "session.user.settings.`playback.subs.burnin`", true) and meta.live = false
             m.playbackInfo = ItemPostPlaybackInfo(video.id, mediaSourceId, audio_stream_idx, subtitle_idx, playbackPosition, {
                 emptySubtitleProfiles: true
             })
