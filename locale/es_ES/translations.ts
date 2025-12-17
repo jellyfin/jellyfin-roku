@@ -358,7 +358,7 @@
     </message>
     <message>
         <source>No Chapter Data Found</source>
-        <translation>No se han encontrado datos sobre el capitulo</translation>
+        <translation>No se han encontrado datos sobre el capítulo</translation>
         <extracomment>Message shown in OSD when no chapter data is returned by the API</extracomment>
     </message>
     <message>
@@ -2233,6 +2233,22 @@
     <message>
         <source>Off - Attempt to play all channels</source>
         <translation>Desactivado - Intento de reproducir todos los canales</translation>
+    </message>
+    <message>
+        <source>Maximum Audio Channels</source>
+        <translation>Canales de audio máximos</translation>
+    </message>
+    <message>
+        <source>Configure the maximum audio channels when playing video files on this device.</source>
+        <translation>Configura el número máximo de canales de audio al reproducir archivos de video en este dispositivo.</translation>
+    </message>
+    <message>
+        <source>Burn in subtitle when transcoding</source>
+        <translation>Incrustar subtítulos al transcodificar</translation>
+    </message>
+    <message>
+        <source>Burn in all subtitles when transcoding is triggered. This ensures subtitle synchronization after transcoding at the cost of reduced transcoding speed.</source>
+        <translation>Incrustar todos los subtítulos al iniciar la transcodificación. Esto garantiza la sincronización de los subtítulos después de la transcodificación, a costa de una menor velocidad de transcodificación.</translation>
     </message>
 </context>
 <context>
