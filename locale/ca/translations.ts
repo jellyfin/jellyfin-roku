@@ -1237,7 +1237,7 @@
     </message>
     <message>
         <source>Remember the currently logged in user and try to log them in again next time you start the Jellyfin app.</source>
-        <translation>Recorda l’usuari actualment connectat i intenta iniciar sessió amb ell novament la pròxima vegada que obris Jellyfin.</translation>
+        <translation>Recorda l’usuari actualment connectat i intenta iniciar sessió novament amb aquest la pròxima vegada que s&apos;obri Jellyfin.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
@@ -2148,11 +2148,11 @@
     </message>
     <message>
         <source>Force Transcode (Allow Remux) - disabled because of selected force transcoding setting</source>
-        <translation>Transcodificació forçada (Permetre Remux) – desactivada a causa de la configuració de transcodificació forçada seleccionada</translation>
+        <translation>Transcodificació forçada (Permet Remux) – desactivada a causa de la configuració de transcodificació forçada seleccionada</translation>
     </message>
     <message>
         <source>Burn in subtitle when transcoding</source>
-        <translation>Incrustar subtítols durant la transcodificació</translation>
+        <translation>Incrusta subtítols en transcodificar</translation>
     </message>
     <message>
         <source>Burn in all subtitles when transcoding is triggered. This ensures subtitle synchronization after transcoding at the cost of reduced transcoding speed.</source>
