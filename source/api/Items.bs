@@ -596,13 +596,26 @@ function TVSeasons(id as string) as dynamic
 
     results = []
     for each item in data.Items
+        seasonImage = PosterImage(item.id)
+        if not isValidAndNotEmpty(seasonImage)
+            seasonImage = getFirstEpisodeImage(id, item.id)
+        end if
+
         tmp = CreateObject("roSGNode", "TVSeasonData")
-        tmp.image = PosterImage(item.id)
+        tmp.image = seasonImage
         tmp.json = item
         results.push(tmp)
     end for
     data.Items = results
     return data
+end function
+
+function getFirstEpisodeImage(showId as string, seasonId as string)
+    listOfEpisodes = TVEpisodes(showId, seasonId)
+    for each episode in listOfEpisodes.LookupCI("items")
+        if isValid(episode.image) then return episode.image
+    end for
+    return invalid
 end function
 
 ' Returns a list of TV Shows for a given TV Show and season

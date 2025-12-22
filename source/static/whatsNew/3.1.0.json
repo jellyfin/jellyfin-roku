@@ -1,6 +1,10 @@
 [
   {
-    "description": "",
-    "author": ""
+    "description": "Use 1st found episode image as season poster on TV series screen when no image available",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Use 1st found season image as series poster on TV series screen when no image available",
+    "author": "1hitsong"
   }
 ]
