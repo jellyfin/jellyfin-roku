@@ -1966,6 +1966,14 @@
         <source>The secondary text color.</source>
         <translation>Die Sekundärtextfarbe.</translation>
     </message>
+    <message>
+        <source>Text Color</source>
+        <translation>Textfarbe</translation>
+    </message>
+    <message>
+        <source>My List Icon</source>
+        <translation>Meine Liste Icon</translation>
+    </message>
 </context>
 <context>
     <name></name>
