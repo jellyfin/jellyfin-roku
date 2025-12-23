@@ -2225,5 +2225,29 @@
             <source>Portrait (Vertical)</source>
             <translation>Portrait (Vertical)</translation>
         </message>
+        <message>
+            <source>Skip Unknown</source>
+            <translation>Skip Segment</translation>
+        </message>
+        <message>
+            <source>Skip Commercial</source>
+            <translation>Skip Commercial</translation>
+        </message>
+        <message>
+            <source>Skip Preview</source>
+            <translation>Skip Preview</translation>
+        </message>
+        <message>
+            <source>Skip Recap</source>
+            <translation>Skip Recap</translation>
+        </message>
+        <message>
+            <source>Skip Outro</source>
+            <translation>Skip Outro</translation>
+        </message>
+        <message>
+            <source>Skip Intro</source>
+            <translation>Skip Intro</translation>
+        </message>
     </context>
 </TS>
