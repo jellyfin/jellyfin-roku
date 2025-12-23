@@ -2210,5 +2210,29 @@
             <translation>Burn in all subtitles when transcoding is triggered. This ensures subtitle synchronization after transcoding at the cost of reduced transcoding speed.</translation>
             <extracomment>Settings Menu - Description for option</extracomment>
         </message>
+        <message>
+            <source>Skip Unknown</source>
+            <translation>Skip Segment</translation>
+        </message>
+        <message>
+            <source>Skip Commercial</source>
+            <translation>Skip Commercial</translation>
+        </message>
+        <message>
+            <source>Skip Preview</source>
+            <translation>Skip Preview</translation>
+        </message>
+        <message>
+            <source>Skip Recap</source>
+            <translation>Skip Recap</translation>
+        </message>
+        <message>
+            <source>Skip Outro</source>
+            <translation>Skip Outro</translation>
+        </message>
+        <message>
+            <source>Skip Intro</source>
+            <translation>Skip Intro</translation>
+        </message>
     </context>
 </TS>

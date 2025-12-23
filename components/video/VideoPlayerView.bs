@@ -769,7 +769,7 @@ sub displaySegmentSkipButton(segmentType as string, endticks as double)
     end if
 
     ' Check if button is already showing
-    if isStringEqual(m.skipSegmentButton.text, `${tr("Skip")} ${segmentType}`) then return
+    if isStringEqual(m.skipSegmentButton.text, tr(`Skip ${segmentType}`)) then return
 
     if m.osd.visible then return ' Don't show if OSD is visible
 
@@ -779,7 +779,7 @@ sub displaySegmentSkipButton(segmentType as string, endticks as double)
     end if
 
     m.skipSegmentButton.visible = true
-    m.skipSegmentButton.text = `${tr("Skip")} ${segmentType}`
+    m.skipSegmentButton.text = tr(`Skip ${segmentType}`)
     m.skipSegmentButton.setFocus(true)
     m.skipSegmentButton.focus = true
 end sub
@@ -1322,7 +1322,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
     if key = KeyCode.BACK
         ' If user presses back when Skip Outro button is showing, hide button and disable it so it doesn't show again
         if m.skipSegmentButton.visible
-            if isStringEqual(m.skipSegmentButton.text, `${tr("Skip")} ${MediaSegmentType.OUTRO}`)
+            if isStringEqual(m.skipSegmentButton.text, tr(`Skip ${MediaSegmentType.OUTRO}`))
                 m.nextupbuttonseconds = 0
                 hideSegmentSkipButton()
                 return true
