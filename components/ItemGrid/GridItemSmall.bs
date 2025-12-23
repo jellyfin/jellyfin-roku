@@ -1,3 +1,5 @@
+import "pkg:/source/enums/ImageLayout.bs"
+import "pkg:/source/enums/PosterLoadStatus.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/misc.bs"
 
@@ -78,7 +80,8 @@ sub itemContentChanged()
         unplayedCount: chainLookupReturn(itemData, "json.UserData.UnplayedItemCount", 0)
     }
 
-    m.itemPoster.uri = itemData.PosterUrl
+    m.itemPoster.uri = getPosterURL(itemData)
+
     if isValidAndNotEmpty(itemData.LookupCI("fullNameWithShowTitle"))
         m.posterText.text = itemData.LookupCI("fullNameWithShowTitle")
     else
@@ -93,6 +96,28 @@ sub itemContentChanged()
         m.posterText.visible = true
     end if
 end sub
+
+function getPosterURL(itemData) as string
+    posterURL = itemData.PosterUrl
+
+    posterOrientation = chainLookupReturn(m.global, "session.user.settings.libraryPosterOrientation", ImageLayout.DEFAULT)
+    if inArray([ImageLayout.DEFAULT, ImageLayout.PORTRAIT], posterOrientation)
+        posterURL = itemData.PosterUrl
+    else if isValidAndNotEmpty(itemData.landscapePosterURL)
+        posterURL = itemData.landscapePosterURL
+    else if isValidAndNotEmpty(itemData.backdropURL)
+        posterURL = itemData.backdropURL
+    end if
+
+    ' Adjust image dimensions as needed
+    posterURL = posterURL.replace("maxHeight=720", `maxHeight=${m.itemPoster.height}`)
+    posterURL = posterURL.replace("maxHeight=331", `maxHeight=${m.itemPoster.height}`)
+
+    posterURL = posterURL.replace("maxWidth=1280", `maxWidth=${m.itemPoster.width}`)
+    posterURL = posterURL.replace("maxWidth=464", `maxWidth=${m.itemPoster.width}`)
+
+    return posterURL
+end function
 
 sub focusChanged()
     if m.top.itemHasFocus = true
@@ -110,7 +135,19 @@ end sub
 
 'Hide backdrop and text when poster loaded
 sub onPosterLoadStatusChanged()
-    if m.itemPoster.loadStatus = "ready"
+    if isStringEqual(m.itemPoster.loadStatus, PosterLoadStatus.FAILED)
+        ' Image failed to load, try to fall back to default poster image
+        if not isStringEqual(m.itemPoster.uri, m.top.itemContent.PosterUrl)
+            m.itemPoster.uri = m.top.itemContent.PosterUrl
+            return
+        end if
+
+        ' No image loaded, ensure text is displayed
+        m.backdrop.visible = true
+        m.posterText.visible = true
+    end if
+
+    if isStringEqual(m.itemPoster.loadStatus, PosterLoadStatus.READY)
         m.backdrop.visible = false
         m.posterText.visible = false
     end if
