@@ -4,7 +4,8 @@
     <StdDlgContentArea>
       <CheckList
         id="watchedCheckmark"
-        checkedState="[true]"
+        checkedState="[true,false]"
+        vertFocusAnimationStyle="floatingFocus"
         translation="[0, 0]"
         checkedIconUri="pkg:/images/icons/checkboxChecked.png"
         focusedCheckedIconUri="pkg:/images/icons/checkboxChecked.png"
@@ -14,6 +15,7 @@
         drawFocusFeedback="false">
         <ContentNode role="content">
           <ContentNode title="Display Watched Checkmark" />
+          <ContentNode title="Use Landscape (Wide) Images" />
         </ContentNode>
       </CheckList>
     </StdDlgContentArea>
