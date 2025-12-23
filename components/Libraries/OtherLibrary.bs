@@ -14,9 +14,9 @@ import "pkg:/source/utils/deviceCapabilities.bs"
 import "pkg:/source/utils/misc.bs"
 
 const ASPECT_RATIO_PORTRAIT_NO_TITLE = 1.52173
-const ASPECT_RATIO_LANDSCAPE_NO_TITLE = .825
+const ASPECT_RATIO_LANDSCAPE_NO_TITLE = .56307
 const ASPECT_RATIO_PORTRAIT_WITH_TITLE = 1.69565
-const ASPECT_RATIO_LANDSCAPE_WITH_TITLE = .925
+const ASPECT_RATIO_LANDSCAPE_WITH_TITLE = .66307
 
 sub init()
     m.top.imageDisplayMode = "scaleToZoom"
@@ -77,7 +77,13 @@ sub init()
     m.getFiltersTask = createObject("roSGNode", "GetFiltersTask")
     m.getPlaylistDataTask = createObject("roSGNode", "GetPlaylistDataTask")
 
-    setColumnSizes(ImageLayout.PORTRAIT)
+    posterOrientation = chainLookupReturn(m.global, "session.user.settings.libraryPosterOrientation", ImageLayout.DEFAULT)
+
+    if isStringEqual(posterOrientation, ImageLayout.DEFAULT)
+        setColumnSizes(ImageLayout.PORTRAIT)
+    else
+        setColumnSizes(posterOrientation)
+    end if
 
     'set inital counts for overhang before content is loaded.
     m.loadItemsTask.totalRecordCount = 0

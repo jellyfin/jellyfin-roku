@@ -1,4 +1,5 @@
 enum ImageLayout
+    DEFAULT = "default"
     LANDSCAPE = "landscape"
     PORTRAIT = "portrait"
 end enum
