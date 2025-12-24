@@ -2096,7 +2096,7 @@
     </message>
     <message>
         <source>Burn in subtitle when transcoding</source>
-        <translation type="unfinished">Incrustation des sous-titres lors du transcodage</translation>
+        <translation>Incrustation des sous-titres lors du transcodage</translation>
     </message>
     <message>
         <source>Burn in all subtitles when transcoding is triggered. This ensures subtitle synchronization after transcoding at the cost of reduced transcoding speed.</source>
@@ -2113,6 +2113,58 @@
     <message>
         <source>Configure the maximum audio channels when playing video files on this device.</source>
         <translation>Configurez le nombre maximal de canaux audio lors de la lecture de fichiers vidéo sur cet appareil.</translation>
+    </message>
+    <message>
+        <source>Skip Intro</source>
+        <translation>Passer introduction</translation>
+    </message>
+    <message>
+        <source>Grid View Item Titles</source>
+        <translation>Titres des éléments de la vue en grille</translation>
+    </message>
+    <message>
+        <source>Select when to show titles in grid view.</source>
+        <translation>Sélectionnez quand afficher les titres en mode grille.</translation>
+    </message>
+    <message>
+        <source>Library Image Orientation</source>
+        <translation>Orientation des images de la bibliothèque</translation>
+    </message>
+    <message>
+        <source>Select the poster image orientation for the library views.</source>
+        <translation>Sélectionnez l&apos;orientation de l&apos;image de l&apos;affiche pour les vues de la bibliothèque.</translation>
+    </message>
+    <message>
+        <source>Default (Varies By Media Type)</source>
+        <translation>Valeur par défaut (varie selon le type de média)</translation>
+    </message>
+    <message>
+        <source>Landscape (Wide)</source>
+        <translation>Paysage (largeur)</translation>
+    </message>
+    <message>
+        <source>Portrait (Vertical)</source>
+        <translation>Portrait (Vertical)</translation>
+    </message>
+    <message>
+        <source>Skip Unknown</source>
+        <translation>Passer le segment</translation>
+    </message>
+    <message>
+        <source>Skip Commercial</source>
+        <translation>Passer la publicité</translation>
+    </message>
+    <message>
+        <source>Skip Preview</source>
+        <translation>Passer l&apos;aperçu</translation>
+    </message>
+    <message>
+        <source>Skip Recap</source>
+        <translation>Passer récapitulatif</translation>
+    </message>
+    <message>
+        <source>Skip Outro</source>
+        <translation>Passer la fin</translation>
     </message>
 </context>
 <context>
