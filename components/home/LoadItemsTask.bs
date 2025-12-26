@@ -61,7 +61,8 @@ function loadLatestMedia() as object
         parentId: m.top.itemId,
         enableImageTypes: `${ImageType.PRIMARY}, ${ImageType.BACKDROP}, ${ImageType.THUMB}`,
         imageTypeLimit: 1,
-        enableTotalRecordCount: false
+        enableTotalRecordCount: false,
+        fields: "Genres"
     }
 
     data = api.items.GetLatest(params)
@@ -71,12 +72,6 @@ function loadLatestMedia() as object
     for each item in data
         if not isStringEqual(item.Type, ItemType.BOOK)
             tmp = CreateObject("roSGNode", "HomeData")
-
-            albumArtistID = invalid
-
-            if isValidAndNotEmpty(item.AlbumArtists)
-                albumArtistID = item.AlbumArtists[0].LookupCI("id")
-            end if
 
             tmp.json = {
                 id: item.LookupCI("Id"),
@@ -98,7 +93,8 @@ function loadLatestMedia() as object
                 IndexNumber: item.LookupCI("IndexNumber"),
                 IndexNumberEnd: item.LookupCI("IndexNumberEnd"),
                 AlbumArtist: item.LookupCI("AlbumArtist"),
-                AlbumArtistId: albumArtistID,
+                AlbumArtistId: isValidAndNotEmpty(item.AlbumArtists) ? item.AlbumArtists[0].LookupCI("id") : invalid,
+                Genre: isValidAndNotEmpty(item.GenreItems) ? item.GenreItems : invalid,
                 Status: item.LookupCI("Status"),
                 ImageTags: item.LookupCI("ImageTags"),
                 UserData: item.LookupCI("UserData"),
@@ -106,7 +102,8 @@ function loadLatestMedia() as object
                 ParentBackdropImageTags: item.LookupCI("ParentBackdropImageTags"),
                 ParentBackdropItemId: item.LookupCI("ParentBackdropItemId"),
                 SeriesPrimaryImageTag: item.LookupCI("SeriesPrimaryImageTag"),
-                BackdropImageTags: item.LookupCI("BackdropImageTags")
+                BackdropImageTags: item.LookupCI("BackdropImageTags"),
+                LibraryId: m.top.itemId
             }
             results.push(tmp)
         end if

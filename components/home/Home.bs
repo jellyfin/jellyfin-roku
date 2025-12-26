@@ -152,6 +152,19 @@ sub onMyListLoaded()
 
     if inArray([ItemType.MUSICALBUM], focusedItem.LookupCI("type"))
         dialogData.push(tr("Go To Artist"))
+
+        genreData = focusedItem.json.LookupCI("Genre")
+        if isValidAndNotEmpty(genreData)
+            if isValidAndNotEmpty(genreData[0])
+                if isValidAndNotEmpty(genreData[0].Name)
+                    dialogData.push(tr("Go To Genre") + `: ${genreData[0].LookupCI("Name")}`)
+                    paramData.GenreName = genreData[0].LookupCI("Name")
+                    paramData.GenreId = genreData[0].LookupCI("Id")
+                    paramData.LibraryId = chainLookup(focusedItem, "json.LibraryId")
+                end if
+            end if
+        end if
+
         paramData.ArtistId = focusedItem.json.LookupCI("AlbumArtistId")
         paramData.ArtistName = focusedItem.json.LookupCI("albumartist")
     end if
