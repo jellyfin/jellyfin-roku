@@ -9,10 +9,14 @@
   },
   {
     "description": "Allow translation of skip media segment buttons",
-    "author": "1hitsong"    
+    "author": "1hitsong"
   },
   {
-    "description": "Add \"Go To Genre\" to Recently Added Music items",
+    "description": "Add \"Go To Genre\" to recently added music items option menu",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Add \"Play Instant Mix\" to recently added music items option menu",
     "author": "1hitsong"
   }
 ]

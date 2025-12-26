@@ -1609,6 +1609,21 @@ sub processLibraryItemPopup(selectedPopupButton as string, itemID as string, par
         return
     end if
 
+    if isStringEqual(selectedPopupButton, tr("Play Instant Mix"))
+        ' Create instant mix based on selected artist
+
+        startLoadingSpinner()
+
+        instantMixList = CreateInstantMix(params.LookupCI("AlbumId"))
+        if isChainValid(instantMixList, "items")
+            MainAction.playItem(instantMixList.LookupCI("Items"), { method: "set", resetShuffle: true })
+        else
+            stopLoadingSpinner()
+        end if
+
+        return
+    end if
+
     if isStringEqual(selectedPopupButton, tr("Go To Artist"))
         CreateArtistView({
             name: params.LookupCI("artistname"),
