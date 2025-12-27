@@ -18,5 +18,13 @@
   {
     "description": "Fix incorrect playback reporting on server admin dashboard",
     "author": "jimdogx"
+  },
+  {
+    "description": "Create user setting to change poster orientation",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Create library setting to change poster orientation",
+    "author": "1hitsong"
   }
 ]

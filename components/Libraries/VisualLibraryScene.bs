@@ -249,6 +249,26 @@ sub onItemDataLoaded()
 end sub
 
 sub redrawItems()
+    ' If user has not set a library level setting, check the user level setting
+    if isChainValid(m.global.session, `user.settings.${m.top.parentItem.id}-useLandscapeImages`)
+        useLandscapeImages = chainLookupReturn(m.global.session, `user.settings.${m.top.parentItem.id}-useLandscapeImages`, false)
+        posterOrientation = useLandscapeImages ? ImageLayout.LANDSCAPE : ImageLayout.DEFAULT
+    else
+        posterOrientation = chainLookupReturn(m.global, "session.user.settings.libraryPosterOrientation", ImageLayout.DEFAULT)
+    end if
+
+    if isStringEqual(posterOrientation, ImageLayout.DEFAULT)
+        if inArray([ItemType.PHOTO, ItemType.PHOTOALBUM, ItemType.MUSICVIDEO, ItemType.MYLIST], m.top.mediaType)
+            setColumnSizes(ImageLayout.LANDSCAPE)
+        else if isStringEqual(m.view, "Episodes")
+            setColumnSizes(ImageLayout.LANDSCAPE)
+        else
+            setColumnSizes(ImageLayout.PORTRAIT)
+        end if
+    else
+        setColumnSizes(posterOrientation)
+    end if
+
     itemGridContent = m.data.getChildren(-1, 0)
     m.data = CreateObject("roSGNode", "ContentNode")
     m.itemGrid.content = m.data
@@ -556,7 +576,13 @@ sub loadInitialItems()
         end if
     end if
 
-    posterOrientation = chainLookupReturn(m.global, "session.user.settings.libraryPosterOrientation", ImageLayout.DEFAULT)
+    ' If user has not set a library level setting, check the user level setting
+    if isChainValid(m.global.session, `user.settings.${m.top.parentItem.id}-useLandscapeImages`)
+        useLandscapeImages = chainLookupReturn(m.global.session, `user.settings.${m.top.parentItem.id}-useLandscapeImages`, false)
+        posterOrientation = useLandscapeImages ? ImageLayout.LANDSCAPE : ImageLayout.DEFAULT
+    else
+        posterOrientation = chainLookupReturn(m.global, "session.user.settings.libraryPosterOrientation", ImageLayout.DEFAULT)
+    end if
 
     if isStringEqual(posterOrientation, ImageLayout.DEFAULT)
         if inArray([ItemType.PHOTO, ItemType.PHOTOALBUM, ItemType.MUSICVIDEO, ItemType.MYLIST], m.top.mediaType)
@@ -583,7 +609,6 @@ sub loadInitialItems()
 end sub
 
 sub setColumnSizes(layout = ImageLayout.PORTRAIT as string)
-
     if isStringEqual(layout, ImageLayout.PORTRAIT)
         numberOfColumns = chainLookupReturn(m.global.session, "user.settings.numberOfColumnsPortrait", "7")
         imageWidthData = val(chainLookupReturn(m.global.session, "user.settings.numberOfColumnsPortraitData", "230"))

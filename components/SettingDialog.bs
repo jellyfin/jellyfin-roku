@@ -1,4 +1,5 @@
 import "pkg:/source/enums/ColorPalette.bs"
+import "pkg:/source/enums/ImageLayout.bs"
 import "pkg:/source/enums/KeyCode.bs"
 import "pkg:/source/utils/misc.bs"
 
@@ -23,8 +24,16 @@ sub init()
             m.libraryID = m.group.parentItem.libraryID
         end if
 
+        ' If user has not set a library level setting, check the user level setting
+        if isChainValid(m.global.session, `user.settings.${m.libraryID}-useLandscapeImages`)
+            useLandscapeImages = chainLookupReturn(m.global.session, `user.settings.${m.libraryID}-useLandscapeImages`, false)
+        else
+            posterOrientation = chainLookupReturn(m.global, "session.user.settings.libraryPosterOrientation", ImageLayout.DEFAULT)
+            useLandscapeImages = isStringEqual(posterOrientation, ImageLayout.LANDSCAPE)
+        end if
+
         showWatchedCheckmark = chainLookupReturn(m.global.session, `user.settings.${m.libraryID}-showWatchedCheckmark`, true)
-        m.watchedCheckmark.checkedState = [showWatchedCheckmark]
+        m.watchedCheckmark.checkedState = [showWatchedCheckmark, useLandscapeImages]
     end if
 end sub
 
@@ -32,6 +41,7 @@ sub onWatchedCheckmarkChange()
     if not isValid(m.libraryID) then return
 
     set_user_setting(`${m.libraryID}-showWatchedCheckmark`, m.watchedCheckmark.checkedState[0].toStr())
+    set_user_setting(`${m.libraryID}-useLandscapeImages`, m.watchedCheckmark.checkedState[1].toStr())
     m.group.callFunc("redrawItems")
 end sub
 
