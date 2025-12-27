@@ -222,7 +222,6 @@ sub OnScreenShown()
 end sub
 
 sub refreshAlbumTrackList()
-    print "refreshAlbumTrackList"
     m.focusedItem = m.songList.itemFocused
     m.LoadAlbumTask = CreateObject("roSGNode", "LoadAlbumTask")
     m.LoadAlbumTask.id = m.top.pageContent.id
