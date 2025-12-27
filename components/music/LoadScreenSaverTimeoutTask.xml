@@ -2,6 +2,6 @@
 
 <component name="LoadScreenSaverTimeoutTask" extends="Task">
   <interface>
-    <field id="content" type="integer" />
+    <field id="content" type="integer" value="300" />
   </interface>
 </component>
