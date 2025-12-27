@@ -1,33 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component name="AlbumView" extends="JFScreen">
   <children>
-    <LayoutGroup id="toplevel" layoutDirection="vert" itemSpacings="[-10]">
-      <LayoutGroup id="main_group" layoutDirection="horiz" itemSpacings="[15]">
-        <LayoutGroup layoutDirection="vert" itemSpacings="[15]">
-          <Poster id="albumCover" width="450" height="450" />
-          <Text id="numberofsongs" width="450" height="25" />
-          <Text id="genres" width="450" height="25" />
-          <Text id="runtime" width="450" height="25" />
-          <Text id="released" width="450" height="25" />
-          <StandardButton
-            id="instantMix"
-            text="Instant Mix"
-            height="85"
-            width="250" />
+    <Poster id="backdrop" opacity=".4" loadDisplayMode="scaleToZoom" width="1920" height="1200" blendColor="#3f3f3f" />
+
+    <LayoutGroup id="toplevel" layoutDirection="vert" translation="[100, 100]" itemSpacings="[25]">
+      <LayoutGroup layoutDirection="horiz" itemSpacings="[15]">
+        <LayoutGroup layoutDirection="vert" itemSpacings="[25]">
+          <LayoutGroup layoutDirection="vert" itemSpacings="[0]">
+            <ScrollingText id="albumTitle" horizAlign="left" font="font:MediumBoldSystemFont" maxWidth="1300" height="45" />
+            <ScrollingText id="artistName" horizAlign="left" font="font:MediumSystemFont" maxWidth="1300" height="23" />
+          </LayoutGroup>
+
+          <LayoutGroup layoutDirection="horiz" itemSpacings="[15]">
+            <LayoutGroup layoutDirection="horiz" itemSpacings="[15]">
+              <Poster id="runtimeIcon" width="35" height="35" uri="pkg:/images/icons/35px/clock.png" />
+              <Text id="runtime" vertAlign="center" font="font:MediumSystemFont" width="90" height="35" />
+            </LayoutGroup>
+
+            <LayoutGroup layoutDirection="horiz" itemSpacings="[15]">
+              <Poster id="numberofsongsIcon" width="35" height="35" uri="pkg:/images/icons/35px/musicNote.png" />
+              <Text id="numberofsongs" vertAlign="center" font="font:MediumSystemFont" width="125" height="35" />
+            </LayoutGroup>
+
+            <LayoutGroup layoutDirection="horiz" itemSpacings="[15]">
+              <Poster id="releasedIcon" width="35" height="35" uri="pkg:/images/icons/35px/calendar.png" />
+              <Text id="released" vertAlign="center" font="font:MediumSystemFont" width="60" height="35" />
+            </LayoutGroup>
+
+            <LayoutGroup layoutDirection="horiz" itemSpacings="[15]">
+              <Poster id="genresIcon" width="35" height="35" uri="pkg:/images/icons/35px/genre.png" />
+              <Text id="genres" vertAlign="center" font="font:MediumSystemFont" width="400" height="35" />
+            </LayoutGroup>
+          </LayoutGroup>
+
+          <Text id="overview" wrap="true" lineSpacing="25" maxLines="3" width="1300" />
+          <ButtonGroupHoriz id="buttons" itemSpacings="[20]">
+            <IconButton id="play" background="#070707" padding="35" icon="pkg:/images/icons/play.png" text="Play" height="65" width="140" />
+            <IconButton id="instantMix" background="#070707" padding="35" icon="pkg:/images/icons/instantMix.png" text="Instant Mix" height="65" width="140" />
+          </ButtonGroupHoriz>
         </LayoutGroup>
-        <LayoutGroup id="infoGroup" layoutDirection="vert" itemSpacings="[15]">
-          <Text id="overview" wrap="true" height="310" width="1250" />
-          <Rectangle id='songListRect' translation="[-30, 0]" width="1260" height="510">
-            <AlbumTrackList
-              id="songList"
-              vertFocusAnimationStyle="fixedFocusWrap"
-              itemComponentName="SongItem"
-              translation="[45, 25]"
-              itemSize="[1170,60]"
-              numRows="7" />
-          </Rectangle>
-        </LayoutGroup>
+
+        <Poster id="albumCover" width="400" height="400" />
       </LayoutGroup>
+
+      <LayoutGroup id="infoGroup" layoutDirection="vert" itemSpacings="[15]">
+        <Rectangle id='songListRect' translation="[-30, 0]" width="1720" height="510">
+
+          <LayoutGroup id="tableHeading" layoutDirection="horiz" itemSpacings="[20]" translation="[45, 20]">
+            <Text id="trackHeading" font="font:SmallBoldSystemFont" horizAlign="left" vertAlign="center" text="Track" width="80" />
+            <Text id="titleHeading" font="font:SmallBoldSystemFont" horizAlign="left" vertAlign="center" text="Title" width="1280" />
+            <Text id="lengthHeading" font="font:SmallBoldSystemFont" horizAlign="right" vertAlign="center" text="Length" width="120" />
+            <Text id="playsHeading" font="font:SmallBoldSystemFont" horizAlign="right" vertAlign="center" text="Plays" width="80" />
+          </LayoutGroup>
+
+          <AlbumTrackList
+            id="songList"
+            vertFocusAnimationStyle="floatingFocus"
+            itemComponentName="SongItem"
+            translation="[45, 50]"
+            itemSize="[1630,50]"
+            numRows="9" />
+        </Rectangle>
+      </LayoutGroup>
+
     </LayoutGroup>
   </children>
   <interface>
@@ -35,6 +70,8 @@
     <field id="pageContent" type="node" onChange="pageContentChanged" />
     <field id="albumData" type="node" alias="songList.MusicArtistAlbumData" />
     <field id="playSong" alias="songList.itemSelected" />
+    <field id="playAlbumSelected" alias="play.selected" />
     <field id="instantMixSelected" alias="instantMix.selected" />
+    <field id="selectedButtonIndex" type="integer" value="-1" />
   </interface>
 </component>

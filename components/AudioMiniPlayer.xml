@@ -36,6 +36,7 @@
   <interface>
     <field id="state" type="string" />
     <field id="selected" type="boolean" />
+    <field id="visible" type="boolean" />
     <function name="setup" />
     <function name="setSelected" />
     <function name="isSelected" />

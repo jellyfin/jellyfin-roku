@@ -475,6 +475,7 @@ function MusicSongList(id as string)
         tmp.artists = item.LookupCI("artists")
         tmp.RunTimeTicks = item.LookupCI("RunTimeTicks")
         tmp.trackNumber = item.LookupCI("IndexNumber")
+        tmp.playCount = chainLookupReturn(item, "UserData.PlayCount", 0)
         results.push(tmp)
     end for
 

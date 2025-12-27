@@ -142,6 +142,8 @@ sub Main (args as dynamic) as void
             onSimilarArtistSelectedEvent(msg)
         else if isNodeEvent(msg, "playSong")
             onPlaySongEvent(msg)
+        else if isNodeEvent(msg, "playAlbumSelected")
+            onPlayAlbumEvent(msg)
         else if isNodeEvent(msg, "subtitleToDelete")
             onSubtitleToDeleteEvent(msg)
         else if isNodeEvent(msg, "subtitleSearchButtonSelected")

@@ -1,46 +1,128 @@
 import "pkg:/source/enums/ColorPalette.bs"
 import "pkg:/source/enums/KeyCode.bs"
+import "pkg:/source/enums/MediaPlaybackState.bs"
 import "pkg:/source/enums/String.bs"
 import "pkg:/source/enums/TaskControl.bs"
+import "pkg:/source/enums/ViewLoadStatus.bs"
 import "pkg:/source/utils/misc.bs"
 
 sub init()
-    m.top.optionsAvailable = false
-    setupMainNode()
+    m.loadStatus = ViewLoadStatus.INIT
 
-    m.instantMix = m.top.findNode("instantMix")
-    m.instantMix.background = ColorPalette.LIGHTBLUE
-    m.instantMix.color = ColorPalette.DARKGREY
-    m.instantMix.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
-    m.instantMix.focusColor = ColorPalette.WHITE
+    ' Load background image
+    m.LoadBackdropImageTask = CreateObject("roSGNode", "LoadItemsTask")
+    m.LoadBackdropImageTask.itemsToLoad = "backdropImage"
+    m.backDrop = m.top.findNode("backdrop")
+
+    m.dscr = m.top.findNode("overview")
+    m.dscr.ellipsisText = tr("...")
+
+    setFontSizes()
+
+    m.top.optionsAvailable = false
+
+    setupButtons()
 
     m.albumCover = m.top.findNode("albumCover")
     m.songList = m.top.findNode("songList")
     m.infoGroup = m.top.FindNode("infoGroup")
     m.songListRect = m.top.FindNode("songListRect")
-    m.top.lastFocus = m.songList
 
     m.songList.focusFootprintBitmapUri = string.EMPTY
     m.songList.focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
     m.songList.focusFootprintBlendColor = ColorPalette.LIGHTHIGHLIGHT
 
-    m.songListRect.color = ColorPalette.ELEMENTBACKGROUND
+    m.songListRect.color = ColorPalette.BLACK77
 
     m.songList.observeField("doneLoading", "onDoneLoading")
-
-    m.dscr = m.top.findNode("overview")
-    m.dscr.ellipsisText = tr("...")
 end sub
 
-sub setupMainNode()
-    main = m.top.findNode("toplevel")
-    main.translation = [96, 175]
+sub setBackdropImage(itemContent)
+    ' Use metadata to load backdrop image
+    if not isChainValid(itemContent, "json.ArtistItems") then return
+    if not isValidAndNotEmpty(itemContent.json.ArtistItems) then return
+
+    artistID = itemContent.json.ArtistItems[0].LookupCI("id")
+    if not isValidAndNotEmpty(artistID) then return
+
+    m.LoadBackdropImageTask.itemId = artistID
+    m.LoadBackdropImageTask.observeField("content", "onBackdropImageLoaded")
+    m.LoadBackdropImageTask.control = TaskControl.RUN
+end sub
+
+sub onBackdropImageLoaded()
+    m.LoadBackdropImageTask.control = TaskControl.STOP
+    data = m.LoadBackdropImageTask.content[0]
+    m.LoadBackdropImageTask.unobserveField("content")
+
+    if isValidAndNotEmpty(data)
+        if not isStringEqual(m.backDrop.uri, data)
+            m.backDrop.uri = data
+        end if
+    end if
+end sub
+
+sub setFontSizes()
+    if isValid(m.dscr)
+        m.dscr.font.size = 27
+    end if
+
+    albumTitle = m.top.findNode("albumTitle")
+    if isValid(albumTitle)
+        albumTitle.font.size = 45
+    end if
+
+    artistName = m.top.findNode("artistName")
+    if isValid(artistName)
+        artistName.font.size = 23
+    end if
+
+    runtime = m.top.findNode("runtime")
+    if isValid(runtime)
+        runtime.font.size = 23
+    end if
+
+    numberofsongs = m.top.findNode("numberofsongs")
+    if isValid(numberofsongs)
+        numberofsongs.font.size = 23
+    end if
+
+    released = m.top.findNode("released")
+    if isValid(released)
+        released.font.size = 23
+    end if
+
+    genres = m.top.findNode("genres")
+    if isValid(genres)
+        genres.font.size = 23
+    end if
+
+    trackHeading = m.top.findNode("trackHeading")
+    if isValid(trackHeading)
+        trackHeading.font.size = 23
+    end if
+
+    titleHeading = m.top.findNode("titleHeading")
+    if isValid(titleHeading)
+        titleHeading.font.size = 23
+    end if
+
+    lengthHeading = m.top.findNode("lengthHeading")
+    if isValid(lengthHeading)
+        lengthHeading.font.size = 23
+    end if
+
+    playsHeading = m.top.findNode("playsHeading")
+    if isValid(playsHeading)
+        playsHeading.font.size = 23
+    end if
 end sub
 
 ' Set values for displayed values on screen
 sub pageContentChanged()
     item = m.top.pageContent
 
+    setBackdropImage(item)
     setPosterImage(item.posterURL)
     setScreenTitle(item.json)
     setOnScreenTextValues(item.json)
@@ -55,33 +137,72 @@ end sub
 
 ' Set screen's title text
 sub setScreenTitle(json)
-    newTitle = ""
-    if isValid(json)
-        if isValid(json.AlbumArtist)
-            newTitle = json.AlbumArtist
-        end if
-        if isValid(json.AlbumArtist) and isValid(json.name)
-            newTitle = newTitle + " / "
-        end if
-        if isValid(json.name)
-            newTitle = newTitle + json.name
-        end if
+    if not isValidAndNotEmpty(json) then return
+
+    albumTitle = m.top.findNode("albumTitle")
+    if isValid(albumTitle)
+        albumTitle.text = json.name
     end if
-    m.top.overhangTitle = newTitle
+
+    artistName = m.top.findNode("artistName")
+    if isValid(artistName)
+        artistName.text = json.AlbumArtist
+    end if
 end sub
 
-' Adjust scene by removing overview node and showing more songs
-sub adjustScreenForNoOverview()
-    m.infoGroup.removeChild(m.dscr)
-    m.songListRect.height = 800
-    m.songList.numRows = 12
+sub adjustForMiniPlayer(audioMiniPlayerVisible = false)
+    if not isChainValid(m.songList, "MusicArtistAlbumData") then return
+    if m.songList.MusicArtistAlbumData.getChildCount() < 7 then return
+
+    newNumberOfRows = audioMiniPlayerVisible ? 7 : 9
+
+    ' To make Roku redraw with the new row count, we must move the cursor far enough for it to change content
+    if m.songList.numRows <> newNumberOfRows
+        focusedItem = m.songList.itemFocused
+        m.songList.numRows = newNumberOfRows
+        m.songList.jumpToItem = m.songList.MusicArtistAlbumData.getChildCount() - 1
+        m.songList.jumpToItem = 0
+        m.songList.jumpToItem = focusedItem
+    end if
+end sub
+
+sub onAudioMiniPlayerVisibleChange()
+    scene = m.top.getScene()
+    audioMiniPlayer = scene.findNode("audioMiniPlayer")
+    if isValid(audioMiniPlayer)
+        adjustForMiniPlayer(audioMiniPlayer.callFunc("isVisible"))
+    end if
+end sub
+
+sub onAudioMiniPlayerStateChange()
+    if isStringEqual(m.global.audioPlayer.state, MediaPlaybackState.FINISHED)
+        refreshAlbumTrackList()
+    end if
+end sub
+
+sub OnScreenHidden()
+    scene = m.top.getScene()
+    audioMiniPlayer = scene.findNode("audioMiniPlayer")
+    if isValid(audioMiniPlayer)
+        audioMiniPlayer.unobserveFieldScoped("visible")
+    end if
+    m.global.audioPlayer.unobserveFieldScoped("state")
 end sub
 
 sub OnScreenShown()
-    overhang = m.top.getScene().findNode("overhang")
+    scene = m.top.getScene()
 
-    if not overhang.isVisible
-        overhang.isVisible = true
+    audioMiniPlayer = scene.findNode("audioMiniPlayer")
+    if isValid(audioMiniPlayer)
+        audioMiniPlayer.observeFieldScoped("visible", "onAudioMiniPlayerVisibleChange")
+        adjustForMiniPlayer(audioMiniPlayer.callFunc("isVisible"))
+    end if
+    m.global.audioPlayer.observeFieldScoped("state", "onAudioMiniPlayerStateChange")
+
+    overhang = scene.findNode("overhang")
+
+    if overhang.isVisible
+        overhang.isVisible = false
     end if
 
     if isValid(m.top.lastFocus)
@@ -93,40 +214,148 @@ sub OnScreenShown()
         group = m.global.sceneManager.callFunc("getActiveScene")
         group.lastFocus = m.top
     end if
+
+    ' Refresh Track List for Playcount Update
+    if m.loadStatus <> ViewLoadStatus.INIT
+        refreshAlbumTrackList()
+    end if
+end sub
+
+sub refreshAlbumTrackList()
+    m.focusedItem = m.songList.itemFocused
+    m.LoadAlbumTask = CreateObject("roSGNode", "LoadAlbumTask")
+    m.LoadAlbumTask.id = m.top.pageContent.id
+    m.LoadAlbumTask.observeField("albumDetails", "onAlbumDetailsLoaded")
+    m.LoadAlbumTask.control = TaskControl.RUN
+end sub
+
+sub onAlbumDetailsLoaded()
+    m.LoadAlbumTask.unobserveField("albumDetails")
+    m.LoadAlbumTask.control = TaskControl.STOP
+
+    m.songList.doneLoading = false
+    m.songList.observeField("doneLoading", "onDoneLoading")
+
+    albumDetails = m.LoadAlbumTask.albumDetails
+    m.top.albumData = albumDetails
 end sub
 
 ' Populate on screen text variables
 sub setOnScreenTextValues(json)
     if isValid(json)
-        if isValid(json.overview) and json.overview <> ""
+        if isValidAndNotEmpty(json.overview)
             ' We have overview text
             setFieldTextValue("overview", json.overview)
-        else
-            ' We don't have overview text
-            adjustScreenForNoOverview()
         end if
 
         setFieldTextValue("numberofsongs", `${json.ChildCount} ${tr("Tracks")}`)
 
         if type(json.ProductionYear) = "roInt"
-            setFieldTextValue("released", `${tr("Released")} ${json.ProductionYear}`)
+            setFieldTextValue("released", `${json.ProductionYear}`)
         end if
 
         if json.genres.count() > 0
-            setFieldTextValue("genres", json.genres.join(", "))
+            genreList = json.genres
+            if genreList.count() > 3
+                genreList = genreList.slice(0, 3)
+            end if
+
+            setFieldTextValue("genres", genreList.join(", "))
         end if
 
         if type(json.RunTimeTicks) = "LongInteger"
-            setFieldTextValue("runtime", `${getMinutes(json.RunTimeTicks)} ${tr("mins")}`)
+            setFieldTextValue("runtime", `${ticksToHuman(json.RunTimeTicks)}`)
         end if
     end if
 end sub
 
+' Setup playback buttons, default to Play button selected
+sub setupButtons()
+    m.buttonGrp = m.top.findNode("buttons")
+    m.buttonCount = m.buttonGrp.getChildCount()
+
+    m.play = m.top.findNode("play")
+    m.play.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+    m.top.lastFocus = m.play
+
+    m.instantMix = m.top.findNode("instantMix")
+    m.instantMix.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+
+    m.previouslySelectedButtonIndex = -1
+
+    m.top.observeField("selectedButtonIndex", "onButtonSelectedChange")
+    m.top.selectedButtonIndex = 0
+end sub
+
+' Event handler when user selected a different playback button
+sub onButtonSelectedChange()
+    ' Change previously focused button back to default
+    if m.previouslySelectedButtonIndex > -1
+        previousSelectedButton = m.buttonGrp.getChild(m.previouslySelectedButtonIndex)
+        previousSelectedButton.focus = false
+    end if
+
+    ' Change selected button image to focus state
+    selectedButton = m.buttonGrp.getChild(m.top.selectedButtonIndex)
+    selectedButton.focus = true
+end sub
+
 function onKeyEvent(key as string, press as boolean) as boolean
+    if m.buttonGrp.isInFocusChain()
+        if key = KeyCode.UP
+            if m.buttonGrp.getChild(m.top.selectedButtonIndex).escape = "up"
+                if not isStringEqual(m.dscr.text, string.EMPTY)
+                    m.buttonGrp.getChild(m.top.selectedButtonIndex).escape = ""
+                    selectedButton = m.buttonGrp.getChild(m.top.selectedButtonIndex)
+                    selectedButton.focus = false
+                    m.dscr.setFocus(true)
+                    m.dscr.color = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+                    m.top.lastFocus = m.dscr
+                    return true
+                end if
+            end if
+        end if
+
+        if key = KeyCode.OK
+            if press
+                selectedButton = m.buttonGrp.getChild(m.top.selectedButtonIndex)
+                selectedButton.selected = not selectedButton.selected
+                return true
+            end if
+        end if
+
+        if key = KeyCode.LEFT
+            if m.top.selectedButtonIndex > 0
+                m.previouslySelectedButtonIndex = m.top.selectedButtonIndex
+                m.top.selectedButtonIndex = m.top.selectedButtonIndex - 1
+                return true
+            end if
+        end if
+
+        if key = KeyCode.RIGHT
+            if m.top.selectedButtonIndex < m.buttonCount - 1
+                m.previouslySelectedButtonIndex = m.top.selectedButtonIndex
+                m.top.selectedButtonIndex = m.top.selectedButtonIndex + 1
+                return true
+            end if
+        end if
+
+        if key = KeyCode.DOWN
+            if m.buttonGrp.getChild(m.top.selectedButtonIndex).escape = "down"
+                m.buttonGrp.getChild(m.top.selectedButtonIndex).escape = ""
+                selectedButton = m.buttonGrp.getChild(m.top.selectedButtonIndex)
+                selectedButton.focus = false
+                m.songList.setFocus(true)
+                m.top.lastFocus = m.songList
+                return true
+            end if
+        end if
+    end if
+
     if not press then return false
 
-    if key = KeyCode.OPTIONS
-        if m.songList.hasFocus()
+    if m.songList.hasFocus()
+        if key = KeyCode.OPTIONS
             focusedSong = m.songList.content.getChild(m.songList.itemFocused)
             if not isValidAndNotEmpty(focusedSong) then return false
 
@@ -135,58 +364,27 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
             return true
         end if
-    end if
 
-    if key = KeyCode.RIGHT
-        if m.instantMix.hasFocus()
-            m.top.lastFocus = m.songList
-            m.songList.setFocus(true)
-            m.instantMix.focus = false
-            group = m.global.sceneManager.callFunc("getActiveScene")
-            group.lastFocus = m.songList
+        if key = KeyCode.UP
+            m.play.setFocus(true)
+            m.play.focus = true
+            m.top.lastFocus = m.play
             return true
         end if
     end if
 
-    if key = KeyCode.UP
-        if m.songList.hasFocus()
-            if m.dscr.isTextEllipsized
-                m.dscr.setFocus(true)
-                m.dscr.color = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
-                return true
-            end if
-        end if
-    end if
-
-    if key = KeyCode.OK
-        if m.dscr.hasFocus()
+    if m.dscr.hasFocus()
+        if key = KeyCode.OK
             createFullDscrDlg()
             return true
         end if
-        if m.instantMix.hasFocus()
-            m.instantMix.selected = not m.instantMix.selected
-            return true
-        end if
-    end if
 
-    if key = KeyCode.DOWN
-        if m.dscr.hasFocus()
-            m.songList.setFocus(true)
+        if key = KeyCode.DOWN
             m.dscr.color = ColorPalette.WHITE
+            selectedButton = m.buttonGrp.getChild(m.top.selectedButtonIndex)
+            selectedButton.focus = true
+            selectedButton.setfocus(true)
             return true
-        end if
-    end if
-
-    if key = KeyCode.LEFT
-        if m.songList.hasFocus()
-            if m.instantMix.visible
-                m.top.lastFocus = m.instantMix
-                m.instantMix.setFocus(true)
-                m.instantMix.focus = true
-                group = m.global.sceneManager.callFunc("getActiveScene")
-                group.lastFocus = m.instantMix
-                return true
-            end if
         end if
     end if
 
@@ -194,12 +392,28 @@ function onKeyEvent(key as string, press as boolean) as boolean
 end function
 
 sub createFullDscrDlg()
-    if isAllValid([m.top.overhangTitle, m.dscr.text])
-        m.global.sceneManager.callFunc("standardDialog", m.top.overhangTitle, { data: ["<p>" + m.dscr.text + "</p>"] })
+    albumTitle = m.top.findNode("albumTitle")
+    if isAllValid([albumTitle.text, m.dscr.text])
+        m.global.sceneManager.callFunc("standardDialog", albumTitle.text, { data: ["<p>" + m.dscr.text + "</p>"] })
     end if
 end sub
 
 sub onDoneLoading()
     m.songList.unobservefield("doneLoading")
     stopLoadingSpinner()
+
+    if m.loadStatus = ViewLoadStatus.INIT
+        m.loadStatus = ViewLoadStatus.FIRSTLOAD
+    end if
+
+    if isValid(m.focusedItem)
+        m.songList.jumpToItem = m.focusedItem
+        m.focusedItem = invalid
+    end if
+
+    scene = m.top.getScene()
+    audioMiniPlayer = scene.findNode("audioMiniPlayer")
+    if isValid(audioMiniPlayer)
+        adjustForMiniPlayer(audioMiniPlayer.callFunc("isVisible"))
+    end if
 end sub

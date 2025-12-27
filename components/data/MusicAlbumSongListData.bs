@@ -1,5 +1,5 @@
-import "pkg:/source/api/Image.bs"
 import "pkg:/source/api/baserequest.bs"
+import "pkg:/source/api/Image.bs"
 import "pkg:/source/utils/config.bs"
 
 sub setFields()
@@ -16,19 +16,19 @@ sub setPoster()
     else
 
         if m.top.json.ImageTags.Primary <> invalid
-            imgParams = { "maxHeight": 440, "maxWidth": 295 }
+            imgParams = { "maxHeight": 400, "maxWidth": 400 }
             m.top.posterURL = ImageURL(m.top.json.id, "Primary", imgParams)
         else if m.top.json.BackdropImageTags[0] <> invalid
-            imgParams = { "maxHeight": 440 }
+            imgParams = { "maxHeight": 400 }
             m.top.posterURL = ImageURL(m.top.json.id, "Backdrop", imgParams)
         else if m.top.json.ParentThumbImageTag <> invalid and m.top.json.ParentThumbItemId <> invalid
-            imgParams = { "maxHeight": 440, "maxWidth": 295 }
+            imgParams = { "maxHeight": 400, "maxWidth": 400 }
             m.top.posterURL = ImageURL(m.top.json.ParentThumbItemId, "Thumb", imgParams)
         end if
 
         ' Add Backdrop Image
         if m.top.json.BackdropImageTags[0] <> invalid
-            imgParams = { "maxHeight": 720, "maxWidth": 1280 }
+            imgParams = { "maxHeight": 1200, "maxWidth": 1920 }
             m.top.backdropURL = ImageURL(m.top.json.id, "Backdrop", imgParams)
         end if
 
