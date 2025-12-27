@@ -349,6 +349,8 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
             m.playbackInfo = ItemPostPlaybackInfo(video.id, mediaSourceId, audio_stream_idx, subtitle_idx, playbackPosition, {
                 emptySubtitleProfiles: true
             })
+            ' Re-posting playback info will generate a new PlaysessionId
+            video.PlaySessionId = m.playbackInfo.PlaySessionId
         end if
 
         ' Get transcoding reason
