@@ -497,13 +497,10 @@ end function
 
 ' Get Instant Mix based on item
 function CreateInstantMix(id as string)
-    url = Substitute("/Items/{0}/InstantMix", id)
-    resp = APIRequest(url, {
+    return api.items.GetInstantMix(id, {
         "UserId": m.global.session.user.id,
         "Limit": 201
     })
-
-    return getJson(resp)
 end function
 
 ' Get Instant Mix based on item
