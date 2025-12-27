@@ -12,6 +12,14 @@
     "author": "1hitsong"
   },
   {
+    "description": "Add \"Go To Genre\" to Recently Added Music items",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Fix incorrect playback reporting on server admin dashboard",
+    "author": "jimdogx"
+  },
+  {
     "description": "Create user setting to change poster orientation",
     "author": "1hitsong"
   },

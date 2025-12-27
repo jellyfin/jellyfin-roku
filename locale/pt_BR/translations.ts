@@ -2185,6 +2185,78 @@
         <source>Row Item Background</source>
         <translation>Fundo dos itens da linha</translation>
     </message>
+    <message>
+        <source>Skip Outro</source>
+        <translation>Próximo</translation>
+    </message>
+    <message>
+        <source>Grid View Item Titles</source>
+        <translation>Títulos dos itens na visualização em grade</translation>
+    </message>
+    <message>
+        <source>Select when to show titles in grid view.</source>
+        <translation>Selecione quando os títulos devem ser exibidos na visualização em grade.</translation>
+    </message>
+    <message>
+        <source>Maximum Audio Channels</source>
+        <translation>Máximo de canais de áudio</translation>
+    </message>
+    <message>
+        <source>Configure the maximum audio channels when playing video files on this device.</source>
+        <translation>Configure o número máximo de canais de áudio ao reproduzir arquivos de vídeo neste dispositivo.</translation>
+    </message>
+    <message>
+        <source>Off - Attempt to play all channels</source>
+        <translation>Desativado — tentar reproduzir todos os canais</translation>
+    </message>
+    <message>
+        <source>Burn in subtitle when transcoding</source>
+        <translation>Incorporar legendas durante a transcodificação</translation>
+    </message>
+    <message>
+        <source>Burn in all subtitles when transcoding is triggered. This ensures subtitle synchronization after transcoding at the cost of reduced transcoding speed.</source>
+        <translation>Incorpora todas as legendas quando a transcodificação é acionada. Isso garante a sincronização das legendas após a transcodificação, mas pode reduzir a velocidade do processo.</translation>
+    </message>
+    <message>
+        <source>Library Image Orientation</source>
+        <translation>Orientação das imagens da biblioteca</translation>
+    </message>
+    <message>
+        <source>Select the poster image orientation for the library views.</source>
+        <translation>Selecione a orientação das imagens de pôster na visualização da biblioteca.</translation>
+    </message>
+    <message>
+        <source>Default (Varies By Media Type)</source>
+        <translation>Padrão (varia conforme o tipo de mídia)</translation>
+    </message>
+    <message>
+        <source>Landscape (Wide)</source>
+        <translation>Paisagem (horizontal)</translation>
+    </message>
+    <message>
+        <source>Portrait (Vertical)</source>
+        <translation>Retrato (vertical)</translation>
+    </message>
+    <message>
+        <source>Skip Unknown</source>
+        <translation>Pular segmento</translation>
+    </message>
+    <message>
+        <source>Skip Commercial</source>
+        <translation>Pular comercial</translation>
+    </message>
+    <message>
+        <source>Skip Preview</source>
+        <translation>Pular prévia</translation>
+    </message>
+    <message>
+        <source>Skip Recap</source>
+        <translation>Pular recapitulação</translation>
+    </message>
+    <message>
+        <source>Skip Intro</source>
+        <translation>Pular introdução</translation>
+    </message>
 </context>
 <context>
     <name></name>
