@@ -1,10 +1,14 @@
 import "pkg:/source/enums/ColorPalette.bs"
 import "pkg:/source/enums/KeyCode.bs"
+import "pkg:/source/enums/MediaPlaybackState.bs"
 import "pkg:/source/enums/String.bs"
 import "pkg:/source/enums/TaskControl.bs"
+import "pkg:/source/enums/ViewLoadStatus.bs"
 import "pkg:/source/utils/misc.bs"
 
 sub init()
+    m.loadStatus = ViewLoadStatus.INIT
+
     ' Load background image
     m.LoadBackdropImageTask = CreateObject("roSGNode", "LoadItemsTask")
     m.LoadBackdropImageTask.itemsToLoad = "backdropImage"
@@ -170,6 +174,21 @@ sub onAudioMiniPlayerVisibleChange()
     end if
 end sub
 
+sub onAudioMiniPlayerStateChange()
+    if isStringEqual(m.global.audioPlayer.state, MediaPlaybackState.FINISHED)
+        refreshAlbumTrackList()
+    end if
+end sub
+
+sub OnScreenHidden()
+    scene = m.top.getScene()
+    audioMiniPlayer = scene.findNode("audioMiniPlayer")
+    if isValid(audioMiniPlayer)
+        audioMiniPlayer.unobserveFieldScoped("visible")
+    end if
+    m.global.audioPlayer.unobserveFieldScoped("state")
+end sub
+
 sub OnScreenShown()
     scene = m.top.getScene()
 
@@ -178,6 +197,7 @@ sub OnScreenShown()
         audioMiniPlayer.observeFieldScoped("visible", "onAudioMiniPlayerVisibleChange")
         adjustForMiniPlayer(audioMiniPlayer.callFunc("isVisible"))
     end if
+    m.global.audioPlayer.observeFieldScoped("state", "onAudioMiniPlayerStateChange")
 
     overhang = scene.findNode("overhang")
 
@@ -194,6 +214,31 @@ sub OnScreenShown()
         group = m.global.sceneManager.callFunc("getActiveScene")
         group.lastFocus = m.top
     end if
+
+    ' Refresh Track List for Playcount Update
+    if m.loadStatus <> ViewLoadStatus.INIT
+        refreshAlbumTrackList()
+    end if
+end sub
+
+sub refreshAlbumTrackList()
+    print "refreshAlbumTrackList"
+    m.focusedItem = m.songList.itemFocused
+    m.LoadAlbumTask = CreateObject("roSGNode", "LoadAlbumTask")
+    m.LoadAlbumTask.id = m.top.pageContent.id
+    m.LoadAlbumTask.observeField("albumDetails", "onAlbumDetailsLoaded")
+    m.LoadAlbumTask.control = TaskControl.RUN
+end sub
+
+sub onAlbumDetailsLoaded()
+    m.LoadAlbumTask.unobserveField("albumDetails")
+    m.LoadAlbumTask.control = TaskControl.STOP
+
+    m.songList.doneLoading = false
+    m.songList.observeField("doneLoading", "onDoneLoading")
+
+    albumDetails = m.LoadAlbumTask.albumDetails
+    m.top.albumData = albumDetails
 end sub
 
 ' Populate on screen text variables
@@ -357,4 +402,19 @@ end sub
 sub onDoneLoading()
     m.songList.unobservefield("doneLoading")
     stopLoadingSpinner()
+
+    if m.loadStatus = ViewLoadStatus.INIT
+        m.loadStatus = ViewLoadStatus.FIRSTLOAD
+    end if
+
+    if isValid(m.focusedItem)
+        m.songList.jumpToItem = m.focusedItem
+        m.focusedItem = invalid
+    end if
+
+    scene = m.top.getScene()
+    audioMiniPlayer = scene.findNode("audioMiniPlayer")
+    if isValid(audioMiniPlayer)
+        adjustForMiniPlayer(audioMiniPlayer.callFunc("isVisible"))
+    end if
 end sub
