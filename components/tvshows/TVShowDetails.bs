@@ -1,3 +1,4 @@
+import "pkg:/source/enums/PosterLoadStatus.bs"
 import "pkg:/source/enums/ViewLoadStatus.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/misc.bs"
@@ -13,9 +14,26 @@ sub init()
     m.seasons = m.top.findNode("seasons")
     m.overview = m.top.findNode("overview")
     m.playedIndicator = m.top.findNode("playedIndicator")
+    m.tvshowPoster = m.top.findNode("tvshowPoster")
 
     m.overview.ellipsisText = tr("... (Press * to read more)")
     m.loadStatus = ViewLoadStatus.INIT
+end sub
+
+sub onPosterLoadStatusChanged()
+    if isStringEqual(m.tvshowPoster.loadStatus, PosterLoadStatus.FAILED)
+        tryLoadingSeasonPoster()
+        m.tvshowPoster.unobserveFieldScoped("loadStatus")
+    end if
+end sub
+
+sub tryLoadingSeasonPoster()
+    for each season in m.seasons.TVSeasonData.Items
+        if isValidAndNotEmpty(season.posterURL)
+            m.tvshowPoster.uri = season.posterURL
+            exit for
+        end if
+    end for
 end sub
 
 sub itemContentChanged()
@@ -23,7 +41,9 @@ sub itemContentChanged()
     item = m.top.itemContent
     itemData = item.json
 
-    m.top.findNode("tvshowPoster").uri = m.top.itemContent.posterURL
+    ' Post image may change. We need to again watch load status
+    m.tvshowPoster.observeFieldscoped("loadStatus", "onPosterLoadStatusChanged")
+    m.tvshowPoster.uri = m.top.itemContent.posterURL
 
     m.playedIndicator.data = {
         played: chainLookupReturn(item, "json.UserData.Played", false),

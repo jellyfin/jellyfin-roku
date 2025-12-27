@@ -1966,6 +1966,54 @@
         <source>The secondary text color.</source>
         <translation>Die Sekundärtextfarbe.</translation>
     </message>
+    <message>
+        <source>Text Color</source>
+        <translation>Textfarbe</translation>
+    </message>
+    <message>
+        <source>My List Icon</source>
+        <translation>Meine Liste Icon</translation>
+    </message>
+    <message>
+        <source>Grid View Item Titles</source>
+        <translation>Rasteransicht Titeltext</translation>
+    </message>
+    <message>
+        <source>Select when to show titles in grid view.</source>
+        <translation>Auswählen um Titeltexte in der Rasteransicht anzuzeigen.</translation>
+    </message>
+    <message>
+        <source>Watched Check Mark &amp; Unplayed Count</source>
+        <translation>Zähler für Gesehen &amp; Ungesehen</translation>
+    </message>
+    <message>
+        <source>Colors specific to the watched check mark &amp; unplayed count box.</source>
+        <translation>Farbe der Zählerumrandung für Gesehen &amp; Ungesehen.</translation>
+    </message>
+    <message>
+        <source>The background color of the check mark &amp; unplayed count shown in the top right corner of items.</source>
+        <translation>Hintergrundfarbe der Zählerumrandung für Gesehen &amp; Ungesehen in der rechten oberen Elementecke.</translation>
+    </message>
+    <message>
+        <source>Unplayed Count</source>
+        <translation>Zähler für Ungesehen</translation>
+    </message>
+    <message>
+        <source>The color of the unplayed count number.</source>
+        <translation>Textfarbe des Zählers für Ungesehen.</translation>
+    </message>
+    <message>
+        <source>Watched Check Mark</source>
+        <translation>Gesehen-Markierung</translation>
+    </message>
+    <message>
+        <source>The color of the watched check mark.</source>
+        <translation>Farbe der Gesehen-Markierung.</translation>
+    </message>
+    <message>
+        <source>Dialog Popups</source>
+        <translation>Pop-Up Dialog</translation>
+    </message>
 </context>
 <context>
     <name></name>

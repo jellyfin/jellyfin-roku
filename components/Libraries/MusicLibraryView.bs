@@ -180,7 +180,7 @@ sub onSortChange()
 
     m.sortAscending = true
 
-    set_user_setting("display." + m.top.parentItem.Id + ".sortField", m.sortField)
+    set_user_setting("display." + m.settingID + ".sortField", m.sortField)
 
     m.loadedRows = 0
     m.loadedItems = 0
@@ -202,7 +202,7 @@ sub onViewChange()
     m.view = viewChoice.LookupCI("name")
     m.viewButton.text = tr(viewChoice.LookupCI("title"))
 
-    set_user_setting("display." + m.top.parentItem.Id + ".landing", m.view)
+    set_user_setting("display." + m.settingID + ".landing", m.view)
 
     ' Reset any filtering or search terms
     m.bypassSearchEvent = true
@@ -216,10 +216,10 @@ sub onViewChange()
     m.sortAscending = true
 
     ' Reset view to defaults
-    set_user_setting("display." + m.top.parentItem.Id + ".sortField", m.sortField)
-    set_user_setting("display." + m.top.parentItem.Id + ".sortAscending", "true")
-    set_user_setting("display." + m.top.parentItem.Id + ".filter", m.filter)
-    set_user_setting("display." + m.top.parentItem.Id + ".filterOptions", FormatJson(m.filterOptions))
+    set_user_setting("display." + m.settingID + ".sortField", m.sortField)
+    set_user_setting("display." + m.settingID + ".sortAscending", "true")
+    set_user_setting("display." + m.settingID + ".filter", m.filter)
+    set_user_setting("display." + m.settingID + ".filterOptions", FormatJson(m.filterOptions))
 
     m.getFiltersTask.control = "RUN"
 
@@ -243,7 +243,7 @@ sub onSortOrderChange()
     m.sortAscending = isStringEqual(sortOrderChoice.LookupCI("name"), "Ascending")
     m.sortOrderButton.text = tr(sortOrderChoice.LookupCI("title"))
 
-    set_user_setting("display." + m.top.parentItem.Id + ".sortAscending", m.sortAscending.toStr())
+    set_user_setting("display." + m.settingID + ".sortAscending", m.sortAscending.toStr())
 
     m.loadedRows = 0
     m.loadedItems = 0
@@ -292,11 +292,17 @@ sub loadInitialItems()
         toggleDropdownOptions(true)
     end if
 
-    m.sortField = m.global.session.user.settings["display." + m.top.parentItem.Id + ".sortField"]
-    m.sortAscending = m.global.session.user.settings["display." + m.top.parentItem.Id + ".sortAscending"]
-    m.filter = m.global.session.user.settings["display." + m.top.parentItem.Id + ".filter"]
-    m.filterOptions = m.global.session.user.settings["display." + m.top.parentItem.Id + ".filterOptions"]
-    m.view = m.global.session.user.settings["display." + m.top.parentItem.Id + ".landing"]
+    if isValidAndNotEmpty(m.top.parentItem.json.genreId)
+        m.settingID = "gotogenre"
+    else
+        m.settingID = m.top.parentItem.Id
+    end if
+
+    m.sortField = m.global.session.user.settings["display." + m.settingID + ".sortField"]
+    m.sortAscending = m.global.session.user.settings["display." + m.settingID + ".sortAscending"]
+    m.filter = m.global.session.user.settings["display." + m.settingID + ".filter"]
+    m.filterOptions = m.global.session.user.settings["display." + m.settingID + ".filterOptions"]
+    m.view = m.global.session.user.settings["display." + m.settingID + ".landing"]
 
     if not isValidAndNotEmpty(m.sortField) then m.sortField = "SortName"
     if not isValidAndNotEmpty(m.filter) then m.filter = "All"
@@ -441,7 +447,7 @@ sub onOptionsVisibleChange()
     if m.options.filter <> m.filter
         m.filter = m.options.filter
         reload = true
-        set_user_setting("display." + m.top.parentItem.Id + ".filter", m.options.filter)
+        set_user_setting("display." + m.settingID + ".filter", m.options.filter)
     end if
 
     if not isValid(m.options.filterOptions)
@@ -451,7 +457,7 @@ sub onOptionsVisibleChange()
     if not AssocArrayEqual(m.options.filterOptions, m.filterOptions)
         m.filterOptions = m.options.filterOptions
         reload = true
-        set_user_setting("display." + m.top.parentItem.Id + ".filterOptions", FormatJson(m.options.filterOptions))
+        set_user_setting("display." + m.settingID + ".filterOptions", FormatJson(m.options.filterOptions))
     end if
 
     if reload
@@ -1029,10 +1035,10 @@ sub resetDropdownsToDefaultState()
     m.sortAscending = true
 
     ' Reset view to defaults
-    set_user_setting("display." + m.top.parentItem.Id + ".sortField", m.sortField)
-    set_user_setting("display." + m.top.parentItem.Id + ".sortAscending", "true")
-    set_user_setting("display." + m.top.parentItem.Id + ".filter", m.filter)
-    set_user_setting("display." + m.top.parentItem.Id + ".filterOptions", FormatJson(m.filterOptions))
+    set_user_setting("display." + m.settingID + ".sortField", m.sortField)
+    set_user_setting("display." + m.settingID + ".sortAscending", "true")
+    set_user_setting("display." + m.settingID + ".filter", m.filter)
+    set_user_setting("display." + m.settingID + ".filterOptions", FormatJson(m.filterOptions))
 
     if not isStringEqual(m.view, "Genres")
         set_user_setting(`display.${m.top.mediaType}library.defaultview`, m.view)

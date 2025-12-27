@@ -953,7 +953,7 @@
     </message>
     <message>
         <source>Go directly to the episode list if a TV series has only one season.</source>
-        <translation type="unfinished">Vai direttamente alla lista degli episodi se una serie TV ha solamente una stagione.</translation>
+        <translation>Se abilitato, selezionando una serie TV con una sola stagione si passerà direttamente all’elenco degli episodi invece che ai dettagli della serie e alla lista delle stagioni.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
@@ -1309,6 +1309,86 @@
     <message>
         <source>Album Artist</source>
         <translation>Artista Album</translation>
+    </message>
+    <message>
+        <source>Settings</source>
+        <translation>Impostazioni</translation>
+    </message>
+    <message>
+        <source>Change User</source>
+        <translation>Cambia utente</translation>
+    </message>
+    <message>
+        <source>Unable to get playback information</source>
+        <translation>Impossibile recuperare i dati di riproduzione</translation>
+    </message>
+    <message>
+        <source>Date Show Added</source>
+        <translation>Data aggiunta serie</translation>
+    </message>
+    <message>
+        <source>Date Episode Added</source>
+        <translation>Data aggiunta episodio</translation>
+    </message>
+    <message>
+        <source>Favorited</source>
+        <translation>Preferiti</translation>
+    </message>
+    <message>
+        <source>Mark As Favorite</source>
+        <translation>Aggiungi ai preferiti</translation>
+    </message>
+    <message>
+        <source>Resume playing at </source>
+        <translation>Riprendi da </translation>
+    </message>
+    <message>
+        <source>Start over from the beginning.</source>
+        <translation>Ricomincia dall&apos;inizio.</translation>
+    </message>
+    <message>
+        <source>Playback Options</source>
+        <translation>Opzioni di riproduzione</translation>
+    </message>
+    <message>
+        <source>Force Transcoding setting is enabled</source>
+        <translation>Transcodifica forzata attiva</translation>
+    </message>
+    <message>
+        <source>Force Transcode option is enabled</source>
+        <translation>Transcodifica forzata attiva</translation>
+    </message>
+    <message>
+        <source>All</source>
+        <translation>Tutto</translation>
+    </message>
+    <message>
+        <source>(Favorites)</source>
+        <translation>(Preferiti)</translation>
+    </message>
+    <message>
+        <source>Favorites</source>
+        <translation>Preferiti</translation>
+    </message>
+    <message>
+        <source>Artists</source>
+        <translation>Artisti</translation>
+    </message>
+    <message>
+        <source>Delete Playlist</source>
+        <translation>Elimina Playlist</translation>
+    </message>
+    <message>
+        <source>Collections</source>
+        <translation>Collezioni</translation>
+    </message>
+    <message>
+        <source>Playlists</source>
+        <translation>Playlists</translation>
+    </message>
+    <message>
+        <source>No items found. Try adjusting your selected filters.</source>
+        <translation>Nessun elemento trovato. Prova a modificare i filtri.</translation>
     </message>
 </context>
 <context>

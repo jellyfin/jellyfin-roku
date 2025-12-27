@@ -1,0 +1,18 @@
+[
+  {
+    "description": "Use 1st found episode image as season poster on TV series screen when no image available",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Use 1st found season image as series poster on TV series screen when no image available",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Allow translation of skip media segment buttons",
+    "author": "1hitsong"    
+  },
+  {
+    "description": "Add \"Go To Genre\" to Recently Added Music items",
+    "author": "1hitsong"
+  }
+]

@@ -1237,7 +1237,7 @@
     </message>
     <message>
         <source>Remember the currently logged in user and try to log them in again next time you start the Jellyfin app.</source>
-        <translation type="unfinished">Recorda l&apos;usuari que acaba d&apos;iniciar sessió i intenta que ho pugui fer cada cop que comenci l&apos;aplicació de Jellyfin.</translation>
+        <translation>Recorda l’usuari actualment connectat i intenta iniciar sessió novament amb aquest la pròxima vegada que s&apos;obri Jellyfin.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
@@ -2145,6 +2145,18 @@
     <message>
         <source>Maximum Audio Channels</source>
         <translation>Nombre màxim de canals d&apos;àudio</translation>
+    </message>
+    <message>
+        <source>Force Transcode (Allow Remux) - disabled because of selected force transcoding setting</source>
+        <translation>Transcodificació forçada (Permet Remux) – desactivada a causa de la configuració de transcodificació forçada seleccionada</translation>
+    </message>
+    <message>
+        <source>Burn in subtitle when transcoding</source>
+        <translation>Incrusta subtítols en transcodificar</translation>
+    </message>
+    <message>
+        <source>Burn in all subtitles when transcoding is triggered. This ensures subtitle synchronization after transcoding at the cost of reduced transcoding speed.</source>
+        <translation>Incrusta tots els subtítols quan es produeix la transcodificació. Això garanteix la sincronització dels subtítols després de la transcodificació, a canvi d’una reducció de la velocitat de transcodificació.</translation>
     </message>
 </context>
 </TS>

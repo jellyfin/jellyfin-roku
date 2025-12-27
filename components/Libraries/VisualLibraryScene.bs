@@ -15,9 +15,9 @@ import "pkg:/source/utils/deviceCapabilities.bs"
 import "pkg:/source/utils/misc.bs"
 
 const ASPECT_RATIO_PORTRAIT_NO_TITLE = 1.52173
-const ASPECT_RATIO_LANDSCAPE_NO_TITLE = .825
+const ASPECT_RATIO_LANDSCAPE_NO_TITLE = .56307
 const ASPECT_RATIO_PORTRAIT_WITH_TITLE = 1.69565
-const ASPECT_RATIO_LANDSCAPE_WITH_TITLE = .925
+const ASPECT_RATIO_LANDSCAPE_WITH_TITLE = .66307
 
 sub setupNodes()
     m.top.imageDisplayMode = "scaleToZoom"
@@ -556,12 +556,18 @@ sub loadInitialItems()
         end if
     end if
 
-    if inArray([ItemType.PHOTO, ItemType.PHOTOALBUM, ItemType.MUSICVIDEO, ItemType.MYLIST], m.top.mediaType)
-        setColumnSizes(ImageLayout.LANDSCAPE)
-    else if isStringEqual(m.view, "Episodes")
-        setColumnSizes(ImageLayout.LANDSCAPE)
+    posterOrientation = chainLookupReturn(m.global, "session.user.settings.libraryPosterOrientation", ImageLayout.DEFAULT)
+
+    if isStringEqual(posterOrientation, ImageLayout.DEFAULT)
+        if inArray([ItemType.PHOTO, ItemType.PHOTOALBUM, ItemType.MUSICVIDEO, ItemType.MYLIST], m.top.mediaType)
+            setColumnSizes(ImageLayout.LANDSCAPE)
+        else if isStringEqual(m.view, "Episodes")
+            setColumnSizes(ImageLayout.LANDSCAPE)
+        else
+            setColumnSizes(ImageLayout.PORTRAIT)
+        end if
     else
-        setColumnSizes(ImageLayout.PORTRAIT)
+        setColumnSizes(posterOrientation)
     end if
 
     m.loadItemsTask.observeField("content", "ItemDataLoaded")
@@ -583,7 +589,7 @@ sub setColumnSizes(layout = ImageLayout.PORTRAIT as string)
         imageWidthData = val(chainLookupReturn(m.global.session, "user.settings.numberOfColumnsPortraitData", "230"))
     else
         numberOfColumns = chainLookupReturn(m.global.session, "user.settings.numberOfColumnsLandscape", "4")
-        imageWidthData = val(chainLookupReturn(m.global.session, "user.settings.numberOfColumnsLandscapeData", "400"))
+        imageWidthData = val(chainLookupReturn(m.global.session, "user.settings.numberOfColumnsLandscapeData", "418"))
     end if
 
     if isStringEqual(m.top.showItemTitles, "hidealways")

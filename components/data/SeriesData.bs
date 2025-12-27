@@ -68,6 +68,11 @@ sub setPoster()
             m.top.posterURL = ImageURL(m.top.json.id, "Backdrop", imgParams)
         end if
 
+        if isChainValid(m.top.json, "ImageTags.Thumb")
+            imgParams = { "maxHeight": 331, "maxWidth": 464, "Tag": chainLookup(m.top.json, "ImageTags.Thumb") }
+            m.top.landscapePosterURL = ImageURL(m.top.json.id, "Thumb", imgParams)
+        end if
+
         ' Add Backdrop Image
         if m.top.json.BackdropImageTags <> invalid
             imgParams = { "maxHeight": 720, "maxWidth": 1280, "Tag": m.top.json.BackdropImageTags[0] }

@@ -4,6 +4,7 @@
         <field id="favorite" type="boolean" />
         <field id="watched" type="boolean" />
         <field id="posterUrl" type="string" />
+        <field id="landscapePosterURL" type="string" />
         <field id="backdropUrl" type="string" />
         <field id="SubTitle" type="string" value="" />
         <field id="iconUrl" type="string" value="" />
