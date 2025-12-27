@@ -9,10 +9,14 @@
   },
   {
     "description": "Allow translation of skip media segment buttons",
-    "author": "1hitsong"    
+    "author": "1hitsong"
   },
   {
     "description": "Add \"Go To Genre\" to Recently Added Music items",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Redesign Music Album Screen",
     "author": "1hitsong"
   }
 ]
