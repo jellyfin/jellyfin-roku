@@ -2166,6 +2166,10 @@
         <source>Skip Outro</source>
         <translation>Passer la fin</translation>
     </message>
+    <message>
+        <source>Go To Genre</source>
+        <translation>Aller au Genre</translation>
+    </message>
 </context>
 <context>
     <name></name>
