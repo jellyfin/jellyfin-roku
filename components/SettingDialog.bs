@@ -24,7 +24,7 @@ sub init()
             m.libraryID = m.group.parentItem.libraryID
         end if
 
-        ' If use has not set a library level setting, check the user level setting
+        ' If user has not set a library level setting, check the user level setting
         if isChainValid(m.global.session, `user.settings.${m.libraryID}-useLandscapeImages`)
             useLandscapeImages = chainLookupReturn(m.global.session, `user.settings.${m.libraryID}-useLandscapeImages`, false)
         else
