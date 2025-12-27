@@ -1,18 +1,71 @@
+import "pkg:/source/enums/AnimationControl.bs"
+import "pkg:/source/enums/ColorPalette.bs"
 import "pkg:/source/enums/KeyCode.bs"
 import "pkg:/source/utils/misc.bs"
 
 sub init()
+    m.scrollBarThumbSlideAnimation = m.top.findnode("scrollBarThumbSlideAnimation")
+    m.scrollBarThumbSlideInterpolator = m.top.findnode("scrollBarThumbSlideInterpolator")
+
+    m.scrollBar = m.top.findnode("scrollBar")
+    m.thumb = m.top.findnode("thumb")
+    m.thumbStep = 0
+
+    m.scrollBar.opacity = .75
+    m.scrollBar.color = ColorPalette.BLACK77
+    m.thumb.color = ColorPalette.LIGHTGREY
+
+    m.top.observeField("itemFocused", "onItemFocusedChange")
+    m.top.observeField("numRows", "onNumRowsChange")
+
     getData()
-    m.top.setfocus(true)
+end sub
+
+sub onNumRowsChange()
+    calculateButtonThumbProperties()
+    onItemFocusedChange()
+end sub
+
+sub hideScrollbar()
+    m.scrollBar.visible = false
+end sub
+
+sub calculateButtonThumbProperties()
+    if not isValid(m.scrollBar)
+        hideScrollbar()
+        return
+    end if
+
+    if not isValid(m.top.content)
+        hideScrollbar()
+        return
+    end if
+
+    if m.top.content.getChildCount() < m.top.numRows
+        hideScrollbar()
+        return
+    end if
+
+    m.scrollBar.visible = true
+
+    albumTrackListHeight = m.top.BoundingRect().height - 13
+    m.scrollBar.height = albumTrackListHeight
+    m.thumbStep = (albumTrackListHeight - m.thumb.height) / (m.top.content.getChildCount() - 1)
+end sub
+
+sub onItemFocusedChange()
+    m.scrollBarThumbSlideInterpolator.keyValue = [m.thumb.translation, [0, m.thumbStep * m.top.itemFocused]]
+    m.scrollBarThumbSlideAnimation.control = AnimationControl.START
 end sub
 
 function getData()
-    if m.top.MusicArtistAlbumData = invalid
+    if not isValid(m.top.MusicArtistAlbumData)
         data = CreateObject("roSGNode", "ContentNode")
         return data
     end if
 
     m.top.content = m.top.MusicArtistAlbumData
+    calculateButtonThumbProperties()
 
     m.top.doneLoading = true
 

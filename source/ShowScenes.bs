@@ -823,6 +823,9 @@ function CreateAlbumView(album as object) as dynamic
     ' Watch for user click on Instant Mix button on album
     group.observeField("instantMixSelected", m.port)
 
+    ' Play Album
+    group.observeField("playAlbumSelected", m.port)
+
     return group
 end function
 
