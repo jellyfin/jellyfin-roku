@@ -2209,5 +2209,9 @@
         <source>Skip Intro</source>
         <translation>Passer introduction</translation>
     </message>
+    <message>
+        <source>Go To Genre</source>
+        <translation>Aller au Genre</translation>
+    </message>
 </context>
 </TS>
