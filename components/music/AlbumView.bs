@@ -398,7 +398,10 @@ sub zoomAlbumCover()
         displayZoomCover()
     end if
 
-    m.zoomCover.uri = m.top.pageContent.posterURL.replace("maxHeight=400", `maxHeight=720`).replace("maxWidth=400", `maxWidth=1920`)
+    deviceInfo = CreateObject("roDeviceInfo")
+    m.screenResolution = deviceInfo.GetDisplaySize()
+
+    m.zoomCover.uri = m.top.pageContent.posterURL.replace("maxHeight=400", `maxHeight=${m.screenResolution.h}`).replace("maxWidth=400", `maxWidth=${m.screenResolution.w}`)
     m.zoomCover.observeFieldScoped("bitmapWidth", "onZoomCoverWidthChange")
     m.zoomCover.observeFieldScoped("bitmapHeight", "onZoomCoverHeightChange")
 
