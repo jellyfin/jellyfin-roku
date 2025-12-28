@@ -30,5 +30,9 @@
   {
     "description": "Create library setting to change poster orientation",
     "author": "1hitsong"
+  },
+  {
+    "description": "Fix disabling screensaver on audio player screen",
+    "author": "1hitsong"
   }
 ]
