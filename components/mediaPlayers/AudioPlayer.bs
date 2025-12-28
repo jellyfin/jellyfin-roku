@@ -30,6 +30,7 @@ sub audioStateChanged()
 
     if currentState = "playing"
         if not m.playReported
+            ReportPlayback("start")
             reportedPlaybackState = "start"
             m.playReported = true
         end if
@@ -125,11 +126,15 @@ sub ReportPlayback(state = "update" as string)
 
     if not isValid(m.top.position) then return
 
+    isPaused = isStringEqual(m.top.state, "paused")
+    if isStringEqual(state, "stop")
+        isPaused = true
+    end if
+
     params = {
         "ItemId": m.global.queueManager.callFunc("getCurrentItem").id,
-        "PlaySessionId": m.top.content.id,
         "PositionTicks": int(m.top.position) * 10000000&, 'Ensure a LongInteger is used
-        "IsPaused": (LCase(m.top.state) = "paused")
+        "IsPaused": isPaused
     }
 
     ' Report playstate via global task

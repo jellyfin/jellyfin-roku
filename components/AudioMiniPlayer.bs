@@ -19,6 +19,7 @@ sub init()
 
     m.audioMiniPlayerContainer = m.top.findNode("audioMiniPlayerContainer")
     m.audioMiniPlayerContainer.color = ColorPalette.DARKGREY
+    m.top.visible = false
     m.audioMiniPlayerContainer.visible = false
 
     m.slideDownAnimation = m.top.findNode("slideDown")
@@ -73,6 +74,7 @@ sub onSlideDownAnimationStateChange()
     m.slideDownAnimation.unobserveFieldScoped("state")
     m.audioMiniPlayerContainerBorder.visible = false
     m.audioMiniPlayerContainer.visible = false
+    m.top.visible = false
 
     m.previouslySelectedButtonIndex = m.selectedButtonIndex
     m.selectedButtonIndex = -1
@@ -90,6 +92,7 @@ sub setVisible(newVisibleState as boolean)
     if newVisibleState
         m.audioMiniPlayerContainerBorder.visible = true
         m.audioMiniPlayerContainer.visible = true
+        m.top.visible = true
         m.slideUpAnimation.control = AnimationControl.START
     else
         m.slideDownAnimation.observeFieldScoped("state", "onSlideDownAnimationStateChange")

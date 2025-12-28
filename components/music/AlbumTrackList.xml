@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component name="AlbumTrackList" extends="MarkupList">
+  <children>
+    <Rectangle
+      id="scrollBar"
+      width="6"
+      translation="[1670, 0]">
+      <Rectangle
+        id="thumb"
+        height="100"
+        width="6" />
+    </Rectangle>
+    <Animation id="scrollBarThumbSlideAnimation" duration=".4" repeat="false">
+      <Vector2DFieldInterpolator id="scrollBarThumbSlideInterpolator" key="[0.0, 1.0]" keyValue="[[0, 0], [0, 0]]" fieldToInterp="thumb.translation" />
+    </Animation>
+  </children>
   <interface>
     <field id="MusicArtistAlbumData" type="node" onChange="getData" />
     <field id="doneLoading" type="boolean" value="false" />

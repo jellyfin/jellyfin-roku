@@ -77,5 +77,13 @@ function onKeyEvent(key as string, press as boolean) as boolean
         m.top.escape = "left"
     end if
 
+    if key = "up" and m.top.focus
+        m.top.escape = "up"
+    end if
+
+    if key = "down" and m.top.focus
+        m.top.escape = "down"
+    end if
+
     return false
 end function

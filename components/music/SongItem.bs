@@ -2,20 +2,42 @@ import "pkg:/source/utils/misc.bs"
 
 sub init()
     m.itemText = m.top.findNode("itemText")
+    if isValid(m.itemText)
+        m.itemText.font.size = 28
+    end if
+
     m.trackNumber = m.top.findNode("trackNumber")
+    if isValid(m.trackNumber)
+        m.trackNumber.font.size = 28
+    end if
+
     m.tracklength = m.top.findNode("tracklength")
+    if isValid(m.tracklength)
+        m.tracklength.font.size = 28
+    end if
+
+    m.playCount = m.top.findNode("playCount")
+    if isValid(m.playCount)
+        m.playCount.font.size = 28
+    end if
 end sub
 
 sub itemContentChanged()
     itemData = m.top.itemContent
     if itemData = invalid then return
+
     m.itemText.text = itemData.LookupCI("title")
 
     if itemData.LookupCI("trackNumber") <> 0
-        m.trackNumber.text = itemData.LookupCI("trackNumber")
+        m.trackNumber.text = `${itemData.LookupCI("trackNumber")}`
     end if
 
     if isValid(itemData.LookupCI("RunTimeTicks"))
         m.tracklength.text = ticksToHuman(itemData.LookupCI("RunTimeTicks"))
+    end if
+
+    playCount = itemData.LookupCI("playCount")
+    if isValid(playCount)
+        m.playCount.text = `${playCount}`
     end if
 end sub
