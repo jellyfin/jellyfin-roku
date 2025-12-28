@@ -38,5 +38,13 @@
   {
     "description": "Fix disabling screensaver on audio player screen",
     "author": "1hitsong"
+  },
+  {
+    "description": "Add link to genres from album screen",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Allow users to zoom album artwork on album screen by clicking on it",
+    "author": "1hitsong"
   }
 ]
