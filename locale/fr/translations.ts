@@ -2213,5 +2213,9 @@
         <source>Go To Genre</source>
         <translation>Aller au Genre</translation>
     </message>
+    <message>
+        <source>Play Instant Mix</source>
+        <translation>Jouer un mix instantané</translation>
+    </message>
 </context>
 </TS>
