@@ -2216,7 +2216,7 @@
     </message>
     <message>
         <source>Portrait (Vertical)</source>
-        <translation>Porträit (Vertikal)</translation>
+        <translation>Porträt (Vertikal)</translation>
     </message>
     <message>
         <source>Skip Unknown</source>
