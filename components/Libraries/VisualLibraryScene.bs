@@ -135,6 +135,8 @@ sub init()
     m.view = "presentation"
 
     m.loadItemsTask1 = createObject("roSGNode", "LoadItemsTask")
+    m.isInMyListTask = createObject("roSGNode", "LoadItemsTask")
+    m.isInMyListTask.itemsToLoad = "isInMyList"
 
     m.loadItemsTask = createObject("roSGNode", "LoadItemsTask2")
     m.loadLogoTask = createObject("roSGNode", "LoadItemsTask2")
@@ -242,9 +244,8 @@ sub onItemDataLoaded()
     m.favoritesOptionText = chainLookupReturn(itemData[0], "json.UserData.IsFavorite", false) ? tr("Remove From Favorites") : tr("Add To Favorites")
 
     if m.showOptionMenu
-        m.loadItemsTask1.itemsToLoad = "isInMyList"
-        m.loadItemsTask1.observeField("content", "onMyListLoaded")
-        m.loadItemsTask1.control = TaskControl.RUN
+        m.isInMyListTask.observeField("content", "onMyListLoaded")
+        m.isInMyListTask.control = TaskControl.RUN
     end if
 end sub
 
@@ -2119,17 +2120,21 @@ function onKeyEvent(key as string, press as boolean) as boolean
 end function
 
 sub onMyListLoaded()
-    isInMyListData = m.loadItemsTask1.content
-    m.loadItemsTask1.content = []
-    m.loadItemsTask1.unobserveField("content")
-    m.loadItemsTask1.control = TaskControl.STOP
+    isInMyListData = m.isInMyListTask.content
+    m.isInMyListTask.unobserveField("content")
+    m.isInMyListTask.content = []
+    m.isInMyListTask.control = TaskControl.STOP
 
     if not isValidAndNotEmpty(isInMyListData) then return
 
     focusedItem = getItemFocused()
     if not isValid(focusedItem) then return
 
-    dialogData = [tr("Shuffle Play Collection")]
+    dialogData = []
+
+    if inArray([ItemType.BOXSET, CollectionType.BOXSETS], getCollectionType())
+        dialogData.push(tr("Shuffle Play Collection"))
+    end if
 
     myListOption = isInMyListData[0] ? tr("Remove From My List") : tr("Add To My List")
     dialogData.push(myListOption)
