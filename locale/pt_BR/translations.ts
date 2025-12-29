@@ -2257,6 +2257,14 @@
         <source>Skip Intro</source>
         <translation>Pular introdução</translation>
     </message>
+    <message>
+        <source>Go To Genre</source>
+        <translation>Ir para o gênero</translation>
+    </message>
+    <message>
+        <source>Play Instant Mix</source>
+        <translation>Reproduzir mix instantâneo</translation>
+    </message>
 </context>
 <context>
     <name></name>
