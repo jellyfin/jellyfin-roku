@@ -2250,6 +2250,10 @@
         <source>Burn in all subtitles when transcoding is triggered. This ensures subtitle synchronization after transcoding at the cost of reduced transcoding speed.</source>
         <translation>Incrustar todos los subtítulos al iniciar la transcodificación. Esto garantiza la sincronización de los subtítulos después de la transcodificación, a costa de una menor velocidad de transcodificación.</translation>
     </message>
+    <message>
+        <source>Play Instant Mix</source>
+        <translation>Reproducir una mezcla instantánea</translation>
+    </message>
 </context>
 <context>
     <name></name>
