@@ -1740,7 +1740,7 @@
     </message>
     <message>
         <source>Add To Favorites</source>
-        <translation type="unfinished"></translation>
+        <translation>Zu Favoriten hinzufügen</translation>
     </message>
     <message>
         <source>Remove From Favorites</source>
@@ -2013,6 +2013,238 @@
     <message>
         <source>Dialog Popups</source>
         <translation>Pop-Up Dialog</translation>
+    </message>
+    <message>
+        <source>Go To Genre</source>
+        <translation>Gehe zu Genre</translation>
+    </message>
+    <message>
+        <source>Colors specific to dialog popups</source>
+        <translation>Farben (spezifisch für Dialog-Popups)</translation>
+    </message>
+    <message>
+        <source>The background color for all dialog popups.</source>
+        <translation>Die Hintergrundfarbe für alle Dialog-Popups.</translation>
+    </message>
+    <message>
+        <source>Bold Text</source>
+        <translation>Fettgedruckter Text</translation>
+    </message>
+    <message>
+        <source>The text color for bold text.</source>
+        <translation>Die Textfarbe für fettgedruckten Text.</translation>
+    </message>
+    <message>
+        <source>Horizontal Border line</source>
+        <translation>Horizontale Rahmenlinie</translation>
+    </message>
+    <message>
+        <source>The color of the thin border line under the header text.</source>
+        <translation>Die Farbe der schmalen Rahmenlinie unter dem Überschrifttext.</translation>
+    </message>
+    <message>
+        <source>Selected Text</source>
+        <translation>Markierter Text</translation>
+    </message>
+    <message>
+        <source>The text color for the item the cursor is over.</source>
+        <translation>Die Textfarbe für das Element, auf welchem der Cursor liegt.</translation>
+    </message>
+    <message>
+        <source>The text color for title and items the cursor is not over.</source>
+        <translation>Die Textfarbe für Titel und Elemente, über die kein Cursor liegt.</translation>
+    </message>
+    <message>
+        <source>What&apos;s New Author</source>
+        <translation>&quot;Was ist neu&quot;-Autor</translation>
+    </message>
+    <message>
+        <source>The text color for the author in the What&apos;s New popup.</source>
+        <translation>Die Textfarbe für den Autor im &quot;Was ist neu&quot;-Popup.</translation>
+    </message>
+    <message>
+        <source>Home Screen</source>
+        <translation>Startbildschirm</translation>
+    </message>
+    <message>
+        <source>Colors specific to the home screen</source>
+        <translation>Farben (spezifisch für den Startbildschirm)</translation>
+    </message>
+    <message>
+        <source>The color of the star icon in the My List library item.</source>
+        <translation>Die Farbe des Sternchen-Icons bei Elementen der &quot;Meine Liste&quot;-Bibliothek.</translation>
+    </message>
+    <message>
+        <source>Row Headers</source>
+        <translation>Zeilenüberschriften</translation>
+    </message>
+    <message>
+        <source>The text color of the headers of each row.</source>
+        <translation>Die Textfarbe der Überschriften jeder Zeile.</translation>
+    </message>
+    <message>
+        <source>Row Item Background</source>
+        <translation>Zeilenhintergrund</translation>
+    </message>
+    <message>
+        <source>The background color of items. Only seen if no image loads on top of it.</source>
+        <translation>Die Hintergrundfarbe von Elementen. Nur sichtbar, wenn keine Bilder dadrüber geladen werden.</translation>
+    </message>
+    <message>
+        <source>Row Item Progress</source>
+        <translation>Zeilenelement-Fortschritt</translation>
+    </message>
+    <message>
+        <source>The color of the watched portion of the progress bar.</source>
+        <translation>Die Farbe des angesehenen Anteils des Fortschrittsbalken.</translation>
+    </message>
+    <message>
+        <source>Row Item Progress Background</source>
+        <translation>Zeilenelement-Fortschrittshintergrund</translation>
+    </message>
+    <message>
+        <source>The background color of the progress bar.</source>
+        <translation>Die Hintergrundfarbe des Fortschrittbalkens.</translation>
+    </message>
+    <message>
+        <source>Row Item Subtitle</source>
+        <translation>Zeilenelement-Untertitel</translation>
+    </message>
+    <message>
+        <source>The text color of the second line displayed under items.</source>
+        <translation>Die Textfarbe der zweiten Zeile, welche unter Elementen angezeigt wird.</translation>
+    </message>
+    <message>
+        <source>Row Item Title</source>
+        <translation>Zeilenelement-Titel</translation>
+    </message>
+    <message>
+        <source>The text color of the first line displayed under items.</source>
+        <translation>Die Textfarbe der ersten Zeile, welche unter Elementen angezeigt wird.</translation>
+    </message>
+    <message>
+        <source>Username In Header</source>
+        <translation>Benutzername in Überschrift</translation>
+    </message>
+    <message>
+        <source>The text color of the user&apos;s name in the header.</source>
+        <translation>Die Textfarbe des Benutzernamens in der Überschrift.</translation>
+    </message>
+    <message>
+        <source>Note: Force transcode option automatically enabled due to video rotation</source>
+        <translation>Hinweis: Erzwungene Transkodierung wurde automatisch aktiviert wegen Videorotation</translation>
+    </message>
+    <message>
+        <source>Start Episode List From First Unwatched Episode</source>
+        <translation>Starte Folgenliste bei der ersten ungesehenen Folge</translation>
+    </message>
+    <message>
+        <source>When opening a season&apos;s list of episodes, automatically scroll down and start the cursor on the first unwatched episode.</source>
+        <translation>Beim Öffnen der Folgenliste einer Staffel automatisch nach unten Scrollen und den ursor auf die erste noch nicht gesehene Folge setzen.</translation>
+    </message>
+    <message>
+        <source>Play Normally</source>
+        <translation>Normal abspielen</translation>
+    </message>
+    <message>
+        <source>Force Transcode (Allow Remux)</source>
+        <translation>Transkodierung erzwingen (Remux zulassen)</translation>
+    </message>
+    <message>
+        <source>Force Transcode (Allow Remux) - disabled because of selected force transcoding setting</source>
+        <translation>Transkodierung erzwingen (Remux erlauben) - deaktiviert wegen ausgewählter erzwungener Transkodierung-Einstellung</translation>
+    </message>
+    <message>
+        <source>Force Transcode (Remux Disabled)</source>
+        <translation>Transkodierung erzwingen (Remux nicht zulassen)</translation>
+    </message>
+    <message>
+        <source>Force Transcode (Remux Disabled) - disabled because of selected force transcoding setting</source>
+        <translation>Transkodierung erzwingen (Remux nicht erlauben) - deaktiviert wegen ausgewählter erzwungener Transkodierung-Einstellung</translation>
+    </message>
+    <message>
+        <source>No channels found matching your search criteria</source>
+        <translation>Keine Kanäle gefunden, die den Suchkriterien entsprechen</translation>
+    </message>
+    <message>
+        <source>Are You Still Watching Popup</source>
+        <translation>&quot;Schaust du noch&quot;-Popup</translation>
+    </message>
+    <message>
+        <source>How many minutes of inactivity before playback is stopped between items and a popup is shown to continue? Set to 0 to disable.</source>
+        <translation>Nach wie vielen Minuten Inaktivität soll die Wiedergabe zwischen Elementen pausiert werden und ein Popup zum Fortsetzen angezeigt werden? Setze auf 0 zum Deaktivieren.</translation>
+    </message>
+    <message>
+        <source>Are You Still Watching?</source>
+        <translation>Schaust du noch?</translation>
+    </message>
+    <message>
+        <source>Yes, continue</source>
+        <translation>Ja, fortfahren</translation>
+    </message>
+    <message>
+        <source>No, stop playback</source>
+        <translation>Nein, Wiedergabe stoppen</translation>
+    </message>
+    <message>
+        <source>Playback will automatically stop in 1 minute if no buttons are pressed.</source>
+        <translation>Wiedergabe wird automatisch in 1 Minute gestoppt, wenn keine Buttons gedrückt werden.</translation>
+    </message>
+    <message>
+        <source>Burn in subtitle when transcoding</source>
+        <translation>Untertitel einbrennen beim Transkodieren</translation>
+    </message>
+    <message>
+        <source>Burn in all subtitles when transcoding is triggered. This ensures subtitle synchronization after transcoding at the cost of reduced transcoding speed.</source>
+        <translation>Alle Untertitel einbrennen wenn eine Transkodierung startet. Dies ermöglicht Untertitel-Synchronisation nach der Transkodierung, verringert aber die Transkodierung-Geschwindigkeit.</translation>
+    </message>
+    <message>
+        <source>Library Image Orientation</source>
+        <translation>Bibliotheksbilder-Orientierung</translation>
+    </message>
+    <message>
+        <source>Select the poster image orientation for the library views.</source>
+        <translation>Wähle die Poster-Bilderorientierung für Bibliotheksansichten aus.</translation>
+    </message>
+    <message>
+        <source>Default (Varies By Media Type)</source>
+        <translation>Standard (variiert je nach Medientyp)</translation>
+    </message>
+    <message>
+        <source>Landscape (Wide)</source>
+        <translation>Landschaft (Weit)</translation>
+    </message>
+    <message>
+        <source>Portrait (Vertical)</source>
+        <translation>Porträit (Vertikal)</translation>
+    </message>
+    <message>
+        <source>Skip Unknown</source>
+        <translation>Abschnitt überspringen</translation>
+    </message>
+    <message>
+        <source>Skip Commercial</source>
+        <translation>Werbung überspringen</translation>
+    </message>
+    <message>
+        <source>Skip Preview</source>
+        <translation>Vorschau überspringen</translation>
+    </message>
+    <message>
+        <source>Skip Recap</source>
+        <translation>Zusammenfassung überspringen</translation>
+    </message>
+    <message>
+        <source>Skip Outro</source>
+        <translation>Outro überspringen</translation>
+    </message>
+    <message>
+        <source>Skip Intro</source>
+        <translation>Intro überspringen</translation>
+    </message>
+    <message>
+        <source>Play Instant Mix</source>
+        <translation>Instant Mix spielen</translation>
     </message>
 </context>
 <context>
