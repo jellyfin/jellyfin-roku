@@ -46,5 +46,9 @@
   {
     "description": "Only show \"Shuffle Play Collection\" in option menu if on collection screen",
     "author": "1hitsong"
+  },
+  {
+    "description": "Allow dismissing of Skip Segment buttons",
+    "author": "jimdogx"
   }
 ]
