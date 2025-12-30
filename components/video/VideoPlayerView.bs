@@ -27,6 +27,9 @@ sub init()
 
     m.top.seekMode = "accurate"
 
+    ' State lock to prevent race conditions during subtitle switching
+    m.isSubtitleSwitching = false
+
     m.playbackEnum = {
         null: -10
     }
@@ -387,9 +390,7 @@ sub onAllowCaptionsChange()
 
     m.captionGroup = m.top.findNode("captionGroup")
     m.captionGroup.createchildren(9, "LayoutGroup")
-    m.captionTask = createObject("roSGNode", "captionTask")
-    m.captionTask.observeField("currentCaption", "updateCaption")
-    m.captionTask.observeField("useThis", "checkCaptionMode")
+    initCaptionTask()
     m.top.observeField("subtitleTrack", "loadCaption")
     m.top.observeField("globalCaptionMode", "toggleCaption")
 
@@ -401,32 +402,89 @@ sub onAllowCaptionsChange()
     end if
 end sub
 
+' Initialize or reinitialize the caption task with proper cleanup
+sub initCaptionTask()
+    ' Clean up existing caption task first
+    cleanupCaptionTask()
+
+    ' Create fresh caption task
+    m.captionTask = createObject("roSGNode", "captionTask")
+    m.captionTask.observeField("currentCaption", "updateCaption")
+    m.captionTask.observeField("useThis", "checkCaptionMode")
+end sub
+
+' Properly cleanup caption task to prevent race conditions and memory leaks
+sub cleanupCaptionTask()
+    if isValid(m.captionTask)
+        ' Stop observing fields to prevent callbacks during teardown
+        m.captionTask.unobserveField("currentCaption")
+        m.captionTask.unobserveField("useThis")
+
+        ' Signal the caption task to stop processing
+        m.captionTask.playerState = MediaPlaybackState.STOPPED
+        m.captionTask.url = ""
+    end if
+
+    ' Clear caption display
+    if isValid(m.captionGroup)
+        m.captionGroup.removeChildrenIndex(m.captionGroup.getChildCount(), 0)
+    end if
+end sub
+
 ' Set caption url to server subtitle track
 sub loadCaption()
+    if not isValid(m.captionTask) then return
+    if m.isSubtitleSwitching then return
+
     if m.top.suppressCaptions
+        ' Clear current captions before loading new track
+        if isValid(m.captionGroup)
+            m.captionGroup.removeChildrenIndex(m.captionGroup.getChildCount(), 0)
+        end if
         m.captionTask.url = m.top.subtitleTrack
     end if
 end sub
 
 ' Toggles visibility of custom subtitles and sets captionTask's player state
 sub toggleCaption()
+    if not isValid(m.captionTask) then return
+    if not isValid(m.captionGroup) then return
+
     m.captionTask.playerState = m.top.state + m.top.globalCaptionMode
     if LCase(m.top.globalCaptionMode) = "on"
         m.captionTask.playerState = m.top.state + m.top.globalCaptionMode + "w"
         m.captionGroup.visible = true
     else
         m.captionGroup.visible = false
+        ' Clear captions when turning off
+        m.captionGroup.removeChildrenIndex(m.captionGroup.getChildCount(), 0)
     end if
 end sub
 
-' Removes old subtitle lines and adds new subtitle lines
+' Removes old subtitle lines and adds new subtitle lines (thread-safe)
 sub updateCaption()
+    ' Guard against invalid state during subtitle switching
+    if m.isSubtitleSwitching then return
+    if not isValid(m.captionGroup) then return
+    if not isValid(m.captionTask) then return
+
+    ' Get a snapshot of captions to avoid race conditions
+    captions = m.captionTask.currentCaption
+    if not isValid(captions) then captions = []
+
+    ' Batch the DOM operations
     m.captionGroup.removeChildrenIndex(m.captionGroup.getChildCount(), 0)
-    m.captionGroup.appendChildren(m.captionTask.currentCaption)
+
+    if captions.count() > 0
+        m.captionGroup.appendChildren(captions)
+    end if
 end sub
 
 ' Event handler for when selectedSubtitle changes
 sub onSubtitleChange()
+    ' Prevent re-entry during switch to avoid race conditions
+    if m.isSubtitleSwitching then return
+
     switchWithoutRefresh = true
 
     if m.top.SelectedSubtitle <> SubtitleSelection.NONE
@@ -438,6 +496,20 @@ sub onSubtitleChange()
     if m.top.previousSubtitleWasEncoded then switchWithoutRefresh = false
 
     if switchWithoutRefresh then return
+
+    ' Set state lock to prevent race conditions
+    m.isSubtitleSwitching = true
+
+    ' CRITICAL: Clean up caption state BEFORE stopping video
+    if isValid(m.captionTask)
+        m.captionTask.playerState = MediaPlaybackState.STOPPED
+        m.captionTask.url = ""  ' Clear URL to stop any pending fetches
+    end if
+
+    if isValid(m.captionGroup)
+        m.captionGroup.removeChildrenIndex(m.captionGroup.getChildCount(), 0)
+        m.captionGroup.visible = false
+    end if
 
     ' Save the current video position
     m.global.queueManager.callFunc("setTopStartingPoint", int(m.top.position) * 10000000&)
@@ -492,6 +564,9 @@ end sub
 sub onVideoContentLoaded()
     m.LoadMetaDataTask.unobserveField("content")
     m.LoadMetaDataTask.control = TaskControl.STOP
+
+    ' Reset subtitle switching lock now that content is loaded
+    m.isSubtitleSwitching = false
 
     videoContent = m.LoadMetaDataTask.content
     m.LoadMetaDataTask.content = []
@@ -865,6 +940,9 @@ end sub
 
 ' When Video Player state changes
 sub onPositionChanged()
+    ' Skip position updates during subtitle switching to prevent race conditions
+    if m.isSubtitleSwitching then return
+
     ' Pass video position data into OSD
     if m.top.duration = 0
         m.osd.progressPercentage = 0
@@ -878,7 +956,8 @@ sub onPositionChanged()
     m.osd.positionTime = m.top.position
     m.osd.remainingPositionTime = m.top.duration - m.top.position
 
-    if isValid(m.captionTask)
+    ' Update caption position - guard against invalid state
+    if isValid(m.captionTask) and not m.isSubtitleSwitching
         m.captionTask.currentPos = Int(m.top.position * 1000)
     end if
 
@@ -895,7 +974,8 @@ end sub
 '
 ' When Video Player state changes
 sub onState(msg)
-    if isValid(m.captionTask)
+    ' Update caption task state - guard against subtitle switching race condition
+    if isValid(m.captionTask) and not m.isSubtitleSwitching
         m.captionTask.playerState = m.top.state + m.top.globalCaptionMode
     end if
 
@@ -1334,6 +1414,9 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
         currentTimeTimer = m.clock.findNode("currentTimeTimer")
         if isValid(currentTimeTimer) then currentTimeTimer.control = TimerControl.STOP
+
+        ' Clean up caption task before exiting
+        cleanupCaptionTask()
 
         m.global.queueManager.callFunc("bypassNextPreferredAudioTrackIndexReset")
         m.global.queueManager.callFunc("clear")

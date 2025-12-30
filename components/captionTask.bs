@@ -10,6 +10,10 @@ sub init()
     m.top.currentCaption = []
     m.top.currentPos = 0
 
+    ' Synchronization flag to prevent race conditions
+    m.isFetching = false
+    m.lastProcessedUrl = ""
+
     m.captionTimer = m.top.findNode("captionTimer")
     m.captionTimer.ObserveField("fire", "updateCaption")
 
@@ -45,17 +49,51 @@ sub setFont()
 end sub
 
 sub fetchCaption()
+    ' Stop timer immediately to prevent stale updates
     m.captionTimer.control = "stop"
-    re = CreateObject("roRegex", "(http.*?\.vtt)", "s")
-    url = re.match(m.top.url)[0]
-    if url <> invalid
-        m.reader.setUrl(url)
-        text = m.reader.GetToString()
-        m.captionList = parseVTT(text)
-        m.captionTimer.control = "start"
-    else
-        m.captionTimer.control = "stop"
+
+    ' Clear current captions immediately
+    m.captionList = []
+    m.top.currentCaption = []
+    m.top.currentPos = 0
+
+    ' Handle empty URL (caption disabled)
+    if not isValidAndNotEmpty(m.top.url)
+        m.lastProcessedUrl = ""
+        return
     end if
+
+    ' Prevent concurrent fetches
+    if m.isFetching then return
+
+    re = CreateObject("roRegex", "(http.*?\.vtt)", "s")
+    match = re.match(m.top.url)
+
+    if not isValidAndNotEmpty(match)
+        m.captionTimer.control = "stop"
+        return
+    end if
+
+    url = match[0]
+
+    ' Skip if URL hasn't changed
+    if isStringEqual(url, m.lastProcessedUrl)
+        m.captionTimer.control = "start"
+        return
+    end if
+
+    m.isFetching = true
+    m.reader.setUrl(url)
+    text = m.reader.GetToString()
+
+    ' Only update if URL hasn't changed during fetch
+    if isValidAndNotEmpty(text) and (isStringEqual(m.top.url, url) or m.top.url.Instr(url) >= 0)
+        m.captionList = parseVTT(text)
+        m.lastProcessedUrl = url
+        m.captionTimer.control = "start"
+    end if
+
+    m.isFetching = false
 end sub
 
 function newlabel(txt)
@@ -101,14 +139,22 @@ end function
 
 
 sub updateCaption()
-    if LCase(m.top.playerState.right(1)) = "w"
+    ' Handle state suffix for wait flag
+    if isValidAndNotEmpty(m.top.playerState) and LCase(m.top.playerState.right(1)) = "w"
         m.top.playerState = m.top.playerState.left(len (m.top.playerState) - 1)
         return
     end if
 
-    m.top.currentCaption = []
+    ' Early exit if not in playing state - clear captions once
+    if not isStringEqual(m.top.playerState, "playingon")
+        if m.top.currentCaption.count() > 0
+            m.top.currentCaption = []
+        end if
+        return
+    end if
 
-    if not isStringEqual(m.top.playerState, "playingon") then return
+    ' Skip if fetching new captions
+    if m.isFetching then return
 
     m.top.currentPos = m.top.currentPos + 100
     captions = []
