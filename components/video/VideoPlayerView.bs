@@ -1032,6 +1032,8 @@ sub onTrickPlayBarTextChange()
     if not m.top.trickPlayBar.visible then return
 
     m.nextupbuttonseconds = m.global.session.user.settings["playback.nextupbuttonseconds"].ToInt()
+    m.currentSegmentType = invalid
+    m.mediaSegmentDismissed = {}
 
     setVideoEndingTime(0)
 
@@ -1330,7 +1332,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
     if key = KeyCode.BACK
         ' If user presses back when any segment skip button is showing, hide button and disable it so it doesn't show again
         if m.skipSegmentButton.visible
-            if m.currentSegmentType <> invalid
+            if isValid(m.currentSegmentType)
                 m.mediaSegmentDismissed[m.currentSegmentType] = true
             end if
             hideSegmentSkipButton()
