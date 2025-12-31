@@ -100,12 +100,14 @@ end sub
 function getPosterURL(itemData) as string
     posterURL = itemData.PosterUrl
 
+    posterOrientation = chainLookupReturn(m.global, "session.user.settings.libraryPosterOrientation", ImageLayout.DEFAULT)
+
     ' If user has not set a library level setting, check the user level setting
-    if isChainValid(m.global.session, `user.settings.${itemData.json.passedData.libraryID}-useLandscapeImages`)
-        useLandscapeImages = chainLookupReturn(m.global.session, `user.settings.${itemData.json.passedData.libraryID}-useLandscapeImages`, false)
-        posterOrientation = useLandscapeImages ? ImageLayout.LANDSCAPE : ImageLayout.DEFAULT
-    else
-        posterOrientation = chainLookupReturn(m.global, "session.user.settings.libraryPosterOrientation", ImageLayout.DEFAULT)
+    if isChainValid(itemData, "json.passedData.libraryID")
+        if isChainValid(m.global.session, `user.settings.${itemData.json.passedData.libraryID}-useLandscapeImages`)
+            useLandscapeImages = chainLookupReturn(m.global.session, `user.settings.${itemData.json.passedData.libraryID}-useLandscapeImages`, false)
+            posterOrientation = useLandscapeImages ? ImageLayout.LANDSCAPE : ImageLayout.DEFAULT
+        end if
     end if
 
     if inArray([ImageLayout.DEFAULT, ImageLayout.PORTRAIT], posterOrientation)
