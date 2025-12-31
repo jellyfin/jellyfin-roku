@@ -7,8 +7,6 @@ import "pkg:/source/utils/misc.bs"
 
 sub init()
     m.top.optionsAvailable = false
-    main = m.top.findNode("toplevel")
-    main.translation = [96, 175]
     m.extrasSlider = m.top.findNode("tvSeasonExtras")
     m.getShuffleEpisodesTask = createObject("roSGNode", "getShuffleEpisodesTask")
     m.Shuffle = m.top.findNode("Shuffle")
@@ -56,6 +54,21 @@ sub setFontSizes()
     if isValid(genres)
         genres.font.size = 23
     end if
+
+    rating = m.top.findNode("rating")
+    if isValid(rating)
+        rating.font.size = 23
+    end if
+
+    communityReview = m.top.findNode("communityReview")
+    if isValid(communityReview)
+        communityReview.font.size = 23
+    end if
+
+    history = m.top.findNode("history")
+    if isValid(history)
+        history.font.size = 23
+    end if
 end sub
 
 sub onPosterLoadStatusChanged()
@@ -96,6 +109,7 @@ sub itemContentChanged()
 
     if isChainValid(item, "json.RecursiveItemCount")
         setFieldText("numberofepisodes", stri(item.json.RecursiveItemCount) + " episodes")
+        setFieldText("numberofepisodes", "9999 episodes")
     end if
 
     'Check production year, if invalid remove label
@@ -105,25 +119,24 @@ sub itemContentChanged()
         m.top.findNode("toplevel").removeChild(m.top.findNode("released"))
     end if
 
-    'Check officialRating, if invalid remove label
+    'Check rating, if invalid remove label
     if isValid(itemData.officialRating)
-        setFieldText("officialRating", itemData.officialRating)
+        setFieldText("rating", itemData.officialRating)
     else
-        m.top.findNode("toplevel").removeChild(m.top.findNode("officialRating"))
+        m.top.findNode("toplevel").removeChild(m.top.findNode("rating"))
     end if
 
-    'Check communityRating, if invalid remove label
+    'Check communityReview, if invalid remove label
     if chainLookupReturn(m.global.session, "user.settings.`ui.itemdetail.showRatings`", true)
         if isValid(itemData.communityRating)
-            m.top.findNode("star").visible = true
-            setFieldText("communityRating", int(itemData.communityRating * 10) / 10)
+            m.top.findNode("communityReviewIcon").visible = true
+            setFieldText("communityReview", int(itemData.communityRating * 10) / 10)
         else
-            m.top.findNode("star").visible = false
+            m.top.findNode("communityReviewIcon").visible = false
         end if
     else
-        m.top.findNode("toplevel").removeChild(m.top.findNode("communityRating"))
-        m.top.findNode("toplevel").removeChild(m.top.findNode("star"))
-        m.top.findNode("star").visible = false
+        m.top.findNode("toplevel").removeChild(m.top.findNode("communityReview"))
+        m.top.findNode("toplevel").removeChild(m.top.findNode("communityReviewIcon"))
     end if
 
     setFieldText("overview", itemData.overview)
