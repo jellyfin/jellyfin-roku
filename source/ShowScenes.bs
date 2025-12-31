@@ -732,7 +732,7 @@ function CreateSeriesDetailsGroup(seriesID as string) as dynamic
         return CreateSeasonDetailsGroupByID(seriesID, seasonData.Items[0].id)
     end if
     ' start building SeriesDetails view
-    group = CreateObject("roSGNode", "TVShowDetails")
+    group = CreateObject("roSGNode", "TVSeriesDetails")
     group.optionsAvailable = false
     ' push scene asap (to prevent extra button presses when retriving series/movie info)
     m.global.sceneManager.callFunc("pushScene", group)

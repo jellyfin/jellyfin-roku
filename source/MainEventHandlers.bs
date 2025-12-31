@@ -499,8 +499,8 @@ sub onRefreshSeasonDetailsDataEvent()
 
     currentScene = m.global.sceneManager.callFunc("getActiveScene")
 
-    ' Refresh data over poster on TV Show Detail screen
-    if currentScene.isSubType("TVShowDetails")
+    ' Refresh data over poster on TV Series Detail screen
+    if currentScene.isSubType("TVSeriesDetails")
         seriesID = chainLookup(currentScene, "itemContent.id")
         if isValid(seriesID)
             currentScene.itemContent = ItemMetaData(seriesID)

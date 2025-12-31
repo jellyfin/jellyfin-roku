@@ -1,3 +1,5 @@
+import "pkg:/source/constants/HomeRowItemSizes.bs"
+import "pkg:/source/enums/ColorPalette.bs"
 import "pkg:/source/enums/PosterLoadStatus.bs"
 import "pkg:/source/enums/ViewLoadStatus.bs"
 import "pkg:/source/utils/config.bs"
@@ -18,6 +20,42 @@ sub init()
 
     m.overview.ellipsisText = tr("... (Press * to read more)")
     m.loadStatus = ViewLoadStatus.INIT
+
+    seasonListRect = m.top.FindNode("seasonListRect")
+    seasonListRect.color = ColorPalette.BLACK77
+
+    setFontSizes()
+end sub
+
+sub setFontSizes()
+    if isValid(m.overview)
+        m.overview.font.size = 27
+    end if
+
+    title = m.top.findNode("title")
+    if isValid(title)
+        title.font.size = 45
+    end if
+
+    runtime = m.top.findNode("runtime")
+    if isValid(runtime)
+        runtime.font.size = 23
+    end if
+
+    numberofepisodes = m.top.findNode("numberofepisodes")
+    if isValid(numberofepisodes)
+        numberofepisodes.font.size = 23
+    end if
+
+    released = m.top.findNode("released")
+    if isValid(released)
+        released.font.size = 23
+    end if
+
+    genres = m.top.findNode("genres")
+    if isValid(genres)
+        genres.font.size = 23
+    end if
 end sub
 
 sub onPosterLoadStatusChanged()
@@ -50,20 +88,28 @@ sub itemContentChanged()
         unplayedCount: chainLookupReturn(item, "json.UserData.UnplayedItemCount", 0)
     }
 
-    m.top.overhangTitle = itemData.name
+    setFieldText("title", itemData.name)
+
+    if type(itemData.RunTimeTicks) = "LongInteger"
+        setFieldText("runtime", stri(getRuntime()) + " mins")
+    end if
+
+    if isChainValid(item, "json.RecursiveItemCount")
+        setFieldText("numberofepisodes", stri(item.json.RecursiveItemCount) + " episodes")
+    end if
 
     'Check production year, if invalid remove label
     if isValid(itemData.productionYear)
-        setFieldText("releaseYear", itemData.productionYear)
+        setFieldText("released", itemData.productionYear)
     else
-        m.top.findNode("main_group").removeChild(m.top.findNode("releaseYear"))
+        m.top.findNode("toplevel").removeChild(m.top.findNode("released"))
     end if
 
     'Check officialRating, if invalid remove label
     if isValid(itemData.officialRating)
         setFieldText("officialRating", itemData.officialRating)
     else
-        m.top.findNode("main_group").removeChild(m.top.findNode("officialRating"))
+        m.top.findNode("toplevel").removeChild(m.top.findNode("officialRating"))
     end if
 
     'Check communityRating, if invalid remove label
@@ -75,8 +121,8 @@ sub itemContentChanged()
             m.top.findNode("star").visible = false
         end if
     else
-        m.top.findNode("main_group").removeChild(m.top.findNode("communityRating"))
-        m.top.findNode("main_group").removeChild(m.top.findNode("star"))
+        m.top.findNode("toplevel").removeChild(m.top.findNode("communityRating"))
+        m.top.findNode("toplevel").removeChild(m.top.findNode("star"))
         m.top.findNode("star").visible = false
     end if
 
@@ -84,9 +130,7 @@ sub itemContentChanged()
 
     m.Shuffle.visible = true
 
-    if type(itemData.RunTimeTicks) = "LongInteger"
-        setFieldText("runtime", stri(getRuntime()) + " mins")
-    end if
+
 
     'History feild is set via the function getHistory()
     setFieldText("history", getHistory())
@@ -95,7 +139,7 @@ sub itemContentChanged()
     if itemData.genres.count() > 0
         setFieldText("genres", itemData.genres.join(", "))
     else
-        m.top.findNode("main_group").removeChild(m.top.findNode("genres"))
+        m.top.findNode("toplevel").removeChild(m.top.findNode("genres"))
     end if
 
     'We don't display Directors in the show page. Might want to remove this.
@@ -104,11 +148,6 @@ sub itemContentChanged()
             exit for
         end if
     end for
-    if itemData.taglines.count() > 0
-        setFieldText("tagline", itemData.taglines[0])
-    else
-        m.top.findNode("main_group").removeChild(m.top.findNode("tagline"))
-    end if
 
     if isStringEqual(m.loadStatus, ViewLoadStatus.INIT)
         m.loadStatus = ViewLoadStatus.FIRSTLOAD
@@ -174,7 +213,7 @@ function getHistory() as string
     end if
 
     if studio = invalid and airwords = invalid
-        m.top.findNode("main_group").removeChild(m.top.findNode("history"))
+        m.top.findNode("toplevel").removeChild(m.top.findNode("history"))
         return ""
     end if
 
@@ -204,6 +243,14 @@ function round(f as float) as integer
 end function
 
 sub OnScreenShown()
+    scene = m.top.getScene()
+    if isValid(scene)
+        overhang = scene.findNode("overhang")
+        if chainLookupReturn(overhang, "isVisible", false)
+            overhang.isVisible = false
+        end if
+    end if
+
     if isValid(m.top.lastFocus)
         m.top.lastFocus.setFocus(true)
         group = m.global.sceneManager.callFunc("getActiveScene")

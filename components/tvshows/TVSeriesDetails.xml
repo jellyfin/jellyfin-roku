@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component name="TVSeriesDetails" extends="JFScreen">
+  <children>
+    <LayoutGroup id="toplevel" layoutDirection="vert" translation="[100, 100]" itemSpacings="[25]">
+      <LayoutGroup layoutDirection="horiz" itemSpacings="[15]">
+        <LayoutGroup layoutDirection="vert" itemSpacings="[25]">
+          <LayoutGroup layoutDirection="vert" itemSpacings="[0]">
+            <ScrollingText id="title" horizAlign="left" font="font:MediumBoldSystemFont" maxWidth="1300" height="45" />
+          </LayoutGroup>
+
+          <LayoutGroup layoutDirection="horiz" itemSpacings="[15]">
+            <LayoutGroup layoutDirection="horiz" itemSpacings="[15]">
+              <Poster id="runtimeIcon" width="35" height="35" uri="pkg:/images/icons/35px/clock.png" />
+              <Text id="runtime" vertAlign="center" font="font:MediumSystemFont" width="90" height="35" />
+            </LayoutGroup>
+
+            <LayoutGroup layoutDirection="horiz" itemSpacings="[15]">
+              <Poster id="numberofepisodesIcon" width="35" height="35" uri="pkg:/images/icons/35px/musicNote.png" />
+              <Text id="numberofepisodes" vertAlign="center" font="font:MediumSystemFont" width="125" height="35" />
+            </LayoutGroup>
+
+            <LayoutGroup layoutDirection="horiz" itemSpacings="[15]">
+              <Poster id="releasedIcon" width="35" height="35" uri="pkg:/images/icons/35px/calendar.png" />
+              <Text id="released" vertAlign="center" font="font:MediumSystemFont" width="60" height="35" />
+            </LayoutGroup>
+
+            <LayoutGroup layoutDirection="horiz" itemSpacings="[15]">
+              <Text id="officialRating" />
+              <LayoutGroup layoutDirection="horiz" itemSpacings="[3]">
+                <Poster id="star" uri="pkg:/images/sharp_star_white_18dp.png" height="32" width="32" blendColor="#cb272a" visible="false" />
+                <Text id="communityRating" />
+              </LayoutGroup>
+            </LayoutGroup>
+
+            <LayoutGroup layoutDirection="horiz" itemSpacings="[15]">
+              <Poster id="genresIcon" width="35" height="35" uri="pkg:/images/icons/35px/genre.png" />
+              <Text id="history" vertAlign="center" font="font:MediumSystemFont" width="400" height="35" />
+            </LayoutGroup>
+
+            <LayoutGroup layoutDirection="horiz" itemSpacings="[15]">
+              <Poster id="genresIcon" width="35" height="35" uri="pkg:/images/icons/35px/genre.png" />
+              <Text id="genres" vertAlign="center" font="font:MediumSystemFont" width="400" height="35" />
+            </LayoutGroup>
+          </LayoutGroup>
+
+          <Text id="overview" wrap="true" lineSpacing="25" maxLines="3" width="1300" />
+
+          <ButtonGroupHoriz id="buttons" itemSpacings="[20]">
+            <IconButton id="play" background="#070707" padding="35" icon="pkg:/images/icons/play.png" text="Play" height="65" width="140" />
+            <IconButton id="shuffle" background="#070707" padding="35" icon="pkg:/images/icons/instantMix.png" text="Shuffle" height="65" width="140" />
+          </ButtonGroupHoriz>
+        </LayoutGroup>
+
+        <Poster id="tvshowPoster" width="300" height="450">
+          <PlayedCheckmark id="playedIndicator" translation="[240, 0]" />
+        </Poster>
+      </LayoutGroup>
+
+      <LayoutGroup id="infoGroup" layoutDirection="vert" itemSpacings="[15]">
+        <Rectangle id='seasonListRect' translation="[-30, 0]" width="1720" height="510">
+          <TVSeasonRow
+            id="seasons"
+            itemComponentName="HomeItem"
+            rowFocusAnimationStyle="fixedFocusWrap"
+            rowLabelFont="font:MediumSystemFont"
+            itemSize="[1620, 400]"
+            rowHeights="[400]"
+            rowItemSize="[[180, 400]]"
+            itemSpacing="[0, 0]"
+            rowItemSpacing="[[20, 0]]"
+            rowLabelOffset="[[0, 0]]"
+            showRowLabel="[false]"
+            showRowCounter="[true]"
+            translation="[45, 0]" />
+        </Rectangle>
+      </LayoutGroup>
+    </LayoutGroup>
+
+    <ExtrasSlider id="tvSeasonExtras" />
+  </children>
+  <interface>
+    <function name="getFocusedItem" />
+    <field id="refreshSeasonDetailsData" type="bool" alwaysNotify="true" />
+    <field id="itemContent" type="node" onChange="itemContentChanged" />
+    <field id="seasonData" type="assocarray" alias="seasons.TVSeasonData" />
+    <field id="seasonSelected" alias="seasons.rowItemSelected" alwaysNotify="true" />
+    <field id="quickPlayNode" type="node" alwaysNotify="true" />
+  </interface>
+</component>
