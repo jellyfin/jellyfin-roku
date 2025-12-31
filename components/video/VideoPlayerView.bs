@@ -760,7 +760,7 @@ sub displaySegmentSkipButton(segmentType as string, endticks as double)
     m.currentSegmentEndTicks = endticks
     m.currentSegmentType = segmentType
 
-    if isValidAndNotEmpty(m.mediaSegmentDismissed) and m.mediaSegmentDismissed.DoesExist(m.currentSegmentType) and m.mediaSegmentDismissed[m.currentSegmentType] then return
+    if isValidAndNotEmpty(m.mediaSegmentDismissed) and m.mediaSegmentDismissed.DoesExist(m.currentSegmentType) then return
 
     ' Check if user has specific instructions for this media segment type
     userSetting = m.global.session.user.settings[`playback.mediasegments.${segmentType}`]
