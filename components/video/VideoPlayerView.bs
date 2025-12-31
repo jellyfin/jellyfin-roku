@@ -102,6 +102,10 @@ sub init()
     'Play Next Episode button
     m.nextupbuttonseconds = m.global.session.user.settings["playback.nextupbuttonseconds"].ToInt()
 
+    ' Skip segment tracking
+    m.mediaSegmentDismissed = {}
+    m.currentSegmentType = invalid
+
     m.checkedForNextEpisode = false
     m.getNextEpisodeTask = createObject("roSGNode", "GetNextEpisodeTask")
     m.getNextEpisodeTask.observeField("nextEpisodeData", "onNextEpisodeDataLoaded")
@@ -743,6 +747,7 @@ end sub
 
 sub hideSegmentSkipButton()
     m.currentSegmentEndTicks = 0
+    m.currentSegmentType = invalid
     m.skipSegmentButton.visible = false
     m.skipSegmentButton.text = string.EMPTY
     m.skipSegmentButton.setFocus(false)
@@ -753,6 +758,9 @@ end sub
 
 sub displaySegmentSkipButton(segmentType as string, endticks as double)
     m.currentSegmentEndTicks = endticks
+    m.currentSegmentType = segmentType
+
+    if isValidAndNotEmpty(m.mediaSegmentDismissed) and m.mediaSegmentDismissed.DoesExist(m.currentSegmentType) then return
 
     ' Check if user has specific instructions for this media segment type
     userSetting = m.global.session.user.settings[`playback.mediasegments.${segmentType}`]
@@ -1024,6 +1032,8 @@ sub onTrickPlayBarTextChange()
     if not m.top.trickPlayBar.visible then return
 
     m.nextupbuttonseconds = m.global.session.user.settings["playback.nextupbuttonseconds"].ToInt()
+    m.currentSegmentType = invalid
+    m.mediaSegmentDismissed = {}
 
     setVideoEndingTime(0)
 
@@ -1320,13 +1330,13 @@ function onKeyEvent(key as string, press as boolean) as boolean
     end if
 
     if key = KeyCode.BACK
-        ' If user presses back when Skip Outro button is showing, hide button and disable it so it doesn't show again
+        ' If user presses back when any segment skip button is showing, hide button and disable it so it doesn't show again
         if m.skipSegmentButton.visible
-            if isStringEqual(m.skipSegmentButton.text, tr(`Skip ${MediaSegmentType.OUTRO}`))
-                m.nextupbuttonseconds = 0
-                hideSegmentSkipButton()
-                return true
+            if isValid(m.currentSegmentType)
+                m.mediaSegmentDismissed[m.currentSegmentType] = true
             end if
+            hideSegmentSkipButton()
+            return true
         end if
 
         m.PreloadTrickplayImagesTask.method = "REMOVE"
