@@ -206,6 +206,20 @@ sub onJumpToEvent(msg)
             stopLoadingSpinner()
         end if
     end if
+
+    if isStringEqual(jumpToData.selectiontype, "episode")
+        ' If current scene is also a MovieDetails scene, remove it from stack
+        ' This prevents having two episode detail pages in the stack
+        ' After popping the video player, the old episode detail page is now the current scene
+        ' We need to remove it before pushing the new episode detail page
+        if isValid(currentView) and currentView.isSubType("MovieDetails")
+            ' Pop the current scene (old episode detail) to remove it from the stack
+            ' This will restore whatever was before it, or exit if stack is empty
+            m.global.sceneManager.callFunc("popScene")
+        end if
+        startLoadingSpinner()
+        CreateMovieDetailsGroup(jumpToData)
+    end if
 end sub
 
 sub onDeepLinkingEvent(args)

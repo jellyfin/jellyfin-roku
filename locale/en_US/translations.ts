@@ -1210,6 +1210,16 @@
             <extracomment>Settings Menu - Description for option</extracomment>
         </message>
         <message>
+            <source>Show Next Up After Finish</source>
+            <translation>Show Next Up After Finish</translation>
+            <extracomment>Settings Menu - Title for option</extracomment>
+        </message>
+        <message>
+            <source>Display the next up episode's details page after an episode finishes playing. If no next up episode is found, return to the just-played episode's page.</source>
+            <translation>Display the next up episode's details page after an episode finishes playing. If no next up episode is found, return to the just-played episode's page.</translation>
+            <extracomment>Settings Menu - Description for option</extracomment>
+        </message>
+        <message>
             <source>Preferred Audio Codec</source>
             <translation>Preferred Audio Codec</translation>
             <extracomment>Settings Menu - Title of option</extracomment>
