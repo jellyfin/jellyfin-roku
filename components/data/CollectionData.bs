@@ -13,8 +13,8 @@ sub setFields()
     m.top.Title = json.name
     m.top.overview = json.overview
     m.top.Description = json.overview
-    m.top.favorite = json.UserData.isFavorite
-    m.top.watched = chainLookup(json, "UserData.played")
+    m.top.favorite = chainLookupReturn(json, "UserData.isFavorite", false)
+    m.top.watched = chainLookupReturn(json, "UserData.played", false)
     m.top.Type = "Boxset"
 
     setPoster()

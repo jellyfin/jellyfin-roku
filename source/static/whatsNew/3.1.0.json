@@ -62,5 +62,9 @@
   {
     "description": "Redesign TV series screen",
     "author": "1hitsong"
+  },
+  {
+    "description": "Fix possible crash with collections when user data is null",
+    "author": "1hitsong"
   }
 ]
