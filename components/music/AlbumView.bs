@@ -307,8 +307,11 @@ sub setupButtons()
     m.play.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
     m.top.lastFocus = m.buttonGrp
 
-    m.instantMix = m.top.findNode("instantMix")
-    m.instantMix.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+    shuffle = m.top.findNode("shuffle")
+    shuffle.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+
+    instantMix = m.top.findNode("instantMix")
+    instantMix.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
 
     m.previouslySelectedButtonIndex = -1
 

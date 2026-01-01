@@ -894,6 +894,16 @@ sub onPlayAlbumEvent(msg)
     m.global.queueManager.callFunc("playQueue")
 end sub
 
+sub onShuffleAlbumEvent(msg)
+    startLoadingSpinner()
+    screenContent = msg.getRoSGNode()
+
+    m.global.queueManager.callFunc("set", screenContent.albumData.getChildren(-1, 0))
+    m.global.queueManager.callFunc("setShuffle", true)
+
+    m.global.queueManager.callFunc("playQueue")
+end sub
+
 sub onPlaySongEvent(msg)
     ' User has selected audio they want us to play
     startLoadingSpinner()

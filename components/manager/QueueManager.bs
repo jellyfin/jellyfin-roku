@@ -366,6 +366,15 @@ sub setPosition(newPosition)
 end sub
 
 ' Reset shuffle to off state
+sub setShuffle(newValue as boolean)
+    m.shuffleEnabled = newValue
+    if m.shuffleEnabled
+        shuffleQueueItems()
+        return
+    end if
+end sub
+
+' Reset shuffle to off state
 sub resetShuffle()
     m.shuffleEnabled = false
 end sub

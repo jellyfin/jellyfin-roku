@@ -827,6 +827,9 @@ function CreateAlbumView(album as object) as dynamic
     ' Play Album
     group.observeField("playAlbumSelected", m.port)
 
+    ' Shuffle Album
+    group.observeField("shuffleAlbumSelected", m.port)
+
     return group
 end function
 
