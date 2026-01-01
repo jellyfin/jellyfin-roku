@@ -146,6 +146,8 @@ sub Main (args as dynamic) as void
             onPlaySongEvent(msg)
         else if isNodeEvent(msg, "playAlbumSelected")
             onPlayAlbumEvent(msg)
+        else if isNodeEvent(msg, "shuffleAlbumSelected")
+            onShuffleAlbumEvent(msg)
         else if isNodeEvent(msg, "subtitleToDelete")
             onSubtitleToDeleteEvent(msg)
         else if isNodeEvent(msg, "subtitleSearchButtonSelected")
