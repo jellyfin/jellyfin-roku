@@ -24,3 +24,9 @@ jobs:
 
       - name: Build jellyfin-roku client project
         run: npm run build
+
+      - name: Save build output as artifact
+        uses: actions/upload-artifact@v6
+        with:
+          name: Jellyfin-Roku-dev-${{ github.sha }}
+          path: ${{ github.workspace }}/build/staging

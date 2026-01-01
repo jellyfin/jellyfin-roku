@@ -2158,5 +2158,65 @@
         <source>Burn in all subtitles when transcoding is triggered. This ensures subtitle synchronization after transcoding at the cost of reduced transcoding speed.</source>
         <translation>Incrusta tots els subtítols quan es produeix la transcodificació. Això garanteix la sincronització dels subtítols després de la transcodificació, a canvi d’una reducció de la velocitat de transcodificació.</translation>
     </message>
+    <message>
+        <source>Play Instant Mix</source>
+        <translation>Reprodueix el mesclador instantani</translation>
+    </message>
+    <message>
+        <source>Go To Genre</source>
+        <translation>Ves al gènere</translation>
+    </message>
+    <message>
+        <source>Skip Intro</source>
+        <translation>Salta la introducció</translation>
+    </message>
+    <message>
+        <source>Skip Outro</source>
+        <translation>Salta la clausura</translation>
+    </message>
+    <message>
+        <source>Skip Recap</source>
+        <translation>Salta la recapitulació</translation>
+    </message>
+    <message>
+        <source>Skip Preview</source>
+        <translation>Salta la previsualització</translation>
+    </message>
+    <message>
+        <source>Skip Commercial</source>
+        <translation>Salta la publicitat</translation>
+    </message>
+    <message>
+        <source>Skip Unknown</source>
+        <translation>Salta el segment</translation>
+    </message>
+    <message>
+        <source>Portrait (Vertical)</source>
+        <translation>Retrat (vertical)</translation>
+    </message>
+    <message>
+        <source>Landscape (Wide)</source>
+        <translation>Apaïsat (horitzontal)</translation>
+    </message>
+    <message>
+        <source>Default (Varies By Media Type)</source>
+        <translation>Per defecte (s&apos;adapta al contingut multimèdia)</translation>
+    </message>
+    <message>
+        <source>Library Image Orientation</source>
+        <translation>Orientació de les imatges de la mediateca</translation>
+    </message>
+    <message>
+        <source>Select the poster image orientation for the library views.</source>
+        <translation>Seleccioneu l&apos;orientació dels pòsters per a ser mostrats a la mediateca.</translation>
+    </message>
+    <message>
+        <source>Select when to show titles in grid view.</source>
+        <translation>Seleccioneu quan cal mostrar els títols en mode graella.</translation>
+    </message>
+    <message>
+        <source>Grid View Item Titles</source>
+        <translation>Visualització dels títols en mode graella</translation>
+    </message>
 </context>
 </TS>
