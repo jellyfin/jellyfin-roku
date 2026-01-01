@@ -739,6 +739,7 @@ function CreateSeriesDetailsGroup(seriesID as string) as dynamic
     group.itemContent = seriesMetaData
     group.seasonData = seasonData
     ' watch for button presses
+    group.observeField("playSeriesFromStart", m.port)
     group.observeField("seasonSelected", m.port)
     group.observeField("quickPlayNode", m.port)
     group.observeField("refreshSeasonDetailsData", m.port)

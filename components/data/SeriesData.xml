@@ -3,6 +3,7 @@
   <interface>
     <function name="setWatched" />
     <field id="overview" type="string" />
+    <field id="quickplayFromResume" type="boolean" />
     <field id="seasons" type="assocarray" />
     <field id="nextup" type="assocarray" />
     <field id="image" type="node" onChange="setPoster" />

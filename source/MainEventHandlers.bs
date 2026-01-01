@@ -804,6 +804,38 @@ sub onSeasonSelectedEvent(msg)
     end if
 end sub
 
+' Find the 1st episode in the series and start playback
+sub onPlaySeriesFromStartEvent(msg)
+    series = msg.getRoSGNode()
+
+    if not isChainValid(series, "itemContent.id") then return
+    if not isChainValid(series, "seasonData.items") then return
+    if not isValidAndNotEmpty(series.seasonData.items) then return
+
+    firstSeasonData = series.seasonData.items[0]
+
+    if not isValidAndNotEmpty(firstSeasonData.LookupCI("id")) then return
+
+    startLoadingSpinner()
+
+    firstEpisode = api.shows.GetEpisodes(series.itemContent.id, {
+        "seasonId": firstSeasonData.LookupCI("id"),
+        "userid": m.global.session.user.id,
+        "limit": 1,
+        "EnableTotalRecordCount": false,
+        "isMissing": false
+    })
+
+    if not isChainValid(firstEpisode, "items")
+        stopLoadingSpinner()
+        return
+    end if
+
+    m.global.queueManager.callFunc("clear")
+    m.global.queueManager.callFunc("push", firstEpisode.items[0])
+    m.global.queueManager.callFunc("playQueue")
+end sub
+
 sub onMusicAlbumSelectedEvent(msg)
     startLoadingSpinner()
     ptr = msg.getData()

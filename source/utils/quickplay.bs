@@ -174,21 +174,66 @@ namespace quickplay
     sub series(itemNode as object)
         if not isValid(itemNode) or not isValid(itemNode.id) then return
 
-        data = api.shows.GetNextUp({
-            "seriesId": itemNode.id,
-            "recursive": true,
-            "SortBy": "DatePlayed",
-            "SortOrder": "Descending",
-            "ImageTypeLimit": 1,
-            "UserId": m.global.session.user.id,
-            "EnableRewatching": m.global.session.user.settings["ui.details.enablerewatchingnextup"],
-            "DisableFirstEpisode": false,
-            "EnableTotalRecordCount": false
-        })
+        ' If quickplayFromResume is set, start playback attempt from first resumable episode before looking at next up
+        quickplayFromResume = chainLookupReturn(itemNode, "quickplayFromResume", false)
 
-        if isValid(data) and isValidAndNotEmpty(data.Items)
-            ' there are unwatched episodes
-            m.global.queueManager.callFunc("push", data.Items[0])
+        if quickplayFromResume
+            data = api.users.GetResumeItemsByQuery(m.global.session.user.id, {
+                "parentId": itemNode.id,
+                "userid": m.global.session.user.id,
+                "SortBy": "SortName",
+                "recursive": true,
+                "SortOrder": "Ascending",
+                "Filters": "IsResumable",
+                "EnableTotalRecordCount": false
+            })
+
+            if isValid(data) and isValidAndNotEmpty(data.Items)
+                ' play the resumable episode
+                if isValid(data.Items[0].UserData) and isValid(data.Items[0].UserData.PlaybackPositionTicks)
+                    data.Items[0].startingPoint = data.Items[0].userdata.PlaybackPositionTicks
+                end if
+                m.global.queueManager.callFunc("push", data.Items[0])
+                return
+            end if
+        else
+            data = api.shows.GetNextUp({
+                "seriesId": itemNode.id,
+                "recursive": true,
+                "SortBy": "DatePlayed",
+                "SortOrder": "Descending",
+                "ImageTypeLimit": 1,
+                "UserId": m.global.session.user.id,
+                "EnableRewatching": m.global.session.user.settings["ui.details.enablerewatchingnextup"],
+                "DisableFirstEpisode": false,
+                "EnableTotalRecordCount": false
+            })
+
+            if isValid(data) and isValidAndNotEmpty(data.Items)
+                ' there are unwatched episodes
+                m.global.queueManager.callFunc("push", data.Items[0])
+                return
+            end if
+        end if
+
+        if quickplayFromResume
+            data = api.shows.GetNextUp({
+                "seriesId": itemNode.id,
+                "recursive": true,
+                "SortBy": "DatePlayed",
+                "SortOrder": "Descending",
+                "ImageTypeLimit": 1,
+                "UserId": m.global.session.user.id,
+                "EnableRewatching": m.global.session.user.settings["ui.details.enablerewatchingnextup"],
+                "DisableFirstEpisode": false,
+                "EnableTotalRecordCount": false
+            })
+
+            if isValid(data) and isValidAndNotEmpty(data.Items)
+                ' there are unwatched episodes
+                m.global.queueManager.callFunc("push", data.Items[0])
+                return
+            end if
         else
             ' next up check was empty
             ' check for a resumable episode
@@ -208,23 +253,24 @@ namespace quickplay
                     data.Items[0].startingPoint = data.Items[0].userdata.PlaybackPositionTicks
                 end if
                 m.global.queueManager.callFunc("push", data.Items[0])
-            else
-                ' shuffle all episodes
-                data = api.shows.GetEpisodes(itemNode.id, {
-                    "userid": m.global.session.user.id,
-                    "SortBy": "Random",
-                    "limit": 2000,
-                    "EnableTotalRecordCount": false,
-                    "isMissing": false
-                })
-
-                if isValid(data) and isValidAndNotEmpty(data.Items)
-                    ' add all episodes found to a playlist
-                    quickplay.pushToQueue(data.Items)
-                else
-                    stopLoadingSpinner()
-                end if
+                return
             end if
+        end if
+
+        ' shuffle all episodes
+        data = api.shows.GetEpisodes(itemNode.id, {
+            "userid": m.global.session.user.id,
+            "SortBy": quickplayFromResume ? "SortName" : "Random",
+            "limit": quickplayFromResume ? 1 : 2000,
+            "EnableTotalRecordCount": false,
+            "isMissing": false
+        })
+
+        if isValid(data) and isValidAndNotEmpty(data.Items)
+            ' add all episodes found to a playlist
+            quickplay.pushToQueue(data.Items)
+        else
+            stopLoadingSpinner()
         end if
     end sub
 

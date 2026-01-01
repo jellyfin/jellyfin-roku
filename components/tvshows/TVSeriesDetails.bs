@@ -1,5 +1,7 @@
 import "pkg:/source/constants/HomeRowItemSizes.bs"
+import "pkg:/source/enums/AnimationControl.bs"
 import "pkg:/source/enums/ColorPalette.bs"
+import "pkg:/source/enums/KeyCode.bs"
 import "pkg:/source/enums/PosterLoadStatus.bs"
 import "pkg:/source/enums/ViewLoadStatus.bs"
 import "pkg:/source/utils/config.bs"
@@ -9,20 +11,49 @@ sub init()
     m.top.optionsAvailable = false
     m.extrasSlider = m.top.findNode("tvSeasonExtras")
     m.getShuffleEpisodesTask = createObject("roSGNode", "getShuffleEpisodesTask")
-    m.Shuffle = m.top.findNode("Shuffle")
     m.extrasSlider.visible = true
     m.seasons = m.top.findNode("seasons")
     m.overview = m.top.findNode("overview")
     m.playedIndicator = m.top.findNode("playedIndicator")
     m.tvshowPoster = m.top.findNode("tvshowPoster")
 
-    m.overview.ellipsisText = tr("... (Press * to read more)")
+    m.overview.ellipsisText = tr("...")
     m.loadStatus = ViewLoadStatus.INIT
 
     seasonListRect = m.top.FindNode("seasonListRect")
     seasonListRect.color = ColorPalette.BLACK77
 
+    m.buttonGrp = m.top.findNode("buttons")
+    m.buttonCount = m.buttonGrp.getChildCount()
+
+    m.resume = m.top.findNode("resume")
+    m.resume.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+
+    m.play = m.top.findNode("play")
+    m.play.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+
+    m.shuffle = m.top.findNode("shuffle")
+    m.shuffle.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+
+    m.previouslySelectedButtonIndex = -1
+    m.top.observeField("selectedButtonIndex", "onButtonSelectedChange")
+    m.top.selectedButtonIndex = 0
+
     setFontSizes()
+end sub
+
+' Event handler when user selected a different playback button
+sub onButtonSelectedChange()
+    ' Change previously focused button back to default
+    if m.previouslySelectedButtonIndex > -1
+        previousSelectedButton = m.buttonGrp.getChild(m.previouslySelectedButtonIndex)
+        previousSelectedButton.focus = false
+    end if
+
+    ' Change selected button image to focus state
+    selectedButton = m.buttonGrp.getChild(m.top.selectedButtonIndex)
+    selectedButton.setfocus(true)
+    selectedButton.focus = true
 end sub
 
 sub setFontSizes()
@@ -105,62 +136,52 @@ sub itemContentChanged()
 
     if type(itemData.RunTimeTicks) = "LongInteger"
         setFieldText("runtime", stri(getRuntime()) + " mins")
+    else
+        m.top.findNode("topLevelDetails").removeChild(m.top.findNode("runtimeContainer"))
     end if
 
     if isChainValid(item, "json.RecursiveItemCount")
         setFieldText("numberofepisodes", stri(item.json.RecursiveItemCount) + " episodes")
-        setFieldText("numberofepisodes", "9999 episodes")
+    else
+        m.top.findNode("topLevelDetails").removeChild(m.top.findNode("numberofepisodesContainer"))
     end if
 
     'Check production year, if invalid remove label
     if isValid(itemData.productionYear)
         setFieldText("released", itemData.productionYear)
     else
-        m.top.findNode("toplevel").removeChild(m.top.findNode("released"))
+        m.top.findNode("topLevelDetails").removeChild(m.top.findNode("releasedContainer"))
     end if
 
     'Check rating, if invalid remove label
     if isValid(itemData.officialRating)
         setFieldText("rating", itemData.officialRating)
     else
-        m.top.findNode("toplevel").removeChild(m.top.findNode("rating"))
+        m.top.findNode("topLevelDetails").removeChild(m.top.findNode("ratingContainer"))
     end if
 
     'Check communityReview, if invalid remove label
     if chainLookupReturn(m.global.session, "user.settings.`ui.itemdetail.showRatings`", true)
         if isValid(itemData.communityRating)
-            m.top.findNode("communityReviewIcon").visible = true
             setFieldText("communityReview", int(itemData.communityRating * 10) / 10)
         else
-            m.top.findNode("communityReviewIcon").visible = false
+            m.top.findNode("topLevelDetails").removeChild(m.top.findNode("communityReviewContainer"))
         end if
     else
-        m.top.findNode("toplevel").removeChild(m.top.findNode("communityReview"))
-        m.top.findNode("toplevel").removeChild(m.top.findNode("communityReviewIcon"))
+        m.top.findNode("topLevelDetails").removeChild(m.top.findNode("communityReviewContainer"))
     end if
 
-    setFieldText("overview", itemData.overview)
-
-    m.Shuffle.visible = true
-
-
-
-    'History feild is set via the function getHistory()
+    'History field is set via the function getHistory()
     setFieldText("history", getHistory())
 
     'Check genres, if invalid remove label
-    if itemData.genres.count() > 0
+    if isValidAndNotEmpty(itemData.genres)
         setFieldText("genres", itemData.genres.join(", "))
     else
-        m.top.findNode("toplevel").removeChild(m.top.findNode("genres"))
+        m.top.findNode("topLevelDetails").removeChild(m.top.findNode("genresContainer"))
     end if
 
-    'We don't display Directors in the show page. Might want to remove this.
-    for each person in itemData.people
-        if person.type = "Director"
-            exit for
-        end if
-    end for
+    setFieldText("overview", itemData.overview)
 
     if isStringEqual(m.loadStatus, ViewLoadStatus.INIT)
         m.loadStatus = ViewLoadStatus.FIRSTLOAD
@@ -226,7 +247,7 @@ function getHistory() as string
     end if
 
     if studio = invalid and airwords = invalid
-        m.top.findNode("toplevel").removeChild(m.top.findNode("history"))
+        m.top.findNode("topLevelDetails").removeChild(m.top.findNode("historyContainer"))
         return ""
     end if
 
@@ -269,9 +290,10 @@ sub OnScreenShown()
         group = m.global.sceneManager.callFunc("getActiveScene")
         group.lastFocus = m.top.lastFocus
     else
-        m.top.findNode("seasons").setFocus(true)
+        firstButton = m.buttonGrp.getChild(0)
+        firstButton.setFocus(true)
         group = m.global.sceneManager.callFunc("getActiveScene")
-        group.lastFocus = m.top.findNode("seasons")
+        group.lastFocus = firstButton
     end if
 
     if isStringEqual(m.loadStatus, ViewLoadStatus.INIT)
@@ -303,69 +325,139 @@ sub onShuffleEpisodeDataLoaded()
     m.global.queueManager.callFunc("playQueue")
 end sub
 
+sub createFullDscrDlg()
+    if isAllValid([m.top.itemContent.json.name, m.top.itemContent.json.overview])
+        m.global.sceneManager.callFunc("standardDialog", m.top.itemContent.json.name, { data: ["<p>" + m.top.itemContent.json.overview + "</p>"] })
+    end if
+end sub
+
 function onKeyEvent(key as string, press as boolean) as boolean
-    if key = "OK" or key = "play"
-        if m.Shuffle.hasFocus()
-            m.getShuffleEpisodesTask.showID = m.top.itemContent.id
-            m.getShuffleEpisodesTask.observeField("data", "onShuffleEpisodeDataLoaded")
-            m.getShuffleEpisodesTask.control = "RUN"
-            return true
+    if m.buttonGrp.isInFocusChain()
+        if isStringEqual(key, KeyCode.UP)
+            if m.buttonGrp.getChild(m.top.selectedButtonIndex).escape = "up"
+                if not isStringEqual(m.overview.text, string.EMPTY)
+                    m.buttonGrp.getChild(m.top.selectedButtonIndex).escape = ""
+                    selectedButton = m.buttonGrp.getChild(m.top.selectedButtonIndex)
+                    selectedButton.focus = false
+                    m.overview.setFocus(true)
+                    m.overview.color = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+                    m.top.lastFocus = m.overview
+                    return true
+                end if
+            end if
+        end if
+
+        if isStringEqual(key, KeyCode.OK) or isStringEqual(key, KeyCode.PLAY)
+            if not press then return false
+
+            if m.shuffle.hasFocus()
+                m.getShuffleEpisodesTask.showID = m.top.itemContent.id
+                m.getShuffleEpisodesTask.observeField("data", "onShuffleEpisodeDataLoaded")
+                m.getShuffleEpisodesTask.control = "RUN"
+                return true
+            end if
+
+            if m.resume.hasFocus()
+                quickplayData = m.top.itemContent
+                quickplayData.quickplayFromResume = true
+                m.top.quickPlayNode = quickplayData
+                return true
+            end if
+
+            if m.play.hasFocus()
+                m.top.playSeriesFromStart = not m.top.playSeriesFromStart
+                return true
+            end if
+
+            return false
+        end if
+
+        if isStringEqual(key, KeyCode.LEFT)
+            if m.top.selectedButtonIndex = 0 then return false
+
+            if m.buttonGrp.getChild(m.top.selectedButtonIndex).escape = "left"
+                m.buttonGrp.getChild(m.top.selectedButtonIndex).escape = ""
+
+                m.previouslySelectedButtonIndex = m.top.selectedButtonIndex
+                m.top.selectedButtonIndex = m.top.selectedButtonIndex - 1
+                return true
+            end if
+        end if
+
+        if isStringEqual(key, KeyCode.RIGHT)
+            if m.top.selectedButtonIndex < m.buttonCount - 1
+                m.previouslySelectedButtonIndex = m.top.selectedButtonIndex
+                m.top.selectedButtonIndex = m.top.selectedButtonIndex + 1
+                return true
+            end if
+        end if
+
+        if isStringEqual(key, KeyCode.DOWN)
+            if m.buttonGrp.getChild(m.top.selectedButtonIndex).escape = "down"
+                m.buttonGrp.getChild(m.top.selectedButtonIndex).escape = ""
+                selectedButton = m.buttonGrp.getChild(m.top.selectedButtonIndex)
+                selectedButton.focus = false
+                m.seasons.setFocus(true)
+                m.top.lastFocus = m.seasons
+                return true
+            end if
         end if
     end if
 
     if not press then return false
 
-    if key = "options"
-        if m.overview.isTextEllipsized
-            if isAllValid([m.top.itemContent.json.name, m.top.itemContent.json.overview])
-                m.global.sceneManager.callFunc("standardDialog", m.top.itemContent.json.name, { data: ["<p>" + m.top.itemContent.json.overview + "</p>"] })
-                return true
-            end if
+    if m.overview.hasFocus()
+        if key = KeyCode.OK
+            createFullDscrDlg()
+            return true
         end if
-        return false
+
+        if key = KeyCode.DOWN
+            m.overview.color = ColorPalette.WHITE
+            selectedButton = m.buttonGrp.getChild(m.top.selectedButtonIndex)
+            selectedButton.focus = true
+            selectedButton.setfocus(true)
+            return true
+        end if
     end if
 
-    topGrp = m.top.findNode("seasons")
-    bottomGrp = m.top.findNode("extrasGrid")
+    seasonRow = m.top.findNode("seasons")
+    extrasSection = m.top.findNode("extrasGrid")
 
-    if key = "down" and m.overview.hasFocus()
-        m.Shuffle.setFocus(true)
-        group = m.global.sceneManager.callFunc("getActiveScene")
-        group.lastFocus = m.Shuffle
-        return true
-    else if key = "down" and m.Shuffle.hasFocus()
-        topGrp.setFocus(true)
-        group = m.global.sceneManager.callFunc("getActiveScene")
-        group.lastFocus = topGrp
-        return true
-    else if key = "down" and topGrp.hasFocus()
-        bottomGrp.setFocus(true)
-        group = m.global.sceneManager.callFunc("getActiveScene")
-        group.lastFocus = bottomGrp
-        m.top.findNode("VertSlider").reverse = false
-        m.top.findNode("extrasFader").reverse = false
-        m.top.findNode("pplAnime").control = "start"
-        return true
-    else if key = "up" and bottomGrp.hasFocus()
-        if bottomGrp.itemFocused = 0
+    if seasonRow.isInFocusChain()
+        if isStringEqual(key, KeyCode.DOWN)
+            extrasSection.setFocus(true)
+            group = m.global.sceneManager.callFunc("getActiveScene")
+            group.lastFocus = extrasSection
+            m.top.findNode("VertSlider").reverse = false
+            m.top.findNode("extrasFader").reverse = false
+            m.top.findNode("pplAnime").control = AnimationControl.START
+            return true
+        end if
+
+        if isStringEqual(key, KeyCode.UP)
+            onButtonSelectedChange()
+            return true
+        end if
+    end if
+
+    if m.overview.isInFocusChain()
+        if isStringEqual(key, KeyCode.DOWN)
+            onButtonSelectedChange()
+            return true
+        end if
+    end if
+
+    if key = "up" and extrasSection.hasFocus()
+        if extrasSection.itemFocused = 0
             m.top.findNode("VertSlider").reverse = true
             m.top.findNode("extrasFader").reverse = true
             m.top.findNode("pplAnime").control = "start"
-            topGrp.setFocus(true)
+            seasonRow.setFocus(true)
             group = m.global.sceneManager.callFunc("getActiveScene")
-            group.lastFocus = topGrp
+            group.lastFocus = seasonRow
             return true
         end if
-    else if key = "up" and topGrp.hasFocus()
-        m.Shuffle.setFocus(true)
-        group = m.global.sceneManager.callFunc("getActiveScene")
-        group.lastFocus = m.Shuffle
-        return true
-    else if key = "up" and m.Shuffle.hasFocus()
-        m.overview.setFocus(true)
-        group = m.global.sceneManager.callFunc("getActiveScene")
-        group.lastFocus = m.overview
-        return true
     else if key = "play" and m.seasons.hasFocus()
         if isValid(m.seasons.TVSeasonData) and isValid(m.seasons.TVSeasonData.Items)
             itemFocused = m.seasons.rowItemFocused

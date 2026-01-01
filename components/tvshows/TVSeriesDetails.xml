@@ -8,38 +8,38 @@
             <ScrollingText id="title" horizAlign="left" font="font:MediumBoldSystemFont" maxWidth="1400" height="45" />
           </LayoutGroup>
 
-          <LayoutGroup layoutDirection="horiz" itemSpacings="[25]">
-            <LayoutGroup layoutDirection="horiz" itemSpacings="[15]">
+          <LayoutGroup id="topLevelDetails" layoutDirection="horiz" itemSpacings="[25]">
+            <LayoutGroup id="runtimeContainer" layoutDirection="horiz" itemSpacings="[15]">
               <Poster id="runtimeIcon" width="35" height="35" uri="pkg:/images/icons/35px/clock.png" />
               <Text id="runtime" vertAlign="center" font="font:MediumSystemFont" height="35" />
             </LayoutGroup>
 
-            <LayoutGroup layoutDirection="horiz" itemSpacings="[15]">
-              <Poster id="numberofepisodesIcon" width="35" height="35" uri="pkg:/images/icons/35px/musicNote.png" />
+            <LayoutGroup id="numberofepisodesContainer" layoutDirection="horiz" itemSpacings="[15]">
+              <Poster id="numberofepisodesIcon" width="35" height="35" uri="pkg:/images/icons/35px/tv.png" />
               <Text id="numberofepisodes" vertAlign="center" font="font:MediumSystemFont" height="35" />
             </LayoutGroup>
 
-            <LayoutGroup layoutDirection="horiz" itemSpacings="[15]">
+            <LayoutGroup id="releasedContainer" layoutDirection="horiz" itemSpacings="[15]">
               <Poster id="releasedIcon" width="35" height="35" uri="pkg:/images/icons/35px/calendar.png" />
               <Text id="released" vertAlign="center" font="font:MediumSystemFont" height="35" />
             </LayoutGroup>
 
-            <LayoutGroup layoutDirection="horiz" itemSpacings="[15]">
-              <Poster id="ratingIcon" width="35" height="35" uri="pkg:/images/icons/35px/calendar.png" />
+            <LayoutGroup id="ratingContainer" layoutDirection="horiz" itemSpacings="[15]">
+              <Poster id="ratingIcon" width="35" height="35" uri="pkg:/images/icons/35px/rating.png" />
               <Text id="rating" vertAlign="center" font="font:MediumSystemFont" height="35" />
             </LayoutGroup>
 
-            <LayoutGroup layoutDirection="horiz" itemSpacings="[15]">
-              <Poster id="communityReviewIcon" uri="pkg:/images/sharp_star_white_18dp.png" height="32" width="32" blendColor="#cb272a" visible="false" />
+            <LayoutGroup id="communityReviewContainer" layoutDirection="horiz" itemSpacings="[15]">
+              <Poster id="communityReviewIcon" height="35" width="35" uri="pkg:/images/sharp_star_white_18dp.png" />
               <Text id="communityReview" vertAlign="center" font="font:MediumSystemFont" height="35" />
             </LayoutGroup>
 
-            <LayoutGroup layoutDirection="horiz" itemSpacings="[15]">
-              <Poster id="genresIcon" width="35" height="35" uri="pkg:/images/icons/35px/genre.png" />
+            <LayoutGroup id="historyContainer" layoutDirection="horiz" itemSpacings="[15]">
+              <Poster id="historyIcon" width="35" height="35" uri="pkg:/images/icons/35px/antenna.png" />
               <ScrollingText id="history" vertAlign="center" font="font:MediumSystemFont" maxWidth="175" height="35" />
             </LayoutGroup>
 
-            <LayoutGroup layoutDirection="horiz" itemSpacings="[15]">
+            <LayoutGroup id="genresContainer" layoutDirection="horiz" itemSpacings="[15]">
               <Poster id="genresIcon" width="35" height="35" uri="pkg:/images/icons/35px/genre.png" />
               <ScrollingText id="genres" vertAlign="center" font="font:MediumSystemFont" maxWidth="250" height="35" />
             </LayoutGroup>
@@ -48,6 +48,7 @@
           <Text id="overview" wrap="true" lineSpacing="25" maxLines="3" width="1400" />
 
           <ButtonGroupHoriz id="buttons" itemSpacings="[20]">
+            <IconButton id="resume" background="#070707" padding="35" icon="pkg:/images/icons/resume.png" text="Resume" height="65" width="140" />
             <IconButton id="play" background="#070707" padding="35" icon="pkg:/images/icons/play.png" text="Play" height="65" width="140" />
             <IconButton id="shuffle" background="#070707" padding="35" icon="pkg:/images/icons/instantMix.png" text="Shuffle" height="65" width="140" />
           </ButtonGroupHoriz>
@@ -84,5 +85,7 @@
     <field id="seasonData" type="assocarray" alias="seasons.TVSeasonData" />
     <field id="seasonSelected" alias="seasons.rowItemSelected" alwaysNotify="true" />
     <field id="quickPlayNode" type="node" alwaysNotify="true" />
+    <field id="selectedButtonIndex" type="integer" value="-1" />
+    <field id="playSeriesFromStart" type="bool" />
   </interface>
 </component>
