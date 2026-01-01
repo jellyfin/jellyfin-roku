@@ -33,7 +33,10 @@ function LoginFlow()
         SaveServerList()
     end if
 
-    ServerVersionCheck(ServerInfo().LookupCI("version"))
+    serverVersion = ServerInfo().LookupCI("version")
+    if isValidAndNotEmpty(serverVersion)
+        ServerVersionCheck(serverVersion)
+    end if
 
     activeUser = get_setting("active_user")
     if activeUser = invalid
