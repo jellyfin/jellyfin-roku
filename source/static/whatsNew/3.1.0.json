@@ -64,6 +64,10 @@
     "author": "1hitsong"
   },
   {
+    "description": "Fix possible crash when server version can't be determined",
+    "author": "1hitsong"
+  },
+  {
     "description": "Fix possible crash with collections when user data is null",
     "author": "1hitsong"
   }
