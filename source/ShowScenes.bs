@@ -712,6 +712,43 @@ function CreateMovieDetailsGroup(movie as object) as dynamic
     return group
 end function
 
+function hasResummableEpisode(seriesID as string) as boolean
+    if not isValidAndNotEmpty(seriesID) then return false
+
+    ' Check if there is at least 1 resummable item
+    data = api.users.GetResumeItemsByQuery(m.global.session.user.id, {
+        parentId: seriesID,
+        userid: m.global.session.user.id,
+        SortBy: "SortName",
+        recursive: true,
+        SortOrder: "Ascending",
+        Filters: "IsResumable",
+        limit: 1,
+        EnableTotalRecordCount: false
+    })
+
+    if isValid(data) and isValidAndNotEmpty(data.Items) then return true
+
+    ' Check if there is at least 1 next up item
+    data = api.shows.GetNextUp({
+        seriesId: seriesID,
+        recursive: true,
+        SortBy: "DatePlayed",
+        SortOrder: "Descending",
+        ImageTypeLimit: 1,
+        UserId: m.global.session.user.id,
+        EnableRewatching: m.global.session.user.settings["ui.details.enablerewatchingnextup"],
+        enableResumable: true,
+        DisableFirstEpisode: false,
+        limit: 1,
+        EnableTotalRecordCount: false
+    })
+
+    if isValid(data) and isValidAndNotEmpty(data.Items) then return true
+
+    return false
+end function
+
 function CreateSeriesDetailsGroup(seriesID as string) as dynamic
     ' validate series node
     if not isValid(seriesID) or seriesID = "" then return invalid
@@ -719,6 +756,9 @@ function CreateSeriesDetailsGroup(seriesID as string) as dynamic
     startLoadingSpinner()
     ' get series meta data
     seriesMetaData = ItemMetaData(seriesID)
+
+    displayResumeButton = hasResummableEpisode(seriesID)
+
     ' validate series meta data
     if not isValid(seriesMetaData)
         stopLoadingSpinner()
@@ -733,6 +773,7 @@ function CreateSeriesDetailsGroup(seriesID as string) as dynamic
     end if
     ' start building SeriesDetails view
     group = CreateObject("roSGNode", "TVSeriesDetails")
+    group.displayResumeButton = displayResumeButton
     group.optionsAvailable = false
     ' push scene asap (to prevent extra button presses when retriving series/movie info)
     m.global.sceneManager.callFunc("pushScene", group)

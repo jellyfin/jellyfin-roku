@@ -520,6 +520,8 @@ sub onRefreshSeasonDetailsDataEvent()
     if currentScene.isSubType("TVSeriesDetails")
         seriesID = chainLookup(currentScene, "itemContent.id")
         if isValid(seriesID)
+            ' Determine if the resume button needs to be shown
+            currentScene.displayResumeButton = hasResummableEpisode(seriesID)
             currentScene.itemContent = ItemMetaData(seriesID)
         end if
     end if
