@@ -1,9 +1,12 @@
+import "pkg:/source/enums/ItemType.bs"
+
 sub setFields()
     datum = m.top.json
 
     m.top.id = datum.id
     m.top.title = datum.name
     m.top.overview = datum.overview
+    m.top.type = ItemType.SEASON
 
     setPoster()
 end sub
