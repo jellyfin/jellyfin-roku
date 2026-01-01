@@ -27,7 +27,9 @@ sub init()
     m.buttonCount = m.buttonGrp.getChildCount()
 
     m.resume = m.top.findNode("resume")
-    m.resume.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+    if isValid(m.resume)
+        m.resume.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+    end if
 
     m.play = m.top.findNode("play")
     m.play.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
@@ -40,6 +42,39 @@ sub init()
     m.top.selectedButtonIndex = 0
 
     setFontSizes()
+end sub
+
+sub onDisplayResumeButtonChange()
+    ' Remove the resume button
+    if not m.top.displayResumeButton
+        m.buttonGrp.removeChild(m.resume)
+        m.resume = invalid
+        m.buttonCount = m.buttonGrp.getChildCount()
+        onButtonSelectedChange()
+        return
+    end if
+
+    ' Add resume button back
+    if not isValid(m.resume)
+        previousSelectedButton = m.buttonGrp.getChild(m.top.selectedButtonIndex)
+        previousSelectedButton.focus = false
+
+        m.resume = createObject("roSGNode", "IconButton")
+        m.resume.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+        m.resume.id = "resume"
+        m.resume.background = "#070707"
+        m.resume.padding = "35"
+        m.resume.icon = "pkg:/images/icons/resume.png"
+        m.resume.text = "Resume"
+        m.resume.height = "65"
+        m.resume.width = "140"
+        m.buttonGrp.insertChild(m.resume, 0)
+        m.buttonCount = m.buttonGrp.getChildCount()
+
+        if m.buttonGrp.isInFocusChain()
+            onButtonSelectedChange()
+        end if
+    end if
 end sub
 
 ' Event handler when user selected a different playback button
@@ -357,11 +392,13 @@ function onKeyEvent(key as string, press as boolean) as boolean
                 return true
             end if
 
-            if m.resume.hasFocus()
-                quickplayData = m.top.itemContent
-                quickplayData.quickplayFromResume = true
-                m.top.quickPlayNode = quickplayData
-                return true
+            if isValid(m.resume)
+                if m.resume.hasFocus()
+                    quickplayData = m.top.itemContent
+                    quickplayData.quickplayFromResume = true
+                    m.top.quickPlayNode = quickplayData
+                    return true
+                end if
             end if
 
             if m.play.hasFocus()
