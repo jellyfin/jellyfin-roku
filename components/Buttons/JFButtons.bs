@@ -99,14 +99,14 @@ end sub
 sub focusChanged()
     if m.top.isInFocusChain()
         m.focusRing.color = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
-        setButtonColor(m.selectedFocusedIndex, ColorPalette.WHITE)
+        setButtonColor(ColorPalette.WHITE)
     else
         m.focusRing.color = ColorPalette.LIGHTBLUE
-        setButtonColor(m.selectedFocusedIndex, ColorPalette.DARKGREY)
+        setButtonColor(ColorPalette.DARKGREY)
     end if
 end sub
 
-sub setButtonColor(buttonIndex as integer, color as string)
+sub setButtonColor(color as string)
     val = m.buttonGroup.getChild(m.selectedFocusedIndex)
     if isValid(val)
         val.color = color
