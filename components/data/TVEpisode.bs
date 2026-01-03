@@ -23,7 +23,10 @@ sub setPoster()
     end if
 end sub
 
-sub setWatched(isWatched as boolean)
+' Set Watched Status
+' Called from VisualLibraryScene.
+' unplayedItemCount is not used for Movies (but signature needs to match)
+sub setWatched(isWatched as boolean, unplayedItemCount = 0 as integer)
     if not isValid(m.top.json) then return
 
     json = m.top.json
