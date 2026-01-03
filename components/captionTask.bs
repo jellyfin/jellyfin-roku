@@ -178,9 +178,9 @@ end function
 
 function prepareStyles(styles as object, rect, lineCount = 1 as integer) as object
     captionStyles = styles
-    finalStyles = { translation: [960, 1020] }
-
-    verticalPosition = 1020
+    finalStyles = { translation: [960, 900] }
+    ' Safeguard to prevent bottom-aligned subtitles from being rendered off-screen.
+    verticalPosition = 900
     horizontalPositon = 960 - (rect.BoundingRect().width / 2)
 
     if not isValidAndNotEmpty(captionStyles)
@@ -194,6 +194,13 @@ function prepareStyles(styles as object, rect, lineCount = 1 as integer) as obje
     if not isStringEqual(captionLine, string.EMPTY)
         captionLineHeight = (rect.BoundingRect().height / lineCount)
         verticalPosition = processLineCue(captionLine, captionLineHeight)
+    end if
+
+    ' Safeguard to prevent bottom-aligned subtitles from being rendered off-screen.
+    ' Some TVs cut off captions when the vertical position exceeds this limit.
+    ' This clamp improves overall subtitle visibility without introducing resizing logic.
+    if verticalPosition > 900
+        verticalPosition = 900
     end if
 
     ' Position
