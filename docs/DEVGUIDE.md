@@ -78,7 +78,14 @@ Out of the box, the BrightScript extension will prompt you to pick a Roku device
 ```
 
 Example:
+
 ![image](https://user-images.githubusercontent.com/2544493/170485209-0dbe6787-8026-47e7-9095-1df96cda8a0a.png)
+
+### Testing a PR
+
+If you want to test a PR to see if it fixes an issue for you, you can sideload the PR's artifact (zip) using the Roku's development setup guide mentioned above.
+
+To find a PR's artifact, click on the "Checks" tab on the PR page and then "Artifacts"
 
 ### Bug/Crash Reports
 
