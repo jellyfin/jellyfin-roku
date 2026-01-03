@@ -11,20 +11,20 @@
             <ScrollingText id="artistName" horizAlign="left" font="font:MediumSystemFont" maxWidth="1290" height="23" />
           </LayoutGroup>
 
-          <LayoutGroup layoutDirection="horiz" itemSpacings="[15]">
+          <LayoutGroup layoutDirection="horiz" itemSpacings="[25]">
             <LayoutGroup layoutDirection="horiz" itemSpacings="[15]">
               <Poster id="runtimeIcon" width="35" height="35" uri="pkg:/images/icons/35px/clock.png" />
-              <Text id="runtime" vertAlign="center" font="font:MediumSystemFont" width="90" height="35" />
+              <Text id="runtime" vertAlign="center" font="font:MediumSystemFont" height="35" />
             </LayoutGroup>
 
             <LayoutGroup layoutDirection="horiz" itemSpacings="[15]">
               <Poster id="numberofsongsIcon" width="35" height="35" uri="pkg:/images/icons/35px/musicNote.png" />
-              <Text id="numberofsongs" vertAlign="center" font="font:MediumSystemFont" width="125" height="35" />
+              <Text id="numberofsongs" vertAlign="center" font="font:MediumSystemFont" height="35" />
             </LayoutGroup>
 
             <LayoutGroup layoutDirection="horiz" itemSpacings="[15]">
               <Poster id="releasedIcon" width="35" height="35" uri="pkg:/images/icons/35px/calendar.png" />
-              <Text id="released" vertAlign="center" font="font:MediumSystemFont" width="60" height="35" />
+              <Text id="released" vertAlign="center" font="font:MediumSystemFont" height="35" />
             </LayoutGroup>
 
             <LayoutGroup layoutDirection="horiz" itemSpacings="[15]">

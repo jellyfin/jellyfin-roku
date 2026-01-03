@@ -20,6 +20,7 @@ sub init()
     m.dscr = m.top.findNode("overview")
     m.dscr.ellipsisText = tr("...")
 
+    m.artistName = m.top.findNode("artistName")
     m.albumCoverBackground = m.top.findNode("albumCoverBackground")
     m.albumCoverBackground.color = ColorPalette.TRANSPARENT
     m.albumCoverReturnElement = invalid
@@ -99,9 +100,8 @@ sub setFontSizes()
         albumTitle.font.size = 45
     end if
 
-    artistName = m.top.findNode("artistName")
-    if isValid(artistName)
-        artistName.font.size = 23
+    if isValid(m.artistName)
+        m.artistName.font.size = 23
     end if
 
     runtime = m.top.findNode("runtime")
@@ -166,9 +166,8 @@ sub setScreenTitle(json)
         albumTitle.text = json.name
     end if
 
-    artistName = m.top.findNode("artistName")
-    if isValid(artistName)
-        artistName.text = json.AlbumArtist
+    if isValid(m.artistName)
+        m.artistName.text = json.AlbumArtist
     end if
 end sub
 
@@ -244,6 +243,8 @@ sub OnScreenShown()
 end sub
 
 sub refreshAlbumTrackList()
+    if not isChainValid(m.top.pageContent, "id") then return
+
     m.focusedItem = m.songList.itemFocused
     m.LoadAlbumTask = CreateObject("roSGNode", "LoadAlbumTask")
     m.LoadAlbumTask.id = m.top.pageContent.id
@@ -388,7 +389,9 @@ sub dehighlightCover()
     else if isStringEqual(returnElementType, "MultiStyleText")
         highlightGenre()
     else if isStringEqual(returnElementType, "Text")
-        m.dscr.color = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+        m.albumCoverReturnElement.color = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+    else if isStringEqual(returnElementType, "ScrollingText")
+        m.albumCoverReturnElement.color = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
     end if
 
     m.albumCoverReturnElement.setfocus(true)
@@ -442,6 +445,14 @@ function onKeyEvent(key as string, press as boolean) as boolean
                         unfocusButton()
                         return true
                     end if
+
+                    ' If we have no genres, check if we can go to the artistName
+                    if not isValidAndNotEmpty(chainLookup(m.artistName, "text")) then return false
+
+                    unfocusButton()
+                    m.artistName.setFocus(true)
+                    m.artistName.color = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+                    m.top.lastFocus = m.artistName
                 else
                     unfocusButton()
                     m.dscr.setFocus(true)
@@ -585,6 +596,59 @@ function onKeyEvent(key as string, press as boolean) as boolean
                     return true
                 end if
             end if
+
+            if isStringEqual(key, KeyCode.UP)
+                if not isValidAndNotEmpty(chainLookup(m.artistName, "text")) then return false
+
+                unfocusGenres()
+
+                m.artistName.setFocus(true)
+                m.artistName.color = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+                m.top.lastFocus = m.artistName
+            end if
+        end if
+    end if
+
+    if m.artistName.hasFocus()
+        if isStringEqual(key, KeyCode.DOWN)
+            m.artistName.color = ColorPalette.WHITE
+
+            ' If we have genres, focus them
+            if focusGenres()
+                m.artistName.color = ColorPalette.WHITE
+                return true
+            end if
+
+            ' We have no genres, if we have an overview, focus it
+            if not isStringEqual(m.dscr.text, string.EMPTY)
+                m.dscr.setFocus(true)
+                m.dscr.color = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+                m.top.lastFocus = m.dscr
+                return true
+            end if
+
+            ' We have no overview, focus buttons
+            selectedButton = m.buttonGrp.getChild(m.top.selectedButtonIndex)
+            selectedButton.focus = true
+            selectedButton.setfocus(true)
+            return true
+        end if
+
+        if isStringEqual(key, KeyCode.OK)
+            itemContent = m.top.pageContent
+            if not isChainValid(itemContent, "json.AlbumArtists") then return false
+            if not isValidAndNotEmpty(itemContent.json.AlbumArtists) then return false
+
+            data = itemContent.json.AlbumArtists[0]
+            data.selectionType = "artist"
+            m.top.getScene().jumpTo = data
+            return true
+        end if
+
+        if isStringEqual(key, KeyCode.RIGHT)
+            m.artistName.color = ColorPalette.WHITE
+            highlightCover(m.artistName)
+            return true
         end if
     end if
 
