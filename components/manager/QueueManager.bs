@@ -25,12 +25,14 @@ sub init()
     m.position = 0
     m.preferredAudioTrackIndex = -1
     m.preferredAudioTrackName = string.EMPTY
+    m.episodeToShowAtFinish = string.EMPTY
     m.preferredSubtitleTrack = {}
     m.shuffleEnabled = false
 end sub
 
 ' Clear all content from play queue
 sub clear()
+    m.episodeToShowAtFinish = string.EMPTY
     m.isPlaying = false
     m.queue = []
     m.queueTypes = []
@@ -438,6 +440,16 @@ sub set(items)
         m.queue.push(item)
         m.queueTypes.push(getItemType(item))
     end for
+end sub
+
+' Get episode ID to show when current episode ends
+function getEpisodeToShowAtFinish()
+    return m.episodeToShowAtFinish
+end function
+
+' Set episode ID to show when current episode ends
+sub setEpisodeToShowAtFinish(episodeID)
+    m.episodeToShowAtFinish = episodeID
 end sub
 
 ' Set starting point for top item in the queue

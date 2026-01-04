@@ -1,6 +1,6 @@
 import "pkg:/source/enums/MediaPlaybackState.bs"
-import "pkg:/source/enums/TaskControl.bs"
 import "pkg:/source/enums/SubtitleSelection.bs"
+import "pkg:/source/enums/TaskControl.bs"
 import "pkg:/source/enums/TimerControl.bs"
 import "pkg:/source/enums/VideoControl.bs"
 
@@ -338,8 +338,18 @@ sub onStateChange()
             return
         end if
 
+        episodeToShowAtFinish = string.EMPTY
+        gotoNextEpisodeAfterCurrentEnds = chainLookupReturn(m.global.session, "user.settings.`playback.showNextUpAfterFinish`", false)
+        if gotoNextEpisodeAfterCurrentEnds
+            episodeToShowAtFinish = m.global.queueManager.callFunc("getEpisodeToShowAtFinish")
+        end if
+
         m.global.queueManager.callFunc("bypassNextPreferredAudioTrackIndexReset")
         m.global.queueManager.callFunc("clear")
+
+        if isValidAndNotEmpty(episodeToShowAtFinish)
+            m.global.queueManager.callFunc("setLastKnownItemID", episodeToShowAtFinish.LookupCI("id"))
+        end if
 
         ' Playback completed, return user to previous screen
         m.global.sceneManager.callFunc("popScene")

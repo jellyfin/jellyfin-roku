@@ -209,11 +209,18 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
         end for
     end if
 
-    if m.global.session.user.Configuration.EnableNextEpisodeAutoPlay and isValid(video.showID)
-        episodeQueueLimit = chainLookupReturn(m.global.session, "user.settings.episodeQueueLimit", "50")
-        episodeQueueLimit = episodeQueueLimit.ToInt()
+    if isValid(video.showID)
+        if m.global.session.user.Configuration.EnableNextEpisodeAutoPlay
+            episodeQueueLimit = chainLookupReturn(m.global.session, "user.settings.episodeQueueLimit", "50")
+            episodeQueueLimit = episodeQueueLimit.ToInt()
 
-        addNextEpisodesToQueue(video.showID, additionalPartsCount, episodeQueueLimit)
+            addNextEpisodesToQueue(video.showID, additionalPartsCount, episodeQueueLimit)
+        else
+            gotoNextEpisodeAfterCurrentEnds = chainLookupReturn(m.global.session, "user.settings.`playback.showNextUpAfterFinish`", false)
+            if gotoNextEpisodeAfterCurrentEnds
+                addEpisodeToShowAtFinish(video.showID)
+            end if
+        end if
     end if
 
     playbackPosition = 0!
@@ -634,7 +641,38 @@ sub addNextEpisodesToQueue(showID, additionalPartsCount as integer, queueLimit a
             m.global.queueManager.callFunc("push", data.Items[i])
         end for
     end if
+end sub
 
+' Add episode to show at finish of current episode
+sub addEpisodeToShowAtFinish(showID)
+    videoID = m.top.itemId
+
+    ' If first item is an intro video, use the next item in the queue
+    if m.top.isIntro
+        currentVideo = m.global.queueManager.callFunc("getItemByIndex", 1)
+
+        if isValid(currentVideo) and isValid(currentVideo.id)
+            videoID = currentVideo.id
+
+            ' Override showID value since it's for the intro video
+            meta = ItemMetaData(videoID)
+            if isValid(meta)
+                showID = meta.showID
+            end if
+        end if
+    end if
+
+    url = Substitute("Shows/{0}/Episodes", showID)
+    urlParams = { "UserId": m.global.session.user.id }
+    urlParams.Append({ "StartItemId": videoID })
+    urlParams.Append({ "Limit": 2 })
+    urlParams.Append({ "isMissing": false })
+    resp = APIRequest(url, urlParams)
+    data = getJson(resp)
+
+    if isValid(data) and data.Items.Count() > 1
+        m.global.queueManager.callFunc("setEpisodeToShowAtFinish", data.Items[1])
+    end if
 end sub
 
 'Checks available subtitle tracks and puts subtitles in forced, default, and non-default/forced but preferred language at the top
