@@ -144,6 +144,13 @@ end sub
 sub pageContentChanged()
     item = m.top.pageContent
 
+    artists = chainLookup(item, "json.Artists")
+    if isValidAndNotEmpty(artists)
+        m.songList.isCompilation = artists.count() > 1
+    else
+        m.songList.isCompilation = false
+    end if
+
     setBackdropImage(item)
     setPosterImage(item.posterURL)
     setScreenTitle(item.json)
@@ -257,7 +264,6 @@ sub onAlbumDetailsLoaded()
 
     m.songList.doneLoading = false
     m.songList.observeField("doneLoading", "onDoneLoading")
-
     albumDetails = m.LoadAlbumTask.albumDetails
     m.top.albumData = albumDetails
 end sub

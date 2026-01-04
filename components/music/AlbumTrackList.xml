@@ -17,5 +17,6 @@
   <interface>
     <field id="MusicArtistAlbumData" type="node" onChange="getData" />
     <field id="doneLoading" type="boolean" value="false" />
+    <field id="isCompilation" type="boolean" value="false" />
   </interface>
 </component>

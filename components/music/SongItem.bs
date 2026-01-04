@@ -26,7 +26,21 @@ sub itemContentChanged()
     itemData = m.top.itemContent
     if itemData = invalid then return
 
-    m.itemText.text = itemData.LookupCI("title")
+    title = []
+
+    isCompilation = chainLookupReturn(m.top.getParent(), "isCompilation", false)
+    if isCompilation
+        artists = chainLookup(itemData, "artists")
+        if isValidAndNotEmpty(artists)
+            title.push(artists[0])
+        end if
+    end if
+
+    if isValidAndNotEmpty(itemData.LookupCI("title"))
+        title.push(itemData.LookupCI("title"))
+    end if
+
+    m.itemText.text = title.join(` - `)
 
     if itemData.LookupCI("trackNumber") <> 0
         m.trackNumber.text = `${itemData.LookupCI("trackNumber")}`
