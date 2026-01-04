@@ -312,8 +312,6 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
 
     ' 'TODO: allow user selection of subtitle track before playback initiated, for now set to no subtitles
     video.directPlaySupported = m.playbackInfo.MediaSources[0].SupportsDirectPlay
-    fully_external = false
-
 
     ' For h264/hevc video, Roku spec states that it supports specfic encoding levels
     ' The device can decode content with a Higher Encoding level but may play it back with certain
@@ -334,7 +332,7 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
 
     if video.directPlaySupported
         video.isTranscoded = false
-        addVideoContentURL(video, mediaSourceId, audio_stream_idx, fully_external)
+        addVideoContentURL(video, mediaSourceId, audio_stream_idx)
     else
         if m.playbackInfo.MediaSources[0].TranscodingUrl = invalid
             ' If server does not provide a transcode URL, display a message to the user
@@ -361,9 +359,7 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
 
     setCertificateAuthority(video.content)
 
-    if not fully_external
-        video.content = authRequest(video.content)
-    end if
+    video.content = authRequest(video.content)
 end sub
 
 ' defaultSubtitleTrackFromVid: Identifies the default subtitle track given video id
@@ -468,7 +464,7 @@ function defaultSubtitleTrack(sortedSubtitles, selectedAudioLanguage as string, 
     return SubtitleSelection.NONE ' Keep current default behavior of "None", if no correct subtitle is identified
 end function
 
-sub addVideoContentURL(video, mediaSourceId, audio_stream_idx, fully_external)
+sub addVideoContentURL(video, mediaSourceId, audio_stream_idx)
     protocol = LCase(m.playbackInfo.MediaSources[0].Protocol)
     if protocol <> "file"
         uri = ParsedUrl(m.playbackInfo.MediaSources[0].Path)
@@ -478,7 +474,6 @@ sub addVideoContentURL(video, mediaSourceId, audio_stream_idx, fully_external)
             ' later we will substitute the users provided URL for this case
             video.content.url = buildURL(uri.path)
         else
-            fully_external = true
             video.content.url = m.playbackInfo.MediaSources[0].Path
         end if
     else

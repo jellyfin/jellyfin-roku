@@ -60,6 +60,7 @@ sub loadResults()
 end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean
+    if not press then return false
 
     m.searchAlphabox = m.top.findNode("search_Key")
     if m.searchAlphabox.textEditBox.hasFocus()

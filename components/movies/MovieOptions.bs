@@ -166,6 +166,7 @@ end sub
 
 
 function onKeyEvent(key as string, press as boolean) as boolean
+    if not press then return false
 
     if key = KeyCode.DOWN or (key = KeyCode.OK and m.top.findNode("buttons").hasFocus())
         m.top.findNode("buttons").setFocus(false)
