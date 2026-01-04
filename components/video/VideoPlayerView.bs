@@ -17,6 +17,8 @@ import "pkg:/source/utils/misc.bs"
 sub init()
     m.top.observeField("availableAudioTracks", "onAvailableAudioTracksChanged")
 
+    m.subtitleOffset = 0
+
     m.LoadProgramDetailsTask = createObject("roSGNode", "LoadProgramDetailsTask")
     m.LoadProgramDetailsTask.observeField("programDetails", "onProgramDetailsLoaded")
 
@@ -381,6 +383,16 @@ sub onOSDAction()
 
     if action = "itemback" or action = "itemnext"
         handleItemSkipAction(action)
+        return
+    end if
+
+    if action = "showsyncmenu"
+        dialog = createObject("roSGNode", "StandardDialog")
+        dialog.title = "Subtitle Sync"
+        dialog.message = ["Current Offset: " + m.subtitleOffset.toStr() + " ms"]
+        dialog.buttons = ["-500ms", "-100ms", "Reset (0ms)", "+100ms", "+500ms", "Close"]
+        dialog.observeField("buttonSelected", "onSyncButtonSelected")
+        m.top.getScene().dialog = dialog
         return
     end if
 end sub
@@ -886,8 +898,12 @@ sub onPositionChanged()
     m.osd.positionTime = m.top.position
     m.osd.remainingPositionTime = m.top.duration - m.top.position
 
+    ' Update the caption task playback position.
+    ' The position is calculated in milliseconds based on the current
+    ' video playback position plus the configured subtitle offset.
     if isValid(m.captionTask)
-        m.captionTask.currentPos = Int(m.top.position * 1000)
+        newPos = Int(m.top.position * 1000) + m.subtitleOffset
+        m.captionTask.currentPos = newPos
     end if
 
     ' Check if dialog is open
@@ -1210,6 +1226,31 @@ sub refreshLiveOSDContent()
     if not m.top.content.live then return
     m.LoadProgramDetailsTask.programId = m.top.id
     m.LoadProgramDetailsTask.control = TaskControl.RUN
+end sub
+
+sub onSyncButtonSelected(event)
+    dialog = event.getRoSGNode()
+    index = event.getData()
+
+    ' Button index mapping:
+    ' 0: -500 ms | 1: -100 ms | 2: Reset | 3: +100 ms | 4: +500 ms | 5: Close
+
+    if index = 0
+        m.subtitleOffset -= 500
+    else if index = 1
+        m.subtitleOffset -= 100
+    else if index = 2
+        m.subtitleOffset = 0
+    else if index = 3
+        m.subtitleOffset += 100
+    else if index = 4
+        m.subtitleOffset += 500
+    else if index = 5
+        dialog.close = true
+        return
+    end if
+
+    dialog.message = ["Current Offset: " + m.subtitleOffset.toStr() + " ms"]
 end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean
