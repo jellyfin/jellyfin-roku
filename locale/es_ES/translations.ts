@@ -2254,6 +2254,62 @@
         <source>Play Instant Mix</source>
         <translation>Reproducir una mezcla instantánea</translation>
     </message>
+    <message>
+        <source>Grid View Item Titles</source>
+        <translation>Títulos de los elementos de la vista de cuadrícula</translation>
+    </message>
+    <message>
+        <source>Select when to show titles in grid view.</source>
+        <translation>Seleccione cuándo mostrar los títulos en vista de cuadrícula.</translation>
+    </message>
+    <message>
+        <source>Library Image Orientation</source>
+        <translation>Orientación de las imágenes de la biblioteca</translation>
+    </message>
+    <message>
+        <source>Select the poster image orientation for the library views.</source>
+        <translation>Seleccione la orientación de la imagen del póster para las vistas de la biblioteca.</translation>
+    </message>
+    <message>
+        <source>Default (Varies By Media Type)</source>
+        <translation>Por defecto (por tipo de medios)</translation>
+    </message>
+    <message>
+        <source>Landscape (Wide)</source>
+        <translation>Apaisado (ancho)</translation>
+    </message>
+    <message>
+        <source>Portrait (Vertical)</source>
+        <translation>Retrato (Vertical)</translation>
+    </message>
+    <message>
+        <source>Skip Unknown</source>
+        <translation>Saltar el segmento</translation>
+    </message>
+    <message>
+        <source>Skip Commercial</source>
+        <translation>Saltar la publicidad</translation>
+    </message>
+    <message>
+        <source>Skip Preview</source>
+        <translation>Saltar la previsualización</translation>
+    </message>
+    <message>
+        <source>Skip Recap</source>
+        <translation>Saltar recapitulación</translation>
+    </message>
+    <message>
+        <source>Skip Outro</source>
+        <translation>Saltar cierre</translation>
+    </message>
+    <message>
+        <source>Skip Intro</source>
+        <translation>Saltar la introducción</translation>
+    </message>
+    <message>
+        <source>Go To Genre</source>
+        <translation>Ir a Género</translation>
+    </message>
 </context>
 <context>
     <name></name>
