@@ -282,8 +282,6 @@ sub saveFavoriteItemSelected(msg)
 end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean
-    if not press then return false
-
     if key = KeyCode.DOWN or (key = KeyCode.OK and m.buttons.hasFocus())
         m.buttons.setFocus(false)
         m.menus[m.selectedItem].setFocus(true)
