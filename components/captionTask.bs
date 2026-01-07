@@ -141,7 +141,7 @@ end function
 sub updateCaption()
     ' Handle state suffix for wait flag
     if isValidAndNotEmpty(m.top.playerState) and LCase(m.top.playerState.right(1)) = "w"
-        m.top.playerState = m.top.playerState.left(len (m.top.playerState) - 1)
+        m.top.playerState = m.top.playerState.left(len(m.top.playerState) - 1)
         return
     end if
 
