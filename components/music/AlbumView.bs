@@ -14,8 +14,36 @@ sub init()
     m.LoadBackdropImageTask.itemsToLoad = "backdropImage"
     m.backDrop = m.top.findNode("backdrop")
 
+    m.zoomCover = m.top.findNode("zoomCover")
+    m.zoomCoverBackground = m.top.findNode("zoomCoverBackground")
+
     m.dscr = m.top.findNode("overview")
     m.dscr.ellipsisText = tr("...")
+
+    m.artistName = m.top.findNode("artistName")
+    m.albumCoverBackground = m.top.findNode("albumCoverBackground")
+    m.albumCoverBackground.color = ColorPalette.TRANSPARENT
+    m.albumCoverReturnElement = invalid
+
+    m.genres = m.top.findNode("genres")
+    drawingStyles = {
+        "default": {
+            "fontSize": 23,
+            "fontUri": "font:MediumSystemFontFile",
+            "color": ColorPalette.WHITE
+        },
+        "b": {
+            "fontSize": 23,
+            "fontUri": "font:MediumSystemFontFile",
+            "color": chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+        }
+    }
+
+    if isValid(m.genres)
+        m.genres.drawingStyles = drawingStyles
+    end if
+
+    m.highlightedGenre = 0
 
     setFontSizes()
 
@@ -72,9 +100,8 @@ sub setFontSizes()
         albumTitle.font.size = 45
     end if
 
-    artistName = m.top.findNode("artistName")
-    if isValid(artistName)
-        artistName.font.size = 23
+    if isValid(m.artistName)
+        m.artistName.font.size = 23
     end if
 
     runtime = m.top.findNode("runtime")
@@ -90,11 +117,6 @@ sub setFontSizes()
     released = m.top.findNode("released")
     if isValid(released)
         released.font.size = 23
-    end if
-
-    genres = m.top.findNode("genres")
-    if isValid(genres)
-        genres.font.size = 23
     end if
 
     trackHeading = m.top.findNode("trackHeading")
@@ -122,6 +144,13 @@ end sub
 sub pageContentChanged()
     item = m.top.pageContent
 
+    artists = chainLookup(item, "json.Artists")
+    if isValidAndNotEmpty(artists)
+        m.songList.isCompilation = artists.count() > 1
+    else
+        m.songList.isCompilation = false
+    end if
+
     setBackdropImage(item)
     setPosterImage(item.posterURL)
     setScreenTitle(item.json)
@@ -144,9 +173,8 @@ sub setScreenTitle(json)
         albumTitle.text = json.name
     end if
 
-    artistName = m.top.findNode("artistName")
-    if isValid(artistName)
-        artistName.text = json.AlbumArtist
+    if isValid(m.artistName)
+        m.artistName.text = json.AlbumArtist
     end if
 end sub
 
@@ -210,9 +238,9 @@ sub OnScreenShown()
         group = m.global.sceneManager.callFunc("getActiveScene")
         group.lastFocus = m.top.lastFocus
     else
-        m.top.setFocus(true)
+        m.play.setFocus(true)
         group = m.global.sceneManager.callFunc("getActiveScene")
-        group.lastFocus = m.top
+        group.lastFocus = m.play
     end if
 
     ' Refresh Track List for Playcount Update
@@ -222,6 +250,8 @@ sub OnScreenShown()
 end sub
 
 sub refreshAlbumTrackList()
+    if not isChainValid(m.top.pageContent, "id") then return
+
     m.focusedItem = m.songList.itemFocused
     m.LoadAlbumTask = CreateObject("roSGNode", "LoadAlbumTask")
     m.LoadAlbumTask.id = m.top.pageContent.id
@@ -235,7 +265,6 @@ sub onAlbumDetailsLoaded()
 
     m.songList.doneLoading = false
     m.songList.observeField("doneLoading", "onDoneLoading")
-
     albumDetails = m.LoadAlbumTask.albumDetails
     m.top.albumData = albumDetails
 end sub
@@ -254,13 +283,20 @@ sub setOnScreenTextValues(json)
             setFieldTextValue("released", `${json.ProductionYear}`)
         end if
 
-        if json.genres.count() > 0
-            genreList = json.genres
-            if genreList.count() > 3
-                genreList = genreList.slice(0, 3)
+        if isValidAndNotEmpty(json.genres)
+            m.genreList = json.genres
+
+            if m.genreList.count() > 3
+                m.genreList = m.genreList.slice(0, 3)
             end if
 
-            setFieldTextValue("genres", genreList.join(", "))
+            m.genres.text = m.genreList.join(", ")
+        else
+            genresIcon = m.top.findNode("genresIcon")
+            genresIcon.GetParent().removeChild(genresIcon)
+
+            m.genres.GetParent().removeChild(m.genres)
+            m.genres = invalid
         end if
 
         if type(json.RunTimeTicks) = "LongInteger"
@@ -276,10 +312,13 @@ sub setupButtons()
 
     m.play = m.top.findNode("play")
     m.play.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
-    m.top.lastFocus = m.play
+    m.top.lastFocus = m.buttonGrp
 
-    m.instantMix = m.top.findNode("instantMix")
-    m.instantMix.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+    shuffle = m.top.findNode("shuffle")
+    shuffle.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+
+    instantMix = m.top.findNode("instantMix")
+    instantMix.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
 
     m.previouslySelectedButtonIndex = -1
 
@@ -298,16 +337,130 @@ sub onButtonSelectedChange()
     ' Change selected button image to focus state
     selectedButton = m.buttonGrp.getChild(m.top.selectedButtonIndex)
     selectedButton.focus = true
+    selectedButton.setfocus(true)
+end sub
+
+function focusGenres() as boolean
+    if not isValid(m.genres) then return false
+
+    m.highlightedGenre = 0
+    highlightGenre()
+    m.genres.text = m.genreList.join(", ")
+
+    m.genres.setFocus(true)
+    m.top.lastFocus = m.genres
+
+    return true
+end function
+
+sub highlightGenre()
+    activeGenre = m.genreList[m.highlightedGenre]
+    if not isValid(activeGenre) then return
+
+    m.genreList[m.highlightedGenre] = `<b>${activeGenre}</b>`
+    m.genres.text = m.genreList.join(", ")
+end sub
+
+sub dehighlightGenre()
+    activeGenre = m.genreList[m.highlightedGenre]
+    if not isValid(activeGenre) then return
+
+    activeGenre = activeGenre.replace("<b>", string.EMPTY).replace("</b>", string.EMPTY)
+    m.genreList[m.highlightedGenre] = activeGenre
+end sub
+
+sub unfocusGenres()
+    if not isValid(m.genres) then return
+    dehighlightGenre()
+    m.genres.text = m.genreList.join(", ")
+end sub
+
+sub unfocusButton()
+    m.buttonGrp.getChild(m.top.selectedButtonIndex).escape = string.EMPTY
+    selectedButton = m.buttonGrp.getChild(m.top.selectedButtonIndex)
+    selectedButton.focus = false
+end sub
+
+sub highlightCover(returnElement as object)
+    m.albumCoverReturnElement = returnElement
+    m.albumCoverBackground.setFocus(true)
+    m.albumCoverBackground.color = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+end sub
+
+sub dehighlightCover()
+    returnElementType = m.albumCoverReturnElement.subtype()
+
+    if isStringEqual(returnElementType, "IconButton")
+        onButtonSelectedChange()
+    else if isStringEqual(returnElementType, "MultiStyleText")
+        highlightGenre()
+    else if isStringEqual(returnElementType, "Text")
+        m.albumCoverReturnElement.color = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+    else if isStringEqual(returnElementType, "ScrollingText")
+        m.albumCoverReturnElement.color = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+    end if
+
+    m.albumCoverReturnElement.setfocus(true)
+    m.top.lastFocus = m.albumCoverReturnElement
+    m.albumCoverBackground.color = ColorPalette.TRANSPARENT
+end sub
+
+sub zoomAlbumCover()
+    if isValidAndNotEmpty(m.zoomCover.uri)
+        displayZoomCover()
+    end if
+
+    deviceInfo = CreateObject("roDeviceInfo")
+    m.screenResolution = deviceInfo.GetDisplaySize()
+
+    m.zoomCover.uri = m.top.pageContent.posterURL.replace("maxHeight=400", `maxHeight=${m.screenResolution.h}`).replace("maxWidth=400", `maxWidth=${m.screenResolution.w}`)
+    m.zoomCover.observeFieldScoped("bitmapWidth", "onZoomCoverWidthChange")
+    m.zoomCover.observeFieldScoped("bitmapHeight", "onZoomCoverHeightChange")
+
+    displayZoomCover()
+end sub
+
+sub displayZoomCover()
+    m.zoomCoverBackground.color = ColorPalette.BLACKDD
+    m.zoomCoverBackground.visible = true
+end sub
+
+sub hideZoomCover()
+    m.zoomCoverBackground.visible = false
+end sub
+
+sub onZoomCoverWidthChange()
+    m.zoomCover.unobserveFieldScoped("bitmapWidth")
+    m.zoomCover.width = m.zoomCover.bitmapWidth
+    m.zoomCover.translation = [(1920 - m.zoomCover.width) / 2, m.zoomCover.translation[1]]
+end sub
+
+sub onZoomCoverHeightChange()
+    m.zoomCover.unobserveFieldScoped("bitmapHeight")
+    m.zoomCover.height = m.zoomCover.bitmapHeight
+    m.zoomCover.translation = [m.zoomCover.translation[0], (1080 - m.zoomCover.height) / 2]
 end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean
     if m.buttonGrp.isInFocusChain()
         if key = KeyCode.UP
             if m.buttonGrp.getChild(m.top.selectedButtonIndex).escape = "up"
-                if not isStringEqual(m.dscr.text, string.EMPTY)
-                    m.buttonGrp.getChild(m.top.selectedButtonIndex).escape = ""
-                    selectedButton = m.buttonGrp.getChild(m.top.selectedButtonIndex)
-                    selectedButton.focus = false
+                ' If there is no overview content, go straight to genre link
+                if isStringEqual(m.dscr.text, string.EMPTY)
+                    if focusGenres()
+                        unfocusButton()
+                        return true
+                    end if
+
+                    ' If we have no genres, check if we can go to the artistName
+                    if not isValidAndNotEmpty(chainLookup(m.artistName, "text")) then return false
+
+                    unfocusButton()
+                    m.artistName.setFocus(true)
+                    m.artistName.color = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+                    m.top.lastFocus = m.artistName
+                else
+                    unfocusButton()
                     m.dscr.setFocus(true)
                     m.dscr.color = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
                     m.top.lastFocus = m.dscr
@@ -325,10 +478,12 @@ function onKeyEvent(key as string, press as boolean) as boolean
         end if
 
         if key = KeyCode.LEFT
-            if m.top.selectedButtonIndex > 0
-                m.previouslySelectedButtonIndex = m.top.selectedButtonIndex
-                m.top.selectedButtonIndex = m.top.selectedButtonIndex - 1
-                return true
+            if m.buttonGrp.getChild(m.top.selectedButtonIndex).escape = "left"
+                if m.top.selectedButtonIndex > 0
+                    m.previouslySelectedButtonIndex = m.top.selectedButtonIndex
+                    m.top.selectedButtonIndex = m.top.selectedButtonIndex - 1
+                    return true
+                end if
             end if
         end if
 
@@ -337,6 +492,10 @@ function onKeyEvent(key as string, press as boolean) as boolean
                 m.previouslySelectedButtonIndex = m.top.selectedButtonIndex
                 m.top.selectedButtonIndex = m.top.selectedButtonIndex + 1
                 return true
+            else
+                selectedButton = m.buttonGrp.getChild(m.top.selectedButtonIndex)
+                selectedButton.focus = false
+                highlightCover(selectedButton)
             end if
         end if
 
@@ -354,6 +513,31 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
     if not press then return false
 
+    if m.zoomCoverBackground.visible
+        hideZoomCover()
+        return true
+    end if
+
+    if m.albumCoverBackground.isInFocusChain()
+        if isStringEqual(key, KeyCode.OK)
+            zoomAlbumCover()
+            return true
+        end if
+
+        if isStringEqual(key, KeyCode.LEFT)
+            dehighlightCover()
+            return true
+        end if
+
+        if isStringEqual(key, KeyCode.DOWN)
+            m.albumCoverReturnElement = m.songList
+            dehighlightCover()
+            return true
+        end if
+
+        return false
+    end if
+
     if m.songList.hasFocus()
         if key = KeyCode.OPTIONS
             focusedSong = m.songList.content.getChild(m.songList.itemFocused)
@@ -366,9 +550,110 @@ function onKeyEvent(key as string, press as boolean) as boolean
         end if
 
         if key = KeyCode.UP
-            m.play.setFocus(true)
-            m.play.focus = true
-            m.top.lastFocus = m.play
+            onButtonSelectedChange()
+            return true
+        end if
+    end if
+
+    if isValid(m.genres)
+        if m.genres.isInFocusChain()
+            if isStringEqual(key, KeyCode.LEFT)
+                if m.highlightedGenre = 0 then return false
+                dehighlightGenre()
+                m.highlightedGenre--
+                highlightGenre()
+                return true
+            end if
+
+            if isStringEqual(key, KeyCode.RIGHT)
+                dehighlightGenre()
+
+                if m.highlightedGenre = m.genreList.count() - 1
+                    m.genres.text = m.genreList.join(", ")
+                    highlightCover(m.genres)
+                    return true
+                end if
+
+                m.highlightedGenre++
+                highlightGenre()
+                return true
+            end if
+
+            if isStringEqual(key, KeyCode.OK)
+                data = m.top.pageContent.json.GenreItems[m.highlightedGenre]
+                data.selectionType = "genre"
+                m.top.getScene().jumpTo = data
+                return true
+            end if
+
+            if isStringEqual(key, KeyCode.DOWN)
+                unfocusGenres()
+
+                ' If there is no overview content, go straight to buttons
+                if isStringEqual(m.dscr.text, string.EMPTY)
+                    selectedButton = m.buttonGrp.getChild(m.top.selectedButtonIndex)
+                    selectedButton.focus = true
+                    selectedButton.setfocus(true)
+                    return true
+                else
+                    m.dscr.setFocus(true)
+                    m.dscr.color = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+                    m.top.lastFocus = m.dscr
+                    return true
+                end if
+            end if
+
+            if isStringEqual(key, KeyCode.UP)
+                if not isValidAndNotEmpty(chainLookup(m.artistName, "text")) then return false
+
+                unfocusGenres()
+
+                m.artistName.setFocus(true)
+                m.artistName.color = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+                m.top.lastFocus = m.artistName
+            end if
+        end if
+    end if
+
+    if m.artistName.hasFocus()
+        if isStringEqual(key, KeyCode.DOWN)
+            m.artistName.color = ColorPalette.WHITE
+
+            ' If we have genres, focus them
+            if focusGenres()
+                m.artistName.color = ColorPalette.WHITE
+                return true
+            end if
+
+            ' We have no genres, if we have an overview, focus it
+            if not isStringEqual(m.dscr.text, string.EMPTY)
+                m.dscr.setFocus(true)
+                m.dscr.color = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+                m.top.lastFocus = m.dscr
+                return true
+            end if
+
+            ' We have no overview, focus buttons
+            selectedButton = m.buttonGrp.getChild(m.top.selectedButtonIndex)
+            selectedButton.focus = true
+            selectedButton.setfocus(true)
+            return true
+        end if
+
+        if isStringEqual(key, KeyCode.OK)
+            itemContent = m.top.pageContent
+            if not isChainValid(itemContent, "json.AlbumArtists") then return false
+            if not isValidAndNotEmpty(itemContent.json.AlbumArtists) then return false
+
+            data = itemContent.json.AlbumArtists[0]
+            data.selectionType = "artist"
+            m.top.getScene().jumpTo = data
+            return true
+        end if
+
+        if isStringEqual(key, KeyCode.RIGHT)
+            m.artistName.color = ColorPalette.WHITE
+            highlightCover(m.artistName)
             return true
         end if
     end if
@@ -377,6 +662,19 @@ function onKeyEvent(key as string, press as boolean) as boolean
         if key = KeyCode.OK
             createFullDscrDlg()
             return true
+        end if
+
+        if isStringEqual(key, KeyCode.RIGHT)
+            m.dscr.color = ColorPalette.WHITE
+            highlightCover(m.dscr)
+            return true
+        end if
+
+        if isStringEqual(key, KeyCode.UP)
+            if focusGenres()
+                m.dscr.color = ColorPalette.WHITE
+                return true
+            end if
         end if
 
         if key = KeyCode.DOWN

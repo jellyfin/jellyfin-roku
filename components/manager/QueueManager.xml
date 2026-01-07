@@ -27,7 +27,10 @@
     <function name="pop" />
     <function name="push" />
     <function name="resetShuffle" />
+    <function name="setShuffle" />
     <function name="set" />
+    <function name="getEpisodeToShowAtFinish" />
+    <function name="setEpisodeToShowAtFinish" />
     <function name="bypassNextPreferredAudioTrackIndexReset" />
     <function name="getTranscodeCodec" />
     <function name="getForceTranscode" />

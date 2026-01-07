@@ -1,46 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component name="AlbumView" extends="JFScreen">
   <children>
-    <Poster id="backdrop" opacity=".4" loadDisplayMode="scaleToZoom" width="1920" height="1200" blendColor="#3f3f3f" />
+    <Poster id="backdrop" opacity=".4" loadDisplayMode="scaleToZoom" width="1920" height="1080" blendColor="#3f3f3f" />
 
-    <LayoutGroup id="toplevel" layoutDirection="vert" translation="[100, 100]" itemSpacings="[25]">
+    <LayoutGroup id="toplevel" layoutDirection="vert" translation="[100, 100]" itemSpacings="[10]">
       <LayoutGroup layoutDirection="horiz" itemSpacings="[15]">
         <LayoutGroup layoutDirection="vert" itemSpacings="[25]">
           <LayoutGroup layoutDirection="vert" itemSpacings="[0]">
-            <ScrollingText id="albumTitle" horizAlign="left" font="font:MediumBoldSystemFont" maxWidth="1300" height="45" />
-            <ScrollingText id="artistName" horizAlign="left" font="font:MediumSystemFont" maxWidth="1300" height="23" />
+            <ScrollingText id="albumTitle" horizAlign="left" font="font:MediumBoldSystemFont" maxWidth="1290" height="45" />
+            <ScrollingText id="artistName" horizAlign="left" font="font:MediumSystemFont" maxWidth="1290" height="23" />
           </LayoutGroup>
 
-          <LayoutGroup layoutDirection="horiz" itemSpacings="[15]">
+          <LayoutGroup layoutDirection="horiz" itemSpacings="[25]">
             <LayoutGroup layoutDirection="horiz" itemSpacings="[15]">
               <Poster id="runtimeIcon" width="35" height="35" uri="pkg:/images/icons/35px/clock.png" />
-              <Text id="runtime" vertAlign="center" font="font:MediumSystemFont" width="90" height="35" />
+              <Text id="runtime" vertAlign="center" font="font:MediumSystemFont" height="35" />
             </LayoutGroup>
 
             <LayoutGroup layoutDirection="horiz" itemSpacings="[15]">
               <Poster id="numberofsongsIcon" width="35" height="35" uri="pkg:/images/icons/35px/musicNote.png" />
-              <Text id="numberofsongs" vertAlign="center" font="font:MediumSystemFont" width="125" height="35" />
+              <Text id="numberofsongs" vertAlign="center" font="font:MediumSystemFont" height="35" />
             </LayoutGroup>
 
             <LayoutGroup layoutDirection="horiz" itemSpacings="[15]">
               <Poster id="releasedIcon" width="35" height="35" uri="pkg:/images/icons/35px/calendar.png" />
-              <Text id="released" vertAlign="center" font="font:MediumSystemFont" width="60" height="35" />
+              <Text id="released" vertAlign="center" font="font:MediumSystemFont" height="35" />
             </LayoutGroup>
 
             <LayoutGroup layoutDirection="horiz" itemSpacings="[15]">
               <Poster id="genresIcon" width="35" height="35" uri="pkg:/images/icons/35px/genre.png" />
-              <Text id="genres" vertAlign="center" font="font:MediumSystemFont" width="400" height="35" />
+              <MultiStyleText id="genres" vertAlign="center" width="400" height="35" />
             </LayoutGroup>
           </LayoutGroup>
 
-          <Text id="overview" wrap="true" lineSpacing="25" maxLines="3" width="1300" />
+          <Text id="overview" wrap="true" lineSpacing="25" maxLines="3" width="1290" />
           <ButtonGroupHoriz id="buttons" itemSpacings="[20]">
             <IconButton id="play" background="#070707" padding="35" icon="pkg:/images/icons/play.png" text="Play" height="65" width="140" />
+            <IconButton id="shuffle" background="#070707" padding="35" icon="pkg:/images/icons/shufflePlay.png" text="Shuffle" height="65" width="140" />
             <IconButton id="instantMix" background="#070707" padding="35" icon="pkg:/images/icons/instantMix.png" text="Instant Mix" height="65" width="140" />
           </ButtonGroupHoriz>
         </LayoutGroup>
 
-        <Poster id="albumCover" width="400" height="400" />
+        <Rectangle id="albumCoverBackground" width="420" height="420">
+          <Poster id="albumCover" translation="[10,10]" width="400" height="400" />
+        </Rectangle>
       </LayoutGroup>
 
       <LayoutGroup id="infoGroup" layoutDirection="vert" itemSpacings="[15]">
@@ -62,8 +65,11 @@
             numRows="9" />
         </Rectangle>
       </LayoutGroup>
-
     </LayoutGroup>
+
+    <Rectangle id="zoomCoverBackground" visible="false" width="1920" height="1200" translation="[0, 0]">
+      <Poster id="zoomCover" />
+    </Rectangle>
   </children>
   <interface>
     <field id="playlistData" type="array" />
@@ -71,6 +77,7 @@
     <field id="albumData" type="node" alias="songList.MusicArtistAlbumData" />
     <field id="playSong" alias="songList.itemSelected" />
     <field id="playAlbumSelected" alias="play.selected" />
+    <field id="shuffleAlbumSelected" alias="shuffle.selected" />
     <field id="instantMixSelected" alias="instantMix.selected" />
     <field id="selectedButtonIndex" type="integer" value="-1" />
   </interface>

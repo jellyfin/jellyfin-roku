@@ -6,6 +6,7 @@
     <field id="image" type="node" onChange="setPoster" />
     <field id="posterURL" type="string" />
     <field id="overview" type="string" />
+    <field id="type" type="string" />
     <field id="json" type="assocarray" onChange="setFields" />
   </interface>
 </component>

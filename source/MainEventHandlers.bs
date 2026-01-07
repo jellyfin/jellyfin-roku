@@ -206,6 +206,23 @@ sub onJumpToEvent(msg)
             stopLoadingSpinner()
         end if
     end if
+
+    if isStringEqual(jumpToData.selectiontype, "genre")
+        ' Set filter settings so library loads with selected genre as selected filter
+        set_user_setting("display.gotogenre.landing", "albums")
+        set_user_setting("display.gotogenre.filter", "Genres")
+        set_user_setting("display.gotogenre.filterOptions", `{"Genres": "${jumpToData.LookupCI("Name")}"}`)
+
+        libraryContent = CreateObject("roSGNode", "JFContentItem")
+        libraryContent.type = "Music"
+        libraryContent.json = {
+            type: "collectionfolder",
+            genreId: jumpToData.LookupCI("Id")
+        }
+
+        group = CreateMusicLibraryView(libraryContent)
+        m.global.sceneManager.callFunc("pushScene", group)
+    end if
 end sub
 
 sub onDeepLinkingEvent(args)
@@ -499,10 +516,12 @@ sub onRefreshSeasonDetailsDataEvent()
 
     currentScene = m.global.sceneManager.callFunc("getActiveScene")
 
-    ' Refresh data over poster on TV Show Detail screen
-    if currentScene.isSubType("TVShowDetails")
+    ' Refresh data over poster on TV Series Detail screen
+    if currentScene.isSubType("TVSeriesDetails")
         seriesID = chainLookup(currentScene, "itemContent.id")
         if isValid(seriesID)
+            ' Determine if the resume button needs to be shown
+            currentScene.displayResumeButton = hasResummableEpisode(seriesID)
             currentScene.itemContent = ItemMetaData(seriesID)
         end if
     end if
@@ -804,6 +823,49 @@ sub onSeasonSelectedEvent(msg)
     end if
 end sub
 
+' Find the 1st episode in the series and start playback
+sub onPlaySeriesFromStartEvent(msg)
+    series = msg.getRoSGNode()
+
+    if not isChainValid(series, "itemContent.id") then return
+    if not isChainValid(series, "seasonData.items") then return
+    if not isValidAndNotEmpty(series.seasonData.items) then return
+
+    ' Fall back to playing specials if that's all that is available
+    firstSeasonIndex = 0
+
+    ' Loop through the season data and find the first season with a season number greater than 0
+    for i = 0 to series.seasonData.items.count() - 1
+        if series.seasonData.items[i].json.IndexNumber > 0
+            firstSeasonIndex = i
+            exit for
+        end if
+    end for
+
+    firstSeasonData = series.seasonData.items[firstSeasonIndex]
+
+    if not isValidAndNotEmpty(firstSeasonData.LookupCI("id")) then return
+
+    startLoadingSpinner()
+
+    firstEpisode = api.shows.GetEpisodes(series.itemContent.id, {
+        "seasonId": firstSeasonData.LookupCI("id"),
+        "userid": m.global.session.user.id,
+        "limit": 1,
+        "EnableTotalRecordCount": false,
+        "isMissing": false
+    })
+
+    if not isChainValid(firstEpisode, "items")
+        stopLoadingSpinner()
+        return
+    end if
+
+    m.global.queueManager.callFunc("clear")
+    m.global.queueManager.callFunc("push", firstEpisode.items[0])
+    m.global.queueManager.callFunc("playQueue")
+end sub
+
 sub onMusicAlbumSelectedEvent(msg)
     startLoadingSpinner()
     ptr = msg.getData()
@@ -842,6 +904,16 @@ sub onPlayAlbumEvent(msg)
 
     m.global.queueManager.callFunc("resetShuffle")
     m.global.queueManager.callFunc("set", screenContent.albumData.getChildren(-1, 0))
+    m.global.queueManager.callFunc("playQueue")
+end sub
+
+sub onShuffleAlbumEvent(msg)
+    startLoadingSpinner()
+    screenContent = msg.getRoSGNode()
+
+    m.global.queueManager.callFunc("set", screenContent.albumData.getChildren(-1, 0))
+    m.global.queueManager.callFunc("setShuffle", true)
+
     m.global.queueManager.callFunc("playQueue")
 end sub
 
@@ -1642,7 +1714,6 @@ sub processLibraryItemPopup(selectedPopupButton as string, itemID as string, par
     end if
 
     if selectedPopupButton.Instr(tr("Go To Genre")) <> -1
-
         ' Set filter settings so library loads with selected genre as selected filter
         set_user_setting("display.gotogenre.landing", "albums")
         set_user_setting("display.gotogenre.filter", "Genres")

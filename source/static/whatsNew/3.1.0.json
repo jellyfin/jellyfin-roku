@@ -1,6 +1,6 @@
 [
   {
-    "description": "Redesign Music Album Screen <b>(Note: Playcount may not update in real-time on 10.11.x servers)</b>",
+    "description": "Redesign music album screen <b>(Note: Playcount may not update in real-time on 10.11.x servers)</b>",
     "author": "1hitsong"
   },
   {
@@ -45,6 +45,38 @@
   },
   {
     "description": "Only show \"Shuffle Play Collection\" in option menu if on collection screen",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Allow dismissing of all skip segment buttons",
+    "author": "jimdogx"
+  },
+  {
+    "description": "Add link to genres from album screen",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Allow users to zoom album artwork on album screen by clicking on it",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Redesign TV series screen",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Fix possible crash when server version can't be determined",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Fix possible crash with collections when user data is null",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Add setting to return to next episode's detail screen after current episode ends",
+    "author": "williamkray"
+  },
+  {
+    "description": "Fix .strm playback",
     "author": "1hitsong"
   }
 ]

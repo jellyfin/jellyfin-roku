@@ -2257,5 +2257,13 @@
             <source>Play Instant Mix</source>
             <translation>Play Instant Mix</translation>
         </message>
+        <message>
+            <source>Show Next Episode Details After Finish</source>
+            <translation>Show Next Episode Details After Finish</translation>
+        </message>
+        <message>
+            <source>If auto play next episode is disabled, display the next episode's detail screen after an episode finishes playing. If no next up episode is found, return to the just-played episode's page.</source>
+            <translation>If auto play next episode is disabled, display the next episode's detail screen after an episode finishes playing. If no next up episode is found, return to the just-played episode's page.</translation>
+        </message>
     </context>
 </TS>

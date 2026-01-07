@@ -2,36 +2,11 @@ import "pkg:/source/enums/ColorPalette.bs"
 import "pkg:/source/utils/misc.bs"
 
 sub init()
-    m.top.itemComponentName = "ListPoster"
+    m.top.itemComponentName = "TVSeasonRowItem"
     m.top.content = getData()
+    m.top.rowLabelFont.size = 26
 
-    m.top.rowFocusAnimationStyle = "fixedFocusWrap"
     m.top.focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
-
-    m.top.showRowLabel = [false]
-    m.top.showRowCounter = [true]
-    m.top.rowLabelOffset = [0, 0]
-
-    updateSize()
-
-    m.top.setfocus(true)
-end sub
-
-sub updateSize()
-    itemWidth = 200
-    itemHeight = 320 ' width * 1.5 + text
-
-    m.top.visible = true
-
-    ' size of the whole row
-    m.top.itemSize = [1680, (itemHeight + 40)]
-    ' spacing between rows
-    m.top.itemSpacing = [0, 0]
-
-    ' size of the item in the row
-    m.top.rowItemSize = [itemWidth, itemHeight]
-    ' spacing between items in a row
-    m.top.rowItemSpacing = [0, 0]
 end sub
 
 function getData()

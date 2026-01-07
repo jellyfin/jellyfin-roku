@@ -209,11 +209,18 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
         end for
     end if
 
-    if m.global.session.user.Configuration.EnableNextEpisodeAutoPlay and isValid(video.showID)
-        episodeQueueLimit = chainLookupReturn(m.global.session, "user.settings.episodeQueueLimit", "50")
-        episodeQueueLimit = episodeQueueLimit.ToInt()
+    if isValid(video.showID)
+        if m.global.session.user.Configuration.EnableNextEpisodeAutoPlay
+            episodeQueueLimit = chainLookupReturn(m.global.session, "user.settings.episodeQueueLimit", "50")
+            episodeQueueLimit = episodeQueueLimit.ToInt()
 
-        addNextEpisodesToQueue(video.showID, additionalPartsCount, episodeQueueLimit)
+            addNextEpisodesToQueue(video.showID, additionalPartsCount, episodeQueueLimit)
+        else
+            gotoNextEpisodeAfterCurrentEnds = chainLookupReturn(m.global.session, "user.settings.`playback.showNextUpAfterFinish`", false)
+            if gotoNextEpisodeAfterCurrentEnds
+                addEpisodeToShowAtFinish(video.showID)
+            end if
+        end if
     end if
 
     playbackPosition = 0!
@@ -312,8 +319,6 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
 
     ' 'TODO: allow user selection of subtitle track before playback initiated, for now set to no subtitles
     video.directPlaySupported = m.playbackInfo.MediaSources[0].SupportsDirectPlay
-    fully_external = false
-
 
     ' For h264/hevc video, Roku spec states that it supports specfic encoding levels
     ' The device can decode content with a Higher Encoding level but may play it back with certain
@@ -332,39 +337,56 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
         end if
     end if
 
+    ' Direct play video
     if video.directPlaySupported
         video.isTranscoded = false
-        addVideoContentURL(video, mediaSourceId, audio_stream_idx, fully_external)
-    else
-        if m.playbackInfo.MediaSources[0].TranscodingUrl = invalid
-            ' If server does not provide a transcode URL, display a message to the user
-            m.global.sceneManager.callFunc("userMessage", tr("Error Getting Playback Information"), tr("An error was encountered while playing this item. Server did not provide required transcoding data."))
-            video.errorMsg = "Error getting playback information"
-            video.content = invalid
-            return
-        end if
-
-        ' If transcoding and burnInSubtitlesIfTrancoding is enabled, zero out SubtitleProfiles
-        if chainLookupReturn(m.global, "session.user.settings.`playback.subs.burnin`", true) and meta.live = false
-            m.playbackInfo = ItemPostPlaybackInfo(video.id, mediaSourceId, audio_stream_idx, subtitle_idx, playbackPosition, {
-                emptySubtitleProfiles: true
-            })
-            ' Re-posting playback info will generate a new PlaysessionId
-            video.PlaySessionId = m.playbackInfo.PlaySessionId
-        end if
-
-        ' Get transcoding reason
-        video.transcodeReasons = getTranscodeReasons(m.playbackInfo.MediaSources[0].TranscodingUrl)
-        video.content.url = buildURL(m.playbackInfo.MediaSources[0].TranscodingUrl)
-        video.isTranscoded = true
+        addVideoContentURL(video, mediaSourceId, audio_stream_idx)
+        setCertificateAuthority(video.content)
+        video.content = authRequest(video.content)
+        return
     end if
+
+    ' Stream media From URL
+    if isHTTPStream()
+        video.isTranscoded = false
+        video.content.url = m.playbackInfo.MediaSources[0].Path
+        setCertificateAuthority(video.content)
+        return
+    end if
+
+    ' Transcode media
+    if m.playbackInfo.MediaSources[0].TranscodingUrl = invalid
+        ' If server does not provide a transcode URL, display a message to the user
+        m.global.sceneManager.callFunc("userMessage", tr("Error Getting Playback Information"), tr("An error was encountered while playing this item. Server did not provide required transcoding data."))
+        video.errorMsg = "Error getting playback information"
+        video.content = invalid
+        return
+    end if
+
+    ' If transcoding and burnInSubtitlesIfTrancoding is enabled, zero out SubtitleProfiles
+    if chainLookupReturn(m.global, "session.user.settings.`playback.subs.burnin`", true) and meta.live = false
+        m.playbackInfo = ItemPostPlaybackInfo(video.id, mediaSourceId, audio_stream_idx, subtitle_idx, playbackPosition, {
+            emptySubtitleProfiles: true
+        })
+        ' Re-posting playback info will generate a new PlaysessionId
+        video.PlaySessionId = m.playbackInfo.PlaySessionId
+    end if
+
+    ' Get transcoding reason
+    video.transcodeReasons = getTranscodeReasons(m.playbackInfo.MediaSources[0].TranscodingUrl)
+    video.content.url = buildURL(m.playbackInfo.MediaSources[0].TranscodingUrl)
+    video.isTranscoded = true
 
     setCertificateAuthority(video.content)
-
-    if not fully_external
-        video.content = authRequest(video.content)
-    end if
+    video.content = authRequest(video.content)
 end sub
+
+function isHTTPStream() as boolean
+    if not isStringEqual(m.playbackInfo.MediaSources[0].Protocol, "http") then return false
+
+    uri = ParsedUrl(m.playbackInfo.MediaSources[0].Path)
+    return not isLocalhost(uri.host)
+end function
 
 ' defaultSubtitleTrackFromVid: Identifies the default subtitle track given video id
 '
@@ -468,7 +490,7 @@ function defaultSubtitleTrack(sortedSubtitles, selectedAudioLanguage as string, 
     return SubtitleSelection.NONE ' Keep current default behavior of "None", if no correct subtitle is identified
 end function
 
-sub addVideoContentURL(video, mediaSourceId, audio_stream_idx, fully_external)
+sub addVideoContentURL(video, mediaSourceId, audio_stream_idx)
     protocol = LCase(m.playbackInfo.MediaSources[0].Protocol)
     if protocol <> "file"
         uri = ParsedUrl(m.playbackInfo.MediaSources[0].Path)
@@ -478,7 +500,6 @@ sub addVideoContentURL(video, mediaSourceId, audio_stream_idx, fully_external)
             ' later we will substitute the users provided URL for this case
             video.content.url = buildURL(uri.path)
         else
-            fully_external = true
             video.content.url = m.playbackInfo.MediaSources[0].Path
         end if
     else
@@ -639,7 +660,38 @@ sub addNextEpisodesToQueue(showID, additionalPartsCount as integer, queueLimit a
             m.global.queueManager.callFunc("push", data.Items[i])
         end for
     end if
+end sub
 
+' Add episode to show at finish of current episode
+sub addEpisodeToShowAtFinish(showID)
+    videoID = m.top.itemId
+
+    ' If first item is an intro video, use the next item in the queue
+    if m.top.isIntro
+        currentVideo = m.global.queueManager.callFunc("getItemByIndex", 1)
+
+        if isValid(currentVideo) and isValid(currentVideo.id)
+            videoID = currentVideo.id
+
+            ' Override showID value since it's for the intro video
+            meta = ItemMetaData(videoID)
+            if isValid(meta)
+                showID = meta.showID
+            end if
+        end if
+    end if
+
+    url = Substitute("Shows/{0}/Episodes", showID)
+    urlParams = { "UserId": m.global.session.user.id }
+    urlParams.Append({ "StartItemId": videoID })
+    urlParams.Append({ "Limit": 2 })
+    urlParams.Append({ "isMissing": false })
+    resp = APIRequest(url, urlParams)
+    data = getJson(resp)
+
+    if isValid(data) and data.Items.Count() > 1
+        m.global.queueManager.callFunc("setEpisodeToShowAtFinish", data.Items[1])
+    end if
 end sub
 
 'Checks available subtitle tracks and puts subtitles in forced, default, and non-default/forced but preferred language at the top
