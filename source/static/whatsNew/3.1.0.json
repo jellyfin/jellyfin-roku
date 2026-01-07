@@ -74,5 +74,9 @@
   {
     "description": "Add setting to return to next episode's detail screen after current episode ends",
     "author": "williamkray"
+  },
+  {
+    "description": "Fix .strm playback",
+    "author": "1hitsong"
   }
 ]
