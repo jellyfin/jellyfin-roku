@@ -2310,6 +2310,14 @@
         <source>Go To Genre</source>
         <translation>Ir a Género</translation>
     </message>
+    <message>
+        <source>Show Next Episode Details After Finish</source>
+        <translation>Mostrar Detalles Del Siguiente Episodio Después De Acabar</translation>
+    </message>
+    <message>
+        <source>If auto play next episode is disabled, display the next episode&apos;s detail screen after an episode finishes playing. If no next up episode is found, return to the just-played episode&apos;s page.</source>
+        <translation>Si la reproducción automática del siguiente episodio está desactivada, mostrar pantalla de detalles del siguiente episodio cuando un episodio termina de reproducirse. Si no se encuentra el siguiente episodio, volver a la página del último episodio que se reprodujo.</translation>
+    </message>
 </context>
 <context>
     <name></name>
