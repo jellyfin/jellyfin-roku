@@ -2248,11 +2248,11 @@
     </message>
     <message>
         <source>Show Next Episode Details After Finish</source>
-        <translation>Nach Abschluss Details der nächsten Folge anzeigen</translation>
+        <translation>Nach Wiedergabe Details der nächsten Folge anzeigen</translation>
     </message>
     <message>
         <source>If auto play next episode is disabled, display the next episode&apos;s detail screen after an episode finishes playing. If no next up episode is found, return to the just-played episode&apos;s page.</source>
-        <translation>Falls das automatische Abspielen der nächsten Folge deaktiviert wurde und eine Folge fertig abgespielt wurde, zeige den Detailbildschirm der nächsten Folge an. Wenn keine nachfolgende Folge gefunden wurde, gehe zur gerade abgespielten Folgenseite zurück.</translation>
+        <translation>Wenn die automatische Wiedergabe der nächsten Folge deaktiviert ist, wird nach dem Abspielen die Detailseite der nächsten Episode angezeigt. Ist keine weitere Folge vorhanden, wird zur Seite der gerade abgespielten Episode zurückgekehrt.</translation>
     </message>
 </context>
 <context>
