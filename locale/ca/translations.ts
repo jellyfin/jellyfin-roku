@@ -2218,5 +2218,13 @@
         <source>Grid View Item Titles</source>
         <translation>Visualització dels títols en mode graella</translation>
     </message>
+    <message>
+        <source>If auto play next episode is disabled, display the next episode&apos;s detail screen after an episode finishes playing. If no next up episode is found, return to the just-played episode&apos;s page.</source>
+        <translation>Si la reproducció automàtica de l&apos;episodi següent està desactivada, mostra la pantalla de detalls dels episodis següents després que un episodi acabi de reproduir-se. Si no es troba cap episodi seguit, torna a la pàgina dels episodis acabats de reproduir.</translation>
+    </message>
+    <message>
+        <source>Show Next Episode Details After Finish</source>
+        <translation>Mostra els detalls dels següents episodis en acabar</translation>
+    </message>
 </context>
 </TS>
