@@ -382,10 +382,9 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
 end sub
 
 function isHTTPStream() as boolean
-    if not isStringEqual(m.playbackInfo.MediaSources[0].Protocol, "http") then return false
-
-    uri = ParsedUrl(m.playbackInfo.MediaSources[0].Path)
-    return not isLocalhost(uri.host)
+    if not m.playbackInfo.MediaSources[0].LookupCI("isremote") then return false
+    if not isStringEqual(m.playbackInfo.MediaSources[0].LookupCI("VideoType"), "VideoFile") then return false
+    return true
 end function
 
 ' defaultSubtitleTrackFromVid: Identifies the default subtitle track given video id
