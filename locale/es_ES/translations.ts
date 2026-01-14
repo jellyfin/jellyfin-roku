@@ -334,7 +334,7 @@
     </message>
     <message>
         <source>Remember the currently logged in user and try to log them in again next time you start the Jellyfin app.</source>
-        <translation>Recordar al usuario actual e intentar iniciar sesión nuevamente la próxima vez que abras la app de Jellyfin.</translation>
+        <translation>Recordar al usuario que acaba de ingresar e intentar iniciar sesión nuevamente la próxima vez que abras la app de Jellyfin.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
@@ -358,7 +358,7 @@
     </message>
     <message>
         <source>No Chapter Data Found</source>
-        <translation>No se han encontrado datos sobre el capítulo</translation>
+        <translation>No se han encontrado datos del capítulo</translation>
         <extracomment>Message shown in OSD when no chapter data is returned by the API</extracomment>
     </message>
     <message>
@@ -1321,17 +1321,17 @@
     </message>
     <message>
         <source>To view a complete list of changes visit</source>
-        <translation>Visita para ver una lista completa de los cambios</translation>
+        <translation>Para ver una lista completa de los cambios visita</translation>
         <extracomment>WhatsNewDialog body text preceding the changelog URL</extracomment>
     </message>
     <message>
         <source>Community and Critical Ratings</source>
-        <translation>Valoraciones de la comunidad y de la crítica</translation>
+        <translation>Calificaciones comunitarias y críticas</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Ratings for how good a movie is</source>
-        <translation>Valoraciones y crítica de Rotten Tomatoes</translation>
+        <translation>Valoraciones y crítica de Rotten Tomatoes.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
