@@ -12,6 +12,7 @@ Authors: [frothedoatmilk](https://github.com/frothedoatmilk), [cewert](https://g
     - [Install VSCode](#install-vscode)
     - [Usage](#usage)
     - [Hardcoding Roku Information](#hardcoding-roku-information)
+  - [Testing a PR](#testing-a-pr)
   - [Bug/Crash Reports](#bugcrash-reports)
   - [Committing](#committing)
   - [Adding a User Setting](#adding-a-user-setting)
@@ -85,7 +86,7 @@ Example:
 
 If you want to test a PR to see if it fixes an issue for you, you can sideload the PR's artifact (zip) using the Roku's development setup guide mentioned above.
 
-To find a PR's artifact, click on the "Checks" tab on the PR page and then "Artifacts"
+To find a PR's artifact, click on the "Checks" tab on the PR page and then "Build" (the Artifacts/Zip file for the PR are on this page).
 
 ### Bug/Crash Reports
 
