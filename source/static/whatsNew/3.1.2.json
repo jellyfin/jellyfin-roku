@@ -1,6 +1,6 @@
 [
   {
-    "description": "",
-    "author": ""
+    "description": "Bug Fix: Prevent moving cursor to album cover if no image loads on album screen",
+    "author": "1hitsong"
   }
 ]

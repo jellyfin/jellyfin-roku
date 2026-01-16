@@ -381,11 +381,15 @@ sub unfocusButton()
     selectedButton.focus = false
 end sub
 
-sub highlightCover(returnElement as object)
+function highlightCover(returnElement as object) as boolean
+    ' If no album cover image has loaded, don't highlight
+    if m.albumCover.bitmapWidth = 0 then return false
+
     m.albumCoverReturnElement = returnElement
     m.albumCoverBackground.setFocus(true)
     m.albumCoverBackground.color = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
-end sub
+    return true
+end function
 
 sub dehighlightCover()
     returnElementType = m.albumCoverReturnElement.subtype()
@@ -494,8 +498,9 @@ function onKeyEvent(key as string, press as boolean) as boolean
                 return true
             else
                 selectedButton = m.buttonGrp.getChild(m.top.selectedButtonIndex)
-                selectedButton.focus = false
-                highlightCover(selectedButton)
+                if highlightCover(selectedButton)
+                    selectedButton.focus = false
+                end if
             end if
         end if
 
@@ -569,8 +574,9 @@ function onKeyEvent(key as string, press as boolean) as boolean
                 dehighlightGenre()
 
                 if m.highlightedGenre = m.genreList.count() - 1
-                    m.genres.text = m.genreList.join(", ")
-                    highlightCover(m.genres)
+                    if highlightCover(m.genres)
+                        m.genres.text = m.genreList.join(", ")
+                    end if
                     return true
                 end if
 
@@ -652,8 +658,9 @@ function onKeyEvent(key as string, press as boolean) as boolean
         end if
 
         if isStringEqual(key, KeyCode.RIGHT)
-            m.artistName.color = ColorPalette.WHITE
-            highlightCover(m.artistName)
+            if highlightCover(m.artistName)
+                m.artistName.color = ColorPalette.WHITE
+            end if
             return true
         end if
     end if
@@ -665,8 +672,9 @@ function onKeyEvent(key as string, press as boolean) as boolean
         end if
 
         if isStringEqual(key, KeyCode.RIGHT)
-            m.dscr.color = ColorPalette.WHITE
-            highlightCover(m.dscr)
+            if highlightCover(m.dscr)
+                m.dscr.color = ColorPalette.WHITE
+            end if
             return true
         end if
 
