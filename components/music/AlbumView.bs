@@ -20,6 +20,8 @@ sub init()
     m.overview = m.top.findNode("overview")
     m.overview.ellipsisText = tr("...")
 
+    m.released = m.top.findNode("released")
+
     m.artistName = m.top.findNode("artistName")
     m.albumCoverBackground = m.top.findNode("albumCoverBackground")
     m.albumCoverBackground.color = ColorPalette.TRANSPARENT
@@ -114,9 +116,8 @@ sub setFontSizes()
         numberofsongs.font.size = 23
     end if
 
-    released = m.top.findNode("released")
-    if isValid(released)
-        released.font.size = 23
+    if isValid(m.released)
+        m.released.font.size = 23
     end if
 
     trackHeading = m.top.findNode("trackHeading")
@@ -405,6 +406,16 @@ sub onButtonSelectedChange()
     selectedButton.setfocus(true)
 end sub
 
+function focusReleaseDate() as boolean
+    if not isValid(m.released) then return false
+
+    m.released.setFocus(true)
+    m.released.color = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+    m.top.lastFocus = m.released
+
+    return true
+end function
+
 function focusGenres() as boolean
     if not isValid(m.genres) then return false
 
@@ -527,8 +538,13 @@ function onKeyEvent(key as string, press as boolean) as boolean
     if m.buttonGrp.isInFocusChain()
         if key = KeyCode.UP
             if m.buttonGrp.getChild(m.top.selectedButtonIndex).escape = "up"
-                ' If there is no overview content, go straight to genre link
+                ' If there is no overview content
                 if isStringEqual(m.overview.text, string.EMPTY)
+                    if focusReleaseDate()
+                        unfocusButton()
+                        return true
+                    end if
+
                     if focusGenres()
                         unfocusButton()
                         return true
@@ -645,10 +661,57 @@ function onKeyEvent(key as string, press as boolean) as boolean
         end if
     end if
 
+    if isValid(m.released)
+        if m.released.isInFocusChain()
+            if isStringEqual(key, KeyCode.RIGHT)
+                if focusGenres()
+                    m.released.color = ColorPalette.WHITE
+                    return true
+                end if
+            end if
+
+            if isStringEqual(key, KeyCode.DOWN)
+                m.released.color = ColorPalette.WHITE
+
+                ' If we have an overview, focus it
+                if not isStringEqual(m.overview.text, string.EMPTY)
+                    m.overview.setFocus(true)
+                    m.overview.color = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+                    m.top.lastFocus = m.overview
+                    return true
+                end if
+
+                ' We have no overview, focus buttons
+                selectedButton = m.buttonGrp.getChild(m.top.selectedButtonIndex)
+                selectedButton.focus = true
+                selectedButton.setfocus(true)
+                return true
+            end if
+
+            if isStringEqual(key, KeyCode.UP)
+                ' Check if we can go to the artistName
+                if not isValidAndNotEmpty(chainLookup(m.artistName, "text")) then return false
+
+                m.released.color = ColorPalette.WHITE
+                m.artistName.setFocus(true)
+                m.artistName.color = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+                m.top.lastFocus = m.artistName
+                return true
+            end if
+        end if
+    end if
+
     if isValid(m.genres)
         if m.genres.isInFocusChain()
             if isStringEqual(key, KeyCode.LEFT)
-                if m.highlightedGenre = 0 then return false
+                if m.highlightedGenre = 0
+                    if focusReleaseDate()
+                        unfocusGenres()
+                        return true
+                    end if
+                    return false
+                end if
+
                 dehighlightGenre()
                 m.highlightedGenre--
                 highlightGenre()
@@ -710,7 +773,13 @@ function onKeyEvent(key as string, press as boolean) as boolean
         if isStringEqual(key, KeyCode.DOWN)
             m.artistName.color = ColorPalette.WHITE
 
-            ' If we have genres, focus them
+            ' If we have release date, focus it, otherwise focus genres
+            if focusReleaseDate()
+                m.artistName.color = ColorPalette.WHITE
+                return true
+            end if
+
+            ' If we have release date, focus it, otherwise focus genres
             if focusGenres()
                 m.artistName.color = ColorPalette.WHITE
                 return true
@@ -764,6 +833,10 @@ function onKeyEvent(key as string, press as boolean) as boolean
         end if
 
         if isStringEqual(key, KeyCode.UP)
+            if focusReleaseDate()
+                m.overview.color = ColorPalette.WHITE
+                return true
+            end if
             if focusGenres()
                 m.overview.color = ColorPalette.WHITE
                 return true
