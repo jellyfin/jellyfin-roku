@@ -204,7 +204,7 @@ function LoginFlow()
 end function
 
 sub ServerVersionCheck(systemVersion as string)
-    meetsRequirements = serverVersionMeetsMinimumRequirements(systemVersion)
+    meetsRequirements = serverVersionMeetsMinimumRequirements(systemVersion, minimumServerVersion)
     if not meetsRequirements
         m.scene.isLoading = false
         stopLoadingSpinner()
@@ -219,30 +219,6 @@ sub ServerVersionCheck(systemVersion as string)
         end if
     end if
 end sub
-
-function serverVersionMeetsMinimumRequirements(systemVersion as string)
-    version = systemVersion.split(".")
-    if version.Count() < 3
-        for i = version.Count() to 3 step 1
-            version.push("0")
-        end for
-    end if
-
-    ' Check Major version
-    if minimumServerVersion[0] < version[0].ToInt() then return true
-    if minimumServerVersion[0] > version[0].ToInt() then return false
-
-    ' Check Minor version
-    if minimumServerVersion[1] < version[1].ToInt() then return true
-    if minimumServerVersion[1] > version[1].ToInt() then return false
-
-    ' Check Patch version
-    if minimumServerVersion[2] < version[2].ToInt() then return true
-    if minimumServerVersion[2] > version[2].ToInt() then return false
-
-    ' Server is the exact version needed
-    return true
-end function
 
 sub SaveServerList()
     'Save off this server to our list of saved servers for easier navigation between servers
