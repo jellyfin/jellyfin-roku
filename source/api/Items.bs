@@ -592,20 +592,19 @@ function TVSeasons(id as string) as dynamic
     ' validate data
     if data = invalid or data.Items = invalid then return invalid
 
-    results = []
+    results = CreateObject("roSGNode", "ContentNode")
     for each item in data.Items
         seasonImage = PosterImage(item.id)
         if not isValidAndNotEmpty(seasonImage)
             seasonImage = getFirstEpisodeImage(id, item.id)
         end if
 
-        tmp = CreateObject("roSGNode", "TVSeasonData")
+        tmp = results.createChild("TVSeasonData")
         tmp.image = seasonImage
         tmp.json = item
-        results.push(tmp)
     end for
-    data.Items = results
-    return data
+
+    return results
 end function
 
 function getFirstEpisodeImage(showId as string, seasonId as string)

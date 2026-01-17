@@ -1,0 +1,61 @@
+import "pkg:/source/enums/AnimationControl.bs"
+import "pkg:/source/enums/ColorPalette.bs"
+import "pkg:/source/enums/KeyCode.bs"
+import "pkg:/source/utils/misc.bs"
+
+sub init()
+    m.scrollBarThumbSlideAnimation = m.top.findnode("scrollBarThumbSlideAnimation")
+    m.scrollBarThumbSlideInterpolator = m.top.findnode("scrollBarThumbSlideInterpolator")
+
+    m.scrollBar = m.top.findnode("scrollBar")
+    m.thumb = m.top.findnode("thumb")
+    m.thumbStep = 0
+
+    m.scrollBar.opacity = .75
+    m.scrollBar.color = ColorPalette.BLACK77
+    m.thumb.color = ColorPalette.LIGHTGREY
+
+    m.top.observeFieldscoped("itemFocused", "onItemFocusedChange")
+    m.top.observeFieldscoped("numRows", "onNumRowsChange")
+    m.top.observeFieldscoped("content", "contentChanged")
+end sub
+
+sub onNumRowsChange()
+    calculateButtonThumbProperties()
+    onItemFocusedChange()
+end sub
+
+sub hideScrollbar()
+    m.scrollBar.visible = false
+end sub
+
+sub calculateButtonThumbProperties()
+    if not isValid(m.scrollBar)
+        hideScrollbar()
+        return
+    end if
+
+    if not isValid(m.top.content)
+        hideScrollbar()
+        return
+    end if
+
+    if m.top.content.getChildCount() < 9
+        hideScrollbar()
+        return
+    end if
+
+    m.scrollBar.visible = true
+
+    rowCount = Fix(m.top.content.getChildCount() / 8)
+    m.thumbStep = 227 / rowCount
+end sub
+
+sub onItemFocusedChange()
+    m.scrollBarThumbSlideInterpolator.keyValue = [m.thumb.translation, [0, m.thumbStep * Fix((m.top.itemFocused + 1) / 8)]]
+    m.scrollBarThumbSlideAnimation.control = AnimationControl.START
+end sub
+
+sub contentChanged()
+    calculateButtonThumbProperties()
+end sub

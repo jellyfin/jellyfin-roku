@@ -815,12 +815,20 @@ end sub
 sub onSeasonSelectedEvent(msg)
     startLoadingSpinner()
     ptr = msg.getData()
-    ' ptr is for [row, col] of selected item... but we only have 1 row
     series = msg.getRoSGNode()
-    if isValid(ptr) and ptr.count() >= 2 and isValid(ptr[1]) and isValid(series) and isValid(series.seasonData) and isValid(series.seasonData.items)
-        node = series.seasonData.items[ptr[1]]
-        CreateSeasonDetailsGroup(series.itemContent, node)
+
+    if not isValid(series.seasonData)
+        stopLoadingSpinner()
+        return
     end if
+
+    if series.seasonData.getChildCount() = 0
+        stopLoadingSpinner()
+        return
+    end if
+
+    node = series.seasonData.getChild(ptr)
+    CreateSeasonDetailsGroup(series.itemContent, node)
 end sub
 
 ' Find the 1st episode in the series and start playback
