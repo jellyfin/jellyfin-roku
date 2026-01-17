@@ -702,6 +702,17 @@ function onKeyEvent(key as string, press as boolean) as boolean
                 m.top.lastFocus = m.artistName
                 return true
             end if
+
+            if isStringEqual(key, KeyCode.OK)
+                releaseDate = chainLookup(m.top.pageContent, "json.ProductionYear")
+                if not isValid(releaseDate) then return false
+
+                m.top.getScene().jumpTo = {
+                    selectionType: "releaseDate",
+                    name: releaseDate
+                }
+                return true
+            end if
         end if
     end if
 
