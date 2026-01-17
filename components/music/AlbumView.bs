@@ -198,7 +198,9 @@ sub onAudioMiniPlayerVisibleChange()
     scene = m.top.getScene()
     audioMiniPlayer = scene.findNode("audioMiniPlayer")
     if isValid(audioMiniPlayer)
-        adjustForMiniPlayer(audioMiniPlayer.callFunc("isVisible"))
+        audioMiniPlayerVisibility = audioMiniPlayer.callFunc("isVisible")
+        adjustForMiniPlayer(audioMiniPlayerVisibility)
+        processAddToQueueButtonVisibility(audioMiniPlayerVisibility)
     end if
 end sub
 
@@ -217,15 +219,73 @@ sub OnScreenHidden()
     m.global.audioPlayer.unobserveFieldScoped("state")
 end sub
 
+sub createAddToQueueButton()
+    m.addToQueue = createObject("roSGNode", "IconButton")
+    m.addToQueue.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+    m.addToQueue.id = "addToQueue"
+    m.addToQueue.background = "#070707"
+    m.addToQueue.padding = "35"
+    m.addToQueue.icon = "pkg:/images/icons/plus.png"
+    m.addToQueue.text = tr("Queue")
+    m.addToQueue.height = "65"
+    m.addToQueue.width = "140"
+    m.buttonGrp.insertChild(m.addToQueue, 1)
+    m.buttonCount = m.buttonGrp.getChildCount()
+
+    if m.buttonGrp.isInFocusChain()
+        if m.top.selectedButtonIndex < 1
+            m.previouslySelectedButtonIndex = m.top.selectedButtonIndex
+            m.top.selectedButtonIndex = m.top.selectedButtonIndex + 1
+        end if
+    end if
+end sub
+
+sub removeAddToQueueButton()
+    m.buttonGrp.removeChild(m.addToQueue)
+    m.addToQueue = invalid
+    m.buttonCount = m.buttonGrp.getChildCount()
+
+    ' Cursor is on AddToQueueButton
+    if m.top.selectedButtonIndex = 1
+        m.top.selectedButtonIndex = m.top.selectedButtonIndex - 1
+        return
+    end if
+
+    ' Cursor is to the right of AddToQueueButton
+    if m.top.selectedButtonIndex > 1
+        m.top.unobserveFieldScoped("selectedButtonIndex")
+        m.previouslySelectedButtonIndex = -1
+        m.top.selectedButtonIndex = m.top.selectedButtonIndex - 1
+        m.top.observeFieldScoped("selectedButtonIndex", "onButtonSelectedChange")
+    end if
+end sub
+
+sub processAddToQueueButtonVisibility(audioMiniPlayerVisible = false)
+    ' If we are currently playing audio, ensure Add to Queue button exists, otherwise, remove it
+    if audioMiniPlayerVisible
+        if not isValid(m.addToQueue)
+            createAddToQueueButton()
+        end if
+    else
+        if isValid(m.addToQueue)
+            removeAddToQueueButton()
+        end if
+    end if
+end sub
+
 sub OnScreenShown()
     scene = m.top.getScene()
 
     audioMiniPlayer = scene.findNode("audioMiniPlayer")
     if isValid(audioMiniPlayer)
+        audioMiniPlayerVisibility = audioMiniPlayer.callFunc("isVisible")
+
         audioMiniPlayer.observeFieldScoped("visible", "onAudioMiniPlayerVisibleChange")
-        adjustForMiniPlayer(audioMiniPlayer.callFunc("isVisible"))
+        adjustForMiniPlayer(audioMiniPlayerVisibility)
+        processAddToQueueButtonVisibility(audioMiniPlayerVisibility)
     end if
     m.global.audioPlayer.observeFieldScoped("state", "onAudioMiniPlayerStateChange")
+
 
     overhang = scene.findNode("overhang")
 
@@ -314,6 +374,9 @@ sub setupButtons()
     m.play.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
     m.top.lastFocus = m.buttonGrp
 
+    m.addToQueue = m.top.findNode("addToQueue")
+    m.addToQueue.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+
     shuffle = m.top.findNode("shuffle")
     shuffle.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
 
@@ -322,7 +385,7 @@ sub setupButtons()
 
     m.previouslySelectedButtonIndex = -1
 
-    m.top.observeField("selectedButtonIndex", "onButtonSelectedChange")
+    m.top.observeFieldScoped("selectedButtonIndex", "onButtonSelectedChange")
     m.top.selectedButtonIndex = 0
 end sub
 
@@ -331,7 +394,9 @@ sub onButtonSelectedChange()
     ' Change previously focused button back to default
     if m.previouslySelectedButtonIndex > -1
         previousSelectedButton = m.buttonGrp.getChild(m.previouslySelectedButtonIndex)
-        previousSelectedButton.focus = false
+        if isValid(previousSelectedButton)
+            previousSelectedButton.focus = false
+        end if
     end if
 
     ' Change selected button image to focus state
@@ -441,6 +506,19 @@ sub onZoomCoverHeightChange()
     m.zoomCover.translation = [m.zoomCover.translation[0], (1080 - m.zoomCover.height) / 2]
 end sub
 
+sub addSongsToQueue()
+    albumSongs = m.top.albumData.getChildren(-1, 0)
+    if not isValidAndNotEmpty(albumSongs) then return
+
+    startLoadingSpinner()
+
+    for each song in albumSongs
+        m.global.queueManager.callFunc("push", song)
+    end for
+
+    stopLoadingSpinner()
+end sub
+
 function onKeyEvent(key as string, press as boolean) as boolean
     if m.buttonGrp.isInFocusChain()
         if key = KeyCode.UP
@@ -471,6 +549,13 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
         if key = KeyCode.OK
             if press
+                if isValid(m.addToQueue)
+                    if m.addToQueue.hasFocus()
+                        addSongsToQueue()
+                        return true
+                    end if
+                end if
+
                 selectedButton = m.buttonGrp.getChild(m.top.selectedButtonIndex)
                 selectedButton.selected = not selectedButton.selected
                 return true
@@ -712,6 +797,8 @@ sub onDoneLoading()
     scene = m.top.getScene()
     audioMiniPlayer = scene.findNode("audioMiniPlayer")
     if isValid(audioMiniPlayer)
-        adjustForMiniPlayer(audioMiniPlayer.callFunc("isVisible"))
+        audioMiniPlayerVisibility = audioMiniPlayer.callFunc("isVisible")
+        adjustForMiniPlayer(audioMiniPlayerVisibility)
+        processAddToQueueButtonVisibility(audioMiniPlayerVisibility)
     end if
 end sub

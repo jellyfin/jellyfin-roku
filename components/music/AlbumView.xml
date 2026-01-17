@@ -36,6 +36,7 @@
           <Text id="overview" wrap="true" lineSpacing="25" maxLines="3" width="1290" />
           <ButtonGroupHoriz id="buttons" itemSpacings="[20]">
             <IconButton id="play" background="#070707" padding="35" icon="pkg:/images/icons/play.png" text="Play" height="65" width="140" />
+            <IconButton id="addToQueue" background="#070707" padding="35" icon="pkg:/images/icons/plus.png" text="Queue" height="65" width="140" />
             <IconButton id="shuffle" background="#070707" padding="35" icon="pkg:/images/icons/shufflePlay.png" text="Shuffle" height="65" width="140" />
             <IconButton id="instantMix" background="#070707" padding="35" icon="pkg:/images/icons/instantMix.png" text="Instant Mix" height="65" width="140" />
           </ButtonGroupHoriz>
