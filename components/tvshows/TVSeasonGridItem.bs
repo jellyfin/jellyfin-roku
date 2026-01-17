@@ -1,0 +1,157 @@
+import "pkg:/source/enums/ImageLayout.bs"
+import "pkg:/source/enums/PosterLoadStatus.bs"
+import "pkg:/source/utils/config.bs"
+import "pkg:/source/utils/misc.bs"
+
+sub init()
+    m.itemPoster = m.top.findNode("itemPoster")
+    m.itemIcon = m.top.findNode("itemIcon")
+    m.posterText = m.top.findNode("posterText")
+    m.posterText.font.size = 30
+    m.backdrop = m.top.findNode("backdrop")
+    m.playedIndicator = m.top.findNode("playedIndicator")
+
+    m.title = m.top.findNode("title")
+    m.title.font.size = 25
+    m.title.horizAlign = "left"
+    m.title.vertAlign = "bottom"
+
+    m.itemTextExtra = m.top.findNode("itemTextExtra")
+    m.itemTextExtra.font.size = 22
+
+    m.itemPoster.observeField("loadStatus", "onPosterLoadStatusChanged")
+
+    'Parent is MarkupGrid and it's parent is the ItemGrid
+    m.topParent = m.top.GetParent().GetParent()
+
+    if not isValid(m.topParent.showItemTitles)
+        m.topParent = m.topParent.GetParent().GetParent()
+    end if
+
+    'Get the imageDisplayMode for these grid items
+    if m.topParent.imageDisplayMode <> invalid
+        m.itemPoster.loadDisplayMode = m.topParent.imageDisplayMode
+    end if
+end sub
+
+sub onHeightChanged()
+    calculatedHeight = m.top.height - 55
+
+    m.backdrop.height = calculatedHeight
+    m.itemPoster.height = calculatedHeight
+    m.posterText.height = calculatedHeight
+    m.title.translation = [0, calculatedHeight + 15]
+    m.itemTextExtra.translation = [0, calculatedHeight + 45]
+end sub
+
+sub onWidthChanged()
+    m.backdrop.width = m.top.width
+    m.itemPoster.width = m.top.width
+    m.posterText.width = m.top.width
+    m.title.maxWidth = m.top.width
+    m.itemTextExtra.maxWidth = m.top.width
+    m.itemIcon.translation = [m.top.width, 15]
+    m.playedIndicator.translation = [m.top.width - m.playedIndicator.width, 15]
+end sub
+
+sub itemContentChanged()
+    m.backdrop.blendColor = "#101010"
+    itemData = m.top.itemContent
+
+    if not isValid(itemData) then return
+
+    showWatchedCheckmark = true
+
+    if isChainValid(itemData, "json.passedData.libraryID")
+        showWatchedCheckmark = chainLookupReturn(m.global.session, `user.settings.${itemData.json.passedData.libraryID}-showWatchedCheckmark`, true)
+    end if
+
+    m.playedIndicator.data = {
+        showWatchedCheckmark: showWatchedCheckmark,
+        played: chainLookupReturn(itemData, "json.UserData.Played", false),
+        unplayedCount: chainLookupReturn(itemData, "json.UserData.UnplayedItemCount", 0)
+    }
+
+    m.itemPoster.uri = getPosterURL(itemData)
+
+    if isValidAndNotEmpty(itemData.LookupCI("fullNameWithShowTitle"))
+        m.posterText.text = itemData.LookupCI("fullNameWithShowTitle")
+    else
+        m.posterText.text = itemData.title
+    end if
+
+    m.title.text = m.posterText.text
+    m.itemTextExtra.text = chainLookupReturn(itemData, "json.Productionyear", "")
+
+    ' Don't show the same text for both the title and subtitle
+    if isStringEqual(m.itemTextExtra.text, m.title.text)
+        m.itemTextExtra.text = string.EMPTY
+    end if
+
+    'If Poster not loaded, ensure "blue box" is shown until loaded
+    if m.itemPoster.loadStatus <> "ready"
+        m.backdrop.visible = true
+        m.posterText.visible = true
+    end if
+end sub
+
+function getPosterURL(itemData) as string
+    posterURL = itemData.PosterUrl
+
+    posterOrientation = chainLookupReturn(m.global, "session.user.settings.libraryPosterOrientation", ImageLayout.DEFAULT)
+
+    ' If user has not set a library level setting, check the user level setting
+    if isChainValid(itemData, "json.passedData.libraryID")
+        if isChainValid(m.global.session, `user.settings.${itemData.json.passedData.libraryID}-useLandscapeImages`)
+            useLandscapeImages = chainLookupReturn(m.global.session, `user.settings.${itemData.json.passedData.libraryID}-useLandscapeImages`, false)
+            posterOrientation = useLandscapeImages ? ImageLayout.LANDSCAPE : ImageLayout.DEFAULT
+        end if
+    end if
+
+    if inArray([ImageLayout.DEFAULT, ImageLayout.PORTRAIT], posterOrientation)
+        posterURL = itemData.PosterUrl
+    else if isValidAndNotEmpty(itemData.landscapePosterURL)
+        posterURL = itemData.landscapePosterURL
+    else if isValidAndNotEmpty(itemData.backdropURL)
+        posterURL = itemData.backdropURL
+    end if
+
+    ' Adjust image dimensions as needed
+    posterURL = posterURL.replace("maxHeight=720", `maxHeight=${m.itemPoster.height}`)
+    posterURL = posterURL.replace("maxHeight=331", `maxHeight=${m.itemPoster.height}`)
+
+    posterURL = posterURL.replace("maxWidth=1280", `maxWidth=${m.itemPoster.width}`)
+    posterURL = posterURL.replace("maxWidth=464", `maxWidth=${m.itemPoster.width}`)
+
+    return posterURL
+end function
+
+sub focusChanged()
+    if m.top.itemHasFocus = true
+        m.title.repeatCount = -1
+        m.itemTextExtra.repeatCount = -1
+    else
+        m.title.repeatCount = 0
+        m.itemTextExtra.repeatCount = 0
+    end if
+end sub
+
+'Hide backdrop and text when poster loaded
+sub onPosterLoadStatusChanged()
+    if isStringEqual(m.itemPoster.loadStatus, PosterLoadStatus.FAILED)
+        ' Image failed to load, try to fall back to default poster image
+        if not isStringEqual(m.itemPoster.uri, m.top.itemContent.PosterUrl)
+            m.itemPoster.uri = m.top.itemContent.PosterUrl
+            return
+        end if
+
+        ' No image loaded, ensure text is displayed
+        m.backdrop.visible = true
+        m.posterText.visible = true
+    end if
+
+    if isStringEqual(m.itemPoster.loadStatus, PosterLoadStatus.READY)
+        m.backdrop.visible = false
+        m.posterText.visible = false
+    end if
+end sub
