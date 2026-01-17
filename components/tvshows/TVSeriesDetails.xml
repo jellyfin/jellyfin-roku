@@ -59,15 +59,15 @@
         </Poster>
       </LayoutGroup>
 
-      <Rectangle id='seasonListRect' translation="[-30, 0]" width="1720" height="380">
+      <Rectangle id='seasonListRect' translation="[-30, 0]" width="1720" height="390">
         <TVSeasonGrid
           id="seasons"
           numColumns="8"
           numRows="2"
-          clippingRect="[-10,-10,2020,340]"
+          clippingRect="[-10,-10,2020,350]"
           vertFocusAnimationStyle="fixed"
           itemComponentName="TVSeasonGridItem"
-          itemSpacing="[20, 20]"
+          itemSpacing="[20, 50]"
           itemSize="[180, 301]"
           rowHeights="[301]"
           drawFocusFeedback="true"

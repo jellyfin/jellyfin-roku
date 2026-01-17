@@ -7,11 +7,17 @@ sub init()
     m.itemPoster = m.top.findNode("itemPoster")
     m.itemIcon = m.top.findNode("itemIcon")
     m.posterText = m.top.findNode("posterText")
-    m.title = m.top.findNode("title")
     m.posterText.font.size = 30
-    m.title.font.size = 25
     m.backdrop = m.top.findNode("backdrop")
     m.playedIndicator = m.top.findNode("playedIndicator")
+
+    m.title = m.top.findNode("title")
+    m.title.font.size = 25
+    m.title.horizAlign = "left"
+    m.title.vertAlign = "bottom"
+
+    m.itemTextExtra = m.top.findNode("itemTextExtra")
+    m.itemTextExtra.font.size = 22
 
     m.itemPoster.observeField("loadStatus", "onPosterLoadStatusChanged")
 
@@ -22,8 +28,6 @@ sub init()
         m.topParent = m.topParent.GetParent().GetParent()
     end if
 
-    m.title.visible = false
-
     'Get the imageDisplayMode for these grid items
     if m.topParent.imageDisplayMode <> invalid
         m.itemPoster.loadDisplayMode = m.topParent.imageDisplayMode
@@ -31,17 +35,13 @@ sub init()
 end sub
 
 sub onHeightChanged()
-    calculatedHeight = m.top.height
-
-    showItemTitles = chainLookupReturn(m.topParent, "showItemTitles", "showonhover")
-    if not isStringEqual(showItemTitles, "hidealways")
-        calculatedHeight -= 40
-    end if
+    calculatedHeight = m.top.height - 55
 
     m.backdrop.height = calculatedHeight
     m.itemPoster.height = calculatedHeight
     m.posterText.height = calculatedHeight
-    m.title.translation = [0, calculatedHeight + 20]
+    m.title.translation = [0, calculatedHeight + 15]
+    m.itemTextExtra.translation = [0, calculatedHeight + 45]
 end sub
 
 sub onWidthChanged()
@@ -49,21 +49,13 @@ sub onWidthChanged()
     m.itemPoster.width = m.top.width
     m.posterText.width = m.top.width
     m.title.maxWidth = m.top.width
+    m.itemTextExtra.maxWidth = m.top.width
     m.itemIcon.translation = [m.top.width, 15]
     m.playedIndicator.translation = [m.top.width - m.playedIndicator.width, 15]
 end sub
 
 sub itemContentChanged()
     m.backdrop.blendColor = "#101010"
-
-    m.title.visible = false
-
-    if isValid(m.topParent.showItemTitles)
-        if LCase(m.topParent.showItemTitles) = "showalways"
-            m.title.visible = true
-        end if
-    end if
-
     itemData = m.top.itemContent
 
     if not isValid(itemData) then return
@@ -89,6 +81,12 @@ sub itemContentChanged()
     end if
 
     m.title.text = m.posterText.text
+    m.itemTextExtra.text = chainLookupReturn(itemData, "json.Productionyear", "")
+
+    ' Don't show the same text for both the title and subtitle
+    if isStringEqual(m.itemTextExtra.text, m.title.text)
+        m.itemTextExtra.text = string.EMPTY
+    end if
 
     'If Poster not loaded, ensure "blue box" is shown until loaded
     if m.itemPoster.loadStatus <> "ready"
@@ -131,14 +129,10 @@ end function
 sub focusChanged()
     if m.top.itemHasFocus = true
         m.title.repeatCount = -1
+        m.itemTextExtra.repeatCount = -1
     else
         m.title.repeatCount = 0
-    end if
-
-    if isValid(m.topParent.showItemTitles)
-        if LCase(m.topParent.showItemTitles) = "showonhover"
-            m.title.visible = m.top.itemHasFocus
-        end if
+        m.itemTextExtra.repeatCount = 0
     end if
 end sub
 
