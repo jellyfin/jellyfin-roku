@@ -4,7 +4,11 @@
     "author": "1hitsong"
   },
   {
-    "description": "Bug Fix: Prevent moving cursor to album cover if no image loads on album screen",
+    "description": "Bug Fix: Prevent moving cursor to album cover if no image loads on music album screen",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Link release year on music album screen to library filtered by year",
     "author": "1hitsong"
   }
 ]

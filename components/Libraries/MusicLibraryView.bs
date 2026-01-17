@@ -292,8 +292,8 @@ sub loadInitialItems()
         toggleDropdownOptions(true)
     end if
 
-    if isValidAndNotEmpty(m.top.parentItem.json.genreId)
-        m.settingID = "gotogenre"
+    if isValid(m.top.parentItem.json.jumpToFilter)
+        m.settingID = "jumpToFilter"
     else
         m.settingID = m.top.parentItem.Id
     end if
