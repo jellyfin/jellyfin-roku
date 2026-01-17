@@ -342,6 +342,10 @@ sub setOnScreenTextValues(json)
 
         if type(json.ProductionYear) = "roInt"
             setFieldTextValue("released", `${json.ProductionYear}`)
+        else
+            releasedContainer = m.released.GetParent()
+            releasedContainer.GetParent().removeChild(releasedContainer)
+            m.released = invalid
         end if
 
         if isValidAndNotEmpty(json.genres)
