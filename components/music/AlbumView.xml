@@ -39,6 +39,7 @@
             <IconButton id="addToQueue" background="#070707" padding="35" icon="pkg:/images/icons/plus.png" text="Queue" height="65" width="140" />
             <IconButton id="shuffle" background="#070707" padding="35" icon="pkg:/images/icons/shufflePlay.png" text="Shuffle" height="65" width="140" />
             <IconButton id="instantMix" background="#070707" padding="35" icon="pkg:/images/icons/instantMix.png" text="Instant Mix" height="65" width="140" />
+            <IconButton id="dotDotDot" background="#070707" padding="35" icon="pkg:/images/icons/dotdotdot.png" text="More" height="65" width="140" />
           </ButtonGroupHoriz>
         </LayoutGroup>
 
@@ -73,6 +74,7 @@
     </Rectangle>
   </children>
   <interface>
+    <field id="isFavorite" type="boolean" />
     <field id="playlistData" type="array" />
     <field id="pageContent" type="node" onChange="pageContentChanged" />
     <field id="albumData" type="node" alias="songList.MusicArtistAlbumData" />
