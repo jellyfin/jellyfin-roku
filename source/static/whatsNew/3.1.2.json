@@ -1,5 +1,9 @@
 [
   {
+    "description": "Create Add to Queue function on music album screen",
+    "author": "1hitsong"
+  },
+  {
     "description": "Bug Fix: Prevent moving cursor to album cover if no image loads on album screen",
     "author": "1hitsong"
   }
