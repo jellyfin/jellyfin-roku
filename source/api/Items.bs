@@ -50,7 +50,7 @@ function ItemPostPlaybackInfo(id as string, mediaSourceId = "" as string, audioT
         ' The web handles this by disabling EnableDirectPlay on a Retry, but we don't currently Retry a Live
         ' TV stream, thus we just turn it off on the first try here.
         serverVersion = ServerInfo().LookupCI("version")
-        if serverVersionMeetsMinimumRequirements(serverVersion, [10, 10, 0]) = false
+        if not serverVersionMeetsMinimumRequirements(serverVersion, [10, 10, 0])
             params.EnableDirectPlay = false
         end if
     end if
