@@ -82,6 +82,8 @@ sub init()
     m.bufferPercentage = 0 ' Track whether content is being loaded
     m.playReported = false
     m.bufferCheckTimer.duration = 30
+    m.playbackRetries = 0 ' Track retry attempts for buffering failures
+    m.lastBufferError = 0 ' Timestamp of last buffering error
 
     if m.global.session.user.settings["ui.design.hideclock"] = true
         clockNode = findNodeBySubtype(m.top, "clock")
@@ -921,15 +923,46 @@ sub onState(msg)
 
         if not m.playReported and m.top.transcodeAvailable
             m.top.retryWithTranscoding = true ' If playback was not reported, retry with transcoding
+            ' Stop playback and exit player
+            m.top.control = VideoControl.STOP
+            m.top.backPressed = true
         else
-            ' If an error was encountered, Display dialog
-            showPlaybackErrorDialog(tr("Error During Playback"))
+            ' Reset retry counter if more than 30 seconds have passed since last error
+            currentTime = CreateObject("roDateTime").AsSeconds()
+            if m.playbackRetries > 0 and (currentTime - m.lastBufferError) > 30
+                print "Playback stabilized - resetting retry count from " + m.playbackRetries.ToStr()
+                m.playbackRetries = 0
+            end if
+
+            ' Attempt to retry playback up to 3 times before showing error
+            if m.playbackRetries < 3
+                m.playbackRetries = m.playbackRetries + 1
+                m.lastBufferError = currentTime
+                print "Player error encountered - retry attempt " + m.playbackRetries.ToStr() + " of 3"
+
+                ' Stop and restart playback from current position
+                currentPosition = m.top.position
+                m.top.control = VideoControl.STOP
+                m.top.seek = currentPosition
+                m.top.control = VideoControl.PLAY
+            else
+                ' All retries exhausted, show error and exit
+                print "Playback failed after 3 retry attempts"
+                showPlaybackErrorDialog(tr("Error During Playback"))
+
+                ' Stop playback and exit player
+                m.top.control = VideoControl.STOP
+                m.top.backPressed = true
+            end if
+        end if
+    else if isStringEqual(m.top.state, MediaPlaybackState.PLAYING)
+        ' Reset retry counter when playback is successful
+        if m.playbackRetries > 0
+            print "Playback resumed successfully after retry"
+            m.playbackRetries = 0
+            m.bufferCheckTimer.duration = 30
         end if
 
-        ' Stop playback and exit player
-        m.top.control = VideoControl.STOP
-        m.top.backPressed = true
-    else if isStringEqual(m.top.state, MediaPlaybackState.PLAYING)
         ' Check if next episode is available
         if isValid(m.top.showID)
             if m.top.showID <> string.EMPTY and not m.checkedForNextEpisode and m.top.content.contenttype = 4
@@ -1119,15 +1152,45 @@ sub bufferCheck(msg)
         ' Check that the buffering percentage is increasing
         if m.top.bufferingStatus["percentage"] > m.bufferPercentage
             m.bufferPercentage = m.top.bufferingStatus["percentage"]
+            ' Reset retry counter if buffering is progressing
+            if m.playbackRetries > 0
+                m.playbackRetries = 0
+                m.bufferCheckTimer.duration = 30
+            end if
         else if m.top.content.live = true
             m.top.callFunc("refresh")
         else
-            ' If buffering has stopped Display dialog
-            showPlaybackErrorDialog(tr("There was an error retrieving the data for this item from the server."))
+            ' Reset retry counter if more than 30 seconds have passed since last error
+            currentTime = CreateObject("roDateTime").AsSeconds()
+            if m.playbackRetries > 0 and (currentTime - m.lastBufferError) > 30
+                print "Buffer stabilized - resetting retry count from " + m.playbackRetries.ToStr()
+                m.playbackRetries = 0
+                m.bufferCheckTimer.duration = 30
+            end if
 
-            ' Stop playback and exit player
-            m.top.control = VideoControl.STOP
-            m.top.backPressed = true
+            ' Attempt to retry playback up to 3 times
+            if m.playbackRetries < 3
+                m.playbackRetries = m.playbackRetries + 1
+                m.lastBufferError = currentTime
+                print "Buffering stalled - retry attempt " + m.playbackRetries.ToStr() + " of 3"
+
+                ' Extend buffer check duration for subsequent retries to allow more time
+                m.bufferCheckTimer.duration = 30 + (m.playbackRetries * 15)
+
+                ' Stop and restart playback from current position
+                currentPosition = m.top.position
+                m.top.control = VideoControl.STOP
+                m.top.seek = currentPosition
+                m.top.control = VideoControl.PLAY
+            else
+                ' All retries exhausted, show error
+                print "Buffering failed after 3 retry attempts"
+                showPlaybackErrorDialog(tr("There was an error retrieving the data for this item from the server."))
+
+                ' Stop playback and exit player
+                m.top.control = VideoControl.STOP
+                m.top.backPressed = true
+            end if
         end if
     end if
 
