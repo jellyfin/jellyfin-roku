@@ -14,5 +14,9 @@
   {
     "description": "Change TV series single row of seasons to grid layout",
     "author": "1hitsong"
+  },
+  {
+    "description": "Add Favorite and Playlist controls to music album screen under \"More\" button",
+    "author": "1hitsong"
   }
 ]

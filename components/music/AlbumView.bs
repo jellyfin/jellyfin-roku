@@ -145,6 +145,8 @@ end sub
 sub pageContentChanged()
     item = m.top.pageContent
 
+    m.top.isFavorite = chainLookupReturn(m.top.pageContent, "json.UserData.IsFavorite", false)
+
     artists = chainLookup(item, "json.Artists")
     if isValidAndNotEmpty(artists)
         m.songList.isCompilation = artists.count() > 1
@@ -388,6 +390,9 @@ sub setupButtons()
     instantMix = m.top.findNode("instantMix")
     instantMix.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
 
+    m.dotDotDot = m.top.findNode("dotDotDot")
+    m.dotDotDot.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+
     m.previouslySelectedButtonIndex = -1
 
     m.top.observeFieldScoped("selectedButtonIndex", "onButtonSelectedChange")
@@ -538,6 +543,20 @@ sub addSongsToQueue()
     stopLoadingSpinner()
 end sub
 
+sub openMorePopup()
+    dialogData = []
+    paramData = {
+        id: m.top.pageContent.LookupCI("id")
+    }
+
+    m.favoritesOptionText = m.top.isFavorite ? tr("Remove From Favorites") : tr("Add To Favorites")
+
+    dialogData.push(m.favoritesOptionText)
+    dialogData.push(tr("Add To Playlist"))
+
+    m.global.sceneManager.callFunc("optionDialog", "libraryitem", m.top.pageContent.json.LookupCI("name") ?? tr("Options"), [], dialogData, paramData)
+end sub
+
 function onKeyEvent(key as string, press as boolean) as boolean
     if m.buttonGrp.isInFocusChain()
         if key = KeyCode.UP
@@ -578,6 +597,11 @@ function onKeyEvent(key as string, press as boolean) as boolean
                         addSongsToQueue()
                         return true
                     end if
+                end if
+
+                if m.dotDotDot.hasFocus()
+                    openMorePopup()
+                    return true
                 end if
 
                 selectedButton = m.buttonGrp.getChild(m.top.selectedButtonIndex)
