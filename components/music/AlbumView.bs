@@ -17,8 +17,10 @@ sub init()
     m.zoomCover = m.top.findNode("zoomCover")
     m.zoomCoverBackground = m.top.findNode("zoomCoverBackground")
 
-    m.dscr = m.top.findNode("overview")
-    m.dscr.ellipsisText = tr("...")
+    m.overview = m.top.findNode("overview")
+    m.overview.ellipsisText = tr("...")
+
+    m.released = m.top.findNode("released")
 
     m.artistName = m.top.findNode("artistName")
     m.albumCoverBackground = m.top.findNode("albumCoverBackground")
@@ -91,8 +93,8 @@ sub onBackdropImageLoaded()
 end sub
 
 sub setFontSizes()
-    if isValid(m.dscr)
-        m.dscr.font.size = 27
+    if isValid(m.overview)
+        m.overview.font.size = 27
     end if
 
     albumTitle = m.top.findNode("albumTitle")
@@ -114,9 +116,8 @@ sub setFontSizes()
         numberofsongs.font.size = 23
     end if
 
-    released = m.top.findNode("released")
-    if isValid(released)
-        released.font.size = 23
+    if isValid(m.released)
+        m.released.font.size = 23
     end if
 
     trackHeading = m.top.findNode("trackHeading")
@@ -341,6 +342,10 @@ sub setOnScreenTextValues(json)
 
         if type(json.ProductionYear) = "roInt"
             setFieldTextValue("released", `${json.ProductionYear}`)
+        else
+            releasedContainer = m.released.GetParent()
+            releasedContainer.GetParent().removeChild(releasedContainer)
+            m.released = invalid
         end if
 
         if isValidAndNotEmpty(json.genres)
@@ -404,6 +409,16 @@ sub onButtonSelectedChange()
     selectedButton.focus = true
     selectedButton.setfocus(true)
 end sub
+
+function focusReleaseDate() as boolean
+    if not isValid(m.released) then return false
+
+    m.released.setFocus(true)
+    m.released.color = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+    m.top.lastFocus = m.released
+
+    return true
+end function
 
 function focusGenres() as boolean
     if not isValid(m.genres) then return false
@@ -527,8 +542,13 @@ function onKeyEvent(key as string, press as boolean) as boolean
     if m.buttonGrp.isInFocusChain()
         if key = KeyCode.UP
             if m.buttonGrp.getChild(m.top.selectedButtonIndex).escape = "up"
-                ' If there is no overview content, go straight to genre link
-                if isStringEqual(m.dscr.text, string.EMPTY)
+                ' If there is no overview content
+                if isStringEqual(m.overview.text, string.EMPTY)
+                    if focusReleaseDate()
+                        unfocusButton()
+                        return true
+                    end if
+
                     if focusGenres()
                         unfocusButton()
                         return true
@@ -543,9 +563,9 @@ function onKeyEvent(key as string, press as boolean) as boolean
                     m.top.lastFocus = m.artistName
                 else
                     unfocusButton()
-                    m.dscr.setFocus(true)
-                    m.dscr.color = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
-                    m.top.lastFocus = m.dscr
+                    m.overview.setFocus(true)
+                    m.overview.color = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+                    m.top.lastFocus = m.overview
                     return true
                 end if
             end if
@@ -645,10 +665,68 @@ function onKeyEvent(key as string, press as boolean) as boolean
         end if
     end if
 
+    if isValid(m.released)
+        if m.released.isInFocusChain()
+            if isStringEqual(key, KeyCode.RIGHT)
+                if focusGenres()
+                    m.released.color = ColorPalette.WHITE
+                    return true
+                end if
+            end if
+
+            if isStringEqual(key, KeyCode.DOWN)
+                m.released.color = ColorPalette.WHITE
+
+                ' If we have an overview, focus it
+                if not isStringEqual(m.overview.text, string.EMPTY)
+                    m.overview.setFocus(true)
+                    m.overview.color = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+                    m.top.lastFocus = m.overview
+                    return true
+                end if
+
+                ' We have no overview, focus buttons
+                selectedButton = m.buttonGrp.getChild(m.top.selectedButtonIndex)
+                selectedButton.focus = true
+                selectedButton.setfocus(true)
+                return true
+            end if
+
+            if isStringEqual(key, KeyCode.UP)
+                ' Check if we can go to the artistName
+                if not isValidAndNotEmpty(chainLookup(m.artistName, "text")) then return false
+
+                m.released.color = ColorPalette.WHITE
+                m.artistName.setFocus(true)
+                m.artistName.color = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+                m.top.lastFocus = m.artistName
+                return true
+            end if
+
+            if isStringEqual(key, KeyCode.OK)
+                releaseDate = chainLookup(m.top.pageContent, "json.ProductionYear")
+                if not isValid(releaseDate) then return false
+
+                m.top.getScene().jumpTo = {
+                    selectionType: "releaseDate",
+                    name: releaseDate
+                }
+                return true
+            end if
+        end if
+    end if
+
     if isValid(m.genres)
         if m.genres.isInFocusChain()
             if isStringEqual(key, KeyCode.LEFT)
-                if m.highlightedGenre = 0 then return false
+                if m.highlightedGenre = 0
+                    if focusReleaseDate()
+                        unfocusGenres()
+                        return true
+                    end if
+                    return false
+                end if
+
                 dehighlightGenre()
                 m.highlightedGenre--
                 highlightGenre()
@@ -681,15 +759,15 @@ function onKeyEvent(key as string, press as boolean) as boolean
                 unfocusGenres()
 
                 ' If there is no overview content, go straight to buttons
-                if isStringEqual(m.dscr.text, string.EMPTY)
+                if isStringEqual(m.overview.text, string.EMPTY)
                     selectedButton = m.buttonGrp.getChild(m.top.selectedButtonIndex)
                     selectedButton.focus = true
                     selectedButton.setfocus(true)
                     return true
                 else
-                    m.dscr.setFocus(true)
-                    m.dscr.color = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
-                    m.top.lastFocus = m.dscr
+                    m.overview.setFocus(true)
+                    m.overview.color = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+                    m.top.lastFocus = m.overview
                     return true
                 end if
             end if
@@ -710,17 +788,23 @@ function onKeyEvent(key as string, press as boolean) as boolean
         if isStringEqual(key, KeyCode.DOWN)
             m.artistName.color = ColorPalette.WHITE
 
-            ' If we have genres, focus them
+            ' If we have release date, focus it, otherwise focus genres
+            if focusReleaseDate()
+                m.artistName.color = ColorPalette.WHITE
+                return true
+            end if
+
+            ' If we have release date, focus it, otherwise focus genres
             if focusGenres()
                 m.artistName.color = ColorPalette.WHITE
                 return true
             end if
 
             ' We have no genres, if we have an overview, focus it
-            if not isStringEqual(m.dscr.text, string.EMPTY)
-                m.dscr.setFocus(true)
-                m.dscr.color = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
-                m.top.lastFocus = m.dscr
+            if not isStringEqual(m.overview.text, string.EMPTY)
+                m.overview.setFocus(true)
+                m.overview.color = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+                m.top.lastFocus = m.overview
                 return true
             end if
 
@@ -750,28 +834,32 @@ function onKeyEvent(key as string, press as boolean) as boolean
         end if
     end if
 
-    if m.dscr.hasFocus()
+    if m.overview.hasFocus()
         if key = KeyCode.OK
             createFullDscrDlg()
             return true
         end if
 
         if isStringEqual(key, KeyCode.RIGHT)
-            if highlightCover(m.dscr)
-                m.dscr.color = ColorPalette.WHITE
+            if highlightCover(m.overview)
+                m.overview.color = ColorPalette.WHITE
             end if
             return true
         end if
 
         if isStringEqual(key, KeyCode.UP)
+            if focusReleaseDate()
+                m.overview.color = ColorPalette.WHITE
+                return true
+            end if
             if focusGenres()
-                m.dscr.color = ColorPalette.WHITE
+                m.overview.color = ColorPalette.WHITE
                 return true
             end if
         end if
 
         if key = KeyCode.DOWN
-            m.dscr.color = ColorPalette.WHITE
+            m.overview.color = ColorPalette.WHITE
             selectedButton = m.buttonGrp.getChild(m.top.selectedButtonIndex)
             selectedButton.focus = true
             selectedButton.setfocus(true)
@@ -784,8 +872,8 @@ end function
 
 sub createFullDscrDlg()
     albumTitle = m.top.findNode("albumTitle")
-    if isAllValid([albumTitle.text, m.dscr.text])
-        m.global.sceneManager.callFunc("standardDialog", albumTitle.text, { data: ["<p>" + m.dscr.text + "</p>"] })
+    if isAllValid([albumTitle.text, m.overview.text])
+        m.global.sceneManager.callFunc("standardDialog", albumTitle.text, { data: ["<p>" + m.overview.text + "</p>"] })
     end if
 end sub
 
