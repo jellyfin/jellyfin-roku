@@ -450,61 +450,61 @@
     </message>
     <message>
         <source>View Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanalı Görüntüle</translation>
     </message>
     <message>
         <source>Record</source>
-        <translation type="unfinished"></translation>
+        <translation>Kaydet</translation>
     </message>
     <message>
         <source>Record Series</source>
-        <translation type="unfinished"></translation>
+        <translation>Serileri Kaydet</translation>
     </message>
     <message>
         <source>Cancel Recording</source>
-        <translation type="unfinished"></translation>
+        <translation>Kaydı İptal Et</translation>
     </message>
     <message>
         <source>Cancel Series Recording</source>
-        <translation type="unfinished"></translation>
+        <translation>Seri Kayıtlarını İptal Et</translation>
     </message>
     <message>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation>Kapat</translation>
     </message>
     <message>
         <source>Connecting to Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Sunucuya Bağlanılıyor</translation>
         <extracomment>Message to display to user while client is attempting to connect to the server</extracomment>
     </message>
     <message>
         <source>Not found</source>
-        <translation type="unfinished"></translation>
+        <translation>Bulunamadı</translation>
         <extracomment>Title of message box when the requested content is not found on the server</extracomment>
     </message>
     <message>
         <source>Unknown</source>
-        <translation type="unfinished"></translation>
+        <translation>Bilinmeyen</translation>
         <extracomment>Title for a cast member for which we have no information for</extracomment>
     </message>
     <message>
         <source>The requested content does not exist on the server</source>
-        <translation type="unfinished"></translation>
+        <translation>Talep edilen içerik sunucularda mevcut değil</translation>
         <extracomment>Content of message box when the requested content is not found on the server</extracomment>
     </message>
     <message>
         <source>Enter the server name or IP address</source>
-        <translation type="unfinished"></translation>
+        <translation>Sunucu adı ya da IP adresini girin</translation>
         <extracomment>Title of KeyboardDialog when manually entering a server URL</extracomment>
     </message>
     <message>
         <source>Pick a Jellyfin server from the local network</source>
-        <translation type="unfinished"></translation>
+        <translation>Yerel ağda bulunan bir Jellyfin sunucusunu seçin:</translation>
         <extracomment>Instructions on initial app launch when the user is asked to pick a server from a list</extracomment>
     </message>
     <message>
         <source>...or enter server URL manually:</source>
-        <translation type="unfinished"></translation>
+        <translation>Eğer yukarıda listelenmiş bir sunucu yoksa sunucu URL&apos;ini elle giriniz:</translation>
         <extracomment>Instructions on initial app launch when the user is asked to manually enter a server URL</extracomment>
     </message>
     <message>
@@ -514,21 +514,21 @@
     </message>
     <message>
         <source>An error was encountered while playing this item. Server did not provide required transcoding data.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bu ögeyi oynatırken bir hata ile karşılaşıldı. Sunucu gerekli kod çözme verilerini sağlamadı.</translation>
         <extracomment>Content of message box when trying to play an item which requires transcoding, and the server did not provide transcode url</extracomment>
     </message>
     <message>
         <source>Version</source>
-        <translation type="unfinished"></translation>
+        <translation>Versiyon</translation>
     </message>
     <message>
         <source>Playback</source>
-        <translation type="unfinished"></translation>
+        <translation>Oynatma</translation>
         <extracomment>Title for Playback section in user setting screen.</extracomment>
     </message>
     <message>
         <source>Codec Support</source>
-        <translation type="unfinished"></translation>
+        <translation>Kodek Desteği</translation>
         <extracomment>Settings Menu - Title for settings group related to codec support</extracomment>
     </message>
     <message>
@@ -538,7 +538,7 @@
     </message>
     <message>
         <source>MPEG-2</source>
-        <translation type="unfinished"></translation>
+        <translation>MPEG-2</translation>
         <extracomment>Name of codec used in settings menu</extracomment>
     </message>
     <message>
@@ -548,7 +548,7 @@
     </message>
     <message>
         <source>MPEG-4</source>
-        <translation type="unfinished"></translation>
+        <translation>MPEG-4</translation>
         <extracomment>Name of codec used in settings menu</extracomment>
     </message>
     <message>
@@ -558,15 +558,15 @@
     </message>
     <message>
         <source>Enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Etkinleştirildi</translation>
     </message>
     <message>
         <source>Disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Devre dışı bırakıldı</translation>
     </message>
     <message>
         <source>User Interface</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcı Arayüzü</translation>
         <extracomment>Title for User Interface section in user setting screen.</extracomment>
     </message>
     <message>
@@ -580,7 +580,7 @@
     </message>
     <message>
         <source>Item Count</source>
-        <translation type="unfinished"></translation>
+        <translation>Öge Sayısı</translation>
         <extracomment>UI -&gt; Media Grid -&gt; Item Count in user setting screen.</extracomment>
     </message>
     <message>
@@ -590,20 +590,20 @@
     </message>
     <message>
         <source>Set Favorite</source>
-        <translation type="unfinished"></translation>
+        <translation>Favorilere Ekle</translation>
         <extracomment>Button Text - When pressed, sets item as Favorite</extracomment>
     </message>
     <message>
         <source>Favorited</source>
-        <translation type="unfinished"></translation>
+        <translation>Favoriler</translation>
     </message>
     <message>
         <source>Mark As Favorite</source>
-        <translation type="unfinished"></translation>
+        <translation>Favori Olarak İşaretle</translation>
     </message>
     <message>
         <source>Set Watched</source>
-        <translation type="unfinished"></translation>
+        <translation>İzlendi Olarak İşaretle</translation>
         <extracomment>Button Text - When pressed, marks item as Warched</extracomment>
     </message>
     <message>
@@ -612,40 +612,40 @@
     </message>
     <message>
         <source>Start over from the beginning.</source>
-        <translation type="unfinished"></translation>
+        <translation>Başlangıçtan tekrar başlat.</translation>
     </message>
     <message>
         <source>Playback Options</source>
-        <translation type="unfinished"></translation>
+        <translation>Oynatma Ayarları</translation>
     </message>
     <message>
         <source>Go to series</source>
-        <translation type="unfinished"></translation>
+        <translation>Serilere git</translation>
         <extracomment>Continue Watching Popup Menu - Navigate to the Series Detail Page</extracomment>
     </message>
     <message>
         <source>Go to season</source>
-        <translation type="unfinished"></translation>
+        <translation>Sezona git</translation>
         <extracomment>Continue Watching Popup Menu - Navigate to the Season Page</extracomment>
     </message>
     <message>
         <source>Go to episode</source>
-        <translation type="unfinished"></translation>
+        <translation>Bölüme git</translation>
         <extracomment>Continue Watching Popup Menu - Navigate to the Episode Detail Page</extracomment>
     </message>
     <message>
         <source>Use voice remote to search</source>
-        <translation type="unfinished"></translation>
+        <translation>Kumandayı kullanarak sesli arama yap</translation>
         <extracomment>Help text in search voice text box</extracomment>
     </message>
     <message>
         <source>Search now</source>
-        <translation type="unfinished"></translation>
+        <translation>Şimdi arat</translation>
         <extracomment>Help text in search Box</extracomment>
     </message>
     <message>
         <source>You can search for Titles, People, Live TV Channels and more</source>
-        <translation type="unfinished"></translation>
+        <translation>Başlıkları, Kişileri, Canlı TV Kanallarını ve daha fazlasını aratabilirsin</translation>
         <extracomment>Help text in search results</extracomment>
     </message>
     <message>
@@ -655,35 +655,35 @@
     </message>
     <message>
         <source>Quick Connect</source>
-        <translation type="unfinished"></translation>
+        <translation>Hızlı Bağlan</translation>
     </message>
     <message>
         <source>Here is your Quick Connect code:</source>
-        <translation type="unfinished"></translation>
+        <translation>Hızlı Bağlan kodun:</translation>
     </message>
     <message>
         <source>(Dialog will close automatically)</source>
-        <translation type="unfinished"></translation>
+        <translation>(Diyalog otomatik olarak kapanacak)</translation>
     </message>
     <message>
         <source>There was an error authenticating via Quick Connect.</source>
-        <translation type="unfinished"></translation>
+        <translation>Hızlı Bağlantı doğrulaması sırasında bir hata oluştu.</translation>
     </message>
     <message>
         <source>Networks</source>
-        <translation type="unfinished"></translation>
+        <translation>Ağlar</translation>
     </message>
     <message>
         <source>Studios</source>
-        <translation type="unfinished"></translation>
+        <translation>Stüdyolar</translation>
     </message>
     <message>
         <source>Shows</source>
-        <translation type="unfinished"></translation>
+        <translation>Şovlar</translation>
     </message>
     <message>
         <source>Return to Top</source>
-        <translation type="unfinished"></translation>
+        <translation>En Başa Dön</translation>
         <extracomment>UI -&gt; Media Grid -&gt; Item Title in user setting screen.</extracomment>
     </message>
     <message>
@@ -702,7 +702,7 @@
     </message>
     <message>
         <source>Options for TV Shows.</source>
-        <translation type="unfinished"></translation>
+        <translation>TV Şovları ayarları.</translation>
         <extracomment>Description for TV Shows user settings.</extracomment>
     </message>
     <message>
@@ -712,12 +712,12 @@
     </message>
     <message>
         <source>Skip Details for Single Seasons</source>
-        <translation type="unfinished"></translation>
+        <translation>Tek Sezonlar için Detayları atla</translation>
         <extracomment>Settings Menu - Title for option</extracomment>
     </message>
     <message>
         <source>Go directly to the episode list if a TV series has only one season.</source>
-        <translation type="unfinished"></translation>
+        <translation>Etkinleştirildiğinde tek sezonluk TV şovları detaylar ve sezon listesini göstermeden direk olarak bölüme gidecektir.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
@@ -726,11 +726,11 @@
     </message>
     <message>
         <source>Design Elements</source>
-        <translation type="unfinished"></translation>
+        <translation>Tasarım Ögeleri</translation>
     </message>
     <message>
         <source>Options that alter the design of Jellyfin.</source>
-        <translation type="unfinished"></translation>
+        <translation>Jellyfin&apos;in tasarımını etkileyen ayarlar.</translation>
         <extracomment>Description for Design Elements user settings.</extracomment>
     </message>
     <message>
@@ -745,17 +745,17 @@
     </message>
     <message>
         <source>Cinema Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Sinema Modu</translation>
         <extracomment>Settings Menu - Title for option</extracomment>
     </message>
     <message>
         <source>Bring the theater experience straight to your living room with the ability to play custom intros before the main feature.</source>
-        <translation type="unfinished"></translation>
+        <translation>Özelleştirilmiş giriş videoları oynatma özelliğiyle sinema tecrübesini oturma odanıza getirin.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Hide Clock</source>
-        <translation type="unfinished"></translation>
+        <translation>Saati Sakla</translation>
         <extracomment>Option Title in user setting screen</extracomment>
     </message>
     <message>
