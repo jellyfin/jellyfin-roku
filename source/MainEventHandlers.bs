@@ -186,6 +186,28 @@ sub onJumpToEvent(msg)
         m.global.sceneManager.callFunc("clearPreviousScene")
     end if
 
+    if isStringEqual(jumpToData.selectiontype, "search")
+        startLoadingSpinner()
+
+        group = CreateSearchPage()
+        if not isValid(group)
+            stopLoadingSpinner()
+        end if
+
+        m.global.sceneManager.callFunc("pushScene", group)
+        group.findNode("SearchBox").findNode("search_Key").setFocus(true)
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        group.lastFocus = group.findNode("SearchBox").findNode("search_Key")
+        group.findNode("SearchBox").findNode("search_Key").active = true
+        stopLoadingSpinner()
+    end if
+
+    if isStringEqual(jumpToData.selectiontype, "settings")
+        startLoadingSpinner()
+        m.global.sceneManager.callFunc("settings")
+        stopLoadingSpinner()
+    end if
+
     if isStringEqual(jumpToData.selectiontype, "nowplaying")
         JumpIntoAudioPlayerView()
     end if

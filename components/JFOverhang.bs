@@ -91,6 +91,24 @@ end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean
     if press
+        if isStringEqual(key, KeyCode.LEFT)
+            buttons = m.top.getscene().findNode("buttons")
+            if isValid(buttons)
+                if buttons.getChildCount() = 0 then return false
+
+                lastButtonIndex = buttons.getChildCount() - 1
+                lastButton = buttons.getChild(lastButtonIndex)
+                if not isValid(lastButton) then return false
+
+                dehighlightUser()
+                lastButton.setfocus(true)
+                lastButton.focus = true
+                group = m.global.sceneManager.callFunc("getActiveScene")
+                group.lastFocus = lastButton
+                return true
+            end if
+        end if
+
         if key = KeyCode.DOWN
             homeRows = m.top.getscene().findNode("homeRows")
             if isValid(homeRows)

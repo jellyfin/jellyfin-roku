@@ -287,6 +287,9 @@ sub removeFocus()
     group = m.global.sceneManager.callFunc("getActiveScene")
     if isChainValid(group, "lastFocus")
         group.lastFocus.setFocus(true)
+        if isStringEqual(group.lastFocus.subtype(), "TextButton")
+            group.lastFocus.focus = true
+        end if
     end if
 end sub
 
