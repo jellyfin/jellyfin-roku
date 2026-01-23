@@ -63,6 +63,7 @@ sub CreateVideoPlayerView()
     m.view.observeField("selectPlaybackInfoPressed", "onSelectPlaybackInfoPressed")
     m.view.observeField("selectSubtitlePressed", "onSelectSubtitlePressed")
     m.view.observeField("selectAudioPressed", "onSelectAudioPressed")
+    m.view.observeField("selectSpeedPressed", "onSelectSpeedPressed")
 
     mediaSourceId = m.global.queueManager.callFunc("getCurrentItem").mediaSourceId
 
@@ -116,6 +117,37 @@ sub onSelectAudioPressed()
     end for
 
     m.global.sceneManager.callFunc("radioDialog", tr("Select Audio"), audioData)
+    m.global.sceneManager.observeField("returnData", "onSelectionMade")
+end sub
+
+' onSelectSpeedPressed: Display audio selection dialog
+'
+sub onSelectSpeedPressed()
+
+    speedData = {
+        data: []
+    }
+
+    speeds = [0.5, 0.75, 1, 1.5, 2, 2.5, 3]
+    index = 0
+    for each speed in speeds
+        speedItem = {
+            "Index": index,
+            "Speed": speed,
+            "IsExternal": false,
+            "Type": "speedselection",
+            "Track": {
+                "description": speed
+            }
+        }
+        index++
+        if speed = m.global.sceneManager.currentSpeed
+            speedItem.selected = true
+        end if
+        speedData.data.push(speedItem)
+    end for
+
+    m.global.sceneManager.callFunc("radioDialog", tr("Select Speed"), speedData)
     m.global.sceneManager.observeField("returnData", "onSelectionMade")
 end sub
 
@@ -188,6 +220,11 @@ sub onSelectionMade()
         processAudioSelection()
         return
     end if
+
+    if LCase(m.global.sceneManager.returnData.type) = "speedselection"
+        processSpeedSelection()
+        return
+    end if
 end sub
 
 
@@ -210,6 +247,15 @@ sub processAudioSelection()
 
     m.global.queueManager.callFunc("setPreferredAudioTrackIndex", selectedAudioTrack.index)
     m.view.audioIndex = selectedAudioTrack.index
+end sub
+
+' processSpeedSelection: Speed selection handler
+'
+sub processSpeedSelection()
+    selectedSpeed = m.global.sceneManager.returnData
+
+    m.global.sceneManager.currentSpeed = selectedSpeed.speed
+    m.view.selectedSpeed = selectedSpeed.speed
 end sub
 
 sub processSubtitleSelection()
