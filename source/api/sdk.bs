@@ -424,6 +424,13 @@ namespace api
             return getJson(req)
         end function
 
+        ' Get item specified by passed ID
+        ' requires userid passed in params
+        function GetByID(id as string, params = {} as object)
+            req = APIRequest(`/items/${id}`, params)
+            return getJson(req)
+        end function
+
         ' Gets legacy query filters.
         function GetFilters(params = {} as object)
             req = APIRequest("/items/filters", params)
