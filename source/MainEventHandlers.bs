@@ -209,15 +209,32 @@ sub onJumpToEvent(msg)
 
     if isStringEqual(jumpToData.selectiontype, "genre")
         ' Set filter settings so library loads with selected genre as selected filter
-        set_user_setting("display.gotogenre.landing", "albums")
-        set_user_setting("display.gotogenre.filter", "Genres")
-        set_user_setting("display.gotogenre.filterOptions", `{"Genres": "${jumpToData.LookupCI("Name")}"}`)
+        set_user_setting("display.jumpToFilter.landing", "albums")
+        set_user_setting("display.jumpToFilter.filter", "Genres")
+        set_user_setting("display.jumpToFilter.filterOptions", `{"Genres": "${jumpToData.LookupCI("Name")}"}`)
 
         libraryContent = CreateObject("roSGNode", "JFContentItem")
         libraryContent.type = "Music"
         libraryContent.json = {
             type: "collectionfolder",
-            genreId: jumpToData.LookupCI("Id")
+            jumpToFilter: true
+        }
+
+        group = CreateMusicLibraryView(libraryContent)
+        m.global.sceneManager.callFunc("pushScene", group)
+    end if
+
+    if isStringEqual(jumpToData.selectiontype, "releaseDate")
+        ' Set filter settings so library loads with selected releaseDate as selected filter
+        set_user_setting("display.jumpToFilter.landing", "albums")
+        set_user_setting("display.jumpToFilter.filter", "Years")
+        set_user_setting("display.jumpToFilter.filterOptions", `{"Years": "${jumpToData.LookupCI("Name")}"}`)
+
+        libraryContent = CreateObject("roSGNode", "JFContentItem")
+        libraryContent.type = "Music"
+        libraryContent.json = {
+            type: "collectionfolder",
+            jumpToFilter: true
         }
 
         group = CreateMusicLibraryView(libraryContent)
@@ -815,12 +832,20 @@ end sub
 sub onSeasonSelectedEvent(msg)
     startLoadingSpinner()
     ptr = msg.getData()
-    ' ptr is for [row, col] of selected item... but we only have 1 row
     series = msg.getRoSGNode()
-    if isValid(ptr) and ptr.count() >= 2 and isValid(ptr[1]) and isValid(series) and isValid(series.seasonData) and isValid(series.seasonData.items)
-        node = series.seasonData.items[ptr[1]]
-        CreateSeasonDetailsGroup(series.itemContent, node)
+
+    if not isValid(series.seasonData)
+        stopLoadingSpinner()
+        return
     end if
+
+    if series.seasonData.getChildCount() = 0
+        stopLoadingSpinner()
+        return
+    end if
+
+    node = series.seasonData.getChild(ptr)
+    CreateSeasonDetailsGroup(series.itemContent, node)
 end sub
 
 ' Find the 1st episode in the series and start playback
@@ -1715,9 +1740,9 @@ sub processLibraryItemPopup(selectedPopupButton as string, itemID as string, par
 
     if selectedPopupButton.Instr(tr("Go To Genre")) <> -1
         ' Set filter settings so library loads with selected genre as selected filter
-        set_user_setting("display.gotogenre.landing", "albums")
-        set_user_setting("display.gotogenre.filter", "Genres")
-        set_user_setting("display.gotogenre.filterOptions", `{"Genres": "${params.LookupCI("GenreName")}"}`)
+        set_user_setting("display.jumpToFilter.landing", "albums")
+        set_user_setting("display.jumpToFilter.filter", "Genres")
+        set_user_setting("display.jumpToFilter.filterOptions", `{"Genres": "${params.LookupCI("GenreName")}"}`)
 
         libraryContent = CreateObject("roSGNode", "JFContentItem")
         libraryContent.id = params.LookupCI("LibraryId")
@@ -1725,7 +1750,7 @@ sub processLibraryItemPopup(selectedPopupButton as string, itemID as string, par
         libraryContent.type = "Music"
         libraryContent.json = {
             type: "collectionfolder",
-            genreId: params.LookupCI("GenreId")
+            jumpToFilter: params.LookupCI("GenreId")
         }
 
         group = CreateMusicLibraryView(libraryContent)

@@ -59,34 +59,34 @@
         </Poster>
       </LayoutGroup>
 
-      <LayoutGroup id="infoGroup" layoutDirection="vert" itemSpacings="[15]">
-        <Rectangle id='seasonListRect' translation="[-30, 0]" width="1720" height="510">
-          <TVSeasonRow
-            id="seasons"
-            showRowLabel="[false]"
-            showRowCounter="[true]"
-            itemSpacing="[0, 0]"
-            itemSize="[1620, 360]"
-            rowLabelOffset="[[0, 0]]"
-            rowItemSpacing="[[20, 20]]"
-            rowItemSize="[[180, 331]]"
-            rowFocusAnimationStyle="fixedFocusWrap"
-            translation="[45, 20]" />
-        </Rectangle>
-      </LayoutGroup>
+      <Rectangle id='seasonListRect' translation="[-30, 0]" width="1720" height="400">
+        <TVSeasonGrid
+          id="seasons"
+          numColumns="8"
+          numRows="2"
+          clippingRect="[-10,-10,2020,370]"
+          vertFocusAnimationStyle="fixed"
+          itemComponentName="TVSeasonGridItem"
+          itemSpacing="[20, 50]"
+          itemSize="[180, 320]"
+          rowHeights="[320]"
+          drawFocusFeedback="true"
+          translation="[45, 25]" />
+      </Rectangle>
     </LayoutGroup>
 
-    <ExtrasSlider id="tvSeasonExtras" />
+    <ExtrasSlider visible="false" id="tvSeasonExtras" />
   </children>
   <interface>
     <function name="getFocusedItem" />
     <field id="displayResumeButton" type="bool" alwaysNotify="true" onChange="onDisplayResumeButtonChange" />
     <field id="refreshSeasonDetailsData" type="bool" alwaysNotify="true" />
     <field id="itemContent" type="node" onChange="itemContentChanged" />
-    <field id="seasonData" type="assocarray" alias="seasons.TVSeasonData" />
-    <field id="seasonSelected" alias="seasons.rowItemSelected" alwaysNotify="true" />
+    <field id="seasonData" type="node" alias="seasons.content" />
+    <field id="seasonSelected" alias="seasons.itemSelected" alwaysNotify="true" />
     <field id="quickPlayNode" type="node" alwaysNotify="true" />
     <field id="selectedButtonIndex" type="integer" value="-1" />
     <field id="playSeriesFromStart" type="bool" />
+    <field id="showItemTitles" type="string" value="showalways" />
   </interface>
 </component>

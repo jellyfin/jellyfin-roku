@@ -746,7 +746,7 @@ function CreateSeriesDetailsGroup(seriesID as string) as dynamic
     ' Get season data early in the function so we can check number of seasons.
     seasonData = TVSeasons(seriesID)
     ' Divert to season details if user setting goStraightToEpisodeListing is enabled and only one season exists.
-    if seasonData <> invalid and m.global.session.user.settings["ui.tvshows.goStraightToEpisodeListing"] and seasonData.Items.Count() = 1
+    if seasonData <> invalid and m.global.session.user.settings["ui.tvshows.goStraightToEpisodeListing"] and seasonData.getChildCount() = 1
         stopLoadingSpinner()
         return CreateSeasonDetailsGroupByID(seriesID, seasonData.Items[0].id)
     end if
@@ -873,7 +873,6 @@ function CreateSeasonDetailsGroup(series as object, season as object) as dynamic
     if not isValid(series) or not isValid(series.id) then return invalid
     ' validate season node
     if not isValid(season) or not isValid(season.id) then return invalid
-
     startLoadingSpinner()
     ' get season meta data
     seasonMetaData = ItemMetaData(season.id)
