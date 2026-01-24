@@ -22,5 +22,9 @@
   {
     "description": "Remove forced remux for LiveTV (server 10.10+)",
     "author": "jimdogx"
+  },
+  {
+    "description": "Move Search and Setting links out of the user menu to the home screen",
+    "author": "1hitsong"
   }
 ]

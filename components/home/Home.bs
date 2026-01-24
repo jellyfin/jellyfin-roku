@@ -1,5 +1,7 @@
 import "pkg:/source/api/baserequest.bs"
 import "pkg:/source/api/Image.bs"
+import "pkg:/source/enums/AnimationControl.bs"
+import "pkg:/source/enums/AnimationState.bs"
 import "pkg:/source/enums/ColorPalette.bs"
 import "pkg:/source/enums/ItemType.bs"
 import "pkg:/source/enums/KeyCode.bs"
@@ -26,11 +28,32 @@ sub init()
 
     m.homeRows = m.top.findNode("homeRows")
     m.homeRows.focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+
+    m.buttons = m.top.findNode("buttons")
+    m.toggleButtonsAnimation = m.top.findNode("toggleButtonsAnimation")
+    m.buttonsFade = m.top.findNode("buttonsFade")
+    m.buttonsMove = m.top.findNode("buttonsMove")
+
+    setButtonColors()
 end sub
 
 sub refresh()
     m.homeRows.focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
     m.homeRows.callFunc("updateHomeRows")
+end sub
+
+sub setButtonColors()
+    m.searchButton = m.top.findNode("searchButton")
+    m.searchButton.textColor = ColorPalette.WHITE
+    m.searchButton.background = ColorPalette.DARKGREY
+    m.searchButton.focusTextColor = ColorPalette.WHITE
+    m.searchButton.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+
+    m.settingsButton = m.top.findNode("settingsButton")
+    m.settingsButton.textColor = ColorPalette.WHITE
+    m.settingsButton.background = ColorPalette.DARKGREY
+    m.settingsButton.focusTextColor = ColorPalette.WHITE
+    m.settingsButton.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
 end sub
 
 sub loadLibraries()
@@ -91,6 +114,28 @@ end sub
 sub postFinished()
     m.postTask.unobserveField("responseCode")
     m.postTask.callFunc("empty")
+end sub
+
+sub onRowFocusedChange()
+    if m.top.rowFocused > 0
+        if m.buttons.opacity > 0
+            toggleButtonsVisibility()
+        end if
+        return
+    end if
+
+    if m.buttons.opacity < 1
+        toggleButtonsVisibility(true)
+    end if
+end sub
+
+sub toggleButtonsVisibility(runInReverse = false as boolean)
+    m.buttonsFade.reverse = runInReverse
+    m.buttonsMove.reverse = runInReverse
+
+    if not isStringEqual(m.toggleButtonsAnimation.state, AnimationState.RUNNING)
+        m.toggleButtonsAnimation.control = AnimationControl.START
+    end if
 end sub
 
 sub onMyListLoaded()
@@ -174,9 +219,95 @@ sub onMyListLoaded()
     m.global.sceneManager.callFunc("optionDialog", "libraryitem", focusedItem.LookupCI("title") ?? tr("Options"), [], dialogData, paramData)
 end sub
 
+sub setLastFocus(lastFocusElement)
+    group = m.global.sceneManager.callFunc("getActiveScene")
+
+    if isValid(group)
+        group.lastFocus = lastFocusElement
+    end if
+end sub
+
+function audioMiniPlayerIsVisible()
+    scene = m.top.getScene()
+    audioMiniPlayer = scene.findNode("audioMiniPlayer")
+
+    if not isValid(audioMiniPlayer) then return false
+
+    return audioMiniPlayer.callFunc("isVisible")
+end function
+
 ' Special handling for key presses on the home screen.
 function onKeyEvent(key as string, press as boolean) as boolean
     if not press then return false
+
+    if m.buttons.isInFocusChain()
+        if isStringEqual(key, KeyCode.REPLAY)
+            if not audioMiniPlayerIsVisible() then return true
+            m.searchButton.focus = false
+            m.settingsButton.focus = false
+        end if
+
+        if isStringEqual(key, KeyCode.OK)
+            if m.searchButton.hasFocus()
+                m.top.getScene().jumpTo = {
+                    selectionType: "search"
+                }
+                return true
+            end if
+
+            if m.settingsButton.hasFocus()
+                m.top.getScene().jumpTo = {
+                    selectionType: "settings"
+                }
+                return true
+            end if
+        end if
+
+        if isStringEqual(key, KeyCode.DOWN)
+            m.searchButton.focus = false
+            m.settingsButton.focus = false
+            m.homeRows.setfocus(true)
+            setLastFocus(m.homeRows)
+            return true
+        end if
+
+        if isStringEqual(key, KeyCode.RIGHT)
+            if m.searchButton.hasFocus()
+                m.searchButton.focus = false
+                m.settingsButton.focus = true
+                m.settingsButton.setfocus(true)
+                setLastFocus(m.settingsButton)
+                return true
+            end if
+
+            if m.settingsButton.hasFocus()
+                m.settingsButton.focus = false
+                scene = m.top.getScene()
+                if not isValid(scene) then return false
+
+                overhang = scene.findNode("overhang")
+                if not isValid(overhang) then return false
+
+                overhang.callFunc("highlightUser")
+                overhang.setfocus(true)
+                setLastFocus(overhang)
+                return true
+
+            end if
+        end if
+
+        if isStringEqual(key, KeyCode.LEFT)
+            if m.settingsButton.hasFocus()
+                m.searchButton.focus = true
+                m.settingsButton.focus = false
+                m.searchButton.setfocus(true)
+                setLastFocus(m.searchButton)
+                return true
+            end if
+        end if
+
+        return false
+    end if
 
     ' If the user hit back and is not on the first item of the row,
     ' assume they want to go to the first item of the row.
@@ -195,6 +326,13 @@ function onKeyEvent(key as string, press as boolean) as boolean
             m.loadMetaDataTask.control = TaskControl.RUN
             return true
         end if
+    end if
+
+    if isStringEqual(key, KeyCode.UP)
+        m.searchButton.focus = true
+        m.searchButton.setfocus(true)
+        setLastFocus(m.searchButton)
+        return true
     end if
 
     return false

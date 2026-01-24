@@ -605,8 +605,6 @@ function CreateHomeGroup()
     sidepanel.observeField("closeSidePanel", m.port)
     new_options = []
     options_buttons = [
-        { "title": "Search", "id": "goto_search" },
-        { "title": "Settings", "id": "settings" },
         { "title": "Change user", "id": "change_user" },
         { "title": "Change server", "id": "change_server" },
         { "title": "Sign out", "id": "sign_out" }
