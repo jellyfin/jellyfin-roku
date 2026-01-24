@@ -346,7 +346,7 @@
     </message>
     <message>
         <source>TV Shows</source>
-        <translation>TV Programları</translation>
+        <translation>Diziler</translation>
     </message>
     <message>
         <source>today</source>
@@ -702,7 +702,7 @@
     </message>
     <message>
         <source>Options for TV Shows.</source>
-        <translation>TV Şovları ayarları.</translation>
+        <translation>Dizi Ayarları.</translation>
         <extracomment>Description for TV Shows user settings.</extracomment>
     </message>
     <message>
@@ -717,7 +717,7 @@
     </message>
     <message>
         <source>Go directly to the episode list if a TV series has only one season.</source>
-        <translation>Etkinleştirildiğinde tek sezonluk TV şovları detaylar ve sezon listesini göstermeden direk olarak bölüme gidecektir.</translation>
+        <translation>Etkinleştirildiğinde tek sezonluk dizilerin detaylarını ve sezon listesini göstermeden direk olarak bölüme gidecektir.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
@@ -1358,7 +1358,7 @@
     </message>
     <message>
         <source>Custom Trickplay</source>
-        <translation type="unfinished"></translation>
+        <translation>Özel Hızlı Önizleme</translation>
         <extracomment>User Setting - Title for option</extracomment>
     </message>
     <message>
