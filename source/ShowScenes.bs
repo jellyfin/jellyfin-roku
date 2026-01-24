@@ -758,25 +758,6 @@ function CreateSeriesDetailsGroup(seriesID as string) as dynamic
 
     startLoadingSpinner()
 
-    apiSeriesData = api.items.GetByID(seriesID, {
-        userId: m.global.session.user.id,
-        enableImageTypes: `${ImageType.PRIMARY}, ${ImageType.BACKDROP}, ${ImageType.THUMB}`,
-        imageTypeLimit: 1,
-        enableTotalRecordCount: false
-    })
-
-    seriesData = CreateObject("roSGNode", "SeriesData")
-    ' tmp.image = PosterImage(data.id)
-    seriesData.json = apiSeriesData
-
-    displayResumeButton = hasResummableEpisode(seriesID)
-
-    ' validate series meta data
-    if not isValid(seriesData)
-        stopLoadingSpinner()
-        return invalid
-    end if
-
     ' Get season data early in the function so we can check number of seasons.
     apiSeasonData = api.shows.GetSeasons(seriesID, {
         userId: m.global.session.user.id,
@@ -784,6 +765,16 @@ function CreateSeriesDetailsGroup(seriesID as string) as dynamic
         imageTypeLimit: 1,
         enableTotalRecordCount: false
     })
+
+    ' Divert to season details if user setting goStraightToEpisodeListing is enabled and only one season exists.
+    if m.global.session.user.settings["ui.tvshows.goStraightToEpisodeListing"]
+        if isChainValid(apiSeasonData, "items")
+            if chainLookup(apiSeasonData, "items").count() = 1
+                stopLoadingSpinner()
+                return CreateSeasonDetailsGroupByID(seriesID, chainLookup(apiSeasonData, "items")[0].id)
+            end if
+        end if
+    end if
 
     seasonData = CreateObject("roSGNode", "ContentNode")
     for each item in apiSeasonData.Items
@@ -798,25 +789,41 @@ function CreateSeriesDetailsGroup(seriesID as string) as dynamic
         end if
     end for
 
-    ' Divert to season details if user setting goStraightToEpisodeListing is enabled and only one season exists.
-    if seasonData <> invalid and m.global.session.user.settings["ui.tvshows.goStraightToEpisodeListing"] and seasonData.getChildCount() = 1
+    apiSeriesData = api.items.GetByID(seriesID, {
+        userId: m.global.session.user.id,
+        enableImageTypes: `${ImageType.PRIMARY}, ${ImageType.BACKDROP}, ${ImageType.THUMB}`,
+        imageTypeLimit: 1,
+        enableTotalRecordCount: false
+    })
+
+    seriesData = CreateObject("roSGNode", "SeriesData")
+    seriesData.json = apiSeriesData
+
+    ' validate series meta data
+    if not isValid(seriesData)
         stopLoadingSpinner()
-        return CreateSeasonDetailsGroupByID(seriesID, seasonData.Items[0].id)
+        return invalid
     end if
+
+    displayResumeButton = hasResummableEpisode(seriesID)
 
     ' start building SeriesDetails view
     group = CreateObject("roSGNode", "TVSeriesDetails")
     group.displayResumeButton = displayResumeButton
     group.optionsAvailable = false
+
     ' push scene asap (to prevent extra button presses when retriving series/movie info)
     m.global.sceneManager.callFunc("pushScene", group)
+
     group.itemContent = seriesData
     group.seasonData = seasonData
+
     ' watch for button presses
     group.observeField("playSeriesFromStart", m.port)
     group.observeField("seasonSelected", m.port)
     group.observeField("quickPlayNode", m.port)
     group.observeField("refreshSeasonDetailsData", m.port)
+
     ' setup and load series extras
     extras = group.findNode("extrasGrid")
     extras.observeFieldScoped("selectedItem", m.port)
