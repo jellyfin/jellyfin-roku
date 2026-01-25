@@ -560,8 +560,23 @@ sub onRefreshSeasonDetailsDataEvent()
         seriesID = chainLookup(currentScene, "itemContent.id")
         if isValid(seriesID)
             ' Determine if the resume button needs to be shown
-            currentScene.displayResumeButton = hasResummableEpisode(seriesID)
+            displayResumeButton = hasResummableEpisode(seriesID)
+            if not displayResumeButton
+                displayResumeButton = hasNextUpEpisode(seriesID)
+            end if
+            currentScene.displayResumeButton = displayResumeButton
+
             currentScene.itemContent = ItemMetaData(seriesID)
+        end if
+    else if currentScene.isSubType("TVSeasonDetails")
+        seasonID = chainLookup(currentScene, "seasonData.id")
+        if isValid(seasonID)
+            ' Determine if the resume button needs to be shown
+            displayResumeButton = hasResummableEpisode(seasonID)
+            if not displayResumeButton
+                displayResumeButton = hasUnplayedEpisode(seasonID)
+            end if
+            currentScene.displayResumeButton = displayResumeButton
         end if
     end if
 

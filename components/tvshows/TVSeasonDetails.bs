@@ -2,6 +2,7 @@ import "pkg:/source/api/baserequest.bs"
 import "pkg:/source/api/Image.bs"
 import "pkg:/source/api/sdk.bs"
 import "pkg:/source/enums/ColorPalette.bs"
+import "pkg:/source/enums/ItemType.bs"
 import "pkg:/source/enums/KeyCode.bs"
 import "pkg:/source/enums/TaskControl.bs"
 import "pkg:/source/utils/config.bs"
@@ -11,7 +12,6 @@ sub init()
     m.top.optionsAvailable = false
 
     m.rows = m.top.findNode("picker")
-    m.rows.setfocus(true)
     m.poster = m.top.findNode("seasonPoster")
     m.shuffle = m.top.findNode("shuffle")
     m.extras = m.top.findNode("extras")
@@ -44,6 +44,9 @@ sub init()
     m.shuffle = m.top.findNode("shuffle")
     m.shuffle.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
 
+    m.extras = m.top.findNode("extras")
+    m.extras.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+
     m.previouslySelectedButtonIndex = -1
     m.top.observeField("selectedButtonIndex", "onButtonSelectedChange")
     m.top.selectedButtonIndex = 0
@@ -51,6 +54,22 @@ sub init()
     m.isFirstRun = true
 
     setFontSizes()
+end sub
+
+' Event handler when user selected a different playback button
+sub onButtonSelectedChange()
+    ' Change previously focused button back to default
+    if m.previouslySelectedButtonIndex > -1
+        previousSelectedButton = m.buttonGrp.getChild(m.previouslySelectedButtonIndex)
+        previousSelectedButton.focus = false
+    end if
+
+    ' Change selected button image to focus state
+    selectedButton = m.buttonGrp.getChild(m.top.selectedButtonIndex)
+    selectedButton.setfocus(true)
+    selectedButton.focus = true
+
+    m.top.lastFocus = selectedButton
 end sub
 
 sub setFontSizes()
@@ -281,11 +300,129 @@ sub OnScreenShown()
     m.top.refreshSeasonDetailsData = not m.top.refreshSeasonDetailsData
 end sub
 
+sub onDisplayResumeButtonChange()
+    ' Remove the resume button
+    if not m.top.displayResumeButton
+        focusOnButtons = m.buttonGrp.isInFocusChain()
+
+        m.buttonGrp.removeChild(m.resume)
+        m.resume = invalid
+        m.buttonCount = m.buttonGrp.getChildCount()
+
+        if focusOnButtons
+            onButtonSelectedChange()
+        end if
+
+        return
+    end if
+
+    ' Add resume button back
+    if not isValid(m.resume)
+        previousSelectedButton = m.buttonGrp.getChild(m.top.selectedButtonIndex)
+        previousSelectedButton.focus = false
+
+        m.resume = createObject("roSGNode", "IconButton")
+        m.resume.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+        m.resume.id = "resume"
+        m.resume.background = "#070707"
+        m.resume.padding = "35"
+        m.resume.icon = "pkg:/images/icons/resume.png"
+        m.resume.text = "Resume"
+        m.resume.height = "65"
+        m.resume.width = "140"
+        m.buttonGrp.insertChild(m.resume, 0)
+        m.buttonCount = m.buttonGrp.getChildCount()
+
+        if m.buttonGrp.isInFocusChain()
+            onButtonSelectedChange()
+        end if
+    end if
+end sub
+
 ' Handle navigation input from the remote and act on it
 function onKeyEvent(key as string, press as boolean) as boolean
 
-    if m.rows.isInFocusChain()
-        if press
+    if m.buttonGrp.isInFocusChain()
+        if isStringEqual(key, KeyCode.UP)
+            if m.buttonGrp.getChild(m.top.selectedButtonIndex).escape = "up"
+                if not isStringEqual(m.overview.text, string.EMPTY)
+                    m.buttonGrp.getChild(m.top.selectedButtonIndex).escape = ""
+                    selectedButton = m.buttonGrp.getChild(m.top.selectedButtonIndex)
+                    selectedButton.focus = false
+                    m.overview.setFocus(true)
+                    m.overview.color = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+                    m.top.lastFocus = m.overview
+                    return true
+                end if
+            end if
+        end if
+
+        if isStringEqual(key, KeyCode.OK) or isStringEqual(key, KeyCode.PLAY)
+            if not press then return false
+
+            if m.shuffle.hasFocus()
+                m.getShuffleEpisodesTask.showID = m.top.seasonData.id
+                m.getShuffleEpisodesTask.observeField("data", "onShuffleEpisodeDataLoaded")
+                m.getShuffleEpisodesTask.control = "RUN"
+                return true
+            end if
+
+            if isValid(m.resume)
+                if m.resume.hasFocus()
+                    quickplayData = CreateObject("roSGNode", "TVSeasonData")
+                    quickplayData.json = {
+                        id: m.top.seasonData.id,
+                        SeriesId: m.top.seasonData.LookupCI("SeriesId")
+                    }
+                    quickplayData.type = ItemType.SEASON
+                    quickplayData.quickplayFromResume = true
+                    m.top.quickPlayNode = quickplayData
+                    return true
+                end if
+            end if
+
+            if m.play.hasFocus()
+                m.top.playSeriesFromStart = not m.top.playSeriesFromStart
+                return true
+            end if
+
+            return false
+        end if
+
+        if isStringEqual(key, KeyCode.LEFT)
+            if m.top.selectedButtonIndex = 0 then return false
+
+            if m.buttonGrp.getChild(m.top.selectedButtonIndex).escape = "left"
+                m.buttonGrp.getChild(m.top.selectedButtonIndex).escape = ""
+
+                m.previouslySelectedButtonIndex = m.top.selectedButtonIndex
+                m.top.selectedButtonIndex = m.top.selectedButtonIndex - 1
+                return true
+            end if
+        end if
+
+        if isStringEqual(key, KeyCode.RIGHT)
+            if m.top.selectedButtonIndex < m.buttonCount - 1
+                m.previouslySelectedButtonIndex = m.top.selectedButtonIndex
+                m.top.selectedButtonIndex = m.top.selectedButtonIndex + 1
+                return true
+            end if
+        end if
+
+        if isStringEqual(key, KeyCode.DOWN)
+            if m.buttonGrp.getChild(m.top.selectedButtonIndex).escape = "down"
+                m.buttonGrp.getChild(m.top.selectedButtonIndex).escape = ""
+                selectedButton = m.buttonGrp.getChild(m.top.selectedButtonIndex)
+                selectedButton.focus = false
+                m.rows.setFocus(true)
+                m.top.lastFocus = m.rows
+                return true
+            end if
+        end if
+    end if
+
+    if press
+        if m.rows.isInFocusChain()
             if isStringEqual(key, KeyCode.OK)
                 focusedItem = getFocusedItem()
                 if isValid(focusedItem)
@@ -294,38 +431,37 @@ function onKeyEvent(key as string, press as boolean) as boolean
                     return true
                 end if
             end if
+
+            if isStringEqual(key, KeyCode.UP)
+                onButtonSelectedChange()
+                return true
+            end if
+
+            if isStringEqual(key, KeyCode.PLAY)
+                focusedItem = getFocusedItem()
+                if isValid(focusedItem)
+                    m.top.quickPlayNode = focusedItem
+                end if
+                return true
+            end if
         end if
     end if
 
-    if key = "left" and m.rows.hasFocus()
+    if m.extras.visible and isStringEqual(key, KeyCode.UP) and m.extras.hasFocus()
         m.shuffle.setFocus(true)
         group = m.global.sceneManager.callFunc("getActiveScene")
         group.lastFocus = m.shuffle
         return true
     end if
 
-    if key = "right" and (m.shuffle.hasFocus() or m.extras.hasFocus())
-        m.rows.setFocus(true)
-        group = m.global.sceneManager.callFunc("getActiveScene")
-        group.lastFocus = m.rows
-        return true
-    end if
-
-    if m.extras.visible and key = "up" and m.extras.hasFocus()
-        m.shuffle.setFocus(true)
-        group = m.global.sceneManager.callFunc("getActiveScene")
-        group.lastFocus = m.shuffle
-        return true
-    end if
-
-    if m.extras.visible and key = "down" and m.shuffle.hasFocus()
+    if m.extras.visible and isStringEqual(key, KeyCode.DOWN) and m.shuffle.hasFocus()
         m.extras.setFocus(true)
         group = m.global.sceneManager.callFunc("getActiveScene")
         group.lastFocus = m.extras
         return true
     end if
 
-    if key = "OK"
+    if isStringEqual(key, KeyCode.OK)
         if m.shuffle.hasFocus()
             episodeList = m.rows.objects.items
 
@@ -349,16 +485,6 @@ function onKeyEvent(key as string, press as boolean) as boolean
                 m.extras.text = tr("Extras")
                 m.top.objects = m.top.episodeObjects
             end if
-        end if
-    end if
-
-    if press
-        if isStringEqual(key, KeyCode.PLAY)
-            focusedItem = getFocusedItem()
-            if isValid(focusedItem)
-                m.top.quickPlayNode = focusedItem
-            end if
-            return true
         end if
     end if
 

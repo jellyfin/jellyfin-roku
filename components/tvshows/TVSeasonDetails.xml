@@ -10,11 +10,6 @@
           </LayoutGroup>
 
           <LayoutGroup id="topLevelDetails" layoutDirection="horiz" itemSpacings="[25]">
-            <LayoutGroup id="runtimeContainer" layoutDirection="horiz" itemSpacings="[15]">
-              <Poster id="runtimeIcon" width="35" height="35" uri="pkg:/images/icons/35px/clock.png" />
-              <Text id="runtime" vertAlign="center" font="font:MediumSystemFont" height="35" />
-            </LayoutGroup>
-
             <LayoutGroup id="numberofepisodesContainer" layoutDirection="horiz" itemSpacings="[15]">
               <Poster id="numberofepisodesIcon" width="35" height="35" uri="pkg:/images/icons/35px/tv.png" />
               <Text id="numberofepisodes" vertAlign="center" font="font:MediumSystemFont" height="35" />
@@ -73,6 +68,7 @@
 
   </children>
   <interface>
+    <field id="displayResumeButton" type="bool" alwaysNotify="true" onChange="onDisplayResumeButtonChange" />
     <field id="episodeSelected" alias="picker.itemSelected" />
     <field id="refreshSeasonDetailsData" type="bool" alwaysNotify="true" />
     <field id="selectedItem" type="node" alwaysNotify="true" />
