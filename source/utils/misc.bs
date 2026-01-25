@@ -135,7 +135,7 @@ end function
 
 function lastFocusedChild(obj as object) as object
     if isValid(obj)
-        if isValid(obj.focusedChild) and isValid(obj.focusedChild.focusedChild) and LCase(obj.focusedChild.focusedChild.subType()) = "tvepisodes"
+        if isValid(obj.focusedChild) and isValid(obj.focusedChild.focusedChild) and LCase(obj.focusedChild.focusedChild.subType()) = "tvseasondetails"
             if isValid(obj.focusedChild.focusedChild.lastFocus)
                 return obj.focusedChild.focusedChild.lastFocus
             end if

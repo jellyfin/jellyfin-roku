@@ -880,7 +880,7 @@ function CreateSeasonDetailsGroup(series as object, season as object) as dynamic
         return invalid
     end if
     ' start building SeasonDetails view
-    group = CreateObject("roSGNode", "TVEpisodes")
+    group = CreateObject("roSGNode", "TVSeasonDetails")
     group.optionsAvailable = false
     ' push scene asap (to prevent extra button presses when retriving series/movie info)
     m.global.sceneManager.callFunc("pushScene", group)
@@ -911,7 +911,7 @@ function CreateSeasonDetailsGroupByID(seriesID as string, seasonID as string) as
         return invalid
     end if
     ' start building SeasonDetails view
-    group = CreateObject("roSGNode", "TVEpisodes")
+    group = CreateObject("roSGNode", "TVSeasonDetails")
     group.optionsAvailable = false
     ' push scene asap (to prevent extra button presses when retriving series/movie info)
     group.seasonData = seasonMetaData.json

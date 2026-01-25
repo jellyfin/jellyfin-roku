@@ -45,7 +45,7 @@ sub onQuickPlayEvent(msg)
         ' Restore focus
         group = m.global.sceneManager.callFunc("getActiveScene")
         if isValid(group)
-            if isStringEqual(group.subtype(), "tvepisodes")
+            if isStringEqual(group.subtype(), "TVSeasonDetails")
                 if isValid(group.lastFocus)
                     group.lastFocus.setFocus(true)
                 end if

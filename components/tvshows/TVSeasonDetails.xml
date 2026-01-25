@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<component name="TVEpisodes" extends="JFScreen">
+<component name="TVSeasonDetails" extends="JFScreen">
   <children>
     <Poster id="seasonPoster" width="300" height="450" translation="[95,175]">
       <PlayedCheckmark id="playedIndicator" translation="[240, 0]" />
