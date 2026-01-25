@@ -63,6 +63,11 @@ sub setFontSizes()
         title.font.size = 45
     end if
 
+    subtitle = m.top.findNode("subtitle")
+    if isValid(subtitle)
+        subtitle.font.size = 23
+    end if
+
     runtime = m.top.findNode("runtime")
     if isValid(runtime)
         runtime.font.size = 23
@@ -135,12 +140,7 @@ end sub
 
 sub populateOnScreenText()
     setFieldText("title", m.top.seasonData.name)
-
-    if type(m.top.seasonData.RunTimeTicks) = "LongInteger"
-        setFieldText("runtime", stri(getRuntime()) + " mins")
-    else
-        m.top.findNode("topLevelDetails").removeChild(m.top.findNode("runtimeContainer"))
-    end if
+    setFieldText("subtitle", m.top.seasonData.LookupCI("SeriesName"))
 
     if isChainValid(m.top.seasonData, "RecursiveItemCount")
         setFieldText("numberofepisodes", stri(m.top.seasonData.RecursiveItemCount) + " episodes")
@@ -153,6 +153,13 @@ sub populateOnScreenText()
         setFieldText("released", m.top.seasonData.productionYear)
     else
         m.top.findNode("topLevelDetails").removeChild(m.top.findNode("releasedContainer"))
+    end if
+
+    studio = m.top.seasonData.LookupCI("SeriesStudio")
+    if isValidAndNotEmpty(studio)
+        setFieldText("history", studio)
+    else
+        m.top.findNode("topLevelDetails").removeChild(m.top.findNode("historyContainer"))
     end if
 
     'Check rating, if invalid remove label
@@ -172,9 +179,6 @@ sub populateOnScreenText()
     else
         m.top.findNode("topLevelDetails").removeChild(m.top.findNode("communityReviewContainer"))
     end if
-
-    'History field is set via the function getHistory()
-    setFieldText("history", getHistory())
 
     'Check genres, if invalid remove label
     if isValidAndNotEmpty(m.top.seasonData.genres)
@@ -206,46 +210,6 @@ function getEndTime() as string
     date.toLocalTime()
 
     return formatTime(date)
-end function
-
-function getHistory() as string
-    itemData = m.top.seasonData
-    if not isValidAndNotEmpty(itemData.status) then return string.EMPTY
-
-    ' Aired Fridays at 9:30 PM on ABC (US)
-
-    airwords = invalid
-    studio = invalid
-    if itemData.status = "Ended"
-        verb = "Aired"
-    else
-        verb = "Airs"
-    end if
-
-    airdays = itemData.airdays
-    airtime = itemData.airtime
-    if isValid(airtime) and airdays.count() = 1
-        airwords = airdays[0] + " at " + airtime
-    end if
-
-    if itemData.studios.count() > 0
-        studio = itemData.studios[0].name
-    end if
-
-    if studio = invalid and airwords = invalid
-        m.top.findNode("topLevelDetails").removeChild(m.top.findNode("historyContainer"))
-        return ""
-    end if
-
-    words = verb
-    if isValid(airwords)
-        words = words + " " + airwords
-    end if
-    if isValid(studio)
-        words = words + " on " + studio
-    end if
-
-    return words
 end function
 
 function round(f as float) as integer

@@ -6,6 +6,7 @@
         <LayoutGroup layoutDirection="vert" itemSpacings="[25]">
           <LayoutGroup layoutDirection="vert" itemSpacings="[0]">
             <ScrollingText id="title" horizAlign="left" font="font:MediumBoldSystemFont" maxWidth="1400" height="45" />
+            <ScrollingText id="subtitle" horizAlign="left" font="font:MediumBoldSystemFont" maxWidth="1400" height="45" />
           </LayoutGroup>
 
           <LayoutGroup id="topLevelDetails" layoutDirection="horiz" itemSpacings="[25]">
