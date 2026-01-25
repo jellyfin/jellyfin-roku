@@ -231,7 +231,7 @@
     <message>
         <comment>Message displayed in Item Grid when no item to display. %1 is container type (e.g. Boxset, Collection, Folder, etc)</comment>
         <source>NO_ITEMS</source>
-        <translation>Bu %1 hiçbir öğe içermiyor</translation>
+        <translation>Bu %1 hiçbir öge içermiyor</translation>
     </message>
     <message>
         <comment>Name or Title field of media item</comment>
