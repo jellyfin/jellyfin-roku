@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<component name="TVEpisodeRow" extends="RowList">
-  <interface>
-    <field id="objects" type="assocarray" onChange="setupRows" />
-    <field id="escapeButton" type="string" alwaysNotify="true" />
-    <field id="doneLoading" type="boolean" />
-  </interface>
-</component>

@@ -11,6 +11,7 @@ sub init()
     m.top.optionsAvailable = false
 
     m.rows = m.top.findNode("picker")
+    m.rows.setfocus(true)
     m.poster = m.top.findNode("seasonPoster")
     m.shuffle = m.top.findNode("shuffle")
     m.extras = m.top.findNode("extras")
@@ -23,7 +24,79 @@ sub init()
     m.tvExtrasTask = createObject("roSGNode", "TVExtrasTask")
     m.tvExtrasTask.observeField("results", "onExtrasDataLoaded")
 
+    m.buttonGrp = m.top.findNode("buttons")
+    m.buttonCount = m.buttonGrp.getChildCount()
+
+    m.overview = m.top.findNode("overview")
+    m.overview.ellipsisText = tr("...")
+
+    seasonListRect = m.top.FindNode("seasonListRect")
+    seasonListRect.color = ColorPalette.BLACK77
+
+    m.resume = m.top.findNode("resume")
+    if isValid(m.resume)
+        m.resume.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+    end if
+
+    m.play = m.top.findNode("play")
+    m.play.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+
+    m.shuffle = m.top.findNode("shuffle")
+    m.shuffle.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+
+    m.previouslySelectedButtonIndex = -1
+    m.top.observeField("selectedButtonIndex", "onButtonSelectedChange")
+    m.top.selectedButtonIndex = 0
+
     m.isFirstRun = true
+
+    setFontSizes()
+end sub
+
+sub setFontSizes()
+    if isValid(m.overview)
+        m.overview.font.size = 27
+    end if
+
+    title = m.top.findNode("title")
+    if isValid(title)
+        title.font.size = 45
+    end if
+
+    runtime = m.top.findNode("runtime")
+    if isValid(runtime)
+        runtime.font.size = 23
+    end if
+
+    numberofepisodes = m.top.findNode("numberofepisodes")
+    if isValid(numberofepisodes)
+        numberofepisodes.font.size = 23
+    end if
+
+    released = m.top.findNode("released")
+    if isValid(released)
+        released.font.size = 23
+    end if
+
+    genres = m.top.findNode("genres")
+    if isValid(genres)
+        genres.font.size = 23
+    end if
+
+    rating = m.top.findNode("rating")
+    if isValid(rating)
+        rating.font.size = 23
+    end if
+
+    communityReview = m.top.findNode("communityReview")
+    if isValid(communityReview)
+        communityReview.font.size = 23
+    end if
+
+    history = m.top.findNode("history")
+    if isValid(history)
+        history.font.size = 23
+    end if
 end sub
 
 sub onExtrasDataLoaded()
@@ -32,7 +105,7 @@ sub onExtrasDataLoaded()
 end sub
 
 sub setSeasonLoading()
-    m.top.overhangTitle = tr("Loading...")
+    startLoadingSpinner()
 end sub
 
 ' Updates the visibility of the Extras button based on if this season has any extra features
@@ -54,21 +127,162 @@ sub updateSeason()
     imgParams = { "maxHeight": 450, "maxWidth": 300 }
     m.poster.uri = ImageURL(m.top.seasonData.Id, "Primary", imgParams)
     m.shuffle.visible = true
-    m.top.overhangTitle = m.top.seasonData.SeriesName + " - " + m.top.seasonData.name
+
+    populateOnScreenText()
+
+    stopLoadingSpinner()
+end sub
+
+sub populateOnScreenText()
+    setFieldText("title", m.top.seasonData.name)
+
+    if type(m.top.seasonData.RunTimeTicks) = "LongInteger"
+        setFieldText("runtime", stri(getRuntime()) + " mins")
+    else
+        m.top.findNode("topLevelDetails").removeChild(m.top.findNode("runtimeContainer"))
+    end if
+
+    if isChainValid(m.top.seasonData, "RecursiveItemCount")
+        setFieldText("numberofepisodes", stri(m.top.seasonData.RecursiveItemCount) + " episodes")
+    else
+        m.top.findNode("topLevelDetails").removeChild(m.top.findNode("numberofepisodesContainer"))
+    end if
+
+    'Check production year, if invalid remove label
+    if isValid(m.top.seasonData.productionYear)
+        setFieldText("released", m.top.seasonData.productionYear)
+    else
+        m.top.findNode("topLevelDetails").removeChild(m.top.findNode("releasedContainer"))
+    end if
+
+    'Check rating, if invalid remove label
+    if isValid(m.top.seasonData.officialRating)
+        setFieldText("rating", m.top.seasonData.officialRating)
+    else
+        m.top.findNode("topLevelDetails").removeChild(m.top.findNode("ratingContainer"))
+    end if
+
+    'Check communityReview, if invalid remove label
+    if chainLookupReturn(m.global.session, "user.settings.`ui.itemdetail.showRatings`", true)
+        if isValid(m.top.seasonData.communityRating)
+            setFieldText("communityReview", int(m.top.seasonData.communityRating * 10) / 10)
+        else
+            m.top.findNode("topLevelDetails").removeChild(m.top.findNode("communityReviewContainer"))
+        end if
+    else
+        m.top.findNode("topLevelDetails").removeChild(m.top.findNode("communityReviewContainer"))
+    end if
+
+    'History field is set via the function getHistory()
+    setFieldText("history", getHistory())
+
+    'Check genres, if invalid remove label
+    if isValidAndNotEmpty(m.top.seasonData.genres)
+        setFieldText("genres", m.top.seasonData.genres.join(", "))
+    else
+        m.top.findNode("topLevelDetails").removeChild(m.top.findNode("genresContainer"))
+    end if
+
+    setFieldText("overview", m.top.seasonData.overview)
+end sub
+
+function getRuntime() as integer
+    itemData = m.top.seasonData
+    if not isValid(itemData.RunTimeTicks) then return invalid
+
+
+    ' A tick is .1ms, so 1/10,000,000 for ticks to seconds,
+    ' then 1/60 for seconds to minutess... 1/600,000,000
+    return round(itemData.RunTimeTicks / 600000000.0)
+end function
+
+function getEndTime() as string
+    itemData = m.top.seasonData
+    if not isValid(itemData.RunTimeTicks) then return string.EMPTY
+
+    date = CreateObject("roDateTime")
+    duration_s = int(itemData.RunTimeTicks / 10000000.0)
+    date.fromSeconds(date.asSeconds() + duration_s)
+    date.toLocalTime()
+
+    return formatTime(date)
+end function
+
+function getHistory() as string
+    itemData = m.top.seasonData
+    if not isValidAndNotEmpty(itemData.status) then return string.EMPTY
+
+    ' Aired Fridays at 9:30 PM on ABC (US)
+
+    airwords = invalid
+    studio = invalid
+    if itemData.status = "Ended"
+        verb = "Aired"
+    else
+        verb = "Airs"
+    end if
+
+    airdays = itemData.airdays
+    airtime = itemData.airtime
+    if isValid(airtime) and airdays.count() = 1
+        airwords = airdays[0] + " at " + airtime
+    end if
+
+    if itemData.studios.count() > 0
+        studio = itemData.studios[0].name
+    end if
+
+    if studio = invalid and airwords = invalid
+        m.top.findNode("topLevelDetails").removeChild(m.top.findNode("historyContainer"))
+        return ""
+    end if
+
+    words = verb
+    if isValid(airwords)
+        words = words + " " + airwords
+    end if
+    if isValid(studio)
+        words = words + " on " + studio
+    end if
+
+    return words
+end function
+
+function round(f as float) as integer
+    ' BrightScript only has a "floor" round
+    ' This compares floor to floor + 1 to find which is closer
+    m = int(f)
+    n = m + 1
+    x = abs(f - m)
+    y = abs(f - n)
+    if y > x
+        return m
+    else
+        return n
+    end if
+end function
+
+sub setFieldText(field, value)
+    node = m.top.findNode(field)
+    if node = invalid or value = invalid then return
+
+    ' Handle non strings... Which _shouldn't_ happen, but hey
+    if type(value) = "roInt" or type(value) = "Integer"
+        value = str(value).trim()
+    else if type(value) = "roFloat" or type(value) = "Float"
+        value = str(value).trim()
+    else if type(value) <> "roString" and type(value) <> "String"
+        value = ""
+    end if
+
+    node.text = value
 end sub
 
 ' get the currently focused item
 function getFocusedItem() as dynamic
-    if not isChainValid(m.top.focusedChild, "content") then return invalid
-
-    focusedChild = m.top.focusedChild
-    m.top.lastFocus = focusedChild
-
-    if isValidAndNotEmpty(focusedChild.rowItemFocused)
-        itemToPlay = focusedChild.content.getChild(focusedChild.rowItemFocused[0]).getChild(0)
-        if isValid(itemToPlay) and isValidAndNotEmpty(itemToPlay.id)
-            return itemToPlay
-        end if
+    if m.rows.isInFocusChain()
+        itemFocused = m.rows.itemFocused
+        return m.rows.content.getChild(itemFocused)
     end if
 
     return invalid
@@ -77,6 +291,14 @@ end function
 ' OnScreenShown: Callback function when view is presented on screen
 '
 sub OnScreenShown()
+    scene = m.top.getScene()
+    if isValid(scene)
+        overhang = scene.findNode("overhang")
+        if chainLookupReturn(overhang, "isVisible", false)
+            overhang.isVisible = false
+        end if
+    end if
+
     if isValid(m.top.lastFocus)
         m.top.lastFocus.setFocus(true)
         group = m.global.sceneManager.callFunc("getActiveScene")
@@ -97,6 +319,20 @@ end sub
 
 ' Handle navigation input from the remote and act on it
 function onKeyEvent(key as string, press as boolean) as boolean
+
+    if m.rows.isInFocusChain()
+        if press
+            if isStringEqual(key, KeyCode.OK)
+                focusedItem = getFocusedItem()
+                if isValid(focusedItem)
+                    m.top.selectedItem = focusedItem
+                    m.top.selectedItem = invalid
+                    return true
+                end if
+            end if
+        end if
+    end if
+
     if key = "left" and m.rows.hasFocus()
         m.shuffle.setFocus(true)
         group = m.global.sceneManager.callFunc("getActiveScene")
@@ -126,16 +362,6 @@ function onKeyEvent(key as string, press as boolean) as boolean
     end if
 
     if key = "OK"
-        if m.rows.isInFocusChain()
-            focusedItem = getFocusedItem()
-            if isValid(focusedItem)
-                m.top.selectedItem = focusedItem
-                'Prevent the selected item event from double firing
-                m.top.selectedItem = invalid
-            end if
-            return true
-        end if
-
         if m.shuffle.hasFocus()
             episodeList = m.rows.objects.items
 

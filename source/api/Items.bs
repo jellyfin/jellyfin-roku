@@ -667,7 +667,6 @@ function TVSeasonExtras(seasonId as string) as dynamic
         results.push(tmp)
     end for
 
-    ' Build that data format that the TVEpisodeRow expects
     return { Items: results }
 end function
 
