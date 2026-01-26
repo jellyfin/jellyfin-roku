@@ -1,0 +1,505 @@
+import "pkg:/source/api/baserequest.bs"
+import "pkg:/source/api/Image.bs"
+import "pkg:/source/api/sdk.bs"
+import "pkg:/source/enums/ColorPalette.bs"
+import "pkg:/source/enums/ItemType.bs"
+import "pkg:/source/enums/KeyCode.bs"
+import "pkg:/source/enums/TaskControl.bs"
+import "pkg:/source/utils/config.bs"
+import "pkg:/source/utils/misc.bs"
+
+sub init()
+    m.top.optionsAvailable = false
+
+    m.rows = m.top.findNode("picker")
+    m.poster = m.top.findNode("seasonPoster")
+    m.shuffle = m.top.findNode("shuffle")
+    m.rows.focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+
+    m.playedIndicator = m.top.findNode("playedIndicator")
+
+    m.rows.observeField("doneLoading", "updateSeason")
+
+    m.tvExtrasTask = createObject("roSGNode", "TVExtrasTask")
+    m.tvExtrasTask.observeField("results", "onExtrasDataLoaded")
+
+    m.buttonGrp = m.top.findNode("buttons")
+    m.buttonCount = m.buttonGrp.getChildCount()
+
+    m.overview = m.top.findNode("overview")
+    m.overview.ellipsisText = tr("...")
+
+    seasonListRect = m.top.FindNode("seasonListRect")
+    seasonListRect.color = ColorPalette.BLACK77
+
+    m.resume = m.top.findNode("resume")
+    if isValid(m.resume)
+        m.resume.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+    end if
+
+    m.play = m.top.findNode("play")
+    m.play.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+
+    m.shuffle = m.top.findNode("shuffle")
+    m.shuffle.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+
+    m.extras = m.top.findNode("extras")
+    m.extras.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+
+    m.previouslySelectedButtonIndex = -1
+    m.top.observeField("selectedButtonIndex", "onButtonSelectedChange")
+    m.top.selectedButtonIndex = 0
+
+    m.isFirstRun = true
+
+    setFontSizes()
+end sub
+
+' Event handler when user selected a different playback button
+sub onButtonSelectedChange()
+    ' Change previously focused button back to default
+    if m.previouslySelectedButtonIndex > -1
+        previousSelectedButton = m.buttonGrp.getChild(m.previouslySelectedButtonIndex)
+        previousSelectedButton.focus = false
+    end if
+
+    ' Change selected button image to focus state
+    selectedButton = m.buttonGrp.getChild(m.top.selectedButtonIndex)
+    selectedButton.setfocus(true)
+    selectedButton.focus = true
+
+    m.top.lastFocus = selectedButton
+end sub
+
+sub setFontSizes()
+    if isValid(m.overview)
+        m.overview.font.size = 27
+    end if
+
+    title = m.top.findNode("title")
+    if isValid(title)
+        title.font.size = 45
+    end if
+
+    subtitle = m.top.findNode("subtitle")
+    if isValid(subtitle)
+        subtitle.font.size = 23
+    end if
+
+    runtime = m.top.findNode("runtime")
+    if isValid(runtime)
+        runtime.font.size = 23
+    end if
+
+    numberofepisodes = m.top.findNode("numberofepisodes")
+    if isValid(numberofepisodes)
+        numberofepisodes.font.size = 23
+    end if
+
+    released = m.top.findNode("released")
+    if isValid(released)
+        released.font.size = 23
+    end if
+
+    genres = m.top.findNode("genres")
+    if isValid(genres)
+        genres.font.size = 23
+    end if
+
+    rating = m.top.findNode("rating")
+    if isValid(rating)
+        rating.font.size = 23
+    end if
+
+    communityReview = m.top.findNode("communityReview")
+    if isValid(communityReview)
+        communityReview.font.size = 23
+    end if
+
+    history = m.top.findNode("history")
+    if isValid(history)
+        history.font.size = 23
+    end if
+end sub
+
+sub onExtrasDataLoaded()
+    m.top.extrasObjects = m.tvExtrasTask.results
+    setExtraButtonVisibility()
+end sub
+
+sub setSeasonLoading()
+    startLoadingSpinner()
+end sub
+
+' Updates the visibility of the Extras button based on if this season has any extra features
+sub setExtraButtonVisibility()
+    if isValid(m.top.extrasObjects) and isValidAndNotEmpty(m.top.extrasObjects.items) then return
+
+    focusOnButtons = m.buttonGrp.isInFocusChain()
+
+    m.buttonGrp.removeChild(m.extras)
+    m.extras = invalid
+    m.buttonCount = m.buttonGrp.getChildCount()
+
+    if focusOnButtons
+        onButtonSelectedChange()
+    end if
+end sub
+
+sub updateSeason()
+    m.playedIndicator.data = {
+        played: chainLookupReturn(m.top.seasonData.json, "UserData.Played", false),
+        unplayedCount: chainLookupReturn(m.top.seasonData.json, "UserData.UnplayedItemCount", 0)
+    }
+
+    m.tvExtrasTask.seasonID = m.top.seasonData.json.Id
+    m.tvExtrasTask.control = TaskControl.RUN
+
+    imgParams = { "maxHeight": 450, "maxWidth": 300 }
+    m.poster.uri = ImageURL(m.top.seasonData.json.Id, "Primary", imgParams)
+    m.shuffle.visible = true
+
+    populateOnScreenText()
+
+    stopLoadingSpinner()
+end sub
+
+sub populateOnScreenText()
+    setFieldText("title", m.top.seasonData.json.name)
+    setFieldText("subtitle", m.top.seasonData.json.LookupCI("SeriesName"))
+
+    if isChainValid(m.top.seasonData.json, "RecursiveItemCount")
+        setFieldText("numberofepisodes", stri(m.top.seasonData.json.RecursiveItemCount) + " episodes")
+    else
+        m.top.findNode("topLevelDetails").removeChild(m.top.findNode("numberofepisodesContainer"))
+    end if
+
+    'Check production year, if invalid remove label
+    if isValid(m.top.seasonData.json.productionYear)
+        setFieldText("released", m.top.seasonData.json.productionYear)
+    else
+        m.top.findNode("topLevelDetails").removeChild(m.top.findNode("releasedContainer"))
+    end if
+
+    studio = m.top.seasonData.json.LookupCI("SeriesStudio")
+    if isValidAndNotEmpty(studio)
+        setFieldText("history", studio)
+    else
+        m.top.findNode("topLevelDetails").removeChild(m.top.findNode("historyContainer"))
+    end if
+
+    'Check rating, if invalid remove label
+    if isValid(m.top.seasonData.json.officialRating)
+        setFieldText("rating", m.top.seasonData.json.officialRating)
+    else
+        m.top.findNode("topLevelDetails").removeChild(m.top.findNode("ratingContainer"))
+    end if
+
+    'Check communityReview, if invalid remove label
+    if chainLookupReturn(m.global.session, "user.settings.`ui.itemdetail.showRatings`", true)
+        if isValid(m.top.seasonData.json.communityRating)
+            setFieldText("communityReview", int(m.top.seasonData.json.communityRating * 10) / 10)
+        else
+            m.top.findNode("topLevelDetails").removeChild(m.top.findNode("communityReviewContainer"))
+        end if
+    else
+        m.top.findNode("topLevelDetails").removeChild(m.top.findNode("communityReviewContainer"))
+    end if
+
+    'Check genres, if invalid remove label
+    if isValidAndNotEmpty(m.top.seasonData.json.genres)
+        setFieldText("genres", m.top.seasonData.json.genres.join(", "))
+    else
+        m.top.findNode("topLevelDetails").removeChild(m.top.findNode("genresContainer"))
+    end if
+
+    setFieldText("overview", m.top.seasonData.json.overview)
+end sub
+
+function getRuntime() as integer
+    itemData = m.top.seasonData.json
+    if not isValid(itemData.RunTimeTicks) then return invalid
+
+
+    ' A tick is .1ms, so 1/10,000,000 for ticks to seconds,
+    ' then 1/60 for seconds to minutess... 1/600,000,000
+    return round(itemData.RunTimeTicks / 600000000.0)
+end function
+
+function getEndTime() as string
+    itemData = m.top.seasonData.json
+    if not isValid(itemData.RunTimeTicks) then return string.EMPTY
+
+    date = CreateObject("roDateTime")
+    duration_s = int(itemData.RunTimeTicks / 10000000.0)
+    date.fromSeconds(date.asSeconds() + duration_s)
+    date.toLocalTime()
+
+    return formatTime(date)
+end function
+
+function round(f as float) as integer
+    ' BrightScript only has a "floor" round
+    ' This compares floor to floor + 1 to find which is closer
+    m = int(f)
+    n = m + 1
+    x = abs(f - m)
+    y = abs(f - n)
+    if y > x
+        return m
+    else
+        return n
+    end if
+end function
+
+sub setFieldText(field, value)
+    node = m.top.findNode(field)
+    if node = invalid or value = invalid then return
+
+    ' Handle non strings... Which _shouldn't_ happen, but hey
+    if type(value) = "roInt" or type(value) = "Integer"
+        value = str(value).trim()
+    else if type(value) = "roFloat" or type(value) = "Float"
+        value = str(value).trim()
+    else if type(value) <> "roString" and type(value) <> "String"
+        value = ""
+    end if
+
+    node.text = value
+end sub
+
+' get the currently focused item
+function getFocusedItem() as dynamic
+    if m.rows.isInFocusChain()
+        itemFocused = m.rows.itemFocused
+        return m.rows.content.getChild(itemFocused)
+    end if
+
+    return invalid
+end function
+
+' OnScreenShown: Callback function when view is presented on screen
+'
+sub OnScreenShown()
+    m.top.shufflePlay = false
+
+    scene = m.top.getScene()
+    if isValid(scene)
+        overhang = scene.findNode("overhang")
+        if chainLookupReturn(overhang, "isVisible", false)
+            overhang.isVisible = false
+        end if
+    end if
+
+    if isValid(m.top.lastFocus)
+        m.top.lastFocus.setFocus(true)
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        group.lastFocus = m.top.lastFocus
+    else
+        m.rows.setFocus(true)
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        group.lastFocus = m.rows
+    end if
+
+    if m.isFirstRun
+        m.isFirstRun = false
+        return
+    end if
+
+    m.top.refreshSeasonDetailsData = not m.top.refreshSeasonDetailsData
+end sub
+
+sub onDisplayResumeButtonChange()
+    ' Remove the resume button
+    if not m.top.displayResumeButton
+        focusOnButtons = m.buttonGrp.isInFocusChain()
+
+        m.buttonGrp.removeChild(m.resume)
+        m.resume = invalid
+        m.buttonCount = m.buttonGrp.getChildCount()
+
+        if focusOnButtons
+            onButtonSelectedChange()
+        end if
+
+        return
+    end if
+
+    ' Add resume button back
+    if not isValid(m.resume)
+        previousSelectedButton = m.buttonGrp.getChild(m.top.selectedButtonIndex)
+        previousSelectedButton.focus = false
+
+        m.resume = createObject("roSGNode", "IconButton")
+        m.resume.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+        m.resume.id = "resume"
+        m.resume.background = "#070707"
+        m.resume.padding = "35"
+        m.resume.icon = "pkg:/images/icons/resume.png"
+        m.resume.text = "Resume"
+        m.resume.height = "65"
+        m.resume.width = "140"
+        m.buttonGrp.insertChild(m.resume, 0)
+        m.buttonCount = m.buttonGrp.getChildCount()
+
+        if m.buttonGrp.isInFocusChain()
+            onButtonSelectedChange()
+        end if
+    end if
+end sub
+
+sub updateObjects()
+    if not isValid(m.extras) then return
+
+    if isStringEqual(m.extras.text.trim(), tr("Extras"))
+        m.top.episodeObjects = m.top.objects
+    else
+        m.top.extrasObjects = m.top.objects
+    end if
+end sub
+
+sub createFullDscrDlg()
+    if isAllValid([m.top.seasonData.json.name, m.top.seasonData.json.overview])
+        m.global.sceneManager.callFunc("standardDialog", m.top.seasonData.json.name, { data: ["<p>" + m.top.seasonData.json.overview + "</p>"] })
+    end if
+end sub
+
+' Handle navigation input from the remote and act on it
+function onKeyEvent(key as string, press as boolean) as boolean
+
+    if m.buttonGrp.isInFocusChain()
+        if isStringEqual(key, KeyCode.UP)
+            if m.buttonGrp.getChild(m.top.selectedButtonIndex).escape = "up"
+                if not isStringEqual(m.overview.text, string.EMPTY)
+                    m.buttonGrp.getChild(m.top.selectedButtonIndex).escape = ""
+                    selectedButton = m.buttonGrp.getChild(m.top.selectedButtonIndex)
+                    selectedButton.focus = false
+                    m.overview.setFocus(true)
+                    m.overview.color = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+                    m.top.lastFocus = m.overview
+                    return true
+                end if
+            end if
+        end if
+
+        if isStringEqual(key, KeyCode.OK) or isStringEqual(key, KeyCode.PLAY)
+            if not press then return false
+
+            if isValid(m.resume)
+                if m.resume.hasFocus()
+                    quickplayData = CreateObject("roSGNode", "TVSeasonData")
+                    quickplayData.json = {
+                        id: m.top.seasonData.json.id,
+                        SeriesId: m.top.seasonData.json.LookupCI("SeriesId")
+                    }
+                    quickplayData.type = ItemType.SEASON
+                    quickplayData.quickplayFromResume = true
+                    m.top.quickPlayNode = quickplayData
+                    return true
+                end if
+            end if
+
+            if m.play.hasFocus()
+                m.top.playSeasonFromStart = not m.top.playSeasonFromStart
+                return true
+            end if
+
+            if m.shuffle.hasFocus()
+                m.top.shufflePlay = true
+                m.top.playSeasonFromStart = not m.top.playSeasonFromStart
+                return true
+            end if
+
+            if isValid(m.extras)
+                if m.extras.hasFocus()
+                    if isStringEqual(m.extras.text.trim(), tr("Extras"))
+                        m.extras.text = tr("Episodes")
+                        m.top.objects = m.top.extrasObjects
+                    else
+                        m.extras.text = tr("Extras")
+                        m.top.objects = m.top.episodeObjects
+                    end if
+
+                    return true
+                end if
+            end if
+
+            return false
+        end if
+
+        if isStringEqual(key, KeyCode.LEFT)
+            if m.top.selectedButtonIndex = 0 then return false
+
+            if m.buttonGrp.getChild(m.top.selectedButtonIndex).escape = "left"
+                m.buttonGrp.getChild(m.top.selectedButtonIndex).escape = ""
+
+                m.previouslySelectedButtonIndex = m.top.selectedButtonIndex
+                m.top.selectedButtonIndex = m.top.selectedButtonIndex - 1
+                return true
+            end if
+        end if
+
+        if isStringEqual(key, KeyCode.RIGHT)
+            if m.top.selectedButtonIndex < m.buttonCount - 1
+                m.previouslySelectedButtonIndex = m.top.selectedButtonIndex
+                m.top.selectedButtonIndex = m.top.selectedButtonIndex + 1
+                return true
+            end if
+        end if
+
+        if isStringEqual(key, KeyCode.DOWN)
+            if m.buttonGrp.getChild(m.top.selectedButtonIndex).escape = "down"
+                m.buttonGrp.getChild(m.top.selectedButtonIndex).escape = ""
+                selectedButton = m.buttonGrp.getChild(m.top.selectedButtonIndex)
+                selectedButton.focus = false
+                m.rows.setFocus(true)
+                m.top.lastFocus = m.rows
+                return true
+            end if
+        end if
+    end if
+
+    if press
+        if m.rows.isInFocusChain()
+            if isStringEqual(key, KeyCode.OK)
+                focusedItem = getFocusedItem()
+                if isValid(focusedItem)
+                    m.top.selectedItem = focusedItem
+                    m.top.selectedItem = invalid
+                    return true
+                end if
+            end if
+
+            if isStringEqual(key, KeyCode.UP)
+                onButtonSelectedChange()
+                return true
+            end if
+
+            if isStringEqual(key, KeyCode.PLAY)
+                focusedItem = getFocusedItem()
+                if isValid(focusedItem)
+                    m.top.quickPlayNode = focusedItem
+                end if
+                return true
+            end if
+        end if
+
+        if m.overview.isInFocusChain()
+            if isStringEqual(key, KeyCode.DOWN)
+                selectedButton = m.buttonGrp.getChild(m.top.selectedButtonIndex)
+                selectedButton.focus = true
+                selectedButton.setFocus(true)
+                m.top.lastFocus = selectedButton
+                m.overview.color = ColorPalette.WHITE
+                return true
+            end if
+
+            if key = KeyCode.OK
+                createFullDscrDlg()
+                return true
+            end if
+        end if
+    end if
+
+    return false
+end function

@@ -13,36 +13,66 @@ sub init()
     m.progressBar = m.top.findnode("progressBar")
     m.playedIndicator = m.top.findNode("playedIndicator")
 
-    m.videoCodec = m.top.findNode("video_codec")
+    setFontSizes()
+end sub
+
+sub setFontSizes()
+    if isValid(m.overview)
+        m.overview.font.size = 25
+    end if
+
+    if isValid(m.title)
+        m.title.font.size = 27
+    end if
+
+    communityRating = m.top.findNode("communityRating")
+    if isValid(communityRating)
+        communityRating.font.size = 23
+    end if
+
+    runtime = m.top.findNode("runtime")
+    if isValid(runtime)
+        runtime.font.size = 23
+    end if
+
+    endtime = m.top.findNode("endtime")
+    if isValid(endtime)
+        endtime.font.size = 23
+    end if
+
+    aired = m.top.findNode("aired")
+    if isValid(aired)
+        aired.font.size = 23
+    end if
 end sub
 
 sub itemContentChanged()
-    item = m.top.itemContent
-    itemData = item.json
+    itemData = m.top.itemContent
 
     m.playedIndicator.data = {
-        played: chainLookupReturn(item, "json.UserData.Played", false),
-        unplayedCount: chainLookupReturn(item, "json.UserData.UnplayedItemCount", 0)
+        played: chainLookupReturn(itemData, "watched", false),
+        unplayedCount: chainLookupReturn(itemData, "json.UserData.UnplayedItemCount", 0)
     }
 
-    if isValid(itemData.indexNumber)
-        indexNumber = `${itemData.indexNumber}. `
-        if isValid(itemData.indexNumberEnd)
-            indexNumber = `${itemData.indexNumber}-${itemData.indexNumberEnd}. `
+    if isValid(itemData.json.indexNumber)
+        indexNumber = `${itemData.json.indexNumber}. `
+        if isValid(itemData.json.indexNumberEnd)
+            indexNumber = `${itemData.json.indexNumber}-${itemData.json.indexNumberEnd}. `
         end if
     else
         indexNumber = ""
     end if
-    m.title.text = indexNumber + item.title
-    m.overview.text = item.overview
 
-    if isValid(itemData.PremiereDate)
+    m.title.text = indexNumber + itemData.title
+    m.overview.text = itemData.overview
+
+    if isValid(itemData.json.PremiereDate)
         airDate = CreateObject("roDateTime")
-        airDate.FromISO8601String(itemData.PremiereDate)
+        airDate.FromISO8601String(itemData.json.PremiereDate)
         m.top.findNode("aired").text = tr("Aired") + ": " + airDate.AsDateString("short-month-no-weekday")
     end if
 
-    imageUrl = item.posterURL
+    imageUrl = itemData.posterURL
 
     if m.global.session.user.settings["ui.tvshows.blurunwatched"] = true
         if itemData.lookup("Type") = "Episode"
@@ -54,7 +84,7 @@ sub itemContentChanged()
 
     m.poster.uri = imageUrl
 
-    if type(itemData.RunTimeTicks) = "roInt" or type(itemData.RunTimeTicks) = "LongInteger"
+    if type(itemData.json.RunTimeTicks) = "roInt" or type(itemData.json.RunTimeTicks) = "LongInteger"
         runTime = getRuntime()
         if runTime < 2
             m.top.findNode("runtime").text = "1 " + tr("min")
@@ -68,9 +98,9 @@ sub itemContentChanged()
     end if
 
     if chainLookupReturn(m.global.session, "user.settings.`ui.itemdetail.showRatings`", true)
-        if isValid(itemData.communityRating)
+        if isValid(itemData.json.communityRating)
             m.top.findNode("star").visible = true
-            m.top.findNode("communityRating").text = str(int(itemData.communityRating * 10) / 10)
+            m.top.findNode("communityRating").text = str(int(itemData.json.communityRating * 10) / 10)
         else
             m.top.findNode("star").visible = false
         end if
@@ -80,10 +110,10 @@ sub itemContentChanged()
     end if
 
     ' Add progress bar on bottom (if applicable)
-    if isValid(itemData.UserData) and isValid(itemData.UserData.PlayedPercentage) and itemData.UserData.PlayedPercentage > 0
+    if chainLookupReturn(itemData, "json.UserData.PlayedPercentage", 0) > 0
         m.progressBackground.width = m.poster.width
         m.progressBackground.visible = true
-        progressWidthInPixels = int(m.progressBackground.width * itemData.UserData.PlayedPercentage / 100)
+        progressWidthInPixels = int(m.progressBackground.width * itemData.json.UserData.PlayedPercentage / 100)
         m.progressBar.width = progressWidthInPixels
         m.progressBar.visible = true
     else

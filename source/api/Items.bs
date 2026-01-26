@@ -149,10 +149,13 @@ end function
 
 ' MetaData about an item
 function ItemMetaData(id as string)
-    url = Substitute("Users/{0}/Items/{1}", m.global.session.user.id, id)
-    resp = APIRequest(url, { "fields": "Chapters,Trickplay" })
+    url = Substitute("Items/{0}", id)
+    resp = APIRequest(url, {
+        userid: m.global.session.user.id,
+        fields: "Chapters,Trickplay"
+    })
     data = getJson(resp)
-    if data = invalid then return invalid
+    if not isValidAndNotEmpty(data) then return invalid
 
     imgParams = {}
     if data.type <> "Audio"
@@ -667,7 +670,6 @@ function TVSeasonExtras(seasonId as string) as dynamic
         results.push(tmp)
     end for
 
-    ' Build that data format that the TVEpisodeRow expects
     return { Items: results }
 end function
 
