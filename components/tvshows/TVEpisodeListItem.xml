@@ -15,7 +15,7 @@
           <Poster id="null" height="1" />
           <ScrollingText id="title" font="font:MediumBoldSystemFont" maxWidth="540" />
 
-          <LayoutGroup id="infoBar" layoutDirection="horiz" itemSpacings="[20]">
+          <LayoutGroup id="infoBar" layoutDirection="horiz" itemSpacings="[15]">
             <Text id="runtime" font="font:SmallestSystemFont" />
 
             <LayoutGroup id="rating" layoutDirection="horiz" itemSpacings="[-5]">

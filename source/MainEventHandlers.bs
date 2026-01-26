@@ -569,14 +569,26 @@ sub onRefreshSeasonDetailsDataEvent()
             currentScene.itemContent = ItemMetaData(seriesID)
         end if
     else if currentScene.isSubType("TVSeasonDetails")
-        seasonID = chainLookup(currentScene, "seasonData.id")
-        if isValid(seasonID)
+        seriesID = chainLookupReturn(currentScene, "seasonData.json.SeriesId", invalid)
+        seasonID = chainLookupReturn(currentScene, "seasonData.id", invalid)
+        if isAllValid([seasonID, seriesID])
             ' Determine if the resume button needs to be shown
             displayResumeButton = hasResummableEpisode(seasonID)
             if not displayResumeButton
                 displayResumeButton = hasUnplayedEpisode(seasonID)
             end if
             currentScene.displayResumeButton = displayResumeButton
+
+            episodeList = currentScene.findNode("picker")
+            focusedItem = 0
+            if isValid(episodeList)
+                focusedItem = chainLookupReturn(episodeList, "itemFocused", 0)
+            end if
+            currentScene.objects = TVEpisodes(seriesID, seasonID)
+            currentScene.episodeObjects = currentScene.objects
+            if isValid(episodeList)
+                episodeList.jumpToItem = focusedItem
+            end if
         end if
     end if
 
