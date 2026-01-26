@@ -928,6 +928,36 @@ sub onPlaySeriesFromStartEvent(msg)
     m.global.queueManager.callFunc("playQueue")
 end sub
 
+' Find the 1st episode in the series and start playback
+sub onPlaySeasonFromStartEvent(msg)
+    season = msg.getRoSGNode()
+
+    seriesID = chainLookupReturn(season, "seasonData.json.SeriesId", invalid)
+    seasonID = chainLookupReturn(season, "seasonData.id", invalid)
+    shufflePlay = chainLookupReturn(season, "shufflePlay", false)
+
+    if not isAllValid([seriesID, seasonID]) then return
+
+    startLoadingSpinner()
+
+    listOfEpisodes = api.shows.GetEpisodes(seriesID, {
+        "seasonId": seasonID,
+        "userid": m.global.session.user.id,
+        "EnableTotalRecordCount": false,
+        "SortBy": shufflePlay ? "Random" : "SortName",
+        "isMissing": false
+    })
+
+    if not isChainValid(listOfEpisodes, "items")
+        stopLoadingSpinner()
+        return
+    end if
+
+    m.global.queueManager.callFunc("clear")
+    m.global.queueManager.callFunc("set", listOfEpisodes.items)
+    m.global.queueManager.callFunc("playQueue")
+end sub
+
 sub onMusicAlbumSelectedEvent(msg)
     startLoadingSpinner()
     ptr = msg.getData()

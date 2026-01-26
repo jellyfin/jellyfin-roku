@@ -141,15 +141,15 @@ end sub
 
 sub updateSeason()
     m.playedIndicator.data = {
-        played: chainLookupReturn(m.top.seasonData, "UserData.Played", false),
-        unplayedCount: chainLookupReturn(m.top.seasonData, "UserData.UnplayedItemCount", 0)
+        played: chainLookupReturn(m.top.seasonData.json, "UserData.Played", false),
+        unplayedCount: chainLookupReturn(m.top.seasonData.json, "UserData.UnplayedItemCount", 0)
     }
 
-    m.tvExtrasTask.seasonID = m.top.seasonData.Id
+    m.tvExtrasTask.seasonID = m.top.seasonData.json.Id
     m.tvExtrasTask.control = TaskControl.RUN
 
     imgParams = { "maxHeight": 450, "maxWidth": 300 }
-    m.poster.uri = ImageURL(m.top.seasonData.Id, "Primary", imgParams)
+    m.poster.uri = ImageURL(m.top.seasonData.json.Id, "Primary", imgParams)
     m.shuffle.visible = true
 
     populateOnScreenText()
@@ -158,23 +158,23 @@ sub updateSeason()
 end sub
 
 sub populateOnScreenText()
-    setFieldText("title", m.top.seasonData.name)
-    setFieldText("subtitle", m.top.seasonData.LookupCI("SeriesName"))
+    setFieldText("title", m.top.seasonData.json.name)
+    setFieldText("subtitle", m.top.seasonData.json.LookupCI("SeriesName"))
 
-    if isChainValid(m.top.seasonData, "RecursiveItemCount")
-        setFieldText("numberofepisodes", stri(m.top.seasonData.RecursiveItemCount) + " episodes")
+    if isChainValid(m.top.seasonData.json, "RecursiveItemCount")
+        setFieldText("numberofepisodes", stri(m.top.seasonData.json.RecursiveItemCount) + " episodes")
     else
         m.top.findNode("topLevelDetails").removeChild(m.top.findNode("numberofepisodesContainer"))
     end if
 
     'Check production year, if invalid remove label
-    if isValid(m.top.seasonData.productionYear)
-        setFieldText("released", m.top.seasonData.productionYear)
+    if isValid(m.top.seasonData.json.productionYear)
+        setFieldText("released", m.top.seasonData.json.productionYear)
     else
         m.top.findNode("topLevelDetails").removeChild(m.top.findNode("releasedContainer"))
     end if
 
-    studio = m.top.seasonData.LookupCI("SeriesStudio")
+    studio = m.top.seasonData.json.LookupCI("SeriesStudio")
     if isValidAndNotEmpty(studio)
         setFieldText("history", studio)
     else
@@ -182,16 +182,16 @@ sub populateOnScreenText()
     end if
 
     'Check rating, if invalid remove label
-    if isValid(m.top.seasonData.officialRating)
-        setFieldText("rating", m.top.seasonData.officialRating)
+    if isValid(m.top.seasonData.json.officialRating)
+        setFieldText("rating", m.top.seasonData.json.officialRating)
     else
         m.top.findNode("topLevelDetails").removeChild(m.top.findNode("ratingContainer"))
     end if
 
     'Check communityReview, if invalid remove label
     if chainLookupReturn(m.global.session, "user.settings.`ui.itemdetail.showRatings`", true)
-        if isValid(m.top.seasonData.communityRating)
-            setFieldText("communityReview", int(m.top.seasonData.communityRating * 10) / 10)
+        if isValid(m.top.seasonData.json.communityRating)
+            setFieldText("communityReview", int(m.top.seasonData.json.communityRating * 10) / 10)
         else
             m.top.findNode("topLevelDetails").removeChild(m.top.findNode("communityReviewContainer"))
         end if
@@ -200,17 +200,17 @@ sub populateOnScreenText()
     end if
 
     'Check genres, if invalid remove label
-    if isValidAndNotEmpty(m.top.seasonData.genres)
-        setFieldText("genres", m.top.seasonData.genres.join(", "))
+    if isValidAndNotEmpty(m.top.seasonData.json.genres)
+        setFieldText("genres", m.top.seasonData.json.genres.join(", "))
     else
         m.top.findNode("topLevelDetails").removeChild(m.top.findNode("genresContainer"))
     end if
 
-    setFieldText("overview", m.top.seasonData.overview)
+    setFieldText("overview", m.top.seasonData.json.overview)
 end sub
 
 function getRuntime() as integer
-    itemData = m.top.seasonData
+    itemData = m.top.seasonData.json
     if not isValid(itemData.RunTimeTicks) then return invalid
 
 
@@ -220,7 +220,7 @@ function getRuntime() as integer
 end function
 
 function getEndTime() as string
-    itemData = m.top.seasonData
+    itemData = m.top.seasonData.json
     if not isValid(itemData.RunTimeTicks) then return string.EMPTY
 
     date = CreateObject("roDateTime")
@@ -274,6 +274,8 @@ end function
 ' OnScreenShown: Callback function when view is presented on screen
 '
 sub OnScreenShown()
+    m.top.shufflePlay = false
+
     scene = m.top.getScene()
     if isValid(scene)
         overhang = scene.findNode("overhang")
@@ -360,19 +362,12 @@ function onKeyEvent(key as string, press as boolean) as boolean
         if isStringEqual(key, KeyCode.OK) or isStringEqual(key, KeyCode.PLAY)
             if not press then return false
 
-            if m.shuffle.hasFocus()
-                m.getShuffleEpisodesTask.showID = m.top.seasonData.id
-                m.getShuffleEpisodesTask.observeField("data", "onShuffleEpisodeDataLoaded")
-                m.getShuffleEpisodesTask.control = "RUN"
-                return true
-            end if
-
             if isValid(m.resume)
                 if m.resume.hasFocus()
                     quickplayData = CreateObject("roSGNode", "TVSeasonData")
                     quickplayData.json = {
-                        id: m.top.seasonData.id,
-                        SeriesId: m.top.seasonData.LookupCI("SeriesId")
+                        id: m.top.seasonData.json.id,
+                        SeriesId: m.top.seasonData.json.LookupCI("SeriesId")
                     }
                     quickplayData.type = ItemType.SEASON
                     quickplayData.quickplayFromResume = true
@@ -382,7 +377,13 @@ function onKeyEvent(key as string, press as boolean) as boolean
             end if
 
             if m.play.hasFocus()
-                m.top.playSeriesFromStart = not m.top.playSeriesFromStart
+                m.top.playSeasonFromStart = not m.top.playSeasonFromStart
+                return true
+            end if
+
+            if m.shuffle.hasFocus()
+                m.top.shufflePlay = true
+                m.top.playSeasonFromStart = not m.top.playSeasonFromStart
                 return true
             end if
 

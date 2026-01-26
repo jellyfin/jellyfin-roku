@@ -74,10 +74,12 @@
     <field id="selectedItem" type="node" alwaysNotify="true" />
     <field id="selectedButtonIndex" type="integer" value="-1" />
     <field id="quickPlayNode" type="node" />
-    <field id="seasonData" type="assocarray" onChange="setSeasonLoading" />
+    <field id="seasonData" type="node" onChange="setSeasonLoading" />
     <field id="objects" alias="picker.objects" />
     <field id="episodeObjects" type="assocarray" />
     <field id="extrasObjects" type="assocarray" />
+    <field id="playSeasonFromStart" type="bool" />
+    <field id="shufflePlay" type="bool" />
     <function name="updateSeason" />
     <function name="getFocusedItem" />
   </interface>

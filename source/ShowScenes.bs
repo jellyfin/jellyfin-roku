@@ -911,6 +911,7 @@ function CreateSeasonDetailsGroup(series as object, season as object) as dynamic
     end if
     ' start building SeasonDetails view
     group = CreateObject("roSGNode", "TVSeasonDetails")
+
     displayResumeButton = hasResummableEpisode(season.id)
     if not displayResumeButton
         displayResumeButton = hasUnplayedEpisode(season.id)
@@ -919,11 +920,12 @@ function CreateSeasonDetailsGroup(series as object, season as object) as dynamic
     group.optionsAvailable = false
     ' push scene asap (to prevent extra button presses when retriving series/movie info)
     m.global.sceneManager.callFunc("pushScene", group)
-    group.seasonData = seasonMetaData.json
+    group.seasonData = seasonMetaData
     group.objects = TVEpisodes(series.id, season.id)
     group.episodeObjects = group.objects
 
     group.observeField("refreshSeasonDetailsData", m.port)
+    group.observeField("playSeasonFromStart", m.port)
 
     ' watch for button presses
     group.observeFieldScoped("selectedItem", m.port)
@@ -956,11 +958,12 @@ function CreateSeasonDetailsGroupByID(seriesID as string, seasonID as string) as
 
     group.optionsAvailable = false
     ' push scene asap (to prevent extra button presses when retriving series/movie info)
-    group.seasonData = seasonMetaData.json
+    group.seasonData = seasonMetaData
     group.objects = TVEpisodes(seriesID, seasonID)
     group.episodeObjects = group.objects
 
     group.observeField("refreshSeasonDetailsData", m.port)
+    group.observeField("playSeasonFromStart", m.port)
 
     ' watch for button presses
     group.observeFieldScoped("selectedItem", m.port)
