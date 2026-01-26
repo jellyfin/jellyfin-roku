@@ -48,59 +48,66 @@ end sub
 
 sub itemContentChanged()
     itemData = m.top.itemContent
+    if not isValid(itemData) then return
 
     m.playedIndicator.data = {
         played: chainLookupReturn(itemData, "watched", false),
         unplayedCount: chainLookupReturn(itemData, "json.UserData.UnplayedItemCount", 0)
     }
 
+    m.overview.text = itemData.overview
+
+    if not isChainValid(itemData, "json") then return
+
     if isValid(itemData.json.indexNumber)
         indexNumber = `${itemData.json.indexNumber}. `
+
         if isValid(itemData.json.indexNumberEnd)
             indexNumber = `${itemData.json.indexNumber}-${itemData.json.indexNumberEnd}. `
         end if
     else
-        indexNumber = ""
+        indexNumber = string.EMPTY
     end if
 
     m.title.text = indexNumber + itemData.title
-    m.overview.text = itemData.overview
-
-    if isValid(itemData.json.PremiereDate)
-        airDate = CreateObject("roDateTime")
-        airDate.FromISO8601String(itemData.json.PremiereDate)
-        m.top.findNode("aired").text = tr("Aired") + ": " + airDate.AsDateString("short-month-no-weekday")
-    end if
 
     imageUrl = itemData.posterURL
 
     if m.global.session.user.settings["ui.tvshows.blurunwatched"] = true
-        if itemData.lookup("Type") = "Episode"
-            if not itemData.userdata.played
-                imageUrl = imageUrl + "&blur=15"
+        if isStringEqual(itemData.LookupCI("Type"), "Episode")
+            if not chainLookupReturn(itemData, "json.UserData.played", false)
+                imageUrl += "&blur=15"
             end if
         end if
     end if
 
     m.poster.uri = imageUrl
 
-    if type(itemData.json.RunTimeTicks) = "roInt" or type(itemData.json.RunTimeTicks) = "LongInteger"
-        runTime = getRuntime()
-        if runTime < 2
-            m.top.findNode("runtime").text = "1 " + tr("min")
-        else
-            m.top.findNode("runtime").text = `${stri(runTime).trim()} ${tr("mins")}`
-        end if
+    if isValid(itemData.json.LookupCI("PremiereDate"))
+        airDate = CreateObject("roDateTime")
+        airDate.FromISO8601String(itemData.json.LookupCI("PremiereDate"))
+        m.top.findNode("aired").text = tr("Aired") + ": " + airDate.AsDateString("short-month-no-weekday")
+    end if
 
-        if m.global.session.user.settings["ui.design.hideclock"] <> true
-            m.top.findNode("endtime").text = tr("Ends at %1").Replace("%1", getEndTime())
+    if isValid(itemData.json.LookupCI("RunTimeTicks"))
+        if type(itemData.json.RunTimeTicks) = "roInt" or type(itemData.json.RunTimeTicks) = "LongInteger"
+            runTime = getRuntime()
+            if runTime < 2
+                m.top.findNode("runtime").text = "1 " + tr("min")
+            else
+                m.top.findNode("runtime").text = `${stri(runTime).trim()} ${tr("mins")}`
+            end if
+
+            if m.global.session.user.settings["ui.design.hideclock"] <> true
+                m.top.findNode("endtime").text = tr("Ends at %1").Replace("%1", getEndTime())
+            end if
         end if
     end if
 
     if chainLookupReturn(m.global.session, "user.settings.`ui.itemdetail.showRatings`", true)
-        if isValid(itemData.json.communityRating)
+        if isValid(itemData.json.LookupCI("communityRating"))
             m.top.findNode("star").visible = true
-            m.top.findNode("communityRating").text = str(int(itemData.json.communityRating * 10) / 10)
+            m.top.findNode("communityRating").text = str(int(itemData.json.LookupCI("communityRating") * 10) / 10)
         else
             m.top.findNode("star").visible = false
         end if
@@ -113,14 +120,13 @@ sub itemContentChanged()
     if chainLookupReturn(itemData, "json.UserData.PlayedPercentage", 0) > 0
         m.progressBackground.width = m.poster.width
         m.progressBackground.visible = true
-        progressWidthInPixels = int(m.progressBackground.width * itemData.json.UserData.PlayedPercentage / 100)
+        progressWidthInPixels = int(m.progressBackground.width * chainLookup(itemData.json, "UserData.PlayedPercentage") / 100)
         m.progressBar.width = progressWidthInPixels
         m.progressBar.visible = true
     else
         m.progressBackground.visible = false
         m.progressBar.visible = false
     end if
-
 end sub
 
 function getRuntime() as integer
