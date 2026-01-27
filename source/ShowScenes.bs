@@ -780,13 +780,7 @@ function CreateSeriesDetailsGroup(seriesID as string) as dynamic
     for each item in apiSeasonData.Items
         tmp = seasonData.createChild("TVSeasonData")
         tmp.json = item
-
-        seasonPosterExists = api.items.HeadImageURLByName(item.id, ImageType.PRIMARY)
-        if seasonPosterExists
-            tmp.posterURL = api.items.GetImageURL(item.id, ImageType.PRIMARY, 0, { "maxHeight": 320, "maxWidth": 180, "quality": "90" })
-        else
-            tmp.posterURL = getFirstEpisodeImage(seriesID, item.id)
-        end if
+        tmp.posterURL = api.items.GetImageURL(item.id, ImageType.PRIMARY, 0, { "maxHeight": 320, "maxWidth": 180, "quality": "90" })
     end for
 
     apiSeriesData = api.items.GetByID(seriesID, {
