@@ -72,7 +72,14 @@ sub itemContentChanged()
         unplayedCount: chainLookupReturn(itemData, "json.UserData.UnplayedItemCount", 0)
     }
 
-    m.itemPoster.uri = getPosterURL(itemData)
+    ' Don't redraw poster if we have no new URL
+    newPosterURL = getPosterURL(itemData)
+    if isValidAndNotEmpty(newPosterURL)
+        if not isStringEqual(m.itemPoster.uri, newPosterURL)
+            ' Don't redraw poster if it's the same URL as the current poster
+            m.itemPoster.uri = getPosterURL(itemData)
+        end if
+    end if
 
     if isValidAndNotEmpty(itemData.LookupCI("fullNameWithShowTitle"))
         m.posterText.text = itemData.LookupCI("fullNameWithShowTitle")
