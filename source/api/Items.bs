@@ -587,35 +587,25 @@ function BackdropImage(id as string)
     return ImageURL(id, "Backdrop", imgParams)
 end function
 
-' Seasons for a TV Show
-function TVSeasons(id as string) as dynamic
-    url = Substitute("Shows/{0}/Seasons", id)
-    resp = APIRequest(url, { "UserId": m.global.session.user.id })
-
-    data = getJson(resp)
-    ' validate data
-    if data = invalid or data.Items = invalid then return invalid
-
-    results = CreateObject("roSGNode", "ContentNode")
-    for each item in data.Items
-        seasonImage = PosterImage(item.id)
-        if not isValidAndNotEmpty(seasonImage)
-            seasonImage = getFirstEpisodeImage(id, item.id)
-        end if
-
-        tmp = results.createChild("TVSeasonData")
-        tmp.image = seasonImage
-        tmp.json = item
-    end for
-
-    return results
-end function
-
 function getFirstEpisodeImage(showId as string, seasonId as string)
-    listOfEpisodes = TVEpisodes(showId, seasonId)
+    listOfEpisodes = api.shows.GetEpisodes(showId,
+    {
+        seasonId: seasonId,
+        UserId: m.global.session.user.id,
+        limit: 5,
+        enableUserData: false,
+        imageTypeLimit: 1,
+        EnableImageTypes: "Primary"
+    })
+
     for each episode in listOfEpisodes.LookupCI("items")
-        if isValid(episode.image) then return episode.image
+        if isChainValid(episode, "imagetags.primary")
+            return ImageURL(episode.LookupCI("id"), ImageType.PRIMARY, {
+                tag: chainLookup(episode, "imagetags.primary")
+            })
+        end if
     end for
+
     return invalid
 end function
 
@@ -623,7 +613,13 @@ end function
 ' Accepts strings for the TV Show Id and the season Id
 function TVEpisodes(showId as string, seasonId as string) as dynamic
     ' Get and validate data
-    data = api.shows.GetEpisodes(showId, { "seasonId": seasonId, "UserId": m.global.session.user.id, "fields": "MediaStreams,MediaSources" })
+    data = api.shows.GetEpisodes(showId,
+    {
+        "seasonId": seasonId,
+        "UserId": m.global.session.user.id,
+        "fields": "MediaStreams,MediaSources"
+    })
+
     if data = invalid or data.Items = invalid then return invalid
 
     results = []

@@ -1,5 +1,6 @@
 import "pkg:/source/enums/ImageLayout.bs"
 import "pkg:/source/enums/PosterLoadStatus.bs"
+import "pkg:/source/enums/TaskControl.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/misc.bs"
 
@@ -72,7 +73,14 @@ sub itemContentChanged()
         unplayedCount: chainLookupReturn(itemData, "json.UserData.UnplayedItemCount", 0)
     }
 
-    m.itemPoster.uri = getPosterURL(itemData)
+    ' Don't redraw poster if we have no new URL
+    newPosterURL = getPosterURL(itemData)
+    if isValidAndNotEmpty(newPosterURL)
+        if not isStringEqual(m.itemPoster.uri, newPosterURL)
+            ' Don't redraw poster if it's the same URL as the current poster
+            m.itemPoster.uri = getPosterURL(itemData)
+        end if
+    end if
 
     if isValidAndNotEmpty(itemData.LookupCI("fullNameWithShowTitle"))
         m.posterText.text = itemData.LookupCI("fullNameWithShowTitle")
@@ -96,6 +104,7 @@ sub itemContentChanged()
 end sub
 
 function getPosterURL(itemData) as string
+
     posterURL = itemData.PosterUrl
 
     posterOrientation = chainLookupReturn(m.global, "session.user.settings.libraryPosterOrientation", ImageLayout.DEFAULT)
@@ -136,6 +145,10 @@ sub focusChanged()
     end if
 end sub
 
+sub onURIChange()
+    m.itemPoster.uri = m.getFirstEpisodeImageTask.uri
+end sub
+
 'Hide backdrop and text when poster loaded
 sub onPosterLoadStatusChanged()
     if isStringEqual(m.itemPoster.loadStatus, PosterLoadStatus.FAILED)
@@ -144,6 +157,12 @@ sub onPosterLoadStatusChanged()
             m.itemPoster.uri = m.top.itemContent.PosterUrl
             return
         end if
+
+        m.getFirstEpisodeImageTask = createObject("roSGNode", "GetFirstEpisodeImageTask")
+        m.getFirstEpisodeImageTask.observeField("uri", "onURIChange")
+        m.getFirstEpisodeImageTask.seriesID = chainLookup(m.top.itemContent, "json.seriesid")
+        m.getFirstEpisodeImageTask.seasonID = m.top.itemContent.id
+        m.getFirstEpisodeImageTask.control = TaskControl.RUN
 
         ' No image loaded, ensure text is displayed
         m.backdrop.visible = true

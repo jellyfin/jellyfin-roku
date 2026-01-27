@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<component name="GetFirstEpisodeImageTask" extends="Task">
+  <interface>
+    <field id="seasonID" type="string" />
+    <field id="seriesID" type="string" />
+    <field id="uri" type="string" />
+  </interface>
+</component>
