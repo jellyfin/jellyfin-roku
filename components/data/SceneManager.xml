@@ -22,5 +22,6 @@
     <field id="currentUser" type="string" onChange="updateUser" />
     <field id="returnData" type="assocarray" />
     <field id="dataReturned" type="boolean" />
+    <field id="currentSpeed" type="float" value="1.0"/>
   </interface>
 </component>

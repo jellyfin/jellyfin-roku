@@ -4,11 +4,13 @@
     <field id="backPressed" type="boolean" alwaysNotify="true" />
     <field id="selectSubtitlePressed" type="boolean" alwaysNotify="true" />
     <field id="selectAudioPressed" type="boolean" alwaysNotify="true" />
+    <field id="selectSpeedPressed" type="boolean" alwaysNotify="true" />
     <field id="selectPlaybackInfoPressed" type="boolean" alwaysNotify="true" />
     <field id="PlaySessionId" type="string" />
     <field id="Subtitles" type="array" />
     <field id="SelectedSubtitle" type="integer" value="-2" alwaysNotify="true" />
     <field id="previousSubtitleWasEncoded" type="boolean" />
+    <field id="selectedSpeed" type="float" />
     <field id="container" type="string" />
     <field id="directPlaySupported" type="boolean" />
     <field id="systemOverlay" type="boolean" value="false" />
