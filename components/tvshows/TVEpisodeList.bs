@@ -1,0 +1,113 @@
+import "pkg:/source/enums/AnimationControl.bs"
+import "pkg:/source/enums/ColorPalette.bs"
+import "pkg:/source/utils/misc.bs"
+
+sub init()
+    m.scrollBarThumbSlideAnimation = m.top.findnode("scrollBarThumbSlideAnimation")
+    m.scrollBarThumbSlideInterpolator = m.top.findnode("scrollBarThumbSlideInterpolator")
+
+    m.scrollBar = m.top.findnode("scrollBar")
+    m.thumb = m.top.findnode("thumb")
+    m.thumbStep = 0
+
+    m.scrollBar.opacity = .75
+    m.scrollBar.color = ColorPalette.BLACK77
+    m.thumb.color = ColorPalette.LIGHTGREY
+
+    m.firstUnwatched = 0
+    m.top.content = setData()
+    updateSize()
+
+    m.top.observeFieldscoped("currFocusRow", "onCurrFocusRowChange")
+    m.top.observeFieldscoped("numRows", "onNumRowsChange")
+
+    if chainLookupReturn(m.global.session, "user.settings.`ui.tvshows.startListFromUnwatched`", false)
+        m.top.jumpToItem = m.firstUnwatched
+    end if
+
+    calculateButtonThumbProperties()
+end sub
+
+sub onNumRowsChange()
+    calculateButtonThumbProperties()
+    onCurrFocusRowChange()
+end sub
+
+sub hideScrollbar()
+    m.scrollBar.visible = false
+end sub
+
+sub calculateButtonThumbProperties()
+    if not isValid(m.scrollBar)
+        hideScrollbar()
+        return
+    end if
+
+    if not isValid(m.top.content)
+        hideScrollbar()
+        return
+    end if
+
+    if m.top.content.getChildCount() < 3
+        hideScrollbar()
+        return
+    end if
+
+    m.scrollBar.visible = true
+
+    rowCount = Fix(m.top.content.getChildCount() / 2)
+    m.thumbStep = 277 / rowCount
+end sub
+
+sub onCurrFocusRowChange()
+    m.scrollBarThumbSlideInterpolator.keyValue = [m.thumb.translation, [0, m.thumbStep * m.top.currFocusRow]]
+    m.scrollBarThumbSlideAnimation.control = AnimationControl.START
+end sub
+
+sub updateSize()
+    ' Size of the individual episodes
+    m.top.itemSize = [805, 200]
+
+    ' Spacing between episodes
+    m.top.itemSpacing = [20, 20]
+end sub
+
+sub setupRows()
+    updateSize()
+    objects = m.top.objects
+    m.top.numRows = objects.items.count()
+    m.top.numColumns = 2
+    m.top.content = setData()
+    calculateButtonThumbProperties()
+
+    if chainLookupReturn(m.global.session, "user.settings.`ui.tvshows.startListFromUnwatched`", false)
+        m.top.jumpToItem = m.firstUnwatched
+    end if
+end sub
+
+function setData()
+    data = CreateObject("roSGNode", "ContentNode")
+    if not isValid(m.top.objects) then return data
+
+    i = 0
+    m.firstUnwatched = -1
+    for each item in m.top.objects.items
+        if m.firstUnwatched = -1
+            if not chainLookupReturn(item, "watched", false)
+                m.firstUnwatched = i
+                exit for
+            end if
+        end if
+        i++
+    end for
+
+    data.appendChildren(m.top.objects.items)
+
+    m.top.doneLoading = true
+
+    return data
+end function
+
+function onKeyEvent(key as string, press as boolean) as boolean
+    return false
+end function

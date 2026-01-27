@@ -45,7 +45,7 @@ sub onQuickPlayEvent(msg)
         ' Restore focus
         group = m.global.sceneManager.callFunc("getActiveScene")
         if isValid(group)
-            if isStringEqual(group.subtype(), "tvepisodes")
+            if isStringEqual(group.subtype(), "TVSeasonDetails")
                 if isValid(group.lastFocus)
                     group.lastFocus.setFocus(true)
                 end if
@@ -184,6 +184,28 @@ sub onJumpToEvent(msg)
     ' If current view is audio player, remove it from the scene stack so users can't press back to return to it
     if isStringEqual(currentView.subType(), "audioplayerview")
         m.global.sceneManager.callFunc("clearPreviousScene")
+    end if
+
+    if isStringEqual(jumpToData.selectiontype, "search")
+        startLoadingSpinner()
+
+        group = CreateSearchPage()
+        if not isValid(group)
+            stopLoadingSpinner()
+        end if
+
+        m.global.sceneManager.callFunc("pushScene", group)
+        group.findNode("SearchBox").findNode("search_Key").setFocus(true)
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        group.lastFocus = group.findNode("SearchBox").findNode("search_Key")
+        group.findNode("SearchBox").findNode("search_Key").active = true
+        stopLoadingSpinner()
+    end if
+
+    if isStringEqual(jumpToData.selectiontype, "settings")
+        startLoadingSpinner()
+        m.global.sceneManager.callFunc("settings")
+        stopLoadingSpinner()
     end if
 
     if isStringEqual(jumpToData.selectiontype, "nowplaying")
@@ -538,8 +560,35 @@ sub onRefreshSeasonDetailsDataEvent()
         seriesID = chainLookup(currentScene, "itemContent.id")
         if isValid(seriesID)
             ' Determine if the resume button needs to be shown
-            currentScene.displayResumeButton = hasResummableEpisode(seriesID)
+            displayResumeButton = hasResummableEpisode(seriesID)
+            if not displayResumeButton
+                displayResumeButton = hasNextUpEpisode(seriesID)
+            end if
+            currentScene.displayResumeButton = displayResumeButton
+
             currentScene.itemContent = ItemMetaData(seriesID)
+        end if
+    else if currentScene.isSubType("TVSeasonDetails")
+        seriesID = chainLookupReturn(currentScene, "seasonData.json.SeriesId", invalid)
+        seasonID = chainLookupReturn(currentScene, "seasonData.id", invalid)
+        if isAllValid([seasonID, seriesID])
+            ' Determine if the resume button needs to be shown
+            displayResumeButton = hasResummableEpisode(seasonID)
+            if not displayResumeButton
+                displayResumeButton = hasUnplayedEpisode(seasonID)
+            end if
+            currentScene.displayResumeButton = displayResumeButton
+
+            episodeList = currentScene.findNode("picker")
+            focusedItem = 0
+            if isValid(episodeList)
+                focusedItem = chainLookupReturn(episodeList, "itemFocused", 0)
+            end if
+            currentScene.objects = TVEpisodes(seriesID, seasonID)
+            currentScene.episodeObjects = currentScene.objects
+            if isValid(episodeList)
+                episodeList.jumpToItem = focusedItem
+            end if
         end if
     end if
 
@@ -567,7 +616,7 @@ sub onRefreshSeasonDetailsDataEvent()
 
         seasonMetaData = ItemMetaData(currentScene.seasonData.id)
         if isValid(seasonMetaData) then currentScene.seasonData = seasonMetaData.json
-        currentScene.episodeObjects = currentScene.objects
+        currentScene.callFunc("updateObjects")
         currentScene.callFunc("updateSeason")
     end if
 
@@ -888,6 +937,36 @@ sub onPlaySeriesFromStartEvent(msg)
 
     m.global.queueManager.callFunc("clear")
     m.global.queueManager.callFunc("push", firstEpisode.items[0])
+    m.global.queueManager.callFunc("playQueue")
+end sub
+
+' Find the 1st episode in the series and start playback
+sub onPlaySeasonFromStartEvent(msg)
+    season = msg.getRoSGNode()
+
+    seriesID = chainLookupReturn(season, "seasonData.json.SeriesId", invalid)
+    seasonID = chainLookupReturn(season, "seasonData.id", invalid)
+    shufflePlay = chainLookupReturn(season, "shufflePlay", false)
+
+    if not isAllValid([seriesID, seasonID]) then return
+
+    startLoadingSpinner()
+
+    listOfEpisodes = api.shows.GetEpisodes(seriesID, {
+        "seasonId": seasonID,
+        "userid": m.global.session.user.id,
+        "EnableTotalRecordCount": false,
+        "SortBy": shufflePlay ? "Random" : "SortName",
+        "isMissing": false
+    })
+
+    if not isChainValid(listOfEpisodes, "items")
+        stopLoadingSpinner()
+        return
+    end if
+
+    m.global.queueManager.callFunc("clear")
+    m.global.queueManager.callFunc("set", listOfEpisodes.items)
     m.global.queueManager.callFunc("playQueue")
 end sub
 

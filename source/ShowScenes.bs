@@ -204,7 +204,7 @@ function LoginFlow()
 end function
 
 sub ServerVersionCheck(systemVersion as string)
-    meetsRequirements = serverVersionMeetsMinimumRequirements(systemVersion)
+    meetsRequirements = serverVersionMeetsMinimumRequirements(systemVersion, minimumServerVersion)
     if not meetsRequirements
         m.scene.isLoading = false
         stopLoadingSpinner()
@@ -219,30 +219,6 @@ sub ServerVersionCheck(systemVersion as string)
         end if
     end if
 end sub
-
-function serverVersionMeetsMinimumRequirements(systemVersion as string)
-    version = systemVersion.split(".")
-    if version.Count() < 3
-        for i = version.Count() to 3 step 1
-            version.push("0")
-        end for
-    end if
-
-    ' Check Major version
-    if minimumServerVersion[0] < version[0].ToInt() then return true
-    if minimumServerVersion[0] > version[0].ToInt() then return false
-
-    ' Check Minor version
-    if minimumServerVersion[1] < version[1].ToInt() then return true
-    if minimumServerVersion[1] > version[1].ToInt() then return false
-
-    ' Check Patch version
-    if minimumServerVersion[2] < version[2].ToInt() then return true
-    if minimumServerVersion[2] > version[2].ToInt() then return false
-
-    ' Server is the exact version needed
-    return true
-end function
 
 sub SaveServerList()
     'Save off this server to our list of saved servers for easier navigation between servers
@@ -629,8 +605,6 @@ function CreateHomeGroup()
     sidepanel.observeField("closeSidePanel", m.port)
     new_options = []
     options_buttons = [
-        { "title": "Search", "id": "goto_search" },
-        { "title": "Settings", "id": "settings" },
         { "title": "Change user", "id": "change_user" },
         { "title": "Change server", "id": "change_server" },
         { "title": "Sign out", "id": "sign_out" }
@@ -715,12 +689,12 @@ function CreateMovieDetailsGroup(movie as object) as dynamic
     return group
 end function
 
-function hasResummableEpisode(seriesID as string) as boolean
-    if not isValidAndNotEmpty(seriesID) then return false
+function hasResummableEpisode(parentID as string) as boolean
+    if not isValidAndNotEmpty(parentID) then return false
 
     ' Check if there is at least 1 resummable item
     data = api.users.GetResumeItemsByQuery(m.global.session.user.id, {
-        parentId: seriesID,
+        parentId: parentID,
         userid: m.global.session.user.id,
         SortBy: "SortName",
         recursive: true,
@@ -732,9 +706,35 @@ function hasResummableEpisode(seriesID as string) as boolean
 
     if isValid(data) and isValidAndNotEmpty(data.Items) then return true
 
+    return false
+end function
+
+function hasUnplayedEpisode(parentID as string) as boolean
+    if not isValidAndNotEmpty(parentID) then return false
+
+    ' Check if there is at least 1 unplayed item
+    data = api.items.Get({
+        parentId: parentID,
+        userid: m.global.session.user.id,
+        SortBy: "SortName",
+        recursive: true,
+        SortOrder: "Ascending",
+        Filters: "IsUnplayed",
+        limit: 1,
+        EnableTotalRecordCount: false
+    })
+
+    if isValid(data) and isValidAndNotEmpty(data.Items) then return true
+
+    return false
+end function
+
+function hasNextUpEpisode(parentID as string) as boolean
+    if not isValidAndNotEmpty(parentID) then return false
+
     ' Check if there is at least 1 next up item
     data = api.shows.GetNextUp({
-        seriesId: seriesID,
+        seriesId: parentID,
         recursive: true,
         SortBy: "DatePlayed",
         SortOrder: "Descending",
@@ -805,11 +805,15 @@ function CreateSeriesDetailsGroup(seriesID as string) as dynamic
         return invalid
     end if
 
-    displayResumeButton = hasResummableEpisode(seriesID)
-
     ' start building SeriesDetails view
     group = CreateObject("roSGNode", "TVSeriesDetails")
+
+    displayResumeButton = hasResummableEpisode(seriesID)
+    if not displayResumeButton
+        displayResumeButton = hasNextUpEpisode(seriesID)
+    end if
     group.displayResumeButton = displayResumeButton
+
     group.optionsAvailable = false
 
     ' push scene asap (to prevent extra button presses when retriving series/movie info)
@@ -945,15 +949,22 @@ function CreateSeasonDetailsGroup(series as object, season as object) as dynamic
         return invalid
     end if
     ' start building SeasonDetails view
-    group = CreateObject("roSGNode", "TVEpisodes")
+    group = CreateObject("roSGNode", "TVSeasonDetails")
+
+    displayResumeButton = hasResummableEpisode(season.id)
+    if not displayResumeButton
+        displayResumeButton = hasUnplayedEpisode(season.id)
+    end if
+    group.displayResumeButton = displayResumeButton
     group.optionsAvailable = false
     ' push scene asap (to prevent extra button presses when retriving series/movie info)
     m.global.sceneManager.callFunc("pushScene", group)
-    group.seasonData = seasonMetaData.json
+    group.seasonData = seasonMetaData
     group.objects = TVEpisodes(series.id, season.id)
     group.episodeObjects = group.objects
 
     group.observeField("refreshSeasonDetailsData", m.port)
+    group.observeField("playSeasonFromStart", m.port)
 
     ' watch for button presses
     group.observeFieldScoped("selectedItem", m.port)
@@ -976,14 +987,22 @@ function CreateSeasonDetailsGroupByID(seriesID as string, seasonID as string) as
         return invalid
     end if
     ' start building SeasonDetails view
-    group = CreateObject("roSGNode", "TVEpisodes")
+    group = CreateObject("roSGNode", "TVSeasonDetails")
+
+    displayResumeButton = hasResummableEpisode(seasonID)
+    if not displayResumeButton
+        displayResumeButton = hasUnplayedEpisode(seasonID)
+    end if
+    group.displayResumeButton = displayResumeButton
+
     group.optionsAvailable = false
     ' push scene asap (to prevent extra button presses when retriving series/movie info)
-    group.seasonData = seasonMetaData.json
+    group.seasonData = seasonMetaData
     group.objects = TVEpisodes(seriesID, seasonID)
     group.episodeObjects = group.objects
 
     group.observeField("refreshSeasonDetailsData", m.port)
+    group.observeField("playSeasonFromStart", m.port)
 
     ' watch for button presses
     group.observeFieldScoped("selectedItem", m.port)
