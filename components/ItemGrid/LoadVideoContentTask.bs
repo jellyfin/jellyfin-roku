@@ -267,29 +267,7 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
 
     addSubtitlesToVideo(video, meta)
 
-    ' Enable default subtitle track
-    if subtitle_idx = SubtitleSelection.NOTSET
-        defaultSubtitleIndex = defaultSubtitleTrackFromVid(video.id)
-
-        if defaultSubtitleIndex <> SubtitleSelection.NONE
-            video.SelectedSubtitle = defaultSubtitleIndex
-            subtitle_idx = defaultSubtitleIndex
-
-            m.playbackInfo = ItemPostPlaybackInfo(video.id, mediaSourceId, audio_stream_idx, subtitle_idx, playbackPosition)
-            if not isValid(m.playbackInfo)
-                video.errorMsg = "Error loading playback info"
-                video.content = invalid
-                return
-            end if
-
-            addSubtitlesToVideo(video, meta)
-        else
-            video.SelectedSubtitle = subtitle_idx
-        end if
-    else
-        video.SelectedSubtitle = subtitle_idx
-    end if
-
+    video.SelectedSubtitle = subtitle_idx
     video.videoId = video.id
     video.mediaSourceId = mediaSourceId
     video.audioIndex = audio_stream_idx
