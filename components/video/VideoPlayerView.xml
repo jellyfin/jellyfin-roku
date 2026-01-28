@@ -7,7 +7,7 @@
     <field id="selectPlaybackInfoPressed" type="boolean" alwaysNotify="true" />
     <field id="PlaySessionId" type="string" />
     <field id="Subtitles" type="array" />
-    <field id="SelectedSubtitle" type="integer" value="-2" alwaysNotify="true" />
+    <field id="SelectedSubtitle" type="integer" value="-1" alwaysNotify="true" />
     <field id="previousSubtitleWasEncoded" type="boolean" />
     <field id="container" type="string" />
     <field id="directPlaySupported" type="boolean" />

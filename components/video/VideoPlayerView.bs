@@ -32,7 +32,7 @@ sub init()
     }
 
     preferredSubtitle = m.global.queueManager.callFunc("getPreferredSubtitleTrack")
-    m.top.SelectedSubtitle = isChainValid(preferredSubtitle, "StreamIndex") ? preferredSubtitle.StreamIndex : SubtitleSelection.NOTSET
+    m.top.SelectedSubtitle = isChainValid(preferredSubtitle, "StreamIndex") ? preferredSubtitle.StreamIndex : SubtitleSelection.NONE
     m.originalClosedCaptionState = invalid
 
     ' Load meta data
