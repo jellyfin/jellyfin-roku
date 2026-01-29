@@ -243,6 +243,10 @@ namespace MainAction
         if isValid(group)
             if isStringEqual(group.subtype(), "home")
                 group.callFunc("refresh")
+                return
+            end if
+            if isStringEqual(group.subtype(), "albumView")
+                group.IsFavorite = true
             end if
         end if
     end sub
@@ -254,6 +258,10 @@ namespace MainAction
         if isValid(group)
             if isStringEqual(group.subtype(), "home")
                 group.callFunc("refresh")
+                return
+            end if
+            if isStringEqual(group.subtype(), "albumView")
+                group.IsFavorite = false
             end if
         end if
     end sub

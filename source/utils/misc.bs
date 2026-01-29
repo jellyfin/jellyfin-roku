@@ -135,7 +135,7 @@ end function
 
 function lastFocusedChild(obj as object) as object
     if isValid(obj)
-        if isValid(obj.focusedChild) and isValid(obj.focusedChild.focusedChild) and LCase(obj.focusedChild.focusedChild.subType()) = "tvepisodes"
+        if isValid(obj.focusedChild) and isValid(obj.focusedChild.focusedChild) and LCase(obj.focusedChild.focusedChild.subType()) = "tvseasondetails"
             if isValid(obj.focusedChild.focusedChild.lastFocus)
                 return obj.focusedChild.focusedChild.lastFocus
             end if
@@ -686,3 +686,26 @@ function getDefaultAudioTrackIndex(streams as dynamic)
     return -1
 end function
 
+function serverVersionMeetsMinimumRequirements(systemVersion as string, targetVersion as roArray) as boolean
+    version = systemVersion.split(".")
+    if version.Count() < 3
+        for i = version.Count() to 3 step 1
+            version.push("0")
+        end for
+    end if
+
+    ' Check Major version
+    if targetVersion[0] < version[0].ToInt() then return true
+    if targetVersion[0] > version[0].ToInt() then return false
+
+    ' Check Minor version
+    if targetVersion[1] < version[1].ToInt() then return true
+    if targetVersion[1] > version[1].ToInt() then return false
+
+    ' Check Patch version
+    if targetVersion[2] < version[2].ToInt() then return true
+    if targetVersion[2] > version[2].ToInt() then return false
+
+    ' Server is the exact version needed
+    return true
+end function

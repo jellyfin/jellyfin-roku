@@ -2246,6 +2246,14 @@
         <source>Play Instant Mix</source>
         <translation>Instant Mix spielen</translation>
     </message>
+    <message>
+        <source>Show Next Episode Details After Finish</source>
+        <translation>Nach Wiedergabe Details der nächsten Folge anzeigen</translation>
+    </message>
+    <message>
+        <source>If auto play next episode is disabled, display the next episode&apos;s detail screen after an episode finishes playing. If no next up episode is found, return to the just-played episode&apos;s page.</source>
+        <translation>Wenn die automatische Wiedergabe der nächsten Folge deaktiviert ist, wird nach dem Abspielen die Detailseite der nächsten Episode angezeigt. Ist keine weitere Folge vorhanden, wird zur Seite der gerade abgespielten Episode zurückgekehrt.</translation>
+    </message>
 </context>
 <context>
     <name></name>

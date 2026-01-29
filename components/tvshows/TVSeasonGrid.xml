@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<component name="AlbumTrackList" extends="MarkupList">
+<component name="TVSeasonGrid" extends="MarkupGrid">
   <children>
     <Rectangle
       id="scrollBar"
       width="6"
-      translation="[1670, 0]">
+      height="340"
+      translation="[1650, 0]">
       <Rectangle
         id="thumb"
         height="100"
@@ -14,9 +15,4 @@
       <Vector2DFieldInterpolator id="scrollBarThumbSlideInterpolator" key="[0.0, 1.0]" keyValue="[[0, 0], [0, 0]]" fieldToInterp="thumb.translation" />
     </Animation>
   </children>
-  <interface>
-    <field id="MusicArtistAlbumData" type="node" onChange="getData" />
-    <field id="doneLoading" type="boolean" value="false" />
-    <field id="isCompilation" type="boolean" value="false" />
-  </interface>
 </component>

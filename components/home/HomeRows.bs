@@ -866,21 +866,6 @@ function onKeyEvent(key as string, press as boolean) as boolean
             end if
             return true
         end if
-
-        if key = KeyCode.UP
-            if m.top.rowItemFocused[0] = 0
-                m.overhang.callFunc("highlightUser")
-                m.overhang.setfocus(true)
-
-                group = m.global.sceneManager.callFunc("getActiveScene")
-                if isValid(group)
-                    group.lastFocus = m.overhang
-                end if
-
-                return true
-            end if
-        end if
-
     end if
 
     group = m.global.sceneManager.callFunc("getActiveScene")

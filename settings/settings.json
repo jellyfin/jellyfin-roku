@@ -349,6 +349,13 @@
         ]
       },
       {
+        "title": "Show Next Episode Details After Finish",
+        "description": "If auto play next episode is disabled, display the next episode's detail screen after an episode finishes playing. If no next up episode is found, return to the just-played episode's page.",
+        "settingName": "playback.showNextUpAfterFinish",
+        "type": "bool",
+        "default": "false"
+      },
+      {
         "title": "Text Subtitles Only",
         "description": "Only display text subtitles to minimize transcoding.",
         "settingName": "playback.subs.onlytext",

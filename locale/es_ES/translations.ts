@@ -334,7 +334,7 @@
     </message>
     <message>
         <source>Remember the currently logged in user and try to log them in again next time you start the Jellyfin app.</source>
-        <translation>Recordar al usuario actual e intentar iniciar sesión nuevamente la próxima vez que abras la app de Jellyfin.</translation>
+        <translation>Recordar al usuario que acaba de ingresar e intentar iniciar sesión nuevamente la próxima vez que abras la app de Jellyfin.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
@@ -358,7 +358,7 @@
     </message>
     <message>
         <source>No Chapter Data Found</source>
-        <translation>No se han encontrado datos sobre el capítulo</translation>
+        <translation>No se han encontrado datos del capítulo</translation>
         <extracomment>Message shown in OSD when no chapter data is returned by the API</extracomment>
     </message>
     <message>
@@ -1321,17 +1321,17 @@
     </message>
     <message>
         <source>To view a complete list of changes visit</source>
-        <translation>Visita para ver una lista completa de los cambios</translation>
+        <translation>Para ver una lista completa de los cambios visita</translation>
         <extracomment>WhatsNewDialog body text preceding the changelog URL</extracomment>
     </message>
     <message>
         <source>Community and Critical Ratings</source>
-        <translation>Valoraciones de la comunidad y de la crítica</translation>
+        <translation>Calificaciones comunitarias y críticas</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Ratings for how good a movie is</source>
-        <translation>Valoraciones y crítica de Rotten Tomatoes</translation>
+        <translation>Valoraciones y crítica de Rotten Tomatoes.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
@@ -2253,6 +2253,70 @@
     <message>
         <source>Play Instant Mix</source>
         <translation>Reproducir una mezcla instantánea</translation>
+    </message>
+    <message>
+        <source>Grid View Item Titles</source>
+        <translation>Títulos de los elementos de la vista de cuadrícula</translation>
+    </message>
+    <message>
+        <source>Select when to show titles in grid view.</source>
+        <translation>Seleccione cuándo mostrar los títulos en vista de cuadrícula.</translation>
+    </message>
+    <message>
+        <source>Library Image Orientation</source>
+        <translation>Orientación de las imágenes de la biblioteca</translation>
+    </message>
+    <message>
+        <source>Select the poster image orientation for the library views.</source>
+        <translation>Seleccione la orientación de la imagen del póster para las vistas de la biblioteca.</translation>
+    </message>
+    <message>
+        <source>Default (Varies By Media Type)</source>
+        <translation>Por defecto (por tipo de medios)</translation>
+    </message>
+    <message>
+        <source>Landscape (Wide)</source>
+        <translation>Apaisado (ancho)</translation>
+    </message>
+    <message>
+        <source>Portrait (Vertical)</source>
+        <translation>Retrato (Vertical)</translation>
+    </message>
+    <message>
+        <source>Skip Unknown</source>
+        <translation>Saltar el segmento</translation>
+    </message>
+    <message>
+        <source>Skip Commercial</source>
+        <translation>Saltar la publicidad</translation>
+    </message>
+    <message>
+        <source>Skip Preview</source>
+        <translation>Saltar la previsualización</translation>
+    </message>
+    <message>
+        <source>Skip Recap</source>
+        <translation>Saltar recapitulación</translation>
+    </message>
+    <message>
+        <source>Skip Outro</source>
+        <translation>Saltar cierre</translation>
+    </message>
+    <message>
+        <source>Skip Intro</source>
+        <translation>Saltar la introducción</translation>
+    </message>
+    <message>
+        <source>Go To Genre</source>
+        <translation>Ir a Género</translation>
+    </message>
+    <message>
+        <source>Show Next Episode Details After Finish</source>
+        <translation>Mostrar Detalles Del Siguiente Episodio Después De Acabar</translation>
+    </message>
+    <message>
+        <source>If auto play next episode is disabled, display the next episode&apos;s detail screen after an episode finishes playing. If no next up episode is found, return to the just-played episode&apos;s page.</source>
+        <translation>Si la reproducción automática del siguiente episodio está desactivada, mostrar pantalla de detalles del siguiente episodio cuando un episodio termina de reproducirse. Si no se encuentra el siguiente episodio, volver a la página del último episodio que se reprodujo.</translation>
     </message>
 </context>
 <context>

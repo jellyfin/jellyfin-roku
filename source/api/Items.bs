@@ -41,16 +41,18 @@ function ItemPostPlaybackInfo(id as string, mediaSourceId = "" as string, audioT
         body.DeviceProfile.SubtitleProfiles = []
     end if
 
-    ' Note: Jellyfin v10.9+ now remuxs LiveTV and does not allow DirectPlay anymore.
-    ' Because of this, we need to tell the server "EnableDirectPlay = false" so that we receive the
-    ' transcoding URL (which is just a remux and not a transcode; unless it is)
-    ' The web handles this by disabling EnableDirectPlay on a Retry, but we don't currently Retry a Live
-    ' TV stream, thus we just turn it off on the first try here.
     if mediaSourceId <> ""
         params.MediaSourceId = mediaSourceId
     else
-        ' No mediaSourceId? Must be LiveTV...
-        params.EnableDirectPlay = false
+        ' Note: Jellyfin v10.9 remuxs LiveTV and does not allow DirectPlay.
+        ' Because of this, we need to tell the server "EnableDirectPlay = false" so that we receive the
+        ' transcoding URL (which is just a remux and not a transcode; unless it is)
+        ' The web handles this by disabling EnableDirectPlay on a Retry, but we don't currently Retry a Live
+        ' TV stream, thus we just turn it off on the first try here.
+        serverVersion = ServerInfo().LookupCI("version")
+        if not serverVersionMeetsMinimumRequirements(serverVersion, [10, 10, 0])
+            params.EnableDirectPlay = false
+        end if
     end if
 
     if audioTrackIndex > -1 then params.AudioStreamIndex = audioTrackIndex
@@ -60,7 +62,6 @@ function ItemPostPlaybackInfo(id as string, mediaSourceId = "" as string, audioT
     return postJson(req, FormatJson(body))
 end function
 
-' Search across all libraries
 function searchMedia(query as string)
     if query <> ""
         ' Everything except Live TV shows (but including TV Channels)
@@ -148,10 +149,13 @@ end function
 
 ' MetaData about an item
 function ItemMetaData(id as string)
-    url = Substitute("Users/{0}/Items/{1}", m.global.session.user.id, id)
-    resp = APIRequest(url, { "fields": "Chapters,Trickplay" })
+    url = Substitute("Items/{0}", id)
+    resp = APIRequest(url, {
+        userid: m.global.session.user.id,
+        fields: "Chapters,Trickplay"
+    })
     data = getJson(resp)
-    if data = invalid then return invalid
+    if not isValidAndNotEmpty(data) then return invalid
 
     imgParams = {}
     if data.type <> "Audio"
@@ -583,36 +587,25 @@ function BackdropImage(id as string)
     return ImageURL(id, "Backdrop", imgParams)
 end function
 
-' Seasons for a TV Show
-function TVSeasons(id as string) as dynamic
-    url = Substitute("Shows/{0}/Seasons", id)
-    resp = APIRequest(url, { "UserId": m.global.session.user.id })
-
-    data = getJson(resp)
-    ' validate data
-    if data = invalid or data.Items = invalid then return invalid
-
-    results = []
-    for each item in data.Items
-        seasonImage = PosterImage(item.id)
-        if not isValidAndNotEmpty(seasonImage)
-            seasonImage = getFirstEpisodeImage(id, item.id)
-        end if
-
-        tmp = CreateObject("roSGNode", "TVSeasonData")
-        tmp.image = seasonImage
-        tmp.json = item
-        results.push(tmp)
-    end for
-    data.Items = results
-    return data
-end function
-
 function getFirstEpisodeImage(showId as string, seasonId as string)
-    listOfEpisodes = TVEpisodes(showId, seasonId)
+    listOfEpisodes = api.shows.GetEpisodes(showId,
+    {
+        seasonId: seasonId,
+        UserId: m.global.session.user.id,
+        limit: 5,
+        enableUserData: false,
+        imageTypeLimit: 1,
+        EnableImageTypes: "Primary"
+    })
+
     for each episode in listOfEpisodes.LookupCI("items")
-        if isValid(episode.image) then return episode.image
+        if isChainValid(episode, "imagetags.primary")
+            return ImageURL(episode.LookupCI("id"), ImageType.PRIMARY, {
+                tag: chainLookup(episode, "imagetags.primary")
+            })
+        end if
     end for
+
     return invalid
 end function
 
@@ -620,7 +613,13 @@ end function
 ' Accepts strings for the TV Show Id and the season Id
 function TVEpisodes(showId as string, seasonId as string) as dynamic
     ' Get and validate data
-    data = api.shows.GetEpisodes(showId, { "seasonId": seasonId, "UserId": m.global.session.user.id, "fields": "MediaStreams,MediaSources" })
+    data = api.shows.GetEpisodes(showId,
+    {
+        "seasonId": seasonId,
+        "UserId": m.global.session.user.id,
+        "fields": "MediaStreams,MediaSources"
+    })
+
     if data = invalid or data.Items = invalid then return invalid
 
     results = []
@@ -667,7 +666,6 @@ function TVSeasonExtras(seasonId as string) as dynamic
         results.push(tmp)
     end for
 
-    ' Build that data format that the TVEpisodeRow expects
     return { Items: results }
 end function
 

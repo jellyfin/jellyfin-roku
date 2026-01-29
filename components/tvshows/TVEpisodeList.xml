@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<component name="AlbumTrackList" extends="MarkupList">
+<component name="TVEpisodeList" extends="MarkupGrid">
   <children>
     <Rectangle
       id="scrollBar"
       width="6"
-      translation="[1670, 0]">
+      height="390"
+      translation="[1650, 0]">
       <Rectangle
         id="thumb"
         height="100"
@@ -15,8 +16,8 @@
     </Animation>
   </children>
   <interface>
-    <field id="MusicArtistAlbumData" type="node" onChange="getData" />
-    <field id="doneLoading" type="boolean" value="false" />
-    <field id="isCompilation" type="boolean" value="false" />
+    <field id="objects" type="assocarray" onChange="setupRows" />
+    <field id="escapeButton" type="string" alwaysNotify="true" />
+    <field id="doneLoading" type="boolean" />
   </interface>
 </component>

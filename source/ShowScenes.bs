@@ -204,7 +204,7 @@ function LoginFlow()
 end function
 
 sub ServerVersionCheck(systemVersion as string)
-    meetsRequirements = serverVersionMeetsMinimumRequirements(systemVersion)
+    meetsRequirements = serverVersionMeetsMinimumRequirements(systemVersion, minimumServerVersion)
     if not meetsRequirements
         m.scene.isLoading = false
         stopLoadingSpinner()
@@ -219,30 +219,6 @@ sub ServerVersionCheck(systemVersion as string)
         end if
     end if
 end sub
-
-function serverVersionMeetsMinimumRequirements(systemVersion as string)
-    version = systemVersion.split(".")
-    if version.Count() < 3
-        for i = version.Count() to 3 step 1
-            version.push("0")
-        end for
-    end if
-
-    ' Check Major version
-    if minimumServerVersion[0] < version[0].ToInt() then return true
-    if minimumServerVersion[0] > version[0].ToInt() then return false
-
-    ' Check Minor version
-    if minimumServerVersion[1] < version[1].ToInt() then return true
-    if minimumServerVersion[1] > version[1].ToInt() then return false
-
-    ' Check Patch version
-    if minimumServerVersion[2] < version[2].ToInt() then return true
-    if minimumServerVersion[2] > version[2].ToInt() then return false
-
-    ' Server is the exact version needed
-    return true
-end function
 
 sub SaveServerList()
     'Save off this server to our list of saved servers for easier navigation between servers
@@ -629,8 +605,6 @@ function CreateHomeGroup()
     sidepanel.observeField("closeSidePanel", m.port)
     new_options = []
     options_buttons = [
-        { "title": "Search", "id": "goto_search" },
-        { "title": "Settings", "id": "settings" },
         { "title": "Change user", "id": "change_user" },
         { "title": "Change server", "id": "change_server" },
         { "title": "Sign out", "id": "sign_out" }
@@ -715,12 +689,12 @@ function CreateMovieDetailsGroup(movie as object) as dynamic
     return group
 end function
 
-function hasResummableEpisode(seriesID as string) as boolean
-    if not isValidAndNotEmpty(seriesID) then return false
+function hasResummableEpisode(parentID as string) as boolean
+    if not isValidAndNotEmpty(parentID) then return false
 
     ' Check if there is at least 1 resummable item
     data = api.users.GetResumeItemsByQuery(m.global.session.user.id, {
-        parentId: seriesID,
+        parentId: parentID,
         userid: m.global.session.user.id,
         SortBy: "SortName",
         recursive: true,
@@ -732,9 +706,35 @@ function hasResummableEpisode(seriesID as string) as boolean
 
     if isValid(data) and isValidAndNotEmpty(data.Items) then return true
 
+    return false
+end function
+
+function hasUnplayedEpisode(parentID as string) as boolean
+    if not isValidAndNotEmpty(parentID) then return false
+
+    ' Check if there is at least 1 unplayed item
+    data = api.items.Get({
+        parentId: parentID,
+        userid: m.global.session.user.id,
+        SortBy: "SortName",
+        recursive: true,
+        SortOrder: "Ascending",
+        Filters: "IsUnplayed",
+        limit: 1,
+        EnableTotalRecordCount: false
+    })
+
+    if isValid(data) and isValidAndNotEmpty(data.Items) then return true
+
+    return false
+end function
+
+function hasNextUpEpisode(parentID as string) as boolean
+    if not isValidAndNotEmpty(parentID) then return false
+
     ' Check if there is at least 1 next up item
     data = api.shows.GetNextUp({
-        seriesId: seriesID,
+        seriesId: parentID,
         recursive: true,
         SortBy: "DatePlayed",
         SortOrder: "Descending",
@@ -754,45 +754,82 @@ end function
 
 function CreateSeriesDetailsGroup(seriesID as string) as dynamic
     ' validate series node
-    if not isValid(seriesID) or seriesID = "" then return invalid
+    if not isValidAndNotEmpty(seriesID) then return invalid
 
     startLoadingSpinner()
-    ' get series meta data
-    seriesMetaData = ItemMetaData(seriesID)
 
-    displayResumeButton = hasResummableEpisode(seriesID)
+    ' Get season data early in the function so we can check number of seasons.
+    apiSeasonData = api.shows.GetSeasons(seriesID, {
+        userId: m.global.session.user.id,
+        enableImageTypes: `${ImageType.PRIMARY}, ${ImageType.BACKDROP}, ${ImageType.THUMB}`,
+        imageTypeLimit: 1,
+        enableTotalRecordCount: false
+    })
+
+    ' Divert to season details if user setting goStraightToEpisodeListing is enabled and only one season exists.
+    if m.global.session.user.settings["ui.tvshows.goStraightToEpisodeListing"]
+        if isChainValid(apiSeasonData, "items")
+            if chainLookup(apiSeasonData, "items").count() = 1
+                stopLoadingSpinner()
+                return CreateSeasonDetailsGroupByID(seriesID, chainLookup(apiSeasonData, "items")[0].id)
+            end if
+        end if
+    end if
+
+    seasonData = CreateObject("roSGNode", "ContentNode")
+    for each item in apiSeasonData.Items
+        tmp = seasonData.createChild("TVSeasonData")
+        tmp.json = item
+        tmp.posterURL = api.items.GetImageURL(item.id, ImageType.PRIMARY, 0, { "maxHeight": 320, "maxWidth": 180, "quality": "90" })
+    end for
+
+    apiSeriesData = api.items.GetByID(seriesID, {
+        userId: m.global.session.user.id,
+        enableImageTypes: `${ImageType.PRIMARY}, ${ImageType.BACKDROP}, ${ImageType.THUMB}`,
+        imageTypeLimit: 1,
+        enableTotalRecordCount: false
+    })
+
+    seriesData = CreateObject("roSGNode", "SeriesData")
+    seriesData.json = apiSeriesData
 
     ' validate series meta data
-    if not isValid(seriesMetaData)
+    if not isValid(seriesData)
         stopLoadingSpinner()
         return invalid
     end if
-    ' Get season data early in the function so we can check number of seasons.
-    seasonData = TVSeasons(seriesID)
-    ' Divert to season details if user setting goStraightToEpisodeListing is enabled and only one season exists.
-    if seasonData <> invalid and m.global.session.user.settings["ui.tvshows.goStraightToEpisodeListing"] and seasonData.Items.Count() = 1
-        stopLoadingSpinner()
-        return CreateSeasonDetailsGroupByID(seriesID, seasonData.Items[0].id)
-    end if
+
     ' start building SeriesDetails view
     group = CreateObject("roSGNode", "TVSeriesDetails")
+
+    displayResumeButton = hasResummableEpisode(seriesID)
+    if not displayResumeButton
+        displayResumeButton = hasNextUpEpisode(seriesID)
+    end if
     group.displayResumeButton = displayResumeButton
+
     group.optionsAvailable = false
+
     ' push scene asap (to prevent extra button presses when retriving series/movie info)
     m.global.sceneManager.callFunc("pushScene", group)
-    group.itemContent = seriesMetaData
+
+    group.itemContent = seriesData
     group.seasonData = seasonData
+
     ' watch for button presses
     group.observeField("playSeriesFromStart", m.port)
     group.observeField("seasonSelected", m.port)
     group.observeField("quickPlayNode", m.port)
     group.observeField("refreshSeasonDetailsData", m.port)
+
     ' setup and load series extras
     extras = group.findNode("extrasGrid")
     extras.observeFieldScoped("selectedItem", m.port)
-    extras.callFunc("loadParts", seriesMetaData.json)
+    extras.callFunc("loadParts", seriesData.json)
+
     ' done building SeriesDetails view
     stopLoadingSpinner()
+
     return group
 end function
 
@@ -897,7 +934,6 @@ function CreateSeasonDetailsGroup(series as object, season as object) as dynamic
     if not isValid(series) or not isValid(series.id) then return invalid
     ' validate season node
     if not isValid(season) or not isValid(season.id) then return invalid
-
     startLoadingSpinner()
     ' get season meta data
     seasonMetaData = ItemMetaData(season.id)
@@ -907,15 +943,22 @@ function CreateSeasonDetailsGroup(series as object, season as object) as dynamic
         return invalid
     end if
     ' start building SeasonDetails view
-    group = CreateObject("roSGNode", "TVEpisodes")
+    group = CreateObject("roSGNode", "TVSeasonDetails")
+
+    displayResumeButton = hasResummableEpisode(season.id)
+    if not displayResumeButton
+        displayResumeButton = hasUnplayedEpisode(season.id)
+    end if
+    group.displayResumeButton = displayResumeButton
     group.optionsAvailable = false
     ' push scene asap (to prevent extra button presses when retriving series/movie info)
     m.global.sceneManager.callFunc("pushScene", group)
-    group.seasonData = seasonMetaData.json
+    group.seasonData = seasonMetaData
     group.objects = TVEpisodes(series.id, season.id)
     group.episodeObjects = group.objects
 
     group.observeField("refreshSeasonDetailsData", m.port)
+    group.observeField("playSeasonFromStart", m.port)
 
     ' watch for button presses
     group.observeFieldScoped("selectedItem", m.port)
@@ -938,14 +981,22 @@ function CreateSeasonDetailsGroupByID(seriesID as string, seasonID as string) as
         return invalid
     end if
     ' start building SeasonDetails view
-    group = CreateObject("roSGNode", "TVEpisodes")
+    group = CreateObject("roSGNode", "TVSeasonDetails")
+
+    displayResumeButton = hasResummableEpisode(seasonID)
+    if not displayResumeButton
+        displayResumeButton = hasUnplayedEpisode(seasonID)
+    end if
+    group.displayResumeButton = displayResumeButton
+
     group.optionsAvailable = false
     ' push scene asap (to prevent extra button presses when retriving series/movie info)
-    group.seasonData = seasonMetaData.json
+    group.seasonData = seasonMetaData
     group.objects = TVEpisodes(seriesID, seasonID)
     group.episodeObjects = group.objects
 
     group.observeField("refreshSeasonDetailsData", m.port)
+    group.observeField("playSeasonFromStart", m.port)
 
     ' watch for button presses
     group.observeFieldScoped("selectedItem", m.port)
