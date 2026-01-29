@@ -6,59 +6,59 @@
     <name>default</name>
     <message>
         <source>192.168.1.100:8096 or https://example.com/jellyfin</source>
-        <translation type="unfinished"></translation>
+        <translation>192.168.1.100:8096 أو https://example.com/jellyfin</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>إلغاء</translation>
     </message>
     <message>
         <source>Connect to Server</source>
-        <translation type="unfinished"></translation>
+        <translation>تواصل مع الخادم</translation>
     </message>
     <message>
         <source>Ends at %1</source>
-        <translation type="unfinished"></translation>
+        <translation>ينتهي في %1</translation>
     </message>
     <message>
         <source>Enter Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>ادخال الاعدادات</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished"></translation>
+        <translation>مفضّلة</translation>
     </message>
     <message>
         <source>Loading...</source>
-        <translation type="unfinished"></translation>
+        <translation>تحميل…</translation>
     </message>
     <message>
         <source>Login attempt failed.</source>
-        <translation type="unfinished"></translation>
+        <translation>فشلت محاولة الولوج.</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished"></translation>
+        <translation>تم</translation>
     </message>
     <message>
         <source>Options</source>
-        <translation type="unfinished"></translation>
+        <translation>اختيارات</translation>
     </message>
     <message>
         <source>Play</source>
-        <translation type="unfinished"></translation>
+        <translation>تشغيل</translation>
     </message>
     <message>
         <source>Please sign in</source>
-        <translation type="unfinished"></translation>
+        <translation>يُرجى الولوج</translation>
     </message>
     <message>
         <source>Search</source>
-        <translation type="unfinished"></translation>
+        <translation>البحث</translation>
     </message>
     <message>
         <source>Server not found, is it online?</source>
-        <translation type="unfinished"></translation>
+        <translation>تعذر العثور على الخادم, هل هو موجود؟</translation>
     </message>
     <message>
         <source>Shuffle</source>
@@ -66,55 +66,55 @@
     </message>
     <message>
         <source>Sign In</source>
-        <translation type="unfinished"></translation>
+        <translation>الولوج</translation>
     </message>
     <message>
         <source>Submit</source>
-        <translation type="unfinished"></translation>
+        <translation>ارسال</translation>
     </message>
     <message>
         <source>Watched</source>
-        <translation type="unfinished"></translation>
+        <translation>تمت مشاهدته</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>إعدادات</translation>
     </message>
     <message>
         <source>Change User</source>
-        <translation type="unfinished"></translation>
+        <translation>تغيير مستخدم</translation>
     </message>
     <message>
         <source>Change Server</source>
-        <translation type="unfinished"></translation>
+        <translation>تغيير خادم</translation>
     </message>
     <message>
         <source>Sign Out</source>
-        <translation type="unfinished"></translation>
+        <translation>تسجيل خروج</translation>
     </message>
     <message>
         <source>Add User</source>
-        <translation type="unfinished"></translation>
+        <translation>اضافة مستخدم</translation>
     </message>
     <message>
         <source>Profile</source>
-        <translation type="unfinished"></translation>
+        <translation>ملف</translation>
     </message>
     <message>
         <source>Save Credentials?</source>
-        <translation type="unfinished"></translation>
+        <translation>حفظ المعتمدات؟</translation>
     </message>
     <message>
         <source>Delete Saved</source>
-        <translation type="unfinished"></translation>
+        <translation>حُفظ الحذف</translation>
     </message>
     <message>
         <source>My Media</source>
-        <translation type="unfinished"></translation>
+        <translation>وسائطي</translation>
     </message>
     <message>
         <source>Continue Watching</source>
-        <translation type="unfinished"></translation>
+        <translation>اكمال المشاهدة</translation>
     </message>
     <message>
         <source>Next Up</source>
