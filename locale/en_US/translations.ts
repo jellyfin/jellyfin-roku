@@ -2293,5 +2293,13 @@
             <source>Sort Order for the row - Ascending,Descending.</source>
             <translation>Sort Order for the row - Ascending,Descending.</translation>
         </message>
+        <message>
+            <source>Current Offset</source>
+            <translation>Current Offset</translation>
+        </message>
+        <message>
+            <source>Adjust Subtitle Timing</source>
+            <translation>Adjust Subtitle Timing</translation>
+        </message>
     </context>
 </TS>

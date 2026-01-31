@@ -19,6 +19,17 @@ end sub
 sub onButtonSelected()
     if m.top.buttonSelected = 0
         m.global.sceneManager.returnData = m.top.contentData.data[m.radioOptions.selectedIndex]
+        return
+    end if
+
+    if isStringEqual(m.top.buttons[m.top.buttonSelected], tr("Adjust Subtitle Timing"))
+        activeScene = m.global.sceneManager.callFunc("getActiveScene")
+        if not isValid(activeScene) then return
+
+        osd = activeScene.findNode("osd")
+        if not isValid(osd) then return
+
+        osd.action = "showsyncmenu"
     end if
 end sub
 

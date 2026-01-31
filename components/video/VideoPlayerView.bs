@@ -92,6 +92,48 @@ sub init()
 
     m.videoEndingTime = m.top.findNode("videoEndingTime")
 
+    m.subtitleSyncValue = m.top.findNode("subtitleSyncValue")
+    m.subtitleSyncValue.font.size = 26
+    m.subtitleSyncValue.text = `${tr("Current Offset")}: 0 ms`
+
+    m.subtitleTimingButtons = m.top.findNode("subtitleTimingButtons")
+    m.subtitleTimingButtons.color = ColorPalette.BLACK90
+
+    m.subtitleSyncPlus100 = m.top.findNode("subtitleSyncPlus100")
+    m.subtitleSyncPlus100.fontSize = 25
+    m.subtitleSyncPlus100.background = ColorPalette.DARKGREY
+    m.subtitleSyncPlus100.color = ColorPalette.WHITE
+    m.subtitleSyncPlus100.focusBackground = ColorPalette.HIGHLIGHT
+    m.subtitleSyncPlus100.focusColor = ColorPalette.WHITE
+
+    m.subtitleSyncPlus500 = m.top.findNode("subtitleSyncPlus500")
+    m.subtitleSyncPlus500.fontSize = 25
+    m.subtitleSyncPlus500.background = ColorPalette.DARKGREY
+    m.subtitleSyncPlus500.color = ColorPalette.WHITE
+    m.subtitleSyncPlus500.focusBackground = ColorPalette.HIGHLIGHT
+    m.subtitleSyncPlus500.focusColor = ColorPalette.WHITE
+
+    m.subtitleSyncMinus100 = m.top.findNode("subtitleSyncMinus100")
+    m.subtitleSyncMinus100.fontSize = 25
+    m.subtitleSyncMinus100.background = ColorPalette.DARKGREY
+    m.subtitleSyncMinus100.color = ColorPalette.WHITE
+    m.subtitleSyncMinus100.focusBackground = ColorPalette.HIGHLIGHT
+    m.subtitleSyncMinus100.focusColor = ColorPalette.WHITE
+
+    m.subtitleSyncMinus500 = m.top.findNode("subtitleSyncMinus500")
+    m.subtitleSyncMinus500.fontSize = 25
+    m.subtitleSyncMinus500.background = ColorPalette.DARKGREY
+    m.subtitleSyncMinus500.color = ColorPalette.WHITE
+    m.subtitleSyncMinus500.focusBackground = ColorPalette.HIGHLIGHT
+    m.subtitleSyncMinus500.focusColor = ColorPalette.WHITE
+
+    m.subtitleSyncReset = m.top.findNode("subtitleSyncReset")
+    m.subtitleSyncReset.fontSize = 25
+    m.subtitleSyncReset.background = ColorPalette.DARKGREY
+    m.subtitleSyncReset.color = ColorPalette.WHITE
+    m.subtitleSyncReset.focusBackground = ColorPalette.HIGHLIGHT
+    m.subtitleSyncReset.focusColor = ColorPalette.WHITE
+
     m.nextUp = m.top.findNode("nextUp")
     m.nextUpInfoLoaded = false
 
@@ -387,14 +429,39 @@ sub onOSDAction()
     end if
 
     if action = "showsyncmenu"
-        dialog = createObject("roSGNode", "StandardDialog")
-        dialog.title = "Subtitle Sync"
-        dialog.message = ["Current Offset: " + m.subtitleOffset.toStr() + " ms"]
-        dialog.buttons = ["-500ms", "-100ms", "Reset (0ms)", "+100ms", "+500ms", "Close"]
-        dialog.observeField("buttonSelected", "onSyncButtonSelected")
-        m.top.getScene().dialog = dialog
+        handleShowsyncmenuAction()
         return
     end if
+end sub
+
+sub handleShowsyncmenuAction()
+    ' Hide the OSD
+    handleHideAction(false)
+
+    m.subtitleTimingButtons.visible = true
+    m.subtitleSyncPlus100.focus = true
+    m.subtitleSyncPlus100.setfocus(true)
+end sub
+
+sub hidesyncmenuAction()
+    m.subtitleSyncPlus100.setFocus(false)
+    m.subtitleSyncPlus100.focus = false
+
+    m.subtitleSyncPlus500.setFocus(false)
+    m.subtitleSyncPlus500.focus = false
+
+    m.subtitleSyncMinus100.setFocus(false)
+    m.subtitleSyncMinus100.focus = false
+
+    m.subtitleSyncMinus500.setFocus(false)
+    m.subtitleSyncMinus500.focus = false
+
+    m.subtitleSyncReset.setFocus(false)
+    m.subtitleSyncReset.focus = false
+
+    m.top.setFocus(true)
+
+    m.subtitleTimingButtons.visible = false
 end sub
 
 ' Only setup caption items if captions are allowed
@@ -513,6 +580,8 @@ sub onVideoContentLoaded()
     m.LoadMetaDataTask.content = []
 
     stopLoadingSpinner()
+
+    hidesyncmenuAction()
 
     ' If we have nothing to play, return to previous screen
     if not isValid(videoContent)
@@ -1228,32 +1297,111 @@ sub refreshLiveOSDContent()
     m.LoadProgramDetailsTask.control = TaskControl.RUN
 end sub
 
-sub onSyncButtonSelected(event)
-    dialog = event.getRoSGNode()
-    index = event.getData()
+sub changeSubtitleTimeOffset(offsetAmount as integer)
+    ' If the subtitles are 60+ seconds off, the user needs to get better subtitles
+    if abs(m.subtitleOffset + offsetAmount) >= 60000 then return
 
-    ' Button index mapping:
-    ' 0: -500 ms | 1: -100 ms | 2: Reset | 3: +100 ms | 4: +500 ms | 5: Close
-
-    if index = 0
-        m.subtitleOffset -= 500
-    else if index = 1
-        m.subtitleOffset -= 100
-    else if index = 2
-        m.subtitleOffset = 0
-    else if index = 3
-        m.subtitleOffset += 100
-    else if index = 4
-        m.subtitleOffset += 500
-    else if index = 5
-        dialog.close = true
-        return
-    end if
-
-    dialog.message = ["Current Offset: " + m.subtitleOffset.toStr() + " ms"]
+    m.subtitleOffset += offsetAmount
+    m.subtitleSyncValue.text = `${tr("Current Offset")}: ${m.subtitleOffset.toStr()} ms`
 end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean
+    if m.subtitleTimingButtons.visible
+        if m.subtitleTimingButtons.isInFocusChain()
+            if not press then return false
+
+            if isStringEqual(key, KeyCode.RIGHT)
+                if m.subtitleSyncMinus500.hasfocus()
+                    m.subtitleSyncMinus500.focus = false
+                    m.subtitleSyncMinus100.focus = true
+                    m.subtitleSyncMinus100.setfocus(true)
+                    return true
+                end if
+
+                if m.subtitleSyncMinus100.hasfocus()
+                    m.subtitleSyncMinus100.focus = false
+                    m.subtitleSyncPlus100.focus = true
+                    m.subtitleSyncPlus100.setfocus(true)
+                    return true
+                end if
+
+                if m.subtitleSyncPlus100.hasfocus()
+                    m.subtitleSyncPlus100.focus = false
+                    m.subtitleSyncPlus500.focus = true
+                    m.subtitleSyncPlus500.setfocus(true)
+                    return true
+                end if
+
+                if m.subtitleSyncPlus500.hasfocus()
+                    m.subtitleSyncPlus500.focus = false
+                    m.subtitleSyncReset.focus = true
+                    m.subtitleSyncReset.setfocus(true)
+                    return true
+                end if
+            end if
+
+            if isStringEqual(key, KeyCode.LEFT)
+                if m.subtitleSyncMinus100.hasfocus()
+                    m.subtitleSyncMinus100.focus = false
+                    m.subtitleSyncMinus500.focus = true
+                    m.subtitleSyncMinus500.setfocus(true)
+                    return true
+                end if
+
+                if m.subtitleSyncPlus100.hasfocus()
+                    m.subtitleSyncPlus100.focus = false
+                    m.subtitleSyncminus100.focus = true
+                    m.subtitleSyncMinus100.setfocus(true)
+                    return true
+                end if
+
+                if m.subtitleSyncPlus500.hasfocus()
+                    m.subtitleSyncPlus500.focus = false
+                    m.subtitleSyncPlus100.focus = true
+                    m.subtitleSyncPlus100.setfocus(true)
+                    return true
+                end if
+
+                if m.subtitleSyncReset.hasfocus()
+                    m.subtitleSyncReset.focus = false
+                    m.subtitleSyncPlus500.focus = true
+                    m.subtitleSyncPlus500.setfocus(true)
+                    return true
+                end if
+            end if
+
+            if isStringEqual(key, KeyCode.OK)
+                if m.subtitleSyncReset.hasfocus()
+                    changeSubtitleTimeOffset(m.subtitleOffset > 0 ? - m.subtitleOffset : abs(m.subtitleOffset))
+                    return true
+                end if
+
+                if m.subtitleSyncMinus100.hasfocus()
+                    changeSubtitleTimeOffset(-100)
+                    return true
+                end if
+
+                if m.subtitleSyncMinus500.hasfocus()
+                    changeSubtitleTimeOffset(-500)
+                    return true
+                end if
+
+                if m.subtitleSyncPlus100.hasfocus()
+                    changeSubtitleTimeOffset(100)
+                    return true
+                end if
+
+                if m.subtitleSyncPlus500.hasfocus()
+                    changeSubtitleTimeOffset(500)
+                    return true
+                end if
+            end if
+
+            hidesyncmenuAction()
+            return true
+        end if
+    end if
+
     ' Keypress handler while user is inside the chapter menu
     if m.chapterMenu.hasFocus()
         if not press then return false

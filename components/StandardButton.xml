@@ -12,6 +12,7 @@
     <field id="text" type="string" value="" />
     <field id="height" type="integer" value="" />
     <field id="width" type="integer" value="" />
+    <field id="fontSize" type="integer" value="0" />
     <field id="selected" type="boolean" value="false" />
     <field id="focus" type="boolean" />
     <field id="escape" type="string" value="" />
