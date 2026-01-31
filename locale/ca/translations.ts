@@ -1456,11 +1456,11 @@
     </message>
     <message>
         <source>Date Show Added</source>
-        <translation>Data d&apos;adició del títol</translation>
+        <translation>Data d&apos;addició del títol</translation>
     </message>
     <message>
         <source>Date Episode Added</source>
-        <translation>Data d&apos;adició de l&apos;episodi</translation>
+        <translation>Data d&apos;addició de l&apos;episodi</translation>
     </message>
     <message>
         <source>Favorited</source>
@@ -1936,35 +1936,35 @@
     </message>
     <message>
         <source>Select what to show in section 8. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
-        <translation>Seleccioneu què mostrar en la secció 8. Aquesta configuració no té efecte si s&apos;ha habilitat \&quot;Fes servir la disposició de seccions d&apos;inici del client web\&quot;. Per a què el canvi tingui efecte caldrà tancar i reobrir l&apos;aplicació.</translation>
+        <translation>Seleccioneu què mostrar en la secció 8. Aquesta configuració no té efecte si s&apos;ha habilitat \&quot;Fes servir la disposició de seccions d&apos;inici del client web\&quot;. Perquè el canvi tingui efecte caldrà tancar i reobrir l&apos;aplicació.</translation>
     </message>
     <message>
         <source>Select what to show in section 7. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
-        <translation>Seleccioneu què mostrar a la secció 7. Aquesta configuració no té efecte si s&apos;ha habilitat \&quot;Fes servir la disposició de seccions d&apos;inici del client web\&quot;. Per a què el canvi tingui efecte caldrà tancar i reobrir l&apos;aplicació.</translation>
+        <translation>Seleccioneu què mostrar a la secció 7. Aquesta configuració no té efecte si s&apos;ha habilitat \&quot;Fes servir la disposició de seccions d&apos;inici del client web\&quot;. Perquè el canvi tingui efecte caldrà tancar i reobrir l&apos;aplicació.</translation>
     </message>
     <message>
         <source>Select what to show in section 6. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
-        <translation>Seleccioneu què mostrar a la secció 6. Aquesta configuració no té efecte si s&apos;ha habilitat \&quot;Fes servir la disposició de seccions d&apos;inici del client web\&quot;. Per a què el canvi tingui efecte caldrà tancar i reobrir l&apos;aplicació.</translation>
+        <translation>Seleccioneu què mostrar a la secció 6. Aquesta configuració no té efecte si s&apos;ha habilitat \&quot;Fes servir la disposició de seccions d&apos;inici del client web\&quot;. Perquè el canvi tingui efecte caldrà tancar i reobrir l&apos;aplicació.</translation>
     </message>
     <message>
         <source>Select what to show in section 1. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
-        <translation>Seleccioneu què mostrar a la secció 1. Aquesta configuració no té efecte si s&apos;ha habilitat \&quot;Fes servir la disposició de seccions d&apos;inici del client web\&quot;. Per a què el canvi tingui efecte caldrà tancar i reobrir l&apos;aplicació.</translation>
+        <translation>Seleccioneu què mostrar a la secció 1. Aquesta configuració no té efecte si s&apos;ha habilitat \&quot;Fes servir la disposició de seccions d&apos;inici del client web\&quot;. Perquè el canvi tingui efecte caldrà tancar i reobrir l&apos;aplicació.</translation>
     </message>
     <message>
         <source>Select what to show in section 2. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
-        <translation>Seleccioneu què mostrar a la secció 2. Aquesta configuració no té efecte si s&apos;ha habilitat \&quot;Fes servir la disposició de seccions d&apos;inici del client web\&quot;. Per a què el canvi tingui efecte caldrà tancar i reobrir l&apos;aplicació.</translation>
+        <translation>Seleccioneu què mostrar a la secció 2. Aquesta configuració no té efecte si s&apos;ha habilitat \&quot;Fes servir la disposició de seccions d&apos;inici del client web\&quot;. Perquè el canvi tingui efecte caldrà tancar i reobrir l&apos;aplicació.</translation>
     </message>
     <message>
         <source>Select what to show in section 3. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
-        <translation>Seleccioneu què mostrar a la secció 3. Aquesta configuració no té efecte si s&apos;ha habilitat \&quot;Fes servir la disposició de seccions d&apos;inici del client web\&quot;. Per a què el canvi tingui efecte caldrà tancar i reobrir l&apos;aplicació.</translation>
+        <translation>Seleccioneu què mostrar a la secció 3. Aquesta configuració no té efecte si s&apos;ha habilitat \&quot;Fes servir la disposició de seccions d&apos;inici del client web\&quot;. Perquè el canvi tingui efecte caldrà tancar i reobrir l&apos;aplicació.</translation>
     </message>
     <message>
         <source>Select what to show in section 4. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
-        <translation>Seleccioneu què mostrar a la secció 4. Aquesta configuració no té efecte si s&apos;ha habilitat \&quot;Fes servir la disposició de seccions d&apos;inici del client web\&quot;. Per a què el canvi tingui efecte caldrà tancar i reobrir l&apos;aplicació.</translation>
+        <translation>Seleccioneu què mostrar a la secció 4. Aquesta configuració no té efecte si s&apos;ha habilitat \&quot;Fes servir la disposició de seccions d&apos;inici del client web\&quot;. Perquè el canvi tingui efecte caldrà tancar i reobrir l&apos;aplicació.</translation>
     </message>
     <message>
         <source>Select what to show in section 5. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
-        <translation>Seleccioneu què mostrar a la secció 5. Aquesta configuració no té efecte si s&apos;ha habilitat \&quot;Fes servir la disposició de seccions d&apos;inici del client web\&quot;. Per a què el canvi tingui efecte caldrà tancar i reobrir l&apos;aplicació.</translation>
+        <translation>Seleccioneu què mostrar a la secció 5. Aquesta configuració no té efecte si s&apos;ha habilitat \&quot;Fes servir la disposició de seccions d&apos;inici del client web\&quot;. Perquè el canvi tingui efecte caldrà tancar i reobrir l&apos;aplicació.</translation>
     </message>
     <message>
         <source>Section 1</source>

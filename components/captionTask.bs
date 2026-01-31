@@ -180,7 +180,7 @@ function prepareStyles(styles as object, rect, lineCount = 1 as integer) as obje
     captionStyles = styles
     finalStyles = { translation: [960, 1020] }
 
-    verticalPosition = 1020
+    verticalPosition = 120
     horizontalPositon = 960 - (rect.BoundingRect().width / 2)
 
     if not isValidAndNotEmpty(captionStyles)

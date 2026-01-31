@@ -1,19 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<component name="TVSeriesDetails" extends="JFScreen">
+<component name="TVSeasonDetails" extends="JFScreen">
   <children>
     <LayoutGroup id="toplevel" layoutDirection="vert" translation="[100, 100]" itemSpacings="[25]">
       <LayoutGroup layoutDirection="horiz" itemSpacings="[15]">
         <LayoutGroup layoutDirection="vert" itemSpacings="[25]">
           <LayoutGroup layoutDirection="vert" itemSpacings="[0]">
             <ScrollingText id="title" horizAlign="left" font="font:MediumBoldSystemFont" maxWidth="1400" height="45" />
+            <ScrollingText id="subtitle" horizAlign="left" font="font:MediumBoldSystemFont" maxWidth="1400" height="45" />
           </LayoutGroup>
 
           <LayoutGroup id="topLevelDetails" layoutDirection="horiz" itemSpacings="[25]">
-            <LayoutGroup id="runtimeContainer" layoutDirection="horiz" itemSpacings="[15]">
-              <Poster id="runtimeIcon" width="35" height="35" uri="pkg:/images/icons/35px/clock.png" />
-              <Text id="runtime" vertAlign="center" font="font:MediumSystemFont" height="35" />
-            </LayoutGroup>
-
             <LayoutGroup id="numberofepisodesContainer" layoutDirection="horiz" itemSpacings="[15]">
               <Poster id="numberofepisodesIcon" width="35" height="35" uri="pkg:/images/icons/35px/tv.png" />
               <Text id="numberofepisodes" vertAlign="center" font="font:MediumSystemFont" height="35" />
@@ -51,42 +47,41 @@
             <IconButton id="resume" background="#070707" padding="35" icon="pkg:/images/icons/resume.png" text="Resume" height="65" width="140" />
             <IconButton id="play" background="#070707" padding="35" icon="pkg:/images/icons/play.png" text="Play" height="65" width="140" />
             <IconButton id="shuffle" background="#070707" padding="35" icon="pkg:/images/icons/shufflePlay.png" text="Shuffle" height="65" width="140" />
+            <IconButton id="extras" background="#070707" padding="15" icon="pkg:/images/icons/extras.png" text="Extras" height="65" width="140" />
           </ButtonGroupHoriz>
         </LayoutGroup>
 
-        <Poster id="tvshowPoster" width="300" height="450">
+        <Poster id="seasonPoster" width="300" height="450">
           <PlayedCheckmark id="playedIndicator" translation="[240, 0]" />
         </Poster>
       </LayoutGroup>
 
-      <Rectangle id='seasonListRect' translation="[-30, 0]" width="1720" height="400">
-        <TVSeasonGrid
-          id="seasons"
-          numColumns="8"
-          numRows="2"
-          clippingRect="[-10,-10,2020,370]"
+      <Rectangle id='seasonListRect' translation="[-30, 0]" width="1720" height="450">
+        <TVEpisodeList
+          id="picker"
+          clippingRect="[-10,-10,2020,420]"
+          itemComponentName="TVEpisodeListItem"
           vertFocusAnimationStyle="fixed"
-          itemComponentName="TVSeasonGridItem"
-          itemSpacing="[20, 50]"
-          itemSize="[180, 320]"
-          rowHeights="[320]"
-          drawFocusFeedback="true"
           translation="[45, 25]" />
       </Rectangle>
     </LayoutGroup>
 
-    <ExtrasSlider visible="false" id="tvSeasonExtras" />
   </children>
   <interface>
-    <function name="getFocusedItem" />
     <field id="displayResumeButton" type="bool" alwaysNotify="true" onChange="onDisplayResumeButtonChange" />
+    <field id="episodeSelected" alias="picker.itemSelected" />
     <field id="refreshSeasonDetailsData" type="bool" alwaysNotify="true" />
-    <field id="itemContent" type="node" onChange="itemContentChanged" />
-    <field id="seasonData" type="node" alias="seasons.content" />
-    <field id="seasonSelected" alias="seasons.itemSelected" alwaysNotify="true" />
-    <field id="quickPlayNode" type="node" alwaysNotify="true" />
+    <field id="selectedItem" type="node" alwaysNotify="true" />
     <field id="selectedButtonIndex" type="integer" value="-1" />
-    <field id="playSeriesFromStart" type="bool" />
-    <field id="showItemTitles" type="string" value="showalways" />
+    <field id="quickPlayNode" type="node" />
+    <field id="seasonData" type="node" onChange="setSeasonLoading" />
+    <field id="objects" alias="picker.objects" />
+    <field id="episodeObjects" type="assocarray" />
+    <field id="extrasObjects" type="assocarray" />
+    <field id="playSeasonFromStart" type="bool" />
+    <field id="shufflePlay" type="bool" />
+    <function name="updateSeason" />
+    <function name="updateObjects" />
+    <function name="getFocusedItem" />
   </interface>
 </component>

@@ -1315,7 +1315,7 @@
     </message>
     <message>
         <source>Welcome to version</source>
-        <translation>Chegou a versão</translation>
+        <translation>Bem-vindo à versão</translation>
         <extracomment>WhatsNewDialog title - Welcome to version 2.0.0</extracomment>
     </message>
     <message>
@@ -2264,6 +2264,14 @@
     <message>
         <source>Play Instant Mix</source>
         <translation>Reproduzir mix instantâneo</translation>
+    </message>
+    <message>
+        <source>Show Next Episode Details After Finish</source>
+        <translation>Mostrar Detalhes do Próximo Episódio Após Terminar</translation>
+    </message>
+    <message>
+        <source>If auto play next episode is disabled, display the next episode&apos;s detail screen after an episode finishes playing. If no next up episode is found, return to the just-played episode&apos;s page.</source>
+        <translation>Se a reprodução automática do próximo episódio estiver desativada, exibir a tela de detalhes do próximo episódio após a conclusão da reprodução. Se nenhum próximo episódio for encontrado, retornar à página do episódio recém-reproduzido.</translation>
     </message>
 </context>
 <context>
