@@ -20,6 +20,7 @@
       <IconButton id="chapterList" padding="16" icon="pkg:/images/icons/numberList.png" height="65" width="100" />
       <IconButton id="showSubtitleMenu" padding="0" icon="pkg:/images/icons/subtitle.png" height="65" width="100" />
       <IconButton id="showAudioMenu" padding="27" icon="pkg:/images/icons/musicNote.png" height="65" width="100" />
+      <IconButton id="showSpeedMenu" padding="27" icon="pkg:/images/icons/speedMenu.png" height="65" width="100" />
     </ButtonGroup>
 
     <ButtonGroup id="videoControls" itemSpacings="[20]" layoutDirection="horiz" horizAlignment="center" translation="[960,875]">
