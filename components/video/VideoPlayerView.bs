@@ -94,6 +94,7 @@ sub init()
 
     m.subtitleSyncValue = m.top.findNode("subtitleSyncValue")
     m.subtitleSyncValue.font.size = 26
+    m.subtitleSyncValue.text = `${tr("Current Offset")}: 0 ms`
 
     m.subtitleTimingButtons = m.top.findNode("subtitleTimingButtons")
     m.subtitleTimingButtons.color = ColorPalette.BLACK90

@@ -2265,5 +2265,13 @@
             <source>If auto play next episode is disabled, display the next episode's detail screen after an episode finishes playing. If no next up episode is found, return to the just-played episode's page.</source>
             <translation>If auto play next episode is disabled, display the next episode's detail screen after an episode finishes playing. If no next up episode is found, return to the just-played episode's page.</translation>
         </message>
+        <message>
+            <source>Current Offset</source>
+            <translation>Current Offset</translation>
+        </message>
+        <message>
+            <source>Adjust Subtitle Timing</source>
+            <translation>Adjust Subtitle Timing</translation>
+        </message>
     </context>
 </TS>
