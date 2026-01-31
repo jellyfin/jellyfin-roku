@@ -14,6 +14,8 @@ import "pkg:/source/enums/VideoControl.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/misc.bs"
 
+const REPLAY_RETRIES = 3
+
 sub init()
     m.top.observeField("availableAudioTracks", "onAvailableAudioTracksChanged")
 
@@ -934,12 +936,11 @@ sub onState(msg)
                 m.playbackRetries = 0
             end if
 
-            ' Attempt to retry playback up to 3 times before showing error
-            if m.playbackRetries < 3
+            ' Attempt to retry playback up to REPLAY_RETRIES times before showing error
+            if m.playbackRetries < REPLAY_RETRIES
                 m.playbackRetries = m.playbackRetries + 1
                 m.lastBufferError = currentTime
-                print "Player error encountered - retry attempt " + m.playbackRetries.ToStr() + " of 3"
-
+                print "Player error encountered - retry attempt " + m.playbackRetries.ToStr() + " of " + REPLAY_RETRIES.ToStr()
                 ' Stop and restart playback from current position
                 currentPosition = m.top.position
                 m.top.control = VideoControl.STOP
@@ -947,7 +948,7 @@ sub onState(msg)
                 m.top.control = VideoControl.PLAY
             else
                 ' All retries exhausted, show error and exit
-                print "Playback failed after 3 retry attempts"
+                print "Playback failed after " + REPLAY_RETRIES.ToStr() + " retry attempts"
                 showPlaybackErrorDialog(tr("Error During Playback"))
 
                 ' Stop playback and exit player
@@ -1168,11 +1169,11 @@ sub bufferCheck(msg)
                 m.bufferCheckTimer.duration = 30
             end if
 
-            ' Attempt to retry playback up to 3 times
-            if m.playbackRetries < 3
+            ' Attempt to retry playback up to REPLAY_RETRIES times
+            if m.playbackRetries < REPLAY_RETRIES
                 m.playbackRetries = m.playbackRetries + 1
                 m.lastBufferError = currentTime
-                print "Buffering stalled - retry attempt " + m.playbackRetries.ToStr() + " of 3"
+                print "Buffering stalled - retry attempt " + m.playbackRetries.ToStr() + " of " + REPLAY_RETRIES.ToStr()
 
                 ' Extend buffer check duration for subsequent retries to allow more time
                 m.bufferCheckTimer.duration = 30 + (m.playbackRetries * 15)
@@ -1184,7 +1185,7 @@ sub bufferCheck(msg)
                 m.top.control = VideoControl.PLAY
             else
                 ' All retries exhausted, show error
-                print "Buffering failed after 3 retry attempts"
+                print "Buffering failed after " + REPLAY_RETRIES.ToStr() + " retry attempts"
                 showPlaybackErrorDialog(tr("There was an error retrieving the data for this item from the server."))
 
                 ' Stop playback and exit player
