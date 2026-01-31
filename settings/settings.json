@@ -643,6 +643,70 @@
             ]
           },
           {
+            "title": "Favorites Row",
+            "description": "Settings relating to the favorites row on the home screen.",
+            "children": [
+              {
+                "title": "Sort By Field",
+                "description": "Field to sort the row by.",
+                "settingName": "ui.home.favoritesSortField",
+                "type": "radio",
+                "default": "random",
+                "options": [
+                  {
+                    "title": "Date Created",
+                    "id": "DateCreated"
+                  },
+                  {
+                    "title": "DATE_PLAYED",
+                    "id": "DatePlayed"
+                  },
+                  {
+                    "title": "Is Unplayed",
+                    "id": "IsUnplayed"
+                  },
+                  {
+                    "title": "Name",
+                    "id": "SortName"
+                  },
+                  {
+                    "title": "PLAY_COUNT",
+                    "id": "PlayCount"
+                  },
+                  {
+                    "title": "RELEASE_DATE",
+                    "id": "PremiereDate"
+                  },
+                  {
+                    "title": "Random",
+                    "id": "random"
+                  },
+                  {
+                    "title": "RUNTIME",
+                    "id": "Runtime"
+                  }
+                ]
+              },
+              {
+                "title": "Sort Order",
+                "description": "Sort Order for the row - Ascending,Descending.",
+                "settingName": "ui.home.favoritesSortOrder",
+                "type": "radio",
+                "default": "Ascending",
+                "options": [
+                  {
+                    "title": "Ascending",
+                    "id": "Ascending"
+                  },
+                  {
+                    "title": "Descending",
+                    "id": "Descending"
+                  }
+                ]
+              }
+            ]
+          },
+          {
             "title": "Hide Clock",
             "description": "Hide all clocks in Jellyfin. Jellyfin will need to be closed and reopened for changes to take effect.",
             "settingName": "ui.design.hideclock",
