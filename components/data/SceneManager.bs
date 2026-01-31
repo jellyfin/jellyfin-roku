@@ -328,7 +328,7 @@ end sub
 
 '
 ' Display dialog to user with an OK button
-sub radioDialog(title, message)
+sub radioDialog(title, message, buttons = [tr("OK")])
     m.itemID = string.EMPTY
     m.userselection = false
 
@@ -347,7 +347,7 @@ sub radioDialog(title, message)
     dialog.observeField("wasClosed", "optionClosed")
     dialog.title = title
     dialog.contentData = message
-    dialog.buttons = [tr("OK")]
+    dialog.buttons = buttons
 
     m.scene.dialog = dialog
 end sub

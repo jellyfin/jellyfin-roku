@@ -168,7 +168,13 @@ sub onSelectSubtitlePressed()
         "Type": "subtitleselection"
     })
 
-    m.global.sceneManager.callFunc("radioDialog", tr("Select Subtitles"), subtitleData)
+    buttons = [tr("OK")]
+
+    if chainLookupReturn(m.global, "session.user.settings.`playback.subs.custom`", false)
+        buttons.push(tr("Adjust Subtitle Timing"))
+    end if
+
+    m.global.sceneManager.callFunc("radioDialog", tr("Select Subtitles"), subtitleData, buttons)
     m.global.sceneManager.observeField("returnData", "onSelectionMade")
 end sub
 

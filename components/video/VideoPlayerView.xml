@@ -53,5 +53,39 @@
     </Rectangle>
 
     <StandardButton id="skipSegment" visible="false" height="85" width="250" translation="[1500, 900]" />
+
+    <Rectangle id="subtitleTimingButtons" height="120" width="560" translation="[100, 900]" visible="false">
+      <Text id="subtitleSyncValue" translation="[10, 20]" text="Current Offset: 0 ms" />
+      <StandardButton
+        id="subtitleSyncMinus500"
+        text="-500ms"
+        translation="[10, 55]"
+        height="50"
+        width="100" />
+      <StandardButton
+        id="subtitleSyncMinus100"
+        text="-100ms"
+        translation="[120, 55]"
+        height="50"
+        width="100" />
+      <StandardButton
+        id="subtitleSyncPlus100"
+        text="+100ms"
+        translation="[230, 55]"
+        height="50"
+        width="100" />
+      <StandardButton
+        id="subtitleSyncPlus500"
+        text="+500ms"
+        translation="[340, 55]"
+        height="50"
+        width="100" />
+      <StandardButton
+        id="subtitleSyncReset"
+        text="Reset"
+        translation="[450, 55]"
+        height="50"
+        width="100" />
+    </Rectangle>
   </children>
 </component>
