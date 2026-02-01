@@ -38,5 +38,9 @@
   {
     "description": "Add manual subtitle synchronization offset",
     "author": "betilloxann"
+  },
+  {
+    "description": "Create settings to control sorting of favorites row on home screen",
+    "author": "1hitsong"
   }
 ]

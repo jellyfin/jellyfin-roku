@@ -478,12 +478,16 @@ end function
 function loadFavorites() as object
     results = []
 
+    sortField = chainLookupReturn(m.global.session, "user.settings.`ui.home.favoritesSortField`", "random")
+    sortOrder = chainLookupReturn(m.global.session, "user.settings.`ui.home.favoritesSortOrder`", "Ascending")
+
     params = {
         userid: m.global.session.user.id,
         Filters: "IsFavorite",
         Limit: 25,
         recursive: true,
-        sortby: "random",
+        sortby: sortField,
+        sortOrder: sortOrder,
         EnableTotalRecordCount: false
     }
 
