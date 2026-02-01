@@ -596,7 +596,7 @@ sub onRefreshSeasonDetailsDataEvent()
     if isValid(currentScene)
         focusedItem = currentScene.callFunc("getFocusedItem")
         if isValid(focusedItem)
-            focusedItem.json = api.users.GetItem(m.global.session.user.id, focusedItem.id)
+            focusedItem.json = api.items.GetByID(focusedItem.id, { userId: m.global.session.user.id })
         end if
     end if
 
@@ -607,7 +607,7 @@ sub onRefreshSeasonDetailsDataEvent()
             ' Find the object in the scene's data and update its json data
             for i = 0 to currentScene.objects.Items.count() - 1
                 if isStringEqual(currentScene.objects.Items[i].id, currentEpisode.id)
-                    currentScene.objects.Items[i].json = api.users.GetItem(m.global.session.user.id, currentEpisode.id)
+                    currentScene.objects.Items[i].json = api.items.GetByID(currentEpisode.id, { userId: m.global.session.user.id })
                     m.global.queueManager.callFunc("setTopStartingPoint", currentScene.objects.Items[i].json.UserData.PlaybackPositionTicks)
                     exit for
                 end if
