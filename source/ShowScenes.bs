@@ -659,7 +659,7 @@ function CreateMovieDetailsGroup(movie as object) as dynamic
     group.observeField("refreshMovieDetailsData", m.port)
 
     ' local trailers
-    trailerData = api.users.GetLocalTrailers(m.global.session.user.id, movie.id)
+    trailerData = api.items.GetLocalTrailers(movie.id, { userId: m.global.session.user.id })
     group.trailerAvailable = isValidAndNotEmpty(trailerData)
 
     group.additionalParts = {

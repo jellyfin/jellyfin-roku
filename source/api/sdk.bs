@@ -431,6 +431,12 @@ namespace api
             return getJson(req)
         end function
 
+        ' Gets local trailers for an item.
+        function GetLocalTrailers(itemid as string, params = {} as object)
+            resp = APIRequest(Substitute("/items/{0}/localtrailers", itemid), params)
+            return getJson(resp)
+        end function
+
         ' Gets legacy query filters.
         function GetFilters(params = {} as object)
             req = APIRequest("/items/filters", params)
@@ -2014,12 +2020,6 @@ namespace api
         ' Gets intros to play before the main media item plays.
         function GetIntros(userid as string, itemid as string)
             resp = APIRequest(Substitute("/users/{0}/items/{1}/intros", userid, itemid))
-            return getJson(resp)
-        end function
-
-        ' Gets local trailers for an item.
-        function GetLocalTrailers(itemid as string, params = {} as object)
-            resp = APIRequest(Substitute("/items/{0}/localtrailers", itemid), params)
             return getJson(resp)
         end function
 
