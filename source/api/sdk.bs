@@ -2037,12 +2037,6 @@ namespace api
             return json
         end function
 
-        ' Gets special features for an item.
-        function GetSpecialFeatures(userid as string, itemid as string)
-            resp = APIRequest(Substitute("/users/{0}/items/{1}/specialfeatures", userid, itemid))
-            return getJson(resp)
-        end function
-
         ' Gets the root folder from a user's library.
         function GetRoot(userid as string)
             resp = APIRequest(Substitute("/users/{0}/items/root", userid))
