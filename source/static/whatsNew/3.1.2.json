@@ -42,5 +42,9 @@
   {
     "description": "Create settings to control sorting of favorites row on home screen",
     "author": "1hitsong"
+  },
+  {
+    "description": "Automatically retry playback up to 3 times if buffering stalls",
+    "author": "jessielw"
   }
 ]
