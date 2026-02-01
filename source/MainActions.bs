@@ -135,9 +135,9 @@ namespace MainAction
         if not isChainValid(movie, "favorite") or not isValid(movie.id) then return
 
         if movie.favorite
-            api.users.UnmarkFavorite(m.global.session.user.id, movie.id)
+            api.users.UnmarkFavorite(movie.id, { userId: m.global.session.user.id })
         else
-            api.users.MarkFavorite(m.global.session.user.id, movie.id)
+            api.users.MarkFavorite(movie.id, { userId: m.global.session.user.id })
         end if
         movie.favorite = not movie.favorite
     end sub
@@ -237,7 +237,7 @@ namespace MainAction
     end sub
 
     sub addItemToFavorites(itemID as string)
-        api.users.MarkFavorite(m.global.session.user.id, itemID)
+        api.users.MarkFavorite(itemID, { userId: m.global.session.user.id })
 
         group = m.global.sceneManager.callFunc("getActiveScene")
         if isValid(group)
@@ -252,7 +252,7 @@ namespace MainAction
     end sub
 
     sub removeItemFromFavorites(itemID as string)
-        api.users.UnmarkFavorite(m.global.session.user.id, itemID)
+        api.users.UnmarkFavorite(itemID, { userId: m.global.session.user.id })
 
         group = m.global.sceneManager.callFunc("getActiveScene")
         if isValid(group)

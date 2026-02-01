@@ -424,6 +424,12 @@ namespace api
             return getJson(req)
         end function
 
+        ' Gets suggestions.
+        function GetSuggestions(params = {} as object)
+            resp = APIRequest("/items/suggestions", params)
+            return getJson(resp)
+        end function
+
         ' Get item specified by passed ID
         ' requires userid passed in params
         function GetByID(id as string, params = {} as object)
@@ -1985,28 +1991,22 @@ namespace api
             return getJson(req)
         end function
 
-        ' Gets suggestions.
-        function GetSuggestions(id as string, params = {} as object)
-            resp = APIRequest(Substitute("/users/{0}/suggestions", id), params)
-            return getJson(resp)
-        end function
-
         ' Get user view grouping options.
-        function GetGroupingOptions(id as string)
-            resp = APIRequest(Substitute("/users/{0}/groupingoptions", id))
+        function GetGroupingOptions(params = {} as object)
+            resp = APIRequest("/userviews/groupingoptions", params)
             return getJson(resp)
         end function
 
         ' Marks an item as a favorite.
-        function MarkFavorite(userid as string, itemid as string)
-            req = APIRequest(Substitute("users/{0}/favoriteitems/{1}", userid, itemid))
+        function MarkFavorite(itemid as string, params = {} as object)
+            req = APIRequest(Substitute("userfavoriteitems/{0}", itemid), params)
             json = postJson(req)
             return json
         end function
 
         ' Unmarks item as a favorite.
-        function UnmarkFavorite(userid as string, itemid as string)
-            req = APIRequest(Substitute("users/{0}/favoriteitems/{1}", userid, itemid))
+        function UnmarkFavorite(itemid as string, params = {} as object)
+            req = APIRequest(Substitute("userfavoriteitems/{0}", itemid), params)
             json = deleteVoid(req)
             return json
         end function
