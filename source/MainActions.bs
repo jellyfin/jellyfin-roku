@@ -229,11 +229,11 @@ namespace MainAction
         if isPlayed
             date = CreateObject("roDateTime")
             dateStr = date.ToISOString()
-            api.users.MarkPlayed(m.global.session.user.id, itemID, { "DatePlayed": dateStr, "PlaybackPositionTicks": 0 })
+            api.users.MarkPlayed(itemID, { "DatePlayed": dateStr, "PlaybackPositionTicks": 0, userId: m.global.session.user.id })
             return
         end if
 
-        api.users.UnmarkPlayed(m.global.session.user.id, itemID)
+        api.users.UnmarkPlayed(itemID, { userId: m.global.session.user.id })
     end sub
 
     sub addItemToFavorites(itemID as string)
