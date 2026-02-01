@@ -178,7 +178,7 @@ namespace quickplay
         quickplayFromResume = chainLookupReturn(itemNode, "quickplayFromResume", false)
 
         if quickplayFromResume
-            data = api.users.GetResumeItemsByQuery({
+            data = api.useritems.GetResumeItems({
                 "parentId": itemNode.id,
                 "userid": m.global.session.user.id,
                 "SortBy": "SortName",
@@ -237,7 +237,7 @@ namespace quickplay
         else
             ' next up check was empty
             ' check for a resumable episode
-            data = api.users.GetResumeItemsByQuery({
+            data = api.useritems.GetResumeItems({
                 "parentId": itemNode.id,
                 "userid": m.global.session.user.id,
                 "SortBy": "DatePlayed",
@@ -418,7 +418,7 @@ namespace quickplay
                 end for
             else
                 ' try to find a "continue watching" episode
-                continueData = api.users.GetResumeItemsByQuery({
+                continueData = api.useritems.GetResumeItems({
                     "parentId": itemNode.id,
                     "userid": m.global.session.user.id,
                     "SortBy": "DatePlayed",

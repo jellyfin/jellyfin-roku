@@ -1991,12 +1991,6 @@ namespace api
             return headVoid(req)
         end function
 
-        ' Gets items based on a query.
-        function GetResumeItemsByQuery(params = {} as object)
-            req = APIRequest("/useritems/resume", params)
-            return getJson(req)
-        end function
-
         ' Get user view grouping options.
         function GetGroupingOptions(params = {} as object)
             resp = APIRequest("/userviews/groupingoptions", params)
@@ -2044,14 +2038,14 @@ namespace api
         end function
 
         ' Marks an item as played for user.
-        function MarkPlayed(userid as string, itemid as string, params = {} as object)
-            req = APIRequest(Substitute("users/{0}/playeditems/{1}", userid, itemid), params)
+        function MarkPlayed(itemid as string, params = {} as object)
+            req = APIRequest(Substitute("userplayeditems/{0}", itemid), params)
             return postJson(req)
         end function
 
         ' Marks an item as unplayed for user.
-        function UnmarkPlayed(userid as string, itemid as string)
-            req = APIRequest(Substitute("users/{0}/playeditems/{1}", userid, itemid))
+        function UnmarkPlayed(itemid as string, params = {} as object)
+            req = APIRequest(Substitute("userplayeditems/{0}", itemid), params)
             return deleteVoid(req)
         end function
 
