@@ -227,7 +227,7 @@ sub setLastFocus(lastFocusElement)
     end if
 end sub
 
-function audioMiniPlayerIsVisible()
+function audioMiniPlayerIsVisibleInScene()
     scene = m.top.getScene()
     audioMiniPlayer = scene.findNode("audioMiniPlayer")
 
@@ -242,7 +242,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
     if m.buttons.isInFocusChain()
         if isStringEqual(key, KeyCode.REPLAY)
-            if not audioMiniPlayerIsVisible() then return true
+            if not audioMiniPlayerIsVisibleInScene() then return true
             m.searchButton.focus = false
             m.settingsButton.focus = false
         end if
