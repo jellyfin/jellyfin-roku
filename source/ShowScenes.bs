@@ -693,7 +693,7 @@ function hasResummableEpisode(parentID as string) as boolean
     if not isValidAndNotEmpty(parentID) then return false
 
     ' Check if there is at least 1 resummable item
-    data = api.users.GetResumeItemsByQuery({
+    data = api.useritems.GetResumeItems({
         parentId: parentID,
         userid: m.global.session.user.id,
         SortBy: "SortName",

@@ -1991,12 +1991,6 @@ namespace api
             return headVoid(req)
         end function
 
-        ' Gets items based on a query.
-        function GetResumeItemsByQuery(params = {} as object)
-            req = APIRequest("/useritems/resume", params)
-            return getJson(req)
-        end function
-
         ' Get user view grouping options.
         function GetGroupingOptions(params = {} as object)
             resp = APIRequest("/userviews/groupingoptions", params)
