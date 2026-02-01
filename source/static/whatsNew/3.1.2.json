@@ -45,6 +45,6 @@
   },
   {
     "description": "Automatically retry playback up to 3 times if buffering stalls",
-    "author": "jesterlw"
+    "author": "jessielw"
   }
 ]
