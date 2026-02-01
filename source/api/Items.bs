@@ -646,7 +646,7 @@ end function
 ' Accepts a string that is a TV Show season id
 function TVSeasonExtras(seasonId as string) as dynamic
     ' Get and validate TV extra features data
-    data = api.users.GetSpecialFeatures(m.global.session.user.id, seasonId)
+    data = api.items.GetSpecialFeatures(seasonId, { userid: m.global.session.user.id })
     if not isValid(data) then return invalid
 
     results = []

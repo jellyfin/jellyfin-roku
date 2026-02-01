@@ -73,9 +73,9 @@ namespace MainAction
         startLoadingSpinner()
 
         if isChainValid(activeScene, "additionalParts.masterID")
-            trailerData = api.users.GetLocalTrailers(m.global.session.user.id, activeScene.additionalParts.masterID)
+            trailerData = api.items.GetLocalTrailers(activeScene.additionalParts.masterID, { userId: m.global.session.user.id })
         else
-            trailerData = api.users.GetLocalTrailers(m.global.session.user.id, activeScene.id)
+            trailerData = api.items.GetLocalTrailers(activeScene.id, { userId: m.global.session.user.id })
         end if
 
         if isValid(trailerData) and isValid(trailerData[0]) and isValid(trailerData[0].id)
