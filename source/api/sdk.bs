@@ -1980,8 +1980,8 @@ namespace api
         end function
 
         ' Gets items based on a query.
-        function GetResumeItemsByQuery(id as string, params = {} as object)
-            req = APIRequest(Substitute("/users/{0}/items/resume", id), params)
+        function GetResumeItemsByQuery(params = {} as object)
+            req = APIRequest("/useritems/resume", params)
             return getJson(req)
         end function
 
