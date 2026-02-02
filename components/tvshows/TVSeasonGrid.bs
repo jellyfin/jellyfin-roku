@@ -52,7 +52,7 @@ sub calculateButtonThumbProperties()
 end sub
 
 sub onItemFocusedChange()
-    m.scrollBarThumbSlideInterpolator.keyValue = [m.thumb.translation, [0, m.thumbStep * Fix((m.top.itemFocused + 1) / 8)]]
+    m.scrollBarThumbSlideInterpolator.keyValue = [m.thumb.translation, [0, m.thumbStep * Fix(m.top.itemFocused / 8)]]
     m.scrollBarThumbSlideAnimation.control = AnimationControl.START
 end sub
 
