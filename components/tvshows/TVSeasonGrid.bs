@@ -11,6 +11,7 @@ sub init()
     m.thumb = m.top.findnode("thumb")
     m.thumbStep = 0
     m.rowCount = 1
+    m.displayedRows = 1
 
     m.scrollBar.opacity = .75
     m.scrollBar.color = ColorPalette.BLACK77
@@ -50,6 +51,11 @@ sub calculateButtonThumbProperties()
 
     m.rowCount = Fix(m.top.content.getChildCount() / 8)
     m.thumbStep = 227 / m.rowCount
+
+    m.displayedRows = m.rowCount
+    if (m.top.content.getChildCount() / 8) > m.rowCount
+        m.displayedRows += 1
+    end if
 end sub
 
 sub onItemFocusedChange()
@@ -68,9 +74,9 @@ function onKeyEvent(key as string, press as boolean) as boolean
     ' If user presses down and there is an incomplete row below the current row
     ' move cursor to last item on row below it
     if isStringEqual(key, KeyCode.DOWN)
-        if m.rowCount = 1 then return false
+        if m.displayedRows = 1 then return false
 
-        if m.top.currFocusRow = m.rowCount - 1
+        if m.top.currFocusRow + 1 = m.displayedRows - 1
             if m.top.content.getChildCount() - (m.top.itemFocused + 1) < 8
                 m.top.animateToItem = m.top.content.getChildCount() - 1
                 return true
