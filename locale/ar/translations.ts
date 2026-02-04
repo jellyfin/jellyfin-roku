@@ -336,12 +336,12 @@
     </message>
     <message>
         <source>Movies (Presentation)</source>
-        <translation type="unfinished"></translation>
+        <translation>خيار عرض مكتبة الافلام</translation>
         <extracomment>Movie library view option</extracomment>
     </message>
     <message>
         <source>Movies (Grid)</source>
-        <translation type="unfinished"></translation>
+        <translation>خيار عرض مكتبة الافلام</translation>
         <extracomment>Movie library view option</extracomment>
     </message>
     <message>
