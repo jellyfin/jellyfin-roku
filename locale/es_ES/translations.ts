@@ -1199,7 +1199,7 @@
     </message>
     <message>
         <source>Settings that apply when Grid views are enabled.</source>
-        <translation>Configuraciones que aplican cuando el modo de Cuadrícula es habilitado.</translation>
+        <translation>Configuraciones que se aplican cuando el modo de Cuadrícula está habilitado.</translation>
     </message>
     <message>
         <source>Settings relating to the appearance of pages in Movie Libraries.</source>
@@ -2312,11 +2312,47 @@
     </message>
     <message>
         <source>Show Next Episode Details After Finish</source>
-        <translation>Mostrar Detalles Del Siguiente Episodio Después De Acabar</translation>
+        <translation>Mostrar detalles del siguiente episodio después de acabar</translation>
     </message>
     <message>
         <source>If auto play next episode is disabled, display the next episode&apos;s detail screen after an episode finishes playing. If no next up episode is found, return to the just-played episode&apos;s page.</source>
         <translation>Si la reproducción automática del siguiente episodio está desactivada, mostrar pantalla de detalles del siguiente episodio cuando un episodio termina de reproducirse. Si no se encuentra el siguiente episodio, volver a la página del último episodio que se reprodujo.</translation>
+    </message>
+    <message>
+        <source>Adjust Subtitle Timing</source>
+        <translation>Ajustar los tiempos de los subtítulos</translation>
+    </message>
+    <message>
+        <source>Sort Order for the row - Ascending,Descending.</source>
+        <translation>Ordenar la fila - Ascendente,Descendente.</translation>
+    </message>
+    <message>
+        <source>Current Offset</source>
+        <translation>Desplazamiento actual</translation>
+    </message>
+    <message>
+        <source>Favorites Row</source>
+        <translation>Fila de favoritos</translation>
+    </message>
+    <message>
+        <source>Settings relating to the favorites row on the home screen.</source>
+        <translation>Configuración de la fila de favoritos en la pantalla principal.</translation>
+    </message>
+    <message>
+        <source>Sort By Field</source>
+        <translation>Ordenar por campo</translation>
+    </message>
+    <message>
+        <source>Field to sort the row by.</source>
+        <translation>Campo para el filtrar la fila.</translation>
+    </message>
+    <message>
+        <source>Date Created</source>
+        <translation>Fecha creada</translation>
+    </message>
+    <message>
+        <source>Is Unplayed</source>
+        <translation>No se ha reproducido</translation>
     </message>
 </context>
 <context>

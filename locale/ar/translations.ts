@@ -231,117 +231,117 @@
     <message>
         <comment>Message displayed in Item Grid when no item to display. %1 is container type (e.g. Boxset, Collection, Folder, etc)</comment>
         <source>NO_ITEMS</source>
-        <translation type="unfinished"></translation>
+        <translation>هذا الـ %1 لا يحوي عناصر</translation>
     </message>
     <message>
         <comment>Name or Title field of media item</comment>
         <source>TITLE</source>
-        <translation type="unfinished"></translation>
+        <translation>اسم</translation>
     </message>
     <message>
         <source>IMDB_RATING</source>
-        <translation type="unfinished"></translation>
+        <translation>تقييم IMDb</translation>
     </message>
     <message>
         <source>Community Rating</source>
-        <translation type="unfinished"></translation>
+        <translation>تقييم المجتمع</translation>
     </message>
     <message>
         <source>CRITIC_RATING</source>
-        <translation type="unfinished"></translation>
+        <translation>تقييم النقاد</translation>
     </message>
     <message>
         <source>DATE_ADDED</source>
-        <translation type="unfinished"></translation>
+        <translation>اضيف تاريخ</translation>
     </message>
     <message>
         <source>DATE_PLAYED</source>
-        <translation type="unfinished"></translation>
+        <translation>تاريخ التشغيل</translation>
     </message>
     <message>
         <source>OFFICIAL_RATING</source>
-        <translation type="unfinished"></translation>
+        <translation>تقييم ابوي</translation>
     </message>
     <message>
         <source>Date Show Added</source>
-        <translation type="unfinished"></translation>
+        <translation>اضيف تاريخ العرض</translation>
     </message>
     <message>
         <source>Date Episode Added</source>
-        <translation type="unfinished"></translation>
+        <translation>اضيف تاريخ الحلقة</translation>
     </message>
     <message>
         <source>PLAY_COUNT</source>
-        <translation type="unfinished"></translation>
+        <translation>عدّاد التشغيل</translation>
     </message>
     <message>
         <source>RELEASE_DATE</source>
-        <translation type="unfinished"></translation>
+        <translation>تاريخ الاطلاق</translation>
     </message>
     <message>
         <source>RUNTIME</source>
-        <translation type="unfinished"></translation>
+        <translation>مدة التشغيل</translation>
     </message>
     <message>
         <comment>Title of Tab for switching &quot;views&quot; when looking at a library</comment>
         <source>TAB_VIEW</source>
-        <translation type="unfinished"></translation>
+        <translation>عرض</translation>
     </message>
     <message>
         <comment>Title of Tab for options to sort library content</comment>
         <source>TAB_SORT</source>
-        <translation type="unfinished"></translation>
+        <translation>تصنيف</translation>
     </message>
     <message>
         <comment>Title of Tab for options to filter library content</comment>
         <source>TAB_FILTER</source>
-        <translation type="unfinished"></translation>
+        <translation>تصفية</translation>
     </message>
     <message>
         <source>Born</source>
-        <translation type="unfinished"></translation>
+        <translation>مولد</translation>
     </message>
     <message>
         <source>Died</source>
-        <translation type="unfinished"></translation>
+        <translation>مات</translation>
     </message>
     <message>
         <source>Age</source>
-        <translation type="unfinished"></translation>
+        <translation>عُمر</translation>
     </message>
     <message>
         <source>Cast &amp; Crew</source>
-        <translation type="unfinished"></translation>
+        <translation>طاقم العمل و الممثلين</translation>
     </message>
     <message>
         <source>More Like This</source>
-        <translation type="unfinished"></translation>
+        <translation>المزيد مثل هذا</translation>
     </message>
     <message>
         <source>Press &apos;OK&apos; to Close</source>
-        <translation type="unfinished"></translation>
+        <translation>اضغط &quot;تم&quot; للاغلاق</translation>
     </message>
     <message>
         <source>Special Features</source>
-        <translation type="unfinished"></translation>
+        <translation>سمات مميزة</translation>
     </message>
     <message>
         <source>Additional Parts</source>
-        <translation type="unfinished"></translation>
+        <translation>قطع اضافية</translation>
         <extracomment>Additional parts of a video</extracomment>
     </message>
     <message>
         <source>Movies</source>
-        <translation type="unfinished"></translation>
+        <translation>أفلام</translation>
     </message>
     <message>
         <source>Movies (Presentation)</source>
-        <translation type="unfinished"></translation>
+        <translation>خيار عرض مكتبة الافلام</translation>
         <extracomment>Movie library view option</extracomment>
     </message>
     <message>
         <source>Movies (Grid)</source>
-        <translation type="unfinished"></translation>
+        <translation>خيار عرض مكتبة الافلام</translation>
         <extracomment>Movie library view option</extracomment>
     </message>
     <message>

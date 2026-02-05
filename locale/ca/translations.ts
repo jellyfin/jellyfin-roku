@@ -2226,5 +2226,41 @@
         <source>Show Next Episode Details After Finish</source>
         <translation>Mostra els detalls dels següents episodis en acabar</translation>
     </message>
+    <message>
+        <source>Adjust Subtitle Timing</source>
+        <translation>Ajusta els temps dels subtítols</translation>
+    </message>
+    <message>
+        <source>Current Offset</source>
+        <translation>Desplaçament actual</translation>
+    </message>
+    <message>
+        <source>Sort Order for the row - Ascending,Descending.</source>
+        <translation>Ordre de la filera - Ascendent, descendent.</translation>
+    </message>
+    <message>
+        <source>Is Unplayed</source>
+        <translation>No s&apos;ha reproduït</translation>
+    </message>
+    <message>
+        <source>Date Created</source>
+        <translation>Data creada</translation>
+    </message>
+    <message>
+        <source>Field to sort the row by.</source>
+        <translation>Camp per al filtratge de la fila.</translation>
+    </message>
+    <message>
+        <source>Sort By Field</source>
+        <translation>Ordena per camp</translation>
+    </message>
+    <message>
+        <source>Settings relating to the favorites row on the home screen.</source>
+        <translation>Configuració de la filera de preferits a la pantalla principal.</translation>
+    </message>
+    <message>
+        <source>Favorites Row</source>
+        <translation>Filera de preferits</translation>
+    </message>
 </context>
 </TS>
