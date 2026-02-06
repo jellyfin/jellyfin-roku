@@ -1,6 +1,6 @@
 [
   {
-    "description": "",
-    "author": ""
+    "description": "Retry live tv with remux if direct play fails",
+    "author": "jimdogx"
   }
 ]

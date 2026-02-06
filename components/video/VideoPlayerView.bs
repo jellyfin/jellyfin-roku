@@ -6,6 +6,7 @@ import "pkg:/source/enums/KeyCode.bs"
 import "pkg:/source/enums/MediaPlaybackState.bs"
 import "pkg:/source/enums/MediaSegmentAction.bs"
 import "pkg:/source/enums/MediaSegmentType.bs"
+import "pkg:/source/enums/PlaybackMethod.bs"
 import "pkg:/source/enums/String.bs"
 import "pkg:/source/enums/SubtitleSelection.bs"
 import "pkg:/source/enums/TaskControl.bs"
@@ -1013,6 +1014,26 @@ sub onState(msg)
             ' Stop playback and exit player
             m.top.control = VideoControl.STOP
             m.top.backPressed = true
+        else if not m.playReported and m.top.content.live
+            if m.playbackRetries < REPLAY_RETRIES
+                print "Live TV playback failed - retrying with remux forced"
+                m.playbackRetries = m.playbackRetries + 1
+                m.global.queueManager.callFunc("setForceTranscode", PlaybackMethod.FORCELIVETVREMUX)
+
+                m.top.control = VideoControl.STOP
+
+                m.LoadMetaDataTask.itemId = m.top.id
+                m.LoadMetaDataTask.observeField("content", "onVideoContentLoaded")
+                m.LoadMetaDataTask.control = TaskControl.RUN
+            else
+                print "Live TV playback failed after " + m.playbackRetries.ToStr() + " attempts - showing error and exiting"
+                showPlaybackErrorDialog(tr("Live TV Playback Failed"))
+
+                ' Stop playback and exit player
+                m.top.control = VideoControl.STOP
+                m.top.backPressed = true
+                return
+            end if
         else
             ' Reset retry counter if more than 30 seconds have passed since last error
             currentTime = CreateObject("roDateTime").AsSeconds()
