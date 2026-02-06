@@ -62,7 +62,13 @@ sub calculateButtonThumbProperties()
     m.scrollBar.visible = true
 
     rowCount = Fix(m.top.content.getChildCount() / m.top.numColumns)
-    m.thumb.height = m.scrollBar.height / (rowCount + 1)
+    displayedRows = rowCount
+
+    if (m.top.content.getChildCount() / m.top.numColumns) > rowCount
+        displayedRows += 1
+    end if
+
+    m.thumb.height = m.scrollBar.height / displayedRows
     m.thumbStep = m.thumb.height
 end sub
 
