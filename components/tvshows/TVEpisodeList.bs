@@ -11,7 +11,7 @@ sub init()
     m.thumbStep = 0
 
     m.scrollBar.opacity = .75
-    m.scrollBar.color = ColorPalette.BLACK77
+    m.scrollBar.color = ColorPalette.RED
     m.thumb.color = ColorPalette.LIGHTGREY
 
     m.firstUnwatched = 0
@@ -20,11 +20,17 @@ sub init()
 
     m.top.observeFieldscoped("currFocusRow", "onCurrFocusRowChange")
     m.top.observeFieldscoped("numRows", "onNumRowsChange")
+    m.top.observeFieldscoped("clippingRect", "onclippingRectChange")
 
     if chainLookupReturn(m.global.session, "user.settings.`ui.tvshows.startListFromUnwatched`", false)
         m.top.jumpToItem = m.firstUnwatched
     end if
 
+    calculateButtonThumbProperties()
+end sub
+
+sub onclippingRectChange()
+    m.scrollBar.height = m.top.clippingRect.height * .90
     calculateButtonThumbProperties()
 end sub
 
@@ -55,8 +61,9 @@ sub calculateButtonThumbProperties()
 
     m.scrollBar.visible = true
 
-    rowCount = Fix(m.top.content.getChildCount() / 2)
-    m.thumbStep = 277 / rowCount
+    rowCount = Fix(m.top.content.getChildCount() / m.top.numColumns)
+    m.thumb.height = m.scrollBar.height / rowCount
+    m.thumbStep = m.thumb.height
 end sub
 
 sub onCurrFocusRowChange()

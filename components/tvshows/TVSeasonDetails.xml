@@ -55,16 +55,47 @@
           <PlayedCheckmark id="playedIndicator" translation="[240, 0]" />
         </Poster>
       </LayoutGroup>
-
-      <Rectangle id='seasonListRect' translation="[-30, 0]" width="1720" height="450">
-        <TVEpisodeList
-          id="picker"
-          clippingRect="[-10,-10,2020,420]"
-          itemComponentName="TVEpisodeListItem"
-          vertFocusAnimationStyle="fixed"
-          translation="[45, 25]" />
-      </Rectangle>
     </LayoutGroup>
+
+    <Rectangle id="seasonListRect" translation="[100, 575]" width="1720" height="450">
+      <TVEpisodeList
+        id="picker"
+        clippingRect="[-10,-10,2020,420]"
+        itemComponentName="TVEpisodeListItem"
+        vertFocusAnimationStyle="fixed"
+        translation="[45, 25]" />
+    </Rectangle>
+
+    <Animation id="revealEpisodesAnimation" duration=".4" repeat="false" easeFunction="linear">
+      <Vector2DFieldInterpolator
+        id="toplevelTranslation"
+        key="[0.0, 1]"
+        keyValue="[[100, 100], [100, -500]]"
+        fieldToInterp="toplevel.translation" />
+
+      <Vector2DFieldInterpolator
+        id="seasonListRectTranslation"
+        key="[0.0, 1]"
+        fieldToInterp="seasonListRect.translation" />
+
+      <Vector2DFieldInterpolator
+        id="pickerTranslation"
+        key="[0.0, 1]"
+        keyValue="[[45, 25], [145, 100]]"
+        fieldToInterp="picker.translation" />
+
+      <FloatFieldInterpolator
+        id="seasonListRectHeight"
+        key="[0.0, 1]"
+        keyValue="[450.0, 1080.0]"
+        fieldToInterp="seasonListRect.height" />
+
+      <FloatFieldInterpolator
+        id="seasonListRectWidth"
+        key="[0.0, 1]"
+        keyValue="[1720.0, 1920.0]"
+        fieldToInterp="seasonListRect.width" />
+    </Animation>
 
   </children>
   <interface>
