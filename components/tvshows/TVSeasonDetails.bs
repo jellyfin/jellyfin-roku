@@ -6,10 +6,13 @@ import "pkg:/source/enums/ColorPalette.bs"
 import "pkg:/source/enums/ItemType.bs"
 import "pkg:/source/enums/KeyCode.bs"
 import "pkg:/source/enums/TaskControl.bs"
+import "pkg:/source/enums/ViewLoadStatus.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/misc.bs"
 
 sub init()
+    m.loadStatus = ViewLoadStatus.INIT
+
     m.top.optionsAvailable = false
     m.defaultClippingRect = "[-10,-10,2020,420]"
 
@@ -172,6 +175,7 @@ sub updateSeason()
     populateOnScreenText()
 
     stopLoadingSpinner()
+    m.loadStatus = ViewLoadStatus.LOADED
 end sub
 
 sub populateOnScreenText()
@@ -227,6 +231,8 @@ sub populateOnScreenText()
 end sub
 
 sub adjustForOverview(hasOverviewText = false)
+    if m.loadStatus <> ViewLoadStatus.INIT then return
+
     title = m.top.findNode("title")
 
     if hasOverviewText
@@ -257,8 +263,8 @@ sub adjustForOverview(hasOverviewText = false)
     m.seasonListRect.height = 570
     m.seasonListRectHeight.keyValue = "[570.0, 1080.0]"
 
-    m.seasonListRect.translation = [100, 355]
-    m.seasonListRectTranslation.keyValue = "[[100, 355], [0, 0]]"
+    m.seasonListRect.translation = [100, 450]
+    m.seasonListRectTranslation.keyValue = "[[100, 450], [0, 0]]"
 
     m.rows.clippingRect = "[-10,-10,2020,540]"
     m.defaultClippingRect = "[-10,-10,2020,540]"

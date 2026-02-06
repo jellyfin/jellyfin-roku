@@ -11,7 +11,7 @@ sub init()
     m.thumbStep = 0
 
     m.scrollBar.opacity = .75
-    m.scrollBar.color = ColorPalette.RED
+    m.scrollBar.color = ColorPalette.BLACK77
     m.thumb.color = ColorPalette.LIGHTGREY
 
     m.firstUnwatched = 0
@@ -62,7 +62,7 @@ sub calculateButtonThumbProperties()
     m.scrollBar.visible = true
 
     rowCount = Fix(m.top.content.getChildCount() / m.top.numColumns)
-    m.thumb.height = m.scrollBar.height / rowCount
+    m.thumb.height = m.scrollBar.height / (rowCount + 1)
     m.thumbStep = m.thumb.height
 end sub
 
