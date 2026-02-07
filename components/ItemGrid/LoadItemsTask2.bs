@@ -141,14 +141,14 @@ sub loadItems()
         })
         params.IncludeItemTypes = "MusicAlbum,Audio"
     else if m.top.ItemType = "MusicAlbum"
-        url = Substitute("Users/{0}/Items/", m.global.session.user.id)
-        params.append({ ImageTypeLimit: 1 })
+        url = "Items"
+        params.append({ ImageTypeLimit: 1, UserId: m.global.session.user.id })
         params.append({ EnableImageTypes: "Primary,Backdrop,Banner,Thumb" })
     else if m.top.ItemType = "audiobooks"
-        params.append({ mediaTypes: "Audio" })
+        params.append({ mediaTypes: "Audio", UserId: m.global.session.user.id })
         params.append({ Filters: "IsNotFolder" })
         params.append({ EnableImageTypes: "Primary,Backdrop,Banner,Thumb" })
-        url = Substitute("Users/{0}/Items/", m.global.session.user.id)
+        url = "Items"
     else if LCase(m.top.ItemType) = "nextup"
         url = "Shows/NextUp"
         params.limit = 100 ' If you have more than 100 in your Next Up queue, maybe go outside a bit more.
@@ -189,7 +189,10 @@ sub loadItems()
             ParentId: playlistID
         })
     else
-        url = Substitute("Users/{0}/Items/", m.global.session.user.id)
+        params.append({
+            UserId: m.global.session.user.id
+        })
+        url = "Items"
     end if
 
     resp = APIRequest(url, params)

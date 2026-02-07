@@ -659,7 +659,7 @@ function CreateMovieDetailsGroup(movie as object) as dynamic
     group.observeField("refreshMovieDetailsData", m.port)
 
     ' local trailers
-    trailerData = api.users.GetLocalTrailers(m.global.session.user.id, movie.id)
+    trailerData = api.items.GetLocalTrailers(movie.id, { userId: m.global.session.user.id })
     group.trailerAvailable = isValidAndNotEmpty(trailerData)
 
     group.additionalParts = {
@@ -693,7 +693,7 @@ function hasResummableEpisode(parentID as string) as boolean
     if not isValidAndNotEmpty(parentID) then return false
 
     ' Check if there is at least 1 resummable item
-    data = api.users.GetResumeItemsByQuery(m.global.session.user.id, {
+    data = api.useritems.GetResumeItems({
         parentId: parentID,
         userid: m.global.session.user.id,
         SortBy: "SortName",

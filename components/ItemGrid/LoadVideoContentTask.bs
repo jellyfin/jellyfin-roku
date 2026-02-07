@@ -731,9 +731,9 @@ function FindPreferredAudioStream(streams as dynamic) as integer
 
     ' Do we already have the MediaStreams or not?
     if not isValidAndNotEmpty(streams)
-        url = Substitute("Users/{0}/Items/{1}", m.global.session.user.id, m.top.itemId)
-        resp = APIRequest(url)
-        jsonResponse = getJson(resp)
+        jsonResponse = api.items.GetByID(m.top.itemId, {
+            UserId: m.global.session.user.id
+        })
 
         if jsonResponse = invalid or jsonResponse.MediaStreams = invalid then return 1
 

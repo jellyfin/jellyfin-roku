@@ -6,342 +6,342 @@
     <name>default</name>
     <message>
         <source>192.168.1.100:8096 or https://example.com/jellyfin</source>
-        <translation type="unfinished"></translation>
+        <translation>192.168.1.100:8096 أو https://example.com/jellyfin</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>إلغاء</translation>
     </message>
     <message>
         <source>Connect to Server</source>
-        <translation type="unfinished"></translation>
+        <translation>تواصل مع الخادم</translation>
     </message>
     <message>
         <source>Ends at %1</source>
-        <translation type="unfinished"></translation>
+        <translation>ينتهي في %1</translation>
     </message>
     <message>
         <source>Enter Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>ادخال الاعدادات</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished"></translation>
+        <translation>مفضّلة</translation>
     </message>
     <message>
         <source>Loading...</source>
-        <translation type="unfinished"></translation>
+        <translation>تحميل…</translation>
     </message>
     <message>
         <source>Login attempt failed.</source>
-        <translation type="unfinished"></translation>
+        <translation>فشلت محاولة الولوج.</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished"></translation>
+        <translation>تم</translation>
     </message>
     <message>
         <source>Options</source>
-        <translation type="unfinished"></translation>
+        <translation>اختيارات</translation>
     </message>
     <message>
         <source>Play</source>
-        <translation type="unfinished"></translation>
+        <translation>تشغيل</translation>
     </message>
     <message>
         <source>Please sign in</source>
-        <translation type="unfinished"></translation>
+        <translation>يُرجى الولوج</translation>
     </message>
     <message>
         <source>Search</source>
-        <translation type="unfinished"></translation>
+        <translation>البحث</translation>
     </message>
     <message>
         <source>Server not found, is it online?</source>
-        <translation type="unfinished"></translation>
+        <translation>تعذر العثور على الخادم, هل هو موجود؟</translation>
     </message>
     <message>
         <source>Shuffle</source>
-        <translation type="unfinished"></translation>
+        <translation>خلط</translation>
     </message>
     <message>
         <source>Sign In</source>
-        <translation type="unfinished"></translation>
+        <translation>الولوج</translation>
     </message>
     <message>
         <source>Submit</source>
-        <translation type="unfinished"></translation>
+        <translation>ارسال</translation>
     </message>
     <message>
         <source>Watched</source>
-        <translation type="unfinished"></translation>
+        <translation>تمت مشاهدته</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>إعدادات</translation>
     </message>
     <message>
         <source>Change User</source>
-        <translation type="unfinished"></translation>
+        <translation>تغيير مستخدم</translation>
     </message>
     <message>
         <source>Change Server</source>
-        <translation type="unfinished"></translation>
+        <translation>تغيير خادم</translation>
     </message>
     <message>
         <source>Sign Out</source>
-        <translation type="unfinished"></translation>
+        <translation>تسجيل خروج</translation>
     </message>
     <message>
         <source>Add User</source>
-        <translation type="unfinished"></translation>
+        <translation>اضافة مستخدم</translation>
     </message>
     <message>
         <source>Profile</source>
-        <translation type="unfinished"></translation>
+        <translation>ملف</translation>
     </message>
     <message>
         <source>Save Credentials?</source>
-        <translation type="unfinished"></translation>
+        <translation>حفظ المعتمدات؟</translation>
     </message>
     <message>
         <source>Delete Saved</source>
-        <translation type="unfinished"></translation>
+        <translation>حُفظ الحذف</translation>
     </message>
     <message>
         <source>My Media</source>
-        <translation type="unfinished"></translation>
+        <translation>وسائطي</translation>
     </message>
     <message>
         <source>Continue Watching</source>
-        <translation type="unfinished"></translation>
+        <translation>اكمال المشاهدة</translation>
     </message>
     <message>
         <source>Next Up</source>
-        <translation type="unfinished"></translation>
+        <translation>القادم</translation>
     </message>
     <message>
         <source>Recently Added in</source>
-        <translation type="unfinished"></translation>
+        <translation>المُضاف حديثا</translation>
     </message>
     <message>
         <source>On Now</source>
-        <translation type="unfinished"></translation>
+        <translation>يُعرض الآن</translation>
     </message>
     <message>
         <source>Home</source>
-        <translation type="unfinished"></translation>
+        <translation>البداية</translation>
     </message>
     <message>
         <source>Enter a username</source>
-        <translation type="unfinished"></translation>
+        <translation>ادخل اسم مستخدم</translation>
     </message>
     <message>
         <source>Enter a password</source>
-        <translation type="unfinished"></translation>
+        <translation>ادخل كلمة مرور</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>اسم</translation>
     </message>
     <message>
         <source>Sort Order</source>
-        <translation type="unfinished"></translation>
+        <translation>ترتيب التصنيف</translation>
     </message>
     <message>
         <source>Descending</source>
-        <translation type="unfinished"></translation>
+        <translation>تنازلي</translation>
     </message>
     <message>
         <source>Ascending</source>
-        <translation type="unfinished"></translation>
+        <translation>تصاعدي</translation>
     </message>
     <message>
         <source>Password</source>
-        <translation type="unfinished"></translation>
+        <translation>كلمة مرور</translation>
     </message>
     <message>
         <source>Username</source>
-        <translation type="unfinished"></translation>
+        <translation>اسم مستخدم</translation>
     </message>
     <message>
         <source>Genres</source>
-        <translation type="unfinished"></translation>
+        <translation>أنواع</translation>
     </message>
     <message>
         <source>Director</source>
-        <translation type="unfinished"></translation>
+        <translation>مُخرج</translation>
     </message>
     <message>
         <source>Video</source>
-        <translation type="unfinished"></translation>
+        <translation>فيديو</translation>
     </message>
     <message>
         <source>Audio</source>
-        <translation type="unfinished"></translation>
+        <translation>صوت</translation>
     </message>
     <message>
         <source>Server</source>
-        <translation type="unfinished"></translation>
+        <translation>خادم</translation>
     </message>
     <message>
         <source>Extras</source>
-        <translation type="unfinished"></translation>
+        <translation>زيادات</translation>
     </message>
     <message>
         <source>Episodes</source>
-        <translation type="unfinished"></translation>
+        <translation>حلقات</translation>
     </message>
     <message>
         <source>Error Retrieving Content</source>
-        <translation type="unfinished"></translation>
+        <translation>خطأ استرجاع محتوى</translation>
         <extracomment>Dialog title when unable to load Content from Server</extracomment>
     </message>
     <message>
         <source>Error During Playback</source>
-        <translation type="unfinished"></translation>
+        <translation>خطأ اثناء الشتغيل</translation>
         <extracomment>Dialog title when error occurs during playback</extracomment>
     </message>
     <message>
         <source>Unable to get playback information</source>
-        <translation type="unfinished"></translation>
+        <translation>تعذر الحصول على معلومات التشغيل</translation>
     </message>
     <message>
         <source>There was an error retrieving the data for this item from the server.</source>
-        <translation type="unfinished"></translation>
+        <translation>هناك خطأ استرجاع بيانات هذا العنصر من الخادم.</translation>
         <extracomment>Dialog detail when unable to load Content from Server</extracomment>
     </message>
     <message>
         <source>An error was encountered while playing this item.</source>
-        <translation type="unfinished"></translation>
+        <translation>خطأ ووجه اثناء تشغيل هذا العنصر.</translation>
         <extracomment>Dialog detail when error occurs during playback</extracomment>
     </message>
     <message>
         <source>Loading Channel Data</source>
-        <translation type="unfinished"></translation>
+        <translation>تحميل بيانات القناة</translation>
     </message>
     <message>
         <source>Error loading Channel Data</source>
-        <translation type="unfinished"></translation>
+        <translation>خطأ في تحميل بيانات القناة</translation>
     </message>
     <message>
         <source>Unable to load Channel Data from the server</source>
-        <translation type="unfinished"></translation>
+        <translation>تعذر تحميل بيانات القناة من الخادم</translation>
     </message>
     <message>
         <comment>Message displayed in Item Grid when no item to display. %1 is container type (e.g. Boxset, Collection, Folder, etc)</comment>
         <source>NO_ITEMS</source>
-        <translation type="unfinished"></translation>
+        <translation>هذا الـ %1 لا يحوي عناصر</translation>
     </message>
     <message>
         <comment>Name or Title field of media item</comment>
         <source>TITLE</source>
-        <translation type="unfinished"></translation>
+        <translation>اسم</translation>
     </message>
     <message>
         <source>IMDB_RATING</source>
-        <translation type="unfinished"></translation>
+        <translation>تقييم IMDb</translation>
     </message>
     <message>
         <source>Community Rating</source>
-        <translation type="unfinished"></translation>
+        <translation>تقييم المجتمع</translation>
     </message>
     <message>
         <source>CRITIC_RATING</source>
-        <translation type="unfinished"></translation>
+        <translation>تقييم النقاد</translation>
     </message>
     <message>
         <source>DATE_ADDED</source>
-        <translation type="unfinished"></translation>
+        <translation>اضيف تاريخ</translation>
     </message>
     <message>
         <source>DATE_PLAYED</source>
-        <translation type="unfinished"></translation>
+        <translation>تاريخ التشغيل</translation>
     </message>
     <message>
         <source>OFFICIAL_RATING</source>
-        <translation type="unfinished"></translation>
+        <translation>تقييم ابوي</translation>
     </message>
     <message>
         <source>Date Show Added</source>
-        <translation type="unfinished"></translation>
+        <translation>اضيف تاريخ العرض</translation>
     </message>
     <message>
         <source>Date Episode Added</source>
-        <translation type="unfinished"></translation>
+        <translation>اضيف تاريخ الحلقة</translation>
     </message>
     <message>
         <source>PLAY_COUNT</source>
-        <translation type="unfinished"></translation>
+        <translation>عدّاد التشغيل</translation>
     </message>
     <message>
         <source>RELEASE_DATE</source>
-        <translation type="unfinished"></translation>
+        <translation>تاريخ الاطلاق</translation>
     </message>
     <message>
         <source>RUNTIME</source>
-        <translation type="unfinished"></translation>
+        <translation>مدة التشغيل</translation>
     </message>
     <message>
         <comment>Title of Tab for switching &quot;views&quot; when looking at a library</comment>
         <source>TAB_VIEW</source>
-        <translation type="unfinished"></translation>
+        <translation>عرض</translation>
     </message>
     <message>
         <comment>Title of Tab for options to sort library content</comment>
         <source>TAB_SORT</source>
-        <translation type="unfinished"></translation>
+        <translation>تصنيف</translation>
     </message>
     <message>
         <comment>Title of Tab for options to filter library content</comment>
         <source>TAB_FILTER</source>
-        <translation type="unfinished"></translation>
+        <translation>تصفية</translation>
     </message>
     <message>
         <source>Born</source>
-        <translation type="unfinished"></translation>
+        <translation>مولد</translation>
     </message>
     <message>
         <source>Died</source>
-        <translation type="unfinished"></translation>
+        <translation>مات</translation>
     </message>
     <message>
         <source>Age</source>
-        <translation type="unfinished"></translation>
+        <translation>عُمر</translation>
     </message>
     <message>
         <source>Cast &amp; Crew</source>
-        <translation type="unfinished"></translation>
+        <translation>طاقم العمل و الممثلين</translation>
     </message>
     <message>
         <source>More Like This</source>
-        <translation type="unfinished"></translation>
+        <translation>المزيد مثل هذا</translation>
     </message>
     <message>
         <source>Press &apos;OK&apos; to Close</source>
-        <translation type="unfinished"></translation>
+        <translation>اضغط &quot;تم&quot; للاغلاق</translation>
     </message>
     <message>
         <source>Special Features</source>
-        <translation type="unfinished"></translation>
+        <translation>سمات مميزة</translation>
     </message>
     <message>
         <source>Additional Parts</source>
-        <translation type="unfinished"></translation>
+        <translation>قطع اضافية</translation>
         <extracomment>Additional parts of a video</extracomment>
     </message>
     <message>
         <source>Movies</source>
-        <translation type="unfinished"></translation>
+        <translation>أفلام</translation>
     </message>
     <message>
         <source>Movies (Presentation)</source>
-        <translation type="unfinished"></translation>
+        <translation>خيار عرض مكتبة الافلام</translation>
         <extracomment>Movie library view option</extracomment>
     </message>
     <message>
         <source>Movies (Grid)</source>
-        <translation type="unfinished"></translation>
+        <translation>خيار عرض مكتبة الافلام</translation>
         <extracomment>Movie library view option</extracomment>
     </message>
     <message>
@@ -2261,6 +2261,14 @@
     <message>
         <source>If auto play next episode is disabled, display the next episode&apos;s detail screen after an episode finishes playing. If no next up episode is found, return to the just-played episode&apos;s page.</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Adjust Subtitle Timing</source>
+        <translation>ضبط توقيت الترجمة</translation>
+    </message>
+    <message>
+        <source>Current Offset</source>
+        <translation>الانحراف الحالي</translation>
     </message>
 </context>
 </TS>

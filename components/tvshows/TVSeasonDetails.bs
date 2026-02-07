@@ -213,7 +213,33 @@ sub populateOnScreenText()
         m.top.findNode("topLevelDetails").removeChild(m.top.findNode("genresContainer"))
     end if
 
-    setFieldText("overview", m.top.seasonData.json.overview)
+    adjustForOverview(isValidAndNotEmpty(m.top.seasonData.json.overview))
+end sub
+
+sub adjustForOverview(hasOverviewText = false)
+    title = m.top.findNode("title")
+    seasonListRect = m.top.FindNode("seasonListRect")
+
+    if hasOverviewText
+        m.overview.height = 140
+        m.poster.height = 450
+        m.poster.width = 300
+        m.playedIndicator.translation = [240, 0]
+        title.maxWidth = 1400
+        seasonListRect.height = 450
+        m.rows.clippingRect = "[-10,-10,2020,420]"
+
+        setFieldText("overview", m.top.seasonData.json.overview)
+        return
+    end if
+
+    m.overview.height = 0
+    m.poster.height = 330
+    m.poster.width = 220
+    title.maxWidth = 1480
+    seasonListRect.height = 570
+    m.rows.clippingRect = "[-10,-10,2020,540]"
+    m.playedIndicator.translation = [160, 0]
 end sub
 
 function getRuntime() as integer

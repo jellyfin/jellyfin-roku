@@ -73,9 +73,9 @@ namespace MainAction
         startLoadingSpinner()
 
         if isChainValid(activeScene, "additionalParts.masterID")
-            trailerData = api.users.GetLocalTrailers(m.global.session.user.id, activeScene.additionalParts.masterID)
+            trailerData = api.items.GetLocalTrailers(activeScene.additionalParts.masterID, { userId: m.global.session.user.id })
         else
-            trailerData = api.users.GetLocalTrailers(m.global.session.user.id, activeScene.id)
+            trailerData = api.items.GetLocalTrailers(activeScene.id, { userId: m.global.session.user.id })
         end if
 
         if isValid(trailerData) and isValid(trailerData[0]) and isValid(trailerData[0].id)
@@ -135,9 +135,9 @@ namespace MainAction
         if not isChainValid(movie, "favorite") or not isValid(movie.id) then return
 
         if movie.favorite
-            api.users.UnmarkFavorite(m.global.session.user.id, movie.id)
+            api.users.UnmarkFavorite(movie.id, { userId: m.global.session.user.id })
         else
-            api.users.MarkFavorite(m.global.session.user.id, movie.id)
+            api.users.MarkFavorite(movie.id, { userId: m.global.session.user.id })
         end if
         movie.favorite = not movie.favorite
     end sub
@@ -229,15 +229,15 @@ namespace MainAction
         if isPlayed
             date = CreateObject("roDateTime")
             dateStr = date.ToISOString()
-            api.users.MarkPlayed(m.global.session.user.id, itemID, { "DatePlayed": dateStr, "PlaybackPositionTicks": 0 })
+            api.users.MarkPlayed(itemID, { "DatePlayed": dateStr, "PlaybackPositionTicks": 0, userId: m.global.session.user.id })
             return
         end if
 
-        api.users.UnmarkPlayed(m.global.session.user.id, itemID)
+        api.users.UnmarkPlayed(itemID, { userId: m.global.session.user.id })
     end sub
 
     sub addItemToFavorites(itemID as string)
-        api.users.MarkFavorite(m.global.session.user.id, itemID)
+        api.users.MarkFavorite(itemID, { userId: m.global.session.user.id })
 
         group = m.global.sceneManager.callFunc("getActiveScene")
         if isValid(group)
@@ -252,7 +252,7 @@ namespace MainAction
     end sub
 
     sub removeItemFromFavorites(itemID as string)
-        api.users.UnmarkFavorite(m.global.session.user.id, itemID)
+        api.users.UnmarkFavorite(itemID, { userId: m.global.session.user.id })
 
         group = m.global.sceneManager.callFunc("getActiveScene")
         if isValid(group)

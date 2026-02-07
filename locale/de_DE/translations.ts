@@ -2254,6 +2254,42 @@
         <source>If auto play next episode is disabled, display the next episode&apos;s detail screen after an episode finishes playing. If no next up episode is found, return to the just-played episode&apos;s page.</source>
         <translation>Wenn die automatische Wiedergabe der nächsten Folge deaktiviert ist, wird nach dem Abspielen die Detailseite der nächsten Episode angezeigt. Ist keine weitere Folge vorhanden, wird zur Seite der gerade abgespielten Episode zurückgekehrt.</translation>
     </message>
+    <message>
+        <source>Adjust Subtitle Timing</source>
+        <translation>Untertitel-Timing anpassen</translation>
+    </message>
+    <message>
+        <source>Favorites Row</source>
+        <translation>Favoritenzeile</translation>
+    </message>
+    <message>
+        <source>Settings relating to the favorites row on the home screen.</source>
+        <translation>Einstellungen zu der Favoritenzeile auf dem Startbildschirm.</translation>
+    </message>
+    <message>
+        <source>Sort By Field</source>
+        <translation>Nach Feld sortieren</translation>
+    </message>
+    <message>
+        <source>Field to sort the row by.</source>
+        <translation>Feld, nach dem sortiert werden soll.</translation>
+    </message>
+    <message>
+        <source>Date Created</source>
+        <translation>Erstellungsdatum</translation>
+    </message>
+    <message>
+        <source>Is Unplayed</source>
+        <translation>Ist ungespielt</translation>
+    </message>
+    <message>
+        <source>Sort Order for the row - Ascending,Descending.</source>
+        <translation>Sortierreihenfolge für die Zeile - Aufsteigend,Absteigend.</translation>
+    </message>
+    <message>
+        <source>Current Offset</source>
+        <translation>Aktueller Offset</translation>
+    </message>
 </context>
 <context>
     <name></name>

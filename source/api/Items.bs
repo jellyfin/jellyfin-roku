@@ -37,6 +37,11 @@ function ItemPostPlaybackInfo(id as string, mediaSourceId = "" as string, audioT
         "SubtitleStreamIndex": subtitleTrackIndex
     }
 
+    if isStringEqual(m.global.queueManager.callFunc("getForceTranscode"), PlaybackMethod.FORCELIVETVREMUX)
+        ' We are playing live tv and direct play failed, let's try again but with force remuxing...
+        params.EnableDirectPlay = false
+    end if
+
     if chainLookupReturn(options, "emptySubtitleProfiles", false)
         body.DeviceProfile.SubtitleProfiles = []
     end if
@@ -646,7 +651,7 @@ end function
 ' Accepts a string that is a TV Show season id
 function TVSeasonExtras(seasonId as string) as dynamic
     ' Get and validate TV extra features data
-    data = api.users.GetSpecialFeatures(m.global.session.user.id, seasonId)
+    data = api.items.GetSpecialFeatures(seasonId, { userid: m.global.session.user.id })
     if not isValid(data) then return invalid
 
     results = []

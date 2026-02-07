@@ -1456,11 +1456,11 @@
     </message>
     <message>
         <source>Date Show Added</source>
-        <translation>Data d&apos;adició del títol</translation>
+        <translation>Data d&apos;addició del títol</translation>
     </message>
     <message>
         <source>Date Episode Added</source>
-        <translation>Data d&apos;adició de l&apos;episodi</translation>
+        <translation>Data d&apos;addició de l&apos;episodi</translation>
     </message>
     <message>
         <source>Favorited</source>
@@ -1936,35 +1936,35 @@
     </message>
     <message>
         <source>Select what to show in section 8. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
-        <translation>Seleccioneu què mostrar en la secció 8. Aquesta configuració no té efecte si s&apos;ha habilitat \&quot;Fes servir la disposició de seccions d&apos;inici del client web\&quot;. Per a què el canvi tingui efecte caldrà tancar i reobrir l&apos;aplicació.</translation>
+        <translation>Seleccioneu què mostrar en la secció 8. Aquesta configuració no té efecte si s&apos;ha habilitat \&quot;Fes servir la disposició de seccions d&apos;inici del client web\&quot;. Perquè el canvi tingui efecte caldrà tancar i reobrir l&apos;aplicació.</translation>
     </message>
     <message>
         <source>Select what to show in section 7. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
-        <translation>Seleccioneu què mostrar a la secció 7. Aquesta configuració no té efecte si s&apos;ha habilitat \&quot;Fes servir la disposició de seccions d&apos;inici del client web\&quot;. Per a què el canvi tingui efecte caldrà tancar i reobrir l&apos;aplicació.</translation>
+        <translation>Seleccioneu què mostrar a la secció 7. Aquesta configuració no té efecte si s&apos;ha habilitat \&quot;Fes servir la disposició de seccions d&apos;inici del client web\&quot;. Perquè el canvi tingui efecte caldrà tancar i reobrir l&apos;aplicació.</translation>
     </message>
     <message>
         <source>Select what to show in section 6. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
-        <translation>Seleccioneu què mostrar a la secció 6. Aquesta configuració no té efecte si s&apos;ha habilitat \&quot;Fes servir la disposició de seccions d&apos;inici del client web\&quot;. Per a què el canvi tingui efecte caldrà tancar i reobrir l&apos;aplicació.</translation>
+        <translation>Seleccioneu què mostrar a la secció 6. Aquesta configuració no té efecte si s&apos;ha habilitat \&quot;Fes servir la disposició de seccions d&apos;inici del client web\&quot;. Perquè el canvi tingui efecte caldrà tancar i reobrir l&apos;aplicació.</translation>
     </message>
     <message>
         <source>Select what to show in section 1. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
-        <translation>Seleccioneu què mostrar a la secció 1. Aquesta configuració no té efecte si s&apos;ha habilitat \&quot;Fes servir la disposició de seccions d&apos;inici del client web\&quot;. Per a què el canvi tingui efecte caldrà tancar i reobrir l&apos;aplicació.</translation>
+        <translation>Seleccioneu què mostrar a la secció 1. Aquesta configuració no té efecte si s&apos;ha habilitat \&quot;Fes servir la disposició de seccions d&apos;inici del client web\&quot;. Perquè el canvi tingui efecte caldrà tancar i reobrir l&apos;aplicació.</translation>
     </message>
     <message>
         <source>Select what to show in section 2. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
-        <translation>Seleccioneu què mostrar a la secció 2. Aquesta configuració no té efecte si s&apos;ha habilitat \&quot;Fes servir la disposició de seccions d&apos;inici del client web\&quot;. Per a què el canvi tingui efecte caldrà tancar i reobrir l&apos;aplicació.</translation>
+        <translation>Seleccioneu què mostrar a la secció 2. Aquesta configuració no té efecte si s&apos;ha habilitat \&quot;Fes servir la disposició de seccions d&apos;inici del client web\&quot;. Perquè el canvi tingui efecte caldrà tancar i reobrir l&apos;aplicació.</translation>
     </message>
     <message>
         <source>Select what to show in section 3. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
-        <translation>Seleccioneu què mostrar a la secció 3. Aquesta configuració no té efecte si s&apos;ha habilitat \&quot;Fes servir la disposició de seccions d&apos;inici del client web\&quot;. Per a què el canvi tingui efecte caldrà tancar i reobrir l&apos;aplicació.</translation>
+        <translation>Seleccioneu què mostrar a la secció 3. Aquesta configuració no té efecte si s&apos;ha habilitat \&quot;Fes servir la disposició de seccions d&apos;inici del client web\&quot;. Perquè el canvi tingui efecte caldrà tancar i reobrir l&apos;aplicació.</translation>
     </message>
     <message>
         <source>Select what to show in section 4. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
-        <translation>Seleccioneu què mostrar a la secció 4. Aquesta configuració no té efecte si s&apos;ha habilitat \&quot;Fes servir la disposició de seccions d&apos;inici del client web\&quot;. Per a què el canvi tingui efecte caldrà tancar i reobrir l&apos;aplicació.</translation>
+        <translation>Seleccioneu què mostrar a la secció 4. Aquesta configuració no té efecte si s&apos;ha habilitat \&quot;Fes servir la disposició de seccions d&apos;inici del client web\&quot;. Perquè el canvi tingui efecte caldrà tancar i reobrir l&apos;aplicació.</translation>
     </message>
     <message>
         <source>Select what to show in section 5. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
-        <translation>Seleccioneu què mostrar a la secció 5. Aquesta configuració no té efecte si s&apos;ha habilitat \&quot;Fes servir la disposició de seccions d&apos;inici del client web\&quot;. Per a què el canvi tingui efecte caldrà tancar i reobrir l&apos;aplicació.</translation>
+        <translation>Seleccioneu què mostrar a la secció 5. Aquesta configuració no té efecte si s&apos;ha habilitat \&quot;Fes servir la disposició de seccions d&apos;inici del client web\&quot;. Perquè el canvi tingui efecte caldrà tancar i reobrir l&apos;aplicació.</translation>
     </message>
     <message>
         <source>Section 1</source>
@@ -2225,6 +2225,42 @@
     <message>
         <source>Show Next Episode Details After Finish</source>
         <translation>Mostra els detalls dels següents episodis en acabar</translation>
+    </message>
+    <message>
+        <source>Adjust Subtitle Timing</source>
+        <translation>Ajusta els temps dels subtítols</translation>
+    </message>
+    <message>
+        <source>Current Offset</source>
+        <translation>Desplaçament actual</translation>
+    </message>
+    <message>
+        <source>Sort Order for the row - Ascending,Descending.</source>
+        <translation>Ordre de la filera - Ascendent, descendent.</translation>
+    </message>
+    <message>
+        <source>Is Unplayed</source>
+        <translation>No s&apos;ha reproduït</translation>
+    </message>
+    <message>
+        <source>Date Created</source>
+        <translation>Data creada</translation>
+    </message>
+    <message>
+        <source>Field to sort the row by.</source>
+        <translation>Camp per al filtratge de la fila.</translation>
+    </message>
+    <message>
+        <source>Sort By Field</source>
+        <translation>Ordena per camp</translation>
+    </message>
+    <message>
+        <source>Settings relating to the favorites row on the home screen.</source>
+        <translation>Configuració de la filera de preferits a la pantalla principal.</translation>
+    </message>
+    <message>
+        <source>Favorites Row</source>
+        <translation>Filera de preferits</translation>
     </message>
 </context>
 </TS>
