@@ -2301,5 +2301,9 @@
             <source>Adjust Subtitle Timing</source>
             <translation>Adjust Subtitle Timing</translation>
         </message>
+        <message>
+            <source>Display Episodes In Two Columns</source>
+            <translation>Display Episodes In Two Columns</translation>
+        </message>
     </context>
 </TS>

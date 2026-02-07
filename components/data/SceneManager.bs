@@ -303,11 +303,11 @@ end sub
 
 '
 ' Display dialog to user with an OK button
-sub settingDialog(title)
+sub LibrarySettingDialog(title)
     m.itemID = string.EMPTY
     m.userselection = false
 
-    dialog = createObject("roSGNode", "SettingDialog")
+    dialog = createObject("roSGNode", "LibrarySettingDialog")
     dlgPalette = createObject("roSGNode", "RSGPalette")
     dlgPalette.colors = {
         DialogBackgroundColor: chainLookupReturn(m.global.session, "user.settings.colorDialogBackground", ColorPalette.ELEMENTBACKGROUND),
