@@ -2305,5 +2305,9 @@
             <source>Display Episodes In Two Columns</source>
             <translation>Display Episodes In Two Columns</translation>
         </message>
+        <message>
+            <source>Screen Settings</source>
+            <translation>Screen Settings</translation>
+        </message>
     </context>
 </TS>
