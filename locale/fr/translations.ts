@@ -2225,5 +2225,49 @@
         <source>If auto play next episode is disabled, display the next episode&apos;s detail screen after an episode finishes playing. If no next up episode is found, return to the just-played episode&apos;s page.</source>
         <translation>Si la lecture automatique de l&apos;épisode suivant est désactivée, affichez la page de détails de l&apos;épisode suivant une fois la lecture terminée. Si aucun épisode suivant n&apos;est disponible, retournez à la page de l&apos;épisode qui vient d&apos;être lu.</translation>
     </message>
+    <message>
+        <source>Favorites Row</source>
+        <translation>Ligne des favoris</translation>
+    </message>
+    <message>
+        <source>Settings relating to the favorites row on the home screen.</source>
+        <translation>Paramètres relatifs à la ligne des favoris sur l&apos;écran d&apos;accueil.</translation>
+    </message>
+    <message>
+        <source>Sort By Field</source>
+        <translation>Trier par champ</translation>
+    </message>
+    <message>
+        <source>Field to sort the row by.</source>
+        <translation>Champ permettant de trier la ligne.</translation>
+    </message>
+    <message>
+        <source>Date Created</source>
+        <translation>Date de création</translation>
+    </message>
+    <message>
+        <source>Is Unplayed</source>
+        <translation>Est non lu</translation>
+    </message>
+    <message>
+        <source>Sort Order for the row - Ascending,Descending.</source>
+        <translation>Ordre de tri de la ligne&#xa0;: Croissant, Décroissant.</translation>
+    </message>
+    <message>
+        <source>Current Offset</source>
+        <translation>Décalage actuel</translation>
+    </message>
+    <message>
+        <source>Adjust Subtitle Timing</source>
+        <translation>Ajuster le minutage des sous-titres</translation>
+    </message>
+    <message>
+        <source>Display Episodes In Two Columns</source>
+        <translation>Afficher les épisodes sur deux colonnes</translation>
+    </message>
+    <message>
+        <source>Screen Settings</source>
+        <translation>Ecran de configuration</translation>
+    </message>
 </context>
 </TS>
