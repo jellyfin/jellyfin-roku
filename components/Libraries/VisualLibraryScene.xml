@@ -2,8 +2,8 @@
 <component name="VisualLibraryScene" extends="JFScreen">
   <children>
     <maskGroup translation="[820, 0]" id="backgroundMask" maskUri="pkg:/images/backgroundmask.png" maskSize="[1220,700]">
-      <poster id="backdrop" loadDisplayMode="scaleToFill" width="1100" height="700" opacity="1" />
-      <poster id="backdropTransition" loadDisplayMode="scaleToFill" width="1100" height="700" opacity="1" />
+      <poster id="backdrop" loadDisplayMode="scaleToZoom" width="1100" height="700" opacity="1" />
+      <poster id="backdropTransition" loadDisplayMode="scaleToZoom" width="1100" height="700" opacity="1" />
     </maskGroup>
 
     <MarkupGrid
