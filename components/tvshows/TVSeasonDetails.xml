@@ -62,7 +62,7 @@
         id="picker"
         clippingRect="[-10,-10,2020,420]"
         itemComponentName="TVEpisodeListItem"
-        vertFocusAnimationStyle="fixed"
+        vertFocusAnimationStyle="fixedFocusWrap"
         translation="[45, 25]" />
     </Rectangle>
 
@@ -97,6 +97,17 @@
         fieldToInterp="seasonListRect.width" />
     </Animation>
 
+    <SlideOutButton
+      id="settingsButton"
+      translation="[32, 50]"
+      background="0x00000000"
+      highlightBackground="#555555"
+      padding="20"
+      icon="pkg:/images/icons/settings.png"
+      text="Screen Settings"
+      height="50"
+      width="60" />
+
   </children>
   <interface>
     <field id="displayResumeButton" type="bool" alwaysNotify="true" onChange="onDisplayResumeButtonChange" />
@@ -114,5 +125,6 @@
     <function name="updateSeason" />
     <function name="updateObjects" />
     <function name="getFocusedItem" />
+    <function name="redrawItems" />
   </interface>
 </component>

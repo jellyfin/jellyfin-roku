@@ -12,37 +12,85 @@ sub init()
     m.progressBackground = m.top.findNode("progressBackground")
     m.progressBar = m.top.findnode("progressBar")
     m.playedIndicator = m.top.findNode("playedIndicator")
+end sub
+
+sub onWidthChanged()
+    setposterSize()
+
+    textWidth = m.top.width - m.poster.width - 65
+
+    if isValid(m.title)
+        m.title.maxWidth = textWidth
+    end if
+
+    if isValid(m.overview)
+        m.overview.width = textWidth
+    end if
 
     setFontSizes()
+    setVerticalMargins()
+end sub
+
+sub setVerticalMargins()
+    text = m.top.findnode("text")
+    if not isValid(text) then return
+
+    fullsize = m.top.width > 1000
+    verticalMargin = fullsize ? 20 : 10
+
+    text.itemSpacings = `[${verticalMargin}]`
+end sub
+
+sub setposterSize()
+    fullsize = m.top.width > 1000
+
+    m.poster.height = fullsize ? 300 : 200
+    m.poster.width = m.poster.height * 1.165
+
+    m.playedIndicator.translation = [m.poster.width - 60, 0]
+    m.progressBackground.translation = [0, m.poster.height - 14]
+
+    if m.progressBackground.visible
+        itemData = m.top.itemContent
+        if not isValid(itemData) then return
+
+        m.progressBackground.width = m.poster.width
+        progressWidthInPixels = int(m.progressBackground.width * chainLookup(itemData.json, "UserData.PlayedPercentage") / 100)
+        m.progressBar.width = progressWidthInPixels
+    end if
 end sub
 
 sub setFontSizes()
+    fullsize = m.top.width > 1000
+
     if isValid(m.overview)
-        m.overview.font.size = 25
+        m.overview.font.size = fullsize ? 30 : 25
+        m.overview.maxLines = fullsize ? 4 : 3
+        m.overview.height = fullsize ? 180 : 130
     end if
 
     if isValid(m.title)
-        m.title.font.size = 27
+        m.title.font.size = fullsize ? 33 : 27
     end if
 
     communityRating = m.top.findNode("communityRating")
     if isValid(communityRating)
-        communityRating.font.size = 23
+        communityRating.font.size = fullsize ? 26 : 23
     end if
 
     runtime = m.top.findNode("runtime")
     if isValid(runtime)
-        runtime.font.size = 23
+        runtime.font.size = fullsize ? 26 : 23
     end if
 
     endtime = m.top.findNode("endtime")
     if isValid(endtime)
-        endtime.font.size = 23
+        endtime.font.size = fullsize ? 26 : 23
     end if
 
     aired = m.top.findNode("aired")
     if isValid(aired)
-        aired.font.size = 23
+        aired.font.size = fullsize ? 26 : 23
     end if
 end sub
 

@@ -2,5 +2,9 @@
   {
     "description": "Use full screen to show episodes on TV season screen",
     "author": "1hitsong"
+  },
+  {
+    "description": "Create user-level setting on TV season screen to choose if episodes are displayed in two columns",
+    "author": "1hitsong"
   }
 ]
