@@ -6,5 +6,9 @@
   {
     "description": "Create user-level setting on TV season screen to choose if episodes are displayed in two columns",
     "author": "1hitsong"
+  },
+  {
+    "description": "Keep backdrop image aspect ratio in presentation view",
+    "author": "1hitsong"
   }
 ]
