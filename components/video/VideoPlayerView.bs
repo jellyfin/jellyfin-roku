@@ -31,6 +31,7 @@ sub init()
     m.top.id = currentItem.id
 
     m.top.seekMode = "accurate"
+    m.top.playbackSpeed = m.global.sceneManager.currentSpeed
 
     m.playbackEnum = {
         null: -10
@@ -76,6 +77,7 @@ sub init()
     m.top.observeField("content", "onContentChange")
     m.top.observeField("selectedSubtitle", "onSubtitleChange")
     m.top.observeField("audioIndex", "onAudioIndexChange")
+    m.top.observeField("selectedSpeed", "onSelectedSpeedChange")
 
     ' Get sibling data and pass to OSD
     setSiblingData()
@@ -352,6 +354,12 @@ sub handleShowAudioMenuAction()
     m.top.selectAudioPressed = true
 end sub
 
+' handleShowSpeedMenuAction: Handles action to show speed selection menu
+'
+sub handleShowSpeedMenuAction()
+    m.top.selectSpeedPressed = true
+end sub
+
 ' handleShowVideoInfoPopupAction: Handles action to show video info popup
 '
 sub handleShowVideoInfoPopupAction()
@@ -415,6 +423,11 @@ sub onOSDAction()
 
     if action = "showaudiomenu"
         handleShowAudioMenuAction()
+        return
+    end if
+
+    if action = "showspeedmenu"
+        handleShowSpeedMenuAction()
         return
     end if
 
@@ -552,6 +565,16 @@ sub onAudioIndexChange()
     m.LoadMetaDataTask.itemId = m.top.id
     m.LoadMetaDataTask.observeField("content", "onVideoContentLoaded")
     m.LoadMetaDataTask.control = TaskControl.RUN
+end sub
+
+' Event handler for when selectedSpeed changes
+sub onSelectedSpeedChange()
+    m.top.playbackSpeed = m.top.selectedSpeed
+    ' you need to pause and resume video to have speed change take effect
+    if m.top.state = "playing"
+        m.top.control = VideoControl.PAUSE
+        m.top.control = VideoControl.RESUME
+    end if
 end sub
 
 sub onPlaybackErrorDialogClosed(msg)
