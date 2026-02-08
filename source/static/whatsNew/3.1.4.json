@@ -10,5 +10,9 @@
   {
     "description": "Keep backdrop image aspect ratio in presentation view",
     "author": "1hitsong"
+  },
+  {
+    "description": "Use full screen to show seasons on TV series screen",
+    "author": "1hitsong"
   }
 ]
