@@ -589,6 +589,7 @@ function getCodecProfiles(videoCodec = string.EMPTY as string) as object
     end if
 
     ' HDR SUPPORT
+    ' See https://github.com/jellyfin/jellyfin/blob/master/Jellyfin.Data/Enums/VideoRangeType.cs for valid range types
     h264VideoRangeTypes = "SDR|DOVIWithSDR"
     hevcVideoRangeTypes = "SDR|DOVIWithSDR"
     vp9VideoRangeTypes = "SDR|DOVIWithSDR"
