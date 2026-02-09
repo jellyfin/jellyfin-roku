@@ -1,0 +1,12 @@
+sub onChangeTitle()
+    streamTitle = m.top.title
+    node = m.top.findNode("title")
+    node.text = streamTitle = invalid ? "" : tr(m.top.streamType) + ": " + streamTitle
+end sub
+
+sub onChangeCount()
+    count = m.top.count
+    node = m.top.findNode("count")
+    additionalCount = count - 1
+    node.text = additionalCount > 0 ? "+" + stri(additionalCount).trim() : ""
+end sub

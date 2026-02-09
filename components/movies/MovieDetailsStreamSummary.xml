@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component name="MovieDetailsStreamSummary" extends="Group">
+  <interface>
+    <field id="rotationWarning" type="string" onChange="onChangeRotationWarning" />
+    <field id="selectedVideoStreamTitle" type="string" onChange="onChangeSelectedVideoStreamTitle" />
+    <field id="videoStreamCount" type="integer" onChange="onChangeVideoStreamCount" />
+    <field id="selectedAudioStreamTitle" type="string" onChange="onChangeSelectedAudioStreamTitle" />
+    <field id="audioStreamCount" type="integer" onChange="onChangeAudioStreamCount" />
+    <field id="selectedSubtitleStreamTitle" type="string" onChange="onChangeSelectedSubtitleStreamTitle" />
+    <field id="subtitleStreamCount" type="integer" onChange="onChangeSubtitleStreamCount" />
+  </interface>
+  <children>
+    <LayoutGroup layoutDirection="vert" itemSpacings="[0]">
+      <LayoutGroup layoutDirection="horiz" horizAlignment="left">
+        <Text id="rotationWarning" font="font:smallestboldSystemFont" vertAlign="top" color="#eeeeee" />
+      </LayoutGroup>
+      <MovieDetailsStreamSummaryRow id="videoStreamSummaryRow" streamType="Video" />
+      <MovieDetailsStreamSummaryRow id="audioStreamSummaryRow" streamType="Audio" />
+      <MovieDetailsStreamSummaryRow id="subtitleStreamSummaryRow" streamType="Subtitles" />
+    </LayoutGroup>
+  </children>
+</component>

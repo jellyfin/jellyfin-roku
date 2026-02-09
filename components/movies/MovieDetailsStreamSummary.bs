@@ -1,0 +1,43 @@
+function findRotationWarningNode() as dynamic
+    return m.top.findNode("rotationWarning")
+end function
+
+sub onChangeRotationWarning()
+    findRotationWarningNode().text = m.top.rotationWarning
+end sub
+
+function findVideoRowNode() as dynamic
+    return m.top.findNode("videoStreamSummaryRow")
+end function
+
+sub onChangeSelectedVideoStreamTitle()
+    findVideoRowNode().title = m.top.selectedVideoStreamTitle
+end sub
+
+sub onChangeVideoStreamCount()
+    findVideoRowNode().count = m.top.videoStreamCount
+end sub
+
+function findAudioRowNode() as dynamic
+    return m.top.findNode("audioStreamSummaryRow")
+end function
+
+sub onChangeSelectedAudioStreamTitle()
+    findAudioRowNode().title = m.top.selectedAudioStreamTitle
+end sub
+
+sub onChangeAudioStreamCount()
+    findAudioRowNode().count = m.top.audioStreamCount
+end sub
+
+function findSubtitleRowNode() as dynamic
+    return m.top.findNode("subtitleStreamSummaryRow")
+end function
+
+sub onChangeSelectedSubtitleStreamTitle()
+    findSubtitleRowNode().title = m.top.selectedSubtitleStreamTitle
+end sub
+
+sub onChangeSubtitleStreamCount()
+    findSubtitleRowNode().count = m.top.subtitleStreamCount
+end sub

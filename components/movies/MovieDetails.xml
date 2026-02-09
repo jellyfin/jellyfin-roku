@@ -25,7 +25,7 @@
 
       <LayoutGroup id="infoGroup" layoutDirection="horiz" horizAlignment="left" itemSpacings="[50]">
         <LayoutGroup layoutDirection="vert" itemSpacings="[30]">
-          <Text id="overview" wrap="true" maxLines="8" width="1000" />
+          <Text id="overview" wrap="true" maxLines="7" width="1000" />
           <Text
             id="director"
             font="font:SmallestSystemFont"
@@ -35,19 +35,7 @@
             width="1000"
             ellipsisText="..." />
 
-          <LayoutGroup layoutDirection="vert" itemSpacings="[0]">
-            <LayoutGroup layoutDirection="horiz" horizAlignment="left">
-              <Text id="rotationWarning" font="font:smallestboldSystemFont" vertAlign="top" color="#eeeeee" />
-            </LayoutGroup>
-            <LayoutGroup layoutDirection="horiz" horizAlignment="left">
-              <ScrollingText id="video_codec" vertAlign="bottom" height="39" maxwidth="990" font="font:SmallestSystemFont" color="#aaaaaa" />
-              <Text id="video_codec_count" font="font:smallestSystemFont" vertAlign="top" color="#aaaaaa" />
-            </LayoutGroup>
-            <LayoutGroup layoutDirection="horiz" horizAlignment="left">
-              <ScrollingText id="audio_codec" vertAlign="bottom" height="39" maxwidth="990" font="font:SmallestSystemFont" color="#aaaaaa" />
-              <Text id="audio_codec_count" font="font:smallestSystemFont" vertAlign="top" color="#aaaaaa" />
-            </LayoutGroup>
-          </LayoutGroup>
+          <MovieDetailsStreamSummary id="streamSummary" />
         </LayoutGroup>
 
         <MarkupList
