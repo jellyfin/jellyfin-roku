@@ -2267,7 +2267,7 @@
     </message>
     <message>
         <source>Screen Settings</source>
-        <translation>Ecran de configuration</translation>
+        <translation>Configuration d’écran</translation>
     </message>
 </context>
 </TS>
