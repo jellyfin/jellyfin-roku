@@ -602,6 +602,7 @@ function getCodecProfiles(videoCodec = string.EMPTY as string) as object
     end if
     if dp.Hdr10Plus
         hevcVideoRangeTypes = hevcVideoRangeTypes + "|HDR10Plus|DOVIWithHDR10Plus"
+        vp9VideoRangeTypes = vp9VideoRangeTypes + "|HDR10Plus|DOVIWithHDR10Plus"
         av1VideoRangeTypes = av1VideoRangeTypes + "|HDR10Plus|DOVIWithHDR10Plus"
     end if
     if dp.HLG
