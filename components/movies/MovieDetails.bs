@@ -577,7 +577,7 @@ function generateVideoOptions(itemData as dynamic) as dynamic
     setRotationWarning(string.EMPTY)
     for i = 0 to mediaSources.Count() - 1
         mediaSource = mediaSources[i]
-        if LCase(mediaSource.VideoType) = VideoType.VIDEOFILE
+        if isStringEqual(chainLookup(mediaSource, "videotype"), VideoType.VIDEOFILE)
             videoCodecForDisplay = ""
             codec = ""
             if isValidAndNotEmpty(mediaSource.mediaStreams)
@@ -586,7 +586,7 @@ function generateVideoOptions(itemData as dynamic) as dynamic
 
                 for index = 0 to mediaSource.mediaStreams.Count() - 1
                     mediaStream = mediaSource.mediaStreams[index]
-                    if LCase(mediaStream.Type) = MediaStreamType.VIDEO
+                    if isStringEqual(chainLookup(mediaStream, "Type"), MediaStreamType.VIDEO)
                         if m.performRotationCheck
                             rotation = chainLookupReturn(mediaStream, "rotation", 0)
                             if rotation <> 0
@@ -595,7 +595,7 @@ function generateVideoOptions(itemData as dynamic) as dynamic
                             end if
                         end if
 
-                        if mediaSource.id = m.top.selectedVideoStreamId
+                        if isStringEqual(mediaSource.id, m.top.selectedVideoStreamId)
                             videoStreamTitle = mediaSources.count() > 1 ? Substitute("{0} - {1}", mediaSource.Name, mediaStream.displayTitle) : mediaStream.displayTitle
                             setSelectedVideoStreamTitle(videoStreamTitle)
                         end if
@@ -652,8 +652,8 @@ function generateSubtitleOptions(itemData as dynamic) as dynamic
     defaultSubtitleIndex = SubtitleSelection.NONE
     for i = 0 to itemData.mediaSources.Count() - 1
         mediaSource = itemData.mediaSources[i]
-        if mediaSource.id = m.top.selectedVideoStreamId
-            if mediaSource.DefaultSubtitleStreamIndex <> invalid
+        if isStringEqual(chainLookup(mediaSource, "id"), m.top.selectedVideoStreamId)
+            if isValid(mediaSource.DefaultSubtitleStreamIndex)
                 defaultSubtitleIndex = mediaSource.DefaultSubtitleStreamIndex
             end if
         end if
@@ -708,11 +708,11 @@ sub SetDefaultSubtitleStream(itemData)
     ' (this comes from Jellyfin Server) otherwise default
     ' to SubtitleSelection.NONE.
     mediaSources = itemData.MediaSources
-    if mediaSources <> invalid
+    if isValidAndNotEmpty(mediaSources)
         for i = 0 to mediaSources.Count() - 1
             mediaSource = mediaSources[i]
-            if mediaSource.id = m.top.selectedVideoStreamId
-                if mediaSource.DefaultSubtitleStreamIndex <> invalid
+            if isStringEqual(chainLookup(mediaSource, "id"), m.top.selectedVideoStreamId)
+                if isValid(chainLookup(mediaSource, "DefaultSubtitleStreamIndex"))
                     defaultSubtitleStreamIndex = mediaSource.DefaultSubtitleStreamIndex
                 end if
             end if
@@ -961,7 +961,7 @@ end sub
 
 sub subtitleOptionsClosed()
     subtitleStream = m.global.queueManager.callFunc("getPreferredSubtitleTrack")
-    if subtitleStream <> invalid
+    if isValid(subtitleStream)
         setSelectedSubtitleStreamTitle(chainLookupReturn(subtitleStream, "title", "--"))
     end if
 end sub
