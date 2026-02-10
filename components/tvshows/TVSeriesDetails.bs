@@ -42,6 +42,11 @@ sub init()
         m.resume.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
     end if
 
+    m.extras = m.top.findNode("extras")
+    if isValid(m.extras)
+        m.extras.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+    end if
+
     m.play = m.top.findNode("play")
     m.play.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
 
@@ -402,6 +407,9 @@ sub exitEpisodeListFullScreen()
 end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean
+    seasonRow = m.top.findNode("seasons")
+    extrasSection = m.top.findNode("extrasGrid")
+
     if m.buttonGrp.isInFocusChain()
         if isStringEqual(key, KeyCode.UP)
             if m.buttonGrp.getChild(m.top.selectedButtonIndex).escape = "up"
@@ -434,6 +442,17 @@ function onKeyEvent(key as string, press as boolean) as boolean
                     m.top.quickPlayNode = quickplayData
                     return true
                 end if
+            end if
+
+            if m.extras.hasFocus()
+                extrasSection.setFocus(true)
+                m.extrasSlider.visible = true
+                group = m.global.sceneManager.callFunc("getActiveScene")
+                group.lastFocus = extrasSection
+                m.top.findNode("VertSlider").reverse = false
+                m.top.findNode("extrasFader").reverse = false
+                m.top.findNode("pplAnime").control = AnimationControl.START
+                return true
             end if
 
             if m.play.hasFocus()
@@ -494,21 +513,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
         end if
     end if
 
-    seasonRow = m.top.findNode("seasons")
-    extrasSection = m.top.findNode("extrasGrid")
-
     if seasonRow.isInFocusChain()
-        if isStringEqual(key, KeyCode.DOWN)
-            return false
-
-            ' extrasSection.setFocus(true)
-            ' group = m.global.sceneManager.callFunc("getActiveScene")
-            ' group.lastFocus = extrasSection
-            ' m.top.findNode("VertSlider").reverse = false
-            ' m.top.findNode("extrasFader").reverse = false
-            ' m.top.findNode("pplAnime").control = AnimationControl.START
-        end if
-
         if isStringEqual(key, KeyCode.BACK)
             exitEpisodeListFullScreen()
             onButtonSelectedChange()
@@ -525,17 +530,29 @@ function onKeyEvent(key as string, press as boolean) as boolean
         end if
     end if
 
-    if key = "up" and extrasSection.hasFocus()
-        if extrasSection.itemFocused = 0
+    if extrasSection.isInFocusChain()
+        if isStringEqual(key, KeyCode.BACK)
             m.top.findNode("VertSlider").reverse = true
             m.top.findNode("extrasFader").reverse = true
             m.top.findNode("pplAnime").control = "start"
-            seasonRow.setFocus(true)
-            group = m.global.sceneManager.callFunc("getActiveScene")
-            group.lastFocus = seasonRow
+            m.extrasSlider.visible = false
+            onButtonSelectedChange()
             return true
         end if
-    else if key = "play" and m.seasons.hasFocus()
+
+        if isStringEqual(key, KeyCode.UP)
+            if extrasSection.itemFocused = 0
+                m.top.findNode("VertSlider").reverse = true
+                m.top.findNode("extrasFader").reverse = true
+                m.top.findNode("pplAnime").control = "start"
+                m.extrasSlider.visible = false
+                onButtonSelectedChange()
+                return true
+            end if
+        end if
+    end if
+
+    if key = "play" and m.seasons.hasFocus()
         if isValid(m.seasons.content)
             itemFocused = m.seasons.itemFocused
             m.top.quickPlayNode = m.seasons.content.getChild(itemFocused)
