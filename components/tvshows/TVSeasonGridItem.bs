@@ -41,8 +41,8 @@ sub onHeightChanged()
     m.backdrop.height = calculatedHeight
     m.itemPoster.height = calculatedHeight
     m.posterText.height = calculatedHeight
-    m.title.translation = [0, calculatedHeight + 15]
-    m.itemTextExtra.translation = [0, calculatedHeight + 45]
+    m.title.translation = [0, calculatedHeight]
+    m.itemTextExtra.translation = [0, calculatedHeight + 30]
 end sub
 
 sub onWidthChanged()
@@ -51,8 +51,8 @@ sub onWidthChanged()
     m.posterText.width = m.top.width
     m.title.maxWidth = m.top.width
     m.itemTextExtra.maxWidth = m.top.width
-    m.itemIcon.translation = [m.top.width, 15]
-    m.playedIndicator.translation = [m.top.width - m.playedIndicator.width, 15]
+    m.itemIcon.translation = [m.top.width, 0]
+    m.playedIndicator.translation = [m.top.width - m.playedIndicator.width, 0]
 end sub
 
 sub itemContentChanged()

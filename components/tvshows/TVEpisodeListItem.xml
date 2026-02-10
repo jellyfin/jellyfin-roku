@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component name="TVEpisodeListItem" extends="Group">
   <children>
-    <LayoutGroup id="toplevel" layoutDirection="vert" itemSpacings="[40]" translation="[0,15]">
+    <LayoutGroup id="toplevel" layoutDirection="vert" itemSpacings="[40]" translation="[0,0]">
       <LayoutGroup id="main_group" layoutDirection="horiz" itemSpacings="[20]">
 
         <Poster id="poster" width="233" height="200" loadDisplayMode="scaleToZoom">
@@ -41,6 +41,7 @@
     </LayoutGroup>
   </children>
   <interface>
+    <field id="width" type="float" onChange="onWidthChanged" />
     <field id="itemContent" type="node" onChange="itemContentChanged" />
     <field id="itemHasFocus" type="boolean" onChange="focusChanged" />
   </interface>

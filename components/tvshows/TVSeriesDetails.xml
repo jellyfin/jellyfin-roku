@@ -58,24 +58,55 @@
           <PlayedCheckmark id="playedIndicator" translation="[240, 0]" />
         </Poster>
       </LayoutGroup>
-
-      <Rectangle id='seasonListRect' translation="[-30, 0]" width="1720" height="400">
-        <TVSeasonGrid
-          id="seasons"
-          numColumns="8"
-          numRows="2"
-          clippingRect="[-10,-10,2020,370]"
-          vertFocusAnimationStyle="fixed"
-          itemComponentName="TVSeasonGridItem"
-          itemSpacing="[20, 50]"
-          itemSize="[180, 320]"
-          rowHeights="[320]"
-          drawFocusFeedback="true"
-          translation="[45, 25]" />
-      </Rectangle>
     </LayoutGroup>
 
+    <Rectangle id='seasonListRect' translation="[100, 575]" width="1720" height="400">
+      <TVSeasonGrid
+        id="seasons"
+        numColumns="8"
+        numRows="3"
+        clippingRect="[-10,-10,2020,370]"
+        vertFocusAnimationStyle="fixedFocusWrap"
+        itemComponentName="TVSeasonGridItem"
+        itemSpacing="[20, 50]"
+        itemSize="[180, 320]"
+        rowHeights="[320]"
+        drawFocusFeedback="true"
+        translation="[45, 25]" />
+    </Rectangle>
+
     <ExtrasSlider visible="false" id="tvSeasonExtras" />
+    <Animation id="revealSeasonsAnimation" duration=".4" repeat="false" easeFunction="linear">
+      <Vector2DFieldInterpolator
+        id="toplevelTranslation"
+        key="[0.0, 1]"
+        keyValue="[[100, 100], [100, -500]]"
+        fieldToInterp="toplevel.translation" />
+
+      <Vector2DFieldInterpolator
+        id="seasonListRectTranslation"
+        key="[0.0, 1]"
+        keyValue="[[100, 575], [0, 0]]"
+        fieldToInterp="seasonListRect.translation" />
+
+      <Vector2DFieldInterpolator
+        id="seasonsTranslation"
+        key="[0.0, 1]"
+        keyValue="[[45, 25], [145, 100]]"
+        fieldToInterp="seasons.translation" />
+
+      <FloatFieldInterpolator
+        id="seasonListRectHeight"
+        key="[0.0, 1]"
+        keyValue="[400.0, 1080.0]"
+        fieldToInterp="seasonListRect.height" />
+
+      <FloatFieldInterpolator
+        id="seasonListRectWidth"
+        key="[0.0, 1]"
+        keyValue="[1720.0, 1920.0]"
+        fieldToInterp="seasonListRect.width" />
+    </Animation>
   </children>
   <interface>
     <function name="getFocusedItem" />

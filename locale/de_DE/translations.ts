@@ -2290,6 +2290,14 @@
         <source>Current Offset</source>
         <translation>Aktueller Offset</translation>
     </message>
+    <message>
+        <source>Screen Settings</source>
+        <translation>Bildschirmeinstellungen</translation>
+    </message>
+    <message>
+        <source>Display Episodes In Two Columns</source>
+        <translation>Folgen in zwei Spalten anzeigen</translation>
+    </message>
 </context>
 <context>
     <name></name>

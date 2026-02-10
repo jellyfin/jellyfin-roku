@@ -10,7 +10,6 @@ sub init()
     m.scrollBar = m.top.findnode("scrollBar")
     m.thumb = m.top.findnode("thumb")
     m.thumbStep = 0
-    m.rowCount = 1
     m.displayedRows = 1
 
     m.scrollBar.opacity = .75
@@ -20,6 +19,13 @@ sub init()
     m.top.observeFieldscoped("itemFocused", "onItemFocusedChange")
     m.top.observeFieldscoped("numRows", "onNumRowsChange")
     m.top.observeFieldscoped("content", "contentChanged")
+    m.top.observeFieldscoped("clippingRect", "onclippingRectChange")
+end sub
+
+sub onclippingRectChange()
+    m.scrollBar.height = m.top.clippingRect.height * .90
+    calculateButtonThumbProperties()
+    onItemFocusedChange()
 end sub
 
 sub onNumRowsChange()
@@ -49,13 +55,16 @@ sub calculateButtonThumbProperties()
 
     m.scrollBar.visible = true
 
-    m.rowCount = Fix(m.top.content.getChildCount() / 8)
-    m.thumbStep = 227 / m.rowCount
 
-    m.displayedRows = m.rowCount
-    if (m.top.content.getChildCount() / 8) > m.rowCount
-        m.displayedRows += 1
+    rowCount = Fix(m.top.content.getChildCount() / m.top.numColumns)
+    displayedRows = rowCount
+
+    if (m.top.content.getChildCount() / m.top.numColumns) > rowCount
+        displayedRows += 1
     end if
+
+    m.thumb.height = m.scrollBar.height / displayedRows
+    m.thumbStep = m.thumb.height
 end sub
 
 sub onItemFocusedChange()
