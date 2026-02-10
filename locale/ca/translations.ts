@@ -2262,5 +2262,13 @@
         <source>Favorites Row</source>
         <translation>Filera de preferits</translation>
     </message>
+    <message>
+        <source>Screen Settings</source>
+        <translation>Configuració de la pantalla</translation>
+    </message>
+    <message>
+        <source>Display Episodes In Two Columns</source>
+        <translation>Mostra els episodis en dues columnes</translation>
+    </message>
 </context>
 </TS>
