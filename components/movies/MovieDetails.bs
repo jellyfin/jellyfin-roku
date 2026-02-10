@@ -50,6 +50,8 @@ sub init()
 
     setButtonColors()
 
+    m.streamSummaryNode = m.top.findNode("streamSummary")
+
     m.loadStatus = ViewLoadStatus.INIT
 
     hasSubtitleManagementPermissions = false
@@ -575,49 +577,51 @@ function generateVideoOptions(itemData as dynamic) as dynamic
     mediaSources = itemData.mediaSources
 
     setRotationWarning(string.EMPTY)
-    for i = 0 to mediaSources.Count() - 1
-        mediaSource = mediaSources[i]
-        if isStringEqual(chainLookup(mediaSource, "videotype"), VideoType.VIDEOFILE)
-            videoCodecForDisplay = ""
-            codec = ""
-            if isValidAndNotEmpty(mediaSource.mediaStreams)
+    if isValidAndNotEmpty(mediaSources)
+        for i = 0 to mediaSources.Count() - 1
+            mediaSource = mediaSources[i]
+            if isStringEqual(chainLookup(mediaSource, "videotype"), VideoType.VIDEOFILE)
+                videoCodecForDisplay = ""
+                codec = ""
+                if isValidAndNotEmpty(mediaSource.mediaStreams)
 
-                ' find the first (default) video track to get the codec for the details screen
+                    ' find the first (default) video track to get the codec for the details screen
 
-                for index = 0 to mediaSource.mediaStreams.Count() - 1
-                    mediaStream = mediaSource.mediaStreams[index]
-                    if isStringEqual(chainLookup(mediaStream, "Type"), MediaStreamType.VIDEO)
-                        if m.performRotationCheck
-                            rotation = chainLookupReturn(mediaStream, "rotation", 0)
-                            if rotation <> 0
-                                setRotationWarning(tr("Note: Force transcode option automatically enabled due to video rotation"))
-                                m.global.queueManager.callFunc("setForceTranscode", PlaybackMethod.FORCETRANSCODEALLOWREMUX)
+                    for index = 0 to mediaSource.mediaStreams.Count() - 1
+                        mediaStream = mediaSource.mediaStreams[index]
+                        if isStringEqual(chainLookup(mediaStream, "Type"), MediaStreamType.VIDEO)
+                            if m.performRotationCheck
+                                rotation = chainLookupReturn(mediaStream, "rotation", 0)
+                                if rotation <> 0
+                                    setRotationWarning(tr("Note: Force transcode option automatically enabled due to video rotation"))
+                                    m.global.queueManager.callFunc("setForceTranscode", PlaybackMethod.FORCETRANSCODEALLOWREMUX)
+                                end if
                             end if
-                        end if
 
-                        if isStringEqual(mediaSource.id, m.top.selectedVideoStreamId)
-                            videoStreamTitle = mediaSources.count() > 1 ? Substitute("{0} - {1}", mediaSource.Name, mediaStream.displayTitle) : mediaStream.displayTitle
-                            setSelectedVideoStreamTitle(videoStreamTitle)
+                            if isStringEqual(mediaSource.id, m.top.selectedVideoStreamId)
+                                videoStreamTitle = mediaSources.count() > 1 ? Substitute("{0} - {1}", mediaSource.Name, mediaStream.displayTitle) : mediaStream.displayTitle
+                                setSelectedVideoStreamTitle(videoStreamTitle)
+                            end if
+                            exit for
                         end if
-                        exit for
-                    end if
-                end for
+                    end for
 
-                videoCodecForDisplay = mediaSources[i].mediaStreams[0].displayTitle
-                codec = mediaSources[i].mediaStreams[0].Codec
+                    videoCodecForDisplay = mediaSources[i].mediaStreams[0].displayTitle
+                    codec = mediaSources[i].mediaStreams[0].Codec
+                end if
+
+                ' Create options for user to switch between video tracks
+                videos.push({
+                    "Title": mediaSource.Name,
+                    "Description": tr("Video"),
+                    "Selected": m.top.selectedVideoStreamId = mediaSource.id,
+                    "StreamID": mediaSource.id,
+                    "video_codec": videoCodecForDisplay,
+                    "codec": codec
+                })
             end if
-
-            ' Create options for user to switch between video tracks
-            videos.push({
-                "Title": mediaSource.Name,
-                "Description": tr("Video"),
-                "Selected": m.top.selectedVideoStreamId = mediaSource.id,
-                "StreamID": mediaSource.id,
-                "video_codec": videoCodecForDisplay,
-                "codec": codec
-            })
-        end if
-    end for
+        end for
+    end if
 
     setVideoStreamCount(mediaSources.Count())
     return videos
@@ -627,22 +631,25 @@ function generateAudioOptions(itemData as dynamic) as dynamic
     audioTracks = []
     mediaStreams = itemData.mediaStreams
 
-    for i = 0 to mediaStreams.Count() - 1
-        if mediaStreams[i].Type = "Audio"
-            rokuTrackName = `#uniq:${mediaStreams[i].LookupCI("Title") ?? string.EMPTY}(${i + 1})`
+    if isValidAndNotEmpty(mediaStreams)
+        for i = 0 to mediaStreams.Count() - 1
+            mediaStream = mediaStreams[i]
+            if isStringEqual(chainLookup(mediaStream, "Type"), MediaStreamType.AUDIO)
+                rokuTrackName = `#uniq:${mediaStream.LookupCI("Title") ?? string.EMPTY}(${i + 1})`
 
-            audioTracks.push({
-                "Title": mediaStreams[i].displayTitle,
-                "Description": mediaStreams[i].Title,
-                "Selected": m.top.selectedAudioStreamIndex = i,
-                "StreamIndex": i,
-                "RokuTrackName": rokuTrackName
-            })
-            if m.top.selectedAudioStreamIndex = i
-                setSelectedAudioStreamTitle(mediaStreams[i].displayTitle)
+                audioTracks.push({
+                    "Title": mediaStream.displayTitle,
+                    "Description": mediaStream.Title,
+                    "Selected": m.top.selectedAudioStreamIndex = i,
+                    "StreamIndex": i,
+                    "RokuTrackName": rokuTrackName
+                })
+                if m.top.selectedAudioStreamIndex = i
+                    setSelectedAudioStreamTitle(mediaStream.displayTitle)
+                end if
             end if
-        end if
-    end for
+        end for
+    end if
 
     setAudioStreamCount(audioTracks.Count())
     return audioTracks
@@ -650,14 +657,17 @@ end function
 
 function generateSubtitleOptions(itemData as dynamic) as dynamic
     defaultSubtitleIndex = SubtitleSelection.NONE
-    for i = 0 to itemData.mediaSources.Count() - 1
-        mediaSource = itemData.mediaSources[i]
-        if isStringEqual(chainLookup(mediaSource, "id"), m.top.selectedVideoStreamId)
-            if isValid(mediaSource.DefaultSubtitleStreamIndex)
-                defaultSubtitleIndex = mediaSource.DefaultSubtitleStreamIndex
+    mediaSources = itemData.mediaSources
+    if isValidAndNotEmpty(mediaSources)
+        for i = 0 to mediaSources.Count() - 1
+            mediaSource = mediaSources[i]
+            if isStringEqual(chainLookup(mediaSource, "id"), m.top.selectedVideoStreamId)
+                if isValid(chainLookup(mediaSource, "DefaultSubtitleStreamIndex"))
+                    defaultSubtitleIndex = mediaSource.DefaultSubtitleStreamIndex
+                end if
             end if
-        end if
-    end for
+        end for
+    end if
 
     subtitleTracks = [{
         "StreamIndex": SubtitleSelection.NONE,
@@ -668,17 +678,20 @@ function generateSubtitleOptions(itemData as dynamic) as dynamic
     }]
 
     mediaStreams = itemData.mediaStreams
-    for i = 0 to mediaStreams.Count() - 1
-        if mediaStreams[i].Type = "Subtitle"
-            subtitleTracks.push({
-                "Title": mediaStreams[i].displayTitle,
-                "json": mediaStreams[i],
-                "Description": mediaStreams[i].Title,
-                "Selected": defaultSubtitleIndex = mediaStreams[i].index,
-                "StreamIndex": i
-            })
-        end if
-    end for
+    if isValidAndNotEmpty(mediaStreams)
+        for i = 0 to mediaStreams.Count() - 1
+            mediaStream = mediaStreams[i]
+            if isStringEqual(chainLookup(mediaStream, "Type"), MediaStreamType.SUBTITLE)
+                subtitleTracks.push({
+                    "Title": mediaStream.displayTitle,
+                    "json": mediaStream,
+                    "Description": mediaStream.Title,
+                    "Selected": defaultSubtitleIndex = mediaStream.index,
+                    "StreamIndex": i
+                })
+            end if
+        end for
+    end if
 
     return subtitleTracks
 end function
@@ -712,60 +725,69 @@ sub SetDefaultSubtitleStream(itemData)
         for i = 0 to mediaSources.Count() - 1
             mediaSource = mediaSources[i]
             if isStringEqual(chainLookup(mediaSource, "id"), m.top.selectedVideoStreamId)
-                if isValid(chainLookup(mediaSource, "DefaultSubtitleStreamIndex"))
-                    defaultSubtitleStreamIndex = mediaSource.DefaultSubtitleStreamIndex
-                end if
+                defaultSubtitleStreamIndex = chainLookupReturn(mediaSource, "DefaultSubtitleStreamIndex", SubtitleSelection.NONE)
             end if
         end for
     end if
     subtitleStreamCount = 0
 
     selectedSubtitleStreamTitle = "None"
-    for i = 0 to itemData.mediaStreams.Count() - 1
-        stream = itemData.mediaStreams[i]
-        if stream.Type = "Subtitle"
-            if stream.Index = defaultSubtitleStreamIndex
-                selectedSubtitleStreamTitle = stream.displayTitle
+    if isValidAndNotEmpty(itemData.mediaStreams)
+        for i = 0 to itemData.mediaStreams.Count() - 1
+            stream = itemData.mediaStreams[i]
+            if isStringEqual(chainLookup(stream, "Type"), MediaStreamType.SUBTITLE)
+                if stream.Index = defaultSubtitleStreamIndex
+                    selectedSubtitleStreamTitle = stream.displayTitle
+                end if
+                subtitleStreamCount++
             end if
-            subtitleStreamCount++
-        end if
-    end for
+        end for
+    end if
 
     setSelectedSubtitleStreamTitle(selectedSubtitleStreamTitle)
     setSubtitleStreamCount(subtitleStreamCount)
 end sub
 
-function findStreamSummaryNode() as dynamic
-    node = m.top.findNode("streamSummary")
-    return node
-end function
-
 sub setRotationWarning(rotationWarning as string)
-    findStreamSummaryNode().rotationWarning = rotationWarning
+    if isValid(m.streamSummaryNode)
+        m.streamSummaryNode.rotationWarning = rotationWarning
+    end if
 end sub
 
 sub setSelectedVideoStreamTitle(title as string)
-    findStreamSummaryNode().selectedVideoStreamTitle = title
+    if isValid(m.streamSummaryNode)
+        m.streamSummaryNode.selectedVideoStreamTitle = title
+    end if
 end sub
 
 sub setVideoStreamCount(count as integer)
-    findStreamSummaryNode().videoStreamCount = count
+    if isValid(m.streamSummaryNode)
+        m.streamSummaryNode.videoStreamCount = count
+    end if
 end sub
 
 sub setSelectedAudioStreamTitle(title as string)
-    findStreamSummaryNode().selectedAudioStreamTitle = title
+    if isValid(m.streamSummaryNode)
+        m.streamSummaryNode.selectedAudioStreamTitle = title
+    end if
 end sub
 
 sub setAudioStreamCount(count as integer)
-    findStreamSummaryNode().audioStreamCount = count
+    if isValid(m.streamSummaryNode)
+        m.streamSummaryNode.audioStreamCount = count
+    end if
 end sub
 
 sub setSelectedSubtitleStreamTitle(title as string)
-    findStreamSummaryNode().selectedSubtitleStreamTitle = title
+    if isValid(m.streamSummaryNode)
+        m.streamSummaryNode.selectedSubtitleStreamTitle = title
+    end if
 end sub
 
 sub setSubtitleStreamCount(count as integer)
-    findStreamSummaryNode().subtitleStreamCount = count
+    if isValid(m.streamSummaryNode)
+        m.streamSummaryNode.subtitleStreamCount = count
+    end if
 end sub
 
 sub SetDefaultAudioTrack(itemData)
@@ -784,8 +806,9 @@ sub SetDefaultAudioTrack(itemData)
 
     audioStreamCount = 1
     for i = 0 to itemData.mediaStreams.Count() - 1
-        if itemData.mediaStreams[i].Type = "Audio"
-            rokuTrackName = `#uniq:${itemData.mediaStreams[i].LookupCI("Title") ?? string.EMPTY}(${audioStreamCount})`
+        mediaStream = itemData.mediaStreams[i]
+        if isStringEqual(chainLookup(mediaStream, "Type"), MediaStreamType.AUDIO)
+            rokuTrackName = `#uniq:${mediaStream.LookupCI("Title") ?? string.EMPTY}(${audioStreamCount})`
 
             if firstAudioTrack < 0 then firstAudioTrack = i
 
@@ -798,17 +821,17 @@ sub SetDefaultAudioTrack(itemData)
 
             ' No user selection and not configured to play the default, how about a preferred language?
             if preferredAudioTrackIndex < 0 and isValid(preferredLanguage)
-                if isStringEqual(chainLookupReturn(itemData.mediaStreams[i], "Language", invalid), preferredLanguage)
+                if isStringEqual(chainLookupReturn(mediaStream, "Language", invalid), preferredLanguage)
                     m.top.selectedAudioStreamIndex = i
                     m.global.queueManager.callFunc("setPreferredAudioTrackName", rokuTrackName)
-                    setSelectedAudioStreamTitle(itemData.mediaStreams[i].displayTitle)
+                    setSelectedAudioStreamTitle(mediaStream.displayTitle)
                     return
                 end if
             end if
 
             if isStringEqual(rokuTrackName, preferredAudioTrackName)
                 m.top.selectedAudioStreamIndex = i
-                setSelectedAudioStreamTitle(itemData.mediaStreams[i].displayTitle)
+                setSelectedAudioStreamTitle(mediaStream.displayTitle)
                 return
             end if
 

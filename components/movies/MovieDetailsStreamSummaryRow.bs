@@ -1,12 +1,21 @@
+import "pkg:/source/utils/misc.bs"
+
+sub init()
+    m.titleNode = m.top.findNode("title")
+    m.countNode = m.top.findNode("count")
+end sub
+
 sub onChangeTitle()
-    streamTitle = m.top.title
-    node = m.top.findNode("title")
-    node.text = streamTitle = invalid ? "" : tr(m.top.streamType) + ": " + streamTitle
+    if isValid(m.titleNode)
+        streamTitle = m.top.title
+        m.titleNode.text = isValid(streamTitle) ? tr(m.top.streamType) + ": " + streamTitle : ""
+    end if
 end sub
 
 sub onChangeCount()
-    count = m.top.count
-    node = m.top.findNode("count")
-    additionalCount = count - 1
-    node.text = additionalCount > 0 ? "+" + stri(additionalCount).trim() : ""
+    if isValid(m.countNode)
+        count = m.top.count
+        additionalCount = count - 1
+        m.countNode.text = additionalCount > 0 ? "+" + stri(additionalCount).trim() : ""
+    end if
 end sub
