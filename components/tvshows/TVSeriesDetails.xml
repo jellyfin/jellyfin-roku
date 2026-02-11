@@ -51,6 +51,7 @@
             <IconButton id="resume" background="#070707" padding="35" icon="pkg:/images/icons/resume.png" text="Resume" height="65" width="140" />
             <IconButton id="play" background="#070707" padding="35" icon="pkg:/images/icons/play.png" text="Play" height="65" width="140" />
             <IconButton id="shuffle" background="#070707" padding="35" icon="pkg:/images/icons/shufflePlay.png" text="Shuffle" height="65" width="140" />
+            <IconButton id="extras" background="#070707" padding="15" icon="pkg:/images/icons/extras.png" text="Extras" height="65" width="140" />
           </ButtonGroupHoriz>
         </LayoutGroup>
 
