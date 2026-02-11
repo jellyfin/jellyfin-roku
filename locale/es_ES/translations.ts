@@ -2354,6 +2354,14 @@
         <source>Is Unplayed</source>
         <translation>No se ha reproducido</translation>
     </message>
+    <message>
+        <source>Screen Settings</source>
+        <translation>Configuración de pantalla</translation>
+    </message>
+    <message>
+        <source>Display Episodes In Two Columns</source>
+        <translation>Mostrar los episodios en dos columnas</translation>
+    </message>
 </context>
 <context>
     <name></name>

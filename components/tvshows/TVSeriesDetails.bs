@@ -11,7 +11,7 @@ sub init()
     m.top.optionsAvailable = false
     m.extrasSlider = m.top.findNode("tvSeasonExtras")
     m.getShuffleEpisodesTask = createObject("roSGNode", "getShuffleEpisodesTask")
-    m.extrasSlider.visible = true
+    m.extrasSlider.visible = false
     m.seasons = m.top.findNode("seasons")
     m.seasons.focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
     m.overview = m.top.findNode("overview")
@@ -23,6 +23,16 @@ sub init()
 
     seasonListRect = m.top.FindNode("seasonListRect")
     seasonListRect.color = ColorPalette.BLACK77
+    m.defaultClippingRect = "[-10,-10,2020,370]"
+
+    m.toplevel = m.top.findnode("toplevel")
+    m.seasonListRect = m.top.findnode("seasonListRect")
+    m.revealSeasonsAnimation = m.top.findNode("revealSeasonsAnimation")
+    m.toplevelTranslation = m.top.findNode("toplevelTranslation")
+    m.seasonListRectTranslation = m.top.findNode("seasonListRectTranslation")
+    m.seasonsTranslation = m.top.findNode("seasonsTranslation")
+    m.seasonListRectHeight = m.top.findNode("seasonListRectHeight")
+    m.seasonListRectWidth = m.top.findNode("seasonListRectWidth")
 
     m.buttonGrp = m.top.findNode("buttons")
     m.buttonCount = m.buttonGrp.getChildCount()
@@ -367,6 +377,30 @@ sub createFullDscrDlg()
     end if
 end sub
 
+sub enterEpisodeListFullScreen()
+    if m.toplevel.translation[1] <> 100 then return
+
+    m.seasonListRect.color = ColorPalette.BLACKDD
+    m.toplevelTranslation.reverse = false
+    m.seasonListRectTranslation.reverse = false
+    m.seasonsTranslation.reverse = false
+    m.seasonListRectHeight.reverse = false
+    m.seasonListRectWidth.reverse = false
+    m.revealSeasonsAnimation.control = AnimationControl.START
+    m.seasons.clippingRect = "[-10,-10,2020,980]"
+end sub
+
+sub exitEpisodeListFullScreen()
+    m.seasonListRect.color = ColorPalette.BLACK77
+    m.toplevelTranslation.reverse = true
+    m.seasonListRectTranslation.reverse = true
+    m.seasonsTranslation.reverse = true
+    m.seasonListRectHeight.reverse = true
+    m.seasonListRectWidth.reverse = true
+    m.revealSeasonsAnimation.control = AnimationControl.START
+    m.seasons.clippingRect = m.defaultClippingRect
+end sub
+
 function onKeyEvent(key as string, press as boolean) as boolean
     if m.buttonGrp.isInFocusChain()
         if isStringEqual(key, KeyCode.UP)
@@ -437,6 +471,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
                 selectedButton.focus = false
                 m.seasons.setFocus(true)
                 m.top.lastFocus = m.seasons
+                enterEpisodeListFullScreen()
                 return true
             end if
         end if
@@ -464,19 +499,23 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
     if seasonRow.isInFocusChain()
         if isStringEqual(key, KeyCode.DOWN)
-            extrasSection.setFocus(true)
-            group = m.global.sceneManager.callFunc("getActiveScene")
-            group.lastFocus = extrasSection
-            m.top.findNode("VertSlider").reverse = false
-            m.top.findNode("extrasFader").reverse = false
-            m.top.findNode("pplAnime").control = AnimationControl.START
-            return true
+            return false
+
+            ' extrasSection.setFocus(true)
+            ' group = m.global.sceneManager.callFunc("getActiveScene")
+            ' group.lastFocus = extrasSection
+            ' m.top.findNode("VertSlider").reverse = false
+            ' m.top.findNode("extrasFader").reverse = false
+            ' m.top.findNode("pplAnime").control = AnimationControl.START
         end if
 
-        if isStringEqual(key, KeyCode.UP)
+        if isStringEqual(key, KeyCode.BACK)
+            exitEpisodeListFullScreen()
             onButtonSelectedChange()
             return true
         end if
+
+        return false
     end if
 
     if m.overview.isInFocusChain()

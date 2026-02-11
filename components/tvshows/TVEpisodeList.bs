@@ -18,8 +18,9 @@ sub init()
     m.top.content = setData()
     updateSize()
 
+    m.top.observeFieldscoped("numColumns", "onNumColumnsChange")
     m.top.observeFieldscoped("currFocusRow", "onCurrFocusRowChange")
-    m.top.observeFieldscoped("numRows", "onNumRowsChange")
+    m.top.observeFieldscoped("clippingRect", "onclippingRectChange")
 
     if chainLookupReturn(m.global.session, "user.settings.`ui.tvshows.startListFromUnwatched`", false)
         m.top.jumpToItem = m.firstUnwatched
@@ -28,9 +29,16 @@ sub init()
     calculateButtonThumbProperties()
 end sub
 
-sub onNumRowsChange()
+sub onclippingRectChange()
+    m.scrollBar.height = m.top.clippingRect.height * .90
+    calculateButtonThumbProperties()
+end sub
+
+sub onNumColumnsChange()
+    updateSize()
     calculateButtonThumbProperties()
     onCurrFocusRowChange()
+    m.top.content = setData()
 end sub
 
 sub hideScrollbar()
@@ -55,8 +63,15 @@ sub calculateButtonThumbProperties()
 
     m.scrollBar.visible = true
 
-    rowCount = Fix(m.top.content.getChildCount() / 2)
-    m.thumbStep = 277 / rowCount
+    rowCount = Fix(m.top.content.getChildCount() / m.top.numColumns)
+    displayedRows = rowCount
+
+    if (m.top.content.getChildCount() / m.top.numColumns) > rowCount
+        displayedRows += 1
+    end if
+
+    m.thumb.height = m.scrollBar.height / displayedRows
+    m.thumbStep = m.thumb.height
 end sub
 
 sub onCurrFocusRowChange()
@@ -65,18 +80,22 @@ sub onCurrFocusRowChange()
 end sub
 
 sub updateSize()
+    m.top.itemSpacing = [20, 20]
+
+    if m.top.numColumns = 1
+        m.top.itemSize = [1620, 300]
+        return
+    end if
+
     ' Size of the individual episodes
     m.top.itemSize = [805, 200]
-
-    ' Spacing between episodes
-    m.top.itemSpacing = [20, 20]
 end sub
 
 sub setupRows()
     updateSize()
     objects = m.top.objects
     m.top.numRows = objects.items.count()
-    m.top.numColumns = 2
+    m.top.numColumns = chainLookupReturn(m.global.session, "user.settings.TVSeasonDetails-twocolumnepisodelist", true) ? 2 : 1
     m.top.content = setData()
     calculateButtonThumbProperties()
 

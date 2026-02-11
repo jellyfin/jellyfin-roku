@@ -1,16 +1,33 @@
 import "pkg:/source/api/baserequest.bs"
 import "pkg:/source/api/Image.bs"
 import "pkg:/source/api/sdk.bs"
+import "pkg:/source/enums/AnimationControl.bs"
 import "pkg:/source/enums/ColorPalette.bs"
 import "pkg:/source/enums/ItemType.bs"
 import "pkg:/source/enums/KeyCode.bs"
 import "pkg:/source/enums/TaskControl.bs"
+import "pkg:/source/enums/ViewLoadStatus.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/misc.bs"
 
 sub init()
-    m.top.optionsAvailable = false
+    m.loadStatus = ViewLoadStatus.INIT
 
+    m.top.optionsAvailable = false
+    m.defaultClippingRect = "[-10,-10,2020,420]"
+
+    m.settingsButton = m.top.findNode("settingsButton")
+    m.settingsButton.observeFieldScoped("selected", "onsettingsButtonSelected")
+    m.settingsButton.highlightBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+
+    m.revealEpisodesAnimation = m.top.findNode("revealEpisodesAnimation")
+    m.toplevelTranslation = m.top.findNode("toplevelTranslation")
+    m.seasonListRectTranslation = m.top.findNode("seasonListRectTranslation")
+    m.pickerTranslation = m.top.findNode("pickerTranslation")
+    m.seasonListRectHeight = m.top.findNode("seasonListRectHeight")
+    m.seasonListRectWidth = m.top.findNode("seasonListRectWidth")
+
+    m.toplevel = m.top.findNode("toplevel")
     m.rows = m.top.findNode("picker")
     m.poster = m.top.findNode("seasonPoster")
     m.shuffle = m.top.findNode("shuffle")
@@ -29,8 +46,8 @@ sub init()
     m.overview = m.top.findNode("overview")
     m.overview.ellipsisText = tr("...")
 
-    seasonListRect = m.top.FindNode("seasonListRect")
-    seasonListRect.color = ColorPalette.BLACK77
+    m.seasonListRect = m.top.FindNode("seasonListRect")
+    m.seasonListRect.color = ColorPalette.BLACK77
 
     m.resume = m.top.findNode("resume")
     if isValid(m.resume)
@@ -162,6 +179,7 @@ sub updateSeason()
     populateOnScreenText()
 
     stopLoadingSpinner()
+    m.loadStatus = ViewLoadStatus.LOADED
 end sub
 
 sub populateOnScreenText()
@@ -217,8 +235,9 @@ sub populateOnScreenText()
 end sub
 
 sub adjustForOverview(hasOverviewText = false)
+    if m.loadStatus <> ViewLoadStatus.INIT then return
+
     title = m.top.findNode("title")
-    seasonListRect = m.top.FindNode("seasonListRect")
 
     if hasOverviewText
         m.overview.height = 140
@@ -226,8 +245,15 @@ sub adjustForOverview(hasOverviewText = false)
         m.poster.width = 300
         m.playedIndicator.translation = [240, 0]
         title.maxWidth = 1400
-        seasonListRect.height = 450
+
+        m.seasonListRect.height = 450
+        m.seasonListRectHeight.keyValue = "[450.0, 1080.0]"
+
+        m.seasonListRect.translation = [100, 575]
+        m.seasonListRectTranslation.keyValue = "[[100, 575], [0, 0]]"
+
         m.rows.clippingRect = "[-10,-10,2020,420]"
+        m.defaultClippingRect = "[-10,-10,2020,420]"
 
         setFieldText("overview", m.top.seasonData.json.overview)
         return
@@ -237,8 +263,16 @@ sub adjustForOverview(hasOverviewText = false)
     m.poster.height = 330
     m.poster.width = 220
     title.maxWidth = 1480
-    seasonListRect.height = 570
+
+    m.seasonListRect.height = 570
+    m.seasonListRectHeight.keyValue = "[570.0, 1080.0]"
+
+    m.seasonListRect.translation = [100, 450]
+    m.seasonListRectTranslation.keyValue = "[[100, 450], [0, 0]]"
+
     m.rows.clippingRect = "[-10,-10,2020,540]"
+    m.defaultClippingRect = "[-10,-10,2020,540]"
+
     m.playedIndicator.translation = [160, 0]
 end sub
 
@@ -390,13 +424,93 @@ sub createFullDscrDlg()
     end if
 end sub
 
+sub settingsSetFocus(setFocusTo as boolean)
+    m.settingsButton.setfocus(setFocusTo)
+    m.settingsButton.highlighted = setFocusTo
+    if setFocusTo
+        m.top.lastFocus = m.settingsButton
+    end if
+end sub
+
+sub onsettingsButtonSelected()
+    scene = m.top.getScene()
+    if not isValid(scene) then return
+
+    dialog = createObject("roSGNode", "ScreenSettings")
+    dlgPalette = createObject("roSGNode", "RSGPalette")
+    dlgPalette.colors = {
+        DialogBackgroundColor: chainLookupReturn(m.global.session, "user.settings.colorDialogBackground", ColorPalette.ELEMENTBACKGROUND),
+        DialogFocusColor: chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT),
+        DialogFocusItemColor: chainLookupReturn(m.global.session, "user.settings.colorDialogSelectedText", ColorPalette.WHITE),
+        DialogSecondaryTextColor: ColorPalette.RED,
+        DialogSecondaryItemColor: chainLookupReturn(m.global.session, "user.settings.colorDialogBorderLine", ColorPalette.LIGHTBLUE),
+        DialogTextColor: chainLookupReturn(m.global.session, "user.settings.colorDialogText", ColorPalette.WHITE)
+    }
+    dialog.palette = dlgPalette
+    dialog.observeField("buttonSelected", "radioButtonSelected")
+    dialog.title = `Screen Settings`
+    dialog.buttons = [tr("OK")]
+
+    scene.dialog = dialog
+end sub
+
+sub radioButtonSelected()
+    scene = m.top.getScene()
+    if not isValid(scene) then return
+    scene.dialog.close = true
+end sub
+
+sub redrawItems(changedValues as object)
+    if not isValidAndNotEmpty(changedValues) then return
+
+    for each setting in changedValues
+        settingName = setting[0]
+        settingValue = setting[1]
+
+        if isStringEqual(settingName, "twocolumnepisodelist")
+            m.rows.numColumns = settingValue ? 2 : 1
+        end if
+    end for
+end sub
+
+sub enterEpisodeListFullScreen()
+    if m.toplevel.translation[1] <> 100 then return
+
+    m.seasonListRect.color = ColorPalette.BLACKDD
+    m.toplevelTranslation.reverse = false
+    m.seasonListRectTranslation.reverse = false
+    m.pickerTranslation.reverse = false
+    m.seasonListRectHeight.reverse = false
+    m.seasonListRectWidth.reverse = false
+    m.revealEpisodesAnimation.control = AnimationControl.START
+    m.settingsButton.visible = false
+    m.rows.clippingRect = "[-10,-10,2020,980]"
+end sub
+
+sub exitEpisodeListFullScreen()
+    m.seasonListRect.color = ColorPalette.BLACK77
+    m.toplevelTranslation.reverse = true
+    m.seasonListRectTranslation.reverse = true
+    m.pickerTranslation.reverse = true
+    m.seasonListRectHeight.reverse = true
+    m.seasonListRectWidth.reverse = true
+    m.revealEpisodesAnimation.control = AnimationControl.START
+    m.settingsButton.visible = true
+    m.rows.clippingRect = m.defaultClippingRect
+end sub
+
 ' Handle navigation input from the remote and act on it
 function onKeyEvent(key as string, press as boolean) as boolean
 
     if m.buttonGrp.isInFocusChain()
         if isStringEqual(key, KeyCode.UP)
             if m.buttonGrp.getChild(m.top.selectedButtonIndex).escape = "up"
-                if not isStringEqual(m.overview.text, string.EMPTY)
+                if isStringEqual(m.overview.text, string.EMPTY)
+                    m.buttonGrp.getChild(m.top.selectedButtonIndex).escape = ""
+                    selectedButton = m.buttonGrp.getChild(m.top.selectedButtonIndex)
+                    selectedButton.focus = false
+                    settingsSetFocus(true)
+                else
                     m.buttonGrp.getChild(m.top.selectedButtonIndex).escape = ""
                     selectedButton = m.buttonGrp.getChild(m.top.selectedButtonIndex)
                     selectedButton.focus = false
@@ -480,12 +594,31 @@ function onKeyEvent(key as string, press as boolean) as boolean
                 selectedButton.focus = false
                 m.rows.setFocus(true)
                 m.top.lastFocus = m.rows
+                enterEpisodeListFullScreen()
                 return true
             end if
         end if
     end if
 
     if press
+        if m.settingsButton.isInFocusChain()
+            if isStringEqual(key, KeyCode.DOWN)
+                settingsSetFocus(false)
+
+                if isStringEqual(m.overview.text, string.EMPTY)
+                    selectedButton = m.buttonGrp.getChild(m.top.selectedButtonIndex)
+                    selectedButton.focus = true
+                    selectedButton.setFocus(true)
+                    m.top.lastFocus = selectedButton
+                else
+                    m.overview.setFocus(true)
+                    m.overview.color = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+                    m.top.lastFocus = m.overview
+                    return true
+                end if
+            end if
+        end if
+
         if m.rows.isInFocusChain()
             if isStringEqual(key, KeyCode.OK)
                 focusedItem = getFocusedItem()
@@ -496,7 +629,14 @@ function onKeyEvent(key as string, press as boolean) as boolean
                 end if
             end if
 
+            if isStringEqual(key, KeyCode.BACK)
+                exitEpisodeListFullScreen()
+                onButtonSelectedChange()
+                return true
+            end if
+
             if isStringEqual(key, KeyCode.UP)
+                exitEpisodeListFullScreen()
                 onButtonSelectedChange()
                 return true
             end if
@@ -516,6 +656,12 @@ function onKeyEvent(key as string, press as boolean) as boolean
                 selectedButton.focus = true
                 selectedButton.setFocus(true)
                 m.top.lastFocus = selectedButton
+                m.overview.color = ColorPalette.WHITE
+                return true
+            end if
+
+            if isStringEqual(key, KeyCode.UP)
+                settingsSetFocus(true)
                 m.overview.color = ColorPalette.WHITE
                 return true
             end if

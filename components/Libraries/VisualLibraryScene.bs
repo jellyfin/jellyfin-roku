@@ -1757,7 +1757,7 @@ function getOverhangingButton()
 end function
 
 sub onLibrarySettingsSelected()
-    m.global.sceneManager.callFunc("settingDialog", tr("Library Settings"))
+    m.global.sceneManager.callFunc("librarySettingDialog", tr("Library Settings"))
 end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean

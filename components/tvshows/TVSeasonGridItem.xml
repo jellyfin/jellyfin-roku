@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component name="TVSeasonGridItem" extends="Group">
   <children>
-    <Poster id="backdrop" translation="[0,15]" loadDisplayMode="scaleToZoom" uri="pkg:/images/white.9.png" />
-    <Poster id="itemPoster" translation="[0,15]" loadDisplayMode="scaleToZoom" />
+    <Poster id="backdrop" translation="[0,0]" loadDisplayMode="scaleToZoom" uri="pkg:/images/white.9.png" />
+    <Poster id="itemPoster" translation="[0,0]" loadDisplayMode="scaleToZoom" />
 
-    <ScrollingText id="title" horizAlign="left" vertAlign="bottom" font="font:SmallBoldSystemFont" height="34" maxWidth="384" translation="[8,290]" repeatCount="0" />
-    <ScrollingText id="itemTextExtra" horizAlign="left" vertAlign="center" font="font:SmallBoldSystemFont" height="32" maxWidth="384" translation="[8,325]" color="#777777FF" repeatCount="0" />
+    <ScrollingText id="title" horizAlign="left" vertAlign="bottom" font="font:SmallBoldSystemFont" height="34" maxWidth="384" translation="[8,275]" repeatCount="0" />
+    <ScrollingText id="itemTextExtra" horizAlign="left" vertAlign="center" font="font:SmallBoldSystemFont" height="32" maxWidth="384" translation="[8,310]" color="#777777FF" repeatCount="0" />
 
     <Poster id="itemIcon" width="50" height="50" />
     <Text id="posterText" translation="[5,5]" horizAlign="center" vertAlign="center" ellipsizeOnBoundary="true" wrap="true" />
