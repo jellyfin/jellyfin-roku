@@ -36,7 +36,7 @@
     <OSD id="osd" visible="false" inactiveTimeout="5" />
 
     <Rectangle id="chapterList" visible="false" color="0x00000098" width="400" height="380" translation="[103,210]">
-      <LabelList id="chaptermenu" itemSpacing="[0,20]" numRows="5" font="font:SmallSystemFont" itemSize="[315,40]" translation="[40,20]">
+      <LabelList id="chapterMenu" itemSpacing="[0,20]" numRows="5" font="font:SmallSystemFont" itemSize="[315,40]" translation="[40,20]">
         <ContentNode id="chapterContent" role="content" />
       </LabelList>
     </Rectangle>

@@ -297,8 +297,8 @@ sub handleChapterListAction()
     m.chapterList.visible = m.osd.showChapterList
 
     if not m.chapterList.visible then return
-
     m.chapterMenu.jumpToItem = getCurrentChapterIndex()
+    positionChapterList()
 
     m.osd.hasFocus = false
     m.osd.setFocus(false)
@@ -1374,6 +1374,18 @@ sub showOSD()
     m.osd.visible = true
     m.osd.hasFocus = true
     m.osd.setFocus(true)
+end sub
+
+sub positionChapterList()
+    optionControls = m.osd.findNode("optionControls")
+    chapterList = m.top.findNode("chapterList")
+
+    if optionControls = invalid or chapterList = invalid
+        return
+    end if
+
+    optionControlsRect = optionControls.boundingRect()
+    chapterList.translation = [optionControlsRect.x, optionControlsRect.y + optionControlsRect.height]
 end sub
 
 sub refreshLiveOSDContent()
