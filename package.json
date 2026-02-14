@@ -1,7 +1,7 @@
 {
   "name": "jellyfin",
   "type": "module",
-  "version": "3.1.5",
+  "version": "3.1.6",
   "description": "Official Roku app for Jellyfin media server",
   "dependencies": {
     "@rokucommunity/bslib": "0.1.1",
