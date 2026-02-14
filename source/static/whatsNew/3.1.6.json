@@ -2,5 +2,9 @@
   {
     "description": "Fix chapter list menu padding",
     "author": "noahpodgurski"
+  },
+  {
+    "description": "Add compatibility with more HDR formats",
+    "author": "FractalBoy"
   }
 ]
