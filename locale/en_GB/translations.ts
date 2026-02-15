@@ -421,7 +421,7 @@
     </message>
     <message>
         <source>Go directly to the episode list if a TV series has only one season.</source>
-        <translation type="unfinished">Go directly to the episode list if a TV series has only one season.</translation>
+        <translation>If enabled, selecting a TV series with only one season will go straight to the episode list rather than the show details and season list.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
@@ -1381,6 +1381,46 @@
     <message>
         <source>Playback Options</source>
         <translation>Playback Options</translation>
+    </message>
+    <message>
+        <source>Force Transcoding setting is enabled</source>
+        <translation>Force Transcoding setting is enabled</translation>
+    </message>
+    <message>
+        <source>Force Transcode option is enabled</source>
+        <translation>Force Transcode option is enabled</translation>
+    </message>
+    <message>
+        <source>All</source>
+        <translation>All</translation>
+    </message>
+    <message>
+        <source>(Favorites)</source>
+        <translation>(Favourites)</translation>
+    </message>
+    <message>
+        <source>Favorites</source>
+        <translation>Favourites</translation>
+    </message>
+    <message>
+        <source>Artists</source>
+        <translation>Artists</translation>
+    </message>
+    <message>
+        <source>Delete Playlist</source>
+        <translation>Delete Playlist</translation>
+    </message>
+    <message>
+        <source>Collections</source>
+        <translation>Collections</translation>
+    </message>
+    <message>
+        <source>Playlists</source>
+        <translation>Playlists</translation>
+    </message>
+    <message>
+        <source>No items found. Try adjusting your selected filters.</source>
+        <translation>No items found. Try adjusting your selected filters.</translation>
     </message>
 </context>
 <context>
