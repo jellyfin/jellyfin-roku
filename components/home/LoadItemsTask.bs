@@ -414,7 +414,7 @@ function loadNextUp() as object
         UserId: m.global.session.user.id,
         EnableRewatching: m.global.session.user.settings["ui.details.enablerewatchingnextup"],
         DisableFirstEpisode: false,
-        limit: 25,
+        limit: 50,
         EnableTotalRecordCount: false
     }
 
@@ -430,33 +430,21 @@ function loadNextUp() as object
         end if
     end if
 
-    addViewAll = true ' Assume there will be a "View All" to start
-    checkViewAll = false ' Only need to check if we don't have anything in the Next Up home row
-
+    addViewAll = false
     data = api.shows.GetNextUp(params)
+    count = 0
 
     if isChainValid(data, "Items")
         for each item in data.Items
             tmp = CreateObject("roSGNode", "HomeData")
             tmp.json = item
             results.push(tmp)
+            count++
+            if count = 24
+                addViewAll = true
+                exit for
+            end if
         end for
-        if data.Items.Count() = 0
-            checkViewAll = true
-        end if
-    else
-        checkViewAll = true
-    end if
-
-    ' Add "View All"
-    if checkViewAll
-        ' Nothing to show in Next Up, but are there hidden items (e.g. > 365 days old)?
-        params.Delete("NextUpDateCutoff")
-        params.AddReplace("limit", 1) ' if there is even one, then we know we need to show "View All"
-        data = api.shows.GetNextUp(params)
-        if not isValid(data) or (isValid(data) and isValid(data.Items) and data.Items.Count() = 0)
-            addViewAll = false
-        end if
     end if
 
     if addViewAll
