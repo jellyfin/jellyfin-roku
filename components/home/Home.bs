@@ -313,7 +313,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
     ' assume they want to go to the first item of the row.
     ' Otherwise, they are exiting the app.
     if isStringEqual(key, KeyCode.BACK) and m.homeRows.rowItemFocused[1] > 0
-        m.homeRows.jumpToRowItem = [m.homeRows.currFocusRow, 0]
+        m.homeRows.jumpToRowItem = [m.homeRows.rowItemFocused[0], 0]
         return true
     end if
 
