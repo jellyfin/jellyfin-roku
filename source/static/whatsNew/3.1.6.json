@@ -6,5 +6,9 @@
   {
     "description": "Add compatibility with more HDR formats",
     "author": "FractalBoy"
+  },
+  {
+    "description": "Fix back button logic on home page",
+    "author": "jimdogx"
   }
 ]
