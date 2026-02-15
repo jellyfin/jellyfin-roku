@@ -10,5 +10,9 @@
   {
     "description": "Fix View All on Next Up",
     "author": "jimdogx"
+  },
+  {
+    "description": "Fix back button logic on home screen",
+    "author": "jimdogx"
   }
 ]
