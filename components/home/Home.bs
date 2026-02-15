@@ -312,7 +312,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
     ' If the user hit back and is not on the first item of the row,
     ' assume they want to go to the first item of the row.
     ' Otherwise, they are exiting the app.
-    if isStringEqual(key, KeyCode.Back) and m.homeRows.currFocusColumn > 0
+    if isStringEqual(key, KeyCode.Back) and m.homeRows.rowItemFocused[1] > 0
         m.homeRows.jumpToRowItem = [m.homeRows.currFocusRow, 0]
         return true
     end if
