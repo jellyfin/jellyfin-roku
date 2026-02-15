@@ -414,7 +414,7 @@ function loadNextUp() as object
         UserId: m.global.session.user.id,
         EnableRewatching: m.global.session.user.settings["ui.details.enablerewatchingnextup"],
         DisableFirstEpisode: false,
-        limit: 50,
+        limit: 26,
         EnableTotalRecordCount: false
     }
 
