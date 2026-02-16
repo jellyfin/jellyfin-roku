@@ -35,7 +35,7 @@ sub onWidthChanged()
 
     m.channelLogo.width = logoWidth
     m.channelTitle.maxWidth = titleWidth
-    m.channelTitle.translation = `[${titleTranslationHorizontal}, 0]`
+    m.channelTitle.translation = [titleTranslationHorizontal, 0]
 
     m.borderTop.width = m.top.width
     m.backdrop.width = m.top.width
@@ -65,10 +65,14 @@ sub contentChanged()
         m.channelTitle.text = itemData.LookupCI("title")
     end if
 
+    toggleChannelIdVisibility()
+end sub
+
+sub toggleChannelIdVisibility()
     if isValidAndNotEmpty(m.channelLogo.uri) and isValidAndNotEmpty(m.channelTitle.text)
         m.channelLogo.visible = true
         m.channelTitle.visible = true
-    else if isValidAndNotEmpty(m.channelTitle.uri)
+    else if isValidAndNotEmpty(m.channelLogo.uri)
         m.channelLogo.visible = true
         m.channelTitle.visible = false
     else
