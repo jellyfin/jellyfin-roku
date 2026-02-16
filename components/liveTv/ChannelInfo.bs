@@ -22,17 +22,23 @@ sub onLoadStatusChanged()
     end if
 
     if m.channelLogo.loadStatus = PosterLoadStatus.READY
-        m.channelTitle.visible = false
         m.channelLogo.visible = true
         return
     end if
 end sub
 
 sub onWidthChanged()
-    m.channelLogo.width = m.top.width
+    logoWidth = int(m.top.width / 3)
+
+    titleTranslationHorizontal = logoWidth + 10
+    titleWidth = m.top.width - titleTranslationHorizontal
+
+    m.channelLogo.width = logoWidth
+    m.channelTitle.maxWidth = titleWidth
+    m.channelTitle.translation = `[${titleTranslationHorizontal}, 0]`
+
     m.borderTop.width = m.top.width
     m.backdrop.width = m.top.width
-    m.channelTitle.maxWidth = m.top.width - 20
 end sub
 
 sub onHeightChanged()
@@ -49,16 +55,25 @@ sub contentChanged()
     ' Reset all values due to Roku's component reuse
     m.channelLogo.uri = ""
     m.channelTitle.text = ""
-    m.channelTitle.visible = true
 
     if isValidAndNotEmpty(itemData.LookupCI("hdsmalliconurl"))
         m.channelLogo.observeFieldScoped("loadStatus", "onLoadStatusChanged")
         m.channelLogo.uri = itemData.LookupCI("hdsmalliconurl")
-    else
-        m.channelLogo.visible = false
     end if
 
     if isValid(itemData.LookupCI("title"))
         m.channelTitle.text = itemData.LookupCI("title")
     end if
+
+    if isValidAndNotEmpty(m.channelLogo.uri) and isValidAndNotEmpty(m.channelTitle.text)
+        m.channelLogo.visible = true
+        m.channelTitle.visible = true
+    else if isValidAndNotEmpty(m.channelTitle.uri)
+        m.channelLogo.visible = true
+        m.channelTitle.visible = false
+    else
+        m.channelLogo.visible = false
+        m.channelTitle.visible = true
+    end if
+
 end sub
