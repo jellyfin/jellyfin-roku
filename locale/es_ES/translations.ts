@@ -1249,7 +1249,7 @@
     </message>
     <message>
         <source>Set the maximum bitrate in Mbps. Set to 0 to use Roku&apos;s specifications. This setting must be enabled to take effect.</source>
-        <translation>Establecer la tasa de bits máxima en Mbps. Establecela en 0 para utilizar las especificaciones de Roku. Esta configuración debe estar habilitada para que surta efecto.</translation>
+        <translation>Establecer la tasa de bits máxima en Mbps. Establécela en 0 para utilizar las especificaciones de Roku. Esta configuración debe estar habilitada para que surta efecto.</translation>
     </message>
     <message>
         <source>General</source>
@@ -2361,6 +2361,10 @@
     <message>
         <source>Display Episodes In Two Columns</source>
         <translation>Mostrar los episodios en dos columnas</translation>
+    </message>
+    <message>
+        <source>Set the maximum amount of days a show should stay in the &apos;Next Up&apos; list without watching it. Maximum value is 1000 days.</source>
+        <translation>Establece los días que un elemento aparecerá en la sección “A Continuación” si no se visualiza. El valor máximo es 1000 días.</translation>
     </message>
 </context>
 <context>
