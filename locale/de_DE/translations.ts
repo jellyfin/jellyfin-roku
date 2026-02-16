@@ -2298,6 +2298,10 @@
         <source>Display Episodes In Two Columns</source>
         <translation>Folgen in zwei Spalten anzeigen</translation>
     </message>
+    <message>
+        <source>Set the maximum amount of days a show should stay in the &apos;Next Up&apos; list without watching it. Maximum value is 1000 days.</source>
+        <translation>Lege die maximale Anzahl an Tagen fest, die eine Serie in &quot;Als Nächstes&quot; ungesehen verbleiben kann. Maximaler Wert ist 1000 Tage.</translation>
+    </message>
 </context>
 <context>
     <name></name>
