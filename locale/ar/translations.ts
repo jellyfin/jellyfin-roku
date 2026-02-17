@@ -415,17 +415,17 @@
     </message>
     <message>
         <source>Starts</source>
-        <translation type="unfinished"></translation>
+        <translation>يبدأ</translation>
         <extracomment>(Future Tense) For defining a day and time when a program will start (e.g. Starts Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Ended at</source>
-        <translation type="unfinished"></translation>
+        <translation>انتهى عند</translation>
         <extracomment>(Past Tense) For defining time when a program will ended (e.g. Ended at 08:00) </extracomment>
     </message>
     <message>
         <source>Ends at</source>
-        <translation type="unfinished"></translation>
+        <translation>ينتهي عند</translation>
         <extracomment>(Past Tense) For defining a day and time when a program ended (e.g. Ended Wednesday, 08:00) </extracomment>
     </message>
     <message>
@@ -2277,6 +2277,34 @@
     <message>
         <source>Display Episodes In Two Columns</source>
         <translation>عرض الحلقات في عمودين</translation>
+    </message>
+    <message>
+        <source>Is Unplayed</source>
+        <translation>هل تم تشغيله</translation>
+    </message>
+    <message>
+        <source>Date Created</source>
+        <translation>تاريخ التكوين</translation>
+    </message>
+    <message>
+        <source>Field to sort the row by.</source>
+        <translation>حقل لترتيب الصف.</translation>
+    </message>
+    <message>
+        <source>Sort By Field</source>
+        <translation>رتب حسب الحقل</translation>
+    </message>
+    <message>
+        <source>Settings relating to the favorites row on the home screen.</source>
+        <translation>إعدادات تخص صف المفضلة على شاشة البداية.</translation>
+    </message>
+    <message>
+        <source>Favorites Row</source>
+        <translation>صف المفضلة</translation>
+    </message>
+    <message>
+        <source>Sort Order for the row - Ascending,Descending.</source>
+        <translation>ترتيب تصنيف هذا الصف - تصاعدي,تنازلي.</translation>
     </message>
 </context>
 </TS>
