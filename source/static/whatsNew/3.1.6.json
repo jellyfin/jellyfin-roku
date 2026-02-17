@@ -14,5 +14,9 @@
   {
     "description": "Fix back button logic on home screen",
     "author": "jimdogx"
+  },
+  {
+    "description": "Show channel logo next to channel title in TV Guide",
+    "author": "michaelcresswell"
   }
 ]
