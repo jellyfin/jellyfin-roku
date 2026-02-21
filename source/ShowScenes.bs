@@ -766,6 +766,11 @@ function CreateSeriesDetailsGroup(seriesID as string) as dynamic
         enableTotalRecordCount: false
     })
 
+    if not isChainValid(apiSeasonData, "items")
+        stopLoadingSpinner()
+        return invalid
+    end if
+
     ' Divert to season details if user setting goStraightToEpisodeListing is enabled and only one season exists.
     if m.global.session.user.settings["ui.tvshows.goStraightToEpisodeListing"]
         if isChainValid(apiSeasonData, "items")
