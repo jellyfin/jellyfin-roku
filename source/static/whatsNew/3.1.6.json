@@ -30,5 +30,9 @@
   {
     "description": "Fix movie data component crash when no userdata is returned by API",
     "author": "1hitsong"
+  },
+  {
+    "description": "Fix multi-line subtitles going off bottom of screen",
+    "author": "1hitsong"
   }
 ]
