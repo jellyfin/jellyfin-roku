@@ -10,7 +10,7 @@ sub setFields()
     m.top.id = json.id
     m.top.Title = json.name
     m.top.Description = json.overview
-    m.top.favorite = json.UserData.isFavorite
+    m.top.favorite = chainLookupReturn(json, "UserData.isFavorite", false)
     m.top.watched = chainLookup(json, "UserData.played")
     m.top.Type = "Movie"
 
