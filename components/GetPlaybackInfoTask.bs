@@ -150,11 +150,7 @@ function GetTranscodingStats(deviceSession)
 end function
 
 function getVideoStream()
-    if not isValid(m.playbackInfo)
-        return invalid
-    end if
-
-    if not isValid(m.playbackInfo.mediaSources)
+    if not isChainValid(m.playbackInfo, "mediaSources")
         return invalid
     end if
 
@@ -162,11 +158,7 @@ function getVideoStream()
         return invalid
     end if
 
-    if not isValid(m.playbackInfo.mediaSources[0].MediaStreams)
-        return invalid
-    end if
-
-    if m.playbackInfo.mediaSources[0].MediaStreams.Count() <= 0
+    if not isValidAndNotEmpty(m.playbackInfo.mediaSources[0].MediaStreams)
         return invalid
     end if
 
