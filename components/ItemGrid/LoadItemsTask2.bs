@@ -195,10 +195,6 @@ sub loadItems()
         url = "Items"
     end if
 
-    params.append({
-        enableUserData: false
-    })
-
     resp = APIRequest(url, params)
     data = getJson(resp)
 
@@ -385,6 +381,10 @@ sub loadItems()
                 if not isStringEqual(item.Type, "genre") and LCase(item.Type) <> "musicgenre"
                     tmp.parentFolder = m.top.itemId
                     tmp.json = item
+                    if item.UserData <> invalid and item.UserData.isFavorite <> invalid
+                        tmp.favorite = item.UserData.isFavorite
+                    end if
+
                 end if
 
                 results.push(tmp)
