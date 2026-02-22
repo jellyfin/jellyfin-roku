@@ -32,7 +32,7 @@
     "author": "1hitsong"
   },
   {
-    "description": "Only display information for video type media streams",
+    "description": "In playback info popup, ensure video media stream data is shown",
     "author": "FractalBoy"
   }
 ]
