@@ -1,11 +1,14 @@
-import "pkg:/source/utils/config.bs"
 import "pkg:/source/api/sdk.bs"
+import "pkg:/source/utils/config.bs"
 
 sub init()
     m.top.functionName = "getFiltersTask"
 end sub
 
 sub getFiltersTask()
-    m.filters = api.items.GetFilters(m.top.params)
-    m.top.filters = m.filters
+    filters = api.items.GetFilters(m.top.params)
+    if isChainValid(filters, "tags")
+        filters.delete("Tags")
+    end if
+    m.top.filters = filters
 end sub
