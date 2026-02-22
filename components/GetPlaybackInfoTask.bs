@@ -175,7 +175,13 @@ function havePlaybackInfo()
         return false
     end if
 
-    return true
+    for each mediaStream in m.playbackInfo.mediaSources[0].MediaStreams
+        if isStringEqual(chainLookup(mediaStream, "Type"), MediaStreamType.VIDEO)
+            return true
+        end if
+    end for
+
+    return false
 end function
 
 function getDisplayBitrate(bitrate)
