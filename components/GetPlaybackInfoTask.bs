@@ -104,7 +104,13 @@ function GetTranscodingStats(deviceSession)
     end if
 
     if havePlaybackInfo()
-        stream = m.playbackInfo.mediaSources[0].MediaStreams[0]
+        stream = invalid
+        for each mediaStream in m.playbackInfo.mediaSources[0].MediaStreams
+            if mediaStream.Type = "Video"
+                stream = mediaStream
+                exit for
+            end if
+        end for
         sessionStats.data.push("<header>" + tr("Stream Information") + "</header>")
         if isValid(stream.Container)
             data = "<b>• " + tr("Container") + ":</b> " + stream.Container
