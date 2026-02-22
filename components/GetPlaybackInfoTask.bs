@@ -106,7 +106,7 @@ function GetTranscodingStats(deviceSession)
     if havePlaybackInfo()
         stream = invalid
         for each mediaStream in m.playbackInfo.mediaSources[0].MediaStreams
-            if mediaStream.Type = "Video"
+            if isStringEqual(chainLookup(mediaStream, "Type"), MediaStreamType.VIDEO)
                 stream = mediaStream
                 exit for
             end if
