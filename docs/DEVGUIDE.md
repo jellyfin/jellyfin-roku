@@ -12,7 +12,7 @@ Authors: [frothedoatmilk](https://github.com/frothedoatmilk), [cewert](https://g
     - [Install VSCode](#install-vscode)
     - [Usage](#usage)
     - [Hardcoding Roku Information](#hardcoding-roku-information)
-  - [Testing a PR](#testing-a-pr)
+  - [Testing a PR](#testing-builds)
   - [Bug/Crash Reports](#bugcrash-reports)
   - [Committing](#committing)
   - [Adding a User Setting](#adding-a-user-setting)
