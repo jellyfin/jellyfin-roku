@@ -34,5 +34,9 @@
   {
     "description": "In playback info popup, ensure video media stream data is shown",
     "author": "FractalBoy"
+  },
+  {
+    "description": "Fix library bug that caused lazy-loading to stop working",
+    "author": "1hitsong"
   }
 ]
