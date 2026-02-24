@@ -92,6 +92,13 @@
         "default": "false"
       },
       {
+        "title": "Attempt direct play anamorphic video",
+        "description": "Newer devices may support direct play of anamorphic video.",
+        "settingName": "playback.media.directPlayAnamorphic",
+        "type": "bool",
+        "default": "false"
+      },
+      {
         "title": "Force Transcoding",
         "description": "Force all playable media to be transcoded.",
         "settingName": "playback.media.forceTranscode",
