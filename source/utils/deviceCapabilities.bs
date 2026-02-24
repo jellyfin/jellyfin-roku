@@ -641,12 +641,6 @@ function getCodecProfiles(videoCodec = string.EMPTY as string) as object
         "Codec": "h264",
         "Conditions": [
             {
-                "Condition": "NotEquals",
-                "Property": "IsAnamorphic",
-                "Value": "true",
-                "IsRequired": false
-            },
-            {
                 "Condition": "LessThanEqual",
                 "Property": "VideoBitDepth",
                 "Value": "8",
@@ -812,12 +806,6 @@ function getCodecProfiles(videoCodec = string.EMPTY as string) as object
             "Type": "Video",
             "Codec": "hevc",
             "Conditions": [
-                {
-                    "Condition": "NotEquals",
-                    "Property": "IsAnamorphic",
-                    "Value": "true",
-                    "IsRequired": false
-                },
                 {
                     "Condition": "EqualsAny",
                     "Property": "VideoProfile",

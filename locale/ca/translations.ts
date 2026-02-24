@@ -2270,5 +2270,9 @@
         <source>Display Episodes In Two Columns</source>
         <translation>Mostra els episodis en dues columnes</translation>
     </message>
+    <message>
+        <source>Set the maximum amount of days a show should stay in the &apos;Next Up&apos; list without watching it. Maximum value is 1000 days.</source>
+        <translation>Estableix el límit de dies que una sèrie apareixerà en la secció &quot;A continuació&quot; si no es visualitza. El valor màxim són 1000 dies.</translation>
+    </message>
 </context>
 </TS>
