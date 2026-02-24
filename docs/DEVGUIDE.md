@@ -84,7 +84,7 @@ Example:
 
 ### Testing Builds
 
-If you want help with testing a Release Candidate or test a Pull Request to see if it fixes an issue for you, you can sideload the build artifact.
+If you want to help with testing a Release Candidate or to test a Pull Request to see if it fixes an issue for you, you can sideload the build artifact.
 
 1. Obtain the build artifact zip file.
    - Release Candidate build artifacts will be provided by a Jellyfin Roku team member.
