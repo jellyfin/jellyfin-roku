@@ -24,6 +24,13 @@
         "default": "0"
       },
       {
+        "title": "Attempt direct play anamorphic video",
+        "description": "Newer devices may support direct play of anamorphic video.",
+        "settingName": "playback.media.directPlayAnamorphic",
+        "type": "bool",
+        "default": "false"
+      },
+      {
         "title": "Autoplay Episode Limit",
         "description": "The number of episodes that will play automatically after the selected episode. Requires 'Play next episode automatically' server setting to be enabled.",
         "settingName": "episodeQueueLimit",
@@ -88,13 +95,6 @@
         "title": "Custom Trickplay",
         "description": "Display custom trickplay images even if this Roku says it's displaying its own. This may cause the two images to overlay on top of each other.",
         "settingName": "playback.trickplay.forcecustom",
-        "type": "bool",
-        "default": "false"
-      },
-      {
-        "title": "Attempt direct play anamorphic video",
-        "description": "Newer devices may support direct play of anamorphic video.",
-        "settingName": "playback.media.directPlayAnamorphic",
         "type": "bool",
         "default": "false"
       },
