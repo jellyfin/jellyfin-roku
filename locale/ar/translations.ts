@@ -494,61 +494,61 @@
     </message>
     <message>
         <source>Enter the server name or IP address</source>
-        <translation type="unfinished"></translation>
+        <translation>ادخل اسم أو عنوان IP الخادم</translation>
         <extracomment>Title of KeyboardDialog when manually entering a server URL</extracomment>
     </message>
     <message>
         <source>Pick a Jellyfin server from the local network</source>
-        <translation type="unfinished"></translation>
+        <translation>اختر خادم Jellyfin المتوفر على شبكتك المحلية:</translation>
         <extracomment>Instructions on initial app launch when the user is asked to pick a server from a list</extracomment>
     </message>
     <message>
         <source>...or enter server URL manually:</source>
-        <translation type="unfinished"></translation>
+        <translation>إن لم يتم سرد أي خادم, بإمكانك ادخال عنوان URL الخادم يدويا:</translation>
         <extracomment>Instructions on initial app launch when the user is asked to manually enter a server URL</extracomment>
     </message>
     <message>
         <source>Error Getting Playback Information</source>
-        <translation type="unfinished"></translation>
+        <translation>خطأ جلب معلومات التشغيل</translation>
         <extracomment>Dialog Title: Received error from server when trying to get information about the selected item for playback</extracomment>
     </message>
     <message>
         <source>An error was encountered while playing this item. Server did not provide required transcoding data.</source>
-        <translation type="unfinished"></translation>
+        <translation>ظهر خطأ اثناء تشغيل هذا العنصر. الخادم لم يقدم بيانات الترميز المطلوبة.</translation>
         <extracomment>Content of message box when trying to play an item which requires transcoding, and the server did not provide transcode url</extracomment>
     </message>
     <message>
         <source>Version</source>
-        <translation type="unfinished"></translation>
+        <translation>اصدار</translation>
     </message>
     <message>
         <source>Playback</source>
-        <translation type="unfinished"></translation>
+        <translation>التشغيل</translation>
         <extracomment>Title for Playback section in user setting screen.</extracomment>
     </message>
     <message>
         <source>Codec Support</source>
-        <translation type="unfinished"></translation>
+        <translation>دعم مرمز</translation>
         <extracomment>Settings Menu - Title for settings group related to codec support</extracomment>
     </message>
     <message>
         <source>Enable or disable Direct Play for optional codecs</source>
-        <translation type="unfinished"></translation>
+        <translation>تفعيل أو تثبيط Direct Play من المرمزات الاختيارية</translation>
         <extracomment>Settings Menu - Title for settings group related to codec support</extracomment>
     </message>
     <message>
         <source>MPEG-2</source>
-        <translation type="unfinished"></translation>
+        <translation>MPEG-2</translation>
         <extracomment>Name of codec used in settings menu</extracomment>
     </message>
     <message>
         <source>Support Direct Play of MPEG-2 content (e.g., Live TV). This will prevent transcoding of MPEG-2 content, but uses significantly more bandwidth.</source>
-        <translation type="unfinished"></translation>
+        <translation>دعم Direct Play لمحتوى MPEG-2. هذا سيمنع ترميز محتوى MPEG-2, لكن يستخدم سعة موجة أقل.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>MPEG-4</source>
-        <translation type="unfinished"></translation>
+        <translation>MPEG-4</translation>
         <extracomment>Name of codec used in settings menu</extracomment>
     </message>
     <message>
@@ -2256,11 +2256,11 @@
     </message>
     <message>
         <source>Show Next Episode Details After Finish</source>
-        <translation type="unfinished"></translation>
+        <translation>اظهر تفاصيل الحلقة التالية بعد الانتهاء</translation>
     </message>
     <message>
         <source>If auto play next episode is disabled, display the next episode&apos;s detail screen after an episode finishes playing. If no next up episode is found, return to the just-played episode&apos;s page.</source>
-        <translation type="unfinished"></translation>
+        <translation>إذا تم تثبيط التشغيل التلقائي للحلقة التالية, اظهر شاشة تفاصيل الحلقة التالية بعد انتهائ تشغيل السابقة. إن لم توجد حلقة, عُد إلى صفحة آخر الحلقات المشغّلة.</translation>
     </message>
     <message>
         <source>Adjust Subtitle Timing</source>
