@@ -98,7 +98,7 @@ If you want help with testing a Release Candidate or test a Pull Request to see 
 
 5. Click ‘Replace with zip’.
 
-The main screen for Jellyfin should appear on the device. You are now testing the build artifact!
+Jellyfin should appear on the device. You are now testing the build artifact!
 
 The Jellyfin install from the Roku app store is a separate app on the device and unaffected by sideloading.
 
