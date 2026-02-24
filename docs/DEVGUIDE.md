@@ -82,7 +82,7 @@ Example:
 
 ![image](https://user-images.githubusercontent.com/2544493/170485209-0dbe6787-8026-47e7-9095-1df96cda8a0a.png)
 
-### Testing Builds
+## Testing Builds
 
 If you want to help with testing a Release Candidate or to test a Pull Request to see if it fixes an issue for you, you can sideload the build artifact.
 
@@ -102,7 +102,7 @@ Jellyfin should appear on the device. You are now testing the build artifact!
 
 The Jellyfin install from the Roku app store is a separate app on the device and unaffected by sideloading.
 
-### Bug/Crash Reports
+## Bug/Crash Reports
 
 Did the app crash? Find a nasty bug? Use this command to view the error log and [report it to the developers](https://github.com/jellyfin/jellyfin-roku/issues):
 
