@@ -86,6 +86,7 @@ sub init()
     end if
 
     'set inital counts for overhang before content is loaded.
+    m.loadItemsTask.observeField("content", "ItemDataLoaded")
     m.loadItemsTask.totalRecordCount = 0
 
     m.alpha = m.top.findNode("alpha")
@@ -303,7 +304,6 @@ sub loadInitialItems()
         m.loadItemsTask.view = "Movies"
     end if
 
-    m.loadItemsTask.observeField("content", "ItemDataLoaded")
     startLoadingSpinner(false)
     m.loadItemsTask.control = TaskControl.RUN
 
@@ -747,7 +747,6 @@ sub loadMoreData()
 
     startLoadingSpinner(false)
     m.loadItemsTask.startIndex = m.loadedItems
-    m.loadItemsTask.observeField("content", "ItemDataLoaded")
     m.loadItemsTask.control = TaskControl.RUN
 end sub
 
@@ -759,6 +758,7 @@ end sub
 
 sub alphaSelectedChanged()
     if not isStringEqual(m.top.alphaSelected, string.EMPTY)
+        m.loadItemsTask.control = TaskControl.STOP
         m.loadedRows = 0
         m.loadedItems = 0
         m.data = CreateObject("roSGNode", "ContentNode")

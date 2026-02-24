@@ -115,6 +115,7 @@ sub init()
     m.getFiltersTask = createObject("roSGNode", "GetFiltersTask")
 
     'set inital counts for overhang before content is loaded.
+    m.loadItemsTask.observeField("content", "ItemDataLoaded")
     m.loadItemsTask.totalRecordCount = 0
 
     if not m.global.device.hasVoiceRemote
@@ -398,7 +399,6 @@ sub loadInitialItems()
 
     setColumnSizes()
 
-    m.loadItemsTask.observeField("content", "ItemDataLoaded")
     m.loadItemsTask.control = TaskControl.RUN
 
     m.getFiltersTask.observeField("filters", "FilterDataLoaded")
@@ -939,7 +939,6 @@ sub loadMoreData()
 
     startLoadingSpinner(false)
     m.loadItemsTask.startIndex = m.loadedItems
-    m.loadItemsTask.observeField("content", "ItemDataLoaded")
     m.loadItemsTask.control = TaskControl.RUN
 end sub
 
@@ -1078,6 +1077,7 @@ sub alphaSelectedChanged()
         end if
     end if
 
+    m.loadItemsTask.control = TaskControl.STOP
     m.loadedRows = 0
     m.loadedItems = 0
 

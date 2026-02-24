@@ -52,6 +52,7 @@ sub init()
     m.loadItemsTask = createObject("roSGNode", "LoadItemsTask2")
 
     'set inital counts for overhang before content is loaded.
+    m.loadItemsTask.observeField("content", "ItemDataLoaded")
     m.loadItemsTask.totalRecordCount = 0
 
     m.top.gridTitles = m.global.session.user.settings["itemgrid.gridTitles"]
@@ -105,7 +106,6 @@ sub loadInitialItems()
 
     setColumnSizes()
 
-    m.loadItemsTask.observeField("content", "ItemDataLoaded")
     startLoadingSpinner(false)
     m.loadItemsTask.control = "RUN"
     SetUpOptions()
@@ -286,7 +286,6 @@ sub loadMoreData()
 
     startLoadingSpinner(false)
     m.loadItemsTask.startIndex = m.loadedItems
-    m.loadItemsTask.observeField("content", "ItemDataLoaded")
     m.loadItemsTask.control = "RUN"
 end sub
 
