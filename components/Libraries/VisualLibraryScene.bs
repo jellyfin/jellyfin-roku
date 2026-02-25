@@ -143,6 +143,7 @@ sub init()
     m.getFiltersTask = createObject("roSGNode", "GetFiltersTask")
 
     'set inital counts for overhang before content is loaded.
+    m.loadItemsTask.observeField("content", "ItemDataLoaded")
     m.loadItemsTask.totalRecordCount = 0
 
     if not m.global.device.hasVoiceRemote
@@ -597,7 +598,6 @@ sub loadInitialItems()
         setColumnSizes(posterOrientation)
     end if
 
-    m.loadItemsTask.observeField("content", "ItemDataLoaded")
     m.loadItemsTask.control = TaskControl.RUN
 
     m.getFiltersTask.observeField("filters", "FilterDataLoaded")
@@ -979,11 +979,8 @@ end sub
 'Handle loaded data, and add to Grid
 sub ItemDataLoaded(msg)
     itemData = msg.GetData()
-    m.loadItemsTask.unobserveField("content")
-    m.loadItemsTask.content = []
 
-    if not isValid(itemData)
-        m.Loading = false
+    if not isValidAndNotEmpty(itemData)
         return
     end if
 
@@ -1004,7 +1001,6 @@ sub ItemDataLoaded(msg)
         group = m.global.sceneManager.callFunc("getActiveScene")
         group.lastFocus = m.genreList
 
-        m.loading = false
         stopLoadingSpinner()
 
         ' Return focus to options menu if it was opened while library was loading
@@ -1050,7 +1046,6 @@ sub ItemDataLoaded(msg)
     'Update the stored counts
     m.loadedItems = m.itemGrid.content.getChildCount()
     m.loadedRows = m.loadedItems / m.itemGrid.numColumns
-    m.Loading = false
 
     onItemFocused()
 
@@ -1357,12 +1352,10 @@ end sub
 '
 'Load next set of items
 sub loadMoreData()
-    if m.Loading = true then return
+    if isStringEqual(m.loadItemsTask.state, TaskControl.RUN) then return
 
     startLoadingSpinner(false)
-    m.Loading = true
     m.loadItemsTask.startIndex = m.loadedItems
-    m.loadItemsTask.observeField("content", "ItemDataLoaded")
     m.loadItemsTask.control = TaskControl.RUN
 end sub
 
@@ -1486,6 +1479,7 @@ sub alphaSelectedChanged()
         end if
     end if
 
+    m.loadItemsTask.control = TaskControl.STOP
     m.loadedRows = 0
     m.loadedItems = 0
 
