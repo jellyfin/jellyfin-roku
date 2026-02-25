@@ -24,7 +24,7 @@
         "default": "0"
       },
       {
-        "title": "Attempt direct play anamorphic video",
+        "title": "Attempt Direct Play Anamorphic Video",
         "description": "Newer devices may support direct play of anamorphic video.",
         "settingName": "playback.media.directPlayAnamorphic",
         "type": "bool",
