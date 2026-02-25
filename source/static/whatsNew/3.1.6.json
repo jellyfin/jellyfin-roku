@@ -42,5 +42,9 @@
   {
     "description": "Fix library bug that caused lazy-loading to stop working",
     "author": "1hitsong"
+  },
+  {
+    "description": "Fix multi-line subtitles going off bottom of screen",
+    "author": "1hitsong"
   }
 ]
