@@ -2176,8 +2176,8 @@
             <translation>Are You Still Watching Popup</translation>
         </message>
         <message>
-            <source>Attempt direct play anamorphic video</source>
-            <translation>Attempt direct play anamorphic video</translation>
+            <source>Attempt Direct Play Anamorphic Video</source>
+            <translation>Attempt Direct Play Anamorphic Video</translation>
         </message>
         <message>
             <source>Newer devices may support direct play of anamorphic video.</source>
