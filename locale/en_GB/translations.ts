@@ -807,7 +807,7 @@
     </message>
     <message>
         <source>Set how many seconds before the end of an episode the Next Episode button should appear. Set to 0 to disable.</source>
-        <translation type="unfinished">Set how many seconds before the end of an episode the Next Episode button should appear. Set to 0 to disable.</translation>
+        <translation>If no Outro media segment exists, set how many seconds before the end of an episode the Skip Outro button should appear. Set to 0 to disable.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
@@ -1421,6 +1421,30 @@
     <message>
         <source>No items found. Try adjusting your selected filters.</source>
         <translation>No items found. Try adjusting your selected filters.</translation>
+    </message>
+    <message>
+        <source>Set the maximum amount of days a show should stay in the &apos;Next Up&apos; list without watching it. Maximum value is 1000 days.</source>
+        <translation>Set the maximum amount of days a show should stay in the &apos;Next Up&apos; list without watching it. Maximum value is 1000 days.</translation>
+    </message>
+    <message>
+        <source>Grid View Item Titles</source>
+        <translation>Grid View Item Titles</translation>
+    </message>
+    <message>
+        <source>Select when to show titles in grid view.</source>
+        <translation>Select when to show titles in grid view.</translation>
+    </message>
+    <message>
+        <source>The number of episodes that will play automatically after the selected episode. Requires &apos;Play next episode automatically&apos; server setting to be enabled.</source>
+        <translation>The number of episodes that will play automatically after the selected episode. Requires &apos;Play next episode automatically&apos; server setting to be enabled.</translation>
+    </message>
+    <message>
+        <source>Video Codec Support</source>
+        <translation>Video Codec Support</translation>
+    </message>
+    <message>
+        <source>Enable or disable Direct Play support for certain codecs.</source>
+        <translation>Enable or disable Direct Play support for certain codecs.</translation>
     </message>
 </context>
 <context>

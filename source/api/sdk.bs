@@ -424,6 +424,12 @@ namespace api
             return getJson(req)
         end function
 
+        ' Gets intros to play before the main media item plays.
+        function GetIntros(itemid as string)
+            resp = APIRequest(Substitute("/items/{1}/intros", itemid))
+            return getJson(resp)
+        end function
+
         ' Gets suggestions.
         function GetSuggestions(params = {} as object)
             resp = APIRequest("/items/suggestions", params)
@@ -2009,12 +2015,6 @@ namespace api
             req = APIRequest(Substitute("userfavoriteitems/{0}", itemid), params)
             json = deleteVoid(req)
             return json
-        end function
-
-        ' Gets intros to play before the main media item plays.
-        function GetIntros(userid as string, itemid as string)
-            resp = APIRequest(Substitute("/users/{0}/items/{1}/intros", userid, itemid))
-            return getJson(resp)
         end function
 
         ' Deletes a user's saved personal rating for an item.
