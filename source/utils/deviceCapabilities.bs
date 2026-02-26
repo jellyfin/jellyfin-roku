@@ -720,6 +720,15 @@ function getCodecProfiles(videoCodec = string.EMPTY as string) as object
             ]
         }
 
+        if not globalUserSettings["playback.media.directPlayAnamorphic"]
+            mpeg2ProfileArray.Conditions.push({
+                "Condition": "NotEquals",
+                "Property": "IsAnamorphic",
+                "Value": "true",
+                "IsRequired": false
+            })
+        end if
+
         ' set max resolution
         if globalUserSettings["playback.resolution.mode"] = "everything" and maxResSetting <> "off"
             mpeg2ProfileArray.Conditions.push(maxHeightArray)
@@ -774,6 +783,15 @@ function getCodecProfiles(videoCodec = string.EMPTY as string) as object
                 }
             ]
         }
+
+        if not globalUserSettings["playback.media.directPlayAnamorphic"]
+            av1ProfileArray.Conditions.push({
+                "Condition": "NotEquals",
+                "Property": "IsAnamorphic",
+                "Value": "true",
+                "IsRequired": false
+            })
+        end if
 
         ' set max resolution
         if globalUserSettings["playback.resolution.mode"] = "everything" and maxResSetting <> "off"
@@ -909,6 +927,15 @@ function getCodecProfiles(videoCodec = string.EMPTY as string) as object
                 }
             ]
         }
+
+        if not globalUserSettings["playback.media.directPlayAnamorphic"]
+            vp9ProfileArray.Conditions.push({
+                "Condition": "NotEquals",
+                "Property": "IsAnamorphic",
+                "Value": "true",
+                "IsRequired": false
+            })
+        end if
 
         ' set max resolution
         if globalUserSettings["playback.resolution.mode"] = "everything" and maxResSetting <> "off"
