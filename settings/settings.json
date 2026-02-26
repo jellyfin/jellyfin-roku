@@ -715,9 +715,10 @@
           },
           {
             "title": "Max Days Next Up",
-            "description": "Set the maximum amount of days a show should stay in the 'Next Up' list without watching it.",
+            "description": "Set the maximum amount of days a show should stay in the 'Next Up' list without watching it. Maximum value is 1000 days.",
             "settingName": "ui.details.maxdaysnextup",
             "type": "integer",
+            "max": "1000",
             "default": "365"
           },
           {
@@ -1177,16 +1178,16 @@
             "default": "default",
             "options": [
               {
-                    "title": "Default (Varies By Media Type)",
-                    "id": "default"
+                "title": "Default (Varies By Media Type)",
+                "id": "default"
               },
               {
-                    "title": "Landscape (Wide)",
-                    "id": "landscape"
+                "title": "Landscape (Wide)",
+                "id": "landscape"
               },
               {
-                    "title": "Portrait (Vertical)",
-                    "id": "portrait"
+                "title": "Portrait (Vertical)",
+                "id": "portrait"
               }
             ]
           },

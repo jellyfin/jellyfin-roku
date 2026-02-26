@@ -589,30 +589,33 @@ function getCodecProfiles(videoCodec = string.EMPTY as string) as object
     end if
 
     ' HDR SUPPORT
-    h264VideoRangeTypes = "SDR"
-    hevcVideoRangeTypes = "SDR"
-    vp9VideoRangeTypes = "SDR"
-    av1VideoRangeTypes = "SDR"
+    ' See https://github.com/jellyfin/jellyfin/blob/master/Jellyfin.Data/Enums/VideoRangeType.cs for valid range types
+    h264VideoRangeTypes = "SDR|DOVIWithSDR"
+    hevcVideoRangeTypes = "SDR|DOVIWithSDR"
+    vp9VideoRangeTypes = "SDR|DOVIWithSDR"
+    av1VideoRangeTypes = "SDR|DOVIWithSDR"
 
     dp = di.GetDisplayProperties()
     if dp.Hdr10
-        hevcVideoRangeTypes = hevcVideoRangeTypes + "|HDR10"
-        vp9VideoRangeTypes = vp9VideoRangeTypes + "|HDR10"
-        av1VideoRangeTypes = av1VideoRangeTypes + "|HDR10"
+        hevcVideoRangeTypes = hevcVideoRangeTypes + "|HDR10|DOVIWithHDR10"
+        vp9VideoRangeTypes = vp9VideoRangeTypes + "|HDR10|DOVIWithHDR10"
+        av1VideoRangeTypes = av1VideoRangeTypes + "|HDR10|DOVIWithHDR10"
     end if
     if dp.Hdr10Plus
-        av1VideoRangeTypes = av1VideoRangeTypes + "|HDR10+"
+        hevcVideoRangeTypes = hevcVideoRangeTypes + "|HDR10Plus|DOVIWithHDR10Plus"
+        vp9VideoRangeTypes = vp9VideoRangeTypes + "|HDR10Plus|DOVIWithHDR10Plus"
+        av1VideoRangeTypes = av1VideoRangeTypes + "|HDR10Plus|DOVIWithHDR10Plus"
     end if
     if dp.HLG
-        hevcVideoRangeTypes = hevcVideoRangeTypes + "|HLG"
-        vp9VideoRangeTypes = vp9VideoRangeTypes + "|HLG"
-        av1VideoRangeTypes = av1VideoRangeTypes + "|HLG"
+        hevcVideoRangeTypes = hevcVideoRangeTypes + "|HLG|DOVIWithHLG"
+        vp9VideoRangeTypes = vp9VideoRangeTypes + "|HLG|DOVIWithHLG"
+        av1VideoRangeTypes = av1VideoRangeTypes + "|HLG|DOVIWithHLG"
     end if
     if dp.DolbyVision
-        h264VideoRangeTypes = h264VideoRangeTypes + "|DOVI"
-        hevcVideoRangeTypes = hevcVideoRangeTypes + "|DOVI"
+        h264VideoRangeTypes = h264VideoRangeTypes + "|DOVI|DOVIWithHDR10|DOVIWithHDR10Plus|DOVIWithHLG"
+        hevcVideoRangeTypes = hevcVideoRangeTypes + "|DOVI|DOVIWithHDR10|DOVIWithHDR10Plus|DOVIWithHLG"
         'vp9VideoRangeTypes = vp9VideoRangeTypes + ",DOVI" no evidence that vp9 can hold DOVI
-        av1VideoRangeTypes = av1VideoRangeTypes + "|DOVI"
+        av1VideoRangeTypes = av1VideoRangeTypes + "|DOVI|DOVIWithHDR10|DOVIWithHDR10Plus|DOVIWithHLG"
     end if
 
     ' H264
@@ -637,12 +640,6 @@ function getCodecProfiles(videoCodec = string.EMPTY as string) as object
         "Type": "Video",
         "Codec": "h264",
         "Conditions": [
-            {
-                "Condition": "NotEquals",
-                "Property": "IsAnamorphic",
-                "Value": "true",
-                "IsRequired": false
-            },
             {
                 "Condition": "LessThanEqual",
                 "Property": "VideoBitDepth",
@@ -809,12 +806,6 @@ function getCodecProfiles(videoCodec = string.EMPTY as string) as object
             "Type": "Video",
             "Codec": "hevc",
             "Conditions": [
-                {
-                    "Condition": "NotEquals",
-                    "Property": "IsAnamorphic",
-                    "Value": "true",
-                    "IsRequired": false
-                },
                 {
                     "Condition": "EqualsAny",
                     "Property": "VideoProfile",

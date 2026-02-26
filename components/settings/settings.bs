@@ -144,6 +144,10 @@ end sub
 
 sub onKeyGridSubmit()
     selectedSetting = m.userLocation.peek().children[m.settingsMenu.itemFocused]
+    if isValid(selectedSetting.max) and m.integerSetting.text.ToInt() > selectedSetting.max.ToInt()
+        m.integerSetting.text = selectedSetting.max
+        return
+    end if
     set_user_setting(selectedSetting.settingName, m.integerSetting.text)
     m.settingsMenu.setFocus(true)
 end sub

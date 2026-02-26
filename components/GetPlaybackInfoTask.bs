@@ -1,5 +1,6 @@
 import "pkg:/source/api/baserequest.bs"
 import "pkg:/source/api/sdk.bs"
+import "pkg:/source/enums/MediaStreamType.bs"
 import "pkg:/source/enums/PlaybackMethod.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/deviceCapabilities.bs"
@@ -103,8 +104,9 @@ function GetTranscodingStats(deviceSession)
         sessionStats.data.push("<b>" + tr("The source file is entirely compatible with this client and the session is receiving the file without modifications.") + "</b>")
     end if
 
-    if havePlaybackInfo()
-        stream = m.playbackInfo.mediaSources[0].MediaStreams[0]
+    stream = getVideoStream()
+
+    if isValid(stream)
         sessionStats.data.push("<header>" + tr("Stream Information") + "</header>")
         if isValid(stream.Container)
             data = "<b>• " + tr("Container") + ":</b> " + stream.Container
@@ -147,28 +149,26 @@ function GetTranscodingStats(deviceSession)
     return sessionStats
 end function
 
-function havePlaybackInfo()
-    if not isValid(m.playbackInfo)
-        return false
-    end if
-
-    if not isValid(m.playbackInfo.mediaSources)
-        return false
+function getVideoStream()
+    if not isChainValid(m.playbackInfo, "mediaSources")
+        return invalid
     end if
 
     if m.playbackInfo.mediaSources.Count() <= 0
-        return false
+        return invalid
     end if
 
-    if not isValid(m.playbackInfo.mediaSources[0].MediaStreams)
-        return false
+    if not isValidAndNotEmpty(m.playbackInfo.mediaSources[0].MediaStreams)
+        return invalid
     end if
 
-    if m.playbackInfo.mediaSources[0].MediaStreams.Count() <= 0
-        return false
-    end if
+    for each mediaStream in m.playbackInfo.mediaSources[0].MediaStreams
+        if isStringEqual(chainLookup(mediaStream, "Type"), MediaStreamType.VIDEO)
+            return mediaStream
+        end if
+    end for
 
-    return true
+    return invalid
 end function
 
 function getDisplayBitrate(bitrate)

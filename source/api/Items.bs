@@ -285,21 +285,20 @@ end function
 
 ' Get list of albums belonging to an artist
 function MusicAlbumList(id as string)
-    url = Substitute("Users/{0}/Items", m.global.session.user.id)
-    resp = APIRequest(url, {
+    params = {
+        "UserId": m.global.session.user.id,
         "AlbumArtistIds": id,
         "includeitemtypes": "MusicAlbum",
         "sortBy": "SortName",
         "Recursive": true
-    })
+    }
+    data = api.items.Get(params)
 
     results = []
-    data = getJson(resp)
     row = CreateObject("roSGNode", "ContentNode")
 
-    if data = invalid then return invalid
-    if data.Items = invalid then return invalid
-    if data.Items.Count() = 0 then return invalid
+    if not isValid(data) then return invalid
+    if not isValidAndNotEmpty(chainLookup(data, "Items")) then return invalid
 
     for each item in data.Items
         tmp = CreateObject("roSGNode", "MusicAlbumData")
@@ -329,23 +328,22 @@ end function
 
 ' Get list of albums an artist appears on
 function AppearsOnList(id as string)
-    url = Substitute("Users/{0}/Items", m.global.session.user.id)
-    resp = APIRequest(url, {
+    params = {
+        "UserId": m.global.session.user.id,
         "ContributingArtistIds": id,
         "ExcludeItemIds": id,
         "includeitemtypes": "MusicAlbum",
         "sortBy": "PremiereDate,ProductionYear,SortName",
         "SortOrder": "Descending",
         "Recursive": true
-    })
+    }
+    data = api.items.Get(params)
 
     results = []
-    data = getJson(resp)
     row = CreateObject("roSGNode", "ContentNode")
 
-    if data = invalid then return invalid
-    if data.Items = invalid then return invalid
-    if data.Items.Count() = 0 then return invalid
+    if not isValid(data) then return invalid
+    if not isValidAndNotEmpty(chainLookup(data, "Items")) then return invalid
 
     for each item in data.Items
         tmp = CreateObject("roSGNode", "MusicAlbumData")
@@ -375,32 +373,26 @@ end function
 
 ' Get list of songs belonging to an artist
 function GetSongsByArtist(id as string, params = {} as object)
-    url = Substitute("Users/{0}/Items", m.global.session.user.id)
     paramArray = {
+        "UserId": m.global.session.user.id,
         "AlbumArtistIds": id,
         "includeitemtypes": "Audio",
         "sortBy": "SortName",
         "Recursive": true
     }
+
     ' overwrite defaults with the params provided
     for each param in params
         paramArray.AddReplace(param, params[param])
     end for
 
-    resp = APIRequest(url, paramArray)
-    data = getJson(resp)
-
-    if data = invalid then return invalid
-    if data.Items = invalid then return invalid
-    if data.Items.Count() = 0 then return invalid
+    data = api.items.Get(paramArray)
 
     results = []
-    data = getJson(resp)
     row = CreateObject("roSGNode", "ContentNode")
 
-    if data = invalid then return invalid
-    if data.Items = invalid then return invalid
-    if data.Items.Count() = 0 then return invalid
+    if not isValid(data) then return invalid
+    if not isValidAndNotEmpty(chainLookup(data, "Items")) then return invalid
 
     for each item in data.Items
         tmp = CreateObject("roSGNode", "MusicSongData")
@@ -458,21 +450,20 @@ end function
 
 ' Get Songs that are on an Album
 function MusicSongList(id as string)
-    url = Substitute("Users/{0}/Items", m.global.session.user.id, id)
-    resp = APIRequest(url, {
+    params = {
         "UserId": m.global.session.user.id,
         "parentId": id,
         "includeitemtypes": "Audio",
         "sortBy": "SortName"
-    })
+    }
+
+    data = api.items.Get(params)
 
     results = []
-    data = getJson(resp)
     row = CreateObject("roSGNode", "ContentNode")
 
-    if data = invalid then return invalid
-    if data.Items = invalid then return invalid
-    if data.Items.Count() = 0 then return invalid
+    if not isValid(data) then return invalid
+    if not isValidAndNotEmpty(chainLookup(data, "Items")) then return invalid
 
     for each item in data.Items
         tmp = CreateObject("roSGNode", "MusicSongData")
@@ -493,16 +484,13 @@ function MusicSongList(id as string)
     return row
 end function
 
-' Get Songs that are on an Album
+' Get Audio Item Data
 function AudioItem(id as string)
-    url = Substitute("Users/{0}/Items/{1}", m.global.session.user.id, id)
-    resp = APIRequest(url, {
+    return api.items.GetByID(id, {
         "UserId": m.global.session.user.id,
         "includeitemtypes": "Audio",
         "sortBy": "SortName"
     })
-
-    return getJson(resp)
 end function
 
 ' Get Instant Mix based on item
@@ -513,10 +501,10 @@ function CreateInstantMix(id as string)
     })
 end function
 
-' Get Instant Mix based on item
+' Get Mix of items from artist
 function CreateArtistMix(id as string)
-    url = Substitute("Users/{0}/Items", m.global.session.user.id)
-    resp = APIRequest(url, {
+    params = {
+        "UserId": m.global.session.user.id,
         "ArtistIds": id,
         "Recursive": "true",
         "MediaTypes": "Audio",
@@ -527,19 +515,16 @@ function CreateArtistMix(id as string)
         "ExcludeLocationTypes": "Virtual",
         "EnableTotalRecordCount": false,
         "CollapseBoxSetItems": false
-    })
+    }
 
-    return getJson(resp)
+    return api.items.Get(params)
 end function
 
 ' Get Intro Videos for an item
 function GetIntroVideos(id as string)
-    url = Substitute("Users/{0}/Items/{1}/Intros", m.global.session.user.id, id)
-    resp = APIRequest(url, {
+    return api.items.GetIntros(id, {
         "UserId": m.global.session.user.id
     })
-
-    return getJson(resp)
 end function
 
 function AudioStream(id as string)

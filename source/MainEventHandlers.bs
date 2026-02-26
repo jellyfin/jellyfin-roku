@@ -629,7 +629,7 @@ sub onRefreshMovieDetailsDataEvent()
 
     currentScene = m.global.sceneManager.callFunc("getActiveScene")
 
-    if isValid(currentScene.itemContent)
+    if isChainValid(currentScene, "itemContent")
         ' Check if the content ID has changed since we last rendered the movie detail view
         contentIDChanged = false
 

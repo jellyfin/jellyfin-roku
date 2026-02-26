@@ -415,140 +415,140 @@
     </message>
     <message>
         <source>Starts</source>
-        <translation type="unfinished"></translation>
+        <translation>يبدأ</translation>
         <extracomment>(Future Tense) For defining a day and time when a program will start (e.g. Starts Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Ended at</source>
-        <translation type="unfinished"></translation>
+        <translation>انتهى عند</translation>
         <extracomment>(Past Tense) For defining time when a program will ended (e.g. Ended at 08:00) </extracomment>
     </message>
     <message>
         <source>Ends at</source>
-        <translation type="unfinished"></translation>
+        <translation>ينتهي عند</translation>
         <extracomment>(Past Tense) For defining a day and time when a program ended (e.g. Ended Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Live</source>
-        <translation type="unfinished"></translation>
+        <translation>مباشر</translation>
         <extracomment>If TV Show is being broadcast live (not pre-recorded)</extracomment>
     </message>
     <message>
         <source>Repeat</source>
-        <translation type="unfinished"></translation>
+        <translation>إعادة</translation>
         <extracomment>If TV Shows has previously been broadcasted</extracomment>
     </message>
     <message>
         <source>Channels</source>
-        <translation type="unfinished"></translation>
+        <translation>قنوات</translation>
         <extracomment>Menu option for showing Live TV Channel List</extracomment>
     </message>
     <message>
         <source>TV Guide</source>
-        <translation type="unfinished"></translation>
+        <translation>مٌرشد تلفاز</translation>
         <extracomment>Menu option for showing Live TV Guide / Schedule</extracomment>
     </message>
     <message>
         <source>View Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>عرض قناة</translation>
     </message>
     <message>
         <source>Record</source>
-        <translation type="unfinished"></translation>
+        <translation>تسجيل</translation>
     </message>
     <message>
         <source>Record Series</source>
-        <translation type="unfinished"></translation>
+        <translation>تسجيل حلقات</translation>
     </message>
     <message>
         <source>Cancel Recording</source>
-        <translation type="unfinished"></translation>
+        <translation>إلغاء التسجيل</translation>
     </message>
     <message>
         <source>Cancel Series Recording</source>
-        <translation type="unfinished"></translation>
+        <translation>إلغاء تسجيل الحلقات</translation>
     </message>
     <message>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation>إغلاق</translation>
     </message>
     <message>
         <source>Connecting to Server</source>
-        <translation type="unfinished"></translation>
+        <translation>توصيل لخادم</translation>
         <extracomment>Message to display to user while client is attempting to connect to the server</extracomment>
     </message>
     <message>
         <source>Not found</source>
-        <translation type="unfinished"></translation>
+        <translation>لم يٌعثر عليه</translation>
         <extracomment>Title of message box when the requested content is not found on the server</extracomment>
     </message>
     <message>
         <source>Unknown</source>
-        <translation type="unfinished"></translation>
+        <translation>مجهول</translation>
         <extracomment>Title for a cast member for which we have no information for</extracomment>
     </message>
     <message>
         <source>The requested content does not exist on the server</source>
-        <translation type="unfinished"></translation>
+        <translation>المحتوى المطلوب غير موجود على الخادم</translation>
         <extracomment>Content of message box when the requested content is not found on the server</extracomment>
     </message>
     <message>
         <source>Enter the server name or IP address</source>
-        <translation type="unfinished"></translation>
+        <translation>ادخل اسم أو عنوان IP الخادم</translation>
         <extracomment>Title of KeyboardDialog when manually entering a server URL</extracomment>
     </message>
     <message>
         <source>Pick a Jellyfin server from the local network</source>
-        <translation type="unfinished"></translation>
+        <translation>اختر خادم Jellyfin المتوفر على شبكتك المحلية:</translation>
         <extracomment>Instructions on initial app launch when the user is asked to pick a server from a list</extracomment>
     </message>
     <message>
         <source>...or enter server URL manually:</source>
-        <translation type="unfinished"></translation>
+        <translation>إن لم يتم سرد أي خادم, بإمكانك ادخال عنوان URL الخادم يدويا:</translation>
         <extracomment>Instructions on initial app launch when the user is asked to manually enter a server URL</extracomment>
     </message>
     <message>
         <source>Error Getting Playback Information</source>
-        <translation type="unfinished"></translation>
+        <translation>خطأ جلب معلومات التشغيل</translation>
         <extracomment>Dialog Title: Received error from server when trying to get information about the selected item for playback</extracomment>
     </message>
     <message>
         <source>An error was encountered while playing this item. Server did not provide required transcoding data.</source>
-        <translation type="unfinished"></translation>
+        <translation>ظهر خطأ اثناء تشغيل هذا العنصر. الخادم لم يقدم بيانات الترميز المطلوبة.</translation>
         <extracomment>Content of message box when trying to play an item which requires transcoding, and the server did not provide transcode url</extracomment>
     </message>
     <message>
         <source>Version</source>
-        <translation type="unfinished"></translation>
+        <translation>اصدار</translation>
     </message>
     <message>
         <source>Playback</source>
-        <translation type="unfinished"></translation>
+        <translation>التشغيل</translation>
         <extracomment>Title for Playback section in user setting screen.</extracomment>
     </message>
     <message>
         <source>Codec Support</source>
-        <translation type="unfinished"></translation>
+        <translation>دعم مرمز</translation>
         <extracomment>Settings Menu - Title for settings group related to codec support</extracomment>
     </message>
     <message>
         <source>Enable or disable Direct Play for optional codecs</source>
-        <translation type="unfinished"></translation>
+        <translation>تفعيل أو تثبيط Direct Play من المرمزات الاختيارية</translation>
         <extracomment>Settings Menu - Title for settings group related to codec support</extracomment>
     </message>
     <message>
         <source>MPEG-2</source>
-        <translation type="unfinished"></translation>
+        <translation>MPEG-2</translation>
         <extracomment>Name of codec used in settings menu</extracomment>
     </message>
     <message>
         <source>Support Direct Play of MPEG-2 content (e.g., Live TV). This will prevent transcoding of MPEG-2 content, but uses significantly more bandwidth.</source>
-        <translation type="unfinished"></translation>
+        <translation>دعم Direct Play لمحتوى MPEG-2. هذا سيمنع ترميز محتوى MPEG-2, لكن يستخدم سعة موجة أقل.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>MPEG-4</source>
-        <translation type="unfinished"></translation>
+        <translation>MPEG-4</translation>
         <extracomment>Name of codec used in settings menu</extracomment>
     </message>
     <message>
@@ -2256,11 +2256,11 @@
     </message>
     <message>
         <source>Show Next Episode Details After Finish</source>
-        <translation type="unfinished"></translation>
+        <translation>اظهر تفاصيل الحلقة التالية بعد الانتهاء</translation>
     </message>
     <message>
         <source>If auto play next episode is disabled, display the next episode&apos;s detail screen after an episode finishes playing. If no next up episode is found, return to the just-played episode&apos;s page.</source>
-        <translation type="unfinished"></translation>
+        <translation>إذا تم تثبيط التشغيل التلقائي للحلقة التالية, اظهر شاشة تفاصيل الحلقة التالية بعد انتهائ تشغيل السابقة. إن لم توجد حلقة, عُد إلى صفحة آخر الحلقات المشغّلة.</translation>
     </message>
     <message>
         <source>Adjust Subtitle Timing</source>
@@ -2277,6 +2277,34 @@
     <message>
         <source>Display Episodes In Two Columns</source>
         <translation>عرض الحلقات في عمودين</translation>
+    </message>
+    <message>
+        <source>Is Unplayed</source>
+        <translation>هل تم تشغيله</translation>
+    </message>
+    <message>
+        <source>Date Created</source>
+        <translation>تاريخ التكوين</translation>
+    </message>
+    <message>
+        <source>Field to sort the row by.</source>
+        <translation>حقل لترتيب الصف.</translation>
+    </message>
+    <message>
+        <source>Sort By Field</source>
+        <translation>رتب حسب الحقل</translation>
+    </message>
+    <message>
+        <source>Settings relating to the favorites row on the home screen.</source>
+        <translation>إعدادات تخص صف المفضلة على شاشة البداية.</translation>
+    </message>
+    <message>
+        <source>Favorites Row</source>
+        <translation>صف المفضلة</translation>
+    </message>
+    <message>
+        <source>Sort Order for the row - Ascending,Descending.</source>
+        <translation>ترتيب تصنيف هذا الصف - تصاعدي,تنازلي.</translation>
     </message>
 </context>
 </TS>

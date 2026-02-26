@@ -1,0 +1,50 @@
+[
+  {
+    "description": "Fix chapter list menu padding",
+    "author": "noahpodgurski"
+  },
+  {
+    "description": "Add compatibility with more HDR formats",
+    "author": "FractalBoy"
+  },
+  {
+    "description": "Fix View All on Next Up",
+    "author": "jimdogx"
+  },
+  {
+    "description": "Fix back button logic on home screen",
+    "author": "jimdogx"
+  },
+  {
+    "description": "Show channel logo next to channel title in TV Guide",
+    "author": "michaelcresswell"
+  },
+  {
+    "description": "Fix TV series screen crash when API returns no data",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Fix movie detail screen crash when data is in unexpected state",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Fix movie data component crash when no userdata is returned by API",
+    "author": "1hitsong"
+  },
+  {
+    "description": "In playback info popup, ensure video media stream data is shown",
+    "author": "FractalBoy"
+  },
+  {
+    "description": "Allow direct play of anamorphic video",
+    "author": "FractalBoy"
+  },
+  {
+    "description": "Fix library bug that caused lazy-loading to stop working",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Fix multi-line subtitles going off bottom of screen",
+    "author": "1hitsong"
+  }
+]

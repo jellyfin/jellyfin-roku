@@ -806,8 +806,8 @@
             <extracomment>Option Title in user setting screen</extracomment>
         </message>
         <message>
-            <source>Set the maximum amount of days a show should stay in the 'Next Up' list without watching it.</source>
-            <translation>Set the maximum amount of days a show should stay in the 'Next Up' list without watching it.</translation>
+            <source>Set the maximum amount of days a show should stay in the 'Next Up' list without watching it. Maximum value is 1000 days.</source>
+            <translation>Set the maximum amount of days a show should stay in the 'Next Up' list without watching it. Maximum value is 1000 days.</translation>
             <extracomment>Settings Menu - Description for option</extracomment>
         </message>
         <message>
