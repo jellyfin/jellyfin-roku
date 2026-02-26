@@ -662,6 +662,15 @@ function getCodecProfiles(videoCodec = string.EMPTY as string) as object
         ]
     }
 
+    if not globalUserSettings["playback.media.directPlayAnamorphic"]
+        h264ProfileArray.Conditions.push({
+            "Condition": "NotEquals",
+            "Property": "IsAnamorphic",
+            "Value": "true",
+            "IsRequired": false
+        })
+    end if
+
     ' check user setting before adding video level restrictions
     if not globalUserSettings["playback.tryDirect.h264ProfileLevel"]
         h264ProfileArray.Conditions.push({
@@ -820,6 +829,15 @@ function getCodecProfiles(videoCodec = string.EMPTY as string) as object
                 }
             ]
         }
+
+        if not globalUserSettings["playback.media.directPlayAnamorphic"]
+            hevcProfileArray.Conditions.push({
+                "Condition": "NotEquals",
+                "Property": "IsAnamorphic",
+                "Value": "true",
+                "IsRequired": false
+            })
+        end if
 
         ' check user setting before adding VideoLevel restrictions
         if not globalUserSettings["playback.tryDirect.hevcProfileLevel"]

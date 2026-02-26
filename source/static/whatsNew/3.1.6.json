@@ -37,7 +37,7 @@
   },
   {
     "description": "Allow direct play of anamorphic video",
-    "author": "FractalBoy"
+    "author": "FractalBoy, jimdogx"
   },
   {
     "description": "Fix library bug that caused lazy-loading to stop working",
