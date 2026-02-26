@@ -24,6 +24,13 @@
         "default": "0"
       },
       {
+        "title": "Attempt Direct Play Anamorphic Video",
+        "description": "Newer devices may support direct play of anamorphic video.",
+        "settingName": "playback.media.directPlayAnamorphic",
+        "type": "bool",
+        "default": "false"
+      },
+      {
         "title": "Autoplay Episode Limit",
         "description": "The number of episodes that will play automatically after the selected episode. Requires 'Play next episode automatically' server setting to be enabled.",
         "settingName": "episodeQueueLimit",

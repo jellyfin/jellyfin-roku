@@ -2176,6 +2176,14 @@
             <translation>Are You Still Watching Popup</translation>
         </message>
         <message>
+            <source>Attempt Direct Play Anamorphic Video</source>
+            <translation>Attempt Direct Play Anamorphic Video</translation>
+        </message>
+        <message>
+            <source>Newer devices may support direct play of anamorphic video.</source>
+            <translation>Newer devices may support direct play of anamorphic video.</translation>
+        </message>
+        <message>
             <source>How many minutes of inactivity before playback is stopped between items and a popup is shown to continue? Set to 0 to disable.</source>
             <translation>How many minutes of inactivity before playback is stopped between items and a popup is shown to continue? Set to 0 to disable.</translation>
         </message>
