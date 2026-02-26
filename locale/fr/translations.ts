@@ -2269,5 +2269,17 @@
         <source>Screen Settings</source>
         <translation>Configuration d’écran</translation>
     </message>
+    <message>
+        <source>Set the maximum amount of days a show should stay in the &apos;Next Up&apos; list without watching it. Maximum value is 1000 days.</source>
+        <translation>Définir le nombre maximum de jours qu’une série peut rester dans «&#xa0;À suivre&#xa0;» sans être regardée. Valeur maximale : 1000 jours.</translation>
+    </message>
+    <message>
+        <source>Attempt Direct Play Anamorphic Video</source>
+        <translation>Tenter la lecture directe des vidéos anamorphiques</translation>
+    </message>
+    <message>
+        <source>Newer devices may support direct play of anamorphic video.</source>
+        <translation>Les appareils plus récents peuvent prendre en charge la lecture directe des vidéos anamorphiques.</translation>
+    </message>
 </context>
 </TS>
