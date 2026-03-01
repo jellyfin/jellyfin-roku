@@ -1,0 +1,50 @@
+import "pkg:/source/utils/misc.bs"
+
+sub init()
+    m.rotationWarningNode = m.top.findNode("rotationWarning")
+    m.videoRowNode = m.top.findNode("videoStreamSummaryRow")
+    m.audioRowNode = m.top.findNode("audioStreamSummaryRow")
+    m.subtitleRowNode = m.top.findNode("subtitleStreamSummaryRow")
+end sub
+
+sub onChangeRotationWarning()
+    if isValid(m.rotationWarningNode)
+        m.rotationWarningNode.text = m.top.rotationWarning
+    end if
+end sub
+
+sub onChangeSelectedVideoStreamTitle()
+    if isValid(m.videoRowNode)
+        m.videoRowNode.title = m.top.selectedVideoStreamTitle
+    end if
+end sub
+
+sub onChangeVideoStreamCount()
+    if isValid(m.videoRowNode)
+        m.videoRowNode.count = m.top.videoStreamCount
+    end if
+end sub
+
+sub onChangeSelectedAudioStreamTitle()
+    if isValid(m.audioRowNode)
+        m.audioRowNode.title = m.top.selectedAudioStreamTitle
+    end if
+end sub
+
+sub onChangeAudioStreamCount()
+    if isValid(m.audioRowNode)
+        m.audioRowNode.count = m.top.audioStreamCount
+    end if
+end sub
+
+sub onChangeSelectedSubtitleStreamTitle()
+    if isValid(m.subtitleRowNode)
+        m.subtitleRowNode.title = m.top.selectedSubtitleStreamTitle
+    end if
+end sub
+
+sub onChangeSubtitleStreamCount()
+    if isValid(m.subtitleRowNode)
+        m.subtitleRowNode.count = m.top.subtitleStreamCount
+    end if
+end sub

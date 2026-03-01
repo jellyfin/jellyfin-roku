@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component name="MovieDetailsStreamSummaryRow" extends="Group">
+  <interface>
+    <field id="streamType" type="string" />
+    <field id="title" type="string" onChange="onChangeTitle" />
+    <field id="count" type="integer" onChange="onChangeCount" />
+  </interface>
+  <children>
+    <LayoutGroup id="container" layoutDirection="horiz" horizAlignment="left">
+      <ScrollingText id="title" vertAlign="bottom" height="39" maxwidth="990" font="font:SmallestSystemFont" color="#aaaaaa" />
+      <Text id="count" font="font:smallestSystemFont" vertAlign="top" color="#aaaaaa" />
+    </LayoutGroup>
+  </children>
+</component>

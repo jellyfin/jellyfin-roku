@@ -1,3 +1,5 @@
 enum MediaStreamType
     VIDEO = "video"
+    AUDIO = "Audio"
+    SUBTITLE = "Subtitle"
 end enum
