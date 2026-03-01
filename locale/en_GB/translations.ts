@@ -1446,6 +1446,26 @@
         <source>Enable or disable Direct Play support for certain codecs.</source>
         <translation>Enable or disable Direct Play support for certain codecs.</translation>
     </message>
+    <message>
+        <source>Video Profile Level Support</source>
+        <translation>Video Profile Level Support</translation>
+    </message>
+    <message>
+        <source>Attempt Direct Play of potentially unsupported profile levels</source>
+        <translation>Attempt Direct Play of potentially unsupported profile levels</translation>
+    </message>
+    <message>
+        <source>Maximum Audio Channels</source>
+        <translation>Maximum Audio Channels</translation>
+    </message>
+    <message>
+        <source>Configure the maximum audio channels when playing video files on this device.</source>
+        <translation>Configure the maximum audio channels when playing video files on this device.</translation>
+    </message>
+    <message>
+        <source>Off - Attempt to play all channels</source>
+        <translation>Off - Attempt to play all channels</translation>
+    </message>
 </context>
 <context>
     <name></name>
