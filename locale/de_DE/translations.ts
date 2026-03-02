@@ -1688,7 +1688,7 @@
     </message>
     <message>
         <source>Commercial Segments</source>
-        <translation>Kommerzielle Segmente</translation>
+        <translation>Werbe-Abschnitte</translation>
     </message>
     <message>
         <source>What action should Jellyfin take for commercial segments?</source>
@@ -2301,6 +2301,14 @@
     <message>
         <source>Set the maximum amount of days a show should stay in the &apos;Next Up&apos; list without watching it. Maximum value is 1000 days.</source>
         <translation>Lege die maximale Anzahl an Tagen fest, die eine Serie in &quot;Als Nächstes&quot; ungesehen verbleiben kann. Maximaler Wert ist 1000 Tage.</translation>
+    </message>
+    <message>
+        <source>Newer devices may support direct play of anamorphic video.</source>
+        <translation>Neuere Geräte unterstützen möglicherweise das direkte Abspielen von anamorphotischen Videos.</translation>
+    </message>
+    <message>
+        <source>Attempt Direct Play Anamorphic Video</source>
+        <translation>Versuchen, Anamorphotische Videos direkt abzuspielen</translation>
     </message>
 </context>
 <context>
