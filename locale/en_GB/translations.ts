@@ -1117,7 +1117,7 @@
     </message>
     <message>
         <source>Remember the currently logged in user and try to log them in again next time you start the Jellyfin app.</source>
-        <translation type="unfinished">Remember the currently logged in user and try to log them in again next time you start the Jellyfin app.</translation>
+        <translation>Remember the currently logged in user and try to log them in again next time you start Jellyfin.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
