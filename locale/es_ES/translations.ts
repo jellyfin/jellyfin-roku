@@ -2216,7 +2216,7 @@
     </message>
     <message>
         <source>How many minutes of inactivity before playback is stopped between items and a popup is shown to continue? Set to 0 to disable.</source>
-        <translation>¿Cuántos minutos de inactividad deben transcurrir antes de que se detenga la reproducción entre elementos y se muestre una ventana emergente para continuar?. Configurar con 0 para desactivar.</translation>
+        <translation>¿Cuántos minutos de inactividad deben transcurrir antes de que se detenga la reproducción entre elementos y se muestre una ventana emergente para continuar? Configurar con 0 para desactivar.</translation>
     </message>
     <message>
         <source>Are You Still Watching?</source>
@@ -2365,6 +2365,14 @@
     <message>
         <source>Set the maximum amount of days a show should stay in the &apos;Next Up&apos; list without watching it. Maximum value is 1000 days.</source>
         <translation>Establece los días que un elemento aparecerá en la sección “A Continuación” si no se visualiza. El valor máximo es 1000 días.</translation>
+    </message>
+    <message>
+        <source>Newer devices may support direct play of anamorphic video.</source>
+        <translation>Dispositivos más recientes podrían ser compatibles con la reproducción directa de vídeo anamórfico.</translation>
+    </message>
+    <message>
+        <source>Attempt Direct Play Anamorphic Video</source>
+        <translation>Intentar reproducción directa de vídeo anamórfico</translation>
     </message>
 </context>
 <context>
