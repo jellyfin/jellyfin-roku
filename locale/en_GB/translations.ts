@@ -1466,6 +1466,14 @@
         <source>Off - Attempt to play all channels</source>
         <translation>Off - Attempt to play all channels</translation>
     </message>
+    <message>
+        <source>Custom Trickplay</source>
+        <translation>Custom Trickplay</translation>
+    </message>
+    <message>
+        <source>Display custom trickplay images even if this Roku says it&apos;s displaying its own. This may cause the two images to overlay on top of each other.</source>
+        <translation>Display custom trickplay images even if this Roku says it&apos;s displaying its own. This may cause the two images to overlay on top of each other.</translation>
+    </message>
 </context>
 <context>
     <name></name>
