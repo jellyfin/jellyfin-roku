@@ -2178,15 +2178,15 @@
     </message>
     <message>
         <source>Are You Still Watching?</source>
-        <translation type="unfinished"></translation>
+        <translation>هل انت تشاهد؟</translation>
     </message>
     <message>
         <source>Yes, continue</source>
-        <translation type="unfinished"></translation>
+        <translation>نعم, تابع</translation>
     </message>
     <message>
         <source>No, stop playback</source>
-        <translation type="unfinished"></translation>
+        <translation>لا, أوقف التشغيل</translation>
     </message>
     <message>
         <source>Playback will automatically stop in 1 minute if no buttons are pressed.</source>
@@ -2232,27 +2232,27 @@
     </message>
     <message>
         <source>Skip Preview</source>
-        <translation type="unfinished"></translation>
+        <translation>تخطي المعاينة</translation>
     </message>
     <message>
         <source>Skip Recap</source>
-        <translation type="unfinished"></translation>
+        <translation>تخطي الخلاصة</translation>
     </message>
     <message>
         <source>Skip Outro</source>
-        <translation type="unfinished"></translation>
+        <translation>تخطي الخاتمة</translation>
     </message>
     <message>
         <source>Skip Intro</source>
-        <translation type="unfinished"></translation>
+        <translation>تخطي المقدمة</translation>
     </message>
     <message>
         <source>Go To Genre</source>
-        <translation type="unfinished"></translation>
+        <translation>توجه إلى النوع</translation>
     </message>
     <message>
         <source>Play Instant Mix</source>
-        <translation type="unfinished"></translation>
+        <translation>تشغيل الخلط اللحظي</translation>
     </message>
     <message>
         <source>Show Next Episode Details After Finish</source>
