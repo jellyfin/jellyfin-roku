@@ -1,6 +1,6 @@
 [
   {
-    "description": "",
-    "author": ""
+    "description": "Fix crash when filtering Live TV guide by favorites",
+    "author": "michaelcresswell"
   }
 ]
