@@ -595,20 +595,20 @@
     </message>
     <message>
         <source>Favorited</source>
-        <translation type="unfinished"></translation>
+        <translation>مٌفضل</translation>
     </message>
     <message>
         <source>Mark As Favorite</source>
-        <translation type="unfinished"></translation>
+        <translation>تعليم كمفضل</translation>
     </message>
     <message>
         <source>Set Watched</source>
-        <translation type="unfinished"></translation>
+        <translation>تعيين كمٌشاهد</translation>
         <extracomment>Button Text - When pressed, marks item as Warched</extracomment>
     </message>
     <message>
         <source>Resume playing at </source>
-        <translation type="unfinished"></translation>
+        <translation>متابعة التشغيل عند </translation>
     </message>
     <message>
         <source>Start over from the beginning.</source>
@@ -2228,7 +2228,7 @@
     </message>
     <message>
         <source>Skip Commercial</source>
-        <translation type="unfinished"></translation>
+        <translation>تجاوز الدعايات</translation>
     </message>
     <message>
         <source>Skip Preview</source>
