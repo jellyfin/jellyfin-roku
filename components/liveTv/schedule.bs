@@ -167,7 +167,10 @@ sub onScheduleLoaded()
     end if
 
     for each item in m.LoadScheduleTask.schedule
-        channel = m.scheduleGrid.content.GetChild(m.channelIndex[item.ChannelId])
+        channelIndex = m.channelIndex[item.ChannelId]
+        if not isValid(channelIndex) then continue for
+
+        channel = m.scheduleGrid.content.GetChild(channelIndex)
         if not isValid(channel) then continue for
 
         if channel.PosterUrl <> ""
