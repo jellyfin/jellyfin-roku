@@ -515,8 +515,8 @@ function getCodecProfiles(videoCodec = string.EMPTY as string) as object
 
     ' check device for codec profile and level support
     ' AVC / h264 / MPEG4 AVC
-    h264Profiles = ["main", "high"]
-    h264Levels = ["4.1", "4.2"]
+    h264Profiles = ["baseline", "main", "high"]
+    h264Levels = ["3", "3.1", "4", "4.1", "4.2", "5", "5.1", "5.2", "6", "6.1", "6.2"]
     for each profile in h264Profiles
         for each level in h264Levels
             if not isStringEqual(videoCodec, "h264")
@@ -623,6 +623,11 @@ function getCodecProfiles(videoCodec = string.EMPTY as string) as object
     h264AssProfiles = {}
     for each profile in profileSupport["h264"]
         h264AssProfiles.AddReplace(profile, true)
+        if profile = "baseline" or profile = "main" or profile = "high"
+            h264AssProfiles.AddReplace("baseline", true)
+            h264AssProfiles.AddReplace("constrained baseline", true)
+            h264AssProfiles.AddReplace("constrainedbaseline", true)
+        end if
         for each level in profileSupport["h264"][profile]
             levelFloat = level.ToFloat()
             if levelFloat > h264LevelSupported
