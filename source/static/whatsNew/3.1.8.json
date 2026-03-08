@@ -4,7 +4,11 @@
     "author": "michaelcresswell"
   },
   {
+    "description": "Fix losing playback position when pressing Home button",
+    "author": "FractalBoy"
+  },
+  {
     "description": "Add missing h264 profile and levels",
     "author": "jimdogx"
-  }
+  }  
 ]

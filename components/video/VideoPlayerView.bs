@@ -1091,8 +1091,10 @@ sub onState(msg)
         ReportPlayback()
     else if isStringEqual(m.top.state, MediaPlaybackState.STOPPED)
         m.playbackTimer.control = "stop"
-        ReportPlayback("stop")
-        m.playReported = false
+        if m.playReported
+            ReportPlayback("stop")
+            m.playReported = false
+        end if
     else if isStringEqual(m.top.state, MediaPlaybackState.FINISHED)
         m.playbackTimer.control = "stop"
         ReportPlayback("stop")
