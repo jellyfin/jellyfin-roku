@@ -1,6 +1,6 @@
 [
   {
-    "description": "",
-    "author": ""
+    "description": "Fix losing playback position when pressing Home button",
+    "author": "FractalBoy"
   }
 ]
