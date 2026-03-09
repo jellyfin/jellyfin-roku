@@ -615,7 +615,7 @@ sub onRefreshSeasonDetailsDataEvent()
         end if
 
         seasonMetaData = ItemMetaData(currentScene.seasonData.id)
-        if isValid(seasonMetaData) then currentScene.seasonData = seasonMetaData.json
+        if isValid(seasonMetaData) then currentScene.seasonData.json = seasonMetaData.json
         currentScene.callFunc("updateObjects")
         currentScene.callFunc("updateSeason")
     end if
@@ -1845,6 +1845,12 @@ sub processLibraryItemPopup(selectedPopupButton as string, itemID as string, par
         if isValid(group)
             if isStringEqual(group.subtype(), "home")
                 group.callFunc("refresh")
+                return
+            end if
+
+            if isStringEqual(group.subtype(), "TVSeasonDetails")
+                group.refreshSeasonDetailsData = not group.refreshSeasonDetailsData
+                return
             end if
         end if
 
@@ -1859,6 +1865,12 @@ sub processLibraryItemPopup(selectedPopupButton as string, itemID as string, par
         if isValid(group)
             if isStringEqual(group.subtype(), "home")
                 group.callFunc("refresh")
+                return
+            end if
+
+            if isStringEqual(group.subtype(), "TVSeasonDetails")
+                group.refreshSeasonDetailsData = not group.refreshSeasonDetailsData
+                return
             end if
         end if
 
