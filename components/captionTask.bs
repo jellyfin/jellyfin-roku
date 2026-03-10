@@ -19,7 +19,7 @@ sub init()
     m.tags = CreateObject("roRegex", "{\\an\d*}|&lt;.*?&gt;|<.*?>", "s")
 
     ' Caption Style
-    m.fontSizeDict = { "Default": 60, "Large": 60, "Extra Large": 70, "Medium": 50, "Small": 40 }
+    m.fontSizeDict = { "Default": 60, "Large": 60, "Extra Large": 70, "Medium": 50, "Small": 40, "Extra Small": 30 }
     m.percentageDict = { "Default": 1.0, "100%": 1.0, "75%": 0.75, "50%": 0.5, "25%": 0.25, "Off": 0 }
     m.textColorDict = { "Default": &HFFFFFFFF, "White": &HFFFFFFFF, "Black": &H000000FF, "Red": &HFF0000FF, "Green": &H008000FF, "Blue": &H0000FFFF, "Yellow": &HFFFF00FF, "Magenta": &HFF00FFFF, "Cyan": &H00FFFFFF }
     m.bgColorDict = { "Default": &H000000FF, "White": &HFFFFFFFF, "Black": &H000000FF, "Red": &HFF0000FF, "Green": &H008000FF, "Blue": &H0000FFFF, "Yellow": &HFFFF00FF, "Magenta": &HFF00FFFF, "Cyan": &H00FFFFFF }
@@ -193,7 +193,7 @@ function prepareStyles(styles as object, rect, lineCount = 1 as integer) as obje
     ' Line
     if not isStringEqual(captionLine, string.EMPTY)
         captionLineHeight = (rect.BoundingRect().height / lineCount)
-        verticalPosition = processLineCue(captionLine, captionLineHeight, rect.BoundingRect().height)
+        verticalPosition = processLineCue(captionLine, captionLineHeight, lineCount)
     end if
 
     ' Position
@@ -220,13 +220,18 @@ function processPositionCue(captionPosition as string, captionLineWidth as float
     return calculatedPosition
 end function
 
-function processLineCue(captionLine as string, captionLineHeight as float, captionTotalHeight as float) as integer
+function processLineCue(captionLine as string, captionLineHeight as float, lineCount as integer) as integer
+    captionTotalHeight = lineCount * captionLineHeight
     ' A percentage
     if captionLine.Instr("%") <> -1
-        calculatedPosition = 1080 * (val(captionLine) / 100)
+        calculatedPosition = 1080 * (val(captionLine) / 100) - (lineCount - 1) * captionLineHeight
 
         if calculatedPosition + captionTotalHeight > 1080
             calculatedPosition = 1080 - captionTotalHeight
+        end if
+
+        if calculatedPosition < 0
+            calculatedPosition = 0
         end if
 
         return calculatedPosition
@@ -249,7 +254,7 @@ function processLineCue(captionLine as string, captionLineHeight as float, capti
     end if
 
     ' A negative line value. Count from the bottom
-    calculatedPosition = 1080 - Abs(lineValue * captionLineHeight)
+    calculatedPosition = 1080 - Abs(lineValue * captionLineHeight) - (lineCount - 1) * captionLineHeight
 
     if calculatedPosition + captionTotalHeight > 1080
         calculatedPosition = 1080 - captionTotalHeight
