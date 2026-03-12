@@ -2224,7 +2224,7 @@
     </message>
     <message>
         <source>Skip Unknown</source>
-        <translation type="unfinished"></translation>
+        <translation>تجاوز اللقطة</translation>
     </message>
     <message>
         <source>Skip Commercial</source>
