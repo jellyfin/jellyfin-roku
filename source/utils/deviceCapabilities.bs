@@ -623,7 +623,7 @@ function getCodecProfiles(videoCodec = string.EMPTY as string) as object
     h264AssProfiles = {}
     for each profile in profileSupport["h264"]
         h264AssProfiles.AddReplace(profile, true)
-        if profile = "baseline" or profile = "main" or profile = "high"
+        if inArray(["baseline", "main", "high"], profile)
             h264AssProfiles.AddReplace("baseline", true)
             h264AssProfiles.AddReplace("constrained baseline", true)
             h264AssProfiles.AddReplace("constrainedbaseline", true)
