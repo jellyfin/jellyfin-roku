@@ -612,50 +612,50 @@
     </message>
     <message>
         <source>Start over from the beginning.</source>
-        <translation type="unfinished"></translation>
+        <translation>البدء مجددا من البداية.</translation>
     </message>
     <message>
         <source>Playback Options</source>
-        <translation type="unfinished"></translation>
+        <translation>اختيارات التشغيل</translation>
     </message>
     <message>
         <source>Go to series</source>
-        <translation type="unfinished"></translation>
+        <translation>لائحة متابعى المشاهدة - التوجه نحو صفحة تفاصيل المسلسل</translation>
         <extracomment>Continue Watching Popup Menu - Navigate to the Series Detail Page</extracomment>
     </message>
     <message>
         <source>Go to season</source>
-        <translation type="unfinished"></translation>
+        <translation>توجه لموسم</translation>
         <extracomment>Continue Watching Popup Menu - Navigate to the Season Page</extracomment>
     </message>
     <message>
         <source>Go to episode</source>
-        <translation type="unfinished"></translation>
+        <translation>توجه لحلقة</translation>
         <extracomment>Continue Watching Popup Menu - Navigate to the Episode Detail Page</extracomment>
     </message>
     <message>
         <source>Use voice remote to search</source>
-        <translation type="unfinished"></translation>
+        <translation>استخدم صوت التحكم للبحث</translation>
         <extracomment>Help text in search voice text box</extracomment>
     </message>
     <message>
         <source>Search now</source>
-        <translation type="unfinished"></translation>
+        <translation>ابحث الآن</translation>
         <extracomment>Help text in search Box</extracomment>
     </message>
     <message>
         <source>You can search for Titles, People, Live TV Channels and more</source>
-        <translation type="unfinished"></translation>
+        <translation>يمكنك البحث عن العناوين, ناس, قنوات التلفاز المباشرة و المزيد</translation>
         <extracomment>Help text in search results</extracomment>
     </message>
     <message>
         <source>%1 of %2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 من %2</translation>
         <extracomment>Item position and count. %1 = current item. %2 = total number of items</extracomment>
     </message>
     <message>
         <source>Quick Connect</source>
-        <translation type="unfinished"></translation>
+        <translation>توصيل سريع</translation>
     </message>
     <message>
         <source>Here is your Quick Connect code:</source>
@@ -2224,7 +2224,7 @@
     </message>
     <message>
         <source>Skip Unknown</source>
-        <translation type="unfinished"></translation>
+        <translation>تجاوز اللقطة</translation>
     </message>
     <message>
         <source>Skip Commercial</source>
