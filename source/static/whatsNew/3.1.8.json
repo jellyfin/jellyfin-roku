@@ -2,9 +2,13 @@
   {
     "description": "Fix crash when filtering Live TV guide by favorites",
     "author": "michaelcresswell"
-  },  
+  },
   {
     "description": "Fix losing playback position when pressing Home button",
     "author": "FractalBoy"
+  },
+  {
+    "description": "Add toggle played status and add to playlist functions to more button on TV season screen",
+    "author": "1hitsong"
   }
 ]
