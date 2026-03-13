@@ -4,6 +4,10 @@ import "pkg:/source/enums/MediaPlaybackState.bs"
 import "pkg:/source/enums/String.bs"
 import "pkg:/source/utils/config.bs"
 
+const SCREEN_PADDING = 60
+const LOWEST_CAPTION = 1080 - SCREEN_PADDING
+const VIEWABLE_AREA = 1080 - 2 * SCREEN_PADDING
+
 sub init()
     m.top.playerState = MediaPlaybackState.STOPPED
     m.top.observeField("url", "fetchCaption")
@@ -178,9 +182,9 @@ end function
 
 function prepareStyles(styles as object, rect, lineCount = 1 as integer) as object
     captionStyles = styles
-    finalStyles = { translation: [960, 1020] }
+    finalStyles = { translation: [960, LOWEST_CAPTION] }
 
-    verticalPosition = 1020
+    verticalPosition = LOWEST_CAPTION
     horizontalPositon = 960 - (rect.BoundingRect().width / 2)
 
     if not isValidAndNotEmpty(captionStyles)
@@ -193,7 +197,7 @@ function prepareStyles(styles as object, rect, lineCount = 1 as integer) as obje
     ' Line
     if not isStringEqual(captionLine, string.EMPTY)
         captionLineHeight = (rect.BoundingRect().height / lineCount)
-        verticalPosition = processLineCue(captionLine, captionLineHeight, lineCount)
+        verticalPosition = processLineCue(captionLine, captionLineHeight, rect.BoundingRect().height)
     end if
 
     ' Position
@@ -220,48 +224,29 @@ function processPositionCue(captionPosition as string, captionLineWidth as float
     return calculatedPosition
 end function
 
-function processLineCue(captionLine as string, captionLineHeight as float, lineCount as integer) as integer
-    captionTotalHeight = lineCount * captionLineHeight
+function processLineCue(captionLine as string, captionLineHeight as float, captionTotalHeight as float) as integer
     ' A percentage
     if captionLine.Instr("%") <> -1
-        calculatedPosition = 1080 * (val(captionLine) / 100) - (lineCount - 1) * captionLineHeight
+        calculatedPosition = SCREEN_PADDING + VIEWABLE_AREA * (val(captionLine) / 100)
+    else
+        ' Note: Non-numeric values are treated as 0
+        lineValue = val(captionLine)
 
-        if calculatedPosition + captionTotalHeight > 1080
-            calculatedPosition = 1080 - captionTotalHeight
+        if lineValue = 0 then return SCREEN_PADDING
+
+        if lineValue > 0
+            ' A positive line value. Count from the top
+            calculatedPosition = SCREEN_PADDING + lineValue * captionLineHeight
+        else
+            ' A negative line value. Count from the bottom
+            calculatedPosition = LOWEST_CAPTION - Abs(lineValue * captionLineHeight)
         end if
-
-        if calculatedPosition < 0
-            calculatedPosition = 0
-        end if
-
-        return calculatedPosition
     end if
 
-    ' Note: Non-numeric values are treated as 0
-    lineValue = val(captionLine)
-
-    if lineValue = 0 then return 0
-
-    ' A positive line value. Count from the top
-    if lineValue >= 0
-        calculatedPosition = lineValue * captionLineHeight
-
-        if calculatedPosition + captionTotalHeight > 1080
-            calculatedPosition = 1080 - captionTotalHeight
-        end if
-
-        return calculatedPosition
-    end if
-
-    ' A negative line value. Count from the bottom
-    calculatedPosition = 1080 - Abs(lineValue * captionLineHeight) - (lineCount - 1) * captionLineHeight
-
-    if calculatedPosition + captionTotalHeight > 1080
-        calculatedPosition = 1080 - captionTotalHeight
-    end if
-
-    if calculatedPosition < 0
-        calculatedPosition = 0
+    if calculatedPosition + captionTotalHeight > LOWEST_CAPTION
+        calculatedPosition = LOWEST_CAPTION - captionTotalHeight
+    else if calculatedPosition < SCREEN_PADDING
+        calculatedPosition = SCREEN_PADDING
     end if
 
     return calculatedPosition
