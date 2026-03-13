@@ -21,13 +21,17 @@ sub init()
     ' Caption Style
     m.fontSizeDict = { "Default": 60, "Large": 60, "Extra Large": 70, "Medium": 50, "Small": 40 }
     m.percentageDict = { "Default": "FF", "100%": "FF", "75%": "BF", "50%": "7F", "25%": "4B", "Off": "00" }
-    m.textColorDict = { "Default": "0xFFFFFF", "White": "0xFFFFFF", "Black": "0x000000", "Red": "0xFF0000", "Green": "0x008000", "Blue": "0x0000FF", "Yellow": "0xFFFF00", "Magenta": "0xFF00FF", "Cyan": "0x00FFFF" }
-    m.bgColorDict = { "Default": "0x000000", "White": "0xFFFFFF", "Black": "0x000000", "Red": "0xFF0000", "Green": "0x008000", "Blue": "0x0000FF", "Yellow": "0xFFFF00", "Magenta": "0xFF00FF", "Cyan": "0x00FFFF" }
+    m.textColorDict = { "Default": "0xCCCCCC", "Bright White": "0xFFFFFF", "White": "0xCCCCCC", "Black": "0x000000", "Red": "0xFF0000", "Green": "0x008000", "Blue": "0x0000FF", "Yellow": "0xFFFF00", "Magenta": "0xFF00FF", "Cyan": "0x00FFFF" }
+    m.bgColorDict = { "Default": "0x000000", "Bright White": "0xFFFFFF", "White": "0xCCCCCC", "Black": "0x000000", "Red": "0xFF0000", "Green": "0x008000", "Blue": "0x0000FF", "Yellow": "0xFFFF00", "Magenta": "0xFF00FF", "Cyan": "0x00FFFF" }
 
     deviceInfo = CreateObject("roDeviceInfo")
     m.fontSize = m.fontSizeDict[deviceInfo.GetCaptionsOption("Text/Size")]
-    m.textColor = m.textColorDict[deviceInfo.GetCaptionsOption("Text/Color")] + m.percentageDict[deviceInfo.GetCaptionsOption("Text/Opacity")]
-    m.bgColor = m.bgColorDict[deviceInfo.GetCaptionsOption("Background/Color")] + m.percentageDict[deviceInfo.GetCaptionsOption("Background/Opacity")]
+    textColor = chainLookupReturn(m.textColorDict, deviceInfo.GetCaptionsOption("Text/Color"), m.textColorDict.Default)
+    m.textOpac = chainLookupReturn(m.percentageDict, deviceInfo.GetCaptionsOption("Text/Opacity"), m.percentageDict.Default)
+    m.textColor = `${textColor}${m.textOpac}`
+    deviceBGColor = chainLookupReturn(m.bgColorDict, deviceInfo.GetCaptionsOption("Background/Color"), m.bgColorDict.Default)
+    deviceBGOpacity = chainLookupReturn(m.percentageDict, deviceInfo.GetCaptionsOption("Background/Opacity"), m.percentageDict.Default)
+    m.bgColor = `${deviceBGColor}${deviceBGOpacity}`
     setFont()
 end sub
 
