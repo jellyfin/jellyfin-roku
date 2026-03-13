@@ -3,6 +3,8 @@ import "pkg:/source/enums/PlaybackMethod.bs"
 import "pkg:/source/enums/String.bs"
 import "pkg:/source/utils/misc.bs"
 
+const h264Profiles = ["baseline", "main", "high"]
+
 ' Returns the Device Capabilities for Roku.
 function getDeviceCapabilities(videoCodec = string.EMPTY as string) as object
     deviceProfile = {
@@ -515,7 +517,6 @@ function getCodecProfiles(videoCodec = string.EMPTY as string) as object
 
     ' check device for codec profile and level support
     ' AVC / h264 / MPEG4 AVC
-    h264Profiles = ["baseline", "main", "high"]
     h264Levels = ["3", "3.1", "4", "4.1", "4.2", "5", "5.1", "5.2", "6", "6.1", "6.2"]
     for each profile in h264Profiles
         for each level in h264Levels
@@ -623,7 +624,7 @@ function getCodecProfiles(videoCodec = string.EMPTY as string) as object
     h264AssProfiles = {}
     for each profile in profileSupport["h264"]
         h264AssProfiles.AddReplace(profile, true)
-        if inArray(["baseline", "main", "high"], profile)
+        if inArray(h264Profiles, profile)
             h264AssProfiles.AddReplace("baseline", true)
             h264AssProfiles.AddReplace("constrained baseline", true)
             h264AssProfiles.AddReplace("constrainedbaseline", true)
