@@ -659,23 +659,23 @@
     </message>
     <message>
         <source>Here is your Quick Connect code:</source>
-        <translation type="unfinished"></translation>
+        <translation>إليك رمز التوصيل السريع:</translation>
     </message>
     <message>
         <source>(Dialog will close automatically)</source>
-        <translation type="unfinished"></translation>
+        <translation>(صندوق الحوار سيغلق تلقائيا)</translation>
     </message>
     <message>
         <source>There was an error authenticating via Quick Connect.</source>
-        <translation type="unfinished"></translation>
+        <translation>هناك خطأ مصادقة عبر التوصيل السريع.</translation>
     </message>
     <message>
         <source>Networks</source>
-        <translation type="unfinished"></translation>
+        <translation>شبكات</translation>
     </message>
     <message>
         <source>Studios</source>
-        <translation type="unfinished"></translation>
+        <translation>استوديوهات</translation>
     </message>
     <message>
         <source>Shows</source>
@@ -683,7 +683,7 @@
     </message>
     <message>
         <source>Return to Top</source>
-        <translation type="unfinished"></translation>
+        <translation>رجوع للأعلى</translation>
         <extracomment>UI -&gt; Media Grid -&gt; Item Title in user setting screen.</extracomment>
     </message>
     <message>
@@ -2212,15 +2212,15 @@
     </message>
     <message>
         <source>Default (Varies By Media Type)</source>
-        <translation type="unfinished"></translation>
+        <translation>افتراضي (يتغير حسب النوع)</translation>
     </message>
     <message>
         <source>Landscape (Wide)</source>
-        <translation type="unfinished"></translation>
+        <translation>صورة عرضية (افقية)</translation>
     </message>
     <message>
         <source>Portrait (Vertical)</source>
-        <translation type="unfinished"></translation>
+        <translation>صورة عامة (رأسية)</translation>
     </message>
     <message>
         <source>Skip Unknown</source>
