@@ -22,5 +22,9 @@
   {
     "description": "Prevent subtitles from getting too close to the top or bottom of the screen",
     "author": "gabeluci"
+  },
+  {
+    "description": "Fix losing cursor when returning to series screen",
+    "author": "1hitsong"
   }
 ]
