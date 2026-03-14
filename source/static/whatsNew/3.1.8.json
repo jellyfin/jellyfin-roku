@@ -18,5 +18,9 @@
   {
     "description": "Fix subtitle background opacity affecting text",
     "author": "gabeluci"
+  },
+  {
+    "description": "Prevent subtitles from getting too close to the top or bottom of the screen",
+    "author": "gabeluci"
   }
 ]

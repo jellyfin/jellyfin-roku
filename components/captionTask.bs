@@ -4,6 +4,10 @@ import "pkg:/source/enums/MediaPlaybackState.bs"
 import "pkg:/source/enums/String.bs"
 import "pkg:/source/utils/config.bs"
 
+const SCREEN_PADDING = 60
+const LOWEST_CAPTION = 1080 - SCREEN_PADDING
+const VIEWABLE_AREA = 1080 - 2 * SCREEN_PADDING
+
 sub init()
     m.top.playerState = MediaPlaybackState.STOPPED
     m.top.observeField("url", "fetchCaption")
@@ -19,7 +23,7 @@ sub init()
     m.tags = CreateObject("roRegex", "{\\an\d*}|&lt;.*?&gt;|<.*?>", "s")
 
     ' Caption Style
-    m.fontSizeDict = { "Default": 60, "Large": 60, "Extra Large": 70, "Medium": 50, "Small": 40 }
+    m.fontSizeDict = { "Default": 60, "Large": 60, "Extra Large": 70, "Medium": 50, "Small": 40, "Extra Small": 30 }
     m.percentageDict = { "Default": "FF", "100%": "FF", "75%": "BF", "50%": "7F", "25%": "4B", "Off": "00" }
     m.textColorDict = { "Default": "0xCCCCCC", "Bright White": "0xFFFFFF", "White": "0xCCCCCC", "Black": "0x000000", "Red": "0xFF0000", "Green": "0x008000", "Blue": "0x0000FF", "Yellow": "0xFFFF00", "Magenta": "0xFF00FF", "Cyan": "0x00FFFF" }
     m.bgColorDict = { "Default": "0x000000", "Bright White": "0xFFFFFF", "White": "0xCCCCCC", "Black": "0x000000", "Red": "0xFF0000", "Green": "0x008000", "Blue": "0x0000FF", "Yellow": "0xFFFF00", "Magenta": "0xFF00FF", "Cyan": "0x00FFFF" }
@@ -178,9 +182,9 @@ end function
 
 function prepareStyles(styles as object, rect, lineCount = 1 as integer) as object
     captionStyles = styles
-    finalStyles = { translation: [960, 1020] }
+    finalStyles = { translation: [960, LOWEST_CAPTION] }
 
-    verticalPosition = 1020
+    verticalPosition = LOWEST_CAPTION
     horizontalPositon = 960 - (rect.BoundingRect().width / 2)
 
     if not isValidAndNotEmpty(captionStyles)
@@ -223,40 +227,28 @@ end function
 function processLineCue(captionLine as string, captionLineHeight as float, captionTotalHeight as float) as integer
     ' A percentage
     if captionLine.Instr("%") <> -1
-        calculatedPosition = 1080 * (val(captionLine) / 100)
+        calculatedPosition = SCREEN_PADDING + VIEWABLE_AREA * (val(captionLine) / 100)
+    else
+        ' Note: Non-numeric values are treated as 0
+        lineValue = val(captionLine)
 
-        if calculatedPosition + captionTotalHeight > 1080
-            calculatedPosition = 1080 - captionTotalHeight
+        if lineValue = 0 then return SCREEN_PADDING
+
+        if lineValue > 0
+            ' A positive line value. Count from the top
+            calculatedPosition = SCREEN_PADDING + lineValue * captionLineHeight
+        else
+            ' A negative line value. Count from the bottom
+            calculatedPosition = LOWEST_CAPTION - Abs(lineValue * captionLineHeight)
         end if
-
-        return calculatedPosition
     end if
 
-    ' Note: Non-numeric values are treated as 0
-    lineValue = val(captionLine)
-
-    if lineValue = 0 then return 0
-
-    ' A positive line value. Count from the top
-    if lineValue >= 0
-        calculatedPosition = lineValue * captionLineHeight
-
-        if calculatedPosition + captionTotalHeight > 1080
-            calculatedPosition = 1080 - captionTotalHeight
-        end if
-
-        return calculatedPosition
+    if calculatedPosition + captionTotalHeight > LOWEST_CAPTION
+        return LOWEST_CAPTION - captionTotalHeight
     end if
 
-    ' A negative line value. Count from the bottom
-    calculatedPosition = 1080 - Abs(lineValue * captionLineHeight)
-
-    if calculatedPosition + captionTotalHeight > 1080
-        calculatedPosition = 1080 - captionTotalHeight
-    end if
-
-    if calculatedPosition < 0
-        calculatedPosition = 0
+    if calculatedPosition < SCREEN_PADDING
+        return SCREEN_PADDING
     end if
 
     return calculatedPosition
