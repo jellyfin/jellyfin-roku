@@ -244,9 +244,11 @@ function processLineCue(captionLine as string, captionLineHeight as float, capti
     end if
 
     if calculatedPosition + captionTotalHeight > LOWEST_CAPTION
-        calculatedPosition = LOWEST_CAPTION - captionTotalHeight
-    else if calculatedPosition < SCREEN_PADDING
-        calculatedPosition = SCREEN_PADDING
+        return LOWEST_CAPTION - captionTotalHeight
+    end if
+
+    if calculatedPosition < SCREEN_PADDING
+        return SCREEN_PADDING
     end if
 
     return calculatedPosition
