@@ -8,6 +8,10 @@
     "author": "FractalBoy"
   },
   {
+    "description": "Add missing h264 profile and levels",
+    "author": "jimdogx"
+  },
+  {
     "description": "Add toggle played status and add to playlist functions to more button on TV season screen",
     "author": "1hitsong"
   }
