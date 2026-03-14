@@ -24,16 +24,18 @@ sub init()
 
     ' Caption Style
     m.fontSizeDict = { "Default": 60, "Large": 60, "Extra Large": 70, "Medium": 50, "Small": 40, "Extra Small": 30 }
-    m.percentageDict = { "Default": 1.0, "100%": 1.0, "75%": 0.75, "50%": 0.5, "25%": 0.25, "Off": 0 }
-    m.textColorDict = { "Default": &HFFFFFFFF, "White": &HFFFFFFFF, "Black": &H000000FF, "Red": &HFF0000FF, "Green": &H008000FF, "Blue": &H0000FFFF, "Yellow": &HFFFF00FF, "Magenta": &HFF00FFFF, "Cyan": &H00FFFFFF }
-    m.bgColorDict = { "Default": &H000000FF, "White": &HFFFFFFFF, "Black": &H000000FF, "Red": &HFF0000FF, "Green": &H008000FF, "Blue": &H0000FFFF, "Yellow": &HFFFF00FF, "Magenta": &HFF00FFFF, "Cyan": &H00FFFFFF }
+    m.percentageDict = { "Default": "FF", "100%": "FF", "75%": "BF", "50%": "7F", "25%": "4B", "Off": "00" }
+    m.textColorDict = { "Default": "0xCCCCCC", "Bright White": "0xFFFFFF", "White": "0xCCCCCC", "Black": "0x000000", "Red": "0xFF0000", "Green": "0x008000", "Blue": "0x0000FF", "Yellow": "0xFFFF00", "Magenta": "0xFF00FF", "Cyan": "0x00FFFF" }
+    m.bgColorDict = { "Default": "0x000000", "Bright White": "0xFFFFFF", "White": "0xCCCCCC", "Black": "0x000000", "Red": "0xFF0000", "Green": "0x008000", "Blue": "0x0000FF", "Yellow": "0xFFFF00", "Magenta": "0xFF00FF", "Cyan": "0x00FFFF" }
 
     deviceInfo = CreateObject("roDeviceInfo")
     m.fontSize = m.fontSizeDict[deviceInfo.GetCaptionsOption("Text/Size")]
-    m.textColor = m.textColorDict[deviceInfo.GetCaptionsOption("Text/Color")]
-    m.textOpac = m.percentageDict[deviceInfo.GetCaptionsOption("Text/Opacity")]
-    m.bgColor = m.bgColorDict[deviceInfo.GetCaptionsOption("Background/Color")]
-    m.bgOpac = m.percentageDict[deviceInfo.GetCaptionsOption("Background/Opacity")]
+    textColor = chainLookupReturn(m.textColorDict, deviceInfo.GetCaptionsOption("Text/Color"), m.textColorDict.Default)
+    m.textOpac = chainLookupReturn(m.percentageDict, deviceInfo.GetCaptionsOption("Text/Opacity"), m.percentageDict.Default)
+    m.textColor = `${textColor}${m.textOpac}`
+    deviceBGColor = chainLookupReturn(m.bgColorDict, deviceInfo.GetCaptionsOption("Background/Color"), m.bgColorDict.Default)
+    deviceBGOpacity = chainLookupReturn(m.percentageDict, deviceInfo.GetCaptionsOption("Background/Opacity"), m.percentageDict.Default)
+    m.bgColor = `${deviceBGColor}${deviceBGOpacity}`
     setFont()
 end sub
 
@@ -68,7 +70,6 @@ function newlabel(txt)
     label.font = m.font
     label.font.size = m.fontSize
     label.color = m.textColor
-    label.opacity = m.textOpac
     return label
 end function
 
@@ -91,7 +92,6 @@ function newRect(lg, id as string)
     lg.translation = [5, 5]
 
     rect.color = m.bgColor
-    rect.opacity = m.bgOpac
     rect.width = rectxy.width + 10
     rect.height = rectxy.height + 10
 

@@ -14,7 +14,7 @@
     </message>
     <message>
         <source>Connect to Server</source>
-        <translation>Connettersi al Server</translation>
+        <translation>Connetti al Server</translation>
     </message>
     <message>
         <source>Ends at %1</source>
@@ -114,7 +114,7 @@
     </message>
     <message>
         <source>Enter a username</source>
-        <translation>Inserisci il tuo nome utente</translation>
+        <translation>Inserisci un nome utente</translation>
     </message>
     <message>
         <source>Enter a password</source>
@@ -186,7 +186,7 @@
     </message>
     <message>
         <source>Error During Playback</source>
-        <translation>Errore Durante la Riproduzione</translation>
+        <translation>Errore Durante La Riproduzione</translation>
         <extracomment>Dialog title when error occurs during playback</extracomment>
     </message>
     <message>
@@ -231,15 +231,15 @@
     </message>
     <message>
         <source>Died</source>
-        <translation>Data di Morte</translation>
+        <translation>Morte</translation>
     </message>
     <message>
         <source>DATE_ADDED</source>
-        <translation>Data di Aggiunta</translation>
+        <translation>Data Aggiunta</translation>
     </message>
     <message>
         <source>DATE_PLAYED</source>
-        <translation>Data di Riproduzione</translation>
+        <translation>Data Riproduzione</translation>
     </message>
     <message>
         <source>Delete Saved</source>
@@ -256,7 +256,7 @@
     </message>
     <message>
         <source>Born</source>
-        <translation>Data di Nascita</translation>
+        <translation>Nascita</translation>
     </message>
     <message>
         <source>More Like This</source>
@@ -268,11 +268,11 @@
     </message>
     <message>
         <source>Loading Channel Data</source>
-        <translation>Caricamento dei Dati del Canale</translation>
+        <translation>Caricamento Dati Del Canale</translation>
     </message>
     <message>
         <source>Error loading Channel Data</source>
-        <translation>Errore nel Caricamento dei Dati del Canale</translation>
+        <translation>Errore Caricamento Dati Del Canale</translation>
     </message>
     <message>
         <source>CRITIC_RATING</source>
@@ -304,7 +304,7 @@
     </message>
     <message>
         <source>Error Retrieving Content</source>
-        <translation>Errore nel Recuperare i Contenuti</translation>
+        <translation>Errore Caricamento Contenuto</translation>
         <extracomment>Dialog title when unable to load Content from Server</extracomment>
     </message>
     <message>
@@ -2025,6 +2025,278 @@
     <message>
         <source>The text color for title and items the cursor is not over.</source>
         <translation>Il colore del testo per il titolo e l&apos;oggetto non sotto il cursore.</translation>
+    </message>
+    <message>
+        <source>What&apos;s New Author</source>
+        <translation>Autore Novità</translation>
+    </message>
+    <message>
+        <source>The text color for the author in the What&apos;s New popup.</source>
+        <translation>Il colore del testo per l&apos;autore nel popup Novità.</translation>
+    </message>
+    <message>
+        <source>Home Screen</source>
+        <translation>Schermata Home</translation>
+    </message>
+    <message>
+        <source>Colors specific to the home screen</source>
+        <translation>Colori specifici della schermata home</translation>
+    </message>
+    <message>
+        <source>My List Icon</source>
+        <translation>Icona La Mia Lista</translation>
+    </message>
+    <message>
+        <source>The color of the star icon in the My List library item.</source>
+        <translation>Il colore dell&apos;icona stella nell&apos;oggetto libreria La Mia Lista.</translation>
+    </message>
+    <message>
+        <source>Row Headers</source>
+        <translation>Intestazione Righe</translation>
+    </message>
+    <message>
+        <source>The text color of the headers of each row.</source>
+        <translation>Il colore del testo delle intestazioni di ciascuna riga.</translation>
+    </message>
+    <message>
+        <source>Row Item Background</source>
+        <translation>Sfondo Oggetti Riga</translation>
+    </message>
+    <message>
+        <source>The background color of items. Only seen if no image loads on top of it.</source>
+        <translation>Il colore di sfondo degli oggetti. Visualizzato soltanto se nessuna immagine viene caricata sopra.</translation>
+    </message>
+    <message>
+        <source>Row Item Progress</source>
+        <translation>Barra Progresso Riga</translation>
+    </message>
+    <message>
+        <source>The color of the watched portion of the progress bar.</source>
+        <translation>Il colore della porzione riprodotta della barra progresso.</translation>
+    </message>
+    <message>
+        <source>Row Item Progress Background</source>
+        <translation>Sfondo Barra Progresso Riga</translation>
+    </message>
+    <message>
+        <source>The background color of the progress bar.</source>
+        <translation>Il colore di sfondo della barra progresso.</translation>
+    </message>
+    <message>
+        <source>Row Item Subtitle</source>
+        <translation>Sottotitolo Oggetto Riga</translation>
+    </message>
+    <message>
+        <source>The text color of the second line displayed under items.</source>
+        <translation>Il colore del testo della seconda linea mostrata sotto gli oggetti.</translation>
+    </message>
+    <message>
+        <source>Row Item Title</source>
+        <translation>Titolo Oggetto Riga</translation>
+    </message>
+    <message>
+        <source>The text color of the first line displayed under items.</source>
+        <translation>Il colore del testo della prima linea mostrata sotto gli oggetti.</translation>
+    </message>
+    <message>
+        <source>Username In Header</source>
+        <translation>Nome Utente Nell&apos;Intestazione</translation>
+    </message>
+    <message>
+        <source>The text color of the user&apos;s name in the header.</source>
+        <translation>Il colore del testo del nome utente nell&apos;intestazione.</translation>
+    </message>
+    <message>
+        <source>Shuffle Play Collection</source>
+        <translation>Riproduzione Casuale Collezione</translation>
+    </message>
+    <message>
+        <source>Note: Force transcode option automatically enabled due to video rotation</source>
+        <translation>Nota: opzione di transcodifica forzata attivata automaticamente a causa della rotazione del video</translation>
+    </message>
+    <message>
+        <source>Start Episode List From First Unwatched Episode</source>
+        <translation>Inizia La Lista Episodi Dal Primo Episodio Non Riprodotto</translation>
+    </message>
+    <message>
+        <source>When opening a season&apos;s list of episodes, automatically scroll down and start the cursor on the first unwatched episode.</source>
+        <translation>Quando si apre la lista degli episodi di una stagione, scendi automaticamente e posiziona il cursore sul primo episodio non riprodotto.</translation>
+    </message>
+    <message>
+        <source>Add To Favorites</source>
+        <translation>Aggiungi Ai Preferiti</translation>
+    </message>
+    <message>
+        <source>Remove From Favorites</source>
+        <translation>Rimuovi Dai Preferiti</translation>
+    </message>
+    <message>
+        <source>Play Normally</source>
+        <translation>Riproduci Normalmente</translation>
+    </message>
+    <message>
+        <source>Force Transcode (Allow Remux)</source>
+        <translation>Forza Transcodifica (Permetti Remux)</translation>
+    </message>
+    <message>
+        <source>Force Transcode (Allow Remux) - disabled because of selected force transcoding setting</source>
+        <translation>Forza Transcodifica (Permetti Remux) - disabilitato a causa delle impostazioni sulla transcodifica forzata</translation>
+    </message>
+    <message>
+        <source>Force Transcode (Remux Disabled)</source>
+        <translation>Forza Transcodifica (Remux Disabilitato)</translation>
+    </message>
+    <message>
+        <source>Force Transcode (Remux Disabled) - disabled because of selected force transcoding setting</source>
+        <translation>Forza Transcodifica (Remux Disabilitato) - disabilitato a causa delle impostazioni sulla transcodifica forzata</translation>
+    </message>
+    <message>
+        <source>No channels found matching your search criteria</source>
+        <translation>Nessun canale trovato che corrisponde ai tuoi criteri di ricerca</translation>
+    </message>
+    <message>
+        <source>Are You Still Watching Popup</source>
+        <translation>Popup Stai Ancora Guardando</translation>
+    </message>
+    <message>
+        <source>Attempt Direct Play Anamorphic Video</source>
+        <translation>Tenta La Riproduzione Diretta Video Anamorfici</translation>
+    </message>
+    <message>
+        <source>Newer devices may support direct play of anamorphic video.</source>
+        <translation>I nuovi dispositivi potrebbero supportare la riproduzione diretta di video anamorfici.</translation>
+    </message>
+    <message>
+        <source>How many minutes of inactivity before playback is stopped between items and a popup is shown to continue? Set to 0 to disable.</source>
+        <translation>Quanti minuti di inattività prima che la riproduzione tra gli oggetti venga fermata e venga mostrato un popup per proseguire? Imposta a 0 per disabilitare.</translation>
+    </message>
+    <message>
+        <source>Are You Still Watching?</source>
+        <translation>Stai Ancora Guardando?</translation>
+    </message>
+    <message>
+        <source>Yes, continue</source>
+        <translation>Sì, continua</translation>
+    </message>
+    <message>
+        <source>No, stop playback</source>
+        <translation>No, interrompi la riproduzione</translation>
+    </message>
+    <message>
+        <source>Playback will automatically stop in 1 minute if no buttons are pressed.</source>
+        <translation>La riproduzione verrà interrotta automaticamente in 1 minuto se non verrà premuto nessun bottone.</translation>
+    </message>
+    <message>
+        <source>Burn in subtitle when transcoding</source>
+        <translation>Incidi Sottotitoli Durante La Transcodifica</translation>
+    </message>
+    <message>
+        <source>Burn in all subtitles when transcoding is triggered. This ensures subtitle synchronization after transcoding at the cost of reduced transcoding speed.</source>
+        <translation>Incidi tutti i sottotitoli quando si attiva la transcodifica. Questo garantisce la sincronizzazione dei sottotitoli dopo la transcodifica al costo di una ridotta velocità di transcodifica.</translation>
+    </message>
+    <message>
+        <source>Library Image Orientation</source>
+        <translation>Orientamento Immagine Libreria</translation>
+    </message>
+    <message>
+        <source>Select the poster image orientation for the library views.</source>
+        <translation>Seleziona l&apos;orientamento della immagine poster per le visualizzazioni della libreria.</translation>
+    </message>
+    <message>
+        <source>Default (Varies By Media Type)</source>
+        <translation>Default (Varia In Base Al Tipo Di Media)</translation>
+    </message>
+    <message>
+        <source>Landscape (Wide)</source>
+        <translation>Panorama (Esteso)</translation>
+    </message>
+    <message>
+        <source>Portrait (Vertical)</source>
+        <translation>Ritratto (Verticale)</translation>
+    </message>
+    <message>
+        <source>Skip Unknown</source>
+        <translation>Salta Sezione</translation>
+    </message>
+    <message>
+        <source>Skip Commercial</source>
+        <translation>Salta Pubblicità</translation>
+    </message>
+    <message>
+        <source>Skip Preview</source>
+        <translation>Salta Anteprima</translation>
+    </message>
+    <message>
+        <source>Skip Recap</source>
+        <translation>Salta Riassunto</translation>
+    </message>
+    <message>
+        <source>Skip Outro</source>
+        <translation>Salta Titoli Di Coda</translation>
+    </message>
+    <message>
+        <source>Skip Intro</source>
+        <translation>Salta Introduzione</translation>
+    </message>
+    <message>
+        <source>Go To Genre</source>
+        <translation>Vai Al Genere</translation>
+    </message>
+    <message>
+        <source>Play Instant Mix</source>
+        <translation>RIproduci Mix Instantaneo</translation>
+    </message>
+    <message>
+        <source>Show Next Episode Details After Finish</source>
+        <translation>Mostra Dettagli Prossimo Episodio Dopo La Fine</translation>
+    </message>
+    <message>
+        <source>If auto play next episode is disabled, display the next episode&apos;s detail screen after an episode finishes playing. If no next up episode is found, return to the just-played episode&apos;s page.</source>
+        <translation>Se la riproduzione automatica del prossimo episodio è disabilitata, mostra la schermata di dettagli del prossimo episodio alla fine dell&apos;episodio corrente. Se non viene trovato nessun nuovo episodio, ritorna alla pagina dell&apos;episodio appena riprodotto.</translation>
+    </message>
+    <message>
+        <source>Favorites Row</source>
+        <translation>Riga Preferiti</translation>
+    </message>
+    <message>
+        <source>Settings relating to the favorites row on the home screen.</source>
+        <translation>Impostazioni legate alla riga dei preferiti nella schermata principale.</translation>
+    </message>
+    <message>
+        <source>Sort By Field</source>
+        <translation>Ordina Per Campo</translation>
+    </message>
+    <message>
+        <source>Field to sort the row by.</source>
+        <translation>Campi per cui è possibile ordinare la riga.</translation>
+    </message>
+    <message>
+        <source>Date Created</source>
+        <translation>Data Creazione</translation>
+    </message>
+    <message>
+        <source>Is Unplayed</source>
+        <translation>È Non Riprodotto</translation>
+    </message>
+    <message>
+        <source>Sort Order for the row - Ascending,Descending.</source>
+        <translation>Ordine della riga - Ascendente,Discendente.</translation>
+    </message>
+    <message>
+        <source>Current Offset</source>
+        <translation>Scostamento Temporale Attuale Sottotitoli</translation>
+    </message>
+    <message>
+        <source>Adjust Subtitle Timing</source>
+        <translation>Imposta Scostamento Temporale Sottotitoli</translation>
+    </message>
+    <message>
+        <source>Display Episodes In Two Columns</source>
+        <translation>Mostra Episodi In Due Colonne</translation>
+    </message>
+    <message>
+        <source>Screen Settings</source>
+        <translation>Impostazioni Schermo</translation>
     </message>
 </context>
 <context>
