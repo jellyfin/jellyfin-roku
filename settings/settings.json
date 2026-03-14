@@ -92,13 +92,6 @@
         "default": "false"
       },
       {
-        "title": "Custom Trickplay",
-        "description": "Display custom trickplay images even if this Roku says it's displaying its own. This may cause the two images to overlay on top of each other.",
-        "settingName": "playback.trickplay.forcecustom",
-        "type": "bool",
-        "default": "false"
-      },
-      {
         "title": "Force Transcoding",
         "description": "Force all playable media to be transcoded.",
         "settingName": "playback.media.forceTranscode",
