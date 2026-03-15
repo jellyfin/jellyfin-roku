@@ -1,0 +1,5 @@
+enum LiveTVChannelIdentifier
+    LOGO_AND_TITLE = "logoTitle"
+    LOGO = "logo"
+    TITLE = "title"
+end enum

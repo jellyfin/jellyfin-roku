@@ -1,4 +1,5 @@
 import "pkg:/source/enums/ColorPalette.bs"
+import "pkg:/source/enums/LiveTVChannelIdentifier.bs"
 import "pkg:/source/enums/PosterLoadStatus.bs"
 import "pkg:/source/utils/misc.bs"
 
@@ -17,14 +18,28 @@ sub init()
 end sub
 
 sub onWidthChanged()
-    logoWidth = int(m.top.width / 3)
+    channelIdentifier = chainLookupReturn(m.global.session, "user.settings.tvGuideChannelIdentifier", LiveTVChannelIdentifier.LOGO_AND_TITLE)
 
-    titleTranslationHorizontal = logoWidth + 10
-    titleWidth = m.top.width - titleTranslationHorizontal
+    if isStringEqual(channelIdentifier, LiveTVChannelIdentifier.LOGO_AND_TITLE)
+        m.channelLogo.visible = true
+        m.channelTitle.visible = true
+        logoWidth = int(m.top.width / 3)
+        titleWidth = m.top.width - logoWidth
+    else if isStringEqual(channelIdentifier, LiveTVChannelIdentifier.TITLE)
+        m.channelLogo.visible = false
+        m.channelTitle.visible = true
+        logoWidth = 0
+        titleWidth = m.top.width
+    else
+        m.channelLogo.visible = true
+        m.channelTitle.visible = false
+        logoWidth = m.top.width
+        titleWidth = 0
+    end if
 
     m.channelLogo.width = logoWidth
+    m.channelLogo.translation = [titleWidth, 0]
     m.channelTitle.maxWidth = titleWidth
-    m.channelTitle.translation = [titleTranslationHorizontal, 0]
 
     m.borderTop.width = m.top.width
     m.backdrop.width = m.top.width

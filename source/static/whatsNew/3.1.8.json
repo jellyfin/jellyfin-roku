@@ -22,5 +22,9 @@
   {
     "description": "Prevent subtitles from getting too close to the top or bottom of the screen",
     "author": "gabeluci"
+  },
+  {
+    "description": "Add channel title content and guide channel identifier configuration options to Live TV",
+    "author": "michaelcresswell"
   }
 ]
