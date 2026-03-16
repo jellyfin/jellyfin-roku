@@ -679,7 +679,7 @@
     </message>
     <message>
         <source>Shows</source>
-        <translation type="unfinished"></translation>
+        <translation>برامج</translation>
     </message>
     <message>
         <source>Return to Top</source>
@@ -688,7 +688,7 @@
     </message>
     <message>
         <source>Use the replay button to slowly animate to the first item in the folder. (If disabled, the folder will reset to the first item immediately).</source>
-        <translation type="unfinished"></translation>
+        <translation>استخدم زر إعادة التشغيل لإبطاء الحركة لأول عنصر في المجلد.(إذا كان مثبطا, المجلد سيعيد التعيين إلى أول عنصر مباشرة).</translation>
         <extracomment>Description for option in Setting Screen</extracomment>
     </message>
     <message>
