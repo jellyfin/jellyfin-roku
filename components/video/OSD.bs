@@ -81,7 +81,6 @@ end sub
 ' onProgressPercentageChanged: Handler for changes to m.top.progressPercentage param
 '
 sub onProgressPercentageChanged()
-    if m.top.live then m.top.action = "updatelivetvtrackers"
     positionTime = clampSeek(m.top.previewPos)
     updateProgressBar(m.top.live, positionTime)
 end sub

@@ -493,11 +493,6 @@ sub onOSDAction()
         return
     end if
 
-    if action = "updatelivetvtrackers"
-        updateLiveTvTrackers()
-        return
-    end if
-
     if action = "checkskipsegmentbuttonvisible"
         checkSkipSegmentButtonVisible()
         return
@@ -1092,6 +1087,8 @@ sub onPositionChanged()
             checkSegmentSkipButton(m.top.position)
         end if
     end if
+    ' Only update live TV trackers if content is live, to avoid unnecessary calls
+    if m.top.content.live then updateLiveTvTrackers()
 end sub
 
 '
