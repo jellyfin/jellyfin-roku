@@ -659,70 +659,70 @@
     </message>
     <message>
         <source>Here is your Quick Connect code:</source>
-        <translation type="unfinished"></translation>
+        <translation>إليك رمز التوصيل السريع:</translation>
     </message>
     <message>
         <source>(Dialog will close automatically)</source>
-        <translation type="unfinished"></translation>
+        <translation>(صندوق الحوار سيغلق تلقائيا)</translation>
     </message>
     <message>
         <source>There was an error authenticating via Quick Connect.</source>
-        <translation type="unfinished"></translation>
+        <translation>هناك خطأ مصادقة عبر التوصيل السريع.</translation>
     </message>
     <message>
         <source>Networks</source>
-        <translation type="unfinished"></translation>
+        <translation>شبكات</translation>
     </message>
     <message>
         <source>Studios</source>
-        <translation type="unfinished"></translation>
+        <translation>استوديوهات</translation>
     </message>
     <message>
         <source>Shows</source>
-        <translation type="unfinished"></translation>
+        <translation>برامج</translation>
     </message>
     <message>
         <source>Return to Top</source>
-        <translation type="unfinished"></translation>
+        <translation>رجوع للأعلى</translation>
         <extracomment>UI -&gt; Media Grid -&gt; Item Title in user setting screen.</extracomment>
     </message>
     <message>
         <source>Use the replay button to slowly animate to the first item in the folder. (If disabled, the folder will reset to the first item immediately).</source>
-        <translation type="unfinished"></translation>
+        <translation>استخدم زر إعادة التشغيل لإبطاء الحركة لأول عنصر في المجلد.(إذا كان مثبطا, المجلد سيعيد التعيين إلى أول عنصر مباشرة).</translation>
         <extracomment>Description for option in Setting Screen</extracomment>
     </message>
     <message>
         <source>Hide Taglines</source>
-        <translation type="unfinished"></translation>
+        <translation>اخفاء خطوط الوسوم</translation>
         <extracomment>Option Title in user setting screen</extracomment>
     </message>
     <message>
         <source>Hides tagline text on details pages.</source>
-        <translation type="unfinished"></translation>
+        <translation>اخفاء خطوط الوسوم في صفحات التفاصيل.</translation>
     </message>
     <message>
         <source>Options for TV Shows.</source>
-        <translation type="unfinished"></translation>
+        <translation>اختيارات البرامج التلفزيونية.</translation>
         <extracomment>Description for TV Shows user settings.</extracomment>
     </message>
     <message>
         <source>Blur Unwatched Episodes</source>
-        <translation type="unfinished"></translation>
+        <translation>تضبيب الحلقات غير المشاهدة</translation>
         <extracomment>Option Title in user setting screen</extracomment>
     </message>
     <message>
         <source>Skip Details for Single Seasons</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">تجاوز تفاصيل مواسم مفردة</translation>
         <extracomment>Settings Menu - Title for option</extracomment>
     </message>
     <message>
         <source>Go directly to the episode list if a TV series has only one season.</source>
-        <translation type="unfinished"></translation>
+        <translation>إن كان مفعلا, اختيار مسلسلات تلفزيونية ذات موسم واحد فقط سوف ينقلك مباشرة لحلقة بدلا من تفاصيل المسلسل و لائحة الموسم.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Blur images of unwatched episodes.</source>
-        <translation type="unfinished"></translation>
+        <translation>تضبيب صور الحلقات غير المشاهدة.</translation>
     </message>
     <message>
         <source>Design Elements</source>
@@ -2212,19 +2212,19 @@
     </message>
     <message>
         <source>Default (Varies By Media Type)</source>
-        <translation type="unfinished"></translation>
+        <translation>افتراضي (يتغير حسب النوع)</translation>
     </message>
     <message>
         <source>Landscape (Wide)</source>
-        <translation type="unfinished"></translation>
+        <translation>صورة عرضية (افقية)</translation>
     </message>
     <message>
         <source>Portrait (Vertical)</source>
-        <translation type="unfinished"></translation>
+        <translation>صورة عامة (رأسية)</translation>
     </message>
     <message>
         <source>Skip Unknown</source>
-        <translation type="unfinished"></translation>
+        <translation>تجاوز اللقطة</translation>
     </message>
     <message>
         <source>Skip Commercial</source>

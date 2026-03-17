@@ -4,6 +4,10 @@ import "pkg:/source/enums/MediaPlaybackState.bs"
 import "pkg:/source/enums/String.bs"
 import "pkg:/source/utils/config.bs"
 
+const SCREEN_PADDING = 60
+const LOWEST_CAPTION = 1080 - SCREEN_PADDING
+const VIEWABLE_AREA = 1080 - 2 * SCREEN_PADDING
+
 sub init()
     m.top.playerState = MediaPlaybackState.STOPPED
     m.top.observeField("url", "fetchCaption")
@@ -19,17 +23,19 @@ sub init()
     m.tags = CreateObject("roRegex", "{\\an\d*}|&lt;.*?&gt;|<.*?>", "s")
 
     ' Caption Style
-    m.fontSizeDict = { "Default": 60, "Large": 60, "Extra Large": 70, "Medium": 50, "Small": 40 }
-    m.percentageDict = { "Default": 1.0, "100%": 1.0, "75%": 0.75, "50%": 0.5, "25%": 0.25, "Off": 0 }
-    m.textColorDict = { "Default": &HFFFFFFFF, "White": &HFFFFFFFF, "Black": &H000000FF, "Red": &HFF0000FF, "Green": &H008000FF, "Blue": &H0000FFFF, "Yellow": &HFFFF00FF, "Magenta": &HFF00FFFF, "Cyan": &H00FFFFFF }
-    m.bgColorDict = { "Default": &H000000FF, "White": &HFFFFFFFF, "Black": &H000000FF, "Red": &HFF0000FF, "Green": &H008000FF, "Blue": &H0000FFFF, "Yellow": &HFFFF00FF, "Magenta": &HFF00FFFF, "Cyan": &H00FFFFFF }
+    m.fontSizeDict = { "Default": 60, "Large": 60, "Extra Large": 70, "Medium": 50, "Small": 40, "Extra Small": 30 }
+    m.percentageDict = { "Default": "FF", "100%": "FF", "75%": "BF", "50%": "7F", "25%": "4B", "Off": "00" }
+    m.textColorDict = { "Default": "0xCCCCCC", "Bright White": "0xFFFFFF", "White": "0xCCCCCC", "Black": "0x000000", "Red": "0xFF0000", "Green": "0x008000", "Blue": "0x0000FF", "Yellow": "0xFFFF00", "Magenta": "0xFF00FF", "Cyan": "0x00FFFF" }
+    m.bgColorDict = { "Default": "0x000000", "Bright White": "0xFFFFFF", "White": "0xCCCCCC", "Black": "0x000000", "Red": "0xFF0000", "Green": "0x008000", "Blue": "0x0000FF", "Yellow": "0xFFFF00", "Magenta": "0xFF00FF", "Cyan": "0x00FFFF" }
 
     deviceInfo = CreateObject("roDeviceInfo")
     m.fontSize = m.fontSizeDict[deviceInfo.GetCaptionsOption("Text/Size")]
-    m.textColor = m.textColorDict[deviceInfo.GetCaptionsOption("Text/Color")]
-    m.textOpac = m.percentageDict[deviceInfo.GetCaptionsOption("Text/Opacity")]
-    m.bgColor = m.bgColorDict[deviceInfo.GetCaptionsOption("Background/Color")]
-    m.bgOpac = m.percentageDict[deviceInfo.GetCaptionsOption("Background/Opacity")]
+    textColor = chainLookupReturn(m.textColorDict, deviceInfo.GetCaptionsOption("Text/Color"), m.textColorDict.Default)
+    m.textOpac = chainLookupReturn(m.percentageDict, deviceInfo.GetCaptionsOption("Text/Opacity"), m.percentageDict.Default)
+    m.textColor = `${textColor}${m.textOpac}`
+    deviceBGColor = chainLookupReturn(m.bgColorDict, deviceInfo.GetCaptionsOption("Background/Color"), m.bgColorDict.Default)
+    deviceBGOpacity = chainLookupReturn(m.percentageDict, deviceInfo.GetCaptionsOption("Background/Opacity"), m.percentageDict.Default)
+    m.bgColor = `${deviceBGColor}${deviceBGOpacity}`
     setFont()
 end sub
 
@@ -64,7 +70,6 @@ function newlabel(txt)
     label.font = m.font
     label.font.size = m.fontSize
     label.color = m.textColor
-    label.opacity = m.textOpac
     return label
 end function
 
@@ -87,7 +92,6 @@ function newRect(lg, id as string)
     lg.translation = [5, 5]
 
     rect.color = m.bgColor
-    rect.opacity = m.bgOpac
     rect.width = rectxy.width + 10
     rect.height = rectxy.height + 10
 
@@ -178,9 +182,9 @@ end function
 
 function prepareStyles(styles as object, rect, lineCount = 1 as integer) as object
     captionStyles = styles
-    finalStyles = { translation: [960, 1020] }
+    finalStyles = { translation: [960, LOWEST_CAPTION] }
 
-    verticalPosition = 1020
+    verticalPosition = LOWEST_CAPTION
     horizontalPositon = 960 - (rect.BoundingRect().width / 2)
 
     if not isValidAndNotEmpty(captionStyles)
@@ -223,40 +227,28 @@ end function
 function processLineCue(captionLine as string, captionLineHeight as float, captionTotalHeight as float) as integer
     ' A percentage
     if captionLine.Instr("%") <> -1
-        calculatedPosition = 1080 * (val(captionLine) / 100)
+        calculatedPosition = SCREEN_PADDING + VIEWABLE_AREA * (val(captionLine) / 100)
+    else
+        ' Note: Non-numeric values are treated as 0
+        lineValue = val(captionLine)
 
-        if calculatedPosition + captionTotalHeight > 1080
-            calculatedPosition = 1080 - captionTotalHeight
+        if lineValue = 0 then return SCREEN_PADDING
+
+        if lineValue > 0
+            ' A positive line value. Count from the top
+            calculatedPosition = SCREEN_PADDING + lineValue * captionLineHeight
+        else
+            ' A negative line value. Count from the bottom
+            calculatedPosition = LOWEST_CAPTION - Abs(lineValue * captionLineHeight)
         end if
-
-        return calculatedPosition
     end if
 
-    ' Note: Non-numeric values are treated as 0
-    lineValue = val(captionLine)
-
-    if lineValue = 0 then return 0
-
-    ' A positive line value. Count from the top
-    if lineValue >= 0
-        calculatedPosition = lineValue * captionLineHeight
-
-        if calculatedPosition + captionTotalHeight > 1080
-            calculatedPosition = 1080 - captionTotalHeight
-        end if
-
-        return calculatedPosition
+    if calculatedPosition + captionTotalHeight > LOWEST_CAPTION
+        return LOWEST_CAPTION - captionTotalHeight
     end if
 
-    ' A negative line value. Count from the bottom
-    calculatedPosition = 1080 - Abs(lineValue * captionLineHeight)
-
-    if calculatedPosition + captionTotalHeight > 1080
-        calculatedPosition = 1080 - captionTotalHeight
-    end if
-
-    if calculatedPosition < 0
-        calculatedPosition = 0
+    if calculatedPosition < SCREEN_PADDING
+        return SCREEN_PADDING
     end if
 
     return calculatedPosition
