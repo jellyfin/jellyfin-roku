@@ -450,23 +450,23 @@
     </message>
     <message>
         <source>View Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Visa kanal</translation>
     </message>
     <message>
         <source>Record</source>
-        <translation type="unfinished"></translation>
+        <translation>Spela in</translation>
     </message>
     <message>
         <source>Record Series</source>
-        <translation type="unfinished"></translation>
+        <translation>Spela in serie</translation>
     </message>
     <message>
         <source>Cancel Recording</source>
-        <translation type="unfinished"></translation>
+        <translation>Avbryt inspelning</translation>
     </message>
     <message>
         <source>Cancel Series Recording</source>
-        <translation type="unfinished"></translation>
+        <translation>Avbryt inspelning av serie</translation>
     </message>
     <message>
         <source>Close</source>
@@ -474,37 +474,37 @@
     </message>
     <message>
         <source>Connecting to Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Ansluter till server</translation>
         <extracomment>Message to display to user while client is attempting to connect to the server</extracomment>
     </message>
     <message>
         <source>Not found</source>
-        <translation type="unfinished"></translation>
+        <translation>Hittades ej</translation>
         <extracomment>Title of message box when the requested content is not found on the server</extracomment>
     </message>
     <message>
         <source>Unknown</source>
-        <translation type="unfinished"></translation>
+        <translation>Okänd</translation>
         <extracomment>Title for a cast member for which we have no information for</extracomment>
     </message>
     <message>
         <source>The requested content does not exist on the server</source>
-        <translation type="unfinished"></translation>
+        <translation>Det begärda innehållet finns inte på servern</translation>
         <extracomment>Content of message box when the requested content is not found on the server</extracomment>
     </message>
     <message>
         <source>Enter the server name or IP address</source>
-        <translation type="unfinished"></translation>
+        <translation>Ange servernamnet eller IP-adressen</translation>
         <extracomment>Title of KeyboardDialog when manually entering a server URL</extracomment>
     </message>
     <message>
         <source>Pick a Jellyfin server from the local network</source>
-        <translation type="unfinished"></translation>
+        <translation>Välj en tillgänglig Jellyfin server från ditt lokala nätverk:</translation>
         <extracomment>Instructions on initial app launch when the user is asked to pick a server from a list</extracomment>
     </message>
     <message>
         <source>...or enter server URL manually:</source>
-        <translation type="unfinished"></translation>
+        <translation>Om ingen server visas ovan kan du även ange serverns URL manuellt:</translation>
         <extracomment>Instructions on initial app launch when the user is asked to manually enter a server URL</extracomment>
     </message>
     <message>
@@ -514,7 +514,7 @@
     </message>
     <message>
         <source>An error was encountered while playing this item. Server did not provide required transcoding data.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ett fel påträffades under uppspelningen av detta objekt. Servern tillhandahöll inte nödvändig transkodningsdata.</translation>
         <extracomment>Content of message box when trying to play an item which requires transcoding, and the server did not provide transcode url</extracomment>
     </message>
     <message>
@@ -523,17 +523,17 @@
     </message>
     <message>
         <source>Playback</source>
-        <translation type="unfinished"></translation>
+        <translation>Uppspelning</translation>
         <extracomment>Title for Playback section in user setting screen.</extracomment>
     </message>
     <message>
         <source>Codec Support</source>
-        <translation type="unfinished"></translation>
+        <translation>Codec-stöd</translation>
         <extracomment>Settings Menu - Title for settings group related to codec support</extracomment>
     </message>
     <message>
         <source>Enable or disable Direct Play for optional codecs</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktivera/inaktivera Direct Play för valfria codecs</translation>
         <extracomment>Settings Menu - Title for settings group related to codec support</extracomment>
     </message>
     <message>
@@ -543,7 +543,7 @@
     </message>
     <message>
         <source>Support Direct Play of MPEG-2 content (e.g., Live TV). This will prevent transcoding of MPEG-2 content, but uses significantly more bandwidth.</source>
-        <translation type="unfinished"></translation>
+        <translation>Stöd för Direct Play av MPEG-2-innehåll (t.ex. direktsänd tv). Detta förhindrar transkodning av MPEG-2-innehåll, men använder betydligt mer bandbredd.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
@@ -553,16 +553,16 @@
     </message>
     <message>
         <source>Support Direct Play of MPEG-4 content. This may need to be disabled for playback of DIVX encoded video files.</source>
-        <translation type="unfinished"></translation>
+        <translation>Stöd för Direct Play av MPEG-4-innehåll. Detta kan behöva inaktiveras för uppspelning av DIVX-kodade videofiler.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktiverad</translation>
     </message>
     <message>
         <source>Disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Inaktiverad</translation>
     </message>
     <message>
         <source>User Interface</source>
@@ -571,7 +571,7 @@
     </message>
     <message>
         <source>Media Grid</source>
-        <translation type="unfinished"></translation>
+        <translation>Medierutnät</translation>
         <extracomment>UI -&gt; Media Grid section in user setting screen.</extracomment>
     </message>
     <message>
@@ -590,16 +590,16 @@
     </message>
     <message>
         <source>Set Favorite</source>
-        <translation type="unfinished"></translation>
+        <translation>Sätt som favorit</translation>
         <extracomment>Button Text - When pressed, sets item as Favorite</extracomment>
     </message>
     <message>
         <source>Favorited</source>
-        <translation type="unfinished"></translation>
+        <translation>Favoriter</translation>
     </message>
     <message>
         <source>Mark As Favorite</source>
-        <translation type="unfinished"></translation>
+        <translation>Markera som favorit</translation>
     </message>
     <message>
         <source>Set Watched</source>
@@ -608,39 +608,39 @@
     </message>
     <message>
         <source>Resume playing at </source>
-        <translation type="unfinished"></translation>
+        <translation>Fortsätt spela vid </translation>
     </message>
     <message>
         <source>Start over from the beginning.</source>
-        <translation type="unfinished"></translation>
+        <translation>Börja om från början.</translation>
     </message>
     <message>
         <source>Playback Options</source>
-        <translation type="unfinished"></translation>
+        <translation>Uppspelningsalternativ</translation>
     </message>
     <message>
         <source>Go to series</source>
-        <translation type="unfinished"></translation>
+        <translation>Gå till serien</translation>
         <extracomment>Continue Watching Popup Menu - Navigate to the Series Detail Page</extracomment>
     </message>
     <message>
         <source>Go to season</source>
-        <translation type="unfinished"></translation>
+        <translation>Gå till säsongen</translation>
         <extracomment>Continue Watching Popup Menu - Navigate to the Season Page</extracomment>
     </message>
     <message>
         <source>Go to episode</source>
-        <translation type="unfinished"></translation>
+        <translation>Gå till avsnittet</translation>
         <extracomment>Continue Watching Popup Menu - Navigate to the Episode Detail Page</extracomment>
     </message>
     <message>
         <source>Use voice remote to search</source>
-        <translation type="unfinished"></translation>
+        <translation>Använd röstfjärrkontrollen för att söka</translation>
         <extracomment>Help text in search voice text box</extracomment>
     </message>
     <message>
         <source>Search now</source>
-        <translation type="unfinished"></translation>
+        <translation>Sök nu</translation>
         <extracomment>Help text in search Box</extracomment>
     </message>
     <message>
