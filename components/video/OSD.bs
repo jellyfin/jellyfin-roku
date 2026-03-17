@@ -577,11 +577,19 @@ sub updateProgressBar(live as boolean, updatePosition as integer)
         end if
         scrubberOldPositionTrans = (m.progressBarBackground.width * (scrubberOldPositionTime / m.top.liveTvRewindLimit)) - m.scrubberOldPosition.width / 2
     else
-        m.videoRemainingTime.text = secondsToHuman(m.top.progressDuration - updatePosition, true)
-        m.videoPositionTime.text = secondsToHuman(updatePosition, true)
-        scrubberHorizTrans = m.progressBarBackground.width * updatePosition / m.top.progressDuration - m.scrubber.width / 2
-        m.progressBar.width = scrubberHorizTrans
-        scrubberOldPositionTrans = m.progressBarBackground.width * m.top.positionTime / m.top.progressDuration - m.scrubberOldPosition.width / 2
+        ' If we are actively seeking then use the preview position to update the progress bar, otherwise use the current position
+        if m.top.isSeeking
+            m.videoRemainingTime.text = secondsToHuman(m.top.progressDuration - updatePosition, true)
+            m.videoPositionTime.text = secondsToHuman(updatePosition, true)
+            scrubberHorizTrans = m.progressBarBackground.width * updatePosition / m.top.progressDuration - m.scrubber.width / 2
+        else
+            m.videoRemainingTime.text = secondsToHuman(m.top.progressDuration - m.top.positionTime, true)
+            m.videoPositionTime.text = secondsToHuman(m.top.positionTime, true)
+            scrubberHorizTrans = m.progressBarBackground.width * m.top.positionTime / m.top.progressDuration - m.scrubber.width / 2
+        end if
+        progressBarWidth = m.progressBarBackground.width * m.top.positionTime / m.top.progressDuration
+        m.progressBar.width = progressBarWidth
+        scrubberOldPositionTrans = progressBarWidth - m.scrubberOldPosition.width / 2
     end if
     m.scrubber.translation = [scrubberHorizTrans, m.scrubber.translation[1]]
     m.scrubberOldPosition.translation = [scrubberOldPositionTrans, m.scrubberOldPosition.translation[1]]
