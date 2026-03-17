@@ -213,25 +213,25 @@
     </message>
     <message>
         <source>An error was encountered while playing this item.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ett fel påträffades under uppspelningen av detta objekt.</translation>
         <extracomment>Dialog detail when error occurs during playback</extracomment>
     </message>
     <message>
         <source>Loading Channel Data</source>
-        <translation type="unfinished"></translation>
+        <translation>Laddar kanaldata</translation>
     </message>
     <message>
         <source>Error loading Channel Data</source>
-        <translation type="unfinished"></translation>
+        <translation>Fel vid laddning av kanaldata</translation>
     </message>
     <message>
         <source>Unable to load Channel Data from the server</source>
-        <translation type="unfinished"></translation>
+        <translation>Det gick inte att ladda kanaldata från servern</translation>
     </message>
     <message>
         <comment>Message displayed in Item Grid when no item to display. %1 is container type (e.g. Boxset, Collection, Folder, etc)</comment>
         <source>NO_ITEMS</source>
-        <translation type="unfinished"></translation>
+        <translation>Denna %1 innehåller inga objekt</translation>
     </message>
     <message>
         <comment>Name or Title field of media item</comment>
@@ -244,11 +244,11 @@
     </message>
     <message>
         <source>Community Rating</source>
-        <translation type="unfinished"></translation>
+        <translation>Användarbetyg</translation>
     </message>
     <message>
         <source>CRITIC_RATING</source>
-        <translation type="unfinished"></translation>
+        <translation>Kritikerbetyg</translation>
     </message>
     <message>
         <source>DATE_ADDED</source>
@@ -272,7 +272,7 @@
     </message>
     <message>
         <source>PLAY_COUNT</source>
-        <translation type="unfinished"></translation>
+        <translation>Antal spelningar</translation>
     </message>
     <message>
         <source>RELEASE_DATE</source>
@@ -285,17 +285,17 @@
     <message>
         <comment>Title of Tab for switching &quot;views&quot; when looking at a library</comment>
         <source>TAB_VIEW</source>
-        <translation type="unfinished"></translation>
+        <translation>Välj vy</translation>
     </message>
     <message>
         <comment>Title of Tab for options to sort library content</comment>
         <source>TAB_SORT</source>
-        <translation type="unfinished"></translation>
+        <translation>Sortera</translation>
     </message>
     <message>
         <comment>Title of Tab for options to filter library content</comment>
         <source>TAB_FILTER</source>
-        <translation type="unfinished"></translation>
+        <translation>Filter</translation>
     </message>
     <message>
         <source>Born</source>
@@ -303,7 +303,7 @@
     </message>
     <message>
         <source>Died</source>
-        <translation>Avliden</translation>
+        <translation>Dog</translation>
     </message>
     <message>
         <source>Age</source>
@@ -311,15 +311,15 @@
     </message>
     <message>
         <source>Cast &amp; Crew</source>
-        <translation type="unfinished"></translation>
+        <translation>Medverkande</translation>
     </message>
     <message>
         <source>More Like This</source>
-        <translation type="unfinished"></translation>
+        <translation>Liknande</translation>
     </message>
     <message>
         <source>Press &apos;OK&apos; to Close</source>
-        <translation type="unfinished"></translation>
+        <translation>Tryck &apos;OK&apos; för att stänga</translation>
     </message>
     <message>
         <source>Special Features</source>
@@ -350,17 +350,17 @@
     </message>
     <message>
         <source>today</source>
-        <translation type="unfinished"></translation>
+        <translation>idag</translation>
         <extracomment>Current day</extracomment>
     </message>
     <message>
         <source>yesterday</source>
-        <translation type="unfinished"></translation>
+        <translation>igår</translation>
         <extracomment>Previous day</extracomment>
     </message>
     <message>
         <source>tomorrow</source>
-        <translation type="unfinished"></translation>
+        <translation>imorgon</translation>
         <extracomment>Next day</extracomment>
     </message>
     <message>
@@ -400,52 +400,52 @@
     </message>
     <message>
         <source>Started at</source>
-        <translation type="unfinished"></translation>
+        <translation>Började vid</translation>
         <extracomment>(Past Tense) For defining time when a program started today (e.g. Started at 08:00) </extracomment>
     </message>
     <message>
         <source>Started</source>
-        <translation type="unfinished"></translation>
+        <translation>Började</translation>
         <extracomment>(Past Tense) For defining a day and time when a program started (e.g. Started Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Starts at</source>
-        <translation type="unfinished"></translation>
+        <translation>Börjar vid</translation>
         <extracomment>(Future Tense) For defining time when a program will start today (e.g. Starts at 08:00) </extracomment>
     </message>
     <message>
         <source>Starts</source>
-        <translation type="unfinished"></translation>
+        <translation>Börjar</translation>
         <extracomment>(Future Tense) For defining a day and time when a program will start (e.g. Starts Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Ended at</source>
-        <translation type="unfinished"></translation>
+        <translation>Slutade vid</translation>
         <extracomment>(Past Tense) For defining time when a program will ended (e.g. Ended at 08:00) </extracomment>
     </message>
     <message>
         <source>Ends at</source>
-        <translation type="unfinished"></translation>
+        <translation>Slutade</translation>
         <extracomment>(Past Tense) For defining a day and time when a program ended (e.g. Ended Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Live</source>
-        <translation type="unfinished"></translation>
+        <translation>Direktsänt</translation>
         <extracomment>If TV Show is being broadcast live (not pre-recorded)</extracomment>
     </message>
     <message>
         <source>Repeat</source>
-        <translation type="unfinished"></translation>
+        <translation>Repris</translation>
         <extracomment>If TV Shows has previously been broadcasted</extracomment>
     </message>
     <message>
         <source>Channels</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanaler</translation>
         <extracomment>Menu option for showing Live TV Channel List</extracomment>
     </message>
     <message>
         <source>TV Guide</source>
-        <translation type="unfinished"></translation>
+        <translation>Tv-tablå</translation>
         <extracomment>Menu option for showing Live TV Guide / Schedule</extracomment>
     </message>
     <message>
