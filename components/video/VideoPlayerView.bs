@@ -806,7 +806,6 @@ sub onVideoContentLoaded()
     end if
 
     m.top.setFocus(true)
-    m.osd.liveTvStartTime = m.clock.callFunc("getCurrentTime")
     m.osd.live = m.top.content.live
     m.top.control = VideoControl.PLAY
 end sub
@@ -1191,6 +1190,12 @@ sub onState(msg)
         end if
         m.playbackTimer.control = "start"
         m.osd.isSeeking = false
+        ' If this is a LiveTV session and we haven't yet set the Live TV Start Time (to ignore rebuffering/retries) then set the Live TV Start Time
+        if m.top.content.live and m.osd.liveTvStartTime = 0
+            m.clock = m.osd.findNode("clock")
+            if not isValid(m.clock) then return
+            m.osd.liveTvStartTime = m.clock.callFunc("getCurrentTime")
+        end if
     else if isStringEqual(m.top.state, MediaPlaybackState.PAUSED)
         m.playbackTimer.control = "stop"
         ReportPlayback()
