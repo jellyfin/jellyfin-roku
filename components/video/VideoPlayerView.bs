@@ -1597,6 +1597,12 @@ function onKeyEvent(key as string, press as boolean) as boolean
         return false
     end if
 
+    if (key = KeyCode.OK or key = KeyCode.PLAY) and m.top.trickPlayBar.visible and m.isTranscoded
+        if m.top.state = "paused"
+            m.top.control = VideoControl.RESUME
+        end if
+    end if
+
     ' Disable OSD for intro videos
     if not m.LoadMetaDataTask.isIntro
         if key = KeyCode.PLAY and not m.top.trickPlayBar.visible
