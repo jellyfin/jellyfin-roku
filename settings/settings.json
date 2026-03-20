@@ -92,6 +92,23 @@
         "default": "false"
       },
       {
+        "title": "Trickplay Display",
+        "description": "Select trickplay display format.",
+        "settingName": "playback.trickplay.displayTrickplayFormat",
+        "type": "radio",
+        "default": "five",
+        "options": [
+          {
+            "title": "Five trickplay images",
+            "id": "five"
+          },
+          {
+            "title": "Single trickplay image that moves",
+            "id": "single"
+          }
+        ]
+      },
+      {
         "title": "Force Transcoding",
         "description": "Force all playable media to be transcoded.",
         "settingName": "playback.media.forceTranscode",

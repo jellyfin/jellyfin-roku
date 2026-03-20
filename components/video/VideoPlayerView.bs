@@ -322,10 +322,8 @@ sub handleHideAction(resume as boolean)
     m.osd.setFocus(false)
     m.top.setFocus(true)
     stopFastforwardOrRewind()
-    ' Always hide the custom trickplay image when hiding the OSD
-    if isValidAndNotEmpty(m.top.findNode("trickplayImage"))
-        m.top.findNode("trickplayImage").visible = false
-    end if
+    ' Always hide the custom trickplay image(s) when hiding the OSD
+    hideTrickPlayImages()
     if resume
         m.top.control = VideoControl.RESUME
     end if
@@ -829,10 +827,48 @@ end sub
 '
 ' @param {integer} trickPosition - the position in the video that corresponds to the trickplay image to be displayed, in seconds
 sub displayTrickplayImage(trickPosition as integer)
+    if m.global.session.user.settings["playback.trickplay.displayTrickplayFormat"] = "single"
+        displaySingleTrickplayImage(trickPosition, 0)
+    else
+        for i = -2 to 2
+            displaySingleTrickplayImage(trickPosition, i)
+        end for
+    end if
+end sub
+
+' displaySingleTrickplayImage: Handler for a single trickplay images, with the ability to be called based on a position for the trickplay image to appear.  Intended to be called only by the main trickplay image display handler.
+'
+' @param {integer} trickPosition - the position in the video that corresponds to the tri
+' @param {integer} whichImage - the trickplay image location slot to display this image.  0 is the middle slot, and is used both for when displaying only a single moving image and multiple.  Negative and positive are relative to the 0 slot and are used when displaying multiple trickplay images.
+sub displaySingleTrickplayImage(trickPosition as integer, whichImage as integer)
     if not isValid(m.trickplayDataFinal) then return
 
+    ' For the five image trickplay the center image is large, the other images are small.  These factors can be used to adjust the sizes.
+    largeTileSizeFactor = 1.2
+    smallTileSizeFactor = 0.7
+    tileBuffer = 15 ' Space between trickplay images when using the 5 tile trickplay image display
+
+    if whichImage = 0
+        if m.global.session.user.settings["playback.trickplay.displayTrickplayFormat"] = "single"
+            tileSizeFactor = 1.0
+        else
+            tileSizeFactor = largeTileSizeFactor
+        end if
+    else
+        tileSizeFactor = smallTileSizeFactor
+    end if
+
+    trickplayImage = m.top.findNode("trickplayImage" + str(whichImage))
+
+    delta = abs(m.seekSpeeds[m.seekSpeedIndex])
+    offsetTrickPosition = trickPosition + delta * whichImage
+    if offsetTrickPosition < 0 or offsetTrickPosition > m.osd.progressDuration
+        if isValid(trickplayImage) then trickplayImage.visible = false
+        return
+    end if
+
     ' Index of trickplay image that matches seek timestamp - out of all trickplay images
-    iconIndex = fix(trickPosition / m.iconInterval)
+    iconIndex = fix(offsetTrickPosition / m.iconInterval)
 
     ' Index of tileset that trickplay image is located in
     tileIndex = Fix(iconIndex / (m.trickplayDataFinal.TileHeight * m.trickplayDataFinal.TileWidth))
@@ -847,24 +883,26 @@ sub displayTrickplayImage(trickPosition as integer)
     iconColumn = tileIconIndex mod m.trickplayDataFinal.TileWidth
 
     ' Translation values for trickplay images
-    previewPosPercentage = trickPosition / m.osd.progressDuration
-    offsetHoriz = m.progressBarGroup.translation[0] + m.progressBarBackground.width * previewPosPercentage - m.trickplayDataFinal.Width / 2
-    offsetVert = m.progressBarGroup.translation[1] - 25 - m.trickplayDataFinal.Height
+    if m.global.session.user.settings["playback.trickplay.displayTrickplayFormat"] = "single"
+        previewPosPercentage = trickPosition / m.osd.progressDuration
+        offsetHoriz = m.progressBarGroup.translation[0] + m.progressBarBackground.width * previewPosPercentage - m.trickplayDataFinal.Width / 2
+    else
+        offsetHoriz = m.progressBarGroup.translation[0] + m.progressBarBackground.width / 2 - (m.trickplayDataFinal.Width * largeTileSizeFactor) / 2 + (tileBuffer + m.trickplayDataFinal.Width * smallTileSizeFactor) * whichImage + (whichImage < 1 ? 0 : m.trickplayDataFinal.Width * largeTileSizeFactor - m.trickplayDataFinal.Width * smallTileSizeFactor)
+    end if
+    offsetVert = m.progressBarGroup.translation[1] - 25 - m.trickplayDataFinal.Height * tileSizeFactor
 
     if offsetHoriz < 0 then offsetHoriz = 0
-
-    trickplayImage = m.top.findNode("trickplayImage")
 
     ' Trickplayimage node doesn't exist, create it
     if not isValid(trickplayImage)
         newTrickplayImage = createObject("roSGNode", "Poster")
         newTrickplayImage.uri = `tmp:/${m.top.id}-${tileIndex}.jpg`
-        newTrickplayImage.id = `trickplayImage`
+        newTrickplayImage.id = `trickplayImage` + str(whichImage)
         newTrickplayImage.loadDisplayMode = "noScale"
-        newTrickplayImage.height = m.trickplayDataFinal.Height * m.trickplayDataFinal.TileHeight
-        newTrickplayImage.width = m.trickplayDataFinal.Width * m.trickplayDataFinal.TileWidth
-        newTrickplayImage.translation = `[${offsetHoriz - (iconColumn * m.trickplayDataFinal.Width)},  ${offsetVert - (iconRow * m.trickplayDataFinal.Height)}]`
-        newTrickplayImage.clippingRect = `[${iconColumn * m.trickplayDataFinal.Width}, ${iconRow * m.trickplayDataFinal.Height}, ${m.trickplayDataFinal.Width}, ${m.trickplayDataFinal.Height}]`
+        newTrickplayImage.height = tileSizeFactor * m.trickplayDataFinal.Height * m.trickplayDataFinal.TileHeight
+        newTrickplayImage.width = tileSizeFactor * m.trickplayDataFinal.Width * m.trickplayDataFinal.TileWidth
+        newTrickplayImage.translation = `[${offsetHoriz - (iconColumn * m.trickplayDataFinal.Width * tileSizeFactor)},  ${offsetVert - (iconRow * m.trickplayDataFinal.Height * tileSizeFactor)}]`
+        newTrickplayImage.clippingRect = `[${iconColumn * m.trickplayDataFinal.Width * tileSizeFactor}, ${iconRow * m.trickplayDataFinal.Height * tileSizeFactor}, ${m.trickplayDataFinal.Width * tileSizeFactor}, ${m.trickplayDataFinal.Height * tileSizeFactor}]`
         ' Insert trickplay image at top of OSD so video ending time node is visible over trickplay image
         m.osd.insertChild(newTrickplayImage, 0)
         return
@@ -882,9 +920,26 @@ sub displayTrickplayImage(trickPosition as integer)
     end if
 
     ' Move clippingRect to next trickplay image within tileset - offsetting translation by an equal amount so it doesn't move
-    trickplayImage.translation = `[${offsetHoriz - (iconColumn * m.trickplayDataFinal.Width)},  ${offsetVert - (iconRow * m.trickplayDataFinal.Height)}]`
-    trickplayImage.clippingRect = `[${iconColumn * m.trickplayDataFinal.Width}, ${iconRow * m.trickplayDataFinal.Height}, ${m.trickplayDataFinal.Width}, ${m.trickplayDataFinal.Height}]`
+    trickplayImage.translation = `[${offsetHoriz - (iconColumn * m.trickplayDataFinal.Width * tileSizeFactor)},  ${offsetVert - (iconRow * m.trickplayDataFinal.Height * tileSizeFactor)}]`
+    trickplayImage.clippingRect = `[${iconColumn * m.trickplayDataFinal.Width * tileSizeFactor}, ${iconRow * m.trickplayDataFinal.Height * tileSizeFactor}, ${m.trickplayDataFinal.Width * tileSizeFactor}, ${m.trickplayDataFinal.Height * tileSizeFactor}]`
     trickplayImage.visible = true
+
+end sub
+
+' hideTrickplayImages: ' Hide all trickplay images by setting visible = false for each
+'
+sub hideTrickplayImages()
+    if m.global.session.user.settings["playback.trickplay.displayTrickplayFormat"] = "single"
+        if isValidAndNotEmpty(m.top.findNode("trickplayImage" + str(0)))
+            m.top.findNode("trickplayImage" + str(0)).visible = false
+        end if
+    else
+        for i = -2 to 2
+            if isValidAndNotEmpty(m.top.findNode("trickplayImage" + str(i)))
+                m.top.findNode("trickplayImage" + str(i)).visible = false
+            end if
+        end for
+    end if
 end sub
 
 ' populateChapterMenu: ' Parse chapter data from API and appeand to chapter list menu
@@ -1882,9 +1937,7 @@ sub processSeek(key as string)
     else if key = KeyCode.BACK
         m.osd.isSeeking = false
         stopFastforwardOrRewind()
-        if isValidAndNotEmpty(m.top.findNode("trickplayImage"))
-            m.top.findNode("trickplayImage").visible = false
-        end if
+        hideTrickplayImages()
         handleHideAction(false)
         m.top.control = VideoControl.RESUME
     end if
@@ -1929,9 +1982,7 @@ end sub
 sub commitSeek()
     if m.osd.isSeeking
         stopFastforwardOrRewind()
-        if isValidAndNotEmpty(m.top.findNode("trickplayImage"))
-            m.top.findNode("trickplayImage").visible = false
-        end if
+        hideTrickplayImages()
         setVideoEndingTime(m.previewPos)
         m.top.seek = m.previewPos
         m.top.control = VideoControl.RESUME
