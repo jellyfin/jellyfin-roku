@@ -16,9 +16,6 @@ sub init()
     m.playlist.focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
 
     m.playlist.observeField("doneLoading", "onDoneLoading")
-
-    m.dscr = m.top.findNode("overview")
-    m.dscr.ellipsisText = tr("... (Press * to read more)")
 end sub
 
 ' Set values for displayed values on screen
@@ -33,6 +30,31 @@ sub pageContentChanged()
         title.text = item.title
     end if
 
+    runtime = m.top.findNode("runtime")
+    if isValid(runtime)
+        runtime.font.size = 23
+    end if
+
+    numberofsongs = m.top.findNode("numberofsongs")
+    if isValid(numberofsongs)
+        numberofsongs.font.size = 23
+    end if
+
+    trackHeading = m.top.findNode("trackHeading")
+    if isValid(trackHeading)
+        trackHeading.font.size = 23
+    end if
+
+    titleHeading = m.top.findNode("titleHeading")
+    if isValid(titleHeading)
+        titleHeading.font.size = 23
+    end if
+
+    lengthHeading = m.top.findNode("lengthHeading")
+    if isValid(lengthHeading)
+        lengthHeading.font.size = 23
+    end if
+
     setPosterImage(item.posterURL)
     setOnScreenTextValues(item.json)
 end sub
@@ -44,24 +66,9 @@ sub setPosterImage(posterURL)
     end if
 end sub
 
-' Adjust scene by removing overview node and showing more songs
-sub adjustScreenForNoOverview()
-    m.infoGroup.removeChild(m.dscr)
-    m.songListRect.height = 800
-    m.playlist.numRows = 7
-end sub
-
 ' Populate on screen text variables
 sub setOnScreenTextValues(json)
     if not isValid(json) then return
-
-    if isValidAndNotEmpty(json.overview)
-        ' We have overview text
-        setFieldTextValue("overview", json.overview)
-    else
-        ' We don't have overview text
-        adjustScreenForNoOverview()
-    end if
 
     setFieldTextValue("numberofsongs", `${json.ChildCount} items`)
 
@@ -99,12 +106,6 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
     return false
 end function
-
-sub createFullDscrDlg()
-    if isAllValid([m.top.overhangTitle, m.dscr.text])
-        m.global.sceneManager.callFunc("standardDialog", m.top.overhangTitle, { data: ["<p>" + m.dscr.text + "</p>"] })
-    end if
-end sub
 
 sub onDoneLoading()
     m.playlist.unobservefield("doneLoading")

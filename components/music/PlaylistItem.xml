@@ -2,11 +2,14 @@
 <component name="PlaylistItem" extends="Group">
   <children>
     <LayoutGroup layoutDirection="horiz" horizAlignment="left" itemSpacings="[25]" translation="[0, 15]">
-      <Poster id="mediaTypeIcon" width="32" height="32" />
+      <Rectangle>
+        <Poster id="mediaTypeIcon" width="40" height="40" translation="[0, 15]" />
+      </Rectangle>
+      <Poster id="poster" width="70" height="70" />
 
       <LayoutGroup layoutDirection="vert" horizAlignment="left" itemSpacings="[0]">
-        <ScrollingText height="40" id="title" horizAlign="left" vertAlign="center" font="font:SmallBoldSystemFont" maxWidth="850" />
-        <ScrollingText height="25" id="subtitle" horizAlign="left" vertAlign="center" font="font:SmallSystemFont" maxWidth="850" />
+        <ScrollingText height="40" id="title" horizAlign="left" vertAlign="center" font="font:SmallBoldSystemFont" maxWidth="1275" />
+        <ScrollingText height="25" id="subtitle" horizAlign="left" vertAlign="center" font="font:SmallSystemFont" maxWidth="1275" />
       </LayoutGroup>
 
       <LayoutGroup layoutDirection="vert" horizAlignment="left" itemSpacings="[0]">

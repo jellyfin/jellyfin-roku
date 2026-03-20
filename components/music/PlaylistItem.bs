@@ -5,23 +5,38 @@ import "pkg:/source/utils/misc.bs"
 
 sub init()
     m.title = m.top.findNode("title")
+    if isValid(m.title)
+        m.title.font.size = 27
+    end if
+
     m.subtitle = m.top.findNode("subtitle")
-    m.subtitle.color = ColorPalette.LIGHTGREY
-    m.subtitle.font.size = 27
+    if isValid(m.subtitle)
+        m.subtitle.font.size = 23
+    end if
 end sub
 
 sub itemContentChanged()
     itemData = m.top.itemContent
     if not isValidAndNotEmpty(itemData) then return
 
-    m.title.text = itemData.LookupCI("title")
-    m.subtitle.text = getSubtitleText(itemData)
+    if isValid(m.title)
+        m.title.text = itemData.LookupCI("title")
+    end if
+
+    if isValid(m.subtitle)
+        m.subtitle.text = getSubtitleText(itemData)
+    end if
 
     itemIconData = m.global.queueManager.callFunc("getItemTitleAndIcon", itemData)
 
     if isValidAndNotEmpty(itemIconData)
         mediaTypeIcon = m.top.findNode("mediaTypeIcon")
         mediaTypeIcon.uri = itemIconData[0]
+    end if
+
+    if isValid(itemData.LookupCI("posterUrl"))
+        poster = m.top.findNode("poster")
+        poster.uri = itemData.posterUrl
     end if
 
     if isValid(itemData.LookupCI("RunTimeTicks"))
@@ -65,7 +80,7 @@ function getSubtitleText(itemData as object) as string
         if isValid(itemData.LookupCI("ProductionYear"))
             subtitleText += `${itemData.LookupCI("ProductionYear")}`
             if isValid(itemData.LookupCI("ProductionYear"))
-                subtitleText += ` - `
+                subtitleText += ` • `
             end if
         end if
 
