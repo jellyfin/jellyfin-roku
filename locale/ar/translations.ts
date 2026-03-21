@@ -712,7 +712,7 @@
     </message>
     <message>
         <source>Skip Details for Single Seasons</source>
-        <translation type="unfinished">تجاوز تفاصيل مواسم مفردة</translation>
+        <translation>تجاوز تفاصيل مواسم مفردة</translation>
         <extracomment>Settings Menu - Title for option</extracomment>
     </message>
     <message>
@@ -726,11 +726,11 @@
     </message>
     <message>
         <source>Design Elements</source>
-        <translation type="unfinished"></translation>
+        <translation>تصميم عناصر</translation>
     </message>
     <message>
         <source>Options that alter the design of Jellyfin.</source>
-        <translation type="unfinished"></translation>
+        <translation>إختيارات لتغيير تصميم Jellyfin.</translation>
         <extracomment>Description for Design Elements user settings.</extracomment>
     </message>
     <message>
