@@ -1600,6 +1600,8 @@ function onKeyEvent(key as string, press as boolean) as boolean
     if (key = KeyCode.OK or key = KeyCode.PLAY) and m.top.trickPlayBar.visible and m.isTranscoded
         if m.top.state = "paused"
             m.top.control = VideoControl.RESUME
+            m.top.trickPlayBar.visible = false
+            return true
         end if
     end if
 
