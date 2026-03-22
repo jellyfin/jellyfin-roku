@@ -213,25 +213,25 @@
     </message>
     <message>
         <source>An error was encountered while playing this item.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ett fel påträffades under uppspelningen av detta objekt.</translation>
         <extracomment>Dialog detail when error occurs during playback</extracomment>
     </message>
     <message>
         <source>Loading Channel Data</source>
-        <translation type="unfinished"></translation>
+        <translation>Laddar kanaldata</translation>
     </message>
     <message>
         <source>Error loading Channel Data</source>
-        <translation type="unfinished"></translation>
+        <translation>Fel vid laddning av kanaldata</translation>
     </message>
     <message>
         <source>Unable to load Channel Data from the server</source>
-        <translation type="unfinished"></translation>
+        <translation>Det gick inte att ladda kanaldata från servern</translation>
     </message>
     <message>
         <comment>Message displayed in Item Grid when no item to display. %1 is container type (e.g. Boxset, Collection, Folder, etc)</comment>
         <source>NO_ITEMS</source>
-        <translation type="unfinished"></translation>
+        <translation>Denna %1 innehåller inga objekt</translation>
     </message>
     <message>
         <comment>Name or Title field of media item</comment>
@@ -244,11 +244,11 @@
     </message>
     <message>
         <source>Community Rating</source>
-        <translation type="unfinished"></translation>
+        <translation>Användarbetyg</translation>
     </message>
     <message>
         <source>CRITIC_RATING</source>
-        <translation type="unfinished"></translation>
+        <translation>Kritikerbetyg</translation>
     </message>
     <message>
         <source>DATE_ADDED</source>
@@ -272,7 +272,7 @@
     </message>
     <message>
         <source>PLAY_COUNT</source>
-        <translation type="unfinished"></translation>
+        <translation>Antal spelningar</translation>
     </message>
     <message>
         <source>RELEASE_DATE</source>
@@ -285,17 +285,17 @@
     <message>
         <comment>Title of Tab for switching &quot;views&quot; when looking at a library</comment>
         <source>TAB_VIEW</source>
-        <translation type="unfinished"></translation>
+        <translation>Välj vy</translation>
     </message>
     <message>
         <comment>Title of Tab for options to sort library content</comment>
         <source>TAB_SORT</source>
-        <translation type="unfinished"></translation>
+        <translation>Sortera</translation>
     </message>
     <message>
         <comment>Title of Tab for options to filter library content</comment>
         <source>TAB_FILTER</source>
-        <translation type="unfinished"></translation>
+        <translation>Filter</translation>
     </message>
     <message>
         <source>Born</source>
@@ -303,7 +303,7 @@
     </message>
     <message>
         <source>Died</source>
-        <translation>Avliden</translation>
+        <translation>Dog</translation>
     </message>
     <message>
         <source>Age</source>
@@ -311,15 +311,15 @@
     </message>
     <message>
         <source>Cast &amp; Crew</source>
-        <translation type="unfinished"></translation>
+        <translation>Medverkande</translation>
     </message>
     <message>
         <source>More Like This</source>
-        <translation type="unfinished"></translation>
+        <translation>Liknande</translation>
     </message>
     <message>
         <source>Press &apos;OK&apos; to Close</source>
-        <translation type="unfinished"></translation>
+        <translation>Tryck &apos;OK&apos; för att stänga</translation>
     </message>
     <message>
         <source>Special Features</source>
@@ -350,17 +350,17 @@
     </message>
     <message>
         <source>today</source>
-        <translation type="unfinished"></translation>
+        <translation>idag</translation>
         <extracomment>Current day</extracomment>
     </message>
     <message>
         <source>yesterday</source>
-        <translation type="unfinished"></translation>
+        <translation>igår</translation>
         <extracomment>Previous day</extracomment>
     </message>
     <message>
         <source>tomorrow</source>
-        <translation type="unfinished"></translation>
+        <translation>imorgon</translation>
         <extracomment>Next day</extracomment>
     </message>
     <message>
@@ -400,73 +400,73 @@
     </message>
     <message>
         <source>Started at</source>
-        <translation type="unfinished"></translation>
+        <translation>Började vid</translation>
         <extracomment>(Past Tense) For defining time when a program started today (e.g. Started at 08:00) </extracomment>
     </message>
     <message>
         <source>Started</source>
-        <translation type="unfinished"></translation>
+        <translation>Började</translation>
         <extracomment>(Past Tense) For defining a day and time when a program started (e.g. Started Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Starts at</source>
-        <translation type="unfinished"></translation>
+        <translation>Börjar vid</translation>
         <extracomment>(Future Tense) For defining time when a program will start today (e.g. Starts at 08:00) </extracomment>
     </message>
     <message>
         <source>Starts</source>
-        <translation type="unfinished"></translation>
+        <translation>Börjar</translation>
         <extracomment>(Future Tense) For defining a day and time when a program will start (e.g. Starts Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Ended at</source>
-        <translation type="unfinished"></translation>
+        <translation>Slutade vid</translation>
         <extracomment>(Past Tense) For defining time when a program will ended (e.g. Ended at 08:00) </extracomment>
     </message>
     <message>
         <source>Ends at</source>
-        <translation type="unfinished"></translation>
+        <translation>Slutade</translation>
         <extracomment>(Past Tense) For defining a day and time when a program ended (e.g. Ended Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Live</source>
-        <translation type="unfinished"></translation>
+        <translation>Direktsänt</translation>
         <extracomment>If TV Show is being broadcast live (not pre-recorded)</extracomment>
     </message>
     <message>
         <source>Repeat</source>
-        <translation type="unfinished"></translation>
+        <translation>Repris</translation>
         <extracomment>If TV Shows has previously been broadcasted</extracomment>
     </message>
     <message>
         <source>Channels</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanaler</translation>
         <extracomment>Menu option for showing Live TV Channel List</extracomment>
     </message>
     <message>
         <source>TV Guide</source>
-        <translation type="unfinished"></translation>
+        <translation>Tv-tablå</translation>
         <extracomment>Menu option for showing Live TV Guide / Schedule</extracomment>
     </message>
     <message>
         <source>View Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Visa kanal</translation>
     </message>
     <message>
         <source>Record</source>
-        <translation type="unfinished"></translation>
+        <translation>Spela in</translation>
     </message>
     <message>
         <source>Record Series</source>
-        <translation type="unfinished"></translation>
+        <translation>Spela in serie</translation>
     </message>
     <message>
         <source>Cancel Recording</source>
-        <translation type="unfinished"></translation>
+        <translation>Avbryt inspelning</translation>
     </message>
     <message>
         <source>Cancel Series Recording</source>
-        <translation type="unfinished"></translation>
+        <translation>Avbryt inspelning av serie</translation>
     </message>
     <message>
         <source>Close</source>
@@ -474,37 +474,37 @@
     </message>
     <message>
         <source>Connecting to Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Ansluter till server</translation>
         <extracomment>Message to display to user while client is attempting to connect to the server</extracomment>
     </message>
     <message>
         <source>Not found</source>
-        <translation type="unfinished"></translation>
+        <translation>Hittades ej</translation>
         <extracomment>Title of message box when the requested content is not found on the server</extracomment>
     </message>
     <message>
         <source>Unknown</source>
-        <translation type="unfinished"></translation>
+        <translation>Okänd</translation>
         <extracomment>Title for a cast member for which we have no information for</extracomment>
     </message>
     <message>
         <source>The requested content does not exist on the server</source>
-        <translation type="unfinished"></translation>
+        <translation>Det begärda innehållet finns inte på servern</translation>
         <extracomment>Content of message box when the requested content is not found on the server</extracomment>
     </message>
     <message>
         <source>Enter the server name or IP address</source>
-        <translation type="unfinished"></translation>
+        <translation>Ange servernamnet eller IP-adressen</translation>
         <extracomment>Title of KeyboardDialog when manually entering a server URL</extracomment>
     </message>
     <message>
         <source>Pick a Jellyfin server from the local network</source>
-        <translation type="unfinished"></translation>
+        <translation>Välj en tillgänglig Jellyfin server från ditt lokala nätverk:</translation>
         <extracomment>Instructions on initial app launch when the user is asked to pick a server from a list</extracomment>
     </message>
     <message>
         <source>...or enter server URL manually:</source>
-        <translation type="unfinished"></translation>
+        <translation>Om ingen server visas ovan kan du även ange serverns URL manuellt:</translation>
         <extracomment>Instructions on initial app launch when the user is asked to manually enter a server URL</extracomment>
     </message>
     <message>
@@ -514,7 +514,7 @@
     </message>
     <message>
         <source>An error was encountered while playing this item. Server did not provide required transcoding data.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ett fel påträffades under uppspelningen av detta objekt. Servern tillhandahöll inte nödvändig transkodningsdata.</translation>
         <extracomment>Content of message box when trying to play an item which requires transcoding, and the server did not provide transcode url</extracomment>
     </message>
     <message>
@@ -523,17 +523,17 @@
     </message>
     <message>
         <source>Playback</source>
-        <translation type="unfinished"></translation>
+        <translation>Uppspelning</translation>
         <extracomment>Title for Playback section in user setting screen.</extracomment>
     </message>
     <message>
         <source>Codec Support</source>
-        <translation type="unfinished"></translation>
+        <translation>Codec-stöd</translation>
         <extracomment>Settings Menu - Title for settings group related to codec support</extracomment>
     </message>
     <message>
         <source>Enable or disable Direct Play for optional codecs</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktivera/inaktivera Direct Play för valfria codecs</translation>
         <extracomment>Settings Menu - Title for settings group related to codec support</extracomment>
     </message>
     <message>
@@ -543,7 +543,7 @@
     </message>
     <message>
         <source>Support Direct Play of MPEG-2 content (e.g., Live TV). This will prevent transcoding of MPEG-2 content, but uses significantly more bandwidth.</source>
-        <translation type="unfinished"></translation>
+        <translation>Stöd för Direct Play av MPEG-2-innehåll (t.ex. direktsänd tv). Detta förhindrar transkodning av MPEG-2-innehåll, men använder betydligt mer bandbredd.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
@@ -553,16 +553,16 @@
     </message>
     <message>
         <source>Support Direct Play of MPEG-4 content. This may need to be disabled for playback of DIVX encoded video files.</source>
-        <translation type="unfinished"></translation>
+        <translation>Stöd för Direct Play av MPEG-4-innehåll. Detta kan behöva inaktiveras för uppspelning av DIVX-kodade videofiler.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktiverad</translation>
     </message>
     <message>
         <source>Disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Inaktiverad</translation>
     </message>
     <message>
         <source>User Interface</source>
@@ -571,7 +571,7 @@
     </message>
     <message>
         <source>Media Grid</source>
-        <translation type="unfinished"></translation>
+        <translation>Medierutnät</translation>
         <extracomment>UI -&gt; Media Grid section in user setting screen.</extracomment>
     </message>
     <message>
@@ -590,16 +590,16 @@
     </message>
     <message>
         <source>Set Favorite</source>
-        <translation type="unfinished"></translation>
+        <translation>Sätt som favorit</translation>
         <extracomment>Button Text - When pressed, sets item as Favorite</extracomment>
     </message>
     <message>
         <source>Favorited</source>
-        <translation type="unfinished"></translation>
+        <translation>Favoriter</translation>
     </message>
     <message>
         <source>Mark As Favorite</source>
-        <translation type="unfinished"></translation>
+        <translation>Markera som favorit</translation>
     </message>
     <message>
         <source>Set Watched</source>
@@ -608,39 +608,39 @@
     </message>
     <message>
         <source>Resume playing at </source>
-        <translation type="unfinished"></translation>
+        <translation>Fortsätt spela vid </translation>
     </message>
     <message>
         <source>Start over from the beginning.</source>
-        <translation type="unfinished"></translation>
+        <translation>Börja om från början.</translation>
     </message>
     <message>
         <source>Playback Options</source>
-        <translation type="unfinished"></translation>
+        <translation>Uppspelningsalternativ</translation>
     </message>
     <message>
         <source>Go to series</source>
-        <translation type="unfinished"></translation>
+        <translation>Gå till serien</translation>
         <extracomment>Continue Watching Popup Menu - Navigate to the Series Detail Page</extracomment>
     </message>
     <message>
         <source>Go to season</source>
-        <translation type="unfinished"></translation>
+        <translation>Gå till säsongen</translation>
         <extracomment>Continue Watching Popup Menu - Navigate to the Season Page</extracomment>
     </message>
     <message>
         <source>Go to episode</source>
-        <translation type="unfinished"></translation>
+        <translation>Gå till avsnittet</translation>
         <extracomment>Continue Watching Popup Menu - Navigate to the Episode Detail Page</extracomment>
     </message>
     <message>
         <source>Use voice remote to search</source>
-        <translation type="unfinished"></translation>
+        <translation>Använd röstfjärrkontrollen för att söka</translation>
         <extracomment>Help text in search voice text box</extracomment>
     </message>
     <message>
         <source>Search now</source>
-        <translation type="unfinished"></translation>
+        <translation>Sök nu</translation>
         <extracomment>Help text in search Box</extracomment>
     </message>
     <message>
