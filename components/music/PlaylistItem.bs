@@ -39,6 +39,12 @@ sub itemContentChanged()
         poster.uri = itemData.posterUrl
     end if
 
+    startingPoint = chainLookupReturn(itemData, "startingPoint", 0)
+    position = m.top.findNode("position")
+    if isValid(position)
+        position.text = ticksToHuman(startingPoint)
+    end if
+
     if isValid(itemData.LookupCI("RunTimeTicks"))
         tracklength = m.top.findNode("tracklength")
         tracklength.text = ticksToHuman(itemData.LookupCI("RunTimeTicks"))

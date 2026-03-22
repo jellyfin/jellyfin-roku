@@ -1,4 +1,5 @@
 import "pkg:/source/enums/ColorPalette.bs"
+import "pkg:/source/enums/KeyCode.bs"
 import "pkg:/source/enums/TaskControl.bs"
 import "pkg:/source/utils/misc.bs"
 
@@ -6,6 +7,8 @@ sub init()
     m.top.optionsAvailable = false
 
     m.getPlaylistDataTask = createObject("roSGNode", "GetPlaylistDataTask")
+
+    setupButtons()
 
     m.albumCover = m.top.findNode("albumCover")
     m.playlist = m.top.findNode("playlist")
@@ -16,6 +19,43 @@ sub init()
     m.playlist.focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
 
     m.playlist.observeField("doneLoading", "onDoneLoading")
+end sub
+
+' Setup playback buttons, default to Play button selected
+sub setupButtons()
+    m.buttonGrp = m.top.findNode("buttons")
+    m.buttonCount = m.buttonGrp.getChildCount()
+
+    m.resume = m.top.findNode("resume")
+    m.resume.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+    m.top.lastFocus = m.buttonGrp
+
+    m.play = m.top.findNode("play")
+    m.play.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+
+    shuffle = m.top.findNode("shuffle")
+    shuffle.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+
+    m.previouslySelectedButtonIndex = -1
+
+    m.top.observeFieldScoped("selectedButtonIndex", "onButtonSelectedChange")
+    m.top.selectedButtonIndex = 0
+end sub
+
+' Event handler when user selected a different playback button
+sub onButtonSelectedChange()
+    ' Change previously focused button back to default
+    if m.previouslySelectedButtonIndex > -1
+        previousSelectedButton = m.buttonGrp.getChild(m.previouslySelectedButtonIndex)
+        if isValid(previousSelectedButton)
+            previousSelectedButton.focus = false
+        end if
+    end if
+
+    ' Change selected button image to focus state
+    selectedButton = m.buttonGrp.getChild(m.top.selectedButtonIndex)
+    selectedButton.focus = true
+    selectedButton.setfocus(true)
 end sub
 
 ' Set values for displayed values on screen
@@ -48,6 +88,16 @@ sub pageContentChanged()
     titleHeading = m.top.findNode("titleHeading")
     if isValid(titleHeading)
         titleHeading.font.size = 23
+    end if
+
+    playedHeading = m.top.findNode("playedHeading")
+    if isValid(playedHeading)
+        playedHeading.font.size = 23
+    end if
+
+    positionHeading = m.top.findNode("positionHeading")
+    if isValid(positionHeading)
+        positionHeading.font.size = 23
     end if
 
     lengthHeading = m.top.findNode("lengthHeading")
@@ -86,15 +136,102 @@ sub OnScreenShown()
         m.top.lastFocus.setFocus(true)
         group = m.global.sceneManager.callFunc("getActiveScene")
         group.lastFocus = m.top.lastFocus
-    else
-        m.playlist.setFocus(true)
-        group = m.global.sceneManager.callFunc("getActiveScene")
-        group.lastFocus = m.playlist
+        return
     end if
+
+    if isValid(m.play)
+        m.resume.setFocus(true)
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        group.lastFocus = m.resume
+        return
+    end if
+
+    m.playlist.setFocus(true)
+    group = m.global.sceneManager.callFunc("getActiveScene")
+    group.lastFocus = m.playlist
 end sub
 
+function getFirstUnplayedItem(playlistData) as integer
+    if not isValidAndNotEmpty(playlistData) then return 0
+    if playlistData.getChildCount() = 0 then return 0
+
+    firstUnplayedItemIndex = 0
+
+    for each playlistItem in playlistData.getChildren(-1, 0)
+        if not chainLookupReturn(playlistItem, "played", false)
+            return firstUnplayedItemIndex
+        end if
+
+        firstUnplayedItemIndex++
+    end for
+
+    return 0
+end function
+
 function onKeyEvent(key as string, press as boolean) as boolean
+    if m.buttonGrp.isInFocusChain()
+        if isStringEqual(key, KeyCode.LEFT)
+            if m.buttonGrp.getChild(m.top.selectedButtonIndex).escape = "left"
+                if m.top.selectedButtonIndex > 0
+                    m.previouslySelectedButtonIndex = m.top.selectedButtonIndex
+                    m.top.selectedButtonIndex = m.top.selectedButtonIndex - 1
+                    return true
+                end if
+
+                return false
+            end if
+        end if
+
+        if isStringEqual(key, KeyCode.RIGHT)
+            if m.top.selectedButtonIndex < m.buttonCount - 1
+                m.previouslySelectedButtonIndex = m.top.selectedButtonIndex
+                m.top.selectedButtonIndex = m.top.selectedButtonIndex + 1
+                return true
+            end if
+
+            return false
+        end if
+
+        if isStringEqual(key, KeyCode.DOWN)
+            if m.buttonGrp.getChild(m.top.selectedButtonIndex).escape = "down"
+                m.buttonGrp.getChild(m.top.selectedButtonIndex).escape = string.EMPTY
+                selectedButton = m.buttonGrp.getChild(m.top.selectedButtonIndex)
+                selectedButton.focus = false
+                m.playlist.setFocus(true)
+                m.top.lastFocus = m.playlist
+                return true
+            end if
+        end if
+
+        if isStringEqual(key, KeyCode.OK)
+            selectedButton = m.buttonGrp.getChild(m.top.selectedButtonIndex)
+            if not isValid(selectedButton) then return false
+
+            if isStringEqual(chainLookup(selectedButton, "id"), "resume")
+                m.top.playlistItemSelected = getFirstUnplayedItem(m.top.listData)
+                return true
+            end if
+
+            if isStringEqual(chainLookup(selectedButton, "id"), "play")
+                firstItem = m.top.listData.getChild(0)
+                firstItem.startingPoint = 0
+
+                m.top.playlistItemSelected = 0
+                return true
+            end if
+        end if
+
+        return false
+    end if
+
     if not press then return false
+
+    if m.playlist.hasFocus()
+        if isStringEqual(key, KeyCode.BACK)
+            onButtonSelectedChange()
+            return true
+        end if
+    end if
 
     if key = "options"
         selectedItem = m.playlist.content.getChild(m.playlist.itemFocused)

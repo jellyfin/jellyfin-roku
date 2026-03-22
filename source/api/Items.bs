@@ -470,6 +470,7 @@ function PlaylistItemList(id as string)
         tmp.IndexNumberEnd = item.LookupCI("IndexNumberEnd")
         tmp.ParentIndexNumber = item.LookupCI("ParentIndexNumber")
         tmp.played = chainLookupReturn(item, "UserData.played", false)
+        tmp.startingPoint = chainLookupReturn(item, "UserData.PlaybackPositionTicks", 0)
         results.push(tmp)
     end for
 
