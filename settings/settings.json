@@ -1297,6 +1297,13 @@
               }
             ]
           },
+	  {
+	    "title": "Load Items Limit",
+	    "description": "How many items should load when a library opens.",
+            "settingName": "ui.library.loadItemsLimit",
+	    "type": "integer",
+            "default": "60"
+	  },
           {
             "title": "TV Shows",
             "description": "Settings relating to the appearance of pages in TV Libraries.",

@@ -1563,6 +1563,16 @@
             <translation>Number of columns in library view when showing square images</translation>
             <extracomment>Libraries Setting - Setting description</extracomment>
         </message>
+	<message>
+	    <source>Load Items Limit</source>
+	    <translation>Load Items Limit</translation>
+	    <extracomment>Libraries Setting - Setting title</extracomment>
+        </message>
+	<message>
+	    <source>How many items should load when a library opens.</source>
+	    <translation>How many items should load when a library opens.</translation>
+	    <extracomment>Libraries Setting - Setting description</extracomment>
+        </message>
 
         <message>
             <source>View All Next Up</source>

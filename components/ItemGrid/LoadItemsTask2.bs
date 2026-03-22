@@ -12,7 +12,7 @@ sub init()
     m.top.sortField = "SortName"
     m.top.functionName = "loadItems"
 
-    m.top.limit = 60
+    m.top.limit = m.global.session.user.settings["ui.library.loadItemsLimit"]
 end sub
 
 sub loadItems()
