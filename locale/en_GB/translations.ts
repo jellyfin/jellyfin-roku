@@ -1474,6 +1474,170 @@
         <source>Display custom trickplay images even if this Roku says it&apos;s displaying its own. This may cause the two images to overlay on top of each other.</source>
         <translation>Display custom trickplay images even if this Roku says it&apos;s displaying its own. This may cause the two images to overlay on top of each other.</translation>
     </message>
+    <message>
+        <source>Force Transcoding</source>
+        <translation>Force Transcoding</translation>
+    </message>
+    <message>
+        <source>Force all playable media to be transcoded.</source>
+        <translation>Force all playable media to be transcoded.</translation>
+    </message>
+    <message>
+        <source>Media Segment Actions</source>
+        <translation>Media Segment Actions</translation>
+    </message>
+    <message>
+        <source>Settings relating to how Jellyfin should handle media segments.</source>
+        <translation>Settings relating to how Jellyfin should handle media segments.</translation>
+    </message>
+    <message>
+        <source>Intro Segments</source>
+        <translation>Intro Segments</translation>
+    </message>
+    <message>
+        <source>What action should Jellyfin take for intro segments?</source>
+        <translation>What action should Jellyfin take for intro segments?</translation>
+    </message>
+    <message>
+        <source>Outro Segments</source>
+        <translation>Outro Segments</translation>
+    </message>
+    <message>
+        <source>What action should Jellyfin take for outro segments?</source>
+        <translation>What action should Jellyfin take for outro segments?</translation>
+    </message>
+    <message>
+        <source>Preview Segments</source>
+        <translation>Preview Segments</translation>
+    </message>
+    <message>
+        <source>What action should Jellyfin take for preview segments?</source>
+        <translation>What action should Jellyfin take for preview segments?</translation>
+    </message>
+    <message>
+        <source>Recap Segments</source>
+        <translation>Recap Segments</translation>
+    </message>
+    <message>
+        <source>What action should Jellyfin take for recap segments?</source>
+        <translation>What action should Jellyfin take for recap segments?</translation>
+    </message>
+    <message>
+        <source>Ask To Skip</source>
+        <translation>Ask To Skip</translation>
+    </message>
+    <message>
+        <source>Skip</source>
+        <translation>Skip</translation>
+    </message>
+    <message>
+        <source>None</source>
+        <translation>None</translation>
+    </message>
+    <message>
+        <source>Item Detail Screen</source>
+        <translation>Item Detail Screen</translation>
+    </message>
+    <message>
+        <source>Settings relating to the appearance of the item detail screen.</source>
+        <translation>Settings relating to the appearance of the item detail screen.</translation>
+    </message>
+    <message>
+        <source>Overview Content</source>
+        <translation>Overview Content</translation>
+    </message>
+    <message>
+        <source>A quick overview of the item selected - typically a short plot outline.</source>
+        <translation>A quick overview of the item selected - typically a short plot outline.</translation>
+    </message>
+    <message>
+        <source>Settings relating to the appearance of Library pages.</source>
+        <translation>Settings relating to the appearance of Library pages.</translation>
+    </message>
+    <message>
+        <source>Forget Filters</source>
+        <translation>Forget Filters</translation>
+    </message>
+    <message>
+        <source>Forget applied library filters when Jellyfin is closed.</source>
+        <translation>Forget applied library filters when Jellyfin is closed.</translation>
+    </message>
+    <message>
+        <source>Library Landscape Column Count</source>
+        <translation>Library Landscape Column Count</translation>
+    </message>
+    <message>
+        <source>Number of columns in library view when showing landscape (wide) images</source>
+        <translation>Number of columns in library view when showing landscape (wide) images</translation>
+    </message>
+    <message>
+        <source>Library Portrait Column Count</source>
+        <translation>Library Portrait Column Count</translation>
+    </message>
+    <message>
+        <source>Number of columns in library view when showing portrait (tall) images</source>
+        <translation>Number of columns in library view when showing portrait (tall) images</translation>
+    </message>
+    <message>
+        <source>Library Square Column Count</source>
+        <translation>Library Square Column Count</translation>
+    </message>
+    <message>
+        <source>Number of columns in library view when showing square images</source>
+        <translation>Number of columns in library view when showing square images</translation>
+    </message>
+    <message>
+        <source>The selected Jellyfin server uses version</source>
+        <translation>The selected Jellyfin server uses version</translation>
+    </message>
+    <message>
+        <source>which is not supported by this app. Please update the server to</source>
+        <translation>which is not supported by this app. Please update the server to</translation>
+    </message>
+    <message>
+        <source>or newer to use this app or install and use the Jellyfin Legacy app from Roku&apos;s Streaming Store</source>
+        <translation>or newer to use this app or install and use the Jellyfin Legacy app from Roku&apos;s Streaming Store</translation>
+    </message>
+    <message>
+        <source>Return to server select screen</source>
+        <translation>Return to server select screen</translation>
+    </message>
+    <message>
+        <source>Use Fallback Font Across App</source>
+        <translation>Use Fallback Font Across App</translation>
+    </message>
+    <message>
+        <source>Changes the font used in the app to the server&apos;s configured fallback font.</source>
+        <translation>Changes the font used in the app to the server&apos;s configured fallback font.</translation>
+    </message>
+    <message>
+        <source>Highlighted Color</source>
+        <translation>Highlighted Colour</translation>
+    </message>
+    <message>
+        <source>No Results Found</source>
+        <translation>No Results Found</translation>
+    </message>
+    <message>
+        <source>Format</source>
+        <translation>Format</translation>
+    </message>
+    <message>
+        <source>downloads</source>
+        <translation>downloads</translation>
+    </message>
+    <message>
+        <source>Part</source>
+        <translation>Part</translation>
+    </message>
+    <message>
+        <source>Play / Resume from</source>
+        <translation>Play / Resume from</translation>
+    </message>
+    <message>
+        <source>Play or Resume from</source>
+        <translation>Play or Resume from</translation>
+    </message>
 </context>
 <context>
     <name></name>
