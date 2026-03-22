@@ -679,7 +679,7 @@
     </message>
     <message>
         <source>Shows</source>
-        <translation type="unfinished"></translation>
+        <translation>برامج</translation>
     </message>
     <message>
         <source>Return to Top</source>
@@ -688,49 +688,49 @@
     </message>
     <message>
         <source>Use the replay button to slowly animate to the first item in the folder. (If disabled, the folder will reset to the first item immediately).</source>
-        <translation type="unfinished"></translation>
+        <translation>استخدم زر إعادة التشغيل لإبطاء الحركة لأول عنصر في المجلد.(إذا كان مثبطا, المجلد سيعيد التعيين إلى أول عنصر مباشرة).</translation>
         <extracomment>Description for option in Setting Screen</extracomment>
     </message>
     <message>
         <source>Hide Taglines</source>
-        <translation type="unfinished"></translation>
+        <translation>اخفاء خطوط الوسوم</translation>
         <extracomment>Option Title in user setting screen</extracomment>
     </message>
     <message>
         <source>Hides tagline text on details pages.</source>
-        <translation type="unfinished"></translation>
+        <translation>اخفاء خطوط الوسوم في صفحات التفاصيل.</translation>
     </message>
     <message>
         <source>Options for TV Shows.</source>
-        <translation type="unfinished"></translation>
+        <translation>اختيارات البرامج التلفزيونية.</translation>
         <extracomment>Description for TV Shows user settings.</extracomment>
     </message>
     <message>
         <source>Blur Unwatched Episodes</source>
-        <translation type="unfinished"></translation>
+        <translation>تضبيب الحلقات غير المشاهدة</translation>
         <extracomment>Option Title in user setting screen</extracomment>
     </message>
     <message>
         <source>Skip Details for Single Seasons</source>
-        <translation type="unfinished"></translation>
+        <translation>تجاوز تفاصيل مواسم مفردة</translation>
         <extracomment>Settings Menu - Title for option</extracomment>
     </message>
     <message>
         <source>Go directly to the episode list if a TV series has only one season.</source>
-        <translation type="unfinished"></translation>
+        <translation>إن كان مفعلا, اختيار مسلسلات تلفزيونية ذات موسم واحد فقط سوف ينقلك مباشرة لحلقة بدلا من تفاصيل المسلسل و لائحة الموسم.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Blur images of unwatched episodes.</source>
-        <translation type="unfinished"></translation>
+        <translation>تضبيب صور الحلقات غير المشاهدة.</translation>
     </message>
     <message>
         <source>Design Elements</source>
-        <translation type="unfinished"></translation>
+        <translation>تصميم عناصر</translation>
     </message>
     <message>
         <source>Options that alter the design of Jellyfin.</source>
-        <translation type="unfinished"></translation>
+        <translation>إختيارات لتغيير تصميم Jellyfin.</translation>
         <extracomment>Description for Design Elements user settings.</extracomment>
     </message>
     <message>
