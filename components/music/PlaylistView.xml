@@ -16,11 +16,6 @@
               <Poster id="numberofsongsIcon" width="35" height="35" uri="pkg:/images/icons/35px/musicNote.png" />
               <Text id="numberofsongs" vertAlign="center" font="font:MediumSystemFont" height="35" />
             </LayoutGroup>
-
-            <LayoutGroup layoutDirection="horiz" itemSpacings="[15]">
-              <Poster id="genresIcon" width="35" height="35" uri="pkg:/images/icons/35px/genre.png" />
-              <MultiStyleText id="genres" vertAlign="center" width="400" height="35" />
-            </LayoutGroup>
           </LayoutGroup>
 
           <ButtonGroupHoriz id="buttons" itemSpacings="[20]">

@@ -273,6 +273,13 @@ function onKeyEvent(key as string, press as boolean) as boolean
                     m.top.playlistItemSelected = 0
                     return true
                 end if
+
+                if isStringEqual(chainLookup(selectedButton, "id"), "shuffle")
+                    m.global.queueManager.callFunc("set", m.top.listData.getChildren(-1, 0))
+                    m.global.queueManager.callFunc("setShuffle", true)
+                    m.global.queueManager.callFunc("playQueue")
+                    return true
+                end if
             end if
 
             return false
