@@ -1297,13 +1297,13 @@
               }
             ]
           },
-	  {
-	    "title": "Load Items Limit",
-	    "description": "Number of items to load together on library screens.",
+          {
+            "title": "Load Items Limit",
+            "description": "Number of items to load together on library screens.",
             "settingName": "ui.library.loadItemsLimit",
-	    "type": "integer",
+            "type": "integer",
             "default": "60"
-	  },
+          },
           {
             "title": "TV Shows",
             "description": "Settings relating to the appearance of pages in TV Libraries.",
