@@ -1299,7 +1299,7 @@
           },
 	  {
 	    "title": "Load Items Limit",
-	    "description": "How many items should load when a library opens.",
+	    "description": "Number of items to load together on library screens.",
             "settingName": "ui.library.loadItemsLimit",
 	    "type": "integer",
             "default": "60"

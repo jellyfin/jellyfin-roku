@@ -1569,8 +1569,8 @@
 	    <extracomment>Libraries Setting - Setting title</extracomment>
         </message>
 	<message>
-	    <source>How many items should load when a library opens.</source>
-	    <translation>How many items should load when a library opens.</translation>
+	    <source>Number of items to load together on library screens.</source>
+	    <translation>Number of items to load together on library screens.</translation>
 	    <extracomment>Libraries Setting - Setting description</extracomment>
         </message>
 
