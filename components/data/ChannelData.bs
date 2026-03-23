@@ -8,7 +8,7 @@ sub setFields()
 
     json = m.top.json
     m.top.id = json.id
-    if isValid(json.number) and not isStringEqual(channelTitleContent, LiveTVChannelTitle.NAME)
+    if not isStringEqual(channelTitleContent, LiveTVChannelTitle.NAME) and isValid(json.number)
         if isStringEqual(channelTitleContent, LiveTVChannelTitle.NUMBERANDNAME)
             m.top.title = `${tr("CH")} ${json.number} ${json.name}`
         else if isStringEqual(channelTitleContent, LiveTVChannelTitle.NUMBER)
