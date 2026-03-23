@@ -66,7 +66,9 @@ sub onDisplayResumeButtonChange()
         m.buttonGrp.removeChild(m.resume)
         m.resume = invalid
         m.buttonCount = m.buttonGrp.getChildCount()
-        onButtonSelectedChange()
+        if m.toplevel.translation[1] = 100
+            onButtonSelectedChange()
+        end if
         return
     end if
 

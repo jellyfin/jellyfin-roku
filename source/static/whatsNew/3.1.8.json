@@ -26,5 +26,9 @@
   {
     "description": "Fix videos sometimes loading twice",
     "author": "gabeluci"
+  },
+  {
+    "description": "Fix losing cursor when returning to TV series screen",
+    "author": "1hitsong"
   }
 ]
