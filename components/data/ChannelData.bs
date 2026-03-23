@@ -4,12 +4,12 @@ import "pkg:/source/enums/LiveTVChannelTitle.bs"
 import "pkg:/source/utils/config.bs"
 
 sub setFields()
-    channelTitleContent = chainLookupReturn(m.global.session, "user.settings.tvChannelTitleContent", LiveTVChannelTitle.NUMBER_AND_NAME)
+    channelTitleContent = chainLookupReturn(m.global.session, "user.settings.tvChannelTitleContent", LiveTVChannelTitle.NUMBERANDNAME)
 
     json = m.top.json
     m.top.id = json.id
     if isValid(json.number) and not isStringEqual(channelTitleContent, LiveTVChannelTitle.NAME)
-        if isStringEqual(channelTitleContent, LiveTVChannelTitle.NUMBER_AND_NAME)
+        if isStringEqual(channelTitleContent, LiveTVChannelTitle.NUMBERANDNAME)
             m.top.title = `${tr("CH")} ${json.number} ${json.name}`
         else if isStringEqual(channelTitleContent, LiveTVChannelTitle.NUMBER)
             m.top.title = `${tr("CH")} ${json.number}`

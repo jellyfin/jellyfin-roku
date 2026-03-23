@@ -18,9 +18,9 @@ sub init()
 end sub
 
 sub onWidthChanged()
-    channelIdentifier = chainLookupReturn(m.global.session, "user.settings.tvGuideChannelIdentifier", LiveTVChannelIdentifier.LOGO_AND_TITLE)
+    channelIdentifier = chainLookupReturn(m.global.session, "user.settings.tvGuideChannelIdentifier", LiveTVChannelIdentifier.LOGOANDTITLE)
 
-    if isStringEqual(channelIdentifier, LiveTVChannelIdentifier.LOGO_AND_TITLE)
+    if isStringEqual(channelIdentifier, LiveTVChannelIdentifier.LOGOANDTITLE)
         m.channelLogo.visible = true
         m.channelTitle.visible = true
         logoWidth = int(m.top.width / 3)
