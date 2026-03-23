@@ -35,28 +35,66 @@
         </Rectangle>
       </LayoutGroup>
 
-      <LayoutGroup id="infoGroup" layoutDirection="vert" itemSpacings="[15]">
-        <Rectangle id='songListRect' translation="[-30, 0]" width="1720" height="610">
-
-          <LayoutGroup id="tableHeading" layoutDirection="horiz" itemSpacings="[20]" translation="[45, 15]">
-            <Text id="trackHeading" font="font:SmallBoldSystemFont" horizAlign="left" vertAlign="center" text="" width="140" />
-            <Text id="titleHeading" font="font:SmallBoldSystemFont" horizAlign="left" vertAlign="center" text="Title" width="1020" />
-            <Text id="playedHeading" font="font:SmallBoldSystemFont" horizAlign="center" vertAlign="center" text="Played" width="70" />
-            <Text id="positionHeading" font="font:SmallBoldSystemFont" horizAlign="right" vertAlign="center" text="Position" width="155" />
-            <Text id="lengthHeading" font="font:SmallBoldSystemFont" horizAlign="right" vertAlign="center" text="Length" width="155" />
-          </LayoutGroup>
-
-          <PlaylistItems
-            id="playlist"
-            itemComponentName="PlaylistItem"
-            translation="[45, 50]"
-            itemSize="[1630, 100]"
-            numRows="5" />
-        </Rectangle>
-      </LayoutGroup>
     </LayoutGroup>
+
+    <Rectangle id='songListRect' translation="[100, 435]" width="1720" height="610">
+      <LayoutGroup id="tableHeading" layoutDirection="horiz" itemSpacings="[20]" translation="[45, 15]">
+        <Text id="trackHeading" font="font:SmallBoldSystemFont" horizAlign="left" vertAlign="center" text="" width="140" />
+        <Text id="titleHeading" font="font:SmallBoldSystemFont" horizAlign="left" vertAlign="center" text="Title" width="1020" />
+        <Text id="playedHeading" font="font:SmallBoldSystemFont" horizAlign="center" vertAlign="center" text="Played" width="70" />
+        <Text id="positionHeading" font="font:SmallBoldSystemFont" horizAlign="right" vertAlign="center" text="Position" width="155" />
+        <Text id="lengthHeading" font="font:SmallBoldSystemFont" horizAlign="right" vertAlign="center" text="Length" width="155" />
+      </LayoutGroup>
+
+      <PlaylistItems
+        id="playlist"
+        clippingRect="[-10,-10,1650,545]"
+        itemComponentName="PlaylistItem"
+        translation="[45, 50]"
+        itemSize="[1630, 100]"
+        numRows="11" />
+    </Rectangle>
+
+    <Animation id="revealEpisodesAnimation" duration=".4" repeat="false" easeFunction="linear">
+      <Vector2DFieldInterpolator
+        id="toplevelTranslation"
+        key="[0.0, 1]"
+        keyValue="[[100, 100], [100, -500]]"
+        fieldToInterp="toplevel.translation" />
+
+      <Vector2DFieldInterpolator
+        id="tableHeadingTranslation"
+        key="[0.0, 1]"
+        keyValue="[[45, 15], [145, 60]]"
+        fieldToInterp="tableHeading.translation" />
+
+      <Vector2DFieldInterpolator
+        id="playlistTranslation"
+        key="[0.0, 1]"
+        keyValue="[[45, 50], [145, 95]]"
+        fieldToInterp="playlist.translation" />
+
+      <Vector2DFieldInterpolator
+        id="songListRectTranslation"
+        key="[0.0, 1]"
+        keyValue="[[100, 435], [0, 0]]"
+        fieldToInterp="songListRect.translation" />
+
+      <FloatFieldInterpolator
+        id="songListRectHeight"
+        key="[0.0, 1]"
+        keyValue="[610.0, 1080.0]"
+        fieldToInterp="songListRect.height" />
+
+      <FloatFieldInterpolator
+        id="songListRectWidth"
+        key="[0.0, 1]"
+        keyValue="[1720.0, 1920.0]"
+        fieldToInterp="songListRect.width" />
+    </Animation>
   </children>
   <interface>
+    <field id="refreshPlaylistData" type="bool" alwaysNotify="true" />
     <field id="pageContent" type="node" onChange="pageContentChanged" />
     <field id="listData" type="node" alias="playlist.PlaylistData" />
     <field id="playlistItemSelected" alias="playlist.itemSelected" />

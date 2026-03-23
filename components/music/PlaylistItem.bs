@@ -52,7 +52,7 @@ sub itemContentChanged()
 
     ' Only apply the played checkmark to specific item types
     playlistItemType = chainLookupReturn(itemData, "type", string.EMPTY)
-    if inArray([ItemType.MOVIE, ItemType.MUSICVIDEO, ItemType.EPISODE, ItemType.RECORDING, ItemType.VIDEO, ItemType.PROGRAM], playlistItemType)
+    if inArray([ItemType.MOVIE, ItemType.MUSICVIDEO, ItemType.EPISODE, ItemType.RECORDING, ItemType.VIDEO, ItemType.PROGRAM, ItemType.AUDIO], playlistItemType)
         playedIndicator = m.top.findNode("playedIndicator")
         playedIndicator.data = {
             played: chainLookupReturn(itemData, "played", false)
