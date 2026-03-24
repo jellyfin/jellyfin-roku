@@ -404,7 +404,7 @@ sub itemContentChanged()
             if itemData.mediaStreams[i].Type = "Video"
                 m.options.codec = itemData.MediaStreams[i].Codec
                 if isStringEqual(PlaybackMethod.FORCETRANSCODEDISABLEREMUX, chainLookupReturn(m.global.session, "user.settings.`playback.media.forceTranscode`", PlaybackMethod.PLAYNORMALLY))
-                    m.global.queueManager.callFunc("setForceTranscode", PlaybackMethod.FORCETRANSCODEDISABLEREMUX, m.options.codec)
+                    m.global.queueManager.callFunc("setForceTranscode", PlaybackMethod.FORCETRANSCODEDISABLEREMUX, m.options.codec ?? string.EMPTY)
                     exit for
                 end if
             end if

@@ -8,8 +8,8 @@
     "brighterscript-formatter": "1.7.21"
   },
   "devDependencies": {
-    "@rokucommunity/bslint": "0.8.38",
-    "brighterscript": "0.70.3",
+    "@rokucommunity/bslint": "0.8.40",
+    "brighterscript": "0.70.4",
     "jshint": "2.13.6",
     "rimraf": "6.1.3",
     "roku-deploy": "3.16.2",
