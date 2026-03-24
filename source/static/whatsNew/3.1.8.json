@@ -28,6 +28,10 @@
     "author": "gabeluci"
   },
   {
+    "description": "Add setting to select how many items are loaded together on library screens",
+    "author": "brianpardy"
+  },
+  {
     "description": "Add setting to configure Live TV channel title and logo visibility",
     "author": "michaelcresswell"
   }
