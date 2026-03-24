@@ -28,7 +28,6 @@ sub init()
     m.percentageDict = { "Default": "FF", "100%": "FF", "75%": "BF", "50%": "7F", "25%": "4B", "Off": "00" }
     m.textColorDict = { "Default": "0xCCCCCC", "Bright White": "0xFFFFFF", "White": "0xCCCCCC", "Black": "0x000000", "Red": "0xFF0000", "Green": "0x008000", "Blue": "0x0000FF", "Yellow": "0xFFFF00", "Magenta": "0xFF00FF", "Cyan": "0x00FFFF" }
     m.bgColorDict = { "Default": "0x000000", "Bright White": "0xFFFFFF", "White": "0xCCCCCC", "Black": "0x000000", "Red": "0xFF0000", "Green": "0x008000", "Blue": "0x0000FF", "Yellow": "0xFFFF00", "Magenta": "0xFF00FF", "Cyan": "0x00FFFF" }
-    m.cssColorDict = { "aliceblue": "#f0f8ff", "antiquewhite": "#faebd7", "aqua": "#00ffff", "aquamarine": "#7fffd4", "azure": "#f0ffff", "beige": "#f5f5dc", "bisque": "#ffe4c4", "black": "#000000", "blanchedalmond": "#ffebcd", "blue": "#0000ff", "blueviolet": "#8a2be2", "brown": "#a52a2a", "burlywood": "#deb887", "cadetblue": "#5f9ea0", "chartreuse": "#7fff00", "chocolate": "#d2691e", "coral": "#ff7f50", "cornflowerblue": "#6495ed", "cornsilk": "#fff8dc", "crimson": "#dc143c", "cyan": "#00ffff", "darkblue": "#00008b", "darkcyan": "#008b8b", "darkgoldenrod": "#b8860b", "darkgray": "#a9a9a9", "darkgreen": "#006400", "darkgrey": "#a9a9a9", "darkkhaki": "#bdb76b", "darkmagenta": "#8b008b", "darkolivegreen": "#556b2f", "darkorange": "#ff8c00", "darkorchid": "#9932cc", "darkred": "#8b0000", "darksalmon": "#e9967a", "darkseagreen": "#8fbc8f", "darkslateblue": "#483d8b", "darkslategray": "#2f4f4f", "darkslategrey": "#2f4f4f", "darkturquoise": "#00ced1", "darkviolet": "#9400d3", "deeppink": "#ff1493", "deepskyblue": "#00bfff", "dimgray": "#696969", "dimgrey": "#696969", "dodgerblue": "#1e90ff", "firebrick": "#b22222", "floralwhite": "#fffaf0", "forestgreen": "#228b22", "fuchsia": "#ff00ff", "gainsboro": "#dcdcdc", "ghostwhite": "#f8f8ff", "gold": "#ffd700", "goldenrod": "#daa520", "gray": "#808080", "green": "#008000", "greenyellow": "#adff2f", "grey": "#808080", "honeydew": "#f0fff0", "hotpink": "#ff69b4", "indianred": "#cd5c5c", "indigo": "#4b0082", "ivory": "#fffff0", "khaki": "#f0e68c", "lavender": "#e6e6fa", "lavenderblush": "#fff0f5", "lawngreen": "#7cfc00", "lemonchiffon": "#fffacd", "lightblue": "#add8e6", "lightcoral": "#f08080", "lightcyan": "#e0ffff", "lightgoldenrodyellow": "#fafad2", "lightgray": "#d3d3d3", "lightgreen": "#90ee90", "lightgrey": "#d3d3d3", "lightpink": "#ffb6c1", "lightsalmon": "#ffa07a", "lightseagreen": "#20b2aa", "lightskyblue": "#87cefa", "lightslategray": "#778899", "lightslategrey": "#778899", "lightsteelblue": "#b0c4de", "lightyellow": "#ffffe0", "lime": "#00ff00", "limegreen": "#32cd32", "linen": "#faf0e6", "magenta": "#ff00ff", "maroon": "#800000", "mediumaquamarine": "#66cdaa", "mediumblue": "#0000cd", "mediumorchid": "#ba55d3", "mediumpurple": "#9370db", "mediumseagreen": "#3cb371", "mediumslateblue": "#7b68ee", "mediumspringgreen": "#00fa9a", "mediumturquoise": "#48d1cc", "mediumvioletred": "#c71585", "midnightblue": "#191970", "mintcream": "#f5fffa", "mistyrose": "#ffe4e1", "moccasin": "#ffe4b5", "navajowhite": "#ffdead", "navy": "#000080", "oldlace": "#fdf5e6", "olive": "#808000", "olivedrab": "#6b8e23", "orange": "#ffa500", "orangered": "#ff4500", "orchid": "#da70d6", "palegoldenrod": "#eee8aa", "palegreen": "#98fb98", "paleturquoise": "#afeeee", "palevioletred": "#db7093", "papayawhip": "#ffefd5", "peachpuff": "#ffdab9", "peru": "#cd853f", "pink": "#ffc0cb", "plum": "#dda0dd", "powderblue": "#b0e0e6", "purple": "#800080", "red": "#ff0000", "rosybrown": "#bc8f8f", "royalblue": "#4169e1", "saddlebrown": "#8b4513", "salmon": "#fa8072", "sandybrown": "#f4a460", "seagreen": "#2e8b57", "seashell": "#fff5ee", "sienna": "#a0522d", "silver": "#c0c0c0", "skyblue": "#87ceeb", "slateblue": "#6a5acd", "slategray": "#708090", "slategrey": "#708090", "snow": "#fffafa", "springgreen": "#00ff7f", "steelblue": "#4682b4", "tan": "#d2b48c", "teal": "#008080", "thistle": "#d8bfd8", "tomato": "#ff6347", "turquoise": "#40e0d0", "violet": "#ee82ee", "wheat": "#f5deb3", "white": "#ffffff", "whitesmoke": "#f5f5f5", "yellow": "#ffff00", "yellowgreen": "#9acd32" }
 
     deviceInfo = CreateObject("roDeviceInfo")
     m.fontSize = m.fontSizeDict[deviceInfo.GetCaptionsOption("Text/Size")]
@@ -122,7 +121,7 @@ sub updateCaption()
                 }
             }
             openTags = []
-            styledText = ""
+            styledText = string.EMPTY
             parts = fullText.Split("<")
             firstIter = true
             for each part in parts
@@ -141,22 +140,24 @@ sub updateCaption()
                     continue for
                 end if
                 tagValue = LCase(part.Mid(0, tagEnd).Trim())
-                replaceTagWith = ""
+                replaceTagWith = string.EMPTY
                 if tagValue.StartsWith("font")
                     ' opening font tag
                     colorName = invalid
                     color = m.fontColor.Match(tagValue)
                     if color.Count() > 1
-                        color = color[1].Replace("""", "").Trim()
+                        color = color[1].Replace("""", string.EMPTY).Trim()
                         if color.StartsWith("#")
                             ' hex color code (must be 3 or 6 digits)
                             sanitizedColor = "#"
-                            colorChars = color.Mid(1).Split("")
+                            colorChars = color.Mid(1).Split(string.EMPTY)
                             isShortColor = colorChars.Count() = 3
                             for each c in colorChars
                                 if c >= "0" and c <= "9" or c >= "a" and c <= "f"
                                     sanitizedColor += c
-                                    if isShortColor then sanitizedColor += c
+                                    if isShortColor
+                                        sanitizedColor += c
+                                    end if
                                 end if
                             end for
                             if sanitizedColor.Len() = 7
@@ -165,7 +166,7 @@ sub updateCaption()
                             end if
                         else if color.StartsWith("rgb(") or color.StartsWith("rgba(")
                             ' rgb or rgba color code (alpha is ignored)
-                            rgbValues = color.Mid(color.Instr("(") + 1).Replace(")", "").Split(",")
+                            rgbValues = color.Mid(color.Instr("(") + 1).Replace(")", string.EMPTY).Split(",")
                             if rgbValues.Count() >= 3
                                 r = rgbValues[0].Trim()
                                 g = rgbValues[1].Trim()
@@ -184,13 +185,13 @@ sub updateCaption()
                             end if
                         else
                             ' is it the name of a color?
-                            cssColor = chainLookup(m.cssColorDict, color)
-                            if cssColor <> invalid
+                            cssColor = chainLookup(m.global.constants.cssColorDict, color)
+                            if isValid(cssColor)
                                 colorName = color
                                 color = cssColor
                             end if
                         end if
-                        if colorName <> invalid
+                        if isValid(colorName)
                             drawingStyles.AddReplace(colorName, {
                                 "fontUri": m.font,
                                 "fontSize": m.fontSize,
@@ -200,12 +201,16 @@ sub updateCaption()
                         end if
                     end if
                     ' keep track of invalid tags
-                    if colorName = invalid then openTags.push(colorName)
+                    if not isValid(colorName)
+                        openTags.push(colorName)
+                    end if
                 else if tagValue.StartsWith("/font")
                     ' closing tag
                     if openTags.Count() > 0
                         openTag = openTags.pop()
-                        if openTag <> invalid then replaceTagWith = `/${openTag}`
+                        if isValid(openTag)
+                            replaceTagWith = `/${openTag}`
+                        end if
                     end if
                 end if
                 if replaceTagWith.Len() > 0
@@ -216,12 +221,12 @@ sub updateCaption()
                     lastValidTag = invalid
                     for i = openTags.count() - 1 to 0 step -1
                         ' do we have a valid tag still open?
-                        if openTags[i] <> invalid
+                        if isValid(openTags[i])
                             lastValidTag = openTags[i]
                             exit for
                         end if
                     end for
-                    if lastValidTag <> invalid
+                    if isValid(lastValidTag)
                         if isClosing
                             styledText += `<${replaceTagWith}><${lastValidTag}>`
                         else
@@ -229,7 +234,9 @@ sub updateCaption()
                             styledText += `</${lastValidTag}><${replaceTagWith}>`
                         end if
                     else
-                        if not isClosing then openTags.push(replaceTagWith)
+                        if not isClosing
+                            openTags.push(replaceTagWith)
+                        end if
                         styledText += `<${replaceTagWith}>`
                     end if
                 end if
