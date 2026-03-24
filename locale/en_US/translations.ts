@@ -2323,13 +2323,13 @@
             <extracomment>Libraries Setting - Setting Category description</extracomment>
         </message>
         <message>
-            <source>Channel Title Content</source>
-            <translation>Channel Title Content</translation>
+            <source>Channel Title Info</source>
+            <translation>Channel Title Info</translation>
             <extracomment>Libraries Setting - Setting title</extracomment>
         </message>
         <message>
-            <source>What to use for the channel title.</source>
-            <translation>What to use for the channel title.</translation>
+            <source>Select what information to use as a channel's title.</source>
+            <translation>Select what information to use as a channel's title.</translation>
             <extracomment>Libraries Setting - Setting description</extracomment>
         </message>
         <message>
@@ -2353,13 +2353,13 @@
             <extracomment>Libraries Setting - Setting option</extracomment>
         </message>
         <message>
-            <source>TV Guide Channel Identifier</source>
-            <translation>TV Guide Channel Identifier</translation>
+            <source>TV Guide Channel Display</source>
+            <translation>TV Guide Channel Display</translation>
             <extracomment>Libraries Setting - Setting title</extracomment>
         </message>
         <message>
-            <source>What to use for identifying a channel in the Live TV guide.</source>
-            <translation>What to use for identifying a channel in the Live TV guide.</translation>
+            <source>Select how to display a channel in the Live TV guide.</source>
+            <translation>Select how to display a channel in the Live TV guide.</translation>
             <extracomment>Libraries Setting - Setting description</extracomment>
         </message>
         <message>

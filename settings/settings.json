@@ -1302,9 +1302,9 @@
             "description": "Settings relating to Live TV.",
             "children": [
               {
-                "title": "Channel Title Content",
-                "description": "What to use for the channel title.",
-                "settingName": "tvChannelTitleContent",
+                "title": "Channel Title Info",
+                "description": "Select what information to use as a channel's title.",
+                "settingName": "tvChannelTitleInfo",
                 "type": "radio",
                 "default": "numberName",
                 "options": [
@@ -1323,9 +1323,9 @@
                 ]
               },
               {
-                "title": "TV Guide Channel Identifier",
-                "description": "What to use for identifying a channel in the Live TV guide.",
-                "settingName": "tvGuideChannelIdentifier",
+                "title": "TV Guide Channel Display",
+                "description": "Select how to display a channel in the Live TV guide.",
+                "settingName": "tvGuideChannelDisplay",
                 "type": "radio",
                 "default": "logoTitle",
                 "options": [

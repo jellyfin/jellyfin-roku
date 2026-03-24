@@ -4,7 +4,7 @@ import "pkg:/source/enums/LiveTVChannelTitle.bs"
 import "pkg:/source/utils/config.bs"
 
 sub setFields()
-    channelTitleContent = chainLookupReturn(m.global.session, "user.settings.tvChannelTitleContent", LiveTVChannelTitle.NUMBERANDNAME)
+    channelTitleContent = chainLookupReturn(m.global.session, "user.settings.tvChannelTitleInfo", LiveTVChannelTitle.NUMBERANDNAME)
 
     json = m.top.json
     m.top.id = json.id
