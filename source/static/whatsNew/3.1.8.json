@@ -26,5 +26,9 @@
   {
     "description": "Fix videos sometimes loading twice",
     "author": "gabeluci"
+  },
+  {
+    "description": "Add setting to select how many items are loaded together on library screens",
+    "author": "brianpardy"
   }
 ]
