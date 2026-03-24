@@ -1298,14 +1298,6 @@
             ]
           },
           {
-            "title": "Load Items Limit",
-            "description": "Number of items to load together on library screens.",
-            "settingName": "ui.library.loadItemsLimit",
-            "type": "integer",
-            "min": "15",
-            "default": "60"
-          },
-          {
             "title": "Live TV",
             "description": "Settings relating to Live TV.",
             "children": [
@@ -1352,6 +1344,14 @@
                 ]
               }
             ]
+          },
+          {
+            "title": "Load Items Limit",
+            "description": "Number of items to load together on library screens.",
+            "settingName": "ui.library.loadItemsLimit",
+            "type": "integer",
+            "min": "15",
+            "default": "60"
           },
           {
             "title": "TV Shows",
