@@ -179,8 +179,8 @@ function deleteVoid(req)
     req.setMessagePort(CreateObject("roMessagePort"))
     req.AddHeader("Content-Type", "application/json")
     req.SetRequest("DELETE")
-    req.GetToString()
-
+    returnValue = req.GetToString()
+    print `deleteVoid(req): returnValue=${returnValue}`
     return true
 end function
 

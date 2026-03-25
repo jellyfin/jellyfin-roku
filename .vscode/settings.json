@@ -13,5 +13,7 @@
     "**/.git": true,
     "**/node_modules": true
   },
-  "brightscriptcomment.addExtraAtStartAndEnd": false
+  "brightscriptcomment.addExtraAtStartAndEnd": false,
+  "brightscript.debug.host": "192.168.1.133",
+  "brightscript.debug.password": "4949"
 }

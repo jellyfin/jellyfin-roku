@@ -60,6 +60,7 @@
           vertFocusAnimationStyle="floatingFocus">
           <ContentNode role="content">
             <ButtonData id="play-button" focus="true" text="Play" AUDIO_GUIDE_SUFFIX="Play" iconSide="left" fontSize="35" padding="35" icon="pkg:/images/icons/play.png" height="75" width="600" />
+            <ButtonData id="delete-button" text="Delete" AUDIO_GUIDE_SUFFIX="Delete" iconSide="left" fontSize="35" padding="35" icon="pkg:/images/icons/trash.png" height="75" width="600" />
             <ButtonData id="part-button" iconSide="left" fontSize="35" padding="35" icon="pkg:/images/icons/puzzle.png" height="75" width="600" />
             <ButtonData id="options-button" text="Options" AUDIO_GUIDE_SUFFIX="Options" iconSide="left" fontSize="35" padding="35" icon="pkg:/images/icons/options.png" height="75" width="600" />
             <ButtonData id="trailer-button" text="Play Trailer" AUDIO_GUIDE_SUFFIX="Play Trailer" iconSide="left" fontSize="35" padding="35" icon="pkg:/images/icons/play.png" height="75" width="600" />

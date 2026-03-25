@@ -524,3 +524,28 @@ end sub
 function isDialogOpen() as boolean
     return isValid(m.scene.dialog)
 end function
+
+'
+' Display delete Item dialog to user with OK and cancel buttons
+sub deleteItemConfirmationDialog(title as string, message, itemId)
+    dialog = createObject("roSGNode", "DeleteItemConfirmationDialog")
+    dlgPalette = createObject("roSGNode", "RSGPalette")
+    dlgPalette.colors = {
+        DialogBackgroundColor: chainLookupReturn(m.global.session, "user.settings.colorDialogBackground", ColorPalette.ELEMENTBACKGROUND),
+        DialogFocusColor: chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT),
+        DialogFocusItemColor: chainLookupReturn(m.global.session, "user.settings.colorDialogSelectedText", ColorPalette.WHITE),
+        DialogSecondaryTextColor: ColorPalette.RED,
+        DialogSecondaryItemColor: chainLookupReturn(m.global.session, "user.settings.colorDialogBorderLine", ColorPalette.LIGHTBLUE),
+        DialogTextColor: chainLookupReturn(m.global.session, "user.settings.colorDialogText", ColorPalette.WHITE)
+    }
+    dialog.palette = dlgPalette
+    dialog.observeField("buttonSelected", "dismissDialog")
+    dialog.title = title
+    dialog.contentData = message
+    dialog.itemID = message.itemID
+    dialog.buttons = [tr("OK"), tr("No, Cancel")]
+
+    m.top.contentData = message.itemID
+    m.scene.dialog = dialog
+end sub
+
