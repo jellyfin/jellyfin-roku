@@ -21,7 +21,7 @@ sub init()
     m.reader = createObject("roUrlTransfer")
     m.font = CreateObject("roSGNode", "Font")
     m.undesirableTags = CreateObject("roRegex", "{\\an\d*}|&lt;.*?&gt;|<(?!\/?font\b).*?>", "s")
-    m.fontColor = CreateObject("roRegex", "color\s*?[=]\s*?""?(\S*)""?\b", "i")
+    m.fontColor = CreateObject("roRegex", "color\s*=\s*(""[^""]*""|\'[^\']*\'|[^\s]+)", "i")
 
     ' Caption Style
     m.fontSizeDict = { "Default": 60, "Large": 60, "Extra Large": 70, "Medium": 50, "Small": 40, "Extra Small": 30 }
@@ -46,7 +46,7 @@ sub setFont()
     if fs.Exists("tmp:/font")
         m.font.uri = "tmp:/font"
     else
-        m.font = "font:LargeSystemFont"
+        m.font.uri = "font:LargeSystemFont"
     end if
 end sub
 
@@ -115,7 +115,7 @@ sub updateCaption()
             ' look for style tags
             drawingStyles = {
                 "default": {
-                    "fontUri": m.font,
+                    "fontUri": m.font.uri,
                     "fontSize": m.fontSize,
                     "color": m.textColor
                 }
@@ -146,7 +146,7 @@ sub updateCaption()
                     colorName = invalid
                     color = m.fontColor.Match(tagValue)
                     if color.Count() > 1
-                        color = color[1].Replace("""", string.EMPTY).Trim()
+                        color = color[1].Replace("'", string.EMPTY).Replace("""", string.EMPTY).Trim()
                         if color.StartsWith("#")
                             ' hex color code (must be 3 or 6 digits)
                             sanitizedColor = "#"
@@ -193,7 +193,7 @@ sub updateCaption()
                         end if
                         if isValid(colorName)
                             drawingStyles.AddReplace(colorName, {
-                                "fontUri": m.font,
+                                "fontUri": m.font.uri,
                                 "fontSize": m.fontSize,
                                 "color": `${color}${m.textOpac}`
                             })
