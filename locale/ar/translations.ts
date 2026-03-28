@@ -735,17 +735,17 @@
     </message>
     <message>
         <source>Use Splashscreen as Home Background</source>
-        <translation type="unfinished"></translation>
+        <translation>استخدم شاشة البداية كخلفية للصفحة الرئيسية</translation>
         <extracomment>Option Title in user setting screen</extracomment>
     </message>
     <message>
         <source>Use generated splashscreen image as Jellyfin&apos;s home background. Jellyfin will need to be closed and reopened for change to take effect.</source>
-        <translation type="unfinished"></translation>
+        <translation>استخدم الصورة المولّدة كخلفية للصفحة الرئيسية ل Jellyfin. Jellyfin يجب ان يغلق و يفتح مجددا لكي يتم تطبيق التغيير.</translation>
         <extracomment>Description for option in Setting Screen</extracomment>
     </message>
     <message>
         <source>Cinema Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>نمط السينما</translation>
         <extracomment>Settings Menu - Title for option</extracomment>
     </message>
     <message>
