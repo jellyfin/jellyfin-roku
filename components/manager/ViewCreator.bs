@@ -123,7 +123,6 @@ end sub
 ' onSelectSpeedPressed: Display audio selection dialog
 '
 sub onSelectSpeedPressed()
-
     speedData = {
         data: []
     }
@@ -232,7 +231,7 @@ sub onSelectionMade()
         return
     end if
 
-    if LCase(m.global.sceneManager.returnData.type) = "speedselection"
+    if isStringEqual(chainLookup(m.global.sceneManager, "returnData.type"), "speedselection")
         processSpeedSelection()
         return
     end if
@@ -263,7 +262,7 @@ end sub
 ' processSpeedSelection: Speed selection handler
 '
 sub processSpeedSelection()
-    selectedSpeed = m.global.sceneManager.returnData
+    selectedSpeed = chainLookupReturn(m.global.sceneManager, "returnData", { speed: 1 })
 
     m.global.sceneManager.currentSpeed = selectedSpeed.speed
     m.view.selectedSpeed = selectedSpeed.speed
