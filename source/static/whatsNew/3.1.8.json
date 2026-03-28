@@ -17,8 +17,8 @@
   },
   {
     "description": "Fix subtitle background opacity affecting text",
-    "author": "gabeluci"    
-  },  
+    "author": "gabeluci"
+  },
   {
     "description": "Prevent subtitles from getting too close to the top or bottom of the screen",
     "author": "gabeluci"
@@ -34,5 +34,9 @@
   {
     "description": "Support font color tags in subtitles",
     "author": "gabeluci"
+  },
+  {
+    "description": "Add setting to configure Live TV channel title and logo visibility",
+    "author": "michaelcresswell"
   }
 ]
