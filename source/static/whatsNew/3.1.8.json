@@ -32,6 +32,10 @@
     "author": "brianpardy"
   },
   {
+    "description": "Support font color tags in subtitles",
+    "author": "gabeluci"
+  },
+  {
     "description": "Add setting to configure Live TV channel title and logo visibility",
     "author": "michaelcresswell"
   }

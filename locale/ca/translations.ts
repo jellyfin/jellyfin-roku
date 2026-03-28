@@ -2282,5 +2282,9 @@
         <source>Attempt Direct Play Anamorphic Video</source>
         <translation>Intenta la reproducció directa de vídeos anamòrfics</translation>
     </message>
+    <message>
+        <source>Load Items Limit</source>
+        <translation>Limit de càrrega d&apos;elements</translation>
+    </message>
 </context>
 </TS>
