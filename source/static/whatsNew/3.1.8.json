@@ -38,5 +38,9 @@
   {
     "description": "Add setting to configure Live TV channel title and logo visibility",
     "author": "michaelcresswell"
+  },
+  {
+    "description": "Add playback speed controls to video player",
+    "author": "sah4001"
   }
 ]
