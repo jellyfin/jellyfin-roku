@@ -86,6 +86,7 @@
     <field id="nextItemIcon" type="string" />
     <field id="nextItemTitleText" type="string" />
     <field id="inactiveTimeout" type="integer" />
+    <field id="playbackSpeed" type="float" />
     <field id="progressPercentage" type="float" />
     <field id="positionTime" type="float" />
     <field id="videoEndingTime" type="string" />
