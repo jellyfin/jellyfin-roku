@@ -92,11 +92,21 @@
         "default": "false"
       },
       {
-        "title": "Custom Trickplay",
-        "description": "Display custom trickplay images even if this Roku says it's displaying its own. This may cause the two images to overlay on top of each other.",
-        "settingName": "playback.trickplay.forcecustom",
-        "type": "bool",
-        "default": "false"
+        "title": "Trickplay Display",
+        "description": "Select trickplay display format.",
+        "settingName": "playback.trickplay.displayTrickplayFormat",
+        "type": "radio",
+        "default": "five",
+        "options": [
+          {
+            "title": "Five trickplay images",
+            "id": "five"
+          },
+          {
+            "title": "Single trickplay image that moves",
+            "id": "single"
+          }
+        ]
       },
       {
         "title": "Force Transcoding",

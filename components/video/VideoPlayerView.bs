@@ -16,8 +16,16 @@ import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/misc.bs"
 
 const REPLAY_RETRIES = 3
+const BUFFERING_LOGO_RIGHT_PADDING = 30
 
 sub init()
+    m.top.enableUI = false
+
+    m.spinner = m.top.getScene().findNode("Spinner")
+    m.spinnerPercentLabel = m.top.findNode("spinnerPercent")
+    m.spinnerPercentTimer = m.top.findNode("spinnerPercentTimer")
+    m.spinnerPercentTimer.observeField("fire", "onPercentTick")
+
     m.top.observeField("availableAudioTracks", "onAvailableAudioTracksChanged")
 
     m.subtitleOffset = 0
@@ -53,10 +61,7 @@ sub init()
     m.PreloadTrickplayImagesTask.videoID = currentItem.id
 
     m.canUseFastReplace = false
-    m.positionTranslation = m.top.trickPlayBar.getChild(3)
     m.positionText = m.top.trickPlayBar.getChild(8)
-    m.top.trickplaybar.observeField("visible", "onTrickPlayBarVisibleChange")
-    m.positionText.observeField("text", "onTrickPlayBarTextChange")
 
     m.chapterList = m.top.findNode("chapterList")
     m.chapterMenu = m.top.findNode("chapterMenu")
@@ -67,8 +72,11 @@ sub init()
     m.osd = m.top.findNode("osd")
     m.osd.observeField("action", "onOSDAction")
     m.clock = m.osd.findNode("clock")
-    currentTimeTimer = m.clock.findNode("currentTimeTimer")
-    currentTimeTimer.observeField("fire", "setVideoEndingTime")
+
+    m.videocontrols = m.osd.findNode("videoControls")
+    m.optioncontrols = m.osd.findNode("optionControls")
+    m.progressBarBackground = m.osd.findNode("progressBarBackground")
+    m.progressBarGroup = m.osd.findNode("progressBarGroup")
 
     m.playbackTimer = m.top.findNode("playbackTimer")
     m.bufferCheckTimer = m.top.findNode("bufferCheckTimer")
@@ -94,8 +102,6 @@ sub init()
         clockNode = findNodeBySubtype(m.top, "clock")
         if clockNode[0] <> invalid then clockNode[0].parent.removeChild(clockNode[0].node)
     end if
-
-    m.videoEndingTime = m.top.findNode("videoEndingTime")
 
     m.subtitleSyncValue = m.top.findNode("subtitleSyncValue")
     m.subtitleSyncValue.font.size = 26
@@ -162,6 +168,35 @@ sub init()
     m.top.retrievingBar.filledBarBlendColor = ColorPalette.TRIADBLUE
     m.top.bufferingBar.filledBarBlendColor = ColorPalette.TRIADBLUE
     m.top.trickPlayBar.filledBarBlendColor = ColorPalette.TRIADBLUE
+
+    m.previewPos = 0 ' Track the seeking position in the video when the user starts seeking
+    m.seekSpeedIndex = 0 ' Index to track the current seek speed level
+    m.seekSpeeds = [-180, -60, -30, -10, 10, 30, 60, 180] ' seconds per press for the different seek speed levels
+
+    m.scrubber = m.osd.findNode("scrubber")
+    m.scrubberOldPosition = m.osd.findNode("scrubberOldPosition")
+
+    m.fastForwardRewindIcons = m.osd.findNode("fastForwardRewindIcons")
+    m.fastForwardOrRewindTimer = m.top.findNode("fastForwardOrRewindTimer")
+    m.fastForwardOrRewindTimer.observeField("fire", "onFastforwardOrRewindTick")
+
+    m.liveTvRewindLimitExceeded = m.osd.findNode("liveTVRewindLimitExceeded")
+
+    m.leftTenSecondSkipTimer = m.top.findNode("leftTenSecondSkipTimer")
+    m.leftTenSecondSkipTimer.observeField("fire", "onLeftTenSecondSkipTimerTick")
+    m.rightTenSecondSkipTimer = m.top.findNode("rightTenSecondSkipTimer")
+    m.rightTenSecondSkipTimer.observeField("fire", "onRightTenSecondSkipTimerTick")
+
+    m.bufferingVideoInfo = m.top.findNode("bufferingVideoInfo")
+    m.bufferingItemTitle = m.top.findNode("bufferingItemTitle")
+    m.bufferingItemSeason = m.top.findNode("bufferingItemSeason")
+    m.bufferingItemEpisode = m.top.findNode("bufferingItemEpisode")
+    m.bufferingItemEpisodeEnd = m.top.findNode("bufferingItemEpisodeEnd")
+    m.bufferingVideoInfo.visible = false
+
+    m.top.observeField("pauseBufferChanged", "onPauseBufferChangedChange")
+    startSpinnerWithPercent(0)
+    m.top.setFocus(true)
 end sub
 
 sub onAvailableAudioTracksChanged()
@@ -291,9 +326,17 @@ sub handleHideAction(resume as boolean)
     m.osd.hasFocus = false
     m.osd.setFocus(false)
     m.top.setFocus(true)
+    stopFastforwardOrRewind()
+    ' Always hide the custom trickplay image(s) when hiding the OSD
+    hideTrickPlayImages()
     if resume
         m.top.control = VideoControl.RESUME
     end if
+    ' Skip segment button could be visible but not have focus due to seeking, so hide and execute checkSegmentSkipButton
+    m.osd.isSeeking = false
+    hideSegmentSkipButton()
+    if not m.LoadMetaDataTask.isIntro and m.osd.isSeeking then checkSegmentSkipButton(m.top.position)
+    m.previewPos = m.top.position
 end sub
 
 ' handleChapterListAction: Handles action to show chapter list
@@ -440,6 +483,26 @@ sub onOSDAction()
 
     if action = "showsyncmenu"
         handleShowsyncmenuAction()
+        return
+    end if
+
+    if action = "stopfastforwardorrewind"
+        stopFastforwardOrRewind()
+        return
+    end if
+
+    if action = "handleseekkey"
+        handleSeekKey(m.osd.osdSeekKeyValue)
+        return
+    end if
+
+    if action = "checkskipsegmentbuttonvisible"
+        checkSkipSegmentButtonVisible()
+        return
+    end if
+
+    if action = "setskipsegmentbuttonfocus"
+        setSkipSegmentButtonFocus()
         return
     end if
 end sub
@@ -589,8 +652,6 @@ sub onVideoContentLoaded()
     videoContent = m.LoadMetaDataTask.content
     m.LoadMetaDataTask.content = []
 
-    stopLoadingSpinner()
-
     hidesyncmenuAction()
 
     ' If we have nothing to play, return to previous screen
@@ -628,6 +689,7 @@ sub onVideoContentLoaded()
     m.mediaSegments = videoContent[0].mediaSegments
 
     m.osd.itemTitleText = m.top.content.title
+    m.bufferingItemTitle.text = m.top.content.title
 
     m.trickplayDataFinal = invalid
     if isValidAndNotEmpty(m.trickplay)
@@ -649,28 +711,41 @@ sub onVideoContentLoaded()
         end if
     end if
 
-    ' If video is an episode, attempt to add season and episode numbers to OSD
+    ' If video is an episode, attempt to add season and episode numbers to OSD and the display of info during buffering
     if m.top.content.contenttype = 4
         if isValid(videoContent[0].seasonNumber)
             m.osd.seasonNumber = videoContent[0].seasonNumber
+            m.bufferingItemSeason.font.size = 32
+            m.bufferingItemSeason.text = `S${videoContent[0].seasonNumber}`
         end if
 
         if isValid(videoContent[0].episodeNumber)
             m.osd.episodeNumber = videoContent[0].episodeNumber
+            m.bufferingItemEpisode.font.size = 32
+            m.bufferingItemEpisode.text = `E${videoContent[0].episodeNumber}`
         end if
 
         if isValid(videoContent[0].episodeNumberEnd)
             m.osd.episodeNumberEnd = videoContent[0].episodeNumberEnd
+            m.bufferingItemEpisodeEnd.font.size = 32
+            m.bufferingItemEpisodeEnd.text = `-${videoContent[0].episodeNumberEnd}`
         end if
     end if
 
-    ' Attempt to add logo to OSD
+    ' Attempt to add logo to OSD and the display of info during buffering
     if isValidAndNotEmpty(videoContent[0].logoImage)
         m.osd.logoImage = videoContent[0].logoImage
+        bufferingLogoImage = createObject("roSGNode", "Poster")
+        bufferingLogoImage.Id = "bufferingLogoImage"
+        bufferingLogoImage.observeField("loadStatus", "onBufferingLogoLoadStatusChanged")
+        bufferingLogoImage.uri = videoContent[0].logoImage
+        bufferingLogoImage.translation = [103, 61]
+        m.top.appendChild(bufferingLogoImage)
 
         ' Don't show both the logo and the video title if this isn't an episode or trailer
         if m.top.content.contenttype <> 4 and videoContent[0].extraType <> "trailer"
             m.osd.itemTitleText = string.EMPTY
+            m.bufferingItemTitle.text = string.EMPTY
         end if
     end if
 
@@ -734,14 +809,71 @@ sub onVideoContentLoaded()
     end if
 
     m.top.setFocus(true)
+    m.osd.live = m.top.content.live
     m.top.control = VideoControl.PLAY
 end sub
 
+
+' onBufferingLogoLoadStatusChanged: Handler for changes to buffering logo image's status.
+'
+' @param {dynamic} event - field change event
+sub onBufferingLogoLoadStatusChanged(event)
+    if LCase(event.GetData()) = "ready"
+        bufferingLogoImage = event.getRoSGNode()
+        bufferingLogoImage.unobserveField("loadStatus")
+
+        ' Move video info to the right based on the logo width
+        m.bufferingVideoInfo.translation = `[${m.bufferingVideoInfo.translation[0] + bufferingLogoImage.bitmapWidth + BUFFERING_LOGO_RIGHT_PADDING}, ${m.bufferingVideoInfo.translation[1]}]`
+        m.bufferingItemTitle.maxWidth = m.bufferingItemTitle.maxWidth - (bufferingLogoImage.bitmapWidth + BUFFERING_LOGO_RIGHT_PADDING)
+    end if
+end sub
+
+' displayTrickplayImage: Handler for displaying trickplay images.
+'
+' @param {integer} trickPosition - the position in the video that corresponds to the trickplay image to be displayed, in seconds
 sub displayTrickplayImage(trickPosition as integer)
+    if m.global.session.user.settings["playback.trickplay.displayTrickplayFormat"] = "single"
+        displaySingleTrickplayImage(trickPosition, 0)
+    else
+        for i = -2 to 2
+            displaySingleTrickplayImage(trickPosition, i)
+        end for
+    end if
+end sub
+
+' displaySingleTrickplayImage: Handler for a single trickplay images, with the ability to be called based on a position for the trickplay image to appear.  Intended to be called only by the main trickplay image display handler.
+'
+' @param {integer} trickPosition - the position in the video that corresponds to the tri
+' @param {integer} whichImage - the trickplay image location slot to display this image.  0 is the middle slot, and is used both for when displaying only a single moving image and multiple.  Negative and positive are relative to the 0 slot and are used when displaying multiple trickplay images.
+sub displaySingleTrickplayImage(trickPosition as integer, whichImage as integer)
     if not isValid(m.trickplayDataFinal) then return
 
+    ' For the five image trickplay the center image is large, the other images are small.  These factors can be used to adjust the sizes.
+    largeTileSizeFactor = 1.2
+    smallTileSizeFactor = 0.7
+    tileBuffer = 15 ' Space between trickplay images when using the 5 tile trickplay image display
+
+    if whichImage = 0
+        if m.global.session.user.settings["playback.trickplay.displayTrickplayFormat"] = "single"
+            tileSizeFactor = 1.0
+        else
+            tileSizeFactor = largeTileSizeFactor
+        end if
+    else
+        tileSizeFactor = smallTileSizeFactor
+    end if
+
+    trickplayImage = m.top.findNode("trickplayImage" + str(whichImage))
+
+    delta = abs(m.seekSpeeds[m.seekSpeedIndex])
+    offsetTrickPosition = trickPosition + delta * whichImage
+    if offsetTrickPosition < 0 or offsetTrickPosition > m.osd.progressDuration
+        if isValid(trickplayImage) then trickplayImage.visible = false
+        return
+    end if
+
     ' Index of trickplay image that matches seek timestamp - out of all trickplay images
-    iconIndex = fix(trickPosition / m.iconInterval)
+    iconIndex = fix(offsetTrickPosition / m.iconInterval)
 
     ' Index of tileset that trickplay image is located in
     tileIndex = Fix(iconIndex / (m.trickplayDataFinal.TileHeight * m.trickplayDataFinal.TileWidth))
@@ -756,30 +888,28 @@ sub displayTrickplayImage(trickPosition as integer)
     iconColumn = tileIconIndex mod m.trickplayDataFinal.TileWidth
 
     ' Translation values for trickplay images
-    offsetHoriz = 100
-    offsetVert = 900 - m.trickplayDataFinal.Height
-
-    ' If we can get translation data for the trickplaybar's thumb icon, use it so the trickplay images can move left/right with seeking
-    if isValid(m.positionTranslation)
-        if m.positionTranslation.translation[0] = 0 then return
-        offsetHoriz = m.positionTranslation.translation[0] - 50
+    if m.global.session.user.settings["playback.trickplay.displayTrickplayFormat"] = "single"
+        previewPosPercentage = trickPosition / m.osd.progressDuration
+        offsetHoriz = m.progressBarGroup.translation[0] + m.progressBarBackground.width * previewPosPercentage - m.trickplayDataFinal.Width / 2
+    else
+        offsetHoriz = m.progressBarGroup.translation[0] + m.progressBarBackground.width / 2 - (m.trickplayDataFinal.Width * largeTileSizeFactor) / 2 + (tileBuffer + m.trickplayDataFinal.Width * smallTileSizeFactor) * whichImage + (whichImage < 1 ? 0 : m.trickplayDataFinal.Width * largeTileSizeFactor - m.trickplayDataFinal.Width * smallTileSizeFactor)
     end if
+    offsetVert = m.progressBarGroup.translation[1] - 25 - m.trickplayDataFinal.Height * tileSizeFactor
 
     if offsetHoriz < 0 then offsetHoriz = 0
-
-    trickplayImage = m.top.findNode("trickplayImage")
 
     ' Trickplayimage node doesn't exist, create it
     if not isValid(trickplayImage)
         newTrickplayImage = createObject("roSGNode", "Poster")
         newTrickplayImage.uri = `tmp:/${m.top.id}-${tileIndex}.jpg`
-        newTrickplayImage.id = `trickplayImage`
+        newTrickplayImage.id = `trickplayImage` + str(whichImage)
         newTrickplayImage.loadDisplayMode = "noScale"
-        newTrickplayImage.height = m.trickplayDataFinal.Height * m.trickplayDataFinal.TileHeight
-        newTrickplayImage.width = m.trickplayDataFinal.Width * m.trickplayDataFinal.TileWidth
-        newTrickplayImage.translation = `[${offsetHoriz - (iconColumn * m.trickplayDataFinal.Width)},  ${offsetVert - (iconRow * m.trickplayDataFinal.Height)}]`
-        newTrickplayImage.clippingRect = `[${iconColumn * m.trickplayDataFinal.Width}, ${iconRow * m.trickplayDataFinal.Height}, ${m.trickplayDataFinal.Width}, ${m.trickplayDataFinal.Height}]`
-        m.top.appendChild(newTrickplayImage)
+        newTrickplayImage.height = tileSizeFactor * m.trickplayDataFinal.Height * m.trickplayDataFinal.TileHeight
+        newTrickplayImage.width = tileSizeFactor * m.trickplayDataFinal.Width * m.trickplayDataFinal.TileWidth
+        newTrickplayImage.translation = `[${offsetHoriz - (iconColumn * m.trickplayDataFinal.Width * tileSizeFactor)},  ${offsetVert - (iconRow * m.trickplayDataFinal.Height * tileSizeFactor)}]`
+        newTrickplayImage.clippingRect = `[${iconColumn * m.trickplayDataFinal.Width * tileSizeFactor}, ${iconRow * m.trickplayDataFinal.Height * tileSizeFactor}, ${m.trickplayDataFinal.Width * tileSizeFactor}, ${m.trickplayDataFinal.Height * tileSizeFactor}]`
+        ' Insert trickplay image at top of OSD so video ending time node is visible over trickplay image
+        m.osd.insertChild(newTrickplayImage, 0)
         return
     end if
 
@@ -787,7 +917,7 @@ sub displayTrickplayImage(trickPosition as integer)
     ' Otherwise loading the next image will fail. 'cause Roku.
     if trickplayImage.uri <> `tmp:/${m.top.id}-${tileIndex}.jpg`
         if not m.canUseFastReplace
-            m.top.removeChild(trickplayImage)
+            m.osd.removeChild(trickplayImage)
             return
         end if
 
@@ -795,8 +925,26 @@ sub displayTrickplayImage(trickPosition as integer)
     end if
 
     ' Move clippingRect to next trickplay image within tileset - offsetting translation by an equal amount so it doesn't move
-    trickplayImage.translation = `[${offsetHoriz - (iconColumn * m.trickplayDataFinal.Width)},  ${offsetVert - (iconRow * m.trickplayDataFinal.Height)}]`
-    trickplayImage.clippingRect = `[${iconColumn * m.trickplayDataFinal.Width}, ${iconRow * m.trickplayDataFinal.Height}, ${m.trickplayDataFinal.Width}, ${m.trickplayDataFinal.Height}]`
+    trickplayImage.translation = `[${offsetHoriz - (iconColumn * m.trickplayDataFinal.Width * tileSizeFactor)},  ${offsetVert - (iconRow * m.trickplayDataFinal.Height * tileSizeFactor)}]`
+    trickplayImage.clippingRect = `[${iconColumn * m.trickplayDataFinal.Width * tileSizeFactor}, ${iconRow * m.trickplayDataFinal.Height * tileSizeFactor}, ${m.trickplayDataFinal.Width * tileSizeFactor}, ${m.trickplayDataFinal.Height * tileSizeFactor}]`
+    trickplayImage.visible = true
+
+end sub
+
+' hideTrickplayImages: ' Hide all trickplay images by setting visible = false for each
+'
+sub hideTrickplayImages()
+    if m.global.session.user.settings["playback.trickplay.displayTrickplayFormat"] = "single"
+        if isValidAndNotEmpty(m.top.findNode("trickplayImage" + str(0)))
+            m.top.findNode("trickplayImage" + str(0)).visible = false
+        end if
+    else
+        for i = -2 to 2
+            if isValidAndNotEmpty(m.top.findNode("trickplayImage" + str(i)))
+                m.top.findNode("trickplayImage" + str(i)).visible = false
+            end if
+        end for
+    end if
 end sub
 
 ' populateChapterMenu: ' Parse chapter data from API and appeand to chapter list menu
@@ -860,8 +1008,8 @@ sub displaySegmentSkipButton(segmentType as string, endticks as double)
         ' User doesn't want anything to happen for this media segment type
         if isStringEqual(userSetting, MediaSegmentAction.NONE) then return
 
-        ' User wants to auto-skip this media segment type
-        if isStringEqual(userSetting, MediaSegmentAction.SKIP)
+        ' User wants to auto-skip this media segment type.  Don't skip if we are in an active seek.
+        if isStringEqual(userSetting, MediaSegmentAction.SKIP) and not m.osd.isSeeking
             skipCurrentSegment()
             return
         end if
@@ -870,8 +1018,6 @@ sub displaySegmentSkipButton(segmentType as string, endticks as double)
     ' Check if button is already showing
     if isStringEqual(m.skipSegmentButton.text, tr(`Skip ${segmentType}`)) then return
 
-    if m.osd.visible then return ' Don't show if OSD is visible
-
     if isStringEqual(segmentType, MediaSegmentType.OUTRO)
         if m.nextupbuttonseconds = 0 then return ' is the button disabled?
         displayNextItem()
@@ -879,8 +1025,10 @@ sub displaySegmentSkipButton(segmentType as string, endticks as double)
 
     m.skipSegmentButton.visible = true
     m.skipSegmentButton.text = tr(`Skip ${segmentType}`)
-    m.skipSegmentButton.setFocus(true)
-    m.skipSegmentButton.focus = true
+    if not m.osd.isSeeking
+        m.skipSegmentButton.setFocus(true)
+        m.skipSegmentButton.focus = true
+    end if
 end sub
 
 sub hideNextItem()
@@ -932,12 +1080,15 @@ sub displayNextItem()
     m.nextUpInfoLoaded = true
 end sub
 
-sub checkSegmentSkipButton()
-    if not isValidAndNotEmpty(m.mediaSegments) then return
+' checkSegmentSkipButton: Handler for displaying skip buttons during media segments.
+'
+' @param {integer} position - the position to check if in in a media segment
 
+sub checkSegmentSkipButton(position as double)
+    if not isValidAndNotEmpty(m.mediaSegments) then return
     matchFound = false
 
-    currentPositionTicks = int(m.top.position) * 10000000&
+    currentPositionTicks = int(position) * 10000000&
     for i = 0 to m.mediaSegments.TotalRecordCount - 1
         mediaSegment = m.mediaSegments.items[i]
 
@@ -965,17 +1116,19 @@ end sub
 ' When Video Player state changes
 sub onPositionChanged()
     ' Pass video position data into OSD
-    if m.top.duration = 0
+    if m.osd.progressDuration = 0
         m.osd.progressPercentage = 0
     else
-        m.osd.progressPercentage = m.top.position / m.top.duration
+        m.osd.progressPercentage = m.top.position / m.osd.progressDuration
     end if
 
     ' Ensure position text is accurate
     m.positionText.text = secondsToHuman(m.top.position, true)
 
     m.osd.positionTime = m.top.position
-    m.osd.remainingPositionTime = m.top.duration - m.top.position
+    m.osd.remainingPositionTime = m.osd.progressDuration - m.top.position
+    m.osd.live = m.top.content.live
+    m.osd.progressDuration = m.top.duration
 
     ' Update the caption task playback position.
     ' The position is calculated in milliseconds based on the current
@@ -990,9 +1143,11 @@ sub onPositionChanged()
     if not isValid(m.dialog)
         ' Do not show Next Episode button for intro videos
         if not m.LoadMetaDataTask.isIntro
-            checkSegmentSkipButton()
+            checkSegmentSkipButton(m.top.position)
         end if
     end if
+    ' Only update live TV trackers if content is live, to avoid unnecessary calls
+    if m.top.content.live then updateLiveTvTrackers()
 end sub
 
 '
@@ -1076,6 +1231,8 @@ sub onState(msg)
         end if
 
         ' Check if next episode is available
+        m.osd.progressDuration = m.top.duration
+        resetSpinner()
         if isValid(m.top.showID)
             if m.top.showID <> string.EMPTY and not m.checkedForNextEpisode and m.top.content.contenttype = 4
                 m.getNextEpisodeTask.showID = m.top.showID
@@ -1087,10 +1244,18 @@ sub onState(msg)
         if m.playReported = false
             ReportPlayback("start")
             m.playReported = true
+            createOSDMediaSegmentMarkers()
         else
             ReportPlayback()
         end if
         m.playbackTimer.control = "start"
+        m.osd.isSeeking = false
+        ' If this is a LiveTV session and we haven't yet set the Live TV Start Time (to ignore rebuffering/retries) then set the Live TV Start Time
+        if m.top.content.live and m.osd.liveTvStartTime = 0
+            m.clock = m.osd.findNode("clock")
+            if not isValid(m.clock) then return
+            m.osd.liveTvStartTime = m.clock.callFunc("getCurrentTime")
+        end if
     else if isStringEqual(m.top.state, MediaPlaybackState.PAUSED)
         m.playbackTimer.control = "stop"
         ReportPlayback()
@@ -1107,26 +1272,6 @@ sub onState(msg)
     end if
 end sub
 
-sub onTrickPlayBarVisibleChange()
-    trickplayImage = m.top.findNode("trickplayImage")
-    if isValid(trickplayImage)
-        trickplayImage.visible = m.top.trickPlayBar.visible
-    end if
-
-    if not m.top.content.live
-        if isValid(m.videoEndingTime)
-            m.videoEndingTime.visible = m.top.trickPlayBar.visible
-        end if
-    end if
-
-    ' Don't show both the trickplay bar and the skip segment button at the same time
-    if m.top.trickPlayBar.visible
-        if m.skipSegmentButton.visible
-            hideSegmentSkipButton()
-        end if
-    end if
-end sub
-
 sub setVideoEndingTime(videoSeekPosition = 0 as integer)
     m.clock = m.osd.findNode("clock")
     if not isValid(m.clock) then return
@@ -1136,16 +1281,14 @@ sub setVideoEndingTime(videoSeekPosition = 0 as integer)
 
     currentTime = m.clock.callFunc("getCurrentTime")
     remainingTime = getremainingTime(videoSeekPosition)
+    videoEndingTime = m.clock.callFunc("getFormattedTime", (currentTime + remainingTime), false, false)
 
-    videoEndingTime = m.clock.callFunc("getFormattedTime", (currentTime + remainingTime), false)
-
-    m.videoEndingTime.text = videoEndingTime
     m.osd.videoEndingTime = videoEndingTime
 end sub
 
 function getRemainingTime(videoSeekPosition = 0 as integer)
     if not isChainValid(m.positionText, "text")
-        return m.top.duration - m.top.position
+        return m.osd.progressDuration - m.top.position
     end if
 
     seekTime = 0#
@@ -1172,52 +1315,8 @@ function getRemainingTime(videoSeekPosition = 0 as integer)
 
     seekTime = seekTime = 0 ? m.top.position : seekTime
 
-    return m.top.duration - seekTime
+    return m.osd.progressDuration - seekTime
 end function
-
-sub onTrickPlayBarTextChange()
-    if not m.top.trickPlayBar.visible then return
-
-    m.nextupbuttonseconds = m.global.session.user.settings["playback.nextupbuttonseconds"].ToInt()
-    m.currentSegmentType = invalid
-    m.mediaSegmentDismissed = {}
-
-    setVideoEndingTime(0)
-
-    ' If Roku has pulled thumbnailtiles from the video stream, use them instead
-    if not m.global.session.user.settings["playback.trickplay.forcecustom"]
-        if isValidAndNotEmpty(m.top.thumbnailTiles)
-            return
-        end if
-    end if
-
-    if not isValid(m.positionText)
-        displayTrickplayImage(m.top.position)
-        return
-    end if
-
-    seekTime = 0
-    seekPosition = m.positionText.text.split(":")
-
-    if seekPosition.count() = 3
-        ' hours -> seconds
-        seekTime += seekPosition[0].toint() * 3600
-        ' minutes -> seconds
-        seekTime += seekPosition[1].toint() * 60
-    end if
-
-    ' minutes -> seconds
-    if seekPosition.count() = 2
-        seekTime += seekPosition[0].toint() * 60
-    end if
-
-    ' add seconds
-    seekTime += seekPosition[seekPosition.count() - 1].toint()
-
-    seekTime = seekTime = 0 ? m.top.position : seekTime
-
-    displayTrickplayImage(seekTime)
-end sub
 
 '
 ' Report playback to server
@@ -1340,16 +1439,19 @@ end function
 sub skipCurrentSegment()
     seekPosition = m.currentSegmentEndTicks / 10000000#
 
-    if seekPosition > (m.top.duration - 2)
+    if seekPosition > (m.osd.progressDuration - 2)
         if m.global.queueManager.callFunc("getPosition") < m.global.queueManager.callFunc("getCount") - 1
             handleItemSkipAction("itemnext")
             return
         else
-            seekPosition = m.top.duration - 1
+            seekPosition = m.osd.progressDuration - 1
         end if
     end if
 
+    startSpinnerWithPercent(0)
     m.top.seek = seekPosition
+    m.osd.isSeeking = false
+    handleHideAction(false)
 end sub
 
 sub onProgramDetailsLoaded()
@@ -1377,9 +1479,26 @@ sub onProgramDetailsLoaded()
     m.overview = m.LoadProgramDetailsTask.programDetails.json.CurrentProgram.Overview
 end sub
 
-sub showOSD()
+' showOSD: Show the OSD and set focus to the appropriate element based on whichfocus parameter
+'
+' @param {string} whichfocus - indicates which element should be focused when showing the OSD. Accepts "videoControls" or "progressBar"
+sub showOSD(whichfocus as string)
     m.osd.visible = true
     m.osd.hasFocus = true
+    if whichfocus = "videoControls"
+        m.osd.previewPos = m.osd.isSeeking ? m.previewPos : m.top.position
+        m.scrubber.visible = false
+        m.videocontrols.setFocus(true)
+    else if whichfocus = "progressBar"
+        m.scrubber.visible = true
+        m.progressBarGroup.setFocus(true)
+        m.videoControls.setFocus(false)
+        m.videoControls.getChild(m.osd.defaultButtonIndex).focus = false
+        m.top.control = VideoControl.PAUSE
+    end if
+    m.skipSegmentButton.setFocus(false)
+    m.skipSegmentButton.focus = false
+    m.scrubberOldPosition.visible = true
     m.osd.setFocus(true)
 end sub
 
@@ -1532,99 +1651,138 @@ function onKeyEvent(key as string, press as boolean) as boolean
             return true
         end if
 
-        if key = KeyCode.PLAY
+        if key = KeyCode.PLAY and not m.osd.Seeking
             handleVideoPlayPauseAction()
         end if
 
         return true
     end if
 
-    if m.skipSegmentButton.hasfocus() and not m.top.trickPlayBar.visible
-        if not press then return false
 
+    if not press
+        ' Look for the key release event.  If it's the left or right key then reset the ten second skip timers
+        if key = KeyCode.Left or key = KeyCode.RIGHT then resetTenSecondSkipTimers()
+        return false
+    end if
+
+    ' Handle press and navigation from the skip segment button.  If the OSD is visible then the skip segment button acts as part of the OSD navigation.
+    if m.skipSegmentButton.focus
+        ' If user clicks OK while focused on skip segment button, skip the segment
         if key = KeyCode.OK
             skipCurrentSegment()
             hideSegmentSkipButton()
             return true
+            ' Specialized handling of moving into the OSD videocontrols from the skip segment button so that the right most video control button is focused.
+        else if key = KeyCode.LEFT and m.osd.visible
+            m.skipSegmentButton.setFocus(false)
+            m.skipSegmentButton.focus = false
+            m.top.setFocus(false)
+            m.osd.setFocus(true)
+            m.videoControls.setFocus(true)
+            focusedButton = m.videoControls.getChild(m.videocontrols.getChildCount() - 1)
+            focusedButton.focus = true
+            m.osd.callFunc("checkDisplaySiblingItem", focusedButton.id)
+            return true
+            ' Move to the progress bar of the OSD
+        else if key = KeyCode.UP and m.osd.visible
+            m.skipSegmentButton.setFocus(false)
+            m.skipSegmentButton.focus = false
+            m.osd.callFunc("setOsdStatus", "progressBarGroup")
+            return true
+            ' When the OSD is visible down or right from the skip segment button do nothing.
+        else if (key = KeyCode.DOWN or key = KeyCode.RIGHT) and m.osd.visible
+            return true
         end if
     end if
 
-    if not press then return false
-
-    if key = KeyCode.DOWN and not m.top.trickPlayBar.visible
+    ' Handle keypresses for video seeking
+    if key = KeyCode.RIGHT or key = KeyCode.LEFT or key = KeyCode.FASTFORWRD or key = KeyCode.REWIND or (m.osd.isSeeking and (key = Keycode.BACK or key = Keycode.OK or key = Keycode.PLAY))
         if not m.LoadMetaDataTask.isIntro
             ' Don't allow user to open menu prior to video loading
             if not stateAllowsOSD() then return true
-
-            setSiblingData()
-            if m.skipSegmentButton.visible
-                hideSegmentSkipButton()
+            if not m.osd.visible
+                showOSD("progressBar")
+            else
+                m.osd.callFunc("setOsdStatus", "progressBarGroup")
             end if
-            refreshLiveOSDContent()
-            showOSD()
-            return true
+            handleSeekKey(key)
         end if
-
-    else if key = KeyCode.UP and not m.top.trickPlayBar.visible
-        if not m.LoadMetaDataTask.isIntro
-            ' Don't allow user to open menu prior to video loading
-            if not stateAllowsOSD() then return true
-
-            setSiblingData()
-            if m.skipSegmentButton.visible
-                hideSegmentSkipButton()
-            end if
-            refreshLiveOSDContent()
-            showOSD()
-            return true
-        end if
-
-    else if key = KeyCode.OK and not m.top.trickPlayBar.visible
-        if not m.LoadMetaDataTask.isIntro
-            ' Don't allow user to open menu prior to video loading
-            if not stateAllowsOSD() then return true
-
-            ' Show OSD, but don't pause video
-            setSiblingData()
-            if m.skipSegmentButton.visible
-                hideSegmentSkipButton()
-            end if
-            refreshLiveOSDContent()
-            showOSD()
-            return true
-        end if
-
-        return false
+        return true
     end if
 
-    ' Disable OSD for intro videos
-    if not m.LoadMetaDataTask.isIntro
-        if key = KeyCode.PLAY and not m.top.trickPlayBar.visible
+    ' Skip back 10 seconds on replay key press, but only if not currently seeking as it would interfere with seek controls
+    if key = KeyCode.REPLAY
+        if not m.osd.isSeeking
+            m.top.seek = m.top.position - 10
+        end if
+        return true
+    end if
 
-            ' Don't allow user to open menu prior to video loading
-            if not stateAllowsOSD() then return true
+    ' Handle remaining keypresses for when we are not currently seeking.
+    if not m.osd.isSeeking
+        if key = KeyCode.DOWN or key = KeyCode.UP
+            if not m.LoadMetaDataTask.isIntro
+                ' Don't allow user to open menu prior to video loading
+                if not stateAllowsOSD() then return true
 
-            ' If video is paused, resume it and don't show OSD
-            if m.top.state = "paused"
-                m.top.control = VideoControl.RESUME
+                setSiblingData()
+                refreshLiveOSDContent()
+                showOSD("videoControls")
                 return true
             end if
 
-            ' Pause video and show OSD
-            m.top.control = VideoControl.PAUSE
-            setSiblingData()
-            if m.skipSegmentButton.visible
-                hideSegmentSkipButton()
+        else if key = KeyCode.OK
+            if not m.LoadMetaDataTask.isIntro
+                ' Don't allow user to open menu prior to video loading
+                if not stateAllowsOSD() then return true
+
+                ' Show OSD, but don't pause video
+                setSiblingData()
+                if m.skipSegmentButton.visible
+                    hideSegmentSkipButton()
+                end if
+                refreshLiveOSDContent()
+                showOSD("videoControls")
+                return true
             end if
-            refreshLiveOSDContent()
-            showOSD()
-            return true
+
+            return false
+        end if
+
+        ' Disable OSD for intro videos
+        if not m.LoadMetaDataTask.isIntro
+            if key = KeyCode.PLAY
+
+                ' Don't allow user to open menu prior to video loading
+                if not stateAllowsOSD() then return true
+
+                ' If video is paused, resume it and don't show OSD
+                if m.top.state = "paused"
+                    m.top.control = VideoControl.RESUME
+                    return true
+                end if
+
+                ' Pause video and show OSD
+                m.top.control = VideoControl.PAUSE
+                setSiblingData()
+                if m.skipSegmentButton.visible
+                    hideSegmentSkipButton()
+                end if
+                refreshLiveOSDContent()
+                showOSD("videoControls")
+                return true
+            end if
         end if
     end if
 
-    if key = KeyCode.BACK
-        ' If user presses back when any segment skip button is showing, hide button and disable it so it doesn't show again
-        if m.skipSegmentButton.visible
+    if key = KeyCode.BACK and m.osd.visible
+        handleHideAction(true)
+        return true
+    end if
+
+    if key = KeyCode.BACK and not m.osd.isSeeking
+        ' If user presses back when any segment skip button is showing and the OSD is hidden, then hide button and disable it so it doesn't show again
+        if m.skipSegmentButton.visible and not m.osd.visible
             if isValid(m.currentSegmentType)
                 m.mediaSegmentDismissed[m.currentSegmentType] = true
             end if
@@ -1635,9 +1793,6 @@ function onKeyEvent(key as string, press as boolean) as boolean
         m.PreloadTrickplayImagesTask.method = "REMOVE"
         m.PreloadTrickplayImagesTask.control = TaskControl.RUN
 
-        currentTimeTimer = m.clock.findNode("currentTimeTimer")
-        if isValid(currentTimeTimer) then currentTimeTimer.control = TimerControl.STOP
-
         m.global.queueManager.callFunc("bypassNextPreferredAudioTrackIndexReset")
         m.global.queueManager.callFunc("clear")
         m.top.control = VideoControl.STOP
@@ -1645,3 +1800,362 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
     return false
 end function
+
+' createOSDMediaSegmentMarkers: Creates markers on the OSD progress bar for media segments such as intros, outros, and credits. Markers are created based on the StartTicks and EndTicks of each media segment and are displayed as semi-transparent rectangles overlaid on the progress bar.
+'
+sub createOSDMediaSegmentMarkers()
+    ' --- Clear any existing markers ---
+    childCount = m.progressBarBackground.getChildCount()
+    if childCount > 2
+        m.progressBarBackground.removeChildrenIndex((childCount - 2), 2)
+    end if
+
+    if not isValidAndNotEmpty(m.mediaSegments) then return
+
+    osdBarWidth = 0
+    if m.progressBarBackground <> invalid and m.progressBarBackground.width <> invalid
+        osdBarWidth = m.progressbarBackground.width
+    else
+        osdBarWidth = m.adMarkers.width
+    end if
+
+    if osdBarWidth <= 0 then osdBarWidth = 1280
+
+    for i = 0 to m.mediaSegments.TotalRecordCount - 1
+        startSegmentPos = cint(m.mediaSegments.items[i].StartTicks / 10000000)
+        endSegmentPos = cint(m.mediaSegments.items[i].EndTicks / 10000000)
+        osdMarkerStartPos = (startSegmentPos / m.osd.progressDuration) * osdBarWidth
+        osdMarkerWidth = ((endSegmentPos / m.osd.progressDuration) * osdBarWidth) - osdMarkerStartPos
+        osdMarker = CreateObject("roSGNode", "Rectangle")
+        osdMarker.id = "MediaSegment"
+        osdMarker.width = osdMarkerWidth
+        osdMarker.height = m.progressBarBackground.height
+        osdMarker.color = ColorPalette.WHITE
+        osdMarker.opacity = 0.5
+        osdMarker.translation = [osdMarkerStartPos, 0]
+        m.progressBarBackground.appendChild(osdMarker)
+    end for
+end sub
+
+' handleSeekKey: High level handler for processing key events related to seeking within the video.
+'
+' @param {string} key - the key that was pressed
+sub handleSeekKey(key as string)
+    if not m.osd.isSeeking
+        ' If seeking hasn't started then OK or Play should just hide the OSD, otherwise begin seek mode
+        if key = KeyCode.OK or key = KeyCode.PLAY
+            handleHideAction(false)
+        else
+            startSeek(key)
+        end if
+    else
+        processSeek(key)
+    end if
+end sub
+
+' startSeek: Initializes variables and UI state for when the user starts seeking within the video.
+'
+' @param {string} key - the key that was pressed
+sub startSeek(key as string)
+    m.osd.isSeeking = true
+    m.previewPos = m.top.position
+
+    if key = KeyCode.LEFT or key = KeyCode.RIGHT or key = KeyCode.FASTFORWRD or key = KeyCode.REWIND
+        checkPause()
+    end if
+
+    ' Set seek speed index based on initial key press
+    if key = KeyCode.REWIND or key = KeyCode.LEFT
+        m.seekSpeedIndex = (m.seekSpeeds.count() / 2) - 1
+    else
+        m.seekSpeedIndex = (m.seekSpeeds.count() / 2)
+    end if
+
+    m.skipSegmentButton.setFocus(false)
+    m.skipSegmentButton.focus = false
+    updateDisplayForSeek(key)
+end sub
+
+' processSeek: Processes the user's seek command for a seek that in already in progress.
+'
+' @param {string} key - the key that was pressed
+sub processSeek(key as string)
+    if key = KeyCode.LEFT or key = KeyCode.RIGHT
+        checkPause()
+        ' Reset to normal speed on left/right press
+        if key = KeyCode.RIGHT
+            m.seekSpeedIndex = (m.seekSpeeds.count() / 2)
+        else if key = KeyCode.LEFT
+            m.seekSpeedIndex = (m.seekSpeeds.count() / 2) - 1
+        end if
+
+        ' Hide all FF/Rewind icons
+        stopFastforwardOrRewind()
+        updateDisplayForSeek(key)
+    else if key = KeyCode.FASTFORWRD
+        checkPause()
+        ' If we were rewinding or not currently fastforwarding or rewinding, then set the first level of fast forward.
+        if m.seekSpeedIndex < ((m.seekSpeeds.count() / 2) - 1) or m.fastForwardOrRewindTimer.control = "stop"
+            m.seekSpeedIndex = (m.seekSpeeds.count() / 2)
+            ' If we are already fast forwarding, then increase the speed, but cap it at the maximum defined speed.
+        else if m.seekSpeedIndex < m.seekSpeeds.count() - 1
+            m.seekSpeedIndex++
+        end if
+        ' Clear Rewind icons
+        for count = 0 to (m.seekSpeeds.count() / 2) - 1
+            m.fastForwardRewindIcons.getChild(count).visible = false
+        end for
+        updateDisplayForSeek(key)
+    else if key = KeyCode.REWIND
+        checkPause()
+        ' If we were fast forwarding or not currently fastforwarding or rewinding, then set the first level of rewind.
+        if m.seekSpeedIndex > ((m.seekSpeeds.count() / 2) - 1) or m.fastForwardOrRewindTimer.control = "stop"
+            m.seekSpeedIndex = (m.seekSpeeds.count() / 2) - 1
+            ' If we are already rewinding, then increase the speed, but cap it at the maximum defined speed.
+        else if m.seekSpeedIndex > 0
+            m.seekSpeedIndex--
+        end if
+        ' Clear FF icons
+        for count = (m.seekSpeeds.count() / 2) to m.seekSpeeds.count() - 1
+            m.fastForwardRewindIcons.getChild(count).visible = false
+        end for
+        updateDisplayForSeek(key)
+    else if key = KeyCode.OK or key = KeyCode.PLAY
+        commitSeek()
+        ' If user presses down while seeking, move focus to the skip segment button if it's visible
+    else if key = KeyCode.DOWN and m.skipSegmentButton.visible
+        stopFastforwardOrRewind()
+        m.skipSegmentButton.setFocus(true)
+        m.skipSegmentButton.focus = true
+        m.scrubber.visible = false
+        ' If user presses up while seeking, move focus to the progress bar if the skip segment button is visible
+    else if key = KeyCode.UP and m.skipSegmentButton.visible
+        stopFastforwardOrRewind()
+        m.skipSegmentButton.setFocus(false)
+        m.skipSegmentButton.focus = false
+        m.top.setFocus(true)
+        m.scrubber.visible = true
+        ' If user presses up or down while seeking and the skip segment button is not visible, just stop fast forward or rewind so they can navigate the OSD menu with normal speed
+    else if key = KeyCode.UP or key = KeyCode.DOWN
+        stopFastforwardOrRewind()
+        ' If user presses back while seeking, exit seek mode and return to normal playback
+    else if key = KeyCode.BACK
+        m.osd.isSeeking = false
+        stopFastforwardOrRewind()
+        hideTrickplayImages()
+        handleHideAction(false)
+        m.top.control = VideoControl.RESUME
+    end if
+end sub
+
+' updateDisplayForSeek: Updates the OSD display to reflect the current seek position and speed.
+'
+' @param {string} key - the key that was pressed
+sub updateDisplayForSeek(key as string)
+    ' Show the appropriate number of fast forward or rewind icons based on the current seek speed
+    if key = KeyCode.FASTFORWRD or key = KeyCode.REWIND
+        m.fastForwardRewindIcons.getChild(m.seekSpeedIndex).visible = true
+    end if
+    ' Define the delta for the seek based on the current seek speed index
+    delta = m.seekSpeeds[m.seekSpeedIndex]
+    m.previewPos = m.osd.callFunc("clampSeek", m.previewPos + delta)
+    if m.top.content.live then updateLiveTvTrackers()
+    m.osd.callFunc("updateProgressBar", m.top.content.live, m.previewPos)
+
+    if not m.top.content.live
+        displayTrickplayImage(m.previewPos)
+        setVideoEndingTime(m.previewPos)
+    end if
+    ' If the user has pressed fastforward or rewind, then start the fastforward/rewind timer which will continue to update the preview position until the user presses another key to change the seek speed or direction
+    if key = KeyCode.FASTFORWRD or key = KeyCode.REWIND
+        m.fastForwardOrRewindTimer.control = "stop"
+        m.fastForwardOrRewindTimer.control = "start"
+        ' If the user has pressed left or right, then we want to stop fastforward/rewind and just update the preview position once.  Start the ten second skip timer to see if they continue to hod down the left or right key.
+    else if key = KeyCode.LEFT or key = KeyCode.RIGHT
+        stopFastforwardOrRewind()
+        if key = KeyCode.LEFT
+            m.leftTenSecondSkipTimer.control = "start"
+        else if key = KeyCode.RIGHT
+            m.rightTenSecondSkipTimer.control = "start"
+        end if
+    end if
+    if not m.LoadMetaDataTask.isIntro then checkSegmentSkipButton(m.previewPos)
+end sub
+
+' commitSeek: Finalizes the seek operation by setting the video to the new position and resuming playback.
+'
+sub commitSeek()
+    if m.osd.isSeeking
+        stopFastforwardOrRewind()
+        hideTrickplayImages()
+        setVideoEndingTime(m.previewPos)
+        m.top.seek = m.previewPos
+        m.top.control = VideoControl.RESUME
+        m.liveTVRewindLimitExceeded.visible = false
+        handleHideAction(false)
+    end if
+end sub
+
+' checkPause: Checks if the rewind limit for live TV has been exceeded and if so, pauses the video.
+'
+sub checkPause()
+    if not m.liveTVRewindLimitExceeded.visible
+        m.top.control = VideoControl.PAUSE
+    end if
+end sub
+
+' stopFastforwardOrRewind: Stops the fast-forward or rewind operation and removes the fast-forward/rewind icons.
+'
+sub stopFastforwardOrRewind()
+    for count = 0 to m.seekSpeeds.count() - 1
+        m.fastForwardRewindIcons.getChild(count).visible = false
+    end for
+    m.fastForwardOrRewindTimer.control = "stop"
+end sub
+
+' onFastforwardOrRewindTick: Updates the preview position and OSD display for each tick of the fast-forward or rewind timer, and checks if the user has reached the limits of seeking for live TV or the beginning/end of the video.
+'
+sub onFastforwardOrRewindTick()
+    delta = m.seekSpeeds[m.seekSpeedIndex]
+    m.previewPos = m.osd.callFunc("clampSeek", m.previewPos + delta)
+    m.osd.callFunc("updateProgressBar", m.top.content.live, m.previewPos)
+    setVideoEndingTime(m.previewPos)
+    displayTrickplayImage(m.previewPos)
+    if not m.LoadMetaDataTask.isIntro
+        checkSegmentSkipButton(m.previewPos)
+    end if
+    '  Look for the beginning or end of the video and handle it by stopping fast forward or rewind.
+    if (m.previewPos >= m.osd.progressDuration - 5) or (m.previewPos <= 5) or (m.top.content.live and (m.previewPos <= (m.top.pauseBufferEnd - m.osd.liveTvRewindLimit)))
+
+        ' If this is live TV and the user has exceeded the rewind limit, then show the rewind limit message
+        if m.top.content.live and (m.previewPos <= (m.top.pauseBufferEnd - m.osd.liveTvRewindLimit))
+            m.scrubberOldPosition.visible = true
+            m.liveTVRewindLimitExceeded.visible = true
+        else
+            m.liveTVRewindLimitExceeded.visible = false
+        end if
+        stopFastforwardOrRewind()
+        m.top.seek = m.previewPos
+        m.top.control = VideoControl.RESUME
+    end if
+
+end sub
+
+' resetSpinner: Resets the buffering spinner and hides it from view.
+'
+sub resetSpinner()
+    m.bufferingVideoInfo.visible = false
+    bufferingLogoImage = m.top.findNode("bufferingLogoImage")
+    if isValid(bufferingLogoImage) then bufferingLogoImage.visible = false
+    m.spinnerPercentTimer.control = "stop"
+    m.spinnerPercentLabel.visible = false
+    stopLoadingSpinner()
+end sub
+
+' onPercentTick: Updates the buffering spinner percentage based on the current buffering status of the video.
+'
+sub onPercentTick()
+    if m.top.bufferingStatus <> invalid
+        m.spinnerPercent = m.top.bufferingStatus["percentage"]
+    end if
+    setSpinnerPercent(m.spinnerPercent)
+end sub
+
+' startSpinnerWithPercent: Starts the buffering spinner and displays the current buffering percentage to the user.
+'
+sub startSpinnerWithPercent(percentVal = 0 as integer)
+    m.bufferingVideoInfo.visible = true
+    bufferingLogoImage = m.top.findNode("bufferingLogoImage")
+    if isValid(bufferingLogoImage) then bufferingLogoImage.visible = true
+    setSpinnerPercent(percentVal)
+    m.spinnerPercentLabel.translation = [m.spinner.translation[0] + m.spinner.poster.bitmapWidth / 2 - m.spinnerPercentLabel.width / 2, m.spinner.translation[1] + m.spinner.poster.bitmapHeight / 2 - m.spinnerPercentLabel.height / 2]
+    m.spinnerPercentLabel.visible = true
+    startLoadingSpinner(true)
+    m.spinner.visible = true
+end sub
+
+' setSpinnerPercent: Updates the text label that displays the current buffering percentage on the buffering spinner.
+'
+' @param {integer} percent - the key that was pressed
+sub setSpinnerPercent(percent as integer)
+    m.spinnerPercentTimer.control = "stop"
+    m.spinnerPercent = percent
+    if isValid(m.spinnerPercentLabel)
+        m.spinnerPercentLabel.text = ""
+        m.spinnerPercentLabel.visible = false
+        m.spinnerPercentLabel.text = str(int(m.spinnerPercent)) + "%"
+        m.spinnerPercentLabel.visible = true
+    end if
+    m.spinnerPercentTimer.control = "start"
+end sub
+
+' onLeftTenSecondSkipTimerTick: Updates the OSD display for a 10 second skip in the left direction, and resets the timer duration to allow for faster repeated skips if the user continues to hold the left key.
+'
+sub onLeftTenSecondSkipTimerTick()
+    m.leftTenSecondSkipTimer.duration = "0.125"
+    updateDisplayForSeek(KeyCode.LEFT)
+end sub
+
+' onRightTenSecondSkipTimerTick: Updates the OSD display for a 10 second skip in the right direction, and resets the timer duration to allow for faster repeated skips if the user continues to hold the right key.
+'
+sub onRightTenSecondSkipTimerTick()
+    m.rightTenSecondSkipTimer.duration = "0.125"
+    updateDisplayForSeek(KeyCode.RIGHT)
+end sub
+
+' resetTenSecondSkipTimers: Resets the timers for 10 second skips in both directions.
+'
+sub resetTenSecondSkipTimers()
+    m.leftTenSecondSkipTimer.control = "stop"
+    m.rightTenSecondSkipTimer.control = "stop"
+    m.leftTenSecondSkipTimer.duration = "0.5"
+    m.rightTenSecondSkipTimer.duration = "0.5"
+end sub
+
+' onPauseBufferChangedChange: Updates the OSD trackers for live TV when the pause buffer changes.
+'
+sub onPauseBufferChangedChange()
+    updateLiveTvTrackers()
+    m.previewPos = m.osd.isSeeking ? m.previewPos : m.top.position
+    m.previewPos = m.osd.callFunc("clampSeek", m.previewPos)
+    m.osd.callFunc("updateProgressBar", m.top.content.live, m.previewPos)
+end sub
+
+' updateLiveTvTrackers: Updates the OSD trackers for live TV based on the current pause buffer end and position.
+'
+sub updateLiveTvTrackers()
+    m.osd.progressDuration = m.top.pauseBufferEnd
+    m.osd.positionTime = m.top.position
+    m.osd.previewPos = m.osd.isSeeking ? m.previewPos : m.top.position
+    if m.top.pauseBufferEnd > m.osd.liveTvRewindLimit
+        m.osd.liveTvStartOffset = m.top.pauseBufferEnd - m.osd.liveTvRewindLimit
+    else
+        m.osd.liveTvStartOffset = 0
+    end if
+    ' Check if the current paused position or rewind is outside of the allowed rewind window, and if so, move it to the edge of the window and resume playback
+    if (m.osd.positionTime < (m.top.pauseBufferEnd - m.osd.liveTvRewindLimit)) and m.top.state = "paused"
+        if not m.LoadMetaDataTask.isIntro and stateAllowsOSD() and not m.osd.visible
+            showOSD("videoControls")
+        end if
+        m.scrubberOldPosition.visible = true
+        m.liveTVRewindLimitExceeded.visible = true
+        stopFastforwardOrRewind()
+        m.top.control = VideoControl.RESUME
+    end if
+
+end sub
+
+' checkSkipSegmentButtonVisible: Passes the boolean visibility value of the skip segment button to the OSD.
+'
+sub checkSkipSegmentButtonVisible()
+    m.osd.skipSegmentButtonVisible = m.skipSegmentButton.visible
+end sub
+
+'   setSkipSegmentButtonFocus: Sets focus to the skip segment button if it is currently visible.
+'
+sub setSkipSegmentButtonFocus()
+    if m.skipSegmentButton.visible
+        m.skipSegmentButton.setFocus(true)
+        m.skipSegmentButton.focus = true
+    end if
+end sub
