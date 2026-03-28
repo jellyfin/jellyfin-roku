@@ -421,7 +421,7 @@
     </message>
     <message>
         <source>Go directly to the episode list if a TV series has only one season.</source>
-        <translation type="unfinished">Go directly to the episode list if a TV series has only one season.</translation>
+        <translation>If enabled, selecting a TV series with only one season will go straight to the episode list rather than the show details and season list.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
@@ -807,7 +807,7 @@
     </message>
     <message>
         <source>Set how many seconds before the end of an episode the Next Episode button should appear. Set to 0 to disable.</source>
-        <translation type="unfinished">Set how many seconds before the end of an episode the Next Episode button should appear. Set to 0 to disable.</translation>
+        <translation>If no Outro media segment exists, set how many seconds before the end of an episode the Skip Outro button should appear. Set to 0 to disable.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
@@ -1117,7 +1117,7 @@
     </message>
     <message>
         <source>Remember the currently logged in user and try to log them in again next time you start the Jellyfin app.</source>
-        <translation type="unfinished">Remember the currently logged in user and try to log them in again next time you start the Jellyfin app.</translation>
+        <translation>Remember the currently logged in user and try to log them in again next time you start Jellyfin.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
@@ -1381,6 +1381,262 @@
     <message>
         <source>Playback Options</source>
         <translation>Playback Options</translation>
+    </message>
+    <message>
+        <source>Force Transcoding setting is enabled</source>
+        <translation>Force Transcoding setting is enabled</translation>
+    </message>
+    <message>
+        <source>Force Transcode option is enabled</source>
+        <translation>Force Transcode option is enabled</translation>
+    </message>
+    <message>
+        <source>All</source>
+        <translation>All</translation>
+    </message>
+    <message>
+        <source>(Favorites)</source>
+        <translation>(Favourites)</translation>
+    </message>
+    <message>
+        <source>Favorites</source>
+        <translation>Favourites</translation>
+    </message>
+    <message>
+        <source>Artists</source>
+        <translation>Artists</translation>
+    </message>
+    <message>
+        <source>Delete Playlist</source>
+        <translation>Delete Playlist</translation>
+    </message>
+    <message>
+        <source>Collections</source>
+        <translation>Collections</translation>
+    </message>
+    <message>
+        <source>Playlists</source>
+        <translation>Playlists</translation>
+    </message>
+    <message>
+        <source>No items found. Try adjusting your selected filters.</source>
+        <translation>No items found. Try adjusting your selected filters.</translation>
+    </message>
+    <message>
+        <source>Set the maximum amount of days a show should stay in the &apos;Next Up&apos; list without watching it. Maximum value is 1000 days.</source>
+        <translation>Set the maximum amount of days a show should stay in the &apos;Next Up&apos; list without watching it. Maximum value is 1000 days.</translation>
+    </message>
+    <message>
+        <source>Grid View Item Titles</source>
+        <translation>Grid View Item Titles</translation>
+    </message>
+    <message>
+        <source>Select when to show titles in grid view.</source>
+        <translation>Select when to show titles in grid view.</translation>
+    </message>
+    <message>
+        <source>The number of episodes that will play automatically after the selected episode. Requires &apos;Play next episode automatically&apos; server setting to be enabled.</source>
+        <translation>The number of episodes that will play automatically after the selected episode. Requires &apos;Play next episode automatically&apos; server setting to be enabled.</translation>
+    </message>
+    <message>
+        <source>Video Codec Support</source>
+        <translation>Video Codec Support</translation>
+    </message>
+    <message>
+        <source>Enable or disable Direct Play support for certain codecs.</source>
+        <translation>Enable or disable Direct Play support for certain codecs.</translation>
+    </message>
+    <message>
+        <source>Video Profile Level Support</source>
+        <translation>Video Profile Level Support</translation>
+    </message>
+    <message>
+        <source>Attempt Direct Play of potentially unsupported profile levels</source>
+        <translation>Attempt Direct Play of potentially unsupported profile levels</translation>
+    </message>
+    <message>
+        <source>Maximum Audio Channels</source>
+        <translation>Maximum Audio Channels</translation>
+    </message>
+    <message>
+        <source>Configure the maximum audio channels when playing video files on this device.</source>
+        <translation>Configure the maximum audio channels when playing video files on this device.</translation>
+    </message>
+    <message>
+        <source>Off - Attempt to play all channels</source>
+        <translation>Off - Attempt to play all channels</translation>
+    </message>
+    <message>
+        <source>Custom Trickplay</source>
+        <translation>Custom Trickplay</translation>
+    </message>
+    <message>
+        <source>Display custom trickplay images even if this Roku says it&apos;s displaying its own. This may cause the two images to overlay on top of each other.</source>
+        <translation>Display custom trickplay images even if this Roku says it&apos;s displaying its own. This may cause the two images to overlay on top of each other.</translation>
+    </message>
+    <message>
+        <source>Force Transcoding</source>
+        <translation>Force Transcoding</translation>
+    </message>
+    <message>
+        <source>Force all playable media to be transcoded.</source>
+        <translation>Force all playable media to be transcoded.</translation>
+    </message>
+    <message>
+        <source>Media Segment Actions</source>
+        <translation>Media Segment Actions</translation>
+    </message>
+    <message>
+        <source>Settings relating to how Jellyfin should handle media segments.</source>
+        <translation>Settings relating to how Jellyfin should handle media segments.</translation>
+    </message>
+    <message>
+        <source>Intro Segments</source>
+        <translation>Intro Segments</translation>
+    </message>
+    <message>
+        <source>What action should Jellyfin take for intro segments?</source>
+        <translation>What action should Jellyfin take for intro segments?</translation>
+    </message>
+    <message>
+        <source>Outro Segments</source>
+        <translation>Outro Segments</translation>
+    </message>
+    <message>
+        <source>What action should Jellyfin take for outro segments?</source>
+        <translation>What action should Jellyfin take for outro segments?</translation>
+    </message>
+    <message>
+        <source>Preview Segments</source>
+        <translation>Preview Segments</translation>
+    </message>
+    <message>
+        <source>What action should Jellyfin take for preview segments?</source>
+        <translation>What action should Jellyfin take for preview segments?</translation>
+    </message>
+    <message>
+        <source>Recap Segments</source>
+        <translation>Recap Segments</translation>
+    </message>
+    <message>
+        <source>What action should Jellyfin take for recap segments?</source>
+        <translation>What action should Jellyfin take for recap segments?</translation>
+    </message>
+    <message>
+        <source>Ask To Skip</source>
+        <translation>Ask To Skip</translation>
+    </message>
+    <message>
+        <source>Skip</source>
+        <translation>Skip</translation>
+    </message>
+    <message>
+        <source>None</source>
+        <translation>None</translation>
+    </message>
+    <message>
+        <source>Item Detail Screen</source>
+        <translation>Item Detail Screen</translation>
+    </message>
+    <message>
+        <source>Settings relating to the appearance of the item detail screen.</source>
+        <translation>Settings relating to the appearance of the item detail screen.</translation>
+    </message>
+    <message>
+        <source>Overview Content</source>
+        <translation>Overview Content</translation>
+    </message>
+    <message>
+        <source>A quick overview of the item selected - typically a short plot outline.</source>
+        <translation>A quick overview of the item selected - typically a short plot outline.</translation>
+    </message>
+    <message>
+        <source>Settings relating to the appearance of Library pages.</source>
+        <translation>Settings relating to the appearance of Library pages.</translation>
+    </message>
+    <message>
+        <source>Forget Filters</source>
+        <translation>Forget Filters</translation>
+    </message>
+    <message>
+        <source>Forget applied library filters when Jellyfin is closed.</source>
+        <translation>Forget applied library filters when Jellyfin is closed.</translation>
+    </message>
+    <message>
+        <source>Library Landscape Column Count</source>
+        <translation>Library Landscape Column Count</translation>
+    </message>
+    <message>
+        <source>Number of columns in library view when showing landscape (wide) images</source>
+        <translation>Number of columns in library view when showing landscape (wide) images</translation>
+    </message>
+    <message>
+        <source>Library Portrait Column Count</source>
+        <translation>Library Portrait Column Count</translation>
+    </message>
+    <message>
+        <source>Number of columns in library view when showing portrait (tall) images</source>
+        <translation>Number of columns in library view when showing portrait (tall) images</translation>
+    </message>
+    <message>
+        <source>Library Square Column Count</source>
+        <translation>Library Square Column Count</translation>
+    </message>
+    <message>
+        <source>Number of columns in library view when showing square images</source>
+        <translation>Number of columns in library view when showing square images</translation>
+    </message>
+    <message>
+        <source>The selected Jellyfin server uses version</source>
+        <translation>The selected Jellyfin server uses version</translation>
+    </message>
+    <message>
+        <source>which is not supported by this app. Please update the server to</source>
+        <translation>which is not supported by this app. Please update the server to</translation>
+    </message>
+    <message>
+        <source>or newer to use this app or install and use the Jellyfin Legacy app from Roku&apos;s Streaming Store</source>
+        <translation>or newer to use this app or install and use the Jellyfin Legacy app from Roku&apos;s Streaming Store</translation>
+    </message>
+    <message>
+        <source>Return to server select screen</source>
+        <translation>Return to server select screen</translation>
+    </message>
+    <message>
+        <source>Use Fallback Font Across App</source>
+        <translation>Use Fallback Font Across App</translation>
+    </message>
+    <message>
+        <source>Changes the font used in the app to the server&apos;s configured fallback font.</source>
+        <translation>Changes the font used in the app to the server&apos;s configured fallback font.</translation>
+    </message>
+    <message>
+        <source>Highlighted Color</source>
+        <translation>Highlighted Colour</translation>
+    </message>
+    <message>
+        <source>No Results Found</source>
+        <translation>No Results Found</translation>
+    </message>
+    <message>
+        <source>Format</source>
+        <translation>Format</translation>
+    </message>
+    <message>
+        <source>downloads</source>
+        <translation>downloads</translation>
+    </message>
+    <message>
+        <source>Part</source>
+        <translation>Part</translation>
+    </message>
+    <message>
+        <source>Play / Resume from</source>
+        <translation>Play / Resume from</translation>
+    </message>
+    <message>
+        <source>Play or Resume from</source>
+        <translation>Play or Resume from</translation>
     </message>
 </context>
 <context>

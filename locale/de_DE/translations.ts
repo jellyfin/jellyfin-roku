@@ -1688,7 +1688,7 @@
     </message>
     <message>
         <source>Commercial Segments</source>
-        <translation>Kommerzielle Segmente</translation>
+        <translation>Werbe-Abschnitte</translation>
     </message>
     <message>
         <source>What action should Jellyfin take for commercial segments?</source>
@@ -2253,6 +2253,62 @@
     <message>
         <source>If auto play next episode is disabled, display the next episode&apos;s detail screen after an episode finishes playing. If no next up episode is found, return to the just-played episode&apos;s page.</source>
         <translation>Wenn die automatische Wiedergabe der nächsten Folge deaktiviert ist, wird nach dem Abspielen die Detailseite der nächsten Episode angezeigt. Ist keine weitere Folge vorhanden, wird zur Seite der gerade abgespielten Episode zurückgekehrt.</translation>
+    </message>
+    <message>
+        <source>Adjust Subtitle Timing</source>
+        <translation>Untertitel-Timing anpassen</translation>
+    </message>
+    <message>
+        <source>Favorites Row</source>
+        <translation>Favoritenzeile</translation>
+    </message>
+    <message>
+        <source>Settings relating to the favorites row on the home screen.</source>
+        <translation>Einstellungen zu der Favoritenzeile auf dem Startbildschirm.</translation>
+    </message>
+    <message>
+        <source>Sort By Field</source>
+        <translation>Nach Feld sortieren</translation>
+    </message>
+    <message>
+        <source>Field to sort the row by.</source>
+        <translation>Feld, nach dem sortiert werden soll.</translation>
+    </message>
+    <message>
+        <source>Date Created</source>
+        <translation>Erstellungsdatum</translation>
+    </message>
+    <message>
+        <source>Is Unplayed</source>
+        <translation>Ist ungespielt</translation>
+    </message>
+    <message>
+        <source>Sort Order for the row - Ascending,Descending.</source>
+        <translation>Sortierreihenfolge für die Zeile - Aufsteigend,Absteigend.</translation>
+    </message>
+    <message>
+        <source>Current Offset</source>
+        <translation>Aktueller Offset</translation>
+    </message>
+    <message>
+        <source>Screen Settings</source>
+        <translation>Bildschirmeinstellungen</translation>
+    </message>
+    <message>
+        <source>Display Episodes In Two Columns</source>
+        <translation>Folgen in zwei Spalten anzeigen</translation>
+    </message>
+    <message>
+        <source>Set the maximum amount of days a show should stay in the &apos;Next Up&apos; list without watching it. Maximum value is 1000 days.</source>
+        <translation>Lege die maximale Anzahl an Tagen fest, die eine Serie in &quot;Als Nächstes&quot; ungesehen verbleiben kann. Maximaler Wert ist 1000 Tage.</translation>
+    </message>
+    <message>
+        <source>Newer devices may support direct play of anamorphic video.</source>
+        <translation>Neuere Geräte unterstützen möglicherweise das direkte Abspielen von anamorphotischen Videos.</translation>
+    </message>
+    <message>
+        <source>Attempt Direct Play Anamorphic Video</source>
+        <translation>Versuchen, Anamorphotische Videos direkt abzuspielen</translation>
     </message>
 </context>
 <context>

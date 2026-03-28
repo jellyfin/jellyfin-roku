@@ -1,3 +1,5 @@
+import "pkg:/source/utils/misc.bs"
+
 sub init()
     m.buttonBackground = m.top.findNode("buttonBackground")
     m.buttonText = m.top.findNode("buttonText")
@@ -8,6 +10,13 @@ sub init()
     m.top.observeField("height", "onHeightChanged")
     m.top.observeField("width", "onWidthChanged")
     m.top.observeField("focus", "onFocusChanged")
+    m.top.observeField("fontSize", "onFontSizeChanged")
+end sub
+
+sub onFontSizeChanged()
+    if m.top.fontSize > 0
+        m.buttonText.font.size = m.top.fontSize
+    end if
 end sub
 
 sub onFocusChanged()
@@ -15,10 +24,16 @@ sub onFocusChanged()
         m.buttonBackground.blendColor = m.top.focusBackground
         m.buttonText.color = m.top.focusColor
         m.buttonText.font = "font:SmallBoldSystemFont"
+        if m.top.fontSize > 0
+            m.buttonText.font.size = m.top.fontSize
+        end if
     else
         m.buttonBackground.blendColor = m.top.background
         m.buttonText.color = m.top.color
         m.buttonText.font = "font:SmallSystemFont"
+        if m.top.fontSize > 0
+            m.buttonText.font.size = m.top.fontSize
+        end if
     end if
 end sub
 

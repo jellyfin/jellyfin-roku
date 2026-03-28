@@ -26,7 +26,7 @@ jobs:
         run: npm run build
 
       - name: Save build output as artifact
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: Jellyfin-Roku-dev-${{ github.sha }}
           path: ${{ github.workspace }}/build/staging

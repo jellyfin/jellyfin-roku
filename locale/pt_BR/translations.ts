@@ -382,7 +382,7 @@
     </message>
     <message>
         <source>Global</source>
-        <translation>Mundial</translation>
+        <translation>Gerais</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
@@ -915,7 +915,7 @@
     </message>
     <message>
         <source>Global settings that affect everyone that uses this Roku device.</source>
-        <translation>Configurações mundial que afetam todos que usam este dispositivo Roku.</translation>
+        <translation>Configurações gerais que afetam todos que usam este dispositivo Roku.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
@@ -1315,7 +1315,7 @@
     </message>
     <message>
         <source>Welcome to version</source>
-        <translation>Chegou a versão</translation>
+        <translation>Bem-vindo à versão</translation>
         <extracomment>WhatsNewDialog title - Welcome to version 2.0.0</extracomment>
     </message>
     <message>
@@ -2264,6 +2264,70 @@
     <message>
         <source>Play Instant Mix</source>
         <translation>Reproduzir mix instantâneo</translation>
+    </message>
+    <message>
+        <source>Show Next Episode Details After Finish</source>
+        <translation>Mostrar Detalhes do Próximo Episódio Após Terminar</translation>
+    </message>
+    <message>
+        <source>If auto play next episode is disabled, display the next episode&apos;s detail screen after an episode finishes playing. If no next up episode is found, return to the just-played episode&apos;s page.</source>
+        <translation>Se a reprodução automática do próximo episódio estiver desativada, exibir a tela de detalhes do próximo episódio após a conclusão da reprodução. Se nenhum próximo episódio for encontrado, retornar à página do episódio recém-reproduzido.</translation>
+    </message>
+    <message>
+        <source>Set the maximum amount of days a show should stay in the &apos;Next Up&apos; list without watching it. Maximum value is 1000 days.</source>
+        <translation>Defina o número máximo de dias que uma série deve permanecer na lista “Próximos episódios” sem ser assistida. O valor máximo é 1000 dias.</translation>
+    </message>
+    <message>
+        <source>Favorites Row</source>
+        <translation>Linha de favoritos</translation>
+    </message>
+    <message>
+        <source>Settings relating to the favorites row on the home screen.</source>
+        <translation>Configurações relacionadas à linha de favoritos na tela inicial.</translation>
+    </message>
+    <message>
+        <source>Sort By Field</source>
+        <translation>Ordenar por campo</translation>
+    </message>
+    <message>
+        <source>Field to sort the row by.</source>
+        <translation>Campo pelo qual a linha será ordenada.</translation>
+    </message>
+    <message>
+        <source>Date Created</source>
+        <translation>Data de criação</translation>
+    </message>
+    <message>
+        <source>Is Unplayed</source>
+        <translation>Não assistido</translation>
+    </message>
+    <message>
+        <source>Sort Order for the row - Ascending,Descending.</source>
+        <translation>Ordem de classificação da linha — Ascendente, Descendente.</translation>
+    </message>
+    <message>
+        <source>Current Offset</source>
+        <translation>Deslocamento atual</translation>
+    </message>
+    <message>
+        <source>Adjust Subtitle Timing</source>
+        <translation>Ajustar sincronização das legendas</translation>
+    </message>
+    <message>
+        <source>Display Episodes In Two Columns</source>
+        <translation>Exibir episódios em duas colunas</translation>
+    </message>
+    <message>
+        <source>Screen Settings</source>
+        <translation>Configurações de Tela</translation>
+    </message>
+    <message>
+        <source>Attempt Direct Play Anamorphic Video</source>
+        <translation>Tentar reprodução direta de vídeo anamórfico</translation>
+    </message>
+    <message>
+        <source>Newer devices may support direct play of anamorphic video.</source>
+        <translation>Dispositivos mais recentes podem oferecer suporte à reprodução direta de vídeos anamórficos.</translation>
     </message>
 </context>
 <context>

@@ -14,7 +14,7 @@
     </message>
     <message>
         <source>Connect to Server</source>
-        <translation>Connettersi al Server</translation>
+        <translation>Connetti al Server</translation>
     </message>
     <message>
         <source>Ends at %1</source>
@@ -114,7 +114,7 @@
     </message>
     <message>
         <source>Enter a username</source>
-        <translation>Inserisci il tuo nome utente</translation>
+        <translation>Inserisci un nome utente</translation>
     </message>
     <message>
         <source>Enter a password</source>
@@ -186,7 +186,7 @@
     </message>
     <message>
         <source>Error During Playback</source>
-        <translation>Errore Durante la Riproduzione</translation>
+        <translation>Errore Durante La Riproduzione</translation>
         <extracomment>Dialog title when error occurs during playback</extracomment>
     </message>
     <message>
@@ -231,15 +231,15 @@
     </message>
     <message>
         <source>Died</source>
-        <translation>Data di Morte</translation>
+        <translation>Morte</translation>
     </message>
     <message>
         <source>DATE_ADDED</source>
-        <translation>Data di Aggiunta</translation>
+        <translation>Data Aggiunta</translation>
     </message>
     <message>
         <source>DATE_PLAYED</source>
-        <translation>Data di Riproduzione</translation>
+        <translation>Data Riproduzione</translation>
     </message>
     <message>
         <source>Delete Saved</source>
@@ -256,7 +256,7 @@
     </message>
     <message>
         <source>Born</source>
-        <translation>Data di Nascita</translation>
+        <translation>Nascita</translation>
     </message>
     <message>
         <source>More Like This</source>
@@ -268,11 +268,11 @@
     </message>
     <message>
         <source>Loading Channel Data</source>
-        <translation>Caricamento dei Dati del Canale</translation>
+        <translation>Caricamento Dati Del Canale</translation>
     </message>
     <message>
         <source>Error loading Channel Data</source>
-        <translation>Errore nel Caricamento dei Dati del Canale</translation>
+        <translation>Errore Caricamento Dati Del Canale</translation>
     </message>
     <message>
         <source>CRITIC_RATING</source>
@@ -304,7 +304,7 @@
     </message>
     <message>
         <source>Error Retrieving Content</source>
-        <translation>Errore nel Recuperare i Contenuti</translation>
+        <translation>Errore Caricamento Contenuto</translation>
         <extracomment>Dialog title when unable to load Content from Server</extracomment>
     </message>
     <message>
@@ -643,7 +643,7 @@
     </message>
     <message>
         <source>Remember the currently logged in user and try to log them in again next time you start the Jellyfin app.</source>
-        <translation type="unfinished">Ricorda l&apos;utente attualmente connesso e prova a loggarlo nuovamente la prossima volta che l&apos;app Jellyfin viene aperta.</translation>
+        <translation>Ricorda l&apos;utente attualmente connesso e prova a loggarlo nuovamente la prossima volta che avvi Jellyfin.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
@@ -796,7 +796,7 @@
     </message>
     <message>
         <source>Set how many seconds before the end of an episode the Next Episode button should appear. Set to 0 to disable.</source>
-        <translation type="unfinished">Imposta quanti secondi prima della fine di un episodio appare il tasto Prossimo episodio. Impostare a 0 per disabilitare.</translation>
+        <translation>Se non esiste nessuna Sezione di coda, imposta quanti secondi prima della fine di un episodio appare il tasto Salta sezione di coda. Impostare a 0 per disabilitare.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
@@ -1280,7 +1280,7 @@
     </message>
     <message>
         <source>Ratings for how good a movie is</source>
-        <translation type="unfinished">Valutazioni sulla qualità di un film</translation>
+        <translation>Valutazioni delle recensioni di comunità e critica da Rotten Tomatoes.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
@@ -1389,6 +1389,922 @@
     <message>
         <source>No items found. Try adjusting your selected filters.</source>
         <translation>Nessun elemento trovato. Prova a modificare i filtri.</translation>
+    </message>
+    <message>
+        <source>Set the maximum amount of days a show should stay in the &apos;Next Up&apos; list without watching it. Maximum value is 1000 days.</source>
+        <translation>Imposta il massino numero di giorni una serie dovrebbe rimanere nella lista &quot;Prossimo&quot; senza essere guardata. Il valore massimo è 1000 giorni.</translation>
+    </message>
+    <message>
+        <source>Grid View Item Titles</source>
+        <translation>Visualizzazione a griglia dei titoli</translation>
+    </message>
+    <message>
+        <source>Select when to show titles in grid view.</source>
+        <translation>Seleziona quando dovrebbero essere mostrati i titoli in visualizzazione a griglia.</translation>
+    </message>
+    <message>
+        <source>Autoplay Episode Limit</source>
+        <translation>Limite di episodi in riproduzione automatica</translation>
+    </message>
+    <message>
+        <source>The number of episodes that will play automatically after the selected episode. Requires &apos;Play next episode automatically&apos; server setting to be enabled.</source>
+        <translation>Il numero di episodi che verrà riprodotto automaticamente dopo l&apos;episodio selezionato. Richiede l&apos;attivazione dell&apos;impostazione del server &quot;Riproduci il prossimo episodio automaticamente&quot;.</translation>
+    </message>
+    <message>
+        <source>Video Codec Support</source>
+        <translation>Supporto per codec video</translation>
+    </message>
+    <message>
+        <source>Enable or disable Direct Play support for certain codecs.</source>
+        <translation>Abilita o disabilita il supporto alla Riproduzione Diretta per determinati codec.</translation>
+    </message>
+    <message>
+        <source>Video Profile Level Support</source>
+        <translation>Supporto ai Livelli del Profilo Video</translation>
+    </message>
+    <message>
+        <source>Attempt Direct Play of potentially unsupported profile levels</source>
+        <translation>Prova la Riproduzione DIretta di livelli di profilo video potenzialmente non supportati</translation>
+    </message>
+    <message>
+        <source>Maximum Audio Channels</source>
+        <translation>Massimo numero di Canali Audio</translation>
+    </message>
+    <message>
+        <source>Configure the maximum audio channels when playing video files on this device.</source>
+        <translation>Configura il massimo numero di canali audio quando riproduci file video su questo dispositivo.</translation>
+    </message>
+    <message>
+        <source>Off - Attempt to play all channels</source>
+        <translation>Off - Prova a riprodurre tutti i canali</translation>
+    </message>
+    <message>
+        <source>Custom Trickplay</source>
+        <translation>Immagini Trickplay personalizzate</translation>
+    </message>
+    <message>
+        <source>Display custom trickplay images even if this Roku says it&apos;s displaying its own. This may cause the two images to overlay on top of each other.</source>
+        <translation>Mostra le immagini trickplay anche se Roku dice che sta mostrando le sue. Questo potrebbe causare la sovrapposizione delle due immagini l&apos;una sopra l&apos;altra.</translation>
+    </message>
+    <message>
+        <source>Force Transcoding</source>
+        <translation>Forza la Transcodifica</translation>
+    </message>
+    <message>
+        <source>Force all playable media to be transcoded.</source>
+        <translation>Forza tutti i media riproducibili ad essere transcodificati.</translation>
+    </message>
+    <message>
+        <source>Media Segment Actions</source>
+        <translation>Azioni delle Sezioni dei Media</translation>
+    </message>
+    <message>
+        <source>Settings relating to how Jellyfin should handle media segments.</source>
+        <translation>Impostazioni legate a come Jellyfin dovrebbe gestire le sezioni media.</translation>
+    </message>
+    <message>
+        <source>Commercial Segments</source>
+        <translation>Sezioni Pubblicitarie</translation>
+    </message>
+    <message>
+        <source>What action should Jellyfin take for commercial segments?</source>
+        <translation>Che azione dovrebbe intraprendere Jellyfin per le sezioni commerciali?</translation>
+    </message>
+    <message>
+        <source>Intro Segments</source>
+        <translation>Sezioni Intro</translation>
+    </message>
+    <message>
+        <source>What action should Jellyfin take for intro segments?</source>
+        <translation>Che azione dovrebbe intraprendere Jellyfin per le sezioni intro?</translation>
+    </message>
+    <message>
+        <source>Outro Segments</source>
+        <translation>Sezioni Titoli di coda</translation>
+    </message>
+    <message>
+        <source>What action should Jellyfin take for outro segments?</source>
+        <translation>Che azione dovrebbe intraprendere Jellyfin per le sezioni titoli di coda?</translation>
+    </message>
+    <message>
+        <source>Preview Segments</source>
+        <translation>Sezioni Anteprime</translation>
+    </message>
+    <message>
+        <source>What action should Jellyfin take for preview segments?</source>
+        <translation>Che azione dovrebbe intraprendere Jellyfin per le sezioni anteprima?</translation>
+    </message>
+    <message>
+        <source>Recap Segments</source>
+        <translation>Sezioni Riassunto</translation>
+    </message>
+    <message>
+        <source>What action should Jellyfin take for recap segments?</source>
+        <translation>Che azione dovrebbe intraprendere Jellyfin per le sezioni riassunto?</translation>
+    </message>
+    <message>
+        <source>Ask To Skip</source>
+        <translation>Chiedi Di Saltare</translation>
+    </message>
+    <message>
+        <source>Skip</source>
+        <translation>Salta</translation>
+    </message>
+    <message>
+        <source>None</source>
+        <translation>Nessuno</translation>
+    </message>
+    <message>
+        <source>Item Detail Screen</source>
+        <translation>Schermata Dettagli Oggetto</translation>
+    </message>
+    <message>
+        <source>Settings relating to the appearance of the item detail screen.</source>
+        <translation>Impostazioni legate all&apos;aspetto della schermata dei dettagli oggetto.</translation>
+    </message>
+    <message>
+        <source>Overview Content</source>
+        <translation>Panoramica Contenuto</translation>
+    </message>
+    <message>
+        <source>A quick overview of the item selected - typically a short plot outline.</source>
+        <translation>Una veloce panoramica dell&apos;oggetto selezionato - solitamente un breve riassunto della trama.</translation>
+    </message>
+    <message>
+        <source>Settings relating to the appearance of Library pages.</source>
+        <translation>Impostazioni legate all&apos;aspetto delle pagine Libreria.</translation>
+    </message>
+    <message>
+        <source>Forget Filters</source>
+        <translation>Dimentica i Filtri</translation>
+    </message>
+    <message>
+        <source>Forget applied library filters when Jellyfin is closed.</source>
+        <translation>Dimentica i filtri applicati alla libreria quando Jellyfin viene chiuso.</translation>
+    </message>
+    <message>
+        <source>Library Landscape Column Count</source>
+        <translation>Numero di Colonne della Libreria in visualizzazione Panorama</translation>
+    </message>
+    <message>
+        <source>Number of columns in library view when showing landscape (wide) images</source>
+        <translation>Numero di colonne della vista della libreria quando vengono mostrate le immagini panorama (estese)</translation>
+    </message>
+    <message>
+        <source>Library Portrait Column Count</source>
+        <translation>Numero di Colonne della Libreria in visualizzazione Ritratto</translation>
+    </message>
+    <message>
+        <source>Number of columns in library view when showing portrait (tall) images</source>
+        <translation>Numero di colonne della vista della libreria quando vengono mostrate le immagini ritratto (alte)</translation>
+    </message>
+    <message>
+        <source>Library Square Column Count</source>
+        <translation>Numero di Colonne della Libreria in visualizzazione Quadrato</translation>
+    </message>
+    <message>
+        <source>Number of columns in library view when showing square images</source>
+        <translation>Numero di colonne della vista della libreria quando vengono mostrate le immagini quadrate</translation>
+    </message>
+    <message>
+        <source>View All Next Up</source>
+        <translation>Guarda tutti gli episodi in Prossimo</translation>
+    </message>
+    <message>
+        <source>Rewatching Next Up</source>
+        <translation>Episodi già visti in Prossimo</translation>
+    </message>
+    <message>
+        <source>Show already watched episodes in &apos;Next Up&apos; sections.</source>
+        <translation>Mostra gli episodi già visti nelle sezioni &apos;Prossimo&apos;.</translation>
+    </message>
+    <message>
+        <source>Episode Images Next Up</source>
+        <translation>Immagini per gli Episodi in Prossimo</translation>
+    </message>
+    <message>
+        <source>What type of images to use for Episodes shown in the &apos;Next Up&apos; and &apos;Continue Watching&apos; sections.</source>
+        <translation>Quale tipo di immagini usare per gli episodi mostrati nelle sezioni &apos;Prossimo&apos; e &apos;Continua a guardare&apos;.</translation>
+    </message>
+    <message>
+        <source>Use Web Client Setting</source>
+        <translation>Usa Impostazioni del Client Web</translation>
+    </message>
+    <message>
+        <source>Use Episode Image</source>
+        <translation>Usa Immagini Episodio</translation>
+    </message>
+    <message>
+        <source>Use Show Image</source>
+        <translation>Usa Immagini Serie</translation>
+    </message>
+    <message>
+        <source>The selected Jellyfin server uses version</source>
+        <translation>Il server Jellyfin selezionato usa la versione</translation>
+    </message>
+    <message>
+        <source>which is not supported by this app. Please update the server to</source>
+        <translation>che non è supportata da questa app. Per favore aggiorna il server alla versione</translation>
+    </message>
+    <message>
+        <source>or newer to use this app or install and use the Jellyfin Legacy app from Roku&apos;s Streaming Store</source>
+        <translation>o più recente per usare questa app o installa e usa la app Jellyfin Legacy dal Roku Streaming Store</translation>
+    </message>
+    <message>
+        <source>Return to server select screen</source>
+        <translation>Ritorna alla schermata di selezione server</translation>
+    </message>
+    <message>
+        <source>CH</source>
+        <translation>CAN</translation>
+    </message>
+    <message>
+        <source>Use Fallback Font Across App</source>
+        <translation>Utilizza i Font di Ripiego nell&apos;App</translation>
+    </message>
+    <message>
+        <source>Changes the font used in the app to the server&apos;s configured fallback font.</source>
+        <translation>Cambia il font utilizzato nell&apos;app al font di ripiego configurato nel server.</translation>
+    </message>
+    <message>
+        <source>Highlighted Color</source>
+        <translation>Colore Evidenziato</translation>
+    </message>
+    <message>
+        <source>Folders</source>
+        <translation>Cartelle</translation>
+    </message>
+    <message>
+        <source>Go To Artist</source>
+        <translation>Vai All&apos;Artista</translation>
+    </message>
+    <message>
+        <source>No Results Found</source>
+        <translation>Nessun Risultato Trovato</translation>
+    </message>
+    <message>
+        <source>Format</source>
+        <translation>Formato</translation>
+    </message>
+    <message>
+        <source>downloads</source>
+        <translation>downloads</translation>
+    </message>
+    <message>
+        <source>Series</source>
+        <translation>Serie</translation>
+    </message>
+    <message>
+        <source>Part</source>
+        <translation>Parte</translation>
+    </message>
+    <message>
+        <source>Play / Resume from</source>
+        <translation>Riproduci / Riprendi da</translation>
+    </message>
+    <message>
+        <source>Play or Resume from</source>
+        <translation>Riproduci o Riprendi da</translation>
+    </message>
+    <message>
+        <source>What&apos;s New</source>
+        <translation>Cosa c&apos;è di Nuovo</translation>
+    </message>
+    <message>
+        <source>Sort by</source>
+        <translation>Ordina per</translation>
+    </message>
+    <message>
+        <source>Search is unavailable because the API does not support searching inside boxsets.</source>
+        <translation>La ricerca non è disponibile perchè le API non supportano la ricerca all&apos;interno dei cofanetti.</translation>
+    </message>
+    <message>
+        <source>Search is unavailable because the API does not support searching inside My List.</source>
+        <translation>La ricerca non è disponibile perchè le API non supportano la ricerca all&apos;interno de La Mia Lista.</translation>
+    </message>
+    <message>
+        <source>Search this library</source>
+        <translation>Cerca questa libreria</translation>
+    </message>
+    <message>
+        <source>Mark As Unplayed</source>
+        <translation>Segna come Non Riprodotto</translation>
+    </message>
+    <message>
+        <source>Mark As Played</source>
+        <translation>Segna come Riprodotto</translation>
+    </message>
+    <message>
+        <source>Add To Playlist</source>
+        <translation>Aggiungi Alla Playlist</translation>
+    </message>
+    <message>
+        <source>Remove From My List</source>
+        <translation>Rimuovi Da La Mia Lista</translation>
+    </message>
+    <message>
+        <source>Add To My List</source>
+        <translation>Aggiungi A La Mia Lista</translation>
+    </message>
+    <message>
+        <source>Press OK to type</source>
+        <translation>Premi OK per scrivere</translation>
+    </message>
+    <message>
+        <source>Library Settings</source>
+        <translation>Impostazioni Libreria</translation>
+    </message>
+    <message>
+        <source>Display Watched Checkmark</source>
+        <translation>Mostra Segno di spunta per Riprodotti</translation>
+    </message>
+    <message>
+        <source>Playback Info</source>
+        <translation>Informazioni RIproduzione</translation>
+    </message>
+    <message>
+        <source>Select Audio</source>
+        <translation>Seleziona Audio</translation>
+    </message>
+    <message>
+        <source>Select Subtitles</source>
+        <translation>Seleziona Sottotitoli</translation>
+    </message>
+    <message>
+        <source>Select Language</source>
+        <translation>Seleziona Lingua</translation>
+    </message>
+    <message>
+        <source>Tracks</source>
+        <translation>Tracce</translation>
+    </message>
+    <message>
+        <source>Released</source>
+        <translation>Rilasciato</translation>
+    </message>
+    <message>
+        <source>min</source>
+        <translation>minuto</translation>
+    </message>
+    <message>
+        <source>mins</source>
+        <translation>minuti</translation>
+    </message>
+    <message>
+        <source>Continue Listening</source>
+        <translation>Continua l&apos;Ascolto</translation>
+    </message>
+    <message>
+        <source>In My List</source>
+        <translation>Ne La Mia Lista</translation>
+    </message>
+    <message>
+        <source>AppearsOn</source>
+        <translation>Compare In</translation>
+    </message>
+    <message>
+        <source>Public Profile</source>
+        <translation>Profilo Pubblico</translation>
+    </message>
+    <message>
+        <source>Saved Profile</source>
+        <translation>Profilo Salvato</translation>
+    </message>
+    <message>
+        <source>Manage Hidden Users</source>
+        <translation>Gestisci Utenti Nascosti</translation>
+    </message>
+    <message>
+        <source>Select User</source>
+        <translation>Seleziona Utente</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to forget this user?</source>
+        <translation>Sei sicuro di voler dimenticare questo utente?</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to delete this subtitle?</source>
+        <translation>Sei sicuro di voler rimuovere questo sottotitolo?</translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation>Sì</translation>
+    </message>
+    <message>
+        <source>No, Cancel</source>
+        <translation>No, Annulla</translation>
+    </message>
+    <message>
+        <source>Manual Login</source>
+        <translation>Login Manuale</translation>
+    </message>
+    <message>
+        <source>Unhide Users</source>
+        <translation>Mostra Utenti</translation>
+    </message>
+    <message>
+        <source>Play Normally - disabled because of selected force transcoding setting</source>
+        <translation>Riproduci Normalmente - disabilitato a causa della selezione dell&apos;impostazione sulla transcodifica forzata</translation>
+    </message>
+    <message>
+        <source>as</source>
+        <translation>nel ruolo di</translation>
+    </message>
+    <message>
+        <source>Seasons</source>
+        <translation>Stagioni</translation>
+    </message>
+    <message>
+        <source>Season</source>
+        <translation>Stagione</translation>
+    </message>
+    <message>
+        <source>Episode</source>
+        <translation>Episodio</translation>
+    </message>
+    <message>
+        <source>Section 1</source>
+        <translation>Sezione 1</translation>
+    </message>
+    <message>
+        <source>Section 2</source>
+        <translation>Sezione 2</translation>
+    </message>
+    <message>
+        <source>Section 3</source>
+        <translation>Sezione 3</translation>
+    </message>
+    <message>
+        <source>Section 4</source>
+        <translation>Sezione 4</translation>
+    </message>
+    <message>
+        <source>Section 5</source>
+        <translation>Sezione 5</translation>
+    </message>
+    <message>
+        <source>Section 6</source>
+        <translation>Sezione 6</translation>
+    </message>
+    <message>
+        <source>Section 7</source>
+        <translation>Sezione 7</translation>
+    </message>
+    <message>
+        <source>Section 8</source>
+        <translation>Sezione 8</translation>
+    </message>
+    <message>
+        <source>Select what to show in section 1. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Selezione cosa mostrare nella sezione 1. Questa impostazione non ha effetto se \&quot;Usa l&apos;Organizzazione delle Sezioni Home dal Client Web\&quot; è abilitato. Jellyfin avrà bisogno di essere chiuso e riaperto per applicare il cambiamento.</translation>
+    </message>
+    <message>
+        <source>Select what to show in section 2. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Selezione cosa mostrare nella sezione 2. Questa impostazione non ha effetto se \&quot;Usa l&apos;Organizzazione delle Sezioni Home dal Client Web\&quot; è abilitato. Jellyfin avrà bisogno di essere chiuso e riaperto per applicare il cambiamento.</translation>
+    </message>
+    <message>
+        <source>Select what to show in section 3. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Selezione cosa mostrare nella sezione 3. Questa impostazione non ha effetto se \&quot;Usa l&apos;Organizzazione delle Sezioni Home dal Client Web\&quot; è abilitato. Jellyfin avrà bisogno di essere chiuso e riaperto per applicare il cambiamento.</translation>
+    </message>
+    <message>
+        <source>Select what to show in section 4. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Selezione cosa mostrare nella sezione 4. Questa impostazione non ha effetto se \&quot;Usa l&apos;Organizzazione delle Sezioni Home dal Client Web\&quot; è abilitato. Jellyfin avrà bisogno di essere chiuso e riaperto per applicare il cambiamento.</translation>
+    </message>
+    <message>
+        <source>Select what to show in section 5. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Selezione cosa mostrare nella sezione 5. Questa impostazione non ha effetto se \&quot;Usa l&apos;Organizzazione delle Sezioni Home dal Client Web\&quot; è abilitato. Jellyfin avrà bisogno di essere chiuso e riaperto per applicare il cambiamento.</translation>
+    </message>
+    <message>
+        <source>Select what to show in section 6. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Selezione cosa mostrare nella sezione 6. Questa impostazione non ha effetto se \&quot;Usa l&apos;Organizzazione delle Sezioni Home dal Client Web\&quot; è abilitato. Jellyfin avrà bisogno di essere chiuso e riaperto per applicare il cambiamento.</translation>
+    </message>
+    <message>
+        <source>Select what to show in section 7. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Selezione cosa mostrare nella sezione 7. Questa impostazione non ha effetto se \&quot;Usa l&apos;Organizzazione delle Sezioni Home dal Client Web\&quot; è abilitato. Jellyfin avrà bisogno di essere chiuso e riaperto per applicare il cambiamento.</translation>
+    </message>
+    <message>
+        <source>Select what to show in section 8. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Selezione cosa mostrare nella sezione 8. Questa impostazione non ha effetto se \&quot;Usa l&apos;Organizzazione delle Sezioni Home dal Client Web\&quot; è abilitato. Jellyfin avrà bisogno di essere chiuso e riaperto per applicare il cambiamento.</translation>
+    </message>
+    <message>
+        <source>Live TV</source>
+        <translation>TV in diretta</translation>
+    </message>
+    <message>
+        <source>My List</source>
+        <translation>La Mia Lista</translation>
+    </message>
+    <message>
+        <source>Recently Added Media</source>
+        <translation>Media Aggiunti di Recente</translation>
+    </message>
+    <message>
+        <source>Customize the home screen sections</source>
+        <translation>Personalizza le sezioni della schermata home</translation>
+    </message>
+    <message>
+        <source>Home Rows</source>
+        <translation>Righe schermata Home</translation>
+    </message>
+    <message>
+        <source>Colors</source>
+        <translation>Colori</translation>
+    </message>
+    <message>
+        <source>Change the colors of elements in the app.</source>
+        <translation>Cambia i colori degli elementi nell&apos;app.</translation>
+    </message>
+    <message>
+        <source>All Screens</source>
+        <translation>Tutti gli Schermi</translation>
+    </message>
+    <message>
+        <source>Colors used across multiple screens.</source>
+        <translation>Colori usati tra schermi multipli.</translation>
+    </message>
+    <message>
+        <source>Background</source>
+        <translation>Sfondo</translation>
+    </message>
+    <message>
+        <source>The base background color. Background images are layered on top of this color.</source>
+        <translation>Il colore base dello sfondo. Le immagini di sfondo sono stratificate sopra questo colore.</translation>
+    </message>
+    <message>
+        <source>Cursor</source>
+        <translation>Cursore</translation>
+    </message>
+    <message>
+        <source>The color of the remote control&apos;s cursor.</source>
+        <translation>Il colore del cursore del controllo remoto.</translation>
+    </message>
+    <message>
+        <source>Primary Text</source>
+        <translation>Testo Primario</translation>
+    </message>
+    <message>
+        <source>The primary text color.</source>
+        <translation>Il colore del testo primario.</translation>
+    </message>
+    <message>
+        <source>Secondary Text</source>
+        <translation>Testo Secondario</translation>
+    </message>
+    <message>
+        <source>The secondary text color.</source>
+        <translation>Il colore del testo secondario.</translation>
+    </message>
+    <message>
+        <source>Watched Check Mark &amp; Unplayed Count</source>
+        <translation>Spunta dei Riprodotti &amp; Contatore Non Riprodotti</translation>
+    </message>
+    <message>
+        <source>Colors specific to the watched check mark &amp; unplayed count box.</source>
+        <translation>Colori specifici della spunta dei riprodotti e del segnalino del contatore non riprodotti.</translation>
+    </message>
+    <message>
+        <source>The background color of the check mark &amp; unplayed count shown in the top right corner of items.</source>
+        <translation>Il colore di sfondo della spunta dei riprodotti e del segnalino del contatore non riprodotti mostrati nell&apos;angolo superiore destro degli oggetti.</translation>
+    </message>
+    <message>
+        <source>Unplayed Count</source>
+        <translation>Contatore Non Riprodotti</translation>
+    </message>
+    <message>
+        <source>The color of the unplayed count number.</source>
+        <translation>Il colore del numero del contatore non riprodotti.</translation>
+    </message>
+    <message>
+        <source>Watched Check Mark</source>
+        <translation>Spunta Riprodotti</translation>
+    </message>
+    <message>
+        <source>The color of the watched check mark.</source>
+        <translation>Il colore della spunta dei riprodotti.</translation>
+    </message>
+    <message>
+        <source>Dialog Popups</source>
+        <translation>Popup Dialoghi</translation>
+    </message>
+    <message>
+        <source>Colors specific to dialog popups</source>
+        <translation>Colori specifici dei popup dei dialoghi</translation>
+    </message>
+    <message>
+        <source>The background color for all dialog popups.</source>
+        <translation>Il colore di sfondo per tutti i popup dei dialoghi.</translation>
+    </message>
+    <message>
+        <source>Bold Text</source>
+        <translation>Testo Grassetto</translation>
+    </message>
+    <message>
+        <source>The text color for bold text.</source>
+        <translation>Il colore del testo in grassetto.</translation>
+    </message>
+    <message>
+        <source>Horizontal Border line</source>
+        <translation>Linea del Bordo Orizzontale</translation>
+    </message>
+    <message>
+        <source>The color of the thin border line under the header text.</source>
+        <translation>Il colore della linea sottile sotto il testo dell&apos;intestazione.</translation>
+    </message>
+    <message>
+        <source>Selected Text</source>
+        <translation>Testo Selezionato</translation>
+    </message>
+    <message>
+        <source>The text color for the item the cursor is over.</source>
+        <translation>Il colore del testo per l&apos;oggetto sotto il cursore.</translation>
+    </message>
+    <message>
+        <source>Text Color</source>
+        <translation>Colore del Testo</translation>
+    </message>
+    <message>
+        <source>The text color for title and items the cursor is not over.</source>
+        <translation>Il colore del testo per il titolo e l&apos;oggetto non sotto il cursore.</translation>
+    </message>
+    <message>
+        <source>What&apos;s New Author</source>
+        <translation>Autore Novità</translation>
+    </message>
+    <message>
+        <source>The text color for the author in the What&apos;s New popup.</source>
+        <translation>Il colore del testo per l&apos;autore nel popup Novità.</translation>
+    </message>
+    <message>
+        <source>Home Screen</source>
+        <translation>Schermata Home</translation>
+    </message>
+    <message>
+        <source>Colors specific to the home screen</source>
+        <translation>Colori specifici della schermata home</translation>
+    </message>
+    <message>
+        <source>My List Icon</source>
+        <translation>Icona La Mia Lista</translation>
+    </message>
+    <message>
+        <source>The color of the star icon in the My List library item.</source>
+        <translation>Il colore dell&apos;icona stella nell&apos;oggetto libreria La Mia Lista.</translation>
+    </message>
+    <message>
+        <source>Row Headers</source>
+        <translation>Intestazione Righe</translation>
+    </message>
+    <message>
+        <source>The text color of the headers of each row.</source>
+        <translation>Il colore del testo delle intestazioni di ciascuna riga.</translation>
+    </message>
+    <message>
+        <source>Row Item Background</source>
+        <translation>Sfondo Oggetti Riga</translation>
+    </message>
+    <message>
+        <source>The background color of items. Only seen if no image loads on top of it.</source>
+        <translation>Il colore di sfondo degli oggetti. Visualizzato soltanto se nessuna immagine viene caricata sopra.</translation>
+    </message>
+    <message>
+        <source>Row Item Progress</source>
+        <translation>Barra Progresso Riga</translation>
+    </message>
+    <message>
+        <source>The color of the watched portion of the progress bar.</source>
+        <translation>Il colore della porzione riprodotta della barra progresso.</translation>
+    </message>
+    <message>
+        <source>Row Item Progress Background</source>
+        <translation>Sfondo Barra Progresso Riga</translation>
+    </message>
+    <message>
+        <source>The background color of the progress bar.</source>
+        <translation>Il colore di sfondo della barra progresso.</translation>
+    </message>
+    <message>
+        <source>Row Item Subtitle</source>
+        <translation>Sottotitolo Oggetto Riga</translation>
+    </message>
+    <message>
+        <source>The text color of the second line displayed under items.</source>
+        <translation>Il colore del testo della seconda linea mostrata sotto gli oggetti.</translation>
+    </message>
+    <message>
+        <source>Row Item Title</source>
+        <translation>Titolo Oggetto Riga</translation>
+    </message>
+    <message>
+        <source>The text color of the first line displayed under items.</source>
+        <translation>Il colore del testo della prima linea mostrata sotto gli oggetti.</translation>
+    </message>
+    <message>
+        <source>Username In Header</source>
+        <translation>Nome Utente Nell&apos;Intestazione</translation>
+    </message>
+    <message>
+        <source>The text color of the user&apos;s name in the header.</source>
+        <translation>Il colore del testo del nome utente nell&apos;intestazione.</translation>
+    </message>
+    <message>
+        <source>Shuffle Play Collection</source>
+        <translation>Riproduzione Casuale Collezione</translation>
+    </message>
+    <message>
+        <source>Note: Force transcode option automatically enabled due to video rotation</source>
+        <translation>Nota: opzione di transcodifica forzata attivata automaticamente a causa della rotazione del video</translation>
+    </message>
+    <message>
+        <source>Start Episode List From First Unwatched Episode</source>
+        <translation>Inizia La Lista Episodi Dal Primo Episodio Non Riprodotto</translation>
+    </message>
+    <message>
+        <source>When opening a season&apos;s list of episodes, automatically scroll down and start the cursor on the first unwatched episode.</source>
+        <translation>Quando si apre la lista degli episodi di una stagione, scendi automaticamente e posiziona il cursore sul primo episodio non riprodotto.</translation>
+    </message>
+    <message>
+        <source>Add To Favorites</source>
+        <translation>Aggiungi Ai Preferiti</translation>
+    </message>
+    <message>
+        <source>Remove From Favorites</source>
+        <translation>Rimuovi Dai Preferiti</translation>
+    </message>
+    <message>
+        <source>Play Normally</source>
+        <translation>Riproduci Normalmente</translation>
+    </message>
+    <message>
+        <source>Force Transcode (Allow Remux)</source>
+        <translation>Forza Transcodifica (Permetti Remux)</translation>
+    </message>
+    <message>
+        <source>Force Transcode (Allow Remux) - disabled because of selected force transcoding setting</source>
+        <translation>Forza Transcodifica (Permetti Remux) - disabilitato a causa delle impostazioni sulla transcodifica forzata</translation>
+    </message>
+    <message>
+        <source>Force Transcode (Remux Disabled)</source>
+        <translation>Forza Transcodifica (Remux Disabilitato)</translation>
+    </message>
+    <message>
+        <source>Force Transcode (Remux Disabled) - disabled because of selected force transcoding setting</source>
+        <translation>Forza Transcodifica (Remux Disabilitato) - disabilitato a causa delle impostazioni sulla transcodifica forzata</translation>
+    </message>
+    <message>
+        <source>No channels found matching your search criteria</source>
+        <translation>Nessun canale trovato che corrisponde ai tuoi criteri di ricerca</translation>
+    </message>
+    <message>
+        <source>Are You Still Watching Popup</source>
+        <translation>Popup Stai Ancora Guardando</translation>
+    </message>
+    <message>
+        <source>Attempt Direct Play Anamorphic Video</source>
+        <translation>Tenta La Riproduzione Diretta Video Anamorfici</translation>
+    </message>
+    <message>
+        <source>Newer devices may support direct play of anamorphic video.</source>
+        <translation>I nuovi dispositivi potrebbero supportare la riproduzione diretta di video anamorfici.</translation>
+    </message>
+    <message>
+        <source>How many minutes of inactivity before playback is stopped between items and a popup is shown to continue? Set to 0 to disable.</source>
+        <translation>Quanti minuti di inattività prima che la riproduzione tra gli oggetti venga fermata e venga mostrato un popup per proseguire? Imposta a 0 per disabilitare.</translation>
+    </message>
+    <message>
+        <source>Are You Still Watching?</source>
+        <translation>Stai Ancora Guardando?</translation>
+    </message>
+    <message>
+        <source>Yes, continue</source>
+        <translation>Sì, continua</translation>
+    </message>
+    <message>
+        <source>No, stop playback</source>
+        <translation>No, interrompi la riproduzione</translation>
+    </message>
+    <message>
+        <source>Playback will automatically stop in 1 minute if no buttons are pressed.</source>
+        <translation>La riproduzione verrà interrotta automaticamente in 1 minuto se non verrà premuto nessun bottone.</translation>
+    </message>
+    <message>
+        <source>Burn in subtitle when transcoding</source>
+        <translation>Incidi Sottotitoli Durante La Transcodifica</translation>
+    </message>
+    <message>
+        <source>Burn in all subtitles when transcoding is triggered. This ensures subtitle synchronization after transcoding at the cost of reduced transcoding speed.</source>
+        <translation>Incidi tutti i sottotitoli quando si attiva la transcodifica. Questo garantisce la sincronizzazione dei sottotitoli dopo la transcodifica al costo di una ridotta velocità di transcodifica.</translation>
+    </message>
+    <message>
+        <source>Library Image Orientation</source>
+        <translation>Orientamento Immagine Libreria</translation>
+    </message>
+    <message>
+        <source>Select the poster image orientation for the library views.</source>
+        <translation>Seleziona l&apos;orientamento della immagine poster per le visualizzazioni della libreria.</translation>
+    </message>
+    <message>
+        <source>Default (Varies By Media Type)</source>
+        <translation>Default (Varia In Base Al Tipo Di Media)</translation>
+    </message>
+    <message>
+        <source>Landscape (Wide)</source>
+        <translation>Panorama (Esteso)</translation>
+    </message>
+    <message>
+        <source>Portrait (Vertical)</source>
+        <translation>Ritratto (Verticale)</translation>
+    </message>
+    <message>
+        <source>Skip Unknown</source>
+        <translation>Salta Sezione</translation>
+    </message>
+    <message>
+        <source>Skip Commercial</source>
+        <translation>Salta Pubblicità</translation>
+    </message>
+    <message>
+        <source>Skip Preview</source>
+        <translation>Salta Anteprima</translation>
+    </message>
+    <message>
+        <source>Skip Recap</source>
+        <translation>Salta Riassunto</translation>
+    </message>
+    <message>
+        <source>Skip Outro</source>
+        <translation>Salta Titoli Di Coda</translation>
+    </message>
+    <message>
+        <source>Skip Intro</source>
+        <translation>Salta Introduzione</translation>
+    </message>
+    <message>
+        <source>Go To Genre</source>
+        <translation>Vai Al Genere</translation>
+    </message>
+    <message>
+        <source>Play Instant Mix</source>
+        <translation>RIproduci Mix Instantaneo</translation>
+    </message>
+    <message>
+        <source>Show Next Episode Details After Finish</source>
+        <translation>Mostra Dettagli Prossimo Episodio Dopo La Fine</translation>
+    </message>
+    <message>
+        <source>If auto play next episode is disabled, display the next episode&apos;s detail screen after an episode finishes playing. If no next up episode is found, return to the just-played episode&apos;s page.</source>
+        <translation>Se la riproduzione automatica del prossimo episodio è disabilitata, mostra la schermata di dettagli del prossimo episodio alla fine dell&apos;episodio corrente. Se non viene trovato nessun nuovo episodio, ritorna alla pagina dell&apos;episodio appena riprodotto.</translation>
+    </message>
+    <message>
+        <source>Favorites Row</source>
+        <translation>Riga Preferiti</translation>
+    </message>
+    <message>
+        <source>Settings relating to the favorites row on the home screen.</source>
+        <translation>Impostazioni legate alla riga dei preferiti nella schermata principale.</translation>
+    </message>
+    <message>
+        <source>Sort By Field</source>
+        <translation>Ordina Per Campo</translation>
+    </message>
+    <message>
+        <source>Field to sort the row by.</source>
+        <translation>Campi per cui è possibile ordinare la riga.</translation>
+    </message>
+    <message>
+        <source>Date Created</source>
+        <translation>Data Creazione</translation>
+    </message>
+    <message>
+        <source>Is Unplayed</source>
+        <translation>È Non Riprodotto</translation>
+    </message>
+    <message>
+        <source>Sort Order for the row - Ascending,Descending.</source>
+        <translation>Ordine della riga - Ascendente,Discendente.</translation>
+    </message>
+    <message>
+        <source>Current Offset</source>
+        <translation>Scostamento Temporale Attuale Sottotitoli</translation>
+    </message>
+    <message>
+        <source>Adjust Subtitle Timing</source>
+        <translation>Imposta Scostamento Temporale Sottotitoli</translation>
+    </message>
+    <message>
+        <source>Display Episodes In Two Columns</source>
+        <translation>Mostra Episodi In Due Colonne</translation>
+    </message>
+    <message>
+        <source>Screen Settings</source>
+        <translation>Impostazioni Schermo</translation>
+    </message>
+    <message>
+        <source>Load Items Limit</source>
+        <translation>Limite Caricamento Oggetti</translation>
+    </message>
+    <message>
+        <source>Number of items to load together on library screens.</source>
+        <translation>Numero degli oggetti da caricare insieme sullo schermata della libreria.</translation>
     </message>
 </context>
 <context>

@@ -1199,7 +1199,7 @@
     </message>
     <message>
         <source>Settings that apply when Grid views are enabled.</source>
-        <translation>Configuraciones que aplican cuando el modo de Cuadrícula es habilitado.</translation>
+        <translation>Configuraciones que se aplican cuando el modo de Cuadrícula está habilitado.</translation>
     </message>
     <message>
         <source>Settings relating to the appearance of pages in Movie Libraries.</source>
@@ -1249,7 +1249,7 @@
     </message>
     <message>
         <source>Set the maximum bitrate in Mbps. Set to 0 to use Roku&apos;s specifications. This setting must be enabled to take effect.</source>
-        <translation>Establecer la tasa de bits máxima en Mbps. Establecela en 0 para utilizar las especificaciones de Roku. Esta configuración debe estar habilitada para que surta efecto.</translation>
+        <translation>Establecer la tasa de bits máxima en Mbps. Establécela en 0 para utilizar las especificaciones de Roku. Esta configuración debe estar habilitada para que surta efecto.</translation>
     </message>
     <message>
         <source>General</source>
@@ -2216,7 +2216,7 @@
     </message>
     <message>
         <source>How many minutes of inactivity before playback is stopped between items and a popup is shown to continue? Set to 0 to disable.</source>
-        <translation>¿Cuántos minutos de inactividad deben transcurrir antes de que se detenga la reproducción entre elementos y se muestre una ventana emergente para continuar?. Configurar con 0 para desactivar.</translation>
+        <translation>¿Cuántos minutos de inactividad deben transcurrir antes de que se detenga la reproducción entre elementos y se muestre una ventana emergente para continuar? Configurar con 0 para desactivar.</translation>
     </message>
     <message>
         <source>Are You Still Watching?</source>
@@ -2312,11 +2312,67 @@
     </message>
     <message>
         <source>Show Next Episode Details After Finish</source>
-        <translation>Mostrar Detalles Del Siguiente Episodio Después De Acabar</translation>
+        <translation>Mostrar detalles del siguiente episodio después de acabar</translation>
     </message>
     <message>
         <source>If auto play next episode is disabled, display the next episode&apos;s detail screen after an episode finishes playing. If no next up episode is found, return to the just-played episode&apos;s page.</source>
         <translation>Si la reproducción automática del siguiente episodio está desactivada, mostrar pantalla de detalles del siguiente episodio cuando un episodio termina de reproducirse. Si no se encuentra el siguiente episodio, volver a la página del último episodio que se reprodujo.</translation>
+    </message>
+    <message>
+        <source>Adjust Subtitle Timing</source>
+        <translation>Ajustar los tiempos de los subtítulos</translation>
+    </message>
+    <message>
+        <source>Sort Order for the row - Ascending,Descending.</source>
+        <translation>Ordenar la fila - Ascendente,Descendente.</translation>
+    </message>
+    <message>
+        <source>Current Offset</source>
+        <translation>Desplazamiento actual</translation>
+    </message>
+    <message>
+        <source>Favorites Row</source>
+        <translation>Fila de favoritos</translation>
+    </message>
+    <message>
+        <source>Settings relating to the favorites row on the home screen.</source>
+        <translation>Configuración de la fila de favoritos en la pantalla principal.</translation>
+    </message>
+    <message>
+        <source>Sort By Field</source>
+        <translation>Ordenar por campo</translation>
+    </message>
+    <message>
+        <source>Field to sort the row by.</source>
+        <translation>Campo para el filtrar la fila.</translation>
+    </message>
+    <message>
+        <source>Date Created</source>
+        <translation>Fecha creada</translation>
+    </message>
+    <message>
+        <source>Is Unplayed</source>
+        <translation>No se ha reproducido</translation>
+    </message>
+    <message>
+        <source>Screen Settings</source>
+        <translation>Configuración de pantalla</translation>
+    </message>
+    <message>
+        <source>Display Episodes In Two Columns</source>
+        <translation>Mostrar los episodios en dos columnas</translation>
+    </message>
+    <message>
+        <source>Set the maximum amount of days a show should stay in the &apos;Next Up&apos; list without watching it. Maximum value is 1000 days.</source>
+        <translation>Establece los días que un elemento aparecerá en la sección “A Continuación” si no se visualiza. El valor máximo es 1000 días.</translation>
+    </message>
+    <message>
+        <source>Newer devices may support direct play of anamorphic video.</source>
+        <translation>Dispositivos más recientes podrían ser compatibles con la reproducción directa de vídeo anamórfico.</translation>
+    </message>
+    <message>
+        <source>Attempt Direct Play Anamorphic Video</source>
+        <translation>Intentar reproducción directa de vídeo anamórfico</translation>
     </message>
 </context>
 <context>

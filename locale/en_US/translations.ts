@@ -806,8 +806,8 @@
             <extracomment>Option Title in user setting screen</extracomment>
         </message>
         <message>
-            <source>Set the maximum amount of days a show should stay in the 'Next Up' list without watching it.</source>
-            <translation>Set the maximum amount of days a show should stay in the 'Next Up' list without watching it.</translation>
+            <source>Set the maximum amount of days a show should stay in the 'Next Up' list without watching it. Maximum value is 1000 days.</source>
+            <translation>Set the maximum amount of days a show should stay in the 'Next Up' list without watching it. Maximum value is 1000 days.</translation>
             <extracomment>Settings Menu - Description for option</extracomment>
         </message>
         <message>
@@ -1563,6 +1563,16 @@
             <translation>Number of columns in library view when showing square images</translation>
             <extracomment>Libraries Setting - Setting description</extracomment>
         </message>
+	<message>
+	    <source>Load Items Limit</source>
+	    <translation>Load Items Limit</translation>
+	    <extracomment>Libraries Setting - Setting title</extracomment>
+        </message>
+	<message>
+	    <source>Number of items to load together on library screens.</source>
+	    <translation>Number of items to load together on library screens.</translation>
+	    <extracomment>Libraries Setting - Setting description</extracomment>
+        </message>
 
         <message>
             <source>View All Next Up</source>
@@ -2176,6 +2186,14 @@
             <translation>Are You Still Watching Popup</translation>
         </message>
         <message>
+            <source>Attempt Direct Play Anamorphic Video</source>
+            <translation>Attempt Direct Play Anamorphic Video</translation>
+        </message>
+        <message>
+            <source>Newer devices may support direct play of anamorphic video.</source>
+            <translation>Newer devices may support direct play of anamorphic video.</translation>
+        </message>
+        <message>
             <source>How many minutes of inactivity before playback is stopped between items and a popup is shown to continue? Set to 0 to disable.</source>
             <translation>How many minutes of inactivity before playback is stopped between items and a popup is shown to continue? Set to 0 to disable.</translation>
         </message>
@@ -2264,6 +2282,110 @@
         <message>
             <source>If auto play next episode is disabled, display the next episode's detail screen after an episode finishes playing. If no next up episode is found, return to the just-played episode's page.</source>
             <translation>If auto play next episode is disabled, display the next episode's detail screen after an episode finishes playing. If no next up episode is found, return to the just-played episode's page.</translation>
+        </message>
+        <message>
+            <source>Favorites Row</source>
+            <translation>Favorites Row</translation>
+        </message>
+        <message>
+            <source>Settings relating to the favorites row on the home screen.</source>
+            <translation>Settings relating to the favorites row on the home screen.</translation>
+        </message>
+        <message>
+            <source>Sort By Field</source>
+            <translation>Sort By Field</translation>
+        </message>
+        <message>
+            <source>Field to sort the row by.</source>
+            <translation>Field to sort the row by.</translation>
+        </message>
+        <message>
+            <source>Date Created</source>
+            <translation>Date Created</translation>
+        </message>
+        <message>
+            <source>Is Unplayed</source>
+            <translation>Is Unplayed</translation>
+        </message>
+        <message>
+            <source>Sort Order for the row - Ascending,Descending.</source>
+            <translation>Sort Order for the row - Ascending,Descending.</translation>
+        </message>
+        <message>
+            <source>Current Offset</source>
+            <translation>Current Offset</translation>
+        </message>
+        <message>
+            <source>Adjust Subtitle Timing</source>
+            <translation>Adjust Subtitle Timing</translation>
+        </message>
+        <message>
+            <source>Display Episodes In Two Columns</source>
+            <translation>Display Episodes In Two Columns</translation>
+        </message>
+        <message>
+            <source>Screen Settings</source>
+            <translation>Screen Settings</translation>
+        </message>
+        <message>
+            <source>Settings relating to Live TV.</source>
+            <translation>Settings relating to Live TV.</translation>
+            <extracomment>Libraries Setting - Setting Category description</extracomment>
+        </message>
+        <message>
+            <source>Channel Title Info</source>
+            <translation>Channel Title Info</translation>
+            <extracomment>Libraries Setting - Setting title</extracomment>
+        </message>
+        <message>
+            <source>Select what information to use as a channel's title.</source>
+            <translation>Select what information to use as a channel's title.</translation>
+            <extracomment>Libraries Setting - Setting description</extracomment>
+        </message>
+        <message>
+            <source>Settings relating to Live TV.</source>
+            <translation>Settings relating to Live TV.</translation>
+            <extracomment>Libraries Setting - Setting description</extracomment>
+        </message>
+        <message>
+            <source>Channel Number and Name</source>
+            <translation>Channel Number and Name</translation>
+            <extracomment>Libraries Setting - Setting option</extracomment>
+        </message>
+        <message>
+            <source>Channel Number</source>
+            <translation>Channel Number</translation>
+            <extracomment>Libraries Setting - Setting option</extracomment>
+        </message>
+        <message>
+            <source>Channel Name</source>
+            <translation>Channel Name</translation>
+            <extracomment>Libraries Setting - Setting option</extracomment>
+        </message>
+        <message>
+            <source>TV Guide Channel Display</source>
+            <translation>TV Guide Channel Display</translation>
+            <extracomment>Libraries Setting - Setting title</extracomment>
+        </message>
+        <message>
+            <source>Select how to display a channel in the Live TV guide.</source>
+            <translation>Select how to display a channel in the Live TV guide.</translation>
+            <extracomment>Libraries Setting - Setting description</extracomment>
+        </message>
+        <message>
+            <source>Channel Logo and Title</source>
+            <translation>Channel Logo and Title</translation>
+            <extracomment>Libraries Setting - Setting option</extracomment>
+        </message>
+        <message>
+            <source>Channel Logo</source>
+            <translation>Channel Logo</translation>
+            <extracomment>Libraries Setting - Setting option</extracomment>
+        </message>
+        <message>
+            <source>Channel Title</source>
+            <translation>Channel Title</translation>
+            <extracomment>Libraries Setting - Setting option</extracomment>
         </message>
     </context>
 </TS>

@@ -4,6 +4,10 @@ import "pkg:/source/enums/MediaPlaybackState.bs"
 import "pkg:/source/enums/String.bs"
 import "pkg:/source/utils/config.bs"
 
+const SCREEN_PADDING = 60
+const LOWEST_CAPTION = 1080 - SCREEN_PADDING
+const VIEWABLE_AREA = 1080 - 2 * SCREEN_PADDING
+
 sub init()
     m.top.playerState = MediaPlaybackState.STOPPED
     m.top.observeField("url", "fetchCaption")
@@ -16,20 +20,23 @@ sub init()
     m.captionList = []
     m.reader = createObject("roUrlTransfer")
     m.font = CreateObject("roSGNode", "Font")
-    m.tags = CreateObject("roRegex", "{\\an\d*}|&lt;.*?&gt;|<.*?>", "s")
+    m.undesirableTags = CreateObject("roRegex", "{\\an\d*}|&lt;.*?&gt;|<(?!\/?font\b).*?>", "s")
+    m.fontColor = CreateObject("roRegex", "color\s*=\s*(""[^""]*""|\'[^\']*\'|[^\s]+)", "i")
 
     ' Caption Style
-    m.fontSizeDict = { "Default": 60, "Large": 60, "Extra Large": 70, "Medium": 50, "Small": 40 }
-    m.percentageDict = { "Default": 1.0, "100%": 1.0, "75%": 0.75, "50%": 0.5, "25%": 0.25, "Off": 0 }
-    m.textColorDict = { "Default": &HFFFFFFFF, "White": &HFFFFFFFF, "Black": &H000000FF, "Red": &HFF0000FF, "Green": &H008000FF, "Blue": &H0000FFFF, "Yellow": &HFFFF00FF, "Magenta": &HFF00FFFF, "Cyan": &H00FFFFFF }
-    m.bgColorDict = { "Default": &H000000FF, "White": &HFFFFFFFF, "Black": &H000000FF, "Red": &HFF0000FF, "Green": &H008000FF, "Blue": &H0000FFFF, "Yellow": &HFFFF00FF, "Magenta": &HFF00FFFF, "Cyan": &H00FFFFFF }
+    m.fontSizeDict = { "Default": 60, "Large": 60, "Extra Large": 70, "Medium": 50, "Small": 40, "Extra Small": 30 }
+    m.percentageDict = { "Default": "FF", "100%": "FF", "75%": "BF", "50%": "7F", "25%": "4B", "Off": "00" }
+    m.textColorDict = { "Default": "0xCCCCCC", "Bright White": "0xFFFFFF", "White": "0xCCCCCC", "Black": "0x000000", "Red": "0xFF0000", "Green": "0x008000", "Blue": "0x0000FF", "Yellow": "0xFFFF00", "Magenta": "0xFF00FF", "Cyan": "0x00FFFF" }
+    m.bgColorDict = { "Default": "0x000000", "Bright White": "0xFFFFFF", "White": "0xCCCCCC", "Black": "0x000000", "Red": "0xFF0000", "Green": "0x008000", "Blue": "0x0000FF", "Yellow": "0xFFFF00", "Magenta": "0xFF00FF", "Cyan": "0x00FFFF" }
 
     deviceInfo = CreateObject("roDeviceInfo")
     m.fontSize = m.fontSizeDict[deviceInfo.GetCaptionsOption("Text/Size")]
-    m.textColor = m.textColorDict[deviceInfo.GetCaptionsOption("Text/Color")]
-    m.textOpac = m.percentageDict[deviceInfo.GetCaptionsOption("Text/Opacity")]
-    m.bgColor = m.bgColorDict[deviceInfo.GetCaptionsOption("Background/Color")]
-    m.bgOpac = m.percentageDict[deviceInfo.GetCaptionsOption("Background/Opacity")]
+    textColor = chainLookupReturn(m.textColorDict, deviceInfo.GetCaptionsOption("Text/Color"), m.textColorDict.Default)
+    m.textOpac = chainLookupReturn(m.percentageDict, deviceInfo.GetCaptionsOption("Text/Opacity"), m.percentageDict.Default)
+    m.textColor = `${textColor}${m.textOpac}`
+    deviceBGColor = chainLookupReturn(m.bgColorDict, deviceInfo.GetCaptionsOption("Background/Color"), m.bgColorDict.Default)
+    deviceBGOpacity = chainLookupReturn(m.percentageDict, deviceInfo.GetCaptionsOption("Background/Opacity"), m.percentageDict.Default)
+    m.bgColor = `${deviceBGColor}${deviceBGOpacity}`
     setFont()
 end sub
 
@@ -38,9 +45,8 @@ sub setFont()
 
     if fs.Exists("tmp:/font")
         m.font.uri = "tmp:/font"
-        m.font.size = m.fontSize
     else
-        m.font = "font:LargeSystemFont"
+        m.font.uri = "font:LargeSystemFont"
     end if
 end sub
 
@@ -58,19 +64,9 @@ sub fetchCaption()
     end if
 end sub
 
-function newlabel(txt)
-    label = CreateObject("roSGNode", "Label")
-    label.text = txt
-    label.font = m.font
-    label.font.size = m.fontSize
-    label.color = m.textColor
-    label.opacity = m.textOpac
-    return label
-end function
-
-function newLayoutGroup(labels)
+function newLayoutGroup(label)
     newlg = CreateObject("roSGNode", "LayoutGroup")
-    newlg.appendchildren(labels)
+    newlg.appendchild(label)
     newlg.layoutDirection = "vert"
     newlg.horizalignment = "left"
     newlg.vertalignment = "top"
@@ -87,7 +83,6 @@ function newRect(lg, id as string)
     lg.translation = [5, 5]
 
     rect.color = m.bgColor
-    rect.opacity = m.bgOpac
     rect.width = rectxy.width + 10
     rect.height = rectxy.height + 10
 
@@ -98,7 +93,6 @@ function newRect(lg, id as string)
 
     return rect
 end function
-
 
 sub updateCaption()
     if LCase(m.top.playerState.right(1)) = "w"
@@ -116,15 +110,147 @@ sub updateCaption()
     for each entry in m.captionList
         if entry["start"] <= m.top.currentPos and m.top.currentPos < entry["end"]
 
-            labels = []
-            for each text in entry["text"]
-                labels.push(newlabel(text))
+            fullText = entry["text"].Join(Chr(10))
+
+            ' look for style tags
+            drawingStyles = {
+                "default": {
+                    "fontUri": m.font.uri,
+                    "fontSize": m.fontSize,
+                    "color": m.textColor
+                }
+            }
+            openTags = []
+            styledText = string.EMPTY
+            parts = fullText.Split("<")
+            firstIter = true
+            for each part in parts
+                if firstIter
+                    ' first part will either be "" if it starts with a tag,
+                    ' or plain text before the first tag, so just add it and continue
+                    styledText += part
+                    firstIter = false
+                    continue for
+                end if
+                tagEnd = part.Instr(0, ">")
+                nextNewLine = part.Instr(0, Chr(10))
+                if tagEnd = -1 or (nextNewLine <> -1 and nextNewLine < tagEnd)
+                    ' no end bracket on the same line - treat as literal less-than sign
+                    styledText += `<${part}`
+                    continue for
+                end if
+                tagValue = LCase(part.Mid(0, tagEnd).Trim())
+                replaceTagWith = string.EMPTY
+                if tagValue.StartsWith("font")
+                    ' opening font tag
+                    colorName = invalid
+                    color = m.fontColor.Match(tagValue)
+                    if color.Count() > 1
+                        color = color[1].Replace("'", string.EMPTY).Replace("""", string.EMPTY).Trim()
+                        if color.StartsWith("#")
+                            ' hex color code (must be 3 or 6 digits)
+                            sanitizedColor = "#"
+                            colorChars = color.Mid(1).Split(string.EMPTY)
+                            isShortColor = colorChars.Count() = 3
+                            for each c in colorChars
+                                if c >= "0" and c <= "9" or c >= "a" and c <= "f"
+                                    sanitizedColor += c
+                                    if isShortColor
+                                        sanitizedColor += c
+                                    end if
+                                end if
+                            end for
+                            if sanitizedColor.Len() = 7
+                                color = sanitizedColor
+                                colorName = color
+                            end if
+                        else if color.StartsWith("rgb(") or color.StartsWith("rgba(")
+                            ' rgb or rgba color code (alpha is ignored)
+                            rgbValues = color.Mid(color.Instr("(") + 1).Replace(")", string.EMPTY).Split(",")
+                            if rgbValues.Count() >= 3
+                                r = rgbValues[0].Trim()
+                                g = rgbValues[1].Trim()
+                                b = rgbValues[2].Trim()
+                                ' verify they're numbers
+                                ' can't rely on val() because it returns 0 and the text will end up black
+                                if r.Left(1) >= "0" and r.Left(1) <= "9" and g.Left(1) >= "0" and g.Left(1) <= "9" and b.Left(1) >= "0" and b.Left(1) <= "9"
+                                    r = val(r, 10)
+                                    g = val(g, 10)
+                                    b = val(b, 10)
+                                    if r >= 0 and r <= 255 and g >= 0 and g <= 255 and b >= 0 and b <= 255
+                                        color = "#%02x%02x%02x".Format(r, g, b)
+                                        colorName = color
+                                    end if
+                                end if
+                            end if
+                        else
+                            ' is it the name of a color?
+                            cssColor = chainLookup(m.global.constants.cssColorDict, color)
+                            if isValid(cssColor)
+                                colorName = color
+                                color = cssColor
+                            end if
+                        end if
+                        if isValid(colorName)
+                            drawingStyles.AddReplace(colorName, {
+                                "fontUri": m.font.uri,
+                                "fontSize": m.fontSize,
+                                "color": `${color}${m.textOpac}`
+                            })
+                            replaceTagWith += `${colorName}`
+                        end if
+                    end if
+                    ' keep track of invalid tags
+                    if not isValid(colorName)
+                        openTags.push(colorName)
+                    end if
+                else if tagValue.StartsWith("/font")
+                    ' closing tag
+                    if openTags.Count() > 0
+                        openTag = openTags.pop()
+                        if isValid(openTag)
+                            replaceTagWith = `/${openTag}`
+                        end if
+                    end if
+                end if
+                if replaceTagWith.Len() > 0
+                    ' MultiStyleLabel doesn't support nested tags, so if this is nested,
+                    ' we need to close the previous one before opening a new one,
+                    ' and reopen it after
+                    isClosing = replaceTagWith.StartsWith("/")
+                    lastValidTag = invalid
+                    for i = openTags.count() - 1 to 0 step -1
+                        ' do we have a valid tag still open?
+                        if isValid(openTags[i])
+                            lastValidTag = openTags[i]
+                            exit for
+                        end if
+                    end for
+                    if isValid(lastValidTag)
+                        if isClosing
+                            styledText += `<${replaceTagWith}><${lastValidTag}>`
+                        else
+                            openTags.push(replaceTagWith)
+                            styledText += `</${lastValidTag}><${replaceTagWith}>`
+                        end if
+                    else
+                        if not isClosing
+                            openTags.push(replaceTagWith)
+                        end if
+                        styledText += `<${replaceTagWith}>`
+                    end if
+                end if
+                styledText += part.Mid(tagEnd + 1)
             end for
 
-            lines = newLayoutGroup(labels)
+            label = CreateObject("roSGNode", "MultiStyleLabel")
+            label.drawingStyles = drawingStyles
+            label.text = styledText
+            label.horizAlign = "center"
+            lines = newLayoutGroup(label)
             rect = newRect(lines, entry.LookupCI("id"))
 
-            finalStyles = prepareStyles(entry["styles"], rect, labels.count())
+            finalStyles = prepareStyles(entry["styles"], rect, entry["text"].count())
             rect.translation = finalStyles.translation
 
             adjustForCaptionOverlaps(rect, captions)
@@ -178,9 +304,9 @@ end function
 
 function prepareStyles(styles as object, rect, lineCount = 1 as integer) as object
     captionStyles = styles
-    finalStyles = { translation: [960, 1020] }
+    finalStyles = { translation: [960, LOWEST_CAPTION] }
 
-    verticalPosition = 1020
+    verticalPosition = LOWEST_CAPTION
     horizontalPositon = 960 - (rect.BoundingRect().width / 2)
 
     if not isValidAndNotEmpty(captionStyles)
@@ -193,7 +319,7 @@ function prepareStyles(styles as object, rect, lineCount = 1 as integer) as obje
     ' Line
     if not isStringEqual(captionLine, string.EMPTY)
         captionLineHeight = (rect.BoundingRect().height / lineCount)
-        verticalPosition = processLineCue(captionLine, captionLineHeight)
+        verticalPosition = processLineCue(captionLine, captionLineHeight, rect.BoundingRect().height)
     end if
 
     ' Position
@@ -220,39 +346,31 @@ function processPositionCue(captionPosition as string, captionLineWidth as float
     return calculatedPosition
 end function
 
-function processLineCue(captionLine as string, captionLineHeight as float) as integer
+function processLineCue(captionLine as string, captionLineHeight as float, captionTotalHeight as float) as integer
     ' A percentage
     if captionLine.Instr("%") <> -1
-        calculatedPosition = 1080 * (val(captionLine) / 100)
+        calculatedPosition = SCREEN_PADDING + VIEWABLE_AREA * (val(captionLine) / 100)
+    else
+        ' Note: Non-numeric values are treated as 0
+        lineValue = val(captionLine)
 
-        if calculatedPosition + captionLineHeight > 1080
-            calculatedPosition = 1080 - captionLineHeight
+        if lineValue = 0 then return SCREEN_PADDING
+
+        if lineValue > 0
+            ' A positive line value. Count from the top
+            calculatedPosition = SCREEN_PADDING + lineValue * captionLineHeight
+        else
+            ' A negative line value. Count from the bottom
+            calculatedPosition = LOWEST_CAPTION - Abs(lineValue * captionLineHeight)
         end if
-
-        return calculatedPosition
     end if
 
-    ' Note: Non-numeric values are treated as 0
-    lineValue = val(captionLine)
-
-    if lineValue = 0 then return 0
-
-    ' A positive line value. Count from the top
-    if lineValue >= 0
-        calculatedPosition = lineValue * captionLineHeight
-
-        if calculatedPosition + captionLineHeight > 1080
-            calculatedPosition = 1080 - captionLineHeight
-        end if
-
-        return calculatedPosition
+    if calculatedPosition + captionTotalHeight > LOWEST_CAPTION
+        return LOWEST_CAPTION - captionTotalHeight
     end if
 
-    ' A negative line value. Count from the bottom
-    calculatedPosition = 1080 - Abs(lineValue * captionLineHeight)
-
-    if calculatedPosition < 0
-        calculatedPosition = 0
+    if calculatedPosition < SCREEN_PADDING
+        return SCREEN_PADDING
     end if
 
     return calculatedPosition
@@ -321,7 +439,7 @@ function parseVTT(lines)
 
         if isNewLine
             trimmed = lines[i].trim()
-            finalText = m.tags.replaceAll(trimmed, "")
+            finalText = m.undesirableTags.replaceAll(trimmed, "")
 
             ' We reached a blank line
             if isStringEqual(finalText, string.EMPTY)

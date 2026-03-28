@@ -37,20 +37,27 @@ function ItemPostPlaybackInfo(id as string, mediaSourceId = "" as string, audioT
         "SubtitleStreamIndex": subtitleTrackIndex
     }
 
+    if isStringEqual(m.global.queueManager.callFunc("getForceTranscode"), PlaybackMethod.FORCELIVETVREMUX)
+        ' We are playing live tv and direct play failed, let's try again but with force remuxing...
+        params.EnableDirectPlay = false
+    end if
+
     if chainLookupReturn(options, "emptySubtitleProfiles", false)
         body.DeviceProfile.SubtitleProfiles = []
     end if
 
-    ' Note: Jellyfin v10.9+ now remuxs LiveTV and does not allow DirectPlay anymore.
-    ' Because of this, we need to tell the server "EnableDirectPlay = false" so that we receive the
-    ' transcoding URL (which is just a remux and not a transcode; unless it is)
-    ' The web handles this by disabling EnableDirectPlay on a Retry, but we don't currently Retry a Live
-    ' TV stream, thus we just turn it off on the first try here.
     if mediaSourceId <> ""
         params.MediaSourceId = mediaSourceId
     else
-        ' No mediaSourceId? Must be LiveTV...
-        params.EnableDirectPlay = false
+        ' Note: Jellyfin v10.9 remuxs LiveTV and does not allow DirectPlay.
+        ' Because of this, we need to tell the server "EnableDirectPlay = false" so that we receive the
+        ' transcoding URL (which is just a remux and not a transcode; unless it is)
+        ' The web handles this by disabling EnableDirectPlay on a Retry, but we don't currently Retry a Live
+        ' TV stream, thus we just turn it off on the first try here.
+        serverVersion = ServerInfo().LookupCI("version")
+        if not serverVersionMeetsMinimumRequirements(serverVersion, [10, 10, 0])
+            params.EnableDirectPlay = false
+        end if
     end if
 
     if audioTrackIndex > -1 then params.AudioStreamIndex = audioTrackIndex
@@ -60,7 +67,6 @@ function ItemPostPlaybackInfo(id as string, mediaSourceId = "" as string, audioT
     return postJson(req, FormatJson(body))
 end function
 
-' Search across all libraries
 function searchMedia(query as string)
     if query <> ""
         ' Everything except Live TV shows (but including TV Channels)
@@ -148,10 +154,13 @@ end function
 
 ' MetaData about an item
 function ItemMetaData(id as string)
-    url = Substitute("Users/{0}/Items/{1}", m.global.session.user.id, id)
-    resp = APIRequest(url, { "fields": "Chapters,Trickplay" })
+    url = Substitute("Items/{0}", id)
+    resp = APIRequest(url, {
+        userid: m.global.session.user.id,
+        fields: "Chapters,Trickplay"
+    })
     data = getJson(resp)
-    if data = invalid then return invalid
+    if not isValidAndNotEmpty(data) then return invalid
 
     imgParams = {}
     if data.type <> "Audio"
@@ -276,21 +285,20 @@ end function
 
 ' Get list of albums belonging to an artist
 function MusicAlbumList(id as string)
-    url = Substitute("Users/{0}/Items", m.global.session.user.id)
-    resp = APIRequest(url, {
+    params = {
+        "UserId": m.global.session.user.id,
         "AlbumArtistIds": id,
         "includeitemtypes": "MusicAlbum",
         "sortBy": "SortName",
         "Recursive": true
-    })
+    }
+    data = api.items.Get(params)
 
     results = []
-    data = getJson(resp)
     row = CreateObject("roSGNode", "ContentNode")
 
-    if data = invalid then return invalid
-    if data.Items = invalid then return invalid
-    if data.Items.Count() = 0 then return invalid
+    if not isValid(data) then return invalid
+    if not isValidAndNotEmpty(chainLookup(data, "Items")) then return invalid
 
     for each item in data.Items
         tmp = CreateObject("roSGNode", "MusicAlbumData")
@@ -320,23 +328,22 @@ end function
 
 ' Get list of albums an artist appears on
 function AppearsOnList(id as string)
-    url = Substitute("Users/{0}/Items", m.global.session.user.id)
-    resp = APIRequest(url, {
+    params = {
+        "UserId": m.global.session.user.id,
         "ContributingArtistIds": id,
         "ExcludeItemIds": id,
         "includeitemtypes": "MusicAlbum",
         "sortBy": "PremiereDate,ProductionYear,SortName",
         "SortOrder": "Descending",
         "Recursive": true
-    })
+    }
+    data = api.items.Get(params)
 
     results = []
-    data = getJson(resp)
     row = CreateObject("roSGNode", "ContentNode")
 
-    if data = invalid then return invalid
-    if data.Items = invalid then return invalid
-    if data.Items.Count() = 0 then return invalid
+    if not isValid(data) then return invalid
+    if not isValidAndNotEmpty(chainLookup(data, "Items")) then return invalid
 
     for each item in data.Items
         tmp = CreateObject("roSGNode", "MusicAlbumData")
@@ -366,32 +373,26 @@ end function
 
 ' Get list of songs belonging to an artist
 function GetSongsByArtist(id as string, params = {} as object)
-    url = Substitute("Users/{0}/Items", m.global.session.user.id)
     paramArray = {
+        "UserId": m.global.session.user.id,
         "AlbumArtistIds": id,
         "includeitemtypes": "Audio",
         "sortBy": "SortName",
         "Recursive": true
     }
+
     ' overwrite defaults with the params provided
     for each param in params
         paramArray.AddReplace(param, params[param])
     end for
 
-    resp = APIRequest(url, paramArray)
-    data = getJson(resp)
-
-    if data = invalid then return invalid
-    if data.Items = invalid then return invalid
-    if data.Items.Count() = 0 then return invalid
+    data = api.items.Get(paramArray)
 
     results = []
-    data = getJson(resp)
     row = CreateObject("roSGNode", "ContentNode")
 
-    if data = invalid then return invalid
-    if data.Items = invalid then return invalid
-    if data.Items.Count() = 0 then return invalid
+    if not isValid(data) then return invalid
+    if not isValidAndNotEmpty(chainLookup(data, "Items")) then return invalid
 
     for each item in data.Items
         tmp = CreateObject("roSGNode", "MusicSongData")
@@ -449,21 +450,20 @@ end function
 
 ' Get Songs that are on an Album
 function MusicSongList(id as string)
-    url = Substitute("Users/{0}/Items", m.global.session.user.id, id)
-    resp = APIRequest(url, {
+    params = {
         "UserId": m.global.session.user.id,
         "parentId": id,
         "includeitemtypes": "Audio",
         "sortBy": "SortName"
-    })
+    }
+
+    data = api.items.Get(params)
 
     results = []
-    data = getJson(resp)
     row = CreateObject("roSGNode", "ContentNode")
 
-    if data = invalid then return invalid
-    if data.Items = invalid then return invalid
-    if data.Items.Count() = 0 then return invalid
+    if not isValid(data) then return invalid
+    if not isValidAndNotEmpty(chainLookup(data, "Items")) then return invalid
 
     for each item in data.Items
         tmp = CreateObject("roSGNode", "MusicSongData")
@@ -484,16 +484,13 @@ function MusicSongList(id as string)
     return row
 end function
 
-' Get Songs that are on an Album
+' Get Audio Item Data
 function AudioItem(id as string)
-    url = Substitute("Users/{0}/Items/{1}", m.global.session.user.id, id)
-    resp = APIRequest(url, {
+    return api.items.GetByID(id, {
         "UserId": m.global.session.user.id,
         "includeitemtypes": "Audio",
         "sortBy": "SortName"
     })
-
-    return getJson(resp)
 end function
 
 ' Get Instant Mix based on item
@@ -504,10 +501,10 @@ function CreateInstantMix(id as string)
     })
 end function
 
-' Get Instant Mix based on item
+' Get Mix of items from artist
 function CreateArtistMix(id as string)
-    url = Substitute("Users/{0}/Items", m.global.session.user.id)
-    resp = APIRequest(url, {
+    params = {
+        "UserId": m.global.session.user.id,
         "ArtistIds": id,
         "Recursive": "true",
         "MediaTypes": "Audio",
@@ -518,19 +515,16 @@ function CreateArtistMix(id as string)
         "ExcludeLocationTypes": "Virtual",
         "EnableTotalRecordCount": false,
         "CollapseBoxSetItems": false
-    })
+    }
 
-    return getJson(resp)
+    return api.items.Get(params)
 end function
 
 ' Get Intro Videos for an item
 function GetIntroVideos(id as string)
-    url = Substitute("Users/{0}/Items/{1}/Intros", m.global.session.user.id, id)
-    resp = APIRequest(url, {
+    return api.items.GetIntros(id, {
         "UserId": m.global.session.user.id
     })
-
-    return getJson(resp)
 end function
 
 function AudioStream(id as string)
@@ -583,35 +577,25 @@ function BackdropImage(id as string)
     return ImageURL(id, "Backdrop", imgParams)
 end function
 
-' Seasons for a TV Show
-function TVSeasons(id as string) as dynamic
-    url = Substitute("Shows/{0}/Seasons", id)
-    resp = APIRequest(url, { "UserId": m.global.session.user.id })
-
-    data = getJson(resp)
-    ' validate data
-    if data = invalid or data.Items = invalid then return invalid
-
-    results = CreateObject("roSGNode", "ContentNode")
-    for each item in data.Items
-        seasonImage = PosterImage(item.id)
-        if not isValidAndNotEmpty(seasonImage)
-            seasonImage = getFirstEpisodeImage(id, item.id)
-        end if
-
-        tmp = results.createChild("TVSeasonData")
-        tmp.image = seasonImage
-        tmp.json = item
-    end for
-
-    return results
-end function
-
 function getFirstEpisodeImage(showId as string, seasonId as string)
-    listOfEpisodes = TVEpisodes(showId, seasonId)
+    listOfEpisodes = api.shows.GetEpisodes(showId,
+    {
+        seasonId: seasonId,
+        UserId: m.global.session.user.id,
+        limit: 5,
+        enableUserData: false,
+        imageTypeLimit: 1,
+        EnableImageTypes: "Primary"
+    })
+
     for each episode in listOfEpisodes.LookupCI("items")
-        if isValid(episode.image) then return episode.image
+        if isChainValid(episode, "imagetags.primary")
+            return ImageURL(episode.LookupCI("id"), ImageType.PRIMARY, {
+                tag: chainLookup(episode, "imagetags.primary")
+            })
+        end if
     end for
+
     return invalid
 end function
 
@@ -619,7 +603,13 @@ end function
 ' Accepts strings for the TV Show Id and the season Id
 function TVEpisodes(showId as string, seasonId as string) as dynamic
     ' Get and validate data
-    data = api.shows.GetEpisodes(showId, { "seasonId": seasonId, "UserId": m.global.session.user.id, "fields": "MediaStreams,MediaSources" })
+    data = api.shows.GetEpisodes(showId,
+    {
+        "seasonId": seasonId,
+        "UserId": m.global.session.user.id,
+        "fields": "MediaStreams,MediaSources"
+    })
+
     if data = invalid or data.Items = invalid then return invalid
 
     results = []
@@ -646,7 +636,7 @@ end function
 ' Accepts a string that is a TV Show season id
 function TVSeasonExtras(seasonId as string) as dynamic
     ' Get and validate TV extra features data
-    data = api.users.GetSpecialFeatures(m.global.session.user.id, seasonId)
+    data = api.items.GetSpecialFeatures(seasonId, { userid: m.global.session.user.id })
     if not isValid(data) then return invalid
 
     results = []
@@ -666,7 +656,6 @@ function TVSeasonExtras(seasonId as string) as dynamic
         results.push(tmp)
     end for
 
-    ' Build that data format that the TVEpisodeRow expects
     return { Items: results }
 end function
 

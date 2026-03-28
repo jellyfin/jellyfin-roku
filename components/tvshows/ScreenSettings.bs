@@ -1,0 +1,55 @@
+import "pkg:/source/enums/ColorPalette.bs"
+import "pkg:/source/enums/ImageLayout.bs"
+import "pkg:/source/enums/KeyCode.bs"
+import "pkg:/source/utils/misc.bs"
+
+sub init()
+    m.top.id = "OKDialog"
+    m.top.height = 900
+    m.top.width = 1500
+
+    m.group = m.global.sceneManager.callFunc("getActiveScene")
+    if not isValid(m.group) then return
+
+    m.settingName = m.group.subtype()
+    if not isValid(m.settingName) then return
+
+    m.screenSettings = m.top.findNode("screenSettings")
+    m.screenSettings.focusedColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+    m.screenSettings.focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+    m.screenSettings.font.size = 30
+    m.screenSettings.focusedFont.size = 30
+    m.screenSettings.observeFieldScoped("checkedState", "onCheckedStateChange")
+
+    twocolumnepisodelist = chainLookupReturn(m.global.session, `user.settings.${m.settingName}-twocolumnepisodelist`, true)
+    m.screenSettings.checkedState = [twocolumnepisodelist]
+end sub
+
+sub onCheckedStateChange()
+    if not isValid(m.settingName) then return
+
+    changedValues = []
+
+    twocolumnepisodelistOriginalValue = chainLookupReturn(m.global.session, `user.settings.${m.settingName}-twocolumnepisodelist`, true)
+    if not isStringEqual(twocolumnepisodelistOriginalValue.toStr(), m.screenSettings.checkedState[0].toStr())
+        set_user_setting(`${m.settingName}-twocolumnepisodelist`, m.screenSettings.checkedState[0].toStr())
+        changedValues.push(["twocolumnepisodelist", m.screenSettings.checkedState[0]])
+    end if
+
+    m.group.callFunc("redrawItems", changedValues)
+end sub
+
+function onKeyEvent(key as string, press as boolean) as boolean
+    if not press then return false
+
+    if isStringEqual(key, KeyCode.UP)
+        ' By default UP from the OK button is the scrollbar
+        ' Instead, move the user to the option list
+        if not m.screenSettings.isinFocusChain()
+            m.screenSettings.setFocus(true)
+            return true
+        end if
+    end if
+
+    return false
+end function

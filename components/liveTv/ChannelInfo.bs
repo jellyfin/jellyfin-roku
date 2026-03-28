@@ -1,4 +1,5 @@
 import "pkg:/source/enums/ColorPalette.bs"
+import "pkg:/source/enums/LiveTVChannelIdentifier.bs"
 import "pkg:/source/enums/PosterLoadStatus.bs"
 import "pkg:/source/utils/misc.bs"
 
@@ -16,23 +17,32 @@ sub init()
     m.channelTitle.color = ColorPalette.OFFWHITE
 end sub
 
-sub onLoadStatusChanged()
-    if m.channelLogo.loadStatus <> PosterLoadStatus.LOADING
-        m.channelLogo.unobserveFieldScoped("loadStatus")
-    end if
-
-    if m.channelLogo.loadStatus = PosterLoadStatus.READY
-        m.channelTitle.visible = false
-        m.channelLogo.visible = true
-        return
-    end if
-end sub
-
 sub onWidthChanged()
-    m.channelLogo.width = m.top.width
+    channelIdentifier = chainLookupReturn(m.global.session, "user.settings.tvGuideChannelDisplay", LiveTVChannelIdentifier.LOGOANDTITLE)
+
+    if isStringEqual(channelIdentifier, LiveTVChannelIdentifier.LOGOANDTITLE)
+        m.channelLogo.visible = true
+        m.channelTitle.visible = true
+        logoWidth = int(m.top.width / 3)
+        titleWidth = m.top.width - logoWidth
+    else if isStringEqual(channelIdentifier, LiveTVChannelIdentifier.TITLE)
+        m.channelLogo.visible = false
+        m.channelTitle.visible = true
+        logoWidth = 0
+        titleWidth = m.top.width
+    else
+        m.channelLogo.visible = true
+        m.channelTitle.visible = false
+        logoWidth = m.top.width
+        titleWidth = 0
+    end if
+
+    m.channelLogo.width = logoWidth
+    m.channelLogo.translation = [titleWidth, 0]
+    m.channelTitle.maxWidth = titleWidth
+
     m.borderTop.width = m.top.width
     m.backdrop.width = m.top.width
-    m.channelTitle.maxWidth = m.top.width - 20
 end sub
 
 sub onHeightChanged()
@@ -42,23 +52,20 @@ sub onHeightChanged()
 end sub
 
 sub contentChanged()
+    ' Reset all values due to Roku's component reuse
+    m.channelLogo.uri = ""
+    m.channelTitle.text = ""
+
     itemData = m.top.content
 
     if not isValid(itemData) then return
 
-    ' Reset all values due to Roku's component reuse
-    m.channelLogo.uri = ""
-    m.channelTitle.text = ""
-    m.channelTitle.visible = true
-
     if isValidAndNotEmpty(itemData.LookupCI("hdsmalliconurl"))
-        m.channelLogo.observeFieldScoped("loadStatus", "onLoadStatusChanged")
         m.channelLogo.uri = itemData.LookupCI("hdsmalliconurl")
-    else
-        m.channelLogo.visible = false
     end if
 
     if isValid(itemData.LookupCI("title"))
         m.channelTitle.text = itemData.LookupCI("title")
     end if
+
 end sub

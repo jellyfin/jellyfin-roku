@@ -231,7 +231,7 @@
     <message>
         <comment>Message displayed in Item Grid when no item to display. %1 is container type (e.g. Boxset, Collection, Folder, etc)</comment>
         <source>NO_ITEMS</source>
-        <translation>Bu %1 hiçbir öğe içermiyor</translation>
+        <translation>Bu %1 hiçbir öge içermiyor</translation>
     </message>
     <message>
         <comment>Name or Title field of media item</comment>
@@ -346,7 +346,7 @@
     </message>
     <message>
         <source>TV Shows</source>
-        <translation>TV Programları</translation>
+        <translation>Diziler</translation>
     </message>
     <message>
         <source>today</source>
@@ -440,12 +440,12 @@
     </message>
     <message>
         <source>Channels</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanallar</translation>
         <extracomment>Menu option for showing Live TV Channel List</extracomment>
     </message>
     <message>
         <source>TV Guide</source>
-        <translation type="unfinished"></translation>
+        <translation>TV Rehberi</translation>
         <extracomment>Menu option for showing Live TV Guide / Schedule</extracomment>
     </message>
     <message>
@@ -509,7 +509,7 @@
     </message>
     <message>
         <source>Error Getting Playback Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Oynatma Bilgileri Alınırken Hata Oluştu</translation>
         <extracomment>Dialog Title: Received error from server when trying to get information about the selected item for playback</extracomment>
     </message>
     <message>
@@ -533,7 +533,7 @@
     </message>
     <message>
         <source>Enable or disable Direct Play for optional codecs</source>
-        <translation type="unfinished"></translation>
+        <translation>İsteğe bağlı codec’ler için Doğrudan Oynatma’yı etkinleştir veya devre dışı bırak</translation>
         <extracomment>Settings Menu - Title for settings group related to codec support</extracomment>
     </message>
     <message>
@@ -543,7 +543,7 @@
     </message>
     <message>
         <source>Support Direct Play of MPEG-2 content (e.g., Live TV). This will prevent transcoding of MPEG-2 content, but uses significantly more bandwidth.</source>
-        <translation type="unfinished"></translation>
+        <translation>MPEG-2 içeriğin (ör. Canlı TV) Doğrudan Oynatılmasını destekler. Bu, MPEG-2 içerik için yeniden kodlamayı (transcoding) önler ancak önemli ölçüde daha fazla bant genişliği kullanır.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
@@ -553,7 +553,7 @@
     </message>
     <message>
         <source>Support Direct Play of MPEG-4 content. This may need to be disabled for playback of DIVX encoded video files.</source>
-        <translation type="unfinished"></translation>
+        <translation>MPEG-4 içeriğin Doğrudan Oynatılmasını destekler. DIVX ile kodlanmış video dosyalarının oynatılması için bunun devre dışı bırakılması gerekebilir.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
@@ -571,12 +571,12 @@
     </message>
     <message>
         <source>Media Grid</source>
-        <translation type="unfinished"></translation>
+        <translation>Medya Izgarası</translation>
         <extracomment>UI -&gt; Media Grid section in user setting screen.</extracomment>
     </message>
     <message>
         <source>Media Grid options.</source>
-        <translation type="unfinished"></translation>
+        <translation>Medya Izgarası ayarları.</translation>
     </message>
     <message>
         <source>Item Count</source>
@@ -585,7 +585,7 @@
     </message>
     <message>
         <source>Show item count in the library and index of selected item.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kütüphanede öğe sayısını ve seçili öğenin dizinini göster.</translation>
         <extracomment>Description for option in Setting Screen</extracomment>
     </message>
     <message>
@@ -608,7 +608,7 @@
     </message>
     <message>
         <source>Resume playing at </source>
-        <translation type="unfinished"></translation>
+        <translation>Şuradan oynatmaya devam et </translation>
     </message>
     <message>
         <source>Start over from the beginning.</source>
@@ -650,7 +650,7 @@
     </message>
     <message>
         <source>%1 of %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%2’nin %1’i</translation>
         <extracomment>Item position and count. %1 = current item. %2 = total number of items</extracomment>
     </message>
     <message>
@@ -688,7 +688,7 @@
     </message>
     <message>
         <source>Use the replay button to slowly animate to the first item in the folder. (If disabled, the folder will reset to the first item immediately).</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Klasördeki ilk öğeye yavaşça geçiş yapmak için tekrar oynat düğmesini kullanın. (Devre dışı bırakılırsa, klasör anında ilk öğeye sıfırlanır.)</translation>
         <extracomment>Description for option in Setting Screen</extracomment>
     </message>
     <message>
@@ -702,7 +702,7 @@
     </message>
     <message>
         <source>Options for TV Shows.</source>
-        <translation>TV Şovları ayarları.</translation>
+        <translation>Dizi Ayarları.</translation>
         <extracomment>Description for TV Shows user settings.</extracomment>
     </message>
     <message>
@@ -717,7 +717,7 @@
     </message>
     <message>
         <source>Go directly to the episode list if a TV series has only one season.</source>
-        <translation>Etkinleştirildiğinde tek sezonluk TV şovları detaylar ve sezon listesini göstermeden direk olarak bölüme gidecektir.</translation>
+        <translation>Etkinleştirildiğinde tek sezonluk dizilerin detaylarını ve sezon listesini göstermeden direk olarak bölüme gidecektir.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
@@ -1358,7 +1358,7 @@
     </message>
     <message>
         <source>Custom Trickplay</source>
-        <translation type="unfinished"></translation>
+        <translation>Özel Hızlı Önizleme</translation>
         <extracomment>User Setting - Title for option</extracomment>
     </message>
     <message>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component name="ScreenSettings" extends="StandardMessageDialog" initialFocus="screenSettings">
+  <children>
+    <StdDlgContentArea>
+      <CheckList
+        itemSize="[910, 72]"
+        id="screenSettings"
+        checkedState="[true]"
+        vertFocusAnimationStyle="floatingFocus"
+        translation="[0, 0]"
+        checkedIconUri="pkg:/images/icons/checkboxChecked.png"
+        focusedCheckedIconUri="pkg:/images/icons/checkboxChecked.png"
+        uncheckedIconUri="pkg:/images/icons/checkboxUnchecked.png"
+        focusedUncheckedIconUri="pkg:/images/icons/checkboxUnchecked.png"
+        focusFootprintBitmapUri=""
+        drawFocusFeedback="false">
+        <ContentNode role="content">
+          <ContentNode title="Display Episodes In Two Columns" />
+        </ContentNode>
+      </CheckList>
+    </StdDlgContentArea>
+  </children>
+</component>

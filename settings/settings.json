@@ -24,6 +24,13 @@
         "default": "0"
       },
       {
+        "title": "Attempt Direct Play Anamorphic Video",
+        "description": "Newer devices may support direct play of anamorphic video.",
+        "settingName": "playback.media.directPlayAnamorphic",
+        "type": "bool",
+        "default": "false"
+      },
+      {
         "title": "Autoplay Episode Limit",
         "description": "The number of episodes that will play automatically after the selected episode. Requires 'Play next episode automatically' server setting to be enabled.",
         "settingName": "episodeQueueLimit",
@@ -643,6 +650,70 @@
             ]
           },
           {
+            "title": "Favorites Row",
+            "description": "Settings relating to the favorites row on the home screen.",
+            "children": [
+              {
+                "title": "Sort By Field",
+                "description": "Field to sort the row by.",
+                "settingName": "ui.home.favoritesSortField",
+                "type": "radio",
+                "default": "random",
+                "options": [
+                  {
+                    "title": "Date Created",
+                    "id": "DateCreated"
+                  },
+                  {
+                    "title": "DATE_PLAYED",
+                    "id": "DatePlayed"
+                  },
+                  {
+                    "title": "Is Unplayed",
+                    "id": "IsUnplayed"
+                  },
+                  {
+                    "title": "Name",
+                    "id": "SortName"
+                  },
+                  {
+                    "title": "PLAY_COUNT",
+                    "id": "PlayCount"
+                  },
+                  {
+                    "title": "RELEASE_DATE",
+                    "id": "PremiereDate"
+                  },
+                  {
+                    "title": "Random",
+                    "id": "random"
+                  },
+                  {
+                    "title": "RUNTIME",
+                    "id": "Runtime"
+                  }
+                ]
+              },
+              {
+                "title": "Sort Order",
+                "description": "Sort Order for the row - Ascending,Descending.",
+                "settingName": "ui.home.favoritesSortOrder",
+                "type": "radio",
+                "default": "Ascending",
+                "options": [
+                  {
+                    "title": "Ascending",
+                    "id": "Ascending"
+                  },
+                  {
+                    "title": "Descending",
+                    "id": "Descending"
+                  }
+                ]
+              }
+            ]
+          },
+          {
             "title": "Hide Clock",
             "description": "Hide all clocks in Jellyfin. Jellyfin will need to be closed and reopened for changes to take effect.",
             "settingName": "ui.design.hideclock",
@@ -651,9 +722,10 @@
           },
           {
             "title": "Max Days Next Up",
-            "description": "Set the maximum amount of days a show should stay in the 'Next Up' list without watching it.",
+            "description": "Set the maximum amount of days a show should stay in the 'Next Up' list without watching it. Maximum value is 1000 days.",
             "settingName": "ui.details.maxdaysnextup",
             "type": "integer",
+            "max": "1000",
             "default": "365"
           },
           {
@@ -1113,16 +1185,16 @@
             "default": "default",
             "options": [
               {
-                    "title": "Default (Varies By Media Type)",
-                    "id": "default"
+                "title": "Default (Varies By Media Type)",
+                "id": "default"
               },
               {
-                    "title": "Landscape (Wide)",
-                    "id": "landscape"
+                "title": "Landscape (Wide)",
+                "id": "landscape"
               },
               {
-                    "title": "Portrait (Vertical)",
-                    "id": "portrait"
+                "title": "Portrait (Vertical)",
+                "id": "portrait"
               }
             ]
           },
@@ -1224,6 +1296,62 @@
                 "data": "154"
               }
             ]
+          },
+          {
+            "title": "Live TV",
+            "description": "Settings relating to Live TV.",
+            "children": [
+              {
+                "title": "Channel Title Info",
+                "description": "Select what information to use as a channel's title.",
+                "settingName": "tvChannelTitleInfo",
+                "type": "radio",
+                "default": "numberName",
+                "options": [
+                  {
+                    "title": "Channel Number and Name",
+                    "id": "numberName"
+                  },
+                  {
+                    "title": "Channel Number",
+                    "id": "number"
+                  },
+                  {
+                    "title": "Channel Name",
+                    "id": "name"
+                  }
+                ]
+              },
+              {
+                "title": "TV Guide Channel Display",
+                "description": "Select how to display a channel in the Live TV guide.",
+                "settingName": "tvGuideChannelDisplay",
+                "type": "radio",
+                "default": "logoTitle",
+                "options": [
+                  {
+                    "title": "Channel Logo and Title",
+                    "id": "logoTitle"
+                  },
+                  {
+                    "title": "Channel Logo",
+                    "id": "logo"
+                  },
+                  {
+                    "title": "Channel Title",
+                    "id": "title"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Load Items Limit",
+            "description": "Number of items to load together on library screens.",
+            "settingName": "ui.library.loadItemsLimit",
+            "type": "integer",
+            "min": "15",
+            "default": "60"
           },
           {
             "title": "TV Shows",
