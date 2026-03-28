@@ -8,6 +8,18 @@ sub init()
     m.videoControls = m.top.findNode("videoControls")
     m.optionControls = m.top.findNode("optionControls")
 
+    if isValid(m.optionControls)
+        if chainLookupReturn(m.global.session, "user.settings.`playback.showPlaybackSpeedControls`", false)
+            showSpeedMenu = createObject("roSGNode", "IconButton")
+            showSpeedMenu.id = "showSpeedMenu"
+            showSpeedMenu.padding = "27"
+            showSpeedMenu.icon = "pkg:/images/icons/speedMenu.png"
+            showSpeedMenu.height = "65"
+            showSpeedMenu.width = "100"
+            m.optionControls.appendChild(showSpeedMenu)
+        end if
+    end if
+
     m.inactivityTimer = m.top.findNode("inactivityTimer")
     m.videoInfo = m.top.findNode("videoInfo")
     m.itemTitle = m.top.findNode("itemTitle")

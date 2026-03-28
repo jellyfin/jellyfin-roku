@@ -431,7 +431,7 @@ sub onOSDAction()
         return
     end if
 
-    if action = "showspeedmenu"
+    if isStringEqual(action, "showspeedmenu")
         handleShowSpeedMenuAction()
         return
     end if
@@ -576,7 +576,7 @@ end sub
 sub onSelectedSpeedChange()
     m.top.playbackSpeed = m.top.selectedSpeed
     ' you need to pause and resume video to have speed change take effect
-    if m.top.state = "playing"
+    if m.top.state = MediaPlaybackState.PLAYING
         m.top.control = VideoControl.PAUSE
         m.top.control = VideoControl.RESUME
     end if
