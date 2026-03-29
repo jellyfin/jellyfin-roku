@@ -2317,5 +2317,10 @@
             <source>Screen Settings</source>
             <translation>Screen Settings</translation>
         </message>
+        <message>
+            <source>Are you sure you want to delete this </source>
+            <translation>Are you sure you want to delete this </translation>
+        </message>
+
     </context>
 </TS>

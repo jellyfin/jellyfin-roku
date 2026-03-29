@@ -7,6 +7,7 @@ import "pkg:/source/enums/ItemType.bs"
 import "pkg:/source/enums/KeyCode.bs"
 import "pkg:/source/enums/TaskControl.bs"
 import "pkg:/source/enums/ViewLoadStatus.bs"
+import "pkg:/source/MainActions.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/misc.bs"
 
@@ -59,6 +60,9 @@ sub init()
 
     m.shuffle = m.top.findNode("shuffle")
     m.shuffle.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+
+    '    m.delete = m.top.findNode("delete")
+    '    m.delete.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
 
     m.extras = m.top.findNode("extras")
     m.extras.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
@@ -515,9 +519,11 @@ end sub
 sub openMorePopup()
     dialogData = []
     paramData = {
-        id: chainLookup(m.top.seasonData, "json.id")
+        id: chainLookup(m.top.seasonData, "json.id"),
+        seasonTitle: chainLookup(m.top.seasonData, "title")
     }
 
+    dialogData.push(tr("Delete Season"))
     dialogData.push(tr("Mark As Unplayed"))
     dialogData.push(tr("Mark As Played"))
     dialogData.push(tr("Add To Playlist"))
@@ -575,6 +581,17 @@ function onKeyEvent(key as string, press as boolean) as boolean
                 m.top.playSeasonFromStart = not m.top.playSeasonFromStart
                 return true
             end if
+
+            '            if m.delete.hasFocus()
+            '                ' Display a dlg confirming the delete action
+            '                returnValue = show_dialog(tr("Are you sure you want to delete the season?"), [tr("Yes"), tr("No, Cancel")], 1)
+            '                if returnValue = 0
+            '                    seasonID = m.top.seasonData.id
+            '                    MainAction.onDeleteButtonClicked(seasonID)
+            '                    m.global.sceneManager.callFunc("popScene")
+            '                end if
+            '                return true
+            '            end if
 
             if m.dotDotDot.hasFocus()
                 openMorePopup()

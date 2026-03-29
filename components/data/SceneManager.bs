@@ -417,7 +417,7 @@ sub keyboardDialog(id, title, message, buttons, hintText, itemID)
 end sub
 
 '
-' Display dialog to user with an OK button
+' Display dialog to user with an array of buttons
 sub optionDialog(id, title, message, buttons, params)
     m.buttonData = buttons
     m.itemID = params.LookupCI("id")
@@ -524,3 +524,4 @@ end sub
 function isDialogOpen() as boolean
     return isValid(m.scene.dialog)
 end function
+

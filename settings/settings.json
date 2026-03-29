@@ -370,6 +370,13 @@
         "default": "false"
       },
       {
+        "title": "Allow Content Deletion",
+        "description": "Enables the user to delete shows, seasons, episodes...",
+        "settingName": "EnableContentDeletion",
+        "type": "bool",
+        "default": "true"
+      },
+      {
         "title": "Video Codec Support",
         "description": "Enable or disable Direct Play support for certain codecs.",
         "children": [

@@ -1050,7 +1050,7 @@ sub onSubtitleToDeleteEvent(msg)
                 api.videos.DeleteSubtitle(screenContent.itemContent.id, subtitleData.index)
 
                 ' We now need to remove the deleted subtitle from the My Subtitles list
-                ' and subtract 1 from all indexs higher than the one we deleted
+                ' and subtract 1 from all indexes higher than the one we deleted
                 subtitleListContent = mySubtitleList.content.getChildren(-1, 0)
 
                 i = 0
@@ -1355,6 +1355,23 @@ sub onButtonSelectedEvent(msg)
         return
     end if
 
+    if isStringEqual(btn, "delete-button")
+        itemType = lcase(activeScene.itemContent.type)
+        ' print `deleteButtonClicked: Item Type ${activeScene.itemContent.type}`
+
+        if "episode" = itemType or "show" = itemType or "series" = itemType or "movie" = itemType
+            ' Display a dlg confirming the delete action
+            returnValue = show_dialog(tr("Are you sure you want to delete the " + itemType + "?"), [tr("Yes"), tr("No, Cancel")], 1)
+            if returnValue = 0 then MainAction.onDeleteButtonClicked(activeScene.itemContent.id)
+            ' Not sure what scene is active, so, don't attempt to anywhere...
+            if "episode" <> itemType then m.global.sceneManager.callFunc("popScene")
+        else
+            print `delete-button: unknown itemType=${itemType}`
+        end if
+
+        return
+    end if
+
     MainAction.closeOKDialog(msg)
 end sub
 
@@ -1502,6 +1519,46 @@ sub onReturnDataEvent(msg)
         ' Prevent double fires
         popupNode.id = invalid
     end if
+
+    if isStringEqual(popupNode.type, "remotesubtitleselect")
+        if not isValid(popupNode.id) then return
+
+        mySubtitleList = activeScene.findNode("mySubtitleList")
+
+        ' Add downloading message to My Subtitles so users know we're processing their input
+        if isValid(mySubtitleList)
+            subtitleListContent = mySubtitleList.LookupCI("content")
+
+            canAddSubtitle = true
+
+            ' Search list of subtitles to see if we already have a downloading message for this item
+            for each subtitle in subtitleListContent.getChildren(-1, 0)
+                if subtitle.LookupCI("index") = SubtitleSelection.NONE
+                    if isStringEqual(subtitle.LookupCI("displaytitle"), popupNode.LookupCI("name"))
+                        canAddSubtitle = false
+                    end if
+                end if
+            end for
+
+            ' Don't add multiple downloading message for the same subtitle name
+            if canAddSubtitle
+                mySubtitle = CreateObject("roSGNode", "SubtitleData")
+                mySubtitle.path = tr("Downloading - Refresh for updated status")
+                mySubtitle.index = SubtitleSelection.NONE
+                mySubtitle.displaytitle = popupNode.LookupCI("name")
+                mySubtitle.canDelete = false
+
+                subtitleListContent.insertChild(mySubtitle, 0)
+
+                mySubtitleList.content = subtitleListContent
+
+                api.items.DownloadRemoteSubtitles(chainLookup(activeScene, "itemContent.id"), popupNode.LookupCI("id"))
+            end if
+        end if
+
+        ' Prevent double fires
+        popupNode.id = invalid
+    end if
 end sub
 
 sub onDataReturnedEvent(msg)
@@ -1510,11 +1567,25 @@ sub onDataReturnedEvent(msg)
 
     if not isChainValid(popupNode, "returnData") then return
 
-    selectedPopupID = chainLookup(popupNode, "returndata.id")
+    '  itemID = chainLookup(popupNode, "returndata.itemID").itemId ' working
     itemID = chainLookup(popupNode, "returndata.itemID")
+    selectedPopupID = chainLookup(popupNode, "returndata.id")
+    selectedPopupButton = chainLookup(popupNode, "returndata.buttonselected")
+
+    if isStringEqual(selectedPopupID, "Delete-Series")
+        ' print `onDataReturnedEvent(msg): calling MainAction.onDeleteButtonClicked(${itemID})`
+        if "OK" = selectedPopupButton
+            MainAction.onDeleteButtonClicked(itemID)
+            m.global.sceneManager.callFunc("popScene")
+        end if
+
+        return
+    end if
+
     params = chainLookup(popupNode, "returndata.params")
     selectedPopupAction = chainLookup(popupNode, "returndata.indexselected")
     selectedPopupButton = chainLookup(popupNode, "returndata.buttonselected")
+
 
     if isStringEqual(selectedPopupID, "newPlaylist")
         newPlaylistName = chainLookup(popupNode, "returndata.text")
@@ -1690,6 +1761,9 @@ sub processPlaylistPopup(selectedPopupButton as string, itemID as string)
 end sub
 
 sub processLibraryItemPopup(selectedPopupButton as string, itemID as string, params as object)
+
+    print `selectedPopupButton=${selectedPopupButton}`
+
     if isStringEqual(selectedPopupButton, tr("Play Track"))
         quickplay.audio({
             id: itemID,
@@ -1885,6 +1959,43 @@ sub processLibraryItemPopup(selectedPopupButton as string, itemID as string, par
                 id: itemID
             }
         })
+
+        return
+    end if
+
+
+    ' Delete item
+    if inArray([
+            tr("Delete " + capitalize(ItemType.EPISODE)),
+            tr("Delete " + capitalize(ItemType.MOVIE)),
+            tr("Delete " + capitalize(ItemType.SEASON)),
+        tr("Delete " + capitalize(ItemType.SERIES))],
+        selectedPopupButton)
+
+        returnValue = show_dialog(tr("Are you sure you want to delete " + params.seasonTitle + "?"), [tr("Yes"), tr("No, Cancel")], 1)
+        if returnValue = 0
+            MainAction.onDeleteButtonClicked(itemID)
+            ' m.global.sceneManager.callFunc("popScene")
+            ' node = m.top.findNode("Series")
+            '           activeScene = m.global.sceneManager.callFunc("getActiveScene")
+            '
+            '           buttonIndex = activeScene.selectedButtonIndex
+            '
+            '           if isValid(activeScene)
+            '                itemGrid = activeScene.findNode("itemGrid")
+            '                if isValid(itemGrid)
+            '                    itemGrid.content.removeChildIndex(itemGrid.itemFocused)
+            '                end if
+            '            end if
+
+            ' It would be nice to go up one level and have the just deleted season removed, but
+            ' I couldn't find a way to remove it.
+            m.global.sceneManager.callFunc("popScene")
+            m.global.sceneManager.callFunc("popScene")
+        end if
+
+
+        stopLoadingSpinner()
 
         return
     end if

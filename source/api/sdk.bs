@@ -443,6 +443,12 @@ namespace api
             return getJson(req)
         end function
 
+        ' Delete an item based on an itemId.
+        function DeleteItemByID(id as string)
+            req = APIRequest(Substitute("/items/{0}", id))
+            return deleteVoid(req)
+        end function
+
         ' Gets local trailers for an item.
         function GetLocalTrailers(itemid as string, params = {} as object)
             resp = APIRequest(Substitute("/items/{0}/localtrailers", itemid), params)

@@ -67,6 +67,15 @@ sub init()
         end if
     end if
 
+    ' Only allow those with delete rights to see the delete button
+    if isChainValid(m.global.session, "user.policy.EnableSubtitleManagement")
+        deleteButton = m.top.findNode("delete-button")
+        if isValid(deleteButton)
+            ' m.buttonGrp.content.removeChild(deleteButton)
+            calculateButtonThumbProperties()
+        end if
+    end if
+
     m.global.queueManager.callFunc("setLastKnownItemID", string.empty)
 
     m.top.observeField("itemContent", "itemContentChanged")
@@ -187,6 +196,12 @@ sub trailerAvailableChanged()
         calculateButtonThumbProperties()
         return
     end if
+end sub
+
+sub removeDeleteButton()
+    m.buttonGrp.content.removeChild(m.top.findNode("delete-button"))
+    calculateButtonThumbProperties()
+    return
 end sub
 
 sub additionalPartsChanged()
@@ -908,7 +923,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
         buttonList = m.buttonGrp.content.getChildren(-1, 0)
 
-        i = 0
+        ' i = 0
         for each button in buttonList
             if button.focus
                 m.top.buttonSelected = button.id
@@ -920,7 +935,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
                 end if
                 exit for
             end if
-            i++
+            ' i++
         end for
 
         return true
