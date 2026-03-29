@@ -3,12 +3,18 @@
     "manifest",
     "source/**/*.*",
     "components/**/*.*",
-    "images/**/*.*",
+    "images/**/*.png",
+    "images/**/*.jpg",
     "locale/**/*.*",
     "settings/*.*"
   ],
-  "plugins": ["@rokucommunity/bslint"],
-  "diagnosticFilters": ["node_modules/**/*", "**/roku_modules/**/*"],
+  "plugins": [
+    "@rokucommunity/bslint"
+  ],
+  "diagnosticFilters": [
+    "node_modules/**/*",
+    "**/roku_modules/**/*"
+  ],
   "sourceMap": true,
   "autoImportComponentScript": true,
   "stagingDir": "build/staging",
