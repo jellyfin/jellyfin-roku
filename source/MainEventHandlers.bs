@@ -1363,7 +1363,8 @@ sub onButtonSelectedEvent(msg)
             ' Display a dlg confirming the delete action
             returnValue = show_dialog(tr("Are you sure you want to delete the " + itemType + "?"), [tr("Yes"), tr("No, Cancel")], 1)
             if returnValue = 0 then MainAction.onDeleteButtonClicked(activeScene.itemContent.id)
-            m.global.sceneManager.callFunc("popScene")
+            ' Not sure what scene is active, so, don't attempt to anywhere...
+            if "episode" <> itemType then m.global.sceneManager.callFunc("popScene")
         else
             print `delete-button: unknown itemType=${itemType}`
         end if
@@ -1566,14 +1567,17 @@ sub onDataReturnedEvent(msg)
 
     if not isChainValid(popupNode, "returnData") then return
 
-    itemID = chainLookup(popupNode, "returndata.itemID").itemId ' working
+    '  itemID = chainLookup(popupNode, "returndata.itemID").itemId ' working
+    itemID = chainLookup(popupNode, "returndata.itemID")
     selectedPopupID = chainLookup(popupNode, "returndata.id")
+    selectedPopupButton = chainLookup(popupNode, "returndata.buttonselected")
 
     if isStringEqual(selectedPopupID, "Delete-Series")
-
-        print `onDataReturnedEvent(msg): calling MainAction.onDeleteButtonClicked(${itemID})`
-        ' MainAction.onDeleteButtonClicked(itemID)
-        m.global.sceneManager.callFunc("popScene")
+        ' print `onDataReturnedEvent(msg): calling MainAction.onDeleteButtonClicked(${itemID})`
+        if "OK" = selectedPopupButton
+            MainAction.onDeleteButtonClicked(itemID)
+            m.global.sceneManager.callFunc("popScene")
+        end if
 
         return
     end if

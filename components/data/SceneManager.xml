@@ -19,7 +19,6 @@
     <function name="keyboardDialog" />
     <function name="deleteSceneAtIndex" />
     <function name="getSceneCount" />
-    <function name="deleteItemConfirmationDialog" />
     <field id="currentUser" type="string" onChange="updateUser" />
     <field id="returnData" type="assocarray" />
     <field id="dataReturned" type="boolean" />
