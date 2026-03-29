@@ -1,8 +1,8 @@
 {
-  "name": "jellyfin",
+  "name": "jellyfin_with_delete",
   "type": "module",
   "version": "3.1.8",
-  "description": "Official Roku app for Jellyfin media server",
+  "description": "Official Roku w/ Delete app for Jellyfin media server",
   "dependencies": {
     "@rokucommunity/bslib": "0.1.1",
     "brighterscript-formatter": "1.7.21"
@@ -20,18 +20,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/jellyfin/jellyfin-roku.git"
+    "url": "https://github.com/garberfc/jellyfin-roku-with-delete"
   },
   "keywords": [
     "jellyfin",
     "roku",
+    "delete",
     "music",
     "movies"
   ],
-  "author": "Jellyfin",
+  "author": "garberfc",
   "license": "GPL-2.0",
   "bugs": {
-    "url": "https://github.com/jellyfin/jellyfin-roku"
+    "url": "https://github.com/garberfc/jellyfin-roku-with-delete"
   },
-  "homepage": "https://github.com/jellyfin/jellyfin-roku"
+  "homepage": "https://github.com/garberfc/jellyfin-roku-with-delete"
 }
