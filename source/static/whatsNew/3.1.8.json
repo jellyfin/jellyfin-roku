@@ -26,5 +26,9 @@
   {
     "description": "Redesign playlist screen",
     "author": "1hitsong"
+  },
+  {
+    "description": "Add resume function to playlist items",
+    "author": "1hitsong"
   }
 ]

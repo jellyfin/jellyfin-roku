@@ -92,7 +92,7 @@
     <field id="refreshPlaylistData" type="bool" alwaysNotify="true" />
     <field id="pageContent" type="node" onChange="pageContentChanged" />
     <field id="listData" type="node" alias="playlist.PlaylistData" />
-    <field id="playlistItemSelected" alias="playlist.itemSelected" />
+    <field id="playlistItemSelected" alias="playlist.mediaItemSelected" />
     <field id="selectedButtonIndex" type="integer" value="-1" />
   </interface>
 </component>
