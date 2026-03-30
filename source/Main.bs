@@ -227,15 +227,29 @@ sub downloadFallbackFont()
                         if not name.endsWith(".ttf") and not name.endsWith(".otf") then continue for
 
                         fontUri = "tmp:/" + f.Name
-                        APIRequest("FallbackFont/Fonts/" + f.Name).gettofile(fontUri)
+                        fileNeeded = false
                         if name.instr("bold") <> -1 and name.instr("italic") <> -1
-                            fallbackFont.boldItalic = fontUri
+                            if not isValid(fallbackFont.boldItalic)
+                                fallbackFont.boldItalic = fontUri
+                                fileNeeded = true
+                            end if
                         else if name.instr("bold") <> -1
-                            fallbackFont.bold = fontUri
+                            if not isValid(fallbackFont.bold)
+                                fallbackFont.bold = fontUri
+                                fileNeeded = true
+                            end if
                         else if name.instr("italic") <> -1
-                            fallbackFont.italic = fontUri
-                        else
+                            if not isValid(fallbackFont.italic)
+                                fallbackFont.italic = fontUri
+                                fileNeeded = true
+                            end if
+                        else if not isValid(fallbackFont.regular)
                             fallbackFont.regular = fontUri
+                            fileNeeded = true
+                        end if
+                        if fileNeeded
+                            ' This exercise prevents downloading font files we won't use
+                            APIRequest("FallbackFont/Fonts/" + f.Name).gettofile(fontUri)
                         end if
                     end for
                     if fallbackFont.count() = 0 then return ' No valid font files were downloaded
