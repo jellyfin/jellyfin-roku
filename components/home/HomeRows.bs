@@ -120,11 +120,14 @@ sub processUserSections()
         ' If 2 sections with data are loaded or we're at the end of the web client section data, consider the home view loaded
         if not m.global.app_loaded
             if loadedSections = 2 or i = 7
-                m.top.signalBeacon("AppLaunchComplete") ' Roku Performance monitoring
+                ' m.top.signalBeacon("AppLaunchComplete") ' Roku Performance monitoring
                 m.global.app_loaded = true
             end if
         end if
     end for
+
+    m.top.signalBeacon("AppLaunchComplete") ' Roku Performance monitoring
+
 
     ' Favorites and My List aren't options in web settings. So if user has useWebSectionArrangement setting checked, add the sections to the bottom
     useWebSectionArrangement = chainLookupReturn(m.global, "session.user.settings.`ui.home.useWebSectionArrangement`", true)
