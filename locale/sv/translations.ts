@@ -264,11 +264,11 @@
     </message>
     <message>
         <source>Date Show Added</source>
-        <translation type="unfinished"></translation>
+        <translation>Tilläggsdatum för serie</translation>
     </message>
     <message>
         <source>Date Episode Added</source>
-        <translation type="unfinished"></translation>
+        <translation>Tilläggsdatum för avsnitt</translation>
     </message>
     <message>
         <source>PLAY_COUNT</source>
@@ -323,11 +323,11 @@
     </message>
     <message>
         <source>Special Features</source>
-        <translation type="unfinished"></translation>
+        <translation>Extramaterial</translation>
     </message>
     <message>
         <source>Additional Parts</source>
-        <translation type="unfinished"></translation>
+        <translation>Ytterligare delar</translation>
         <extracomment>Additional parts of a video</extracomment>
     </message>
     <message>
@@ -336,17 +336,17 @@
     </message>
     <message>
         <source>Movies (Presentation)</source>
-        <translation type="unfinished"></translation>
+        <translation>Filmer (Presentation)</translation>
         <extracomment>Movie library view option</extracomment>
     </message>
     <message>
         <source>Movies (Grid)</source>
-        <translation type="unfinished"></translation>
+        <translation>Filmer (Rutmönster)</translation>
         <extracomment>Movie library view option</extracomment>
     </message>
     <message>
         <source>TV Shows</source>
-        <translation type="unfinished"></translation>
+        <translation>Tvserier</translation>
     </message>
     <message>
         <source>today</source>
@@ -509,7 +509,7 @@
     </message>
     <message>
         <source>Error Getting Playback Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Fel vid hämtning av uppspelningsinformation</translation>
         <extracomment>Dialog Title: Received error from server when trying to get information about the selected item for playback</extracomment>
     </message>
     <message>
@@ -576,16 +576,16 @@
     </message>
     <message>
         <source>Media Grid options.</source>
-        <translation type="unfinished"></translation>
+        <translation>Inställningar för mediarutnät.</translation>
     </message>
     <message>
         <source>Item Count</source>
-        <translation type="unfinished"></translation>
+        <translation>Antal objekt</translation>
         <extracomment>UI -&gt; Media Grid -&gt; Item Count in user setting screen.</extracomment>
     </message>
     <message>
         <source>Show item count in the library and index of selected item.</source>
-        <translation type="unfinished"></translation>
+        <translation>Visa antal objekt i biblioteket och index för valt objekt.</translation>
         <extracomment>Description for option in Setting Screen</extracomment>
     </message>
     <message>
@@ -603,7 +603,7 @@
     </message>
     <message>
         <source>Set Watched</source>
-        <translation type="unfinished"></translation>
+        <translation>Markera som sedd</translation>
         <extracomment>Button Text - When pressed, marks item as Warched</extracomment>
     </message>
     <message>
@@ -645,88 +645,88 @@
     </message>
     <message>
         <source>You can search for Titles, People, Live TV Channels and more</source>
-        <translation type="unfinished"></translation>
+        <translation>Du kan söka efter titlar, personer, Live tv kanaler och mer</translation>
         <extracomment>Help text in search results</extracomment>
     </message>
     <message>
         <source>%1 of %2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 av %2</translation>
         <extracomment>Item position and count. %1 = current item. %2 = total number of items</extracomment>
     </message>
     <message>
         <source>Quick Connect</source>
-        <translation type="unfinished"></translation>
+        <translation>Snabbanslut</translation>
     </message>
     <message>
         <source>Here is your Quick Connect code:</source>
-        <translation type="unfinished"></translation>
+        <translation>Här är din snabbanslutningskod:</translation>
     </message>
     <message>
         <source>(Dialog will close automatically)</source>
-        <translation type="unfinished"></translation>
+        <translation>(Rutan stängs automatiskt)</translation>
     </message>
     <message>
         <source>There was an error authenticating via Quick Connect.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ett fel uppstod vid autentisering via Quick Connect.</translation>
     </message>
     <message>
         <source>Networks</source>
-        <translation type="unfinished"></translation>
+        <translation>Nätverk</translation>
     </message>
     <message>
         <source>Studios</source>
-        <translation type="unfinished"></translation>
+        <translation>Studior</translation>
     </message>
     <message>
         <source>Shows</source>
-        <translation type="unfinished"></translation>
+        <translation>Serier</translation>
     </message>
     <message>
         <source>Return to Top</source>
-        <translation type="unfinished"></translation>
+        <translation>Åter till toppen</translation>
         <extracomment>UI -&gt; Media Grid -&gt; Item Title in user setting screen.</extracomment>
     </message>
     <message>
         <source>Use the replay button to slowly animate to the first item in the folder. (If disabled, the folder will reset to the first item immediately).</source>
-        <translation type="unfinished"></translation>
+        <translation>Använd uppspelningsknappen för att långsamt animera till det första objektet i mappen. (Om detta är inaktiverat återställs mappen direkt till det första objektet).</translation>
         <extracomment>Description for option in Setting Screen</extracomment>
     </message>
     <message>
         <source>Hide Taglines</source>
-        <translation type="unfinished"></translation>
+        <translation>Dölj tagglinjer</translation>
         <extracomment>Option Title in user setting screen</extracomment>
     </message>
     <message>
         <source>Hides tagline text on details pages.</source>
-        <translation type="unfinished"></translation>
+        <translation>Döljer tagglinjetext på detaljsidor.</translation>
     </message>
     <message>
         <source>Options for TV Shows.</source>
-        <translation type="unfinished"></translation>
+        <translation>Alternativ för tvserier.</translation>
         <extracomment>Description for TV Shows user settings.</extracomment>
     </message>
     <message>
         <source>Blur Unwatched Episodes</source>
-        <translation type="unfinished"></translation>
+        <translation>Gör osedda avsnitt suddiga</translation>
         <extracomment>Option Title in user setting screen</extracomment>
     </message>
     <message>
         <source>Skip Details for Single Seasons</source>
-        <translation type="unfinished"></translation>
+        <translation>Hoppa över detaljer för enskilda säsonger</translation>
         <extracomment>Settings Menu - Title for option</extracomment>
     </message>
     <message>
         <source>Go directly to the episode list if a TV series has only one season.</source>
-        <translation type="unfinished"></translation>
+        <translation>Om det är aktiverat går du direkt till avsnittslistan när du väljer en TV‑serie som bara har en säsong, istället för att visa seriedetaljer och säsongslista.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Blur images of unwatched episodes.</source>
-        <translation type="unfinished"></translation>
+        <translation>Gör bilder för osedda avsnitt suddiga.</translation>
     </message>
     <message>
         <source>Design Elements</source>
-        <translation type="unfinished"></translation>
+        <translation>Designelement</translation>
     </message>
     <message>
         <source>Options that alter the design of Jellyfin.</source>
