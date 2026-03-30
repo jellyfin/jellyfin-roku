@@ -1894,8 +1894,12 @@ sub processSeek(key as string)
         updateDisplayForSeek(key)
     else if key = KeyCode.FASTFORWRD
         checkPause()
-        ' If we were rewinding or not currently fastforwarding or rewinding, then set the first level of fast forward.
-        if m.seekSpeedIndex < ((m.seekSpeeds.count() / 2) - 1) or m.fastForwardOrRewindTimer.control = "stop"
+        ' If we were rewinding and the user presses the fast forward key, then stop the seek at the current seek position.
+        if m.fastForwardOrRewindTimer.control = "start" and m.seekSpeedIndex < (m.seekSpeeds.count() / 2)
+            stopFastforwardOrRewind()
+            return
+            ' If we were not currently fast forwarding or rewinding, then set the first level of fast forward.
+        else if m.fastForwardOrRewindTimer.control = "stop"
             m.seekSpeedIndex = (m.seekSpeeds.count() / 2)
             ' If we are already fast forwarding, then increase the speed, but cap it at the maximum defined speed.
         else if m.seekSpeedIndex < m.seekSpeeds.count() - 1
@@ -1908,8 +1912,12 @@ sub processSeek(key as string)
         updateDisplayForSeek(key)
     else if key = KeyCode.REWIND
         checkPause()
-        ' If we were fast forwarding or not currently fastforwarding or rewinding, then set the first level of rewind.
-        if m.seekSpeedIndex > ((m.seekSpeeds.count() / 2) - 1) or m.fastForwardOrRewindTimer.control = "stop"
+        ' If we were fast forwarding and the user presses the rewind key, then stop the seek at the current seek position.
+        if m.fastForwardOrRewindTimer.control = "start" and m.seekSpeedIndex > (m.seekSpeeds.count() / 2 - 1)
+            stopFastforwardOrRewind()
+            return
+            ' If we are not currently fast forwarding or rewinding, then set the first level of fast forward.
+        else if m.fastForwardOrRewindTimer.control = "stop"
             m.seekSpeedIndex = (m.seekSpeeds.count() / 2) - 1
             ' If we are already rewinding, then increase the speed, but cap it at the maximum defined speed.
         else if m.seekSpeedIndex > 0
