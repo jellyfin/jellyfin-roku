@@ -41,10 +41,8 @@ sub init()
 end sub
 
 sub setFont()
-    fs = CreateObject("roFileSystem")
-
-    if fs.Exists("tmp:/font")
-        m.font.uri = "tmp:/font"
+    if isValidAndNotEmpty(m.global.fallbackFont)
+        m.font.uri = m.global.fallbackFont.regular
     else
         m.font.uri = "font:LargeSystemFont"
     end if
