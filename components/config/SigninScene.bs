@@ -84,6 +84,9 @@ sub init()
 
     saveCredentials.uncheckedIconUri = "pkg:/images/icons/checkboxUnchecked.png"
     saveCredentials.focusedUncheckedIconUri = "pkg:/images/icons/checkboxUnchecked.png"
+
+    m.top.signalBeacon("AppLaunchComplete") ' Roku Performance monitoring
+
 end sub
 
 sub onAlertChange()
