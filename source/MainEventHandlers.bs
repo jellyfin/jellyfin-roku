@@ -1572,8 +1572,17 @@ sub onDataReturnedEvent(msg)
     selectedPopupID = chainLookup(popupNode, "returndata.id")
     selectedPopupButton = chainLookup(popupNode, "returndata.buttonselected")
 
+    if isStringEqual(selectedPopupID, "Delete-Episode")
+        ' print `onDataReturnedEvent(msg): Delete-Episode, calling MainAction.onDeleteButtonClicked(${itemID})`
+        if "OK" = selectedPopupButton
+            '   MainAction.onDeleteButtonClicked(itemID)
+        end if
+
+        return
+    end if
+
     if isStringEqual(selectedPopupID, "Delete-Series")
-        ' print `onDataReturnedEvent(msg): calling MainAction.onDeleteButtonClicked(${itemID})`
+        ' print `onDataReturnedEvent(msg): Delete-Series, calling MainAction.onDeleteButtonClicked(${itemID})`
         if "OK" = selectedPopupButton
             MainAction.onDeleteButtonClicked(itemID)
             m.global.sceneManager.callFunc("popScene")

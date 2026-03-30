@@ -12,6 +12,7 @@ import "pkg:/source/enums/SubtitleSelection.bs"
 import "pkg:/source/enums/TaskControl.bs"
 import "pkg:/source/enums/TimerControl.bs"
 import "pkg:/source/enums/VideoControl.bs"
+import "pkg:/source/MainActions.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/misc.bs"
 
@@ -147,6 +148,12 @@ sub init()
     m.skipSegmentButton.color = ColorPalette.DARKGREY
     m.skipSegmentButton.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
     m.skipSegmentButton.focusColor = ColorPalette.WHITE
+
+    m.deleteSegmentButton = m.top.findNode("deleteSegment")
+    m.deleteSegmentButton.background = ColorPalette.LIGHTBLUE
+    m.deleteSegmentButton.color = ColorPalette.DARKGREY
+    m.deleteSegmentButton.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+    m.deleteSegmentButton.focusColor = ColorPalette.WHITE
 
     'Play Next Episode button
     m.nextupbuttonseconds = m.global.session.user.settings["playback.nextupbuttonseconds"].ToInt()
@@ -703,7 +710,7 @@ sub onVideoContentLoaded()
     end if
 
     if isValid(selectedSubtitle)
-        availableSubtitleTrackIndex = availSubtitleTrackIdx(selectedSubtitle.Track.TrackName)
+        availableSubtitleTrackIndex = availSubtitleTrackIdxLocal(selectedSubtitle.Track.TrackName)
         if availableSubtitleTrackIndex <> SubtitleSelection.NONE
             if not selectedSubtitle.IsEncoded
                 if selectedSubtitle.IsForced
@@ -832,6 +839,7 @@ sub onNextEpisodeDataLoaded()
 end sub
 
 sub hideSegmentSkipButton()
+    ' print "hideSegmentSkipButton()"
     m.currentSegmentEndTicks = 0
     m.currentSegmentType = invalid
     m.skipSegmentButton.visible = false
@@ -839,6 +847,15 @@ sub hideSegmentSkipButton()
     m.skipSegmentButton.setFocus(false)
     m.skipSegmentButton.focus = false
     hideNextItem()
+    m.top.setFocus(true)
+end sub
+
+sub hideSegmentDeleteButton()
+    ' print "hideSegmentDeleteButton()"
+    m.deleteSegmentButton.visible = false
+    m.deleteSegmentButton.text = string.EMPTY
+    m.deleteSegmentButton.setFocus(false)
+    m.deleteSegmentButton.focus = false
     m.top.setFocus(true)
 end sub
 
@@ -874,9 +891,29 @@ sub displaySegmentSkipButton(segmentType as string, endticks as double)
 
     m.skipSegmentButton.visible = true
     m.skipSegmentButton.text = tr(`Skip ${segmentType}`)
-    m.skipSegmentButton.setFocus(true)
-    m.skipSegmentButton.focus = true
+    m.skipSegmentButton.setFocus(false)
+    m.skipSegmentButton.focus = false
 end sub
+
+
+sub displaySegmentDeleteButton(segmentType as string)
+    ' print `displaySegmentDeleteButton(): segmentType=${segmentType}`
+    if not isStringEqual(segmentType, MediaSegmentType.OUTRO) then return
+
+    if isValidAndNotEmpty(m.mediaSegmentDismissed) and m.mediaSegmentDismissed.DoesExist(m.currentSegmentType) then return
+
+    ' Check if button is already showing
+    buttonText = "Delete Episode"
+    if isStringEqual(m.deleteSegmentButton.text, tr(buttonText)) then return
+
+    if m.osd.visible then return ' Don't show if OSD is visible
+
+    m.deleteSegmentButton.visible = true
+    m.deleteSegmentButton.text = tr(buttonText)
+    m.deleteSegmentButton.setFocus(true)
+    m.deleteSegmentButton.focus = true
+end sub
+
 
 sub hideNextItem()
     m.nextUp.visible = false
@@ -944,6 +981,12 @@ sub checkSegmentSkipButton()
         ' Current position is between media segment's start and end ticks. Display a skip button
         displaySegmentSkipButton(mediaSegment.type, mediaSegment.EndTicks)
 
+        ' the m.top.displaySegmentDeleteButton is used as a flag to control the delete button so that it's only displayed once.
+        ' It's hidden after it's initially clicked on with OK.
+        if m.top.displaySegmentDeleteButton
+            displaySegmentDeleteButton(mediaSegment.type)
+        end if
+
         matchFound = true
 
         exit for
@@ -953,6 +996,9 @@ sub checkSegmentSkipButton()
     if not matchFound
         if m.skipSegmentButton.visible
             hideSegmentSkipButton()
+        end if
+        if m.deleteSegmentButton.visible
+            hideSegmentDeleteButton()
         end if
     end if
 end sub
@@ -1102,7 +1148,28 @@ sub onState(msg)
     end if
 end sub
 
+
+sub hideTrickplay()
+    ' print "hideTrickplay(): top"
+    trickplayImage = m.top.findNode("trickplayImage")
+    if isValid(trickplayImage)
+        ' print "hideTrickplay(): valid"
+        m.top.trickPlayBar.visible = false
+        trickplayImage.visible = false
+    end if
+
+    ' print "hideTrickplay(): end"
+
+end sub
+
+
 sub onTrickPlayBarVisibleChange()
+    ' print "onTrickPlayBarVisibleChange()"
+    if m.skipSegmentButton.visible
+        hideTrickplay()
+        return
+    end if
+
     trickplayImage = m.top.findNode("trickplayImage")
     if isValid(trickplayImage)
         trickplayImage.visible = m.top.trickPlayBar.visible
@@ -1115,11 +1182,14 @@ sub onTrickPlayBarVisibleChange()
     end if
 
     ' Don't show both the trickplay bar and the skip segment button at the same time
-    if m.top.trickPlayBar.visible
-        if m.skipSegmentButton.visible
-            hideSegmentSkipButton()
-        end if
-    end if
+    'if m.top.trickPlayBar.visible
+    '    if m.skipSegmentButton.visible
+    '        hideSegmentSkipButton()
+    '    end if
+    '    if m.deleteSegmentButton.visible
+    '        hideSegmentDeleteButton()
+    '    end if
+    'end if
 end sub
 
 sub setVideoEndingTime(videoSeekPosition = 0 as integer)
@@ -1318,7 +1388,7 @@ end function
 '
 ' @param {string} tracknameToFind - TrackName for subtitle we're looking to match
 ' @return {integer} indicating Roku's index for requested subtitle track. Returns SubtitleSelection.NONE if not found
-function availSubtitleTrackIdx(tracknameToFind as string) as integer
+function availSubtitleTrackIdxLocal(tracknameToFind as string) as integer
     idx = 0
     for each availTrack in m.top.availableSubtitleTracks
         ' The TrackName must contain the URL we supplied originally, though
@@ -1346,6 +1416,7 @@ sub skipCurrentSegment()
 
     m.top.seek = seekPosition
 end sub
+
 
 sub onProgramDetailsLoaded()
     ' CurrentProgram can be invalid if we're coming from search results for a show that is not currently airing
@@ -1405,9 +1476,11 @@ sub changeSubtitleTimeOffset(offsetAmount as integer)
 end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean
+    if not press then return false
+
+    ' print `onKeyEvent(): ${key}`
     if m.subtitleTimingButtons.visible
         if m.subtitleTimingButtons.isInFocusChain()
-            if not press then return false
 
             if isStringEqual(key, KeyCode.RIGHT)
                 if m.subtitleSyncMinus500.hasfocus()
@@ -1499,12 +1572,12 @@ function onKeyEvent(key as string, press as boolean) as boolean
             hidesyncmenuAction()
             return true
         end if
-    end if
+    end if ' if subtitleTimingButttons.visible
+
+
 
     ' Keypress handler while user is inside the chapter menu
     if m.chapterMenu.hasFocus()
-        if not press then return false
-
         if key = KeyCode.OK
             focusedChapter = m.chapterMenu.itemFocused
             selectedChapter = m.chapterMenu.content.getChild(focusedChapter)
@@ -1534,17 +1607,57 @@ function onKeyEvent(key as string, press as boolean) as boolean
         return true
     end if
 
-    if m.skipSegmentButton.hasfocus() and not m.top.trickPlayBar.visible
-        if not press then return false
+    if m.skipSegmentButton.hasfocus() and key <> KeyCode.BACK
+        ' print "skipSegmentButton.hasfocus()"
+        ' If we're so close to the end that the skip button is visible, disable the trickPlayBar
+        if m.top.trickPlayBar.visible then hideTrickplay()
 
         if key = KeyCode.OK
             skipCurrentSegment()
             hideSegmentSkipButton()
             return true
         end if
+
+        if key = KeyCode.LEFT and m.deleteSegmentButton.visible = true
+            ' set the focus back to the Delete button
+            m.skipSegmentButton.setfocus(false)
+            m.skipSegmentButton.focus = false
+            m.deleteSegmentButton.setfocus(true)
+            m.deleteSegmentButton.focus = true
+        end if
+
+        return true ' return true as we've handled all possible keys
     end if
 
-    if not press then return false
+    if m.deleteSegmentButton.hasfocus() and key <> KeyCode.BACK
+        ' print "deleteSegmentButton.hasfocus"
+        ' If we're so close to the end that the delete button is visible, disable the trickPlayBar
+        if m.top.trickPlayBar.visible then hideTrickplay()
+
+        if key = KeyCode.OK
+            ' the optionDialog call will display the OK/Cancel dialog and act accordingly. The problem
+            ' is that it does NOT block the current thread from running. So, wheather it's deleted or not,
+            ' let's hide the delete button
+            m.global.sceneManager.callFunc("optionDialog", "Delete-Episode", tr("Delete Episode"), [tr("Are you sure you want to delete this eppisode?")], [tr("OK"), tr("No, Cancel")], { "id": m.top.id })
+
+            m.top.displaySegmentDeleteButton = false
+            hideSegmentDeleteButton()
+            m.skipSegmentButton.setFocus(true)
+            m.skipSegmentButton.focus = true
+
+            return true
+        end if
+
+        if key = KeyCode.RIGHT
+            ' set the focus back to the Skip button
+            m.skipSegmentButton.setfocus(true)
+            m.skipSegmentButton.focus = true
+            m.deleteSegmentButton.setfocus(false)
+            m.deleteSegmentButton.focus = false
+        end if
+
+        return true ' return true as we've handled all possible keys
+    end if
 
     if key = KeyCode.DOWN and not m.top.trickPlayBar.visible
         if not m.LoadMetaDataTask.isIntro
@@ -1554,6 +1667,9 @@ function onKeyEvent(key as string, press as boolean) as boolean
             setSiblingData()
             if m.skipSegmentButton.visible
                 hideSegmentSkipButton()
+            end if
+            if m.deleteSegmentButton.visible
+                hideSegmentDeleteButton()
             end if
             refreshLiveOSDContent()
             showOSD()
@@ -1569,6 +1685,9 @@ function onKeyEvent(key as string, press as boolean) as boolean
             if m.skipSegmentButton.visible
                 hideSegmentSkipButton()
             end if
+            if m.deleteSegmentButton.visible
+                hideSegmentDeleteButton()
+            end if
             refreshLiveOSDContent()
             showOSD()
             return true
@@ -1583,6 +1702,9 @@ function onKeyEvent(key as string, press as boolean) as boolean
             setSiblingData()
             if m.skipSegmentButton.visible
                 hideSegmentSkipButton()
+            end if
+            if m.deleteSegmentButton.visible
+                hideSegmentDeleteButton()
             end if
             refreshLiveOSDContent()
             showOSD()
@@ -1611,6 +1733,9 @@ function onKeyEvent(key as string, press as boolean) as boolean
             if m.skipSegmentButton.visible
                 hideSegmentSkipButton()
             end if
+            if m.deleteSegmentButton.visible
+                hideSegmentDeleteButton()
+            end if
             refreshLiveOSDContent()
             showOSD()
             return true
@@ -1624,6 +1749,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
                 m.mediaSegmentDismissed[m.currentSegmentType] = true
             end if
             hideSegmentSkipButton()
+            hideSegmentDeleteButton()
             return true
         end if
 
