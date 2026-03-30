@@ -1,4 +1,4 @@
-<p align="center"><img src="https://raw.githubusercontent.com/jellyfin/jellyfin-roku/master/images/channel-poster_fhd.png" style="border: 1px solid #eee; border-radius: 4px" /></p>
+<p align="center"><img src="https://raw.githubusercontent.com/garberfc/jellyfin-roku-with-delete/master/images/channel-poster_fhd.png" style="border: 1px solid #eee; border-radius: 4px" /></p>
 
 <h1 align="center">Jellyfin w/ Delete for Roku</h1>
 <p align="center">The official <strong>Jellyfin w/ Delete</strong> Roku client.</p>
@@ -9,13 +9,7 @@
 
 <h2>Screenshots</h2>
 <p align="center">
-<a href="https://raw.githubusercontent.com/jellyfin/jellyfin-roku/master/screenshots/home.jpg" title="Home Screen"><img src="https://raw.githubusercontent.com/jellyfin/jellyfin-roku/master/screenshots/home.jpg" style="border: 1px solid #eee;" width="300" alt="Home Screen" /></a>
-
-<a href="https://raw.githubusercontent.com/jellyfin/jellyfin-roku-with-delete/master/screenshots/DeleteSeries.jpg" title="Delete Series"><img src="https://raw.githubusercontent.com/jellyfin/jellyfin-roku-with-delete/master/screenshots/DeleteSeries.jpg" style="border: 1px solid #eee;" width="300" alt="Delete Series" /></a>
-<a href="https://raw.githubusercontent.com/jellyfin/jellyfin-roku/master/screenshots/movieDetails.jpg" title="Movie Details"><img src="https://raw.githubusercontent.com/jellyfin/jellyfin-roku/master/screenshots/movieDetails.jpg" style="border: 1px solid #eee;" width="300" alt="Movie Details" /></a>
-<a href="https://raw.githubusercontent.com/jellyfin/jellyfin-roku/master/screenshots/musicPlayback.jpg" title="Music Playback"><img src="https://raw.githubusercontent.com/jellyfin/jellyfin-roku/master/screenshots/musicPlayback.jpg" style="border: 1px solid #eee;" width="300" alt="Music Playback" /></a>
-<a href="https://raw.githubusercontent.com/jellyfin/jellyfin-roku/master/screenshots/tvLibrary.jpg" title="TV Show Library"><img src="https://raw.githubusercontent.com/jellyfin/jellyfin-roku/master/screenshots/tvLibrary.jpg" style="border: 1px solid #eee;" width="300" alt="TV Show Library" /></a>
-</p>
+<a href="https://raw.githubusercontent.com/garberfc/jellyfin-roku-with-delete/master/screenshots/home.jpg" title="Home Screen"><img src="https://raw.githubusercontent.com/garberfc/jellyfin-roku-with-delete/master/screenshots/home.jpg" style="border: 1px solid #eee;" width="300" alt="Home Screen" /></a><a href="https://raw.githubusercontent.com/garberfc/jellyfin-roku-with-delete/master/screenshots/DeleteSeries.jpg" title="Delete Series"><img src="https://raw.githubusercontent.com/garberfc/jellyfin-roku-with-delete/master/screenshots/DeleteSeries.jpg" style="border: 1px solid #eee;" width="300" alt="Delete Series" /></a><a href="https://raw.githubusercontent.com/garberfc/jellyfin-roku-with-delete/master/screenshots/movieDetails.jpg" title="Movie Details"><img src="https://raw.githubusercontent.com/garberfc/jellyfin-roku-with-delete/master/screenshots/movieDetails.jpg" style="border: 1px solid #eee;" width="300" alt="Movie Details" /></a><a href="https://raw.githubusercontent.com/garberfc/jellyfin-roku-with-delete/master/screenshots/musicPlayback.jpg" title="Music Playback"><img src="https://raw.githubusercontent.com/garberfc/jellyfin-roku-with-delete/master/screenshots/musicPlayback.jpg" style="border: 1px solid #eee;" width="300" alt="Music Playback" /></a><a href="https://raw.githubusercontent.com/garberfc/jellyfin-roku-with-delete/master/screenshots/tvLibrary.jpg" title="TV Show Library"><img src="https://raw.githubusercontent.com/garberfc/jellyfin-roku-with-delete/master/screenshots/tvLibrary.jpg" style="border: 1px solid #eee;" width="300" alt="TV Show Library" /></a></p>
 
 ## Advanced
 
