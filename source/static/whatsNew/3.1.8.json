@@ -24,6 +24,26 @@
     "author": "gabeluci"
   },
   {
+    "description": "Fix videos sometimes loading twice",
+    "author": "gabeluci"
+  },
+  {
+    "description": "Add setting to select how many items are loaded together on library screens",
+    "author": "brianpardy"
+  },
+  {
+    "description": "Support font color tags in subtitles",
+    "author": "gabeluci"
+  },
+  {
+    "description": "Add setting to configure Live TV channel title and logo visibility",
+    "author": "michaelcresswell"
+  },
+  {
+    "description": "Add playback speed controls to video player",
+    "author": "sah4001"
+  },
+  {
     "description": "Redesign playlist screen",
     "author": "1hitsong"
   },
