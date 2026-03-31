@@ -50,5 +50,9 @@
   {
     "description": "Add resume function to playlist items that support it",
     "author": "1hitsong"
+  },
+  {
+    "description": "Fix losing cursor when returning to TV series screen",
+    "author": "1hitsong"
   }
 ]
