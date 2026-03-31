@@ -778,7 +778,7 @@
     </message>
     <message>
         <source>Attempt Direct Play for H.264 media with unsupported profile levels before falling back to transcoding if it fails.</source>
-        <translation type="unfinished"></translation>
+        <translation>محاولة تشغيل وسائط H.264 مع مستويات الحساب غير المدعوم قبل الرجوع إلى الترميز في حال الفشل.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
@@ -788,7 +788,7 @@
     </message>
     <message>
         <source>Attempt Direct Play for HEVC media with unsupported profile levels before falling back to transcoding if it fails.</source>
-        <translation type="unfinished"></translation>
+        <translation>محاولة تشغيل وسائط HEVC مع مستويات الحساب غير المدعوم قبل الرجوع إلى الترميز في حال الفشل.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
