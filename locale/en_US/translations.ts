@@ -1563,6 +1563,16 @@
             <translation>Number of columns in library view when showing square images</translation>
             <extracomment>Libraries Setting - Setting description</extracomment>
         </message>
+	<message>
+	    <source>Load Items Limit</source>
+	    <translation>Load Items Limit</translation>
+	    <extracomment>Libraries Setting - Setting title</extracomment>
+        </message>
+	<message>
+	    <source>Number of items to load together on library screens.</source>
+	    <translation>Number of items to load together on library screens.</translation>
+	    <extracomment>Libraries Setting - Setting description</extracomment>
+        </message>
 
         <message>
             <source>View All Next Up</source>
@@ -2316,6 +2326,66 @@
         <message>
             <source>Screen Settings</source>
             <translation>Screen Settings</translation>
+        </message>
+        <message>
+            <source>Settings relating to Live TV.</source>
+            <translation>Settings relating to Live TV.</translation>
+            <extracomment>Libraries Setting - Setting Category description</extracomment>
+        </message>
+        <message>
+            <source>Channel Title Info</source>
+            <translation>Channel Title Info</translation>
+            <extracomment>Libraries Setting - Setting title</extracomment>
+        </message>
+        <message>
+            <source>Select what information to use as a channel's title.</source>
+            <translation>Select what information to use as a channel's title.</translation>
+            <extracomment>Libraries Setting - Setting description</extracomment>
+        </message>
+        <message>
+            <source>Settings relating to Live TV.</source>
+            <translation>Settings relating to Live TV.</translation>
+            <extracomment>Libraries Setting - Setting description</extracomment>
+        </message>
+        <message>
+            <source>Channel Number and Name</source>
+            <translation>Channel Number and Name</translation>
+            <extracomment>Libraries Setting - Setting option</extracomment>
+        </message>
+        <message>
+            <source>Channel Number</source>
+            <translation>Channel Number</translation>
+            <extracomment>Libraries Setting - Setting option</extracomment>
+        </message>
+        <message>
+            <source>Channel Name</source>
+            <translation>Channel Name</translation>
+            <extracomment>Libraries Setting - Setting option</extracomment>
+        </message>
+        <message>
+            <source>TV Guide Channel Display</source>
+            <translation>TV Guide Channel Display</translation>
+            <extracomment>Libraries Setting - Setting title</extracomment>
+        </message>
+        <message>
+            <source>Select how to display a channel in the Live TV guide.</source>
+            <translation>Select how to display a channel in the Live TV guide.</translation>
+            <extracomment>Libraries Setting - Setting description</extracomment>
+        </message>
+        <message>
+            <source>Channel Logo and Title</source>
+            <translation>Channel Logo and Title</translation>
+            <extracomment>Libraries Setting - Setting option</extracomment>
+        </message>
+        <message>
+            <source>Channel Logo</source>
+            <translation>Channel Logo</translation>
+            <extracomment>Libraries Setting - Setting option</extracomment>
+        </message>
+        <message>
+            <source>Channel Title</source>
+            <translation>Channel Title</translation>
+            <extracomment>Libraries Setting - Setting option</extracomment>
         </message>
     </context>
 </TS>

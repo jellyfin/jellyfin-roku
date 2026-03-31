@@ -1298,6 +1298,62 @@
             ]
           },
           {
+            "title": "Live TV",
+            "description": "Settings relating to Live TV.",
+            "children": [
+              {
+                "title": "Channel Title Info",
+                "description": "Select what information to use as a channel's title.",
+                "settingName": "tvChannelTitleInfo",
+                "type": "radio",
+                "default": "numberName",
+                "options": [
+                  {
+                    "title": "Channel Number and Name",
+                    "id": "numberName"
+                  },
+                  {
+                    "title": "Channel Number",
+                    "id": "number"
+                  },
+                  {
+                    "title": "Channel Name",
+                    "id": "name"
+                  }
+                ]
+              },
+              {
+                "title": "TV Guide Channel Display",
+                "description": "Select how to display a channel in the Live TV guide.",
+                "settingName": "tvGuideChannelDisplay",
+                "type": "radio",
+                "default": "logoTitle",
+                "options": [
+                  {
+                    "title": "Channel Logo and Title",
+                    "id": "logoTitle"
+                  },
+                  {
+                    "title": "Channel Logo",
+                    "id": "logo"
+                  },
+                  {
+                    "title": "Channel Title",
+                    "id": "title"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Load Items Limit",
+            "description": "Number of items to load together on library screens.",
+            "settingName": "ui.library.loadItemsLimit",
+            "type": "integer",
+            "min": "15",
+            "default": "60"
+          },
+          {
             "title": "TV Shows",
             "description": "Settings relating to the appearance of pages in TV Libraries.",
             "children": [

@@ -2298,6 +2298,14 @@
         <source>Screen Settings</source>
         <translation>Impostazioni Schermo</translation>
     </message>
+    <message>
+        <source>Load Items Limit</source>
+        <translation>Limite Caricamento Oggetti</translation>
+    </message>
+    <message>
+        <source>Number of items to load together on library screens.</source>
+        <translation>Numero degli oggetti da caricare insieme sullo schermata della libreria.</translation>
+    </message>
 </context>
 <context>
     <name></name>

@@ -735,73 +735,73 @@
     </message>
     <message>
         <source>Use Splashscreen as Home Background</source>
-        <translation type="unfinished"></translation>
+        <translation>استخدم شاشة البداية كخلفية للصفحة الرئيسية</translation>
         <extracomment>Option Title in user setting screen</extracomment>
     </message>
     <message>
         <source>Use generated splashscreen image as Jellyfin&apos;s home background. Jellyfin will need to be closed and reopened for change to take effect.</source>
-        <translation type="unfinished"></translation>
+        <translation>استخدم الصورة المولّدة كخلفية للصفحة الرئيسية ل Jellyfin. Jellyfin يجب ان يغلق و يفتح مجددا لكي يتم تطبيق التغيير.</translation>
         <extracomment>Description for option in Setting Screen</extracomment>
     </message>
     <message>
         <source>Cinema Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>نمط السينما</translation>
         <extracomment>Settings Menu - Title for option</extracomment>
     </message>
     <message>
         <source>Bring the theater experience straight to your living room with the ability to play custom intros before the main feature.</source>
-        <translation type="unfinished"></translation>
+        <translation>عش تجربة المسرح في غرفة الجلوس مع امكانية تخصيص تشغيل المقدمات قبل العرض الرئيسي.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Hide Clock</source>
-        <translation type="unfinished"></translation>
+        <translation>اخفاء الساعة</translation>
         <extracomment>Option Title in user setting screen</extracomment>
     </message>
     <message>
         <source>Hide all clocks in Jellyfin. Jellyfin will need to be closed and reopened for changes to take effect.</source>
-        <translation type="unfinished"></translation>
+        <translation>اخفاء كل الساعات في Jellyfin.سيحتاج Jellyfin للاغلاق ثم إعادة الفتح لتطبيق التعديلات.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Next episode</source>
-        <translation type="unfinished"></translation>
+        <translation>الحلقة التالية</translation>
     </message>
     <message>
         <source>Play Trailer</source>
-        <translation type="unfinished"></translation>
+        <translation>تشغيل المقطع الدعائي</translation>
     </message>
     <message>
         <source>H.264</source>
-        <translation type="unfinished"></translation>
+        <translation>H.264</translation>
         <extracomment>Name of codec used in settings menu</extracomment>
     </message>
     <message>
         <source>Attempt Direct Play for H.264 media with unsupported profile levels before falling back to transcoding if it fails.</source>
-        <translation type="unfinished"></translation>
+        <translation>محاولة تشغيل وسائط H.264 مع مستويات الحساب غير المدعوم قبل الرجوع إلى الترميز في حال الفشل.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>HEVC</source>
-        <translation type="unfinished"></translation>
+        <translation>HEVC</translation>
         <extracomment>Name of codec used in settings menu</extracomment>
     </message>
     <message>
         <source>Attempt Direct Play for HEVC media with unsupported profile levels before falling back to transcoding if it fails.</source>
-        <translation type="unfinished"></translation>
+        <translation>محاولة تشغيل وسائط HEVC مع مستويات الحساب غير المدعوم قبل الرجوع إلى الترميز في حال الفشل.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Settings relating to playback and supported codec and media types.</source>
-        <translation type="unfinished"></translation>
+        <translation>اعدادات خاصة بالتشغيل و التشفير المدعوم و أنواع الوسائط.</translation>
     </message>
     <message>
         <source>Settings relating to how the application looks.</source>
-        <translation type="unfinished"></translation>
+        <translation>اعدادات تختص بمنظر التطبيق.</translation>
     </message>
     <message>
         <source>Max Days Next Up</source>
-        <translation type="unfinished"></translation>
+        <translation>أقصى عدد ايام للقادم</translation>
         <extracomment>Option Title in user setting screen</extracomment>
     </message>
     <message>
@@ -811,98 +811,98 @@
     </message>
     <message>
         <source>Playback Information</source>
-        <translation type="unfinished"></translation>
+        <translation>معلومات التشغيل</translation>
     </message>
     <message>
         <source>Transcoding Information</source>
-        <translation type="unfinished"></translation>
+        <translation>معلومات الترميز</translation>
     </message>
     <message>
         <source>Reason</source>
-        <translation type="unfinished"></translation>
+        <translation>سبب</translation>
     </message>
     <message>
         <source>Force Transcoding setting is enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>إجبار اعداد الترميز مفعّل</translation>
     </message>
     <message>
         <source>Force Transcode option is enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>إجبار اختيار الترميز مفعّل</translation>
     </message>
     <message>
         <source>Video Codec</source>
-        <translation type="unfinished"></translation>
+        <translation>تشفير الفيديو</translation>
     </message>
     <message>
         <source>Audio Codec</source>
-        <translation type="unfinished"></translation>
+        <translation>تشفير الصوت</translation>
     </message>
     <message>
         <source>direct</source>
-        <translation type="unfinished"></translation>
+        <translation>متجه</translation>
     </message>
     <message>
         <source>Total Bitrate</source>
-        <translation type="unfinished"></translation>
+        <translation>مجموع معدل البث</translation>
     </message>
     <message>
         <source>Audio Channels</source>
-        <translation type="unfinished"></translation>
+        <translation>قنوات صوتية</translation>
     </message>
     <message>
         <source>Stream Information</source>
-        <translation type="unfinished"></translation>
+        <translation>معلومات البث</translation>
     </message>
     <message>
         <source>Codec</source>
-        <translation type="unfinished"></translation>
+        <translation>تشفير</translation>
     </message>
     <message>
         <source>Codec Tag</source>
-        <translation type="unfinished"></translation>
+        <translation>وسم الترميز</translation>
     </message>
     <message>
         <source>Level</source>
-        <translation type="unfinished"></translation>
+        <translation>مستوى</translation>
         <extracomment>Video profile level</extracomment>
     </message>
     <message>
         <source>Bit Rate</source>
-        <translation type="unfinished"></translation>
+        <translation>معدل بث</translation>
         <extracomment>Video streaming bit rate</extracomment>
     </message>
     <message>
         <source>Container</source>
-        <translation type="unfinished"></translation>
+        <translation>حاوية</translation>
         <extracomment>Video streaming container</extracomment>
     </message>
     <message>
         <source>Size</source>
-        <translation type="unfinished"></translation>
+        <translation>حجم</translation>
         <extracomment>Video size</extracomment>
     </message>
     <message>
         <source>Video range type</source>
-        <translation type="unfinished"></translation>
+        <translation>نوع مدى الفيديو</translation>
     </message>
     <message>
         <source>Pixel format</source>
-        <translation type="unfinished"></translation>
+        <translation>تهيئة Pixel</translation>
         <extracomment>Video pixel format</extracomment>
     </message>
     <message>
         <source>WxH</source>
-        <translation type="unfinished"></translation>
+        <translation>ع X إ</translation>
         <extracomment>Video width x height</extracomment>
     </message>
     <message>
         <source>Unable to find any albums or songs belonging to this artist</source>
-        <translation type="unfinished"></translation>
+        <translation>تعذر العثور على أي ألبوم أو اغاني تخص هذا الفنان</translation>
         <extracomment>Popup message when we find no audio data for an artist</extracomment>
     </message>
     <message>
         <source>Custom Subtitles</source>
-        <translation type="unfinished"></translation>
+        <translation>تخصيص الترجمة</translation>
         <extracomment>Name of a setting - custom subtitles that support CJK fonts</extracomment>
     </message>
     <message>
@@ -2204,11 +2204,11 @@
     </message>
     <message>
         <source>Library Image Orientation</source>
-        <translation type="unfinished"></translation>
+        <translation>توجّه صورة المكتبة</translation>
     </message>
     <message>
         <source>Select the poster image orientation for the library views.</source>
-        <translation type="unfinished"></translation>
+        <translation>اختر توجّه صورة ملصق عرض المكتبة.</translation>
     </message>
     <message>
         <source>Default (Varies By Media Type)</source>
@@ -2305,6 +2305,54 @@
     <message>
         <source>Sort Order for the row - Ascending,Descending.</source>
         <translation>ترتيب تصنيف هذا الصف - تصاعدي,تنازلي.</translation>
+    </message>
+    <message>
+        <source>Channel Title</source>
+        <translation>عنوان القناة</translation>
+    </message>
+    <message>
+        <source>Channel Logo</source>
+        <translation>شعار القناة</translation>
+    </message>
+    <message>
+        <source>Channel Logo and Title</source>
+        <translation>شعار و عنوان القناة</translation>
+    </message>
+    <message>
+        <source>Select how to display a channel in the Live TV guide.</source>
+        <translation>اختر كيفية عرض قناة في مرشد التلفاز الحي.</translation>
+    </message>
+    <message>
+        <source>TV Guide Channel Display</source>
+        <translation>عرض مرشد قناة التلفاز</translation>
+    </message>
+    <message>
+        <source>Channel Name</source>
+        <translation>اسم القناة</translation>
+    </message>
+    <message>
+        <source>Channel Number</source>
+        <translation>رقم القناة</translation>
+    </message>
+    <message>
+        <source>Channel Number and Name</source>
+        <translation>رقم و اسم القناة</translation>
+    </message>
+    <message>
+        <source>Select what information to use as a channel&apos;s title.</source>
+        <translation>اختر ماهية المعلومة لتستخدم كعنوان للقناة.</translation>
+    </message>
+    <message>
+        <source>Set the maximum amount of days a show should stay in the &apos;Next Up&apos; list without watching it. Maximum value is 1000 days.</source>
+        <translation>حدد أقصى عدد أيام بقاء برنامج في قائمة &apos;القادم&apos; بدون مشاهدة. أقصى عدد ايام هو 1000.</translation>
+    </message>
+    <message>
+        <source>Channel Title Info</source>
+        <translation>معلومات عنوان القناة</translation>
+    </message>
+    <message>
+        <source>Settings relating to Live TV.</source>
+        <translation>إعدادات تخص التلفاز الحي.</translation>
     </message>
 </context>
 </TS>

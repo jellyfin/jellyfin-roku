@@ -148,6 +148,10 @@ sub onKeyGridSubmit()
         m.integerSetting.text = selectedSetting.max
         return
     end if
+    if isValid(selectedSetting.min) and m.integerSetting.text.ToInt() < selectedSetting.min.ToInt()
+        m.integerSetting.text = selectedSetting.min
+        return
+    end if
     set_user_setting(selectedSetting.settingName, m.integerSetting.text)
     m.settingsMenu.setFocus(true)
 end sub
