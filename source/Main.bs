@@ -38,7 +38,7 @@ sub Main (args as dynamic) as void
     m.global.addFields({ queueManager: CreateObject("roSGNode", "QueueManager") })
     m.global.addFields({ audioPlayer: CreateObject("roSGNode", "AudioPlayer") })
     m.global.addFields({ jumpTo: {} })
-    m.global.addFields({ fallbackFont: string.EMPTY })
+    m.global.addFields({ fallbackFont: {} })
 
     m.global.observeField("jumpTo", m.port)
 
@@ -217,14 +217,69 @@ sub downloadFallbackFont()
 
     if isChainValid(configEncoding, "EnableFallbackFont")
         if configEncoding.EnableFallbackFont
-            re = CreateObject("roRegex", "Name.:.(.*?).,.Size", "s")
-            filename = APIRequest("FallbackFont/Fonts").GetToString()
-            if isValid(filename)
-                filename = re.match(filename)
-                if isValidAndNotEmpty(filename)
-                    filename = filename[1]
-                    APIRequest("FallbackFont/Fonts/" + filename).gettofile("tmp:/font")
-                    m.global.fallbackFont = "tmp:/font"
+            files = APIRequest("FallbackFont/Fonts").GetToString()
+            if isValid(files)
+                files = ParseJson(files)
+                if isValidAndNotEmpty(files)
+                    fallbackFont = {}
+                    for each f in files
+                        name = LCase(f.Name)
+                        if not name.endsWith(".ttf") and not name.endsWith(".otf") then continue for
+
+                        fontUri = "tmp:/" + f.Name
+                        fileNeeded = false
+                        if name.instr("bold") <> -1 and name.instr("italic") <> -1
+                            if not isValid(fallbackFont.boldItalic)
+                                fallbackFont.boldItalic = fontUri
+                                fileNeeded = true
+                            end if
+                        else if name.instr("bold") <> -1
+                            if not isValid(fallbackFont.bold)
+                                fallbackFont.bold = fontUri
+                                fileNeeded = true
+                            end if
+                        else if name.instr("italic") <> -1
+                            if not isValid(fallbackFont.italic)
+                                fallbackFont.italic = fontUri
+                                fileNeeded = true
+                            end if
+                        else if not isValid(fallbackFont.regular)
+                            fallbackFont.regular = fontUri
+                            fileNeeded = true
+                        end if
+                        if fileNeeded
+                            ' This exercise prevents downloading font files we won't use
+                            APIRequest("FallbackFont/Fonts/" + f.Name).gettofile(fontUri)
+                        end if
+                    end for
+                    if fallbackFont.count() = 0 then return ' No valid font files were downloaded
+
+                    ' Make sure every style is set
+                    if not isValid(fallbackFont.regular)
+                        if isValid(fallbackFont.bold)
+                            fallbackFont.regular = fallbackFont.bold
+                        else if isValid(fallbackFont.italic)
+                            fallbackFont.regular = fallbackFont.italic
+                        else if isValid(fallbackFont.boldItalic)
+                            fallbackFont.regular = fallbackFont.boldItalic
+                        end if
+                    end if
+                    if not isValid(fallbackFont.bold)
+                        fallbackFont.bold = fallbackFont.regular
+                    end if
+                    if not isValid(fallbackFont.italic)
+                        fallbackFont.italic = fallbackFont.regular
+                    end if
+                    if not isValid(fallbackFont.boldItalic)
+                        if isValid(fallbackFont.italic)
+                            fallbackFont.boldItalic = fallbackFont.italic
+                        else if isValid(fallbackFont.bold)
+                            fallbackFont.boldItalic = fallbackFont.bold
+                        else
+                            fallbackFont.boldItalic = fallbackFont.regular
+                        end if
+                    end if
+                    m.global.fallbackFont = fallbackFont
                 end if
             end if
         end if
