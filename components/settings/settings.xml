@@ -20,7 +20,7 @@
 
     <RadioButtonList id="radioSetting" numRows="6" vertFocusAnimationStyle="floatingFocus" translation="[1034, 510]" />
 
-    <RadioButtonList id="boolSetting" vertFocusAnimationStyle="floatingFocus" translation="[1034, 510]">
+    <RadioButtonList id="boolSetting" vertFocusAnimationStyle="floatingFocus" translation="[1034, 610]">
       <ContentNode role="content">
         <ContentNode title="Disabled" />
         <ContentNode title="Enabled" />
