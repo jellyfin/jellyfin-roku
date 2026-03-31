@@ -1,39 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component name="PlaylistView" extends="JFScreen">
   <children>
-    <ScrollingText
-      horizAlign="left"
-      id="title"
-      translation="[100, 100]"
-      font="font:MediumBoldSystemFont"
-      maxWidth="1600"
-      height="50" />
+    <LayoutGroup id="toplevel" layoutDirection="vert" translation="[100, 100]" itemSpacings="[20]">
+      <LayoutGroup layoutDirection="horiz" itemSpacings="[15]">
+        <LayoutGroup layoutDirection="vert" itemSpacings="[25]">
+          <ScrollingText id="title" horizAlign="left" font="font:MediumBoldSystemFont" maxWidth="1380" height="45" />
 
-    <LayoutGroup id="toplevel" layoutDirection="vert" itemSpacings="[-10]" translation="[96, 200]">
-      <LayoutGroup id="main_group" layoutDirection="horiz" itemSpacings="[15]">
-        <LayoutGroup layoutDirection="vert" itemSpacings="[15]">
-          <Poster id="albumCover" width="450" height="450" />
-          <Text id="numberofsongs" width="450" height="25" />
-          <Text id="runtime" width="450" height="25" />
-          <Text id="released" width="450" height="25" />
+          <LayoutGroup layoutDirection="horiz" itemSpacings="[25]">
+            <LayoutGroup layoutDirection="horiz" itemSpacings="[15]">
+              <Poster id="runtimeIcon" width="35" height="35" uri="pkg:/images/icons/35px/clock.png" />
+              <Text id="runtime" vertAlign="center" font="font:MediumSystemFont" height="35" />
+            </LayoutGroup>
+
+            <LayoutGroup layoutDirection="horiz" itemSpacings="[15]">
+              <Poster id="numberofsongsIcon" width="35" height="35" uri="pkg:/images/icons/35px/musicNote.png" />
+              <Text id="numberofsongs" vertAlign="center" font="font:MediumSystemFont" height="35" />
+            </LayoutGroup>
+          </LayoutGroup>
+
+          <ButtonGroupHoriz id="buttons" itemSpacings="[20]">
+            <IconButton id="resume" background="#070707" padding="35" icon="pkg:/images/icons/resume.png" text="Resume" height="65" width="140" />
+            <IconButton id="play" background="#070707" padding="35" icon="pkg:/images/icons/play.png" text="Play" height="65" width="140" />
+            <IconButton id="shuffle" background="#070707" padding="35" icon="pkg:/images/icons/shufflePlay.png" text="Shuffle" height="65" width="140" />
+          </ButtonGroupHoriz>
         </LayoutGroup>
-        <LayoutGroup id="infoGroup" layoutDirection="vert" itemSpacings="[15]">
-          <Text id="overview" wrap="true" height="310" width="1250" />
-          <Rectangle id='songListRect' translation="[-30, 0]" width="1260" height="510">
-            <PlaylistItems
-              id="playlist"
-              itemComponentName="PlaylistItem"
-              translation="[45, 25]"
-              itemSize="[1170,100]"
-              numRows="4" />
-          </Rectangle>
-        </LayoutGroup>
+
+        <Rectangle id="albumCoverBackground" width="320" height="320">
+          <Poster id="albumCover" translation="[10,10]" width="300" height="300" />
+        </Rectangle>
       </LayoutGroup>
+
     </LayoutGroup>
+
+    <Rectangle id='songListRect' translation="[100, 435]" width="1720" height="610">
+      <LayoutGroup id="tableHeading" layoutDirection="horiz" itemSpacings="[20]" translation="[45, 15]">
+        <Text id="trackHeading" font="font:SmallBoldSystemFont" horizAlign="left" vertAlign="center" text="" width="140" />
+        <Text id="titleHeading" font="font:SmallBoldSystemFont" horizAlign="left" vertAlign="center" text="Title" width="1020" />
+        <Text id="playedHeading" font="font:SmallBoldSystemFont" horizAlign="center" vertAlign="center" text="Played" width="70" />
+        <Text id="positionHeading" font="font:SmallBoldSystemFont" horizAlign="right" vertAlign="center" text="Position" width="155" />
+        <Text id="lengthHeading" font="font:SmallBoldSystemFont" horizAlign="right" vertAlign="center" text="Length" width="155" />
+      </LayoutGroup>
+
+      <PlaylistItems
+        id="playlist"
+        clippingRect="[-10,-10,1650,545]"
+        itemComponentName="PlaylistItem"
+        translation="[45, 50]"
+        itemSize="[1630, 100]"
+        numRows="11" />
+    </Rectangle>
+
+    <Animation id="revealEpisodesAnimation" duration=".4" repeat="false" easeFunction="linear">
+      <Vector2DFieldInterpolator
+        id="toplevelTranslation"
+        key="[0.0, 1]"
+        keyValue="[[100, 100], [100, -500]]"
+        fieldToInterp="toplevel.translation" />
+
+      <Vector2DFieldInterpolator
+        id="tableHeadingTranslation"
+        key="[0.0, 1]"
+        keyValue="[[45, 15], [145, 60]]"
+        fieldToInterp="tableHeading.translation" />
+
+      <Vector2DFieldInterpolator
+        id="playlistTranslation"
+        key="[0.0, 1]"
+        keyValue="[[45, 50], [145, 95]]"
+        fieldToInterp="playlist.translation" />
+
+      <Vector2DFieldInterpolator
+        id="songListRectTranslation"
+        key="[0.0, 1]"
+        keyValue="[[100, 435], [0, 0]]"
+        fieldToInterp="songListRect.translation" />
+
+      <FloatFieldInterpolator
+        id="songListRectHeight"
+        key="[0.0, 1]"
+        keyValue="[610.0, 1080.0]"
+        fieldToInterp="songListRect.height" />
+
+      <FloatFieldInterpolator
+        id="songListRectWidth"
+        key="[0.0, 1]"
+        keyValue="[1720.0, 1920.0]"
+        fieldToInterp="songListRect.width" />
+    </Animation>
   </children>
   <interface>
+    <field id="refreshPlaylistData" type="bool" alwaysNotify="true" />
     <field id="pageContent" type="node" onChange="pageContentChanged" />
     <field id="listData" type="node" alias="playlist.PlaylistData" />
     <field id="playlistItemSelected" alias="playlist.itemSelected" />
+    <field id="selectedButtonIndex" type="integer" value="-1" />
   </interface>
 </component>

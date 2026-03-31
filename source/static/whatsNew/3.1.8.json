@@ -42,5 +42,9 @@
   {
     "description": "Add playback speed controls to video player",
     "author": "sah4001"
+  },
+  {
+    "description": "Redesign playlist screen",
+    "author": "1hitsong"
   }
 ]
