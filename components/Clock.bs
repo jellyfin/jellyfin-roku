@@ -45,7 +45,7 @@ sub onCurrentTimeTimerFire()
     m.dateTimeObject.ToLocalTime()
 
     ' Format time for display - based on 12h/24h setting
-    formattedTime = formatTimeAsString(m.dateTimeObject)
+    formattedTime = formatTimeAsString(m.dateTimeObject, false)
 
     ' Display time
     m.clockTime.text = formattedTime
@@ -61,7 +61,13 @@ function getCurrentTime()
     return timeInSeconds
 end function
 
-function getFormattedTime(timestamp as object, allowPastTime = true as boolean)
+' getFormattedTime: Returns a string with the current time formatted for either a 12 or 24 hour clock
+'
+' @param {object} timestamp - the timestamp to format, in seconds
+' @param {boolean} allowPastTime - whether to allow a time in the past.  Return empty string if false and passed timestamp is before current time.
+' @param {boolean} includeSeconds - whether to include seconds in the formatted time
+' @return {string} current time formatted for either a 12 hour or 24 hour clock
+function getFormattedTime(timestamp as object, allowPastTime = true as boolean, includeSeconds = false as boolean)
     dateTimeObject = CreateObject("roDateTime")
     dateTimeObject.FromSecondsLong(timestamp)
 
@@ -70,25 +76,32 @@ function getFormattedTime(timestamp as object, allowPastTime = true as boolean)
         if dateTimeObject.AsSeconds() <= m.dateTimeObject.AsSeconds() then return string.EMPTY
     end if
 
-    return formatTimeAsString(dateTimeObject)
+    return formatTimeAsString(dateTimeObject, includeSeconds)
 end function
 
 ' formatTimeAsString: Returns a string with the current time formatted for either a 12 or 24 hour clock
 '
+' @param {object} dateTimeObject - the date and time object to format
+' @param {boolean} includeSeconds - whether to include seconds in the formatted time
 ' @return {string} current time formatted for either a 12 hour or 24 hour clock
-function formatTimeAsString(dateTimeObject as object) as string
-    return m.format = ClockFormat.h12 ? format12HourTime(dateTimeObject) : format24HourTime(dateTimeObject)
+function formatTimeAsString(dateTimeObject as object, includeSeconds as boolean) as string
+    return m.format = ClockFormat.h12 ? format12HourTime(dateTimeObject, includeSeconds) : format24HourTime(dateTimeObject, includeSeconds)
 end function
 
 ' format12HourTime: Returns a string with the current time formatted for a 12 hour clock
 '
+' @param {object} dateTimeObject - the date and time object to format
+' @param {boolean} includeSeconds - whether to include seconds in the formatted time
 ' @return {string} current time formatted for a 12 hour clock
-function format12HourTime(dateTimeObject as object) as string
+function format12HourTime(dateTimeObject as object, includeSeconds = false as boolean) as string
     currentHour = dateTimeObject.GetHours()
     currentMinute = dateTimeObject.GetMinutes()
+    currentSecond = dateTimeObject.GetSeconds()
 
     displayedHour = StrI(currentHour).trim()
     displayedMinute = StrI(currentMinute).trim()
+    displayedSecond = StrI(currentSecond).trim()
+
     meridian = currentHour < 12 ? "am" : "pm"
 
     if currentHour = 0
@@ -104,18 +117,27 @@ function format12HourTime(dateTimeObject as object) as string
         displayedMinute = `0${displayedMinute}`
     end if
 
-    return `${displayedHour}:${displayedMinute} ${meridian}`
+    if currentSecond < 10
+        displayedSecond = `0${displayedSecond}`
+    end if
+
+    ' If includeSeconds is true, return time with seconds included, otherwise return time without seconds
+    return includeSeconds = true ? `${displayedHour}:${displayedMinute}:${displayedSecond} ${meridian}` : `${displayedHour}:${displayedMinute} ${meridian}`
 end function
 
 ' format24HourTime: Returns a string with the current time formatted for a 24 hour clock
 '
+' @param {object} dateTimeObject - the date and time object to format
+' @param {boolean} includeSeconds - whether to include seconds in the formatted time
 ' @return {string} current time formatted for a 24 hour clock
-function format24HourTime(dateTimeObject as object) as string
+function format24HourTime(dateTimeObject as object, includeSeconds = false as boolean) as string
     currentHour = dateTimeObject.GetHours()
     currentMinute = dateTimeObject.GetMinutes()
+    currentSecond = dateTimeObject.GetSeconds()
 
     displayedHour = StrI(currentHour).trim()
     displayedMinute = StrI(currentMinute).trim()
+    displayedSecond = StrI(currentSecond).trim()
 
     if currentHour < 10
         displayedHour = `0${displayedHour}`
@@ -125,5 +147,10 @@ function format24HourTime(dateTimeObject as object) as string
         displayedMinute = `0${displayedMinute}`
     end if
 
-    return `${displayedHour}:${displayedMinute}`
+    if currentSecond < 10
+        displayedSecond = `0${displayedSecond}`
+    end if
+
+    ' If includeSeconds is true, return time with seconds included, otherwise return time without seconds
+    return includeSeconds = true ? `${displayedHour}:${displayedMinute}:${displayedSecond}` : `${displayedHour}:${displayedMinute}`
 end function

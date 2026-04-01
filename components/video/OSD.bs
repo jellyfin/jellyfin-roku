@@ -3,6 +3,7 @@ import "pkg:/source/utils/misc.bs"
 
 const LOGO_RIGHT_PADDING = 30
 const OPTIONCONTROLS_TOP_PADDING = 50
+const LIVETV_REWIND_LIMIT = 3600 ' 1 hour
 
 sub init()
     m.videoControls = m.top.findNode("videoControls")
@@ -17,8 +18,15 @@ sub init()
     m.videoEndingTime = m.top.findNode("videoEndingTime")
     m.progressBar = m.top.findNode("progressBar")
     m.progressBarBackground = m.top.findNode("progressBarBackground")
+
+    m.progressBarGroup = m.top.findNode("progressBarGroup")
+    m.scrubber = m.top.findNode("scrubber")
+    m.scrubberOldPosition = m.top.findnode("scrubberOldPosition")
+    m.liveTvPos = m.top.findNode("liveTvPos")
+
     m.nextItem = m.top.FindNode("nextItem")
     m.previousItem = m.top.FindNode("previousItem")
+    m.clock = m.top.FindNode("clock")
 
     m.top.observeField("visible", "onVisibleChanged")
     m.top.observeField("hasFocus", "onFocusChanged")
@@ -38,14 +46,14 @@ sub init()
     m.top.observeField("nextItemIcon", "onNextItemIconChanged")
     m.top.observeField("nextItemTitleText", "onNextItemTitleTextChanged")
 
-    m.defaultButtonIndex = 2
+    m.top.defaultButtonIndex = 2
     m.focusedButtonIndex = 2
     m.optionControlsMoved = false
 
-    m.videoControls.buttonFocused = m.defaultButtonIndex
+    m.videoControls.buttonFocused = m.top.defaultButtonIndex
     m.optionControls.buttonFocused = m.optionControls.getChildCount() - 1
 
-    m.videoControls.getChild(m.defaultButtonIndex).focus = true
+    m.videoControls.getChild(m.top.defaultButtonIndex).focus = true
     m.deviceInfo = CreateObject("roDeviceInfo")
 
     m.progressBarBackground.color = ColorPalette.BLACK77
@@ -62,15 +70,42 @@ sub init()
         button.background = ColorPalette.DARKGREY
         button.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
     end for
+
+    m.top.isSeeking = false
+    m.scrubberOldPosition.opacity = 0.66
+    m.top.liveTvStartOffset = 0
+    m.top.liveTvRewindLimit = LIVETV_REWIND_LIMIT
+    reloadUI()
 end sub
 
 ' onProgressPercentageChanged: Handler for changes to m.top.progressPercentage param
 '
 sub onProgressPercentageChanged()
-    m.videoPositionTime.text = secondsToHuman(m.top.positionTime, true)
-    m.videoRemainingTime.text = secondsToHuman(m.top.remainingPositionTime, true)
-    m.progressBar.width = m.progressBarBackground.width * m.top.progressPercentage
+    positionTime = clampSeek(m.top.previewPos)
+    updateProgressBar(m.top.live, positionTime)
 end sub
+
+' clampSeek: Clamps the given position to be within the bounds of the video duration or live TV rewind limit, depending on the content type.
+'
+' @param {integer} position - The position to clamp, in seconds.
+' @return {integer} - The clamped position, in seconds.
+function clampSeek(position as integer) as integer
+    if m.top.live
+        if position < m.top.liveTvStartOffset
+            position = m.top.liveTvStartOffset
+        else if position > m.top.progressDuration
+            position = m.top.progressDuration
+        end if
+    else
+        if position < 0
+            position = 0
+        else if position > m.top.progressDuration
+            position = m.top.progressDuration
+        end if
+    end if
+    return position
+end function
+
 
 sub setVideoEndingTime()
     m.videoEndingTime.text = m.top.videoEndingTime
@@ -81,10 +116,12 @@ end sub
 '
 sub onPlaybackStateChanged()
     if LCase(m.top.playbackState) = "playing"
+        m.scrubberOldPosition.visible = false
         m.videoPlayPause.icon = "pkg:/images/icons/pause.png"
         return
     end if
 
+    m.scrubberOldPosition.visible = true
     m.videoPlayPause.icon = "pkg:/images/icons/play.png"
 end sub
 
@@ -236,9 +273,9 @@ sub resetFocusToDefaultButton()
 
     ' Set focus back to the default button
     m.videoControls.setFocus(true)
-    m.focusedButtonIndex = m.defaultButtonIndex
-    m.videoControls.getChild(m.defaultButtonIndex).focus = true
-    m.videoControls.buttonFocused = m.defaultButtonIndex
+    m.focusedButtonIndex = m.top.defaultButtonIndex
+    m.videoControls.getChild(m.top.defaultButtonIndex).focus = true
+    m.videoControls.buttonFocused = m.top.defaultButtonIndex
     m.optionControls.buttonFocused = m.optionControls.getChildCount() - 1
 end sub
 
@@ -275,6 +312,11 @@ end sub
 sub inactiveCheck()
     ' If user is currently seeing a dialog box, ignore inactive check
     if m.global.sceneManager.callFunc("isDialogOpen")
+        return
+    end if
+
+    ' If user is seeking (such as fastforwarding), ignore inactive check
+    if m.top.isSeeking
         return
     end if
 
@@ -337,120 +379,218 @@ sub checkDisplaySiblingItem(selectedButtonID)
 
 end sub
 
+' onKeyEvent: Handler for key events when this menu is in focus. Handles navigation within the menu.
+'
+' @param {string} key - the key that was pressed
+' @param {boolean} press - whether the key was pressed down (true) or released (false)
+' @return {boolen} - returns true if the key event was handled, false if it should be passed through
 function onKeyEvent(key as string, press as boolean) as boolean
     if not press then return false
 
-    if key = "OK"
-        onButtonSelected()
-        return true
-    end if
-
-    if key = "play"
-        checkDisplaySiblingItem("")
-        m.top.action = "videoplaypause"
-        return true
-    end if
-
-    if key = "right"
-        if m.optionControls.isInFocusChain()
-            buttonGroup = m.optionControls
-        else
-            buttonGroup = m.videoControls
-        end if
-
-        if m.focusedButtonIndex + 1 >= buttonGroup.getChildCount()
+    if not m.progressBarGroup.hasfocus()
+        if key = "OK"
+            onButtonSelected()
             return true
         end if
 
-        focusedButton = buttonGroup.getChild(m.focusedButtonIndex)
-        focusedButton.focus = false
-
-        ' Skip spacer elements until next button is found
-        for i = m.focusedButtonIndex + 1 to buttonGroup.getChildCount()
-            m.focusedButtonIndex = i
-            focusedButton = buttonGroup.getChild(m.focusedButtonIndex)
-
-            if isValid(focusedButton.focus)
-                buttonGroup.buttonFocused = m.focusedButtonIndex
-                focusedButton.focus = true
-
-                focusedButtonID = m.videoControls.isInFocusChain() ? focusedButton.id : ""
-                checkDisplaySiblingItem(focusedButtonID)
-                exit for
-            end if
-        end for
-
-        return true
-    end if
-
-    if key = "left"
-        if m.focusedButtonIndex = 0
-            return true
-        end if
-
-        if m.optionControls.isInFocusChain()
-            buttonGroup = m.optionControls
-        else
-            buttonGroup = m.videoControls
-        end if
-
-        focusedButton = buttonGroup.getChild(m.focusedButtonIndex)
-        focusedButton.focus = false
-
-        ' Skip spacer elements until next button is found
-        for i = m.focusedButtonIndex - 1 to 0 step -1
-            m.focusedButtonIndex = i
-            focusedButton = buttonGroup.getChild(m.focusedButtonIndex)
-
-            if isValid(focusedButton.focus)
-                buttonGroup.buttonFocused = m.focusedButtonIndex
-                focusedButton.focus = true
-
-                focusedButtonID = m.videoControls.isInFocusChain() ? focusedButton.id : ""
-                checkDisplaySiblingItem(focusedButtonID)
-                exit for
-            end if
-        end for
-
-        return true
-    end if
-
-    if key = "up"
-        if m.videoControls.isInFocusChain()
-            focusedButton = m.videoControls.getChild(m.focusedButtonIndex)
-            focusedButton.focus = false
-            m.videoControls.setFocus(false)
-
-            m.focusedButtonIndex = m.optionControls.buttonFocused
-            focusedButton = m.optionControls.getChild(m.focusedButtonIndex)
-            focusedButton.focus = true
-            m.optionControls.setFocus(true)
-
+        if key = "play"
             checkDisplaySiblingItem("")
+            m.top.action = "videoplaypause"
+            return true
         end if
 
-        return true
-    end if
+        if key = "right"
+            if m.optionControls.isInFocusChain()
+                buttonGroup = m.optionControls
+            else
+                buttonGroup = m.videoControls
+            end if
 
-    if key = "down"
-        if m.optionControls.isInFocusChain()
-            focusedButton = m.optionControls.getChild(m.focusedButtonIndex)
+            m.top.action = "checkskipsegmentbuttonvisible"
+            if m.focusedButtonIndex + 1 >= buttonGroup.getChildCount()
+                if m.top.skipSegmentButtonVisible and m.videoControls.isInFocusChain()
+                    buttonGroup.setFocus(false)
+                    m.top.action = "setskipsegmentbuttonfocus"
+                    focusedButton = buttonGroup.getChild(m.focusedButtonIndex)
+                    focusedButton.focus = false
+                    checkDisplaySiblingItem("")
+                end if
+                return true
+            end if
+
+            focusedButton = buttonGroup.getChild(m.focusedButtonIndex)
             focusedButton.focus = false
-            m.optionControls.setFocus(false)
 
-            m.focusedButtonIndex = m.videoControls.buttonFocused
-            focusedButton = m.videoControls.getChild(m.focusedButtonIndex)
-            focusedButton.focus = true
-            m.videoControls.setFocus(true)
+            ' Skip spacer elements until next button is found
+            for i = m.focusedButtonIndex + 1 to buttonGroup.getChildCount()
+                m.focusedButtonIndex = i
+                focusedButton = buttonGroup.getChild(m.focusedButtonIndex)
 
-            checkDisplaySiblingItem(focusedButton.id)
+                if isValid(focusedButton.focus)
+                    buttonGroup.buttonFocused = m.focusedButtonIndex
+                    focusedButton.focus = true
+
+                    focusedButtonID = m.videoControls.isInFocusChain() ? focusedButton.id : ""
+                    checkDisplaySiblingItem(focusedButtonID)
+                    exit for
+                end if
+            end for
+
+            return true
         end if
 
+        if key = "left"
+            if m.focusedButtonIndex = 0
+                return true
+            end if
+
+            if m.optionControls.isInFocusChain()
+                buttonGroup = m.optionControls
+            else
+                buttonGroup = m.videoControls
+            end if
+
+            focusedButton = buttonGroup.getChild(m.focusedButtonIndex)
+            focusedButton.focus = false
+
+            ' Skip spacer elements until next button is found
+            for i = m.focusedButtonIndex - 1 to 0 step -1
+                m.focusedButtonIndex = i
+                focusedButton = buttonGroup.getChild(m.focusedButtonIndex)
+
+                if isValid(focusedButton.focus)
+                    buttonGroup.buttonFocused = m.focusedButtonIndex
+                    focusedButton.focus = true
+
+                    focusedButtonID = m.videoControls.isInFocusChain() ? focusedButton.id : ""
+                    checkDisplaySiblingItem(focusedButtonID)
+                    exit for
+                end if
+            end for
+
+            return true
+        end if
+
+    end if
+
+    ' Move up from videoControls to progressBarGroup
+    if key = "up" and m.videoControls.hasfocus()
+        if m.videoControls.isInFocusChain() then setOsdStatus("progressBarGroup")
         return true
     end if
 
-    ' All other keys hide the menu
+    ' Move up from progressBarGroup to optionControls
+    if key = "up" and m.progressBarGroup.hasfocus()
+        if m.progressBarGroup.isInFocusChain() then setOsdStatus("optionControls")
+        return true
+    end if
+
+    ' Move down from optionControls to progressBarGroup
+    if key = "down" and m.optionControls.hasfocus()
+        if m.optionControls.isInFocusChain() then setOsdStatus("progressBarGroup")
+        return true
+    end if
+
+    ' Move down from progressBarGroup to videoControls
+    if key = "down" and m.progressBarGroup.hasFocus()
+        if m.progressBarGroup.isInFocusChain() then setOsdStatus("videoControls")
+        return true
+    end if
+
+    ' Look for video seek buttons being pressed and execute the seek action
+    if key = "right" or key = "left" or key = "fastforward" or key = "rewind" or key = "OK" or key = "play"
+        if not m.progressBarGroup.isInFocusChain() then setOsdStatus("progressBarGroup")
+        m.top.osdSeekKeyValue = key
+        m.top.action = "handleseekkey"
+        return true
+    end if
+
+    ' All other keys resume play and hide the menu
+    m.top.isSeeking = false
     checkDisplaySiblingItem("")
-    m.top.action = "hide"
+    m.top.action = "play"
+
     return true
 end function
+
+' setOsdStatus: Sets the focus and visibility of OSD elements based on which section of the OSD should be in focus.
+'
+' @param {string} whichfocus - the section of the OSD that should be in focus.  Expected values are "optionControls", "videoControls", and "progressBarGroup".
+sub setOsdStatus(whichfocus as string)
+    if whichfocus = "optionControls"
+        m.scrubber.visible = false
+        m.progressBarGroup.setFocus(false)
+        m.focusedButtonIndex = m.optionControls.buttonFocused
+        focusedButton = m.optionControls.getChild(m.focusedButtonIndex)
+        focusedButton.focus = true
+        m.optionControls.setFocus(true)
+        m.top.action = "stopfastforwardorrewind"
+    else if whichfocus = "videoControls"
+        m.scrubber.visible = false
+        m.progressBarGroup.setFocus(false)
+        m.focusedButtonIndex = m.videoControls.buttonFocused
+        focusedButton = m.videoControls.getChild(m.focusedButtonIndex)
+        focusedButton.focus = true
+        m.videoControls.setFocus(true)
+        m.top.action = "stopfastforwardorrewind"
+        resetFocusToDefaultButton()
+    else if whichfocus = "progressBarGroup"
+        m.scrubber.visible = true
+        m.scrubberOldPosition.visible = true
+        checkDisplaySiblingItem("")
+        resetFocusToDefaultButton()
+        m.videoControls.getChild(m.focusedButtonIndex).focus = false
+        m.optionControls.getChild(m.focusedButtonIndex).focus = false
+        m.videoControls.setFocus(false)
+        m.optionControls.setFocus(false)
+        m.progressBarGroup.setFocus(true)
+    end if
+
+end sub
+
+' reloadUI: Recalculates and sets the positions of the scrubber and old position indicator on the progress bar.
+'
+sub reloadUI()
+    scrubberYTranslation = (m.progressBar.height - m.scrubber.height) / 2
+    scrubberXTranslation = (m.scrubber.width) / 2
+    m.scrubber.translation = [-scrubberXTranslation, scrubberYTranslation]
+    m.scrubberOldPosition.translation = [m.progressBarBackground.translation[0] - m.scrubberOldPosition.width / 2, scrubberYTranslation]
+end sub
+
+' updateProgressBar: Update the scrubber and current position indicators during seeking or normal playback, depending on whether the content is live TV or not.
+'
+' @param {boolean} live - whether the content is live TV
+' @param {integer} updatePosition - the position to update the progress bar to
+sub updateProgressBar(live as boolean, updatePosition as integer)
+    if live
+        m.videoRemainingTime.text = ""
+        m.videoPositionTime.text = m.clock.callFunc("getFormattedTime", (m.top.liveTvStartTime + m.top.liveTvStartOffset), true, false)
+        m.liveTvPos.text = m.clock.callFunc("getFormattedTime", (m.top.liveTvStartTime + updatePosition), true, true)
+        m.progressBar.width = m.progressBarBackground.width * ((m.top.progressDuration - m.top.liveTvStartOffset) / m.top.liveTvRewindLimit)
+        scrubberHorizTrans = (m.progressBarBackground.width * ((updatePosition - m.top.liveTvStartOffset) / m.top.liveTvRewindLimit)) - m.scrubber.width / 2
+        m.liveTvPos.translation = [m.progressBarGroup.translation[0] + scrubberHorizTrans, m.liveTvPos.translation[1]]
+        if m.top.positionTime < m.top.liveTvStartOffset
+            scrubberOldPositionTime = 0
+        else
+            scrubberOldPositionTime = Int(m.top.positionTime) - m.top.liveTvStartOffset
+        end if
+        scrubberOldPositionTrans = (m.progressBarBackground.width * (scrubberOldPositionTime / m.top.liveTvRewindLimit)) - m.scrubberOldPosition.width / 2
+    else
+        ' If we are actively seeking then use the preview position to update the progress bar, otherwise use the current position
+        if m.top.isSeeking
+            m.videoRemainingTime.text = secondsToHuman(m.top.progressDuration - updatePosition, true)
+            m.videoPositionTime.text = secondsToHuman(updatePosition, true)
+            scrubberHorizTrans = m.progressBarBackground.width * updatePosition / m.top.progressDuration - m.scrubber.width / 2
+        else
+            m.videoRemainingTime.text = secondsToHuman(m.top.progressDuration - m.top.positionTime, true)
+            m.videoPositionTime.text = secondsToHuman(m.top.positionTime, true)
+            scrubberHorizTrans = m.progressBarBackground.width * m.top.positionTime / m.top.progressDuration - m.scrubber.width / 2
+        end if
+        progressBarWidth = m.progressBarBackground.width * m.top.positionTime / m.top.progressDuration
+        m.progressBar.width = progressBarWidth
+        scrubberOldPositionTrans = progressBarWidth - m.scrubberOldPosition.width / 2
+    end if
+    m.scrubber.translation = [scrubberHorizTrans, m.scrubber.translation[1]]
+    m.scrubberOldPosition.translation = [scrubberOldPositionTrans, m.scrubberOldPosition.translation[1]]
+end sub
+

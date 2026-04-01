@@ -23,7 +23,7 @@
       <IconButton id="showSpeedMenu" padding="27" icon="pkg:/images/icons/speedMenu.png" height="65" width="100" />
     </ButtonGroup>
 
-    <ButtonGroup id="videoControls" itemSpacings="[20]" layoutDirection="horiz" horizAlignment="center" translation="[960,875]">
+    <ButtonGroup id="videoControls" itemSpacings="[20]" layoutDirection="horiz" horizAlignment="center" translation="[960,950]">
       <IconButton id="itemBack" padding="35" icon="pkg:/images/icons/itemPrevious.png" height="65" width="100" />
       <IconButton id="chapterBack" padding="16" icon="pkg:/images/icons/previousChapter.png" height="65" width="100" />
       <IconButton id="videoPlayPause" padding="35" icon="pkg:/images/icons/play.png" height="65" width="100" />
@@ -32,7 +32,7 @@
     </ButtonGroup>
 
     <ExpandingLabel
-      translation="[705, 805]"
+      translation="[705, 890]"
       id="previousItem"
       visible="false"
       icon=""
@@ -50,7 +50,7 @@
     />
 
     <ExpandingLabel
-      translation="[1150, 805]"
+      translation="[1150, 890]"
       id="nextItem"
       visible="false"
       icon=""
@@ -65,17 +65,37 @@
       padding="[20, 10]"
     />
 
-    <Rectangle id="progressBarBackground" width="1714" height="8" translation="[103,970]">
-      <Rectangle id="progressBar" width="0" height="8" />
-    </Rectangle>
+    <Group id="progressBarGroup" translation="[103,875]">
+      <Rectangle id="progressBarBackground" width="1714" height="12" />
+      <Rectangle id="progressBar" width="0" height="12" opacity="0.75" />
+      <Poster id="scrubber" uri="pkg:/images/icons/progress-bar-scrubber.png" width="20" height="20" />
+      <Poster id="scrubberOldPosition" uri="pkg:/images/icons/progress-bar-scrubber.png" width="20" height="20" />
+    </Group>
 
-    <Text id="videoPositionTime" font="font:MediumSystemFont" color="0xffffffFF" translation="[103,985]" />
-    <Text id="videoRemainingTime" font="font:MediumSystemFont" color="0xffffffFF" horizAlign="right" width="200" translation="[1617,985]" />
-    <Text id="videoEndingTime" font="font:SmallSystemFont" color="0xffffffFF" horizAlign="right" width="200" translation="[1617,915]" />
+    <LayoutGroup id="fastForwardRewindIcons" layoutDirection="horiz" translation="[800,905]">
+      <Poster id="rewindIcon4" uri="pkg:/images/icons/rewind.png" width="40" height="25" visible="false" />
+      <Poster id="rewindIcon3" uri="pkg:/images/icons/rewind.png" width="40" height="25" visible="false" />
+      <Poster id="rewindIcon2" uri="pkg:/images/icons/rewind.png" width="40" height="25" visible="false" />
+      <Poster id="rewindIcon1" uri="pkg:/images/icons/rewind.png" width="40" height="25" visible="false" />
+      <Poster id="fastForwardIcon1" uri="pkg:/images/icons/fastforward.png" width="40" height="25" visible="false" />
+      <Poster id="fastForwardIcon2" uri="pkg:/images/icons/fastforward.png" width="40" height="25" visible="false" />
+      <Poster id="fastForwardIcon3" uri="pkg:/images/icons/fastforward.png" width="40" height="25" visible="false" />
+      <Poster id="fastForwardIcon4" uri="pkg:/images/icons/fastforward.png" width="40" height="25" visible="false" />
+    </LayoutGroup>
+
+    <Text id="liveTvPos" font="font:SmallSystemFont" color="0xffffffFF" translation="[103,825]" horizAlign="left" vertAlign="center" />
+    <Text id="videoPositionTime" font="font:MediumSystemFont" color="0xffffffFF" translation="[103,905]" />
+    <Text id="liveTVRewindLimitExceeded" text="Live TV rewind limit" font="font:MediumSystemFont" color="0xffcc66FF" translation="[103,950]" visible="false" />
+    <Text id="videoRemainingTime" font="font:MediumSystemFont" color="0xffffffFF" horizAlign="right" width="200" translation="[1617,905]" />
+    <Text id="videoEndingTime" font="font:SmallSystemFont" color="0xffffffFF" horizAlign="right" width="200" translation="[1617,825]" />
 
     <Timer id="inactivityTimer" duration="1" repeat="true" />
   </children>
   <interface>
+    <function name="updateProgressBar" />
+    <function name="checkDisplaySiblingItem" />
+    <function name="clampSeek" />
+    <function name="setOsdStatus" />
     <field id="itemTitleText" type="string" />
     <field id="itemSubtitleText" type="string" />
     <field id="seasonNumber" type="integer" />
@@ -89,8 +109,18 @@
     <field id="inactiveTimeout" type="integer" />
     <field id="progressPercentage" type="float" />
     <field id="positionTime" type="float" />
+    <field id="previewPos" type="float" />
     <field id="videoEndingTime" type="string" />
     <field id="remainingPositionTime" type="float" />
+    <field id="live" type="boolean" />
+    <field id="progressDuration" type="integer" />
+    <field id="liveTvStartTime" type="longinteger" />
+    <field id="liveTvStartOffset" type="integer" />
+    <field id="liveTvRewindLimit" type="integer" />
+    <field id="defaultButtonIndex" type="integer" />
+    <field id="isSeeking" type="boolean" />
+    <field id="osdSeekKeyValue" type="string" />
+    <field id="skipSegmentButtonVisible" type="boolean" />
     <field id="playbackState" type="string" alwaysNotify="true" />
     <field id="action" type="string" alwaysNotify="true" />
     <field id="showChapterList" type="boolean" alwaysNotify="true" />
