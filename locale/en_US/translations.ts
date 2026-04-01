@@ -1359,13 +1359,13 @@
             <extracomment>User Setting - Setting description</extracomment>
         </message>
         <message>
-            <source>Custom Trickplay</source>
-            <translation>Custom Trickplay</translation>
+            <source>Trickplay Display</source>
+            <translation>Trickplay Display</translation>
             <extracomment>User Setting - Title for option</extracomment>
         </message>
         <message>
-            <source>Display custom trickplay images even if this Roku says it's displaying its own. This may cause the two images to overlay on top of each other.</source>
-            <translation>Display custom trickplay images even if this Roku says it's displaying its own. This may cause the two images to overlay on top of each other.</translation>
+            <source>Select trickplay display format.</source>
+            <translation>Select trickplay display format.</translation>
             <extracomment>User Setting - Description for option</extracomment>
         </message>
         <message>
@@ -2156,6 +2156,14 @@
         <message>
             <source>Remove From Favorites</source>
             <translation>Remove From Favorites</translation>
+        </message>
+        <message>
+            <source>Five trickplay images</source>
+            <translation>Five trickplay images</translation>
+        </message>
+        <message>
+            <source>Single trickplay image that moves</source>
+            <translation>Single trickplay image that moves</translation>
         </message>
         <message>
             <source>Play Normally</source>

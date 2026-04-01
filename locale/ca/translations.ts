@@ -2286,5 +2286,53 @@
         <source>Load Items Limit</source>
         <translation>Limit de càrrega d&apos;elements</translation>
     </message>
+    <message>
+        <source>Channel Title</source>
+        <translation>Títol del canal</translation>
+    </message>
+    <message>
+        <source>Number of items to load together on library screens.</source>
+        <translation>Nombre d&apos;elements a carregar alhora en les pantalles de mediateques.</translation>
+    </message>
+    <message>
+        <source>Channel Logo</source>
+        <translation>Logotip del canal</translation>
+    </message>
+    <message>
+        <source>Channel Logo and Title</source>
+        <translation>Títol i logotip del canal</translation>
+    </message>
+    <message>
+        <source>TV Guide Channel Display</source>
+        <translation>Mostra de canal de la guia de televisió</translation>
+    </message>
+    <message>
+        <source>Channel Name</source>
+        <translation>Nom del canal</translation>
+    </message>
+    <message>
+        <source>Channel Number</source>
+        <translation>Número del canal</translation>
+    </message>
+    <message>
+        <source>Channel Number and Name</source>
+        <translation>Número i nom del canal</translation>
+    </message>
+    <message>
+        <source>Channel Title Info</source>
+        <translation>Informació del títol del canal</translation>
+    </message>
+    <message>
+        <source>Settings relating to Live TV.</source>
+        <translation>Configuració relativa a la televisió en directe.</translation>
+    </message>
+    <message>
+        <source>Select how to display a channel in the Live TV guide.</source>
+        <translation>Seleccioneu com es mostrarà un canal a la guia de televisió en directe.</translation>
+    </message>
+    <message>
+        <source>Select what information to use as a channel&apos;s title.</source>
+        <translation>Seleccioneu quina informació es farà servir com a títol del canal.</translation>
+    </message>
 </context>
 </TS>
