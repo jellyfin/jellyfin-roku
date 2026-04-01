@@ -9,6 +9,19 @@ sub init()
     m.videoControls = m.top.findNode("videoControls")
     m.optionControls = m.top.findNode("optionControls")
 
+    if isValid(m.videoControls)
+        if chainLookupReturn(m.global.session, "user.settings.`playback.showPlaybackSpeedControls`", false)
+            showSpeedMenu = createObject("roSGNode", "StandardButton")
+            showSpeedMenu.id = "showSpeedMenu"
+            showSpeedMenu.fontSize = "25"
+            showSpeedMenu.padding = "20"
+            showSpeedMenu.text = "1x"
+            showSpeedMenu.height = "50"
+            showSpeedMenu.width = "100"
+            m.videoControls.appendChild(showSpeedMenu)
+        end if
+    end if
+
     m.inactivityTimer = m.top.findNode("inactivityTimer")
     m.videoInfo = m.top.findNode("videoInfo")
     m.itemTitle = m.top.findNode("itemTitle")
@@ -45,6 +58,8 @@ sub init()
     m.top.observeField("previousItemTitleText", "onPreviousItemTitleTextChanged")
     m.top.observeField("nextItemIcon", "onNextItemIconChanged")
     m.top.observeField("nextItemTitleText", "onNextItemTitleTextChanged")
+
+    m.top.observeField("playbackSpeed", "onPlaybackSpeedChanged")
 
     m.top.defaultButtonIndex = 2
     m.focusedButtonIndex = 2
@@ -245,6 +260,15 @@ end sub
 '
 sub onNextItemIconChanged()
     m.nextItem.icon = m.top.nextItemIcon
+end sub
+
+' onPlaybackSpeedChanged: Handler for changes to m.top.playbackSpeed param.
+'
+sub onPlaybackSpeedChanged()
+    showSpeedMenu = m.top.findNode("showSpeedMenu")
+    if not isValid(showSpeedMenu) then return
+
+    showSpeedMenu.text = `${m.top.playbackSpeed}x`
 end sub
 
 ' onNextItemTitleTextChanged: Handler for changes to m.top.nextItemTitleText param.

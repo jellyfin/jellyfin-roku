@@ -474,7 +474,7 @@ sub onOSDAction()
         return
     end if
 
-    if action = "showspeedmenu"
+    if isStringEqual(action, "showspeedmenu")
         handleShowSpeedMenuAction()
         return
     end if
@@ -638,8 +638,9 @@ end sub
 ' Event handler for when selectedSpeed changes
 sub onSelectedSpeedChange()
     m.top.playbackSpeed = m.top.selectedSpeed
+    m.osd.playbackSpeed = m.top.selectedSpeed
     ' you need to pause and resume video to have speed change take effect
-    if m.top.state = "playing"
+    if m.top.state = MediaPlaybackState.PLAYING
         m.top.control = VideoControl.PAUSE
         m.top.control = VideoControl.RESUME
     end if
@@ -713,6 +714,7 @@ sub onVideoContentLoaded()
 
     m.osd.itemTitleText = m.top.content.title
     m.bufferingItemTitle.text = m.top.content.title
+    m.osd.playbackSpeed = m.top.playbackSpeed
 
     m.trickplayDataFinal = invalid
     if isValidAndNotEmpty(m.trickplay)
