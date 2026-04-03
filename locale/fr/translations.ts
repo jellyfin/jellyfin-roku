@@ -2325,5 +2325,37 @@
         <source>Channel Number</source>
         <translation>Numéro de canal</translation>
     </message>
+    <message>
+        <source>Channel Name</source>
+        <translation>Nom de la chaîne</translation>
+    </message>
+    <message>
+        <source>TV Guide Channel Display</source>
+        <translation>Affichage de la chaîne TV Guide</translation>
+    </message>
+    <message>
+        <source>Select how to display a channel in the Live TV guide.</source>
+        <translation>Choisissez le mode d&apos;affichage d&apos;une chaîne dans le guide TV en direct.</translation>
+    </message>
+    <message>
+        <source>Channel Logo and Title</source>
+        <translation>Logo et titre de la chaîne</translation>
+    </message>
+    <message>
+        <source>Channel Logo</source>
+        <translation>Logo de la chaîne</translation>
+    </message>
+    <message>
+        <source>Channel Title</source>
+        <translation>Titre de la chaîne</translation>
+    </message>
+    <message>
+        <source>Playback Speed Controls (Experimental)</source>
+        <translation>Commandes de vitesse de lecture ( expérimental )</translation>
+    </message>
+    <message>
+        <source>Use at your own risk. We make no guarantees this will work for you. \n 1. This feature may not work on this device, yet work on others \n 2. Some speed options may not work on this device, yet work on others \n 3. Roku may block this feature without warning; even if the Jellyfin client doesn&apos;t update</source>
+        <translation>Utilisez cette fonctionnalité à vos propres risques. Nous ne garantissons pas qu&apos;elle fonctionnera dans votre cas. \n 1. Il se peut que cette fonctionnalité ne fonctionne pas sur cet appareil, mais qu&apos;elle fonctionne sur d&apos;autres \n 2. Il se peut que certaines options de vitesse ne fonctionnent pas sur cet appareil, mais qu&apos;elles fonctionnent sur d&apos;autres \n 3. Roku peut bloquer cette fonctionnalité sans préavis, même si le client Jellyfin ne se met pas à jour</translation>
+    </message>
 </context>
 </TS>
