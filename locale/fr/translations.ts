@@ -2281,5 +2281,49 @@
         <source>Newer devices may support direct play of anamorphic video.</source>
         <translation>Les appareils plus récents peuvent prendre en charge la lecture directe des vidéos anamorphiques.</translation>
     </message>
+    <message>
+        <source>Trickplay Display</source>
+        <translation>Affichage Trickplay</translation>
+    </message>
+    <message>
+        <source>Select trickplay display format.</source>
+        <translation>Sélectionnez le format d&apos;affichage de Trickplay.</translation>
+    </message>
+    <message>
+        <source>Load Items Limit</source>
+        <translation>Limite du nombre d&apos;éléments à charger</translation>
+    </message>
+    <message>
+        <source>Number of items to load together on library screens.</source>
+        <translation>Nombre d&apos;éléments à afficher simultanément sur les écrans de la bibliothèque.</translation>
+    </message>
+    <message>
+        <source>Five trickplay images</source>
+        <translation>Cinq images de trickplay</translation>
+    </message>
+    <message>
+        <source>Single trickplay image that moves</source>
+        <translation>Une seule image Trickplay en mouvement</translation>
+    </message>
+    <message>
+        <source>Settings relating to Live TV.</source>
+        <translation>Paramètres relatifs à la télévision en direct.</translation>
+    </message>
+    <message>
+        <source>Channel Title Info</source>
+        <translation>Informations sur le titre de la chaîne</translation>
+    </message>
+    <message>
+        <source>Select what information to use as a channel&apos;s title.</source>
+        <translation>Choisissez les informations qui serviront de titre à la chaîne.</translation>
+    </message>
+    <message>
+        <source>Channel Number and Name</source>
+        <translation>Numéro et nom du canal</translation>
+    </message>
+    <message>
+        <source>Channel Number</source>
+        <translation>Numéro de canal</translation>
+    </message>
 </context>
 </TS>
