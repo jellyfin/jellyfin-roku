@@ -551,6 +551,7 @@ sub onLibrarySelection(selectedItem)
 end sub
 
 sub onRefreshPlaylistDataEvent()
+    startLoadingSpinner()
     currentScene = m.global.sceneManager.callFunc("getActiveScene")
     playlistID = chainLookup(currentScene, "pageContent.id")
     currentScene.listData = PlaylistItemList(playlistID)
