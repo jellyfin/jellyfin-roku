@@ -969,6 +969,11 @@ sub ItemDataLoaded(msg)
     itemData = msg.GetData()
 
     if not isValidAndNotEmpty(itemData)
+        stopLoadingSpinner()
+        if m.itemGrid.content.getChildCount() = 0
+            showNoResultsText()
+        end if
+
         return
     end if
 
@@ -1040,32 +1045,7 @@ sub ItemDataLoaded(msg)
 
     'If there are no items to display, show message
     if m.loadedItems = 0
-        m.selectedItemOverview.visible = false
-        m.infoGroup.visible = false
-
-        m.itemLogo.visible = false
-        m.itemLogo.uri = string.EMPTY
-
-        m.selectedItemName.visible = false
-
-        SetName(string.EMPTY)
-        SetOverview(string.EMPTY)
-        SetOfficialRating(string.EMPTY)
-        SetProductionYear(string.EMPTY)
-        setFieldText("runtime", string.EMPTY)
-        setFieldText("communityRating", string.EMPTY)
-        setFieldText("criticRatingLabel", string.EMPTY)
-        m.criticRatingIcon.uri = string.EMPTY
-        m.star.uri = string.EMPTY
-
-        m.backdropImage@.clearImage()
-
-        m.emptyText.text = tr("No items found. Try adjusting your selected filters.")
-        m.emptyText.visible = true
-        m.voiceBox.setfocus(true)
-        setSearchBackground(SearchButtonState.ACTIVE)
-        group = m.global.sceneManager.callFunc("getActiveScene")
-        group.lastFocus = m.voiceBox
+        showNoResultsText()
     end if
 
     stopLoadingSpinner()
@@ -1075,6 +1055,35 @@ sub ItemDataLoaded(msg)
         group = m.global.sceneManager.callFunc("getActiveScene")
         group.lastFocus = m.options
     end if
+end sub
+
+sub showNoResultsText()
+    m.selectedItemOverview.visible = false
+    m.infoGroup.visible = false
+
+    m.itemLogo.visible = false
+    m.itemLogo.uri = string.EMPTY
+
+    m.selectedItemName.visible = false
+
+    SetName(string.EMPTY)
+    SetOverview(string.EMPTY)
+    SetOfficialRating(string.EMPTY)
+    SetProductionYear(string.EMPTY)
+    setFieldText("runtime", string.EMPTY)
+    setFieldText("communityRating", string.EMPTY)
+    setFieldText("criticRatingLabel", string.EMPTY)
+    m.criticRatingIcon.uri = string.EMPTY
+    m.star.uri = string.EMPTY
+
+    m.backdropImage@.clearImage()
+
+    m.emptyText.text = tr("No items found. Try adjusting your selected filters.")
+    m.emptyText.visible = true
+    m.voiceBox.setfocus(true)
+    setSearchBackground(SearchButtonState.ACTIVE)
+    group = m.global.sceneManager.callFunc("getActiveScene")
+    group.lastFocus = m.voiceBox
 end sub
 
 '
