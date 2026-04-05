@@ -55,6 +55,7 @@ sub setupNodes()
     m.infoGroup = m.top.findNode("infoGroup")
     m.star = m.top.findNode("star")
     m.dropdownOptions = m.top.findNode("dropdownOptions")
+    m.dropdownOptionGroup = m.top.findNode("dropdownOptionGroup")
     m.submitButton = m.top.findNode("submitButton")
 
     m.sortButton = m.top.findNode("sortButton")
@@ -300,7 +301,7 @@ sub loadInitialItems()
         SetBackground(string.EMPTY)
     end if
 
-    if m.dropdownOptions.opacity < 1
+    if m.dropdownOptionGroup.opacity < 1
         toggleDropdownOptions(true)
     end if
 
@@ -435,8 +436,8 @@ sub loadInitialItems()
         end if
     end if
 
-    m.dropdownOptions.translation = "[100, 540]"
-    if m.dropdownOptions.opacity < 1
+    m.dropdownOptionGroup.translation = "[100, 540]"
+    if m.dropdownOptionGroup.opacity < 1
         m.itemGrid.translation = "[100, 520]"
     else
         m.itemGrid.translation = "[100, 670]"
@@ -464,7 +465,7 @@ sub loadInitialItems()
         m.newBackdrop.opacity = 0
         m.itemLogo.visible = false
 
-        if m.dropdownOptions.opacity < 1
+        if m.dropdownOptionGroup.opacity < 1
             m.itemGrid.translation = "[100, 60]"
         else
             m.itemGrid.translation = "[100, 210]"
@@ -473,7 +474,7 @@ sub loadInitialItems()
         m.dropdownOptionsMove.keyValue = "[[100, 60], [100, 0]]"
         m.itemGridMove.keyValue = "[[100, 210], [100, 60]]"
         m.emptyText.translation = "[0, 540]"
-        m.dropdownOptions.translation = "[100, 60]"
+        m.dropdownOptionGroup.translation = "[100, 60]"
         m.itemGrid.numRows = "3"
         m.selectedItemOverview.visible = false
         m.selectedItemName.visible = false
@@ -485,7 +486,7 @@ sub loadInitialItems()
         m.newBackdrop.opacity = 0
         m.itemLogo.visible = false
 
-        if m.dropdownOptions.opacity < 1
+        if m.dropdownOptionGroup.opacity < 1
             m.itemGrid.translation = "[100, 60]"
         else
             m.itemGrid.translation = "[100, 210]"
@@ -494,7 +495,7 @@ sub loadInitialItems()
         m.dropdownOptionsMove.keyValue = "[[100, 60], [100, 0]]"
         m.itemGridMove.keyValue = "[[100, 210], [100, 60]]"
         m.emptyText.translation = "[0, 540]"
-        m.dropdownOptions.translation = "[100, 60]"
+        m.dropdownOptionGroup.translation = "[100, 60]"
         m.itemGrid.numRows = "3"
         m.selectedItemOverview.visible = false
         m.selectedItemName.visible = false
@@ -506,7 +507,7 @@ sub loadInitialItems()
         m.newBackdrop.opacity = 0
         m.itemLogo.visible = false
 
-        if m.dropdownOptions.opacity < 1
+        if m.dropdownOptionGroup.opacity < 1
             m.itemGrid.translation = "[100, 60]"
         else
             m.itemGrid.translation = "[100, 210]"
@@ -515,7 +516,7 @@ sub loadInitialItems()
         m.dropdownOptionsMove.keyValue = "[[100, 60], [100, 0]]"
         m.itemGridMove.keyValue = "[[100, 210], [100, 60]]"
         m.emptyText.translation = "[0, 540]"
-        m.dropdownOptions.translation = "[100, 60]"
+        m.dropdownOptionGroup.translation = "[100, 60]"
         m.itemGrid.numRows = "3"
         m.selectedItemOverview.visible = false
         m.selectedItemName.visible = false
@@ -1159,11 +1160,11 @@ sub onItemFocused()
 
     if m.itemGrid.isinFocusChain() or m.dropdownOptions.isinFocusChain()
         if focusedRow = 0
-            if m.dropdownOptions.opacity < 1
+            if m.dropdownOptionGroup.opacity < 1
                 toggleDropdownOptions(true)
             end if
         else if focusedRow > 0
-            if m.dropdownOptions.opacity > 0
+            if m.dropdownOptionGroup.opacity > 0
                 toggleDropdownOptions(false)
             end if
         end if
@@ -1390,11 +1391,11 @@ sub onGenreItemFocused()
 
     if m.genreList.isinFocusChain()
         if focusedRow = 0
-            if m.dropdownOptions.opacity < 1
+            if m.dropdownOptionGroup.opacity < 1
                 toggleDropdownOptions(true)
             end if
         else if focusedRow > 0
-            if m.dropdownOptions.opacity > 0
+            if m.dropdownOptionGroup.opacity > 0
                 toggleDropdownOptions(false)
             end if
         end if
@@ -1799,7 +1800,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
         if m.itemGrid.isinFocusChain() or m.genreList.isinFocusChain()
 
             ' In case user quickly moves out of grid without focused row getting updated
-            if m.dropdownOptions.opacity < 1
+            if m.dropdownOptionGroup.opacity < 1
                 toggleDropdownOptions(true)
             end if
 

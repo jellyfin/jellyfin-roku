@@ -23,80 +23,13 @@
       numColumns="1"
       rowItemSpacing="[ [20, 0] ]" />
 
-    <LayoutGroup id="dropdownOptions" layoutDirection="horiz" translation="[100, 60]" itemSpacings="[15]">
-      <LayoutGroup layoutDirection="vert" itemSpacings="[10]">
-        <Text font="font:SmallSystemFont" text="Search" />
-        <Poster id="voiceBoxBackground" uri="pkg:/images/white.9.png" blendColor="#FFFFFF" height="75" width="335">
-          <VoiceTextEditBox
-            id="voiceBox"
-            fontUri="font:SmallSystemFont"
-            maxTextLength="75"
-            height="75"
-            fontSize="28"
-            voiceEnabled="true"
-            hintText="Press OK to type"
-            visible="true"
-            width="335"
-            textColor="#777777"
-            clearOnDownKey="false" />
-        </Poster>
-      </LayoutGroup>
-      <LayoutGroup layoutDirection="vert" itemSpacings="[10]">
-        <Text id="sortLabel" font="font:SmallSystemFont" text="Sort By" />
-        <TextButton
-          id="sortButton"
-          iconSide="right"
-          fontSize="28"
-          padding="35"
-          icon="pkg:/images/icons/dropdown-dark.png"
-          focusIcon="pkg:/images/icons/dropdown-light.png"
-          text=""
-          height="75"
-          width="335" />
-      </LayoutGroup>
-      <LayoutGroup layoutDirection="vert" itemSpacings="[10]">
-        <Text id="sortOrderLabel" font="font:SmallSystemFont" text="Sort Order" />
-        <TextButton
-          id="sortOrderButton"
-          iconSide="right"
-          fontSize="28"
-          padding="35"
-          icon="pkg:/images/icons/dropdown-dark.png"
-          focusIcon="pkg:/images/icons/dropdown-light.png"
-          text=""
-          height="75"
-          width="335" />
-      </LayoutGroup>
-      <LayoutGroup layoutDirection="vert" itemSpacings="[10]">
-        <Text id="filterLabel" font="font:SmallSystemFont" text="TAB_FILTER" />
-        <TextButton
-          id="filterButton"
-          iconSide="right"
-          fontSize="28"
-          padding="35"
-          icon="pkg:/images/icons/dropdown-dark.png"
-          focusIcon="pkg:/images/icons/dropdown-light.png"
-          text=""
-          height="75"
-          width="335" />
-      </LayoutGroup>
-      <LayoutGroup layoutDirection="vert" itemSpacings="[10]">
-        <Text id="viewLabel" font="font:SmallSystemFont" text="TAB_VIEW" />
-        <TextButton
-          id="viewButton"
-          iconSide="right"
-          fontSize="28"
-          padding="35"
-          icon="pkg:/images/icons/dropdown-dark.png"
-          focusIcon="pkg:/images/icons/dropdown-light.png"
-          text=""
-          height="75"
-          width="335" />
-      </LayoutGroup>
-    </LayoutGroup>
+    <DropdownMenuRow
+      id="dropdownOptionGroup"
+      translation="[100, 60]" />
+
     <Animation id="toggleDropdownOptionsAnimation" duration="1" repeat="false" easeFunction="linear">
-      <FloatFieldInterpolator id="dropdownOptionsFade" key="[0.0, 1.0]" keyValue="[1.00, 0.00]" fieldToInterp="dropdownOptions.opacity" />
-      <Vector2DFieldInterpolator id="dropdownOptionsMove" key="[0.1, .9]" keyValue="[[100, 60], [100, 0]]" fieldToInterp="dropdownOptions.translation" />
+      <FloatFieldInterpolator id="dropdownOptionsFade" key="[0.0, 1.0]" keyValue="[1.00, 0.00]" fieldToInterp="dropdownOptionGroup.opacity" />
+      <Vector2DFieldInterpolator id="dropdownOptionsMove" key="[0.1, .9]" keyValue="[[100, 60], [100, 0]]" fieldToInterp="dropdownOptionGroup.translation" />
       <Vector2DFieldInterpolator id="itemGridMove" key="[0.1, .9]" keyValue="[[100, 210], [100, 60]]" fieldToInterp="itemGrid.translation" />
       <Vector2DFieldInterpolator id="genreListMove" key="[0.1, .9]" keyValue="[[100, 210], [100, 60]]" fieldToInterp="genrelist.translation" />
     </Animation>

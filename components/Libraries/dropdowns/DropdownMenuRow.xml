@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component name="DropdownMenuRow" extends="Group">
+  <children>
+    <LayoutGroup id="dropdownOptions" layoutDirection="horiz" itemSpacings="[15]">
+      <LayoutGroup layoutDirection="vert" itemSpacings="[10]">
+        <Text font="font:SmallSystemFont" text="Search" />
+        <Poster id="voiceBoxBackground" uri="pkg:/images/white.9.png" blendColor="#FFFFFF" height="75" width="335">
+          <VoiceTextEditBox
+            id="voiceBox"
+            fontUri="font:SmallSystemFont"
+            maxTextLength="75"
+            height="75"
+            fontSize="28"
+            voiceEnabled="true"
+            hintText="Press OK to type"
+            visible="true"
+            width="335"
+            textColor="#777777"
+            clearOnDownKey="false" />
+        </Poster>
+      </LayoutGroup>
+      <LayoutGroup layoutDirection="vert" itemSpacings="[10]">
+        <Text id="sortLabel" font="font:SmallSystemFont" text="Sort By" />
+        <TextButton
+          id="sortButton"
+          iconSide="right"
+          fontSize="28"
+          padding="35"
+          icon="pkg:/images/icons/dropdown-dark.png"
+          focusIcon="pkg:/images/icons/dropdown-light.png"
+          text=""
+          height="75"
+          width="335" />
+      </LayoutGroup>
+      <LayoutGroup layoutDirection="vert" itemSpacings="[10]">
+        <Text id="sortOrderLabel" font="font:SmallSystemFont" text="Sort Order" />
+        <TextButton
+          id="sortOrderButton"
+          iconSide="right"
+          fontSize="28"
+          padding="35"
+          icon="pkg:/images/icons/dropdown-dark.png"
+          focusIcon="pkg:/images/icons/dropdown-light.png"
+          text=""
+          height="75"
+          width="335" />
+      </LayoutGroup>
+      <LayoutGroup layoutDirection="vert" itemSpacings="[10]">
+        <Text id="filterLabel" font="font:SmallSystemFont" text="TAB_FILTER" />
+        <TextButton
+          id="filterButton"
+          iconSide="right"
+          fontSize="28"
+          padding="35"
+          icon="pkg:/images/icons/dropdown-dark.png"
+          focusIcon="pkg:/images/icons/dropdown-light.png"
+          text=""
+          height="75"
+          width="335" />
+      </LayoutGroup>
+      <LayoutGroup layoutDirection="vert" itemSpacings="[10]">
+        <Text id="viewLabel" font="font:SmallSystemFont" text="TAB_VIEW" />
+        <TextButton
+          id="viewButton"
+          iconSide="right"
+          fontSize="28"
+          padding="35"
+          icon="pkg:/images/icons/dropdown-dark.png"
+          focusIcon="pkg:/images/icons/dropdown-light.png"
+          text=""
+          height="75"
+          width="335" />
+      </LayoutGroup>
+    </LayoutGroup>
+  </children>
+  <interface>
+  </interface>
+</component>
