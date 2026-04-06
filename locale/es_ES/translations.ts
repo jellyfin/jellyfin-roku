@@ -2426,6 +2426,14 @@
         <source>Channel Logo</source>
         <translation>Logo del canal</translation>
     </message>
+    <message>
+        <source>Trickplay Display</source>
+        <translation>Mostrar Trickplay</translation>
+    </message>
+    <message>
+        <source>Select trickplay display format.</source>
+        <translation>Seleccionar el formato de visualización de Trickplay.</translation>
+    </message>
 </context>
 <context>
     <name></name>
