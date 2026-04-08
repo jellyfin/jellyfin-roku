@@ -58,5 +58,17 @@
   {
     "description": "Change trickplay code to be Jellyfin 12.0.0 compatible",
     "author": "1hitsong"
+  },
+  {
+    "description": "Make seekbar in OSD fullly featured",
+    "author": "VTRunner"
+  },
+  {
+    "description": "Highlight media segments in OSD seekbar",
+    "author": "VTRunner"
+  },
+  {
+    "description": "Create setting allowing users to select whether to show 1 or 5 trickplay images when seeking",
+    "author": "VTRunner"
   }
 ]
