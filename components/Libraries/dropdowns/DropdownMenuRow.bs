@@ -1,6 +1,238 @@
+import "pkg:/source/enums/ColorPalette.bs"
+import "pkg:/source/enums/KeyCode.bs"
+import "pkg:/source/enums/SearchButtonState.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/misc.bs"
 
 sub init()
+    m.searchButtonDisabled = false
 
+    m.voiceBox = m.top.findNode("voiceBox")
+    m.voiceBoxBackground = m.top.findNode("voiceBoxBackground")
+
+    m.sortButton = m.top.findNode("sortButton")
+    m.sortButton.textColor = ColorPalette.DARKGREY
+    m.sortButton.focusTextColor = ColorPalette.WHITE
+    m.sortButton.background = ColorPalette.WHITE
+    m.sortButton.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+
+    m.sortOrderButton = m.top.findNode("sortOrderButton")
+    m.sortOrderButton.textColor = ColorPalette.DARKGREY
+    m.sortOrderButton.focusTextColor = ColorPalette.WHITE
+    m.sortOrderButton.background = ColorPalette.WHITE
+    m.sortOrderButton.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+
+    m.filterButton = m.top.findNode("filterButton")
+    m.filterButton.textColor = ColorPalette.DARKGREY
+    m.filterButton.focusTextColor = ColorPalette.WHITE
+    m.filterButton.background = ColorPalette.WHITE
+    m.filterButton.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+
+    m.viewButton = m.top.findNode("viewButton")
+    m.viewButton.textColor = ColorPalette.DARKGREY
+    m.viewButton.focusTextColor = ColorPalette.WHITE
+    m.viewButton.background = ColorPalette.WHITE
+    m.viewButton.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+
+    setSearchBackground(SearchButtonState.INACTIVE)
 end sub
+
+sub setText(nodeID as string, textValue as string)
+    textNode = m.top.findNode(nodeID)
+    if isValid(textNode)
+        textNode.text = textValue
+    end if
+end sub
+
+sub unfocusAllButtons(_ as dynamic)
+    setSearchBackground(SearchButtonState.INACTIVE)
+    m.sortButton.focus = false
+    m.sortOrderButton.focus = false
+    m.filterButton.focus = false
+    m.viewButton.focus = false
+end sub
+
+sub setSearchBackground(state)
+    if state = SearchButtonState.ACTIVE
+        if m.searchButtonDisabled
+            m.voiceBox.textColor = ColorPalette.MIDGREY
+            m.voiceBox.hintTextColor = ColorPalette.MIDGREY
+            m.voiceBoxBackground.blendColor = ColorPalette.DARKGREY
+            return
+        end if
+
+        m.voiceBox.textColor = ColorPalette.WHITE
+        m.voiceBox.hintTextColor = ColorPalette.WHITE
+        m.voiceBoxBackground.blendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+        return
+    end if
+
+    if state = SearchButtonState.DISABLED
+        m.voiceBox.textColor = ColorPalette.DARKGREY
+        m.voiceBox.hintTextColor = ColorPalette.DARKGREY
+        m.voiceBoxBackground.blendColor = ColorPalette.MIDGREY
+        return
+    end if
+
+    m.voiceBox.textColor = ColorPalette.MIDGREY
+    m.voiceBox.hintTextColor = ColorPalette.MIDGREY
+    m.voiceBoxBackground.blendColor = ColorPalette.WHITE
+end sub
+
+function onKeyEvent(key as string, press as boolean) as boolean
+    if not press then return false
+    if not m.top.isinFocusChain() then return false
+
+    if isStringEqual(key, KeyCode.LEFT)
+        if m.sortButton.isinFocusChain()
+            m.voiceBox.setFocus(true)
+            setSearchBackground(SearchButtonState.ACTIVE)
+            m.sortButton.focus = false
+            group = m.global.sceneManager.callFunc("getActiveScene")
+            group.lastFocus = m.voiceBox
+            return true
+        end if
+
+        if m.sortOrderButton.isinFocusChain()
+            m.sortButton.focus = true
+            m.sortButton.setFocus(true)
+            m.sortOrderButton.focus = false
+            group = m.global.sceneManager.callFunc("getActiveScene")
+            group.lastFocus = m.sortButton
+            return true
+        end if
+
+        if m.filterButton.isinFocusChain()
+            m.filterButton.focus = false
+            m.sortOrderButton.focus = true
+            m.sortOrderButton.setFocus(true)
+            group = m.global.sceneManager.callFunc("getActiveScene")
+            group.lastFocus = m.sortOrderButton
+            return true
+        end if
+
+        if m.viewButton.isinFocusChain()
+            m.viewButton.focus = false
+            m.filterButton.focus = true
+            m.filterButton.setFocus(true)
+            group = m.global.sceneManager.callFunc("getActiveScene")
+            group.lastFocus = m.filterButton
+            return true
+        end if
+
+        return false
+    end if
+
+    if isStringEqual(key, KeyCode.Right)
+        if m.voiceBox.isinFocusChain()
+            setSearchBackground(SearchButtonState.INACTIVE)
+            m.sortButton.focus = true
+            m.sortButton.setFocus(true)
+            group = m.global.sceneManager.callFunc("getActiveScene")
+            group.lastFocus = m.sortButton
+            return true
+        end if
+
+        if m.sortButton.isinFocusChain()
+            m.sortButton.focus = false
+            m.sortOrderButton.focus = true
+            m.sortOrderButton.setFocus(true)
+            group = m.global.sceneManager.callFunc("getActiveScene")
+            group.lastFocus = m.sortOrderButton
+            return true
+        end if
+
+        if m.sortOrderButton.isinFocusChain()
+            m.sortOrderButton.focus = false
+            m.filterButton.focus = true
+            m.filterButton.setFocus(true)
+            group = m.global.sceneManager.callFunc("getActiveScene")
+            group.lastFocus = m.filterButton
+            return true
+        end if
+
+        if m.filterButton.isinFocusChain()
+            m.filterButton.focus = false
+            m.viewButton.focus = true
+            m.viewButton.setFocus(true)
+            group = m.global.sceneManager.callFunc("getActiveScene")
+            group.lastFocus = m.viewButton
+            return true
+        end if
+
+        return false
+    end if
+
+    if isStringEqual(key, KeyCode.OK)
+        if m.voiceBox.isinFocusChain()
+            if m.searchButtonDisabled
+                m.global.sceneManager.callFunc("standardDialog", "Search Unavailable", { data: [`<p>${m.disabledReason}</p>`] })
+                return false
+            end if
+
+            buttonData = [
+                tr("Search")
+            ]
+
+            m.global.sceneManager.callFunc("keyboardDialog", "searchLibrary", tr("Search this library"), [""], buttonData, m.top.searchTerm, m.top.parentItem.Id)
+            return true
+        end if
+
+        if m.sortButton.isinFocusChain()
+            if m.sortButton.disabled then return false
+
+            sortData = {
+                data: m.options.options.sort
+            }
+
+            m.global.sceneManager.callFunc("radioDialog", tr("Sort By"), sortData)
+            m.global.sceneManager.observeFieldScoped("returnData", "onSortChange")
+            return true
+        end if
+
+        if m.sortOrderButton.isinFocusChain()
+            if m.sortOrderButton.disabled then return false
+
+            sortOrderData = {
+                data: [
+                    { Title: tr("Ascending"), Name: "ascending", Track: { description: tr("Ascending") } },
+                    { Title: tr("Descending"), Name: "descending", Track: { description: tr("Descending") } },
+                ]
+            }
+
+            if m.sortAscending
+                sortOrderData.data[0].selected = true
+            else
+                sortOrderData.data[1].selected = true
+            end if
+
+            m.global.sceneManager.callFunc("radioDialog", tr("Sort Order"), sortOrderData)
+            m.global.sceneManager.observeFieldScoped("returnData", "onSortOrderChange")
+            return true
+        end if
+
+        if m.filterButton.isinFocusChain()
+            if m.filterButton.disabled then return false
+
+            m.options.visible = true
+            m.options.findNode("filterMenu").setFocus(true)
+            group = m.global.sceneManager.callFunc("getActiveScene")
+            group.lastFocus = m.options
+            return true
+        end if
+
+        if m.viewButton.isinFocusChain()
+            viewData = {
+                data: m.options.options.views
+            }
+
+            m.global.sceneManager.callFunc("radioDialog", tr("TAB_VIEW"), viewData)
+            m.global.sceneManager.observeFieldScoped("returnData", "onViewChange")
+            return true
+        end if
+
+        return false
+    end if
+
+    return false
+end function

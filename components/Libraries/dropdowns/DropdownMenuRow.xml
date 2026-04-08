@@ -74,5 +74,7 @@
     </LayoutGroup>
   </children>
   <interface>
+    <function name="unfocusAllButtons" />
+    <function name="setText" />
   </interface>
 </component>
