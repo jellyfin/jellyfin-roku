@@ -149,6 +149,13 @@ sub setFocus(nodeID as string, value as boolean)
     if isValid(buttonNode)
         buttonNode.focus = value
         buttonNode.setFocus(value)
+
+        if value
+            group = m.global.sceneManager.callFunc("getActiveScene")
+            if isValid(group)
+                group.lastFocus = buttonNode
+            end if
+        end if
     end if
 end sub
 

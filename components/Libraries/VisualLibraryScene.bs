@@ -999,8 +999,6 @@ sub ItemDataLoaded(msg)
             m.emptyText.visible = true
             m.dropdownOptionGroup@.setFocus("voiceBox")
             m.dropdownOptionGroup@.setSearchBackground(SearchButtonState.ACTIVE)
-            group = m.global.sceneManager.callFunc("getActiveScene")
-            group.lastFocus = m.voiceBox
         end if
 
         return
@@ -1061,8 +1059,6 @@ sub ItemDataLoaded(msg)
         m.emptyText.visible = true
         m.dropdownOptionGroup@.setFocus("voiceBox")
         m.dropdownOptionGroup@.setSearchBackground(SearchButtonState.ACTIVE)
-        group = m.global.sceneManager.callFunc("getActiveScene")
-        group.lastFocus = m.voiceBox
     end if
 
     stopLoadingSpinner()
