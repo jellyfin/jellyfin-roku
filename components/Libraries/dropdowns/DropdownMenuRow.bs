@@ -1,4 +1,5 @@
 import "pkg:/source/enums/ColorPalette.bs"
+import "pkg:/source/enums/ExitDirection.bs"
 import "pkg:/source/enums/KeyCode.bs"
 import "pkg:/source/enums/SearchButtonState.bs"
 import "pkg:/source/utils/config.bs"
@@ -6,9 +7,34 @@ import "pkg:/source/utils/misc.bs"
 
 sub init()
     m.searchButtonDisabled = false
+    m.sortAscending = true
 
     m.voiceBox = m.top.findNode("voiceBox")
     m.voiceBoxBackground = m.top.findNode("voiceBoxBackground")
+    m.voiceBox.observeField("text", "onvoiceFilter")
+
+    if not m.global.device.hasVoiceRemote
+        m.voiceBox.backgroundUri = "pkg:/images/transparent.png"
+        m.voiceBox.translation = "[15, 0]"
+        m.voiceBox.width = m.voiceBox.width - 15
+    else
+        searchPoster = m.voiceBox.getChild(0)
+        if isChainValid(searchPoster, "bitmap")
+            searchPoster.bitmap = ""
+            searchPoster.blendColor = ColorPalette.WHITE
+        end if
+
+        searchText = m.voiceBox.getChild(1)
+        if isChainValid(searchText, "height")
+            searchText.vertAlign = "bottom"
+            searchText.height = 37
+        end if
+
+        m.micIcon = m.voiceBox.getChild(6)
+        if isValid(m.micIcon)
+            m.micIcon.observeFieldScoped("blendColor", "onMicIconBlendColorChange")
+        end if
+    end if
 
     m.sortButton = m.top.findNode("sortButton")
     m.sortButton.textColor = ColorPalette.DARKGREY
@@ -37,10 +63,92 @@ sub init()
     setSearchBackground(SearchButtonState.INACTIVE)
 end sub
 
+sub onMicIconBlendColorChange()
+    ' DARKGREY: 269488383
+    ' WHITE: -1
+    ' LIGHTGREY: -1431655681
+    ' HIGHLIGHT: -9934849
+
+    if m.voiceBoxBackground.blendColor = -9934849
+        if m.micIcon.blendColor <> -1
+            m.micIcon.blendColor = ColorPalette.WHITE
+        end if
+    else
+        if m.micIcon.blendColor <> 269488383
+            m.micIcon.blendColor = ColorPalette.DARKGREY
+        end if
+    end if
+end sub
+
+sub setSearchHintText(value as string)
+    m.voiceBox.hintText = isStringEqual(value, string.EMPTY) ? tr("Press OK to type") : value
+end sub
+
+sub onvoiceFilter()
+    onVoiceEnabledChange()
+
+    if not isValidAndNotEmpty(m.voiceBox.text) then return
+
+    unfocusAllButtons(invalid)
+
+    searchTerm = m.voiceBox.text.trim()
+
+    if isStringEqual(searchTerm, "reset search") then searchTerm = string.EMPTY
+    if isStringEqual(searchTerm, "clear search") then searchTerm = string.EMPTY
+
+    setSearchHintText(searchTerm)
+
+    m.top.searchTerm = searchTerm
+end sub
+
 sub setText(nodeID as string, textValue as string)
     textNode = m.top.findNode(nodeID)
     if isValid(textNode)
         textNode.text = textValue
+    end if
+end sub
+
+sub setDisabled(nodeID as string, value as boolean)
+    buttonNode = m.top.findNode(nodeID)
+    if isValid(buttonNode)
+        buttonNode.disabled = value
+    end if
+end sub
+
+' Using the user's cursor position, determine which dropdown is above them
+function getOverhangingButton(numColumns as integer, currFocusColumn as integer)
+    'if m.itemGrid.isinFocusChain()
+    if numColumns = 4
+        shortButtonList = [m.voiceBox, m.sortButton, m.filterButton, m.viewButton]
+        return shortButtonList[currFocusColumn]
+    end if
+
+    buttonList = [m.voiceBox, m.sortButton, m.sortOrderButton, m.filterButton, m.viewButton]
+
+    columnDisplacement = (numColumns / buttonList.count())
+
+    calculatedButtonIndex = CInt(((currFocusColumn + 1) / columnDisplacement) - 1)
+    if calculatedButtonIndex < 0 then calculatedButtonIndex = 0
+    if calculatedButtonIndex >= buttonList.count() then calculatedButtonIndex = buttonList.count() - 1
+    return buttonList[calculatedButtonIndex]
+    'end if
+
+    ' if m.genreList.isinFocusChain()
+    '     if m.genreList.currFocusColumn <= 0 then return m.voiceBox
+    '     if m.genreList.currFocusColumn <= 2 then return m.sortButton
+    '     if m.genreList.currFocusColumn <= 3 then return m.sortOrderButton
+    '     if m.genreList.currFocusColumn <= 5 then return m.filterButton
+    '     return m.viewButton
+    ' end if
+
+    ' return m.voiceBox
+end function
+
+sub setFocus(nodeID as string, value as boolean)
+    buttonNode = m.top.findNode(nodeID)
+    if isValid(buttonNode)
+        buttonNode.focus = value
+        buttonNode.setFocus(value)
     end if
 end sub
 
@@ -79,11 +187,38 @@ sub setSearchBackground(state)
     m.voiceBoxBackground.blendColor = ColorPalette.WHITE
 end sub
 
+sub setOptionData(optionData)
+    m.optionData = optionData
+end sub
+
+sub setSortAscending(sortAscending as boolean)
+    m.sortAscending = sortAscending
+end sub
+
+' VoiceTextEditBox.voiceEnabled doesn't have alwaysNotify enabled
+' To trigger a change event, we must change the value to something else, then back to the value we want
+sub onVoiceEnabledChange()
+    m.voiceBox.voiceEnabled = m.searchButtonDisabled
+    m.voiceBox.voiceEnabled = not m.searchButtonDisabled
+end sub
+
 function onKeyEvent(key as string, press as boolean) as boolean
     if not press then return false
     if not m.top.isinFocusChain() then return false
 
+    if isStringEqual(key, KeyCode.DOWN)
+        unfocusAllButtons(invalid)
+        m.top.exit = ExitDirection.DOWN
+        return true
+    end if
+
     if isStringEqual(key, KeyCode.LEFT)
+        if m.voiceBox.isinFocusChain()
+            unfocusAllButtons(invalid)
+            m.top.exit = ExitDirection.LEFT
+            return true
+        end if
+
         if m.sortButton.isinFocusChain()
             m.voiceBox.setFocus(true)
             setSearchBackground(SearchButtonState.ACTIVE)
@@ -174,7 +309,8 @@ function onKeyEvent(key as string, press as boolean) as boolean
                 tr("Search")
             ]
 
-            m.global.sceneManager.callFunc("keyboardDialog", "searchLibrary", tr("Search this library"), [""], buttonData, m.top.searchTerm, m.top.parentItem.Id)
+            hintText = isStringEqual(m.voiceBox.hintText.trim(), tr("Press OK to type")) ? string.EMPTY : m.voiceBox.hintText
+            m.global.sceneManager.callFunc("keyboardDialog", "searchLibrary", tr("Search this library"), [""], buttonData, hintText, m.top.parentItemID)
             return true
         end if
 
@@ -182,11 +318,10 @@ function onKeyEvent(key as string, press as boolean) as boolean
             if m.sortButton.disabled then return false
 
             sortData = {
-                data: m.options.options.sort
+                data: m.optionData.sort
             }
 
             m.global.sceneManager.callFunc("radioDialog", tr("Sort By"), sortData)
-            m.global.sceneManager.observeFieldScoped("returnData", "onSortChange")
             return true
         end if
 
@@ -207,27 +342,21 @@ function onKeyEvent(key as string, press as boolean) as boolean
             end if
 
             m.global.sceneManager.callFunc("radioDialog", tr("Sort Order"), sortOrderData)
-            m.global.sceneManager.observeFieldScoped("returnData", "onSortOrderChange")
             return true
         end if
 
         if m.filterButton.isinFocusChain()
             if m.filterButton.disabled then return false
-
-            m.options.visible = true
-            m.options.findNode("filterMenu").setFocus(true)
-            group = m.global.sceneManager.callFunc("getActiveScene")
-            group.lastFocus = m.options
+            m.top.showOptions = true
             return true
         end if
 
         if m.viewButton.isinFocusChain()
             viewData = {
-                data: m.options.options.views
+                data: m.optionData.views
             }
 
             m.global.sceneManager.callFunc("radioDialog", tr("TAB_VIEW"), viewData)
-            m.global.sceneManager.observeFieldScoped("returnData", "onViewChange")
             return true
         end if
 
@@ -236,3 +365,11 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
     return false
 end function
+
+sub disableSearch(disabledReason as string)
+    m.disabledReason = disabledReason
+    m.searchButtonDisabled = true
+    m.voiceBox.voiceEnabled = false
+    setSearchHintText("Search Unavailable")
+    setSearchBackground(SearchButtonState.DISABLED)
+end sub

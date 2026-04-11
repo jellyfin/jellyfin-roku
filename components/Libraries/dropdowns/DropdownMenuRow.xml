@@ -74,7 +74,19 @@
     </LayoutGroup>
   </children>
   <interface>
+    <field id="exit" type="integer" alwaysNotify="true" />
+    <field id="parentItemID" type="string" />
+    <field id="showOptions" type="boolean" alwaysNotify="true" />
+    <field id="searchTerm" type="string" alwaysNotify="true" />
     <function name="unfocusAllButtons" />
     <function name="setText" />
+    <function name="setDisabled" />
+    <function name="setFocus" />
+    <function name="setSearchHintText" />
+    <function name="setSearchBackground" />
+    <function name="getOverhangingButton" />
+    <function name="disableSearch" />
+    <function name="setOptionData" />
+    <function name="setSortAscending" />
   </interface>
 </component>
