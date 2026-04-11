@@ -1439,7 +1439,7 @@ end sub
 sub onSearchTermChanged()
     searchTerm = m.top.searchTerm.trim()
 
-    if not isValidAndNotEmpty(searchTerm) then return
+    if not isValid(searchTerm) then return
 
     ' If user searched for a letter, selected it from the alpha menu
     if searchTerm.len() = 1
