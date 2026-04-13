@@ -760,12 +760,17 @@ sub onVideoContentLoaded()
     ' Attempt to add logo to OSD and the display of info during buffering
     if isValidAndNotEmpty(videoContent[0].logoImage)
         m.osd.logoImage = videoContent[0].logoImage
-        bufferingLogoImage = createObject("roSGNode", "Poster")
-        bufferingLogoImage.Id = "bufferingLogoImage"
+
+        ' Create the buffering screen logo image node if it doesn't already exist
+        bufferingLogoImage = m.top.findNode("bufferingLogoImage")
+        if not isValid(bufferingLogoImage)
+            bufferingLogoImage = createObject("roSGNode", "Poster")
+            bufferingLogoImage.Id = "bufferingLogoImage"
+            bufferingLogoImage.translation = [103, 61]
+            m.top.appendChild(bufferingLogoImage)
+        end if
         bufferingLogoImage.observeField("loadStatus", "onBufferingLogoLoadStatusChanged")
         bufferingLogoImage.uri = videoContent[0].logoImage
-        bufferingLogoImage.translation = [103, 61]
-        m.top.appendChild(bufferingLogoImage)
 
         ' Don't show both the logo and the video title if this isn't an episode or trailer
         if m.top.content.contenttype <> 4 and videoContent[0].extraType <> "trailer"
