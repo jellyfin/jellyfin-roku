@@ -54,7 +54,7 @@
 
     <Text id="videoEndingTime" font="font:SmallSystemFont" color="0xffffffFF" horizAlign="right" width="200" translation="[1617,900]" visible="false" />
 
-    <Rectangle id="nextUp" visible="false" color="0x000000CC" height="144" width="500" translation="[1275, 800]">
+    <Rectangle id="nextUp" visible="false" color="0x000000CC" height="144" width="785" translation="[1000, 920]">
       <Poster id="nextItemPoster" width="150" height="124" translation="[10, 10]" />
       <LayoutGroup layoutDirection="vert" horizAlignment="left" itemSpacings="[10, 10]" translation="[180, 15]">
         <Text text="Next Up" color="#FFFFFF" font="font:SmallBoldSystemFont" horizAlign="left" vertAlign="center" />
