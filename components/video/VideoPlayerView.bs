@@ -1130,8 +1130,14 @@ sub checkSegmentSkipButton(position as double)
         exit for
     end for
 
-    ' Check if no match was found but the skip segment button is visible
+    ' Check if no match was found.  Reset skip button values if needed and hide the skip segment button if it is visible
     if not matchFound
+        ' When we are no longer in a media segment, we want to reset the currentSegmentType and mediaSegmentDismissed values so that if we encounter another segment of the same type later in the video, the button will show again.
+        ' Since this routine is called frequently, to reduce assignment cycles, check if segment button values have changed before resetting values
+        if isValid(m.currentSegmentType) or (isValid(m.mediaSegmentDismissed) and m.mediaSegmentDismissed.count() > 0)
+            m.currentSegmentType = invalid
+            m.mediaSegmentDismissed = {}
+        end if
         if m.skipSegmentButton.visible
             hideSegmentSkipButton()
         end if
