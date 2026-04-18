@@ -1045,7 +1045,9 @@ sub displaySegmentSkipButton(segmentType as string, endticks as double)
 
     if isStringEqual(segmentType, MediaSegmentType.OUTRO)
         if m.nextupbuttonseconds = 0 then return ' is the button disabled?
-        if not m.osd.visible then displayNextItem() ' only show next episode info if OSD is not visible
+        if not m.osd.visible 
+            displayNextItem() ' only show next episode info if OSD is not visible
+        end if
     end if
 
     m.skipSegmentButton.visible = true
