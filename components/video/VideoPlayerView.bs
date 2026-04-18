@@ -1045,7 +1045,9 @@ sub displaySegmentSkipButton(segmentType as string, endticks as double)
 
     if isStringEqual(segmentType, MediaSegmentType.OUTRO)
         if m.nextupbuttonseconds = 0 then return ' is the button disabled?
-        displayNextItem()
+        if not m.osd.visible 
+            displayNextItem() ' only show next episode info if OSD is not visible
+        end if
     end if
 
     m.skipSegmentButton.visible = true
@@ -1508,6 +1510,7 @@ end sub
 '
 ' @param {string} whichfocus - indicates which element should be focused when showing the OSD. Accepts "videoControls" or "progressBar"
 sub showOSD(whichfocus as string)
+    hideNextItem() ' Hide next up info display when OSD is visible
     m.osd.visible = true
     m.osd.hasFocus = true
     if whichfocus = "videoControls"
