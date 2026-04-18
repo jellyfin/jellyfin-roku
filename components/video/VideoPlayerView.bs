@@ -2076,8 +2076,13 @@ sub onFastforwardOrRewindTick()
             m.liveTVRewindLimitExceeded.visible = false
         end if
         stopFastforwardOrRewind()
-        m.top.seek = m.previewPos
-        m.top.control = VideoControl.RESUME
+        ' Resume playback if this is live TV and we are at the end of media or we have reached the live TV rewind limit
+        if m.top.content.live
+            if m.previewPos >= (m.osd.progressDuration - 5) or m.previewPos <= (m.top.pauseBufferEnd - m.osd.liveTvRewindLimit)
+                m.top.seek = m.previewPos
+                m.top.control = VideoControl.RESUME
+            end if
+        end if
     end if
 
 end sub
