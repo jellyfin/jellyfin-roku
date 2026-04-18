@@ -760,12 +760,17 @@ sub onVideoContentLoaded()
     ' Attempt to add logo to OSD and the display of info during buffering
     if isValidAndNotEmpty(videoContent[0].logoImage)
         m.osd.logoImage = videoContent[0].logoImage
-        bufferingLogoImage = createObject("roSGNode", "Poster")
-        bufferingLogoImage.Id = "bufferingLogoImage"
+
+        ' Create the buffering screen logo image node if it doesn't already exist
+        bufferingLogoImage = m.top.findNode("bufferingLogoImage")
+        if not isValid(bufferingLogoImage)
+            bufferingLogoImage = createObject("roSGNode", "Poster")
+            bufferingLogoImage.Id = "bufferingLogoImage"
+            bufferingLogoImage.translation = [103, 61]
+            m.top.appendChild(bufferingLogoImage)
+        end if
         bufferingLogoImage.observeField("loadStatus", "onBufferingLogoLoadStatusChanged")
         bufferingLogoImage.uri = videoContent[0].logoImage
-        bufferingLogoImage.translation = [103, 61]
-        m.top.appendChild(bufferingLogoImage)
 
         ' Don't show both the logo and the video title if this isn't an episode or trailer
         if m.top.content.contenttype <> 4 and videoContent[0].extraType <> "trailer"
@@ -1045,7 +1050,9 @@ sub displaySegmentSkipButton(segmentType as string, endticks as double)
 
     if isStringEqual(segmentType, MediaSegmentType.OUTRO)
         if m.nextupbuttonseconds = 0 then return ' is the button disabled?
-        displayNextItem()
+        if not m.osd.visible 
+            displayNextItem() ' only show next episode info if OSD is not visible
+        end if
     end if
 
     m.skipSegmentButton.visible = true
@@ -1508,6 +1515,7 @@ end sub
 '
 ' @param {string} whichfocus - indicates which element should be focused when showing the OSD. Accepts "videoControls" or "progressBar"
 sub showOSD(whichfocus as string)
+    hideNextItem() ' Hide next up info display when OSD is visible
     m.osd.visible = true
     m.osd.hasFocus = true
     if whichfocus = "videoControls"
