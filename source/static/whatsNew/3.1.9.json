@@ -2,5 +2,9 @@
   {
     "description": "Move the next up graphic and hide it if the OSD is visible",
     "author": "VTRunner"
+  },
+  {
+    "description": "Fix media logo image not hiding when OSD does",
+    "author": "VTRunner"
   }
 ]
