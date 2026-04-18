@@ -2182,5 +2182,69 @@
         <source>Playback will automatically stop in 1 minute if no buttons are pressed.</source>
         <translation>如果未按下任何按钮，播放将在 1 分钟后自动停止。</translation>
     </message>
+    <message>
+        <source>Set the maximum amount of days a show should stay in the &apos;Next Up&apos; list without watching it. Maximum value is 1000 days.</source>
+        <translation>设置节目在「接下来观看」列表中未被观看时可保留的最长时间（天）。最大为 1000 天。</translation>
+    </message>
+    <message>
+        <source>Grid View Item Titles</source>
+        <translation>网格视图项目标题</translation>
+    </message>
+    <message>
+        <source>Select when to show titles in grid view.</source>
+        <translation>选择何时在网格视图中显示标题。</translation>
+    </message>
+    <message>
+        <source>Maximum Audio Channels</source>
+        <translation>最大音频声道数</translation>
+    </message>
+    <message>
+        <source>Configure the maximum audio channels when playing video files on this device.</source>
+        <translation>配置在此设备播放视频文件时允许的最大音频声道数。</translation>
+    </message>
+    <message>
+        <source>Off - Attempt to play all channels</source>
+        <translation>关闭 - 尝试播放所有声道</translation>
+    </message>
+    <message>
+        <source>Trickplay Display</source>
+        <translation>预览播放显示</translation>
+    </message>
+    <message>
+        <source>Select trickplay display format.</source>
+        <translation>选择预览播放的显示格式。</translation>
+    </message>
+    <message>
+        <source>Load Items Limit</source>
+        <translation>加载项目数量限制</translation>
+    </message>
+    <message>
+        <source>Number of items to load together on library screens.</source>
+        <translation>在媒体库界面中一次加载的条目数量。</translation>
+    </message>
+    <message>
+        <source>Five trickplay images</source>
+        <translation>五张预览图</translation>
+    </message>
+    <message>
+        <source>Single trickplay image that moves</source>
+        <translation>单张动态预览图</translation>
+    </message>
+    <message>
+        <source>Attempt Direct Play Anamorphic Video</source>
+        <translation>尝试直接播放变形宽银幕视频</translation>
+    </message>
+    <message>
+        <source>Newer devices may support direct play of anamorphic video.</source>
+        <translation>较新的设备可能支持直接播放变形宽银幕视频。</translation>
+    </message>
+    <message>
+        <source>Burn in subtitle when transcoding</source>
+        <translation>转码时内嵌字幕</translation>
+    </message>
+    <message>
+        <source>Burn in all subtitles when transcoding is triggered. This ensures subtitle synchronization after transcoding at the cost of reduced transcoding speed.</source>
+        <translation>触发转码时内嵌所有字幕，以确保转码后字幕同步，但会降低转码速度。</translation>
+    </message>
 </context>
 </TS>
