@@ -10,5 +10,9 @@
   {
     "description": "Change when video fast forward and rewind automatically resume play",
     "author": "VTRunner"
+  },
+  {
+    "description": "Fix the media segment skip button not showing after back button dismissal",
+    "author": "VTRunner"
   }
 ]
