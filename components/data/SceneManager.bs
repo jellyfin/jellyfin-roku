@@ -442,7 +442,7 @@ sub optionDialog(id, title, message, buttons, params)
     dialog.title = title
 
     ' Apply fallback font to dialog title
-    if m.global.fallbackFont <> string.EMPTY
+    if isValidAndNotEmpty(m.global.fallbackFont)
         if chainLookupReturn(m.global.session, "user.settings.useFallbackFont", false)
             dialogTitle = findNodeBySubtype(dialog, "StdDlgTitleArea")
             if dialogTitle.count() <> 0 and isValid(dialogTitle[0]) and isValid(dialogTitle[0].node)
@@ -450,7 +450,7 @@ sub optionDialog(id, title, message, buttons, params)
 
                 if isValid(dialogTitleLabel)
                     if dialogTitleLabel.isSubType("ScrollingText")
-                        dialogTitleLabel.font.uri = m.global.fallbackFont
+                        dialogTitleLabel.font.uri = m.global.fallbackFont.regular
                     end if
                 end if
             end if
