@@ -1449,6 +1449,39 @@ sub onRoDeviceInfoEvent(msg)
     end if
 end sub
 
+sub onCECStatusEvent(msg)
+    info = msg.GetInfo()
+    if not isValid(info) then return
+
+    if info.Active = false
+        stopPlaybackAndReturnHome()
+    end if
+end sub
+
+sub stopPlaybackAndReturnHome()
+    group = m.global.sceneManager.callFunc("getActiveScene")
+
+    ' Stop video playback if active
+    if isValid(group) and group.isSubType("VideoPlayerView")
+        group.control = VideoControl.STOP
+        m.global.queueManager.callFunc("clear")
+    end if
+
+    ' Stop audio playback if active
+    if m.global.audioPlayer.state = "playing" or m.global.audioPlayer.state = "paused"
+        m.global.audioPlayer.control = "stop"
+    end if
+
+    ' Pop all scenes back to home
+    while true
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        if not isValid(group) or group.isSubType("Home")
+            exit while
+        end if
+        m.global.sceneManager.callFunc("popScene")
+    end while
+end sub
+
 sub onReturnDataEvent(msg)
     ' User has chosen an option in a radio dialog
     popupNode = msg.getData()
