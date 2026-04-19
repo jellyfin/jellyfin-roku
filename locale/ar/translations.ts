@@ -912,7 +912,7 @@
     </message>
     <message>
         <source>Text Subtitles Only</source>
-        <translation type="unfinished"></translation>
+        <translation>نصوص الترجمة فقط</translation>
         <extracomment>Name of a setting - should we hide subtitles that might transcode</extracomment>
     </message>
     <message>
@@ -2190,7 +2190,7 @@
     </message>
     <message>
         <source>Playback will automatically stop in 1 minute if no buttons are pressed.</source>
-        <translation type="unfinished"></translation>
+        <translation>سيتوقف التشغيل تلقائيا بعد كقيقة إذا لم يتم الضغط على أي زر.</translation>
     </message>
     <message>
         <source>Burn in subtitle when transcoding</source>
@@ -2361,6 +2361,14 @@
     <message>
         <source>Playback Speed Controls (Experimental)</source>
         <translation>متحكمات سرعة التشغيل (تجريبي)</translation>
+    </message>
+    <message>
+        <source>Newer devices may support direct play of anamorphic video.</source>
+        <translation>الاجهزة الجديدة قد تدعم التشغيل المباشر للفيديوهات المشوّهة.</translation>
+    </message>
+    <message>
+        <source>Attempt Direct Play Anamorphic Video</source>
+        <translation>محاولة التشغيل المباشر للفيدوهات المشوّهة</translation>
     </message>
 </context>
 </TS>
