@@ -14,5 +14,9 @@
   {
     "description": "Fix the media segment skip button not showing after back button dismissal",
     "author": "VTRunner"
+  },
+  {
+    "description": "Fix possible crash when pressing back on the home screen",
+    "author": "1hitsong"
   }
 ]
