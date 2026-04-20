@@ -19,7 +19,6 @@
 
     <field id="transcodeParams" type="assocarray" />
     <field id="transcodeAvailable" type="boolean" value="false" />
-    <field id="retryWithTranscoding" type="boolean" value="false" />
     <field id="isTranscoded" type="boolean" />
     <field id="disableNextEpisodeAutoPlay" type="boolean" value="false" />
 

@@ -149,6 +149,15 @@ sub init()
 
     m.nextUp = m.top.findNode("nextUp")
     m.nextUpInfoLoaded = false
+    m.defaultPlayStart = 0!
+
+    currentItem = m.global.queueManager.callFunc("getCurrentItem")
+
+    if isValid(currentItem) and isValid(currentItem.startingPoint)
+        m.defaultPlayStart = currentItem.startingPoint
+    else if isChainValid(currentItem, "json.UserData.PlaybackPositionTicks")
+        m.defaultPlayStart = currentItem.json.UserData.PlaybackPositionTicks
+    end if
 
     m.skipSegmentButton = m.top.findNode("skipSegment")
     m.skipSegmentButton.background = ColorPalette.LIGHTBLUE
@@ -840,7 +849,26 @@ sub onVideoContentLoaded()
 
     m.top.setFocus(true)
     m.osd.live = m.top.content.live
+
+    if m.LoadMetaDataTask.mustTranscode
+        if videoContent[0].content.PlayStart = 0
+            m.top.control = VideoControl.PREBUFFER
+            videoContent[0].content.PlayStart = m.defaultPlayStart
+            m.top.observeField("bufferingStatus", "onBufferingStatusChange")
+            return
+        end if
+    end if
+
     m.top.control = VideoControl.PLAY
+end sub
+
+sub onBufferingStatusChange()
+    if not isValid(m.top.bufferingStatus) then return
+
+    if m.top.bufferingStatus.prebufferDone
+        m.top.unobserveField("bufferingStatus")
+        m.top.control = VideoControl.PLAY
+    end if
 end sub
 
 
@@ -1050,7 +1078,7 @@ sub displaySegmentSkipButton(segmentType as string, endticks as double)
 
     if isStringEqual(segmentType, MediaSegmentType.OUTRO)
         if m.nextupbuttonseconds = 0 then return ' is the button disabled?
-        if not m.osd.visible 
+        if not m.osd.visible
             displayNextItem() ' only show next episode info if OSD is not visible
         end if
     end if
@@ -1207,8 +1235,19 @@ sub onState(msg)
         print "Error: " m.top.errorCode, m.top.errorMsg, " ErrorStr: " m.top.errorStr
         print m.top.errorInfo
 
-        if not m.playReported and m.top.transcodeAvailable
-            m.top.retryWithTranscoding = true ' If playback was not reported, retry with transcoding
+        if not m.playReported
+            if not m.isTranscoded
+                if not m.LoadMetaDataTask.mustTranscode
+                    ' Stop playback and exit player
+                    m.top.control = VideoControl.STOP
+
+                    m.LoadMetaDataTask.mustTranscode = true
+                    m.LoadMetaDataTask.observeField("content", "onVideoContentLoaded")
+                    m.LoadMetaDataTask.control = TaskControl.RUN
+                    return
+                end if
+            end if
+
             ' Stop playback and exit player
             m.top.control = VideoControl.STOP
             m.top.backPressed = true
@@ -1261,6 +1300,16 @@ sub onState(msg)
             end if
         end if
     else if isStringEqual(m.top.state, MediaPlaybackState.PLAYING)
+        print "1"
+        if m.top.content.PlayStart = 0
+            print "2"
+            print "seek to m.defaultPlayStart", m.defaultPlayStart
+            if m.defaultPlayStart > 0
+                m.top.seek = m.defaultPlayStart
+                m.defaultPlayStart = 0
+            end if
+        end if
+
         ' Reset retry counter when playback is successful
         if m.playbackRetries > 0
             print "Playback resumed successfully after retry"
@@ -1399,7 +1448,6 @@ sub bufferCheck(msg)
     end if
 
     if m.top.bufferingStatus <> invalid
-
         ' Check that the buffering percentage is increasing
         if m.top.bufferingStatus["percentage"] > m.bufferPercentage
             m.bufferPercentage = m.top.bufferingStatus["percentage"]
