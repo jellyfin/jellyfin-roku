@@ -116,7 +116,7 @@ sub onReturnData()
         return
     end if
 
-    if isStringEqual(optionType, tr("View"))
+    if isStringEqual(optionType, tr("TAB_VIEW"))
         onViewChange(selectedOptionData)
         return
     end if
