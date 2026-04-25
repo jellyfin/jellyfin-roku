@@ -37,6 +37,8 @@ sub clear()
     m.queue = []
     m.queueTypes = []
     m.isPrerollActive = m.global.session.user.settings["playback.cinemamode"]
+    setForceTranscode(PlaybackMethod.PLAYNORMALLY)
+
     setPosition(0)
     if not m.bypassNextPreferredAudioTrackIndexReset
         setPreferredAudioTrackIndex(-1)

@@ -231,6 +231,8 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
         playbackPosition = currentItem.startingPoint
     else if isChainValid(currentItem, "json.UserData.PlaybackPositionTicks")
         playbackPosition = currentItem.json.UserData.PlaybackPositionTicks
+    else if isChainValid(meta, "json.UserData.PlaybackPositionTicks")
+        playbackPosition = meta.json.UserData.PlaybackPositionTicks
     end if
 
     ' PlayStart requires the time to be in seconds

@@ -149,15 +149,6 @@ sub init()
 
     m.nextUp = m.top.findNode("nextUp")
     m.nextUpInfoLoaded = false
-    m.defaultPlayStart = 0!
-
-    currentItem = m.global.queueManager.callFunc("getCurrentItem")
-
-    if isValid(currentItem) and isValid(currentItem.startingPoint)
-        m.defaultPlayStart = currentItem.startingPoint
-    else if isChainValid(currentItem, "json.UserData.PlaybackPositionTicks")
-        m.defaultPlayStart = currentItem.json.UserData.PlaybackPositionTicks
-    end if
 
     m.skipSegmentButton = m.top.findNode("skipSegment")
     m.skipSegmentButton.background = ColorPalette.LIGHTBLUE
@@ -701,7 +692,6 @@ sub onVideoContentLoaded()
     m.isTranscoded = videoContent[0].isTranscoded
     burnInSubtitles = chainLookupReturn(m.global, "session.user.settings.`playback.subs.burnin`", true)
 
-
     if m.isTranscoded and burnInSubtitles
         videoContent[0].content.SubtitleTracks = []
     end if
@@ -850,27 +840,8 @@ sub onVideoContentLoaded()
     m.top.setFocus(true)
     m.osd.live = m.top.content.live
 
-    if m.LoadMetaDataTask.mustTranscode
-        if videoContent[0].content.PlayStart = 0
-            m.top.control = VideoControl.PREBUFFER
-            videoContent[0].content.PlayStart = m.defaultPlayStart
-            m.top.observeField("bufferingStatus", "onBufferingStatusChange")
-            return
-        end if
-    end if
-
     m.top.control = VideoControl.PLAY
 end sub
-
-sub onBufferingStatusChange()
-    if not isValid(m.top.bufferingStatus) then return
-
-    if m.top.bufferingStatus.prebufferDone
-        m.top.unobserveField("bufferingStatus")
-        m.top.control = VideoControl.PLAY
-    end if
-end sub
-
 
 ' onBufferingLogoLoadStatusChanged: Handler for changes to buffering logo image's status.
 '
@@ -1237,15 +1208,19 @@ sub onState(msg)
 
         if not m.playReported
             if not m.isTranscoded
-                if not m.LoadMetaDataTask.mustTranscode
-                    ' Stop playback and exit player
-                    m.top.control = VideoControl.STOP
-
-                    m.LoadMetaDataTask.mustTranscode = true
-                    m.LoadMetaDataTask.observeField("content", "onVideoContentLoaded")
-                    m.LoadMetaDataTask.control = TaskControl.RUN
-                    return
+                if isStringEqual(PlaybackMethod.PLAYNORMALLY, m.global.queueManager.callFunc("getForceTranscode"))
+                    m.global.queueManager.callFunc("setForceTranscode", PlaybackMethod.FORCETRANSCODEALLOWREMUX)
+                else if isStringEqual(PlaybackMethod.FORCETRANSCODEALLOWREMUX, m.global.queueManager.callFunc("getForceTranscode"))
+                    m.global.queueManager.callFunc("setForceTranscode", PlaybackMethod.FORCETRANSCODEDISABLEREMUX)
                 end if
+
+                ' Stop playback and exit player
+                m.top.control = VideoControl.STOP
+
+                m.LoadMetaDataTask.mustTranscode = true
+                m.LoadMetaDataTask.observeField("content", "onVideoContentLoaded")
+                m.LoadMetaDataTask.control = TaskControl.RUN
+                return
             end if
 
             ' Stop playback and exit player
@@ -1300,15 +1275,6 @@ sub onState(msg)
             end if
         end if
     else if isStringEqual(m.top.state, MediaPlaybackState.PLAYING)
-        print "1"
-        if m.top.content.PlayStart = 0
-            print "2"
-            print "seek to m.defaultPlayStart", m.defaultPlayStart
-            if m.defaultPlayStart > 0
-                m.top.seek = m.defaultPlayStart
-                m.defaultPlayStart = 0
-            end if
-        end if
 
         ' Reset retry counter when playback is successful
         if m.playbackRetries > 0
