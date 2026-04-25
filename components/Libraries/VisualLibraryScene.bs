@@ -997,7 +997,7 @@ sub ItemDataLoaded(msg)
         if m.loadedItems = 0
             m.emptyText.text = tr("No items found. Try adjusting your selected filters.")
             m.emptyText.visible = true
-            m.dropdownOptionGroup@.setFocus("voiceBox")
+            m.dropdownOptionGroup@.setFocus("voiceBox", true)
             m.dropdownOptionGroup@.setSearchBackground(SearchButtonState.ACTIVE)
         end if
 
