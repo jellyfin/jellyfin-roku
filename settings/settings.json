@@ -130,6 +130,23 @@
         ]
       },
       {
+        "title": "Force Transcoding Live TV",
+        "description": "Force live TV to be transcoded. If Force Transcoding is already set to Force Transcode (Remux Disabled), this setting is ignored.",
+        "settingName": "playback.media.forceTranscodeLiveTV",
+        "type": "radio",
+        "default": "playNormally",
+        "options": [
+          {
+            "title": "Play Normally",
+            "id": "playNormally"
+          },
+          {
+            "title": "Force Transcode (Remux Disabled)",
+            "id": "forceTranscodeDisableRemux"
+          }
+        ]
+      },
+      {
         "title": "Maximum Audio Channels",
         "description": "Configure the maximum audio channels when playing video files on this device.",
         "settingName": "playback.media.maxAudioChannels",
@@ -336,7 +353,7 @@
         "type": "integer",
         "default": "30"
       },
-        {
+      {
         "title": "Playback Speed Controls (Experimental)",
         "description": "Use at your own risk. We make no guarantees this will work for you. \n 1. This feature may not work on this device, yet work on others \n 2. Some speed options may not work on this device, yet work on others \n 3. Roku may block this feature without warning; even if the Jellyfin client doesn't update",
         "settingName": "playback.showPlaybackSpeedControls",
