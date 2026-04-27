@@ -1379,6 +1379,16 @@
             <extracomment>User Setting - Description for option</extracomment>
         </message>
         <message>
+            <source>Force Transcoding Live TV</source>
+            <translation>Force Transcoding Live TV</translation>
+            <extracomment>User Setting - Title for option</extracomment>
+        </message>
+        <message>
+            <source>Force live TV to be transcoded. If Force Transcoding is already set to Force Transcode (Remux Disabled), this setting is ignored.</source>
+            <translation>Force live TV to be transcoded. If Force Transcoding is already set to Force Transcode (Remux Disabled), this setting is ignored.</translation>
+            <extracomment>User Setting - Description for option</extracomment>
+        </message>
+        <message>
             <source>Media Segment Actions</source>
             <translation>Media Segment Actions</translation>
             <extracomment>User Setting - Title for option</extracomment>
