@@ -803,7 +803,6 @@ sub onVideoContentLoaded()
 
         if subtitle.Index = videoContent[0].selectedSubtitle
             selectedSubtitle = subtitle
-            exit for
         end if
     end for
 
@@ -826,9 +825,7 @@ sub onVideoContentLoaded()
         end if
     end if
 
-    if not (m.isTranscoded and burnInSubtitles)
-        m.top.selectedSubtitle = videoContent[0].selectedSubtitle
-    end if
+    m.top.selectedSubtitle = videoContent[0].selectedSubtitle
 
     m.top.observeField("selectedSubtitle", "onSubtitleChange")
 
