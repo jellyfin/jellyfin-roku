@@ -330,7 +330,7 @@ sub handleHideAction(resume as boolean)
     m.top.setFocus(true)
     stopFastforwardOrRewind()
     ' Always hide the custom trickplay image(s) when hiding the OSD
-    hideTrickPlayImages()
+    hideTrickplayImages()
     if resume
         m.top.control = VideoControl.RESUME
     end if
@@ -728,7 +728,7 @@ sub onVideoContentLoaded()
 
                 m.canUseFastReplace = (m.trickplayDataFinal.TileHeight * m.trickplayDataFinal.Height) * (m.trickplayDataFinal.TileWidth * m.trickplayDataFinal.Width) < 2000000
 
-                m.PreloadTrickplayImagesTask.numImagesToLoad = fix(m.trickplayDataFinal.ThumbnailCount / (m.trickplayDataFinal.TileHeight * m.trickplayDataFinal.TileWidth))
+                m.PreloadTrickplayImagesTask.numImagesToLoad = fix((m.trickplayDataFinal.ThumbnailCount - 1) / (m.trickplayDataFinal.TileHeight * m.trickplayDataFinal.TileWidth))
                 m.PreloadTrickplayImagesTask.trickplayWidth = m.trickplayDataFinal.Width
                 m.PreloadTrickplayImagesTask.method = "ADD"
                 m.PreloadTrickplayImagesTask.control = TaskControl.RUN
@@ -912,7 +912,7 @@ sub displaySingleTrickplayImage(trickPosition as integer, whichImage as integer)
     tileIconIndex = iconIndex - (tileIndex * (m.trickplayDataFinal.TileHeight * m.trickplayDataFinal.TileWidth))
 
     ' Index of row trickplay image is on within tileset
-    iconRow = fix(tileIconIndex / m.trickplayDataFinal.TileHeight)
+    iconRow = fix(tileIconIndex / m.trickplayDataFinal.TileWidth)
 
     ' Index of column trickplay image is on within tileset
     iconColumn = tileIconIndex mod m.trickplayDataFinal.TileWidth
@@ -928,33 +928,35 @@ sub displaySingleTrickplayImage(trickPosition as integer, whichImage as integer)
 
     if offsetHoriz < 0 then offsetHoriz = 0
 
-    ' Trickplayimage node doesn't exist, create it
+    trickplayImageUri = `tmp:/${m.top.id}-${tileIndex}.jpg`
+
+    ' Trickplay image node doesn't exist, create it
     if not isValid(trickplayImage)
         newTrickplayImage = createObject("roSGNode", "Poster")
-        newTrickplayImage.uri = `tmp:/${m.top.id}-${tileIndex}.jpg`
         newTrickplayImage.id = `trickplayImage` + str(whichImage)
         newTrickplayImage.loadDisplayMode = "noScale"
-        newTrickplayImage.height = tileSizeFactor * m.trickplayDataFinal.Height * m.trickplayDataFinal.TileHeight
-        newTrickplayImage.width = tileSizeFactor * m.trickplayDataFinal.Width * m.trickplayDataFinal.TileWidth
-        newTrickplayImage.translation = `[${offsetHoriz - (iconColumn * m.trickplayDataFinal.Width * tileSizeFactor)},  ${offsetVert - (iconRow * m.trickplayDataFinal.Height * tileSizeFactor)}]`
-        newTrickplayImage.clippingRect = `[${iconColumn * m.trickplayDataFinal.Width * tileSizeFactor}, ${iconRow * m.trickplayDataFinal.Height * tileSizeFactor}, ${m.trickplayDataFinal.Width * tileSizeFactor}, ${m.trickplayDataFinal.Height * tileSizeFactor}]`
         ' Insert trickplay image at top of OSD so video ending time node is visible over trickplay image
         m.osd.insertChild(newTrickplayImage, 0)
-        return
+        trickplayImage = newTrickplayImage
     end if
 
     ' If we've changed tiles, remove existing trickplayImage node
     ' Otherwise loading the next image will fail. 'cause Roku.
-    if trickplayImage.uri <> `tmp:/${m.top.id}-${tileIndex}.jpg`
+    if trickplayImage.uri <> trickplayImageUri
         if not m.canUseFastReplace
             m.osd.removeChild(trickplayImage)
-            return
+            trickplayImage = createObject("roSGNode", "Poster")
+            trickplayImage.id = `trickplayImage` + str(whichImage)
+            trickplayImage.loadDisplayMode = "noScale"
+            m.osd.insertChild(trickplayImage, 0)
         end if
 
-        trickplayImage.uri = `tmp:/${m.top.id}-${tileIndex}.jpg`
+        trickplayImage.uri = trickplayImageUri
     end if
 
     ' Move clippingRect to next trickplay image within tileset - offsetting translation by an equal amount so it doesn't move
+    trickplayImage.height = tileSizeFactor * m.trickplayDataFinal.Height * m.trickplayDataFinal.TileHeight
+    trickplayImage.width = tileSizeFactor * m.trickplayDataFinal.Width * m.trickplayDataFinal.TileWidth
     trickplayImage.translation = `[${offsetHoriz - (iconColumn * m.trickplayDataFinal.Width * tileSizeFactor)},  ${offsetVert - (iconRow * m.trickplayDataFinal.Height * tileSizeFactor)}]`
     trickplayImage.clippingRect = `[${iconColumn * m.trickplayDataFinal.Width * tileSizeFactor}, ${iconRow * m.trickplayDataFinal.Height * tileSizeFactor}, ${m.trickplayDataFinal.Width * tileSizeFactor}, ${m.trickplayDataFinal.Height * tileSizeFactor}]`
     trickplayImage.visible = true
@@ -1200,6 +1202,7 @@ sub onState(msg)
 
     ' When buffering, start timer to monitor buffering process
     if isStringEqual(m.top.state, MediaPlaybackState.BUFFERING) and m.bufferCheckTimer <> invalid
+        startSpinnerWithPercent(0)
         ' start timer
         m.bufferCheckTimer.control = "start"
         m.bufferCheckTimer.ObserveField("fire", "bufferCheck")
@@ -2036,6 +2039,7 @@ sub commitSeek()
         stopFastforwardOrRewind()
         hideTrickplayImages()
         setVideoEndingTime(m.previewPos)
+        startSpinnerWithPercent(0)
         m.top.seek = m.previewPos
         m.top.control = VideoControl.RESUME
         m.liveTVRewindLimitExceeded.visible = false
