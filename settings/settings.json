@@ -92,11 +92,21 @@
         "default": "false"
       },
       {
-        "title": "Custom Trickplay",
-        "description": "Display custom trickplay images even if this Roku says it's displaying its own. This may cause the two images to overlay on top of each other.",
-        "settingName": "playback.trickplay.forcecustom",
-        "type": "bool",
-        "default": "false"
+        "title": "Trickplay Display",
+        "description": "Select trickplay display format.",
+        "settingName": "playback.trickplay.displayTrickplayFormat",
+        "type": "radio",
+        "default": "five",
+        "options": [
+          {
+            "title": "Five trickplay images",
+            "id": "five"
+          },
+          {
+            "title": "Single trickplay image that moves",
+            "id": "single"
+          }
+        ]
       },
       {
         "title": "Force Transcoding",
@@ -325,6 +335,13 @@
         "settingName": "playback.nextupbuttonseconds",
         "type": "integer",
         "default": "30"
+      },
+        {
+        "title": "Playback Speed Controls (Experimental)",
+        "description": "Use at your own risk. We make no guarantees this will work for you. \n 1. This feature may not work on this device, yet work on others \n 2. Some speed options may not work on this device, yet work on others \n 3. Roku may block this feature without warning; even if the Jellyfin client doesn't update",
+        "settingName": "playback.showPlaybackSpeedControls",
+        "type": "bool",
+        "default": "false"
       },
       {
         "title": "Preferred Audio Codec",

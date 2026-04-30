@@ -124,6 +124,8 @@ sub Main (args as dynamic) as void
             onQuickPlayEvent(msg)
         else if isNodeEvent(msg, "refreshSeasonDetailsData")
             onRefreshSeasonDetailsDataEvent()
+        else if isNodeEvent(msg, "refreshPlaylistData")
+            onRefreshPlaylistDataEvent()
         else if isNodeEvent(msg, "refreshMovieDetailsData")
             onRefreshMovieDetailsDataEvent()
         else if isNodeEvent(msg, "selectedItem")

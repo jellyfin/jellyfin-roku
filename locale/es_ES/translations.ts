@@ -710,7 +710,7 @@
     </message>
     <message>
         <source>Pick a Jellyfin server from the local network</source>
-        <translation>Seleccione un servidor Jellyfin disponible en su red local:</translation>
+        <translation>Selecciona un servidor Jellyfin disponible en su red local:</translation>
         <extracomment>Instructions on initial app launch when the user is asked to pick a server from a list</extracomment>
     </message>
     <message>
@@ -2260,7 +2260,7 @@
     </message>
     <message>
         <source>Select when to show titles in grid view.</source>
-        <translation>Seleccione cuándo mostrar los títulos en vista de cuadrícula.</translation>
+        <translation>Selecciona cuándo mostrar los títulos en vista de cuadrícula.</translation>
     </message>
     <message>
         <source>Library Image Orientation</source>
@@ -2268,7 +2268,7 @@
     </message>
     <message>
         <source>Select the poster image orientation for the library views.</source>
-        <translation>Seleccione la orientación de la imagen del póster para las vistas de la biblioteca.</translation>
+        <translation>Selecciona la orientación de la imagen del póster para las vistas de la biblioteca.</translation>
     </message>
     <message>
         <source>Default (Varies By Media Type)</source>
@@ -2373,6 +2373,66 @@
     <message>
         <source>Attempt Direct Play Anamorphic Video</source>
         <translation>Intentar reproducción directa de vídeo anamórfico</translation>
+    </message>
+    <message>
+        <source>Channel Title</source>
+        <translation>Título del canal</translation>
+    </message>
+    <message>
+        <source>Load Items Limit</source>
+        <translation>Límite de carga de elementos</translation>
+    </message>
+    <message>
+        <source>Number of items to load together on library screens.</source>
+        <translation>Número de elementos a descargar juntos en pantallas de la librería.</translation>
+    </message>
+    <message>
+        <source>Settings relating to Live TV.</source>
+        <translation>Configuración relativa a la TV en vivo.</translation>
+    </message>
+    <message>
+        <source>Channel Title Info</source>
+        <translation>Información del título del canal</translation>
+    </message>
+    <message>
+        <source>Select what information to use as a channel&apos;s title.</source>
+        <translation>Selección de la información que se usará como título del canal.</translation>
+    </message>
+    <message>
+        <source>Channel Number and Name</source>
+        <translation>Número y nombre del canal</translation>
+    </message>
+    <message>
+        <source>Channel Number</source>
+        <translation>Número del canal</translation>
+    </message>
+    <message>
+        <source>Channel Name</source>
+        <translation>Nombre del canal</translation>
+    </message>
+    <message>
+        <source>TV Guide Channel Display</source>
+        <translation>Muestra de canales de la guía de TV</translation>
+    </message>
+    <message>
+        <source>Select how to display a channel in the Live TV guide.</source>
+        <translation>Selecciona cómo se mostrarán los canales en la guía de TV en vivo.</translation>
+    </message>
+    <message>
+        <source>Channel Logo and Title</source>
+        <translation>Logo y título del canal</translation>
+    </message>
+    <message>
+        <source>Channel Logo</source>
+        <translation>Logo del canal</translation>
+    </message>
+    <message>
+        <source>Trickplay Display</source>
+        <translation>Mostrar Trickplay</translation>
+    </message>
+    <message>
+        <source>Select trickplay display format.</source>
+        <translation>Seleccionar el formato de visualización de Trickplay.</translation>
     </message>
 </context>
 <context>

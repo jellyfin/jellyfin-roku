@@ -1359,13 +1359,13 @@
             <extracomment>User Setting - Setting description</extracomment>
         </message>
         <message>
-            <source>Custom Trickplay</source>
-            <translation>Custom Trickplay</translation>
+            <source>Trickplay Display</source>
+            <translation>Trickplay Display</translation>
             <extracomment>User Setting - Title for option</extracomment>
         </message>
         <message>
-            <source>Display custom trickplay images even if this Roku says it's displaying its own. This may cause the two images to overlay on top of each other.</source>
-            <translation>Display custom trickplay images even if this Roku says it's displaying its own. This may cause the two images to overlay on top of each other.</translation>
+            <source>Select trickplay display format.</source>
+            <translation>Select trickplay display format.</translation>
             <extracomment>User Setting - Description for option</extracomment>
         </message>
         <message>
@@ -1563,15 +1563,15 @@
             <translation>Number of columns in library view when showing square images</translation>
             <extracomment>Libraries Setting - Setting description</extracomment>
         </message>
-	<message>
-	    <source>Load Items Limit</source>
-	    <translation>Load Items Limit</translation>
-	    <extracomment>Libraries Setting - Setting title</extracomment>
+        <message>
+            <source>Load Items Limit</source>
+            <translation>Load Items Limit</translation>
+            <extracomment>Libraries Setting - Setting title</extracomment>
         </message>
-	<message>
-	    <source>Number of items to load together on library screens.</source>
-	    <translation>Number of items to load together on library screens.</translation>
-	    <extracomment>Libraries Setting - Setting description</extracomment>
+        <message>
+            <source>Number of items to load together on library screens.</source>
+            <translation>Number of items to load together on library screens.</translation>
+            <extracomment>Libraries Setting - Setting description</extracomment>
         </message>
 
         <message>
@@ -2158,6 +2158,14 @@
             <translation>Remove From Favorites</translation>
         </message>
         <message>
+            <source>Five trickplay images</source>
+            <translation>Five trickplay images</translation>
+        </message>
+        <message>
+            <source>Single trickplay image that moves</source>
+            <translation>Single trickplay image that moves</translation>
+        </message>
+        <message>
             <source>Play Normally</source>
             <translation>Play Normally</translation>
         </message>
@@ -2386,6 +2394,14 @@
             <source>Channel Title</source>
             <translation>Channel Title</translation>
             <extracomment>Libraries Setting - Setting option</extracomment>
+        </message>
+        <message>
+            <source>Playback Speed Controls (Experimental)</source>
+            <translation>Playback Speed Controls (Experimental)</translation>
+        </message>
+        <message>
+            <source>Use at your own risk. We make no guarantees this will work for you. \n 1. This feature may not work on this device, yet work on others \n 2. Some speed options may not work on this device, yet work on others \n 3. Roku may block this feature without warning; even if the Jellyfin client doesn't update</source>
+            <translation>Use at your own risk. We make no guarantees this will work for you. \n 1. This feature may not work on this device, yet work on others \n 2. Some speed options may not work on this device, yet work on others \n 3. Roku may block this feature without warning; even if the Jellyfin client doesn't update</translation>
         </message>
     </context>
 </TS>

@@ -2306,6 +2306,74 @@
         <source>Number of items to load together on library screens.</source>
         <translation>Numero degli oggetti da caricare insieme sullo schermata della libreria.</translation>
     </message>
+    <message>
+        <source>Trickplay Display</source>
+        <translation>Visualizzazione Dei Trickplay</translation>
+    </message>
+    <message>
+        <source>Select trickplay display format.</source>
+        <translation>Seleziona il formato della visualizzazione dei trickplay.</translation>
+    </message>
+    <message>
+        <source>Five trickplay images</source>
+        <translation>Cinque immagini trickplay</translation>
+    </message>
+    <message>
+        <source>Single trickplay image that moves</source>
+        <translation>Una sola immagine trickplay che si muove</translation>
+    </message>
+    <message>
+        <source>Settings relating to Live TV.</source>
+        <translation>Impostazioni legate alla Diretta TV.</translation>
+    </message>
+    <message>
+        <source>Channel Title Info</source>
+        <translation>Informazioni Titolo Canale</translation>
+    </message>
+    <message>
+        <source>Select what information to use as a channel&apos;s title.</source>
+        <translation>Seleziona quale informazioni usare come titolo del canale.</translation>
+    </message>
+    <message>
+        <source>Channel Number and Name</source>
+        <translation>Nome e Numero del Canale</translation>
+    </message>
+    <message>
+        <source>Channel Number</source>
+        <translation>Numero del Canale</translation>
+    </message>
+    <message>
+        <source>Channel Name</source>
+        <translation>Nome del Canale</translation>
+    </message>
+    <message>
+        <source>TV Guide Channel Display</source>
+        <translation>Visualizzazione del Canale nella Guida TV</translation>
+    </message>
+    <message>
+        <source>Select how to display a channel in the Live TV guide.</source>
+        <translation>Scegli come mostrare un canale nella Guida TV.</translation>
+    </message>
+    <message>
+        <source>Channel Logo and Title</source>
+        <translation>Logo e Titolo del Canale</translation>
+    </message>
+    <message>
+        <source>Channel Logo</source>
+        <translation>Logo del Canale</translation>
+    </message>
+    <message>
+        <source>Channel Title</source>
+        <translation>Titolo del Canale</translation>
+    </message>
+    <message>
+        <source>Playback Speed Controls (Experimental)</source>
+        <translation>Controlli Velocità di Playback (Sperimentale)</translation>
+    </message>
+    <message>
+        <source>Use at your own risk. We make no guarantees this will work for you. \n 1. This feature may not work on this device, yet work on others \n 2. Some speed options may not work on this device, yet work on others \n 3. Roku may block this feature without warning; even if the Jellyfin client doesn&apos;t update</source>
+        <translation>Usa a tuo rischio e pericolo. Non possiamo garantire che funzioni. \n 1. Questa funzione potrebbe non funzionare su questo dispositivo, ma funzionare su altri \n 2. Alcune opzioni di velocità potrebbero non funzionare su questo dispositivo, ma funzionare su altri \n 3. Roku potrebbe bloccare questa funzione senza avvisi; anche se il client Jellyfin non si aggiorna</translation>
+    </message>
 </context>
 <context>
     <name></name>
