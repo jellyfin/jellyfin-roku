@@ -225,6 +225,7 @@ sub downloadFallbackFont()
                 if isValidAndNotEmpty(files)
                     fallbackFont = {}
                     for each f in files
+                        if not isValid(f) or not isValid(f.Name) then continue for
                         name = LCase(f.Name)
                         if not name.endsWith(".ttf") and not name.endsWith(".otf") then continue for
 
