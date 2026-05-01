@@ -621,7 +621,7 @@ end sub
 
 sub SetUpAudioOptions(streams)
     preferredSubtitle = m.global.queueManager.callFunc("getPreferredSubtitleTrack")
-    selectedSubtitle = isChainValid(preferredSubtitle, "StreamIndex") ? preferredSubtitle.StreamIndex : SubtitleSelection.NONE
+    selectedSubtitle = isChainValid(preferredSubtitle, "StreamIndex") ? preferredSubtitle.StreamIndex : SubtitleSelection.NOTSET
 
     audioTracks = []
     subtitleTracks = [{
@@ -629,7 +629,7 @@ sub SetUpAudioOptions(streams)
         "json": {},
         "Title": "None",
         "Description": "None",
-        "Selected": selectedSubtitle = SubtitleSelection.NONE
+        "Selected": false
     }]
 
     audioStreamCount = 1
@@ -655,6 +655,22 @@ sub SetUpAudioOptions(streams)
             if streams[i].LookupCI("IsDefault") = true
                 subtitleDefaultStream = streams[i]
             end if
+        end if
+    end for
+
+    if selectedSubtitle = SubtitleSelection.NOTSET
+        if isValid(subtitleDefaultStream)
+            selectedSubtitle = subtitleDefaultStream.index
+        else
+            selectedSubtitle = SubtitleSelection.NONE
+        end if
+    end if
+
+    for j = 0 to subtitleTracks.Count() - 1
+        if subtitleTracks[j].StreamIndex = SubtitleSelection.NONE
+            subtitleTracks[j].Selected = selectedSubtitle = SubtitleSelection.NONE
+        else
+            subtitleTracks[j].Selected = subtitleTracks[j].json.index = selectedSubtitle
         end if
     end for
 
