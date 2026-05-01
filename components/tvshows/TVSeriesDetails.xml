@@ -52,6 +52,7 @@
             <IconButton id="play" background="#070707" padding="35" icon="pkg:/images/icons/play.png" text="Play" height="65" width="140" />
             <IconButton id="shuffle" background="#070707" padding="35" icon="pkg:/images/icons/shufflePlay.png" text="Shuffle" height="65" width="140" />
             <IconButton id="extras" background="#070707" padding="15" icon="pkg:/images/icons/extras.png" text="Extras" height="65" width="140" />
+            <IconButton id="markWatched" background="#070707" padding="35" icon="pkg:/images/icons/check.png" text="Mark As Played" height="65" width="240" />
           </ButtonGroupHoriz>
         </LayoutGroup>
 
@@ -119,6 +120,7 @@
     <field id="quickPlayNode" type="node" alwaysNotify="true" />
     <field id="selectedButtonIndex" type="integer" value="-1" />
     <field id="playSeriesFromStart" type="bool" />
+    <field id="buttonSelected" type="string" alwaysNotify="true" />
     <field id="showItemTitles" type="string" value="showalways" />
   </interface>
 </component>
