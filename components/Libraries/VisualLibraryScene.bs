@@ -4,6 +4,7 @@ import "pkg:/source/enums/AnimationControl.bs"
 import "pkg:/source/enums/AnimationState.bs"
 import "pkg:/source/enums/CollectionType.bs"
 import "pkg:/source/enums/ColorPalette.bs"
+import "pkg:/source/enums/DropdownMenuID.bs"
 import "pkg:/source/enums/ExitDirection.bs"
 import "pkg:/source/enums/ImageLayout.bs"
 import "pkg:/source/enums/ItemType.bs"
@@ -106,17 +107,17 @@ sub onReturnData()
 
     optionType = chainLookup(selectedOptionData, "id")
 
-    if isStringEqual(optionType, tr("Sort Order"))
+    if isStringEqual(optionType, DropdownMenuID.SORTORDER)
         onSortOrderChange(selectedOptionData)
         return
     end if
 
-    if isStringEqual(optionType, tr("Sort By"))
+    if isStringEqual(optionType, DropdownMenuID.SORTBY)
         onSortChange(selectedOptionData)
         return
     end if
 
-    if isStringEqual(optionType, tr("TAB_VIEW"))
+    if isStringEqual(optionType, DropdownMenuID.VIEW)
         onViewChange(selectedOptionData)
         return
     end if

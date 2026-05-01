@@ -19,7 +19,7 @@ end sub
 sub onButtonSelected()
     if m.top.buttonSelected = 0
         selectedData = m.top.contentData.data[m.radioOptions.selectedIndex]
-        selectedData.id = m.top.title
+        selectedData.id = m.top.id
         m.global.sceneManager.returnData = selectedData
         return
     end if
