@@ -928,29 +928,28 @@ sub displaySingleTrickplayImage(trickPosition as integer, whichImage as integer)
 
     if offsetHoriz < 0 then offsetHoriz = 0
 
-    ' Trickplayimage node doesn't exist, create it
+    ' If we've changed tiles, remove existing trickplayImage node if it exists and we can't use fast replace.
+    ' Otherwise loading the next image will fail. 'cause Roku.
+    if isvalid(trickplayImage)
+        if trickplayImage.uri <> `tmp:/${m.top.id}-${tileIndex}.jpg` and not m.canUseFastReplace
+            m.osd.removeChild(trickplayImage)
+            trickplayImage = invalid
+        end if
+    end if
+
     if not isValid(trickplayImage)
         newTrickplayImage = createObject("roSGNode", "Poster")
-        newTrickplayImage.uri = `tmp:/${m.top.id}-${tileIndex}.jpg`
         newTrickplayImage.id = `trickplayImage` + str(whichImage)
         newTrickplayImage.loadDisplayMode = "noScale"
         newTrickplayImage.height = tileSizeFactor * m.trickplayDataFinal.Height * m.trickplayDataFinal.TileHeight
         newTrickplayImage.width = tileSizeFactor * m.trickplayDataFinal.Width * m.trickplayDataFinal.TileWidth
-        newTrickplayImage.translation = `[${offsetHoriz - (iconColumn * m.trickplayDataFinal.Width * tileSizeFactor)},  ${offsetVert - (iconRow * m.trickplayDataFinal.Height * tileSizeFactor)}]`
-        newTrickplayImage.clippingRect = `[${iconColumn * m.trickplayDataFinal.Width * tileSizeFactor}, ${iconRow * m.trickplayDataFinal.Height * tileSizeFactor}, ${m.trickplayDataFinal.Width * tileSizeFactor}, ${m.trickplayDataFinal.Height * tileSizeFactor}]`
         ' Insert trickplay image at top of OSD so video ending time node is visible over trickplay image
         m.osd.insertChild(newTrickplayImage, 0)
-        return
+        trickplayImage = newTrickplayImage
     end if
 
-    ' If we've changed tiles, remove existing trickplayImage node
-    ' Otherwise loading the next image will fail. 'cause Roku.
+    ' Only update the trickplay image's URI if needed
     if trickplayImage.uri <> `tmp:/${m.top.id}-${tileIndex}.jpg`
-        if not m.canUseFastReplace
-            m.osd.removeChild(trickplayImage)
-            return
-        end if
-
         trickplayImage.uri = `tmp:/${m.top.id}-${tileIndex}.jpg`
     end if
 
@@ -1050,7 +1049,7 @@ sub displaySegmentSkipButton(segmentType as string, endticks as double)
 
     if isStringEqual(segmentType, MediaSegmentType.OUTRO)
         if m.nextupbuttonseconds = 0 then return ' is the button disabled?
-        if not m.osd.visible 
+        if not m.osd.visible
             displayNextItem() ' only show next episode info if OSD is not visible
         end if
     end if
