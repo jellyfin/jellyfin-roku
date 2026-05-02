@@ -148,6 +148,8 @@ sub setFocus(nodeID as string, value as boolean)
     end if
 end sub
 
+' _ is an unused param. It exists only because unfocusAllButtons is exposed
+' ref: https://github.com/rokucommunity/brighterscript/blob/master/docs/callfunc-operator.md#callfunc-evaluation-with-no-arguments
 sub unfocusAllButtons(_ as dynamic)
     setSearchBackground(SearchButtonState.INACTIVE)
     m.sortButton.focus = false
