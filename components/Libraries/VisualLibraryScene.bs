@@ -25,8 +25,6 @@ sub setupNodes()
     m.top.imageDisplayMode = "scaleToZoom"
     m.top.showItemTitles = "showonhover"
 
-    m.global.sceneManager.observeFieldScoped("returnData", "onReturnData")
-
     m.librarySettings = m.top.findNode("librarySettings")
     m.librarySettings.observeFieldScoped("selected", "onLibrarySettingsSelected")
     m.librarySettings.highlightBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
@@ -70,6 +68,8 @@ sub onShowOptionsChange()
 end sub
 
 sub onExit()
+    m.global.sceneManager.unobserveFieldScoped("returnData")
+
     dropdownExitDirection = m.dropdownOptionGroup.exit
 
     if dropdownExitDirection = ExitDirection.LEFT
@@ -102,6 +102,8 @@ sub onExit()
 end sub
 
 sub onReturnData()
+    m.global.sceneManager.unobserveFieldScoped("returnData")
+
     selectedOptionData = m.global.sceneManager.returnData
     if not isValidAndNotEmpty(selectedOptionData) then return
 
@@ -998,6 +1000,7 @@ sub ItemDataLoaded(msg)
         if m.loadedItems = 0
             m.emptyText.text = tr("No items found. Try adjusting your selected filters.")
             m.emptyText.visible = true
+            m.global.sceneManager.observeFieldScoped("returnData", "onReturnData")
             m.dropdownOptionGroup@.setFocus("voiceBox", true)
             m.dropdownOptionGroup@.setSearchBackground(SearchButtonState.ACTIVE)
         end if
@@ -1058,7 +1061,8 @@ sub ItemDataLoaded(msg)
 
         m.emptyText.text = tr("No items found. Try adjusting your selected filters.")
         m.emptyText.visible = true
-        m.dropdownOptionGroup@.setFocus("voiceBox")
+        m.global.sceneManager.observeFieldScoped("returnData", "onReturnData")
+        m.dropdownOptionGroup@.setFocus("voiceBox", true)
         m.dropdownOptionGroup@.setSearchBackground(SearchButtonState.ACTIVE)
     end if
 
@@ -1529,6 +1533,8 @@ sub onOptionsVisibleChange()
         end if
     end if
 
+    m.global.sceneManager.observeFieldScoped("returnData", "onReturnData")
+
     if m.options.filter <> m.filter
         m.filter = m.options.filter
         reload = true
@@ -1740,6 +1746,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
             end if
 
             overhangButton = m.dropdownOptionGroup@.getOverhangingButton(m.itemGrid.numColumns, m.itemGrid.currFocusColumn)
+            m.global.sceneManager.observeFieldScoped("returnData", "onReturnData")
 
             if overhangButton.isSubType("VoiceTextEditBox")
                 m.dropdownOptionGroup@.setSearchBackground(SearchButtonState.ACTIVE)
@@ -1824,6 +1831,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
             m.alphaMenu.setFocus(false)
 
             if m.loadedItems = 0
+                m.global.sceneManager.observeFieldScoped("returnData", "onReturnData")
                 m.dropdownOptionGroup@.setFocus("sortButton", true)
                 m.sortButton.setfocus(true)
                 group = m.global.sceneManager.callFunc("getActiveScene")
@@ -1907,4 +1915,6 @@ sub reclaimResources()
 
     m.genreData = CreateObject("roSGNode", "ContentNode")
     m.genreList.content = m.genreData
+
+    m.global.sceneManager.unobserveFieldScoped("returnData")
 end sub
