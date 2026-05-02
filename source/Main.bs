@@ -257,7 +257,7 @@ sub downloadFallbackFont()
 
         if fileNeeded
             ' This exercise prevents downloading font files we won't use
-            APIRequest(api.fallbackFont.GetFontURL(fontFile.Name)).gettofile(fontUri)
+            APIRequest(api.fallbackFont.GetFontURL(fontName)).gettofile(fontUri)
 
             ' Stop loop if we've downloaded all needed fonts
             if fallbackFont.count() = 4 then exit for
