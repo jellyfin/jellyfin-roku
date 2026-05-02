@@ -1408,14 +1408,20 @@ sub resetDropdownsToDefaultState()
     m.filterOptions = {}
     if isStringEqual(getCollectionType(), ItemType.BOXSET)
         m.sortField = "PremiereDate,SortName"
-        m.dropdownOptionGroup@.setText("sortButton", tr("Release Date"))
     else if isStringEqual(getCollectionType(), ItemType.MYLIST)
         m.sortField = "OrderAdded"
-        m.dropdownOptionGroup@.setText("sortButton", tr("Date Added"))
     else
-        m.dropdownOptionGroup@.setText("sortButton", tr("Name"))
         m.sortField = "SortName"
     end if
+
+    ' Set selected sort option
+    for each o in m.options.options.sort
+        if o.Name = m.sortField
+            m.dropdownOptionGroup@.setText("sortButton", tr(o.LookupCI("title")))
+            o.Selected = true
+        end if
+    end for
+
     m.sortAscending = true
     m.dropdownOptionGroup@.setSortAscending(true)
 
