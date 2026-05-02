@@ -603,7 +603,7 @@ sub onSubtitleChange()
         if LCase(m.top.globalCaptionMode) <> "on" then switchWithoutRefresh = false
     end if
 
-    ' If previous sustitle was encoded, then we need to a video stop/start to change subtitle content
+    ' If previous subtitle was encoded, then we need to a video stop/start to change subtitle content
     if m.top.previousSubtitleWasEncoded then switchWithoutRefresh = false
 
     if switchWithoutRefresh then return
@@ -826,7 +826,8 @@ sub onVideoContentLoaded()
         end if
     end if
 
-    if not (m.isTranscoded and burnInSubtitles)
+    ' Check if video content selected a subtitle
+    if m.top.selectedSubtitle <> videoContent[0].selectedSubtitle
         m.top.selectedSubtitle = videoContent[0].selectedSubtitle
     end if
 

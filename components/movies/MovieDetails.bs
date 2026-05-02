@@ -164,7 +164,7 @@ sub OnScreenShown()
     if m.loadStatus = ViewLoadStatus.RELOAD
         if isChainValid(m.top.itemContent, "json.mediaStreams")
             SetDefaultAudioTrack(m.top.itemContent.json)
-            SetUpAudioOptions(m.top.itemContent.json.mediaStreams)
+            SetUpAudioOptions(m.top.itemContent.json)
         end if
         if isChainValid(m.top.itemContent, "json.mediaSources")
             SetUpVideoOptions(m.top.itemContent.json.mediaSources)
@@ -524,7 +524,7 @@ sub itemContentChanged()
     end if
 
     SetUpVideoOptions(itemData.mediaSources)
-    SetUpAudioOptions(itemData.mediaStreams)
+    SetUpAudioOptions(itemData)
 
     m.buttonGrp.visible = true
     stopLoadingSpinner()
@@ -619,18 +619,30 @@ sub SetUpVideoOptions(streams)
     m.options.options = options
 end sub
 
-sub SetUpAudioOptions(streams)
+sub SetUpAudioOptions(mediaData)
+    streams = mediaData.mediaStreams
+
+    ' Use either the user's selected subtitles, or the default track
     preferredSubtitle = m.global.queueManager.callFunc("getPreferredSubtitleTrack")
-    selectedSubtitle = isChainValid(preferredSubtitle, "StreamIndex") ? preferredSubtitle.StreamIndex : SubtitleSelection.NONE
+    if isChainValid(preferredSubtitle, "StreamIndex")
+        selectedSubtitle = preferredSubtitle.StreamIndex
+    else
+        selectedSubtitle = mediaData.MediaSources[0].LookupCI("DefaultSubtitleStreamIndex")
+    end if
 
     audioTracks = []
     subtitleTracks = [{
         "StreamIndex": SubtitleSelection.NONE,
         "json": {},
         "Title": "None",
-        "Description": "None",
-        "Selected": selectedSubtitle = SubtitleSelection.NONE
+        "Description": "None"
     }]
+
+    if selectedSubtitle = SubtitleSelection.NONE or selectedSubtitle = SubtitleSelection.NOTSET
+        subtitleTracks[0].Selected = true
+    else
+        subtitleTracks[0].Selected = false
+    end if
 
     audioStreamCount = 1
     for i = 0 to streams.Count() - 1
@@ -643,6 +655,7 @@ sub SetUpAudioOptions(streams)
             end if
             audioStreamCount++
         end if
+
         if streams[i].Type = "Subtitle"
             subtitleTracks.push({ "Title": streams[i].displayTitle, "json": streams[i], "Description": streams[i].Title, "Selected": selectedSubtitle = streams[i].index, "StreamIndex": i })
         end if
@@ -835,7 +848,7 @@ sub videoOptionsClosed()
                     itemData.mediaStreams.push(mediaSource.mediaStreams[i])
                 end for
                 SetDefaultAudioTrack(itemData)
-                SetUpAudioOptions(itemData.mediaStreams)
+                SetUpAudioOptions(itemData)
                 exit for
             end if
         end for
