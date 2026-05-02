@@ -6,5 +6,9 @@
   {
     "description": "Support bold and italic tags in custom subtitles",
     "author": "gabeluci"
+  },
+  {
+    "description": "Fix ratings repeating on items in More Like This section",
+    "author": "1hitsong"
   }
 ]
