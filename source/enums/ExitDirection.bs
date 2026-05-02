@@ -1,0 +1,6 @@
+enum ExitDirection
+    DOWN
+    LEFT
+    RIGHT
+    UP
+end enum
