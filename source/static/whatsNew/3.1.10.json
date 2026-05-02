@@ -8,6 +8,10 @@
     "author": "gabeluci"
   },
   {
+    "description": "Fix ratings repeating on items in More Like This section",
+    "author": "1hitsong"
+  },
+  {
     "description": "Use server to determine default subtitle track",
     "author": "1hitsong"
   }
