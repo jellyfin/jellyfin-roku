@@ -366,6 +366,6 @@ sub disableSearch(disabledReason as string)
     m.disabledReason = disabledReason
     m.searchButtonDisabled = true
     m.voiceBox.voiceEnabled = false
-    setSearchHintText("Search Unavailable")
+    setSearchHintText(tr("Search Unavailable"))
     setSearchBackground(SearchButtonState.DISABLED)
 end sub
