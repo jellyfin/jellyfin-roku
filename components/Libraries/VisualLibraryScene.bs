@@ -1062,6 +1062,7 @@ sub showNoResultsText()
 
     m.emptyText.text = tr("No items found. Try adjusting your selected filters.")
     m.emptyText.visible = true
+    m.global.sceneManager.observeFieldScoped("returnData", "onReturnData")
     m.dropdownOptionGroup@.setFocus("voiceBox", true)
     m.dropdownOptionGroup@.setSearchBackground(SearchButtonState.ACTIVE)
 end sub
