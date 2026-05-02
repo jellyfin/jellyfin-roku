@@ -621,7 +621,7 @@ end sub
 
 sub SetUpAudioOptions(streams)
     preferredSubtitle = m.global.queueManager.callFunc("getPreferredSubtitleTrack")
-    selectedSubtitle = isChainValid(preferredSubtitle, "StreamIndex") ? preferredSubtitle.StreamIndex : SubtitleSelection.NONE
+    selectedSubtitle = isChainValid(preferredSubtitle, "StreamIndex") ? preferredSubtitle.StreamIndex : SubtitleSelection.NOTSET
 
     audioTracks = []
     subtitleTracks = [{
@@ -629,10 +629,13 @@ sub SetUpAudioOptions(streams)
         "json": {},
         "Title": "None",
         "Description": "None",
-        "Selected": selectedSubtitle = SubtitleSelection.NONE
+        "Selected": false
     }]
 
     audioStreamCount = 1
+    subtitleStreamCount = 0
+    subtitleStreamForDetails = invalid
+    subtitleDefaultStream = invalid
     for i = 0 to streams.Count() - 1
         if streams[i].Type = "Audio"
             rokuTrackName = `#uniq:${streams[i].LookupCI("Title") ?? string.EMPTY}(${audioStreamCount})`
@@ -645,6 +648,29 @@ sub SetUpAudioOptions(streams)
         end if
         if streams[i].Type = "Subtitle"
             subtitleTracks.push({ "Title": streams[i].displayTitle, "json": streams[i], "Description": streams[i].Title, "Selected": selectedSubtitle = streams[i].index, "StreamIndex": i })
+            subtitleStreamCount++
+            if not isValid(subtitleStreamForDetails)
+                subtitleStreamForDetails = streams[i]
+            end if
+            if streams[i].LookupCI("IsDefault") = true
+                subtitleDefaultStream = streams[i]
+            end if
+        end if
+    end for
+
+    if selectedSubtitle = SubtitleSelection.NOTSET
+        if isValid(subtitleDefaultStream)
+            selectedSubtitle = subtitleDefaultStream.index
+        else
+            selectedSubtitle = SubtitleSelection.NONE
+        end if
+    end if
+
+    for j = 0 to subtitleTracks.Count() - 1
+        if subtitleTracks[j].StreamIndex = SubtitleSelection.NONE
+            subtitleTracks[j].Selected = selectedSubtitle = SubtitleSelection.NONE
+        else
+            subtitleTracks[j].Selected = subtitleTracks[j].json.index = selectedSubtitle
         end if
     end for
 
@@ -652,6 +678,24 @@ sub SetUpAudioOptions(streams)
         m.top.findnode("audio_codec_count").text = "+" + stri(audioTracks.Count() - 1).trim()
     else
         m.top.findnode("audio_codec_count").text = ""
+    end if
+
+    if isValid(subtitleDefaultStream)
+        setFieldText("subtitle_codec", tr("Subtitles") + ": " + subtitleDefaultStream.displayTitle)
+        if subtitleStreamCount > 1
+            m.top.findNode("subtitle_codec_count").text = "+" + stri(subtitleStreamCount - 1).trim()
+        else
+            m.top.findNode("subtitle_codec_count").text = ""
+        end if
+    else if subtitleStreamCount > 1
+        setFieldText("subtitle_codec", tr("Subtitles") + ": " + stri(subtitleStreamCount).trim() + " " + tr("tracks") + " - " + tr("No Default"))
+        m.top.findNode("subtitle_codec_count").text = ""
+    else if isValid(subtitleStreamForDetails)
+        setFieldText("subtitle_codec", tr("Subtitles") + ": " + subtitleStreamForDetails.displayTitle + " - " + tr("No Default"))
+        m.top.findNode("subtitle_codec_count").text = ""
+    else
+        setFieldText("subtitle_codec", string.EMPTY)
+        m.top.findNode("subtitle_codec_count").text = ""
     end if
 
     options = {}
