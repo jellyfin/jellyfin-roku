@@ -2,5 +2,9 @@
   {
     "description": "Fix display of no items found text in libraries",
     "author": "1hitsong"
+  },
+  {
+    "description": "Support bold and italic tags in custom subtitles",
+    "author": "gabeluci"
   }
 ]
