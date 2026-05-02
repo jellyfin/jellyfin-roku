@@ -6,5 +6,9 @@
   {
     "description": "Support bold and italic tags in custom subtitles",
     "author": "gabeluci"
+  },
+  {
+    "description": "Use server to determine default subtitle track",
+    "author": "1hitsong"
   }
 ]
