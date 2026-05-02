@@ -912,7 +912,7 @@
     </message>
     <message>
         <source>Text Subtitles Only</source>
-        <translation type="unfinished"></translation>
+        <translation>نصوص الترجمة فقط</translation>
         <extracomment>Name of a setting - should we hide subtitles that might transcode</extracomment>
     </message>
     <message>
@@ -2166,11 +2166,11 @@
     </message>
     <message>
         <source>No channels found matching your search criteria</source>
-        <translation type="unfinished"></translation>
+        <translation>تعذر العثور على قنوات تطابق معايير بحثك</translation>
     </message>
     <message>
         <source>Are You Still Watching Popup</source>
-        <translation type="unfinished"></translation>
+        <translation>ألا زلت تشاهد المنبثقة</translation>
     </message>
     <message>
         <source>How many minutes of inactivity before playback is stopped between items and a popup is shown to continue? Set to 0 to disable.</source>
@@ -2190,7 +2190,7 @@
     </message>
     <message>
         <source>Playback will automatically stop in 1 minute if no buttons are pressed.</source>
-        <translation type="unfinished"></translation>
+        <translation>سيتوقف التشغيل تلقائيا بعد كقيقة إذا لم يتم الضغط على أي زر.</translation>
     </message>
     <message>
         <source>Burn in subtitle when transcoding</source>
@@ -2353,6 +2353,22 @@
     <message>
         <source>Settings relating to Live TV.</source>
         <translation>إعدادات تخص التلفاز الحي.</translation>
+    </message>
+    <message>
+        <source>Use at your own risk. We make no guarantees this will work for you. \n 1. This feature may not work on this device, yet work on others \n 2. Some speed options may not work on this device, yet work on others \n 3. Roku may block this feature without warning; even if the Jellyfin client doesn&apos;t update</source>
+        <translation>استخدم على مسؤوليتك. لا نقدم ضمانات على ملائمته لك.\n 1.هذه الميزة قد لا تعمل مع هذا الجهاز, و قد تعمل على غيره. \n 2. بعد خيارات السرعة قد لا تعمل مع هذا الجهاز, وقد تعمل مع غيره. \n 3. قد يحظر Roku هذه الميزة دون سابق انذار; حتى لو لم يعمل تحديث Jellyfin</translation>
+    </message>
+    <message>
+        <source>Playback Speed Controls (Experimental)</source>
+        <translation>متحكمات سرعة التشغيل (تجريبي)</translation>
+    </message>
+    <message>
+        <source>Newer devices may support direct play of anamorphic video.</source>
+        <translation>الاجهزة الجديدة قد تدعم التشغيل المباشر للفيديوهات المشوّهة.</translation>
+    </message>
+    <message>
+        <source>Attempt Direct Play Anamorphic Video</source>
+        <translation>محاولة التشغيل المباشر للفيدوهات المشوّهة</translation>
     </message>
 </context>
 </TS>
