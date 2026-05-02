@@ -36,15 +36,13 @@ sub setupNodes()
     m.dropdownOptionsFade = m.top.findNode("dropdownOptionsFade")
     m.options = m.top.findNode("options")
     m.itemGrid = m.top.findNode("itemGrid")
-    m.backdrop = m.top.findNode("backdrop")
-    m.newBackdrop = m.top.findNode("backdropTransition")
+    m.backdropImage = m.top.findNode("backdropImage")
     m.emptyText = m.top.findNode("emptyText")
     m.selectedItemName = m.top.findNode("selectedItemName")
     m.selectedItemOverview = m.top.findNode("selectedItemOverview")
     m.selectedItemProductionYear = m.top.findNode("selectedItemProductionYear")
     m.selectedItemOfficialRating = m.top.findNode("selectedItemOfficialRating")
     m.itemLogo = m.top.findNode("itemLogo")
-    m.swapAnimation = m.top.findNode("backroundSwapAnimation")
     m.alpha = m.top.findNode("alpha")
     m.alphaMenu = m.alpha.findNode("alphaMenu")
     m.communityRatingGroup = m.top.findNode("communityRatingGroup")
@@ -141,7 +139,6 @@ sub init()
 
     m.overhang.isVisible = false
 
-    m.swapAnimation.observeField("state", "swapDone")
     m.options.observeField("visible", "onOptionsVisibleChange")
 
     m.loadedRows = 0
@@ -156,12 +153,6 @@ sub init()
     m.genreList.observeFieldScoped("itemFocused", "onGenreItemFocused")
     m.genreList.observeFieldScoped("itemSelected", "onGenreItemSelected")
     m.genreList.content = m.genreData
-
-    'backdrop
-    m.newBackdrop.observeField("loadStatus", "newBGLoaded")
-
-    'Background Image Queued for loading
-    m.queuedBGUri = string.EMPTY
 
     'Item sort
     m.sortField = "SortName"
@@ -287,10 +278,8 @@ sub loadInitialItems()
 
     m.dropdownOptionGroup.parentItemID = m.top.parentItem.Id
 
-    if isValid(m.top.parentItem.backdropUrl)
-        SetBackground(m.top.parentItem.backdropUrl)
-    else
-        SetBackground(string.EMPTY)
+    if isStringEqual(m.view, "presentation")
+        m.backdropImage@.changeImage(m.top.parentItem.backdropUrl ?? string.EMPTY)
     end if
 
     if m.dropdownOptionGroup.opacity < 1
@@ -448,15 +437,11 @@ sub loadInitialItems()
     m.top.showItemTitles = "hidealways"
 
     m.itemLogo.visible = false
-    m.backdrop.opacity = 1
-    m.newBackdrop.opacity = 0
-
     m.emptyText.visible = false
 
     if isStringEqual(m.view, "grid")
         m.top.showItemTitles = m.global.session.user.settings["itemgrid.gridTitles"]
-        m.backdrop.opacity = 0
-        m.newBackdrop.opacity = 0
+        m.backdropImage@.clearImage()
         m.itemLogo.visible = false
 
         if m.dropdownOptionGroup.opacity < 1
@@ -476,8 +461,7 @@ sub loadInitialItems()
 
     else if isStringEqual(m.view, "Episodes")
         m.top.showItemTitles = m.global.session.user.settings["itemgrid.gridTitles"]
-        m.backdrop.opacity = 0
-        m.newBackdrop.opacity = 0
+        m.backdropImage@.clearImage()
         m.itemLogo.visible = false
 
         if m.dropdownOptionGroup.opacity < 1
@@ -497,8 +481,7 @@ sub loadInitialItems()
 
     else if isStringEqual(m.view, "Genres")
         m.top.showItemTitles = m.global.session.user.settings["itemgrid.gridTitles"]
-        m.backdrop.opacity = 0
-        m.newBackdrop.opacity = 0
+        m.backdropImage@.clearImage()
         m.itemLogo.visible = false
 
         if m.dropdownOptionGroup.opacity < 1
@@ -998,6 +981,7 @@ sub ItemDataLoaded(msg)
         end if
 
         if m.loadedItems = 0
+            m.backdropImage@.clearImage()
             m.emptyText.text = tr("No items found. Try adjusting your selected filters.")
             m.emptyText.visible = true
             m.global.sceneManager.observeFieldScoped("returnData", "onReturnData")
@@ -1056,8 +1040,7 @@ sub ItemDataLoaded(msg)
         m.criticRatingIcon.uri = string.EMPTY
         m.star.uri = string.EMPTY
 
-        m.newBackdrop.opacity = 0
-        m.backdrop.opacity = 0
+        m.backdropImage@.clearImage()
 
         m.emptyText.text = tr("No items found. Try adjusting your selected filters.")
         m.emptyText.visible = true
@@ -1099,33 +1082,7 @@ sub SetProductionYear(itemProductionYear)
     m.selectedItemProductionYear.text = itemProductionYear
 end sub
 
-'
-'Set Background Image
-sub SetBackground(backgroundUri as string)
-    if not isValid(backgroundUri)
-        m.backdrop.opacity = 0
-    end if
 
-    if not isStringEqual(m.view, "presentation")
-        m.newBackdrop.opacity = 0
-        m.backdrop.opacity = 0
-        return
-    end if
-
-    if m.loadedItems = 0
-        m.newBackdrop.opacity = 0
-        m.backdrop.opacity = 0
-        return
-    end if
-
-    'If a new image is being loaded, or transitioned to, store URL to load next
-    if m.swapAnimation.state <> "stopped" or m.newBackdrop.loadStatus = "loading"
-        m.queuedBGUri = backgroundUri
-        return
-    end if
-
-    m.newBackdrop.uri = backgroundUri
-end sub
 
 sub toggleDropdownOptions(runInReverse = false as boolean)
     m.dropdownOptionsFade.reverse = runInReverse
@@ -1243,11 +1200,13 @@ sub onItemFocused()
     m.loadLogoTask.control = "RUN"
 
     ' Set Background to item backdrop
-    if isValidAndNotEmpty(focusedItem.backdropUrl)
-        SetBackground(focusedItem.backdropUrl)
-    else if isValidAndNotEmpty(focusedItem.posterUrl)
-        ' We have a poster image URL, request a new one at a higher resolution
-        SetBackground(api.items.GetImageURL(focusedItem.id, "primary", 0, { "maxHeight": 700, "maxWidth": 1100, "quality": "90" }))
+    if isStringEqual(m.view, "presentation")
+        if isValidAndNotEmpty(focusedItem.backdropUrl)
+            m.backdropImage@.changeImage(focusedItem.backdropUrl)
+        else if isValidAndNotEmpty(focusedItem.posterUrl)
+            ' We have a poster image URL, request a new one at a higher resolution
+            m.backdropImage@.changeImage(api.items.GetImageURL(focusedItem.id, "primary", 0, { "maxHeight": 700, "maxWidth": 1100, "quality": "90" }))
+        end if
     end if
 end sub
 
@@ -1285,55 +1244,7 @@ sub setFieldText(field, value)
     node.text = value
 end sub
 
-'
-'When Image Loading Status changes
-sub newBGLoaded()
-    if not isStringEqual(m.view, "presentation")
-        m.newBackdrop.opacity = 0
-        m.backdrop.opacity = 0
-        return
-    end if
 
-    if m.loadedItems = 0
-        m.newBackdrop.opacity = 0
-        m.backdrop.opacity = 0
-        return
-    end if
-
-    'If image load was sucessful, start the fade swap
-    if m.newBackdrop.loadStatus = "ready"
-        m.swapAnimation.control = "start"
-    end if
-end sub
-
-'
-'Swap Complete
-sub swapDone()
-    if m.loadedItems = 0
-        m.newBackdrop.opacity = 0
-        m.backdrop.opacity = 0
-        return
-    end if
-
-    if not isStringEqual(m.view, "presentation")
-        m.newBackdrop.opacity = 0
-        m.backdrop.opacity = 0
-        return
-    end if
-
-    if isValid(m.swapAnimation) and m.swapAnimation.state = "stopped"
-        'Set main BG node image and hide transitioning node
-        m.backdrop.uri = m.newBackdrop.uri
-        m.backdrop.opacity = 1
-        m.newBackdrop.opacity = 0
-
-        'If there is another one to load
-        if m.newBackdrop.uri <> m.queuedBGUri and m.queuedBGUri <> string.EMPTY
-            SetBackground(m.queuedBGUri)
-            m.queuedBGUri = string.EMPTY
-        end if
-    end if
-end sub
 
 '
 'Load next set of items
