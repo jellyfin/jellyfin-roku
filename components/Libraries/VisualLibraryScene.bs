@@ -129,7 +129,6 @@ sub init()
 
     m.itemGridCounter = 0
     m.disabledReason = string.EMPTY
-    m.searchButtonDisabled = false
     m.top.optionsAvailable = false
     setupNodes()
     m.bypassSearchEvent = false
@@ -1377,12 +1376,6 @@ sub onSearchTermChanged()
 
         m.dropdownOptionGroup@.setSearchHintText(string.EMPTY)
         m.top.alphaSelected = searchTerm
-        return
-    end if
-
-    if m.searchButtonDisabled
-        m.itemGrid.setFocus(m.itemGrid.opacity = 1)
-        m.genreList.setFocus(m.genreList.opacity = 1)
         return
     end if
 
