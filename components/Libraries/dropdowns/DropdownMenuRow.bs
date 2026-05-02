@@ -118,7 +118,6 @@ end sub
 
 ' Using the user's cursor position, determine which dropdown is above them
 function getOverhangingButton(numColumns as integer, currFocusColumn as integer)
-    'if m.itemGrid.isinFocusChain()
     if numColumns = 4
         shortButtonList = [m.voiceBox, m.sortButton, m.filterButton, m.viewButton]
         return shortButtonList[currFocusColumn]
@@ -132,17 +131,6 @@ function getOverhangingButton(numColumns as integer, currFocusColumn as integer)
     if calculatedButtonIndex < 0 then calculatedButtonIndex = 0
     if calculatedButtonIndex >= buttonList.count() then calculatedButtonIndex = buttonList.count() - 1
     return buttonList[calculatedButtonIndex]
-    'end if
-
-    ' if m.genreList.isinFocusChain()
-    '     if m.genreList.currFocusColumn <= 0 then return m.voiceBox
-    '     if m.genreList.currFocusColumn <= 2 then return m.sortButton
-    '     if m.genreList.currFocusColumn <= 3 then return m.sortOrderButton
-    '     if m.genreList.currFocusColumn <= 5 then return m.filterButton
-    '     return m.viewButton
-    ' end if
-
-    ' return m.voiceBox
 end function
 
 sub setFocus(nodeID as string, value as boolean)
