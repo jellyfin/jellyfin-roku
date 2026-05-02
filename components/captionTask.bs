@@ -19,8 +19,7 @@ sub init()
 
     m.captionList = []
     m.reader = createObject("roUrlTransfer")
-    m.font = CreateObject("roSGNode", "Font")
-    m.undesirableTags = CreateObject("roRegex", "{\\an\d*}|&lt;.*?&gt;|<(?!\/?font\b).*?>", "s")
+    m.undesirableTags = CreateObject("roRegex", "{\\an\d*}|&lt;.*?&gt;|<(?!\/?(?:font|b|i)\b).*?>", "s")
     m.fontColor = CreateObject("roRegex", "color\s*=\s*(""[^""]*""|\'[^\']*\'|[^\s]+)", "i")
 
     ' Caption Style
@@ -30,21 +29,23 @@ sub init()
     m.bgColorDict = { "Default": "0x000000", "Bright White": "0xFFFFFF", "White": "0xCCCCCC", "Black": "0x000000", "Red": "0xFF0000", "Green": "0x008000", "Blue": "0x0000FF", "Yellow": "0xFFFF00", "Magenta": "0xFF00FF", "Cyan": "0x00FFFF" }
 
     deviceInfo = CreateObject("roDeviceInfo")
-    m.fontSize = m.fontSizeDict[deviceInfo.GetCaptionsOption("Text/Size")]
+    m.fontSize = chainLookupReturn(m.fontSizeDict, deviceInfo.GetCaptionsOption("Text/Size"), m.fontSizeDict.Default)
     textColor = chainLookupReturn(m.textColorDict, deviceInfo.GetCaptionsOption("Text/Color"), m.textColorDict.Default)
     m.textOpac = chainLookupReturn(m.percentageDict, deviceInfo.GetCaptionsOption("Text/Opacity"), m.percentageDict.Default)
     m.textColor = `${textColor}${m.textOpac}`
     deviceBGColor = chainLookupReturn(m.bgColorDict, deviceInfo.GetCaptionsOption("Background/Color"), m.bgColorDict.Default)
     deviceBGOpacity = chainLookupReturn(m.percentageDict, deviceInfo.GetCaptionsOption("Background/Opacity"), m.percentageDict.Default)
     m.bgColor = `${deviceBGColor}${deviceBGOpacity}`
-    setFont()
-end sub
 
-sub setFont()
     if isValidAndNotEmpty(m.global.fallbackFont)
-        m.font.uri = m.global.fallbackFont.regular
+        m.fonts = m.global.fallbackFont
     else
-        m.font.uri = "font:LargeSystemFont"
+        m.fonts = {
+            "regular": "font:LargeSystemFont",
+            "bold": "font:LargeBoldSystemFont",
+            "italic": "font:LargeSystemFont",
+            "bolditalic": "font:LargeBoldSystemFont"
+        }
     end if
 end sub
 
@@ -111,14 +112,16 @@ sub updateCaption()
             fullText = entry["text"].Join(Chr(10))
 
             ' look for style tags
+            currentStyle = {
+                "fontUri": m.fonts.regular,
+                "fontSize": m.fontSize,
+                "color": m.textColor
+            }
             drawingStyles = {
-                "default": {
-                    "fontUri": m.font.uri,
-                    "fontSize": m.fontSize,
-                    "color": m.textColor
-                }
+                "default": currentStyle
             }
             openTags = []
+            tagNumber = 0
             styledText = string.EMPTY
             parts = fullText.Split("<")
             firstIter = true
@@ -190,19 +193,52 @@ sub updateCaption()
                             end if
                         end if
                         if isValid(colorName)
-                            drawingStyles.AddReplace(colorName, {
-                                "fontUri": m.font.uri,
-                                "fontSize": m.fontSize,
+                            tagNumber++
+                            replaceTagWith += `tag${tagNumber}`
+                            newStyle = {
+                                "fontUri": currentStyle.fontUri,
+                                "fontSize": currentStyle.fontSize,
                                 "color": `${color}${m.textOpac}`
-                            })
-                            replaceTagWith += `${colorName}`
+                            }
+                            drawingStyles.AddReplace(replaceTagWith, newStyle)
+                            currentStyle = newStyle
                         end if
                     end if
                     ' keep track of invalid tags
-                    if not isValid(colorName)
-                        openTags.push(colorName)
+                    if not isValid(replaceTagWith)
+                        openTags.push(replaceTagWith)
                     end if
-                else if tagValue.StartsWith("/font")
+                else if tagValue = "i"
+                    ' opening italic tag
+                    tagNumber++
+                    replaceTagWith = `tag${tagNumber}`
+                    newStyle = {
+                        "fontSize": currentStyle.fontSize,
+                        "color": currentStyle.color
+                    }
+                    if currentStyle.fontUri = m.fonts.bold
+                        newStyle.fontUri = m.fonts.bolditalic
+                    else
+                        newStyle.fontUri = m.fonts.italic
+                    end if
+                    drawingStyles.AddReplace(replaceTagWith, newStyle)
+                    currentStyle = newStyle
+                else if tagValue = "b"
+                    ' opening bold tag
+                    tagNumber++
+                    replaceTagWith = `tag${tagNumber}`
+                    newStyle = {
+                        "fontSize": currentStyle.fontSize,
+                        "color": currentStyle.color
+                    }
+                    if currentStyle.fontUri = m.fonts.italic
+                        newStyle.fontUri = m.fonts.bolditalic
+                    else
+                        newStyle.fontUri = m.fonts.bold
+                    end if
+                    drawingStyles.AddReplace(replaceTagWith, newStyle)
+                    currentStyle = newStyle
+                else if tagValue.StartsWith("/")
                     ' closing tag
                     if openTags.Count() > 0
                         openTag = openTags.pop()
@@ -227,12 +263,15 @@ sub updateCaption()
                     if isValid(lastValidTag)
                         if isClosing
                             styledText += `<${replaceTagWith}><${lastValidTag}>`
+                            currentStyle = drawingStyles[lastValidTag]
                         else
                             openTags.push(replaceTagWith)
                             styledText += `</${lastValidTag}><${replaceTagWith}>`
                         end if
                     else
-                        if not isClosing
+                        if isClosing
+                            currentStyle = drawingStyles["default"]
+                        else
                             openTags.push(replaceTagWith)
                         end if
                         styledText += `<${replaceTagWith}>`
