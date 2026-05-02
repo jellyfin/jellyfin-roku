@@ -328,9 +328,13 @@ end sub
 
 '
 ' Display dialog to user with an OK button
-sub radioDialog(title, message, buttons = [tr("OK")])
+sub radioDialog(title, message, buttons = [tr("OK")], id = "OKDialog")
     m.itemID = string.EMPTY
     m.userselection = false
+
+    if not isValidAndNotEmpty(buttons)
+        buttons = [tr("OK")]
+    end if
 
     dialog = createObject("roSGNode", "RadioDialog")
     dlgPalette = createObject("roSGNode", "RSGPalette")
@@ -348,6 +352,7 @@ sub radioDialog(title, message, buttons = [tr("OK")])
     dialog.title = title
     dialog.contentData = message
     dialog.buttons = buttons
+    dialog.id = id
 
     m.scene.dialog = dialog
 end sub
