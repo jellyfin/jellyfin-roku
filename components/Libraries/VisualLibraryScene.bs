@@ -154,9 +154,6 @@ sub init()
     m.genreList.observeFieldScoped("itemSelected", "onGenreItemSelected")
     m.genreList.content = m.genreData
 
-    'Background Image Queued for loading
-    m.queuedBGUri = string.EMPTY
-
     'Item sort
     m.sortField = "SortName"
     m.sortAscending = true
