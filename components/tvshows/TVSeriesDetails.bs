@@ -34,6 +34,8 @@ sub init()
     m.seasonListRectHeight = m.top.findNode("seasonListRectHeight")
     m.seasonListRectWidth = m.top.findNode("seasonListRectWidth")
 
+    m.toplevelDefaultVerticalPosition = m.toplevel.translation[1]
+
     m.buttonGrp = m.top.findNode("buttons")
     m.buttonCount = m.buttonGrp.getChildCount()
 
@@ -66,7 +68,9 @@ sub onDisplayResumeButtonChange()
         m.buttonGrp.removeChild(m.resume)
         m.resume = invalid
         m.buttonCount = m.buttonGrp.getChildCount()
-        onButtonSelectedChange()
+        if m.toplevel.translation[1] = m.toplevelDefaultVerticalPosition
+            onButtonSelectedChange()
+        end if
         return
     end if
 
@@ -383,7 +387,7 @@ sub createFullDscrDlg()
 end sub
 
 sub enterEpisodeListFullScreen()
-    if m.toplevel.translation[1] <> 100 then return
+    if m.toplevel.translation[1] <> m.toplevelDefaultVerticalPosition then return
 
     m.seasonListRect.color = ColorPalette.BLACKDD
     m.toplevelTranslation.reverse = false

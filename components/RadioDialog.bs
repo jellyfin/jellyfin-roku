@@ -18,7 +18,9 @@ end sub
 ' Event handler for when user selected a button
 sub onButtonSelected()
     if m.top.buttonSelected = 0
-        m.global.sceneManager.returnData = m.top.contentData.data[m.radioOptions.selectedIndex]
+        selectedData = m.top.contentData.data[m.radioOptions.selectedIndex]
+        selectedData.id = m.top.id
+        m.global.sceneManager.returnData = selectedData
         return
     end if
 

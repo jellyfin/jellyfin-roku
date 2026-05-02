@@ -1,8 +1,8 @@
 import "pkg:/source/enums/KeyCode.bs"
+import "pkg:/source/enums/ResumePopupAction.bs"
 import "pkg:/source/utils/misc.bs"
 
 sub init()
-    m.top.setfocus(true)
     group = m.global.sceneManager.callFunc("getActiveScene")
     group.lastFocus = m.top
 end sub
@@ -12,11 +12,67 @@ sub getData()
     m.top.doneLoading = true
 end sub
 
+function getFocusedItemData() as object
+    if not isValid(m.top.PlaylistData) then return invalid
+    return m.top.PlaylistData.getChild(m.top.itemFocused)
+end function
+
+function shouldShowResumePopup() as boolean
+    focusedItemData = getFocusedItemData()
+    if not isValidAndNotEmpty(focusedItemData) then return false
+
+    return chainLookupReturn(focusedItemData, "startingPoint", 0) > 0
+end function
+
+sub displayItemPlaybackOptions()
+    focusedItemData = getFocusedItemData()
+    if not isValidAndNotEmpty(focusedItemData) then return
+
+    m.global.queueManager.callFunc("hold", focusedItemData)
+
+    resumeData = [
+        tr("Resume playing at ") + ticksToHuman(chainLookup(focusedItemData, "startingPoint")) + ".",
+        tr("Start over from the beginning.")
+    ]
+
+    m.global.sceneManager.observeFieldScoped("returnData", "onResumePlaybackSelected")
+    m.global.sceneManager.callFunc("optionDialog", "playlistItemPlayback", tr("Playback Options"), [], resumeData, { id: string.EMPTY })
+end sub
+
+sub onResumePlaybackSelected()
+    resumeChoice = m.global.sceneManager.returnData
+    if not isValidAndNotEmpty(resumeChoice) then return
+
+    m.global.sceneManager.unobserveFieldScoped("returnData")
+
+    if resumeChoice.indexselected = ResumePopupAction.RESUME
+        m.top.mediaItemSelected = m.top.itemFocused
+        return
+    end if
+
+    if resumeChoice.indexselected = ResumePopupAction.STARTOVER
+        selectedItem = m.top.PlaylistData.getChild(m.top.itemFocused)
+        selectedItem.startingPoint = 0
+        m.top.mediaItemSelected = m.top.itemFocused
+        return
+    end if
+end sub
+
 function onKeyEvent(key as string, press as boolean) as boolean
     if not press then return false
 
+    if isStringEqual(key, KeyCode.OK)
+        if shouldShowResumePopup()
+            displayItemPlaybackOptions()
+        else
+            m.top.mediaItemSelected = m.top.itemFocused
+        end if
+
+        return true
+    end if
+
     if isStringEqual(key, KeyCode.PLAY)
-        m.top.itemSelected = m.top.itemFocused
+        m.top.mediaItemSelected = m.top.itemFocused
         return true
     end if
 

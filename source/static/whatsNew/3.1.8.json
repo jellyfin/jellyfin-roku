@@ -42,9 +42,5 @@
   {
     "description": "Add playback speed controls to video player",
     "author": "sah4001"
-  },
-  {
-    "description": "Support bold and italics in subtitles with fallback fonts",
-    "author": "gabeluci"
   }
 ]

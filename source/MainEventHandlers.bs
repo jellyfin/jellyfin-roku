@@ -550,6 +550,13 @@ sub onLibrarySelection(selectedItem)
     m.global.sceneManager.callFunc("pushScene", group)
 end sub
 
+sub onRefreshPlaylistDataEvent()
+    startLoadingSpinner()
+    currentScene = m.global.sceneManager.callFunc("getActiveScene")
+    playlistID = chainLookup(currentScene, "pageContent.id")
+    currentScene.listData = PlaylistItemList(playlistID)
+end sub
+
 sub onRefreshSeasonDetailsDataEvent()
     startLoadingSpinner()
 
@@ -1559,7 +1566,6 @@ sub onDataReturnedEvent(msg)
 
     if isStringEqual(selectedPopupID, "searchLibrary")
         searchTerm = chainLookup(popupNode, "returndata.text")
-
         if not isValid(searchTerm) then return
 
         activeScene = m.global.sceneManager.callFunc("getActiveScene")

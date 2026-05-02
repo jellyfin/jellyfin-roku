@@ -2310,6 +2310,46 @@
         <source>Attempt Direct Play Anamorphic Video</source>
         <translation>Versuchen, Anamorphotische Videos direkt abzuspielen</translation>
     </message>
+    <message>
+        <source>Channel Title</source>
+        <translation>Kanaltitel</translation>
+    </message>
+    <message>
+        <source>Load Items Limit</source>
+        <translation>Limitierung geladener Elemente</translation>
+    </message>
+    <message>
+        <source>Number of items to load together on library screens.</source>
+        <translation>Anzahl der Elemente, die zusammen auf Bibliotheksseiten geladen werden.</translation>
+    </message>
+    <message>
+        <source>Settings relating to Live TV.</source>
+        <translation>Einstellungen bezüglich Live-TV.</translation>
+    </message>
+    <message>
+        <source>Channel Title Info</source>
+        <translation>Kanaltitel-Info</translation>
+    </message>
+    <message>
+        <source>Channel Number and Name</source>
+        <translation>Kanalnummer und -name</translation>
+    </message>
+    <message>
+        <source>Channel Number</source>
+        <translation>Kanalnummer</translation>
+    </message>
+    <message>
+        <source>Channel Name</source>
+        <translation>Kanalname</translation>
+    </message>
+    <message>
+        <source>Select what information to use as a channel&apos;s title.</source>
+        <translation>Wähle aus, welche Information als Kanaltitel verwendet werden soll.</translation>
+    </message>
+    <message>
+        <source>Channel Logo and Title</source>
+        <translation>Kanallogo und -titel</translation>
+    </message>
 </context>
 <context>
     <name></name>

@@ -32,6 +32,15 @@
   </interface>
 
   <children>
+    <LayoutGroup id="bufferingVideoInfo" layoutDirection="vert" translation="[103,61]">
+      <ScrollingText id="bufferingItemTitle" font="font:LargeBoldSystemFont" maxWidth="1400" />
+      <LayoutGroup id="bufferingVideoInfo" layoutDirection="horiz" translation="[103,61]">
+        <Text id="bufferingItemSeason" font="font:MediumSystemFont" color="0xffffffFF" />
+        <Text id="bufferingItemEpisode" font="font:MediumSystemFont" color="0xffffffFF" />
+        <Text id="bufferingItemEpisodeEnd" font="font:MediumSystemFont" color="0xffffffFF" />
+      </LayoutGroup>
+    </LayoutGroup>
+
     <Group id="captionGroup" translation="[0,0]" />
     <timer id="playbackTimer" repeat="true" duration="30" />
     <timer id="bufferCheckTimer" repeat="true" />
@@ -45,7 +54,7 @@
 
     <Text id="videoEndingTime" font="font:SmallSystemFont" color="0xffffffFF" horizAlign="right" width="200" translation="[1617,900]" visible="false" />
 
-    <Rectangle id="nextUp" visible="false" color="0x000000CC" height="144" width="500" translation="[1250, 750]">
+    <Rectangle id="nextUp" visible="false" color="0x000000CC" height="144" width="785" translation="[1000, 920]">
       <Poster id="nextItemPoster" width="150" height="124" translation="[10, 10]" />
       <LayoutGroup layoutDirection="vert" horizAlignment="left" itemSpacings="[10, 10]" translation="[180, 15]">
         <Text text="Next Up" color="#FFFFFF" font="font:SmallBoldSystemFont" horizAlign="left" vertAlign="center" />
@@ -54,7 +63,7 @@
       </LayoutGroup>
     </Rectangle>
 
-    <StandardButton id="skipSegment" visible="false" height="85" width="250" translation="[1500, 900]" />
+    <StandardButton id="skipSegment" visible="false" height="85" width="275" translation="[1500, 950]" />
 
     <Rectangle id="subtitleTimingButtons" height="120" width="560" translation="[100, 900]" visible="false">
       <Text id="subtitleSyncValue" translation="[10, 20]" />
@@ -89,5 +98,12 @@
         height="50"
         width="100" />
     </Rectangle>
+
+    <Timer id="fastForwardOrRewindTimer" repeat="true" duration="0.3" />
+    <Timer id="spinnerPercentTimer" repeat="true" duration="0.15" />
+    <Timer id="leftTenSecondSkipTimer" repeat="true" duration="0.5" />
+    <Timer id="rightTenSecondSkipTimer" repeat="true" duration="0.5" />
+
+    <Label id="spinnerPercent" text="0%" visible="false" horizAlign="center" vertAlign="center" height="100" width="100" font="font:SmallBoldSystemFont" />
   </children>
 </component>

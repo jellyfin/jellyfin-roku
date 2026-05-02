@@ -2281,5 +2281,81 @@
         <source>Newer devices may support direct play of anamorphic video.</source>
         <translation>Les appareils plus récents peuvent prendre en charge la lecture directe des vidéos anamorphiques.</translation>
     </message>
+    <message>
+        <source>Trickplay Display</source>
+        <translation>Affichage Trickplay</translation>
+    </message>
+    <message>
+        <source>Select trickplay display format.</source>
+        <translation>Sélectionnez le format d&apos;affichage de Trickplay.</translation>
+    </message>
+    <message>
+        <source>Load Items Limit</source>
+        <translation>Limite du nombre d&apos;éléments à charger</translation>
+    </message>
+    <message>
+        <source>Number of items to load together on library screens.</source>
+        <translation>Nombre d&apos;éléments à afficher simultanément sur les écrans de la bibliothèque.</translation>
+    </message>
+    <message>
+        <source>Five trickplay images</source>
+        <translation>Cinq images de trickplay</translation>
+    </message>
+    <message>
+        <source>Single trickplay image that moves</source>
+        <translation>Une seule image Trickplay en mouvement</translation>
+    </message>
+    <message>
+        <source>Settings relating to Live TV.</source>
+        <translation>Paramètres relatifs à la télévision en direct.</translation>
+    </message>
+    <message>
+        <source>Channel Title Info</source>
+        <translation>Informations sur le titre de la chaîne</translation>
+    </message>
+    <message>
+        <source>Select what information to use as a channel&apos;s title.</source>
+        <translation>Choisissez les informations qui serviront de titre à la chaîne.</translation>
+    </message>
+    <message>
+        <source>Channel Number and Name</source>
+        <translation>Numéro et nom du canal</translation>
+    </message>
+    <message>
+        <source>Channel Number</source>
+        <translation>Numéro de canal</translation>
+    </message>
+    <message>
+        <source>Channel Name</source>
+        <translation>Nom de la chaîne</translation>
+    </message>
+    <message>
+        <source>TV Guide Channel Display</source>
+        <translation>Affichage de la chaîne TV Guide</translation>
+    </message>
+    <message>
+        <source>Select how to display a channel in the Live TV guide.</source>
+        <translation>Choisissez le mode d&apos;affichage d&apos;une chaîne dans le guide TV en direct.</translation>
+    </message>
+    <message>
+        <source>Channel Logo and Title</source>
+        <translation>Logo et titre de la chaîne</translation>
+    </message>
+    <message>
+        <source>Channel Logo</source>
+        <translation>Logo de la chaîne</translation>
+    </message>
+    <message>
+        <source>Channel Title</source>
+        <translation>Titre de la chaîne</translation>
+    </message>
+    <message>
+        <source>Playback Speed Controls (Experimental)</source>
+        <translation>Commandes de vitesse de lecture ( expérimental )</translation>
+    </message>
+    <message>
+        <source>Use at your own risk. We make no guarantees this will work for you. \n 1. This feature may not work on this device, yet work on others \n 2. Some speed options may not work on this device, yet work on others \n 3. Roku may block this feature without warning; even if the Jellyfin client doesn&apos;t update</source>
+        <translation>Utilisez cette fonctionnalité à vos propres risques. Nous ne garantissons pas qu&apos;elle fonctionnera dans votre cas. \n 1. Il se peut que cette fonctionnalité ne fonctionne pas sur cet appareil, mais qu&apos;elle fonctionne sur d&apos;autres \n 2. Il se peut que certaines options de vitesse ne fonctionnent pas sur cet appareil, mais qu&apos;elles fonctionnent sur d&apos;autres \n 3. Roku peut bloquer cette fonctionnalité sans préavis, même si le client Jellyfin ne se met pas à jour</translation>
+    </message>
 </context>
 </TS>

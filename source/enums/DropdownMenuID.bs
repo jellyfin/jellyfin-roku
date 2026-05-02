@@ -1,0 +1,5 @@
+enum DropdownMenuID
+    SORTORDER = "librarySortOrder"
+    SORTBY = "librarySortBy"
+    VIEW = "libraryView"
+end enum

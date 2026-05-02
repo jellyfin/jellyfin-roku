@@ -189,9 +189,17 @@ function ItemMetaData(id as string)
         tmp.image = PosterImage(data.id, imgParams)
         tmp.json = data
         return tmp
-    else if data.type = "BoxSet" or data.type = "Playlist"
+    else if data.type = "BoxSet"
         tmp = CreateObject("roSGNode", "CollectionData")
         tmp.image = PosterImage(data.id, imgParams)
+        tmp.json = data
+        return tmp
+    else if data.type = "Playlist"
+        tmp = CreateObject("roSGNode", "CollectionData")
+        tmp.image = PosterImage(data.id, {
+            maxHeight: 300,
+            maxWidth: 300
+        })
         tmp.json = data
         return tmp
     else if data.type = "Season"
@@ -409,6 +417,26 @@ function GetSongsByArtist(id as string, params = {} as object)
     return row
 end function
 
+function getPosterURLFromTag(item, params) as string
+    if isValidAndNotEmpty(chainLookup(item, "ImageTags.primary"))
+        if not isValidAndNotEmpty(params.maxHeight)
+            params.append({ "maxHeight": "70" })
+        end if
+
+        if not isValidAndNotEmpty(params.maxWidth)
+            params.append({ "maxWidth": "70" })
+        end if
+
+        if not isValidAndNotEmpty(params.tag)
+            params.append({ "tag": chainLookup(item, "ImageTags.primary") })
+        end if
+
+        return ImageURL(item.LookupCI("id"), ImageType.PRIMARY, params)
+    end if
+
+    return string.EMPTY
+end function
+
 ' Get Items that are under the provided item
 function PlaylistItemList(id as string)
     url = Substitute("Playlists/{0}/Items", id)
@@ -426,6 +454,8 @@ function PlaylistItemList(id as string)
 
     for each item in data.Items
         tmp = CreateObject("roSGNode", "PlaylistItemData")
+
+        tmp.posterUrl = getPosterURLFromTag(item, {})
         tmp.id = item.LookupCI("id")
         tmp.title = item.LookupCI("name")
         tmp.artists = item.LookupCI("artists")
@@ -440,6 +470,7 @@ function PlaylistItemList(id as string)
         tmp.IndexNumberEnd = item.LookupCI("IndexNumberEnd")
         tmp.ParentIndexNumber = item.LookupCI("ParentIndexNumber")
         tmp.played = chainLookupReturn(item, "UserData.played", false)
+        tmp.startingPoint = chainLookupReturn(item, "UserData.PlaybackPositionTicks", 0)
         results.push(tmp)
     end for
 
