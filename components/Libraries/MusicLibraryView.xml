@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component name="MusicLibraryView" extends="JFScreen">
   <children>
-    <maskGroup translation="[820, 0]" id="backgroundMask" maskUri="pkg:/images/backgroundmask.png" maskSize="[1220,700]">
-      <poster id="backdrop" loadDisplayMode="scaleToZoom" width="1100" height="700" opacity="1" />
-      <poster id="backdropTransition" loadDisplayMode="scaleToZoom" width="1100" height="700" opacity="1" />
-    </maskGroup>
+    <BackdropImage
+      id="backdropImage"
+      maskUri="pkg:/images/backgroundmask.png"
+      translation="[820, 0]"
+      maskSize="[1220,700]" />
 
     <MarkupGrid
       id="itemGrid"
@@ -39,10 +40,7 @@
 
     <Text translation="[0,540]" id="emptyText" font="font:LargeSystemFont" width="1910" horizAlign="center" vertAlign="center" height="64" visible="false" />
     <LibraryFilterDialog id="options" visible="false" />
-    <Animation id="backroundSwapAnimation" duration="1" repeat="false" easeFunction="linear">
-      <FloatFieldInterpolator id="fadeinLoading" key="[0.0, 1.0]" keyValue="[ 0.00, 1.00 ]" fieldToInterp="backdropTransition.opacity" />
-      <FloatFieldInterpolator id="fadeoutLoaded" key="[0.0, 1.0]" keyValue="[ 1.00, 0.00 ]" fieldToInterp="backdrop.opacity" />
-    </Animation>
+
     <Alpha id="alpha" />
   </children>
   <interface>

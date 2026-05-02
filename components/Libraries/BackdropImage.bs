@@ -1,0 +1,46 @@
+import "pkg:/source/enums/AnimationControl.bs"
+import "pkg:/source/enums/AnimationState.bs"
+import "pkg:/source/enums/PosterLoadStatus.bs"
+import "pkg:/source/utils/misc.bs"
+
+sub init()
+    m.backdrop = m.top.findNode("currentBackdropImage")
+
+    m.swapAnimation = m.top.findNode("backroundSwapAnimation")
+    m.swapAnimation.observeField("state", "swapDone")
+
+    m.newBackdrop = m.top.findNode("newBackdropImage")
+    m.newBackdrop.observeField("loadStatus", "newBGLoaded")
+end sub
+
+sub clearImage(_ as dynamic)
+    m.newBackdrop.opacity = 0
+    m.backdrop.opacity = 0
+    m.newBackdrop.uri = string.EMPTY
+end sub
+
+sub changeImage(imageURI as string)
+    if not isValidAndNotEmpty(imageURI)
+        clearImage(invalid)
+        return
+    end if
+
+    m.swapAnimation.control = AnimationControl.STOP
+    m.newBackdrop.uri = imageURI
+end sub
+
+' If image load was sucessful, start the fade swap
+sub newBGLoaded()
+    if not isStringEqual(m.newBackdrop.loadStatus, PosterLoadStatus.READY) then return
+    m.swapAnimation.control = AnimationControl.START
+end sub
+
+'Swap Complete
+sub swapDone()
+    if isValid(m.swapAnimation) and m.swapAnimation.state = AnimationState.STOPPED
+        'Set main BG node image and hide transitioning node
+        m.backdrop.uri = m.newBackdrop.uri
+        m.backdrop.opacity = 1
+        m.newBackdrop.opacity = 0
+    end if
+end sub
