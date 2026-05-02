@@ -691,7 +691,7 @@ sub SetUpAudioOptions(streams)
         setFieldText("subtitle_codec", tr("Subtitles") + ": " + stri(subtitleStreamCount).trim() + " " + tr("tracks") + " - " + tr("No Default"))
         m.top.findNode("subtitle_codec_count").text = ""
     else if isValid(subtitleStreamForDetails)
-        setFieldText("subtitle_codec", tr("Subtitles") + ": " + subtitleStreamForDetails.displayTitle)
+        setFieldText("subtitle_codec", tr("Subtitles") + ": " + subtitleStreamForDetails.displayTitle + " - " + tr("No Default"))
         m.top.findNode("subtitle_codec_count").text = ""
     else
         setFieldText("subtitle_codec", string.EMPTY)
