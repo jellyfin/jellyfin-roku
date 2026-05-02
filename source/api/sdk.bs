@@ -344,7 +344,7 @@ namespace api
 
         ' Gets a fallback font file.
         function GetFontURL(name as string)
-            return buildURL(Substitute("/fallbackfont/fonts/{0}", name))
+            return `/fallbackfont/fonts/${name}`
         end function
     end namespace
 
