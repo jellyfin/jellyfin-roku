@@ -12,7 +12,7 @@ sub init()
 
     m.voiceBox = m.top.findNode("voiceBox")
     m.voiceBoxBackground = m.top.findNode("voiceBoxBackground")
-    m.voiceBox.observeField("text", "onvoiceFilter")
+    m.voiceBox.observeFieldScoped("text", "onvoiceFilter")
 
     if not m.global.device.hasVoiceRemote
         m.voiceBox.backgroundUri = "pkg:/images/transparent.png"
