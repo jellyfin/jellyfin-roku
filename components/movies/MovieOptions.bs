@@ -166,7 +166,10 @@ end sub
 
 
 function onKeyEvent(key as string, press as boolean) as boolean
-    if not press then return false
+    ' Prevent the OK release that opens this menu from moving focus off the top row
+    if not press and key = KeyCode.OK and m.top.findNode("buttons").hasFocus()
+        return true
+    end if
 
     if key = KeyCode.DOWN or (key = KeyCode.OK and m.top.findNode("buttons").hasFocus())
         m.top.findNode("buttons").setFocus(false)
