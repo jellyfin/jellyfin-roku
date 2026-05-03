@@ -110,39 +110,45 @@
       },
       {
         "title": "Force Transcoding",
-        "description": "Force all playable media to be transcoded.",
-        "settingName": "playback.media.forceTranscode",
-        "type": "radio",
-        "default": "playNormally",
-        "options": [
+        "description": "Force media to be transcoded.",
+        "children": [
           {
-            "title": "Play Normally",
-            "id": "playNormally"
+            "title": "All Playable Media",
+            "description": "Force all playable media to be transcoded.",
+            "settingName": "playback.media.forceTranscode",
+            "type": "radio",
+            "default": "playNormally",
+            "options": [
+              {
+                "title": "Play Normally",
+                "id": "playNormally"
+              },
+              {
+                "title": "Force Transcode (Allow Remux)",
+                "id": "forceTranscodeAllowRemux"
+              },
+              {
+                "title": "Force Transcode (Remux Disabled)",
+                "id": "forceTranscodeDisableRemux"
+              }
+            ]
           },
           {
-            "title": "Force Transcode (Allow Remux)",
-            "id": "forceTranscodeAllowRemux"
-          },
-          {
-            "title": "Force Transcode (Remux Disabled)",
-            "id": "forceTranscodeDisableRemux"
-          }
-        ]
-      },
-      {
-        "title": "Force Transcoding Live TV",
-        "description": "Force live TV to be transcoded. If Force Transcoding is already set to Force Transcode (Remux Disabled), this setting is ignored.",
-        "settingName": "playback.media.forceTranscodeLiveTV",
-        "type": "radio",
-        "default": "playNormally",
-        "options": [
-          {
-            "title": "Play Normally",
-            "id": "playNormally"
-          },
-          {
-            "title": "Force Transcode (Remux Disabled)",
-            "id": "forceTranscodeDisableRemux"
+            "title": "Live TV",
+            "description": "Force live TV to be transcoded. If All Playable Media is already set to Force Transcode (Remux Disabled), this setting is ignored.",
+            "settingName": "playback.media.forceTranscodeLiveTV",
+            "type": "radio",
+            "default": "playNormally",
+            "options": [
+              {
+                "title": "Play Normally",
+                "id": "playNormally"
+              },
+              {
+                "title": "Force Transcode (Remux Disabled)",
+                "id": "forceTranscodeDisableRemux"
+              }
+            ]
           }
         ]
       },
