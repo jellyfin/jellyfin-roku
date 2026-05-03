@@ -14,5 +14,9 @@
   {
     "description": "Use server to determine default subtitle track",
     "author": "1hitsong"
+  },
+  {
+    "description": "Fix Cinema Mode Intros",
+    "author": "Starwarsfan2099"
   }
 ]
