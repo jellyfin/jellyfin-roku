@@ -352,20 +352,19 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
 end sub
 
 sub setTranscodeCodec(video as object, mediaSourceId as dynamic, audio_stream_idx as integer, subtitle_idx as integer, playbackPosition as longinteger)
-    if isStringEqual(m.global.queueManager.callFunc("getTranscodeCodec"), string.EMPTY)
-        for i = 0 to m.playbackInfo.MediaSources[0].MediaStreams.Count() - 1
-            if m.playbackInfo.MediaSources[0].MediaStreams[i].Type = "Video"
-                m.global.queueManager.callFunc("setForceTranscode", PlaybackMethod.FORCETRANSCODEDISABLEREMUX, m.playbackInfo.MediaSources[0].MediaStreams[i].Codec ?? string.EMPTY)
-                exit for
-            end if
-        end for
+    if not isStringEqual(m.global.queueManager.callFunc("getTranscodeCodec"), string.EMPTY) then return
 
-        m.playbackInfo = ItemPostPlaybackInfo(video.id, mediaSourceId, audio_stream_idx, subtitle_idx, playbackPosition)
-        if not isValid(m.playbackInfo)
-            video.errorMsg = "Error loading playback info"
-            video.content = invalid
-            return
+    for i = 0 to m.playbackInfo.MediaSources[0].MediaStreams.Count() - 1
+        if m.playbackInfo.MediaSources[0].MediaStreams[i].Type = "Video"
+            m.global.queueManager.callFunc("setForceTranscode", PlaybackMethod.FORCETRANSCODEDISABLEREMUX, m.playbackInfo.MediaSources[0].MediaStreams[i].Codec ?? string.EMPTY)
+            exit for
         end if
+    end for
+
+    m.playbackInfo = ItemPostPlaybackInfo(video.id, mediaSourceId, audio_stream_idx, subtitle_idx, playbackPosition)
+    if not isValid(m.playbackInfo)
+        video.errorMsg = "Error loading playback info"
+        video.content = invalid
     end if
 end sub
 
