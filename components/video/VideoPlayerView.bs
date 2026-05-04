@@ -811,6 +811,11 @@ sub onVideoContentLoaded()
         m.top.globalCaptionMode = "Off"
     end if
 
+    if videoContent[0].selectedSubtitle = SubtitleSelection.NONE
+        m.top.globalCaptionMode = "Off"
+        m.top.subtitleTrack = ""
+    end if
+
     if isValid(selectedSubtitle)
         availableSubtitleTrackIndex = availSubtitleTrackIdx(selectedSubtitle.Track.TrackName)
         if availableSubtitleTrackIndex <> SubtitleSelection.NONE
