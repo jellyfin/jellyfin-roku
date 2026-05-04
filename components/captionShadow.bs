@@ -1,0 +1,32 @@
+' captionShadow.bs
+' Adds outline/shadow labels to a caption rectangle
+
+sub createShadowLabels(rect as object, styledText as string, drawingStyles as object)
+    if styledText = invalid or styledText = "" then return
+
+    ' 4 corners at 2px offset (lighter, subtle outline)
+    ' offsets = [[3, 3], [7, 3], [3, 7], [7, 7]]
+
+    ' 8 points at 4px offset (fuller outline)
+    offsets = [[1, 1], [9, 1], [1, 9], [9, 9], [5, 1], [5, 9], [1, 5], [9, 5]]
+
+    shadowDrawingStyles = {}
+    for each key in drawingStyles.keys()
+        style = drawingStyles[key]
+        shadowDrawingStyles[key] = {
+            "fontUri": style.fontUri,
+            "fontSize": style.fontSize,
+            "color": "0x000000CC"
+        }
+    end for
+
+    for each offset in offsets
+        lbl = CreateObject("roSGNode", "MultiStyleLabel")
+        lbl.drawingStyles = shadowDrawingStyles
+        lbl.text = styledText
+        lbl.horizAlign = "center"
+        lbl.translation = offset
+        rect.appendchild(lbl)
+    end for
+
+end sub
