@@ -692,7 +692,6 @@ sub onVideoContentLoaded()
     m.isTranscoded = videoContent[0].isTranscoded
     burnInSubtitles = chainLookupReturn(m.global, "session.user.settings.`playback.subs.burnin`", true)
 
-
     if m.isTranscoded and burnInSubtitles
         videoContent[0].content.SubtitleTracks = []
     end if
@@ -841,9 +840,9 @@ sub onVideoContentLoaded()
 
     m.top.setFocus(true)
     m.osd.live = m.top.content.live
+
     m.top.control = VideoControl.PLAY
 end sub
-
 
 ' onBufferingLogoLoadStatusChanged: Handler for changes to buffering logo image's status.
 '
@@ -1207,8 +1206,23 @@ sub onState(msg)
         print "Error: " m.top.errorCode, m.top.errorMsg, " ErrorStr: " m.top.errorStr
         print m.top.errorInfo
 
-        if not m.playReported and m.top.transcodeAvailable
-            m.top.retryWithTranscoding = true ' If playback was not reported, retry with transcoding
+        if not m.playReported
+            if not m.isTranscoded
+                if isStringEqual(PlaybackMethod.PLAYNORMALLY, m.global.queueManager.callFunc("getForceTranscode"))
+                    m.global.queueManager.callFunc("setForceTranscode", PlaybackMethod.FORCETRANSCODEALLOWREMUX)
+                else if isStringEqual(PlaybackMethod.FORCETRANSCODEALLOWREMUX, m.global.queueManager.callFunc("getForceTranscode"))
+                    m.global.queueManager.callFunc("setForceTranscode", PlaybackMethod.FORCETRANSCODEDISABLEREMUX)
+                end if
+
+                ' Stop playback and exit player
+                m.top.control = VideoControl.STOP
+
+                m.LoadMetaDataTask.mustTranscode = true
+                m.LoadMetaDataTask.observeField("content", "onVideoContentLoaded")
+                m.LoadMetaDataTask.control = TaskControl.RUN
+                return
+            end if
+
             ' Stop playback and exit player
             m.top.control = VideoControl.STOP
             m.top.backPressed = true
@@ -1261,6 +1275,7 @@ sub onState(msg)
             end if
         end if
     else if isStringEqual(m.top.state, MediaPlaybackState.PLAYING)
+
         ' Reset retry counter when playback is successful
         if m.playbackRetries > 0
             print "Playback resumed successfully after retry"
@@ -1399,7 +1414,6 @@ sub bufferCheck(msg)
     end if
 
     if m.top.bufferingStatus <> invalid
-
         ' Check that the buffering percentage is increasing
         if m.top.bufferingStatus["percentage"] > m.bufferPercentage
             m.bufferPercentage = m.top.bufferingStatus["percentage"]
