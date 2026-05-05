@@ -71,7 +71,9 @@ sub showContent()
 
         if isChainValid(cont, "json.officialrating")
             if cont.json.officialrating <> ""
-                cont.subTitle += ` - ${cont.json.officialrating}`
+                if cont.subTitle.Instr(` - ${cont.json.officialrating}`) = -1
+                    cont.subTitle += ` - ${cont.json.officialrating}`
+                end if
             end if
         end if
 

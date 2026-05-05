@@ -2403,5 +2403,9 @@
             <source>Use at your own risk. We make no guarantees this will work for you. \n 1. This feature may not work on this device, yet work on others \n 2. Some speed options may not work on this device, yet work on others \n 3. Roku may block this feature without warning; even if the Jellyfin client doesn't update</source>
             <translation>Use at your own risk. We make no guarantees this will work for you. \n 1. This feature may not work on this device, yet work on others \n 2. Some speed options may not work on this device, yet work on others \n 3. Roku may block this feature without warning; even if the Jellyfin client doesn't update</translation>
         </message>
+        <message>
+            <source>Search Unavailable</source>
+            <translation>Search Unavailable</translation>
+        </message>
     </context>
 </TS>
