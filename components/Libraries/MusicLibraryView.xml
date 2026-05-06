@@ -7,13 +7,13 @@
       translation="[820, 0]"
       maskSize="[1220,700]" />
 
-    <MarkupGrid
+    <LibraryItemGrid
       id="itemGrid"
       itemComponentName="MusicArtistGridItem"
       vertFocusAnimationStyle="fixed"
       itemSpacing="[20, 20]" />
 
-    <MarkupGrid
+    <LibraryItemGrid
       id="genrelist"
       itemComponentName="MusicArtistGridItem"
       vertFocusAnimationStyle="fixed"

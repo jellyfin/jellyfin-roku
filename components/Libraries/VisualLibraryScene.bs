@@ -1571,7 +1571,7 @@ sub onViewChange(viewChoice)
 end sub
 
 sub createItemGrid(itemGridID = "itemGrid" as string)
-    m.itemGrid = createObject("rosgnode", "MarkupGrid")
+    m.itemGrid = createObject("rosgnode", "LibraryItemGrid")
     m.itemGrid.id = itemGridID
     m.itemGrid.itemSpacing = "[20, 20]"
     m.itemGrid.vertFocusAnimationStyle = "fixed"

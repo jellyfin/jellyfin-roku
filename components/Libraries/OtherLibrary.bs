@@ -98,7 +98,7 @@ sub init()
 end sub
 
 sub createItemGrid()
-    m.itemGrid = createObject("rosgnode", "MarkupGrid")
+    m.itemGrid = createObject("rosgnode", "LibraryItemGrid")
     m.itemGrid.id = "itemGrid"
     m.itemGrid.translation = "[96, 60]"
     m.itemGrid.itemComponentName = "GridItemSmall"
