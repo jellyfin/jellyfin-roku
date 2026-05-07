@@ -1374,18 +1374,28 @@
             <extracomment>User Setting - Title for option</extracomment>
         </message>
         <message>
+            <source>Force media to be transcoded.</source>
+            <translation>Force media to be transcoded.</translation>
+            <extracomment>User Setting - Description for option</extracomment>
+        </message>
+        <message>
+            <source>All Playable Media</source>
+            <translation>All Playable Media</translation>
+            <extracomment>User Setting - Title for option</extracomment>
+        </message>
+        <message>
             <source>Force all playable media to be transcoded.</source>
             <translation>Force all playable media to be transcoded.</translation>
             <extracomment>User Setting - Description for option</extracomment>
         </message>
         <message>
-            <source>Force Transcoding Live TV</source>
-            <translation>Force Transcoding Live TV</translation>
+            <source>Live TV</source>
+            <translation>Live TV</translation>
             <extracomment>User Setting - Title for option</extracomment>
         </message>
         <message>
-            <source>Force live TV to be transcoded. If Force Transcoding is already set to Force Transcode (Remux Disabled), this setting is ignored.</source>
-            <translation>Force live TV to be transcoded. If Force Transcoding is already set to Force Transcode (Remux Disabled), this setting is ignored.</translation>
+            <source>Force live TV to be transcoded. If All Playable Media is already set to Force Transcode (Remux Disabled), this setting is ignored.</source>
+            <translation>Force live TV to be transcoded. If All Playable Media is already set to Force Transcode (Remux Disabled), this setting is ignored.</translation>
             <extracomment>User Setting - Description for option</extracomment>
         </message>
         <message>
