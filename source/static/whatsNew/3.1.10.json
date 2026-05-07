@@ -18,5 +18,9 @@
   {
     "description": "Fix Cinema Mode Intros",
     "author": "Starwarsfan2099"
+  },
+  {
+    "description": "Allow Force Transcode for live TV only",
+    "author": "FractalBoy"
   }
 ]
