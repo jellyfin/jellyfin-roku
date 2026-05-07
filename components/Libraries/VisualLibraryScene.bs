@@ -980,7 +980,8 @@ end sub
 sub ItemDataLoaded(msg)
     itemData = msg.GetData()
 
-    if not isValidAndNotEmpty(itemData)
+    if not isValid(itemData)
+        stopLoadingSpinner()
         return
     end if
 

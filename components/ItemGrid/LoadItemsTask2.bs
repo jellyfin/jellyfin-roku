@@ -172,11 +172,17 @@ sub loadItems()
             end if
         end for
 
-        if not isValid(myListPlaylist) or not isValidAndNotEmpty(myListPlaylist.items) then return
+        if not isValid(myListPlaylist) or not isValidAndNotEmpty(myListPlaylist.items)
+            m.top.content = results
+            return
+        end if
 
         playlistID = myListPlaylist.items[0].LookupCI("id")
 
-        if not isValid(playlistID) then return
+        if not isValid(playlistID)
+            m.top.content = results
+            return
+        end if
 
         url = "/items/"
 
@@ -227,7 +233,7 @@ sub loadItems()
         end if
     end if
 
-    if data <> invalid
+    if isValid(data) and isValid(data.Items)
 
         if data.TotalRecordCount <> invalid then m.top.totalRecordCount = data.TotalRecordCount
 
