@@ -55,7 +55,7 @@ sub setupNodes()
     m.dropdownOptionGroup = m.top.findNode("dropdownOptionGroup")
     m.dropdownOptionGroup.observeFieldScoped("showOptions", "onShowOptionsChange")
     m.dropdownOptionGroup.observeFieldScoped("exit", "onExit")
-    m.dropdownOptionGroup.observeFieldScoped("searchTerm", "onSearchTermChanged")
+    m.dropdownOptionGroup.observeFieldScoped("searchTerm", "onDropdownOptionGroupSearchTermChanged")
 end sub
 
 sub onShowOptionsChange()
@@ -1358,6 +1358,10 @@ sub resetDropdownsToDefaultState()
     m.dropdownOptionGroup@.setText("filterButton", tr("All"))
 
     m.getFiltersTask.control = "RUN"
+end sub
+
+sub onDropdownOptionGroupSearchTermChanged()
+    m.top.searchTerm = m.dropdownOptionGroup.searchTerm
 end sub
 
 sub onSearchTermChanged()
