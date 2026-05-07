@@ -1,5 +1,9 @@
 [
   {
+    "description": "Keep focus on the top row when opening playback options.",
+    "author": "VX-101"
+  },
+  {
     "description": "Fix display of no items found text in libraries",
     "author": "1hitsong"
   },
