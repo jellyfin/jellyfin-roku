@@ -22,5 +22,13 @@
   {
     "description": "Allow Force Transcode for live TV only",
     "author": "FractalBoy"
+  },
+  {
+    "description": "Stop loading live TV EPG when there is no more data to load",
+    "author": "FractalBoy"
+  },
+  {
+    "description": "Only load 50 live TV channels at a time",
+    "author": "FractalBoy"
   }
 ]
