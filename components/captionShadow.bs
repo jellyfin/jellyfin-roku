@@ -1,14 +1,37 @@
 ' captionShadow.bs
 ' Adds outline/shadow labels to a caption rectangle
 
+' Ratios relative to fontSize for consistent outline across text sizes
+' 8.5 and 6 were chosen based on visual testing to create a balanced outline effect (WAF)
+const OUTLINE_STEP_RATIO = 0.085 ' ~8.5% fontSize for cardinal directions
+const OUTLINE_DIAG_RATIO = 0.06 ' ~6% fontSize for diagonals
+const BASE_OFFSET = 5 ' Matches lg.translation in captionTask.bs
+
 sub createShadowLabels(rect as object, styledText as string, drawingStyles as object)
     if styledText = invalid or styledText = "" then return
 
-    ' 4 corners at 2px offset (lighter, subtle outline)
-    ' offsets = [[3, 3], [7, 3], [3, 7], [7, 7]]
+    fontSize = 60 ' fallback
+    for each key in drawingStyles.keys()
+        fontSize = drawingStyles[key].fontSize
+        exit for
+    end for
 
-    ' 8 points at 4px offset (fuller outline)
-    offsets = [[1, 1], [9, 1], [1, 9], [9, 9], [5, 1], [5, 9], [1, 5], [9, 5]]
+    outlineStep = Int(fontSize * OUTLINE_STEP_RATIO)
+    outlineDiag = Int(fontSize * OUTLINE_DIAG_RATIO)
+
+    ' 4 cardinals (large step) + 4 diagonals (small step) = uniform outline
+    ' Offset base [5,5] compensates for lg.translation = [5,5] in captionTask.bs
+    ' so shadow labels align with the main text label
+    offsets = [
+        [BASE_OFFSET, BASE_OFFSET - outlineStep],
+        [BASE_OFFSET, BASE_OFFSET + outlineStep],
+        [BASE_OFFSET - outlineStep, BASE_OFFSET],
+        [BASE_OFFSET + outlineStep, BASE_OFFSET],
+        [BASE_OFFSET - outlineDiag, BASE_OFFSET - outlineDiag],
+        [BASE_OFFSET + outlineDiag, BASE_OFFSET - outlineDiag],
+        [BASE_OFFSET - outlineDiag, BASE_OFFSET + outlineDiag],
+        [BASE_OFFSET + outlineDiag, BASE_OFFSET + outlineDiag]
+    ]
 
     shadowDrawingStyles = {}
     for each key in drawingStyles.keys()
