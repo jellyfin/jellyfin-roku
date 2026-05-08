@@ -427,7 +427,9 @@ end function
 function extractStyles(lineData as string) as object
     returnData = {
         endTimestamp: "",
-        styles: {}
+        ' WebVTT spec default for line is "auto" (often omitted by encoders).
+        ' 90% positions cues near the bottom without overflowing at 100%.
+        styles: { line: "90%" }
     }
 
     lineDataArray = lineData.split(" ")
@@ -435,12 +437,10 @@ function extractStyles(lineData as string) as object
 
     for each style in lineDataArray
         styleData = style.split(":")
-
-        ' We don't support RTL text, so positionAlign properties must be removed
         styleDataPositionAlign = styleData[1].split(",")
-
         returnData.styles.addreplace(styleData[0], styleDataPositionAlign[0])
     end for
+
 
     return returnData
 end function
