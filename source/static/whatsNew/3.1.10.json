@@ -22,5 +22,9 @@
   {
     "description": "Allow Force Transcode for live TV only",
     "author": "FractalBoy"
+  },
+  {
+    "description": "Improve Down navigation in library grids with short last rows",
+    "author": "VX-101"
   }
 ]
