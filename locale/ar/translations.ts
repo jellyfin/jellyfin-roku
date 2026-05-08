@@ -2370,5 +2370,9 @@
         <source>Attempt Direct Play Anamorphic Video</source>
         <translation>محاولة التشغيل المباشر للفيدوهات المشوّهة</translation>
     </message>
+    <message>
+        <source>Search Unavailable</source>
+        <translation>البحث غير متوفر</translation>
+    </message>
 </context>
 </TS>
