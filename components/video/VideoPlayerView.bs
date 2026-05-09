@@ -1308,6 +1308,10 @@ sub onState(msg)
             if not isValid(m.clock) then return
             m.osd.liveTvStartTime = m.clock.callFunc("getCurrentTime")
         end if
+
+        m.playbackCheckTimer = m.top.findNode("playbackCheckTimer")
+        m.playbackCheckTimer.ObserveFieldscoped("fire", "playbackCheck")
+        m.playbackCheckTimer.control = "start"
     else if isStringEqual(m.top.state, MediaPlaybackState.PAUSED)
         m.playbackTimer.control = "stop"
         ReportPlayback()
@@ -1321,6 +1325,31 @@ sub onState(msg)
         m.playbackTimer.control = "stop"
         ReportPlayback("stop")
         m.playReported = false
+    end if
+end sub
+
+sub playbackCheck()
+    ' If we have a valid position, and it's greater than 0, no need to trigger transcode
+    if isValid(m.top.position)
+        if m.top.position > 0 then return
+    end if
+
+    if not m.isTranscoded
+        startSpinnerWithPercent(0)
+
+        if isStringEqual(PlaybackMethod.PLAYNORMALLY, m.global.queueManager.callFunc("getForceTranscode"))
+            m.global.queueManager.callFunc("setForceTranscode", PlaybackMethod.FORCETRANSCODEALLOWREMUX)
+        else if isStringEqual(PlaybackMethod.FORCETRANSCODEALLOWREMUX, m.global.queueManager.callFunc("getForceTranscode"))
+            m.global.queueManager.callFunc("setForceTranscode", PlaybackMethod.FORCETRANSCODEDISABLEREMUX)
+        end if
+
+        ' Stop playback and exit player
+        m.top.control = VideoControl.STOP
+
+        m.LoadMetaDataTask.mustTranscode = true
+        m.LoadMetaDataTask.observeField("content", "onVideoContentLoaded")
+        m.LoadMetaDataTask.control = TaskControl.RUN
+        return
     end if
 end sub
 
