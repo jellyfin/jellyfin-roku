@@ -22,5 +22,9 @@
   {
     "description": "Allow Force Transcode for live TV only",
     "author": "FractalBoy"
+  },
+  {
+    "description": "Keep focus on the top row when opening playback options",
+    "author": "VX-101"
   }
 ]
