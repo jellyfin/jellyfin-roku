@@ -1213,6 +1213,8 @@ sub onState(msg)
                     m.global.queueManager.callFunc("setForceTranscode", PlaybackMethod.FORCETRANSCODEDISABLEREMUX)
                 end if
 
+                m.global.queueManager.callFunc("setTranscodeReason", `Roku's video player threw the following error: ${m.top.errorStr}`)
+
                 ' Stop playback and exit player
                 m.top.control = VideoControl.STOP
 
@@ -1342,6 +1344,8 @@ sub playbackCheck()
         else if isStringEqual(PlaybackMethod.FORCETRANSCODEALLOWREMUX, m.global.queueManager.callFunc("getForceTranscode"))
             m.global.queueManager.callFunc("setForceTranscode", PlaybackMethod.FORCETRANSCODEDISABLEREMUX)
         end if
+
+        m.global.queueManager.callFunc("setTranscodeReason", "Roku thought it could direct play this media, but playback never started.")
 
         ' Stop playback and exit player
         m.top.control = VideoControl.STOP

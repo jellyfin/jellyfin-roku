@@ -63,8 +63,14 @@ function GetTranscodingStats(deviceSession)
             sessionStats.data.push("<header>" + tr("Transcoding Information") + "</header>")
             sessionStats.data.push("<b>• " + tr("Reason") + ":</b> " + tr("Force Transcoding setting is enabled"))
         else if not isStringEqual(PlaybackMethod.PLAYNORMALLY, m.global.queueManager.callFunc("getForceTranscode"))
-            sessionStats.data.push("<header>" + tr("Transcoding Information") + "</header>")
-            sessionStats.data.push("<b>• " + tr("Reason") + ":</b> " + tr("Force Transcode option is enabled"))
+            transcodeReason = m.global.queueManager.callFunc("getTranscodeReason")
+            if isStringEqual(transcodeReason, string.EMPTY)
+                sessionStats.data.push("<header>" + tr("Transcoding Information") + "</header>")
+                sessionStats.data.push("<b>• " + tr("Reason") + ":</b> " + tr("Force Transcode option is enabled"))
+            else
+                sessionStats.data.push("<header>" + tr("Transcoding Information") + "</header>")
+                sessionStats.data.push("<b>• " + tr("Reason") + ":</b> " + transcodeReason)
+            end if
         else
             if isValid(transcodingReasons) and transcodingReasons.Count() > 0
                 sessionStats.data.push("<header>" + tr("Transcoding Information") + "</header>")

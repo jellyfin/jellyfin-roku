@@ -15,6 +15,7 @@ sub init()
     m.bypassNextPreferredAudioTrackIndexReset = false
     m.forceTranscode = PlaybackMethod.PLAYNORMALLY
     m.transcodeCodec = string.EMPTY
+    m.transcodeReason = string.EMPTY
     m.hold = []
     m.queue = []
     m.originalQueue = []
@@ -307,10 +308,22 @@ sub setForceTranscode(forceTranscode = PlaybackMethod.PLAYNORMALLY as string, vi
     if isStringEqual(forceTranscode, PlaybackMethod.FORCETRANSCODEALLOWREMUX) then videoCodec = string.EMPTY
     m.transcodeCodec = videoCodec
 
+    setTranscodeReason(string.EMPTY)
+
     postTask = createObject("roSGNode", "PostTask")
     postTask.arrayData = getDeviceCapabilities(videoCodec)
     postTask.apiUrl = "/Sessions/Capabilities/Full"
     postTask.control = "RUN"
+end sub
+
+' Gets the transcodeReason property
+function getTranscodeReason() as string
+    return m.transcodeReason
+end function
+
+' Sets the transcodeReason property
+sub setTranscodeReason(transcodeReason = string.EMPTY as string)
+    m.transcodeReason = transcodeReason
 end sub
 
 ' Gets the getLastKnownItemID property for the play queue
