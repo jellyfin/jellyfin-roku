@@ -803,7 +803,6 @@ sub onVideoContentLoaded()
 
         if subtitle.Index = videoContent[0].selectedSubtitle
             selectedSubtitle = subtitle
-            exit for
         end if
     end for
 
