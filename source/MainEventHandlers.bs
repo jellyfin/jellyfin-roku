@@ -1566,7 +1566,6 @@ sub onDataReturnedEvent(msg)
 
     if isStringEqual(selectedPopupID, "searchLibrary")
         searchTerm = chainLookup(popupNode, "returndata.text")
-
         if not isValid(searchTerm) then return
 
         activeScene = m.global.sceneManager.callFunc("getActiveScene")

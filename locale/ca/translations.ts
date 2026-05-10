@@ -2358,5 +2358,9 @@
         <source>Use at your own risk. We make no guarantees this will work for you. \n 1. This feature may not work on this device, yet work on others \n 2. Some speed options may not work on this device, yet work on others \n 3. Roku may block this feature without warning; even if the Jellyfin client doesn&apos;t update</source>
         <translation>Feu-ho servir sota la vostra responsabilitat. No garantim que funcioni. \n 1. És possible que aquesta funció no funcioni en aquest dispositiu, però que sí que funcioni en d&apos;altres \n 2. És possible que algunes opcions de velocitat no funcionin en aquest dispositiu, però que sí que funcionin en d&apos;altres \n 3. Roku pot bloquejar aquesta funció sense previ avís; fins i tot si el client de Jellyfin no s&apos;actualitza</translation>
     </message>
+    <message>
+        <source>Search Unavailable</source>
+        <translation>Cerca disponible</translation>
+    </message>
 </context>
 </TS>

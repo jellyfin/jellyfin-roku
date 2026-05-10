@@ -8,10 +8,10 @@ sub init()
 end sub
 
 sub setFont()
-    if m.global.fallbackFont = string.EMPTY then return
+    if not isValidAndNotEmpty(m.global.fallbackFont) then return
     if not chainLookupReturn(m.global.session, "user.settings.useFallbackFont", false) then return
 
-    m.top.font.uri = m.global.fallbackFont
+    m.top.font.uri = m.global.fallbackFont.regular
 end sub
 
 sub onFontChanged()
