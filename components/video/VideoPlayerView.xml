@@ -43,6 +43,7 @@
     <Group id="captionGroup" translation="[0,0]" />
     <timer id="playbackTimer" repeat="true" duration="30" />
     <timer id="playbackCheckTimer" repeat="false" duration="1" />
+    <timer id="bufferStuckTimer" repeat="true" duration="3" />
     <timer id="bufferCheckTimer" repeat="true" />
     <OSD id="osd" visible="false" inactiveTimeout="5" />
 

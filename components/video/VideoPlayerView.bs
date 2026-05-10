@@ -81,6 +81,8 @@ sub init()
 
     m.playbackTimer = m.top.findNode("playbackTimer")
     m.bufferCheckTimer = m.top.findNode("bufferCheckTimer")
+    m.bufferStuckTimer = m.top.findNode("bufferStuckTimer")
+    m.buffer100Count = 0
     m.top.observeField("state", "onState")
     m.top.observeField("content", "onContentChange")
     m.top.observeField("selectedSubtitle", "onSubtitleChange")
@@ -1186,6 +1188,48 @@ sub onPositionChanged()
     if m.top.content.live then updateLiveTvTrackers()
 end sub
 
+sub bufferStuckAt100Check()
+    if not isStringEqual(m.top.state, MediaPlaybackState.BUFFERING)
+        ' If video is not buffering, stop timer
+        m.buffer100Count = 0
+        m.bufferStuckTimer.control = "stop"
+        m.bufferStuckTimer.unobserveField("fire")
+        return
+    end if
+
+    bufferingPercent = chainLookupReturn(m.top.bufferingStatus, "percentage", 0)
+    if bufferingPercent <> 100 then return
+
+    if m.buffer100Count >= 1
+        if not m.isTranscoded
+            ' We're moving to transcoding, stop timer
+            m.buffer100Count = 0
+            m.bufferStuckTimer.control = "stop"
+            m.bufferStuckTimer.unobserveField("fire")
+
+            if isStringEqual(PlaybackMethod.PLAYNORMALLY, m.global.queueManager.callFunc("getForceTranscode"))
+                m.global.queueManager.callFunc("setForceTranscode", PlaybackMethod.FORCETRANSCODEALLOWREMUX)
+            else if isStringEqual(PlaybackMethod.FORCETRANSCODEALLOWREMUX, m.global.queueManager.callFunc("getForceTranscode"))
+                m.global.queueManager.callFunc("setForceTranscode", PlaybackMethod.FORCETRANSCODEDISABLEREMUX)
+            end if
+
+            m.global.queueManager.callFunc("setTranscodeReason", `Roku's video player got stuck buffering video`)
+
+            ' Stop playback and exit player
+            m.top.control = VideoControl.STOP
+
+            m.LoadMetaDataTask.mustTranscode = true
+            m.LoadMetaDataTask.observeField("content", "onVideoContentLoaded")
+            m.LoadMetaDataTask.control = TaskControl.RUN
+            return
+        end if
+
+        return
+    end if
+
+    m.buffer100Count++
+end sub
+
 '
 ' When Video Player state changes
 sub onState(msg)
@@ -1199,6 +1243,9 @@ sub onState(msg)
     ' When buffering, start timer to monitor buffering process
     if isStringEqual(m.top.state, MediaPlaybackState.BUFFERING) and m.bufferCheckTimer <> invalid
         ' start timer
+        m.bufferStuckTimer.control = "start"
+        m.bufferStuckTimer.ObserveField("fire", "bufferStuckAt100Check")
+
         m.bufferCheckTimer.control = "start"
         m.bufferCheckTimer.ObserveField("fire", "bufferCheck")
     else if isStringEqual(m.top.state, MediaPlaybackState.ERROR)
