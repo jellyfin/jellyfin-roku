@@ -86,7 +86,7 @@
       },
       {
         "title": "Custom Subtitles",
-        "description": "Replace Roku's default subtitle functions with custom functions that support CJK fonts. Fallback fonts must be configured and enabled on the server for CJK rendering to work.",
+        "description": "Replace Roku's default subtitle functions with custom functions. If a fallback font is configured and enabled on the server, that font will be used. A fallback font is required for CJK rendering to work. To support bold and italics with your fallback font, you must have additional font files on the server with the words \"bold\", \"italic\", and \"bolditalic\".",
         "settingName": "playback.subs.custom",
         "type": "bool",
         "default": "false"
@@ -336,7 +336,7 @@
         "type": "integer",
         "default": "30"
       },
-        {
+      {
         "title": "Playback Speed Controls (Experimental)",
         "description": "Use at your own risk. We make no guarantees this will work for you. \n 1. This feature may not work on this device, yet work on others \n 2. Some speed options may not work on this device, yet work on others \n 3. Roku may block this feature without warning; even if the Jellyfin client doesn't update",
         "settingName": "playback.showPlaybackSpeedControls",

@@ -907,8 +907,8 @@
             <extracomment>Name of a setting - custom subtitles that support CJK fonts</extracomment>
         </message>
         <message>
-            <source>Replace Roku's default subtitle functions with custom functions that support CJK fonts. Fallback fonts must be configured and enabled on the server for CJK rendering to work.</source>
-            <translation>Replace Roku's default subtitle functions with custom functions that support CJK fonts. Fallback fonts must be configured and enabled on the server for CJK rendering to work.</translation>
+            <source>Replace Roku&apos;s default subtitle functions with custom functions. If a fallback font is configured and enabled on the server, that font will be used. A fallback font is required for CJK rendering to work. To support bold and italics with your fallback font, you must have additional font files on the server with the words &quot;bold&quot;, &quot;italic&quot;, and &quot;bolditalic&quot;.</source>
+            <translation>Replace Roku&apos;s default subtitle functions with custom functions. If a fallback font is configured and enabled on the server, that font will be used. A fallback font is required for CJK rendering to work. To support bold and italics with your fallback font, you must have additional font files on the server with the words &quot;bold&quot;, &quot;italic&quot;, and &quot;bolditalic&quot;.</translation>
             <extracomment>Description of a setting - custom subtitles that support CJK fonts</extracomment>
         </message>
         <message>
