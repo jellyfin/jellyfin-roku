@@ -30,5 +30,9 @@
   {
     "description": "Fix subtitle menu selection for burned-in subtitles",
     "author": "VX-101"
+  },
+  {
+    "description": "Fix Quick Connect initiate to use POST instead of GET",
+    "author": "no-reply"
   }
 ]
