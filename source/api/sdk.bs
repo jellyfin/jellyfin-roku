@@ -1360,7 +1360,7 @@ namespace api
         ' Initiate a new quick connect request.
         function Initiate()
             req = APIRequest("/quickconnect/initiate")
-            return getJson(req)
+            return postJson(req)
         end function
     end namespace
 
