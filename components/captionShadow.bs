@@ -8,7 +8,7 @@ const OUTLINE_DIAG_RATIO = 0.06 ' ~6% fontSize for diagonals
 const BASE_OFFSET = 5 ' Matches lg.translation in captionTask.bs
 
 sub createShadowLabels(rect as object, styledText as string, drawingStyles as object)
-    if styledText = invalid or styledText = "" then return
+    if not isValidAndNotEmpty(styledText) then return
 
     fontSize = 60 ' fallback
     for each key in drawingStyles.keys()
