@@ -82,7 +82,8 @@ function newRect(lg, id as string, styledText = invalid, drawingStyles = invalid
 
     rect = CreateObject("roSGNode", "Rectangle")
     rect.addreplace("id", id)
-    if styledText <> invalid and m.shadowEnabled
+    if m.shadowEnabled
+        if isValid(styledText)
         createShadowLabels(rect, styledText, drawingStyles)
     end if
     rect.appendchild(lg)
