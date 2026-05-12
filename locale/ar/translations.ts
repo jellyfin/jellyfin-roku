@@ -1413,27 +1413,27 @@
     </message>
     <message>
         <source>What action should Jellyfin take for outro segments?</source>
-        <translation type="unfinished"></translation>
+        <translation>ما الإجراء الذي يجب أن يتخذه Jellyfin لمقاطع النهاية؟</translation>
         <extracomment>User Setting - Description for option</extracomment>
     </message>
     <message>
         <source>Preview Segments</source>
-        <translation type="unfinished"></translation>
+        <translation>مقاطع المعاينة</translation>
         <extracomment>User Setting - Title for option</extracomment>
     </message>
     <message>
         <source>What action should Jellyfin take for preview segments?</source>
-        <translation type="unfinished"></translation>
+        <translation>ما الإجراء الذي يجب أن يتخذه Jellyfin لمقاطع المعاينة؟</translation>
         <extracomment>User Setting - Description for option</extracomment>
     </message>
     <message>
         <source>Recap Segments</source>
-        <translation type="unfinished"></translation>
+        <translation>مقاطع الملخص</translation>
         <extracomment>User Setting - Title for option</extracomment>
     </message>
     <message>
         <source>What action should Jellyfin take for recap segments?</source>
-        <translation type="unfinished"></translation>
+        <translation>ما الإجراء الذي يجب أن يتخذه Jellyfin لمقاطع الملخص؟</translation>
         <extracomment>User Setting - Description for option</extracomment>
     </message>
     <message>
