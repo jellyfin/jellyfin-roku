@@ -37,8 +37,7 @@ sub init()
     deviceBGColor = chainLookupReturn(m.bgColorDict, deviceInfo.GetCaptionsOption("Background/Color"), m.bgColorDict.Default)
     deviceBGOpacity = chainLookupReturn(m.percentageDict, deviceInfo.GetCaptionsOption("Background/Opacity"), m.percentageDict.Default)
     m.bgColor = `${deviceBGColor}${deviceBGOpacity}`
-
-    m.shadowEnabled = isStringEqual(deviceBGOpacity, "00")
+    m.textEffect = deviceInfo.GetCaptionsOption("Text/Effect")
 
     if isValidAndNotEmpty(m.global.fallbackFont)
         m.fonts = m.global.fallbackFont
@@ -82,10 +81,8 @@ function newRect(lg, id as string, styledText = invalid, drawingStyles = invalid
 
     rect = CreateObject("roSGNode", "Rectangle")
     rect.addreplace("id", id)
-    if m.shadowEnabled
-        if isValid(styledText)
-        createShadowLabels(rect, styledText, drawingStyles)
-    end if
+    createShadowLabels(rect, styledText, drawingStyles, m.textEffect)
+
     rect.appendchild(lg)
     lg.translation = [5, 5]
 
@@ -118,8 +115,6 @@ sub updateCaption()
         if entry["start"] <= m.top.currentPos and m.top.currentPos < entry["end"]
 
             fullText = entry["text"].Join(Chr(10))
-            plainText = m.undesirableTags.replaceAll(fullText, "")
-            plainText = CreateObject("roRegex", "<[^>]*>", "i").replaceAll(plainText, "")
 
             ' look for style tags
             currentStyle = {
