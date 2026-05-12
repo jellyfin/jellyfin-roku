@@ -917,7 +917,7 @@
     </message>
     <message>
         <source>Only display text subtitles to minimize transcoding.</source>
-        <translation type="unfinished"></translation>
+        <translation>عرض الترجمات النصية فقط لتقليل إعادة الترميز.</translation>
         <extracomment>Description of a setting - should we hide subtitles that might transcode</extracomment>
     </message>
     <message>
@@ -1122,238 +1122,238 @@
     </message>
     <message>
         <source>Enable Limit</source>
-        <translation type="unfinished"></translation>
+        <translation>تفعيل الحد</translation>
     </message>
     <message>
         <source>Enable or disable the &apos;Maximum Bitrate&apos; setting.</source>
-        <translation type="unfinished"></translation>
+        <translation>تفعيل أو تعطيل إعداد “الحد الأقصى لمعدل البت”.</translation>
     </message>
     <message>
         <source>Bitrate Limit</source>
-        <translation type="unfinished"></translation>
+        <translation>حد معدل البت</translation>
     </message>
     <message>
         <source>Maximum Bitrate</source>
-        <translation type="unfinished"></translation>
+        <translation>الحد الأقصى لمعدل البت</translation>
     </message>
     <message>
         <source>Set the maximum bitrate in Mbps. Set to 0 to use Roku&apos;s specifications. This setting must be enabled to take effect.</source>
-        <translation type="unfinished"></translation>
+        <translation>تعيين الحد الأقصى لمعدل البت بوحدة Mbps. اضبطه على 0 لاستخدام مواصفات Roku. يجب تفعيل هذا الإعداد ليصبح ساري المفعول.</translation>
     </message>
     <message>
         <source>Libraries</source>
-        <translation type="unfinished"></translation>
+        <translation>المكتبات</translation>
     </message>
     <message>
         <source>Settings relating to the appearance of Library pages</source>
-        <translation type="unfinished"></translation>
+        <translation>إعدادات متعلقة بمظهر صفحات المكتبة</translation>
     </message>
     <message>
         <source>General</source>
-        <translation type="unfinished"></translation>
+        <translation>عام</translation>
     </message>
     <message>
         <source>Settings relating to the appearance of the Home screen and the program in general.</source>
-        <translation type="unfinished"></translation>
+        <translation>إعدادات متعلقة بمظهر الشاشة الرئيسية والتطبيق بشكل عام.</translation>
     </message>
     <message>
         <source>Grid View Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>إعدادات العرض الشبكي</translation>
     </message>
     <message>
         <source>Settings that apply when Grid views are enabled.</source>
-        <translation type="unfinished"></translation>
+        <translation>الإعدادات التي تُطبق عند تفعيل العرض الشبكي.</translation>
     </message>
     <message>
         <source>Settings relating to the appearance of pages in TV Libraries.</source>
-        <translation type="unfinished"></translation>
+        <translation>إعدادات متعلقة بمظهر صفحات مكتبات التلفاز.</translation>
     </message>
     <message>
         <source>Settings relating to the appearance of pages in Movie Libraries.</source>
-        <translation type="unfinished"></translation>
+        <translation>إعدادات متعلقة بمظهر صفحات مكتبات الأفلام.</translation>
     </message>
     <message>
         <source>Presentation</source>
-        <translation type="unfinished"></translation>
+        <translation>عرض تقديمي</translation>
         <extracomment>Title of an option - name of presentation view</extracomment>
     </message>
     <message>
         <source>Grid</source>
-        <translation type="unfinished"></translation>
+        <translation>شبكة</translation>
         <extracomment>Title of an option - name of grid view</extracomment>
     </message>
     <message>
         <source>Disable Unwatched Episode Count</source>
-        <translation type="unfinished"></translation>
+        <translation>تعطيل عدد الحلقات غير المشاهدة</translation>
         <extracomment>Settings Menu - Title for option</extracomment>
     </message>
     <message>
         <source>If enabled, the number of unwatched episodes in a series/season will be removed.</source>
-        <translation type="unfinished"></translation>
+        <translation>إذا تم التفعيل، سيتم إخفاء عدد الحلقات غير المشاهدة في المسلسل أو الموسم.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Loading trailer</source>
-        <translation type="unfinished"></translation>
+        <translation>جارٍ تحميل المقطع الدعائي</translation>
         <extracomment>Dialog title in Main.brs</extracomment>
     </message>
     <message>
         <source>Next Episode Button Time</source>
-        <translation type="unfinished"></translation>
+        <translation>وقت ظهور زر الحلقة التالية</translation>
         <extracomment>Settings Menu - Title for option</extracomment>
     </message>
     <message>
         <source>Set how many seconds before the end of an episode the Next Episode button should appear. Set to 0 to disable.</source>
-        <translation type="unfinished"></translation>
+        <translation>إذا لم يكن هناك مقطع Outro، فحدد عدد الثواني قبل نهاية الحلقة التي يظهر فيها زر تخطي النهاية. اضبطه على 0 للتعطيل.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Preferred Audio Codec</source>
-        <translation type="unfinished"></translation>
+        <translation>ترميز الصوت المفضل</translation>
         <extracomment>Settings Menu - Title of option</extracomment>
     </message>
     <message>
         <source>Use the selected audio codec for transcodes. If the device or stream does not support it, a fallback codec will be used.</source>
-        <translation type="unfinished"></translation>
+        <translation>استخدام ترميز الصوت المحدد لعمليات إعادة الترميز. إذا لم يكن الجهاز أو البث يدعمه، فسيتم استخدام ترميز احتياطي.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Video Codec Support</source>
-        <translation type="unfinished"></translation>
+        <translation>دعم ترميز الفيديو</translation>
         <extracomment>Settings Menu - Title for option</extracomment>
     </message>
     <message>
         <source>Enable or disable Direct Play support for certain codecs.</source>
-        <translation type="unfinished"></translation>
+        <translation>تفعيل أو تعطيل دعم التشغيل المباشر لبعض الترميزات.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Video Profile Level Support</source>
-        <translation type="unfinished"></translation>
+        <translation>دعم مستوى ملف تعريف الفيديو</translation>
         <extracomment>Settings Menu - Title for option</extracomment>
     </message>
     <message>
         <source>Attempt Direct Play of potentially unsupported profile levels</source>
-        <translation type="unfinished"></translation>
+        <translation>محاولة التشغيل المباشر لمستويات ملفات تعريف قد تكون غير مدعومة</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Use system settings</source>
-        <translation type="unfinished"></translation>
+        <translation>استخدام إعدادات النظام</translation>
         <extracomment>User Setting - Option title</extracomment>
     </message>
     <message>
         <source>Direct playing</source>
-        <translation type="unfinished"></translation>
+        <translation>تشغيل مباشر</translation>
     </message>
     <message>
         <source>The source file is entirely compatible with this client and the session is receiving the file without modifications.</source>
-        <translation type="unfinished"></translation>
+        <translation>الملف المصدر متوافق بالكامل مع هذا العميل، ويتم استلامه دون أي تعديلات.</translation>
         <extracomment>Direct play info box text in GetPlaybackInfoTask.brs</extracomment>
     </message>
     <message>
         <source>Maximum Resolution</source>
-        <translation type="unfinished"></translation>
+        <translation>الدقة القصوى</translation>
         <extracomment>User Setting - Title</extracomment>
     </message>
     <message>
         <source>Set the maximum resolution when playing video files on this device.</source>
-        <translation type="unfinished"></translation>
+        <translation>تعيين الحد الأقصى للدقة عند تشغيل ملفات الفيديو على هذا الجهاز.</translation>
         <extracomment>User Setting - Description</extracomment>
     </message>
     <message>
         <source>Off - Attempt to play all resolutions</source>
-        <translation type="unfinished"></translation>
+        <translation>إيقاف — محاولة تشغيل جميع الدقات</translation>
         <extracomment>User Setting - Option title</extracomment>
     </message>
     <message>
         <source>Auto - Use TV resolution</source>
-        <translation type="unfinished"></translation>
+        <translation>تلقائي — استخدام دقة التلفاز</translation>
         <extracomment>User Setting - Option title</extracomment>
     </message>
     <message>
         <source>Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>الوضع</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Value</source>
-        <translation type="unfinished"></translation>
+        <translation>القيمة</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Maximum Audio Channels</source>
-        <translation type="unfinished"></translation>
+        <translation>الحد الأقصى لقنوات الصوت</translation>
         <extracomment>User Setting - Title</extracomment>
     </message>
     <message>
         <source>Configure the maximum audio channels when playing video files on this device.</source>
-        <translation type="unfinished"></translation>
+        <translation>تكوين الحد الأقصى لقنوات الصوت عند تشغيل ملفات الفيديو على هذا الجهاز.</translation>
         <extracomment>User Setting - Description</extracomment>
     </message>
     <message>
         <source>Off - Attempt to play all channels</source>
-        <translation type="unfinished"></translation>
+        <translation>إيقاف — محاولة تشغيل جميع القنوات</translation>
         <extracomment>User Setting - Option title</extracomment>
     </message>
     <message>
         <source>Configure the maximum resolution when playing video files on this device.</source>
-        <translation type="unfinished"></translation>
+        <translation>تكوين الحد الأقصى للدقة عند تشغيل ملفات الفيديو على هذا الجهاز.</translation>
         <extracomment>User Setting - Description</extracomment>
     </message>
     <message>
         <source>Apply max resolution to all files or only transcoded files.</source>
-        <translation type="unfinished"></translation>
+        <translation>تطبيق الدقة القصوى على جميع الملفات أو على الملفات المعاد ترميزها فقط.</translation>
         <extracomment>User Setting - Description</extracomment>
     </message>
     <message>
         <source>All files</source>
-        <translation type="unfinished"></translation>
+        <translation>جميع الملفات</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Only transcoded files</source>
-        <translation type="unfinished"></translation>
+        <translation>الملفات المعاد ترميزها فقط</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Compatibility</source>
-        <translation type="unfinished"></translation>
+        <translation>التوافق</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Attempt to prevent playback failures.</source>
-        <translation type="unfinished"></translation>
+        <translation>محاولة منع فشل التشغيل.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
         <source>Disable HEVC</source>
-        <translation type="unfinished"></translation>
+        <translation>تعطيل HEVC</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Disable the HEVC codec on this device. This may improve playback for some devices (ultra).</source>
-        <translation type="unfinished"></translation>
+        <translation>تعطيل ترميز HEVC على هذا الجهاز. قد يؤدي ذلك إلى تحسين التشغيل على بعض الأجهزة (Ultra).</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
         <source>Global</source>
-        <translation type="unfinished"></translation>
+        <translation>عامم</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Global settings that affect everyone that uses this Roku device.</source>
-        <translation type="unfinished"></translation>
+        <translation>إعدادات عامة لجميع مستخدمي جهاز Roku هذا.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
         <source>Remember Me?</source>
-        <translation type="unfinished"></translation>
+        <translation>تذكرني؟</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Remember the currently logged in user and try to log them in again next time you start the Jellyfin app.</source>
-        <translation type="unfinished"></translation>
+        <translation>تذكر المستخدم المسجل حاليًا ومحاولة تسجيل دخوله مرة أخرى عند تشغيل Jellyfin في المرة القادمة.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
@@ -1368,47 +1368,47 @@
     </message>
     <message>
         <source>Force Transcoding</source>
-        <translation type="unfinished"></translation>
+        <translation>فرض إعادة الترميز</translation>
         <extracomment>User Setting - Title for option</extracomment>
     </message>
     <message>
         <source>Force all playable media to be transcoded.</source>
-        <translation type="unfinished"></translation>
+        <translation>فرض إعادة ترميز جميع الوسائط القابلة للتشغيل.</translation>
         <extracomment>User Setting - Description for option</extracomment>
     </message>
     <message>
         <source>Media Segment Actions</source>
-        <translation type="unfinished"></translation>
+        <translation>إجراءات مقاطع الوسائط</translation>
         <extracomment>User Setting - Title for option</extracomment>
     </message>
     <message>
         <source>Settings relating to how Jellyfin should handle media segments.</source>
-        <translation type="unfinished"></translation>
+        <translation>إعدادات متعلقة بكيفية تعامل Jellyfin مع مقاطع الوسائط.</translation>
         <extracomment>User Setting - Description for option</extracomment>
     </message>
     <message>
         <source>Commercial Segments</source>
-        <translation type="unfinished"></translation>
+        <translation>الفواصل الإعلانية</translation>
         <extracomment>User Setting - Title for option</extracomment>
     </message>
     <message>
         <source>What action should Jellyfin take for commercial segments?</source>
-        <translation type="unfinished"></translation>
+        <translation>ما الإجراء الذي يجب أن يتخذه Jellyfin تجاه الفواصل الإعلانية؟</translation>
         <extracomment>User Setting - Description for option</extracomment>
     </message>
     <message>
         <source>Intro Segments</source>
-        <translation type="unfinished"></translation>
+        <translation>مقاطع المقدمة</translation>
         <extracomment>User Setting - Title for option</extracomment>
     </message>
     <message>
         <source>What action should Jellyfin take for intro segments?</source>
-        <translation type="unfinished"></translation>
+        <translation>ما الإجراء الذي يجب أن يتخذه Jellyfin تجاه مقاطع المقدمة؟</translation>
         <extracomment>User Setting - Description for option</extracomment>
     </message>
     <message>
         <source>Outro Segments</source>
-        <translation type="unfinished"></translation>
+        <translation>مقاطع النهاية</translation>
         <extracomment>User Setting - Title for option</extracomment>
     </message>
     <message>
@@ -1902,7 +1902,7 @@
     </message>
     <message>
         <source>Live TV</source>
-        <translation type="unfinished"></translation>
+        <translation>البث التلفزيوني المباشر</translation>
     </message>
     <message>
         <source>My List</source>
@@ -2373,6 +2373,30 @@
     <message>
         <source>Search Unavailable</source>
         <translation>البحث غير متوفر</translation>
+    </message>
+    <message>
+        <source>Replace Roku&apos;s default subtitle functions with custom functions. If fallback fonts are configured and enabled on the server, those fonts will be used. A CJK fallback font is required for CJK rendering. To support bold and italics, you must have additional font files with the words &quot;bold&quot;, &quot;italic&quot;, and &quot;bolditalic&quot; in the filename.</source>
+        <translation>استبدال وظائف الترجمة الافتراضية في Roku بوظائف مخصصة. إذا تم إعداد خطوط احتياطية وتفعيلها على الخادم، فسيتم استخدام تلك الخطوط. يلزم وجود خط احتياطي للغات CJK لعرض نصوص CJK. ولدعم الخط العريض والمائل، يجب توفير ملفات خطوط إضافية تحتوي أسماؤها على الكلمات “bold” و”italic” و”bolditalic”.</translation>
+    </message>
+    <message>
+        <source>Trickplay Display</source>
+        <translation>عرض المعاينة أثناء التقديم</translation>
+    </message>
+    <message>
+        <source>Select trickplay display format.</source>
+        <translation>اختر تنسيق عرض المعاينة أثناء التقديم.</translation>
+    </message>
+    <message>
+        <source>Force media to be transcoded.</source>
+        <translation>فرض إعادة ترميز الوسائط.</translation>
+    </message>
+    <message>
+        <source>All Playable Media</source>
+        <translation>جميع الوسائط القابلة للتشغيل</translation>
+    </message>
+    <message>
+        <source>Force live TV to be transcoded. If All Playable Media is already set to Force Transcode (Remux Disabled), this setting is ignored.</source>
+        <translation>فرض إعادة ترميز البث التلفزيوني المباشر. إذا كان خيار “جميع الوسائط القابلة للتشغيل” مضبوطًا بالفعل على “فرض إعادة الترميز (مع تعطيل Remux)” فسيتم تجاهل هذا الإعداد.</translation>
     </message>
 </context>
 </TS>
