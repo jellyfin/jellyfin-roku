@@ -1560,7 +1560,7 @@
     </message>
     <message>
         <source>Media Segment Actions</source>
-        <translation>Accions en els segments mutimèdia</translation>
+        <translation>Accions en els segments multimèdia</translation>
     </message>
     <message>
         <source>Outro Segments</source>
@@ -2361,6 +2361,18 @@
     <message>
         <source>Search Unavailable</source>
         <translation>Cerca disponible</translation>
+    </message>
+    <message>
+        <source>Force media to be transcoded.</source>
+        <translation>Força la transcodificació del contingut multimèdia.</translation>
+    </message>
+    <message>
+        <source>All Playable Media</source>
+        <translation>Tot el contingut multimèdia reproduïble</translation>
+    </message>
+    <message>
+        <source>Force live TV to be transcoded. If All Playable Media is already set to Force Transcode (Remux Disabled), this setting is ignored.</source>
+        <translation>Força la transcodificació de la televisió en directe. Si ja s&apos;ha establert que es forci a tots els continguts multimèdia a transcodificar (Remux inhabilitat), aquesta configuració s&apos;ignora.</translation>
     </message>
 </context>
 </TS>
