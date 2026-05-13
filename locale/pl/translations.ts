@@ -6,31 +6,31 @@
     <name>default</name>
     <message>
         <source>192.168.1.100:8096 or https://example.com/jellyfin</source>
-        <translation type="unfinished"></translation>
+        <translation>192.168.1.100:8096 lub https://example.com/jellyfin</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Anuluj</translation>
     </message>
     <message>
         <source>Connect to Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Podłącz do serwera</translation>
     </message>
     <message>
         <source>Ends at %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Kończy się na %1</translation>
     </message>
     <message>
         <source>Enter Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>Wprowadź konfigurację</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished"></translation>
+        <translation>Ulubione</translation>
     </message>
     <message>
         <source>Loading...</source>
-        <translation type="unfinished"></translation>
+        <translation>Ładuję…</translation>
     </message>
     <message>
         <source>Login attempt failed.</source>
