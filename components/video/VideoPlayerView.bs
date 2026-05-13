@@ -803,13 +803,17 @@ sub onVideoContentLoaded()
 
         if subtitle.Index = videoContent[0].selectedSubtitle
             selectedSubtitle = subtitle
-            exit for
         end if
     end for
 
     if m.isTranscoded and burnInSubtitles
         m.top.fullSubtitleData = updatedSubtitleData
         m.top.globalCaptionMode = "Off"
+    end if
+
+    if videoContent[0].selectedSubtitle = SubtitleSelection.NONE
+        m.top.globalCaptionMode = "Off"
+        m.top.subtitleTrack = ""
     end if
 
     if isValid(selectedSubtitle)

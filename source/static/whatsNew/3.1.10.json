@@ -22,5 +22,21 @@
   {
     "description": "Allow Force Transcode for live TV only",
     "author": "FractalBoy"
+  },
+  {
+    "description": "Keep focus on the top row when opening playback options",
+    "author": "VX-101"
+  },
+  {
+    "description": "Fix subtitle menu selection for burned-in subtitles",
+    "author": "VX-101"
+  },
+  {
+    "description": "Fix Quick Connect initiate to use POST instead of GET",
+    "author": "no-reply"
+  },
+  {
+    "description": "Improve Down navigation in library grids with short last rows",
+    "author": "VX-101"
   }
 ]
