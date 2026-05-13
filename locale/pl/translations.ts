@@ -204,47 +204,47 @@
     </message>
     <message>
         <source>Unable to get playback information</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie można uzyskać informacji o odtwarzaniu</translation>
     </message>
     <message>
         <source>There was an error retrieving the data for this item from the server.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wystąpił błąd podczas pobierania danych tego elementu z serwera.</translation>
         <extracomment>Dialog detail when unable to load Content from Server</extracomment>
     </message>
     <message>
         <source>An error was encountered while playing this item.</source>
-        <translation type="unfinished"></translation>
+        <translation>Podczas odtwarzania tego elementu wystąpił błąd.</translation>
         <extracomment>Dialog detail when error occurs during playback</extracomment>
     </message>
     <message>
         <source>Loading Channel Data</source>
-        <translation type="unfinished"></translation>
+        <translation>Ładowanie danych kanału</translation>
     </message>
     <message>
         <source>Error loading Channel Data</source>
-        <translation type="unfinished"></translation>
+        <translation>Błąd ładowania danych kanału</translation>
     </message>
     <message>
         <source>Unable to load Channel Data from the server</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie można załadować danych kanału z serwera</translation>
     </message>
     <message>
         <comment>Message displayed in Item Grid when no item to display. %1 is container type (e.g. Boxset, Collection, Folder, etc)</comment>
         <source>NO_ITEMS</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 nie zawiera żadnych elementów</translation>
     </message>
     <message>
         <comment>Name or Title field of media item</comment>
         <source>TITLE</source>
-        <translation type="unfinished"></translation>
+        <translation>Nazwa</translation>
     </message>
     <message>
         <source>IMDB_RATING</source>
-        <translation type="unfinished"></translation>
+        <translation>Ocena IMDb</translation>
     </message>
     <message>
         <source>Community Rating</source>
-        <translation type="unfinished"></translation>
+        <translation>Ocena społeczności</translation>
     </message>
     <message>
         <source>CRITIC_RATING</source>
