@@ -34,5 +34,9 @@
   {
     "description": "Fix Quick Connect initiate to use POST instead of GET",
     "author": "no-reply"
+  },
+  {
+    "description": "Improve Down navigation in library grids with short last rows",
+    "author": "VX-101"
   }
 ]
