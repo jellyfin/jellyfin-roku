@@ -40,6 +40,10 @@
     "author": "VX-101"
   },
   {
+    "description": "Fix non-square trickplay thumbnail rendering and seek buffering overlay",
+    "author": "VX-101"
+  },
+  {
     "description": "Show subtitle track information on item details screens",
     "author": "VX-101"
   }
