@@ -38,5 +38,9 @@
   {
     "description": "Improve Down navigation in library grids with short last rows",
     "author": "VX-101"
+  },
+  {
+    "description": "Fix non-square trickplay thumbnail rendering and seek buffering overlay",
+    "author": "VX-101"
   }
 ]
