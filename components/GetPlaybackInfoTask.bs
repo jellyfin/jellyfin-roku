@@ -14,12 +14,16 @@ function ItemPostPlaybackInfo(id as string)
     currentView = m.global.sceneManager.callFunc("getActiveScene")
     currentItem = m.global.queueManager.callFunc("getCurrentItem")
 
+    if not isValid(currentItem)
+        return invalid
+    end if
+
     body = {
         "DeviceProfile": getDeviceProfile()
     }
     params = {
         "UserId": m.global.session.user.id,
-        "StartTimeTicks": currentItem.startingPoint,
+        "StartTimeTicks": chainLookupReturn(currentItem, "startingPoint", 0),
         "IsPlayback": true,
         "AutoOpenLiveStream": true,
         "MaxStreamingBitrate": "140000000",

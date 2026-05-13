@@ -907,8 +907,8 @@
             <extracomment>Name of a setting - custom subtitles that support CJK fonts</extracomment>
         </message>
         <message>
-            <source>Replace Roku's default subtitle functions with custom functions that support CJK fonts. Fallback fonts must be configured and enabled on the server for CJK rendering to work.</source>
-            <translation>Replace Roku's default subtitle functions with custom functions that support CJK fonts. Fallback fonts must be configured and enabled on the server for CJK rendering to work.</translation>
+            <source>Replace Roku&apos;s default subtitle functions with custom functions. If fallback fonts are configured and enabled on the server, those fonts will be used. A CJK fallback font is required for CJK rendering. To support bold and italics, you must have additional font files with the words &quot;bold&quot;, &quot;italic&quot;, and &quot;bolditalic&quot; in the filename.</source>
+            <translation>Replace Roku&apos;s default subtitle functions with custom functions. If fallback fonts are configured and enabled on the server, those fonts will be used. A CJK fallback font is required for CJK rendering. To support bold and italics, you must have additional font files with the words &quot;bold&quot;, &quot;italic&quot;, and &quot;bolditalic&quot; in the filename.</translation>
             <extracomment>Description of a setting - custom subtitles that support CJK fonts</extracomment>
         </message>
         <message>
@@ -1374,8 +1374,28 @@
             <extracomment>User Setting - Title for option</extracomment>
         </message>
         <message>
+            <source>Force media to be transcoded.</source>
+            <translation>Force media to be transcoded.</translation>
+            <extracomment>User Setting - Description for option</extracomment>
+        </message>
+        <message>
+            <source>All Playable Media</source>
+            <translation>All Playable Media</translation>
+            <extracomment>User Setting - Title for option</extracomment>
+        </message>
+        <message>
             <source>Force all playable media to be transcoded.</source>
             <translation>Force all playable media to be transcoded.</translation>
+            <extracomment>User Setting - Description for option</extracomment>
+        </message>
+        <message>
+            <source>Live TV</source>
+            <translation>Live TV</translation>
+            <extracomment>User Setting - Title for option</extracomment>
+        </message>
+        <message>
+            <source>Force live TV to be transcoded. If All Playable Media is already set to Force Transcode (Remux Disabled), this setting is ignored.</source>
+            <translation>Force live TV to be transcoded. If All Playable Media is already set to Force Transcode (Remux Disabled), this setting is ignored.</translation>
             <extracomment>User Setting - Description for option</extracomment>
         </message>
         <message>

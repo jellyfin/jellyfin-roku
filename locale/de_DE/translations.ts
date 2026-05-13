@@ -2350,6 +2350,26 @@
         <source>Channel Logo and Title</source>
         <translation>Kanallogo und -titel</translation>
     </message>
+    <message>
+        <source>Search Unavailable</source>
+        <translation>Suche nicht verfügbar</translation>
+    </message>
+    <message>
+        <source>Trickplay Display</source>
+        <translation>Trickplay-Anzeige</translation>
+    </message>
+    <message>
+        <source>Select trickplay display format.</source>
+        <translation>Wählen Sie das Trickplay-Anzeigeformat aus.</translation>
+    </message>
+    <message>
+        <source>Five trickplay images</source>
+        <translation>Fünf Trickplay-Bilder</translation>
+    </message>
+    <message>
+        <source>Single trickplay image that moves</source>
+        <translation>Einzelnes Trickplay-Bild, das sich bewegt</translation>
+    </message>
 </context>
 <context>
     <name></name>
