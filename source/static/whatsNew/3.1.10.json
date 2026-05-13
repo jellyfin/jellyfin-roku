@@ -34,5 +34,9 @@
   {
     "description": "Fix Quick Connect initiate to use POST instead of GET",
     "author": "no-reply"
+  },
+  {
+    "description": "Show subtitle track information on item details screens",
+    "author": "VX-101"
   }
 ]
