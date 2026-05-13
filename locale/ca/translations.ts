@@ -1560,7 +1560,7 @@
     </message>
     <message>
         <source>Media Segment Actions</source>
-        <translation>Accions en els segments mutimèdia</translation>
+        <translation>Accions en els segments multimèdia</translation>
     </message>
     <message>
         <source>Outro Segments</source>
@@ -2357,6 +2357,22 @@
     <message>
         <source>Use at your own risk. We make no guarantees this will work for you. \n 1. This feature may not work on this device, yet work on others \n 2. Some speed options may not work on this device, yet work on others \n 3. Roku may block this feature without warning; even if the Jellyfin client doesn&apos;t update</source>
         <translation>Feu-ho servir sota la vostra responsabilitat. No garantim que funcioni. \n 1. És possible que aquesta funció no funcioni en aquest dispositiu, però que sí que funcioni en d&apos;altres \n 2. És possible que algunes opcions de velocitat no funcionin en aquest dispositiu, però que sí que funcionin en d&apos;altres \n 3. Roku pot bloquejar aquesta funció sense previ avís; fins i tot si el client de Jellyfin no s&apos;actualitza</translation>
+    </message>
+    <message>
+        <source>Search Unavailable</source>
+        <translation>Cerca disponible</translation>
+    </message>
+    <message>
+        <source>Force media to be transcoded.</source>
+        <translation>Força la transcodificació del contingut multimèdia.</translation>
+    </message>
+    <message>
+        <source>All Playable Media</source>
+        <translation>Tot el contingut multimèdia reproduïble</translation>
+    </message>
+    <message>
+        <source>Force live TV to be transcoded. If All Playable Media is already set to Force Transcode (Remux Disabled), this setting is ignored.</source>
+        <translation>Força la transcodificació de la televisió en directe. Si ja s&apos;ha establert que es forci a tots els continguts multimèdia a transcodificar (Remux inhabilitat), aquesta configuració s&apos;ignora.</translation>
     </message>
 </context>
 </TS>

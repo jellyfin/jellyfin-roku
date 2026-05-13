@@ -14,7 +14,7 @@ function ItemGetPlaybackInfo(id as string, startTimeTicks = 0 as longinteger)
     return getJson(resp)
 end function
 
-function ItemPostPlaybackInfo(id as string, mediaSourceId = "" as string, audioTrackIndex = -1 as integer, subtitleTrackIndex = SubtitleSelection.NONE as integer, startTimeTicks = 0 as longinteger, options = {} as object)
+function ItemPostPlaybackInfo(id as string, mediaSourceId = "" as string, audioTrackIndex = -1 as integer, subtitleTrackIndex = SubtitleSelection.NOTSET as integer, startTimeTicks = 0 as longinteger, options = {} as object)
 
     transcodeCodec = string.EMPTY
 
@@ -33,8 +33,7 @@ function ItemPostPlaybackInfo(id as string, mediaSourceId = "" as string, audioT
         "IsPlayback": true,
         "AutoOpenLiveStream": true,
         "MaxStreamingBitrate": "140000000",
-        "MaxStaticBitrate": "140000000",
-        "SubtitleStreamIndex": subtitleTrackIndex
+        "MaxStaticBitrate": "140000000"
     }
 
     if isStringEqual(m.global.queueManager.callFunc("getForceTranscode"), PlaybackMethod.FORCELIVETVREMUX)
@@ -61,6 +60,11 @@ function ItemPostPlaybackInfo(id as string, mediaSourceId = "" as string, audioT
     end if
 
     if audioTrackIndex > -1 then params.AudioStreamIndex = audioTrackIndex
+
+    ' Only pass SubtitleStreamIndex if user has selected something
+    if subtitleTrackIndex <> SubtitleSelection.NOTSET
+        params.SubtitleStreamIndex = subtitleTrackIndex
+    end if
 
     req = APIRequest(Substitute("Items/{0}/PlaybackInfo", id), params)
     req.SetRequest("POST")
