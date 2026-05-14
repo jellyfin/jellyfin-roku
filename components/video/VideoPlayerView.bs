@@ -28,6 +28,8 @@ sub init()
 
     m.top.observeField("availableAudioTracks", "onAvailableAudioTracksChanged")
 
+    m.attemptDirectPlaySetting = chainLookupReturn(m.global.session, "user.settings.attemptDirectPlay", false)
+
     m.subtitleOffset = 0
 
     m.LoadProgramDetailsTask = createObject("roSGNode", "LoadProgramDetailsTask")
@@ -1248,8 +1250,10 @@ sub onState(msg)
     ' When buffering, start timer to monitor buffering process
     if isStringEqual(m.top.state, MediaPlaybackState.BUFFERING) and m.bufferCheckTimer <> invalid
         ' start timer
-        m.bufferStuckTimer.control = "start"
-        m.bufferStuckTimer.ObserveField("fire", "bufferStuckAt100Check")
+        if m.attemptDirectPlaySetting and not m.top.content.live
+            m.bufferStuckTimer.control = "start"
+            m.bufferStuckTimer.ObserveField("fire", "bufferStuckAt100Check")
+        end if
 
         m.bufferCheckTimer.control = "start"
         m.bufferCheckTimer.ObserveField("fire", "bufferCheck")
@@ -1257,29 +1261,7 @@ sub onState(msg)
         print "Error: " m.top.errorCode, m.top.errorMsg, " ErrorStr: " m.top.errorStr
         print m.top.errorInfo
 
-        if not m.playReported
-            if not m.isTranscoded
-                if isStringEqual(PlaybackMethod.PLAYNORMALLY, m.global.queueManager.callFunc("getForceTranscode"))
-                    m.global.queueManager.callFunc("setForceTranscode", PlaybackMethod.FORCETRANSCODEALLOWREMUX)
-                else if isStringEqual(PlaybackMethod.FORCETRANSCODEALLOWREMUX, m.global.queueManager.callFunc("getForceTranscode"))
-                    m.global.queueManager.callFunc("setForceTranscode", PlaybackMethod.FORCETRANSCODEDISABLEREMUX)
-                end if
-
-                m.global.queueManager.callFunc("setTranscodeReason", `Roku's video player threw the following error: ${m.top.errorStr}`)
-
-                ' Stop playback and exit player
-                m.top.control = VideoControl.STOP
-
-                m.LoadMetaDataTask.mustTranscode = true
-                m.LoadMetaDataTask.observeField("content", "onVideoContentLoaded")
-                m.LoadMetaDataTask.control = TaskControl.RUN
-                return
-            end if
-
-            ' Stop playback and exit player
-            m.top.control = VideoControl.STOP
-            m.top.backPressed = true
-        else if not m.playReported and m.top.content.live
+        if not m.playReported and m.top.content.live
             if m.playbackRetries < REPLAY_RETRIES
                 print "Live TV playback failed - retrying with remux forced"
                 m.playbackRetries = m.playbackRetries + 1
@@ -1299,6 +1281,24 @@ sub onState(msg)
                 m.top.backPressed = true
                 return
             end if
+
+        else if not m.playReported and m.attemptDirectPlaySetting and not m.isTranscoded
+            if isStringEqual(PlaybackMethod.PLAYNORMALLY, m.global.queueManager.callFunc("getForceTranscode"))
+                m.global.queueManager.callFunc("setForceTranscode", PlaybackMethod.FORCETRANSCODEALLOWREMUX)
+            else if isStringEqual(PlaybackMethod.FORCETRANSCODEALLOWREMUX, m.global.queueManager.callFunc("getForceTranscode"))
+                m.global.queueManager.callFunc("setForceTranscode", PlaybackMethod.FORCETRANSCODEDISABLEREMUX)
+            end if
+
+            m.global.queueManager.callFunc("setTranscodeReason", `Roku's video player threw the following error: ${m.top.errorStr}`)
+
+            ' Stop playback and exit player
+            m.top.control = VideoControl.STOP
+
+            m.LoadMetaDataTask.mustTranscode = true
+            m.LoadMetaDataTask.observeField("content", "onVideoContentLoaded")
+            m.LoadMetaDataTask.control = TaskControl.RUN
+            return
+
         else
             ' Reset retry counter if more than 30 seconds have passed since last error
             currentTime = CreateObject("roDateTime").AsSeconds()
@@ -1363,9 +1363,13 @@ sub onState(msg)
             m.osd.liveTvStartTime = m.clock.callFunc("getCurrentTime")
         end if
 
-        m.playbackCheckTimer = m.top.findNode("playbackCheckTimer")
-        m.playbackCheckTimer.ObserveFieldscoped("fire", "playbackCheck")
-        m.playbackCheckTimer.control = "start"
+        if not m.top.content.live
+            if m.attemptDirectPlaySetting
+                m.playbackCheckTimer = m.top.findNode("playbackCheckTimer")
+                m.playbackCheckTimer.ObserveFieldscoped("fire", "playbackCheck")
+                m.playbackCheckTimer.control = "start"
+            end if
+        end if
     else if isStringEqual(m.top.state, MediaPlaybackState.PAUSED)
         m.playbackTimer.control = "stop"
         ReportPlayback()

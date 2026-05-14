@@ -17,6 +17,13 @@
     "description": "Settings relating to playback and supported codec and media types.",
     "children": [
       {
+        "title": "Always Attempt Direct Playing Video Media",
+        "description": "Forces Jellyfin to try direct playing video media, Live TV excluded. Enabling this ignores all other playback support settings and will always first attempt direct playback. It also changes how transcode reason is displayed.",
+        "settingName": "attemptDirectPlay",
+        "type": "bool",
+        "default": "false"
+      },
+      {
         "title": "Are You Still Watching Popup",
         "description": "How many minutes of inactivity before playback is stopped between items and a popup is shown to continue? Set to 0 to disable.",
         "settingName": "stillwatchingPopupInactivityTime",
