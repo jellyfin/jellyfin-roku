@@ -34,5 +34,9 @@
   {
     "description": "Fix Quick Connect initiate to use POST instead of GET",
     "author": "no-reply"
+  },
+  {
+    "description": "Create setting to always attempt direct play no matter what",
+    "author": "1hitsong"
   }
 ]
