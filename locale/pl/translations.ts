@@ -204,478 +204,478 @@
     </message>
     <message>
         <source>Unable to get playback information</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie można uzyskać informacji o odtwarzaniu</translation>
     </message>
     <message>
         <source>There was an error retrieving the data for this item from the server.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wystąpił błąd podczas pobierania danych tego elementu z serwera.</translation>
         <extracomment>Dialog detail when unable to load Content from Server</extracomment>
     </message>
     <message>
         <source>An error was encountered while playing this item.</source>
-        <translation type="unfinished"></translation>
+        <translation>Podczas odtwarzania tego elementu wystąpił błąd.</translation>
         <extracomment>Dialog detail when error occurs during playback</extracomment>
     </message>
     <message>
         <source>Loading Channel Data</source>
-        <translation type="unfinished"></translation>
+        <translation>Ładowanie danych kanału</translation>
     </message>
     <message>
         <source>Error loading Channel Data</source>
-        <translation type="unfinished"></translation>
+        <translation>Błąd ładowania danych kanału</translation>
     </message>
     <message>
         <source>Unable to load Channel Data from the server</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie można załadować danych kanału z serwera</translation>
     </message>
     <message>
         <comment>Message displayed in Item Grid when no item to display. %1 is container type (e.g. Boxset, Collection, Folder, etc)</comment>
         <source>NO_ITEMS</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 nie zawiera żadnych elementów</translation>
     </message>
     <message>
         <comment>Name or Title field of media item</comment>
         <source>TITLE</source>
-        <translation type="unfinished"></translation>
+        <translation>Nazwa</translation>
     </message>
     <message>
         <source>IMDB_RATING</source>
-        <translation type="unfinished"></translation>
+        <translation>Ocena IMDb</translation>
     </message>
     <message>
         <source>Community Rating</source>
-        <translation type="unfinished"></translation>
+        <translation>Ocena społeczności</translation>
     </message>
     <message>
         <source>CRITIC_RATING</source>
-        <translation type="unfinished"></translation>
+        <translation>Ocena krytyków</translation>
     </message>
     <message>
         <source>DATE_ADDED</source>
-        <translation type="unfinished"></translation>
+        <translation>Data dodania</translation>
     </message>
     <message>
         <source>DATE_PLAYED</source>
-        <translation type="unfinished"></translation>
+        <translation>Data odtworzenia</translation>
     </message>
     <message>
         <source>OFFICIAL_RATING</source>
-        <translation type="unfinished"></translation>
+        <translation>Ocena rodzicielska</translation>
     </message>
     <message>
         <source>Date Show Added</source>
-        <translation type="unfinished"></translation>
+        <translation>Data dodania serialu</translation>
     </message>
     <message>
         <source>Date Episode Added</source>
-        <translation type="unfinished"></translation>
+        <translation>Data dodania odcinka</translation>
     </message>
     <message>
         <source>PLAY_COUNT</source>
-        <translation type="unfinished"></translation>
+        <translation>Liczba odtworzeń</translation>
     </message>
     <message>
         <source>RELEASE_DATE</source>
-        <translation type="unfinished"></translation>
+        <translation>Data wydania</translation>
     </message>
     <message>
         <source>RUNTIME</source>
-        <translation type="unfinished"></translation>
+        <translation>Czas trwania</translation>
     </message>
     <message>
         <comment>Title of Tab for switching &quot;views&quot; when looking at a library</comment>
         <source>TAB_VIEW</source>
-        <translation type="unfinished"></translation>
+        <translation>Widok</translation>
     </message>
     <message>
         <comment>Title of Tab for options to sort library content</comment>
         <source>TAB_SORT</source>
-        <translation type="unfinished"></translation>
+        <translation>Sortowanie</translation>
     </message>
     <message>
         <comment>Title of Tab for options to filter library content</comment>
         <source>TAB_FILTER</source>
-        <translation type="unfinished"></translation>
+        <translation>Filtrowanie</translation>
     </message>
     <message>
         <source>Born</source>
-        <translation type="unfinished"></translation>
+        <translation>Data urodzenia</translation>
     </message>
     <message>
         <source>Died</source>
-        <translation type="unfinished"></translation>
+        <translation>Data śmierci</translation>
     </message>
     <message>
         <source>Age</source>
-        <translation type="unfinished"></translation>
+        <translation>Wiek</translation>
     </message>
     <message>
         <source>Cast &amp; Crew</source>
-        <translation type="unfinished"></translation>
+        <translation>Obsada i ekipa</translation>
     </message>
     <message>
         <source>More Like This</source>
-        <translation type="unfinished"></translation>
+        <translation>Podobne</translation>
     </message>
     <message>
         <source>Press &apos;OK&apos; to Close</source>
-        <translation type="unfinished"></translation>
+        <translation>Naciśnij „OK”, aby zamknąć</translation>
     </message>
     <message>
         <source>Special Features</source>
-        <translation type="unfinished"></translation>
+        <translation>Dodatki specjalne</translation>
     </message>
     <message>
         <source>Additional Parts</source>
-        <translation type="unfinished"></translation>
+        <translation>Części dodatkowe</translation>
         <extracomment>Additional parts of a video</extracomment>
     </message>
     <message>
         <source>Movies</source>
-        <translation type="unfinished"></translation>
+        <translation>Filmy</translation>
     </message>
     <message>
         <source>Movies (Presentation)</source>
-        <translation type="unfinished"></translation>
+        <translation>Filmy (prezentacja)</translation>
         <extracomment>Movie library view option</extracomment>
     </message>
     <message>
         <source>Movies (Grid)</source>
-        <translation type="unfinished"></translation>
+        <translation>Filmy (siatka)</translation>
         <extracomment>Movie library view option</extracomment>
     </message>
     <message>
         <source>TV Shows</source>
-        <translation type="unfinished"></translation>
+        <translation>Seriale telewizyjne</translation>
     </message>
     <message>
         <source>today</source>
-        <translation type="unfinished"></translation>
+        <translation>dziś</translation>
         <extracomment>Current day</extracomment>
     </message>
     <message>
         <source>yesterday</source>
-        <translation type="unfinished"></translation>
+        <translation>wczoraj</translation>
         <extracomment>Previous day</extracomment>
     </message>
     <message>
         <source>tomorrow</source>
-        <translation type="unfinished"></translation>
+        <translation>jutro</translation>
         <extracomment>Next day</extracomment>
     </message>
     <message>
         <source>Sunday</source>
-        <translation type="unfinished"></translation>
+        <translation>niedziela</translation>
         <extracomment>Day of Week</extracomment>
     </message>
     <message>
         <source>Monday</source>
-        <translation type="unfinished"></translation>
+        <translation>poniedziałek</translation>
         <extracomment>Day of Week</extracomment>
     </message>
     <message>
         <source>Tuesday</source>
-        <translation type="unfinished"></translation>
+        <translation>wtorek</translation>
         <extracomment>Day of Week</extracomment>
     </message>
     <message>
         <source>Wednesday</source>
-        <translation type="unfinished"></translation>
+        <translation>środa</translation>
         <extracomment>Day of Week</extracomment>
     </message>
     <message>
         <source>Thursday</source>
-        <translation type="unfinished"></translation>
+        <translation>czwartek</translation>
         <extracomment>Day of Week</extracomment>
     </message>
     <message>
         <source>Friday</source>
-        <translation type="unfinished"></translation>
+        <translation>piątek</translation>
         <extracomment>Day of Week</extracomment>
     </message>
     <message>
         <source>Saturday</source>
-        <translation type="unfinished"></translation>
+        <translation>sobota</translation>
         <extracomment>Day of Week</extracomment>
     </message>
     <message>
         <source>Started at</source>
-        <translation type="unfinished"></translation>
+        <translation>Rozpoczęto o</translation>
         <extracomment>(Past Tense) For defining time when a program started today (e.g. Started at 08:00) </extracomment>
     </message>
     <message>
         <source>Started</source>
-        <translation type="unfinished"></translation>
+        <translation>Rozpoczęto</translation>
         <extracomment>(Past Tense) For defining a day and time when a program started (e.g. Started Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Starts at</source>
-        <translation type="unfinished"></translation>
+        <translation>Rozpoczyna się o</translation>
         <extracomment>(Future Tense) For defining time when a program will start today (e.g. Starts at 08:00) </extracomment>
     </message>
     <message>
         <source>Starts</source>
-        <translation type="unfinished"></translation>
+        <translation>Rozpoczyna się</translation>
         <extracomment>(Future Tense) For defining a day and time when a program will start (e.g. Starts Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Ended at</source>
-        <translation type="unfinished"></translation>
+        <translation>Zakończono o</translation>
         <extracomment>(Past Tense) For defining time when a program will ended (e.g. Ended at 08:00) </extracomment>
     </message>
     <message>
         <source>Ends at</source>
-        <translation type="unfinished"></translation>
+        <translation>Kończy się o</translation>
         <extracomment>(Past Tense) For defining a day and time when a program ended (e.g. Ended Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Live</source>
-        <translation type="unfinished"></translation>
+        <translation>Na żywo</translation>
         <extracomment>If TV Show is being broadcast live (not pre-recorded)</extracomment>
     </message>
     <message>
         <source>Repeat</source>
-        <translation type="unfinished"></translation>
+        <translation>Powtórka</translation>
         <extracomment>If TV Shows has previously been broadcasted</extracomment>
     </message>
     <message>
         <source>Channels</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanały</translation>
         <extracomment>Menu option for showing Live TV Channel List</extracomment>
     </message>
     <message>
         <source>TV Guide</source>
-        <translation type="unfinished"></translation>
+        <translation>Program TV</translation>
         <extracomment>Menu option for showing Live TV Guide / Schedule</extracomment>
     </message>
     <message>
         <source>View Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyświetl kanał</translation>
     </message>
     <message>
         <source>Record</source>
-        <translation type="unfinished"></translation>
+        <translation>Nagraj</translation>
     </message>
     <message>
         <source>Record Series</source>
-        <translation type="unfinished"></translation>
+        <translation>Nagraj serial</translation>
     </message>
     <message>
         <source>Cancel Recording</source>
-        <translation type="unfinished"></translation>
+        <translation>Anuluj nagrywanie</translation>
     </message>
     <message>
         <source>Cancel Series Recording</source>
-        <translation type="unfinished"></translation>
+        <translation>Anuluj nagrywanie serialu</translation>
     </message>
     <message>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation>Zamknij</translation>
     </message>
     <message>
         <source>Connecting to Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Łączenie z serwerem</translation>
         <extracomment>Message to display to user while client is attempting to connect to the server</extracomment>
     </message>
     <message>
         <source>Not found</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie znaleziono</translation>
         <extracomment>Title of message box when the requested content is not found on the server</extracomment>
     </message>
     <message>
         <source>Unknown</source>
-        <translation type="unfinished"></translation>
+        <translation>Nieznany</translation>
         <extracomment>Title for a cast member for which we have no information for</extracomment>
     </message>
     <message>
         <source>The requested content does not exist on the server</source>
-        <translation type="unfinished"></translation>
+        <translation>Żądana treść nie istnieje na serwerze</translation>
         <extracomment>Content of message box when the requested content is not found on the server</extracomment>
     </message>
     <message>
         <source>Enter the server name or IP address</source>
-        <translation type="unfinished"></translation>
+        <translation>Wpisz nazwę serwera lub adres IP</translation>
         <extracomment>Title of KeyboardDialog when manually entering a server URL</extracomment>
     </message>
     <message>
         <source>Pick a Jellyfin server from the local network</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz dostępny serwer Jellyfin ze swojej sieci lokalnej:</translation>
         <extracomment>Instructions on initial app launch when the user is asked to pick a server from a list</extracomment>
     </message>
     <message>
         <source>...or enter server URL manually:</source>
-        <translation type="unfinished"></translation>
+        <translation>Jeżeli powyżej nie ma żadnego serwera, możesz również ręcznie wpisać adres URL serwera:</translation>
         <extracomment>Instructions on initial app launch when the user is asked to manually enter a server URL</extracomment>
     </message>
     <message>
         <source>Error Getting Playback Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Błąd podczas pobierania informacji o odtwarzaniu</translation>
         <extracomment>Dialog Title: Received error from server when trying to get information about the selected item for playback</extracomment>
     </message>
     <message>
         <source>An error was encountered while playing this item. Server did not provide required transcoding data.</source>
-        <translation type="unfinished"></translation>
+        <translation>Podczas odtwarzania tego elementu wystąpił błąd. Serwer nie dostarczył wymaganych danych transkodujących.</translation>
         <extracomment>Content of message box when trying to play an item which requires transcoding, and the server did not provide transcode url</extracomment>
     </message>
     <message>
         <source>Version</source>
-        <translation type="unfinished"></translation>
+        <translation>Wersja</translation>
     </message>
     <message>
         <source>Playback</source>
-        <translation type="unfinished"></translation>
+        <translation>Odtwarzanie</translation>
         <extracomment>Title for Playback section in user setting screen.</extracomment>
     </message>
     <message>
         <source>Codec Support</source>
-        <translation type="unfinished"></translation>
+        <translation>Obsługa kodeków</translation>
         <extracomment>Settings Menu - Title for settings group related to codec support</extracomment>
     </message>
     <message>
         <source>Enable or disable Direct Play for optional codecs</source>
-        <translation type="unfinished"></translation>
+        <translation>Włącz lub wyłącz funkcję bezpośredniego odtwarzania dla opcjonalnych kodeków</translation>
         <extracomment>Settings Menu - Title for settings group related to codec support</extracomment>
     </message>
     <message>
         <source>MPEG-2</source>
-        <translation type="unfinished"></translation>
+        <translation>MPEG-2</translation>
         <extracomment>Name of codec used in settings menu</extracomment>
     </message>
     <message>
         <source>Support Direct Play of MPEG-2 content (e.g., Live TV). This will prevent transcoding of MPEG-2 content, but uses significantly more bandwidth.</source>
-        <translation type="unfinished"></translation>
+        <translation>Obsługa bezpośredniego odtwarzania treści MPEG-2 (np. telewizji na żywo). Zapobiega to transkodowaniu treści MPEG-2, ale zużywa znacznie więcej pasma.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>MPEG-4</source>
-        <translation type="unfinished"></translation>
+        <translation>MPEG-4</translation>
         <extracomment>Name of codec used in settings menu</extracomment>
     </message>
     <message>
         <source>Support Direct Play of MPEG-4 content. This may need to be disabled for playback of DIVX encoded video files.</source>
-        <translation type="unfinished"></translation>
+        <translation>Obsługa bezpośredniego odtwarzania treści MPEG-4. Może być konieczne wyłączenie tej opcji w celu odtwarzania plików wideo w formacie DIVX.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Włączone</translation>
     </message>
     <message>
         <source>Disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyłączone</translation>
     </message>
     <message>
         <source>User Interface</source>
-        <translation type="unfinished"></translation>
+        <translation>Interfejs użytkownika</translation>
         <extracomment>Title for User Interface section in user setting screen.</extracomment>
     </message>
     <message>
         <source>Media Grid</source>
-        <translation type="unfinished"></translation>
+        <translation>Siatka multimediów</translation>
         <extracomment>UI -&gt; Media Grid section in user setting screen.</extracomment>
     </message>
     <message>
         <source>Media Grid options.</source>
-        <translation type="unfinished"></translation>
+        <translation>Opcje siatki multimediów.</translation>
     </message>
     <message>
         <source>Item Count</source>
-        <translation type="unfinished"></translation>
+        <translation>Liczba elementów</translation>
         <extracomment>UI -&gt; Media Grid -&gt; Item Count in user setting screen.</extracomment>
     </message>
     <message>
         <source>Show item count in the library and index of selected item.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokaż liczbę elementów w bibliotece i indeks wybranego elementu.</translation>
         <extracomment>Description for option in Setting Screen</extracomment>
     </message>
     <message>
         <source>Set Favorite</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustaw jako ulubione</translation>
         <extracomment>Button Text - When pressed, sets item as Favorite</extracomment>
     </message>
     <message>
         <source>Favorited</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustawiono jako ulubione</translation>
     </message>
     <message>
         <source>Mark As Favorite</source>
-        <translation type="unfinished"></translation>
+        <translation>Oznacz jako ulubione</translation>
     </message>
     <message>
         <source>Set Watched</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustaw jako obejrzane</translation>
         <extracomment>Button Text - When pressed, marks item as Warched</extracomment>
     </message>
     <message>
         <source>Resume playing at </source>
-        <translation type="unfinished"></translation>
+        <translation>Wznów odtwarzanie od </translation>
     </message>
     <message>
         <source>Start over from the beginning.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zacznij od początku.</translation>
     </message>
     <message>
         <source>Playback Options</source>
-        <translation type="unfinished"></translation>
+        <translation>Opcje odtwarzania</translation>
     </message>
     <message>
         <source>Go to series</source>
-        <translation type="unfinished"></translation>
+        <translation>Przejdź do serialu</translation>
         <extracomment>Continue Watching Popup Menu - Navigate to the Series Detail Page</extracomment>
     </message>
     <message>
         <source>Go to season</source>
-        <translation type="unfinished"></translation>
+        <translation>Przejdź do sezonu</translation>
         <extracomment>Continue Watching Popup Menu - Navigate to the Season Page</extracomment>
     </message>
     <message>
         <source>Go to episode</source>
-        <translation type="unfinished"></translation>
+        <translation>Przejdź do odcinka</translation>
         <extracomment>Continue Watching Popup Menu - Navigate to the Episode Detail Page</extracomment>
     </message>
     <message>
         <source>Use voice remote to search</source>
-        <translation type="unfinished"></translation>
+        <translation>Użyj pilota głosowego do wyszukiwania</translation>
         <extracomment>Help text in search voice text box</extracomment>
     </message>
     <message>
         <source>Search now</source>
-        <translation type="unfinished"></translation>
+        <translation>Szukaj teraz</translation>
         <extracomment>Help text in search Box</extracomment>
     </message>
     <message>
         <source>You can search for Titles, People, Live TV Channels and more</source>
-        <translation type="unfinished"></translation>
+        <translation>Możesz wyszukiwać tytuły, osoby, kanały TV i wiele więcej</translation>
         <extracomment>Help text in search results</extracomment>
     </message>
     <message>
         <source>%1 of %2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 z %2</translation>
         <extracomment>Item position and count. %1 = current item. %2 = total number of items</extracomment>
     </message>
     <message>
         <source>Quick Connect</source>
-        <translation type="unfinished"></translation>
+        <translation>Szybkie łączenie</translation>
     </message>
     <message>
         <source>Here is your Quick Connect code:</source>
-        <translation type="unfinished"></translation>
+        <translation>Oto kod szybkiego łączenia:</translation>
     </message>
     <message>
         <source>(Dialog will close automatically)</source>
-        <translation type="unfinished"></translation>
+        <translation>(Okno dialogowe zostanie zamknięte automatycznie)</translation>
     </message>
     <message>
         <source>There was an error authenticating via Quick Connect.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wystąpił błąd podczas uwierzytelniania za pomocą szybkiego łączenia.</translation>
     </message>
     <message>
         <source>Networks</source>
-        <translation type="unfinished"></translation>
+        <translation>Sieci</translation>
     </message>
     <message>
         <source>Studios</source>
-        <translation type="unfinished"></translation>
+        <translation>Studia</translation>
     </message>
     <message>
         <source>Shows</source>

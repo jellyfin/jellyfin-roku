@@ -1438,7 +1438,7 @@
     </message>
     <message>
         <source>Ask To Skip</source>
-        <translation type="unfinished"></translation>
+        <translation>طلب تجاوز</translation>
         <extracomment>User Setting - Options</extracomment>
     </message>
     <message>
@@ -1448,12 +1448,12 @@
     </message>
     <message>
         <source>None</source>
-        <translation type="unfinished"></translation>
+        <translation>بلا</translation>
         <extracomment>User Setting - Options</extracomment>
     </message>
     <message>
         <source>No Chapter Data Found</source>
-        <translation type="unfinished"></translation>
+        <translation>لم يعثر على بيانات الفصل</translation>
         <extracomment>Message shown in OSD when no chapter data is returned by the API</extracomment>
     </message>
     <message>
@@ -1676,7 +1676,7 @@
     </message>
     <message>
         <source>Skip</source>
-        <translation type="unfinished"></translation>
+        <translation>تجاوز</translation>
     </message>
     <message>
         <source>Sort by</source>
