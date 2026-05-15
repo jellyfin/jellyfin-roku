@@ -760,44 +760,44 @@
     </message>
     <message>
         <source>Hide all clocks in Jellyfin. Jellyfin will need to be closed and reopened for changes to take effect.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukryj wszystkie zegary w Jellyfin. Aby zmiany zostały wprowadzone, konieczne będzie zamknięcie i ponowne otwarcie Jellyfin.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Next episode</source>
-        <translation type="unfinished"></translation>
+        <translation>Następny odcinek</translation>
     </message>
     <message>
         <source>Play Trailer</source>
-        <translation type="unfinished"></translation>
+        <translation>Odtwórz zwiastun</translation>
     </message>
     <message>
         <source>H.264</source>
-        <translation type="unfinished"></translation>
+        <translation>H.264</translation>
         <extracomment>Name of codec used in settings menu</extracomment>
     </message>
     <message>
         <source>Attempt Direct Play for H.264 media with unsupported profile levels before falling back to transcoding if it fails.</source>
-        <translation type="unfinished"></translation>
+        <translation>W przypadku plików multimedialnych w formacie H.264 o nieobsługiwanych poziomach profilu należy najpierw spróbować odtworzyć je bezpośrednio, a dopiero po niepowodzeniu przejść do transkodowania.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>HEVC</source>
-        <translation type="unfinished"></translation>
+        <translation>HEVC</translation>
         <extracomment>Name of codec used in settings menu</extracomment>
     </message>
     <message>
         <source>Attempt Direct Play for HEVC media with unsupported profile levels before falling back to transcoding if it fails.</source>
-        <translation type="unfinished"></translation>
+        <translation>W przypadku plików multimedialnych w formacie HEVC o nieobsługiwanych poziomach profilu należy najpierw spróbować odtworzyć je bezpośrednio, a dopiero po niepowodzeniu przejść do transkodowania.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Settings relating to playback and supported codec and media types.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustawienia dotyczące odtwarzania oraz obsługiwanych kodeków i typów multimediów.</translation>
     </message>
     <message>
         <source>Settings relating to how the application looks.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustawienia dotyczące wyglądu aplikacji.</translation>
     </message>
     <message>
         <source>Max Days Next Up</source>
