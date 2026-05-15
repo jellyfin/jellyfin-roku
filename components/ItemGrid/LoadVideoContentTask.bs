@@ -333,13 +333,16 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
         return
     end if
 
+    video.subtitlesBurnedIn = false
+
     ' If transcoding and burnInSubtitlesIfTrancoding is enabled, zero out SubtitleProfiles
-    if chainLookupReturn(m.global, "session.user.settings.`playback.subs.burnin`", true) and meta.live = false
+    if chainLookupReturn(m.global, "session.user.settings.`playback.subs.burnin`", true) and meta.live = false and shouldBurnInSelectedSubtitle(m.playbackInfo, m.top.selectedSubtitleIndex)
         m.playbackInfo = ItemPostPlaybackInfo(video.id, mediaSourceId, audio_stream_idx, m.top.selectedSubtitleIndex, playbackPosition, {
             emptySubtitleProfiles: true
         })
         ' Re-posting playback info will generate a new PlaysessionId
         video.PlaySessionId = m.playbackInfo.PlaySessionId
+        video.subtitlesBurnedIn = true
     end if
 
     ' Get transcoding reason
@@ -459,6 +462,35 @@ function getTranscodeReasons(url as string) as object
     end if
 
     return []
+end function
+
+function shouldBurnInSelectedSubtitle(playbackInfo as object, selectedSubtitleIndex as integer) as boolean
+    if selectedSubtitleIndex = SubtitleSelection.NONE then return false
+    if not isValid(playbackInfo) then return true
+    if not isValidAndNotEmpty(playbackInfo.MediaSources) then return true
+    if not isValid(playbackInfo.MediaSources[0]) then return true
+
+    mediaSource = playbackInfo.MediaSources[0]
+    subtitleIndex = selectedSubtitleIndex
+
+    if selectedSubtitleIndex = SubtitleSelection.NOTSET
+        defaultSubtitleIndex = mediaSource.LookupCI("DefaultSubtitleStreamIndex")
+        if not isValid(defaultSubtitleIndex) then return false
+        subtitleIndex = defaultSubtitleIndex
+    end if
+
+    if not isValid(mediaSource.MediaStreams) then return true
+
+    for each stream in mediaSource.MediaStreams
+        if LCase(stream.LookupCI("Type")) = "subtitle" and stream.LookupCI("Index") = subtitleIndex
+            if stream.LookupCI("DeliveryMethod") = "External" then return false
+            if stream.LookupCI("IsTextSubtitleStream") = true and stream.LookupCI("DeliveryMethod") <> "Encode" then return false
+
+            return true
+        end if
+    end for
+
+    return true
 end function
 
 function directPlaySupported(meta as object) as boolean
