@@ -679,83 +679,83 @@
     </message>
     <message>
         <source>Shows</source>
-        <translation type="unfinished"></translation>
+        <translation>Programy</translation>
     </message>
     <message>
         <source>Return to Top</source>
-        <translation type="unfinished"></translation>
+        <translation>Powrót na górę</translation>
         <extracomment>UI -&gt; Media Grid -&gt; Item Title in user setting screen.</extracomment>
     </message>
     <message>
         <source>Use the replay button to slowly animate to the first item in the folder. (If disabled, the folder will reset to the first item immediately).</source>
-        <translation type="unfinished"></translation>
+        <translation>Użyj przycisku odtwarzania, aby powoli przejść do pierwszego elementu w folderze. (Jeśli ta opcja jest wyłączona, folder natychmiast powróci do pierwszego elementu).</translation>
         <extracomment>Description for option in Setting Screen</extracomment>
     </message>
     <message>
         <source>Hide Taglines</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukryj slogany</translation>
         <extracomment>Option Title in user setting screen</extracomment>
     </message>
     <message>
         <source>Hides tagline text on details pages.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukrywa tekst sloganu na stronach ze szczegółami.</translation>
     </message>
     <message>
         <source>Options for TV Shows.</source>
-        <translation type="unfinished"></translation>
+        <translation>Opcje programów telewizyjnych.</translation>
         <extracomment>Description for TV Shows user settings.</extracomment>
     </message>
     <message>
         <source>Blur Unwatched Episodes</source>
-        <translation type="unfinished"></translation>
+        <translation>Rozmycie nieobejrzanych odcinków</translation>
         <extracomment>Option Title in user setting screen</extracomment>
     </message>
     <message>
         <source>Skip Details for Single Seasons</source>
-        <translation type="unfinished"></translation>
+        <translation>Pomiń szczegóły dotyczące pojedynczych sezonów</translation>
         <extracomment>Settings Menu - Title for option</extracomment>
     </message>
     <message>
         <source>Go directly to the episode list if a TV series has only one season.</source>
-        <translation type="unfinished"></translation>
+        <translation>Jeśli ta opcja jest włączona, wybranie serialu telewizyjnego zawierającego tylko jeden sezon spowoduje przejście bezpośrednio do listy odcinków, a nie do szczegółów serialu i listy sezonów.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Blur images of unwatched episodes.</source>
-        <translation type="unfinished"></translation>
+        <translation>Rozmyte obrazy nieobejrzanych odcinków.</translation>
     </message>
     <message>
         <source>Design Elements</source>
-        <translation type="unfinished"></translation>
+        <translation>Elementy projektu</translation>
     </message>
     <message>
         <source>Options that alter the design of Jellyfin.</source>
-        <translation type="unfinished"></translation>
+        <translation>Opcje zmieniające projekt Jellyfin.</translation>
         <extracomment>Description for Design Elements user settings.</extracomment>
     </message>
     <message>
         <source>Use Splashscreen as Home Background</source>
-        <translation type="unfinished"></translation>
+        <translation>Użyj ekranu powitalnego jako tła głównego</translation>
         <extracomment>Option Title in user setting screen</extracomment>
     </message>
     <message>
         <source>Use generated splashscreen image as Jellyfin&apos;s home background. Jellyfin will need to be closed and reopened for change to take effect.</source>
-        <translation type="unfinished"></translation>
+        <translation>Użyj wygenerowanego obrazu powitalnego jako tła głównego Jellyfin. Aby zmiany zostały wprowadzone, Jellyfin będzie musiał zostać zamknięty i ponownie otwarty.</translation>
         <extracomment>Description for option in Setting Screen</extracomment>
     </message>
     <message>
         <source>Cinema Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Tryb kinowy</translation>
         <extracomment>Settings Menu - Title for option</extracomment>
     </message>
     <message>
         <source>Bring the theater experience straight to your living room with the ability to play custom intros before the main feature.</source>
-        <translation type="unfinished"></translation>
+        <translation>Przenieś wrażenia kinowe prosto do swojego salonu dzięki możliwości odtwarzania własnych intro przed głównym filmem.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Hide Clock</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukryj zegar</translation>
         <extracomment>Option Title in user setting screen</extracomment>
     </message>
     <message>
@@ -2423,6 +2423,18 @@
     <message>
         <source>Search Unavailable</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Subtitles</source>
+        <translation>Napisy</translation>
+    </message>
+    <message>
+        <source>tracks</source>
+        <translation>ścieżki</translation>
+    </message>
+    <message>
+        <source>No Default</source>
+        <translation>Brak domyślnej</translation>
     </message>
 </context>
 </TS>
