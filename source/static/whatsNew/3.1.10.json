@@ -46,5 +46,9 @@
   {
     "description": "Show subtitle track information on item details screens",
     "author": "VX-101"
+  },
+  {
+    "description": "Keep favorite status when toggling played state",
+    "author": "VX-101"
   }
 ]
