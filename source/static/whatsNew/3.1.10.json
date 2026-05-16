@@ -38,9 +38,5 @@
   {
     "description": "Improve Down navigation in library grids with short last rows",
     "author": "VX-101"
-  },
-  {
-    "description": "Honor Roku text edge effects for custom subtitles",
-    "author": "ferezvi"
   }
 ]
