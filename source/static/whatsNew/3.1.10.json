@@ -54,5 +54,9 @@
   {
     "description": "Only load 50 live TV channels at a time",
     "author": "FractalBoy"
+  },
+  {
+    "description": "Honor Roku text edge effects for custom subtitles",
+    "author": "ferezvi"
   }
 ]
