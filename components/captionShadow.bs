@@ -18,18 +18,18 @@ sub createShadowLabels(rect as object, styledText as string, drawingStyles as ob
         ' No shadow labels - Roku's Default visually produces no visible effect, so we treat it as None
         return
     else if isStringEqual(textEffect, "Raised")
-        ' Shadow below and to the right, giving the text a raised appearance
-        offsets = [
-            [BASE_OFFSET + outlineStep, BASE_OFFSET],
-            [BASE_OFFSET, BASE_OFFSET + outlineStep],
-            [BASE_OFFSET + outlineDiag, BASE_OFFSET + outlineDiag]
-        ]
-    else if isStringEqual(textEffect, "Depressed")
-        ' Shadow above and to the left, giving the text a depressed appearance
+        ' Shadow above and to the left, giving the text a raised appearance
         offsets = [
             [BASE_OFFSET - outlineStep, BASE_OFFSET],
             [BASE_OFFSET, BASE_OFFSET - outlineStep],
             [BASE_OFFSET - outlineDiag, BASE_OFFSET - outlineDiag]
+        ]
+    else if isStringEqual(textEffect, "Depressed")
+        ' Shadow below and to the right, giving the text a depressed appearance
+        offsets = [
+            [BASE_OFFSET + outlineStep, BASE_OFFSET],
+            [BASE_OFFSET, BASE_OFFSET + outlineStep],
+            [BASE_OFFSET + outlineDiag, BASE_OFFSET + outlineDiag]
         ]
     else if isStringEqual(textEffect, "Drop shadow (left)")
         ' Single diagonal shadow to the bottom-left
