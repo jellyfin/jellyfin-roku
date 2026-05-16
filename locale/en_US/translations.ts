@@ -181,6 +181,18 @@
             <translation>Audio</translation>
         </message>
         <message>
+            <source>Subtitles</source>
+            <translation>Subtitles</translation>
+        </message>
+        <message>
+            <source>tracks</source>
+            <translation>tracks</translation>
+        </message>
+        <message>
+            <source>No Default</source>
+            <translation>No Default</translation>
+        </message>
+        <message>
             <source>Server</source>
             <translation>Server</translation>
         </message>
