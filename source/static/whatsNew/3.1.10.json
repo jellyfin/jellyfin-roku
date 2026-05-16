@@ -38,5 +38,25 @@
   {
     "description": "Improve Down navigation in library grids with short last rows",
     "author": "VX-101"
+  },
+  {
+    "description": "Fix non-square trickplay thumbnail rendering and seek buffering overlay",
+    "author": "VX-101"
+  },
+  {
+    "description": "Show subtitle track information on item details screens",
+    "author": "VX-101"
+  },
+  {
+    "description": "Stop loading live TV EPG when there is no more data to load",
+    "author": "FractalBoy"
+  },
+  {
+    "description": "Only load 50 live TV channels at a time",
+    "author": "FractalBoy"
+  },
+  {
+    "description": "Honor Roku text edge effects for custom subtitles",
+    "author": "ferezvi"
   }
 ]
