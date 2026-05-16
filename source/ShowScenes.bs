@@ -120,8 +120,12 @@ function LoginFlow()
                 if myToken <> invalid
                     ' check if token is valid
                     session.user.Update("authToken", myToken)
+                    session.setRuntimeRequestContextValue("moonfin.userId", m.global.session.user.id)
+                    session.setRuntimeRequestContextValue("moonfin.authToken", myToken)
                     currentUser = AboutMe()
                     if currentUser = invalid
+                        session.setRuntimeRequestContextValue("moonfin.userId", invalid)
+                        session.setRuntimeRequestContextValue("moonfin.authToken", invalid)
                         unset_user_setting("token")
                         unset_user_setting("username")
                     else
@@ -155,9 +159,13 @@ function LoginFlow()
         if isValid(myAuthToken) and isValid(myUsername)
             session.user.Update("authToken", myAuthToken)
             session.user.Update("name", myUsername)
+            session.setRuntimeRequestContextValue("moonfin.userId", activeUser)
+            session.setRuntimeRequestContextValue("moonfin.authToken", myAuthToken)
 
             currentUser = AboutMe()
             if currentUser = invalid
+                session.setRuntimeRequestContextValue("moonfin.userId", invalid)
+                session.setRuntimeRequestContextValue("moonfin.authToken", invalid)
                 ' Token invalid - clear cached data and show sign-in screen
                 unset_user_setting("token")
                 unset_user_setting("username")

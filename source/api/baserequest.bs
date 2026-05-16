@@ -275,13 +275,18 @@ function getAuthTokenFromRegistry() as dynamic
     end if
 
     activeUserId = getActiveUserIdFromRegistry()
-    if not isValidAndNotEmpty(activeUserId)
-        return invalid
+    if isValidAndNotEmpty(activeUserId)
+        authToken = getRegistryValue(activeUserId, "token")
+        if isValidAndNotEmpty(authToken)
+            return authToken
+        end if
     end if
 
-    authToken = getRegistryValue(activeUserId, "token")
-    if isValidAndNotEmpty(authToken)
-        return authToken
+    if isValid(m) and isChainValid(m, "global.session.user.authToken")
+        authToken = chainLookupReturn(m, "global.session.user.authToken", invalid)
+        if isValidAndNotEmpty(authToken)
+            return authToken
+        end if
     end if
 
     return invalid

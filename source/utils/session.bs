@@ -133,7 +133,7 @@ namespace session
             if userData = invalid or userData.id = invalid then return
 
             tmpSession = m.global.session
-            oldUserSettings = tmpSession.user.settings
+            oldUserSettings = {}
             if userData.json = invalid
                 myAuthToken = tmpSession.user.authToken
                 tmpSession.AddReplace("user", userData)
@@ -173,6 +173,7 @@ namespace session
             end if
 
             session.user.Update("settings", tmpSettingArray)
+            session.user.settings.SaveDefaults()
 
             session.setRuntimeRequestContextValue("moonfin.userId", tmpSession.user.id)
             session.setRuntimeRequestContextValue("moonfin.authToken", tmpSession.user.authToken)
