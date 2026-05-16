@@ -48,6 +48,14 @@
     "author": "VX-101"
   },
   {
+    "description": "Stop loading live TV EPG when there is no more data to load",
+    "author": "FractalBoy"
+  },
+  {
+    "description": "Only load 50 live TV channels at a time",
+    "author": "FractalBoy"
+  },
+  {
     "description": "Create setting to always attempt direct play no matter what",
     "author": "1hitsong"
   }
