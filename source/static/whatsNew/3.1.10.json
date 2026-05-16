@@ -24,6 +24,30 @@
     "author": "FractalBoy"
   },
   {
+    "description": "Keep focus on the top row when opening playback options",
+    "author": "VX-101"
+  },
+  {
+    "description": "Fix subtitle menu selection for burned-in subtitles",
+    "author": "VX-101"
+  },
+  {
+    "description": "Fix Quick Connect initiate to use POST instead of GET",
+    "author": "no-reply"
+  },
+  {
+    "description": "Improve Down navigation in library grids with short last rows",
+    "author": "VX-101"
+  },
+  {
+    "description": "Fix non-square trickplay thumbnail rendering and seek buffering overlay",
+    "author": "VX-101"
+  },
+  {
+    "description": "Show subtitle track information on item details screens",
+    "author": "VX-101"
+  },
+  {
     "description": "Stop loading live TV EPG when there is no more data to load",
     "author": "FractalBoy"
   },

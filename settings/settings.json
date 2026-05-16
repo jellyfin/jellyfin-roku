@@ -86,7 +86,7 @@
       },
       {
         "title": "Custom Subtitles",
-        "description": "Replace Roku's default subtitle functions with custom functions that support CJK fonts. Fallback fonts must be configured and enabled on the server for CJK rendering to work.",
+        "description": "Replace Roku's default subtitle functions with custom functions. If fallback fonts are configured and enabled on the server, those fonts will be used. A CJK fallback font is required for CJK rendering. To support bold and italics, you must have additional font files with the words \"bold\", \"italic\", and \"bolditalic\" in the filename.",
         "settingName": "playback.subs.custom",
         "type": "bool",
         "default": "false"

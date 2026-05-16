@@ -97,7 +97,11 @@ sub onvoiceFilter()
     if isStringEqual(searchTerm, "reset search") then searchTerm = string.EMPTY
     if isStringEqual(searchTerm, "clear search") then searchTerm = string.EMPTY
 
-    setSearchHintText(searchTerm)
+    m.voiceBox.unObserveFieldScoped("text")
+    ' Voice input sets the text, but we don't want the text value set since it messes up
+    ' moving focus from the box to other controls (it moves through each letter without any real visual change)
+    m.voiceBox.text = string.EMPTY
+    m.voiceBox.observeFieldScoped("text", "onvoiceFilter")
 
     m.top.searchTerm = searchTerm
 end sub

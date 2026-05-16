@@ -181,6 +181,18 @@
             <translation>Audio</translation>
         </message>
         <message>
+            <source>Subtitles</source>
+            <translation>Subtitles</translation>
+        </message>
+        <message>
+            <source>tracks</source>
+            <translation>tracks</translation>
+        </message>
+        <message>
+            <source>No Default</source>
+            <translation>No Default</translation>
+        </message>
+        <message>
             <source>Server</source>
             <translation>Server</translation>
         </message>
@@ -907,8 +919,8 @@
             <extracomment>Name of a setting - custom subtitles that support CJK fonts</extracomment>
         </message>
         <message>
-            <source>Replace Roku's default subtitle functions with custom functions that support CJK fonts. Fallback fonts must be configured and enabled on the server for CJK rendering to work.</source>
-            <translation>Replace Roku's default subtitle functions with custom functions that support CJK fonts. Fallback fonts must be configured and enabled on the server for CJK rendering to work.</translation>
+            <source>Replace Roku&apos;s default subtitle functions with custom functions. If fallback fonts are configured and enabled on the server, those fonts will be used. A CJK fallback font is required for CJK rendering. To support bold and italics, you must have additional font files with the words &quot;bold&quot;, &quot;italic&quot;, and &quot;bolditalic&quot; in the filename.</source>
+            <translation>Replace Roku&apos;s default subtitle functions with custom functions. If fallback fonts are configured and enabled on the server, those fonts will be used. A CJK fallback font is required for CJK rendering. To support bold and italics, you must have additional font files with the words &quot;bold&quot;, &quot;italic&quot;, and &quot;bolditalic&quot; in the filename.</translation>
             <extracomment>Description of a setting - custom subtitles that support CJK fonts</extracomment>
         </message>
         <message>
