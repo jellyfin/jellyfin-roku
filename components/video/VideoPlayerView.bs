@@ -1095,22 +1095,60 @@ sub displayNextItem()
         nextItemPoster.uri = ImageURL(nextItem.lookupCI("id"), ImageType.PRIMARY, { "maxHeight": 124, "maxWidth": 150, "Tag": chainLookupReturn(imageTags, ImageType.PRIMARY, `cacheBuster${rnd(99999)}`) })
     end if
 
-    nextItemSeriesTitle = m.top.findNode("nextItemSeriesTitle")
-    if isValid(nextItemSeriesTitle)
-        nextItemSeriesTitle.font.size = 25
-        nextItemSeriesTitle.text = nextItem.lookupCI("SeriesName")
+    ' Get nodes
+    rectangle = m.top.findNode("nextUp")
+    layoutGroup = m.top.findNode("nextUpLayoutGroup")
+    nextUpTextNode = m.top.findNode("nextUpText")
+    seriesTitle = m.top.findNode("nextItemSeriesTitle")
+    episodeTitle = m.top.findNode("nextItemEpisodeTitle")
+
+    if isValid(seriesTitle)
+        seriesTitle.font.size = 25
+        seriesTitle.text = nextItem.lookupCI("SeriesName")
     end if
 
-    nextItemEpisodeTitle = m.top.findNode("nextItemEpisodeTitle")
-    if isValid(nextItemEpisodeTitle)
+    if isValid(episodeTitle)
         seasonName = nextItem.lookupCI("SeasonName") ?? string.EMPTY
         seasonName = seasonName.Replace("Season ", "S")
-
         episodeNumber = isValid(nextItem.lookupCI("IndexNumber")) ? `E${nextItem.lookupCI("IndexNumber")}` : string.EMPTY
-
-        nextItemEpisodeTitle.font.size = 22
-        nextItemEpisodeTitle.text = `${seasonName}${episodeNumber} - ${nextItem.lookupCI("name")}`
+        episodeTitle.font.size = 22
+        episodeTitle.text = `${seasonName}${episodeNumber} - ${nextItem.lookupCI("name")}`
     end if
+
+    ' Measure actual text heights to calculate dynamic spacing and translation
+    ' This ensures the layout adapts to any custom font metrics
+    if isValid(nextUpTextNode)
+        nextUpTextNode.font.size = 34
+        nextUpTextNode.text = tr("Next Up")
+    end if
+
+    ' Original translation from XML: translation="[180, 15]"
+    originalTranslationY = 15
+
+    ' Measure actual text heights
+    nextUpHeight = nextUpTextNode.boundingRect().height
+    seriesHeight = seriesTitle.boundingRect().height
+    episodeHeight = episodeTitle.boundingRect().height
+    totalHeight = nextUpHeight + seriesHeight + episodeHeight
+
+    ' Available space with original translation and 2px bottom padding
+    spaceAvailable = rectangle.height - originalTranslationY - 2
+
+    if totalHeight <= spaceAvailable
+        ' Case 1: Fits with original translation
+        translation = originalTranslationY
+        itemSpacing = (spaceAvailable - totalHeight) \ 2
+        if itemSpacing > 10 then itemSpacing = 10
+    else
+        ' Case 2: Too tall, reduce translation
+        translation = spaceAvailable - totalHeight
+        if translation < 2 then translation = 2
+        itemSpacing = 0
+    end if
+
+    ' Apply values
+    layoutGroup.translation = "[180, " + translation.ToStr() + "]"
+    layoutGroup.itemSpacings = "[10, " + itemSpacing.ToStr() + "]"
 
     m.nextUp.visible = true
     m.nextUpInfoLoaded = true
