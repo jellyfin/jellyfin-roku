@@ -1115,11 +1115,9 @@ sub displayNextItem()
         episodeTitle.text = `${seasonName}${episodeNumber} - ${nextItem.lookupCI("name")}`
     end if
 
-    ' Measure actual text heights to calculate dynamic spacing and translation
-    ' This ensures the layout adapts to any custom font metrics
+    ' Set font size before measuring to get accurate boundingRect values
     if isValid(nextUpTextNode)
         nextUpTextNode.font.size = 34
-        nextUpTextNode.text = tr("Next Up")
     end if
 
     ' Original translation from XML: translation="[180, 15]"
@@ -1142,16 +1140,28 @@ sub displayNextItem()
     else
         ' Case 2: Too tall, reduce translation
         translation = spaceAvailable - totalHeight
-        if translation < 2 then translation = 2
+        if translation < 0
+            ' Case 3: Still too tall, shrink Next Up text to recover space
+            ' Recalculate available space assuming translation will be 0
+            spaceAvailable = rectangle.height - 2
+            if isValid(nextUpTextNode)
+                nextUpTextNode.font.size = 28
+                nextUpHeight = nextUpTextNode.boundingRect().height
+                totalHeight = nextUpHeight + seriesHeight + episodeHeight
+                translation = spaceAvailable - totalHeight
+            end if
+            if translation < 0 then translation = 0
+        end if
         itemSpacing = 0
     end if
 
-    ' Apply values
+    'Apply values
     layoutGroup.translation = "[180, " + translation.ToStr() + "]"
     layoutGroup.itemSpacings = "[10, " + itemSpacing.ToStr() + "]"
 
     m.nextUp.visible = true
     m.nextUpInfoLoaded = true
+
 end sub
 
 ' checkSegmentSkipButton: Handler for displaying skip buttons during media segments.
