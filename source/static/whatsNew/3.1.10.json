@@ -48,6 +48,18 @@
     "author": "VX-101"
   },
   {
+    "description": "Stop loading live TV EPG when there is no more data to load",
+    "author": "FractalBoy"
+  },
+  {
+    "description": "Only load 50 live TV channels at a time",
+    "author": "FractalBoy"
+  },
+  {
+    "description": "Honor Roku text edge effects for custom subtitles",
+    "author": "ferezvi"
+  },
+  {
     "description": "Keep favorite status when toggling played state",
     "author": "VX-101"
   }
