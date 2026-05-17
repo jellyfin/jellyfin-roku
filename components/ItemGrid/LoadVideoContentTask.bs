@@ -482,9 +482,9 @@ function shouldBurnInSelectedSubtitle(playbackInfo as object, selectedSubtitleIn
     if not isValid(mediaSource.MediaStreams) then return true
 
     for each stream in mediaSource.MediaStreams
-        if LCase(stream.LookupCI("Type")) = "subtitle" and stream.LookupCI("Index") = subtitleIndex
-            if stream.LookupCI("DeliveryMethod") = "External" then return false
-            if stream.LookupCI("IsTextSubtitleStream") = true and stream.LookupCI("DeliveryMethod") <> "Encode" then return false
+        if isStringEqual(stream.LookupCI("Type"), "subtitle") and stream.LookupCI("Index") = subtitleIndex
+            if isStringEqual(stream.LookupCI("DeliveryMethod"), "External") then return false
+            if stream.LookupCI("IsTextSubtitleStream") = true and not isStringEqual(stream.LookupCI("DeliveryMethod"), "Encode") then return false
 
             return true
         end if
