@@ -843,47 +843,47 @@
     </message>
     <message>
         <source>Total Bitrate</source>
-        <translation type="unfinished"></translation>
+        <translation>Całkowita przepływność</translation>
     </message>
     <message>
         <source>Audio Channels</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanały audio</translation>
     </message>
     <message>
         <source>Stream Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Informacje o strumieniu</translation>
     </message>
     <message>
         <source>Codec</source>
-        <translation type="unfinished"></translation>
+        <translation>Kodek</translation>
     </message>
     <message>
         <source>Codec Tag</source>
-        <translation type="unfinished"></translation>
+        <translation>Tag kodeka</translation>
     </message>
     <message>
         <source>Level</source>
-        <translation type="unfinished"></translation>
+        <translation>Poziom</translation>
         <extracomment>Video profile level</extracomment>
     </message>
     <message>
         <source>Bit Rate</source>
-        <translation type="unfinished"></translation>
+        <translation>Przepływność</translation>
         <extracomment>Video streaming bit rate</extracomment>
     </message>
     <message>
         <source>Container</source>
-        <translation type="unfinished"></translation>
+        <translation>Kontener</translation>
         <extracomment>Video streaming container</extracomment>
     </message>
     <message>
         <source>Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Rozmiar</translation>
         <extracomment>Video size</extracomment>
     </message>
     <message>
         <source>Video range type</source>
-        <translation type="unfinished"></translation>
+        <translation>Typ zakresu wideo</translation>
     </message>
     <message>
         <source>Pixel format</source>
