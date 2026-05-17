@@ -1,0 +1,14 @@
+[
+    {
+        "description": "Bug Fixes",
+        "author": ""
+    },
+    {
+        "description": "Fixed the What's New dialog closing incorrectly and improved focus restoration afterward",
+        "author": ""
+    },
+    {
+        "description": "Fixed user switching and session startup by keeping authentication context in sync during login",
+        "author": ""
+    }
+]

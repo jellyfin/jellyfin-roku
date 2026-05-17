@@ -12,8 +12,8 @@ body:
     id: app_version
     attributes:
       label: Moonfin version
-      description: The app version / release tag (e.g., v1.4.0)
-      placeholder: v1.4.0
+      description: The app version / release tag (e.g., v1.4.1)
+      placeholder: v1.4.1
     validations:
       required: true
 

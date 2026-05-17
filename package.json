@@ -1,7 +1,7 @@
 {
   "name": "moonfin",
   "type": "module",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "Moonfin - Roku Client for Jellyfin",
   "dependencies": {
     "@rokucommunity/bslib": "0.1.1",
