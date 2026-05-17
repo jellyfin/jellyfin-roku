@@ -359,7 +359,7 @@ end sub
 ' Display What's New dialog to user with an OK button
 sub whatsNewDialog()
     dialog = createObject("roSGNode", "WhatsNewDialog")
-    dialog.observeField("buttonSelected", "onWhatsNewDialogClosed")
+    dialog.observeField("wasClosed", "onWhatsNewDialogClosed")
     m.scene.dialog = dialog
 end sub
 

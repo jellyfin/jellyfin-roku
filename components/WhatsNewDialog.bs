@@ -10,6 +10,7 @@ sub init()
     m.top.height = 900
     m.top.title = `What's New In ${m.global.app.name}`
     m.top.buttons = [tr("OK")]
+    m.top.observeField("buttonSelected", "onButtonActivated")
 
     dialogStyles = {
         "default": {
@@ -37,6 +38,21 @@ sub init()
         textLine.text = "• " + item.description + " <author>" + item.author + "</author>"
     end for
 end sub
+
+sub onButtonActivated()
+    m.top.wasClosed = true
+end sub
+
+function onKeyEvent(key as string, press as boolean) as boolean
+    if not press then return false
+
+    if key = "back"
+        m.top.wasClosed = true
+        return false
+    end if
+
+    return false
+end function
 
 sub setPalette()
     dlgPalette = createObject("roSGNode", "RSGPalette")
