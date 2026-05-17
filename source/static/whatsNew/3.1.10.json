@@ -60,7 +60,7 @@
     "author": "ferezvi"
   },
   {
-    "description": "Keep favorite status when toggling played state",
+    "description": "Keep favorite and watched states independent on item details",
     "author": "VX-101"
   }
 ]
