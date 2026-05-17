@@ -801,45 +801,45 @@
     </message>
     <message>
         <source>Max Days Next Up</source>
-        <translation type="unfinished"></translation>
+        <translation>Maksymalna liczba dni w „Następne”</translation>
         <extracomment>Option Title in user setting screen</extracomment>
     </message>
     <message>
         <source>Set the maximum amount of days a show should stay in the &apos;Next Up&apos; list without watching it. Maximum value is 1000 days.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustaw maksymalną liczbę dni, przez które program ma pozostać na liście „Następne”, bez możliwości obejrzenia go. Maksymalna wartość to 1000 dni.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Playback Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Informacje o odtwarzaniu</translation>
     </message>
     <message>
         <source>Transcoding Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Informacje o transkodowaniu</translation>
     </message>
     <message>
         <source>Reason</source>
-        <translation type="unfinished"></translation>
+        <translation>Powód</translation>
     </message>
     <message>
         <source>Force Transcoding setting is enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustawienie wymuszania transkodowania jest włączone</translation>
     </message>
     <message>
         <source>Force Transcode option is enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Opcja „Wymuś transkodowanie” jest włączona</translation>
     </message>
     <message>
         <source>Video Codec</source>
-        <translation type="unfinished"></translation>
+        <translation>Kodek wideo</translation>
     </message>
     <message>
         <source>Audio Codec</source>
-        <translation type="unfinished"></translation>
+        <translation>Kodek audio</translation>
     </message>
     <message>
         <source>direct</source>
-        <translation type="unfinished"></translation>
+        <translation>bezpośrednio</translation>
     </message>
     <message>
         <source>Total Bitrate</source>
