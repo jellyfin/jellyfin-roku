@@ -123,7 +123,6 @@ sub Main (args as dynamic) as void
     clearOldLibraryFilters()
 
     displayWhatsNewPopup(args)
-    checkForUpdates()
 
     ' Handle input messages
     input = CreateObject("roInput")
@@ -232,10 +231,6 @@ sub Main (args as dynamic) as void
             onButtonSelectedEvent(msg)
         else if isNodeEvent(msg, "content")
             onContentEvent(msg)
-        else if isNodeEvent(msg, "updateAvailable")
-            onUpdateAvailableEvent(msg)
-        else if isNodeEvent(msg, "wasClosed")
-            onUpdateDialogClosed(msg)
         else if isNodeEvent(msg, "userMenuOptionSelected")
             button = msg.getRoSGNode()
             group = sceneManager.callFunc("getActiveScene")
@@ -326,46 +321,6 @@ sub displayWhatsNewPopup(args)
         ' show what's new popup
         if m.global.session.user.settings["load.allowwhatsnew"]
             m.global.sceneManager.callFunc("whatsNewDialog")
-        end if
-    end if
-end sub
-
-sub checkForUpdates()
-    versionCheckTask = CreateObject("roSGNode", "CheckVersionTask")
-    versionCheckTask.currentVersion = m.global.app.version
-    versionCheckTask.observeField("updateAvailable", m.port)
-    versionCheckTask.control = "RUN"
-    m.versionCheckTask = versionCheckTask
-end sub
-
-sub onUpdateAvailableEvent(msg as object)
-    task = msg.getRoSGNode()
-
-    if task.updateAvailable = true
-        dialog = CreateObject("roSGNode", "UpdateNotificationDialog")
-        dialog.latestVersion = task.latestVersion
-        dialog.currentVersion = task.currentVersion
-        dialog.releaseNotes = task.releaseNotes
-        dialog.observeField("wasClosed", m.port)
-
-        m.scene.appendChild(dialog)
-        dialog.findNode("buttonList").setFocus(true)
-        m.updateDialog = dialog
-    end if
-end sub
-
-sub onUpdateDialogClosed(_obj as object)
-    if isValid(m.updateDialog)
-        m.scene.removeChild(m.updateDialog)
-        m.updateDialog = invalid
-
-        group = m.global.sceneManager.callFunc("getActiveScene")
-        if isValid(group)
-            if isValid(group.lastFocus)
-                group.lastFocus.setFocus(true)
-            else
-                group.setFocus(true)
-            end if
         end if
     end if
 end sub
