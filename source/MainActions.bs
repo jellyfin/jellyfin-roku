@@ -93,14 +93,20 @@ namespace MainAction
         movie = chainLookup(activeScene, "itemContent")
         if not isChainValid(movie, "watched") or not isValid(movie.id) then return
 
+        isFavorite = chainLookup(movie, "favorite")
+
         if movie.watched
             setPlayed(movie.id, false)
         else
             setPlayed(movie.id, true)
             movieData = movie.json
-            movieData.UserData.PlaybackPositionTicks = 0
-            movie.json = movieData
+            if isChainValid(movieData, "UserData")
+                movieData.UserData.AddReplace("IsFavorite", isFavorite)
+                movieData.UserData.AddReplace("PlaybackPositionTicks", 0)
+                movie.json = movieData
+            end if
         end if
+        movie.favorite = isFavorite
         movie.watched = not movie.watched
     end sub
 
@@ -134,12 +140,21 @@ namespace MainAction
         movie = chainLookup(activeScene, "itemContent")
         if not isChainValid(movie, "favorite") or not isValid(movie.id) then return
 
-        if movie.favorite
-            api.users.UnmarkFavorite(movie.id, { userId: m.global.session.user.id })
-        else
+        isFavorite = not movie.favorite
+
+        if isFavorite
             api.users.MarkFavorite(movie.id, { userId: m.global.session.user.id })
+        else
+            api.users.UnmarkFavorite(movie.id, { userId: m.global.session.user.id })
         end if
-        movie.favorite = not movie.favorite
+
+        if isChainValid(movie, "json.UserData")
+            movieData = movie.json
+            movieData.UserData.AddReplace("IsFavorite", isFavorite)
+            movie.json = movieData
+        end if
+
+        movie.favorite = isFavorite
     end sub
 
     sub onEditSubtitlesButtonClicked(activeScene as object)
