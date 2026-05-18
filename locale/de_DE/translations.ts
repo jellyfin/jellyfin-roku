@@ -2390,6 +2390,14 @@
         <source>Force media to be transcoded.</source>
         <translation>Erzwinge Transkodierung von Medien.</translation>
     </message>
+    <message>
+        <source>All Playable Media</source>
+        <translation>Alle abspielbaren Medien</translation>
+    </message>
+    <message>
+        <source>Force live TV to be transcoded. If All Playable Media is already set to Force Transcode (Remux Disabled), this setting is ignored.</source>
+        <translation>Erzwinge Transkodierung bei Live TV. Falls alle abspielbaren Medien bereits zwingend Transkodiert werden wird diese Einstellung keine Auswirkungen haben.</translation>
+    </message>
 </context>
 <context>
     <name></name>
