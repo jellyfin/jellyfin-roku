@@ -1098,73 +1098,25 @@ sub displayNextItem()
         nextItemPoster.uri = ImageURL(nextItem.lookupCI("id"), ImageType.PRIMARY, { "maxHeight": 124, "maxWidth": 150, "Tag": chainLookupReturn(imageTags, ImageType.PRIMARY, `cacheBuster${rnd(99999)}`) })
     end if
 
-    ' Get nodes
-    rectangle = m.top.findNode("nextUp")
-    layoutGroup = m.top.findNode("nextUpLayoutGroup")
-    nextUpTextNode = m.top.findNode("nextUpText")
-    seriesTitle = m.top.findNode("nextItemSeriesTitle")
-    episodeTitle = m.top.findNode("nextItemEpisodeTitle")
-
-    if isValid(seriesTitle)
-        seriesTitle.font.size = 25
-        seriesTitle.text = nextItem.lookupCI("SeriesName")
+    nextItemSeriesTitle = m.top.findNode("nextItemSeriesTitle")
+    if isValid(nextItemSeriesTitle)
+        nextItemSeriesTitle.font.size = 25
+        nextItemSeriesTitle.text = nextItem.lookupCI("SeriesName")
     end if
 
-    if isValid(episodeTitle)
+    nextItemEpisodeTitle = m.top.findNode("nextItemEpisodeTitle")
+    if isValid(nextItemEpisodeTitle)
         seasonName = nextItem.lookupCI("SeasonName") ?? string.EMPTY
         seasonName = seasonName.Replace("Season ", "S")
+
         episodeNumber = isValid(nextItem.lookupCI("IndexNumber")) ? `E${nextItem.lookupCI("IndexNumber")}` : string.EMPTY
-        episodeTitle.font.size = 22
-        episodeTitle.text = `${seasonName}${episodeNumber} - ${nextItem.lookupCI("name")}`
+
+        nextItemEpisodeTitle.font.size = 22
+        nextItemEpisodeTitle.text = `${seasonName}${episodeNumber} - ${nextItem.lookupCI("name")}`
     end if
-
-    ' Set font size before measuring to get accurate boundingRect values
-    if isValid(nextUpTextNode)
-        nextUpTextNode.font.size = 34
-    end if
-
-    ' Original translation from XML: translation="[180, 15]"
-    originalTranslationY = 15
-
-    ' Measure actual text heights
-    nextUpHeight = nextUpTextNode.boundingRect().height
-    seriesHeight = seriesTitle.boundingRect().height
-    episodeHeight = episodeTitle.boundingRect().height
-    totalHeight = nextUpHeight + seriesHeight + episodeHeight
-
-    ' Available space with original translation and 2px bottom padding
-    spaceAvailable = rectangle.height - originalTranslationY - 2
-
-    if totalHeight <= spaceAvailable
-        ' Case 1: Fits with original translation
-        translation = originalTranslationY
-        itemSpacing = (spaceAvailable - totalHeight) \ 2
-        if itemSpacing > 10 then itemSpacing = 10
-    else
-        ' Case 2: Too tall, reduce translation
-        translation = spaceAvailable - totalHeight
-        if translation < 0
-            ' Case 3: Still too tall, shrink Next Up text to recover space
-            ' Recalculate available space assuming translation will be 0
-            spaceAvailable = rectangle.height - 2
-            if isValid(nextUpTextNode)
-                nextUpTextNode.font.size = 28
-                nextUpHeight = nextUpTextNode.boundingRect().height
-                totalHeight = nextUpHeight + seriesHeight + episodeHeight
-                translation = spaceAvailable - totalHeight
-            end if
-            if translation < 0 then translation = 0
-        end if
-        itemSpacing = 0
-    end if
-
-    'Apply values
-    layoutGroup.translation = "[180, " + translation.ToStr() + "]"
-    layoutGroup.itemSpacings = "[10, " + itemSpacing.ToStr() + "]"
 
     m.nextUp.visible = true
     m.nextUpInfoLoaded = true
-
 end sub
 
 ' checkSegmentSkipButton: Handler for displaying skip buttons during media segments.
