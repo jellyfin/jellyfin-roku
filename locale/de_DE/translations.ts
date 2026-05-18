@@ -2370,6 +2370,18 @@
         <source>Single trickplay image that moves</source>
         <translation>Einzelnes Trickplay-Bild, das sich bewegt</translation>
     </message>
+    <message>
+        <source>Subtitles</source>
+        <translation>Untertitel</translation>
+    </message>
+    <message>
+        <source>tracks</source>
+        <translation>Tracks</translation>
+    </message>
+    <message>
+        <source>No Default</source>
+        <translation>Kein Standard</translation>
+    </message>
 </context>
 <context>
     <name></name>
