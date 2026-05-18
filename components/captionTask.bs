@@ -1,3 +1,4 @@
+import "pkg:/components/captionShadow.bs"
 import "pkg:/source/api/baserequest.bs"
 import "pkg:/source/enums/CaptionMoveDirection.bs"
 import "pkg:/source/enums/MediaPlaybackState.bs"
@@ -36,6 +37,7 @@ sub init()
     deviceBGColor = chainLookupReturn(m.bgColorDict, deviceInfo.GetCaptionsOption("Background/Color"), m.bgColorDict.Default)
     deviceBGOpacity = chainLookupReturn(m.percentageDict, deviceInfo.GetCaptionsOption("Background/Opacity"), m.percentageDict.Default)
     m.bgColor = `${deviceBGColor}${deviceBGOpacity}`
+    m.textEffect = deviceInfo.GetCaptionsOption("Text/Effect")
 
     if isValidAndNotEmpty(m.global.fallbackFont)
         m.fonts = m.global.fallbackFont
@@ -73,11 +75,14 @@ function newLayoutGroup(label)
     return newlg
 end function
 
-function newRect(lg, id as string)
+
+function newRect(lg, id as string, styledText = invalid, drawingStyles = invalid)
     rectxy = lg.BoundingRect()
 
     rect = CreateObject("roSGNode", "Rectangle")
     rect.addreplace("id", id)
+    createShadowLabels(rect, styledText, drawingStyles, m.textEffect)
+
     rect.appendchild(lg)
     lg.translation = [5, 5]
 
@@ -284,9 +289,10 @@ sub updateCaption()
             label.drawingStyles = drawingStyles
             label.text = styledText
             label.horizAlign = "center"
-            lines = newLayoutGroup(label)
-            rect = newRect(lines, entry.LookupCI("id"))
 
+
+            lines = newLayoutGroup(label)
+            rect = newRect(lines, entry.LookupCI("id"), styledText, drawingStyles)
             finalStyles = prepareStyles(entry["styles"], rect, entry["text"].count())
             rect.translation = finalStyles.translation
 
