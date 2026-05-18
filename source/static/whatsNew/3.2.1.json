@@ -30,5 +30,9 @@
   {
     "description": "Honor position alignment tags in SRT",
     "author": "ferezvi"
+  },
+  {
+    "description": "Jump to last album in incomplete row on artist screen",
+    "author": "VX-101"
   }
 ]
