@@ -2382,6 +2382,14 @@
         <source>No Default</source>
         <translation>Kein Standard</translation>
     </message>
+    <message>
+        <source>Replace Roku&apos;s default subtitle functions with custom functions. If fallback fonts are configured and enabled on the server, those fonts will be used. A CJK fallback font is required for CJK rendering. To support bold and italics, you must have additional font files with the words &quot;bold&quot;, &quot;italic&quot;, and &quot;bolditalic&quot; in the filename.</source>
+        <translation>Ersetze Rokus Standard-Untertitelmechanismen mit benutzerdefinierten Mechanismen. Falls Ersatz-Schriftarten konfiguriert und auf dem Server aktiviert sind, werden diese Schriftarten verwendet. Eine CJK-Ersatz-Schriftart wird zur CJK-Anzeige benötigt. Um Fett- und Kursivschrift zu unterstützen, müssen zusätzliche Schriftart-Dateien mit den Wörtern &quot;bold&quot;, &quot;italic&quot;, und &quot;bolditalic&quot; im Dateinamen existieren.</translation>
+    </message>
+    <message>
+        <source>Force media to be transcoded.</source>
+        <translation>Erzwinge Transkodierung von Medien.</translation>
+    </message>
 </context>
 <context>
     <name></name>
