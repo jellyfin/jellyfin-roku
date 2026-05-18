@@ -1115,11 +1115,6 @@ sub displayNextItem()
         nextItemEpisodeTitle.text = `${seasonName}${episodeNumber} - ${nextItem.lookupCI("name")}`
     end if
 
-    nextUpTextNode = m.top.findNode("nextUpText")
-    nextUpTextNode.height = 35
-    nextItemSeriesTitle.height = 35
-    nextItemEpisodeTitle.height = 35
-
     m.nextUp.visible = true
     m.nextUpInfoLoaded = true
 end sub
