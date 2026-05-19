@@ -12,8 +12,8 @@
     "brighterscript": "0.72.1",
     "jshint": "2.13.6",
     "rimraf": "6.1.3",
-    "roku-deploy": "3.17.3",
-    "undent": "1.0.0"
+    "roku-deploy": "3.17.4",
+    "undent": "1.0.1"
   },
   "scripts": {
     "build": "npx rimraf build/ out/ && npx bsc --project bsconfig.json"
