@@ -60,6 +60,10 @@
     "author": "ferezvi"
   },
   {
+    "description": "Fix SRT subtitles forcing video transcode during audio-only transcodes",
+    "author": "VX-101"
+  },
+  {
     "description": "Keep favorite and watched states independent on item details",
     "author": "VX-101"
   }

@@ -2374,5 +2374,21 @@
         <source>Force live TV to be transcoded. If All Playable Media is already set to Force Transcode (Remux Disabled), this setting is ignored.</source>
         <translation>Força la transcodificació de la televisió en directe. Si ja s&apos;ha establert que es forci a tots els continguts multimèdia a transcodificar (Remux inhabilitat), aquesta configuració s&apos;ignora.</translation>
     </message>
+    <message>
+        <source>tracks</source>
+        <translation>pistes</translation>
+    </message>
+    <message>
+        <source>Subtitles</source>
+        <translation>Subtítols</translation>
+    </message>
+    <message>
+        <source>No Default</source>
+        <translation>Res per defecte</translation>
+    </message>
+    <message>
+        <source>Replace Roku&apos;s default subtitle functions with custom functions. If fallback fonts are configured and enabled on the server, those fonts will be used. A CJK fallback font is required for CJK rendering. To support bold and italics, you must have additional font files with the words &quot;bold&quot;, &quot;italic&quot;, and &quot;bolditalic&quot; in the filename.</source>
+        <translation>Substitueix les funcions de subtítols predeterminades de Roku per funcions personalitzades. Si les fonts alternatives estan configurades i habilitades al servidor, s&apos;utilitzaran aquestes fonts. Es requereix una font alternativa CJK per a la renderització CJK. Per a poder fer servir negretes i cursives, heu de tenir fitxers de fonts addicionals amb les paraules &quot;bold&quot;, &quot;italic&quot; i &quot;bolditalic&quot; al nom del fitxer.</translation>
+    </message>
 </context>
 </TS>
