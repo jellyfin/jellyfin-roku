@@ -62,5 +62,9 @@
   {
     "description": "Fix SRT subtitles forcing video transcode during audio-only transcodes",
     "author": "VX-101"
+  },
+  {
+    "description": "Fix Cast & Crew favorite button state and persistence",
+    "author": "VX-101"
   }
 ]
