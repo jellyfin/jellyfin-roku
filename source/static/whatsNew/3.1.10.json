@@ -64,6 +64,14 @@
     "author": "VX-101"
   },
   {
+    "description": "Fix endless spinner for empty video library alphabet filters",
+    "author": "VX-101"
+  },
+  {
+    "description": "Fix Cast & Crew favorite button state and persistence",
+    "author": "VX-101"
+  },
+  {
     "description": "Keep favorite and watched states independent on item details",
     "author": "VX-101"
   }
