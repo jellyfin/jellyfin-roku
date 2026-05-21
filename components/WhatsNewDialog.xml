@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component name="WhatsNewDialog" extends="StandardMessageDialog">
   <interface>
-    <field id="wasClosed" type="boolean" alwaysNotify="true" />
+    <field id="whatsNewClosed" type="boolean" alwaysNotify="true" />
   </interface>
   <children>
     <StdDlgContentArea id="content" />
