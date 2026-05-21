@@ -12,7 +12,7 @@ sub init()
     mySubtitleBackground = m.top.findNode("mySubtitleBackground")
     mySubtitleBackground.color = ColorPalette.ELEMENTBACKGROUND
 
-    m.languageButton.textColor = ColorPalette.DARKGREY
+    m.languageButton.textColor = ColorPalette.LIGHTGREY
     m.languageButton.focusTextColor = ColorPalette.WHITE
     m.languageButton.background = ColorPalette.WHITE
     m.languageButton.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
@@ -30,6 +30,8 @@ sub init()
 
     m.searchButton.focus = true
     m.searchButton.setFocus(true)
+
+    m.top.overhangVisible = false
 end sub
 
 sub onItemContentChanged()
@@ -85,22 +87,30 @@ sub onSelectedCultureChanged()
 end sub
 
 sub OnScreenShown(_isReturning = false as boolean)
-    if isValid(m.top.lastFocus)
-        m.top.lastFocus.setFocus(true)
-        if m.top.lastFocus.isSubType("StandardButton") or m.top.lastFocus.isSubType("TextButton")
-            m.top.lastFocus.focus = true
-        end if
+    m.top.getScene().callFunc("delayedFocus")
+end sub
 
-        setLastFocus(m.top.lastFocus)
-    else
-        m.top.setFocus(true)
-        setLastFocus(m.searchButton)
-        m.searchButton.focus = true
-    end if
+sub delayedFocus()
+    m.global.sceneManager.callFunc("callFuncDelayed", 0.1, sub()
+        if isValid(m.top.lastFocus)
+            m.top.lastFocus.setFocus(true)
+            if m.top.lastFocus.isSubType("StandardButton") or m.top.lastFocus.isSubType("TextButton")
+                m.top.lastFocus.focus = true
+            end if
+        else
+            m.searchButton.setFocus(true)
+            m.searchButton.focus = true
+        end if
+    end sub)
 end sub
 
 ' Handle navigation input from the remote and act on it
 function onKeyEvent(key as string, press as boolean) as boolean
+    if key = KeyCode.BACK
+        m.global.sceneManager.callFunc("popScene")
+        return true
+    end if
+
     if not press
         if key = KeyCode.REPLAY
             group = m.global.sceneManager.callFunc("getActiveScene")

@@ -301,6 +301,15 @@ sub registerOverhangData(group)
         ' For any other screen types, show overhang by default
         setOverhangVisibility(true)
     end if
+
+    if group.isSubType("VideoPlayerView")
+        if group.state = "playing" or group.state = "paused"
+            setOverhangVisibility(false)
+        else
+            setOverhangVisibility(true)
+        end if
+        return
+    end if
 end sub
 
 '

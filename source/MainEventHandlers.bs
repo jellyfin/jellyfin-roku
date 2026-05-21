@@ -1328,7 +1328,7 @@ sub onSubtitleLanguageButtonSelectedEvent()
     for each culture in group.cultures
         culture.type = "cultureselect"
         culture.Track = {}
-        culture.Track.description = culture.displayname
+        culture.description = culture.DisplayName
 
         ' Put preferred subtitle language at the top of the language list
         if isValidAndNotEmpty(culture.ThreeLetterISOLanguageName)
