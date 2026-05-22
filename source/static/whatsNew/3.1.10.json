@@ -70,5 +70,9 @@
   {
     "description": "Fix Cast & Crew favorite button state and persistence",
     "author": "VX-101"
+  },
+  {
+    "description": "Change the home Favorites row default sort from Random to Name",
+    "author": "VX-101"
   }
 ]
