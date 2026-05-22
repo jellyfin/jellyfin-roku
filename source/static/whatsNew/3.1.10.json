@@ -70,5 +70,9 @@
   {
     "description": "Fix Cast & Crew favorite button state and persistence",
     "author": "VX-101"
+  },
+  {
+    "description": "Show favorite songs and Cast & Crew people in the home Favorites row",
+    "author": "VX-101"
   }
 ]

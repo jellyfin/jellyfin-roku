@@ -99,6 +99,7 @@ sub itemContentChanged()
     if not isValid(m.itemIcon) then initItemIcon()
 
     m.itemPoster.width = itemData.imageWidth
+    m.itemPoster.loadDisplayMode = "scaleToZoom"
 
     m.itemTextExtra.width = itemData.imageWidth
     m.itemTextExtra.visible = true
@@ -160,6 +161,11 @@ sub itemContentChanged()
 
     if itemDataType = ItemType.MUSICALBUM
         displayMusicAlbumInfo(itemData as object)
+        return
+    end if
+
+    if itemDataType = ItemType.PERSON
+        displayPersonInfo(itemData as object)
         return
     end if
 
@@ -270,6 +276,12 @@ end sub
 sub displayMusicAlbumInfo(itemData as object)
     m.itemText.text = itemData.name
     m.itemTextExtra.text = itemData.json.AlbumArtist
+    m.itemPoster.uri = itemData.posterURL
+end sub
+
+sub displayPersonInfo(itemData as object)
+    m.itemText.text = itemData.name
+    m.itemPoster.loadDisplayMode = "scaleToFit"
     m.itemPoster.uri = itemData.posterURL
 end sub
 

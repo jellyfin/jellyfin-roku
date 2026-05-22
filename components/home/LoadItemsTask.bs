@@ -481,45 +481,82 @@ function loadFavorites() as object
 
     data = api.items.Get(params)
 
-    if not isChainValid(data, "Items") then return results
+    if isChainValid(data, "Items")
+        for each item in data.Items
+            if isStringEqual(item.LookupCI("Type"), ItemType.BOOK) then continue for
 
-    for each item in data.Items
-        if inArray([ItemType.BOOK, ItemType.AUDIO], item.type) then continue for
+            tmp = CreateObject("roSGNode", "HomeData")
 
-        tmp = CreateObject("roSGNode", "HomeData")
+            params = {
+                Tags: item.PrimaryImageTag,
+                MaxWidth: 234,
+                MaxHeight: 330
+            }
+            tmp.posterURL = ImageUrl(item.Id, "Primary", params)
+            tmp.json = {
+                Id: item.LookupCI("Id"),
+                name: item.LookupCI("name"),
+                Type: item.LookupCI("Type"),
+                SeriesName: item.LookupCI("SeriesName"),
+                SeriesId: item.LookupCI("SeriesId"),
+                SeasonId: item.LookupCI("SeasonId"),
+                ProductionYear: item.LookupCI("ProductionYear"),
+                Status: item.LookupCI("Status"),
+                EndDate: item.LookupCI("EndDate"),
+                ParentIndexNumber: item.LookupCI("ParentIndexNumber"),
+                IndexNumberEnd: item.LookupCI("IndexNumberEnd"),
+                IndexNumber: item.LookupCI("IndexNumber"),
+                OfficialRating: item.LookupCI("OfficialRating"),
+                Album: item.LookupCI("Album"),
+                AlbumArtist: item.LookupCI("AlbumArtist"),
+                CollectionType: item.LookupCI("CollectionType"),
+                ImageTags: item.LookupCI("ImageTags"),
+                UserData: item.LookupCI("UserData"),
+                ParentThumbItemId: item.LookupCI("ParentThumbItemId"),
+                ParentThumbImageTag: item.LookupCI("ParentThumbImageTag"),
+                ParentBackdropImageTags: item.LookupCI("ParentBackdropImageTags"),
+                ParentBackdropItemId: item.LookupCI("ParentBackdropItemId"),
+                SeriesPrimaryImageTag: item.LookupCI("SeriesPrimaryImageTag"),
+                BackdropImageTags: item.LookupCI("BackdropImageTags")
+            }
+            results.push(tmp)
+        end for
+    end if
 
-        params = {
-            Tags: item.PrimaryImageTag,
-            MaxWidth: 234,
-            MaxHeight: 330
-        }
-        tmp.posterURL = ImageUrl(item.Id, "Primary", params)
-        tmp.json = {
-            Id: item.LookupCI("Id"),
-            name: item.LookupCI("name"),
-            Type: item.LookupCI("Type"),
-            SeriesName: item.LookupCI("SeriesName"),
-            SeriesId: item.LookupCI("SeriesId"),
-            SeasonId: item.LookupCI("SeasonId"),
-            ProductionYear: item.LookupCI("ProductionYear"),
-            Status: item.LookupCI("Status"),
-            EndDate: item.LookupCI("EndDate"),
-            ParentIndexNumber: item.LookupCI("ParentIndexNumber"),
-            IndexNumberEnd: item.LookupCI("IndexNumberEnd"),
-            IndexNumber: item.LookupCI("IndexNumber"),
-            OfficialRating: item.LookupCI("OfficialRating"),
-            CollectionType: item.LookupCI("CollectionType"),
-            ImageTags: item.LookupCI("ImageTags"),
-            UserData: item.LookupCI("UserData"),
-            ParentThumbItemId: item.LookupCI("ParentThumbItemId"),
-            ParentThumbImageTag: item.LookupCI("ParentThumbImageTag"),
-            ParentBackdropImageTags: item.LookupCI("ParentBackdropImageTags"),
-            ParentBackdropItemId: item.LookupCI("ParentBackdropItemId"),
-            SeriesPrimaryImageTag: item.LookupCI("SeriesPrimaryImageTag"),
-            BackdropImageTags: item.LookupCI("BackdropImageTags")
-        }
-        results.push(tmp)
-    end for
+    peopleParams = {
+        userid: m.global.session.user.id,
+        Filters: "IsFavorite",
+        Limit: 25,
+        recursive: true,
+        sortby: sortField,
+        sortOrder: sortOrder,
+        EnableTotalRecordCount: false
+    }
+
+    peopleData = api.persons.Get(peopleParams)
+
+    if isChainValid(peopleData, "Items")
+        for each person in peopleData.Items
+            primaryImageTag = person.LookupCI("PrimaryImageTag")
+
+            tmp = CreateObject("roSGNode", "HomeData")
+            params = {
+                Tags: primaryImageTag,
+                MaxWidth: 234,
+                MaxHeight: 330
+            }
+            tmp.posterURL = ImageUrl(person.Id, "Primary", params)
+            tmp.json = {
+                Id: person.LookupCI("Id"),
+                name: person.LookupCI("name"),
+                Type: person.LookupCI("Type"),
+                PrimaryImageTag: primaryImageTag,
+                ImageTags: { Primary: primaryImageTag },
+                UserData: person.LookupCI("UserData")
+            }
+            results.push(tmp)
+        end for
+    end if
 
     return results
 end function

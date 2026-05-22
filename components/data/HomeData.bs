@@ -127,6 +127,18 @@ sub setData()
         m.top.thumbnailURL = ImageURL(datum.LookupCI("Id"), "Primary", params)
         m.top.widePosterUrl = m.top.thumbnailURL
         m.top.posterUrl = m.top.thumbnailURL
+    else if isStringEqual(datum.type, ItemType.PERSON)
+        params = { "maxHeight": 261, "maxWidth": 464 }
+
+        if datum.ImageTags <> invalid and datum.ImageTags.Primary <> invalid
+            params["Tag"] = datum.ImageTags.Primary
+        else if datum.PrimaryImageTag <> invalid
+            params["Tag"] = datum.PrimaryImageTag
+        end if
+
+        m.top.posterURL = ImageURL(datum.LookupCI("Id"), "Primary", params)
+        m.top.thumbnailURL = m.top.posterURL
+        m.top.widePosterUrl = m.top.posterURL
     else if datum.type = "TvChannel" or datum.type = "Channel"
         params = { "Tag": datum.ImageTags.Primary, "maxHeight": 261, "maxWidth": 464 }
         m.top.thumbnailURL = ImageURL(datum.LookupCI("Id"), "Primary", params)
