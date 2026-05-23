@@ -698,7 +698,7 @@
                 "description": "Field to sort the row by.",
                 "settingName": "ui.home.favoritesSortField",
                 "type": "radio",
-                "default": "random",
+                "default": "SortName",
                 "options": [
                   {
                     "title": "Date Created",

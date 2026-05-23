@@ -82,5 +82,9 @@
   {
     "description": "Fix VTT subtitle default positioning for cues without explicit line value",
     "author": "ferezvi"
+  },
+  {
+    "description": "Change the home favorites row default sort from Random to Name",
+    "author": "VX-101"
   }
 ]
