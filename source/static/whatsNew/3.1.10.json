@@ -76,6 +76,18 @@
     "author": "ferezvi"
   },
   {
+    "description": "Support AC3/EAC3/DTS passthrough when system audio is set to 5.1 surround",
+    "author": "ferezvi"
+  },
+  {
+    "description": "Fix VTT subtitle default positioning for cues without explicit line value",
+    "author": "ferezvi"
+  },
+  {
+    "description": "Change the home favorites row default sort from Random to Name",
+    "author": "VX-101"
+  },
+  {
     "description": "Update end time on initially showing OSD and on clock tick while OSD is visible",
     "author": "michaellee94"
   }
