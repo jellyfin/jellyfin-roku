@@ -64,6 +64,14 @@
     "author": "VX-101"
   },
   {
+    "description": "Fix endless spinner for empty video library alphabet filters",
+    "author": "VX-101"
+  },
+  {
+    "description": "Fix Cast & Crew favorite button state and persistence",
+    "author": "VX-101"
+  },
+  {
     "description": "Fix Next Up overlay text overflow with custom fonts",
     "author": "ferezvi"
   }

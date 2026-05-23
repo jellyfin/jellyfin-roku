@@ -1638,6 +1638,34 @@
         <source>Play or Resume from</source>
         <translation>Play or Resume from</translation>
     </message>
+    <message>
+        <source>Display Episodes In Two Columns</source>
+        <translation type="unfinished">Display Episodes In Two Columns</translation>
+    </message>
+    <message>
+        <source>Screen Settings</source>
+        <translation type="unfinished">Screen Settings</translation>
+    </message>
+    <message>
+        <source>Settings relating to Live TV.</source>
+        <translation type="unfinished">Settings relating to Live TV.</translation>
+    </message>
+    <message>
+        <source>Channel Title Info</source>
+        <translation type="unfinished">Channel Title Info</translation>
+    </message>
+    <message>
+        <source>Select what information to use as a channel&apos;s title.</source>
+        <translation type="unfinished">Select what information to use as a channel&apos;s title.</translation>
+    </message>
+    <message>
+        <source>Channel Number and Name</source>
+        <translation>Channel Number and Name</translation>
+    </message>
+    <message>
+        <source>Burn in all subtitles when transcoding is triggered. This ensures subtitle synchronization after transcoding at the cost of reduced transcoding speed.</source>
+        <translation>Burn in all subtitles when transcoding is triggered. This ensures subtitle synchronization after transcoding at the cost of reduced transcoding speed.</translation>
+    </message>
 </context>
 <context>
     <name></name>

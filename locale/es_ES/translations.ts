@@ -2304,7 +2304,7 @@
     </message>
     <message>
         <source>Skip Intro</source>
-        <translation>Saltar la introducción</translation>
+        <translation>Saltar Intro</translation>
     </message>
     <message>
         <source>Go To Genre</source>
@@ -2433,6 +2433,42 @@
     <message>
         <source>Select trickplay display format.</source>
         <translation>Seleccionar el formato de visualización de Trickplay.</translation>
+    </message>
+    <message>
+        <source>Subtitles</source>
+        <translation>Subtítulos</translation>
+    </message>
+    <message>
+        <source>tracks</source>
+        <translation>Pistas</translation>
+    </message>
+    <message>
+        <source>No Default</source>
+        <translation>Ninguno por defecto</translation>
+    </message>
+    <message>
+        <source>Replace Roku&apos;s default subtitle functions with custom functions. If fallback fonts are configured and enabled on the server, those fonts will be used. A CJK fallback font is required for CJK rendering. To support bold and italics, you must have additional font files with the words &quot;bold&quot;, &quot;italic&quot;, and &quot;bolditalic&quot; in the filename.</source>
+        <translation>Reemplaza las funciones predeterminadas de subtítulos de Roku por funciones personalizadas. Si las fuentes fallback están configuradas y habilitadas en el servidor, esas fuentes serán utilizadas. Se requiere una fuente fallback CJK para renderizar caracteres CJK. Para admitir negritas y cursivas, debes tener archivos de fuente adicionales con las palabras “bold”, “italic” y “bolditalic” en el nombre del archivo.</translation>
+    </message>
+    <message>
+        <source>Force media to be transcoded.</source>
+        <translation>Forzar transcodificación multimedia.</translation>
+    </message>
+    <message>
+        <source>All Playable Media</source>
+        <translation>Todo el contenido reproducible</translation>
+    </message>
+    <message>
+        <source>Force live TV to be transcoded. If All Playable Media is already set to Force Transcode (Remux Disabled), this setting is ignored.</source>
+        <translation>Forzar la transcodificación de TV en vivo. Si “Todo el contenido reproducible” está configurado en “Forzar transcodificación (remux deshabilitado)”, esta opción se ignorará.</translation>
+    </message>
+    <message>
+        <source>Playback Speed Controls (Experimental)</source>
+        <translation>Controles de velocidad de reproducción (Experimental)</translation>
+    </message>
+    <message>
+        <source>Search Unavailable</source>
+        <translation>Búsqueda no disponible</translation>
     </message>
 </context>
 <context>
