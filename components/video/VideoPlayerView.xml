@@ -19,7 +19,6 @@
 
     <field id="transcodeParams" type="assocarray" />
     <field id="transcodeAvailable" type="boolean" value="false" />
-    <field id="retryWithTranscoding" type="boolean" value="false" />
     <field id="isTranscoded" type="boolean" />
     <field id="disableNextEpisodeAutoPlay" type="boolean" value="false" />
 
@@ -43,6 +42,8 @@
 
     <Group id="captionGroup" translation="[0,0]" />
     <timer id="playbackTimer" repeat="true" duration="30" />
+    <timer id="playbackCheckTimer" repeat="false" duration="1" />
+    <timer id="bufferStuckTimer" repeat="true" duration="3" />
     <timer id="bufferCheckTimer" repeat="true" />
     <OSD id="osd" visible="false" inactiveTimeout="5" />
 

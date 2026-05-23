@@ -15,14 +15,15 @@ sub postItems()
         return
     end if
 
+    req = APIRequest(m.top.apiUrl)
+    if not isValid(req) then return
+
+    req.SetRequest("POST")
+
     if m.top.arrayData.count() > 0 and m.top.stringData = ""
-        req = APIRequest(m.top.apiUrl)
-        req.SetRequest("POST")
         httpResponse = asyncPost(req, FormatJson(m.top.arrayData))
         m.top.responseCode = httpResponse
     else if m.top.arrayData.count() = 0 and m.top.stringData <> ""
-        req = APIRequest(m.top.apiUrl)
-        req.SetRequest("POST")
         httpResponse = asyncPost(req, m.top.stringData)
         m.top.responseCode = httpResponse
     else

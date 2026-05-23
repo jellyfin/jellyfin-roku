@@ -13,6 +13,7 @@
     <field id="sortAscending" type="boolean" value="true" />
     <field id="nameStartsWith" type="string" value="" />
     <field id="recursive" type="boolean" value="true" />
+    <field id="mustTranscode" type="boolean" value="false" />
     <field id="filter" type="string" value="" />
     <field id="searchTerm" type="string" value="" />
     <field id="studioIds" type="string" value="" />

@@ -88,7 +88,11 @@
     "author": "VX-101"
   },
   {
-    "description": "Update end time on initially showing OSD and on clock tick while OSD is visible",
+    "description": "Create setting to always attempt direct play no matter what",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Keep end time up-to-date with clock while OSD is visible",
     "author": "michaellee94"
   }
 ]

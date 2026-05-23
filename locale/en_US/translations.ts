@@ -2439,5 +2439,25 @@
             <source>Search Unavailable</source>
             <translation>Search Unavailable</translation>
         </message>
+        <message>
+            <source>Roku's video player got stuck buffering video</source>
+            <translation>Roku's video player got stuck buffering video</translation>
+        </message>
+        <message>
+            <source>Roku's video player threw the following error</source>
+            <translation>Roku's video player threw the following error</translation>
+        </message>
+        <message>
+            <source>Roku thought it could direct play this media, but playback never started.</source>
+            <translation>Roku thought it could direct play this media, but playback never started.</translation>
+        </message>
+        <message>
+            <source>Always Attempt Direct Playing Video Media</source>
+            <translation>Always Attempt Direct Playing Video Media</translation>
+        </message>
+        <message>
+            <source>Forces Jellyfin to try direct playing video media, Live TV excluded. Enabling this ignores all other playback support settings and will always first attempt direct playback. It also changes how transcode reason is displayed.</source>
+            <translation>Forces Jellyfin to try direct playing video media, Live TV excluded. Enabling this ignores all other playback support settings and will always first attempt direct playback. It also changes how transcode reason is displayed.</translation>
+        </message>
     </context>
 </TS>
