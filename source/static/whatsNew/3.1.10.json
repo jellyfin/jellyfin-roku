@@ -86,5 +86,9 @@
   {
     "description": "Change the home favorites row default sort from Random to Name",
     "author": "VX-101"
+  },
+  {
+    "description": "Create setting to always attempt direct play no matter what",
+    "author": "1hitsong"
   }
 ]
