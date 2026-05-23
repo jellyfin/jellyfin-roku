@@ -1,0 +1,46 @@
+[
+    {
+        "description": "Features",
+        "author": ""
+    },
+    {
+        "description": "Added Seerr local account sign-in, so users can authenticate with jellyfin or local Seerr credentials since Moonfin server plugin web UI is going away in the next update.",
+        "author": ""
+    },
+    {
+        "description": "Removed in-app update notifications.",
+        "author": ""
+    },
+    {
+        "description": "Bug Fixes",
+        "author": ""
+    },
+    {
+        "description": "Fixed multiple subtitle download issues: Overhang is now hidden during subtitle search. Focus correctly returns to the Search button when subtitle search appears. Language names now display correctly in the radio dialog.",
+        "author": ""
+    },
+    {
+        "description": "Fixed a type-mismatch issue by renaming wasClosed to whatsNewClosed that was causing the What's New dialog to not get dismissed properly for some users.",
+        "author": ""
+    },
+    {
+        "description": "Updated navbar focus styling to a full-height white pill and cleaned up pill padding to match other clients.",
+        "author": ""
+    },
+    {
+        "description": "Contributions",
+        "author": ""
+    },
+    {
+        "description": "adjust navbar focus style (PR #93)",
+        "author": "@harleykradovill"
+    },
+    {
+        "description": "fix multiple subtitle download issues (PR #92)",
+        "author": "@harleykradovill"
+    },
+    {
+        "description": "rename wasClosed to whatsNewClosed to avoid type mismatch (PR #91)",
+        "author": "@harleykradovill"
+    }
+]
