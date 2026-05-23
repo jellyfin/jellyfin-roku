@@ -72,7 +72,19 @@
     "author": "VX-101"
   },
   {
-    "description": "Change the home Favorites row default sort from Random to Name",
+    "description": "Fix Next Up overlay text overflow with custom fonts",
+    "author": "ferezvi"
+  },
+  {
+    "description": "Support AC3/EAC3/DTS passthrough when system audio is set to 5.1 surround",
+    "author": "ferezvi"
+  },
+  {
+    "description": "Fix VTT subtitle default positioning for cues without explicit line value",
+    "author": "ferezvi"
+  },
+  {
+    "description": "Change the home favorites row default sort from Random to Name",
     "author": "VX-101"
   }
 ]
