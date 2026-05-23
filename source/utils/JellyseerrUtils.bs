@@ -148,8 +148,13 @@ sub MigrateJellyseerrConfig()
 
         ' Migrate blockNsfw (default to true if not set)
         oldBlockNsfw = oldSec.Read("blockNsfw")
-        if oldBlockNsfw <> invalid and oldBlockNsfw <> ""
-            globalSec.Write("blockNsfw", oldBlockNsfw)
+        if oldBlockNsfw <> invalid
+            oldBlockNsfwType = type(oldBlockNsfw)
+            if (oldBlockNsfwType = "String" or oldBlockNsfwType = "roString") and oldBlockNsfw = ""
+                globalSec.Write("blockNsfw", "true")
+            else
+                globalSec.Write("blockNsfw", oldBlockNsfw)
+            end if
         else
             globalSec.Write("blockNsfw", "true")
         end if
@@ -163,8 +168,13 @@ sub MigrateJellyseerrConfig()
     globalSec.Write("serverUrl", oldServerUrl)
 
     oldBlockNsfw = oldSec.Read("blockNsfw")
-    if oldBlockNsfw <> invalid and oldBlockNsfw <> ""
-        globalSec.Write("blockNsfw", oldBlockNsfw)
+    if oldBlockNsfw <> invalid
+        oldBlockNsfwType = type(oldBlockNsfw)
+        if (oldBlockNsfwType = "String" or oldBlockNsfwType = "roString") and oldBlockNsfw = ""
+            globalSec.Write("blockNsfw", "true")
+        else
+            globalSec.Write("blockNsfw", oldBlockNsfw)
+        end if
     else
         globalSec.Write("blockNsfw", "true") ' Default to enabled
     end if
@@ -310,6 +320,9 @@ function GetJellyseerrUserConfig(userId as string) as object
             jellyfinPassword: "",
             localEmail: "",
             localPassword: "",
+            jellyseerrUserId: 0,
+            displayName: "",
+            avatar: "",
             permissions: 0
         }
     end if
@@ -332,6 +345,18 @@ function GetJellyseerrUserConfig(userId as string) as object
     localPassword = sec.Read("localPassword")
     if localPassword = invalid then localPassword = ""
 
+    jellyseerrUserIdStr = sec.Read("jellyseerrUserId")
+    jellyseerrUserId = 0
+    if jellyseerrUserIdStr <> invalid and jellyseerrUserIdStr <> ""
+        jellyseerrUserId = jellyseerrUserIdStr.toInt()
+    end if
+
+    displayName = sec.Read("displayName")
+    if displayName = invalid then displayName = ""
+
+    avatar = sec.Read("avatar")
+    if avatar = invalid then avatar = ""
+
     permissionsStr = sec.Read("permissions")
     permissions = 0
     if permissionsStr <> invalid and permissionsStr <> ""
@@ -344,6 +369,9 @@ function GetJellyseerrUserConfig(userId as string) as object
         jellyfinPassword: jellyfinPassword,
         localEmail: localEmail,
         localPassword: localPassword,
+        jellyseerrUserId: jellyseerrUserId,
+        displayName: displayName,
+        avatar: avatar,
         permissions: permissions
     }
 end function
@@ -404,6 +432,49 @@ sub SetJellyseerrUserPermissions(userId as string, permissions as integer)
     registryName = GetJellyseerrUserRegistry(userId)
     sec = CreateObject("roRegistrySection", registryName)
     sec.Write("permissions", permissions.toStr())
+    sec.Flush()
+end sub
+
+sub SetJellyseerrUserIdentity(userId as string, jellyseerrUserId as integer, displayName as string, permissions as integer, avatar = "" as string)
+    if userId = ""
+        return
+    end if
+
+    registryName = GetJellyseerrUserRegistry(userId)
+    sec = CreateObject("roRegistrySection", registryName)
+    sec.Write("jellyseerrUserId", jellyseerrUserId.toStr())
+
+    if displayName <> ""
+        sec.Write("displayName", displayName)
+    else
+        sec.Delete("displayName")
+    end if
+
+    if avatar <> ""
+        sec.Write("avatar", avatar)
+    else
+        sec.Delete("avatar")
+    end if
+
+    sec.Write("permissions", permissions.toStr())
+    sec.Flush()
+end sub
+
+sub SetJellyseerrPluginLoginInfo(userId as string, jellyseerrUserId as integer, displayName as string, permissions as integer, avatar = "" as string)
+    SetJellyseerrUserIdentity(userId, jellyseerrUserId, displayName, permissions, avatar)
+end sub
+
+sub ClearJellyseerrUserIdentity(userId as string)
+    if userId = ""
+        return
+    end if
+
+    registryName = GetJellyseerrUserRegistry(userId)
+    sec = CreateObject("roRegistrySection", registryName)
+    sec.Delete("jellyseerrUserId")
+    sec.Delete("displayName")
+    sec.Delete("avatar")
+    sec.Delete("permissions")
     sec.Flush()
 end sub
 
@@ -553,6 +624,10 @@ sub DisableJellyseerr()
         userSec.Delete("jellyfinPassword")
         userSec.Delete("localEmail")
         userSec.Delete("localPassword")
+        userSec.Delete("jellyseerrUserId")
+        userSec.Delete("displayName")
+        userSec.Delete("avatar")
+        userSec.Delete("permissions")
         userSec.Flush()
     end if
 end sub

@@ -4,6 +4,7 @@
         <field id="serverUrl" type="string" />
         <field id="authEndpoint" type="string" />
         <field id="authBody" type="string" />
+        <field id="usePluginProxy" type="boolean" value="false" />
         <field id="response" type="assocarray" />
     </interface>
 </component>

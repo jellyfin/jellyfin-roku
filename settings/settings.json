@@ -493,7 +493,7 @@
             ]
           },
           {
-            "title": "Home & Jellyseerr Backdrop Blur",
+            "title": "Home & Seerr Backdrop Blur",
             "description": "Control the blur effect for home screen and discovery (genres/favorites) screens. Lower values improve visibility and performance.",
             "settingName": "ui.backdrop.homeBlurAmount",
             "type": "radio",
@@ -591,15 +591,28 @@
         ]
       },
       {
-        "title": "Jellyseerr",
+        "title": "Seerr",
         "description": "Enable Seerr integration in navigation.",
         "children": [
           {
-            "title": "Enable Jellyseerr",
+            "title": "Enable Seerr",
             "description": "Show Seerr in navigation",
             "settingName": "jellyseerr.enabled",
             "type": "bool",
             "default": "false"
+          },
+          {
+            "title": "Block NSFW Content",
+            "description": "Hide adult content from Seerr search results and requests.",
+            "settingName": "jellyseerr.blockNsfw",
+            "type": "bool",
+            "default": "true"
+          },
+          {
+            "title": "Account & Sign In",
+            "description": "Sign in to Seerr or manage your logged-in account.",
+            "settingName": "jellyseerr.accountSettings",
+            "children": []
           }
         ]
       }

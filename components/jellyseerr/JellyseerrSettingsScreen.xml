@@ -5,38 +5,38 @@
         <Poster id="backgroundPoster" uri="pkg:/images/Overhang_Background_SD_2.jpg" width="1920" height="1080" opacity="0.3" />
 
         <Label id="titleLabel"
-            text="Jellyseerr Settings"
+            text="Seerr Settings"
             font="font:LargeSystemFont"
             translation="[60, 100]" />
 
         <Group id="settingsGroup" translation="[100, 180]">
-            <Label id="label1" text="Server URL:" font="font:MediumSystemFont" translation="[0, 0]" width="300" />
-            <StandardButton id="serverUrlButton" text="Not Set" translation="[320, 0]" width="500" />
+            <Label id="authLabel" text="Authentication Account Type:" font="font:MediumSystemFont" translation="[0, 0]" width="300" />
+            <StandardButton id="jellyffinSsoButton" text="Jellyfin Account" translation="[320, 0]" width="500" />
 
-            <Label id="authLabel" text="Authentication:" font="font:MediumSystemFont" translation="[0, 60]" width="300" />
-            <StandardButton id="jellyffinSsoButton" text="Connect with Jellyfin" translation="[320, 60]" width="500" />
+            <StandardButton id="localLoginButton" text="Local Account" translation="[850, 0]" width="500" />
 
-            <StandardButton id="localLoginButton" text="Local Account Login" translation="[320, 120]" width="500" />
+            <Label id="authStatusLabel"
+                text="Not signed in"
+                font="font:SmallSystemFont"
+                translation="[320, 80]"
+                width="760"
+                wrap="true"
+                visible="true" />
 
-            <Label id="label3" text="Block NSFW Content:" font="font:MediumSystemFont" translation="[0, 180]" width="300" />
-            <StandardButton id="nsfwToggleButton" text="Enabled" translation="[320, 180]" width="400" />
+            <StandardButton id="signOutButton" text="Sign Out" translation="[1120, 68]" width="240" visible="false" />
 
-            <StandardButton id="testConnectionButton" text="Test Connection" translation="[0, 240]" width="400" />
-            <StandardButton id="enableDisableButton" text="Enable Jellyseerr" translation="[450, 240]" width="400" />
-
-            <StandardButton id="backButton" text="Back" translation="[0, 300]" width="400" />
+            <StandardButton id="backButton" text="Back" translation="[0, 130]" width="400" />
         </Group>
 
         <Label id="statusLabel"
             text=""
             font="font:MediumSystemFont"
-            translation="[100, 500]"
+            translation="[100, 470]"
             width="1700"
             wrap="true"
             visible="false" />
 
         <Keyboard id="keyboard"
-            translation="[100, 150]"
-            width="1700" />
+            translation="[100, 150]" />
     </children>
 </component>

@@ -6,6 +6,7 @@ sub executeAuth()
     serverUrl = m.top.serverUrl
     authEndpoint = m.top.authEndpoint
     authBody = m.top.authBody
+    usePluginProxy = (m.top.usePluginProxy <> invalid and m.top.usePluginProxy = true)
 
     if serverUrl = invalid or serverUrl = ""
         m.top.response = {
@@ -13,6 +14,11 @@ sub executeAuth()
             error: "Invalid server URL",
             statusCode: 400
         }
+        return
+    end if
+
+    if usePluginProxy
+        executePluginLogin(serverUrl, authBody)
         return
     end if
 
@@ -129,3 +135,212 @@ sub executeAuth()
         }
     end if
 end sub
+
+sub executePluginLogin(serverUrl as string, authBody as string)
+    url = serverUrl
+    if Right(url, 1) = "/" then url = Left(url, Len(url) - 1)
+    url = url + "/Moonfin/Jellyseerr/Login"
+
+    urlTransfer = CreateObject("roUrlTransfer")
+    urlTransfer.SetUrl(url)
+    urlTransfer.SetCertificatesFile("common:/certs/ca-bundle.crt")
+    urlTransfer.InitClientCertificates()
+
+    authToken = ""
+    if m.global <> invalid and m.global.session <> invalid and m.global.session.user <> invalid and m.global.session.user.authToken <> invalid
+        authToken = m.global.session.user.authToken
+    end if
+
+    if authToken = ""
+        m.top.response = {
+            success: false,
+            error: "Missing Jellyfin session token",
+            statusCode: 401,
+            rawResponse: ""
+        }
+        return
+    end if
+
+    QUOTE = Chr(34)
+    urlTransfer.AddHeader("Authorization", "MediaBrowser Token=" + QUOTE + authToken + QUOTE)
+    urlTransfer.AddHeader("Content-Type", "application/json")
+    urlTransfer.AddHeader("User-Agent", "Moonfin/1.0")
+
+    port = CreateObject("roMessagePort")
+    urlTransfer.SetMessagePort(port)
+
+    success = urlTransfer.AsyncPostFromString(authBody)
+    if not success
+        m.top.response = {
+            success: false,
+            error: "Failed to initiate plugin login request",
+            statusCode: 0,
+            rawResponse: ""
+        }
+        return
+    end if
+
+    event = wait(30000, port)
+    if type(event) <> "roUrlEvent"
+        m.top.response = {
+            success: false,
+            error: "Request timeout or network error",
+            statusCode: 0,
+            rawResponse: ""
+        }
+        return
+    end if
+
+    statusCode = event.GetResponseCode()
+    responseBody = event.GetString()
+
+    if statusCode < 200 or statusCode >= 300
+        errorMsg = "Plugin login failed"
+        if responseBody <> invalid and responseBody <> ""
+            errorMsg = errorMsg + " - Response: " + responseBody
+        end if
+        m.top.response = {
+            success: false,
+            error: errorMsg,
+            statusCode: statusCode,
+            rawResponse: responseBody
+        }
+        return
+    end if
+
+    if responseBody = invalid or responseBody = ""
+        m.top.response = {
+            success: false,
+            error: "Plugin login returned empty response",
+            statusCode: statusCode,
+            rawResponse: ""
+        }
+        return
+    end if
+
+    parsed = ParseJson(responseBody)
+    if parsed = invalid
+        m.top.response = {
+            success: false,
+            error: "Plugin login returned invalid JSON",
+            statusCode: statusCode,
+            rawResponse: responseBody
+        }
+        return
+    end if
+
+    pluginSuccess = false
+    successValue = GetResponseField(parsed, "success")
+    if successValue <> invalid
+        pluginSuccess = (successValue = true)
+    end if
+
+    if not pluginSuccess
+        errorValue = GetResponseStringField(parsed, "error")
+        errorMsg = "Plugin login failed"
+        if errorValue <> ""
+            errorMsg = errorValue
+        end if
+        m.top.response = {
+            success: false,
+            error: errorMsg,
+            statusCode: statusCode,
+            rawResponse: responseBody
+        }
+        return
+    end if
+
+    jellyseerrUserId = GetResponseIntField(parsed, "jellyseerrUserId")
+    permissions = GetResponseIntField(parsed, "permissions")
+    displayName = GetResponseStringField(parsed, "displayName")
+    avatar = GetResponseStringField(parsed, "avatar")
+
+    m.top.response = {
+        success: true,
+        statusCode: statusCode,
+        rawResponse: responseBody,
+        cookies: "",
+        jellyseerrUserId: jellyseerrUserId,
+        displayName: displayName,
+        avatar: avatar,
+        permissions: permissions
+    }
+end sub
+
+function GetResponseField(data as object, fieldName as string) as dynamic
+    if data = invalid
+        return invalid
+    end if
+
+    dataType = type(data)
+    if dataType <> "roAssociativeArray" and dataType <> "AssociativeArray"
+        return invalid
+    end if
+
+    if data[fieldName] <> invalid
+        return data[fieldName]
+    end if
+
+    target = LCase(fieldName)
+    for each key in data
+        if LCase(key) = target
+            return data[key]
+        end if
+    end for
+
+    return invalid
+end function
+
+function GetResponseIntField(data as dynamic, fieldName as string, defaultValue = 0 as integer) as integer
+    value = GetResponseField(data, fieldName)
+    if value = invalid
+        return defaultValue
+    end if
+
+    valueType = type(value)
+    if valueType = "String" or valueType = "roString"
+        valueString = value.trim()
+        if valueString = ""
+            return defaultValue
+        end if
+        return valueString.toInt()
+    end if
+
+    if valueType = "Boolean" or valueType = "roBoolean"
+        if value then return 1
+        return 0
+    end if
+
+    if IsNumericType(valueType)
+        return int(value)
+    end if
+
+    return defaultValue
+end function
+
+function GetResponseStringField(data as dynamic, fieldName as string, defaultValue = "" as string) as string
+    value = GetResponseField(data, fieldName)
+    if value = invalid
+        return defaultValue
+    end if
+
+    valueType = type(value)
+    if valueType = "String" or valueType = "roString"
+        return value
+    end if
+
+    if valueType = "Boolean" or valueType = "roBoolean"
+        if value then return "true"
+        return "false"
+    end if
+
+    if IsNumericType(valueType)
+        return value.toStr()
+    end if
+
+    return defaultValue
+end function
+
+function IsNumericType(valueType as string) as boolean
+    return valueType = "roInt" or valueType = "roInteger" or valueType = "roFloat" or valueType = "roDouble" or valueType = "Integer" or valueType = "LongInteger" or valueType = "Float" or valueType = "Double"
+end function

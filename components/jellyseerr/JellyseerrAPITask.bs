@@ -371,13 +371,28 @@ sub executePluginProxyRequest(config as object, request as object)
     if Right(serverUrl, 1) = "/" then serverUrl = Left(serverUrl, Len(serverUrl) - 1)
 
     endpoint = request.endpoint
-    ' Strip /api/v1 prefix — plugin proxy expects raw Jellyseerr paths
-    if Left(endpoint, 7) = "/api/v1"
-        endpoint = Mid(endpoint, 8)
+    usePluginRoot = (request.usePluginRoot <> invalid and request.usePluginRoot = true)
+
+    if endpoint = invalid or endpoint = ""
+        m.top.response = {
+            success: false,
+            error: "Invalid plugin endpoint",
+            statusCode: 400
+        }
+        return
     end if
+
     if Left(endpoint, 1) <> "/" then endpoint = "/" + endpoint
 
-    url = serverUrl + "/Moonfin/Jellyseerr/Api" + endpoint
+    if usePluginRoot
+        url = serverUrl + endpoint
+    else
+        if Left(endpoint, 7) = "/api/v1"
+            endpoint = Mid(endpoint, 8)
+        end if
+        if Left(endpoint, 1) <> "/" then endpoint = "/" + endpoint
+        url = serverUrl + "/Moonfin/Jellyseerr/Api" + endpoint
+    end if
 
     if request.queryParams <> invalid
         queryString = BuildQueryString(request.queryParams)
@@ -391,7 +406,7 @@ sub executePluginProxyRequest(config as object, request as object)
     urlTransfer.SetCertificatesFile("common:/certs/ca-bundle.crt")
     urlTransfer.InitClientCertificates()
 
-    ' Jellyfin auth — plugin handles Jellyseerr auth server-side
+    ' Jellyfin auth - plugin handles Jellyseerr auth server-side
     QUOTE = Chr(34)
     authToken = ""
     if m.global <> invalid and m.global.session <> invalid and m.global.session.user <> invalid and m.global.session.user.authToken <> invalid
@@ -444,7 +459,14 @@ sub executePluginProxyRequest(config as object, request as object)
         rawResponse = event.GetString()
 
         if statusCode >= 200 and statusCode < 300
-            parsedData = UnwrapPluginProxyResponse(rawResponse)
+            parsedData = invalid
+            if rawResponse <> invalid and rawResponse <> ""
+                if usePluginRoot
+                    parsedData = ParseJson(rawResponse)
+                else
+                    parsedData = UnwrapPluginProxyResponse(rawResponse)
+                end if
+            end if
             m.top.response = {
                 success: true,
                 data: parsedData,
@@ -452,11 +474,11 @@ sub executePluginProxyRequest(config as object, request as object)
                 rawResponse: rawResponse
             }
         else
-            errorMessage = "Plugin proxy request failed"
+            errorMessage = "Plugin request failed"
             if rawResponse <> invalid and rawResponse <> ""
                 parsed = ParseJson(rawResponse)
-                if parsed <> invalid
-                    if parsed.FileContents <> invalid
+                if parsed <> invalid and type(parsed) = "roAssociativeArray"
+                    if not usePluginRoot and parsed.FileContents <> invalid
                         decoded = DecodeBase64String(parsed.FileContents)
                         decodedJson = ParseJson(decoded)
                         if decodedJson <> invalid

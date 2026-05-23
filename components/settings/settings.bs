@@ -94,6 +94,12 @@ sub init()
     m.pluginRowsDialogOptionMap = {}
     m.pluginRowsDialogSettingItem = invalid
 
+    m.seerrKeyboardMode = ""
+    m.seerrTempUsername = ""
+    m.seerrAccountSection = invalid
+    m.seerrAuthTask = invalid
+    m.seerrLogoutTask = invalid
+
     m.configTree = reorderSettingsForFlutter(GetConfigTree())
     updateHssSettingGate()
     updateKtSettingGate()
@@ -606,6 +612,18 @@ function getSettingCurrentValueLabel(settingItem as dynamic) as string
 
     if isPluginRowsManagerSetting(settingItem.settingName)
         return getPluginRowsManagerSummary(settingItem.settingName)
+    end if
+
+    if isStringEqual(settingItem.settingName, "jellyseerr.accountSettings")
+        return GetJellyseerrAccountStatusLabel()
+    end if
+
+    if isStringEqual(settingItem.settingName, "jellyseerr.blockNsfw")
+        config = GetJellyseerrConfig()
+        if config.blockNsfw = true
+            return tr("Enabled")
+        end if
+        return tr("Disabled")
     end if
 
     currentValue = get_user_setting(settingItem.settingName)
@@ -1146,7 +1164,7 @@ sub testJellyseerrConnection(overrideAuthMethod = invalid as dynamic)
 
         if email = invalid or email = "" or password = invalid or password = ""
             if authMethod = "local"
-                ShowToast("Please enter Jellyseerr email and password", "error")
+                ShowToast("Please enter Seerr email and password", "error")
                 return
             end if
             ' If no specific method provided, we've exhausted all options
@@ -1248,7 +1266,7 @@ sub onJellyfinAuthResponse(event as object)
     response = event.getData()
 
     dialogMessage = ""
-    dialogTitle = "Jellyseerr Authentication"
+    dialogTitle = "Seerr Authentication"
 
     if response <> invalid and response.success
         ' For Jellyfin auth, we need to save the session cookie, not an API key
@@ -1256,7 +1274,7 @@ sub onJellyfinAuthResponse(event as object)
             ' Get current user ID and save to per-user registry
             userId = GetCurrentJellyfinUserId()
             if userId = ""
-                dialogTitle = "✗ Error"
+                dialogTitle = "Error"
                 dialogMessage = "Unable to get current user ID"
             else
                 serverUrl = m.global.session.user.settings["jellyseerr.url"]
@@ -1270,8 +1288,8 @@ sub onJellyfinAuthResponse(event as object)
                 ' Fetch user permissions after successful auth
                 FetchJellyseerrUserPermissions(userId)
 
-                dialogTitle = "✓ Authentication Successful"
-                dialogMessage = "Successfully connected to Jellyseerr!" + Chr(10) + Chr(10)
+                dialogTitle = "Authentication Successful"
+                dialogMessage = "Successfully connected to Seerr!" + Chr(10) + Chr(10)
                 dialogMessage = dialogMessage + "Your credentials have been saved and will persist across sessions."
 
                 ' Mark session as validated for this app session
@@ -1283,13 +1301,13 @@ sub onJellyfinAuthResponse(event as object)
                 settingFocused()
             end if
         else
-            dialogTitle = "✓ Connected (No Cookie)"
+            dialogTitle = "Connected (No Cookie)"
             dialogMessage = "Authentication succeeded but no session cookie was returned." + Chr(10) + Chr(10)
             dialogMessage = dialogMessage + "Status Code: " + response.statusCode.ToStr() + Chr(10) + Chr(10)
-            dialogMessage = dialogMessage + "Please check your Jellyseerr server configuration."
+            dialogMessage = dialogMessage + "Please check your Seerr server configuration."
         end if
     else
-        dialogTitle = "✗ Authentication Failed"
+        dialogTitle = "Authentication Failed"
         dialogMessage = "Jellyfin authentication failed" + Chr(10) + Chr(10)
 
         if response <> invalid
@@ -1329,7 +1347,7 @@ sub onLocalAuthResponse(event as object)
     response = event.getData()
 
     dialogMessage = ""
-    dialogTitle = "Jellyseerr Authentication"
+    dialogTitle = "Seerr Authentication"
 
     if response <> invalid and response.success
         ' Local auth can also use cookies like Jellyfin auth
@@ -1337,7 +1355,7 @@ sub onLocalAuthResponse(event as object)
             ' Get current user ID and save to per-user registry
             userId = GetCurrentJellyfinUserId()
             if userId = ""
-                dialogTitle = "✗ Error"
+                dialogTitle = "Error"
                 dialogMessage = "Unable to get current user ID"
             else
                 serverUrl = m.global.session.user.settings["jellyseerr.url"]
@@ -1351,8 +1369,8 @@ sub onLocalAuthResponse(event as object)
                 ' Fetch user permissions after successful auth
                 FetchJellyseerrUserPermissions(userId)
 
-                dialogTitle = "✓ Authentication Successful"
-                dialogMessage = "Successfully connected to Jellyseerr!" + Chr(10) + Chr(10)
+                dialogTitle = "Authentication Successful"
+                dialogMessage = "Successfully connected to Seerr!" + Chr(10) + Chr(10)
                 dialogMessage = dialogMessage + "Your credentials have been saved and will persist across sessions."
 
                 ' Mark session as validated for this app session
@@ -1364,14 +1382,14 @@ sub onLocalAuthResponse(event as object)
                 settingFocused()
             end if
         else
-            dialogTitle = "✓ Connected (No Cookie)"
+            dialogTitle = "Connected (No Cookie)"
             dialogMessage = "Authentication succeeded but no session cookie was returned." + Chr(10) + Chr(10)
             dialogMessage = dialogMessage + "Status Code: " + response.statusCode.ToStr() + Chr(10) + Chr(10)
-            dialogMessage = dialogMessage + "Please check your Jellyseerr server configuration."
+            dialogMessage = dialogMessage + "Please check your Seerr server configuration."
         end if
     else
-        dialogTitle = "✗ Authentication Failed"
-        dialogMessage = "Jellyseerr authentication failed" + Chr(10) + Chr(10)
+        dialogTitle = "Authentication Failed"
+        dialogMessage = "Seerr authentication failed" + Chr(10) + Chr(10)
 
         if response <> invalid
             dialogMessage = dialogMessage + "Status Code: " + response.statusCode.ToStr() + Chr(10)
@@ -1407,7 +1425,7 @@ sub onLocalAuthResponse(event as object)
 end sub
 
 function GetJellyseerrAuthStatus() as string
-    ' Check current authentication status for Jellyseerr
+    ' Check current authentication status for Seerr
     serverUrl = m.global.session.user.settings["jellyseerr.url"]
 
     if not isValidString(serverUrl)
@@ -1426,7 +1444,7 @@ function GetJellyseerrAuthStatus() as string
         if savedAuthMethod = "jellyfin"
             methodDisplay = "Jellyfin SSO"
         else if savedAuthMethod = "local"
-            methodDisplay = "Jellyseerr Login"
+            methodDisplay = "Seerr Login"
         end if
         return "Status: Authenticated (" + methodDisplay + ")"
     end if
@@ -1442,19 +1460,64 @@ function isValidString(value as dynamic) as boolean
 end function
 
 sub ShowToast(message as string, _toastType = "" as string)
+    if m.activeToast <> invalid
+        DismissToast()
+    end if
+
+    toastMessage = ""
+    if message <> invalid
+        if type(message) = "String" or type(message) = "roString"
+            toastMessage = message.Trim()
+        else
+            toastMessage = message.ToStr()
+        end if
+    end if
+    if toastMessage = ""
+        toastMessage = "Done."
+    end if
+
     ' Create a simple toast notification using JFMessageDialog
     toast = createObject("roSGNode", "JFMessageDialog")
-    toast.message = message
+    toast.message = toastMessage
     toast.options = ["OK"]
     m.top.getScene().appendChild(toast)
+
+    optionList = toast.findNode("optionList")
+    if optionList <> invalid
+        optionList.observeField("itemSelected", "onToastOptionSelected")
+    end if
+
+    m.activeToast = toast
     toast.observeField("backPressed", "onToastClosed")
     toast.setFocus(true)
 end sub
 
+sub onToastOptionSelected(_obj as object)
+    DismissToast()
+end sub
+
 ' Handle toast dialog closed
-sub onToastClosed(obj as object)
-    dialog = obj.getRoSGNode()
-    m.top.getScene().removeChild(dialog)
+sub onToastClosed(_obj as object)
+    DismissToast()
+end sub
+
+sub DismissToast()
+    if m.activeToast = invalid
+        return
+    end if
+
+    optionList = m.activeToast.findNode("optionList")
+    if optionList <> invalid
+        optionList.unobserveField("itemSelected")
+    end if
+    m.activeToast.unobserveField("backPressed")
+
+    scene = m.top.getScene()
+    if scene <> invalid
+        scene.removeChild(m.activeToast)
+    end if
+
+    m.activeToast = invalid
     m.settingsMenu.setFocus(true)
 end sub
 
@@ -1464,6 +1527,249 @@ sub openJellyseerrAuthScreen()
     m.top.getScene().appendChild(authScreen)
     authScreen.setFocus(true)
 end sub
+
+sub PopulateSeerrAccountChildren(section as object)
+    m.seerrAccountSection = section
+    userId = chainLookupReturn(m.global, "session.user.id", "")
+    userConfig = GetJellyseerrUserConfig(userId)
+    isLoggedIn = isValid(userConfig) and isValidAndNotEmpty(userConfig.displayName)
+
+    if isLoggedIn
+        displayName = userConfig.displayName
+        section.children = [
+            {
+                title: "Signed in as " + displayName,
+                description: "You are currently authenticated with Seerr.",
+                settingName: "jellyseerr.accountStatus",
+                type: "action"
+            },
+            {
+                title: "Sign Out",
+                description: "Sign out from your Seerr account.",
+                settingName: "jellyseerr.signOut",
+                type: "action"
+            }
+        ]
+    else
+        config = GetJellyseerrConfig()
+        pluginAvailable = (config.usePluginProxy ?? false) and (config.serverUrl ?? "") <> ""
+        if pluginAvailable
+            section.children = [
+                {
+                    title: "Sign in with Jellyfin",
+                    description: "Use your Jellyfin credentials to sign in to Seerr.",
+                    settingName: "jellyseerr.signIn.jellyfin",
+                    type: "action"
+                },
+                {
+                    title: "Sign in with Local Account",
+                    description: "Use a local Seerr account (email and password).",
+                    settingName: "jellyseerr.signIn.local",
+                    type: "action"
+                }
+            ]
+        else
+            section.children = [
+                {
+                    title: "Not signed in",
+                    description: "Seerr plugin authentication is unavailable. Ask your server admin to enable the Seerr plugin.",
+                    settingName: "jellyseerr.accountStatus",
+                    type: "action"
+                }
+            ]
+        end if
+    end if
+end sub
+
+sub StartSeerrJellyfinSignIn()
+    m.seerrKeyboardMode = "jellyfin_username"
+    defaultUsername = ""
+    if m.global <> invalid and m.global.session <> invalid and m.global.session.user <> invalid and m.global.session.user.name <> invalid
+        defaultUsername = m.global.session.user.name
+    end if
+    ShowSeerrKeyboard("Jellyfin Username", defaultUsername, false)
+end sub
+
+sub StartSeerrLocalSignIn()
+    m.seerrKeyboardMode = "local_username"
+    ShowSeerrKeyboard("Email", "", false)
+end sub
+
+sub ShowSeerrKeyboard(title as string, initialValue as string, isPassword as boolean)
+    dialog = CreateObject("roSGNode", "StandardKeyboardDialog")
+    dialog.title = tr(title)
+    dialog.text = initialValue
+    if isPassword
+        dialog.textEditBox.secureMode = true
+    end if
+    dlgPalette = CreateObject("roSGNode", "RSGPalette")
+    dlgPalette.colors = {
+        DialogBackgroundColor: chainLookupReturn(m.global.session, "user.settings.colorDialogBackground", ColorPalette.ELEMENTBACKGROUND),
+        DialogFocusColor: chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT),
+        DialogFocusItemColor: chainLookupReturn(m.global.session, "user.settings.colorDialogSelectedText", ColorPalette.WHITE),
+        DialogTextColor: chainLookupReturn(m.global.session, "user.settings.colorDialogText", ColorPalette.WHITE)
+    }
+    dialog.palette = dlgPalette
+    dialog.buttons = [tr("OK"), tr("Cancel")]
+    dialog.observeField("buttonSelected", "onSeerrKeyboardButton")
+    m.top.getScene().dialog = dialog
+end sub
+
+sub onSeerrKeyboardButton(event as object)
+    dialog = event.getRoSGNode()
+    buttonIndex = dialog.buttonSelected
+
+    if buttonIndex <> 0 ' Cancel
+        dialog.close = true
+        m.seerrKeyboardMode = ""
+        m.seerrTempUsername = ""
+        m.settingsMenu.setFocus(true)
+        return
+    end if
+
+    enteredText = dialog.text
+    dialog.close = true
+
+    if m.seerrKeyboardMode = "jellyfin_username"
+        m.seerrTempUsername = enteredText
+        m.seerrKeyboardMode = "jellyfin_password"
+        ShowSeerrKeyboard("Jellyfin Password", "", true)
+    else if m.seerrKeyboardMode = "jellyfin_password"
+        username = m.seerrTempUsername
+        m.seerrTempUsername = ""
+        m.seerrKeyboardMode = ""
+        PerformSeerrPluginLogin("jellyfin", username, enteredText)
+    else if m.seerrKeyboardMode = "local_username"
+        m.seerrTempUsername = enteredText
+        m.seerrKeyboardMode = "local_password"
+        ShowSeerrKeyboard("Password", "", true)
+    else if m.seerrKeyboardMode = "local_password"
+        username = m.seerrTempUsername
+        m.seerrTempUsername = ""
+        m.seerrKeyboardMode = ""
+        PerformSeerrPluginLogin("local", username, enteredText)
+    end if
+    m.settingsMenu.setFocus(true)
+end sub
+
+sub PerformSeerrPluginLogin(authType as string, username as string, password as string)
+    config = GetJellyseerrConfig()
+    if not (config.usePluginProxy ?? false) or (config.serverUrl ?? "") = ""
+        ShowToast("Seerr plugin authentication is unavailable.", "error")
+        return
+    end if
+
+    authBody = JellyseerrFormatJson({
+        username: username,
+        password: password,
+        authType: authType
+    })
+
+    if isValid(m.seerrAuthTask)
+        m.seerrAuthTask.unobserveField("response")
+    end if
+    m.seerrAuthTask = CreateObject("roSGNode", "JellyseerrAuthTask")
+    m.seerrAuthTask.serverUrl = config.serverUrl
+    m.seerrAuthTask.authBody = authBody
+    m.seerrAuthTask.usePluginProxy = true
+    m.seerrAuthTask.observeField("response", "onSeerrLoginResponse")
+    m.seerrAuthTask.control = "RUN"
+end sub
+
+sub onSeerrLoginResponse()
+    if not isValid(m.seerrAuthTask) then return
+    response = m.seerrAuthTask.response
+    m.seerrAuthTask.unobserveField("response")
+    m.seerrAuthTask = invalid
+    HandleSeerrLoginResult(response)
+end sub
+
+sub HandleSeerrLoginResult(response as object)
+    if not isValid(response) or not (response.success ?? false)
+        errMsg = "Login failed"
+        if isValid(response) and isValid(response.error) and response.error <> ""
+            errMsg = response.error
+        end if
+        ShowToast(errMsg, "error")
+        return
+    end if
+
+    userId = chainLookupReturn(m.global, "session.user.id", "")
+    displayName = ""
+    if isValid(response.displayName) then displayName = response.displayName
+    jellyseerrUserId = 0
+    if isValid(response.jellyseerrUserId) then jellyseerrUserId = int(response.jellyseerrUserId)
+    permissions = 0
+    if isValid(response.permissions) then permissions = int(response.permissions)
+    avatar = ""
+    if isValid(response.avatar) then avatar = response.avatar
+
+    SetJellyseerrUserIdentity(userId, jellyseerrUserId, displayName, permissions, avatar)
+
+    RefreshSeerrAccountMenu()
+end sub
+
+sub PerformSeerrSignOut()
+    config = GetJellyseerrConfig()
+    if not (config.usePluginProxy ?? false) or (config.serverUrl ?? "") = ""
+        ' Just clear locally
+        userId = chainLookupReturn(m.global, "session.user.id", "")
+        ClearJellyseerrUserIdentity(userId)
+        RefreshSeerrAccountMenu()
+        return
+    end if
+
+    if isValid(m.seerrLogoutTask)
+        m.seerrLogoutTask.unobserveField("response")
+    end if
+    m.seerrLogoutTask = CreateObject("roSGNode", "JellyseerrAPITask")
+    m.seerrLogoutTask.request = {
+        method: "DELETE",
+        endpoint: "/Moonfin/Jellyseerr/Logout",
+        usePluginRoot: true
+    }
+    m.seerrLogoutTask.observeField("response", "onSeerrLogoutResponse")
+    m.seerrLogoutTask.control = "RUN"
+end sub
+
+sub onSeerrLogoutResponse()
+    if not isValid(m.seerrLogoutTask) then return
+    m.seerrLogoutTask.unobserveField("response")
+    m.seerrLogoutTask = invalid
+
+    userId = chainLookupReturn(m.global, "session.user.id", "")
+    ClearJellyseerrUserIdentity(userId)
+    RefreshSeerrAccountMenu()
+end sub
+
+sub RefreshSeerrAccountMenu()
+    if not isValid(m.seerrAccountSection) then return
+    PopulateSeerrAccountChildren(m.seerrAccountSection)
+    m.userLocation.pop()
+    LoadMenu(m.seerrAccountSection)
+end sub
+
+function GetJellyseerrAccountStatusLabel() as string
+    userId = chainLookupReturn(m.global, "session.user.id", "")
+    userConfig = GetJellyseerrUserConfig(userId)
+
+    if isValid(userConfig) and isValidAndNotEmpty(userConfig.displayName)
+        return "Signed in as " + userConfig.displayName
+    end if
+
+    if isValid(userConfig) and isValidAndNotEmpty(userConfig.authCookie)
+        authMethod = chainLookupReturn(userConfig, "authMethod", "")
+        if isStringEqual(authMethod, "jellyfin")
+            return "Signed in (Jellyfin)"
+        end if
+        if isStringEqual(authMethod, "local")
+            return "Signed in (Seerr account)"
+        end if
+        return "Signed in"
+    end if
+
+    return "Not signed in"
+end function
 
 sub RefreshCurrentMenu()
     ' Reload the current menu level to apply visibility changes
@@ -1725,7 +2031,10 @@ function reorderSettingsForFlutter(configTree as object) as object
     pluginKefinTweaks = findSettingsChildByTitle(pluginRootSection, "KefinTweaks")
     mdblist = findSettingsChildByTitle(pluginRootSection, "MDBList Ratings")
     tmdb = findSettingsChildByTitle(pluginRootSection, "TMDB")
-    jellyseerr = findSettingsChildByTitle(pluginRootSection, "Jellyseerr")
+    jellyseerr = findSettingsChildByTitle(pluginRootSection, "Seerr")
+    if not isValid(jellyseerr)
+        jellyseerr = findSettingsChildByTitle(pluginRootSection, "Jellyseerr")
+    end if
 
     reordered = []
 
@@ -1826,7 +2135,7 @@ function reorderSettingsForFlutter(configTree as object) as object
     moonfinMappedTitles = ["Navigation Bar", "Home Screen", "Featured Media Bar", "Theme Music", "Shuffle", "Visual Effects", "Support Moonfin"]
     pushUnmappedChildrenByTitle(additionalChildren, moonfinSettings, moonfinMappedTitles)
 
-    pluginMappedTitles = ["Enable Plugin", "Settings Sync", "Home Screen Sections", "KefinTweaks", "MDBList Ratings", "TMDB", "Jellyseerr"]
+    pluginMappedTitles = ["Enable Plugin", "Settings Sync", "Home Screen Sections", "KefinTweaks", "MDBList Ratings", "TMDB", "Seerr", "Jellyseerr"]
     pushUnmappedChildrenByTitle(additionalChildren, pluginRootSection, pluginMappedTitles)
 
     userInterfaceMappedTitles = ["Colors", "General", "Home Rows"]
@@ -1949,6 +2258,31 @@ sub settingSelected()
     if isValid(selectedItem.settingName) and selectedItem.settingName = "jellyseerr.testConnection"
         testJellyseerrConnection()
         return
+    end if
+
+    if isValid(selectedItem.settingName) and selectedItem.settingName = "jellyseerr.accountSettings"
+        PopulateSeerrAccountChildren(selectedItem)
+        LoadMenu(selectedItem)
+        return
+    end if
+
+    if isValid(selectedItem.settingName) and selectedItem.settingName = "jellyseerr.signIn.jellyfin"
+        StartSeerrJellyfinSignIn()
+        return
+    end if
+
+    if isValid(selectedItem.settingName) and selectedItem.settingName = "jellyseerr.signIn.local"
+        StartSeerrLocalSignIn()
+        return
+    end if
+
+    if isValid(selectedItem.settingName) and selectedItem.settingName = "jellyseerr.signOut"
+        PerformSeerrSignOut()
+        return
+    end if
+
+    if isValid(selectedItem.settingName) and selectedItem.settingName = "jellyseerr.accountStatus"
+        return ' read-only status row
     end if
 
     if isValid(selectedItem.settingName) and isMediaBarMultiSelectSetting(selectedItem.settingName)

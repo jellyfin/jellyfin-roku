@@ -1,261 +1,561 @@
 import "pkg:/source/utils/JellyseerrUtils.bs"
 
 sub init()
-    m.serverUrlButton = m.top.findNode("serverUrlButton")
     m.jellyffinSsoButton = m.top.findNode("jellyffinSsoButton")
     m.localLoginButton = m.top.findNode("localLoginButton")
-    m.nsfwToggleButton = m.top.findNode("nsfwToggleButton")
-    m.testConnectionButton = m.top.findNode("testConnectionButton")
-    m.enableDisableButton = m.top.findNode("enableDisableButton")
+    m.authStatusLabel = m.top.findNode("authStatusLabel")
+    m.signOutButton = m.top.findNode("signOutButton")
     m.backButton = m.top.findNode("backButton")
     m.keyboard = m.top.findNode("keyboard")
     m.statusLabel = m.top.findNode("statusLabel")
 
     m.apiTask = CreateObject("roSGNode", "JellyseerrAPITask")
+    m.userInfoTask = CreateObject("roSGNode", "JellyseerrAPITask")
+    m.signOutTask = CreateObject("roSGNode", "JellyseerrAPITask")
     m.authTask = CreateObject("roSGNode", "JellyseerrAuthTask")
     m.currentField = ""
+    m.pendingAuthType = ""
+    m.pendingAuthUsername = ""
 
-    m.serverUrlButton.observeField("buttonSelected", "onServerUrlPressed")
     m.jellyffinSsoButton.observeField("buttonSelected", "onJellyffinSsoPressed")
     m.localLoginButton.observeField("buttonSelected", "onLocalLoginPressed")
-    m.nsfwToggleButton.observeField("buttonSelected", "onNsfwTogglePressed")
-    m.testConnectionButton.observeField("buttonSelected", "onTestConnectionPressed")
-    m.enableDisableButton.observeField("buttonSelected", "onEnableDisablePressed")
+    m.signOutButton.observeField("buttonSelected", "onSignOutPressed")
     m.backButton.observeField("buttonSelected", "onBackPressed")
     m.keyboard.observeField("text", "onKeyboardTextChanged")
+    m.top.observeField("visible", "onVisibilityChanged")
+
+    if m.keyboard <> invalid
+        m.keyboard.visible = false
+    end if
 
     LoadCurrentSettings()
+end sub
+
+sub onVisibilityChanged()
+    if m.top.visible = true
+        SetPrimaryActionFocus()
+    end if
 end sub
 
 sub LoadCurrentSettings()
     config = GetJellyseerrConfig()
 
-    if config.serverUrl <> invalid and config.serverUrl <> ""
-        m.serverUrlButton.text = Left(config.serverUrl, 40)
-    end if
-
-    ' Set NSFW filter toggle state
-    if config.blockNsfw <> invalid and config.blockNsfw = false
-        m.nsfwToggleButton.text = "Disabled"
+    if IsPluginAuthAvailable(config)
+        m.statusLabel.visible = false
     else
-        m.nsfwToggleButton.text = "Enabled"
+        ShowStatus("Seerr plugin authentication is unavailable. Ask your server admin to enable Seerr integration.")
     end if
 
-    if config.enabled
-        m.enableDisableButton.text = "Disable Jellyseerr"
-    else
-        m.enableDisableButton.text = "Enable Jellyseerr"
-    end if
-end sub
-
-sub onServerUrlPressed()
-    m.currentField = "serverUrl"
-    m.editingServerUrl = true
-    ShowKeyboard("Enter Jellyseerr Server URL (http://...)")
+    UpdateAuthStatusLabel()
+    RefreshCurrentUserStatus()
+    SetPrimaryActionFocus()
 end sub
 
 sub onJellyffinSsoPressed()
     config = GetJellyseerrConfig()
-    if config.serverUrl = invalid or config.serverUrl = ""
-        ShowDialog("Please set Server URL first before authenticating.")
+    if not IsPluginAuthAvailable(config)
+        ShowDialog("Seerr plugin authentication is unavailable. Ask your server admin to enable Seerr integration.")
         return
     end if
 
-    ' Show password prompt for Jellyfin authentication
-    m.currentField = "jellyffinPassword"
-    ShowKeyboard("Enter your Jellyfin password")
+    username = ""
+    if m.global <> invalid and m.global.session <> invalid and m.global.session.user <> invalid and m.global.session.user.name <> invalid
+        username = m.global.session.user.name
+    end if
+
+    m.pendingAuthType = "jellyfin"
+    m.currentField = "authUsername"
+    ShowKeyboard("Enter your Jellyfin username", username)
 end sub
 
 sub onLocalLoginPressed()
     config = GetJellyseerrConfig()
-    if config.serverUrl = invalid or config.serverUrl = ""
-        ShowDialog("Please set Server URL first before authenticating.")
+    if not IsPluginAuthAvailable(config)
+        ShowDialog("Seerr plugin authentication is unavailable. Ask your server admin to enable Seerr integration.")
         return
     end if
 
-    ' Show email prompt for local account
-    m.currentField = "localEmail"
-    ShowKeyboard("Enter your Jellyseerr email")
+    m.pendingAuthType = "local"
+    m.currentField = "authUsername"
+    ShowKeyboard("Enter your Seerr email")
 end sub
 
-sub onNsfwTogglePressed()
-    ' Toggle NSFW filtering on/off
-    config = GetJellyseerrConfig()
-
-    ' Get current state (default true if not set)
-    currentState = true
-    if config.blockNsfw <> invalid
-        currentState = config.blockNsfw
-    end if
-
-    ' Toggle the state
-    newState = not currentState
-
-    ' Save the new state
-    SetJellyseerrBlockNsfw(newState)
-
-    ' Update button text
-    if newState
-        m.nsfwToggleButton.text = "Enabled"
-        ShowStatus("NSFW content filtering enabled")
-    else
-        m.nsfwToggleButton.text = "Disabled"
-        ShowStatus("NSFW content filtering disabled")
-    end if
-end sub
-
-sub ShowKeyboard(prompt as string)
+sub ShowKeyboard(prompt as string, initialText = "" as string)
     m.statusLabel.text = prompt
     m.statusLabel.visible = true
     m.keyboard.visible = true
-    m.keyboard.text = ""
+    m.keyboard.text = initialText
     m.keyboard.setFocus(true)
 end sub
 
 sub onKeyboardTextChanged(event as object)
     text = event.getData()
-
-    if text.Len() > 0 and InStr(text, Chr(10)) > 0
-        ' Enter pressed
-        newlineIdx = InStr(text, Chr(10))
-        finalText = Left(text, newlineIdx - 1)
-
-        if m.currentField = "serverUrl"
-            if IsValidServerUrl(finalText)
-                SetJellyseerrConfig(finalText, "", "")
-                m.serverUrlButton.text = Left(finalText, 40)
-                m.statusLabel.text = "Server URL updated"
-            else
-                ShowDialog("Invalid URL format. Server URL must start with http:// or https://")
-                return
-            end if
-        else if m.currentField = "jellyffinPassword"
-            ' Jellyfin SSO with password
-            PerformJellyffinSSO(finalText)
-        else if m.currentField = "localEmail"
-            ' Store email and prompt for password
-            m.localAuthEmail = finalText
-            m.currentField = "localPassword"
-            ShowKeyboard("Enter your Jellyseerr password")
-            return
-        else if m.currentField = "localPassword"
-            ' Perform local login
-            PerformLocalLogin(m.localAuthEmail, finalText)
-        end if
-
-        m.keyboard.visible = false
-        m.statusLabel.visible = false
-        m.serverUrlButton.setFocus(true)
-    end if
-end sub
-
-sub PerformJellyffinSSO(password as string)
-    ShowStatus("Authenticating with Jellyfin...")
-
-    config = GetJellyseerrConfig()
-    jellyfinUsername = m.global.session.user.name
-
-    ' Create login request for Jellyfin SSO
-    loginRequest = CreateJellyseerrLoginRequest(jellyfinUsername, password, "")
-
-    m.authTask.serverUrl = config.serverUrl
-    m.authTask.authEndpoint = "/api/v1/auth/jellyfin"
-    m.authTask.authBody = JellyseerrFormatJson(loginRequest)
-    m.authTask.observeField("response", "onJellyffinSSOResponse")
-    m.authTask.control = "RUN"
-end sub
-
-sub onJellyffinSSOResponse(event as object)
-    response = event.getData()
-
-    if response.success
-        userId = GetCurrentJellyfinUserId()
-        if userId <> "" and response.cookies <> invalid and response.cookies <> ""
-            SetJellyseerrUserConfig(userId, response.cookies, "jellyfin", m.jellyfinPassword ?? "", "", "")
-        end if
-        ShowDialog(m.global.app.name + " Jellyfin authentication successful!")
-    else
-        errorMsg = FormatJellyseerrError(response.error)
-        ShowDialog(errorMsg)
-    end if
-end sub
-
-sub PerformLocalLogin(email as string, password as string)
-    ShowStatus("Logging in to Jellyseerr...")
-
-    config = GetJellyseerrConfig()
-
-    ' Create local login request
-    loginRequest = CreateJellyseerrLocalLoginRequest(email, password)
-
-    m.authTask.serverUrl = config.serverUrl
-    m.authTask.authEndpoint = "/api/v1/auth/local"
-    m.authTask.authBody = JellyseerrFormatJson(loginRequest)
-    m.authTask.observeField("response", "onLocalLoginResponse")
-    m.authTask.control = "RUN"
-end sub
-
-sub onLocalLoginResponse(event as object)
-    response = event.getData()
-
-    if response.success
-        userId = GetCurrentJellyfinUserId()
-        if userId <> "" and response.cookies <> invalid and response.cookies <> ""
-            SetJellyseerrUserConfig(userId, response.cookies, "local", "", m.localAuthEmail ?? "", "")
-        end if
-        ShowDialog("Local login successful!")
-    else
-        errorMsg = FormatJellyseerrError(response.error)
-        ShowDialog(errorMsg)
-    end if
-end sub
-
-
-sub onTestConnectionPressed()
-    ShowStatus("Testing connection...")
-
-    config = GetJellyseerrConfig()
-    if not IsValidJellyseerrConfig(config)
-        ShowDialog("Jellyseerr is not configured. Please set up server URL and authentication.")
+    if text = invalid
         return
     end if
 
-    m.apiTask.request = {
-        method: "GET",
-        endpoint: "/api/v1/user"
+    if text.Len() > 0 and InStr(text, Chr(10)) > 0
+        newlineIdx = InStr(text, Chr(10))
+        finalText = Left(text, newlineIdx - 1).Trim()
+
+        if m.currentField = "authUsername"
+            if finalText = ""
+                ShowDialog("Username is required.")
+                return
+            end if
+
+            m.pendingAuthUsername = finalText
+            m.currentField = "authPassword"
+
+            if m.pendingAuthType = "local"
+                ShowKeyboard("Enter your Seerr password")
+            else
+                ShowKeyboard("Enter your Jellyfin password")
+            end if
+            return
+        else if m.currentField = "authPassword"
+            if finalText = ""
+                ShowDialog("Password is required.")
+                return
+            end if
+
+            if m.pendingAuthType = ""
+                ShowDialog("Please select an authentication type first.")
+                return
+            end if
+
+            m.keyboard.visible = false
+            m.statusLabel.visible = false
+            PerformPluginLogin(m.pendingAuthType, m.pendingAuthUsername, finalText)
+            SetPrimaryActionFocus()
+            return
+        end if
+    end if
+end sub
+
+sub PerformPluginLogin(authType as string, username as string, password as string)
+    config = GetJellyseerrConfig()
+    if not IsPluginAuthAvailable(config)
+        ShowDialog("Seerr plugin authentication is unavailable. Ask your server admin to enable Seerr integration.")
+        return
+    end if
+
+    if authType = "local"
+        ShowStatus("Signing in to Seerr with local account...")
+    else
+        ShowStatus("Signing in to Seerr with Jellyfin account...")
+    end if
+
+    loginRequest = {
+        username: username,
+        password: password,
+        authType: authType
     }
-    m.apiTask.observeField("response", "onConnectionTestResponse")
-    m.apiTask.control = "RUN"
+
+    m.authTask.serverUrl = config.serverUrl
+    m.authTask.usePluginProxy = true
+    m.authTask.authBody = JellyseerrFormatJson(loginRequest)
+    m.authTask.unobserveField("response")
+    m.authTask.observeField("response", "onPluginLoginResponse")
+    m.authTask.control = "RUN"
+end sub
+
+sub onPluginLoginResponse(event as object)
+    response = event.getData()
+    HandlePluginLoginResponse(response)
+end sub
+
+sub onTestConnectionPressed()
+    ' Removed - now handled via Settings > Integrations > Seerr
 end sub
 
 sub onConnectionTestResponse(event as object)
+end sub
+
+sub onEnableDisablePressed()
+    ' Removed - now handled via Settings > Integrations > Seerr > Enable Seerr
+end sub
+
+sub onNsfwTogglePressed()
+    ' Removed - now handled via Settings > Integrations > Seerr > Block NSFW Content
+end sub
+
+sub onSignOutPressed()
+    config = GetJellyseerrConfig()
+    if not IsPluginAuthAvailable(config)
+        CompleteSeerrSignOut()
+        ShowDialog("Signed out locally.")
+        return
+    end if
+
+    ShowStatus("Signing out from Seerr...")
+    m.signOutTask.unobserveField("response")
+    m.signOutTask.request = {
+        method: "DELETE",
+        endpoint: "/Moonfin/Jellyseerr/Logout",
+        usePluginRoot: true
+    }
+    m.signOutTask.observeField("response", "onPluginSignOutResponse")
+    m.signOutTask.control = "RUN"
+end sub
+
+sub onPluginSignOutResponse(event as object)
+    response = event.getData()
+    CompleteSeerrSignOut()
+
+    hasFailure = false
+    errorMsg = ""
+
+    if IsAssocArray(response)
+        hasFailure = not GetAssocBoolField(response, "success")
+        errorMsg = GetAssocStringField(response, "error")
+        if errorMsg = "" and IsAssocArray(response.data)
+            errorMsg = GetAssocStringField(response.data, "error")
+        end if
+    end if
+
+    if hasFailure and errorMsg <> ""
+        ShowDialog("Signed out locally. Server returned: " + errorMsg)
+    else
+        ShowDialog("Signed out from Seerr.")
+    end if
+end sub
+
+sub CompleteSeerrSignOut()
+    userId = GetCurrentJellyfinUserId()
+    if userId <> ""
+        userConfig = GetJellyseerrUserConfig(userId)
+        SetJellyseerrUserConfig(userId, "", userConfig.authMethod, "", "", "")
+        ClearJellyseerrCookie()
+        ClearJellyseerrUserIdentity(userId)
+    end if
+
+    m.currentField = ""
+    m.pendingAuthType = ""
+    m.pendingAuthUsername = ""
+
+    if m.keyboard <> invalid
+        m.keyboard.visible = false
+    end if
+
+    UpdateAuthStatusLabel()
+end sub
+
+sub RefreshCurrentUserStatus()
+    config = GetJellyseerrConfig()
+    if not IsPluginAuthAvailable(config)
+        userId = GetCurrentJellyfinUserId()
+        if userId <> ""
+            ClearJellyseerrUserIdentity(userId)
+        end if
+        UpdateAuthStatusLabel()
+        return
+    end if
+
+    m.userInfoTask.unobserveField("response")
+    m.userInfoTask.request = {
+        method: "GET",
+        endpoint: "/Moonfin/Jellyseerr/Status",
+        usePluginRoot: true
+    }
+    m.userInfoTask.observeField("response", "onCurrentUserStatusResponse")
+    m.userInfoTask.control = "RUN"
+end sub
+
+sub onCurrentUserStatusResponse(event as object)
     response = event.getData()
 
-    if response.success
-        ShowDialog("Connection successful!")
+    if IsAssocArray(response) and GetAssocBoolField(response, "success") and IsAssocArray(response.data)
+        userId = GetCurrentJellyfinUserId()
+        if userId <> ""
+            if not GetAssocBoolField(response.data, "enabled")
+                ClearJellyseerrUserIdentity(userId)
+                UpdateAuthStatusLabel()
+                return
+            end if
+
+            if not GetAssocBoolField(response.data, "authenticated")
+                ClearJellyseerrUserIdentity(userId)
+                UpdateAuthStatusLabel()
+                return
+            end if
+
+            seerrUserId = GetAssocIntField(response.data, "jellyseerrUserId")
+            if seerrUserId <= 0
+                seerrUserId = GetAssocIntField(response.data, "id")
+            end if
+
+            permissions = GetAssocIntField(response.data, "permissions")
+
+            displayName = GetAssocStringField(response.data, "displayName")
+            if displayName = ""
+                displayName = GetAssocStringField(response.data, "username")
+            end if
+            if displayName = ""
+                displayName = GetAssocStringField(response.data, "email")
+            end if
+
+            avatar = GetAssocStringField(response.data, "avatar")
+            SetJellyseerrUserIdentity(userId, seerrUserId, displayName, permissions, avatar)
+        end if
+    else if IsAssocArray(response)
+        statusCode = GetAssocIntField(response, "statusCode")
+        if statusCode = 401 or statusCode = 403
+            userId = GetCurrentJellyfinUserId()
+            if userId <> ""
+                ClearJellyseerrCookie()
+                ClearJellyseerrUserIdentity(userId)
+            end if
+        end if
+    end if
+
+    UpdateAuthStatusLabel()
+end sub
+
+sub HandlePluginLoginResponse(response as object)
+    if not IsAssocArray(response)
+        ShowDialog("Authentication failed")
+        return
+    end if
+
+    if GetAssocBoolField(response, "success")
+        userId = GetCurrentJellyfinUserId()
+        if userId = ""
+            ShowDialog("Unable to determine current Jellyfin user.")
+            return
+        end if
+
+        jellyseerrUserId = GetAssocIntField(response, "jellyseerrUserId")
+        permissions = GetAssocIntField(response, "permissions")
+        displayName = GetAssocStringField(response, "displayName")
+        avatar = GetAssocStringField(response, "avatar")
+
+        if IsAssocArray(response.data)
+            if jellyseerrUserId <= 0
+                jellyseerrUserId = GetAssocIntField(response.data, "jellyseerrUserId")
+            end if
+            if permissions <= 0
+                permissions = GetAssocIntField(response.data, "permissions")
+            end if
+            if displayName = ""
+                displayName = GetAssocStringField(response.data, "displayName")
+            end if
+            if avatar = ""
+                avatar = GetAssocStringField(response.data, "avatar")
+            end if
+        end if
+
+        if displayName = "" and m.global <> invalid and m.global.session <> invalid and m.global.session.user <> invalid and m.global.session.user.name <> invalid
+            displayName = m.global.session.user.name
+        end if
+
+        SetJellyseerrUserIdentity(userId, jellyseerrUserId, displayName, permissions, avatar)
+        m.currentField = ""
+        m.pendingAuthType = ""
+        m.pendingAuthUsername = ""
+
+        UpdateAuthStatusLabel()
+        RefreshCurrentUserStatus()
+
+        if displayName <> ""
+            ShowDialog("Seerr sign-in successful as " + displayName + "!")
+        else
+            ShowDialog("Seerr sign-in successful!")
+        end if
     else
-        errorMsg = FormatJellyseerrError(response.error)
+        errorMsg = GetAuthErrorMessage(response, "Seerr authentication failed")
         ShowDialog(errorMsg)
     end if
 end sub
 
-sub onEnableDisablePressed()
-    config = GetJellyseerrConfig()
+function IsPluginAuthAvailable(config as object) as boolean
+    if config = invalid
+        return false
+    end if
 
-    if config.enabled
-        DisableJellyseerr()
-        m.enableDisableButton.text = "Enable Jellyseerr"
-        ShowStatus("Jellyseerr disabled")
-    else
-        ' Check if we have enough config to enable
-        if config.serverUrl <> invalid and config.serverUrl <> ""
-            ' Re-save config to mark as enabled
-            SetJellyseerrConfig(config.serverUrl, "", config.authMethod ?? "")
-            m.enableDisableButton.text = "Disable Jellyseerr"
-            ShowStatus("Jellyseerr enabled")
-        else
-            ShowStatus("Cannot enable without server URL")
+    if not JellyseerrParseBool(config.usePluginProxy, false)
+        return false
+    end if
+
+    return isValidStringValue(config.serverUrl)
+end function
+
+function GetAuthErrorMessage(response as dynamic, fallback as string) as string
+    if IsAssocArray(response)
+        errorMessage = GetAssocStringField(response, "error")
+        if errorMessage = "" and IsAssocArray(response.data)
+            errorMessage = GetAssocStringField(response.data, "error")
         end if
+
+        if errorMessage <> ""
+            return FormatJellyseerrError(errorMessage)
+        end if
+    end if
+
+    return fallback
+end function
+
+function IsAssocArray(value as dynamic) as boolean
+    if value = invalid
+        return false
+    end if
+
+    valueType = type(value)
+    return valueType = "roAssociativeArray" or valueType = "AssociativeArray"
+end function
+
+sub UpdateAuthStatusLabel()
+    if m.authStatusLabel = invalid
+        return
+    end if
+
+    config = GetJellyseerrConfig()
+    userId = GetCurrentJellyfinUserId()
+    userConfig = GetJellyseerrUserConfig(userId)
+
+    isAuthenticated = false
+    if userConfig.displayName <> invalid and userConfig.displayName <> ""
+        isAuthenticated = true
+    else if userConfig.jellyseerrUserId <> invalid and userConfig.jellyseerrUserId > 0
+        isAuthenticated = true
+    end if
+
+    statusText = "Not signed in"
+
+    if not IsPluginAuthAvailable(config)
+        statusText = "Seerr plugin unavailable"
+        isAuthenticated = false
+    else if isAuthenticated
+        if userConfig.displayName <> invalid and userConfig.displayName <> ""
+            statusText = "Logged in as " + userConfig.displayName
+        else
+            statusText = "Signed in to Seerr"
+        end if
+    end if
+
+    m.authStatusLabel.text = statusText
+    m.authStatusLabel.visible = true
+
+    if m.signOutButton <> invalid
+        m.signOutButton.visible = isAuthenticated
+    end if
+end sub
+
+function GetAssocStringField(data as object, key as string) as string
+    if not IsAssocArray(data)
+        return ""
+    end if
+
+    value = data[key]
+    if value = invalid
+        return ""
+    end if
+
+    valueType = type(value)
+    if valueType = "String" or valueType = "roString"
+        return value
+    end if
+
+    if IsNumericType(valueType)
+        return value.ToStr()
+    end if
+
+    if valueType = "Boolean" or valueType = "roBoolean"
+        if value
+            return "true"
+        end if
+        return "false"
+    end if
+
+    return ""
+end function
+
+function GetAssocIntField(data as object, key as string) as integer
+    if not IsAssocArray(data)
+        return 0
+    end if
+
+    value = data[key]
+    if value = invalid
+        return 0
+    end if
+
+    valueType = type(value)
+    if valueType = "String" or valueType = "roString"
+        normalized = value.Trim()
+        if normalized = ""
+            return 0
+        end if
+        return Int(Val(normalized))
+    end if
+
+    if IsNumericType(valueType)
+        return Int(value)
+    end if
+
+    if valueType = "Boolean" or valueType = "roBoolean"
+        if value
+            return 1
+        end if
+        return 0
+    end if
+
+    return 0
+end function
+
+function GetAssocBoolField(data as object, key as string) as boolean
+    if not IsAssocArray(data)
+        return false
+    end if
+
+    value = data[key]
+    if value = invalid
+        return false
+    end if
+
+    valueType = type(value)
+    if valueType = "Boolean" or valueType = "roBoolean"
+        return value
+    end if
+
+    if valueType = "String" or valueType = "roString"
+        normalized = LCase(value.Trim())
+        if normalized = "true" or normalized = "1" or normalized = "yes" or normalized = "on"
+            return true
+        end if
+        if normalized = "false" or normalized = "0" or normalized = "no" or normalized = "off"
+            return false
+        end if
+        return false
+    end if
+
+    if IsNumericType(valueType)
+        return Int(value) <> 0
+    end if
+
+    return false
+end function
+
+function IsNumericType(valueType as string) as boolean
+    return valueType = "Integer" or valueType = "LongInteger" or valueType = "Float" or valueType = "Double" or valueType = "roInt" or valueType = "roInteger" or valueType = "roFloat" or valueType = "roDouble"
+end function
+
+sub SetPrimaryActionFocus()
+    if m.activeDialog <> invalid
+        return
+    end if
+
+    if m.keyboard <> invalid and m.keyboard.visible
+        return
+    end if
+
+    if m.signOutButton <> invalid and m.signOutButton.visible
+        m.signOutButton.setFocus(true)
+        return
+    end if
+
+    if m.jellyffinSsoButton <> invalid and m.jellyffinSsoButton.visible
+        m.jellyffinSsoButton.setFocus(true)
     end if
 end sub
 
@@ -269,26 +569,34 @@ sub ShowStatus(message as string)
 end sub
 
 sub ShowDialog(message as string)
-    ' Create and show a dismissible error dialog
     dialog = CreateObject("roSGNode", "JFMessageDialog")
     dialog.message = message
     dialog.options = ["OK"]
 
-    ' Add to scene and set focus
     m.top.appendChild(dialog)
     dialog.setFocus(true)
 
-    ' Store reference and observe when dismissed
     m.activeDialog = dialog
     dialog.observeField("backPressed", "onDialogDismissed")
-end sub
-
-sub onDialogDismissed()
-    ' Remove and clean up dialog
-    if m.activeDialog <> invalid
-        m.top.removeChild(m.activeDialog)
-        m.activeDialog = invalid
-        m.serverUrlButton.setFocus(true)
+    optionList = dialog.findNode("optionList")
+    if optionList <> invalid
+        optionList.observeField("itemSelected", "onDialogOptionSelected")
     end if
 end sub
 
+sub onDialogOptionSelected(_event as object)
+    onDialogDismissed()
+end sub
+
+sub onDialogDismissed()
+    if m.activeDialog <> invalid
+        optionList = m.activeDialog.findNode("optionList")
+        if optionList <> invalid
+            optionList.unobserveField("itemSelected")
+        end if
+        m.activeDialog.unobserveField("backPressed")
+        m.top.removeChild(m.activeDialog)
+        m.activeDialog = invalid
+        SetPrimaryActionFocus()
+    end if
+end sub
