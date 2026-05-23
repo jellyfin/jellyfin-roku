@@ -74,5 +74,9 @@
   {
     "description": "Fix Next Up overlay text overflow with custom fonts",
     "author": "ferezvi"
+  },
+  {
+    "description": "Fix VTT subtitle default positioning for cues without explicit line value",
+    "author": "ferezvi"
   }
 ]
