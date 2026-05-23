@@ -75,6 +75,12 @@ sub init()
     m.osd = m.top.findNode("osd")
     m.osd.observeField("action", "onOSDAction")
     m.clock = m.osd.findNode("clock")
+    if isValid(m.clock)
+        m.clockTimer = m.clock.findNode("currentTimeTimer")
+        if isValid(m.clockTimer)
+            m.clockTimer.observeField("fire", "onClockTick")
+        end if
+    end if
 
     m.videocontrols = m.osd.findNode("videoControls")
     m.optioncontrols = m.osd.findNode("optionControls")
@@ -1419,7 +1425,7 @@ sub playbackCheck()
     end if
 end sub
 
-sub setVideoEndingTime(videoSeekPosition = 0 as integer)
+sub setVideoEndingTime(videoSeekPosition = invalid as dynamic)
     m.clock = m.osd.findNode("clock")
     if not isValid(m.clock) then return
     if not isValid(m.top.content) then return
@@ -1427,40 +1433,14 @@ sub setVideoEndingTime(videoSeekPosition = 0 as integer)
     if m.top.content.live then return
 
     currentTime = m.clock.callFunc("getCurrentTime")
-    remainingTime = getremainingTime(videoSeekPosition)
+    remainingTime = getRemainingTime(videoSeekPosition)
     videoEndingTime = m.clock.callFunc("getFormattedTime", (currentTime + remainingTime), false, false)
 
     m.osd.videoEndingTime = videoEndingTime
 end sub
 
-function getRemainingTime(videoSeekPosition = 0 as integer)
-    if not isChainValid(m.positionText, "text")
-        return m.osd.progressDuration - m.top.position
-    end if
-
-    seekTime = 0#
-    seekPosition = m.positionText.text.split(":")
-
-    if seekPosition.count() = 3
-        ' hours -> seconds
-        seekTime += seekPosition[0].toint() * 3600
-        ' minutes -> seconds
-        seekTime += seekPosition[1].toint() * 60
-    end if
-
-    ' minutes -> seconds
-    if seekPosition.count() = 2
-        seekTime += seekPosition[0].toint() * 60
-    end if
-
-    ' add seconds
-    seekTime += seekPosition[seekPosition.count() - 1].toint()
-
-    if videoSeekPosition > 0
-        seekTime = videoSeekPosition
-    end if
-
-    seekTime = seekTime = 0 ? m.top.position : seekTime
+function getRemainingTime(videoSeekPosition = invalid as dynamic)
+    seekTime = isValid(videoSeekPosition) ? videoSeekPosition : m.top.position
 
     return m.osd.progressDuration - seekTime
 end function
@@ -1630,6 +1610,7 @@ end sub
 ' @param {string} whichfocus - indicates which element should be focused when showing the OSD. Accepts "videoControls" or "progressBar"
 sub showOSD(whichfocus as string)
     hideNextItem() ' Hide next up info display when OSD is visible
+    setVideoEndingTime()
     m.osd.visible = true
     m.osd.hasFocus = true
     if whichfocus = "videoControls"
@@ -1647,6 +1628,17 @@ sub showOSD(whichfocus as string)
     m.skipSegmentButton.focus = false
     m.scrubberOldPosition.visible = true
     m.osd.setFocus(true)
+end sub
+
+sub onClockTick()
+    if not isValid(m.osd) then return
+    if not m.osd.visible then return
+
+    if m.osd.isSeeking
+        setVideoEndingTime(m.previewPos)
+    else
+        setVideoEndingTime()
+    end if
 end sub
 
 sub positionChapterList()

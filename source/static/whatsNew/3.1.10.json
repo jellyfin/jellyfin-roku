@@ -90,5 +90,9 @@
   {
     "description": "Create setting to always attempt direct play no matter what",
     "author": "1hitsong"
+  },
+  {
+    "description": "Keep end time up-to-date with clock while OSD is visible",
+    "author": "michaellee94"
   }
 ]
