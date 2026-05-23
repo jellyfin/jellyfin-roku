@@ -1061,6 +1061,16 @@ sub showNoResultsText()
 
     m.emptyText.text = tr("No items found. Try adjusting your selected filters.")
     m.emptyText.visible = true
+
+    if m.top.alphaActive
+        m.global.sceneManager.unobserveFieldScoped("returnData")
+        m.dropdownOptionGroup@.setSearchBackground(SearchButtonState.INACTIVE)
+        m.alphaMenu.setFocus(true)
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        group.lastFocus = m.alphaMenu
+        return
+    end if
+
     m.global.sceneManager.observeFieldScoped("returnData", "onReturnData")
     m.dropdownOptionGroup@.setFocus("voiceBox", true)
     m.dropdownOptionGroup@.setSearchBackground(SearchButtonState.ACTIVE)

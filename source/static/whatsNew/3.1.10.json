@@ -56,6 +56,38 @@
     "author": "FractalBoy"
   },
   {
+    "description": "Honor Roku text edge effects for custom subtitles",
+    "author": "ferezvi"
+  },
+  {
+    "description": "Fix SRT subtitles forcing video transcode during audio-only transcodes",
+    "author": "VX-101"
+  },
+  {
+    "description": "Fix endless spinner for empty video library alphabet filters",
+    "author": "VX-101"
+  },
+  {
+    "description": "Fix Cast & Crew favorite button state and persistence",
+    "author": "VX-101"
+  },
+  {
+    "description": "Fix Next Up overlay text overflow with custom fonts",
+    "author": "ferezvi"
+  },
+  {
+    "description": "Support AC3/EAC3/DTS passthrough when system audio is set to 5.1 surround",
+    "author": "ferezvi"
+  },
+  {
+    "description": "Fix VTT subtitle default positioning for cues without explicit line value",
+    "author": "ferezvi"
+  },
+  {
+    "description": "Change the home favorites row default sort from Random to Name",
+    "author": "VX-101"
+  },
+  {
     "description": "Create setting to always attempt direct play no matter what",
     "author": "1hitsong"
   }
