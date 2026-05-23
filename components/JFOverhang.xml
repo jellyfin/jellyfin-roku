@@ -16,7 +16,7 @@
 
       <Group id="navContainer" translation="[300, 40]">
         <Group id="navClipGroup" clippingRect="[0, 0, 900, 80]">
-          <Poster id="focusPill" uri="pkg:/images/icons/pill-focus.9.png" width="80" height="56" translation="[0, 12]" visible="false" blendColor="0xFFFFFF" opacity="0.15" />
+          <Poster id="focusPill" uri="pkg:/images/icons/pill-focus.9.png" width="100" height="80" translation="[0, 0]" visible="false" blendColor="0xFFFFFF" />
           <Group id="navItemsGroup" translation="[0, 0]" focusable="true" />
         </Group>
       </Group>

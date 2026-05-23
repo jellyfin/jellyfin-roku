@@ -9,9 +9,8 @@ import "pkg:/source/utils/multiserver.bs"
 const ICON_SIZE = 50
 const ICON_LABEL_GAP = 10
 const ITEM_SPACING = 36
-const PILL_PAD_H = 14
-const PILL_PAD_V = 3
-const PILL_HEIGHT = 56
+const PILL_HEIGHT = 80
+const PILL_PAD = 30
 const NAV_HEIGHT = 80
 const ITEM_Y = 15
 const AVATAR_RIGHT = 200
@@ -95,15 +94,15 @@ function createNavItem(id as string, iconUri as string, labelText as string, ble
 
     label = createObject("roSGNode", "Label")
     label.text = labelText
-    label.font = "font:SmallerBoldSystemFont"
-    label.color = "#FFFFFF"
+    label.font = "font:SmallestBoldSystemFont"
+    label.color = "#000000"
     label.height = ICON_SIZE
     label.vertAlign = "center"
     label.translation = [ICON_SIZE + ICON_LABEL_GAP, 2]
     label.visible = false
     btn.appendChild(label)
 
-    return { id: id, btn: btn, icon: icon, label: label, isLibChild: false }
+    return { id: id, btn: btn, icon: icon, label: label, isLibChild: false, defaultBlendColor: blendColor }
 end function
 
 function createLibraryChildItem(id as string, labelText as string) as object
@@ -112,11 +111,10 @@ function createLibraryChildItem(id as string, labelText as string) as object
 
     label = createObject("roSGNode", "Label")
     label.text = labelText
-    label.font = "font:SmallBoldSystemFont"
-    label.color = "#FFFFFF"
+    label.font = "font:SmallestBoldSystemFont"
+    label.color = "#000000"
     label.height = ICON_SIZE
     label.vertAlign = "center"
-    label.opacity = 0.6
     btn.appendChild(label)
 
     return { id: "lib_" + id, btn: btn, icon: invalid, label: label, isLibChild: true }
@@ -180,11 +178,27 @@ sub layoutNavbar()
         isFocused = (not m.avatarSelected and i = m.selectedIndex and m.navHasFocus)
 
         if isValid(item.icon)
-            item.icon.opacity = iif(isFocused, 1.0, 0.6)
+            if isFocused
+                item.icon.blendColor = "0x000000FF"
+                item.icon.opacity = 1.0
+            else
+                if item.defaultBlendColor <> ""
+                    item.icon.blendColor = item.defaultBlendColor
+                else
+                    item.icon.blendColor = invalid
+                end if
+                item.icon.opacity = 0.6
+            end if
         end if
 
         if item.isLibChild
-            item.label.opacity = iif(isFocused, 1.0, 0.6)
+            if isFocused
+                item.label.color = "#000000"
+                item.label.opacity = 1.0
+            else
+                item.label.color = "#FFFFFF"
+                item.label.opacity = 0.6
+            end if
         else
             item.label.visible = isFocused
         end if
@@ -315,9 +329,9 @@ sub positionFocusPill()
 
     itemPos = m.itemPositions[m.selectedIndex]
 
-    pillX = m.scrollX + itemPos.x - PILL_PAD_H
-    pillY = ITEM_Y - PILL_PAD_V
-    pillWidth = itemPos.width + (PILL_PAD_H * 2)
+    pillX = m.scrollX + (itemPos.x - PILL_PAD)
+    pillY = 0
+    pillWidth = itemPos.width + (PILL_PAD * 2)
 
     m.focusPill.height = PILL_HEIGHT
 
