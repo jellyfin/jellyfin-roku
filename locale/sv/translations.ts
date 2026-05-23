@@ -2182,5 +2182,13 @@
         <source>Playback will automatically stop in 1 minute if no buttons are pressed.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Subtitles</source>
+        <translation>Undertexter</translation>
+    </message>
+    <message>
+        <source>tracks</source>
+        <translation>Spår</translation>
+    </message>
 </context>
 </TS>

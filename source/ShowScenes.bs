@@ -1106,7 +1106,7 @@ function CreatePersonView(personData as object) as dynamic
     person.setFocus(true)
     ' watch for button presses
     person.observeFieldScoped("selectedItem", m.port)
-    person.findNode("favorite-button").observeField("buttonSelected", m.port)
+    person.observeField("buttonSelected", m.port)
     ' finished building Person View
     stopLoadingSpinner()
     return person

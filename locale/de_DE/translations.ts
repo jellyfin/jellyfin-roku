@@ -2370,6 +2370,34 @@
         <source>Single trickplay image that moves</source>
         <translation>Einzelnes Trickplay-Bild, das sich bewegt</translation>
     </message>
+    <message>
+        <source>Subtitles</source>
+        <translation>Untertitel</translation>
+    </message>
+    <message>
+        <source>tracks</source>
+        <translation>Tracks</translation>
+    </message>
+    <message>
+        <source>No Default</source>
+        <translation>Kein Standard</translation>
+    </message>
+    <message>
+        <source>Replace Roku&apos;s default subtitle functions with custom functions. If fallback fonts are configured and enabled on the server, those fonts will be used. A CJK fallback font is required for CJK rendering. To support bold and italics, you must have additional font files with the words &quot;bold&quot;, &quot;italic&quot;, and &quot;bolditalic&quot; in the filename.</source>
+        <translation>Ersetze Rokus Standard-Untertitelmechanismen mit benutzerdefinierten Mechanismen. Falls Ersatz-Schriftarten konfiguriert und auf dem Server aktiviert sind, werden diese Schriftarten verwendet. Eine CJK-Ersatz-Schriftart wird zur CJK-Anzeige benötigt. Um Fett- und Kursivschrift zu unterstützen, müssen zusätzliche Schriftart-Dateien mit den Wörtern &quot;bold&quot;, &quot;italic&quot;, und &quot;bolditalic&quot; im Dateinamen existieren.</translation>
+    </message>
+    <message>
+        <source>Force media to be transcoded.</source>
+        <translation>Erzwinge Transkodierung von Medien.</translation>
+    </message>
+    <message>
+        <source>All Playable Media</source>
+        <translation>Alle abspielbaren Medien</translation>
+    </message>
+    <message>
+        <source>Force live TV to be transcoded. If All Playable Media is already set to Force Transcode (Remux Disabled), this setting is ignored.</source>
+        <translation>Erzwinge Transkodierung bei Live TV. Falls alle abspielbaren Medien bereits zwingend Transkodiert werden wird diese Einstellung keine Auswirkungen haben.</translation>
+    </message>
 </context>
 <context>
     <name></name>
