@@ -6,19 +6,19 @@
     <name>default</name>
     <message>
         <source>192.168.1.100:8096 or https://example.com/jellyfin</source>
-        <translation type="unfinished"></translation>
+        <translation>192.168.1.100:8096 ან https://example.com/jellyfin</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>გაუქმება</translation>
     </message>
     <message>
         <source>Connect to Server</source>
-        <translation type="unfinished"></translation>
+        <translation>სერვერთან კავშირი</translation>
     </message>
     <message>
         <source>Ends at %1</source>
-        <translation type="unfinished"></translation>
+        <translation>დასრულების დრო %1</translation>
     </message>
     <message>
         <source>Enter Configuration</source>
@@ -26,35 +26,35 @@
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished"></translation>
+        <translation>რჩეული</translation>
     </message>
     <message>
         <source>Loading...</source>
-        <translation type="unfinished"></translation>
+        <translation>ჩატვირთვა…</translation>
     </message>
     <message>
         <source>Login attempt failed.</source>
-        <translation type="unfinished"></translation>
+        <translation>შესვლის მცდელობა ჩავარდა.</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished"></translation>
+        <translation>დიახ</translation>
     </message>
     <message>
         <source>Options</source>
-        <translation type="unfinished"></translation>
+        <translation>მორგება</translation>
     </message>
     <message>
         <source>Play</source>
-        <translation type="unfinished"></translation>
+        <translation>დაკვრა</translation>
     </message>
     <message>
         <source>Please sign in</source>
-        <translation type="unfinished"></translation>
+        <translation>გთხოვთ შეხვიდეთ სისტემაში</translation>
     </message>
     <message>
         <source>Search</source>
-        <translation type="unfinished"></translation>
+        <translation>ძებნა</translation>
     </message>
     <message>
         <source>Server not found, is it online?</source>
@@ -62,67 +62,67 @@
     </message>
     <message>
         <source>Shuffle</source>
-        <translation type="unfinished"></translation>
+        <translation>შემთხვევით</translation>
     </message>
     <message>
         <source>Sign In</source>
-        <translation type="unfinished"></translation>
+        <translation>შესვლა</translation>
     </message>
     <message>
         <source>Submit</source>
-        <translation type="unfinished"></translation>
+        <translation>გაგზავნა</translation>
     </message>
     <message>
         <source>Watched</source>
-        <translation type="unfinished"></translation>
+        <translation>ვუყურებ</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>მორგება</translation>
     </message>
     <message>
         <source>Change User</source>
-        <translation type="unfinished"></translation>
+        <translation>მომხმარებლის შეცვლა</translation>
     </message>
     <message>
         <source>Change Server</source>
-        <translation type="unfinished"></translation>
+        <translation>სერვერის შეცვლა</translation>
     </message>
     <message>
         <source>Sign Out</source>
-        <translation type="unfinished"></translation>
+        <translation>გასვლა</translation>
     </message>
     <message>
         <source>Add User</source>
-        <translation type="unfinished"></translation>
+        <translation>მომხმარებლის დამატება</translation>
     </message>
     <message>
         <source>Profile</source>
-        <translation type="unfinished"></translation>
+        <translation>პროფილი</translation>
     </message>
     <message>
         <source>Save Credentials?</source>
-        <translation type="unfinished"></translation>
+        <translation>შევინახო ავტორიზაციის დეტალები?</translation>
     </message>
     <message>
         <source>Delete Saved</source>
-        <translation type="unfinished"></translation>
+        <translation>შენახულის წაშლა</translation>
     </message>
     <message>
         <source>My Media</source>
-        <translation type="unfinished"></translation>
+        <translation>ჩემი მედია</translation>
     </message>
     <message>
         <source>Continue Watching</source>
-        <translation type="unfinished"></translation>
+        <translation>ყურების გაგრძელება</translation>
     </message>
     <message>
         <source>Next Up</source>
-        <translation type="unfinished"></translation>
+        <translation>შემდეგი</translation>
     </message>
     <message>
         <source>Recently Added in</source>
-        <translation type="unfinished"></translation>
+        <translation>ახლახან დამატებული</translation>
     </message>
     <message>
         <source>On Now</source>
@@ -130,79 +130,79 @@
     </message>
     <message>
         <source>Home</source>
-        <translation type="unfinished"></translation>
+        <translation>საწყისი</translation>
     </message>
     <message>
         <source>Enter a username</source>
-        <translation type="unfinished"></translation>
+        <translation>შეიყვანეთ მომხმარებლის სახელი</translation>
     </message>
     <message>
         <source>Enter a password</source>
-        <translation type="unfinished"></translation>
+        <translation>შეიყვანეთ პაროლი</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>სახელი</translation>
     </message>
     <message>
         <source>Sort Order</source>
-        <translation type="unfinished"></translation>
+        <translation>დალაგების წესი</translation>
     </message>
     <message>
         <source>Descending</source>
-        <translation type="unfinished"></translation>
+        <translation>კლებადობით</translation>
     </message>
     <message>
         <source>Ascending</source>
-        <translation type="unfinished"></translation>
+        <translation>მატებით</translation>
     </message>
     <message>
         <source>Password</source>
-        <translation type="unfinished"></translation>
+        <translation>პაროლი</translation>
     </message>
     <message>
         <source>Username</source>
-        <translation type="unfinished"></translation>
+        <translation>მომხმარებლის სახელი</translation>
     </message>
     <message>
         <source>Genres</source>
-        <translation type="unfinished"></translation>
+        <translation>ჟანრები</translation>
     </message>
     <message>
         <source>Director</source>
-        <translation type="unfinished"></translation>
+        <translation>რეჟისორი</translation>
     </message>
     <message>
         <source>Video</source>
-        <translation type="unfinished"></translation>
+        <translation>ვიდეო</translation>
     </message>
     <message>
         <source>Audio</source>
-        <translation type="unfinished"></translation>
+        <translation>აუდიო</translation>
     </message>
     <message>
         <source>Subtitles</source>
-        <translation type="unfinished"></translation>
+        <translation>სუბტიტრები</translation>
     </message>
     <message>
         <source>tracks</source>
-        <translation type="unfinished"></translation>
+        <translation>ტრეკები</translation>
     </message>
     <message>
         <source>No Default</source>
-        <translation type="unfinished"></translation>
+        <translation>ნაგულისხმევის გარეშე</translation>
     </message>
     <message>
         <source>Server</source>
-        <translation type="unfinished"></translation>
+        <translation>სერვერი</translation>
     </message>
     <message>
         <source>Extras</source>
-        <translation type="unfinished"></translation>
+        <translation>დამატებით</translation>
     </message>
     <message>
         <source>Episodes</source>
-        <translation type="unfinished"></translation>
+        <translation>ეპიზოდები</translation>
     </message>
     <message>
         <source>Error Retrieving Content</source>
@@ -311,19 +311,19 @@
     </message>
     <message>
         <source>Born</source>
-        <translation type="unfinished"></translation>
+        <translation>დაიბადა</translation>
     </message>
     <message>
         <source>Died</source>
-        <translation type="unfinished"></translation>
+        <translation>გარდაიცვალა</translation>
     </message>
     <message>
         <source>Age</source>
-        <translation type="unfinished"></translation>
+        <translation>ასაკი</translation>
     </message>
     <message>
         <source>Cast &amp; Crew</source>
-        <translation type="unfinished"></translation>
+        <translation>მსახიობები და გადამღები ჯგუფი</translation>
     </message>
     <message>
         <source>More Like This</source>
@@ -417,7 +417,7 @@
     </message>
     <message>
         <source>Started</source>
-        <translation type="unfinished"></translation>
+        <translation>დაწყებულია</translation>
         <extracomment>(Past Tense) For defining a day and time when a program started (e.g. Started Wednesday, 08:00) </extracomment>
     </message>
     <message>
@@ -482,7 +482,7 @@
     </message>
     <message>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation>დახურვა</translation>
     </message>
     <message>
         <source>Connecting to Server</source>
@@ -496,7 +496,7 @@
     </message>
     <message>
         <source>Unknown</source>
-        <translation type="unfinished"></translation>
+        <translation>უცნობი</translation>
         <extracomment>Title for a cast member for which we have no information for</extracomment>
     </message>
     <message>
@@ -531,7 +531,7 @@
     </message>
     <message>
         <source>Version</source>
-        <translation type="unfinished"></translation>
+        <translation>ვერსია</translation>
     </message>
     <message>
         <source>Playback</source>
@@ -570,11 +570,11 @@
     </message>
     <message>
         <source>Enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>ჩართულია</translation>
     </message>
     <message>
         <source>Disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>გამორთული</translation>
     </message>
     <message>
         <source>User Interface</source>
@@ -683,7 +683,7 @@
     </message>
     <message>
         <source>Networks</source>
-        <translation type="unfinished"></translation>
+        <translation>ქსელი</translation>
     </message>
     <message>
         <source>Studios</source>
@@ -831,7 +831,7 @@
     </message>
     <message>
         <source>Reason</source>
-        <translation type="unfinished"></translation>
+        <translation>მიზეზი</translation>
     </message>
     <message>
         <source>Force Transcoding setting is enabled</source>
@@ -890,7 +890,7 @@
     </message>
     <message>
         <source>Size</source>
-        <translation type="unfinished"></translation>
+        <translation>ზომა</translation>
         <extracomment>Video size</extracomment>
     </message>
     <message>
@@ -939,7 +939,7 @@
     </message>
     <message>
         <source>All</source>
-        <translation type="unfinished"></translation>
+        <translation>ყველა</translation>
         <extracomment>All in filter</extracomment>
     </message>
     <message>
@@ -1162,7 +1162,7 @@
     </message>
     <message>
         <source>General</source>
-        <translation type="unfinished"></translation>
+        <translation>ზოგადი</translation>
     </message>
     <message>
         <source>Settings relating to the appearance of the Home screen and the program in general.</source>
@@ -1285,12 +1285,12 @@
     </message>
     <message>
         <source>Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>რეჟიმი</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Value</source>
-        <translation type="unfinished"></translation>
+        <translation>მნიშვნელობა</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
@@ -1480,7 +1480,7 @@
     </message>
     <message>
         <source>None</source>
-        <translation type="unfinished"></translation>
+        <translation>არცერთი</translation>
         <extracomment>User Setting - Options</extracomment>
     </message>
     <message>
@@ -1690,7 +1690,7 @@
     </message>
     <message>
         <source>Format</source>
-        <translation type="unfinished"></translation>
+        <translation>ფორმატი</translation>
     </message>
     <message>
         <source>downloads</source>
@@ -1722,7 +1722,7 @@
     </message>
     <message>
         <source>Sort by</source>
-        <translation type="unfinished"></translation>
+        <translation>დალაგების პირობა</translation>
     </message>
     <message>
         <source>Search is unavailable because the API does not support searching inside boxsets.</source>
@@ -1794,11 +1794,11 @@
     </message>
     <message>
         <source>min</source>
-        <translation type="unfinished"></translation>
+        <translation>წთ</translation>
     </message>
     <message>
         <source>mins</source>
-        <translation type="unfinished"></translation>
+        <translation>წთ</translation>
     </message>
     <message>
         <source>Continue Listening</source>
@@ -1838,7 +1838,7 @@
     </message>
     <message>
         <source>Yes</source>
-        <translation type="unfinished"></translation>
+        <translation>დიახ</translation>
     </message>
     <message>
         <source>No, Cancel</source>
@@ -2338,7 +2338,7 @@
     </message>
     <message>
         <source>Date Created</source>
-        <translation type="unfinished"></translation>
+        <translation>შექმნის თარიღი</translation>
     </message>
     <message>
         <source>Is Unplayed</source>
