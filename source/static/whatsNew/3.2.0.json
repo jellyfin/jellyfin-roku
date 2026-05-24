@@ -8,7 +8,7 @@
     "author": "gabeluci"
   },
   {
-    "description": "Fix ratings repeating on items in More Like This section",
+    "description": "Fix ratings repeating on items in more like this section",
     "author": "1hitsong"
   },
   {
@@ -16,11 +16,11 @@
     "author": "1hitsong"
   },
   {
-    "description": "Fix Cinema Mode Intros",
+    "description": "Fix cinema mode intros",
     "author": "Starwarsfan2099"
   },
   {
-    "description": "Allow Force Transcode for live TV only",
+    "description": "Allow force transcode for live TV only",
     "author": "FractalBoy"
   },
   {
@@ -32,11 +32,11 @@
     "author": "VX-101"
   },
   {
-    "description": "Fix Quick Connect initiate to use POST instead of GET",
+    "description": "Fix quick connect login",
     "author": "no-reply"
   },
   {
-    "description": "Improve Down navigation in library grids with short last rows",
+    "description": "Improve down navigation in library grids with short last rows",
     "author": "VX-101"
   },
   {
@@ -68,11 +68,11 @@
     "author": "VX-101"
   },
   {
-    "description": "Fix Cast & Crew favorite button state and persistence",
+    "description": "Fix cast & crew favorite button state and persistence",
     "author": "VX-101"
   },
   {
-    "description": "Fix Next Up overlay text overflow with custom fonts",
+    "description": "Fix next up overlay text overflow with custom fonts",
     "author": "ferezvi"
   },
   {
@@ -84,7 +84,7 @@
     "author": "ferezvi"
   },
   {
-    "description": "Change the home favorites row default sort from Random to Name",
+    "description": "Change the home favorites row default sort from random to name",
     "author": "VX-101"
   },
   {
