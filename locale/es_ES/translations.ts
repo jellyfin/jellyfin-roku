@@ -1120,7 +1120,7 @@
     </message>
     <message>
         <source>Always Show</source>
-        <translation>Mostrar Siempre</translation>
+        <translation>Mostrar siempre</translation>
     </message>
     <message>
         <source>Show What&apos;s New Popup</source>
@@ -1142,7 +1142,7 @@
     </message>
     <message>
         <source>Always Hide</source>
-        <translation>Siempre Ocultar</translation>
+        <translation>Ocultar siempre</translation>
     </message>
     <message>
         <source>Album Artists (Presentation)</source>
@@ -2469,6 +2469,10 @@
     <message>
         <source>Search Unavailable</source>
         <translation>Búsqueda no disponible</translation>
+    </message>
+    <message>
+        <source>Always Attempt Direct Playing Video Media</source>
+        <translation>Intentar siempre la reproducción directa de medios de vídeo</translation>
     </message>
 </context>
 <context>
