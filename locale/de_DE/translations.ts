@@ -2422,6 +2422,10 @@
         <source>Forces Jellyfin to try direct playing video media, Live TV excluded. Enabling this ignores all other playback support settings and will always first attempt direct playback. It also changes how transcode reason is displayed.</source>
         <translation>Erzwingt Jellyfin Videodateien direkt abzuspielen, inklusive Live-TV. Das Aktivieren ignoriert alle anderen Wiedergabe-Unterstützungseinstellungen und sorgt dafür, dass die direkte Wiedergabe immer zuerst versucht wird. Außerdem ändert es, wie Transkodierungsgründe angezeigt werden.</translation>
     </message>
+    <message>
+        <source>Channel Logo</source>
+        <translation>Kanallogo</translation>
+    </message>
 </context>
 <context>
     <name></name>
