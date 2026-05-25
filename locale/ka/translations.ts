@@ -1,1205 +1,1217 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="pl" sourcelanguage="en_US">
+<TS version="2.0" language="ka" sourcelanguage="en_US">
 <defaultcodec>UTF-8</defaultcodec>
 <context>
     <name>default</name>
     <message>
         <source>192.168.1.100:8096 or https://example.com/jellyfin</source>
-        <translation>192.168.1.100:8096 lub https://example.com/jellyfin</translation>
+        <translation>192.168.1.100:8096 ან https://example.com/jellyfin</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Anuluj</translation>
+        <translation>გაუქმება</translation>
     </message>
     <message>
         <source>Connect to Server</source>
-        <translation>Podłącz do serwera</translation>
+        <translation>სერვერთან კავშირი</translation>
     </message>
     <message>
         <source>Ends at %1</source>
-        <translation>Kończy się na %1</translation>
+        <translation>დასრულების დრო %1</translation>
     </message>
     <message>
         <source>Enter Configuration</source>
-        <translation>Wprowadź konfigurację</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Ulubione</translation>
+        <translation>რჩეული</translation>
     </message>
     <message>
         <source>Loading...</source>
-        <translation>Ładuję…</translation>
+        <translation>ჩატვირთვა…</translation>
     </message>
     <message>
         <source>Login attempt failed.</source>
-        <translation>Próba logowania się nie powiodła.</translation>
+        <translation>შესვლის მცდელობა ჩავარდა.</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation>დიახ</translation>
     </message>
     <message>
         <source>Options</source>
-        <translation>Opcje</translation>
+        <translation>მორგება</translation>
     </message>
     <message>
         <source>Play</source>
-        <translation>Odtwórz</translation>
+        <translation>დაკვრა</translation>
     </message>
     <message>
         <source>Please sign in</source>
-        <translation>Proszę się zalogować</translation>
+        <translation>გთხოვთ შეხვიდეთ სისტემაში</translation>
     </message>
     <message>
         <source>Search</source>
-        <translation>Szukaj</translation>
+        <translation>ძებნა</translation>
     </message>
     <message>
         <source>Server not found, is it online?</source>
-        <translation>Nie znaleziono serwera. Czy jest on online?</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Shuffle</source>
-        <translation>Odtwarzanie losowe</translation>
+        <translation>შემთხვევით</translation>
     </message>
     <message>
         <source>Sign In</source>
-        <translation>Zaloguj się</translation>
+        <translation>შესვლა</translation>
     </message>
     <message>
         <source>Submit</source>
-        <translation>Preślij</translation>
+        <translation>გაგზავნა</translation>
     </message>
     <message>
         <source>Watched</source>
-        <translation>Obejrzane</translation>
+        <translation>ვუყურებ</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation>Ustawienia</translation>
+        <translation>მორგება</translation>
     </message>
     <message>
         <source>Change User</source>
-        <translation>Zmień użytkownika</translation>
+        <translation>მომხმარებლის შეცვლა</translation>
     </message>
     <message>
         <source>Change Server</source>
-        <translation>Zmień serwer</translation>
+        <translation>სერვერის შეცვლა</translation>
     </message>
     <message>
         <source>Sign Out</source>
-        <translation>Wyloguj się</translation>
+        <translation>გასვლა</translation>
     </message>
     <message>
         <source>Add User</source>
-        <translation>Dodaj użytkownika</translation>
+        <translation>მომხმარებლის დამატება</translation>
     </message>
     <message>
         <source>Profile</source>
-        <translation>Profil</translation>
+        <translation>პროფილი</translation>
     </message>
     <message>
         <source>Save Credentials?</source>
-        <translation>Zapisać dane uwierzytelniające?</translation>
+        <translation>შევინახო ავტორიზაციის დეტალები?</translation>
     </message>
     <message>
         <source>Delete Saved</source>
-        <translation>Usuń zapisane</translation>
+        <translation>შენახულის წაშლა</translation>
     </message>
     <message>
         <source>My Media</source>
-        <translation>Moje multimedia</translation>
+        <translation>ჩემი მედია</translation>
     </message>
     <message>
         <source>Continue Watching</source>
-        <translation>Kontynuuj oglądanie</translation>
+        <translation>ყურების გაგრძელება</translation>
     </message>
     <message>
         <source>Next Up</source>
-        <translation>Następne</translation>
+        <translation>შემდეგი</translation>
     </message>
     <message>
         <source>Recently Added in</source>
-        <translation>Ostatnio dodane do</translation>
+        <translation>ახლახან დამატებული</translation>
     </message>
     <message>
         <source>On Now</source>
-        <translation>Teraz</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Home</source>
-        <translation>Główna</translation>
+        <translation>საწყისი</translation>
     </message>
     <message>
         <source>Enter a username</source>
-        <translation>Podaj nazwę użytkownika</translation>
+        <translation>შეიყვანეთ მომხმარებლის სახელი</translation>
     </message>
     <message>
         <source>Enter a password</source>
-        <translation>Podaj hasło</translation>
+        <translation>შეიყვანეთ პაროლი</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation>Nazwa</translation>
+        <translation>სახელი</translation>
     </message>
     <message>
         <source>Sort Order</source>
-        <translation>Kolejność sortowania</translation>
+        <translation>დალაგების წესი</translation>
     </message>
     <message>
         <source>Descending</source>
-        <translation>Malejąco</translation>
+        <translation>კლებადობით</translation>
     </message>
     <message>
         <source>Ascending</source>
-        <translation>Rosnąco</translation>
+        <translation>მატებით</translation>
     </message>
     <message>
         <source>Password</source>
-        <translation>Hasło</translation>
+        <translation>პაროლი</translation>
     </message>
     <message>
         <source>Username</source>
-        <translation>Nazwa użytkownika</translation>
+        <translation>მომხმარებლის სახელი</translation>
     </message>
     <message>
         <source>Genres</source>
-        <translation>Gatunki</translation>
+        <translation>ჟანრები</translation>
     </message>
     <message>
         <source>Director</source>
-        <translation>Reżyser</translation>
+        <translation>რეჟისორი</translation>
     </message>
     <message>
         <source>Video</source>
-        <translation>Wideo</translation>
+        <translation>ვიდეო</translation>
     </message>
     <message>
         <source>Audio</source>
-        <translation>Audio</translation>
+        <translation>აუდიო</translation>
+    </message>
+    <message>
+        <source>Subtitles</source>
+        <translation>სუბტიტრები</translation>
+    </message>
+    <message>
+        <source>tracks</source>
+        <translation>ტრეკები</translation>
+    </message>
+    <message>
+        <source>No Default</source>
+        <translation>ნაგულისხმევის გარეშე</translation>
     </message>
     <message>
         <source>Server</source>
-        <translation>Serwer</translation>
+        <translation>სერვერი</translation>
     </message>
     <message>
         <source>Extras</source>
-        <translation>Dodatki</translation>
+        <translation>დამატებით</translation>
     </message>
     <message>
         <source>Episodes</source>
-        <translation>Odcinki</translation>
+        <translation>ეპიზოდები</translation>
     </message>
     <message>
         <source>Error Retrieving Content</source>
-        <translation>Błąd pobierania zawartości</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Dialog title when unable to load Content from Server</extracomment>
     </message>
     <message>
         <source>Error During Playback</source>
-        <translation>Błąd podczas odtwarzania</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Dialog title when error occurs during playback</extracomment>
     </message>
     <message>
         <source>Unable to get playback information</source>
-        <translation>Nie można uzyskać informacji o odtwarzaniu</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>There was an error retrieving the data for this item from the server.</source>
-        <translation>Wystąpił błąd podczas pobierania danych tego elementu z serwera.</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Dialog detail when unable to load Content from Server</extracomment>
     </message>
     <message>
         <source>An error was encountered while playing this item.</source>
-        <translation>Podczas odtwarzania tego elementu wystąpił błąd.</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Dialog detail when error occurs during playback</extracomment>
     </message>
     <message>
         <source>Loading Channel Data</source>
-        <translation>Ładowanie danych kanału</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Error loading Channel Data</source>
-        <translation>Błąd ładowania danych kanału</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Unable to load Channel Data from the server</source>
-        <translation>Nie można załadować danych kanału z serwera</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <comment>Message displayed in Item Grid when no item to display. %1 is container type (e.g. Boxset, Collection, Folder, etc)</comment>
         <source>NO_ITEMS</source>
-        <translation>%1 nie zawiera żadnych elementów</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <comment>Name or Title field of media item</comment>
         <source>TITLE</source>
-        <translation>Nazwa</translation>
+        <translation>სახელი</translation>
     </message>
     <message>
         <source>IMDB_RATING</source>
-        <translation>Ocena IMDb</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Community Rating</source>
-        <translation>Ocena społeczności</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>CRITIC_RATING</source>
-        <translation>Ocena krytyków</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>DATE_ADDED</source>
-        <translation>Data dodania</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>DATE_PLAYED</source>
-        <translation>Data odtworzenia</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>OFFICIAL_RATING</source>
-        <translation>Ocena rodzicielska</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Date Show Added</source>
-        <translation>Data dodania serialu</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Date Episode Added</source>
-        <translation>Data dodania odcinka</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>PLAY_COUNT</source>
-        <translation>Liczba odtworzeń</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>RELEASE_DATE</source>
-        <translation>Data wydania</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>RUNTIME</source>
-        <translation>Czas trwania</translation>
+        <translation>გაშვების გარემო</translation>
     </message>
     <message>
         <comment>Title of Tab for switching &quot;views&quot; when looking at a library</comment>
         <source>TAB_VIEW</source>
-        <translation>Widok</translation>
+        <translation>ხედი</translation>
     </message>
     <message>
         <comment>Title of Tab for options to sort library content</comment>
         <source>TAB_SORT</source>
-        <translation>Sortowanie</translation>
+        <translation>დალაგება</translation>
     </message>
     <message>
         <comment>Title of Tab for options to filter library content</comment>
         <source>TAB_FILTER</source>
-        <translation>Filtrowanie</translation>
+        <translation>ფილტრი</translation>
     </message>
     <message>
         <source>Born</source>
-        <translation>Data urodzenia</translation>
+        <translation>დაიბადა</translation>
     </message>
     <message>
         <source>Died</source>
-        <translation>Data śmierci</translation>
+        <translation>გარდაიცვალა</translation>
     </message>
     <message>
         <source>Age</source>
-        <translation>Wiek</translation>
+        <translation>ასაკი</translation>
     </message>
     <message>
         <source>Cast &amp; Crew</source>
-        <translation>Obsada i ekipa</translation>
+        <translation>მსახიობები და გადამღები ჯგუფი</translation>
     </message>
     <message>
         <source>More Like This</source>
-        <translation>Podobne</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Press &apos;OK&apos; to Close</source>
-        <translation>Naciśnij „OK”, aby zamknąć</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Special Features</source>
-        <translation>Dodatki specjalne</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Additional Parts</source>
-        <translation>Części dodatkowe</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Additional parts of a video</extracomment>
     </message>
     <message>
         <source>Movies</source>
-        <translation>Filmy</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Movies (Presentation)</source>
-        <translation>Filmy (prezentacja)</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Movie library view option</extracomment>
     </message>
     <message>
         <source>Movies (Grid)</source>
-        <translation>Filmy (siatka)</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Movie library view option</extracomment>
     </message>
     <message>
         <source>TV Shows</source>
-        <translation>Seriale telewizyjne</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>today</source>
-        <translation>dziś</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Current day</extracomment>
     </message>
     <message>
         <source>yesterday</source>
-        <translation>wczoraj</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Previous day</extracomment>
     </message>
     <message>
         <source>tomorrow</source>
-        <translation>jutro</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Next day</extracomment>
     </message>
     <message>
         <source>Sunday</source>
-        <translation>niedziela</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Day of Week</extracomment>
     </message>
     <message>
         <source>Monday</source>
-        <translation>poniedziałek</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Day of Week</extracomment>
     </message>
     <message>
         <source>Tuesday</source>
-        <translation>wtorek</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Day of Week</extracomment>
     </message>
     <message>
         <source>Wednesday</source>
-        <translation>środa</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Day of Week</extracomment>
     </message>
     <message>
         <source>Thursday</source>
-        <translation>czwartek</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Day of Week</extracomment>
     </message>
     <message>
         <source>Friday</source>
-        <translation>piątek</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Day of Week</extracomment>
     </message>
     <message>
         <source>Saturday</source>
-        <translation>sobota</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Day of Week</extracomment>
     </message>
     <message>
         <source>Started at</source>
-        <translation>Rozpoczęto o</translation>
+        <translation type="unfinished"></translation>
         <extracomment>(Past Tense) For defining time when a program started today (e.g. Started at 08:00) </extracomment>
     </message>
     <message>
         <source>Started</source>
-        <translation>Rozpoczęto</translation>
+        <translation>დაწყებულია</translation>
         <extracomment>(Past Tense) For defining a day and time when a program started (e.g. Started Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Starts at</source>
-        <translation>Rozpoczyna się o</translation>
+        <translation type="unfinished"></translation>
         <extracomment>(Future Tense) For defining time when a program will start today (e.g. Starts at 08:00) </extracomment>
     </message>
     <message>
         <source>Starts</source>
-        <translation>Rozpoczyna się</translation>
+        <translation type="unfinished"></translation>
         <extracomment>(Future Tense) For defining a day and time when a program will start (e.g. Starts Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Ended at</source>
-        <translation>Zakończono o</translation>
+        <translation type="unfinished"></translation>
         <extracomment>(Past Tense) For defining time when a program will ended (e.g. Ended at 08:00) </extracomment>
     </message>
     <message>
         <source>Ends at</source>
-        <translation>Kończy się o</translation>
+        <translation type="unfinished"></translation>
         <extracomment>(Past Tense) For defining a day and time when a program ended (e.g. Ended Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Live</source>
-        <translation>Na żywo</translation>
+        <translation type="unfinished"></translation>
         <extracomment>If TV Show is being broadcast live (not pre-recorded)</extracomment>
     </message>
     <message>
         <source>Repeat</source>
-        <translation>Powtórka</translation>
+        <translation type="unfinished"></translation>
         <extracomment>If TV Shows has previously been broadcasted</extracomment>
     </message>
     <message>
         <source>Channels</source>
-        <translation>Kanały</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Menu option for showing Live TV Channel List</extracomment>
     </message>
     <message>
         <source>TV Guide</source>
-        <translation>Program TV</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Menu option for showing Live TV Guide / Schedule</extracomment>
     </message>
     <message>
         <source>View Channel</source>
-        <translation>Wyświetl kanał</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Record</source>
-        <translation>Nagraj</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Record Series</source>
-        <translation>Nagraj serial</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Cancel Recording</source>
-        <translation>Anuluj nagrywanie</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Cancel Series Recording</source>
-        <translation>Anuluj nagrywanie serialu</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Close</source>
-        <translation>Zamknij</translation>
+        <translation>დახურვა</translation>
     </message>
     <message>
         <source>Connecting to Server</source>
-        <translation>Łączenie z serwerem</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Message to display to user while client is attempting to connect to the server</extracomment>
     </message>
     <message>
         <source>Not found</source>
-        <translation>Nie znaleziono</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Title of message box when the requested content is not found on the server</extracomment>
     </message>
     <message>
         <source>Unknown</source>
-        <translation>Nieznany</translation>
+        <translation>უცნობი</translation>
         <extracomment>Title for a cast member for which we have no information for</extracomment>
     </message>
     <message>
         <source>The requested content does not exist on the server</source>
-        <translation>Żądana treść nie istnieje na serwerze</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Content of message box when the requested content is not found on the server</extracomment>
     </message>
     <message>
         <source>Enter the server name or IP address</source>
-        <translation>Wpisz nazwę serwera lub adres IP</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Title of KeyboardDialog when manually entering a server URL</extracomment>
     </message>
     <message>
         <source>Pick a Jellyfin server from the local network</source>
-        <translation>Wybierz dostępny serwer Jellyfin ze swojej sieci lokalnej:</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Instructions on initial app launch when the user is asked to pick a server from a list</extracomment>
     </message>
     <message>
         <source>...or enter server URL manually:</source>
-        <translation>Jeżeli powyżej nie ma żadnego serwera, możesz również ręcznie wpisać adres URL serwera:</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Instructions on initial app launch when the user is asked to manually enter a server URL</extracomment>
     </message>
     <message>
         <source>Error Getting Playback Information</source>
-        <translation>Błąd podczas pobierania informacji o odtwarzaniu</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Dialog Title: Received error from server when trying to get information about the selected item for playback</extracomment>
     </message>
     <message>
         <source>An error was encountered while playing this item. Server did not provide required transcoding data.</source>
-        <translation>Podczas odtwarzania tego elementu wystąpił błąd. Serwer nie dostarczył wymaganych danych transkodujących.</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Content of message box when trying to play an item which requires transcoding, and the server did not provide transcode url</extracomment>
     </message>
     <message>
         <source>Version</source>
-        <translation>Wersja</translation>
+        <translation>ვერსია</translation>
     </message>
     <message>
         <source>Playback</source>
-        <translation>Odtwarzanie</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Title for Playback section in user setting screen.</extracomment>
     </message>
     <message>
         <source>Codec Support</source>
-        <translation>Obsługa kodeków</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Settings Menu - Title for settings group related to codec support</extracomment>
     </message>
     <message>
         <source>Enable or disable Direct Play for optional codecs</source>
-        <translation>Włącz lub wyłącz funkcję bezpośredniego odtwarzania dla opcjonalnych kodeków</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Settings Menu - Title for settings group related to codec support</extracomment>
     </message>
     <message>
         <source>MPEG-2</source>
-        <translation>MPEG-2</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Name of codec used in settings menu</extracomment>
     </message>
     <message>
         <source>Support Direct Play of MPEG-2 content (e.g., Live TV). This will prevent transcoding of MPEG-2 content, but uses significantly more bandwidth.</source>
-        <translation>Obsługa bezpośredniego odtwarzania treści MPEG-2 (np. telewizji na żywo). Zapobiega to transkodowaniu treści MPEG-2, ale zużywa znacznie więcej pasma.</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>MPEG-4</source>
-        <translation>MPEG-4</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Name of codec used in settings menu</extracomment>
     </message>
     <message>
         <source>Support Direct Play of MPEG-4 content. This may need to be disabled for playback of DIVX encoded video files.</source>
-        <translation>Obsługa bezpośredniego odtwarzania treści MPEG-4. Może być konieczne wyłączenie tej opcji w celu odtwarzania plików wideo w formacie DIVX.</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Enabled</source>
-        <translation>Włączone</translation>
+        <translation>ჩართულია</translation>
     </message>
     <message>
         <source>Disabled</source>
-        <translation>Wyłączone</translation>
+        <translation>გამორთული</translation>
     </message>
     <message>
         <source>User Interface</source>
-        <translation>Interfejs użytkownika</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Title for User Interface section in user setting screen.</extracomment>
     </message>
     <message>
         <source>Media Grid</source>
-        <translation>Siatka multimediów</translation>
+        <translation type="unfinished"></translation>
         <extracomment>UI -&gt; Media Grid section in user setting screen.</extracomment>
     </message>
     <message>
         <source>Media Grid options.</source>
-        <translation>Opcje siatki multimediów.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Item Count</source>
-        <translation>Liczba elementów</translation>
+        <translation type="unfinished"></translation>
         <extracomment>UI -&gt; Media Grid -&gt; Item Count in user setting screen.</extracomment>
     </message>
     <message>
         <source>Show item count in the library and index of selected item.</source>
-        <translation>Pokaż liczbę elementów w bibliotece i indeks wybranego elementu.</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Description for option in Setting Screen</extracomment>
     </message>
     <message>
         <source>Set Favorite</source>
-        <translation>Ustaw jako ulubione</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Button Text - When pressed, sets item as Favorite</extracomment>
     </message>
     <message>
         <source>Favorited</source>
-        <translation>Ustawiono jako ulubione</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Mark As Favorite</source>
-        <translation>Oznacz jako ulubione</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Set Watched</source>
-        <translation>Ustaw jako obejrzane</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Button Text - When pressed, marks item as Warched</extracomment>
     </message>
     <message>
         <source>Resume playing at </source>
-        <translation>Wznów odtwarzanie od </translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Start over from the beginning.</source>
-        <translation>Zacznij od początku.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Playback Options</source>
-        <translation>Opcje odtwarzania</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Go to series</source>
-        <translation>Przejdź do serialu</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Continue Watching Popup Menu - Navigate to the Series Detail Page</extracomment>
     </message>
     <message>
         <source>Go to season</source>
-        <translation>Przejdź do sezonu</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Continue Watching Popup Menu - Navigate to the Season Page</extracomment>
     </message>
     <message>
         <source>Go to episode</source>
-        <translation>Przejdź do odcinka</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Continue Watching Popup Menu - Navigate to the Episode Detail Page</extracomment>
     </message>
     <message>
         <source>Use voice remote to search</source>
-        <translation>Użyj pilota głosowego do wyszukiwania</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Help text in search voice text box</extracomment>
     </message>
     <message>
         <source>Search now</source>
-        <translation>Szukaj teraz</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Help text in search Box</extracomment>
     </message>
     <message>
         <source>You can search for Titles, People, Live TV Channels and more</source>
-        <translation>Możesz wyszukiwać tytuły, osoby, kanały TV i wiele więcej</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Help text in search results</extracomment>
     </message>
     <message>
         <source>%1 of %2</source>
-        <translation>%1 z %2</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Item position and count. %1 = current item. %2 = total number of items</extracomment>
     </message>
     <message>
         <source>Quick Connect</source>
-        <translation>Szybkie łączenie</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Here is your Quick Connect code:</source>
-        <translation>Oto kod szybkiego łączenia:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>(Dialog will close automatically)</source>
-        <translation>(Okno dialogowe zostanie zamknięte automatycznie)</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>There was an error authenticating via Quick Connect.</source>
-        <translation>Wystąpił błąd podczas uwierzytelniania za pomocą szybkiego łączenia.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Networks</source>
-        <translation>Sieci</translation>
+        <translation>ქსელი</translation>
     </message>
     <message>
         <source>Studios</source>
-        <translation>Studia</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Shows</source>
-        <translation>Programy</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Return to Top</source>
-        <translation>Powrót na górę</translation>
+        <translation type="unfinished"></translation>
         <extracomment>UI -&gt; Media Grid -&gt; Item Title in user setting screen.</extracomment>
     </message>
     <message>
         <source>Use the replay button to slowly animate to the first item in the folder. (If disabled, the folder will reset to the first item immediately).</source>
-        <translation>Użyj przycisku odtwarzania, aby powoli przejść do pierwszego elementu w folderze. (Jeśli ta opcja jest wyłączona, folder natychmiast powróci do pierwszego elementu).</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Description for option in Setting Screen</extracomment>
     </message>
     <message>
         <source>Hide Taglines</source>
-        <translation>Ukryj slogany</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Option Title in user setting screen</extracomment>
     </message>
     <message>
         <source>Hides tagline text on details pages.</source>
-        <translation>Ukrywa tekst sloganu na stronach ze szczegółami.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Options for TV Shows.</source>
-        <translation>Opcje programów telewizyjnych.</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Description for TV Shows user settings.</extracomment>
     </message>
     <message>
         <source>Blur Unwatched Episodes</source>
-        <translation>Rozmycie nieobejrzanych odcinków</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Option Title in user setting screen</extracomment>
     </message>
     <message>
         <source>Skip Details for Single Seasons</source>
-        <translation>Pomiń szczegóły dotyczące pojedynczych sezonów</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Settings Menu - Title for option</extracomment>
     </message>
     <message>
         <source>Go directly to the episode list if a TV series has only one season.</source>
-        <translation>Jeśli ta opcja jest włączona, wybranie serialu telewizyjnego zawierającego tylko jeden sezon spowoduje przejście bezpośrednio do listy odcinków, a nie do szczegółów serialu i listy sezonów.</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Blur images of unwatched episodes.</source>
-        <translation>Rozmyte obrazy nieobejrzanych odcinków.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Design Elements</source>
-        <translation>Elementy projektu</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Options that alter the design of Jellyfin.</source>
-        <translation>Opcje zmieniające projekt Jellyfin.</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Description for Design Elements user settings.</extracomment>
     </message>
     <message>
         <source>Use Splashscreen as Home Background</source>
-        <translation>Użyj ekranu powitalnego jako tła głównego</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Option Title in user setting screen</extracomment>
     </message>
     <message>
         <source>Use generated splashscreen image as Jellyfin&apos;s home background. Jellyfin will need to be closed and reopened for change to take effect.</source>
-        <translation>Użyj wygenerowanego obrazu powitalnego jako tła głównego Jellyfin. Aby zmiany zostały wprowadzone, Jellyfin będzie musiał zostać zamknięty i ponownie otwarty.</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Description for option in Setting Screen</extracomment>
     </message>
     <message>
         <source>Cinema Mode</source>
-        <translation>Tryb kinowy</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Settings Menu - Title for option</extracomment>
     </message>
     <message>
         <source>Bring the theater experience straight to your living room with the ability to play custom intros before the main feature.</source>
-        <translation>Przenieś wrażenia kinowe prosto do swojego salonu dzięki możliwości odtwarzania własnych intro przed głównym filmem.</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Hide Clock</source>
-        <translation>Ukryj zegar</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Option Title in user setting screen</extracomment>
     </message>
     <message>
         <source>Hide all clocks in Jellyfin. Jellyfin will need to be closed and reopened for changes to take effect.</source>
-        <translation>Ukryj wszystkie zegary w Jellyfin. Aby zmiany zostały wprowadzone, konieczne będzie zamknięcie i ponowne otwarcie Jellyfin.</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Next episode</source>
-        <translation>Następny odcinek</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Play Trailer</source>
-        <translation>Odtwórz zwiastun</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>H.264</source>
-        <translation>H.264</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Name of codec used in settings menu</extracomment>
     </message>
     <message>
         <source>Attempt Direct Play for H.264 media with unsupported profile levels before falling back to transcoding if it fails.</source>
-        <translation>W przypadku plików multimedialnych w formacie H.264 o nieobsługiwanych poziomach profilu należy najpierw spróbować odtworzyć je bezpośrednio, a dopiero po niepowodzeniu przejść do transkodowania.</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>HEVC</source>
-        <translation>HEVC</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Name of codec used in settings menu</extracomment>
     </message>
     <message>
         <source>Attempt Direct Play for HEVC media with unsupported profile levels before falling back to transcoding if it fails.</source>
-        <translation>W przypadku plików multimedialnych w formacie HEVC o nieobsługiwanych poziomach profilu należy najpierw spróbować odtworzyć je bezpośrednio, a dopiero po niepowodzeniu przejść do transkodowania.</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Settings relating to playback and supported codec and media types.</source>
-        <translation>Ustawienia dotyczące odtwarzania oraz obsługiwanych kodeków i typów multimediów.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Settings relating to how the application looks.</source>
-        <translation>Ustawienia dotyczące wyglądu aplikacji.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Max Days Next Up</source>
-        <translation>Maksymalna liczba dni w „Następne”</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Option Title in user setting screen</extracomment>
     </message>
     <message>
         <source>Set the maximum amount of days a show should stay in the &apos;Next Up&apos; list without watching it. Maximum value is 1000 days.</source>
-        <translation>Ustaw maksymalną liczbę dni, przez które program ma pozostać na liście „Następne”, bez możliwości obejrzenia go. Maksymalna wartość to 1000 dni.</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Playback Information</source>
-        <translation>Informacje o odtwarzaniu</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Transcoding Information</source>
-        <translation>Informacje o transkodowaniu</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Reason</source>
-        <translation>Powód</translation>
+        <translation>მიზეზი</translation>
     </message>
     <message>
         <source>Force Transcoding setting is enabled</source>
-        <translation>Ustawienie wymuszania transkodowania jest włączone</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Force Transcode option is enabled</source>
-        <translation>Opcja „Wymuś transkodowanie” jest włączona</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Video Codec</source>
-        <translation>Kodek wideo</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Audio Codec</source>
-        <translation>Kodek audio</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>direct</source>
-        <translation>bezpośrednio</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Total Bitrate</source>
-        <translation>Całkowita przepływność</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Audio Channels</source>
-        <translation>Kanały audio</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Stream Information</source>
-        <translation>Informacje o strumieniu</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Codec</source>
-        <translation>Kodek</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Codec Tag</source>
-        <translation>Tag kodeka</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Level</source>
-        <translation>Poziom</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Video profile level</extracomment>
     </message>
     <message>
         <source>Bit Rate</source>
-        <translation>Przepływność</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Video streaming bit rate</extracomment>
     </message>
     <message>
         <source>Container</source>
-        <translation>Kontener</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Video streaming container</extracomment>
     </message>
     <message>
         <source>Size</source>
-        <translation>Rozmiar</translation>
+        <translation>ზომა</translation>
         <extracomment>Video size</extracomment>
     </message>
     <message>
         <source>Video range type</source>
-        <translation>Typ zakresu wideo</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Pixel format</source>
-        <translation>Format pikseli</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Video pixel format</extracomment>
     </message>
     <message>
         <source>WxH</source>
-        <translation>WxH</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Video width x height</extracomment>
     </message>
     <message>
         <source>Unable to find any albums or songs belonging to this artist</source>
-        <translation>Nie można znaleźć żadnych albumów ani utworów należących do tego wykonawcy</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Popup message when we find no audio data for an artist</extracomment>
     </message>
     <message>
         <source>Custom Subtitles</source>
-        <translation>Niestandardowe napisy</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Name of a setting - custom subtitles that support CJK fonts</extracomment>
     </message>
     <message>
         <source>Replace Roku&apos;s default subtitle functions with custom functions. If fallback fonts are configured and enabled on the server, those fonts will be used. A CJK fallback font is required for CJK rendering. To support bold and italics, you must have additional font files with the words &quot;bold&quot;, &quot;italic&quot;, and &quot;bolditalic&quot; in the filename.</source>
-        <translation>Zastąp domyślne funkcje napisów Roku funkcjami niestandardowymi. Jeśli na serwerze skonfigurowano i włączono czcionki zapasowe, zostaną one użyte. Do renderowania CJK wymagana jest czcionka zapasowa CJK. Aby obsługiwać pogrubienie i kursywę, musisz mieć dodatkowe pliki czcionek ze słowami „bold”, „italic” i „bolditalic” w nazwie pliku.</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Description of a setting - custom subtitles that support CJK fonts</extracomment>
     </message>
     <message>
         <source>Text Subtitles Only</source>
-        <translation>Tylko napisy tekstowe</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Name of a setting - should we hide subtitles that might transcode</extracomment>
     </message>
     <message>
         <source>Only display text subtitles to minimize transcoding.</source>
-        <translation>Wyświetlaj tylko napisy tekstowe, aby zminimalizować konieczność transkodowania.</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Description of a setting - should we hide subtitles that might transcode</extracomment>
     </message>
     <message>
         <source>all</source>
-        <translation>wszystko</translation>
+        <translation type="unfinished"></translation>
         <extracomment>all will reset the searchTerm so all data will be availible</extracomment>
     </message>
     <message>
         <source>All</source>
-        <translation>Wszystko</translation>
+        <translation>ყველა</translation>
         <extracomment>All in filter</extracomment>
     </message>
     <message>
         <source>Aired</source>
-        <translation>Wyemitowano</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Aired date label</extracomment>
     </message>
     <message>
         <source>Slideshow Off</source>
-        <translation>Pokaz slajdów wyłączony</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Slideshow On</source>
-        <translation>Pokaz slajdów włączony</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Slideshow Paused</source>
-        <translation>Pokaz slajdów wstrzymany</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>(Favorites)</source>
-        <translation>(Ulubione)</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Favorites</source>
-        <translation>Ulubione</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Artists</source>
-        <translation>Wykonawcy</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Slideshow Resumed</source>
-        <translation>Pokaz slajdów wznowiono</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Random Off</source>
-        <translation>Losowe wyłączono</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Random On</source>
-        <translation>Losowe włączono</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Delete Playlist</source>
-        <translation>Usuń listę odtwarzania</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>MPEG-4 Support</source>
-        <translation>Obsługa MPEG-4</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Settings Menu - Title for option</extracomment>
     </message>
     <message>
         <source>Parental Ratings</source>
-        <translation>Oceny rodzicielskie</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Used in Filter menu</extracomment>
     </message>
     <message>
         <source>Collections</source>
-        <translation>Kolekcje</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Playlists</source>
-        <translation>Listy odtwarzania</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Years</source>
-        <translation>Lata</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Used in Filter menu</extracomment>
     </message>
     <message>
         <source>No items found. Try adjusting your selected filters.</source>
-        <translation>Nie znaleziono żadnych elementów. Spróbuj dostosować wybrane filtry.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Show What&apos;s New Popup</source>
-        <translation>Pokaż wyskakujące okienko „Co nowego”</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Settings Menu - Title for option</extracomment>
     </message>
     <message>
         <source>Show What&apos;s New popup when Jellyfin is updated to a new version.</source>
-        <translation>Pokaż wyskakujące okienko „Co nowego”, gdy Jellyfin zostanie zaktualizowany do nowej wersji.</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Unplayed</source>
-        <translation>Nieodtworzone</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Played</source>
-        <translation>Odtworzone</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Resumable</source>
-        <translation>Wznawialne</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Movie Library Default View</source>
-        <translation>Domyślny widok biblioteki filmów</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Settings Menu - Title for option</extracomment>
     </message>
     <message>
         <source>Default view for Movie Libraries.</source>
-        <translation>Domyślny widok bibliotek filmowych.</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Grid View Item Titles</source>
-        <translation>Tytuły elementów widoku siatki</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Title of a setting - when should we show the title text of a grid item</extracomment>
     </message>
     <message>
         <source>Select when to show titles in grid view.</source>
-        <translation>Wybierz, kiedy tytuły mają być wyświetlane w widoku siatki.</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Show On Hover</source>
-        <translation>Pokaż po najechaniu kursorem</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Always Show</source>
-        <translation>Zawsze pokazuj</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Always Hide</source>
-        <translation>Zawsze ukrywaj</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Artists (Presentation)</source>
-        <translation>Wykonawcy (prezentacja)</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Album Artist</source>
-        <translation>Wykonawca albumu</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Album Artists (Presentation)</source>
-        <translation>Wykonawcy albumu (prezentacja)</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Artists (Grid)</source>
-        <translation>Wykonawcy (siatka)</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Album Artists (Grid)</source>
-        <translation>Wykonawcy albumu (siatka)</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Song</source>
-        <translation>Piosenka</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Songs</source>
-        <translation>Piosenki</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>Album</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Albums</source>
-        <translation>Albumy</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Autoplay Episode Limit</source>
-        <translation>Limit automatycznego odtwarzania odcinków</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>The number of episodes that will play automatically after the selected episode. Requires &apos;Play next episode automatically&apos; server setting to be enabled.</source>
-        <translation>Liczba odcinków, które zostaną odtworzone automatycznie po wybranym odcinku. Wymaga włączenia ustawienia serwera „Odtwórz następny odcinek automatycznie”.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>View All</source>
-        <translation>Pokaż wszystko</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Disable Community Rating for Episodes</source>
-        <translation>Wyłącz ocenę społeczności dla odcinków</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Hide the star and community rating for episodes of a TV show. This is to prevent spoilers of an upcoming good/bad episode.</source>
-        <translation>Ukryj gwiazdki i oceny społeczności dla odcinków serialu. Ma to na celu uniknięcie spoilerów nadchodzącego dobrego lub słabego odcinka.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Configure the maximum playback bitrate.</source>
-        <translation>Skonfiguruj maksymalną przepływność odtwarzania.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Biographical information for this person is not currently available.</source>
-        <translation>Informacje biograficzne na temat tej osoby nie są obecnie dostępne.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Enable Limit</source>
-        <translation>Włącz ograniczenie</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Enable or disable the &apos;Maximum Bitrate&apos; setting.</source>
-        <translation>Włącz lub wyłącz ustawienie „Maksymalna przepływność”.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Bitrate Limit</source>
-        <translation>Ograniczenie przepływności</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Maximum Bitrate</source>
-        <translation>Maksymalna przepływność</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Set the maximum bitrate in Mbps. Set to 0 to use Roku&apos;s specifications. This setting must be enabled to take effect.</source>
-        <translation>Ustaw maksymalną przepływność w Mb/s. Ustaw na 0, aby korzystać ze specyfikacji Roku. To ustawienie musi być włączone, aby zadziałało.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Libraries</source>
-        <translation>Biblioteki</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Settings relating to the appearance of Library pages</source>
-        <translation>Ustawienia dotyczące wyglądu stron biblioteki</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>General</source>
-        <translation>Ogólne</translation>
+        <translation>ზოგადი</translation>
     </message>
     <message>
         <source>Settings relating to the appearance of the Home screen and the program in general.</source>
-        <translation>Ustawienia dotyczące wyglądu ekranu głównego i programu ogólnie.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Grid View Settings</source>
-        <translation>Ustawienia widoku siatki</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Settings that apply when Grid views are enabled.</source>
-        <translation>Ustawienia obowiązujące po włączeniu widoków siatki.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Settings relating to the appearance of pages in TV Libraries.</source>
-        <translation>Ustawienia dotyczące wyglądu stron w bibliotekach telewizyjnych.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Settings relating to the appearance of pages in Movie Libraries.</source>
-        <translation>Ustawienia dotyczące wyglądu stron w bibliotekach filmowych.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Presentation</source>
-        <translation>Prezentacja</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Title of an option - name of presentation view</extracomment>
     </message>
     <message>
         <source>Grid</source>
-        <translation>Siatka</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Title of an option - name of grid view</extracomment>
     </message>
     <message>
         <source>Disable Unwatched Episode Count</source>
-        <translation>Wyłącz licznik nieobejrzanych odcinków</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Settings Menu - Title for option</extracomment>
     </message>
     <message>
         <source>If enabled, the number of unwatched episodes in a series/season will be removed.</source>
-        <translation>Jeśli ta opcja jest włączona, liczba nieobejrzanych odcinków danego serialu/sezonu zostanie usunięta.</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Loading trailer</source>
-        <translation>Wczytywanie zwiastunu</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Dialog title in Main.brs</extracomment>
     </message>
     <message>
         <source>Next Episode Button Time</source>
-        <translation>Czas przycisku następnego odcinka</translation>
+        <translation type="unfinished"></translation>
         <extracomment>Settings Menu - Title for option</extracomment>
     </message>
     <message>
@@ -1273,12 +1285,12 @@
     </message>
     <message>
         <source>Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>რეჟიმი</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Value</source>
-        <translation type="unfinished"></translation>
+        <translation>მნიშვნელობა</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
@@ -1468,7 +1480,7 @@
     </message>
     <message>
         <source>None</source>
-        <translation type="unfinished"></translation>
+        <translation>არცერთი</translation>
         <extracomment>User Setting - Options</extracomment>
     </message>
     <message>
@@ -1678,7 +1690,7 @@
     </message>
     <message>
         <source>Format</source>
-        <translation type="unfinished"></translation>
+        <translation>ფორმატი</translation>
     </message>
     <message>
         <source>downloads</source>
@@ -1710,7 +1722,7 @@
     </message>
     <message>
         <source>Sort by</source>
-        <translation type="unfinished"></translation>
+        <translation>დალაგების პირობა</translation>
     </message>
     <message>
         <source>Search is unavailable because the API does not support searching inside boxsets.</source>
@@ -1782,11 +1794,11 @@
     </message>
     <message>
         <source>min</source>
-        <translation type="unfinished"></translation>
+        <translation>წთ</translation>
     </message>
     <message>
         <source>mins</source>
-        <translation type="unfinished"></translation>
+        <translation>წთ</translation>
     </message>
     <message>
         <source>Continue Listening</source>
@@ -1826,7 +1838,7 @@
     </message>
     <message>
         <source>Yes</source>
-        <translation type="unfinished"></translation>
+        <translation>დიახ</translation>
     </message>
     <message>
         <source>No, Cancel</source>
@@ -2326,7 +2338,7 @@
     </message>
     <message>
         <source>Date Created</source>
-        <translation type="unfinished"></translation>
+        <translation>შექმნის თარიღი</translation>
     </message>
     <message>
         <source>Is Unplayed</source>
@@ -2423,18 +2435,6 @@
     <message>
         <source>Search Unavailable</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Subtitles</source>
-        <translation>Napisy</translation>
-    </message>
-    <message>
-        <source>tracks</source>
-        <translation>ścieżki</translation>
-    </message>
-    <message>
-        <source>No Default</source>
-        <translation>Brak domyślnej</translation>
     </message>
 </context>
 </TS>

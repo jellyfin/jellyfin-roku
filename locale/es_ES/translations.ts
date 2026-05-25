@@ -1120,7 +1120,7 @@
     </message>
     <message>
         <source>Always Show</source>
-        <translation>Mostrar Siempre</translation>
+        <translation>Mostrar siempre</translation>
     </message>
     <message>
         <source>Show What&apos;s New Popup</source>
@@ -1142,7 +1142,7 @@
     </message>
     <message>
         <source>Always Hide</source>
-        <translation>Siempre Ocultar</translation>
+        <translation>Ocultar siempre</translation>
     </message>
     <message>
         <source>Album Artists (Presentation)</source>
@@ -2469,6 +2469,38 @@
     <message>
         <source>Search Unavailable</source>
         <translation>Búsqueda no disponible</translation>
+    </message>
+    <message>
+        <source>Always Attempt Direct Playing Video Media</source>
+        <translation>Intentar siempre la reproducción directa de medios de vídeo</translation>
+    </message>
+    <message>
+        <source>Forces Jellyfin to try direct playing video media, Live TV excluded. Enabling this ignores all other playback support settings and will always first attempt direct playback. It also changes how transcode reason is displayed.</source>
+        <translation>Fuerza Jellyfin a probar la reproducción directa de medios de vídeo, TV en vivo excluida. Al activar esta opción se ignoran todas las demás configuraciones de reproducción y siempre se intentará primeramente la reproducción directa. También cambia cómo se muestra la razón de transcodificación.</translation>
+    </message>
+    <message>
+        <source>Five trickplay images</source>
+        <translation>Cinco imágenes de previsualización</translation>
+    </message>
+    <message>
+        <source>Single trickplay image that moves</source>
+        <translation>Una sola imagen de previsualización en movimiento</translation>
+    </message>
+    <message>
+        <source>Use at your own risk. We make no guarantees this will work for you. \n 1. This feature may not work on this device, yet work on others \n 2. Some speed options may not work on this device, yet work on others \n 3. Roku may block this feature without warning; even if the Jellyfin client doesn&apos;t update</source>
+        <translation>Utiliza esta función asumiendo los riesgos. No podemos garantizar que funcione en todos los casos. \n 1. Puede que no funcione en este dispositivo y sí en otros \n 2. Puede que ciertas opciones de velocidad no funcionen en este dispositivo y sí en otros \n 3. Roku puede bloquear esta función sin preaviso; incluso si el cliente Jellyfin no se ha actualizado</translation>
+    </message>
+    <message>
+        <source>Roku&apos;s video player got stuck buffering video</source>
+        <translation>El reproductor de vídeo de Roku tuvo problemas recuperando vídeo</translation>
+    </message>
+    <message>
+        <source>Roku&apos;s video player threw the following error</source>
+        <translation>El reproductor de vídeo de Roku envió el siguiente error</translation>
+    </message>
+    <message>
+        <source>Roku thought it could direct play this media, but playback never started.</source>
+        <translation>Roku creía poder reproducir directamente este contenido, pero la reproducción nunca empezó.</translation>
     </message>
 </context>
 <context>

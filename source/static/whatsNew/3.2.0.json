@@ -8,7 +8,7 @@
     "author": "gabeluci"
   },
   {
-    "description": "Fix ratings repeating on items in More Like This section",
+    "description": "Fix ratings repeating on items in more like this section",
     "author": "1hitsong"
   },
   {
@@ -16,11 +16,11 @@
     "author": "1hitsong"
   },
   {
-    "description": "Fix Cinema Mode Intros",
+    "description": "Fix cinema mode intros",
     "author": "Starwarsfan2099"
   },
   {
-    "description": "Allow Force Transcode for live TV only",
+    "description": "Allow force transcode for live TV only",
     "author": "FractalBoy"
   },
   {
@@ -32,11 +32,11 @@
     "author": "VX-101"
   },
   {
-    "description": "Fix Quick Connect initiate to use POST instead of GET",
+    "description": "Fix quick connect login",
     "author": "no-reply"
   },
   {
-    "description": "Improve Down navigation in library grids with short last rows",
+    "description": "Improve down navigation in library grids with short last rows",
     "author": "VX-101"
   },
   {
@@ -68,11 +68,35 @@
     "author": "VX-101"
   },
   {
-    "description": "Fix Cast & Crew favorite button state and persistence",
+    "description": "Fix cast & crew favorite button state and persistence",
     "author": "VX-101"
   },
   {
-    "description": "Show favorite songs and Cast & Crew people in the home Favorites row",
+    "description": "Fix next up overlay text overflow with custom fonts",
+    "author": "ferezvi"
+  },
+  {
+    "description": "Support AC3/EAC3/DTS passthrough when system audio is set to 5.1 surround",
+    "author": "ferezvi"
+  },
+  {
+    "description": "Fix VTT subtitle default positioning for cues without explicit line value",
+    "author": "ferezvi"
+  },
+  {
+    "description": "Change the home favorites row default sort from random to name",
+    "author": "VX-101"
+  },
+  {
+    "description": "Create setting to always attempt direct play no matter what",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Keep end time up-to-date with clock while OSD is visible",
+    "author": "michaellee94"
+  },
+  {
+    "description": "Add support for songs and people to the favorites row on the home screen",
     "author": "VX-101"
   }
 ]
