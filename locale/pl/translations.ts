@@ -1204,61 +1204,61 @@
     </message>
     <message>
         <source>Set how many seconds before the end of an episode the Next Episode button should appear. Set to 0 to disable.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustaw, ile sekund przed końcem odcinka ma pojawić się przycisk „Pomiń zakończenie”, jeśli nie istnieje segment multimedialny Zakończenie. Ustaw 0, aby wyłączyć.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Preferred Audio Codec</source>
-        <translation type="unfinished"></translation>
+        <translation>Preferowany kodek audio</translation>
         <extracomment>Settings Menu - Title of option</extracomment>
     </message>
     <message>
         <source>Use the selected audio codec for transcodes. If the device or stream does not support it, a fallback codec will be used.</source>
-        <translation type="unfinished"></translation>
+        <translation>Użyj wybranego kodeka audio do transkodowania. Jeśli urządzenie lub strumień go nie obsługuje, zostanie użyty kodek zapasowy.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Video Codec Support</source>
-        <translation type="unfinished"></translation>
+        <translation>Obsługa kodeków wideo</translation>
         <extracomment>Settings Menu - Title for option</extracomment>
     </message>
     <message>
         <source>Enable or disable Direct Play support for certain codecs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Włącz lub wyłącz obsługę bezpośredniego odtwarzania dla niektórych kodeków.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Video Profile Level Support</source>
-        <translation type="unfinished"></translation>
+        <translation>Obsługa poziomu profilu wideo</translation>
         <extracomment>Settings Menu - Title for option</extracomment>
     </message>
     <message>
         <source>Attempt Direct Play of potentially unsupported profile levels</source>
-        <translation type="unfinished"></translation>
+        <translation>Spróbuj bezpośredniego odtwarzania potencjalnie nieobsługiwanych poziomów profilu</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Use system settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Użyj ustawień systemowych</translation>
         <extracomment>User Setting - Option title</extracomment>
     </message>
     <message>
         <source>Direct playing</source>
-        <translation type="unfinished"></translation>
+        <translation>Odtwarzanie bezpośrednie</translation>
     </message>
     <message>
         <source>The source file is entirely compatible with this client and the session is receiving the file without modifications.</source>
-        <translation type="unfinished"></translation>
+        <translation>Plik źródłowy jest w pełni kompatybilny z tym klientem, a sesja odbiera plik bez modyfikacji.</translation>
         <extracomment>Direct play info box text in GetPlaybackInfoTask.brs</extracomment>
     </message>
     <message>
         <source>Maximum Resolution</source>
-        <translation type="unfinished"></translation>
+        <translation>Maksymalna rozdzielczość</translation>
         <extracomment>User Setting - Title</extracomment>
     </message>
     <message>
         <source>Set the maximum resolution when playing video files on this device.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustaw maksymalną rozdzielczość podczas odtwarzania plików wideo na tym urządzeniu.</translation>
         <extracomment>User Setting - Description</extracomment>
     </message>
     <message>
