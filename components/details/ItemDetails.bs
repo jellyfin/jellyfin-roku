@@ -1784,6 +1784,16 @@ sub onAudioStreamIndexChanged()
         m.top.selectedAudioStreamIndex = m.audioSelector.audioStreamIndex
         m.global.queueManager.callFunc("setPreferredAudioTrackIndex", m.audioSelector.audioStreamIndex)
         m.global.queueManager.callFunc("setPreferredAudioTrackName", m.audioSelector.audioStreamName)
+
+        if isValid(m.top.itemContent)
+            m.top.itemContent.selectedAudioStreamIndex = m.top.selectedAudioStreamIndex
+        end if
+
+        if isValid(m.trackData.audios)
+            for each track in m.trackData.audios
+                track.Selected = (track.StreamIndex = m.top.selectedAudioStreamIndex)
+            end for
+        end if
     end if
 end sub
 

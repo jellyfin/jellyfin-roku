@@ -53,11 +53,18 @@ sub CreateVideoPlayerView()
         m.global.audioPlayer.control = VideoControl.STOP
     end if
 
+    currentItem = m.global.queueManager.callFunc("getCurrentItem")
+
     ' If the user has set a preferred audio track index, use it
     preferredAudioTrackIndex = m.global.queueManager.callFunc("getPreferredAudioTrackIndex")
     if preferredAudioTrackIndex < 0 then preferredAudioTrackIndex = 0
 
-    m.global.queueManager.callFunc("setSelectedAudioStreamIndex", preferredAudioTrackIndex)
+    selectedAudioIndex = preferredAudioTrackIndex
+    if isValid(currentItem.selectedAudioStreamIndex) and currentItem.selectedAudioStreamIndex >= 0
+        selectedAudioIndex = currentItem.selectedAudioStreamIndex
+    end if
+
+    m.global.queueManager.callFunc("setSelectedAudioStreamIndex", selectedAudioIndex)
 
     m.view = CreateObject("roSGNode", "VideoPlayerView")
     m.view.observeField("state", "onStateChange")
@@ -65,7 +72,6 @@ sub CreateVideoPlayerView()
     m.view.observeField("selectSubtitlePressed", "onSelectSubtitlePressed")
     m.view.observeField("selectAudioPressed", "onSelectAudioPressed")
 
-    currentItem = m.global.queueManager.callFunc("getCurrentItem")
     mediaSourceId = currentItem.mediaSourceId
 
     if not isValid(mediaSourceId) or mediaSourceId = ""
@@ -97,6 +103,14 @@ sub onSelectAudioPressed()
 
     preferredAudioTrackName = m.global.queueManager.callFunc("getPreferredAudioTrackName")
 
+    currentItem = m.global.queueManager.callFunc("getCurrentItem")
+    selectedAudioIndex = m.view.audioIndex
+    if not isValid(selectedAudioIndex) or selectedAudioIndex < 0
+        if isValid(currentItem.selectedAudioStreamIndex)
+            selectedAudioIndex = currentItem.selectedAudioStreamIndex
+        end if
+    end if
+
     audioTracks = []
 
     for each item in m.view.fullAudioData
@@ -108,7 +122,7 @@ sub onSelectAudioPressed()
         }
 
         if isStringEqual(preferredAudioTrackName, string.EMPTY)
-            if m.view.audioIndex = item.Index
+            if selectedAudioIndex = item.Index
                 audioTrack.Selected = true
             end if
         else

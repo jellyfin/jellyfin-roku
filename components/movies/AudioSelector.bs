@@ -28,10 +28,11 @@ sub audioTracksSet()
         selectedAudioIndex = 0
 
         for each audio in m.top.audioTracks
-            entry = audioContent.CreateChild("ContentNode")
+            entry = audioContent.CreateChild("AudioTrackListData")
             entry.title = audio.Title
             entry.description = audio.Title
-            entry.StreamIndex = audio.StreamIndex
+            entry.streamName = audio.RokuTrackName
+            entry.streamIndex = audio.StreamIndex
             if isValid(audio.Selected) and audio.Selected
                 selectedAudioIndex = index
                 entry.selected = true
@@ -49,8 +50,8 @@ end sub
 sub onAudioItemSelected()
     selectedItem = m.audioMenu.content.getChild(m.audioMenu.itemSelected)
     if isValid(selectedItem)
-        m.top.audioStreamIndex = selectedItem.StreamIndex
-        m.top.audioStreamName = selectedItem.title
+        m.top.audioStreamIndex = selectedItem.streamIndex
+        m.top.audioStreamName = selectedItem.streamName
         m.top.visible = false
     end if
 end sub
