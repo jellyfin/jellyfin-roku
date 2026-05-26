@@ -306,7 +306,11 @@ sub endScreenSaver()
 end sub
 
 sub displayMiniPlayer()
-    if not isStringEqual(m.global.audioPlayer.state, MediaPlaybackState.PLAYING)
+    audioState = m.global.audioPlayer.state
+    ' Paused or buffering audio should still return to the mini-player instead of clearing playback.
+    isActiveAudioState = isStringEqual(audioState, MediaPlaybackState.PLAYING) or isStringEqual(audioState, MediaPlaybackState.PAUSED) or isStringEqual(audioState, MediaPlaybackState.BUFFERING)
+
+    if not isActiveAudioState
         m.global.queueManager.callFunc("clear")
         m.global.audioPlayer.control = "stop"
         return
