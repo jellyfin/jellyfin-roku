@@ -1223,38 +1223,6 @@ sub playPlaylistItemInList(screenContent as object, selectedIndex as integer)
     m.global.queueManager.callFunc("playQueue")
 end sub
 
-function toggleActiveAudioPlayback() as boolean
-    currentItem = m.global.queueManager.callFunc("getCurrentItem")
-    if not isValid(currentItem) then return false
-
-    if isStringEqual(m.global.audioPlayer.state, MediaPlaybackState.PLAYING)
-        m.global.audioPlayer.control = "pause"
-        return true
-    end if
-
-    if isStringEqual(m.global.audioPlayer.state, MediaPlaybackState.PAUSED)
-        m.global.audioPlayer.control = "resume"
-        return true
-    end if
-
-    if isStringEqual(m.global.audioPlayer.state, MediaPlaybackState.FINISHED)
-        if isValidAndNotEmpty(m.global.audioPlayer.id) and isValidAndNotEmpty(currentItem.id)
-            if isStringEqual(m.global.audioPlayer.id, currentItem.id)
-                m.global.audioPlayer.control = "play"
-                return true
-            end if
-        end if
-
-        return false
-    end if
-
-    if isStringEqual(m.global.audioPlayer.state, MediaPlaybackState.BUFFERING)
-        return true
-    end if
-
-    return false
-end function
-
 sub showAudioMiniPlayerForListPlayback()
     scene = m.scene
     if not isValid(scene) then return

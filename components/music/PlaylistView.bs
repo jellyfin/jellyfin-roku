@@ -223,6 +223,10 @@ end function
 function onKeyEvent(key as string, press as boolean) as boolean
     if isValid(m.buttonGrp)
         if m.buttonGrp.isInFocusChain()
+            if press and isStringEqual(key, KeyCode.PLAY)
+                if toggleAudioMiniPlayerPlayback() then return true
+            end if
+
             if isStringEqual(key, KeyCode.LEFT)
                 if m.buttonGrp.getChild(m.top.selectedButtonIndex).escape = "left"
                     if m.top.selectedButtonIndex > 0
