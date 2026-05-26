@@ -8,6 +8,7 @@
             <CheckList
                 id="checklist"
                 numRows="8"
+                itemSize="[860, 62]"
                 vertFocusAnimationStyle="floatingFocus"
                 checkedIconUri="pkg:/images/icons/checkboxChecked.png"
                 focusedCheckedIconUri="pkg:/images/icons/checkboxChecked.png"
