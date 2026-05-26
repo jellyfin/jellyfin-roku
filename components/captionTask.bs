@@ -114,6 +114,7 @@ sub updateCaption()
     for each entry in m.captionList
         if entry["start"] <= m.top.currentPos and m.top.currentPos < entry["end"]
 
+            if entry["text"].count() = 0 then continue for ' Guard against empty text blocks
             fullText = entry["text"].Join(Chr(10))
 
             ' look for style tags
