@@ -8,7 +8,7 @@ const STILL_WATCHING_POPUP_TIMER_SECONDS = 60
 
 
 ' Play Audio
-sub CreateAudioPlayerView()
+sub CreateAudioPlayerView(showAudioPlayerView = false as boolean)
     if m.global.audioPlayer.id <> m.global.queueManager.callFunc("getCurrentItem").id
         m.global.audioPlayer.id = invalid
         m.global.audioPlayer.id = m.global.queueManager.callFunc("getCurrentItem").id
@@ -16,7 +16,10 @@ sub CreateAudioPlayerView()
 
     ' Only bypass creating an audio player view if the current queue is only audio
     if m.global.queueManager.callFunc("getQueueUniqueTypes").count() = 1
-        if audioMiniPlayerIsVisible(m.top) then return
+        if audioMiniPlayerIsVisible(m.top)
+            if not showAudioPlayerView then return
+            m.audioMiniPlayer.callFunc("setVisible", false)
+        end if
     end if
 
     m.view = CreateObject("roSGNode", "AudioPlayerView")

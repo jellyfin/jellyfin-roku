@@ -207,7 +207,7 @@ function peek()
 end function
 
 ' Play items in queue
-sub playQueue()
+sub playQueue(showAudioPlayerView = false as boolean)
     m.isPlaying = true
     nextItem = getCurrentItem()
     if not isValid(nextItem) then return
@@ -224,12 +224,12 @@ sub playQueue()
     m.getLastKnownItemID = nextItem.id
 
     if nextItemMediaType = "audio"
-        CreateAudioPlayerView()
+        CreateAudioPlayerView(showAudioPlayerView)
         return
     end if
 
     if nextItemMediaType = "audiobook"
-        CreateAudioPlayerView()
+        CreateAudioPlayerView(showAudioPlayerView)
         return
     end if
 

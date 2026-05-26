@@ -130,10 +130,13 @@ end sub
 sub setup()
     m.global.audioPlayer.observeFieldScoped("position", "audioPositionChanged")
     m.global.audioPlayer.observeFieldScoped("audioData", "onAudioDataChanged")
+    m.global.audioPlayer.observeFieldScoped("state", "onAudioPlayerStateChanged")
+    updatePlayButtonState()
 end sub
 
 sub onAudioDataChanged()
     stopLoadingSpinner()
+    updatePlayButtonState()
 
     ' If user starts playing a mixed playlist, hide mini player
     if m.global.queueManager.callFunc("getQueueUniqueTypes").count() <> 1
@@ -180,6 +183,20 @@ sub onAudioDataChanged()
     end if
 end sub
 
+sub onAudioPlayerStateChanged()
+    updatePlayButtonState()
+end sub
+
+sub updatePlayButtonState()
+    if not isValid(m.play) then return
+
+    if isStringEqual(m.global.audioPlayer.state, MediaPlaybackState.PLAYING)
+        m.play.uri = "pkg:/images/icons/pause.png"
+    else
+        m.play.uri = "pkg:/images/icons/play.png"
+    end if
+end sub
+
 sub setupInfoNodes()
     m.albumCover = m.top.findNode("albumCover")
     m.playPosition = m.top.findNode("playPosition")
@@ -217,19 +234,16 @@ end sub
 sub playAction()
     if m.global.audioPlayer.state = MediaPlaybackState.PLAYING
         m.global.audioPlayer.control = VideoControl.PAUSE
-        m.play.uri = "pkg:/images/icons/play.png"
         return
     end if
 
     if m.global.audioPlayer.state = MediaPlaybackState.PAUSED
         m.global.audioPlayer.control = VideoControl.RESUME
-        m.play.uri = "pkg:/images/icons/pause.png"
         return
     end if
 
     if m.global.audioPlayer.state = MediaPlaybackState.FINISHED
         m.global.audioPlayer.control = VideoControl.PLAY
-        m.play.uri = "pkg:/images/icons/pause.png"
         return
     end if
 end sub
