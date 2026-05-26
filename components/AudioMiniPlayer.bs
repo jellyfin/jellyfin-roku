@@ -64,6 +64,12 @@ sub onButtonSelectedChange()
     end if
 end sub
 
+sub highlightPlayButton()
+    m.previouslySelectedButtonIndex = m.selectedButtonIndex
+    m.selectedButtonIndex = 1
+    onButtonSelectedChange()
+end sub
+
 function isVisible() as boolean
     return m.audioMiniPlayerContainer.visible
 end function
@@ -93,6 +99,7 @@ sub setVisible(newVisibleState as boolean)
         m.audioMiniPlayerContainerBorder.visible = true
         m.audioMiniPlayerContainer.visible = true
         m.top.visible = true
+        highlightPlayButton()
         m.slideUpAnimation.control = AnimationControl.START
     else
         m.slideDownAnimation.observeFieldScoped("state", "onSlideDownAnimationStateChange")
@@ -115,9 +122,7 @@ sub setSelected(newSelectedState as boolean)
     end if
 
     if not m.top.selected
-        m.previouslySelectedButtonIndex = m.selectedButtonIndex
-        m.selectedButtonIndex = -1
-        onButtonSelectedChange()
+        highlightPlayButton()
     end if
 end sub
 
