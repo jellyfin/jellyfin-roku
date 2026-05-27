@@ -663,32 +663,35 @@ end function
 ' toggleActiveAudioPlayback: Toggles the loaded audio player item without changing queue position.
 '
 function toggleActiveAudioPlayback() as boolean
-    currentItem = m.global.queueManager.callFunc("getCurrentItem")
-    if not isValid(currentItem) then return false
-
     if isStringEqual(m.global.audioPlayer.state, MediaPlaybackState.PLAYING)
+        stopLoadingSpinner()
         m.global.audioPlayer.control = "pause"
         return true
     end if
 
     if isStringEqual(m.global.audioPlayer.state, MediaPlaybackState.PAUSED)
+        stopLoadingSpinner()
         m.global.audioPlayer.control = "resume"
         return true
     end if
 
+    if isStringEqual(m.global.audioPlayer.state, MediaPlaybackState.BUFFERING)
+        return true
+    end if
+
     if isStringEqual(m.global.audioPlayer.state, MediaPlaybackState.FINISHED)
+        currentItem = m.global.queueManager.callFunc("getCurrentItem")
+        if not isValid(currentItem) then return false
+
         if isValidAndNotEmpty(m.global.audioPlayer.id) and isValidAndNotEmpty(currentItem.id)
             if isStringEqual(m.global.audioPlayer.id, currentItem.id)
+                stopLoadingSpinner()
                 m.global.audioPlayer.control = "play"
                 return true
             end if
         end if
 
         return false
-    end if
-
-    if isStringEqual(m.global.audioPlayer.state, MediaPlaybackState.BUFFERING)
-        return true
     end if
 
     return false

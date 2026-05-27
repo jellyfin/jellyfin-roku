@@ -210,10 +210,16 @@ end function
 sub playQueue(showAudioPlayerView = false as boolean)
     m.isPlaying = true
     nextItem = getCurrentItem()
-    if not isValid(nextItem) then return
+    if not isValid(nextItem)
+        stopLoadingSpinner()
+        return
+    end if
 
     nextItemMediaType = getItemType(nextItem)
-    if nextItemMediaType = "" then return
+    if nextItemMediaType = ""
+        stopLoadingSpinner()
+        return
+    end if
 
     if isChainValid(nextItem, "json.ExtraType")
         m.getLastKnownItemExtraType = nextItem.json.ExtraType
@@ -267,6 +273,8 @@ sub playQueue(showAudioPlayerView = false as boolean)
         CreateVideoPlayerView()
         return
     end if
+
+    stopLoadingSpinner()
 end sub
 
 ' Remove item at end of play queue
