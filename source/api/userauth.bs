@@ -134,7 +134,7 @@ end sub
 
 function initQuickConnect()
     resp = APIRequest("QuickConnect/Initiate")
-    jsonResponse = getJson(resp)
+    jsonResponse = postJson(resp)
     if jsonResponse = invalid
         return invalid
     end if
