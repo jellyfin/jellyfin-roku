@@ -229,6 +229,8 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
         playbackPosition = currentItem.startingPoint
     else if isChainValid(currentItem, "json.UserData.PlaybackPositionTicks")
         playbackPosition = currentItem.json.UserData.PlaybackPositionTicks
+    else if isChainValid(meta, "json.UserData.PlaybackPositionTicks")
+        playbackPosition = meta.json.UserData.PlaybackPositionTicks
     end if
 
     ' PlayStart requires the time to be in seconds
@@ -308,7 +310,9 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
     end if
 
     ' Direct play video
-    if video.directPlaySupported
+    attemptDirectPlaySetting = chainLookupReturn(m.global.session, "user.settings.attemptDirectPlay", false)
+
+    if video.directPlaySupported or (attemptDirectPlaySetting and not m.top.mustTranscode and not meta.live)
         video.isTranscoded = false
         addVideoContentURL(video, mediaSourceId, audio_stream_idx)
         setCertificateAuthority(video.content)
@@ -333,13 +337,16 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
         return
     end if
 
+    video.subtitlesBurnedIn = false
+
     ' If transcoding and burnInSubtitlesIfTrancoding is enabled, zero out SubtitleProfiles
-    if chainLookupReturn(m.global, "session.user.settings.`playback.subs.burnin`", true) and meta.live = false
+    if chainLookupReturn(m.global, "session.user.settings.`playback.subs.burnin`", true) and meta.live = false and shouldBurnInSelectedSubtitle(m.playbackInfo, m.top.selectedSubtitleIndex)
         m.playbackInfo = ItemPostPlaybackInfo(video.id, mediaSourceId, audio_stream_idx, m.top.selectedSubtitleIndex, playbackPosition, {
             emptySubtitleProfiles: true
         })
         ' Re-posting playback info will generate a new PlaysessionId
         video.PlaySessionId = m.playbackInfo.PlaySessionId
+        video.subtitlesBurnedIn = true
     end if
 
     ' Get transcoding reason
@@ -461,32 +468,33 @@ function getTranscodeReasons(url as string) as object
     return []
 end function
 
-function directPlaySupported(meta as object) as boolean
-    devinfo = CreateObject("roDeviceInfo")
-    if isValid(meta.json.MediaSources[0]) and meta.json.MediaSources[0].SupportsDirectPlay = false
-        return false
+function shouldBurnInSelectedSubtitle(playbackInfo as object, selectedSubtitleIndex as integer) as boolean
+    if selectedSubtitleIndex = SubtitleSelection.NONE then return false
+    if not isValid(playbackInfo) then return true
+    if not isValidAndNotEmpty(playbackInfo.MediaSources) then return true
+    if not isValid(playbackInfo.MediaSources[0]) then return true
+
+    mediaSource = playbackInfo.MediaSources[0]
+    subtitleIndex = selectedSubtitleIndex
+
+    if selectedSubtitleIndex = SubtitleSelection.NOTSET
+        defaultSubtitleIndex = mediaSource.LookupCI("DefaultSubtitleStreamIndex")
+        if not isValid(defaultSubtitleIndex) then return false
+        subtitleIndex = defaultSubtitleIndex
     end if
 
-    if meta.json.MediaStreams[0] = invalid
-        return false
-    end if
+    if not isValid(mediaSource.MediaStreams) then return true
 
-    streamInfo = { Codec: meta.json.MediaStreams[0].codec }
-    if isValid(meta.json.MediaStreams[0].Profile) and meta.json.MediaStreams[0].Profile.len() > 0
-        streamInfo.Profile = LCase(meta.json.MediaStreams[0].Profile)
-    end if
-    if isValid(meta.json.MediaSources[0].container) and meta.json.MediaSources[0].container.len() > 0
-        'CanDecodeVideo() requires the .container to be format: “mp4”, “hls”, “mkv”, “ism”, “dash”, “ts” if its to direct stream
-        if meta.json.MediaSources[0].container = "mov"
-            streamInfo.Container = "mp4"
-        else
-            streamInfo.Container = meta.json.MediaSources[0].container
+    for each stream in mediaSource.MediaStreams
+        if isStringEqual(stream.LookupCI("Type"), "subtitle") and stream.LookupCI("Index") = subtitleIndex
+            if isStringEqual(stream.LookupCI("DeliveryMethod"), "External") then return false
+            if stream.LookupCI("IsTextSubtitleStream") = true and not isStringEqual(stream.LookupCI("DeliveryMethod"), "Encode") then return false
+
+            return true
         end if
-    end if
+    end for
 
-    decodeResult = devinfo.CanDecodeVideo(streamInfo)
-    return decodeResult <> invalid and decodeResult.result
-
+    return true
 end function
 
 function getContainerType(meta as object) as string

@@ -76,6 +76,7 @@
   <interface>
     <field id="exit" type="integer" alwaysNotify="true" />
     <field id="parentItemID" type="string" />
+    <field id="canExitDown" type="boolean" value="true" />
     <field id="showOptions" type="boolean" alwaysNotify="true" />
     <field id="searchTerm" type="string" alwaysNotify="true" />
     <function name="unfocusAllButtons" />

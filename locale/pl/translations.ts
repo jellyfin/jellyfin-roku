@@ -801,464 +801,464 @@
     </message>
     <message>
         <source>Max Days Next Up</source>
-        <translation type="unfinished"></translation>
+        <translation>Maksymalna liczba dni w „Następne”</translation>
         <extracomment>Option Title in user setting screen</extracomment>
     </message>
     <message>
         <source>Set the maximum amount of days a show should stay in the &apos;Next Up&apos; list without watching it. Maximum value is 1000 days.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustaw maksymalną liczbę dni, przez które program ma pozostać na liście „Następne”, bez możliwości obejrzenia go. Maksymalna wartość to 1000 dni.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Playback Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Informacje o odtwarzaniu</translation>
     </message>
     <message>
         <source>Transcoding Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Informacje o transkodowaniu</translation>
     </message>
     <message>
         <source>Reason</source>
-        <translation type="unfinished"></translation>
+        <translation>Powód</translation>
     </message>
     <message>
         <source>Force Transcoding setting is enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustawienie wymuszania transkodowania jest włączone</translation>
     </message>
     <message>
         <source>Force Transcode option is enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Opcja „Wymuś transkodowanie” jest włączona</translation>
     </message>
     <message>
         <source>Video Codec</source>
-        <translation type="unfinished"></translation>
+        <translation>Kodek wideo</translation>
     </message>
     <message>
         <source>Audio Codec</source>
-        <translation type="unfinished"></translation>
+        <translation>Kodek audio</translation>
     </message>
     <message>
         <source>direct</source>
-        <translation type="unfinished"></translation>
+        <translation>bezpośrednio</translation>
     </message>
     <message>
         <source>Total Bitrate</source>
-        <translation type="unfinished"></translation>
+        <translation>Całkowita przepływność</translation>
     </message>
     <message>
         <source>Audio Channels</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanały audio</translation>
     </message>
     <message>
         <source>Stream Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Informacje o strumieniu</translation>
     </message>
     <message>
         <source>Codec</source>
-        <translation type="unfinished"></translation>
+        <translation>Kodek</translation>
     </message>
     <message>
         <source>Codec Tag</source>
-        <translation type="unfinished"></translation>
+        <translation>Tag kodeka</translation>
     </message>
     <message>
         <source>Level</source>
-        <translation type="unfinished"></translation>
+        <translation>Poziom</translation>
         <extracomment>Video profile level</extracomment>
     </message>
     <message>
         <source>Bit Rate</source>
-        <translation type="unfinished"></translation>
+        <translation>Przepływność</translation>
         <extracomment>Video streaming bit rate</extracomment>
     </message>
     <message>
         <source>Container</source>
-        <translation type="unfinished"></translation>
+        <translation>Kontener</translation>
         <extracomment>Video streaming container</extracomment>
     </message>
     <message>
         <source>Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Rozmiar</translation>
         <extracomment>Video size</extracomment>
     </message>
     <message>
         <source>Video range type</source>
-        <translation type="unfinished"></translation>
+        <translation>Typ zakresu wideo</translation>
     </message>
     <message>
         <source>Pixel format</source>
-        <translation type="unfinished"></translation>
+        <translation>Format pikseli</translation>
         <extracomment>Video pixel format</extracomment>
     </message>
     <message>
         <source>WxH</source>
-        <translation type="unfinished"></translation>
+        <translation>WxH</translation>
         <extracomment>Video width x height</extracomment>
     </message>
     <message>
         <source>Unable to find any albums or songs belonging to this artist</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie można znaleźć żadnych albumów ani utworów należących do tego wykonawcy</translation>
         <extracomment>Popup message when we find no audio data for an artist</extracomment>
     </message>
     <message>
         <source>Custom Subtitles</source>
-        <translation type="unfinished"></translation>
+        <translation>Niestandardowe napisy</translation>
         <extracomment>Name of a setting - custom subtitles that support CJK fonts</extracomment>
     </message>
     <message>
         <source>Replace Roku&apos;s default subtitle functions with custom functions. If fallback fonts are configured and enabled on the server, those fonts will be used. A CJK fallback font is required for CJK rendering. To support bold and italics, you must have additional font files with the words &quot;bold&quot;, &quot;italic&quot;, and &quot;bolditalic&quot; in the filename.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zastąp domyślne funkcje napisów Roku funkcjami niestandardowymi. Jeśli na serwerze skonfigurowano i włączono czcionki zapasowe, zostaną one użyte. Do renderowania CJK wymagana jest czcionka zapasowa CJK. Aby obsługiwać pogrubienie i kursywę, musisz mieć dodatkowe pliki czcionek ze słowami „bold”, „italic” i „bolditalic” w nazwie pliku.</translation>
         <extracomment>Description of a setting - custom subtitles that support CJK fonts</extracomment>
     </message>
     <message>
         <source>Text Subtitles Only</source>
-        <translation type="unfinished"></translation>
+        <translation>Tylko napisy tekstowe</translation>
         <extracomment>Name of a setting - should we hide subtitles that might transcode</extracomment>
     </message>
     <message>
         <source>Only display text subtitles to minimize transcoding.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyświetlaj tylko napisy tekstowe, aby zminimalizować konieczność transkodowania.</translation>
         <extracomment>Description of a setting - should we hide subtitles that might transcode</extracomment>
     </message>
     <message>
         <source>all</source>
-        <translation type="unfinished"></translation>
+        <translation>wszystko</translation>
         <extracomment>all will reset the searchTerm so all data will be availible</extracomment>
     </message>
     <message>
         <source>All</source>
-        <translation type="unfinished"></translation>
+        <translation>Wszystko</translation>
         <extracomment>All in filter</extracomment>
     </message>
     <message>
         <source>Aired</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyemitowano</translation>
         <extracomment>Aired date label</extracomment>
     </message>
     <message>
         <source>Slideshow Off</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokaz slajdów wyłączony</translation>
     </message>
     <message>
         <source>Slideshow On</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokaz slajdów włączony</translation>
     </message>
     <message>
         <source>Slideshow Paused</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokaz slajdów wstrzymany</translation>
     </message>
     <message>
         <source>(Favorites)</source>
-        <translation type="unfinished"></translation>
+        <translation>(Ulubione)</translation>
     </message>
     <message>
         <source>Favorites</source>
-        <translation type="unfinished"></translation>
+        <translation>Ulubione</translation>
     </message>
     <message>
         <source>Artists</source>
-        <translation type="unfinished"></translation>
+        <translation>Wykonawcy</translation>
     </message>
     <message>
         <source>Slideshow Resumed</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokaz slajdów wznowiono</translation>
     </message>
     <message>
         <source>Random Off</source>
-        <translation type="unfinished"></translation>
+        <translation>Losowe wyłączono</translation>
     </message>
     <message>
         <source>Random On</source>
-        <translation type="unfinished"></translation>
+        <translation>Losowe włączono</translation>
     </message>
     <message>
         <source>Delete Playlist</source>
-        <translation type="unfinished"></translation>
+        <translation>Usuń listę odtwarzania</translation>
     </message>
     <message>
         <source>MPEG-4 Support</source>
-        <translation type="unfinished"></translation>
+        <translation>Obsługa MPEG-4</translation>
         <extracomment>Settings Menu - Title for option</extracomment>
     </message>
     <message>
         <source>Parental Ratings</source>
-        <translation type="unfinished"></translation>
+        <translation>Oceny rodzicielskie</translation>
         <extracomment>Used in Filter menu</extracomment>
     </message>
     <message>
         <source>Collections</source>
-        <translation type="unfinished"></translation>
+        <translation>Kolekcje</translation>
     </message>
     <message>
         <source>Playlists</source>
-        <translation type="unfinished"></translation>
+        <translation>Listy odtwarzania</translation>
     </message>
     <message>
         <source>Years</source>
-        <translation type="unfinished"></translation>
+        <translation>Lata</translation>
         <extracomment>Used in Filter menu</extracomment>
     </message>
     <message>
         <source>No items found. Try adjusting your selected filters.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie znaleziono żadnych elementów. Spróbuj dostosować wybrane filtry.</translation>
     </message>
     <message>
         <source>Show What&apos;s New Popup</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokaż wyskakujące okienko „Co nowego”</translation>
         <extracomment>Settings Menu - Title for option</extracomment>
     </message>
     <message>
         <source>Show What&apos;s New popup when Jellyfin is updated to a new version.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokaż wyskakujące okienko „Co nowego”, gdy Jellyfin zostanie zaktualizowany do nowej wersji.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Unplayed</source>
-        <translation type="unfinished"></translation>
+        <translation>Nieodtworzone</translation>
     </message>
     <message>
         <source>Played</source>
-        <translation type="unfinished"></translation>
+        <translation>Odtworzone</translation>
     </message>
     <message>
         <source>Resumable</source>
-        <translation type="unfinished"></translation>
+        <translation>Wznawialne</translation>
     </message>
     <message>
         <source>Movie Library Default View</source>
-        <translation type="unfinished"></translation>
+        <translation>Domyślny widok biblioteki filmów</translation>
         <extracomment>Settings Menu - Title for option</extracomment>
     </message>
     <message>
         <source>Default view for Movie Libraries.</source>
-        <translation type="unfinished"></translation>
+        <translation>Domyślny widok bibliotek filmowych.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Grid View Item Titles</source>
-        <translation type="unfinished"></translation>
+        <translation>Tytuły elementów widoku siatki</translation>
         <extracomment>Title of a setting - when should we show the title text of a grid item</extracomment>
     </message>
     <message>
         <source>Select when to show titles in grid view.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz, kiedy tytuły mają być wyświetlane w widoku siatki.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Show On Hover</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokaż po najechaniu kursorem</translation>
     </message>
     <message>
         <source>Always Show</source>
-        <translation type="unfinished"></translation>
+        <translation>Zawsze pokazuj</translation>
     </message>
     <message>
         <source>Always Hide</source>
-        <translation type="unfinished"></translation>
+        <translation>Zawsze ukrywaj</translation>
     </message>
     <message>
         <source>Artists (Presentation)</source>
-        <translation type="unfinished"></translation>
+        <translation>Wykonawcy (prezentacja)</translation>
     </message>
     <message>
         <source>Album Artist</source>
-        <translation type="unfinished"></translation>
+        <translation>Wykonawca albumu</translation>
     </message>
     <message>
         <source>Album Artists (Presentation)</source>
-        <translation type="unfinished"></translation>
+        <translation>Wykonawcy albumu (prezentacja)</translation>
     </message>
     <message>
         <source>Artists (Grid)</source>
-        <translation type="unfinished"></translation>
+        <translation>Wykonawcy (siatka)</translation>
     </message>
     <message>
         <source>Album Artists (Grid)</source>
-        <translation type="unfinished"></translation>
+        <translation>Wykonawcy albumu (siatka)</translation>
     </message>
     <message>
         <source>Song</source>
-        <translation type="unfinished"></translation>
+        <translation>Piosenka</translation>
     </message>
     <message>
         <source>Songs</source>
-        <translation type="unfinished"></translation>
+        <translation>Piosenki</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation type="unfinished"></translation>
+        <translation>Album</translation>
     </message>
     <message>
         <source>Albums</source>
-        <translation type="unfinished"></translation>
+        <translation>Albumy</translation>
     </message>
     <message>
         <source>Autoplay Episode Limit</source>
-        <translation type="unfinished"></translation>
+        <translation>Limit automatycznego odtwarzania odcinków</translation>
     </message>
     <message>
         <source>The number of episodes that will play automatically after the selected episode. Requires &apos;Play next episode automatically&apos; server setting to be enabled.</source>
-        <translation type="unfinished"></translation>
+        <translation>Liczba odcinków, które zostaną odtworzone automatycznie po wybranym odcinku. Wymaga włączenia ustawienia serwera „Odtwórz następny odcinek automatycznie”.</translation>
     </message>
     <message>
         <source>View All</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokaż wszystko</translation>
     </message>
     <message>
         <source>Disable Community Rating for Episodes</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyłącz ocenę społeczności dla odcinków</translation>
     </message>
     <message>
         <source>Hide the star and community rating for episodes of a TV show. This is to prevent spoilers of an upcoming good/bad episode.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukryj gwiazdki i oceny społeczności dla odcinków serialu. Ma to na celu uniknięcie spoilerów nadchodzącego dobrego lub słabego odcinka.</translation>
     </message>
     <message>
         <source>Configure the maximum playback bitrate.</source>
-        <translation type="unfinished"></translation>
+        <translation>Skonfiguruj maksymalną przepływność odtwarzania.</translation>
     </message>
     <message>
         <source>Biographical information for this person is not currently available.</source>
-        <translation type="unfinished"></translation>
+        <translation>Informacje biograficzne na temat tej osoby nie są obecnie dostępne.</translation>
     </message>
     <message>
         <source>Enable Limit</source>
-        <translation type="unfinished"></translation>
+        <translation>Włącz ograniczenie</translation>
     </message>
     <message>
         <source>Enable or disable the &apos;Maximum Bitrate&apos; setting.</source>
-        <translation type="unfinished"></translation>
+        <translation>Włącz lub wyłącz ustawienie „Maksymalna przepływność”.</translation>
     </message>
     <message>
         <source>Bitrate Limit</source>
-        <translation type="unfinished"></translation>
+        <translation>Ograniczenie przepływności</translation>
     </message>
     <message>
         <source>Maximum Bitrate</source>
-        <translation type="unfinished"></translation>
+        <translation>Maksymalna przepływność</translation>
     </message>
     <message>
         <source>Set the maximum bitrate in Mbps. Set to 0 to use Roku&apos;s specifications. This setting must be enabled to take effect.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustaw maksymalną przepływność w Mb/s. Ustaw na 0, aby korzystać ze specyfikacji Roku. To ustawienie musi być włączone, aby zadziałało.</translation>
     </message>
     <message>
         <source>Libraries</source>
-        <translation type="unfinished"></translation>
+        <translation>Biblioteki</translation>
     </message>
     <message>
         <source>Settings relating to the appearance of Library pages</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustawienia dotyczące wyglądu stron biblioteki</translation>
     </message>
     <message>
         <source>General</source>
-        <translation type="unfinished"></translation>
+        <translation>Ogólne</translation>
     </message>
     <message>
         <source>Settings relating to the appearance of the Home screen and the program in general.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustawienia dotyczące wyglądu ekranu głównego i programu ogólnie.</translation>
     </message>
     <message>
         <source>Grid View Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustawienia widoku siatki</translation>
     </message>
     <message>
         <source>Settings that apply when Grid views are enabled.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustawienia obowiązujące po włączeniu widoków siatki.</translation>
     </message>
     <message>
         <source>Settings relating to the appearance of pages in TV Libraries.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustawienia dotyczące wyglądu stron w bibliotekach telewizyjnych.</translation>
     </message>
     <message>
         <source>Settings relating to the appearance of pages in Movie Libraries.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustawienia dotyczące wyglądu stron w bibliotekach filmowych.</translation>
     </message>
     <message>
         <source>Presentation</source>
-        <translation type="unfinished"></translation>
+        <translation>Prezentacja</translation>
         <extracomment>Title of an option - name of presentation view</extracomment>
     </message>
     <message>
         <source>Grid</source>
-        <translation type="unfinished"></translation>
+        <translation>Siatka</translation>
         <extracomment>Title of an option - name of grid view</extracomment>
     </message>
     <message>
         <source>Disable Unwatched Episode Count</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyłącz licznik nieobejrzanych odcinków</translation>
         <extracomment>Settings Menu - Title for option</extracomment>
     </message>
     <message>
         <source>If enabled, the number of unwatched episodes in a series/season will be removed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Jeśli ta opcja jest włączona, liczba nieobejrzanych odcinków danego serialu/sezonu zostanie usunięta.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Loading trailer</source>
-        <translation type="unfinished"></translation>
+        <translation>Wczytywanie zwiastunu</translation>
         <extracomment>Dialog title in Main.brs</extracomment>
     </message>
     <message>
         <source>Next Episode Button Time</source>
-        <translation type="unfinished"></translation>
+        <translation>Czas przycisku następnego odcinka</translation>
         <extracomment>Settings Menu - Title for option</extracomment>
     </message>
     <message>
         <source>Set how many seconds before the end of an episode the Next Episode button should appear. Set to 0 to disable.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustaw, ile sekund przed końcem odcinka ma pojawić się przycisk „Pomiń zakończenie”, jeśli nie istnieje segment multimedialny Zakończenie. Ustaw 0, aby wyłączyć.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Preferred Audio Codec</source>
-        <translation type="unfinished"></translation>
+        <translation>Preferowany kodek audio</translation>
         <extracomment>Settings Menu - Title of option</extracomment>
     </message>
     <message>
         <source>Use the selected audio codec for transcodes. If the device or stream does not support it, a fallback codec will be used.</source>
-        <translation type="unfinished"></translation>
+        <translation>Użyj wybranego kodeka audio do transkodowania. Jeśli urządzenie lub strumień go nie obsługuje, zostanie użyty kodek zapasowy.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Video Codec Support</source>
-        <translation type="unfinished"></translation>
+        <translation>Obsługa kodeków wideo</translation>
         <extracomment>Settings Menu - Title for option</extracomment>
     </message>
     <message>
         <source>Enable or disable Direct Play support for certain codecs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Włącz lub wyłącz obsługę bezpośredniego odtwarzania dla niektórych kodeków.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Video Profile Level Support</source>
-        <translation type="unfinished"></translation>
+        <translation>Obsługa poziomu profilu wideo</translation>
         <extracomment>Settings Menu - Title for option</extracomment>
     </message>
     <message>
         <source>Attempt Direct Play of potentially unsupported profile levels</source>
-        <translation type="unfinished"></translation>
+        <translation>Spróbuj bezpośredniego odtwarzania potencjalnie nieobsługiwanych poziomów profilu</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Use system settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Użyj ustawień systemowych</translation>
         <extracomment>User Setting - Option title</extracomment>
     </message>
     <message>
         <source>Direct playing</source>
-        <translation type="unfinished"></translation>
+        <translation>Odtwarzanie bezpośrednie</translation>
     </message>
     <message>
         <source>The source file is entirely compatible with this client and the session is receiving the file without modifications.</source>
-        <translation type="unfinished"></translation>
+        <translation>Plik źródłowy jest w pełni kompatybilny z tym klientem, a sesja odbiera plik bez modyfikacji.</translation>
         <extracomment>Direct play info box text in GetPlaybackInfoTask.brs</extracomment>
     </message>
     <message>
         <source>Maximum Resolution</source>
-        <translation type="unfinished"></translation>
+        <translation>Maksymalna rozdzielczość</translation>
         <extracomment>User Setting - Title</extracomment>
     </message>
     <message>
         <source>Set the maximum resolution when playing video files on this device.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustaw maksymalną rozdzielczość podczas odtwarzania plików wideo na tym urządzeniu.</translation>
         <extracomment>User Setting - Description</extracomment>
     </message>
     <message>

@@ -2374,5 +2374,41 @@
         <source>Force live TV to be transcoded. If All Playable Media is already set to Force Transcode (Remux Disabled), this setting is ignored.</source>
         <translation>Força la transcodificació de la televisió en directe. Si ja s&apos;ha establert que es forci a tots els continguts multimèdia a transcodificar (Remux inhabilitat), aquesta configuració s&apos;ignora.</translation>
     </message>
+    <message>
+        <source>tracks</source>
+        <translation>pistes</translation>
+    </message>
+    <message>
+        <source>Subtitles</source>
+        <translation>Subtítols</translation>
+    </message>
+    <message>
+        <source>No Default</source>
+        <translation>Res per defecte</translation>
+    </message>
+    <message>
+        <source>Replace Roku&apos;s default subtitle functions with custom functions. If fallback fonts are configured and enabled on the server, those fonts will be used. A CJK fallback font is required for CJK rendering. To support bold and italics, you must have additional font files with the words &quot;bold&quot;, &quot;italic&quot;, and &quot;bolditalic&quot; in the filename.</source>
+        <translation>Substitueix les funcions de subtítols predeterminades de Roku per funcions personalitzades. Si les fonts alternatives estan configurades i habilitades al servidor, s&apos;utilitzaran aquestes fonts. Es requereix una font alternativa CJK per a la renderització CJK. Per a poder fer servir negretes i cursives, heu de tenir fitxers de fonts addicionals amb les paraules &quot;bold&quot;, &quot;italic&quot; i &quot;bolditalic&quot; al nom del fitxer.</translation>
+    </message>
+    <message>
+        <source>Roku&apos;s video player got stuck buffering video</source>
+        <translation>El reproductor de vídeo de Roku s&apos;ha penjat en recuperar un vídeo</translation>
+    </message>
+    <message>
+        <source>Roku&apos;s video player threw the following error</source>
+        <translation>El reproductor de vídeo de Roku ha enviat l&apos;error següent</translation>
+    </message>
+    <message>
+        <source>Roku thought it could direct play this media, but playback never started.</source>
+        <translation>Roku ha intentat reproduir directament aquest contingut, però la reproducció no s&apos;ha produït.</translation>
+    </message>
+    <message>
+        <source>Always Attempt Direct Playing Video Media</source>
+        <translation>Intenta sempre la reproducció directa de continguts de vídeo</translation>
+    </message>
+    <message>
+        <source>Forces Jellyfin to try direct playing video media, Live TV excluded. Enabling this ignores all other playback support settings and will always first attempt direct playback. It also changes how transcode reason is displayed.</source>
+        <translation>Força Jellyfin a intentar la reproducció directa de vídeos, excloent la TV en directe. Si activeu aquesta opció, s&apos;ignoraran totes les altres configuracions de reproducció i sempre s&apos;intentarà primer la reproducció directa. També canvia com es mostra el motiu de la transcodificació.</translation>
+    </message>
 </context>
 </TS>

@@ -1458,87 +1458,87 @@
     </message>
     <message>
         <source>Use Web Client&apos;s Home Section Arrangement</source>
-        <translation type="unfinished"></translation>
+        <translation>استخدم ترتيبات تقسيم صفحة عميل الويب الرئيسية</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Make the arrangement of the Roku home view sections match the web client&apos;s home screen. Jellyfin will need to be closed and reopened for change to take effect.</source>
-        <translation type="unfinished"></translation>
+        <translation>مطابقة ترتيب مظهر أقسام صفحة Roku الرئيسية مع صفحة عميل الويب الرئيسية. Jellyfin يحتاج لإغلاقه ثم تشغيله مجددا لتطبيق التغيير.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
         <source>Welcome to version</source>
-        <translation type="unfinished"></translation>
+        <translation>مرحبا في الاصدار</translation>
         <extracomment>WhatsNewDialog title - Welcome to version 2.0.0</extracomment>
     </message>
     <message>
         <source>To view a complete list of changes visit</source>
-        <translation type="unfinished"></translation>
+        <translation>لعرض لائحة كاملة بالتغييرات زُر</translation>
         <extracomment>WhatsNewDialog body text preceding the changelog URL</extracomment>
     </message>
     <message>
         <source>Random</source>
-        <translation type="unfinished"></translation>
+        <translation>عشوائي</translation>
         <extracomment>General use word when we want to randomize data</extracomment>
     </message>
     <message>
         <source>... (Press * to read more)</source>
-        <translation type="unfinished"></translation>
+        <translation>... (اضغط * لقراءة المزيد)</translation>
         <extracomment>Ellipsis Text for when text overflows its container</extracomment>
     </message>
     <message>
         <source>Item Detail Screen</source>
-        <translation type="unfinished"></translation>
+        <translation>شاشة تفاصيل العنصر</translation>
         <extracomment>User interface Menu - Title for option</extracomment>
     </message>
     <message>
         <source>Settings relating to the appearance of the item detail screen.</source>
-        <translation type="unfinished"></translation>
+        <translation>الاعدادات المرتبطة مع مظهر شاشة تفاصيل العنصر.</translation>
         <extracomment>User interface Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Community and Critical Ratings</source>
-        <translation type="unfinished"></translation>
+        <translation>تقييمات المجتمع و ذات الاهمية</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Ratings for how good a movie is</source>
-        <translation type="unfinished"></translation>
+        <translation>مشاهدة تقييمات المجتمع و ذات الاهمية من Rotten Tomatoes.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
         <source>Overview Content</source>
-        <translation type="unfinished"></translation>
+        <translation>مراجعة المحتوى</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>A quick overview of the item selected - typically a short plot outline.</source>
-        <translation type="unfinished"></translation>
+        <translation>مراجعة سريعة للعنصر المختار - عادة للملخص القصير.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
         <source>Settings relating to the appearance of Library pages.</source>
-        <translation type="unfinished"></translation>
+        <translation>الاعدادات ذات الصلة بمظهر صفحات المكتبة.</translation>
         <extracomment>Libraries Setting - Setting description</extracomment>
     </message>
     <message>
         <source>Forget Filters</source>
-        <translation type="unfinished"></translation>
+        <translation>نسيان المصافي</translation>
         <extracomment>Libraries Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Forget applied library filters when Jellyfin is closed.</source>
-        <translation type="unfinished"></translation>
+        <translation>نسيات مصافي المكتبات المطبقة عند اغلاق Jellyfin.</translation>
         <extracomment>Libraries Setting - Setting description</extracomment>
     </message>
     <message>
         <source>Library Landscape Column Count</source>
-        <translation type="unfinished"></translation>
+        <translation>عدد عواميد المكتبة الافقية</translation>
         <extracomment>Libraries Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Number of columns in library view when showing landscape (wide) images</source>
-        <translation type="unfinished"></translation>
+        <translation>عدد العواميد في مظهر المكتبة عند اختيار صور النمط الافقي (عريض)</translation>
         <extracomment>Libraries Setting - Setting description</extracomment>
     </message>
     <message>
@@ -2397,6 +2397,18 @@
     <message>
         <source>Force live TV to be transcoded. If All Playable Media is already set to Force Transcode (Remux Disabled), this setting is ignored.</source>
         <translation>فرض إعادة ترميز البث التلفزيوني المباشر. إذا كان خيار “جميع الوسائط القابلة للتشغيل” مضبوطًا بالفعل على “فرض إعادة الترميز (مع تعطيل Remux)” فسيتم تجاهل هذا الإعداد.</translation>
+    </message>
+    <message>
+        <source>Subtitles</source>
+        <translation>الترجمات</translation>
+    </message>
+    <message>
+        <source>tracks</source>
+        <translation>مسارات</translation>
+    </message>
+    <message>
+        <source>No Default</source>
+        <translation>لا افتراض</translation>
     </message>
 </context>
 </TS>

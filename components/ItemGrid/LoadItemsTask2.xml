@@ -21,6 +21,6 @@
     <field id="numberOfColumns" type="integer" value="7" />
     <!-- Total records available from server-->
     <field id="totalRecordCount" type="int" value="-1" />
-    <field id="content" type="array" />
+    <field id="content" type="array" alwaysNotify="true" />
   </interface>
 </component>
