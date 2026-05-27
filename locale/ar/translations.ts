@@ -1518,27 +1518,27 @@
     </message>
     <message>
         <source>Settings relating to the appearance of Library pages.</source>
-        <translation type="unfinished"></translation>
+        <translation>الاعدادات ذات الصلة بمظهر صفحات المكتبة.</translation>
         <extracomment>Libraries Setting - Setting description</extracomment>
     </message>
     <message>
         <source>Forget Filters</source>
-        <translation type="unfinished"></translation>
+        <translation>نسيان المصافي</translation>
         <extracomment>Libraries Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Forget applied library filters when Jellyfin is closed.</source>
-        <translation type="unfinished"></translation>
+        <translation>نسيات مصافي المكتبات المطبقة عند اغلاق Jellyfin.</translation>
         <extracomment>Libraries Setting - Setting description</extracomment>
     </message>
     <message>
         <source>Library Landscape Column Count</source>
-        <translation type="unfinished"></translation>
+        <translation>عدد عواميد المكتبة الافقية</translation>
         <extracomment>Libraries Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Number of columns in library view when showing landscape (wide) images</source>
-        <translation type="unfinished"></translation>
+        <translation>عدد العواميد في مظهر المكتبة عند اختيار صور النمط الافقي (عريض)</translation>
         <extracomment>Libraries Setting - Setting description</extracomment>
     </message>
     <message>
