@@ -1308,6 +1308,10 @@ sub onButtonSelectedEvent(msg)
 
     ' User chose Play button from movie detail view
     if isStringEqual(btn, "play-button")
+        MainAction.onResumeButtonClicked(activeScene)
+        return
+    end if
+    if isStringEqual(btn, "play-from-beginning-button")
         MainAction.onPlayButtonClicked(activeScene)
         return
     end if

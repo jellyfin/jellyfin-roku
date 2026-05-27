@@ -9,30 +9,17 @@ namespace MainAction
     sub onPlayButtonClicked(activeScene as object)
         startLoadingSpinner()
         activeScene.itemContent.id = chainLookup(activeScene, "selectedVideoStreamId")
-
-        ' Check if a specific Audio Stream was selected
         activeScene.itemContent.selectedAudioStreamIndex = chainLookup(activeScene, "selectedAudioStreamIndex") ?? 0
+        activeScene.itemContent.startingPoint = 0
+        playItem(activeScene.itemContent, { method: "push", bypassNextPreferredAudioTrackIndexReset: true })
+    end sub
 
-        playbackPositionTicks = chainLookup(activeScene, "itemContent.json.userdata.PlaybackPositionTicks") ?? 0
-
-        ' Display playback options dialog
-        if playbackPositionTicks > 0
-            m.global.queueManager.callFunc("hold", activeScene.itemContent)
-            playbackOptionDialog(playbackPositionTicks, activeScene.itemContent.json)
-        else
-            playItem(activeScene.itemContent, { method: "push", bypassNextPreferredAudioTrackIndexReset: true })
-        end if
-
-        if isChainValid(activeScene, "lastFocus.id") and isStringEqual(activeScene.lastFocus.id, "main_group")
-            buttons = activeScene.findNode("buttons")
-            if isValid(buttons)
-                activeScene.lastFocus = activeScene.findNode("buttons")
-            end if
-        end if
-
-        if isChainValid(activeScene, "lastFocus")
-            activeScene.lastFocus.setFocus(true)
-        end if
+    sub onResumeButtonClicked(activeScene as object)
+        startLoadingSpinner()
+        activeScene.itemContent.id = chainLookup(activeScene, "selectedVideoStreamId")
+        activeScene.itemContent.selectedAudioStreamIndex = chainLookup(activeScene, "selectedAudioStreamIndex") ?? 0
+        activeScene.itemContent.startingPoint = chainLookup(activeScene, "itemContent.json.UserData.PlaybackPositionTicks") ?? 0
+        playItem(activeScene.itemContent, { method: "push", bypassNextPreferredAudioTrackIndexReset: true })
     end sub
 
     sub onPartButtonClicked(activeScene as object)
