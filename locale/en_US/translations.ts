@@ -49,6 +49,10 @@
             <translation>Play</translation>
         </message>
         <message>
+            <source>Play from beginning</source>
+            <translation>Play from beginning</translation>
+        </message>
+        <message>
             <source>Please sign in</source>
             <translation>Please sign in</translation>
         </message>
@@ -622,6 +626,10 @@
         <message>
             <source>Resume playing at </source>
             <translation>Resume playing at </translation>
+        </message>
+        <message>
+            <source>Resume from</source>
+            <translation>Resume from</translation>
         </message>
         <message>
             <source>Start over from the beginning.</source>
