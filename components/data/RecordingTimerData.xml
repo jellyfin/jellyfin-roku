@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component name="RecordingTimerData" extends="JFContentItem">
+  <interface>
+    <field id="startDate" type="string" />
+    <field id="endDate" type="string" />
+    <field id="recordingStart" type="longInteger" />
+    <field id="recordingEnd" type="longInteger" />
+    <field id="recordingDuration" type="longInteger" />
+  </interface>
+</component>

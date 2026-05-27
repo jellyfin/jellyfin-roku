@@ -35,6 +35,8 @@ sub init()
     m.LoadProgramDetailsTask = createObject("roSGNode", "LoadProgramDetailsTask")
     m.LoadProgramDetailsTask.observeField("programDetails", "onProgramDetailsLoaded")
 
+    m.LoadRecordingTimerTask = createObject("roSGNode", "LoadRecordingTimerTask")
+
     ' Hide the overhang on init to prevent showing 2 clocks
     m.top.getScene().findNode("overhang").visible = false
     currentItem = m.global.queueManager.callFunc("getCurrentItem")
@@ -74,6 +76,8 @@ sub init()
     m.chapterContent = m.top.findNode("chapterContent")
     m.osd = m.top.findNode("osd")
     m.osd.observeField("action", "onOSDAction")
+    m.osd.isRecording = false
+    m.osd.recordingOffset = 0
     m.clock = m.osd.findNode("clock")
     if isValid(m.clock)
         m.clockTimer = m.clock.findNode("currentTimeTimer")
@@ -856,6 +860,7 @@ sub onVideoContentLoaded()
 
     m.top.setFocus(true)
     m.osd.live = m.top.content.live
+    refreshLiveOSDContent()
 
     m.top.control = VideoControl.PLAY
 end sub
@@ -1370,9 +1375,7 @@ sub onState(msg)
         m.osd.isSeeking = false
         ' If this is a LiveTV session and we haven't yet set the Live TV Start Time (to ignore rebuffering/retries) then set the Live TV Start Time
         if m.top.content.live and m.osd.liveTvStartTime = 0
-            m.clock = m.osd.findNode("clock")
-            if not isValid(m.clock) then return
-            m.osd.liveTvStartTime = m.clock.callFunc("getCurrentTime")
+            setLiveTvValues()
         end if
 
         if not m.top.content.live
@@ -1396,6 +1399,54 @@ sub onState(msg)
         ReportPlayback("stop")
         m.playReported = false
     end if
+end sub
+
+' setLiveTvValues: Set appropriate values for Live TV sessions, including calculating recording offset and live TV rewind limit for recordings that are in progress.  This is intended to be called at the start of a Live TV session, and will check if the Live TV session is also a recording that is in progress to set additional values.
+'
+sub setLiveTvValues()
+    if not isValid(m.clock) then return
+
+    liveTvStartTime = m.clock.callFunc("getCurrentTime")
+    ' Determine if this is a recording that is in progress, and if so then attempt to set values appropriately.
+    if isValid(m.LoadProgramDetailsTask) and m.LoadProgramDetailsTask.programDetails.json.type = "Recording"
+        ' Determine if we were able to get the recording timer.  If we were not then we will just treat this as a Live TV session
+        if m.LoadProgramDetailsTask.programDetails.json.Status = "InProgress" and isChainValid(m.LoadProgramDetailsTask, "programDetails.json.TimerId")
+            ' The create date time is stored in local time zone, but start and end date times are stored in UTC (Why?)  We will do all time calculations in the local time zone.
+
+            createDate = createObject("roDateTime")
+            createDate.FromISO8601String(m.LoadProgramDetailsTask.programDetails.json.DateCreated)
+
+            startDate = createObject("roDateTime")
+            startDate.FromISO8601String(m.LoadRecordingTimerTask.recordingTimerDetails.json.StartDate)
+            startDate.toLocalTime()
+
+            endDate = createObject("roDateTime")
+            endDate.FromISO8601String(m.LoadRecordingTimerTask.recordingTimerDetails.json.EndDate)
+            endDate.toLocalTime()
+
+            ' Create date includes any prepadding time, but we need to subtract/add pre/post padding to the start/end date to get the total planned duration.
+            recordingCreateInSeconds = createDate.AsSeconds()
+            recordingStartInSeconds = startDate.AsSeconds() - m.LoadRecordingTimerTask.recordingTimerDetails.json.PrePaddingSeconds
+            recordingEndInSeconds = endDate.AsSeconds() + m.LoadRecordingTimerTask.recordingTimerDetails.json.PostPaddingSeconds
+            durationInSeconds = recordingEndInSeconds - recordingStartInSeconds
+
+            ' If the recording started after the beginning program time, then set a recording offset
+            if recordingCreateInSeconds <= recordingStartInSeconds
+                m.osd.recordingOffset = 0
+            else
+                m.osd.recordingOffset = recordingCreateInSeconds - recordingStartInSeconds
+                ' Check that recordingOffset is within the bounds of the recording duration.  If not, set recording offset to 0 to avoid OSD issues
+                if m.osd.recordingOffset < 0 or m.osd.recordingOffset > durationInSeconds
+                    m.osd.recordingOffset = 0
+                end if
+            end if
+            m.osd.liveTvRewindLimit = durationInSeconds
+
+            liveTvStartTime = recordingStartInSeconds
+            m.osd.recordingStartTime = createDate.AsSeconds()
+        end if
+    end if
+    m.osd.liveTvStartTime = liveTvStartTime
 end sub
 
 sub playbackCheck()
@@ -1581,6 +1632,16 @@ sub skipCurrentSegment()
 end sub
 
 sub onProgramDetailsLoaded()
+    if m.top.content.live and m.LoadProgramDetailsTask.programDetails.json.type = "Recording"
+        if isChainValid(m.LoadProgramDetailsTask, "programDetails.json.TimerId") and m.LoadProgramDetailsTask.programDetails.json.Status = "InProgress"
+            ' Only load the recording timer once by checking if LoadRecordingTimerTask is already valid.  This also handles the case where we fail to load the recording timer - we won't keep trying to load it on every program details refresh.
+            if isValid(m.LoadRecordingTimerTask) and not isChainValid(m.LoadRecordingTimerTask, "recordingTimerDetails.json.Status")
+                m.osd.isRecording = true
+                m.LoadRecordingTimerTask.timerId = m.LoadProgramDetailsTask.programDetails.json.TimerId
+                m.LoadRecordingTimerTask.control = TaskControl.RUN
+            end if
+        end if
+    end if
     ' CurrentProgram can be invalid if we're coming from search results for a show that is not currently airing
     if not isChainValid(m.LoadProgramDetailsTask, "programDetails.json.CurrentProgram") then return
 
