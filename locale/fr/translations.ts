@@ -2357,5 +2357,41 @@
         <source>Use at your own risk. We make no guarantees this will work for you. \n 1. This feature may not work on this device, yet work on others \n 2. Some speed options may not work on this device, yet work on others \n 3. Roku may block this feature without warning; even if the Jellyfin client doesn&apos;t update</source>
         <translation>Utilisez cette fonctionnalité à vos propres risques. Nous ne garantissons pas qu&apos;elle fonctionnera dans votre cas. \n 1. Il se peut que cette fonctionnalité ne fonctionne pas sur cet appareil, mais qu&apos;elle fonctionne sur d&apos;autres \n 2. Il se peut que certaines options de vitesse ne fonctionnent pas sur cet appareil, mais qu&apos;elles fonctionnent sur d&apos;autres \n 3. Roku peut bloquer cette fonctionnalité sans préavis, même si le client Jellyfin ne se met pas à jour</translation>
     </message>
+    <message>
+        <source>Subtitles</source>
+        <translation>Sous-titres</translation>
+    </message>
+    <message>
+        <source>tracks</source>
+        <translation>Pistes</translation>
+    </message>
+    <message>
+        <source>Force media to be transcoded.</source>
+        <translation>Forcer le transcodage du média.</translation>
+    </message>
+    <message>
+        <source>Search Unavailable</source>
+        <translation type="unfinished">Recherche indisponible</translation>
+    </message>
+    <message>
+        <source>Roku&apos;s video player got stuck buffering video</source>
+        <translation type="unfinished">Le lecteur vidéo Roku est bloqué en cours de chargement</translation>
+    </message>
+    <message>
+        <source>Roku&apos;s video player threw the following error</source>
+        <translation type="unfinished">Le lecteur vidéo Roku a renvoyé l&apos;erreur suivante</translation>
+    </message>
+    <message>
+        <source>Roku thought it could direct play this media, but playback never started.</source>
+        <translation>Roku pensait pouvoir lire ce média en lecture directe, mais la lecture n&apos;a jamais démarré.</translation>
+    </message>
+    <message>
+        <source>Always Attempt Direct Playing Video Media</source>
+        <translation>Toujours tenter la lecture directe des médias vidéo</translation>
+    </message>
+    <message>
+        <source>Forces Jellyfin to try direct playing video media, Live TV excluded. Enabling this ignores all other playback support settings and will always first attempt direct playback. It also changes how transcode reason is displayed.</source>
+        <translation type="unfinished">Force Jellyfin à tenter la lecture directe des médias vidéo, à l&apos;exception de la TV en direct. L&apos;activation de cette option ignore tous les autres paramètres de prise en charge de la lecture et tentera toujours la lecture directe en priorité. Cela modifie également la manière dont la raison du transcodage est affichée.</translation>
+    </message>
 </context>
 </TS>

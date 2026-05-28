@@ -1403,6 +1403,7 @@ sub onSearchTermChanged()
 
         m.dropdownOptionGroup@.setSearchHintText(string.EMPTY)
         m.top.alphaSelected = searchTerm
+        m.dropdownOptionGroup@.setSearchBackground(SearchButtonState.INACTIVE)
         return
     end if
 
