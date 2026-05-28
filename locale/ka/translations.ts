@@ -757,7 +757,7 @@
     </message>
     <message>
         <source>Cinema Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>კინოს რეჟიმი</translation>
         <extracomment>Settings Menu - Title for option</extracomment>
     </message>
     <message>
@@ -767,7 +767,7 @@
     </message>
     <message>
         <source>Hide Clock</source>
-        <translation type="unfinished"></translation>
+        <translation>საათის დამალვა</translation>
         <extracomment>Option Title in user setting screen</extracomment>
     </message>
     <message>
