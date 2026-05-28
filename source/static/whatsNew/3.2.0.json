@@ -102,5 +102,9 @@
   {
     "description": "Fix crash when subtitle cue has no text content",
     "author": "ferezvi"
+  },
+  {
+    "description": "Honor alignment tags in SRT subtitles for correct on-screen positioning",
+    "author": "ferezvi"
   }
 ]
