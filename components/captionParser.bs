@@ -1,0 +1,212 @@
+' ==================== VTT PARSER ====================
+' Map WebVTT AN (Accessibility Notation) alignment tags to line and position percentages
+' AN values reference: https://www.w3.org/TR/webvtt1/#webvtt-cue-text-alignment
+' Mapping based on common SRT/VTT conventions:
+'   - Horizontal: left=20%, center=default, right=80%
+'   - Vertical: top=10%, middle=50%, bottom=default(90%)
+function getAnPositionDict() as object
+    return {
+        "1": { "line": "90%", "position": "20%" }, ' bottom left
+        "2": { "line": "90%", "position": "50%" }, ' bottom center (default position)
+        "3": { "line": "90%", "position": "80%" }, ' bottom right
+        "4": { "line": "50%", "position": "20%" }, ' middle left
+        "5": { "line": "50%", "position": "50%" }, ' middle center (default position)
+        "6": { "line": "50%", "position": "80%" }, ' middle right
+        "7": { "line": "10%", "position": "20%" }, ' top left
+        "8": { "line": "10%", "position": "50%" }, ' top center (default position)
+        "9": { "line": "10%", "position": "80%" } ' top right
+    }
+end function
+
+function parseVTT(lines)
+    ' Regex to remove undesirable tags: AN alignment tags, escaped HTML entities, and unsupported HTML tags
+    undesirableTags = CreateObject("roRegex", "{\\an\d*}|&lt;.*?&gt;|<(?!\/?(?:font|b|i)\b).*?>", "s")
+    anRegex = CreateObject("roRegex", "{\\an(\d)}", "")
+
+    lines = lines.replace(" --> ", chr(31) + chr(10))
+    lines = lines.replace(": ", ":")
+
+    lines = lines.split(chr(10))
+    curStart = -1
+    curEnd = -1
+    entries = []
+
+    currentLine = []
+    entry = {}
+
+    isNewLine = false
+
+    for i = 0 to lines.count() - 1
+        if isTime(lines[i])
+            currentLine = []
+
+            curStart = toMs(lines[i])
+            lineData = extractStyles(lines[i + 1])
+            curEnd = toMs(lineData.LookupCI("endTimestamp"))
+            curstyles = chainLookup(lineData, "styles")
+            entry = { "start": curStart, "end": curEnd, "styles": curstyles, "id": `caption${i}` }
+            isNewLine = true
+
+            i += 1
+            continue for
+        end if
+
+        if isNewLine
+            trimmed = lines[i].trim()
+
+            ' Check for AN alignment tag and map to line and position styles
+            ' Only apply if line/position are not already explicitly set in the cue settings
+            anMatch = anRegex.Match(trimmed)
+            if anMatch.Count() > 0
+                anDict = getAnPositionDict()
+                anStyles = anDict.LookupCI(anMatch[1])
+                if isValid(anStyles)
+                    ' Only override if styles are still at their default values
+                    if not isValid(entry["styles"].LookupCI("line"))
+                        entry["styles"].AddReplace("line", anStyles.line)
+                    end if
+                    if not isValid(entry["styles"].LookupCI("position"))
+                        entry["styles"].AddReplace("position", anStyles.position)
+                    end if
+                end if
+            end if
+
+            finalText = undesirableTags.replaceAll(trimmed, "")
+
+            ' We reached a blank line
+            if isStringEqual(finalText, string.EMPTY)
+                entry.AddReplace("text", currentLine)
+                entries.push(entry)
+                ' This is a false positive in bslint due to
+                ' https://github.com/rokucommunity/bslint/issues/47
+                ' bs:disable-next-line
+                isNewLine = false
+
+                continue for
+            end if
+
+            ' We're inside a text block
+            currentLine.push(finalText)
+
+            ' We reached the end of the file and it doesn't end with a blank line
+            if i = (lines.count() - 1)
+                entry.AddReplace("text", currentLine)
+                entries.push(entry)
+
+                exit for
+            end if
+
+        end if
+    end for
+
+    return entries
+end function
+
+function isTime(text)
+    return text.right(1) = chr(31)
+end function
+
+function toMs(t)
+    t = t.replace(".", ":")
+    t = t.left(12)
+    timestamp = t.tokenize(":")
+    return 3600000 * timestamp[0].toint() + 60000 * timestamp[1].toint() + 1000 * timestamp[2].toint() + timestamp[3].toint()
+end function
+
+function extractStyles(lineData as string) as object
+    returnData = {
+        endTimestamp: "",
+        styles: {}
+    }
+
+    lineDataArray = lineData.split(" ")
+    returnData.endTimestamp = lineDataArray.shift()
+
+    for each style in lineDataArray
+        styleData = style.split(":")
+        styleDataPositionAlign = styleData[1].split(",")
+        returnData.styles.addreplace(styleData[0], styleDataPositionAlign[0])
+    end for
+
+    return returnData
+end function
+
+function processPositionCue(captionPosition as string, captionLineWidth as float) as integer
+    calculatedPosition = 1920 * (val(captionPosition) / 100)
+
+    if calculatedPosition + captionLineWidth > 1920
+        calculatedPosition = 1920 - captionLineWidth
+    end if
+
+    if calculatedPosition < 0
+        calculatedPosition = 0
+    end if
+
+    return calculatedPosition
+end function
+
+function processLineCue(captionLine as string, captionLineHeight as float, captionTotalHeight as float) as integer
+    ' A percentage
+    if captionLine.Instr("%") <> -1
+        calculatedPosition = SCREEN_PADDING + VIEWABLE_AREA * (val(captionLine) / 100)
+    else
+        ' Note: Non-numeric values are treated as 0
+        lineValue = val(captionLine)
+
+        if lineValue = 0 then return SCREEN_PADDING
+
+        if lineValue > 0
+            ' A positive line value. Count from the top
+            calculatedPosition = SCREEN_PADDING + lineValue * captionLineHeight
+        else
+            ' A negative line value. Count from the bottom
+            calculatedPosition = LOWEST_CAPTION - Abs(lineValue * captionLineHeight)
+        end if
+    end if
+
+    if calculatedPosition + captionTotalHeight > LOWEST_CAPTION
+        return LOWEST_CAPTION - captionTotalHeight
+    end if
+
+    if calculatedPosition < SCREEN_PADDING
+        return SCREEN_PADDING
+    end if
+
+    return calculatedPosition
+end function
+
+function prepareStyles(styles as object, rect, lineCount = 1 as integer) as object
+    captionStyles = styles
+    finalStyles = { translation: [960, LOWEST_CAPTION] }
+
+    verticalPosition = LOWEST_CAPTION
+    horizontalPositon = 960 - (rect.BoundingRect().width / 2)
+
+    ' Use isValid instead of isValidAndNotEmpty to allow empty style objects ({})
+    ' to continue processing. An empty AA is valid — it just has no explicit cues.
+    if not isValid(captionStyles)
+        return finalStyles
+    end if
+
+    captionLine = chainLookupReturn(captionStyles, "line", string.EMPTY)
+    captionPosition = chainLookupReturn(captionStyles, "position", string.EMPTY)
+
+    ' Line
+    ' If no line cue is present, position the caption so its bottom edge sits at LOWEST_CAPTION.
+    ' Previously this case was never handled, causing captions to render off-screen.
+    captionLineHeight = (rect.BoundingRect().height / lineCount)
+    if isStringEqual(captionLine, string.EMPTY)
+        verticalPosition = LOWEST_CAPTION - rect.BoundingRect().height
+    else
+        verticalPosition = processLineCue(captionLine, captionLineHeight, rect.BoundingRect().height)
+    end if
+
+    ' Position
+    if not isStringEqual(captionPosition, string.EMPTY)
+        horizontalPositon = processPositionCue(captionPosition, rect.BoundingRect().width)
+    end if
+
+    finalStyles.translation = [horizontalPositon, verticalPosition]
+
+    return finalStyles
+end function
