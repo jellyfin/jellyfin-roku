@@ -6,14 +6,14 @@
 '   - Vertical: top=10%, middle=50%, bottom=default(90%)
 function getAnPositionDict() as object
     return {
-        "1": { "line": "90%", "position": "20%" }, ' bottom left
-        "2": { "line": "90%", "position": "50%" }, ' bottom center (default position)
-        "3": { "line": "90%", "position": "80%" }, ' bottom right
+        "1": { "position": "20%" }, ' bottom left
+        "2": {}, ' bottom center (default)
+        "3": { "position": "80%" }, ' bottom right
         "4": { "line": "50%", "position": "20%" }, ' middle left
-        "5": { "line": "50%", "position": "50%" }, ' middle center (default position)
+        "5": { "line": "50%" }, ' middle center
         "6": { "line": "50%", "position": "80%" }, ' middle right
         "7": { "line": "10%", "position": "20%" }, ' top left
-        "8": { "line": "10%", "position": "50%" }, ' top center (default position)
+        "8": { "line": "10%" }, ' top center
         "9": { "line": "10%", "position": "80%" } ' top right
     }
 end function
@@ -55,19 +55,13 @@ function parseVTT(lines)
             trimmed = lines[i].trim()
 
             ' Check for AN alignment tag and map to line and position styles
-            ' Only apply if line/position are not already explicitly set in the cue settings
             anMatch = anRegex.Match(trimmed)
             if anMatch.Count() > 0
                 anDict = getAnPositionDict()
                 anStyles = anDict.LookupCI(anMatch[1])
                 if isValid(anStyles)
-                    ' Only override if styles are still at their default values
-                    if not isValid(entry["styles"].LookupCI("line"))
-                        entry["styles"].AddReplace("line", anStyles.line)
-                    end if
-                    if not isValid(entry["styles"].LookupCI("position"))
-                        entry["styles"].AddReplace("position", anStyles.position)
-                    end if
+                    entry["styles"].AddReplace("line", anStyles.line)
+                    entry["styles"].AddReplace("position", anStyles.position)
                 end if
             end if
 
@@ -132,7 +126,8 @@ function extractStyles(lineData as string) as object
 end function
 
 function processPositionCue(captionPosition as string, captionLineWidth as float) as integer
-    calculatedPosition = 1920 * (val(captionPosition) / 100)
+    ' position % defines the anchor point on screen, offset by half caption width to center on that point
+    calculatedPosition = 1920 * (val(captionPosition) / 100) - (captionLineWidth / 2)
 
     if calculatedPosition + captionLineWidth > 1920
         calculatedPosition = 1920 - captionLineWidth
