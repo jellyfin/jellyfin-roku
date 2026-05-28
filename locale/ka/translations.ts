@@ -781,7 +781,7 @@
     </message>
     <message>
         <source>Play Trailer</source>
-        <translation type="unfinished"></translation>
+        <translation>ტრეილერის დაკვრა</translation>
     </message>
     <message>
         <source>H.264</source>
@@ -823,11 +823,11 @@
     </message>
     <message>
         <source>Playback Information</source>
-        <translation type="unfinished"></translation>
+        <translation>დაკვრის ინფორმაცია</translation>
     </message>
     <message>
         <source>Transcoding Information</source>
-        <translation type="unfinished"></translation>
+        <translation>ტრანსკოდირების ინფორმაცია</translation>
     </message>
     <message>
         <source>Reason</source>
@@ -843,11 +843,11 @@
     </message>
     <message>
         <source>Video Codec</source>
-        <translation type="unfinished"></translation>
+        <translation>ვიდეოკოდეკი</translation>
     </message>
     <message>
         <source>Audio Codec</source>
-        <translation type="unfinished"></translation>
+        <translation>აუდიოკოდეკი</translation>
     </message>
     <message>
         <source>direct</source>
@@ -855,15 +855,15 @@
     </message>
     <message>
         <source>Total Bitrate</source>
-        <translation type="unfinished"></translation>
+        <translation>ჯამური ბიტური სიხშირე</translation>
     </message>
     <message>
         <source>Audio Channels</source>
-        <translation type="unfinished"></translation>
+        <translation>აუდიოარხები</translation>
     </message>
     <message>
         <source>Stream Information</source>
-        <translation type="unfinished"></translation>
+        <translation>ნაკადის ინფორმაცია</translation>
     </message>
     <message>
         <source>Codec</source>
@@ -871,7 +871,7 @@
     </message>
     <message>
         <source>Codec Tag</source>
-        <translation type="unfinished"></translation>
+        <translation>კოდეკის ჭდე</translation>
     </message>
     <message>
         <source>Level</source>
@@ -880,7 +880,7 @@
     </message>
     <message>
         <source>Bit Rate</source>
-        <translation type="unfinished"></translation>
+        <translation>ბიტური სიხშირე</translation>
         <extracomment>Video streaming bit rate</extracomment>
     </message>
     <message>
@@ -899,7 +899,7 @@
     </message>
     <message>
         <source>Pixel format</source>
-        <translation type="unfinished"></translation>
+        <translation>პიქსელის ფორმატი</translation>
         <extracomment>Video pixel format</extracomment>
     </message>
     <message>
@@ -914,7 +914,7 @@
     </message>
     <message>
         <source>Custom Subtitles</source>
-        <translation type="unfinished"></translation>
+        <translation>მორგებული სუბტიტრები</translation>
         <extracomment>Name of a setting - custom subtitles that support CJK fonts</extracomment>
     </message>
     <message>
@@ -949,15 +949,15 @@
     </message>
     <message>
         <source>Slideshow Off</source>
-        <translation type="unfinished"></translation>
+        <translation>სლაიდშოუ გამორთულია</translation>
     </message>
     <message>
         <source>Slideshow On</source>
-        <translation type="unfinished"></translation>
+        <translation>სლაიდშოუ ჩართულია</translation>
     </message>
     <message>
         <source>Slideshow Paused</source>
-        <translation type="unfinished"></translation>
+        <translation>სლაიდშოუ შეჩერებულია</translation>
     </message>
     <message>
         <source>(Favorites)</source>
@@ -973,28 +973,28 @@
     </message>
     <message>
         <source>Slideshow Resumed</source>
-        <translation type="unfinished"></translation>
+        <translation>სლაიდშოუ გაგრძელდა</translation>
     </message>
     <message>
         <source>Random Off</source>
-        <translation type="unfinished"></translation>
+        <translation>შემთხვევითობა გამორთულია</translation>
     </message>
     <message>
         <source>Random On</source>
-        <translation type="unfinished"></translation>
+        <translation>შემთხვევითობა ჩართულია</translation>
     </message>
     <message>
         <source>Delete Playlist</source>
-        <translation type="unfinished"></translation>
+        <translation>დასაკრავი სიის წაშლა</translation>
     </message>
     <message>
         <source>MPEG-4 Support</source>
-        <translation type="unfinished"></translation>
+        <translation>MPEG-4-ის მხარდაჭერა</translation>
         <extracomment>Settings Menu - Title for option</extracomment>
     </message>
     <message>
         <source>Parental Ratings</source>
-        <translation type="unfinished"></translation>
+        <translation>მშობლის რეიტინგები</translation>
         <extracomment>Used in Filter menu</extracomment>
     </message>
     <message>
@@ -1062,19 +1062,19 @@
     </message>
     <message>
         <source>Always Show</source>
-        <translation type="unfinished"></translation>
+        <translation>ყოველთვის ჩვენება</translation>
     </message>
     <message>
         <source>Always Hide</source>
-        <translation type="unfinished"></translation>
+        <translation>ყოველთვის დამალვა</translation>
     </message>
     <message>
         <source>Artists (Presentation)</source>
-        <translation type="unfinished"></translation>
+        <translation>შემსრულებლები (პრეზენტაცია)</translation>
     </message>
     <message>
         <source>Album Artist</source>
-        <translation type="unfinished"></translation>
+        <translation>ალბომის შემსრულებელი</translation>
     </message>
     <message>
         <source>Album Artists (Presentation)</source>
@@ -1082,7 +1082,7 @@
     </message>
     <message>
         <source>Artists (Grid)</source>
-        <translation type="unfinished"></translation>
+        <translation>შემსრულებლები (ბადე)</translation>
     </message>
     <message>
         <source>Album Artists (Grid)</source>
@@ -1114,7 +1114,7 @@
     </message>
     <message>
         <source>View All</source>
-        <translation type="unfinished"></translation>
+        <translation>ყველას ნახვა</translation>
     </message>
     <message>
         <source>Disable Community Rating for Episodes</source>
@@ -1134,7 +1134,7 @@
     </message>
     <message>
         <source>Enable Limit</source>
-        <translation type="unfinished"></translation>
+        <translation>ლიმიტის ჩართვა</translation>
     </message>
     <message>
         <source>Enable or disable the &apos;Maximum Bitrate&apos; setting.</source>
@@ -1142,11 +1142,11 @@
     </message>
     <message>
         <source>Bitrate Limit</source>
-        <translation type="unfinished"></translation>
+        <translation>ბიტური სიხშირის ლიმიტი</translation>
     </message>
     <message>
         <source>Maximum Bitrate</source>
-        <translation type="unfinished"></translation>
+        <translation>მაქს. ბიტური სიხშირე</translation>
     </message>
     <message>
         <source>Set the maximum bitrate in Mbps. Set to 0 to use Roku&apos;s specifications. This setting must be enabled to take effect.</source>
@@ -1206,7 +1206,7 @@
     </message>
     <message>
         <source>Loading trailer</source>
-        <translation type="unfinished"></translation>
+        <translation>ტრეილერის ჩატვირთვა</translation>
         <extracomment>Dialog title in Main.brs</extracomment>
     </message>
     <message>
@@ -1256,7 +1256,7 @@
     </message>
     <message>
         <source>Direct playing</source>
-        <translation type="unfinished"></translation>
+        <translation>პირდაპირი დაკვრა</translation>
     </message>
     <message>
         <source>The source file is entirely compatible with this client and the session is receiving the file without modifications.</source>
@@ -1265,7 +1265,7 @@
     </message>
     <message>
         <source>Maximum Resolution</source>
-        <translation type="unfinished"></translation>
+        <translation>მაქს. გაფართოება</translation>
         <extracomment>User Setting - Title</extracomment>
     </message>
     <message>
@@ -1320,7 +1320,7 @@
     </message>
     <message>
         <source>All files</source>
-        <translation type="unfinished"></translation>
+        <translation>ყველა ფაილი</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
@@ -1340,7 +1340,7 @@
     </message>
     <message>
         <source>Disable HEVC</source>
-        <translation type="unfinished"></translation>
+        <translation>HEVC-ის გამორთვა</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
@@ -1360,7 +1360,7 @@
     </message>
     <message>
         <source>Remember Me?</source>
-        <translation type="unfinished"></translation>
+        <translation>გახსოვართ?</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
@@ -1370,7 +1370,7 @@
     </message>
     <message>
         <source>Trickplay Display</source>
-        <translation type="unfinished"></translation>
+        <translation>Trickplay-ის ჩვენება</translation>
         <extracomment>User Setting - Title for option</extracomment>
     </message>
     <message>
@@ -1380,7 +1380,7 @@
     </message>
     <message>
         <source>Force Transcoding</source>
-        <translation type="unfinished"></translation>
+        <translation>ნაძალადევი ტრანსკოდირება</translation>
         <extracomment>User Setting - Title for option</extracomment>
     </message>
     <message>
@@ -1420,7 +1420,7 @@
     </message>
     <message>
         <source>Commercial Segments</source>
-        <translation type="unfinished"></translation>
+        <translation>რეკლამის სეგმენტები</translation>
         <extracomment>User Setting - Title for option</extracomment>
     </message>
     <message>
@@ -1430,7 +1430,7 @@
     </message>
     <message>
         <source>Intro Segments</source>
-        <translation type="unfinished"></translation>
+        <translation>შესავლის სეგმენტები</translation>
         <extracomment>User Setting - Title for option</extracomment>
     </message>
     <message>
@@ -1440,7 +1440,7 @@
     </message>
     <message>
         <source>Outro Segments</source>
-        <translation type="unfinished"></translation>
+        <translation>ბოლო ნაწილის სეგმენტები</translation>
         <extracomment>User Setting - Title for option</extracomment>
     </message>
     <message>
@@ -1450,7 +1450,7 @@
     </message>
     <message>
         <source>Preview Segments</source>
-        <translation type="unfinished"></translation>
+        <translation>გადახედვის სეგმენტები</translation>
         <extracomment>User Setting - Title for option</extracomment>
     </message>
     <message>
@@ -1460,7 +1460,7 @@
     </message>
     <message>
         <source>Recap Segments</source>
-        <translation type="unfinished"></translation>
+        <translation>გამეორების ფრაგმენტები</translation>
         <extracomment>User Setting - Title for option</extracomment>
     </message>
     <message>
@@ -1540,7 +1540,7 @@
     </message>
     <message>
         <source>Overview Content</source>
-        <translation type="unfinished"></translation>
+        <translation>შემცველობის მიმოხილვა</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
@@ -1555,7 +1555,7 @@
     </message>
     <message>
         <source>Forget Filters</source>
-        <translation type="unfinished"></translation>
+        <translation>ფილტრების დავიწყება</translation>
         <extracomment>Libraries Setting - Setting title</extracomment>
     </message>
     <message>
@@ -1674,7 +1674,7 @@
     </message>
     <message>
         <source>Highlighted Color</source>
-        <translation type="unfinished"></translation>
+        <translation>გამოკვეთილის ფერი</translation>
     </message>
     <message>
         <source>Folders</source>
@@ -1714,7 +1714,7 @@
     </message>
     <message>
         <source>What&apos;s New</source>
-        <translation type="unfinished"></translation>
+        <translation>რა არის ახალი</translation>
     </message>
     <message>
         <source>Skip</source>
@@ -1762,7 +1762,7 @@
     </message>
     <message>
         <source>Library Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>ბიბლიოთეკის მორგება</translation>
     </message>
     <message>
         <source>Display Watched Checkmark</source>
@@ -1770,19 +1770,19 @@
     </message>
     <message>
         <source>Playback Info</source>
-        <translation type="unfinished"></translation>
+        <translation>დაკვრის ინფორმაცია</translation>
     </message>
     <message>
         <source>Select Audio</source>
-        <translation type="unfinished"></translation>
+        <translation>აუდიოს არჩევა</translation>
     </message>
     <message>
         <source>Select Subtitles</source>
-        <translation type="unfinished"></translation>
+        <translation>სუბტიტრების არჩევა</translation>
     </message>
     <message>
         <source>Select Language</source>
-        <translation type="unfinished"></translation>
+        <translation>ენის არჩევა</translation>
     </message>
     <message>
         <source>Tracks</source>
@@ -1802,7 +1802,7 @@
     </message>
     <message>
         <source>Continue Listening</source>
-        <translation type="unfinished"></translation>
+        <translation>მოსმენის გაგრძელება</translation>
     </message>
     <message>
         <source>In My List</source>
@@ -1814,11 +1814,11 @@
     </message>
     <message>
         <source>Public Profile</source>
-        <translation type="unfinished"></translation>
+        <translation>საჯარო პროფილი</translation>
     </message>
     <message>
         <source>Saved Profile</source>
-        <translation type="unfinished"></translation>
+        <translation>შენახული პროფილი</translation>
     </message>
     <message>
         <source>Manage Hidden Users</source>
@@ -1944,7 +1944,7 @@
     </message>
     <message>
         <source>Live TV</source>
-        <translation type="unfinished"></translation>
+        <translation>პირდაპირი ეთერი</translation>
     </message>
     <message>
         <source>My List</source>
