@@ -777,7 +777,7 @@
     </message>
     <message>
         <source>Next episode</source>
-        <translation type="unfinished"></translation>
+        <translation>შემდეგი ეპიზოდი</translation>
     </message>
     <message>
         <source>Play Trailer</source>
