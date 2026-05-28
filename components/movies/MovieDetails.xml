@@ -67,7 +67,7 @@
             <ButtonData id="play-from-beginning-button" text="Play from beginning" AUDIO_GUIDE_SUFFIX="Play from beginning" iconSide="left" fontSize="35" padding="35" icon="pkg:/images/icons/36px/play_from_beginning.png" height="75" width="600" />
             <ButtonData id="part-button" iconSide="left" fontSize="35" padding="35" icon="pkg:/images/icons/36px/puzzle.png" height="75" width="600" />
             <ButtonData id="options-button" text="Options" AUDIO_GUIDE_SUFFIX="Options" iconSide="left" fontSize="35" padding="35" icon="pkg:/images/icons/36px/options.png" height="75" width="600" />
-            <ButtonData id="trailer-button" text="Play Trailer" AUDIO_GUIDE_SUFFIX="Play Trailer" iconSide="left" fontSize="35" padding="35" icon="pkg:/images/icons/play.png" height="75" width="600" />
+            <ButtonData id="trailer-button" text="Play Trailer" AUDIO_GUIDE_SUFFIX="Play Trailer" iconSide="left" fontSize="35" padding="35" icon="pkg:/images/icons/36px/trailer.png" height="75" width="600" />
             <ButtonData id="mylist-button" text="Add To My List" AUDIO_GUIDE_SUFFIX="Add To My List" iconSide="left" fontSize="35" padding="35" icon="pkg:/images/icons/36px/addToMyList.png" height="75" width="600" />
             <ButtonData id="playlist-button" text="Add To Playlist" AUDIO_GUIDE_SUFFIX="Add To Playlist" iconSide="left" fontSize="35" padding="35" icon="pkg:/images/icons/36px/plus.png" height="75" width="600" />
             <ButtonData id="watched-button" text="Watched" AUDIO_GUIDE_SUFFIX="Watched" iconSide="left" fontSize="35" padding="35" icon="pkg:/images/icons/36px/check.png" height="75" width="600" />
