@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="VisualLibraryScene" extends="JFScreen">
+    <interface>
+        <field id="mediaType" type="string" />
+        <field id="parentItem" type="node" onChange="loadInitialItems" />
+        <field id="selectedItem" type="node" alwaysNotify="true" />
+        <field id="quickPlayNode" type="node" alwaysNotify="true" />
+        <field id="imageDisplayMode" type="string" value="" />
+        <field id="alphaSelected" type="string" alias="alphaPicker.letterSelected" onChange="alphaSelectedChanged" alwaysNotify="true" />
+        <field id="searchTerm" type="string" onChange="onSearchTermChanged" alwaysNotify="true" />
+        <field id="alphaActive" type="boolean" value="false" />
+        <field id="showItemTitles" type="string" value="" />
+        <field id="genreFilter" type="assocarray" />
+        <field id="genreItemSelected" type="assocarray" alwaysNotify="true" />
+        <function name="getItemFocused" />
+        <function name="redrawItems" />
+    </interface>
+    <script type="text/brightscript" uri="pkg:/components/Libraries/VisualLibraryScene.brs" />
+    <script type="text/brightscript" uri="pkg:/source/utils/deviceCapabilities.brs" />
+    <script type="text/brightscript" uri="pkg:/source/enums/PlaybackMethod.brs" />
+    <script type="text/brightscript" uri="pkg:/source/enums/TaskControl.brs" />
+    <script type="text/brightscript" uri="pkg:/source/enums/KeyCode.brs" />
+    <script type="text/brightscript" uri="pkg:/source/enums/ItemType.brs" />
+    <script type="text/brightscript" uri="pkg:/source/enums/ImageLayout.brs" />
+    <script type="text/brightscript" uri="pkg:/source/enums/ColorPalette.brs" />
+    <script type="text/brightscript" uri="pkg:/source/enums/CollectionType.brs" />
+    <script type="text/brightscript" uri="pkg:/source/api/Image.brs" />
+    <script type="text/brightscript" uri="pkg:/source/enums/ImageType.brs" />
+    <script type="text/brightscript" uri="pkg:/source/api/sdk.brs" />
+    <children>
+        <Rectangle  id="librarybackground" width="1920" height="1080" color="#000018" />
+        <Text id="libraryName" translation="[0, 15]" width="1920" horizAlign="center" font="font:LargeBoldSystemFont" color="#ffffff" />
+        <Text id="itemCount" translation="[0, 22]" width="1840" horizAlign="right" font="font:SmallSystemFont" color="#aaaaaa" />
+        <Text id="selectedItemName" translation="[80, 60]" font="font:MediumBoldSystemFont" width="1760" color="#ffffff" />
+        <LayoutGroup layoutDirection="horiz" translation="[80, 95]" itemSpacings="[24]" id="infoGroup">
+            <Text id="selectedItemProductionYear" font="font:SmallestSystemFont" color="#aaaaaa" />
+            <Text id="selectedItemOfficialRating" font="font:SmallestSystemFont" color="#aaaaaa" />
+            <Text id="runtime" font="font:SmallestSystemFont" color="#aaaaaa" />
+            <LayoutGroup id="communityRatingGroup" visible="false" layoutDirection="horiz" itemSpacings="[-5]">
+                <Poster id="star" uri="pkg:/images/sharp_star_white_18dp.png" height="24" width="24" blendColor="#FFD700" />
+                <Text id="communityRating" font="font:SmallestSystemFont" color="#aaaaaa" />
+            </LayoutGroup>
+            <LayoutGroup layoutDirection="horiz" id="criticRatingGroup" visible="false" itemSpacings="[4]">
+                <Poster id="criticRatingIcon" height="24" width="24" />
+                <Text id="criticRatingLabel" font="font:SmallestSystemFont" color="#aaaaaa" />
+            </LayoutGroup>
+            <RatingsRow id="pluginRatings" visible="false" iconHeight="20" labelColor="#aaaaaa" ratingSpacing="14" />
+        </LayoutGroup>
+        <IconButton id="homeButton" translation="[80, 130]" icon="pkg:/images/icons/home.png" height="44" width="44" padding="4" background="0x00000000" focusBackground="#555555" />
+        <IconButton id="sortButton" translation="[142, 130]" icon="pkg:/images/icons/sort_by_alpha.png" height="44" width="44" padding="4" background="0x00000000" focusBackground="#555555" />
+        <IconButton id="settingsButton" translation="[204, 130]" icon="pkg:/images/icons/settings.png" height="44" width="44" padding="4" background="0x00000000" focusBackground="#555555" />
+        <HorizontalAlphaPicker id="alphaPicker" translation="[280, 137]" />
+        <MarkupGrid id="itemGrid" itemComponentName="GridItemSmall" vertFocusAnimationStyle="fixed" translation="[80, 195]" clippingRect="[-30, -10, 1880, 850]" drawFocusFeedback="true" focusBitmapUri="pkg:/images/hd_focus.9.png" numColumns="7" numRows="3" itemSize="[230, 350]" rowHeights="[350]" itemSpacing="[20, 20]" />
+        <MarkupGrid id="genreGrid" itemComponentName="GenreCard" vertFocusAnimationStyle="fixed" opacity="0" translation="[80, 195]" clippingRect="[-30, -10, 1880, 850]" drawFocusFeedback="true" numColumns="4" numRows="3" itemSize="[418, 235]" rowHeights="[235]" itemSpacing="[40, 30]" />
+        <Text translation="[0, 540]" id="emptyText" font="font:LargeSystemFont" width="1920" horizAlign="center" vertAlign="center" height="64" visible="false" color="#aaaaaa" />
+        <Text id="statusText" translation="[80, 1046]" font="font:SmallestSystemFont" color="#666666" width="1400" />
+        <Text id="paginationText" translation="[0, 1046]" font="font:SmallestSystemFont" color="#666666" width="1840" horizAlign="right" />
+        <SortFilterDialog id="options" visible="false" />
+    </children>
+</component>
+<!--//# sourceMappingURL=./VisualLibraryScene.xml.map -->
