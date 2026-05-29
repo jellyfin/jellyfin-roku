@@ -1,5 +1,5 @@
 ' captionShadow.bs
-' Adds outline/shadow labels to a caption rectangle
+' Visual effects for caption text: per-line background and outline/shadow
 
 ' Ratios relative to fontSize for consistent outline across text sizes
 ' 8.5 and 6 were chosen based on visual testing to create a balanced outline effect (WAF)
@@ -78,3 +78,91 @@ sub createShadowLabels(rect as object, styledText as string, drawingStyles as ob
     end for
 
 end sub
+
+sub createCueBackgroundBox(rect as object, lg as object, styledText as string, drawingStyles as object, bgColor as string)
+    lineFragments = reconstructFragments(styledText)
+
+    ' Use first MultiStyleLabel child of lg — it's already in tree and measured correctly
+    mainLabel = invalid
+    for i = 0 to lg.getChildCount() - 1
+        child = lg.getChild(i)
+        if child.subtype() = "MultiStyleLabel"
+            mainLabel = child
+            exit for
+        end if
+    end for
+
+    if mainLabel = invalid then return
+
+    totalBr = mainLabel.boundingRect()
+    lineHeight = totalBr.height / lineFragments.count()
+
+    ' Still need per-line widths — but now mainLabel is in tree
+    lineWidths = []
+    for each line in lineFragments
+        tempLabel = CreateObject("roSGNode", "MultiStyleLabel")
+        tempLabel.drawingStyles = drawingStyles
+        tempLabel.text = line
+        lg.appendchild(tempLabel) ' attach to tree temporarily
+        br = tempLabel.boundingRect()
+        lineWidths.push(br.width)
+        lg.removeChild(tempLabel)
+    end for
+
+    maxWidth = 0
+    for each w in lineWidths
+        if w > maxWidth then maxWidth = w
+    end for
+
+    fontSize = drawingStyles["default"].fontSize
+    bgPadding = Int(fontSize * OUTLINE_STEP_RATIO) + 1
+    for i = 0 to lineFragments.count() - 1
+        bg = CreateObject("roSGNode", "Rectangle")
+        bg.height = lineHeight
+        bg.color = bgColor
+        ' Padding matches outline step so background fully covers shadow labels
+        bg.width = lineWidths[i] + (bgPadding * 2)
+        bg.translation = [
+            (maxWidth - lineWidths[i]) / 2 + BASE_OFFSET - bgPadding,
+            i * lineHeight + BASE_OFFSET
+        ]
+        rect.insertChild(bg, 0)
+    end for
+end sub
+
+function reconstructFragments(styledText as string) as object
+    fragments = styledText.split(chr(10))
+    result = []
+    openTag = ""
+
+    for each fragment in fragments
+        if openTag <> ""
+            fragment = openTag + fragment
+        end if
+
+        openTag = ""
+        tagPos = 1
+        while true
+            tagStart = instr(tagPos, fragment, "<")
+            if tagStart = 0 then exit while
+            tagEnd = instr(tagStart, fragment, ">")
+            if tagEnd = 0 then exit while
+            tag = mid(fragment, tagStart, tagEnd - tagStart + 1)
+            if left(tag, 2) = "</"
+                openTag = ""
+            else
+                openTag = tag
+            end if
+            tagPos = tagEnd + 1
+        end while
+
+        if openTag <> ""
+            closeTag = "</" + mid(openTag, 2)
+            fragment = fragment + closeTag
+        end if
+
+        result.push(fragment)
+    end for
+
+    return result
+end function

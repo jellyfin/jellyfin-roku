@@ -86,7 +86,7 @@ function newRect(lg, id as string, styledText = invalid, drawingStyles = invalid
     rect.appendchild(lg)
     lg.translation = [5, 5]
 
-    rect.color = m.bgColor
+    rect.color = "0x00000000" ' fully transparent - color is only used for shadows and background rects
     rect.width = rectxy.width + 10
     rect.height = rectxy.height + 10
 
@@ -95,6 +95,8 @@ function newRect(lg, id as string, styledText = invalid, drawingStyles = invalid
         rect.height = 0
     end if
 
+    ' Draw per-line cue background box before shadow labels and text
+    createCueBackgroundBox(rect, lg, styledText, drawingStyles, m.bgColor)
     return rect
 end function
 
