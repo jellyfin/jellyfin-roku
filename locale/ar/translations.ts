@@ -1543,22 +1543,22 @@
     </message>
     <message>
         <source>Library Portrait Column Count</source>
-        <translation type="unfinished"></translation>
+        <translation>عد أعمدة لوحة المكتبة</translation>
         <extracomment>Libraries Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Number of columns in library view when showing portrait (tall) images</source>
-        <translation type="unfinished"></translation>
+        <translation>عدد أعمدة مظهر المكتبة عند عرض صور اللوحة (طوليا)</translation>
         <extracomment>Libraries Setting - Setting description</extracomment>
     </message>
     <message>
         <source>Library Square Column Count</source>
-        <translation type="unfinished"></translation>
+        <translation>عد عمود المكتبة المربع</translation>
         <extracomment>Libraries Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Number of columns in library view when showing square images</source>
-        <translation type="unfinished"></translation>
+        <translation>عدد أعمدة مظهر المكتبة التي تظهر مع الصور المربعة</translation>
         <extracomment>Libraries Setting - Setting description</extracomment>
     </message>
     <message>
@@ -1619,7 +1619,7 @@
     </message>
     <message>
         <source>CH</source>
-        <translation type="unfinished"></translation>
+        <translation>قناة</translation>
         <extracomment>Abbreviation for Channel</extracomment>
     </message>
     <message>
