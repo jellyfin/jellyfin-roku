@@ -5,23 +5,44 @@ import "pkg:/source/utils/misc.bs"
 
 sub init()
     m.title = m.top.findNode("title")
+    if isValid(m.title)
+        m.title.font.size = 27
+    end if
+
     m.subtitle = m.top.findNode("subtitle")
-    m.subtitle.color = ColorPalette.LIGHTGREY
-    m.subtitle.font.size = 27
+    if isValid(m.subtitle)
+        m.subtitle.font.size = 23
+    end if
 end sub
 
 sub itemContentChanged()
     itemData = m.top.itemContent
     if not isValidAndNotEmpty(itemData) then return
 
-    m.title.text = itemData.LookupCI("title")
-    m.subtitle.text = getSubtitleText(itemData)
+    if isValid(m.title)
+        m.title.text = itemData.LookupCI("title")
+    end if
+
+    if isValid(m.subtitle)
+        m.subtitle.text = getSubtitleText(itemData)
+    end if
 
     itemIconData = m.global.queueManager.callFunc("getItemTitleAndIcon", itemData)
 
     if isValidAndNotEmpty(itemIconData)
         mediaTypeIcon = m.top.findNode("mediaTypeIcon")
         mediaTypeIcon.uri = itemIconData[0]
+    end if
+
+    if isValid(itemData.LookupCI("posterUrl"))
+        poster = m.top.findNode("poster")
+        poster.uri = itemData.posterUrl
+    end if
+
+    startingPoint = chainLookupReturn(itemData, "startingPoint", 0)
+    position = m.top.findNode("position")
+    if isValid(position)
+        position.text = ticksToHuman(startingPoint)
     end if
 
     if isValid(itemData.LookupCI("RunTimeTicks"))
@@ -31,7 +52,7 @@ sub itemContentChanged()
 
     ' Only apply the played checkmark to specific item types
     playlistItemType = chainLookupReturn(itemData, "type", string.EMPTY)
-    if inArray([ItemType.MOVIE, ItemType.MUSICVIDEO, ItemType.EPISODE, ItemType.RECORDING, ItemType.VIDEO, ItemType.PROGRAM], playlistItemType)
+    if inArray([ItemType.MOVIE, ItemType.MUSICVIDEO, ItemType.EPISODE, ItemType.RECORDING, ItemType.VIDEO, ItemType.PROGRAM, ItemType.AUDIO], playlistItemType)
         playedIndicator = m.top.findNode("playedIndicator")
         playedIndicator.data = {
             played: chainLookupReturn(itemData, "played", false)
@@ -65,7 +86,7 @@ function getSubtitleText(itemData as object) as string
         if isValid(itemData.LookupCI("ProductionYear"))
             subtitleText += `${itemData.LookupCI("ProductionYear")}`
             if isValid(itemData.LookupCI("ProductionYear"))
-                subtitleText += ` - `
+                subtitleText += ` • `
             end if
         end if
 

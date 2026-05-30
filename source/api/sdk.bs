@@ -344,7 +344,7 @@ namespace api
 
         ' Gets a fallback font file.
         function GetFontURL(name as string)
-            return buildURL(Substitute("/fallbackfont/fonts/{0}", name))
+            return `/fallbackfont/fonts/${name}`
         end function
     end namespace
 
@@ -425,8 +425,8 @@ namespace api
         end function
 
         ' Gets intros to play before the main media item plays.
-        function GetIntros(itemid as string)
-            resp = APIRequest(Substitute("/items/{1}/intros", itemid))
+        function GetIntros(itemid as string, params = {} as object)
+            resp = APIRequest(Substitute("/items/{0}/intros", itemid), params)
             return getJson(resp)
         end function
 
@@ -1360,7 +1360,7 @@ namespace api
         ' Initiate a new quick connect request.
         function Initiate()
             req = APIRequest("/quickconnect/initiate")
-            return getJson(req)
+            return postJson(req)
         end function
     end namespace
 

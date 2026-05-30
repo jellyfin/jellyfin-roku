@@ -10,7 +10,7 @@ sub preloadTrickplayImagesTask()
 
     if m.top.method = "ADD"
         for tileIndex = 0 to m.top.numImagesToLoad
-            updatedURL = `Videos/${m.top.videoID}/Trickplay/${m.top.trickplayWidth}/${tileIndex}.jpg?api_key=${get_user_setting("token")}`
+            updatedURL = `Videos/${m.top.videoID}/Trickplay/${m.top.trickplayWidth}/${tileIndex}.jpg?ApiKey=${get_user_setting("token")}`
             if not fs.Exists(`tmp:/${m.top.videoID}-${tileIndex}.jpg`)
                 APIRequest(updatedURL).gettofile(`tmp:/${m.top.videoID}-${tileIndex}.jpg`)
             end if

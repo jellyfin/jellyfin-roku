@@ -12,7 +12,7 @@ sub init()
     m.top.sortField = "SortName"
     m.top.functionName = "loadItems"
 
-    m.top.limit = 60
+    m.top.limit = chainLookupReturn(m.global.session, "user.settings.`ui.library.loadItemsLimit`", 60)
 end sub
 
 sub loadItems()
