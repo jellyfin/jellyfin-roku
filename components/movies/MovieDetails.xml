@@ -64,6 +64,7 @@
           vertFocusAnimationStyle="floatingFocus">
           <ContentNode role="content">
             <ButtonData id="play-button" focus="true" text="Play" AUDIO_GUIDE_SUFFIX="Play" iconSide="left" fontSize="35" padding="35" icon="pkg:/images/icons/36px/play.png" height="75" width="600" />
+            <!-- Dynamically inserted/removed by updatePlayButtons() based on playback progress -->
             <ButtonData id="play-from-beginning-button" text="Play from beginning" AUDIO_GUIDE_SUFFIX="Play from beginning" iconSide="left" fontSize="35" padding="35" icon="pkg:/images/icons/36px/play_from_beginning.png" height="75" width="600" />
             <ButtonData id="part-button" iconSide="left" fontSize="35" padding="35" icon="pkg:/images/icons/36px/puzzle.png" height="75" width="600" />
             <ButtonData id="options-button" text="Options" AUDIO_GUIDE_SUFFIX="Options" iconSide="left" fontSize="35" padding="35" icon="pkg:/images/icons/36px/options.png" height="75" width="600" />

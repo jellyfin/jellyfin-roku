@@ -9,6 +9,7 @@ namespace MainAction
     sub onPlayButtonClicked(activeScene as object)
         startLoadingSpinner()
         activeScene.itemContent.id = chainLookup(activeScene, "selectedVideoStreamId")
+        ' Use selected audio stream if set by user before playback
         activeScene.itemContent.selectedAudioStreamIndex = chainLookup(activeScene, "selectedAudioStreamIndex") ?? 0
         activeScene.itemContent.startingPoint = 0
         playItem(activeScene.itemContent, { method: "push", bypassNextPreferredAudioTrackIndexReset: true })
