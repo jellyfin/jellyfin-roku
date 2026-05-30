@@ -406,7 +406,7 @@ sub itemContentChanged()
             if itemData.mediaStreams[i].Type = "Video"
                 m.options.codec = itemData.MediaStreams[i].Codec
                 if isStringEqual(PlaybackMethod.FORCETRANSCODEDISABLEREMUX, chainLookupReturn(m.global.session, "user.settings.`playback.media.forceTranscode`", PlaybackMethod.PLAYNORMALLY))
-                    m.global.queueManager.callFunc("setForceTranscode", PlaybackMethod.FORCETRANSCODEDISABLEREMUX, m.options.codec)
+                    m.global.queueManager.callFunc("setForceTranscode", PlaybackMethod.FORCETRANSCODEDISABLEREMUX, m.options.codec ?? string.EMPTY)
                     exit for
                 end if
             end if
@@ -528,7 +528,8 @@ sub itemContentChanged()
         setFieldText("genres", "")
     end if
 
-    setupMovieOptions(itemData)
+   SetUpVideoOptions(itemData)
+    SetUpAudioOptions(itemData)
 
     m.buttonGrp.visible = true
     stopLoadingSpinner()
@@ -656,17 +657,12 @@ function generateAudioOptions(itemData as dynamic) as dynamic
 end function
 
 function generateSubtitleOptions(itemData as dynamic) as dynamic
-    defaultSubtitleIndex = SubtitleSelection.NONE
-    mediaSources = itemData.mediaSources
-    if isValidAndNotEmpty(mediaSources)
-        for i = 0 to mediaSources.Count() - 1
-            mediaSource = mediaSources[i]
-            if isStringEqual(chainLookup(mediaSource, "id"), m.top.selectedVideoStreamId)
-                if isValid(chainLookup(mediaSource, "DefaultSubtitleStreamIndex"))
-                    defaultSubtitleIndex = mediaSource.DefaultSubtitleStreamIndex
-                end if
-            end if
-        end for
+    preferredSubtitle = m.global.queueManager.callFunc("getPreferredSubtitleTrack")
+    if isChainValid(preferredSubtitle, "StreamIndex")
+        selectedSubtitle = preferredSubtitle.StreamIndex
+    else
+        selectedSubtitle = itemData.MediaSources[0].LookupCI("DefaultSubtitleStreamIndex")
+        if not isValid(selectedSubtitle) then selectedSubtitle = SubtitleSelection.NOTSET
     end if
 
     subtitleTracks = [{
@@ -674,9 +670,11 @@ function generateSubtitleOptions(itemData as dynamic) as dynamic
         "json": {},
         "Title": "None",
         "Description": "None",
-        "Selected": defaultSubtitleIndex = SubtitleSelection.NONE
+        "Selected": false
     }]
 
+    subtitleStreamCount = 0
+    subtitleDefaultStream = invalid
     mediaStreams = itemData.mediaStreams
     if isValidAndNotEmpty(mediaStreams)
         for i = 0 to mediaStreams.Count() - 1
@@ -686,12 +684,32 @@ function generateSubtitleOptions(itemData as dynamic) as dynamic
                     "Title": mediaStream.displayTitle,
                     "json": mediaStream,
                     "Description": mediaStream.Title,
-                    "Selected": defaultSubtitleIndex = mediaStream.index,
+                    "Selected": selectedSubtitle = mediaStream.index,
                     "StreamIndex": i
                 })
+                subtitleStreamCount++
+                if mediaStream.LookupCI("IsDefault") = true
+                    subtitleDefaultStream = mediaStream
+                end if
             end if
         end for
     end if
+
+    if selectedSubtitle = SubtitleSelection.NOTSET
+        if isValid(subtitleDefaultStream)
+            selectedSubtitle = subtitleDefaultStream.index
+        else
+            selectedSubtitle = SubtitleSelection.NONE
+        end if
+    end if
+
+    for j = 0 to subtitleTracks.Count() - 1
+        if subtitleTracks[j].StreamIndex = SubtitleSelection.NONE
+            subtitleTracks[j].Selected = selectedSubtitle = SubtitleSelection.NONE
+        else
+            subtitleTracks[j].Selected = subtitleTracks[j].json.index = selectedSubtitle
+        end if
+    end for
 
     return subtitleTracks
 end function
@@ -962,8 +980,9 @@ sub videoOptionsClosed()
                     itemData.mediaStreams.push(mediaSource.mediaStreams[i])
                 end for
                 SetDefaultAudioTrack(itemData)
-                SetDefaultSubtitleStream(itemData)
-                setupMovieOptions(itemData)
+              SetDefaultSubtitleStream(itemData)
+                SetUpVideoOptions(itemData)
+                SetUpAudioOptions(itemData)
                 exit for
             end if
         end for

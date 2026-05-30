@@ -181,6 +181,18 @@
             <translation>Audio</translation>
         </message>
         <message>
+            <source>Subtitles</source>
+            <translation>Subtitles</translation>
+        </message>
+        <message>
+            <source>tracks</source>
+            <translation>tracks</translation>
+        </message>
+        <message>
+            <source>No Default</source>
+            <translation>No Default</translation>
+        </message>
+        <message>
             <source>Server</source>
             <translation>Server</translation>
         </message>
@@ -907,8 +919,8 @@
             <extracomment>Name of a setting - custom subtitles that support CJK fonts</extracomment>
         </message>
         <message>
-            <source>Replace Roku's default subtitle functions with custom functions that support CJK fonts. Fallback fonts must be configured and enabled on the server for CJK rendering to work.</source>
-            <translation>Replace Roku's default subtitle functions with custom functions that support CJK fonts. Fallback fonts must be configured and enabled on the server for CJK rendering to work.</translation>
+            <source>Replace Roku&apos;s default subtitle functions with custom functions. If fallback fonts are configured and enabled on the server, those fonts will be used. A CJK fallback font is required for CJK rendering. To support bold and italics, you must have additional font files with the words &quot;bold&quot;, &quot;italic&quot;, and &quot;bolditalic&quot; in the filename.</source>
+            <translation>Replace Roku&apos;s default subtitle functions with custom functions. If fallback fonts are configured and enabled on the server, those fonts will be used. A CJK fallback font is required for CJK rendering. To support bold and italics, you must have additional font files with the words &quot;bold&quot;, &quot;italic&quot;, and &quot;bolditalic&quot; in the filename.</translation>
             <extracomment>Description of a setting - custom subtitles that support CJK fonts</extracomment>
         </message>
         <message>
@@ -1359,13 +1371,13 @@
             <extracomment>User Setting - Setting description</extracomment>
         </message>
         <message>
-            <source>Custom Trickplay</source>
-            <translation>Custom Trickplay</translation>
+            <source>Trickplay Display</source>
+            <translation>Trickplay Display</translation>
             <extracomment>User Setting - Title for option</extracomment>
         </message>
         <message>
-            <source>Display custom trickplay images even if this Roku says it's displaying its own. This may cause the two images to overlay on top of each other.</source>
-            <translation>Display custom trickplay images even if this Roku says it's displaying its own. This may cause the two images to overlay on top of each other.</translation>
+            <source>Select trickplay display format.</source>
+            <translation>Select trickplay display format.</translation>
             <extracomment>User Setting - Description for option</extracomment>
         </message>
         <message>
@@ -1374,8 +1386,28 @@
             <extracomment>User Setting - Title for option</extracomment>
         </message>
         <message>
+            <source>Force media to be transcoded.</source>
+            <translation>Force media to be transcoded.</translation>
+            <extracomment>User Setting - Description for option</extracomment>
+        </message>
+        <message>
+            <source>All Playable Media</source>
+            <translation>All Playable Media</translation>
+            <extracomment>User Setting - Title for option</extracomment>
+        </message>
+        <message>
             <source>Force all playable media to be transcoded.</source>
             <translation>Force all playable media to be transcoded.</translation>
+            <extracomment>User Setting - Description for option</extracomment>
+        </message>
+        <message>
+            <source>Live TV</source>
+            <translation>Live TV</translation>
+            <extracomment>User Setting - Title for option</extracomment>
+        </message>
+        <message>
+            <source>Force live TV to be transcoded. If All Playable Media is already set to Force Transcode (Remux Disabled), this setting is ignored.</source>
+            <translation>Force live TV to be transcoded. If All Playable Media is already set to Force Transcode (Remux Disabled), this setting is ignored.</translation>
             <extracomment>User Setting - Description for option</extracomment>
         </message>
         <message>
@@ -1561,6 +1593,16 @@
         <message>
             <source>Number of columns in library view when showing square images</source>
             <translation>Number of columns in library view when showing square images</translation>
+            <extracomment>Libraries Setting - Setting description</extracomment>
+        </message>
+        <message>
+            <source>Load Items Limit</source>
+            <translation>Load Items Limit</translation>
+            <extracomment>Libraries Setting - Setting title</extracomment>
+        </message>
+        <message>
+            <source>Number of items to load together on library screens.</source>
+            <translation>Number of items to load together on library screens.</translation>
             <extracomment>Libraries Setting - Setting description</extracomment>
         </message>
 
@@ -2148,6 +2190,14 @@
             <translation>Remove From Favorites</translation>
         </message>
         <message>
+            <source>Five trickplay images</source>
+            <translation>Five trickplay images</translation>
+        </message>
+        <message>
+            <source>Single trickplay image that moves</source>
+            <translation>Single trickplay image that moves</translation>
+        </message>
+        <message>
             <source>Play Normally</source>
             <translation>Play Normally</translation>
         </message>
@@ -2316,6 +2366,98 @@
         <message>
             <source>Screen Settings</source>
             <translation>Screen Settings</translation>
+        </message>
+        <message>
+            <source>Settings relating to Live TV.</source>
+            <translation>Settings relating to Live TV.</translation>
+            <extracomment>Libraries Setting - Setting Category description</extracomment>
+        </message>
+        <message>
+            <source>Channel Title Info</source>
+            <translation>Channel Title Info</translation>
+            <extracomment>Libraries Setting - Setting title</extracomment>
+        </message>
+        <message>
+            <source>Select what information to use as a channel's title.</source>
+            <translation>Select what information to use as a channel's title.</translation>
+            <extracomment>Libraries Setting - Setting description</extracomment>
+        </message>
+        <message>
+            <source>Settings relating to Live TV.</source>
+            <translation>Settings relating to Live TV.</translation>
+            <extracomment>Libraries Setting - Setting description</extracomment>
+        </message>
+        <message>
+            <source>Channel Number and Name</source>
+            <translation>Channel Number and Name</translation>
+            <extracomment>Libraries Setting - Setting option</extracomment>
+        </message>
+        <message>
+            <source>Channel Number</source>
+            <translation>Channel Number</translation>
+            <extracomment>Libraries Setting - Setting option</extracomment>
+        </message>
+        <message>
+            <source>Channel Name</source>
+            <translation>Channel Name</translation>
+            <extracomment>Libraries Setting - Setting option</extracomment>
+        </message>
+        <message>
+            <source>TV Guide Channel Display</source>
+            <translation>TV Guide Channel Display</translation>
+            <extracomment>Libraries Setting - Setting title</extracomment>
+        </message>
+        <message>
+            <source>Select how to display a channel in the Live TV guide.</source>
+            <translation>Select how to display a channel in the Live TV guide.</translation>
+            <extracomment>Libraries Setting - Setting description</extracomment>
+        </message>
+        <message>
+            <source>Channel Logo and Title</source>
+            <translation>Channel Logo and Title</translation>
+            <extracomment>Libraries Setting - Setting option</extracomment>
+        </message>
+        <message>
+            <source>Channel Logo</source>
+            <translation>Channel Logo</translation>
+            <extracomment>Libraries Setting - Setting option</extracomment>
+        </message>
+        <message>
+            <source>Channel Title</source>
+            <translation>Channel Title</translation>
+            <extracomment>Libraries Setting - Setting option</extracomment>
+        </message>
+        <message>
+            <source>Playback Speed Controls (Experimental)</source>
+            <translation>Playback Speed Controls (Experimental)</translation>
+        </message>
+        <message>
+            <source>Use at your own risk. We make no guarantees this will work for you. \n 1. This feature may not work on this device, yet work on others \n 2. Some speed options may not work on this device, yet work on others \n 3. Roku may block this feature without warning; even if the Jellyfin client doesn't update</source>
+            <translation>Use at your own risk. We make no guarantees this will work for you. \n 1. This feature may not work on this device, yet work on others \n 2. Some speed options may not work on this device, yet work on others \n 3. Roku may block this feature without warning; even if the Jellyfin client doesn't update</translation>
+        </message>
+        <message>
+            <source>Search Unavailable</source>
+            <translation>Search Unavailable</translation>
+        </message>
+        <message>
+            <source>Roku's video player got stuck buffering video</source>
+            <translation>Roku's video player got stuck buffering video</translation>
+        </message>
+        <message>
+            <source>Roku's video player threw the following error</source>
+            <translation>Roku's video player threw the following error</translation>
+        </message>
+        <message>
+            <source>Roku thought it could direct play this media, but playback never started.</source>
+            <translation>Roku thought it could direct play this media, but playback never started.</translation>
+        </message>
+        <message>
+            <source>Always Attempt Direct Playing Video Media</source>
+            <translation>Always Attempt Direct Playing Video Media</translation>
+        </message>
+        <message>
+            <source>Forces Jellyfin to try direct playing video media, Live TV excluded. Enabling this ignores all other playback support settings and will always first attempt direct playback. It also changes how transcode reason is displayed.</source>
+            <translation>Forces Jellyfin to try direct playing video media, Live TV excluded. Enabling this ignores all other playback support settings and will always first attempt direct playback. It also changes how transcode reason is displayed.</translation>
         </message>
     </context>
 </TS>

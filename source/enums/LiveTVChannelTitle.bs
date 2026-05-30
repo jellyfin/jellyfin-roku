@@ -1,0 +1,5 @@
+enum LiveTVChannelTitle
+    NUMBERANDNAME = "numberName"
+    NUMBER = "number"
+    NAME = "name"
+end enum

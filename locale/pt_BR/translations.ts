@@ -382,7 +382,7 @@
     </message>
     <message>
         <source>Global</source>
-        <translation>Mundial</translation>
+        <translation>Gerais</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
@@ -915,7 +915,7 @@
     </message>
     <message>
         <source>Global settings that affect everyone that uses this Roku device.</source>
-        <translation>Configurações mundial que afetam todos que usam este dispositivo Roku.</translation>
+        <translation>Configurações gerais que afetam todos que usam este dispositivo Roku.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
@@ -2320,6 +2320,14 @@
     <message>
         <source>Screen Settings</source>
         <translation>Configurações de Tela</translation>
+    </message>
+    <message>
+        <source>Attempt Direct Play Anamorphic Video</source>
+        <translation>Tentar reprodução direta de vídeo anamórfico</translation>
+    </message>
+    <message>
+        <source>Newer devices may support direct play of anamorphic video.</source>
+        <translation>Dispositivos mais recentes podem oferecer suporte à reprodução direta de vídeos anamórficos.</translation>
     </message>
 </context>
 <context>

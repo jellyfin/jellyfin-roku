@@ -1,0 +1,80 @@
+' captionShadow.bs
+' Adds outline/shadow labels to a caption rectangle
+
+' Ratios relative to fontSize for consistent outline across text sizes
+' 8.5 and 6 were chosen based on visual testing to create a balanced outline effect (WAF)
+const OUTLINE_STEP_RATIO = 0.085 ' ~8.5% fontSize for cardinal directions
+const OUTLINE_DIAG_RATIO = 0.06 ' ~6% fontSize for diagonals
+const BASE_OFFSET = 5 ' Matches lg.translation in captionTask.bs
+
+sub createShadowLabels(rect as object, styledText as string, drawingStyles as object, textEffect as string)
+
+    fontSize = drawingStyles["default"].fontSize
+
+    outlineStep = Int(fontSize * OUTLINE_STEP_RATIO)
+    outlineDiag = Int(fontSize * OUTLINE_DIAG_RATIO)
+
+    if isStringEqual(textEffect, "None") or isStringEqual(textEffect, "Default")
+        ' No shadow labels - Roku's Default visually produces no visible effect, so we treat it as None
+        return
+    else if isStringEqual(textEffect, "Raised")
+        ' Shadow above and to the left, giving the text a raised appearance
+        offsets = [
+            [BASE_OFFSET - outlineStep, BASE_OFFSET],
+            [BASE_OFFSET, BASE_OFFSET - outlineStep],
+            [BASE_OFFSET - outlineDiag, BASE_OFFSET - outlineDiag]
+        ]
+    else if isStringEqual(textEffect, "Depressed")
+        ' Shadow below and to the right, giving the text a depressed appearance
+        offsets = [
+            [BASE_OFFSET + outlineStep, BASE_OFFSET],
+            [BASE_OFFSET, BASE_OFFSET + outlineStep],
+            [BASE_OFFSET + outlineDiag, BASE_OFFSET + outlineDiag]
+        ]
+    else if isStringEqual(textEffect, "Drop shadow (left)")
+        ' Single diagonal shadow to the bottom-left
+        offsets = [
+            [BASE_OFFSET - outlineDiag, BASE_OFFSET + outlineDiag]
+        ]
+    else if isStringEqual(textEffect, "Drop shadow (right)")
+        ' Single diagonal shadow to the bottom-right
+        offsets = [
+            [BASE_OFFSET + outlineDiag, BASE_OFFSET + outlineDiag]
+        ]
+    else
+        ' Uniform and any unrecognized value
+        ' 4 cardinals (large step) + 4 diagonals (small step) = uniform outline
+        ' Offset base [5,5] compensates for lg.translation = [5,5] in captionTask.bs
+        ' so shadow labels align with the main text label
+        offsets = [
+            [BASE_OFFSET, BASE_OFFSET - outlineStep],
+            [BASE_OFFSET, BASE_OFFSET + outlineStep],
+            [BASE_OFFSET - outlineStep, BASE_OFFSET],
+            [BASE_OFFSET + outlineStep, BASE_OFFSET],
+            [BASE_OFFSET - outlineDiag, BASE_OFFSET - outlineDiag],
+            [BASE_OFFSET + outlineDiag, BASE_OFFSET - outlineDiag],
+            [BASE_OFFSET - outlineDiag, BASE_OFFSET + outlineDiag],
+            [BASE_OFFSET + outlineDiag, BASE_OFFSET + outlineDiag]
+        ]
+    end if
+
+    shadowDrawingStyles = {}
+    for each key in drawingStyles.keys()
+        style = drawingStyles[key]
+        shadowDrawingStyles[key] = {
+            "fontUri": style.fontUri,
+            "fontSize": style.fontSize,
+            "color": "0x000000CC"
+        }
+    end for
+
+    for each offset in offsets
+        lbl = CreateObject("roSGNode", "MultiStyleLabel")
+        lbl.drawingStyles = shadowDrawingStyles
+        lbl.text = styledText
+        lbl.horizAlign = "center"
+        lbl.translation = offset
+        rect.appendchild(lbl)
+    end for
+
+end sub

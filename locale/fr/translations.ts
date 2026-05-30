@@ -2269,5 +2269,129 @@
         <source>Screen Settings</source>
         <translation>Configuration d’écran</translation>
     </message>
+    <message>
+        <source>Set the maximum amount of days a show should stay in the &apos;Next Up&apos; list without watching it. Maximum value is 1000 days.</source>
+        <translation>Définir le nombre maximum de jours qu’une série peut rester dans «&#xa0;À suivre&#xa0;» sans être regardée. Valeur maximale : 1000 jours.</translation>
+    </message>
+    <message>
+        <source>Attempt Direct Play Anamorphic Video</source>
+        <translation>Tenter la lecture directe des vidéos anamorphiques</translation>
+    </message>
+    <message>
+        <source>Newer devices may support direct play of anamorphic video.</source>
+        <translation>Les appareils plus récents peuvent prendre en charge la lecture directe des vidéos anamorphiques.</translation>
+    </message>
+    <message>
+        <source>Trickplay Display</source>
+        <translation>Affichage Trickplay</translation>
+    </message>
+    <message>
+        <source>Select trickplay display format.</source>
+        <translation>Sélectionnez le format d&apos;affichage de Trickplay.</translation>
+    </message>
+    <message>
+        <source>Load Items Limit</source>
+        <translation>Limite du nombre d&apos;éléments à charger</translation>
+    </message>
+    <message>
+        <source>Number of items to load together on library screens.</source>
+        <translation>Nombre d&apos;éléments à afficher simultanément sur les écrans de la bibliothèque.</translation>
+    </message>
+    <message>
+        <source>Five trickplay images</source>
+        <translation>Cinq images de trickplay</translation>
+    </message>
+    <message>
+        <source>Single trickplay image that moves</source>
+        <translation>Une seule image Trickplay en mouvement</translation>
+    </message>
+    <message>
+        <source>Settings relating to Live TV.</source>
+        <translation>Paramètres relatifs à la télévision en direct.</translation>
+    </message>
+    <message>
+        <source>Channel Title Info</source>
+        <translation>Informations sur le titre de la chaîne</translation>
+    </message>
+    <message>
+        <source>Select what information to use as a channel&apos;s title.</source>
+        <translation>Choisissez les informations qui serviront de titre à la chaîne.</translation>
+    </message>
+    <message>
+        <source>Channel Number and Name</source>
+        <translation>Numéro et nom du canal</translation>
+    </message>
+    <message>
+        <source>Channel Number</source>
+        <translation>Numéro de canal</translation>
+    </message>
+    <message>
+        <source>Channel Name</source>
+        <translation>Nom de la chaîne</translation>
+    </message>
+    <message>
+        <source>TV Guide Channel Display</source>
+        <translation>Affichage de la chaîne TV Guide</translation>
+    </message>
+    <message>
+        <source>Select how to display a channel in the Live TV guide.</source>
+        <translation>Choisissez le mode d&apos;affichage d&apos;une chaîne dans le guide TV en direct.</translation>
+    </message>
+    <message>
+        <source>Channel Logo and Title</source>
+        <translation>Logo et titre de la chaîne</translation>
+    </message>
+    <message>
+        <source>Channel Logo</source>
+        <translation>Logo de la chaîne</translation>
+    </message>
+    <message>
+        <source>Channel Title</source>
+        <translation>Titre de la chaîne</translation>
+    </message>
+    <message>
+        <source>Playback Speed Controls (Experimental)</source>
+        <translation>Commandes de vitesse de lecture ( expérimental )</translation>
+    </message>
+    <message>
+        <source>Use at your own risk. We make no guarantees this will work for you. \n 1. This feature may not work on this device, yet work on others \n 2. Some speed options may not work on this device, yet work on others \n 3. Roku may block this feature without warning; even if the Jellyfin client doesn&apos;t update</source>
+        <translation>Utilisez cette fonctionnalité à vos propres risques. Nous ne garantissons pas qu&apos;elle fonctionnera dans votre cas. \n 1. Il se peut que cette fonctionnalité ne fonctionne pas sur cet appareil, mais qu&apos;elle fonctionne sur d&apos;autres \n 2. Il se peut que certaines options de vitesse ne fonctionnent pas sur cet appareil, mais qu&apos;elles fonctionnent sur d&apos;autres \n 3. Roku peut bloquer cette fonctionnalité sans préavis, même si le client Jellyfin ne se met pas à jour</translation>
+    </message>
+    <message>
+        <source>Subtitles</source>
+        <translation>Sous-titres</translation>
+    </message>
+    <message>
+        <source>tracks</source>
+        <translation>Pistes</translation>
+    </message>
+    <message>
+        <source>Force media to be transcoded.</source>
+        <translation>Forcer le transcodage du média.</translation>
+    </message>
+    <message>
+        <source>Search Unavailable</source>
+        <translation type="unfinished">Recherche indisponible</translation>
+    </message>
+    <message>
+        <source>Roku&apos;s video player got stuck buffering video</source>
+        <translation type="unfinished">Le lecteur vidéo Roku est bloqué en cours de chargement</translation>
+    </message>
+    <message>
+        <source>Roku&apos;s video player threw the following error</source>
+        <translation type="unfinished">Le lecteur vidéo Roku a renvoyé l&apos;erreur suivante</translation>
+    </message>
+    <message>
+        <source>Roku thought it could direct play this media, but playback never started.</source>
+        <translation>Roku pensait pouvoir lire ce média en lecture directe, mais la lecture n&apos;a jamais démarré.</translation>
+    </message>
+    <message>
+        <source>Always Attempt Direct Playing Video Media</source>
+        <translation>Toujours tenter la lecture directe des médias vidéo</translation>
+    </message>
+    <message>
+        <source>Forces Jellyfin to try direct playing video media, Live TV excluded. Enabling this ignores all other playback support settings and will always first attempt direct playback. It also changes how transcode reason is displayed.</source>
+        <translation type="unfinished">Force Jellyfin à tenter la lecture directe des médias vidéo, à l&apos;exception de la TV en direct. L&apos;activation de cette option ignore tous les autres paramètres de prise en charge de la lecture et tentera toujours la lecture directe en priorité. Cela modifie également la manière dont la raison du transcodage est affichée.</translation>
+    </message>
 </context>
 </TS>

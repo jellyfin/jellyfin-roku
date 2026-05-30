@@ -1,24 +1,77 @@
+import "pkg:/source/enums/AnimationControl.bs"
 import "pkg:/source/enums/ColorPalette.bs"
+import "pkg:/source/enums/KeyCode.bs"
 import "pkg:/source/enums/TaskControl.bs"
+import "pkg:/source/enums/ViewLoadStatus.bs"
 import "pkg:/source/utils/misc.bs"
 
 sub init()
+    m.focuedItem = 0
+    m.toplevel = m.top.findNode("toplevel")
+    m.revealEpisodesAnimation = m.top.findNode("revealEpisodesAnimation")
+    m.toplevelTranslation = m.top.findNode("toplevelTranslation")
+    m.tableHeadingTranslation = m.top.findNode("tableHeadingTranslation")
+    m.playlistTranslation = m.top.findNode("playlistTranslation")
+    m.songListRectTranslation = m.top.findNode("songListRectTranslation")
+    m.songListRectHeight = m.top.findNode("songListRectHeight")
+    m.songListRectWidth = m.top.findNode("songListRectWidth")
+
+    m.defaultClippingRect = "[-10,-10,1650,545]"
+
+    m.loadStatus = ViewLoadStatus.INIT
     m.top.optionsAvailable = false
 
     m.getPlaylistDataTask = createObject("roSGNode", "GetPlaylistDataTask")
 
+    setupButtons()
+
     m.albumCover = m.top.findNode("albumCover")
     m.playlist = m.top.findNode("playlist")
-    m.infoGroup = m.top.FindNode("infoGroup")
     m.songListRect = m.top.FindNode("songListRect")
     m.songListRect.color = ColorPalette.ELEMENTBACKGROUND
 
     m.playlist.focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
 
     m.playlist.observeField("doneLoading", "onDoneLoading")
+end sub
 
-    m.dscr = m.top.findNode("overview")
-    m.dscr.ellipsisText = tr("... (Press * to read more)")
+' Setup playback buttons, default to Play button selected
+sub setupButtons()
+    m.buttonGrp = m.top.findNode("buttons")
+    m.buttonCount = m.buttonGrp.getChildCount()
+    m.top.lastFocus = m.buttonGrp
+
+    m.resume = m.top.findNode("resume")
+    if isValid(m.resume)
+        m.resume.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+    end if
+
+    m.play = m.top.findNode("play")
+    m.play.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+
+    shuffle = m.top.findNode("shuffle")
+    shuffle.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+
+    m.previouslySelectedButtonIndex = -1
+
+    m.top.observeFieldScoped("selectedButtonIndex", "onButtonSelectedChange")
+    m.top.selectedButtonIndex = 0
+end sub
+
+' Event handler when user selected a different playback button
+sub onButtonSelectedChange()
+    ' Change previously focused button back to default
+    if m.previouslySelectedButtonIndex > -1
+        previousSelectedButton = m.buttonGrp.getChild(m.previouslySelectedButtonIndex)
+        if isValid(previousSelectedButton)
+            previousSelectedButton.focus = false
+        end if
+    end if
+
+    ' Change selected button image to focus state
+    selectedButton = m.buttonGrp.getChild(m.top.selectedButtonIndex)
+    selectedButton.focus = true
+    selectedButton.setfocus(true)
 end sub
 
 ' Set values for displayed values on screen
@@ -33,6 +86,41 @@ sub pageContentChanged()
         title.text = item.title
     end if
 
+    runtime = m.top.findNode("runtime")
+    if isValid(runtime)
+        runtime.font.size = 23
+    end if
+
+    numberofsongs = m.top.findNode("numberofsongs")
+    if isValid(numberofsongs)
+        numberofsongs.font.size = 23
+    end if
+
+    trackHeading = m.top.findNode("trackHeading")
+    if isValid(trackHeading)
+        trackHeading.font.size = 23
+    end if
+
+    titleHeading = m.top.findNode("titleHeading")
+    if isValid(titleHeading)
+        titleHeading.font.size = 23
+    end if
+
+    playedHeading = m.top.findNode("playedHeading")
+    if isValid(playedHeading)
+        playedHeading.font.size = 23
+    end if
+
+    positionHeading = m.top.findNode("positionHeading")
+    if isValid(positionHeading)
+        positionHeading.font.size = 23
+    end if
+
+    lengthHeading = m.top.findNode("lengthHeading")
+    if isValid(lengthHeading)
+        lengthHeading.font.size = 23
+    end if
+
     setPosterImage(item.posterURL)
     setOnScreenTextValues(item.json)
 end sub
@@ -44,24 +132,9 @@ sub setPosterImage(posterURL)
     end if
 end sub
 
-' Adjust scene by removing overview node and showing more songs
-sub adjustScreenForNoOverview()
-    m.infoGroup.removeChild(m.dscr)
-    m.songListRect.height = 800
-    m.playlist.numRows = 7
-end sub
-
 ' Populate on screen text variables
 sub setOnScreenTextValues(json)
     if not isValid(json) then return
-
-    if isValidAndNotEmpty(json.overview)
-        ' We have overview text
-        setFieldTextValue("overview", json.overview)
-    else
-        ' We don't have overview text
-        adjustScreenForNoOverview()
-    end if
 
     setFieldTextValue("numberofsongs", `${json.ChildCount} items`)
 
@@ -74,20 +147,154 @@ sub setOnScreenTextValues(json)
     end if
 end sub
 
+sub removeResumeButton()
+    if not isValid(m.resume) then return
+    m.buttonGrp.removeChild(m.resume)
+    m.resume = invalid
+
+    m.buttonCount = m.buttonGrp.getChildCount()
+    m.top.selectedButtonIndex = 0
+    onButtonSelectedChange()
+end sub
+
+sub addResumeButton()
+end sub
+
+function shouldShowResume(playlistData) as boolean
+    if not isValidAndNotEmpty(playlistData) then return false
+    if playlistData.getChildCount() = 0 then return false
+
+    for each playlistItem in playlistData.getChildren(-1, 0)
+        if not chainLookupReturn(playlistItem, "played", false)
+            return true
+        end if
+        if chainLookupReturn(playlistItem, "startingPoint", 0) > 0
+            return true
+        end if
+    end for
+
+    return false
+end function
+
 sub OnScreenShown()
+    if m.loadStatus <> ViewLoadStatus.INIT
+        m.playlist.doneLoading = false
+        m.focuedItem = m.playlist.itemFocused
+        m.top.refreshPlaylistData = not m.top.refreshPlaylistData
+        return
+    end if
+
     if isValid(m.top.lastFocus)
         m.top.lastFocus.setFocus(true)
         group = m.global.sceneManager.callFunc("getActiveScene")
         group.lastFocus = m.top.lastFocus
-    else
-        m.playlist.setFocus(true)
-        group = m.global.sceneManager.callFunc("getActiveScene")
-        group.lastFocus = m.playlist
+        return
     end if
+
+    if isValid(m.resume)
+        m.resume.setFocus(true)
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        group.lastFocus = m.resume
+        return
+    end if
+
+    m.playlist.setFocus(true)
+    group = m.global.sceneManager.callFunc("getActiveScene")
+    group.lastFocus = m.playlist
 end sub
 
+function getFirstUnplayedItem(playlistData) as integer
+    if not isValidAndNotEmpty(playlistData) then return 0
+    if playlistData.getChildCount() = 0 then return 0
+
+    firstUnplayedItemIndex = 0
+
+    for each playlistItem in playlistData.getChildren(-1, 0)
+        if not chainLookupReturn(playlistItem, "played", false)
+            return firstUnplayedItemIndex
+        end if
+
+        firstUnplayedItemIndex++
+    end for
+
+    return 0
+end function
+
 function onKeyEvent(key as string, press as boolean) as boolean
+    if isValid(m.buttonGrp)
+        if m.buttonGrp.isInFocusChain()
+            if isStringEqual(key, KeyCode.LEFT)
+                if m.buttonGrp.getChild(m.top.selectedButtonIndex).escape = "left"
+                    if m.top.selectedButtonIndex > 0
+                        m.previouslySelectedButtonIndex = m.top.selectedButtonIndex
+                        m.top.selectedButtonIndex = m.top.selectedButtonIndex - 1
+                        return true
+                    end if
+
+                    return false
+                end if
+            end if
+
+            if isStringEqual(key, KeyCode.RIGHT)
+                if m.top.selectedButtonIndex < m.buttonCount - 1
+                    m.previouslySelectedButtonIndex = m.top.selectedButtonIndex
+                    m.top.selectedButtonIndex = m.top.selectedButtonIndex + 1
+                    return true
+                end if
+
+                return false
+            end if
+
+            if isStringEqual(key, KeyCode.DOWN)
+                if m.buttonGrp.getChild(m.top.selectedButtonIndex).escape = "down"
+                    m.buttonGrp.getChild(m.top.selectedButtonIndex).escape = string.EMPTY
+                    selectedButton = m.buttonGrp.getChild(m.top.selectedButtonIndex)
+                    selectedButton.focus = false
+                    m.playlist.setFocus(true)
+                    m.top.lastFocus = m.playlist
+                    enterEpisodeListFullScreen()
+                    return true
+                end if
+            end if
+
+            if isStringEqual(key, KeyCode.OK)
+                selectedButton = m.buttonGrp.getChild(m.top.selectedButtonIndex)
+                if not isValid(selectedButton) then return false
+
+                if isStringEqual(chainLookup(selectedButton, "id"), "resume")
+                    m.top.playlistItemSelected = getFirstUnplayedItem(m.top.listData)
+                    return true
+                end if
+
+                if isStringEqual(chainLookup(selectedButton, "id"), "play")
+                    firstItem = m.top.listData.getChild(0)
+                    firstItem.startingPoint = 0
+
+                    m.top.playlistItemSelected = 0
+                    return true
+                end if
+
+                if isStringEqual(chainLookup(selectedButton, "id"), "shuffle")
+                    m.global.queueManager.callFunc("set", m.top.listData.getChildren(-1, 0))
+                    m.global.queueManager.callFunc("setShuffle", true)
+                    m.global.queueManager.callFunc("playQueue")
+                    return true
+                end if
+            end if
+
+            return false
+        end if
+    end if
+
     if not press then return false
+
+    if m.playlist.hasFocus()
+        if isStringEqual(key, KeyCode.BACK)
+            exitEpisodeListFullScreen()
+            onButtonSelectedChange()
+            return true
+        end if
+    end if
 
     if key = "options"
         selectedItem = m.playlist.content.getChild(m.playlist.itemFocused)
@@ -100,15 +307,88 @@ function onKeyEvent(key as string, press as boolean) as boolean
     return false
 end function
 
-sub createFullDscrDlg()
-    if isAllValid([m.top.overhangTitle, m.dscr.text])
-        m.global.sceneManager.callFunc("standardDialog", m.top.overhangTitle, { data: ["<p>" + m.dscr.text + "</p>"] })
-    end if
+sub enterEpisodeListFullScreen()
+    if m.toplevel.translation[1] <> 100 then return
+
+    m.songListRect.color = ColorPalette.BLACKDD
+    m.tableHeadingTranslation.reverse = false
+    m.playlistTranslation.reverse = false
+    m.toplevelTranslation.reverse = false
+    m.songListRectTranslation.reverse = false
+    m.songListRectHeight.reverse = false
+    m.songListRectWidth.reverse = false
+    m.revealEpisodesAnimation.control = AnimationControl.START
+    m.playlist.clippingRect = "[-10,-10,1650,1000]"
+end sub
+
+sub exitEpisodeListFullScreen()
+    m.songListRect.color = ColorPalette.BLACK77
+    m.tableHeadingTranslation.reverse = true
+    m.playlistTranslation.reverse = true
+    m.toplevelTranslation.reverse = true
+    m.songListRectTranslation.reverse = true
+    m.songListRectHeight.reverse = true
+    m.songListRectWidth.reverse = true
+    m.revealEpisodesAnimation.control = AnimationControl.START
+    m.playlist.clippingRect = m.defaultClippingRect
 end sub
 
 sub onDoneLoading()
-    m.playlist.unobservefield("doneLoading")
+    if not m.playlist.doneLoading then return
+
+    if isValidAndNotEmpty(m.top.listData)
+        if shouldShowResume(m.top.listData)
+            addResumeButton()
+        else
+            removeResumeButton()
+        end if
+    else
+        noPageContent()
+    end if
+
+    if m.top.listData.getChildCount() = 0
+        noPageContent()
+    end if
+
+    if m.loadStatus = ViewLoadStatus.INIT
+        m.loadStatus = ViewLoadStatus.LOADED
+    end if
+
+    if isValid(m.top.lastFocus)
+        m.top.lastFocus.setFocus(true)
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        group.lastFocus = m.top.lastFocus
+    else
+        m.play.lastFocus.setFocus(true)
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        group.lastFocus = m.play
+    end if
+
+    if isValid(m.focuedItem)
+        m.playlist.jumpToItem = m.focuedItem
+    end if
+
     stopLoadingSpinner()
+end sub
+
+sub noPageContent()
+    if isValid(m.play)
+        m.buttonGrp.removeChild(m.play)
+        m.play = invalid
+    end if
+
+    shuffle = m.top.findNode("shuffle")
+    if isValid(shuffle)
+        m.buttonGrp.removeChild(shuffle)
+    end if
+
+    if isValid(m.buttonGrp)
+        m.top.removeChild(m.buttonGrp)
+        m.buttonGrp = invalid
+    end if
+
+    m.buttonCount = 0
+    m.top.setfocus(true)
 end sub
 
 sub confirmPlaylistAccess(playlistID as string, selectedItemID as string, selectedItemTitle as string)

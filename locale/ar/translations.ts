@@ -553,255 +553,255 @@
     </message>
     <message>
         <source>Support Direct Play of MPEG-4 content. This may need to be disabled for playback of DIVX encoded video files.</source>
-        <translation type="unfinished"></translation>
+        <translation>دعم محتوي Direct Play الخاص بـ MPEG-4. قد يتطلب تشغيل ملفات فيديو تشفير DIVX تثبيط هذه الخاصية.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>تفعيل</translation>
     </message>
     <message>
         <source>Disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>تثبيط</translation>
     </message>
     <message>
         <source>User Interface</source>
-        <translation type="unfinished"></translation>
+        <translation>واجهة المستخدم</translation>
         <extracomment>Title for User Interface section in user setting screen.</extracomment>
     </message>
     <message>
         <source>Media Grid</source>
-        <translation type="unfinished"></translation>
+        <translation>شبكة الوسائط</translation>
         <extracomment>UI -&gt; Media Grid section in user setting screen.</extracomment>
     </message>
     <message>
         <source>Media Grid options.</source>
-        <translation type="unfinished"></translation>
+        <translation>خيارات شبكة الوسائط.</translation>
     </message>
     <message>
         <source>Item Count</source>
-        <translation type="unfinished"></translation>
+        <translation>عد العناصر</translation>
         <extracomment>UI -&gt; Media Grid -&gt; Item Count in user setting screen.</extracomment>
     </message>
     <message>
         <source>Show item count in the library and index of selected item.</source>
-        <translation type="unfinished"></translation>
+        <translation>اظهار عدد العناصر في المكتبة و فهرس العناصر المختارة.</translation>
         <extracomment>Description for option in Setting Screen</extracomment>
     </message>
     <message>
         <source>Set Favorite</source>
-        <translation type="unfinished"></translation>
+        <translation>تعيين المفضلة</translation>
         <extracomment>Button Text - When pressed, sets item as Favorite</extracomment>
     </message>
     <message>
         <source>Favorited</source>
-        <translation type="unfinished"></translation>
+        <translation>مٌفضل</translation>
     </message>
     <message>
         <source>Mark As Favorite</source>
-        <translation type="unfinished"></translation>
+        <translation>تعليم كمفضل</translation>
     </message>
     <message>
         <source>Set Watched</source>
-        <translation type="unfinished"></translation>
+        <translation>تعيين كمٌشاهد</translation>
         <extracomment>Button Text - When pressed, marks item as Warched</extracomment>
     </message>
     <message>
         <source>Resume playing at </source>
-        <translation type="unfinished"></translation>
+        <translation>متابعة التشغيل عند </translation>
     </message>
     <message>
         <source>Start over from the beginning.</source>
-        <translation type="unfinished"></translation>
+        <translation>البدء مجددا من البداية.</translation>
     </message>
     <message>
         <source>Playback Options</source>
-        <translation type="unfinished"></translation>
+        <translation>اختيارات التشغيل</translation>
     </message>
     <message>
         <source>Go to series</source>
-        <translation type="unfinished"></translation>
+        <translation>لائحة متابعى المشاهدة - التوجه نحو صفحة تفاصيل المسلسل</translation>
         <extracomment>Continue Watching Popup Menu - Navigate to the Series Detail Page</extracomment>
     </message>
     <message>
         <source>Go to season</source>
-        <translation type="unfinished"></translation>
+        <translation>توجه لموسم</translation>
         <extracomment>Continue Watching Popup Menu - Navigate to the Season Page</extracomment>
     </message>
     <message>
         <source>Go to episode</source>
-        <translation type="unfinished"></translation>
+        <translation>توجه لحلقة</translation>
         <extracomment>Continue Watching Popup Menu - Navigate to the Episode Detail Page</extracomment>
     </message>
     <message>
         <source>Use voice remote to search</source>
-        <translation type="unfinished"></translation>
+        <translation>استخدم صوت التحكم للبحث</translation>
         <extracomment>Help text in search voice text box</extracomment>
     </message>
     <message>
         <source>Search now</source>
-        <translation type="unfinished"></translation>
+        <translation>ابحث الآن</translation>
         <extracomment>Help text in search Box</extracomment>
     </message>
     <message>
         <source>You can search for Titles, People, Live TV Channels and more</source>
-        <translation type="unfinished"></translation>
+        <translation>يمكنك البحث عن العناوين, ناس, قنوات التلفاز المباشرة و المزيد</translation>
         <extracomment>Help text in search results</extracomment>
     </message>
     <message>
         <source>%1 of %2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 من %2</translation>
         <extracomment>Item position and count. %1 = current item. %2 = total number of items</extracomment>
     </message>
     <message>
         <source>Quick Connect</source>
-        <translation type="unfinished"></translation>
+        <translation>توصيل سريع</translation>
     </message>
     <message>
         <source>Here is your Quick Connect code:</source>
-        <translation type="unfinished"></translation>
+        <translation>إليك رمز التوصيل السريع:</translation>
     </message>
     <message>
         <source>(Dialog will close automatically)</source>
-        <translation type="unfinished"></translation>
+        <translation>(صندوق الحوار سيغلق تلقائيا)</translation>
     </message>
     <message>
         <source>There was an error authenticating via Quick Connect.</source>
-        <translation type="unfinished"></translation>
+        <translation>هناك خطأ مصادقة عبر التوصيل السريع.</translation>
     </message>
     <message>
         <source>Networks</source>
-        <translation type="unfinished"></translation>
+        <translation>شبكات</translation>
     </message>
     <message>
         <source>Studios</source>
-        <translation type="unfinished"></translation>
+        <translation>استوديوهات</translation>
     </message>
     <message>
         <source>Shows</source>
-        <translation type="unfinished"></translation>
+        <translation>برامج</translation>
     </message>
     <message>
         <source>Return to Top</source>
-        <translation type="unfinished"></translation>
+        <translation>رجوع للأعلى</translation>
         <extracomment>UI -&gt; Media Grid -&gt; Item Title in user setting screen.</extracomment>
     </message>
     <message>
         <source>Use the replay button to slowly animate to the first item in the folder. (If disabled, the folder will reset to the first item immediately).</source>
-        <translation type="unfinished"></translation>
+        <translation>استخدم زر إعادة التشغيل لإبطاء الحركة لأول عنصر في المجلد.(إذا كان مثبطا, المجلد سيعيد التعيين إلى أول عنصر مباشرة).</translation>
         <extracomment>Description for option in Setting Screen</extracomment>
     </message>
     <message>
         <source>Hide Taglines</source>
-        <translation type="unfinished"></translation>
+        <translation>اخفاء خطوط الوسوم</translation>
         <extracomment>Option Title in user setting screen</extracomment>
     </message>
     <message>
         <source>Hides tagline text on details pages.</source>
-        <translation type="unfinished"></translation>
+        <translation>اخفاء خطوط الوسوم في صفحات التفاصيل.</translation>
     </message>
     <message>
         <source>Options for TV Shows.</source>
-        <translation type="unfinished"></translation>
+        <translation>اختيارات البرامج التلفزيونية.</translation>
         <extracomment>Description for TV Shows user settings.</extracomment>
     </message>
     <message>
         <source>Blur Unwatched Episodes</source>
-        <translation type="unfinished"></translation>
+        <translation>تضبيب الحلقات غير المشاهدة</translation>
         <extracomment>Option Title in user setting screen</extracomment>
     </message>
     <message>
         <source>Skip Details for Single Seasons</source>
-        <translation type="unfinished"></translation>
+        <translation>تجاوز تفاصيل مواسم مفردة</translation>
         <extracomment>Settings Menu - Title for option</extracomment>
     </message>
     <message>
         <source>Go directly to the episode list if a TV series has only one season.</source>
-        <translation type="unfinished"></translation>
+        <translation>إن كان مفعلا, اختيار مسلسلات تلفزيونية ذات موسم واحد فقط سوف ينقلك مباشرة لحلقة بدلا من تفاصيل المسلسل و لائحة الموسم.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Blur images of unwatched episodes.</source>
-        <translation type="unfinished"></translation>
+        <translation>تضبيب صور الحلقات غير المشاهدة.</translation>
     </message>
     <message>
         <source>Design Elements</source>
-        <translation type="unfinished"></translation>
+        <translation>تصميم عناصر</translation>
     </message>
     <message>
         <source>Options that alter the design of Jellyfin.</source>
-        <translation type="unfinished"></translation>
+        <translation>إختيارات لتغيير تصميم Jellyfin.</translation>
         <extracomment>Description for Design Elements user settings.</extracomment>
     </message>
     <message>
         <source>Use Splashscreen as Home Background</source>
-        <translation type="unfinished"></translation>
+        <translation>استخدم شاشة البداية كخلفية للصفحة الرئيسية</translation>
         <extracomment>Option Title in user setting screen</extracomment>
     </message>
     <message>
         <source>Use generated splashscreen image as Jellyfin&apos;s home background. Jellyfin will need to be closed and reopened for change to take effect.</source>
-        <translation type="unfinished"></translation>
+        <translation>استخدم الصورة المولّدة كخلفية للصفحة الرئيسية ل Jellyfin. Jellyfin يجب ان يغلق و يفتح مجددا لكي يتم تطبيق التغيير.</translation>
         <extracomment>Description for option in Setting Screen</extracomment>
     </message>
     <message>
         <source>Cinema Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>نمط السينما</translation>
         <extracomment>Settings Menu - Title for option</extracomment>
     </message>
     <message>
         <source>Bring the theater experience straight to your living room with the ability to play custom intros before the main feature.</source>
-        <translation type="unfinished"></translation>
+        <translation>عش تجربة المسرح في غرفة الجلوس مع امكانية تخصيص تشغيل المقدمات قبل العرض الرئيسي.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Hide Clock</source>
-        <translation type="unfinished"></translation>
+        <translation>اخفاء الساعة</translation>
         <extracomment>Option Title in user setting screen</extracomment>
     </message>
     <message>
         <source>Hide all clocks in Jellyfin. Jellyfin will need to be closed and reopened for changes to take effect.</source>
-        <translation type="unfinished"></translation>
+        <translation>اخفاء كل الساعات في Jellyfin.سيحتاج Jellyfin للاغلاق ثم إعادة الفتح لتطبيق التعديلات.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Next episode</source>
-        <translation type="unfinished"></translation>
+        <translation>الحلقة التالية</translation>
     </message>
     <message>
         <source>Play Trailer</source>
-        <translation type="unfinished"></translation>
+        <translation>تشغيل المقطع الدعائي</translation>
     </message>
     <message>
         <source>H.264</source>
-        <translation type="unfinished"></translation>
+        <translation>H.264</translation>
         <extracomment>Name of codec used in settings menu</extracomment>
     </message>
     <message>
         <source>Attempt Direct Play for H.264 media with unsupported profile levels before falling back to transcoding if it fails.</source>
-        <translation type="unfinished"></translation>
+        <translation>محاولة تشغيل وسائط H.264 مع مستويات الحساب غير المدعوم قبل الرجوع إلى الترميز في حال الفشل.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>HEVC</source>
-        <translation type="unfinished"></translation>
+        <translation>HEVC</translation>
         <extracomment>Name of codec used in settings menu</extracomment>
     </message>
     <message>
         <source>Attempt Direct Play for HEVC media with unsupported profile levels before falling back to transcoding if it fails.</source>
-        <translation type="unfinished"></translation>
+        <translation>محاولة تشغيل وسائط HEVC مع مستويات الحساب غير المدعوم قبل الرجوع إلى الترميز في حال الفشل.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Settings relating to playback and supported codec and media types.</source>
-        <translation type="unfinished"></translation>
+        <translation>اعدادات خاصة بالتشغيل و التشفير المدعوم و أنواع الوسائط.</translation>
     </message>
     <message>
         <source>Settings relating to how the application looks.</source>
-        <translation type="unfinished"></translation>
+        <translation>اعدادات تختص بمنظر التطبيق.</translation>
     </message>
     <message>
         <source>Max Days Next Up</source>
-        <translation type="unfinished"></translation>
+        <translation>أقصى عدد ايام للقادم</translation>
         <extracomment>Option Title in user setting screen</extracomment>
     </message>
     <message>
@@ -811,98 +811,98 @@
     </message>
     <message>
         <source>Playback Information</source>
-        <translation type="unfinished"></translation>
+        <translation>معلومات التشغيل</translation>
     </message>
     <message>
         <source>Transcoding Information</source>
-        <translation type="unfinished"></translation>
+        <translation>معلومات الترميز</translation>
     </message>
     <message>
         <source>Reason</source>
-        <translation type="unfinished"></translation>
+        <translation>سبب</translation>
     </message>
     <message>
         <source>Force Transcoding setting is enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>إجبار اعداد الترميز مفعّل</translation>
     </message>
     <message>
         <source>Force Transcode option is enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>إجبار اختيار الترميز مفعّل</translation>
     </message>
     <message>
         <source>Video Codec</source>
-        <translation type="unfinished"></translation>
+        <translation>تشفير الفيديو</translation>
     </message>
     <message>
         <source>Audio Codec</source>
-        <translation type="unfinished"></translation>
+        <translation>تشفير الصوت</translation>
     </message>
     <message>
         <source>direct</source>
-        <translation type="unfinished"></translation>
+        <translation>متجه</translation>
     </message>
     <message>
         <source>Total Bitrate</source>
-        <translation type="unfinished"></translation>
+        <translation>مجموع معدل البث</translation>
     </message>
     <message>
         <source>Audio Channels</source>
-        <translation type="unfinished"></translation>
+        <translation>قنوات صوتية</translation>
     </message>
     <message>
         <source>Stream Information</source>
-        <translation type="unfinished"></translation>
+        <translation>معلومات البث</translation>
     </message>
     <message>
         <source>Codec</source>
-        <translation type="unfinished"></translation>
+        <translation>تشفير</translation>
     </message>
     <message>
         <source>Codec Tag</source>
-        <translation type="unfinished"></translation>
+        <translation>وسم الترميز</translation>
     </message>
     <message>
         <source>Level</source>
-        <translation type="unfinished"></translation>
+        <translation>مستوى</translation>
         <extracomment>Video profile level</extracomment>
     </message>
     <message>
         <source>Bit Rate</source>
-        <translation type="unfinished"></translation>
+        <translation>معدل بث</translation>
         <extracomment>Video streaming bit rate</extracomment>
     </message>
     <message>
         <source>Container</source>
-        <translation type="unfinished"></translation>
+        <translation>حاوية</translation>
         <extracomment>Video streaming container</extracomment>
     </message>
     <message>
         <source>Size</source>
-        <translation type="unfinished"></translation>
+        <translation>حجم</translation>
         <extracomment>Video size</extracomment>
     </message>
     <message>
         <source>Video range type</source>
-        <translation type="unfinished"></translation>
+        <translation>نوع مدى الفيديو</translation>
     </message>
     <message>
         <source>Pixel format</source>
-        <translation type="unfinished"></translation>
+        <translation>تهيئة Pixel</translation>
         <extracomment>Video pixel format</extracomment>
     </message>
     <message>
         <source>WxH</source>
-        <translation type="unfinished"></translation>
+        <translation>ع X إ</translation>
         <extracomment>Video width x height</extracomment>
     </message>
     <message>
         <source>Unable to find any albums or songs belonging to this artist</source>
-        <translation type="unfinished"></translation>
+        <translation>تعذر العثور على أي ألبوم أو اغاني تخص هذا الفنان</translation>
         <extracomment>Popup message when we find no audio data for an artist</extracomment>
     </message>
     <message>
         <source>Custom Subtitles</source>
-        <translation type="unfinished"></translation>
+        <translation>تخصيص الترجمة</translation>
         <extracomment>Name of a setting - custom subtitles that support CJK fonts</extracomment>
     </message>
     <message>
@@ -912,448 +912,448 @@
     </message>
     <message>
         <source>Text Subtitles Only</source>
-        <translation type="unfinished"></translation>
+        <translation>نصوص الترجمة فقط</translation>
         <extracomment>Name of a setting - should we hide subtitles that might transcode</extracomment>
     </message>
     <message>
         <source>Only display text subtitles to minimize transcoding.</source>
-        <translation type="unfinished"></translation>
+        <translation>عرض الترجمات النصية فقط لتقليل إعادة الترميز.</translation>
         <extracomment>Description of a setting - should we hide subtitles that might transcode</extracomment>
     </message>
     <message>
         <source>all</source>
-        <translation type="unfinished"></translation>
+        <translation>الكل</translation>
         <extracomment>all will reset the searchTerm so all data will be availible</extracomment>
     </message>
     <message>
         <source>All</source>
-        <translation type="unfinished"></translation>
+        <translation>الكل</translation>
         <extracomment>All in filter</extracomment>
     </message>
     <message>
         <source>Aired</source>
-        <translation type="unfinished"></translation>
+        <translation>تاريخ العرض</translation>
         <extracomment>Aired date label</extracomment>
     </message>
     <message>
         <source>Slideshow Off</source>
-        <translation type="unfinished"></translation>
+        <translation>إيقاف عرض الشرائح</translation>
     </message>
     <message>
         <source>Slideshow On</source>
-        <translation type="unfinished"></translation>
+        <translation>تشغيل عرض الشرائح</translation>
     </message>
     <message>
         <source>Slideshow Paused</source>
-        <translation type="unfinished"></translation>
+        <translation>إيقاف عرض الشرائح مؤقتًا</translation>
     </message>
     <message>
         <source>(Favorites)</source>
-        <translation type="unfinished"></translation>
+        <translation>(المفضلة)</translation>
     </message>
     <message>
         <source>Favorites</source>
-        <translation type="unfinished"></translation>
+        <translation>المفضلة</translation>
     </message>
     <message>
         <source>Artists</source>
-        <translation type="unfinished"></translation>
+        <translation>الفنانون</translation>
     </message>
     <message>
         <source>Slideshow Resumed</source>
-        <translation type="unfinished"></translation>
+        <translation>استئناف عرض الشرائح</translation>
     </message>
     <message>
         <source>Random Off</source>
-        <translation type="unfinished"></translation>
+        <translation>إيقاف التشغيل العشوائي</translation>
     </message>
     <message>
         <source>Random On</source>
-        <translation type="unfinished"></translation>
+        <translation>تشغيل التشغيل العشوائي</translation>
     </message>
     <message>
         <source>Delete Playlist</source>
-        <translation type="unfinished"></translation>
+        <translation>حذف قائمة التشغيل</translation>
     </message>
     <message>
         <source>MPEG-4 Support</source>
-        <translation type="unfinished"></translation>
+        <translation>دعم MPEG-4</translation>
         <extracomment>Settings Menu - Title for option</extracomment>
     </message>
     <message>
         <source>Parental Ratings</source>
-        <translation type="unfinished"></translation>
+        <translation>التصنيفات الأبوية</translation>
         <extracomment>Used in Filter menu</extracomment>
     </message>
     <message>
         <source>Collections</source>
-        <translation type="unfinished"></translation>
+        <translation>المجموعات</translation>
     </message>
     <message>
         <source>Playlists</source>
-        <translation type="unfinished"></translation>
+        <translation>قوائم التشغيل</translation>
     </message>
     <message>
         <source>Years</source>
-        <translation type="unfinished"></translation>
+        <translation>السنوات</translation>
         <extracomment>Used in Filter menu</extracomment>
     </message>
     <message>
         <source>No items found. Try adjusting your selected filters.</source>
-        <translation type="unfinished"></translation>
+        <translation>لم يتم العثور على أي عناصر. حاول تعديل عوامل التصفية المحددة.</translation>
     </message>
     <message>
         <source>Show What&apos;s New Popup</source>
-        <translation type="unfinished"></translation>
+        <translation>إظهار نافذة “ما الجديد” المنبثقة</translation>
         <extracomment>Settings Menu - Title for option</extracomment>
     </message>
     <message>
         <source>Show What&apos;s New popup when Jellyfin is updated to a new version.</source>
-        <translation type="unfinished"></translation>
+        <translation>إظهار نافذة “ما الجديد” عند تحديث Jellyfin إلى إصدار جديد.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Unplayed</source>
-        <translation type="unfinished"></translation>
+        <translation>غير مُشاهد</translation>
     </message>
     <message>
         <source>Played</source>
-        <translation type="unfinished"></translation>
+        <translation>تم مشاهدته</translation>
     </message>
     <message>
         <source>Resumable</source>
-        <translation type="unfinished"></translation>
+        <translation>قابل للاستئناف</translation>
     </message>
     <message>
         <source>Movie Library Default View</source>
-        <translation type="unfinished"></translation>
+        <translation>العرض الافتراضي لمكتبة الأفلام</translation>
         <extracomment>Settings Menu - Title for option</extracomment>
     </message>
     <message>
         <source>Default view for Movie Libraries.</source>
-        <translation type="unfinished"></translation>
+        <translation>العرض الافتراضي لمكتبات الأفلام.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Grid View Item Titles</source>
-        <translation type="unfinished"></translation>
+        <translation>عناوين العناصر في العرض الشبكي</translation>
         <extracomment>Title of a setting - when should we show the title text of a grid item</extracomment>
     </message>
     <message>
         <source>Select when to show titles in grid view.</source>
-        <translation type="unfinished"></translation>
+        <translation>اختر متى يتم عرض العناوين في العرض الشبكي.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Show On Hover</source>
-        <translation type="unfinished"></translation>
+        <translation>إظهار عند التمرير</translation>
     </message>
     <message>
         <source>Always Show</source>
-        <translation type="unfinished"></translation>
+        <translation>إظهار دائمًا</translation>
     </message>
     <message>
         <source>Always Hide</source>
-        <translation type="unfinished"></translation>
+        <translation>إخفاء دائمًا</translation>
     </message>
     <message>
         <source>Artists (Presentation)</source>
-        <translation type="unfinished"></translation>
+        <translation>الفنانون (عرض تقديمي)</translation>
     </message>
     <message>
         <source>Album Artist</source>
-        <translation type="unfinished"></translation>
+        <translation>فنان الألبوم</translation>
     </message>
     <message>
         <source>Album Artists (Presentation)</source>
-        <translation type="unfinished"></translation>
+        <translation>فنانو الألبوم (عرض تقديمي)</translation>
     </message>
     <message>
         <source>Artists (Grid)</source>
-        <translation type="unfinished"></translation>
+        <translation>الفنانون (شبكة)</translation>
     </message>
     <message>
         <source>Album Artists (Grid)</source>
-        <translation type="unfinished"></translation>
+        <translation>فنانو الألبوم (شبكة)</translation>
     </message>
     <message>
         <source>Song</source>
-        <translation type="unfinished"></translation>
+        <translation>أغنية</translation>
     </message>
     <message>
         <source>Songs</source>
-        <translation type="unfinished"></translation>
+        <translation>الأغاني</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation type="unfinished"></translation>
+        <translation>ألبوم</translation>
     </message>
     <message>
         <source>Albums</source>
-        <translation type="unfinished"></translation>
+        <translation>الألبومات</translation>
     </message>
     <message>
         <source>Autoplay Episode Limit</source>
-        <translation type="unfinished"></translation>
+        <translation>حد التشغيل التلقائي للحلقات</translation>
     </message>
     <message>
         <source>The number of episodes that will play automatically after the selected episode. Requires &apos;Play next episode automatically&apos; server setting to be enabled.</source>
-        <translation type="unfinished"></translation>
+        <translation>عدد الحلقات التي سيتم تشغيلها تلقائيًا بعد الحلقة المحددة. يتطلب تفعيل إعداد “تشغيل الحلقة التالية تلقائيًا” على الخادم.</translation>
     </message>
     <message>
         <source>View All</source>
-        <translation type="unfinished"></translation>
+        <translation>عرض الكل</translation>
     </message>
     <message>
         <source>Disable Community Rating for Episodes</source>
-        <translation type="unfinished"></translation>
+        <translation>تعطيل تقييم المجتمع للحلقات</translation>
     </message>
     <message>
         <source>Hide the star and community rating for episodes of a TV show. This is to prevent spoilers of an upcoming good/bad episode.</source>
-        <translation type="unfinished"></translation>
+        <translation>إخفاء تقييم النجوم وتقييم المجتمع لحلقات المسلسل لمنع حرق أحداث الحلقات الجيدة أو السيئة القادمة.</translation>
     </message>
     <message>
         <source>Configure the maximum playback bitrate.</source>
-        <translation type="unfinished"></translation>
+        <translation>تكوين الحد الأقصى لمعدل بت التشغيل.</translation>
     </message>
     <message>
         <source>Biographical information for this person is not currently available.</source>
-        <translation type="unfinished"></translation>
+        <translation>المعلومات السيرة الذاتية لهذا الشخص غير متوفرة حاليًا.</translation>
     </message>
     <message>
         <source>Enable Limit</source>
-        <translation type="unfinished"></translation>
+        <translation>تفعيل الحد</translation>
     </message>
     <message>
         <source>Enable or disable the &apos;Maximum Bitrate&apos; setting.</source>
-        <translation type="unfinished"></translation>
+        <translation>تفعيل أو تعطيل إعداد “الحد الأقصى لمعدل البت”.</translation>
     </message>
     <message>
         <source>Bitrate Limit</source>
-        <translation type="unfinished"></translation>
+        <translation>حد معدل البت</translation>
     </message>
     <message>
         <source>Maximum Bitrate</source>
-        <translation type="unfinished"></translation>
+        <translation>الحد الأقصى لمعدل البت</translation>
     </message>
     <message>
         <source>Set the maximum bitrate in Mbps. Set to 0 to use Roku&apos;s specifications. This setting must be enabled to take effect.</source>
-        <translation type="unfinished"></translation>
+        <translation>تعيين الحد الأقصى لمعدل البت بوحدة Mbps. اضبطه على 0 لاستخدام مواصفات Roku. يجب تفعيل هذا الإعداد ليصبح ساري المفعول.</translation>
     </message>
     <message>
         <source>Libraries</source>
-        <translation type="unfinished"></translation>
+        <translation>المكتبات</translation>
     </message>
     <message>
         <source>Settings relating to the appearance of Library pages</source>
-        <translation type="unfinished"></translation>
+        <translation>إعدادات متعلقة بمظهر صفحات المكتبة</translation>
     </message>
     <message>
         <source>General</source>
-        <translation type="unfinished"></translation>
+        <translation>عام</translation>
     </message>
     <message>
         <source>Settings relating to the appearance of the Home screen and the program in general.</source>
-        <translation type="unfinished"></translation>
+        <translation>إعدادات متعلقة بمظهر الشاشة الرئيسية والتطبيق بشكل عام.</translation>
     </message>
     <message>
         <source>Grid View Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>إعدادات العرض الشبكي</translation>
     </message>
     <message>
         <source>Settings that apply when Grid views are enabled.</source>
-        <translation type="unfinished"></translation>
+        <translation>الإعدادات التي تُطبق عند تفعيل العرض الشبكي.</translation>
     </message>
     <message>
         <source>Settings relating to the appearance of pages in TV Libraries.</source>
-        <translation type="unfinished"></translation>
+        <translation>إعدادات متعلقة بمظهر صفحات مكتبات التلفاز.</translation>
     </message>
     <message>
         <source>Settings relating to the appearance of pages in Movie Libraries.</source>
-        <translation type="unfinished"></translation>
+        <translation>إعدادات متعلقة بمظهر صفحات مكتبات الأفلام.</translation>
     </message>
     <message>
         <source>Presentation</source>
-        <translation type="unfinished"></translation>
+        <translation>عرض تقديمي</translation>
         <extracomment>Title of an option - name of presentation view</extracomment>
     </message>
     <message>
         <source>Grid</source>
-        <translation type="unfinished"></translation>
+        <translation>شبكة</translation>
         <extracomment>Title of an option - name of grid view</extracomment>
     </message>
     <message>
         <source>Disable Unwatched Episode Count</source>
-        <translation type="unfinished"></translation>
+        <translation>تعطيل عدد الحلقات غير المشاهدة</translation>
         <extracomment>Settings Menu - Title for option</extracomment>
     </message>
     <message>
         <source>If enabled, the number of unwatched episodes in a series/season will be removed.</source>
-        <translation type="unfinished"></translation>
+        <translation>إذا تم التفعيل، سيتم إخفاء عدد الحلقات غير المشاهدة في المسلسل أو الموسم.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Loading trailer</source>
-        <translation type="unfinished"></translation>
+        <translation>جارٍ تحميل المقطع الدعائي</translation>
         <extracomment>Dialog title in Main.brs</extracomment>
     </message>
     <message>
         <source>Next Episode Button Time</source>
-        <translation type="unfinished"></translation>
+        <translation>وقت ظهور زر الحلقة التالية</translation>
         <extracomment>Settings Menu - Title for option</extracomment>
     </message>
     <message>
         <source>Set how many seconds before the end of an episode the Next Episode button should appear. Set to 0 to disable.</source>
-        <translation type="unfinished"></translation>
+        <translation>إذا لم يكن هناك مقطع Outro، فحدد عدد الثواني قبل نهاية الحلقة التي يظهر فيها زر تخطي النهاية. اضبطه على 0 للتعطيل.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Preferred Audio Codec</source>
-        <translation type="unfinished"></translation>
+        <translation>ترميز الصوت المفضل</translation>
         <extracomment>Settings Menu - Title of option</extracomment>
     </message>
     <message>
         <source>Use the selected audio codec for transcodes. If the device or stream does not support it, a fallback codec will be used.</source>
-        <translation type="unfinished"></translation>
+        <translation>استخدام ترميز الصوت المحدد لعمليات إعادة الترميز. إذا لم يكن الجهاز أو البث يدعمه، فسيتم استخدام ترميز احتياطي.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Video Codec Support</source>
-        <translation type="unfinished"></translation>
+        <translation>دعم ترميز الفيديو</translation>
         <extracomment>Settings Menu - Title for option</extracomment>
     </message>
     <message>
         <source>Enable or disable Direct Play support for certain codecs.</source>
-        <translation type="unfinished"></translation>
+        <translation>تفعيل أو تعطيل دعم التشغيل المباشر لبعض الترميزات.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Video Profile Level Support</source>
-        <translation type="unfinished"></translation>
+        <translation>دعم مستوى ملف تعريف الفيديو</translation>
         <extracomment>Settings Menu - Title for option</extracomment>
     </message>
     <message>
         <source>Attempt Direct Play of potentially unsupported profile levels</source>
-        <translation type="unfinished"></translation>
+        <translation>محاولة التشغيل المباشر لمستويات ملفات تعريف قد تكون غير مدعومة</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Use system settings</source>
-        <translation type="unfinished"></translation>
+        <translation>استخدام إعدادات النظام</translation>
         <extracomment>User Setting - Option title</extracomment>
     </message>
     <message>
         <source>Direct playing</source>
-        <translation type="unfinished"></translation>
+        <translation>تشغيل مباشر</translation>
     </message>
     <message>
         <source>The source file is entirely compatible with this client and the session is receiving the file without modifications.</source>
-        <translation type="unfinished"></translation>
+        <translation>الملف المصدر متوافق بالكامل مع هذا العميل، ويتم استلامه دون أي تعديلات.</translation>
         <extracomment>Direct play info box text in GetPlaybackInfoTask.brs</extracomment>
     </message>
     <message>
         <source>Maximum Resolution</source>
-        <translation type="unfinished"></translation>
+        <translation>الدقة القصوى</translation>
         <extracomment>User Setting - Title</extracomment>
     </message>
     <message>
         <source>Set the maximum resolution when playing video files on this device.</source>
-        <translation type="unfinished"></translation>
+        <translation>تعيين الحد الأقصى للدقة عند تشغيل ملفات الفيديو على هذا الجهاز.</translation>
         <extracomment>User Setting - Description</extracomment>
     </message>
     <message>
         <source>Off - Attempt to play all resolutions</source>
-        <translation type="unfinished"></translation>
+        <translation>إيقاف — محاولة تشغيل جميع الدقات</translation>
         <extracomment>User Setting - Option title</extracomment>
     </message>
     <message>
         <source>Auto - Use TV resolution</source>
-        <translation type="unfinished"></translation>
+        <translation>تلقائي — استخدام دقة التلفاز</translation>
         <extracomment>User Setting - Option title</extracomment>
     </message>
     <message>
         <source>Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>الوضع</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Value</source>
-        <translation type="unfinished"></translation>
+        <translation>القيمة</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Maximum Audio Channels</source>
-        <translation type="unfinished"></translation>
+        <translation>الحد الأقصى لقنوات الصوت</translation>
         <extracomment>User Setting - Title</extracomment>
     </message>
     <message>
         <source>Configure the maximum audio channels when playing video files on this device.</source>
-        <translation type="unfinished"></translation>
+        <translation>تكوين الحد الأقصى لقنوات الصوت عند تشغيل ملفات الفيديو على هذا الجهاز.</translation>
         <extracomment>User Setting - Description</extracomment>
     </message>
     <message>
         <source>Off - Attempt to play all channels</source>
-        <translation type="unfinished"></translation>
+        <translation>إيقاف — محاولة تشغيل جميع القنوات</translation>
         <extracomment>User Setting - Option title</extracomment>
     </message>
     <message>
         <source>Configure the maximum resolution when playing video files on this device.</source>
-        <translation type="unfinished"></translation>
+        <translation>تكوين الحد الأقصى للدقة عند تشغيل ملفات الفيديو على هذا الجهاز.</translation>
         <extracomment>User Setting - Description</extracomment>
     </message>
     <message>
         <source>Apply max resolution to all files or only transcoded files.</source>
-        <translation type="unfinished"></translation>
+        <translation>تطبيق الدقة القصوى على جميع الملفات أو على الملفات المعاد ترميزها فقط.</translation>
         <extracomment>User Setting - Description</extracomment>
     </message>
     <message>
         <source>All files</source>
-        <translation type="unfinished"></translation>
+        <translation>جميع الملفات</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Only transcoded files</source>
-        <translation type="unfinished"></translation>
+        <translation>الملفات المعاد ترميزها فقط</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Compatibility</source>
-        <translation type="unfinished"></translation>
+        <translation>التوافق</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Attempt to prevent playback failures.</source>
-        <translation type="unfinished"></translation>
+        <translation>محاولة منع فشل التشغيل.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
         <source>Disable HEVC</source>
-        <translation type="unfinished"></translation>
+        <translation>تعطيل HEVC</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Disable the HEVC codec on this device. This may improve playback for some devices (ultra).</source>
-        <translation type="unfinished"></translation>
+        <translation>تعطيل ترميز HEVC على هذا الجهاز. قد يؤدي ذلك إلى تحسين التشغيل على بعض الأجهزة (Ultra).</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
         <source>Global</source>
-        <translation type="unfinished"></translation>
+        <translation>عامم</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Global settings that affect everyone that uses this Roku device.</source>
-        <translation type="unfinished"></translation>
+        <translation>إعدادات عامة لجميع مستخدمي جهاز Roku هذا.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
         <source>Remember Me?</source>
-        <translation type="unfinished"></translation>
+        <translation>تذكرني؟</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Remember the currently logged in user and try to log them in again next time you start the Jellyfin app.</source>
-        <translation type="unfinished"></translation>
+        <translation>تذكر المستخدم المسجل حاليًا ومحاولة تسجيل دخوله مرة أخرى عند تشغيل Jellyfin في المرة القادمة.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
@@ -1368,77 +1368,77 @@
     </message>
     <message>
         <source>Force Transcoding</source>
-        <translation type="unfinished"></translation>
+        <translation>فرض إعادة الترميز</translation>
         <extracomment>User Setting - Title for option</extracomment>
     </message>
     <message>
         <source>Force all playable media to be transcoded.</source>
-        <translation type="unfinished"></translation>
+        <translation>فرض إعادة ترميز جميع الوسائط القابلة للتشغيل.</translation>
         <extracomment>User Setting - Description for option</extracomment>
     </message>
     <message>
         <source>Media Segment Actions</source>
-        <translation type="unfinished"></translation>
+        <translation>إجراءات مقاطع الوسائط</translation>
         <extracomment>User Setting - Title for option</extracomment>
     </message>
     <message>
         <source>Settings relating to how Jellyfin should handle media segments.</source>
-        <translation type="unfinished"></translation>
+        <translation>إعدادات متعلقة بكيفية تعامل Jellyfin مع مقاطع الوسائط.</translation>
         <extracomment>User Setting - Description for option</extracomment>
     </message>
     <message>
         <source>Commercial Segments</source>
-        <translation type="unfinished"></translation>
+        <translation>الفواصل الإعلانية</translation>
         <extracomment>User Setting - Title for option</extracomment>
     </message>
     <message>
         <source>What action should Jellyfin take for commercial segments?</source>
-        <translation type="unfinished"></translation>
+        <translation>ما الإجراء الذي يجب أن يتخذه Jellyfin تجاه الفواصل الإعلانية؟</translation>
         <extracomment>User Setting - Description for option</extracomment>
     </message>
     <message>
         <source>Intro Segments</source>
-        <translation type="unfinished"></translation>
+        <translation>مقاطع المقدمة</translation>
         <extracomment>User Setting - Title for option</extracomment>
     </message>
     <message>
         <source>What action should Jellyfin take for intro segments?</source>
-        <translation type="unfinished"></translation>
+        <translation>ما الإجراء الذي يجب أن يتخذه Jellyfin تجاه مقاطع المقدمة؟</translation>
         <extracomment>User Setting - Description for option</extracomment>
     </message>
     <message>
         <source>Outro Segments</source>
-        <translation type="unfinished"></translation>
+        <translation>مقاطع النهاية</translation>
         <extracomment>User Setting - Title for option</extracomment>
     </message>
     <message>
         <source>What action should Jellyfin take for outro segments?</source>
-        <translation type="unfinished"></translation>
+        <translation>ما الإجراء الذي يجب أن يتخذه Jellyfin لمقاطع النهاية؟</translation>
         <extracomment>User Setting - Description for option</extracomment>
     </message>
     <message>
         <source>Preview Segments</source>
-        <translation type="unfinished"></translation>
+        <translation>مقاطع المعاينة</translation>
         <extracomment>User Setting - Title for option</extracomment>
     </message>
     <message>
         <source>What action should Jellyfin take for preview segments?</source>
-        <translation type="unfinished"></translation>
+        <translation>ما الإجراء الذي يجب أن يتخذه Jellyfin لمقاطع المعاينة؟</translation>
         <extracomment>User Setting - Description for option</extracomment>
     </message>
     <message>
         <source>Recap Segments</source>
-        <translation type="unfinished"></translation>
+        <translation>مقاطع الملخص</translation>
         <extracomment>User Setting - Title for option</extracomment>
     </message>
     <message>
         <source>What action should Jellyfin take for recap segments?</source>
-        <translation type="unfinished"></translation>
+        <translation>ما الإجراء الذي يجب أن يتخذه Jellyfin لمقاطع الملخص؟</translation>
         <extracomment>User Setting - Description for option</extracomment>
     </message>
     <message>
         <source>Ask To Skip</source>
-        <translation type="unfinished"></translation>
+        <translation>طلب تجاوز</translation>
         <extracomment>User Setting - Options</extracomment>
     </message>
     <message>
@@ -1448,117 +1448,117 @@
     </message>
     <message>
         <source>None</source>
-        <translation type="unfinished"></translation>
+        <translation>بلا</translation>
         <extracomment>User Setting - Options</extracomment>
     </message>
     <message>
         <source>No Chapter Data Found</source>
-        <translation type="unfinished"></translation>
+        <translation>لم يعثر على بيانات الفصل</translation>
         <extracomment>Message shown in OSD when no chapter data is returned by the API</extracomment>
     </message>
     <message>
         <source>Use Web Client&apos;s Home Section Arrangement</source>
-        <translation type="unfinished"></translation>
+        <translation>استخدم ترتيبات تقسيم صفحة عميل الويب الرئيسية</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Make the arrangement of the Roku home view sections match the web client&apos;s home screen. Jellyfin will need to be closed and reopened for change to take effect.</source>
-        <translation type="unfinished"></translation>
+        <translation>مطابقة ترتيب مظهر أقسام صفحة Roku الرئيسية مع صفحة عميل الويب الرئيسية. Jellyfin يحتاج لإغلاقه ثم تشغيله مجددا لتطبيق التغيير.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
         <source>Welcome to version</source>
-        <translation type="unfinished"></translation>
+        <translation>مرحبا في الاصدار</translation>
         <extracomment>WhatsNewDialog title - Welcome to version 2.0.0</extracomment>
     </message>
     <message>
         <source>To view a complete list of changes visit</source>
-        <translation type="unfinished"></translation>
+        <translation>لعرض لائحة كاملة بالتغييرات زُر</translation>
         <extracomment>WhatsNewDialog body text preceding the changelog URL</extracomment>
     </message>
     <message>
         <source>Random</source>
-        <translation type="unfinished"></translation>
+        <translation>عشوائي</translation>
         <extracomment>General use word when we want to randomize data</extracomment>
     </message>
     <message>
         <source>... (Press * to read more)</source>
-        <translation type="unfinished"></translation>
+        <translation>... (اضغط * لقراءة المزيد)</translation>
         <extracomment>Ellipsis Text for when text overflows its container</extracomment>
     </message>
     <message>
         <source>Item Detail Screen</source>
-        <translation type="unfinished"></translation>
+        <translation>شاشة تفاصيل العنصر</translation>
         <extracomment>User interface Menu - Title for option</extracomment>
     </message>
     <message>
         <source>Settings relating to the appearance of the item detail screen.</source>
-        <translation type="unfinished"></translation>
+        <translation>الاعدادات المرتبطة مع مظهر شاشة تفاصيل العنصر.</translation>
         <extracomment>User interface Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Community and Critical Ratings</source>
-        <translation type="unfinished"></translation>
+        <translation>تقييمات المجتمع و ذات الاهمية</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Ratings for how good a movie is</source>
-        <translation type="unfinished"></translation>
+        <translation>مشاهدة تقييمات المجتمع و ذات الاهمية من Rotten Tomatoes.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
         <source>Overview Content</source>
-        <translation type="unfinished"></translation>
+        <translation>مراجعة المحتوى</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>A quick overview of the item selected - typically a short plot outline.</source>
-        <translation type="unfinished"></translation>
+        <translation>مراجعة سريعة للعنصر المختار - عادة للملخص القصير.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
         <source>Settings relating to the appearance of Library pages.</source>
-        <translation type="unfinished"></translation>
+        <translation>الاعدادات ذات الصلة بمظهر صفحات المكتبة.</translation>
         <extracomment>Libraries Setting - Setting description</extracomment>
     </message>
     <message>
         <source>Forget Filters</source>
-        <translation type="unfinished"></translation>
+        <translation>نسيان المصافي</translation>
         <extracomment>Libraries Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Forget applied library filters when Jellyfin is closed.</source>
-        <translation type="unfinished"></translation>
+        <translation>نسيات مصافي المكتبات المطبقة عند اغلاق Jellyfin.</translation>
         <extracomment>Libraries Setting - Setting description</extracomment>
     </message>
     <message>
         <source>Library Landscape Column Count</source>
-        <translation type="unfinished"></translation>
+        <translation>عدد عواميد المكتبة الافقية</translation>
         <extracomment>Libraries Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Number of columns in library view when showing landscape (wide) images</source>
-        <translation type="unfinished"></translation>
+        <translation>عدد العواميد في مظهر المكتبة عند اختيار صور النمط الافقي (عريض)</translation>
         <extracomment>Libraries Setting - Setting description</extracomment>
     </message>
     <message>
         <source>Library Portrait Column Count</source>
-        <translation type="unfinished"></translation>
+        <translation>عد أعمدة لوحة المكتبة</translation>
         <extracomment>Libraries Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Number of columns in library view when showing portrait (tall) images</source>
-        <translation type="unfinished"></translation>
+        <translation>عدد أعمدة مظهر المكتبة عند عرض صور اللوحة (طوليا)</translation>
         <extracomment>Libraries Setting - Setting description</extracomment>
     </message>
     <message>
         <source>Library Square Column Count</source>
-        <translation type="unfinished"></translation>
+        <translation>عد عمود المكتبة المربع</translation>
         <extracomment>Libraries Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Number of columns in library view when showing square images</source>
-        <translation type="unfinished"></translation>
+        <translation>عدد أعمدة مظهر المكتبة التي تظهر مع الصور المربعة</translation>
         <extracomment>Libraries Setting - Setting description</extracomment>
     </message>
     <message>
@@ -1619,7 +1619,7 @@
     </message>
     <message>
         <source>CH</source>
-        <translation type="unfinished"></translation>
+        <translation>قناة</translation>
         <extracomment>Abbreviation for Channel</extracomment>
     </message>
     <message>
@@ -1676,7 +1676,7 @@
     </message>
     <message>
         <source>Skip</source>
-        <translation type="unfinished"></translation>
+        <translation>تجاوز</translation>
     </message>
     <message>
         <source>Sort by</source>
@@ -1902,7 +1902,7 @@
     </message>
     <message>
         <source>Live TV</source>
-        <translation type="unfinished"></translation>
+        <translation>البث التلفزيوني المباشر</translation>
     </message>
     <message>
         <source>My List</source>
@@ -2166,11 +2166,11 @@
     </message>
     <message>
         <source>No channels found matching your search criteria</source>
-        <translation type="unfinished"></translation>
+        <translation>تعذر العثور على قنوات تطابق معايير بحثك</translation>
     </message>
     <message>
         <source>Are You Still Watching Popup</source>
-        <translation type="unfinished"></translation>
+        <translation>ألا زلت تشاهد المنبثقة</translation>
     </message>
     <message>
         <source>How many minutes of inactivity before playback is stopped between items and a popup is shown to continue? Set to 0 to disable.</source>
@@ -2178,19 +2178,19 @@
     </message>
     <message>
         <source>Are You Still Watching?</source>
-        <translation type="unfinished"></translation>
+        <translation>هل انت تشاهد؟</translation>
     </message>
     <message>
         <source>Yes, continue</source>
-        <translation type="unfinished"></translation>
+        <translation>نعم, تابع</translation>
     </message>
     <message>
         <source>No, stop playback</source>
-        <translation type="unfinished"></translation>
+        <translation>لا, أوقف التشغيل</translation>
     </message>
     <message>
         <source>Playback will automatically stop in 1 minute if no buttons are pressed.</source>
-        <translation type="unfinished"></translation>
+        <translation>سيتوقف التشغيل تلقائيا بعد كقيقة إذا لم يتم الضغط على أي زر.</translation>
     </message>
     <message>
         <source>Burn in subtitle when transcoding</source>
@@ -2204,55 +2204,55 @@
     </message>
     <message>
         <source>Library Image Orientation</source>
-        <translation type="unfinished"></translation>
+        <translation>توجّه صورة المكتبة</translation>
     </message>
     <message>
         <source>Select the poster image orientation for the library views.</source>
-        <translation type="unfinished"></translation>
+        <translation>اختر توجّه صورة ملصق عرض المكتبة.</translation>
     </message>
     <message>
         <source>Default (Varies By Media Type)</source>
-        <translation type="unfinished"></translation>
+        <translation>افتراضي (يتغير حسب النوع)</translation>
     </message>
     <message>
         <source>Landscape (Wide)</source>
-        <translation type="unfinished"></translation>
+        <translation>صورة عرضية (افقية)</translation>
     </message>
     <message>
         <source>Portrait (Vertical)</source>
-        <translation type="unfinished"></translation>
+        <translation>صورة عامة (رأسية)</translation>
     </message>
     <message>
         <source>Skip Unknown</source>
-        <translation type="unfinished"></translation>
+        <translation>تجاوز اللقطة</translation>
     </message>
     <message>
         <source>Skip Commercial</source>
-        <translation type="unfinished"></translation>
+        <translation>تجاوز الدعايات</translation>
     </message>
     <message>
         <source>Skip Preview</source>
-        <translation type="unfinished"></translation>
+        <translation>تخطي المعاينة</translation>
     </message>
     <message>
         <source>Skip Recap</source>
-        <translation type="unfinished"></translation>
+        <translation>تخطي الخلاصة</translation>
     </message>
     <message>
         <source>Skip Outro</source>
-        <translation type="unfinished"></translation>
+        <translation>تخطي الخاتمة</translation>
     </message>
     <message>
         <source>Skip Intro</source>
-        <translation type="unfinished"></translation>
+        <translation>تخطي المقدمة</translation>
     </message>
     <message>
         <source>Go To Genre</source>
-        <translation type="unfinished"></translation>
+        <translation>توجه إلى النوع</translation>
     </message>
     <message>
         <source>Play Instant Mix</source>
-        <translation type="unfinished"></translation>
+        <translation>تشغيل الخلط اللحظي</translation>
     </message>
     <message>
         <source>Show Next Episode Details After Finish</source>
@@ -2305,6 +2305,110 @@
     <message>
         <source>Sort Order for the row - Ascending,Descending.</source>
         <translation>ترتيب تصنيف هذا الصف - تصاعدي,تنازلي.</translation>
+    </message>
+    <message>
+        <source>Channel Title</source>
+        <translation>عنوان القناة</translation>
+    </message>
+    <message>
+        <source>Channel Logo</source>
+        <translation>شعار القناة</translation>
+    </message>
+    <message>
+        <source>Channel Logo and Title</source>
+        <translation>شعار و عنوان القناة</translation>
+    </message>
+    <message>
+        <source>Select how to display a channel in the Live TV guide.</source>
+        <translation>اختر كيفية عرض قناة في مرشد التلفاز الحي.</translation>
+    </message>
+    <message>
+        <source>TV Guide Channel Display</source>
+        <translation>عرض مرشد قناة التلفاز</translation>
+    </message>
+    <message>
+        <source>Channel Name</source>
+        <translation>اسم القناة</translation>
+    </message>
+    <message>
+        <source>Channel Number</source>
+        <translation>رقم القناة</translation>
+    </message>
+    <message>
+        <source>Channel Number and Name</source>
+        <translation>رقم و اسم القناة</translation>
+    </message>
+    <message>
+        <source>Select what information to use as a channel&apos;s title.</source>
+        <translation>اختر ماهية المعلومة لتستخدم كعنوان للقناة.</translation>
+    </message>
+    <message>
+        <source>Set the maximum amount of days a show should stay in the &apos;Next Up&apos; list without watching it. Maximum value is 1000 days.</source>
+        <translation>حدد أقصى عدد أيام بقاء برنامج في قائمة &apos;القادم&apos; بدون مشاهدة. أقصى عدد ايام هو 1000.</translation>
+    </message>
+    <message>
+        <source>Channel Title Info</source>
+        <translation>معلومات عنوان القناة</translation>
+    </message>
+    <message>
+        <source>Settings relating to Live TV.</source>
+        <translation>إعدادات تخص التلفاز الحي.</translation>
+    </message>
+    <message>
+        <source>Use at your own risk. We make no guarantees this will work for you. \n 1. This feature may not work on this device, yet work on others \n 2. Some speed options may not work on this device, yet work on others \n 3. Roku may block this feature without warning; even if the Jellyfin client doesn&apos;t update</source>
+        <translation>استخدم على مسؤوليتك. لا نقدم ضمانات على ملائمته لك.\n 1.هذه الميزة قد لا تعمل مع هذا الجهاز, و قد تعمل على غيره. \n 2. بعد خيارات السرعة قد لا تعمل مع هذا الجهاز, وقد تعمل مع غيره. \n 3. قد يحظر Roku هذه الميزة دون سابق انذار; حتى لو لم يعمل تحديث Jellyfin</translation>
+    </message>
+    <message>
+        <source>Playback Speed Controls (Experimental)</source>
+        <translation>متحكمات سرعة التشغيل (تجريبي)</translation>
+    </message>
+    <message>
+        <source>Newer devices may support direct play of anamorphic video.</source>
+        <translation>الاجهزة الجديدة قد تدعم التشغيل المباشر للفيديوهات المشوّهة.</translation>
+    </message>
+    <message>
+        <source>Attempt Direct Play Anamorphic Video</source>
+        <translation>محاولة التشغيل المباشر للفيدوهات المشوّهة</translation>
+    </message>
+    <message>
+        <source>Search Unavailable</source>
+        <translation>البحث غير متوفر</translation>
+    </message>
+    <message>
+        <source>Replace Roku&apos;s default subtitle functions with custom functions. If fallback fonts are configured and enabled on the server, those fonts will be used. A CJK fallback font is required for CJK rendering. To support bold and italics, you must have additional font files with the words &quot;bold&quot;, &quot;italic&quot;, and &quot;bolditalic&quot; in the filename.</source>
+        <translation>استبدال وظائف الترجمة الافتراضية في Roku بوظائف مخصصة. إذا تم إعداد خطوط احتياطية وتفعيلها على الخادم، فسيتم استخدام تلك الخطوط. يلزم وجود خط احتياطي للغات CJK لعرض نصوص CJK. ولدعم الخط العريض والمائل، يجب توفير ملفات خطوط إضافية تحتوي أسماؤها على الكلمات “bold” و”italic” و”bolditalic”.</translation>
+    </message>
+    <message>
+        <source>Trickplay Display</source>
+        <translation>عرض المعاينة أثناء التقديم</translation>
+    </message>
+    <message>
+        <source>Select trickplay display format.</source>
+        <translation>اختر تنسيق عرض المعاينة أثناء التقديم.</translation>
+    </message>
+    <message>
+        <source>Force media to be transcoded.</source>
+        <translation>فرض إعادة ترميز الوسائط.</translation>
+    </message>
+    <message>
+        <source>All Playable Media</source>
+        <translation>جميع الوسائط القابلة للتشغيل</translation>
+    </message>
+    <message>
+        <source>Force live TV to be transcoded. If All Playable Media is already set to Force Transcode (Remux Disabled), this setting is ignored.</source>
+        <translation>فرض إعادة ترميز البث التلفزيوني المباشر. إذا كان خيار “جميع الوسائط القابلة للتشغيل” مضبوطًا بالفعل على “فرض إعادة الترميز (مع تعطيل Remux)” فسيتم تجاهل هذا الإعداد.</translation>
+    </message>
+    <message>
+        <source>Subtitles</source>
+        <translation>الترجمات</translation>
+    </message>
+    <message>
+        <source>tracks</source>
+        <translation>مسارات</translation>
+    </message>
+    <message>
+        <source>No Default</source>
+        <translation>لا افتراض</translation>
     </message>
 </context>
 </TS>

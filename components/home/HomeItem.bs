@@ -78,9 +78,11 @@ sub itemContentChanged()
 
     if not isValid(itemData) then return
     localGlobal = m.global
+    itemDataType = isValid(itemData.type) ? LCase(itemData.type) : ""
 
     if isValid(m.playedIndicator)
         m.playedIndicator.data = {
+            showWatchedCheckmark: not isStringEqual(itemDataType, ItemType.AUDIO),
             played: chainLookupReturn(itemData, "json.UserData.Played", false),
             unplayedCount: chainLookupReturn(itemData, "json.UserData.UnplayedItemCount", 0)
         }
@@ -99,6 +101,7 @@ sub itemContentChanged()
     if not isValid(m.itemIcon) then initItemIcon()
 
     m.itemPoster.width = itemData.imageWidth
+    m.itemPoster.loadDisplayMode = "scaleToZoom"
 
     m.itemTextExtra.width = itemData.imageWidth
     m.itemTextExtra.visible = true
@@ -116,8 +119,6 @@ sub itemContentChanged()
     if isAllValid([m.itemIcon, itemData.iconUrl])
         m.itemIcon.uri = itemData.iconUrl
     end if
-
-    itemDataType = isValid(itemData.type) ? LCase(itemData.type) : ""
 
     if inArray([ItemType.COLLECTIONFOLDER, ItemType.USERVIEW, ItemType.CHANNEL, ItemType.FOLDER], itemDataType)
         displayCollectionInfo(itemData)
@@ -160,6 +161,11 @@ sub itemContentChanged()
 
     if itemDataType = ItemType.MUSICALBUM
         displayMusicAlbumInfo(itemData as object)
+        return
+    end if
+
+    if itemDataType = ItemType.PERSON
+        displayPersonInfo(itemData as object)
         return
     end if
 
@@ -270,6 +276,12 @@ end sub
 sub displayMusicAlbumInfo(itemData as object)
     m.itemText.text = itemData.name
     m.itemTextExtra.text = itemData.json.AlbumArtist
+    m.itemPoster.uri = itemData.posterURL
+end sub
+
+sub displayPersonInfo(itemData as object)
+    m.itemText.text = itemData.name
+    m.itemPoster.loadDisplayMode = "scaleToFit"
     m.itemPoster.uri = itemData.posterURL
 end sub
 

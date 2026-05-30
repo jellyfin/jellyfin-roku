@@ -4,7 +4,7 @@
     <poster id="backdrop" loadDisplayMode="scaleToFill" width="1920" height="1080" opacity="0.25" />
     <poster id="backdropTransition" loadDisplayMode="scaleToFill" width="1920" height="1080" opacity="0.25" />
 
-    <MarkupGrid
+    <LibraryItemGrid
       id="itemGrid"
       translation="[96, 60]"
       itemComponentName="AudioBookGridItem"

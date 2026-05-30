@@ -3,8 +3,8 @@
   <children>
     <Rectangle id="backdrop" />
 
-    <ScrollingText id="channelTitle" horizAlign="left" vertAlign="center" translation="[10, 0]" />
-    <Poster id="channelLogo" translation="[0, 0]" loadDisplayMode="scaleToFit" />
+    <ScrollingText id="channelTitle" horizAlign="center" vertAlign="center" translation="[0, 0]" />
+    <Poster id="channelLogo" translation="[10, 0]" loadDisplayMode="scaleToFit" />
 
     <Rectangle id="borderTop" height="1" />
   </children>

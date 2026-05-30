@@ -1520,7 +1520,7 @@
     </message>
     <message>
         <source>Force Transcoding</source>
-        <translation>Força la trancodificació</translation>
+        <translation>Força la transcodificació</translation>
     </message>
     <message>
         <source>What action should Jellyfin take for recap segments?</source>
@@ -1560,7 +1560,7 @@
     </message>
     <message>
         <source>Media Segment Actions</source>
-        <translation>Accions en els segments mutimèdia</translation>
+        <translation>Accions en els segments multimèdia</translation>
     </message>
     <message>
         <source>Outro Segments</source>
@@ -2273,6 +2273,142 @@
     <message>
         <source>Set the maximum amount of days a show should stay in the &apos;Next Up&apos; list without watching it. Maximum value is 1000 days.</source>
         <translation>Estableix el límit de dies que una sèrie apareixerà en la secció &quot;A continuació&quot; si no es visualitza. El valor màxim són 1000 dies.</translation>
+    </message>
+    <message>
+        <source>Newer devices may support direct play of anamorphic video.</source>
+        <translation>Els dispositius més nous podrien ser compatibles amb la reproducció directa de vídeos anamòrfics.</translation>
+    </message>
+    <message>
+        <source>Attempt Direct Play Anamorphic Video</source>
+        <translation>Intenta la reproducció directa de vídeos anamòrfics</translation>
+    </message>
+    <message>
+        <source>Load Items Limit</source>
+        <translation>Limit de càrrega d&apos;elements</translation>
+    </message>
+    <message>
+        <source>Channel Title</source>
+        <translation>Títol del canal</translation>
+    </message>
+    <message>
+        <source>Number of items to load together on library screens.</source>
+        <translation>Nombre d&apos;elements a carregar alhora en les pantalles de mediateques.</translation>
+    </message>
+    <message>
+        <source>Channel Logo</source>
+        <translation>Logotip del canal</translation>
+    </message>
+    <message>
+        <source>Channel Logo and Title</source>
+        <translation>Títol i logotip del canal</translation>
+    </message>
+    <message>
+        <source>TV Guide Channel Display</source>
+        <translation>Mostra de canal de la guia de televisió</translation>
+    </message>
+    <message>
+        <source>Channel Name</source>
+        <translation>Nom del canal</translation>
+    </message>
+    <message>
+        <source>Channel Number</source>
+        <translation>Número del canal</translation>
+    </message>
+    <message>
+        <source>Channel Number and Name</source>
+        <translation>Número i nom del canal</translation>
+    </message>
+    <message>
+        <source>Channel Title Info</source>
+        <translation>Informació del títol del canal</translation>
+    </message>
+    <message>
+        <source>Settings relating to Live TV.</source>
+        <translation>Configuració relativa a la televisió en directe.</translation>
+    </message>
+    <message>
+        <source>Select how to display a channel in the Live TV guide.</source>
+        <translation>Seleccioneu com es mostrarà un canal a la guia de televisió en directe.</translation>
+    </message>
+    <message>
+        <source>Select what information to use as a channel&apos;s title.</source>
+        <translation>Seleccioneu quina informació es farà servir com a títol del canal.</translation>
+    </message>
+    <message>
+        <source>Trickplay Display</source>
+        <translation>Mostra les imatges de previsualització</translation>
+    </message>
+    <message>
+        <source>Select trickplay display format.</source>
+        <translation>Seleccioneu el format de visualització de les imatges de previsualització.</translation>
+    </message>
+    <message>
+        <source>Five trickplay images</source>
+        <translation>Cinc imatges de previsualització</translation>
+    </message>
+    <message>
+        <source>Single trickplay image that moves</source>
+        <translation>Una sola imatge de previsualització en moviment</translation>
+    </message>
+    <message>
+        <source>Playback Speed Controls (Experimental)</source>
+        <translation>Controls de velocitat de reproducció (Experimental)</translation>
+    </message>
+    <message>
+        <source>Use at your own risk. We make no guarantees this will work for you. \n 1. This feature may not work on this device, yet work on others \n 2. Some speed options may not work on this device, yet work on others \n 3. Roku may block this feature without warning; even if the Jellyfin client doesn&apos;t update</source>
+        <translation>Feu-ho servir sota la vostra responsabilitat. No garantim que funcioni. \n 1. És possible que aquesta funció no funcioni en aquest dispositiu, però que sí que funcioni en d&apos;altres \n 2. És possible que algunes opcions de velocitat no funcionin en aquest dispositiu, però que sí que funcionin en d&apos;altres \n 3. Roku pot bloquejar aquesta funció sense previ avís; fins i tot si el client de Jellyfin no s&apos;actualitza</translation>
+    </message>
+    <message>
+        <source>Search Unavailable</source>
+        <translation>Cerca disponible</translation>
+    </message>
+    <message>
+        <source>Force media to be transcoded.</source>
+        <translation>Força la transcodificació del contingut multimèdia.</translation>
+    </message>
+    <message>
+        <source>All Playable Media</source>
+        <translation>Tot el contingut multimèdia reproduïble</translation>
+    </message>
+    <message>
+        <source>Force live TV to be transcoded. If All Playable Media is already set to Force Transcode (Remux Disabled), this setting is ignored.</source>
+        <translation>Força la transcodificació de la televisió en directe. Si ja s&apos;ha establert que es forci a tots els continguts multimèdia a transcodificar (Remux inhabilitat), aquesta configuració s&apos;ignora.</translation>
+    </message>
+    <message>
+        <source>tracks</source>
+        <translation>pistes</translation>
+    </message>
+    <message>
+        <source>Subtitles</source>
+        <translation>Subtítols</translation>
+    </message>
+    <message>
+        <source>No Default</source>
+        <translation>Res per defecte</translation>
+    </message>
+    <message>
+        <source>Replace Roku&apos;s default subtitle functions with custom functions. If fallback fonts are configured and enabled on the server, those fonts will be used. A CJK fallback font is required for CJK rendering. To support bold and italics, you must have additional font files with the words &quot;bold&quot;, &quot;italic&quot;, and &quot;bolditalic&quot; in the filename.</source>
+        <translation>Substitueix les funcions de subtítols predeterminades de Roku per funcions personalitzades. Si les fonts alternatives estan configurades i habilitades al servidor, s&apos;utilitzaran aquestes fonts. Es requereix una font alternativa CJK per a la renderització CJK. Per a poder fer servir negretes i cursives, heu de tenir fitxers de fonts addicionals amb les paraules &quot;bold&quot;, &quot;italic&quot; i &quot;bolditalic&quot; al nom del fitxer.</translation>
+    </message>
+    <message>
+        <source>Roku&apos;s video player got stuck buffering video</source>
+        <translation>El reproductor de vídeo de Roku s&apos;ha penjat en recuperar un vídeo</translation>
+    </message>
+    <message>
+        <source>Roku&apos;s video player threw the following error</source>
+        <translation>El reproductor de vídeo de Roku ha enviat l&apos;error següent</translation>
+    </message>
+    <message>
+        <source>Roku thought it could direct play this media, but playback never started.</source>
+        <translation>Roku ha intentat reproduir directament aquest contingut, però la reproducció no s&apos;ha produït.</translation>
+    </message>
+    <message>
+        <source>Always Attempt Direct Playing Video Media</source>
+        <translation>Intenta sempre la reproducció directa de continguts de vídeo</translation>
+    </message>
+    <message>
+        <source>Forces Jellyfin to try direct playing video media, Live TV excluded. Enabling this ignores all other playback support settings and will always first attempt direct playback. It also changes how transcode reason is displayed.</source>
+        <translation>Força Jellyfin a intentar la reproducció directa de vídeos, excloent la TV en directe. Si activeu aquesta opció, s&apos;ignoraran totes les altres configuracions de reproducció i sempre s&apos;intentarà primer la reproducció directa. També canvia com es mostra el motiu de la transcodificació.</translation>
     </message>
 </context>
 </TS>

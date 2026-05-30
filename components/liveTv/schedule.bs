@@ -153,8 +153,6 @@ sub loadScheduleData()
 
     m.LoadScheduleTask.channelIds = m.channelIdList.slice(startingIndex, startingIndex + m.channelScheduleLimit).join(", ")
     m.LoadScheduleTask.control = TaskControl.RUN
-
-    m.channelScheduleLimit = 500
 end sub
 
 ' When LoadScheduleTask completes (initial or more data) and we have a schedule to display
@@ -167,7 +165,10 @@ sub onScheduleLoaded()
     end if
 
     for each item in m.LoadScheduleTask.schedule
-        channel = m.scheduleGrid.content.GetChild(m.channelIndex[item.ChannelId])
+        channelIndex = m.channelIndex[item.ChannelId]
+        if not isValid(channelIndex) then continue for
+
+        channel = m.scheduleGrid.content.GetChild(channelIndex)
         if not isValid(channel) then continue for
 
         if channel.PosterUrl <> ""
@@ -190,8 +191,13 @@ sub onScheduleLoaded()
     stopLoadingSpinner()
 
     m.channelScheduleLoadedCount = m.loadedChannels.count()
-
     m.LoadScheduleTask.schedule = invalid
+
+    ' Received fewer channels than requested, so we likely have an incomplete EPG
+    ' Don't try to load any more channels even if we haven't hit the expected number of channels
+    if m.channelScheduleLoadedCount < m.channelScheduleLimit
+        return
+    end if
 
     if m.LoadChannelsTask.totalRecordCount > m.channelScheduleLoadedCount
         loadScheduleData()
