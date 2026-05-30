@@ -127,10 +127,21 @@ sub onChannelListLoaded()
     end if
 
     for each item in m.LoadChannelsTask.channels
-        m.gridData.appendChild(item)
-        m.channelIndex[item.Id] = counter
-        m.channelIdList.push(item.Id)
-        counter++
+        if item.favorite
+            m.gridData.appendChild(item)
+            m.channelIndex[item.Id] = counter
+            m.channelIdList.push(item.Id)
+            counter++
+        end if
+    end for
+
+    for each item in m.LoadChannelsTask.channels
+        if not item.favorite
+            m.gridData.appendChild(item)
+            m.channelIndex[item.Id] = counter
+            m.channelIdList.push(item.Id)
+            counter++
+        end if
     end for
 
     loadScheduleData()

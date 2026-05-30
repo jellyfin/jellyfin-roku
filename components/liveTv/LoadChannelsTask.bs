@@ -27,7 +27,7 @@ sub loadChannels()
         SortOrder: sort_order,
         UserId: m.global.session.user.id,
         EnableFavoriteSorting: true,
-        EnableUserData: false,
+        EnableUserData: true,
         AddCurrentProgram: false,
         recursive: true
     }
@@ -63,6 +63,11 @@ sub loadChannels()
     for each item in data.Items
         channel = createObject("roSGNode", "ChannelData")
         channel.json = item
+
+        if isChainValid(item, "UserData.IsFavorite") and item.UserData.IsFavorite
+            channel.favorite = true
+        end if
+
         results.push(channel)
     end for
     m.top.channels = results
