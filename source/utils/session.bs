@@ -1,6 +1,7 @@
 ' these are needed for ServerInfo() inside session.server.Populate()
 import "pkg:/source/api/baserequest.bs"
 import "pkg:/source/api/userauth.bs"
+import "pkg:/source/enums/LiveTVChannelSortOrder.bs"
 import "pkg:/source/enums/LiveTVScreen.bs"
 import "pkg:/source/enums/String.bs"
 import "pkg:/source/utils/misc.bs"
@@ -268,11 +269,15 @@ namespace session
             displayLive = "true"
             displayRepeat = "false"
             displayScreen = LiveTVScreen.Guide
+            liveTvChannelOrder = LiveTVChannelSortOrder.Number
+            liveTvFavoritesAtTop = "false"
 
             if isValid(customPrefs)
                 userPreferenceDisplayLive = customPrefs["guide-indicator-live"]
                 userPreferenceDisplayRepeat = customPrefs["guide-indicator-repeat"]
                 userPreferenceDisplayScreen = customPrefs["landing-livetv"]
+                userPreferenceLiveTvChannelOrder = customPrefs["livetv-channelorder"]
+                userPreferenceLiveTvFavoritesAtTop = customPrefs["livetv-favoritechannelsattop"]
 
                 if isValidAndNotEmpty(userPreferenceDisplayLive)
                     displayLive = userPreferenceDisplayLive
@@ -284,12 +289,20 @@ namespace session
                     ' Live TV has five options but Roku only supports guide and channels in this context
                     displayScreen = userPreferenceDisplayScreen
                 end if
+                if isValidAndNotEmpty(userPreferenceLiveTvChannelOrder)
+                    liveTvChannelOrder = userPreferenceLiveTvChannelOrder
+                end if
+                if isValidAndNotEmpty(userPreferenceLiveTvFavoritesAtTop)
+                    liveTvFavoritesAtTop = userPreferenceLiveTvFavoritesAtTop
+                end if
 
             end if
 
             set_user_setting("ui.guide.indicator.live", displayLive)
             set_user_setting("ui.guide.indicator.repeat", displayRepeat)
             set_user_setting("display.livetv.landing", displayScreen)
+            set_user_setting("ui.guide.channel.order", liveTvChannelOrder)
+            set_user_setting("ui.guide.favorites.at.top", liveTvFavoritesAtTop)
         end sub
 
         ' Saves user's web client home sections as Roku user settings.
