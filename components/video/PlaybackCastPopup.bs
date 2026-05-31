@@ -1,0 +1,294 @@
+import "pkg:/source/api/Image.bs"
+import "pkg:/source/enums/ColorPalette.bs"
+import "pkg:/source/enums/KeyCode.bs"
+import "pkg:/source/enums/PersonType.bs"
+import "pkg:/source/enums/TaskControl.bs"
+import "pkg:/source/utils/misc.bs"
+
+sub init()
+    m.title = m.top.findNode("title")
+    m.title.text = tr("Cast & Crew")
+
+    m.castList = m.top.findNode("castList")
+    m.castList.focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+    m.castList.observeField("rowItemSelected", "onPersonSelected")
+
+    m.personDetails = m.top.findNode("personDetails")
+    m.personImage = m.top.findNode("personImage")
+    m.personName = m.top.findNode("personName")
+    m.personRole = m.top.findNode("personRole")
+    m.personOverview = m.top.findNode("personOverview")
+    m.libraryTitle = m.top.findNode("libraryTitle")
+    m.libraryLoading = m.top.findNode("libraryLoading")
+    m.libraryList = m.top.findNode("libraryList")
+    m.libraryList.focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+    m.libraryList.observeField("rowItemSelected", "onLibraryItemSelected")
+
+    m.selectedPersonId = ""
+    m.lastLibraryPersonId = ""
+end sub
+
+sub showCast(people as object)
+    m.detailFocus = "person"
+    m.selectedPersonId = ""
+    m.lastLibraryPersonId = ""
+    m.personDetails.visible = false
+    m.castList.visible = true
+    content = CreateObject("roSGNode", "ContentNode")
+    row = content.createChild("ContentNode")
+
+    for each person in people
+        personNode = row.createChild("ExtrasData")
+        personNode.id = person.Id
+        personNode.labelText = person.Name
+        personNode.posterURL = ImageUrl(person.Id, "Primary", {
+            Tags: person.PrimaryImageTag,
+            MaxWidth: 234,
+            MaxHeight: 330
+        })
+
+        castRoleType = person.LookupCI("type")
+        if not isValidAndNotEmpty(castRoleType)
+            castRoleType = tr("Unknown")
+        end if
+
+        personRole = person.LookupCI("role")
+        if isStringEqual(castRoleType, PersonType.ACTOR) and isValidAndNotEmpty(personRole)
+            personNode.subTitle = tr("as %1").Replace("%1", personRole)
+        else
+            personNode.subTitle = castRoleType
+        end if
+
+        personNode.json = {
+            id: person.Id,
+            Id: person.Id,
+            Name: person.Name,
+            type: capitalize(PersonType.PERSON),
+            Type: capitalize(PersonType.PERSON),
+            PersonType: castRoleType,
+            Role: personRole
+        }
+        personNode.Type = capitalize(PersonType.PERSON)
+    end for
+
+    m.castList.content = content
+    m.top.visible = true
+    m.castList.setFocus(true)
+end sub
+
+sub hideCast()
+    cancelPersonTasks()
+    m.selectedPersonId = ""
+    m.castList.setFocus(false)
+    m.libraryList.setFocus(false)
+    m.personDetails.visible = false
+    m.top.visible = false
+    m.top.setFocus(false)
+
+    videoPlayer = m.top.getParent()
+    if isValid(videoPlayer)
+        videoPlayer.setFocus(true)
+    end if
+end sub
+
+sub cancelPersonTasks()
+    if isValid(m.loadPersonTask)
+        m.loadPersonTask.unobserveField("content")
+        m.loadPersonTask.control = TaskControl.STOP
+    end if
+    if isValid(m.loadPersonMoviesTask)
+        m.loadPersonMoviesTask.unobserveField("content")
+        m.loadPersonMoviesTask.control = TaskControl.STOP
+    end if
+    if isValid(m.loadPersonSeriesTask)
+        m.loadPersonSeriesTask.unobserveField("content")
+        m.loadPersonSeriesTask.control = TaskControl.STOP
+    end if
+end sub
+
+sub handleBack()
+    if m.personDetails.visible
+        cancelPersonTasks()
+        m.selectedPersonId = ""
+        m.libraryList.setFocus(false)
+        m.personDetails.visible = false
+        m.castList.visible = true
+        m.castList.setFocus(true)
+        return
+    end if
+
+    hideCast()
+end sub
+
+sub onPersonSelected()
+    selectedPerson = m.castList.content.getChild(m.castList.rowItemSelected[0]).getChild(m.castList.rowItemSelected[1])
+    if not isValid(selectedPerson) then return
+    if not isValidAndNotEmpty(selectedPerson.id) then return
+
+    m.selectedPersonId = selectedPerson.id
+    m.castList.setFocus(false)
+    m.castList.visible = false
+    m.personDetails.visible = true
+    m.detailFocus = "person"
+    m.personImage.uri = selectedPerson.posterURL
+    m.personName.text = selectedPerson.labelText
+    m.personRole.text = selectedPerson.subTitle
+    m.personOverview.text = tr("Loading...")
+    m.libraryTitle.text = tr("More with %1 in Your Library").Replace("%1", selectedPerson.labelText)
+    m.libraryLoading.text = tr("Loading...")
+    m.libraryList.visible = false
+    m.libraryItems = []
+    m.top.setFocus(true)
+
+    m.loadPersonTask = CreateObject("roSGNode", "LoadItemsTask")
+    m.loadPersonTask.itemsToLoad = "metaData"
+    m.loadPersonTask.itemId = m.selectedPersonId
+    m.loadPersonTask.observeField("content", "onPersonLoaded")
+    m.loadPersonTask.control = TaskControl.RUN
+
+    m.loadPersonMoviesTask = CreateObject("roSGNode", "LoadItemsTask")
+    m.loadPersonMoviesTask.itemsToLoad = "personMovies"
+    m.loadPersonMoviesTask.itemId = m.selectedPersonId
+    m.loadPersonMoviesTask.observeField("content", "onPersonMoviesLoaded")
+    m.loadPersonMoviesTask.control = TaskControl.RUN
+end sub
+
+sub onPersonLoaded(event as object)
+    personTask = event.getRoSGNode()
+    if not isValid(personTask) then return
+    if not isStringEqual(personTask.itemId, m.selectedPersonId) then return
+
+    personData = personTask.content
+    personTask.control = TaskControl.STOP
+
+    if not isValidAndNotEmpty(personData) or not isValid(personData[0])
+        m.personOverview.text = tr("Biographical information for this person is not currently available.")
+        return
+    end if
+
+    person = personData[0]
+    if isValidAndNotEmpty(person.posterURL)
+        m.personImage.uri = person.posterURL
+    end if
+
+    if isChainValid(person, "json.Overview") and isValidAndNotEmpty(person.json.Overview)
+        m.personOverview.text = person.json.Overview
+    else
+        m.personOverview.text = tr("Biographical information for this person is not currently available.")
+    end if
+end sub
+
+sub onPersonMoviesLoaded(event as object)
+    moviesTask = event.getRoSGNode()
+    if not isValid(moviesTask) then return
+    if not isStringEqual(moviesTask.itemId, m.selectedPersonId) then return
+
+    appendLibraryItems(moviesTask.content)
+    moviesTask.control = TaskControl.STOP
+
+    m.loadPersonSeriesTask = CreateObject("roSGNode", "LoadItemsTask")
+    m.loadPersonSeriesTask.itemsToLoad = "personSeries"
+    m.loadPersonSeriesTask.itemId = moviesTask.itemId
+    m.loadPersonSeriesTask.observeField("content", "onPersonSeriesLoaded")
+    m.loadPersonSeriesTask.control = TaskControl.RUN
+end sub
+
+sub onPersonSeriesLoaded(event as object)
+    seriesTask = event.getRoSGNode()
+    if not isValid(seriesTask) then return
+    if not isStringEqual(seriesTask.itemId, m.selectedPersonId) then return
+
+    appendLibraryItems(seriesTask.content)
+    seriesTask.control = TaskControl.STOP
+    renderLibraryItems()
+end sub
+
+sub appendLibraryItems(items as object)
+    if not isValidAndNotEmpty(items) then return
+
+    for each item in items
+        m.libraryItems.push(item)
+    end for
+end sub
+
+sub renderLibraryItems()
+    if not isValidAndNotEmpty(m.libraryItems)
+        m.libraryLoading.text = tr("No other titles found in your library.")
+        m.libraryList.visible = false
+        return
+    end if
+
+    content = CreateObject("roSGNode", "ContentNode")
+    row = content.createChild("ContentNode")
+    for each item in m.libraryItems
+        item.id = item.json.LookupCI("Id")
+        item.Id = item.json.LookupCI("Id")
+        item.labelText = item.json.LookupCI("Name")
+        item.subTitle = ""
+        if isValid(item.json.LookupCI("ProductionYear"))
+            item.subTitle = item.json.LookupCI("ProductionYear")
+        end if
+        item.type = item.json.LookupCI("Type")
+        item.Type = item.json.LookupCI("Type")
+        item.imageWidth = 234
+        row.appendChild(item)
+    end for
+
+    m.libraryList.content = content
+    if not isStringEqual(m.selectedPersonId, m.lastLibraryPersonId)
+        m.libraryList.jumpToRowItem = [0, 0]
+    end if
+    m.lastLibraryPersonId = m.selectedPersonId
+    m.libraryList.visible = true
+    m.libraryLoading.text = ""
+    m.detailFocus = "library"
+    m.libraryList.setFocus(true)
+end sub
+
+sub onLibraryItemSelected()
+    selectedItem = m.libraryList.content.getChild(m.libraryList.rowItemSelected[0]).getChild(m.libraryList.rowItemSelected[1])
+    if not isValid(selectedItem) then return
+    if not isValidAndNotEmpty(selectedItem.id) then return
+
+    selectedItemType = selectedItem.type
+    if not isValidAndNotEmpty(selectedItemType)
+        selectedItemType = selectedItem.Type
+    end if
+    if not isValidAndNotEmpty(selectedItemType) then return
+
+    m.global.jumpTo = {
+        selectiontype: "playbackSelectedItem",
+        selectedItem: {
+            id: selectedItem.id,
+            type: selectedItemType,
+            json: selectedItem.json
+        }
+    }
+end sub
+
+function handleKey(key as string) as boolean
+    if key = KeyCode.BACK
+        handleBack()
+        return true
+    end if
+
+    if not m.personDetails.visible then return false
+
+    if key = KeyCode.DOWN and isStringEqual(m.detailFocus, "person") and m.libraryList.visible
+        m.detailFocus = "library"
+        m.libraryList.setFocus(true)
+        return true
+    end if
+
+    if key = KeyCode.UP and m.libraryList.isInFocusChain()
+        return true
+    end if
+
+    return false
+end function
+
+function onKeyEvent(key as string, press as boolean) as boolean
+    if not press then return false
+
+    return handleKey(key)
+end function

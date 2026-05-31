@@ -186,6 +186,29 @@ sub onJumpToEvent(msg)
         m.global.sceneManager.callFunc("clearPreviousScene")
     end if
 
+    if isStringEqual(jumpToData.selectiontype, "playbackSelectedItem")
+        selectedItem = jumpToData.LookupCI("selectedItem")
+        if not isValid(selectedItem) then return
+
+        if isValid(currentView) and currentView.isSubType("VideoPlayerView")
+            m.pendingPlaybackSelectedItem = {
+                selectedItem: selectedItem,
+                videoNodeId: currentView.id
+            }
+            currentView.returnOnStop = true
+            currentView.observeField("state", m.port)
+            m.global.queueManager.callFunc("bypassNextPreferredAudioTrackIndexReset")
+            m.global.queueManager.callFunc("clear")
+            m.global.sceneManager.callFunc("clearPreviousScene")
+            currentView.control = VideoControl.STOP
+            return
+        end if
+
+        openPlaybackSelectedItem(selectedItem)
+
+        return
+    end if
+
     if isStringEqual(jumpToData.selectiontype, "search")
         startLoadingSpinner()
 
@@ -261,6 +284,23 @@ sub onJumpToEvent(msg)
 
         group = CreateMusicLibraryView(libraryContent)
         m.global.sceneManager.callFunc("pushScene", group)
+    end if
+end sub
+
+sub openPlaybackSelectedItem(selectedItem as object)
+    if not isValid(selectedItem) then return
+
+    selectedItemType = selectedItem.LookupCI("type")
+    if not isValidAndNotEmpty(selectedItemType) then return
+    selectedItemType = LCase(selectedItemType)
+
+    if inArray([ItemType.MOVIE, ItemType.EPISODE, ItemType.RECORDING], selectedItemType)
+        CreateMovieDetailsGroup(selectedItem)
+    else if isStringEqual(selectedItemType, ItemType.SERIES)
+        selectedItemId = chainLookup(selectedItem, "json.id")
+        if isValidAndNotEmpty(selectedItemId)
+            CreateSeriesDetailsGroup(selectedItemId)
+        end if
     end if
 end sub
 
@@ -1373,6 +1413,8 @@ sub onStateEvent(msg)
     node = msg.getRoSGNode()
     if not isChainValid(node, "state") then return
 
+    if handlePendingPlaybackSelectedItemState(node) then return
+
     if isStringEqual(node.state, "finished")
         if isStringEqual(node.selectedItemType, ItemType.TVCHANNEL)
             thisItem = {
@@ -1391,6 +1433,28 @@ sub onStateEvent(msg)
         end if
     end if
 end sub
+
+function handlePendingPlaybackSelectedItemState(node as object) as boolean
+    if not isValid(m.pendingPlaybackSelectedItem) then return false
+    if not node.isSubType("VideoPlayerView") then return false
+    if node.id <> m.pendingPlaybackSelectedItem.videoNodeId then return false
+
+    if not inArray(["finished", "stopped"], LCase(node.state)) then return true
+
+    node.unobserveField("state")
+
+    pendingPlaybackSelectedItem = m.pendingPlaybackSelectedItem
+    m.pendingPlaybackSelectedItem = invalid
+
+    currentView = m.global.sceneManager.callFunc("getActiveScene")
+    if isValid(currentView) and currentView.isSubType("VideoPlayerView")
+        m.global.sceneManager.callFunc("clearPreviousScene")
+    end if
+
+    openPlaybackSelectedItem(pendingPlaybackSelectedItem.selectedItem)
+
+    return true
+end function
 
 ' https://developer.roku.com/en-ca/docs/references/brightscript/events/rodeviceinfoevent.md
 sub onRoDeviceInfoEvent(msg)
