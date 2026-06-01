@@ -17,7 +17,7 @@ import "pkg:/source/utils/misc.bs"
 
 const REPLAY_RETRIES = 3
 const BUFFERING_LOGO_RIGHT_PADDING = 30
-const ACCEPTED_DURACTION_DELTA = 30
+const ACCEPTED_DURATION_DELTA = 30
 
 sub init()
     m.top.enableUI = false
@@ -1187,8 +1187,8 @@ sub playbackFailureTest()
 
     runtimeSeconds = m.runtimeticks / 10000000&
 
-    ' Jellyfin's reported duration must be within 30 seconds of Roku's duraction
-    if Abs(m.top.duration - runtimeSeconds) < ACCEPTED_DURACTION_DELTA
+    ' Jellyfin's reported duration must be within 30 seconds of Roku's duration
+    if Abs(m.top.duration - runtimeSeconds) < ACCEPTED_DURATION_DELTA
         m.playbackTestComplete = true
         return
     end if
@@ -1202,7 +1202,7 @@ sub playbackFailureTest()
         m.playbackTestComplete = true
     end if
 
-    m.global.queueManager.callFunc("setTranscodeReason", tr("Roku thought it could direct play this media, but the playback duraction was incorrect."))
+    m.global.queueManager.callFunc("setTranscodeReason", tr("Roku thought it could direct play this media, but the playback duration was incorrect."))
 
     ' Stop playback and exit player
     m.top.control = VideoControl.STOP
