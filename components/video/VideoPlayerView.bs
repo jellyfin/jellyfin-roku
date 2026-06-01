@@ -1073,12 +1073,10 @@ sub displaySegmentSkipButton(segmentType as string, endticks as double)
         end if
     end if
 
+    m.skipSegmentButton.visible = true
     m.skipSegmentButton.text = tr(`Skip ${segmentType}`)
-    if not m.skipSegmentButton.visible ' Check button is not already visible
-        m.skipSegmentButton.visible = true
-        if not m.osd.visible ' Only take focus if OSD is not visible
-            setSkipSegmentButtonFocus()
-        end if
+    if not m.osd.visible ' Only take focus if OSD is not visible
+        setSkipSegmentButtonFocus()
     end if
 end sub
 
