@@ -16,7 +16,7 @@
             //WARNING: don't edit this value. Instead, set "brightscript.debug.host": "YOUR_HOST_HERE" in your vscode user settings
             //"host": "${promptForHost}",
             //WARNING: don't edit this value. Instead, set "brightscript.debug.password": "YOUR_PASSWORD_HERE" in your vscode user settings
-            //"password": "${promptForPassword}",
+            "password": "235689",
         },
     ]
 }

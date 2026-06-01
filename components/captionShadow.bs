@@ -80,22 +80,53 @@ sub createShadowLabels(rect as object, styledText as string, drawingStyles as ob
 end sub
 
 sub createCueBackgroundBox(rect as object, lg as object, styledText as string, drawingStyles as object, bgColor as string)
+    ' Skip if background is fully transparent
+    if bgColor.right(2) = "00" then return
+
+    ' Reconstruct line fragments from styledText — splitting on \n while preserving open tags across lines
     lineFragments = reconstructFragments(styledText)
 
-    ' Use first MultiStyleLabel child of lg — it's already in tree and measured correctly
-    mainLabel = invalid
+    ' Verify the tree is ready by checking for a MultiStyleLabel child in lg
+    hasLabel = false
     for i = 0 to lg.getChildCount() - 1
-        child = lg.getChild(i)
-        if child.subtype() = "MultiStyleLabel"
-            mainLabel = child
+        if lg.getChild(i).subtype() = "MultiStyleLabel"
+            hasLabel = true
             exit for
         end if
     end for
+    if not hasLabel then return
 
+    ' Verify the tree is ready and get a reference to the main label for measurement
+    mainLabel = invalid
+    for i = 0 to lg.getChildCount() - 1
+        if lg.getChild(i).subtype() = "MultiStyleLabel"
+            mainLabel = lg.getChild(i)
+            exit for
+        end if
+    end for
     if mainLabel = invalid then return
 
-    totalBr = mainLabel.boundingRect()
-    lineHeight = totalBr.height / lineFragments.count()
+    ' Measure the tallest style in drawingStyles to get a consistent lineHeight
+    ' regardless of font variant (regular, bold, italic, bolditalic)
+    ' boundingRect() reports different heights per variant so we take the max
+    maxLineHeight = 0
+    for each key in drawingStyles.keys()
+        tempLabel = CreateObject("roSGNode", "MultiStyleLabel")
+        tempLabel.drawingStyles = { "default": drawingStyles[key] }
+        tempLabel.text = "Ag"
+        lg.appendchild(tempLabel)
+        br = tempLabel.boundingRect()
+        if br.height > maxLineHeight then maxLineHeight = br.height
+        lg.removeChild(tempLabel)
+    end for
+
+    ' Use the larger of the two measurements:
+    ' - maxLineHeight: covers taller font variants (regular reports taller than bold/italic)
+    ' - calculatedLineHeight: accounts for MultiStyleLabel internal padding which is
+    '   undocumented and cannot be controlled via itemSpacings or any exposed field
+    calculatedLineHeight = mainLabel.boundingRect().height / lineFragments.count()
+    lineHeight = maxLineHeight
+    if calculatedLineHeight > maxLineHeight then lineHeight = calculatedLineHeight
 
     ' Still need per-line widths — but now mainLabel is in tree
     lineWidths = []
@@ -141,7 +172,7 @@ function reconstructFragments(styledText as string) as object
         end if
 
         openTag = ""
-        tagPos = 1
+        tagPos = 0
         while true
             tagStart = instr(tagPos, fragment, "<")
             if tagStart = 0 then exit while
