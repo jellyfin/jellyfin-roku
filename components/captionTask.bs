@@ -38,6 +38,10 @@ sub init()
     deviceBGOpacity = chainLookupReturn(m.percentageDict, deviceInfo.GetCaptionsOption("Background/Opacity"), m.percentageDict.Default)
     m.bgColor = `${deviceBGColor}${deviceBGOpacity}`
     m.textEffect = deviceInfo.GetCaptionsOption("Text/Effect")
+    m.windowPercentageDict = { "Default": "00", "100%": "FF", "75%": "BF", "50%": "7F", "25%": "4B", "Off": "00" }
+    deviceWindowColor = chainLookupReturn(m.bgColorDict, deviceInfo.GetCaptionsOption("Window/Color"), m.bgColorDict.Default)
+    deviceWindowOpacity = chainLookupReturn(m.windowPercentageDict, deviceInfo.GetCaptionsOption("Window/Opacity"), "00")
+    m.windowBgColor = `${deviceWindowColor}${deviceWindowOpacity}`
 
     if isValidAndNotEmpty(m.global.fallbackFont)
         m.fonts = m.global.fallbackFont
@@ -49,6 +53,9 @@ sub init()
             "bolditalic": "font:LargeBoldSystemFont"
         }
     end if
+    ' Calculate and store the max line height for all font variants (used for per-line backgrounds)
+    m.lineHeights = getLineHeights()
+
 end sub
 
 sub fetchCaption()
@@ -75,19 +82,16 @@ function newLayoutGroup(label)
     return newlg
 end function
 
-
 function newRect(lg, id as string, styledText = invalid, drawingStyles = invalid)
     rect = CreateObject("roSGNode", "Rectangle")
     rect.addreplace("id", id)
 
-    createShadowLabels(rect, styledText, drawingStyles, m.textEffect)
-
+    ' Attach lg to measure its dimensions
     rect.appendchild(lg)
     lg.translation = [5, 5]
     rectxy = lg.BoundingRect()
 
-
-    ' fully transparent - color is only used for shadows and background rects
+    ' rect is transparent — window background and per-line cue backgrounds are drawn separately
     rect.color = "0x00000000"
     rect.width = rectxy.width + 10
     rect.height = rectxy.height + 10
@@ -96,8 +100,13 @@ function newRect(lg, id as string, styledText = invalid, drawingStyles = invalid
         rect.width = 0
         rect.height = 0
     end if
-    ' Draw per-line cue background box before shadow labels and text
-    createCueBackgroundBox(rect, lg, styledText, drawingStyles, m.bgColor)
+
+    ' Draw per-line cue background
+    createCueBackgroundBox(rect, lg, styledText, drawingStyles, m.bgColor, m.lineHeights)
+    ' Draw outline labels
+    createShadowLabels(rect, styledText, drawingStyles, m.textEffect, m.bgColor)
+    ' Add main label last so it renders on top of backgrounds and shadows
+    rect.appendchild(lg)
     return rect
 end function
 
@@ -301,6 +310,11 @@ sub updateCaption()
 
             adjustForCaptionOverlaps(rect, captions)
 
+            ' Create window background
+            windowBg = createWindowBackground(entry.LookupCI("id"), styledText, rect.translation[1], m.windowBgColor, m.lineHeights)
+            if windowBg <> invalid
+                captions.push(windowBg)
+            end if
             captions.push(rect)
         end if
     end for
@@ -514,4 +528,38 @@ function parseVTT(lines)
     end for
 
     return entries
+end function
+
+' Measures line heights using the regular font variant as a reference.
+' MultiStyleLabel reports consistent heights for bold/italic but regular may differ
+' due to font metrics. Called once during init() since fonts don't change during playback.
+function getLineHeights() as object
+    ' Measure line heights once at init using a temporary Group node
+    ' MultiStyleLabel must be attached to the scene graph to return valid boundingRect()
+    tempGroup = CreateObject("roSGNode", "Group")
+    testLabel = CreateObject("roSGNode", "MultiStyleLabel")
+    testLabel.drawingStyles = {
+        "default": {
+            "fontUri": m.fonts.regular,
+            "fontSize": m.fontSize,
+            "color": m.textColor
+        }
+    }
+    tempGroup.appendChild(testLabel)
+    m.top.appendChild(tempGroup)
+
+    ' Measure single line
+    testLabel.text = "Ag"
+    singleLineHeight = Int(testLabel.boundingRect().height)
+
+    ' Measure two lines to get the actual per-line height including LayoutGroup internal spacing
+    testLabel.text = "Ag" + chr(10) + "Ag"
+    twoLinesTotal = Int(testLabel.boundingRect().height)
+
+    m.top.removeChild(tempGroup)
+
+    return {
+        single: singleLineHeight,
+        multi: Int(twoLinesTotal / 2)
+    }
 end function

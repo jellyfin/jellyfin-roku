@@ -7,8 +7,7 @@ const OUTLINE_STEP_RATIO = 0.085 ' ~8.5% fontSize for cardinal directions
 const OUTLINE_DIAG_RATIO = 0.06 ' ~6% fontSize for diagonals
 const BASE_OFFSET = 5 ' Matches lg.translation in captionTask.bs
 
-sub createShadowLabels(rect as object, styledText as string, drawingStyles as object, textEffect as string)
-
+sub createShadowLabels(rect as object, styledText as string, drawingStyles as object, textEffect as string, bgColor as string)
     fontSize = drawingStyles["default"].fontSize
 
     outlineStep = Int(fontSize * OUTLINE_STEP_RATIO)
@@ -58,13 +57,17 @@ sub createShadowLabels(rect as object, styledText as string, drawingStyles as ob
         ]
     end if
 
+    ' Use grey shadow when background is fully opaque black, Roku default behavior
+    shadowColor = "0x000000CC"
+    if bgColor = "0x000000FF" then shadowColor = "0x808080CC"
+
     shadowDrawingStyles = {}
     for each key in drawingStyles.keys()
         style = drawingStyles[key]
         shadowDrawingStyles[key] = {
             "fontUri": style.fontUri,
             "fontSize": style.fontSize,
-            "color": "0x000000CC"
+            "color": shadowColor
         }
     end for
 
@@ -74,27 +77,18 @@ sub createShadowLabels(rect as object, styledText as string, drawingStyles as ob
         lbl.text = styledText
         lbl.horizAlign = "center"
         lbl.translation = offset
+        ' Append after backgrounds, before lg is moved to top in captionTask.bs
         rect.appendchild(lbl)
     end for
 
 end sub
 
-sub createCueBackgroundBox(rect as object, lg as object, styledText as string, drawingStyles as object, bgColor as string)
+sub createCueBackgroundBox(rect as object, lg as object, styledText as string, drawingStyles as object, bgColor as string, lineHeights as object)
     ' Skip if background is fully transparent
     if bgColor.right(2) = "00" then return
 
     ' Reconstruct line fragments from styledText — splitting on \n while preserving open tags across lines
     lineFragments = reconstructFragments(styledText)
-
-    ' Verify the tree is ready by checking for a MultiStyleLabel child in lg
-    hasLabel = false
-    for i = 0 to lg.getChildCount() - 1
-        if lg.getChild(i).subtype() = "MultiStyleLabel"
-            hasLabel = true
-            exit for
-        end if
-    end for
-    if not hasLabel then return
 
     ' Verify the tree is ready and get a reference to the main label for measurement
     mainLabel = invalid
@@ -106,35 +100,21 @@ sub createCueBackgroundBox(rect as object, lg as object, styledText as string, d
     end for
     if mainLabel = invalid then return
 
-    ' Measure the tallest style in drawingStyles to get a consistent lineHeight
-    ' regardless of font variant (regular, bold, italic, bolditalic)
-    ' boundingRect() reports different heights per variant so we take the max
-    maxLineHeight = 0
-    for each key in drawingStyles.keys()
-        tempLabel = CreateObject("roSGNode", "MultiStyleLabel")
-        tempLabel.drawingStyles = { "default": drawingStyles[key] }
-        tempLabel.text = "Ag"
-        lg.appendchild(tempLabel)
-        br = tempLabel.boundingRect()
-        if br.height > maxLineHeight then maxLineHeight = br.height
-        lg.removeChild(tempLabel)
-    end for
+    ' Determine which height to use (same for all lines)
+    lineHeight = 0
+    if lineFragments.count() = 1
+        lineHeight = lineHeights.single
+    else
+        lineHeight = lineHeights.multi
+    end if
 
-    ' Use the larger of the two measurements:
-    ' - maxLineHeight: covers taller font variants (regular reports taller than bold/italic)
-    ' - calculatedLineHeight: accounts for MultiStyleLabel internal padding which is
-    '   undocumented and cannot be controlled via itemSpacings or any exposed field
-    calculatedLineHeight = mainLabel.boundingRect().height / lineFragments.count()
-    lineHeight = maxLineHeight
-    if calculatedLineHeight > maxLineHeight then lineHeight = calculatedLineHeight
-
-    ' Still need per-line widths — but now mainLabel is in tree
+    ' Measure per-line widths
     lineWidths = []
     for each line in lineFragments
         tempLabel = CreateObject("roSGNode", "MultiStyleLabel")
         tempLabel.drawingStyles = drawingStyles
         tempLabel.text = line
-        lg.appendchild(tempLabel) ' attach to tree temporarily
+        lg.appendchild(tempLabel)
         br = tempLabel.boundingRect()
         lineWidths.push(br.width)
         lg.removeChild(tempLabel)
@@ -147,6 +127,8 @@ sub createCueBackgroundBox(rect as object, lg as object, styledText as string, d
 
     fontSize = drawingStyles["default"].fontSize
     bgPadding = Int(fontSize * OUTLINE_STEP_RATIO) + 1
+
+    ' Create background boxes - same height for all lines
     for i = 0 to lineFragments.count() - 1
         bg = CreateObject("roSGNode", "Rectangle")
         bg.height = lineHeight
@@ -160,6 +142,24 @@ sub createCueBackgroundBox(rect as object, lg as object, styledText as string, d
         rect.insertChild(bg, 0)
     end for
 end sub
+
+function createWindowBackground(id as string, styledText as string, textY as integer, bgColor as string, lineHeights as object) as object
+    if bgColor = invalid or bgColor.right(2) = "00" then return invalid
+
+    lineCount = styledText.split(chr(10)).count()
+
+    totalHeight = lineHeights.single
+    if lineCount > 1 then totalHeight = lineHeights.multi * lineCount
+
+    windowBg = CreateObject("roSGNode", "Rectangle")
+    windowBg.addreplace("id", id + "_window")
+    windowBg.color = bgColor
+    windowBg.width = 1536
+    windowBg.height = totalHeight + (BASE_OFFSET * 2) ' Add vertical padding to match text shadow offset
+    windowBg.translation = [(1920 - windowBg.width) / 2, textY]
+
+    return windowBg
+end function
 
 function reconstructFragments(styledText as string) as object
     fragments = styledText.split(chr(10))
