@@ -251,6 +251,11 @@
             <translation>Name</translation>
         </message>
         <message>
+            <comment>Last played time of media item</comment>
+            <source>RECENTLY_WATCHED</source>
+            <translation>Recently Watched</translation>
+        </message>
+        <message>
             <source>IMDB_RATING</source>
             <translation>IMDb Rating</translation>
         </message>

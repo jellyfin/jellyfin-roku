@@ -52,7 +52,6 @@ sub init()
 
     m.top.filter = "All"
 
-    m.channelSortOrder = chainLookupReturn(m.global.session, "user.settings.`ui.guide.channel.order`", LiveTVChannelSortOrder.NUMBER)
     m.channelFavoritesAtTop = chainLookupReturn(m.global.session, "user.settings.`ui.guide.favorites.at.top`", false)
 
     loadChannelList()
@@ -66,10 +65,8 @@ sub loadChannelList()
     startLoadingSpinner()
     m.LoadChannelsTask.observeField("channels", "onChannelListLoaded")
 
-    if isStringEqual(m.channelSortOrder, LiveTVChannelSortOrder.DATEPLAYED)
-        m.LoadChannelsTask.sortField = m.channelSortOrder
-        m.LoadChannelsTask.sortAscending = false
-    end if
+    m.LoadChannelsTask.sortField = chainLookupReturn(m.global.session, "user.settings.`display.livetv.sortField`", LiveTVChannelSortOrder.NUMBER)
+    m.LoadChannelsTask.sortAscending = chainLookupReturn(m.global.session, "user.settings.`display.livetv.sortAscending`", true)
 
     m.LoadChannelsTask.control = TaskControl.RUN
 end sub
