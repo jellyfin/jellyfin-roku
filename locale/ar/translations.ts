@@ -1543,32 +1543,32 @@
     </message>
     <message>
         <source>Library Portrait Column Count</source>
-        <translation type="unfinished"></translation>
+        <translation>عد أعمدة لوحة المكتبة</translation>
         <extracomment>Libraries Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Number of columns in library view when showing portrait (tall) images</source>
-        <translation type="unfinished"></translation>
+        <translation>عدد أعمدة مظهر المكتبة عند عرض صور اللوحة (طوليا)</translation>
         <extracomment>Libraries Setting - Setting description</extracomment>
     </message>
     <message>
         <source>Library Square Column Count</source>
-        <translation type="unfinished"></translation>
+        <translation>عد عمود المكتبة المربع</translation>
         <extracomment>Libraries Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Number of columns in library view when showing square images</source>
-        <translation type="unfinished"></translation>
+        <translation>عدد أعمدة مظهر المكتبة التي تظهر مع الصور المربعة</translation>
         <extracomment>Libraries Setting - Setting description</extracomment>
     </message>
     <message>
         <source>View All Next Up</source>
-        <translation type="unfinished"></translation>
+        <translation>عرض كل القادم</translation>
         <extracomment>Title for viewing all episodes available in the Next Up section</extracomment>
     </message>
     <message>
         <source>Rewatching Next Up</source>
-        <translation type="unfinished"></translation>
+        <translation>إعادة مشاهدة القادم</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
@@ -1619,7 +1619,7 @@
     </message>
     <message>
         <source>CH</source>
-        <translation type="unfinished"></translation>
+        <translation>قناة</translation>
         <extracomment>Abbreviation for Channel</extracomment>
     </message>
     <message>
@@ -2409,6 +2409,14 @@
     <message>
         <source>No Default</source>
         <translation>لا افتراض</translation>
+    </message>
+    <message>
+        <source>Load Items Limit</source>
+        <translation>حد تحميل العناصر</translation>
+    </message>
+    <message>
+        <source>Number of items to load together on library screens.</source>
+        <translation>عدد العناصر للتحميل على شاشات المكتبة.</translation>
     </message>
 </context>
 </TS>
