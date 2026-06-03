@@ -2467,5 +2467,9 @@
             <source>Forces Jellyfin to try direct playing video media, Live TV excluded. Enabling this ignores all other playback support settings and will always first attempt direct playback. It also changes how transcode reason is displayed.</source>
             <translation>Forces Jellyfin to try direct playing video media, Live TV excluded. Enabling this ignores all other playback support settings and will always first attempt direct playback. It also changes how transcode reason is displayed.</translation>
         </message>
+        <message>
+            <source>Roku thought it could direct play this media, but the playback duration was incorrect.</source>
+            <translation>Roku thought it could direct play this media, but the playback duration was incorrect.</translation>
+        </message>
     </context>
 </TS>
