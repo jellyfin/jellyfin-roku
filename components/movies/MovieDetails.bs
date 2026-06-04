@@ -1072,34 +1072,34 @@ sub updatePlayButtons(itemData as object)
         playButton.text = `${tr("Resume from")} ${ticksToHuman(itemData.UserData.PlaybackPositionTicks)}`
         playButton.AUDIO_GUIDE_SUFFIX = `${tr("Resume from")} ${ticksToAudioGuide(itemData.UserData.PlaybackPositionTicks)}`
         playButton.icon = "pkg:/images/icons/36px/resume.png"
-    else
-        ' No progress: show only Play
-        playButton.text = tr("Play")
-        playButton.AUDIO_GUIDE_SUFFIX = tr("Play")
-        playButton.icon = "pkg:/images/icons/36px/play.png"
-        if isValid(m.buttonGrp.content.findNode("play-from-beginning-button"))
-            ' Save focused button id before removing
-            focusedId = string.EMPTY
-            focusedIndex = m.buttonGrp.itemFocused
-            focusedBtn = m.buttonGrp.content.getChild(focusedIndex)
-            if isValid(focusedBtn) 
-                focusedId = focusedBtn.id
-            end if
-            m.buttonGrp.content.removeChild(m.playFromBeginningButton)
-            calculateButtonThumbProperties()
-            ' Restore focus by id
-            if focusedId <> string.EMPTY
-                i = 0
-                for each btn in m.buttonGrp.content.getChildren(-1, 0)
-                    if isStringEqual(btn.id, focusedId)
-                        m.buttonGrp.setFocus(true)
-                        m.buttonGrp.jumpToItem = i
-                        btn.focus = true
-                        exit for
-                    end if
-                    i++
-                end for
-            end if
+        return
+    end if
+    ' No progress: show only Play
+    playButton.text = tr("Play")
+    playButton.AUDIO_GUIDE_SUFFIX = tr("Play")
+    playButton.icon = "pkg:/images/icons/36px/play.png"
+    if isValid(m.buttonGrp.content.findNode("play-from-beginning-button"))
+        ' Save focused button id before removing
+        focusedId = string.EMPTY
+        focusedIndex = m.buttonGrp.itemFocused
+        focusedBtn = m.buttonGrp.content.getChild(focusedIndex)
+        if isValid(focusedBtn)
+            focusedId = focusedBtn.id
+        end if
+        m.buttonGrp.content.removeChild(m.playFromBeginningButton)
+        calculateButtonThumbProperties()
+        ' Restore focus by id
+        if focusedId <> string.EMPTY
+            i = 0
+            for each btn in m.buttonGrp.content.getChildren(-1, 0)
+                if isStringEqual(btn.id, focusedId)
+                    m.buttonGrp.setFocus(true)
+                    m.buttonGrp.jumpToItem = i
+                    btn.focus = true
+                    exit for
+                end if
+                i++
+            end for
         end if
     end if
 end sub
