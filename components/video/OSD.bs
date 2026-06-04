@@ -344,7 +344,13 @@ sub inactiveCheck()
         return
     end if
 
-    if m.deviceInfo.timeSinceLastKeypress() >= m.top.inactiveTimeout
+    ' If user has disabled the inactivity timeout in settings, ignore inactive check
+    inactivityTimeoutSetting = chainLookupReturn(m.global.session, "user.settings.`playback.inactiveTimeoutLength`", "5").ToInt()
+    if inactivityTimeoutSetting = 0
+        return
+    end if
+
+    if m.deviceInfo.timeSinceLastKeypress() >= inactivityTimeoutSetting
         checkDisplaySiblingItem("")
         m.top.action = "hide"
     end if
