@@ -93,15 +93,36 @@ namespace MainAction
         movie = chainLookup(activeScene, "itemContent")
         if not isChainValid(movie, "watched") or not isValid(movie.id) then return
 
-        if movie.watched
-            setPlayed(movie.id, false)
-        else
-            setPlayed(movie.id, true)
+        isFavorite = chainLookup(movie, "favorite")
+        isWatched = not movie.watched
+
+        setPlayed(movie.id, isWatched)
+
+        if isChainValid(movie, "json.UserData")
             movieData = movie.json
-            movieData.UserData.PlaybackPositionTicks = 0
+            movieData.UserData.AddReplace("IsFavorite", isFavorite)
+            movieData.UserData.AddReplace("Played", isWatched)
+            movieData.UserData.AddReplace("PlaybackPositionTicks", 0)
             movie.json = movieData
         end if
-        movie.watched = not movie.watched
+
+        movie.favorite = isFavorite
+        movie.watched = isWatched
+        updateWatchedButton(activeScene, isWatched)
+    end sub
+
+    sub updateWatchedButton(activeScene as object, isWatched as boolean)
+        watchedButton = activeScene.findNode("watched-button")
+        if not isValid(watchedButton) then return
+
+        if isWatched
+            watchedButton.text = tr("Watched")
+            watchedButton.AUDIO_GUIDE_SUFFIX = tr("Watched")
+            return
+        end if
+
+        watchedButton.text = tr("Mark As Played")
+        watchedButton.AUDIO_GUIDE_SUFFIX = tr("Mark As Played")
     end sub
 
     sub onMyListButtonClicked(activeScene as object)
@@ -134,12 +155,24 @@ namespace MainAction
         movie = chainLookup(activeScene, "itemContent")
         if not isChainValid(movie, "favorite") or not isValid(movie.id) then return
 
-        if movie.favorite
-            api.users.UnmarkFavorite(movie.id, { userId: m.global.session.user.id })
-        else
+        isFavorite = not movie.favorite
+        isWatched = chainLookup(movie, "watched")
+
+        if isFavorite
             api.users.MarkFavorite(movie.id, { userId: m.global.session.user.id })
+        else
+            api.users.UnmarkFavorite(movie.id, { userId: m.global.session.user.id })
         end if
-        movie.favorite = not movie.favorite
+
+        if isChainValid(movie, "json.UserData")
+            movieData = movie.json
+            movieData.UserData.AddReplace("IsFavorite", isFavorite)
+            movieData.UserData.AddReplace("Played", isWatched)
+            movie.json = movieData
+        end if
+
+        movie.favorite = isFavorite
+        movie.watched = isWatched
     end sub
 
     sub onEditSubtitlesButtonClicked(activeScene as object)
