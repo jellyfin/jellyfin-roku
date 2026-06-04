@@ -35,6 +35,8 @@
     <function name="getTranscodeCodec" />
     <function name="getForceTranscode" />
     <function name="setForceTranscode" />
+    <function name="getTranscodeReason" />
+    <function name="setTranscodeReason" />
     <function name="getLastKnownItemID" />
     <function name="setLastKnownItemID" />
     <function name="getLastKnownItemExtraType" />

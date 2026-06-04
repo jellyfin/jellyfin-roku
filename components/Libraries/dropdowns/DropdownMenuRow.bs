@@ -209,6 +209,8 @@ function onKeyEvent(key as string, press as boolean) as boolean
     if not m.top.isinFocusChain() then return false
 
     if isStringEqual(key, KeyCode.DOWN)
+        if not m.top.canExitDown then return false
+
         unfocusAllButtons(invalid)
         m.top.exit = ExitDirection.DOWN
         return true

@@ -2398,6 +2398,34 @@
         <source>Force live TV to be transcoded. If All Playable Media is already set to Force Transcode (Remux Disabled), this setting is ignored.</source>
         <translation>Erzwinge Transkodierung bei Live TV. Falls alle abspielbaren Medien bereits zwingend Transkodiert werden wird diese Einstellung keine Auswirkungen haben.</translation>
     </message>
+    <message>
+        <source>Select how to display a channel in the Live TV guide.</source>
+        <translation>Wähle aus, wie ein Kanal in der Live-TV-Übersicht angezeigt werden soll.</translation>
+    </message>
+    <message>
+        <source>Roku&apos;s video player threw the following error</source>
+        <translation>Rokus Videoplayer hat folgenden Fehler gemeldet</translation>
+    </message>
+    <message>
+        <source>Roku&apos;s video player got stuck buffering video</source>
+        <translation>Rokus Videoplayer hat ist beim Puffern des Videos eingefroren</translation>
+    </message>
+    <message>
+        <source>Roku thought it could direct play this media, but playback never started.</source>
+        <translation>Roku dachte, dass es das Medium direkt abspielen könnte, jedoch hat die Wiedergabe nie begonnen.</translation>
+    </message>
+    <message>
+        <source>Always Attempt Direct Playing Video Media</source>
+        <translation>Immer versuchen, Videodateien direkt abzuspielen</translation>
+    </message>
+    <message>
+        <source>Forces Jellyfin to try direct playing video media, Live TV excluded. Enabling this ignores all other playback support settings and will always first attempt direct playback. It also changes how transcode reason is displayed.</source>
+        <translation>Erzwingt Jellyfin Videodateien direkt abzuspielen, inklusive Live-TV. Das Aktivieren ignoriert alle anderen Wiedergabe-Unterstützungseinstellungen und sorgt dafür, dass die direkte Wiedergabe immer zuerst versucht wird. Außerdem ändert es, wie Transkodierungsgründe angezeigt werden.</translation>
+    </message>
+    <message>
+        <source>Channel Logo</source>
+        <translation>Kanallogo</translation>
+    </message>
 </context>
 <context>
     <name></name>

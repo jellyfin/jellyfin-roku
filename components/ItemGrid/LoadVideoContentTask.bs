@@ -101,6 +101,7 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
         ' Live TV is under CurrentProgram.Overview
         video.overview = meta.json.CurrentProgram.overview
     end if
+    video.runtimeticks = meta.json.RunTimeTicks
     video.trickplay = meta.json.Trickplay
     video.chapters = meta.json.Chapters
     video.content.title = meta.title
@@ -229,6 +230,8 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
         playbackPosition = currentItem.startingPoint
     else if isChainValid(currentItem, "json.UserData.PlaybackPositionTicks")
         playbackPosition = currentItem.json.UserData.PlaybackPositionTicks
+    else if isChainValid(meta, "json.UserData.PlaybackPositionTicks")
+        playbackPosition = meta.json.UserData.PlaybackPositionTicks
     end if
 
     ' PlayStart requires the time to be in seconds
@@ -308,7 +311,9 @@ sub LoadItems_AddVideoContent(video as object, mediaSourceId as dynamic, audio_s
     end if
 
     ' Direct play video
-    if video.directPlaySupported
+    attemptDirectPlaySetting = chainLookupReturn(m.global.session, "user.settings.attemptDirectPlay", false)
+
+    if video.directPlaySupported or (attemptDirectPlaySetting and not m.top.mustTranscode and not meta.live)
         video.isTranscoded = false
         addVideoContentURL(video, mediaSourceId, audio_stream_idx)
         setCertificateAuthority(video.content)
@@ -491,34 +496,6 @@ function shouldBurnInSelectedSubtitle(playbackInfo as object, selectedSubtitleIn
     end for
 
     return true
-end function
-
-function directPlaySupported(meta as object) as boolean
-    devinfo = CreateObject("roDeviceInfo")
-    if isValid(meta.json.MediaSources[0]) and meta.json.MediaSources[0].SupportsDirectPlay = false
-        return false
-    end if
-
-    if meta.json.MediaStreams[0] = invalid
-        return false
-    end if
-
-    streamInfo = { Codec: meta.json.MediaStreams[0].codec }
-    if isValid(meta.json.MediaStreams[0].Profile) and meta.json.MediaStreams[0].Profile.len() > 0
-        streamInfo.Profile = LCase(meta.json.MediaStreams[0].Profile)
-    end if
-    if isValid(meta.json.MediaSources[0].container) and meta.json.MediaSources[0].container.len() > 0
-        'CanDecodeVideo() requires the .container to be format: “mp4”, “hls”, “mkv”, “ism”, “dash”, “ts” if its to direct stream
-        if meta.json.MediaSources[0].container = "mov"
-            streamInfo.Container = "mp4"
-        else
-            streamInfo.Container = meta.json.MediaSources[0].container
-        end if
-    end if
-
-    decodeResult = devinfo.CanDecodeVideo(streamInfo)
-    return decodeResult <> invalid and decodeResult.result
-
 end function
 
 function getContainerType(meta as object) as string
