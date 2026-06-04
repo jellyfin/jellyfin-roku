@@ -706,6 +706,7 @@ function toggleAudioMiniPlayerPlayback() as boolean
     audioMiniPlayer = scene.findNode("audioMiniPlayer")
     if not isValid(audioMiniPlayer) then return false
     if not audioMiniPlayer.callFunc("isVisible") then return false
+    if audioMiniPlayer.callFunc("isSelected") then return true
 
     return toggleActiveAudioPlayback()
 end function
