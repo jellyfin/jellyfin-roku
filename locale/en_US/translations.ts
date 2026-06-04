@@ -1222,6 +1222,16 @@
             <extracomment>Settings Menu - Description for option</extracomment>
         </message>
         <message>
+            <source>Playback Controls Inactivity Timeout</source>
+            <translation>Playback Controls Inactivity Timeout</translation>
+            <extracomment>Settings Menu - Title for option</extracomment>
+        </message>
+        <message>
+            <source>Set the length of time in seconds that the playback control overlay will remain visible when no buttons are pressed. Set to 0 to disable.</source>
+            <translation>Set the length of time in seconds that the playback control overlay will remain visible when no buttons are pressed. Set to 0 to disable.</translation>
+            <extracomment>Settings Menu - Description for option</extracomment>
+        </message>
+        <message>
             <source>Preferred Audio Codec</source>
             <translation>Preferred Audio Codec</translation>
             <extracomment>Settings Menu - Title of option</extracomment>
