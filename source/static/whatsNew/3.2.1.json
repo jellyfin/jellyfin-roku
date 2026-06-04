@@ -2,5 +2,9 @@
   {
     "description": "Keep favorite and watched states independent on item details",
     "author": "VX-101"
+  },
+  {
+    "description": "Fix music playback controls on album and playlist song lists",
+    "author": "VX-101"
   }
 ]
