@@ -1573,37 +1573,37 @@
     </message>
     <message>
         <source>Show already watched episodes in &apos;Next Up&apos; sections.</source>
-        <translation type="unfinished"></translation>
+        <translation>اظهار الحلقات المشاهدة في أقسام &apos;القادم&apos;.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
         <source>Episode Images Next Up</source>
-        <translation type="unfinished"></translation>
+        <translation>صور الحلقة القادمة</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>What type of images to use for Episodes shown in the &apos;Next Up&apos; and &apos;Continue Watching&apos; sections.</source>
-        <translation type="unfinished"></translation>
+        <translation>ما نوع الصور التي تستخدم لاظهار الحلقات في أقسام &apos;القادم&apos; و &apos;متابعة المشاهدة&apos;.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
         <source>Use Web Client Setting</source>
-        <translation type="unfinished"></translation>
+        <translation>استخدم اعداد عميل الويب</translation>
         <extracomment>User Setting - Setting option title</extracomment>
     </message>
     <message>
         <source>Use Episode Image</source>
-        <translation type="unfinished"></translation>
+        <translation>استخدم صورة الحلقة</translation>
         <extracomment>User Setting - Setting option title</extracomment>
     </message>
     <message>
         <source>Use Show Image</source>
-        <translation type="unfinished"></translation>
+        <translation>استخدم صورة البرنامج</translation>
         <extracomment>User Setting - Setting option title</extracomment>
     </message>
     <message>
         <source>The selected Jellyfin server uses version</source>
-        <translation type="unfinished"></translation>
+        <translation>خادم Jellyfin المختار يستخدم الاصدار</translation>
     </message>
     <message>
         <source>which is not supported by this app. Please update the server to</source>
@@ -2417,6 +2417,14 @@
     <message>
         <source>Number of items to load together on library screens.</source>
         <translation>عدد العناصر للتحميل على شاشات المكتبة.</translation>
+    </message>
+    <message>
+        <source>Play from beginning</source>
+        <translation>التشغيل من البداية</translation>
+    </message>
+    <message>
+        <source>Resume from</source>
+        <translation>الاستئناف من</translation>
     </message>
 </context>
 </TS>
