@@ -1563,12 +1563,12 @@
     </message>
     <message>
         <source>View All Next Up</source>
-        <translation type="unfinished"></translation>
+        <translation>عرض كل القادم</translation>
         <extracomment>Title for viewing all episodes available in the Next Up section</extracomment>
     </message>
     <message>
         <source>Rewatching Next Up</source>
-        <translation type="unfinished"></translation>
+        <translation>إعادة مشاهدة القادم</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
@@ -2409,6 +2409,14 @@
     <message>
         <source>No Default</source>
         <translation>لا افتراض</translation>
+    </message>
+    <message>
+        <source>Load Items Limit</source>
+        <translation>حد تحميل العناصر</translation>
+    </message>
+    <message>
+        <source>Number of items to load together on library screens.</source>
+        <translation>عدد العناصر للتحميل على شاشات المكتبة.</translation>
     </message>
 </context>
 </TS>

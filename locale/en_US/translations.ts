@@ -49,6 +49,10 @@
             <translation>Play</translation>
         </message>
         <message>
+            <source>Play from beginning</source>
+            <translation>Play from beginning</translation>
+        </message>
+        <message>
             <source>Please sign in</source>
             <translation>Please sign in</translation>
         </message>
@@ -622,6 +626,10 @@
         <message>
             <source>Resume playing at </source>
             <translation>Resume playing at </translation>
+        </message>
+        <message>
+            <source>Resume from</source>
+            <translation>Resume from</translation>
         </message>
         <message>
             <source>Start over from the beginning.</source>
@@ -2458,6 +2466,10 @@
         <message>
             <source>Forces Jellyfin to try direct playing video media, Live TV excluded. Enabling this ignores all other playback support settings and will always first attempt direct playback. It also changes how transcode reason is displayed.</source>
             <translation>Forces Jellyfin to try direct playing video media, Live TV excluded. Enabling this ignores all other playback support settings and will always first attempt direct playback. It also changes how transcode reason is displayed.</translation>
+        </message>
+        <message>
+            <source>Roku thought it could direct play this media, but the playback duration was incorrect.</source>
+            <translation>Roku thought it could direct play this media, but the playback duration was incorrect.</translation>
         </message>
     </context>
 </TS>
