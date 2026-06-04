@@ -1091,7 +1091,7 @@ sub updatePlayButtons(itemData as object)
             if focusedId <> string.EMPTY
                 i = 0
                 for each btn in m.buttonGrp.content.getChildren(-1, 0)
-                    if btn.id = focusedId
+                    if isStringEqual(btn.id, focusedId)
                         m.buttonGrp.setFocus(true)
                         m.buttonGrp.jumpToItem = i
                         btn.focus = true
