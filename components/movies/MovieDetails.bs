@@ -1088,7 +1088,7 @@ sub updatePlayButtons(itemData as object)
             m.buttonGrp.content.removeChild(m.playFromBeginningButton)
             calculateButtonThumbProperties()
             ' Restore focus by id
-            if focusedId <> ""
+            if focusedId <> string.EMPTY
                 i = 0
                 for each btn in m.buttonGrp.content.getChildren(-1, 0)
                     if btn.id = focusedId
