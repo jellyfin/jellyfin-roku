@@ -1079,7 +1079,7 @@ sub updatePlayButtons(itemData as object)
         playButton.icon = "pkg:/images/icons/36px/play.png"
         if isValid(m.buttonGrp.content.findNode("play-from-beginning-button"))
             ' Save focused button id before removing
-            focusedId = ""
+            focusedId = string.EMPTY
             focusedIndex = m.buttonGrp.itemFocused
             focusedBtn = m.buttonGrp.content.getChild(focusedIndex)
             if isValid(focusedBtn) 
