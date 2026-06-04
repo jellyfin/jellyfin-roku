@@ -1082,7 +1082,9 @@ sub updatePlayButtons(itemData as object)
             focusedId = ""
             focusedIndex = m.buttonGrp.itemFocused
             focusedBtn = m.buttonGrp.content.getChild(focusedIndex)
-            if isValid(focusedBtn) then focusedId = focusedBtn.id
+            if isValid(focusedBtn) 
+                focusedId = focusedBtn.id
+            end if
             m.buttonGrp.content.removeChild(m.playFromBeginningButton)
             calculateButtonThumbProperties()
             ' Restore focus by id
