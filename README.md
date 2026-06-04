@@ -18,3 +18,7 @@
 ## Advanced
 
 For more advanced deployment methods, access to crash logs, or to learn how to setup a developer environment so you can write some code yourself please read the [DEVGUIDE](docs/DEVGUIDE.md).
+
+## Playback Troubleshooting
+
+**Disabling the bitrate limit:** Having inexplicable playback issues where a file refuses to directplay or crashes the player when transcoding? Try disabling the bitrate limit in Settings/Playback/Bitrate Limit to see if your specific hardware needs this limitation removed so as not to trigger transcoding when hitting the limit. 
