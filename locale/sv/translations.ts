@@ -745,7 +745,7 @@
     </message>
     <message>
         <source>Cinema Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Bioläge</translation>
         <extracomment>Settings Menu - Title for option</extracomment>
     </message>
     <message>
@@ -755,7 +755,7 @@
     </message>
     <message>
         <source>Hide Clock</source>
-        <translation type="unfinished"></translation>
+        <translation>Göm klocka</translation>
         <extracomment>Option Title in user setting screen</extracomment>
     </message>
     <message>
@@ -765,15 +765,15 @@
     </message>
     <message>
         <source>Next episode</source>
-        <translation type="unfinished"></translation>
+        <translation>Nästa episod</translation>
     </message>
     <message>
         <source>Play Trailer</source>
-        <translation type="unfinished"></translation>
+        <translation>Spela trailer</translation>
     </message>
     <message>
         <source>H.264</source>
-        <translation type="unfinished"></translation>
+        <translation>H.264</translation>
         <extracomment>Name of codec used in settings menu</extracomment>
     </message>
     <message>
@@ -783,7 +783,7 @@
     </message>
     <message>
         <source>HEVC</source>
-        <translation type="unfinished"></translation>
+        <translation>HEVC</translation>
         <extracomment>Name of codec used in settings menu</extracomment>
     </message>
     <message>
@@ -819,7 +819,7 @@
     </message>
     <message>
         <source>Reason</source>
-        <translation type="unfinished"></translation>
+        <translation>Anledning</translation>
     </message>
     <message>
         <source>Force Transcoding setting is enabled</source>
@@ -839,7 +839,7 @@
     </message>
     <message>
         <source>direct</source>
-        <translation type="unfinished"></translation>
+        <translation>Direkt</translation>
     </message>
     <message>
         <source>Total Bitrate</source>
@@ -855,7 +855,7 @@
     </message>
     <message>
         <source>Codec</source>
-        <translation type="unfinished"></translation>
+        <translation>Kodek</translation>
     </message>
     <message>
         <source>Codec Tag</source>
@@ -863,7 +863,7 @@
     </message>
     <message>
         <source>Level</source>
-        <translation type="unfinished"></translation>
+        <translation>Nivå</translation>
         <extracomment>Video profile level</extracomment>
     </message>
     <message>
@@ -878,7 +878,7 @@
     </message>
     <message>
         <source>Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Storlek</translation>
         <extracomment>Video size</extracomment>
     </message>
     <message>
@@ -2189,6 +2189,10 @@
     <message>
         <source>tracks</source>
         <translation>Spår</translation>
+    </message>
+    <message>
+        <source>Play from beginning</source>
+        <translation>Spela från början</translation>
     </message>
 </context>
 </TS>
