@@ -45,7 +45,7 @@
     <timer id="playbackCheckTimer" repeat="false" duration="1" />
     <timer id="bufferStuckTimer" repeat="true" duration="3" />
     <timer id="bufferCheckTimer" repeat="true" />
-    <OSD id="osd" visible="false" inactiveTimeout="5" />
+    <OSD id="osd" visible="false" />
 
     <Rectangle id="chapterList" visible="false" color="0x00000098" width="400" height="380" translation="[103,210]">
       <LabelList id="chapterMenu" itemSpacing="[0,20]" numRows="5" font="font:SmallSystemFont" itemSize="[315,40]" translation="[40,20]">
