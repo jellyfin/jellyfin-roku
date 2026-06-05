@@ -104,6 +104,8 @@ sub init()
 
     ' Custom Caption Function
     m.top.observeField("allowCaptions", "onAllowCaptionsChange")
+    ' Voice/transport command observer (Alexa, Roku voice remote)
+    m.top.observeField("voiceCommand", "onVoiceCommand")
 
     m.playbackTimer.observeField("fire", "ReportPlayback")
     m.bufferPercentage = 0 ' Track whether content is being loaded
@@ -2361,5 +2363,49 @@ sub setSkipSegmentButtonFocus()
     if m.skipSegmentButton.visible
         m.skipSegmentButton.setFocus(true)
         m.skipSegmentButton.focus = true
+    end if
+end sub
+
+' onVoiceCommand: Handles voice/transport commands from Alexa or Roku voice remote.
+' Receives an assocarray with keys "type" and optionally "position" (for seek).
+' Types handled: "play", "pause", "playpause", "seek", "fastforward", "rewind"
+'
+sub onVoiceCommand()
+    cmd = m.top.voiceCommand
+    if not isValid(cmd) then return
+    if not isValid(cmd.type) then return
+
+    cmdType = LCase(cmd.type)
+
+    if cmdType = "play"
+        ' Resume playback
+        m.top.control = VideoControl.RESUME
+
+    else if cmdType = "pause"
+        ' Pause playback
+        m.top.control = VideoControl.PAUSE
+
+    else if cmdType = "playpause"
+        ' Toggle between play and pause
+        handleVideoPlayPauseAction()
+
+    else if cmdType = "seek" and isValid(cmd.position)
+        ' Seek to absolute position in seconds
+        m.top.seek = cmd.position
+        setVideoEndingTime(cmd.position)
+
+    else if cmdType = "fastforward"
+        ' Skip forward 10 seconds
+        newPos = m.osd.positionTime + 10
+        m.top.seek = newPos
+        setVideoEndingTime(newPos)
+
+    else if cmdType = "rewind"
+        ' Skip backward 10 seconds
+        newPos = m.osd.positionTime - 10
+        if newPos < 0 then newPos = 0
+        m.top.seek = newPos
+        setVideoEndingTime(newPos)
+
     end if
 end sub

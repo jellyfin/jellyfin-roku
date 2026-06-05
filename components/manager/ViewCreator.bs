@@ -65,6 +65,11 @@ sub CreateVideoPlayerView()
     m.view.observeField("selectAudioPressed", "onSelectAudioPressed")
     m.view.observeField("selectSpeedPressed", "onSelectSpeedPressed")
 
+    ' Start VoiceInputTask to receive Alexa and Roku voice remote commands
+    m.voiceInputTask = CreateObject("roSGNode", "VoiceInputTask")
+    m.voiceInputTask.observeField("inputData", "onVoiceInputData")
+    m.voiceInputTask.control = "RUN"
+
     mediaSourceId = m.global.queueManager.callFunc("getCurrentItem").mediaSourceId
 
     if not isValid(mediaSourceId) or mediaSourceId = ""
@@ -362,6 +367,10 @@ sub onStateChange()
                 m.global.queueManager.callFunc("bypassNextPreferredAudioTrackIndexReset")
                 m.global.queueManager.callFunc("clear")
 
+                ' Stop VoiceInputTask when playback ends
+                if isValid(m.voiceInputTask)
+                    m.voiceInputTask.control = "STOP"
+                end if
                 ' Playback completed, return user to previous screen
                 m.global.sceneManager.callFunc("popScene")
                 m.global.audioPlayer.loopMode = ""
@@ -406,6 +415,10 @@ sub onStateChange()
             m.global.queueManager.callFunc("setLastKnownItemID", episodeToShowAtFinish.LookupCI("id"))
         end if
 
+        ' Stop VoiceInputTask when playback ends
+        if isValid(m.voiceInputTask)
+            m.voiceInputTask.control = "STOP"
+        end if
         ' Playback completed, return user to previous screen
         m.global.sceneManager.callFunc("popScene")
         m.global.audioPlayer.loopMode = ""
@@ -424,6 +437,10 @@ sub stillWatchingTimerComplete()
 
     m.global.queueManager.callFunc("bypassNextPreferredAudioTrackIndexReset")
     m.global.queueManager.callFunc("clear")
+    ' Stop VoiceInputTask when playback ends
+    if isValid(m.voiceInputTask)
+        m.voiceInputTask.control = "STOP"
+    end if
     m.global.sceneManager.callFunc("popScene")
 end sub
 
@@ -456,3 +473,70 @@ function audioMiniPlayerIsVisible(baseNode as dynamic) as boolean
 
     return m.audioMiniPlayer.callFunc("isVisible")
 end function
+
+' onVoiceInputData: Called when VoiceInputTask receives a voice/transport command.
+' Decodes the command and forwards it to the active VideoPlayerView.
+'
+sub onVoiceInputData()
+    if not isValid(m.view) then return
+    data = m.voiceInputTask.inputData
+    if not isValid(data) then return
+    if not isValid(data.type) then return
+    ' Send EventResponse immediately so Roku OS doesn't show "not available"
+    if isValid(data.id)
+        m.voiceInputTask.transportResponse = { id: data.id, status: "success" }
+    end if
+
+    cmd = {}
+
+    if data.type = "seek"
+        ' Absolute seek from Alexa: position in seconds
+        cmd.type = "seek"
+        cmd.position = data.position
+
+    else if data.type = "transport"
+        transportCmd = data.command
+
+        if transportCmd = "startover"
+            cmd.type = "seek"
+            cmd.position = 0
+
+        else if transportCmd = "seek"
+            ' Relative seek: direction (forward/backward) + duration in seconds
+            currentPos = m.view.position
+            duration = Val(data.duration)
+            if data.direction = "backward"
+                cmd.type = "seek"
+                cmd.position = currentPos - duration
+            else
+                cmd.type = "seek"
+                cmd.position = currentPos + duration
+            end if
+
+        else if transportCmd = "play"
+            cmd.type = "play"
+        else if transportCmd = "pause"
+            cmd.type = "pause"
+        else if transportCmd = "playpause"
+            cmd.type = "playpause"
+        else if transportCmd = "fastforward" or transportCmd = "ff"
+            cmd.type = "fastforward"
+        else if transportCmd = "rewind" or transportCmd = "rw"
+            cmd.type = "rewind"
+        else if transportCmd = "next"
+            ' Advance to next item in queue using same pattern as natural playback transition
+            if m.global.queueManager.callFunc("getPosition") < m.global.queueManager.callFunc("getCount") - 1
+                m.global.sceneManager.callFunc("clearPreviousScene")
+                m.global.queueManager.callFunc("moveForward")
+                m.global.queueManager.callFunc("playQueue")
+            end if
+        end if
+
+    end if
+
+    if cmd.count() = 0 then return
+
+    ' Forward command to VideoPlayerView
+    m.view.voiceCommand = cmd
+
+end sub

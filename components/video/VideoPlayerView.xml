@@ -28,6 +28,7 @@
     <field id="fullAudioData" type="array" />
     <field id="audioIndex" type="integer" />
     <field id="allowCaptions" type="boolean" value="false" />
+    <field id="voiceCommand" type="assocarray" alwaysNotify="true" />
   </interface>
 
   <children>

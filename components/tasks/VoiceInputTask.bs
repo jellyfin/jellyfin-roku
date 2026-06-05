@@ -1,0 +1,68 @@
+import "pkg:/source/utils/misc.bs"
+' VoiceInputTask: Listens for roInput events on its own thread.
+' Based on Roku's official transport-control sample.
+' Uses enableTransportEvents() to receive voice/transport commands.
+' Communicates results via inputData field and sends EventResponse to Roku OS.
+'
+sub init()
+    m.port = CreateObject("roMessagePort")
+    m.top.observeField("transportResponse", m.port)
+    m.top.functionName = "runLoop"
+end sub
+
+sub runLoop()
+    input = CreateObject("roInput")
+    input.SetMessagePort(m.port)
+    ' Required to receive transport commands from Alexa and Roku voice remote
+    input.enableTransportEvents()
+
+    while true
+        msg = m.port.waitMessage(500)
+
+        if type(msg) = "roInputEvent"
+            if msg.isInput()
+                info = msg.getInfo()
+                handleVoiceInput(input, info)
+            end if
+        else if type(msg) = "roSGNodeEvent"
+            ' Send EventResponse back to Roku OS after command is handled
+            if msg.getField() = "transportResponse"
+                response = msg.getData()
+                if isValid(response) and isValid(response.id)
+                    input.EventResponse({ id: response.id, status: response.status })
+                end if
+            end if
+        end if
+    end while
+end sub
+
+' handleVoiceInput: Decodes the roInputEvent and forwards it to VideoPlayerView.
+' Transport seek is relative (duration + direction), absolute seek uses seek_position.
+'
+sub handleVoiceInput(input as object, info as object)
+    if not isValid(info) then return
+    if not info.doesExist("type") then return
+
+    if info.type = "seek"
+        ' Absolute seek from Alexa: "go to minute 30"
+        ' seek_position arrives in milliseconds as a string
+        if info.doesExist("seek_position")
+            m.top.inputData = {
+                type: "seek",
+                position: Val(info.seek_position) / 1000.0,
+                id: info.id
+            }
+        end if
+
+    else if info.type = "transport"
+        ' Relative transport command: play, pause, seek forward/backward, next, startover
+        if not info.doesExist("command") then return
+        m.top.inputData = {
+            type: "transport",
+            command: LCase(info.command),
+            duration: info.duration,
+            direction: info.direction,
+            id: info.id
+        }
+    end if
+end sub

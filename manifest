@@ -26,3 +26,9 @@ confirm_partner_button=1
 supports_input_launch=1
 
 bs_const=printReg=false
+
+# Voice control support for Alexa
+supports_voice_roinput=1
+supports_etc_seek=1
+supports_etc_next=1
+
