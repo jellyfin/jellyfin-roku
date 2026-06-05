@@ -760,7 +760,7 @@
     </message>
     <message>
         <source>Hide all clocks in Jellyfin. Jellyfin will need to be closed and reopened for changes to take effect.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dölj alla klockor i Jellyfin. Jellyfin måste stängas och öppnas igen för att ändringarna ska träda i kraft.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
@@ -887,7 +887,7 @@
     </message>
     <message>
         <source>Pixel format</source>
-        <translation type="unfinished"></translation>
+        <translation>Pixelformat</translation>
         <extracomment>Video pixel format</extracomment>
     </message>
     <message>
@@ -902,7 +902,7 @@
     </message>
     <message>
         <source>Custom Subtitles</source>
-        <translation type="unfinished"></translation>
+        <translation>Anpassade undertexter</translation>
         <extracomment>Name of a setting - custom subtitles that support CJK fonts</extracomment>
     </message>
     <message>
@@ -922,42 +922,42 @@
     </message>
     <message>
         <source>all</source>
-        <translation type="unfinished"></translation>
+        <translation>allt</translation>
         <extracomment>all will reset the searchTerm so all data will be availible</extracomment>
     </message>
     <message>
         <source>All</source>
-        <translation type="unfinished"></translation>
+        <translation>Allt</translation>
         <extracomment>All in filter</extracomment>
     </message>
     <message>
         <source>Aired</source>
-        <translation type="unfinished"></translation>
+        <translation>Sändes</translation>
         <extracomment>Aired date label</extracomment>
     </message>
     <message>
         <source>Slideshow Off</source>
-        <translation type="unfinished"></translation>
+        <translation>Bildspel av</translation>
     </message>
     <message>
         <source>Slideshow On</source>
-        <translation type="unfinished"></translation>
+        <translation>Bildspel på</translation>
     </message>
     <message>
         <source>Slideshow Paused</source>
-        <translation type="unfinished"></translation>
+        <translation>Bildspel Pausad</translation>
     </message>
     <message>
         <source>(Favorites)</source>
-        <translation type="unfinished"></translation>
+        <translation>(Favoriter)</translation>
     </message>
     <message>
         <source>Favorites</source>
-        <translation type="unfinished"></translation>
+        <translation>Favoriter</translation>
     </message>
     <message>
         <source>Artists</source>
-        <translation type="unfinished"></translation>
+        <translation>Artister</translation>
     </message>
     <message>
         <source>Slideshow Resumed</source>
@@ -973,7 +973,7 @@
     </message>
     <message>
         <source>Delete Playlist</source>
-        <translation type="unfinished"></translation>
+        <translation>Ta bort spellista</translation>
     </message>
     <message>
         <source>MPEG-4 Support</source>
@@ -987,11 +987,11 @@
     </message>
     <message>
         <source>Collections</source>
-        <translation type="unfinished"></translation>
+        <translation>Samlingar</translation>
     </message>
     <message>
         <source>Playlists</source>
-        <translation type="unfinished"></translation>
+        <translation>Spellistor</translation>
     </message>
     <message>
         <source>Years</source>
@@ -1050,11 +1050,11 @@
     </message>
     <message>
         <source>Always Show</source>
-        <translation type="unfinished"></translation>
+        <translation>Visa alltid</translation>
     </message>
     <message>
         <source>Always Hide</source>
-        <translation type="unfinished"></translation>
+        <translation>Göm alltid</translation>
     </message>
     <message>
         <source>Artists (Presentation)</source>
@@ -1078,15 +1078,15 @@
     </message>
     <message>
         <source>Song</source>
-        <translation type="unfinished"></translation>
+        <translation>Låt</translation>
     </message>
     <message>
         <source>Songs</source>
-        <translation type="unfinished"></translation>
+        <translation>Låtar</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation type="unfinished"></translation>
+        <translation>Album</translation>
     </message>
     <message>
         <source>Albums</source>
@@ -2193,6 +2193,14 @@
     <message>
         <source>Play from beginning</source>
         <translation>Spela från början</translation>
+    </message>
+    <message>
+        <source>Resume from</source>
+        <translation>Återuppta från</translation>
+    </message>
+    <message>
+        <source>Set the maximum amount of days a show should stay in the &apos;Next Up&apos; list without watching it. Maximum value is 1000 days.</source>
+        <translation>Ange det maximala antalet dagar ett program ska finnas kvar i listan &quot;Härnäst&quot; utan att man tittar på det. Maximalt värde är 1000 dagar.</translation>
     </message>
 </context>
 </TS>
