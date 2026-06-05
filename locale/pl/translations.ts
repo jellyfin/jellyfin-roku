@@ -2436,5 +2436,13 @@
         <source>No Default</source>
         <translation>Brak domyślnej</translation>
     </message>
+    <message>
+        <source>Play from beginning</source>
+        <translation>Odtwarzaj od początku</translation>
+    </message>
+    <message>
+        <source>Resume from</source>
+        <translation>Wznów od</translation>
+    </message>
 </context>
 </TS>
