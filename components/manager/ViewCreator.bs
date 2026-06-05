@@ -522,7 +522,7 @@ sub onVoiceInputData()
             cmd.type = "pause"
         else if transportCmd = "playpause"
             cmd.type = "playpause"
-        else if transportCmd = "fastforward" or transportCmd = "ff"
+        else if transportCmd = "fastforward" or transportCmd = "ff" or transportCmd = "forward"
             cmd.type = "fastforward"
         else if transportCmd = "rewind" or transportCmd = "rw"
             cmd.type = "rewind"
