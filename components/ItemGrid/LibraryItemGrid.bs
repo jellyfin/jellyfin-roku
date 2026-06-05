@@ -1,0 +1,27 @@
+import "pkg:/source/enums/KeyCode.bs"
+
+function onKeyEvent(key as string, press as boolean) as boolean
+    if not press then return false
+    if not m.top.isInFocusChain() then return false
+    if key <> KeyCode.DOWN then return false
+    if m.top.content = invalid then return false
+
+    itemCount = m.top.content.getChildCount()
+    focusedIndex = m.top.itemFocused
+    numColumns = m.top.numColumns
+
+    if itemCount <= 0 then return false
+    if focusedIndex < 0 then return false
+    if numColumns <= 0 then return false
+
+    nextRowStart = (Fix(focusedIndex / numColumns) + 1) * numColumns
+    sameColumnNextRowIndex = focusedIndex + numColumns
+
+    if nextRowStart < itemCount and sameColumnNextRowIndex >= itemCount
+        ' Scroll directly to the last item in a short next row.
+        m.top.animateToItem = itemCount - 1
+        return true
+    end if
+
+    return false
+end function

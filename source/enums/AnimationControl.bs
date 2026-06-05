@@ -1,3 +1,4 @@
 enum AnimationControl
     START = "start"
+    STOP = "stop"
 end enum

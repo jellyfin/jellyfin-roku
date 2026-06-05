@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component name="BackdropImage" extends="maskGroup">
+    <children>
+        <poster id="currentBackdropImage" loadDisplayMode="scaleToZoom" width="1100" height="700" opacity="1" />
+        <poster id="newBackdropImage" loadDisplayMode="scaleToZoom" width="1100" height="700" opacity="1" />
+
+        <Animation id="backroundSwapAnimation" duration="1" repeat="false" easeFunction="linear">
+            <FloatFieldInterpolator key="[0.0, 1.0]" keyValue="[ 1.00, 0.00 ]" fieldToInterp="currentBackdropImage.opacity" />
+            <FloatFieldInterpolator key="[0.0, 1.0]" keyValue="[ 0.00, 1.00 ]" fieldToInterp="newBackdropImage.opacity" />
+        </Animation>
+    </children>
+    <interface>
+        <function name="changeImage" />
+        <function name="clearImage" />
+    </interface>
+</component>

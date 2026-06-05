@@ -8,6 +8,7 @@ sub init()
     m.btnGrp = m.top.findNode("buttons")
     m.btnGrp.observeField("escape", "onButtonGroupEscaped")
     m.favBtn = m.top.findNode("favorite-button")
+    m.favBtn.observeField("buttonSelected", "onFavoriteButtonSelected")
     m.extrasGrp = m.top.findNode("extrasGrp")
     m.extrasGrp.opacity = 1.0
     m.top.optionsAvailable = false
@@ -15,6 +16,7 @@ end sub
 
 sub loadPerson()
     item = m.top.itemContent
+    item.observeField("favorite", "setFavoriteColor")
     itemData = item.json
     m.top.Id = itemData.id
     name = m.top.findNode("Name")
@@ -86,6 +88,10 @@ sub onButtonGroupEscaped()
         m.dscr.opacity = 1.0
         m.top.findNode("dscrBorder").color = "#d0d0d0ff"
     end if
+end sub
+
+sub onFavoriteButtonSelected()
+    m.top.buttonSelected = "favorite-button"
 end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean
