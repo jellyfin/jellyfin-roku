@@ -3,6 +3,7 @@
   <interface>
     <field id="itemContent" type="node" onChange="loadPerson" />
     <field id="image" type="node" />
+    <field id="buttonSelected" type="string" alwaysNotify="true" />
     <field id="selectedItem" type="node" alias="extrasGrid.selectedItem" alwaysNotify="true" />
   </interface>
   <children>

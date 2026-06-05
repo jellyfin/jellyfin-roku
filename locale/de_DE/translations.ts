@@ -2350,6 +2350,82 @@
         <source>Channel Logo and Title</source>
         <translation>Kanallogo und -titel</translation>
     </message>
+    <message>
+        <source>Search Unavailable</source>
+        <translation>Suche nicht verfügbar</translation>
+    </message>
+    <message>
+        <source>Trickplay Display</source>
+        <translation>Trickplay-Anzeige</translation>
+    </message>
+    <message>
+        <source>Select trickplay display format.</source>
+        <translation>Wählen Sie das Trickplay-Anzeigeformat aus.</translation>
+    </message>
+    <message>
+        <source>Five trickplay images</source>
+        <translation>Fünf Trickplay-Bilder</translation>
+    </message>
+    <message>
+        <source>Single trickplay image that moves</source>
+        <translation>Einzelnes Trickplay-Bild, das sich bewegt</translation>
+    </message>
+    <message>
+        <source>Subtitles</source>
+        <translation>Untertitel</translation>
+    </message>
+    <message>
+        <source>tracks</source>
+        <translation>Tracks</translation>
+    </message>
+    <message>
+        <source>No Default</source>
+        <translation>Kein Standard</translation>
+    </message>
+    <message>
+        <source>Replace Roku&apos;s default subtitle functions with custom functions. If fallback fonts are configured and enabled on the server, those fonts will be used. A CJK fallback font is required for CJK rendering. To support bold and italics, you must have additional font files with the words &quot;bold&quot;, &quot;italic&quot;, and &quot;bolditalic&quot; in the filename.</source>
+        <translation>Ersetze Rokus Standard-Untertitelmechanismen mit benutzerdefinierten Mechanismen. Falls Ersatz-Schriftarten konfiguriert und auf dem Server aktiviert sind, werden diese Schriftarten verwendet. Eine CJK-Ersatz-Schriftart wird zur CJK-Anzeige benötigt. Um Fett- und Kursivschrift zu unterstützen, müssen zusätzliche Schriftart-Dateien mit den Wörtern &quot;bold&quot;, &quot;italic&quot;, und &quot;bolditalic&quot; im Dateinamen existieren.</translation>
+    </message>
+    <message>
+        <source>Force media to be transcoded.</source>
+        <translation>Erzwinge Transkodierung von Medien.</translation>
+    </message>
+    <message>
+        <source>All Playable Media</source>
+        <translation>Alle abspielbaren Medien</translation>
+    </message>
+    <message>
+        <source>Force live TV to be transcoded. If All Playable Media is already set to Force Transcode (Remux Disabled), this setting is ignored.</source>
+        <translation>Erzwinge Transkodierung bei Live TV. Falls alle abspielbaren Medien bereits zwingend Transkodiert werden wird diese Einstellung keine Auswirkungen haben.</translation>
+    </message>
+    <message>
+        <source>Select how to display a channel in the Live TV guide.</source>
+        <translation>Wähle aus, wie ein Kanal in der Live-TV-Übersicht angezeigt werden soll.</translation>
+    </message>
+    <message>
+        <source>Roku&apos;s video player threw the following error</source>
+        <translation>Rokus Videoplayer hat folgenden Fehler gemeldet</translation>
+    </message>
+    <message>
+        <source>Roku&apos;s video player got stuck buffering video</source>
+        <translation>Rokus Videoplayer hat ist beim Puffern des Videos eingefroren</translation>
+    </message>
+    <message>
+        <source>Roku thought it could direct play this media, but playback never started.</source>
+        <translation>Roku dachte, dass es das Medium direkt abspielen könnte, jedoch hat die Wiedergabe nie begonnen.</translation>
+    </message>
+    <message>
+        <source>Always Attempt Direct Playing Video Media</source>
+        <translation>Immer versuchen, Videodateien direkt abzuspielen</translation>
+    </message>
+    <message>
+        <source>Forces Jellyfin to try direct playing video media, Live TV excluded. Enabling this ignores all other playback support settings and will always first attempt direct playback. It also changes how transcode reason is displayed.</source>
+        <translation>Erzwingt Jellyfin Videodateien direkt abzuspielen, inklusive Live-TV. Das Aktivieren ignoriert alle anderen Wiedergabe-Unterstützungseinstellungen und sorgt dafür, dass die direkte Wiedergabe immer zuerst versucht wird. Außerdem ändert es, wie Transkodierungsgründe angezeigt werden.</translation>
+    </message>
+    <message>
+        <source>Channel Logo</source>
+        <translation>Kanallogo</translation>
+    </message>
 </context>
 <context>
     <name></name>

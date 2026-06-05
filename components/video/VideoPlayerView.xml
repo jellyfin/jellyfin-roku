@@ -19,7 +19,6 @@
 
     <field id="transcodeParams" type="assocarray" />
     <field id="transcodeAvailable" type="boolean" value="false" />
-    <field id="retryWithTranscoding" type="boolean" value="false" />
     <field id="isTranscoded" type="boolean" />
     <field id="disableNextEpisodeAutoPlay" type="boolean" value="false" />
 
@@ -44,6 +43,8 @@
 
     <Group id="captionGroup" translation="[0,0]" />
     <timer id="playbackTimer" repeat="true" duration="30" />
+    <timer id="playbackCheckTimer" repeat="false" duration="1" />
+    <timer id="bufferStuckTimer" repeat="true" duration="3" />
     <timer id="bufferCheckTimer" repeat="true" />
     <OSD id="osd" visible="false" inactiveTimeout="5" />
 
@@ -58,9 +59,9 @@
     <Rectangle id="nextUp" visible="false" color="0x000000CC" height="144" width="785" translation="[1000, 920]">
       <Poster id="nextItemPoster" width="150" height="124" translation="[10, 10]" />
       <LayoutGroup layoutDirection="vert" horizAlignment="left" itemSpacings="[10, 10]" translation="[180, 15]">
-        <Text text="Next Up" color="#FFFFFF" font="font:SmallBoldSystemFont" horizAlign="left" vertAlign="center" />
-        <ScrollingText id="nextItemSeriesTitle" maxWidth="300" color="#FFFFFF" font="font:SmallBoldSystemFont" horizAlign="left" vertAlign="top" />
-        <ScrollingText id="nextItemEpisodeTitle" maxWidth="300" color="#AAAAAA" font="font:SmallBoldSystemFont" horizAlign="left" vertAlign="top" />
+        <Text text="Next Up" color="#FFFFFF" font="font:SmallBoldSystemFont" horizAlign="left" vertAlign="center" height="35" />
+        <ScrollingText id="nextItemSeriesTitle" maxWidth="300" color="#FFFFFF" font="font:SmallBoldSystemFont" horizAlign="left" vertAlign="top" height="35" />
+        <ScrollingText id="nextItemEpisodeTitle" maxWidth="300" color="#AAAAAA" font="font:SmallBoldSystemFont" horizAlign="left" vertAlign="top" height="35" />
       </LayoutGroup>
     </Rectangle>
 

@@ -1,40 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="sv" sourcelanguage="en_US">
+<TS version="2.0" language="pl" sourcelanguage="en_US">
 <defaultcodec>UTF-8</defaultcodec>
 <context>
     <name>default</name>
     <message>
         <source>192.168.1.100:8096 or https://example.com/jellyfin</source>
-        <translation>192.168.1.100:8096 eller https://example.com/jellyfin</translation>
+        <translation>192.168.1.100:8096 lub https://example.com/jellyfin</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Avbryt</translation>
+        <translation>Anuluj</translation>
     </message>
     <message>
         <source>Connect to Server</source>
-        <translation>Anslut till server</translation>
+        <translation>Podłącz do serwera</translation>
     </message>
     <message>
         <source>Ends at %1</source>
-        <translation>Slutar vid %1</translation>
+        <translation>Kończy się na %1</translation>
     </message>
     <message>
         <source>Enter Configuration</source>
-        <translation>Öppna konfiguration</translation>
+        <translation>Wprowadź konfigurację</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favorit</translation>
+        <translation>Ulubione</translation>
     </message>
     <message>
         <source>Loading...</source>
-        <translation>Laddar…</translation>
+        <translation>Ładuję…</translation>
     </message>
     <message>
         <source>Login attempt failed.</source>
-        <translation>Inloggningen misslyckades.</translation>
+        <translation>Próba logowania się nie powiodła.</translation>
     </message>
     <message>
         <source>OK</source>
@@ -42,59 +42,59 @@
     </message>
     <message>
         <source>Options</source>
-        <translation>Alternativ</translation>
+        <translation>Opcje</translation>
     </message>
     <message>
         <source>Play</source>
-        <translation>Spela upp</translation>
+        <translation>Odtwórz</translation>
     </message>
     <message>
         <source>Please sign in</source>
-        <translation>Vänligen logga in</translation>
+        <translation>Proszę się zalogować</translation>
     </message>
     <message>
         <source>Search</source>
-        <translation>Sök</translation>
+        <translation>Szukaj</translation>
     </message>
     <message>
         <source>Server not found, is it online?</source>
-        <translation>Servern hittades inte, är den online?</translation>
+        <translation>Nie znaleziono serwera. Czy jest on online?</translation>
     </message>
     <message>
         <source>Shuffle</source>
-        <translation>Blanda</translation>
+        <translation>Odtwarzanie losowe</translation>
     </message>
     <message>
         <source>Sign In</source>
-        <translation>Logga in</translation>
+        <translation>Zaloguj się</translation>
     </message>
     <message>
         <source>Submit</source>
-        <translation>Skicka</translation>
+        <translation>Preślij</translation>
     </message>
     <message>
         <source>Watched</source>
-        <translation>Visad</translation>
+        <translation>Obejrzane</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation>Inställningar</translation>
+        <translation>Ustawienia</translation>
     </message>
     <message>
         <source>Change User</source>
-        <translation>Byt användare</translation>
+        <translation>Zmień użytkownika</translation>
     </message>
     <message>
         <source>Change Server</source>
-        <translation>Byt server</translation>
+        <translation>Zmień serwer</translation>
     </message>
     <message>
         <source>Sign Out</source>
-        <translation>Logga ut</translation>
+        <translation>Wyloguj się</translation>
     </message>
     <message>
         <source>Add User</source>
-        <translation>Lägg till användare</translation>
+        <translation>Dodaj użytkownika</translation>
     </message>
     <message>
         <source>Profile</source>
@@ -102,438 +102,438 @@
     </message>
     <message>
         <source>Save Credentials?</source>
-        <translation>Spara inloggningsuppgifter?</translation>
+        <translation>Zapisać dane uwierzytelniające?</translation>
     </message>
     <message>
         <source>Delete Saved</source>
-        <translation>Ta bort sparade</translation>
+        <translation>Usuń zapisane</translation>
     </message>
     <message>
         <source>My Media</source>
-        <translation>Mitt media</translation>
+        <translation>Moje multimedia</translation>
     </message>
     <message>
         <source>Continue Watching</source>
-        <translation>Fortsätt titta</translation>
+        <translation>Kontynuuj oglądanie</translation>
     </message>
     <message>
         <source>Next Up</source>
-        <translation>Nästa avsnitt</translation>
+        <translation>Następne</translation>
     </message>
     <message>
         <source>Recently Added in</source>
-        <translation>Nyligen tillagt i</translation>
+        <translation>Ostatnio dodane do</translation>
     </message>
     <message>
         <source>On Now</source>
-        <translation>Visas nu</translation>
+        <translation>Teraz</translation>
     </message>
     <message>
         <source>Home</source>
-        <translation>Hem</translation>
+        <translation>Główna</translation>
     </message>
     <message>
         <source>Enter a username</source>
-        <translation>Ange ett användarnamn</translation>
+        <translation>Podaj nazwę użytkownika</translation>
     </message>
     <message>
         <source>Enter a password</source>
-        <translation>Ange ett lösenord</translation>
+        <translation>Podaj hasło</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation>Namn</translation>
+        <translation>Nazwa</translation>
     </message>
     <message>
         <source>Sort Order</source>
-        <translation>Sorteringsordning</translation>
+        <translation>Kolejność sortowania</translation>
     </message>
     <message>
         <source>Descending</source>
-        <translation>Fallande</translation>
+        <translation>Malejąco</translation>
     </message>
     <message>
         <source>Ascending</source>
-        <translation>Stigande</translation>
+        <translation>Rosnąco</translation>
     </message>
     <message>
         <source>Password</source>
-        <translation>Lösenord</translation>
+        <translation>Hasło</translation>
     </message>
     <message>
         <source>Username</source>
-        <translation>Användarnamn</translation>
+        <translation>Nazwa użytkownika</translation>
     </message>
     <message>
         <source>Genres</source>
-        <translation>Genrer</translation>
+        <translation>Gatunki</translation>
     </message>
     <message>
         <source>Director</source>
-        <translation>Regissör</translation>
+        <translation>Reżyser</translation>
     </message>
     <message>
         <source>Video</source>
-        <translation>Video</translation>
+        <translation>Wideo</translation>
     </message>
     <message>
         <source>Audio</source>
-        <translation>Ljud</translation>
+        <translation>Audio</translation>
     </message>
     <message>
         <source>Server</source>
-        <translation>Server</translation>
+        <translation>Serwer</translation>
     </message>
     <message>
         <source>Extras</source>
-        <translation>Extramaterial</translation>
+        <translation>Dodatki</translation>
     </message>
     <message>
         <source>Episodes</source>
-        <translation>Avsnitt</translation>
+        <translation>Odcinki</translation>
     </message>
     <message>
         <source>Error Retrieving Content</source>
-        <translation>Fel vid hämtning av innehåll</translation>
+        <translation>Błąd pobierania zawartości</translation>
         <extracomment>Dialog title when unable to load Content from Server</extracomment>
     </message>
     <message>
         <source>Error During Playback</source>
-        <translation>Fel under uppspelning</translation>
+        <translation>Błąd podczas odtwarzania</translation>
         <extracomment>Dialog title when error occurs during playback</extracomment>
     </message>
     <message>
         <source>Unable to get playback information</source>
-        <translation>Det gick inte att hämta uppspelningsinformation</translation>
+        <translation>Nie można uzyskać informacji o odtwarzaniu</translation>
     </message>
     <message>
         <source>There was an error retrieving the data for this item from the server.</source>
-        <translation>Ett fel uppstod när data för det här objektet hämtades från servern.</translation>
+        <translation>Wystąpił błąd podczas pobierania danych tego elementu z serwera.</translation>
         <extracomment>Dialog detail when unable to load Content from Server</extracomment>
     </message>
     <message>
         <source>An error was encountered while playing this item.</source>
-        <translation>Ett fel påträffades under uppspelningen av detta objekt.</translation>
+        <translation>Podczas odtwarzania tego elementu wystąpił błąd.</translation>
         <extracomment>Dialog detail when error occurs during playback</extracomment>
     </message>
     <message>
         <source>Loading Channel Data</source>
-        <translation>Laddar kanaldata</translation>
+        <translation>Ładowanie danych kanału</translation>
     </message>
     <message>
         <source>Error loading Channel Data</source>
-        <translation>Fel vid laddning av kanaldata</translation>
+        <translation>Błąd ładowania danych kanału</translation>
     </message>
     <message>
         <source>Unable to load Channel Data from the server</source>
-        <translation>Det gick inte att ladda kanaldata från servern</translation>
+        <translation>Nie można załadować danych kanału z serwera</translation>
     </message>
     <message>
         <comment>Message displayed in Item Grid when no item to display. %1 is container type (e.g. Boxset, Collection, Folder, etc)</comment>
         <source>NO_ITEMS</source>
-        <translation>Denna %1 innehåller inga objekt</translation>
+        <translation>%1 nie zawiera żadnych elementów</translation>
     </message>
     <message>
         <comment>Name or Title field of media item</comment>
         <source>TITLE</source>
-        <translation>Namn</translation>
+        <translation>Nazwa</translation>
     </message>
     <message>
         <source>IMDB_RATING</source>
-        <translation>IMDb Betyg</translation>
+        <translation>Ocena IMDb</translation>
     </message>
     <message>
         <source>Community Rating</source>
-        <translation>Användarbetyg</translation>
+        <translation>Ocena społeczności</translation>
     </message>
     <message>
         <source>CRITIC_RATING</source>
-        <translation>Kritikerbetyg</translation>
+        <translation>Ocena krytyków</translation>
     </message>
     <message>
         <source>DATE_ADDED</source>
-        <translation>Datum Tillagt</translation>
+        <translation>Data dodania</translation>
     </message>
     <message>
         <source>DATE_PLAYED</source>
-        <translation>Senast Spelad</translation>
+        <translation>Data odtworzenia</translation>
     </message>
     <message>
         <source>OFFICIAL_RATING</source>
-        <translation>Åldersgräns</translation>
+        <translation>Ocena rodzicielska</translation>
     </message>
     <message>
         <source>Date Show Added</source>
-        <translation>Tilläggsdatum för serie</translation>
+        <translation>Data dodania serialu</translation>
     </message>
     <message>
         <source>Date Episode Added</source>
-        <translation>Tilläggsdatum för avsnitt</translation>
+        <translation>Data dodania odcinka</translation>
     </message>
     <message>
         <source>PLAY_COUNT</source>
-        <translation>Antal spelningar</translation>
+        <translation>Liczba odtworzeń</translation>
     </message>
     <message>
         <source>RELEASE_DATE</source>
-        <translation>Utgivningsdatum</translation>
+        <translation>Data wydania</translation>
     </message>
     <message>
         <source>RUNTIME</source>
-        <translation>Speltid</translation>
+        <translation>Czas trwania</translation>
     </message>
     <message>
         <comment>Title of Tab for switching &quot;views&quot; when looking at a library</comment>
         <source>TAB_VIEW</source>
-        <translation>Välj vy</translation>
+        <translation>Widok</translation>
     </message>
     <message>
         <comment>Title of Tab for options to sort library content</comment>
         <source>TAB_SORT</source>
-        <translation>Sortera</translation>
+        <translation>Sortowanie</translation>
     </message>
     <message>
         <comment>Title of Tab for options to filter library content</comment>
         <source>TAB_FILTER</source>
-        <translation>Filter</translation>
+        <translation>Filtrowanie</translation>
     </message>
     <message>
         <source>Born</source>
-        <translation>Född</translation>
+        <translation>Data urodzenia</translation>
     </message>
     <message>
         <source>Died</source>
-        <translation>Dog</translation>
+        <translation>Data śmierci</translation>
     </message>
     <message>
         <source>Age</source>
-        <translation>Ålder</translation>
+        <translation>Wiek</translation>
     </message>
     <message>
         <source>Cast &amp; Crew</source>
-        <translation>Medverkande</translation>
+        <translation>Obsada i ekipa</translation>
     </message>
     <message>
         <source>More Like This</source>
-        <translation>Liknande</translation>
+        <translation>Podobne</translation>
     </message>
     <message>
         <source>Press &apos;OK&apos; to Close</source>
-        <translation>Tryck &apos;OK&apos; för att stänga</translation>
+        <translation>Naciśnij „OK”, aby zamknąć</translation>
     </message>
     <message>
         <source>Special Features</source>
-        <translation>Extramaterial</translation>
+        <translation>Dodatki specjalne</translation>
     </message>
     <message>
         <source>Additional Parts</source>
-        <translation>Ytterligare delar</translation>
+        <translation>Części dodatkowe</translation>
         <extracomment>Additional parts of a video</extracomment>
     </message>
     <message>
         <source>Movies</source>
-        <translation>Filmer</translation>
+        <translation>Filmy</translation>
     </message>
     <message>
         <source>Movies (Presentation)</source>
-        <translation>Filmer (Presentation)</translation>
+        <translation>Filmy (prezentacja)</translation>
         <extracomment>Movie library view option</extracomment>
     </message>
     <message>
         <source>Movies (Grid)</source>
-        <translation>Filmer (Rutmönster)</translation>
+        <translation>Filmy (siatka)</translation>
         <extracomment>Movie library view option</extracomment>
     </message>
     <message>
         <source>TV Shows</source>
-        <translation>Tvserier</translation>
+        <translation>Seriale telewizyjne</translation>
     </message>
     <message>
         <source>today</source>
-        <translation>idag</translation>
+        <translation>dziś</translation>
         <extracomment>Current day</extracomment>
     </message>
     <message>
         <source>yesterday</source>
-        <translation>igår</translation>
+        <translation>wczoraj</translation>
         <extracomment>Previous day</extracomment>
     </message>
     <message>
         <source>tomorrow</source>
-        <translation>imorgon</translation>
+        <translation>jutro</translation>
         <extracomment>Next day</extracomment>
     </message>
     <message>
         <source>Sunday</source>
-        <translation>Söndag</translation>
+        <translation>niedziela</translation>
         <extracomment>Day of Week</extracomment>
     </message>
     <message>
         <source>Monday</source>
-        <translation>Måndag</translation>
+        <translation>poniedziałek</translation>
         <extracomment>Day of Week</extracomment>
     </message>
     <message>
         <source>Tuesday</source>
-        <translation>Tisdag</translation>
+        <translation>wtorek</translation>
         <extracomment>Day of Week</extracomment>
     </message>
     <message>
         <source>Wednesday</source>
-        <translation>Onsdag</translation>
+        <translation>środa</translation>
         <extracomment>Day of Week</extracomment>
     </message>
     <message>
         <source>Thursday</source>
-        <translation>Torsdag</translation>
+        <translation>czwartek</translation>
         <extracomment>Day of Week</extracomment>
     </message>
     <message>
         <source>Friday</source>
-        <translation>Fredag</translation>
+        <translation>piątek</translation>
         <extracomment>Day of Week</extracomment>
     </message>
     <message>
         <source>Saturday</source>
-        <translation>Lördag</translation>
+        <translation>sobota</translation>
         <extracomment>Day of Week</extracomment>
     </message>
     <message>
         <source>Started at</source>
-        <translation>Började vid</translation>
+        <translation>Rozpoczęto o</translation>
         <extracomment>(Past Tense) For defining time when a program started today (e.g. Started at 08:00) </extracomment>
     </message>
     <message>
         <source>Started</source>
-        <translation>Började</translation>
+        <translation>Rozpoczęto</translation>
         <extracomment>(Past Tense) For defining a day and time when a program started (e.g. Started Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Starts at</source>
-        <translation>Börjar vid</translation>
+        <translation>Rozpoczyna się o</translation>
         <extracomment>(Future Tense) For defining time when a program will start today (e.g. Starts at 08:00) </extracomment>
     </message>
     <message>
         <source>Starts</source>
-        <translation>Börjar</translation>
+        <translation>Rozpoczyna się</translation>
         <extracomment>(Future Tense) For defining a day and time when a program will start (e.g. Starts Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Ended at</source>
-        <translation>Slutade vid</translation>
+        <translation>Zakończono o</translation>
         <extracomment>(Past Tense) For defining time when a program will ended (e.g. Ended at 08:00) </extracomment>
     </message>
     <message>
         <source>Ends at</source>
-        <translation>Slutade</translation>
+        <translation>Kończy się o</translation>
         <extracomment>(Past Tense) For defining a day and time when a program ended (e.g. Ended Wednesday, 08:00) </extracomment>
     </message>
     <message>
         <source>Live</source>
-        <translation>Direktsänt</translation>
+        <translation>Na żywo</translation>
         <extracomment>If TV Show is being broadcast live (not pre-recorded)</extracomment>
     </message>
     <message>
         <source>Repeat</source>
-        <translation>Repris</translation>
+        <translation>Powtórka</translation>
         <extracomment>If TV Shows has previously been broadcasted</extracomment>
     </message>
     <message>
         <source>Channels</source>
-        <translation>Kanaler</translation>
+        <translation>Kanały</translation>
         <extracomment>Menu option for showing Live TV Channel List</extracomment>
     </message>
     <message>
         <source>TV Guide</source>
-        <translation>Tv-tablå</translation>
+        <translation>Program TV</translation>
         <extracomment>Menu option for showing Live TV Guide / Schedule</extracomment>
     </message>
     <message>
         <source>View Channel</source>
-        <translation>Visa kanal</translation>
+        <translation>Wyświetl kanał</translation>
     </message>
     <message>
         <source>Record</source>
-        <translation>Spela in</translation>
+        <translation>Nagraj</translation>
     </message>
     <message>
         <source>Record Series</source>
-        <translation>Spela in serie</translation>
+        <translation>Nagraj serial</translation>
     </message>
     <message>
         <source>Cancel Recording</source>
-        <translation>Avbryt inspelning</translation>
+        <translation>Anuluj nagrywanie</translation>
     </message>
     <message>
         <source>Cancel Series Recording</source>
-        <translation>Avbryt inspelning av serie</translation>
+        <translation>Anuluj nagrywanie serialu</translation>
     </message>
     <message>
         <source>Close</source>
-        <translation>Stäng</translation>
+        <translation>Zamknij</translation>
     </message>
     <message>
         <source>Connecting to Server</source>
-        <translation>Ansluter till server</translation>
+        <translation>Łączenie z serwerem</translation>
         <extracomment>Message to display to user while client is attempting to connect to the server</extracomment>
     </message>
     <message>
         <source>Not found</source>
-        <translation>Hittades ej</translation>
+        <translation>Nie znaleziono</translation>
         <extracomment>Title of message box when the requested content is not found on the server</extracomment>
     </message>
     <message>
         <source>Unknown</source>
-        <translation>Okänd</translation>
+        <translation>Nieznany</translation>
         <extracomment>Title for a cast member for which we have no information for</extracomment>
     </message>
     <message>
         <source>The requested content does not exist on the server</source>
-        <translation>Det begärda innehållet finns inte på servern</translation>
+        <translation>Żądana treść nie istnieje na serwerze</translation>
         <extracomment>Content of message box when the requested content is not found on the server</extracomment>
     </message>
     <message>
         <source>Enter the server name or IP address</source>
-        <translation>Ange servernamnet eller IP-adressen</translation>
+        <translation>Wpisz nazwę serwera lub adres IP</translation>
         <extracomment>Title of KeyboardDialog when manually entering a server URL</extracomment>
     </message>
     <message>
         <source>Pick a Jellyfin server from the local network</source>
-        <translation>Välj en tillgänglig Jellyfin server från ditt lokala nätverk:</translation>
+        <translation>Wybierz dostępny serwer Jellyfin ze swojej sieci lokalnej:</translation>
         <extracomment>Instructions on initial app launch when the user is asked to pick a server from a list</extracomment>
     </message>
     <message>
         <source>...or enter server URL manually:</source>
-        <translation>Om ingen server visas ovan kan du även ange serverns URL manuellt:</translation>
+        <translation>Jeżeli powyżej nie ma żadnego serwera, możesz również ręcznie wpisać adres URL serwera:</translation>
         <extracomment>Instructions on initial app launch when the user is asked to manually enter a server URL</extracomment>
     </message>
     <message>
         <source>Error Getting Playback Information</source>
-        <translation>Fel vid hämtning av uppspelningsinformation</translation>
+        <translation>Błąd podczas pobierania informacji o odtwarzaniu</translation>
         <extracomment>Dialog Title: Received error from server when trying to get information about the selected item for playback</extracomment>
     </message>
     <message>
         <source>An error was encountered while playing this item. Server did not provide required transcoding data.</source>
-        <translation>Ett fel påträffades under uppspelningen av detta objekt. Servern tillhandahöll inte nödvändig transkodningsdata.</translation>
+        <translation>Podczas odtwarzania tego elementu wystąpił błąd. Serwer nie dostarczył wymaganych danych transkodujących.</translation>
         <extracomment>Content of message box when trying to play an item which requires transcoding, and the server did not provide transcode url</extracomment>
     </message>
     <message>
         <source>Version</source>
-        <translation>Version</translation>
+        <translation>Wersja</translation>
     </message>
     <message>
         <source>Playback</source>
-        <translation>Uppspelning</translation>
+        <translation>Odtwarzanie</translation>
         <extracomment>Title for Playback section in user setting screen.</extracomment>
     </message>
     <message>
         <source>Codec Support</source>
-        <translation>Codec-stöd</translation>
+        <translation>Obsługa kodeków</translation>
         <extracomment>Settings Menu - Title for settings group related to codec support</extracomment>
     </message>
     <message>
         <source>Enable or disable Direct Play for optional codecs</source>
-        <translation>Aktivera/inaktivera Direct Play för valfria codecs</translation>
+        <translation>Włącz lub wyłącz funkcję bezpośredniego odtwarzania dla opcjonalnych kodeków</translation>
         <extracomment>Settings Menu - Title for settings group related to codec support</extracomment>
     </message>
     <message>
@@ -543,7 +543,7 @@
     </message>
     <message>
         <source>Support Direct Play of MPEG-2 content (e.g., Live TV). This will prevent transcoding of MPEG-2 content, but uses significantly more bandwidth.</source>
-        <translation>Stöd för Direct Play av MPEG-2-innehåll (t.ex. direktsänd tv). Detta förhindrar transkodning av MPEG-2-innehåll, men använder betydligt mer bandbredd.</translation>
+        <translation>Obsługa bezpośredniego odtwarzania treści MPEG-2 (np. telewizji na żywo). Zapobiega to transkodowaniu treści MPEG-2, ale zużywa znacznie więcej pasma.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
@@ -553,801 +553,816 @@
     </message>
     <message>
         <source>Support Direct Play of MPEG-4 content. This may need to be disabled for playback of DIVX encoded video files.</source>
-        <translation>Stöd för Direct Play av MPEG-4-innehåll. Detta kan behöva inaktiveras för uppspelning av DIVX-kodade videofiler.</translation>
+        <translation>Obsługa bezpośredniego odtwarzania treści MPEG-4. Może być konieczne wyłączenie tej opcji w celu odtwarzania plików wideo w formacie DIVX.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Enabled</source>
-        <translation>Aktiverad</translation>
+        <translation>Włączone</translation>
     </message>
     <message>
         <source>Disabled</source>
-        <translation>Inaktiverad</translation>
+        <translation>Wyłączone</translation>
     </message>
     <message>
         <source>User Interface</source>
-        <translation>Användargränssnitt</translation>
+        <translation>Interfejs użytkownika</translation>
         <extracomment>Title for User Interface section in user setting screen.</extracomment>
     </message>
     <message>
         <source>Media Grid</source>
-        <translation>Medierutnät</translation>
+        <translation>Siatka multimediów</translation>
         <extracomment>UI -&gt; Media Grid section in user setting screen.</extracomment>
     </message>
     <message>
         <source>Media Grid options.</source>
-        <translation>Inställningar för mediarutnät.</translation>
+        <translation>Opcje siatki multimediów.</translation>
     </message>
     <message>
         <source>Item Count</source>
-        <translation>Antal objekt</translation>
+        <translation>Liczba elementów</translation>
         <extracomment>UI -&gt; Media Grid -&gt; Item Count in user setting screen.</extracomment>
     </message>
     <message>
         <source>Show item count in the library and index of selected item.</source>
-        <translation>Visa antal objekt i biblioteket och index för valt objekt.</translation>
+        <translation>Pokaż liczbę elementów w bibliotece i indeks wybranego elementu.</translation>
         <extracomment>Description for option in Setting Screen</extracomment>
     </message>
     <message>
         <source>Set Favorite</source>
-        <translation>Sätt som favorit</translation>
+        <translation>Ustaw jako ulubione</translation>
         <extracomment>Button Text - When pressed, sets item as Favorite</extracomment>
     </message>
     <message>
         <source>Favorited</source>
-        <translation>Favoriter</translation>
+        <translation>Ustawiono jako ulubione</translation>
     </message>
     <message>
         <source>Mark As Favorite</source>
-        <translation>Markera som favorit</translation>
+        <translation>Oznacz jako ulubione</translation>
     </message>
     <message>
         <source>Set Watched</source>
-        <translation>Markera som sedd</translation>
+        <translation>Ustaw jako obejrzane</translation>
         <extracomment>Button Text - When pressed, marks item as Warched</extracomment>
     </message>
     <message>
         <source>Resume playing at </source>
-        <translation>Fortsätt spela vid </translation>
+        <translation>Wznów odtwarzanie od </translation>
     </message>
     <message>
         <source>Start over from the beginning.</source>
-        <translation>Börja om från början.</translation>
+        <translation>Zacznij od początku.</translation>
     </message>
     <message>
         <source>Playback Options</source>
-        <translation>Uppspelningsalternativ</translation>
+        <translation>Opcje odtwarzania</translation>
     </message>
     <message>
         <source>Go to series</source>
-        <translation>Gå till serien</translation>
+        <translation>Przejdź do serialu</translation>
         <extracomment>Continue Watching Popup Menu - Navigate to the Series Detail Page</extracomment>
     </message>
     <message>
         <source>Go to season</source>
-        <translation>Gå till säsongen</translation>
+        <translation>Przejdź do sezonu</translation>
         <extracomment>Continue Watching Popup Menu - Navigate to the Season Page</extracomment>
     </message>
     <message>
         <source>Go to episode</source>
-        <translation>Gå till avsnittet</translation>
+        <translation>Przejdź do odcinka</translation>
         <extracomment>Continue Watching Popup Menu - Navigate to the Episode Detail Page</extracomment>
     </message>
     <message>
         <source>Use voice remote to search</source>
-        <translation>Använd röstfjärrkontrollen för att söka</translation>
+        <translation>Użyj pilota głosowego do wyszukiwania</translation>
         <extracomment>Help text in search voice text box</extracomment>
     </message>
     <message>
         <source>Search now</source>
-        <translation>Sök nu</translation>
+        <translation>Szukaj teraz</translation>
         <extracomment>Help text in search Box</extracomment>
     </message>
     <message>
         <source>You can search for Titles, People, Live TV Channels and more</source>
-        <translation>Du kan söka efter titlar, personer, Live tv kanaler och mer</translation>
+        <translation>Możesz wyszukiwać tytuły, osoby, kanały TV i wiele więcej</translation>
         <extracomment>Help text in search results</extracomment>
     </message>
     <message>
         <source>%1 of %2</source>
-        <translation>%1 av %2</translation>
+        <translation>%1 z %2</translation>
         <extracomment>Item position and count. %1 = current item. %2 = total number of items</extracomment>
     </message>
     <message>
         <source>Quick Connect</source>
-        <translation>Snabbanslut</translation>
+        <translation>Szybkie łączenie</translation>
     </message>
     <message>
         <source>Here is your Quick Connect code:</source>
-        <translation>Här är din snabbanslutningskod:</translation>
+        <translation>Oto kod szybkiego łączenia:</translation>
     </message>
     <message>
         <source>(Dialog will close automatically)</source>
-        <translation>(Rutan stängs automatiskt)</translation>
+        <translation>(Okno dialogowe zostanie zamknięte automatycznie)</translation>
     </message>
     <message>
         <source>There was an error authenticating via Quick Connect.</source>
-        <translation>Ett fel uppstod vid autentisering via Quick Connect.</translation>
+        <translation>Wystąpił błąd podczas uwierzytelniania za pomocą szybkiego łączenia.</translation>
     </message>
     <message>
         <source>Networks</source>
-        <translation>Nätverk</translation>
+        <translation>Sieci</translation>
     </message>
     <message>
         <source>Studios</source>
-        <translation>Studior</translation>
+        <translation>Studia</translation>
     </message>
     <message>
         <source>Shows</source>
-        <translation>Serier</translation>
+        <translation>Programy</translation>
     </message>
     <message>
         <source>Return to Top</source>
-        <translation>Åter till toppen</translation>
+        <translation>Powrót na górę</translation>
         <extracomment>UI -&gt; Media Grid -&gt; Item Title in user setting screen.</extracomment>
     </message>
     <message>
         <source>Use the replay button to slowly animate to the first item in the folder. (If disabled, the folder will reset to the first item immediately).</source>
-        <translation>Använd uppspelningsknappen för att långsamt animera till det första objektet i mappen. (Om detta är inaktiverat återställs mappen direkt till det första objektet).</translation>
+        <translation>Użyj przycisku odtwarzania, aby powoli przejść do pierwszego elementu w folderze. (Jeśli ta opcja jest wyłączona, folder natychmiast powróci do pierwszego elementu).</translation>
         <extracomment>Description for option in Setting Screen</extracomment>
     </message>
     <message>
         <source>Hide Taglines</source>
-        <translation>Dölj tagglinjer</translation>
+        <translation>Ukryj slogany</translation>
         <extracomment>Option Title in user setting screen</extracomment>
     </message>
     <message>
         <source>Hides tagline text on details pages.</source>
-        <translation>Döljer tagglinjetext på detaljsidor.</translation>
+        <translation>Ukrywa tekst sloganu na stronach ze szczegółami.</translation>
     </message>
     <message>
         <source>Options for TV Shows.</source>
-        <translation>Alternativ för tvserier.</translation>
+        <translation>Opcje programów telewizyjnych.</translation>
         <extracomment>Description for TV Shows user settings.</extracomment>
     </message>
     <message>
         <source>Blur Unwatched Episodes</source>
-        <translation>Gör osedda avsnitt suddiga</translation>
+        <translation>Rozmycie nieobejrzanych odcinków</translation>
         <extracomment>Option Title in user setting screen</extracomment>
     </message>
     <message>
         <source>Skip Details for Single Seasons</source>
-        <translation>Hoppa över detaljer för enskilda säsonger</translation>
+        <translation>Pomiń szczegóły dotyczące pojedynczych sezonów</translation>
         <extracomment>Settings Menu - Title for option</extracomment>
     </message>
     <message>
         <source>Go directly to the episode list if a TV series has only one season.</source>
-        <translation>Om det är aktiverat går du direkt till avsnittslistan när du väljer en TV‑serie som bara har en säsong, istället för att visa seriedetaljer och säsongslista.</translation>
+        <translation>Jeśli ta opcja jest włączona, wybranie serialu telewizyjnego zawierającego tylko jeden sezon spowoduje przejście bezpośrednio do listy odcinków, a nie do szczegółów serialu i listy sezonów.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Blur images of unwatched episodes.</source>
-        <translation>Gör bilder för osedda avsnitt suddiga.</translation>
+        <translation>Rozmyte obrazy nieobejrzanych odcinków.</translation>
     </message>
     <message>
         <source>Design Elements</source>
-        <translation>Designelement</translation>
+        <translation>Elementy projektu</translation>
     </message>
     <message>
         <source>Options that alter the design of Jellyfin.</source>
-        <translation type="unfinished"></translation>
+        <translation>Opcje zmieniające projekt Jellyfin.</translation>
         <extracomment>Description for Design Elements user settings.</extracomment>
     </message>
     <message>
         <source>Use Splashscreen as Home Background</source>
-        <translation type="unfinished"></translation>
+        <translation>Użyj ekranu powitalnego jako tła głównego</translation>
         <extracomment>Option Title in user setting screen</extracomment>
     </message>
     <message>
         <source>Use generated splashscreen image as Jellyfin&apos;s home background. Jellyfin will need to be closed and reopened for change to take effect.</source>
-        <translation type="unfinished"></translation>
+        <translation>Użyj wygenerowanego obrazu powitalnego jako tła głównego Jellyfin. Aby zmiany zostały wprowadzone, Jellyfin będzie musiał zostać zamknięty i ponownie otwarty.</translation>
         <extracomment>Description for option in Setting Screen</extracomment>
     </message>
     <message>
         <source>Cinema Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Tryb kinowy</translation>
         <extracomment>Settings Menu - Title for option</extracomment>
     </message>
     <message>
         <source>Bring the theater experience straight to your living room with the ability to play custom intros before the main feature.</source>
-        <translation type="unfinished"></translation>
+        <translation>Przenieś wrażenia kinowe prosto do swojego salonu dzięki możliwości odtwarzania własnych intro przed głównym filmem.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Hide Clock</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukryj zegar</translation>
         <extracomment>Option Title in user setting screen</extracomment>
     </message>
     <message>
         <source>Hide all clocks in Jellyfin. Jellyfin will need to be closed and reopened for changes to take effect.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukryj wszystkie zegary w Jellyfin. Aby zmiany zostały wprowadzone, konieczne będzie zamknięcie i ponowne otwarcie Jellyfin.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Next episode</source>
-        <translation type="unfinished"></translation>
+        <translation>Następny odcinek</translation>
     </message>
     <message>
         <source>Play Trailer</source>
-        <translation type="unfinished"></translation>
+        <translation>Odtwórz zwiastun</translation>
     </message>
     <message>
         <source>H.264</source>
-        <translation type="unfinished"></translation>
+        <translation>H.264</translation>
         <extracomment>Name of codec used in settings menu</extracomment>
     </message>
     <message>
         <source>Attempt Direct Play for H.264 media with unsupported profile levels before falling back to transcoding if it fails.</source>
-        <translation type="unfinished"></translation>
+        <translation>W przypadku plików multimedialnych w formacie H.264 o nieobsługiwanych poziomach profilu należy najpierw spróbować odtworzyć je bezpośrednio, a dopiero po niepowodzeniu przejść do transkodowania.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>HEVC</source>
-        <translation type="unfinished"></translation>
+        <translation>HEVC</translation>
         <extracomment>Name of codec used in settings menu</extracomment>
     </message>
     <message>
         <source>Attempt Direct Play for HEVC media with unsupported profile levels before falling back to transcoding if it fails.</source>
-        <translation type="unfinished"></translation>
+        <translation>W przypadku plików multimedialnych w formacie HEVC o nieobsługiwanych poziomach profilu należy najpierw spróbować odtworzyć je bezpośrednio, a dopiero po niepowodzeniu przejść do transkodowania.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Settings relating to playback and supported codec and media types.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustawienia dotyczące odtwarzania oraz obsługiwanych kodeków i typów multimediów.</translation>
     </message>
     <message>
         <source>Settings relating to how the application looks.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustawienia dotyczące wyglądu aplikacji.</translation>
     </message>
     <message>
         <source>Max Days Next Up</source>
-        <translation type="unfinished"></translation>
+        <translation>Maksymalna liczba dni w „Następne”</translation>
         <extracomment>Option Title in user setting screen</extracomment>
     </message>
     <message>
-        <source>Set the maximum amount of days a show should stay in the &apos;Next Up&apos; list without watching it.</source>
-        <translation type="unfinished"></translation>
+        <source>Set the maximum amount of days a show should stay in the &apos;Next Up&apos; list without watching it. Maximum value is 1000 days.</source>
+        <translation>Ustaw maksymalną liczbę dni, przez które program ma pozostać na liście „Następne”, bez możliwości obejrzenia go. Maksymalna wartość to 1000 dni.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Playback Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Informacje o odtwarzaniu</translation>
     </message>
     <message>
         <source>Transcoding Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Informacje o transkodowaniu</translation>
     </message>
     <message>
         <source>Reason</source>
-        <translation type="unfinished"></translation>
+        <translation>Powód</translation>
     </message>
     <message>
         <source>Force Transcoding setting is enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustawienie wymuszania transkodowania jest włączone</translation>
     </message>
     <message>
         <source>Force Transcode option is enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Opcja „Wymuś transkodowanie” jest włączona</translation>
     </message>
     <message>
         <source>Video Codec</source>
-        <translation type="unfinished"></translation>
+        <translation>Kodek wideo</translation>
     </message>
     <message>
         <source>Audio Codec</source>
-        <translation type="unfinished"></translation>
+        <translation>Kodek audio</translation>
     </message>
     <message>
         <source>direct</source>
-        <translation type="unfinished"></translation>
+        <translation>bezpośrednio</translation>
     </message>
     <message>
         <source>Total Bitrate</source>
-        <translation type="unfinished"></translation>
+        <translation>Całkowita przepływność</translation>
     </message>
     <message>
         <source>Audio Channels</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanały audio</translation>
     </message>
     <message>
         <source>Stream Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Informacje o strumieniu</translation>
     </message>
     <message>
         <source>Codec</source>
-        <translation type="unfinished"></translation>
+        <translation>Kodek</translation>
     </message>
     <message>
         <source>Codec Tag</source>
-        <translation type="unfinished"></translation>
+        <translation>Tag kodeka</translation>
     </message>
     <message>
         <source>Level</source>
-        <translation type="unfinished"></translation>
+        <translation>Poziom</translation>
         <extracomment>Video profile level</extracomment>
     </message>
     <message>
         <source>Bit Rate</source>
-        <translation type="unfinished"></translation>
+        <translation>Przepływność</translation>
         <extracomment>Video streaming bit rate</extracomment>
     </message>
     <message>
         <source>Container</source>
-        <translation type="unfinished"></translation>
+        <translation>Kontener</translation>
         <extracomment>Video streaming container</extracomment>
     </message>
     <message>
         <source>Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Rozmiar</translation>
         <extracomment>Video size</extracomment>
     </message>
     <message>
         <source>Video range type</source>
-        <translation type="unfinished"></translation>
+        <translation>Typ zakresu wideo</translation>
     </message>
     <message>
         <source>Pixel format</source>
-        <translation type="unfinished"></translation>
+        <translation>Format pikseli</translation>
         <extracomment>Video pixel format</extracomment>
     </message>
     <message>
         <source>WxH</source>
-        <translation type="unfinished"></translation>
+        <translation>WxH</translation>
         <extracomment>Video width x height</extracomment>
     </message>
     <message>
         <source>Unable to find any albums or songs belonging to this artist</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie można znaleźć żadnych albumów ani utworów należących do tego wykonawcy</translation>
         <extracomment>Popup message when we find no audio data for an artist</extracomment>
     </message>
     <message>
         <source>Custom Subtitles</source>
-        <translation type="unfinished"></translation>
+        <translation>Niestandardowe napisy</translation>
         <extracomment>Name of a setting - custom subtitles that support CJK fonts</extracomment>
     </message>
     <message>
-        <source>Replace Roku&apos;s default subtitle functions with custom functions that support CJK fonts. Fallback fonts must be configured and enabled on the server for CJK rendering to work.</source>
-        <translation type="unfinished"></translation>
+        <source>Replace Roku&apos;s default subtitle functions with custom functions. If fallback fonts are configured and enabled on the server, those fonts will be used. A CJK fallback font is required for CJK rendering. To support bold and italics, you must have additional font files with the words &quot;bold&quot;, &quot;italic&quot;, and &quot;bolditalic&quot; in the filename.</source>
+        <translation>Zastąp domyślne funkcje napisów Roku funkcjami niestandardowymi. Jeśli na serwerze skonfigurowano i włączono czcionki zapasowe, zostaną one użyte. Do renderowania CJK wymagana jest czcionka zapasowa CJK. Aby obsługiwać pogrubienie i kursywę, musisz mieć dodatkowe pliki czcionek ze słowami „bold”, „italic” i „bolditalic” w nazwie pliku.</translation>
         <extracomment>Description of a setting - custom subtitles that support CJK fonts</extracomment>
     </message>
     <message>
         <source>Text Subtitles Only</source>
-        <translation type="unfinished"></translation>
+        <translation>Tylko napisy tekstowe</translation>
         <extracomment>Name of a setting - should we hide subtitles that might transcode</extracomment>
     </message>
     <message>
         <source>Only display text subtitles to minimize transcoding.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyświetlaj tylko napisy tekstowe, aby zminimalizować konieczność transkodowania.</translation>
         <extracomment>Description of a setting - should we hide subtitles that might transcode</extracomment>
     </message>
     <message>
         <source>all</source>
-        <translation type="unfinished"></translation>
+        <translation>wszystko</translation>
         <extracomment>all will reset the searchTerm so all data will be availible</extracomment>
     </message>
     <message>
         <source>All</source>
-        <translation type="unfinished"></translation>
+        <translation>Wszystko</translation>
         <extracomment>All in filter</extracomment>
     </message>
     <message>
         <source>Aired</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyemitowano</translation>
         <extracomment>Aired date label</extracomment>
     </message>
     <message>
         <source>Slideshow Off</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokaz slajdów wyłączony</translation>
     </message>
     <message>
         <source>Slideshow On</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokaz slajdów włączony</translation>
     </message>
     <message>
         <source>Slideshow Paused</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokaz slajdów wstrzymany</translation>
     </message>
     <message>
         <source>(Favorites)</source>
-        <translation type="unfinished"></translation>
+        <translation>(Ulubione)</translation>
     </message>
     <message>
         <source>Favorites</source>
-        <translation type="unfinished"></translation>
+        <translation>Ulubione</translation>
     </message>
     <message>
         <source>Artists</source>
-        <translation type="unfinished"></translation>
+        <translation>Wykonawcy</translation>
     </message>
     <message>
         <source>Slideshow Resumed</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokaz slajdów wznowiono</translation>
     </message>
     <message>
         <source>Random Off</source>
-        <translation type="unfinished"></translation>
+        <translation>Losowe wyłączono</translation>
     </message>
     <message>
         <source>Random On</source>
-        <translation type="unfinished"></translation>
+        <translation>Losowe włączono</translation>
     </message>
     <message>
         <source>Delete Playlist</source>
-        <translation type="unfinished"></translation>
+        <translation>Usuń listę odtwarzania</translation>
     </message>
     <message>
         <source>MPEG-4 Support</source>
-        <translation type="unfinished"></translation>
+        <translation>Obsługa MPEG-4</translation>
         <extracomment>Settings Menu - Title for option</extracomment>
     </message>
     <message>
         <source>Parental Ratings</source>
-        <translation type="unfinished"></translation>
+        <translation>Oceny rodzicielskie</translation>
         <extracomment>Used in Filter menu</extracomment>
     </message>
     <message>
         <source>Collections</source>
-        <translation type="unfinished"></translation>
+        <translation>Kolekcje</translation>
     </message>
     <message>
         <source>Playlists</source>
-        <translation type="unfinished"></translation>
+        <translation>Listy odtwarzania</translation>
     </message>
     <message>
         <source>Years</source>
-        <translation type="unfinished"></translation>
+        <translation>Lata</translation>
         <extracomment>Used in Filter menu</extracomment>
     </message>
     <message>
         <source>No items found. Try adjusting your selected filters.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie znaleziono żadnych elementów. Spróbuj dostosować wybrane filtry.</translation>
     </message>
     <message>
         <source>Show What&apos;s New Popup</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokaż wyskakujące okienko „Co nowego”</translation>
         <extracomment>Settings Menu - Title for option</extracomment>
     </message>
     <message>
         <source>Show What&apos;s New popup when Jellyfin is updated to a new version.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokaż wyskakujące okienko „Co nowego”, gdy Jellyfin zostanie zaktualizowany do nowej wersji.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Unplayed</source>
-        <translation type="unfinished"></translation>
+        <translation>Nieodtworzone</translation>
     </message>
     <message>
         <source>Played</source>
-        <translation type="unfinished"></translation>
+        <translation>Odtworzone</translation>
     </message>
     <message>
         <source>Resumable</source>
-        <translation type="unfinished"></translation>
+        <translation>Wznawialne</translation>
     </message>
     <message>
         <source>Movie Library Default View</source>
-        <translation type="unfinished"></translation>
+        <translation>Domyślny widok biblioteki filmów</translation>
         <extracomment>Settings Menu - Title for option</extracomment>
     </message>
     <message>
         <source>Default view for Movie Libraries.</source>
-        <translation type="unfinished"></translation>
+        <translation>Domyślny widok bibliotek filmowych.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
-        <source>Item Titles</source>
-        <translation type="unfinished"></translation>
+        <source>Grid View Item Titles</source>
+        <translation>Tytuły elementów widoku siatki</translation>
         <extracomment>Title of a setting - when should we show the title text of a grid item</extracomment>
     </message>
     <message>
-        <source>Select when to show titles.</source>
-        <translation type="unfinished"></translation>
+        <source>Select when to show titles in grid view.</source>
+        <translation>Wybierz, kiedy tytuły mają być wyświetlane w widoku siatki.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Show On Hover</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokaż po najechaniu kursorem</translation>
     </message>
     <message>
         <source>Always Show</source>
-        <translation type="unfinished"></translation>
+        <translation>Zawsze pokazuj</translation>
     </message>
     <message>
         <source>Always Hide</source>
-        <translation type="unfinished"></translation>
+        <translation>Zawsze ukrywaj</translation>
     </message>
     <message>
         <source>Artists (Presentation)</source>
-        <translation type="unfinished"></translation>
+        <translation>Wykonawcy (prezentacja)</translation>
     </message>
     <message>
         <source>Album Artist</source>
-        <translation type="unfinished"></translation>
+        <translation>Wykonawca albumu</translation>
     </message>
     <message>
         <source>Album Artists (Presentation)</source>
-        <translation type="unfinished"></translation>
+        <translation>Wykonawcy albumu (prezentacja)</translation>
     </message>
     <message>
         <source>Artists (Grid)</source>
-        <translation type="unfinished"></translation>
+        <translation>Wykonawcy (siatka)</translation>
     </message>
     <message>
         <source>Album Artists (Grid)</source>
-        <translation type="unfinished"></translation>
+        <translation>Wykonawcy albumu (siatka)</translation>
     </message>
     <message>
         <source>Song</source>
-        <translation type="unfinished"></translation>
+        <translation>Piosenka</translation>
     </message>
     <message>
         <source>Songs</source>
-        <translation type="unfinished"></translation>
+        <translation>Piosenki</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation type="unfinished"></translation>
+        <translation>Album</translation>
     </message>
     <message>
         <source>Albums</source>
-        <translation type="unfinished"></translation>
+        <translation>Albumy</translation>
     </message>
     <message>
         <source>Autoplay Episode Limit</source>
-        <translation type="unfinished"></translation>
+        <translation>Limit automatycznego odtwarzania odcinków</translation>
     </message>
     <message>
         <source>The number of episodes that will play automatically after the selected episode. Requires &apos;Play next episode automatically&apos; server setting to be enabled.</source>
-        <translation type="unfinished"></translation>
+        <translation>Liczba odcinków, które zostaną odtworzone automatycznie po wybranym odcinku. Wymaga włączenia ustawienia serwera „Odtwórz następny odcinek automatycznie”.</translation>
     </message>
     <message>
         <source>View All</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokaż wszystko</translation>
     </message>
     <message>
         <source>Disable Community Rating for Episodes</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyłącz ocenę społeczności dla odcinków</translation>
     </message>
     <message>
         <source>Hide the star and community rating for episodes of a TV show. This is to prevent spoilers of an upcoming good/bad episode.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukryj gwiazdki i oceny społeczności dla odcinków serialu. Ma to na celu uniknięcie spoilerów nadchodzącego dobrego lub słabego odcinka.</translation>
     </message>
     <message>
         <source>Configure the maximum playback bitrate.</source>
-        <translation type="unfinished"></translation>
+        <translation>Skonfiguruj maksymalną przepływność odtwarzania.</translation>
     </message>
     <message>
         <source>Biographical information for this person is not currently available.</source>
-        <translation type="unfinished"></translation>
+        <translation>Informacje biograficzne na temat tej osoby nie są obecnie dostępne.</translation>
     </message>
     <message>
         <source>Enable Limit</source>
-        <translation type="unfinished"></translation>
+        <translation>Włącz ograniczenie</translation>
     </message>
     <message>
         <source>Enable or disable the &apos;Maximum Bitrate&apos; setting.</source>
-        <translation type="unfinished"></translation>
+        <translation>Włącz lub wyłącz ustawienie „Maksymalna przepływność”.</translation>
     </message>
     <message>
         <source>Bitrate Limit</source>
-        <translation type="unfinished"></translation>
+        <translation>Ograniczenie przepływności</translation>
     </message>
     <message>
         <source>Maximum Bitrate</source>
-        <translation type="unfinished"></translation>
+        <translation>Maksymalna przepływność</translation>
     </message>
     <message>
         <source>Set the maximum bitrate in Mbps. Set to 0 to use Roku&apos;s specifications. This setting must be enabled to take effect.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustaw maksymalną przepływność w Mb/s. Ustaw na 0, aby korzystać ze specyfikacji Roku. To ustawienie musi być włączone, aby zadziałało.</translation>
     </message>
     <message>
         <source>Libraries</source>
-        <translation type="unfinished"></translation>
+        <translation>Biblioteki</translation>
     </message>
     <message>
         <source>Settings relating to the appearance of Library pages</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustawienia dotyczące wyglądu stron biblioteki</translation>
     </message>
     <message>
         <source>General</source>
-        <translation type="unfinished"></translation>
+        <translation>Ogólne</translation>
     </message>
     <message>
         <source>Settings relating to the appearance of the Home screen and the program in general.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustawienia dotyczące wyglądu ekranu głównego i programu ogólnie.</translation>
     </message>
     <message>
         <source>Grid View Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustawienia widoku siatki</translation>
     </message>
     <message>
         <source>Settings that apply when Grid views are enabled.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustawienia obowiązujące po włączeniu widoków siatki.</translation>
     </message>
     <message>
         <source>Settings relating to the appearance of pages in TV Libraries.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustawienia dotyczące wyglądu stron w bibliotekach telewizyjnych.</translation>
     </message>
     <message>
         <source>Settings relating to the appearance of pages in Movie Libraries.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustawienia dotyczące wyglądu stron w bibliotekach filmowych.</translation>
     </message>
     <message>
         <source>Presentation</source>
-        <translation type="unfinished"></translation>
+        <translation>Prezentacja</translation>
         <extracomment>Title of an option - name of presentation view</extracomment>
     </message>
     <message>
         <source>Grid</source>
-        <translation type="unfinished"></translation>
+        <translation>Siatka</translation>
         <extracomment>Title of an option - name of grid view</extracomment>
     </message>
     <message>
         <source>Disable Unwatched Episode Count</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyłącz licznik nieobejrzanych odcinków</translation>
         <extracomment>Settings Menu - Title for option</extracomment>
     </message>
     <message>
         <source>If enabled, the number of unwatched episodes in a series/season will be removed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Jeśli ta opcja jest włączona, liczba nieobejrzanych odcinków danego serialu/sezonu zostanie usunięta.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Loading trailer</source>
-        <translation type="unfinished"></translation>
+        <translation>Wczytywanie zwiastunu</translation>
         <extracomment>Dialog title in Main.brs</extracomment>
     </message>
     <message>
         <source>Next Episode Button Time</source>
-        <translation type="unfinished"></translation>
+        <translation>Czas przycisku następnego odcinka</translation>
         <extracomment>Settings Menu - Title for option</extracomment>
     </message>
     <message>
         <source>Set how many seconds before the end of an episode the Next Episode button should appear. Set to 0 to disable.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustaw, ile sekund przed końcem odcinka ma pojawić się przycisk „Pomiń zakończenie”, jeśli nie istnieje segment multimedialny Zakończenie. Ustaw 0, aby wyłączyć.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Preferred Audio Codec</source>
-        <translation type="unfinished"></translation>
+        <translation>Preferowany kodek audio</translation>
         <extracomment>Settings Menu - Title of option</extracomment>
     </message>
     <message>
         <source>Use the selected audio codec for transcodes. If the device or stream does not support it, a fallback codec will be used.</source>
-        <translation type="unfinished"></translation>
+        <translation>Użyj wybranego kodeka audio do transkodowania. Jeśli urządzenie lub strumień go nie obsługuje, zostanie użyty kodek zapasowy.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Video Codec Support</source>
-        <translation type="unfinished"></translation>
+        <translation>Obsługa kodeków wideo</translation>
         <extracomment>Settings Menu - Title for option</extracomment>
     </message>
     <message>
         <source>Enable or disable Direct Play support for certain codecs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Włącz lub wyłącz obsługę bezpośredniego odtwarzania dla niektórych kodeków.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Video Profile Level Support</source>
-        <translation type="unfinished"></translation>
+        <translation>Obsługa poziomu profilu wideo</translation>
         <extracomment>Settings Menu - Title for option</extracomment>
     </message>
     <message>
         <source>Attempt Direct Play of potentially unsupported profile levels</source>
-        <translation type="unfinished"></translation>
+        <translation>Spróbuj bezpośredniego odtwarzania potencjalnie nieobsługiwanych poziomów profilu</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Use system settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Użyj ustawień systemowych</translation>
         <extracomment>User Setting - Option title</extracomment>
     </message>
     <message>
         <source>Direct playing</source>
-        <translation type="unfinished"></translation>
+        <translation>Odtwarzanie bezpośrednie</translation>
     </message>
     <message>
         <source>The source file is entirely compatible with this client and the session is receiving the file without modifications.</source>
-        <translation type="unfinished"></translation>
+        <translation>Plik źródłowy jest w pełni kompatybilny z tym klientem, a sesja odbiera plik bez modyfikacji.</translation>
         <extracomment>Direct play info box text in GetPlaybackInfoTask.brs</extracomment>
     </message>
     <message>
         <source>Maximum Resolution</source>
-        <translation type="unfinished"></translation>
+        <translation>Maksymalna rozdzielczość</translation>
         <extracomment>User Setting - Title</extracomment>
     </message>
     <message>
         <source>Set the maximum resolution when playing video files on this device.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustaw maksymalną rozdzielczość podczas odtwarzania plików wideo na tym urządzeniu.</translation>
         <extracomment>User Setting - Description</extracomment>
     </message>
     <message>
         <source>Off - Attempt to play all resolutions</source>
-        <translation type="unfinished"></translation>
+        <translation>Wył. – próba odtworzenia wszystkich rozdzielczości</translation>
         <extracomment>User Setting - Option title</extracomment>
     </message>
     <message>
         <source>Auto - Use TV resolution</source>
-        <translation type="unfinished"></translation>
+        <translation>Auto – użycie rozdzielczości TV</translation>
         <extracomment>User Setting - Option title</extracomment>
     </message>
     <message>
         <source>Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Tryb</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Value</source>
-        <translation type="unfinished"></translation>
+        <translation>Wartość</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
+        <source>Maximum Audio Channels</source>
+        <translation>Maksymalna liczba kanałów audio</translation>
+        <extracomment>User Setting - Title</extracomment>
+    </message>
+    <message>
+        <source>Configure the maximum audio channels when playing video files on this device.</source>
+        <translation>Skonfiguruj maksymalną liczbę kanałów audio podczas odtwarzania plików wideo na tym urządzeniu.</translation>
+        <extracomment>User Setting - Description</extracomment>
+    </message>
+    <message>
+        <source>Off - Attempt to play all channels</source>
+        <translation>Wył. – próba odtworzenia wszystkich kanałów</translation>
+        <extracomment>User Setting - Option title</extracomment>
+    </message>
+    <message>
         <source>Configure the maximum resolution when playing video files on this device.</source>
-        <translation type="unfinished"></translation>
+        <translation>Skonfiguruj maksymalną rozdzielczość podczas odtwarzania plików wideo na tym urządzeniu.</translation>
         <extracomment>User Setting - Description</extracomment>
     </message>
     <message>
         <source>Apply max resolution to all files or only transcoded files.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zastosuj maksymalną rozdzielczość do wszystkich plików lub tylko do plików transkodowanych.</translation>
         <extracomment>User Setting - Description</extracomment>
     </message>
     <message>
         <source>All files</source>
-        <translation type="unfinished"></translation>
+        <translation>Wszystkie pliki</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Only transcoded files</source>
-        <translation type="unfinished"></translation>
+        <translation>Tylko transkodowane pliki</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Compatibility</source>
-        <translation type="unfinished"></translation>
+        <translation>Zgodność</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Attempt to prevent playback failures.</source>
-        <translation type="unfinished"></translation>
+        <translation>Staraj się unikać błędów odtwarzania.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
         <source>Disable HEVC</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyłącz HEVC</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Disable the HEVC codec on this device. This may improve playback for some devices (ultra).</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyłącz kodek HEVC na tym urządzeniu. Może to poprawić odtwarzanie na niektórych urządzeniach (ultra).</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
         <source>Global</source>
-        <translation type="unfinished"></translation>
+        <translation>Globalne</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Global settings that affect everyone that uses this Roku device.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustawienia globalne, które dotyczą wszystkich użytkowników tego urządzenia Roku.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
         <source>Remember Me?</source>
-        <translation type="unfinished"></translation>
+        <translation>Pamiętasz mnie?</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Remember the currently logged in user and try to log them in again next time you start the Jellyfin app.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapamiętaj aktualnie zalogowanego użytkownika i spróbuj zalogować go ponownie przy następnym uruchomieniu Jellyfin.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
-        <source>Custom Trickplay</source>
+        <source>Trickplay Display</source>
         <translation type="unfinished"></translation>
         <extracomment>User Setting - Title for option</extracomment>
     </message>
     <message>
-        <source>Display custom trickplay images even if this Roku says it&apos;s displaying its own. This may cause the two images to overlay on top of each other.</source>
+        <source>Select trickplay display format.</source>
         <translation type="unfinished"></translation>
         <extracomment>User Setting - Description for option</extracomment>
     </message>
@@ -1357,7 +1372,27 @@
         <extracomment>User Setting - Title for option</extracomment>
     </message>
     <message>
+        <source>Force media to be transcoded.</source>
+        <translation type="unfinished"></translation>
+        <extracomment>User Setting - Description for option</extracomment>
+    </message>
+    <message>
+        <source>All Playable Media</source>
+        <translation type="unfinished"></translation>
+        <extracomment>User Setting - Title for option</extracomment>
+    </message>
+    <message>
         <source>Force all playable media to be transcoded.</source>
+        <translation type="unfinished"></translation>
+        <extracomment>User Setting - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Live TV</source>
+        <translation type="unfinished"></translation>
+        <extracomment>User Setting - Title for option</extracomment>
+    </message>
+    <message>
+        <source>Force live TV to be transcoded. If All Playable Media is already set to Force Transcode (Remux Disabled), this setting is ignored.</source>
         <translation type="unfinished"></translation>
         <extracomment>User Setting - Description for option</extracomment>
     </message>
@@ -1507,11 +1542,6 @@
         <extracomment>Libraries Setting - Setting description</extracomment>
     </message>
     <message>
-        <source>Settings relating to the appearance of pages in all Libraries.</source>
-        <translation type="unfinished"></translation>
-        <extracomment>Libraries Setting - Setting description</extracomment>
-    </message>
-    <message>
         <source>Forget Filters</source>
         <translation type="unfinished"></translation>
         <extracomment>Libraries Setting - Setting title</extracomment>
@@ -1548,6 +1578,16 @@
     </message>
     <message>
         <source>Number of columns in library view when showing square images</source>
+        <translation type="unfinished"></translation>
+        <extracomment>Libraries Setting - Setting description</extracomment>
+    </message>
+    <message>
+        <source>Load Items Limit</source>
+        <translation type="unfinished"></translation>
+        <extracomment>Libraries Setting - Setting title</extracomment>
+    </message>
+    <message>
+        <source>Number of items to load together on library screens.</source>
         <translation type="unfinished"></translation>
         <extracomment>Libraries Setting - Setting description</extracomment>
     </message>
@@ -2135,6 +2175,14 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Five trickplay images</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Single trickplay image that moves</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Play Normally</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2163,6 +2211,14 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Attempt Direct Play Anamorphic Video</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Newer devices may support direct play of anamorphic video.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>How many minutes of inactivity before playback is stopped between items and a popup is shown to continue? Set to 0 to disable.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2183,12 +2239,202 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Burn in subtitle when transcoding</source>
+        <translation type="unfinished"></translation>
+        <extracomment>Settings Menu - Title for option</extracomment>
+    </message>
+    <message>
+        <source>Burn in all subtitles when transcoding is triggered. This ensures subtitle synchronization after transcoding at the cost of reduced transcoding speed.</source>
+        <translation type="unfinished"></translation>
+        <extracomment>Settings Menu - Description for option</extracomment>
+    </message>
+    <message>
+        <source>Library Image Orientation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select the poster image orientation for the library views.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Default (Varies By Media Type)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Landscape (Wide)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Portrait (Vertical)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Skip Unknown</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Skip Commercial</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Skip Preview</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Skip Recap</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Skip Outro</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Skip Intro</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Go To Genre</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Play Instant Mix</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show Next Episode Details After Finish</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If auto play next episode is disabled, display the next episode&apos;s detail screen after an episode finishes playing. If no next up episode is found, return to the just-played episode&apos;s page.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Favorites Row</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Settings relating to the favorites row on the home screen.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sort By Field</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Field to sort the row by.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Date Created</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Is Unplayed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sort Order for the row - Ascending,Descending.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current Offset</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Adjust Subtitle Timing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Display Episodes In Two Columns</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Screen Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Settings relating to Live TV.</source>
+        <translation type="unfinished"></translation>
+        <extracomment>Libraries Setting - Setting Category description</extracomment>
+    </message>
+    <message>
+        <source>Channel Title Info</source>
+        <translation type="unfinished"></translation>
+        <extracomment>Libraries Setting - Setting title</extracomment>
+    </message>
+    <message>
+        <source>Select what information to use as a channel&apos;s title.</source>
+        <translation type="unfinished"></translation>
+        <extracomment>Libraries Setting - Setting description</extracomment>
+    </message>
+    <message>
+        <source>Settings relating to Live TV.</source>
+        <translation type="unfinished"></translation>
+        <extracomment>Libraries Setting - Setting description</extracomment>
+    </message>
+    <message>
+        <source>Channel Number and Name</source>
+        <translation type="unfinished"></translation>
+        <extracomment>Libraries Setting - Setting option</extracomment>
+    </message>
+    <message>
+        <source>Channel Number</source>
+        <translation type="unfinished"></translation>
+        <extracomment>Libraries Setting - Setting option</extracomment>
+    </message>
+    <message>
+        <source>Channel Name</source>
+        <translation type="unfinished"></translation>
+        <extracomment>Libraries Setting - Setting option</extracomment>
+    </message>
+    <message>
+        <source>TV Guide Channel Display</source>
+        <translation type="unfinished"></translation>
+        <extracomment>Libraries Setting - Setting title</extracomment>
+    </message>
+    <message>
+        <source>Select how to display a channel in the Live TV guide.</source>
+        <translation type="unfinished"></translation>
+        <extracomment>Libraries Setting - Setting description</extracomment>
+    </message>
+    <message>
+        <source>Channel Logo and Title</source>
+        <translation type="unfinished"></translation>
+        <extracomment>Libraries Setting - Setting option</extracomment>
+    </message>
+    <message>
+        <source>Channel Logo</source>
+        <translation type="unfinished"></translation>
+        <extracomment>Libraries Setting - Setting option</extracomment>
+    </message>
+    <message>
+        <source>Channel Title</source>
+        <translation type="unfinished"></translation>
+        <extracomment>Libraries Setting - Setting option</extracomment>
+    </message>
+    <message>
+        <source>Playback Speed Controls (Experimental)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use at your own risk. We make no guarantees this will work for you. \n 1. This feature may not work on this device, yet work on others \n 2. Some speed options may not work on this device, yet work on others \n 3. Roku may block this feature without warning; even if the Jellyfin client doesn&apos;t update</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Search Unavailable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Subtitles</source>
-        <translation>Undertexter</translation>
+        <translation>Napisy</translation>
     </message>
     <message>
         <source>tracks</source>
-        <translation>Spår</translation>
+        <translation>ścieżki</translation>
+    </message>
+    <message>
+        <source>No Default</source>
+        <translation>Brak domyślnej</translation>
     </message>
 </context>
 </TS>

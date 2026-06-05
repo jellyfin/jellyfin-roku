@@ -135,9 +135,14 @@ function GetDirectPlayProfiles() as object
     end if
 
     ' check audio codecs for each container
+    ' if the user has configured surround sound output, assume passthrough codecs are supported
+    isSurround = di.GetAudioOutputChannel() = "5.1 surround"
+    passThroughCodecs = ["ac3", "eac3", "dts"]
     for each container in supportedCodecs
         for each audioCodec in audioCodecs
             if di.CanDecodeAudio({ Codec: audioCodec, Container: container }).Result
+                supportedCodecs[container]["audio"].push(audioCodec)
+            else if isSurround and inArray(passThroughCodecs, audioCodec)
                 supportedCodecs[container]["audio"].push(audioCodec)
             end if
         end for

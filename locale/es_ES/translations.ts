@@ -1120,7 +1120,7 @@
     </message>
     <message>
         <source>Always Show</source>
-        <translation>Mostrar Siempre</translation>
+        <translation>Mostrar siempre</translation>
     </message>
     <message>
         <source>Show What&apos;s New Popup</source>
@@ -1142,7 +1142,7 @@
     </message>
     <message>
         <source>Always Hide</source>
-        <translation>Siempre Ocultar</translation>
+        <translation>Ocultar siempre</translation>
     </message>
     <message>
         <source>Album Artists (Presentation)</source>
@@ -2304,7 +2304,7 @@
     </message>
     <message>
         <source>Skip Intro</source>
-        <translation>Saltar la introducción</translation>
+        <translation>Saltar Intro</translation>
     </message>
     <message>
         <source>Go To Genre</source>
@@ -2433,6 +2433,74 @@
     <message>
         <source>Select trickplay display format.</source>
         <translation>Seleccionar el formato de visualización de Trickplay.</translation>
+    </message>
+    <message>
+        <source>Subtitles</source>
+        <translation>Subtítulos</translation>
+    </message>
+    <message>
+        <source>tracks</source>
+        <translation>Pistas</translation>
+    </message>
+    <message>
+        <source>No Default</source>
+        <translation>Ninguno por defecto</translation>
+    </message>
+    <message>
+        <source>Replace Roku&apos;s default subtitle functions with custom functions. If fallback fonts are configured and enabled on the server, those fonts will be used. A CJK fallback font is required for CJK rendering. To support bold and italics, you must have additional font files with the words &quot;bold&quot;, &quot;italic&quot;, and &quot;bolditalic&quot; in the filename.</source>
+        <translation>Reemplaza las funciones predeterminadas de subtítulos de Roku por funciones personalizadas. Si las fuentes fallback están configuradas y habilitadas en el servidor, esas fuentes serán utilizadas. Se requiere una fuente fallback CJK para renderizar caracteres CJK. Para admitir negritas y cursivas, debes tener archivos de fuente adicionales con las palabras “bold”, “italic” y “bolditalic” en el nombre del archivo.</translation>
+    </message>
+    <message>
+        <source>Force media to be transcoded.</source>
+        <translation>Forzar transcodificación multimedia.</translation>
+    </message>
+    <message>
+        <source>All Playable Media</source>
+        <translation>Todo el contenido reproducible</translation>
+    </message>
+    <message>
+        <source>Force live TV to be transcoded. If All Playable Media is already set to Force Transcode (Remux Disabled), this setting is ignored.</source>
+        <translation>Forzar la transcodificación de TV en vivo. Si “Todo el contenido reproducible” está configurado en “Forzar transcodificación (remux deshabilitado)”, esta opción se ignorará.</translation>
+    </message>
+    <message>
+        <source>Playback Speed Controls (Experimental)</source>
+        <translation>Controles de velocidad de reproducción (Experimental)</translation>
+    </message>
+    <message>
+        <source>Search Unavailable</source>
+        <translation>Búsqueda no disponible</translation>
+    </message>
+    <message>
+        <source>Always Attempt Direct Playing Video Media</source>
+        <translation>Intentar siempre la reproducción directa de medios de vídeo</translation>
+    </message>
+    <message>
+        <source>Forces Jellyfin to try direct playing video media, Live TV excluded. Enabling this ignores all other playback support settings and will always first attempt direct playback. It also changes how transcode reason is displayed.</source>
+        <translation>Fuerza Jellyfin a probar la reproducción directa de medios de vídeo, TV en vivo excluida. Al activar esta opción se ignoran todas las demás configuraciones de reproducción y siempre se intentará primeramente la reproducción directa. También cambia cómo se muestra la razón de transcodificación.</translation>
+    </message>
+    <message>
+        <source>Five trickplay images</source>
+        <translation>Cinco imágenes de previsualización</translation>
+    </message>
+    <message>
+        <source>Single trickplay image that moves</source>
+        <translation>Una sola imagen de previsualización en movimiento</translation>
+    </message>
+    <message>
+        <source>Use at your own risk. We make no guarantees this will work for you. \n 1. This feature may not work on this device, yet work on others \n 2. Some speed options may not work on this device, yet work on others \n 3. Roku may block this feature without warning; even if the Jellyfin client doesn&apos;t update</source>
+        <translation>Utiliza esta función asumiendo los riesgos. No podemos garantizar que funcione en todos los casos. \n 1. Puede que no funcione en este dispositivo y sí en otros \n 2. Puede que ciertas opciones de velocidad no funcionen en este dispositivo y sí en otros \n 3. Roku puede bloquear esta función sin preaviso; incluso si el cliente Jellyfin no se ha actualizado</translation>
+    </message>
+    <message>
+        <source>Roku&apos;s video player got stuck buffering video</source>
+        <translation>El reproductor de vídeo de Roku tuvo problemas recuperando vídeo</translation>
+    </message>
+    <message>
+        <source>Roku&apos;s video player threw the following error</source>
+        <translation>El reproductor de vídeo de Roku envió el siguiente error</translation>
+    </message>
+    <message>
+        <source>Roku thought it could direct play this media, but playback never started.</source>
+        <translation>Roku creía poder reproducir directamente este contenido, pero la reproducción nunca empezó.</translation>
     </message>
 </context>
 <context>

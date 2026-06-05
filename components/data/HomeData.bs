@@ -1,5 +1,7 @@
 import "pkg:/source/api/baserequest.bs"
 import "pkg:/source/api/Image.bs"
+import "pkg:/source/api/sdk.bs"
+import "pkg:/source/enums/ImageType.bs"
 import "pkg:/source/enums/ItemType.bs"
 import "pkg:/source/utils/config.bs"
 
@@ -127,6 +129,18 @@ sub setData()
         m.top.thumbnailURL = ImageURL(datum.LookupCI("Id"), "Primary", params)
         m.top.widePosterUrl = m.top.thumbnailURL
         m.top.posterUrl = m.top.thumbnailURL
+    else if isStringEqual(datum.type, ItemType.PERSON)
+        params = { "maxHeight": 261, "maxWidth": 464 }
+
+        if isChainValid(datum, "ImageTags.Primary")
+            params["Tag"] = datum.ImageTags.Primary
+        else if isChainValid(datum, "PrimaryImageTag")
+            params["Tag"] = datum.PrimaryImageTag
+        end if
+
+        m.top.posterURL = api.items.GetImageURL(datum.LookupCI("Id"), ImageType.PRIMARY, 0, params)
+        m.top.thumbnailURL = m.top.posterURL
+        m.top.widePosterUrl = m.top.posterURL
     else if datum.type = "TvChannel" or datum.type = "Channel"
         params = { "Tag": datum.ImageTags.Primary, "maxHeight": 261, "maxWidth": 464 }
         m.top.thumbnailURL = ImageURL(datum.LookupCI("Id"), "Primary", params)

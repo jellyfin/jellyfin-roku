@@ -18,9 +18,11 @@ import "pkg:/source/utils/misc.bs"
 
 const REPLAY_RETRIES = 3
 const BUFFERING_LOGO_RIGHT_PADDING = 30
+const ACCEPTED_DURATION_DELTA = 30
 
 sub init()
     m.top.enableUI = false
+    m.playbackTestComplete = false
 
     m.spinner = m.top.getScene().findNode("Spinner")
     m.spinnerPercentLabel = m.top.findNode("spinnerPercent")
@@ -28,6 +30,8 @@ sub init()
     m.spinnerPercentTimer.observeField("fire", "onPercentTick")
 
     m.top.observeField("availableAudioTracks", "onAvailableAudioTracksChanged")
+
+    m.attemptDirectPlaySetting = chainLookupReturn(m.global.session, "user.settings.attemptDirectPlay", false)
 
     m.subtitleOffset = 0
 
@@ -74,6 +78,12 @@ sub init()
     m.osd = m.top.findNode("osd")
     m.osd.observeField("action", "onOSDAction")
     m.clock = m.osd.findNode("clock")
+    if isValid(m.clock)
+        m.clockTimer = m.clock.findNode("currentTimeTimer")
+        if isValid(m.clockTimer)
+            m.clockTimer.observeField("fire", "onClockTick")
+        end if
+    end if
 
     m.videocontrols = m.osd.findNode("videoControls")
     m.optioncontrols = m.osd.findNode("optionControls")
@@ -82,6 +92,8 @@ sub init()
 
     m.playbackTimer = m.top.findNode("playbackTimer")
     m.bufferCheckTimer = m.top.findNode("bufferCheckTimer")
+    m.bufferStuckTimer = m.top.findNode("bufferStuckTimer")
+    m.buffer100Count = 0
     m.top.observeField("state", "onState")
     m.top.observeField("content", "onContentChange")
     m.top.observeField("selectedSubtitle", "onSubtitleChange")
@@ -337,7 +349,7 @@ sub handleHideAction(resume as boolean)
     m.top.setFocus(true)
     stopFastforwardOrRewind()
     ' Always hide the custom trickplay image(s) when hiding the OSD
-    hideTrickPlayImages()
+    hideTrickplayImages()
     if resume
         m.top.control = VideoControl.RESUME
     end if
@@ -610,7 +622,7 @@ sub onSubtitleChange()
         if LCase(m.top.globalCaptionMode) <> "on" then switchWithoutRefresh = false
     end if
 
-    ' If previous sustitle was encoded, then we need to a video stop/start to change subtitle content
+    ' If previous subtitle was encoded, then we need to a video stop/start to change subtitle content
     if m.top.previousSubtitleWasEncoded then switchWithoutRefresh = false
 
     if switchWithoutRefresh then return
@@ -698,11 +710,14 @@ sub onVideoContentLoaded()
 
     m.isTranscoded = videoContent[0].isTranscoded
     burnInSubtitles = chainLookupReturn(m.global, "session.user.settings.`playback.subs.burnin`", true)
+    subtitlesBurnedIn = m.isTranscoded and burnInSubtitles and chainLookupReturn(videoContent[0], "subtitlesBurnedIn", true)
 
-
-    if m.isTranscoded and burnInSubtitles
+    if subtitlesBurnedIn
         videoContent[0].content.SubtitleTracks = []
     end if
+
+    ' If content is live, consider playback test completed
+    m.playbackTestComplete = videoContent[0].content.live
 
     m.top.content = videoContent[0].content
     m.top.PlaySessionId = videoContent[0].PlaySessionId
@@ -718,6 +733,7 @@ sub onVideoContentLoaded()
     m.trickplay = videoContent[0].trickplay
     m.top.showID = videoContent[0].showID
     m.mediaSegments = videoContent[0].mediaSegments
+    m.runtimeticks = videoContent[0].runtimeticks
 
     m.osd.itemTitleText = m.top.content.title
     m.bufferingItemTitle.text = m.top.content.title
@@ -735,7 +751,7 @@ sub onVideoContentLoaded()
 
                 m.canUseFastReplace = (m.trickplayDataFinal.TileHeight * m.trickplayDataFinal.Height) * (m.trickplayDataFinal.TileWidth * m.trickplayDataFinal.Width) < 2000000
 
-                m.PreloadTrickplayImagesTask.numImagesToLoad = fix(m.trickplayDataFinal.ThumbnailCount / (m.trickplayDataFinal.TileHeight * m.trickplayDataFinal.TileWidth))
+                m.PreloadTrickplayImagesTask.numImagesToLoad = fix((m.trickplayDataFinal.ThumbnailCount - 1) / (m.trickplayDataFinal.TileHeight * m.trickplayDataFinal.TileWidth))
                 m.PreloadTrickplayImagesTask.trickplayWidth = m.trickplayDataFinal.Width
                 m.PreloadTrickplayImagesTask.method = "ADD"
                 m.PreloadTrickplayImagesTask.control = TaskControl.RUN
@@ -793,7 +809,7 @@ sub onVideoContentLoaded()
         m.top.enableTrickPlay = false
     else
         ' Allow custom captions for non intro videos unless the video is being transcoded and burn subtitles are enabled
-        m.top.allowCaptions = not (m.isTranscoded and burnInSubtitles)
+        m.top.allowCaptions = not subtitlesBurnedIn
     end if
 
     ' Allow default subtitles
@@ -803,20 +819,24 @@ sub onVideoContentLoaded()
     selectedSubtitle = invalid
     updatedSubtitleData = []
     for each subtitle in m.top.fullSubtitleData
-        if m.isTranscoded and burnInSubtitles
+        if subtitlesBurnedIn
             subtitle.IsEncoded = true
             updatedSubtitleData.push(subtitle)
         end if
 
         if subtitle.Index = videoContent[0].selectedSubtitle
             selectedSubtitle = subtitle
-            exit for
         end if
     end for
 
-    if m.isTranscoded and burnInSubtitles
+    if subtitlesBurnedIn
         m.top.fullSubtitleData = updatedSubtitleData
         m.top.globalCaptionMode = "Off"
+    end if
+
+    if videoContent[0].selectedSubtitle = SubtitleSelection.NONE
+        m.top.globalCaptionMode = "Off"
+        m.top.subtitleTrack = ""
     end if
 
     if isValid(selectedSubtitle)
@@ -833,7 +853,8 @@ sub onVideoContentLoaded()
         end if
     end if
 
-    if not (m.isTranscoded and burnInSubtitles)
+    ' Check if video content selected a subtitle
+    if m.top.selectedSubtitle <> videoContent[0].selectedSubtitle
         m.top.selectedSubtitle = videoContent[0].selectedSubtitle
     end if
 
@@ -847,9 +868,9 @@ sub onVideoContentLoaded()
 
     m.top.setFocus(true)
     m.osd.live = m.top.content.live
+
     m.top.control = VideoControl.PLAY
 end sub
-
 
 ' onBufferingLogoLoadStatusChanged: Handler for changes to buffering logo image's status.
 '
@@ -919,7 +940,7 @@ sub displaySingleTrickplayImage(trickPosition as integer, whichImage as integer)
     tileIconIndex = iconIndex - (tileIndex * (m.trickplayDataFinal.TileHeight * m.trickplayDataFinal.TileWidth))
 
     ' Index of row trickplay image is on within tileset
-    iconRow = fix(tileIconIndex / m.trickplayDataFinal.TileHeight)
+    iconRow = fix(tileIconIndex / m.trickplayDataFinal.TileWidth)
 
     ' Index of column trickplay image is on within tileset
     iconColumn = tileIconIndex mod m.trickplayDataFinal.TileWidth
@@ -935,33 +956,35 @@ sub displaySingleTrickplayImage(trickPosition as integer, whichImage as integer)
 
     if offsetHoriz < 0 then offsetHoriz = 0
 
-    ' Trickplayimage node doesn't exist, create it
-    if not isValid(trickplayImage)
-        newTrickplayImage = createObject("roSGNode", "Poster")
-        newTrickplayImage.uri = `tmp:/${m.top.id}-${tileIndex}.jpg`
-        newTrickplayImage.id = `trickplayImage` + str(whichImage)
-        newTrickplayImage.loadDisplayMode = "noScale"
-        newTrickplayImage.height = tileSizeFactor * m.trickplayDataFinal.Height * m.trickplayDataFinal.TileHeight
-        newTrickplayImage.width = tileSizeFactor * m.trickplayDataFinal.Width * m.trickplayDataFinal.TileWidth
-        newTrickplayImage.translation = `[${offsetHoriz - (iconColumn * m.trickplayDataFinal.Width * tileSizeFactor)},  ${offsetVert - (iconRow * m.trickplayDataFinal.Height * tileSizeFactor)}]`
-        newTrickplayImage.clippingRect = `[${iconColumn * m.trickplayDataFinal.Width * tileSizeFactor}, ${iconRow * m.trickplayDataFinal.Height * tileSizeFactor}, ${m.trickplayDataFinal.Width * tileSizeFactor}, ${m.trickplayDataFinal.Height * tileSizeFactor}]`
-        ' Insert trickplay image at top of OSD so video ending time node is visible over trickplay image
-        m.osd.insertChild(newTrickplayImage, 0)
-        return
+    trickplayImageUri = `tmp:/${m.top.id}-${tileIndex}.jpg`
+
+    ' If we've changed tiles, remove existing trickplayImage node if it exists and we can't use fast replace.
+    ' Otherwise loading the next image will fail. 'cause Roku.
+    if isValid(trickplayImage)
+        if trickplayImage.uri <> trickplayImageUri and not m.canUseFastReplace
+            m.osd.removeChild(trickplayImage)
+            trickplayImage = invalid
+        end if
     end if
 
-    ' If we've changed tiles, remove existing trickplayImage node
-    ' Otherwise loading the next image will fail. 'cause Roku.
-    if trickplayImage.uri <> `tmp:/${m.top.id}-${tileIndex}.jpg`
-        if not m.canUseFastReplace
-            m.osd.removeChild(trickplayImage)
-            return
-        end if
+    ' Trickplay image node doesn't exist, create it
+    if not isValid(trickplayImage)
+        newTrickplayImage = createObject("roSGNode", "Poster")
+        newTrickplayImage.id = `trickplayImage` + str(whichImage)
+        newTrickplayImage.loadDisplayMode = "noScale"
+        ' Insert trickplay image at top of OSD so video ending time node is visible over trickplay image
+        m.osd.insertChild(newTrickplayImage, 0)
+        trickplayImage = newTrickplayImage
+    end if
 
-        trickplayImage.uri = `tmp:/${m.top.id}-${tileIndex}.jpg`
+    ' Only update the trickplay image's URI if needed
+    if trickplayImage.uri <> trickplayImageUri
+        trickplayImage.uri = trickplayImageUri
     end if
 
     ' Move clippingRect to next trickplay image within tileset - offsetting translation by an equal amount so it doesn't move
+    trickplayImage.height = tileSizeFactor * m.trickplayDataFinal.Height * m.trickplayDataFinal.TileHeight
+    trickplayImage.width = tileSizeFactor * m.trickplayDataFinal.Width * m.trickplayDataFinal.TileWidth
     trickplayImage.translation = `[${offsetHoriz - (iconColumn * m.trickplayDataFinal.Width * tileSizeFactor)},  ${offsetVert - (iconRow * m.trickplayDataFinal.Height * tileSizeFactor)}]`
     trickplayImage.clippingRect = `[${iconColumn * m.trickplayDataFinal.Width * tileSizeFactor}, ${iconRow * m.trickplayDataFinal.Height * tileSizeFactor}, ${m.trickplayDataFinal.Width * tileSizeFactor}, ${m.trickplayDataFinal.Height * tileSizeFactor}]`
     trickplayImage.visible = true
@@ -1197,8 +1220,54 @@ sub checkSegmentSkipButton(position as double)
     end if
 end sub
 
+sub playbackFailureTest()
+    if not isValid(m.runtimeticks)
+        m.playbackTestComplete = true
+        return
+    end if
+
+    if not isValid(m.top.duration)
+        m.playbackTestComplete = true
+        return
+    end if
+
+    runtimeSeconds = m.runtimeticks / 10000000&
+
+    ' Jellyfin's reported duration must be within 30 seconds of Roku's duration
+    if Abs(m.top.duration - runtimeSeconds) < ACCEPTED_DURATION_DELTA
+        m.playbackTestComplete = true
+        return
+    end if
+
+    startSpinnerWithPercent(0)
+
+    if isStringEqual(PlaybackMethod.PLAYNORMALLY, m.global.queueManager.callFunc("getForceTranscode"))
+        m.global.queueManager.callFunc("setForceTranscode", PlaybackMethod.FORCETRANSCODEALLOWREMUX)
+    else if isStringEqual(PlaybackMethod.FORCETRANSCODEALLOWREMUX, m.global.queueManager.callFunc("getForceTranscode"))
+        m.global.queueManager.callFunc("setForceTranscode", PlaybackMethod.FORCETRANSCODEDISABLEREMUX)
+        m.playbackTestComplete = true
+    end if
+
+    m.global.queueManager.callFunc("setTranscodeReason", tr("Roku thought it could direct play this media, but the playback duration was incorrect."))
+
+    ' Stop playback and exit player
+    m.top.control = VideoControl.STOP
+
+    m.LoadMetaDataTask.mustTranscode = true
+    m.LoadMetaDataTask.observeField("content", "onVideoContentLoaded")
+    m.LoadMetaDataTask.control = TaskControl.RUN
+end sub
+
 ' When Video Player state changes
 sub onPositionChanged()
+    if not m.playbackTestComplete
+        if m.attemptDirectPlaySetting
+            if not m.isTranscoded
+                playbackFailureTest()
+            end if
+        end if
+    end if
+
     ' Pass video position data into OSD
     if m.osd.progressDuration = 0
         m.osd.progressPercentage = 0
@@ -1234,6 +1303,48 @@ sub onPositionChanged()
     if m.top.content.live then updateLiveTvTrackers()
 end sub
 
+sub bufferStuckAt100Check()
+    if not isStringEqual(m.top.state, MediaPlaybackState.BUFFERING)
+        ' If video is not buffering, stop timer
+        m.buffer100Count = 0
+        m.bufferStuckTimer.control = "stop"
+        m.bufferStuckTimer.unobserveField("fire")
+        return
+    end if
+
+    bufferingPercent = chainLookupReturn(m.top.bufferingStatus, "percentage", 0)
+    if bufferingPercent <> 100 then return
+
+    if m.buffer100Count >= 1
+        if not m.isTranscoded
+            ' We're moving to transcoding, stop timer
+            m.buffer100Count = 0
+            m.bufferStuckTimer.control = "stop"
+            m.bufferStuckTimer.unobserveField("fire")
+
+            if isStringEqual(PlaybackMethod.PLAYNORMALLY, m.global.queueManager.callFunc("getForceTranscode"))
+                m.global.queueManager.callFunc("setForceTranscode", PlaybackMethod.FORCETRANSCODEALLOWREMUX)
+            else if isStringEqual(PlaybackMethod.FORCETRANSCODEALLOWREMUX, m.global.queueManager.callFunc("getForceTranscode"))
+                m.global.queueManager.callFunc("setForceTranscode", PlaybackMethod.FORCETRANSCODEDISABLEREMUX)
+            end if
+
+            m.global.queueManager.callFunc("setTranscodeReason", tr("Roku's video player got stuck buffering video"))
+
+            ' Stop playback and exit player
+            m.top.control = VideoControl.STOP
+
+            m.LoadMetaDataTask.mustTranscode = true
+            m.LoadMetaDataTask.observeField("content", "onVideoContentLoaded")
+            m.LoadMetaDataTask.control = TaskControl.RUN
+            return
+        end if
+
+        return
+    end if
+
+    m.buffer100Count++
+end sub
+
 '
 ' When Video Player state changes
 sub onState(msg)
@@ -1246,19 +1357,20 @@ sub onState(msg)
 
     ' When buffering, start timer to monitor buffering process
     if isStringEqual(m.top.state, MediaPlaybackState.BUFFERING) and m.bufferCheckTimer <> invalid
+        startSpinnerWithPercent(0)
         ' start timer
+        if m.attemptDirectPlaySetting and not m.top.content.live
+            m.bufferStuckTimer.control = "start"
+            m.bufferStuckTimer.ObserveField("fire", "bufferStuckAt100Check")
+        end if
+
         m.bufferCheckTimer.control = "start"
         m.bufferCheckTimer.ObserveField("fire", "bufferCheck")
     else if isStringEqual(m.top.state, MediaPlaybackState.ERROR)
         print "Error: " m.top.errorCode, m.top.errorMsg, " ErrorStr: " m.top.errorStr
         print m.top.errorInfo
 
-        if not m.playReported and m.top.transcodeAvailable
-            m.top.retryWithTranscoding = true ' If playback was not reported, retry with transcoding
-            ' Stop playback and exit player
-            m.top.control = VideoControl.STOP
-            m.top.backPressed = true
-        else if not m.playReported and m.top.content.live
+        if not m.playReported and m.top.content.live
             if m.playbackRetries < REPLAY_RETRIES
                 print "Live TV playback failed - retrying with remux forced"
                 m.playbackRetries = m.playbackRetries + 1
@@ -1278,6 +1390,24 @@ sub onState(msg)
                 m.top.backPressed = true
                 return
             end if
+
+        else if not m.playReported and m.attemptDirectPlaySetting and not m.isTranscoded
+            if isStringEqual(PlaybackMethod.PLAYNORMALLY, m.global.queueManager.callFunc("getForceTranscode"))
+                m.global.queueManager.callFunc("setForceTranscode", PlaybackMethod.FORCETRANSCODEALLOWREMUX)
+            else if isStringEqual(PlaybackMethod.FORCETRANSCODEALLOWREMUX, m.global.queueManager.callFunc("getForceTranscode"))
+                m.global.queueManager.callFunc("setForceTranscode", PlaybackMethod.FORCETRANSCODEDISABLEREMUX)
+            end if
+
+            m.global.queueManager.callFunc("setTranscodeReason", `${tr("Roku's video player threw the following error")}: ${m.top.errorStr}`)
+
+            ' Stop playback and exit player
+            m.top.control = VideoControl.STOP
+
+            m.LoadMetaDataTask.mustTranscode = true
+            m.LoadMetaDataTask.observeField("content", "onVideoContentLoaded")
+            m.LoadMetaDataTask.control = TaskControl.RUN
+            return
+
         else
             ' Reset retry counter if more than 30 seconds have passed since last error
             currentTime = CreateObject("roDateTime").AsSeconds()
@@ -1307,6 +1437,7 @@ sub onState(msg)
             end if
         end if
     else if isStringEqual(m.top.state, MediaPlaybackState.PLAYING)
+
         ' Reset retry counter when playback is successful
         if m.playbackRetries > 0
             print "Playback resumed successfully after retry"
@@ -1340,6 +1471,14 @@ sub onState(msg)
             if not isValid(m.clock) then return
             m.osd.liveTvStartTime = m.clock.callFunc("getCurrentTime")
         end if
+
+        if not m.top.content.live
+            if m.attemptDirectPlaySetting
+                m.playbackCheckTimer = m.top.findNode("playbackCheckTimer")
+                m.playbackCheckTimer.ObserveFieldscoped("fire", "playbackCheck")
+                m.playbackCheckTimer.control = "start"
+            end if
+        end if
     else if isStringEqual(m.top.state, MediaPlaybackState.PAUSED)
         m.playbackTimer.control = "stop"
         ReportPlayback()
@@ -1353,6 +1492,34 @@ sub onState(msg)
         m.playbackTimer.control = "stop"
         ReportPlayback("stop")
         m.playReported = false
+    end if
+end sub
+
+
+sub playbackCheck()
+    ' If we have a valid position, and it's greater than 0, no need to trigger transcode
+    if isValid(m.top.position)
+        if m.top.position > 0 then return
+    end if
+
+    if not m.isTranscoded
+        startSpinnerWithPercent(0)
+
+        if isStringEqual(PlaybackMethod.PLAYNORMALLY, m.global.queueManager.callFunc("getForceTranscode"))
+            m.global.queueManager.callFunc("setForceTranscode", PlaybackMethod.FORCETRANSCODEALLOWREMUX)
+        else if isStringEqual(PlaybackMethod.FORCETRANSCODEALLOWREMUX, m.global.queueManager.callFunc("getForceTranscode"))
+            m.global.queueManager.callFunc("setForceTranscode", PlaybackMethod.FORCETRANSCODEDISABLEREMUX)
+        end if
+
+        m.global.queueManager.callFunc("setTranscodeReason", tr("Roku thought it could direct play this media, but playback never started."))
+
+        ' Stop playback and exit player
+        m.top.control = VideoControl.STOP
+
+        m.LoadMetaDataTask.mustTranscode = true
+        m.LoadMetaDataTask.observeField("content", "onVideoContentLoaded")
+        m.LoadMetaDataTask.control = TaskControl.RUN
+        return
     end if
 end sub
 
@@ -1380,40 +1547,14 @@ sub setVideoEndingTime(videoSeekPosition = 0 as integer)
     if m.top.content.live then return
 
     currentTime = m.clock.callFunc("getCurrentTime")
-    remainingTime = getremainingTime(videoSeekPosition)
+    remainingTime = getRemainingTime(videoSeekPosition)
     videoEndingTime = m.clock.callFunc("getFormattedTime", (currentTime + remainingTime), false, false)
 
     m.osd.videoEndingTime = videoEndingTime
 end sub
 
-function getRemainingTime(videoSeekPosition = 0 as integer)
-    if not isChainValid(m.positionText, "text")
-        return m.osd.progressDuration - m.top.position
-    end if
-
-    seekTime = 0#
-    seekPosition = m.positionText.text.split(":")
-
-    if seekPosition.count() = 3
-        ' hours -> seconds
-        seekTime += seekPosition[0].toint() * 3600
-        ' minutes -> seconds
-        seekTime += seekPosition[1].toint() * 60
-    end if
-
-    ' minutes -> seconds
-    if seekPosition.count() = 2
-        seekTime += seekPosition[0].toint() * 60
-    end if
-
-    ' add seconds
-    seekTime += seekPosition[seekPosition.count() - 1].toint()
-
-    if videoSeekPosition > 0
-        seekTime = videoSeekPosition
-    end if
-
-    seekTime = seekTime = 0 ? m.top.position : seekTime
+function getRemainingTime(videoSeekPosition = invalid as dynamic)
+    seekTime = isValid(videoSeekPosition) ? videoSeekPosition : m.top.position
 
     return m.osd.progressDuration - seekTime
 end function
@@ -1461,7 +1602,6 @@ sub bufferCheck(msg)
     end if
 
     if m.top.bufferingStatus <> invalid
-
         ' Check that the buffering percentage is increasing
         if m.top.bufferingStatus["percentage"] > m.bufferPercentage
             m.bufferPercentage = m.top.bufferingStatus["percentage"]
@@ -1584,6 +1724,7 @@ end sub
 ' @param {string} whichfocus - indicates which element should be focused when showing the OSD. Accepts "videoControls" or "progressBar"
 sub showOSD(whichfocus as string)
     hideNextItem() ' Hide next up info display when OSD is visible
+    setVideoEndingTime()
     m.osd.visible = true
     m.osd.hasFocus = true
     if whichfocus = "videoControls"
@@ -1603,6 +1744,17 @@ sub showOSD(whichfocus as string)
     m.deleteSegmentButton.focus = false
     m.scrubberOldPosition.visible = true
     m.osd.setFocus(true)
+end sub
+
+sub onClockTick()
+    if not isValid(m.osd) then return
+    if not m.osd.visible then return
+
+    if m.osd.isSeeking
+        setVideoEndingTime(m.previewPos)
+    else
+        setVideoEndingTime()
+    end if
 end sub
 
 sub positionChapterList()
@@ -2154,6 +2306,7 @@ sub commitSeek()
         stopFastforwardOrRewind()
         hideTrickplayImages()
         setVideoEndingTime(m.previewPos)
+        startSpinnerWithPercent(0)
         m.top.seek = m.previewPos
         m.top.control = VideoControl.RESUME
         m.liveTVRewindLimitExceeded.visible = false
