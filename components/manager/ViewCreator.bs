@@ -371,6 +371,7 @@ sub onStateChange()
                 if isValid(m.voiceInputTask)
                     m.voiceInputTask.control = "STOP"
                 end if
+
                 ' Playback completed, return user to previous screen
                 m.global.sceneManager.callFunc("popScene")
                 m.global.audioPlayer.loopMode = ""
@@ -419,6 +420,7 @@ sub onStateChange()
         if isValid(m.voiceInputTask)
             m.voiceInputTask.control = "STOP"
         end if
+
         ' Playback completed, return user to previous screen
         m.global.sceneManager.callFunc("popScene")
         m.global.audioPlayer.loopMode = ""
@@ -437,6 +439,7 @@ sub stillWatchingTimerComplete()
 
     m.global.queueManager.callFunc("bypassNextPreferredAudioTrackIndexReset")
     m.global.queueManager.callFunc("clear")
+
     ' Stop VoiceInputTask when playback ends
     if isValid(m.voiceInputTask)
         m.voiceInputTask.control = "STOP"

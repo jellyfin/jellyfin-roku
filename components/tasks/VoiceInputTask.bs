@@ -9,40 +9,37 @@ sub init()
     m.top.observeField("transportResponse", m.port)
     m.top.functionName = "runLoop"
 end sub
-
+' runLoop: Main task loop. Listens for roInput events and forwards them.
+'
 sub runLoop()
-    input = CreateObject("roInput")
-    input.SetMessagePort(m.port)
+    m.input = CreateObject("roInput")
+    m.input.SetMessagePort(m.port)
     ' Required to receive transport commands from Alexa and Roku voice remote
-    input.enableTransportEvents()
-
+    m.input.enableTransportEvents()
     while true
         msg = m.port.waitMessage(500)
-
         if type(msg) = "roInputEvent"
             if msg.isInput()
                 info = msg.getInfo()
-                handleVoiceInput(input, info)
+                handleVoiceInput(info)
             end if
         else if type(msg) = "roSGNodeEvent"
             ' Send EventResponse back to Roku OS after command is handled
             if msg.getField() = "transportResponse"
                 response = msg.getData()
                 if isValid(response) and isValid(response.id)
-                    input.EventResponse({ id: response.id, status: response.status })
+                    m.input.EventResponse({ id: response.id, status: response.status })
                 end if
             end if
         end if
     end while
 end sub
-
 ' handleVoiceInput: Decodes the roInputEvent and forwards it to VideoPlayerView.
 ' Transport seek is relative (duration + direction), absolute seek uses seek_position.
 '
-sub handleVoiceInput(input as object, info as object)
+sub handleVoiceInput(info as object)
     if not isValid(info) then return
     if not info.doesExist("type") then return
-
     if info.type = "seek"
         ' Absolute seek from Alexa: "go to minute 30"
         ' seek_position arrives in milliseconds as a string
@@ -53,7 +50,6 @@ sub handleVoiceInput(input as object, info as object)
                 id: info.id
             }
         end if
-
     else if info.type = "transport"
         ' Relative transport command: play, pause, seek forward/backward, next, startover
         if not info.doesExist("command") then return
