@@ -6,5 +6,9 @@
   {
     "description": "Prevent skip segment button from taking focus when OSD is visible",
     "author": "Catmasterson"
+  },
+  {
+    "description": "Add enhanced voice control support (seek, start over, next episode)",
+    "author": "ferezvi"
   }
 ]

@@ -2366,8 +2366,8 @@ sub setSkipSegmentButtonFocus()
 end sub
 
 ' onVoiceCommand: Handles voice/transport commands from Alexa or Roku voice remote.
-' Receives an assocarray with keys "type" and optionally "position" (for seek).
-' Types handled: "play", "pause", "playpause", "seek", "fastforward", "rewind"
+' Receives an assocarray with keys "type" and "position" (in seconds).
+' Types handled: "play", "pause", "playpause", "seek"
 '
 sub onVoiceCommand()
     cmd = m.top.voiceCommand
@@ -2377,7 +2377,12 @@ sub onVoiceCommand()
     cmdType = LCase(cmd.type)
 
     if cmdType = "play"
-        ' Resume playback
+        ' If trickplay is active, seek to preview position first
+        stopFastforwardOrRewind()
+        if m.previewPos > 0
+            m.top.seek = m.previewPos
+            setVideoEndingTime(m.previewPos)
+        end if
         m.top.control = VideoControl.RESUME
 
     else if cmdType = "pause"
@@ -2392,19 +2397,6 @@ sub onVoiceCommand()
         ' Seek to absolute position in seconds
         m.top.seek = cmd.position
         setVideoEndingTime(cmd.position)
-
-    else if cmdType = "fastforward"
-        ' Skip forward 10 seconds
-        newPos = m.osd.positionTime + 10
-        m.top.seek = newPos
-        setVideoEndingTime(newPos)
-
-    else if cmdType = "rewind"
-        ' Skip backward 10 seconds
-        newPos = m.osd.positionTime - 10
-        if newPos < 0 then newPos = 0
-        m.top.seek = newPos
-        setVideoEndingTime(newPos)
 
     end if
 end sub

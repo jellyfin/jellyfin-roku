@@ -11,5 +11,4 @@
         <!-- Response status to send back to Roku OS after handling a command -->
         <field id="transportResponse" type="assocarray" alwaysNotify="true" />
     </interface>
-    <script type="text/brightscript" uri="pkg:/components/tasks/VoiceInputTask.bs" />
 </component>
