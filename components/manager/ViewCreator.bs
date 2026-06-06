@@ -589,7 +589,8 @@ function handleTransportCommand(data as object) as object
         end if
 
     else if cmd = "skip"
-        ret.status = "unhandled" ' TODO: connect to segment skip
+        ret.cmd = { type: "skip" }
+        ret.status = "success"
 
     else if cmd = "loop"
         ret.status = "unhandled" ' TODO: connect to QueueManager
