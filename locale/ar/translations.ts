@@ -2426,5 +2426,13 @@
         <source>Resume from</source>
         <translation>الاستئناف من</translation>
     </message>
+    <message>
+        <source>Forces Jellyfin to try direct playing video media, Live TV excluded. Enabling this ignores all other playback support settings and will always first attempt direct playback. It also changes how transcode reason is displayed.</source>
+        <translation>اجبار Jellyfin على تشغيل وسيطة الفيديو مباشرة, التلفاز الحي مستثنى. تفعيل هذه الميزة سيتجاهل كل اعدادات دعم التشغيل و سيحاول دائما البدء بالتشغيل المباشر. كما ان التغيير يؤثر على طريقة عرض الترميز.</translation>
+    </message>
+    <message>
+        <source>Always Attempt Direct Playing Video Media</source>
+        <translation>محاولة تشغيل وسيد الفيديو المباشر دائما</translation>
+    </message>
 </context>
 </TS>
