@@ -29,6 +29,8 @@
     <field id="audioIndex" type="integer" />
     <field id="allowCaptions" type="boolean" value="false" />
     <field id="voiceCommand" type="assocarray" alwaysNotify="true" />
+    <!-- True when a skippable segment (intro, recap, etc.) is currently active -->
+    <field id="hasActiveSegment" type="boolean" value="false" />
   </interface>
 
   <children>

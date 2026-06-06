@@ -1046,6 +1046,9 @@ sub hideSegmentSkipButton()
     m.skipSegmentButton.text = string.EMPTY
     m.skipSegmentButton.setFocus(false)
     m.skipSegmentButton.focus = false
+
+    ' Notify that no skippable segment is active
+    m.top.hasActiveSegment = false
     hideNextItem()
     m.top.setFocus(true)
 end sub
@@ -1053,6 +1056,9 @@ end sub
 sub displaySegmentSkipButton(segmentType as string, endticks as double)
     m.currentSegmentEndTicks = endticks
     m.currentSegmentType = segmentType
+
+    ' Notify that a skippable segment is active
+    m.top.hasActiveSegment = true
 
     if isValidAndNotEmpty(m.mediaSegmentDismissed) and m.mediaSegmentDismissed.DoesExist(m.currentSegmentType) then return
 
@@ -2386,11 +2392,13 @@ sub onVoiceCommand()
         m.top.control = VideoControl.RESUME
 
     else if cmdType = "pause"
-        ' Pause playback
+        ' Stop any active trickplay before pausing
+        stopFastforwardOrRewind()
         m.top.control = VideoControl.PAUSE
 
     else if cmdType = "playpause"
-        ' Toggle between play and pause
+        ' Stop any active trickplay before toggling play/pause
+        stopFastforwardOrRewind()
         handleVideoPlayPauseAction()
 
     else if cmdType = "seek" and isValid(cmd.position)

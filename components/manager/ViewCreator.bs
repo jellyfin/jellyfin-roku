@@ -557,14 +557,23 @@ function handleTransportCommand(data as object) as object
         ret.status = "success" ' Let Roku OS toggle play/pause state
 
     else if cmd = "forward" or cmd = "fastforward" or cmd = "ff"
-        ret.status = "unhandled" ' OS handles continuous fast forward via trickplay
+        ' If a skippable segment is active, skip it instead of fast forwarding
+        if m.view.hasActiveSegment
+            ret.cmd = { type: "skip" }
+            ret.status = "success"
+        else
+            ret.status = "unhandled" ' OS handles continuous fast forward via trickplay
+        end if
 
     else if cmd = "rewind" or cmd = "rw"
         ret.status = "unhandled" ' OS handles continuous rewind via trickplay
 
     else if cmd = "next"
-        ' Advance to next item in queue using same pattern as natural playback transition
-        if m.global.queueManager.callFunc("getPosition") < m.global.queueManager.callFunc("getCount") - 1
+        ' If a skippable segment is active, skip it instead of advancing to next item
+        if m.view.hasActiveSegment
+            ret.cmd = { type: "skip" }
+            ret.status = "success"
+        else if m.global.queueManager.callFunc("getPosition") < m.global.queueManager.callFunc("getCount") - 1
             m.global.sceneManager.callFunc("clearPreviousScene")
             m.global.queueManager.callFunc("moveForward")
             m.global.queueManager.callFunc("playQueue")
@@ -572,6 +581,7 @@ function handleTransportCommand(data as object) as object
         else
             ret.status = "error.generic"
         end if
+
     else if cmd = "replay"
         ret.status = "unhandled" ' OS handles: rewind 10-25 seconds
 
