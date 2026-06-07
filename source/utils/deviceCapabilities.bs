@@ -135,12 +135,11 @@ function GetDirectPlayProfiles() as object
     end if
 
     ' check audio codecs for each container
-    '
-    ' first trust Roku's per-container decode detection.
-    ' if that fails, allow ac3/eac3/dts passthrough only when Roku reports
-    ' the codec as available in the current audio configuration.
-    ' note: GetAudioDecodeInfo uses "DD+" as the key for eac3 — not "eac3"
-    audioInfo = di.GetAudioDecodeInfo()
+    ' Work around potential AC3 false negatives on some surround configurations.
+    ' When 5.1 surround output is enabled, assume AC3 support even if
+    ' CanDecodeAudio() reports otherwise.
+    isSurround = di.GetAudioOutputChannel() = "5.1 surround"
+
     for each container in supportedCodecs
         for each audioCodec in audioCodecs
             canDecode = di.CanDecodeAudio({
@@ -148,18 +147,7 @@ function GetDirectPlayProfiles() as object
                 Container: container
             }).Result
 
-            supportsPassthrough = false
-            if audioCodec = "ac3"
-                supportsPassthrough = audioInfo.DoesExist("AC3")
-            else if audioCodec = "eac3"
-                supportsPassthrough = audioInfo.DoesExist("DD+")
-            else if audioCodec = "dts"
-                supportsPassthrough = audioInfo.DoesExist("DTS")
-            end if
-
-            if canDecode
-                supportedCodecs[container]["audio"].push(audioCodec)
-            else if supportsPassthrough
+            if canDecode or (isSurround and audioCodec = "ac3")
                 supportedCodecs[container]["audio"].push(audioCodec)
             end if
         end for
