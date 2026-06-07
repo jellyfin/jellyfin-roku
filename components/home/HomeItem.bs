@@ -149,7 +149,7 @@ sub itemContentChanged()
         return
     end if
 
-    if itemDataType = ItemType.BOXSET
+    if inArray([ItemType.BOXSET, ItemType.PLAYLIST], itemDataType)
         displayBoxsetInfo(itemData)
         return
     end if

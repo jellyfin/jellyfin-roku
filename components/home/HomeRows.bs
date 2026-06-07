@@ -518,7 +518,7 @@ end sub
 sub createFavoritesRow()
     sectionName = tr("Favorites")
 
-    if not sectionExists(sectionName)
+    if not favoriteSectionExists()
         nextUpRow = m.top.content.CreateChild("HomeRow")
         nextUpRow.title = sectionName
         nextUpRow.imageWidth = homeRowItemSizes.WIDE_POSTER[0]
@@ -542,43 +542,106 @@ end sub
 '
 sub updateFavoritesItems()
     m.processedRowCount++
-    itemData = m.LoadFavoritesTask.content
+    favoriteRows = m.LoadFavoritesTask.content
     m.LoadFavoritesTask.unobserveField("content")
     m.LoadFavoritesTask.content = []
 
-    sectionName = tr("Favorites")
+    insertIndex = getFirstFavoriteSectionIndex()
+    removeFavoriteSections()
 
-    if not isValidAndNotEmpty(itemData)
-        removeHomeSection(sectionName)
-        return
-    end if
-
-    ' remake row using the new data
-    row = CreateObject("roSGNode", "HomeRow")
-    row.title = sectionName
-    row.imageWidth = homeRowItemSizes.WIDE_POSTER[0]
-    row.cursorSize = homeRowItemSizes.WIDE_POSTER
-
-    for each item in itemData
-        usePoster = true
-
-        if lcase(item.type) = "episode" or lcase(item.type) = "audio" or lcase(item.type) = "musicartist"
-            usePoster = false
-        end if
-
-        item.usePoster = usePoster
-        item.imageWidth = row.imageWidth
-        row.appendChild(item)
-    end for
-
-    if sectionExists(sectionName)
-        m.top.content.replaceChild(row, getSectionIndex(sectionName))
+    if not isValidAndNotEmpty(favoriteRows)
         setRowItemSize()
         return
     end if
 
-    m.top.content.insertChild(row, getSectionIndex(sectionName))
+    for each favoriteRowData in favoriteRows
+        row = createFavoriteRowFromData(favoriteRowData)
+        if isValid(row)
+            m.top.content.insertChild(row, insertIndex)
+            insertIndex++
+        end if
+    end for
+
     setRowItemSize()
+end sub
+
+' createFavoriteRowFromData: Creates a HomeRow for one type-specific Favorites group
+'
+function createFavoriteRowFromData(rowData as object) as object
+    if not isChainValid(rowData, "items") or not isValidAndNotEmpty(rowData.items) then return invalid
+
+    rowType = rowData.LookupCI("rowType") ?? "wide"
+    rowSize = getFavoriteRowItemSize(rowType)
+
+    row = CreateObject("roSGNode", "HomeRow")
+    row.title = rowData.LookupCI("title")
+    row.imageWidth = rowSize[0]
+    row.cursorSize = rowSize
+
+    for each item in rowData.items
+        item.usePoster = isStringEqual(rowType, "poster")
+        item.imageWidth = row.imageWidth
+        row.appendChild(item)
+    end for
+
+    return row
+end function
+
+function getFavoriteRowItemSize(rowType as string) as object
+    if isStringEqual(rowType, "poster") then return homeRowItemSizes.MOVIE_POSTER
+    if isStringEqual(rowType, "album") then return homeRowItemSizes.MUSIC_ALBUM
+    return homeRowItemSizes.WIDE_POSTER
+end function
+
+' isFavoriteSectionTitle: Matches the placeholder Favorites row and translated split Favorites rows
+'
+function isFavoriteSectionTitle(sectionTitle as dynamic) as boolean
+    if not isValid(sectionTitle) then return false
+
+    searchSectionTitle = sectionTitle.Replace(" ", "")
+    favoritesTitle = tr("Favorites").Replace(" ", "")
+    favoriteTitlePrefix = tr("Favorite").Replace(" ", "")
+
+    return isStringEqual(searchSectionTitle, favoritesTitle) or isStringEqual(Left(searchSectionTitle, Len(favoriteTitlePrefix)), favoriteTitlePrefix)
+end function
+
+function favoriteSectionExists() as boolean
+    if not isValid(m.top.content) then return false
+
+    homeSections = m.top.content.getChildren(-1, 0)
+    for each section in homeSections
+        if isFavoriteSectionTitle(section.title) then return true
+    end for
+
+    return false
+end function
+
+' getFirstFavoriteSectionIndex: Preserves the configured Favorites placement when inserting split rows
+'
+function getFirstFavoriteSectionIndex() as integer
+    if not isValid(m.top.content) then return getOriginalSectionIndex("favorites")
+
+    homeSections = m.top.content.getChildren(-1, 0)
+    i = 0
+    for each section in homeSections
+        if isFavoriteSectionTitle(section.title) then return i
+        i++
+    end for
+
+    return getOriginalSectionIndex("favorites")
+end function
+
+sub removeFavoriteSections()
+    if not isValid(m.top.content) then return
+
+    homeSections = m.top.content.getChildren(-1, 0)
+    if homeSections.count() = 0 then return
+
+    for i = homeSections.count() - 1 to 0 step -1
+        if isFavoriteSectionTitle(homeSections[i].title)
+            m.top.content.removeChildIndex(i)
+        end if
+    end for
 end sub
 
 ' updateMyListItems: Processes LoadMyListTask content. Removes, Creates, or Updates My List row as needed

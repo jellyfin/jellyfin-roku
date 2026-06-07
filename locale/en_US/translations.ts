@@ -181,6 +181,10 @@
             <translation>Video</translation>
         </message>
         <message>
+            <source>Videos</source>
+            <translation>Videos</translation>
+        </message>
+        <message>
             <source>Audio</source>
             <translation>Audio</translation>
         </message>
