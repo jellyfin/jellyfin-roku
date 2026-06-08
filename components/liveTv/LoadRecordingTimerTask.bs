@@ -1,0 +1,29 @@
+import "pkg:/source/api/baserequest.bs"
+import "pkg:/source/utils/config.bs"
+
+sub init()
+    m.top.functionName = "loadRecordingTimer"
+
+end sub
+
+sub loadRecordingTimer()
+
+    params = {
+        UserId: m.global.session.user.id
+    }
+
+    url = Substitute("LiveTv/Timers/{0}", m.top.timerId)
+
+    resp = APIRequest(url, params)
+    data = getJson(resp)
+
+    if data = invalid
+        m.top.timerDetails = {}
+        return
+    end if
+
+    recordingTimer = createObject("roSGNode", "RecordingTimerData")
+    recordingTimer.json = data
+    m.top.recordingTimerDetails = recordingTimer
+
+end sub

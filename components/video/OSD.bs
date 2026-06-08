@@ -587,18 +587,24 @@ end sub
 ' @param {integer} updatePosition - the position to update the progress bar to
 sub updateProgressBar(live as boolean, updatePosition as integer)
     if live
-        m.videoRemainingTime.text = ""
+        if m.top.isRecording
+            m.videoRemainingTime.text = m.clock.callFunc("getFormattedTime", (m.top.liveTvStartTime + m.top.liveTvRewindLimit), true, false)
+        else
+            m.videoRemainingTime.text = ""
+        end if
         m.videoPositionTime.text = m.clock.callFunc("getFormattedTime", (m.top.liveTvStartTime + m.top.liveTvStartOffset), true, false)
-        m.liveTvPos.text = m.clock.callFunc("getFormattedTime", (m.top.liveTvStartTime + updatePosition), true, true)
+        m.liveTvPos.text = m.clock.callFunc("getFormattedTime", (m.top.recordingOffset + m.top.liveTvStartTime + updatePosition), true, true)
         m.progressBar.width = m.progressBarBackground.width * ((m.top.progressDuration - m.top.liveTvStartOffset) / m.top.liveTvRewindLimit)
-        scrubberHorizTrans = (m.progressBarBackground.width * ((updatePosition - m.top.liveTvStartOffset) / m.top.liveTvRewindLimit)) - m.scrubber.width / 2
+        progressBarHorizTrans = m.progressBarBackground.width * (m.top.recordingOffset / m.top.liveTvRewindLimit)
+        m.progressBar.translation = [progressBarHorizTrans, m.progressBar.translation[1]]
+        scrubberHorizTrans = (m.progressBarBackground.width * ((m.top.recordingOffset + updatePosition - m.top.liveTvStartOffset) / m.top.liveTvRewindLimit)) - m.scrubber.width / 2
         m.liveTvPos.translation = [m.progressBarGroup.translation[0] + scrubberHorizTrans, m.liveTvPos.translation[1]]
         if m.top.positionTime < m.top.liveTvStartOffset
             scrubberOldPositionTime = 0
         else
             scrubberOldPositionTime = Int(m.top.positionTime) - m.top.liveTvStartOffset
         end if
-        scrubberOldPositionTrans = (m.progressBarBackground.width * (scrubberOldPositionTime / m.top.liveTvRewindLimit)) - m.scrubberOldPosition.width / 2
+        scrubberOldPositionTrans = (m.progressBarBackground.width * ((m.top.recordingOffset + scrubberOldPositionTime) / m.top.liveTvRewindLimit)) - m.scrubberOldPosition.width / 2
     else
         ' If we are actively seeking then use the preview position to update the progress bar, otherwise use the current position
         if m.top.isSeeking
