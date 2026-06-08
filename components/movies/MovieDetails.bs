@@ -47,7 +47,7 @@ sub init()
     m.buttonGrp.observeField("itemUnfocused", "onButtonItemUnfocused")
     m.buttonGrp.setFocus(true)
     m.top.lastFocus = m.buttonGrp
-
+    m.playFromBeginningButton = m.top.findNode("play-from-beginning-button")
     setButtonColors()
 
     m.loadStatus = ViewLoadStatus.INIT
@@ -85,6 +85,8 @@ sub calculateButtonThumbProperties()
 
     if m.buttonGrp.content.getChildCount() < 7
         m.scrollBar.visible = false
+    else
+        m.scrollBar.visible = true
     end if
 
     m.thumbStep = (buttonGroupHeight - m.thumb.height) / (m.buttonGrp.content.getChildCount() - 1)
@@ -150,6 +152,10 @@ end sub
 ' OnScreenShown: Callback function when view is presented on screen
 '
 sub OnScreenShown()
+    ' Reset startingPoint to avoid other buttons inheriting playback position
+    if isValid(m.top.itemContent)
+        m.top.itemContent.startingPoint = -1
+    end if
     ' set focus to button group
     if m.extrasGrp.opacity = 1
         m.top.lastFocus.setFocus(true)
@@ -371,15 +377,8 @@ sub itemContentChanged()
     m.loadItemsTask.itemId = m.top.id
     m.loadItemsTask.control = TaskControl.RUN
 
-    if itemData.UserData.PlaybackPositionTicks > 0
-        playButton = m.top.findNode("play-button")
-        playButton.text = `${tr("Play / Resume from")} ${ticksToHuman(itemData.UserData.PlaybackPositionTicks)}`
-        playButton.AUDIO_GUIDE_SUFFIX = `${tr("Play or Resume from")} ${ticksToAudioGuide(itemData.UserData.PlaybackPositionTicks)}`
-    else
-        playButton = m.top.findNode("play-button")
-        playButton.text = tr("Play")
-        playButton.AUDIO_GUIDE_SUFFIX = tr("Play")
-    end if
+    updatePlayButtons(itemData)
+
     setWatchedColor()
     setFavoriteColor()
 
@@ -1060,3 +1059,47 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
     return false
 end function
+
+sub updatePlayButtons(itemData as object)
+    playButton = m.top.findNode("play-button")
+    if itemData.UserData.PlaybackPositionTicks > 0
+        ' Always remove and re-insert to force MarkupList re-render
+        if isValid(m.buttonGrp.content.findNode("play-from-beginning-button"))
+            m.buttonGrp.content.removeChild(m.playFromBeginningButton)
+        end if
+        m.buttonGrp.content.insertChild(m.playFromBeginningButton, 1)
+        calculateButtonThumbProperties()
+        playButton.text = `${tr("Resume from")} ${ticksToHuman(itemData.UserData.PlaybackPositionTicks)}`
+        playButton.AUDIO_GUIDE_SUFFIX = `${tr("Resume from")} ${ticksToAudioGuide(itemData.UserData.PlaybackPositionTicks)}`
+        playButton.icon = "pkg:/images/icons/36px/resume.png"
+        return
+    end if
+    ' No progress: show only Play
+    playButton.text = tr("Play")
+    playButton.AUDIO_GUIDE_SUFFIX = tr("Play")
+    playButton.icon = "pkg:/images/icons/36px/play.png"
+    if isValid(m.buttonGrp.content.findNode("play-from-beginning-button"))
+        ' Save focused button id before removing
+        focusedId = string.EMPTY
+        focusedIndex = m.buttonGrp.itemFocused
+        focusedBtn = m.buttonGrp.content.getChild(focusedIndex)
+        if isValid(focusedBtn)
+            focusedId = focusedBtn.id
+        end if
+        m.buttonGrp.content.removeChild(m.playFromBeginningButton)
+        calculateButtonThumbProperties()
+        ' Restore focus by id
+        if focusedId <> string.EMPTY
+            i = 0
+            for each btn in m.buttonGrp.content.getChildren(-1, 0)
+                if isStringEqual(btn.id, focusedId)
+                    m.buttonGrp.setFocus(true)
+                    m.buttonGrp.jumpToItem = i
+                    btn.focus = true
+                    exit for
+                end if
+                i++
+            end for
+        end if
+    end if
+end sub

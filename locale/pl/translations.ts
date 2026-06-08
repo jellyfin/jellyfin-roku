@@ -1263,127 +1263,127 @@
     </message>
     <message>
         <source>Off - Attempt to play all resolutions</source>
-        <translation type="unfinished"></translation>
+        <translation>Wył. – próba odtworzenia wszystkich rozdzielczości</translation>
         <extracomment>User Setting - Option title</extracomment>
     </message>
     <message>
         <source>Auto - Use TV resolution</source>
-        <translation type="unfinished"></translation>
+        <translation>Auto – użycie rozdzielczości TV</translation>
         <extracomment>User Setting - Option title</extracomment>
     </message>
     <message>
         <source>Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Tryb</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Value</source>
-        <translation type="unfinished"></translation>
+        <translation>Wartość</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Maximum Audio Channels</source>
-        <translation type="unfinished"></translation>
+        <translation>Maksymalna liczba kanałów audio</translation>
         <extracomment>User Setting - Title</extracomment>
     </message>
     <message>
         <source>Configure the maximum audio channels when playing video files on this device.</source>
-        <translation type="unfinished"></translation>
+        <translation>Skonfiguruj maksymalną liczbę kanałów audio podczas odtwarzania plików wideo na tym urządzeniu.</translation>
         <extracomment>User Setting - Description</extracomment>
     </message>
     <message>
         <source>Off - Attempt to play all channels</source>
-        <translation type="unfinished"></translation>
+        <translation>Wył. – próba odtworzenia wszystkich kanałów</translation>
         <extracomment>User Setting - Option title</extracomment>
     </message>
     <message>
         <source>Configure the maximum resolution when playing video files on this device.</source>
-        <translation type="unfinished"></translation>
+        <translation>Skonfiguruj maksymalną rozdzielczość podczas odtwarzania plików wideo na tym urządzeniu.</translation>
         <extracomment>User Setting - Description</extracomment>
     </message>
     <message>
         <source>Apply max resolution to all files or only transcoded files.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zastosuj maksymalną rozdzielczość do wszystkich plików lub tylko do plików transkodowanych.</translation>
         <extracomment>User Setting - Description</extracomment>
     </message>
     <message>
         <source>All files</source>
-        <translation type="unfinished"></translation>
+        <translation>Wszystkie pliki</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Only transcoded files</source>
-        <translation type="unfinished"></translation>
+        <translation>Tylko transkodowane pliki</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Compatibility</source>
-        <translation type="unfinished"></translation>
+        <translation>Zgodność</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Attempt to prevent playback failures.</source>
-        <translation type="unfinished"></translation>
+        <translation>Staraj się unikać błędów odtwarzania.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
         <source>Disable HEVC</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyłącz HEVC</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Disable the HEVC codec on this device. This may improve playback for some devices (ultra).</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyłącz kodek HEVC na tym urządzeniu. Może to poprawić odtwarzanie na niektórych urządzeniach (ultra).</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
         <source>Global</source>
-        <translation type="unfinished"></translation>
+        <translation>Globalne</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Global settings that affect everyone that uses this Roku device.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustawienia globalne, które dotyczą wszystkich użytkowników tego urządzenia Roku.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
         <source>Remember Me?</source>
-        <translation type="unfinished"></translation>
+        <translation>Pamiętasz mnie?</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Remember the currently logged in user and try to log them in again next time you start the Jellyfin app.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapamiętaj aktualnie zalogowanego użytkownika i spróbuj zalogować go ponownie przy następnym uruchomieniu Jellyfin.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
         <source>Trickplay Display</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyświetlanie Trickplay</translation>
         <extracomment>User Setting - Title for option</extracomment>
     </message>
     <message>
         <source>Select trickplay display format.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz format wyświetlania Trickplay.</translation>
         <extracomment>User Setting - Description for option</extracomment>
     </message>
     <message>
         <source>Force Transcoding</source>
-        <translation type="unfinished"></translation>
+        <translation>Wymuszanie transkodowania</translation>
         <extracomment>User Setting - Title for option</extracomment>
     </message>
     <message>
         <source>Force media to be transcoded.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wymuś transkodowanie multimediów.</translation>
         <extracomment>User Setting - Description for option</extracomment>
     </message>
     <message>
         <source>All Playable Media</source>
-        <translation type="unfinished"></translation>
+        <translation>Wszystkie odtwarzalne multimedia</translation>
         <extracomment>User Setting - Title for option</extracomment>
     </message>
     <message>
         <source>Force all playable media to be transcoded.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wymuś transkodowanie wszystkich odtwarzalnych multimediów.</translation>
         <extracomment>User Setting - Description for option</extracomment>
     </message>
     <message>
@@ -2435,6 +2435,14 @@
     <message>
         <source>No Default</source>
         <translation>Brak domyślnej</translation>
+    </message>
+    <message>
+        <source>Play from beginning</source>
+        <translation>Odtwarzaj od początku</translation>
+    </message>
+    <message>
+        <source>Resume from</source>
+        <translation>Wznów od</translation>
     </message>
 </context>
 </TS>

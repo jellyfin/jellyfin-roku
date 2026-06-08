@@ -1543,83 +1543,83 @@
     </message>
     <message>
         <source>Library Portrait Column Count</source>
-        <translation type="unfinished"></translation>
+        <translation>عد أعمدة لوحة المكتبة</translation>
         <extracomment>Libraries Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Number of columns in library view when showing portrait (tall) images</source>
-        <translation type="unfinished"></translation>
+        <translation>عدد أعمدة مظهر المكتبة عند عرض صور اللوحة (طوليا)</translation>
         <extracomment>Libraries Setting - Setting description</extracomment>
     </message>
     <message>
         <source>Library Square Column Count</source>
-        <translation type="unfinished"></translation>
+        <translation>عد عمود المكتبة المربع</translation>
         <extracomment>Libraries Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Number of columns in library view when showing square images</source>
-        <translation type="unfinished"></translation>
+        <translation>عدد أعمدة مظهر المكتبة التي تظهر مع الصور المربعة</translation>
         <extracomment>Libraries Setting - Setting description</extracomment>
     </message>
     <message>
         <source>View All Next Up</source>
-        <translation type="unfinished"></translation>
+        <translation>عرض كل القادم</translation>
         <extracomment>Title for viewing all episodes available in the Next Up section</extracomment>
     </message>
     <message>
         <source>Rewatching Next Up</source>
-        <translation type="unfinished"></translation>
+        <translation>إعادة مشاهدة القادم</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Show already watched episodes in &apos;Next Up&apos; sections.</source>
-        <translation type="unfinished"></translation>
+        <translation>اظهار الحلقات المشاهدة في أقسام &apos;القادم&apos;.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
         <source>Episode Images Next Up</source>
-        <translation type="unfinished"></translation>
+        <translation>صور الحلقة القادمة</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>What type of images to use for Episodes shown in the &apos;Next Up&apos; and &apos;Continue Watching&apos; sections.</source>
-        <translation type="unfinished"></translation>
+        <translation>ما نوع الصور التي تستخدم لاظهار الحلقات في أقسام &apos;القادم&apos; و &apos;متابعة المشاهدة&apos;.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
         <source>Use Web Client Setting</source>
-        <translation type="unfinished"></translation>
+        <translation>استخدم اعداد عميل الويب</translation>
         <extracomment>User Setting - Setting option title</extracomment>
     </message>
     <message>
         <source>Use Episode Image</source>
-        <translation type="unfinished"></translation>
+        <translation>استخدم صورة الحلقة</translation>
         <extracomment>User Setting - Setting option title</extracomment>
     </message>
     <message>
         <source>Use Show Image</source>
-        <translation type="unfinished"></translation>
+        <translation>استخدم صورة البرنامج</translation>
         <extracomment>User Setting - Setting option title</extracomment>
     </message>
     <message>
         <source>The selected Jellyfin server uses version</source>
-        <translation type="unfinished"></translation>
+        <translation>خادم Jellyfin المختار يستخدم الاصدار</translation>
     </message>
     <message>
         <source>which is not supported by this app. Please update the server to</source>
-        <translation type="unfinished"></translation>
+        <translation>حيث انه غير مدعوم من بهذا التطبيق. يرجى تحديث الخادم إلى</translation>
     </message>
     <message>
         <source>or newer to use this app or install and use the Jellyfin Legacy app from Roku&apos;s Streaming Store</source>
-        <translation type="unfinished"></translation>
+        <translation>أو جدد لإستخدام هذا التطبيق أو نصّب و استخدم تطبيق Jellyfin قديم من متجر Roku</translation>
     </message>
     <message>
         <source>Return to server select screen</source>
-        <translation type="unfinished"></translation>
+        <translation>العودة لشاشة اختيار الخادم</translation>
     </message>
     <message>
         <source>CH</source>
-        <translation type="unfinished"></translation>
+        <translation>قناة</translation>
         <extracomment>Abbreviation for Channel</extracomment>
     </message>
     <message>
@@ -2409,6 +2409,30 @@
     <message>
         <source>No Default</source>
         <translation>لا افتراض</translation>
+    </message>
+    <message>
+        <source>Load Items Limit</source>
+        <translation>حد تحميل العناصر</translation>
+    </message>
+    <message>
+        <source>Number of items to load together on library screens.</source>
+        <translation>عدد العناصر للتحميل على شاشات المكتبة.</translation>
+    </message>
+    <message>
+        <source>Play from beginning</source>
+        <translation>التشغيل من البداية</translation>
+    </message>
+    <message>
+        <source>Resume from</source>
+        <translation>الاستئناف من</translation>
+    </message>
+    <message>
+        <source>Forces Jellyfin to try direct playing video media, Live TV excluded. Enabling this ignores all other playback support settings and will always first attempt direct playback. It also changes how transcode reason is displayed.</source>
+        <translation>اجبار Jellyfin على تشغيل وسيطة الفيديو مباشرة, التلفاز الحي مستثنى. تفعيل هذه الميزة سيتجاهل كل اعدادات دعم التشغيل و سيحاول دائما البدء بالتشغيل المباشر. كما ان التغيير يؤثر على طريقة عرض الترميز.</translation>
+    </message>
+    <message>
+        <source>Always Attempt Direct Playing Video Media</source>
+        <translation>محاولة تشغيل وسيد الفيديو المباشر دائما</translation>
     </message>
 </context>
 </TS>
