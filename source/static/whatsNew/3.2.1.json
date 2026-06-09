@@ -10,5 +10,9 @@
   {
     "description": "Add cast and crew popup to video OSD",
     "author": "TnUC-Creations"
+  },
+  {
+    "description": "Jump to last item in incomplete row on library screen",
+    "author": "1hitsong"
   }
 ]
