@@ -10,5 +10,9 @@
   {
     "description": "Add cast and crew popup to video OSD",
     "author": "TnUC-Creations"
+  },
+  {
+    "description": "Fix endless spinner when sorting tv guide channels",
+    "author": "michaelcresswell"
   }
 ]

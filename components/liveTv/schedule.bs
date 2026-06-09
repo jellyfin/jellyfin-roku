@@ -61,6 +61,9 @@ sub loadChannelList()
     if not isStringEqual(m.state, TaskControl.RUN) then return
     startLoadingSpinner()
     m.LoadChannelsTask.observeField("channels", "onChannelListLoaded")
+
+    m.LoadChannelsTask.sortAscending = chainLookupReturn(m.global.session, "user.settings.`display.livetv.sortAscending`", true)
+
     m.LoadChannelsTask.control = TaskControl.RUN
 end sub
 
@@ -119,6 +122,7 @@ sub onChannelListLoaded()
     counter = 0
     m.channelIdList = []
     m.channelIndex = {}
+    m.gridData.removeChildren(m.gridData.getChildren(-1, 0))
 
     'if search returns no channels
     if m.LoadChannelsTask.channels.count() = 0
@@ -133,6 +137,7 @@ sub onChannelListLoaded()
         counter++
     end for
 
+    m.channelScheduleLoadedCount = 0
     loadScheduleData()
 
     if m.EPGLaunchCompleteSignaled = false
