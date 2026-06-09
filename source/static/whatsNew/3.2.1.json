@@ -6,5 +6,9 @@
   {
     "description": "Prevent skip segment button from taking focus when OSD is visible",
     "author": "Catmasterson"
+  },
+  {
+    "description": "Add cast and crew popup to video OSD",
+    "author": "TnUC-Creations"
   }
 ]
