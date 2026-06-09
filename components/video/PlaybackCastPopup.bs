@@ -206,9 +206,7 @@ end sub
 sub appendLibraryItems(items as object)
     if not isValidAndNotEmpty(items) then return
 
-    for each item in items
-        m.libraryItems.push(item)
-    end for
+    m.libraryItems.append(items)
 end sub
 
 sub renderLibraryItems()
