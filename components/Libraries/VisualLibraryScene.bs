@@ -917,6 +917,10 @@ sub FilterDataLoaded(msg)
         if isValidAndNotEmpty(data.Years)
             options.filter.push({ "Title": tr("Years"), "Name": "Years", "Options": data.Years, "Delimiter": ",", "CheckedState": [] })
         end if
+
+        if isValidAndNotEmpty(data.Tags)
+            options.filter.push({ "Title": tr("Tags"), "Name": "Tags", "Options": data.Tags, "Delimiter": "|", "CheckedState": [] })
+        end if
     end if
 
     setSelectedOptions(options)
