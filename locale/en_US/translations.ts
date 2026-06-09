@@ -49,6 +49,10 @@
             <translation>Play</translation>
         </message>
         <message>
+            <source>Play from beginning</source>
+            <translation>Play from beginning</translation>
+        </message>
+        <message>
             <source>Please sign in</source>
             <translation>Please sign in</translation>
         </message>
@@ -324,6 +328,22 @@
         <message>
             <source>Cast &amp; Crew</source>
             <translation>Cast &amp; Crew</translation>
+        </message>
+        <message>
+            <source>No cast data available.</source>
+            <translation>No cast data available.</translation>
+        </message>
+        <message>
+            <source>as %1</source>
+            <translation>as %1</translation>
+        </message>
+        <message>
+            <source>More with %1 in Your Library</source>
+            <translation>More with %1 in Your Library</translation>
+        </message>
+        <message>
+            <source>No other titles found in your library.</source>
+            <translation>No other titles found in your library.</translation>
         </message>
         <message>
             <source>More Like This</source>
@@ -622,6 +642,10 @@
         <message>
             <source>Resume playing at </source>
             <translation>Resume playing at </translation>
+        </message>
+        <message>
+            <source>Resume from</source>
+            <translation>Resume from</translation>
         </message>
         <message>
             <source>Start over from the beginning.</source>
