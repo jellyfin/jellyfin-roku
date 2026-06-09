@@ -1607,15 +1607,15 @@
     </message>
     <message>
         <source>which is not supported by this app. Please update the server to</source>
-        <translation type="unfinished"></translation>
+        <translation>حيث انه غير مدعوم من بهذا التطبيق. يرجى تحديث الخادم إلى</translation>
     </message>
     <message>
         <source>or newer to use this app or install and use the Jellyfin Legacy app from Roku&apos;s Streaming Store</source>
-        <translation type="unfinished"></translation>
+        <translation>أو جدد لإستخدام هذا التطبيق أو نصّب و استخدم تطبيق Jellyfin قديم من متجر Roku</translation>
     </message>
     <message>
         <source>Return to server select screen</source>
-        <translation type="unfinished"></translation>
+        <translation>العودة لشاشة اختيار الخادم</translation>
     </message>
     <message>
         <source>CH</source>
