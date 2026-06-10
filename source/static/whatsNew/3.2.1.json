@@ -18,5 +18,9 @@
   {
     "description": "Reduce TV season screen load time by 80%",
     "author": "ferezvi"
+  },
+  {
+    "description": "Reduce Music Album grid load time",
+    "author": "ferezvi"
   }
 ]
