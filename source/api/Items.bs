@@ -652,7 +652,7 @@ function TVEpisodes(showId as string, seasonId as string) as dynamic
     results = []
     for each item in data.Items
         tmp = CreateObject("roSGNode", "TVEpisodeData")
-        tmp.posterURL = ImageURL(item.id, "Primary", { "maxWidth": 400, "maxHeight": 250 })
+        tmp.posterURL = api.items.GetImageURL(item.LookupCI("id"), ImageType.PRIMARY, 0, { "maxWidth": 400, "maxHeight": 250, "quality": "90" })
         tmp.json = item
         tmp.overview = item.overview
         results.push(tmp)
