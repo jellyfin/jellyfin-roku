@@ -919,7 +919,9 @@ sub FilterDataLoaded(msg)
         end if
 
         if isValidAndNotEmpty(data.Tags)
-            options.filter.push({ "Title": tr("Tags"), "Name": "Tags", "Options": data.Tags, "Delimiter": "|", "CheckedState": [] })
+            ' Limit to first 20 tags
+            limitedTags = data.Tags.slice(0, 20)
+            options.filter.push({ "Title": tr("Tags"), "Name": "Tags", "Options": limitedTags, "Delimiter": "|", "CheckedState": [] })
         end if
     end if
 
