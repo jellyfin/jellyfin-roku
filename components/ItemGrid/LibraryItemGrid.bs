@@ -18,8 +18,8 @@ function onKeyEvent(key as string, press as boolean) as boolean
     sameColumnNextRowIndex = focusedIndex + numColumns
 
     if nextRowStart < itemCount and sameColumnNextRowIndex >= itemCount
-        ' Scroll directly to the last item in a short next row.
-        m.top.animateToItem = itemCount - 1
+        ' Jump directly to the last item in a short next row.
+        m.top.jumpToItem = itemCount - 1
         return true
     end if
 

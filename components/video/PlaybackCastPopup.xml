@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component name="PlaybackCastPopup" extends="Group" initialFocus="castList">
+  <children>
+    <Rectangle color="0x000000DD" width="1920" height="1080" />
+    <Text id="title" translation="[103, 100]" font="font:LargeBoldSystemFont" />
+    <RowList
+      id="castList"
+      translation="[103, 200]"
+      itemComponentName="PlaybackCastItem"
+      itemSize="[1710, 396]"
+      itemSpacing="[0, 0]"
+      numRows="1"
+      rowFocusAnimationStyle="fixedFocusWrap"
+      rowItemSize="[[234, 376]]"
+      rowItemSpacing="[[40, 0]]"
+      showRowCounter="false"
+      showRowLabel="false" />
+    <Group id="personDetails" visible="false">
+      <Rectangle color="0x101420FF" width="1714" height="875" translation="[103, 145]" />
+      <Poster id="personImage" width="250" height="375" translation="[145, 190]" failedBitmapUri="pkg:/images/baseline_person_white_48dp.png" />
+      <Text id="personName" width="1310" translation="[450, 190]" font="font:LargeBoldSystemFont" />
+      <Text id="personRole" width="1310" translation="[450, 265]" font="font:MediumSystemFont" color="#aaaaaa" />
+      <Text id="personOverview" width="1310" height="210" translation="[450, 335]" wrap="true" maxLines="6" ellipsisText="..." font="font:SmallestSystemFont" />
+      <Text id="libraryTitle" width="1600" translation="[145, 572]" font="font:MediumBoldSystemFont" />
+      <Text id="libraryLoading" width="1600" translation="[145, 640]" font="font:SmallSystemFont" color="#aaaaaa" />
+      <RowList
+        id="libraryList"
+        visible="false"
+        translation="[145, 638]"
+        itemComponentName="PlaybackCastItem"
+        itemSize="[1630, 396]"
+        itemSpacing="[0, 0]"
+        numRows="1"
+        rowFocusAnimationStyle="fixedFocusWrap"
+        rowItemSize="[[234, 376]]"
+        rowItemSpacing="[[40, 0]]"
+        showRowCounter="false"
+        showRowLabel="false" />
+    </Group>
+  </children>
+  <interface>
+    <function name="showCast" />
+    <function name="hideCast" />
+    <function name="handleBack" />
+    <function name="handleKey" />
+  </interface>
+</component>
