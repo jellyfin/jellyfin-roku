@@ -330,6 +330,22 @@
             <translation>Cast &amp; Crew</translation>
         </message>
         <message>
+            <source>No cast data available.</source>
+            <translation>No cast data available.</translation>
+        </message>
+        <message>
+            <source>as %1</source>
+            <translation>as %1</translation>
+        </message>
+        <message>
+            <source>More with %1 in Your Library</source>
+            <translation>More with %1 in Your Library</translation>
+        </message>
+        <message>
+            <source>No other titles found in your library.</source>
+            <translation>No other titles found in your library.</translation>
+        </message>
+        <message>
             <source>More Like This</source>
             <translation>More Like This</translation>
         </message>
