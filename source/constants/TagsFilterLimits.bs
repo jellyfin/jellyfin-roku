@@ -1,0 +1,6 @@
+' @fileoverview Constants for tags limit in the filter option
+
+namespace TagsFilterLimits
+    ' Maximum number of tags to display in filter options
+    const MAX_TAGS = 20
+end namespace

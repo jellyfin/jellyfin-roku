@@ -1,4 +1,5 @@
 import "pkg:/source/api/baserequest.bs"
+import "pkg:/source/constants/TagsFilterLimits.bs"
 import "pkg:/source/enums/AnimationControl.bs"
 import "pkg:/source/enums/AnimationState.bs"
 import "pkg:/source/enums/ColorPalette.bs"
@@ -349,8 +350,9 @@ sub FilterDataLoaded(msg)
             if isValid(data.Years)
                 options.filter.push({ "Title": tr("Years"), "Name": "Years", "Options": data.Years, "Delimiter": ",", "CheckedState": [] })
             end if
-            if isValid(data.Tags)
-                options.filter.push({ "Title": tr("Tags"), "Name": "Tags", "Options": data.Tags, "Delimiter": "|", "CheckedState": [] })
+            if isValidAndNotEmpty(data.Tags)
+                limitedTags = data.Tags.slice(0, TagsFilterLimits.MAX_TAGS)
+                options.filter.push({ "Title": tr("Tags"), "Name": "Tags", "Options": limitedTags, "Delimiter": "|", "CheckedState": [] })
             end if
         end if
 
