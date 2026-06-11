@@ -195,6 +195,7 @@ sub onSelectSubtitlePressed()
     ' Manually create the None option and place at top
     subtitleData.data.Unshift({
         "Index": SubtitleSelection.NONE,
+        "StreamIndex": SubtitleSelection.NONE,
         "IsExternal": false,
         "Track": {
             "description": "None"
