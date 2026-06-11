@@ -14,5 +14,9 @@
   {
     "description": "Reduce music library album view load time",
     "author": "ferezvi"
+  },
+  {
+    "description": "Honor subtitle selection beyond current episode",
+    "author": "tjps"
   }
 ]
