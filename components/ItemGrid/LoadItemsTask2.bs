@@ -143,9 +143,8 @@ sub loadItems()
     else if m.top.ItemType = "MusicAlbum"
         url = "Items"
         params.append({ ImageTypeLimit: 1, UserId: m.global.session.user.id })
-        ' Request only Primary artwork (album cover)
-        ' Backdrop, Banner and Thumb are not needed for grid view
-        params.append({ EnableImageTypes: "Primary" })
+        ' Request Primary artwork (album cover) and Backdrop as fallback
+        params.append({ EnableImageTypes: "Primary,Backdrop" })
         ' Remove heavy fields that bloat the JSON response
         ' Overview (long text) and RecursiveItemCount (not used in grid)
         params.delete("Fields")
@@ -360,6 +359,8 @@ sub loadItems()
                     tmp.type = "MusicAlbum"
                     if isChainValid(item, "ImageTags.Primary")
                         tmp.posterURL = ImageURL(item.id, "Primary")
+                    else if isChainValid(item, "BackdropImageTags")
+                        tmp.posterURL = ImageURL(item.id, "Backdrop")
                     else
                         tmp.posterURL = "pkg:/images/icons/album.png"
                     end if
