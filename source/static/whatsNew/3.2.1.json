@@ -18,5 +18,9 @@
   {
     "description": "Reduce TV season screen load time by 80%",
     "author": "ferezvi"
+  },
+  {
+    "description": "Add 'Date Added' sort option to 'Other' type media",
+    "author": "UnitedGaucho"
   }
 ]
