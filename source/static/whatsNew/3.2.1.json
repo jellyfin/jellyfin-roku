@@ -6,5 +6,9 @@
   {
     "description": "Prevent skip segment button from taking focus when OSD is visible",
     "author": "Catmasterson"
+  },
+  {
+    "description": "Add 'Date Added' sort option to 'Other' type media",
+    "author": "UnitedGaucho"
   }
 ]
