@@ -2,6 +2,8 @@ import "pkg:/source/enums/MediaPlaybackState.bs"
 import "pkg:/source/enums/SubtitleSelection.bs"
 import "pkg:/source/enums/TaskControl.bs"
 import "pkg:/source/enums/TimerControl.bs"
+import "pkg:/source/enums/TransportCommand.bs"
+import "pkg:/source/enums/TransportStatus.bs"
 import "pkg:/source/enums/VideoControl.bs"
 
 const STILL_WATCHING_POPUP_TIMER_SECONDS = 60
@@ -68,7 +70,7 @@ sub CreateVideoPlayerView()
     ' Start VoiceInputTask to receive voice transport commands
     m.voiceInputTask = CreateObject("roSGNode", "VoiceInputTask")
     m.voiceInputTask.observeField("inputData", "onVoiceInputData")
-    m.voiceInputTask.control = "RUN"
+    m.voiceInputTask.control = TaskControl.RUN
 
     mediaSourceId = m.global.queueManager.callFunc("getCurrentItem").mediaSourceId
 
@@ -369,7 +371,7 @@ sub onStateChange()
 
                 ' Stop VoiceInputTask when playback ends
                 if isValid(m.voiceInputTask)
-                    m.voiceInputTask.control = "STOP"
+                    m.voiceInputTask.control = TaskControl.STOP
                 end if
 
                 ' Playback completed, return user to previous screen
@@ -418,7 +420,7 @@ sub onStateChange()
 
         ' Stop VoiceInputTask when playback ends
         if isValid(m.voiceInputTask)
-            m.voiceInputTask.control = "STOP"
+            m.voiceInputTask.control = TaskControl.STOP
         end if
 
         ' Playback completed, return user to previous screen
@@ -484,12 +486,12 @@ sub onVoiceInputData()
     if not isValid(m.view) then return
     data = m.voiceInputTask.inputData
     if not isValid(data) then return
-    if not isValid(data.type) then return
+    if not isChainValid(data, "type") then return
 
     ret = handleTransportCommand(data)
 
     ' Send EventResponse back to Roku OS with the result
-    if isValid(data.id)
+    if isChainValid(data, "id")
         m.voiceInputTask.transportResponse = { id: data.id, status: ret.status }
     end if
 
@@ -507,85 +509,81 @@ end sub
 '   "error.generic" - command not available in current context
 '
 function handleTransportCommand(data as object) as object
-    ret = { status: "unhandled" }
+    ret = { status: TransportStatus.UNHANDLED }
     if not isValid(m.view) then return ret
 
-    if data.type = "seek"
-        ' Absolute seek: position in seconds
+    if isStringEqual(data.type, TransportCommand.SEEK)
         ret.cmd = { type: "seek", position: data.position }
-        ret.status = "success"
+        ret.status = TransportStatus.SUCCESS
         return ret
     end if
 
-    if data.type <> "transport" then return ret
-    if not isValid(data.command) then return ret
+    if not isStringEqual(data.type, "transport") then return ret
+    if not isChainValid(data, "command") then return ret
 
     cmd = LCase(data.command)
 
-    if cmd = "startover"
+    if isStringEqual(cmd, TransportCommand.STARTOVER)
         ret.cmd = { type: "seek", position: 0 }
-        ret.status = "success"
+        ret.status = TransportStatus.SUCCESS
 
-    else if cmd = "seek"
-        ' Relative seek: direction (forward/backward) + duration in seconds
+    else if isStringEqual(cmd, TransportCommand.SEEK)
         currentPos = m.view.position
         duration = Val(data.duration)
         newPos = currentPos + duration
-        if data.direction = "backward"
+        if isStringEqual(data.direction, "backward")
             newPos = currentPos - duration
         end if
         if newPos < 0
             newPos = 0
-            ret.status = "success.seek-start"
+            ret.status = TransportStatus.SUCCESS_SEEK_START
         else if newPos > m.view.duration
             newPos = m.view.duration - 30
-            ret.status = "success.seek-end"
+            ret.status = TransportStatus.SUCCESS_SEEK_END
         else
-            ret.status = "success"
+            ret.status = TransportStatus.SUCCESS
         end if
         ret.cmd = { type: "seek", position: newPos }
 
-    else if cmd = "play" or cmd = "resume"
+    else if isStringEqual(cmd, TransportCommand.PLAY) or isStringEqual(cmd, TransportCommand.RESUME)
         ret.cmd = { type: "play" }
-        ret.status = "success"
+        ret.status = TransportStatus.SUCCESS
 
-    else if cmd = "pause" or cmd = "stop"
+    else if isStringEqual(cmd, TransportCommand.PAUSE) or isStringEqual(cmd, TransportCommand.STOP)
         ret.cmd = { type: "pause" }
-        ret.status = "success"
+        ret.status = TransportStatus.SUCCESS
 
-    else if cmd = "playpause"
-        ret.status = "success" ' Let Roku OS toggle play/pause state
+    else if isStringEqual(cmd, TransportCommand.PLAYPAUSE)
+        ret.status = TransportStatus.SUCCESS
 
-    else if cmd = "forward" or cmd = "fastforward" or cmd = "ff"
-        ' If a skippable segment is active, skip it instead of fast forwarding
+    else if isStringEqual(cmd, TransportCommand.FORWARD) or isStringEqual(cmd, TransportCommand.FASTFORWARD) or isStringEqual(cmd, TransportCommand.FF)
         if m.view.hasActiveSegment
             ret.cmd = { type: "skip" }
-            ret.status = "success"
+            ret.status = TransportStatus.SUCCESS
         else
-            ret.status = "unhandled" ' OS handles continuous fast forward via trickplay
+            ret.status = TransportStatus.UNHANDLED
         end if
 
-    else if cmd = "rewind" or cmd = "rw"
-        ret.status = "unhandled" ' OS handles continuous rewind via trickplay
+    else if isStringEqual(cmd, TransportCommand.REWIND) or isStringEqual(cmd, TransportCommand.RW)
+        ret.status = TransportStatus.UNHANDLED
 
-    else if cmd = "next"
-        ' If a skippable segment is active, skip it instead of advancing to next item
+    else if isStringEqual(cmd, TransportCommand.NEXT_ITEM)
         if m.view.hasActiveSegment
             ret.cmd = { type: "skip" }
-            ret.status = "success"
+            ret.status = TransportStatus.SUCCESS
         else if m.global.queueManager.callFunc("getPosition") < m.global.queueManager.callFunc("getCount") - 1
             m.global.sceneManager.callFunc("clearPreviousScene")
             m.global.queueManager.callFunc("moveForward")
             m.global.queueManager.callFunc("playQueue")
-            ret.status = "success"
+            ret.status = TransportStatus.SUCCESS
         else
-            ret.status = "error.generic"
+            ret.status = TransportStatus.ERROR_GENERIC
         end if
 
-    else if cmd = "replay"
-        ret.status = "unhandled" ' OS handles: rewind 10-25 seconds
+    else if isStringEqual(cmd, TransportCommand.REPLAY)
+        ret.status = TransportStatus.UNHANDLED
 
-    else if cmd = "nowplaying"
+    else if isStringEqual(cmd, TransportCommand.NOWPLAYING)
         currentItem = m.global.queueManager.callFunc("getCurrentItem")
         if isValid(currentItem)
             appMgr = CreateObject("roAppManager")
@@ -593,35 +591,35 @@ function handleTransportCommand(data as object) as object
                 title: currentItem.name ?? currentItem.title,
                 contentType: currentItem.type
             })
-            ret.status = "success"
+            ret.status = TransportStatus.SUCCESS
         else
-            ret.status = "error.generic"
+            ret.status = TransportStatus.ERROR_GENERIC
         end if
 
-    else if cmd = "skip"
+    else if isStringEqual(cmd, TransportCommand.SKIP)
         ret.cmd = { type: "skip" }
-        ret.status = "success"
+        ret.status = TransportStatus.SUCCESS
 
-    else if cmd = "loop"
-        ret.status = "unhandled" ' TODO: connect to QueueManager
+    else if isStringEqual(cmd, TransportCommand.LOOP)
+        ret.status = TransportStatus.UNHANDLED
 
-    else if cmd = "shuffle"
-        ret.status = "unhandled" ' TODO: connect to QueueManager
+    else if isStringEqual(cmd, TransportCommand.SHUFFLE)
+        ret.status = TransportStatus.UNHANDLED
 
-    else if cmd = "like"
-        ret.status = "unhandled" ' TODO: connect to Jellyfin ratings API
+    else if isStringEqual(cmd, TransportCommand.LIKE)
+        ret.status = TransportStatus.UNHANDLED
 
-    else if cmd = "dislike"
-        ret.status = "unhandled" ' TODO: connect to Jellyfin ratings API
+    else if isStringEqual(cmd, TransportCommand.DISLIKE)
+        ret.status = TransportStatus.UNHANDLED
 
-    else if cmd = "stop"
-        ret.status = "unhandled" ' OS handles
+    else if isStringEqual(cmd, TransportCommand.STOP)
+        ret.status = TransportStatus.UNHANDLED
 
-    else if cmd = "resume"
-        ret.status = "unhandled" ' OS handles
+    else if isStringEqual(cmd, TransportCommand.RESUME)
+        ret.status = TransportStatus.UNHANDLED
 
-    else if cmd = "ok"
-        ret.status = "unhandled" ' OS handles
+    else if isStringEqual(cmd, TransportCommand.OK)
+        ret.status = TransportStatus.UNHANDLED
 
     end if
 

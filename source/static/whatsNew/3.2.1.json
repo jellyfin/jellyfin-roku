@@ -12,7 +12,7 @@
     "author": "TnUC-Creations"
   },
   {
-    "description": "Add enhanced voice control support (seek, start over, next episode)",
+    "description": "Add voice control support for skip, play/pause, start over, next episode, and \"what's playing?\"",
     "author": "ferezvi"
   }
 ]

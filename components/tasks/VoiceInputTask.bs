@@ -25,7 +25,7 @@ sub runLoop()
             end if
         else if type(msg) = "roSGNodeEvent"
             ' Send EventResponse back to Roku OS after command is handled
-            if msg.getField() = "transportResponse"
+            if isStringEqual(msg.getField(), "transportResponse")
                 response = msg.getData()
                 if isValid(response) and isValid(response.id)
                     m.input.EventResponse({ id: response.id, status: response.status })
@@ -40,9 +40,7 @@ end sub
 sub handleVoiceInput(info as object)
     if not isValid(info) then return
     if not info.doesExist("type") then return
-    if info.type = "seek"
-        ' Absolute seek from Alexa: "go to minute 30"
-        ' seek_position arrives in milliseconds as a string
+    if isStringEqual(info.type, "seek")
         if info.doesExist("seek_position")
             m.top.inputData = {
                 type: "seek",
@@ -50,8 +48,7 @@ sub handleVoiceInput(info as object)
                 id: info.id
             }
         end if
-    else if info.type = "transport"
-        ' Relative transport command: play, pause, seek forward/backward, next, startover
+    else if isStringEqual(info.type, "transport")
         if not info.doesExist("command") then return
         m.top.inputData = {
             type: "transport",

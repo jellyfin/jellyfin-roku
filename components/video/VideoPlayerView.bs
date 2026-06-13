@@ -11,6 +11,7 @@ import "pkg:/source/enums/String.bs"
 import "pkg:/source/enums/SubtitleSelection.bs"
 import "pkg:/source/enums/TaskControl.bs"
 import "pkg:/source/enums/TimerControl.bs"
+import "pkg:/source/enums/TransportCommand.bs"
 import "pkg:/source/enums/VideoControl.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/misc.bs"
@@ -2415,37 +2416,40 @@ end sub
 sub onVoiceCommand()
     cmd = m.top.voiceCommand
     if not isValid(cmd) then return
-    if not isValid(cmd.type) then return
+    if not isChainValid(cmd, "type") then return
 
     cmdType = LCase(cmd.type)
 
-    if cmdType = "play"
-        ' If trickplay is active, seek to preview position first
+    if isStringEqual(cmdType, TransportCommand.PLAY)
         stopFastforwardOrRewind()
         if m.previewPos > 0
             m.top.seek = m.previewPos
             setVideoEndingTime(m.previewPos)
         end if
         m.top.control = VideoControl.RESUME
+        return
+    end if
 
-    else if cmdType = "pause"
-        ' Stop any active trickplay before pausing
+    if isStringEqual(cmdType, TransportCommand.PAUSE)
         stopFastforwardOrRewind()
         m.top.control = VideoControl.PAUSE
+        return
+    end if
 
-    else if cmdType = "playpause"
-        ' Stop any active trickplay before toggling play/pause
+    if isStringEqual(cmdType, TransportCommand.PLAYPAUSE)
         stopFastforwardOrRewind()
         handleVideoPlayPauseAction()
+        return
+    end if
 
-    else if cmdType = "seek" and isValid(cmd.position)
-        ' Seek to absolute position in seconds
+    if isStringEqual(cmdType, TransportCommand.SEEK) and isValid(cmd.position)
         m.top.seek = cmd.position
         setVideoEndingTime(cmd.position)
+        return
+    end if
 
-    else if cmdType = "skip"
-        ' Skip current segment (intro, recap, etc.)
+    if isStringEqual(cmdType, TransportCommand.SKIP)
         skipCurrentSegment()
-
+        return
     end if
 end sub
