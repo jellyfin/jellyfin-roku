@@ -59,7 +59,9 @@ sub createShadowLabels(rect as object, styledText as string, drawingStyles as ob
 
     ' Use grey shadow when background is fully opaque black, Roku default behavior
     shadowColor = "0x000000CC"
-    if bgColor = "0x000000FF" then shadowColor = "0x808080CC"
+    if isStringEqual(bgColor, "0x000000FF")
+        shadowColor = "0x808080CC"
+    end if
 
     shadowDrawingStyles = {}
     for each key in drawingStyles.keys()
@@ -93,12 +95,13 @@ sub createCueBackgroundBox(rect as object, lg as object, styledText as string, d
     ' Verify the tree is ready and get a reference to the main label for measurement
     mainLabel = invalid
     for i = 0 to lg.getChildCount() - 1
-        if lg.getChild(i).subtype() = "MultiStyleLabel"
+        if isStringEqual(lg.getChild(i).subtype(), "MultiStyleLabel")
             mainLabel = lg.getChild(i)
             exit for
         end if
     end for
-    if mainLabel = invalid then return
+
+    if not isValid(mainLabel) then return
 
     ' Determine which height to use (same for all lines)
     lineHeight = 0
@@ -122,7 +125,9 @@ sub createCueBackgroundBox(rect as object, lg as object, styledText as string, d
 
     maxWidth = 0
     for each w in lineWidths
-        if w > maxWidth then maxWidth = w
+        if w > maxWidth
+            maxWidth = w
+        end if
     end for
 
     fontSize = drawingStyles["default"].fontSize
@@ -144,12 +149,15 @@ sub createCueBackgroundBox(rect as object, lg as object, styledText as string, d
 end sub
 
 function createWindowBackground(id as string, styledText as string, textY as integer, bgColor as string, lineHeights as object) as object
-    if bgColor = invalid or bgColor.right(2) = "00" then return invalid
+    if not isValid(bgColor) then return invalid
+    if isStringEqual(bgColor.right(2), "00") then return invalid
 
     lineCount = styledText.split(chr(10)).count()
 
     totalHeight = lineHeights.single
-    if lineCount > 1 then totalHeight = lineHeights.multi * lineCount
+    if lineCount > 1
+        totalHeight = lineHeights.multi * lineCount
+    end if
 
     windowBg = CreateObject("roSGNode", "Rectangle")
     windowBg.addreplace("id", id + "_window")
@@ -164,14 +172,14 @@ end function
 function reconstructFragments(styledText as string) as object
     fragments = styledText.split(chr(10))
     result = []
-    openTag = ""
+    openTag = string.EMPTY
 
     for each fragment in fragments
-        if openTag <> ""
+        if not isStringEqual(openTag, string.EMPTY)
             fragment = openTag + fragment
         end if
 
-        openTag = ""
+        openTag = string.EMPTY
         tagPos = 0
         while true
             tagStart = instr(tagPos, fragment, "<")
@@ -179,15 +187,15 @@ function reconstructFragments(styledText as string) as object
             tagEnd = instr(tagStart, fragment, ">")
             if tagEnd = 0 then exit while
             tag = mid(fragment, tagStart, tagEnd - tagStart + 1)
-            if left(tag, 2) = "</"
-                openTag = ""
+            if isStringEqual(left(tag, 2), "</")
+                openTag = string.EMPTY
             else
                 openTag = tag
             end if
             tagPos = tagEnd + 1
         end while
 
-        if openTag <> ""
+        if not isStringEqual(openTag, string.EMPTY)
             closeTag = "</" + mid(openTag, 2)
             fragment = fragment + closeTag
         end if

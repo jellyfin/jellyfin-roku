@@ -312,7 +312,7 @@ sub updateCaption()
 
             ' Create window background
             windowBg = createWindowBackground(entry.LookupCI("id"), styledText, rect.translation[1], m.windowBgColor, m.lineHeights)
-            if windowBg <> invalid
+            if isValid(windowBg)
                 captions.push(windowBg)
             end if
             captions.push(rect)
