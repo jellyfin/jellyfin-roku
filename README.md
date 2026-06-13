@@ -21,4 +21,4 @@ For more advanced deployment methods, access to crash logs, or to learn how to s
 
 ## Playback Troubleshooting
 
-**Disabling the bitrate limit:** Having inexplicable playback issues where a file refuses to directplay or crashes the player when transcoding? Try disabling the bitrate limit in Settings/Playback/Bitrate Limit to see if your specific hardware needs this limitation removed so as not to trigger transcoding when hitting the limit. 
+Having issues with playback? [Here are things to try](https://github.com/jellyfin/jellyfin-roku/wiki/Playback-Troubleshooting).
