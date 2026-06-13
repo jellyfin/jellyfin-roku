@@ -147,7 +147,7 @@ function GetDirectPlayProfiles() as object
                 Container: container
             }).Result
 
-            if canDecode or (isSurround and audioCodec = "ac3")
+            if canDecode or (isSurround and isStringEqual(audioCodec, "ac3") and not isStringEqual(container, "mp4"))
                 supportedCodecs[container]["audio"].push(audioCodec)
             end if
         end for
