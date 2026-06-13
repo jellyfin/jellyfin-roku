@@ -22,5 +22,9 @@
   {
     "description": "Add 'Date Added' sort option to 'Other' type media",
     "author": "UnitedGaucho"
+  },
+  {
+    "description": "Honor position alignment tags in SRT",
+    "author": "ferezvi"
   }
 ]
