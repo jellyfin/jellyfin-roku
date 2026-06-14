@@ -486,7 +486,6 @@ end function
 sub onVoiceInputData()
     if not isValid(m.view) then return
     data = m.voiceInputTask.inputData
-    if not isValid(data) then return
     if not isChainValid(data, "type") then return
 
     ret = handleTransportCommand(data)

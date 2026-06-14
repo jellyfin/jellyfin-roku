@@ -2415,7 +2415,6 @@ end sub
 '
 sub onVoiceCommand()
     cmd = m.top.voiceCommand
-    if not isValid(cmd) then return
     if not isChainValid(cmd, "type") then return
 
     cmdType = LCase(cmd.type)
