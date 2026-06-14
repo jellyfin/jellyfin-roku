@@ -1042,6 +1042,11 @@ sub onPlaySongEvent(msg)
         return
     end if
 
+    if isAudioMiniPlayerVisibleForListPlayback()
+        playAlbumSongInList(screenContent, selectedIndex, false)
+        return
+    end if
+
     startLoadingSpinner()
     m.global.queueManager.callFunc("resetShuffle")
     m.global.queueManager.callFunc("set", screenContent.albumData.getChildren(-1, 0))
@@ -1049,10 +1054,12 @@ sub onPlaySongEvent(msg)
     m.global.queueManager.callFunc("playQueue", true)
 end sub
 
-sub playAlbumSongInList(screenContent as object, selectedIndex as integer)
-    if toggleActiveAudioPlayback()
-        showAudioMiniPlayerForListPlayback()
-        return
+sub playAlbumSongInList(screenContent as object, selectedIndex as integer, toggleCurrentPlayback = true as boolean)
+    if toggleCurrentPlayback
+        if toggleActiveAudioPlayback()
+            showAudioMiniPlayerForListPlayback()
+            return
+        end if
     end if
 
     selectedSong = screenContent.albumData.getChild(selectedIndex)
@@ -1203,14 +1210,21 @@ sub onPlaylistItemSelectedEvent(msg)
         return
     end if
 
+    if isAudioMiniPlayerVisibleForListPlayback()
+        playPlaylistItemInList(screenContent, selectedIndex, false)
+        return
+    end if
+
     startLoadingSpinner()
     MainAction.playItem(screenContent.listData.getChildren(-1, 0), { method: "set", resetShuffle: true, showAudioPlayerView: true, position: selectedIndex })
 end sub
 
-sub playPlaylistItemInList(screenContent as object, selectedIndex as integer)
-    if toggleActiveAudioPlayback()
-        showAudioMiniPlayerForListPlayback()
-        return
+sub playPlaylistItemInList(screenContent as object, selectedIndex as integer, toggleCurrentPlayback = true as boolean)
+    if toggleCurrentPlayback
+        if toggleActiveAudioPlayback()
+            showAudioMiniPlayerForListPlayback()
+            return
+        end if
     end if
 
     selectedItem = screenContent.listData.getChild(selectedIndex)
@@ -1222,6 +1236,16 @@ sub playPlaylistItemInList(screenContent as object, selectedIndex as integer)
     showAudioMiniPlayerForListPlayback()
     m.global.queueManager.callFunc("playQueue")
 end sub
+
+function isAudioMiniPlayerVisibleForListPlayback() as boolean
+    scene = m.scene
+    if not isValid(scene) then return false
+
+    audioMiniPlayer = scene.findNode("audioMiniPlayer")
+    if not isValid(audioMiniPlayer) then return false
+
+    return audioMiniPlayer.callFunc("isVisible")
+end function
 
 sub showAudioMiniPlayerForListPlayback()
     scene = m.scene
