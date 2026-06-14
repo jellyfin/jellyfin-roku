@@ -1,5 +1,5 @@
 ' captionShadow.bs
-' Adds outline/shadow labels to a caption rectangle
+' Visual effects for caption text: per-line background and outline/shadow
 
 ' Ratios relative to fontSize for consistent outline across text sizes
 ' 8.5 and 6 were chosen based on visual testing to create a balanced outline effect (WAF)
@@ -7,8 +7,7 @@ const OUTLINE_STEP_RATIO = 0.085 ' ~8.5% fontSize for cardinal directions
 const OUTLINE_DIAG_RATIO = 0.06 ' ~6% fontSize for diagonals
 const BASE_OFFSET = 5 ' Matches lg.translation in captionTask.bs
 
-sub createShadowLabels(rect as object, styledText as string, drawingStyles as object, textEffect as string)
-
+sub createShadowLabels(rect as object, styledText as string, drawingStyles as object, textEffect as string, bgColor as string)
     fontSize = drawingStyles["default"].fontSize
 
     outlineStep = Int(fontSize * OUTLINE_STEP_RATIO)
@@ -58,13 +57,19 @@ sub createShadowLabels(rect as object, styledText as string, drawingStyles as ob
         ]
     end if
 
+    ' Use grey shadow when background is fully opaque black, Roku default behavior
+    shadowColor = "0x000000CC"
+    if isStringEqual(bgColor, "0x000000FF")
+        shadowColor = "0x808080CC"
+    end if
+
     shadowDrawingStyles = {}
     for each key in drawingStyles.keys()
         style = drawingStyles[key]
         shadowDrawingStyles[key] = {
             "fontUri": style.fontUri,
             "fontSize": style.fontSize,
-            "color": "0x000000CC"
+            "color": shadowColor
         }
     end for
 
@@ -74,7 +79,129 @@ sub createShadowLabels(rect as object, styledText as string, drawingStyles as ob
         lbl.text = styledText
         lbl.horizAlign = "center"
         lbl.translation = offset
+        ' Append after backgrounds, before lg is moved to top in captionTask.bs
         rect.appendchild(lbl)
     end for
 
 end sub
+
+sub createCueBackgroundBox(rect as object, lg as object, styledText as string, drawingStyles as object, bgColor as string, lineHeights as object)
+    ' Skip if background is fully transparent
+    if bgColor.right(2) = "00" then return
+
+    ' Reconstruct line fragments from styledText — splitting on \n while preserving open tags across lines
+    lineFragments = reconstructFragments(styledText)
+
+    ' Verify the tree is ready and get a reference to the main label for measurement
+    mainLabel = invalid
+    for i = 0 to lg.getChildCount() - 1
+        if isStringEqual(lg.getChild(i).subtype(), "MultiStyleLabel")
+            mainLabel = lg.getChild(i)
+            exit for
+        end if
+    end for
+
+    if not isValid(mainLabel) then return
+
+    ' Determine which height to use (same for all lines)
+    lineHeight = 0
+    if lineFragments.count() = 1
+        lineHeight = lineHeights.single
+    else
+        lineHeight = lineHeights.multi
+    end if
+
+    ' Measure per-line widths
+    lineWidths = []
+    for each line in lineFragments
+        tempLabel = CreateObject("roSGNode", "MultiStyleLabel")
+        tempLabel.drawingStyles = drawingStyles
+        tempLabel.text = line
+        lg.appendchild(tempLabel)
+        br = tempLabel.boundingRect()
+        lineWidths.push(br.width)
+        lg.removeChild(tempLabel)
+    end for
+
+    maxWidth = 0
+    for each w in lineWidths
+        if w > maxWidth
+            maxWidth = w
+        end if
+    end for
+
+    fontSize = drawingStyles["default"].fontSize
+    bgPadding = Int(fontSize * OUTLINE_STEP_RATIO) + 1
+
+    ' Create background boxes - same height for all lines
+    for i = 0 to lineFragments.count() - 1
+        bg = CreateObject("roSGNode", "Rectangle")
+        bg.height = lineHeight
+        bg.color = bgColor
+        ' Padding matches outline step so background fully covers shadow labels
+        bg.width = lineWidths[i] + (bgPadding * 2)
+        bg.translation = [
+            (maxWidth - lineWidths[i]) / 2 + BASE_OFFSET - bgPadding,
+            i * lineHeight + BASE_OFFSET
+        ]
+        rect.insertChild(bg, 0)
+    end for
+end sub
+
+function createWindowBackground(id as string, styledText as string, textY as integer, bgColor as string, lineHeights as object) as object
+    if not isValid(bgColor) then return invalid
+    if isStringEqual(bgColor.right(2), "00") then return invalid
+
+    lineCount = styledText.split(chr(10)).count()
+
+    totalHeight = lineHeights.single
+    if lineCount > 1
+        totalHeight = lineHeights.multi * lineCount
+    end if
+
+    windowBg = CreateObject("roSGNode", "Rectangle")
+    windowBg.addreplace("id", id + "_window")
+    windowBg.color = bgColor
+    windowBg.width = 1536
+    windowBg.height = totalHeight + (BASE_OFFSET * 2) ' Add vertical padding to match text shadow offset
+    windowBg.translation = [(1920 - windowBg.width) / 2, textY]
+
+    return windowBg
+end function
+
+function reconstructFragments(styledText as string) as object
+    fragments = styledText.split(chr(10))
+    result = []
+    openTag = string.EMPTY
+
+    for each fragment in fragments
+        if not isStringEqual(openTag, string.EMPTY)
+            fragment = openTag + fragment
+        end if
+
+        openTag = string.EMPTY
+        tagPos = 0
+        while true
+            tagStart = instr(tagPos, fragment, "<")
+            if tagStart = 0 then exit while
+            tagEnd = instr(tagStart, fragment, ">")
+            if tagEnd = 0 then exit while
+            tag = mid(fragment, tagStart, tagEnd - tagStart + 1)
+            if isStringEqual(left(tag, 2), "</")
+                openTag = string.EMPTY
+            else
+                openTag = tag
+            end if
+            tagPos = tagEnd + 1
+        end while
+
+        if not isStringEqual(openTag, string.EMPTY)
+            closeTag = "</" + mid(openTag, 2)
+            fragment = fragment + closeTag
+        end if
+
+        result.push(fragment)
+    end for
+
+    return result
+end function

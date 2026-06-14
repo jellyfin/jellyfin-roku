@@ -10,5 +10,25 @@
   {
     "description": "Add cast and crew popup to video OSD",
     "author": "TnUC-Creations"
+  },
+  {
+    "description": "Jump to last item in incomplete row on library screen",
+    "author": "1hitsong"
+  },
+  {
+    "description": "Reduce TV season screen load time by 80%",
+    "author": "ferezvi"
+  },
+  {
+    "description": "Add 'Date Added' sort option to 'Other' type media",
+    "author": "UnitedGaucho"
+  },
+  {
+    "description": "Add support for per-line caption backgrounds to custom subtitles",
+    "author": "ferezvi"
+  },
+  {
+    "description": "Honor position alignment tags in SRT",
+    "author": "ferezvi"
   }
 ]
