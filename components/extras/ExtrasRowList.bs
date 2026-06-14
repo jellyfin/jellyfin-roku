@@ -51,9 +51,9 @@ sub onSeasonOfEpisodesLoaded()
 
     if not m.top.hasItems then m.top.hasItems = true
 
-    header = "Season"
+    header = tr("More of")
     if isChainValid(data[0], "json.ParentIndexNumber")
-        header += ` ${data[0].json.ParentIndexNumber}`
+        header += ` ${tr("Season")} ${data[0].json.ParentIndexNumber}`
     end if
 
     ' We can't simply use the episode index due to combination episodes
@@ -74,8 +74,16 @@ sub onSeasonOfEpisodesLoaded()
     end if
 
     row = buildRow(header, data, 502)
-    addRowSize([502, 396])
-    m.top.content.appendChild(row)
+    ' Insert the episodes row right after the season row
+    m.top.content.insertChild(row, 0)
+
+    ' Update the rowItemSize to accommodate the wider episode images
+    sizeArray = m.top.rowItemSize
+    newSizeArray = [[502, 396]]
+    for each size in sizeArray
+        newSizeArray.push(size)
+    end for
+    m.top.rowItemSize = newSizeArray
 end sub
 
 sub loadParts(data as object)
