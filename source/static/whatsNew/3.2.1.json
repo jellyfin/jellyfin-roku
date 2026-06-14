@@ -22,5 +22,17 @@
   {
     "description": "Reduce Music Album grid load time",
     "author": "ferezvi"
+  },
+  {
+    "description": "Add 'Date Added' sort option to 'Other' type media",
+    "author": "UnitedGaucho"
+  },
+  {
+    "description": "Add support for per-line caption backgrounds to custom subtitles",
+    "author": "ferezvi"
+  },
+  {
+    "description": "Honor position alignment tags in SRT",
+    "author": "ferezvi"
   }
 ]

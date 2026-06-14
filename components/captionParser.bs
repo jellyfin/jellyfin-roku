@@ -1,0 +1,123 @@
+' captionParser.bs
+' Parses VTT captions into an array of caption entries with start and end times, text, and styles. Also includes functions to process line and position cues and prepare final styles for rendering.
+
+function getAnPositionDict() as object
+    return {
+        "1": { "position": "20%" }, ' bottom left
+        "2": {}, ' bottom center (default)
+        "3": { "position": "80%" }, ' bottom right
+        "4": { "line": "50%", "position": "20%" }, ' middle left
+        "5": { "line": "50%" }, ' middle center
+        "6": { "line": "50%", "position": "80%" }, ' middle right
+        "7": { "line": "10%", "position": "20%" }, ' top left
+        "8": { "line": "10%" }, ' top center
+        "9": { "line": "10%", "position": "80%" } ' top right
+    }
+end function
+
+function parseVTT(lines)
+    ' Regex to remove undesirable tags: AN alignment tags, escaped HTML entities, and unsupported HTML tags
+    undesirableTags = CreateObject("roRegex", "{\\an\d*}|&lt;.*?&gt;|<(?!\/?(?:font|b|i)\b).*?>", "s")
+    anRegex = CreateObject("roRegex", "{\\an(\d)}", "")
+
+    lines = lines.replace(" --> ", chr(31) + chr(10))
+    lines = lines.replace(": ", ":")
+
+    lines = lines.split(chr(10))
+    curStart = -1
+    curEnd = -1
+    entries = []
+
+    currentLine = []
+    entry = {}
+
+    isNewLine = false
+
+    for i = 0 to lines.count() - 1
+        if isTime(lines[i])
+            currentLine = []
+
+            curStart = toMs(lines[i])
+            lineData = extractStyles(lines[i + 1])
+            curEnd = toMs(lineData.LookupCI("endTimestamp"))
+            curstyles = chainLookup(lineData, "styles")
+            entry = { "start": curStart, "end": curEnd, "styles": curstyles, "id": `caption${i}` }
+            isNewLine = true
+
+            i += 1
+            continue for
+        end if
+
+        if isNewLine
+            trimmed = lines[i].trim()
+
+            ' Check for AN alignment tag and map to line and position styles
+            anMatch = anRegex.Match(trimmed)
+            if anMatch.Count() > 0
+                anDict = getAnPositionDict()
+                anStyles = anDict.LookupCI(anMatch[1])
+                if isValid(anStyles)
+                    entry["styles"].AddReplace("line", anStyles.line)
+                    entry["styles"].AddReplace("position", anStyles.position)
+                end if
+            end if
+
+            finalText = undesirableTags.replaceAll(trimmed, "")
+
+            ' We reached a blank line
+            if isStringEqual(finalText, string.EMPTY)
+                entry.AddReplace("text", currentLine)
+                entries.push(entry)
+                ' This is a false positive in bslint due to
+                ' https://github.com/rokucommunity/bslint/issues/47
+                ' bs:disable-next-line
+                isNewLine = false
+
+                continue for
+            end if
+
+            ' We're inside a text block
+            currentLine.push(finalText)
+
+            ' We reached the end of the file and it doesn't end with a blank line
+            if i = (lines.count() - 1)
+                entry.AddReplace("text", currentLine)
+                entries.push(entry)
+
+                exit for
+            end if
+
+        end if
+    end for
+
+    return entries
+end function
+
+function isTime(text)
+    return text.right(1) = chr(31)
+end function
+
+function toMs(t)
+    t = t.replace(".", ":")
+    t = t.left(12)
+    timestamp = t.tokenize(":")
+    return 3600000 * timestamp[0].toint() + 60000 * timestamp[1].toint() + 1000 * timestamp[2].toint() + timestamp[3].toint()
+end function
+
+function extractStyles(lineData as string) as object
+    returnData = {
+        endTimestamp: "",
+        styles: {}
+    }
+
+    lineDataArray = lineData.split(" ")
+    returnData.endTimestamp = lineDataArray.shift()
+
+    for each style in lineDataArray
+        styleData = style.split(":")
+        styleDataPositionAlign = styleData[1].split(",")
+        returnData.styles.addreplace(styleData[0], styleDataPositionAlign[0])
+    end for
+
+    return returnData
+end function
