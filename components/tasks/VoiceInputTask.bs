@@ -43,7 +43,7 @@ sub handleVoiceInput(info as object)
     if isStringEqual(info.type, "seek")
         if info.doesExist("seek_position")
             m.top.inputData = {
-                type: "seek",
+                type: TransportCommand.SEEK,
                 position: Val(info.seek_position) / 1000.0,
                 id: info.id
             }

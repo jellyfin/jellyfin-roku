@@ -445,7 +445,7 @@ sub stillWatchingTimerComplete()
 
     ' Stop VoiceInputTask when playback ends
     if isValid(m.voiceInputTask)
-        m.voiceInputTask.control = "STOP"
+        m.voiceInputTask.control = TaskControl.STOP
     end if
     m.global.sceneManager.callFunc("popScene")
 end sub
@@ -513,7 +513,7 @@ function handleTransportCommand(data as object) as object
     if not isValid(m.view) then return ret
 
     if isStringEqual(data.type, TransportCommand.SEEK)
-        ret.cmd = { type: "seek", position: data.position }
+        ret.cmd = { type: TransportCommand.SEEK, position: data.position }
         ret.status = TransportStatus.SUCCESS
         return ret
     end if
@@ -524,7 +524,7 @@ function handleTransportCommand(data as object) as object
     cmd = LCase(data.command)
 
     if isStringEqual(cmd, TransportCommand.STARTOVER)
-        ret.cmd = { type: "seek", position: 0 }
+        ret.cmd = { type: TransportCommand.SEEK, position: 0 }
         ret.status = TransportStatus.SUCCESS
 
     else if isStringEqual(cmd, TransportCommand.SEEK)
@@ -543,14 +543,14 @@ function handleTransportCommand(data as object) as object
         else
             ret.status = TransportStatus.SUCCESS
         end if
-        ret.cmd = { type: "seek", position: newPos }
+        ret.cmd = { type: TransportCommand.SEEK, position: newPos }
 
     else if isStringEqual(cmd, TransportCommand.PLAY) or isStringEqual(cmd, TransportCommand.RESUME)
-        ret.cmd = { type: "play" }
+        ret.cmd = { type: TransportCommand.PLAY }
         ret.status = TransportStatus.SUCCESS
 
     else if isStringEqual(cmd, TransportCommand.PAUSE) or isStringEqual(cmd, TransportCommand.STOP)
-        ret.cmd = { type: "pause" }
+        ret.cmd = { type: TransportCommand.PAUSE}
         ret.status = TransportStatus.SUCCESS
 
     else if isStringEqual(cmd, TransportCommand.PLAYPAUSE)
@@ -558,7 +558,7 @@ function handleTransportCommand(data as object) as object
 
     else if isStringEqual(cmd, TransportCommand.FORWARD) or isStringEqual(cmd, TransportCommand.FASTFORWARD) or isStringEqual(cmd, TransportCommand.FF)
         if m.view.hasActiveSegment
-            ret.cmd = { type: "skip" }
+            ret.cmd = { type: TransportCommand.SKIP }
             ret.status = TransportStatus.SUCCESS
         else
             ret.status = TransportStatus.UNHANDLED
@@ -569,7 +569,7 @@ function handleTransportCommand(data as object) as object
 
     else if isStringEqual(cmd, TransportCommand.NEXT_ITEM)
         if m.view.hasActiveSegment
-            ret.cmd = { type: "skip" }
+            ret.cmd = { type: TransportCommand.SKIP }
             ret.status = TransportStatus.SUCCESS
         else if m.global.queueManager.callFunc("getPosition") < m.global.queueManager.callFunc("getCount") - 1
             m.global.sceneManager.callFunc("clearPreviousScene")
@@ -625,7 +625,7 @@ function handleTransportCommand(data as object) as object
         end if
 
     else if isStringEqual(cmd, TransportCommand.SKIP)
-        ret.cmd = { type: "skip" }
+        ret.cmd = { type: TransportCommand.SKIP }
         ret.status = TransportStatus.SUCCESS
 
     else if isStringEqual(cmd, TransportCommand.LOOP)

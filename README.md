@@ -18,3 +18,7 @@
 ## Advanced
 
 For more advanced deployment methods, access to crash logs, or to learn how to setup a developer environment so you can write some code yourself please read the [DEVGUIDE](docs/DEVGUIDE.md).
+
+## Playback Troubleshooting
+
+Having issues with playback? [Here are things to try](https://github.com/jellyfin/jellyfin-roku/wiki/Playback-Troubleshooting).
