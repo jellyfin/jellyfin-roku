@@ -1358,32 +1358,32 @@
     </message>
     <message>
         <source>Trickplay Display</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyświetlanie Trickplay</translation>
         <extracomment>User Setting - Title for option</extracomment>
     </message>
     <message>
         <source>Select trickplay display format.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz format wyświetlania Trickplay.</translation>
         <extracomment>User Setting - Description for option</extracomment>
     </message>
     <message>
         <source>Force Transcoding</source>
-        <translation type="unfinished"></translation>
+        <translation>Wymuszanie transkodowania</translation>
         <extracomment>User Setting - Title for option</extracomment>
     </message>
     <message>
         <source>Force media to be transcoded.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wymuś transkodowanie multimediów.</translation>
         <extracomment>User Setting - Description for option</extracomment>
     </message>
     <message>
         <source>All Playable Media</source>
-        <translation type="unfinished"></translation>
+        <translation>Wszystkie odtwarzalne multimedia</translation>
         <extracomment>User Setting - Title for option</extracomment>
     </message>
     <message>
         <source>Force all playable media to be transcoded.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wymuś transkodowanie wszystkich odtwarzalnych multimediów.</translation>
         <extracomment>User Setting - Description for option</extracomment>
     </message>
     <message>
@@ -2435,6 +2435,14 @@
     <message>
         <source>No Default</source>
         <translation>Brak domyślnej</translation>
+    </message>
+    <message>
+        <source>Play from beginning</source>
+        <translation>Odtwarzaj od początku</translation>
+    </message>
+    <message>
+        <source>Resume from</source>
+        <translation>Wznów od</translation>
     </message>
 </context>
 </TS>
