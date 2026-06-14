@@ -6,7 +6,7 @@ import "pkg:/source/utils/config.bs"
 sub setFields()
     ' Callers building many rows at once can pass the title setting in to avoid each
     ' row re-reading it from m.global (which allocates a regex per call).
-    if m.top.titleFormat <> ""
+    if not isStringEqual(m.top.titleFormat, string.EMPTY)
         channelTitleContent = m.top.titleFormat
     else
         channelTitleContent = chainLookupReturn(m.global.session, "user.settings.tvChannelTitleInfo", LiveTVChannelTitle.NUMBERANDNAME)
