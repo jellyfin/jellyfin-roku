@@ -111,7 +111,9 @@ sub resetScheduleProgress()
     m.awaitingFirstPaint = true
     m.channelBatchOffset = 0
     m.channelHasPlaceholder = {}
-    if isValid(m.bgExpandTimer) then m.bgExpandTimer.control = "stop"
+    if isValid(m.bgExpandTimer) 
+        m.bgExpandTimer.control = "stop"
+    end if
 
     ' Reset the loaded horizon back to the initial narrow window
     m.gridEndDate.FromSeconds(m.gridStartDate.AsSeconds() + (m.initialWindowHours * 60 * 60))
