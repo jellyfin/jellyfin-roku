@@ -253,13 +253,13 @@ end sub
 
 sub displayTVChannelInfo(itemData as object)
     m.itemText.text = itemData.name
-    m.itemTextExtra.text = itemData.json.AlbumArtist
+    m.itemTextExtra.text = addPlaylistUpNextContext(itemData, itemData.json.AlbumArtist)
     m.itemPoster.uri = ImageURL(itemData.LookupCI("id"))
 end sub
 
 sub displayAudioInfo(itemData as object)
     m.itemText.text = itemData.name
-    m.itemTextExtra.text = itemData.json.AlbumArtist
+    m.itemTextExtra.text = addPlaylistUpNextContext(itemData, itemData.json.AlbumArtist)
     m.itemPoster.uri = ImageURL(itemData.LookupCI("id"))
 end sub
 
@@ -269,13 +269,13 @@ sub displayAudioBookInfo(itemData as object)
     end if
 
     m.itemText.text = itemData.name
-    m.itemTextExtra.text = itemData.json.AlbumArtist
+    m.itemTextExtra.text = addPlaylistUpNextContext(itemData, itemData.json.AlbumArtist)
     m.itemPoster.uri = ImageURL(itemData.LookupCI("id"))
 end sub
 
 sub displayMusicAlbumInfo(itemData as object)
     m.itemText.text = itemData.name
-    m.itemTextExtra.text = itemData.json.AlbumArtist
+    m.itemTextExtra.text = addPlaylistUpNextContext(itemData, itemData.json.AlbumArtist)
     m.itemPoster.uri = itemData.posterURL
 end sub
 
@@ -331,6 +331,7 @@ sub displayVideoInfo(itemData as object)
     end if
 
     m.itemPoster.uri = itemData.imageWidth = 180 ? itemData.posterURL : itemData.thumbnailURL
+    m.itemTextExtra.text = addPlaylistUpNextContext(itemData, "")
 end sub
 
 sub displayMovieInfo(itemData as object)
@@ -360,7 +361,7 @@ sub displayMovieInfo(itemData as object)
             textExtra = `${textExtra} - ${itemData.json.OfficialRating}`
         end if
     end if
-    m.itemTextExtra.text = textExtra
+    m.itemTextExtra.text = addPlaylistUpNextContext(itemData, textExtra)
 end sub
 
 sub displayProgramInfo(itemData as object)
@@ -421,9 +422,21 @@ sub displayEpisodeInfo(localGlobal as object, itemData as object)
     end if
 
     if isValid(m.itemTextExtra)
-        m.itemTextExtra.text = extraPrefix + itemData.LookupCI("name")
+        m.itemTextExtra.text = addPlaylistUpNextContext(itemData, extraPrefix + itemData.LookupCI("name"))
     end if
 end sub
+
+function addPlaylistUpNextContext(itemData as object, text as dynamic) as string
+    displayText = isValidAndNotEmpty(text) ? text : ""
+    playlistName = chainLookup(itemData, "json.PlaylistUpNextPlaylistName")
+    if not isValidAndNotEmpty(playlistName) then return displayText
+
+    if isValidAndNotEmpty(displayText)
+        return `[${playlistName}] ${displayText}`
+    end if
+
+    return `[${playlistName}]`
+end function
 
 '
 ' Draws and animates item progress bar

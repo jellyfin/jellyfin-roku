@@ -125,6 +125,10 @@
             <translation>Next Up</translation>
         </message>
         <message>
+            <source>Playlist Continue / Up Next</source>
+            <translation>Playlist Continue / Up Next</translation>
+        </message>
+        <message>
             <source>Recently Added in</source>
             <translation>Recently Added in</translation>
         </message>

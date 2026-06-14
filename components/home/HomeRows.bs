@@ -42,6 +42,9 @@ sub init()
     m.LoadNextUpTask = createObject("roSGNode", "LoadItemsTask")
     m.LoadNextUpTask.itemsToLoad = "nextUp"
 
+    m.LoadPlaylistUpNextTask = createObject("roSGNode", "LoadItemsTask")
+    m.LoadPlaylistUpNextTask.itemsToLoad = "playlistUpNext"
+
     m.LoadOnNowTask = createObject("roSGNode", "LoadItemsTask")
     m.LoadOnNowTask.itemsToLoad = "onNow"
 
@@ -275,6 +278,12 @@ function addHomeSection(sectionType as string) as boolean
         return true
     end if
 
+    ' Playlist Continue / Up Next items
+    if sectionType = "playlistupnext"
+        createPlaylistUpNextRow()
+        return true
+    end if
+
     ' Latest items in each library
     if sectionType = "latestmedia"
         createLatestInRows()
@@ -494,6 +503,23 @@ sub createNextUpRow()
     ' Load the Next Up Data
     m.LoadNextUpTask.observeField("content", "updateNextUpItems")
     m.LoadNextUpTask.control = "RUN"
+end sub
+
+' createPlaylistUpNextRow: Creates a row displaying playlist-ordered up next items
+'
+sub createPlaylistUpNextRow()
+    sectionName = tr("Playlist Continue / Up Next")
+
+    if not sectionExists(sectionName)
+        nextUpRow = m.top.content.CreateChild("HomeRow")
+        nextUpRow.title = sectionName
+        nextUpRow.imageWidth = homeRowItemSizes.WIDE_POSTER[0]
+        nextUpRow.cursorSize = homeRowItemSizes.WIDE_POSTER
+    end if
+
+    ' Load the Playlist Continue / Up Next Data
+    m.LoadPlaylistUpNextTask.observeField("content", "updatePlaylistUpNextItems")
+    m.LoadPlaylistUpNextTask.control = "RUN"
 end sub
 
 ' createMyListRow: Creates a row displaying items from the user's personal list
@@ -747,6 +773,50 @@ sub updateNextUpItems()
 
     ' Row does not exist, insert it into the home view
     m.top.content.insertChild(row, getSectionIndex(sectionName))
+    setRowItemSize()
+end sub
+
+' updatePlaylistUpNextItems: Processes LoadPlaylistUpNextTask content. Removes, Creates, or Updates playlist up next row as needed
+'
+sub updatePlaylistUpNextItems()
+    m.processedRowCount++
+    itemData = m.LoadPlaylistUpNextTask.content
+    m.LoadPlaylistUpNextTask.unobserveField("content")
+    m.LoadPlaylistUpNextTask.content = []
+    m.LoadPlaylistUpNextTask.control = "STOP"
+
+    sectionName = tr("Playlist Continue / Up Next")
+
+    if not isValidAndNotEmpty(itemData)
+        removeHomeSection(sectionName)
+        return
+    end if
+
+    ' remake row using the new data
+    row = CreateObject("roSGNode", "HomeRow")
+    row.title = sectionName
+    row.imageWidth = homeRowItemSizes.WIDE_POSTER[0]
+    row.cursorSize = homeRowItemSizes.WIDE_POSTER
+
+    for each item in itemData
+        if isChainValid(item, "json.UserData.PlayedPercentage")
+            item.PlayedPercentage = item.json.UserData.PlayedPercentage
+        end if
+
+        item.usePoster = row.usePoster
+        item.imageWidth = row.imageWidth
+        row.appendChild(item)
+    end for
+
+    ' Row already exists, replace it with new content
+    if sectionExists(sectionName)
+        m.top.content.replaceChild(row, getSectionIndex(sectionName))
+        setRowItemSize()
+        return
+    end if
+
+    ' Row does not exist, insert it into the home view
+    m.top.content.insertChild(row, getOriginalSectionIndex("playlistupnext"))
     setRowItemSize()
 end sub
 

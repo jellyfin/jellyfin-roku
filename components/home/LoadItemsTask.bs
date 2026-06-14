@@ -463,6 +463,40 @@ function loadNextUp() as object
     return results
 end function
 
+function loadPlaylistUpNext() as object
+    results = []
+
+    params = {
+        limit: 24
+    }
+
+    req = APIRequest(Substitute("PlaylistUpNext/{0}/Entries", m.global.session.user.id), params)
+    if not isValid(req) then return results
+
+    try
+        data = getJson(req)
+    catch e
+        return results
+    end try
+
+    if not isChainValid(data, "Items") then return results
+
+    for each entry in data.Items
+        item = entry.LookupCI("Item")
+        if not isValid(item) then continue for
+
+        item.AddReplace("PlaylistUpNextPlaylistId", entry.LookupCI("PlaylistId"))
+        item.AddReplace("PlaylistUpNextPlaylistName", entry.LookupCI("PlaylistName"))
+        item.AddReplace("PlaylistUpNextPlaylistIndex", entry.LookupCI("PlaylistIndex"))
+
+        tmp = CreateObject("roSGNode", "HomeData")
+        tmp.json = item
+        results.push(tmp)
+    end for
+
+    return results
+end function
+
 function loadFavorites() as object
     results = []
 
@@ -797,6 +831,11 @@ sub loadItems()
 
     if isStringEqual(m.top.itemsToLoad, "nextUp")
         m.top.content = loadNextUp()
+        return
+    end if
+
+    if isStringEqual(m.top.itemsToLoad, "playlistUpNext")
+        m.top.content = loadPlaylistUpNext()
         return
     end if
 
