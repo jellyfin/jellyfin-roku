@@ -1,3 +1,4 @@
+import "pkg:/source/enums/ItemType.bs"
 import "pkg:/source/enums/MediaPlaybackState.bs"
 import "pkg:/source/enums/SubtitleSelection.bs"
 import "pkg:/source/enums/TaskControl.bs"
@@ -586,10 +587,38 @@ function handleTransportCommand(data as object) as object
     else if isStringEqual(cmd, TransportCommand.NOWPLAYING)
         currentItem = m.global.queueManager.callFunc("getCurrentItem")
         if isValid(currentItem)
+            itemData = currentItem.json ?? currentItem
+            mediaItemType = LCase(itemData.Type)
+
+            ' Build a descriptive title including year (movies) or season/episode info (TV episodes).
+            ' NOTE: During testing (es-MX, Roku voice remote), Roku Voice only announced the base
+            ' title and did not read the year/season/episode suffix. This may be a limitation
+            ' of the locale/TTS, or may work correctly in other regions/languages. The full
+            ' title is still passed per the official spec, in case it is supported elsewhere.
+            if isStringEqual(mediaItemType, ItemType.MOVIE)
+                displayTitle = itemData.Name ?? itemData.title
+                if isValid(itemData.ProductionYear)
+                    displayTitle += `, ${itemData.ProductionYear}`
+                end if
+
+            else if isStringEqual(mediaItemType, ItemType.EPISODE)
+                season = isValid(itemData.ParentIndexNumber) ? StrI(itemData.ParentIndexNumber).trim() : "0"
+                episode = isValid(itemData.IndexNumber) ? StrI(itemData.IndexNumber).trim() : "0"
+                seasonStr = Left("0" + season, 2)
+                episodeStr = Left("0" + episode, 2)
+                displayTitle = `${itemData.SeriesName} - S${seasonStr}E${episodeStr} - ${itemData.Name ?? itemData.title}`
+                if isValid(itemData.ProductionYear)
+                    displayTitle += `, ${itemData.ProductionYear}`
+                end if
+
+            else
+                displayTitle = itemData.Name ?? itemData.title
+            end if
+
             appMgr = CreateObject("roAppManager")
             appMgr.SetNowPlayingContentMetaData({
-                title: currentItem.name ?? currentItem.title,
-                contentType: currentItem.type
+                title: displayTitle,
+                contentType: mediaItemType
             })
             ret.status = TransportStatus.SUCCESS
         else
