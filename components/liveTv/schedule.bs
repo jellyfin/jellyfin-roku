@@ -237,10 +237,14 @@ end sub
 ' slice's schedule arrives, so it stays off the first-paint critical path.
 sub populateChannelPosters(startIndex, count)
     last = startIndex + count - 1
-    if last > m.channelIdList.count() - 1 then last = m.channelIdList.count() - 1
+    if last > m.channelIdList.count() - 1 
+        last = m.channelIdList.count() - 1
+    end if
     for i = startIndex to last
         channel = m.scheduleGrid.content.GetChild(i)
-        if isValid(channel) then channel.callFunc("populatePoster")
+        if isValid(channel) 
+            channel.callFunc("populatePoster")
+        end if
     end for
 end sub
 
@@ -399,7 +403,7 @@ sub onProgramFocused()
     ' Exit if Channels not yet loaded
 
     channelId = m.channelIdList[m.scheduleGrid.programFocusedDetails.focusChannelIndex]
-    if channel = invalid or channel.getChildCount() = 0 or m.channelHasPlaceholder[channelId] = true
+    if not isValid(channel) or channel.getChildCount() = 0 or m.channelHasPlaceholder[channelId] = true
         m.detailsPane.programDetails = invalid
         return
     end if
