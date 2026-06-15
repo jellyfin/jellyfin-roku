@@ -1393,27 +1393,27 @@
     </message>
     <message>
         <source>Force live TV to be transcoded. If All Playable Media is already set to Force Transcode (Remux Disabled), this setting is ignored.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wymuś transkodowanie telewizji. Jeśli opcja „Wszystkie odtwarzalne multimedia” jest już ustawiona na „Wymuś transkodowanie (remux wyłączony), to ustawienie jest ignorowane.</translation>
         <extracomment>User Setting - Description for option</extracomment>
     </message>
     <message>
         <source>Media Segment Actions</source>
-        <translation type="unfinished"></translation>
+        <translation>Działania segmentów multimediów</translation>
         <extracomment>User Setting - Title for option</extracomment>
     </message>
     <message>
         <source>Settings relating to how Jellyfin should handle media segments.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustawienia dotyczące sposobu obsługi segmentów multimediów przez Jellyfin.</translation>
         <extracomment>User Setting - Description for option</extracomment>
     </message>
     <message>
         <source>Commercial Segments</source>
-        <translation type="unfinished"></translation>
+        <translation>Segmenty reklamowe</translation>
         <extracomment>User Setting - Title for option</extracomment>
     </message>
     <message>
         <source>What action should Jellyfin take for commercial segments?</source>
-        <translation type="unfinished"></translation>
+        <translation>Jakie działania powinien podjąć Jellyfin wobec segmentów reklamowych?</translation>
         <extracomment>User Setting - Description for option</extracomment>
     </message>
     <message>
@@ -1932,7 +1932,7 @@
     </message>
     <message>
         <source>Live TV</source>
-        <translation type="unfinished"></translation>
+        <translation>Telewizja</translation>
     </message>
     <message>
         <source>My List</source>
@@ -2196,7 +2196,7 @@
     </message>
     <message>
         <source>Force Transcode (Remux Disabled)</source>
-        <translation type="unfinished"></translation>
+        <translation>Wymuś transkodowanie (remux wyłączony)</translation>
     </message>
     <message>
         <source>Force Transcode (Remux Disabled) - disabled because of selected force transcoding setting</source>
@@ -2443,6 +2443,22 @@
     <message>
         <source>Resume from</source>
         <translation>Wznów od</translation>
+    </message>
+    <message>
+        <source>No cast data available.</source>
+        <translation>Dane dotyczące obsady nie są dostępne.</translation>
+    </message>
+    <message>
+        <source>as %1</source>
+        <translation>jako %1</translation>
+    </message>
+    <message>
+        <source>More with %1 in Your Library</source>
+        <translation>Więcej z %1 w bibliotece</translation>
+    </message>
+    <message>
+        <source>No other titles found in your library.</source>
+        <translation>Nie znaleziono innych tytułów w bibliotece.</translation>
     </message>
 </context>
 </TS>
