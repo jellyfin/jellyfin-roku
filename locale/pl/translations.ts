@@ -1418,17 +1418,17 @@
     </message>
     <message>
         <source>Intro Segments</source>
-        <translation type="unfinished"></translation>
+        <translation>Segmenty wprowadzające</translation>
         <extracomment>User Setting - Title for option</extracomment>
     </message>
     <message>
         <source>What action should Jellyfin take for intro segments?</source>
-        <translation type="unfinished"></translation>
+        <translation>Jakie działania powinien podjąć Jellyfin wobec segmentów wprowadzających?</translation>
         <extracomment>User Setting - Description for option</extracomment>
     </message>
     <message>
         <source>Outro Segments</source>
-        <translation type="unfinished"></translation>
+        <translation>Segmenty zakończeniowe</translation>
         <extracomment>User Setting - Title for option</extracomment>
     </message>
     <message>
