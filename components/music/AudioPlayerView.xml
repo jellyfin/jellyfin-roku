@@ -23,7 +23,7 @@
       <LayoutGroup id="buttons" layoutDirection="horiz" horizAlignment="center" itemSpacings="[45]">
         <Poster id="loop" width="64" height="64" uri="pkg:/images/icons/loop.png" opacity="0" />
         <Poster id="previous" width="64" height="64" uri="pkg:/images/icons/previous.png" opacity="0" />
-        <Poster id="play" width="64" height="64" uri="pkg:/images/icons/playPause.png" />
+        <Poster id="play" width="64" height="64" uri="pkg:/images/icons/playCircle.png" />
         <Poster id="stop" width="64" height="64" uri="pkg:/images/icons/stop.png" />
         <Poster id="next" width="64" height="64" uri="pkg:/images/icons/next.png" opacity="0" />
         <Poster id="shuffle" width="64" height="64" uri="pkg:/images/icons/shuffle.png" opacity="0" />
