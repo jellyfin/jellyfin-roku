@@ -1393,72 +1393,72 @@
     </message>
     <message>
         <source>Force live TV to be transcoded. If All Playable Media is already set to Force Transcode (Remux Disabled), this setting is ignored.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wymuś transkodowanie telewizji. Jeśli opcja „Wszystkie odtwarzalne multimedia” jest już ustawiona na „Wymuś transkodowanie (remux wyłączony), to ustawienie jest ignorowane.</translation>
         <extracomment>User Setting - Description for option</extracomment>
     </message>
     <message>
         <source>Media Segment Actions</source>
-        <translation type="unfinished"></translation>
+        <translation>Działania segmentów multimediów</translation>
         <extracomment>User Setting - Title for option</extracomment>
     </message>
     <message>
         <source>Settings relating to how Jellyfin should handle media segments.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustawienia dotyczące sposobu obsługi segmentów multimediów przez Jellyfin.</translation>
         <extracomment>User Setting - Description for option</extracomment>
     </message>
     <message>
         <source>Commercial Segments</source>
-        <translation type="unfinished"></translation>
+        <translation>Segmenty reklamowe</translation>
         <extracomment>User Setting - Title for option</extracomment>
     </message>
     <message>
         <source>What action should Jellyfin take for commercial segments?</source>
-        <translation type="unfinished"></translation>
+        <translation>Jakie działania powinien podjąć Jellyfin wobec segmentów reklamowych?</translation>
         <extracomment>User Setting - Description for option</extracomment>
     </message>
     <message>
         <source>Intro Segments</source>
-        <translation type="unfinished"></translation>
+        <translation>Segmenty wprowadzające</translation>
         <extracomment>User Setting - Title for option</extracomment>
     </message>
     <message>
         <source>What action should Jellyfin take for intro segments?</source>
-        <translation type="unfinished"></translation>
+        <translation>Jakie działania powinien podjąć Jellyfin wobec segmentów wprowadzających?</translation>
         <extracomment>User Setting - Description for option</extracomment>
     </message>
     <message>
         <source>Outro Segments</source>
-        <translation type="unfinished"></translation>
+        <translation>Segmenty zakończające</translation>
         <extracomment>User Setting - Title for option</extracomment>
     </message>
     <message>
         <source>What action should Jellyfin take for outro segments?</source>
-        <translation type="unfinished"></translation>
+        <translation>Jakie działania powinien podjąć Jellyfin wobec segmentów zakończających?</translation>
         <extracomment>User Setting - Description for option</extracomment>
     </message>
     <message>
         <source>Preview Segments</source>
-        <translation type="unfinished"></translation>
+        <translation>Segmenty zwiastunowe</translation>
         <extracomment>User Setting - Title for option</extracomment>
     </message>
     <message>
         <source>What action should Jellyfin take for preview segments?</source>
-        <translation type="unfinished"></translation>
+        <translation>Jakie działania powinien podjąć Jellyfin wobec segmentów zwiastunowych?</translation>
         <extracomment>User Setting - Description for option</extracomment>
     </message>
     <message>
         <source>Recap Segments</source>
-        <translation type="unfinished"></translation>
+        <translation>Segmenty podsumowujące</translation>
         <extracomment>User Setting - Title for option</extracomment>
     </message>
     <message>
         <source>What action should Jellyfin take for recap segments?</source>
-        <translation type="unfinished"></translation>
+        <translation>Jakie działania powinien podjąć Jellyfin wobec segmentów podsumowujących?</translation>
         <extracomment>User Setting - Description for option</extracomment>
     </message>
     <message>
         <source>Ask To Skip</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapytaj o pominięcie</translation>
         <extracomment>User Setting - Options</extracomment>
     </message>
     <message>
@@ -1468,92 +1468,92 @@
     </message>
     <message>
         <source>None</source>
-        <translation type="unfinished"></translation>
+        <translation>Brak</translation>
         <extracomment>User Setting - Options</extracomment>
     </message>
     <message>
         <source>No Chapter Data Found</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie znaleziono danych rozdziału</translation>
         <extracomment>Message shown in OSD when no chapter data is returned by the API</extracomment>
     </message>
     <message>
         <source>Use Web Client&apos;s Home Section Arrangement</source>
-        <translation type="unfinished"></translation>
+        <translation>Użyj układu sekcji głównej klienta internetowego</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Make the arrangement of the Roku home view sections match the web client&apos;s home screen. Jellyfin will need to be closed and reopened for change to take effect.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dopasuj układ sekcji widoku głównego Roku do ekranu głównego klienta internetowego. Aby zmiany zostały wprowadzone, należy zamknąć i ponownie otworzyć aplikację Jellyfin.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
         <source>Welcome to version</source>
-        <translation type="unfinished"></translation>
+        <translation>Witamy w wersji</translation>
         <extracomment>WhatsNewDialog title - Welcome to version 2.0.0</extracomment>
     </message>
     <message>
         <source>To view a complete list of changes visit</source>
-        <translation type="unfinished"></translation>
+        <translation>Aby zobaczyć pełną listę zmian, odwiedź</translation>
         <extracomment>WhatsNewDialog body text preceding the changelog URL</extracomment>
     </message>
     <message>
         <source>Random</source>
-        <translation type="unfinished"></translation>
+        <translation>Losowo</translation>
         <extracomment>General use word when we want to randomize data</extracomment>
     </message>
     <message>
         <source>... (Press * to read more)</source>
-        <translation type="unfinished"></translation>
+        <translation>... (Naciśnij *, aby przeczytać więcej)</translation>
         <extracomment>Ellipsis Text for when text overflows its container</extracomment>
     </message>
     <message>
         <source>Item Detail Screen</source>
-        <translation type="unfinished"></translation>
+        <translation>Ekran szczegółów pozycji</translation>
         <extracomment>User interface Menu - Title for option</extracomment>
     </message>
     <message>
         <source>Settings relating to the appearance of the item detail screen.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustawienia związane z wyglądem ekranu szczegółów pozycji.</translation>
         <extracomment>User interface Menu - Description for option</extracomment>
     </message>
     <message>
         <source>Community and Critical Ratings</source>
-        <translation type="unfinished"></translation>
+        <translation>Oceny społeczności i krytyków</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Ratings for how good a movie is</source>
-        <translation type="unfinished"></translation>
+        <translation>Oceny społeczności i krytyków z serwisu Rotten Tomatoes.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
         <source>Overview Content</source>
-        <translation type="unfinished"></translation>
+        <translation>Przegląd treści</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>A quick overview of the item selected - typically a short plot outline.</source>
-        <translation type="unfinished"></translation>
+        <translation>Krótki przegląd wybranej pozycji – zazwyczaj krótki zarys fabuły.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
         <source>Settings relating to the appearance of Library pages.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustawienia dotyczące wyglądu stron biblioteki.</translation>
         <extracomment>Libraries Setting - Setting description</extracomment>
     </message>
     <message>
         <source>Forget Filters</source>
-        <translation type="unfinished"></translation>
+        <translation>Odrzuć filtry</translation>
         <extracomment>Libraries Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Forget applied library filters when Jellyfin is closed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Odrzuć zastosowane filtry w bibliotekach przy wychodzeniu z Jellyfin.</translation>
         <extracomment>Libraries Setting - Setting description</extracomment>
     </message>
     <message>
         <source>Library Landscape Column Count</source>
-        <translation type="unfinished"></translation>
+        <translation>Liczba kolumn w formacie poziomym biblioteki</translation>
         <extracomment>Libraries Setting - Setting title</extracomment>
     </message>
     <message>
@@ -1706,7 +1706,7 @@
     </message>
     <message>
         <source>Skip</source>
-        <translation type="unfinished"></translation>
+        <translation>Pomiń</translation>
     </message>
     <message>
         <source>Sort by</source>
@@ -1932,7 +1932,7 @@
     </message>
     <message>
         <source>Live TV</source>
-        <translation type="unfinished"></translation>
+        <translation>Telewizja</translation>
     </message>
     <message>
         <source>My List</source>
@@ -2196,7 +2196,7 @@
     </message>
     <message>
         <source>Force Transcode (Remux Disabled)</source>
-        <translation type="unfinished"></translation>
+        <translation>Wymuś transkodowanie (remux wyłączony)</translation>
     </message>
     <message>
         <source>Force Transcode (Remux Disabled) - disabled because of selected force transcoding setting</source>
@@ -2435,6 +2435,30 @@
     <message>
         <source>No Default</source>
         <translation>Brak domyślnej</translation>
+    </message>
+    <message>
+        <source>Play from beginning</source>
+        <translation>Odtwarzaj od początku</translation>
+    </message>
+    <message>
+        <source>Resume from</source>
+        <translation>Wznów od</translation>
+    </message>
+    <message>
+        <source>No cast data available.</source>
+        <translation>Dane dotyczące obsady nie są dostępne.</translation>
+    </message>
+    <message>
+        <source>as %1</source>
+        <translation>jako %1</translation>
+    </message>
+    <message>
+        <source>More with %1 in Your Library</source>
+        <translation>Więcej z %1 w bibliotece</translation>
+    </message>
+    <message>
+        <source>No other titles found in your library.</source>
+        <translation>Nie znaleziono innych tytułów w bibliotece.</translation>
     </message>
 </context>
 </TS>

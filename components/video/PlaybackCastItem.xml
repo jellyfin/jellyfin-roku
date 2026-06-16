@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component name="PlaybackCastItem" extends="JFGroup">
+  <script type="text/brightscript" uri="pkg:/components/extras/ExtrasItem.bs" />
+  <children>
+    <LayoutGroup layoutDirection="vert" itemSpacings="[10, 0]">
+      <Poster id="posterImg" width="234" height="300" translation="[8,243]" failedBitmapUri="pkg:/images/baseline_person_white_48dp.png" />
+      <ScrollingText
+        id="pLabel"
+        horizAlign="left"
+        vertAlign="bottom"
+        height="48"
+        font="font:SmallestBoldSystemFont"
+        repeatCount="0" />
+      <ScrollingText
+        id="SubTitle"
+        horizAlign="left"
+        vertAlign="center"
+        height="32"
+        font="font:SmallestBoldSystemFont"
+        color="#777777FF"
+        repeatCount="0" />
+    </LayoutGroup>
+  </children>
+  <interface>
+    <field id="itemContent" type="node" onChange="showContent" />
+    <field id="itemHasFocus" type="boolean" onChange="focusChanged" />
+  </interface>
+</component>
