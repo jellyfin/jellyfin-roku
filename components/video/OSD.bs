@@ -22,7 +22,16 @@ sub init()
         end if
     end if
 
+    m.inactivityTimeoutSetting = chainLookupReturn(m.global.session, "user.settings.`playback.inactiveTimeoutLength`", "5").ToInt()
     m.inactivityTimer = m.top.findNode("inactivityTimer")
+    if isValid(m.inactivityTimer)
+        if m.inactivityTimeoutSetting = 0
+            inactivityTimerContainer = m.inactivityTimer.GetParent()
+            inactivityTimerContainer.removeChild(inactivityTimerContainer)
+            m.inactivityTimer = invalid
+        end if
+    end if
+
     m.videoInfo = m.top.findNode("videoInfo")
     m.itemTitle = m.top.findNode("itemTitle")
     m.videoPlayPause = m.top.findNode("videoPlayPause")
@@ -308,10 +317,14 @@ end sub
 sub onVisibleChanged()
     if m.top.visible
         resetFocusToDefaultButton()
-        m.inactivityTimer.observeField("fire", "inactiveCheck")
-        m.inactivityTimer.control = "start"
+        if isValid(m.inactivityTimer)
+            m.inactivityTimer.observeField("fire", "inactiveCheck")
+            m.inactivityTimer.control = "start"
+        end if
         return
     end if
+
+    if not isValid(m.inactivityTimer) then return
 
     m.inactivityTimer.unobserveField("fire")
     m.inactivityTimer.control = "stop"
@@ -344,13 +357,7 @@ sub inactiveCheck()
         return
     end if
 
-    ' If user has disabled the inactivity timeout in settings, ignore inactive check
-    inactivityTimeoutSetting = chainLookupReturn(m.global.session, "user.settings.`playback.inactiveTimeoutLength`", "5").ToInt()
-    if inactivityTimeoutSetting = 0
-        return
-    end if
-
-    if m.deviceInfo.timeSinceLastKeypress() >= inactivityTimeoutSetting
+    if m.deviceInfo.timeSinceLastKeypress() >= m.inactivityTimeoutSetting
         checkDisplaySiblingItem("")
         m.top.action = "hide"
     end if
