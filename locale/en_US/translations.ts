@@ -53,6 +53,10 @@
             <translation>Play from beginning</translation>
         </message>
         <message>
+            <source>Press Stop again to close player</source>
+            <translation>Press Stop again to close player</translation>
+        </message>
+        <message>
             <source>Please sign in</source>
             <translation>Please sign in</translation>
         </message>
