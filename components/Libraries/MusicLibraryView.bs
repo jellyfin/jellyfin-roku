@@ -1154,6 +1154,8 @@ function onKeyEvent(key as string, press as boolean) as boolean
 
         return true
     else if key = KeyCode.PLAY
+        if toggleAudioMiniPlayerPlayback() then return true
+
         itemToPlay = getItemFocused()
         if itemToPlay <> invalid
             m.top.quickPlayNode = itemToPlay
