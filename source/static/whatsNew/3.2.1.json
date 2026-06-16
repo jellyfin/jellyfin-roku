@@ -30,5 +30,9 @@
   {
     "description": "Honor position alignment tags in SRT",
     "author": "ferezvi"
+  },
+  {
+    "description": "Fix music playback controls on album and playlist song lists",
+    "author": "VX-101"
   }
 ]

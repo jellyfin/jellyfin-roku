@@ -18,5 +18,6 @@
     <field id="MusicArtistAlbumData" type="node" onChange="getData" />
     <field id="doneLoading" type="boolean" value="false" />
     <field id="isCompilation" type="boolean" value="false" />
+    <field id="selectionSource" type="string" value="" />
   </interface>
 </component>

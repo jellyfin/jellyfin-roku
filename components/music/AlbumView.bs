@@ -559,6 +559,10 @@ end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean
     if m.buttonGrp.isInFocusChain()
+        if press and isStringEqual(key, KeyCode.PLAY)
+            if toggleAudioMiniPlayerPlayback() then return true
+        end if
+
         if key = KeyCode.UP
             if m.buttonGrp.getChild(m.top.selectedButtonIndex).escape = "up"
                 ' If there is no overview content
