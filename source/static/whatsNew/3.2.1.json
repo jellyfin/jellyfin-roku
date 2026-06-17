@@ -38,5 +38,9 @@
   {
     "description": "Jump to last album in incomplete row on artist screen",
     "author": "VX-101"
+  },
+  {
+    "description": "Avoid non-ASCII title corruption in the full audio player",
+    "author": "VX-101"
   }
 ]
