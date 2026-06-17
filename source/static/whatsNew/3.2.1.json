@@ -40,7 +40,7 @@
     "author": "VX-101"
   },
   {
-    "description": "fixing muted audio in surround system setups",
+    "description": "Fix possible muted audio in certain surround system setups",
     "author": "ferezvi"
   }
 ]
