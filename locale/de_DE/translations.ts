@@ -2426,6 +2426,10 @@
         <source>Channel Logo</source>
         <translation>Kanallogo</translation>
     </message>
+    <message>
+        <source>Play from beginning</source>
+        <translation>Von Beginn starten</translation>
+    </message>
 </context>
 <context>
     <name></name>
