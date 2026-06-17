@@ -317,18 +317,12 @@ function MusicAlbumList(id as string)
 
         tmp.image = PosterImage(item.id)
         tmp.id = item.LookupCI("id")
-        tmp.title = item.LookupCI("name")
+        tmp.title = getMusicAlbumGridTitle(item)
         tmp.type = item.LookupCI("type")
         tmp.RunTimeTicks = item.LookupCI("RunTimeTicks")
 
-        tmp.shortdescriptionline1 = item.LookupCI("name")
-
-        if isChainValid(tmp, "image.url")
-            tmp.HDGRIDPOSTERURL = tmp.image.url
-            tmp.hdposterurl = tmp.image.url
-            tmp.SDGRIDPOSTERURL = tmp.image.url
-            tmp.sdposterurl = tmp.image.url
-        end if
+        tmp.shortdescriptionline1 = tmp.title
+        setMusicAlbumGridPoster(tmp)
 
         results.push(tmp)
     end for
@@ -362,18 +356,12 @@ function AppearsOnList(id as string)
 
         tmp.image = PosterImage(item.id)
         tmp.id = item.LookupCI("id")
-        tmp.title = item.LookupCI("name")
+        tmp.title = getMusicAlbumGridTitle(item)
         tmp.type = item.LookupCI("type")
         tmp.RunTimeTicks = item.LookupCI("RunTimeTicks")
 
-        tmp.shortdescriptionline1 = item.LookupCI("name")
-
-        if isChainValid(tmp, "image.url")
-            tmp.HDGRIDPOSTERURL = tmp.image.url
-            tmp.hdposterurl = tmp.image.url
-            tmp.SDGRIDPOSTERURL = tmp.image.url
-            tmp.sdposterurl = tmp.image.url
-        end if
+        tmp.shortdescriptionline1 = tmp.title
+        setMusicAlbumGridPoster(tmp)
 
         results.push(tmp)
     end for
@@ -382,6 +370,26 @@ function AppearsOnList(id as string)
 
     return row
 end function
+
+function getMusicAlbumGridTitle(item as object) as string
+    title = item.LookupCI("name")
+    if isValidAndNotEmpty(title) then return title
+
+    return tr("Unknown Album")
+end function
+
+sub setMusicAlbumGridPoster(album as object)
+    posterURL = "pkg:/images/icons/cd.png"
+
+    if isChainValid(album, "image.url")
+        posterURL = album.image.url
+    end if
+
+    album.HDGRIDPOSTERURL = posterURL
+    album.hdposterurl = posterURL
+    album.SDGRIDPOSTERURL = posterURL
+    album.sdposterurl = posterURL
+end sub
 
 ' Get list of songs belonging to an artist
 function GetSongsByArtist(id as string, params = {} as object)

@@ -355,8 +355,6 @@ sub loadItems()
                     tmp.type = "MusicAlbum"
                     if api.items.HeadImageURLByName(item.id, "primary")
                         tmp.posterURL = ImageURL(item.id, "Primary")
-                    else
-                        tmp.posterURL = ImageURL(item.id, "backdrop")
                     end if
                 else if item.Type = "MusicArtist"
                     tmp = CreateObject("roSGNode", "MusicArtistData")
