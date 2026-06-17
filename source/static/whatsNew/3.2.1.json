@@ -32,6 +32,14 @@
     "author": "ferezvi"
   },
   {
+    "description": "Fix music playback controls on album and playlist song lists",
+    "author": "VX-101"
+  },
+  {
+    "description": "Jump to last album in incomplete row on artist screen",
+    "author": "VX-101"
+  },
+  {
     "description": "fixing muted audio in surround system setups",
     "author": "ferezvi"
   }

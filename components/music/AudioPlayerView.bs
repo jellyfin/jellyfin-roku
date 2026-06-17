@@ -68,7 +68,7 @@ sub init()
 
     m.buttons.setFocus(true)
 
-    if m.global.audioPlayer.state = "playing"
+    if isValidAndNotEmpty(m.global.audioPlayer.audioData)
         onAudioDataChanged()
     end if
 end sub
@@ -130,6 +130,7 @@ sub setupAudioNode()
     m.global.audioPlayer.observeFieldScoped("bufferingStatus", "bufferPositionChanged")
     m.global.audioPlayer.observeFieldScoped("audioData", "onAudioDataChanged")
     m.global.audioPlayer.observeFieldScoped("loopmode", "setLoopButtonImage")
+    m.global.audioPlayer.observeFieldScoped("state", "onAudioPlayerStateChanged")
 end sub
 
 ' Creates audio node used to play song(s)
@@ -138,11 +139,13 @@ sub unobserveAll()
     m.global.audioPlayer.unobserveFieldScoped("bufferingStatus")
     m.global.audioPlayer.unobserveFieldScoped("audioData")
     m.global.audioPlayer.unobserveFieldScoped("loopmode")
+    m.global.audioPlayer.unobserveFieldScoped("state")
 end sub
 
 ' Setup playback buttons, default to Play button selected
 sub setupButtons()
     m.buttons = m.top.findNode("buttons")
+    m.playButton = m.top.findNode("play")
     m.top.observeField("selectedButtonIndex", "onButtonSelectedChange")
 
     ' If we're playing a mixed playlist, remove the shuffle and loop buttons
@@ -155,11 +158,13 @@ sub setupButtons()
 
         m.previouslySelectedButtonIndex = 0
         m.top.selectedButtonIndex = 1
+        updatePlayButtonState()
         return
     end if
 
     m.previouslySelectedButtonIndex = 1
     m.top.selectedButtonIndex = 2
+    updatePlayButtonState()
 end sub
 
 ' Event handler when user selected a different playback button
@@ -301,7 +306,11 @@ sub endScreenSaver()
 end sub
 
 sub displayMiniPlayer()
-    if not isStringEqual(m.global.audioPlayer.state, MediaPlaybackState.PLAYING)
+    audioState = m.global.audioPlayer.state
+    ' Paused or buffering audio should still return to the mini-player instead of clearing playback.
+    isActiveAudioState = isStringEqual(audioState, MediaPlaybackState.PLAYING) or isStringEqual(audioState, MediaPlaybackState.PAUSED) or isStringEqual(audioState, MediaPlaybackState.BUFFERING)
+
+    if not isActiveAudioState
         m.global.queueManager.callFunc("clear")
         m.global.audioPlayer.control = "stop"
         return
@@ -329,6 +338,20 @@ function playAction() as boolean
 
     return true
 end function
+
+sub onAudioPlayerStateChanged()
+    updatePlayButtonState()
+end sub
+
+sub updatePlayButtonState()
+    if not isValid(m.playButton) then return
+
+    if isStringEqual(m.global.audioPlayer.state, MediaPlaybackState.PLAYING)
+        m.playButton.uri = "pkg:/images/icons/pauseCircle.png"
+    else
+        m.playButton.uri = "pkg:/images/icons/playCircle.png"
+    end if
+end sub
 
 function stopClicked() as boolean
     m.global.queueManager.callFunc("clear")
