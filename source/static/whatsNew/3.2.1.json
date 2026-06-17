@@ -30,5 +30,9 @@
   {
     "description": "Honor position alignment tags in SRT",
     "author": "ferezvi"
+  },
+  {
+    "description": "fixing muted audio in surround system setups",
+    "author": "ferezvi"
   }
 ]
