@@ -38,5 +38,9 @@
   {
     "description": "Jump to last album in incomplete row on artist screen",
     "author": "VX-101"
+  },
+  {
+    "description": "Fix possible muted audio in certain surround system setups",
+    "author": "ferezvi"
   }
 ]
