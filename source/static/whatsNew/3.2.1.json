@@ -34,5 +34,16 @@
   {
     "description": "Reduce LiveTV EPG loading and re-entry times",
     "author": "tomeko"
+  },
+    "description": "Fix music playback controls on album and playlist song lists",
+    "author": "VX-101"
+  },
+  {
+    "description": "Jump to last album in incomplete row on artist screen",
+    "author": "VX-101"
+  },
+  {
+    "description": "Fix possible muted audio in certain surround system setups",
+    "author": "ferezvi"
   }
 ]
