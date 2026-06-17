@@ -27,7 +27,7 @@ sub init()
     if isValid(m.inactivityTimer)
         if m.inactivityTimeoutSetting = 0
             inactivityTimerContainer = m.inactivityTimer.GetParent()
-            inactivityTimerContainer.removeChild(inactivityTimerContainer)
+            inactivityTimerContainer.removeChild(m.inactivityTimer)
             m.inactivityTimer = invalid
         end if
     end if
