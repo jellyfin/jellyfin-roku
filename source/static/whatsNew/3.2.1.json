@@ -50,5 +50,9 @@
   {
     "description": "Reduce LiveTV EPG loading and re-entry times",
     "author": "tomeko"
+  },
+  {
+    "description": "Add voice control support for skip, play/pause, start over, next episode, and \"what's playing?\"",
+    "author": "ferezvi"
   }
 ]
