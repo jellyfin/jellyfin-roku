@@ -46,7 +46,7 @@
     <timer id="playbackCheckTimer" repeat="false" duration="1" />
     <timer id="bufferStuckTimer" repeat="true" duration="3" />
     <timer id="bufferCheckTimer" repeat="true" />
-    <OSD id="osd" visible="false" inactiveTimeout="5" />
+    <OSD id="osd" visible="false" />
     <PlaybackCastPopup id="castPopup" visible="false" />
 
     <Rectangle id="chapterList" visible="false" color="0x00000098" width="400" height="380" translation="[103,210]">
