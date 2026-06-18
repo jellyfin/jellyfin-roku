@@ -1,4 +1,6 @@
+import "pkg:/source/enums/TransportCommand.bs"
 import "pkg:/source/utils/misc.bs"
+
 ' VoiceInputTask: Listens for roInput events on its own thread.
 ' Based on Roku's official transport-control sample.
 ' Uses enableTransportEvents() to receive voice/transport commands.
