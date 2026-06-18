@@ -6,8 +6,27 @@ import "pkg:/source/utils/misc.bs"
 
 sub init()
     m.state = TaskControl.RUN
-    m.channelScheduleLimit = 50
-    m.channelScheduleLoadedCount = 0
+
+    ' All channel rows are built up front (cheaply - logos deferred) so wrap-around
+    ' navigation is stable, then schedules load in batches over that list: a small
+    ' first batch for a fast first paint, then larger batches to finish the rest
+    ' (including the wrap-around tail) in a few requests.
+    m.channelScheduleLimit = 12
+    m.channelBackgroundLimit = 60
+    m.currentBatchSize = m.channelScheduleLimit
+    m.channelBatchOffset = 0
+    m.channelHasPlaceholder = {}
+    m.channelIdList = []
+    m.channelIndex = {}
+
+    ' Progressive load tuning:
+    ' Paint a narrow window first so the grid appears quickly, then expand the
+    ' loaded time range in the background up to the full horizon.
+    m.initialWindowHours = 12
+    m.backgroundWindowHours = 24
+    m.backgroundExpandStep = 3
+    m.allChannelsLoaded = false
+    m.awaitingFirstPaint = true
 
     m.EPGLaunchCompleteSignaled = false
     m.scheduleGrid = m.top.findNode("scheduleGrid")
@@ -22,7 +41,7 @@ sub init()
     m.gridStartDate = CreateObject("roDateTime")
     m.scheduleGrid.contentStartTime = m.gridStartDate.AsSeconds() - 1800
     m.gridEndDate = createObject("roDateTime")
-    m.gridEndDate.FromSeconds(m.gridStartDate.AsSeconds() + (24 * 60 * 60))
+    m.gridEndDate.FromSeconds(m.gridStartDate.AsSeconds() + (m.initialWindowHours * 60 * 60))
 
     m.scheduleGrid.observeField("programFocused", "onProgramFocused")
     m.scheduleGrid.observeField("programSelected", "onProgramSelected")
@@ -36,6 +55,9 @@ sub init()
 
     m.gridMoveAnimation = m.top.findNode("gridMoveAnimation")
     m.gridMoveAnimationPosition = m.top.findNode("gridMoveAnimationPosition")
+
+    m.bgExpandTimer = m.top.findNode("bgExpandTimer")
+    m.bgExpandTimer.observeField("fire", "onBgExpandTimerFire")
 
     m.LoadChannelsTask = createObject("roSGNode", "LoadChannelsTask")
     m.LoadChannelsTask.observeField("channels", "onChannelListLoaded")
@@ -57,11 +79,46 @@ sub init()
 
 end sub
 
+' Load the full channel list in one request. Building every row up front (cheaply -
+' logos are deferred, see ChannelData.deferPoster) keeps the grid's row count stable
+' so wrap-around navigation always targets the correct channel. Schedules then load
+' in batches over this list.
 sub loadChannelList()
     if not isStringEqual(m.state, TaskControl.RUN) then return
     startLoadingSpinner()
+    m.LoadChannelsTask.control = TaskControl.STOP
     m.LoadChannelsTask.observeField("channels", "onChannelListLoaded")
     m.LoadChannelsTask.control = TaskControl.RUN
+end sub
+
+' Join channel ids into the comma-separated form the schedule endpoint expects.
+function joinChannelIds(ids) as string
+    result = ""
+    if isValid(ids) and ids.count() > 0
+        for i = 0 to ids.count() - 1
+            if i > 0 
+                result = result + ", "
+            end if
+            result = result + ids[i]
+        end for
+    end if
+    return result
+end function
+
+' Reset progressive-load state so the next channel load starts a fresh initial window.
+sub resetScheduleProgress()
+    m.allChannelsLoaded = false
+    m.awaitingFirstPaint = true
+    m.channelBatchOffset = 0
+    m.channelHasPlaceholder = {}
+    if isValid(m.bgExpandTimer) 
+        m.bgExpandTimer.control = "stop"
+    end if
+
+    ' Reset the loaded horizon back to the initial narrow window
+    m.gridEndDate.FromSeconds(m.gridStartDate.AsSeconds() + (m.initialWindowHours * 60 * 60))
+    m.LoadScheduleTask.startTime = m.gridStartDate.ToISOString()
+    m.LoadScheduleTask.endTime = m.gridEndDate.ToISOString()
 end sub
 
 sub onFilterSet()
@@ -86,6 +143,8 @@ sub onFilterSet()
     m.channelIdList = []
     m.channelIndex = {}
 
+    resetScheduleProgress()
+
     loadChannelList()
 end sub
 
@@ -103,59 +162,93 @@ sub onSearchTermSet()
     end if
 
     m.gridData.removeChildren(m.gridData.getChildren(-1, 0))
-    m.channelScheduleLoadedCount = 0
     m.loadedChannels = {}
     m.channelIdList = []
     m.channelIndex = {}
 
+    resetScheduleProgress()
+
     loadChannelList()
 end sub
 
-' List of channels loaded
+' All channels arrived. Build every row up front (cheaply - logos deferred) so the
+' grid's row count is stable for wrap-around, then load schedules in batches.
 sub onChannelListLoaded()
     m.LoadChannelsTask.control = TaskControl.STOP
     m.LoadChannelsTask.unobserveField("channels")
 
-    counter = 0
+    channels = m.LoadChannelsTask.channels
+
+    m.channelBatchOffset = 0
+    m.channelHasPlaceholder = {}
     m.channelIdList = []
     m.channelIndex = {}
+    counter = 0
 
     'if search returns no channels
-    if m.LoadChannelsTask.channels.count() = 0
+    if channels.count() = 0
+        m.LoadChannelsTask.channels = []
         stopLoadingSpinner()
         return
     end if
 
-    for each item in m.LoadChannelsTask.channels
+    for each item in channels
         m.gridData.appendChild(item)
         m.channelIndex[item.Id] = counter
         m.channelIdList.push(item.Id)
+
+        ' Placeholder program shows channel name while EPG loads,
+        ' replacing the default "No data available" TimeGrid text.
+        placeholder = createObject("roSGNode", "ContentNode")
+        placeholder.title = item.Title
+        placeholder.PlayStart = m.gridStartDate.AsSeconds() - 1800
+        placeholder.PlayDuration = 25 * 3600
+        item.appendChild(placeholder)
+        m.channelHasPlaceholder[item.Id] = true
+
         counter++
     end for
 
-    loadScheduleData()
-
-    if m.EPGLaunchCompleteSignaled = false
-        m.top.signalBeacon("EPGLaunchComplete") ' Required Roku Performance monitoring
-        m.EPGLaunchCompleteSignaled = true
-    end if
-
     m.LoadChannelsTask.channels = []
+
+    loadScheduleBatch()
 end sub
 
-sub loadScheduleData()
+' Load the initial-window schedule for the next slice of channels. The first slice is
+' small (fast first paint); later slices are larger to finish the list in fewer requests.
+sub loadScheduleBatch()
     if not isStringEqual(m.state, TaskControl.RUN) then return
+
+    if m.channelBatchOffset = 0
+        m.currentBatchSize = m.channelScheduleLimit
+    else
+        m.currentBatchSize = m.channelBackgroundLimit
+    end if
+
+    channelSlice = m.channelIdList.slice(m.channelBatchOffset, m.channelBatchOffset + m.currentBatchSize)
+
     m.LoadScheduleTask.control = TaskControl.STOP
-
     m.LoadScheduleTask.observeField("schedule", "onScheduleLoaded")
-
-    startingIndex = m.channelScheduleLoadedCount >= 1 ? m.channelScheduleLoadedCount - 1 : 0
-
-    m.LoadScheduleTask.channelIds = m.channelIdList.slice(startingIndex, startingIndex + m.channelScheduleLimit).join(", ")
+    m.LoadScheduleTask.channelIds = joinChannelIds(channelSlice)
     m.LoadScheduleTask.control = TaskControl.RUN
 end sub
 
-' When LoadScheduleTask completes (initial or more data) and we have a schedule to display
+' Build channel logos for a slice of rows (deferred from row creation). Runs after the
+' slice's schedule arrives, so it stays off the first-paint critical path.
+sub populateChannelPosters(startIndex, count)
+    last = startIndex + count - 1
+    if last > m.channelIdList.count() - 1 
+        last = m.channelIdList.count() - 1
+    end if
+    for i = startIndex to last
+        channel = m.scheduleGrid.content.GetChild(i)
+        if isValid(channel) 
+            channel.callFunc("populatePoster")
+        end if
+    end for
+end sub
+
+' When LoadScheduleTask completes (initial, background expansion, or scroll) and we have a schedule to display
 sub onScheduleLoaded()
     m.LoadScheduleTask.unobserveField("schedule")
 
@@ -164,12 +257,78 @@ sub onScheduleLoaded()
         return
     end if
 
-    for each item in m.LoadScheduleTask.schedule
+    isFirstPaint = m.awaitingFirstPaint
+
+    ' Build this slice's channel logos before merging so each program inherits the
+    ' channel's logo (channelLogoUri). Only needed during the initial per-slice pass;
+    ' background/scroll expansion reuses logos already populated here.
+    if not m.allChannelsLoaded
+        populateChannelPosters(m.channelBatchOffset, m.currentBatchSize)
+    end if
+
+    applyScheduleResults(m.LoadScheduleTask.schedule)
+
+    m.scheduleGrid.showLoadingDataFeedback = false
+
+    ' Only claim focus on the very first paint. Background expansion and scroll loads
+    ' must not steal focus from the details pane or fight the user's scrolling.
+    if isFirstPaint
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        group.lastFocus = m.scheduleGrid
+    end if
+    stopLoadingSpinner()
+
+    m.LoadScheduleTask.schedule = invalid
+
+    if isFirstPaint
+        m.awaitingFirstPaint = false
+        if m.EPGLaunchCompleteSignaled = false
+            m.top.signalBeacon("EPGLaunchComplete") ' Required Roku Performance monitoring
+            m.EPGLaunchCompleteSignaled = true
+        end if
+    end if
+
+    ' Phase 1: keep loading schedule batches until every channel's initial window is
+    ' covered, then switch to background time-window expansion. Background/scroll
+    ' expansion runs after this and skips the advance.
+    if not m.allChannelsLoaded
+        m.channelBatchOffset += m.currentBatchSize
+        if m.channelBatchOffset < m.channelIdList.count()
+            loadScheduleBatch()
+            return
+        end if
+        m.allChannelsLoaded = true
+        startBackgroundExpansion()
+    end if
+end sub
+
+' Merge a batch of program nodes into their channels: drop the channel-name
+' placeholder on first real program, skip duplicates from overlapping fetch windows
+' (programs are sorted by start time, so comparing against the channel's last loaded
+' program is enough), and stamp channel logo/name onto each program.
+sub applyScheduleResults(schedule)
+    if not isValid(schedule) then return
+
+    for each item in schedule
         channelIndex = m.channelIndex[item.ChannelId]
         if not isValid(channelIndex) then continue for
 
         channel = m.scheduleGrid.content.GetChild(channelIndex)
         if not isValid(channel) then continue for
+
+        ' Remove the channel-name placeholder before inserting the first real program.
+        if m.channelHasPlaceholder[item.ChannelId] = true
+            channel.removeChild(channel.getChild(0))
+            m.channelHasPlaceholder[item.ChannelId] = false
+        end if
+
+        childCount = channel.getChildCount()
+        if childCount > 0
+            lastProg = channel.getChild(childCount - 1)
+            if isValid(lastProg) and item.PlayStart < (lastProg.PlayStart + lastProg.PlayDuration)
+                continue for
+            end if
+        end if
 
         if channel.PosterUrl <> ""
             item.channelLogoUri = channel.PosterUrl
@@ -183,25 +342,49 @@ sub onScheduleLoaded()
 
         m.loadedChannels[item.ChannelId] = 1
     end for
+end sub
 
-    m.scheduleGrid.showLoadingDataFeedback = false
+' Begin filling the rest of the day in the background, off the first-paint critical path.
+sub startBackgroundExpansion()
+    if m.gridEndDate.AsSeconds() >= m.gridStartDate.AsSeconds() + (m.backgroundWindowHours * 60 * 60)
+        return
+    end if
+    m.bgExpandTimer.control = "start"
+end sub
 
-    group = m.global.sceneManager.callFunc("getActiveScene")
-    group.lastFocus = m.scheduleGrid
-    stopLoadingSpinner()
-
-    m.channelScheduleLoadedCount = m.loadedChannels.count()
-    m.LoadScheduleTask.schedule = invalid
-
-    ' Received fewer channels than requested, so we likely have an incomplete EPG
-    ' Don't try to load any more channels even if we haven't hit the expected number of channels
-    if m.channelScheduleLoadedCount < m.channelScheduleLimit
+' Tick the background expansion: load the next time slice for all channels when idle.
+sub onBgExpandTimerFire()
+    if not isStringEqual(m.state, TaskControl.RUN)
+        m.bgExpandTimer.control = "stop"
         return
     end if
 
-    if m.LoadChannelsTask.totalRecordCount > m.channelScheduleLoadedCount
-        loadScheduleData()
+    ' Stop once the full horizon is loaded.
+    if m.gridEndDate.AsSeconds() >= m.gridStartDate.AsSeconds() + (m.backgroundWindowHours * 60 * 60)
+        m.bgExpandTimer.control = "stop"
+        return
     end if
+
+    ' Yield to in-flight loads (scroll expansion shares the same task node).
+    if isStringEqual(m.LoadScheduleTask.state, TaskControl.RUN) then return
+
+    expandScheduleWindow(m.backgroundExpandStep)
+end sub
+
+' Extend the loaded time window by stepHours for all channels. Shared by the
+' background timer and scroll expansion; both advance m.gridEndDate monotonically
+' and are serialized by the LoadScheduleTask "run" state guard.
+sub expandScheduleWindow(stepHours)
+    sliceStart = m.gridEndDate.ToISOString()
+    m.gridEndDate.FromSeconds(m.gridEndDate.AsSeconds() + (stepHours * 60 * 60))
+    sliceEnd = m.gridEndDate.ToISOString()
+
+    m.LoadScheduleTask.observeField("schedule", "onScheduleLoaded")
+
+    m.LoadScheduleTask.channelIds = joinChannelIds(m.channelIdList)
+    m.LoadScheduleTask.startTime = sliceStart
+    m.LoadScheduleTask.endTime = sliceEnd
+    m.LoadScheduleTask.control = TaskControl.RUN
 end sub
 
 sub onProgramFocused()
@@ -219,7 +402,8 @@ sub onProgramFocused()
 
     ' Exit if Channels not yet loaded
 
-    if channel = invalid or channel.getChildCount() = 0
+    channelId = m.channelIdList[m.scheduleGrid.programFocusedDetails.focusChannelIndex]
+    if not isValid(channel) or channel.getChildCount() = 0 or m.channelHasPlaceholder[channelId] = true
         m.detailsPane.programDetails = invalid
         return
     end if
@@ -300,17 +484,21 @@ sub onWatchChannelSelected()
     m.top.watchChannel = m.detailsPane.channel
 end sub
 
-' As user scrolls grid, check if more data requries to be loaded
+' As user scrolls grid, check if more data requires to be loaded
 sub onGridScrolled()
-    ' If we're within 12 hours of end of grid, load next 24hrs of data
-    if m.scheduleGrid.leftEdgeTargetTime + (12 * 60 * 60) > m.gridEndDate.AsSeconds()
+    ' Don't let scroll prefetch run until the initial per-channel batch load has
+    ' finished. Otherwise a future-window fetch can land on a channel before its
+    ' current-window data, and the onScheduleLoaded dedup drops the real current
+    ' programs as if they were duplicates (programs are assumed to arrive in order).
+    if not m.allChannelsLoaded then return
 
-        ' Ensure the task is not already (still) running,
-        if m.LoadScheduleTask.state <> "run"
-            m.LoadScheduleTask.startTime = m.gridEndDate.ToISOString()
-            m.gridEndDate.FromSeconds(m.gridEndDate.AsSeconds() + (24 * 60 * 60))
-            m.LoadScheduleTask.endTime = m.gridEndDate.ToISOString()
-            m.LoadScheduleTask.control = "RUN"
+    ' If we're within 6 hours of the loaded edge, load the next slice of data.
+    ' (Background expansion proactively fills toward the full horizon; this covers
+    ' fast scrolling and scrolling beyond that horizon.)
+    if m.scheduleGrid.leftEdgeTargetTime + (6 * 60 * 60) > m.gridEndDate.AsSeconds()
+        ' Ensure the task is not already (still) running.
+        if not isStringEqual(m.LoadScheduleTask.state, TaskControl.RUN)
+            expandScheduleWindow(6)
         end if
     end if
 end sub
@@ -362,6 +550,57 @@ sub onRecordOperationDone()
     end if
 end sub
 
+' Tear down all tasks, timers, observers and content held by this guide instance.
+' The node is recreated on each guide open, so this prevents tasks/observers/content
+' from leaking across open/close cycles (see issue #598).
+sub dispose()
+    m.state = TaskControl.STOP
+
+    if isValid(m.bgExpandTimer)
+        m.bgExpandTimer.control = "stop"
+        m.bgExpandTimer.unobserveField("fire")
+    end if
+
+    if isValid(m.LoadChannelsTask)
+        m.LoadChannelsTask.control = TaskControl.STOP
+        m.LoadChannelsTask.unobserveField("channels")
+    end if
+
+    if isValid(m.LoadScheduleTask)
+        m.LoadScheduleTask.control = TaskControl.STOP
+        m.LoadScheduleTask.unobserveField("schedule")
+    end if
+
+    if isValid(m.LoadProgramDetailsTask)
+        m.LoadProgramDetailsTask.control = TaskControl.STOP
+        m.LoadProgramDetailsTask.unobserveField("programDetails")
+    end if
+
+    if isValid(m.RecordProgramTask)
+        m.RecordProgramTask.control = TaskControl.STOP
+        m.RecordProgramTask.unobserveField("recordOperationDone")
+    end if
+
+    if isValid(m.detailsPane)
+        m.detailsPane.unobserveField("watchSelectedChannel")
+        m.detailsPane.unobserveField("recordSelectedChannel")
+        m.detailsPane.unobserveField("recordSeriesSelectedChannel")
+    end if
+
+    if isValid(m.scheduleGrid)
+        m.scheduleGrid.unobserveField("programFocused")
+        m.scheduleGrid.unobserveField("programSelected")
+        m.scheduleGrid.unobserveField("leftEdgeTargetTime")
+        m.scheduleGrid.content = invalid
+    end if
+
+    m.gridData = invalid
+    m.loadedChannels = {}
+    m.channelIdList = []
+    m.channelIndex = {}
+    m.channelHasPlaceholder = {}
+end sub
+
 function onKeyEvent(key as string, press as boolean) as boolean
     if not press then return false
 
@@ -378,21 +617,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
             return true
         end if
 
-        m.state = TaskControl.STOP
-
-        m.LoadChannelsTask.control = TaskControl.STOP
-        m.LoadScheduleTask.control = TaskControl.STOP
-
-        m.gridData = createObject("roSGNode", "ContentNode")
-        m.scheduleGrid.content = m.gridData
-
-        m.LoadChannelsTask.channels = []
-        m.LoadScheduleTask.schedule = []
-        m.LoadScheduleTask.channelIds = string.EMPTY
-
-        m.loadedChannels = {}
-        m.channelIdList = []
-        m.channelIndex = {}
+        dispose()
 
         m.global.sceneManager.callFunc("popScene")
         return true

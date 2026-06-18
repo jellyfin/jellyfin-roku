@@ -4,5 +4,13 @@
     <field id="image" type="node" onChange="setPoster" />
     <field id="channelID" type="string" />
     <field id="selectedAudioStreamIndex" type="integer" value="0" />
+    <!-- Optional perf hints used by the TV guide, which builds hundreds of rows at once:
+         titleFormat lets the caller pass the (shared) channel-title setting once instead
+         of each row re-reading it; deferPoster skips logo-URL building during setFields so
+         it can be done later off the critical path via populatePoster(). Both default to
+         the original behaviour so other callers are unaffected. -->
+    <field id="titleFormat" type="string" value="" />
+    <field id="deferPoster" type="boolean" value="false" />
+    <function name="populatePoster" />
   </interface>
 </component>
