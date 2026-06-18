@@ -32,9 +32,6 @@
     "author": "ferezvi"
   },
   {
-    "description": "Reduce LiveTV EPG loading and re-entry times",
-    "author": "tomeko"
-  },
     "description": "Fix music playback controls on album and playlist song lists",
     "author": "VX-101"
   },
@@ -49,5 +46,9 @@
   {
     "description": "Add setting for playback controls inactivity timeout length",
     "author": "Catmasterson"
+  },
+  {
+    "description": "Reduce LiveTV EPG loading and re-entry times",
+    "author": "tomeko"
   }
 ]
