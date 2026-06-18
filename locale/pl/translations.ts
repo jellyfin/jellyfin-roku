@@ -1558,37 +1558,37 @@
     </message>
     <message>
         <source>Number of columns in library view when showing landscape (wide) images</source>
-        <translation type="unfinished"></translation>
+        <translation>Liczba kolumn w widoku biblioteki podczas wyświetlania obrazów w orientacji poziomej (szerokiej)</translation>
         <extracomment>Libraries Setting - Setting description</extracomment>
     </message>
     <message>
         <source>Library Portrait Column Count</source>
-        <translation type="unfinished"></translation>
+        <translation>Liczba kolumn w formacie pionowym biblioteki</translation>
         <extracomment>Libraries Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Number of columns in library view when showing portrait (tall) images</source>
-        <translation type="unfinished"></translation>
+        <translation>Liczba kolumn w widoku biblioteki podczas wyświetlania obrazów w orientacji pionowej (wysokiej)</translation>
         <extracomment>Libraries Setting - Setting description</extracomment>
     </message>
     <message>
         <source>Library Square Column Count</source>
-        <translation type="unfinished"></translation>
+        <translation>Liczba kolumn w formacie kwadratowym biblioteki</translation>
         <extracomment>Libraries Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Number of columns in library view when showing square images</source>
-        <translation type="unfinished"></translation>
+        <translation>Liczba kolumn w widoku biblioteki podczas wyświetlania obrazów kwadratowych</translation>
         <extracomment>Libraries Setting - Setting description</extracomment>
     </message>
     <message>
         <source>Load Items Limit</source>
-        <translation type="unfinished"></translation>
+        <translation>Limit wczytywania elementów</translation>
         <extracomment>Libraries Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Number of items to load together on library screens.</source>
-        <translation type="unfinished"></translation>
+        <translation>Liczba elementów, które mają zostać wczytane razem na ekrany biblioteki.</translation>
         <extracomment>Libraries Setting - Setting description</extracomment>
     </message>
     <message>
@@ -2459,6 +2459,26 @@
     <message>
         <source>No other titles found in your library.</source>
         <translation>Nie znaleziono innych tytułów w bibliotece.</translation>
+    </message>
+    <message>
+        <source>Roku thought it could direct play this media, but the playback duration was incorrect.</source>
+        <translation>Roku uważało, że może bezpośrednio odtworzyć ten materiał, ale czas odtwarzania okazał się nieprawidłowy.</translation>
+    </message>
+    <message>
+        <source>Forces Jellyfin to try direct playing video media, Live TV excluded. Enabling this ignores all other playback support settings and will always first attempt direct playback. It also changes how transcode reason is displayed.</source>
+        <translation>Wymusza na Jellyfin próbę bezpośredniego odtwarzania multimediów wideo, z wyłączeniem telewizji. Włączenie tej opcji ignoruje wszystkie inne ustawienia obsługi odtwarzania i zawsze będzie najpierw próbować odtwarzać bezpośrednio. Zmienia również sposób wyświetlania przyczyny transkodowania.</translation>
+    </message>
+    <message>
+        <source>Always Attempt Direct Playing Video Media</source>
+        <translation>Zawsze próbuj bezpośredniego odtwarzania multimediów wideo</translation>
+    </message>
+    <message>
+        <source>Roku thought it could direct play this media, but playback never started.</source>
+        <translation>Roku uważało, że będzie w stanie odtworzyć to medium bezpośrednio, lecz odtwarzanie nigdy się nie rozpoczęło.</translation>
+    </message>
+    <message>
+        <source>Roku&apos;s video player threw the following error</source>
+        <translation>Odtwarzacz wideo Roku wyświetlił następujący błąd</translation>
     </message>
 </context>
 </TS>
