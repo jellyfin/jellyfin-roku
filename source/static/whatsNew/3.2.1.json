@@ -45,5 +45,9 @@
   {
     "description": "Fix possible muted audio in certain surround system setups",
     "author": "ferezvi"
+  },
+  {
+    "description": "Add setting for playback controls inactivity timeout length",
+    "author": "Catmasterson"
   }
 ]
