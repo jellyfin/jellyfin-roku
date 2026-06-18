@@ -46,5 +46,9 @@
   {
     "description": "Add setting for playback controls inactivity timeout length",
     "author": "Catmasterson"
+  },
+  {
+    "description": "Reduce LiveTV EPG loading and re-entry times",
+    "author": "tomeko"
   }
 ]
