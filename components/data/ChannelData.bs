@@ -4,7 +4,13 @@ import "pkg:/source/enums/LiveTVChannelTitle.bs"
 import "pkg:/source/utils/config.bs"
 
 sub setFields()
-    channelTitleContent = chainLookupReturn(m.global.session, "user.settings.tvChannelTitleInfo", LiveTVChannelTitle.NUMBERANDNAME)
+    ' Callers building many rows at once can pass the title setting in to avoid each
+    ' row re-reading it from m.global (which allocates a regex per call).
+    if not isStringEqual(m.top.titleFormat, string.EMPTY)
+        channelTitleContent = m.top.titleFormat
+    else
+        channelTitleContent = chainLookupReturn(m.global.session, "user.settings.tvChannelTitleInfo", LiveTVChannelTitle.NUMBERANDNAME)
+    end if
 
     json = m.top.json
     m.top.id = json.id
@@ -19,6 +25,17 @@ sub setFields()
     end if
     m.top.live = true
     m.top.Type = "TvChannel"
+
+    ' Logo URLs each build a regex; skip them here when the caller will populate
+    ' them later off the critical path via populatePoster().
+    if not m.top.deferPoster
+        setPoster()
+    end if
+end sub
+
+' Build the channel logo URLs on demand. Used by the TV guide to defer logo work
+' until after first paint (see deferPoster).
+sub populatePoster()
     setPoster()
 end sub
 
