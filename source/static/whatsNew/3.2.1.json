@@ -54,5 +54,9 @@
   {
     "description": "Add voice control support for skip, play/pause, start over, next episode, and \"what's playing?\"",
     "author": "ferezvi"
+  },
+  {
+    "description": "Prevent the mini-player from covering short music album song lists",
+    "author": "VX-101"
   }
 ]
