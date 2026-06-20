@@ -1593,7 +1593,7 @@
     </message>
     <message>
         <source>View All Next Up</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokaż wszystkie następne</translation>
         <extracomment>Title for viewing all episodes available in the Next Up section</extracomment>
     </message>
     <message>
@@ -2479,6 +2479,14 @@
     <message>
         <source>Roku&apos;s video player threw the following error</source>
         <translation>Odtwarzacz wideo Roku wyświetlił następujący błąd</translation>
+    </message>
+    <message>
+        <source>Playback Controls Inactivity Timeout</source>
+        <translation>Limit czasu bezczynności sterowania odtwarzaniem</translation>
+    </message>
+    <message>
+        <source>Set the length of time in seconds that the playback control overlay will remain visible when no buttons are pressed. Set to 0 to disable.</source>
+        <translation>Ustaw czas w sekundach, przez jaki nakładka sterowania odtwarzaniem będzie widoczna, gdy żaden przycisk nie zostanie naciśnięty. Ustaw na 0, aby wyłączyć.</translation>
     </message>
 </context>
 </TS>
