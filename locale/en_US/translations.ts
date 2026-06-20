@@ -189,6 +189,10 @@
             <translation>Audio</translation>
         </message>
         <message>
+            <source>Default</source>
+            <translation>Default</translation>
+        </message>
+        <message>
             <source>Subtitles</source>
             <translation>Subtitles</translation>
         </message>
@@ -2243,6 +2247,10 @@
         <message>
             <source>Play Normally</source>
             <translation>Play Normally</translation>
+        </message>
+        <message>
+            <source>Playback Mode</source>
+            <translation>Playback Mode</translation>
         </message>
         <message>
             <source>Force Transcode (Allow Remux)</source>

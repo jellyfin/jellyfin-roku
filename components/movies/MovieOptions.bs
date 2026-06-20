@@ -1,4 +1,3 @@
-import "pkg:/source/enums/AnimationControl.bs"
 import "pkg:/source/enums/ColorPalette.bs"
 import "pkg:/source/enums/KeyCode.bs"
 import "pkg:/source/enums/PlaybackMethod.bs"
@@ -6,48 +5,78 @@ import "pkg:/source/enums/String.bs"
 import "pkg:/source/enums/SubtitleSelection.bs"
 import "pkg:/source/utils/misc.bs"
 
+' Category indexes shared by the row list and the m.menus array
+const CATEGORY_SUBTITLE = 0
+const CATEGORY_AUDIO = 1
+const CATEGORY_VIDEO = 2
+const CATEGORY_PLAYBACK = 3
+
 sub init()
+    m.optionsMenu = m.top.findNode("optionsMenu")
+    m.detailPopup = m.top.findNode("detailPopup")
+    m.detailTitle = m.top.findNode("detailTitle")
+    m.top.findNode("optionsHeader").text = tr("Options")
 
-    m.buttons = m.top.findNode("buttons")
-    m.buttons.buttons = [tr("Subtitles"), tr("Audio"), tr("Video"), tr("Options")]
-    m.buttons.selectedIndex = 0
-    m.buttons.setFocus(true)
-
-
-    m.selectedItem = 0
     m.selectedAudioIndex = 0
     m.selectedVideoIndex = 0
     m.selectedSubtitleIndex = SubtitleSelection.NONE
+    m.activeCategory = -1
+    m.playbackLocked = false
+
+    ' Concise labels shown on the Playback Mode row (the sub-popup may relabel disabled entries)
+    m.playbackTitles = [tr("Play Normally"), tr("Force Transcode (Allow Remux)"), tr("Force Transcode (Remux Disabled)")]
 
     m.optionMenu = m.top.findNode("optionMenu")
-    m.optionMenu.focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
-    m.optionMenu.focusedColor = ColorPalette.WHITE
-
     m.menus = [m.top.findNode("subtitleMenu"), m.top.findNode("audioMenu"), m.top.findNode("videoMenu"), m.optionMenu]
+
+    cursorColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+    m.optionsMenu.focusBitmapBlendColor = cursorColor
+    for each menu in m.menus
+        menu.focusBitmapBlendColor = cursorColor
+        menu.focusedColor = ColorPalette.WHITE
+        ' Auto-close the sub-popup as soon as the user confirms a choice
+        menu.observeField("itemSelected", "onDetailItemSelected")
+    end for
 
     m.videoNames = []
     m.audioNames = []
 
-    m.top.findNode("videoMenu").focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
-    m.top.findNode("videoMenu").focusedColor = ColorPalette.WHITE
+    ' Build the single-page rows once, their values are filled in by optionsSet()
+    m.rowContent = CreateObject("roSGNode", "ContentNode")
+    m.rowSubtitle = m.rowContent.createChild("ContentNode")
+    m.rowSubtitle.title = tr("Subtitles")
+    m.rowAudio = m.rowContent.createChild("ContentNode")
+    m.rowAudio.title = tr("Audio")
+    m.rowVideo = m.rowContent.createChild("ContentNode")
+    m.rowVideo.title = tr("Video")
+    m.rowPlayback = m.rowContent.createChild("ContentNode")
+    m.rowPlayback.title = tr("Playback Mode")
+    ' optionCount drives whether the left/right chevrons are shown for a row
+    for each row in [m.rowSubtitle, m.rowAudio, m.rowVideo, m.rowPlayback]
+        row.addField("optionCount", "integer", false)
+        row.optionCount = 0
+    end for
+    m.optionsMenu.content = m.rowContent
 
-    m.top.findNode("audioMenu").focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
-    m.top.findNode("audioMenu").focusedColor = ColorPalette.WHITE
+    m.top.observeField("visible", "onVisibleChange")
+end sub
 
-    m.top.findNode("subtitleMenu").focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
-    m.top.findNode("subtitleMenu").focusedColor = ColorPalette.WHITE
-
-    ' Animation
-    m.fadeAnim = m.top.findNode("fadeAnim")
-    m.fadeOutAnimOpacity = m.top.findNode("outOpacity")
-    m.fadeInAnimOpacity = m.top.findNode("inOpacity")
-
-    m.buttons.observeField("focusedIndex", "buttonFocusChanged")
-    m.buttons.focusedIndex = m.selectedItem
+' Move focus onto the rows whenever the dialog becomes visible
+sub onVisibleChange()
+    if m.top.visible
+        m.detailPopup.visible = false
+        m.activeCategory = -1
+        m.optionsMenu.setFocus(true)
+        group = m.global.sceneManager.callFunc("getActiveScene")
+        group.lastFocus = m.optionsMenu
+    end if
 end sub
 
 sub optionsSet()
     forceTranscodeSetting = chainLookupReturn(m.global.session, "user.settings.`playback.media.forceTranscode`", PlaybackMethod.PLAYNORMALLY)
+
+    ' When force transcoding is dictated by a global setting, Playback Mode row is read-only
+    m.playbackLocked = not isStringEqual(PlaybackMethod.PLAYNORMALLY, forceTranscodeSetting)
 
     if not isStringEqual(PlaybackMethod.PLAYNORMALLY, forceTranscodeSetting)
         normalOption = m.optionMenu.content.getChild(0)
@@ -73,11 +102,15 @@ sub optionsSet()
         m.optionMenu.checkedItem = 0
     end if
 
-    '  subtitle Tab
+    m.rowPlayback.description = m.playbackTitles[m.optionMenu.checkedItem]
+    m.rowPlayback.optionCount = m.playbackLocked ? 1 : m.playbackTitles.count()
+
+    '  Subtitle list
     if isValid(m.top.Options.subtitles)
         subtitleContent = CreateObject("roSGNode", "ContentNode")
         index = 0
         selectedSubtitleIndex = 0
+        selectedSubtitleTitle = tr("None")
 
         for each subtitle in m.top.options.subtitles
             entry = subtitleContent.CreateChild("SubtitleTrackListData")
@@ -88,49 +121,59 @@ sub optionsSet()
             if isValid(subtitle.Selected) and subtitle.Selected
                 selectedSubtitleIndex = index
                 entry.selected = true
+                selectedSubtitleTitle = subtitle.Title
             end if
             index = index + 1
         end for
 
-        m.menus[0].content = subtitleContent
-        m.menus[0].jumpToItem = selectedSubtitleIndex
-        m.menus[0].checkedItem = selectedSubtitleIndex
+        m.menus[CATEGORY_SUBTITLE].content = subtitleContent
+        m.menus[CATEGORY_SUBTITLE].jumpToItem = selectedSubtitleIndex
+        m.menus[CATEGORY_SUBTITLE].checkedItem = selectedSubtitleIndex
         m.selectedSubtitleIndex = selectedSubtitleIndex
+        m.rowSubtitle.description = selectedSubtitleTitle
+        m.rowSubtitle.optionCount = subtitleContent.getChildCount()
     end if
 
-    '  audio Tab
+    '  Audio list
     if isValid(m.top.Options.audios)
         audioContent = CreateObject("roSGNode", "ContentNode")
         index = 0
         selectedAudioIndex = 0
+        selectedAudioTitle = string.EMPTY
 
         for each audio in m.top.options.audios
             entry = audioContent.CreateChild("AudioTrackListData")
-            entry.title = audio.Title
-            entry.description = audio.Description
+            ' Some sources expose unnamed audio tracks, show "Default" so the row/list isn't blank
+            audioTitle = isValidAndNotEmpty(audio.Title) ? audio.Title : tr("Default")
+            entry.title = audioTitle
+            entry.description = isValidAndNotEmpty(audio.Description) ? audio.Description : audioTitle
             entry.streamIndex = audio.StreamIndex
             entry.streamName = audio.RokuTrackName
             m.audioNames.push(audio.Name)
             if audio.Selected <> invalid and audio.Selected
                 selectedAudioIndex = index
                 entry.selected = true
+                selectedAudioTitle = audioTitle
                 m.top.audioStreamName = audio.LookupCI("RokuTrackName")
                 m.top.audioStreamIndex = audio.LookupCI("streamIndex")
             end if
             index = index + 1
         end for
 
-        m.menus[1].content = audioContent
-        m.menus[1].jumpToItem = selectedAudioIndex
-        m.menus[1].checkedItem = selectedAudioIndex
+        m.menus[CATEGORY_AUDIO].content = audioContent
+        m.menus[CATEGORY_AUDIO].jumpToItem = selectedAudioIndex
+        m.menus[CATEGORY_AUDIO].checkedItem = selectedAudioIndex
         m.selectedAudioIndex = selectedAudioIndex
+        m.rowAudio.description = isValidAndNotEmpty(selectedAudioTitle) ? selectedAudioTitle : tr("Default")
+        m.rowAudio.optionCount = audioContent.getChildCount()
     end if
 
-    '  Videos Tab
+    '  Video list
     if isValid(m.top.options.videos)
         viewContent = CreateObject("roSGNode", "ContentNode")
         index = 0
         selectedViewIndex = 0
+        selectedViewTitle = string.EMPTY
 
         for each view in m.top.options.videos
             entry = viewContent.CreateChild("VideoTrackListData")
@@ -143,124 +186,166 @@ sub optionsSet()
             if isValid(view.Selected) and view.Selected
                 selectedViewIndex = index
                 entry.selected = true
+                selectedViewTitle = view.Title
                 m.top.videoStreamId = view.streamId
             end if
             index = index + 1
         end for
 
-        m.menus[2].content = viewContent
-        m.menus[2].jumpToItem = selectedViewIndex
-        m.menus[2].checkedItem = selectedViewIndex
+        m.menus[CATEGORY_VIDEO].content = viewContent
+        m.menus[CATEGORY_VIDEO].jumpToItem = selectedViewIndex
+        m.menus[CATEGORY_VIDEO].checkedItem = selectedViewIndex
         m.selectedVideoIndex = selectedViewIndex
+        m.rowVideo.description = selectedViewTitle
+        m.rowVideo.optionCount = viewContent.getChildCount()
     end if
 end sub
 
-' Switch menu shown when button focus changes
-sub buttonFocusChanged()
-    if m.buttons.focusedIndex = m.selectedItem then return
-    m.fadeOutAnimOpacity.fieldToInterp = m.menus[m.selectedItem].id + ".opacity"
-    m.fadeInAnimOpacity.fieldToInterp = m.menus[m.buttons.focusedIndex].id + ".opacity"
-    m.fadeAnim.control = AnimationControl.START
-    m.selectedItem = m.buttons.focusedIndex
+' Index of the currently selected entry for a given category
+function currentIndexFor(category as integer) as integer
+    if category = CATEGORY_SUBTITLE then return m.selectedSubtitleIndex
+    if category = CATEGORY_AUDIO then return m.selectedAudioIndex
+    if category = CATEGORY_VIDEO then return m.selectedVideoIndex
+    return m.optionMenu.checkedItem
+end function
+
+' Open the full-list sub-popup for the focused row
+sub openDetail(category as integer)
+    m.activeCategory = category
+
+    for i = 0 to m.menus.count() - 1
+        m.menus[i].opacity = (i = category) ? 1 : 0
+    end for
+
+    m.detailTitle.text = m.rowContent.getChild(category).title
+    m.detailPopup.visible = true
+
+    selMenu = m.menus[category]
+    selMenu.itemSelected = -1
+    m.optionsMenu.setFocus(false)
+    selMenu.setFocus(true)
+    selMenu.drawFocusFeedback = true
+    selMenu.jumpToItem = currentIndexFor(category)
+
+    group = m.global.sceneManager.callFunc("getActiveScene")
+    group.lastFocus = selMenu
 end sub
 
+' Close the sub-popup and return focus to the rows
+sub closeDetail()
+    if m.activeCategory >= 0
+        m.menus[m.activeCategory].drawFocusFeedback = false
+    end if
+    m.detailPopup.visible = false
+    m.activeCategory = -1
+    m.optionsMenu.setFocus(true)
+    group = m.global.sceneManager.callFunc("getActiveScene")
+    group.lastFocus = m.optionsMenu
+end sub
+
+' Scroll the focused row's value left/right
+sub cycleRow(category as integer, delta as integer)
+    if category = CATEGORY_PLAYBACK and m.playbackLocked then return
+
+    selMenu = m.menus[category]
+    if category = CATEGORY_PLAYBACK
+        count = 3
+    else if isValid(selMenu.content)
+        count = selMenu.content.getChildCount()
+    else
+        count = 0
+    end if
+    if count <= 1 then return
+
+    newIndex = currentIndexFor(category) + delta
+    if newIndex < 0 then newIndex = count - 1
+    if newIndex >= count then newIndex = 0
+
+    applyCategorySelection(category, newIndex)
+end sub
+
+sub applyCategorySelection(category as integer, selIndex as integer)
+    selMenu = m.menus[category]
+
+    if category = CATEGORY_SUBTITLE
+        if m.selectedSubtitleIndex <> selIndex
+            selMenu.content.getChild(m.selectedSubtitleIndex).selected = false
+            newSelection = selMenu.content.getChild(selIndex)
+            newSelection.selected = true
+            m.selectedSubtitleIndex = selIndex
+            m.top.subtitleStream = newSelection
+            m.global.queueManager.callFunc("setPreferredSubtitleTrack", newSelection)
+            m.rowSubtitle.description = newSelection.title
+            selMenu.checkedItem = selIndex
+        end if
+    else if category = CATEGORY_AUDIO
+        if m.selectedAudioIndex <> selIndex
+            selMenu.content.getChild(m.selectedAudioIndex).selected = false
+            newSelection = selMenu.content.getChild(selIndex)
+            newSelection.selected = true
+            m.selectedAudioIndex = selIndex
+            m.top.audioStreamName = newSelection.LookupCI("streamName")
+            m.top.audioStreamIndex = newSelection.LookupCI("streamIndex")
+            m.rowAudio.description = newSelection.title
+            selMenu.checkedItem = selIndex
+        end if
+    else if category = CATEGORY_VIDEO
+        if m.selectedVideoIndex <> selIndex
+            selMenu.content.getChild(m.selectedVideoIndex).selected = false
+            newSelection = selMenu.content.getChild(selIndex)
+            newSelection.selected = true
+            m.selectedVideoIndex = selIndex
+            m.rowVideo.description = newSelection.title
+            selMenu.checkedItem = selIndex
+            ' Setting videoStreamId triggers MovieDetails to rebuild the audio/subtitle lists
+            m.top.video_codec = newSelection.video_codec
+            m.top.codec = newSelection.codec
+            m.top.videoStreamId = newSelection.streamId
+        end if
+    else if category = CATEGORY_PLAYBACK
+        if m.playbackLocked then return
+        m.optionMenu.checkedItem = selIndex
+        if selIndex = 0
+            m.global.queueManager.callFunc("setForceTranscode", PlaybackMethod.PLAYNORMALLY)
+        else if selIndex = 1
+            m.global.queueManager.callFunc("setForceTranscode", PlaybackMethod.FORCETRANSCODEALLOWREMUX, string.EMPTY)
+        else if selIndex = 2
+            m.global.queueManager.callFunc("setForceTranscode", PlaybackMethod.FORCETRANSCODEDISABLEREMUX, m.top.codec)
+        end if
+        m.rowPlayback.description = m.playbackTitles[selIndex]
+    end if
+end sub
+
+' Confirming a choice in the sub-popup applies it and returns to the rows
+sub onDetailItemSelected()
+    if not m.detailPopup.visible or m.activeCategory < 0 then return
+    selMenu = m.menus[m.activeCategory]
+    if selMenu.itemSelected < 0 then return
+    applyCategorySelection(m.activeCategory, selMenu.itemSelected)
+    closeDetail()
+end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean
-    ' Prevent the OK release that opens this menu from moving focus off the top row
-    if not press and key = KeyCode.OK and m.top.findNode("buttons").hasFocus()
-        return true
-    end if
+    if not press then return false
 
-    if key = KeyCode.DOWN or (key = KeyCode.OK and m.top.findNode("buttons").hasFocus())
-        m.top.findNode("buttons").setFocus(false)
-        m.menus[m.selectedItem].setFocus(true)
-        group = m.global.sceneManager.callFunc("getActiveScene")
-        group.lastFocus = m.menus[m.selectedItem]
-        m.menus[m.selectedItem].drawFocusFeedback = true
-
-        'If user presses down from button menu, focus first item.  If OK, focus checked item
-        if key = KeyCode.DOWN
-            m.menus[m.selectedItem].jumpToItem = 0
-        else
-            m.menus[m.selectedItem].jumpToItem = m.menus[m.selectedItem].itemSelected
-        end if
-
-        return true
-    end if
-
-    if key = KeyCode.OK
-        if m.menus[m.selectedItem].isInFocusChain()
-            selMenu = m.menus[m.selectedItem]
-            selIndex = selMenu.itemSelected
-
-            'Handle Videos menu
-            if m.selectedItem = 2
-                if m.selectedVideoIndex = selIndex
-                else
-                    selMenu.content.GetChild(m.selectedVideoIndex).selected = false
-                    newSelection = selMenu.content.GetChild(selIndex)
-                    newSelection.selected = true
-                    m.selectedVideoIndex = selIndex
-                    m.top.videoStreamId = newSelection.streamId
-                    m.top.video_codec = newSelection.video_codec
-                    m.top.codec = newSelection.codec
-                end if
-                ' Then it is Audio options
-            else if m.selectedItem = 1
-                if m.selectedAudioIndex = selIndex
-                else
-                    selMenu.content.GetChild(m.selectedAudioIndex).selected = false
-                    newSelection = selMenu.content.GetChild(selIndex)
-                    newSelection.selected = true
-                    m.selectedAudioIndex = selIndex
-                    m.top.audioStreamName = newSelection.LookupCI("streamName")
-                    m.top.audioStreamIndex = newSelection.LookupCI("streamIndex")
-                end if
-                ' Then it is Subtitle options
-            else if m.selectedItem = 0
-                if m.selectedSubtitleIndex = selIndex
-                else
-                    selMenu.content.GetChild(m.selectedSubtitleIndex).selected = false
-                    newSelection = selMenu.content.GetChild(selIndex)
-                    newSelection.selected = true
-                    m.selectedSubtitleIndex = selIndex
-                    m.top.subtitleStream = newSelection
-                    m.global.queueManager.callFunc("setPreferredSubtitleTrack", newSelection)
-                end if
-            else if m.selectedItem = 3 ' Options Menu
-                if isStringEqual(PlaybackMethod.FORCETRANSCODEALLOWREMUX, chainLookupReturn(m.global.session, "user.settings.`playback.media.forceTranscode`", PlaybackMethod.PLAYNORMALLY))
-                    m.optionMenu.checkedItem = 1
-                end if
-                if isStringEqual(PlaybackMethod.FORCETRANSCODEDISABLEREMUX, chainLookupReturn(m.global.session, "user.settings.`playback.media.forceTranscode`", PlaybackMethod.PLAYNORMALLY))
-                    m.optionMenu.checkedItem = 2
-                end if
-
-                if m.optionMenu.checkedItem = 0
-                    m.global.queueManager.callFunc("setForceTranscode", PlaybackMethod.PLAYNORMALLY)
-                else if m.optionMenu.checkedItem = 1
-                    m.global.queueManager.callFunc("setForceTranscode", PlaybackMethod.FORCETRANSCODEALLOWREMUX, string.EMPTY)
-                else if m.optionMenu.checkedItem = 2
-                    m.global.queueManager.callFunc("setForceTranscode", PlaybackMethod.FORCETRANSCODEDISABLEREMUX, m.top.codec)
-                end if
-            end if
-
-        end if
-        return true
-    end if
-
-    if key = KeyCode.BACK or key = KeyCode.UP
-        if m.menus[m.selectedItem].isInFocusChain()
-            m.buttons.setFocus(true)
-            group = m.global.sceneManager.callFunc("getActiveScene")
-            group.lastFocus = m.buttons
-            m.menus[m.selectedItem].drawFocusFeedback = false
+    if m.detailPopup.visible
+        if key = KeyCode.BACK
+            closeDetail()
             return true
         end if
+        return false
     end if
 
-    if key = KeyCode.OPTIONS
-        m.menus[m.selectedItem].drawFocusFeedback = false
-        return false
+    ' Main single-page rows
+    if key = KeyCode.OK
+        openDetail(m.optionsMenu.itemFocused)
+        return true
+    else if key = KeyCode.LEFT
+        cycleRow(m.optionsMenu.itemFocused, -1)
+        return true
+    else if key = KeyCode.RIGHT
+        cycleRow(m.optionsMenu.itemFocused, 1)
+        return true
     end if
 
     return false
