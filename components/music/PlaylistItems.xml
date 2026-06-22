@@ -2,6 +2,7 @@
 <component name="PlaylistItems" extends="MarkupList">
   <interface>
     <field id="mediaItemSelected" type="integer" alwaysNotify="true" />
+    <field id="selectionSource" type="string" value="" />
     <field id="PlaylistData" type="node" onChange="getData" />
     <field id="doneLoading" type="boolean" value="false" />
   </interface>

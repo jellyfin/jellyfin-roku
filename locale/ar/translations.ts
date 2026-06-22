@@ -1652,15 +1652,15 @@
     </message>
     <message>
         <source>downloads</source>
-        <translation type="unfinished"></translation>
+        <translation>تحميلات</translation>
     </message>
     <message>
         <source>Series</source>
-        <translation type="unfinished"></translation>
+        <translation>مسلسلات</translation>
     </message>
     <message>
         <source>Part</source>
-        <translation type="unfinished"></translation>
+        <translation>جزء</translation>
     </message>
     <message>
         <source>Play / Resume from</source>

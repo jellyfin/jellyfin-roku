@@ -34,5 +34,29 @@
   {
     "description": "Honor position alignment tags in SRT",
     "author": "ferezvi"
+  },
+  {
+    "description": "Fix music playback controls on album and playlist song lists",
+    "author": "VX-101"
+  },
+  {
+    "description": "Jump to last album in incomplete row on artist screen",
+    "author": "VX-101"
+  },
+  {
+    "description": "Fix possible muted audio in certain surround system setups",
+    "author": "ferezvi"
+  },
+  {
+    "description": "Add setting for playback controls inactivity timeout length",
+    "author": "Catmasterson"
+  },
+  {
+    "description": "Reduce LiveTV EPG loading and re-entry times",
+    "author": "tomeko"
+  },
+  {
+    "description": "Add voice control support for skip, play/pause, start over, next episode, and \"what's playing?\"",
+    "author": "ferezvi"
   }
 ]
