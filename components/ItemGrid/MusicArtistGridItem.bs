@@ -64,7 +64,7 @@ sub itemContentChanged()
     m.forceTitleVisible = not m.hasPoster or not isValidAndNotEmpty(itemData.LookupCI("title"))
 
     if isStringEqual(itemData.type, "musicalbum")
-        m.backdrop.uri = "pkg:/images/icons/cd.png"
+        m.backdrop.uri = "pkg:/images/icons/album.png"
     else if isStringEqual(itemData.type, "musicartist")
         m.backdrop.uri = "pkg:/images/missingArtist.png"
     else if isStringEqual(chainLookup(itemData, "json.type"), "musicgenre")
@@ -78,7 +78,6 @@ sub itemContentChanged()
     else
         m.itemPoster.uri = ""
         showMissingPlaceholder()
-        showPosterText()
     end if
 
     ' Avoid flashing the missing-art background while a valid poster URL is still loading.
@@ -115,6 +114,7 @@ sub onPosterLoadStatusChanged()
         m.placeholderBackground.visible = false
         m.backdrop.visible = false
     else if m.hasPoster and isStringEqual(m.itemPoster.loadStatus, "failed")
+        m.forceTitleVisible = true
         showMissingPlaceholder()
     else if not m.hasPoster
         showMissingPlaceholder()
@@ -124,6 +124,7 @@ end sub
 sub showMissingPlaceholder()
     m.placeholderBackground.visible = true
     m.backdrop.visible = true
+    showPosterText()
 end sub
 
 sub showPosterText()
@@ -133,6 +134,12 @@ end sub
 
 function getFallbackTitle(itemData as object) as string
     title = itemData.LookupCI("title")
+    if isValidAndNotEmpty(title) then return title
+
+    title = itemData.LookupCI("name")
+    if isValidAndNotEmpty(title) then return title
+
+    title = chainLookup(itemData, "json.name")
     if isValidAndNotEmpty(title) then return title
 
     if isStringEqual(itemData.LookupCI("type"), "musicartist")
