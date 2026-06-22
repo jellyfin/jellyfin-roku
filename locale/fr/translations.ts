@@ -2371,15 +2371,15 @@
     </message>
     <message>
         <source>Search Unavailable</source>
-        <translation type="unfinished">Recherche indisponible</translation>
+        <translation>Recherche indisponible</translation>
     </message>
     <message>
         <source>Roku&apos;s video player got stuck buffering video</source>
-        <translation type="unfinished">Le lecteur vidéo Roku est bloqué en cours de chargement</translation>
+        <translation>Le lecteur vidéo Roku est bloqué en cours de chargement</translation>
     </message>
     <message>
         <source>Roku&apos;s video player threw the following error</source>
-        <translation type="unfinished">Le lecteur vidéo Roku a renvoyé l&apos;erreur suivante</translation>
+        <translation>Le lecteur vidéo Roku a renvoyé l&apos;erreur suivante</translation>
     </message>
     <message>
         <source>Roku thought it could direct play this media, but playback never started.</source>
@@ -2440,6 +2440,10 @@
     <message>
         <source>All Playable Media</source>
         <translation>Tous les médias jouables</translation>
+    </message>
+    <message>
+        <source>Force live TV to be transcoded. If All Playable Media is already set to Force Transcode (Remux Disabled), this setting is ignored.</source>
+        <translation>Forcer le transcodage de la télévision en direct. Si l&apos;option « Tous les médias lisibles » est déjà définie sur « Forcer le transcodage (remux désactivé) », ce paramètre est ignoré.</translation>
     </message>
 </context>
 </TS>
