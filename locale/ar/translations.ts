@@ -2174,7 +2174,7 @@
     </message>
     <message>
         <source>How many minutes of inactivity before playback is stopped between items and a popup is shown to continue? Set to 0 to disable.</source>
-        <translation type="unfinished"></translation>
+        <translation>كم دقيقة من السكون قبل ايقاف التشغيل بين العناصر و ظهور رسالة للمتابعة؟ حدد كـ 0 للتثبيط.</translation>
     </message>
     <message>
         <source>Are You Still Watching?</source>
@@ -2194,12 +2194,12 @@
     </message>
     <message>
         <source>Burn in subtitle when transcoding</source>
-        <translation type="unfinished"></translation>
+        <translation>حرق الترجمة مع الترميز</translation>
         <extracomment>Settings Menu - Title for option</extracomment>
     </message>
     <message>
         <source>Burn in all subtitles when transcoding is triggered. This ensures subtitle synchronization after transcoding at the cost of reduced transcoding speed.</source>
-        <translation type="unfinished"></translation>
+        <translation>حرق كل الترجمات عند اطلاق الترميز. هذا سيضمن مزامنة الترجمة بعد الترميز على حساب تقليل سرعة الترميز.</translation>
         <extracomment>Settings Menu - Description for option</extracomment>
     </message>
     <message>
@@ -2433,6 +2433,34 @@
     <message>
         <source>Always Attempt Direct Playing Video Media</source>
         <translation>محاولة تشغيل وسيد الفيديو المباشر دائما</translation>
+    </message>
+    <message>
+        <source>No cast data available.</source>
+        <translation>لا توجد بيانات بث.</translation>
+    </message>
+    <message>
+        <source>as %1</source>
+        <translation>كـ %1</translation>
+    </message>
+    <message>
+        <source>More with %1 in Your Library</source>
+        <translation>أكثر مع %1 في مكتبنك</translation>
+    </message>
+    <message>
+        <source>Roku thought it could direct play this media, but the playback duration was incorrect.</source>
+        <translation>ظن Ruko انه يستطيع تشغيل الوسيطة مباشرة, لكن فترة التشغيل كانت غير صحيحة.</translation>
+    </message>
+    <message>
+        <source>Roku&apos;s video player threw the following error</source>
+        <translation>مشغل فيديو Ruko اطلق الخطأ التالي</translation>
+    </message>
+    <message>
+        <source>Roku&apos;s video player got stuck buffering video</source>
+        <translation>مشغل فيديو Ruko تعطل عند التخزين المؤقت للفيديو</translation>
+    </message>
+    <message>
+        <source>No other titles found in your library.</source>
+        <translation>لم يّعثر على عناوين اخرى في مكتبتك.</translation>
     </message>
 </context>
 </TS>
