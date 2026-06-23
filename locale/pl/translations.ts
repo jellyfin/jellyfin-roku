@@ -1598,37 +1598,37 @@
     </message>
     <message>
         <source>Rewatching Next Up</source>
-        <translation type="unfinished"></translation>
+        <translation>Ponowne oglądanie następnych</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>Show already watched episodes in &apos;Next Up&apos; sections.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokaż już obejrzane odcinki w sekcjach „Następne”.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
         <source>Episode Images Next Up</source>
-        <translation type="unfinished"></translation>
+        <translation>Obrazy odcinków następnych</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
     <message>
         <source>What type of images to use for Episodes shown in the &apos;Next Up&apos; and &apos;Continue Watching&apos; sections.</source>
-        <translation type="unfinished"></translation>
+        <translation>Jakiego typu obrazów używać w przypadku odcinków wyświetlanych w sekcjach „Następne” i „Kontynuuj oglądanie”.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
     <message>
         <source>Use Web Client Setting</source>
-        <translation type="unfinished"></translation>
+        <translation>Użyj ustawień klienta internetowego</translation>
         <extracomment>User Setting - Setting option title</extracomment>
     </message>
     <message>
         <source>Use Episode Image</source>
-        <translation type="unfinished"></translation>
+        <translation>Użyj obrazu odcinka</translation>
         <extracomment>User Setting - Setting option title</extracomment>
     </message>
     <message>
         <source>Use Show Image</source>
-        <translation type="unfinished"></translation>
+        <translation>Użyj obrazu serialu</translation>
         <extracomment>User Setting - Setting option title</extracomment>
     </message>
     <message>
