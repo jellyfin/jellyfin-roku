@@ -41,7 +41,8 @@ sub calculateButtonThumbProperties()
         return
     end if
 
-    if m.top.content.getChildCount() < m.top.numRows
+    ' Hide scrollbar when every track fits in the visible rows.
+    if m.top.content.getChildCount() <= m.top.numRows
         hideScrollbar()
         return
     end if
