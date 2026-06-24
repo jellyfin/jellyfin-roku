@@ -29,6 +29,7 @@
         <Poster id="shuffle" width="64" height="64" uri="pkg:/images/icons/shuffle.png" opacity="0" />
       </LayoutGroup>
     </LayoutGroup>
+    <Text id="stopConfirmMessage" visible="false" width="1720" height="30" horizAlign="center" font="font:SmallestSystemFont" translation="[100,985]" color="#ffffff" />
 
     <LayoutGroup translation="[100,100]" layoutDirection="vert" horizAlignment="left" itemSpacings="[15]">
       <ScrollingText id="song" font="font:MediumBoldSystemFont" maxWidth="1800" height="50" />
