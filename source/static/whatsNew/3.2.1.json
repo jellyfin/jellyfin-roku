@@ -54,5 +54,9 @@
   {
     "description": "Add voice control support for skip, play/pause, start over, next episode, and \"what's playing?\"",
     "author": "ferezvi"
+  },
+  {
+    "description": "Show placeholders for music albums and artists with missing artwork or names",
+    "author": "VX-101"
   }
 ]

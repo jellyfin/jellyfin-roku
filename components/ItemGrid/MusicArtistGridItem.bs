@@ -3,6 +3,7 @@ import "pkg:/source/utils/misc.bs"
 
 sub init()
     m.itemPoster = m.top.findNode("itemPoster")
+    m.placeholderBackground = m.top.findNode("placeholderBackground")
     m.postTextBackground = m.top.findNode("postTextBackground")
     m.posterText = m.top.findNode("posterText")
     m.posterText.font.size = 30
@@ -19,17 +20,21 @@ sub init()
     end if
 
     m.gridTitles = m.global.session.user.settings["itemgrid.gridTitles"]
+    m.hasPoster = false
+    m.forceTitleVisible = false
     m.posterText.visible = false
     m.postTextBackground.visible = false
 end sub
 
 sub onHeightChanged()
+    m.placeholderBackground.height = m.top.height
     m.backdrop.height = m.top.height
     m.itemPoster.height = m.top.height
     m.postTextBackground.translation = [5, m.top.height - 40]
 end sub
 
 sub onWidthChanged()
+    m.placeholderBackground.width = m.top.width
     m.backdrop.width = m.top.width
     m.itemPoster.width = m.top.width
     m.posterText.maxwidth = m.top.width
@@ -39,9 +44,11 @@ end sub
 sub itemContentChanged()
     m.posterText.visible = false
     m.postTextBackground.visible = false
+    m.placeholderBackground.visible = false
+    m.backdrop.visible = false
 
     if isValid(m.topParent.showItemTitles)
-        if LCase(m.topParent.showItemTitles) = "showalways"
+        if isStringEqual(m.topParent.showItemTitles, "showalways")
             m.posterText.visible = true
             m.postTextBackground.visible = true
         end if
@@ -51,19 +58,31 @@ sub itemContentChanged()
 
     if not isValid(itemData) then return
 
-    if LCase(itemData.type) = "musicalbum"
+    fallbackTitle = getFallbackTitle(itemData)
+    posterURL = itemData.PosterUrl
+    m.hasPoster = isValidAndNotEmpty(posterURL)
+    m.forceTitleVisible = not m.hasPoster or not isValidAndNotEmpty(itemData.LookupCI("title"))
+
+    if isStringEqual(itemData.type, "musicalbum")
         m.backdrop.uri = "pkg:/images/icons/album.png"
-    else if LCase(itemData.type) = "musicartist"
+    else if isStringEqual(itemData.type, "musicartist")
         m.backdrop.uri = "pkg:/images/missingArtist.png"
-    else if LCase(itemData.json.type) = "musicgenre"
+    else if isStringEqual(chainLookup(itemData, "json.type"), "musicgenre")
         m.backdrop.uri = "pkg:/images/icons/musicFolder.png"
     end if
 
-    m.itemPoster.uri = itemData.PosterUrl
-    m.posterText.text = itemData.title
+    m.posterText.text = fallbackTitle
 
-    'If Poster not loaded, ensure "blue box" is shown until loaded
-    if m.itemPoster.loadStatus <> "ready"
+    if m.hasPoster
+        m.itemPoster.uri = posterURL
+    else
+        m.itemPoster.uri = ""
+        showMissingPlaceholder()
+    end if
+
+    ' Avoid flashing the missing-art background while a valid poster URL is still loading.
+    if m.hasPoster and m.itemPoster.loadStatus <> "ready"
+        m.placeholderBackground.visible = false
         m.backdrop.visible = true
     end if
     if m.top.itemHasFocus then focusChanged()
@@ -78,16 +97,56 @@ sub focusChanged()
     end if
 
     if isValid(m.topParent.showItemTitles)
-        if LCase(m.topParent.showItemTitles) = "showonhover"
+        if isStringEqual(m.topParent.showItemTitles, "showonhover")
             m.posterText.visible = m.top.itemHasFocus
             m.postTextBackground.visible = m.posterText.visible
         end if
+    end if
+
+    if m.forceTitleVisible
+        showPosterText()
     end if
 end sub
 
 'Hide backdrop and text when poster loaded
 sub onPosterLoadStatusChanged()
-    if m.itemPoster.loadStatus = "ready"
+    if m.hasPoster and m.itemPoster.loadStatus = "ready"
+        m.placeholderBackground.visible = false
         m.backdrop.visible = false
+    else if m.hasPoster and isStringEqual(m.itemPoster.loadStatus, "failed")
+        m.forceTitleVisible = true
+        showMissingPlaceholder()
+    else if not m.hasPoster
+        showMissingPlaceholder()
     end if
 end sub
+
+sub showMissingPlaceholder()
+    m.placeholderBackground.visible = true
+    m.backdrop.visible = true
+    showPosterText()
+end sub
+
+sub showPosterText()
+    m.posterText.visible = true
+    m.postTextBackground.visible = true
+end sub
+
+function getFallbackTitle(itemData as object) as string
+    title = itemData.LookupCI("title")
+    if isValidAndNotEmpty(title) then return title
+
+    title = itemData.LookupCI("name")
+    if isValidAndNotEmpty(title) then return title
+
+    title = chainLookup(itemData, "json.name")
+    if isValidAndNotEmpty(title) then return title
+
+    if isStringEqual(itemData.LookupCI("type"), "musicartist")
+        return tr("Unknown Artist")
+    else if isStringEqual(itemData.LookupCI("type"), "musicalbum")
+        return tr("Unknown Album")
+    end if
+
+    return tr("Unknown")
+end function

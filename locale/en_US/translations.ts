@@ -520,6 +520,14 @@
             <extracomment>Title for a cast member for which we have no information for</extracomment>
         </message>
         <message>
+            <source>Unknown Artist</source>
+            <translation>Unknown Artist</translation>
+        </message>
+        <message>
+            <source>Unknown Album</source>
+            <translation>Unknown Album</translation>
+        </message>
+        <message>
             <source>The requested content does not exist on the server</source>
             <translation>The requested content does not exist on the server</translation>
             <extracomment>Content of message box when the requested content is not found on the server</extracomment>
