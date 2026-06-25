@@ -2016,35 +2016,35 @@
     </message>
     <message>
         <source>The color of the unplayed count number.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kolor liczby nieodtworzonych.</translation>
     </message>
     <message>
         <source>Watched Check Mark</source>
-        <translation type="unfinished"></translation>
+        <translation>Znacznik wyboru obejrzanych</translation>
     </message>
     <message>
         <source>The color of the watched check mark.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kolor znacznika wyboru obejrzanych.</translation>
     </message>
     <message>
         <source>Dialog Popups</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyskakujące okna dialogowe</translation>
     </message>
     <message>
         <source>Colors specific to dialog popups</source>
-        <translation type="unfinished"></translation>
+        <translation>Kolory charakterystyczne dla wyskakujących okien dialogowych</translation>
     </message>
     <message>
         <source>The background color for all dialog popups.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kolor tła wszystkich wyskakujących okien dialogowych.</translation>
     </message>
     <message>
         <source>Bold Text</source>
-        <translation type="unfinished"></translation>
+        <translation>Tekst pogrubiony</translation>
     </message>
     <message>
         <source>The text color for bold text.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kolor tekstu dla tekstu pogrubionego.</translation>
     </message>
     <message>
         <source>Horizontal Border line</source>
