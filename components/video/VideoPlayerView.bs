@@ -732,6 +732,21 @@ sub onVideoContentLoaded()
     m.playbackTestComplete = videoContent[0].content.live
 
     m.top.content = videoContent[0].content
+
+    ' Enrich the content title for Roku Voice "what's playing"
+    itemData = m.global.queueManager.callFunc("getCurrentItem")
+    if isValid(itemData)
+        json = itemData.json ?? itemData
+        mediaType = LCase(json.Type ?? "")
+        if isStringEqual(mediaType, "episode")
+            season = isValid(json.ParentIndexNumber) ? StrI(json.ParentIndexNumber).trim() : "0"
+            episode = isValid(json.IndexNumber) ? StrI(json.IndexNumber).trim() : "0"
+            m.top.content.Title = `${json.SeriesName} - S${Left("0" + season, 2)}E${Left("0" + episode, 2)} - ${json.Name ?? json.title}`
+        else if isValid(json.ProductionYear)
+            m.top.content.Title = `${json.Name ?? json.title} (${json.ProductionYear})`
+        end if
+    end if
+
     m.top.PlaySessionId = videoContent[0].PlaySessionId
     m.top.videoId = videoContent[0].id
     m.top.container = videoContent[0].container

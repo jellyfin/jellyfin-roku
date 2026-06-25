@@ -563,7 +563,7 @@ function handleTransportCommand(data as object) as object
         ret.status = TransportStatus.SUCCESS
 
     else if isStringEqual(cmd, TransportCommand.PAUSE) or isStringEqual(cmd, TransportCommand.STOP)
-        ret.cmd = { type: TransportCommand.PAUSE}
+        ret.cmd = { type: TransportCommand.PAUSE }
         ret.status = TransportStatus.SUCCESS
 
     else if isStringEqual(cmd, TransportCommand.PLAYPAUSE)
@@ -596,42 +596,12 @@ function handleTransportCommand(data as object) as object
     else if isStringEqual(cmd, TransportCommand.REPLAY)
         ret.status = TransportStatus.UNHANDLED
 
+    ' NOTE: Roku displays the title from the active Video node's ContentNode.Title field directly.
+    ' SetNowPlayingContentMetaData() is not needed and has no effect when a Video node is active.
+    ' The title is enriched in VideoPlayerView.bs after the ContentNode is assigned.
     else if isStringEqual(cmd, TransportCommand.NOWPLAYING)
         currentItem = m.global.queueManager.callFunc("getCurrentItem")
         if isValid(currentItem)
-            itemData = currentItem.json ?? currentItem
-            mediaItemType = LCase(itemData.Type)
-
-            ' Build a descriptive title including year (movies) or season/episode info (TV episodes).
-            ' NOTE: During testing (es-MX, Roku voice remote), Roku Voice only announced the base
-            ' title and did not read the year/season/episode suffix. This may be a limitation
-            ' of the locale/TTS, or may work correctly in other regions/languages. The full
-            ' title is still passed per the official spec, in case it is supported elsewhere.
-            if isStringEqual(mediaItemType, ItemType.MOVIE)
-                displayTitle = itemData.Name ?? itemData.title
-                if isValid(itemData.ProductionYear)
-                    displayTitle += `, ${itemData.ProductionYear}`
-                end if
-
-            else if isStringEqual(mediaItemType, ItemType.EPISODE)
-                season = isValid(itemData.ParentIndexNumber) ? StrI(itemData.ParentIndexNumber).trim() : "0"
-                episode = isValid(itemData.IndexNumber) ? StrI(itemData.IndexNumber).trim() : "0"
-                seasonStr = Left("0" + season, 2)
-                episodeStr = Left("0" + episode, 2)
-                displayTitle = `${itemData.SeriesName} - S${seasonStr}E${episodeStr} - ${itemData.Name ?? itemData.title}`
-                if isValid(itemData.ProductionYear)
-                    displayTitle += `, ${itemData.ProductionYear}`
-                end if
-
-            else
-                displayTitle = itemData.Name ?? itemData.title
-            end if
-
-            appMgr = CreateObject("roAppManager")
-            appMgr.SetNowPlayingContentMetaData({
-                title: displayTitle,
-                contentType: mediaItemType
-            })
             ret.status = TransportStatus.SUCCESS
         else
             ret.status = TransportStatus.ERROR_GENERIC
