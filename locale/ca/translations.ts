@@ -2410,5 +2410,29 @@
         <source>Forces Jellyfin to try direct playing video media, Live TV excluded. Enabling this ignores all other playback support settings and will always first attempt direct playback. It also changes how transcode reason is displayed.</source>
         <translation>Força Jellyfin a intentar la reproducció directa de vídeos, excloent la TV en directe. Si activeu aquesta opció, s&apos;ignoraran totes les altres configuracions de reproducció i sempre s&apos;intentarà primer la reproducció directa. També canvia com es mostra el motiu de la transcodificació.</translation>
     </message>
+    <message>
+        <source>No cast data available.</source>
+        <translation>No hi ha informació disponible sobre el repartiment.</translation>
+    </message>
+    <message>
+        <source>as %1</source>
+        <translation>com a %1</translation>
+    </message>
+    <message>
+        <source>More with %1 in Your Library</source>
+        <translation>Més amb %1 a la mediateca</translation>
+    </message>
+    <message>
+        <source>No other titles found in your library.</source>
+        <translation>No s&apos;han trobat d&apos;altres títols a la mediateca.</translation>
+    </message>
+    <message>
+        <source>Set the length of time in seconds that the playback control overlay will remain visible when no buttons are pressed. Set to 0 to disable.</source>
+        <translation>Defineix el període de temps en segons que la superposició del control de reproducció romandrà visible quan no es premi cap botó. Poseu-ho a 0 per a inhabilitar-lo.</translation>
+    </message>
+    <message>
+        <source>Playback Controls Inactivity Timeout</source>
+        <translation>Temps d&apos;espera d&apos;inactivitat dels controls de reproducció</translation>
+    </message>
 </context>
 </TS>
