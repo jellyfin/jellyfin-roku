@@ -437,7 +437,7 @@ sub handleShowVideoOverviewPopupAction()
         m.overview = "No overview data available"
     end if
 
-    overviewPopupTitle = m.top.content.title
+    overviewPopupTitle = m.originalTitle
 
     if m.top.content.live
         if isValidAndNotEmpty(m.osd.itemSubtitleText)
@@ -732,7 +732,7 @@ sub onVideoContentLoaded()
     m.playbackTestComplete = videoContent[0].content.live
 
     m.top.content = videoContent[0].content
-
+    m.originalTitle = m.top.content.Title
     ' Enrich the content title for Roku Voice "what's playing"
     itemData = m.global.queueManager.callFunc("getCurrentItem")
     if isValid(itemData)
@@ -766,8 +766,8 @@ sub onVideoContentLoaded()
     m.mediaSegments = videoContent[0].mediaSegments
     m.runtimeticks = videoContent[0].runtimeticks
 
-    m.osd.itemTitleText = m.top.content.title
-    m.bufferingItemTitle.text = m.top.content.title
+    m.osd.itemTitleText = m.originalTitle
+    m.bufferingItemTitle.text = m.originalTitle
     m.osd.playbackSpeed = m.top.playbackSpeed
 
     m.trickplayDataFinal = invalid
