@@ -741,9 +741,12 @@ sub onVideoContentLoaded()
         if isStringEqual(mediaType, "episode")
             season = isValid(json.ParentIndexNumber) ? StrI(json.ParentIndexNumber).trim() : "0"
             episode = isValid(json.IndexNumber) ? StrI(json.IndexNumber).trim() : "0"
-            m.top.content.Title = `${json.SeriesName} - S${Left("0" + season, 2)}E${Left("0" + episode, 2)} - ${json.Name ?? json.title}`
+            seriesName = json.SeriesName ?? json.Name ?? json.title ?? ""
+            episodeName = json.Name ?? json.title ?? ""
+            m.top.content.Title = `${seriesName} - S${Left("0" + season, 2)}E${Left("0" + episode, 2)} - ${episodeName}`
         else if isValid(json.ProductionYear)
-            m.top.content.Title = `${json.Name ?? json.title} (${json.ProductionYear})`
+            contentName = json.Name ?? json.title ?? ""
+            m.top.content.Title = `${contentName} (${json.ProductionYear})`
         end if
     end if
 
