@@ -1633,76 +1633,76 @@
     </message>
     <message>
         <source>The selected Jellyfin server uses version</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybrany serwer Jellyfin używa wersji, która</translation>
     </message>
     <message>
         <source>which is not supported by this app. Please update the server to</source>
-        <translation type="unfinished"></translation>
+        <translation>nie jest obsługiwana przez tę aplikację. Proszę zaktualizować serwer do</translation>
     </message>
     <message>
         <source>or newer to use this app or install and use the Jellyfin Legacy app from Roku&apos;s Streaming Store</source>
-        <translation type="unfinished"></translation>
+        <translation>lub nowszej, aby korzystać z tej aplikacji lub zainstalować i korzystać z aplikacji Jellyfin Legacy ze sklepu streamingowego Roku</translation>
     </message>
     <message>
         <source>Return to server select screen</source>
-        <translation type="unfinished"></translation>
+        <translation>Powrót do ekranu wyboru serwera</translation>
     </message>
     <message>
         <source>CH</source>
-        <translation type="unfinished"></translation>
+        <translation>CH</translation>
         <extracomment>Abbreviation for Channel</extracomment>
     </message>
     <message>
         <source>Use Fallback Font Across App</source>
-        <translation type="unfinished"></translation>
+        <translation>Użyj czcionki zapasowej w całej aplikacji</translation>
     </message>
     <message>
         <source>Changes the font used in the app to the server&apos;s configured fallback font.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zmienia czcionkę używaną w aplikacji na czcionkę zapasową skonfigurowaną na serwerze.</translation>
     </message>
     <message>
         <source>Highlighted Color</source>
-        <translation type="unfinished"></translation>
+        <translation>Kolor wyróżniania</translation>
     </message>
     <message>
         <source>Folders</source>
-        <translation type="unfinished"></translation>
+        <translation>Foldery</translation>
     </message>
     <message>
         <source>Go To Artist</source>
-        <translation type="unfinished"></translation>
+        <translation>Przejdź do wykonawcy</translation>
     </message>
     <message>
         <source>No Results Found</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie znaleziono wyników</translation>
     </message>
     <message>
         <source>Format</source>
-        <translation type="unfinished"></translation>
+        <translation>Format</translation>
     </message>
     <message>
         <source>downloads</source>
-        <translation type="unfinished"></translation>
+        <translation>Pobrania</translation>
     </message>
     <message>
         <source>Series</source>
-        <translation type="unfinished"></translation>
+        <translation>Serie</translation>
     </message>
     <message>
         <source>Part</source>
-        <translation type="unfinished"></translation>
+        <translation>Część</translation>
     </message>
     <message>
         <source>Play / Resume from</source>
-        <translation type="unfinished"></translation>
+        <translation>Odtwórz / Wznów od</translation>
     </message>
     <message>
         <source>Play or Resume from</source>
-        <translation type="unfinished"></translation>
+        <translation>Odtwórz lub wznów od</translation>
     </message>
     <message>
         <source>What&apos;s New</source>
-        <translation type="unfinished"></translation>
+        <translation>Co nowego</translation>
     </message>
     <message>
         <source>Skip</source>
@@ -1710,131 +1710,131 @@
     </message>
     <message>
         <source>Sort by</source>
-        <translation type="unfinished"></translation>
+        <translation>Sortuj wg</translation>
     </message>
     <message>
         <source>Search is unavailable because the API does not support searching inside boxsets.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyszukiwanie jest niedostępne, ponieważ API nie obsługuje wyszukiwania wewnątrz zestawów pól.</translation>
     </message>
     <message>
         <source>Search is unavailable because the API does not support searching inside My List.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyszukiwanie jest niedostępne, ponieważ API nie obsługuje wyszukiwania w Mojej liście.</translation>
     </message>
     <message>
         <source>Search this library</source>
-        <translation type="unfinished"></translation>
+        <translation>Przeszukaj tę bibliotekę</translation>
     </message>
     <message>
         <source>Mark As Unplayed</source>
-        <translation type="unfinished"></translation>
+        <translation>Oznacz jako nieodtworzone</translation>
     </message>
     <message>
         <source>Mark As Played</source>
-        <translation type="unfinished"></translation>
+        <translation>Oznacz jako odtworzone</translation>
     </message>
     <message>
         <source>Add To Playlist</source>
-        <translation type="unfinished"></translation>
+        <translation>Dodaj do listy odtwarzania</translation>
     </message>
     <message>
         <source>Remove From My List</source>
-        <translation type="unfinished"></translation>
+        <translation>Usuń z mojej listy</translation>
     </message>
     <message>
         <source>Add To My List</source>
-        <translation type="unfinished"></translation>
+        <translation>Dodaj do mojej listy</translation>
     </message>
     <message>
         <source>Press OK to type</source>
-        <translation type="unfinished"></translation>
+        <translation>Naciśnij OK, aby pisać</translation>
     </message>
     <message>
         <source>Library Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustawienia biblioteki</translation>
     </message>
     <message>
         <source>Display Watched Checkmark</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyświetl znacznik wyboru obejrzanych</translation>
     </message>
     <message>
         <source>Playback Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Informacje o odtwarzaniu</translation>
     </message>
     <message>
         <source>Select Audio</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz dźwięk</translation>
     </message>
     <message>
         <source>Select Subtitles</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz napisy</translation>
     </message>
     <message>
         <source>Select Language</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz język</translation>
     </message>
     <message>
         <source>Tracks</source>
-        <translation type="unfinished"></translation>
+        <translation>Ścieżki</translation>
     </message>
     <message>
         <source>Released</source>
-        <translation type="unfinished"></translation>
+        <translation>Wydano</translation>
     </message>
     <message>
         <source>min</source>
-        <translation type="unfinished"></translation>
+        <translation>min</translation>
     </message>
     <message>
         <source>mins</source>
-        <translation type="unfinished"></translation>
+        <translation>minuty</translation>
     </message>
     <message>
         <source>Continue Listening</source>
-        <translation type="unfinished"></translation>
+        <translation>Kontynuuj słuchanie</translation>
     </message>
     <message>
         <source>In My List</source>
-        <translation type="unfinished"></translation>
+        <translation>Na mojej liście</translation>
     </message>
     <message>
         <source>AppearsOn</source>
-        <translation type="unfinished"></translation>
+        <translation>Pojawia się na</translation>
     </message>
     <message>
         <source>Public Profile</source>
-        <translation type="unfinished"></translation>
+        <translation>Profil publiczny</translation>
     </message>
     <message>
         <source>Saved Profile</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapisany profil</translation>
     </message>
     <message>
         <source>Manage Hidden Users</source>
-        <translation type="unfinished"></translation>
+        <translation>Zarządzaj ukrytymi użytkownikami</translation>
     </message>
     <message>
         <source>Select User</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz użytkownika</translation>
     </message>
     <message>
         <source>Are you sure you want to forget this user?</source>
-        <translation type="unfinished"></translation>
+        <translation>Czy na pewno chcesz zapomnieć tego użytkownika?</translation>
     </message>
     <message>
         <source>Are you sure you want to delete this subtitle?</source>
-        <translation type="unfinished"></translation>
+        <translation>Czy na pewno chcesz usunąć te napisy?</translation>
     </message>
     <message>
         <source>Yes</source>
-        <translation type="unfinished"></translation>
+        <translation>Tak</translation>
     </message>
     <message>
         <source>No, Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie, anuluj</translation>
     </message>
     <message>
         <source>Manual Login</source>
-        <translation type="unfinished"></translation>
+        <translation>Logowanie ręczne</translation>
     </message>
     <message>
         <source>Unhide Users</source>
@@ -1842,93 +1842,93 @@
     </message>
     <message>
         <source>Unhide Users</source>
-        <translation type="unfinished"></translation>
+        <translation>Odkryj użytkowników</translation>
     </message>
     <message>
         <source>Play Normally - disabled because of selected force transcoding setting</source>
-        <translation type="unfinished"></translation>
+        <translation>Odtwarzaj normalnie – wyłączone z powodu wybranego ustawienia wymuszonego transkodowania</translation>
     </message>
     <message>
         <source>as</source>
-        <translation type="unfinished"></translation>
+        <translation>jako</translation>
         <extracomment>Used in ExtrasRowList.bs to show the role of a person in a movie or TV show</extracomment>
     </message>
     <message>
         <source>Seasons</source>
-        <translation type="unfinished"></translation>
+        <translation>Sezony</translation>
         <extracomment>Used in TVSeasonRow.bs to show the title of a row containing seasons</extracomment>
     </message>
     <message>
         <source>Season</source>
-        <translation type="unfinished"></translation>
+        <translation>Sezon</translation>
     </message>
     <message>
         <source>Episode</source>
-        <translation type="unfinished"></translation>
+        <translation>Odcinek</translation>
     </message>
     <message>
         <source>Section 1</source>
-        <translation type="unfinished"></translation>
+        <translation>Sekcja 1</translation>
     </message>
     <message>
         <source>Section 2</source>
-        <translation type="unfinished"></translation>
+        <translation>Sekcja 2</translation>
     </message>
     <message>
         <source>Section 3</source>
-        <translation type="unfinished"></translation>
+        <translation>Sekcja 3</translation>
     </message>
     <message>
         <source>Section 4</source>
-        <translation type="unfinished"></translation>
+        <translation>Sekcja 4</translation>
     </message>
     <message>
         <source>Section 5</source>
-        <translation type="unfinished"></translation>
+        <translation>Sekcja 5</translation>
     </message>
     <message>
         <source>Section 6</source>
-        <translation type="unfinished"></translation>
+        <translation>Sekcja 6</translation>
     </message>
     <message>
         <source>Section 7</source>
-        <translation type="unfinished"></translation>
+        <translation>Sekcja 7</translation>
     </message>
     <message>
         <source>Section 8</source>
-        <translation type="unfinished"></translation>
+        <translation>Sekcja 8</translation>
     </message>
     <message>
         <source>Select what to show in section 1. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz, co ma być wyświetlane w sekcji 1. To ustawienie nie działa, jeśli opcja „Użyj układu sekcji głównej klienta internetowego” jest włączona. Aby zmiany zostały wprowadzone, należy zamknąć i ponownie otworzyć aplikację Jellyfin.</translation>
     </message>
     <message>
         <source>Select what to show in section 2. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz, co ma być wyświetlane w sekcji 2. To ustawienie nie działa, jeśli opcja „Użyj układu sekcji głównej klienta internetowego” jest włączona. Aby zmiany zostały wprowadzone, należy zamknąć i ponownie otworzyć aplikację Jellyfin.</translation>
     </message>
     <message>
         <source>Select what to show in section 3. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz, co ma być wyświetlane w sekcji 3. To ustawienie nie działa, jeśli opcja „Użyj układu sekcji głównej klienta internetowego” jest włączona. Aby zmiany zostały wprowadzone, należy zamknąć i ponownie otworzyć aplikację Jellyfin.</translation>
     </message>
     <message>
         <source>Select what to show in section 4. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz, co ma być wyświetlane w sekcji 4. To ustawienie nie działa, jeśli opcja „Użyj układu sekcji głównej klienta internetowego” jest włączona. Aby zmiany zostały wprowadzone, należy zamknąć i ponownie otworzyć aplikację Jellyfin.</translation>
     </message>
     <message>
         <source>Select what to show in section 5. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz, co ma być wyświetlane w sekcji 5. To ustawienie nie działa, jeśli opcja „Użyj układu sekcji głównej klienta internetowego” jest włączona. Aby zmiany zostały wprowadzone, należy zamknąć i ponownie otworzyć aplikację Jellyfin.</translation>
     </message>
     <message>
         <source>Select what to show in section 6. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz, co ma być wyświetlane w sekcji 6. To ustawienie nie działa, jeśli opcja „Użyj układu sekcji głównej klienta internetowego” jest włączona. Aby zmiany zostały wprowadzone, należy zamknąć i ponownie otworzyć aplikację Jellyfin.</translation>
     </message>
     <message>
         <source>Select what to show in section 7. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz, co ma być wyświetlane w sekcji 7. To ustawienie nie działa, jeśli opcja „Użyj układu sekcji głównej klienta internetowego” jest włączona. Aby zmiany zostały wprowadzone, należy zamknąć i ponownie otworzyć aplikację Jellyfin.</translation>
     </message>
     <message>
         <source>Select what to show in section 8. This setting has no effect if \&quot;Use Web Client&apos;s Home Section Arrangement\&quot; is enabled. Jellyfin will need to be closed and reopened for change to take effect.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz, co ma być wyświetlane w sekcji 8. To ustawienie nie działa, jeśli opcja „Użyj układu sekcji głównej klienta internetowego” jest włączona. Aby zmiany zostały wprowadzone, należy zamknąć i ponownie otworzyć aplikację Jellyfin.</translation>
     </message>
     <message>
         <source>Live TV</source>
@@ -1936,83 +1936,83 @@
     </message>
     <message>
         <source>My List</source>
-        <translation type="unfinished"></translation>
+        <translation>Moja lista</translation>
     </message>
     <message>
         <source>Recently Added Media</source>
-        <translation type="unfinished"></translation>
+        <translation>Ostatnio dodane media</translation>
     </message>
     <message>
         <source>Customize the home screen sections</source>
-        <translation type="unfinished"></translation>
+        <translation>Dostosuj sekcje ekranu głównego</translation>
     </message>
     <message>
         <source>Home Rows</source>
-        <translation type="unfinished"></translation>
+        <translation>Wiersze ekranu głównego</translation>
     </message>
     <message>
         <source>Colors</source>
-        <translation type="unfinished"></translation>
+        <translation>Kolory</translation>
     </message>
     <message>
         <source>Change the colors of elements in the app.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zmień kolory elementów w aplikacji.</translation>
     </message>
     <message>
         <source>All Screens</source>
-        <translation type="unfinished"></translation>
+        <translation>Wszystkie ekrany</translation>
     </message>
     <message>
         <source>Colors used across multiple screens.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kolory używane na wielu ekranach.</translation>
     </message>
     <message>
         <source>Background</source>
-        <translation type="unfinished"></translation>
+        <translation>Tło</translation>
     </message>
     <message>
         <source>The base background color. Background images are layered on top of this color.</source>
-        <translation type="unfinished"></translation>
+        <translation>Podstawowy kolor tła. Obrazy tła są nakładane na ten kolor.</translation>
     </message>
     <message>
         <source>Cursor</source>
-        <translation type="unfinished"></translation>
+        <translation>Kursor</translation>
     </message>
     <message>
         <source>The color of the remote control&apos;s cursor.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kolor kursora pilota.</translation>
     </message>
     <message>
         <source>Primary Text</source>
-        <translation type="unfinished"></translation>
+        <translation>Tekst podstawowy</translation>
     </message>
     <message>
         <source>The primary text color.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kolor podstawowego tekstu.</translation>
     </message>
     <message>
         <source>Secondary Text</source>
-        <translation type="unfinished"></translation>
+        <translation>Tekst pomocniczy</translation>
     </message>
     <message>
         <source>The secondary text color.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kolor pomocniczego tekstu.</translation>
     </message>
     <message>
         <source>Watched Check Mark &amp; Unplayed Count</source>
-        <translation type="unfinished"></translation>
+        <translation>Znacznik wyboru obejrzanych i liczniki nieodtworzonych</translation>
     </message>
     <message>
         <source>Colors specific to the watched check mark &amp; unplayed count box.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kolory charakterystyczne dla znacznika wyboru obejrzanych i pola liczby nieodtworzonych.</translation>
     </message>
     <message>
         <source>The background color of the check mark &amp; unplayed count shown in the top right corner of items.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kolor tła znacznika wyboru i liczby nieodtworzonych elementów wyświetlanych w prawym górnym rogu elementów.</translation>
     </message>
     <message>
         <source>Unplayed Count</source>
-        <translation type="unfinished"></translation>
+        <translation>Liczba nieodtworzonych</translation>
     </message>
     <message>
         <source>The color of the unplayed count number.</source>
