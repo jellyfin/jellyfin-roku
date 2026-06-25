@@ -21,6 +21,10 @@ const ASPECT_RATIO_LANDSCAPE_NO_TITLE = .56307
 const ASPECT_RATIO_PORTRAIT_WITH_TITLE = 1.69565
 const ASPECT_RATIO_LANDSCAPE_WITH_TITLE = .66307
 
+' Rebinding grid content on screen restore can emit a stale itemSelected after
+' OnScreenShown returns, so suppress selection callbacks through that settle window.
+const SELECTION_RESTORE_SUPPRESSION_SECONDS = 0.2
+
 sub setupNodes()
     m.top.imageDisplayMode = "scaleToZoom"
     m.top.showItemTitles = "showonhover"
@@ -132,6 +136,11 @@ sub init()
     m.top.optionsAvailable = false
     setupNodes()
     m.bypassSearchEvent = false
+    m.suppressSelectionEvents = false
+    m.restoreSelectionTimer = createObject("roSGNode", "Timer")
+    m.restoreSelectionTimer.repeat = false
+    m.restoreSelectionTimer.duration = SELECTION_RESTORE_SUPPRESSION_SECONDS
+    m.restoreSelectionTimer.observeField("fire", "onRestoreSelectionTimerFire")
 
     m.itemGrid.focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
     m.genreList.focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
@@ -184,6 +193,9 @@ sub OnScreenHidden()
 end sub
 
 sub OnScreenShown()
+    m.suppressSelectionEvents = true
+    m.top.selectedItem = invalid
+    m.restoreSelectionTimer.control = "stop"
     redrawItems()
 
     m.overhang.isVisible = false
@@ -208,6 +220,12 @@ sub OnScreenShown()
         m.top.setFocus(true)
         group.lastFocus = m.top
     end if
+
+    m.restoreSelectionTimer.control = "start"
+end sub
+
+sub onRestoreSelectionTimerFire()
+    m.suppressSelectionEvents = false
 end sub
 
 sub onItemDataLoaded()
@@ -1281,6 +1299,8 @@ end sub
 '
 'Item Selected
 sub onItemSelected()
+    if m.suppressSelectionEvents then return
+
     m.top.selectedItem = m.itemGrid.content.getChild(m.itemGrid.itemSelected)
     m.top.selectedItem = invalid
 end sub
@@ -1299,7 +1319,10 @@ end function
 '
 'Genre Item Selected
 sub onGenreItemSelected()
+    if m.suppressSelectionEvents then return
+
     m.top.selectedItem = m.genreList.content.getChild(m.genreList.rowItemSelected[0]).getChild(m.genreList.rowItemSelected[1])
+    m.top.selectedItem = invalid
 end sub
 
 '
