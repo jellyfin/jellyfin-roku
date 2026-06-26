@@ -103,7 +103,7 @@ sub itemContentChanged()
     m.itemPoster.width = itemData.imageWidth
     m.itemPoster.loadDisplayMode = "scaleToZoom"
 
-    m.itemTextExtra.width = itemData.imageWidth
+    m.itemTextExtra.maxWidth = itemData.imageWidth
     m.itemTextExtra.visible = true
     m.itemTextExtra.text = ""
     m.itemTextExtra.font.size = 22
@@ -161,6 +161,11 @@ sub itemContentChanged()
 
     if itemDataType = ItemType.MUSICALBUM
         displayMusicAlbumInfo(itemData as object)
+        return
+    end if
+
+    if itemDataType = ItemType.RADIOSTATION
+        displayRadioStationInfo(itemData as object)
         return
     end if
 
@@ -276,6 +281,12 @@ end sub
 sub displayMusicAlbumInfo(itemData as object)
     m.itemText.text = itemData.name
     m.itemTextExtra.text = itemData.json.AlbumArtist
+    m.itemPoster.uri = itemData.posterURL
+end sub
+
+sub displayRadioStationInfo(itemData as object)
+    m.itemText.text = itemData.name
+    m.itemTextExtra.text = itemData.json.Subtitle
     m.itemPoster.uri = itemData.posterURL
 end sub
 
@@ -440,6 +451,7 @@ end sub
 ' Enable title scrolling based on item Focus
 sub focusChanged()
     m.itemText.repeatCount = m.top.itemHasFocus ? - 1 : 0
+    m.itemTextExtra.repeatCount = m.top.itemHasFocus ? - 1 : 0
 end sub
 
 'Hide backdrop and icon when poster loaded

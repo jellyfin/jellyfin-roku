@@ -884,6 +884,8 @@ sub onSelectedItemEvent(msg)
             m.global.queueManager.callFunc("resetShuffle")
             m.global.queueManager.callFunc("push", selectedItem.json)
             m.global.queueManager.callFunc("playQueue")
+        else if isStringEqual(selectedItemType, "radiostation")
+            CreateRadioStation(selectedItem)
         else if selectedItemType = "audiobook"
             ' Display playback options dialog
             showPlaybackOptionDialog = false

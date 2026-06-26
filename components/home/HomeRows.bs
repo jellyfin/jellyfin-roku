@@ -1,4 +1,5 @@
 import "pkg:/source/constants/HomeRowItemSizes.bs"
+import "pkg:/source/enums/ItemType.bs"
 import "pkg:/source/enums/KeyCode.bs"
 import "pkg:/source/enums/TaskControl.bs"
 import "pkg:/source/utils/misc.bs"
@@ -293,6 +294,12 @@ function addHomeSection(sectionType as string) as boolean
         return true
     end if
 
+    ' Radio Stations
+    if isStringEqual(sectionType, "radiostations")
+        createRadioStationsRow()
+        return true
+    end if
+
     ' This section type isn't supported.
     ' Count it as processed since we aren't going to do anything else with it
     m.processedRowCount++
@@ -494,6 +501,61 @@ sub createNextUpRow()
     ' Load the Next Up Data
     m.LoadNextUpTask.observeField("content", "updateNextUpItems")
     m.LoadNextUpTask.control = "RUN"
+end sub
+
+' createRadioStationsRow: Creates a row displaying radio stations
+'
+sub createRadioStationsRow()
+    m.processedRowCount++
+    sectionName = tr("Radio Stations")
+
+    row = m.top.content.CreateChild("HomeRow")
+    row.title = sectionName
+    row.imageWidth = homeRowItemSizes.MUSIC_ALBUM[0]
+    row.cursorSize = homeRowItemSizes.MUSIC_ALBUM
+
+    item = CreateObject("roSGNode", "HomeData")
+    item.id = "mostplayed"
+    item.posterURL = "pkg:/images/icons/mostplayed.png"
+    item.type = ItemType.RADIOSTATION
+    item.usePoster = false
+    item.imageWidth = row.imageWidth
+    item.json = {
+        id: "mostplayed",
+        PlaylistID: "mostplayed",
+        IsFolder: true,
+        Name: tr("Most Played Tracks"),
+        Subtitle: tr("Shuffle play your most played tracks"),
+        Type: ItemType.RADIOSTATION,
+        CollectionType: "radioStation"
+    }
+    row.appendChild(item)
+
+    item = CreateObject("roSGNode", "HomeData")
+    item.id = "leastplayed"
+    item.posterURL = "pkg:/images/icons/leastplayed.png"
+    item.type = ItemType.RADIOSTATION
+    item.usePoster = false
+    item.imageWidth = row.imageWidth
+    item.json = {
+        id: "leastplayed",
+        PlaylistID: "leastplayed",
+        IsFolder: true,
+        Name: tr("Least Played Tracks"),
+        Subtitle: tr("Shuffle play your least played tracks"),
+        Type: ItemType.RADIOSTATION,
+        CollectionType: "radioStation"
+    }
+    row.appendChild(item)
+
+    if sectionExists(sectionName)
+        m.top.content.replaceChild(row, getSectionIndex(sectionName))
+        setRowItemSize()
+        return
+    end if
+
+    m.top.content.insertChild(row, getSectionIndex(sectionName))
+    setRowItemSize()
 end sub
 
 ' createMyListRow: Creates a row displaying items from the user's personal list
