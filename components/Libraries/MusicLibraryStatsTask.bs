@@ -1,0 +1,256 @@
+import "pkg:/source/api/sdk.bs"
+import "pkg:/source/enums/ItemType.bs"
+import "pkg:/source/utils/config.bs"
+import "pkg:/source/utils/misc.bs"
+
+' Number of artists fetched per server page while resolving filtered totals.
+const ARTIST_STATS_PAGE_SIZE = 200
+
+' Filtered totals first resolve matching artists, then send those IDs back in
+' ArtistIds/AlbumArtistIds count queries. This is a conservative local URL-size
+' guard, not a server API limit; if more artists match, the count query is skipped.
+const MAX_FILTERED_ARTIST_IDS = 100
+
+sub init()
+    m.top.functionName = "loadLibraryStats"
+end sub
+
+sub loadLibraryStats()
+    result = {
+        parentId: m.top.parentId,
+        key: m.top.statsKey
+    }
+
+    artistIds = invalid
+    if hasActiveArtistFilter()
+        artistIdResult = getFilteredArtistIds()
+        artistIds = artistIdResult.ids
+        result.filteredArtistCount = artistIds.Count()
+
+        if artistIds.Count() = 0
+            result.songCount = 0
+            result.albumCount = 0
+            m.top.content = result
+            return
+        end if
+
+        if artistIdResult.limitExceeded
+            result.filteredArtistLimitExceeded = true
+            m.top.content = result
+            return
+        end if
+    end if
+
+    songCount = getLibraryItemCount(ItemType.AUDIO, artistIds)
+    if isValid(songCount) then result.songCount = songCount
+
+    albumCount = getLibraryItemCount(ItemType.MUSICALBUM, artistIds)
+    if isValid(albumCount) then result.albumCount = albumCount
+
+    m.top.content = result
+end sub
+
+function getLibraryItemCount(itemType as string, artistIds = invalid as dynamic) as dynamic
+    params = {
+        "UserId": m.global.session.user.id,
+        "IncludeItemTypes": itemType,
+        "Recursive": true,
+        "EnableTotalRecordCount": true,
+        "Limit": 0
+    }
+
+    if isValidAndNotEmpty(m.top.parentId)
+        params.ParentId = m.top.parentId
+    end if
+
+    if isValid(artistIds)
+        if artistIds.Count() = 0 then return 0
+
+        params.AddReplace(getArtistStatsFilter(), artistIds.join(","))
+        appendFilterParams(params)
+    end if
+
+    data = api.items.Get(params)
+    count = chainLookup(data, "TotalRecordCount")
+    if isValid(count) then return count
+
+    return invalid
+end function
+
+function hasActiveArtistFilter() as boolean
+    if isValidAndNotEmpty(m.top.nameStartsWith) and not isStringEqual(m.top.nameStartsWith, " ") then return true
+    if isValidAndNotEmpty(getSearchTerm()) then return true
+    if not isStringEqual(m.top.filter, "All") then return true
+
+    return false
+end function
+
+function getFilteredArtistIds() as object
+    endpoint = getArtistEndpoint()
+    params = getBaseArtistParams()
+    result = getArtistIds(endpoint, params)
+
+    if isStringEqual(m.top.nameStartsWith, "#") and not result.limitExceeded
+        specialParams = copyAssocArray(params)
+        specialParams.StartIndex = 0
+        specialParams.NameLessThan = ""
+        specialParams.NameStartsWithOrGreater = "z"
+        specialResult = getArtistIds(endpoint, specialParams, true, MAX_FILTERED_ARTIST_IDS - result.ids.Count())
+        result.ids.Append(specialResult.ids)
+        result.limitExceeded = specialResult.limitExceeded
+    end if
+
+    return result
+end function
+
+function getBaseArtistParams() as object
+    params = {
+        "UserId": m.global.session.user.id,
+        "ParentId": m.top.parentId,
+        "Recursive": true,
+        "Fields": "Genres",
+        "IncludeItemTypes": `${ItemType.MUSICALBUM},${ItemType.AUDIO}`,
+        "EnableTotalRecordCount": true,
+        "Limit": ARTIST_STATS_PAGE_SIZE,
+        "StartIndex": 0
+    }
+
+    appendAlphaParams(params)
+    appendSearchParams(params)
+    appendFilterParams(params)
+
+    return params
+end function
+
+sub appendAlphaParams(params as object)
+    if not isValidAndNotEmpty(m.top.nameStartsWith) then return
+    if isStringEqual(m.top.nameStartsWith, " ") then return
+
+    if isStringEqual(m.top.nameStartsWith, "#")
+        params.NameLessThan = "A"
+    else
+        params.NameStartsWith = m.top.nameStartsWith
+    end if
+end sub
+
+sub appendSearchParams(params as object)
+    searchTerm = getSearchTerm()
+    if isValidAndNotEmpty(searchTerm)
+        params.SearchTerm = searchTerm
+    end if
+end sub
+
+sub appendFilterParams(params as object)
+    filter = m.top.filter
+
+    if isStringEqual(filter, "All")
+        return
+    else if isStringEqual(filter, "Favorites")
+        params.Append({ "Filters": "IsFavorite" })
+        params.Append({ "IsFavorite": true })
+    else if isStringEqual(filter, "Unplayed")
+        params.Append({ "Filters": "IsUnplayed" })
+    else if isStringEqual(filter, "Played")
+        params.Append({ "Filters": "IsPlayed" })
+    else if isStringEqual(filter, "Resumable")
+        params.Append({ "Filters": "IsResumable" })
+    else if isStringEqual(filter, "Features")
+        if isChainValid(m.top.filterOptions, "Features")
+            featureFilterList = m.top.filterOptions.Features
+            if featureFilterList.Instr("Subtitles") <> -1
+                params.Append({ "HasSubtitles": true })
+            end if
+            if featureFilterList.Instr("Special Features") <> -1
+                params.Append({ "HasSpecialFeature": true })
+            end if
+            if featureFilterList.Instr("Theme Song") <> -1
+                params.Append({ "HasThemeSong": true })
+            end if
+            if featureFilterList.Instr("Theme Video") <> -1
+                params.Append({ "HasThemeVideo": true })
+            end if
+        end if
+    end if
+
+    if not isStringEqual(filter, "Features")
+        if isValid(m.top.filterOptions) and m.top.filterOptions.Count() > 0
+            params.Append(m.top.filterOptions)
+        end if
+    end if
+end sub
+
+function getSearchTerm() as string
+    if not isValidAndNotEmpty(m.top.searchTerm) then return ""
+    if isStringEqual(m.top.searchTerm, tr("all")) then return ""
+
+    return m.top.searchTerm
+end function
+
+function getArtistIds(endpoint as string, params as object, skipNamesStartingWithZ = false as boolean, maxArtistIds = invalid as dynamic) as object
+    result = {
+        ids: [],
+        limitExceeded: false
+    }
+    pageSize = ARTIST_STATS_PAGE_SIZE
+    if not isValid(maxArtistIds) then maxArtistIds = MAX_FILTERED_ARTIST_IDS
+    done = false
+
+    while not done
+        data = getJson(APIRequest(endpoint, params))
+        if not isValid(data) or not isValid(data.Items)
+            exit while
+        end if
+
+        for each item in data.Items
+            if shouldIncludeArtistItem(item, skipNamesStartingWithZ)
+                if result.ids.Count() >= maxArtistIds
+                    result.limitExceeded = true
+                    return result
+                end if
+                result.ids.Push(item.Id)
+            end if
+        end for
+
+        itemCount = data.Items.Count()
+        if itemCount < pageSize
+            done = true
+        else
+            params.StartIndex += itemCount
+        end if
+    end while
+
+    return result
+end function
+
+function shouldIncludeArtistItem(item as object, skipNamesStartingWithZ as boolean) as boolean
+    if not isValidAndNotEmpty(item.Id) then return false
+    if not skipNamesStartingWithZ then return true
+    if not isValidAndNotEmpty(item.Name) then return true
+
+    return not LCase(item.Name).StartsWith("z")
+end function
+
+function getArtistEndpoint() as string
+    if isStringEqual(getArtistItemType(), "AlbumArtists") then return "Artists/AlbumArtists"
+    return "Artists"
+end function
+
+function getArtistItemType() as string
+    if isStringEqual(m.top.artistItemType, "AlbumArtists") then return "AlbumArtists"
+    return ItemType.MUSICARTIST
+end function
+
+function getArtistStatsFilter() as string
+    if isStringEqual(getArtistItemType(), "AlbumArtists") then return "AlbumArtistIds"
+    return "ArtistIds"
+end function
+
+function copyAssocArray(source as object) as object
+    result = {}
+
+    for each key in source
+        result.AddReplace(key, source[key])
+    end for
+
+    return result
+end function

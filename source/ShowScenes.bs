@@ -869,6 +869,9 @@ function CreateArtistView(artist as object) as dynamic
         group.pageContent = ItemMetaData(artist.id)
         group.musicArtistAlbumData = musicData
         group.musicArtistAppearsOnData = appearsOnData
+        group.songCount = MusicArtistSongCount(artist.id)
+        group.albumCount = isValid(musicData) ? musicData.getChildCount() : 0
+        group.appearsOnCount = isValid(appearsOnData) ? appearsOnData.getChildCount() : 0
         group.artistOverview = ArtistOverview(artist.name)
 
         group.observeField("musicAlbumSelected", m.port)

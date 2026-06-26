@@ -1,4 +1,5 @@
 import "pkg:/source/api/sdk.bs"
+import "pkg:/source/enums/ItemType.bs"
 import "pkg:/source/enums/PlaybackMethod.bs"
 import "pkg:/source/enums/SubtitleSelection.bs"
 
@@ -381,6 +382,22 @@ function AppearsOnList(id as string)
     row.appendChildren(results)
 
     return row
+end function
+
+function MusicArtistSongCount(id as string) as integer
+    data = api.items.Get({
+        "UserId": m.global.session.user.id,
+        "AlbumArtistIds": id,
+        "includeitemtypes": ItemType.AUDIO,
+        "Recursive": true,
+        "EnableTotalRecordCount": true,
+        "Limit": 0
+    })
+
+    count = chainLookup(data, "TotalRecordCount")
+    if isValid(count) then return count
+
+    return 0
 end function
 
 ' Get list of songs belonging to an artist

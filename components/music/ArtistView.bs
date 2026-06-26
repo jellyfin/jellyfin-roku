@@ -14,7 +14,8 @@ sub init()
     m.albumHeader.text = tr("Albums")
 
     m.appearsOnHeader = m.top.findNode("appearsOnHeader")
-    m.appearsOnHeader.text = tr("AppearsOn")
+    m.appearsOnHeader.text = tr("Appears On")
+    m.artistStats = m.top.findNode("artistStats")
 
     m.similarArtist = m.top.findNode("similarArtist")
     m.similarArtist.focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
@@ -209,6 +210,8 @@ sub pageContentChanged()
 
     ' Populate scene data
     setScreenTitle(item.json)
+    setArtistHeaders(item.json)
+    updateArtistStats()
     setPosterImage(item.posterURL)
 end sub
 
@@ -217,6 +220,43 @@ sub setScreenTitle(json)
         m.top.overhangTitle = json.name
     end if
 end sub
+
+sub setArtistHeaders(json)
+    if not isValid(json) or not isValidAndNotEmpty(json.name) then return
+
+    m.albumHeader.text = tr("Albums (%1)").Replace("%1", json.name)
+    m.appearsOnHeader.text = tr("Appears On (%1)").Replace("%1", json.name)
+end sub
+
+sub artistStatsChanged()
+    updateArtistStats()
+end sub
+
+sub updateArtistStats()
+    stats = []
+
+    if m.top.songCount > 0
+        stats.Push(formatArtistStatCount(m.top.songCount, "%1 Song", "%1 Songs"))
+    end if
+
+    if m.top.albumCount > 0
+        stats.Push(formatArtistStatCount(m.top.albumCount, "%1 Album", "%1 Albums"))
+    end if
+
+    if m.top.appearsOnCount > 0
+        stats.Push(formatArtistStatCount(m.top.appearsOnCount, "%1 Appears On", "%1 Appears On"))
+    end if
+
+    m.artistStats.text = stats.join(" | ")
+    m.artistStats.visible = stats.Count() > 0
+end sub
+
+function formatArtistStatCount(count as integer, singularSource as string, pluralSource as string) as string
+    source = pluralSource
+    if count = 1 then source = singularSource
+
+    return tr(source).Replace("%1", count.ToStr().trim())
+end function
 
 sub setPosterImage(posterURL)
     if not isValid(posterURL) or posterURL = ""

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component name="MusicLibraryStatsTask" extends="Task">
+  <interface>
+    <field id="parentId" type="string" />
+    <field id="statsKey" type="string" />
+    <field id="artistItemType" type="string" />
+    <field id="nameStartsWith" type="string" value="" />
+    <field id="searchTerm" type="string" value="" />
+    <field id="filter" type="string" value="All" />
+    <field id="filterOptions" type="assocarray" />
+    <field id="content" type="assocarray" alwaysNotify="true" />
+  </interface>
+</component>
