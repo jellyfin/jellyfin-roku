@@ -10,6 +10,7 @@ sub init()
     m.port = CreateObject("roMessagePort")
     m.top.observeField("transportResponse", m.port)
     m.top.functionName = "runLoop"
+    m.top.observeField("nowPlayingData", m.port)
 end sub
 ' runLoop: Main task loop. Listens for roInput events and forwards them.
 '
@@ -31,6 +32,18 @@ sub runLoop()
                 response = msg.getData()
                 if isValid(response) and isValid(response.id)
                     m.input.EventResponse({ id: response.id, status: response.status })
+                end if
+                ' Send Now Playing metadata to Roku OS
+            else if isStringEqual(msg.getField(), "nowPlayingData")
+                data = msg.getData()
+                if isValid(data) and isValid(data.title)
+                    appMgr = CreateObject("roAppManager")
+                    ' Roku Voice reads Now Playing metadata from roAppManager.
+                    ' Keep this in TASK context; calling roAppManager from SceneGraph nodes fails.
+                    appMgr.SetNowPlayingContentMetaData({
+                        title: data.title,
+                        contentType: data.contentType ?? "video"
+                    })
                 end if
             end if
         end if
