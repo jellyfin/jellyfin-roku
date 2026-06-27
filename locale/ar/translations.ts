@@ -1696,19 +1696,19 @@
     </message>
     <message>
         <source>Mark As Unplayed</source>
-        <translation type="unfinished"></translation>
+        <translation>أشر كغير مشغّل</translation>
     </message>
     <message>
         <source>Mark As Played</source>
-        <translation type="unfinished"></translation>
+        <translation>أشر كمشغّل</translation>
     </message>
     <message>
         <source>Add To Playlist</source>
-        <translation type="unfinished"></translation>
+        <translation>أضف إلى لائحة التشغيل</translation>
     </message>
     <message>
         <source>Remove From My List</source>
-        <translation type="unfinished"></translation>
+        <translation>احذف من لائحة التشغيل خاصتي</translation>
     </message>
     <message>
         <source>Add To My List</source>
@@ -2146,23 +2146,23 @@
     </message>
     <message>
         <source>Play Normally</source>
-        <translation type="unfinished"></translation>
+        <translation>تشغيل طبيعي</translation>
     </message>
     <message>
         <source>Force Transcode (Allow Remux)</source>
-        <translation type="unfinished"></translation>
+        <translation>إجبار التشفير (الخلط مسموح)</translation>
     </message>
     <message>
         <source>Force Transcode (Allow Remux) - disabled because of selected force transcoding setting</source>
-        <translation type="unfinished"></translation>
+        <translation>إجبار التشفير (الخلط مسموح) - متبّط بسبب إعدادات الترميز المختار</translation>
     </message>
     <message>
         <source>Force Transcode (Remux Disabled)</source>
-        <translation type="unfinished"></translation>
+        <translation>إجبار التشفير (الخلط متبّط)</translation>
     </message>
     <message>
         <source>Force Transcode (Remux Disabled) - disabled because of selected force transcoding setting</source>
-        <translation type="unfinished"></translation>
+        <translation>إجبار التشفير (الخلط متبّط) - متبّط بسبب إعدادات الترميز المختار</translation>
     </message>
     <message>
         <source>No channels found matching your search criteria</source>
@@ -2461,6 +2461,14 @@
     <message>
         <source>No other titles found in your library.</source>
         <translation>لم يّعثر على عناوين اخرى في مكتبتك.</translation>
+    </message>
+    <message>
+        <source>Playback Controls Inactivity Timeout</source>
+        <translation>انتهى توقيت خمول أدوات التشغيل</translation>
+    </message>
+    <message>
+        <source>Roku thought it could direct play this media, but playback never started.</source>
+        <translation>يظن Ruko انه يمكن تشغيل الوسيطة مباشرة, لكن التشغيل لم يبدأ ابدا.</translation>
     </message>
 </context>
 </TS>
