@@ -1,3 +1,4 @@
+import "pkg:/source/enums/ItemType.bs"
 import "pkg:/source/utils/config.bs"
 import "pkg:/source/utils/misc.bs"
 
@@ -63,9 +64,9 @@ sub itemContentChanged()
     m.hasPoster = isValidAndNotEmpty(posterURL)
     m.forceTitleVisible = not m.hasPoster or not isValidAndNotEmpty(itemData.LookupCI("title"))
 
-    if isStringEqual(itemData.type, "musicalbum")
+    if isStringEqual(itemData.type, ItemType.MUSICALBUM)
         m.backdrop.uri = "pkg:/images/icons/album.png"
-    else if isStringEqual(itemData.type, "musicartist")
+    else if isStringEqual(itemData.type, ItemType.MUSICARTIST)
         m.backdrop.uri = "pkg:/images/missingArtist.png"
     else if isStringEqual(chainLookup(itemData, "json.type"), "musicgenre")
         m.backdrop.uri = "pkg:/images/icons/musicFolder.png"
@@ -142,9 +143,9 @@ function getFallbackTitle(itemData as object) as string
     title = chainLookup(itemData, "json.name")
     if isValidAndNotEmpty(title) then return title
 
-    if isStringEqual(itemData.LookupCI("type"), "musicartist")
+    if isStringEqual(itemData.LookupCI("type"), ItemType.MUSICARTIST)
         return tr("Unknown Artist")
-    else if isStringEqual(itemData.LookupCI("type"), "musicalbum")
+    else if isStringEqual(itemData.LookupCI("type"), ItemType.MUSICALBUM)
         return tr("Unknown Album")
     end if
 
