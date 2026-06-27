@@ -602,7 +602,7 @@ function isFavoriteSectionTitle(sectionTitle as dynamic) as boolean
     favoritesTitle = tr("Favorites").Replace(" ", "")
     favoriteTitlePrefix = tr("Favorite").Replace(" ", "")
 
-    return isStringEqual(searchSectionTitle, favoritesTitle) or isStringEqual(Left(searchSectionTitle, Len(favoriteTitlePrefix)), favoriteTitlePrefix)
+    return isStringEqual(searchSectionTitle, favoritesTitle) or searchSectionTitle.StartsWith(favoriteTitlePrefix)
 end function
 
 function favoriteSectionExists() as boolean

@@ -467,16 +467,16 @@ end function
 '
 function getFavoriteRowDefinitions() as object
     return [
-        { title: `${tr("Favorite")} ${tr("Movies")}`, includeItemTypes: "Movie", rowType: "poster" },
-        { title: `${tr("Favorite")} ${tr("Shows")}`, includeItemTypes: "Series", rowType: "poster" },
-        { title: `${tr("Favorite")} ${tr("Episodes")}`, includeItemTypes: "Episode", rowType: "wide" },
-        { title: `${tr("Favorite")} ${tr("Videos")}`, includeItemTypes: "Video,MusicVideo", rowType: "wide" },
-        { title: `${tr("Favorite")} ${tr("Collections")}`, includeItemTypes: "BoxSet", rowType: "poster" },
-        { title: `${tr("Favorite")} ${tr("Playlists")}`, includeItemTypes: "Playlist", rowType: "album" },
+        { title: `${tr("Favorite")} ${tr("Movies")}`, includeItemTypes: ItemType.MOVIE, rowType: "poster" },
+        { title: `${tr("Favorite")} ${tr("Shows")}`, includeItemTypes: ItemType.SERIES, rowType: "poster" },
+        { title: `${tr("Favorite")} ${tr("Episodes")}`, includeItemTypes: ItemType.EPISODE, rowType: "wide" },
+        { title: `${tr("Favorite")} ${tr("Videos")}`, includeItemTypes: `${ItemType.VIDEO},${ItemType.MUSICVIDEO}`, rowType: "wide" },
+        { title: `${tr("Favorite")} ${tr("Collections")}`, includeItemTypes: ItemType.BOXSET, rowType: "poster" },
+        { title: `${tr("Favorite")} ${tr("Playlists")}`, includeItemTypes: ItemType.PLAYLIST, rowType: "album" },
         { title: `${tr("Favorite")} ${tr("Cast & Crew")}`, queryType: "people", rowType: "poster" },
         { title: `${tr("Favorite")} ${tr("Artists")}`, queryType: "artists", rowType: "album" },
-        { title: `${tr("Favorite")} ${tr("Albums")}`, includeItemTypes: "MusicAlbum", rowType: "album" },
-        { title: `${tr("Favorite")} ${tr("Songs")}`, includeItemTypes: "Audio", rowType: "album" }
+        { title: `${tr("Favorite")} ${tr("Albums")}`, includeItemTypes: ItemType.MUSICALBUM, rowType: "album" },
+        { title: `${tr("Favorite")} ${tr("Songs")}`, includeItemTypes: ItemType.AUDIO, rowType: "album" }
     ]
 end function
 
@@ -565,7 +565,7 @@ function loadFavorites() as object
         if isStringEqual(queryType, "people")
             data = api.persons.Get(params)
         else if isStringEqual(queryType, "artists")
-            params.IncludeItemTypes = "MusicAlbum,Audio"
+            params.IncludeItemTypes = `${ItemType.MUSICALBUM},${ItemType.AUDIO}`
             data = api.artists.Get(params)
         else
             params.IncludeItemTypes = favoriteRow.LookupCI("includeItemTypes")
@@ -708,7 +708,7 @@ function loadPlaylists() as object
         if isStringEqual(item.LookupCI("CollectionType"), "playlists")
             playlistData = api.items.Get({
                 userid: m.global.session.user.id,
-                includeItemTypes: "Playlist",
+                includeItemTypes: ItemType.PLAYLIST,
                 parentId: item.LookupCI("id"),
                 SortBy: "SortName"
             })
