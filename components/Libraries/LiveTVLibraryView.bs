@@ -320,7 +320,7 @@ sub ItemDataLoaded(msg)
         m.emptyText.visible = true
     end if
 
-    if isStringEqual(m.options.view, "tvGuide") or isStringEqual(m.options.view, "livetv")
+    if not isStringEqual(m.global.session.user.settings["display.livetv.landing"], "guide") or isStringEqual(m.options.view, "livetv")
         stopLoadingSpinner()
     end if
 end sub
