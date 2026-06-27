@@ -103,6 +103,11 @@ sub itemContentChanged()
     m.itemPoster.width = itemData.imageWidth
     m.itemPoster.loadDisplayMode = "scaleToZoom"
 
+    m.showProgressBarAnimation.control = AnimationControl.STOP
+    m.itemProgressBackground.width = itemData.imageWidth
+    m.itemProgressBackground.visible = false
+    m.itemProgress.width = 0
+
     m.itemTextExtra.width = itemData.imageWidth
     m.itemTextExtra.visible = true
     m.itemTextExtra.text = ""
