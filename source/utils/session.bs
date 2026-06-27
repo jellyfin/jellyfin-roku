@@ -301,7 +301,7 @@ namespace session
             set_user_setting("ui.guide.indicator.live", displayLive)
             set_user_setting("ui.guide.indicator.repeat", displayRepeat)
             set_user_setting("display.livetv.landing", displayScreen)
-            set_user_setting("ui.guide.channel.order", liveTvChannelOrder)
+            set_user_setting("display.livetv.sortField", liveTvChannelOrder)
             set_user_setting("ui.guide.favorites.at.top", liveTvFavoritesAtTop)
         end sub
 

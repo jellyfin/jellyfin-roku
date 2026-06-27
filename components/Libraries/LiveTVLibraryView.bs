@@ -51,7 +51,7 @@ sub init()
     'set voice help text
     m.voiceBox.hintText = tr("Use voice remote to search")
 
-    channelOrder = chainLookupReturn(m.global.session, "ui.guide.channel.order", LiveTVChannelSortOrder.NUMBER)
+    channelOrder = chainLookupReturn(m.global.session, "display.livetv.sortField", LiveTVChannelSortOrder.NUMBER)
     if isStringEqual(channelOrder, LiveTVChannelSortOrder.DATEPLAYED)
         m.sortField = "DatePlayed"
     else
