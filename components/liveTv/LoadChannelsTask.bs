@@ -8,12 +8,15 @@ sub init()
     m.top.filter = "All"
     m.top.sortField = "SortName"
     m.top.functionName = "loadChannels"
+    m.top.favoritesAtTop = false
 end sub
 
 sub loadChannels()
 
     m.top.totalRecordCount = 0
     results = []
+    favoriteResults = []
+    standardResults = []
 
     sort_field = m.top.sortField
 
@@ -77,8 +80,14 @@ sub loadChannels()
             channel.favorite = true
         end if
 
-        results.push(channel)
+        if m.top.favoritesAtTop and channel.favorite
+            favoriteResults.push(channel)
+        else
+            standardResults.push(channel)
+        end if
     end for
 
+    results.Append(favoriteResults)
+    results.Append(standardResults)
     m.top.channels = results
 end sub
