@@ -1,6 +1,8 @@
 import "pkg:/source/api/baserequest.bs"
 import "pkg:/source/api/sdk.bs"
+import "pkg:/source/enums/LiveTVChannelTitle.bs"
 import "pkg:/source/utils/config.bs"
+import "pkg:/source/utils/misc.bs"
 
 sub init()
     m.top.filter = "All"
@@ -60,8 +62,15 @@ sub loadChannels()
 
     m.top.totalRecordCount = data.TotalRecordCount
 
+    ' The TV guide builds every channel row up front, so make each row cheap: read the
+    ' (shared) channel-title setting once instead of each row re-reading it from m.global,
+    ' and defer logo-URL building. Both otherwise allocate a regex per row.
+    titleFormat = chainLookupReturn(m.global.session, "user.settings.tvChannelTitleInfo", LiveTVChannelTitle.NUMBERANDNAME)
+
     for each item in data.Items
         channel = createObject("roSGNode", "ChannelData")
+        channel.titleFormat = titleFormat
+        channel.deferPoster = true
         channel.json = item
 
         if isChainValid(item, "UserData.IsFavorite") and item.UserData.IsFavorite
@@ -70,5 +79,6 @@ sub loadChannels()
 
         results.push(channel)
     end for
+
     m.top.channels = results
 end sub

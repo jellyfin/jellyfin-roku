@@ -1,6 +1,8 @@
 import "pkg:/components/manager/ViewCreator.bs"
 import "pkg:/source/enums/CollectionType.bs"
 import "pkg:/source/enums/ItemType.bs"
+import "pkg:/source/enums/KeyCode.bs"
+import "pkg:/source/enums/MediaPlaybackState.bs"
 import "pkg:/source/enums/PlaybackMethod.bs"
 import "pkg:/source/enums/ResumePopupAction.bs"
 import "pkg:/source/enums/String.bs"
@@ -186,6 +188,29 @@ sub onJumpToEvent(msg)
         m.global.sceneManager.callFunc("clearPreviousScene")
     end if
 
+    if isStringEqual(jumpToData.selectiontype, "playbackSelectedItem")
+        selectedItem = jumpToData.LookupCI("selectedItem")
+        if not isValid(selectedItem) then return
+
+        if isValid(currentView) and currentView.isSubType("VideoPlayerView")
+            m.pendingPlaybackSelectedItem = {
+                selectedItem: selectedItem,
+                videoNodeId: currentView.id
+            }
+            currentView.returnOnStop = true
+            currentView.observeField("state", m.port)
+            m.global.queueManager.callFunc("bypassNextPreferredAudioTrackIndexReset")
+            m.global.queueManager.callFunc("clear")
+            m.global.sceneManager.callFunc("clearPreviousScene")
+            currentView.control = VideoControl.STOP
+            return
+        end if
+
+        openPlaybackSelectedItem(selectedItem)
+
+        return
+    end if
+
     if isStringEqual(jumpToData.selectiontype, "search")
         startLoadingSpinner()
 
@@ -261,6 +286,23 @@ sub onJumpToEvent(msg)
 
         group = CreateMusicLibraryView(libraryContent)
         m.global.sceneManager.callFunc("pushScene", group)
+    end if
+end sub
+
+sub openPlaybackSelectedItem(selectedItem as object)
+    if not isValid(selectedItem) then return
+
+    selectedItemType = selectedItem.LookupCI("type")
+    if not isValidAndNotEmpty(selectedItemType) then return
+    selectedItemType = LCase(selectedItemType)
+
+    if inArray([ItemType.MOVIE, ItemType.EPISODE, ItemType.RECORDING], selectedItemType)
+        CreateMovieDetailsGroup(selectedItem)
+    else if isStringEqual(selectedItemType, ItemType.SERIES)
+        selectedItemId = chainLookup(selectedItem, "json.id")
+        if isValidAndNotEmpty(selectedItemId)
+            CreateSeriesDetailsGroup(selectedItemId)
+        end if
     end if
 end sub
 
@@ -1015,7 +1057,7 @@ sub onPlayAlbumEvent(msg)
 
     m.global.queueManager.callFunc("resetShuffle")
     m.global.queueManager.callFunc("set", screenContent.albumData.getChildren(-1, 0))
-    m.global.queueManager.callFunc("playQueue")
+    m.global.queueManager.callFunc("playQueue", true)
 end sub
 
 sub onShuffleAlbumEvent(msg)
@@ -1025,18 +1067,48 @@ sub onShuffleAlbumEvent(msg)
     m.global.queueManager.callFunc("set", screenContent.albumData.getChildren(-1, 0))
     m.global.queueManager.callFunc("setShuffle", true)
 
-    m.global.queueManager.callFunc("playQueue")
+    m.global.queueManager.callFunc("playQueue", true)
 end sub
 
 sub onPlaySongEvent(msg)
     ' User has selected audio they want us to play
-    startLoadingSpinner()
     selectedIndex = msg.getData()
     screenContent = msg.getRoSGNode()
+
+    songList = screenContent.findNode("songList")
+    if isValid(songList) and isStringEqual(songList.selectionSource, KeyCode.PLAY)
+        songList.selectionSource = string.EMPTY
+        playAlbumSongInList(screenContent, selectedIndex)
+        return
+    end if
+
+    if isAudioMiniPlayerVisibleForListPlayback()
+        playAlbumSongInList(screenContent, selectedIndex, false)
+        return
+    end if
+
+    startLoadingSpinner()
+    m.global.queueManager.callFunc("resetShuffle")
+    m.global.queueManager.callFunc("set", screenContent.albumData.getChildren(-1, 0))
+    m.global.queueManager.callFunc("setPosition", selectedIndex)
+    m.global.queueManager.callFunc("playQueue", true)
+end sub
+
+sub playAlbumSongInList(screenContent as object, selectedIndex as integer, toggleCurrentPlayback = true as boolean)
+    if toggleCurrentPlayback
+        if toggleActiveAudioPlayback()
+            showAudioMiniPlayerForListPlayback()
+            return
+        end if
+    end if
+
+    selectedSong = screenContent.albumData.getChild(selectedIndex)
+    if not isValid(selectedSong) then return
 
     m.global.queueManager.callFunc("resetShuffle")
     m.global.queueManager.callFunc("set", screenContent.albumData.getChildren(-1, 0))
     m.global.queueManager.callFunc("setPosition", selectedIndex)
+    showAudioMiniPlayerForListPlayback()
     m.global.queueManager.callFunc("playQueue")
 end sub
 
@@ -1168,11 +1240,61 @@ end sub
 
 ' User clicked on an item from a playlist
 sub onPlaylistItemSelectedEvent(msg)
-    startLoadingSpinner()
     selectedIndex = msg.getData()
     screenContent = msg.getRoSGNode()
 
-    MainAction.playItem(screenContent.listData.getChildren(-1, 0), { method: "set", resetShuffle: true, position: selectedIndex })
+    playlist = screenContent.findNode("playlist")
+    if isValid(playlist) and isStringEqual(playlist.selectionSource, KeyCode.PLAY)
+        playlist.selectionSource = string.EMPTY
+        playPlaylistItemInList(screenContent, selectedIndex)
+        return
+    end if
+
+    if isAudioMiniPlayerVisibleForListPlayback()
+        playPlaylistItemInList(screenContent, selectedIndex, false)
+        return
+    end if
+
+    startLoadingSpinner()
+    MainAction.playItem(screenContent.listData.getChildren(-1, 0), { method: "set", resetShuffle: true, showAudioPlayerView: true, position: selectedIndex })
+end sub
+
+sub playPlaylistItemInList(screenContent as object, selectedIndex as integer, toggleCurrentPlayback = true as boolean)
+    if toggleCurrentPlayback
+        if toggleActiveAudioPlayback()
+            showAudioMiniPlayerForListPlayback()
+            return
+        end if
+    end if
+
+    selectedItem = screenContent.listData.getChild(selectedIndex)
+    if not isValid(selectedItem) then return
+
+    m.global.queueManager.callFunc("resetShuffle")
+    m.global.queueManager.callFunc("set", screenContent.listData.getChildren(-1, 0))
+    m.global.queueManager.callFunc("setPosition", selectedIndex)
+    showAudioMiniPlayerForListPlayback()
+    m.global.queueManager.callFunc("playQueue")
+end sub
+
+function isAudioMiniPlayerVisibleForListPlayback() as boolean
+    scene = m.scene
+    if not isValid(scene) then return false
+
+    audioMiniPlayer = scene.findNode("audioMiniPlayer")
+    if not isValid(audioMiniPlayer) then return false
+
+    return audioMiniPlayer.callFunc("isVisible")
+end function
+
+sub showAudioMiniPlayerForListPlayback()
+    scene = m.scene
+    if not isValid(scene) then return
+
+    audioMiniPlayer = scene.findNode("audioMiniPlayer")
+    if not isValid(audioMiniPlayer) then return
+
+    audioMiniPlayer.callFunc("setVisible", true)
 end sub
 
 sub onPlayArtistSelectedEvent(msg)
@@ -1308,6 +1430,10 @@ sub onButtonSelectedEvent(msg)
 
     ' User chose Play button from movie detail view
     if isStringEqual(btn, "play-button")
+        MainAction.onResumeButtonClicked(activeScene)
+        return
+    end if
+    if isStringEqual(btn, "play-from-beginning-button")
         MainAction.onPlayButtonClicked(activeScene)
         return
     end if
@@ -1369,6 +1495,8 @@ sub onStateEvent(msg)
     node = msg.getRoSGNode()
     if not isChainValid(node, "state") then return
 
+    if handlePendingPlaybackSelectedItemState(node) then return
+
     if isStringEqual(node.state, "finished")
         if isStringEqual(node.selectedItemType, ItemType.TVCHANNEL)
             thisItem = {
@@ -1387,6 +1515,28 @@ sub onStateEvent(msg)
         end if
     end if
 end sub
+
+function handlePendingPlaybackSelectedItemState(node as object) as boolean
+    if not isValid(m.pendingPlaybackSelectedItem) then return false
+    if not node.isSubType("VideoPlayerView") then return false
+    if node.id <> m.pendingPlaybackSelectedItem.videoNodeId then return false
+
+    if not inArray(["finished", "stopped"], LCase(node.state)) then return true
+
+    node.unobserveField("state")
+
+    pendingPlaybackSelectedItem = m.pendingPlaybackSelectedItem
+    m.pendingPlaybackSelectedItem = invalid
+
+    currentView = m.global.sceneManager.callFunc("getActiveScene")
+    if isValid(currentView) and currentView.isSubType("VideoPlayerView")
+        m.global.sceneManager.callFunc("clearPreviousScene")
+    end if
+
+    openPlaybackSelectedItem(pendingPlaybackSelectedItem.selectedItem)
+
+    return true
+end function
 
 ' https://developer.roku.com/en-ca/docs/references/brightscript/events/rodeviceinfoevent.md
 sub onRoDeviceInfoEvent(msg)
