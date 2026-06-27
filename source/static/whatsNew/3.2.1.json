@@ -6,9 +6,5 @@
   {
     "description": "Prevent skip segment button from taking focus when OSD is visible",
     "author": "Catmasterson"
-  },
-  {
-    "description": "Split the home Favorites section into type-specific rows",
-    "author": "VX-101"
   }
 ]
