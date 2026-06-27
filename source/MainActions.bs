@@ -13,30 +13,18 @@ namespace MainAction
     sub onPlayButtonClicked(activeScene as object)
         startLoadingSpinner()
         activeScene.itemContent.id = chainLookup(activeScene, "selectedVideoStreamId")
-
-        ' Check if a specific Audio Stream was selected
+        ' Use selected audio stream if set by user before playback
         activeScene.itemContent.selectedAudioStreamIndex = chainLookup(activeScene, "selectedAudioStreamIndex") ?? 0
+        activeScene.itemContent.startingPoint = 0
+        playItem(activeScene.itemContent, { method: "push", bypassNextPreferredAudioTrackIndexReset: true })
+    end sub
 
-        playbackPositionTicks = chainLookup(activeScene, "itemContent.json.userdata.PlaybackPositionTicks") ?? 0
-
-        ' Display playback options dialog
-        if playbackPositionTicks > 0
-            m.global.queueManager.callFunc("hold", activeScene.itemContent)
-            playbackOptionDialog(playbackPositionTicks, activeScene.itemContent.json)
-        else
-            playItem(activeScene.itemContent, { method: "push", bypassNextPreferredAudioTrackIndexReset: true })
-        end if
-
-        if isChainValid(activeScene, "lastFocus.id") and isStringEqual(activeScene.lastFocus.id, "main_group")
-            buttons = activeScene.findNode("buttons")
-            if isValid(buttons)
-                activeScene.lastFocus = activeScene.findNode("buttons")
-            end if
-        end if
-
-        if isChainValid(activeScene, "lastFocus")
-            activeScene.lastFocus.setFocus(true)
-        end if
+    sub onResumeButtonClicked(activeScene as object)
+        startLoadingSpinner()
+        activeScene.itemContent.id = chainLookup(activeScene, "selectedVideoStreamId")
+        activeScene.itemContent.selectedAudioStreamIndex = chainLookup(activeScene, "selectedAudioStreamIndex") ?? 0
+        activeScene.itemContent.startingPoint = chainLookup(activeScene, "itemContent.json.UserData.PlaybackPositionTicks") ?? 0
+        playItem(activeScene.itemContent, { method: "push", bypassNextPreferredAudioTrackIndexReset: true })
     end sub
 
     sub onPartButtonClicked(activeScene as object)
@@ -97,15 +85,36 @@ namespace MainAction
         movie = chainLookup(activeScene, "itemContent")
         if not isChainValid(movie, "watched") or not isValid(movie.id) then return
 
-        if movie.watched
-            setPlayed(movie.id, false)
-        else
-            setPlayed(movie.id, true)
+        isFavorite = chainLookup(movie, "favorite")
+        isWatched = not movie.watched
+
+        setPlayed(movie.id, isWatched)
+
+        if isChainValid(movie, "json.UserData")
             movieData = movie.json
-            movieData.UserData.PlaybackPositionTicks = 0
+            movieData.UserData.AddReplace("IsFavorite", isFavorite)
+            movieData.UserData.AddReplace("Played", isWatched)
+            movieData.UserData.AddReplace("PlaybackPositionTicks", 0)
             movie.json = movieData
         end if
-        movie.watched = not movie.watched
+
+        movie.favorite = isFavorite
+        movie.watched = isWatched
+        updateWatchedButton(activeScene, isWatched)
+    end sub
+
+    sub updateWatchedButton(activeScene as object, isWatched as boolean)
+        watchedButton = activeScene.findNode("watched-button")
+        if not isValid(watchedButton) then return
+
+        if isWatched
+            watchedButton.text = tr("Watched")
+            watchedButton.AUDIO_GUIDE_SUFFIX = tr("Watched")
+            return
+        end if
+
+        watchedButton.text = tr("Mark As Played")
+        watchedButton.AUDIO_GUIDE_SUFFIX = tr("Mark As Played")
     end sub
 
     sub onMyListButtonClicked(activeScene as object)
@@ -138,12 +147,24 @@ namespace MainAction
         movie = chainLookup(activeScene, "itemContent")
         if not isChainValid(movie, "favorite") or not isValid(movie.id) then return
 
-        if movie.favorite
-            api.users.UnmarkFavorite(movie.id, { userId: m.global.session.user.id })
-        else
+        isFavorite = not movie.favorite
+        isWatched = chainLookup(movie, "watched")
+
+        if isFavorite
             api.users.MarkFavorite(movie.id, { userId: m.global.session.user.id })
+        else
+            api.users.UnmarkFavorite(movie.id, { userId: m.global.session.user.id })
         end if
-        movie.favorite = not movie.favorite
+
+        if isChainValid(movie, "json.UserData")
+            movieData = movie.json
+            movieData.UserData.AddReplace("IsFavorite", isFavorite)
+            movieData.UserData.AddReplace("Played", isWatched)
+            movie.json = movieData
+        end if
+
+        movie.favorite = isFavorite
+        movie.watched = isWatched
     end sub
 
     sub onEditSubtitlesButtonClicked(activeScene as object)
@@ -192,6 +213,7 @@ namespace MainAction
             method: "push",
             bypassNextPreferredAudioTrackIndexReset: false,
             resetShuffle: false,
+            showAudioPlayerView: false,
             position: -1
         }
 
@@ -212,7 +234,7 @@ namespace MainAction
             m.global.queueManager.callFunc("setPosition", playItemParams.position)
         end if
 
-        m.global.queueManager.callFunc("playQueue")
+        m.global.queueManager.callFunc("playQueue", playItemParams.showAudioPlayerView)
     end sub
 
     ' Check if this is a, "OK" Dialog and close if so

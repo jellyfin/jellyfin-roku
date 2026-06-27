@@ -644,7 +644,9 @@ function TVEpisodes(showId as string, seasonId as string) as dynamic
     {
         "seasonId": seasonId,
         "UserId": m.global.session.user.id,
-        "fields": "MediaStreams,MediaSources"
+        ' Add overview to get episode overview without making additional calls
+        ' to ItemMetaData, which is very expensive when done for each episode in a season
+        "fields": "MediaStreams,MediaSources,Overview"
     })
 
     if data = invalid or data.Items = invalid then return invalid
@@ -652,17 +654,9 @@ function TVEpisodes(showId as string, seasonId as string) as dynamic
     results = []
     for each item in data.Items
         tmp = CreateObject("roSGNode", "TVEpisodeData")
-        tmp.image = PosterImage(item.id, { "maxWidth": 400, "maxheight": 250 })
-        if isValid(tmp.image)
-            tmp.image.posterDisplayMode = "scaleToZoom"
-        end if
+        tmp.posterURL = api.items.GetImageURL(item.LookupCI("id"), ImageType.PRIMARY, 0, { "maxWidth": 400, "maxHeight": 250, "quality": "90" })
         tmp.json = item
-        tmpMetaData = ItemMetaData(item.id)
-
-        ' validate meta data
-        if isValid(tmpMetaData) and isValid(tmpMetaData.overview)
-            tmp.overview = tmpMetaData.overview
-        end if
+        tmp.overview = item.overview
         results.push(tmp)
     end for
     data.Items = results

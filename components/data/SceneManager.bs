@@ -232,7 +232,9 @@ end sub
 '
 ' Remove observers for overhang data
 sub unregisterOverhangData(group)
+    group.unobserveField("optionsAvailable")
     group.unobserveField("overhangTitle")
+    group.unobserveField("overhangVisible")
 end sub
 
 '

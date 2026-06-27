@@ -710,7 +710,7 @@
     </message>
     <message>
         <source>Pick a Jellyfin server from the local network</source>
-        <translation>Selecciona un servidor Jellyfin disponible en su red local:</translation>
+        <translation>Selecciona un servidor Jellyfin disponible en tu red local:</translation>
         <extracomment>Instructions on initial app launch when the user is asked to pick a server from a list</extracomment>
     </message>
     <message>
@@ -2501,6 +2501,34 @@
     <message>
         <source>Roku thought it could direct play this media, but playback never started.</source>
         <translation>Roku creía poder reproducir directamente este contenido, pero la reproducción nunca empezó.</translation>
+    </message>
+    <message>
+        <source>No other titles found in your library.</source>
+        <translation>No se han encontrado otros títulos en tu biblioteca.</translation>
+    </message>
+    <message>
+        <source>Play from beginning</source>
+        <translation>Reproducir desde el inicio</translation>
+    </message>
+    <message>
+        <source>No cast data available.</source>
+        <translation>No hay disponible información sobre el elenco.</translation>
+    </message>
+    <message>
+        <source>as %1</source>
+        <translation>como %1</translation>
+    </message>
+    <message>
+        <source>More with %1 in Your Library</source>
+        <translation>Más con %1 en Tu Biblioteca</translation>
+    </message>
+    <message>
+        <source>Resume from</source>
+        <translation>Continuar desde</translation>
+    </message>
+    <message>
+        <source>Roku thought it could direct play this media, but the playback duration was incorrect.</source>
+        <translation>Roku indicó poder reproducir directamente este elemento, pero la duración de la reproducción no era correcta.</translation>
     </message>
 </context>
 <context>
