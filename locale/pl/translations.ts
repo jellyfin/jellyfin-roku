@@ -2492,5 +2492,9 @@
         <source>Roku&apos;s video player got stuck buffering video</source>
         <translation>Odtwarzacz wideo Roku utknął podczas buforowania wideo</translation>
     </message>
+    <message>
+        <source>Videos</source>
+        <translation>Wideo</translation>
+    </message>
 </context>
 </TS>
