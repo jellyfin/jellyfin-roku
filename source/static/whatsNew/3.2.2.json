@@ -1,5 +1,9 @@
 [
   {
+    "description": "Separate favorites on the home screen into type specific rows",
+    "author": "VX-101"
+  },
+  {
     "description": "Add Live TV Guide Recently Watched sort option. Show favorite channels first when configured to do so.",
     "author": "michaelcresswell"
   }
